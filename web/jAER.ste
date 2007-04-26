@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<site>
+<localinfo sitename="jAER" ftporrdsserver="FALSE" localroot="C:%5CDocuments%20and%20Settings%5Ctobi%5CMy%20Documents%5C%7EjAER-sourceForge%5Cweb%5C" imagefolder="C:%5CDocuments%20and%20Settings%5Ctobi%5CMy%20Documents%5C%7EjAER-sourceForge%5Cweb%5Cimages%5C" spacerfilepath="" refreshlocal="TRUE" autouploadfiles="FALSE" cache="TRUE" httpaddress="http://jaer.sourceforge.net/" curserver="webserver"/>
+<remoteinfo accesstype="none"/>
+<designnotes usedesignnotes="TRUE" sharedesignnotes="TRUE"/>
+<sitemap homepage="" pagesperrow="200" columnwidth="125" showdependentfiles="FALSE" showpagetitles="FALSE" showhiddenfiles="FALSE"/>
+<fileviewcolumns sharecolumns="TRUE">
+    <column name="Local%20Files" align="left" show="TRUE" share="FALSE" builtin="TRUE" localwidth="60" remotewidth="180" />
+    <column name="Notes" align="center" show="FALSE" share="FALSE" builtin="TRUE" localwidth="36" remotewidth="36" />
+    <column name="Size" align="right" show="TRUE" share="FALSE" builtin="TRUE" localwidth="-2" remotewidth="-2" />
+    <column name="Type" align="left" show="TRUE" share="FALSE" builtin="TRUE" localwidth="60" remotewidth="60" />
+    <column name="Modified" align="left" show="TRUE" share="FALSE" builtin="TRUE" localwidth="102" remotewidth="102" />
+    <column name="Checked%20Out%20By" align="left" show="TRUE" share="FALSE" builtin="TRUE" localwidth="-1" remotewidth="-1" />
+</fileviewcolumns>
+<appserverinfo servermodel="" urlprefix="http://localhost/" connectionsmigrated="TRUE" serverobjectsversion="1" defaultdoctype="HTML" accesstype="none" testsvrbinaccesstype="none"/>
+<cloaking enabled="TRUE" patterns="FALSE">
+    <cloakedpattern pattern=".png"/>
+    <cloakedpattern pattern=".fla"/>
+</cloaking>
+<contributorintegration enabled="FALSE"/>
+</site>
