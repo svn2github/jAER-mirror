@@ -1,7 +1,7 @@
 rem runs the CaviarViewer application to monitor/log/playback AE events using USB2 interface
 cd
 echo %1
-cd host\java
+cd ..\host\java
 
 rem the java native code MUST be on windows PATH, not just on java.library.path. The SiLabs JNI DLL wont find the SiUSBXp.dll if it is not on Windows PATH 
 PATH=%PATH%;%CD%\JNI;%CD%\JNI\SiLabsNativeWindows

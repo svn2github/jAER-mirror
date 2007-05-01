@@ -9,9 +9,9 @@
 <arguments></arguments>
 <classPath>..\host\java\dist\jAER.jar</classPath>
 <classPath>..\host\java\jars\UsbIoJava.jar</classPath>
-<currentDirectory>host\java</currentDirectory>
+<currentDirectory>..\host\java</currentDirectory>
 <embeddedJar>false</embeddedJar>
-<executableName>..\jAERLauncher.exe</executableName>
+<executableName>..\utilities\jAERLauncher.exe</executableName>
 <iconLocation>jAERIcon.gif</iconLocation>
 <initialMemoryHeap>134217728</initialMemoryHeap>
 <javaProperties>
