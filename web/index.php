@@ -31,23 +31,41 @@
 
 <BODY>
  <!-- SiteSearch Google -->
-<a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=181834&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
-<h1>jAER - Java AER Open Source Project on SourceForge </h1>
-<h2>Capturing, sequencing, viewing, processing address-event representation (AER) data </h2>
+ <h1><a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=181834&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
+  jAER - Java AER Open Source Project on SourceForge 
+ </h1>
+ <h2>Capturing, sequencing, viewing, processing address-event representation (AER) data </h2>
 <p><strong>This is the home page of the <a href="https://sourceforge.net/projects/jaer">jAER project</a>, hosted at SourceForge.</strong></p>
+<ul>
+  <li><strong><a href="#softwreSetup">Software setup</a></strong>
+    <ul>
+      <li><strong><a href="#requirements">Requirements</a></strong></li>
+      <li><strong><a href="#download">Downloading code</a></strong></li>
+      <li><strong><a href="#driver">Driver installation</a> </strong></li>
+    </ul>
+  </li>
+  <li><strong><a href="#viewer">Running the viewer</a></strong>
+    <ul>
+      <li><strong>Data file location</strong></li>
+      <li><strong>Graphics troubleshooting</strong></li>
+    </ul>
+  </li>
+  <li><strong><a href="#matlab">Using matlab</a></strong></li>
+  <li><strong><a href="#developer">Developer setup</a> </strong></li>
+</ul>
 <p><img src="images/boards.jpg" width="800" height="270"></p>
 <p>This page  describes how to set up and use software for AER systems like the<a href="http://siliconretina.ini.uzh.ch"> temporal contrast silicon retina </a> and the monitor/sequencer board developed in  the <a href="http://caviar.ini.uzh.ch">EU CAVIAR project</a>. </p>
 <p>The <a href="http://www.ini.unizh.ch/%7Etobi/caviar/SimpleMonitorUSBXPress/">original SimpleMonitorUSBXPress boards</a> (these are boards in top right image; green one has &quot;aemon&quot; printed on board) are also supported by the jAER software described here..</p>
 <p><strong>See below <a href="#matlab">for using matlab</a>. </strong></p>
-<h2>Software setup</h2>
-<h3>Requirements:</h3>
+<h2><a name="softwreSetup"></a>Software setup</h2>
+<h3><a name="requirements"></a>Requirements:</h3>
 <ul>
-  <li>Windows XP</li>
+  <li>Windows XP if you want to use hardware interfaces. The rest of the code (rendering, processing, etc) runs under Linux. </li>
   <li>Matlab 7.1 (if you want to use matlab)</li>
   <li>USB2.0 hardware interface (if you want to capture or sequence events). (A USB1 interface will also work with the tmpdiff128 retina boards but not with the USB2 monitor/sequencer boards and  will severely limit performance)</li>
   <li>Monitor-Sequencer or Monitor device, e.g. USB2 Monitor-Sequencer board or <a href="http://siliconretina.ini.uzh.ch">Tmpdiff128 silicon retina</a></li>
 </ul>
-<h3>Get code resources</h3>
+<h3><a name="download"></a>Downloading code </h3>
 <ol>
   <li> Installl a decent Subversion shell. A good Windows shell extension is <a href="http://tortoisesvn.tigris.org">TortoiseSVN</a>.</li>
   <li>Check out the code base from subversion. URL is <tt><a href="https://jaer.svn.sourceforge.net/svnroot/jaer">https://jaer.svn.sourceforge.net/svnroot/jaer</a></tt>.</li>
@@ -77,12 +95,14 @@
   <p>driverSiLabs\PreInstaller.exe</p>
 </blockquote>
 <p>Now when you plug in the SiLabs device the<em> New Hardware Found</em> dialog should be able to automagically install the correct USBXPress driver. </p>
-<h2><a name="viewer"></a>Running the AEViewer application</h2>
-<p>Now if everything has been done correctly, you should be able to run the Java class jAERViewer to look at AER data. This application is started by the Windows CMD script located at the root of your checkout, i.e., at </p>
+<h2><a name="viewer"></a>Running the jAEViewer application</h2>
+<p>Now if everything has been done correctly, you should be able to run the Java class jAERViewer to look at AER data. This application is started by the Windows CMD script located at the root of your checkout.</p>
 <blockquote>
-  <p><em>	jAERViewer.cmd</em></p>
+  <p class="style1"><em>	jAERViewer.cmd</em></p>
 </blockquote>
-<p>Navigate to this folder and double-click the script to run the application. You should then see a window like the following (the initial image may be leftover OpenGL graphics card cruft) </p>
+<p>Navigate to this folder and double-click the script to run the application. </p>
+<p>If yoiu are running under Linux, cd to the root folder and run the jAERViewer.sh script, e.g. by <span class="style1">./jAERViewer.sh</span> </p>
+<p>You should then see a window like the following (the initial image may be leftover OpenGL graphics card cruft) </p>
 <p><img src="images/caviarViewer.png" width="427" height="436"> </p>
 <p>You can now select a hardware interface from the <em>Interface</em> menu and a chip type from the <em>AEChip</em> menu and it should start rendering events from the device. </p>
 <h3>Viewing data</h3>
@@ -90,9 +110,9 @@
 <p>Examine the menu's for help; almost all menu items have single-key shortcuts. (e.g. r=rewind, f=faster, s=slower, etc). </p>
 <p>Below shows an example of viewing synchronized recorded data from 3 monitor/sequencer boards during the Sevilla CAVIAR workshop in Feb 2006. The retina (left) and WTA/object chip (right) are viewed using color-time representation, while the convolution chips (middle) are rendered with excitatory=green and inhibatory=red.</p>
 <p><img src="images/3chips.png" width="900" height="326"> </p>
-<h2>Data file location</h2>
+<h2><a name="dataFiles"></a>Data file location</h2>
 <p>Newly logged data files are stored in the <em>host\java</em> folder.</p>
-<h2>Hints for graphics performance</h2>
+<h2><a name="graphics"></a>Hints for graphics performance</h2>
 <p>You can get 60 FPS on both desktop and laptop machines by using OpenGL rendering (see View/Enable OpenGL rendering checkbox). But it is also important that your graphics card is set to the proper OpenGL mode. For instance, on a Thinkpad T43p, with ATI Mobility FireGL V3200 card, it is much faster to be in 32 bit mode rather than 16 bit mode. </p>
 <p>If you doesn't use 32 bit mode the frame rate slows from 60 FPS to as little as 15 FPS with lots of events, suggesting that some hardware acceleration is not functioning.</p>
 <p>The use of a decent contemporary graphics card is also important. After replacing the Matrox P650 in the desktop machine with a recent ATI low end gaming card, rendering performance increased dramatically. Some built in graphics cards  do not provide hardware OpenGL support and are much slower.</p>
@@ -200,7 +220,7 @@ C:\Documents and Settings\tobi\My Documents\jAER\java\JNI\SiLabsNativeWindows</s
 <p>The (newer) USB drivers are built using the excellent USB driver development kit from Thesycon (<a href="http://www.thesycon.de">www.thesycon.de</a>).</p>
 <p><br>
   <em>
-  <!-- #BeginDate format:Am1 -->April 27, 2007<!-- #EndDate -->
+  <!-- #BeginDate format:Am1 -->May 1, 2007<!-- #EndDate -->
   </em></p>
 </BODY>
 </HTML>
