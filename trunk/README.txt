@@ -4,8 +4,12 @@ for varous AER interfaces to AER chips.
 The home page of this project is 
 http://sourceforge.net/projects/jaer
 
-The main viewer can be launched with either jAERViewer.cmd or jAERViewer.exe.
+Windows: The main viewer can be launched with either jAERViewer.cmd or jAERViewer.exe.
 The .exe launcher does not show logging output.
+
+Linux: USB hardware will not be usable, but viewer can be launched with jAERViewer.sh script, if run
+from root folder of jAER.
+
 
 Folders are organized as follows
 
