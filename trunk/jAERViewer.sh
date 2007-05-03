@@ -1,5 +1,9 @@
 # this script starts JAERViewer under linux if it is run from the root folder of jAER
 
+# cd to the root folder of jAER
+
+cd `dirname $0`
+
 #cd to host/java so that relative paths work
 cd host/java
 
