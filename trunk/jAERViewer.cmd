@@ -15,6 +15,7 @@ rem copy the server folder to your JRE, e.g. here "C:\Program Files\Java\jre1.5.
 rem Then if you want the server JVM by default, edit the file e.g. "C:\Program Files\Java\jdk1.5.0_06\jre\lib\i386\jvm.cfg" to make
 rem the server the default JVM
 
-java -Dcom.sun.management.jmxremote -Xms100m -Xmx512m  -DJOGL_SINGLE_THREADED_WORKAROUND=false -Dsun.java2d.opengl=false -Dsun.java2d.noddraw=true -cp dist\jAER.jar;jars\usbiojava.jar;jars\swing-layout-0.9.jar;jars\jogl.jar;jars\spread.jar ch.unizh.ini.caviar.JAERViewer %1
+rem -Dcom.sun.management.jmxremote  -DJOGL_SINGLE_THREADED_WORKAROUND=false 
+java -Djava.util.logging.config.file=conf/Logging.properties  -Xms100m -Xmx512m -Dsun.java2d.opengl=false -Dsun.java2d.noddraw=true -cp dist\jAER.jar;jars\usbiojava.jar;jars\swing-layout-0.9.jar;jars\jogl.jar;jars\spread.jar ch.unizh.ini.caviar.JAERViewer %1
 
 pause

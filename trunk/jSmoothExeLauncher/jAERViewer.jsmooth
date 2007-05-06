@@ -33,6 +33,10 @@
 <name>java.library.path</name>
 <value>JNI</value>
 </javaProperties>
+<javaProperties>
+<name>java.util.logging.config.file</name>
+<value>conf/Logging.properties</value>
+</javaProperties>
 <mainClassName>ch.unizh.ini.caviar.JAERViewer</mainClassName>
 <maximumMemoryHeap>536870912</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
