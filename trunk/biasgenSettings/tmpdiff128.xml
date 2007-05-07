@@ -11,119 +11,54 @@
           <map/>
           <node name="caviar">
             <map/>
-            <node name="biasgen">
-              <map>
-                <entry key="IPotGUIControl.bitViewEnabled" value="false"/>
-                <entry key="IPotGUIControl.bitValueEnabled" value="false"/>
-                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAIdwQAAAAUc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABTQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua1xiaWFzZ2VuU2V0dGluZ3N3AgBceHNxAH4AAnQAYkM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcfmpBRVItc291cmNlRm9yZ2VcdHJ1bmtcYmlhc2dlblNldHRpbmdzXHRtcGRpZmYxMjgueG1sdwIAXHhzcQB+AAJ0AGlDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXH5qQUVSLXNvdXJjZUZvcmdlXHRydW5rXGJpYXNnZW5TZXR0aW5nc1x0bXBkaWZmMTI4VHJhY2tlci54bWx3AgBceHNxAH4AAnQAbEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcfmpBRVItc291cmNlRm9yZ2VcdHJ1bmtcYmlhc2dlblNldHRpbmdzXHRtcGRpZmYxMjhleWVUcmFja2VyLnhtbHcCAFx4c3EAfgACdABxQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua1xiaWFzZ2VuU2V0dGluZ3NcdG1wZGlmZjEyOExvd2VyVGhyZXNob2xkcy54bWx3AgBceHNxAH4AAnQAY0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcfmpBRVItc291cmNlRm9yZ2VcdHJ1bmtcYmlhc2dlblNldHRpbmdzXGNvY2hsZWFBTVMwLnhtbHcCAFx4c3EAfgACdABDQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua3cCAFx4c3EAfgACdABpQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwNVxVU0JBRVJcSU5JLUFFLUJpYXNnZW5caG9zdFxtYXRsYWJccmV0aW5hdwIAXHh4"/>
-                <entry key="IPotGUIControl.currentEnabled" value="true"/>
-                <entry key="IPotGUIControl.sliderEnabled" value="true"/>
-                <entry key="IPotGUIControl.typeEnabled" value="false"/>
-                <entry key="ipot cas" value="41905"/>
-                <entry key="ipot injGnd" value="153837"/>
-                <entry key="ipot reqPd" value="16777215"/>
-                <entry key="ipot puX" value="5735997"/>
-                <entry key="ipot diffOff" value="2395"/>
-                <entry key="ipot req" value="29302"/>
-                <entry key="ipot refr" value="2"/>
-                <entry key="ipot puY" value="16777215"/>
-                <entry key="ipot diffOn" value="613119"/>
-                <entry key="ipot diff" value="38320"/>
-                <entry key="ipot foll" value="10"/>
-                <entry key="ipot Pr" value="5"/>
-                <entry key="rx" value="10000.0"/>
-                <entry key="rint" value="46000.0"/>
-                <entry key="internalResistorUsed" value="false"/>
-                <entry key="BiasgenFrame.lastFile" value="C:\Documents and Settings\tobi\My Documents\~jAER-sourceForge\trunk\biasgenSettings\tmpdiff128.xml"/>
-                <entry key="BiasgenFrame.Xposition" value="121"/>
-                <entry key="BiasgenFrame.YPosition" value="587"/>
-                <entry key="BiasgenFrame.XPosition" value="237"/>
-                <entry key="BiasgenFrame.recentFiles" value="rO0ABXNyACRjaC51bml6aC5pbmkuY2F2aWFyLnV0aWwuUmVjZW50RmlsZXNiAyVsbY5psAIAAHhyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAACdwQAAAAKc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdAA1QzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xqdW5rMi54bWx3AgBceHNxAH4AA3QANEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcanVuay54bWx3AgBceHg="/>
-                <entry key="ch.unizh.ini.caviar.biasgen.BiasgenFrame.XPosition" value="1137"/>
-                <entry key="ch.unizh.ini.caviar.biasgen.BiasgenFrame.YPosition" value="78"/>
-                <entry key="BiasgenFrame.viewFunctionalBiasesEnabled" value="false"/>
-                <entry key="PotGUIControl.typeEnabled" value="true"/>
-                <entry key="PotGUIControl.bitValueEnabled" value="false"/>
-                <entry key="PotGUIControl.bitViewEnabled" value="false"/>
-                <entry key="ipot FollBias" value="1596"/>
-                <entry key="ipot HD+tweak" value="30"/>
-                <entry key="ipot HD-tweak" value="61"/>
-                <entry key="ipot Ph Adaptation" value="182"/>
-                <entry key="ipot Photoreceptor" value="3463"/>
-                <entry key="ipot Ph Foll" value="2763"/>
-                <entry key="ipot HD" value="670"/>
-                <entry key="ipot VM" value="1686"/>
-                <entry key="ipot HRES" value="382"/>
-                <entry key="ipot VVI2" value="391"/>
-                <entry key="ipot OP" value="321"/>
-                <entry key="ipot VVI1" value="1265"/>
-                <entry key="ipot NSCF" value="662"/>
-                <entry key="ipot PSCF" value="3071"/>
-                <entry key="ipot PD" value="1445"/>
-                <entry key="ipot Vcas" value="979"/>
-                <entry key="ipot pdbia  sTX" value="2537"/>
-                <entry key="ipot Vin1" value="197"/>
-                <entry key="ipot VAIO" value="395"/>
-                <entry key="ipot VbiasC" value="1448"/>
-                <entry key="ipot Vgain" value="1722"/>
-                <entry key="ipot Vioff" value="2233"/>
-                <entry key="ipot Vq" value="861"/>
-                <entry key="ipot Vclbtgate" value="8192"/>
-                <entry key="ipot Vrefract" value="8192"/>
-                <entry key="ipot Vsetio" value="3444"/>
-                <entry key="ipot Vdc1" value="1117"/>
-                <entry key="ipot Vin2" value="1878"/>
-                <entry key="ipot Vbpf2" value="1024"/>
-                <entry key="ipot Viopffbpf" value="2233"/>
-                <entry key="ipot Vcascode" value="2325"/>
-                <entry key="ipot Vrefo" value="99"/>
-                <entry key="ipot Vtau" value="664"/>
-                <entry key="ipot Vbias2" value="1878"/>
-                <entry key="ipot Vth1" value="3020"/>
-                <entry key="ipot Vsetioadap" value="790"/>
-                <entry key="ipot Vbias1" value="1722"/>
-                <entry key="ipot Vbpf1" value="2233"/>
-                <entry key="ipot Vrefn" value="1264"/>
-                <entry key="ipot Vbamp" value="3756"/>
-                <entry key="ipot Vion" value="630"/>
-                <entry key="ipot Vref" value="362"/>
-                <entry key="ipot Vclbtcasc" value="1722"/>
-                <entry key="ipot Vdc2" value="724"/>
-                <entry key="ipot Vth2" value="5556"/>
-                <entry key="PotGUIControl.sliderEnabled" value="true"/>
-                <entry key="Pot FollBias" value="0"/>
-                <entry key="Pot HD+tweak" value="0"/>
-                <entry key="Pot HD-tweak" value="0"/>
-                <entry key="Pot Ph Adaptation" value="0"/>
-                <entry key="Pot Photoreceptor" value="0"/>
-                <entry key="Pot Ph Foll" value="0"/>
-                <entry key="Pot HD" value="0"/>
-                <entry key="Pot VM" value="0"/>
-                <entry key="Pot HRES" value="0"/>
-                <entry key="Pot VVI2" value="0"/>
-                <entry key="Pot OP" value="0"/>
-                <entry key="Pot VVI1" value="0"/>
-                <entry key="Pot NSCF" value="0"/>
-                <entry key="Pot PSCF" value="0"/>
-                <entry key="Pot PD" value="0"/>
-                <entry key="ipot pr" value="0"/>
-                <entry key="ipot pdbiasTX" value="2307606"/>
-                <entry key="ipot Vioffbpf" value="0"/>
-                <entry key="Tmpdiff128.IPot.cas" value="1966"/>
-                <entry key="Tmpdiff128.IPot.injGnd" value="22703"/>
-                <entry key="Tmpdiff128.IPot.reqPd" value="16777215"/>
-                <entry key="Tmpdiff128.IPot.puX" value="4368853"/>
-                <entry key="Tmpdiff128.IPot.diffOff" value="4629"/>
-                <entry key="Tmpdiff128.IPot.req" value="111347"/>
-                <entry key="Tmpdiff128.IPot.refr" value="0"/>
-                <entry key="Tmpdiff128.IPot.puY" value="16777215"/>
-                <entry key="Tmpdiff128.IPot.diffOn" value="296253"/>
-                <entry key="Tmpdiff128.IPot.diff" value="28995"/>
-                <entry key="Tmpdiff128.IPot.foll" value="19"/>
-                <entry key="Tmpdiff128.IPot.Pr" value="8"/>
-              </map>
-              <node name="VDAC">
-                <map/>
+            <node name="chip">
+              <map/>
+              <node name="retina">
+                <map>
+                  <entry key="AEChip.subSamplingEnabled" value="false"/>
+                  <entry key="Tmpdiff128RateController.rateFilter3dBFreqHz" value="0.16036813"/>
+                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.upperThreshKEPS" value="212"/>
+                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.lowerThreshKEPS" value="10"/>
+                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.hysteresisKEPS" value="21"/>
+                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.midThreshKEPS" value="118"/>
+                  <entry key="Tmpdiff128RateController.rateLow" value="12"/>
+                  <entry key="Tmpdiff128RateController.rateHigh" value="299"/>
+                  <entry key="Tmpdiff128RateController.hysteresisFactor" value="1.1831249"/>
+                  <entry key="Tmpdiff128.IPot.cas" value="1966"/>
+                  <entry key="Tmpdiff128.IPot.injGnd" value="22703"/>
+                  <entry key="Tmpdiff128.IPot.reqPd" value="16777215"/>
+                  <entry key="Tmpdiff128.IPot.puX" value="4368853"/>
+                  <entry key="Tmpdiff128.IPot.diffOff" value="4629"/>
+                  <entry key="Tmpdiff128.IPot.req" value="111347"/>
+                  <entry key="Tmpdiff128.IPot.refr" value="0"/>
+                  <entry key="Tmpdiff128.IPot.puY" value="16777215"/>
+                  <entry key="Tmpdiff128.IPot.diffOn" value="296253"/>
+                  <entry key="Tmpdiff128.IPot.diff" value="28995"/>
+                  <entry key="Tmpdiff128.IPot.foll" value="19"/>
+                  <entry key="Tmpdiff128.IPot.Pr" value="8"/>
+                  <entry key="Masterbias.rx" value="8200.0"/>
+                  <entry key="Masterbias.rint" value="46000.0"/>
+                  <entry key="Masterbias.internalResistorUsed" value="false"/>
+                </map>
+                <node name="sensorymotor">
+                  <map>
+                    <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="2550"/>
+                    <entry key="ClusterTracker.maxNumClusters" value="1"/>
+                    <entry key="ClusterTracker.clusterSize" value="0.23269919"/>
+                    <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
+                    <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="118"/>
+                    <entry key="ClusterTracker.mixingFactor" value="0.0122704655"/>
+                    <entry key="ClusterTracker.pathsEnabled" value="false"/>
+                    <entry key="ClusterTracker.showVelocity" value="false"/>
+                    <entry key="ClusterTracker.scaleEnabled" value="false"/>
+                    <entry key="ClusterTracker.velocityMixingFactor" value="0.004810175"/>
+                    <entry key="ClassTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                    <entry key="ClassTracker.maxNumClusters" value="10"/>
+                    <entry key="ClassTracker.clusterSize" value="0.15f"/>
+                    <entry key="ClassTracker.numEventsStoredInCluster" value="100"/>
+                    <entry key="ClassTracker.thresholdEventsForVisibleCluster" value="30"/>
+                  </map>
+                </node>
               </node>
             </node>
           </node>
