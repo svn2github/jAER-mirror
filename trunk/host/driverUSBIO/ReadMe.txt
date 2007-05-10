@@ -9,4 +9,4 @@ run the thesycon cleanup wizard and remove all the drivers it finds matching VID
 
 replug the device. windows hardware installation wizard will show up and ask you for the driver. choose advanced driver installation and navigate to /CAVIAR/wp5/USBAER/INI-AE-Biasgen/driverUSBIO
 
-if there are problems, skype me under raphi.berner or write me an email to bernerr@ee.ethz.ch
+if there are problems please see the jAER project http://jaer.sourceforge.net
