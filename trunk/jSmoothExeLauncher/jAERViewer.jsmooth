@@ -18,10 +18,6 @@
 <iconLocation>jAERIcon.gif</iconLocation>
 <initialMemoryHeap>134217728</initialMemoryHeap>
 <javaProperties>
-<name>JOGL_SINGLE_THREADED_WORKAROUND</name>
-<value>false</value>
-</javaProperties>
-<javaProperties>
 <name>sun.java2d.opengl</name>
 <value>false</value>
 </javaProperties>
@@ -30,30 +26,30 @@
 <value>true</value>
 </javaProperties>
 <javaProperties>
-<name>java.library.path</name>
-<value>JNI</value>
+<name>java.util.logging.config.file</name>
+<value>${EXECUTABLEPATH}host\java\conf\Logging.properties</value>
 </javaProperties>
 <javaProperties>
-<name>java.util.logging.config.file</name>
-<value>conf/Logging.properties</value>
+<name>exepath</name>
+<value>${EXECUTABLEPATH}</value>
+</javaProperties>
+<javaProperties>
+<name>java.library.path</name>
+<value>${EXECUTABLEPATH}host\java\JNI</value>
 </javaProperties>
 <mainClassName>ch.unizh.ini.caviar.JAERViewer</mainClassName>
 <maximumMemoryHeap>536870912</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
 <minimumVersion>1.5</minimumVersion>
-<skeletonName>Windowed Wrapper</skeletonName>
+<skeletonName>Console Wrapper</skeletonName>
 <skeletonProperties>
 <key>Message</key>
 <value>This program needs Java to run.
 Please download it at http://www.java.com</value>
 </skeletonProperties>
 <skeletonProperties>
-<key>URL</key>
-<value>http://www.java.com</value>
-</skeletonProperties>
-<skeletonProperties>
-<key>SingleProcess</key>
-<value>0</value>
+<key>PressKey</key>
+<value>1</value>
 </skeletonProperties>
 <skeletonProperties>
 <key>Debug</key>
