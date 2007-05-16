@@ -36,7 +36,7 @@ Options 1,0,0  // Target 'Target 1'
  EnvLib (C:\Keil\C51\LIB\)
  EnvReg (.\Cypress\)
  OrgReg (ÿCypress\)
- TgStat=0
+ TgStat=9
  OutDir (.\)
  OutName (USBAER_FX2)
  GenApp=1
