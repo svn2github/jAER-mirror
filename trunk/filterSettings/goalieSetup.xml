@@ -275,7 +275,7 @@
                   <entry key="MotionCompensator.cornerFreqHz" value="0.1"/>
                   <entry key="NearestEventMotionComputer.filterEnabled" value="false"/>
                   <entry key="MedianTracker.filterEnabled" value="false"/>
-                  <entry key="ClusterTracker.filterEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
                   <entry key="KalmanFilter.filterEnabled" value="false"/>
                   <entry key="ServoReaction.goalieMode" value="false"/>
                   <entry key="SubSamplingBandpassFilter.surroundRadius" value="1"/>
@@ -350,7 +350,7 @@
                   <entry key="SimpleOrientationFilter.maxDtThreshold" value="0"/>
                   <entry key="ch.unizh.ini.caviar.chip.filter.MedianTracker.filterEnabled" value="false"/>
                   <entry key="MedianTracker.tauUs" value="28045"/>
-                  <entry key="ch.unizh.ini.caviar.chip.tracking.ClusterTracker.filterEnabled" value="false"/>
+                  <entry key="ch.unizh.ini.caviar.chip.tracking.RectangularClusterTracker.filterEnabled" value="false"/>
                   <entry key="NearestEventMotionComputer.maxDtThreshold" value="78154"/>
                   <entry key="SimpleOrientationFilter.useAverageDtEnabled" value="true"/>
                   <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.filterEnabled" value="false"/>
@@ -441,17 +441,17 @@
                   <entry key="GlobalXDisparityFilter2.maxDisp" value="26"/>
                   <entry key="StereoTranslateRotate.dy" value="-1"/>
                   <entry key="ch.unizh.ini.caviar.stereopsis.StereoClusterTracker.filterEnabled" value="false"/>
-                  <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="4387"/>
-                  <entry key="ClusterTracker.maxNumClusters" value="1"/>
-                  <entry key="ClusterTracker.clusterSize" value="0.15f"/>
-                  <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
-                  <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="80"/>
+                  <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="4387"/>
+                  <entry key="RectangularClusterTracker.maxNumClusters" value="1"/>
+                  <entry key="RectangularClusterTracker.clusterSize" value="0.15f"/>
+                  <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="80"/>
                   <entry key="ch.unizh.ini.caviar.chip.filter.Batter.filterEnabled" value="true"/>
                   <entry key="ch.unizh.ini.caviar.chip.filter.Batter$BallTracker.filterEnabled" value="true"/>
-                  <entry key="ClusterTracker.showVelocity" value="false"/>
-                  <entry key="ClusterTracker.pathsEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.showVelocity" value="false"/>
+                  <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
                   <entry key="Batter.swingDistance" value="0.7263363"/>
-                  <entry key="ClusterTracker.mixingFactor" value="0.024421636"/>
+                  <entry key="RectangularClusterTracker.mixingFactor" value="0.024421636"/>
                   <entry key="StereoTranslateRotate.swapEyes" value="false"/>
                 </map>
               </node>
@@ -494,55 +494,55 @@
                 </map>
                 <node name="sensorymotor">
                   <map>
-                    <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="10002"/>
-                    <entry key="ClusterTracker.maxNumClusters" value="2"/>
-                    <entry key="ClusterTracker.clusterSize" value="0.3329037"/>
-                    <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
-                    <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="1226"/>
-                    <entry key="ClusterTracker.mixingFactor" value="0.008423007"/>
-                    <entry key="ClusterTracker.pathsEnabled" value="false"/>
-                    <entry key="ClusterTracker.showVelocity" value="false"/>
-                    <entry key="ClusterTracker.scaleEnabled" value="false"/>
-                    <entry key="ClusterTracker.velocityMixingFactor" value="5.5867777E-4"/>
-                    <entry key="ClassTracker.clusterLifetimeWithoutSupport" value="2905"/>
-                    <entry key="ClassTracker.maxNumClusters" value="3"/>
-                    <entry key="ClassTracker.clusterSize" value="0.15f"/>
-                    <entry key="ClassTracker.numEventsStoredInCluster" value="100"/>
-                    <entry key="ClassTracker.thresholdEventsForVisibleCluster" value="103"/>
-                    <entry key="ClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
-                    <entry key="ClassTracker.mixingFactor" value="0.0066225166"/>
-                    <entry key="ClassTracker.pathsEnabled" value="false"/>
-                    <entry key="ClassTracker.scaleEnabled" value="false"/>
-                    <entry key="ClassTracker.showVelocity" value="false"/>
+                    <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="10002"/>
+                    <entry key="RectangularClusterTracker.maxNumClusters" value="2"/>
+                    <entry key="RectangularClusterTracker.clusterSize" value="0.3329037"/>
+                    <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                    <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="1226"/>
+                    <entry key="RectangularClusterTracker.mixingFactor" value="0.008423007"/>
+                    <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
+                    <entry key="RectangularClusterTracker.showVelocity" value="false"/>
+                    <entry key="RectangularClusterTracker.scaleEnabled" value="false"/>
+                    <entry key="RectangularClusterTracker.velocityMixingFactor" value="5.5867777E-4"/>
+                    <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="2905"/>
+                    <entry key="RectangularClusterTracker.maxNumClusters" value="3"/>
+                    <entry key="RectangularClusterTracker.clusterSize" value="0.15f"/>
+                    <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                    <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="103"/>
+                    <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                    <entry key="RectangularClusterTracker.mixingFactor" value="0.0066225166"/>
+                    <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
+                    <entry key="RectangularClusterTracker.scaleEnabled" value="false"/>
+                    <entry key="RectangularClusterTracker.showVelocity" value="false"/>
                   </map>
                 </node>
               </node>
               <node name="tracking">
                 <map>
-                  <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="1296"/>
-                  <entry key="ClusterTracker.maxNumClusters" value="2"/>
-                  <entry key="ClusterTracker.maxEventDistanceAsFractionOfImageDimension" value="0.1273841"/>
-                  <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
-                  <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="5"/>
-                  <entry key="ClusterTracker.highwayPerspectiveEnabled" value="false"/>
-                  <entry key="ClusterTracker.mixingFactor" value="0.00807631"/>
-                  <entry key="ClusterTracker.clusterSize" value="0.12951322"/>
-                  <entry key="ClusterTracker.pathsEnabled" value="false"/>
-                  <entry key="ClusterTracker.colorClustersDifferentlyEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="1296"/>
+                  <entry key="RectangularClusterTracker.maxNumClusters" value="2"/>
+                  <entry key="RectangularClusterTracker.maxEventDistanceAsFractionOfImageDimension" value="0.1273841"/>
+                  <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="5"/>
+                  <entry key="RectangularClusterTracker.highwayPerspectiveEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.mixingFactor" value="0.00807631"/>
+                  <entry key="RectangularClusterTracker.clusterSize" value="0.12951322"/>
+                  <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="false"/>
                   <entry key="EyeTracker.eyeRadius" value="9.402966"/>
                   <entry key="EyeTracker.rimThickness" value="6.0311685"/>
-                  <entry key="ClusterTracker.useOffPolarityOnlyEnabled" value="false"/>
-                  <entry key="ClusterTracker.useOnePolarityOnlyEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.useOffPolarityOnlyEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.useOnePolarityOnlyEnabled" value="false"/>
                   <entry key="EyeTracker.mixingFactor" value="0.06274367"/>
-                  <entry key="ClusterTracker.scaleEnabled" value="false"/>
-                  <entry key="ClusterTracker.surround" value="0.22035976"/>
+                  <entry key="RectangularClusterTracker.scaleEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.surround" value="0.22035976"/>
                   <entry key="WingTracker.mixingFactor" value="0.1273841"/>
                   <entry key="WingTracker.useLineModel" value="false"/>
                   <entry key="KalmanFilter.processVariance" value="11.85391"/>
                   <entry key="KalmanFilter.feedbackToCluster" value="false"/>
                   <entry key="WingTracker.doLog" value="false"/>
-                  <entry key="ClusterTracker.growMergedSizeEnabled" value="false"/>
-                  <entry key="ClusterTracker.velocityMixingFactor" value="6.5072946E-4"/>
+                  <entry key="RectangularClusterTracker.growMergedSizeEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.velocityMixingFactor" value="6.5072946E-4"/>
                   <entry key="WingTracker.useKalmanFiltering" value="false"/>
                   <entry key="WingTracker.flipHeading" value="false"/>
                 </map>
@@ -560,7 +560,7 @@
                 <entry key="MotionCompensator.cornerFreqHz" value="0.1"/>
                 <entry key="NearestEventMotionComputer.filterEnabled" value="false"/>
                 <entry key="MedianTracker.filterEnabled" value="false"/>
-                <entry key="ClusterTracker.filterEnabled" value="false"/>
+                <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
                 <entry key="KalmanFilter.filterEnabled" value="false"/>
                 <entry key="ServoReaction.goalieMode" value="false"/>
                 <entry key="SubSamplingBandpassFilter.surroundRadius" value="1"/>
@@ -587,7 +587,7 @@
                 <entry key="SubSamplingBandpassFilter.filterEnabled" value="false"/>
                 <entry key="SpatialBandpassFilter.filterEnabled" value="false"/>
                 <entry key="TypeCoincidenceFilter.filterEnabled" value="false"/>
-                <entry key="ClassTracker.filterEnabled" value="true"/>
+                <entry key="RectangularClusterTracker.filterEnabled" value="true"/>
                 <entry key="ServoReaction.filterEnabled" value="false"/>
                 <entry key="HorizontalLineFilter.filterEnabled" value="false"/>
                 <entry key="Batter.filterEnabled" value="true"/>
@@ -703,33 +703,33 @@
               </node>
               <node name="tracking">
                 <map>
-                  <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="10000"/>
-                  <entry key="ClusterTracker.maxNumClusters" value="2"/>
-                  <entry key="ClusterTracker.clusterSize" value="0.15100001"/>
-                  <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
-                  <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
+                  <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                  <entry key="RectangularClusterTracker.maxNumClusters" value="2"/>
+                  <entry key="RectangularClusterTracker.clusterSize" value="0.15100001"/>
+                  <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
                   <entry key="WingTracker.doLog" value="false"/>
                   <entry key="WingTracker.flipHeading" value="false"/>
-                  <entry key="ClassTracker.clusterLifetimeWithoutSupport" value="4918"/>
-                  <entry key="ClassTracker.maxNumClusters" value="10"/>
-                  <entry key="ClassTracker.clusterSize" value="0.14900844"/>
-                  <entry key="ClassTracker.numEventsStoredInCluster" value="100"/>
-                  <entry key="ClassTracker.thresholdEventsForVisibleCluster" value="40"/>
-                  <entry key="ClassTracker.showVelocity" value="true"/>
-                  <entry key="ClassTracker.highwayPerspectiveEnabled" value="false"/>
-                  <entry key="ClassTracker.scaleEnabled" value="false"/>
-                  <entry key="ClassTracker.colorClustersDifferentlyEnabled" value="true"/>
-                  <entry key="ClusterTracker.showVelocity" value="false"/>
-                  <entry key="ClassTracker.pathsEnabled" value="true"/>
-                  <entry key="ClassTracker.showAllClusters" value="false"/>
-                  <entry key="ClassTracker.surround" value="1.3331279"/>
-                  <entry key="ClassTracker.aspectRatio" value="1.0"/>
+                  <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="4918"/>
+                  <entry key="RectangularClusterTracker.maxNumClusters" value="10"/>
+                  <entry key="RectangularClusterTracker.clusterSize" value="0.14900844"/>
+                  <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="40"/>
+                  <entry key="RectangularClusterTracker.showVelocity" value="true"/>
+                  <entry key="RectangularClusterTracker.highwayPerspectiveEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.scaleEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.showVelocity" value="false"/>
+                  <entry key="RectangularClusterTracker.pathsEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.showAllClusters" value="false"/>
+                  <entry key="RectangularClusterTracker.surround" value="1.3331279"/>
+                  <entry key="RectangularClusterTracker.aspectRatio" value="1.0"/>
                   <entry key="EyeTracker.scalingEnabled" value="true"/>
                   <entry key="EyeTracker.positionMixingFactor" value="0.058349892"/>
                   <entry key="EyeTracker.rimThickness" value="2.9999998"/>
                   <entry key="EyeTracker.irisRadius" value="86.07377"/>
                   <entry key="EyeTracker.pupilRadius" value="22.65"/>
-                  <entry key="ClassTracker.dynamicSizeEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.dynamicSizeEnabled" value="true"/>
                   <entry key="PawTracker.clusterLifetimeWithoutSupport" value="10000"/>
                   <entry key="PawTracker.maxNumClusters" value="10"/>
                   <entry key="PawTracker.clusterSize" value="0.15f"/>
@@ -737,8 +737,8 @@
                   <entry key="PawTracker.thresholdEventsForVisibleCluster" value="30"/>
                   <entry key="PawTracker.thresholdISIForVisibleCluster" value="2.0f"/>
                   <entry key="PawTracker.resetPawTracking" value="false"/>
-                  <entry key="ClassTracker.clusterLifetimeIncreasesWithAge" value="false"/>
-                  <entry key="ClassTracker.classifierThreshold" value="10.69272"/>
+                  <entry key="RectangularClusterTracker.clusterLifetimeIncreasesWithAge" value="false"/>
+                  <entry key="RectangularClusterTracker.classifierThreshold" value="10.69272"/>
                   <entry key="HoughTracker.threshold" value="36"/>
                   <entry key="HoughTracker.eyeCenterX" value="59"/>
                   <entry key="HoughTracker.eyeCenterY" value="63"/>
@@ -752,15 +752,15 @@
                   <entry key="ParticleTracker.velocityVectorScaling" value="100000.0f"/>
                   <entry key="HoughTracker.eyeRadiusMM" value="12.5"/>
                   <entry key="HoughTracker.bufferLength" value="198.0"/>
-                  <entry key="ClusterTracker.scaleEnabled" value="true"/>
-                  <entry key="ClusterTracker.highwayPerspectiveEnabled" value="true"/>
-                  <entry key="ClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.scaleEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.highwayPerspectiveEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
                   <entry key="EyeTracker.eyeRadius" value="8.049709"/>
                   <entry key="EyeTracker.mixingFactor" value="0.021428827"/>
-                  <entry key="ClusterTracker.r1" value="0.22801001"/>
-                  <entry key="ClusterTracker.surround" value="40.81243"/>
-                  <entry key="ClassTracker.mixingFactor" value="0.04110059"/>
-                  <entry key="ClassTracker.growMergedSizeEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.r1" value="0.22801001"/>
+                  <entry key="RectangularClusterTracker.surround" value="40.81243"/>
+                  <entry key="RectangularClusterTracker.mixingFactor" value="0.04110059"/>
+                  <entry key="RectangularClusterTracker.growMergedSizeEnabled" value="false"/>
                   <entry key="EyeTracker" value="21.0"/>
                   <entry key="EyeTracker.eyeLidDistance" value="30.2"/>
                   <entry key="EyeTracker.blinkThreshold" value="3.3541022E-5"/>
@@ -772,14 +772,14 @@
                   <entry key="EyeTracker.dynamicAcquisitionSize" value="false"/>
                   <entry key="EyeTracker.eyelidRejectionAngleDeg" value="0.0"/>
                   <entry key="EyeTracker.qualityThreshold" value="2.5138094"/>
-                  <entry key="ClassTracker.classifierEnabled" value="false"/>
-                  <entry key="ClassTracker.velocityMixingFactor" value="1.0023262E-4"/>
+                  <entry key="RectangularClusterTracker.classifierEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.velocityMixingFactor" value="1.0023262E-4"/>
                   <entry key="WingTracker.useKalmanFiltering" value="false"/>
                   <entry key="WingTracker.showEKFParameterWindow" value="false"/>
-                  <entry key="ClassTracker.dynamicAspectRatioEnabled" value="false"/>
-                  <entry key="ClassTracker.useNearestCluster" value="true"/>
-                  <entry key="ClassTracker.useOffPolarityOnlyEnabled" value="false"/>
-                  <entry key="ClassTracker.useOnePolarityOnlyEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.dynamicAspectRatioEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.useNearestCluster" value="true"/>
+                  <entry key="RectangularClusterTracker.useOffPolarityOnlyEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.useOnePolarityOnlyEnabled" value="false"/>
                 </map>
               </node>
             </node>
@@ -872,26 +872,26 @@
             </node>
             <node name="stereopsis">
               <map>
-                <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="3402"/>
-                <entry key="ClusterTracker.maxNumClusters" value="3"/>
-                <entry key="ClusterTracker.clusterSize" value="0.15668115"/>
-                <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
-                <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="91"/>
-                <entry key="ClusterTracker.mixingFactor" value="0.0045485874"/>
-                <entry key="ClusterTracker.pathsEnabled" value="false"/>
-                <entry key="ClusterTracker.showVelocity" value="false"/>
-                <entry key="ClusterTracker.velocityMixingFactor" value="0.0122704655"/>
+                <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="3402"/>
+                <entry key="RectangularClusterTracker.maxNumClusters" value="3"/>
+                <entry key="RectangularClusterTracker.clusterSize" value="0.15668115"/>
+                <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="91"/>
+                <entry key="RectangularClusterTracker.mixingFactor" value="0.0045485874"/>
+                <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
+                <entry key="RectangularClusterTracker.showVelocity" value="false"/>
+                <entry key="RectangularClusterTracker.velocityMixingFactor" value="0.0122704655"/>
                 <entry key="AEChip.subSamplingEnabled" value="false"/>
-                <entry key="ClassTracker.clusterLifetimeWithoutSupport" value="2538"/>
-                <entry key="ClassTracker.maxNumClusters" value="3"/>
-                <entry key="ClassTracker.clusterSize" value="0.10951987"/>
-                <entry key="ClassTracker.numEventsStoredInCluster" value="100"/>
-                <entry key="ClassTracker.thresholdEventsForVisibleCluster" value="276"/>
-                <entry key="ClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
-                <entry key="ClassTracker.pathsEnabled" value="false"/>
-                <entry key="ClassTracker.scaleEnabled" value="false"/>
-                <entry key="ClassTracker.showVelocity" value="false"/>
-                <entry key="ClassTracker.mixingFactor" value="0.03442951"/>
+                <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="2538"/>
+                <entry key="RectangularClusterTracker.maxNumClusters" value="3"/>
+                <entry key="RectangularClusterTracker.clusterSize" value="0.10951987"/>
+                <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="276"/>
+                <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
+                <entry key="RectangularClusterTracker.scaleEnabled" value="false"/>
+                <entry key="RectangularClusterTracker.showVelocity" value="false"/>
+                <entry key="RectangularClusterTracker.mixingFactor" value="0.03442951"/>
               </map>
             </node>
             <node name="util">
