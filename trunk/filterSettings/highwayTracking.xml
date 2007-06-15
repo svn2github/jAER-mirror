@@ -16,16 +16,16 @@
               <entry key="CaviarViewer.electricalTimestampResetEnabled" value="true"/>
               <entry key="frame0.x" value="653"/>
               <entry key="frame0.y" value="44"/>
-              <entry key="frame0.w" value="400"/>
-              <entry key="frame0.h" value="200"/>
+              <entry key="frame0.w" value="500"/>
+              <entry key="frame0.h" value="400"/>
               <entry key="frame1.x" value="638"/>
               <entry key="frame1.y" value="25"/>
               <entry key="frame1.w" value="618"/>
               <entry key="frame1.h" value="419"/>
-              <entry key="Biasgen.x" value="572"/>
-              <entry key="Biasgen.y" value="56"/>
-              <entry key="Biasgen.w" value="355"/>
-              <entry key="Biasgen.h" value="456"/>
+              <entry key="Biasgen.x" value="1085"/>
+              <entry key="Biasgen.y" value="194"/>
+              <entry key="Biasgen.w" value="375"/>
+              <entry key="Biasgen.h" value="566"/>
               <entry key="frame2.x" value="344"/>
               <entry key="frame2.y" value="280"/>
               <entry key="frame2.w" value="518"/>
@@ -58,20 +58,20 @@
               <entry key="frame7.y" value="100"/>
               <entry key="frame7.w" value="413"/>
               <entry key="frame7.h" value="511"/>
-              <entry key="AEViewer.x" value="2"/>
-              <entry key="AEViewer.y" value="141"/>
-              <entry key="AEViewer.w" value="530"/>
-              <entry key="AEViewer.h" value="600"/>
-              <entry key="FilterFrame.x" value="451"/>
-              <entry key="FilterFrame.y" value="41"/>
-              <entry key="FilterFrame.w" value="207"/>
-              <entry key="FilterFrame.h" value="869"/>
+              <entry key="AEViewer.x" value="47"/>
+              <entry key="AEViewer.y" value="31"/>
+              <entry key="AEViewer.w" value="503"/>
+              <entry key="AEViewer.h" value="501"/>
+              <entry key="FilterFrame.x" value="1276"/>
+              <entry key="FilterFrame.y" value="109"/>
+              <entry key="FilterFrame.w" value="153"/>
+              <entry key="FilterFrame.h" value="754"/>
             </map>
             <node name="biasgen">
               <map>
                 <entry key="IPotGUIControl.bitViewEnabled" value="false"/>
                 <entry key="IPotGUIControl.bitValueEnabled" value="false"/>
-                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAPdwQAAAAfc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABmQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwNVxVU0JBRVJcSU5JLUFFLUJpYXNnZW5cYmlhc2dlblNldHRpbmdzdwIAXHhzcQB+AAJ0AHVDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A1XFVTQkFFUlxJTkktQUUtQmlhc2dlblxiaWFzZ2VuU2V0dGluZ3NcdG1wZGlmZjEyOC54bWx3AgBceHNxAH4AAnQAfEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDVcVVNCQUVSXElOSS1BRS1CaWFzZ2VuXGJpYXNnZW5TZXR0aW5nc1x0bXBkaWZmMTI4VHJhY2tlci54bWx3AgBceHNxAH4AAnQAhkM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDVcVVNCQUVSXElOSS1BRS1CaWFzZ2VuXGJpYXNnZW5TZXR0aW5nc1x0bXBkaWZmMTI4IGxvd2VyIHRocmVzaG9sZHMueG1sdwIAXHhzcQB+AAJ0AH1DOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A1XFVTQkFFUlxJTkktQUUtQmlhc2dlblxiaWFzZ2VuU2V0dGluZ3NcdG1wZGlmZjEyOCAgYmF0dGVyLnhtbHcCAFx4c3EAfgACdAB0QzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwNVxVU0JBRVJcSU5JLUFFLUJpYXNnZW5cYmlhc2dlblNldHRpbmdzXGZseUJpYXNlcy54bWx3AgBceHNxAH4AAnQAK0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHN3AgBceHNxAH4AAnQAd0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDVcVVNCQUVSXElOSS1BRS1CaWFzZ2VuXGhvc3RcbWF0bGFiXHJldGluYVxzaW5nYXBvcmUueG1sdwIAXHhzcQB+AAJ0AHhDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A1XFVTQkFFUlxJTkktQUUtQmlhc2dlblxob3N0XG1hdGxhYlxyZXRpbmFcdW5pZm9ybWl0eS54bWx3AgBceHNxAH4AAnQAgEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDVcVVNCQUVSXElOSS1BRS1CaWFzZ2VuXGhvc3RcbWF0bGFiXHJldGluYVx1bmlmb3JtaXR5TWVhc3VyZW1lbnRzdwIAXHhzcQB+AAJ0AHtDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A1XFVTQkFFUlxJTkktQUUtQmlhc2dlblxob3N0XG1hdGxhYlxyZXRpbmFcaGlnaGVyQWN0dml0eS54bWx3AgBceHNxAH4AAnQAfEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDVcVVNCQUVSXElOSS1BRS1CaWFzZ2VuXGhvc3RcbWF0bGFiXHJldGluYVxyZXRpbmFEYXlUaW1lMi54bWx3AgBceHNxAH4AAnQAekM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDVcVVNCQUVSXElOSS1BRS1CaWFzZ2VuXGhvc3RcbWF0bGFiXHJldGluYVxvckRpcmlCaWFzZXMueG1sdwIAXHhzcQB+AAJ0AHlDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A1XFVTQkFFUlxJTkktQUUtQmlhc2dlblxob3N0XG1hdGxhYlxyZXRpbmFcc2V2aWxsYSBsYWIueG1sdwIAXHhzcQB+AAJ0AHxDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A1XFVTQkFFUlxJTkktQUUtQmlhc2dlblxob3N0XG1hdGxhYlxyZXRpbmFccmV0aW5hRGF5VGltZTEueG1sdwIAXHh4"/>
+                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAGdwQAAAAfc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABTQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua1xiaWFzZ2VuU2V0dGluZ3N3AgBceHNxAH4AAnQAcUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcfmpBRVItc291cmNlRm9yZ2VcdHJ1bmtcYmlhc2dlblNldHRpbmdzXHRtcGRpZmYxMjhMb3dlclRocmVzaG9sZHMueG1sdwIAXHhzcQB+AAJ0AGZDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A1XFVTQkFFUlxJTkktQUUtQmlhc2dlblxiaWFzZ2VuU2V0dGluZ3N3AgBceHNxAH4AAnQAdUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDVcVVNCQUVSXElOSS1BRS1CaWFzZ2VuXGJpYXNnZW5TZXR0aW5nc1x0bXBkaWZmMTI4LnhtbHcCAFx4c3EAfgACdAB8QzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwNVxVU0JBRVJcSU5JLUFFLUJpYXNnZW5cYmlhc2dlblNldHRpbmdzXHRtcGRpZmYxMjhUcmFja2VyLnhtbHcCAFx4c3EAfgACdAArQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c3cCAFx4eA=="/>
                 <entry key="IPotGUIControl.currentEnabled" value="true"/>
                 <entry key="IPotGUIControl.sliderEnabled" value="true"/>
                 <entry key="IPotGUIControl.typeEnabled" value="false"/>
@@ -90,13 +90,13 @@
                 <entry key="rx" value="10000.0"/>
                 <entry key="rint" value="46000.0"/>
                 <entry key="internalResistorUsed" value="false"/>
-                <entry key="BiasgenFrame.lastFile" value="C:\Documents and Settings\tobi\My Documents\avlsi-svn\CAVIAR\wp5\USBAER\INI-AE-Biasgen\biasgenSettings\tmpdiff128.xml"/>
+                <entry key="BiasgenFrame.lastFile" value="C:\Documents and Settings\tobi\My Documents\~jAER-sourceForge\trunk\biasgenSettings\tmpdiff128LowerThresholds.xml"/>
                 <entry key="BiasgenFrame.Xposition" value="121"/>
                 <entry key="BiasgenFrame.YPosition" value="587"/>
                 <entry key="BiasgenFrame.XPosition" value="237"/>
                 <entry key="BiasgenFrame.recentFiles" value="rO0ABXNyACRjaC51bml6aC5pbmkuY2F2aWFyLnV0aWwuUmVjZW50RmlsZXNiAyVsbY5psAIAAHhyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAACdwQAAAAKc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdAA1QzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xqdW5rMi54bWx3AgBceHNxAH4AA3QANEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcanVuay54bWx3AgBceHg="/>
-                <entry key="ch.unizh.ini.caviar.biasgen.BiasgenFrame.XPosition" value="674"/>
-                <entry key="ch.unizh.ini.caviar.biasgen.BiasgenFrame.YPosition" value="374"/>
+                <entry key="ch.unizh.ini.caviar.biasgen.BiasgenFrame.XPosition" value="1085"/>
+                <entry key="ch.unizh.ini.caviar.biasgen.BiasgenFrame.YPosition" value="194"/>
                 <entry key="BiasgenFrame.viewFunctionalBiasesEnabled" value="false"/>
                 <entry key="PotGUIControl.typeEnabled" value="true"/>
                 <entry key="PotGUIControl.bitValueEnabled" value="false"/>
@@ -165,18 +165,18 @@
                 <entry key="ipot pr" value="0"/>
                 <entry key="ipot pdbiasTX" value="2307606"/>
                 <entry key="ipot Vioffbpf" value="0"/>
-                <entry key="Tmpdiff128.IPot.cas" value="41905"/>
-                <entry key="Tmpdiff128.IPot.injGnd" value="153837"/>
+                <entry key="Tmpdiff128.IPot.cas" value="1966"/>
+                <entry key="Tmpdiff128.IPot.injGnd" value="22703"/>
                 <entry key="Tmpdiff128.IPot.reqPd" value="16777215"/>
-                <entry key="Tmpdiff128.IPot.puX" value="5735997"/>
-                <entry key="Tmpdiff128.IPot.diffOff" value="8377"/>
-                <entry key="Tmpdiff128.IPot.req" value="29302"/>
-                <entry key="Tmpdiff128.IPot.refr" value="2"/>
+                <entry key="Tmpdiff128.IPot.puX" value="4368853"/>
+                <entry key="Tmpdiff128.IPot.diffOff" value="4629"/>
+                <entry key="Tmpdiff128.IPot.req" value="111347"/>
+                <entry key="Tmpdiff128.IPot.refr" value="0"/>
                 <entry key="Tmpdiff128.IPot.puY" value="16777215"/>
-                <entry key="Tmpdiff128.IPot.diffOn" value="134036"/>
-                <entry key="Tmpdiff128.IPot.diff" value="38320"/>
-                <entry key="Tmpdiff128.IPot.foll" value="10"/>
-                <entry key="Tmpdiff128.IPot.Pr" value="5"/>
+                <entry key="Tmpdiff128.IPot.diffOn" value="296253"/>
+                <entry key="Tmpdiff128.IPot.diff" value="28995"/>
+                <entry key="Tmpdiff128.IPot.foll" value="19"/>
+                <entry key="Tmpdiff128.IPot.Pr" value="8"/>
                 <entry key="CochleaAMSWithBiasgen.IPot.Vcas" value="7661"/>
                 <entry key="CochleaAMSWithBiasgen.IPot.pdbia  sTX" value="9000691"/>
                 <entry key="CochleaAMSWithBiasgen.IPot.Vin1" value="5769011"/>
@@ -209,6 +209,9 @@
                 <entry key="CochleaAMSWithBiasgen.IPot.Vth2" value="437210"/>
                 <entry key="CochleaAMSWithBiasgen.IPot.pdbiasTX" value="2307606"/>
                 <entry key="CochleaAMSWithBiasgen.IPot.Vioffbpf" value="0"/>
+                <entry key="Masterbias.rx" value="8200.0"/>
+                <entry key="Masterbias.rint" value="46000.0"/>
+                <entry key="Masterbias.internalResistorUsed" value="false"/>
               </map>
               <node name="VDAC">
                 <map/>
@@ -217,12 +220,55 @@
             <node name="chip">
               <map>
                 <entry key="AEChip.subSamplingEnabled" value="false"/>
+                <entry key="RepetitiousFilter.threshold" value="55"/>
+                <entry key="RepetitiousFilter.minDtToStore" value="0"/>
+                <entry key="RepetitiousFilter.ratioLonger" value="31"/>
+                <entry key="RepetitiousFilter.ratioShorter" value="17"/>
               </map>
               <node name="cochlea">
-                <map/>
+                <map>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vcas" value="7661"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.pdbiasTX" value="2307606"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vin1" value="5769011"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.VAIO" value="19430"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.VbiasC" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vgain" value="1163252"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vioff" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vq" value="58"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vclbtgate" value="9537"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vrefract" value="624065"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vsetio" value="1132617"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vdc1" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vin2" value="7533658"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vbpf2" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vioffbpf" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vcascode" value="16777215"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vrefo" value="16777215"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vtau" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vbias2" value="39587"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vth1" value="13980"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vsetioadap" value="16777215"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vbias1" value="1519072"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vbpf1" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vrefn" value="133"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vbamp" value="39587"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vion" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vref" value="14042692"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vclbtcasc" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vdc2" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vth2" value="437210"/>
+                  <entry key="Masterbias.rx" value="8200.0"/>
+                  <entry key="Masterbias.rint" value="46000.0"/>
+                  <entry key="Masterbias.internalResistorUsed" value="false"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.pdbia  sTX" value="9000691"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Viopffbpf" value="0"/>
+                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAADdwQAAAADdAA8Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlJlcGV0aXRpb3VzRmlsdGVydABDY2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLkJhY2tncm91bmRBY3Rpdml0eUZpbHRlcnQAN2NoLnVuaXpoLmluaS5jYXZpYXIuY2hpcC5jb2NobGVhLkNvY2hsZWFDcm9zc0NvcnJlbGF0b3J4"/>
+                </map>
               </node>
               <node name="convolution">
-                <map/>
+                <map>
+                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAFdwQAAAAFdAA3Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlhZVHlwZUZpbHRlcnQAN2NoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5Sb3RhdGVGaWx0ZXJ0ADxjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuUmVwZXRpdGlvdXNGaWx0ZXJ0AENjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuQmFja2dyb3VuZEFjdGl2aXR5RmlsdGVydAA1Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlN1YlNhbXBsZXJ4"/>
+                </map>
               </node>
               <node name="eventprocessing">
                 <map>
@@ -233,7 +279,7 @@
                   <entry key="MotionCompensator.cornerFreqHz" value="0.1"/>
                   <entry key="NearestEventMotionComputer.filterEnabled" value="false"/>
                   <entry key="MedianTracker.filterEnabled" value="false"/>
-                  <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
+                  <entry key="ClusterTracker.filterEnabled" value="false"/>
                   <entry key="KalmanFilter.filterEnabled" value="false"/>
                   <entry key="ServoReaction.goalieMode" value="false"/>
                   <entry key="SubSamplingBandpassFilter.surroundRadius" value="1"/>
@@ -255,6 +301,35 @@
                   <entry key="TypeCoincidenceFilter.filterEnabled" value="false"/>
                   <entry key="EyeTracker.filterEnabled" value="false"/>
                   <entry key="Batter.swapServos" value="false"/>
+                  <entry key="StereoTranslateRotate.dx" value="0"/>
+                  <entry key="Batter.swingDistance" value="0.54421777"/>
+                  <entry key="Batter.filterEnabled" value="false"/>
+                  <entry key="BallTracker.filterEnabled" value="false"/>
+                  <entry key="Batter.swingHeight" value="0.41161302"/>
+                  <entry key="StereoTranslateRotate.swapEyes" value="false"/>
+                  <entry key="Tmpdiff128RateController.filterEnabled" value="false"/>
+                  <entry key="XYTypeFilter.filterEnabled" value="false"/>
+                  <entry key="RepetitiousFilter.filterEnabled" value="false"/>
+                  <entry key="SubSampler.filterEnabled" value="false"/>
+                  <entry key="SubSamplingBandpassFilter.filterEnabled" value="false"/>
+                  <entry key="SpatialBandpassFilter.filterEnabled" value="false"/>
+                  <entry key="MotionCompensator.filterEnabled" value="false"/>
+                  <entry key="WingTracker.filterEnabled" value="false"/>
+                  <entry key="ServoReaction.filterEnabled" value="false"/>
+                  <entry key="HorizontalLineFilter.filterEnabled" value="false"/>
+                  <entry key="StereoVergenceFilter.filterEnabled" value="false"/>
+                  <entry key="BackgroundActivityFilter.dt" value="19337"/>
+                  <entry key="ServoReaction.useClusterTracker" value="false"/>
+                  <entry key="CircularConvolutionFilter.radius" value="3"/>
+                  <entry key="CircularConvolutionFilter.threshold" value="2.2800996"/>
+                  <entry key="CircularConvolutionFilter.tauMs" value="34.429523"/>
+                  <entry key="SpatialBandpassFilter.surroundRadius" value="3"/>
+                  <entry key="SpatialBandpassFilter.centerRadius" value="1"/>
+                  <entry key="SpatialBandpassFilter.dtSurround" value="2734"/>
+                  <entry key="Batter.swingHeightMax" value="0.7808347"/>
+                  <entry key="Batter.swingHeightMin" value="0.5701128"/>
+                  <entry key="Batter.swingAngleMax" value="0.42689347"/>
+                  <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
                 </map>
                 <node name="filter">
                   <map/>
@@ -280,7 +355,7 @@
                   <entry key="SimpleOrientationFilter.maxDtThreshold" value="0"/>
                   <entry key="ch.unizh.ini.caviar.chip.filter.MedianTracker.filterEnabled" value="false"/>
                   <entry key="MedianTracker.tauUs" value="28045"/>
-                  <entry key="ch.unizh.ini.caviar.chip.tracking.RectangularClusterTracker.filterEnabled" value="false"/>
+                  <entry key="ch.unizh.ini.caviar.chip.tracking.ClusterTracker.filterEnabled" value="false"/>
                   <entry key="NearestEventMotionComputer.maxDtThreshold" value="78154"/>
                   <entry key="SimpleOrientationFilter.useAverageDtEnabled" value="true"/>
                   <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.filterEnabled" value="false"/>
@@ -371,18 +446,27 @@
                   <entry key="GlobalXDisparityFilter2.maxDisp" value="26"/>
                   <entry key="StereoTranslateRotate.dy" value="-1"/>
                   <entry key="ch.unizh.ini.caviar.stereopsis.StereoClusterTracker.filterEnabled" value="false"/>
+                  <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="4387"/>
+                  <entry key="ClusterTracker.maxNumClusters" value="1"/>
+                  <entry key="ClusterTracker.clusterSize" value="0.15f"/>
+                  <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="80"/>
+                  <entry key="ch.unizh.ini.caviar.chip.filter.Batter.filterEnabled" value="true"/>
+                  <entry key="ch.unizh.ini.caviar.chip.filter.Batter$BallTracker.filterEnabled" value="true"/>
+                  <entry key="ClusterTracker.showVelocity" value="false"/>
+                  <entry key="ClusterTracker.pathsEnabled" value="false"/>
+                  <entry key="Batter.swingDistance" value="0.7263363"/>
+                  <entry key="ClusterTracker.mixingFactor" value="0.024421636"/>
+                  <entry key="StereoTranslateRotate.swapEyes" value="false"/>
+                  <entry key="ch.unizh.ini.caviar.chip.tracking.RectangularClusterTracker.filterEnabled" value="false"/>
                   <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="4387"/>
                   <entry key="RectangularClusterTracker.maxNumClusters" value="1"/>
                   <entry key="RectangularClusterTracker.clusterSize" value="0.15f"/>
                   <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
                   <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="80"/>
-                  <entry key="ch.unizh.ini.caviar.chip.filter.Batter.filterEnabled" value="true"/>
-                  <entry key="ch.unizh.ini.caviar.chip.filter.Batter$BallTracker.filterEnabled" value="true"/>
                   <entry key="RectangularClusterTracker.showVelocity" value="false"/>
                   <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
-                  <entry key="Batter.swingDistance" value="0.7263363"/>
                   <entry key="RectangularClusterTracker.mixingFactor" value="0.024421636"/>
-                  <entry key="StereoTranslateRotate.swapEyes" value="false"/>
                 </map>
               </node>
               <node name="foveated">
@@ -397,24 +481,53 @@
               <node name="retina">
                 <map>
                   <entry key="AEChip.subSamplingEnabled" value="false"/>
-                  <entry key="Tmpdiff128RateController.rateLow" value="8"/>
-                  <entry key="Tmpdiff128RateController.rateHigh" value="59"/>
-                  <entry key="Tmpdiff128RateController.rateFilter3dBFreqHz" value="1.3180649"/>
-                  <entry key="Tmpdiff128RateController.hysteresisFactor" value="1.1024998"/>
+                  <entry key="Tmpdiff128RateController.rateLow" value="12"/>
+                  <entry key="Tmpdiff128RateController.rateHigh" value="299"/>
+                  <entry key="Tmpdiff128RateController.rateFilter3dBFreqHz" value="0.16036813"/>
+                  <entry key="Tmpdiff128RateController.hysteresisFactor" value="1.1831249"/>
+                  <entry key="Tmpdiff128.IPot.cas" value="1966"/>
+                  <entry key="Tmpdiff128.IPot.injGnd" value="22703"/>
+                  <entry key="Tmpdiff128.IPot.reqPd" value="16777215"/>
+                  <entry key="Tmpdiff128.IPot.puX" value="7585671"/>
+                  <entry key="Tmpdiff128.IPot.diffOff" value="8533"/>
+                  <entry key="Tmpdiff128.IPot.req" value="111347"/>
+                  <entry key="Tmpdiff128.IPot.refr" value="0"/>
+                  <entry key="Tmpdiff128.IPot.puY" value="16777215"/>
+                  <entry key="Tmpdiff128.IPot.diffOn" value="142208"/>
+                  <entry key="Tmpdiff128.IPot.diff" value="28995"/>
+                  <entry key="Tmpdiff128.IPot.foll" value="19"/>
+                  <entry key="Tmpdiff128.IPot.Pr" value="8"/>
+                  <entry key="Masterbias.rx" value="8200.0"/>
+                  <entry key="Masterbias.rint" value="46000.0"/>
+                  <entry key="Masterbias.internalResistorUsed" value="false"/>
+                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.upperThreshKEPS" value="212"/>
+                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.lowerThreshKEPS" value="10"/>
+                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.hysteresisKEPS" value="21"/>
+                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.midThreshKEPS" value="118"/>
+                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAOdwQAAAAOdAA4Y2gudW5pemguaW5pLmNhdmlhci5jaGlwLnJldGluYS5UbXBkaWZmMTI4UmF0ZUNvbnRyb2xsZXJ0ADdjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuWFlUeXBlRmlsdGVydAA3Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlJvdGF0ZUZpbHRlcnQANWNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5TdWJTYW1wbGVydAA8Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlJlcGV0aXRpb3VzRmlsdGVydABDY2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLkJhY2tncm91bmRBY3Rpdml0eUZpbHRlcnQARGNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5TdWJTYW1wbGluZ0JhbmRwYXNzRmlsdGVydABDY2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLk9uT2ZmUHJveGltaXR5TGluZUZpbHRlcnQAQWNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmxhYmVsLlNpbXBsZU9yaWVudGF0aW9uRmlsdGVydAA/Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcubGFiZWwuVHlwZUNvaW5jaWRlbmNlRmlsdGVydABCY2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcubGFiZWwuRGlyZWN0aW9uU2VsZWN0aXZlRmlsdGVydABGY2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcudHJhY2tpbmcuUmVjdGFuZ3VsYXJDbHVzdGVyVHJhY2tlcnQAM2NoLnVuaXpoLmluaS5jYXZpYXIuY2hpcC5yZXRpbmEuc2Vuc29yeW1vdG9yLkdvYWxpZXQARGNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLnRyYWNraW5nLk11bHRpTGluZUNsdXN0ZXJUcmFja2VyeA=="/>
                 </map>
                 <node name="sensorymotor">
                   <map>
-                    <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="10002"/>
-                    <entry key="RectangularClusterTracker.maxNumClusters" value="2"/>
-                    <entry key="RectangularClusterTracker.clusterSize" value="0.3329037"/>
-                    <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
-                    <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="1226"/>
-                    <entry key="RectangularClusterTracker.mixingFactor" value="0.008423007"/>
-                    <entry key="RectangularClusterTracker.showVelocity" value="false"/>
-                    <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
-                    <entry key="RectangularClusterTracker.scaleEnabled" value="false"/>
-                    <entry key="RectangularClusterTracker.velocityMixingFactor" value="5.5867777E-4"/>
-                    <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                    <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="2550"/>
+                    <entry key="ClusterTracker.maxNumClusters" value="1"/>
+                    <entry key="ClusterTracker.clusterSize" value="0.23269919"/>
+                    <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
+                    <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="118"/>
+                    <entry key="ClusterTracker.mixingFactor" value="0.0122704655"/>
+                    <entry key="ClusterTracker.showVelocity" value="false"/>
+                    <entry key="ClusterTracker.pathsEnabled" value="false"/>
+                    <entry key="ClusterTracker.scaleEnabled" value="false"/>
+                    <entry key="ClusterTracker.velocityMixingFactor" value="0.004810175"/>
+                    <entry key="ClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                    <entry key="ClassTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                    <entry key="ClassTracker.maxNumClusters" value="10"/>
+                    <entry key="ClassTracker.clusterSize" value="0.15f"/>
+                    <entry key="ClassTracker.numEventsStoredInCluster" value="100"/>
+                    <entry key="ClassTracker.thresholdEventsForVisibleCluster" value="30"/>
+                    <entry key="ClassTracker.mixingFactor" value="0.0066225166"/>
+                    <entry key="ClassTracker.pathsEnabled" value="false"/>
+                    <entry key="ClassTracker.scaleEnabled" value="false"/>
+                    <entry key="ClassTracker.showVelocity" value="false"/>
                     <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="2905"/>
                     <entry key="RectangularClusterTracker.maxNumClusters" value="3"/>
                     <entry key="RectangularClusterTracker.clusterSize" value="0.15f"/>
@@ -422,13 +535,41 @@
                     <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="103"/>
                     <entry key="RectangularClusterTracker.mixingFactor" value="0.0066225166"/>
                     <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
-                    <entry key="RectangularClusterTracker.scaleEnabled" value="false"/>
                     <entry key="RectangularClusterTracker.showVelocity" value="false"/>
+                    <entry key="RectangularClusterTracker.scaleEnabled" value="false"/>
+                    <entry key="RectangularClusterTracker.velocityMixingFactor" value="5.5867777E-4"/>
+                    <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
                   </map>
                 </node>
               </node>
               <node name="tracking">
                 <map>
+                  <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="1296"/>
+                  <entry key="ClusterTracker.maxNumClusters" value="2"/>
+                  <entry key="ClusterTracker.maxEventDistanceAsFractionOfImageDimension" value="0.1273841"/>
+                  <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="5"/>
+                  <entry key="ClusterTracker.highwayPerspectiveEnabled" value="false"/>
+                  <entry key="ClusterTracker.mixingFactor" value="0.00807631"/>
+                  <entry key="ClusterTracker.clusterSize" value="0.12951322"/>
+                  <entry key="ClusterTracker.pathsEnabled" value="false"/>
+                  <entry key="ClusterTracker.colorClustersDifferentlyEnabled" value="false"/>
+                  <entry key="EyeTracker.eyeRadius" value="9.402966"/>
+                  <entry key="EyeTracker.rimThickness" value="6.0311685"/>
+                  <entry key="ClusterTracker.useOffPolarityOnlyEnabled" value="false"/>
+                  <entry key="ClusterTracker.useOnePolarityOnlyEnabled" value="false"/>
+                  <entry key="EyeTracker.mixingFactor" value="0.06274367"/>
+                  <entry key="ClusterTracker.scaleEnabled" value="false"/>
+                  <entry key="ClusterTracker.surround" value="0.22035976"/>
+                  <entry key="WingTracker.mixingFactor" value="0.1273841"/>
+                  <entry key="WingTracker.useLineModel" value="false"/>
+                  <entry key="KalmanFilter.processVariance" value="11.85391"/>
+                  <entry key="KalmanFilter.feedbackToCluster" value="false"/>
+                  <entry key="WingTracker.doLog" value="false"/>
+                  <entry key="ClusterTracker.growMergedSizeEnabled" value="false"/>
+                  <entry key="ClusterTracker.velocityMixingFactor" value="6.5072946E-4"/>
+                  <entry key="WingTracker.useKalmanFiltering" value="false"/>
+                  <entry key="WingTracker.flipHeading" value="false"/>
                   <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="1296"/>
                   <entry key="RectangularClusterTracker.maxNumClusters" value="2"/>
                   <entry key="RectangularClusterTracker.maxEventDistanceAsFractionOfImageDimension" value="0.1273841"/>
@@ -439,22 +580,12 @@
                   <entry key="RectangularClusterTracker.clusterSize" value="0.12951322"/>
                   <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
                   <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="false"/>
-                  <entry key="EyeTracker.eyeRadius" value="9.402966"/>
-                  <entry key="EyeTracker.rimThickness" value="6.0311685"/>
                   <entry key="RectangularClusterTracker.useOffPolarityOnlyEnabled" value="false"/>
                   <entry key="RectangularClusterTracker.useOnePolarityOnlyEnabled" value="false"/>
-                  <entry key="EyeTracker.mixingFactor" value="0.06274367"/>
                   <entry key="RectangularClusterTracker.scaleEnabled" value="false"/>
                   <entry key="RectangularClusterTracker.surround" value="0.22035976"/>
-                  <entry key="WingTracker.mixingFactor" value="0.1273841"/>
-                  <entry key="WingTracker.useLineModel" value="false"/>
-                  <entry key="KalmanFilter.processVariance" value="11.85391"/>
-                  <entry key="KalmanFilter.feedbackToCluster" value="false"/>
-                  <entry key="WingTracker.doLog" value="false"/>
                   <entry key="RectangularClusterTracker.growMergedSizeEnabled" value="false"/>
                   <entry key="RectangularClusterTracker.velocityMixingFactor" value="6.5072946E-4"/>
-                  <entry key="WingTracker.useKalmanFiltering" value="false"/>
-                  <entry key="WingTracker.flipHeading" value="false"/>
                 </map>
               </node>
             </node>
@@ -474,7 +605,7 @@
                 <entry key="MotionCompensator.cornerFreqHz" value="0.1"/>
                 <entry key="NearestEventMotionComputer.filterEnabled" value="false"/>
                 <entry key="MedianTracker.filterEnabled" value="false"/>
-                <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
+                <entry key="ClusterTracker.filterEnabled" value="true"/>
                 <entry key="KalmanFilter.filterEnabled" value="false"/>
                 <entry key="ServoReaction.goalieMode" value="false"/>
                 <entry key="SubSamplingBandpassFilter.surroundRadius" value="1"/>
@@ -483,7 +614,7 @@
                 <entry key="ch.unizh.ini.caviar.eventprocessing.FilterFrame.YPosition" value="62"/>
                 <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
                 <entry key="Tmpdiff128RateController.filterEnabled" value="false"/>
-                <entry key="XYTypeFilter.filterEnabled" value="false"/>
+                <entry key="XYTypeFilter.filterEnabled" value="true"/>
                 <entry key="RotateFilter.filterEnabled" value="false"/>
                 <entry key="RepetitiousFilter.filterEnabled" value="false"/>
                 <entry key="SubSampler.filterEnabled" value="false"/>
@@ -500,22 +631,22 @@
                 <entry key="RepetitiousFilter.ratioShorter" value="10"/>
                 <entry key="RepetitiousFilter.averagingSamples" value="4"/>
                 <entry key="SimpleOrientationFilter.useAverageDtEnabled" value="false"/>
-                <entry key="SimpleOrientationFilter.minDtThreshold" value="324828"/>
+                <entry key="SimpleOrientationFilter.minDtThreshold" value="62487"/>
                 <entry key="DirectionSelectiveFilter.speedControlEnabled" value="true"/>
                 <entry key="DirectionSelectiveFilter.showGlobalEnabled" value="true"/>
                 <entry key="DirectionSelectiveFilter.speedMixingFactor" value="0.027841887"/>
                 <entry key="DirectionSelectiveFilter.ppsScale" value="0.00906453"/>
                 <entry key="DirectionSelectiveFilter.maxDtThreshold" value="20791"/>
                 <entry key="DirectionSelectiveFilter.showVectorsEnabled" value="true"/>
-                <entry key="DirectionSelectiveFilter.showRawInputEnabled" value="false"/>
+                <entry key="DirectionSelectiveFilter.showRawInputEnabled" value="true"/>
                 <entry key="MedianTracker.tauUs" value="3734"/>
                 <entry key="FilterFrame.XPosition" value="582"/>
                 <entry key="FilterFrame.YPosition" value="-2"/>
                 <entry key="DirectionSelectiveFilter.useAvgDtEnabled" value="false"/>
                 <entry key="SimpleOrientationFilter.showGlobalEnabled" value="false"/>
                 <entry key="SimpleOrientationFilter.width" value="0"/>
-                <entry key="BackgroundActivityFilter.dt" value="31743"/>
-                <entry key="RectangularClusterTracker.filterEnabled" value="true"/>
+                <entry key="BackgroundActivityFilter.dt" value="1226"/>
+                <entry key="ClassTracker.filterEnabled" value="false"/>
                 <entry key="StereoSimpleOrientationFilter.filterEnabled" value="true"/>
                 <entry key="GlobalXDisparityFilter3.filterEnabled" value="false"/>
                 <entry key="DisparityFilter.filterEnabled" value="false"/>
@@ -538,13 +669,13 @@
                 <entry key="GlobalXDisparityFilter2.filterEnabled" value="false"/>
                 <entry key="GlobalXDisparityFilter2.maxDisp" value="22"/>
                 <entry key="SimpleOrientationFilter_1.filterEnabled" value="false"/>
-                <entry key="SubSamplingBandpassFilter.dtSurround" value="4313"/>
+                <entry key="SubSamplingBandpassFilter.dtSurround" value="568"/>
                 <entry key="SpatialBandpassFilter.surroundRadius" value="5"/>
                 <entry key="SubSamplingBandpassFilter.useAvgSurround" value="true"/>
                 <entry key="GlobalXDisparityFilter2.showMatchingFrame" value="false"/>
                 <entry key="DisparityFilter2.filterEnabled" value="false"/>
                 <entry key="SubSamplingBandpassFilter.surroundRateThresholdHz" value="5.3081927"/>
-                <entry key="SubSamplingBandpassFilter.rateMixingFactor" value="0.29044852"/>
+                <entry key="SubSamplingBandpassFilter.rateMixingFactor" value="0.2904485"/>
                 <entry key="SpatialBandpassFilter.centerRadius" value="2"/>
                 <entry key="Goalie.filterEnabled" value="false"/>
                 <entry key="Goalie.flipX" value="true"/>
@@ -552,10 +683,10 @@
                 <entry key="FilterFrame.lastFile" value="C:\Documents and Settings\tobi\My Documents\~jAER-sourceForge\trunk\filterSettings\goalieSetup.xml"/>
                 <entry key="NearestEventMotionComputer.maxDtThreshold" value="1602485888"/>
                 <entry key="NearestEventMotionComputer.minDtThreshold" value="286"/>
-                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAHdwQAAAAPc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABSQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua1xmaWx0ZXJTZXR0aW5nc3cCAFx4c3EAfgACdABiQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua1xmaWx0ZXJTZXR0aW5nc1xnb2FsaWVTZXR1cC54bWx3AgBceHNxAH4AAnQAY0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcfmpBRVItc291cmNlRm9yZ2VcdHJ1bmtcZmlsdGVyU2V0dGluZ3NcdHJhY2tDb3JuZXJzLnhtbHcCAFx4c3EAfgACdAArQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c3cCAFx4c3EAfgACdAA3QzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xmaWx0ZXJzLnhtbHcCAFx4c3EAfgACdABlQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwNVxVU0JBRVJcSU5JLUFFLUJpYXNnZW5cZmlsdGVyU2V0dGluZ3N3AgBceHNxAH4AAnQAdUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDVcVVNCQUVSXElOSS1BRS1CaWFzZ2VuXGZpbHRlclNldHRpbmdzXGdvYWxpZVNldHVwLnhtbHcCAFx4eA=="/>
+                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAKdwQAAAAPc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABSQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua1xmaWx0ZXJTZXR0aW5nc3cCAFx4c3EAfgACdABiQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua1xmaWx0ZXJTZXR0aW5nc1xnb2FsaWVTZXR1cC54bWx3AgBceHNxAH4AAnQAaUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcfmpBRVItc291cmNlRm9yZ2VcdHJ1bmtcZmlsdGVyU2V0dGluZ3NcZXllVHJhY2tlckV4YW1wbGUyLnhtbHcCAFx4c3EAfgACdABmQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua1xmaWx0ZXJTZXR0aW5nc1xoaWdod2F5VHJhY2tpbmcueG1sdwIAXHhzcQB+AAJ0AGNDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXH5qQUVSLXNvdXJjZUZvcmdlXHRydW5rXGZpbHRlclNldHRpbmdzXGdvYWxpZVNldHVwMi54bWx3AgBceHNxAH4AAnQAY0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcfmpBRVItc291cmNlRm9yZ2VcdHJ1bmtcZmlsdGVyU2V0dGluZ3NcdHJhY2tDb3JuZXJzLnhtbHcCAFx4c3EAfgACdAArQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c3cCAFx4c3EAfgACdAA3QzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xmaWx0ZXJzLnhtbHcCAFx4c3EAfgACdABlQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwNVxVU0JBRVJcSU5JLUFFLUJpYXNnZW5cZmlsdGVyU2V0dGluZ3N3AgBceHNxAH4AAnQAdUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDVcVVNCQUVSXElOSS1BRS1CaWFzZ2VuXGZpbHRlclNldHRpbmdzXGdvYWxpZVNldHVwLnhtbHcCAFx4eA=="/>
                 <entry key="RepetitiousFilter.minDtToStore" value="998"/>
-                <entry key="Goalie.gain" value="0.6307159"/>
-                <entry key="Goalie.offset" value="-0.05"/>
+                <entry key="Goalie.gain" value="1.0273693"/>
+                <entry key="Goalie.offset" value="0.0"/>
                 <entry key="Goalie.useVelocityForGoalie" value="true"/>
                 <entry key="Goalie.blindspotDelayMs" value="240"/>
                 <entry key="Goalie.useSoonest" value="true"/>
@@ -565,9 +696,9 @@
                 <entry key="Goalie.goalieArmTauMs" value="41"/>
                 <entry key="RepetitiousFilter.passRepetitiousEvents" value="false"/>
                 <entry key="HoughTracker.filterEnabled" value="false"/>
-                <entry key="DirectionSelectiveFilter.excessSpeedRejectFactor" value="3"/>
-                <entry key="DirectionSelectiveFilter.minDtThreshold" value="214"/>
-                <entry key="MotionCompensator.gain" value="4.5898943"/>
+                <entry key="DirectionSelectiveFilter.excessSpeedRejectFactor" value="6"/>
+                <entry key="DirectionSelectiveFilter.minDtThreshold" value="16"/>
+                <entry key="MotionCompensator.gain" value="2.0789268"/>
                 <entry key="MotionCompensator.rotationEnabled" value="false"/>
                 <entry key="FilterFrame.restoreFilterEnabledStateEnabled" value="true"/>
                 <entry key="LineTracker.filterEnabled" value="false"/>
@@ -577,58 +708,96 @@
                 <entry key="Driver.filterEnabled" value="false"/>
                 <entry key="ProbFPNCorrectionFilter.filterEnabled" value="false"/>
                 <entry key="PawTracker.filterEnabled" value="false"/>
-                <entry key="TypeCoincidenceFilter.dist" value="1"/>
+                <entry key="TypeCoincidenceFilter.dist" value="2"/>
                 <entry key="CochleaCrossCorrelator.filterEnabled" value="false"/>
                 <entry key="SimpleOrientationFilter.passAllEvents" value="false"/>
                 <entry key="SimpleOrientationFilter.useSubsampledMap" value="true"/>
                 <entry key="SimpleOrientationFilter.subSampleShift" value="1"/>
-                <entry key="TypeCoincidenceFilter.minDtThreshold" value="52000"/>
+                <entry key="TypeCoincidenceFilter.minDtThreshold" value="559"/>
+                <entry key="GlobalDisparityFilter.filterEnabled" value="false"/>
+                <entry key="GlobalDisparityFilter2.filterEnabled" value="false"/>
+                <entry key="DisparityFilter.smoothFactor" value="0.95"/>
+                <entry key="DisparityFilter.distFactor" value="4.8378687"/>
+                <entry key="DisparityFilter.rangeFactor" value="4.668521E-5"/>
+                <entry key="StereoVergenceFilter2.filterEnabled" value="false"/>
+                <entry key="DisparityFilter.yRes" value="16"/>
+                <entry key="GlobalDisparityFilter.showMatchingFrame" value="false"/>
+                <entry key="ServoReaction.useClusterTracker" value="true"/>
+                <entry key="CircularConvolutionFilter.radius" value="2"/>
+                <entry key="CircularConvolutionFilter.tauMs" value="11.576249"/>
+                <entry key="CircularConvolutionFilter.threshold" value="3.386351"/>
+                <entry key="EllipseTracker.filterEnabled" value="false"/>
+                <entry key="HoughTracker.threshold" value="54.0"/>
+                <entry key="HoughTracker.eyeCenterY" value="50"/>
+                <entry key="HoughTracker.eyeCenterX" value="67"/>
+                <entry key="HoughTracker.irisRadius" value="27.0"/>
+                <entry key="HoughTracker.focalLength" value="200.0"/>
+                <entry key="HoughTracker.pupilRadius" value="10.0"/>
+                <entry key="HoughTracker.pupilWeight" value="3"/>
+                <entry key="HoughTracker.maxStepSize" value="0.5"/>
+                <entry key="HoughTracker.eyeRadiusMM" value="12.5"/>
+                <entry key="HoughTracker.bufferLength" value="200.0"/>
+                <entry key="HoughTracker.cameraToEyeDistanceMM" value="45.0"/>
+                <entry key="ParticleTracker.filterEnabled" value="false"/>
+                <entry key="DitheringFilter.filterEnabled" value="false"/>
+                <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
+                <entry key="MultiLineClusterTracker.filterEnabled" value="true"/>
+                <entry key="BackgroundActivityFilter.subsampleBy" value="0"/>
+                <entry key="FilterFrame.timeLimitMs" value="10"/>
+                <entry key="FilterChain.limitTimeEnabled" value="true"/>
+                <entry key="FilterChain.timeLimitEnabled" value="true"/>
+                <entry key="FilterChain.timeLimitMs" value="10"/>
+                <entry key="OnOffProximityLineFilter.filterEnabled" value="true"/>
+                <entry key="OnOffProximityLineFilter.subsampleBy" value="1"/>
+                <entry key="OnOffProximityLineFilter.dt" value="2538"/>
               </map>
               <node name="filter">
                 <map>
-                  <entry key="XYTypeFilter.endX" value="88"/>
-                  <entry key="XYTypeFilter.endY" value="119"/>
-                  <entry key="XYTypeFilter.startY" value="35"/>
+                  <entry key="XYTypeFilter.endX" value="128"/>
+                  <entry key="XYTypeFilter.endY" value="109"/>
+                  <entry key="XYTypeFilter.startY" value="0"/>
                   <entry key="XYTypeFilter.typeEnabled" value="true"/>
-                  <entry key="XYTypeFilter.startX" value="41"/>
+                  <entry key="XYTypeFilter.startX" value="0"/>
                   <entry key="XYTypeFilter.xEnabled" value="true"/>
                   <entry key="XYTypeFilter.yEnabled" value="true"/>
                   <entry key="XYTypeFilter.endType" value="1"/>
                   <entry key="XYTypeFilter.startType" value="0"/>
+                  <entry key="RotateFilter.invertY" value="true"/>
+                  <entry key="SubSampler.bits" value="1"/>
                 </map>
               </node>
               <node name="tracking">
                 <map>
-                  <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="10000"/>
-                  <entry key="RectangularClusterTracker.maxNumClusters" value="2"/>
-                  <entry key="RectangularClusterTracker.clusterSize" value="0.15100001"/>
-                  <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
-                  <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
+                  <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                  <entry key="ClusterTracker.maxNumClusters" value="2"/>
+                  <entry key="ClusterTracker.clusterSize" value="0.15f"/>
+                  <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
                   <entry key="WingTracker.doLog" value="false"/>
                   <entry key="WingTracker.flipHeading" value="false"/>
-                  <entry key="RectangularClusterTracker.showVelocity" value="false"/>
-                  <entry key="RectangularClusterTracker.scaleEnabled" value="true"/>
-                  <entry key="RectangularClusterTracker.highwayPerspectiveEnabled" value="true"/>
-                  <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                  <entry key="ClusterTracker.showVelocity" value="false"/>
+                  <entry key="ClusterTracker.scaleEnabled" value="true"/>
+                  <entry key="ClusterTracker.highwayPerspectiveEnabled" value="true"/>
+                  <entry key="ClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
                   <entry key="EyeTracker.eyeRadius" value="8.049709"/>
                   <entry key="EyeTracker.rimThickness" value="2.9999998"/>
                   <entry key="EyeTracker.mixingFactor" value="0.021428827"/>
-                  <entry key="RectangularClusterTracker.r1" value="0.22801001"/>
-                  <entry key="RectangularClusterTracker.surround" value="40.81243"/>
-                  <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="16932"/>
-                  <entry key="RectangularClusterTracker.maxNumClusters" value="18"/>
-                  <entry key="RectangularClusterTracker.clusterSize" value="0.105897546"/>
-                  <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
-                  <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="81"/>
-                  <entry key="RectangularClusterTracker.surround" value="2.2800999"/>
-                  <entry key="RectangularClusterTracker.highwayPerspectiveEnabled" value="true"/>
-                  <entry key="RectangularClusterTracker.scaleEnabled" value="false"/>
-                  <entry key="RectangularClusterTracker.mixingFactor" value="0.032203395"/>
-                  <entry key="RectangularClusterTracker.showVelocity" value="false"/>
-                  <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
-                  <entry key="RectangularClusterTracker.pathsEnabled" value="true"/>
-                  <entry key="RectangularClusterTracker.growMergedSizeEnabled" value="false"/>
-                  <entry key="RectangularClusterTracker.aspectRatio" value="1.2762814"/>
+                  <entry key="ClusterTracker.r1" value="0.22801001"/>
+                  <entry key="ClusterTracker.surround" value="40.81243"/>
+                  <entry key="ClassTracker.clusterLifetimeWithoutSupport" value="81583"/>
+                  <entry key="ClassTracker.maxNumClusters" value="1"/>
+                  <entry key="ClassTracker.clusterSize" value="0.11193236"/>
+                  <entry key="ClassTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="ClassTracker.thresholdEventsForVisibleCluster" value="63"/>
+                  <entry key="ClassTracker.surround" value="1.1693592"/>
+                  <entry key="ClassTracker.highwayPerspectiveEnabled" value="false"/>
+                  <entry key="ClassTracker.scaleEnabled" value="false"/>
+                  <entry key="ClassTracker.mixingFactor" value="0.032203395"/>
+                  <entry key="ClassTracker.showVelocity" value="false"/>
+                  <entry key="ClassTracker.colorClustersDifferentlyEnabled" value="true"/>
+                  <entry key="ClassTracker.pathsEnabled" value="true"/>
+                  <entry key="ClassTracker.growMergedSizeEnabled" value="false"/>
+                  <entry key="ClassTracker.aspectRatio" value="1.0"/>
                   <entry key="EyeTracker" value="21.0"/>
                   <entry key="EyeTracker.pupilRadius" value="22.65"/>
                   <entry key="EyeTracker.eyeLidDistance" value="30.2"/>
@@ -644,23 +813,23 @@
                   <entry key="EyeTracker.irisRadius" value="86.07377"/>
                   <entry key="EyeTracker.eyelidRejectionAngleDeg" value="0.0"/>
                   <entry key="EyeTracker.qualityThreshold" value="2.5138094"/>
-                  <entry key="RectangularClusterTracker.classifierEnabled" value="false"/>
-                  <entry key="RectangularClusterTracker.velocityMixingFactor" value="1.0023262E-4"/>
-                  <entry key="RectangularClusterTracker.classifierThreshold" value="10.69272"/>
+                  <entry key="ClassTracker.classifierEnabled" value="false"/>
+                  <entry key="ClassTracker.velocityMixingFactor" value="1.0023262E-4"/>
+                  <entry key="ClassTracker.classifierThreshold" value="0.111367546"/>
                   <entry key="WingTracker.useKalmanFiltering" value="false"/>
                   <entry key="WingTracker.showEKFParameterWindow" value="false"/>
-                  <entry key="RectangularClusterTracker.showAllClusters" value="false"/>
-                  <entry key="RectangularClusterTracker.dynamicSizeEnabled" value="false"/>
-                  <entry key="RectangularClusterTracker.dynamicAspectRatioEnabled" value="false"/>
-                  <entry key="RectangularClusterTracker.useNearestCluster" value="true"/>
-                  <entry key="RectangularClusterTracker.useOffPolarityOnlyEnabled" value="false"/>
-                  <entry key="RectangularClusterTracker.useOnePolarityOnlyEnabled" value="false"/>
+                  <entry key="ClassTracker.showAllClusters" value="false"/>
+                  <entry key="ClassTracker.dynamicSizeEnabled" value="false"/>
+                  <entry key="ClassTracker.dynamicAspectRatioEnabled" value="false"/>
+                  <entry key="ClassTracker.useNearestCluster" value="true"/>
+                  <entry key="ClassTracker.useOffPolarityOnlyEnabled" value="false"/>
+                  <entry key="ClassTracker.useOnePolarityOnlyEnabled" value="false"/>
                   <entry key="LineTracker.positionMixingFactor" value="0.014385845"/>
                   <entry key="LineTracker.lineWidth" value="4.8101754"/>
                   <entry key="LineTracker.rhoResPixels" value="2.2800999"/>
                   <entry key="LineTracker.thetaResDeg" value="12.28419"/>
                   <entry key="LineTracker.tauMs" value="167.6681"/>
-                  <entry key="RectangularClusterTracker.clusterLifetimeIncreasesWithAge" value="false"/>
+                  <entry key="ClassTracker.clusterLifetimeIncreasesWithAge" value="false"/>
                   <entry key="WingTracker.nbEventsToCollectPerEdge" value="2"/>
                   <entry key="WingTracker.doHeadingUpdate" value="true"/>
                   <entry key="WingTracker.searchRangeOffset" value="0.10000001"/>
@@ -672,6 +841,62 @@
                   <entry key="PawTracker.thresholdEventsForVisibleCluster" value="30"/>
                   <entry key="PawTracker.thresholdISIForVisibleCluster" value="2.0f"/>
                   <entry key="PawTracker.resetPawTracking" value="false"/>
+                  <entry key="HoughTracker.threshold" value="36"/>
+                  <entry key="HoughTracker.eyeCenterX" value="59"/>
+                  <entry key="HoughTracker.eyeCenterY" value="63"/>
+                  <entry key="HoughTracker.focalLength" value="200.0"/>
+                  <entry key="HoughTracker.irisRadius" value="23.323618"/>
+                  <entry key="HoughTracker.maxStepSize" value="0.5"/>
+                  <entry key="HoughTracker.pupilRadius" value="10.0"/>
+                  <entry key="HoughTracker.pupilWeight" value="5"/>
+                  <entry key="ParticleTracker.clusterUnsupportedLifetime" value="50000"/>
+                  <entry key="ParticleTracker.ParticleTracker.clusterMinMass4Display" value="10"/>
+                  <entry key="ParticleTracker.velocityVectorScaling" value="100000.0f"/>
+                  <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="4918"/>
+                  <entry key="RectangularClusterTracker.maxNumClusters" value="10"/>
+                  <entry key="RectangularClusterTracker.clusterSize" value="0.14900844"/>
+                  <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="40"/>
+                  <entry key="RectangularClusterTracker.showVelocity" value="false"/>
+                  <entry key="RectangularClusterTracker.highwayPerspectiveEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.scaleEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.pathsEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.showAllClusters" value="false"/>
+                  <entry key="RectangularClusterTracker.surround" value="40.81243"/>
+                  <entry key="RectangularClusterTracker.aspectRatio" value="1.0"/>
+                  <entry key="RectangularClusterTracker.dynamicSizeEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.clusterLifetimeIncreasesWithAge" value="false"/>
+                  <entry key="RectangularClusterTracker.classifierThreshold" value="10.69272"/>
+                  <entry key="HoughTracker.eyeRadiusMM" value="12.5"/>
+                  <entry key="HoughTracker.bufferLength" value="198.0"/>
+                  <entry key="RectangularClusterTracker.r1" value="0.22801001"/>
+                  <entry key="RectangularClusterTracker.mixingFactor" value="0.04110059"/>
+                  <entry key="RectangularClusterTracker.growMergedSizeEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.classifierEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.velocityMixingFactor" value="1.0023262E-4"/>
+                  <entry key="RectangularClusterTracker.dynamicAspectRatioEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.useNearestCluster" value="true"/>
+                  <entry key="RectangularClusterTracker.useOffPolarityOnlyEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.useOnePolarityOnlyEnabled" value="false"/>
+                  <entry key="MultiLineClusterTracker.clusterLifetimeWithoutSupport" value="34437"/>
+                  <entry key="MultiLineClusterTracker.maxNumClusters" value="2"/>
+                  <entry key="MultiLineClusterTracker.clusterSize" value="0.15f"/>
+                  <entry key="MultiLineClusterTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="MultiLineClusterTracker.thresholdEventsForVisibleCluster" value="568"/>
+                  <entry key="MultiLineClusterTracker.eventBufferLength" value="12"/>
+                  <entry key="MultiLineClusterTracker.showAllClusters" value="true"/>
+                  <entry key="MultiLineClusterTracker.mixingFactorRho" value="0.0031212089"/>
+                  <entry key="MultiLineClusterTracker.mixingFactorTheta" value="0.0013688912"/>
+                  <entry key="MultiLineClusterTracker.thetaRadius" value="0.07116666"/>
+                  <entry key="MultiLineClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                  <entry key="MultiLineClusterTracker.maxSegmentLength" value="27"/>
+                  <entry key="MultilineClusterTracker.rhoRadius" value="13.771803"/>
+                  <entry key="MultiLineClusterTracker.minSegmentLength" value="2"/>
+                  <entry key="MultiLineClusterTracker.maxSegmentDt" value="156385"/>
+                  <entry key="MultiLineClusterTracker.mixingFactorPosition" value="0.022800999"/>
+                  <entry key="MultiLineClusterTracker.clusterLifetimeIncreasesWithAge" value="true"/>
+                  <entry key="MultiLineClusterTracker.thetaRadiusRad" value="0.60428566"/>
                 </map>
               </node>
             </node>
@@ -679,8 +904,8 @@
               <map>
                 <entry key="RetinaRenderer.colorScale" value="3"/>
                 <entry key="RetinaRendererPanel.scale" value="1"/>
-                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAcdwQAAABYc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABFQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhdwIAXHhzcQB+AAJ0AF1DOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcZnJlZXdheU92ZXJwYXNzUGFzYWRlbmF3AgBceHNxAH4AAnQAg0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxmcmVld2F5T3ZlcnBhc3NQYXNhZGVuYVxldmVudHMyMDA1MTIyMVQwMTQ1MTkgZnJlZXdheS5tYXQuZGF0dwIAXHhzcQB+AAJ0AFRDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcc3BlY2lhbFN0aW11bGl3AgBceHNxAH4AAnQAiUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxzcGVjaWFsU3RpbXVsaVxldmVudHMtMjAwNi0wMS0yM1QyMS00OS0wMSswMTAwIG9yaSBkaXIgc3RpbXVsdXMuZGF0dwIAXHhzcQB+AAJ0AJ9DOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcc3BlY2lhbFN0aW11bGlcVG1wZGlmZjEyOC0yMDA2LTAyLTEyVDE0LTQxLTA5LTA4MDAtMCBvcmkgc3RpbXVsdXMgY3Jvc3MgcGllIGhhcHB5ZmFjZS5kYXR3AgBceHNxAH4AAnQATEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxwbGFjZXN3AgBceHNxAH4AAnQATEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxwZW9wbGV3AgBceHNxAH4AAnQAgEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxwZW9wbGVcZXZlbnRzLTIwMDYtMDEtMTJUMDgtMzgtMDArMDEwMCBkZWUtZGVlIHNtaWxpbmcuZGF0dwIAXHhzcQB+AAJ0AEBDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxdwIAXHhzcQB+AAJ0AJFDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccGxhY2VzXFRtcGRpZmYxMjgtMjAwNi0wMi0xNFQwNy01My0zNy0wODAwLTAgd2Fsa2luZyB0byBrcmlwYSBidWlsZGluZ3MuZGF0dwIAXHhzcQB+AAJ0AFtDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcd2Fsa2luZ1NlbGZMb2NvbW90aW9udwIAXHhzcQB+AAJ0AJFDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcd2Fsa2luZ1NlbGZMb2NvbW90aW9uXFRtcGRpZmYxMjgtMjAwNi0wNi0yNlQxNy00Mi0zOC0wNjAwLTAgcnMyIHdhbGtpbmcuZGF0dwIAXHhzcQB+AAJ0AFJDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A2XFdvcmtzaG9wMDYwMlxEYXRhdwIAXHhzcQB+AAJ0AIpDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A2XFdvcmtzaG9wMDYwMlxEYXRhXFRtcGRpZmYxMjgtMjAwNi0wMi0yNFQxNi0yMi00NSswMTAwLTAgc2V2aWxsYSBmYWNlcy5kYXR3AgBceHNxAH4AAnQAk0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxzcGVjaWFsU3RpbXVsaVxUbXBkaWZmMTI4LTIwMDYtMDItMTBUMTQtMjItMzUtMDgwMC0wIGhhbmQgZm9yIG9yaWVudGF0aW9uLmRhdHcCAFx4c3EAfgACdABLQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FydwIAXHhzcQB+AAJ0AJZDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA0LTA2VDEyLTM0LTEwLTA3MDAtMCBkcml2ZSB3aXRoIHNwZWVkIGNvbnRyb2wgb2FrZGFsZS5kYXR3AgBceHNxAH4AAnQATkM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxiYXNlYmFsbHcCAFx4c3EAfgACdAB4QzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXGJhc2ViYWxsXFRtcGRpZmYxMjgtMjAwNy0wMy0zMFQxNi0wNi0yMS0wNzAwLTAuZGF0dwIAXHhzcQB+AAJ0AHhDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcYmFzZWJhbGxcVG1wZGlmZjEyOC0yMDA3LTAzLTMwVDE2LTU2LTQ4LTA3MDAtMS5kYXR3AgBceHNxAH4AAnQAeEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxiYXNlYmFsbFxUbXBkaWZmMTI4LTIwMDctMDMtMzBUMTctMDYtMzItMDcwMC0xLmRhdHcCAFx4c3EAfgACdACaQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FyXFRtcGRpZmYxMjgtMjAwNy0wNC0wNFQxOS0wMC01My0wNzAwLTAgZmlyc3QgaG91Z2ggbGluZSB0cmFja2VyIHRyeSBvYWtkYWxlLmRhdHcCAFx4c3EAfgACdACLQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FyXFRtcGRpZmYxMjgtMjAwNy0wMy0zMVQxNS0wNS00OS0wNzAwLTAgb2FrZGFsZSBzdCBoaWdoIG1vdW50LmRhdHcCAFx4c3EAfgACdABLQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHNsZWVwdwIAXHhzcQB+AAJ0AGBDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A1XFVTQkFFUlxJTkktQUUtQmlhc2dlblxob3N0XGphdmF3AgBceHNxAH4AAnQAW0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDVcVVNCQUVSXElOSS1BRS1CaWFzZ2VuXGhvc3R3AgBceHNxAH4AAnQATEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxnb2FsaWV3AgBceHg="/>
-                <entry key="AEViewer.lastFile" value="C:\Documents and Settings\tobi\My Documents\avlsi-svn\CAVIAR\wp1\data\freewayOverpassPasadena\events20051221T014519 freeway.mat.dat"/>
+                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAcdwQAAABYc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABLQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FydwIAXHhzcQB+AAJ0AHVDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA0LTAxVDA3LTQzLTI4LTA3MDAtMC5kYXR3AgBceHNxAH4AAnQAVEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxzcGVjaWFsU3RpbXVsaXcCAFx4c3EAfgACdACKQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHNwZWNpYWxTdGltdWxpXGV2ZW50cy0yMDA1LTEyLTMxVDAwLTMxLTA5LTA4MDAgc3RhciBwYXR0ZXJuIHRvYmkuZGF0dwIAXHhzcQB+AAJ0AIpDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcc3BlY2lhbFN0aW11bGlcVG1wZGlmZjEyOC0yMDA2LTEyLTI3VDIwLTIyLTU2LTA4MDAtMCBzaW5nbGUgbGluZS5kYXR3AgBceHNxAH4AAnQARUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YXcCAFx4c3EAfgACdACJQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHNwZWNpYWxTdGltdWxpXGV2ZW50cy0yMDA2LTAxLTIzVDIxLTQ5LTAxKzAxMDAgb3JpIGRpciBzdGltdWx1cy5kYXR3AgBceHNxAH4AAnQAWUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxsYXNlckxpbmVcdHVybnRhYmxldwIAXHhzcQB+AAJ0AKJDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcbGFzZXJMaW5lXHR1cm50YWJsZVxUbXBkaWZmMTI4LTIwMDYtMTAtMjdUMTAtNDMtMzgrMDIwMC0wIGxhc2VyIGN1YmUgY3lsIHNwaGVyZSB0b3Agdmlldy5kYXR3AgBceHNxAH4AAnQAm0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxsYXNlckxpbmVcdHVybnRhYmxlXFRtcGRpZmYxMjgtMjAwNi0xMC0yN1QxMC0yNS0zMiswMjAwLTAgbGFzZXIgbWFueSBvYmplY3RzIGZhc3QuZGF0dwIAXHhzcQB+AAJ0AKhDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcbGFzZXJMaW5lXHR1cm50YWJsZVxUbXBkaWZmMTI4LTIwMDYtMTAtMjRUMTUtNTktMTErMDIwMC0wIG1hbnkgb2JqZWN0cyByb29tIGxpZ2h0ICsgbGFzZXIgc2xvdy5kYXR3AgBceHNxAH4AAnQAW0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxlZG11bmREZW5zaXR5Q2hhcnRXRFJ3AgBceHNxAH4AAnQAhUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxlZG11bmREZW5zaXR5Q2hhcnRXRFJcVG1wZGlmZjEyOC0yMDA2LTExLTEzVDExLTIxLTE0KzAxMDAtMC5kYXR3AgBceHNxAH4AAnQAk0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxzcGVjaWFsU3RpbXVsaVxUbXBkaWZmMTI4LTIwMDYtMDItMTBUMTQtMjItMzUtMDgwMC0wIGhhbmQgZm9yIG9yaWVudGF0aW9uLmRhdHcCAFx4c3EAfgACdACWQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FyXFRtcGRpZmYxMjgtMjAwNy0wNC0wNlQxMi0zNC0xMC0wNzAwLTAgZHJpdmUgd2l0aCBzcGVlZCBjb250cm9sIG9ha2RhbGUuZGF0dwIAXHhzcQB+AAJ0AHVDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTAzLTIxVDE2LTM0LTQyLTA3MDAtMC5kYXR3AgBceHNxAH4AAnQAn0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxzcGVjaWFsU3RpbXVsaVxUbXBkaWZmMTI4LTIwMDYtMDItMTJUMTQtNDEtMDktMDgwMC0wIG9yaSBzdGltdWx1cyBjcm9zcyBwaWUgaGFwcHlmYWNlLmRhdHcCAFx4c3EAfgACdABdQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXG1pc2NUbXBkaWZmMTI4SGlnaFNwZWVkdwIAXHhzcQB+AAJ0AJtDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcbWlzY1RtcGRpZmYxMjhIaWdoU3BlZWRcVG1wZGlmZjEyOC0yMDA3LTAyLTA0VDIyLTA4LTA3LTA4MDAtMCBmYXN0IGRpc2sgZGVzayBsYW1wLmRhdHcCAFx4c3EAfgACdABAQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMXcCAFx4c3EAfgACdAB1QzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FyXFRtcGRpZmYxMjgtMjAwNi0xMi0yOFQwOS01Ny0zNy0wODAwLTAuZGF0dwIAXHhzcQB+AAJ0AExDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccGVvcGxldwIAXHhzcQB+AAJ0AE9DOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcbGFzZXJMaW5ldwIAXHhzcQB+AAJ0AFpDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcbGFzZXJMaW5lXGxpbmVNb3Zpbmd3AgBceHNxAH4AAnQATEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxnb2FsaWV3AgBceHNxAH4AAnQAYEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDVcVVNCQUVSXElOSS1BRS1CaWFzZ2VuXGhvc3RcamF2YXcCAFx4c3EAfgACdABWQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwNVxVU0JBRVJcSU5JLUFFLUJpYXNnZW53AgBceHNxAH4AAnQAW0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDVcVVNCQUVSXElOSS1BRS1CaWFzZ2VuXGhvc3R3AgBceHg="/>
+                <entry key="AEViewer.lastFile" value="C:\Documents and Settings\tobi\My Documents\avlsi-svn\CAVIAR\wp1\data\rcCar\Tmpdiff128-2007-04-01T07-43-28-0700-0.dat"/>
                 <entry key="RetinaCanvas.scale" value="3.9296875"/>
                 <entry key="AEViewer.activeRenderingEnabled" value="true"/>
                 <entry key="OpenGLRetinaCanvas.scale" value="2.53125"/>
@@ -698,7 +923,7 @@
                 <entry key="OpenGLRetinaCanvas.openGLEnabled" value="true"/>
                 <entry key="AEViewer.aeChipClassName" value="ch.unizh.ini.caviar.chip.retina.Tmpdiff128"/>
                 <entry key="RetinaRenderer.method" value="2"/>
-                <entry key="AEViewer.FrameRater.desiredFPS" value="64"/>
+                <entry key="AEViewer.FrameRater.desiredFPS" value="16"/>
                 <entry key="OpenGLRetinaCanvas.scaleConv64" value="12.765625"/>
                 <entry key="OpenGLRetinaCanvas.scaleLearning" value="16.9375"/>
                 <entry key="OpenGLRetinaCanvas.scaleTnc3" value="9.65625"/>
@@ -717,9 +942,9 @@
                 <entry key="ChipRenderer.colorScale" value="1"/>
                 <entry key="ChipCanvas.scaleCochleaAERb" value="36.5"/>
                 <entry key="ChipCanvas.openGLEnabled" value="true"/>
-                <entry key="ChipCanvas.angley" value="18.632812"/>
-                <entry key="ChipCanvas.anglex" value="-9.75"/>
-                <entry key="ChipCanvas.scaleTmpdiff128" value="4.515625"/>
+                <entry key="ChipCanvas.angley" value="-3.7383177"/>
+                <entry key="ChipCanvas.anglex" value="3.7604456"/>
+                <entry key="ChipCanvas.scaleTmpdiff128" value="2.859375"/>
                 <entry key="ChipRenderer.method" value="0"/>
                 <entry key="ChipRenderer.autoscaleEnabled" value="true"/>
                 <entry key="ChipRenderer.subsamplingEnabled" value="false"/>
@@ -734,7 +959,7 @@
                 <entry key="ChipCanvas.scaleTestchipARCSLineSensor" value="8.3515625"/>
                 <entry key="ChipCanvas.scaleTmpdiff128StereoPair" value="3.890625"/>
                 <entry key="ChipCanvas.scaleUioFoveatedImager" value="3.0"/>
-                <entry key="ChipRenderer.subsampleThresholdEventCount" value="100000"/>
+                <entry key="ChipRenderer.subsampleThresholdEventCount" value="4000"/>
                 <entry key="ChipCanvas.scaleConv32" value="4.0"/>
                 <entry key="AEViewer.logFilteredEventsEnabled" value="true"/>
                 <entry key="ChipCanvas.scaleConv64InOut" value="3.96875"/>
@@ -742,9 +967,15 @@
                 <entry key="ChipCanvas.scaleLearning" value="18.75"/>
                 <entry key="ChipCanvas.scaleCochleaAMSNoBiasgen" value="1.0"/>
                 <entry key="ChipCanvas.scaleCochleaAMSWithBiasgen" value="9.34375"/>
-                <entry key="ChipCanvas.scaleMotion18" value="29.125"/>
-                <entry key="Chip2DRenderer.colorScale" value="2"/>
+                <entry key="ChipCanvas.scaleMotion18" value="20.53125"/>
+                <entry key="Chip2DRenderer.colorScale" value="1"/>
                 <entry key="Chip2DRenderer.autoscaleEnabled" value="false"/>
+                <entry key="AEViewer.lastLoggingFolder" value="C:\Documents and Settings\tobi\My Documents\avlsi-svn\CAVIAR\wp1\data"/>
+                <entry key="ChipRenderer.stereoColorMode" value="RedGreen"/>
+                <entry key="CochleaRenderer.method" value="4"/>
+                <entry key="ChipCanvas.scaleCochleaAMS" value="3.6875"/>
+                <entry key="BinocularRenderer.autoscaleEnabled" value="true"/>
+                <entry key="chipClassNames" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAACdwQAAAACdAAqY2gudW5pemguaW5pLmNhdmlhci5jaGlwLnJldGluYS5UbXBkaWZmMTI4dAA2Y2gudW5pemguaW5pLmNhdmlhci5jaGlwLmNvY2hsZWEuQ29jaGxlYUFNU1dpdGhCaWFzZ2VueA=="/>
               </map>
             </node>
             <node name="hardwareinterface">
@@ -758,25 +989,37 @@
             </node>
             <node name="stereopsis">
               <map>
-                <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="3402"/>
-                <entry key="RectangularClusterTracker.maxNumClusters" value="3"/>
-                <entry key="RectangularClusterTracker.clusterSize" value="0.15668115"/>
-                <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
-                <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="91"/>
-                <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
-                <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
-                <entry key="RectangularClusterTracker.velocityMixingFactor" value="0.0122704655"/>
-                <entry key="RectangularClusterTracker.mixingFactor" value="0.0045485874"/>
-                <entry key="RectangularClusterTracker.showVelocity" value="false"/>
+                <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="3957"/>
+                <entry key="ClusterTracker.maxNumClusters" value="1"/>
+                <entry key="ClusterTracker.clusterSize" value="0.22049998"/>
+                <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
+                <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
+                <entry key="ClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                <entry key="ClusterTracker.pathsEnabled" value="false"/>
+                <entry key="ClusterTracker.velocityMixingFactor" value="0.0029530318"/>
+                <entry key="ClusterTracker.mixingFactor" value="0.0053535677"/>
+                <entry key="ClusterTracker.showVelocity" value="false"/>
+                <entry key="ClassTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                <entry key="ClassTracker.maxNumClusters" value="10"/>
+                <entry key="ClassTracker.clusterSize" value="0.15f"/>
+                <entry key="ClassTracker.numEventsStoredInCluster" value="100"/>
+                <entry key="ClassTracker.thresholdEventsForVisibleCluster" value="30"/>
+                <entry key="ClassTracker.pathsEnabled" value="false"/>
+                <entry key="ClassTracker.scaleEnabled" value="false"/>
+                <entry key="ClassTracker.showVelocity" value="false"/>
+                <entry key="ClassTracker.mixingFactor" value="0.03442951"/>
+                <entry key="AEChip.subSamplingEnabled" value="false"/>
                 <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="2538"/>
                 <entry key="RectangularClusterTracker.maxNumClusters" value="3"/>
                 <entry key="RectangularClusterTracker.clusterSize" value="0.10951987"/>
                 <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
                 <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="276"/>
-                <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
-                <entry key="RectangularClusterTracker.scaleEnabled" value="false"/>
-                <entry key="RectangularClusterTracker.showVelocity" value="false"/>
                 <entry key="RectangularClusterTracker.mixingFactor" value="0.03442951"/>
+                <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
+                <entry key="RectangularClusterTracker.showVelocity" value="false"/>
+                <entry key="RectangularClusterTracker.velocityMixingFactor" value="0.0122704655"/>
+                <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                <entry key="RectangularClusterTracker.scaleEnabled" value="false"/>
               </map>
             </node>
             <node name="util">
