@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
+<preferences EXTERNAL_XML_VERSION="1.0">
+  <root type="user">
+    <map/>
+    <node name="ch">
+      <map/>
+      <node name="unizh">
+        <map/>
+        <node name="ini">
+          <map/>
+          <node name="caviar">
+            <map/>
+            <node name="chip">
+              <map/>
+              <node name="cochlea">
+                <map>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vcas" value="7661"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.pdbiasTX" value="2307606"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vin1" value="5769011"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.VAIO" value="19430"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.VbiasC" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vgain" value="1163252"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vioff" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vq" value="58"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vclbtgate" value="9537"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vrefract" value="624065"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vsetio" value="1132617"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vdc1" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vin2" value="7533658"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vbpf2" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vioffbpf" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vcascode" value="16777215"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vrefo" value="16777215"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vtau" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vbias2" value="39587"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vth1" value="13980"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vsetioadap" value="16777215"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vbias1" value="1519072"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vbpf1" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vrefn" value="133"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vbamp" value="39587"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vion" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vref" value="14042692"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vclbtcasc" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vdc2" value="0"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Vth2" value="437210"/>
+                  <entry key="Masterbias.rx" value="8200.0"/>
+                  <entry key="Masterbias.rint" value="46000.0"/>
+                  <entry key="Masterbias.internalResistorUsed" value="false"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.pdbia  sTX" value="9000691"/>
+                  <entry key="CochleaAMSWithBiasgen.IPot.Viopffbpf" value="0"/>
+                </map>
+              </node>
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </root>
+</preferences>
