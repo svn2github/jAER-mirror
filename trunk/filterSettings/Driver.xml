@@ -16,16 +16,16 @@
               <entry key="CaviarViewer.electricalTimestampResetEnabled" value="true"/>
               <entry key="frame0.x" value="653"/>
               <entry key="frame0.y" value="44"/>
-              <entry key="frame0.w" value="500"/>
-              <entry key="frame0.h" value="400"/>
+              <entry key="frame0.w" value="200"/>
+              <entry key="frame0.h" value="200"/>
               <entry key="frame1.x" value="638"/>
               <entry key="frame1.y" value="25"/>
-              <entry key="frame1.w" value="618"/>
-              <entry key="frame1.h" value="419"/>
-              <entry key="Biasgen.x" value="719"/>
-              <entry key="Biasgen.y" value="71"/>
-              <entry key="Biasgen.w" value="404"/>
-              <entry key="Biasgen.h" value="566"/>
+              <entry key="frame1.w" value="500"/>
+              <entry key="frame1.h" value="400"/>
+              <entry key="Biasgen.x" value="0"/>
+              <entry key="Biasgen.y" value="0"/>
+              <entry key="Biasgen.w" value="375"/>
+              <entry key="Biasgen.h" value="560"/>
               <entry key="frame2.x" value="344"/>
               <entry key="frame2.y" value="280"/>
               <entry key="frame2.w" value="518"/>
@@ -58,22 +58,22 @@
               <entry key="frame7.y" value="100"/>
               <entry key="frame7.w" value="413"/>
               <entry key="frame7.h" value="511"/>
-              <entry key="AEViewer.x" value="-3"/>
-              <entry key="AEViewer.y" value="12"/>
+              <entry key="AEViewer.x" value="0"/>
+              <entry key="AEViewer.y" value="0"/>
               <entry key="AEViewer.w" value="503"/>
               <entry key="AEViewer.h" value="495"/>
-              <entry key="FilterFrame.x" value="901"/>
-              <entry key="FilterFrame.y" value="3"/>
-              <entry key="FilterFrame.w" value="150"/>
-              <entry key="FilterFrame.h" value="552"/>
+              <entry key="FilterFrame.x" value="701"/>
+              <entry key="FilterFrame.y" value="30"/>
+              <entry key="FilterFrame.w" value="176"/>
+              <entry key="FilterFrame.h" value="446"/>
             </map>
             <node name="biasgen">
               <map>
                 <entry key="BiasgenFrame.viewFunctionalBiasesEnabled" value="false"/>
-                <entry key="ch.unizh.ini.caviar.biasgen.BiasgenFrame.XPosition" value="719"/>
-                <entry key="ch.unizh.ini.caviar.biasgen.BiasgenFrame.YPosition" value="71"/>
-                <entry key="BiasgenFrame.lastFile" value="C:\Documents and Settings\tobi\My Documents\avlsi-svn\CAVIAR\wp5\USBAER\INI-AE-Biasgen\biasgenSettings\tmpdiff128.xml"/>
-                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAGdwQAAAAfc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABmQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwNVxVU0JBRVJcSU5JLUFFLUJpYXNnZW5cYmlhc2dlblNldHRpbmdzdwIAXHhzcQB+AAJ0AHVDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A1XFVTQkFFUlxJTkktQUUtQmlhc2dlblxiaWFzZ2VuU2V0dGluZ3NcdG1wZGlmZjEyOC54bWx3AgBceHNxAH4AAnQAU0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcfmpBRVItc291cmNlRm9yZ2VcdHJ1bmtcYmlhc2dlblNldHRpbmdzdwIAXHhzcQB+AAJ0AHFDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXH5qQUVSLXNvdXJjZUZvcmdlXHRydW5rXGJpYXNnZW5TZXR0aW5nc1x0bXBkaWZmMTI4TG93ZXJUaHJlc2hvbGRzLnhtbHcCAFx4c3EAfgACdAB8QzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwNVxVU0JBRVJcSU5JLUFFLUJpYXNnZW5cYmlhc2dlblNldHRpbmdzXHRtcGRpZmYxMjhUcmFja2VyLnhtbHcCAFx4c3EAfgACdAArQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c3cCAFx4eA=="/>
+                <entry key="ch.unizh.ini.caviar.biasgen.BiasgenFrame.XPosition" value="0"/>
+                <entry key="ch.unizh.ini.caviar.biasgen.BiasgenFrame.YPosition" value="0"/>
+                <entry key="BiasgenFrame.lastFile" value="C:\Documents and Settings\tobi\My Documents\~jAER-sourceForge\trunk\biasgenSettings\tmpdiff128.xml"/>
+                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAHdwQAAAAfc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABTQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua1xiaWFzZ2VuU2V0dGluZ3N3AgBceHNxAH4AAnQAYkM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcfmpBRVItc291cmNlRm9yZ2VcdHJ1bmtcYmlhc2dlblNldHRpbmdzXHRtcGRpZmYxMjgueG1sdwIAXHhzcQB+AAJ0AHFDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXH5qQUVSLXNvdXJjZUZvcmdlXHRydW5rXGJpYXNnZW5TZXR0aW5nc1x0bXBkaWZmMTI4TG93ZXJUaHJlc2hvbGRzLnhtbHcCAFx4c3EAfgACdABmQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwNVxVU0JBRVJcSU5JLUFFLUJpYXNnZW5cYmlhc2dlblNldHRpbmdzdwIAXHhzcQB+AAJ0AHVDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A1XFVTQkFFUlxJTkktQUUtQmlhc2dlblxiaWFzZ2VuU2V0dGluZ3NcdG1wZGlmZjEyOC54bWx3AgBceHNxAH4AAnQAfEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDVcVVNCQUVSXElOSS1BRS1CaWFzZ2VuXGJpYXNnZW5TZXR0aW5nc1x0bXBkaWZmMTI4VHJhY2tlci54bWx3AgBceHNxAH4AAnQAK0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHN3AgBceHg="/>
                 <entry key="IPotGUIControl.bitViewEnabled" value="false"/>
                 <entry key="IPotGUIControl.bitValueEnabled" value="false"/>
                 <entry key="IPotGUIControl.currentEnabled" value="true"/>
@@ -481,14 +481,14 @@
               <node name="retina">
                 <map>
                   <entry key="SubSampler.bits" value="1"/>
-                  <entry key="XYTypeFilter.filterEnabled" value="false"/>
-                  <entry key="RotateFilter.filterEnabled" value="false"/>
+                  <entry key="XYTypeFilter.filterEnabled" value="true"/>
+                  <entry key="RotateFilter.filterEnabled" value="true"/>
                   <entry key="RepetitiousFilter.filterEnabled" value="false"/>
                   <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
                   <entry key="SubSampler.filterEnabled" value="false"/>
-                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAJdwQAAAAJdAA3Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlhZVHlwZUZpbHRlcnQAQ2NoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0AERjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuU3ViU2FtcGxpbmdCYW5kcGFzc0ZpbHRlcnQAQWNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmxhYmVsLlNpbXBsZU9yaWVudGF0aW9uRmlsdGVydABDY2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLk9uT2ZmUHJveGltaXR5TGluZUZpbHRlcnQARmNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLnRyYWNraW5nLlJlY3Rhbmd1bGFyQ2x1c3RlclRyYWNrZXJ0AEJjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5sYWJlbC5EaXJlY3Rpb25TZWxlY3RpdmVGaWx0ZXJ0AERjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy50cmFja2luZy5NdWx0aUxpbmVDbHVzdGVyVHJhY2tlcnQAHmNoLnVuaXpoLmluaS50b2JpLnJjY2FyLkRyaXZlcng="/>
+                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAADdwQAAAADdAAeY2gudW5pemguaW5pLnRvYmkucmNjYXIuRHJpdmVydAA9Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcudHJhY2tpbmcuSG91Z2hMaW5lVHJhY2tlcnQAQ2NoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5Pbk9mZlByb3hpbWl0eUxpbmVGaWx0ZXJ4"/>
                   <entry key="MultiLineClusterTracker.filterEnabled" value="false"/>
-                  <entry key="DirectionSelectiveFilter.searchDistance" value="1"/>
+                  <entry key="DirectionSelectiveFilter.searchDistance" value="4"/>
                   <entry key="DirectionSelectiveFilter.filterEnabled" value="false"/>
                   <entry key="MultiLineClusterTracker.thresholdEventsForVisibleCluster" value="228"/>
                   <entry key="MultiLineClusterTracker.clusterLifetimeWithoutSupport" value="118540"/>
@@ -508,12 +508,12 @@
                   <entry key="Tmpdiff128.IPot.cas" value="1966"/>
                   <entry key="Tmpdiff128.IPot.injGnd" value="22703"/>
                   <entry key="Tmpdiff128.IPot.reqPd" value="16777215"/>
-                  <entry key="Tmpdiff128.IPot.puX" value="7585671"/>
-                  <entry key="Tmpdiff128.IPot.diffOff" value="8533"/>
+                  <entry key="Tmpdiff128.IPot.puX" value="4368853"/>
+                  <entry key="Tmpdiff128.IPot.diffOff" value="3207"/>
                   <entry key="Tmpdiff128.IPot.req" value="111347"/>
                   <entry key="Tmpdiff128.IPot.refr" value="0"/>
                   <entry key="Tmpdiff128.IPot.puY" value="16777215"/>
-                  <entry key="Tmpdiff128.IPot.diffOn" value="142208"/>
+                  <entry key="Tmpdiff128.IPot.diffOn" value="483231"/>
                   <entry key="Tmpdiff128.IPot.diff" value="28995"/>
                   <entry key="Tmpdiff128.IPot.foll" value="19"/>
                   <entry key="Tmpdiff128.IPot.Pr" value="8"/>
@@ -534,16 +534,16 @@
                   <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
                   <entry key="Driver.filterEnabled" value="true"/>
                   <entry key="OnOffProximityLineFilter.filterEnabled" value="false"/>
-                  <entry key="OnOffProximityLineFilter.subsampleBy" value="1"/>
-                  <entry key="XYTypeFilter.endY" value="77"/>
+                  <entry key="OnOffProximityLineFilter.subsampleBy" value="2"/>
+                  <entry key="XYTypeFilter.endY" value="102"/>
                   <entry key="XYTypeFilter.xEnabled" value="true"/>
                   <entry key="XYTypeFilter.yEnabled" value="true"/>
-                  <entry key="XYTypeFilter.endX" value="100"/>
-                  <entry key="XYTypeFilter.startX" value="8"/>
+                  <entry key="XYTypeFilter.endX" value="128"/>
+                  <entry key="XYTypeFilter.startX" value="0"/>
                   <entry key="MultiLineClusterTracker.renderInputEvents" value="false"/>
                   <entry key="MultiLineClusterTracker.maxNumClusters" value="3"/>
                   <entry key="MultiLineClusterTracker.showAllClusters" value="true"/>
-                  <entry key="OnOffProximityLineFilter.dt" value="30505"/>
+                  <entry key="OnOffProximityLineFilter.dt" value="8860"/>
                   <entry key="MultiLineClusterTracker.XYTypeFilter" value="true"/>
                   <entry key="MultiLineClusterTracker.SimpleOrientationFilter" value="true"/>
                   <entry key="MultiLineClusterTracker.BackgroundActivityFilter" value="false"/>
@@ -552,8 +552,27 @@
                   <entry key="MultiLineClusterTracker.SimpleOrientationFilter.filterEnabled" value="true"/>
                   <entry key="MultiLineClusterTracker.BackgroundActivityFilter.filterEnabled" value="false"/>
                   <entry key="MultiLineClusterTracker.OnOffProximityLineFilter.filterEnabled" value="true"/>
-                  <entry key="Driver.gain" value="0.2"/>
-                  <entry key="Driver.lpCornerFreqHz" value="5.0"/>
+                  <entry key="Driver.gain" value="0.45602003"/>
+                  <entry key="Driver.lpCornerFreqHz" value="4.999999"/>
+                  <entry key="Driver.flipSteering" value="false"/>
+                  <entry key="HoughLineTracker.filterEnabled" value="false"/>
+                  <entry key="Driver.useMultiLineTracker" value="false"/>
+                  <entry key="DriverPreFilter.RotateFilter.filterEnabled" value="true"/>
+                  <entry key="DriverPreFilter.XYTypeFilter.filterEnabled" value="true"/>
+                  <entry key="DriverPreFilter.BackgroundActivityFilter.filterEnabled" value="true"/>
+                  <entry key="DriverPreFilter.OnOffProximityLineFilter.filterEnabled" value="true"/>
+                  <entry key="DriverPreFilter.SimpleOrientationFilter.filterEnabled" value="true"/>
+                  <entry key="DirectionSelectiveFilter.showVectorsEnabled" value="false"/>
+                  <entry key="DirectionSelectiveFilter.ppsScale" value="0.0016433139"/>
+                  <entry key="DirectionSelectiveFilter.showGlobalEnabled" value="true"/>
+                  <entry key="MotionCompensator.cornerFreqHz" value="0.1"/>
+                  <entry key="MotionCompensator.filterEnabled" value="false"/>
+                  <entry key="MotionCompensator.gain" value="0.8638377"/>
+                  <entry key="SimpleOrientationFilter.searchDistance" value="1"/>
+                  <entry key="SimpleOrientationFilter.minDtThreshold" value="228010"/>
+                  <entry key="SimpleOrientationFilter.subSampleShift" value="1"/>
+                  <entry key="SimpleOrientationFilter.useAverageDtEnabled" value="true"/>
+                  <entry key="filterEnabled" value="true"/>
                 </map>
                 <node name="ch">
                   <map/>
@@ -616,7 +635,16 @@
                           <node name="label">
                             <map/>
                             <node name="DirectionSelectiveFilter">
-                              <map/>
+                              <map>
+                                <entry key="SimpleOrientationFilter.searchDistance" value="3"/>
+                                <entry key="SimpleOrientationFilter.minDtThreshold" value="134008"/>
+                              </map>
+                            </node>
+                            <node name="MotionCompensator">
+                              <map>
+                                <entry key="DirectionSelectiveFilter.searchDistance" value="1"/>
+                                <entry key="DirectionSelectiveFilter.filterEnabled" value="false"/>
+                              </map>
                             </node>
                           </node>
                           <node name="tracking">
@@ -628,16 +656,17 @@
                                 <entry key="SimpleOrientationFilter.subSampleShift" value="1"/>
                                 <entry key="XYTypeFilter.xEnabled" value="true"/>
                                 <entry key="XYTypeFilter.yEnabled" value="true"/>
-                                <entry key="XYTypeFilter.endY" value="108"/>
+                                <entry key="XYTypeFilter.endY" value="92"/>
                                 <entry key="XYTypeFilter.startType" value="2"/>
                                 <entry key="XYTypeFilter.endX" value="128"/>
                                 <entry key="XYTypeFilter.startX" value="0"/>
-                                <entry key="OnOffProximityLineFilter.dt" value="8438"/>
-                                <entry key="OnOffProximityLineFilter.subsampleBy" value="1"/>
+                                <entry key="OnOffProximityLineFilter.dt" value="8257"/>
+                                <entry key="OnOffProximityLineFilter.subsampleBy" value="2"/>
                                 <entry key="XYTypeFilter.filterEnabled" value="true"/>
                                 <entry key="SimpleOrientationFilter.filterEnabled" value="true"/>
                                 <entry key="BackgroundActivityFilter.filterEnabled" value="true"/>
                                 <entry key="OnOffProximityLineFilter.filterEnabled" value="true"/>
+                                <entry key="RotateFilter.invertY" value="false"/>
                               </map>
                             </node>
                           </node>
@@ -650,11 +679,48 @@
                           <node name="Driver">
                             <map>
                               <entry key="MultiLineClusterTracker.XYTypeFilter.filterEnabled" value="true"/>
-                              <entry key="MultiLineClusterTracker.SimpleOrientationFilter.filterEnabled" value="true"/>
+                              <entry key="MultiLineClusterTracker.SimpleOrientationFilter.filterEnabled" value="false"/>
                               <entry key="MultiLineClusterTracker.BackgroundActivityFilter.filterEnabled" value="false"/>
-                              <entry key="MultiLineClusterTracker.OnOffProximityLineFilter.filterEnabled" value="true"/>
-                              <entry key="LineTracker.tauMs" value="1.0"/>
+                              <entry key="MultiLineClusterTracker.OnOffProximityLineFilter.filterEnabled" value="false"/>
+                              <entry key="LineTracker.tauMs" value="61.62677"/>
                               <entry key="MultiLineClusterTracker.maxNumClusters" value="1"/>
+                              <entry key="MultiLineClusterTracker.renderInputEvents" value="false"/>
+                              <entry key="MultiLineClusterTracker.showAllClusters" value="false"/>
+                              <entry key="MultiLineClusterTracker.rhoRadius" value="20.657705"/>
+                              <entry key="MultiLineClusterTracker.mixingFactorTheta" value="0.051988557"/>
+                              <entry key="MultiLineClusterTracker.mixingFactorRho" value="0.022800999"/>
+                              <entry key="MultiLineClusterTracker.mixingFactorPosition" value="0.022800999"/>
+                              <entry key="MultiLineClusterTracker.oriDiffAllowed" value="2"/>
+                              <entry key="MultiLineClusterTracker.RotateFilter.filterEnabled" value="true"/>
+                              <entry key="DriverPreFilter.RotateFilter.filterEnabled" value="true"/>
+                              <entry key="DriverPreFilter.XYTypeFilter.filterEnabled" value="true"/>
+                              <entry key="DriverPreFilter.SimpleOrientationFilter.filterEnabled" value="false"/>
+                              <entry key="DriverPreFilter.BackgroundActivityFilter.filterEnabled" value="false"/>
+                              <entry key="DriverPreFilter.OnOffProximityLineFilter.filterEnabled" value="true"/>
+                              <entry key="filterEnabled" value="true"/>
+                              <entry key="LineTracker.rhoResPixels" value="6.8402996"/>
+                              <entry key="LineTracker.thetaResDeg" value="5.9999995"/>
+                            </map>
+                          </node>
+                          <node name="Driver$DriverPreFilter">
+                            <map>
+                              <entry key="RotateFilter.filterEnabled" value="true"/>
+                              <entry key="XYTypeFilter.filterEnabled" value="true"/>
+                              <entry key="SimpleOrientationFilter.filterEnabled" value="false"/>
+                              <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
+                              <entry key="OnOffProximityLineFilter.filterEnabled" value="true"/>
+                              <entry key="XYTypeFilter.xEnabled" value="false"/>
+                              <entry key="XYTypeFilter.yEnabled" value="true"/>
+                              <entry key="XYTypeFilter.endY" value="86"/>
+                              <entry key="XYTypeFilter.endX" value="128"/>
+                              <entry key="SimpleOrientationFilter.searchDistance" value="3"/>
+                              <entry key="SimpleOrientationFilter.minDtThreshold" value="64759"/>
+                              <entry key="SimpleOrientationFilter.subSampleShift" value="1"/>
+                              <entry key="OnOffProximityLineFilter.dt" value="5771"/>
+                              <entry key="OnOffProximityLineFilter.subsampleBy" value="1"/>
+                              <entry key="SimpleOrientationFilter.showGlobalEnabled" value="false"/>
+                              <entry key="SimpleOrientationFilter.useAverageDtEnabled" value="false"/>
+                              <entry key="RotateFilter.invertX" value="true"/>
                             </map>
                           </node>
                         </node>
@@ -697,6 +763,11 @@
                     <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
                   </map>
                 </node>
+              </node>
+              <node name="retinaCochlea">
+                <map>
+                  <entry key="SubSampler.bits" value="1"/>
+                </map>
               </node>
               <node name="tracking">
                 <map>
@@ -757,7 +828,7 @@
                 <entry key="FilterChain.timeLimitEnabled" value="false"/>
                 <entry key="FilterChain.timeLimitMs" value="10"/>
                 <entry key="FilterFrame.restoreFilterEnabledStateEnabled" value="true"/>
-                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAACdwQAAAAPc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABSQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua1xmaWx0ZXJTZXR0aW5nc3cCAFx4c3EAfgACdABsQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua1xmaWx0ZXJTZXR0aW5nc1xyY0Nhck11bHRpbGluZVRyYWNrZXIueG1sdwIAXHh4"/>
+                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAADdwQAAAAPc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABSQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua1xmaWx0ZXJTZXR0aW5nc3cCAFx4c3EAfgACdABsQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1x+akFFUi1zb3VyY2VGb3JnZVx0cnVua1xmaWx0ZXJTZXR0aW5nc1xyY0Nhck11bHRpbGluZVRyYWNrZXIueG1sdwIAXHhzcQB+AAJ0AF1DOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXH5qQUVSLXNvdXJjZUZvcmdlXHRydW5rXGZpbHRlclNldHRpbmdzXERyaXZlci54bWx3AgBceHg="/>
                 <entry key="FilterFrame.lastFile" value="C:\Documents and Settings\tobi\My Documents\~jAER-sourceForge\trunk\filterSettings\rcCarMultilineTracker.xml"/>
               </map>
               <node name="filter">
@@ -831,8 +902,8 @@
               <map>
                 <entry key="RetinaRenderer.colorScale" value="3"/>
                 <entry key="RetinaRendererPanel.scale" value="1"/>
-                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAcdwQAAABYc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABLQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FydwIAXHhzcQB+AAJ0AItDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTAzLTMxVDE1LTA1LTQ5LTA3MDAtMCBvYWtkYWxlIHN0IGhpZ2ggbW91bnQuZGF0dwIAXHhzcQB+AAJ0AFRDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcc3BlY2lhbFN0aW11bGl3AgBceHNxAH4AAnQAikM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxzcGVjaWFsU3RpbXVsaVxUbXBkaWZmMTI4LTIwMDYtMTItMjdUMjAtMjItNTYtMDgwMC0wIHNpbmdsZSBsaW5lLmRhdHcCAFx4c3EAfgACdACaQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FyXFRtcGRpZmYxMjgtMjAwNy0wNi0yOFQxMC0zNS00NS0wNzAwLTAgMXN0IHRyeSAyLjZtbSBtaXJyb3Igb2FrZGFsZSAgYmx1cnJ5LmRhdHcCAFx4c3EAfgACdABFQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhdwIAXHhzcQB+AAJ0AJZDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA0LTA2VDEyLTM0LTEwLTA3MDAtMCBkcml2ZSB3aXRoIHNwZWVkIGNvbnRyb2wgb2FrZGFsZS5kYXR3AgBceHNxAH4AAnQAl0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxzcGVjaWFsU3RpbXVsaVxUbXBkaWZmMTI4LTIwMDctMDYtMThUMDktNDItMDMrMDIwMC0wIHNxdWFyZSBib3ggbGluZSB0cmFja2luZy5kYXR3AgBceHNxAH4AAnQAQEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDF3AgBceHNxAH4AAnQAXUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxmcmVld2F5T3ZlcnBhc3NQYXNhZGVuYXcCAFx4c3EAfgACdACDQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXGZyZWV3YXlPdmVycGFzc1Bhc2FkZW5hXGV2ZW50czIwMDUxMjIxVDAxNDUxOSBmcmVld2F5Lm1hdC5kYXR3AgBceHNxAH4AAnQAUkM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDZcV29ya3Nob3AwNjAyXERhdGF3AgBceHNxAH4AAnQAh0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDZcV29ya3Nob3AwNjAyXERhdGFcQ2F2aWFyVmlld2VyLTIwMDYtMDItMjNUMTItMjAtMDUrMDEwMEZvdXJCYWxscy5pbmRleHcCAFx4c3EAfgACdACKQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHNwZWNpYWxTdGltdWxpXGV2ZW50cy0yMDA1LTEyLTMxVDAwLTMxLTA5LTA4MDAgc3RhciBwYXR0ZXJuIHRvYmkuZGF0dwIAXHhzcQB+AAJ0AHVDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA0LTAxVDA3LTQzLTI4LTA3MDAtMC5kYXR3AgBceHNxAH4AAnQAiUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxzcGVjaWFsU3RpbXVsaVxldmVudHMtMjAwNi0wMS0yM1QyMS00OS0wMSswMTAwIG9yaSBkaXIgc3RpbXVsdXMuZGF0dwIAXHhzcQB+AAJ0AFlDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcbGFzZXJMaW5lXHR1cm50YWJsZXcCAFx4c3EAfgACdACiQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXGxhc2VyTGluZVx0dXJudGFibGVcVG1wZGlmZjEyOC0yMDA2LTEwLTI3VDEwLTQzLTM4KzAyMDAtMCBsYXNlciBjdWJlIGN5bCBzcGhlcmUgdG9wIHZpZXcuZGF0dwIAXHhzcQB+AAJ0AJtDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcbGFzZXJMaW5lXHR1cm50YWJsZVxUbXBkaWZmMTI4LTIwMDYtMTAtMjdUMTAtMjUtMzIrMDIwMC0wIGxhc2VyIG1hbnkgb2JqZWN0cyBmYXN0LmRhdHcCAFx4c3EAfgACdACoQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXGxhc2VyTGluZVx0dXJudGFibGVcVG1wZGlmZjEyOC0yMDA2LTEwLTI0VDE1LTU5LTExKzAyMDAtMCBtYW55IG9iamVjdHMgcm9vbSBsaWdodCArIGxhc2VyIHNsb3cuZGF0dwIAXHhzcQB+AAJ0AFtDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcZWRtdW5kRGVuc2l0eUNoYXJ0V0RSdwIAXHhzcQB+AAJ0AIVDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcZWRtdW5kRGVuc2l0eUNoYXJ0V0RSXFRtcGRpZmYxMjgtMjAwNi0xMS0xM1QxMS0yMS0xNCswMTAwLTAuZGF0dwIAXHhzcQB+AAJ0AF1DOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcbWlzY1RtcGRpZmYxMjhIaWdoU3BlZWR3AgBceHNxAH4AAnQATEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxwZW9wbGV3AgBceHNxAH4AAnQAT0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxsYXNlckxpbmV3AgBceHNxAH4AAnQAWkM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxsYXNlckxpbmVcbGluZU1vdmluZ3cCAFx4c3EAfgACdABMQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXGdvYWxpZXcCAFx4c3EAfgACdABgQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwNVxVU0JBRVJcSU5JLUFFLUJpYXNnZW5caG9zdFxqYXZhdwIAXHh4"/>
-                <entry key="AEViewer.lastFile" value="C:\Documents and Settings\tobi\My Documents\avlsi-svn\CAVIAR\wp1\data\rcCar\Tmpdiff128-2007-03-31T15-05-49-0700-0 oakdale st high mount.dat"/>
+                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAcdwQAAABYc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABLQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FydwIAXHhzcQB+AAJ0AItDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA3LTA1VDEzLTI1LTU5LTA3MDAtMCB0ZWxsIGhhbGwgcG93ZXIgY2FibGUuZGF0dwIAXHhzcQB+AAJ0AIdDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA3LTA0VDIwLTU4LTU0LTA3MDAtMCB0ZWxsdXJpZGUgMXN0IHJ1bi5kYXR3AgBceHNxAH4AAnQARUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YXcCAFx4c3EAfgACdAB6QzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXENvY2hsZWFBTVNXaXRoQmlhc2dlbi0yMDA2LTExLTA4VDEzLTAwLTU2KzAxMDAtMC5kYXR3AgBceHNxAH4AAnQATEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxwbGFjZXN3AgBceHNxAH4AAnQAkUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxwbGFjZXNcVG1wZGlmZjEyOC0yMDA2LTAyLTE0VDA3LTUzLTM3LTA4MDAtMCB3YWxraW5nIHRvIGtyaXBhIGJ1aWxkaW5ncy5kYXR3AgBceHNxAH4AAnQAQEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDF3AgBceHNxAH4AAnQAW0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVx3YWxraW5nU2VsZkxvY29tb3Rpb253AgBceHNxAH4AAnQAkUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVx3YWxraW5nU2VsZkxvY29tb3Rpb25cVG1wZGlmZjEyOC0yMDA2LTA2LTI2VDE3LTQyLTM4LTA2MDAtMCByczIgd2Fsa2luZy5kYXR3AgBceHNxAH4AAnQAlEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxyY0NhclxUbXBkaWZmMTI4LTIwMDctMDMtMzFUMTUtMDUtNDktMDcwMC0wIG9ha2RhbGUgc3QgaGlnaCBtb3VudCByZWxvZ2dlZC5kYXR3AgBceHNxAH4AAnQAmkM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxyY0NhclxUbXBkaWZmMTI4LTIwMDctMDYtMjhUMTAtMzUtNDUtMDcwMC0wIDFzdCB0cnkgMi42bW0gbWlycm9yIG9ha2RhbGUgIGJsdXJyeS5kYXR3AgBceHNxAH4AAnQAi0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxyY0NhclxUbXBkaWZmMTI4LTIwMDctMDMtMzFUMTUtMDUtNDktMDcwMC0wIG9ha2RhbGUgc3QgaGlnaCBtb3VudC5kYXR3AgBceHNxAH4AAnQAVEM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxzcGVjaWFsU3RpbXVsaXcCAFx4c3EAfgACdACKQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHNwZWNpYWxTdGltdWxpXFRtcGRpZmYxMjgtMjAwNi0xMi0yN1QyMC0yMi01Ni0wODAwLTAgc2luZ2xlIGxpbmUuZGF0dwIAXHhzcQB+AAJ0AJZDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA0LTA2VDEyLTM0LTEwLTA3MDAtMCBkcml2ZSB3aXRoIHNwZWVkIGNvbnRyb2wgb2FrZGFsZS5kYXR3AgBceHNxAH4AAnQAl0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxzcGVjaWFsU3RpbXVsaVxUbXBkaWZmMTI4LTIwMDctMDYtMThUMDktNDItMDMrMDIwMC0wIHNxdWFyZSBib3ggbGluZSB0cmFja2luZy5kYXR3AgBceHNxAH4AAnQAXUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxmcmVld2F5T3ZlcnBhc3NQYXNhZGVuYXcCAFx4c3EAfgACdACDQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXGZyZWV3YXlPdmVycGFzc1Bhc2FkZW5hXGV2ZW50czIwMDUxMjIxVDAxNDUxOSBmcmVld2F5Lm1hdC5kYXR3AgBceHNxAH4AAnQAUkM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDZcV29ya3Nob3AwNjAyXERhdGF3AgBceHNxAH4AAnQAh0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDZcV29ya3Nob3AwNjAyXERhdGFcQ2F2aWFyVmlld2VyLTIwMDYtMDItMjNUMTItMjAtMDUrMDEwMEZvdXJCYWxscy5pbmRleHcCAFx4c3EAfgACdACKQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHNwZWNpYWxTdGltdWxpXGV2ZW50cy0yMDA1LTEyLTMxVDAwLTMxLTA5LTA4MDAgc3RhciBwYXR0ZXJuIHRvYmkuZGF0dwIAXHhzcQB+AAJ0AFlDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcbGFzZXJMaW5lXHR1cm50YWJsZXcCAFx4c3EAfgACdABbQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXGVkbXVuZERlbnNpdHlDaGFydFdEUncCAFx4c3EAfgACdABdQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXG1pc2NUbXBkaWZmMTI4SGlnaFNwZWVkdwIAXHhzcQB+AAJ0AExDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccGVvcGxldwIAXHhzcQB+AAJ0AE9DOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcbGFzZXJMaW5ldwIAXHhzcQB+AAJ0AFpDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcbGFzZXJMaW5lXGxpbmVNb3Zpbmd3AgBceHg="/>
+                <entry key="AEViewer.lastFile" value="C:\Documents and Settings\tobi\My Documents\avlsi-svn\CAVIAR\wp1\data\rcCar\Tmpdiff128-2007-07-05T13-25-59-0700-0 tell hall power cable.dat"/>
                 <entry key="RetinaCanvas.scale" value="3.9296875"/>
                 <entry key="AEViewer.activeRenderingEnabled" value="true"/>
                 <entry key="OpenGLRetinaCanvas.scale" value="2.53125"/>
@@ -850,7 +921,7 @@
                 <entry key="OpenGLRetinaCanvas.openGLEnabled" value="true"/>
                 <entry key="AEViewer.aeChipClassName" value="ch.unizh.ini.caviar.chip.retina.Tmpdiff128"/>
                 <entry key="RetinaRenderer.method" value="2"/>
-                <entry key="AEViewer.FrameRater.desiredFPS" value="60"/>
+                <entry key="AEViewer.FrameRater.desiredFPS" value="16"/>
                 <entry key="OpenGLRetinaCanvas.scaleConv64" value="12.765625"/>
                 <entry key="OpenGLRetinaCanvas.scaleLearning" value="16.9375"/>
                 <entry key="OpenGLRetinaCanvas.scaleTnc3" value="9.65625"/>
@@ -867,17 +938,17 @@
                 <entry key="OpenGLRetinaCanvas.origin3dx" value="-6"/>
                 <entry key="OpenGLRetinaCanvas.origin3dy" value="-16"/>
                 <entry key="ChipRenderer.colorScale" value="1"/>
-                <entry key="ChipCanvas.scaleCochleaAERb" value="36.5"/>
+                <entry key="ChipCanvas.scaleCochleaAERb" value="3.0"/>
                 <entry key="ChipCanvas.openGLEnabled" value="true"/>
                 <entry key="ChipCanvas.angley" value="26.779661"/>
                 <entry key="ChipCanvas.anglex" value="6.521739"/>
-                <entry key="ChipCanvas.scaleTmpdiff128" value="2.734375"/>
+                <entry key="ChipCanvas.scaleTmpdiff128" value="7.1171875"/>
                 <entry key="ChipRenderer.method" value="0"/>
                 <entry key="ChipRenderer.autoscaleEnabled" value="true"/>
                 <entry key="ChipRenderer.subsamplingEnabled" value="false"/>
                 <entry key="ChipCanvas.renderMethod" value="Normal"/>
                 <entry key="ChipRenderer.colorMode" value="GrayLevel"/>
-                <entry key="ChipCanvas.scaleTmpdiff64" value="4.0"/>
+                <entry key="ChipCanvas.scaleTmpdiff64" value="3.0"/>
                 <entry key="ChipCanvas.scaleTestchipARCsPixelTestArray" value="4.0"/>
                 <entry key="ChipCanvas.origin3dx" value="2"/>
                 <entry key="ChipCanvas.origin3dy" value="-1"/>
@@ -895,14 +966,15 @@
                 <entry key="ChipCanvas.scaleCochleaAMSNoBiasgen" value="1.0"/>
                 <entry key="ChipCanvas.scaleCochleaAMSWithBiasgen" value="9.34375"/>
                 <entry key="ChipCanvas.scaleMotion18" value="20.53125"/>
-                <entry key="Chip2DRenderer.colorScale" value="1"/>
+                <entry key="Chip2DRenderer.colorScale" value="2"/>
                 <entry key="Chip2DRenderer.autoscaleEnabled" value="false"/>
-                <entry key="AEViewer.lastLoggingFolder" value="C:\Documents and Settings\tobi\My Documents\avlsi-svn\CAVIAR\wp1\data"/>
+                <entry key="AEViewer.lastLoggingFolder" value="C:\Documents and Settings\tobi\My Documents\avlsi-svn\CAVIAR\wp1\data\rcCar"/>
                 <entry key="ChipRenderer.stereoColorMode" value="RedGreen"/>
                 <entry key="CochleaRenderer.method" value="4"/>
                 <entry key="ChipCanvas.scaleCochleaAMS" value="3.6875"/>
                 <entry key="BinocularRenderer.autoscaleEnabled" value="true"/>
-                <entry key="chipClassNames" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAACdwQAAAACdAAqY2gudW5pemguaW5pLmNhdmlhci5jaGlwLnJldGluYS5UbXBkaWZmMTI4dAA2Y2gudW5pemguaW5pLmNhdmlhci5jaGlwLmNvY2hsZWEuQ29jaGxlYUFNU1dpdGhCaWFzZ2VueA=="/>
+                <entry key="chipClassNames" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAADdwQAAAADdAAqY2gudW5pemguaW5pLmNhdmlhci5jaGlwLnJldGluYS5UbXBkaWZmMTI4dAA2Y2gudW5pemguaW5pLmNhdmlhci5jaGlwLmNvY2hsZWEuQ29jaGxlYUFNU1dpdGhCaWFzZ2VudAA+Y2gudW5pemguaW5pLmNhdmlhci5jaGlwLnJldGluYUNvY2hsZWEuVG1wZGlmZjY0QW5kQ29jaGxlYUFFUmJ4"/>
+                <entry key="ChipCanvas.scaleTmpdiff64AndCochleaAERb" value="7.0"/>
               </map>
             </node>
             <node name="hardwareinterface">
