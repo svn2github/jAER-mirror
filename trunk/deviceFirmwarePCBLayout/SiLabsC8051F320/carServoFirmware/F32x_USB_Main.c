@@ -25,7 +25,7 @@ hex cheat sheet
 // Includes
 //-----------------------------------------------------------------------------
 
-#include <c8051f320.h>
+#include "c8051f320.h"
 #include "F32x_USB_Register.h"
 #include "F32x_USB_Main.h"
 #include "F32x_USB_Descriptor.h"
@@ -46,10 +46,14 @@ sbit	S1 	= 	P1^2;
 sbit 	S2	=	P1^1;
 sbit	S3	=	P1^0;
 
+// radio speed input is S3
+// radio steering input is S2
+
 // steering servo output is S0
 // speed servo output is S1
-// radio steering input is S2
-// radio speed input is S3
+
+// radio input is at 50 Hz.
+// if radio xtr is off then radio output is noisy digital signal at about 1Hz and irregular timing of ~.5ms pulses
 
 sbit p20=P2^0;
 sbit p21=P2^1; // debugging
@@ -68,7 +72,7 @@ sbit p21=P2^1; // debugging
 #define CMD_SET_LOCKOUT_TIME 13
 
 // timeout in main loop cycles before no radio servo input allows computer to take control
-#define NO_RADIO_TIMEOUT 0x100000L // about 5 seconds
+#define NO_RADIO_TIMEOUT 500 // ?? time // 0x100000L // about 5 seconds
 
 // PWM servo output variables. these are used to hold the new values for the PCA compare registers so that 
 // they can be updated on the interrupt generated when the value can be updated safely without introducing glitches.
@@ -137,7 +141,10 @@ void main(void)
 	// initialize speed and steering dead zones
 	speedDeadzone.shortValue=SERVO_NONZERO_THRESHOLD;
 	steeringDeadzone.shortValue=SERVO_NONZERO_THRESHOLD;
+
+	// initialize the timeout where computer control is locked out by radio input
 	noRadioTimeoutValue=NO_RADIO_TIMEOUT;
+	overrideTimeoutCounter=NO_RADIO_TIMEOUT;
 
 	
 /*	S0=0;
@@ -355,7 +362,7 @@ void PWM_Update_ISR(void) interrupt 11
 
 			}
 //			p20=0;
-			overrideTimeoutCounter=noRadioTimeoutValue;
+			overrideTimeoutCounter=noRadioTimeoutValue; // since we got a radio input, lock out computer control
 	}
 	if(CCF0){
 		CCF0=0;
@@ -391,7 +398,7 @@ void PWM_Update_ISR(void) interrupt 11
 					}
 				}
 			}
-			overrideTimeoutCounter=NO_RADIO_TIMEOUT;
+			overrideTimeoutCounter=noRadioTimeoutValue; // since we got a radio input, lock out computer control
 	}
 	// values sent range from 5400 to 12097 with "servo zero" 1.5ms resulting in 9000 being sent
 	EIE1 |= 0x10; // reenable PCA interrupt
@@ -532,7 +539,7 @@ Step 5.  Enable the Crossbar (XBARE = ‘1’).
 // Configure the XBRn Registers
 
 	XBR0 = 0x00;	// Crossbar Register 1
-	XBR1 = 0x44;	// Crossbar Register 2 = 01000100 = !WEAKPUD (weak pullups enabled) + XBARE (crossbar enable) + CEX0-3
+	XBR1 = 0xc4;	// Crossbar Register 2 = 1100 0100 = WEAKPUD (weak pullups disabled) + XBARE (crossbar enable) + CEX0-3
 
 // Select Pin I/0
 
@@ -542,7 +549,7 @@ Step 5.  Enable the Crossbar (XBARE = ‘1’).
 // outputs.
                       // Port configuration (1 = Push Pull Output)
     P0MDOUT = 0x00; // Output configuration for P0 
-    P1MDOUT = 0x00; // Output configuration for P1 // all pins are open drain // bits 3,2 are outputs ("S0, S1"), others inputs, bits 1,0 are radio receiver servo inputs 
+    P1MDOUT = 0x0c; // Output configuration for P1 // bits 3,2 are outputs ("S0, S1"), others inputs, bits 1,0 are radio receiver servo inputs 
     P2MDOUT = 0x0f; // Output configuration for P2 // make ls nibble output for debugging
     P3MDOUT = 0x00; // Output configuration for P3 
 
