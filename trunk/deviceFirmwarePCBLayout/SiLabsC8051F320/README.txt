@@ -8,8 +8,8 @@ for display or analysis.
 
 It also allows for controlling an on-chip bias generator.
 
-This code uses the Silicon Labs USBXPress device USB library 
-and host driver. 
+Some of this code uses the Silicon Labs USBXPress device USB library 
+and host driver. The more recent implementations use the Thesycon USBIO driver. 
 
 It consists of firmware (in folder SimpleMonitorBoardFirmware and BiasgenAEMonitorFirmware) 
 as an SiLabs IDE project for the C8051F320 controller.
@@ -17,6 +17,4 @@ as an SiLabs IDE project for the C8051F320 controller.
 links:
 
 http://www.silabs.com
-
-SiLabs site that provides the USBXPress driver. This driver 
-must be loaded prior to plugging in the USB device.
+http://www.thesycon.de
