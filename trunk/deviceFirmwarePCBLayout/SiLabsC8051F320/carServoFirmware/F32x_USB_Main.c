@@ -63,6 +63,9 @@ sbit p21=P2^1; // debugging
 #define LedToggle() Led=!Led; // this may not work because it reads port and then writes opposite
 
 // define command codes - same as in java SiLabs_C8051F320_ServoCarController.java
+#define MSG_PULSE_WIDTH 1 // msg sent IN to host for radio steering and speed
+
+// cmds sent OUT from host
 #define CMD_SET_SERVO 7 
 #define CMD_DISABLE_SERVO 8
 #define CMD_SET_ALL_SERVOS 9
@@ -70,9 +73,6 @@ sbit p21=P2^1; // debugging
 #define CMD_SET_DEADZONE_SPEED 11
 #define CMD_SET_DEADZONE_STEERING 12
 #define CMD_SET_LOCKOUT_TIME 13
-
-// timeout in main loop cycles before no radio servo input allows computer to take control
-#define NO_RADIO_TIMEOUT 500 // ?? time // 0x100000L // about 5 seconds
 
 // PWM servo output variables. these are used to hold the new values for the PCA compare registers so that 
 // they can be updated on the interrupt generated when the value can be updated safely without introducing glitches.
@@ -86,20 +86,26 @@ union CharArrayOrShort {
 	unsigned char msb,lsb;
 	} ;
 
-// this value is the lockout time after no more radio input that the pwm outputs are held at the latest value
-unsigned long int overrideTimeoutCounter=NO_RADIO_TIMEOUT, noRadioTimeoutValue;
+union UnsignedLong {
+	unsigned long longValue;
+	unsigned bytes[4];
+	};
 
 
 union CharArrayOrShort s2PulseDuration, s2pcaEndCount, s2pcaStartCount;
 union CharArrayOrShort s3PulseDuration, s3pcaEndCount, s3pcaStartCount;
 union CharArrayOrShort speedDeadzone, steeringDeadzone;
 
-bit overrideComputer=0;
 bit overrideS0=0, overrideS1=0;
 
+// pca clk freq is 4MHz, period is 1/4Mhz=250ns. E.g. 4000 counts is 1ms
 #define SERVO_PWM_READ_ZERO_VALUE 6000 // this pwm capture value for radio pulse output corresponds to 1.5ms (at pca clk of 4MMz)
 #define SERVO_PWM_SET_ZERO_VALUE 0xFFFF-SERVO_PWM_READ_ZERO_VALUE // sets zero output
-#define SERVO_NONZERO_THRESHOLD 600 // if radio servo output differs from zero value by this much we override computer
+#define SERVO_NONZERO_THRESHOLD 400 // if radio servo output differs from zero value by this much we override computer
+#define CYCLE_TIME_US 9 // measured main loop cycle time
+
+// timeout in main loop cycles before no radio servo input allows computer to take control
+#define NO_RADIO_TIMEOUT 1000000/CYCLE_TIME_US // 1 second timeout
 
 idata BYTE Out_Packet[64];             // Last packet received from host
 idata BYTE In_Packet[64];              // Next packet to sent to host
@@ -113,7 +119,10 @@ void Main_Fifo_Write(BYTE addr, unsigned int uNumBytes, BYTE * pData);
 bit isNonZeroServoPulseLength(unsigned short pulseLength, unsigned short threshold);
 unsigned short computePulseDuration(unsigned short startCount, unsigned short endCount);
 
-#define MSG_PULSE_WIDTH 1
+// this value is the lockout time after no more radio input that the pwm outputs are held at the latest value
+unsigned long int overrideTimeoutCounter;
+union UnsignedLong noRadioTimeoutValue;
+
 
 //-----------------------------------------------------------------------------
 // Main Routine
@@ -143,7 +152,7 @@ void main(void)
 	steeringDeadzone.shortValue=SERVO_NONZERO_THRESHOLD;
 
 	// initialize the timeout where computer control is locked out by radio input
-	noRadioTimeoutValue=NO_RADIO_TIMEOUT;
+	noRadioTimeoutValue.longValue=NO_RADIO_TIMEOUT;
 	overrideTimeoutCounter=NO_RADIO_TIMEOUT;
 
 	
@@ -154,20 +163,24 @@ void main(void)
 */
    while (1)
    {
-    // It is possible that the contents of the following packets can change
-    // while being updated.  This doesn't cause a problem in the sample
-    // application because the bytes are all independent.  If data is NOT
-    // independent, packet update routines should be moved to an interrupt
-    // service routine, or interrupts should be disabled during data updates.
 
-	// radio input resets override counter and all computer input is blocked until override counter counts down to zero
-
+		p21=!p21; // debug to measure cycle time, 
+		// Tobi measured after reset at frequency of  54 kHz. 
+		// Only does cycle every two trips (toggles) so period is 18/2 us = 9 us
+		// radio input resets override counter and all computer input is blocked until override counter counts down to zero
 		if(--overrideTimeoutCounter==0){
 			overrideS0=0;
 			overrideS1=0;
 			PCA0CPM2 |= 0x01; // enable interrupt for pca2 = S1 so new value can be written
 			PCA0CPM3 |= 0x01; // enable interrupt for pca3 = S0 so stored computer value can be written
+			p20=!p20; // toggles every time timeout expires. This happens with radio input at 50Hz 
 		}
+
+	    // It is possible that the contents of the following packets can change
+	    // while being updated.  This doesn't cause a problem in the sample
+	    // application because the bytes are all independent.  If data is NOT
+	    // independent, packet update routines should be moved to an interrupt
+	    // service routine, or interrupts should be disabled during data updates.
 
 		EA=0; // disable ints
 		cmd=Out_Packet[0];
@@ -238,29 +251,34 @@ void main(void)
 				PCA0CPM2 &= ~0x40; // disable compare function
 			}
 			break;			
+/* the following don't work for some reason
 			case CMD_SET_DEADZONE_SPEED: // cmd: CMD, deadzone (2 bytes big endian)
 			{
 				Out_Packet[0]=0; // command is processed
 				LedToggle();
-				speedDeadzone.msb=Out_Packet[1]; 
-				speedDeadzone.lsb=Out_Packet[2]; 
+				speedDeadzone.bytes[0]=Out_Packet[1]; 
+				speedDeadzone.bytes[1]=Out_Packet[2]; 
 			}	
 			break;
 			case CMD_SET_DEADZONE_STEERING: // cmd: CMD, deadzone (2 bytes big endian)
 			{
 				Out_Packet[0]=0; // command is processed
 				LedToggle();
-				steeringDeadzone.msb=Out_Packet[1]; 
-				steeringDeadzone.lsb=Out_Packet[2]; 
+				steeringDeadzone.bytes[0]=Out_Packet[1]; 
+				steeringDeadzone.bytes[1]=Out_Packet[2]; 
 			}	
 			break;
 			case CMD_SET_LOCKOUT_TIME: // cmd: CMD, lockout time (4 bytes big endian)
 			{
 				Out_Packet[0]=0; // command is processed
-				noRadioTimeoutValue=Out_Packet[1]<<24+Out_Packet[2]<<16+Out_Packet[3]<<8+Out_Packet[4];
+				noRadioTimeoutValue.bytes[0]=Out_Packet[1];
+				noRadioTimeoutValue.bytes[1]=Out_Packet[2];
+				noRadioTimeoutValue.bytes[2]=Out_Packet[3];
+				noRadioTimeoutValue.bytes[3]=Out_Packet[4];
 				LedToggle();
 			}	
 			break;
+*/
 		} // switch
 		EA=1; // enable interrupts
 		//LedOn();
@@ -278,7 +296,7 @@ void PWM_Update_ISR(void) interrupt 11
 	sendMsg=0;
 	EIE1 &= (~0x10); // disable PCA interrupt
 	// interrupt source comes from PCA0CN bit
-	if(CCF3){ // PCA channel 3 = S0
+	if(CCF3){ // PCA channel 3 = S0 = steering servo output
 			CCF3=0; // clear CCF1 interrupt pending flag for PCA1
 		// come here when interrupt is because of a match for pca 3
 		// the 16 bit compare value defines the number of PCA clocks for the LOW time of the PWM signal.
@@ -302,7 +320,7 @@ void PWM_Update_ISR(void) interrupt 11
 			}
 			PCA0CPM3 &= (~0x01); // disable interrupt because we have written the new value, no need for interrupt until we have a new value
 	}
-	if(CCF2){ // PCA chan 2 = S1
+	if(CCF2){ // PCA chan 2 = S1 = speed servo output
 			CCF2=0; // clear CCF2 interrupt pending flag for PCA2
 			if(overrideS1){
 				diff.shortValue=0xFFFF-s3PulseDuration.shortValue;
@@ -314,7 +332,7 @@ void PWM_Update_ISR(void) interrupt 11
 			}
 			PCA0CPM2 &= (~0x01); // disable interrupt, only enable when we have a new value
 	}
-	if(CCF1){
+	if(CCF1){ // S2 = radio steering input
 		CCF1=0;
 		// pca chan 1 = cex1 = p2.1 = "S2 on board" = radio receiver servo output that is input for "S0" servo input override
 			// we come here when a capture happens on cex1, i.e., when the radio receiver pwn servo output
@@ -337,9 +355,10 @@ void PWM_Update_ISR(void) interrupt 11
 				s2pcaEndCount.lsb=PCA0L; // read LSB first to latch in snapshot // PCA0CPL1; // big endian keil order for shorts
 				s2pcaEndCount.msb=PCA0H; // PCA0CPH1;
 				s2PulseDuration.shortValue=computePulseDuration(s2pcaStartCount.shortValue, s2pcaEndCount.shortValue);
-				if(isNonZeroServoPulseLength(s2PulseDuration.shortValue,speedDeadzone.shortValue)){
+				if(isNonZeroServoPulseLength(s2PulseDuration.shortValue,steeringDeadzone.shortValue)){
 					overrideS0=1;
 					sendMsg=1;
+					overrideTimeoutCounter=noRadioTimeoutValue.longValue; // since we got a radio input, lock out computer control
 				}else{
 					if(overrideS0) sendMsg=1;
 					overrideS0=0; 
@@ -362,9 +381,8 @@ void PWM_Update_ISR(void) interrupt 11
 
 			}
 //			p20=0;
-			overrideTimeoutCounter=noRadioTimeoutValue; // since we got a radio input, lock out computer control
 	}
-	if(CCF0){
+	if(CCF0){ // S3 radio speed input
 		CCF0=0;
 			// pca0 channel 0, cex0, S3 on pcb, corresponds to S1 servo output
 			if(S3==1){
@@ -375,9 +393,10 @@ void PWM_Update_ISR(void) interrupt 11
 				s3pcaEndCount.lsb=PCA0L; // PCA0CPL0; // big endian keil order for shorts
 				s3pcaEndCount.msb=PCA0H; // PCA0CPH0;
 				s3PulseDuration.shortValue=computePulseDuration(s3pcaStartCount.shortValue, s3pcaEndCount.shortValue);
-				if(isNonZeroServoPulseLength(s3PulseDuration.shortValue,steeringDeadzone.shortValue)){
+				if(isNonZeroServoPulseLength(s3PulseDuration.shortValue,speedDeadzone.shortValue)){
 					overrideS1=1;
 					sendMsg=1;
+					overrideTimeoutCounter=noRadioTimeoutValue.longValue; // since we got a radio input, lock out computer control
 				}else{
 					if(overrideS1) sendMsg=1;
 					overrideS1=0;
@@ -398,7 +417,6 @@ void PWM_Update_ISR(void) interrupt 11
 					}
 				}
 			}
-			overrideTimeoutCounter=noRadioTimeoutValue; // since we got a radio input, lock out computer control
 	}
 	// values sent range from 5400 to 12097 with "servo zero" 1.5ms resulting in 9000 being sent
 	EIE1 |= 0x10; // reenable PCA interrupt
@@ -406,8 +424,10 @@ void PWM_Update_ISR(void) interrupt 11
 
 /** @return true if the pulse width is outside "servo zero" value */
 bit isNonZeroServoPulseLength(unsigned short pulseLength, unsigned short threshold){
-	if(pulseLength>SERVO_PWM_READ_ZERO_VALUE+threshold) return 1;
-	if(pulseLength<SERVO_PWM_READ_ZERO_VALUE-threshold) return 1;
+	if(pulseLength>SERVO_PWM_READ_ZERO_VALUE+threshold) 
+		return 1;
+	if(pulseLength<SERVO_PWM_READ_ZERO_VALUE-threshold) 
+		return 1;
 	return 0;
 }
 
