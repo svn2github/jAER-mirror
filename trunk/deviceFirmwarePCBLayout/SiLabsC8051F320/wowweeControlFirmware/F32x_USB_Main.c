@@ -1,3 +1,6 @@
+// wowwee control firmware, telluride July 2007. extends ServoUSB interface to add wowwee 12 bit code generation.
+// tobi
+
 /*
 hex cheat sheet
 0000	0x00
