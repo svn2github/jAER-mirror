@@ -244,7 +244,7 @@ void main(void)
 				PCA0CPM3 &= ~0x40; // disable compare function
 			}
 			break;
-			case CMD_WOWWEE:  // use this!!!
+			case CMD_WOWWEE:  
 			{
 				Out_Packet[0]=0; // command is processed
 				LedToggle();
@@ -252,7 +252,7 @@ void main(void)
 				wowwee_cmd |= Out_Packet[2] << 8;
 				wowwee_sendcmd = 1;  // added 
 				wowwee_precmd = 1; 
-				wowwee_cyclesleft = 625; // 8/1200s ~= 666*10us, but tweaked to produce the correct timing
+				wowwee_cyclesleft = 400;//625; // 8/1200s ~= 666*10us, but tweaked to produce the correct timing
 				wowwee_cmdidx = 12;
 
 			}
@@ -303,32 +303,40 @@ void PWM_Update_ISR(void) interrupt 11
 
 void ISR_Timer1(void) interrupt 3 { // timer1 is interrupt 3 because vector is 0x1b and 3 codes this in C51
 	// send wowwee command, ***LSB FIRST***
-	// what is the actual 'send' command?
+
 	debugport=!debugport;
-	if (wowwee_sendcmd == 1) {
-		if (wowwee_cyclesleft-- == 0) {
-			if (wowwee_precmd == 1) { // finished low signal
+	if (wowwee_sendcmd == 1) {		
+		if(wowwee_cmdidx==12 & wowwee_cyclesleft==400) {
+			WowWeePort = 1;
+			wowwee_cyclesleft--;
+		} else {
+			if (wowwee_cyclesleft-- == 0) {
+			if(wowwee_precmd == 1) { // finished low signal
 				wowwee_precmd = 0;
 				if (wowwee_cmdidx != 0) {
 					wowwee_cmdidx--;
 					//if ((wowwee_cmd[wowwee_cmdidx>>3])^(wowwee_cmdidx & 0x7) == 1)
 					if (wowwee_cmd&1 != 0) {
-						wowwee_cyclesleft = 317; // 4/1200s 333
+						wowwee_cyclesleft = 200;//317; // 4/1200s 333
 					} else {
-						wowwee_cyclesleft = 80; // 1/1200s 83
+						wowwee_cyclesleft = 50;//80; // 1/1200s 83
 				 	}
 					wowwee_cmd = wowwee_cmd >> 1;
 				} else {
 					wowwee_sendcmd = 0;
 				}
-				WowWeePort = 1;
+				WowWeePort = 0;
 			} else {
 				wowwee_precmd = 1;
-				wowwee_cyclesleft = 80; // 1/1200s
-				WowWeePort = 0;
+				wowwee_cyclesleft = 50;//80; // 1/1200s
+				WowWeePort = 1;
 			}
+		  }
 		}
-	}				
+	}else
+		{
+				WowWeePort = 0;
+		}				
 }
 
 
@@ -548,17 +556,17 @@ void	Timer_Init(void)
  
  	//T3MH T3ML T2MH T2ML T1M T0M SCA1 SCA0 
  
-    CKCON = 0x0c; // =0000 1100. Clock Control Register, defines clk input for timers and sysclk prescaler
-		// bit3=1: timer 1 uses prescaled sysclk, bit2=1: timer 0 uses prescaled clk. 
+    CKCON = 0x04; // =0000 0100. Clock Control Register, defines clk input for timers and sysclk prescaler
+		// bit3=0: timer 1 uses prescaled sysclk, bit2=1: timer 0 uses sysclk. 
 		// bits1:0=00, prescaler sysclk/12
-		// sysclk is 12 MHz, therefore timer0 and timer1 clock at 1 MHz
+		// sysclk is 12 MHz, therefore timer0 at 12 MHz and timer1 clock at 1 MHz
     TMOD = 0x22;  // Timer Mode Register, timer0 8 bit with reload, timer1 8 bit with reload
    	TCON = 0x50;  // Timer Control Register , timer0 and 1 running
     
 	TH0 = 0xFF-1; // Timer 0 High Byte, reload value, 0xFF-n
-				  // timer0 clocks at 1MHz, 1 us period.
+				  // timer0 clocks at 1MHz, 1/6 us period.
 				  // TH0 is FF-n so timer0 takes n+1=2 cycles to roll over
-				  // period of timer0 rollover is (n+1)*1us=2us.
+				  // period of timer0 rollover is (n+1)*1/12us=1/6us.
     TL0 = 0x00;   // Timer 0 Low Byte
  	
 	CR=1;			// run PCA counter/timer
@@ -591,7 +599,7 @@ void	Timer_Init(void)
 //	PCA0CPM1 &= ~0x40; // disable servo
 //	PCA0CPM2 &= ~0x40; // disable servo
 
-	TH1 = 255-4; // set TH1 reload for 10us interrupt. Since timer1 clocks at 1/2 MHz = 2us period, we
+	TH1 = 255-19; // set TH1 reload for 10us interrupt. Since timer1 clocks at 1/2 MHz = 2us period, we
 		// need 5 counts for 10us interrupt. Therefore we set reload to 255-4 since it it will take 4+1 counts to roll over
 
 	ET1=1; // enable timer1 interrupt. this will call ISR_Timer1 interrupt
