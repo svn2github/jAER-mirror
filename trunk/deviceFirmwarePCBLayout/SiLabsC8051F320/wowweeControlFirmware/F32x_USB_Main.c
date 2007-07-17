@@ -93,7 +93,7 @@ sbit	WowWeePort = P2^0;
 #define CMD_DISABLE_SERVO 8
 #define CMD_SET_ALL_SERVOS 9
 #define CMD_DISABLE_ALL_SERVOS 10
-#define CMD_WOWWEE 0xbe
+#define CMD_WOWWEE 15
 
 // PWM servo output variables. these are used to hold the new values for the PCA compare registers so that 
 // they can be updated on the interrupt generated when the value can be updated safely without introducing glitches.
