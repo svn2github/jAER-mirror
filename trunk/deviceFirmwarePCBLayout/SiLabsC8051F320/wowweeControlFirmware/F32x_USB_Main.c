@@ -1,5 +1,5 @@
-// wowwee control firmware, telluride July 2007. extends ServoUSB interface to add wowwee 12 bit code generation.
-// tobi
+// wowwee control firmware, extends ServoUSB interface to add wowwee 1200 baud 12 bit code generation.
+// tobi christina, telluride July 2007.
 
 /*
 hex cheat sheet
@@ -81,8 +81,8 @@ sbit 	Servo2	=	P1^2;
 sbit	Servo3	=	P1^3;
 
 // wowwee port
-sbit	WowWeePort = P2^0;
-sbit	debugport = P2^1;
+sbit	WowWeePort = P2^0; // used to output 1200 baud 12 bit codes to wowwee toys
+sbit	debugport = P2^1; // used for scope debugging of timing
 
 #define LedOn() Led=0;
 #define LedOff()  Led=1;
@@ -360,6 +360,8 @@ void Sysclk_Init(void)
    OSCICN |= 0x03;                     // Configure internal oscillator for
                                        // its maximum frequency and enable
                                        // missing clock detector
+									   // 0x03 means sysclk is internal oscillator / by 1= 12MHz.
+									   // the internal oscillator defaults to factory calibrated 12MHz.
 
    CLKMUL  = 0x00;                     // Select internal oscillator as
                                        // input to clock multiplier
@@ -370,7 +372,7 @@ void Sysclk_Init(void)
    Delay();                            // Delay for clock multiplier to begin
 
    while(!(CLKMUL & 0x20));            // Wait for multiplier to lock
-   CLKSEL  = SYS_INT_OSC;              // Select system clock
+   CLKSEL  = SYS_INT_OSC;              // Select system clock, SYS_INT_OSC=0x00, sysclk is 12MHz
    CLKSEL |= USB_4X_CLOCK;             // Select USB clock
 #endif  /* _USB_LOW_SPEED_ */
 }
@@ -540,29 +542,36 @@ void	Timer_Init(void)
 // Timers Configuration
 //----------------------------------------------------------------
 
-    CKCON = 0x04; // t0 clked by sysclk=24MHz 0x04; Clock Control Register, timer 0 uses prescaled sysclk/12. sysclk is 24MHz.
-    TMOD = 0x22;  // Timer Mode Register, timer0 8 bit with reload, timer1 16 bit
+// uses timers 0 and 1. 
+// timer0 is used for PCA clocking for servo motor PWM output.
+// timer1 is used for 1200 baud wowwee code output
+ 
+ 	//T3MH T3ML T2MH T2ML T1M T0M SCA1 SCA0 
+ 
+    CKCON = 0x0c; // =0000 1100. Clock Control Register, defines clk input for timers and sysclk prescaler
+		// bit3=1: timer 1 uses prescaled sysclk, bit2=1: timer 0 uses prescaled clk. 
+		// bits1:0=00, prescaler sysclk/12
+		// sysclk is 12 MHz, therefore timer0 and timer1 clock at 1 MHz
+    TMOD = 0x22;  // Timer Mode Register, timer0 8 bit with reload, timer1 8 bit with reload
    	TCON = 0x50;  // Timer Control Register , timer0 and 1 running
-    TH0 = 0xFF-1; // Timer 0 High Byte, reload value. 
-				  // This is FF-n so timer0 takes n+1 cycles = to roll over, time is (n+1)/12MHz (12MHz = Sysclk)  
+    
+	TH0 = 0xFF-1; // Timer 0 High Byte, reload value, 0xFF-n
+				  // timer0 clocks at 1MHz, 1 us period.
+				  // TH0 is FF-n so timer0 takes n+1=2 cycles to roll over
+				  // period of timer0 rollover is (n+1)*1us=2us.
     TL0 = 0x00;   // Timer 0 Low Byte
  	
 	CR=1;			// run PCA counter/timer
 	
-	// PCA uses timer 0 overflow which is 1us clock. all pca modules share same timer which runs at 1MHz.
+	// PCA uses timer 0 overflow which is 2 us clock. all pca modules share same timer which runs at 1/2 MHz.
 
 	PCA0MD|=0x84;	// use timer0 overflow to clock PCA counter. leave wdt bit undisturbed. turn off PCA in idle.
-//	PCA0MD |= 0x80;	// PCA runs on sysclk/12 (24/12=2 MHz), doesn't run when in idle.
-//	PCA0MD =0x88; // PCA uses sysclk = 12  MHz
-//	PCA0MD=0x82; // PCA uses sysclk/4=3MHz
 
 	// pca pwm output frequency depends on pca clock source because pca counter rolls over
 	// every 64k cycles. we want pwm update frequency to be about 100 Hz which means rollower
 	// should happen about every 10ms, therefore (1/f)*64k=10ms means f=6.5MHz
-	// but we use sysclk/4=3MHz
 
-
-	// PCA1 and PCA2 are used for servo motor output
+	// PCA0-3 are used for servo motor output
 
 	// using new PCA clocking above, each count takes 1/6 us, giving about 91Hz servo update rate
 
@@ -582,7 +591,9 @@ void	Timer_Init(void)
 //	PCA0CPM1 &= ~0x40; // disable servo
 //	PCA0CPM2 &= ~0x40; // disable servo
 
-	TH1 = 255-20; // set TH1 reload for 10us interrupt. in practice it is (10 +- 0.5)us
+	TH1 = 255-4; // set TH1 reload for 10us interrupt. Since timer1 clocks at 1/2 MHz = 2us period, we
+		// need 5 counts for 10us interrupt. Therefore we set reload to 255-4 since it it will take 4+1 counts to roll over
+
 	ET1=1; // enable timer1 interrupt. this will call ISR_Timer1 interrupt
 
 	
