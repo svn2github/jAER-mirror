@@ -82,6 +82,7 @@ sbit	Servo3	=	P1^3;
 
 // wowwee port
 sbit	WowWeePort = P2^0;
+sbit	debugport = P2^1;
 
 #define LedOn() Led=0;
 #define LedOff()  Led=1;
@@ -127,7 +128,7 @@ void main(void)
    Port_Init();                        // Initialize crossbar and GPIO
    Usb0_Init();                        // Initialize USB0
    Timer_Init();                       // Initialize timer2
-	LedOn(); 
+   LedOn(); 
 	
 /*	Servo0=0;
 	Servo1=0;
@@ -243,13 +244,14 @@ void main(void)
 				PCA0CPM3 &= ~0x40; // disable compare function
 			}
 			break;
-			case CMD_WOWWEE:
+			case CMD_WOWWEE:  // use this!!!
 			{
 				Out_Packet[0]=0; // command is processed
 				LedToggle();
 				wowwee_cmd  = Out_Packet[1];
 				wowwee_cmd |= Out_Packet[2] << 8;
-				wowwee_precmd = 1;
+				wowwee_sendcmd = 1;  // added 
+				wowwee_precmd = 1; 
 				wowwee_cyclesleft = 625; // 8/1200s ~= 666*10us, but tweaked to produce the correct timing
 				wowwee_cmdidx = 12;
 
@@ -298,8 +300,11 @@ void PWM_Update_ISR(void) interrupt 11
 // to prevent messages about uncalled segment, this ISR has it's own jump table vector defined in the
 // assembly file ISR_Timer1_JumpVector.a51. This is necessary because of the #pragma NOIV that
 // is used in conjunction with the Cypress Frameworks USB interrupt handlers.
+
 void ISR_Timer1(void) interrupt 3 { // timer1 is interrupt 3 because vector is 0x1b and 3 codes this in C51
 	// send wowwee command, ***LSB FIRST***
+	// what is the actual 'send' command?
+	debugport=!debugport;
 	if (wowwee_sendcmd == 1) {
 		if (wowwee_cyclesleft-- == 0) {
 			if (wowwee_precmd == 1) { // finished low signal
@@ -428,7 +433,7 @@ Step 5.  Enable the Crossbar (XBARE = ‘1’).
                       // Port configuration (1 = Push Pull Output)
     P0MDOUT = 0x00; // Output configuration for P0 
     P1MDOUT = 0x0F; // Output configuration for P1 
-    P2MDOUT = 0x01; // Output configuration for P2 
+    P2MDOUT = 0xff; // Output configuration for P2 
     P3MDOUT = 0x00; // Output configuration for P3 
 
     P0MDIN = 0xFF;  // Input configuration for P0
@@ -536,7 +541,7 @@ void	Timer_Init(void)
 //----------------------------------------------------------------
 
     CKCON = 0x04; // t0 clked by sysclk=24MHz 0x04; Clock Control Register, timer 0 uses prescaled sysclk/12. sysclk is 24MHz.
-    TMOD = 0x12;  // Timer Mode Register, timer0 8 bit with reload, timer1 16 bit
+    TMOD = 0x22;  // Timer Mode Register, timer0 8 bit with reload, timer1 16 bit
    	TCON = 0x50;  // Timer Control Register , timer0 and 1 running
     TH0 = 0xFF-1; // Timer 0 High Byte, reload value. 
 				  // This is FF-n so timer0 takes n+1 cycles = to roll over, time is (n+1)/12MHz (12MHz = Sysclk)  
