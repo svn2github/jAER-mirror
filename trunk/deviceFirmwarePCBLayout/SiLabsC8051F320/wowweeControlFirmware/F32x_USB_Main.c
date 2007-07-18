@@ -103,9 +103,16 @@ unsigned char pwmNumber, pwml1, pwmh1, pwml2, pwmh2, pwml3, pwmh3, pwml4, pwmh4;
 // wowwee cmd
 unsigned short wowwee_cmd;
 unsigned short wowwee_cyclesleft = 0;
+unsigned short wowwee_cmdno = 0; // counter for command repetitions (8 times in chimp)
 unsigned char wowwee_cmdidx = 0; // idx+1
+
 bit wowwee_sendcmd=0;
-bit wowwee_precmd=0;
+bit wowwee_precmd=0;  // high for 8T before actual command, signal should be high
+bit wowwee_first=1;  // high when sending the first level of a bit 
+bit wowwee_stop=0;  // high when sending the first level of a bit 
+bit send_block=0;   //high when a command block is send (8 repetitions of the same cmd)
+
+//coding: short low+long high = '1', long low+short high = '0'
 
 
 idata BYTE Out_Packet[64];             // Last packet received from host
@@ -250,10 +257,8 @@ void main(void)
 				LedToggle();
 				wowwee_cmd  = Out_Packet[1];
 				wowwee_cmd |= Out_Packet[2] << 8;
-				wowwee_sendcmd = 1;  // added 
-				wowwee_precmd = 1; 
-				wowwee_cyclesleft = 400;//625; // 8/1200s ~= 666*10us, but tweaked to produce the correct timing
-				wowwee_cmdidx = 12;
+				wowwee_cmdno = 8;
+				send_block = 1;
 
 			}
 		} // switch
@@ -338,41 +343,81 @@ void PWM_Update_ISR(void) interrupt 11
 */
 
 void ISR_Timer1(void) interrupt 3 { // timer1 is interrupt 3 because vector is 0x1b and 3 codes this in C51
-	// send wowwee command, ***LSB FIRST***
+// send wowwee command, ***LSB FIRST***
+//coding: short low+long high = '1', long low+short high = '0'
 
 	debugport=!debugport;
-	if (wowwee_sendcmd == 1) {		
-		if(wowwee_cmdidx==12 & wowwee_cyclesleft==400) {
-			WowWeePort = 1;
-			wowwee_cyclesleft--;
-		} else {
-			if (wowwee_cyclesleft-- == 0) {
-			if(wowwee_precmd == 1) { // finished low signal
-				wowwee_precmd = 0;
-				if (wowwee_cmdidx != 0) {
-					wowwee_cmdidx--;
-					//if ((wowwee_cmd[wowwee_cmdidx>>3])^(wowwee_cmdidx & 0x7) == 1)
-					if (wowwee_cmd&1 != 0) {
-						wowwee_cyclesleft = 200;//317; // 4/1200s 333
-					} else {
-						wowwee_cyclesleft = 50;//80; // 1/1200s 83
-				 	}
-					wowwee_cmd = wowwee_cmd >> 1;
-				} else {
-					wowwee_sendcmd = 0;
-				}
-				WowWeePort = 0;
-			} else {
-				wowwee_precmd = 1;
-				wowwee_cyclesleft = 50;//80; // 1/1200s
-				WowWeePort = 1;
-			}
-		  }
-		}
-	}else
+	
+	if(send_block)
+	{
+		if(wowwee_cmdno == 0)
 		{
-				WowWeePort = 0;
-		}				
+			send_block = 0;
+
+		} else {
+			if (wowwee_sendcmd == 1){			
+				if(wowwee_cmdidx==11 & wowwee_cyclesleft==420) { 
+					// start of precommand			
+					WowWeePort = 1;
+					wowwee_cyclesleft--;
+				} else {
+					if (wowwee_cyclesleft-- == 0) {
+						if(wowwee_precmd == 1) { // finished precommand signal
+							wowwee_precmd = 0;	
+							wowwee_first = 1;
+							wowwee_cyclesleft=1;		
+						} else {
+							if(wowwee_stop) {
+								wowwee_stop = 0;
+								wowwee_sendcmd = 0; // end of command
+							} else {
+								if (wowwee_cmdidx != 0) {
+									if (wowwee_cmd&1 != 0) {
+									// send '1'
+										if( wowwee_first ) {	
+											wowwee_cyclesleft = 100;// short low bit (2ms)
+											WowWeePort = 0;
+											wowwee_first = 0;
+										} else {
+											wowwee_cyclesleft = 200;// long high bit (4ms)
+											WowWeePort = 1;						
+											wowwee_cmdidx--;
+											wowwee_cmd = wowwee_cmd >> 1;									
+											wowwee_first = 1;
+										}						
+									} else {
+									// send '0'
+										if( wowwee_first ) {	
+											wowwee_cyclesleft = 200; // long low bit (4ms)
+											WowWeePort = 0;
+											wowwee_first = 0;
+										} else {
+											wowwee_cyclesleft = 100;// short high bit (2ms)
+											WowWeePort = 1;						
+											wowwee_cmdidx--;
+											wowwee_cmd = wowwee_cmd >> 1;
+											wowwee_first = 1;
+										}
+									}
+								} else {
+									wowwee_stop = 1;						
+									// stop code 6.4ms LOW						
+									wowwee_cyclesleft = 320;				
+									WowWeePort = 0;						
+								}
+							} // if stop
+						}// if precommand ends
+					} // if cycle ended
+				}// if start of precommand 
+			}  else {//  new message same command
+				wowwee_cmdno--;
+				wowwee_sendcmd = 1;   
+				wowwee_precmd = 1; 
+				wowwee_cyclesleft = 420;// 8.4ms duration 
+				wowwee_cmdidx = 11;
+			}
+		}//end of command block
+	}//if send block 
 }
 
 
