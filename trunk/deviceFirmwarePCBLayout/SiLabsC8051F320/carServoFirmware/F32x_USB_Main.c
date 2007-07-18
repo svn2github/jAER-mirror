@@ -52,8 +52,6 @@ sbit	S3	=	P1^0;
 // steering servo output is S0
 // speed servo output is S1
 
-// radio input is at 50 Hz.
-// if radio xtr is off then radio output is noisy digital signal at about 1Hz and irregular timing of ~.5ms pulses
 
 sbit p20=P2^0;
 sbit p21=P2^1; // debugging
@@ -102,7 +100,8 @@ bit overrideS0=0, overrideS1=0;
 #define SERVO_PWM_READ_ZERO_VALUE 6000 // this pwm capture value for radio pulse output corresponds to 1.5ms (at pca clk of 4MMz)
 #define SERVO_PWM_SET_ZERO_VALUE 0xFFFF-SERVO_PWM_READ_ZERO_VALUE // sets zero output
 #define SERVO_NONZERO_THRESHOLD 400 // if radio servo output differs from zero value by this much we override computer
-#define CYCLE_TIME_US 9 // measured main loop cycle time
+#define CYCLE_TIME_US 9 // measured main loop cycle time in us
+#define CYCLES_TO_SEND_AFTER_MISSING_RADIO 6000
 
 // timeout in main loop cycles before no radio servo input allows computer to take control
 #define NO_RADIO_TIMEOUT 1000000/CYCLE_TIME_US // 1 second timeout
@@ -122,6 +121,17 @@ unsigned short computePulseDuration(unsigned short startCount, unsigned short en
 // this value is the lockout time after no more radio input that the pwm outputs are held at the latest value
 unsigned long int overrideTimeoutCounter;
 union UnsignedLong noRadioTimeoutValue;
+
+// radio input is at 50 Hz.
+// if radio xtr is off then radio output is noisy digital signal at about 1Hz and irregular timing of ~0.5ms pulses
+// this means that the car can jerk around and go wild if the radio gets out of range. The reason is that
+// this firmware transmits the last radio input on the servo output continuously, even if the radio input is
+// intermittent. To fix this we only transmit the radio input as servo output for a number of main loop cycles such 
+// that we only send out for 50ms after the last radio input. since the radio input is 50Hz=20ms we will only send for about
+// 3 missing radio cycles.
+// 50ms is 50000us ~ 6000 main loop cycles (6k*9us=54ms).
+// cycles left to send after last radio input
+unsigned int cyclesLeftToSend=CYCLES_TO_SEND_AFTER_MISSING_RADIO;
 
 
 //-----------------------------------------------------------------------------
@@ -167,7 +177,10 @@ void main(void)
 		p21=!p21; // debug to measure cycle time, 
 		// Tobi measured after reset at frequency of  54 kHz. 
 		// Only does cycle every two trips (toggles) so period is 18/2 us = 9 us
+
 		// radio input resets override counter and all computer input is blocked until override counter counts down to zero
+		// this function doesn't seem to work at all now - car responds to computer input immediately after radio
+		// should take about 1 second.
 		if(--overrideTimeoutCounter==0){
 			overrideS0=0;
 			overrideS1=0;
@@ -220,7 +233,7 @@ void main(void)
 				// big endian 16 bit value to load into PWM controller
 					case 0:
 					{ // servo0
-						PCA0CPM3 &= ~0x40; // disable compare function
+						PCA0CPM3 &= ~0x40; // disable compare function, thus turn off pwm output
 					}
 					break;
 					case 1:
@@ -281,6 +294,16 @@ void main(void)
 */
 		} // switch
 		EA=1; // enable interrupts
+
+		// we reset this counter to starting value on each radio input interrupt
+		if(cyclesLeftToSend!=0) { // if cycle counter has not timed out
+			cyclesLeftToSend--;  // decrement counter that is set by radio input.
+		}else{ // counter has timed out, turn off servo outputs - no radio input. 
+				// servos get turned on again by eacd CMD_SET_SERVO for a while, unless there is no radio input
+			PCA0CPM3 &= ~0x40; // disable compare function, turn off servo output
+			PCA0CPM2 &= ~0x40; // disable compare function
+	}
+
 		//LedOn();
 	} // while(1)
 }
@@ -298,17 +321,18 @@ void PWM_Update_ISR(void) interrupt 11
 	// interrupt source comes from PCA0CN bit
 	if(CCF3){ // PCA channel 3 = S0 = steering servo output
 			CCF3=0; // clear CCF1 interrupt pending flag for PCA1
-		// come here when interrupt is because of a match for pca 3
-		// the 16 bit compare value defines the number of PCA clocks for the LOW time of the PWM signal.
-		// what we care about is the HIGH time for servo control.
-		// When the PCA counter matches the module contents, 
-		// the output on CEXn is asserted high; when the counter overflows, 
-		// CEXn is asserted low. 
-		// To output a varying duty cycle, new value writes 
-		// should be synchronized with PCA CCFn match interrupts. 
-		// 16-Bit PWM Mode is enabled by setting the ECOMn, PWMn, and PWM16n bits in the 
-		// PCA0CPMn register. For a varying duty cycle, match interrupts should be enabled 
-		// (ECCFn = 1 AND MATn = 1) to help synchronize the capture/compare register writes.
+
+			// come here when interrupt is because of a match for pca 3
+			// the 16 bit compare value defines the number of PCA clocks for the LOW time of the PWM signal.
+			// what we care about is the HIGH time for servo control.
+			// When the PCA counter matches the module contents, 
+			// the output on CEXn is asserted high; when the counter overflows, 
+			// CEXn is asserted low. 
+			// To output a varying duty cycle, new value writes 
+			// should be synchronized with PCA CCFn match interrupts. 
+			// 16-Bit PWM Mode is enabled by setting the ECOMn, PWMn, and PWM16n bits in the 
+			// PCA0CPMn register. For a varying duty cycle, match interrupts should be enabled 
+			// (ECCFn = 1 AND MATn = 1) to help synchronize the capture/compare register writes.
 			
 			if(overrideS0){
 				diff.shortValue=0xFFFF-s2PulseDuration.shortValue;
@@ -318,7 +342,8 @@ void PWM_Update_ISR(void) interrupt 11
 				PCA0CPL3=pwml0;
 				PCA0CPH3=pwmh0;
 			}
-			PCA0CPM3 &= (~0x01); // disable interrupt because we have written the new value, no need for interrupt until we have a new value
+			PCA0CPM3 &= (~0x01); // disable interrupt because we have written the new value, 
+								// no need for interrupt until we have a new value because PCA will just put out sq wave
 	}
 	if(CCF2){ // PCA chan 2 = S1 = speed servo output
 			CCF2=0; // clear CCF2 interrupt pending flag for PCA2
@@ -333,8 +358,9 @@ void PWM_Update_ISR(void) interrupt 11
 			PCA0CPM2 &= (~0x01); // disable interrupt, only enable when we have a new value
 	}
 	if(CCF1){ // S2 = radio steering input
-		CCF1=0;
-		// pca chan 1 = cex1 = p2.1 = "S2 on board" = radio receiver servo output that is input for "S0" servo input override
+			cyclesLeftToSend=CYCLES_TO_SEND_AFTER_MISSING_RADIO; //. turn on servo output for a while
+			CCF1=0;
+			// pca chan 1 = cex1 = p2.1 = "S2 on board" = radio receiver servo output that is input for "S0" servo input override
 			// we come here when a capture happens on cex1, i.e., when the radio receiver pwn servo output
 			// changes. here we check whether the transistion was to go high (start of pulse) or low (end of pulse)
 
@@ -383,7 +409,8 @@ void PWM_Update_ISR(void) interrupt 11
 //			p20=0;
 	}
 	if(CCF0){ // S3 radio speed input
-		CCF0=0;
+			cyclesLeftToSend=CYCLES_TO_SEND_AFTER_MISSING_RADIO; //. turn on servo output for a while
+			CCF0=0;
 			// pca0 channel 0, cex0, S3 on pcb, corresponds to S1 servo output
 			if(S3==1){
 				// start of pulse
