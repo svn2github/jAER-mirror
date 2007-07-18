@@ -301,6 +301,42 @@ void PWM_Update_ISR(void) interrupt 11
 // assembly file ISR_Timer1_JumpVector.a51. This is necessary because of the #pragma NOIV that
 // is used in conjunction with the Cypress Frameworks USB interrupt handlers.
 
+/*  following is from telluride 2005 robosapiens implementation on telos moteIV
+
+#define bitTime 833 // 1/1200 sec, 0.833 ms
+#define halfBitTime 417
+
+	task void sendIRByte(){
+    uint8_t cmd;
+    uint8_t b;
+  
+    cmd=motorCommand;
+		cmd|=(1<<7);  		// set MSB because all commands must start with 1 in MSB (only 127 commands possible)
+		
+	  b=8;														// Bit counter
+	  call IROutPort.setLow();				// Send start bit (8T)
+	  TOSH_uwait(8*bitTime);
+	  
+	  while(b--!=0){									// march down from MSB to LSB										
+		  if(cmd&(1<<b)){								// check bit state from MSB
+		 		call IROutPort.setHigh();		// If bit is 1, send high bit (high 4 cycles, low 1 cycle) 
+				TOSH_uwait(4*bitTime);
+ 				call IROutPort.setLow();
+				TOSH_uwait(halfBitTime);		// hack for some timing problem
+		  }
+		  else{
+				call IROutPort.setHigh();		// if bit is zero, send low bit (high 1 cycle, low 1 cycle)
+				TOSH_uwait(bitTime);				//
+				call IROutPort.setLow();
+				TOSH_uwait(bitTime);
+		  }
+		}
+	  call IROutPort.setHigh();				// Return to idle state
+	  
+	}	// task sendIRByte
+
+*/
+
 void ISR_Timer1(void) interrupt 3 { // timer1 is interrupt 3 because vector is 0x1b and 3 codes this in C51
 	// send wowwee command, ***LSB FIRST***
 
