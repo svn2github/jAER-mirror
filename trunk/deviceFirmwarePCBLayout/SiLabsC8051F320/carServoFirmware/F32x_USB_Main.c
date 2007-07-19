@@ -40,18 +40,14 @@ sbit	Led	=	P0^7;	//	LED='1' means ON
 // servo 1 (labeled S1) is PCA channel 2
 // and radio input 0 (labeled S2 on board) is PCA channel 1
 // and radio input 1 (labeled S3 on board) is PCA channel 0
+// note this numbering goes with flipped labeling on PCB
 //.S0-3 refer to PCB labeling
-sbit	S0 	= 	P1^3; // note this numbering goes with flipped labeling on PCB
-sbit	S1 	= 	P1^2;
-sbit 	S2	=	P1^1;
-sbit	S3	=	P1^0;
 
-// radio speed input is S3
-// radio steering input is S2
+sbit	S0 	= 	P1^3; // steering servo output is S0
+sbit	S1 	= 	P1^2; // speed servo output is S1
 
-// steering servo output is S0
-// speed servo output is S1
-
+sbit 	S2	=	P1^1; // radio steering input is S2
+sbit	S3	=	P1^0; // radio speed input is S3
 
 sbit p20=P2^0;
 sbit p21=P2^1; // debugging
@@ -71,6 +67,7 @@ sbit p21=P2^1; // debugging
 #define CMD_SET_DEADZONE_SPEED 11
 #define CMD_SET_DEADZONE_STEERING 12
 #define CMD_SET_LOCKOUT_TIME 13
+#define CMD_NO_RADIO_TIMEOUT_COUNT 14
 
 // PWM servo output variables. these are used to hold the new values for the PCA compare registers so that 
 // they can be updated on the interrupt generated when the value can be updated safely without introducing glitches.
@@ -101,7 +98,7 @@ bit overrideS0=0, overrideS1=0;
 #define SERVO_PWM_SET_ZERO_VALUE 0xFFFF-SERVO_PWM_READ_ZERO_VALUE // sets zero output
 #define SERVO_NONZERO_THRESHOLD 400 // if radio servo output differs from zero value by this much we override computer
 #define CYCLE_TIME_US 9 // measured main loop cycle time in us
-#define CYCLES_TO_SEND_AFTER_MISSING_RADIO 6000
+
 
 // timeout in main loop cycles before no radio servo input allows computer to take control
 #define NO_RADIO_TIMEOUT 1000000/CYCLE_TIME_US // 1 second timeout
@@ -131,6 +128,7 @@ union UnsignedLong noRadioTimeoutValue;
 // 3 missing radio cycles.
 // 50ms is 50000us ~ 6000 main loop cycles (6k*9us=54ms).
 // cycles left to send after last radio input
+#define CYCLES_TO_SEND_AFTER_MISSING_RADIO 1000
 unsigned int cyclesLeftToSend=CYCLES_TO_SEND_AFTER_MISSING_RADIO;
 
 
@@ -292,6 +290,15 @@ void main(void)
 			}	
 			break;
 */
+			case CMD_NO_RADIO_TIMEOUT_COUNT: // cmd: CMD,  defines cycles until servos turned off after no radio servo input (2 bytes big endian)
+			{
+				Out_Packet[0]=0; // command is processed
+				LedToggle();
+//				speedDeadzone.bytes[0]=Out_Packet[1]; 
+//				speedDeadzone.bytes[1]=Out_Packet[2]; 
+			}	
+			break;
+
 		} // switch
 		EA=1; // enable interrupts
 
@@ -391,6 +398,8 @@ void PWM_Update_ISR(void) interrupt 11
 				}		
 				
 					PCA0CPM3 |= 0x01; // enable interrupt for pca3 = S0 so new value can be written
+					PCA0CPM3 |= 0x49; // enable compare function and enable match and interrupt for match for pca
+
 				if(sendMsg){
 					In_Packet[0]=MSG_PULSE_WIDTH;
 					In_Packet[1]=2; // this corresponds by our convention to "S2" board input
@@ -430,6 +439,7 @@ void PWM_Update_ISR(void) interrupt 11
 				}		
 				
 					PCA0CPM2 |= 0x01; // enable interrupt for pca2 = S1 so new value can be written
+					PCA0CPM2 |= 0x49; // enable compare function and enable match and interrupt for match for pca
 				if(sendMsg){
 					In_Packet[0]=MSG_PULSE_WIDTH;
 					In_Packet[1]=3; // this corresponds by our convention to "S0" servo output
