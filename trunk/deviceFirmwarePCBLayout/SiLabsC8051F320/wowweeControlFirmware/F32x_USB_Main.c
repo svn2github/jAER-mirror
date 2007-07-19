@@ -102,6 +102,7 @@ unsigned char pwmNumber, pwml1, pwmh1, pwml2, pwmh2, pwml3, pwmh3, pwml4, pwmh4;
 
 // wowwee cmd
 unsigned short wowwee_cmd;
+unsigned short wowwee_cmdStore;
 unsigned short wowwee_cyclesleft = 0;
 unsigned short wowwee_cmdno = 0; // counter for command repetitions (8 times in chimp)
 unsigned char wowwee_cmdidx = 0; // idx+1
@@ -255,8 +256,9 @@ void main(void)
 			{
 				Out_Packet[0]=0; // command is processed
 				LedToggle();
-				wowwee_cmd  = Out_Packet[1];
-				wowwee_cmd |= Out_Packet[2] << 8;
+				wowwee_cmdStore  = Out_Packet[1];
+				wowwee_cmdStore |= Out_Packet[2] << 8;
+				wowwee_cmd = wowwee_cmdStore;
 				wowwee_cmdno = 8;
 				send_block = 1;
 
@@ -415,6 +417,7 @@ void ISR_Timer1(void) interrupt 3 { // timer1 is interrupt 3 because vector is 0
 				wowwee_precmd = 1; 
 				wowwee_cyclesleft = 420;// 8.4ms duration 
 				wowwee_cmdidx = 11;
+				wowwee_cmd=wowwee_cmdStore;
 			}
 		}//end of command block
 	}//if send block 
