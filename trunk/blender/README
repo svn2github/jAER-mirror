@@ -1,0 +1,52 @@
+Albert Cardona at Telluride 2007
+
+Monster Truck Simulator in Blender
+----------------------------------
+
+There are three components:
+
+- a blender .blend file with the 3D world, the truck, the game logic and the controller python scripts
+- a camera_event_generator.c file, which embodies the EvenGenerator python module imported and used from within the controller scripts
+- a setup_event_generator.py script to compile and create the shared object (.so) file containing the EventGenerator module
+
+To run the simulator:
+
+1) Compile the EventGenerator python module:
+
+   $ python setup_event_generator.py build_ext
+
+   It will create a build/lib.your-linux-distro/EventGenerator.so file, which contains the module.
+
+
+2) Setup the PYTHONPATH to include the folder containing the EventGenerator.so
+   For example, in Ubuntu GNU/Linux 7.04:
+
+   $ export PYTHONPATH=/usr/include/python2.5:/path/to/EventGenerator.so
+
+3) Launch Blender 2.44 or above:
+
+   $ blender -p 0 500 600 600
+
+4) Open the monster_truck4.blend file: in Blender, push F1 and then select it from the menus.
+
+5) Make sure the top-left 3D window, which is in camera view, is small enough (128 x 128 is optimal)
+
+6) Put your mouse inside the top-left 3D window, and then push 'p' to start the game
+
+7) Launch the jAER
+
+8) In the jAER, choose File / Open socket input stream and type in the IP of the computer where Blender runs, or localhost if it's the same.
+
+9) Push "Filters" and choose the Driver filter
+
+
+Game controls:
+--------------
+
+up arrow: 	forward acceleration
+down arrow: 	backwards acceleration
+right arrow: 	turn right
+left arrow: 	turn left
+
+
+The jAER Driver will also control all 4 movements.
