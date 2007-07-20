@@ -58,14 +58,14 @@
               <entry key="frame7.y" value="100"/>
               <entry key="frame7.w" value="413"/>
               <entry key="frame7.h" value="511"/>
-              <entry key="AEViewer.x" value="237"/>
-              <entry key="AEViewer.y" value="108"/>
-              <entry key="AEViewer.w" value="503"/>
-              <entry key="AEViewer.h" value="491"/>
-              <entry key="FilterFrame.x" value="1258"/>
-              <entry key="FilterFrame.y" value="175"/>
-              <entry key="FilterFrame.w" value="182"/>
-              <entry key="FilterFrame.h" value="391"/>
+              <entry key="AEViewer.x" value="0"/>
+              <entry key="AEViewer.y" value="0"/>
+              <entry key="AEViewer.w" value="513"/>
+              <entry key="AEViewer.h" value="606"/>
+              <entry key="FilterFrame.x" value="689"/>
+              <entry key="FilterFrame.y" value="182"/>
+              <entry key="FilterFrame.w" value="241"/>
+              <entry key="FilterFrame.h" value="527"/>
               <entry key="JAERViewer.syncEnabled" value="false"/>
             </map>
             <node name="biasgen">
@@ -490,7 +490,7 @@
                   <entry key="RepetitiousFilter.filterEnabled" value="false"/>
                   <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
                   <entry key="SubSampler.filterEnabled" value="false"/>
-                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAHdwQAAAAHdAAeY2gudW5pemguaW5pLnRvYmkucmNjYXIuRHJpdmVydAA9Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcudHJhY2tpbmcuSG91Z2hMaW5lVHJhY2tlcnQAQ2NoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5Pbk9mZlByb3hpbWl0eUxpbmVGaWx0ZXJ0AEZjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy50cmFja2luZy5SZWN0YW5ndWxhckNsdXN0ZXJUcmFja2VydABDY2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLkJhY2tncm91bmRBY3Rpdml0eUZpbHRlcnQAQWNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmxhYmVsLlNpbXBsZU9yaWVudGF0aW9uRmlsdGVydABCY2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcubGFiZWwuRGlyZWN0aW9uU2VsZWN0aXZlRmlsdGVyeA=="/>
+                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAABdwQAAAABdAAeY2gudW5pemguaW5pLnRvYmkucmNjYXIuRHJpdmVyeA=="/>
                   <entry key="MultiLineClusterTracker.filterEnabled" value="false"/>
                   <entry key="DirectionSelectiveFilter.searchDistance" value="4"/>
                   <entry key="DirectionSelectiveFilter.filterEnabled" value="false"/>
@@ -589,9 +589,10 @@
                   <entry key="LineTracker.thetaResDeg" value="6.9536395"/>
                   <entry key="LineTracker.rhoResPixels" value="4.4772935"/>
                   <entry key="LineTracker.favorVerticalAngleRangeDeg" value="60.0"/>
-                  <entry key="Driver.tauDynMs" value="22.386469"/>
+                  <entry key="Driver.tauDynMs" value="68.78111"/>
                   <entry key="Driver.tauDynUs" value="80000.12"/>
                   <entry key="Driver.offsetGain" value="0.006441994"/>
+                  <entry key="Driver.angleGain" value="0.3897263"/>
                 </map>
                 <node name="ch">
                   <map/>
@@ -715,12 +716,13 @@
                               <entry key="DriverPreFilter.XYTypeFilter.filterEnabled" value="true"/>
                               <entry key="DriverPreFilter.SimpleOrientationFilter.filterEnabled" value="false"/>
                               <entry key="DriverPreFilter.BackgroundActivityFilter.filterEnabled" value="false"/>
-                              <entry key="DriverPreFilter.OnOffProximityLineFilter.filterEnabled" value="true"/>
+                              <entry key="DriverPreFilter.OnOffProximityLineFilter.filterEnabled" value="false"/>
                               <entry key="filterEnabled" value="true"/>
                               <entry key="LineTracker.rhoResPixels" value="6.8402996"/>
                               <entry key="LineTracker.thetaResDeg" value="3.9735096"/>
-                              <entry key="LineTracker.updateThresholdEvents" value="9"/>
-                              <entry key="LineTracker.favorVerticalAngleRangeDeg" value="60.0"/>
+                              <entry key="LineTracker.updateThresholdEvents" value="0"/>
+                              <entry key="LineTracker.favorVerticalAngleRangeDeg" value="90.0"/>
+                              <entry key="LineTracker.houghDecayFactor" value="0.6000002"/>
                             </map>
                           </node>
                           <node name="Driver$DriverPreFilter">
@@ -732,16 +734,18 @@
                               <entry key="OnOffProximityLineFilter.filterEnabled" value="true"/>
                               <entry key="XYTypeFilter.xEnabled" value="false"/>
                               <entry key="XYTypeFilter.yEnabled" value="true"/>
-                              <entry key="XYTypeFilter.endY" value="94"/>
-                              <entry key="XYTypeFilter.endX" value="128"/>
+                              <entry key="XYTypeFilter.endY" value="90"/>
+                              <entry key="XYTypeFilter.endX" value="115"/>
                               <entry key="SimpleOrientationFilter.searchDistance" value="3"/>
                               <entry key="SimpleOrientationFilter.minDtThreshold" value="64759"/>
                               <entry key="SimpleOrientationFilter.subSampleShift" value="1"/>
-                              <entry key="OnOffProximityLineFilter.dt" value="19443"/>
-                              <entry key="OnOffProximityLineFilter.subsampleBy" value="1"/>
+                              <entry key="OnOffProximityLineFilter.dt" value="10826"/>
+                              <entry key="OnOffProximityLineFilter.subsampleBy" value="2"/>
                               <entry key="SimpleOrientationFilter.showGlobalEnabled" value="false"/>
                               <entry key="SimpleOrientationFilter.useAverageDtEnabled" value="false"/>
                               <entry key="RotateFilter.invertX" value="true"/>
+                              <entry key="XYTypeFilter.startX" value="9"/>
+                              <entry key="XYTypeFilter.startY" value="10"/>
                             </map>
                           </node>
                         </node>
@@ -841,7 +845,7 @@
               <map>
                 <entry key="AEUnicastInput.host" value="192.168.1.100"/>
                 <entry key="AEUnicastOutput.host" value="192.168.1.100"/>
-                <entry key="AESocket.host" value="10.7.8.239"/>
+                <entry key="AESocket.host" value="10.7.8.219"/>
               </map>
             </node>
             <node name="eventprocessing">
@@ -923,8 +927,8 @@
               <map>
                 <entry key="RetinaRenderer.colorScale" value="3"/>
                 <entry key="RetinaRendererPanel.scale" value="1"/>
-                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAcdwQAAABYc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABLQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FydwIAXHhzcQB+AAJ0AIdDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA3LTE2VDE5LTQ2LTU5LTA3MDAtMCBsaW5lIG1vdmVkIGFyb3VuZC5kYXR3AgBceHNxAH4AAnQAg0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxyY0NhclxUbXBkaWZmMTI4LTIwMDctMDctMTNUMTYtMzUtMzYtMDcwMC0wIGRyaXZlIGhhbGx3YXkuZGF0dwIAXHhzcQB+AAJ0AE9DOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcbGFzZXJMaW5ldwIAXHhzcQB+AAJ0AFpDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcbGFzZXJMaW5lXGxpbmVNb3Zpbmd3AgBceHNxAH4AAnQAXUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxmcmVld2F5T3ZlcnBhc3NQYXNhZGVuYXcCAFx4c3EAfgACdACDQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXGZyZWV3YXlPdmVycGFzc1Bhc2FkZW5hXGV2ZW50czIwMDUxMjIxVDAxNDUxOSBmcmVld2F5Lm1hdC5kYXR3AgBceHNxAH4AAnQAekM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxyY0NhclxUbXBkaWZmMTI4LTIwMDctMDctMTZUMTYtMzQtMjAtMDcwMC0wIGRpc2suZGF0dwIAXHhzcQB+AAJ0AFJDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A2XFdvcmtzaG9wMDYwMlxEYXRhdwIAXHhzcQB+AAJ0AIxDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3A2XFdvcmtzaG9wMDYwMlxEYXRhXENhdmlhclZpZXdlci0yMDA2LTAyLTIzVDE1LTQzLTU1KzAxMDBEaWZmZXJlbnRTaXplcy5pbmRleHcCAFx4c3EAfgACdACTQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FyXFRtcGRpZmYxMjgtMjAwNy0wNy0xMVQxOS00Mi0zNy0wNzAwLTAgdGVsbCBoYWxsIHBvd2VyIGNhYmxlIGRyaXZpbmcuZGF0dwIAXHhzcQB+AAJ0AFRDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcc3BlY2lhbFN0aW11bGl3AgBceHNxAH4AAnQAikM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxzcGVjaWFsU3RpbXVsaVxUbXBkaWZmMTI4LTIwMDYtMTItMjdUMjAtMjItNTYtMDgwMC0wIHNpbmdsZSBsaW5lLmRhdHcCAFx4c3EAfgACdABFQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhdwIAXHhzcQB+AAJ0AHpDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcQ29jaGxlYUFNU1dpdGhCaWFzZ2VuLTIwMDYtMTEtMDhUMTMtMDAtNTYrMDEwMC0wLmRhdHcCAFx4c3EAfgACdABAQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMXcCAFx4c3EAfgACdACNQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FyXFRtcGRpZmYxMjgtMjAwNy0wNy0xMVQxOS00NC01My0wNzAwLTAgdGVsbCBoYWxsIHVuZGVyIGNvbnRyb2wuZGF0dwIAXHhzcQB+AAJ0AI1DOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA3LTExVDE5LTQ3LTI2LTA3MDAtMCB0ZWxsIGhhbGwgdW5kZXIgY29udHJvbC5kYXR3AgBceHNxAH4AAnQAi0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxyY0NhclxUbXBkaWZmMTI4LTIwMDctMDctMDVUMTMtMjUtNTktMDcwMC0wIHRlbGwgaGFsbCBwb3dlciBjYWJsZS5kYXR3AgBceHNxAH4AAnQAh0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxyY0NhclxUbXBkaWZmMTI4LTIwMDctMDctMDRUMjAtNTgtNTQtMDcwMC0wIHRlbGx1cmlkZSAxc3QgcnVuLmRhdHcCAFx4c3EAfgACdABMQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHBsYWNlc3cCAFx4c3EAfgACdACRQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHBsYWNlc1xUbXBkaWZmMTI4LTIwMDYtMDItMTRUMDctNTMtMzctMDgwMC0wIHdhbGtpbmcgdG8ga3JpcGEgYnVpbGRpbmdzLmRhdHcCAFx4c3EAfgACdABbQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHdhbGtpbmdTZWxmTG9jb21vdGlvbncCAFx4c3EAfgACdACRQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHdhbGtpbmdTZWxmTG9jb21vdGlvblxUbXBkaWZmMTI4LTIwMDYtMDYtMjZUMTctNDItMzgtMDYwMC0wIHJzMiB3YWxraW5nLmRhdHcCAFx4c3EAfgACdABZQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXGxhc2VyTGluZVx0dXJudGFibGV3AgBceHNxAH4AAnQAW0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxlZG11bmREZW5zaXR5Q2hhcnRXRFJ3AgBceHNxAH4AAnQAXUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxtaXNjVG1wZGlmZjEyOEhpZ2hTcGVlZHcCAFx4c3EAfgACdABMQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHBlb3BsZXcCAFx4eA=="/>
-                <entry key="AEViewer.lastFile" value="C:\Documents and Settings\tobi\My Documents\avlsi-svn\CAVIAR\wp1\data\rcCar\Tmpdiff128-2007-07-16T19-46-59-0700-0 line moved around.dat"/>
+                <entry key="recentFiles" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAcdwQAAABYc3IADGphdmEuaW8uRmlsZQQtpEUODeT/AwABTAAEcGF0aHQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdABLQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FydwIAXHhzcQB+AAJ0AKZDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA3LTE5VDEzLTA2LTE2LTA3MDAtMCB0ZWxsIHN0ciBmbG91ciBjaGFsayBzcHJheSB0b2JpIGRyaXZlIDNwNm1tIGxlbnMuZGF0dwIAXHhzcQB+AAJ0AKNDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA3LTE4VDEyLTE3LTQ4LTA3MDAtMCBkcml2ZSBzdHJlZXQgY2hhbGsgdGVsbCB5dWxpYSB0b2JpIGZpcnN0IGdvb2QuZGF0dwIAXHhzcQB+AAJ0AEVDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGF3AgBceHNxAH4AAnQAn0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxyY0NhclxUbXBkaWZmMTI4LTIwMDctMDctMThUMjMtNTMtNTItMDcwMC0wIDNwNm1tIHdpZGUgYW5nbGUgbGVucyBoYWxsd2F5IHBvd2VyIGNhYmxlLmRhdHcCAFx4c3EAfgACdACHQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FyXFRtcGRpZmYxMjgtMjAwNy0wNy0xNlQxOS00Ni01OS0wNzAwLTAgbGluZSBtb3ZlZCBhcm91bmQuZGF0dwIAXHhzcQB+AAJ0AINDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA3LTEzVDE2LTM1LTM2LTA3MDAtMCBkcml2ZSBoYWxsd2F5LmRhdHcCAFx4c3EAfgACdABPQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXGxhc2VyTGluZXcCAFx4c3EAfgACdABaQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXGxhc2VyTGluZVxsaW5lTW92aW5ndwIAXHhzcQB+AAJ0AF1DOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcZnJlZXdheU92ZXJwYXNzUGFzYWRlbmF3AgBceHNxAH4AAnQAg0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxmcmVld2F5T3ZlcnBhc3NQYXNhZGVuYVxldmVudHMyMDA1MTIyMVQwMTQ1MTkgZnJlZXdheS5tYXQuZGF0dwIAXHhzcQB+AAJ0AHpDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA3LTE2VDE2LTM0LTIwLTA3MDAtMCBkaXNrLmRhdHcCAFx4c3EAfgACdABSQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwNlxXb3Jrc2hvcDA2MDJcRGF0YXcCAFx4c3EAfgACdACMQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwNlxXb3Jrc2hvcDA2MDJcRGF0YVxDYXZpYXJWaWV3ZXItMjAwNi0wMi0yM1QxNS00My01NSswMTAwRGlmZmVyZW50U2l6ZXMuaW5kZXh3AgBceHNxAH4AAnQAk0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxyY0NhclxUbXBkaWZmMTI4LTIwMDctMDctMTFUMTktNDItMzctMDcwMC0wIHRlbGwgaGFsbCBwb3dlciBjYWJsZSBkcml2aW5nLmRhdHcCAFx4c3EAfgACdABUQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHNwZWNpYWxTdGltdWxpdwIAXHhzcQB+AAJ0AIpDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFcc3BlY2lhbFN0aW11bGlcVG1wZGlmZjEyOC0yMDA2LTEyLTI3VDIwLTIyLTU2LTA4MDAtMCBzaW5nbGUgbGluZS5kYXR3AgBceHNxAH4AAnQAekM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxDb2NobGVhQU1TV2l0aEJpYXNnZW4tMjAwNi0xMS0wOFQxMy0wMC01NiswMTAwLTAuZGF0dwIAXHhzcQB+AAJ0AEBDOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxdwIAXHhzcQB+AAJ0AI1DOlxEb2N1bWVudHMgYW5kIFNldHRpbmdzXHRvYmlcTXkgRG9jdW1lbnRzXGF2bHNpLXN2blxDQVZJQVJcd3AxXGRhdGFccmNDYXJcVG1wZGlmZjEyOC0yMDA3LTA3LTExVDE5LTQ0LTUzLTA3MDAtMCB0ZWxsIGhhbGwgdW5kZXIgY29udHJvbC5kYXR3AgBceHNxAH4AAnQAjUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxyY0NhclxUbXBkaWZmMTI4LTIwMDctMDctMTFUMTktNDctMjYtMDcwMC0wIHRlbGwgaGFsbCB1bmRlciBjb250cm9sLmRhdHcCAFx4c3EAfgACdACLQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHJjQ2FyXFRtcGRpZmYxMjgtMjAwNy0wNy0wNVQxMy0yNS01OS0wNzAwLTAgdGVsbCBoYWxsIHBvd2VyIGNhYmxlLmRhdHcCAFx4c3EAfgACdABMQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHBsYWNlc3cCAFx4c3EAfgACdABbQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHdhbGtpbmdTZWxmTG9jb21vdGlvbncCAFx4c3EAfgACdABZQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXGxhc2VyTGluZVx0dXJudGFibGV3AgBceHNxAH4AAnQAW0M6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxlZG11bmREZW5zaXR5Q2hhcnRXRFJ3AgBceHNxAH4AAnQAXUM6XERvY3VtZW50cyBhbmQgU2V0dGluZ3NcdG9iaVxNeSBEb2N1bWVudHNcYXZsc2ktc3ZuXENBVklBUlx3cDFcZGF0YVxtaXNjVG1wZGlmZjEyOEhpZ2hTcGVlZHcCAFx4c3EAfgACdABMQzpcRG9jdW1lbnRzIGFuZCBTZXR0aW5nc1x0b2JpXE15IERvY3VtZW50c1xhdmxzaS1zdm5cQ0FWSUFSXHdwMVxkYXRhXHBlb3BsZXcCAFx4eA=="/>
+                <entry key="AEViewer.lastFile" value="C:\Documents and Settings\tobi\My Documents\avlsi-svn\CAVIAR\wp1\data\rcCar\Tmpdiff128-2007-07-19T13-06-16-0700-0 tell str flour chalk spray tobi drive 3p6mm lens.dat"/>
                 <entry key="RetinaCanvas.scale" value="3.9296875"/>
                 <entry key="AEViewer.activeRenderingEnabled" value="true"/>
                 <entry key="OpenGLRetinaCanvas.scale" value="2.53125"/>
@@ -963,7 +967,7 @@
                 <entry key="ChipCanvas.openGLEnabled" value="true"/>
                 <entry key="ChipCanvas.angley" value="0.0"/>
                 <entry key="ChipCanvas.anglex" value="1.5384616"/>
-                <entry key="ChipCanvas.scaleTmpdiff128" value="2.6875"/>
+                <entry key="ChipCanvas.scaleTmpdiff128" value="3.5859375"/>
                 <entry key="ChipRenderer.method" value="0"/>
                 <entry key="ChipRenderer.autoscaleEnabled" value="true"/>
                 <entry key="ChipRenderer.subsamplingEnabled" value="false"/>
@@ -987,13 +991,13 @@
                 <entry key="ChipCanvas.scaleCochleaAMSNoBiasgen" value="1.0"/>
                 <entry key="ChipCanvas.scaleCochleaAMSWithBiasgen" value="7.25"/>
                 <entry key="ChipCanvas.scaleMotion18" value="20.53125"/>
-                <entry key="Chip2DRenderer.colorScale" value="1"/>
+                <entry key="Chip2DRenderer.colorScale" value="3"/>
                 <entry key="Chip2DRenderer.autoscaleEnabled" value="false"/>
                 <entry key="AEViewer.lastLoggingFolder" value="C:\Documents and Settings\tobi\My Documents\avlsi-svn\CAVIAR\wp1\data\rcCar"/>
                 <entry key="ChipRenderer.stereoColorMode" value="RedGreen"/>
                 <entry key="CochleaRenderer.method" value="4"/>
                 <entry key="ChipCanvas.scaleCochleaAMS" value="3.6875"/>
-                <entry key="BinocularRenderer.autoscaleEnabled" value="true"/>
+                <entry key="BinocularRenderer.autoscaleEnabled" value="false"/>
                 <entry key="chipClassNames" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAADdwQAAAADdAAqY2gudW5pemguaW5pLmNhdmlhci5jaGlwLnJldGluYS5UbXBkaWZmMTI4dAA2Y2gudW5pemguaW5pLmNhdmlhci5jaGlwLmNvY2hsZWEuQ29jaGxlYUFNU1dpdGhCaWFzZ2VudAA+Y2gudW5pemguaW5pLmNhdmlhci5jaGlwLnJldGluYUNvY2hsZWEuVG1wZGlmZjY0QW5kQ29jaGxlYUFFUmJ4"/>
                 <entry key="ChipCanvas.scaleTmpdiff64AndCochleaAERb" value="7.0"/>
               </map>
