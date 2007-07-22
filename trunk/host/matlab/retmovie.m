@@ -39,7 +39,7 @@ function retmovie(outFileName, varargin)
 %   uncompressed movies. This parameter must be set before using ADDFRAME.
 %   Higher quality numbers result in higher video quality and larger file
 %   sizes, where lower quality numbers result in lower video quality and
-%   smaller file sizes. The default is 75.
+%   smaller file sizes. The default is 100, which still looks bad.
 % 
 %   VIDEOPREVIEW - A true/false flag that controls whether or not the video
 %   preview window and statusbar appear. Defailt is true.
@@ -94,6 +94,7 @@ if nargin > 1
     end
 end
 
+% read AER data
 if isempty(datFileName)
     [a, t] = loadaerdat();
 else
@@ -105,6 +106,7 @@ y = y + 1;
 t = double(t);
 width = 128;
 height = 128;
+% I had problems with controllalbe size, so it is fixed at 128x128 for now.
 
 timeStep = 1/fps*1e6*playRate; % in us
 
@@ -113,6 +115,8 @@ mov = avifile(outFileName, 'fps', fps, 'compression', compression, 'quality', qu
 
 try
     frameCount = 0;
+    % the value of totalFrames is not right for some reason. This messes up
+    % the progress bar, but it's usually the case that it finishes "early."
     totalFrames = ceil((t(end) - t(2))/timeStep);
     mat = zeros(128, 128, 3);
     mat(:,:,1) = bgColor(1); mat(:, :, 2) = bgColor(2); mat(:, :, 3) = bgColor(3);
@@ -138,7 +142,6 @@ try
 
             mat(:,:,1) = bgColor(1); mat(:, :, 2) = bgColor(2); mat(:, :, 3) = bgColor(3);
             frameCount = frameCount + 1;
-            % fprintf('frame %5i/%i\n', frameCount, totalFrames);
         end
     end
 
