@@ -142,7 +142,9 @@ try
         end
     end
 
-    close(f);
+    if videoPreview
+        close(f);
+    end
     mov = close(mov);
 catch
     warning('off', 'MATLAB:aviclose:noAssociatedFrames')
