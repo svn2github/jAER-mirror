@@ -65,3 +65,20 @@ LSB first in controller, codes assume MSB first!!!!!!!!!!!!!!!!!
             * 8 = joystick down and right
 
 
+****************
+Addendum by Ping Wang - 7/2007
+
+We were not able to get the codes above to work using the wowwee.java class object.
+Instead, we did a complete remapping of the behaviors through a systematic test of its reactions.  
+
+Some of the codes are:
+b, c, d, f, 2, 4, 6, 8 - various crys and laughs
+205 - possible head turn
+400, 402, etc. - longer laughs and crys, set movements
+
+Here are the codes that were used for the gesture tracking demo:
+"909" - nose sniff
+"904" - happy laughing  
+"102" - happy chrip
+"906" - angry cry
+
