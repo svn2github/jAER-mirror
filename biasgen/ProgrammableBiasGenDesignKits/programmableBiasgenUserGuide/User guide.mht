@@ -1,0 +1,1283 @@
+MIME-Version: 1.0
+Content-Location: file:///C:/D0AC30E5/Userguide.htm
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="us-ascii"
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml"
+xmlns:o=3D"urn:schemas-microsoft-com:office:office"
+xmlns:w=3D"urn:schemas-microsoft-com:office:word"
+xmlns=3D"http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=3DContent-Type content=3D"text/html; charset=3Dus-ascii">
+<meta name=3DProgId content=3DWord.Document>
+<meta name=3DGenerator content=3D"Microsoft Word 11">
+<meta name=3DOriginator content=3D"Microsoft Word 11">
+<link rel=3DFile-List href=3D"Userguide_archivos/filelist.xml">
+<link rel=3DEdit-Time-Data href=3D"Userguide_archivos/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>User guide</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Luis</o:Author>
+  <o:LastAuthor>Luis</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>2085</o:TotalTime>
+  <o:Created>2006-06-21T11:41:00Z</o:Created>
+  <o:LastSaved>2006-06-21T11:41:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>2613</o:Words>
+  <o:Characters>14375</o:Characters>
+  <o:Company>CNM</o:Company>
+  <o:Lines>119</o:Lines>
+  <o:Paragraphs>33</o:Paragraphs>
+  <o:CharactersWithSpaces>16955</o:CharactersWithSpaces>
+  <o:Version>11.6568</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:HyphenationZone>21</w:HyphenationZone>
+  <w:PunctuationKerning/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState=3D"false" LatentStyleCount=3D"156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+h1
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:16.0pt;
+	font-family:Arial;
+	mso-font-kerning:16.0pt;}
+h2
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:14.0pt;
+	font-family:Arial;
+	font-style:italic;}
+h3
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	font-size:13.0pt;
+	font-family:Arial;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:70.85pt 3.0cm 70.85pt 3.0cm;
+	mso-header-margin:35.4pt;
+	mso-footer-margin:35.4pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:276064688;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-943436438 201981953 201981955 201981957 201981953 2=
+01981955 201981957 201981953 201981955 201981957;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l1
+	{mso-list-id:715547980;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-2036024934 201981969 201981977 201981979 201981967 =
+201981977 201981979 201981967 201981977 201981979;}
+@list l1:level1
+	{mso-level-text:"%1\)";
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2
+	{mso-list-id:770392447;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1346756262 201981953 201981955 201981957 201981953 =
+201981955 201981957 201981953 201981955 201981957;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l3
+	{mso-list-id:872153529;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1955060300 201981953 201981955 201981957 201981953 =
+201981955 201981957 201981953 201981955 201981957;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l4
+	{mso-list-id:971522525;
+	mso-list-type:hybrid;
+	mso-list-template-ids:422853132 201981953 201981955 201981957 201981953 20=
+1981955 201981957 201981953 201981955 201981957;}
+@list l4:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l5
+	{mso-list-id:1077485140;
+	mso-list-type:hybrid;
+	mso-list-template-ids:2053805362 201981953 201981955 201981957 201981953 2=
+01981955 201981957 201981953 201981955 201981957;}
+@list l5:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l6
+	{mso-list-id:1521893458;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1717114996 201981953 201981955 201981957 201981953 =
+201981955 201981957 201981953 201981955 201981957;}
+@list l6:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l7
+	{mso-list-id:1597984403;
+	mso-list-type:hybrid;
+	mso-list-template-ids:897490022 201981953 201981955 201981957 201981953 20=
+1981955 201981957 201981953 201981955 201981957;}
+@list l7:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l8
+	{mso-list-id:1654916837;
+	mso-list-type:hybrid;
+	mso-list-template-ids:2132452282 201981953 201981955 201981957 201981953 2=
+01981955 201981957 201981953 201981955 201981957;}
+@list l8:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l9
+	{mso-list-id:1807312822;
+	mso-list-type:hybrid;
+	mso-list-template-ids:67787682 201981953 201981955 201981957 201981953 201=
+981955 201981957 201981953 201981955 201981957;}
+@list l9:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l10
+	{mso-list-id:1908300308;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-414682378 201981953 201981955 201981957 201981953 2=
+01981955 201981957 201981953 201981955 201981957;}
+@list l10:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l11
+	{mso-list-id:2001494486;
+	mso-list-type:hybrid;
+	mso-list-template-ids:260442286 201981953 201981955 201981957 201981953 20=
+1981955 201981957 201981953 201981955 201981957;}
+@list l11:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Tabla normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"2050"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=3DES link=3Dblue vlink=3Dpurple style=3D'tab-interval:35.4pt'>
+
+<div class=3DSection1>
+
+<h1><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>User guide<o:p></o=
+:p></span></h1>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>W=
+ith the
+help of this guide, we expect that you can easily build your own bias gener=
+ator
+just by properly combining the cells that we have already designed. <o:p></=
+o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>I=
+n the
+following figure you can see an overview of the basic bias generator struct=
+ure.
+The Master Bias block generates the input current for the splitters, and the
+single-phase registers (SR) select one of the outputs from the splitter. Th=
+is
+output current will be used to generate the n-bias and p-bias signals which=
+ are
+used in the chip core.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D566 height=3D380 id=3D"_x0000_i1025"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\biasgenCircuit2.png"><o:p></o:p></span>=
+</p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>F=
+or the
+cells called &#8216;Bias m&#8217;, we have designed three different configu=
+rations,
+so that you can use for each bias the one that better fits what you need:<o=
+:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<ul style=3D'margin-top:0cm' type=3Ddisc>
+ <li class=3DMsoNormal style=3D'mso-list:l5 level1 lfo2;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>A dual n-type and p-type
+     current buffer consisting of two active mirrors, which serve to isolate
+     the splitter from the rest of the chip and to greatly lower the bias
+     voltage impedance.<o:p></o:p></span></li>
+ <li class=3DMsoNormal style=3D'mso-list:l5 level1 lfo2;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>A similar current buffe=
+r, but
+     including cascoded mirrors.<o:p></o:p></span></li>
+ <li class=3DMsoNormal style=3D'mso-list:l5 level1 lfo2;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>An alternative pair of
+     sub-picoampere current mirrors which will be used when we want to gene=
+rate
+     small bias currents.<o:p></o:p></span></li>
+</ul>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>N=
+ow, we
+will talk about each one of the cells inside the bias generator, describing
+first the basic behaviour of them, and after that explaining in detail how =
+you
+can use them to build your own bias generator. Then, we will give some gene=
+ral
+considerations to help you building the whole circuit.<o:p></o:p></span></p>
+
+<h2><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Master Bias<o:p></=
+o:p></span></h2>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>T=
+his cell
+is a bootstrapped current reference which generates the master current,
+including also start-up and power control circuits. This master current &#8=
+216;Im&#8217;
+will be the input of the current splitters, by driving the global node
+&#8216;pMirrorGate&#8217; to the gate of the input transistors of these
+splitters. There is also another global node called &#8216;BiasGenNBias&#82=
+17;,
+which is used for biasing the splitters, and it is just a copy of the master
+current. Let&#8217;s take a look now at the input and output signals that y=
+ou
+have to use.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h3><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Input signals<o:p>=
+</o:p></span></h3>
+
+<ul style=3D'margin-top:0cm' type=3Ddisc>
+ <li class=3DMsoNormal style=3D'mso-list:l7 level1 lfo4;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>powerDown: this signal =
+can be
+     an output of the microcontroller, and is used to turn off all currents=
+. It
+     is also used by the &#8216;biasProgrammable&#8217; cells, but we will =
+talk
+     about that later.<o:p></o:p></span></li>
+ <li class=3DMsoNormal style=3D'mso-list:l7 level1 lfo4;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>rx: this signal will be=
+ also
+     driven to a pad, so that we can use an off-chip resistor instead of the
+     integrated one.<o:p></o:p></span></li>
+</ul>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h3><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Output signals<o:p=
+></o:p></span></h3>
+
+<ul style=3D'margin-top:0cm' type=3Ddisc>
+ <li class=3DMsoNormal style=3D'mso-list:l6 level1 lfo5;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>pMirrorGate: you have t=
+o bring
+     this signal to the gate of the input transistors in the splitters, so =
+that
+     the master current will be the input of these cells.<o:p></o:p></span>=
+</li>
+ <li class=3DMsoNormal style=3D'mso-list:l6 level1 lfo5;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>BiasGenNBias: this sign=
+al is
+     just a copy of the master current, and you have to connect it to the
+     corresponding transistors in the splitters. Both of these output signa=
+ls
+     are considered global nodes, so you don&#8217;t have to do anything wi=
+th
+     them in the schematic view, but you must make sure that they are prope=
+rly
+     connected in the layout view.<o:p></o:p></span></li>
+</ul>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>I=
+n the
+following figure you can see the layout of the cell called
+&#8216;masterbias&#8217;. Below the main circuit, we have included a group =
+of
+capacitors to achieve a stable master current.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D566 height=3D330 id=3D"_x0000_i1026"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\masterbias_layout.png"><o:p></o:p></spa=
+n></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h2><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Bias Buffer Splitt=
+er<o:p></o:p></span></h2>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>T=
+his cell
+is a programmable current splitter with 8 bits, whose input is the master
+current, and it&#8217;s used to generate the bias currents for the current
+buffers inside the &#8216;biasProgrammable&#8217; cells. This cell has been
+added to the circuit to reduce power consumption by the current buffers, wh=
+ich used
+to be biased by the master current before. <o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h3><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Input signals<o:p>=
+</o:p></span></h3>
+
+<ul style=3D'margin-top:0cm' type=3Ddisc>
+ <li class=3DMsoNormal style=3D'mso-list:l8 level1 lfo6;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>pMirrorGate: this is th=
+e global
+     node which is the output of the &#8216;masterbias&#8217;, and you have=
+ to
+     bring it to the input transistor of this cell.<o:p></o:p></span></li>
+ <li class=3DMsoNormal style=3D'mso-list:l8 level1 lfo6;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>in and nin (inverted in=
+): these
+     are the digital inputs of the single-phase register, and they should be
+     connected to the microcontroller. In the schematic view, these inputs =
+are
+     called &#8216;d&#8217; and &#8216;!d&#8217;.<o:p></o:p></span></li>
+ <li class=3DMsoNormal style=3D'mso-list:l8 level1 lfo6;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>clock: this is also a s=
+ignal
+     generated by the microcontroller, and you have to make sure that
+     it&#8217;s connected to all the registers. In the schematic view, this
+     signal is called &#8216;phi&#8217;.<o:p></o:p></span></li>
+ <li class=3DMsoNormal style=3D'mso-list:l8 level1 lfo6;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>latch and latch!: they =
+are also
+     outputs from the microcontroller, and they are used to program the
+     register properly. You must make sure that they are connected to all t=
+he
+     registers. In the schematic view, these inputs are called
+     &#8216;latchenb&#8217; and &#8216;!latchenb&#8217;.<o:p></o:p></span><=
+/li>
+</ul>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h3><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Output signals<o:p=
+></o:p></span></h3>
+
+<ul style=3D'margin-top:0cm' type=3Ddisc>
+ <li class=3DMsoNormal style=3D'mso-list:l2 level1 lfo7;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>BiasBufferNBias and
+     BiasBufferPBias: they both are global nodes which are used to bias the
+     current buffers and sub-picoampere mirrors in all the
+     &#8216;biasProgrammable&#8217; cells. <o:p></o:p></span></li>
+ <li class=3DMsoNormal style=3D'mso-list:l2 level1 lfo7;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>out and nout (inverted =
+out):
+     these are the digital outputs of the single-phase register, and they
+     should be connected to the inputs of the next register (out connected =
+to
+     in, and nout connected to nin). In the schematic view, they are called
+     &#8216;q&#8217; and &#8216;!q&#8217;.<o:p></o:p></span></li>
+</ul>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>I=
+n the next
+figure, you can see the layout of the cell called
+&#8216;biasBuffersSplitter&#8217;.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D566 height=3D323 id=3D"_x0000_i1027"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\biasBuffersSplitter.png"><o:p></o:p></s=
+pan></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h2><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Bias Programmable<=
+o:p></o:p></span></h2>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>T=
+his cell
+must be considered in a different way from the previous ones. When we were
+talking about the &#8216;masterbias&#8217; and the
+&#8216;biasBuffersSplitter&#8217;, it was important to notice that only a
+single instance of each would be included in the hole circuit. However, you
+have to insert as many &#8216;biasProgrammable&#8217; cells as you need.<o:=
+p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>F=
+irst, you
+have to make a list of all the bias currents that your circuit needs, and t=
+hen
+you have to decide what kind of bias current each one should be. You have t=
+hree
+different cells to implement the last stage of the bias generator:<o:p></o:=
+p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<ul style=3D'margin-top:0cm' type=3Ddisc>
+ <li class=3DMsoNormal style=3D'mso-list:l5 level1 lfo2;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>The standard bias, whic=
+h is a
+     dual n-type and p-type current buffer consisting of two active mirrors,
+     that serve to isolate the splitter from the rest of the chip and to
+     greatly lower the bias voltage impedance. You can use this one if you
+     don&#8217;t have any other constrictions.<o:p></o:p></span></li>
+ <li class=3DMsoNormal style=3D'mso-list:l5 level1 lfo2;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>The cascoded bias, whic=
+h is the
+     same, but with the only difference of using cascoded buffers.<o:p></o:=
+p></span></li>
+ <li class=3DMsoNormal style=3D'mso-list:l5 level1 lfo2;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>The low-current bias, w=
+hich is
+     the one you will have to use for those bias currents below pico-ampere=
+s. <o:p></o:p></span></li>
+</ul>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>F=
+or each
+one of these three possibilities, you just have to insert the corresponding
+&#8216;biasProgrammable&#8217; circuit, and that&#8217;s all. They all have=
+ the
+same splitter, with 24 different outputs and a 24-bit single-phase register=
+ to
+select the correct output. The only difference between the three of them is
+just the buffering of the output current coming from the splitter.<o:p></o:=
+p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>I=
+nside the
+buffer circuit, they all include a power down mechanism to make sure that t=
+he
+bias generator is not consuming power while it&#8217;s not really biasing t=
+he
+circuit. The buffer circuit can be seen in next figure.<o:p></o:p></span></=
+p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D566 height=3D406 id=3D"_x0000_i1028"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\biasBuffers_pd.png"><o:p></o:p></span><=
+/p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>S=
+o,
+let&#8217;s now describe the inputs and outputs of this cell.<o:p></o:p></s=
+pan></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h3><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Input signals<o:p>=
+</o:p></span></h3>
+
+<ul style=3D'margin-top:0cm' type=3Ddisc>
+ <li class=3DMsoNormal style=3D'mso-list:l3 level1 lfo9;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>pMirrorGate: this is ag=
+ain the
+     global node that you have to connect to the input transistor of the
+     splitter to obtain a copy of the master current.<o:p></o:p></span></li>
+ <li class=3DMsoNormal style=3D'mso-list:l3 level1 lfo9;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>in and nin (inverted in=
+): these
+     are the digital inputs of the single-phase register, and they should be
+     connected to the outputs of the previous splitter. In the schematic vi=
+ew,
+     these inputs are called &#8216;d&#8217; and &#8216;!d&#8217;.<o:p></o:=
+p></span></li>
+ <li class=3DMsoNormal style=3D'mso-list:l3 level1 lfo9;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>clock: this is a signal
+     generated by the microcontroller, and you have to make sure that
+     it&#8217;s connected to all the registers. In the schematic view, this
+     signal is called &#8216;phi&#8217;.<o:p></o:p></span></li>
+ <li class=3DMsoNormal style=3D'mso-list:l3 level1 lfo9;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>latch and latch!: they =
+are also
+     outputs from the microcontroller, and they are used to program the
+     register properly. You must make sure that they are connected to all t=
+he
+     registers. In the schematic view, these inputs are called
+     &#8216;latchenb&#8217; and &#8216;!latchenb&#8217;.<o:p></o:p></span><=
+/li>
+ <li class=3DMsoNormal style=3D'mso-list:l3 level1 lfo9;tab-stops:list 36.0=
+pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>powerDown: this is the =
+same
+     signal that we use in the &#8216;masterbias&#8217; cell, and will be
+     generated by the microcontroller to make sure that the bias generator =
+is
+     not consuming power while it&#8217;s not generating output currents. In
+     this case, this signal turns off the transistors that should generate =
+the
+     bias currents.<o:p></o:p></span></li>
+</ul>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h3><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Output signals<o:p=
+></o:p></span></h3>
+
+<ul style=3D'margin-top:0cm' type=3Ddisc>
+ <li class=3DMsoNormal style=3D'mso-list:l9 level1 lfo10;tab-stops:list 36.=
+0pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>pbias and nbias: these =
+are the
+     two possible outputs of each bias cell. When you decide the kind of ce=
+ll
+     that you need for your bias current, you also must know if it&#8217;s =
+n-
+     or p- bias. Anyway, in each cell you have both outputs ready to use, y=
+ou
+     only have to connect the right one to your circuit while leaving the o=
+ther
+     one floating.<o:p></o:p></span></li>
+ <li class=3DMsoNormal style=3D'mso-list:l9 level1 lfo10;tab-stops:list 36.=
+0pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>out and nout (inverted =
+out):
+     these are the digital outputs of the single-phase register, and they
+     should be connected to the inputs of the next register (out connected =
+to
+     in, and nout connected to nin). In the schematic view, they are called
+     &#8216;q&#8217; and &#8216;!q&#8217;.<o:p></o:p></span></li>
+</ul>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt'><span lang=3DEN-GB
+style=3D'mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>T=
+he layout
+of the cell called &#8216;biasBufferProgrammable&#8217; is shown in the next
+figure.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D566 height=3D326 id=3D"_x0000_i1029"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\biasProgrammable.png"><o:p></o:p></span=
+></p>
+
+<h2><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Bias Programmable =
+Cas<o:p></o:p></span></h2>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>T=
+his cell
+is just a small variation from the previous one. The only difference is that
+the buffer circuit contains cascoded current mirrors to generate the outputs
+&#8216;nbias&#8217; and &#8216;pbias&#8217;.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>I=
+t&#8217;s
+not necessary to mention the input and output signals in this case, because
+they are exactly the same ones that we described in the previous cell, so y=
+ou
+have to do the same things that before. Let&#8217;s just take a look at the
+layout of the cell called &#8216;biasProgrammableCas&#8217; in the following
+figure.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D567 height=3D331 id=3D"_x0000_i1030"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\biasProgrammableCas.png"><o:p></o:p></s=
+pan></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h2><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Bias Programmable
+Low-Current<o:p></o:p></span></h2>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>T=
+his is
+also a variation from the standard &#8216;biasProgrammable&#8217; that we h=
+ave
+already described. In this case, the splitter is exactly the same, and the =
+only
+difference is in the buffer circuit. To produce low-current outputs, we
+don&#8217;t use the same current buffers as before, but we just use
+sub-picoampere mirrors. We can see the schematic in the next figure.<o:p></=
+o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D566 height=3D406 id=3D"_x0000_i1031"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\biasBuffers_lowCurrent_sch.png"><o:p></=
+o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>C=
+oncerning
+the inputs and outputs, most of them are exactly the same ones as those in =
+the
+previous circuits. The only difference is that we have two new input signal=
+s in
+this case:<o:p></o:p></span></p>
+
+<ul style=3D'margin-top:0cm' type=3Ddisc>
+ <li class=3DMsoNormal style=3D'mso-list:l11 level1 lfo11;tab-stops:list 36=
+.0pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>shiftsourceP and shifts=
+ourceN:
+     as you can see in the previous figure, the sub-picoampere current mirr=
+ors
+     that we have implemented here don&#8217;t have the sources of the
+     transistors connected to ground or vdd, but to a different voltage, wh=
+ich
+     will be several hundreds of milivolts above ground (for n-mirrors) or
+     below vdd (for p-mirrors). So, these are two extra input signals that =
+are
+     generated by the cells that we will describe afterwards. It&#8217;s
+     important to notice that if you use one of these low-current biases, y=
+ou will
+     have to use these &#8216;shiftsourceP&#8217; or &#8216;shiftsourceN&#8=
+217;
+     also inside the core, so that the current mirror can work properly.<o:=
+p></o:p></span></li>
+</ul>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>S=
+o,
+let&#8217;s now take a look at the layout of the cell called
+&#8216;biasProgrammable_lowcurrent&#8217; in the following figure.<o:p></o:=
+p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D566 height=3D319 id=3D"_x0000_i1032"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\biasProgrammable_lowcurrent.png"><o:p><=
+/o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>A=
+nd after
+that, we have to talk about the cells that generate these
+&#8216;shiftsourceP&#8217; and &#8216;shiftsourceN&#8217; voltages.<o:p></o=
+:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h2><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>ShiftVgenN<o:p></o=
+:p></span></h2>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>T=
+his cell
+is necessary to generate the bias voltage for the source terminals of the
+n-type sub-picoampere mirrors. You have to bias this cell with the global n=
+ode
+&#8216;BiasBufferPBias&#8217;, and then connect the output to all the mirro=
+rs
+that need it. The schematic of this cell can be seen in the following figur=
+e.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D566 height=3D406 id=3D"_x0000_i1033"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\shiftVgenN_sch.png"><o:p></o:p></span><=
+/p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>A=
+s you can
+see, the inputs and outputs are as follows.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h3><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Input signals<o:p>=
+</o:p></span></h3>
+
+<ul style=3D'margin-top:0cm' type=3Ddisc>
+ <li class=3DMsoNormal style=3D'mso-list:l11 level1 lfo11;tab-stops:list 36=
+.0pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>BiasBufferPBias: this g=
+lobal
+     node is generated by the cell &#8216;biasBuffersSplitter&#8217;, and is
+     just the output current obtained after dividing the master current
+     accordingly with the programmed data.<o:p></o:p></span></li>
+</ul>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h3><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Output signals<o:p=
+></o:p></span></h3>
+
+<ul style=3D'margin-top:0cm' type=3Ddisc>
+ <li class=3DMsoNormal style=3D'mso-list:l11 level1 lfo11;tab-stops:list 36=
+.0pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>shiftsourceN: this is t=
+he signal
+     that you have to make sure that is connected to all the sources of the
+     n-type sub-picoampere current mirrors that you use.<o:p></o:p></span><=
+/li>
+</ul>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>A=
+nd the
+layout of this cell called &#8216;shiftVgenN&#8217; is shown in next figure=
+.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D566 height=3D349 id=3D"_x0000_i1034"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\shiftVgenN.png"><o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h2><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>ShiftVgenP<o:p></o=
+:p></span></h2>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>T=
+his cell
+is necessary to generate the bias voltage for the source terminals of the
+p-type sub-picoampere mirrors. You have to bias this cell with the global n=
+ode
+&#8216;BiasBufferNBias&#8217;, and then connect the output to all the mirro=
+rs
+that need it. The schematic of this cell can be seen in the following figur=
+e.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D566 height=3D406 id=3D"_x0000_i1035"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\shiftVgenP_sch.png"><o:p></o:p></span><=
+/p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>A=
+s you can
+see, the inputs and outputs are as follows.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h3><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Input signals<o:p>=
+</o:p></span></h3>
+
+<ul style=3D'margin-top:0cm' type=3Ddisc>
+ <li class=3DMsoNormal style=3D'mso-list:l11 level1 lfo11;tab-stops:list 36=
+.0pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>BiasBufferNBias: this g=
+lobal
+     node is generated by the cell &#8216;biasBuffersSplitter&#8217;, and is
+     just the output current obtained after dividing the master current
+     accordingly with the programmed data.<o:p></o:p></span></li>
+</ul>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h3><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Output signals<o:p=
+></o:p></span></h3>
+
+<ul style=3D'margin-top:0cm' type=3Ddisc>
+ <li class=3DMsoNormal style=3D'mso-list:l11 level1 lfo11;tab-stops:list 36=
+.0pt'><span
+     lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>shiftsourceP: this is t=
+he
+     signal that you have to make sure that is connected to all the sources=
+ of
+     the p-type sub-picoampere current mirrors that you use.<o:p></o:p></sp=
+an></li>
+</ul>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>A=
+nd the
+layout of this cell called &#8216;shiftVgenP&#8217; is shown in next figure=
+.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D567 height=3D327 id=3D"_x0000_i1037"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\shiftVgenP.png"><o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<h2><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Summary<o:p></o:p>=
+</span></h2>
+
+<p class=3DMsoNormal style=3D'margin-left:36.0pt;text-indent:-18.0pt;mso-li=
+st:l1 level1 lfo12;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=3DEN-GB style=3D'mso=
+-ansi-language:
+EN-GB'><span style=3D'mso-list:Ignore'>1)<span style=3D'font:7.0pt "Times N=
+ew Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=3DEN-GB style=3D'mso-ansi-languag=
+e:EN-GB'>The
+first thing you must do is write a list of all the current biases that you =
+need
+for your circuit<o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:36.0pt;text-indent:-18.0pt;mso-li=
+st:l1 level1 lfo12;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=3DEN-GB style=3D'mso=
+-ansi-language:
+EN-GB'><span style=3D'mso-list:Ignore'>2)<span style=3D'font:7.0pt "Times N=
+ew Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=3DEN-GB style=3D'mso-ansi-languag=
+e:EN-GB'>Over
+that list, indicate if it&#8217;s n- or p-bias, and also what kind of output
+stage you will need (standard, cascoded or low-current) <o:p></o:p></span><=
+/p>
+
+<p class=3DMsoNormal style=3D'margin-left:36.0pt;text-indent:-18.0pt;mso-li=
+st:l1 level1 lfo12;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=3DEN-GB style=3D'mso=
+-ansi-language:
+EN-GB'><span style=3D'mso-list:Ignore'>3)<span style=3D'font:7.0pt "Times N=
+ew Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=3DEN-GB style=3D'mso-ansi-languag=
+e:EN-GB'>Then,
+you can start to build the schematic of your bias generator. You have to
+instance the cell called &#8216;masterbias&#8217;, the cell called
+&#8216;biasBuffersSplitter&#8217;, and as many cells called
+&#8216;biasProgrammable&#8217;, &#8216;biasProgrammableCas&#8217; and
+&#8216;biasProgrammable_lowcurrent&#8217; as you need. Also, if you have one
+single &#8216;biasProgrammable_lowcurrent&#8217;, you also have to instance=
+ the
+cells called &#8216;shiftVgenN&#8217; and &#8216;shiftVgenP&#8217;.<o:p></o=
+:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:36.0pt;text-indent:-18.0pt;mso-li=
+st:l1 level1 lfo12;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=3DEN-GB style=3D'mso=
+-ansi-language:
+EN-GB'><span style=3D'mso-list:Ignore'>4)<span style=3D'font:7.0pt "Times N=
+ew Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=3DEN-GB style=3D'mso-ansi-languag=
+e:EN-GB'>Once
+you have all the cells, you have to connect them properly. You just have to=
+ put
+all the &#8216;biasProgrammables&#8217; cells together, in the order that y=
+ou
+decide, making sure that the digital outputs and inputs of the registers are
+connected. Then, you have to put the cell &#8216;biasBuffersSplitter&#8217;=
+ in
+front of all of them, and connect all the inputs to the registers together.
+Then, connect the outputs of the blocks &#8216;shiftVgen&#8217; to the right
+ports. You don&#8217;t have to connect the &#8216;masterbias&#8217; to anyo=
+ne,
+because it only uses global nodes as outputs. Then, you will have something
+similar to next figure.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D566 height=3D406 id=3D"_x0000_i1038"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\biasgen_sch.png"><o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:36.0pt;text-indent:-18.0pt;mso-li=
+st:l1 level1 lfo12;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=3DEN-GB style=3D'mso=
+-ansi-language:
+EN-GB'><span style=3D'mso-list:Ignore'>5)<span style=3D'font:7.0pt "Times N=
+ew Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=3DEN-GB style=3D'mso-ansi-languag=
+e:EN-GB'>Now,
+you can start with the layout of the circuit. First, you have to instance a=
+ll
+the cells, just as you did in the schematic.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:36.0pt;text-indent:-18.0pt;mso-li=
+st:l1 level1 lfo12;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=3DEN-GB style=3D'mso=
+-ansi-language:
+EN-GB'><span style=3D'mso-list:Ignore'>6)<span style=3D'font:7.0pt "Times N=
+ew Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=3DEN-GB style=3D'mso-ansi-languag=
+e:EN-GB'>Then,
+you must make sure that the &#8216;biasProgrammables&#8217; cells are conne=
+cted
+together in an array configuration (in our example, three rows, four column=
+s).
+Then, you have to add one cell called
+&#8216;biasShiftRegisterConnectRight&#8217; on the right of every row that =
+you
+have, and another cell called &#8216;biasShiftConnectLeft&#8217; on the lef=
+t of
+every row, to make sure that they are all connected.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:36.0pt;text-indent:-18.0pt;mso-li=
+st:l1 level1 lfo12;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=3DEN-GB style=3D'mso=
+-ansi-language:
+EN-GB'><span style=3D'mso-list:Ignore'>7)<span style=3D'font:7.0pt "Times N=
+ew Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=3DEN-GB style=3D'mso-ansi-languag=
+e:EN-GB'>Now,
+connect the cell &#8216;biasBuffersSplitter&#8217; making sure that the dig=
+ital
+outputs will be connected to the inputs of the next stage. Also, check that=
+ all
+the common input signals to the registers are connected to all of them.<o:p=
+></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:36.0pt;text-indent:-18.0pt;mso-li=
+st:l1 level1 lfo12;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=3DEN-GB style=3D'mso=
+-ansi-language:
+EN-GB'><span style=3D'mso-list:Ignore'>8)<span style=3D'font:7.0pt "Times N=
+ew Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=3DEN-GB style=3D'mso-ansi-languag=
+e:EN-GB'>Connect
+the outputs of the cell &#8216;masterbias&#8217; and the outputs of the cell
+&#8216;biasBuffersSplitter&#8217; to the rest of the blocks. You should use
+buses for these, the cells are designed so that it won&#8217;t be difficult=
+ to
+route them.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:36.0pt;text-indent:-18.0pt;mso-li=
+st:l1 level1 lfo12;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=3DEN-GB style=3D'mso=
+-ansi-language:
+EN-GB'><span style=3D'mso-list:Ignore'>9)<span style=3D'font:7.0pt "Times N=
+ew Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=3DEN-GB style=3D'mso-ansi-languag=
+e:EN-GB'>After
+that, you just have to connect the outputs of the cells
+&#8216;shiftVgenN&#8217; and &#8216;shiftVgenP&#8217; to the cells that need
+it.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:36.0pt;text-indent:-18.0pt;mso-li=
+st:l1 level1 lfo12;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=3DEN-GB style=3D'mso=
+-ansi-language:
+EN-GB'><span style=3D'mso-list:Ignore'>10)<span style=3D'font:7.0pt "Times =
+New Roman"'>&nbsp;
+</span></span></span><![endif]><span lang=3DEN-GB style=3D'mso-ansi-languag=
+e:EN-GB'>Once
+you have reached here, you must connect all the bias outputs to make it
+accessible to the rest of the circuit, and check that you connect properly =
+all
+the supply nodes, which are four: digital vdd, digital ground, analog vdd a=
+nd
+analog ground.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>I=
+n general,
+I would recommend you to check periodically for Design Rules Check errors, =
+and
+also try to check Layout Versus Schematics to make sure that you have
+everything connected.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>I=
+f you
+could follow all the steps, now you have your bias generator ready to be us=
+ed
+in your circuit. In the next figure, you can see the layout of the example =
+that
+we have built.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+img
+width=3D566 height=3D341 id=3D"_x0000_i1036"
+src=3D"file:///C:\Documents%20and%20Settings\Luis\Mis%20documentos\designKi=
+tProgrammableBiasesSrc\User%20guide\biasgen_layout.png"><o:p></o:p></span><=
+/p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB'>Y=
+ou can use
+this finished example to check how everything is connected, and try to do i=
+t in
+a similar way.<o:p></o:p></span></p>
+
+</div>
+
+</body>
+
+</html>
