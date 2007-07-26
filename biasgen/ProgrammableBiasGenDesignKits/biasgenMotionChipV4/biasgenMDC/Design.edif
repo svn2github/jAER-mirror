@@ -6,7 +6,7 @@
 	)
 	(status
 		(written
-			(timestamp 2007 06 21 14 37 47)
+			(timestamp 2007 07 26 17 08 25)
 			(author "tobi")
 			(program "Tanner S-Edit"
 				(version "12.51 build 3163")
@@ -118,11 +118,11 @@
 			(view view_1
 				(viewType SCHEMATIC)
 				(interface
-					(property File
-						(string "?{Design}")
-					)
 					(property Created
 						(string "?{Created}")
+					)
+					(property File
+						(string "?{Design}")
 					)
 					(property Info
 						(string "?{Info}")
@@ -164,6 +164,26 @@
 							)
 						)
 						(propertyDisplay
+							(name File
+								(display
+									(figureGroupOverride property
+										(textHeight 25)
+									)
+									(origin
+										(pt 16 24)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(textHeight 25)
+								)
+								(origin
+									(pt 16 24)
+								)
+							)
+						)
+						(propertyDisplay
 							(name Created
 								(display
 									(figureGroupOverride property
@@ -184,26 +204,6 @@
 							)
 						)
 						(propertyDisplay
-							(name Modified
-								(display
-									(figureGroupOverride property
-										(textHeight 32)
-									)
-									(origin
-										(pt 432 192)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(textHeight 32)
-								)
-								(origin
-									(pt 432 192)
-								)
-							)
-						)
-						(propertyDisplay
 							(name Info
 								(display
 									(figureGroupOverride property
@@ -220,6 +220,26 @@
 								)
 								(origin
 									(pt 16 152)
+								)
+							)
+						)
+						(propertyDisplay
+							(name Modified
+								(display
+									(figureGroupOverride property
+										(textHeight 32)
+									)
+									(origin
+										(pt 432 192)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(textHeight 32)
+								)
+								(origin
+									(pt 432 192)
 								)
 							)
 						)
@@ -260,26 +280,6 @@
 								)
 								(origin
 									(pt 8 216)
-								)
-							)
-						)
-						(propertyDisplay
-							(name File
-								(display
-									(figureGroupOverride property
-										(textHeight 25)
-									)
-									(origin
-										(pt 16 24)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(textHeight 25)
-								)
-								(origin
-									(pt 16 24)
 								)
 							)
 						)
@@ -409,32 +409,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 64)
-									)
-									(origin
-										(pt 224 32)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 64)
-								)
-								(origin
-									(pt 224 32)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -477,6 +451,32 @@
 								)
 								(origin
 									(pt 256 416)
+								)
+							)
+						)
+						(propertyDisplay
+							(name SPICE_PERIOD_PRIMITIVE
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 64)
+									)
+									(origin
+										(pt 224 32)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 64)
+								)
+								(origin
+									(pt 224 32)
 								)
 							)
 						)
@@ -614,32 +614,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 32)
-									)
-									(origin
-										(pt -64 -320)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 32)
-								)
-								(origin
-									(pt -64 -320)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -662,6 +636,32 @@
 								)
 								(origin
 									(pt -64 -384)
+								)
+							)
+						)
+						(propertyDisplay
+							(name SPICE_PERIOD_PRIMITIVE
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 32)
+									)
+									(origin
+										(pt -64 -320)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 32)
+								)
+								(origin
+									(pt -64 -320)
 								)
 							)
 						)
@@ -808,32 +808,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 32)
-									)
-									(origin
-										(pt -65 -224)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 32)
-								)
-								(origin
-									(pt -65 -224)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -856,6 +830,32 @@
 								)
 								(origin
 									(pt -65 -288)
+								)
+							)
+						)
+						(propertyDisplay
+							(name SPICE_PERIOD_PRIMITIVE
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 32)
+									)
+									(origin
+										(pt -65 -224)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 32)
+								)
+								(origin
+									(pt -65 -224)
 								)
 							)
 						)
@@ -990,23 +990,23 @@
 					(property AS
 						(string "'${W}*${DIFF}'")
 					)
-					(property AD
-						(string "'${W}*${DIFF}'")
+					(property NRS
+						(string "'${LC}/${W}'")
 					)
 					(property PS
 						(string "'${W}+2*${DIFF}'")
 					)
-					(property NRS
-						(string "'${LC}/${W}'")
+					(property AD
+						(string "'${W}*${DIFF}'")
 					)
-					(property W
-						(string "1u")
+					(property NRD
+						(string "'${LC}/${W}'")
 					)
 					(property PD
 						(string "'${W}+2*${DIFF}'")
 					)
-					(property NRD
-						(string "'${LC}/${W}'")
+					(property W
+						(string "1u")
 					)
 					(property
 						(rename SPICE_PERIOD_PRIMITIVE "SPICE.PRIMITIVE")
@@ -1045,32 +1045,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 16)
-									)
-									(origin
-										(pt 0 -256)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 16)
-								)
-								(origin
-									(pt 0 -256)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -1097,7 +1071,7 @@
 							)
 						)
 						(propertyDisplay
-							(name NRS
+							(name SPICE_PERIOD_PRIMITIVE
 								(display
 									(figureGroupOverride property
 										(visible
@@ -1106,7 +1080,7 @@
 										(textHeight 16)
 									)
 									(origin
-										(pt 132 -44)
+										(pt 0 -256)
 									)
 								)
 							)
@@ -1118,33 +1092,7 @@
 									(textHeight 16)
 								)
 								(origin
-									(pt 132 -44)
-								)
-							)
-						)
-						(propertyDisplay
-							(name NRD
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 16)
-									)
-									(origin
-										(pt 132 40)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 16)
-								)
-								(origin
-									(pt 132 40)
+									(pt 0 -256)
 								)
 							)
 						)
@@ -1175,54 +1123,22 @@
 							)
 						)
 						(propertyDisplay
-							(name AS
+							(name DIFF
 								(display
 									(figureGroupOverride property
-										(visible
-											(false)
-										)
 										(textHeight 16)
 									)
 									(origin
-										(pt 132 -12)
+										(pt 64 -8)
 									)
 								)
 							)
 							(display
 								(figureGroupOverride property
-									(visible
-										(false)
-									)
 									(textHeight 16)
 								)
 								(origin
-									(pt 132 -12)
-								)
-							)
-						)
-						(propertyDisplay
-							(name PS
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 16)
-									)
-									(origin
-										(pt 132 -28)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 16)
-								)
-								(origin
-									(pt 132 -28)
+									(pt 64 -8)
 								)
 							)
 						)
@@ -1247,13 +1163,13 @@
 							)
 						)
 						(propertyDisplay
-							(name DIFF
+							(name M
 								(display
 									(figureGroupOverride property
 										(textHeight 16)
 									)
 									(origin
-										(pt 64 -8)
+										(pt 66 -20)
 									)
 								)
 							)
@@ -1262,7 +1178,33 @@
 									(textHeight 16)
 								)
 								(origin
-									(pt 64 -8)
+									(pt 66 -20)
+								)
+							)
+						)
+						(propertyDisplay
+							(name AS
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 16)
+									)
+									(origin
+										(pt 132 -12)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 16)
+								)
+								(origin
+									(pt 132 -12)
 								)
 							)
 						)
@@ -1293,6 +1235,78 @@
 							)
 						)
 						(propertyDisplay
+							(name PS
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 16)
+									)
+									(origin
+										(pt 132 -28)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 16)
+								)
+								(origin
+									(pt 132 -28)
+								)
+							)
+						)
+						(propertyDisplay
+							(name NRS
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 16)
+									)
+									(origin
+										(pt 132 -44)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 16)
+								)
+								(origin
+									(pt 132 -44)
+								)
+							)
+						)
+						(propertyDisplay
+							(name W
+								(display
+									(figureGroupOverride property
+										(textHeight 16)
+									)
+									(origin
+										(pt 65 -32)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(textHeight 16)
+								)
+								(origin
+									(pt 65 -32)
+								)
+							)
+						)
+						(propertyDisplay
 							(name PD
 								(display
 									(figureGroupOverride property
@@ -1319,42 +1333,28 @@
 							)
 						)
 						(propertyDisplay
-							(name M
+							(name NRD
 								(display
 									(figureGroupOverride property
+										(visible
+											(false)
+										)
 										(textHeight 16)
 									)
 									(origin
-										(pt 66 -20)
+										(pt 132 40)
 									)
 								)
 							)
 							(display
 								(figureGroupOverride property
+									(visible
+										(false)
+									)
 									(textHeight 16)
 								)
 								(origin
-									(pt 66 -20)
-								)
-							)
-						)
-						(propertyDisplay
-							(name W
-								(display
-									(figureGroupOverride property
-										(textHeight 16)
-									)
-									(origin
-										(pt 65 -32)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(textHeight 16)
-								)
-								(origin
-									(pt 65 -32)
+									(pt 132 40)
 								)
 							)
 						)
@@ -1566,23 +1566,23 @@
 					(property AS
 						(string "'${W}*${DIFF}'")
 					)
-					(property AD
-						(string "'${W}*${DIFF}'")
+					(property NRS
+						(string "'${LC}/${W}'")
 					)
 					(property PS
 						(string "'${W}+2*${DIFF}'")
 					)
-					(property NRS
-						(string "'${LC}/${W}'")
+					(property AD
+						(string "'${W}*${DIFF}'")
 					)
-					(property W
-						(string "1u")
+					(property NRD
+						(string "'${LC}/${W}'")
 					)
 					(property PD
 						(string "'${W}+2*${DIFF}'")
 					)
-					(property NRD
-						(string "'${LC}/${W}'")
+					(property W
+						(string "1u")
 					)
 					(property
 						(rename SPICE_PERIOD_PRIMITIVE "SPICE.PRIMITIVE")
@@ -1621,32 +1621,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 16)
-									)
-									(origin
-										(pt 0 -220)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 16)
-								)
-								(origin
-									(pt 0 -220)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -1673,7 +1647,7 @@
 							)
 						)
 						(propertyDisplay
-							(name NRS
+							(name SPICE_PERIOD_PRIMITIVE
 								(display
 									(figureGroupOverride property
 										(visible
@@ -1682,7 +1656,7 @@
 										(textHeight 16)
 									)
 									(origin
-										(pt 108 24)
+										(pt 0 -220)
 									)
 								)
 							)
@@ -1694,33 +1668,7 @@
 									(textHeight 16)
 								)
 								(origin
-									(pt 108 24)
-								)
-							)
-						)
-						(propertyDisplay
-							(name NRD
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 16)
-									)
-									(origin
-										(pt 108 -88)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 16)
-								)
-								(origin
-									(pt 108 -88)
+									(pt 0 -220)
 								)
 							)
 						)
@@ -1751,54 +1699,22 @@
 							)
 						)
 						(propertyDisplay
-							(name AS
+							(name DIFF
 								(display
 									(figureGroupOverride property
-										(visible
-											(false)
-										)
 										(textHeight 16)
 									)
 									(origin
-										(pt 108 56)
+										(pt 64 -24)
 									)
 								)
 							)
 							(display
 								(figureGroupOverride property
-									(visible
-										(false)
-									)
 									(textHeight 16)
 								)
 								(origin
-									(pt 108 56)
-								)
-							)
-						)
-						(propertyDisplay
-							(name PS
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 16)
-									)
-									(origin
-										(pt 108 40)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 16)
-								)
-								(origin
-									(pt 108 40)
+									(pt 64 -24)
 								)
 							)
 						)
@@ -1823,13 +1739,13 @@
 							)
 						)
 						(propertyDisplay
-							(name DIFF
+							(name M
 								(display
 									(figureGroupOverride property
 										(textHeight 16)
 									)
 									(origin
-										(pt 64 -24)
+										(pt 66 -12)
 									)
 								)
 							)
@@ -1838,7 +1754,33 @@
 									(textHeight 16)
 								)
 								(origin
-									(pt 64 -24)
+									(pt 66 -12)
+								)
+							)
+						)
+						(propertyDisplay
+							(name AS
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 16)
+									)
+									(origin
+										(pt 108 56)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 16)
+								)
+								(origin
+									(pt 108 56)
 								)
 							)
 						)
@@ -1869,6 +1811,78 @@
 							)
 						)
 						(propertyDisplay
+							(name PS
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 16)
+									)
+									(origin
+										(pt 108 40)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 16)
+								)
+								(origin
+									(pt 108 40)
+								)
+							)
+						)
+						(propertyDisplay
+							(name NRS
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 16)
+									)
+									(origin
+										(pt 108 24)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 16)
+								)
+								(origin
+									(pt 108 24)
+								)
+							)
+						)
+						(propertyDisplay
+							(name W
+								(display
+									(figureGroupOverride property
+										(textHeight 16)
+									)
+									(origin
+										(pt 65 0)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(textHeight 16)
+								)
+								(origin
+									(pt 65 0)
+								)
+							)
+						)
+						(propertyDisplay
 							(name PD
 								(display
 									(figureGroupOverride property
@@ -1895,42 +1909,28 @@
 							)
 						)
 						(propertyDisplay
-							(name M
+							(name NRD
 								(display
 									(figureGroupOverride property
+										(visible
+											(false)
+										)
 										(textHeight 16)
 									)
 									(origin
-										(pt 66 -12)
+										(pt 108 -88)
 									)
 								)
 							)
 							(display
 								(figureGroupOverride property
+									(visible
+										(false)
+									)
 									(textHeight 16)
 								)
 								(origin
-									(pt 66 -12)
-								)
-							)
-						)
-						(propertyDisplay
-							(name W
-								(display
-									(figureGroupOverride property
-										(textHeight 16)
-									)
-									(origin
-										(pt 65 0)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(textHeight 16)
-								)
-								(origin
-									(pt 65 0)
+									(pt 108 -88)
 								)
 							)
 						)
@@ -3218,6 +3218,12 @@
 						)
 						(net dGnd
 							(joined
+								(portRef D
+									(instanceRef N3_1)
+								)
+								(portRef D
+									(instanceRef N3_2)
+								)
 								(portRef dGnd
 									(instanceRef dGnd_1)
 								)
@@ -3227,31 +3233,10 @@
 								(portRef dGnd
 									(instanceRef dGnd_3)
 								)
-								(portRef D
-									(instanceRef N3_1)
-								)
-								(portRef D
-									(instanceRef N3_2)
-								)
 							)
 						)
 						(net dVDD
 							(joined
-								(portRef dVDD
-									(instanceRef dVdd_1)
-								)
-								(portRef dVDD
-									(instanceRef dVdd_2)
-								)
-								(portRef dVDD
-									(instanceRef dVdd_3)
-								)
-								(portRef dVDD
-									(instanceRef dVdd_4)
-								)
-								(portRef dVDD
-									(instanceRef dVdd_5)
-								)
 								(portRef B
 									(instanceRef P4_1)
 								)
@@ -3269,6 +3254,21 @@
 								)
 								(portRef B
 									(instanceRef P4_4)
+								)
+								(portRef dVDD
+									(instanceRef dVdd_1)
+								)
+								(portRef dVDD
+									(instanceRef dVdd_2)
+								)
+								(portRef dVDD
+									(instanceRef dVdd_3)
+								)
+								(portRef dVDD
+									(instanceRef dVdd_4)
+								)
+								(portRef dVDD
+									(instanceRef dVdd_5)
 								)
 							)
 							(figure wire
@@ -3576,32 +3576,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 64)
-									)
-									(origin
-										(pt -45 -472)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 64)
-								)
-								(origin
-									(pt -45 -472)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -3624,6 +3598,32 @@
 								)
 								(origin
 									(pt -45 -600)
+								)
+							)
+						)
+						(propertyDisplay
+							(name SPICE_PERIOD_PRIMITIVE
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 64)
+									)
+									(origin
+										(pt -45 -472)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 64)
+								)
+								(origin
+									(pt -45 -472)
 								)
 							)
 						)
@@ -3783,32 +3783,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 5)
-									)
-									(origin
-										(pt -32 -86)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 5)
-								)
-								(origin
-									(pt -32 -86)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -3831,6 +3805,32 @@
 								)
 								(origin
 									(pt -32 -96)
+								)
+							)
+						)
+						(propertyDisplay
+							(name SPICE_PERIOD_PRIMITIVE
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 5)
+									)
+									(origin
+										(pt -32 -86)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 5)
+								)
+								(origin
+									(pt -32 -86)
 								)
 							)
 						)
@@ -3965,23 +3965,23 @@
 					(property AS
 						(string "'${W}*${DIFF}'")
 					)
-					(property AD
-						(string "'${W}*${DIFF}'")
+					(property NRS
+						(string "'${LC}/${W}'")
 					)
 					(property PS
 						(string "'${W}+2*${DIFF}'")
 					)
-					(property NRS
-						(string "'${LC}/${W}'")
+					(property AD
+						(string "'${W}*${DIFF}'")
 					)
-					(property W
-						(string "1u")
+					(property NRD
+						(string "'${LC}/${W}'")
 					)
 					(property PD
 						(string "'${W}+2*${DIFF}'")
 					)
-					(property NRD
-						(string "'${LC}/${W}'")
+					(property W
+						(string "1u")
 					)
 					(property
 						(rename SPICE_PERIOD_PRIMITIVE "SPICE.PRIMITIVE")
@@ -4020,32 +4020,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 16)
-									)
-									(origin
-										(pt 0 -244)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 16)
-								)
-								(origin
-									(pt 0 -244)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -4072,7 +4046,7 @@
 							)
 						)
 						(propertyDisplay
-							(name NRS
+							(name SPICE_PERIOD_PRIMITIVE
 								(display
 									(figureGroupOverride property
 										(visible
@@ -4081,7 +4055,7 @@
 										(textHeight 16)
 									)
 									(origin
-										(pt 112 32)
+										(pt 0 -244)
 									)
 								)
 							)
@@ -4093,33 +4067,7 @@
 									(textHeight 16)
 								)
 								(origin
-									(pt 112 32)
-								)
-							)
-						)
-						(propertyDisplay
-							(name NRD
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 16)
-									)
-									(origin
-										(pt 112 -80)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 16)
-								)
-								(origin
-									(pt 112 -80)
+									(pt 0 -244)
 								)
 							)
 						)
@@ -4150,54 +4098,22 @@
 							)
 						)
 						(propertyDisplay
-							(name AS
+							(name DIFF
 								(display
 									(figureGroupOverride property
-										(visible
-											(false)
-										)
 										(textHeight 16)
 									)
 									(origin
-										(pt 112 64)
+										(pt 68 -8)
 									)
 								)
 							)
 							(display
 								(figureGroupOverride property
-									(visible
-										(false)
-									)
 									(textHeight 16)
 								)
 								(origin
-									(pt 112 64)
-								)
-							)
-						)
-						(propertyDisplay
-							(name PS
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 16)
-									)
-									(origin
-										(pt 112 48)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 16)
-								)
-								(origin
-									(pt 112 48)
+									(pt 68 -8)
 								)
 							)
 						)
@@ -4222,13 +4138,13 @@
 							)
 						)
 						(propertyDisplay
-							(name DIFF
+							(name M
 								(display
 									(figureGroupOverride property
 										(textHeight 16)
 									)
 									(origin
-										(pt 68 -8)
+										(pt 70 -32)
 									)
 								)
 							)
@@ -4237,7 +4153,33 @@
 									(textHeight 16)
 								)
 								(origin
-									(pt 68 -8)
+									(pt 70 -32)
+								)
+							)
+						)
+						(propertyDisplay
+							(name AS
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 16)
+									)
+									(origin
+										(pt 112 64)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 16)
+								)
+								(origin
+									(pt 112 64)
 								)
 							)
 						)
@@ -4268,6 +4210,78 @@
 							)
 						)
 						(propertyDisplay
+							(name PS
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 16)
+									)
+									(origin
+										(pt 112 48)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 16)
+								)
+								(origin
+									(pt 112 48)
+								)
+							)
+						)
+						(propertyDisplay
+							(name NRS
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 16)
+									)
+									(origin
+										(pt 112 32)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 16)
+								)
+								(origin
+									(pt 112 32)
+								)
+							)
+						)
+						(propertyDisplay
+							(name W
+								(display
+									(figureGroupOverride property
+										(textHeight 16)
+									)
+									(origin
+										(pt 69 -20)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(textHeight 16)
+								)
+								(origin
+									(pt 69 -20)
+								)
+							)
+						)
+						(propertyDisplay
 							(name PD
 								(display
 									(figureGroupOverride property
@@ -4294,42 +4308,28 @@
 							)
 						)
 						(propertyDisplay
-							(name M
+							(name NRD
 								(display
 									(figureGroupOverride property
+										(visible
+											(false)
+										)
 										(textHeight 16)
 									)
 									(origin
-										(pt 70 -32)
+										(pt 112 -80)
 									)
 								)
 							)
 							(display
 								(figureGroupOverride property
+									(visible
+										(false)
+									)
 									(textHeight 16)
 								)
 								(origin
-									(pt 70 -32)
-								)
-							)
-						)
-						(propertyDisplay
-							(name W
-								(display
-									(figureGroupOverride property
-										(textHeight 16)
-									)
-									(origin
-										(pt 69 -20)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(textHeight 16)
-								)
-								(origin
-									(pt 69 -20)
+									(pt 112 -80)
 								)
 							)
 						)
@@ -4565,32 +4565,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 32)
-									)
-									(origin
-										(pt -65 -224)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 32)
-								)
-								(origin
-									(pt -65 -224)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -4613,6 +4587,32 @@
 								)
 								(origin
 									(pt -65 -288)
+								)
+							)
+						)
+						(propertyDisplay
+							(name SPICE_PERIOD_PRIMITIVE
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 32)
+									)
+									(origin
+										(pt -65 -224)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 32)
+								)
+								(origin
+									(pt -65 -224)
 								)
 							)
 						)
@@ -7918,18 +7918,6 @@
 						)
 						(net dGnd
 							(joined
-								(portRef dGnd
-									(instanceRef dGnd_1)
-								)
-								(portRef dGnd
-									(instanceRef dGnd_2)
-								)
-								(portRef dGnd
-									(instanceRef dGnd_3)
-								)
-								(portRef dGnd
-									(instanceRef dGnd_4)
-								)
 								(portRef D
 									(instanceRef N3_3)
 								)
@@ -7944,6 +7932,18 @@
 								)
 								(portRef D
 									(instanceRef N3_9)
+								)
+								(portRef dGnd
+									(instanceRef dGnd_1)
+								)
+								(portRef dGnd
+									(instanceRef dGnd_2)
+								)
+								(portRef dGnd
+									(instanceRef dGnd_3)
+								)
+								(portRef dGnd
+									(instanceRef dGnd_4)
 								)
 							)
 							(figure wire
@@ -7965,35 +7965,17 @@
 						)
 						(net dVDD
 							(joined
-								(portRef dVDD
-									(instanceRef dVdd_1)
-								)
-								(portRef dVDD
-									(instanceRef dVdd_2)
-								)
-								(portRef dVDD
-									(instanceRef dVdd_3)
-								)
-								(portRef dVDD
-									(instanceRef dVdd_4)
-								)
-								(portRef dVDD
-									(instanceRef dVdd_5)
-								)
-								(portRef dVDD
-									(instanceRef dVdd_6)
-								)
-								(portRef dVDD
-									(instanceRef dVdd_7)
-								)
-								(portRef dVDD
-									(instanceRef dVdd_8)
-								)
 								(portRef B
 									(instanceRef P4_1)
 								)
 								(portRef S
 									(instanceRef P4_1)
+								)
+								(portRef B
+									(instanceRef P4_10)
+								)
+								(portRef S
+									(instanceRef P4_10)
 								)
 								(portRef B
 									(instanceRef P4_2)
@@ -8031,11 +8013,29 @@
 								(portRef S
 									(instanceRef P4_9)
 								)
-								(portRef B
-									(instanceRef P4_10)
+								(portRef dVDD
+									(instanceRef dVdd_1)
 								)
-								(portRef S
-									(instanceRef P4_10)
+								(portRef dVDD
+									(instanceRef dVdd_2)
+								)
+								(portRef dVDD
+									(instanceRef dVdd_3)
+								)
+								(portRef dVDD
+									(instanceRef dVdd_4)
+								)
+								(portRef dVDD
+									(instanceRef dVdd_5)
+								)
+								(portRef dVDD
+									(instanceRef dVdd_6)
+								)
+								(portRef dVDD
+									(instanceRef dVdd_7)
+								)
+								(portRef dVDD
+									(instanceRef dVdd_8)
 								)
 							)
 							(figure wire
@@ -8289,11 +8289,11 @@
 								(portRef S
 									(instanceRef N3_8)
 								)
-								(portRef D
-									(instanceRef P4_8)
-								)
 								(portRef G
 									(instanceRef P4_10)
+								)
+								(portRef D
+									(instanceRef P4_8)
 								)
 							)
 							(figure wire
@@ -10863,32 +10863,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 64)
-									)
-									(origin
-										(pt 531 584)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 64)
-								)
-								(origin
-									(pt 531 584)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -10911,6 +10885,32 @@
 								)
 								(origin
 									(pt 531 456)
+								)
+							)
+						)
+						(propertyDisplay
+							(name SPICE_PERIOD_PRIMITIVE
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 64)
+									)
+									(origin
+										(pt 531 584)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 64)
+								)
+								(origin
+									(pt 531 584)
 								)
 							)
 						)
@@ -11065,32 +11065,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 64)
-									)
-									(origin
-										(pt 531 584)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 64)
-								)
-								(origin
-									(pt 531 584)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -11113,6 +11087,32 @@
 								)
 								(origin
 									(pt 531 456)
+								)
+							)
+						)
+						(propertyDisplay
+							(name SPICE_PERIOD_PRIMITIVE
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 64)
+									)
+									(origin
+										(pt 531 584)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 64)
+								)
+								(origin
+									(pt 531 584)
 								)
 							)
 						)
@@ -14201,32 +14201,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 64)
-									)
-									(origin
-										(pt -45 -472)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 64)
-								)
-								(origin
-									(pt -45 -472)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -14249,6 +14223,32 @@
 								)
 								(origin
 									(pt -45 -600)
+								)
+							)
+						)
+						(propertyDisplay
+							(name SPICE_PERIOD_PRIMITIVE
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 64)
+									)
+									(origin
+										(pt -45 -472)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 64)
+								)
+								(origin
+									(pt -45 -472)
 								)
 							)
 						)
@@ -15589,6 +15589,12 @@
 							(joined
 								(portRef &_EXCLAMATION_latchenb)
 								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_10)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_11)
+								)
+								(portRef &_EXCLAMATION_latch
 									(instanceRef biasBit_4)
 								)
 								(portRef &_EXCLAMATION_latch
@@ -15605,12 +15611,6 @@
 								)
 								(portRef &_EXCLAMATION_latch
 									(instanceRef biasBit_9)
-								)
-								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_10)
-								)
-								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_11)
 								)
 								(portRef &_EXCLAMATION_latch
 									(instanceRef biasSpBit_1)
@@ -15749,6 +15749,24 @@
 						)
 						(net BiasBufferNBias
 							(joined
+								(portRef BiasBufferNBias
+									(instanceRef BiasBufferNBias_1)
+								)
+								(portRef G
+									(instanceRef N3_1)
+								)
+								(portRef S
+									(instanceRef N3_1)
+								)
+								(portRef G
+									(instanceRef N3_2)
+								)
+								(portRef out
+									(instanceRef biasBit_10)
+								)
+								(portRef out
+									(instanceRef biasBit_11)
+								)
 								(portRef out
 									(instanceRef biasBit_4)
 								)
@@ -15766,24 +15784,6 @@
 								)
 								(portRef out
 									(instanceRef biasBit_9)
-								)
-								(portRef out
-									(instanceRef biasBit_10)
-								)
-								(portRef out
-									(instanceRef biasBit_11)
-								)
-								(portRef BiasBufferNBias
-									(instanceRef BiasBufferNBias_1)
-								)
-								(portRef G
-									(instanceRef N3_1)
-								)
-								(portRef S
-									(instanceRef N3_1)
-								)
-								(portRef G
-									(instanceRef N3_2)
 								)
 							)
 							(figure wire
@@ -16016,66 +16016,136 @@
 						(net N_1
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_4)
+									(instanceRef biasBit_10)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_5)
+									(instanceRef biasBit_11)
 								)
 							)
 						)
 						(net N_10
 							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_6)
+								(portRef d
+									(instanceRef biasBit_4)
 								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_7)
+								(portRef q
+									(instanceRef biasBit_5)
 								)
 							)
 						)
 						(net N_11
 							(joined
-								(portRef d
-									(instanceRef biasBit_6)
+								(portRef next
+									(instanceRef biasBit_4)
 								)
-								(portRef q
-									(instanceRef biasBit_7)
+								(portRef prev
+									(instanceRef biasBit_5)
 								)
 							)
 						)
 						(net N_12
 							(joined
-								(portRef next
-									(instanceRef biasBit_6)
+								(portRef q
+									(instanceRef biasBit_4)
 								)
-								(portRef prev
-									(instanceRef biasBit_7)
+								(portRef d
+									(instanceRef biasSpBit_1)
 								)
 							)
 						)
 						(net N_13
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_5)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_6)
 								)
 							)
 						)
 						(net N_14
 							(joined
 								(portRef d
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_5)
 								)
 								(portRef q
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_6)
 								)
 							)
 						)
 						(net N_15
 							(joined
 								(portRef next
+									(instanceRef biasBit_5)
+								)
+								(portRef prev
+									(instanceRef biasBit_6)
+								)
+							)
+						)
+						(net N_16
+							(joined
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasBit_6)
+								)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_7)
+								)
+							)
+						)
+						(net N_17
+							(joined
+								(portRef d
+									(instanceRef biasBit_6)
+								)
+								(portRef q
+									(instanceRef biasBit_7)
+								)
+							)
+						)
+						(net N_18
+							(joined
+								(portRef next
+									(instanceRef biasBit_6)
+								)
+								(portRef prev
+									(instanceRef biasBit_7)
+								)
+							)
+						)
+						(net N_19
+							(joined
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasBit_7)
+								)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_8)
+								)
+							)
+						)
+						(net N_2
+							(joined
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_10)
+								)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasBit_9)
+								)
+							)
+						)
+						(net N_20
+							(joined
+								(portRef d
+									(instanceRef biasBit_7)
+								)
+								(portRef q
+									(instanceRef biasBit_8)
+								)
+							)
+						)
+						(net N_21
+							(joined
+								(portRef next
 									(instanceRef biasBit_7)
 								)
 								(portRef prev
@@ -16083,103 +16153,33 @@
 								)
 							)
 						)
-						(net N_16
-							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_8)
-								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_9)
-								)
-							)
-						)
-						(net N_17
-							(joined
-								(portRef d
-									(instanceRef biasBit_8)
-								)
-								(portRef q
-									(instanceRef biasBit_9)
-								)
-							)
-						)
-						(net N_18
-							(joined
-								(portRef next
-									(instanceRef biasBit_8)
-								)
-								(portRef prev
-									(instanceRef biasBit_9)
-								)
-							)
-						)
-						(net N_19
-							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_9)
-								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_10)
-								)
-							)
-						)
-						(net N_2
-							(joined
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_4)
-								)
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasSpBit_1)
-								)
-							)
-						)
-						(net N_20
-							(joined
-								(portRef d
-									(instanceRef biasBit_9)
-								)
-								(portRef q
-									(instanceRef biasBit_10)
-								)
-							)
-						)
-						(net N_21
-							(joined
-								(portRef next
-									(instanceRef biasBit_9)
-								)
-								(portRef prev
-									(instanceRef biasBit_10)
-								)
-							)
-						)
 						(net N_22
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_8)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_9)
 								)
 							)
 						)
 						(net N_23
 							(joined
 								(portRef d
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_8)
 								)
 								(portRef q
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_9)
 								)
 							)
 						)
 						(net N_24
 							(joined
 								(portRef next
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_8)
 								)
 								(portRef prev
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_9)
 								)
 							)
 						)
@@ -16241,10 +16241,10 @@
 						(net N_3
 							(joined
 								(portRef d
-									(instanceRef biasBit_4)
+									(instanceRef biasBit_10)
 								)
 								(portRef q
-									(instanceRef biasBit_5)
+									(instanceRef biasBit_11)
 								)
 							)
 						)
@@ -16339,10 +16339,10 @@
 						(net N_4
 							(joined
 								(portRef next
-									(instanceRef biasBit_4)
+									(instanceRef biasBit_10)
 								)
 								(portRef prev
-									(instanceRef biasBit_5)
+									(instanceRef biasBit_11)
 								)
 							)
 						)
@@ -16377,6 +16377,18 @@
 						(net N_5
 							(joined
 								(portRef or
+									(instanceRef biasBit_10)
+								)
+								(portRef or
+									(instanceRef biasBit_10)
+								)
+								(portRef or
+									(instanceRef biasBit_11)
+								)
+								(portRef or
+									(instanceRef biasBit_11)
+								)
+								(portRef or
 									(instanceRef biasBit_4)
 								)
 								(portRef or
@@ -16411,18 +16423,6 @@
 								)
 								(portRef or
 									(instanceRef biasBit_9)
-								)
-								(portRef or
-									(instanceRef biasBit_10)
-								)
-								(portRef or
-									(instanceRef biasBit_10)
-								)
-								(portRef or
-									(instanceRef biasBit_11)
-								)
-								(portRef or
-									(instanceRef biasBit_11)
 								)
 								(portRef or
 									(instanceRef biasSpBit_1)
@@ -16452,49 +16452,46 @@
 						)
 						(net N_6
 							(joined
-								(portRef q
-									(instanceRef biasBit_4)
+								(portRef prev
+									(instanceRef biasBit_10)
 								)
-								(portRef d
-									(instanceRef biasSpBit_1)
+								(portRef next
+									(instanceRef biasBit_9)
 								)
 							)
 						)
 						(net N_7
 							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_5)
+								(portRef q
+									(instanceRef biasBit_10)
 								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_6)
+								(portRef d
+									(instanceRef biasBit_9)
 								)
 							)
 						)
 						(net N_8
 							(joined
-								(portRef d
-									(instanceRef biasBit_5)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasBit_4)
 								)
-								(portRef q
-									(instanceRef biasBit_6)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_5)
 								)
 							)
 						)
 						(net N_9
 							(joined
-								(portRef next
-									(instanceRef biasBit_5)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_4)
 								)
-								(portRef prev
-									(instanceRef biasBit_6)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasSpBit_1)
 								)
 							)
 						)
 						(net VDD
 							(joined
-								(portRef S
-									(instanceRef masterCopy)
-								)
 								(portRef S
 									(instanceRef P3_1)
 								)
@@ -16503,6 +16500,9 @@
 								)
 								(portRef VDD
 									(instanceRef Vdd_4)
+								)
+								(portRef S
+									(instanceRef masterCopy)
 								)
 							)
 						)
@@ -16726,6 +16726,12 @@
 							(joined
 								(portRef latchenb)
 								(portRef latch
+									(instanceRef biasBit_10)
+								)
+								(portRef latch
+									(instanceRef biasBit_11)
+								)
+								(portRef latch
 									(instanceRef biasBit_4)
 								)
 								(portRef latch
@@ -16742,12 +16748,6 @@
 								)
 								(portRef latch
 									(instanceRef biasBit_9)
-								)
-								(portRef latch
-									(instanceRef biasBit_10)
-								)
-								(portRef latch
-									(instanceRef biasBit_11)
 								)
 								(portRef latch
 									(instanceRef biasSpBit_1)
@@ -16889,6 +16889,18 @@
 							(joined
 								(portRef phi)
 								(portRef phi
+									(instanceRef biasBit_10)
+								)
+								(portRef phi
+									(instanceRef biasBit_10)
+								)
+								(portRef phi
+									(instanceRef biasBit_11)
+								)
+								(portRef phi
+									(instanceRef biasBit_11)
+								)
+								(portRef phi
 									(instanceRef biasBit_4)
 								)
 								(portRef phi
@@ -16923,18 +16935,6 @@
 								)
 								(portRef phi
 									(instanceRef biasBit_9)
-								)
-								(portRef phi
-									(instanceRef biasBit_10)
-								)
-								(portRef phi
-									(instanceRef biasBit_10)
-								)
-								(portRef phi
-									(instanceRef biasBit_11)
-								)
-								(portRef phi
-									(instanceRef biasBit_11)
 								)
 								(portRef phi
 									(instanceRef biasSpBit_1)
@@ -19604,14 +19604,14 @@
 						)
 						(net N_1
 							(joined
-								(portRef in
-									(instanceRef biasBufferN_1)
-								)
 								(portRef S
 									(instanceRef N3_2)
 								)
 								(portRef D
 									(instanceRef P3_1)
+								)
+								(portRef in
+									(instanceRef biasBufferN_1)
 								)
 							)
 							(figure wire
@@ -19737,9 +19737,6 @@
 						(net nBias
 							(joined
 								(portRef nBias)
-								(portRef out
-									(instanceRef biasBufferP_1)
-								)
 								(portRef G
 									(instanceRef N3_1)
 								)
@@ -19748,6 +19745,9 @@
 								)
 								(portRef S
 									(instanceRef N3_6)
+								)
+								(portRef out
+									(instanceRef biasBufferP_1)
 								)
 							)
 							(figure wire
@@ -19801,14 +19801,14 @@
 						(net pBias
 							(joined
 								(portRef pBias)
-								(portRef out
-									(instanceRef biasBufferN_1)
-								)
 								(portRef G
 									(instanceRef P3_1)
 								)
 								(portRef D
 									(instanceRef P3_4)
+								)
+								(portRef out
+									(instanceRef biasBufferN_1)
 								)
 							)
 							(figure wire
@@ -19930,11 +19930,11 @@
 						(net splitterOutput
 							(joined
 								(portRef splitterOutput)
-								(portRef in
-									(instanceRef biasBufferP_1)
-								)
 								(portRef S
 									(instanceRef N3_1)
+								)
+								(portRef in
+									(instanceRef biasBufferP_1)
 								)
 							)
 							(figure wire
@@ -21685,13 +21685,13 @@
 									(instanceRef biasBit_2)
 								)
 								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_3)
-								)
-								(portRef &_EXCLAMATION_latch
 									(instanceRef biasBit_28)
 								)
 								(portRef &_EXCLAMATION_latch
 									(instanceRef biasBit_29)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_3)
 								)
 								(portRef &_EXCLAMATION_latch
 									(instanceRef biasBit_30)
@@ -21963,11 +21963,11 @@
 						)
 						(net Im
 							(joined
-								(portRef prev
-									(instanceRef biasBit_48)
-								)
 								(portRef D
 									(instanceRef P3_1)
+								)
+								(portRef prev
+									(instanceRef biasBit_48)
 								)
 							)
 							(figure wire
@@ -22013,31 +22013,31 @@
 						)
 						(net N_10
 							(joined
-								(portRef prev
-									(instanceRef biasBit_3)
-								)
-								(portRef next
-									(instanceRef biasBit_28)
-								)
-							)
-						)
-						(net N_11
-							(joined
-								(portRef q
-									(instanceRef biasBit_3)
-								)
-								(portRef d
-									(instanceRef biasBit_28)
-								)
-							)
-						)
-						(net N_12
-							(joined
 								(portRef &_EXCLAMATION_q
 									(instanceRef biasBit_28)
 								)
 								(portRef &_EXCLAMATION_d
 									(instanceRef biasBit_29)
+								)
+							)
+						)
+						(net N_11
+							(joined
+								(portRef d
+									(instanceRef biasBit_28)
+								)
+								(portRef q
+									(instanceRef biasBit_3)
+								)
+							)
+						)
+						(net N_12
+							(joined
+								(portRef next
+									(instanceRef biasBit_28)
+								)
+								(portRef prev
+									(instanceRef biasBit_3)
 								)
 							)
 						)
@@ -22244,12 +22244,6 @@
 									(instanceRef biasBit_2)
 								)
 								(portRef or
-									(instanceRef biasBit_3)
-								)
-								(portRef or
-									(instanceRef biasBit_3)
-								)
-								(portRef or
 									(instanceRef biasBit_28)
 								)
 								(portRef or
@@ -22260,6 +22254,12 @@
 								)
 								(portRef or
 									(instanceRef biasBit_29)
+								)
+								(portRef or
+									(instanceRef biasBit_3)
+								)
+								(portRef or
+									(instanceRef biasBit_3)
 								)
 								(portRef or
 									(instanceRef biasBit_30)
@@ -22849,11 +22849,11 @@
 						)
 						(net N_9
 							(joined
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_3)
-								)
 								(portRef &_EXCLAMATION_d
 									(instanceRef biasBit_28)
+								)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_3)
 								)
 							)
 						)
@@ -23397,13 +23397,13 @@
 									(instanceRef biasBit_2)
 								)
 								(portRef latch
-									(instanceRef biasBit_3)
-								)
-								(portRef latch
 									(instanceRef biasBit_28)
 								)
 								(portRef latch
 									(instanceRef biasBit_29)
+								)
+								(portRef latch
+									(instanceRef biasBit_3)
 								)
 								(portRef latch
 									(instanceRef biasBit_30)
@@ -23738,12 +23738,6 @@
 									(instanceRef biasBit_2)
 								)
 								(portRef phi
-									(instanceRef biasBit_3)
-								)
-								(portRef phi
-									(instanceRef biasBit_3)
-								)
-								(portRef phi
 									(instanceRef biasBit_28)
 								)
 								(portRef phi
@@ -23754,6 +23748,12 @@
 								)
 								(portRef phi
 									(instanceRef biasBit_29)
+								)
+								(portRef phi
+									(instanceRef biasBit_3)
+								)
+								(portRef phi
+									(instanceRef biasBit_3)
 								)
 								(portRef phi
 									(instanceRef biasBit_30)
@@ -23904,13 +23904,13 @@
 									(instanceRef biasBit_2)
 								)
 								(portRef out
-									(instanceRef biasBit_3)
-								)
-								(portRef out
 									(instanceRef biasBit_28)
 								)
 								(portRef out
 									(instanceRef biasBit_29)
+								)
+								(portRef out
+									(instanceRef biasBit_3)
 								)
 								(portRef out
 									(instanceRef biasBit_30)
@@ -25193,14 +25193,14 @@
 						)
 						(net N_1
 							(joined
-								(portRef in
-									(instanceRef biasBufferN_1)
-								)
 								(portRef S
 									(instanceRef N3_2)
 								)
 								(portRef D
 									(instanceRef P3_1)
+								)
+								(portRef in
+									(instanceRef biasBufferN_1)
 								)
 							)
 							(figure wire
@@ -25253,9 +25253,6 @@
 						(net nBias
 							(joined
 								(portRef nBias)
-								(portRef out
-									(instanceRef biasBufferP_1)
-								)
 								(portRef G
 									(instanceRef N3_1)
 								)
@@ -25264,6 +25261,9 @@
 								)
 								(portRef S
 									(instanceRef N3_3)
+								)
+								(portRef out
+									(instanceRef biasBufferP_1)
 								)
 							)
 							(figure wire
@@ -25303,14 +25303,14 @@
 						(net pBias
 							(joined
 								(portRef pBias)
-								(portRef out
-									(instanceRef biasBufferN_1)
-								)
 								(portRef G
 									(instanceRef P3_1)
 								)
 								(portRef D
 									(instanceRef P3_3)
+								)
+								(portRef out
+									(instanceRef biasBufferN_1)
 								)
 							)
 							(figure wire
@@ -25432,11 +25432,11 @@
 						(net splitterOutput
 							(joined
 								(portRef splitterOutput)
-								(portRef in
-									(instanceRef biasBufferP_1)
-								)
 								(portRef S
 									(instanceRef N3_1)
+								)
+								(portRef in
+									(instanceRef biasBufferP_1)
 								)
 							)
 							(figure wire
@@ -27181,24 +27181,6 @@
 							(joined
 								(portRef &_EXCLAMATION_latchenb)
 								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_4)
-								)
-								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_5)
-								)
-								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_6)
-								)
-								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_7)
-								)
-								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_8)
-								)
-								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_9)
-								)
-								(portRef &_EXCLAMATION_latch
 									(instanceRef biasBit_10)
 								)
 								(portRef &_EXCLAMATION_latch
@@ -27251,6 +27233,24 @@
 								)
 								(portRef &_EXCLAMATION_latch
 									(instanceRef biasBit_27)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_4)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_5)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_6)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_7)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_8)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_9)
 								)
 							)
 							(figure wire
@@ -27506,802 +27506,712 @@
 						(net N_1
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_4)
+									(instanceRef biasBit_10)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_5)
+									(instanceRef biasBit_11)
 								)
 							)
 						)
 						(net N_10
 							(joined
 								(portRef next
-									(instanceRef biasBit_6)
+									(instanceRef biasBit_11)
 								)
 								(portRef prev
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_12)
 								)
 							)
 						)
 						(net N_11
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_12)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_13)
 								)
 							)
 						)
 						(net N_12
 							(joined
 								(portRef d
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_12)
 								)
 								(portRef q
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_13)
 								)
 							)
 						)
 						(net N_13
 							(joined
 								(portRef next
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_12)
 								)
 								(portRef prev
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_13)
 								)
 							)
 						)
 						(net N_14
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_13)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_9)
+									(instanceRef biasBit_14)
 								)
 							)
 						)
 						(net N_15
 							(joined
 								(portRef d
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_13)
 								)
 								(portRef q
-									(instanceRef biasBit_9)
+									(instanceRef biasBit_14)
 								)
 							)
 						)
 						(net N_16
 							(joined
 								(portRef next
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_13)
 								)
 								(portRef prev
-									(instanceRef biasBit_9)
+									(instanceRef biasBit_14)
 								)
 							)
 						)
 						(net N_17
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_9)
+									(instanceRef biasBit_14)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_15)
 								)
 							)
 						)
 						(net N_18
 							(joined
 								(portRef d
-									(instanceRef biasBit_9)
+									(instanceRef biasBit_14)
 								)
 								(portRef q
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_15)
 								)
 							)
 						)
 						(net N_19
 							(joined
 								(portRef next
-									(instanceRef biasBit_9)
+									(instanceRef biasBit_14)
 								)
 								(portRef prev
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_15)
 								)
 							)
 						)
 						(net N_2
 							(joined
-								(portRef d
-									(instanceRef biasBit_4)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_10)
 								)
-								(portRef q
-									(instanceRef biasBit_5)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasBit_9)
 								)
 							)
 						)
 						(net N_20
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_15)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_16)
 								)
 							)
 						)
 						(net N_21
 							(joined
 								(portRef d
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_15)
 								)
 								(portRef q
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_16)
 								)
 							)
 						)
 						(net N_22
 							(joined
 								(portRef next
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_15)
 								)
 								(portRef prev
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_16)
 								)
 							)
 						)
 						(net N_23
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_16)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_12)
+									(instanceRef biasBit_17)
 								)
 							)
 						)
 						(net N_24
 							(joined
 								(portRef d
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_16)
 								)
 								(portRef q
-									(instanceRef biasBit_12)
+									(instanceRef biasBit_17)
 								)
 							)
 						)
 						(net N_25
 							(joined
 								(portRef next
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_16)
 								)
 								(portRef prev
-									(instanceRef biasBit_12)
+									(instanceRef biasBit_17)
 								)
 							)
 						)
 						(net N_26
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_12)
+									(instanceRef biasBit_17)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_13)
+									(instanceRef biasBit_18)
 								)
 							)
 						)
 						(net N_27
 							(joined
 								(portRef d
-									(instanceRef biasBit_12)
+									(instanceRef biasBit_17)
 								)
 								(portRef q
-									(instanceRef biasBit_13)
+									(instanceRef biasBit_18)
 								)
 							)
 						)
 						(net N_28
 							(joined
 								(portRef next
-									(instanceRef biasBit_12)
+									(instanceRef biasBit_17)
 								)
 								(portRef prev
-									(instanceRef biasBit_13)
+									(instanceRef biasBit_18)
 								)
 							)
 						)
 						(net N_29
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_13)
+									(instanceRef biasBit_18)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_14)
+									(instanceRef biasBit_19)
 								)
 							)
 						)
 						(net N_3
 							(joined
-								(portRef next
-									(instanceRef biasBit_4)
+								(portRef d
+									(instanceRef biasBit_10)
 								)
-								(portRef prev
-									(instanceRef biasBit_5)
+								(portRef q
+									(instanceRef biasBit_11)
 								)
 							)
 						)
 						(net N_30
 							(joined
 								(portRef d
-									(instanceRef biasBit_13)
+									(instanceRef biasBit_18)
 								)
 								(portRef q
-									(instanceRef biasBit_14)
+									(instanceRef biasBit_19)
 								)
 							)
 						)
 						(net N_31
 							(joined
 								(portRef next
-									(instanceRef biasBit_13)
+									(instanceRef biasBit_18)
 								)
 								(portRef prev
-									(instanceRef biasBit_14)
+									(instanceRef biasBit_19)
 								)
 							)
 						)
 						(net N_32
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_14)
+									(instanceRef biasBit_19)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_15)
+									(instanceRef biasBit_20)
 								)
 							)
 						)
 						(net N_33
 							(joined
 								(portRef d
-									(instanceRef biasBit_14)
+									(instanceRef biasBit_19)
 								)
 								(portRef q
-									(instanceRef biasBit_15)
+									(instanceRef biasBit_20)
 								)
 							)
 						)
 						(net N_34
 							(joined
 								(portRef next
-									(instanceRef biasBit_14)
+									(instanceRef biasBit_19)
 								)
 								(portRef prev
-									(instanceRef biasBit_15)
+									(instanceRef biasBit_20)
 								)
 							)
 						)
 						(net N_35
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_15)
+									(instanceRef biasBit_20)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_16)
+									(instanceRef biasBit_21)
 								)
 							)
 						)
 						(net N_36
 							(joined
 								(portRef d
-									(instanceRef biasBit_15)
+									(instanceRef biasBit_20)
 								)
 								(portRef q
-									(instanceRef biasBit_16)
+									(instanceRef biasBit_21)
 								)
 							)
 						)
 						(net N_37
 							(joined
 								(portRef next
-									(instanceRef biasBit_15)
+									(instanceRef biasBit_20)
 								)
 								(portRef prev
-									(instanceRef biasBit_16)
+									(instanceRef biasBit_21)
 								)
 							)
 						)
 						(net N_38
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_16)
+									(instanceRef biasBit_21)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_17)
+									(instanceRef biasBit_22)
 								)
 							)
 						)
 						(net N_39
 							(joined
 								(portRef d
-									(instanceRef biasBit_16)
+									(instanceRef biasBit_21)
 								)
 								(portRef q
-									(instanceRef biasBit_17)
+									(instanceRef biasBit_22)
 								)
 							)
 						)
 						(net N_4
 							(joined
-								(portRef or
-									(instanceRef biasBit_4)
-								)
-								(portRef or
-									(instanceRef biasBit_4)
-								)
-								(portRef or
-									(instanceRef biasBit_5)
-								)
-								(portRef or
-									(instanceRef biasBit_5)
-								)
-								(portRef or
-									(instanceRef biasBit_6)
-								)
-								(portRef or
-									(instanceRef biasBit_6)
-								)
-								(portRef or
-									(instanceRef biasBit_7)
-								)
-								(portRef or
-									(instanceRef biasBit_7)
-								)
-								(portRef or
-									(instanceRef biasBit_8)
-								)
-								(portRef or
-									(instanceRef biasBit_8)
-								)
-								(portRef or
-									(instanceRef biasBit_9)
-								)
-								(portRef or
-									(instanceRef biasBit_9)
-								)
-								(portRef or
+								(portRef next
 									(instanceRef biasBit_10)
 								)
-								(portRef or
-									(instanceRef biasBit_10)
-								)
-								(portRef or
+								(portRef prev
 									(instanceRef biasBit_11)
-								)
-								(portRef or
-									(instanceRef biasBit_11)
-								)
-								(portRef or
-									(instanceRef biasBit_12)
-								)
-								(portRef or
-									(instanceRef biasBit_12)
-								)
-								(portRef or
-									(instanceRef biasBit_13)
-								)
-								(portRef or
-									(instanceRef biasBit_13)
-								)
-								(portRef or
-									(instanceRef biasBit_14)
-								)
-								(portRef or
-									(instanceRef biasBit_14)
-								)
-								(portRef or
-									(instanceRef biasBit_15)
-								)
-								(portRef or
-									(instanceRef biasBit_15)
-								)
-								(portRef or
-									(instanceRef biasBit_16)
-								)
-								(portRef or
-									(instanceRef biasBit_16)
-								)
-								(portRef or
-									(instanceRef biasBit_17)
-								)
-								(portRef or
-									(instanceRef biasBit_17)
-								)
-								(portRef or
-									(instanceRef biasBit_18)
-								)
-								(portRef or
-									(instanceRef biasBit_18)
-								)
-								(portRef or
-									(instanceRef biasBit_19)
-								)
-								(portRef or
-									(instanceRef biasBit_19)
-								)
-								(portRef or
-									(instanceRef biasBit_20)
-								)
-								(portRef or
-									(instanceRef biasBit_20)
-								)
-								(portRef or
-									(instanceRef biasBit_21)
-								)
-								(portRef or
-									(instanceRef biasBit_21)
-								)
-								(portRef or
-									(instanceRef biasBit_22)
-								)
-								(portRef or
-									(instanceRef biasBit_22)
-								)
-								(portRef or
-									(instanceRef biasBit_23)
-								)
-								(portRef or
-									(instanceRef biasBit_23)
-								)
-								(portRef or
-									(instanceRef biasBit_24)
-								)
-								(portRef or
-									(instanceRef biasBit_24)
-								)
-								(portRef or
-									(instanceRef biasBit_25)
-								)
-								(portRef or
-									(instanceRef biasBit_25)
-								)
-								(portRef or
-									(instanceRef biasBit_26)
-								)
-								(portRef or
-									(instanceRef biasBit_26)
-								)
-								(portRef or
-									(instanceRef biasBit_27)
-								)
-								(portRef or
-									(instanceRef biasBit_27)
 								)
 							)
 						)
 						(net N_40
 							(joined
 								(portRef next
-									(instanceRef biasBit_16)
+									(instanceRef biasBit_21)
 								)
 								(portRef prev
-									(instanceRef biasBit_17)
+									(instanceRef biasBit_22)
 								)
 							)
 						)
 						(net N_41
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_17)
+									(instanceRef biasBit_22)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_18)
+									(instanceRef biasBit_23)
 								)
 							)
 						)
 						(net N_42
 							(joined
 								(portRef d
-									(instanceRef biasBit_17)
+									(instanceRef biasBit_22)
 								)
 								(portRef q
-									(instanceRef biasBit_18)
+									(instanceRef biasBit_23)
 								)
 							)
 						)
 						(net N_43
 							(joined
 								(portRef next
-									(instanceRef biasBit_17)
+									(instanceRef biasBit_22)
 								)
 								(portRef prev
-									(instanceRef biasBit_18)
+									(instanceRef biasBit_23)
 								)
 							)
 						)
 						(net N_44
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_18)
+									(instanceRef biasBit_23)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_19)
+									(instanceRef biasBit_24)
 								)
 							)
 						)
 						(net N_45
 							(joined
 								(portRef d
-									(instanceRef biasBit_18)
+									(instanceRef biasBit_23)
 								)
 								(portRef q
-									(instanceRef biasBit_19)
+									(instanceRef biasBit_24)
 								)
 							)
 						)
 						(net N_46
 							(joined
 								(portRef next
-									(instanceRef biasBit_18)
+									(instanceRef biasBit_23)
 								)
 								(portRef prev
-									(instanceRef biasBit_19)
+									(instanceRef biasBit_24)
 								)
 							)
 						)
 						(net N_47
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_19)
+									(instanceRef biasBit_24)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_20)
+									(instanceRef biasBit_25)
 								)
 							)
 						)
 						(net N_48
 							(joined
 								(portRef d
-									(instanceRef biasBit_19)
+									(instanceRef biasBit_24)
 								)
 								(portRef q
-									(instanceRef biasBit_20)
+									(instanceRef biasBit_25)
 								)
 							)
 						)
 						(net N_49
 							(joined
 								(portRef next
-									(instanceRef biasBit_19)
+									(instanceRef biasBit_24)
 								)
 								(portRef prev
-									(instanceRef biasBit_20)
+									(instanceRef biasBit_25)
 								)
 							)
 						)
 						(net N_5
 							(joined
-								(portRef &_EXCLAMATION_d
+								(portRef or
+									(instanceRef biasBit_10)
+								)
+								(portRef or
+									(instanceRef biasBit_10)
+								)
+								(portRef or
+									(instanceRef biasBit_11)
+								)
+								(portRef or
+									(instanceRef biasBit_11)
+								)
+								(portRef or
+									(instanceRef biasBit_12)
+								)
+								(portRef or
+									(instanceRef biasBit_12)
+								)
+								(portRef or
+									(instanceRef biasBit_13)
+								)
+								(portRef or
+									(instanceRef biasBit_13)
+								)
+								(portRef or
+									(instanceRef biasBit_14)
+								)
+								(portRef or
+									(instanceRef biasBit_14)
+								)
+								(portRef or
+									(instanceRef biasBit_15)
+								)
+								(portRef or
+									(instanceRef biasBit_15)
+								)
+								(portRef or
+									(instanceRef biasBit_16)
+								)
+								(portRef or
+									(instanceRef biasBit_16)
+								)
+								(portRef or
+									(instanceRef biasBit_17)
+								)
+								(portRef or
+									(instanceRef biasBit_17)
+								)
+								(portRef or
+									(instanceRef biasBit_18)
+								)
+								(portRef or
+									(instanceRef biasBit_18)
+								)
+								(portRef or
+									(instanceRef biasBit_19)
+								)
+								(portRef or
+									(instanceRef biasBit_19)
+								)
+								(portRef or
+									(instanceRef biasBit_20)
+								)
+								(portRef or
+									(instanceRef biasBit_20)
+								)
+								(portRef or
+									(instanceRef biasBit_21)
+								)
+								(portRef or
+									(instanceRef biasBit_21)
+								)
+								(portRef or
+									(instanceRef biasBit_22)
+								)
+								(portRef or
+									(instanceRef biasBit_22)
+								)
+								(portRef or
+									(instanceRef biasBit_23)
+								)
+								(portRef or
+									(instanceRef biasBit_23)
+								)
+								(portRef or
+									(instanceRef biasBit_24)
+								)
+								(portRef or
+									(instanceRef biasBit_24)
+								)
+								(portRef or
+									(instanceRef biasBit_25)
+								)
+								(portRef or
+									(instanceRef biasBit_25)
+								)
+								(portRef or
+									(instanceRef biasBit_26)
+								)
+								(portRef or
+									(instanceRef biasBit_26)
+								)
+								(portRef or
+									(instanceRef biasBit_27)
+								)
+								(portRef or
+									(instanceRef biasBit_27)
+								)
+								(portRef or
+									(instanceRef biasBit_4)
+								)
+								(portRef or
+									(instanceRef biasBit_4)
+								)
+								(portRef or
 									(instanceRef biasBit_5)
 								)
-								(portRef &_EXCLAMATION_q
+								(portRef or
+									(instanceRef biasBit_5)
+								)
+								(portRef or
 									(instanceRef biasBit_6)
+								)
+								(portRef or
+									(instanceRef biasBit_6)
+								)
+								(portRef or
+									(instanceRef biasBit_7)
+								)
+								(portRef or
+									(instanceRef biasBit_7)
+								)
+								(portRef or
+									(instanceRef biasBit_8)
+								)
+								(portRef or
+									(instanceRef biasBit_8)
+								)
+								(portRef or
+									(instanceRef biasBit_9)
+								)
+								(portRef or
+									(instanceRef biasBit_9)
 								)
 							)
 						)
 						(net N_50
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_20)
+									(instanceRef biasBit_25)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_21)
+									(instanceRef biasBit_26)
 								)
 							)
 						)
 						(net N_51
 							(joined
 								(portRef d
-									(instanceRef biasBit_20)
+									(instanceRef biasBit_25)
 								)
 								(portRef q
-									(instanceRef biasBit_21)
+									(instanceRef biasBit_26)
 								)
 							)
 						)
 						(net N_52
 							(joined
 								(portRef next
-									(instanceRef biasBit_20)
+									(instanceRef biasBit_25)
 								)
 								(portRef prev
-									(instanceRef biasBit_21)
+									(instanceRef biasBit_26)
 								)
 							)
 						)
 						(net N_53
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_21)
+									(instanceRef biasBit_26)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_22)
+									(instanceRef biasBit_27)
 								)
 							)
 						)
 						(net N_54
 							(joined
 								(portRef d
-									(instanceRef biasBit_21)
+									(instanceRef biasBit_26)
 								)
 								(portRef q
-									(instanceRef biasBit_22)
+									(instanceRef biasBit_27)
 								)
 							)
 						)
 						(net N_55
 							(joined
 								(portRef next
-									(instanceRef biasBit_21)
+									(instanceRef biasBit_26)
 								)
 								(portRef prev
-									(instanceRef biasBit_22)
+									(instanceRef biasBit_27)
 								)
 							)
 						)
 						(net N_56
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_22)
+									(instanceRef biasBit_4)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_23)
+									(instanceRef biasBit_5)
 								)
 							)
 						)
 						(net N_57
 							(joined
 								(portRef d
-									(instanceRef biasBit_22)
+									(instanceRef biasBit_4)
 								)
 								(portRef q
-									(instanceRef biasBit_23)
+									(instanceRef biasBit_5)
 								)
 							)
 						)
 						(net N_58
 							(joined
 								(portRef next
-									(instanceRef biasBit_22)
+									(instanceRef biasBit_4)
 								)
 								(portRef prev
-									(instanceRef biasBit_23)
+									(instanceRef biasBit_5)
 								)
 							)
 						)
 						(net N_59
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_23)
+									(instanceRef biasBit_5)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_24)
+									(instanceRef biasBit_6)
 								)
 							)
 						)
 						(net N_6
 							(joined
-								(portRef d
-									(instanceRef biasBit_5)
+								(portRef prev
+									(instanceRef biasBit_10)
 								)
-								(portRef q
-									(instanceRef biasBit_6)
+								(portRef next
+									(instanceRef biasBit_9)
 								)
 							)
 						)
 						(net N_60
 							(joined
 								(portRef d
-									(instanceRef biasBit_23)
+									(instanceRef biasBit_5)
 								)
 								(portRef q
-									(instanceRef biasBit_24)
+									(instanceRef biasBit_6)
 								)
 							)
 						)
 						(net N_61
-							(joined
-								(portRef next
-									(instanceRef biasBit_23)
-								)
-								(portRef prev
-									(instanceRef biasBit_24)
-								)
-							)
-						)
-						(net N_62
-							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_24)
-								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_25)
-								)
-							)
-						)
-						(net N_63
-							(joined
-								(portRef d
-									(instanceRef biasBit_24)
-								)
-								(portRef q
-									(instanceRef biasBit_25)
-								)
-							)
-						)
-						(net N_64
-							(joined
-								(portRef next
-									(instanceRef biasBit_24)
-								)
-								(portRef prev
-									(instanceRef biasBit_25)
-								)
-							)
-						)
-						(net N_65
-							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_25)
-								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_26)
-								)
-							)
-						)
-						(net N_66
-							(joined
-								(portRef d
-									(instanceRef biasBit_25)
-								)
-								(portRef q
-									(instanceRef biasBit_26)
-								)
-							)
-						)
-						(net N_67
-							(joined
-								(portRef next
-									(instanceRef biasBit_25)
-								)
-								(portRef prev
-									(instanceRef biasBit_26)
-								)
-							)
-						)
-						(net N_68
-							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_26)
-								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_27)
-								)
-							)
-						)
-						(net N_69
-							(joined
-								(portRef d
-									(instanceRef biasBit_26)
-								)
-								(portRef q
-									(instanceRef biasBit_27)
-								)
-							)
-						)
-						(net N_7
 							(joined
 								(portRef next
 									(instanceRef biasBit_5)
@@ -28311,13 +28221,103 @@
 								)
 							)
 						)
+						(net N_62
+							(joined
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasBit_6)
+								)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_7)
+								)
+							)
+						)
+						(net N_63
+							(joined
+								(portRef d
+									(instanceRef biasBit_6)
+								)
+								(portRef q
+									(instanceRef biasBit_7)
+								)
+							)
+						)
+						(net N_64
+							(joined
+								(portRef next
+									(instanceRef biasBit_6)
+								)
+								(portRef prev
+									(instanceRef biasBit_7)
+								)
+							)
+						)
+						(net N_65
+							(joined
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasBit_7)
+								)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_8)
+								)
+							)
+						)
+						(net N_66
+							(joined
+								(portRef d
+									(instanceRef biasBit_7)
+								)
+								(portRef q
+									(instanceRef biasBit_8)
+								)
+							)
+						)
+						(net N_67
+							(joined
+								(portRef next
+									(instanceRef biasBit_7)
+								)
+								(portRef prev
+									(instanceRef biasBit_8)
+								)
+							)
+						)
+						(net N_68
+							(joined
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasBit_8)
+								)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_9)
+								)
+							)
+						)
+						(net N_69
+							(joined
+								(portRef d
+									(instanceRef biasBit_8)
+								)
+								(portRef q
+									(instanceRef biasBit_9)
+								)
+							)
+						)
+						(net N_7
+							(joined
+								(portRef q
+									(instanceRef biasBit_10)
+								)
+								(portRef d
+									(instanceRef biasBit_9)
+								)
+							)
+						)
 						(net N_70
 							(joined
 								(portRef next
-									(instanceRef biasBit_26)
+									(instanceRef biasBit_8)
 								)
 								(portRef prev
-									(instanceRef biasBit_27)
+									(instanceRef biasBit_9)
 								)
 							)
 						)
@@ -28342,30 +28342,30 @@
 						(net N_8
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_6)
+									(instanceRef biasBit_11)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_12)
 								)
 							)
 						)
 						(net N_9
 							(joined
 								(portRef d
-									(instanceRef biasBit_6)
+									(instanceRef biasBit_11)
 								)
 								(portRef q
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_12)
 								)
 							)
 						)
 						(net VDD
 							(joined
-								(portRef S
-									(instanceRef masterCopy)
-								)
 								(portRef VDD
 									(instanceRef Vdd_4)
+								)
+								(portRef S
+									(instanceRef masterCopy)
 								)
 							)
 						)
@@ -28893,24 +28893,6 @@
 							(joined
 								(portRef latchenb)
 								(portRef latch
-									(instanceRef biasBit_4)
-								)
-								(portRef latch
-									(instanceRef biasBit_5)
-								)
-								(portRef latch
-									(instanceRef biasBit_6)
-								)
-								(portRef latch
-									(instanceRef biasBit_7)
-								)
-								(portRef latch
-									(instanceRef biasBit_8)
-								)
-								(portRef latch
-									(instanceRef biasBit_9)
-								)
-								(portRef latch
 									(instanceRef biasBit_10)
 								)
 								(portRef latch
@@ -28963,6 +28945,24 @@
 								)
 								(portRef latch
 									(instanceRef biasBit_27)
+								)
+								(portRef latch
+									(instanceRef biasBit_4)
+								)
+								(portRef latch
+									(instanceRef biasBit_5)
+								)
+								(portRef latch
+									(instanceRef biasBit_6)
+								)
+								(portRef latch
+									(instanceRef biasBit_7)
+								)
+								(portRef latch
+									(instanceRef biasBit_8)
+								)
+								(portRef latch
+									(instanceRef biasBit_9)
 								)
 							)
 							(figure wire
@@ -29228,42 +29228,6 @@
 							(joined
 								(portRef phi)
 								(portRef phi
-									(instanceRef biasBit_4)
-								)
-								(portRef phi
-									(instanceRef biasBit_4)
-								)
-								(portRef phi
-									(instanceRef biasBit_5)
-								)
-								(portRef phi
-									(instanceRef biasBit_5)
-								)
-								(portRef phi
-									(instanceRef biasBit_6)
-								)
-								(portRef phi
-									(instanceRef biasBit_6)
-								)
-								(portRef phi
-									(instanceRef biasBit_7)
-								)
-								(portRef phi
-									(instanceRef biasBit_7)
-								)
-								(portRef phi
-									(instanceRef biasBit_8)
-								)
-								(portRef phi
-									(instanceRef biasBit_8)
-								)
-								(portRef phi
-									(instanceRef biasBit_9)
-								)
-								(portRef phi
-									(instanceRef biasBit_9)
-								)
-								(portRef phi
 									(instanceRef biasBit_10)
 								)
 								(portRef phi
@@ -29370,6 +29334,42 @@
 								)
 								(portRef phi
 									(instanceRef biasBit_27)
+								)
+								(portRef phi
+									(instanceRef biasBit_4)
+								)
+								(portRef phi
+									(instanceRef biasBit_4)
+								)
+								(portRef phi
+									(instanceRef biasBit_5)
+								)
+								(portRef phi
+									(instanceRef biasBit_5)
+								)
+								(portRef phi
+									(instanceRef biasBit_6)
+								)
+								(portRef phi
+									(instanceRef biasBit_6)
+								)
+								(portRef phi
+									(instanceRef biasBit_7)
+								)
+								(portRef phi
+									(instanceRef biasBit_7)
+								)
+								(portRef phi
+									(instanceRef biasBit_8)
+								)
+								(portRef phi
+									(instanceRef biasBit_8)
+								)
+								(portRef phi
+									(instanceRef biasBit_9)
+								)
+								(portRef phi
+									(instanceRef biasBit_9)
 								)
 							)
 							(figure wire
@@ -29400,24 +29400,6 @@
 						(net splitterOutput
 							(joined
 								(portRef out
-									(instanceRef biasBit_4)
-								)
-								(portRef out
-									(instanceRef biasBit_5)
-								)
-								(portRef out
-									(instanceRef biasBit_6)
-								)
-								(portRef out
-									(instanceRef biasBit_7)
-								)
-								(portRef out
-									(instanceRef biasBit_8)
-								)
-								(portRef out
-									(instanceRef biasBit_9)
-								)
-								(portRef out
 									(instanceRef biasBit_10)
 								)
 								(portRef out
@@ -29470,6 +29452,24 @@
 								)
 								(portRef out
 									(instanceRef biasBit_27)
+								)
+								(portRef out
+									(instanceRef biasBit_4)
+								)
+								(portRef out
+									(instanceRef biasBit_5)
+								)
+								(portRef out
+									(instanceRef biasBit_6)
+								)
+								(portRef out
+									(instanceRef biasBit_7)
+								)
+								(portRef out
+									(instanceRef biasBit_8)
+								)
+								(portRef out
+									(instanceRef biasBit_9)
 								)
 								(portRef splitterOutput
 									(instanceRef biasBuffers_pd_1)
@@ -33314,24 +33314,6 @@
 							(joined
 								(portRef &_EXCLAMATION_latchenb)
 								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_4)
-								)
-								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_5)
-								)
-								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_6)
-								)
-								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_7)
-								)
-								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_8)
-								)
-								(portRef &_EXCLAMATION_latch
-									(instanceRef biasBit_9)
-								)
-								(portRef &_EXCLAMATION_latch
 									(instanceRef biasBit_10)
 								)
 								(portRef &_EXCLAMATION_latch
@@ -33384,6 +33366,24 @@
 								)
 								(portRef &_EXCLAMATION_latch
 									(instanceRef biasBit_27)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_4)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_5)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_6)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_7)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_8)
+								)
+								(portRef &_EXCLAMATION_latch
+									(instanceRef biasBit_9)
 								)
 							)
 							(figure wire
@@ -33639,802 +33639,712 @@
 						(net N_1
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_4)
+									(instanceRef biasBit_10)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_5)
+									(instanceRef biasBit_11)
 								)
 							)
 						)
 						(net N_10
 							(joined
 								(portRef next
-									(instanceRef biasBit_6)
+									(instanceRef biasBit_11)
 								)
 								(portRef prev
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_12)
 								)
 							)
 						)
 						(net N_11
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_12)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_13)
 								)
 							)
 						)
 						(net N_12
 							(joined
 								(portRef d
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_12)
 								)
 								(portRef q
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_13)
 								)
 							)
 						)
 						(net N_13
 							(joined
 								(portRef next
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_12)
 								)
 								(portRef prev
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_13)
 								)
 							)
 						)
 						(net N_14
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_13)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_9)
+									(instanceRef biasBit_14)
 								)
 							)
 						)
 						(net N_15
 							(joined
 								(portRef d
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_13)
 								)
 								(portRef q
-									(instanceRef biasBit_9)
+									(instanceRef biasBit_14)
 								)
 							)
 						)
 						(net N_16
 							(joined
 								(portRef next
-									(instanceRef biasBit_8)
+									(instanceRef biasBit_13)
 								)
 								(portRef prev
-									(instanceRef biasBit_9)
+									(instanceRef biasBit_14)
 								)
 							)
 						)
 						(net N_17
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_9)
+									(instanceRef biasBit_14)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_15)
 								)
 							)
 						)
 						(net N_18
 							(joined
 								(portRef d
-									(instanceRef biasBit_9)
+									(instanceRef biasBit_14)
 								)
 								(portRef q
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_15)
 								)
 							)
 						)
 						(net N_19
 							(joined
 								(portRef next
-									(instanceRef biasBit_9)
+									(instanceRef biasBit_14)
 								)
 								(portRef prev
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_15)
 								)
 							)
 						)
 						(net N_2
 							(joined
-								(portRef d
-									(instanceRef biasBit_4)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_10)
 								)
-								(portRef q
-									(instanceRef biasBit_5)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasBit_9)
 								)
 							)
 						)
 						(net N_20
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_15)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_16)
 								)
 							)
 						)
 						(net N_21
 							(joined
 								(portRef d
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_15)
 								)
 								(portRef q
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_16)
 								)
 							)
 						)
 						(net N_22
 							(joined
 								(portRef next
-									(instanceRef biasBit_10)
+									(instanceRef biasBit_15)
 								)
 								(portRef prev
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_16)
 								)
 							)
 						)
 						(net N_23
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_16)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_12)
+									(instanceRef biasBit_17)
 								)
 							)
 						)
 						(net N_24
 							(joined
 								(portRef d
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_16)
 								)
 								(portRef q
-									(instanceRef biasBit_12)
+									(instanceRef biasBit_17)
 								)
 							)
 						)
 						(net N_25
 							(joined
 								(portRef next
-									(instanceRef biasBit_11)
+									(instanceRef biasBit_16)
 								)
 								(portRef prev
-									(instanceRef biasBit_12)
+									(instanceRef biasBit_17)
 								)
 							)
 						)
 						(net N_26
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_12)
+									(instanceRef biasBit_17)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_13)
+									(instanceRef biasBit_18)
 								)
 							)
 						)
 						(net N_27
 							(joined
 								(portRef d
-									(instanceRef biasBit_12)
+									(instanceRef biasBit_17)
 								)
 								(portRef q
-									(instanceRef biasBit_13)
+									(instanceRef biasBit_18)
 								)
 							)
 						)
 						(net N_28
 							(joined
 								(portRef next
-									(instanceRef biasBit_12)
+									(instanceRef biasBit_17)
 								)
 								(portRef prev
-									(instanceRef biasBit_13)
+									(instanceRef biasBit_18)
 								)
 							)
 						)
 						(net N_29
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_13)
+									(instanceRef biasBit_18)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_14)
+									(instanceRef biasBit_19)
 								)
 							)
 						)
 						(net N_3
 							(joined
-								(portRef next
-									(instanceRef biasBit_4)
+								(portRef d
+									(instanceRef biasBit_10)
 								)
-								(portRef prev
-									(instanceRef biasBit_5)
+								(portRef q
+									(instanceRef biasBit_11)
 								)
 							)
 						)
 						(net N_30
 							(joined
 								(portRef d
-									(instanceRef biasBit_13)
+									(instanceRef biasBit_18)
 								)
 								(portRef q
-									(instanceRef biasBit_14)
+									(instanceRef biasBit_19)
 								)
 							)
 						)
 						(net N_31
 							(joined
 								(portRef next
-									(instanceRef biasBit_13)
+									(instanceRef biasBit_18)
 								)
 								(portRef prev
-									(instanceRef biasBit_14)
+									(instanceRef biasBit_19)
 								)
 							)
 						)
 						(net N_32
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_14)
+									(instanceRef biasBit_19)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_15)
+									(instanceRef biasBit_20)
 								)
 							)
 						)
 						(net N_33
 							(joined
 								(portRef d
-									(instanceRef biasBit_14)
+									(instanceRef biasBit_19)
 								)
 								(portRef q
-									(instanceRef biasBit_15)
+									(instanceRef biasBit_20)
 								)
 							)
 						)
 						(net N_34
 							(joined
 								(portRef next
-									(instanceRef biasBit_14)
+									(instanceRef biasBit_19)
 								)
 								(portRef prev
-									(instanceRef biasBit_15)
+									(instanceRef biasBit_20)
 								)
 							)
 						)
 						(net N_35
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_15)
+									(instanceRef biasBit_20)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_16)
+									(instanceRef biasBit_21)
 								)
 							)
 						)
 						(net N_36
 							(joined
 								(portRef d
-									(instanceRef biasBit_15)
+									(instanceRef biasBit_20)
 								)
 								(portRef q
-									(instanceRef biasBit_16)
+									(instanceRef biasBit_21)
 								)
 							)
 						)
 						(net N_37
 							(joined
 								(portRef next
-									(instanceRef biasBit_15)
+									(instanceRef biasBit_20)
 								)
 								(portRef prev
-									(instanceRef biasBit_16)
+									(instanceRef biasBit_21)
 								)
 							)
 						)
 						(net N_38
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_16)
+									(instanceRef biasBit_21)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_17)
+									(instanceRef biasBit_22)
 								)
 							)
 						)
 						(net N_39
 							(joined
 								(portRef d
-									(instanceRef biasBit_16)
+									(instanceRef biasBit_21)
 								)
 								(portRef q
-									(instanceRef biasBit_17)
+									(instanceRef biasBit_22)
 								)
 							)
 						)
 						(net N_4
 							(joined
-								(portRef or
-									(instanceRef biasBit_4)
-								)
-								(portRef or
-									(instanceRef biasBit_4)
-								)
-								(portRef or
-									(instanceRef biasBit_5)
-								)
-								(portRef or
-									(instanceRef biasBit_5)
-								)
-								(portRef or
-									(instanceRef biasBit_6)
-								)
-								(portRef or
-									(instanceRef biasBit_6)
-								)
-								(portRef or
-									(instanceRef biasBit_7)
-								)
-								(portRef or
-									(instanceRef biasBit_7)
-								)
-								(portRef or
-									(instanceRef biasBit_8)
-								)
-								(portRef or
-									(instanceRef biasBit_8)
-								)
-								(portRef or
-									(instanceRef biasBit_9)
-								)
-								(portRef or
-									(instanceRef biasBit_9)
-								)
-								(portRef or
+								(portRef next
 									(instanceRef biasBit_10)
 								)
-								(portRef or
-									(instanceRef biasBit_10)
-								)
-								(portRef or
+								(portRef prev
 									(instanceRef biasBit_11)
-								)
-								(portRef or
-									(instanceRef biasBit_11)
-								)
-								(portRef or
-									(instanceRef biasBit_12)
-								)
-								(portRef or
-									(instanceRef biasBit_12)
-								)
-								(portRef or
-									(instanceRef biasBit_13)
-								)
-								(portRef or
-									(instanceRef biasBit_13)
-								)
-								(portRef or
-									(instanceRef biasBit_14)
-								)
-								(portRef or
-									(instanceRef biasBit_14)
-								)
-								(portRef or
-									(instanceRef biasBit_15)
-								)
-								(portRef or
-									(instanceRef biasBit_15)
-								)
-								(portRef or
-									(instanceRef biasBit_16)
-								)
-								(portRef or
-									(instanceRef biasBit_16)
-								)
-								(portRef or
-									(instanceRef biasBit_17)
-								)
-								(portRef or
-									(instanceRef biasBit_17)
-								)
-								(portRef or
-									(instanceRef biasBit_18)
-								)
-								(portRef or
-									(instanceRef biasBit_18)
-								)
-								(portRef or
-									(instanceRef biasBit_19)
-								)
-								(portRef or
-									(instanceRef biasBit_19)
-								)
-								(portRef or
-									(instanceRef biasBit_20)
-								)
-								(portRef or
-									(instanceRef biasBit_20)
-								)
-								(portRef or
-									(instanceRef biasBit_21)
-								)
-								(portRef or
-									(instanceRef biasBit_21)
-								)
-								(portRef or
-									(instanceRef biasBit_22)
-								)
-								(portRef or
-									(instanceRef biasBit_22)
-								)
-								(portRef or
-									(instanceRef biasBit_23)
-								)
-								(portRef or
-									(instanceRef biasBit_23)
-								)
-								(portRef or
-									(instanceRef biasBit_24)
-								)
-								(portRef or
-									(instanceRef biasBit_24)
-								)
-								(portRef or
-									(instanceRef biasBit_25)
-								)
-								(portRef or
-									(instanceRef biasBit_25)
-								)
-								(portRef or
-									(instanceRef biasBit_26)
-								)
-								(portRef or
-									(instanceRef biasBit_26)
-								)
-								(portRef or
-									(instanceRef biasBit_27)
-								)
-								(portRef or
-									(instanceRef biasBit_27)
 								)
 							)
 						)
 						(net N_40
 							(joined
 								(portRef next
-									(instanceRef biasBit_16)
+									(instanceRef biasBit_21)
 								)
 								(portRef prev
-									(instanceRef biasBit_17)
+									(instanceRef biasBit_22)
 								)
 							)
 						)
 						(net N_41
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_17)
+									(instanceRef biasBit_22)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_18)
+									(instanceRef biasBit_23)
 								)
 							)
 						)
 						(net N_42
 							(joined
 								(portRef d
-									(instanceRef biasBit_17)
+									(instanceRef biasBit_22)
 								)
 								(portRef q
-									(instanceRef biasBit_18)
+									(instanceRef biasBit_23)
 								)
 							)
 						)
 						(net N_43
 							(joined
 								(portRef next
-									(instanceRef biasBit_17)
+									(instanceRef biasBit_22)
 								)
 								(portRef prev
-									(instanceRef biasBit_18)
+									(instanceRef biasBit_23)
 								)
 							)
 						)
 						(net N_44
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_18)
+									(instanceRef biasBit_23)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_19)
+									(instanceRef biasBit_24)
 								)
 							)
 						)
 						(net N_45
 							(joined
 								(portRef d
-									(instanceRef biasBit_18)
+									(instanceRef biasBit_23)
 								)
 								(portRef q
-									(instanceRef biasBit_19)
+									(instanceRef biasBit_24)
 								)
 							)
 						)
 						(net N_46
 							(joined
 								(portRef next
-									(instanceRef biasBit_18)
+									(instanceRef biasBit_23)
 								)
 								(portRef prev
-									(instanceRef biasBit_19)
+									(instanceRef biasBit_24)
 								)
 							)
 						)
 						(net N_47
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_19)
+									(instanceRef biasBit_24)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_20)
+									(instanceRef biasBit_25)
 								)
 							)
 						)
 						(net N_48
 							(joined
 								(portRef d
-									(instanceRef biasBit_19)
+									(instanceRef biasBit_24)
 								)
 								(portRef q
-									(instanceRef biasBit_20)
+									(instanceRef biasBit_25)
 								)
 							)
 						)
 						(net N_49
 							(joined
 								(portRef next
-									(instanceRef biasBit_19)
+									(instanceRef biasBit_24)
 								)
 								(portRef prev
-									(instanceRef biasBit_20)
+									(instanceRef biasBit_25)
 								)
 							)
 						)
 						(net N_5
 							(joined
-								(portRef &_EXCLAMATION_d
+								(portRef or
+									(instanceRef biasBit_10)
+								)
+								(portRef or
+									(instanceRef biasBit_10)
+								)
+								(portRef or
+									(instanceRef biasBit_11)
+								)
+								(portRef or
+									(instanceRef biasBit_11)
+								)
+								(portRef or
+									(instanceRef biasBit_12)
+								)
+								(portRef or
+									(instanceRef biasBit_12)
+								)
+								(portRef or
+									(instanceRef biasBit_13)
+								)
+								(portRef or
+									(instanceRef biasBit_13)
+								)
+								(portRef or
+									(instanceRef biasBit_14)
+								)
+								(portRef or
+									(instanceRef biasBit_14)
+								)
+								(portRef or
+									(instanceRef biasBit_15)
+								)
+								(portRef or
+									(instanceRef biasBit_15)
+								)
+								(portRef or
+									(instanceRef biasBit_16)
+								)
+								(portRef or
+									(instanceRef biasBit_16)
+								)
+								(portRef or
+									(instanceRef biasBit_17)
+								)
+								(portRef or
+									(instanceRef biasBit_17)
+								)
+								(portRef or
+									(instanceRef biasBit_18)
+								)
+								(portRef or
+									(instanceRef biasBit_18)
+								)
+								(portRef or
+									(instanceRef biasBit_19)
+								)
+								(portRef or
+									(instanceRef biasBit_19)
+								)
+								(portRef or
+									(instanceRef biasBit_20)
+								)
+								(portRef or
+									(instanceRef biasBit_20)
+								)
+								(portRef or
+									(instanceRef biasBit_21)
+								)
+								(portRef or
+									(instanceRef biasBit_21)
+								)
+								(portRef or
+									(instanceRef biasBit_22)
+								)
+								(portRef or
+									(instanceRef biasBit_22)
+								)
+								(portRef or
+									(instanceRef biasBit_23)
+								)
+								(portRef or
+									(instanceRef biasBit_23)
+								)
+								(portRef or
+									(instanceRef biasBit_24)
+								)
+								(portRef or
+									(instanceRef biasBit_24)
+								)
+								(portRef or
+									(instanceRef biasBit_25)
+								)
+								(portRef or
+									(instanceRef biasBit_25)
+								)
+								(portRef or
+									(instanceRef biasBit_26)
+								)
+								(portRef or
+									(instanceRef biasBit_26)
+								)
+								(portRef or
+									(instanceRef biasBit_27)
+								)
+								(portRef or
+									(instanceRef biasBit_27)
+								)
+								(portRef or
+									(instanceRef biasBit_4)
+								)
+								(portRef or
+									(instanceRef biasBit_4)
+								)
+								(portRef or
 									(instanceRef biasBit_5)
 								)
-								(portRef &_EXCLAMATION_q
+								(portRef or
+									(instanceRef biasBit_5)
+								)
+								(portRef or
 									(instanceRef biasBit_6)
+								)
+								(portRef or
+									(instanceRef biasBit_6)
+								)
+								(portRef or
+									(instanceRef biasBit_7)
+								)
+								(portRef or
+									(instanceRef biasBit_7)
+								)
+								(portRef or
+									(instanceRef biasBit_8)
+								)
+								(portRef or
+									(instanceRef biasBit_8)
+								)
+								(portRef or
+									(instanceRef biasBit_9)
+								)
+								(portRef or
+									(instanceRef biasBit_9)
 								)
 							)
 						)
 						(net N_50
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_20)
+									(instanceRef biasBit_25)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_21)
+									(instanceRef biasBit_26)
 								)
 							)
 						)
 						(net N_51
 							(joined
 								(portRef d
-									(instanceRef biasBit_20)
+									(instanceRef biasBit_25)
 								)
 								(portRef q
-									(instanceRef biasBit_21)
+									(instanceRef biasBit_26)
 								)
 							)
 						)
 						(net N_52
 							(joined
 								(portRef next
-									(instanceRef biasBit_20)
+									(instanceRef biasBit_25)
 								)
 								(portRef prev
-									(instanceRef biasBit_21)
+									(instanceRef biasBit_26)
 								)
 							)
 						)
 						(net N_53
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_21)
+									(instanceRef biasBit_26)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_22)
+									(instanceRef biasBit_27)
 								)
 							)
 						)
 						(net N_54
 							(joined
 								(portRef d
-									(instanceRef biasBit_21)
+									(instanceRef biasBit_26)
 								)
 								(portRef q
-									(instanceRef biasBit_22)
+									(instanceRef biasBit_27)
 								)
 							)
 						)
 						(net N_55
 							(joined
 								(portRef next
-									(instanceRef biasBit_21)
+									(instanceRef biasBit_26)
 								)
 								(portRef prev
-									(instanceRef biasBit_22)
+									(instanceRef biasBit_27)
 								)
 							)
 						)
 						(net N_56
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_22)
+									(instanceRef biasBit_4)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_23)
+									(instanceRef biasBit_5)
 								)
 							)
 						)
 						(net N_57
 							(joined
 								(portRef d
-									(instanceRef biasBit_22)
+									(instanceRef biasBit_4)
 								)
 								(portRef q
-									(instanceRef biasBit_23)
+									(instanceRef biasBit_5)
 								)
 							)
 						)
 						(net N_58
 							(joined
 								(portRef next
-									(instanceRef biasBit_22)
+									(instanceRef biasBit_4)
 								)
 								(portRef prev
-									(instanceRef biasBit_23)
+									(instanceRef biasBit_5)
 								)
 							)
 						)
 						(net N_59
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_23)
+									(instanceRef biasBit_5)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_24)
+									(instanceRef biasBit_6)
 								)
 							)
 						)
 						(net N_6
 							(joined
-								(portRef d
-									(instanceRef biasBit_5)
+								(portRef prev
+									(instanceRef biasBit_10)
 								)
-								(portRef q
-									(instanceRef biasBit_6)
+								(portRef next
+									(instanceRef biasBit_9)
 								)
 							)
 						)
 						(net N_60
 							(joined
 								(portRef d
-									(instanceRef biasBit_23)
+									(instanceRef biasBit_5)
 								)
 								(portRef q
-									(instanceRef biasBit_24)
+									(instanceRef biasBit_6)
 								)
 							)
 						)
 						(net N_61
-							(joined
-								(portRef next
-									(instanceRef biasBit_23)
-								)
-								(portRef prev
-									(instanceRef biasBit_24)
-								)
-							)
-						)
-						(net N_62
-							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_24)
-								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_25)
-								)
-							)
-						)
-						(net N_63
-							(joined
-								(portRef d
-									(instanceRef biasBit_24)
-								)
-								(portRef q
-									(instanceRef biasBit_25)
-								)
-							)
-						)
-						(net N_64
-							(joined
-								(portRef next
-									(instanceRef biasBit_24)
-								)
-								(portRef prev
-									(instanceRef biasBit_25)
-								)
-							)
-						)
-						(net N_65
-							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_25)
-								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_26)
-								)
-							)
-						)
-						(net N_66
-							(joined
-								(portRef d
-									(instanceRef biasBit_25)
-								)
-								(portRef q
-									(instanceRef biasBit_26)
-								)
-							)
-						)
-						(net N_67
-							(joined
-								(portRef next
-									(instanceRef biasBit_25)
-								)
-								(portRef prev
-									(instanceRef biasBit_26)
-								)
-							)
-						)
-						(net N_68
-							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_26)
-								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_27)
-								)
-							)
-						)
-						(net N_69
-							(joined
-								(portRef d
-									(instanceRef biasBit_26)
-								)
-								(portRef q
-									(instanceRef biasBit_27)
-								)
-							)
-						)
-						(net N_7
 							(joined
 								(portRef next
 									(instanceRef biasBit_5)
@@ -34444,13 +34354,103 @@
 								)
 							)
 						)
+						(net N_62
+							(joined
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasBit_6)
+								)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_7)
+								)
+							)
+						)
+						(net N_63
+							(joined
+								(portRef d
+									(instanceRef biasBit_6)
+								)
+								(portRef q
+									(instanceRef biasBit_7)
+								)
+							)
+						)
+						(net N_64
+							(joined
+								(portRef next
+									(instanceRef biasBit_6)
+								)
+								(portRef prev
+									(instanceRef biasBit_7)
+								)
+							)
+						)
+						(net N_65
+							(joined
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasBit_7)
+								)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_8)
+								)
+							)
+						)
+						(net N_66
+							(joined
+								(portRef d
+									(instanceRef biasBit_7)
+								)
+								(portRef q
+									(instanceRef biasBit_8)
+								)
+							)
+						)
+						(net N_67
+							(joined
+								(portRef next
+									(instanceRef biasBit_7)
+								)
+								(portRef prev
+									(instanceRef biasBit_8)
+								)
+							)
+						)
+						(net N_68
+							(joined
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasBit_8)
+								)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasBit_9)
+								)
+							)
+						)
+						(net N_69
+							(joined
+								(portRef d
+									(instanceRef biasBit_8)
+								)
+								(portRef q
+									(instanceRef biasBit_9)
+								)
+							)
+						)
+						(net N_7
+							(joined
+								(portRef q
+									(instanceRef biasBit_10)
+								)
+								(portRef d
+									(instanceRef biasBit_9)
+								)
+							)
+						)
 						(net N_70
 							(joined
 								(portRef next
-									(instanceRef biasBit_26)
+									(instanceRef biasBit_8)
 								)
 								(portRef prev
-									(instanceRef biasBit_27)
+									(instanceRef biasBit_9)
 								)
 							)
 						)
@@ -34475,30 +34475,30 @@
 						(net N_8
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasBit_6)
+									(instanceRef biasBit_11)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_12)
 								)
 							)
 						)
 						(net N_9
 							(joined
 								(portRef d
-									(instanceRef biasBit_6)
+									(instanceRef biasBit_11)
 								)
 								(portRef q
-									(instanceRef biasBit_7)
+									(instanceRef biasBit_12)
 								)
 							)
 						)
 						(net VDD
 							(joined
-								(portRef S
-									(instanceRef masterCopy)
-								)
 								(portRef VDD
 									(instanceRef Vdd_4)
+								)
+								(portRef S
+									(instanceRef masterCopy)
 								)
 							)
 						)
@@ -35026,24 +35026,6 @@
 							(joined
 								(portRef latchenb)
 								(portRef latch
-									(instanceRef biasBit_4)
-								)
-								(portRef latch
-									(instanceRef biasBit_5)
-								)
-								(portRef latch
-									(instanceRef biasBit_6)
-								)
-								(portRef latch
-									(instanceRef biasBit_7)
-								)
-								(portRef latch
-									(instanceRef biasBit_8)
-								)
-								(portRef latch
-									(instanceRef biasBit_9)
-								)
-								(portRef latch
 									(instanceRef biasBit_10)
 								)
 								(portRef latch
@@ -35096,6 +35078,24 @@
 								)
 								(portRef latch
 									(instanceRef biasBit_27)
+								)
+								(portRef latch
+									(instanceRef biasBit_4)
+								)
+								(portRef latch
+									(instanceRef biasBit_5)
+								)
+								(portRef latch
+									(instanceRef biasBit_6)
+								)
+								(portRef latch
+									(instanceRef biasBit_7)
+								)
+								(portRef latch
+									(instanceRef biasBit_8)
+								)
+								(portRef latch
+									(instanceRef biasBit_9)
 								)
 							)
 							(figure wire
@@ -35361,42 +35361,6 @@
 							(joined
 								(portRef phi)
 								(portRef phi
-									(instanceRef biasBit_4)
-								)
-								(portRef phi
-									(instanceRef biasBit_4)
-								)
-								(portRef phi
-									(instanceRef biasBit_5)
-								)
-								(portRef phi
-									(instanceRef biasBit_5)
-								)
-								(portRef phi
-									(instanceRef biasBit_6)
-								)
-								(portRef phi
-									(instanceRef biasBit_6)
-								)
-								(portRef phi
-									(instanceRef biasBit_7)
-								)
-								(portRef phi
-									(instanceRef biasBit_7)
-								)
-								(portRef phi
-									(instanceRef biasBit_8)
-								)
-								(portRef phi
-									(instanceRef biasBit_8)
-								)
-								(portRef phi
-									(instanceRef biasBit_9)
-								)
-								(portRef phi
-									(instanceRef biasBit_9)
-								)
-								(portRef phi
 									(instanceRef biasBit_10)
 								)
 								(portRef phi
@@ -35503,6 +35467,42 @@
 								)
 								(portRef phi
 									(instanceRef biasBit_27)
+								)
+								(portRef phi
+									(instanceRef biasBit_4)
+								)
+								(portRef phi
+									(instanceRef biasBit_4)
+								)
+								(portRef phi
+									(instanceRef biasBit_5)
+								)
+								(portRef phi
+									(instanceRef biasBit_5)
+								)
+								(portRef phi
+									(instanceRef biasBit_6)
+								)
+								(portRef phi
+									(instanceRef biasBit_6)
+								)
+								(portRef phi
+									(instanceRef biasBit_7)
+								)
+								(portRef phi
+									(instanceRef biasBit_7)
+								)
+								(portRef phi
+									(instanceRef biasBit_8)
+								)
+								(portRef phi
+									(instanceRef biasBit_8)
+								)
+								(portRef phi
+									(instanceRef biasBit_9)
+								)
+								(portRef phi
+									(instanceRef biasBit_9)
 								)
 							)
 							(figure wire
@@ -35565,24 +35565,6 @@
 						(net splitterOutput
 							(joined
 								(portRef out
-									(instanceRef biasBit_4)
-								)
-								(portRef out
-									(instanceRef biasBit_5)
-								)
-								(portRef out
-									(instanceRef biasBit_6)
-								)
-								(portRef out
-									(instanceRef biasBit_7)
-								)
-								(portRef out
-									(instanceRef biasBit_8)
-								)
-								(portRef out
-									(instanceRef biasBit_9)
-								)
-								(portRef out
 									(instanceRef biasBit_10)
 								)
 								(portRef out
@@ -35635,6 +35617,24 @@
 								)
 								(portRef out
 									(instanceRef biasBit_27)
+								)
+								(portRef out
+									(instanceRef biasBit_4)
+								)
+								(portRef out
+									(instanceRef biasBit_5)
+								)
+								(portRef out
+									(instanceRef biasBit_6)
+								)
+								(portRef out
+									(instanceRef biasBit_7)
+								)
+								(portRef out
+									(instanceRef biasBit_8)
+								)
+								(portRef out
+									(instanceRef biasBit_9)
 								)
 								(portRef splitterOutput
 									(instanceRef biasBuffers_lowCurrent_1)
@@ -36030,32 +36030,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 64)
-									)
-									(origin
-										(pt -45 -472)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 64)
-								)
-								(origin
-									(pt -45 -472)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -36078,6 +36052,32 @@
 								)
 								(origin
 									(pt -45 -600)
+								)
+							)
+						)
+						(propertyDisplay
+							(name SPICE_PERIOD_PRIMITIVE
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 64)
+									)
+									(origin
+										(pt -45 -472)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 64)
+								)
+								(origin
+									(pt -45 -472)
 								)
 							)
 						)
@@ -36241,32 +36241,6 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_PRIMITIVE
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 32)
-									)
-									(origin
-										(pt -32 -451)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 32)
-								)
-								(origin
-									(pt -32 -451)
-								)
-							)
-						)
-						(propertyDisplay
 							(name SPICE_PERIOD_OUTPUT
 								(display
 									(figureGroupOverride property
@@ -36291,6 +36265,32 @@
 								(justify UPPERRIGHT)
 								(origin
 									(pt 127 -227)
+								)
+							)
+						)
+						(propertyDisplay
+							(name SPICE_PERIOD_PRIMITIVE
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 32)
+									)
+									(origin
+										(pt -32 -451)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 32)
+								)
+								(origin
+									(pt -32 -451)
 								)
 							)
 						)
@@ -36551,6 +36551,32 @@
 							)
 						)
 						(propertyDisplay
+							(name SPICE_PERIOD_OUTPUT
+								(display
+									(figureGroupOverride property
+										(visible
+											(false)
+										)
+										(textHeight 16)
+									)
+									(origin
+										(pt -144 -264)
+									)
+								)
+							)
+							(display
+								(figureGroupOverride property
+									(visible
+										(false)
+									)
+									(textHeight 16)
+								)
+								(origin
+									(pt -144 -264)
+								)
+							)
+						)
+						(propertyDisplay
 							(name SPICE_PERIOD_PRIMITIVE
 								(display
 									(figureGroupOverride property
@@ -36577,7 +36603,7 @@
 							)
 						)
 						(propertyDisplay
-							(name SPICE_PERIOD_OUTPUT
+							(name TC1
 								(display
 									(figureGroupOverride property
 										(visible
@@ -36586,7 +36612,7 @@
 										(textHeight 16)
 									)
 									(origin
-										(pt -144 -264)
+										(pt 32 -112)
 									)
 								)
 							)
@@ -36598,7 +36624,7 @@
 									(textHeight 16)
 								)
 								(origin
-									(pt -144 -264)
+									(pt 32 -112)
 								)
 							)
 						)
@@ -36650,32 +36676,6 @@
 								(orientation R90)
 								(origin
 									(pt 83 -139)
-								)
-							)
-						)
-						(propertyDisplay
-							(name TC1
-								(display
-									(figureGroupOverride property
-										(visible
-											(false)
-										)
-										(textHeight 16)
-									)
-									(origin
-										(pt 32 -112)
-									)
-								)
-							)
-							(display
-								(figureGroupOverride property
-									(visible
-										(false)
-									)
-									(textHeight 16)
-								)
-								(origin
-									(pt 32 -112)
 								)
 							)
 						)
@@ -38684,14 +38684,14 @@
 								(portRef BiasGenNBias
 									(instanceRef BiasGenNBias_1)
 								)
+								(portRef G
+									(instanceRef N3_2)
+								)
 								(portRef neg
 									(instanceRef capPoly_1)
 								)
 								(portRef D
 									(instanceRef kick)
-								)
-								(portRef G
-									(instanceRef N3_2)
 								)
 								(portRef G
 									(instanceRef nbias)
@@ -38851,9 +38851,6 @@
 						)
 						(net Gnd
 							(joined
-								(portRef pos
-									(instanceRef capPoly_1)
-								)
 								(portRef Gnd
 									(instanceRef Gnd_1)
 								)
@@ -38875,6 +38872,9 @@
 								(portRef D
 									(instanceRef N3_2)
 								)
+								(portRef pos
+									(instanceRef capPoly_1)
+								)
 								(portRef D
 									(instanceRef nbias)
 								)
@@ -38894,28 +38894,10 @@
 						(net VDD
 							(joined
 								(portRef S
-									(instanceRef kick)
-								)
-								(portRef S
-									(instanceRef kickshutoff)
-								)
-								(portRef D
-									(instanceRef moscapstopstartup)
-								)
-								(portRef S
-									(instanceRef moscapstopstartup)
-								)
-								(portRef S
 									(instanceRef P3_1)
 								)
 								(portRef S
 									(instanceRef P3_5)
-								)
-								(portRef S
-									(instanceRef pmirrorin)
-								)
-								(portRef S
-									(instanceRef pmirrorout)
 								)
 								(portRef VDD
 									(instanceRef Vdd_1)
@@ -38937,6 +38919,24 @@
 								)
 								(portRef VDD
 									(instanceRef Vdd_7)
+								)
+								(portRef S
+									(instanceRef kick)
+								)
+								(portRef S
+									(instanceRef kickshutoff)
+								)
+								(portRef D
+									(instanceRef moscapstopstartup)
+								)
+								(portRef S
+									(instanceRef moscapstopstartup)
+								)
+								(portRef S
+									(instanceRef pmirrorin)
+								)
+								(portRef S
+									(instanceRef pmirrorout)
 								)
 							)
 						)
@@ -39162,11 +39162,11 @@
 						(net rx
 							(joined
 								(portRef rx)
-								(portRef D
-									(instanceRef nres)
-								)
 								(portRef neg
 									(instanceRef RPOLYH_1)
+								)
+								(portRef D
+									(instanceRef nres)
 								)
 							)
 							(figure wire
@@ -43439,30 +43439,6 @@
 									(instanceRef biasProgrammable_1)
 								)
 								(portRef &_EXCLAMATION_latchenb
-									(instanceRef biasProgrammable_2)
-								)
-								(portRef &_EXCLAMATION_latchenb
-									(instanceRef biasProgrammable_3)
-								)
-								(portRef &_EXCLAMATION_latchenb
-									(instanceRef biasProgrammable_4)
-								)
-								(portRef &_EXCLAMATION_latchenb
-									(instanceRef biasProgrammable_5)
-								)
-								(portRef &_EXCLAMATION_latchenb
-									(instanceRef biasProgrammable_6)
-								)
-								(portRef &_EXCLAMATION_latchenb
-									(instanceRef biasProgrammable_7)
-								)
-								(portRef &_EXCLAMATION_latchenb
-									(instanceRef biasProgrammable_8)
-								)
-								(portRef &_EXCLAMATION_latchenb
-									(instanceRef biasProgrammable_9)
-								)
-								(portRef &_EXCLAMATION_latchenb
 									(instanceRef biasProgrammable_10)
 								)
 								(portRef &_EXCLAMATION_latchenb
@@ -43485,6 +43461,30 @@
 								)
 								(portRef &_EXCLAMATION_latchenb
 									(instanceRef biasProgrammable_17)
+								)
+								(portRef &_EXCLAMATION_latchenb
+									(instanceRef biasProgrammable_2)
+								)
+								(portRef &_EXCLAMATION_latchenb
+									(instanceRef biasProgrammable_3)
+								)
+								(portRef &_EXCLAMATION_latchenb
+									(instanceRef biasProgrammable_4)
+								)
+								(portRef &_EXCLAMATION_latchenb
+									(instanceRef biasProgrammable_5)
+								)
+								(portRef &_EXCLAMATION_latchenb
+									(instanceRef biasProgrammable_6)
+								)
+								(portRef &_EXCLAMATION_latchenb
+									(instanceRef biasProgrammable_7)
+								)
+								(portRef &_EXCLAMATION_latchenb
+									(instanceRef biasProgrammable_8)
+								)
+								(portRef &_EXCLAMATION_latchenb
+									(instanceRef biasProgrammable_9)
 								)
 								(portRef &_EXCLAMATION_latchenb
 									(instanceRef biasProgrammable_lowcurrent2_1)
@@ -43762,20 +43762,20 @@
 						(net N_18
 							(joined
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_2)
+									(instanceRef biasProgrammable_10)
 								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_5)
+									(instanceRef biasProgrammable_9)
 								)
 							)
 						)
 						(net N_19
 							(joined
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_2)
+									(instanceRef biasProgrammable_10)
 								)
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_6)
+									(instanceRef biasProgrammable_13)
 								)
 							)
 						)
@@ -43792,88 +43792,94 @@
 						(net N_20
 							(joined
 								(portRef d
-									(instanceRef biasProgrammable_2)
+									(instanceRef biasProgrammable_10)
 								)
 								(portRef q
-									(instanceRef biasProgrammable_5)
+									(instanceRef biasProgrammable_9)
 								)
 							)
 						)
 						(net N_21
 							(joined
-								(portRef pBias
-									(instanceRef biasProgrammable_2)
+								(portRef nBias
+									(instanceRef biasProgrammable_10)
 								)
 							)
 						)
 						(net N_22
 							(joined
 								(portRef q
-									(instanceRef biasProgrammable_2)
+									(instanceRef biasProgrammable_10)
 								)
 								(portRef d
-									(instanceRef biasProgrammable_6)
+									(instanceRef biasProgrammable_13)
 								)
 							)
 						)
 						(net N_23
 							(joined
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_3)
-								)
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_4)
+									(instanceRef biasProgrammable_11)
+								)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasProgrammable_12)
 								)
 							)
 						)
 						(net N_24
 							(joined
-								(portRef pBias
-									(instanceRef biasProgrammable_3)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasProgrammable_11)
+								)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasProgrammable_7)
 								)
 							)
 						)
 						(net N_25
 							(joined
-								(portRef q
-									(instanceRef biasProgrammable_3)
-								)
 								(portRef d
-									(instanceRef biasProgrammable_4)
+									(instanceRef biasProgrammable_11)
+								)
+								(portRef q
+									(instanceRef biasProgrammable_12)
 								)
 							)
 						)
 						(net N_26
 							(joined
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_4)
-								)
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_5)
+								(portRef pBias
+									(instanceRef biasProgrammable_11)
 								)
 							)
 						)
 						(net N_27
 							(joined
-								(portRef pBias
-									(instanceRef biasProgrammable_4)
+								(portRef q
+									(instanceRef biasProgrammable_11)
+								)
+								(portRef d
+									(instanceRef biasProgrammable_7)
 								)
 							)
 						)
 						(net N_28
 							(joined
-								(portRef q
-									(instanceRef biasProgrammable_4)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasProgrammable_12)
 								)
-								(portRef d
-									(instanceRef biasProgrammable_5)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasProgrammable_13)
 								)
 							)
 						)
 						(net N_29
 							(joined
-								(portRef nBias
-									(instanceRef biasProgrammable_5)
+								(portRef d
+									(instanceRef biasProgrammable_12)
+								)
+								(portRef q
+									(instanceRef biasProgrammable_13)
 								)
 							)
 						)
@@ -43889,92 +43895,89 @@
 						)
 						(net N_30
 							(joined
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_6)
-								)
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_8)
+								(portRef nBias
+									(instanceRef biasProgrammable_12)
 								)
 							)
 						)
 						(net N_31
 							(joined
-								(portRef nBias
-									(instanceRef biasProgrammable_6)
+								(portRef pBias
+									(instanceRef biasProgrammable_13)
 								)
 							)
 						)
 						(net N_32
 							(joined
-								(portRef q
-									(instanceRef biasProgrammable_6)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasProgrammable_14)
 								)
-								(portRef d
-									(instanceRef biasProgrammable_8)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasProgrammable_15)
 								)
 							)
 						)
 						(net N_33
 							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_7)
+								(portRef d
+									(instanceRef biasProgrammable_14)
 								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_11)
+								(portRef q
+									(instanceRef biasProgrammable_15)
 								)
 							)
 						)
 						(net N_34
 							(joined
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_7)
-								)
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_17)
+								(portRef pBias
+									(instanceRef biasProgrammable_14)
 								)
 							)
 						)
 						(net N_35
 							(joined
-								(portRef d
-									(instanceRef biasProgrammable_7)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasProgrammable_15)
 								)
-								(portRef q
-									(instanceRef biasProgrammable_11)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasProgrammable_16)
 								)
 							)
 						)
 						(net N_36
 							(joined
-								(portRef pBias
-									(instanceRef biasProgrammable_7)
+								(portRef d
+									(instanceRef biasProgrammable_15)
+								)
+								(portRef q
+									(instanceRef biasProgrammable_16)
 								)
 							)
 						)
 						(net N_37
 							(joined
-								(portRef q
-									(instanceRef biasProgrammable_7)
-								)
-								(portRef d
-									(instanceRef biasProgrammable_17)
+								(portRef pBias
+									(instanceRef biasProgrammable_15)
 								)
 							)
 						)
 						(net N_38
 							(joined
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_8)
-								)
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_9)
+									(instanceRef biasProgrammable_16)
+								)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasProgrammable_17)
 								)
 							)
 						)
 						(net N_39
 							(joined
-								(portRef nBias
-									(instanceRef biasProgrammable_8)
+								(portRef d
+									(instanceRef biasProgrammable_16)
+								)
+								(portRef q
+									(instanceRef biasProgrammable_17)
 								)
 							)
 						)
@@ -43990,92 +43993,92 @@
 						)
 						(net N_40
 							(joined
-								(portRef q
-									(instanceRef biasProgrammable_8)
-								)
-								(portRef d
-									(instanceRef biasProgrammable_9)
+								(portRef nBias
+									(instanceRef biasProgrammable_16)
 								)
 							)
 						)
 						(net N_41
 							(joined
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_9)
-								)
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_10)
+									(instanceRef biasProgrammable_17)
+								)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasProgrammable_7)
 								)
 							)
 						)
 						(net N_42
 							(joined
-								(portRef nBias
-									(instanceRef biasProgrammable_9)
+								(portRef d
+									(instanceRef biasProgrammable_17)
+								)
+								(portRef q
+									(instanceRef biasProgrammable_7)
 								)
 							)
 						)
 						(net N_43
 							(joined
-								(portRef q
-									(instanceRef biasProgrammable_9)
-								)
-								(portRef d
-									(instanceRef biasProgrammable_10)
+								(portRef nBias
+									(instanceRef biasProgrammable_17)
 								)
 							)
 						)
 						(net N_44
 							(joined
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_10)
-								)
 								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_13)
+									(instanceRef biasProgrammable_2)
+								)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasProgrammable_5)
 								)
 							)
 						)
 						(net N_45
 							(joined
-								(portRef nBias
-									(instanceRef biasProgrammable_10)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasProgrammable_2)
+								)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasProgrammable_6)
 								)
 							)
 						)
 						(net N_46
 							(joined
-								(portRef q
-									(instanceRef biasProgrammable_10)
-								)
 								(portRef d
-									(instanceRef biasProgrammable_13)
+									(instanceRef biasProgrammable_2)
+								)
+								(portRef q
+									(instanceRef biasProgrammable_5)
 								)
 							)
 						)
 						(net N_47
 							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_11)
-								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_12)
+								(portRef pBias
+									(instanceRef biasProgrammable_2)
 								)
 							)
 						)
 						(net N_48
 							(joined
-								(portRef d
-									(instanceRef biasProgrammable_11)
-								)
 								(portRef q
-									(instanceRef biasProgrammable_12)
+									(instanceRef biasProgrammable_2)
+								)
+								(portRef d
+									(instanceRef biasProgrammable_6)
 								)
 							)
 						)
 						(net N_49
 							(joined
-								(portRef pBias
-									(instanceRef biasProgrammable_11)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasProgrammable_3)
+								)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasProgrammable_4)
 								)
 							)
 						)
@@ -44091,89 +44094,86 @@
 						)
 						(net N_50
 							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_12)
-								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_13)
+								(portRef pBias
+									(instanceRef biasProgrammable_3)
 								)
 							)
 						)
 						(net N_51
 							(joined
-								(portRef d
-									(instanceRef biasProgrammable_12)
-								)
 								(portRef q
-									(instanceRef biasProgrammable_13)
+									(instanceRef biasProgrammable_3)
+								)
+								(portRef d
+									(instanceRef biasProgrammable_4)
 								)
 							)
 						)
 						(net N_52
 							(joined
-								(portRef nBias
-									(instanceRef biasProgrammable_12)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasProgrammable_4)
+								)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasProgrammable_5)
 								)
 							)
 						)
 						(net N_53
 							(joined
 								(portRef pBias
-									(instanceRef biasProgrammable_13)
+									(instanceRef biasProgrammable_4)
 								)
 							)
 						)
 						(net N_54
 							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_14)
+								(portRef q
+									(instanceRef biasProgrammable_4)
 								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_15)
+								(portRef d
+									(instanceRef biasProgrammable_5)
 								)
 							)
 						)
 						(net N_55
 							(joined
-								(portRef d
-									(instanceRef biasProgrammable_14)
-								)
-								(portRef q
-									(instanceRef biasProgrammable_15)
+								(portRef nBias
+									(instanceRef biasProgrammable_5)
 								)
 							)
 						)
 						(net N_56
 							(joined
-								(portRef pBias
-									(instanceRef biasProgrammable_14)
+								(portRef &_EXCLAMATION_q
+									(instanceRef biasProgrammable_6)
+								)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasProgrammable_8)
 								)
 							)
 						)
 						(net N_57
 							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_15)
-								)
-								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_16)
+								(portRef nBias
+									(instanceRef biasProgrammable_6)
 								)
 							)
 						)
 						(net N_58
 							(joined
-								(portRef d
-									(instanceRef biasProgrammable_15)
-								)
 								(portRef q
-									(instanceRef biasProgrammable_16)
+									(instanceRef biasProgrammable_6)
+								)
+								(portRef d
+									(instanceRef biasProgrammable_8)
 								)
 							)
 						)
 						(net N_59
 							(joined
 								(portRef pBias
-									(instanceRef biasProgrammable_15)
+									(instanceRef biasProgrammable_7)
 								)
 							)
 						)
@@ -44186,35 +44186,35 @@
 						)
 						(net N_60
 							(joined
-								(portRef &_EXCLAMATION_d
-									(instanceRef biasProgrammable_16)
-								)
 								(portRef &_EXCLAMATION_q
-									(instanceRef biasProgrammable_17)
+									(instanceRef biasProgrammable_8)
+								)
+								(portRef &_EXCLAMATION_d
+									(instanceRef biasProgrammable_9)
 								)
 							)
 						)
 						(net N_61
 							(joined
-								(portRef d
-									(instanceRef biasProgrammable_16)
-								)
-								(portRef q
-									(instanceRef biasProgrammable_17)
+								(portRef nBias
+									(instanceRef biasProgrammable_8)
 								)
 							)
 						)
 						(net N_62
 							(joined
-								(portRef nBias
-									(instanceRef biasProgrammable_16)
+								(portRef q
+									(instanceRef biasProgrammable_8)
+								)
+								(portRef d
+									(instanceRef biasProgrammable_9)
 								)
 							)
 						)
 						(net N_63
 							(joined
 								(portRef nBias
-									(instanceRef biasProgrammable_17)
+									(instanceRef biasProgrammable_9)
 								)
 							)
 						)
@@ -44699,30 +44699,6 @@
 									(instanceRef biasProgrammable_1)
 								)
 								(portRef latchenb
-									(instanceRef biasProgrammable_2)
-								)
-								(portRef latchenb
-									(instanceRef biasProgrammable_3)
-								)
-								(portRef latchenb
-									(instanceRef biasProgrammable_4)
-								)
-								(portRef latchenb
-									(instanceRef biasProgrammable_5)
-								)
-								(portRef latchenb
-									(instanceRef biasProgrammable_6)
-								)
-								(portRef latchenb
-									(instanceRef biasProgrammable_7)
-								)
-								(portRef latchenb
-									(instanceRef biasProgrammable_8)
-								)
-								(portRef latchenb
-									(instanceRef biasProgrammable_9)
-								)
-								(portRef latchenb
 									(instanceRef biasProgrammable_10)
 								)
 								(portRef latchenb
@@ -44745,6 +44721,30 @@
 								)
 								(portRef latchenb
 									(instanceRef biasProgrammable_17)
+								)
+								(portRef latchenb
+									(instanceRef biasProgrammable_2)
+								)
+								(portRef latchenb
+									(instanceRef biasProgrammable_3)
+								)
+								(portRef latchenb
+									(instanceRef biasProgrammable_4)
+								)
+								(portRef latchenb
+									(instanceRef biasProgrammable_5)
+								)
+								(portRef latchenb
+									(instanceRef biasProgrammable_6)
+								)
+								(portRef latchenb
+									(instanceRef biasProgrammable_7)
+								)
+								(portRef latchenb
+									(instanceRef biasProgrammable_8)
+								)
+								(portRef latchenb
+									(instanceRef biasProgrammable_9)
 								)
 								(portRef latchenb
 									(instanceRef biasProgrammable_lowcurrent2_1)
@@ -45018,30 +45018,6 @@
 									(instanceRef biasProgrammable_1)
 								)
 								(portRef phi
-									(instanceRef biasProgrammable_2)
-								)
-								(portRef phi
-									(instanceRef biasProgrammable_3)
-								)
-								(portRef phi
-									(instanceRef biasProgrammable_4)
-								)
-								(portRef phi
-									(instanceRef biasProgrammable_5)
-								)
-								(portRef phi
-									(instanceRef biasProgrammable_6)
-								)
-								(portRef phi
-									(instanceRef biasProgrammable_7)
-								)
-								(portRef phi
-									(instanceRef biasProgrammable_8)
-								)
-								(portRef phi
-									(instanceRef biasProgrammable_9)
-								)
-								(portRef phi
 									(instanceRef biasProgrammable_10)
 								)
 								(portRef phi
@@ -45064,6 +45040,30 @@
 								)
 								(portRef phi
 									(instanceRef biasProgrammable_17)
+								)
+								(portRef phi
+									(instanceRef biasProgrammable_2)
+								)
+								(portRef phi
+									(instanceRef biasProgrammable_3)
+								)
+								(portRef phi
+									(instanceRef biasProgrammable_4)
+								)
+								(portRef phi
+									(instanceRef biasProgrammable_5)
+								)
+								(portRef phi
+									(instanceRef biasProgrammable_6)
+								)
+								(portRef phi
+									(instanceRef biasProgrammable_7)
+								)
+								(portRef phi
+									(instanceRef biasProgrammable_8)
+								)
+								(portRef phi
+									(instanceRef biasProgrammable_9)
 								)
 								(portRef phi
 									(instanceRef biasProgrammable_lowcurrent2_1)
@@ -45282,54 +45282,6 @@
 									(instanceRef biasProgrammable_1)
 								)
 								(portRef pd
-									(instanceRef biasProgrammable_2)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_2)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_3)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_3)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_4)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_4)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_5)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_5)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_6)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_6)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_7)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_7)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_8)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_8)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_9)
-								)
-								(portRef pd
-									(instanceRef biasProgrammable_9)
-								)
-								(portRef pd
 									(instanceRef biasProgrammable_10)
 								)
 								(portRef pd
@@ -45376,6 +45328,54 @@
 								)
 								(portRef pd
 									(instanceRef biasProgrammable_17)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_2)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_2)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_3)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_3)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_4)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_4)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_5)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_5)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_6)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_6)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_7)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_7)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_8)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_8)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_9)
+								)
+								(portRef pd
+									(instanceRef biasProgrammable_9)
 								)
 								(portRef pd
 									(instanceRef biasProgrammable_lowcurrent2_1)
