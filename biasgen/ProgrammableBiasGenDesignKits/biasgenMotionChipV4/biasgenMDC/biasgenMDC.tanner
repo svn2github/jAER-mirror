@@ -1,0 +1,7 @@
+workspace loadfrom -path .
+cell open -design biasgenMDC -cell capPolyBiasgen -type symbol -newwindow
+window move -left 132 -top 174 -width 988 -height 606 -undock -max 
+window fit -x0 -400 -y0 -519 -x1 426 -y1 85 -units iu
+workspace dockinglayout load -file {.\dockinglayout.xml}
+source open.design -relativeto user
+source open.design -relativeto design
