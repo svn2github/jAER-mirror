@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<DockingPaneLayouts CompactMode="1">
+	<RegistyKey>
+		<Summary Panes="19" TopContainer="1" Client="7"/>
+		<Pane-1 Type="2" Horiz="1" Panes="2" Pane-1="2" Pane-2="4"/>
+		<Pane-2 Type="1" DockingCX="200" DockingCY="120" Panes="1" Selected="3" Pane-1="3"/>
+		<Pane-3 Type="0" DockingCX="200" DockingCY="120" Title="Libraries" ID="3" DockingHolder="2" LastHolder="2"/>
+		<Pane-4 Type="2" DockingCX="1277" Panes="2" Pane-1="5" Pane-2="10"/>
+		<Pane-5 Type="2" DockingCY="842" Horiz="1" Panes="3" Pane-1="6" Pane-2="7" Pane-3="8"/>
+		<Pane-6 Type="1" DockingCX="200" DockingCY="120" Panes="0"/>
+		<Pane-7 Type="4"/>
+		<Pane-8 Type="1" DockingCX="261" DockingCY="120" Panes="1" Selected="9" Pane-1="9"/>
+		<Pane-9 Type="0" DockingCX="200" DockingCY="120" Title="Properties" ID="2" DockingHolder="8" FloatingHolder="15" LastHolder="8"/>
+		<Pane-10 Type="1" DockingCX="200" DockingCY="120" Panes="1" Selected="11" Pane-1="11"/>
+		<Pane-11 Type="0" DockingCX="200" DockingCY="120" Title="Command" ID="1" DockingHolder="10" LastHolder="10"/>
+		<Pane-12 Type="5" Direction="1" Panes="0"/>
+		<Pane-13 Type="3" WindowRectTopPos="116" WindowRectBottomPos="851" WindowRectLeftPos="1239" WindowRectRightPos="1439" TopContaner="14"/>
+		<Pane-14 Type="2" DockingCX="200" DockingCY="120" Horiz="1" Panes="1" Pane-1="15"/>
+		<Pane-15 Type="1" DockingCX="200" DockingCY="120" Panes="0"/>
+		<Pane-16 Type="0" DockingCX="200" DockingCY="120" Title="Setup of biasgen-scmos-subm" ID="4" DockingHolder="6" FloatingHolder="19" LastHolder="19"/>
+		<Pane-17 Type="3" WindowRectTopPos="109" WindowRectBottomPos="961" WindowRectLeftPos="208" WindowRectRightPos="1222" TopContaner="18"/>
+		<Pane-18 Type="2" DockingCX="200" DockingCY="120" Horiz="1" Panes="1" Pane-1="19"/>
+		<Pane-19 Type="1" DockingCX="200" DockingCY="120" Panes="0"/>
+	</RegistyKey>
+</DockingPaneLayouts>

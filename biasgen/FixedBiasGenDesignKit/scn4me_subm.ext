@@ -1,0 +1,100 @@
+# $Id: scn4me_subm.ext,v 1.1 2004/05/16 15:43:46 tobi Exp $
+# $Log: scn4me_subm.ext,v $
+# Revision 1.1  2004/05/16 15:43:46  tobi
+# split processes into subm sub-deep, and ams035
+# moved simulations into separate dir
+#
+# Revision 1.1  2003/06/16 09:22:44  tobi
+# initial versions, taken from pads for SCMOS_SUBM
+#
+
+# File:            scnme_subm.ext
+# For:             Extract definition file
+#                  TSMC .35u technology file
+# This file will work with L-EDIT Version 6.05
+# modified by J. Kramer 00/09/22 from C. Diorio's file made for Version 7.
+# ****************************************************************************
+connect(N-Well, N-diff, N-diff)
+connect(Substrate, P-diff, P-diff)
+connect(AllSubs, Substrate, Substrate)
+connect(N-diff, Metal1, ActiveContact)
+connect(P-diff, Metal1, ActiveContact)
+connect(PolyResistor, Metal1, PolyContact)
+connect(Poly2Resistor, Metal1, Poly2Contact)
+connect(PolyWire, Metal1, PolyContact)
+connect(Poly2Wire, Metal1, Poly2Contact)
+connect(Poly2Cap on Poly, Metal1, Poly2Contact)
+connect(Metal1, Metal2, Via1)
+# NMOS transistor with poly1 gate
+device = MOSFET(
+               RLAYER=N-transistor;  
+               Drain=N-diff, WIDTH;
+               Gate=PolyWire;
+               Source=N-diff, WIDTH;
+               Bulk=Substrate;
+               MODEL=NMOS;
+               )
+# PMOS transistor 
+device = MOSFET(
+               RLAYER=P-transistor;
+               Drain=P-diff, WIDTH;
+               Gate=PolyWire;
+               Source=P-diff, WIDTH;
+               Bulk=N-Well;
+               MODEL=PMOS;
+               )
+# Vertical PNP transistor
+#device = BJT(
+#             RLAYER=PNPTransistorID;
+#             Collector=AllSubs ;
+#             Base=N-Well;
+#             Emitter=P-diff;
+#             MODEL=PNP1;
+#             )
+# Poly1-Poly2 capacitor
+device = CAP(
+            RLAYER=Poly2Cap on Poly;
+            Plus=Poly2Wire;
+            Minus=PolyWire;
+            MODEL=;
+            )
+# Poly resistor
+device = RES(
+            RLAYER=PolyResistor;
+            Plus=PolyWire;
+            Minus=PolyWire;
+            MODEL=;
+            )
+# Poly2 resistor
+device = RES(
+            RLAYER=Poly2Resistor;
+            Plus=Poly2Wire;
+            Minus=Poly2Wire;
+            MODEL=;
+            )
+# Diodes
+#device = DIODE(
+#              RLAYER=Diode P-diff;
+#              Plus=P-diff;
+#              Minus=N-Well;
+#              MODEL=DP-diff;
+#              ) IGNORE_SHORTS
+#
+#device = DIODE(
+#              RLAYER=Diode N-diff;
+#              Plus=Substrate ;
+#              Minus=N-diff;
+#              MODEL=DN-diff;
+#              ) IGNORE_SHORTS
+#Pad
+device = SUBCKT(
+	      RLAYER=PadComment;
+	      Pin1=Metal1;
+	      MODEL= PADBOND;
+	      )
+#Pad
+#device = SUBCKT(
+#	      RLAYER=PadUnbonded;
+#	      Pin1=Metal1;
+#	      MODEL= PADNOBND;
+#	      )
