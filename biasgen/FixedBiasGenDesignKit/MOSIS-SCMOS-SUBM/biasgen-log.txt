@@ -1,0 +1,399 @@
+biasgen compiler log
+
+initVariables()
+Opened output schematic file
+
+bias line: *BIASCOMPILE name=Vbinv type=N_CURRENT I=8e-9 W=24 L=6  M=1
+
+Individual bias with name=Vbinv
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=8e-009, actual current=0, ratio actual/desired=1
+
+Individual bias with name=Vbinv
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=8e-009, actual current=0, ratio actual/desired=1
+
+biasprocess line: *BIASPROCESS kprime=3.65e-005 temperature=25
+
+process kprime=3.65e-005, temperature=25, UT=0.0252307
+bias line: *BIASCOMPILE name=VreqPD type=N_CURRENT I=32e-9 W=24 L=6  M=1
+
+Individual bias with name=VreqPD
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=3.2e-008, actual current=0, ratio actual/desired=1
+
+Individual bias with name=VreqPD
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=3.2e-008, actual current=0, ratio actual/desired=1
+
+bias line: *BIASCOMPILE name=VAbias type=N_CURRENT I=32e-9 W=24 L=6  M=1
+
+Individual bias with name=VAbias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=3.2e-008, actual current=0, ratio actual/desired=1
+
+Individual bias with name=VAbias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=3.2e-008, actual current=0, ratio actual/desired=1
+
+bias line: *BIASCOMPILE name=VDischargeBias type=N_CURRENT I=1e-9 W=24 L=6  M=1
+
+Individual bias with name=VDischargeBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=1e-009, actual current=0, ratio actual/desired=1
+
+Individual bias with name=VDischargeBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=1e-009, actual current=0, ratio actual/desired=1
+
+bias line: *BIASCOMPILE name=VreqPU type=P_CURRENT I=32e-9 W=24 L=6  M=1
+
+Individual bias with name=VreqPU
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=3.2e-008, actual current=0, ratio actual/desired=1
+
+Individual bias with name=VreqPU
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=3.2e-008, actual current=0, ratio actual/desired=1
+
+bias line: *BIASCOMPILE name=VBusyPU type=P_CURRENT I=128e-9 W=24 L=6  M=1
+
+Individual bias with name=VBusyPU
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=1.28e-007, actual current=0, ratio actual/desired=1
+
+Individual bias with name=VBusyPU
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=1.28e-007, actual current=0, ratio actual/desired=1
+
+bias line: *BIASCOMPILE name=VCompBias type=N_CURRENT I=4e-9 W=24 L=6  M=1
+
+Individual bias with name=VCompBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=4e-009, actual current=0, ratio actual/desired=1
+
+Individual bias with name=VCompBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=4e-009, actual current=0, ratio actual/desired=1
+
+bias line: *BIASCOMPILE name=PixelBuffer1bias type=P_CURRENT I=4e-9 W=24 L=6  M=1
+
+Individual bias with name=PixelBuffer1bias
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=4e-009, actual current=0, ratio actual/desired=1
+
+Individual bias with name=PixelBuffer1bias
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=4e-009, actual current=0, ratio actual/desired=1
+
+bias line: *BIASCOMPILE name=VFollBias type=N_CURRENT I=128e-9 W=24 L=6  M=1
+
+Individual bias with name=VFollBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=1.28e-007, actual current=0, ratio actual/desired=1
+
+Individual bias with name=VFollBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=1.28e-007, actual current=0, ratio actual/desired=1
+
+computeBiasRange()
+computeBiasRange: biasRange.maxToMinRatio=128
+biasRange.numSplitters=8
+done with computeBiasRange()
+
+computeMasterBias: MASTER_BIAS_GAIN=30
+master bias current=2.56e-007
+resistance sub threshold=335213
+resistance above threshold=133706
+
+
+computeSplitterCells()
+nearestSplitter: current=8e-009, splitterCell=4, splitterCurrent=8e-009
+Individual bias with name=Vbinv
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=4, busNumber=0
+desired current=8e-009, actual current=8e-009, ratio actual/desired=1
+
+nearestSplitter: current=3.2e-008, splitterCell=2, splitterCurrent=3.2e-008
+Individual bias with name=VreqPD
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=2, busNumber=0
+desired current=3.2e-008, actual current=3.2e-008, ratio actual/desired=1
+
+nearestSplitter: current=3.2e-008, splitterCell=2, splitterCurrent=3.2e-008
+Individual bias with name=VAbias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=2, busNumber=0
+desired current=3.2e-008, actual current=3.2e-008, ratio actual/desired=1
+
+nearestSplitter: current=1e-009, splitterCell=7, splitterCurrent=1e-009
+Individual bias with name=VDischargeBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=7, busNumber=0
+desired current=1e-009, actual current=1e-009, ratio actual/desired=1
+
+nearestSplitter: current=3.2e-008, splitterCell=2, splitterCurrent=3.2e-008
+Individual bias with name=VreqPU
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=2, busNumber=0
+desired current=3.2e-008, actual current=3.2e-008, ratio actual/desired=1
+
+nearestSplitter: current=1.28e-007, splitterCell=0, splitterCurrent=1.28e-007
+Individual bias with name=VBusyPU
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=1.28e-007, actual current=1.28e-007, ratio actual/desired=1
+
+nearestSplitter: current=4e-009, splitterCell=5, splitterCurrent=4e-009
+Individual bias with name=VCompBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=5, busNumber=0
+desired current=4e-009, actual current=4e-009, ratio actual/desired=1
+
+nearestSplitter: current=4e-009, splitterCell=5, splitterCurrent=4e-009
+Individual bias with name=PixelBuffer1bias
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=5, busNumber=0
+desired current=4e-009, actual current=4e-009, ratio actual/desired=1
+
+nearestSplitter: current=1.28e-007, splitterCell=0, splitterCurrent=1.28e-007
+Individual bias with name=VFollBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=1.28e-007, actual current=1.28e-007, ratio actual/desired=1
+
+Individual bias with name=Vbinv
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=4, busNumber=2
+desired current=8e-009, actual current=8e-009, ratio actual/desired=1
+
+Individual bias with name=VreqPD
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=2, busNumber=1
+desired current=3.2e-008, actual current=3.2e-008, ratio actual/desired=1
+
+Individual bias with name=VAbias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=2, busNumber=1
+desired current=3.2e-008, actual current=3.2e-008, ratio actual/desired=1
+
+Individual bias with name=VDischargeBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=7, busNumber=4
+desired current=1e-009, actual current=1e-009, ratio actual/desired=1
+
+Individual bias with name=VreqPU
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=2, busNumber=1
+desired current=3.2e-008, actual current=3.2e-008, ratio actual/desired=1
+
+Individual bias with name=VBusyPU
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=1.28e-007, actual current=1.28e-007, ratio actual/desired=1
+
+Individual bias with name=VCompBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=5, busNumber=3
+desired current=4e-009, actual current=4e-009, ratio actual/desired=1
+
+Individual bias with name=PixelBuffer1bias
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=5, busNumber=3
+desired current=4e-009, actual current=4e-009, ratio actual/desired=1
+
+Individual bias with name=VFollBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=1.28e-007, actual current=1.28e-007, ratio actual/desired=1
+
+done with computeSplitterCells()
+
+doLayout: placing 8 x 9 splitter bus cells
+doLayout: placing splitter routing connection cells
+placing individual biases
+making bias 0
+making bias cell named biasCell_Vbinv
+overwriting previous bias cells
+routing bias #0 of type N using cells biasCellNTypeRoute, biasCellNTypeSplitterConnect, and biasCellNTypeBiasConnect
+making bias 1
+making bias cell named biasCell_VreqPD
+routing bias #1 of type N using cells biasCellNTypeRoute, biasCellNTypeSplitterConnect, and biasCellNTypeBiasConnect
+making bias 2
+making bias cell named biasCell_VAbias
+routing bias #2 of type N using cells biasCellNTypeRoute, biasCellNTypeSplitterConnect, and biasCellNTypeBiasConnect
+making bias 3
+making bias cell named biasCell_VDischargeBias
+routing bias #3 of type N using cells biasCellNTypeRoute, biasCellNTypeSplitterConnect, and biasCellNTypeBiasConnect
+making bias 4
+making bias cell named biasCell_VreqPU
+routing bias #4 of type P using cells biasCellPTypeRoute, biasCellPTypeSplitterConnect, and biasCellPTypeBiasConnect
+making bias 5
+making bias cell named biasCell_VBusyPU
+routing bias #5 of type P using cells biasCellPTypeRoute, biasCellPTypeSplitterConnect, and biasCellPTypeBiasConnect
+making bias 6
+making bias cell named biasCell_VCompBias
+routing bias #6 of type N using cells biasCellNTypeRoute, biasCellNTypeSplitterConnect, and biasCellNTypeBiasConnect
+making bias 7
+making bias cell named biasCell_PixelBuffer1bias
+routing bias #7 of type P using cells biasCellPTypeRoute, biasCellPTypeSplitterConnect, and biasCellPTypeBiasConnect
+making bias 8
+making bias cell named biasCell_VFollBias
+routing bias #8 of type N using cells biasCellNTypeRoute, biasCellNTypeSplitterConnect, and biasCellNTypeBiasConnect
+****************************************************************
+summary report
+
+Process parameters kprime(mu*Cox/2)=3.65e-005, temperature(degC)=25, UT(V)=0.0252307
+Master bias current 2.56e-007A with Rx=3.35e+005 ohms (Rx=1.34e+005 ohms (above threshold) Rx=3.35e+005 ohms (subthreshold))
+
+8 splitter cells + 1 termination cell
+splitter	current
+0	1.28e-007
+1	6.4e-008
+2	3.2e-008
+3	1.6e-008
+4	8e-009
+5	4e-009
+6	2e-009
+7	1e-009
+
+Individual biases
+Max/Min bias currents=1.28e-007/1e-009 (7 octaves, 2.1 decades)
+
+Individual bias with name=Vbinv
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=4, busNumber=2
+desired current=8e-009, actual current=8e-009, ratio actual/desired=1
+
+
+Individual bias with name=VreqPD
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=2, busNumber=1
+desired current=3.2e-008, actual current=3.2e-008, ratio actual/desired=1
+
+
+Individual bias with name=VAbias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=2, busNumber=1
+desired current=3.2e-008, actual current=3.2e-008, ratio actual/desired=1
+
+
+Individual bias with name=VDischargeBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=7, busNumber=4
+desired current=1e-009, actual current=1e-009, ratio actual/desired=1
+
+
+Individual bias with name=VreqPU
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=2, busNumber=1
+desired current=3.2e-008, actual current=3.2e-008, ratio actual/desired=1
+
+
+Individual bias with name=VBusyPU
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=1.28e-007, actual current=1.28e-007, ratio actual/desired=1
+
+
+Individual bias with name=VCompBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=5, busNumber=3
+desired current=4e-009, actual current=4e-009, ratio actual/desired=1
+
+
+Individual bias with name=PixelBuffer1bias
+type=P_CURRENT
+width/length=24/6, M=1
+splitter=5, busNumber=3
+desired current=4e-009, actual current=4e-009, ratio actual/desired=1
+
+
+Individual bias with name=VFollBias
+type=N_CURRENT
+width/length=24/6, M=1
+splitter=0, busNumber=0
+desired current=1.28e-007, actual current=1.28e-007, ratio actual/desired=1
+
+
+
+
+Connection table (make these connections in schematic)
+Vbinv -> nb4
+VreqPD -> nb2
+VAbias -> nb2
+VDischargeBias -> nb7
+VreqPU -> nb2
+VBusyPU -> nb0
+VCompBias -> nb5
+PixelBuffer1bias -> nb5
+VFollBias -> nb0
+
+
+Don't forget to change the W/L of the individual bias transistors manually
+
+
+end of summary report
+***************************************************************
+cleaning up
