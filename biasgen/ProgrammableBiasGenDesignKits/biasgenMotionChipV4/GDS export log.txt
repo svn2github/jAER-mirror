@@ -1,0 +1,35 @@
+GDSII Export...
+TDB File: C:\Documents and Settings\tobi\My Documents\telluride\2007\bias\biasgenProgrammableSchLayoutAMS0p35\biasgenMDC.tdb
+GDSII File: C:\Documents and Settings\tobi\My Documents\telluride\2007\bias\biasgenProgrammableSchLayoutAMS0p35\biasgenMDC.gds
+
+Option Settings:
+Do not export hidden objects: ON
+Overwrite data type on export: ON
+Calculate MOSIS checksum: OFF
+Check for self-intersecting polygons and wires: OFF
+Write XRefCells as links: OFF
+Preserve case of cell names: ON
+Restrict cell names to 32 characters.
+All cells are being exported
+Use custom GDSII units:
+     1 database unit = 0.001 microns,
+     1 database unit = 0.001 user units.
+Fracture polygons: OFF
+Manufacturing grid for circle and curve approximation: 0.025 Microns
+All ports with port boxes will be converted to point ports
+
+Checking X-Ref Cell links ...
+
+Checking GDSII Numbers ...
+
+Checking for Hidden Layers and Objects ...
+
+Writing actual GDSII data ...
+Warning #26: Cell Cell0 is empty. (Action: Written as empty cell.)
+
+Completed writing actual GDSII data ...
+
+Summary:
+Export completed - 0 error(s), 1 warning(s)
+
+Elapsed Time: 0.01 seconds
