@@ -14,6 +14,16 @@
 PyObject* scaleImage(PyObject* self, PyObject* args) {
 	PyObject* pix_ob;
 	PyObject* width_ob;
+	const int width = (int) PyInt_AsLong(width_ob);
+	const int length = PyList_GET_SIZE(pix_ob);
+	const int height = length / width;
+	int w, h;
+	int length2;
+	double sx;
+	double sy;
+	int i;
+	PyObject* list;
+
 	if (!PyArg_ParseTuple(args, "O!O!",
 				&PyList_Type, &pix_ob,
 				&PyInt_Type, &width_ob)) {
@@ -21,10 +31,6 @@ PyObject* scaleImage(PyObject* self, PyObject* args) {
 		Py_INCREF(Py_None);
 		return Py_None;
 	}
-	const int width = (int) PyInt_AsLong(width_ob);
-	const int length = PyList_GET_SIZE(pix_ob);
-	const int height = length / width;
-	int w, h;
 	if (width > 128) {
 		w = 128;
 		h = (int)((128.0 / width) * height);
@@ -41,18 +47,17 @@ PyObject* scaleImage(PyObject* self, PyObject* args) {
 	}
 	//printf("New dimensions: %i , %i", w, h);
 	// new array, using crude nearest-point
-	const int length2 = w * h;
+	length2 = w * h;
 	PyObject* pix_ob2 = PyList_New(length2);
-	const double sx = ((double)w) / width;
-	const double sy = ((double)h) / height;
-	int i;
+	sx = ((double)w) / width;
+	sy = ((double)h) / height;
 	for (i=0; i<length2; i++) {
 		const int x1 = (int)((i % w) / sx);
 		const int y1 = (int)((i / w) / sy);
 		PyList_SET_ITEM(pix_ob2, i, PyInt_FromLong(PyInt_AsLong(PyList_GET_ITEM(pix_ob, y1 * width + x1)))); // duplicating the number wrapper
 		//PyList_SET_ITEM(pix_ob2, i, PyList_GET_ITEM(pix_ob, y1 * width + x1)); // SEG FAULT! without duplicating the number wrapper
 	}
-	PyObject* list = PyList_New(2);
+	list = PyList_New(2);
 	PyList_SET_ITEM(list, 0, pix_ob2);
 	PyList_SET_ITEM(list, 1, PyInt_FromLong(w));
 	// return both the new image and the new width
