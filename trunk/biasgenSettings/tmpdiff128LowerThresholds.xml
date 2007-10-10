@@ -40,25 +40,6 @@
                   <entry key="Masterbias.rint" value="46000.0"/>
                   <entry key="Masterbias.internalResistorUsed" value="false"/>
                 </map>
-                <node name="sensorymotor">
-                  <map>
-                    <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="2550"/>
-                    <entry key="ClusterTracker.maxNumClusters" value="1"/>
-                    <entry key="ClusterTracker.clusterSize" value="0.23269919"/>
-                    <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
-                    <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="118"/>
-                    <entry key="ClusterTracker.mixingFactor" value="0.0122704655"/>
-                    <entry key="ClusterTracker.pathsEnabled" value="false"/>
-                    <entry key="ClusterTracker.showVelocity" value="false"/>
-                    <entry key="ClusterTracker.scaleEnabled" value="false"/>
-                    <entry key="ClusterTracker.velocityMixingFactor" value="0.004810175"/>
-                    <entry key="ClassTracker.clusterLifetimeWithoutSupport" value="10000"/>
-                    <entry key="ClassTracker.maxNumClusters" value="10"/>
-                    <entry key="ClassTracker.clusterSize" value="0.15f"/>
-                    <entry key="ClassTracker.numEventsStoredInCluster" value="100"/>
-                    <entry key="ClassTracker.thresholdEventsForVisibleCluster" value="30"/>
-                  </map>
-                </node>
               </node>
             </node>
           </node>

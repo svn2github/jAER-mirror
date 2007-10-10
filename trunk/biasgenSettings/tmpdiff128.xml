@@ -41,30 +41,6 @@
                   <entry key="Masterbias.internalResistorUsed" value="false"/>
                   <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAKdwQAAAAKdAA3Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlhZVHlwZUZpbHRlcnQAN2NoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5Sb3RhdGVGaWx0ZXJ0ADxjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuUmVwZXRpdGlvdXNGaWx0ZXJ0AENjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuQmFja2dyb3VuZEFjdGl2aXR5RmlsdGVydAA1Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlN1YlNhbXBsZXJ0AEFjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5sYWJlbC5TaW1wbGVPcmllbnRhdGlvbkZpbHRlcnQAQmNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmxhYmVsLkRpcmVjdGlvblNlbGVjdGl2ZUZpbHRlcnQAOWNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLnRyYWNraW5nLkNsYXNzVHJhY2tlcnQAOGNoLnVuaXpoLmluaS5jYXZpYXIuY2hpcC5yZXRpbmEuVG1wZGlmZjEyOFJhdGVDb250cm9sbGVydAAzY2gudW5pemguaW5pLmNhdmlhci5jaGlwLnJldGluYS5zZW5zb3J5bW90b3IuR29hbGlleA=="/>
                 </map>
-                <node name="sensorymotor">
-                  <map>
-                    <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="2550"/>
-                    <entry key="ClusterTracker.maxNumClusters" value="1"/>
-                    <entry key="ClusterTracker.clusterSize" value="0.23269919"/>
-                    <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
-                    <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="118"/>
-                    <entry key="ClusterTracker.mixingFactor" value="0.0122704655"/>
-                    <entry key="ClusterTracker.pathsEnabled" value="false"/>
-                    <entry key="ClusterTracker.showVelocity" value="false"/>
-                    <entry key="ClusterTracker.scaleEnabled" value="false"/>
-                    <entry key="ClusterTracker.velocityMixingFactor" value="0.004810175"/>
-                    <entry key="ClassTracker.clusterLifetimeWithoutSupport" value="10000"/>
-                    <entry key="ClassTracker.maxNumClusters" value="10"/>
-                    <entry key="ClassTracker.clusterSize" value="0.15f"/>
-                    <entry key="ClassTracker.numEventsStoredInCluster" value="100"/>
-                    <entry key="ClassTracker.thresholdEventsForVisibleCluster" value="30"/>
-                    <entry key="ClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
-                    <entry key="ClassTracker.mixingFactor" value="0.0066225166"/>
-                    <entry key="ClassTracker.pathsEnabled" value="false"/>
-                    <entry key="ClassTracker.scaleEnabled" value="false"/>
-                    <entry key="ClassTracker.showVelocity" value="false"/>
-                  </map>
-                </node>
               </node>
             </node>
           </node>
