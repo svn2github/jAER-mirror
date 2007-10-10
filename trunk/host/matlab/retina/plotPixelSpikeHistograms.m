@@ -2,7 +2,7 @@
 
 x=[64:70];
 y=[64:70];
-pol=0;
+pol=1
 h=[];
 % addresses are in a
 for xx=x,
@@ -14,4 +14,4 @@ for xx=x,
         % t1=t(ind);
     end
 end
-hi=hist(h);
+hi=hist(h,[0:30]);
