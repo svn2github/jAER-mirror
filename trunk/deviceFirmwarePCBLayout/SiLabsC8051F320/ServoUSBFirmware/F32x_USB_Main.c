@@ -1,3 +1,9 @@
+/* Firmware for Servo control using the SiLabs C8051F320 and the ServoUSB board
+see http://jaer.wiki.sourceforge.net. 
+This is device side of SiLabsC8051F320_USBIO_ServoController host side java class.
+author Tobi Delbruck, 2006-2008
+*/
+
 /*
 hex cheat sheet
 0000	0x00
@@ -86,7 +92,7 @@ sbit	Servo3	=	P1^3;
 #define CMD_DISABLE_SERVO 8
 #define CMD_SET_ALL_SERVOS 9
 #define CMD_DISABLE_ALL_SERVOS 10
-
+#define CMD_SET_TIMER0_RELOAD_VALUE 11
 
 // PWM servo output variables. these are used to hold the new values for the PCA compare registers so that 
 // they can be updated on the interrupt generated when the value can be updated safely without introducing glitches.
@@ -228,6 +234,13 @@ void main(void)
 				PCA0CPM3 &= ~0x40; // disable compare function
 			}
 			
+			break;
+			case CMD_SET_TIMER0_RELOAD_VALUE: 	
+			{
+				Out_Packet[0]=0; // command is processed
+				LedToggle();
+				TH0=255-Out_Packet[1]; // timer0 reload value, 2 for 60Hz, 1 for 91Hz servo pulse rate, 0 for 180 Hz
+			}
 		} // switch
 		EA=1; // enable interrupts
 		//LedOn();
@@ -290,7 +303,7 @@ void Sysclk_Init(void)
 #ifdef _USB_LOW_SPEED_
 
    OSCICN |= 0x03;                     // Configure internal oscillator for
-                                       // its maximum frequency and enable
+                                       // its maximum frequency (12MHz) and enable
                                        // missing clock detector
 
    CLKSEL  = SYS_INT_OSC;              // Select System clock
@@ -309,8 +322,8 @@ void Sysclk_Init(void)
    Delay();                            // Delay for clock multiplier to begin
 
    while(!(CLKMUL & 0x20));            // Wait for multiplier to lock
-   CLKSEL  = SYS_INT_OSC;              // Select system clock
-   CLKSEL |= USB_4X_CLOCK;             // Select USB clock
+   CLKSEL  = SYS_INT_OSC;              // Select system clock at osc/1=12MHz
+   CLKSEL |= USB_4X_CLOCK;             // Select USB clock (48HHz)
 #endif  /* _USB_LOW_SPEED_ */
 }
 
@@ -473,43 +486,36 @@ void Usb0_Init(void)
    POLL_WRITE_BYTE(POWER,  0x01);      // and enable suspend detection
 }
 
+/** this is a critical init that defines the timers and their reset values */
 void	Timer_Init(void)
 {
 //----------------------------------------------------------------
 // Timers Configuration
 //----------------------------------------------------------------
 
-    CKCON = 0x04; // t0 clked by sysclk=24MHz 0x04;   // Clock Control Register, timer 0 uses prescaled sysclk/12. sysclk is 24MHz.
-   TMOD = 0x12;    // Timer Mode Register, timer0 8 bit with reload, timer1 16 bit
-   	TCON = 0x50;    // Timer Control Register , timer0 and 1 running
-    TH0 = 0xFF-1; 	    // Timer 0 High Byte, reload value. 
-						//This is FF-n so timer0 takes n+1 cycles = to roll over, time is (n+1)/12MHz (12MHz = Sysclk)  
+    CKCON = 0x04;   // Clock Control Register: t0 clked by sysclk = 12MHz
+    TMOD = 0x12;    // Timer Mode Register: timer0 8 bit with reload, timer1 16 bit
+   	TCON = 0x50;    // Timer Control Register: timer0 and 1 running
+    TH0 = 0xFF-1; 	// Timer 0 High Byte: reload value. 
+				    //This is FF-n so timer0 takes n+1 cycles = to roll over, time is (n+1)*1/12us=1/6us, timer0 rolls over at 6MHz
     TL0 = 0x00;     // Timer 0 Low Byte
  	
 	CR=1;			// run PCA counter/timer
 	// PCA uses timer 0 overflow which is 1us clock. all pca modules share same timer which runs at 1MHz.
-	
 
 	PCA0MD|=0x84;	// use timer0 overflow to clock PCA counter. leave wdt bit undisturbed. turn off PCA in idle.
-//	PCA0MD |= 0x80;	// PCA runs on sysclk/12 (24/12=2 MHz), doesn't run when in idle.
-//	PCA0MD =0x88; // PCA uses sysclk = 12  MHz
-//	PCA0MD=0x82; // PCA uses sysclk/4=3MHz
 
 	// pca pwm output frequency depends on pca clock source because pca counter rolls over
 	// every 64k cycles. we want pwm update frequency to be about 100 Hz which means rollower
 	// should happen about every 10ms, therefore (1/f)*64k=10ms means f=6.5MHz
-	// but we use sysclk/4=3MHz
+	// actual f=6MHz with TH0=255-1 giving 91Hz PCA output freq
 
-
-	// PCA0CPM0=0x10; 
-
-	// PCA1 and PCA2 are used for servo motor output
-
-	// using new PCA clocking above, each count takes 1/6 us, giving about 91Hz servo update rate
+	// PCA0-3 are used for servo motor output
 
 	// pca is 16 bit = 65k counts = =64k*0.5us=32kus=32ms. 16 bit count varies pulse width. 
 	// PCA value defines low time, therefore pulse width
-	// is 65k-PCA value, if PCA0CP1 value=63k, for example, pulse width will be (64-63)=1k us=1ms.
+	// is 1/6us*(65k-PCA value), if PCA0CP1 value=63k, for example, pulse width will be (64-63)=1k us=1ms.
+	// this computation changes depending on timer0 reload value and this computation is done on host.
 
 	// servo motors respond to high pulse widths from 0.9 ms to 2.1 ms. CPL values encode time that PCA PWM output is low.
 	// therefore we need to load a value that is 64k-counthigh. This computation is done on the host so that the interrupt service routine
@@ -519,9 +525,6 @@ void	Timer_Init(void)
 	PCA0CPM1=0xC2; // PWM16+ECOM+PWM: 16 bit mode, PCA compare enabled, PWM output to CEX1 
 	PCA0CPM2=0xC2; // PWM16+ECOM+PWM: 16 bit mode, PCA compare enabled, PWM output to CEX2 
 	PCA0CPM3=0xC2; // PWM16+ECOM+PWM: 16 bit mode, PCA compare enabled, PWM output to CEX3 
-
-//	PCA0CPM1 &= ~0x40; // disable servo
-//	PCA0CPM2 &= ~0x40; // disable servo
 	
 }
 
