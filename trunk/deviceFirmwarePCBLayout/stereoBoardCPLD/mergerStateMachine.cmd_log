@@ -1,0 +1,7 @@
+xst -ise "D:/VHDL/USBAER/USBmini/USBmini" -intstyle ise -ifn mergerStateMachine.xst -ofn mergerStateMachine.syr
+ngdbuild -ise "D:/VHDL/USBAER/USBmini/USBmini" -intstyle ise -dd _ngo -i -p xbr mergerStateMachine.ngc mergerStateMachine.ngd
+cpldfit -ise "D:/VHDL/USBAER/USBmini/USBmini" -intstyle ise -p xc2c256-6-VQ100 -ofmt vhdl -optimize density -htmlrpt -loc on -slew fast -init low -inputs 32 -inreg on -blkfanin 38 -pterms 28 -unused keeper -terminate keeper -iostd LVCMOS18 mergerStateMachine.ngd
+XSLTProcess -ise "D:/VHDL/USBAER/USBmini/USBmini" mergerStateMachine_build.xml
+tsim -ise "D:/VHDL/USBAER/USBmini/USBmini" -intstyle ise mergerStateMachine mergerStateMachine.nga
+taengine -ise "D:/VHDL/USBAER/USBmini/USBmini" -intstyle ise -f mergerStateMachine -w --format html1 -l D:/VHDL/USBAER/USBmini/mergerStateMachine_html/tim/timing_report.htm
+hprep6 -ise "D:/VHDL/USBAER/USBmini/USBmini" -s IEEE1149 -i mergerStateMachine

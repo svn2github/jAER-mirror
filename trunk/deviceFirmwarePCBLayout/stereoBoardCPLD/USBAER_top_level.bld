@@ -1,0 +1,22 @@
+Release 8.1i ngdbuild I.24
+Copyright (c) 1995-2005 Xilinx, Inc.  All rights reserved.
+
+Command Line: ngdbuild -intstyle ise -dd _ngo -uc usbaer_top_level.ucf -p xbr
+USBAER_top_level.ngc USBAER_top_level.ngd 
+
+Reading NGO file 'D:/VHDL/USBAER/USBmini_stereo/USBAER_top_level.ngc' ...
+
+Applying constraints in "usbaer_top_level.ucf" to the design...
+
+Checking timing specifications ...
+Checking expanded design ...
+
+NGDBUILD Design Results Summary:
+  Number of errors:     0
+  Number of warnings:   0
+
+Total memory usage is 65608 kilobytes
+
+Writing NGD file "USBAER_top_level.ngd" ...
+
+Writing NGDBUILD log file "USBAER_top_level.bld"...

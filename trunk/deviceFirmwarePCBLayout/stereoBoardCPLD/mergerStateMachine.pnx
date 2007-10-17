@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE ibis [
+<!ELEMENT ibis (part, pin+)>
+<!ELEMENT part EMPTY>
+<!ELEMENT pin EMPTY>
+<!ATTLIST part
+  arch   CDATA #REQUIRED
+  device CDATA #REQUIRED
+  spg    CDATA #REQUIRED
+  pkg    CDATA #REQUIRED>
+<!ATTLIST pin
+  nm     CDATA #REQUIRED
+  no     CDATA #REQUIRED
+  iostd  (LVTTL|SSTL3_I|LVCMOS33|LVCMOS25|SSTL2_I|LVCMOS18|LVCMOS15|HSTL_I|NA) "NA"
+  sr     (SLOW|FAST|slow|fast) "SLOW"
+  dir    (BIDIR|bidir|INPUT|input|OUTPUT|output) "BIDIR">
+]>
+<ibis><part pkg="VQ100" spg="-6" arch="xbr" device="XC2C256"/><pin nm="ClearEventReady" no="1" dir="input" iostd="LVCMOS18"/><pin nm="Clk" no="23" dir="input" iostd="LVCMOS18"/><pin nm="SetMonitorEventReady&lt;0&gt;" no="2" dir="input" iostd="LVCMOS18"/><pin nm="Rst" no="99" dir="input" iostd="LVCMOS18"/><pin nm="SetMonitorEventReady&lt;1&gt;" no="3" dir="input" iostd="LVCMOS18"/><pin nm="EventReady" no="97" sr="fast" dir="output" iostd="LVCMOS18"/><pin nm="MonitorEventReady&lt;0&gt;" no="96" sr="fast" dir="output" iostd="LVCMOS18"/><pin nm="MonitorEventReady&lt;1&gt;" no="94" sr="fast" dir="output" iostd="LVCMOS18"/><pin nm="Sel" no="95" sr="fast" dir="output" iostd="LVCMOS18"/></ibis>

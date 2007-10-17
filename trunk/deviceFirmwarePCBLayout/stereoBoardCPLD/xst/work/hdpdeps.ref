@@ -1,0 +1,73 @@
+V3 38
+FL D:/VHDL/USBAER/USBmini_stereo/eventCounter.vhd 2006/05/25.16:46:18 I.24
+EN work/eventCounter 1170326585    FL D:/VHDL/USBAER/USBmini_stereo/eventCounter.vhd \
+      PB ieee/std_logic_1164 1131108373 PB ieee/std_logic_arith 1131108375 \
+      PB ieee/STD_LOGIC_UNSIGNED 1131108379
+AR work/eventCounter/Behavioral 1170326586 FL D:/VHDL/USBAER/USBmini_stereo/eventCounter.vhd \
+      EN work/eventCounter 1170326585
+FL D:/VHDL/USBAER/USBmini_stereo/synchronizerStateMachine.vhd 2006/05/25.16:46:18 I.24
+EN work/synchronizerStateMachine 1170326589 \
+      FL D:/VHDL/USBAER/USBmini_stereo/synchronizerStateMachine.vhd \
+      PB ieee/std_logic_1164 1131108373 PB ieee/std_logic_arith 1131108375 \
+      PB ieee/STD_LOGIC_UNSIGNED 1131108379
+AR work/synchronizerStateMachine/Behavioral 1170326590 \
+      FL D:/VHDL/USBAER/USBmini_stereo/synchronizerStateMachine.vhd \
+      EN work/synchronizerStateMachine 1170326589
+FL D:/VHDL/USBAER/USBmini_stereo/USBAER_top_level.vhd 2007/02/01.11:42:56 I.24
+EN work/USBAER_top_level 1170326597 FL D:/VHDL/USBAER/USBmini_stereo/USBAER_top_level.vhd \
+      PB ieee/std_logic_1164 1131108373 PB ieee/std_logic_arith 1131108375 \
+      PH ieee/NUMERIC_STD 1131108384 PB ieee/STD_LOGIC_UNSIGNED 1131108379
+AR work/USBAER_top_level/Structural 1170326598 \
+      FL D:/VHDL/USBAER/USBmini_stereo/USBAER_top_level.vhd \
+      EN work/USBAER_top_level 1170326597 CP wordRegister CP earlyPaketTimer \
+      CP eventCounter   CP timestampCounter CP synchronizerStateMachine \
+      CP fifoStateMachine CP monitorStateMachine CP mergerStateMachine
+FL D:/VHDL/USBAER/USBmini_stereo/mergerStateMachine.vhd 2006/06/22.21:24:02 I.24
+EN work/mergerStateMachine 1170326595 \
+      FL D:/VHDL/USBAER/USBmini_stereo/mergerStateMachine.vhd \
+      PB ieee/std_logic_1164 1131108373 PB ieee/std_logic_arith 1131108375 \
+      PB ieee/STD_LOGIC_UNSIGNED 1131108379
+AR work/mergerStateMachine/Behavioral 1170326596 \
+      FL D:/VHDL/USBAER/USBmini_stereo/mergerStateMachine.vhd \
+      EN work/mergerStateMachine 1170326595
+FL D:/VHDL/USBAER/USBmini_stereo/earlyPaketTimer.vhd 2006/05/25.16:46:18 I.24
+EN work/earlyPaketTimer 1170326583 FL D:/VHDL/USBAER/USBmini_stereo/earlyPaketTimer.vhd \
+      PB ieee/std_logic_1164 1131108373 PB ieee/std_logic_arith 1131108375 \
+      PB ieee/STD_LOGIC_UNSIGNED 1131108379
+AR work/earlyPaketTimer/Behavioral 1170326584 \
+      FL D:/VHDL/USBAER/USBmini_stereo/earlyPaketTimer.vhd \
+      EN work/earlyPaketTimer 1170326583
+FL D:/VHDL/USBAER/USBmini_stereo/wordRegister.vhd 2006/05/25.16:46:18 I.24
+EN work/wordRegister 1170326581    FL D:/VHDL/USBAER/USBmini_stereo/wordRegister.vhd \
+      PB ieee/std_logic_1164 1131108373 PB ieee/std_logic_arith 1131108375 \
+      PB ieee/STD_LOGIC_UNSIGNED 1131108379
+AR work/wordRegister/Behavioral 1170326582 FL D:/VHDL/USBAER/USBmini_stereo/wordRegister.vhd \
+      EN work/wordRegister 1170326581
+FL D:/VHDL/USBAER/USBmini_stereo/monitorStateMachine.vhd 2006/05/25.16:46:18 I.24
+EN work/monitorStateMachine 1170326593 \
+      FL D:/VHDL/USBAER/USBmini_stereo/monitorStateMachine.vhd \
+      PB ieee/std_logic_1164 1131108373 PB ieee/std_logic_arith 1131108375 \
+      PB ieee/STD_LOGIC_UNSIGNED 1131108379
+AR work/monitorStateMachine/Behavioral 1170326594 \
+      FL D:/VHDL/USBAER/USBmini_stereo/monitorStateMachine.vhd \
+      EN work/monitorStateMachine 1170326593
+FL D:/VHDL/USBAER/USBmini_stereo/fifoStatemachine.vhd 2006/05/25.16:46:18 I.24
+EN work/fifoStatemachine 1170326591 FL D:/VHDL/USBAER/USBmini_stereo/fifoStatemachine.vhd \
+      PB ieee/std_logic_1164 1131108373 PB ieee/std_logic_arith 1131108375 \
+      PB ieee/STD_LOGIC_UNSIGNED 1131108379
+AR work/fifoStatemachine/Behavioral 1170326592 \
+      FL D:/VHDL/USBAER/USBmini_stereo/fifoStatemachine.vhd \
+      EN work/fifoStatemachine 1170326591
+FL D:/VHDL/USBAER/USBmini/synthStateMachine.vhd 2006/05/25.16:46:18 I.24
+EN work/synthStateMachine 1150806825 FL D:/VHDL/USBAER/USBmini/synthStateMachine.vhd \
+      PB ieee/std_logic_1164 1131108373 PB ieee/std_logic_arith 1131108375 \
+      PB ieee/STD_LOGIC_UNSIGNED 1131108379
+AR work/synthStateMachine/Behavioral 1150806826 \
+      FL D:/VHDL/USBAER/USBmini/synthStateMachine.vhd EN work/synthStateMachine 1150806825
+FL D:/VHDL/USBAER/USBmini_stereo/timestampCounter.vhd 2006/05/25.16:46:18 I.24
+EN work/timestampCounter 1170326587 FL D:/VHDL/USBAER/USBmini_stereo/timestampCounter.vhd \
+      PB ieee/std_logic_1164 1131108373 PB ieee/std_logic_arith 1131108375 \
+      PB ieee/STD_LOGIC_UNSIGNED 1131108379
+AR work/timestampCounter/Behavioral 1170326588 \
+      FL D:/VHDL/USBAER/USBmini_stereo/timestampCounter.vhd \
+      EN work/timestampCounter 1170326587

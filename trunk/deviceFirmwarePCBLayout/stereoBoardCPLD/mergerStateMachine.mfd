@@ -1,0 +1,93 @@
+MDF Database:  version 1.0
+MDF_INFO | mergerStateMachine | XC2C256-6-VQ100
+MACROCELL | 0 | 5 | EventReady_MC
+ATTRIBUTES | 2189722370 | 0
+OUTPUTMC | 1 | 0 | 5
+INPUTS | 4 | EventReady  | r_State_FFd2  | ClearEventReady  | r_State_FFd1
+INPUTMC | 3 | 0 | 5 | 0 | 15 | 0 | 14
+INPUTP | 1 | 1
+EQ | 4 | 
+   !EventReady := !EventReady & !r_State_FFd2
+	# !r_State_FFd2 & ClearEventReady & r_State_FFd1;	// (2 pt, 4 inp)
+   EventReady.CLK  =  Clk;	// GCK	(0 pt, 0 inp)
+   EventReady.AR = !Rst;	// GSR	(0 pt, 0 inp)
+GLOBALS | 2 | 2 | Clk | 4 | Rst
+
+MACROCELL | 0 | 15 | r_State_FFd2_MC
+ATTRIBUTES | 2189460224 | 0
+OUTPUTMC | 6 | 0 | 14 | 0 | 13 | 0 | 12 | 0 | 11 | 0 | 15 | 0 | 5
+INPUTS | 4 | r_State_FFd2  | MonitorEventReady<0>  | r_State_FFd1  | MonitorEventReady<1>
+INPUTMC | 4 | 0 | 15 | 0 | 11 | 0 | 14 | 0 | 13
+EQ | 6 | 
+   r_State_FFd2 := !r_State_FFd2 & MonitorEventReady<0> & 
+	!r_State_FFd1
+	# !r_State_FFd2 & !r_State_FFd1 & 
+	MonitorEventReady<1>;	// (2 pt, 4 inp)
+   r_State_FFd2.CLK  =  Clk;	// GCK	(0 pt, 0 inp)
+   r_State_FFd2.AR = !Rst;	// GSR	(0 pt, 0 inp)
+GLOBALS | 2 | 2 | Clk | 4 | Rst
+
+MACROCELL | 0 | 11 | MonitorEventReady<0>_MC
+ATTRIBUTES | 2189722370 | 0
+OUTPUTMC | 3 | 0 | 12 | 0 | 11 | 0 | 15
+INPUTS | 6 | MonitorEventReady<0>  | SetMonitorEventReady<0>  | r_State_FFd2  | ClearEventReady  | Sel  | r_State_FFd1
+INPUTMC | 4 | 0 | 11 | 0 | 15 | 0 | 12 | 0 | 14
+INPUTP | 2 | 3 | 1
+EQ | 5 | 
+   !MonitorEventReady<0> := !MonitorEventReady<0> & !SetMonitorEventReady<0>
+	# !r_State_FFd2 & ClearEventReady & !Sel & 
+	r_State_FFd1;	// (2 pt, 6 inp)
+   MonitorEventReady<0>.CLK  =  Clk;	// GCK	(0 pt, 0 inp)
+   MonitorEventReady<0>.AR = !Rst;	// GSR	(0 pt, 0 inp)
+GLOBALS | 2 | 2 | Clk | 4 | Rst
+
+MACROCELL | 0 | 12 | Sel_MC
+ATTRIBUTES | 2185528066 | 0
+OUTPUTMC | 3 | 0 | 13 | 0 | 12 | 0 | 11
+INPUTS | 5 | r_State_FFd2  | MonitorEventReady<0>  | Sel  | r_State_FFd1  | MonitorEventReady<1>
+INPUTMC | 5 | 0 | 15 | 0 | 11 | 0 | 12 | 0 | 14 | 0 | 13
+EQ | 6 | 
+   Sel.T := !r_State_FFd2 & MonitorEventReady<0> & Sel & 
+	!r_State_FFd1
+	# !r_State_FFd2 & !Sel & !r_State_FFd1 & 
+	MonitorEventReady<1>;	// (2 pt, 5 inp)
+   Sel.CLK  =  Clk;	// GCK	(0 pt, 0 inp)
+   Sel.AR = !Rst;	// GSR	(0 pt, 0 inp)
+GLOBALS | 2 | 2 | Clk | 4 | Rst
+
+MACROCELL | 0 | 14 | r_State_FFd1_MC
+ATTRIBUTES | 2189460224 | 0
+OUTPUTMC | 6 | 0 | 14 | 0 | 13 | 0 | 12 | 0 | 11 | 0 | 15 | 0 | 5
+INPUTS | 3 | r_State_FFd2  | ClearEventReady  | r_State_FFd1
+INPUTMC | 2 | 0 | 15 | 0 | 14
+INPUTP | 1 | 1
+EQ | 4 | 
+   r_State_FFd1 := r_State_FFd2
+	# !ClearEventReady & r_State_FFd1;	// (2 pt, 3 inp)
+   r_State_FFd1.CLK  =  Clk;	// GCK	(0 pt, 0 inp)
+   r_State_FFd1.AR = !Rst;	// GSR	(0 pt, 0 inp)
+GLOBALS | 2 | 2 | Clk | 4 | Rst
+
+MACROCELL | 0 | 13 | MonitorEventReady<1>_MC
+ATTRIBUTES | 2189722370 | 0
+OUTPUTMC | 3 | 0 | 13 | 0 | 12 | 0 | 15
+INPUTS | 6 | MonitorEventReady<1>  | SetMonitorEventReady<1>  | r_State_FFd2  | ClearEventReady  | Sel  | r_State_FFd1
+INPUTMC | 4 | 0 | 13 | 0 | 15 | 0 | 12 | 0 | 14
+INPUTP | 2 | 5 | 1
+EQ | 5 | 
+   !MonitorEventReady<1> := !MonitorEventReady<1> & !SetMonitorEventReady<1>
+	# !r_State_FFd2 & ClearEventReady & Sel & 
+	r_State_FFd1;	// (2 pt, 6 inp)
+   MonitorEventReady<1>.CLK  =  Clk;	// GCK	(0 pt, 0 inp)
+   MonitorEventReady<1>.AR = !Rst;	// GSR	(0 pt, 0 inp)
+GLOBALS | 2 | 2 | Clk | 4 | Rst
+
+PIN | ClearEventReady | 64 | 16 | LVCMOS18 | 1 | 4 | 0 | 14 | 0 | 13 | 0 | 11 | 0 | 5
+PIN | Clk | 8192 | 16 | LVCMOS18 | 50 | 6 | 0 | 14 | 0 | 13 | 0 | 12 | 0 | 11 | 0 | 15 | 0 | 5
+PIN | SetMonitorEventReady<0> | 64 | 16 | LVCMOS18 | 3 | 1 | 0 | 11
+PIN | Rst | 65536 | 16 | LVCMOS18 | 218 | 6 | 0 | 14 | 0 | 13 | 0 | 12 | 0 | 11 | 0 | 15 | 0 | 5
+PIN | SetMonitorEventReady<1> | 64 | 16 | LVCMOS18 | 5 | 1 | 0 | 13
+PIN | EventReady | 536871040 | 0 | LVCMOS18 | 214
+PIN | MonitorEventReady<0> | 536871040 | 0 | LVCMOS18 | 213
+PIN | MonitorEventReady<1> | 536871040 | 0 | LVCMOS18 | 211
+PIN | Sel | 536871040 | 0 | LVCMOS18 | 212

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IMPORTANT: This is an internal file that has been generated
+     by the Xilinx ISE software.  Any direct editing or
+     changes made to this file may result in unpredictable
+     behavior or data corruption.  It is strongly advised that
+     users do not edit the contents of this file. -->
+<messages>
+<msg type="warning" file="Xst" num="647" delta="unknown" >Input &lt;<arg fmt="%s" index="1">OverflowxSI</arg>&gt; is never used.
+</msg>
+
+<msg type="info" file="Xst" num="1799" delta="unknown" >State <arg fmt="%s" index="1">strdaddress</arg> is never reached in FSM &lt;<arg fmt="%s" index="2">StatexDP</arg>&gt;.
+</msg>
+
+<msg type="info" file="Xst" num="1799" delta="unknown" >State <arg fmt="%s" index="1">stsetuprdfifo</arg> is never reached in FSM &lt;<arg fmt="%s" index="2">StatexDP</arg>&gt;.
+</msg>
+
+<msg type="info" file="Xst" num="1799" delta="unknown" >State <arg fmt="%s" index="1">strdtime</arg> is never reached in FSM &lt;<arg fmt="%s" index="2">StatexDP</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="647" delta="unknown" >Input &lt;<arg fmt="%s" index="1">PExDI</arg>&gt; is never used.
+</msg>
+
+<msg type="warning" file="Xst" num="647" delta="unknown" >Input &lt;<arg fmt="%s" index="1">PC1xSI</arg>&gt; is never used.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">FifoTransactionxS</arg>&gt; is assigned but never used.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">RunSynthesizerxS</arg>&gt; is assigned but never used.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">EventRequestACKxS</arg>&gt; is assigned but never used.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">ActualTimestampxD&lt;16:15&gt;</arg>&gt; is assigned but never used.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">AERSnifREQxSBO2</arg>&gt; is assigned but never used.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">AERSnifREQxSBO</arg>&gt; is assigned but never used.
+</msg>
+
+<msg type="warning" file="Xst" num="1291" delta="unknown" >FF/Latch &lt;<arg fmt="%s" index="1">16</arg>&gt; is unconnected in block &lt;<arg fmt="%s" index="2">CountxDP</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="unknown" >FF/Latch  &lt;<arg fmt="%s" index="1">AERSnifACKxSBN</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">uMonitorStateMachine2</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="unknown" >FF/Latch  &lt;<arg fmt="%s" index="1">AERSnifACKxSBN</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">uMonitorStateMachine</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">AERSnifACKxSB</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">uMonitorStateMachine2</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">AERSnifACKxSB</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">0</arg> in block &lt;<arg fmt="%s" index="3">uMonitorStateMachine</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1291" delta="unknown" >FF/Latch &lt;<arg fmt="%s" index="1">CountxDP_16</arg>&gt; is unconnected in block &lt;<arg fmt="%s" index="2">uTimestampCounter</arg>&gt;.
+</msg>
+
+</messages>

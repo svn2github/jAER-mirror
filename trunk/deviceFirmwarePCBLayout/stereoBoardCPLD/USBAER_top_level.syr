@@ -1,0 +1,510 @@
+Release 8.1i - xst I.24
+Copyright (c) 1995-2005 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to ./xst/projnav.tmp
+CPU : 0.00 / 0.20 s | Elapsed : 0.00 / 1.00 s
+ 
+--> Parameter xsthdpdir set to ./xst
+CPU : 0.00 / 0.20 s | Elapsed : 0.00 / 1.00 s
+ 
+--> Reading design: USBAER_top_level.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) HDL Analysis
+  4) HDL Synthesis
+     4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+     5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Final Report
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "USBAER_top_level.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "USBAER_top_level"
+Output Format                      : NGC
+Target Device                      : CoolRunner2 CPLDs
+
+---- Source Options
+Top Module Name                    : USBAER_top_level
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Mux Extraction                     : YES
+Resource Sharing                   : YES
+
+---- Target Options
+Add IO Buffers                     : YES
+MACRO Preserve                     : YES
+XOR Preserve                       : YES
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Keep Hierarchy                     : YES
+RTL Output                         : Yes
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : maintain
+
+---- Other Options
+lso                                : USBAER_top_level.lso
+verilog2001                        : YES
+safe_implementation                : No
+wysiwyg                            : NO
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling vhdl file "D:/VHDL/USBAER/USBmini_stereo/wordRegister.vhd" in Library work.
+Architecture behavioral of Entity wordregister is up to date.
+Compiling vhdl file "D:/VHDL/USBAER/USBmini_stereo/earlyPaketTimer.vhd" in Library work.
+Architecture behavioral of Entity earlypakettimer is up to date.
+Compiling vhdl file "D:/VHDL/USBAER/USBmini_stereo/eventCounter.vhd" in Library work.
+Architecture behavioral of Entity eventcounter is up to date.
+Compiling vhdl file "D:/VHDL/USBAER/USBmini_stereo/timestampCounter.vhd" in Library work.
+Architecture behavioral of Entity timestampcounter is up to date.
+Compiling vhdl file "D:/VHDL/USBAER/USBmini_stereo/synchronizerStateMachine.vhd" in Library work.
+Architecture behavioral of Entity synchronizerstatemachine is up to date.
+Compiling vhdl file "D:/VHDL/USBAER/USBmini_stereo/fifoStatemachine.vhd" in Library work.
+Architecture behavioral of Entity fifostatemachine is up to date.
+Compiling vhdl file "D:/VHDL/USBAER/USBmini_stereo/monitorStateMachine.vhd" in Library work.
+Architecture behavioral of Entity monitorstatemachine is up to date.
+Compiling vhdl file "D:/VHDL/USBAER/USBmini_stereo/mergerStateMachine.vhd" in Library work.
+Architecture behavioral of Entity mergerstatemachine is up to date.
+Compiling vhdl file "D:/VHDL/USBAER/USBmini_stereo/USBAER_top_level.vhd" in Library work.
+Entity <usbaer_top_level> compiled.
+Entity <usbaer_top_level> (Architecture <structural>) compiled.
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing Entity <USBAER_top_level> (Architecture <structural>).
+Entity <USBAER_top_level> analyzed. Unit <USBAER_top_level> generated.
+
+Analyzing generic Entity <wordRegister> (Architecture <behavioral>).
+	width = 16
+
+Entity <wordRegister> analyzed. Unit <wordRegister> generated.
+
+Analyzing generic Entity <wordRegister.0> (Architecture <behavioral>).
+	width = 15
+
+Entity <wordRegister.0> analyzed. Unit <wordRegister.0> generated.
+
+Analyzing Entity <earlyPaketTimer> (Architecture <behavioral>).
+Entity <earlyPaketTimer> analyzed. Unit <earlyPaketTimer> generated.
+
+Analyzing Entity <eventCounter> (Architecture <behavioral>).
+Entity <eventCounter> analyzed. Unit <eventCounter> generated.
+
+Analyzing Entity <timestampCounter> (Architecture <behavioral>).
+Entity <timestampCounter> analyzed. Unit <timestampCounter> generated.
+
+Analyzing Entity <synchronizerStateMachine> (Architecture <behavioral>).
+Entity <synchronizerStateMachine> analyzed. Unit <synchronizerStateMachine> generated.
+
+Analyzing Entity <fifoStateMachine> (Architecture <behavioral>).
+Entity <fifoStateMachine> analyzed. Unit <fifoStateMachine> generated.
+
+Analyzing Entity <monitorStateMachine> (Architecture <behavioral>).
+Entity <monitorStateMachine> analyzed. Unit <monitorStateMachine> generated.
+
+Analyzing Entity <mergerStateMachine> (Architecture <behavioral>).
+Entity <mergerStateMachine> analyzed. Unit <mergerStateMachine> generated.
+
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <mergerStateMachine>.
+    Related source file is "D:/VHDL/USBAER/USBmini_stereo/mergerStateMachine.vhd".
+    Found finite state machine <FSM_0> for signal <r.State>.
+    -----------------------------------------------------------------------
+    | States             | 3                                              |
+    | Transitions        | 9                                              |
+    | Inputs             | 4                                              |
+    | Outputs            | 3                                              |
+    | Clock              | Clk (rising_edge)                              |
+    | Reset              | Rst (negative)                                 |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | 00                                             |
+    | Encoding           | automatic                                      |
+    | Implementation     | automatic                                      |
+    -----------------------------------------------------------------------
+    Found 4x1-bit ROM for signal <$n0026>.
+    Found 1-bit register for signal <r.EventReady>.
+    Found 2-bit register for signal <r.MonitorEventReady>.
+    Found 1-bit register for signal <r.Sel>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   1 ROM(s).
+	inferred   2 D-type flip-flop(s).
+Unit <mergerStateMachine> synthesized.
+
+
+Synthesizing Unit <monitorStateMachine>.
+    Related source file is "D:/VHDL/USBAER/USBmini_stereo/monitorStateMachine.vhd".
+WARNING:Xst:647 - Input <OverflowxSI> is never used.
+    Found finite state machine <FSM_1> for signal <StatexDP>.
+    -----------------------------------------------------------------------
+    | States             | 12                                             |
+    | Transitions        | 31                                             |
+    | Inputs             | 5                                              |
+    | Outputs            | 13                                             |
+    | Clock              | ClockxCI (rising_edge)                         |
+    | Reset              | ResetxRBI (negative)                           |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | stidle                                         |
+    | Power Up State     | stidle                                         |
+    | Encoding           | automatic                                      |
+    | Implementation     | automatic                                      |
+    -----------------------------------------------------------------------
+    Found 4-bit adder for signal <$n0025> created at line 198.
+    Found 1-bit register for signal <AERMonitorREQxSBN>.
+    Found 1-bit register for signal <AERREQxSB>.
+    Found 1-bit register for signal <AERSnifACKxSB>.
+    Found 1-bit register for signal <AERSnifACKxSBN>.
+    Found 4-bit register for signal <MissedEventsxDP>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   4 D-type flip-flop(s).
+	inferred   1 Adder/Subtractor(s).
+Unit <monitorStateMachine> synthesized.
+
+
+Synthesizing Unit <fifoStateMachine>.
+    Related source file is "D:/VHDL/USBAER/USBmini_stereo/fifoStatemachine.vhd".
+INFO:Xst:1799 - State strdaddress is never reached in FSM <StatexDP>.
+INFO:Xst:1799 - State stsetuprdfifo is never reached in FSM <StatexDP>.
+INFO:Xst:1799 - State strdtime is never reached in FSM <StatexDP>.
+    Found finite state machine <FSM_2> for signal <StatexDP>.
+    -----------------------------------------------------------------------
+    | States             | 7                                              |
+    | Transitions        | 11                                             |
+    | Inputs             | 4                                              |
+    | Outputs            | 12                                             |
+    | Clock              | ClockxCI (rising_edge)                         |
+    | Reset              | ResetxRBI (negative)                           |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | stidle                                         |
+    | Power Up State     | stidle                                         |
+    | Encoding           | automatic                                      |
+    | Implementation     | automatic                                      |
+    -----------------------------------------------------------------------
+    Found 1-bit register for signal <TimestampOverflowxDP>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   1 D-type flip-flop(s).
+Unit <fifoStateMachine> synthesized.
+
+
+Synthesizing Unit <synchronizerStateMachine>.
+    Related source file is "D:/VHDL/USBAER/USBmini_stereo/synchronizerStateMachine.vhd".
+    Found finite state machine <FSM_3> for signal <StatexDP>.
+    -----------------------------------------------------------------------
+    | States             | 11                                             |
+    | Transitions        | 34                                             |
+    | Inputs             | 8                                              |
+    | Outputs            | 14                                             |
+    | Clock              | ClockxCI (rising_edge)                         |
+    | Power Up State     | stmasteridle                                   |
+    | Encoding           | automatic                                      |
+    | Implementation     | automatic                                      |
+    -----------------------------------------------------------------------
+    Found 6-bit comparator greatequal for signal <$n0023> created at line 96.
+    Found 6-bit comparator greatequal for signal <$n0024> created at line 125.
+    Found 6-bit comparator greatequal for signal <$n0025> created at line 204.
+    Found 6-bit comparator greatequal for signal <$n0026> created at line 213.
+    Found 5-bit adder for signal <$n0042> created at line 134.
+    Found 6-bit comparator greatequal for signal <$n0045> created at line 153.
+    Found 5-bit register for signal <DividerxDP>.
+    Found 1-bit register for signal <SyncInxS>.
+    Found 1-bit register for signal <SyncInxSN>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   2 D-type flip-flop(s).
+	inferred   1 Adder/Subtractor(s).
+	inferred   5 Comparator(s).
+Unit <synchronizerStateMachine> synthesized.
+
+
+Synthesizing Unit <timestampCounter>.
+    Related source file is "D:/VHDL/USBAER/USBmini_stereo/timestampCounter.vhd".
+    Found 1-bit xor2 for signal <OverflowxSO>.
+    Found 17-bit adder for signal <$n0000> created at line 60.
+    Found 17-bit register for signal <CountxDP>.
+    Found 1-bit register for signal <MSbDelayedxDP>.
+    Summary:
+	inferred   1 D-type flip-flop(s).
+	inferred   1 Adder/Subtractor(s).
+	inferred   1 Xor(s).
+Unit <timestampCounter> synthesized.
+
+
+Synthesizing Unit <eventCounter>.
+    Related source file is "D:/VHDL/USBAER/USBmini_stereo/eventCounter.vhd".
+    Found 8-bit adder for signal <$n0004> created at line 51.
+    Found 8-bit register for signal <CountxDP>.
+    Summary:
+	inferred   1 Adder/Subtractor(s).
+Unit <eventCounter> synthesized.
+
+
+Synthesizing Unit <earlyPaketTimer>.
+    Related source file is "D:/VHDL/USBAER/USBmini_stereo/earlyPaketTimer.vhd".
+    Found 4x1-bit ROM for signal <TimerExpiredxSO>.
+    Found 19-bit up counter for signal <CountxDP>.
+    Summary:
+	inferred   1 ROM(s).
+	inferred   1 Counter(s).
+Unit <earlyPaketTimer> synthesized.
+
+
+Synthesizing Unit <wordRegister_0>.
+    Related source file is "D:/VHDL/USBAER/USBmini_stereo/wordRegister.vhd".
+    Found 15-bit register for signal <StatexDP>.
+Unit <wordRegister_0> synthesized.
+
+
+Synthesizing Unit <wordRegister>.
+    Related source file is "D:/VHDL/USBAER/USBmini_stereo/wordRegister.vhd".
+    Found 16-bit register for signal <StatexDP>.
+Unit <wordRegister> synthesized.
+
+
+Synthesizing Unit <USBAER_top_level>.
+    Related source file is "D:/VHDL/USBAER/USBmini_stereo/USBAER_top_level.vhd".
+WARNING:Xst:647 - Input <PExDI> is never used.
+WARNING:Xst:647 - Input <PC1xSI> is never used.
+WARNING:Xst:646 - Signal <FifoTransactionxS> is assigned but never used.
+WARNING:Xst:646 - Signal <RunSynthesizerxS> is assigned but never used.
+WARNING:Xst:646 - Signal <EventRequestACKxS> is assigned but never used.
+WARNING:Xst:646 - Signal <ActualTimestampxD<16:15>> is assigned but never used.
+WARNING:Xst:646 - Signal <AERSnifREQxSBO2> is assigned but never used.
+WARNING:Xst:646 - Signal <AERSnifREQxSBO> is assigned but never used.
+    Found 16-bit tristate buffer for signal <FifoDataxDIO>.
+    Summary:
+	inferred  16 Tristate(s).
+Unit <USBAER_top_level> synthesized.
+
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# ROMs                                                 : 2
+ 4x1-bit ROM                                           : 2
+# Adders/Subtractors                                   : 5
+ 17-bit adder                                          : 1
+ 4-bit adder                                           : 2
+ 5-bit adder                                           : 1
+ 8-bit adder                                           : 1
+# Counters                                             : 1
+ 19-bit up counter                                     : 1
+# Registers                                            : 26
+ 1-bit register                                        : 14
+ 15-bit register                                       : 4
+ 16-bit register                                       : 2
+ 17-bit register                                       : 1
+ 2-bit register                                        : 1
+ 4-bit register                                        : 2
+ 5-bit register                                        : 1
+ 8-bit register                                        : 1
+# Comparators                                          : 5
+ 6-bit comparator greatequal                           : 5
+# Tristates                                            : 1
+ 16-bit tristate buffer                                : 1
+# Xors                                                 : 1
+ 1-bit xor2                                            : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+Analyzing FSM <FSM_3> for best encoding.
+Analyzing FSM <FSM_2> for best encoding.
+Analyzing FSM <FSM_1> for best encoding.
+Analyzing FSM <FSM_0> for best encoding.
+Optimizing FSM <FSM_3> on signal <StatexDP[1:4]> with sequential encoding.
+---------------------------
+ State         | Encoding
+---------------------------
+ stmasteridle  | 0000
+ stresetslaves | 0101
+ stslaveidle   | 0001
+ stresetts     | 0100
+ st1us         | 0010
+ stsyncinlow   | 0110
+ stsinc        | 0111
+ stslavefast   | 1000
+ stfastinit    | 0011
+ stfastlow     | 1001
+ stfast        | 1010
+---------------------------
+Optimizing FSM <FSM_2> on signal <StatexDP[1:3]> with sequential encoding.
+-----------------------------
+ State           | Encoding
+-----------------------------
+ stidle          | 000
+ stearlypaket1   | 001
+ stearlypaket2   | 100
+ stsetupwrfifo   | 011
+ stwraddress     | 101
+ stwrtime        | 110
+ stsetuprdfifo   | unreached
+ strdaddress     | unreached
+ strdtime        | unreached
+ stsetupoverflow | 010
+-----------------------------
+Optimizing FSM <FSM_1> on signal <StatexDP[1:4]> with sequential encoding.
+--------------------------------
+ State              | Encoding
+--------------------------------
+ stidle             | 0000
+ stwaitevent        | 0001
+ stwritereg         | 0011
+ stwaitreqrls       | 0100
+ stsnfwritereg      | 0010
+ stsnfwaitaerack    | 0111
+ stsnfwaitaerreqrls | 0110
+ stsnfwaitackrls    | 1000
+ stfifofull         | 0101
+ stsnffifofull      | 1001
+ stsnfmissedevent   | 1011
+ stmissedevent      | 1010
+--------------------------------
+Optimizing FSM <FSM_0> on signal <r.State[1:2]> with sequential encoding.
+-------------------
+ State | Encoding
+-------------------
+ 00    | 00
+ 10    | 01
+ 01    | 10
+-------------------
+WARNING:Xst:1291 - FF/Latch <16> is unconnected in block <CountxDP>.
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# FSMs                                                 : 4
+# ROMs                                                 : 2
+ 4x1-bit ROM                                           : 2
+# Adders/Subtractors                                   : 5
+ 17-bit adder                                          : 1
+ 4-bit adder                                           : 2
+ 5-bit adder                                           : 1
+ 8-bit adder                                           : 1
+# Counters                                             : 1
+ 19-bit up counter                                     : 1
+# Registers                                            : 109
+ Flip-Flops                                            : 109
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+
+Optimizing unit <USBAER_top_level> ...
+
+Optimizing unit <eventCounter> ...
+
+Optimizing unit <wordRegister_0> ...
+
+Optimizing unit <wordRegister> ...
+
+Optimizing unit <fifoStateMachine> ...
+  implementation constraint: INIT=r	 : StatexDP_FFd3
+  implementation constraint: INIT=r	 : StatexDP_FFd2
+  implementation constraint: INIT=r	 : StatexDP_FFd1
+
+Optimizing unit <earlyPaketTimer> ...
+
+Optimizing unit <mergerStateMachine> ...
+
+Optimizing unit <monitorStateMachine> ...
+  implementation constraint: INIT=r	 : StatexDP_FFd4
+  implementation constraint: INIT=r	 : StatexDP_FFd3
+  implementation constraint: INIT=r	 : StatexDP_FFd2
+  implementation constraint: INIT=r	 : StatexDP_FFd1
+
+Optimizing unit <synchronizerStateMachine> ...
+  implementation constraint: INIT=r	 : StatexDP_FFd4
+  implementation constraint: INIT=r	 : StatexDP_FFd3
+  implementation constraint: INIT=r	 : StatexDP_FFd1
+  implementation constraint: INIT=r	 : StatexDP_FFd2
+
+Optimizing unit <timestampCounter> ...
+WARNING:Xst:1710 - FF/Latch  <AERSnifACKxSBN> (without init value) has a constant value of 0 in block <uMonitorStateMachine2>.
+WARNING:Xst:1710 - FF/Latch  <AERSnifACKxSBN> (without init value) has a constant value of 0 in block <uMonitorStateMachine>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <AERSnifACKxSB> (without init value) has a constant value of 0 in block <uMonitorStateMachine2>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <AERSnifACKxSB> (without init value) has a constant value of 0 in block <uMonitorStateMachine>.
+WARNING:Xst:1291 - FF/Latch <CountxDP_16> is unconnected in block <uTimestampCounter>.
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+RTL Top Level Output File Name     : USBAER_top_level.ngr
+Top Level Output File Name         : USBAER_top_level
+Output Format                      : NGC
+Optimization Goal                  : Speed
+Keep Hierarchy                     : YES
+Target Technology                  : CoolRunner2 CPLDs
+Macro Preserve                     : YES
+XOR Preserve                       : YES
+wysiwyg                            : NO
+
+Design Statistics
+# IOs                              : 76
+
+Cell Usage :
+# BELS                             : 1389
+#      AND2                        : 507
+#      AND3                        : 71
+#      AND4                        : 6
+#      AND5                        : 1
+#      AND6                        : 1
+#      AND8                        : 1
+#      GND                         : 4
+#      INV                         : 453
+#      OR2                         : 264
+#      OR3                         : 15
+#      OR4                         : 8
+#      VCC                         : 3
+#      XOR2                        : 55
+# FlipFlops/Latches                : 177
+#      FD                          : 9
+#      FDC                         : 42
+#      FDCE                        : 120
+#      FDD                         : 6
+# IO Buffers                       : 69
+#      IBUF                        : 40
+#      IOBUFE                      : 16
+#      OBUF                        : 13
+=========================================================================
+CPU : 8.39 / 8.61 s | Elapsed : 8.00 / 9.00 s
+ 
+--> 
+
+Total memory usage is 99300 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :   15 (   0 filtered)
+Number of infos    :    3 (   0 filtered)
+
