@@ -14,16 +14,20 @@
 PyObject* scaleImage(PyObject* self, PyObject* args) {
 	PyObject* pix_ob;
 	PyObject* width_ob;
-	const int width = (int) PyInt_AsLong(width_ob);
-	const int length = PyList_GET_SIZE(pix_ob);
-	const int height = length / width;
+	int width;
+	int length;
+	int height;
 	int w, h;
 	int length2;
 	double sx;
 	double sy;
 	int i;
 	PyObject* list;
-
+	PyObject* pix_ob2;
+	int x1, y1;
+	width = (int) PyInt_AsLong(width_ob);
+	height = length / width;
+	length = PyList_GET_SIZE(pix_ob);
 	if (!PyArg_ParseTuple(args, "O!O!",
 				&PyList_Type, &pix_ob,
 				&PyInt_Type, &width_ob)) {
@@ -48,12 +52,13 @@ PyObject* scaleImage(PyObject* self, PyObject* args) {
 	//printf("New dimensions: %i , %i", w, h);
 	// new array, using crude nearest-point
 	length2 = w * h;
-	PyObject* pix_ob2 = PyList_New(length2);
+	pix_ob2 = PyList_New(length2);
 	sx = ((double)w) / width;
 	sy = ((double)h) / height;
+	
 	for (i=0; i<length2; i++) {
-		const int x1 = (int)((i % w) / sx);
-		const int y1 = (int)((i / w) / sy);
+		x1 = (int)((i % w) / sx);
+		y1 = (int)((i / w) / sy);
 		PyList_SET_ITEM(pix_ob2, i, PyInt_FromLong(PyInt_AsLong(PyList_GET_ITEM(pix_ob, y1 * width + x1)))); // duplicating the number wrapper
 		//PyList_SET_ITEM(pix_ob2, i, PyList_GET_ITEM(pix_ob, y1 * width + x1)); // SEG FAULT! without duplicating the number wrapper
 	}
@@ -74,6 +79,13 @@ PyObject* createEvents(PyObject* self, PyObject* args) {
 	PyObject* pix_ob;
 	PyObject* width_ob;
 	PyObject* threshold_ob;
+	int width, length;
+	int a, b;
+	double val;
+	double threshold;
+		int* event;
+		int count;
+		PyObject* list;
 	if (!PyArg_ParseTuple(args, "O!O!O!O!",
 				&PyList_Type, &matrix_ob,
 				&PyList_Type, &pix_ob,
@@ -84,14 +96,12 @@ PyObject* createEvents(PyObject* self, PyObject* args) {
 		return Py_None;
 	}
 	// generate events from pixels that have changed
-	const int length = PyList_GET_SIZE(pix_ob); // both matrix and pix have the same size
-	const int width = (int) PyInt_AsLong(width_ob);
+  length = PyList_GET_SIZE(pix_ob); // both matrix and pix have the same size
+	width = (int) PyInt_AsLong(width_ob);
 	//const int height = length / width;
-	const double threshold = PyFloat_AsDouble(threshold_ob);
-	int a, b;
-	double val;
-	int* event = malloc(sizeof(int) * length);
-	int count = 0;
+	threshold = PyFloat_AsDouble(threshold_ob);
+	event = malloc(sizeof(int) * length);
+	count = 0;
 	for (i=0; i<length; i++) {
 		a = (int) PyInt_AsLong(PyList_GET_ITEM(matrix_ob, i));
 		b = (int) PyInt_AsLong(PyList_GET_ITEM(pix_ob, i));
@@ -113,7 +123,7 @@ PyObject* createEvents(PyObject* self, PyObject* args) {
 		}
 	}
 	// pack events in a list
-	PyObject* list = PyList_New(count);
+	list = PyList_New(count);
 	for (i=0; i<count; i++) {
 		PyList_SET_ITEM(list, i, PyInt_FromLong(event[i]));
 	}
@@ -127,7 +137,8 @@ static char createEvents__doc__[] = "Call with two lists of equal length and the
 static char scaleImage__doc__[] = "Call with a list of int pixels and the int width; returns a list with the new image and the new width.";
 static struct PyMethodDef methods[] = {
 	{"createEvents", (PyCFunction)createEvents, 1, createEvents__doc__},
-	{"scaleImage", (PyCFunction)scaleImage, 1, scaleImage__doc__}
+	{"scaleImage", (PyCFunction)scaleImage, 1, scaleImage__doc__},
+	{NULL, NULL, 0, NULL}
 };
 
 PyMODINIT_FUNC
@@ -136,7 +147,9 @@ initEventGenerator(void)
 	PyObject* m;
 	m = Py_InitModule4("EventGenerator", methods, documentation, (PyObject*)NULL, PYTHON_API_VERSION);
 	if (PyErr_Occurred()) {
-		Py_FatalError("\nCan't initialize module EventGenerator");
+		PyErr_Print();
+		Py_FatalError("\nEventGenerator initEventGenerator: Can't initialize module EventGenerator");
 	}
+	printf("Module initialized correctly.");
 }
 
