@@ -21,7 +21,7 @@ time=systimems;
 figure(1);
 plot182(time,armDesired, time, armActual, time, ballx,'x', time, bally, 's', time, ballxing,'o');
 legend('arm desired', 'arm actual', 'ballx', 'bally', 'ball crossing pixel');
-xlabel 'time (ms)'
+xlabel 'system time (ms)'
 ylabel 'position (pixels)'
 set(gca,'ylim',[-30,150]);
 
