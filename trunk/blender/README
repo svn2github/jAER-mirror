@@ -9,6 +9,24 @@ There are three components:
 - a camera_event_generator.c file, which embodies the EvenGenerator python module imported and used from within the controller scripts
 - a setup_event_generator.py script to compile and create the shared object (.so) file containing the EventGenerator module
 
+
+The extra file monster_truck5_thinner_track_baked-noC.blend
+contains a version of the program that runs WITHOUT any custom C modules,
+that is, in pure python. This version was crafted so that MSWindows machines
+can still use the program.
+
+In addition, such extra file has a baked texture for the fame arena to appear
+as textured (and thus more challeging for the automatic driver filter), and
+the road is thinner (easier) but winding (harder).
+
+If the texture does not appear, select the game arena in the lower left 3D window
+then put the mouse pointer on the lowest window and push F10 to bring in the
+Scene buttons. Then push the big button labeled "BAKE". This may have to be done
+everytime the blender file is opened.
+
+Skip steps 1 and 2 below if using such python-only file.
+
+
 To run the simulator:
 
 1) Compile the EventGenerator python module:
@@ -50,3 +68,8 @@ left arrow: 	turn left
 
 
 The jAER Driver will also control all 4 movements.
+
+---
+
+
+Many thanks to Daniel Fasnacht for debugging the python socket and basically make it work as expected.
