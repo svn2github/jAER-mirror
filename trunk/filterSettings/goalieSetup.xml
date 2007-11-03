@@ -64,11 +64,11 @@
                   <entry key="RectangularClusterTracker.pathsEnabled" value="true"/>
                   <entry key="RectangularClusterTracker.showAllClusters" value="true"/>
                   <entry key="RectangularClusterTracker.mixingFactor" value="0.0028124114"/>
-                  <entry key="Goalie.pixelsToEdgeOfGoal" value="30"/>
-                  <entry key="Goalie.useSoonest" value="true"/>
+                  <entry key="Goalie.pixelsToEdgeOfGoal" value="44"/>
+                  <entry key="Goalie.useSoonest" value="false"/>
                   <entry key="Goalie.topRowsToIgnore" value="0"/>
                   <entry key="Goalie.learnTimeMs" value="440383"/>
-                  <entry key="Goalie.pixelsToTipOfArm" value="19"/>
+                  <entry key="Goalie.pixelsToTipOfArm" value="37"/>
                   <entry key="RectangularClusterTracker.thresholdVelocityForVisibleCluster" value="0.21828729"/>
                   <entry key="RectangularClusterTracker.velocityMixingFactor" value="0.05963748"/>
                   <entry key="RectangularClusterTracker.pathLength" value="50"/>
@@ -87,11 +87,13 @@
                   <entry key="XYTypeFilter.typeEnabled" value="false"/>
                   <entry key="Goalie.learnDelayMS" value="1140"/>
                   <entry key="Goalie.relaxationDelayMs" value="295"/>
-                  <entry key="Goalie.wakeupBallDistance" value="0.25228634"/>
-                  <entry key="Goalie.rangeOutsideViewToBlockPixels" value="7"/>
+                  <entry key="Goalie.wakeupBallDistance" value="0.35499212"/>
+                  <entry key="Goalie.rangeOutsideViewToBlockPixels" value="54"/>
                   <entry key="Info.filterEnabled" value="false"/>
-                  <entry key="Goalie.sleepDelaySec" value="10"/>
-                  <entry key="Goalie.maxYToUseVelocity" value="109"/>
+                  <entry key="Goalie.sleepDelaySec" value="20"/>
+                  <entry key="Goalie.maxYToUseVelocity" value="104"/>
+                  <entry key="Goalie.minPathPointsToUseVelocity" value="15"/>
+                  <entry key="Info.useLocalTimeZone" value="true"/>
                 </map>
                 <node name="ch">
                   <map/>
@@ -187,25 +189,28 @@
                               <entry key="RectangularClusterTracker.maxNumClusters" value="20"/>
                               <entry key="RectangularClusterTracker.clusterSize" value="0.2443341"/>
                               <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
-                              <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="8"/>
+                              <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="23"/>
                               <entry key="XYTypeFilter.xEnabled" value="true"/>
                               <entry key="XYTypeFilter.yEnabled" value="true"/>
                               <entry key="XYTypeFilter.typeEnabled" value="false"/>
-                              <entry key="XYTypeFilter.startY" value="30"/>
+                              <entry key="XYTypeFilter.startY" value="44"/>
                               <entry key="RectangularClusterTracker.highwayPerspectiveEnabled" value="true"/>
-                              <entry key="ServoArm.servoLimitRight" value="0.8452194"/>
-                              <entry key="ServoArm.servoLimitLeft" value="0.20681179"/>
-                              <entry key="ServoArm.learned_k" value="-0.005573715"/>
-                              <entry key="ServoArm.learned_d" value="0.89831316"/>
+                              <entry key="ServoArm.servoLimitRight" value="0.80497086"/>
+                              <entry key="ServoArm.servoLimitLeft" value="0.21696782"/>
+                              <entry key="ServoArm.learned_k" value="-0.0052430676"/>
+                              <entry key="ServoArm.learned_d" value="0.80172306"/>
                               <entry key="XYTypeFilter.endY" value="128"/>
                               <entry key="RectangularClusterTracker.mixingFactor" value="0.109143645"/>
                               <entry key="RectangularClusterTracker.pathLength" value="58"/>
-                              <entry key="RectangularClusterTracker.thresholdVelocityForVisibleCluster" value="14.051522"/>
+                              <entry key="RectangularClusterTracker.thresholdVelocityForVisibleCluster" value="10.447019"/>
                               <entry key="XYTypeFilter.endX" value="128"/>
                               <entry key="RectangularClusterTracker.clusterLifetimeIncreasesWithAge" value="false"/>
-                              <entry key="RectangularClusterTracker.showAllClusters" value="true"/>
-                              <entry key="RectangularClusterTracker.velocityPoints" value="30"/>
+                              <entry key="RectangularClusterTracker.showAllClusters" value="false"/>
+                              <entry key="RectangularClusterTracker.velocityPoints" value="15"/>
                               <entry key="XYTypeFilter.startX" value="0"/>
+                              <entry key="ServoArm.realtimeLogging" value="false"/>
+                              <entry key="ServoArm.learningLeftSamplingBoundary" value="0.21"/>
+                              <entry key="ServoArm.learningRightSamplingBoundary" value="0.8"/>
                             </map>
                           </node>
                           <node name="ServoArm">
@@ -219,7 +224,7 @@
                               <entry key="XYTypeFilter.startX" value="0"/>
                               <entry key="XYTypeFilter.endX" value="128"/>
                               <entry key="XYTypeFilter.startY" value="0"/>
-                              <entry key="XYTypeFilter.endY" value="30"/>
+                              <entry key="XYTypeFilter.endY" value="44"/>
                               <entry key="RectangularClusterTracker.aspectRatio" value="1.2"/>
                               <entry key="RectangularClusterTracker.showVelocity" value="false"/>
                               <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
