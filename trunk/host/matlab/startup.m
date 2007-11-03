@@ -1,5 +1,6 @@
 %function startup
 % on startup setup the java class path for the stuff here
+set(0,'defaultaxesfontsize',14);
 
 % sets up path to use usb2 java classes
 disp 'setting up java classpath for jAER interfacing'
