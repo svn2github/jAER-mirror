@@ -93,7 +93,7 @@ const endpoint_descriptor Endpoint1Desc =
    0x07,                // bLength
    0x05,                // bDescriptorType
    0x81,                // bEndpointAddress
-   0x03,                // bmAttributes
+   0x03,                // bmAttributes // interrupt type endpoint 11
    EP1_PACKET_SIZE_LE,  // MaxPacketSize (LITTLE ENDIAN)
    10                   // bInterval
 }; //end of Endpoint1Desc
@@ -103,7 +103,7 @@ const endpoint_descriptor Endpoint2Desc =
    0x07,                // bLength
    0x05,                // bDescriptorType
    0x02,                // bEndpointAddress
-   0x03,                // bmAttributes
+   0x03,                // bmAttributes // interrupt type
    EP2_PACKET_SIZE_LE,  // MaxPacketSize (LITTLE ENDIAN)
    1                   // bInterval, tobi reduced to 1 (ms) to decrease latency from host
 }; //end of Endpoint2Desc
