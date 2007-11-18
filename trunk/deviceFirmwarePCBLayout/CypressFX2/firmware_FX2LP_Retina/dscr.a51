@@ -98,10 +98,10 @@ HighSpeedConfigDscr:
       db   DSCR_ENDPNT_LEN      ;; Descriptor length
       db   DSCR_ENDPNT          ;; Descriptor type
       db   86H                  ;; Endpoint number, and direction
-      db   ET_BULK              ;; Endpoint type
+      db   ET_BULK              ;; Endpoint type BULK endpoint
       db   00H                  ;; Maximum packet size (LSB)
       db   02H                  ;; Maximum packet size (MSB)
-      db   00H                  ;; Polling interval
+      db   00H                  ;; Polling interval, ignored for bulk endpoints
 
 
 HighSpeedConfigDscrEnd:   
