@@ -7,7 +7,7 @@ FileRevision(JESDxxA);
  P ActionCode(Cfg)
   Device
    PartName(xc2c256)
-   File("C:\Users\raphael\USBAER\CPLD\Xilinx project\USBAERmini2\usbaer_top_level.jed")
+   File("C:\Users\raphael\jAER\deviceFirmwarePCBLayout\USBAERmini2CPLD\USBAERmini2\usbaer_top_level.jed")
   ;
 /* Mode SS */
 /* Mode SM */
