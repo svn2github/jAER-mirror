@@ -98,7 +98,9 @@ architecture Structural of USBAER_top_level is
       ResetEventCounterxSO       : out std_logic;
       ResetEarlyPaketTimerxSO    : out std_logic;
       TimestampOverflowxSI       : in  std_logic;
-      TimestampBit16xDO          : out std_logic;
+      TimestampBit15xDO          : out std_logic;
+      ResetTimestampxSBI          : in std_logic;
+      TimestampBit14xDO          : out std_logic;
       EarlyPaketTimerOverflowxSI : in  std_logic);
   end component;
 
@@ -112,7 +114,6 @@ architecture Structural of USBAER_top_level is
       SyncOutxSO            : out std_logic;
       MasterxSO             : out std_logic;
       ResetTimestampxSBO    : out std_logic;
-      ResetHostWrapAddxSBO  : out std_logic;
       IncrementCounterxSO   : out std_logic);
   end component;
 
@@ -189,7 +190,7 @@ architecture Structural of USBAER_top_level is
 
   -- signal declarations
   signal MonitorAddressxD                            : std_logic_vector(15 downto 0);
-  signal MonitorTimestampxD                          : std_logic_vector(14 downto 0);
+  signal MonitorTimestampxD                          : std_logic_vector(13 downto 0);
   signal FifoAddressRegInxD, FifoAddressRegOutxD     : std_logic_vector(15 downto 0);
   signal FifoTimestampRegInxD, FifoTimestampRegOutxD : std_logic_vector(15 downto 0);
   signal ActualTimestampxD                           : std_logic_vector(16 downto 0);
@@ -233,7 +234,8 @@ architecture Structural of USBAER_top_level is
 
   -- signals regarding the timestamp
   signal TimestampOverflowxS   : std_logic;
-  signal TimestampBit16xD      : std_logic;
+  signal TimestampBit15xD      : std_logic;
+  signal TimestampBit14xD      : std_logic;
   signal ResetTimestampBit16xS : std_logic;
   signal TimestampMasterxS     : std_logic;
 
@@ -241,7 +243,6 @@ architecture Structural of USBAER_top_level is
   signal RunMonitorxS, RunSynthesizerxS : std_logic;
 
   -- connected to 8051 interrupts
-  signal ResetHostWrapAddxSB : std_logic;
   signal MissedEventxS : std_logic;
 
   -- various
@@ -266,7 +267,7 @@ begin
   CounterResetxRB <= SynchronizerResetTimestampxSB;
   
   Interrupt1xSB0 <= MissedEventxS;
-  Interrupt0xSB0 <= ResetHostWrapAddxSB;
+  Interrupt0xSB0 <= '1';
 
   uFifoAddressRegister : wordRegister
     generic map (
@@ -300,12 +301,12 @@ begin
 
   uMonitorTimestampRegister : wordRegister
     generic map (
-      width          => 15)
+      width          => 14)
     port map (
       ClockxCI       => ClockxC,
       ResetxRBI      => ResetxRB,
       WriteEnablexEI => MonitorTimestampRegWritexE,
-      DataInxDI      => ActualTimestampxD(14 downto 0),
+      DataInxDI      => ActualTimestampxD(13 downto 0),
       DataOutxDO     => MonitorTimestampxD);
 
   uSynthAddressRegister : wordRegister
@@ -362,7 +363,6 @@ begin
       SyncOutxSO            => SynchOutxS,
       MasterxSO             => TimestampMasterxS,
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
-      ResetHostWrapAddxSBO  => ResetHostWrapAddxSB,
       IncrementCounterxSO   => IncxS);
 
   uFifoStateMachine : fifoStateMachine
@@ -389,7 +389,9 @@ begin
       ResetEventCounterxSO       => ResetEventCounterxS,
       ResetEarlyPaketTimerxSO    => SMResetEarlyPaketTimerxS,
       TimestampOverflowxSI       => TimestampOverflowxS,
-      TimestampBit16xDO          => TimestampBit16xD,
+      TimestampBit15xDO          => TimestampBit15xD,
+      ResetTimestampxSBI => SynchronizerResetTimestampxSB,
+      TimestampBit14xDO => TimestampBit14xD,
       EarlyPaketTimerOverflowxSI => EarlyPaketTimerOverflowxS);
 
   uMonitorStateMachine : monitorStateMachine
@@ -455,7 +457,7 @@ begin
   -- mux for fifo registers
   FifoAddressRegInxD <= MonitorAddressxD when ( RegisterInputSelectxS = selectmonitor)
                         else FifoDataxDIO;
-  FifoTimestampRegInxD <= (TimestampBit16xD & MonitorTimestampxD) when ( RegisterInputSelectxS = selectmonitor)
+  FifoTimestampRegInxD <= (TimestampBit15xD & TimestampBit14xD & MonitorTimestampxD) when ( RegisterInputSelectxS = selectmonitor)
                           else FifoDataxDIO;
 
   LEDxSO             <= TimestampMasterxS;

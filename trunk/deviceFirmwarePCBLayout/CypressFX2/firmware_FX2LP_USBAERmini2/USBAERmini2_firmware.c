@@ -108,7 +108,7 @@ void TD_Init(void)              // Called once at startup
 	IE &= 0x00; // 0000_0000 
 
 	// disable interrupt pins 4, 5 and 6
-	EIE &= 0xE3; // 1110_0011;
+	EIE &= 0xE3; // 1110_0011; //  TODO: disable interrupt 3 (reset timestamps)
 
 	// Registers which require a synchronization delay, see section 15.14
 	// FIFORESET        FIFOPINPOLAR
@@ -778,35 +778,6 @@ BOOL DR_VendorCmnd(void)
 	EP0CS |= bmHSNAK;
 
 	return(FALSE);
-}
-
-
-// RESET HOST TIMESTAMP INTERRUPT
-void ISR_TSReset(void) interrupt 3 {
-//	LED=0;
-	
-	SYNCDELAY; // reset fifos to delete events with the old timestamps
-	FIFORESET = 0x80;
-	SYNCDELAY;
-	FIFORESET = 0x06;
-	SYNCDELAY;
-	FIFORESET = 0x00;
-
-	SYNCDELAY;
-	EP6FIFOCFG = 0x09 ; //0000_1001
-
-
-	while (EP1INCS==0x02);
-
-	
-		EP1INBUF[0]=MSG_TS_RESET;
-		SYNCDELAY;
-		EP1INBC=1;
-		SYNCDELAY;
-		IE0=0; // clear interrupt
-		EX0=1; // enable INT0# external interrupt
-	//	LED=1;
-	
 }
 
 void ISR_MissedEvent(void) interrupt 3 {	

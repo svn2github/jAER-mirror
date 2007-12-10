@@ -38,16 +38,13 @@ entity synchronizerStateMachine is
     -- reset timestamp counter
     ResetTimestampxSBO : out std_logic;
 
-    -- reset host wrap add, interrupt 0 on 8051
-    ResetHostWrapAddxSBO : out std_logic;
-
     -- increment timestamp counter
     IncrementCounterxSO : out std_logic);
 
 end synchronizerStateMachine;
 
 architecture Behavioral of synchronizerStateMachine is
-  type state is (stMasterIdle, stResetSlaves, stSlaveIdle, stResetTS, st1us, stSyncInLow, stSInc, stSlaveFast, stFastInit, stFastLow, stFast);
+  type state is (stMasterIdle, stResetSlaves, stSlaveIdle, stResetTS, stRunMaster, stSyncInLow, stSInc);
 
   -- present and next state
   signal StatexDP, StatexDN : state;
@@ -63,16 +60,28 @@ begin  -- Behavioral
 
   -- calculate next state
   p_memless : process (StatexDP, SyncInxS, SyncInxAI, ResetxRBI, ConfigxSI, DividerxDP, HostResetTimestampxSI)
+    variable counterInc : integer := 29;
+    variable syncOutLow1 : integer := 25;
+    variable syncOutLow2 : integer := 26;
   begin  -- process p_memless
     -- default assignements
     StatexDN             <= StatexDP;
     DividerxDN           <= DividerxDP;
-    ResetHostWrapAddxSBO <= '1';        -- active low!!
     ResetTimestampxSBO   <= '1';        -- active low!!
     SyncOutxSO           <= '1';        -- we are master
     IncrementCounterxSO  <= '0';
     MasterxSO            <= '1';        -- we are master
 
+    if ConfigxSI = '0' then
+      counterInc :=  29;
+      syncOutLow2 :=  26;
+      syncOutLow1 := 25;
+    elsif ConfigxSI = '1' then
+      counterInc :=  5;
+      syncOutLow2 :=  3;
+      syncOutLow1 :=  2;
+    end if;
+    
     case StatexDP is
       when stMasterIdle               =>  -- waiting for either sync in to go
                                           -- high or reset to go high
@@ -83,11 +92,7 @@ begin  -- Behavioral
         if SyncInxS = '1' then
           StatexDN         <= stSlaveIdle;
         elsif ResetxRBI = '1' then
-          if ConfigxSI = '0'then
-            StatexDN       <= st1us;
-          elsif ConfigxSI = '1'then
-            StatexDN       <= stFastInit;
-          end if;
+            StatexDN       <= stRunMaster;
         end if;
       when stResetSlaves              =>  -- reset potential slave usbaermini2
                                           -- devices
@@ -95,13 +100,8 @@ begin  -- Behavioral
 
         if DividerxDP >= 3 then         -- stay four cycles in this state
           DividerxDN <= (others => '0');
-
-          if ConfigxSI = '0'then
-            StatexDN <= st1us;
-          elsif ConfigxSI = '1'then
-            StatexDN <= stFastInit;
-          end if;
-
+          ResetTimestampxSBO <= '0';
+          StatexDN <= stRunMaster;
         end if;
         if SyncInxS = '1' then
           StatexDN   <= stResetTS;
@@ -109,36 +109,32 @@ begin  -- Behavioral
         end if;
 
         SyncOutxSO         <= '0';
-        ResetTimestampxSBO <= '0';
+        --ResetTimestampxSBO <= '0'; assign this for only one cycle
 
         MasterxSO <= '1';               -- we are master
 
       when stResetTS =>                 -- reset local timestamp and wrap-add
         SyncOutxSO           <= SyncInxAI;
         ResetTimestampxSBO   <= '0';
-        ResetHostWrapAddxSBO <= '0';
 
         MasterxSO <= '0';               -- we are not master
-
-        DividerxDN   <= DividerxDP+1;   -- we need to assert interrupt pin for
-                                        -- at least three cycles
-        if DividerxDP >= 2 then
-          DividerxDN <= (others => '0');
-          if SyncInxS = '1' then
-            StatexDN <= stSlaveIdle;
-          else
-            StatexDN <= stMasterIdle;
-          end if;
+    
+        DividerxDN <= (others => '0');
+        if SyncInxS = '1' then
+          StatexDN <= stSlaveIdle;
+        else
+          StatexDN <= stMasterIdle;
         end if;
-      when st1us                =>      -- 1us timestamp tick mode
+        
+      when stRunMaster                =>      -- 1us timestamp tick mode
         DividerxDN   <= DividerxDP +1;
 
-        if DividerxDP = 25 or DividerxDP = 26 then  -- hold SyncOutxSO low for
+        if DividerxDP = syncOutLow2 or DividerxDP = syncOutLow1 then  -- hold SyncOutxSO low for
                                         -- two clockcycles to tell
                                         -- other boards to
                                         -- increment their timestamps
           SyncOutxSO          <= '0';
-        elsif DividerxDP >= 29 then     -- increment local timestamp
+        elsif DividerxDP >= counterInc then     -- increment local timestamp
           DividerxDN          <= (others => '0');
           IncrementCounterxSO <= '1';
         end if;
@@ -150,9 +146,6 @@ begin  -- Behavioral
           StatexDN   <= stMasterIdle;
         elsif HostResetTimestampxSI = '1' then
           StatexDN   <= stResetSlaves;
-          DividerxDN <= (others => '0');
-        elsif ConfigxSI = '1' then
-          StatexDN   <= stMasterIdle;
           DividerxDN <= (others => '0');
         end if;
 
@@ -171,18 +164,10 @@ begin  -- Behavioral
         DividerxDN <= DividerxDP +1;
 
         if SyncInxS = '1' then
-          if ConfigxSI = '0' then
-            StatexDN <= stSInc;
-          else
-            StatexDN <= stSlaveFast;
-          end if;
+          StatexDN <= stSInc;
         elsif DividerxDP >= 2 then
           StatexDN   <= stResetTS;
           DividerxDN <= (others => '0');
-        end if;
-
-        if ConfigxSI = '1' then         -- already start counting
-          IncrementCounterxSO <= '1';
         end if;
 
       when stSInc      =>               -- increment counter
@@ -190,53 +175,7 @@ begin  -- Behavioral
         IncrementCounterxSO <= '1';
         StatexDN            <= stSlaveIdle;
         MasterxSO           <= '0';     -- we are not master
-      when stSlaveFast =>               -- slave fast timestamp mode, increment
-                                        -- counter every cycle, when sync in
-                                        -- low, master is disabled
-        SyncOutxSO          <= SyncInxAI;
-        IncrementCounterxSO <= '1';
-        if SyncInxS = '0' then
-          StatexDN          <= stResetTS;
-        end if;
 
-        MasterxSO    <= '0';
-      when stFastInit           =>      -- signal slaves to initialise
-        DividerxDN   <= DividerxDP +1;
-        if DividerxDP >= 4 then
-          StatexDN   <= stFastLow;
-          DividerxDN <= (others => '0');
-        end if;
-        MasterxSO    <= '1';
-        SyncOutxSO   <= '1';
-      when stFastLow            =>      -- signal slaves to reset timestamp
-        DividerxDN   <= DividerxDP +1;
-        SyncOutxSO   <= '0';
-        if DividerxDP >= 1 then
-          StatexDN   <= stFast;
-          DividerxDN <= (others => '0');
-        end if;
-
-        MasterxSO <= '1';
-
-      when stFast =>                    -- fast timestamp mode, increment
-                                        -- coutner every cycle
-
-        if SyncInxS = '1' then
-          StatexDN   <= stResetTS;
-          DividerxDN <= (others => '0');
-        elsif ResetxRBI = '0' then
-          StatexDN   <= stMasterIdle;
-        elsif HostResetTimestampxSI = '1' then
-          StatexDN   <= stResetSlaves;
-          DividerxDN <= (others => '0');
-        elsif ConfigxSI = '0' then
-          StatexDN   <= stMasterIdle;
-          DividerxDN <= (others => '0');
-        end if;
-
-        MasterxSO           <= '1';
-        SyncOutxSO          <= '1';
-        IncrementCounterxSO <= '1';
       when others =>
         StatexDN            <= stMasterIdle;
     end case;

@@ -64,20 +64,27 @@ entity fifoStatemachine is
     TimestampOverflowxSI : in std_logic;
 
     -- valid event or wrap event
-    TimestampBit16xDO : out std_logic;
+    TimestampBit15xDO : out std_logic;
 
+    -- reset timestamp
+    ResetTimestampxSBI : in std_logic;
+    TimestampBit14xDO : out std_logic;
+    
     -- short paket timer overflow
     EarlyPaketTimerOverflowxSI : in  std_logic);
 end fifoStatemachine;
 
 architecture Behavioral of fifoStatemachine is
-  type state is (stIdle, stEarlyPaket1, stEarlyPaket2, stSetupWrFifo, stWraddress, stWrTime, stSetupRdFifo, stRdAddress, stRdTime,stSetupOverflow);
+  type state is (stIdle, stEarlyPaket1, stEarlyPaket2, stSetupWrFifo, stWraddress, stWrTime, stSetupRdFifo, stRdAddress, stRdTime,stSetupOverflow,stResetTimestamp);
 
   -- present and next state
   signal StatexDP, StatexDN : state;
 
   -- timestamp overflow register
   signal TimestampOverflowxDN, TimestampOverflowxDP : std_logic;
+
+  -- timestamp reset register
+  signal TimestampResetxDP, TimestampResetxDN : std_logic;
 
   -- constants for mux
   constant highZ           : std_logic_vector := "00";
@@ -92,7 +99,7 @@ architecture Behavioral of fifoStatemachine is
 begin
 
   -- calculate next state and outputs
-  p_memless : process (StatexDP, FifoInFullxSBI, FifoOutEmptyxSBI, MonitorEventReadyxSI, EventRequestxSI, EarlyPaketTimerOverflowxSI, TimestampOverflowxDP,TimestampOverflowxSI)
+  p_memless : process (StatexDP, FifoInFullxSBI, FifoOutEmptyxSBI, MonitorEventReadyxSI, EventRequestxSI, EarlyPaketTimerOverflowxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI)
   begin  -- process p_memless
     -- default assignements: stay in present state, don't change address in
     -- FifoAddress register, no Fifo transaction, don't write registers, don't
@@ -112,10 +119,12 @@ begin
     ResetEventCounterxSO      <= '0';
     ResetEarlyPaketTimerxSO   <= '0';
     FifoAddressxDO            <= EP2;
-    TimestampBit16xDO <= '0';
+    TimestampBit15xDO <= '0';
+    TimestampBit14xDO <= '0';
 
     TimestampOverflowxDN <= (TimestampOverflowxDP or TimestampOverflowxSI);
-
+    TimestampResetxDN <= (TimestampResetxDP or not ResetTimestampxSBI);
+    
     FifoTransactionxSO <= '1';          -- is zero only in idle state
 
     case StatexDP is
@@ -126,6 +135,8 @@ begin
           FifoAddressxDO            <= EP6; 
         elsif TimestampOverflowxDP= '1' and FifoInFullxSBI = '1' then
           StatexDN <= stSetupOverflow;
+        elsif TimestampResetxDP = '1' and FifoInFullxSBI = '1' then
+          StatexDN <= stResetTimestamp;
           -- if inFifo is not full and there is a monitor event, start a
           -- fifoWrite transaction
         elsif MonitorEventReadyxSI = '1' and FifoInFullxSBI = '1' then
@@ -163,7 +174,17 @@ begin
         RegisterInputSelectxSO    <= selectmonitor;
         --AddressRegWritexEO        <= '1';
         TimestampRegWritexEO      <= '1';
-        TimestampBit16xDO <= '1';
+        TimestampBit15xDO <= '1';
+      when stResetTimestamp =>           -- send overflow event, highest
+                                        -- timestamp bit set to one
+        StatexDN <= stWraddress;
+                
+        TimestampResetxDN <= '0';
+        FifoAddressxDO <= EP6;
+        RegisterInputSelectxSO    <= selectmonitor;
+        --AddressRegWritexEO        <= '1';
+        TimestampRegWritexEO      <= '1';
+        TimestampBit14xDO <= '1';
       when stSetupWrFifo =>             -- start a fifowrite transaction: write
                                         -- the event to the registers, increase
                                         -- eventCounter and clear the
@@ -175,13 +196,14 @@ begin
         AddressRegWritexEO        <= '1';
         TimestampRegWritexEO      <= '1';
         ClearMonitorEventxSO      <= '1';
-        IncEventCounterxSO        <= '1';
         FifoAddressxDO            <= EP6;
       when stWraddress   =>             -- write the address to the fifo
         StatexDN                  <= stWrTime;
         FifoWritexEBO             <= '0';
         AddressTimestampSelectxSO <= selectaddress;
         FifoAddressxDO            <= EP6;
+        IncEventCounterxSO <= '1';      -- do it here so overflow and reset
+                                        -- events get counted too
       when stWrTime      =>             -- write the timestamp to the fifo
         -- if the fifoOut is not empty and the synthSM requests an event, set
         -- up a fifo read transaction, else go back to idle
@@ -229,9 +251,11 @@ begin
     if ResetxRBI = '0' then             -- asynchronous reset (active low)
       StatexDP <= stIdle;
       TimestampOverflowxDP <= '0';
+      TimestampResetxDP <= '0';
     elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
       StatexDP <= StatexDN;
       TimestampOverflowxDP <= TimestampOverflowxDN;
+      TimestampResetxDP <= TimestampResetxDN;
     end if;
   end process p_memoryzing;
   

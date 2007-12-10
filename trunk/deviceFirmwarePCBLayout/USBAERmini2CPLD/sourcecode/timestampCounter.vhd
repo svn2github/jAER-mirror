@@ -44,16 +44,16 @@ begin
 
   DataxDO <= CountxDP;
 
-  -- the 15 bit timestamp used for
+  -- the 14 bit timestamp used for
   -- monitoring had an overflow, so send
   -- wrap event to host
-  OverflowxSO <= ( CountxDP(15) xor MSbDelayedxDP);
+  OverflowxSO <= ( CountxDP(14) xor MSbDelayedxDP);
 
   -- timestamp counter, calculation of next state
   p_memless : process (CountxDP, IncrementxSI, MSbDelayedxDP, ResetBit16xSI)
 
   begin  -- process p_memless
-    MSbDelayedxDN <= CountxDP(15);
+    MSbDelayedxDN <= CountxDP(14);
     CountxDN      <= CountxDP;
 
     if IncrementxSI = '1' then
@@ -78,3 +78,4 @@ begin
     end if;
   end process p_memoryzing;
 end Behavioral;
+
