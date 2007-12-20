@@ -251,7 +251,6 @@ void SetupCommand(void)
          DR_GetConfiguration();
          break;
       case SC_GET_STATUS:                  // *** Get Status
-         if(TRUE)//DR_GetStatus())
             switch(SETUPDAT[0])
             {
                case GS_DEVICE:            // Device
@@ -277,7 +276,6 @@ void SetupCommand(void)
             }
          break;
       case SC_CLEAR_FEATURE:                  // *** Clear Feature
-         if(TRUE)//DR_ClearFeature())
             switch(SETUPDAT[0])
             {
                case FT_DEVICE:            // Device
@@ -298,7 +296,7 @@ void SetupCommand(void)
             }
          break;
       case SC_SET_FEATURE:                  // *** Set Feature
-         if(TRUE)//DR_SetFeature())
+      
             switch(SETUPDAT[0])
             {
                case FT_DEVICE:            // Device
