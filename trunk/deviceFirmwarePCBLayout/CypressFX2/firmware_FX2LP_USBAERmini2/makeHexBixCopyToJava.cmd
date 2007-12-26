@@ -1,6 +1,6 @@
 rem ******************** make hex and bix files
 hex2bix -b -R -M 8000 -o USBAERmini2.bix USBAERmini2.hex
-hex2bix -i -f 0xC2 -o USBAERmini2.iic USBAERmini2.hex
+hex2bix -i -M 16000 -f 0xC2 -o USBAERmini2.iic USBAERmini2.hex
 
 rem ******************** copy bix firmware download file to java package folder for integration into jar file
 

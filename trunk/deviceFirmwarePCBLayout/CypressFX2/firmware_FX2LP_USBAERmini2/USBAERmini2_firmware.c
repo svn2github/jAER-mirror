@@ -546,87 +546,30 @@ BOOL DR_VendorCmnd(void)
 
 					bc = EP0BCL; // Get the new bytecount
 
-					// Is this a RAM download ?
-					if(SETUPDAT[1] == VR_RAM)
-					{
-						for(i=0; i<bc; i++)
-							JTAGdata[addr+i] = EP0BUF[i];
-					}		
+					for(i=0; i<bc; i++)
+							JTAGdata[addr+i] = EP0BUF[i];							
 
 					addr += bc;
 					len -= bc;
 				}
 
-				switch (SETUPDAT[2]) {
-					case XSIR:
-					{
-						resetReadCounter(JTAGdata);
+				resetReadCounter(JTAGdata);
+			
 
-						if (xsvfDoXSIR( (SETUPDAT[5] << 8) | SETUPDAT[4] ))
-						{
-							OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
-							JTAGinit=TRUE;
-							return TRUE;
-						}
-						break;
-					}
-					case XSDR:
-					{
-						resetReadCounter(JTAGdata);
-						if (xsvfDoXSDR( (SETUPDAT[5] << 8) | SETUPDAT[4], SETUPDAT[2] ))
-						{
-							OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
-							JTAGinit=TRUE;
-							return TRUE;
-						}
-						break;
-					}
-					case XRUNTEST:
-					{
-						if (xsvfDoXRUNTEST( (SETUPDAT[5] << 8) | SETUPDAT[4] ))
-						{
-							OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
-							JTAGinit=TRUE;
-							return TRUE;
-						}
-						break;
-					}
-					case XSTATE:
-					{
-						if (xsvfDoXSTATE( SETUPDAT[4] ))
-						{
-							OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
-							JTAGinit=TRUE;
-							return TRUE;
-						}
-						break;
-					}
-					case XENDIR:
-					{
-						if (xsvfDoXENDXR(SETUPDAT[2], SETUPDAT[4] ))
-						{
-							OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
-							JTAGinit=TRUE;
-							return TRUE;
-						}
-						break;
-					}
-					case XENDDR:
-					{
-						if (xsvfDoXENDXR(SETUPDAT[2], SETUPDAT[4] ))
-						{
-							OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
-							JTAGinit=TRUE;
-							return TRUE;
-						}
-						break;
-					} 
-					case XLASTCMD:
+				if (SETUPDAT[2]==0x00) //complete
+				{
+					OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
+					JTAGinit=TRUE;
+				} else
+				{
+					if (xsvfRun()) // returns true if error
 					{
 						OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
 						JTAGinit=TRUE;
+						return TRUE;
 					}
 				}
+	
 				break;
 			} 
 		case VR_TIMESTAMP_TICK:

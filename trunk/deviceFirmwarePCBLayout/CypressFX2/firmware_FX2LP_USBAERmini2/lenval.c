@@ -12,22 +12,20 @@
 * Parameters:   plvValue    - ptr to lenval.
 * Returns:      long        - the extracted value.
 *****************************************************************************/
-/* long value( lenVal*     plvValue )
+long value( lenVal*     plvValue )
 {
-	long    lValue;         // result to hold the accumulated result 
+	long    lValue;         /* result to hold the accumulated result */
 	short   sIndex;
 
     lValue  = 0;
 	for ( sIndex = 0; sIndex < plvValue->len ; ++sIndex )
 	{
-		lValue <<= 8;                       // shift the accumulated result 
-		lValue |= plvValue->val[ sIndex];   // get the last byte first 
+		lValue <<= 8;                       /* shift the accumulated result */
+		lValue |= plvValue->val[ sIndex];   /* get the last byte first */
 	}
 
 	return( lValue );
-}  	    */
-
-
+}
 
 /*****************************************************************************
 * Function:     EqualLenVal
@@ -69,8 +67,6 @@ short EqualLenVal( lenVal*  plvTdoExpected,
 	return( sEqual );
 }
 
-
-
 /*****************************************************************************
 * Function:     readVal
 * Description:  read from XSVF numBytes bytes of data into x.
@@ -90,4 +86,3 @@ void readVal( lenVal*   plv,
 		readByte( pucVal );
     }
 }
-

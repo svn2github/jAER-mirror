@@ -9,20 +9,22 @@
 #include "ports.h"
 /*#include "prgispx.h"*/
 
-#include "stdio.h"
-
-//#include "fx2regs.h"
-
-/*BYTE *xsvf_data=0;*/
-
-// bitmasks for JTAG pins
+//#include "stdio.h"
 
 sfr IOE     = 0xB1;
 
-/* if in debugging mode, then just set the variables */
 void setPort(unsigned char p , short val)
 {
-        IOE = (IOE & p ) | (val << 4);					 
+		if (p==TCK)
+		{
+        	IOE = (IOE & p ) | (val << 7);
+		} else if (p==TDI)
+		{
+			IOE = (IOE & p ) | (val << 5);
+		} else if (p==TMS)
+		{
+			IOE = (IOE & p ) | (val << 4);
+		}
 }
 
 
@@ -59,9 +61,9 @@ unsigned char readTDOBit()
 /* Use a timer if possible; otherwise estimate the number of instructions    */
 /* necessary to be run based on the microcontroller speed.  For this example */
 /* we pulse the TCK port a number of times based on the processor speed.     */
-void waitTime(long cnt)
+void waitTime(int cnt)
 {											    
-    long        i;
+    int        i;
 
     for ( i = 0; i < cnt; ++i )
     {

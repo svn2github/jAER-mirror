@@ -29,28 +29,15 @@
 /* Insert new errors here */
 #define XSVF_ERROR_LAST         7
 
-/*============================================================================
-* XSVF Command Bytes
-============================================================================*/
-
-/* encodings of xsvf instructions */	 
-#define XSIR             0
-#define XSDR             1
-#define XRUNTEST         2	    
-#define XSTATE           3         /* 4.00 */
-#define XENDIR           4         /* 4.04 */
-#define XENDDR           5         /* 4.04 */   
-/* Insert new commands here */
-/* and add corresponding xsvfDoCmd function to xsvf_pfDoCmd below. */
-#define XLASTCMD         6  
-
-
-int xsvfDoXSIR(unsigned short usShiftBits );   
-int xsvfDoXSDR(unsigned short usShiftBits, unsigned char tdo);
-int xsvfDoXRUNTEST( long cnt ); 
-int xsvfDoXSTATE( unsigned char ucState );
-int xsvfDoXENDXR( unsigned char ucCommand, unsigned char ucState ); 
-int xsvfInitialize( void  );
+/*****************************************************************************
+* Function:     xsvfExecute
+* Description:  Process, interpret, and apply the XSVF commands.
+*               See port.c:readByte for source of XSVF data.
+* Parameters:   none.
+* Returns:      int - For error codes see above.
+*****************************************************************************/
+extern int xsvfRun();
+int xsvfInitialize( void );
 
 #endif  /* XSVF_MICRO_H */
 

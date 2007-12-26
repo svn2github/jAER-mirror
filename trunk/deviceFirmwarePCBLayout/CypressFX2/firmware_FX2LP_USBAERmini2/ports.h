@@ -12,7 +12,7 @@
 /* compilers don't like enumerated types */
 #define TCK (unsigned char) 0x7F // 0111_1111
 #define pTDO  0x40 // 
-#define TDI (unsigned char)0xDF // 1101_1111
+#define TDI (unsigned char) 0xDF // 1101_1111
 #define TMS (unsigned char) 0xEF // 1110_1111
 
 /* set the port "p" (TCK, TMS, or TDI) to val (0 or 1) */
@@ -29,6 +29,6 @@ extern void pulseClock();
 /* read the next byte of data from the xsvf file */
 extern void readByte(unsigned char *ucdata);
 
-extern void waitTime(long microsec);
+extern void waitTime(int microsec);
 
 #endif

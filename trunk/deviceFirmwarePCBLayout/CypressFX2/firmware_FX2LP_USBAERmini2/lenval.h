@@ -70,11 +70,10 @@ typedef struct var_len_byte
 /* return the long representation of a lenVal */
 extern long value(lenVal *x);
 
-/* set lenVal equal to value */
-extern void initLenVal(lenVal *x, long value);
 
 /* check if expected equals actual (taking the mask into account) */
 extern short EqualLenVal(lenVal *expected, lenVal *actual, lenVal *mask);
+
 
 /* read from XSVF numBytes bytes of data into x */
 extern void  readVal(lenVal *x, short numBytes);
