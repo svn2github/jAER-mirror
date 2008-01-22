@@ -182,7 +182,7 @@ void TD_Init(void)              // Called once at startup
 
 	cycleCounter=0;
 	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
-	LED=1;
+	LED=0;
 	LED2=0;
 
 	biasInit();	// init biasgen ports and pins
@@ -549,6 +549,7 @@ BOOL DR_VendorCmnd(void)
 				break; // very important, otherwise get stall
 
 			}
+/*
 		case VR_SETARRAYRESET: // set array reset, based on lsb of argument
 			{
 				if (SETUPDAT[2]&0x01)
@@ -592,7 +593,8 @@ BOOL DR_VendorCmnd(void)
 				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
 				return (FALSE); // very important, otherwise get stall
 			}
-	/*	case VR_DOWNLOAD_CPLD_CODE:
+*/
+/*	case VR_DOWNLOAD_CPLD_CODE:
 			{
 				break;
 			} */
@@ -669,7 +671,7 @@ BOOL DR_VendorCmnd(void)
 			len = SETUPDAT[6];
 			len |= SETUPDAT[7] << 8;
 			// Is this an upload command ?
-			//	led0=!led0;
+			LED=!LED;
 			if(SETUPDAT[0] == VR_UPLOAD)  // this is automatically defined on host from direction of vendor request
 			{
 				while(len)					// Move requested data through EP0IN 
