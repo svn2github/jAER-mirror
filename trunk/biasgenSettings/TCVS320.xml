@@ -23,7 +23,7 @@
                     <entry key="RepetitiousFilter.filterEnabled" value="false"/>
                     <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
                     <entry key="SubSampler.filterEnabled" value="false"/>
-                    <entry key="TCVS320.ConfigurableIPot.Pr.BitValue" value="459"/>
+                    <entry key="TCVS320.ConfigurableIPot.Pr.BitValue" value="1"/>
                     <entry key="TCVS320.ConfigurableIPot.Pr.BufferBitValue" value="7"/>
                     <entry key="TCVS320.ConfigurableIPot.Pr.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.Pr.LowCurrent" value="false"/>
@@ -60,7 +60,7 @@
                     <entry key="TCVS320.ConfigurableIPot.cas.Sex" value="N"/>
                     <entry key="TCVS320.ConfigurableIPot.cas.Type" value="CASCODE"/>
                     <entry key="TCVS320.ConfigurableIPot.refr.BitValue" value="2"/>
-                    <entry key="TCVS320.ConfigurableIPot.refr.BufferBitValue" value="63"/>
+                    <entry key="TCVS320.ConfigurableIPot.refr.BufferBitValue" value="1"/>
                     <entry key="TCVS320.ConfigurableIPot.refr.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.refr.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.refr.Sex" value="N"/>
@@ -119,7 +119,7 @@
                     <entry key="TCVS320.ConfigurableIPot.aePdLimit.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.aePdLimit.Sex" value="N"/>
                     <entry key="TCVS320.ConfigurableIPot.aePdLimit.Type" value="NORMAL"/>
-                    <entry key="Masterbias.rx" value="8200.0"/>
+                    <entry key="Masterbias.rx" value="10000.0"/>
                     <entry key="Masterbias.rint" value="46000.0"/>
                     <entry key="Masterbias.internalResistorUsed" value="false"/>
                   </map>
