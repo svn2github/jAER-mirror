@@ -3,27 +3,39 @@
 <pre>
 <h1>µVision2 Build Log</h1>
 <h2>Project:</h2>
-C:\patrick\CAVIAR\wp5\USBAER\INI-AE-Biasgen\device\CypressFX2\firmware_FX2LP_StereoBoard\USBAER_stereoboard.uv2
-Project File Date:  01/25/2007
+C:\Documents and Settings\tobi\My Documents\~jAER-sourceForge\trunk\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_StereoBoard\USBAER_stereoboard.uv2
+Project File Date:  08/11/2007
 
 <h2>Output:</h2>
 Build target 'Target 1'
 compiling fw.c...
 assembling dscr.a51...
 compiling USBAERmini2_firmware.c...
+USBAERMINI2_FIRMWARE.C(183): error C202: 'PA7': undefined identifier
+USBAERMINI2_FIRMWARE.C(184): error C202: 'PC5': undefined identifier
+USBAERMINI2_FIRMWARE.C(221): error C202: 'PA7': undefined identifier
+USBAERMINI2_FIRMWARE.C(251): error C202: 'PC7': undefined identifier
+USBAERMINI2_FIRMWARE.C(253): error C202: 'PC0': undefined identifier
+USBAERMINI2_FIRMWARE.C(259): error C202: 'PC7': undefined identifier
+USBAERMINI2_FIRMWARE.C(270): error C202: 'PC0': undefined identifier
+USBAERMINI2_FIRMWARE.C(306): error C202: 'PA7': undefined identifier
+USBAERMINI2_FIRMWARE.C(308): error C202: 'PA7': undefined identifier
+USBAERMINI2_FIRMWARE.C(492): error C202: 'PC6': undefined identifier
+USBAERMINI2_FIRMWARE.C(493): error C202: 'PC6': undefined identifier
+USBAERMINI2_FIRMWARE.C(613): error C202: 'PC2': undefined identifier
+USBAERMINI2_FIRMWARE.C(614): error C202: 'PC3': undefined identifier
+USBAERMINI2_FIRMWARE.C(617): error C202: 'PC3': undefined identifier
+USBAERMINI2_FIRMWARE.C(618): error C202: 'PC2': undefined identifier
+USBAERMINI2_FIRMWARE.C(621): error C202: 'PC3': undefined identifier
+USBAERMINI2_FIRMWARE.C(622): error C202: 'PC2': undefined identifier
+USBAERMINI2_FIRMWARE.C(625): error C202: 'PC3': undefined identifier
+USBAERMINI2_FIRMWARE.C(626): error C202: 'PC2': undefined identifier
+USBAERMINI2_FIRMWARE.C(639): error C202: 'PC4': undefined identifier
+USBAERMINI2_FIRMWARE.C(751): error C202: 'PA7': undefined identifier
+USBAERMINI2_FIRMWARE.C(772): error C202: 'PA7': undefined identifier
 assembling ISR_TS_Reset_JumpVector.a51...
 assembling spiwritebyte.a51...
-linking...
-Program Size: data=53.5 xdata=4733 code=3899
-creating hex file from "USBAERmini2"...
-"USBAERmini2" - 0 Error(s), 0 Warning(s).
-Build target 'Target 1'
-compiling fw.c...
-assembling dscr.a51...
-compiling USBAERmini2_firmware.c...
-assembling ISR_TS_Reset_JumpVector.a51...
-assembling spiwritebyte.a51...
-linking...
-Program Size: data=53.5 xdata=4733 code=3897
-creating hex file from "USBAERmini2"...
-"USBAERmini2" - 0 Error(s), 0 Warning(s).
+Target not created
+</pre>
+</body>
+</html>

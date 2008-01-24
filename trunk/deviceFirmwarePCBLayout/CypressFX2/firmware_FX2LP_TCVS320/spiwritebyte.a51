@@ -29,8 +29,7 @@ rseg ?PR?SPIWRITEBYTE?MODULE
 ; following define clock and bit locations and polarities
 ; see the SPIUtil.c for biasgen bit locations
 ; from msb to lsb of nibble: bit, clock
-
-;IOE DATA 80H ; this is DATA location of SFR for port E
+; this is DATA location of SFR for port E
 sfr IOE     = 0xB1;
 ;; port E bits are NOT bit addressable, so we need to read, AND, and then write the port
 ;CLKBIT BIT IOE.2; this is biasClock on PA2

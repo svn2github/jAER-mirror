@@ -1,4 +1,4 @@
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 1   
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 1   
 
 
 C51 COMPILER V7.50, COMPILATION OF MODULE USBAERMINI2_FIRMWARE
@@ -62,7 +62,7 @@ line level    source
   52          #define VR_TIMESTAMP_TICK 0xC3
   53          #define VR_RESET_FIFOS 0xC4
   54          #define VR_DOWNLOAD_CPLD_CODE 0xC5 
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 2   
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 2   
 
   55          #define VR_READOUT_EEPROM 0xC9
   56          #define VR_IS_TS_MASTER 0xCB
@@ -126,7 +126,7 @@ line level    source
  113   1              // disable interrupts by the input pins and by timers and serial ports:
  114   1              IE &= 0x00; // 0000_0000 
  115   1      
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 3   
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 3   
 
  116   1              // disable interrupt pins 4, 5 and 6
  117   1              EIE &= 0xE3; // 1110_0011;
@@ -190,7 +190,7 @@ line level    source
  175   1              // initialize variables
  176   1              monitorRunning = FALSE;
  177   1              operationMode=0;
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 4   
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 4   
 
  178   1      
  179   1              requestCommand = 0x00;
@@ -199,7 +199,9 @@ line level    source
  182   1              missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in hig
              -h state
  183   1              LED=1;
+*** ERROR C202 IN LINE 183 OF USBAERMINI2_FIRMWARE.C: 'PA7': undefined identifier
  184   1              LED2=0;
+*** ERROR C202 IN LINE 184 OF USBAERMINI2_FIRMWARE.C: 'PC5': undefined identifier
  185   1      
  186   1              biasInit();     // init biasgen ports and pins
  187   1              EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
@@ -237,6 +239,7 @@ line level    source
  219   1              if(cycleCounter++>=50000){
  220   2      
  221   2                      LED=!LED;
+*** ERROR C202 IN LINE 221 OF USBAERMINI2_FIRMWARE.C: 'PA7': undefined identifier
  222   2                      //LED2=!LED2;
  223   2                      cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
  224   2              }       
@@ -251,11 +254,11 @@ line level    source
  233          
  234                  // get pointer to string descriptor 3
  235                  dscrRAM =  (char *)EZUSB_GetStringDscr(3);
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 5   
+
  236          
  237                  // read string description from EEPROM
  238                  EEPROMRead(STRING_ADDRESS, MAX_NAME_LENGTH, buf);
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 5   
-
  239                  
  240                  //write string description (serial number) to RAM
  241                  for (i=0;i<MAX_NAME_LENGTH;i++)
@@ -269,14 +272,17 @@ line level    source
  249   1              //start monitor state machine
  250   1              monitorRunning = TRUE;
  251   1              MONITOR=1;
+*** ERROR C202 IN LINE 251 OF USBAERMINI2_FIRMWARE.C: 'PC7': undefined identifier
  252   1      
  253   1          CPLD_NOT_RESET=1;
+*** ERROR C202 IN LINE 253 OF USBAERMINI2_FIRMWARE.C: 'PC0': undefined identifier
  254   1      }
  255          
  256          void stopMonitor(void)
  257          {
  258   1              monitorRunning = FALSE;
  259   1              MONITOR=0;
+*** ERROR C202 IN LINE 259 OF USBAERMINI2_FIRMWARE.C: 'PC7': undefined identifier
  260   1      
  261   1              _nop_(); // wait, so CPLD can finish the last transaction
  262   1              _nop_();
@@ -288,6 +294,7 @@ line level    source
  268   1              _nop_();
  269   1      
  270   1          CPLD_NOT_RESET=0;
+*** ERROR C202 IN LINE 270 OF USBAERMINI2_FIRMWARE.C: 'PC0': undefined identifier
  271   1      
  272   1              // force last paket
  273   1              
@@ -311,6 +318,8 @@ line level    source
  291   1              EP6FIFOCFG =0x09;  //0000_1001 set back to autoin
  292   1              SYNCDELAY;
  293   1      }
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 6   
+
  294          
  295          
  296          void EEPROMWriteByte(WORD addr, BYTE value)
@@ -318,16 +327,16 @@ line level    source
  298   1              BYTE            i = 0;
  299   1              BYTE xdata      ee_str[3];
  300   1              if(DB_Addr)
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 6   
-
  301   1                      ee_str[i++] = MSB(addr); // if 16 bit, we need 2-byte address and 1 byte data
  302   1      
  303   1              ee_str[i++] = LSB(addr);
  304   1              ee_str[i++] = value;
  305   1      
  306   1              LED=1;
+*** ERROR C202 IN LINE 306 OF USBAERMINI2_FIRMWARE.C: 'PA7': undefined identifier
  307   1              EZUSB_WriteI2C(I2C_Addr, i, ee_str);
  308   1              LED=0;
+*** ERROR C202 IN LINE 308 OF USBAERMINI2_FIRMWARE.C: 'PA7': undefined identifier
  309   1          EZUSB_WaitForEEPROMWrite(I2C_Addr);
  310   1      }
  311          
@@ -373,6 +382,8 @@ line level    source
  351              {
  352                CPLD_NOT_RESET=1;
  353              }
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 7   
+
  354          
  355             return(TRUE);
  356          }*/
@@ -382,8 +393,6 @@ line level    source
  360          //   The following hooks are called by the end point 0 device request parser.
  361          //-----------------------------------------------------------------------------
  362          
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 7   
-
  363          /*BOOL DR_GetDescriptor(void)
  364          {
  365             return(TRUE);
@@ -437,6 +446,8 @@ line level    source
  413          //SETUPDAT[1] The actual vendor request (e.g. VR_ENABLE_AE_IN below)
  414          //SETUPDAT[2] wValueL 16 bit value LSB
  415          //         3  wValueH MSB
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 8   
+
  416          //         4  wIndexL 16 bit field, varies according to request
  417          //         5  wIndexH
  418          //         6  wLengthL Number of bytes to transfer if there is a data phase
@@ -446,8 +457,6 @@ line level    source
  422          {       
  423   1              WORD addr, len, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
  424   1              WORD i;
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 8   
-
  425   1      //      char *dscrRAM;
  426   1      
  427   1              // we don't actually process the command here, we process it in the main loop
@@ -501,6 +510,8 @@ line level    source
  475   2                                              EEPROMWriteBYTE(STRING_ADDRESS+i, EP0BUF[i]); // write string to EEPROM
  476   2                                              dscrRAM[2+i*2] = EP0BUF[i]; // write string to RAM
  477   2                                      }
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 9   
+
  478   2      
  479   2                                      for (i=len; i<MAX_NAME_LENGTH; i++) // fill the rest with stop characters
  480   2                                      {
@@ -510,15 +521,15 @@ line level    source
  484   2      
  485   2                                      EP0BCH = 0;
  486   2                                      EP0BCL = 0;
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 9   
-
  487   2      
  488   2                                      return(FALSE);
  489   2                              }*/             
  490   2                      case VR_RESETTIMESTAMPS:
  491   2                              {
  492   3                                      RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
+*** ERROR C202 IN LINE 492 OF USBAERMINI2_FIRMWARE.C: 'PC6': undefined identifier
  493   3                                      RESET_TS=0;
+*** ERROR C202 IN LINE 493 OF USBAERMINI2_FIRMWARE.C: 'PC6': undefined identifier
  494   3      
  495   3                                      break;
  496   3                              }
@@ -563,6 +574,8 @@ line level    source
  535   3                                      if (SETUPDAT[2])
  536   3                                      {
  537   4                                              setPowerDownBit();
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 10  
+
  538   4                                      } else 
  539   3                                      {
  540   4                                              releasePowerDownBit();
@@ -574,8 +587,6 @@ line level    source
  546   3                                      EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
  547   3                                      break; // very important, otherwise get stall
  548   3      
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 10  
-
  549   3                              }
  550   2                      case VR_SETARRAYRESET: // set array reset, based on lsb of argument
  551   2                              {
@@ -627,6 +638,8 @@ line level    source
  597   2                      case VR_TIMESTAMP_TICK:
  598   2                              {
  599   3                                      if (SETUPDAT[0]==VR_UPLOAD) //1010_0000 :vendor request to device, direction IN
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 11  
+
  600   3                                      {
  601   4                                              EP0BUF[0] = SETUPDAT[1];
  602   4                                      
@@ -638,24 +651,30 @@ line level    source
  608   4                                      } else
  609   3                                      {
  610   4                                              operationMode=SETUPDAT[2];
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 11  
-
  611   4                                              if (operationMode==0)
  612   4                                              {
  613   5                                                      TIMESTAMP_MODE = 0;
+*** ERROR C202 IN LINE 613 OF USBAERMINI2_FIRMWARE.C: 'PC2': undefined identifier
  614   5                                                      CFG_TIMESTAMP_COUNTER = 0;
+*** ERROR C202 IN LINE 614 OF USBAERMINI2_FIRMWARE.C: 'PC3': undefined identifier
  615   5                                              }else if (operationMode==1)
  616   4                                              {
  617   5                                                      CFG_TIMESTAMP_COUNTER = 1;
+*** ERROR C202 IN LINE 617 OF USBAERMINI2_FIRMWARE.C: 'PC3': undefined identifier
  618   5                                                      TIMESTAMP_MODE = 0;     
+*** ERROR C202 IN LINE 618 OF USBAERMINI2_FIRMWARE.C: 'PC2': undefined identifier
  619   5                                              }else if (operationMode==2)
  620   4                                              {
  621   5                                                      CFG_TIMESTAMP_COUNTER = 0;
+*** ERROR C202 IN LINE 621 OF USBAERMINI2_FIRMWARE.C: 'PC3': undefined identifier
  622   5                                                      TIMESTAMP_MODE = 1;     
+*** ERROR C202 IN LINE 622 OF USBAERMINI2_FIRMWARE.C: 'PC2': undefined identifier
  623   5                                              }else if (operationMode==3)
  624   4                                              {
  625   5                                                      CFG_TIMESTAMP_COUNTER = 1;
+*** ERROR C202 IN LINE 625 OF USBAERMINI2_FIRMWARE.C: 'PC3': undefined identifier
  626   5                                                      TIMESTAMP_MODE = 1;     
+*** ERROR C202 IN LINE 626 OF USBAERMINI2_FIRMWARE.C: 'PC2': undefined identifier
  627   5                                              }
  628   4      
  629   4                                              *EP0BUF = SETUPDAT[1];
@@ -669,6 +688,7 @@ line level    source
  637   2                              {
  638   3                                      EP0BUF[0] = SETUPDAT[1];
  639   3                                      EP0BUF[1]= TIMESTAMP_MASTER;
+*** ERROR C202 IN LINE 639 OF USBAERMINI2_FIRMWARE.C: 'PC4': undefined identifier
  640   3                                      EP0BCH = 0;
  641   3                                      EP0BCL = 2;
  642   3                                      EP0CS |= bmHSNAK;
@@ -682,6 +702,8 @@ line level    source
  650   3                                      EP0BUF[4]= (missedEvents & 0xFF000000) >> 24;
  651   3                                      EP0BUF[3]= (missedEvents & 0x00FF0000) >> 16;
  652   3                                      EP0BUF[2]= (missedEvents & 0x0000FF00) >> 8;
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 12  
+
  653   3                                      EP0BUF[1]= missedEvents & 0x000000FF;
  654   3                                      EP0BCH = 0;
  655   3                                      EP0BCL = 5;
@@ -702,8 +724,6 @@ line level    source
  670   3                              //      led0=!led0;
  671   3                              if(SETUPDAT[0] == VR_UPLOAD)  // this is automatically defined on host from direction of vendor request
  672   3                              {
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 12  
-
  673   4                                      while(len)                                      // Move requested data through EP0IN 
  674   4                                      {                                                       // one packet at a time.
  675   5      
@@ -746,6 +766,8 @@ line level    source
  711   5                                              EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
  712   5      
  713   5                                              while(EP0CS & bmEPBUSY);
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 13  
+
  714   5      
  715   5                                              bc = EP0BCL; // Get the new bytecount
  716   5      
@@ -766,8 +788,6 @@ line level    source
  731   3                      }
  732   2                      default:
  733   2                      { // we received an invalid command
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 13  
-
  734   3                              return(TRUE);
  735   3                      }
  736   2              }
@@ -786,6 +806,7 @@ line level    source
  749          // RESET HOST TIMESTAMP INTERRUPT
  750          void ISR_TSReset(void) interrupt 3 {
  751   1              LED=0;
+*** ERROR C202 IN LINE 751 OF USBAERMINI2_FIRMWARE.C: 'PA7': undefined identifier
  752   1              
  753   1              SYNCDELAY; // reset fifos to delete events with the old timestamps
  754   1              FIFORESET = 0x80;
@@ -807,7 +828,10 @@ line level    source
  770   2                      IE0=0; // clear interrupt
  771   2                      EX0=1; // enable INT0# external interrupt
  772   2                      LED=1;
+*** ERROR C202 IN LINE 772 OF USBAERMINI2_FIRMWARE.C: 'PA7': undefined identifier
  773   2              }
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 14  
+
  774   1      }
  775          
  776          void ISR_MissedEvent(void) interrupt 3 {        
@@ -830,8 +854,6 @@ line level    source
  793          // Setup Token Interrupt Handler
  794          void ISR_Sutok(void) interrupt 0
  795          {
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 14  
-
  796   1         EZUSB_IRQ_CLEAR();
  797   1         USBIRQ = bmSUTOK;         // Clear SUTOK IRQ
  798   1      }
@@ -872,6 +894,8 @@ line level    source
  833          void ISR_Highspeed(void) interrupt 0
  834          {
  835   1         if (EZUSB_HIGHSPEED())
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 15  
+
  836   1         {
  837   2            pConfigDscr = pHighSpeedConfigDscr;
  838   2            pOtherConfigDscr = pFullSpeedConfigDscr;
@@ -894,8 +918,6 @@ line level    source
  855          void ISR_Stub(void) interrupt 0
  856          {
  857   1      }
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 15  
-
  858          void ISR_Ep0in(void) interrupt 0
  859          {
  860   1      }
@@ -936,6 +958,8 @@ line level    source
  895          {
  896   1      }
  897          void ISR_Ep6pingnak(void) interrupt 0
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 16  
+
  898          {
  899   1      }
  900          void ISR_Ep8pingnak(void) interrupt 0
@@ -958,8 +982,6 @@ line level    source
  917   1      }
  918          void ISR_Ep2pflag(void) interrupt 0
  919          {
-C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/31/2007 17:40:30 PAGE 16  
-
  920   1      }
  921          void ISR_Ep4pflag(void) interrupt 0
  922          {
@@ -1000,17 +1022,7 @@ line level    source
  957          void ISR_GpifWaveform(void) interrupt 0
  958          {
  959   1      }
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  01/21/2008 12:25:56 PAGE 17  
 
 
-MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1958    ----
-   CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =    257       5
-   PDATA SIZE       =   ----    ----
-   DATA SIZE        =     10      19
-   IDATA SIZE       =   ----    ----
-   BIT SIZE         =      1    ----
-END OF MODULE INFORMATION.
-
-
-C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  22 ERROR(S)

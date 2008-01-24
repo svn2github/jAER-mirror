@@ -40,7 +40,7 @@ Options 1,0,0  // Target 'Target 1'
  EnvLib (C:\Keil\C51\LIB\)
  EnvReg (ÿCypress\)
  OrgReg (ÿCypress\)
- TgStat=0
+ TgStat=9
  OutDir (.\)
  OutName (USBAERmini2)
  GenApp=1

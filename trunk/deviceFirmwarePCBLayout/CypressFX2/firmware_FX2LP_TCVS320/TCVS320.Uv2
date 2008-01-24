@@ -19,6 +19,7 @@ File 1,5,<C:\Cypress\USB\Target\Inc\lpregs.inc><lpregs.inc> 0x0
 File 1,5,<C:\Keil\C51\INC\Cypress\Fx2.h><Fx2.h> 0x0 
 File 1,5,<C:\Keil\C51\INC\Cypress\fx2regs.h><fx2regs.h> 0x0 
 File 1,1,<.\main.c><main.c> 0x0 
+File 1,5,<.\ports.h><ports.h> 0x0 
 
 
 Options 1,0,0  // Target 'Target 1'
@@ -36,11 +37,11 @@ Options 1,0,0  // Target 'Target 1'
  OH ()
  UseEnv=1
  EnvBin (C:\Keil\C51\BIN\)
- EnvInc (c:\CYPRESS\USB\Target\Inc\;C:\Keil\C51\INC\)
+ EnvInc (C:\Cypress\USB\Target\Inc;C:\Keil\C51\INC\)
  EnvLib (C:\Keil\C51\LIB\)
- EnvReg (ÿCypress\)
+ EnvReg (.\Cypress\)
  OrgReg (ÿCypress\)
- TgStat=9
+ TgStat=0
  OutDir (.\)
  OutName (USBAERTCVS320)
  GenApp=1
@@ -52,7 +53,7 @@ Options 1,0,0  // Target 'Target 1'
  HexSel=0
  MG32K=0
  TGMORE=0
- RunUsr 0 0 <>
+ RunUsr 0 1 <"makeHexBixCopyToJava.cmd">
  RunUsr 1 0 <>
  BrunUsr 0 0 <>
  BrunUsr 1 0 <>

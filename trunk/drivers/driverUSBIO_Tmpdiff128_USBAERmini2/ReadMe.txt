@@ -1,6 +1,7 @@
 this folder contains a customized thesycon driver for the following cypressFX2 devices:
 TmpDiff128 retina, VID 0547, PID 8700
 USBAERmini2, VID 0547, PID 8801
+TCVS320 retina, VIC 0547, PID 8702
 USBAERmapper, VID 0547, PID 8900
 Cypress Blank, VID 04B4, PID 8613
  

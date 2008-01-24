@@ -64,8 +64,8 @@ extern BOOL Selfpwr;
 #define VR_SET_POWERDOWN 0xB9 // control powerDown. wValue controls the powerDown pin. Raise high to power off, lower to power on.
 #define VR_EEPROM_BIASGEN_BYTES 0xBa // write bytes out to EEPROM for power on default
 
-#define VR_SETARRAYRESET 0xBc // set the state of the array reset
-#define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels
+//#define VR_SETARRAYRESET 0xBc // set the state of the array reset
+//#define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels. TCVS320 doesn't have this.
 
 #define BIAS_FLASH_START 9 // start of bias value (this is where number of bytes is stored
 
@@ -201,6 +201,13 @@ void TD_Init(void)              // Called once at startup
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
+
+	if(cycleCounter++>=50000){
+
+		LED=!LED;
+		//LED2=!LED2;
+		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
+	}	
    	switch (requestCommand){
 		case VR_ENABLE_AE_IN: // enable IN transfers
 			{
@@ -218,12 +225,6 @@ void TD_Poll(void)              // Called repeatedly while the device is idle
 	 
 	requestCommand = 0x00;
 	
-	if(cycleCounter++>=50000){
-
-		LED=!LED;
-		//LED2=!LED2;
-		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
-	}	
 }
 
 /*void downloadSerialNumberFromEEPROM(void)
@@ -425,13 +426,14 @@ BOOL DR_VendorCmnd(void)
 	WORD addr, len, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
 	WORD i;
 //	char *dscrRAM;
+	LED=!LED;
 
 	// we don't actually process the command here, we process it in the main loop
 	// here we just do the handshaking and ensure if it is a command that is implemented
 	switch (SETUPDAT[1]){
 		case VR_ENABLE_AE_IN: // enable IN transfers
 			{
-				break;
+				break;  // handshake phase triggered below
 			}
 		case VR_DISABLE_AE_IN: // disable IN transfers
 			{
@@ -549,6 +551,7 @@ BOOL DR_VendorCmnd(void)
 				break; // very important, otherwise get stall
 
 			}
+/* TCVS320 doesn't have global array reset */
 /*
 		case VR_SETARRAYRESET: // set array reset, based on lsb of argument
 			{
@@ -671,7 +674,6 @@ BOOL DR_VendorCmnd(void)
 			len = SETUPDAT[6];
 			len |= SETUPDAT[7] << 8;
 			// Is this an upload command ?
-			LED=!LED;
 			if(SETUPDAT[0] == VR_UPLOAD)  // this is automatically defined on host from direction of vendor request
 			{
 				while(len)					// Move requested data through EP0IN 
