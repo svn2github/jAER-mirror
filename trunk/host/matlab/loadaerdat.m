@@ -29,14 +29,41 @@ f=fopen([path,filename],'r');
 % skip header lines
 bof=ftell(f);
 line=native2unicode(fgets(f));
+tok='#!AER-DAT';
+version=0;
+
 while line(1)=='#',
+    if strncmp(line,tok, length(tok))==1,
+        version=sscanf(line(length(tok)+1:end),'%f');
+    end
     fprintf('%s\n',line(1:end-2)); % print line using \n for newline, discarding CRLF written by java under windows
     bof=ftell(f);
     line=native2unicode(fgets(f)); % gets the line including line ending chars
 end
 
+switch version,
+    case 0
+        fprintf('No #!AER-DAT version header found, assuming 16 bit addresses\n');
+        version=1;
+    case 1
+        fprintf('Addresses are 16 bit\n');
+    case 2
+        fprintf('Addresses are 32 bit\n');
+    otherwise
+        fprintf('Unknown file version %g',version);
+end
+
+numBytesPerEvent=6;
+switch(version)
+    case 1
+        numBytesPerEvent=6;
+    case 2
+        numBytesPerEvent=8;
+end
+
+        
 fseek(f,0,'eof');
-numEvents=floor((ftell(f)-bof)/6); % 6 bytes/event
+numEvents=floor((ftell(f)-bof)/numBytesPerEvent); % 6 bytes/event
 if numEvents>maxEvents, 
     fprintf('clipping to %d events although there are %d events in file\n',maxEvents,numEvents);
     numEvents=maxEvents;
@@ -44,9 +71,17 @@ end
 
 % read data
 fseek(f,bof,'bof'); % start just after header
-allAddr=uint16(fread(f,numEvents,'uint16',4,'b')); % addr are each 2 bytes (uint16) separated by 4 byte timestamps
-fseek(f,bof+2,'bof'); % timestamps start 2 after bof
-allTs=uint32(fread(f,numEvents,'uint32',2,'b')); % ts are 4 bytes (uint32) skipping 2 bytes after each
+switch version,
+    case 1
+        allAddr=uint16(fread(f,numEvents,'uint16',4,'b')); % addr are each 2 bytes (uint16) separated by 4 byte timestamps
+        fseek(f,bof+2,'bof'); % timestamps start 2 after bof
+        allTs=uint32(fread(f,numEvents,'uint32',2,'b')); % ts are 4 bytes (uint32) skipping 2 bytes after each
+    case 2
+        allAddr=uint32(fread(f,numEvents,'uint32',4,'b')); % addr are each 4 bytes (uint32) separated by 4 byte timestamps
+        fseek(f,bof+4,'bof'); % timestamps start 4 after bof
+        allTs=uint32(fread(f,numEvents,'uint32',4,'b')); % ts are 4 bytes (uint32) skipping 4 bytes after each
+end
+
 fclose(f);
 
 if nargout==0,
