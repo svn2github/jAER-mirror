@@ -319,6 +319,7 @@ void xsvfTmsTransition( short sTms )
     setPort( TMS, sTms );
     setPort( TCK, 0 );
     setPort( TCK, 1 );
+//	setPort( TCK, 0 );
 }
 
 /*****************************************************************************
@@ -343,17 +344,19 @@ int xsvfGotoTapState( unsigned char*   pucTapState,
     iErrorCode  = XSVF_ERROR_NONE;
     if ( ucTargetState == XTAPSTATE_RESET )
     {
+		for (i=0; i<2000;i++)
+					{
+						
+					};
         /* If RESET, always perform TMS reset sequence to reset/sync TAPs */
         xsvfTmsTransition( 1 );
-        for ( i = 0; i < 5; ++i )
+        
+		for ( i = 0; i < 5; ++i )
         {
             setPort( TCK, 0 );
             setPort( TCK, 1 );
         }
         *pucTapState    = XTAPSTATE_RESET;
-        XSVFDBG_PRINTF( 3, "   TMS Reset Sequence -> Test-Logic-Reset\n" );
-        XSVFDBG_PRINTF1( 3, "   TAP State = %s\n",
-                         xsvf_pzTapState[ *pucTapState ] );
     }
     else if ( ( ucTargetState != *pucTapState ) &&
               ( ( ( ucTargetState == XTAPSTATE_EXIT2DR ) && ( *pucTapState != XTAPSTATE_PAUSEDR ) ) ||
@@ -606,6 +609,7 @@ void xsvfShiftOnly( long    lNumBits,
 
             /* Set TCK high */
             setPort( TCK, 1 );
+			//setPort( TCK, 0 );
         }
 
         /* Save the TDO byte value */

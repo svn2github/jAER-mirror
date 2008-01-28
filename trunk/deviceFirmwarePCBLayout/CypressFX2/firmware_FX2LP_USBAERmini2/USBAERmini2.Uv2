@@ -43,7 +43,7 @@ Options 1,0,0  // Target 'Target 1'
  GenLib=0
  GenHex=1
  Debug=1
- Browse=0
+ Browse=1
  LstDir (.\)
  HexSel=0
  MG32K=0
@@ -55,7 +55,7 @@ Options 1,0,0  // Target 'Target 1'
  SVCSID <>
  MODEL5=0
  RTOS5=0
- ROMSZ5=2
+ ROMSZ5=1
  DHOLD5=0
  XHOLD5=0
  T51FL=312

@@ -24,12 +24,11 @@ extern BOOL Selfpwr;
 
 //WORD packetSize;
 
-#define CPLD_NOT_RESET 			PC0
-#define RESET_TS				PC6
-#define MONITOR 				PC7
-#define TIMESTAMP_MASTER 		PC4
-#define CFG_TIMESTAMP_COUNTER 	PC3
-#define TIMESTAMP_MODE			PC2
+#define CPLD_NOT_RESET 			PA3
+#define RESET_TS				PC0
+#define TIMESTAMP_MASTER 		PC1
+#define CFG_TIMESTAMP_COUNTER 	PC2
+#define TIMESTAMP_MODE			PC3
 
 //sbit arrayReset=IOA^1;	// arrayReset=0 to reset all pixels
 #define arrayReset 0x60 // 0110_0000 for both retinas
@@ -76,7 +75,6 @@ extern BOOL Selfpwr;
 
 #define EP0BUFF_SIZE	0x40
 
-BOOL monitorRunning;
 BYTE operationMode;
 
 BYTE requestCommand;
@@ -108,6 +106,7 @@ void TD_Init(void)              // Called once at startup
 {  
 	// set the CPU clock to 48MHz
 	CPUCS = ((CPUCS & ~bmCLKSPD) | bmCLKSPD1) ;
+	CPUCS = CPUCS & 0xFD ; // 1111_1101
 
 	// set the slave FIFO interface to 30MHz, slave fifo mode
 	IFCONFIG = 0xA3; // 1010_0011
@@ -175,7 +174,6 @@ void TD_Init(void)              // Called once at startup
 	IOC = 0x02; // do not set it to 0x00, stops working, but i don't know why....
 
 	// initialize variables
-	monitorRunning = FALSE;
 	operationMode=0;
 
 	requestCommand = 0x00;
@@ -249,26 +247,12 @@ void TD_Poll(void)              // Called repeatedly while the device is idle
 
 void startMonitor(void)
 {
-	//start monitor state machine
-	monitorRunning = TRUE;
-	MONITOR=1;
 
     CPLD_NOT_RESET=1;
 }
 
 void stopMonitor(void)
 {
-  	monitorRunning = FALSE;
-  	MONITOR=0;
-
-	_nop_(); // wait, so CPLD can finish the last transaction
-	_nop_();
-	_nop_();
-	_nop_();
-	_nop_();
-	_nop_();
-	_nop_();
-	_nop_();
 
     CPLD_NOT_RESET=0;
 

@@ -176,7 +176,9 @@ void TD_Init(void)              // Called once at startup
 
 	//enable Port C as output, except timestamp_master pin (4)
 	OEC = 0xEF; // 1110_1111
-	OEE = 0x0F; // float JTAG pins  
+	OEE = 0xDF;  //OEE = 0x0F; // float JTAG pins  
+	IOE = 0xFF;
+
 	OEA = 0x88; // configure remaining two pins as output to avoid floating inputs: 1000_1000
 
 	// hold CPLD in reset and configure 
@@ -526,9 +528,13 @@ BOOL DR_VendorCmnd(void)
 			{
 				if (JTAGinit)
 				{
-					OEE = 0xBF;   // configure only TDO as input (bit 6) : 1011_1111
+					//IOE=0x00;
+					//OEE = 0xDF;   // configure only TDO as input (bit 5) : 1101_1111
+					IOE=0xFF;
+					IOE=0x00;
 					xsvfInitialize();
 					JTAGinit=FALSE;
+					
 				}
 
 				len = SETUPDAT[6];
@@ -558,7 +564,7 @@ BOOL DR_VendorCmnd(void)
 
 				if (SETUPDAT[2]==0x00) //complete
 				{
-					OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
+				//	OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
 					JTAGinit=TRUE;
 				} else
 				{

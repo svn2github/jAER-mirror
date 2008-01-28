@@ -10,10 +10,15 @@
 /* these constants are used to send the appropriate ports to setPort */
 /* they should be enumerated types, but some of the microcontroller  */
 /* compilers don't like enumerated types */
-#define TCK (unsigned char) 0x7F // 0111_1111
-#define pTDO  0x40 // 
-#define TDI (unsigned char) 0xDF // 1101_1111
-#define TMS (unsigned char) 0xEF // 1110_1111
+#define TCK (unsigned char) 0x10 // 1110_1111
+#define pTDO  0x20 // 
+#define TDI (unsigned char) 0x40 // 1011_1111
+#define TMS (unsigned char) 0x80 // 0111_1111
+
+#define TCKshift 4
+#define TDOshift 5
+#define TDIshift 6
+#define TMSshift 7
 
 /* set the port "p" (TCK, TMS, or TDI) to val (0 or 1) */
 extern void setPort(unsigned char p, short val);

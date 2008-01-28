@@ -15,16 +15,13 @@ sfr IOE     = 0xB1;
 
 void setPort(unsigned char p , short val)
 {
-		if (p==TCK)
-		{
-        	IOE = (IOE & p ) | (val << 7);
-		} else if (p==TDI)
-		{
-			IOE = (IOE & p ) | (val << 5);
-		} else if (p==TMS)
-		{
-			IOE = (IOE & p ) | (val << 4);
-		}
+	if (val==0)
+	{
+		IOE= IOE & ~p;
+	} else 
+	{
+		IOE= IOE | p;
+	}
 }
 
 
@@ -53,7 +50,7 @@ void resetReadCounter( unsigned char *dataArray)
 /* read the TDO bit from port */
 unsigned char readTDOBit()
 {
-	return  (IOE & pTDO) >> 6; 
+	return  (IOE & pTDO) >> TDOshift; 
 }
 
 
@@ -65,7 +62,7 @@ void waitTime(int cnt)
 {											    
     int        i;
 
-    for ( i = 0; i < cnt; ++i )
+    for ( i = 0; i < cnt/2; ++i )
     {
         pulseClock();
     }
