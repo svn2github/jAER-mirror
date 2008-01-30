@@ -30,13 +30,9 @@ extern BOOL Selfpwr;
 #define CFG_TIMESTAMP_COUNTER 	PC2
 #define TIMESTAMP_MODE			PC3
 
-//sbit arrayReset=IOA^1;	// arrayReset=0 to reset all pixels
-#define arrayReset 0x60 // 0110_0000 for both retinas
-
 #define DB_Addr 1 // zero if only one byte address is needed for EEPROM, one if two byte address
 
 #define LED 	PA7
-#define LED2	PC5
 
 #define EEPROM_SIZE 0x4000
 //#define MAX_NAME_LENGTH 8
@@ -152,7 +148,7 @@ void TD_Init(void)              // Called once at startup
 	SYNCDELAY;
 	EP6FIFOCFG = 0x09 ; //0000_1001
 
-	//set FIFO flag configuration: FlagA: EP2 empty, FlagB: EP6 full, flagC and D unused
+	//set FIFO flag configuration: FlagB: EP6 full, flagC and D unused
 	SYNCDELAY;
 	PINFLAGSAB = 0xE8; // 1110_1000
 
@@ -160,18 +156,19 @@ void TD_Init(void)              // Called once at startup
 	SYNCDELAY;
 	PORTCCFG = 0x00;
 	SYNCDELAY;
-	PORTACFG = 0x03; // use interrupts 0 and 1
+	PORTACFG = 0x00; // do not use interrupts 0 and 1
 	SYNCDELAY;
 	PORTECFG = 0x00;
 
-	//enable Port C as output, except timestamp_master pin (4)
-	OEC = 0xEF; // 1110_1111
+	
+	OEC = 0x0D; // 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
 	OEE = 0xFE; // 1111_1110 configure only bit 0 (BitOut) as output
-	OEA = 0x88; // configure remaining two pins as output to avoid floating inputs: 1000_1000
+	OEA = 0x88; // PA3: NotResetCPLD ;  PA7 LED
 
 	// hold CPLD in reset and configure 
 	// TimestampCounter to 1 us Tick (0): 0000_0000
-	IOC = 0x02; // do not set it to 0x00, stops working, but i don't know why....
+	IOC = 0x00; 
+	IOA = 0x00;
 
 	// initialize variables
 	operationMode=0;
@@ -181,12 +178,11 @@ void TD_Init(void)              // Called once at startup
 	cycleCounter=0;
 	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
 	LED=0;
-	LED2=0;
 
 	biasInit();	// init biasgen ports and pins
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
 
-	IOE|=arrayReset;	// un-reset all the pixels
+//	IOE|=arrayReset;	// un-reset all the pixels
 	
   	IT0=1;		// make INT0# edge-sensitive
 	EX0=1;		// enable INT0# (this interrupt is used to signal to the host to reset WrapAdd)
@@ -202,8 +198,8 @@ void TD_Poll(void)              // Called repeatedly while the device is idle
 
 	if(cycleCounter++>=50000){
 
-		LED=!LED;
-		//LED2=!LED2;
+	//	LED=!LED;
+	
 		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
 	}	
    	switch (requestCommand){
@@ -247,7 +243,7 @@ void TD_Poll(void)              // Called repeatedly while the device is idle
 
 void startMonitor(void)
 {
-
+LED=1;
     CPLD_NOT_RESET=1;
 }
 
@@ -255,7 +251,7 @@ void stopMonitor(void)
 {
 
     CPLD_NOT_RESET=0;
-
+LED=0;
   	// force last paket
   	
   	EP6FIFOCFG = 0x01; //0000_0001 disable auto-in
@@ -735,9 +731,9 @@ BOOL DR_VendorCmnd(void)
 	return(FALSE);
 }
 
-
-// RESET HOST TIMESTAMP INTERRUPT
-void ISR_TSReset(void) interrupt 3 {
+// no interrupts are used for TCVS320
+// RESET HOST TIMESTAMP INTERRUPT not used
+/*void ISR_TSReset(void) interrupt 3 {
 	LED=0;
 	
 	SYNCDELAY; // reset fifos to delete events with the old timestamps
@@ -765,7 +761,7 @@ void ISR_TSReset(void) interrupt 3 {
 
 void ISR_MissedEvent(void) interrupt 3 {	
 	missedEvents++;
-}
+}*/
 
 //-----------------------------------------------------------------------------
 // USB Interrupt Handlers
