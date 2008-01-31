@@ -162,7 +162,7 @@ void TD_Init(void)              // Called once at startup
 
 	
 	OEC = 0x0D; // 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
-	OEE = 0xFE; // 1111_1110 configure only bit 0 (BitOut) as output
+	OEE = 0xFE; // 1111_1110 configure only bit 0 (BitOut) as input
 	OEA = 0x88; // PA3: NotResetCPLD ;  PA7 LED
 
 	// hold CPLD in reset and configure 
