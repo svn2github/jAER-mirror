@@ -73,8 +73,6 @@ extern BOOL Selfpwr;
 
 BYTE operationMode;
 
-BYTE requestCommand;
-
 xdata unsigned int numBiasBytes; // number of bias bytes saved
 xdata unsigned char biasBytes[255]; // bias bytes values saved here
 
@@ -169,11 +167,10 @@ void TD_Init(void)              // Called once at startup
 	// TimestampCounter to 1 us Tick (0): 0000_0000
 	IOC = 0x00; 
 	IOA = 0x00;
+	IOE=  0x10;          //set BiasClock high 
 
 	// initialize variables
 	operationMode=0;
-
-	requestCommand = 0x00;
 
 	cycleCounter=0;
 	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
@@ -190,35 +187,16 @@ void TD_Init(void)              // Called once at startup
 	IT1=1; // INT1# edge-sensitve
 	EX1=1; // enable INT1#
 
-	startMonitor();
+	//startMonitor();
 }
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
 
 	if(cycleCounter++>=50000){
-
-	//	LED=!LED;
-	
+		LED=!LED;	
 		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
-	}	
-   	switch (requestCommand){
-		case VR_ENABLE_AE_IN: // enable IN transfers
-			{
-				startMonitor();
-
-				break;
-			}
-		case VR_DISABLE_AE_IN: // disable IN transfers
-			{
-				stopMonitor();
-
-				break;
-			}
-	}
-	 
-	requestCommand = 0x00;
-	
+	}		
 }
 
 /*void downloadSerialNumberFromEEPROM(void)
@@ -243,15 +221,13 @@ void TD_Poll(void)              // Called repeatedly while the device is idle
 
 void startMonitor(void)
 {
-LED=1;
     CPLD_NOT_RESET=1;
 }
 
 void stopMonitor(void)
 {
-
     CPLD_NOT_RESET=0;
-LED=0;
+
   	// force last paket
   	
   	EP6FIFOCFG = 0x01; //0000_0001 disable auto-in
@@ -406,17 +382,18 @@ BOOL DR_VendorCmnd(void)
 	WORD addr, len, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
 	WORD i;
 //	char *dscrRAM;
-	LED=!LED;
 
 	// we don't actually process the command here, we process it in the main loop
 	// here we just do the handshaking and ensure if it is a command that is implemented
 	switch (SETUPDAT[1]){
 		case VR_ENABLE_AE_IN: // enable IN transfers
 			{
+				startMonitor();
 				break;  // handshake phase triggered below
 			}
 		case VR_DISABLE_AE_IN: // disable IN transfers
 			{
+				stopMonitor();
 				break;
 			}
 		case VR_RESET_FIFOS: // reset in and out fifo
@@ -720,8 +697,6 @@ BOOL DR_VendorCmnd(void)
 			return(TRUE);
 		}
 	}
-
-	requestCommand=SETUPDAT[1];
 
 	*EP0BUF = SETUPDAT[1];
 	EP0BCH = 0;

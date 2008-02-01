@@ -32,31 +32,28 @@ rseg ?PR?SPIWRITEBYTE?MODULE
 ; this is DATA location of SFR for port E
 sfr IOE     = 0xB1;
 ;; port E bits are NOT bit addressable, so we need to read, AND, and then write the port
-;CLKBIT BIT IOE.2; this is biasClock on PA2
-;DATABIT BIT IOE.3 ; this is biasBitIn on PA3
-
 
 ; ends with leaving clock in a polarity that may matter for biasgen sivillotti shift registers
 
 _spiwritebyte:
 
 mov R6, #8 ;set up loop for 8 bits
-mov A, #11100111b
+mov A, #11100111b      ; mask to set biasbit and clock low
 anl A, IOE
 mov R1, A
-mov A, #00001000b
+mov A, #00001000b     ; mask to set biasbit high
 orl A, IOE
 mov R2, A
-mov A, #11101111b
+mov A, #11101111b   ; clock mask to set clock low
 anl A, R2
 mov R2, A
-mov A, #00010000b
+mov A, #00010000b   ; clock mask to set clock high
 orl A, IOE
 mov R3, A
-mov A, #11110111b
+mov A, #11110111b   ; mask to set biasbit low 
 anl A, R3
 mov R3, A
-mov A, #00011000b
+mov A, #00011000b   ; mask to clock and biasbit high
 orl A, IOE
 mov R4, A    
 loop:
@@ -65,30 +62,30 @@ rlc A ;rotate left through carry
 mov R7, A ;save rotated for later
 jc highbit ;if carry bit is high jump (jump if carry bit (msb) is set)
 ; bit is low
-mov IOE, R1 ; data bit=0 and clock=0  ;  clr DATABIT
+mov IOE, R3 ; data bit=0 and clock=1  ;  clr DATABIT
 nop
 nop
 nop
 nop
-mov IOE, R3  ;setb CLKBIT
+mov IOE, R1  ; clr CLKBIT
 nop
 nop
 nop
 nop
-mov IOE, R1 ; databit=1, clock=0   ;clr CLKBIT
+mov IOE, R3 ; databit=0, clock=1   ;clr CLKBIT
 sjmp skip ;skip setting bit high
 highbit:
-mov IOE, R2 ; databit=1, clock=0 ;setb DATABIT 
+mov IOE, R4 ; databit=1, clock=1 ;setb DATABIT 
 nop
 nop
 nop
 nop
-mov IOE, R4  ;setb CLKBIT
+mov IOE, R2  ;clr CLKBIT
 nop
 nop
 nop
 nop
-mov IOE, R2 ; databit=1, clock=0   ;clr CLKBIT
+mov IOE, R4 ; databit=1, clock=1   ;clr CLKBIT
 skip:
 nop ;may need this to stretch clock high time
 nop

@@ -23,97 +23,97 @@
                     <entry key="RepetitiousFilter.filterEnabled" value="false"/>
                     <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
                     <entry key="SubSampler.filterEnabled" value="false"/>
-                    <entry key="TCVS320.ConfigurableIPot.Pr.BitValue" value="292"/>
+                    <entry key="TCVS320.ConfigurableIPot.Pr.BitValue" value="10"/>
                     <entry key="TCVS320.ConfigurableIPot.Pr.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.Pr.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.Pr.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.Pr.Sex" value="P"/>
                     <entry key="TCVS320.ConfigurableIPot.Pr.Type" value="NORMAL"/>
-                    <entry key="TCVS320.ConfigurableIPot.foll.BitValue" value="32160"/>
+                    <entry key="TCVS320.ConfigurableIPot.foll.BitValue" value="32"/>
                     <entry key="TCVS320.ConfigurableIPot.foll.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.foll.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.foll.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.foll.Sex" value="P"/>
                     <entry key="TCVS320.ConfigurableIPot.foll.Type" value="NORMAL"/>
-                    <entry key="TCVS320.ConfigurableIPot.diff.BitValue" value="845"/>
+                    <entry key="TCVS320.ConfigurableIPot.diff.BitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.diff.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.diff.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.diff.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.diff.Sex" value="N"/>
                     <entry key="TCVS320.ConfigurableIPot.diff.Type" value="NORMAL"/>
-                    <entry key="TCVS320.ConfigurableIPot.diffOn.BitValue" value="8068"/>
+                    <entry key="TCVS320.ConfigurableIPot.diffOn.BitValue" value="2048"/>
                     <entry key="TCVS320.ConfigurableIPot.diffOn.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.diffOn.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.diffOn.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.diffOn.Sex" value="N"/>
                     <entry key="TCVS320.ConfigurableIPot.diffOn.Type" value="NORMAL"/>
-                    <entry key="TCVS320.ConfigurableIPot.diffOff.BitValue" value="2209"/>
+                    <entry key="TCVS320.ConfigurableIPot.diffOff.BitValue" value="21"/>
                     <entry key="TCVS320.ConfigurableIPot.diffOff.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.diffOff.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.diffOff.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.diffOff.Sex" value="N"/>
                     <entry key="TCVS320.ConfigurableIPot.diffOff.Type" value="NORMAL"/>
-                    <entry key="TCVS320.ConfigurableIPot.cas.BitValue" value="949"/>
+                    <entry key="TCVS320.ConfigurableIPot.cas.BitValue" value="955"/>
                     <entry key="TCVS320.ConfigurableIPot.cas.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.cas.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.cas.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.cas.Sex" value="N"/>
                     <entry key="TCVS320.ConfigurableIPot.cas.Type" value="CASCODE"/>
-                    <entry key="TCVS320.ConfigurableIPot.refr.BitValue" value="1164"/>
+                    <entry key="TCVS320.ConfigurableIPot.refr.BitValue" value="8"/>
                     <entry key="TCVS320.ConfigurableIPot.refr.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.refr.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.refr.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.refr.Sex" value="P"/>
                     <entry key="TCVS320.ConfigurableIPot.refr.Type" value="NORMAL"/>
-                    <entry key="TCVS320.ConfigurableIPot.bulk.BitValue" value="5857"/>
+                    <entry key="TCVS320.ConfigurableIPot.bulk.BitValue" value="339"/>
                     <entry key="TCVS320.ConfigurableIPot.bulk.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.bulk.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.bulk.LowCurrent" value="false"/>
-                    <entry key="TCVS320.ConfigurableIPot.bulk.Sex" value="P"/>
+                    <entry key="TCVS320.ConfigurableIPot.bulk.Sex" value="N"/>
                     <entry key="TCVS320.ConfigurableIPot.bulk.Type" value="CASCODE"/>
-                    <entry key="TCVS320.ConfigurableIPot.puY.BitValue" value="3785"/>
+                    <entry key="TCVS320.ConfigurableIPot.puY.BitValue" value="29"/>
                     <entry key="TCVS320.ConfigurableIPot.puY.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.puY.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.puY.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.puY.Sex" value="P"/>
                     <entry key="TCVS320.ConfigurableIPot.puY.Type" value="NORMAL"/>
-                    <entry key="TCVS320.ConfigurableIPot.puX.BitValue" value="12305"/>
+                    <entry key="TCVS320.ConfigurableIPot.puX.BitValue" value="10"/>
                     <entry key="TCVS320.ConfigurableIPot.puX.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.puX.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.puX.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.puX.Sex" value="P"/>
                     <entry key="TCVS320.ConfigurableIPot.puX.Type" value="NORMAL"/>
-                    <entry key="TCVS320.ConfigurableIPot.pdY.BitValue" value="68556"/>
+                    <entry key="TCVS320.ConfigurableIPot.pdY.BitValue" value="218"/>
                     <entry key="TCVS320.ConfigurableIPot.pdY.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.pdY.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.pdY.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.pdY.Sex" value="N"/>
                     <entry key="TCVS320.ConfigurableIPot.pdY.Type" value="NORMAL"/>
-                    <entry key="TCVS320.ConfigurableIPot.puReq.BitValue" value="1603"/>
+                    <entry key="TCVS320.ConfigurableIPot.puReq.BitValue" value="29"/>
                     <entry key="TCVS320.ConfigurableIPot.puReq.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.puReq.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.puReq.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.puReq.Sex" value="P"/>
                     <entry key="TCVS320.ConfigurableIPot.puReq.Type" value="NORMAL"/>
-                    <entry key="TCVS320.ConfigurableIPot.pdX.BitValue" value="2209"/>
+                    <entry key="TCVS320.ConfigurableIPot.pdX.BitValue" value="21"/>
                     <entry key="TCVS320.ConfigurableIPot.pdX.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.pdX.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.pdX.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.pdX.Sex" value="N"/>
                     <entry key="TCVS320.ConfigurableIPot.pdX.Type" value="NORMAL"/>
-                    <entry key="TCVS320.ConfigurableIPot.IFThr.BitValue" value="1802"/>
+                    <entry key="TCVS320.ConfigurableIPot.IFThr.BitValue" value="124"/>
                     <entry key="TCVS320.ConfigurableIPot.IFThr.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.IFThr.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.IFThr.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.IFThr.Sex" value="N"/>
                     <entry key="TCVS320.ConfigurableIPot.IFThr.Type" value="NORMAL"/>
-                    <entry key="TCVS320.ConfigurableIPot.padFoll.BitValue" value="3418"/>
+                    <entry key="TCVS320.ConfigurableIPot.padFoll.BitValue" value="140"/>
                     <entry key="TCVS320.ConfigurableIPot.padFoll.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.padFoll.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.padFoll.LowCurrent" value="false"/>
                     <entry key="TCVS320.ConfigurableIPot.padFoll.Sex" value="N"/>
                     <entry key="TCVS320.ConfigurableIPot.padFoll.Type" value="NORMAL"/>
-                    <entry key="TCVS320.ConfigurableIPot.aePdLimit.BitValue" value="554"/>
+                    <entry key="TCVS320.ConfigurableIPot.aePdLimit.BitValue" value="552"/>
                     <entry key="TCVS320.ConfigurableIPot.aePdLimit.BufferBitValue" value="63"/>
                     <entry key="TCVS320.ConfigurableIPot.aePdLimit.Enabled" value="true"/>
                     <entry key="TCVS320.ConfigurableIPot.aePdLimit.LowCurrent" value="false"/>
