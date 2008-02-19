@@ -11,6 +11,9 @@
 #include "fx2regs.h"
 #include "syncdly.h"            // SYNCDELAY macro
 
+#include "micro.h" // jtag stuff
+#include "ports.h"
+
 extern BOOL GotSUD;             // Received setup data flag
 //extern BOOL Sleep;
 extern BOOL Rwuen;
@@ -32,11 +35,6 @@ extern BOOL Selfpwr;
 #define DB_Addr 1 // zero if only one byte address is needed for EEPROM, one if two byte address
 
 #define LED PA7
-
-#define TCK 0x80
-#define TDO 0x40
-#define TDI 0x20
-#define TMS 0x10
 
 #define EEPROM_SIZE 0x4000
 #define MAX_NAME_LENGTH 8
@@ -72,6 +70,8 @@ BOOL monitorRunning;
 BOOL synthesizerRunning;
 BYTE operationMode;
 
+BOOL JTAGinit;
+
 long cycleCounter;
 long missedEvents;
 
@@ -81,6 +81,7 @@ void startSequencer(void);
 void startMonitor(void);
 void stopMonitor(void);
 void stopSequencer(void);
+void configTimestampCounter(void);
 
 void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf);
 void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf);
@@ -105,7 +106,7 @@ void TD_Init(void)              // Called once at startup
 	IE &= 0x00; // 0000_0000 
 
 	// disable interrupt pins 4, 5 and 6
-	EIE &= 0xE3; // 1110_0011;  // enable I2C and USB interrupts
+	EIE &= 0xE3; // 1110_0011; //  TODO: disable interrupt 3 (reset timestamps)
 
 	// Registers which require a synchronization delay, see section 15.14
 	// FIFORESET        FIFOPINPOLAR
@@ -175,7 +176,9 @@ void TD_Init(void)              // Called once at startup
 
 	//enable Port C as output, except timestamp_master pin (4)
 	OEC = 0xEF; // 1110_1111
-	OEE = 0xFF; //configure all as output at the moment // configure only TDO as input (bit 6) : 1011_1111
+	OEE = 0xDF;  //OEE = 0x0F; // float JTAG pins  
+	IOE = 0xFF;
+
 	OEA = 0x88; // configure remaining two pins as output to avoid floating inputs: 1000_1000
 
 	// hold CPLD in reset and configure 
@@ -187,21 +190,20 @@ void TD_Init(void)              // Called once at startup
 	synthesizerRunning = FALSE;
 	operationMode=0;
 
+	JTAGinit=TRUE;
+
 	cycleCounter=0;
 	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
 	LED=1;
 
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
 
-//  	IT0=1;		// make INT0# edge-sensitive
-//	EX0=1;		// enable INT0# (this interrupt is used to signal to the host to reset WrapAdd)
-
 	IT1=1; // INT1# edge-sensitve
-	EX1=1; // enable INT1# used for missed events
+	EX1=1; // enable INT1#
 }
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
-{ 		
+{ 	
 	if(cycleCounter++>=50000){
 
 		LED=!LED;
@@ -215,10 +217,7 @@ void startSequencer(void)
   synthesizerRunning = TRUE;
   SYNTHESIZER = 1;
 
-  if (!monitorRunning) // if CPLD is not running yet, start it now
-    {
-      CPLD_NOT_RESET = 1;
-    }
+  CPLD_NOT_RESET = 1; 
 }
 
 void downloadSerialNumberFromEEPROM(void)
@@ -247,10 +246,7 @@ void startMonitor(void)
 	monitorRunning = TRUE;
 	MONITOR=1;
 
-	if (!synthesizerRunning) // if CPLD is not running yet, start it now
-    {
-      CPLD_NOT_RESET=1;
-    }
+    CPLD_NOT_RESET=1;
 }
 
 void stopMonitor(void)
@@ -259,9 +255,6 @@ void stopMonitor(void)
   	MONITOR=0;
 
 	_nop_(); // wait, so CPLD can finish the last transaction
-	_nop_();
-	_nop_();
-	_nop_();
 	_nop_();
 	_nop_();
 	_nop_();
@@ -301,9 +294,6 @@ void stopSequencer(void)
 	SYNTHESIZER=0;
 
 	_nop_(); // wait, so CPLD can finish the last transaction
-	_nop_();
-	_nop_();
-	_nop_();
 	_nop_();
 	_nop_();
 	_nop_();
@@ -440,21 +430,6 @@ BOOL DR_GetInterface(void)       // Called when a Set Interface command is recei
    return(TRUE);            // Handled by user code
 }
 
-/*BOOL DR_GetStatus(void)
-{
-   return(TRUE);
-}
-
-BOOL DR_ClearFeature(void)
-{
-   return(TRUE);
-}
-
-BOOL DR_SetFeature(void)
-{
-   return(TRUE);
-}*/
-
 // the SETUPDAT array has the following 8 elements (see FX2 TRM Section 2.3)
 //SETUPDAT[0] VendorRequest 0x40 for OUT type, 0xC0 for IN type
 //SETUPDAT[1] The actual vendor request (e.g. VR_ENABLE_AE_IN below)
@@ -470,11 +445,12 @@ BOOL DR_VendorCmnd(void)
 	WORD addr, len, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
 	WORD i;
 	char *dscrRAM;
+	unsigned char xdata JTAGdata[180];
 
-	
 	switch (SETUPDAT[1]){
 		case VR_ENABLE_AE_IN: // enable IN transfers
 			{
+				
 				startMonitor();
 				break;
 			}
@@ -495,44 +471,14 @@ BOOL DR_VendorCmnd(void)
 			}
 		case VR_ENABLE_AE: // enable IN transfers
 			{
-				startMonitor();
 				startSequencer();
+				startMonitor();
 				break;
 			}
 		case VR_DISABLE_AE: // disable IN transfers
 			{
-				stopSequencer();
 				stopMonitor();
-				break;
-			}
-		case VR_RESET_FIFOS: // reset in and out fifo
-			{
-				SYNCDELAY;
-				EP2FIFOCFG = 0x01; //0000_0001  disable auto-in
-				SYNCDELAY;
-				EP6FIFOCFG = 0x01; //0000_0001  disable auto-in
-				SYNCDELAY;
-				FIFORESET = 0x80;
-				SYNCDELAY;
-				FIFORESET = 0x02;
-				SYNCDELAY;
-				FIFORESET = 0x06;
-				SYNCDELAY;
-				FIFORESET = 0x00;
-
-				SYNCDELAY;
-				OUTPKTEND = 0x82;
-				SYNCDELAY;
-				OUTPKTEND = 0x82;
-				SYNCDELAY;
-				OUTPKTEND = 0x82;
-				SYNCDELAY;
-				OUTPKTEND = 0x82;
-
-				SYNCDELAY;
-				EP2FIFOCFG = 0x11; //0001_0001 reenable auto-in
-				SYNCDELAY;
-				EP6FIFOCFG = 0x09 ; //0000_1001 reenable auto-in
+				stopSequencer();
 				break;
 			}
 		case VR_SET_DEVICE_NAME:
@@ -578,10 +524,60 @@ BOOL DR_VendorCmnd(void)
 
 				break;
 			}
-	/*	case VR_DOWNLOAD_CPLD_CODE:
+		case VR_DOWNLOAD_CPLD_CODE:
 			{
+				if (JTAGinit)
+				{
+					//IOE=0x00;
+					//OEE = 0xDF;   // configure only TDO as input (bit 5) : 1101_1111
+					IOE=0xFF;
+					IOE=0x00;
+					xsvfInitialize();
+					JTAGinit=FALSE;
+					
+				}
+
+				len = SETUPDAT[6];
+				len |= SETUPDAT[7] << 8;
+
+				addr=0;
+
+				while(len)					// Move new data through EP0OUT 
+				{							// one packet at a time.
+					// Arm endpoint - do it here to clear (after sud avail)
+					EP0BCH = 0;
+					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+
+					while(EP0CS & bmEPBUSY);
+
+					bc = EP0BCL; // Get the new bytecount
+
+					for(i=0; i<bc; i++)
+							JTAGdata[addr+i] = EP0BUF[i];							
+
+					addr += bc;
+					len -= bc;
+				}
+
+				resetReadCounter(JTAGdata);
+			
+
+				if (SETUPDAT[2]==0x00) //complete
+				{
+				//	OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
+					JTAGinit=TRUE;
+				} else
+				{
+					if (xsvfRun()) // returns true if error
+					{
+						OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
+						JTAGinit=TRUE;
+						return TRUE;
+					}
+				}
+	
 				break;
-			} */
+			} 
 		case VR_TIMESTAMP_TICK:
 			{
 				if (SETUPDAT[0]==VR_UPLOAD) //1010_0000 :vendor request to device, direction IN
@@ -807,6 +803,8 @@ void ISR_Highspeed(void) interrupt 0
    EZUSB_IRQ_CLEAR();
    USBIRQ = bmHSGRANT;
 }
+
+
 void ISR_Ep0ack(void) interrupt 0
 {
 }
@@ -914,4 +912,4 @@ void ISR_GpifComplete(void) interrupt 0
 }
 void ISR_GpifWaveform(void) interrupt 0
 {
-}
+} 
