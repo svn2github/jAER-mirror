@@ -1,2 +1,0 @@
-xst -ise "D:/VHDL/USBAER/USBmini/USBmini" -intstyle ise -ifn USBAER_top_level_old.xst -ofn USBAER_top_level_old.syr
-xst -ise "D:/VHDL/USBAER/USBmini/USBmini" -intstyle ise -ifn USBAER_top_level_old.xst -ofn USBAER_top_level_old.syr
