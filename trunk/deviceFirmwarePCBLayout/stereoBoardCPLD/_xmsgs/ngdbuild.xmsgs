@@ -5,4 +5,8 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
+<msg type="warning" file="NgdBuild" num="486" delta="unknown" >Attribute &quot;<arg fmt="%s" index="1">SLEW</arg>&quot; is not allowed on symbol &quot;<arg fmt="%s" index="2">AERMonitorREQxABI2</arg>&quot; of type &quot;<arg fmt="%s" index="3">IPAD</arg>&quot;.  This attribute will be ignored.
+</msg>
+
 </messages>
+

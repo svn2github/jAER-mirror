@@ -1,7 +1,7 @@
-Release 8.1i - Fit I.24
+Release 8.1i - Fit J.39
 Copyright(c) 1995-2003 Xilinx Inc. All rights reserved
 
- 2- 1-2007 11:45AM
+ 2-25-2008  2:26PM
 
 NOTE: This file is designed to be imported into a spreadsheet program
 such as Microsoft Excel for viewing, printing and sorting. The pipe '|'
@@ -45,7 +45,7 @@ P24|AERMonitorAddressxDI<9>|I|I/O/CDR|INPUT|LVCMOS33|1||FAST||||
 P25|GND||GND||||||||||
 P26||VCC|VCC||||||||||
 P27|AERMonitorAddressxDI<6>|I|I/O/GCK2|INPUT|LVCMOS33|1||FAST||||
-P28|AERMonitorAddressxDI<10>|I|I/O/DGE|INPUT|LVCMOS33|1||FAST||||
+P28|AERMonitorAddressxDI<10>|I|I/O/DGE0|INPUT|LVCMOS33|1||FAST||||
 P29|AERMonitorAddressxDI<5>|I|I/O|INPUT|LVCMOS33|1||FAST||||
 P30|AERMonitorAddressxDI<11>|I|I/O|INPUT|LVCMOS33|1||FAST||||
 P31|GND||GND||||||||||
@@ -102,7 +102,7 @@ P81|FifoDataxDIO<8>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
 P82|FifoPktEndxSBO|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
 P83|TDO||TDO||||||||||
 P84|GND||GND||||||||||
-P85|FifoAddressxDO<1>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P85|FifoAddressxDO<1>|O|I/O/DGE1|OUTPUT|LVCMOS33|2||FAST||||
 P86|FifoAddressxDO<0>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
 P87|FifoOutputEnablexEBO|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
 P88||VCCIO-3.3|VCCIO|||2|||||||

@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE document SYSTEM 'file:///C:/Programme/Xilinx/chipviewer/data/xsl/buildXML.dtd'>
+<!DOCTYPE document SYSTEM 'file:///C:/Xilinx92i/chipviewer/data/xsl/buildXML.dtd'>
 
 <document>
 <design name='USBAER_top_level'/>
 <rptdir name='USBAER_top_level'/>
-<xilinx path='C:/Programme/Xilinx;'/>
-<projDir path='D:\VHDL\USBAER\USBmini_stereo'/>
+<xilinx path='C:/Xilinx92i;'/>
+<projDir path='C:\Users\raphael\jAER\deviceFirmwarePCBLayout\stereoBoardCPLD'/>
 <xslDir path='chipviewer/data/xsl'/>
 <fileDir path='/chipviewer/data/html'/>
 <dataFile file='index.htm'/>
@@ -259,7 +259,7 @@
     <output file='fbs_FB16.htm'/>
   </xslFile>
 </xmlFile>
-<xmlFile file='C:/Programme/Xilinx/chipviewer/data/xsl/pinlegend.xml'>
+<xmlFile file='C:/Xilinx92i/chipviewer/data/xsl/pinlegend.xml'>
   <xslFile file='legend.xsl'>
     <param name='device' value='XC2C256-6-VQ100'/>
     <param name='verOn' value='0'/>
@@ -271,7 +271,7 @@
     <output file='pinlegendV.htm'/>
   </xslFile>
 </xmlFile>
-<xmlFile file='C:/Programme/Xilinx/chipviewer/data/xsl/logiclegend.xml'>
+<xmlFile file='C:/Xilinx92i/chipviewer/data/xsl/logiclegend.xml'>
   <xslFile file='legend.xsl'>
     <param name='device' value='XC2C256-6-VQ100'/>
     <param name='verOn' value='0'/>

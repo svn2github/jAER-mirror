@@ -1,4 +1,4 @@
-Pin Freeze File:  version I.24
+Pin Freeze File:  version J.39
 
 2C256100 XC2C256-6-VQ100
 AERMonitorAddressxDI2<0> S:PIN65
@@ -75,77 +75,74 @@ TimestampMasterxSO S:PIN94
 ;The remaining section of the .gyd file is for documentation purposes only.
 ;It shows where your internal equations were placed in the last successful fit.
 
-PARTITION FB1_7 N_PZ_1055 uSynchStateMachine/DividerxDP<3> uSynchStateMachine/DividerxDP<0> uSynchStateMachine/StatexDP_FFd4
-		 uSynchStateMachine/StatexDP_FFd3
-PARTITION FB1_14 TimestampMasterxSO uSynchStateMachine/StatexDP_FFd2 uSynchStateMachine/StatexDP_FFd1
-PARTITION FB2_1 N_PZ_1160 N_PZ_1063
-PARTITION FB2_4 uEarlyPaketTimer/CountxDP<5> FifoDataxDIO<7> uEarlyPaketTimer/CountxDP<4> uEventCounter/CountxDP<7>
-		 uEventCounter/CountxDP<0> uFifoStateMachine/StatexDP_FFd2 uFifoStateMachine/StatexDP_FFd3 uFifoStateMachine/TimestampOverflowxDP
-		 FifoDataxDIO<6> FifoTimestampRegOutxD<15> FifoDataxDIO<5> FifoDataxDIO<4>
-		 uFifoStateMachine/StatexDP_FFd1
-PARTITION FB3_1 N_PZ_1066 uMonitorStateMachine/MissedEventsxDP<0> uMonitorStateMachine/StatexDP_FFd3 uMonitorStateMachine/StatexDP_FFd4
+PARTITION FB1_4 N_PZ_1155 uSynchStateMachine/DividerxDP<3>
+PARTITION FB1_7 ActualTimestampxD<2> uSynchStateMachine/DividerxDP<4> uSynchStateMachine/DividerxDP<1> uSynchStateMachine/DividerxDP<0>
+		 uSynchStateMachine/StatexDP_FFd2
+PARTITION FB1_14 TimestampMasterxSO uSynchStateMachine/StatexDP_FFd1 uSynchStateMachine/StatexDP_FFd3
+PARTITION FB2_1 FifoAddressRegOutxD<0> MonitorSelect uMergerStateMachine/r.State_FFd1 MonitorEventReadyxS<0>
+		 FifoDataxDIO<7> MonitorEventReadyxS<1> EventReady uMergerStateMachine/r.State_FFd2
+		 FifoAddressRegOutxD<15> FifoAddressRegOutxD<7> FifoAddressRegOutxD<6> FifoDataxDIO<6>
+		 FifoAddressRegOutxD<5> FifoDataxDIO<5> FifoDataxDIO<4> FifoAddressRegOutxD<4>
 		
-PARTITION FB3_6 N_PZ_1071 N_PZ_1175 uSynchStateMachine/DividerxDP<2> uSynchStateMachine/DividerxDP<4>
-		 IncxS uSynchStateMachine/DividerxDP<1>
-PARTITION FB3_13 N_PZ_1102
-PARTITION FB3_15 N_PZ_1081 Interrupt0xSB0
-PARTITION FB4_1 FifoDataxDIO<3> FifoDataxDIO<2> FifoDataxDIO<1> FifoAddressRegOutxD<10>
-		 FifoDataxDIO<0> FifoWritexEBO FifoAddressRegOutxD<15> FifoAddressRegOutxD<3>
-		 FifoAddressRegOutxD<2> FifoAddressRegOutxD<1> FifoAddressRegOutxD<0> N_PZ_1058
-		 uSynchStateMachine/SyncInxSN ResetEventCounterxS N_PZ_1061 N_PZ_1065
+PARTITION FB3_1 ActualTimestampxD<8> ActualTimestampxD<7> ActualTimestampxD<6> ActualTimestampxD<5>
+		 ActualTimestampxD<11> ActualTimestampxD<4> ActualTimestampxD<3> ActualTimestampxD<1>
+		 ActualTimestampxD<0> uTimestampCounter/MSbDelayedxDP uSynchStateMachine/SyncInxS ActualTimestampxD<10>
+		 uMonitorStateMachine2/AERREQxSB ActualTimestampxD<9> uMonitorStateMachine/AERREQxSB Interrupt0xSB0
 		
-PARTITION FB5_1 ActualTimestampxD<7> ActualTimestampxD<8> ActualTimestampxD<9> ActualTimestampxD<6>
-		 ActualTimestampxD<10> MonitorAddressxD<7> ActualTimestampxD<11> ActualTimestampxD<12>
-		 ActualTimestampxD<13> uTimestampCounter/DataxDO<15> ActualTimestampxD<14> MonitorTimestampxD<13>
+PARTITION FB4_1 FifoDataxDIO<3> FifoDataxDIO<2> FifoDataxDIO<1> FifoTimestampRegOutxD<15>
+		 FifoDataxDIO<0> FifoWritexEBO FifoTimestampRegOutxD<14> FifoAddressRegOutxD<14>
+		 FifoAddressRegOutxD<13> FifoAddressRegOutxD<12> FifoAddressRegOutxD<11> FifoAddressRegOutxD<10>
+		 uSynchStateMachine/SyncInxSN FifoAddressRegOutxD<3> FifoAddressRegOutxD<2> FifoAddressRegOutxD<1>
+		
+PARTITION FB5_1 MonitorTimestampxD<6> MonitorTimestampxD<5> MonitorTimestampxD<4> MonitorTimestampxD<7>
+		 MonitorTimestampxD<3> MonitorAddressxD<7> MonitorTimestampxD<2> MonitorTimestampxD<1>
+		 ActualTimestampxD<12> ActualTimestampxD<13> uTimestampCounter/CountxDP_0_14 MonitorTimestampxD<13>
 		 MonitorTimestampxD<12> MonitorTimestampxD<11> MonitorTimestampxD<10> MonitorTimestampxD<0>
 		
-PARTITION FB6_1 uMonitorStateMachine/StatexDP_FFd2 MonitorAddressxD<9> MonitorTimestampxD<9> MonitorAddressxD<6>
-		 MonitorTimestampxD<8> MonitorTimestampxD<7> MonitorTimestampxD<6> MonitorTimestampxD<5>
-		 MonitorTimestampxD<4> MonitorTimestampxD<3> MonitorTimestampxD<2> MonitorAddressxD<10>
-		 MonitorTimestampxD<1> MonitorAddressxD<5> MonitorTimestampxD<14> MonitorAddressxD<11>
+PARTITION FB6_1 uMonitorStateMachine2/StatexDP_FFd2 MonitorAddressxD<9> uMonitorStateMachine2/StatexDP_FFd3 MonitorAddressxD<6>
+		 uMonitorStateMachine/StatexDP_FFd2 uMonitorStateMachine/StatexDP_FFd3 MissedEventxS<0> uMonitorStateMachine/MissedEventsxDP<2>
+		 uMonitorStateMachine/MissedEventsxDP<1> uMonitorStateMachine/StatexDP_FFd1 uMonitorStateMachine/MissedEventsxDP<0> MonitorAddressxD<10>
+		 MonitorTimestampxD<9> MonitorAddressxD<5> MonitorTimestampxD<8> MonitorAddressxD<11>
 		
-PARTITION FB7_1 MonitorEventReadyxS<1> EventReady uMergerStateMachine/r_State_FFd2 uMergerStateMachine/r_State_FFd1
-		 MonitorAddressxD<8> uMonitorStateMachine2/StatexDP_FFd1 MonitorSelect MonitorEventReadyxS<0>
-		 MissedEventxS<0> uMonitorStateMachine/MissedEventsxDP<2> uMonitorStateMachine2/MissedEventsxDP<0> uMonitorStateMachine2/StatexDP_FFd4
-		 SynchOutxSO uMonitorStateMachine2/StatexDP_FFd3 uMonitorStateMachine/MissedEventsxDP<1> uMonitorStateMachine/StatexDP_FFd1
+PARTITION FB7_1 uEarlyPaketTimer/CountxDP<13> uEarlyPaketTimer/CountxDP<12> uEarlyPaketTimer/CountxDP<11> uEarlyPaketTimer/CountxDP<10>
+		 MonitorAddressxD<8> uEarlyPaketTimer/CountxDP<17> uEarlyPaketTimer/CountxDP<9> uEarlyPaketTimer/CountxDP<8>
+		 uEarlyPaketTimer/CountxDP<7> uEarlyPaketTimer/CountxDP<6> uEarlyPaketTimer/CountxDP<16> uEarlyPaketTimer/CountxDP<15>
+		 SynchOutxSO uEarlyPaketTimer/CountxDP<14> uEarlyPaketTimer/CountxDP<5> uEarlyPaketTimer/CountxDP<4>
 		
-PARTITION FB8_2 uEventCounter/CountxDP<6> uEarlyPaketTimer/CountxDP<15> uEarlyPaketTimer/CountxDP<16> uEarlyPaketTimer/CountxDP<17>
-		 MonitorAddressxD<4> uEarlyPaketTimer/CountxDP<18> uEarlyPaketTimer/CountxDP<3> uEarlyPaketTimer/CountxDP<2>
-		 uEarlyPaketTimer/CountxDP<1> MonitorAddressxD<12> MonitorAddressxD<3> MonitorAddressxD<13>
-		 MonitorAddressxD<2> MonitorAddressxD<14> uEarlyPaketTimer/CountxDP<0>
-PARTITION FB9_1 FifoDataxDIO<11> FifoDataxDIO<10>
-PARTITION FB9_4 FifoDataxDIO<9>
-PARTITION FB9_6 FifoDataxDIO<8> uMonitorStateMachine/AERREQxSB FifoAddressRegOutxD<5> FifoAddressRegOutxD<4>
-		 FifoAddressRegOutxD<14> FifoAddressRegOutxD<13> FifoPktEndxSBO FifoAddressRegOutxD<12>
-		 FifoAddressRegOutxD<9> FifoAddressRegOutxD<8> FifoAddressRegOutxD<11>
-PARTITION FB10_2 uSynchStateMachine/SyncInxS LEDxSO FifoReadxEBO FifoDataxDIO<12>
-		 FifoDataxDIO<13> uMonitorStateMachine2/AERREQxSB FifoTimestampRegOutxD<2> FifoTimestampRegOutxD<1>
-		 FifoTimestampRegOutxD<11> FifoTimestampRegOutxD<10> FifoDataxDIO<14> FifoTimestampRegOutxD<0>
-		 FifoTimestampRegOutxD<14> FifoTimestampRegOutxD<13> FifoTimestampRegOutxD<12>
-PARTITION FB11_8 uEarlyPaketTimer/CountxDP<10> uEarlyPaketTimer/CountxDP<9> uEarlyPaketTimer/CountxDP<8> FifoAddressxDO<1>
-		 FifoAddressxDO<0> FifoOutputEnablexEBO Interrupt1xSB0 uEarlyPaketTimer/CountxDP<7>
-		 uEarlyPaketTimer/CountxDP<6>
-PARTITION FB12_1 MonitorTimestampxD2<2> MonitorTimestampxD2<1> MonitorTimestampxD2<14> MonitorTimestampxD2<13>
-		 MonitorTimestampxD2<12> MonitorTimestampxD2<11> MonitorTimestampxD2<10> MonitorTimestampxD2<0>
-		 MissedEventxS<1> uMonitorStateMachine2/MissedEventsxDP<2> FifoDataxDIO<15> uMonitorStateMachine2/MissedEventsxDP<1>
-		 AERMonitorACKxSBO2 uMonitorStateMachine2/AERMonitorREQxSBN MonitorAddressxD2<0> uMonitorStateMachine2/StatexDP_FFd2
+PARTITION FB8_1 MonitorTimestampxD2<5> MonitorTimestampxD2<4> MonitorTimestampxD2<3> MonitorTimestampxD2<2>
+		 MonitorTimestampxD2<1> MonitorAddressxD<4> MonitorTimestampxD2<13> MonitorTimestampxD2<12>
+		 MonitorTimestampxD2<11> MonitorTimestampxD2<10> MonitorAddressxD<12> MonitorAddressxD<3>
+		 MonitorAddressxD<13> MonitorAddressxD<2> MonitorAddressxD<14> MonitorTimestampxD2<0>
 		
-PARTITION FB13_1 ActualTimestampxD<1> MonitorAddressxD2<5> ActualTimestampxD<2> MonitorAddressxD2<11>
-		 ActualTimestampxD<3> MonitorAddressxD2<4> ActualTimestampxD<4> ActualTimestampxD<5>
-		 MonitorTimestampxD2<9> MonitorTimestampxD2<8> MonitorTimestampxD2<7> MonitorTimestampxD2<6>
-		 MonitorAddressxD2<12> MonitorTimestampxD2<5> MonitorTimestampxD2<4> MonitorTimestampxD2<3>
+PARTITION FB9_1 FifoDataxDIO<11> FifoDataxDIO<10> uEventCounter/CountxDP<6> FifoDataxDIO<9>
+		 uEventCounter/CountxDP<7> FifoDataxDIO<8> uEventCounter/CountxDP<0> uEarlyPaketTimer/CountxDP<0>
+		 uFifoStateMachine/TimestampOverflowxDP uFifoStateMachine/StatexDP_FFd1 uFifoStateMachine/StatexDP_FFd3 FifoPktEndxSBO
+		 uFifoStateMachine/StatexDP_FFd2 uFifoStateMachine/TimestampResetxDP FifoAddressRegOutxD<9> FifoAddressRegOutxD<8>
 		
+PARTITION FB10_2 FifoTimestampRegOutxD<0> LEDxSO FifoReadxEBO FifoDataxDIO<12>
+		 FifoDataxDIO<13> FifoTimestampRegOutxD<13> FifoTimestampRegOutxD<12> N_PZ_1095
+		 uEventCounter/CountxDP<5> uEventCounter/CountxDP<4> FifoDataxDIO<14> uEventCounter/CountxDP<3>
+		 uEventCounter/CountxDP<2> uEventCounter/CountxDP<1> uSynchStateMachine/DividerxDP<2>
+PARTITION FB11_1 uEarlyPaketTimer/CountxDP<3> uEarlyPaketTimer/CountxDP<2> uEarlyPaketTimer/CountxDP<1> MissedEventxS<1>
+		 uMonitorStateMachine2/MissedEventsxDP<2> uMonitorStateMachine2/MissedEventsxDP<1> uMonitorStateMachine2/StatexDP_FFd1 uMonitorStateMachine2/MissedEventsxDP<0>
+		 MonitorTimestampxD2<9> MonitorTimestampxD2<8> FifoAddressxDO<1> FifoAddressxDO<0>
+		 FifoOutputEnablexEBO Interrupt1xSB0 MonitorTimestampxD2<7> MonitorTimestampxD2<6>
+		
+PARTITION FB12_6 FifoTimestampRegOutxD<5> FifoTimestampRegOutxD<4> FifoTimestampRegOutxD<3> FifoTimestampRegOutxD<2>
+		 FifoTimestampRegOutxD<1> FifoDataxDIO<15> FifoTimestampRegOutxD<11> AERMonitorACKxSBO2
+		 uMonitorStateMachine2/AERMonitorREQxSBN MonitorAddressxD2<0> FifoTimestampRegOutxD<10>
+PARTITION FB13_2 MonitorAddressxD2<5>
+PARTITION FB13_4 MonitorAddressxD2<11>
+PARTITION FB13_6 MonitorAddressxD2<4>
+PARTITION FB13_12 FifoTimestampRegOutxD<9> MonitorAddressxD2<12> FifoTimestampRegOutxD<8> FifoTimestampRegOutxD<7>
+		 FifoTimestampRegOutxD<6>
 PARTITION FB14_1 MonitorAddressxD2<10>
 PARTITION FB14_3 MonitorAddressxD2<6>
-PARTITION FB14_5 MonitorAddressxD2<9> uEarlyPaketTimer/CountxDP<14> uEarlyPaketTimer/CountxDP<13> uEarlyPaketTimer/CountxDP<12>
-		 uEarlyPaketTimer/CountxDP<11> uEventCounter/CountxDP<5> uEventCounter/CountxDP<4> uEventCounter/CountxDP<3>
-		 uEventCounter/CountxDP<2> MonitorAddressxD2<7> MonitorAddressxD2<8> uEventCounter/CountxDP<1>
-		
-PARTITION FB15_1 ActualTimestampxD<0> FifoTimestampRegOutxD<9> FifoTimestampRegOutxD<8> FifoTimestampRegOutxD<7>
-		 FifoTimestampRegOutxD<6> FifoTimestampRegOutxD<5> FifoTimestampRegOutxD<4> FifoTimestampRegOutxD<3>
-		 FifoAddressRegOutxD<7> FifoAddressRegOutxD<6> MonitorAddressxD2<3> MonitorAddressxD2<13>
-		 MonitorAddressxD2<2> MonitorAddressxD2<14> MonitorAddressxD2<1> uTimestampCounter/MSbDelayedxDP
-		
+PARTITION FB14_5 MonitorAddressxD2<9>
+PARTITION FB14_14 MonitorAddressxD2<7> MonitorAddressxD2<8> uEarlyPaketTimer/CountxDP<18>
+PARTITION FB15_11 MonitorAddressxD2<3> MonitorAddressxD2<13> MonitorAddressxD2<2> MonitorAddressxD2<14>
+		 MonitorAddressxD2<1>
+
 PARTITION FB16_5 AERMonitorACKxSBO uMonitorStateMachine/AERMonitorREQxSBN
 PARTITION FB16_11 MonitorAddressxD<0>
 PARTITION FB16_13 MonitorAddressxD<1>

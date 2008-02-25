@@ -28,40 +28,35 @@ entity timestampCounter is
     ClockxCI      : in  std_logic;
     ResetxRBI     : in  std_logic;
     IncrementxSI  : in  std_logic;
-    ResetBit16xSI : in  std_logic;      -- applied by sequencer state machine,
                                         -- see report for more details
     OverflowxSO   : out std_logic;      -- increment MSB on host
-    DataxDO       : out std_logic_vector(16 downto 0));  --actual timestamp
+    DataxDO       : out std_logic_vector(13 downto 0));  --actual timestamp
 end timestampCounter;
 
 architecture Behavioral of timestampCounter is
   -- present and next state
-  signal CountxDP, CountxDN           : std_logic_vector(16 downto 0);
+  signal CountxDP, CountxDN           : std_logic_vector(14 downto 0);
   -- bit 15 delayed, to calculate overflow
   signal MSbDelayedxDN, MSbDelayedxDP : std_logic;
 
 begin
 
-  DataxDO <= CountxDP;
+  DataxDO <= CountxDP(13 downto 0);
 
   -- the 15 bit timestamp used for
   -- monitoring had an overflow, so send
   -- wrap event to host
-  OverflowxSO <= ( CountxDP(15) xor MSbDelayedxDP);
+  OverflowxSO <= ( CountxDP(14) xor MSbDelayedxDP);
 
   -- timestamp counter, calculation of next state
-  p_memless : process (CountxDP, IncrementxSI, MSbDelayedxDP, ResetBit16xSI)
+  p_memless : process (CountxDP, IncrementxSI, MSbDelayedxDP)
 
   begin  -- process p_memless
-    MSbDelayedxDN <= CountxDP(15);
+    MSbDelayedxDN <= CountxDP(14);
     CountxDN      <= CountxDP;
 
     if IncrementxSI = '1' then
       CountxDN <= CountxDP +1;
-    end if;
-
-    if ResetBit16xSI = '1' then
-      CountxDN(16) <= '0';
     end if;
 
   end process p_memless;

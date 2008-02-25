@@ -1,5 +1,5 @@
-set -tmpdir ./xst/projnav.tmp
-set -xsthdpdir ./xst
+set -tmpdir "./xst/projnav.tmp"
+set -xsthdpdir "./xst"
 run
 -ifn USBAER_top_level.prj
 -ifmt mixed
@@ -24,5 +24,6 @@ run
 -iobuf YES
 -pld_mp YES
 -pld_xp YES
+-pld_ce YES
 -wysiwyg NO
 -equivalent_register_removal YES

@@ -19,6 +19,7 @@ File 1,5,<C:\Cypress\USB\Target\Inc\lpregs.h><lpregs.h> 0x0
 File 1,5,<C:\Cypress\USB\Target\Inc\lpregs.inc><lpregs.inc> 0x0 
 File 1,5,<C:\Keil\C51\INC\Cypress\Fx2.h><Fx2.h> 0x0 
 File 1,5,<C:\Keil\C51\INC\Cypress\fx2regs.h><fx2regs.h> 0x0 
+File 1,5,<.\ports.h><ports.h> 0x0 
 
 
 Options 1,0,0  // Target 'Target 1'
@@ -40,7 +41,7 @@ Options 1,0,0  // Target 'Target 1'
  EnvLib (C:\Keil\C51\LIB\)
  EnvReg (ÿCypress\)
  OrgReg (ÿCypress\)
- TgStat=9
+ TgStat=0
  OutDir (.\)
  OutName (USBAERmini2)
  GenApp=1

@@ -11,6 +11,7 @@
 #include "lpregs.h"
 #include "syncdly.h"            // SYNCDELAY macro
 #include "biasgen.h" 
+#include "ports.h"
 
 extern BOOL GotSUD;             // Received setup data flag
 //extern BOOL Sleep;
@@ -76,8 +77,6 @@ extern BOOL Selfpwr;
 
 BOOL monitorRunning;
 BYTE operationMode;
-
-BYTE requestCommand;
 
 xdata unsigned int numBiasBytes; // number of bias bytes saved
 xdata unsigned char biasBytes[255]; // bias bytes values saved here
@@ -176,8 +175,6 @@ void TD_Init(void)              // Called once at startup
 	monitorRunning = FALSE;
 	operationMode=0;
 
-	requestCommand = 0x00;
-
 	cycleCounter=0;
 	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
 	LED=1;
@@ -187,35 +184,19 @@ void TD_Init(void)              // Called once at startup
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
 
 	IOE|=arrayReset;	// un-reset all the pixels
-	
-  	IT0=1;		// make INT0# edge-sensitive
-	EX0=1;		// enable INT0# (this interrupt is used to signal to the host to reset WrapAdd)
+
+	// interrupt not used anymore with new CPLD firmware	
+//  	IT0=1;		// make INT0# edge-sensitive
+//	EX0=1;		// enable INT0# (this interrupt is used to signal to the host to reset WrapAdd)
 
 	IT1=1; // INT1# edge-sensitve
 	EX1=1; // enable INT1#
 
-	startMonitor();
+	//startMonitor();
 }
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
-   	switch (requestCommand){
-		case VR_ENABLE_AE_IN: // enable IN transfers
-			{
-				startMonitor();
-
-				break;
-			}
-		case VR_DISABLE_AE_IN: // disable IN transfers
-			{
-				stopMonitor();
-
-				break;
-			}
-	}
-	 
-	requestCommand = 0x00;
-	
 	if(cycleCounter++>=50000){
 
 		LED=!LED;
@@ -429,10 +410,12 @@ BOOL DR_VendorCmnd(void)
 	switch (SETUPDAT[1]){
 		case VR_ENABLE_AE_IN: // enable IN transfers
 			{
+				startMonitor();
 				break;
 			}
 		case VR_DISABLE_AE_IN: // disable IN transfers
 			{
+				stopMonitor();
 				break;
 			}
 		case VR_RESET_FIFOS: // reset in and out fifo
@@ -735,8 +718,6 @@ BOOL DR_VendorCmnd(void)
 		}
 	}
 
-	requestCommand=SETUPDAT[1];
-
 	*EP0BUF = SETUPDAT[1];
 	EP0BCH = 0;
 	EP0BCL = 1;
@@ -745,33 +726,6 @@ BOOL DR_VendorCmnd(void)
 	return(FALSE);
 }
 
-
-// RESET HOST TIMESTAMP INTERRUPT
-void ISR_TSReset(void) interrupt 3 {
-	LED=0;
-	
-	SYNCDELAY; // reset fifos to delete events with the old timestamps
-	FIFORESET = 0x80;
-	SYNCDELAY;
-	FIFORESET = 0x06;
-	SYNCDELAY;
-	FIFORESET = 0x00;
-
-	SYNCDELAY;
-	EP6FIFOCFG = 0x09 ; //0000_1001
-
-
-	if (EP1INCS!=0x02)
-	{
-		EP1INBUF[0]=MSG_TS_RESET;
-		SYNCDELAY;
-		EP1INBC=1;
-		SYNCDELAY;
-		IE0=0; // clear interrupt
-		EX0=1; // enable INT0# external interrupt
-		LED=1;
-	}
-}
 
 void ISR_MissedEvent(void) interrupt 3 {	
 	missedEvents++;
