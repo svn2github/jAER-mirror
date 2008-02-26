@@ -132,11 +132,11 @@ architecture Structural of USBAER_top_level is
 
   component mergerStateMachine is
     port ( 
-	   Clk                  : in   std_logic;                    --Clock
-		Rst                  : in   std_logic;                    --Reset
-	   SetMonitorEventReady : in   std_logic_vector(1 downto 0); --inputs from monitor SM indicating that there is a new valid event
+      Clk                  : in   std_logic;                    --Clock
+      Rst                  : in   std_logic;                    --Reset
+      SetMonitorEventReady : in   std_logic_vector(1 downto 0); --inputs from monitor SM indicating that there is a new valid event
       ClearEventReady      : in   std_logic;                    --input from FIFO SM indicating the event has been copied to FIFO
-	   MonitorEventReady    : out  std_logic_vector(1 downto 0); --output to monitor SM indicating that there is a new valid event
+      MonitorEventReady    : out  std_logic_vector(1 downto 0); --output to monitor SM indicating that there is a new valid event
       EventReady           : out  std_logic;                    --output to FIFO SM indicating there is a new valid event
       Sel                  : out  std_logic);                   --output for selecting channel             
   end component;
@@ -409,11 +409,11 @@ begin
 
   uMergerStateMachine : mergerStateMachine
     port map ( 
-	   Clk                  => ClockxC, --Clock
-		Rst                  => ResetxRB, --Reset
-	   SetMonitorEventReady => SetMonitorEventReadyxS, --inputs from monitor SM indicating that there is a new valid event
+      Clk                  => ClockxC, --Clock
+      Rst                  => ResetxRB, --Reset
+      SetMonitorEventReady => SetMonitorEventReadyxS, --inputs from monitor SM indicating that there is a new valid event
       ClearEventReady      => ClearMonitorEventxS, --input from FIFO SM indicating the event has been copied to FIFO
-	   MonitorEventReady    => MonitorEventReadyxS, --output to monitor SM indicating that there is a new valid event
+      MonitorEventReady    => MonitorEventReadyxS, --output to monitor SM indicating that there is a new valid event
       EventReady           => EventReady, --output to FIFO SM indicating there is a new valid event
       Sel                  => MonitorSelect);--output for selecting channel             
 
