@@ -227,7 +227,7 @@ begin
   FifoReadxEBO <= '1';
   FifoOutputEnablexEBO <= '1';
 
-  SyncInxA <= '0'; --not SyncInxAI;
+  SyncInxA <= not SyncInxAI;
   
   FifoAddressRegInxD <= MonitorAddressxD;
   FifoAddressxD <= FifoAddressRegOutxD; 
@@ -363,7 +363,7 @@ begin
     FifoAddressxD   when selectaddress,
     FifoTimestampxD when others;
 
-  LEDxSO <= ResetxRBI;       --     <= TimestampMasterxS;
+  LEDxSO  <= TimestampMasterxS;
   --LEDxSO <= FifoTransactionxS;
   
   --Debug1xSO <= AERMonitorACKxSB;
