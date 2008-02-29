@@ -58,7 +58,7 @@ begin
     if IncrementxSI = '1' then
       CountxDN <= CountxDP +1;
     end if;
-
+ 
   end process p_memless;
 
   -- change state on clock edge
