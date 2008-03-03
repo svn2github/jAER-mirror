@@ -67,7 +67,7 @@ entity fifoStatemachine is
 end fifoStatemachine;
 
 architecture Behavioral of fifoStatemachine is
-  type state is (stIdle, stEarlyPaket1, stEarlyPaket2, stWraddress, stWrTime ,stOverflow,stResetTimestamp);
+  type state is (stIdle, stEarlyPaket, stWraddress, stWrTime ,stOverflow,stResetTimestamp);
 
   -- present and next state
   signal StatexDP, StatexDN : state;
@@ -88,7 +88,7 @@ architecture Behavioral of fifoStatemachine is
 
   constant timestamp : std_logic_vector(1 downto 0) := "00";
   constant wrap : std_logic_vector(1 downto 0) := "10";
-  constant timereset : std_logic_vector(1 downto 0) := "11";
+  constant timereset : std_logic_vector(1 downto 0) := "01";
 begin
 
   -- calculate next state and outputs
@@ -117,7 +117,7 @@ begin
       when stIdle =>
         if EarlyPaketTimerOverflowxSI = '1' and FifoInFullxSBI = '1' then
                        -- we haven't commited a paket for a long time
-          StatexDN <= stEarlyPaket1;
+          StatexDN <= stEarlyPaket;
         elsif TimestampOverflowxDP= '1' and FifoInFullxSBI = '1' then
           StatexDN <= stOverflow;
         elsif TimestampResetxDP = '1' and FifoInFullxSBI = '1' then
@@ -130,15 +130,8 @@ begin
 
         TimestampMSBxDO <= timestamp;
         FifoTransactionxSO        <= '0';  -- no fifo transaction running
-      when stEarlyPaket1  =>             -- ordering the FX2 to send a paket
-                                        -- even if it's not full, need two
-                                        -- states to ensure setup time of
-                                        -- fifoaddress 
-        StatexDN                  <= stEarlyPaket2;
-        ResetEarlyPaketTimerxSO   <= '1';
-        ResetEventCounterxSO      <= '1';
-        FifoPktEndxSBO            <= '0';
-      when stEarlyPaket2  =>             -- ordering the FX2 to send a paket
+   
+      when stEarlyPaket  =>             -- ordering the FX2 to send a paket
                                          -- even if it's not full
         StatexDN                  <= stIdle;
         ResetEarlyPaketTimerxSO   <= '1';
