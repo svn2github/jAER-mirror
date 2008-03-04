@@ -54,8 +54,8 @@ entity USBAER_top_level is
 
     -- control LED
     LEDxSO : out std_logic;
-    Debug1xSO : out std_logic;
-    Debug2xSO : out std_logic;
+ --   Debug1xSO : out std_logic;
+ --   Debug2xSO : out std_logic;
 
     -- AER monitor interface
     AERMonitorREQxABI    : in  std_logic;  -- needs synchronization
@@ -344,7 +344,7 @@ begin
 
  
 
-  SynchOutxSO <= SynchOutxS;
+  SynchOutxSO <= not SynchOutxS;
   FifoPktEndxSBO <= FifoPktEndxSB;
  
   AERMonitorACKxSBO <= AERMonitorACKxSB;
