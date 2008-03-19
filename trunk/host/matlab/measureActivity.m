@@ -72,15 +72,16 @@ fprintf('\n\nmeanEps=%.2f, medianEps=%.2f\n',meanEps,medianEps);
 
 if 1, %nargout==0,
     figure(1);
-    subplot(211);
+%     subplot(211);
     plot(unwrappedTimes,eps)
     xlabel 'time (s)'
     ylabel 'event rate (eps)'
-    subplot(212);
+    figure(2);
+%     subplot(212);
     plot(1:length(unwrappedTimes),unwrappedTimes,1:length(wrappedTimes),wrappedTimes);
     ylabel 'time (s)'
     xlabel 'sample'
-    figure(2);
+    figure(3);
     hist(eps,100);
     xlabel 'spike rate (Hz)'
     ylabel(['frequency per ' int2str(sampleSizeEvents) ' event packets']);
