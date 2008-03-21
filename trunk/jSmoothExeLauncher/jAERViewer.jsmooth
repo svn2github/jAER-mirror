@@ -6,11 +6,14 @@
 <JVMSearchPath>jdkpath</JVMSearchPath>
 <JVMSearchPath>exepath</JVMSearchPath>
 <JVMSearchPath>jview</JVMSearchPath>
+<arguments></arguments>
 <classPath>..\host\java\dist\jAER.jar</classPath>
 <classPath>..\host\java\jars\jogl.jar</classPath>
 <classPath>..\host\java\jars\swing-layout-0.9.jar</classPath>
 <classPath>..\host\java\jars\UsbIoJava.jar</classPath>
 <classPath>..\host\java\jars\spread.jar</classPath>
+<classPath>..\host\java\jars\gluegen-rt.jar</classPath>
+<classPath>..\host\java\jars\comm.jar</classPath>
 <currentDirectory>host\java</currentDirectory>
 <embeddedJar>false</embeddedJar>
 <executableName>..\jAERViewer.exe</executableName>
