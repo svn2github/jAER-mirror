@@ -53,12 +53,17 @@ architecture behavioural_hardcoded of fifoStatemachine_tb is
       ClearMonitorEventxSO       : out std_logic;
       EventRequestxSI            : in  std_logic;
       EventRequestACKxSO         : out std_logic;
+      FifoTransactionxSO         : out std_logic;
       IncEventCounterxSO         : out std_logic;
       ResetEventCounterxSO       : out std_logic;
       ResetEarlyPaketTimerxSO    : out std_logic;
+      TimestampOverflowxSI       : in  std_logic;
+      TimestampBit15xDO          : out std_logic;
+      ResetTimestampxSBI         : in  std_logic;
+      TimestampBit14xDO          : out std_logic;
       EarlyPaketTimerOverflowxSI : in  std_logic);
   end component;
-
+  
   signal ClockxC                   : std_logic;
   signal ResetxRB                  : std_logic;
   signal FifoInFullxSB             : std_logic;
@@ -76,11 +81,16 @@ architecture behavioural_hardcoded of fifoStatemachine_tb is
   signal ClearMonitorEventxS       : std_logic;
   signal EventRequestxS            : std_logic;
   signal EventRequestACKxS         : std_logic;
+  signal FifoTransactionxS         : std_logic;
   signal IncEventCounterxS         : std_logic;
   signal ResetEventCounterxS       : std_logic;
   signal ResetEarlyPaketTimerxS    : std_logic;
+  signal TimestampOverflowxS       : std_logic;
+  signal TimestampBit15xD          : std_logic;
+  signal ResetTimestampxSB         : std_logic;
+  signal TimestampBit14xD          : std_logic;
   signal EarlyPaketTimerOverflowxS : std_logic;
-
+  
   constant PERIOD    : time := 20 ns;   -- clock period
   constant HIGHPHASE : time := 10 ns;   -- high phase of clock
   constant LOWPHASE  : time := 10 ns;   -- low phase of clock
@@ -112,7 +122,7 @@ architecture behavioural_hardcoded of fifoStatemachine_tb is
 
 begin  -- behavioural_hardcoded
 
-  DUT : fifoStatemachine
+  DUT: fifoStatemachine
     port map (
       ClockxCI                   => ClockxC,
       ResetxRBI                  => ResetxRB,
@@ -131,9 +141,14 @@ begin  -- behavioural_hardcoded
       ClearMonitorEventxSO       => ClearMonitorEventxS,
       EventRequestxSI            => EventRequestxS,
       EventRequestACKxSO         => EventRequestACKxS,
+      FifoTransactionxSO         => FifoTransactionxS,
       IncEventCounterxSO         => IncEventCounterxS,
       ResetEventCounterxSO       => ResetEventCounterxS,
       ResetEarlyPaketTimerxSO    => ResetEarlyPaketTimerxS,
+      TimestampOverflowxSI       => TimestampOverflowxS,
+      TimestampBit15xDO          => TimestampBit15xD,
+      ResetTimestampxSBI         => ResetTimestampxSB,
+      TimestampBit14xDO          => TimestampBit14xD,
       EarlyPaketTimerOverflowxSI => EarlyPaketTimerOverflowxS);
 
 -------------------------------------------------------------------------------
@@ -169,6 +184,8 @@ begin  -- behavioural_hardcoded
     MonitorEventReadyxS <= '0';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
     wait for STIM_APPL;                 -- 1 reset
     ResetxRB <= '0';
     FifoInFullxSB <= '1';
@@ -176,13 +193,17 @@ begin  -- behavioural_hardcoded
     MonitorEventReadyxS <= '0';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
     wait for PERIOD;                 -- 2 idle, early paket timer overflow
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
     FifoOutEmptyxSB <= '0';
     MonitorEventReadyxS <= '0';
     EventRequestxS <= '1';
-    EarlyPaketTimerOverflowxS <= '1';
+    EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
     wait for PERIOD;                 -- 3 early paket timer overflow
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
@@ -190,6 +211,8 @@ begin  -- behavioural_hardcoded
     MonitorEventReadyxS <= '0';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
     wait for PERIOD;                 -- 4 idle
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
@@ -197,6 +220,8 @@ begin  -- behavioural_hardcoded
     MonitorEventReadyxS <= '0';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
     wait for PERIOD;                 -- 5 idle, fifo full, evt ready
     ResetxRB <= '1';
     FifoInFullxSB <= '0';
@@ -204,6 +229,8 @@ begin  -- behavioural_hardcoded
     MonitorEventReadyxS <= '1';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
     wait for PERIOD;                 -- 6 idle, evt ready
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
@@ -211,6 +238,8 @@ begin  -- behavioural_hardcoded
     MonitorEventReadyxS <= '1';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
     wait for PERIOD;                 -- 7 setup write transf
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
@@ -218,6 +247,8 @@ begin  -- behavioural_hardcoded
     MonitorEventReadyxS <= '1';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
     wait for PERIOD;                 -- 8 write address
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
@@ -225,6 +256,8 @@ begin  -- behavioural_hardcoded
     MonitorEventReadyxS <= '0';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
     wait for PERIOD;                 -- 9 write timestamp, fifo not empty
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
@@ -232,76 +265,141 @@ begin  -- behavioural_hardcoded
     MonitorEventReadyxS <= '0';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
-    wait for PERIOD;                 -- 10 setup read
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 10 setup read, monitor event ready
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
     FifoOutEmptyxSB <= '1';
-    MonitorEventReadyxS <= '0';
+    MonitorEventReadyxS <= '1';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
-    wait for PERIOD;                 -- 12 read address
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 12 read address, overflow
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
     FifoOutEmptyxSB <= '1';
-    MonitorEventReadyxS <= '0';
+    MonitorEventReadyxS <= '1';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '1';
     wait for PERIOD;                 -- 13 read timestamp
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
     FifoOutEmptyxSB <= '1';
-    MonitorEventReadyxS <= '0';
+    MonitorEventReadyxS <= '1';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
     wait for PERIOD;                 -- 14 idle
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
-    FifoOutEmptyxSB <= '1';
-    MonitorEventReadyxS <= '0';
+    FifoOutEmptyxSB <= '0';
+    MonitorEventReadyxS <= '1';
     EventRequestxS <= '0';
     EarlyPaketTimerOverflowxS <= '0';
-    wait for PERIOD;                 -- 15 idle, evt request
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 15 setup write event
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
-    FifoOutEmptyxSB <= '1';
+    FifoOutEmptyxSB <= '0';
+    MonitorEventReadyxS <= '1';
+    EventRequestxS <= '1';
+    EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 16 write address 
+    ResetxRB <= '1';
+    FifoInFullxSB <= '1';
+    FifoOutEmptyxSB <= '0';
     MonitorEventReadyxS <= '0';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
-    wait for PERIOD;                 -- 16 setup rd transfer
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 17 write timestamp
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
-    FifoOutEmptyxSB <= '1';
+    FifoOutEmptyxSB <= '0';
     MonitorEventReadyxS <= '0';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
-    wait for PERIOD;                 -- 17 read address
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 18 idle
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
-    FifoOutEmptyxSB <= '1';
+    FifoOutEmptyxSB <= '0';
     MonitorEventReadyxS <= '0';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
-    wait for PERIOD;                 -- 18 read timestamp
-    ResetxRB <= '1';
-    FifoInFullxSB <= '1';
-    FifoOutEmptyxSB <= '1';
-    MonitorEventReadyxS <= '0';
-    EventRequestxS <= '1';
-    EarlyPaketTimerOverflowxS <= '0';
-    wait for PERIOD;                 -- 19 idle
+    wait for PERIOD;                 -- 19 setup overflow
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
     FifoOutEmptyxSB <= '0';
     MonitorEventReadyxS <= '0';
     EventRequestxS <= '0';
     EarlyPaketTimerOverflowxS <= '0';
-    wait for PERIOD;                 -- 20 reset
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 20 write address overflow
+    ResetxRB <= '1';
+    FifoInFullxSB <= '1';
+    FifoOutEmptyxSB <= '0';
+    MonitorEventReadyxS <= '0';
+    EventRequestxS <= '0';
+    EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 21 write timestamp overflow
+    ResetxRB <= '1';
+    FifoInFullxSB <= '1';
+    FifoOutEmptyxSB <= '0';
+    MonitorEventReadyxS <= '0';
+    EventRequestxS <= '0';
+    EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 22 idle
+    ResetxRB <= '1';
+    FifoInFullxSB <= '1';
+    FifoOutEmptyxSB <= '0';
+    MonitorEventReadyxS <= '0';
+    EventRequestxS <= '0';
+    EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 23 idle
+    ResetxRB <= '1';
+    FifoInFullxSB <= '1';
+    FifoOutEmptyxSB <= '0';
+    MonitorEventReadyxS <= '0';
+    EventRequestxS <= '0';
+    EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 24 idle
+    ResetxRB <= '1';
+    FifoInFullxSB <= '1';
+    FifoOutEmptyxSB <= '0';
+    MonitorEventReadyxS <= '0';
+    EventRequestxS <= '0';
+    EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 25 reset
     ResetxRB <= '0';
     FifoInFullxSB <= '1';
     FifoOutEmptyxSB <= '0';
     MonitorEventReadyxS <= '0';
     EventRequestxS <= '1';
     EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
     wait for PERIOD;
 
 
