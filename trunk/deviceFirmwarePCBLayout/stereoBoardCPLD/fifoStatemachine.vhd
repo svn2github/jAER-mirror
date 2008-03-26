@@ -78,7 +78,18 @@ architecture Behavioral of fifoStatemachine is
   -- present and next state
   signal StatexDP, StatexDN : state;
 
-  -- timestamp overflow register
+  component EventBeforeOverflow
+    port (
+      ClockxCI               : in  std_logic;
+      ResetxRBI              : in  std_logic;
+      OverflowxDI            : in  std_logic;
+      EventxDI               : in  std_logic;
+      EventBeforeOverflowxDO : out std_logic);
+  end component;
+
+  signal EventBeforeOverflowxD : std_logic;
+
+-- timestamp overflow register
   signal TimestampOverflowxDN, TimestampOverflowxDP : std_logic;
 
   -- timestamp reset register
@@ -96,8 +107,16 @@ architecture Behavioral of fifoStatemachine is
   constant EP6             : std_logic_vector := "10";
 begin
 
+  EventBeforeOverflow_1: EventBeforeOverflow
+    port map (
+      ClockxCI               => ClockxCI,
+      ResetxRBI              => ResetxRBI,
+      OverflowxDI            => TimestampOverflowxSI,
+      EventxDI               => MonitorEventReadyxSI,
+      EventBeforeOverflowxDO => EventBeforeOverflowxD);
+  
   -- calculate next state and outputs
-  p_memless : process (StatexDP, FifoInFullxSBI, FifoOutEmptyxSBI, MonitorEventReadyxSI, EarlyPaketTimerOverflowxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI)
+  p_memless : process (StatexDP, FifoInFullxSBI, FifoOutEmptyxSBI, MonitorEventReadyxSI, EarlyPaketTimerOverflowxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, EventBeforeOverflowxD)
   begin  -- process p_memless
     -- default assignements: stay in present state, don't change address in
     -- FifoAddress register, no Fifo transaction, don't write registers, don't
@@ -126,7 +145,9 @@ begin
 
     case StatexDP is
       when stIdle =>
-        if EarlyPaketTimerOverflowxSI = '1' and FifoInFullxSBI = '1' then
+        if EventBeforeOverflowxD ='1' and FifoInFullxSBI = '1' then
+          StatexDN <= stSetupWrFifo;
+        elsif EarlyPaketTimerOverflowxSI = '1' and FifoInFullxSBI = '1' then
                        -- we haven't commited a paket for a long time
           StatexDN <= stEarlyPaket1;
           FifoAddressxDO            <= EP6; 

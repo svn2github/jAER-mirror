@@ -54,8 +54,8 @@ entity USBAER_top_level is
 
     -- control LED
     LEDxSO : out std_logic;
- --   Debug1xSO : out std_logic;
- --   Debug2xSO : out std_logic;
+    Debug1xSO : out std_logic;
+    Debug2xSO : out std_logic;
 
     -- AER monitor interface
     AERMonitorREQxABI    : in  std_logic;  -- needs synchronization
@@ -366,8 +366,9 @@ begin
   LEDxSO  <= TimestampMasterxS;
   --LEDxSO <= FifoTransactionxS;
   
-  --Debug1xSO <= AERMonitorACKxSB;
-  --Debug2xSO <= AERMonitorREQxABI;
+  Debug1xSO <= ActualTimestampxD(0);
+  Debug2xSO <= ActualTimestampxD(1);
+  
   TimestampMasterxSO <= TimestampMasterxS;
 
   -- this process controls the EventReady Register which is used for the
