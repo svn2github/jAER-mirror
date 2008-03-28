@@ -73,25 +73,15 @@ entity fifoStatemachine is
 end fifoStatemachine;
 
 architecture Behavioral of fifoStatemachine is
-  type state is (stIdle, stEarlyPaket1, stEarlyPaket2, stSetupWrFifo, stWraddress, stWrTime, stSetupOverflow,stResetTimestamp);
+  type state is (stIdle, stEarlyPaket1, stEarlyPaket2, stWraddress, stWrTime, stSetupOverflow,stResetTimestamp);
 
   -- present and next state
   signal StatexDP, StatexDN : state;
 
-  component EventBeforeOverflow
-    port (
-      ClockxCI               : in  std_logic;
-      ResetxRBI              : in  std_logic;
-      OverflowxDI            : in  std_logic;
-      EventxDI               : in  std_logic;
-      EventBeforeOverflowxDO : out std_logic);
-  end component;
-
-  signal EventBeforeOverflowxD : std_logic;
-
 -- timestamp overflow register
   signal TimestampOverflowxDN, TimestampOverflowxDP : std_logic;
 
+  signal TSOverflowxD : std_logic;
   -- timestamp reset register
   signal TimestampResetxDP, TimestampResetxDN : std_logic;
 
@@ -105,18 +95,14 @@ architecture Behavioral of fifoStatemachine is
   -- fifo addresses
   constant EP2             : std_logic_vector := "00";
   constant EP6             : std_logic_vector := "10";
+
 begin
 
-  EventBeforeOverflow_1: EventBeforeOverflow
-    port map (
-      ClockxCI               => ClockxCI,
-      ResetxRBI              => ResetxRBI,
-      OverflowxDI            => TimestampOverflowxSI,
-      EventxDI               => MonitorEventReadyxSI,
-      EventBeforeOverflowxDO => EventBeforeOverflowxD);
+
+  TSOverflowxD <= TimestampOverflowxSI or TimestampOverflowxDP;
   
   -- calculate next state and outputs
-  p_memless : process (StatexDP, FifoInFullxSBI, FifoOutEmptyxSBI, MonitorEventReadyxSI, EarlyPaketTimerOverflowxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, EventBeforeOverflowxD)
+  p_memless : process (StatexDP, FifoInFullxSBI, FifoOutEmptyxSBI, MonitorEventReadyxSI, EarlyPaketTimerOverflowxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI,TSOverflowxD)
   begin  -- process p_memless
     -- default assignements: stay in present state, don't change address in
     -- FifoAddress register, no Fifo transaction, don't write registers, don't
@@ -145,20 +131,26 @@ begin
 
     case StatexDP is
       when stIdle =>
-        if EventBeforeOverflowxD ='1' and FifoInFullxSBI = '1' then
-          StatexDN <= stSetupWrFifo;
-        elsif EarlyPaketTimerOverflowxSI = '1' and FifoInFullxSBI = '1' then
+        --if EventBeforeOverflowxD ='1' and FifoInFullxSBI = '1' then
+        --  StatexDN <= stSetupWrFifo;
+        if EarlyPaketTimerOverflowxSI = '1' and FifoInFullxSBI = '1' then
                        -- we haven't commited a paket for a long time
           StatexDN <= stEarlyPaket1;
           FifoAddressxDO            <= EP6; 
-        elsif TimestampOverflowxDP= '1' and FifoInFullxSBI = '1' then
+        elsif TSOverflowxD = '1' and FifoInFullxSBI = '1' then
           StatexDN <= stSetupOverflow;
         elsif TimestampResetxDP = '1' and FifoInFullxSBI = '1' then
           StatexDN <= stResetTimestamp;
           -- if inFifo is not full and there is a monitor event, start a
           -- fifoWrite transaction
         elsif MonitorEventReadyxSI = '1' and FifoInFullxSBI = '1' then
-          StatexDN <= stSetupWrFifo;
+          
+          StatexDN                  <= stWraddress;
+    
+          RegisterInputSelectxSO    <= selectmonitor;
+          AddressRegWritexEO        <= '1';
+          TimestampRegWritexEO      <= '1';
+          FifoAddressxDO            <= EP6;
      
         end if;
 
@@ -199,20 +191,10 @@ begin
         --AddressRegWritexEO        <= '1';
         TimestampRegWritexEO      <= '1';
         TimestampBit14xDO <= '1';
-      when stSetupWrFifo =>             -- start a fifowrite transaction: write
-                                        -- the event to the registers, increase
-                                        -- eventCounter and clear the
-                                        -- EventReady flag
-    
-        StatexDN                  <= stWraddress;
-    
-        RegisterInputSelectxSO    <= selectmonitor;
-        AddressRegWritexEO        <= '1';
-        TimestampRegWritexEO      <= '1';
-        ClearMonitorEventxSO      <= '1';
-        FifoAddressxDO            <= EP6;
+  
       when stWraddress   =>             -- write the address to the fifo
         StatexDN                  <= stWrTime;
+        ClearMonitorEventxSO      <= '1';
         FifoWritexEBO             <= '0';
         AddressTimestampSelectxSO <= selectaddress;
         FifoAddressxDO            <= EP6;

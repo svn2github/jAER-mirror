@@ -373,25 +373,70 @@ begin  -- behavioural_hardcoded
     EarlyPaketTimerOverflowxS <= '0';
     ResetTimestampxSB <= '1';
     TimestampOverflowxS <= '0';
-    wait for PERIOD;                 -- 23 idle
+    wait for PERIOD;                 -- 23 idle, mon event ready, overflow
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
     FifoOutEmptyxSB <= '0';
-    MonitorEventReadyxS <= '0';
+    MonitorEventReadyxS <= '1';
+    EventRequestxS <= '0';
+    EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '1';
+    wait for PERIOD;                 -- 24 stsetupOverflow
+    ResetxRB <= '1';
+    FifoInFullxSB <= '1';
+    FifoOutEmptyxSB <= '0';
+    MonitorEventReadyxS <= '1';
     EventRequestxS <= '0';
     EarlyPaketTimerOverflowxS <= '0';
     ResetTimestampxSB <= '1';
     TimestampOverflowxS <= '0';
-    wait for PERIOD;                 -- 24 idle
+    wait for PERIOD;                 -- 25 idle, mon event ready
     ResetxRB <= '1';
     FifoInFullxSB <= '1';
     FifoOutEmptyxSB <= '0';
-    MonitorEventReadyxS <= '0';
+    MonitorEventReadyxS <= '1';
     EventRequestxS <= '0';
     EarlyPaketTimerOverflowxS <= '0';
     ResetTimestampxSB <= '1';
     TimestampOverflowxS <= '0';
-    wait for PERIOD;                 -- 25 reset
+    wait for PERIOD;                  -- 26 idle, mon event ready
+    ResetxRB <= '1';
+    FifoInFullxSB <= '1';
+    FifoOutEmptyxSB <= '0';
+    MonitorEventReadyxS <= '1';
+    EventRequestxS <= '0';
+    EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 27 idle, mon event ready
+    ResetxRB <= '1';
+    FifoInFullxSB <= '1';
+    FifoOutEmptyxSB <= '0';
+    MonitorEventReadyxS <= '1';
+    EventRequestxS <= '0';
+    EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 28 idle, mon event ready
+    ResetxRB <= '1';
+    FifoInFullxSB <= '1';
+    FifoOutEmptyxSB <= '0';
+    MonitorEventReadyxS <= '1';
+    EventRequestxS <= '0';
+    EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                 -- 29 idle, mon event ready
+    ResetxRB <= '1';
+    FifoInFullxSB <= '1';
+    FifoOutEmptyxSB <= '0';
+    MonitorEventReadyxS <= '1';
+    EventRequestxS <= '0';
+    EarlyPaketTimerOverflowxS <= '0';
+    ResetTimestampxSB <= '1';
+    TimestampOverflowxS <= '0';
+    wait for PERIOD;                -- 30 reset
     ResetxRB <= '0';
     FifoInFullxSB <= '1';
     FifoOutEmptyxSB <= '0';

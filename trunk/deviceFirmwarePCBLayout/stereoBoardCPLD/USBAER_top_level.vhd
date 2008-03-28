@@ -47,15 +47,15 @@ entity USBAER_top_level is
 
     -- communication with 8051
     RunMonitorxSI         : in  std_logic;
-    RunSynthesizerxSI     : in  std_logic;
+  
     TimestampTickxSI      : in  std_logic;
     TriggerModexSI        : in  std_logic;
     TimestampMasterxSO    : out std_logic;
     HostResetTimestampxSI : in  std_logic;
     Interrupt0xSB0        : out std_logic;
     Interrupt1xSB0        : out std_logic;
-    PC1xSI                : in  std_logic;                     -- unused
-    PExDI                 : in  std_logic_vector(3 downto 0);  -- unused
+  --  PC1xSI                : in  std_logic;                     -- unused
+  --  PExDI                 : in  std_logic_vector(3 downto 0);  -- unused
 
     -- control LED
     LEDxSO : out std_logic;
@@ -182,9 +182,7 @@ architecture Structural of USBAER_top_level is
   signal MonitorAddressxD                            : std_logic_vector(14 downto 0);
   signal MonitorAddressxD2                           : std_logic_vector(14 downto 0);
   signal MonitorAddressSumxD                         : std_logic_vector(15 downto 0);
-  signal MonitorTimestampxD                          : std_logic_vector(13 downto 0);
-  signal MonitorTimestampxD2                          : std_logic_vector(13 downto 0);
-  signal MonitorTimestampSumxD                       : std_logic_vector(13 downto 0);
+ 
   signal FifoAddressRegInxD, FifoAddressRegOutxD     : std_logic_vector(15 downto 0);
   signal FifoTimestampRegInxD, FifoTimestampRegOutxD : std_logic_vector(15 downto 0);
   signal ActualTimestampxD                           : std_logic_vector(13 downto 0);
@@ -294,26 +292,6 @@ begin
       WriteEnablexEI => MonitorAddressRegWritexE(1),
       DataInxDI      => AERMonitorAddressxDI2,
       DataOutxDO     => MonitorAddressxD2);
-
-  uMonitorTimestampRegister : wordRegister
-    generic map (
-      width          => 14)
-    port map (
-      ClockxCI       => ClockxC,
-      ResetxRBI      => ResetxRB,
-      WriteEnablexEI => MonitorTimestampRegWritexE(0),
-      DataInxDI      => ActualTimestampxD,
-      DataOutxDO     => MonitorTimestampxD);
-
-  uMonitorTimestampRegister2 : wordRegister
-    generic map (
-      width          => 14)
-    port map (
-      ClockxCI       => ClockxC,
-      ResetxRBI      => ResetxRB,
-      WriteEnablexEI => MonitorTimestampRegWritexE(1),
-      DataInxDI      => ActualTimestampxD,
-      DataOutxDO     => MonitorTimestampxD2);
 
   uEarlyPaketTimer : earlyPaketTimer
     port map (
@@ -441,13 +419,12 @@ begin
   -- mux for fifo registers
   FifoAddressRegInxD <= MonitorAddressSumxD;
 
-  FifoTimestampRegInxD <= (TimestampBit15xD & TimestampBit14xD & MonitorTimestampSumxD);
-
+  FifoTimestampRegInxD <= (TimestampBit15xD & TimestampBit14xD & ActualTimestampxD);
+  
   MonitorAddressSumxD(14 downto 0) <= MonitorAddressxD(14 downto 0) when (MonitorSelect = '0')
                          else MonitorAddressxD2(14 downto 0);
   MonitorAddressSumxD(15) <= MonitorSelect;
-  MonitorTimestampSumxD <= MonitorTimestampxD when (MonitorSelect = '0')
-                         else MonitorTimestampxD2;
+
 
   LEDxSO             <= TimestampMasterxS;
   TimestampMasterxSO <= TimestampMasterxS;

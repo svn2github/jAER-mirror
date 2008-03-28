@@ -134,7 +134,7 @@ begin
     case StatexDP is
       when stIdle =>
         if EventBeforeOverflowxD ='1' and FifoInFullxSBI = '1' then
-          StatexDN <= stSetupWrFifo;
+          StatexDN <= stWraddress;
         elsif EarlyPaketTimerOverflowxSI = '1' and FifoInFullxSBI = '1' then
                        -- we haven't commited a paket for a long time
           StatexDN <= stEarlyPaket;
