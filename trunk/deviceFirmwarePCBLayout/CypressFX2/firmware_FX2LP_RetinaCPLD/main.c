@@ -1,7 +1,7 @@
 #pragma NOIV               // Do not generate interrupt vectors
 //-----------------------------------------------------------------------------
 //   File:      main.c
-//   Description: FX2LP firmware for the TCVS320 retina chip   
+//   Description: FX2LP firmware for the TCVS320 and Tmpdiff128 (new small board) retina chip   
 //
 // created: 1/2008, cloned from tmpdiff128 stereo board firmware
 // Revision: 0.01 
@@ -59,8 +59,8 @@ extern BOOL Selfpwr;
 #define VR_SET_POWERDOWN 0xB9 // control powerDown. wValue controls the powerDown pin. Raise high to power off, lower to power on.
 #define VR_EEPROM_BIASGEN_BYTES 0xBa // write bytes out to EEPROM for power on default
 
-//#define VR_SETARRAYRESET 0xBc // set the state of the array reset
-//#define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels. TCVS320 doesn't have this.
+#define VR_SETARRAYRESET 0xBc // set the state of the array reset
+#define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels. TCVS320 doesn't have this.
 
 #define BIAS_FLASH_START 9 // start of bias value (this is where number of bytes is stored
 
@@ -90,6 +90,11 @@ void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf);
 void EEPROMWriteBYTE(WORD addr, BYTE value);
 
 void downloadSerialNumberFromEEPROM(void);
+
+//sbit arrayReset=IOE^5;	// arrayReset=0 to reset all pixels, this on port E.5 but is not bit addressable
+// arrayReset is active low, low=reset pixel array, high=operate normally
+#define ARRAY_RESET_MASK=0x20
+#define NOT_ARRAY_RESET_MASK=0xdf;
 
 //-----------------------------------------------------------------------------
 // Task Dispatcher hooks
@@ -179,7 +184,8 @@ void TD_Init(void)              // Called once at startup
 	biasInit();	// init biasgen ports and pins
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
 
-//	IOE|=arrayReset;	// un-reset all the pixels
+	IOE=IOE|ARRAY_RESET_MASK; // set bit to run normally
+	//IOE|=arrayReset;	// un-reset all the pixels
 	
   	IT0=1;		// make INT0# edge-sensitive
 	EX0=1;		// enable INT0# (this interrupt is used to signal to the host to reset WrapAdd)
@@ -508,16 +514,16 @@ BOOL DR_VendorCmnd(void)
 				break; // very important, otherwise get stall
 
 			}
-/* TCVS320 doesn't have global array reset */
-/*
+/* TCVS320 doesn't have global array reset but Tmpdiff128 does, we enable it here but it won't do anything on TCVS320*/
+
 		case VR_SETARRAYRESET: // set array reset, based on lsb of argument
 			{
 				if (SETUPDAT[2]&0x01)
 				{
-					IOE|=arrayReset;
+					IOE=IOE|ARRAY_RESET_MASK; //IOE|=arrayReset;
 				} else
 				{
-					IOE&=~arrayReset;
+					IOE=IOE&NOT_ARRAY_RESET_MASK; 
 				}
 			
 				*EP0BUF=VR_SETARRAYRESET;
@@ -530,7 +536,7 @@ BOOL DR_VendorCmnd(void)
 			}
 		case VR_DOARRAYRESET: // reset array for fixed reset time
 			{
-				IOE&=~arrayReset;
+				IOE=IOE&NOT_ARRAY_RESET_MASK; 
 				_nop_();
 				_nop_();
 				_nop_();
@@ -545,7 +551,7 @@ BOOL DR_VendorCmnd(void)
 				_nop_();
 				_nop_();
 				_nop_();
-				IOE|=arrayReset;
+				IOE=IOE|ARRAY_RESET_MASK; //IOE|=arrayReset;
 				*EP0BUF=VR_DOARRAYRESET;
 				SYNCDELAY;
 				EP0BCH = 0;
@@ -553,7 +559,7 @@ BOOL DR_VendorCmnd(void)
 				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
 				return (FALSE); // very important, otherwise get stall
 			}
-*/
+
 /*	case VR_DOWNLOAD_CPLD_CODE:
 			{
 				break;
