@@ -7,22 +7,65 @@ function [eps,unwrappedTimes]=measureActivity(sampleSizeEvents,filename);
 % unwrappedTimes are the event times in seconds, assuming timestamp tick of
 % 1e-6 seconds
 
-eventSize=6;
+path='';
 
 if nargin==0,
     sampleSizeEvents=1024;
 end
 
 if nargin<2,
-    [filename,pathname,filterindex]=uigetfile('*.dat','Select recorded retina data file');
+    [filename,path,filterindex]=uigetfile('*.dat','Select recorded retina data file');
     if filename==0, return; end
-else
-    pathname='';
+end
+if nargin==1,
+    path='';
+    filename=file;
 end
 
-f=fopen([pathname,filename],'r');
+
+f=fopen([path,filename],'r');
+% skip header lines
+bof=ftell(f);
+line=native2unicode(fgets(f));
+tok='#!AER-DAT';
+version=0;
+
+while line(1)=='#',
+    if strncmp(line,tok, length(tok))==1,
+        version=sscanf(line(length(tok)+1:end),'%f');
+    end
+    fprintf('%s\n',line(1:end-2)); % print line using \n for newline, discarding CRLF written by java under windows
+    bof=ftell(f);
+    line=native2unicode(fgets(f)); % gets the line including line ending chars
+end
+
+switch version,
+    case 0
+        fprintf('No #!AER-DAT version header found, assuming 16 bit addresses\n');
+        version=1;
+    case 1
+        fprintf('Addresses are 16 bit\n');
+    case 2
+        fprintf('Addresses are 32 bit\n');
+    otherwise
+        fprintf('Unknown file version %g',version);
+end
+
+numBytesPerEvent=6;
+switch(version)
+    case 1
+        numBytesPerEvent=6;
+        addressSize=2;
+    case 2
+        numBytesPerEvent=8;
+        addressSize=4;
+end
+
+        
 fseek(f,0,'eof');
-numEvents=floor((ftell(f))/eventSize);
+numEvents=floor((ftell(f)-bof)/numBytesPerEvent); % 6 bytes/event
+eventSize=numBytesPerEvent;
+
 fprintf('Total of %d events\n',numEvents);
 
 nSamples=floor(numEvents/sampleSizeEvents);
@@ -40,8 +83,8 @@ for i=1:nSamples,
     pos=i*sampleSizeEvents*eventSize;
     %     fseek(f,pos,'bof');
     %     addr=int16(fread(f,sampleSizeEvents,'int16',4,'b'));
-    fseek(f,2+pos,'bof');
-    ts=int32(fread(f,sampleSizeEvents,'int32',2,'b'));
+    fseek(f,addressSize+pos,'bof');
+    ts=int32(fread(f,sampleSizeEvents,'int32',addressSize,'b'));
     wrappedTimes(i)=1e-6*double(ts(end));
     if i>1 && wrappedTimes(i)<wrappedTimes(i-1),
         fprintf('w');
