@@ -7,6 +7,8 @@ function [eps,unwrappedTimes]=measureActivity(sampleSizeEvents,filename);
 % unwrappedTimes are the event times in seconds, assuming timestamp tick of
 % 1e-6 seconds
 
+useDeltaTime=1; % set to 1 to use total time over sample instead of average of instantaneous event rate
+
 path='';
 
 if nargin==0,
@@ -84,10 +86,10 @@ for i=1:nSamples,
     %     fseek(f,pos,'bof');
     %     addr=int16(fread(f,sampleSizeEvents,'int16',4,'b'));
     fseek(f,addressSize+pos,'bof');
-    ts=int32(fread(f,sampleSizeEvents,'int32',addressSize,'b'));
-    wrappedTimes(i)=1e-6*double(ts(end));
+    ts=int32(fread(f,sampleSizeEvents,'int32',addressSize,'b')); % read sampleSize int32 timestamps, skipping the interposed addresses
+    wrappedTimes(i)=1e-6*double(ts(end)); % times are the last event time in sample
     if i>1 && wrappedTimes(i)<wrappedTimes(i-1),
-        fprintf('w');
+        fprintf('w'); % indicates timestamp wrap
         wrapCounter=wrapCounter+1;
     end
     unwrappedTimes(i)=wrappedTimes(i)+wrapCounter*wrapAdd;
@@ -101,8 +103,8 @@ for i=1:nSamples,
         continue;
     end
     eps(i)=sampleSizeEvents/dt;
-    fprintf('.');
-    if rem(i,90)==0, fprintf('\n'); end;
+    fprintf('.'); % print this for every sampleSize events
+    if rem(i,90)==0, fprintf('\n'); end; % wrap the printing of . or w
 end
 fclose(f);
 
