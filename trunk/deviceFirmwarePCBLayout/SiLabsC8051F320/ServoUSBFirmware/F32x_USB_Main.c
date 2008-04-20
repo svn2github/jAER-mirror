@@ -93,6 +93,7 @@ sbit	Servo3	=	P1^3;
 #define CMD_SET_ALL_SERVOS 9
 #define CMD_DISABLE_ALL_SERVOS 10
 #define CMD_SET_TIMER0_RELOAD_VALUE 11
+#define CMD_SET_PORT2 12
 
 // PWM servo output variables. these are used to hold the new values for the PCA compare registers so that 
 // they can be updated on the interrupt generated when the value can be updated safely without introducing glitches.
@@ -241,6 +242,14 @@ void main(void)
 				LedToggle();
 				TH0=255-Out_Packet[1]; // timer0 reload value, 2 for 60Hz, 1 for 91Hz servo pulse rate, 0 for 180 Hz
 			}
+			break;
+			case CMD_SET_PORT2:
+			{
+				Out_Packet[0]=0; //ack
+				LedToggle();
+				P2=Out_Packet[1];
+			}
+
 		} // switch
 		EA=1; // enable interrupts
 		//LedOn();
@@ -343,7 +352,6 @@ void Sysclk_Init(void)
 void	Port_Init(void)
 {  
 
-// P  1	212          O: bit 1 is ACK output, others are inputs (incl REQ on P0.0)
 // P2: bit 6,7 are LEDs are outputs
 // don't connect any internal functions to ports
 // no weak pullups, no internal functions to ports
