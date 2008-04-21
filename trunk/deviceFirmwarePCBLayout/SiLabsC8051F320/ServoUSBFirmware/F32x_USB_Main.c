@@ -211,17 +211,17 @@ void main(void)
 			{
 				Out_Packet[0]=0; // command is processed
 				LedToggle();
-				pwmh1=Out_Packet[1]; // store the PCA compare value for later interrupt to load
-				pwml1=Out_Packet[2];
+				PCA0CPH0=Out_Packet[1]; // store the PCA compare value for later interrupt to load
+				PCA0CPL0=Out_Packet[2];
 				PCA0CPM0 |= 0x49; // enable compare function and match and interrupt for match for pca
-				pwmh2=Out_Packet[3];
-				pwml2=Out_Packet[4];
+				PCA0CPH1=Out_Packet[3];
+				PCA0CPL1=Out_Packet[4];
 				PCA0CPM1 |= 0x49; // enable compare function and enable match and interrupt for match for pca
-				pwmh3=Out_Packet[5];
-				pwml3=Out_Packet[6];
+				PCA0CPH2=Out_Packet[5];
+				PCA0CPL2=Out_Packet[6];
 				PCA0CPM2 |= 0x49; // enable compare function and enable match and interrupt for match for pca
-				pwmh4=Out_Packet[7];
-				pwml4=Out_Packet[8];
+				PCA0CPH3=Out_Packet[7];
+				PCA0CPL3=Out_Packet[8];
 				PCA0CPM3 |= 0x49; // enable compare function and enable match and interrupt for match for pca
 			}	
 			break;
