@@ -97,7 +97,7 @@ begin
 
         if AERREQxSB = '1' then
             StatexDN   <= stWaitEvent;
-            AERACKxSBO <= '1';          -- release ack as soon as possible
+            --AERACKxSBO <= '1';          -- release ack as soon as possible
         end if;
   
       when others => null;
