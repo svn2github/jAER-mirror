@@ -17,6 +17,10 @@ GL.Globals['Blender_Factor_Angle'] = 0.1665
 GL.Globals['Blender_Factor_Position'] = 1.0
 Blender_Factor = GL.Globals['Blender_Factor']
 
+# Initialize manual control informations
+GL.Globals['ManualSteering'] = 1
+GL.Globals['ManualSpeedControl'] = 1
+
 # Initialize state limits
 GL.Globals['Lower_Limit_z'] = -0.05 * 100
 GL.Globals['Upper_Limit_z'] = 0.05 * 100

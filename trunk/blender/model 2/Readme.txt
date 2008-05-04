@@ -36,7 +36,7 @@ Instructions to run the simulation with sending jAER events:
 
 5.) Put your mouse inside the top-left 3D window, and then push 'p' to start the simulation
 
-6.) Open the input stream in the jAERViewer (File -> Open socket input stream, Port number is 8991)
+6.) Open the input stream in the jAERViewer (File -> Remote -> Open remote server input stream socket, Port number is 8991)
 
 7.) Choose the filter you wanna test in the jAERViewer
 

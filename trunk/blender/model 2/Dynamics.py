@@ -70,17 +70,19 @@ Left = Cont.getSensor("Left")
 Right = Cont.getSensor("Right")
 Forward = Cont.getSensor("Forward")
 
-if Left.isPositive() and not Right.isPositive():
-	GL.Globals['delta_f'] = 0.1
-elif Right.isPositive() and not Left.isPositive():
-	GL.Globals['delta_f'] = -0.1
-else:
-	GL.Globals['delta_f'] = 0.0
-	
-if Forward.isPositive():
-	GL.Globals['M_a_f'] = 1.0
-else:
-	GL.Globals['M_a_f'] = 0.0
+if GL.Globals['ManualSteering'] == 1:
+	if Left.isPositive() and not Right.isPositive():
+		GL.Globals['delta_f'] = 0.1
+	elif Right.isPositive() and not Left.isPositive():
+		GL.Globals['delta_f'] = -0.1
+	else:
+		GL.Globals['delta_f'] = 0.0
+
+if GL.Globals['ManualSpeedControl'] == 1:
+	if Forward.isPositive():
+		GL.Globals['M_a_f'] = 1.0
+	else:
+		GL.Globals['M_a_f'] = 0.0
 
 # Calculate current counters
 z_C = int(round((GL.Globals['z_Mesh'] * max(min(GL.Globals['z'] - GL.Globals['z_Min'], GL.Globals['z_Range']), 0)) + 1, 0))

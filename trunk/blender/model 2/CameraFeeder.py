@@ -85,7 +85,7 @@ def createEvents(pix1, pix2, width, threshold):
 	event = []
 	if 0 == len(pix1) or 0 == len(pix2):
 		return event
-	print len(pix1), len(pix2)
+	# print len(pix1), len(pix2)
 	i = -1
 	for a, b in zip(pix1, pix2):
 		i += 1
@@ -204,41 +204,11 @@ def setupServer():
 	server.run() # without forking, waiting (otherwise with start() it never works (?) )
 
 def doSteer(steer, fwd):
-	""" Steers the 'arrow' object, which drives the car """
-	"""
-	co = GameLogic.getCurrentController()
-	if steer > 0.5:
-		ac = co.getActuator('right-angv')
-		ac.setAngularVelocity(0, 0, -0.8, False)
-		#ac.setForce(0, 0, 10, True)
-	elif steer < 0.5:
-		ac = co.getActuator('left-angv')
-		ac.setAngularVelocity(0, 0, 0.8, False)
-		#ac.setForce(0, 0, -10, True)
-	# else ignore
-	"""
-	# ABOVE, fundamental problem: setting the value is not the same as firing the sensor. But there's no obvious way to fire the sensor from here
-	# The only alternative is to getOwner() and then change one of its properties to trigger the associated sensor
-	for ob in GameLogic.getCurrentScene().getObjectList():
-		# beware that in the GameEngine, object names get an 'OB' tag in front
-		if 'OBarrow' == ob.name:
-			# check if there's any forward motion at all
-			vx, vy, vz = ob.getVelocity(ob.getPosition())
-			if 0 == vx and 0 == vy and 0 == vz:
-				# no motion, so no steering accepted either
-				print 'no motion, cannot steer'
-				break
-			if steer > 0.5:
-				ob.turn_right += 0.001 # just make it change, to trigger the sensor
-			elif steer < 0.5:
-				ob.turn_left -= 0.001
-			# throttle:
-			if fwd > 0.5:
-				ob.throttle += 0.001 # just to make it change to trigger the sensor
-			elif fwd < 0.5:
-				ob.throttle -= 0.001
-			break
-
+	if GameLogic.Globals['ManualSteering'] == 0:
+		GameLogic.Globals['delta_f'] = steer * 0.1
+		
+	if GameLogic.Globals['ManualSpeedControl'] == 0:
+		GameLogic.Globals['delta_f'] = fwd - 0.5
 
 # create a server, to keep around always as a global in the Rasterizer module
 try:
@@ -285,7 +255,8 @@ else:
 					busy = True
 					# parse data
 					h, steer, fwd = struct.unpack('!fff', data)
-					print h, steer, fwd
+					#print h, steer, fwd
+					print "steer:", steer, "   fwd:", fwd
 					doSteer(steer, fwd)
 				break
 			if not busy: time.sleep(1e-3) # to prevent too fast calls (-11 error) on the send
