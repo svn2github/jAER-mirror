@@ -41,7 +41,7 @@ if ~usbinterface.isOpen()
 end
 
 %usbinterface.setContinuousSequencingEnabled(false);
-usbinterface.resetFifos();
+%usbinterface.resetFifos();
 
 inaddr=[];
 ints=[];
@@ -65,7 +65,7 @@ inaddr=[inaddr; inpacket.getAddresses()];
 ints=[ints; inpacket.getTimestamps()];
 
 tick=usbinterface.getOperationMode();
-usbinterface.resetFifos();
+%usbinterface.resetFifos();
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Philipp: I removed the plotting since I use this function repeatedly and
