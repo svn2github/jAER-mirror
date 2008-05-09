@@ -37,7 +37,7 @@
 </javaProperties>
 <javaProperties>
 <name>java.library.path</name>
-<value>${EXECUTABLEPATH}host\java\JNI;${EXECUTABLEPATH}host\java\JNI\SiLabsNativeWindows</value>
+<value>${EXECUTABLEPATH}host\java\jars;${EXECUTABLEPATH}host\java\jars\SiLabsNativeWindows</value>
 </javaProperties>
 <mainClassName>ch.unizh.ini.caviar.JAERViewer</mainClassName>
 <maximumMemoryHeap>536870912</maximumMemoryHeap>
