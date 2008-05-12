@@ -14,6 +14,9 @@
 <classPath>..\host\java\jars\spread.jar</classPath>
 <classPath>..\host\java\jars\gluegen-rt.jar</classPath>
 <classPath>..\host\java\jars\comm.jar</classPath>
+<classPath>..\host\java\jars\jsr80-1.0.1.jar</classPath>
+<classPath>..\host\java\jars\jsr80_linux-1.0.1.jar</classPath>
+<classPath>..\host\java\jars\jsr80_ri-1.0.1.jar</classPath>
 <currentDirectory>host\java</currentDirectory>
 <embeddedJar>false</embeddedJar>
 <executableName>..\jAERViewer.exe</executableName>
