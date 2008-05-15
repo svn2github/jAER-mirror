@@ -1,5 +1,8 @@
 # this script starts JAERViewer under linux
 
+# mount the usbfs needed for jsr80 usb interface
+sudo mount -t usbfs usbfs /proc/bus/usb -o devmode=0666
+
 # cd to the root folder of jAER
 
 cd `dirname $0`
