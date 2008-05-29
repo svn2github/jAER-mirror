@@ -54,15 +54,15 @@ architecture Behavioral of synchronizerStateMachine is
 
   -- used to produce different timestamp ticks and to remain in a certain state
   -- for a certain amount of time
-  signal DividerxDN, DividerxDP : std_logic_vector(4 downto 0);
+  signal DividerxDN, DividerxDP : std_logic_vector(5 downto 0);
 
 begin  -- Behavioral
 
   -- calculate next state
   p_memless : process (StatexDP, SyncInxS, SyncInxAI, ResetxRBI, ConfigxSI, DividerxDP, HostResetTimestampxSI)
-    variable counterInc : integer := 29;
-    variable syncOutLow1 : integer := 25;
-    variable syncOutLow2 : integer := 26;
+    variable counterInc : integer := 47;
+    variable syncOutLow1 : integer := 43;
+    variable syncOutLow2 : integer := 44;
   begin  -- process p_memless
     -- default assignements
     StatexDN             <= StatexDP;
@@ -72,15 +72,15 @@ begin  -- Behavioral
     IncrementCounterxSO  <= '0';
     MasterxSO            <= '1';        -- we are master
 
-    if ConfigxSI = '0' then
-      counterInc :=  29;
-      syncOutLow2 :=  26;
-      syncOutLow1 := 25;
-    elsif ConfigxSI = '1' then
-      counterInc :=  5;
-      syncOutLow2 :=  3;
-      syncOutLow1 :=  2;
-    end if;
+  --  if ConfigxSI = '0' then
+  --    counterInc :=  47;
+  --    syncOutLow2 :=  43;
+  --    syncOutLow1 := 44;
+  --  elsif ConfigxSI = '1' then
+  --    counterInc :=  5;
+  --    syncOutLow2 :=  3;
+  --    syncOutLow1 :=  2;
+  --  end if;
     
     case StatexDP is
       when stMasterIdle               =>  -- waiting for either sync in to go
