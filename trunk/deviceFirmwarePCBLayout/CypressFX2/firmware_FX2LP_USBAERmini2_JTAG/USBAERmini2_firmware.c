@@ -52,7 +52,8 @@ extern BOOL Selfpwr;
 #define VR_SET_DEVICE_NAME 0xC2
 #define VR_TIMESTAMP_TICK 0xC3
 #define VR_RESET_FIFOS 0xC4
-#define VR_DOWNLOAD_CPLD_CODE 0xC5 
+#define VR_DOWNLOAD_CPLD_CODE 0xC5
+#define VR_XSVF_ERROR_CODE 0xD5 
 #define VR_ENABLE_AE 0xC6  // start monitor and sequencer
 #define VR_DISABLE_AE 0xC7 // stop monitor and sequencer
 #define VR_READOUT_EEPROM 0xC9
@@ -176,7 +177,8 @@ void TD_Init(void)              // Called once at startup
 
 	//enable Port C as output, except timestamp_master pin (4)
 	OEC = 0xEF; // 1110_1111
-	OEE = 0xDF;  //OEE = 0x0F; // float JTAG pins  
+	//OEE = 0xDF;  //
+	OEE = 0x0F; // float JTAG pins  
 	IOE = 0xFF;
 
 	OEA = 0x88; // configure remaining two pins as output to avoid floating inputs: 1000_1000
@@ -440,12 +442,15 @@ BOOL DR_GetInterface(void)       // Called when a Set Interface command is recei
 //         6  wLengthL Number of bytes to transfer if there is a data phase
 //         7  wLengthH
 
+BYTE xsvfReturn;
+
 BOOL DR_VendorCmnd(void)
 {	
 	WORD addr, len, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
 	WORD i;
+
 	char *dscrRAM;
-	unsigned char xdata JTAGdata[180];
+	unsigned char xdata JTAGdata[400];
 
 	switch (SETUPDAT[1]){
 		case VR_ENABLE_AE_IN: // enable IN transfers
@@ -526,12 +531,13 @@ BOOL DR_VendorCmnd(void)
 			}
 		case VR_DOWNLOAD_CPLD_CODE:
 			{
+			if (SETUPDAT[0]==VR_DOWNLOAD) {
 				if (JTAGinit)
 				{
-					//IOE=0x00;
-					//OEE = 0xDF;   // configure only TDO as input (bit 5) : 1101_1111
-					IOE=0xFF;
 					IOE=0x00;
+					OEE = 0xDF;   // configure only TDO as input (bit 5) : 1101_1111
+				//	IOE=0xFF;
+				//	IOE=0x00;
 					xsvfInitialize();
 					JTAGinit=FALSE;
 					
@@ -540,7 +546,17 @@ BOOL DR_VendorCmnd(void)
 				len = SETUPDAT[6];
 				len |= SETUPDAT[7] << 8;
 
+				if (len>400)
+				{
+					xsvfReturn=10;
+					OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
+					JTAGinit=TRUE;
+					break;
+				}
+
 				addr=0;
+
+				resetReadCounter(JTAGdata);
 
 				while(len)					// Move new data through EP0OUT 
 				{							// one packet at a time.
@@ -558,26 +574,44 @@ BOOL DR_VendorCmnd(void)
 					addr += bc;
 					len -= bc;
 				}
-
-				resetReadCounter(JTAGdata);
 			
 
 				if (SETUPDAT[2]==0x00) //complete
 				{
-				//	OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
+					OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
 					JTAGinit=TRUE;
 				} else
 				{
-					if (xsvfRun()) // returns true if error
+					xsvfReturn=xsvfRun();
+					if (xsvfReturn>0) // returns true if error
 					{
 						OEE = 0x0F;   // configure JTAG pins to float : 0000_1111
 						JTAGinit=TRUE;
-						return TRUE;
+				
+					//	return TRUE;
 					}
+
 				}
 	
+				/* EP0BUF[0] = SETUPDAT[1];
+				EP0BCH = 0;
+				EP0BCL = 1;
+				EP0CS |= bmHSNAK;
+
+				return(FALSE); */
 				break;
-			} 
+			}
+ 			else //case VR_XSVF_ERROR_CODE:
+			{
+				EP0BUF[0] = SETUPDAT[1];
+				EP0BUF[1]= xsvfReturn;
+				EP0BCH = 0;
+				EP0BCL = 2;
+				EP0CS |= bmHSNAK;
+
+				return(FALSE);
+			}
+			}
 		case VR_TIMESTAMP_TICK:
 			{
 				if (SETUPDAT[0]==VR_UPLOAD) //1010_0000 :vendor request to device, direction IN

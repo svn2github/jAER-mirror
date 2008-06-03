@@ -8,12 +8,6 @@
 * Options:      XSVF_SUPPORT_COMPRESSION
 *                   This define supports the XC9500/XL compression scheme.
 *                   This define adds support for XSDRINC and XSETSDRMASKS.
-*               XSVF_SUPPORT_ERRORCODES
-*                   This define causes the xsvfExecute function to return
-*                   an error code for specific errors.  See error codes below.
-*                   If this is not defined, the return value defaults to the
-*                   legacy values for backward compatibility:
-*                   1 = success;  0 = failure.
 * Debugging:    DEBUG_MODE (Legacy name)
 *               Define DEBUG_MODE to compile with debugging features.
 *               Both micro.c and ports.c must be compiled with the DEBUG_MODE
@@ -68,15 +62,8 @@
 *               (The original XSVF player just returned 1 for success and
 *               0 for an unspecified failure.)
 *****************************************************************************/
-#ifndef XSVF_SUPPORT_ERRORCODES
-    #define XSVF_SUPPORT_ERRORCODES     1
-#endif
 
-#ifdef  XSVF_SUPPORT_ERRORCODES
     #define XSVF_ERRORCODE(errorCode)   errorCode
-#else   /* Use legacy error code */
-    #define XSVF_ERRORCODE(errorCode)   ((errorCode==XSVF_ERROR_NONE)?1:0)
-#endif  /* XSVF_SUPPORT_ERRORCODES */
 
 /*============================================================================
 * DEBUG_MODE #define

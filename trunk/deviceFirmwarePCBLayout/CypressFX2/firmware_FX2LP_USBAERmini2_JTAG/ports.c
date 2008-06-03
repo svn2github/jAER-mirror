@@ -62,7 +62,7 @@ void waitTime(int cnt)
 {											    
     int        i;
 
-    for ( i = 0; i < cnt/2; ++i )
+    for ( i = 0; i < cnt; ++i )
     {
         pulseClock();
     }
