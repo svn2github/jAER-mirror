@@ -28,7 +28,7 @@
 </javaProperties>
 <javaProperties>
 <name>java.library.path</name>
-<value>JNI</value>
+<value>jars</value>
 </javaProperties>
 <mainClassName>ch.unizh.ini.caviar.JAERTrayLauncher</mainClassName>
 <maximumMemoryHeap>536870912</maximumMemoryHeap>
