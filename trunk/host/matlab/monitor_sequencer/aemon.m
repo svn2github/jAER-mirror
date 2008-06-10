@@ -22,8 +22,8 @@ if ~usbinterface.isOpen()
         usbinterface.open     
 end
 
-usbinterface.resetFifos();
-
+% usbinterface.resetFifos(); % method resetFifos() does not exist anymore
+ 
 inaddr=[];
 ints=[];
 
@@ -44,7 +44,7 @@ inaddr=[inaddr; inpacket.getAddresses()];
 ints=[ints; inpacket.getTimestamps()];
 
 tick=usbinterface.getOperationMode();
-usbinterface.resetFifos();
+% usbinterface.resetFifos();
 
 subplot(2,1,1)
 plot(ints,inaddr,'.b');

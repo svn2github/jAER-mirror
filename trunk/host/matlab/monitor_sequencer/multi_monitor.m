@@ -29,7 +29,8 @@ for i=1:numberOfDevices
    if ~devices(i).isOpen()
       devices(i).open
    end
-   devices(i).resetFifos()
+
+   %devices(i).resetFifos() %method does not exist anymore
    devices(i).startAEReader()
 end
 

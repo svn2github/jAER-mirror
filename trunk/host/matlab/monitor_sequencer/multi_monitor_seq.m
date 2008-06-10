@@ -53,7 +53,7 @@ for i=1:numberOfDevices
       monitors(i).open
    end
    monitors(i).startAEReader()
-   monitors(i).resetFifos()
+   %monitors(i).resetFifos() % method does not exist anymore
 end
 
 for i=1:numberOfDevices
