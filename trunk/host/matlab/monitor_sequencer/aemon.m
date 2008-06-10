@@ -32,7 +32,7 @@ usbinterface.setEventAcquisitionEnabled(true);
 tic
 
 while toc<monitortime
-    inpacket=usbinterface.acquireAvailableEventsFromDriver;
+    inpacket=usbinterface.acquireAvailableEventsFromDriver.getPrunedCopy();
     
     inaddr=[inaddr; inpacket.getAddresses()];
     ints=[ints; inpacket.getTimestamps()];
@@ -46,15 +46,15 @@ ints=[ints; inpacket.getTimestamps()];
 tick=usbinterface.getOperationMode();
 % usbinterface.resetFifos();
 
-subplot(2,1,1)
-plot(ints,inaddr,'.b');
-axis([0 ints(end) 0 2^16])
-title('address vs timestamp')
-xlabel('timestamp')
-ylabel('address')
+%subplot(2,1,1)
+%plot(ints,inaddr,'.b');
+%axis([0 ints(end) 0 2^16])
+%title('address vs timestamp')
+%xlabel('timestamp')
+%ylabel('address')
 
-subplot(2,1,2)
-plot(1:length(ints),ints)
-title('timestamp vs number of event')
-xlabel('number of event')
-ylabel('timestamp')
+%subplot(2,1,2)
+%plot(1:length(ints),ints)
+%title('timestamp vs number of event')
+%xlabel('number of event')
+%ylabel('timestamp')

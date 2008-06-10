@@ -41,7 +41,7 @@ end
 tic
 while toc<monitortime
     for i=1:numberOfDevices
-        inpacket=devices(i).acquireAvailableEventsFromDriver;
+        inpacket=devices(i).acquireAvailableEventsFromDriver.getPrunedCopy();
     
         addr{i}=[addr{i}; inpacket.getAddresses()];
         timestamps{i}=[timestamps{i}; inpacket.getTimestamps()];

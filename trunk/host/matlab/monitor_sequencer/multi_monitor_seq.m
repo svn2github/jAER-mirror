@@ -68,7 +68,7 @@ sequencer.startMonitoringSequencing(outpacket);
 tic
 while toc<monitortime
     for i=1:numberOfDevices
-        inpacket=monitors(i).acquireAvailableEventsFromDriver;
+        inpacket=monitors(i).acquireAvailableEventsFromDriver.getPrunedCopy();
     
         addr{i}=[addr{i}; inpacket.getAddresses()];
         timestamps{i}=[timestamps{i}; inpacket.getTimestamps()];
