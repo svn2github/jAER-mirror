@@ -5,4 +5,5 @@ hex2bix  -R -f 0xC2 -v 0x5047 -p 0x8701 -o firmwareFX2_RetinaCPLD.bix firmwareFX
 hex2bix -i -M 16384 -f 0xC2 -o firmwareFX2_RetinaCPLD.iic firmwareFX2_RetinaCPLD.hex
 copy firmwareFX2_RetinaCPLD.hex ..\..\..\host\java\src\ch\unizh\ini\caviar\hardwareinterface\usb\firmwareFX2_RetinaCPLD_JTAG.hex
 copy firmwareFX2_RetinaCPLD.bix ..\..\..\host\java\src\ch\unizh\ini\caviar\hardwareinterface\usb\firmwareFX2_RetinaCPLD_JTAG.bix
+copy firmwareFX2_RetinaCPLD.iic ..\..\..\host\java\src\ch\unizh\ini\caviar\hardwareinterface\usb\firmwareFX2_RetinaCPLD_JTAG.iic
 pause
