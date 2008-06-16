@@ -52,7 +52,7 @@ void TD_Poll(void);
 //BOOL TD_Suspend(void);
 //BOOL TD_Resume(void);
 
-//void downloadSerialNumberFromEEPROM();
+void downloadSerialNumberFromEEPROM();
 
 BOOL DR_GetDescriptor(void);
 BOOL DR_SetConfiguration(void);
@@ -136,7 +136,7 @@ void main(void)
  //  Sleep = FALSE;
 
 	//download the serial number from the EEPROM
-	//downloadSerialNumberFromEEPROM();
+	downloadSerialNumberFromEEPROM();
 
    // Task Dispatcher
    while(TRUE)               // Main Loop

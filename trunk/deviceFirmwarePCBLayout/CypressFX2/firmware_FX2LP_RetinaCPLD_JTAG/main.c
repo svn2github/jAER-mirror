@@ -36,9 +36,9 @@ extern BOOL Selfpwr;
 
 #define LED 	PA7
 
-#define EEPROM_SIZE 0x4000
-//#define MAX_NAME_LENGTH 8
-//#define STRING_ADDRESS (EEPROM_SIZE - MAX_NAME_LENGTH)
+#define EEPROM_SIZE 0x8000
+#define MAX_NAME_LENGTH 4
+#define STRING_ADDRESS (EEPROM_SIZE - MAX_NAME_LENGTH)
 
 #define MSG_TS_RESET 1
 
@@ -47,7 +47,7 @@ extern BOOL Selfpwr;
 #define VR_DISABLE_AE_IN 0xB4 // disable IN transfers
 #define VR_TRIGGER_ADVANCE_TRANSFER 0xB7 // trigger in packet commit (for host requests for early access to AE data) NOT IMPLEMENTED
 #define VR_RESETTIMESTAMPS 0xBb 
-//#define VR_SET_DEVICE_NAME 0xC2
+#define VR_SET_DEVICE_NAME 0xC2
 #define VR_TIMESTAMP_TICK 0xC3
 #define VR_RESET_FIFOS 0xC4
 #define VR_DOWNLOAD_CPLD_CODE 0xC5 
@@ -93,7 +93,7 @@ void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf);
 void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf);
 void EEPROMWriteBYTE(WORD addr, BYTE value);
 
-//void downloadSerialNumberFromEEPROM(void);
+void downloadSerialNumberFromEEPROM(void);
 
 //sbit arrayReset=IOE^5;	// arrayReset=0 to reset all pixels, this on port E.5 but is not bit addressable
 // arrayReset is active low, low=reset pixel array, high=operate normally
@@ -211,7 +211,7 @@ void TD_Poll(void)              // Called repeatedly while the device is idle
 	}		
 }
 
-/*void downloadSerialNumberFromEEPROM(void)
+void downloadSerialNumberFromEEPROM(void)
 {
 	BYTE i;
 
@@ -229,7 +229,7 @@ void TD_Poll(void)              // Called repeatedly while the device is idle
 	{
 		dscrRAM[2+i*2] = buf[i];
 	}
-}*/
+}
 
 void startMonitor(void)
 {
@@ -394,7 +394,7 @@ BOOL DR_VendorCmnd(void)
 {	
 	WORD addr, len, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
 	WORD i;
-//	char *dscrRAM;
+	char *dscrRAM;
 	unsigned char xdata JTAGdata[400];
 
 	switch (SETUPDAT[1]){
@@ -506,7 +506,7 @@ BOOL DR_VendorCmnd(void)
 				return(FALSE);
 			}
 			}
-	/*	case VR_SET_DEVICE_NAME:
+		case VR_SET_DEVICE_NAME:
 			{
 				*EP0BUF = SETUPDAT[1];
 				EP0BCH = 0;
@@ -541,7 +541,7 @@ BOOL DR_VendorCmnd(void)
 				EP0BCL = 0;
 
 				return(FALSE);
-			}*/		
+			}		
 		case VR_RESETTIMESTAMPS:
 			{
 				RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
@@ -602,8 +602,6 @@ BOOL DR_VendorCmnd(void)
 				break; // very important, otherwise get stall
 
 			}
-/* TCVS320 doesn't have global array reset but Tmpdiff128 does, we enable it here but it won't do anything on TCVS320*/
-
 		case VR_SETARRAYRESET: // set array reset, based on lsb of argument
 			{
 				if (SETUPDAT[2]&0x01)
@@ -647,11 +645,6 @@ BOOL DR_VendorCmnd(void)
 				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
 				return (FALSE); // very important, otherwise get stall
 			}
-
-/*	case VR_DOWNLOAD_CPLD_CODE:
-			{
-				break;
-			} */
 		case VR_TIMESTAMP_TICK:
 			{
 				if (SETUPDAT[0]==VR_UPLOAD) //1010_0000 :vendor request to device, direction IN
