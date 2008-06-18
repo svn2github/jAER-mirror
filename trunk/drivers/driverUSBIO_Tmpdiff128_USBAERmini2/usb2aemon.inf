@@ -96,7 +96,7 @@ HKR,,Icon,,"-20"
 %S_DeviceDescMapper%=_Install, USB\Vid_0547&Pid_8900
 %S_DeviceDescTCVS320%=_Install, USB\Vid_0547&Pid_8702
 %S_DeviceDescStereoTmpdiff128%=_Install, USB\Vid_0547&Pid_8703
-
+%S_DeviceDescDVS128%=_Install, USB\Vid_152A&Pid_8400
 
 ;******************************************************************************
 ; Install sections x86-based systems
@@ -257,6 +257,7 @@ S_DeviceDescRetinaCPLD="TmpDiff128CPLD"
 S_DeviceDescMapper="USB2AERmapper"
 S_DeviceDescTCVS320="TCVS320"
 S_DeviceDescStereoTmpdiff128="StereoTmpdiff128"
+S_DeviceDescDVS128="DVS128"
 
 ; disk name
 S_DiskName="jAER USBAER host driver Thesycon USBIO"

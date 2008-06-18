@@ -91,6 +91,8 @@ HKR,,Icon,,"-20"
 %S_DeviceDesc%=_Install, USB\Vid_0547&Pid_8801
 %S_DeviceDescMapper%=_Install, USB\Vid_0547&Pid_8900
 %S_DeviceDescBlank%=_Install, USB\Vid_04B4&Pid_8613
+%S_DeviceDescStereoTmpdiff128%=_Install, USB\Vid_0547&Pid_8703
+%S_DeviceDescDVS128%=_Install, USB\Vid_152A&Pid_8400
 
 ;******************************************************************************
 ; Install sections x64-based systems
@@ -246,6 +248,8 @@ S_DeviceDesc="USBAERmini2"
 S_DeviceDescRetina="TmpDiff128"
 S_DeviceDescBlank="CypressFX2Blank"
 S_DeviceDescMapper="USB2AERmapper"
+S_DeviceDescStereoTmpdiff128="StereoTmpdiff128"
+S_DeviceDescDVS128="DVS128"
 
 ; device description
 S_DeviceDesc1="USB2 AER Monitor Sequencer"
