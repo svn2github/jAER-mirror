@@ -75,8 +75,20 @@ extern BOOL Selfpwr;
 
 BYTE operationMode;
 
+#define NUM_BIAS_BYTES 36
 xdata unsigned int numBiasBytes; // number of bias bytes saved
-xdata unsigned char biasBytes[255]; // bias bytes values saved here
+xdata unsigned char biasBytes[]={0x00,0x04,0x2B,\
+								0x00,0x30,0x1C,\
+								0xFF,0xFF,0xFF,\
+								0x55,0x23,0xD4,\
+								0x00,0x00,0x97,\
+								0x06,0x86,0x4A,\
+								0x00,0x00,0x00,\
+								0xFF,0xFF,0xFF,\
+								0x04,0x85,0x3D,\
+								0x00,0x0E,0x28,\
+								0x00,0x00,0x27,\
+								0x00,0x00,0x04}; // bias bytes values saved here
 
 long cycleCounter;
 long missedEvents;
@@ -106,7 +118,8 @@ void downloadSerialNumberFromEEPROM(void);
 //-----------------------------------------------------------------------------
 
 void TD_Init(void)              // Called once at startup
-{  
+{
+	BYTE i;  
 	// set the CPU clock to 48MHz
 	//CPUCS = ((CPUCS & ~bmCLKSPD) | bmCLKSPD1) ;
 	CPUCS = 0x12 ; // 1_0010 : clockspeed 48MHz, drive output pin
@@ -198,6 +211,12 @@ void TD_Init(void)              // Called once at startup
 
 	IT1=1; // INT1# edge-sensitve
 	EX1=1; // enable INT1#
+
+	for (i=0;i<NUM_BIAS_BYTES;i++)
+	{
+		spiwritebyte(biasBytes[i]);
+	}
+	latchNewBiases();	
 
 	//startMonitor();
 }
