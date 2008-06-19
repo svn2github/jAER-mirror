@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
+<preferences EXTERNAL_XML_VERSION="1.0">
+  <root type="user">
+    <map/>
+    <node name="ch">
+      <map/>
+      <node name="unizh">
+        <map/>
+        <node name="ini">
+          <map/>
+          <node name="caviar">
+            <map/>
+            <node name="chip">
+              <map/>
+              <node name="retina">
+                <map>
+                  <entry key="SubSampler.bits" value="1"/>
+                  <entry key="XYTypeFilter.filterEnabled" value="false"/>
+                  <entry key="RotateFilter.filterEnabled" value="false"/>
+                  <entry key="RepetitiousFilter.filterEnabled" value="false"/>
+                  <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
+                  <entry key="SubSampler.filterEnabled" value="false"/>
+                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAKdwQAAAAKdAA3Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlhZVHlwZUZpbHRlcnQAN2NoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5Sb3RhdGVGaWx0ZXJ0ADxjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuUmVwZXRpdGlvdXNGaWx0ZXJ0AENjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuQmFja2dyb3VuZEFjdGl2aXR5RmlsdGVydAA1Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlN1YlNhbXBsZXJ0AEFjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5sYWJlbC5TaW1wbGVPcmllbnRhdGlvbkZpbHRlcnQAQmNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmxhYmVsLkRpcmVjdGlvblNlbGVjdGl2ZUZpbHRlcnQAOWNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLnRyYWNraW5nLkNsYXNzVHJhY2tlcnQAOGNoLnVuaXpoLmluaS5jYXZpYXIuY2hpcC5yZXRpbmEuVG1wZGlmZjEyOFJhdGVDb250cm9sbGVydAAzY2gudW5pemguaW5pLmNhdmlhci5jaGlwLnJldGluYS5zZW5zb3J5bW90b3IuR29hbGlleA=="/>
+                  <entry key="MultiLineClusterTracker.filterEnabled" value="false"/>
+                  <entry key="DirectionSelectiveFilter.searchDistance" value="1"/>
+                  <entry key="DirectionSelectiveFilter.filterEnabled" value="false"/>
+                  <entry key="MultiLineClusterTracker.thresholdEventsForVisibleCluster" value="228"/>
+                  <entry key="MultiLineClusterTracker.clusterLifetimeWithoutSupport" value="118540"/>
+                  <entry key="MultiLineClusterTracker.rhoRadius" value="11.5631075"/>
+                  <entry key="MultiLineClusterTracker.mixingFactorTheta" value="0.1185391"/>
+                  <entry key="MultiLineClusterTracker.mixingFactorRho" value="0.17899404"/>
+                  <entry key="MultiLineClusterTracker.mixingFactorPosition" value="0.1165904"/>
+                  <entry key="AEChip.subSamplingEnabled" value="false"/>
+                  <entry key="Tmpdiff128RateController.rateFilter3dBFreqHz" value="0.16036813"/>
+                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.upperThreshKEPS" value="212"/>
+                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.lowerThreshKEPS" value="10"/>
+                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.hysteresisKEPS" value="21"/>
+                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.midThreshKEPS" value="118"/>
+                  <entry key="Tmpdiff128RateController.rateLow" value="12"/>
+                  <entry key="Tmpdiff128RateController.rateHigh" value="299"/>
+                  <entry key="Tmpdiff128RateController.hysteresisFactor" value="1.1831249"/>
+                  <entry key="Tmpdiff128.IPot.cas" value="1966"/>
+                  <entry key="Tmpdiff128.IPot.injGnd" value="22703"/>
+                  <entry key="Tmpdiff128.IPot.reqPd" value="16777215"/>
+                  <entry key="Tmpdiff128.IPot.puX" value="7585671"/>
+                  <entry key="Tmpdiff128.IPot.diffOff" value="5824"/>
+                  <entry key="Tmpdiff128.IPot.req" value="111347"/>
+                  <entry key="Tmpdiff128.IPot.refr" value="0"/>
+                  <entry key="Tmpdiff128.IPot.puY" value="16777215"/>
+                  <entry key="Tmpdiff128.IPot.diffOn" value="229033"/>
+                  <entry key="Tmpdiff128.IPot.diff" value="28995"/>
+                  <entry key="Tmpdiff128.IPot.foll" value="19"/>
+                  <entry key="Tmpdiff128.IPot.Pr" value="8"/>
+                  <entry key="Masterbias.rx" value="8200.0"/>
+                  <entry key="Masterbias.rint" value="46000.0"/>
+                  <entry key="Masterbias.internalResistorUsed" value="false"/>
+                  <entry key="SimpleOrientationFilter.filterEnabled" value="false"/>
+                  <entry key="Tmpdiff128RateController.filterEnabled" value="false"/>
+                  <entry key="Goalie.filterEnabled" value="false"/>
+                  <entry key="SubSamplingBandpassFilter.surroundRadius" value="1"/>
+                  <entry key="SubSamplingBandpassFilter.surroundScale" value="1"/>
+                  <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="6447"/>
+                  <entry key="RectangularClusterTracker.maxNumClusters" value="9"/>
+                  <entry key="RectangularClusterTracker.clusterSize" value="0.068370044"/>
+                  <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="5"/>
+                  <entry key="SubSamplingBandpassFilter.filterEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
+                  <entry key="Driver.filterEnabled" value="false"/>
+                  <entry key="OnOffProximityLineFilter.filterEnabled" value="false"/>
+                  <entry key="OnOffProximityLineFilter.subsampleBy" value="1"/>
+                  <entry key="XYTypeFilter.endY" value="71"/>
+                  <entry key="XYTypeFilter.xEnabled" value="true"/>
+                  <entry key="XYTypeFilter.yEnabled" value="true"/>
+                  <entry key="XYTypeFilter.endX" value="111"/>
+                  <entry key="XYTypeFilter.startX" value="18"/>
+                  <entry key="MultiLineClusterTracker.renderInputEvents" value="false"/>
+                  <entry key="MultiLineClusterTracker.maxNumClusters" value="5"/>
+                  <entry key="MultiLineClusterTracker.showAllClusters" value="true"/>
+                  <entry key="OnOffProximityLineFilter.dt" value="30522"/>
+                  <entry key="MultiLineClusterTracker.XYTypeFilter" value="true"/>
+                  <entry key="MultiLineClusterTracker.SimpleOrientationFilter" value="true"/>
+                  <entry key="MultiLineClusterTracker.BackgroundActivityFilter" value="false"/>
+                  <entry key="MultiLineClusterTracker.OnOffProximityLineFilter" value="true"/>
+                  <entry key="MultiLineClusterTracker.XYTypeFilter.filterEnabled" value="true"/>
+                  <entry key="MultiLineClusterTracker.SimpleOrientationFilter.filterEnabled" value="true"/>
+                  <entry key="MultiLineClusterTracker.BackgroundActivityFilter.filterEnabled" value="false"/>
+                  <entry key="MultiLineClusterTracker.OnOffProximityLineFilter.filterEnabled" value="true"/>
+                  <entry key="Driver.gain" value="0.44852328"/>
+                  <entry key="Driver.lpCornerFreqHz" value="4.999999"/>
+                  <entry key="Driver.flipSteering" value="true"/>
+                  <entry key="HoughLineTracker.filterEnabled" value="false"/>
+                  <entry key="Driver.useMultiLineTracker" value="false"/>
+                  <entry key="DriverPreFilter.RotateFilter.filterEnabled" value="true"/>
+                  <entry key="DriverPreFilter.XYTypeFilter.filterEnabled" value="true"/>
+                  <entry key="DriverPreFilter.BackgroundActivityFilter.filterEnabled" value="false"/>
+                  <entry key="DriverPreFilter.OnOffProximityLineFilter.filterEnabled" value="true"/>
+                  <entry key="DriverPreFilter.SimpleOrientationFilter.filterEnabled" value="false"/>
+                  <entry key="DirectionSelectiveFilter.showVectorsEnabled" value="false"/>
+                  <entry key="DirectionSelectiveFilter.ppsScale" value="0.013103784"/>
+                  <entry key="DirectionSelectiveFilter.showGlobalEnabled" value="false"/>
+                  <entry key="MotionCompensator.cornerFreqHz" value="0.035894264"/>
+                  <entry key="MotionCompensator.filterEnabled" value="false"/>
+                  <entry key="MotionCompensator.gain" value="1.0"/>
+                  <entry key="SimpleOrientationFilter.searchDistance" value="2"/>
+                  <entry key="SimpleOrientationFilter.minDtThreshold" value="66226"/>
+                  <entry key="SimpleOrientationFilter.subSampleShift" value="1"/>
+                  <entry key="SimpleOrientationFilter.useAverageDtEnabled" value="true"/>
+                  <entry key="filterEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.highwayPerspectiveEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.mixingFactor" value="0.0028124114"/>
+                  <entry key="RectangularClusterTracker.showVelocity" value="true"/>
+                  <entry key="RectangularClusterTracker.showAllClusters" value="true"/>
+                  <entry key="RectangularClusterTracker.dynamicSizeEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.dynamicAspectRatioEnabled" value="false"/>
+                  <entry key="LineTracker.favorVertical" value="true"/>
+                  <entry key="LineTracker.tauMs" value="56.591324"/>
+                  <entry key="LineTracker.updateThresholdEvents" value="12"/>
+                  <entry key="LineTracker.thetaResDeg" value="6.9536395"/>
+                  <entry key="LineTracker.rhoResPixels" value="4.4772935"/>
+                  <entry key="LineTracker.favorVerticalAngleRangeDeg" value="60.0"/>
+                  <entry key="Driver.tauDynMs" value="68.78111"/>
+                  <entry key="Driver.tauDynUs" value="80000.12"/>
+                  <entry key="Driver.offsetGain" value="0.006441994"/>
+                  <entry key="Driver.angleGain" value="0.3897263"/>
+                  <entry key="DirectionSelectiveFilter.showRawInputEnabled" value="false"/>
+                  <entry key="DirectionSelectiveFilter.excessSpeedRejectFactor" value="3"/>
+                  <entry key="DirectionSelectiveFilter.minDtThreshold" value="124"/>
+                  <entry key="DirectionSelectiveFilter.maxDtThreshold" value="161371"/>
+                  <entry key="DirectionSelectiveFilter.speedControlEnabled" value="true"/>
+                  <entry key="DirectionSelectiveFilter.tauLow" value="46"/>
+                  <entry key="DirectionSelectiveFilter.useAvgDtEnabled" value="true"/>
+                  <entry key="BillCatcher.filterEnabled" value="false"/>
+                  <entry key="BillCatcher.motionThresholdPixelsPerSec" value="81.392426"/>
+                  <entry key="RepetitiousFilter.minDtToStore" value="2080"/>
+                  <entry key="RepetitiousFilter.ratioLonger" value="6"/>
+                  <entry key="RepetitiousFilter.ratioShorter" value="7"/>
+                  <entry key="BillCatcher.servoOpenValue" value="0.30000004"/>
+                  <entry key="BillCatcher.grabLengthMs" value="450"/>
+                  <entry key="RepetitiousFilter.passRepetitiousEvents" value="false"/>
+                  <entry key="BillCatcher.minkEPSToGrab" value="100.0"/>
+                  <entry key="BackgroundActivityFilter.subsampleBy" value="1"/>
+                  <entry key="Info.filterEnabled" value="false"/>
+                  <entry key="Info.analogClock" value="true"/>
+                  <entry key="Info.date" value="true"/>
+                  <entry key="Info.digitalClock" value="true"/>
+                  <entry key="Info.absoluteTime" value="true"/>
+                  <entry key="RectangularClusterTracker.thresholdVelocityForVisibleCluster" value="0.21828729"/>
+                  <entry key="RectangularClusterTracker.velocityMixingFactor" value="0.05963748"/>
+                  <entry key="Info.eventRate" value="true"/>
+                  <entry key="Info.eventRateTauMs" value="1.0"/>
+                  <entry key="Goalie.rowsFromBottomToGoal" value="30"/>
+                  <entry key="Goalie.pixelsToEdgeOfGoal" value="44"/>
+                  <entry key="Goalie.blindspotDelayMs" value="127"/>
+                  <entry key="ServoArm.filterEnabled" value="false"/>
+                  <entry key="Goalie.learnTimeMs" value="2147483647"/>
+                  <entry key="Goalie.learnDelayMS" value="1140"/>
+                  <entry key="Goalie.topRowsToIgnore" value="0"/>
+                  <entry key="Goalie.useSoonest" value="false"/>
+                  <entry key="Goalie.useVelocityForGoalie" value="true"/>
+                  <entry key="XYTypeFilter.startY" value="24"/>
+                  <entry key="Goalie.pixelsToTipOfArm" value="37"/>
+                  <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.pathLength" value="50"/>
+                  <entry key="RectangularClusterTracker.pathsEnabled" value="true"/>
+                  <entry key="ClassTracker.filterEnabled" value="false"/>
+                  <entry key="BackgroundActivityFilter.dt" value="24856"/>
+                  <entry key="XYTypeFilter.invertEnabled" value="false"/>
+                  <entry key="XYTypeFilter.typeEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.aspectRatio" value="1.2762814"/>
+                  <entry key="DirectionSelectiveFilter.subSampleShift" value="1"/>
+                  <entry key="SimpleOrientationFilter.passAllEvents" value="false"/>
+                  <entry key="RepetitiousFilter.averagingSamples" value="4"/>
+                  <entry key="Goalie.minPathPointsToUseVelocity" value="6"/>
+                  <entry key="Goalie.sleepDelaySec" value="812"/>
+                  <entry key="Goalie.maxYToUseVelocity" value="128"/>
+                  <entry key="Goalie.relaxationDelayMs" value="295"/>
+                  <entry key="Goalie.wakeupBallDistance" value="0.35499212"/>
+                  <entry key="Goalie.rangeOutsideViewToBlockPixels" value="9"/>
+                  <entry key="Info.useLocalTimeZone" value="true"/>
+                  <entry key="Info.timeOffsetMs" value="0"/>
+                  <entry key="Info.timestampScaleFactor" value="1.053"/>
+                  <entry key="EyeTracker.filterEnabled" value="false"/>
+                  <entry key="EyeTracker.scalingEnabled" value="true"/>
+                  <entry key="EyeTracker.dynamicAcquisitionSize" value="false"/>
+                  <entry key="EyeTracker.irisRadius" value="30.2"/>
+                  <entry key="EyeTracker.scalingMixingFactor" value="0.0022801"/>
+                  <entry key="EyeTracker.positionMixingFactor" value="0.03925136"/>
+                  <entry key="EyeTracker.rimThickness" value="8.600223"/>
+                  <entry key="HoughEyeTracker.filterEnabled" value="false"/>
+                  <entry key="HoughTracker.eyeCenterX" value="40"/>
+                  <entry key="HoughTracker.eyeCenterY" value="51"/>
+                  <entry key="RefractoryFilter.filterEnabled" value="false"/>
+                  <entry key="BackgroundActivityFilter.refractoryPeriodMs" value="8737"/>
+                  <entry key="RefractoryFilter.refractoryPeriodUs" value="7850"/>
+                  <entry key="RefractoryFilter.subsampleBy" value="0"/>
+                  <entry key="MultiLineClusterTracker.eventBufferLength" value="8"/>
+                </map>
+                <node name="ch">
+                  <map/>
+                  <node name="unizh">
+                    <map/>
+                    <node name="ini">
+                      <map/>
+                      <node name="caviar">
+                        <map/>
+                        <node name="ballshooter">
+                          <map/>
+                          <node name="BallShooter">
+                            <map>
+                              <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="3000"/>
+                              <entry key="RectangularClusterTracker.maxNumClusters" value="1"/>
+                              <entry key="RectangularClusterTracker.clusterSize" value="0.058"/>
+                              <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                              <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="45"/>
+                              <entry key="filterEnabled" value="false"/>
+                              <entry key="RectangularClusterTracker.aspectRatio" value="1.0"/>
+                              <entry key="RectangularClusterTracker.pathsEnabled" value="true"/>
+                              <entry key="TargetDetector.RectangularClusterTracker.filterEnabled" value="true"/>
+                              <entry key="TargetDetector.MultipleXYTypeFilter.filterEnabled" value="true"/>
+                            </map>
+                          </node>
+                          <node name="BallShooter$TargetDetector">
+                            <map>
+                              <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                              <entry key="RectangularClusterTracker.maxNumClusters" value="10"/>
+                              <entry key="RectangularClusterTracker.clusterSize" value="0.15f"/>
+                              <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                              <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
+                              <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
+                              <entry key="XYTypeFilter.xEnabled" value="true"/>
+                              <entry key="XYTypeFilter.yEnabled" value="true"/>
+                              <entry key="RectangularClusterTracker.dynamicSizeEnabled" value="true"/>
+                              <entry key="MultipleXYTypeFilter.maxBoxNum" value="10"/>
+                            </map>
+                          </node>
+                        </node>
+                        <node name="chip">
+                          <map/>
+                          <node name="retina">
+                            <map/>
+                            <node name="sensorymotor">
+                              <map/>
+                              <node name="Goalie">
+                                <map>
+                                  <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="38772"/>
+                                  <entry key="RectangularClusterTracker.maxNumClusters" value="8"/>
+                                  <entry key="RectangularClusterTracker.clusterSize" value="0.19996922"/>
+                                  <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                                  <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="9"/>
+                                  <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
+                                  <entry key="XYTypeFilter.filterEnabled" value="false"/>
+                                  <entry key="XYTypeFilter.xEnabled" value="true"/>
+                                  <entry key="XYTypeFilter.yEnabled" value="true"/>
+                                  <entry key="XYTypeFilter.typeEnabled" value="false"/>
+                                  <entry key="XYTypeFilter.startY" value="49"/>
+                                  <entry key="XYTypeFilter.endY" value="128"/>
+                                  <entry key="XYTypeFilter.startX" value="0"/>
+                                  <entry key="XYTypeFilter.endX" value="128"/>
+                                  <entry key="ServoArm.filterEnabled" value="true"/>
+                                  <entry key="ServoArm.learned_k" value="-0.0051964447"/>
+                                  <entry key="ServoArm.learned_d" value="0.6799471"/>
+                                  <entry key="RectangularClusterTracker.classifierThreshold" value="0.14924313"/>
+                                  <entry key="RectangularClusterTracker.velocityMixingFactor" value="0.01628894"/>
+                                  <entry key="RectangularClusterTracker.surround" value="2.4310122"/>
+                                  <entry key="XYTypeFilter.endType" value="0"/>
+                                  <entry key="RectangularClusterTracker.mixingFactor" value="0.033841982"/>
+                                  <entry key="ServoArm.learningLeftSamplingBoundary" value="0.2857143"/>
+                                  <entry key="ServoArm.learningRightSamplingBoundary" value="0.5183027"/>
+                                  <entry key="RectangularClusterTracker.showAllClusters" value="true"/>
+                                  <entry key="RectangularClusterTracker.thresholdVelocityForVisibleCluster" value="20.40007"/>
+                                  <entry key="RectangularClusterTracker.clusterLifetimeIncreasesWithAge" value="false"/>
+                                  <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                                  <entry key="RectangularClusterTracker.useNearestCluster" value="true"/>
+                                  <entry key="ServoArm.realtimeLogging" value="false"/>
+                                  <entry key="RectangularClusterTracker.pathsEnabled" value="true"/>
+                                  <entry key="RectangularClusterTracker.pathLength" value="72"/>
+                                  <entry key="RectangularClusterTracker.velocityTauMs" value="30.368137"/>
+                                  <entry key="ServoArm.servoLimitLeft" value="0.050986353"/>
+                                  <entry key="ServoArm.servoLimitRight" value="0.67683965"/>
+                                  <entry key="RectangularClusterTracker.velocityPoints" value="11"/>
+                                  <entry key="RectangularClusterTracker.highwayPerspectiveEnabled" value="true"/>
+                                  <entry key="ServoArm.acceptableAccuracyPixels" value="7.55"/>
+                                </map>
+                              </node>
+                              <node name="ServoArm">
+                                <map>
+                                  <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="227066"/>
+                                  <entry key="RectangularClusterTracker.maxNumClusters" value="1"/>
+                                  <entry key="RectangularClusterTracker.clusterSize" value="0.2"/>
+                                  <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                                  <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
+                                  <entry key="XYTypeFilter.xEnabled" value="true"/>
+                                  <entry key="XYTypeFilter.yEnabled" value="true"/>
+                                  <entry key="XYTypeFilter.typeEnabled" value="false"/>
+                                  <entry key="XYTypeFilter.startY" value="0"/>
+                                  <entry key="XYTypeFilter.endY" value="49"/>
+                                  <entry key="XYTypeFilter.startX" value="0"/>
+                                  <entry key="XYTypeFilter.endX" value="128"/>
+                                  <entry key="RectangularClusterTracker.aspectRatio" value="1.2"/>
+                                  <entry key="ServoArm.filterEnabled" value="false"/>
+                                  <entry key="ServoArm.learned_k" value="NaN"/>
+                                  <entry key="ServoArm.learned_d" value="NaN"/>
+                                  <entry key="RectangularClusterTracker.classifierThreshold" value="0.29549092"/>
+                                  <entry key="RectangularClusterTracker.showAllClusters" value="true"/>
+                                  <entry key="RectangularClusterTracker.mixingFactor" value="0.0039112354"/>
+                                  <entry key="RectangularClusterTracker.dynamicAspectRatioEnabled" value="false"/>
+                                  <entry key="RectangularClusterTracker.dynamicSizeEnabled" value="false"/>
+                                  <entry key="RectangularClusterTracker.showVelocity" value="false"/>
+                                  <entry key="XYTypeFilter.endType" value="0"/>
+                                  <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
+                                  <entry key="RectangularClusterTracker.velocityMixingFactor" value="0.0050506834"/>
+                                </map>
+                              </node>
+                            </node>
+                          </node>
+                        </node>
+                        <node name="eventprocessing">
+                          <map/>
+                          <node name="label">
+                            <map/>
+                            <node name="DirectionSelectiveFilter">
+                              <map>
+                                <entry key="SimpleOrientationFilter.searchDistance" value="2"/>
+                                <entry key="SimpleOrientationFilter.minDtThreshold" value="58773"/>
+                                <entry key="SimpleOrientationFilter.subSampleShift" value="2"/>
+                                <entry key="SimpleOrientationFilter.passAllEvents" value="false"/>
+                              </map>
+                            </node>
+                            <node name="MotionCompensator">
+                              <map>
+                                <entry key="DirectionSelectiveFilter.searchDistance" value="1"/>
+                                <entry key="DirectionSelectiveFilter.filterEnabled" value="false"/>
+                              </map>
+                            </node>
+                          </node>
+                          <node name="tracking">
+                            <map/>
+                            <node name="MultiLineClusterTracker">
+                              <map>
+                                <entry key="SimpleOrientationFilter.searchDistance" value="1"/>
+                                <entry key="SimpleOrientationFilter.minDtThreshold" value="228010"/>
+                                <entry key="SimpleOrientationFilter.subSampleShift" value="1"/>
+                                <entry key="XYTypeFilter.xEnabled" value="true"/>
+                                <entry key="XYTypeFilter.yEnabled" value="true"/>
+                                <entry key="XYTypeFilter.endY" value="92"/>
+                                <entry key="XYTypeFilter.startType" value="2"/>
+                                <entry key="XYTypeFilter.endX" value="128"/>
+                                <entry key="XYTypeFilter.startX" value="0"/>
+                                <entry key="OnOffProximityLineFilter.dt" value="8257"/>
+                                <entry key="OnOffProximityLineFilter.subsampleBy" value="2"/>
+                                <entry key="XYTypeFilter.filterEnabled" value="true"/>
+                                <entry key="SimpleOrientationFilter.filterEnabled" value="true"/>
+                                <entry key="BackgroundActivityFilter.filterEnabled" value="true"/>
+                                <entry key="OnOffProximityLineFilter.filterEnabled" value="true"/>
+                                <entry key="RotateFilter.invertY" value="false"/>
+                              </map>
+                            </node>
+                          </node>
+                        </node>
+                      </node>
+                      <node name="tobi">
+                        <map/>
+                        <node name="billcatcher">
+                          <map/>
+                          <node name="BillCatcher">
+                            <map>
+                              <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                              <entry key="RectangularClusterTracker.maxNumClusters" value="10"/>
+                              <entry key="RectangularClusterTracker.clusterSize" value="0.15f"/>
+                              <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                              <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
+                              <entry key="DirectionSelectiveFilter.searchDistance" value="3"/>
+                              <entry key="DirectionSelectiveFilter.filterEnabled" value="false"/>
+                              <entry key="DirectionSelectiveFilter.showGlobalEnabled" value="true"/>
+                              <entry key="DirectionSelectiveFilter.ppsScale" value="0.0049644946"/>
+                              <entry key="DirectionSelectiveFilter.useAvgDtEnabled" value="true"/>
+                              <entry key="DirectionSelectiveFilter.tauLow" value="44"/>
+                              <entry key="DirectionSelectiveFilter.speedControlEnabled" value="true"/>
+                              <entry key="DirectionSelectiveFilter.excessSpeedRejectFactor" value="2"/>
+                              <entry key="DirectionSelectiveFilter.maxDtThreshold" value="51989"/>
+                              <entry key="DirectionSelectiveFilter.minDtThreshold" value="142"/>
+                            </map>
+                          </node>
+                        </node>
+                        <node name="goalie">
+                          <map/>
+                          <node name="Goalie">
+                            <map>
+                              <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="14071"/>
+                              <entry key="RectangularClusterTracker.maxNumClusters" value="20"/>
+                              <entry key="RectangularClusterTracker.clusterSize" value="0.2443341"/>
+                              <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                              <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="23"/>
+                              <entry key="XYTypeFilter.xEnabled" value="true"/>
+                              <entry key="XYTypeFilter.yEnabled" value="true"/>
+                              <entry key="XYTypeFilter.typeEnabled" value="false"/>
+                              <entry key="XYTypeFilter.startY" value="44"/>
+                              <entry key="RectangularClusterTracker.highwayPerspectiveEnabled" value="true"/>
+                              <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                              <entry key="RectangularClusterTracker.showAllClusters" value="false"/>
+                              <entry key="RectangularClusterTracker.classifierThreshold" value="0.2431012"/>
+                              <entry key="XYTypeFilter.endY" value="128"/>
+                              <entry key="XYTypeFilter.startX" value="0"/>
+                              <entry key="XYTypeFilter.endX" value="128"/>
+                              <entry key="RectangularClusterTracker.thresholdVelocityForVisibleCluster" value="10.447019"/>
+                              <entry key="RectangularClusterTracker.mixingFactor" value="0.109143645"/>
+                              <entry key="RectangularClusterTracker.velocityPoints" value="15"/>
+                              <entry key="ServoArm.servoLimitRight" value="0.80497086"/>
+                              <entry key="ServoArm.servoLimitLeft" value="0.21696782"/>
+                              <entry key="ServoArm.learned_k" value="-0.0052430676"/>
+                              <entry key="ServoArm.learned_d" value="0.80172306"/>
+                              <entry key="RectangularClusterTracker.pathLength" value="58"/>
+                              <entry key="RectangularClusterTracker.clusterLifetimeIncreasesWithAge" value="false"/>
+                              <entry key="ServoArm.realtimeLogging" value="false"/>
+                              <entry key="ServoArm.learningLeftSamplingBoundary" value="0.21"/>
+                              <entry key="ServoArm.learningRightSamplingBoundary" value="0.8"/>
+                            </map>
+                          </node>
+                          <node name="ServoArm">
+                            <map>
+                              <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                              <entry key="RectangularClusterTracker.maxNumClusters" value="1"/>
+                              <entry key="RectangularClusterTracker.clusterSize" value="0.2"/>
+                              <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                              <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
+                              <entry key="XYTypeFilter.typeEnabled" value="false"/>
+                              <entry key="XYTypeFilter.startX" value="0"/>
+                              <entry key="XYTypeFilter.endX" value="128"/>
+                              <entry key="XYTypeFilter.startY" value="0"/>
+                              <entry key="XYTypeFilter.endY" value="44"/>
+                              <entry key="RectangularClusterTracker.aspectRatio" value="1.2"/>
+                              <entry key="XYTypeFilter.xEnabled" value="true"/>
+                              <entry key="XYTypeFilter.yEnabled" value="true"/>
+                              <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
+                              <entry key="RectangularClusterTracker.showVelocity" value="false"/>
+                            </map>
+                          </node>
+                        </node>
+                        <node name="rccar">
+                          <map/>
+                          <node name="Driver">
+                            <map>
+                              <entry key="MultiLineClusterTracker.XYTypeFilter.filterEnabled" value="true"/>
+                              <entry key="MultiLineClusterTracker.SimpleOrientationFilter.filterEnabled" value="false"/>
+                              <entry key="MultiLineClusterTracker.BackgroundActivityFilter.filterEnabled" value="false"/>
+                              <entry key="MultiLineClusterTracker.OnOffProximityLineFilter.filterEnabled" value="false"/>
+                              <entry key="LineTracker.tauMs" value="11.675204"/>
+                              <entry key="MultiLineClusterTracker.maxNumClusters" value="1"/>
+                              <entry key="MultiLineClusterTracker.renderInputEvents" value="false"/>
+                              <entry key="MultiLineClusterTracker.showAllClusters" value="false"/>
+                              <entry key="MultiLineClusterTracker.rhoRadius" value="20.657705"/>
+                              <entry key="MultiLineClusterTracker.mixingFactorTheta" value="0.051988557"/>
+                              <entry key="MultiLineClusterTracker.mixingFactorRho" value="0.022800999"/>
+                              <entry key="MultiLineClusterTracker.mixingFactorPosition" value="0.022800999"/>
+                              <entry key="MultiLineClusterTracker.oriDiffAllowed" value="2"/>
+                              <entry key="MultiLineClusterTracker.RotateFilter.filterEnabled" value="true"/>
+                              <entry key="DriverPreFilter.RotateFilter.filterEnabled" value="false"/>
+                              <entry key="DriverPreFilter.XYTypeFilter.filterEnabled" value="true"/>
+                              <entry key="DriverPreFilter.SimpleOrientationFilter.filterEnabled" value="false"/>
+                              <entry key="DriverPreFilter.BackgroundActivityFilter.filterEnabled" value="false"/>
+                              <entry key="DriverPreFilter.OnOffProximityLineFilter.filterEnabled" value="false"/>
+                              <entry key="filterEnabled" value="false"/>
+                              <entry key="LineTracker.rhoResPixels" value="6.8402996"/>
+                              <entry key="LineTracker.thetaResDeg" value="9.059999"/>
+                              <entry key="LineTracker.updateThresholdEvents" value="0"/>
+                              <entry key="LineTracker.favorVerticalAngleRangeDeg" value="70.0"/>
+                              <entry key="LineTracker.houghDecayFactor" value="0.90702957"/>
+                            </map>
+                          </node>
+                          <node name="Driver$DriverPreFilter">
+                            <map>
+                              <entry key="RotateFilter.filterEnabled" value="true"/>
+                              <entry key="XYTypeFilter.filterEnabled" value="true"/>
+                              <entry key="SimpleOrientationFilter.filterEnabled" value="false"/>
+                              <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
+                              <entry key="OnOffProximityLineFilter.filterEnabled" value="true"/>
+                              <entry key="XYTypeFilter.xEnabled" value="false"/>
+                              <entry key="XYTypeFilter.yEnabled" value="true"/>
+                              <entry key="XYTypeFilter.endY" value="90"/>
+                              <entry key="XYTypeFilter.endX" value="115"/>
+                              <entry key="SimpleOrientationFilter.searchDistance" value="2"/>
+                              <entry key="SimpleOrientationFilter.minDtThreshold" value="26909"/>
+                              <entry key="SimpleOrientationFilter.subSampleShift" value="1"/>
+                              <entry key="OnOffProximityLineFilter.dt" value="19443"/>
+                              <entry key="OnOffProximityLineFilter.subsampleBy" value="1"/>
+                              <entry key="SimpleOrientationFilter.showGlobalEnabled" value="false"/>
+                              <entry key="SimpleOrientationFilter.useAverageDtEnabled" value="false"/>
+                              <entry key="RotateFilter.invertX" value="true"/>
+                              <entry key="XYTypeFilter.startX" value="9"/>
+                              <entry key="XYTypeFilter.startY" value="10"/>
+                              <entry key="SimpleOrientationFilter.passAllEvents" value="false"/>
+                            </map>
+                          </node>
+                        </node>
+                      </node>
+                    </node>
+                  </node>
+                </node>
+                <node name="sensorymotor">
+                  <map>
+                    <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="2550"/>
+                    <entry key="ClusterTracker.maxNumClusters" value="1"/>
+                    <entry key="ClusterTracker.clusterSize" value="0.23269919"/>
+                    <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
+                    <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="118"/>
+                    <entry key="ClusterTracker.mixingFactor" value="0.0122704655"/>
+                    <entry key="ClusterTracker.pathsEnabled" value="false"/>
+                    <entry key="ClusterTracker.showVelocity" value="false"/>
+                    <entry key="ClusterTracker.scaleEnabled" value="false"/>
+                    <entry key="ClusterTracker.velocityMixingFactor" value="0.004810175"/>
+                    <entry key="ClassTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                    <entry key="ClassTracker.maxNumClusters" value="10"/>
+                    <entry key="ClassTracker.clusterSize" value="0.15f"/>
+                    <entry key="ClassTracker.numEventsStoredInCluster" value="100"/>
+                    <entry key="ClassTracker.thresholdEventsForVisibleCluster" value="30"/>
+                    <entry key="ClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                    <entry key="ClassTracker.mixingFactor" value="0.0066225166"/>
+                    <entry key="ClassTracker.pathsEnabled" value="false"/>
+                    <entry key="ClassTracker.scaleEnabled" value="false"/>
+                    <entry key="ClassTracker.showVelocity" value="false"/>
+                    <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="2905"/>
+                    <entry key="RectangularClusterTracker.maxNumClusters" value="3"/>
+                    <entry key="RectangularClusterTracker.clusterSize" value="0.15f"/>
+                    <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                    <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="103"/>
+                    <entry key="RectangularClusterTracker.mixingFactor" value="0.0066225166"/>
+                    <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
+                    <entry key="RectangularClusterTracker.showVelocity" value="false"/>
+                    <entry key="RectangularClusterTracker.scaleEnabled" value="false"/>
+                    <entry key="RectangularClusterTracker.velocityMixingFactor" value="5.5867777E-4"/>
+                    <entry key="RectangularClusterTracker.colorClustersDifferentlyEnabled" value="true"/>
+                  </map>
+                </node>
+              </node>
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </root>
+</preferences>

@@ -1,0 +1,129 @@
+Release 8.1i - Fit J.39
+Copyright(c) 1995-2003 Xilinx Inc. All rights reserved
+
+ 3-27-2008  5:39PM
+
+NOTE: This file is designed to be imported into a spreadsheet program
+such as Microsoft Excel for viewing, printing and sorting. The pipe '|'
+character is used as the data field separator.
+This file is also designed to support parsing.
+
+Input file:  USBAER_top_level.ngd
+output file: USBAER_top_level.pad
+Part type:   xc2c256
+Speed grade: -6
+Package:     vq100
+
+Pinout by Pin Number:
+
+-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
+Pin Number|Signal Name|Pin Usage|Pin Name|Direction|IO Standard|IO Bank Number|{blank}|Slew Rate|Termination|{blank}|Voltage|Constraint|
+P1|FifoInFullxSBI|I|I/O/GTS2|INPUT|LVCMOS33|2||FAST||||
+P2|KPR||I/O/GTS3|||2|||||||
+P3|FifoDataxDIO<7>|O|I/O/GTS0|OUTPUT|LVCMOS33|2||FAST||||
+P4|FifoDataxDIO<6>|O|I/O/GTS1|OUTPUT|LVCMOS33|2||FAST||||
+P5||VCCAUX|VAUX||||||||||
+P6|FifoDataxDIO<5>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P7|FifoDataxDIO<4>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P8|FifoDataxDIO<3>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P9|FifoDataxDIO<2>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P10|FifoDataxDIO<1>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P11|FifoDataxDIO<0>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P12|FifoWritexEBO|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P13|SyncInxAI|I|I/O|INPUT|LVCMOS33|2||FAST||||
+P14|KPR||I/O|||1|||||||
+P15|SynchOutxSO|O|I/O|OUTPUT|LVCMOS33|1||FAST||||
+P16|KPR||I/O|||1|||||||
+P17|KPR||I/O|||1|||||||
+P18|KPR||I/O|||1|||||||
+P19|AERMonitorAddressxDI<8>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P20||VCCIO-3.3|VCCIO|||1|||||||
+P21|GND||GND||||||||||
+P22|AERMonitorAddressxDI<7>|I|I/O/GCK0|INPUT|LVCMOS33|1||FAST||||
+P23|ClockxCI|GCK|I/O/GCK1||LVCMOS33|1||FAST||||
+P24|AERMonitorAddressxDI<9>|I|I/O/CDR|INPUT|LVCMOS33|1||FAST||||
+P25|GND||GND||||||||||
+P26||VCC|VCC||||||||||
+P27|AERMonitorAddressxDI<6>|I|I/O/GCK2|INPUT|LVCMOS33|1||FAST||||
+P28|AERMonitorAddressxDI<10>|I|I/O/DGE0|INPUT|LVCMOS33|1||FAST||||
+P29|AERMonitorAddressxDI<5>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P30|AERMonitorAddressxDI<11>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P31|GND||GND||||||||||
+P32|AERMonitorAddressxDI<4>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P33|AERMonitorAddressxDI<12>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P34|AERMonitorAddressxDI<3>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P35|AERMonitorAddressxDI<13>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P36|AERMonitorAddressxDI<2>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P37|AERMonitorAddressxDI<14>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P38||VCCIO-3.3|VCCIO|||1|||||||
+P39|AERMonitorAddressxDI<1>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P40|KPR||I/O|||1|||||||
+P41|AERMonitorAddressxDI<0>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P42|AERMonitorREQxABI|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P43|AERMonitorACKxSBO|O|I/O|OUTPUT|LVCMOS33|1||SLOW||||
+P44|AERMonitorAddressxDI2<8>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P45|TDI||TDI||||||||||
+P46|AERMonitorAddressxDI2<7>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P47|TMS||TMS||||||||||
+P48|TCK||TCK||||||||||
+P49|AERMonitorAddressxDI2<9>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P50|AERMonitorAddressxDI2<6>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P51||VCCIO-3.3|VCCIO|||1|||||||
+P52|AERMonitorAddressxDI2<10>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P53|AERMonitorAddressxDI2<5>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P54|AERMonitorAddressxDI2<11>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P55|AERMonitorAddressxDI2<4>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P56|AERMonitorAddressxDI2<12>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P57||VCC|VCC||||||||||
+P58|AERMonitorAddressxDI2<3>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P59|AERMonitorAddressxDI2<13>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P60|AERMonitorAddressxDI2<2>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P61|AERMonitorAddressxDI2<14>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P62|GND||GND||||||||||
+P63|AERMonitorAddressxDI2<1>|I|I/O|INPUT|LVCMOS33|1||FAST||||
+P64|KPR||I/O|||1|||||||
+P65|AERMonitorAddressxDI2<0>|I|I/O|INPUT|LVCMOS33|2||FAST||||
+P66|AERMonitorREQxABI2|I|I/O|INPUT|LVCMOS33|2||FAST||||
+P67|AERMonitorACKxSBO2|O|I/O|OUTPUT|LVCMOS33|2||SLOW||||
+P68|FifoDataxDIO<15>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P69|GND||GND||||||||||
+P70|FifoDataxDIO<14>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P71|FifoDataxDIO<13>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P72|FifoDataxDIO<12>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P73|FifoReadxEBO|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P74|LEDxSO|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P75|GND||GND||||||||||
+P76|KPR||I/O|||2|||||||
+P77|KPR||I/O|||2|||||||
+P78|FifoDataxDIO<11>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P79|FifoDataxDIO<10>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P80|FifoDataxDIO<9>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P81|FifoDataxDIO<8>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P82|FifoPktEndxSBO|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P83|TDO||TDO||||||||||
+P84|GND||GND||||||||||
+P85|FifoAddressxDO<1>|O|I/O/DGE1|OUTPUT|LVCMOS33|2||FAST||||
+P86|FifoAddressxDO<0>|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P87|FifoOutputEnablexEBO|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P88||VCCIO-3.3|VCCIO|||2|||||||
+P89|Interrupt1xSB0|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P90|Interrupt0xSB0|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P91|RunMonitorxSI|I|I/O|INPUT|LVCMOS33|2||FAST||||
+P92|HostResetTimestampxSI|I|I/O|INPUT|LVCMOS33|2||FAST||||
+P93|KPR||I/O|||2|||||||
+P94|TimestampMasterxSO|O|I/O|OUTPUT|LVCMOS33|2||FAST||||
+P95|TimestampTickxSI|I|I/O|INPUT|LVCMOS33|2||FAST||||
+P96|TriggerModexSI|I|I/O|INPUT|LVCMOS33|2||FAST||||
+P97|KPR||I/O|||2|||||||
+P98||VCCIO-3.3|VCCIO|||2|||||||
+P99|ResetxRBI|I|I/O/GSR|INPUT|LVCMOS33|2||FAST||||
+P100|GND||GND||||||||||
+
+To preserve the pinout above for future design iterations in
+Project Navigator simply execute the (Lock Pins) process
+located under the (Implement Design) process in a toolbox named
+(Optional Implementation Tools) or invoke PIN2UCF from the
+command line. The location constraints will be written into your
+specified UCF file
+
+

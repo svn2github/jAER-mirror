@@ -1,0 +1,5 @@
+Record=SheetSymbol|SourceDocument=TopLevel.SchDoc|Designator=U_Coolrunner_IO|SchDesignator=U_Coolrunner_IO|FileName=Coolrunner_IO.SchDoc
+Record=SheetSymbol|SourceDocument=TopLevel.SchDoc|Designator=U_Coolrunner_JTAG_Power|SchDesignator=U_Coolrunner_JTAG_Power|FileName=Coolrunner_JTAG_Power.SchDoc
+Record=SheetSymbol|SourceDocument=TopLevel.SchDoc|Designator=U_FX2LP|SchDesignator=U_FX2LP|FileName=FX2LP.SchDoc
+Record=TopLevelDocument|FileName=TopLevel.SchDoc
+Record=FPGA_COMPONENT|BaseComponentDesignator=U2|DocumentName=Coolrunner_IO.SchDoc|LibraryReference=XC2C256-6VQ100C|SubProjectPath= |Configuration= |Description=CoolRunner-II, 1.8V, 256 Macrocell CPLD, 100-Pin VQFP, Commercial Grade|SubPartUniqueId1=BRFPRYHX|SubPartDocPath1=Coolrunner_IO.SchDoc|SubPartUniqueId2=QRJURBCO|SubPartDocPath2=Coolrunner_JTAG_Power.SchDoc

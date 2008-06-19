@@ -1,0 +1,506 @@
+
+----------------------------------------
+|  P a r t i t i o n    S u c c e e d  |
+----------------------------------------
+0 Group(s)
+
+GTS2: 222=FifoDataxDIO_not0001.n
+GCLK1: 1=ClockxCI.p
+----------------- B l o c k 0 ------------------
+PLApt(56/56), Fanin(24/38), Clk(1/3), Bct(1/4), Pin(4/5), Mcell(11/16)
+PLApts[56/56] 87 97 88 93 98 205 84 92 96 99 132 134 291 135 406 407 408 409 416 412 413 414 415 417 419 441 
+              442 445 446 447 405 410 411 418 435 436 437 404 438 439 145 146 147 422 149 150 151 423 153 154 
+              155 424 157 158 159 425
+Fanins[24] ActualTimestampxD<0>.n ActualTimestampxD<1>.n ActualTimestampxD<2>.n ActualTimestampxD<3>.n 
+           ActualTimestampxD<4>.n N_PZ_1007.n N_PZ_802.n N_PZ_803.n N_PZ_844.n N_PZ_859.n N_PZ_952.n 
+           SynchronizerResetTimestampxSB.n uSynchStateMachine/DividerxDP<0>.n 
+           uSynchStateMachine/DividerxDP<1>.n uSynchStateMachine/DividerxDP<2>.n 
+           uSynchStateMachine/DividerxDP<3>.n uSynchStateMachine/DividerxDP<4>.n 
+           uSynchStateMachine/StatexDP_FFd1.n uSynchStateMachine/StatexDP_FFd2.n 
+           uSynchStateMachine/StatexDP_FFd3.n uSynchStateMachine/SyncInxS.n HostResetTimestampxSI.p 
+           ResetxRBI.p TimestampTickxSI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=205) SynchronizerResetTimestampxSB' ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[14] [TimestampMasterxSO(114),TimestampMasterxSO(94)] [ResetxRBI(99)] [TimestampTickxSI(95)]  
+           [TriggerModexSI(96)] [uSynchStateMachine/StatexDP_FFd3(116)]  
+           [uSynchStateMachine/StatexDP_FFd2(115)] [uSynchStateMachine/StatexDP_FFd1(111)]  
+           [uSynchStateMachine/DividerxDP<1>(110)] [uSynchStateMachine/DividerxDP<0>(109)]  
+           [ActualTimestampxD<2>(108)] [ActualTimestampxD<3>(107)] [ActualTimestampxD<4>(105)]  
+           [ActualTimestampxD<5>(104)] [N_PZ_1007(102)] 
+Signal[14] [ 0:  ][ 1: N_PZ_1007(102)  ][ 2: ResetxRBI(99)  ][ 3: ActualTimestampxD<5>(104)  ][ 4:  
+           ActualTimestampxD<4>(105)  ][ 5: (97)  ][ 6: ActualTimestampxD<3>(107)  ][ 7:  
+           ActualTimestampxD<2>(108)  ][ 8: uSynchStateMachine/DividerxDP<0>(109)  ][ 9:  
+           uSynchStateMachine/DividerxDP<1>(110)  ][ 10: uSynchStateMachine/StatexDP_FFd1(111)  ][ 11:  
+           TriggerModexSI(96)  ][ 12: TimestampTickxSI(95)  ][ 13: TimestampMasterxSO(114)  
+           TimestampMasterxSO(94)  ][ 14: uSynchStateMachine/StatexDP_FFd2(115)  ][ 15:  
+           uSynchStateMachine/StatexDP_FFd3(116)  ]
+----------------- B l o c k 1 ------------------
+PLApt(51/56), Fanin(38/38), Clk(1/3), Bct(1/4), Pin(5/6), Mcell(16/16)
+PLApts[51/51] 369 397 370 398 371 289 399 372 400 60 64 59 65 223 226 246 247 276 277 248 249 278 279 250 251 
+              280 281 252 253 282 283 227 37 228 229 258 259 230 231 260 261 232 233 262 263 209 288 358 66 
+              216 225
+Fanins[38] EarlyPaketTimerOverflowxS.n EventReady.n FifoAddressRegOutxD<0>.n FifoAddressRegOutxD<10>.n 
+           FifoAddressRegOutxD<11>.n FifoAddressRegOutxD<4>.n FifoAddressRegOutxD<5>.n 
+           FifoAddressRegOutxD<6>.n FifoAddressRegOutxD<7>.n FifoDataxDIO_not0001.n 
+           FifoTimestampRegOutxD<4>.n FifoTimestampRegOutxD<5>.n FifoTimestampRegOutxD<6>.n 
+           FifoTimestampRegOutxD<7>.n MonitorAddressxD2<0>.n MonitorAddressxD2<10>.n MonitorAddressxD2<11>.n 
+           MonitorAddressxD2<4>.n MonitorAddressxD2<5>.n MonitorAddressxD2<6>.n MonitorAddressxD2<7>.n 
+           MonitorAddressxD<0>.n MonitorAddressxD<10>.n MonitorAddressxD<11>.n MonitorAddressxD<4>.n 
+           MonitorAddressxD<5>.n MonitorAddressxD<6>.n MonitorAddressxD<7>.n MonitorSelect.n N_PZ_1007.n 
+           N_PZ_815.n uFifoStateMachine/StatexDP_FFd1.n uFifoStateMachine/StatexDP_FFd2.n 
+           uFifoStateMachine/StatexDP_FFd3.n uFifoStateMachine/TSOverflowxD.n 
+           uFifoStateMachine/TimestampResetxDP.n FifoInFullxSBI.p ResetxRBI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=289) ResetxRBI' N_PZ_1007 ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[17] [FifoDataxDIO<4>(131),FifoDataxDIO<4>(7)] [FifoDataxDIO<5>(130),FifoDataxDIO<5>(6)]  
+           [FifoDataxDIO<6>(128),FifoDataxDIO<6>(4)] [FifoDataxDIO<7>(121),FifoDataxDIO<7>(3)]  
+           [FifoInFullxSBI(1)] [FifoDataxDIO_not0001(117)] [uFifoStateMachine/StatexDP_FFd1(132)]  
+           [FifoAddressRegOutxD<4>(129)] [FifoAddressRegOutxD<5>(127)] [FifoAddressRegOutxD<6>(126)]  
+           [FifoAddressRegOutxD<7>(125)] [FifoAddressRegOutxD<15>(124)] [FifoAddressRegOutxD<0>(123)]  
+           [FifoAddressRegOutxD<10>(122)] [FifoAddressRegOutxD<11>(120)]  
+           [uFifoStateMachine/StatexDP_FFd2(118)] [uFifoStateMachine/StatexDP_FFd3(119)] 
+Signal[17] [ 0: FifoDataxDIO_not0001(117) FifoInFullxSBI(1)  ][ 1: uFifoStateMachine/StatexDP_FFd2(118)  ] 
+           [ 2: uFifoStateMachine/StatexDP_FFd3(119) (2)  ][ 3: FifoAddressRegOutxD<11>(120)  ][ 4:  
+           FifoDataxDIO<7>(121) FifoDataxDIO<7>(3)  ][ 5: FifoAddressRegOutxD<10>(122)  ][ 6:  
+           FifoAddressRegOutxD<0>(123)  ][ 7: FifoAddressRegOutxD<15>(124)  ][ 8:  
+           FifoAddressRegOutxD<7>(125)  ][ 9: FifoAddressRegOutxD<6>(126)  ][ 10:  
+           FifoAddressRegOutxD<5>(127)  ][ 11: FifoDataxDIO<6>(128) FifoDataxDIO<6>(4)  ][ 12:  
+           FifoAddressRegOutxD<4>(129)  ][ 13: FifoDataxDIO<5>(130) FifoDataxDIO<5>(6)  ][ 14:  
+           FifoDataxDIO<4>(131) FifoDataxDIO<4>(7)  ][ 15: uFifoStateMachine/StatexDP_FFd1(132)  ]
+----------------- B l o c k 2 ------------------
+PLApt(45/56), Fanin(29/38), Clk(1/3), Bct(1/4), Pin(3/4), Mcell(16/16)
+PLApts[45/53] 90 463 91 464 161 205 162 163 426 165 166 167 427 169 170 171 428 173 174 175 429 177 178 179 
+              430 180 181 182 431 183 184 185 432 186 187 188 433 192 189 190 139 191 434 () () () 138 () () 
+              () () () 137
+Fanins[29] ActualTimestampxD<0>.n ActualTimestampxD<10>.n ActualTimestampxD<11>.n ActualTimestampxD<12>.n 
+           ActualTimestampxD<13>.n ActualTimestampxD<1>.n ActualTimestampxD<2>.n ActualTimestampxD<3>.n 
+           ActualTimestampxD<4>.n ActualTimestampxD<5>.n ActualTimestampxD<6>.n ActualTimestampxD<7>.n 
+           ActualTimestampxD<8>.n ActualTimestampxD<9>.n N_PZ_802.n N_PZ_803.n N_PZ_915.n 
+           SynchronizerResetTimestampxSB.n uMonitorStateMachine/AERMonitorREQxSBN.n 
+           uMonitorStateMachine2/AERMonitorREQxSBN.n uSynchStateMachine/DividerxDP<2>.n 
+           uSynchStateMachine/DividerxDP<3>.n uSynchStateMachine/DividerxDP<4>.n 
+           uSynchStateMachine/StatexDP_FFd1.n uSynchStateMachine/StatexDP_FFd2.n 
+           uSynchStateMachine/StatexDP_FFd3.n uSynchStateMachine/SyncInxSN.n 
+           uTimestampCounter/CountxDP_0_14.n TimestampTickxSI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=205) SynchronizerResetTimestampxSB' ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[18] [Interrupt0xSB0(148),Interrupt0xSB0(90)] [HostResetTimestampxSI(92)] [RunMonitorxSI(91)]  
+           [uMonitorStateMachine/AERREQxSB(147)] [uMonitorStateMachine2/AERREQxSB(145)]  
+           [uSynchStateMachine/SyncInxS(143)] [uTimestampCounter/MSbDelayedxDP(142)]  
+           [ActualTimestampxD<0>(141)] [ActualTimestampxD<1>(140)] [ActualTimestampxD<6>(139)]  
+           [ActualTimestampxD<7>(138)] [ActualTimestampxD<8>(136)] [ActualTimestampxD<9>(135)]  
+           [ActualTimestampxD<10>(134)] [ActualTimestampxD<11>(133)] [ActualTimestampxD<12>(146)]  
+           [ActualTimestampxD<13>(144)] [uTimestampCounter/CountxDP_0_14(137)] 
+Signal[18] [ 0: ActualTimestampxD<11>(133)  ][ 1: ActualTimestampxD<10>(134)  ][ 2:  
+           ActualTimestampxD<9>(135)  ][ 3: ActualTimestampxD<8>(136)  ][ 4:  
+           uTimestampCounter/CountxDP_0_14(137) (93)  ][ 5: ActualTimestampxD<7>(138)  ][ 6:  
+           ActualTimestampxD<6>(139)  ][ 7: ActualTimestampxD<1>(140)  ][ 8: ActualTimestampxD<0>(141)  ] 
+           [ 9: uTimestampCounter/MSbDelayedxDP(142)  ][ 10: uSynchStateMachine/SyncInxS(143)  ][ 11:  
+           ActualTimestampxD<13>(144) HostResetTimestampxSI(92)  ][ 12: uMonitorStateMachine2/AERREQxSB(145)  
+            ][ 13: ActualTimestampxD<12>(146) RunMonitorxSI(91)  ][ 14: uMonitorStateMachine/AERREQxSB(147)  
+            ][ 15: Interrupt0xSB0(148) Interrupt0xSB0(90)  ]
+----------------- B l o c k 3 ------------------
+PLApt(41/56), Fanin(37/38), Clk(1/3), Bct(1/4), Pin(6/6), Mcell(16/16)
+PLApts[41/41] 359 387 366 394 367 289 395 368 396 240 241 270 271 242 243 272 273 244 245 274 275 234 235 264 
+              265 63 236 237 64 266 267 238 239 268 269 67 224 57 204 206 207
+Fanins[37] ECResetEarlyPaketTimerxS.n EarlyPaketTimerOverflowxS.n EventReady.n FifoAddressRegOutxD<0>.n 
+           FifoAddressRegOutxD<12>.n FifoAddressRegOutxD<13>.n FifoAddressRegOutxD<14>.n 
+           FifoAddressRegOutxD<1>.n FifoAddressRegOutxD<2>.n FifoAddressRegOutxD<3>.n 
+           FifoTimestampRegOutxD<0>.n FifoTimestampRegOutxD<1>.n FifoTimestampRegOutxD<2>.n 
+           FifoTimestampRegOutxD<3>.n MonitorAddressxD2<12>.n MonitorAddressxD2<13>.n MonitorAddressxD2<14>.n 
+           MonitorAddressxD2<1>.n MonitorAddressxD2<2>.n MonitorAddressxD2<3>.n MonitorAddressxD<12>.n 
+           MonitorAddressxD<13>.n MonitorAddressxD<14>.n MonitorAddressxD<1>.n MonitorAddressxD<2>.n 
+           MonitorAddressxD<3>.n MonitorSelect.n N_PZ_1007.n N_PZ_815.n SynchronizerResetTimestampxSB.n 
+           uFifoStateMachine/StatexDP_FFd1.n uFifoStateMachine/StatexDP_FFd2.n 
+           uFifoStateMachine/StatexDP_FFd3.n uFifoStateMachine/TSOverflowxD.n 
+           uFifoStateMachine/TimestampResetxDP.n FifoInFullxSBI.p ResetxRBI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=289) ResetxRBI' N_PZ_1007 ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[17] [FifoDataxDIO<0>(153),FifoDataxDIO<0>(11)] [FifoDataxDIO<1>(151),FifoDataxDIO<1>(10)]  
+           [FifoDataxDIO<2>(150),FifoDataxDIO<2>(9)] [FifoDataxDIO<3>(149),FifoDataxDIO<3>(8)]  
+           [FifoWritexEBO(154),FifoWritexEBO(12)] [uSynchStateMachine/SyncInxSN,SyncInxAI(13)]  
+           [FifoAddressRegOutxD<1>(164)] [FifoAddressRegOutxD<2>(163)] [FifoAddressRegOutxD<3>(162)]  
+           [FifoAddressRegOutxD<12>(160)] [FifoAddressRegOutxD<13>(159)] [FifoAddressRegOutxD<14>(158)]  
+           [uFifoStateMachine/TimestampOverflowxDP(157)] [uFifoStateMachine/TimestampResetxDP(156)]  
+           [N_PZ_815(155)] [N_PZ_925(152)] 
+Signal[17] [ 0: FifoDataxDIO<3>(149) FifoDataxDIO<3>(8)  ][ 1: FifoDataxDIO<2>(150) FifoDataxDIO<2>(9)  ] 
+           [ 2: FifoDataxDIO<1>(151) FifoDataxDIO<1>(10)  ][ 3: N_PZ_925(152)  ][ 4: FifoDataxDIO<0>(153)  
+           FifoDataxDIO<0>(11)  ][ 5: FifoWritexEBO(154) FifoWritexEBO(12)  ][ 6: N_PZ_815(155)  ][ 7:  
+           uFifoStateMachine/TimestampResetxDP(156)  ][ 8: uFifoStateMachine/TimestampOverflowxDP(157)  ] 
+           [ 9: FifoAddressRegOutxD<14>(158)  ][ 10: FifoAddressRegOutxD<13>(159)  ][ 11:  
+           FifoAddressRegOutxD<12>(160)  ][ 12: uSynchStateMachine/SyncInxSN(161) SyncInxAI(13)  ][ 13:  
+           FifoAddressRegOutxD<3>(162)  ][ 14: FifoAddressRegOutxD<2>(163)  ][ 15:  
+           FifoAddressRegOutxD<1>(164)  ]
+----------------- B l o c k 4 ------------------
+PLApt(42/56), Fanin(24/38), Clk(1/3), Bct(1/4), Pin(2/2), Mcell(16/16)
+PLApts[42/56] 41 108 104 107 109 289 113 297 106 295 44 76 77 377 72 74 71 75 70 73 375 78 79 378 68 42 69 
+              376 115 118 120 124 299 117 296 80 290 () () () 39 () () 201 () () 200 () () 112 () () () () () 
+              111
+Fanins[24] EventReady.n MonitorEventReadyxS<0>.n MonitorEventReadyxS<1>.n MonitorSelect.n N_PZ_1007.n 
+           N_PZ_815.n N_PZ_931.n uMergerStateMachine/r.State_FFd1.n uMergerStateMachine/r.State_FFd2.n 
+           uMonitorStateMachine/AERREQxSB.n uMonitorStateMachine/MissedEventsxDP<0>.n 
+           uMonitorStateMachine/MissedEventsxDP<1>.n uMonitorStateMachine/MissedEventsxDP<2>.n 
+           uMonitorStateMachine/StatexDP_FFd1.n uMonitorStateMachine/StatexDP_FFd2.n 
+           uMonitorStateMachine/StatexDP_FFd3.n uMonitorStateMachine2/AERREQxSB.n 
+           uMonitorStateMachine2/StatexDP_FFd1.n uMonitorStateMachine2/StatexDP_FFd2.n 
+           uMonitorStateMachine2/StatexDP_FFd3.n uSynchStateMachine/SyncInxS.n FifoInFullxSBI.p 
+           HostResetTimestampxSI.p ResetxRBI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=289) ResetxRBI' N_PZ_1007 ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[19] [ClockxCI(23)] [N_PZ_952(170),MonitorAddressxD<7>,AERMonitorAddressxDI<7>(22)]  
+           [uMonitorStateMachine/MissedEventsxDP<0>(180)] [uMonitorStateMachine/StatexDP_FFd1(179)]  
+           [uMonitorStateMachine/MissedEventsxDP<1>(178)] [uMonitorStateMachine/MissedEventsxDP<2>(177)]  
+           [MissedEventxS<0>(176)] [uMonitorStateMachine/StatexDP_FFd3(175)]  
+           [uMonitorStateMachine/StatexDP_FFd2(174)] [MonitorEventReadyxS<0>(173)] [MonitorSelect(172)]  
+           [uMergerStateMachine/r.State_FFd1(171)] [uMergerStateMachine/r.State_FFd2(169)] [EventReady(167)]  
+           [MonitorEventReadyxS<1>(166)] [uMonitorStateMachine2/StatexDP_FFd3(165)]  
+           [uMonitorStateMachine2/StatexDP_FFd2(168)] 
+Signal[19] [ 0: uMonitorStateMachine2/StatexDP_FFd3(165)  ][ 1: MonitorEventReadyxS<1>(166)  ][ 2:  
+           EventReady(167)  ][ 3: uMonitorStateMachine2/StatexDP_FFd2(168) ClockxCI(23)  ][ 4:  
+           uMergerStateMachine/r.State_FFd2(169)  ][ 5: N_PZ_952(170) MonitorAddressxD<7>(170)  
+           AERMonitorAddressxDI<7>(22)  ][ 6: uMergerStateMachine/r.State_FFd1(171)  ][ 7:  
+           MonitorSelect(172)  ][ 8: MonitorEventReadyxS<0>(173)  ][ 9:  
+           uMonitorStateMachine/StatexDP_FFd2(174)  ][ 10: uMonitorStateMachine/StatexDP_FFd3(175)  ][ 11:  
+           MissedEventxS<0>(176)  ][ 12: uMonitorStateMachine/MissedEventsxDP<2>(177)  ][ 13:  
+           uMonitorStateMachine/MissedEventsxDP<1>(178)  ][ 14: uMonitorStateMachine/StatexDP_FFd1(179)  ] 
+           [ 15: uMonitorStateMachine/MissedEventsxDP<0>(180)  ]
+----------------- B l o c k 5 ------------------
+PLApt(41/56), Fanin(30/38), Clk(1/3), Bct(1/4), Pin(5/5), Mcell(16/16)
+PLApts[41/56] 48 140 141 142 143 289 144 148 152 156 217 160 164 42 34 292 217 102 100 42 101 83 217 86 131 
+              217 136 95 217 404 420 217 440 () 217 () () 217 () () 217 () () 42 () () 217 () () 42 () () 217 
+              () () 42
+Fanins[30] ActualTimestampxD<0>.n ActualTimestampxD<10>.n ActualTimestampxD<11>.n ActualTimestampxD<12>.n 
+           ActualTimestampxD<13>.n ActualTimestampxD<1>.n ActualTimestampxD<2>.n ActualTimestampxD<3>.n 
+           ActualTimestampxD<4>.n ActualTimestampxD<5>.n ActualTimestampxD<6>.n FifoTimestampRegWritexE.n 
+           N_PZ_1007.n N_PZ_803.n N_PZ_844.n N_PZ_952.n uMonitorStateMachine/StatexDP_FFd2.n 
+           uMonitorStateMachine/StatexDP_FFd3.n uSynchStateMachine/DividerxDP<0>.n 
+           uSynchStateMachine/DividerxDP<1>.n uSynchStateMachine/DividerxDP<2>.n 
+           uSynchStateMachine/DividerxDP<3>.n uSynchStateMachine/DividerxDP<4>.n 
+           uSynchStateMachine/StatexDP_FFd1.n uSynchStateMachine/StatexDP_FFd2.n 
+           uSynchStateMachine/StatexDP_FFd3.n ResetxRBI.p RunMonitorxSI.p TimestampTickxSI.p TriggerModexSI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=289) ResetxRBI' N_PZ_1007 ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[26] [N_PZ_859(192),MonitorAddressxD<10>,AERMonitorAddressxDI<10>(28)]  
+           [N_PZ_1006(196),MonitorAddressxD<11>,AERMonitorAddressxDI<11>(30)]  
+           [SynchronizerResetTimestampxSB(194),MonitorAddressxD<5>,AERMonitorAddressxDI<5>(29)]  
+           [N_PZ_803(184),MonitorAddressxD<6>,AERMonitorAddressxDI<6>(27)]  
+           [N_PZ_931(182),MonitorAddressxD<9>,AERMonitorAddressxDI<9>(24)] [FifoTimestampRegOutxD<0>(195)]  
+           [FifoTimestampRegOutxD<10>(193)] [FifoTimestampRegOutxD<11>(191)]  
+           [FifoTimestampRegOutxD<12>(190)] [FifoTimestampRegOutxD<13>(189)] [FifoTimestampRegOutxD<1>(188)]  
+           [FifoTimestampRegOutxD<2>(187)] [FifoTimestampRegOutxD<3>(186)] [FifoTimestampRegOutxD<4>(185)]  
+           [FifoTimestampRegOutxD<5>(183)] [FifoTimestampRegOutxD<6>(181)] 
+Signal[26] [ 0: FifoTimestampRegOutxD<6>(181)  ][ 1: N_PZ_931(182) MonitorAddressxD<9>(182)  
+           AERMonitorAddressxDI<9>(24)  ][ 2: FifoTimestampRegOutxD<5>(183)  ][ 3: N_PZ_803(184)  
+           MonitorAddressxD<6>(184) AERMonitorAddressxDI<6>(27)  ][ 4: FifoTimestampRegOutxD<4>(185)  ][ 5:  
+           FifoTimestampRegOutxD<3>(186)  ][ 6: FifoTimestampRegOutxD<2>(187)  ][ 7:  
+           FifoTimestampRegOutxD<1>(188)  ][ 8: FifoTimestampRegOutxD<13>(189)  ][ 9:  
+           FifoTimestampRegOutxD<12>(190)  ][ 10: FifoTimestampRegOutxD<11>(191)  ][ 11: N_PZ_859(192)  
+           MonitorAddressxD<10>(192) AERMonitorAddressxDI<10>(28)  ][ 12: FifoTimestampRegOutxD<10>(193)  ] 
+           [ 13: SynchronizerResetTimestampxSB(194) MonitorAddressxD<5>(194) AERMonitorAddressxDI<5>(29)  ] 
+           [ 14: FifoTimestampRegOutxD<0>(195)  ][ 15: N_PZ_1006(196) MonitorAddressxD<11>(196)  
+           AERMonitorAddressxDI<11>(30)  ]
+----------------- B l o c k 6 ------------------
+PLApt(51/56), Fanin(37/38), Clk(1/3), Bct(1/4), Pin(2/6), Mcell(16/16)
+PLApts[51/51] 81 85 89 94 129 289 130 133 128 468 470 467 469 125 126 421 443 444 465 217 466 35 42 127 168 
+              172 176 218 217 220 219 217 221 211 317 316 351 318 352 212 301 302 303 319 50 51 52 53 208 213 
+              342
+Fanins[37] ActualTimestampxD<7>.n ActualTimestampxD<8>.n ActualTimestampxD<9>.n EarlyPaketTimerOverflowxS.n 
+           FifoTimestampRegOutxD<14>.n FifoTimestampRegOutxD<15>.n FifoTimestampRegWritexE.n N_PZ_1006.n 
+           N_PZ_1007.n N_PZ_802.n N_PZ_803.n N_PZ_844.n N_PZ_859.n N_PZ_915.n N_PZ_925.n N_PZ_952.n 
+           uEarlyPaketTimer/CountxDP<0>.n uEarlyPaketTimer/CountxDP<1>.n uEarlyPaketTimer/CountxDP<2>.n 
+           uEarlyPaketTimer/CountxDP<3>.n uEarlyPaketTimer/CountxDP<4>.n uFifoStateMachine/StatexDP_FFd1.n 
+           uFifoStateMachine/StatexDP_FFd2.n uFifoStateMachine/StatexDP_FFd3.n 
+           uMonitorStateMachine/StatexDP_FFd2.n uMonitorStateMachine/StatexDP_FFd3.n 
+           uSynchStateMachine/DividerxDP<0>.n uSynchStateMachine/DividerxDP<1>.n 
+           uSynchStateMachine/DividerxDP<2>.n uSynchStateMachine/DividerxDP<3>.n 
+           uSynchStateMachine/DividerxDP<4>.n uSynchStateMachine/StatexDP_FFd1.n 
+           uSynchStateMachine/StatexDP_FFd2.n uSynchStateMachine/StatexDP_FFd3.n ResetxRBI.p SyncInxAI.p 
+           TimestampTickxSI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=289) ResetxRBI' N_PZ_1007 ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[18] [SynchOutxSO(209),SynchOutxSO(15)]  
+           [N_PZ_915(201),MonitorAddressxD<8>,AERMonitorAddressxDI<8>(19)]  
+           [uSynchStateMachine/DividerxDP<4>(212)] [uSynchStateMachine/DividerxDP<3>(211)]  
+           [uSynchStateMachine/DividerxDP<2>(206)] [N_PZ_802(205)] [FifoTimestampRegOutxD<7>(204)]  
+           [FifoTimestampRegOutxD<8>(203)] [FifoTimestampRegOutxD<9>(200)] [FifoTimestampRegOutxD<14>(199)]  
+           [FifoTimestampRegOutxD<15>(198)] [uEarlyPaketTimer/CountxDP<0>(197)]  
+           [uEarlyPaketTimer/CountxDP<1>(210)] [uEarlyPaketTimer/CountxDP<2>(208)]  
+           [uEarlyPaketTimer/CountxDP<3>(207)] [uEarlyPaketTimer/CountxDP<4>(202)] 
+Signal[18] [ 0: uEarlyPaketTimer/CountxDP<0>(197)  ][ 1: FifoTimestampRegOutxD<15>(198)  ][ 2:  
+           FifoTimestampRegOutxD<14>(199)  ][ 3: FifoTimestampRegOutxD<9>(200)  ][ 4: N_PZ_915(201)  
+           MonitorAddressxD<8>(201) AERMonitorAddressxDI<8>(19)  ][ 5: uEarlyPaketTimer/CountxDP<4>(202)  
+           (18)  ][ 6: FifoTimestampRegOutxD<8>(203)  ][ 7: FifoTimestampRegOutxD<7>(204)  ][ 8:  
+           N_PZ_802(205)  ][ 9: uSynchStateMachine/DividerxDP<2>(206)  ][ 10:  
+           uEarlyPaketTimer/CountxDP<3>(207) (17)  ][ 11: uEarlyPaketTimer/CountxDP<2>(208) (16)  ][ 12:  
+           SynchOutxSO(209) SynchOutxSO(15)  ][ 13: uEarlyPaketTimer/CountxDP<1>(210) (14)  ][ 14:  
+           uSynchStateMachine/DividerxDP<3>(211)  ][ 15: uSynchStateMachine/DividerxDP<4>(212)  ]
+----------------- B l o c k 7 ------------------
+PLApt(45/56), Fanin(37/38), Clk(1/3), Bct(1/4), Pin(6/6), Mcell(16/16)
+PLApts[45/53] 380 403 335 379 336 289 381 337 382 338 383 339 384 340 385 341 386 56 49 58 61 62 65 194 195 
+              42 197 198 254 255 284 285 256 257 286 287 193 196 82 87 42 () () 42 () () 42 () () 42 () () 42
+Fanins[37] ECResetEarlyPaketTimerxS.n EarlyPaketTimerOverflowxS.n EventReady.n FifoAddressRegOutxD<8>.n 
+           FifoAddressRegOutxD<9>.n MonitorAddressxD2<8>.n MonitorAddressxD2<9>.n MonitorAddressxD<8>.n 
+           MonitorAddressxD<9>.n MonitorSelect.n N_PZ_1007.n N_PZ_815.n N_PZ_925.n 
+           uEarlyPaketTimer/CountxDP<18>.n uEventCounter/CountxDP<0>.n uEventCounter/CountxDP<1>.n 
+           uEventCounter/CountxDP<2>.n uEventCounter/CountxDP<3>.n uEventCounter/CountxDP<4>.n 
+           uEventCounter/CountxDP<5>.n uEventCounter/CountxDP<6>.n uEventCounter/CountxDP<7>.n 
+           uFifoStateMachine/StatexDP_FFd1.n uFifoStateMachine/StatexDP_FFd2.n 
+           uFifoStateMachine/StatexDP_FFd3.n uFifoStateMachine/TSOverflowxD.n 
+           uFifoStateMachine/TimestampOverflowxDP.n uFifoStateMachine/TimestampResetxDP.n 
+           uMonitorStateMachine/StatexDP_FFd2.n uMonitorStateMachine/StatexDP_FFd3.n 
+           uSynchStateMachine/StatexDP_FFd2.n uSynchStateMachine/StatexDP_FFd3.n 
+           uSynchStateMachine/SyncInxS.n uTimestampCounter/CountxDP_0_14.n uTimestampCounter/MSbDelayedxDP.n 
+           FifoInFullxSBI.p ResetxRBI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=289) ResetxRBI' N_PZ_1007 ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[27] [EarlyPaketTimerOverflowxS(223),MonitorAddressxD<12>,AERMonitorAddressxDI<12>(33)]  
+           [uFifoStateMachine/TSOverflowxD(225),MonitorAddressxD<13>,AERMonitorAddressxDI<13>(35)]  
+           [MonitorAddressxD<14>,AERMonitorAddressxDI<14>(37)]  
+           [N_PZ_844(226),MonitorAddressxD<2>,AERMonitorAddressxDI<2>(36)]  
+           [FifoTimestampRegWritexE(224),MonitorAddressxD<3>,AERMonitorAddressxDI<3>(34)]  
+           [ECResetEarlyPaketTimerxS(218),MonitorAddressxD<4>,AERMonitorAddressxDI<4>(32)]  
+           [uEventCounter/CountxDP<0>(228)] [uEventCounter/CountxDP<1>(222)]  
+           [uEventCounter/CountxDP<2>(221)] [uEventCounter/CountxDP<3>(220)]  
+           [uEventCounter/CountxDP<4>(219)] [uEventCounter/CountxDP<5>(217)]  
+           [uEventCounter/CountxDP<6>(216)] [uEventCounter/CountxDP<7>(215)] [FifoAddressRegOutxD<8>(214)]  
+           [FifoAddressRegOutxD<9>(213)] 
+Signal[27] [ 0: FifoAddressRegOutxD<9>(213)  ][ 1: FifoAddressRegOutxD<8>(214)  ][ 2:  
+           uEventCounter/CountxDP<7>(215)  ][ 3: uEventCounter/CountxDP<6>(216)  ][ 4:  
+           uEventCounter/CountxDP<5>(217)  ][ 5: ECResetEarlyPaketTimerxS(218) MonitorAddressxD<4>(218)  
+           AERMonitorAddressxDI<4>(32)  ][ 6: uEventCounter/CountxDP<4>(219)  ][ 7:  
+           uEventCounter/CountxDP<3>(220)  ][ 8: uEventCounter/CountxDP<2>(221)  ][ 9:  
+           uEventCounter/CountxDP<1>(222)  ][ 10: EarlyPaketTimerOverflowxS(223) MonitorAddressxD<12>(223)  
+           AERMonitorAddressxDI<12>(33)  ][ 11: FifoTimestampRegWritexE(224) MonitorAddressxD<3>(224)  
+           AERMonitorAddressxDI<3>(34)  ][ 12: uFifoStateMachine/TSOverflowxD(225) MonitorAddressxD<13>(225)  
+           AERMonitorAddressxDI<13>(35)  ][ 13: N_PZ_844(226) MonitorAddressxD<2>(226)  
+           AERMonitorAddressxDI<2>(36)  ][ 14: MonitorAddressxD<14>(227) AERMonitorAddressxDI<14>(37)  ] 
+           [ 15: uEventCounter/CountxDP<0>(228)  ]
+----------------- B l o c k 8 ------------------
+PLApt(30/56), Fanin(34/38), Clk(1/3), Bct(1/4), Pin(5/5), Mcell(16/16)
+PLApts[30/56] 360 388 361 389 373 289 401 374 402 46 119 320 353 321 354 323 355 325 356 326 357 327 343 () 
+              () () () () () () () () () () 55 () () 54 () () 203 () () 58 () () 202 () () 123 () () () () () 
+              122
+Fanins[34] EarlyPaketTimerOverflowxS.n FifoAddressRegOutxD<10>.n FifoAddressRegOutxD<11>.n 
+           FifoAddressRegOutxD<8>.n FifoAddressRegOutxD<9>.n FifoTimestampRegOutxD<10>.n 
+           FifoTimestampRegOutxD<11>.n FifoTimestampRegOutxD<8>.n FifoTimestampRegOutxD<9>.n N_PZ_1007.n 
+           N_PZ_815.n N_PZ_925.n uEarlyPaketTimer/CountxDP<0>.n uEarlyPaketTimer/CountxDP<10>.n 
+           uEarlyPaketTimer/CountxDP<1>.n uEarlyPaketTimer/CountxDP<2>.n uEarlyPaketTimer/CountxDP<3>.n 
+           uEarlyPaketTimer/CountxDP<4>.n uEarlyPaketTimer/CountxDP<5>.n uEarlyPaketTimer/CountxDP<6>.n 
+           uEarlyPaketTimer/CountxDP<7>.n uEarlyPaketTimer/CountxDP<8>.n uEarlyPaketTimer/CountxDP<9>.n 
+           uFifoStateMachine/StatexDP_FFd2.n uFifoStateMachine/StatexDP_FFd3.n 
+           uMonitorStateMachine2/AERREQxSB.n uMonitorStateMachine2/MissedEventsxDP<0>.n 
+           uMonitorStateMachine2/MissedEventsxDP<1>.n uMonitorStateMachine2/MissedEventsxDP<2>.n 
+           uMonitorStateMachine2/StatexDP_FFd1.n uMonitorStateMachine2/StatexDP_FFd2.n 
+           uMonitorStateMachine2/StatexDP_FFd3.n FifoInFullxSBI.p ResetxRBI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=289) ResetxRBI' N_PZ_1007 ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[16] [FifoDataxDIO<10>(230),FifoDataxDIO<10>(79)] [FifoDataxDIO<11>(229),FifoDataxDIO<11>(78)]  
+           [FifoDataxDIO<8>(234),FifoDataxDIO<8>(81)] [FifoDataxDIO<9>(232),FifoDataxDIO<9>(80)]  
+           [FifoPktEndxSBO(240),FifoPktEndxSBO(82)] [uMonitorStateMachine2/MissedEventsxDP<0>(244)]  
+           [uMonitorStateMachine2/StatexDP_FFd1(243)] [uMonitorStateMachine2/MissedEventsxDP<1>(242)]  
+           [uMonitorStateMachine2/MissedEventsxDP<2>(241)] [MissedEventxS<1>(239)]  
+           [uEarlyPaketTimer/CountxDP<5>(238)] [uEarlyPaketTimer/CountxDP<6>(237)]  
+           [uEarlyPaketTimer/CountxDP<7>(236)] [uEarlyPaketTimer/CountxDP<8>(235)]  
+           [uEarlyPaketTimer/CountxDP<9>(233)] [uEarlyPaketTimer/CountxDP<10>(231)] 
+Signal[16] [ 0: FifoDataxDIO<11>(229) FifoDataxDIO<11>(78)  ][ 1: FifoDataxDIO<10>(230) FifoDataxDIO<10>(79)  
+            ][ 2: uEarlyPaketTimer/CountxDP<10>(231)  ][ 3: FifoDataxDIO<9>(232) FifoDataxDIO<9>(80)  ][ 4:  
+           uEarlyPaketTimer/CountxDP<9>(233)  ][ 5: FifoDataxDIO<8>(234) FifoDataxDIO<8>(81)  ][ 6:  
+           uEarlyPaketTimer/CountxDP<8>(235)  ][ 7: uEarlyPaketTimer/CountxDP<7>(236)  ][ 8:  
+           uEarlyPaketTimer/CountxDP<6>(237)  ][ 9: uEarlyPaketTimer/CountxDP<5>(238)  ][ 10:  
+           MissedEventxS<1>(239)  ][ 11: FifoPktEndxSBO(240) FifoPktEndxSBO(82)  ][ 12:  
+           uMonitorStateMachine2/MissedEventsxDP<2>(241)  ][ 13:  
+           uMonitorStateMachine2/MissedEventsxDP<1>(242)  ][ 14: uMonitorStateMachine2/StatexDP_FFd1(243)  ] 
+           [ 15: uMonitorStateMachine2/MissedEventsxDP<0>(244)  ]
+----------------- B l o c k 9 ------------------
+PLApt(25/56), Fanin(32/38), Clk(1/3), Bct(1/4), Pin(5/7), Mcell(13/16)
+PLApts[25/25] 362 390 363 391 364 289 392 87 97 328 344 329 345 330 346 331 347 332 348 333 349 334 350 210 
+              315
+Fanins[32] EarlyPaketTimerOverflowxS.n FifoAddressRegOutxD<12>.n FifoAddressRegOutxD<13>.n 
+           FifoAddressRegOutxD<14>.n FifoTimestampRegOutxD<12>.n FifoTimestampRegOutxD<13>.n 
+           FifoTimestampRegOutxD<14>.n N_PZ_1007.n N_PZ_815.n N_PZ_925.n uEarlyPaketTimer/CountxDP<0>.n 
+           uEarlyPaketTimer/CountxDP<10>.n uEarlyPaketTimer/CountxDP<11>.n uEarlyPaketTimer/CountxDP<12>.n 
+           uEarlyPaketTimer/CountxDP<13>.n uEarlyPaketTimer/CountxDP<14>.n uEarlyPaketTimer/CountxDP<15>.n 
+           uEarlyPaketTimer/CountxDP<16>.n uEarlyPaketTimer/CountxDP<17>.n uEarlyPaketTimer/CountxDP<1>.n 
+           uEarlyPaketTimer/CountxDP<2>.n uEarlyPaketTimer/CountxDP<3>.n uEarlyPaketTimer/CountxDP<4>.n 
+           uEarlyPaketTimer/CountxDP<5>.n uEarlyPaketTimer/CountxDP<6>.n uEarlyPaketTimer/CountxDP<7>.n 
+           uEarlyPaketTimer/CountxDP<8>.n uEarlyPaketTimer/CountxDP<9>.n uSynchStateMachine/StatexDP_FFd1.n 
+           uSynchStateMachine/StatexDP_FFd2.n uSynchStateMachine/StatexDP_FFd3.n ResetxRBI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=289) ResetxRBI' N_PZ_1007 ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[13] [FifoDataxDIO<12>(249),FifoDataxDIO<12>(72)] [FifoDataxDIO<13>(250),FifoDataxDIO<13>(71)]  
+           [FifoDataxDIO<14>(256),FifoDataxDIO<14>(70)] [LEDxSO(247),LEDxSO(74)]  
+           [FifoReadxEBO(248),FifoReadxEBO(73)] [uEarlyPaketTimer/CountxDP<11>(260)]  
+           [uEarlyPaketTimer/CountxDP<12>(259)] [uEarlyPaketTimer/CountxDP<13>(258)]  
+           [uEarlyPaketTimer/CountxDP<14>(257)] [uEarlyPaketTimer/CountxDP<15>(255)]  
+           [uEarlyPaketTimer/CountxDP<16>(254)] [uEarlyPaketTimer/CountxDP<17>(253)]  
+           [uEarlyPaketTimer/CountxDP<18>(252)] 
+Signal[13] [ 0: (77)  ][ 1: (76)  ][ 2: LEDxSO(247) LEDxSO(74)  ][ 3: FifoReadxEBO(248) FifoReadxEBO(73)  ] 
+           [ 4: FifoDataxDIO<12>(249) FifoDataxDIO<12>(72)  ][ 5: FifoDataxDIO<13>(250) FifoDataxDIO<13>(71)  
+            ][ 6:  ][ 7: uEarlyPaketTimer/CountxDP<18>(252)  ][ 8: uEarlyPaketTimer/CountxDP<17>(253)  ][ 9:  
+           uEarlyPaketTimer/CountxDP<16>(254)  ][ 10: uEarlyPaketTimer/CountxDP<15>(255)  ][ 11:  
+           FifoDataxDIO<14>(256) FifoDataxDIO<14>(70)  ][ 12: uEarlyPaketTimer/CountxDP<14>(257)  ][ 13:  
+           uEarlyPaketTimer/CountxDP<13>(258)  ][ 14: uEarlyPaketTimer/CountxDP<12>(259)  ][ 15:  
+           uEarlyPaketTimer/CountxDP<11>(260)  ]
+----------------- B l o c k 10 ------------------
+PLApt(1/56), Fanin(2/38), Clk(0/3), Bct(0/4), Pin(4/4), Mcell(4/16)
+PLApts[1/50] () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () 
+             () () () () () () () () () () () () () () () () () 199
+Fanins[ 2] MissedEventxS<0>.n MissedEventxS<1>.n
+clk[0] 
+CTC: 
+CTR: 
+CTS: 
+CTE: 
+vref: [0]
+Signal[ 4] [Interrupt1xSB0(274),Interrupt1xSB0(89)] [FifoAddressxDO<1>(271),FifoAddressxDO<1>(85)]  
+           [FifoOutputEnablexEBO(273),FifoOutputEnablexEBO(87)]  
+           [FifoAddressxDO<0>(272),FifoAddressxDO<0>(86)] 
+Signal[ 4] [ 0:  ][ 1:  ][ 2:  ][ 3:  ][ 4:  ][ 5:  ][ 6:  ][ 7:  ][ 8:  ][ 9:  ][ 10:  
+           FifoAddressxDO<1>(271) FifoAddressxDO<1>(85)  ][ 11: FifoAddressxDO<0>(272) FifoAddressxDO<0>(86)  
+            ][ 12: FifoOutputEnablexEBO(273) FifoOutputEnablexEBO(87)  ][ 13: Interrupt1xSB0(274)  
+           Interrupt1xSB0(89)  ][ 14:  ][ 15:  ]
+----------------- B l o c k 11 ------------------
+PLApt(8/56), Fanin(11/38), Clk(1/3), Bct(1/4), Pin(4/4), Mcell(4/16)
+PLApts[8/53] 43 45 114 116 365 289 393 () () () () () () () () () () () () () () () () () () () () () () () 
+             () () () () () () () () () () () () () () () () () () () () () () 47
+Fanins[11] FifoAddressRegOutxD<15>.n FifoTimestampRegOutxD<15>.n N_PZ_1007.n N_PZ_815.n 
+           uMonitorStateMachine2/AERREQxSB.n uMonitorStateMachine2/StatexDP_FFd1.n 
+           uMonitorStateMachine2/StatexDP_FFd2.n uMonitorStateMachine2/StatexDP_FFd3.n AERMonitorREQxABI2.p 
+           FifoInFullxSBI.p ResetxRBI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=289) ResetxRBI' N_PZ_1007 ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[ 6] [AERMonitorACKxSBO2(289),AERMonitorACKxSBO2(67)] [FifoDataxDIO<15>(287),FifoDataxDIO<15>(68)]  
+           [MonitorAddressxD2<0>,AERMonitorAddressxDI2<0>(65)]  
+           [uMonitorStateMachine2/AERMonitorREQxSBN,AERMonitorREQxABI2(66)] 
+Signal[ 6] [ 0:  ][ 1:  ][ 2:  ][ 3:  ][ 4:  ][ 5:  ][ 6:  ][ 7:  ][ 8:  ][ 9:  ][ 10: FifoDataxDIO<15>(287)  
+           FifoDataxDIO<15>(68)  ][ 11:  ][ 12: AERMonitorACKxSBO2(289) AERMonitorACKxSBO2(67)  ][ 13:  
+           uMonitorStateMachine2/AERMonitorREQxSBN(290) AERMonitorREQxABI2(66)  ][ 14:  
+           MonitorAddressxD2<0>(291) AERMonitorAddressxDI2<0>(65)  ][ 15:  ]
+----------------- B l o c k 12 ------------------
+PLApt(5/56), Fanin(4/38), Clk(1/3), Bct(1/4), Pin(4/4), Mcell(4/16)
+PLApts[5/47] () () () () () 289 () () () () () () () 47 () () () () () 47 () () () () () 47 () () () () () () 
+             () () () () () () () () () () () () () () 47
+Fanins[ 4] N_PZ_1007.n uMonitorStateMachine2/StatexDP_FFd2.n uMonitorStateMachine2/StatexDP_FFd3.n 
+           ResetxRBI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=289) ResetxRBI' N_PZ_1007 ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[ 8] [MonitorAddressxD2<11>,AERMonitorAddressxDI2<11>(54)]  
+           [MonitorAddressxD2<12>,AERMonitorAddressxDI2<12>(56)]  
+           [MonitorAddressxD2<4>,AERMonitorAddressxDI2<4>(55)]  
+           [MonitorAddressxD2<5>,AERMonitorAddressxDI2<5>(53)] 
+Signal[ 8] [ 0:  ][ 1: MonitorAddressxD2<5>(294) AERMonitorAddressxDI2<5>(53)  ][ 2:  ][ 3:  
+           MonitorAddressxD2<11>(296) AERMonitorAddressxDI2<11>(54)  ][ 4:  ][ 5: MonitorAddressxD2<4>(298)  
+           AERMonitorAddressxDI2<4>(55)  ][ 6:  ][ 7:  ][ 8:  ][ 9:  ][ 10:  ][ 11:  ][ 12:  
+           MonitorAddressxD2<12>(305) AERMonitorAddressxDI2<12>(56)  ][ 13:  ][ 14:  ][ 15:  ]
+----------------- B l o c k 13 ------------------
+PLApt(6/56), Fanin(4/38), Clk(1/3), Bct(1/4), Pin(5/5), Mcell(5/16)
+PLApts[6/53] () () () () () 289 () () () () 47 () () () () () 47 () () () () () 47 () () () () () () () () () 
+             () () () () () () () () () () () () () () () () () 47 () () 47
+Fanins[ 4] N_PZ_1007.n uMonitorStateMachine2/StatexDP_FFd2.n uMonitorStateMachine2/StatexDP_FFd3.n 
+           ResetxRBI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=289) ResetxRBI' N_PZ_1007 ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[10] [MonitorAddressxD2<10>,AERMonitorAddressxDI2<10>(52)]  
+           [MonitorAddressxD2<6>,AERMonitorAddressxDI2<6>(50)]  
+           [MonitorAddressxD2<7>,AERMonitorAddressxDI2<7>(46)]  
+           [MonitorAddressxD2<8>,AERMonitorAddressxDI2<8>(44)]  
+           [MonitorAddressxD2<9>,AERMonitorAddressxDI2<9>(49)] 
+Signal[10] [ 0: MonitorAddressxD2<10>(309) AERMonitorAddressxDI2<10>(52)  ][ 1:  ][ 2:  
+           MonitorAddressxD2<6>(311) AERMonitorAddressxDI2<6>(50)  ][ 3:  ][ 4: MonitorAddressxD2<9>(313)  
+           AERMonitorAddressxDI2<9>(49)  ][ 5:  ][ 6:  ][ 7:  ][ 8:  ][ 9:  ][ 10:  ][ 11:  ][ 12:  ][ 13:  
+           MonitorAddressxD2<7>(322) AERMonitorAddressxDI2<7>(46)  ][ 14: MonitorAddressxD2<8>(323)  
+           AERMonitorAddressxDI2<8>(44)  ][ 15:  ]
+----------------- B l o c k 14 ------------------
+PLApt(6/56), Fanin(4/38), Clk(1/3), Bct(1/4), Pin(5/6), Mcell(5/16)
+PLApts[6/53] () () () () () 289 () () () () () () () () () () () () () () () () () () () () () () () () () () 
+             () () () () () () () () 47 () () 47 () () 47 () () 47 () () 47
+Fanins[ 4] N_PZ_1007.n uMonitorStateMachine2/StatexDP_FFd2.n uMonitorStateMachine2/StatexDP_FFd3.n 
+           ResetxRBI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=289) ResetxRBI' N_PZ_1007 ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[10] [MonitorAddressxD2<13>,AERMonitorAddressxDI2<13>(59)]  
+           [MonitorAddressxD2<14>,AERMonitorAddressxDI2<14>(61)]  
+           [MonitorAddressxD2<1>,AERMonitorAddressxDI2<1>(63)]  
+           [MonitorAddressxD2<2>,AERMonitorAddressxDI2<2>(60)]  
+           [MonitorAddressxD2<3>,AERMonitorAddressxDI2<3>(58)] 
+Signal[10] [ 0:  ][ 1:  ][ 2:  ][ 3:  ][ 4:  ][ 5:  ][ 6:  ][ 7:  ][ 8:  ][ 9:  ][ 10:  
+           MonitorAddressxD2<3>(335) AERMonitorAddressxDI2<3>(58)  ][ 11: MonitorAddressxD2<13>(336)  
+           AERMonitorAddressxDI2<13>(59)  ][ 12: MonitorAddressxD2<2>(337) AERMonitorAddressxDI2<2>(60)  ] 
+           [ 13: MonitorAddressxD2<14>(338) AERMonitorAddressxDI2<14>(61)  ][ 14: MonitorAddressxD2<1>(339)  
+           AERMonitorAddressxDI2<1>(63)  ][ 15: (64)  ]
+----------------- B l o c k 15 ------------------
+PLApt(7/56), Fanin(8/38), Clk(1/3), Bct(1/4), Pin(4/5), Mcell(4/16)
+PLApts[7/47] 38 40 103 105 () 289 () () () () () () () () () () () () () () () () () () () () () () () () () 
+             () () () () () () () () () 42 () () () () () 42
+Fanins[ 8] N_PZ_1007.n uMonitorStateMachine/AERREQxSB.n uMonitorStateMachine/StatexDP_FFd1.n 
+           uMonitorStateMachine/StatexDP_FFd2.n uMonitorStateMachine/StatexDP_FFd3.n AERMonitorREQxABI.p 
+           FifoInFullxSBI.p ResetxRBI.p
+clk[1] ClockxCI 
+CTC: 
+CTR: (pt=289) ResetxRBI' N_PZ_1007 ;
+CTS: 
+CTE: 
+vref: [0]
+Signal[ 7] [AERMonitorACKxSBO(345),AERMonitorACKxSBO(43)] [MonitorAddressxD<0>,AERMonitorAddressxDI<0>(41)]  
+           [MonitorAddressxD<1>,AERMonitorAddressxDI<1>(39)]  
+           [uMonitorStateMachine/AERMonitorREQxSBN,AERMonitorREQxABI(42)] 
+Signal[ 7] [ 0:  ][ 1:  ][ 2:  ][ 3:  ][ 4: AERMonitorACKxSBO(345) AERMonitorACKxSBO(43)  ][ 5:  
+           uMonitorStateMachine/AERMonitorREQxSBN(346) AERMonitorREQxABI(42)  ][ 6:  ][ 7:  ][ 8:  ][ 9:  ] 
+           [ 10: MonitorAddressxD<0>(351) AERMonitorAddressxDI<0>(41)  ][ 11: (40)  ][ 12:  
+           MonitorAddressxD<1>(353) AERMonitorAddressxDI<1>(39)  ][ 13:  ][ 14:  ][ 15:  ]
