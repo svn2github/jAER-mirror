@@ -353,13 +353,32 @@ BOOL TD_Resume(void)          // Called after the device resumes
 /*BOOL DR_GetDescriptor(void)
 {
    return(TRUE);
-}
+}*/
 
 BOOL DR_SetConfiguration(void)   // Called when a Set Configuration command is received
 {
-//   Configuration = SETUPDAT[2];
-   return(TRUE);            // Handled by user code
-}*/
+  if( EZUSB_HIGHSPEED( ) )
+  { // FX2 enumerated at high speed
+    SYNCDELAY;                  // 
+    EP6AUTOINLENH = 0x02;       // set AUTOIN commit length to 512 bytes
+    SYNCDELAY;                  // 
+    EP6AUTOINLENL = 0x00;
+    SYNCDELAY;                  
+   // enum_high_speed = TRUE;
+    }
+  else
+  { // FX2 enumerated at full speed
+    SYNCDELAY;                   
+    EP6AUTOINLENH = 0x00;       // set AUTOIN commit length to 64 bytes
+    SYNCDELAY;                   
+    EP6AUTOINLENL = 0x40;
+    SYNCDELAY;                  
+  //  enum_high_speed = FALSE;
+  }
+
+  //Configuration = SETUPDAT[2];
+  return(TRUE);            // Handled by user code
+}
 
 BOOL DR_GetConfiguration(void)   // Called when a Get Configuration command is received
 {

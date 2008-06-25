@@ -36,7 +36,7 @@ extern BOOL Selfpwr;
 
 #define LED PA7
 
-#define EEPROM_SIZE 0x4000
+#define EEPROM_SIZE 0x8000
 #define MAX_NAME_LENGTH 8
 #define STRING_ADDRESS (EEPROM_SIZE - MAX_NAME_LENGTH)
 

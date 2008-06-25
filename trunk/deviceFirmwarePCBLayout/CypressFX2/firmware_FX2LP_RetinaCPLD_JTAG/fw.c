@@ -245,7 +245,7 @@ void SetupCommand(void)
          //DR_SetInterface();
          break;
       case SC_SET_CONFIGURATION:               // *** Set Configuration
-         //DR_SetConfiguration();
+         DR_SetConfiguration();
          break;
       case SC_GET_CONFIGURATION:               // *** Get Configuration
          DR_GetConfiguration();
