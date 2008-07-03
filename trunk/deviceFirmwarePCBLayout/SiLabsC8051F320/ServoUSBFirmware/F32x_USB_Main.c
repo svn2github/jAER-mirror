@@ -224,6 +224,7 @@ void main(void)
 				PCA0CPL3=Out_Packet[8];
 				PCA0CPM3 |= 0x49; // enable compare function and enable match and interrupt for match for pca
 			}	
+			EIE1 |= 0x10; // enable PCA interrupt
 			break;
 			case CMD_DISABLE_ALL_SERVOS: 	//cmd: CMD
 			{
