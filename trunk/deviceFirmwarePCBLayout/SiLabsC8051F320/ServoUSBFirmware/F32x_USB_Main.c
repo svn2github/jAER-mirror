@@ -83,6 +83,8 @@ sbit	Servo1 	= 	P1^1;
 sbit 	Servo2	=	P1^2;
 sbit	Servo3	=	P1^3;
 
+sbit 	WowWeePort = P2^0;
+
 #define LedOn() Led=0;
 #define LedOff()  Led=1;
 #define LedToggle() Led=!Led; // this may not work because it reads port and then writes opposite
@@ -94,6 +96,7 @@ sbit	Servo3	=	P1^3;
 #define CMD_DISABLE_ALL_SERVOS 10
 #define CMD_SET_TIMER0_RELOAD_VALUE 11
 #define CMD_SET_PORT2 12
+#define CMD_SEND_WOWWEE_RS_CMD 13
 
 // PWM servo output variables. these are used to hold the new values for the PCA compare registers so that 
 // they can be updated on the interrupt generated when the value can be updated safely without introducing glitches.
@@ -104,6 +107,17 @@ idata BYTE In_Packet[64];              // Next packet to sent to host
 
 void	Port_Init(void);			//	Initialize Ports Pins and Enable Crossbar
 void	Timer_Init(void);			// Init timer to use for spike event times
+
+// wowwee command stuff
+unsigned short bdata rsv2_cmd=0;
+unsigned short rsv2_cyclesleft = 0;
+unsigned char rsv2_cmdidx = 0; // idx+1
+bit rsv2_sendcmd=0;
+bit rsv2_precmd=0;
+bit rsv2_firstbithalf=0;
+bit rsv2_sendingone=0;
+bit rsv2_startingbit=0;
+
 
 
 //-----------------------------------------------------------------------------
@@ -250,6 +264,22 @@ void main(void)
 				LedToggle();
 				P2=Out_Packet[1];
 			}
+			case CMD_SEND_WOWWEE_RS_CMD:
+			{
+				// P2.0 is high
+				Out_Packet[0]=0; //ack
+				LedToggle();
+				// commands starts with low signal for 8/1200s
+				rsv2_cmd = Out_Packet[2];
+				rsv2_cmd |= Out_Packet[3] << 8;
+
+				rsv2_precmd = 1;
+				rsv2_cyclesleft = 517; // 8/1200
+				rsv2_cmdidx = 12;
+				rsv2_sendcmd = 1;
+				EIE1|=0x80; // enable timer 3 interrupts, disabled at end of cmd
+				break;
+			}
 
 		} // switch
 		EA=1; // enable interrupts
@@ -259,6 +289,7 @@ void main(void)
 
 
 // pwm interrupt vectored when there is a match interrupt for PCA: only then do we change PCA compare register
+// pwm interrupt happens every 1us
 void PWM_Update_ISR(void) interrupt 11
 {
 	EIE1 &= (~0x10); // disable PCA interrupt
@@ -291,6 +322,92 @@ void PWM_Update_ISR(void) interrupt 11
 	EIE1 |= 0x10; // reenable PCA interrupt
 }
 
+
+// pwm interrupt vectored when there is a match interrupt for PCA: only then do we change PCA compare register
+// pwm interrupt happens every 1us
+// for wowwee rs2 command format see http://www.aibohack.com/robosap/ir_codes_v2.htm
+/*
+Timing based on 1/1200 second clock (~.833ms)
+Signal is normally high (idle, no IR).
+Start: signal goes low for 8/1200 sec.
+Data bits: for each of 12 data bits, space encoded signal depending on bit value
+    Sends the most significant data bit first
+    If the data bit is 0: signal goes high for 1/1200 sec, and low for 1/1200 sec.
+    If the data bit is 1: signal goes high for 4/1200 sec, and low for 1/1200 sec.
+When completed, signal goes high again.
+No explicit stop bit. Minimal between signals is not known.
+
+The first 4 bits (prefix nibble) indicate the robot model:
+
+    * 1: "0001" RoboRaptor. More Info.
+    * 2: "0010" RoboPet. More Info.
+    * 3: "0011" RoboSapien V2. See below for details.
+    * 4: "0100" RoboReptile. More Info.
+    * 5: "0101" RS Media. More Info.
+    * 6: "0110" RoboQuad. More Info.
+    * 7: "0111" RoboBoa. More Info.
+    * F: "FFFF" Sometimes used for testing 
+*/
+void Timer3_Update_ISR(void) interrupt 14
+{	
+	// isr every 13 us
+	TMR3CN&= (~0x80); // clear pending interrupt flag
+	// wowwee stuff
+	// send RSV2 command, ***LSB FIRST***
+	if (rsv2_sendcmd == 1) { // if we are sending a command
+		if(rsv2_precmd==1){ // sending start 8/1200 pulses
+			WowWeePort=!WowWeePort;
+			
+			if(rsv2_cyclesleft--==0) {
+				rsv2_precmd=0;
+				rsv2_startingbit=1;
+			}
+			
+		}else{ // sending bits
+			if(rsv2_startingbit==1){
+				rsv2_startingbit=0;
+				if (rsv2_cmdidx-- == 0) { // done, disable interrupts
+					WowWeePort=1;
+					rsv2_sendcmd = 0;
+					EIE1&= ~0x80; // enable timer 3 interrupts, disabled at end of cmd
+				}else{ // still sending bits, but starting one
+					if(rsv2_cmd&1!=0){
+						rsv2_sendingone=1;
+						rsv2_cyclesleft=517/2;
+					}else{
+						rsv2_sendingone=0;
+						rsv2_cyclesleft=517/8;
+					}
+					rsv2_cmd=rsv2_cmd>>1;
+					rsv2_startingbit=0;
+					rsv2_firstbithalf=1;
+				
+				}
+			}else{ // in middle of bit
+				if(rsv2_cyclesleft--==0){
+					if(rsv2_firstbithalf==1){
+						rsv2_firstbithalf=0; // go to second half
+						rsv2_cyclesleft=517/8; 
+						WowWeePort=1;
+					}else{
+						WowWeePort=!WowWeePort;  // toggle during low part of each bit
+					}
+				}
+			}
+		}
+	}
+}
+
+/*
+unsigned short bdata rsv2_cmd=0;
+unsigned short rsv2_cyclesleft = 0;
+unsigned char rsv2_cmdidx = 0; // idx+1
+bit rsv2_sendcmd=0;
+bit rsv2_precmd=0;
+bit rsv2_firstbithalf=0;
+bit rsv2_sendingone=0;
+bit rsv2_startingbit=0;
+*/
 
 
 
@@ -394,7 +511,7 @@ Step 5.  Enable the Crossbar (XBARE = ‘1’).
                       // Port configuration (1 = Push Pull Output)
     P0MDOUT = 0x00; // Output configuration for P0 
     P1MDOUT = 0x0F; // Output configuration for P1 
-    P2MDOUT = 0x00; // Output configuration for P2 
+    P2MDOUT = 0x01; // Output configuration for P2 
     P3MDOUT = 0x00; // Output configuration for P3 
 
     P0MDIN = 0xFF;  // Input configuration for P0
@@ -405,44 +522,6 @@ Step 5.  Enable the Crossbar (XBARE = ‘1’).
     P0SKIP = 0xFF;  //  Port 0 Crossbar Skip Register
     P1SKIP = 0x00;  //  Port 1 Crossbar Skip Register
     P2SKIP = 0x00;  //  Port 2 Crossbar Skip Register
-
-// View port pinout
-
-		// The current Crossbar configuration results in the 
-		// following port pinout assignment:
-		// Port 0
-		// P0.0 = Skipped         (Open-Drain Output/Input)(Digital)
-		// P0.1 = Skipped         (Open-Drain Output/Input)(Digital)
-		// P0.2 = Skipped         (Open-Drain Output/Input)(Digital)
-		// P0.3 = Skipped         (Open-Drain Output/Input)(Digital)
-		// P0.4 = Skipped         (Open-Drain Output/Input)(Digital)
-		// P0.5 = Skipped         (Open-Drain Output/Input)(Digital)
-		// P0.6 = Skipped         (Open-Drain Output/Input)(Digital)
-		// P0.7 = Skipped         (Open-Drain Output/Input)(Digital)
-
-        // Port 1
-		// P1.0 = PCA CEX0        (Push-Pull Output)(Digital)
-		// P1.1 = PCA CEX1        (Push-Pull Output)(Digital)
-		// P1.2 = PCA CEX2        (Push-Pull Output)(Digital)
-		// P1.3 = PCA CEX3        (Push-Pull Output)(Digital)
-		// P1.4 = GP I/O          (Open-Drain Output/Input)(Digital)
-		// P1.5 = GP I/O          (Open-Drain Output/Input)(Digital)
-		// P1.6 = GP I/O          (Open-Drain Output/Input)(Digital)
-		// P1.7 = GP I/O          (Open-Drain Output/Input)(Digital)
-
-        // Port 2
-		// P2.0 = GP I/O          (Open-Drain Output/Input)(Digital)
-		// P2.1 = GP I/O          (Open-Drain Output/Input)(Digital)
-		// P2.2 = GP I/O          (Open-Drain Output/Input)(Digital)
-		// P2.3 = GP I/O          (Open-Drain Output/Input)(Digital)
-		// P2.4 = GP I/O          (Open-Drain Output/Input)(Digital)
-		// P2.5 = GP I/O          (Open-Drain Output/Input)(Digital)
-		// P2.6 = GP I/O          (Open-Drain Output/Input)(Digital)
-		// P2.7 = GP I/O          (Open-Drain Output/Input)(Digital)
-
-        // Port 3
-		// P3.0 = GP I/O          (Open-Drain Output/Input)(Digital)
-
 
 	XBR1|=0x40; 	// 0100 0000 enable xbar, setting XBARE
 
@@ -535,6 +614,11 @@ void	Timer_Init(void)
 	PCA0CPM2=0xC2; // PWM16+ECOM+PWM: 16 bit mode, PCA compare enabled, PWM output to CEX2 
 	PCA0CPM3=0xC2; // PWM16+ECOM+PWM: 16 bit mode, PCA compare enabled, PWM output to CEX3 
 	
+
+	TMR3CN=4; // run timer3 for wowwee commands: 16 bit mode, autoreload, sysclk/12 clock
+	TMR3RLL=0xff-12; // timer3 runs at sysclk/12 = 1MHz; to get an ISR call every 12.57us (corresponding to 1/(2*38.8kHz)) we need to reload the value 0xffff-12 into the reload registers
+	TMR3RLH=0xff;
+
 }
 
 //-----------------------------------------------------------------------------

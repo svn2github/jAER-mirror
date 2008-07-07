@@ -167,11 +167,29 @@ code const BYTE String2Desc[STR2LEN] =
    'r', 0,
 }; //end of String2Desc
 
+
+
+#define STR3LEN sizeof("SN 0000")*2
+
+code const BYTE String3Desc[STR3LEN] =
+{
+   STR3LEN, 0x03,
+   'S', 0,
+   'N', 0,
+   ' ', 0,
+   '0', 0,
+   '0', 0,
+   '0', 0,
+   '0', 0,
+}; //end of String2Desc
+
+
 BYTE* const StringDescTable[] =
 {
    String0Desc,
    String1Desc,
-   String2Desc
+   String2Desc,
+   String3Desc
 };
 
 //-----------------------------------------------------------------------------
