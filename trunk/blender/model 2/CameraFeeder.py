@@ -1,4 +1,5 @@
 # Albert Cardona 2007 at Telluride
+# Modified by Robin Ritz April 2008
 # This script is called every few game logic ticks for the camera object in a Blender scene
 # The camera is mounted on top of a car.
 
@@ -208,7 +209,7 @@ def doSteer(steer, fwd):
 		GameLogic.Globals['delta_f'] = steer * 0.1
 		
 	if GameLogic.Globals['ManualSpeedControl'] == 0:
-		GameLogic.Globals['delta_f'] = fwd - 0.5
+		GameLogic.Globals['M_a_f'] = fwd - 0.5
 
 # create a server, to keep around always as a global in the Rasterizer module
 try:
@@ -228,8 +229,8 @@ else:
 	packet = ""
 	# create one compound packet with all events
 	for e in events:
-		# pack into a char string of 2 bytes (a short) and 4 bytes (a long)
-		packet += struct.pack('!HL', e, now) # as standard, no byte padding
+		# pack into a char string of 4 bytes (a longt) and 4 bytes (a long)
+		packet += struct.pack('!LL', e, now) # as standard, no byte padding
 	try:
 		# continuously send the packet until it's sent in full
 		while packet:

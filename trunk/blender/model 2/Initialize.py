@@ -21,6 +21,9 @@ Blender_Factor = GL.Globals['Blender_Factor']
 GL.Globals['ManualSteering'] = 1
 GL.Globals['ManualSpeedControl'] = 1
 
+# Initialize route capturing informations
+GL.Globals['CaptureRoute'] = 1
+
 # Initialize state limits
 GL.Globals['Lower_Limit_z'] = -0.05 * 100
 GL.Globals['Upper_Limit_z'] = 0.05 * 100

@@ -48,4 +48,6 @@ Controls:
 
 up arrow	-> forward acceleration
 left arrow	-> turn left
-right arrow	-> trun right
+right arrow	-> turn right
+a		-> automatic speed control on/off
+s		-> automatic steering on/off
