@@ -109,7 +109,7 @@ void	Port_Init(void);			//	Initialize Ports Pins and Enable Crossbar
 void	Timer_Init(void);			// Init timer to use for spike event times
 
 // wowwee command stuff
-unsigned short bdata rsv2_cmd=0;
+unsigned short rsv2_cmd=0;
 unsigned short rsv2_cyclesleft = 0;
 unsigned char rsv2_cmdidx = 0; // idx+1
 bit rsv2_sendcmd=0;
@@ -267,16 +267,14 @@ void main(void)
 			case CMD_SEND_WOWWEE_RS_CMD:
 			{
 				// P2.0 is high
-				Out_Packet[0]=0; //ack
-				LedToggle();
-				// commands starts with low signal for 8/1200s
-				rsv2_cmd = Out_Packet[2];
-				rsv2_cmd |= Out_Packet[3] << 8;
+				Out_Packet[0]=0; // cmd has been processed
+				
+				rsv2_cmd = (Out_Packet[1]) | ((Out_Packet[2])<<8);
 
-				rsv2_precmd = 1;
+				rsv2_precmd = 1; // we're sending the start 'bit'
 				rsv2_cyclesleft = 517; // 8/1200
-				rsv2_cmdidx = 12;
-				rsv2_sendcmd = 1;
+				rsv2_cmdidx = 12; // 12 bits
+				rsv2_sendcmd = 1; // we're sending a cmd state
 				EIE1|=0x80; // enable timer 3 interrupts, disabled at end of cmd
 				break;
 			}
@@ -359,38 +357,42 @@ void Timer3_Update_ISR(void) interrupt 14
 			WowWeePort=!WowWeePort;
 			
 			if(rsv2_cyclesleft--==0) {
-				rsv2_precmd=0;
-				rsv2_startingbit=1;
+				rsv2_precmd=0; // done with precmd
+				rsv2_startingbit=1; // next time, we'll be starting sending the first bit
 			}
 			
 		}else{ // sending bits
-			if(rsv2_startingbit==1){
+			if(rsv2_startingbit==1){ // set up this bit
 				rsv2_startingbit=0;
 				if (rsv2_cmdidx-- == 0) { // done, disable interrupts
 					WowWeePort=1;
 					rsv2_sendcmd = 0;
-					EIE1&= ~0x80; // enable timer 3 interrupts, disabled at end of cmd
-				}else{ // still sending bits, but starting one
-					if(rsv2_cmd&1!=0){
+					EIE1&= ~0x80; // disable timer 3 interrupts, disabled at end of cmd
+				}else // still sending bits, but starting one
+					if{(rsv2_cmd&1!=0){
 						rsv2_sendingone=1;
-						rsv2_cyclesleft=517/2;
+						rsv2_cyclesleft=517/2; // 4/1200
 					}else{
 						rsv2_sendingone=0;
-						rsv2_cyclesleft=517/8;
+						rsv2_cyclesleft=517/8; // 1/1200
 					}
 					rsv2_cmd=rsv2_cmd>>1;
 					rsv2_startingbit=0;
 					rsv2_firstbithalf=1;
-				
 				}
 			}else{ // in middle of bit
+				if(rsv2_firstbithalf==1){
+					WowWeePort=1;
+				}else{
+					WowWeePort=!WowWeePort;  // toggle during low part of each bit
+				}
+
 				if(rsv2_cyclesleft--==0){
-					if(rsv2_firstbithalf==1){
+					if(rsv2_firstbithalf==0){ // done with bit
+						rsv2_startingbit=1;
+					}else{ // done with first half of bit
 						rsv2_firstbithalf=0; // go to second half
-						rsv2_cyclesleft=517/8; 
-						WowWeePort=1;
-					}else{
-						WowWeePort=!WowWeePort;  // toggle during low part of each bit
+						rsv2_cyclesleft=517/8; // setup 1/1200s IR modulation
 					}
 				}
 			}
