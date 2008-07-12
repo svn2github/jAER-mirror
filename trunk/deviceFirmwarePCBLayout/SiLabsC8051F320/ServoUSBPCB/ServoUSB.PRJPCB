@@ -96,51 +96,57 @@ DoLibraryUpdate=1
 DoDatabaseUpdate=1
 
 [GeneratedDocument1]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.DRL
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.BOM
 
 [GeneratedDocument2]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.DRR
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.CSV
 
 [GeneratedDocument3]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GBL
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.DRL
 
 [GeneratedDocument4]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GD1
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.DRR
 
 [GeneratedDocument5]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GG1
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GBL
 
 [GeneratedDocument6]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GKO
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GD1
 
 [GeneratedDocument7]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GM1
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GG1
 
 [GeneratedDocument8]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GPB
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GKO
 
 [GeneratedDocument9]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GPT
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GM1
 
 [GeneratedDocument10]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GTL
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GPB
 
 [GeneratedDocument11]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GTO
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GPT
 
 [GeneratedDocument12]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GTS
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GTL
 
 [GeneratedDocument13]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.LDP
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GTO
 
 [GeneratedDocument14]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.REP
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.GTS
 
 [GeneratedDocument15]
-DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.RUL
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.LDP
 
 [GeneratedDocument16]
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.REP
+
+[GeneratedDocument17]
+DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.RUL
+
+[GeneratedDocument18]
 DocumentPath=Project Outputs for ServoUSB\servoUSBrev0.TXT
 
 [OutputGroup1]
@@ -408,15 +414,13 @@ Configuration9_Item1=AddToAllPlots_Mechanical 1=False|AddToAllPlots_Mechanical 1
 Name=Report Outputs
 Description=
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
-OutputType1=SimpleBOM
-OutputName1=Simple BOM
+OutputType1=BOM_PartType
+OutputName1=Bill of Materials
 OutputDocumentPath1=
 OutputEnabled1=1
 OutputDefault1=0
-Configuration1_Name1=OutputConfigurationParameter1
-Configuration1_Item1=Record=SimpleBOMView|SimpleBOMMode=0
-OutputType2=SinglePinNetReporter
-OutputName2=Report Single Pin Nets
+OutputType2=ComponentCrossReference
+OutputName2=Component Cross Reference Report
 OutputDocumentPath2=
 OutputEnabled2=1
 OutputDefault2=0
@@ -425,13 +429,15 @@ OutputName3=Report Project Hierarchy
 OutputDocumentPath3=
 OutputEnabled3=1
 OutputDefault3=0
-OutputType4=BOM_PartType
-OutputName4=Bill of Materials
+OutputType4=SimpleBOM
+OutputName4=Simple BOM
 OutputDocumentPath4=
 OutputEnabled4=1
 OutputDefault4=0
-OutputType5=ComponentCrossReference
-OutputName5=Component Cross Reference Report
+Configuration4_Name1=OutputConfigurationParameter1
+Configuration4_Item1=Record=SimpleBOMView|SimpleBOMMode=0
+OutputType5=SinglePinNetReporter
+OutputName5=Report Single Pin Nets
 OutputDocumentPath5=
 OutputEnabled5=1
 OutputDefault5=0
