@@ -109,7 +109,11 @@ void	Port_Init(void);			//	Initialize Ports Pins and Enable Crossbar
 void	Timer_Init(void);			// Init timer to use for spike event times
 
 // wowwee command stuff
-unsigned short rsv2_cmd=0;
+union{
+	unsigned short cmd;
+	unsigned char msb, lsb; // keil ordering is big endian
+	} rsv2_cmd;
+//unsigned short rsv2_cmd=0;
 unsigned short rsv2_cyclesleft = 0;
 unsigned char rsv2_cmdidx = 0; // idx+1
 bit rsv2_sendcmd=0;
@@ -123,7 +127,7 @@ bit rsv2_startingbit=0;
 //-----------------------------------------------------------------------------
 // Main Routine
 //-----------------------------------------------------------------------------
-void main(void)
+void main(void)  
 {
 	char cmd;
 
@@ -268,8 +272,10 @@ void main(void)
 			{
 				// P2.0 is high
 				Out_Packet[0]=0; // cmd has been processed
+				LedToggle();
 				
-				rsv2_cmd = (Out_Packet[1]) | ((Out_Packet[2])<<8);
+				rsv2_cmd.cmd = (Out_Packet[1])|(Out_Packet[2]<<8);
+				//rsv2_cmd.msb = (Out_Packet[2]);
 
 				rsv2_precmd = 1; // we're sending the start 'bit'
 				rsv2_cyclesleft = 517; // 8/1200
@@ -324,6 +330,9 @@ void PWM_Update_ISR(void) interrupt 11
 // pwm interrupt vectored when there is a match interrupt for PCA: only then do we change PCA compare register
 // pwm interrupt happens every 1us
 // for wowwee rs2 command format see http://www.aibohack.com/robosap/ir_codes_v2.htm
+/* to make the IR output, cut out the IR led and bipolar driver part of a dead roboquad remote control and wired it
+up to port p2.0 so that the LED got 5V USB vbus and the p2.0 pulled down on the 100 ohm base input resistor to the bipolar driver
+*/
 /*
 Timing based on 1/1200 second clock (~.833ms)
 Signal is normally high (idle, no IR).
@@ -351,10 +360,11 @@ void Timer3_Update_ISR(void) interrupt 14
 	// isr every 13 us
 	TMR3CN&= (~0x80); // clear pending interrupt flag
 	// wowwee stuff
-	// send RSV2 command, ***LSB FIRST***
+	// send RSV2 command, must be sent big endian - i.e. toy identifier (eg 6 for roboquad) must come first for command 0x610
 	if (rsv2_sendcmd == 1) { // if we are sending a command
 		if(rsv2_precmd==1){ // sending start 8/1200 pulses
-			WowWeePort=!WowWeePort;
+			P2=~P2;
+			//WowWeePort=!WowWeePort;
 			
 			if(rsv2_cyclesleft--==0) {
 				rsv2_precmd=0; // done with precmd
@@ -365,26 +375,26 @@ void Timer3_Update_ISR(void) interrupt 14
 			if(rsv2_startingbit==1){ // set up this bit
 				rsv2_startingbit=0;
 				if (rsv2_cmdidx-- == 0) { // done, disable interrupts
-					WowWeePort=1;
+					P2=0xFF; //WowWeePort=1;
 					rsv2_sendcmd = 0;
 					EIE1&= ~0x80; // disable timer 3 interrupts, disabled at end of cmd
-				}else // still sending bits, but starting one
-					if{(rsv2_cmd&1!=0){
+				}else{ // still sending bits, but starting one
+					if(rsv2_cmd.msb&0x08){
 						rsv2_sendingone=1;
-						rsv2_cyclesleft=517/2; // 4/1200
+						rsv2_cyclesleft=510/2; // 4/1200
 					}else{
 						rsv2_sendingone=0;
-						rsv2_cyclesleft=517/8; // 1/1200
+						rsv2_cyclesleft=510/8; // 1/1200
 					}
-					rsv2_cmd=rsv2_cmd>>1;
+					rsv2_cmd.cmd=rsv2_cmd.cmd<<1;
 					rsv2_startingbit=0;
 					rsv2_firstbithalf=1;
 				}
 			}else{ // in middle of bit
 				if(rsv2_firstbithalf==1){
-					WowWeePort=1;
+					P2=0xff; //WowWeePort= 1;
 				}else{
-					WowWeePort=!WowWeePort;  // toggle during low part of each bit
+					P2=~P2; // WowWeePort=!WowWeePort;  // toggle during low part of each bit
 				}
 
 				if(rsv2_cyclesleft--==0){
@@ -513,10 +523,10 @@ Step 5.  Enable the Crossbar (XBARE = ‘1’).
                       // Port configuration (1 = Push Pull Output)
     P0MDOUT = 0x00; // Output configuration for P0 
     P1MDOUT = 0x0F; // Output configuration for P1 
-    P2MDOUT = 0x01; // Output configuration for P2 
+    P2MDOUT = 0x00; // Output configuration for P2 
     P3MDOUT = 0x00; // Output configuration for P3 
-
-    P0MDIN = 0xFF;  // Input configuration for P0
+     
+    P0MDIN = 0xFF;  // Input configuration for P0          
     P1MDIN = 0xFF;  // Input configuration for P1
     P2MDIN = 0xFF;  // Input configuration for P2
     P3MDIN = 0xFF;  // Input configuration for P3
@@ -618,7 +628,7 @@ void	Timer_Init(void)
 	
 
 	TMR3CN=4; // run timer3 for wowwee commands: 16 bit mode, autoreload, sysclk/12 clock
-	TMR3RLL=0xff-12; // timer3 runs at sysclk/12 = 1MHz; to get an ISR call every 12.57us (corresponding to 1/(2*38.8kHz)) we need to reload the value 0xffff-12 into the reload registers
+	TMR3RLL=0xff-13; // timer3 runs at sysclk/12 = 1MHz; to get an ISR call every 12.57us (corresponding to 1/(2*38.8kHz)) we need to reload the value 0xffff-12 into the reload registers
 	TMR3RLH=0xff;
 
 }
