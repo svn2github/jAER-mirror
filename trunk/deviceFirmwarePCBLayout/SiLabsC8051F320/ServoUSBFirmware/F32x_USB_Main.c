@@ -135,6 +135,7 @@ void main(void)
 
    Sysclk_Init();                      // Initialize oscillator
    Port_Init();                        // Initialize crossbar and GPIO
+   P2=0xFF;  // tie high to turn off pulldowns for open drain devices connected
    Usb0_Init();                        // Initialize USB0
    Timer_Init();                       // Initialize timer2
 	LedOn(); 
@@ -466,28 +467,9 @@ void Sysclk_Init(void)
 #endif  /* _USB_LOW_SPEED_ */
 }
 
-//-----------------------------------------------------------------------------
-// PORT_Init
-//-----------------------------------------------------------------------------
-//
-// Return Value : None
-// Parameters   : None
-//
-// This function configures the crossbar and GPIO ports.
-//
-// P1.7   analog                  Potentiometer
-// P2.2   digital   push-pull     LED
-// P2.3   digital   push-pull     LED
-//-----------------------------------------------------------------------------
 void	Port_Init(void)
 {  
 
-// P2: bit 6,7 are LEDs are outputs
-// don't connect any internal functions to ports
-// no weak pullups, no internal functions to ports
-
-// following from silabs config wizard 2.05 bundled as utility with IDE
-// Config template saved as ConfigWizardTemplate.dat
 //----------------------------------------------------------------
 // CROSSBAR REGISTER CONFIGURATION
 //
