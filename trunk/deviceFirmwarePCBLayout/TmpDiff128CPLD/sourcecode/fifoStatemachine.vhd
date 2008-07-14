@@ -146,6 +146,7 @@ begin
           -- fifoWrite transaction
         elsif MonitorEventReadyxSI = '1' and FifoInFullxSBI = '1' then
           StatexDN <= stWraddress;
+          ClearMonitorEventxSO <= '1';
         end if;
 
         TimestampMSBxDO <= timestamp;
@@ -181,7 +182,6 @@ begin
         FifoWritexEBO             <= '0';
         AddressRegWritexEO <= '0';
         AddressTimestampSelectxSO <= selectaddress;
-        ClearMonitorEventxSO      <= '1';
         IncEventCounterxSO <= '1';
       when stWrTime      =>             -- write the timestamp to the fifo
       

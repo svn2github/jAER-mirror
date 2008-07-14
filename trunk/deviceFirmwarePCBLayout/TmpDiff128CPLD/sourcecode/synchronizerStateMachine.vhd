@@ -21,6 +21,7 @@ entity synchronizerStateMachine is
   port (
     ClockxCI  : in std_logic;
     ResetxRBI : in std_logic;
+    RunxSI : in std_logic;
 
     -- set temporal resolution
     ConfigxSI : in std_logic;
@@ -59,7 +60,7 @@ architecture Behavioral of synchronizerStateMachine is
 begin  -- Behavioral
 
   -- calculate next state
-  p_memless : process (StatexDP, SyncInxS, SyncInxAI, ResetxRBI, ConfigxSI, DividerxDP, HostResetTimestampxSI)
+  p_memless : process (StatexDP, SyncInxS, SyncInxAI, RunxSI, ConfigxSI, DividerxDP, HostResetTimestampxSI)
     variable counterInc : integer := 47;
     variable syncOutLow1 : integer := 43;
     variable syncOutLow2 : integer := 44;
@@ -84,21 +85,23 @@ begin  -- Behavioral
     
     case StatexDP is
       when stMasterIdle               =>  -- waiting for either sync in to go
-                                          -- high or reset to go high
-        ResetTimestampxSBO <= '0';
+                                          -- high or run to go high
+        ResetTimestampxSBO <= '1';
         DividerxDN         <= (others => '0');
         MasterxSO          <= '1';
         SyncOutxSO         <= SyncInxAI;
         if SyncInxS = '1' then
           StatexDN         <= stSlaveIdle;
-        elsif ResetxRBI = '1' then
+          ResetTimestampxSBO <= '0';
+        elsif RunxSI = '1' then
             StatexDN       <= stRunMaster;
+            ResetTimestampxSBO <= '0';
         end if;
       when stResetSlaves              =>  -- reset potential slave usbaermini2
                                           -- devices
         DividerxDN         <= DividerxDP+1;
 
-        if DividerxDP >= 3 then         -- stay four cycles in this state
+        if DividerxDP >= 8 then         -- stay four cycles in this state
           DividerxDN <= (others => '0');
           ResetTimestampxSBO <= '0';
           StatexDN <= stRunMaster;
@@ -142,7 +145,7 @@ begin  -- Behavioral
         if SyncInxS = '1' then
           StatexDN   <= stResetTS;
           DividerxDN <= (others => '0');
-        elsif ResetxRBI = '0' then
+        elsif RunxSI = '0' then
           StatexDN   <= stMasterIdle;
         elsif HostResetTimestampxSI = '1' then
           StatexDN   <= stResetSlaves;
@@ -183,9 +186,12 @@ begin  -- Behavioral
   end process p_memless;
 
   -- change state on clock edge
-  p_mem : process (ClockxCI)
+  p_mem : process (ClockxCI,ResetxRBI)
   begin  -- process p_mem
-    if ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
+    if ResetxRBI = '0' then
+      StatexDP <= stMasterIdle;
+      DividerxDP <= (others => '0');
+    elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
       StatexDP   <= StatexDN;
       DividerxDP <= DividerxDN;
     end if;

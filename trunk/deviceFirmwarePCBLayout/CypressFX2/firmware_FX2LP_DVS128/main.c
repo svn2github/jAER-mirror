@@ -27,6 +27,7 @@ extern BOOL Selfpwr;
 //WORD packetSize;
 
 #define CPLD_NOT_RESET 			PA3
+#define RUN_CPLD				PA0
 #define RESET_TS				PC0
 #define TIMESTAMP_MASTER 		PC1
 #define CFG_TIMESTAMP_COUNTER 	PC2
@@ -148,31 +149,6 @@ void TD_Init(void)              // Called once at startup
 	// UDMACRCH:L       EPxGPIFTRIG
 	// GPIFTRIG
   
-	EP1OUTCFG = 0x00;			// EP1OUT disabled
-	SYNCDELAY;
-	EP1INCFG = 0xA0;			// EP1IN enabled, bulk
-	SYNCDELAY;                   
-	EP2CFG = 0x00;				// EP2 disabled
-	SYNCDELAY;                     
-	EP4CFG = 0x00;				// EP4 disabled
-	SYNCDELAY;                 
-	EP6CFG = 0xE0;				// EP6 enabled, in bulk, quad buffered 
-	SYNCDELAY;               
-	EP8CFG = 0x00;				// EP8 disabled
-
-	SYNCDELAY;
-	REVCTL= 0x03;
-
-	EP6AUTOINLENH=0x02;
-	EP6AUTOINLENL=0x00;
-
-	SYNCDELAY;
-	EP6FIFOCFG = 0x09 ; //0000_1001
-
-	//set FIFO flag configuration: FlagB: EP6 full, flagC and D unused
-	SYNCDELAY;
-	PINFLAGSAB = 0xE8; // 1110_1000
-
 	//enable Port C and port E
 	SYNCDELAY;
 	PORTCCFG = 0x00;
@@ -189,7 +165,41 @@ void TD_Init(void)              // Called once at startup
 
 	OEC = 0x0D; // 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
 	OEE = 0xFE; // 1111_1110 configure only bit 0 (BitOut) as input
-	OEA = 0x88; // PA3: NotResetCPLD ;  PA7 LED
+	OEA = 0x89; // 1000_1001 PA0: run, PA3: NotResetCPLD ;  PA7 LED
+	
+	EP1OUTCFG = 0x00;			// EP1OUT disabled
+	SYNCDELAY;
+	EP1INCFG = 0xA0;			// EP1IN enabled, bulk
+	SYNCDELAY;                   
+	EP2CFG = 0x00;				// EP2 disabled
+	SYNCDELAY;                     
+	EP4CFG = 0x00;				// EP4 disabled
+	SYNCDELAY;                 
+	EP6CFG = 0xE0;				// EP6 enabled, in bulk, quad buffered 
+	SYNCDELAY;               
+	EP8CFG = 0x00;				// EP8 disabled
+
+	SYNCDELAY;
+	REVCTL= 0x03;
+
+	SYNCDELAY;
+	FIFORESET = 0x80;
+  	SYNCDELAY;
+  	FIFORESET = 0x06;
+  	SYNCDELAY;
+  	FIFORESET = 0x00;
+	SYNCDELAY;
+
+	EP6AUTOINLENH=0x02;
+	EP6AUTOINLENL=0x00;
+
+	SYNCDELAY;
+	EP6FIFOCFG = 0x09 ; //0000_1001
+
+	//set FIFO flag configuration: FlagB: EP6 full, flagC and D unused
+	SYNCDELAY;
+	PINFLAGSAB = 0xE8; // 1110_1000
+
 
 	// initialize variables
 	operationMode=0;
@@ -207,10 +217,10 @@ void TD_Init(void)              // Called once at startup
 	JTAGinit=TRUE;	
 
   	IT0=1;		// make INT0# edge-sensitive
-	EX0=1;		// enable INT0# (this interrupt is used to signal to the host to reset WrapAdd)
+	EX0=0;		// do not enable INT0#
 
 	IT1=1; // INT1# edge-sensitve
-	EX1=1; // enable INT1#
+	EX1=0; // do not enable INT1#
 
 	for (i=0;i<NUM_BIAS_BYTES;i++)
 	{
@@ -218,12 +228,11 @@ void TD_Init(void)              // Called once at startup
 	}
 	latchNewBiases();	
 
-	//startMonitor();
+	CPLD_NOT_RESET=1;
 }
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
-
 	if(cycleCounter++>=50000){
 		LED=!LED;	
 		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
@@ -252,12 +261,12 @@ void downloadSerialNumberFromEEPROM(void)
 
 void startMonitor(void)
 {
-    CPLD_NOT_RESET=1;
+    RUN_CPLD=1;
 }
 
 void stopMonitor(void)
 {
-    CPLD_NOT_RESET=0;
+    RUN_CPLD=0;
 
   	// force last paket
   	

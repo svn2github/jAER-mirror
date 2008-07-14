@@ -42,14 +42,15 @@ entity USBAER_top_level is
 
     -- ports to synchronize other USBAER boards
     SyncInxAI   : in  std_logic;        -- needs synchronization
-    SynchOutxSO : out std_logic;
+    SyncOutxSO : out std_logic;
 
     -- communication with 8051
     TimestampTickxSI      : in  std_logic;
     TriggerModexSI        : in  std_logic;
     TimestampMasterxSO    : out std_logic;
     HostResetTimestampxSI : in  std_logic;
-    Interrupt0xSB0        : out std_logic;
+    RunMonitorxSI : in std_logic;
+   -- Interrupt0xSB0        : out std_logic;
     Interrupt1xSB0        : out std_logic;
    -- PC1xSI                : in  std_logic;                     -- unused
    -- PExDI                 : in  std_logic_vector(3 downto 0);  -- unused
@@ -99,6 +100,7 @@ architecture Structural of USBAER_top_level is
     port (
       ClockxCI              : in  std_logic;
       ResetxRBI             : in  std_logic;
+      RunxSI : in std_logic;
       ConfigxSI             : in  std_logic;
       HostResetTimestampxSI : in  std_logic;
       SyncInxAI             : in  std_logic;
@@ -144,6 +146,7 @@ architecture Structural of USBAER_top_level is
     port (
       ClockxCI      : in  std_logic;
       ResetxRBI     : in  std_logic;
+      SetToZeroxSBI : in std_logic;
       IncrementxSI  : in  std_logic;
       OverflowxSO   : out std_logic;
       DataxDO       : out std_logic_vector(13 downto 0));
@@ -191,8 +194,7 @@ architecture Structural of USBAER_top_level is
 
   -- clock, reset
   signal ClockxC                       : std_logic;
-  signal ResetxRB                      : std_logic;
-  signal CounterResetxRB               : std_logic;
+  signal RunxS                      : std_logic;
   signal SynchronizerResetTimestampxSB : std_logic;
 
   -- signals regarding the timestamp
@@ -206,7 +208,7 @@ architecture Structural of USBAER_top_level is
   -- various
   signal FifoTransactionxS : std_logic;
   signal FifoPktEndxSB     : std_logic;
-  signal SynchOutxS        : std_logic;
+  signal SyncOutxS        : std_logic;
 
   -- counter increment signal
   signal IncxS : std_logic;
@@ -230,10 +232,9 @@ begin
   
   ClockxC  <= ClockxCI;
   -- run the state machines either when reset is high or when in slave mode
-  ResetxRB <= ResetxRBI or not TimestampMasterxS;
-  CounterResetxRB <= SynchronizerResetTimestampxSB;
+  RunxS <= RunMonitorxSI or not TimestampMasterxS;
   
-  Interrupt0xSB0 <= '1';
+  --Interrupt0xSB0 <= '1';
   Interrupt1xSB0 <= '1';
   
   FifoReadxEBO <= '1';
@@ -251,7 +252,7 @@ begin
       width          => 16)
     port map (
       ClockxCI       => ClockxC,
-      ResetxRBI      => ResetxRB,
+      ResetxRBI      => RunxS,
       WriteEnablexEI => FifoRegWritexE,
       DataInxDI      => FifoAddressRegInxD,
       DataOutxDO     => FifoAddressRegOutxD);
@@ -261,7 +262,7 @@ begin
       width          => 16)
     port map (
       ClockxCI       => ClockxC,
-      ResetxRBI      => ResetxRB,
+      ResetxRBI      => RunxS,
       WriteEnablexEI => FifoRegWritexE,
       DataInxDI      => FifoTimestampRegInxD,
       DataOutxDO     => FifoTimestampRegOutxD);
@@ -271,7 +272,7 @@ begin
       width          => 16)
     port map (
       ClockxCI       => ClockxC,
-      ResetxRBI      => ResetxRB,
+      ResetxRBI      => RunxS,
       WriteEnablexEI => MonitorRegWritexE,
       DataInxDI      => AERMonitorAddressxDI,
       DataOutxDO     => MonitorAddressxD);
@@ -281,7 +282,7 @@ begin
       width          => 14)
     port map (
       ClockxCI       => ClockxC,
-      ResetxRBI      => ResetxRB,
+      ResetxRBI      => RunxS,
       WriteEnablexEI => MonitorRegWritexE,
       DataInxDI      => ActualTimestampxD,
       DataOutxDO     => MonitorTimestampxD);
@@ -290,14 +291,14 @@ begin
   uEarlyPaketTimer : earlyPaketTimer
     port map (
       ClockxCI        => ClockxC,
-      ResetxRBI       => ResetxRB,
+      ResetxRBI       => RunxS,
       ClearxSI        => ResetEarlyPaketTimerxS,
       TimerExpiredxSO => EarlyPaketTimerOverflowxS);
 
   uEventCounter : eventCounter
     port map (
       ClockxCI     => ClockxC,
-      ResetxRBI    => ResetxRB,
+      ResetxRBI    => ResetxRBI,
       ClearxSI     => ResetEventCounterxS,
       IncrementxSI => IncEventCounterxS,
       OverflowxSO  => ECResetEarlyPaketTimerxS);
@@ -305,7 +306,8 @@ begin
   uTimestampCounter : timestampCounter
     port map (
       ClockxCI      => ClockxC,
-      ResetxRBI     => CounterResetxRB,
+      ResetxRBI     => ResetxRBI,
+      SetToZeroxSBI => SynchronizerResetTimestampxSB,
       IncrementxSI  => IncxS,
       OverflowxSO   => TimestampOverflowxS,
       DataxDO       => ActualTimestampxD);
@@ -313,11 +315,12 @@ begin
   uSyncStateMachine : synchronizerStateMachine
     port map (
       ClockxCI              => ClockxC,
-      ResetxRBI             => ResetxRB,
+      ResetxRBI             => ResetxRBI,
+      RunxSI => RunxS,
       ConfigxSI             => TimestampTickxSI,
       HostResetTimestampxSI => HostResetTimestampxSI,
       SyncInxAI             => SyncInxA,
-      SyncOutxSO            => SynchOutxS,
+      SyncOutxSO            => SyncOutxS,
       MasterxSO             => TimestampMasterxS,
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
       IncrementCounterxSO   => IncxS);
@@ -325,7 +328,7 @@ begin
   uFifoStateMachine : fifoStateMachine
     port map (
       ClockxCI                   => ClockxC,
-      ResetxRBI                  => ResetxRB,
+      ResetxRBI                  => ResetxRBI,
       FifoTransactionxSO         => FifoTransactionxS,
       FifoInFullxSBI             => FifoInFullxSBI,
       FifoWritexEBO              => FifoWritexEBO,
@@ -346,7 +349,7 @@ begin
   uMonitorStateMachine : monitorStateMachine
     port map (
       ClockxCI             => ClockxC,
-      ResetxRBI            => ResetxRB,
+      ResetxRBI            => RunxS,
       RunxSI               => RunMonitorxS,
       AERREQxABI           => AERMonitorREQxABI,
       AERACKxSBO           => AERMonitorACKxSB,
@@ -356,15 +359,15 @@ begin
 
  
 
-  SynchOutxSO <= not SynchOutxS;
+  SyncOutxSO <= not SyncOutxS;
   FifoPktEndxSBO <= FifoPktEndxSB;
  
   AERMonitorACKxSBO <= AERMonitorACKxSB;
+  
   -- run monitor either when 8051 signals to do so,
   -- or when in slave mode
-  RunMonitorxS <= '1' when (TriggerModexSI = '0')
+  RunMonitorxS <= RunMonitorxSI when (TriggerModexSI = '0')
                   else not TimestampMasterxS;
-
 
   -- reset early paket timer whenever a paket is sent (short or normal)
   ResetEarlyPaketTimerxS <= (SMResetEarlyPaketTimerxS or ECResetEarlyPaketTimerxS);
@@ -385,9 +388,9 @@ begin
 
   -- this process controls the EventReady Register which is used for the
   -- communication between fifoSM and monitor SM
-  p_eventready : process (ClockxC, ResetxRB)
+  p_eventready : process (ClockxC, RunxS)
   begin  -- process p_eventready
-    if ResetxRB = '0' then              -- asynchronous reset (active low)
+    if RunxS = '0' then              -- asynchronous reset (active low)
       MonitorEventReadyxS   <= '0';
     elsif ClockxC'event and ClockxC = '1' then  -- rising clock edge
       if SetMonitorEventReadyxS = '1' and ClearMonitorEventxS = '1' then
