@@ -67,7 +67,7 @@ entity fifoStatemachine is
 end fifoStatemachine;
 
 architecture Behavioral of fifoStatemachine is
-  type state is (stIdle, stEarlyPaket, stWraddress, stWrTime ,stOverflow,stResetTimestamp);
+  type state is (stIdle, stEarlyPaket, stWraddress, stWrTime ,stOverflow,stResetTimestamp,stWrAddressNoEvent);
 
   -- present and next state
   signal StatexDP, StatexDN : state;
@@ -146,7 +146,7 @@ begin
           -- fifoWrite transaction
         elsif MonitorEventReadyxSI = '1' and FifoInFullxSBI = '1' then
           StatexDN <= stWraddress;
-          ClearMonitorEventxSO <= '1';
+          --ClearMonitorEventxSO <= '1'; -- problems if we do it here
         end if;
 
         TimestampMSBxDO <= timestamp;
@@ -159,7 +159,7 @@ begin
         ResetEventCounterxSO      <= '1';
         FifoPktEndxSBO            <= '0';
       when stOverflow =>           -- send overflow event
-        StatexDN <= stWraddress;                
+        StatexDN <= stWrAddressNoEvent;                
         TimestampOverflowxDN <= '0';
     
         TimestampMSBxDO <= wrap;
@@ -168,12 +168,20 @@ begin
    
       when stResetTimestamp =>           -- send timestamp reset event
 
-        StatexDN <= stWraddress;       
+        StatexDN <= stWrAddressNoEvent;       
         TimestampResetxDN <= '0';
      
         TimestampMSBxDO <= timereset;
      
-      
+        when stWrAddressNoEvent   =>             -- write the address to the fifo
+       
+        StatexDN                 <= stWrTime;
+       
+        FifoWritexEBO             <= '0';
+        AddressRegWritexEO <= '0';
+        AddressTimestampSelectxSO <= selectaddress;
+        IncEventCounterxSO <= '1';
+     
 
       when stWraddress   =>             -- write the address to the fifo
        
@@ -183,6 +191,8 @@ begin
         AddressRegWritexEO <= '0';
         AddressTimestampSelectxSO <= selectaddress;
         IncEventCounterxSO <= '1';
+        ClearMonitorEventxSO <= '1';
+        
       when stWrTime      =>             -- write the timestamp to the fifo
       
         StatexDN                <= stIdle;

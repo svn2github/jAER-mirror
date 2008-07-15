@@ -27,7 +27,6 @@ entity timestampCounter is
   port (
     ClockxCI      : in  std_logic;
     ResetxRBI     : in  std_logic;
-    SetToZeroxSBI : in std_logic;
     IncrementxSI  : in  std_logic;
                                         -- see report for more details
     OverflowxSO   : out std_logic;      -- increment MSB on host
@@ -50,7 +49,7 @@ begin
   OverflowxSO <= ( CountxDP(14) xor MSbDelayedxDP);
 
   -- timestamp counter, calculation of next state
-  p_memless : process (CountxDP, IncrementxSI, MSbDelayedxDP,SetToZeroxSBI)
+  p_memless : process (CountxDP, IncrementxSI, MSbDelayedxDP)
 
   begin  -- process p_memless
     MSbDelayedxDN <= CountxDP(14);
@@ -58,10 +57,6 @@ begin
 
     if IncrementxSI = '1' then
       CountxDN <= CountxDP +1;
-    end if;
-
-    if SetToZeroxSBI='0' then
-      CountxDN <= (others => '0');
     end if;
   end process p_memless;
 

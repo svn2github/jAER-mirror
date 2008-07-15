@@ -146,7 +146,6 @@ architecture Structural of USBAER_top_level is
     port (
       ClockxCI      : in  std_logic;
       ResetxRBI     : in  std_logic;
-      SetToZeroxSBI : in std_logic;
       IncrementxSI  : in  std_logic;
       OverflowxSO   : out std_logic;
       DataxDO       : out std_logic_vector(13 downto 0));
@@ -196,6 +195,7 @@ architecture Structural of USBAER_top_level is
   signal ClockxC                       : std_logic;
   signal RunxS                      : std_logic;
   signal SynchronizerResetTimestampxSB : std_logic;
+  signal CounterResetxRB : std_logic;
 
   -- signals regarding the timestamp
   signal TimestampOverflowxS   : std_logic;
@@ -306,12 +306,13 @@ begin
   uTimestampCounter : timestampCounter
     port map (
       ClockxCI      => ClockxC,
-      ResetxRBI     => ResetxRBI,
-      SetToZeroxSBI => SynchronizerResetTimestampxSB,
+      ResetxRBI     => CounterResetxRB,
       IncrementxSI  => IncxS,
       OverflowxSO   => TimestampOverflowxS,
       DataxDO       => ActualTimestampxD);
 
+  CounterResetxRB <= ResetxRBI and SynchronizerResetTimestampxSB;
+  
   uSyncStateMachine : synchronizerStateMachine
     port map (
       ClockxCI              => ClockxC,
@@ -349,7 +350,7 @@ begin
   uMonitorStateMachine : monitorStateMachine
     port map (
       ClockxCI             => ClockxC,
-      ResetxRBI            => RunxS,
+      ResetxRBI            => ResetxRBI,
       RunxSI               => RunMonitorxS,
       AERREQxABI           => AERMonitorREQxABI,
       AERACKxSBO           => AERMonitorACKxSB,

@@ -191,6 +191,7 @@ void TD_Init(void)              // Called once at startup
 	SYNCDELAY;
 
 	EP6AUTOINLENH=0x02;
+	SYNCDELAY;
 	EP6AUTOINLENL=0x00;
 
 	SYNCDELAY;
@@ -227,8 +228,6 @@ void TD_Init(void)              // Called once at startup
 		spiwritebyte(biasBytes[i]);
 	}
 	latchNewBiases();	
-
-	CPLD_NOT_RESET=1;
 }
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
@@ -261,6 +260,7 @@ void downloadSerialNumberFromEEPROM(void)
 
 void startMonitor(void)
 {
+	CPLD_NOT_RESET=1;
     RUN_CPLD=1;
 }
 
