@@ -97,6 +97,8 @@ HKR,,Icon,,"-20"
 %S_DeviceDescTCVS320%=_Install, USB\Vid_0547&Pid_8702
 %S_DeviceDescStereoTmpdiff128%=_Install, USB\Vid_0547&Pid_8703
 %S_DeviceDescDVS128%=_Install, USB\Vid_152A&Pid_8400
+; following device firmware was built in telluride 2008 and is based on silabs C8051f320
+%S_DeviceDescSimpleAESequencer%=_Install, USB\Vid_152A&Pid_8410
 
 ;******************************************************************************
 ; Install sections x86-based systems
@@ -258,6 +260,7 @@ S_DeviceDescMapper="USB2AERmapper"
 S_DeviceDescTCVS320="TCVS320"
 S_DeviceDescStereoTmpdiff128="StereoTmpdiff128"
 S_DeviceDescDVS128="DVS128"
+S_DeviceDescSimpleAESequencer="SimpleAESequencer"
 
 ; disk name
 S_DiskName="jAER USBAER host driver Thesycon USBIO"
