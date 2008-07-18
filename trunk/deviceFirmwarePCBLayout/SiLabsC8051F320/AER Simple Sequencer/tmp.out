@@ -1,0 +1,13 @@
+
+BL51 BANKED LINKER/LOCATER V5.03 - SN: K1DQP-01744E
+COPYRIGHT KEIL ELEKTRONIK GmbH 1987 - 2002
+"C:\Work\Telluride\2008 Tellurdie\USB\AER Simple Sequencer\F32x_USB_Descriptor.obj",
+"C:\Work\Telluride\2008 Tellurdie\USB\AER Simple Sequencer\F32x_USB_ISR.obj",
+"C:\Work\Telluride\2008 Tellurdie\USB\AER Simple Sequencer\F32x_USB_Main.obj",
+"C:\Work\Telluride\2008 Tellurdie\USB\AER Simple Sequencer\F32x_USB_Standard_Requests.obj"  TO "C:\Work\Telluride\2008 Tellurdie\USB\AER Simple Sequencer\FIRMWARE" RS(256) PL(68) PW(78) 
+
+*** FATAL ERROR L210: I/O ERROR ON INPUT FILE:
+    EXCEPTION 0021H: PATH OR FILE NOT FOUND
+    FILE: C:\Work\Telluride\2008 Tellurdie\USB\AER Simple Sequencer\F32x_USB_Main.obj
+
+>> 
