@@ -15,6 +15,12 @@
               <map/>
               <node name="retina">
                 <map>
+                  <entry key="SubSampler.bits" value="1"/>
+                  <entry key="XYTypeFilter.filterEnabled" value="false"/>
+                  <entry key="RotateFilter.filterEnabled" value="false"/>
+                  <entry key="RepetitiousFilter.filterEnabled" value="false"/>
+                  <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
+                  <entry key="SubSampler.filterEnabled" value="false"/>
                   <entry key="AEChip.subSamplingEnabled" value="false"/>
                   <entry key="Tmpdiff128RateController.rateFilter3dBFreqHz" value="0.16036813"/>
                   <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.upperThreshKEPS" value="212"/>
@@ -33,24 +39,18 @@
                   <entry key="Tmpdiff128.IPot.refr" value="944"/>
                   <entry key="Tmpdiff128.IPot.puY" value="16777215"/>
                   <entry key="Tmpdiff128.IPot.diffOn" value="205255"/>
-                  <entry key="Tmpdiff128.IPot.diff" value="9643"/>
+                  <entry key="Tmpdiff128.IPot.diff" value="3207"/>
                   <entry key="Tmpdiff128.IPot.foll" value="278"/>
                   <entry key="Tmpdiff128.IPot.Pr" value="217"/>
                   <entry key="Masterbias.rx" value="8200.0"/>
                   <entry key="Masterbias.rint" value="46000.0"/>
                   <entry key="Masterbias.internalResistorUsed" value="false"/>
-                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAJdwQAAAAJdAA3Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlhZVHlwZUZpbHRlcnQAN2NoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5Sb3RhdGVGaWx0ZXJ0ADxjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuUmVwZXRpdGlvdXNGaWx0ZXJ0AENjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuQmFja2dyb3VuZEFjdGl2aXR5RmlsdGVydAA1Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlN1YlNhbXBsZXJ0AEFjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5sYWJlbC5TaW1wbGVPcmllbnRhdGlvbkZpbHRlcnQAQmNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmxhYmVsLkRpcmVjdGlvblNlbGVjdGl2ZUZpbHRlcnQAOGNoLnVuaXpoLmluaS5jYXZpYXIuY2hpcC5yZXRpbmEuVG1wZGlmZjEyOFJhdGVDb250cm9sbGVydABGY2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcudHJhY2tpbmcuUmVjdGFuZ3VsYXJDbHVzdGVyVHJhY2tlcng="/>
-                  <entry key="SubSampler.bits" value="1"/>
+                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAJdwQAAAAJdAA8Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlJlcGV0aXRpb3VzRmlsdGVydABDY2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLkJhY2tncm91bmRBY3Rpdml0eUZpbHRlcnQANWNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5TdWJTYW1wbGVydABBY2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcubGFiZWwuU2ltcGxlT3JpZW50YXRpb25GaWx0ZXJ0AEJjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5sYWJlbC5EaXJlY3Rpb25TZWxlY3RpdmVGaWx0ZXJ0AEZjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy50cmFja2luZy5SZWN0YW5ndWxhckNsdXN0ZXJUcmFja2VydAA9Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcudHJhY2tpbmcuSG91Z2hMaW5lVHJhY2tlcnQAOWNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5QZW5jaWxCYWxhbmNlcnQAPWNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5QZW5jaWxMRURTcGVlZFRlc3R4"/>
                   <entry key="DirectionSelectiveFilter.searchDistance" value="1"/>
                   <entry key="DirectionSelectiveFilter.filterEnabled" value="false"/>
                   <entry key="SubSamplingBandpassFilter.surroundRadius" value="1"/>
                   <entry key="SubSamplingBandpassFilter.surroundScale" value="1"/>
                   <entry key="Tmpdiff128RateController.filterEnabled" value="false"/>
-                  <entry key="XYTypeFilter.filterEnabled" value="false"/>
-                  <entry key="RotateFilter.filterEnabled" value="false"/>
-                  <entry key="SubSampler.filterEnabled" value="false"/>
-                  <entry key="RepetitiousFilter.filterEnabled" value="false"/>
-                  <entry key="BackgroundActivityFilter.filterEnabled" value="true"/>
                   <entry key="OnOffProximityLineFilter.filterEnabled" value="false"/>
                   <entry key="SubSamplingBandpassFilter.filterEnabled" value="false"/>
                   <entry key="SimpleOrientationFilter.filterEnabled" value="false"/>
@@ -167,11 +167,11 @@
                   <entry key="MotionCompensator.gain" value="0.8638377"/>
                   <entry key="SimpleOrientationFilter.useAverageDtEnabled" value="true"/>
                   <entry key="LineTracker.favorVertical" value="true"/>
-                  <entry key="LineTracker.tauMs" value="56.591324"/>
+                  <entry key="LineTracker.tauMs" value="10.0"/>
                   <entry key="LineTracker.updateThresholdEvents" value="12"/>
-                  <entry key="LineTracker.thetaResDeg" value="6.9536395"/>
-                  <entry key="LineTracker.rhoResPixels" value="4.4772935"/>
-                  <entry key="LineTracker.favorVerticalAngleRangeDeg" value="60.0"/>
+                  <entry key="LineTracker.thetaResDeg" value="1.0"/>
+                  <entry key="LineTracker.rhoResPixels" value="1.0"/>
+                  <entry key="LineTracker.favorVerticalAngleRangeDeg" value="30.0"/>
                   <entry key="Driver.tauDynMs" value="68.78111"/>
                   <entry key="Driver.tauDynUs" value="80000.12"/>
                   <entry key="Driver.offsetGain" value="0.006441994"/>
@@ -231,6 +231,26 @@
                   <entry key="DVS128.IPot.diff" value="3624"/>
                   <entry key="DVS128.IPot.foll" value="39"/>
                   <entry key="DVS128.IPot.Pr" value="4"/>
+                  <entry key="PencilLEDSpeedTest.filterEnabled" value="false"/>
+                  <entry key="PencilLEDSpeedTest.showBox" value="true"/>
+                  <entry key="PencilLEDSpeedTest.posX" value="39"/>
+                  <entry key="PencilLEDSpeedTest.posY" value="34"/>
+                  <entry key="RotateFilter1.filterEnabled" value="false"/>
+                  <entry key="RotateFilter.invertX" value="false"/>
+                  <entry key="RotateFilter.invertY" value="false"/>
+                  <entry key="RotateFilter.rotate90deg" value="false"/>
+                  <entry key="RotateFilter.swapXY" value="false"/>
+                  <entry key="PencilBalancerLower.filterEnabled" value="true"/>
+                  <entry key="PencilBalancerLower.labelRed" value="false"/>
+                  <entry key="PencilBalancer.filterEnabled" value="false"/>
+                  <entry key="PencilBalancer.enableServo" value="false"/>
+                  <entry key="PencilBalancer.connectServoFlag" value="false"/>
+                  <entry key="PencilBalancer.positionXFlag" value="false"/>
+                  <entry key="PencilBalancer.positionYFlag" value="true"/>
+                  <entry key="LineTracker.houghDecayFactor" value="0.1"/>
+                  <entry key="PencilLEDSpeedTest.connectServoFlag" value="false"/>
+                  <entry key="PencilLEDSpeedTest.threshold" value="32"/>
+                  <entry key="PencilLEDSpeedTest.blobRadius" value="6"/>
                 </map>
                 <node name="ch">
                   <map/>
