@@ -332,7 +332,7 @@ void PWM_Update_ISR(void) interrupt 11
 // pwm interrupt happens every 1us
 // for wowwee rs2 command format see http://www.aibohack.com/robosap/ir_codes_v2.htm
 /* to make the IR output, cut out the IR led and bipolar driver part of a dead roboquad remote control and wired it
-up to port p2.0 so that the LED got 5V USB vbus and the p2.0 pulled down on the 100 ohm base input resistor to the bipolar driver
+up to port p2.0 so that the LED got 5V USB vbus and the p2.0 pulled down on the 1000 ohm base input resistor to the bipolar driver
 */
 /*
 Timing based on 1/1200 second clock (~.833ms)
