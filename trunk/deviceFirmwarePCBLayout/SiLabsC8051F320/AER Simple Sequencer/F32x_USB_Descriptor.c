@@ -54,8 +54,8 @@ const device_descriptor DeviceDesc =
    0x00,                // bDeviceSubClass
    0x00,                // bDeviceProtocol
    EP0_PACKET_SIZE,     // bMaxPacketSize0
-   0x2a15,              // idVendor 0x152a
-   0x1084,              // idProduct 0x8410
+   0x2a15,              // idVendor 0x152a -- Theyscon VID assigned by purchase from the INI June 2008
+   0x1084,              // idProduct 0x8410 -- VID for this sequencer device
    0x0010,              // bcdDevice
    0x01,                // iManufacturer
    0x02,                // iProduct
@@ -72,7 +72,7 @@ const configuration_descriptor ConfigDesc =
    0x01,                // bConfigurationValue
    0x00,                // iConfiguration
    0x80,                // bmAttributes
-   0x7f                 // MaxPower; high power, powers servo motors directly
+   0x1f                 // Medium power
 }; //end of ConfigDesc
 
 const interface_descriptor InterfaceDesc =

@@ -17,7 +17,7 @@ hex cheat sheet
 */
 // this firmware is for implementing a simple sequencer that gets AE from the computer and sends them out using AER
 
-// Tarek jul 2008
+// Tarek Massoud, Tobi Delbruck  jul 2008
 
 //-----------------------------------------------------------------------------
 // Includes
@@ -54,39 +54,78 @@ void	Port_Init(void);			// Initialize Ports Pins and Enable Crossbar
 void	Timer_Init(void);			// Init timer to use for spike event times
 void	Usb0_Init(void);			//		
 
-
-
-
 //-----------------------------------------------------------------------------
 // Main Routine
 //-----------------------------------------------------------------------------
 void main(void)
 {
+ 	int i;
+	LedRedOn();
+   PCA0MD &= ~0x40;                    // Disable Watchdog timer
+  Sysclk_Init();                      // Initialize oscillator
 	Port_Init();			// Initialize Ports Pins and Enable Crossbar
 	Timer_Init();			// Init timer to use for spike event times
-	//Usb0_Init();
+	Usb0_Init();
 	NOTREQ	=	1;
 	
    while (1)
    {
-   	LedRedOn();
-	LedGreenOn();
-	LedBlueOn();
-   	Delay();
-	LedRedOff();
-	LedGreenOff();
-	LedBlueOff();
+		if(Ep_Status[2]!=EP_RX){
+		LedRedToggle();
+		LedGreenToggle();
+		LedBlueToggle();
+		}
+	   	for(i=0;i<1400;i++){
+			Delay();
+		} // 1 second
    }
+}
+
+
+
+//-----------------------------------------------------------------------------
+// Sysclk_Init
+//-----------------------------------------------------------------------------
+//
+// Return Value : None
+// Parameters   : None
+//
+// Initialize the system clock and USB clock
+//
+//-----------------------------------------------------------------------------
+void Sysclk_Init(void)
+{
+#ifdef _USB_LOW_SPEED_
+
+   OSCICN |= 0x03;                     // Configure internal oscillator for
+                                       // its maximum frequency (12MHz) and enable
+                                       // missing clock detector
+
+   CLKSEL  = SYS_INT_OSC;              // Select System clock
+   CLKSEL |= USB_INT_OSC_DIV_2;        // Select USB clock
+#else
+   OSCICN |= 0x03;                     // Configure internal oscillator for
+                                       // its maximum frequency and enable
+                                       // missing clock detector
+
+   CLKMUL  = 0x00;                     // Select internal oscillator as
+                                       // input to clock multiplier
+
+   CLKMUL |= 0x80;                     // Enable clock multiplier
+   Delay();                            // Delay for clock multiplier to begin
+   CLKMUL |= 0xC0;                     // Initialize the clock multiplier
+   Delay();                            // Delay for clock multiplier to begin
+
+   while(!(CLKMUL & 0x20));            // Wait for multiplier to lock
+   CLKSEL  = SYS_INT_OSC;              // Select system clock at osc/1=12MHz
+   CLKSEL |= USB_4X_CLOCK;             // Select USB clock (48HHz)
+#endif  /* _USB_LOW_SPEED_ */
 }
 
 
 //-----------------------------------------------------------------------------
 // Usb0_Init
 //-----------------------------------------------------------------------------
-//
-// Return Value : None
-// Parameters   : None
-// 
 // - Initialize USB0
 // - Enable USB0 interrupts
 // - Enable USB0 transceiver
@@ -95,7 +134,7 @@ void main(void)
 void Usb0_Init(void)
 {
    BYTE Count;
-
+   EA=0; // disable all interrupts
    // Set initial values of In_Packet and Out_Packet to zero
    // Initialized here so that WDT doesn't kick in first
    for (Count = 0; Count < 64; Count++)
@@ -107,7 +146,7 @@ void Usb0_Init(void)
 
    POLL_WRITE_BYTE(POWER,  0x08);      // Force Asynchronous USB Reset
    POLL_WRITE_BYTE(IN1IE,  0x07);      // Enable Endpoint 0-2 in interrupts
-   POLL_WRITE_BYTE(OUT1IE, 0x07);      // Enable Endpoint 0-2 out interrupts
+   POLL_WRITE_BYTE(OUT1IE, 0x04);      // Enable Endpoint 0-2 out interrupts
    POLL_WRITE_BYTE(CMIE,   0x07);      // Enable Reset,Resume,Suspend interrupts
 #ifdef _USB_LOW_SPEED_
    USB0XCN = 0xC0;                     // Enable transceiver; select low speed
@@ -138,11 +177,7 @@ void	Timer_Init(void)
    	TCON = 0x50;    // Timer Control Register , timer0 and 1 running
     TH0 = 0x00; 	    // Timer 0 High Byte, reload value. this is FE so that timer clocks FE FF 00, 2 cycles, 
     TL0 = 0x00;     // Timer 0 Low Byte
- 	
-//	CR=1;			// run PCA counter/timer
-//	PCA0MD|=0x84;	// use timer0 overflow to clock PCA counter. leave wdt bit undisturbed. turn off PCA in idle.
-//	PCA0CPM0=0x10;	// negative edge on CEX0 captures PCA, which is req from sender
-	
+ 		
 }
 
 void	Port_Init(void)
@@ -152,20 +187,6 @@ void	Port_Init(void)
 // P2: bit 6,7 are LEDs are outputs
 // don't connect any internal functions to ports
 // no weak pullups, no internal functions to ports
-
-// following from silabs config wizard 2.05 bundled as utility with IDE
-// Config template saved as ConfigWizardTemplate.dat
-//----------------------------------------------------------------
-// CROSSBAR REGISTER CONFIGURATION
-//
-// NOTE: The crossbar register should be configured before any  
-// of the digital peripherals are enabled. The pinout of the 
-// device is dependent on the crossbar configuration so caution 
-// must be exercised when modifying the contents of the XBR0, 
-// XBR1 registers. For detailed information on 
-// Crossbar Decoder Configuration, refer to Application Note 
-// AN001, "Configuring the Port I/O Crossbar Decoder". 
-//----------------------------------------------------------------
 
 /*
 Step 1.  Select the input mode (analog or digital) for all Port pins, using the Port Input Mode register (PnMDIN).
@@ -180,28 +201,16 @@ Step 5.  Enable the Crossbar (XBARE = ‘1’).
 	XBR0 = 0x00;	// 0000 0000 Crossbar Register 1. no peripherals are routed to output.
 	XBR1 = 0x81;	// 1000 0001 Crossbar Register 2. no weak pullups, cex0 routed to port pins.
 
-
-// Select Pin I/0
-
-// NOTE: Some peripheral I/O pins can function as either inputs or 
-// outputs, depending on the configuration of the peripheral. By default,
-// the configuration utility will configure these I/O pins as push-pull 
-// outputs.
-	// Port configuration (1 = Push Pull Output)
     P0MDIN = 0xFF;  // Input configuration for P0. Not using analog input.
     P1MDIN = 0xFF;  // Input configuration for P1
     P2MDIN = 0xFF;  // Input configuration for P2
     P3MDIN = 0xFF;  // Input configuration for P3
-
 
     P0MDOUT = 0x02; // Output configuration for P0, bit 0 is ack input, bit 1 is req output, 0000 0010, 
 					// leds are bits 3,4,5 but are open drain, set bit low to pull down and turn on LED
     P1MDOUT = 0xFF; // Output configuration for P1  // P1 is used for AE lsb 8 bits
     P2MDOUT = 0xFF; // Output configuration for P2  // P2 is used for AE msb 8 bits
     P3MDOUT = 0x00; // Output configuration for P3 
-
-
-
 
     P0SKIP = 0x01;  //  0000 0001 Port 0 Crossbar Skip Register. Skip first pin so that bit 1 (req) P0.1 becomes CEX0 input to PCA capture module
 
@@ -211,57 +220,11 @@ Step 5.  Enable the Crossbar (XBARE = ‘1’).
 
 	XBR1|=0x40; 	// 0100 0000 enable xbar
 
-// View port pinout
-
-	// The current Crossbar configuration results in the 
-	// following port pinout assignment:
-	// Port 0
-	// P0.0 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P0.1 = unassigned      (Push-Pull Output)(Digital)
-	// P0.2 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P0.3 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P0.4 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P0.5 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P0.6 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P0.7 = unassigned      (Open-Drain Output/Input)(Digital)
-
-    // Port 1
-	// P1.0 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P1.1 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P1.2 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P1.3 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P1.4 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P1.5 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P1.6 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P1.7 = unassigned      (Open-Drain Output/Input)(Digital)
-
-    // Port 2
-	// P2.0 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P2.1 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P2.2 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P2.3 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P2.4 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P2.5 = unassigned      (Open-Drain Output/Input)(Digital)
-	// P2.6 = unassigned      (Push-Pull Output)(Digital)
-	// P2.7 = unassigned      (Push-Pull Output)(Digital)
-
-    // Port 3
-	// P3.0 = unassigned      (Open-Drain Output/Input)(Digital)
-
 }
-
-//-----------------------------------------------------------------------------
-// Delay
-//-----------------------------------------------------------------------------
-//
-// Used for a small pause, approximately 80 us in Full Speed,
-// and 1 ms when clock is configured for Low Speed
-//
-//-----------------------------------------------------------------------------
 
 void Delay(void)
 {
    int x;
-   for(x = 0;x < 150v00;x)
+   for(x = 0;x < 500;x)
       x++;
 }

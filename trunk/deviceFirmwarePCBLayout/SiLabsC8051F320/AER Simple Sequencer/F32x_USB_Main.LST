@@ -1,4 +1,4 @@
-C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/17/2008 19:03:25 PAGE 1   
+C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/21/2008 09:48:34 PAGE 1   
 
 
 C51 COMPILER V7.05, COMPILATION OF MODULE F32X_USB_MAIN
@@ -27,7 +27,7 @@ stmt level    source
   18          // this firmware is for implementing a simple sequencer that gets AE from the computer and sends them out 
              -using AER
   19          
-  20          // Tarek jul 2008
+  20          // Tarek Massoud, Tobi Delbruck  jul 2008
   21          
   22          //-----------------------------------------------------------------------------
   23          // Includes
@@ -62,236 +62,455 @@ stmt level    source
   51          extern BYTE Ep_Status[];
   52          
   53          void    Port_Init(void);                        // Initialize Ports Pins and Enable Crossbar
-C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/17/2008 19:03:25 PAGE 2   
+C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/21/2008 09:48:34 PAGE 2   
 
   54          void    Timer_Init(void);                       // Init timer to use for spike event times
   55          void    Usb0_Init(void);                        //              
   56          
-  57          
-  58          
-  59          
-  60          //-----------------------------------------------------------------------------
-  61          // Main Routine
-  62          //-----------------------------------------------------------------------------
-  63          void main(void)
-  64          {
-  65   1              Port_Init();                    // Initialize Ports Pins and Enable Crossbar
-  66   1              Timer_Init();                   // Init timer to use for spike event times
-  67   1              //Usb0_Init();
-  68   1              NOTREQ  =       1;
-  69   1              
-  70   1         while (1)
-  71   1         {
-  72   2              LedRedOn();
-  73   2              LedGreenOn();
-  74   2              LedBlueOn();
-  75   2              Delay();
-  76   2              LedRedOff();
-  77   2              LedGreenOff();
-  78   2              LedBlueOff();
-  79   2         }
-  80   1      }
-  81          
-  82          
-  83          //-----------------------------------------------------------------------------
-  84          // Usb0_Init
-  85          //-----------------------------------------------------------------------------
-  86          //
-  87          // Return Value : None
-  88          // Parameters   : None
-  89          // 
-  90          // - Initialize USB0
-  91          // - Enable USB0 interrupts
-  92          // - Enable USB0 transceiver
-  93          // - Enable USB0 with suspend detection
-  94          //-----------------------------------------------------------------------------
-  95          void Usb0_Init(void)
-  96          {
-  97   1         BYTE Count;
-  98   1      
-  99   1         // Set initial values of In_Packet and Out_Packet to zero
- 100   1         // Initialized here so that WDT doesn't kick in first
- 101   1         for (Count = 0; Count < 64; Count++)
- 102   1         {
- 103   2            Out_Packet[Count] = 0;
- 104   2            In_Packet[Count] = 0;
- 105   2         }
- 106   1      
- 107   1      
- 108   1         POLL_WRITE_BYTE(POWER,  0x08);      // Force Asynchronous USB Reset
- 109   1         POLL_WRITE_BYTE(IN1IE,  0x07);      // Enable Endpoint 0-2 in interrupts
- 110   1         POLL_WRITE_BYTE(OUT1IE, 0x07);      // Enable Endpoint 0-2 out interrupts
- 111   1         POLL_WRITE_BYTE(CMIE,   0x07);      // Enable Reset,Resume,Suspend interrupts
- 112   1      #ifdef _USB_LOW_SPEED_
+  57          //-----------------------------------------------------------------------------
+  58          // Main Routine
+  59          //-----------------------------------------------------------------------------
+  60          void main(void)
+  61          {
+  62   1              int i;
+  63   1              LedRedOn();
+  64   1         PCA0MD &= ~0x40;                    // Disable Watchdog timer
+  65   1        Sysclk_Init();                      // Initialize oscillator
+  66   1              Port_Init();                    // Initialize Ports Pins and Enable Crossbar
+  67   1              Timer_Init();                   // Init timer to use for spike event times
+  68   1              Usb0_Init();
+  69   1              NOTREQ  =       1;
+  70   1              
+  71   1         while (1)
+  72   1         {
+  73   2                      if(Ep_Status[2]!=EP_RX){
+  74   3                      LedRedToggle();
+  75   3                      LedGreenToggle();
+  76   3                      LedBlueToggle();
+  77   3                      }
+  78   2                      for(i=0;i<1400;i++){
+  79   3                              Delay();
+  80   3                      } // 1 second
+  81   2         }
+  82   1      }
+  83          
+  84          
+  85          
+  86          //-----------------------------------------------------------------------------
+  87          // Sysclk_Init
+  88          //-----------------------------------------------------------------------------
+  89          //
+  90          // Return Value : None
+  91          // Parameters   : None
+  92          //
+  93          // Initialize the system clock and USB clock
+  94          //
+  95          //-----------------------------------------------------------------------------
+  96          void Sysclk_Init(void)
+  97          {
+  98   1      #ifdef _USB_LOW_SPEED_
+              
+                 OSCICN |= 0x03;                     // Configure internal oscillator for
+                                                     // its maximum frequency (12MHz) and enable
+                                                     // missing clock detector
+              
+                 CLKSEL  = SYS_INT_OSC;              // Select System clock
+                 CLKSEL |= USB_INT_OSC_DIV_2;        // Select USB clock
+              #else
+ 107   1         OSCICN |= 0x03;                     // Configure internal oscillator for
+ 108   1                                             // its maximum frequency and enable
+ 109   1                                             // missing clock detector
+ 110   1      
+ 111   1         CLKMUL  = 0x00;                     // Select internal oscillator as
+ 112   1                                             // input to clock multiplier
+ 113   1      
+ 114   1         CLKMUL |= 0x80;                     // Enable clock multiplier
+ 115   1         Delay();                            // Delay for clock multiplier to begin
+C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/21/2008 09:48:34 PAGE 3   
+
+ 116   1         CLKMUL |= 0xC0;                     // Initialize the clock multiplier
+ 117   1         Delay();                            // Delay for clock multiplier to begin
+ 118   1      
+ 119   1         while(!(CLKMUL & 0x20));            // Wait for multiplier to lock
+ 120   1         CLKSEL  = SYS_INT_OSC;              // Select system clock at osc/1=12MHz
+ 121   1         CLKSEL |= USB_4X_CLOCK;             // Select USB clock (48HHz)
+ 122   1      #endif  /* _USB_LOW_SPEED_ */
+ 123   1      }
+ 124          
+ 125          
+ 126          //-----------------------------------------------------------------------------
+ 127          // Usb0_Init
+ 128          //-----------------------------------------------------------------------------
+ 129          // - Initialize USB0
+ 130          // - Enable USB0 interrupts
+ 131          // - Enable USB0 transceiver
+ 132          // - Enable USB0 with suspend detection
+ 133          //-----------------------------------------------------------------------------
+ 134          void Usb0_Init(void)
+ 135          {
+ 136   1         BYTE Count;
+ 137   1         EA=0; // disable all interrupts
+ 138   1         // Set initial values of In_Packet and Out_Packet to zero
+ 139   1         // Initialized here so that WDT doesn't kick in first
+ 140   1         for (Count = 0; Count < 64; Count++)
+ 141   1         {
+ 142   2            Out_Packet[Count] = 0;
+ 143   2            In_Packet[Count] = 0;
+ 144   2         }
+ 145   1      
+ 146   1      
+ 147   1         POLL_WRITE_BYTE(POWER,  0x08);      // Force Asynchronous USB Reset
+ 148   1         POLL_WRITE_BYTE(IN1IE,  0x07);      // Enable Endpoint 0-2 in interrupts
+ 149   1         POLL_WRITE_BYTE(OUT1IE, 0x04);      // Enable Endpoint 0-2 out interrupts
+ 150   1         POLL_WRITE_BYTE(CMIE,   0x07);      // Enable Reset,Resume,Suspend interrupts
+ 151   1      #ifdef _USB_LOW_SPEED_
                  USB0XCN = 0xC0;                     // Enable transceiver; select low speed
                  POLL_WRITE_BYTE(CLKREC, 0xA0);      // Enable clock recovery; single-step mode
                                                      // disabled; low speed mode enabled
-C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/17/2008 19:03:25 PAGE 3   
-
               #else
- 117   1         USB0XCN = 0xE0;                     // Enable transceiver; select full speed
- 118   1         POLL_WRITE_BYTE(CLKREC, 0x80);      // Enable clock recovery, single-step mode
- 119   1                                             // disabled
- 120   1      #endif // _USB_LOW_SPEED_
- 121   1      
- 122   1         EIE1 |= 0x02;                       // Enable USB0 Interrupts
- 123   1         EA = 1;                             // Global Interrupt enable
- 124   1                                             // Enable USB0 by clearing the USB 
- 125   1                                             // Inhibit bit
- 126   1         POLL_WRITE_BYTE(POWER,  0x01);      // and enable suspend detection
- 127   1      }
- 128          
- 129          
- 130          void    Timer_Init(void)
- 131          {
- 132   1      //----------------------------------------------------------------
- 133   1      // Timers Configuration
- 134   1      //----------------------------------------------------------------
- 135   1      
- 136   1          CKCON = 0x04; // t0 clked by sysclk=24MHz 0x00;   // Clock Control Register, timer 0 uses prescaled sy
+ 156   1         USB0XCN = 0xE0;                     // Enable transceiver; select full speed
+ 157   1         POLL_WRITE_BYTE(CLKREC, 0x80);      // Enable clock recovery, single-step mode
+ 158   1                                             // disabled
+ 159   1      #endif // _USB_LOW_SPEED_
+ 160   1      
+ 161   1         EIE1 |= 0x02;                       // Enable USB0 Interrupts
+ 162   1         EA = 1;                             // Global Interrupt enable
+ 163   1                                             // Enable USB0 by clearing the USB 
+ 164   1                                             // Inhibit bit
+ 165   1         POLL_WRITE_BYTE(POWER,  0x01);      // and enable suspend detection
+ 166   1      }
+ 167          
+ 168          
+ 169          void    Timer_Init(void)
+ 170          {
+ 171   1      //----------------------------------------------------------------
+ 172   1      // Timers Configuration
+ 173   1      //----------------------------------------------------------------
+ 174   1      
+ 175   1          CKCON = 0x04; // t0 clked by sysclk=24MHz 0x00;   // Clock Control Register, timer 0 uses prescaled sy
              -sclk/12. sysclk is 24MHz.
- 137   1          TMOD = 0x11;    // Timer Mode Register, timer0 and, timer1 16 bit 00010001
- 138   1              TCON = 0x50;    // Timer Control Register , timer0 and 1 running
- 139   1          TH0 = 0x00;             // Timer 0 High Byte, reload value. this is FE so that timer clocks FE FF 00, 2 cycle
+ 176   1          TMOD = 0x11;    // Timer Mode Register, timer0 and, timer1 16 bit 00010001
+C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/21/2008 09:48:34 PAGE 4   
+
+ 177   1              TCON = 0x50;    // Timer Control Register , timer0 and 1 running
+ 178   1          TH0 = 0x00;             // Timer 0 High Byte, reload value. this is FE so that timer clocks FE FF 00, 2 cycle
              -s, 
- 140   1          TL0 = 0x00;     // Timer 0 Low Byte
- 141   1              
- 142   1      //      CR=1;                   // run PCA counter/timer
- 143   1      //      PCA0MD|=0x84;   // use timer0 overflow to clock PCA counter. leave wdt bit undisturbed. turn off PCA in i
-             -dle.
- 144   1      //      PCA0CPM0=0x10;  // negative edge on CEX0 captures PCA, which is req from sender
- 145   1              
- 146   1      }
- 147          
- 148          void    Port_Init(void)
- 149          {  
- 150   1      
- 151   1      // P  1 212          O: bit 1 is ACK output, others are inputs (incl REQ on P0.0)
- 152   1      // P2: bit 6,7 are LEDs are outputs
- 153   1      // don't connect any internal functions to ports
- 154   1      // no weak pullups, no internal functions to ports
- 155   1      
- 156   1      // following from silabs config wizard 2.05 bundled as utility with IDE
- 157   1      // Config template saved as ConfigWizardTemplate.dat
- 158   1      //----------------------------------------------------------------
- 159   1      // CROSSBAR REGISTER CONFIGURATION
- 160   1      //
- 161   1      // NOTE: The crossbar register should be configured before any  
- 162   1      // of the digital peripherals are enabled. The pinout of the 
- 163   1      // device is dependent on the crossbar configuration so caution 
- 164   1      // must be exercised when modifying the contents of the XBR0, 
- 165   1      // XBR1 registers. For detailed information on 
- 166   1      // Crossbar Decoder Configuration, refer to Application Note 
- 167   1      // AN001, "Configuring the Port I/O Crossbar Decoder". 
- 168   1      //----------------------------------------------------------------
- 169   1      
- 170   1      /*
- 171   1      Step 1.  Select the input mode (analog or digital) for all Port pins, using the Port Input Mode register (
-             -PnMDIN).
- 172   1      Step 2.  Select the output mode (open-drain or push-pull) for all Port pins, using the Port Output Mode re
-             -gister (PnMDOUT).
-C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/17/2008 19:03:25 PAGE 4   
-
- 173   1      Step 3.  Select any pins to be skipped by the I/O Crossbar using the Port Skip registers (PnSKIP).
- 174   1      Step 4.  Assign Port pins to desired peripherals (XBR0, XBR1).
- 175   1      Step 5.  Enable the Crossbar (XBARE = ‘1’).
- 176   1      */
- 177   1      
- 178   1      // Configure the XBRn Registers
- 179   1      
- 180   1              XBR0 = 0x00;    // 0000 0000 Crossbar Register 1. no peripherals are routed to output.
- 181   1              XBR1 = 0x81;    // 1000 0001 Crossbar Register 2. no weak pullups, cex0 routed to port pins.
- 182   1      
- 183   1      
- 184   1      // Select Pin I/0
+ 179   1          TL0 = 0x00;     // Timer 0 Low Byte
+ 180   1                      
+ 181   1      }
+ 182          
+ 183          void    Port_Init(void)
+ 184          {  
  185   1      
- 186   1      // NOTE: Some peripheral I/O pins can function as either inputs or 
- 187   1      // outputs, depending on the configuration of the peripheral. By default,
- 188   1      // the configuration utility will configure these I/O pins as push-pull 
- 189   1      // outputs.
- 190   1              // Port configuration (1 = Push Pull Output)
- 191   1          P0MDIN = 0xFF;  // Input configuration for P0. Not using analog input.
- 192   1          P1MDIN = 0xFF;  // Input configuration for P1
- 193   1          P2MDIN = 0xFF;  // Input configuration for P2
- 194   1          P3MDIN = 0xFF;  // Input configuration for P3
- 195   1      
- 196   1      
- 197   1          P0MDOUT = 0x02; // Output configuration for P0, bit 0 is ack input, bit 1 is req output, 0000 0010, 
- 198   1                                              // leds are bits 3,4,5 but are open drain, set bit low to pull down and turn on LED
- 199   1          P1MDOUT = 0xFF; // Output configuration for P1  // P1 is used for AE lsb 8 bits
- 200   1          P2MDOUT = 0xFF; // Output configuration for P2  // P2 is used for AE msb 8 bits
- 201   1          P3MDOUT = 0x00; // Output configuration for P3 
- 202   1      
+ 186   1      // P  1 212          O: bit 1 is ACK output, others are inputs (incl REQ on P0.0)
+ 187   1      // P2: bit 6,7 are LEDs are outputs
+ 188   1      // don't connect any internal functions to ports
+ 189   1      // no weak pullups, no internal functions to ports
+ 190   1      
+ 191   1      /*
+ 192   1      Step 1.  Select the input mode (analog or digital) for all Port pins, using the Port Input Mode register (
+             -PnMDIN).
+ 193   1      Step 2.  Select the output mode (open-drain or push-pull) for all Port pins, using the Port Output Mode re
+             -gister (PnMDOUT).
+ 194   1      Step 3.  Select any pins to be skipped by the I/O Crossbar using the Port Skip registers (PnSKIP).
+ 195   1      Step 4.  Assign Port pins to desired peripherals (XBR0, XBR1).
+ 196   1      Step 5.  Enable the Crossbar (XBARE = ‘1’).
+ 197   1      */
+ 198   1      
+ 199   1      // Configure the XBRn Registers
+ 200   1      
+ 201   1              XBR0 = 0x00;    // 0000 0000 Crossbar Register 1. no peripherals are routed to output.
+ 202   1              XBR1 = 0x81;    // 1000 0001 Crossbar Register 2. no weak pullups, cex0 routed to port pins.
  203   1      
- 204   1      
- 205   1      
- 206   1          P0SKIP = 0x01;  //  0000 0001 Port 0 Crossbar Skip Register. Skip first pin so that bit 1 (req) P0.1 b
+ 204   1          P0MDIN = 0xFF;  // Input configuration for P0. Not using analog input.
+ 205   1          P1MDIN = 0xFF;  // Input configuration for P1
+ 206   1          P2MDIN = 0xFF;  // Input configuration for P2
+ 207   1          P3MDIN = 0xFF;  // Input configuration for P3
+ 208   1      
+ 209   1          P0MDOUT = 0x02; // Output configuration for P0, bit 0 is ack input, bit 1 is req output, 0000 0010, 
+ 210   1                                              // leds are bits 3,4,5 but are open drain, set bit low to pull down and turn on LED
+ 211   1          P1MDOUT = 0xFF; // Output configuration for P1  // P1 is used for AE lsb 8 bits
+ 212   1          P2MDOUT = 0xFF; // Output configuration for P2  // P2 is used for AE msb 8 bits
+ 213   1          P3MDOUT = 0x00; // Output configuration for P3 
+ 214   1      
+ 215   1          P0SKIP = 0x01;  //  0000 0001 Port 0 Crossbar Skip Register. Skip first pin so that bit 1 (req) P0.1 b
              -ecomes CEX0 input to PCA capture module
- 207   1      
- 208   1          P1SKIP = 0x00;  //  Port 1 Crossbar Skip Register
- 209   1          P2SKIP = 0x00;  //  Port 2 Crossbar Skip Register
- 210   1      
- 211   1      
- 212   1              XBR1|=0x40;     // 0100 0000 enable xbar
- 213   1      
- 214   1      // View port pinout
- 215   1      
- 216   1              // The current Crossbar configuration results in the 
- 217   1              // following port pinout assignment:
- 218   1              // Port 0
- 219   1              // P0.0 = unassigned      (Open-Drain Output/Input)(Digital)
- 220   1              // P0.1 = unassigned      (Push-Pull Output)(Digital)
- 221   1              // P0.2 = unassigned      (Open-Drain Output/Input)(Digital)
- 222   1              // P0.3 = unassigned      (Open-Drain Output/Input)(Digital)
- 223   1              // P0.4 = unassigned      (Open-Drain Output/Input)(Digital)
- 224   1              // P0.5 = unassigned      (Open-Drain Output/Input)(Digital)
- 225   1              // P0.6 = unassigned      (Open-Drain Output/Input)(Digital)
- 226   1              // P0.7 = unassigned      (Open-Drain Output/Input)(Digital)
- 227   1      
- 228   1          // Port 1
- 229   1              // P1.0 = unassigned      (Open-Drain Output/Input)(Digital)
- 230   1              // P1.1 = unassigned      (Open-Drain Output/Input)(Digital)
- 231   1              // P1.2 = unassigned      (Open-Drain Output/Input)(Digital)
- 232   1              // P1.3 = unassigned      (Open-Drain Output/Input)(Digital)
- 233   1              // P1.4 = unassigned      (Open-Drain Output/Input)(Digital)
-C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/17/2008 19:03:25 PAGE 5   
+ 216   1      
+ 217   1          P1SKIP = 0x00;  //  Port 1 Crossbar Skip Register
+ 218   1          P2SKIP = 0x00;  //  Port 2 Crossbar Skip Register
+ 219   1      
+ 220   1      
+ 221   1              XBR1|=0x40;     // 0100 0000 enable xbar
+ 222   1      
+ 223   1      }
+ 224          
+ 225          void Delay(void)
+ 226          {
+ 227   1         int x;
+ 228   1         for(x = 0;x < 500;x)
+ 229   1            x++;
+ 230   1      }
+C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/21/2008 09:48:34 PAGE 5   
 
- 234   1              // P1.5 = unassigned      (Open-Drain Output/Input)(Digital)
- 235   1              // P1.6 = unassigned      (Open-Drain Output/Input)(Digital)
- 236   1              // P1.7 = unassigned      (Open-Drain Output/Input)(Digital)
- 237   1      
- 238   1          // Port 2
- 239   1              // P2.0 = unassigned      (Open-Drain Output/Input)(Digital)
- 240   1              // P2.1 = unassigned      (Open-Drain Output/Input)(Digital)
- 241   1              // P2.2 = unassigned      (Open-Drain Output/Input)(Digital)
- 242   1              // P2.3 = unassigned      (Open-Drain Output/Input)(Digital)
- 243   1              // P2.4 = unassigned      (Open-Drain Output/Input)(Digital)
- 244   1              // P2.5 = unassigned      (Open-Drain Output/Input)(Digital)
- 245   1              // P2.6 = unassigned      (Push-Pull Output)(Digital)
- 246   1              // P2.7 = unassigned      (Push-Pull Output)(Digital)
- 247   1      
- 248   1          // Port 3
- 249   1              // P3.0 = unassigned      (Open-Drain Output/Input)(Digital)
- 250   1      
- 251   1      }
- 252          
- 253          //-----------------------------------------------------------------------------
- 254          // Delay
- 255          //-----------------------------------------------------------------------------
- 256          //
- 257          // Used for a small pause, approximately 80 us in Full Speed,
- 258          // and 1 ms when clock is configured for Low Speed
- 259          //
- 260          //-----------------------------------------------------------------------------
- 261          
- 262          void Delay(void)
- 263          {
- 264   1         int x;
- 265   1         for(x = 0;x < 150v00;x)
-*** ERROR C141 IN LINE 265 OF F32X_USB_MAIN.C: syntax error near 'v00'
-*** ERROR C202 IN LINE 265 OF F32X_USB_MAIN.C: 'v00': undefined identifier
-*** ERROR C141 IN LINE 265 OF F32X_USB_MAIN.C: syntax error near ')'
- 266   1            x++;
- 267   1      }
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
-C51 COMPILATION COMPLETE.  0 WARNING(S),  3 ERROR(S)
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 60
+                                           ; SOURCE LINE # 61
+                                           ; SOURCE LINE # 63
+0000 C283              CLR     LedRed
+                                           ; SOURCE LINE # 64
+0002 53D9BF            ANL     PCA0MD,#0BFH
+                                           ; SOURCE LINE # 65
+0005 120000      R     LCALL   Sysclk_Init
+                                           ; SOURCE LINE # 66
+0008 120000      R     LCALL   Port_Init
+                                           ; SOURCE LINE # 67
+000B 120000      R     LCALL   Timer_Init
+                                           ; SOURCE LINE # 68
+000E 120000      R     LCALL   Usb0_Init
+                                           ; SOURCE LINE # 69
+0011 D281              SETB    NOTREQ
+0013         ?C0001:
+                                           ; SOURCE LINE # 71
+                                           ; SOURCE LINE # 72
+                                           ; SOURCE LINE # 73
+0013 E500        E     MOV     A,Ep_Status+02H
+0015 6402              XRL     A,#02H
+0017 6006              JZ      ?C0003
+                                           ; SOURCE LINE # 74
+0019 B283              CPL     LedRed
+                                           ; SOURCE LINE # 75
+001B B284              CPL     LedGreen
+                                           ; SOURCE LINE # 76
+001D B285              CPL     LedBlue
+                                           ; SOURCE LINE # 77
+001F         ?C0003:
+                                           ; SOURCE LINE # 78
+001F E4                CLR     A
+0020 F500        R     MOV     i,A
+0022 F500        R     MOV     i+01H,A
+0024         ?C0004:
+0024 C3                CLR     C
+0025 E500        R     MOV     A,i+01H
+0027 9478              SUBB    A,#078H
+0029 E500        R     MOV     A,i
+002B 6480              XRL     A,#080H
+002D 9485              SUBB    A,#085H
+002F 50E2              JNC     ?C0001
+                                           ; SOURCE LINE # 79
+0031 120000      R     LCALL   Delay
+                                           ; SOURCE LINE # 80
+0034 0500        R     INC     i+01H
+0036 E500        R     MOV     A,i+01H
+0038 70EA              JNZ     ?C0004
+003A 0500        R     INC     i
+003C         ?C0033:
+003C 80E6              SJMP    ?C0004
+             ; FUNCTION main (END)
+
+             ; FUNCTION Sysclk_Init (BEGIN)
+                                           ; SOURCE LINE # 96
+                                           ; SOURCE LINE # 97
+                                           ; SOURCE LINE # 107
+C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/21/2008 09:48:34 PAGE 6   
+
+0000 43B203            ORL     OSCICN,#03H
+                                           ; SOURCE LINE # 111
+0003 E4                CLR     A
+0004 F5B9              MOV     CLKMUL,A
+                                           ; SOURCE LINE # 114
+0006 43B980            ORL     CLKMUL,#080H
+                                           ; SOURCE LINE # 115
+0009 120000      R     LCALL   Delay
+                                           ; SOURCE LINE # 116
+000C 43B9C0            ORL     CLKMUL,#0C0H
+                                           ; SOURCE LINE # 117
+000F 120000      R     LCALL   Delay
+0012         ?C0008:
+                                           ; SOURCE LINE # 119
+0012 E5B9              MOV     A,CLKMUL
+0014 30E5FB            JNB     ACC.5,?C0008
+0017         ?C0009:
+                                           ; SOURCE LINE # 120
+0017 E4                CLR     A
+0018 F5A9              MOV     CLKSEL,A
+                                           ; SOURCE LINE # 121
+                                           ; SOURCE LINE # 123
+001A 22                RET     
+             ; FUNCTION Sysclk_Init (END)
+
+             ; FUNCTION Usb0_Init (BEGIN)
+                                           ; SOURCE LINE # 134
+                                           ; SOURCE LINE # 135
+                                           ; SOURCE LINE # 137
+0000 C2AF              CLR     EA
+                                           ; SOURCE LINE # 140
+;---- Variable 'Count' assigned to Register 'R7' ----
+0002 E4                CLR     A
+0003 FF                MOV     R7,A
+0004         ?C0011:
+                                           ; SOURCE LINE # 141
+                                           ; SOURCE LINE # 142
+0004 7400        R     MOV     A,#LOW Out_Packet
+0006 2F                ADD     A,R7
+0007 F8                MOV     R0,A
+0008 E4                CLR     A
+0009 F6                MOV     @R0,A
+                                           ; SOURCE LINE # 143
+000A 7400        R     MOV     A,#LOW In_Packet
+000C 2F                ADD     A,R7
+000D F8                MOV     R0,A
+000E E4                CLR     A
+000F F6                MOV     @R0,A
+                                           ; SOURCE LINE # 144
+0010 0F                INC     R7
+0011 BF40F0            CJNE    R7,#040H,?C0011
+0014         ?C0014:
+                                           ; SOURCE LINE # 147
+0014 E596              MOV     A,USB0ADR
+0016 20E7FB            JB      ACC.7,?C0014
+0019         ?C0015:
+0019 759601            MOV     USB0ADR,#01H
+001C 759708            MOV     USB0DAT,#08H
+001F         ?C0016:
+                                           ; SOURCE LINE # 148
+001F E596              MOV     A,USB0ADR
+0021 20E7FB            JB      ACC.7,?C0016
+C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/21/2008 09:48:34 PAGE 7   
+
+0024         ?C0017:
+0024 759607            MOV     USB0ADR,#07H
+0027 759707            MOV     USB0DAT,#07H
+002A         ?C0018:
+                                           ; SOURCE LINE # 149
+002A E596              MOV     A,USB0ADR
+002C 20E7FB            JB      ACC.7,?C0018
+002F         ?C0019:
+002F 759609            MOV     USB0ADR,#09H
+0032 759704            MOV     USB0DAT,#04H
+0035         ?C0020:
+                                           ; SOURCE LINE # 150
+0035 E596              MOV     A,USB0ADR
+0037 20E7FB            JB      ACC.7,?C0020
+003A         ?C0021:
+003A 75960B            MOV     USB0ADR,#0BH
+003D 759707            MOV     USB0DAT,#07H
+                                           ; SOURCE LINE # 156
+0040 75D7E0            MOV     USB0XCN,#0E0H
+0043         ?C0022:
+                                           ; SOURCE LINE # 157
+0043 E596              MOV     A,USB0ADR
+0045 20E7FB            JB      ACC.7,?C0022
+0048         ?C0023:
+0048 75960F            MOV     USB0ADR,#0FH
+004B 759780            MOV     USB0DAT,#080H
+                                           ; SOURCE LINE # 161
+004E 43E602            ORL     EIE1,#02H
+                                           ; SOURCE LINE # 162
+0051 D2AF              SETB    EA
+0053         ?C0024:
+                                           ; SOURCE LINE # 165
+0053 E596              MOV     A,USB0ADR
+0055 20E7FB            JB      ACC.7,?C0024
+0058         ?C0025:
+0058 759601            MOV     USB0ADR,#01H
+005B 759701            MOV     USB0DAT,#01H
+                                           ; SOURCE LINE # 166
+005E 22                RET     
+             ; FUNCTION Usb0_Init (END)
+
+             ; FUNCTION Timer_Init (BEGIN)
+                                           ; SOURCE LINE # 169
+                                           ; SOURCE LINE # 170
+                                           ; SOURCE LINE # 175
+0000 758E04            MOV     CKCON,#04H
+                                           ; SOURCE LINE # 176
+0003 758911            MOV     TMOD,#011H
+                                           ; SOURCE LINE # 177
+0006 758850            MOV     TCON,#050H
+                                           ; SOURCE LINE # 178
+0009 E4                CLR     A
+000A F58C              MOV     TH0,A
+                                           ; SOURCE LINE # 179
+000C F58A              MOV     TL0,A
+                                           ; SOURCE LINE # 181
+000E 22                RET     
+             ; FUNCTION Timer_Init (END)
+
+             ; FUNCTION Port_Init (BEGIN)
+                                           ; SOURCE LINE # 183
+                                           ; SOURCE LINE # 184
+C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/21/2008 09:48:34 PAGE 8   
+
+                                           ; SOURCE LINE # 201
+0000 E4                CLR     A
+0001 F5E1              MOV     XBR0,A
+                                           ; SOURCE LINE # 202
+0003 75E281            MOV     XBR1,#081H
+                                           ; SOURCE LINE # 204
+0006 75F1FF            MOV     P0MDIN,#0FFH
+                                           ; SOURCE LINE # 205
+0009 75F2FF            MOV     P1MDIN,#0FFH
+                                           ; SOURCE LINE # 206
+000C 75F3FF            MOV     P2MDIN,#0FFH
+                                           ; SOURCE LINE # 207
+000F 75F4FF            MOV     P3MDIN,#0FFH
+                                           ; SOURCE LINE # 209
+0012 75A402            MOV     P0MDOUT,#02H
+                                           ; SOURCE LINE # 211
+0015 75A5FF            MOV     P1MDOUT,#0FFH
+                                           ; SOURCE LINE # 212
+0018 75A6FF            MOV     P2MDOUT,#0FFH
+                                           ; SOURCE LINE # 213
+001B F5A7              MOV     P3MDOUT,A
+                                           ; SOURCE LINE # 215
+001D 75D401            MOV     P0SKIP,#01H
+                                           ; SOURCE LINE # 217
+0020 F5D5              MOV     P1SKIP,A
+                                           ; SOURCE LINE # 218
+0022 F5D6              MOV     P2SKIP,A
+                                           ; SOURCE LINE # 221
+0024 43E240            ORL     XBR1,#040H
+                                           ; SOURCE LINE # 223
+0027 22                RET     
+             ; FUNCTION Port_Init (END)
+
+             ; FUNCTION Delay (BEGIN)
+                                           ; SOURCE LINE # 225
+                                           ; SOURCE LINE # 226
+                                           ; SOURCE LINE # 228
+;---- Variable 'x' assigned to Register 'R6/R7' ----
+0000 E4                CLR     A
+0001 FF                MOV     R7,A
+0002 FE                MOV     R6,A
+0003         ?C0029:
+                                           ; SOURCE LINE # 229
+0003 0F                INC     R7
+0004 BF0001            CJNE    R7,#00H,?C0034
+0007 0E                INC     R6
+0008         ?C0034:
+0008 BE01F8            CJNE    R6,#01H,?C0029
+000B BFF4F5            CJNE    R7,#0F4H,?C0029
+                                           ; SOURCE LINE # 230
+000E         ?C0032:
+000E 22                RET     
+             ; FUNCTION Delay (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    254    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       2
+C51 COMPILER V7.05   F32X_USB_MAIN                                                         07/21/2008 09:48:34 PAGE 9   
+
+   IDATA SIZE       =    128    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

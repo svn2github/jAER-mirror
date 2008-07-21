@@ -351,6 +351,8 @@ void Handle_Out2()
    BYTE Count = 0;
    BYTE ControlReg;
 
+   Ep_Status[2]=EP_RX;
+
    POLL_WRITE_BYTE(INDEX, 2);          // Set index to endpoint 2 registers
    POLL_READ_BYTE(EOUTCSR1, ControlReg);
 
@@ -368,13 +370,13 @@ void Handle_Out2()
       }
 
       POLL_READ_BYTE(EOUTCNTL, Count);
-      if (Count && 0x0003!= 0)    // If host did not send a packet size which is divisible by 4 flush buffer
+      if (Count & 3 != 0)    // If host did not send a packet size which is divisible by 4 flush buffer
       {
          POLL_WRITE_BYTE(EOUTCNTL, rbOutFLUSH);
       }
       else                             // Otherwise get the data packet
       {
-         Fifo_Read(FIFO_EP2, Count, Event);
+         Fifo2AER(FIFO_EP2, Count, Event);
       }
       POLL_WRITE_BYTE(EOUTCSR1, 0);    // Clear Out Packet ready bit
    }
@@ -436,11 +438,48 @@ void Usb_Resume(void)
 // Read from the selected endpoint FIFO
 //
 //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+// Fifo_Read
+//-----------------------------------------------------------------------------
+//
+// Return Value : None
+// Parameters   :
+//                1) BYTE addr : target address
+//                2) unsigned int uNumBytes : number of bytes to unload
+//                3) BYTE * pData : read data destination
+//
+// Read from the selected endpoint FIFO
+//
+//-----------------------------------------------------------------------------
 
-void Fifo_Read(BYTE addr, unsigned int uNumBytes, BYTE pData[4])
+void Fifo_Read(BYTE addr, unsigned int uNumBytes, BYTE * pData)
+{
+   int i;
+
+   if (uNumBytes)                         // Check if >0 bytes requested,
+   {
+      USB0ADR = (addr);                   // Set address
+      USB0ADR |= 0xC0;                    // Set auto-read and initiate
+                                          // first read
+
+      // Unload <NumBytes> from the selected FIFO
+      for(i=0;i<uNumBytes-1;i++)
+      {
+         while(USB0ADR & 0x80);           // Wait for BUSY->'0' (data ready)
+         pData[i] = USB0DAT;              // Copy data byte
+      }
+
+      USB0ADR = 0;                           // Clear auto-read
+
+      while(USB0ADR & 0x80);               // Wait for BUSY->'0' (data ready)
+      pData[i] = USB0DAT;                  // Copy data byte
+   }
+}
+
+
+void Fifo2AER(BYTE addr, unsigned int uNumBytes, BYTE pData[4])
 {
    int i,ii;
-   BYTE Add0,Add1,Cntr0,Cntr1;
    unsigned int Events;
    
    
@@ -462,14 +501,8 @@ void Fifo_Read(BYTE addr, unsigned int uNumBytes, BYTE pData[4])
 		 	NOTREQ = 0;
 		 	P2 = pData[0];	// AE8-15 
 			P1 = pData[1];	// AE07
-			while (!NOTACK);
+	//		while (!NOTACK);
 			NOTREQ = 1;
-			if (ii = 0)
-			{
-				TH0 = 0x00;
-				TL0 = 0x00;
-			}
-			else
 			{
 				TH0 = !pData[3];
 				TL0 = (!pData[2]) + 1;

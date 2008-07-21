@@ -20,25 +20,6 @@
 // Command Line:   See Readme.txt
 // Project Name:   F32x_USB_Interrupt
 //
-//
-// Release 1.3
-//    -All changes by GP
-//    -22 NOV 2005
-//    -Changed revision number to match project revision
-//     No content changes to this file
-//    -Modified file to fit new formatting guidelines
-//    -Changed file name from USB_MAIN.h
-//
-// Release 1.1
-//    -All changes by DM
-//    -22 NOV 2002
-//    -Updated function prototypes and added constants to USB_MAIN.h
-//     with sample interrupt firmware.
-//
-// Release 1.0
-//    -Initial Revision (JS)
-//    -05 APR 2002
-//
 #ifndef  F32x_USB_MAIN_H
 #define  F32x_USB_MAIN_H
 
@@ -206,6 +187,8 @@ void Delay(void);                      // About 80 us/1 ms on Full/Low Speed
 void Fifo_Read (BYTE, unsigned int, BYTE *);
 // Used for multiple byte writes of Endpoint fifos
 void Fifo_Write (BYTE, unsigned int, BYTE *);
+// writes events from fifo to AE port
+void Fifo2AER(BYTE addr, unsigned int uNumBytes, BYTE pData[4]);
 
 #endif      /* _USB_MAIN_H_ */
 
