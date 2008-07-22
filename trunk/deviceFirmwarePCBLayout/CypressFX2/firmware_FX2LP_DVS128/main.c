@@ -74,10 +74,10 @@ extern BOOL Selfpwr;
 
 #define EP0BUFF_SIZE	0x40
 
-BYTE operationMode;
+//BYTE operationMode;
 
 #define NUM_BIAS_BYTES 36
-xdata unsigned int numBiasBytes; // number of bias bytes saved
+unsigned int numBiasBytes; // number of bias bytes saved
 xdata unsigned char biasBytes[]={0x00,0x04,0x2B,\
 								0x00,0x30,0x1C,\
 								0xFF,0xFF,0xFF,\
@@ -92,7 +92,7 @@ xdata unsigned char biasBytes[]={0x00,0x04,0x2B,\
 								0x00,0x00,0x04}; // bias bytes values saved here
 
 long cycleCounter;
-long missedEvents;
+//long missedEvents;
 
 BOOL JTAGinit;
 
@@ -100,7 +100,6 @@ BOOL JTAGinit;
 
 void startMonitor(void);
 void stopMonitor(void);
-void configTimestampCounter(void);
 
 void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf);
 void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf);
@@ -203,10 +202,10 @@ void TD_Init(void)              // Called once at startup
 
 
 	// initialize variables
-	operationMode=0;
+//	operationMode=0;
 
 	cycleCounter=0;
-	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
+//	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
 	LED=0;
 
 	biasInit();	// init biasgen ports and pins
@@ -335,7 +334,7 @@ void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf)
 }
 
 
-/*BOOL TD_Suspend(void)          // Called before the device goes into suspend mode
+BOOL TD_Suspend(void)          // Called before the device goes into suspend mode
 {
   // reset CPLD
   CPLD_NOT_RESET =0;  
@@ -345,14 +344,11 @@ void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf)
 
 BOOL TD_Resume(void)          // Called after the device resumes
 {
-  // activate CPLD if monitorRunning and/or synthesizerRunning is true
-  if (monitorRunning || synthesizerRunning)
-    {
-      CPLD_NOT_RESET=1;
-    }
+  // activate CPLD 
+   CPLD_NOT_RESET=1; 
 
    return(TRUE);
-}*/
+}
 
 //-----------------------------------------------------------------------------
 // Device Request hooks
@@ -471,7 +467,7 @@ BOOL DR_VendorCmnd(void)
 				EP6FIFOCFG = 0x09 ; //0000_1001 reenable auto-in
 				break;
 			}
-			case VR_DOWNLOAD_CPLD_CODE:
+		case VR_DOWNLOAD_CPLD_CODE:
 			{
 			if (SETUPDAT[0]==VR_DOWNLOAD) {
 				if (JTAGinit)
@@ -692,7 +688,7 @@ BOOL DR_VendorCmnd(void)
 				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
 				return (FALSE); // very important, otherwise get stall
 			}
-		case VR_TIMESTAMP_TICK:
+	/*	case VR_TIMESTAMP_TICK:
 			{
 				if (SETUPDAT[0]==VR_UPLOAD) //1010_0000 :vendor request to device, direction IN
 				{
@@ -730,7 +726,7 @@ BOOL DR_VendorCmnd(void)
 					EP0CS |= bmHSNAK;	
 				}
 				return(FALSE);
-			}
+			}*/
 		case VR_IS_TS_MASTER:
 			{
 				EP0BUF[0] = SETUPDAT[1];
@@ -741,7 +737,7 @@ BOOL DR_VendorCmnd(void)
 
 				return(FALSE);
 			}
-		case VR_MISSED_EVENTS:
+	/*	case VR_MISSED_EVENTS:
 			{
 				EX1=0;
 				EP0BUF[0] = SETUPDAT[1];
@@ -756,7 +752,7 @@ BOOL DR_VendorCmnd(void)
 				missedEvents=0;
 				EX1=1;
 				return(FALSE);
-			}
+			}*/
 		case VR_RAM:
 		case VR_EEPROM:
 		{

@@ -48,7 +48,7 @@ DeviceDscr:
       db   64         ;; Maximum packet size
       dw   2A15H      ;;4705H    ;; Vendor ID
       dw   0084H      ;;0187H      ;; Product ID (Sample Device)
-      dw   0200H      ;; Product version ID
+      dw   0300H      ;; Product version ID
       db   1         ;; Manufacturer string index
       db   2         ;; Product string index
       db   3         ;; Serial number string index

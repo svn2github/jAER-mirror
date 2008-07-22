@@ -33,7 +33,7 @@
 volatile BOOL   GotSUD;
 BOOL      Rwuen;
 BOOL      Selfpwr;
-//volatile BOOL   Sleep;                  // Sleep mode enable flag
+volatile BOOL   Sleep;                  // Sleep mode enable flag
 
 WORD   pDeviceDscr;   // Pointer to Device Descriptor; Descriptors may be moved
 WORD   pDeviceQualDscr;
@@ -49,8 +49,8 @@ WORD   pStringDscr;
 void SetupCommand(void);
 void TD_Init(void);
 void TD_Poll(void);
-//BOOL TD_Suspend(void);
-//BOOL TD_Resume(void);
+BOOL TD_Suspend(void);
+BOOL TD_Resume(void);
 
 void downloadSerialNumberFromEEPROM();
 
@@ -156,7 +156,7 @@ void main(void)
       // ways out of idle mode, the WAKEUP pin, and detection of the USB
       // resume state on the USB bus.  The timers will stop and the
       // processor will not wake up on any other interrupts.
-     /* if (Sleep) // the device doesn't start if this is checked
+      if (Sleep) // the device doesn't start if this is checked
       {
          if(TD_Suspend())
          { 
@@ -173,7 +173,7 @@ void main(void)
             EZUSB_Resume();   // If source is the Wakeup# pin, signal the host to Resume.      
             TD_Resume();
          }   
-      }*/
+      }
    }
 }
 
