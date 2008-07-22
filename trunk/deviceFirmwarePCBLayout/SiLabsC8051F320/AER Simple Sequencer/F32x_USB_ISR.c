@@ -71,10 +71,11 @@ BYTE Ep_Status[3] = {EP_IDLE, EP_IDLE, EP_IDLE};
 // Buffer for Each Event
 BYTE Event[4];
 
-//Ports
 sbit	NOTREQ	= P0^1;		// !req line, input
 sbit	NOTACK	= P0^0;		// !ack line, output
-
+sbit	LedRed	=	P0^3;	//	LED='1' means ON
+sbit	LedGreen	=	P0^4;	//	These blink to indicate data transmission
+sbit	LedBlue	= P0^5;
 
 //-----------------------------------------------------------------------------
 // Interrupt Service Routines
@@ -402,7 +403,9 @@ void Usb_Suspend(void)
    // When the device receives a non-idle USB event, it will resume execution
    // on the instruction that follows OSCICN |= 0x20.  
 
-
+	LedRedOff();
+	LedGreenOff();
+	LedBlueOff();
 }
 
 //-----------------------------------------------------------------------------
@@ -418,9 +421,9 @@ void Usb_Suspend(void)
 
 void Usb_Resume(void)
 {
-   volatile int k;
-
-   k++;
+   LedRedOn();
+   LedGreenOn();
+   LedBlueOn();
 
    // Add code for resume
 }
@@ -481,7 +484,7 @@ void Fifo2AER(BYTE addr, unsigned int uNumBytes, BYTE pData[4])
 {
    int i,ii;
    unsigned int Events;
-   
+   LedRedOn();
    
    if (uNumBytes)                         // Check if >0 bytes requested,
    {
@@ -501,16 +504,18 @@ void Fifo2AER(BYTE addr, unsigned int uNumBytes, BYTE pData[4])
 		 	NOTREQ = 0;
 		 	P2 = pData[0];	// AE8-15 
 			P1 = pData[1];	// AE07
-	//		while (!NOTACK);
+			while (!NOTACK);
 			NOTREQ = 1;
 			{
 				TH0 = !pData[3];
 				TL0 = (!pData[2]) + 1;
 				while(!TF0);
 			}
+			LedGreenToggle();
 	   }
 
       USB0ADR = 0;                           // Clear auto-read
+	  LedRedOff();
 
       //while(USB0ADR & 0x80);               // Wait for BUSY->'0' (data ready)
       //pData[i] = USB0DAT;                  // Copy data byte

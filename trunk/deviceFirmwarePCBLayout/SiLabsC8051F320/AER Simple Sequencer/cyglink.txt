@@ -1,4 +1,4 @@
 "C:\AERSimpleSequencer\F32x_USB_Descriptor.obj",
 "C:\AERSimpleSequencer\F32x_USB_ISR.obj",
 "C:\AERSimpleSequencer\F32x_USB_Main.obj",
-"C:\AERSimpleSequencer\F32x_USB_Standard_Requests.obj"  TO "C:\AERSimpleSequencer\FIRMWARE" RS(256) PL(68) PW(78) 
+"C:\AERSimpleSequencer\F32x_USB_Standard_Requests.obj"  TO "C:\AERSimpleSequencer\FIRMWARE" RS(256) PL(68) PW(78)   

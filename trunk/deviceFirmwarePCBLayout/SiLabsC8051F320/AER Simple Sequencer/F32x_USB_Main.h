@@ -190,6 +190,18 @@ void Fifo_Write (BYTE, unsigned int, BYTE *);
 // writes events from fifo to AE port
 void Fifo2AER(BYTE addr, unsigned int uNumBytes, BYTE pData[4]);
 
+
+
+#define LedRedOn() LedRed=0;
+#define LedRedOff()  LedRed=1;
+#define LedRedToggle() LedRed=!LedRed; // this probably doesn't work because it reads port and then writes opposite, but since all ports are tied together somewhat it may not work
+#define LedGreenOn() LedGreen=0;
+#define LedGreenOff() LedGreen=1;
+#define LedGreenToggle() LedGreen=!LedGreen;
+#define LedBlueOn() LedBlue=0;
+#define LedBlueOff() LedBlue=1;
+#define LedBlueToggle() LedBlue=!LedBlue;
+
 #endif      /* _USB_MAIN_H_ */
 
 //-----------------------------------------------------------------------------

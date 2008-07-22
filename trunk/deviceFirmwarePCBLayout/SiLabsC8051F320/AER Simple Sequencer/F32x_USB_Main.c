@@ -28,24 +28,6 @@ hex cheat sheet
 #include "F32x_USB_Main.h"
 #include "F32x_USB_Descriptor.h"
 
-
-// Globals Added by Tarek
-sbit	NOTREQ	= P0^1;		// !req line, input
-sbit	NOTACK	= P0^0;		// !ack line, output
-sbit	LedRed	=	P0^3;	//	LED='1' means ON
-sbit	LedGreen	=	P0^4;	//	These blink to indicate data transmission
-sbit	LedBlue	= P0^5;
-#define LedRedOn() LedRed=0;
-#define LedRedOff()  LedRed=1;
-#define LedRedToggle() LedRed=!LedRed; // this probably doesn't work because it reads port and then writes opposite, but since all ports are tied together somewhat it may not work
-#define LedGreenOn() LedGreen=0;
-#define LedGreenOff() LedGreen=1;
-#define LedGreenToggle() LedGreen=!LedGreen;
-#define LedBlueOn() LedBlue=0;
-#define LedBlueOff() LedBlue=1;
-#define LedBlueToggle() LedBlue=!LedBlue;
-
-
 idata BYTE Out_Packet[64];             // Last packet received from host
 idata BYTE In_Packet[64];              // Next packet to sent to host
 extern BYTE Ep_Status[];
@@ -53,6 +35,13 @@ extern BYTE Ep_Status[];
 void	Port_Init(void);			// Initialize Ports Pins and Enable Crossbar
 void	Timer_Init(void);			// Init timer to use for spike event times
 void	Usb0_Init(void);			//		
+
+
+sbit	NOTREQ	= P0^1;		// !req line, input
+sbit	NOTACK	= P0^0;		// !ack line, output
+sbit	LedRed	=	P0^3;	//	LED='1' means ON
+sbit	LedGreen	=	P0^4;	//	These blink to indicate data transmission
+sbit	LedBlue	= P0^5;
 
 //-----------------------------------------------------------------------------
 // Main Routine
@@ -66,18 +55,20 @@ void main(void)
 	Port_Init();			// Initialize Ports Pins and Enable Crossbar
 	Timer_Init();			// Init timer to use for spike event times
 	Usb0_Init();
-	NOTREQ	=	1;
+	NOTREQ	=	1; // turn off request
+	LedGreenOn();
+	LedBlueOn();
 	
    while (1)
    {
-		if(Ep_Status[2]!=EP_RX){
-		LedRedToggle();
-		LedGreenToggle();
-		LedBlueToggle();
+		if(Ep_Status[2]!=EP_RX){ // if not receiving data
+			LedRedToggle();
+			LedGreenToggle();
+			LedBlueToggle();
 		}
 	   	for(i=0;i<1400;i++){
 			Delay();
-		} // 1 second
+		} // about 1 second
    }
 }
 
@@ -146,7 +137,7 @@ void Usb0_Init(void)
 
    POLL_WRITE_BYTE(POWER,  0x08);      // Force Asynchronous USB Reset
    POLL_WRITE_BYTE(IN1IE,  0x07);      // Enable Endpoint 0-2 in interrupts
-   POLL_WRITE_BYTE(OUT1IE, 0x04);      // Enable Endpoint 0-2 out interrupts
+   POLL_WRITE_BYTE(OUT1IE, 0x07);      // Enable Endpoint 0-2 out interrupts
    POLL_WRITE_BYTE(CMIE,   0x07);      // Enable Reset,Resume,Suspend interrupts
 #ifdef _USB_LOW_SPEED_
    USB0XCN = 0xC0;                     // Enable transceiver; select low speed

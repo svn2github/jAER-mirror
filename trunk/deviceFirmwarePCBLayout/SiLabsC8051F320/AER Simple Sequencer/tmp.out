@@ -4,7 +4,7 @@ COPYRIGHT KEIL ELEKTRONIK GmbH 1987 - 2002
 "C:\AERSimpleSequencer\F32x_USB_Descriptor.obj",
 "C:\AERSimpleSequencer\F32x_USB_ISR.obj",
 "C:\AERSimpleSequencer\F32x_USB_Main.obj",
-"C:\AERSimpleSequencer\F32x_USB_Standard_Requests.obj"  TO "C:\AERSimpleSequencer\FIRMWARE" RS(256) PL(68) PW(78) 
+"C:\AERSimpleSequencer\F32x_USB_Standard_Requests.obj"  TO "C:\AERSimpleSequencer\FIRMWARE" RS(256) PL(68) PW(78)   
 
-Program Size: data=181.0 xdata=0 code=2924
+Program Size: data=181.0 xdata=0 code=2942
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
