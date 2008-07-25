@@ -190,7 +190,7 @@ Step 5.  Enable the Crossbar (XBARE = ‘1’).
 // Configure the XBRn Registers
 
 	XBR0 = 0x00;	// 0000 0000 Crossbar Register 1. no peripherals are routed to output.
-	XBR1 = 0x81;	// 1000 0001 Crossbar Register 2. no weak pullups, cex0 routed to port pins.
+	XBR1 = 0x00;	// 0000 0001 Crossbar Register 2. weak pullups enabled on open drain outputs and inputs, // NOT ANY MORE FOR SEQUENCER cex0 routed to port pins.
 
     P0MDIN = 0xFF;  // Input configuration for P0. Not using analog input.
     P1MDIN = 0xFF;  // Input configuration for P1
@@ -203,7 +203,7 @@ Step 5.  Enable the Crossbar (XBARE = ‘1’).
     P2MDOUT = 0xFF; // Output configuration for P2  // P2 is used for AE msb 8 bits
     P3MDOUT = 0x00; // Output configuration for P3 
 
-    P0SKIP = 0x01;  //  0000 0001 Port 0 Crossbar Skip Register. Skip first pin so that bit 1 (req) P0.1 becomes CEX0 input to PCA capture module
+    P0SKIP = 0x00;  //  0000 0001 Port 0 Crossbar Skip Register. // NOT ANY MORE, USED FOR MONITOR Skip first pin so that bit 1 (req) P0.1 becomes CEX0 input to PCA capture module
 
     P1SKIP = 0x00;  //  Port 1 Crossbar Skip Register
     P2SKIP = 0x00;  //  Port 2 Crossbar Skip Register

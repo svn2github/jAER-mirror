@@ -482,43 +482,45 @@ void Fifo_Read(BYTE addr, unsigned int uNumBytes, BYTE * pData)
 
 void Fifo2AER(BYTE addr, unsigned int uNumBytes, BYTE pData[4])
 {
-   int i,ii;
-   unsigned int Events;
+   int ii;
+   unsigned int nEvents;
    LedRedOn();
    
    if (uNumBytes)                         // Check if >0 bytes requested,
    {
-	  Events = uNumBytes >> 2;
+	  nEvents = uNumBytes >> 2;			// 4 bytes per event
       USB0ADR = (addr);                   // Set address
       USB0ADR |= 0xC0;                    // Set auto-read and initiate
                                           // first read
 
-      // Unload <NumBytes> from the selected FIFO
-      for(ii=0;ii<Events-1;ii++)
+      // Unload nEvents from the selected FIFO
+      for(ii=0;ii<nEvents;ii++)
 	  {
-		  for(i=0;i<3;i++)						// This for loo will get one event into the pData buffer
-    	  {
-        	 while(USB0ADR & 0x80);           // Wait for BUSY->'0' (data ready)
-	         pData[i] = USB0DAT;              // Copy data byte
-    	  }
-		 	NOTREQ = 0;
+	  	// get one address/timestamp into pData, inline this for speed
+       	 while(USB0ADR & 0x80);           // Wait for BUSY->'0' (data ready)
+	         pData[0] = USB0DAT;              // Copy data byte
+       	 while(USB0ADR & 0x80);           // Wait for BUSY->'0' (data ready)
+	         pData[1] = USB0DAT;              // Copy data byte
+       	 while(USB0ADR & 0x80);           // Wait for BUSY->'0' (data ready)
+	         pData[2] = USB0DAT;              // Copy data byte
+       	 while(USB0ADR & 0x80);           // Wait for BUSY->'0' (data ready)
+		    pData[3] = USB0DAT;              // Copy data byte
+		  	// first write address on AE port
 		 	P2 = pData[0];	// AE8-15 
 			P1 = pData[1];	// AE07
-			while (!NOTACK);
-			NOTREQ = 1;
-			{
-				TH0 = !pData[3];
-				TL0 = (!pData[2]) + 1;
-				while(!TF0);
-			}
+			// then do handshake
+		 	NOTREQ = 0; // request (request low)
+			while (NOTACK==1); // wait for !ACK (ack went low) 
+			NOTREQ = 1; // remove request
+			// now wait ISI to next event
+			TH0 = !pData[3];
+			TL0 = (!pData[2]) + 1;
+			while(!TF0); // wait time till next event
 			LedGreenToggle();
 	   }
 
       USB0ADR = 0;                           // Clear auto-read
 	  LedRedOff();
-
-      //while(USB0ADR & 0x80);               // Wait for BUSY->'0' (data ready)
-      //pData[i] = USB0DAT;                  // Copy data byte
    }
 }
 
