@@ -100,7 +100,7 @@ if isempty(datFileName)
 else
     [a, t] = loadaerdat(datFileName);
 end
-[x, y, pol] = extractRetinaEventsFromAddr(a);
+[x, y, pol] = extractRetina128EventsFromAddr(a);
 x = x+ 1;
 y = y + 1;
 t = double(t);
