@@ -4,7 +4,7 @@
 cd `dirname $0`
 
 echo "checking driver..."
-if [ ! -r /device/retina0 ] ; then \
+if [ -r /device/retina0 ] ; then \
 	echo "building driver..."; \
 	cd drivers/driverRetinaLinux; \
 	make; \
