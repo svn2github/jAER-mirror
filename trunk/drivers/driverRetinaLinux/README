@@ -1,0 +1,20 @@
+This linux kernel usb driver was developed by Martin Ebner, IGI, TU Graz.
+(ebner@igi.tugraz.at)
+The driver for address event devices ("spiking retina") supports
+currently only the DVS128 dynamic vision sensor.
+this is part of the sourceforge project jAER by Toby Delbruck,
+Patrick Lichtensteiner, Raphel Berner and more,...
+
+driver specs:
+*1Meps bandwidth
+*unknown latency (somewhere in the 0.1-50ms range)
+ [<100us can be reached with the rt linux kernel. of course,
+  both kernel driver and user space algorithm must comply with
+  the realtime programming guidelines for this. depends also 
+  on the system hardware]
+*<100us timestamp precision
+*system call interface, using open/read/write calls. the
+ device file is /dev/retina0 or /dev/usbdevices/retina0 symlink.
+*automatic driver build / installation / autoload in kubuntu + debian.
+*registered device accessible to all members of the "video" group.
+*jAER integration

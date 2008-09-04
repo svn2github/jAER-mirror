@@ -1,0 +1,15 @@
+Basic Installation
+==================
+
+type: make && sudo make install
+
+this will do it, at least on (k)ubuntu + debian
+
+see also the Makefile script
+
+'../../jAERViewer.sh' builds the driver and starts jAER.
+(first time or after kernel update the driver is reinstalled)
+
+create a group called "video" and add your user to the group, if not already done. 
+>grep video /etc/group 
+>>video:x:44:myuser,...
