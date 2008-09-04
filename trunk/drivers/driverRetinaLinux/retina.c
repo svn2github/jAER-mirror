@@ -15,6 +15,7 @@
 #include <linux/usb.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
+#include <linux/device.h>
 #include <asm/uaccess.h>
 
 
@@ -92,7 +93,7 @@ static void retina_delete(struct kref *kref)
 {
 	struct usb_retina *dev = to_retina_dev(kref);
 
-	info("retina_delete");
+	/*dev_info(&dev->interface->dev,"retina_delete");*/
 	usb_put_dev(dev->udev);
 	kfree(dev->bulk_in_buffer);
 	kfree(dev);
@@ -105,13 +106,12 @@ static int retina_open(struct inode *inode, struct file *file)
 	int subminor;
 	int retval = 0;
 
-	info("retina_open()");
 	subminor = iminor(inode);
 
 	interface = usb_find_interface(&retina_driver, subminor);
+	dev_info(&interface->dev,"retina_open()"); 
 	if (!interface) {
-		err ("%s - error, can't find device for minor %d",
-		     __FUNCTION__, subminor);
+		dev_err(&interface->dev,"%s - error, can't find device for minor %d", __FUNCTION__, subminor);
 		retval = -ENODEV;
 		goto exit;
 	}
@@ -159,8 +159,8 @@ static int retina_release(struct inode *inode, struct file *file)
 {
 	struct usb_retina *dev;
 
-	info("retina_release");
 	dev = (struct usb_retina *)file->private_data;
+	dev_info(&dev->interface->dev,"retina_release");
 	if (dev == NULL)
 		return -ENODEV;
 
@@ -180,8 +180,8 @@ static int retina_flush(struct file *file, fl_owner_t id)
 	struct usb_retina *dev;
 	int res;
 
-	info("retina_flush");
 	dev = (struct usb_retina *)file->private_data;
+	dev_info(&dev->interface->dev,"retina_flush");
 	if (dev == NULL)
 		return -ENODEV;
 
@@ -215,7 +215,7 @@ static ssize_t retina_read(struct file *file, char *buffer, size_t count, loff_t
 		blocks = count / dev->bulk_in_size;	  
 		bytes_to_read = dev->bulk_in_size;
 	}
-	/*info("retina_read %d blocks of %d bytes\n",blocks,bytes_to_read);*/
+	/*dev_info(&dev->interface->dev,"retina_read %d blocks of %d bytes\n",blocks,bytes_to_read);*/
 
 	mutex_lock(&dev->io_mutex);
 	if (!dev->interface) {		/* disconnect() was called */
@@ -236,7 +236,7 @@ static ssize_t retina_read(struct file *file, char *buffer, size_t count, loff_t
 		/* if the read was successful, copy the data to userspace */
 		if (!retval) {
 			
-			/*info("event = {0x%x,0x%x,0x%x,0x%x}",dev->bulk_in_buffer[0],dev->bulk_in_buffer[1],dev->bulk_in_buffer[2],dev->bulk_in_buffer[3]);*/
+			/*dev_info(&dev->interface->dev,"event = {0x%x,0x%x,0x%x,0x%x}",dev->bulk_in_buffer[0],dev->bulk_in_buffer[1],dev->bulk_in_buffer[2],dev->bulk_in_buffer[3]);*/
 			if (copy_to_user(buffer+i*dev->bulk_in_size, dev->bulk_in_buffer, bytes_read))
 			{	retval = -EFAULT;
 				break;
@@ -245,7 +245,7 @@ static ssize_t retina_read(struct file *file, char *buffer, size_t count, loff_t
 				bytes_read_sum += bytes_read;
 		}
 	}
-	/*info("%d bytes read\n",bytes_read_sum);*/
+	/*dev_info(&dev->interface->dev,"%d bytes read\n",bytes_read_sum);*/
 			
 exit:
 	mutex_unlock(&dev->io_mutex);
@@ -256,14 +256,14 @@ static void retina_write_bulk_callback(struct urb *urb)
 {
 	struct usb_retina *dev;
 
-	info("retina_write_bulk_callback");
 	dev = (struct usb_retina *)urb->context;
-
+	dev_info(&dev->interface->dev,"retina_write_bulk_callback");
+	
 	if (urb->status) {
 		if(!(urb->status == -ENOENT ||
 		    urb->status == -ECONNRESET ||
 		    urb->status == -ESHUTDOWN))
-			err("%s - nonzero write bulk status received: %d",
+			dev_err(&dev->interface->dev,"%s - nonzero write bulk status received: %d",
 			    __FUNCTION__, urb->status);
 
 		spin_lock(&dev->err_lock);
@@ -289,8 +289,8 @@ static ssize_t retina_write(struct file *file, const char *user_buffer, size_t c
 	user_buffer= user_buffer+5;
 	writesize = min(count-5, (size_t)MAX_TRANSFER);
 
-	/*info("Request,Value,Index,Count=0x%x,%d,%d,%d",request,value,index,writesize);*/
 	dev = (struct usb_retina *)file->private_data;
+	/*dev_info(&dev->interface->dev,"Request,Value,Index,Count=0x%x,%d,%d,%d",request,value,index,writesize);*/
 
 
 	/* create a urb, and a buffer for it, and copy the data to the urb 
@@ -315,7 +315,7 @@ static ssize_t retina_write(struct file *file, const char *user_buffer, size_t c
 	}
 	/* this lock makes sure we don't submit URBs to gone devices 
 	mutex_lock(&dev->io_mutex);
-	if (!dev->interface) {		/* disconnect() was called 
+	if (!dev->interface) {		 disconnect() was called 
 		mutex_unlock(&dev->io_mutex);
 		retval = -ENODEV;
 		goto error;
@@ -333,12 +333,13 @@ static ssize_t retina_write(struct file *file, const char *user_buffer, size_t c
 
 	/*use the write call for submitting vendor requests. java has no ioctl.*/
 	/*retval = vendorRequest(dev, request, value, index, buf, writesize);*/
-	info("retina_write(ioctl): VENDOR_REQUEST 0x%x returned %d.\n(Val,Ind,Cnt=0x%x,0x%x,0x%x)",request,
-	    retval = vendorRequest(dev, request, value, index, buf, writesize),value,index,writesize);
+	retval = vendorRequest(dev, request, value, index, buf, writesize);
+	/*dev_info(&dev->interface->dev,"retina_write(ioctl): VENDOR_REQUEST 0x%x returned %d.\n(Val,Ind,Cnt=0x%x,0x%x,0x%x)",request,
+	    retval,value,index,writesize);*/
 
 	/*mutex_unlock(&dev->io_mutex);*/
 	if (retval) {
-		err("%s - failed vendor request, error %d", __FUNCTION__, retval);
+		dev_err(&dev->interface->dev,"%s - failed vendor request, error %d", __FUNCTION__, retval);
 		goto exit;
 	}
 
@@ -381,7 +382,7 @@ static void address_event_callback(struct urb *urb)
 	dev->event_counter += length/4;		
 	if(urb->status)
 	{
-		err("address_event_callback: urb send error: 0x%x",urb->status);
+		dev_err(&dev->interface->dev,"address_event_callback: urb send error: 0x%x",urb->status);
 		return;
 	}
 
@@ -391,12 +392,12 @@ static void address_event_callback(struct urb *urb)
 		retval = usb_submit_urb (dev->urb, GFP_KERNEL);
 		if (retval)
 		{
-		    err ("error getting ae data: %d",retval);
+		    dev_err(&dev->interface->dev,"testing: error getting ae data: %d",retval);
 		}
 	}
 	else
-	{	info("testing: %d address events read.", dev->event_counter);
-		info("testing: event#1 = {0x%x,0x%x,0x%x,0x%x}",dev->bulk_in_buffer[0],dev->bulk_in_buffer[1],dev->bulk_in_buffer[2],dev->bulk_in_buffer[3]);
+	{	/*dev_info(&dev->interface->dev,"testing: %d address events read.", dev->event_counter);
+		dev_info(&dev->interface->dev,"testing: event#1 = {0x%x,0x%x,0x%x,0x%x}",dev->bulk_in_buffer[0],dev->bulk_in_buffer[1],dev->bulk_in_buffer[2],dev->bulk_in_buffer[3]);*/
 	}
 }
 
@@ -413,7 +414,7 @@ static int retina_probe(struct usb_interface *interface, const struct usb_device
 	/* allocate memory for our device state and initialize it */
 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
 	if (!dev) {
-		err("Out of memory");
+		dev_err(&interface->dev,"Out of memory");
 		goto error;
 	}
 	kref_init(&dev->kref);
@@ -438,7 +439,7 @@ static int retina_probe(struct usb_interface *interface, const struct usb_device
 	}
 		endpoint = &iface_desc->endpoint[2].desc;
 		
-		info("usb endpoint[%d] found. size=%d, addr=0x%x",i,endpoint->wMaxPacketSize,endpoint->bEndpointAddress);
+		/*dev_info(dev->interface->dev,"usb endpoint[%d] found. size=%d, addr=0x%x",i,endpoint->wMaxPacketSize,endpoint->bEndpointAddress);*/
 		if (!dev->bulk_in_endpointAddr &&
 		    usb_endpoint_is_bulk_in(endpoint)) {
 			/* we found a bulk in endpoint */
@@ -447,12 +448,12 @@ static int retina_probe(struct usb_interface *interface, const struct usb_device
 			dev->bulk_in_endpointAddr = endpoint->bEndpointAddress;
 			dev->bulk_in_buffer = kmalloc(buffer_size, GFP_KERNEL);
 			if (!dev->bulk_in_buffer) {
-				err("Could not allocate bulk_in_buffer");
+				dev_err(&interface->dev,"Could not allocate bulk_in_buffer");
 				goto error;
 			}
 		}
 	if (!(dev->bulk_in_endpointAddr && dev->bulk_out_endpointAddr)) {
-		err("Could not find both bulk-in and bulk-out endpoints");
+		dev_err(&interface->dev,"Could not find both bulk-in and bulk-out endpoints");
 		goto error;
 	}
 	dev->event_counter = 0;
@@ -463,15 +464,16 @@ static int retina_probe(struct usb_interface *interface, const struct usb_device
 	retval = usb_register_dev(interface, &retina_class);
 	if (retval) {
 		/* something prevented us from registering this driver */
-		err("Not able to get a minor for this device.");
+		dev_err(&interface->dev,"Not able to get a minor for this device.");
 		usb_set_intfdata(interface, NULL);
 		goto error;
 	}
 
 	/* let the user know what node this device is now attached to */
-	info("retina now attached to /dev/retina0");
-	info("VENDOR_REQUEST_START_TRANSFER returned %d",
-	    vendorRequest(dev, VENDOR_REQUEST_START_TRANSFER, 0, 0, NULL, 0));
+	dev_info(&interface->dev,"retina now attached to /dev/retina0\n");
+	
+	vendorRequest(dev, VENDOR_REQUEST_START_TRANSFER, 0, 0, NULL, 0);
+	/*dev_info(&dev->interface->dev,"VENDOR_REQUEST_START_TRANSFER returned %d",retval);*/
 	urb = usb_alloc_urb (0, GFP_KERNEL);
 	if (!urb)
 	    goto error;
@@ -483,7 +485,7 @@ static int retina_probe(struct usb_interface *interface, const struct usb_device
 	retval = usb_submit_urb (dev->urb, GFP_KERNEL);
 	if (retval)
 	{
-	    err ("error getting ae data: %d",retval);
+	    dev_err(&interface->dev, "error getting ae data: %d",retval);
 	    goto error;
 	}
 	return 0;
@@ -515,7 +517,7 @@ static void retina_disconnect(struct usb_interface *interface)
 	/* decrement our usage count */
 	kref_put(&dev->kref, retina_delete);
 
-	info("/dev/retina0 now disconnected");
+	dev_info(&interface->dev,"/dev/retina0 now disconnected\n");
 }
 
 static void retina_draw_down(struct usb_retina *dev)
@@ -531,7 +533,7 @@ static int retina_suspend(struct usb_interface *intf, pm_message_t message)
 {
 	struct usb_retina *dev = usb_get_intfdata(intf);
 
-	info("preparing retina module to suspend");
+	dev_info(&intf->dev,"preparing retina module to suspend");
 	if (!dev)
 		return 0;
 	retina_draw_down(dev);
@@ -540,7 +542,7 @@ static int retina_suspend(struct usb_interface *intf, pm_message_t message)
 
 static int retina_resume (struct usb_interface *intf)
 {
-	info("resuming retina module");
+	dev_info(&intf->dev,"resuming retina module");
 	return 0;
 }
 
@@ -548,7 +550,7 @@ static int retina_pre_reset(struct usb_interface *intf)
 {
 	struct usb_retina *dev = usb_get_intfdata(intf);
 
-	info("pre_reset of retina module");
+	dev_info(&intf->dev,"pre_reset of retina module");
 	mutex_lock(&dev->io_mutex);
 	retina_draw_down(dev);
 
@@ -559,7 +561,7 @@ static int retina_post_reset(struct usb_interface *intf)
 {
 	struct usb_retina *dev = usb_get_intfdata(intf);
 
-	info("post_reset retina module");
+	dev_info(&intf->dev,"post_reset retina module");
 	/* we are sure no URBs are active - no locking needed */
 	dev->errors = -EPIPE;
 	mutex_unlock(&dev->io_mutex);
@@ -584,7 +586,7 @@ static int __init usblab_init(void)
 {
 	int result;
 
-	info("retina module initialisation");
+	/*dev_info(&retina_driver.interface->dev,"retina module initialisation");*/
 	/* register this driver with the USB subsystem */
 	result = usb_register(&retina_driver);
 	if (result)
