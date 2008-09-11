@@ -15,16 +15,7 @@
               <map/>
               <node name="retina">
                 <map>
-                  <entry key="AEChip.subSamplingEnabled" value="false"/>
-                  <entry key="Tmpdiff128RateController.rateFilter3dBFreqHz" value="0.16036813"/>
-                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.upperThreshKEPS" value="212"/>
-                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.lowerThreshKEPS" value="10"/>
-                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.hysteresisKEPS" value="21"/>
-                  <entry key="ch.unizh.ini.caviar.chip.retina.Tmpdiff128RateController.midThreshKEPS" value="118"/>
-                  <entry key="Tmpdiff128RateController.rateLow" value="12"/>
-                  <entry key="Tmpdiff128RateController.rateHigh" value="299"/>
-                  <entry key="Tmpdiff128RateController.hysteresisFactor" value="1.1831249"/>
-                  <entry key="Tmpdiff128.IPot.cas" value="1966"/>
+                   <entry key="Tmpdiff128.IPot.cas" value="1966"/>
                   <entry key="Tmpdiff128.IPot.injGnd" value="22703"/>
                   <entry key="Tmpdiff128.IPot.reqPd" value="16777215"/>
                   <entry key="Tmpdiff128.IPot.puX" value="4368853"/>
@@ -39,7 +30,6 @@
                   <entry key="Masterbias.rx" value="8200.0"/>
                   <entry key="Masterbias.rint" value="46000.0"/>
                   <entry key="Masterbias.internalResistorUsed" value="false"/>
-                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAKdwQAAAAKdAA3Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlhZVHlwZUZpbHRlcnQAN2NoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5Sb3RhdGVGaWx0ZXJ0ADxjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuUmVwZXRpdGlvdXNGaWx0ZXJ0AENjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuQmFja2dyb3VuZEFjdGl2aXR5RmlsdGVydAA1Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlN1YlNhbXBsZXJ0AEFjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5sYWJlbC5TaW1wbGVPcmllbnRhdGlvbkZpbHRlcnQAQmNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmxhYmVsLkRpcmVjdGlvblNlbGVjdGl2ZUZpbHRlcnQAOWNoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLnRyYWNraW5nLkNsYXNzVHJhY2tlcnQAOGNoLnVuaXpoLmluaS5jYXZpYXIuY2hpcC5yZXRpbmEuVG1wZGlmZjEyOFJhdGVDb250cm9sbGVydAAzY2gudW5pemguaW5pLmNhdmlhci5jaGlwLnJldGluYS5zZW5zb3J5bW90b3IuR29hbGlleA=="/>
                 </map>
               </node>
             </node>
