@@ -659,7 +659,7 @@ BOOL DR_VendorCmnd(void)
 			}
 		case VR_ENABLE_MISSED_EVENTS:
 		{
-				if (EP0BUF[1])
+				if (SETUPDAT[2])
 				{
 					ENABLE_MISSED_EVENTS=1;
 				}

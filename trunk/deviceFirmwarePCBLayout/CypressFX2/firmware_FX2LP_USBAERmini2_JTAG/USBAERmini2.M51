@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V5.12                                                        09/17/2008  10:02:07  PAGE 1
+BL51 BANKED LINKER/LOCATER V5.12                                                        09/17/2008  11:38:08  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V5.12, INVOKED BY:
@@ -59,7 +59,7 @@ INPUT MODULES INCLUDED:
   C:\KEIL\C51\LIB\C51S.LIB (?C?LSTKIDATA)
   C:\KEIL\C51\LIB\C51S.LIB (?C?LSTKXDATA)
   C:\KEIL\C51\LIB\C51S.LIB (?C?LSTKPDATA)
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 2
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 2
 
 
 
@@ -119,7 +119,7 @@ LINK MAP OF MODULE:  USBAERmini2 (FW)
             XDATA   E618H     0001H     ABSOLUTE     
             XDATA   E619H     0001H     ABSOLUTE     
             XDATA   E61AH     0001H     ABSOLUTE     
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 3
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 3
 
 
             XDATA   E61BH     0001H     ABSOLUTE     
@@ -179,7 +179,7 @@ LINK MAP OF MODULE:  USBAERmini2 (FW)
             XDATA   E663H     0001H     ABSOLUTE     
             XDATA   E664H     0001H     ABSOLUTE     
             XDATA   E665H     0001H     ABSOLUTE     
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 4
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 4
 
 
             XDATA   E666H     0001H     ABSOLUTE     
@@ -239,7 +239,7 @@ LINK MAP OF MODULE:  USBAERmini2 (FW)
             XDATA   E6ABH     0001H     ABSOLUTE     
             XDATA   E6ACH     0001H     ABSOLUTE     
             XDATA   E6ADH     0001H     ABSOLUTE     
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 5
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 5
 
 
             XDATA   E6AEH     0001H     ABSOLUTE     
@@ -299,7 +299,7 @@ LINK MAP OF MODULE:  USBAERmini2 (FW)
             XDATA   E6FBH     0001H     ABSOLUTE     
             XDATA   E6FCH     0001H     ABSOLUTE     
             XDATA   E6FDH     0001H     ABSOLUTE     
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 6
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 6
 
 
             XDATA   E6FEH     0001H     ABSOLUTE     
@@ -359,7 +359,7 @@ LINK MAP OF MODULE:  USBAERmini2 (FW)
             CODE    1A59H     0080H     INBLOCK      ?PR?_EQUALLENVAL?LENVAL
             CODE    1AD9H     007EH     INBLOCK      ?PR?_XSVFBASICXSDRTDO?MICRO
             CODE    1B57H     0079H     INBLOCK      ?PR?_VALUE?LENVAL
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 7
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 7
 
 
             CODE    1BD0H     0078H     INBLOCK      ?PR?_XSVFDOXSDRSIZE?MICRO
@@ -419,7 +419,7 @@ LINK MAP OF MODULE:  USBAERmini2 (FW)
             CODE    240DH     0001H     INBLOCK      ?PR?ISR_ERRORLIMIT?USBAERMINI2_FIRMWARE
             CODE    240EH     0001H     INBLOCK      ?PR?ISR_EP2PIDERROR?USBAERMINI2_FIRMWARE
             CODE    240FH     0001H     INBLOCK      ?PR?ISR_EP4PIDERROR?USBAERMINI2_FIRMWARE
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 8
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 8
 
 
             CODE    2410H     0001H     INBLOCK      ?PR?ISR_EP6PIDERROR?USBAERMINI2_FIRMWARE
@@ -479,7 +479,7 @@ SEGMENT                                             BIT_GROUP          DATA_GROU
   +--> ?PR?ISR_EP2PFLAG?USBAERMINI2_FIRMWARE
   +--> ?PR?ISR_EP4PFLAG?USBAERMINI2_FIRMWARE
   +--> ?PR?ISR_EP6PFLAG?USBAERMINI2_FIRMWARE
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 9
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 9
 
 
   +--> ?PR?ISR_EP8PFLAG?USBAERMINI2_FIRMWARE
@@ -539,7 +539,7 @@ SEGMENT                                             BIT_GROUP          DATA_GROU
 
 ?PR?DR_VENDORCMND?USBAERMINI2_FIRMWARE           -----    -----      0021H    000BH      2B3AH    0190H
   +--> ?PR?STOPMONITOR?USBAERMINI2_FIRMWARE
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 10
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 10
 
 
   +--> ?PR?STARTSEQUENCER?USBAERMINI2_FIRMWARE
@@ -599,7 +599,7 @@ SEGMENT                                             BIT_GROUP          DATA_GROU
   +--> ?PR?_READVAL?LENVAL
 
 ?PR?_READVAL?LENVAL                              -----    -----      0040H    0005H      -----    -----
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 11
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 11
 
 
   +--> ?PR?_READBYTE?PORTS
@@ -659,7 +659,7 @@ SEGMENT                                             BIT_GROUP          DATA_GROU
   +--> ?PR?_XSVFBASICXSDRTDO?MICRO
 
 ?PR?_XSVFDOXSDRTDOBCE?MICRO                      -----    -----      0021H    0004H      -----    -----
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 12
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 12
 
 
   +--> ?PR?_XSVFBASICXSDRTDO?MICRO
@@ -719,7 +719,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:1CB6H         LINE#         97
   C:1CB8H         LINE#         100
   C:1CBBH         LINE#         101
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 13
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 13
 
 
   C:1CBDH         LINE#         103
@@ -779,7 +779,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:0BD4H         LINE#         221
   C:0BD4H         LINE#         222
   C:0BDAH         LINE#         223
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 14
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 14
 
 
   C:0BDCH         LINE#         224
@@ -839,7 +839,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:0C96H         LINE#         281
   C:0C96H         LINE#         282
   C:0C96H         LINE#         283
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 15
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 15
 
 
   C:0C9DH         LINE#         284
@@ -899,7 +899,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   N:0001H         SYMBOL        DSCR_DEVICE
   N:0012H         SYMBOL        DSCR_DEVICE_LEN
   N:0006H         SYMBOL        DSCR_DEVQUAL
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 16
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 16
 
 
   N:000AH         SYMBOL        DSCR_DEVQUAL_LEN
@@ -959,7 +959,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:241AH         PUBLIC        ISR_Ep2fflag
   C:2417H         PUBLIC        ISR_Ep4eflag
   C:241BH         PUBLIC        ISR_Ep4fflag
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 17
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 17
 
 
   C:2418H         PUBLIC        ISR_Ep6eflag
@@ -1019,7 +1019,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:0F0DH         LINE#         102
   C:0F0DH         LINE#         104
   C:0F16H         LINE#         107
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 18
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 18
 
 
   C:0F1CH         LINE#         110
@@ -1079,7 +1079,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:0FDCH         LINE#         206
   C:0FE4H         LINE#         207
   C:0FEEH         LINE#         208
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 19
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 19
 
 
   C:0FF0H         LINE#         210
@@ -1139,7 +1139,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:1F8DH         LINE#         270
   C:1F8EH         LINE#         274
   C:1F94H         LINE#         275
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 20
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 20
 
 
   C:1F97H         LINE#         277
@@ -1199,7 +1199,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:1F46H         LINE#         333
   C:1F48H         LINE#         335
   C:1F48H         LINE#         336
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 21
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 21
 
 
   C:1F57H         LINE#         338
@@ -1259,7 +1259,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:23B2H         LINE#         426
   C:23B6H         LINE#         427
   C:23BBH         LINE#         428
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 22
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 22
 
 
   C:23BCH         LINE#         429
@@ -1319,7 +1319,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:00DCH         LINE#         496
   C:00E5H         LINE#         497
   C:00E5H         LINE#         498
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 23
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 23
 
 
   C:00EBH         LINE#         499
@@ -1379,7 +1379,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:024FH         LINE#         571
   C:025CH         LINE#         572
   C:025EH         LINE#         575
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 24
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 24
 
 
   C:0264H         LINE#         576
@@ -1439,7 +1439,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:02DFH         LINE#         645
   C:02E4H         LINE#         646
   C:02EBH         LINE#         647
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 25
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 25
 
 
   C:02EBH         LINE#         648
@@ -1499,7 +1499,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:03D3H         LINE#         712
   C:03E3H         LINE#         713
   C:0408H         LINE#         714
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 26
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 26
 
 
   C:0408H         LINE#         716
@@ -1559,7 +1559,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   -------         ENDPROC       ISR_SUDAV
   -------         PROC          ISR_SUTOK
   C:2349H         LINE#         790
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 27
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 27
 
 
   C:234FH         LINE#         792
@@ -1619,7 +1619,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:17FAH         LINE#         858
   -------         ENDPROC       ISR_EP0IN
   -------         PROC          ISR_EP0OUT
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 28
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 28
 
 
   C:17FBH         LINE#         859
@@ -1679,7 +1679,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   -------         ENDPROC       ISR_EP8PINGNAK
   -------         PROC          ISR_ERRORLIMIT
   C:240DH         LINE#         901
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 29
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 29
 
 
   C:240DH         LINE#         903
@@ -1739,7 +1739,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   -------         PROC          ISR_EP4FFLAG
   C:241BH         LINE#         943
   C:241BH         LINE#         945
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 30
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 30
 
 
   -------         ENDPROC       ISR_EP4FFLAG
@@ -1799,7 +1799,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   X:E678H         PUBLIC        I2CS
   X:E610H         PUBLIC        EP1OUTCFG
   X:E6F9H         PUBLIC        TESTCFG
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 31
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 31
 
 
   X:E641H         PUBLIC        EP4ISOINPKTS
@@ -1859,7 +1859,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   X:E6CFH         PUBLIC        GPIFTCB2
   X:E664H         PUBLIC        ERRCNTLIM
   X:E6CEH         PUBLIC        GPIFTCB3
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 32
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 32
 
 
   X:E6EAH         PUBLIC        EP8GPIFFLGSEL
@@ -1919,7 +1919,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   X:E634H         PUBLIC        EP6FIFOPFH
   X:E631H         PUBLIC        EP2FIFOPFL
   X:FC00H         PUBLIC        EP8FIFOBUF
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 33
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 33
 
 
   X:E60BH         PUBLIC        REVCTL
@@ -1979,7 +1979,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   X:E650H         PUBLIC        EP2FIFOIE
   -------         ENDMOD        EZREGS
 
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 34
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 34
 
 
   -------         MODULE        I2C
@@ -2039,7 +2039,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   -------         ENDPROC       _EZUSB_WRITEI2C_
   -------         PROC          _EZUSB_READI2C_
   D:0004H         SYMBOL        addr
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 35
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 35
 
 
   D:0005H         SYMBOL        length
@@ -2099,7 +2099,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:1261H         LINE#         162
   C:1261H         LINE#         163
   C:1261H         LINE#         164
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 36
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 36
 
 
   C:1264H         LINE#         165
@@ -2159,7 +2159,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   D:0002H         SYMBOL        dat
   C:2315H         LINE#         56
   C:2315H         LINE#         57
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 37
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 37
 
 
   C:2315H         LINE#         58
@@ -2219,7 +2219,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   X:E600H         SYMBOL        CPUCS
   B:00C8H.0       SYMBOL        CP_RL2
   X:E6FBH         SYMBOL        CT1
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 38
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 38
 
 
   X:E6FCH         SYMBOL        CT2
@@ -2279,7 +2279,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   X:F000H         SYMBOL        EP2FIFOBUF
   X:E618H         SYMBOL        EP2FIFOCFG
   X:E6A7H         SYMBOL        EP2FIFOFLGS
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 39
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 39
 
 
   X:E650H         SYMBOL        EP2FIFOIE
@@ -2339,7 +2339,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   X:E627H         SYMBOL        EP8AUTOINLENL
   X:E69CH         SYMBOL        EP8BCH
   X:E69DH         SYMBOL        EP8BCL
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 40
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 40
 
 
   X:E615H         SYMBOL        EP8CFG
@@ -2399,7 +2399,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   X:E6C2H         SYMBOL        GPIFIDLECTL
   X:E660H         SYMBOL        GPIFIE
   X:E661H         SYMBOL        GPIFIRQ
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 41
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 41
 
 
   X:E6F3H         SYMBOL        GPIFREADYCFG
@@ -2459,7 +2459,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   X:E671H         SYMBOL        PORTCCFG
   X:E672H         SYMBOL        PORTECFG
   B:00B8H.4       SYMBOL        PS0
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 42
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 42
 
 
   B:00B8H.6       SYMBOL        PS1
@@ -2519,7 +2519,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   B:00C0H.1       SYMBOL        TI1
   D:008AH         SYMBOL        TL0
   D:008BH         SYMBOL        TL1
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 43
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 43
 
 
   D:00CCH         SYMBOL        TL2
@@ -2579,7 +2579,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:1534H         LINE#         87
   C:1538H         LINE#         89
   C:153CH         LINE#         91
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 44
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 44
 
 
   C:1540H         LINE#         93
@@ -2639,7 +2639,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:1BBDH         LINE#         25
   C:1BC7H         LINE#         27
   C:1BCFH         LINE#         28
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 45
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 45
 
 
   -------         ENDPROC       _VALUE
@@ -2699,7 +2699,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:16AEH         PUBLIC        _xsvfDoXSDRTDO
   C:22DFH         PUBLIC        _xsvfTmsTransition
   C:23F7H         PUBLIC        _xsvfDoXCOMPLETE
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 46
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 46
 
 
   C:1441H         PUBLIC        _xsvfDoXSDR
@@ -2759,7 +2759,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:22DBH         SYMBOL        L?0181
   -------         PROC          _XSVFTMSTRANSITION
   D:0004H         SYMBOL        sTms
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 47
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 47
 
 
   C:22DFH         LINE#         304
@@ -2819,7 +2819,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:09E1H         LINE#         383
   C:09E1H         LINE#         384
   C:09E1H         LINE#         385
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 48
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 48
 
 
   C:09E3H         LINE#         386
@@ -2879,7 +2879,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:0A87H         LINE#         444
   C:0A87H         LINE#         445
   C:0A89H         LINE#         446
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 49
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 49
 
 
   C:0A89H         LINE#         447
@@ -2939,7 +2939,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:0B39H         LINE#         505
   C:0B3BH         LINE#         506
   C:0B3BH         LINE#         507
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 50
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 50
 
 
   C:0B40H         LINE#         508
@@ -2999,7 +2999,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:1110H         LINE#         588
   C:1118H         LINE#         590
   C:1120H         LINE#         591
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 51
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 51
 
 
   C:1120H         LINE#         593
@@ -3059,7 +3059,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:0E43H         LINE#         693
   C:0E64H         LINE#         694
   C:0E64H         LINE#         697
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 52
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 52
 
 
   C:0E6FH         LINE#         699
@@ -3119,7 +3119,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:2388H         LINE#         788
   -------         ENDPROC       _XSVFDOILLEGALCMD
   -------         PROC          _XSVFDOXCOMPLETE
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 53
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 53
 
 
   D:0001H         SYMBOL        pXsvfInfo
@@ -3179,7 +3179,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:12D2H         LINE#         888
   C:134DH         LINE#         893
   C:134DH         LINE#         895
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 54
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 54
 
 
   C:1353H         LINE#         896
@@ -3239,7 +3239,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:1C43H         LINE#         976
   C:1C43H         LINE#         977
   C:1C47H         LINE#         978
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 55
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 55
 
 
   -------         ENDPROC       _XSVFDOXSDRSIZE
@@ -3299,7 +3299,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   -------         DO            
   D:0024H         SYMBOL        iErrorCode
   D:0026H         SYMBOL        ucEndState
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 56
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 56
 
 
   -------         ENDDO         
@@ -3359,7 +3359,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:1870H         LINE#         1177
   C:187CH         LINE#         1178
   C:187CH         LINE#         1181
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 57
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 57
 
 
   C:1889H         LINE#         1184
@@ -3419,7 +3419,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:0016H         PUBLIC        _waitTime
   C:0036H         PUBLIC        _setPort
   D:00B1H         PUBLIC        IOE
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 58
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 58
 
 
   C:23D7H         PUBLIC        _resetReadCounter
@@ -3479,7 +3479,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   -------         ENDMOD        PORTS
 
   -------         MODULE        ?C?CLDPTR
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 59
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 59
 
 
   C:0517H         PUBLIC        ?C?CLDPTR
@@ -3539,7 +3539,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
 
   -------         MODULE        ?C?LLDOPTR
   C:06B2H         PUBLIC        ?C?LLDOPTR
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 60
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 60
 
 
   -------         ENDMOD        ?C?LLDOPTR
@@ -3599,7 +3599,7 @@ SYMBOL TABLE OF MODULE:  USBAERmini2 (FW)
   C:0890H         PUBLIC        ?C?LSTPDATA
   -------         ENDMOD        ?C?LSTPDATA
 
-BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  10:02:07  PAGE 61
+BL51 BANKED LINKER/LOCATER V5.12                                                      09/17/2008  11:38:08  PAGE 61
 
 
   -------         MODULE        ?C?LSTKIDATA
