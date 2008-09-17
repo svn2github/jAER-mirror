@@ -21,6 +21,7 @@ entity synchronizerStateMachine is
   port (
     ClockxCI  : in std_logic;
     ResetxRBI : in std_logic;
+    RunxSI : in std_logic;
 
     -- set temporal resolution
     ConfigxSI : in std_logic;
@@ -59,7 +60,7 @@ architecture Behavioral of synchronizerStateMachine is
 begin  -- Behavioral
 
   -- calculate next state
-  p_memless : process (StatexDP, SyncInxS, SyncInxAI, ResetxRBI, ConfigxSI, DividerxDP, HostResetTimestampxSI)
+  p_memless : process (StatexDP, SyncInxS, SyncInxAI, RunxSI, ConfigxSI, DividerxDP, HostResetTimestampxSI)
     variable counterInc : integer := 29;
     variable syncOutLow1 : integer := 25;
     variable syncOutLow2 : integer := 26;
@@ -91,7 +92,7 @@ begin  -- Behavioral
         SyncOutxSO         <= SyncInxAI;
         if SyncInxS = '1' then
           StatexDN         <= stSlaveIdle;
-        elsif ResetxRBI = '1' then
+        elsif RunxSI = '1' then
             StatexDN       <= stRunMaster;
         end if;
       when stResetSlaves              =>  -- reset potential slave usbaermini2
@@ -142,7 +143,7 @@ begin  -- Behavioral
         if SyncInxS = '1' then
           StatexDN   <= stResetTS;
           DividerxDN <= (others => '0');
-        elsif ResetxRBI = '0' then
+        elsif RunxSI = '0' then
           StatexDN   <= stMasterIdle;
         elsif HostResetTimestampxSI = '1' then
           StatexDN   <= stResetSlaves;
@@ -183,9 +184,12 @@ begin  -- Behavioral
   end process p_memless;
 
   -- change state on clock edge
-  p_mem : process (ClockxCI)
+  p_mem : process (ClockxCI,ResetxRBI)
   begin  -- process p_mem
-    if ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
+    if ResetxRBI = '0' then
+      DividerxDP <= (others => '0');
+      StatexDP <= stMasterIdle;
+    elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
       StatexDP   <= StatexDN;
       DividerxDP <= DividerxDN;
     end if;

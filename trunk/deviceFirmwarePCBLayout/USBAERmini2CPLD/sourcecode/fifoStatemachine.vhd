@@ -58,7 +58,6 @@ entity fifoStatemachine is
     -- short paket stuff
     IncEventCounterxSO         : out std_logic;
     ResetEventCounterxSO       : out std_logic;
-    ResetEarlyPaketTimerxSO    : out std_logic;
 
     -- timestamp overflow, send wrap event
     TimestampOverflowxSI : in std_logic;
@@ -71,7 +70,7 @@ entity fifoStatemachine is
     TimestampBit14xDO : out std_logic;
     
     -- short paket timer overflow
-    EarlyPaketTimerOverflowxSI : in  std_logic);
+    PaketSentxSI : in  std_logic);
 end fifoStatemachine;
 
 architecture Behavioral of fifoStatemachine is
@@ -118,7 +117,7 @@ begin
       EventBeforeOverflowxDO => EventBeforeOverflowxD);
   
   -- calculate next state and outputs
-  p_memless : process (StatexDP, FifoInFullxSBI, FifoOutEmptyxSBI, MonitorEventReadyxSI, EventRequestxSI, EarlyPaketTimerOverflowxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, EventBeforeOverflowxD)
+  p_memless : process (StatexDP, FifoInFullxSBI, FifoOutEmptyxSBI, MonitorEventReadyxSI, EventRequestxSI, PaketSentxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, EventBeforeOverflowxD)
   begin  -- process p_memless
     -- default assignements: stay in present state, don't change address in
     -- FifoAddress register, no Fifo transaction, don't write registers, don't
@@ -136,7 +135,6 @@ begin
     EventRequestACKxSO        <= '0';
     IncEventCounterxSO        <= '0';
     ResetEventCounterxSO      <= '0';
-    ResetEarlyPaketTimerxSO   <= '0';
     FifoAddressxDO            <= EP2;
     TimestampBit15xDO <= '0';
     TimestampBit14xDO <= '0';
@@ -150,7 +148,7 @@ begin
       when stIdle =>
         if EventBeforeOverflowxD ='1' and FifoInFullxSBI = '1' then
           StatexDN <= stSetupWrFifo;
-        elsif EarlyPaketTimerOverflowxSI = '1' and FifoInFullxSBI = '1' then
+        elsif TimestampOverflowxDP = '1' and PaketSentxSI = '0' and FifoInFullxSBI = '1' then
                        -- we haven't commited a paket for a long time
           StatexDN <= stEarlyPaket1;
           FifoAddressxDO            <= EP6; 
@@ -175,14 +173,14 @@ begin
                                         -- states to ensure setup time of
                                         -- fifoaddress 
         StatexDN                  <= stEarlyPaket2;
-        ResetEarlyPaketTimerxSO   <= '1';
+    
         ResetEventCounterxSO      <= '1';
-        FifoPktEndxSBO            <= '0';
+        FifoPktEndxSBO            <= '1';
         FifoAddressxDO            <= EP6;
       when stEarlyPaket2  =>             -- ordering the FX2 to send a paket
                                          -- even if it's not full
-        StatexDN                  <= stIdle;
-        ResetEarlyPaketTimerxSO   <= '1';
+        StatexDN                  <= stSetupOverflow;
+    
         ResetEventCounterxSO      <= '1';
         FifoPktEndxSBO            <= '0';
         FifoAddressxDO            <= EP6;

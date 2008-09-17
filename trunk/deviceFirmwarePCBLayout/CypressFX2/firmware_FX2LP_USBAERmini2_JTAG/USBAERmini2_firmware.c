@@ -10,6 +10,7 @@
 #include "fx2.h"
 #include "fx2regs.h"
 #include "syncdly.h"            // SYNCDELAY macro
+#include "portsFX2.h"
 
 #include "micro.h" // jtag stuff
 #include "ports.h"
@@ -31,6 +32,7 @@ extern BOOL Selfpwr;
 #define TIMESTAMP_MASTER 		PC4
 #define CFG_TIMESTAMP_COUNTER 	PC3
 #define TIMESTAMP_MODE			PC2
+#define ENABLE_MISSED_EVENTS	PC1
 
 #define DB_Addr 1 // zero if only one byte address is needed for EEPROM, one if two byte address
 
@@ -59,6 +61,7 @@ extern BOOL Selfpwr;
 #define VR_READOUT_EEPROM 0xC9
 #define VR_IS_TS_MASTER 0xCB
 #define VR_MISSED_EVENTS 0xCC
+#define VR_ENABLE_MISSED_EVENTS 0xCD
 
 #define	VR_UPLOAD		0xc0
 #define VR_DOWNLOAD		0x40
@@ -109,6 +112,27 @@ void TD_Init(void)              // Called once at startup
 	// disable interrupt pins 4, 5 and 6
 	EIE &= 0xE3; // 1110_0011; //  TODO: disable interrupt 3 (reset timestamps)
 
+	//enable Port C and port E
+	SYNCDELAY;
+	PORTCCFG = 0x00;
+	SYNCDELAY;
+	PORTACFG = 0x03; // use interrupts 0 and 1
+	SYNCDELAY;
+	PORTECFG = 0x00;
+
+	// hold CPLD in reset and configure 
+	// TimestampCounter to 1 us Tick (0): 0000_0000
+	IOC = 0x00; // do not set it to 0x00, stops working, but i don't know why....
+	
+	//enable Port C as output, except timestamp_master pin (4)
+	OEC = 0xEF; // 1110_1111
+	//OEE = 0xDF;  //
+	OEE = 0x0F; // float JTAG pins  
+	IOE = 0xFF;
+
+	OEA = 0x88; // configure remaining two pins as output to avoid floating inputs: 1000_1000
+
+
 	// Registers which require a synchronization delay, see section 15.14
 	// FIFORESET        FIFOPINPOLAR
 	// INPKTEND         OUTPKTEND
@@ -147,6 +171,8 @@ void TD_Init(void)              // Called once at startup
 	SYNCDELAY;
 	FIFORESET = 0x02;
 	SYNCDELAY;
+	FIFORESET = 0x06;
+	SYNCDELAY;
 	FIFORESET = 0x00;
 	SYNCDELAY;
 	OUTPKTEND = 0x82;
@@ -167,25 +193,8 @@ void TD_Init(void)              // Called once at startup
 	SYNCDELAY;
 	PINFLAGSAB = 0xE8; // 1110_1000
 
-	//enable Port C and port E
-	SYNCDELAY;
-	PORTCCFG = 0x00;
-	SYNCDELAY;
-	PORTACFG = 0x03; // use interrupts 0 and 1
-	SYNCDELAY;
-	PORTECFG = 0x00;
 
-	//enable Port C as output, except timestamp_master pin (4)
-	OEC = 0xEF; // 1110_1111
-	//OEE = 0xDF;  //
-	OEE = 0x0F; // float JTAG pins  
-	IOE = 0xFF;
-
-	OEA = 0x88; // configure remaining two pins as output to avoid floating inputs: 1000_1000
-
-	// hold CPLD in reset and configure 
-	// TimestampCounter to 1 us Tick (0): 0000_0000
-	IOC = 0x02; // do not set it to 0x00, stops working, but i don't know why....
+	
 
 	// initialize variables
 	monitorRunning = FALSE;
@@ -202,6 +211,8 @@ void TD_Init(void)              // Called once at startup
 
 	IT1=1; // INT1# edge-sensitve
 	EX1=1; // enable INT1#
+
+	CPLD_NOT_RESET = 1; 
 }
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
@@ -218,8 +229,6 @@ void startSequencer(void)
   // start synthesizer state machine
   synthesizerRunning = TRUE;
   SYNTHESIZER = 1;
-
-  CPLD_NOT_RESET = 1; 
 }
 
 void downloadSerialNumberFromEEPROM(void)
@@ -247,8 +256,6 @@ void startMonitor(void)
 	//start monitor state machine
 	monitorRunning = TRUE;
 	MONITOR=1;
-
-    CPLD_NOT_RESET=1;
 }
 
 void stopMonitor(void)
@@ -261,11 +268,6 @@ void stopMonitor(void)
 	_nop_();
 	_nop_();
 	_nop_();
-
-  	if (!synthesizerRunning) // if synthesizer is not running, stop CPLD
-    {
-      CPLD_NOT_RESET=0;
-    }
 
   	// force last paket
   	
@@ -300,12 +302,6 @@ void stopSequencer(void)
 	_nop_();
 	_nop_();
 	_nop_();
-
-
-	if (!monitorRunning) // if monitor is not running, stop CPLD
-    {
-      CPLD_NOT_RESET=0;
-    }
 
 	
 	EP2FIFOCFG = 0x01; //0001_0001 disable auto-in
@@ -661,6 +657,18 @@ BOOL DR_VendorCmnd(void)
 
 				return(FALSE);
 			}
+		case VR_ENABLE_MISSED_EVENTS:
+		{
+				if (EP0BUF[1])
+				{
+					ENABLE_MISSED_EVENTS=1;
+				}
+				else
+				{
+					ENABLE_MISSED_EVENTS=0;
+				}
+				break;
+		}
 		case VR_MISSED_EVENTS:
 			{
 				EX1=0;

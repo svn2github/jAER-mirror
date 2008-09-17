@@ -1,7 +1,7 @@
-Release 8.1i - Fit J.39
+Release 8.1i - Fit K.37
 Copyright(c) 1995-2003 Xilinx Inc. All rights reserved
 
- 3-25-2008  6:36PM
+ 9-16-2008  5:18PM
 
 NOTE: This file is designed to be imported into a spreadsheet program
 such as Microsoft Excel for viewing, printing and sorting. The comma ','
@@ -113,10 +113,10 @@ P92,HostResetTimestampxSI,I,I/O,INPUT,LVCMOS33,2,,FAST,,,,
 P93,RunSynthesizerxSI,I,I/O,INPUT,LVCMOS33,2,,FAST,,,,
 P94,TimestampMasterxSO,O,I/O,OUTPUT,LVCMOS33,2,,FAST,,,,
 P95,TimestampTickxSI,I,I/O,INPUT,LVCMOS33,2,,FAST,,,,
-P96,TriggerModexSI,I,I/O,INPUT,LVCMOS33,2,,FAST,,,,
-P97,TIE,,I/O,,,2,,,,,,,
+P96,TIE,,I/O,,,2,,,,,,,
+P97,MissEventsEnabledxEI,I,I/O,INPUT,LVCMOS33,2,,FAST,,,,
 P98,,VCCIO-3.3,VCCIO,,,2,,,,,,,
-P99,ResetxRBI,I,I/O/GSR,INPUT,LVCMOS33,2,,FAST,,,,
+P99,ResetxRBI,GSR,I/O/GSR,,LVCMOS33,2,,FAST,,,,
 P100,GND,,GND,,,,,,,,,,
 
 To preserve the pinout above for future design iterations in

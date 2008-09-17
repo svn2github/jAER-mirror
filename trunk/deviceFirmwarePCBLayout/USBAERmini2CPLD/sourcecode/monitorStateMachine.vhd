@@ -49,6 +49,7 @@ entity monitorStateMachine is
     -- EP6 full
     FifoFullxSBI : in std_logic;
 
+    MissEventsEnabledxEI : in std_logic;
     -- was used for timeout mechanism, not used anymore
     OverflowxSI : in std_logic);
 end monitorStateMachine;
@@ -69,7 +70,7 @@ architecture Behavioral of monitorStateMachine is
 begin
 
   -- calculate next state and outputs
-  p_memless              : process (StatexDP, AERREQxSB, AERSnifACKxSB, EventReadyxSI, RunxSI, OverflowxSI, AERREQxABI, AERSnifACKxABI, FifoFullxSBI, MissedEventsxDP) 
+  p_memless              : process (StatexDP, AERREQxSB, AERSnifACKxSB, EventReadyxSI, RunxSI, OverflowxSI, AERREQxABI, AERSnifACKxABI, FifoFullxSBI, MissedEventsxDP,MissEventsEnabledxEI) 
   begin  -- process p_memless
     -- default assignments: stay in present state, AERACK is high, don't write
     -- to the registers and don't declare that an event is ready
@@ -126,7 +127,7 @@ begin
         AERACKxSBO <= '0';
 
         if AERREQxSB = '1' then
-          if FifoFullxSBI = '0' then    -- when the fifo is full
+          if FifoFullxSBI = '0' and MissEventsEnabledxEI = '1' then    -- when the fifo is full
             StatexDN   <= stFifoFull;
           else
             StatexDN   <= stWaitEvent;
@@ -180,7 +181,7 @@ begin
 
         if AERSnifACKxSB = '1' then     -- receiving device released ACK, so
                                         -- back to idle
-          if FifoFullxSBI = '0' then
+          if FifoFullxSBI = '0' and MissEventsEnabledxEI = '1' then
             StatexDN   <= stSnfFifoFull;
           else
             StatexDN   <= stWaitEvent;

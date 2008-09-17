@@ -27,13 +27,14 @@ entity earlyPaketTimer is
     ClockxCI        : in  std_logic;
     ResetxRBI       : in  std_logic;
     ClearxSI        : in  std_logic;
+    IncxSI          : in std_logic; 
     TimerExpiredxSO : out std_logic);
 end earlyPaketTimer;
 
 architecture Behavioral of earlyPaketTimer is
 
   -- present and next state
-  signal CountxDN, CountxDP : std_logic_vector(18 downto 0);  
+  signal CountxDN, CountxDP : std_logic_vector(10 downto 0);  
 
 begin
 
@@ -44,12 +45,16 @@ begin
 
     if (ClearxSI = '1') then      -- a paket has been sent, so clear counter
       CountxDN        <= (others => '0');
-    elsif (CountxDP(18) = '0') then
-      CountxDN        <= CountxDP + 1;
-    else                                -- stay in this state until cleared
+  
+    elsif CountxDP(10)='1' then
+                                      -- stay in this state until cleared
       CountxDN        <= CountxDP;
       TimerExpiredxSO <= '1';
+   
+    elsif IncxSI ='1'  then
+        CountxDN        <= CountxDP + 1;
     end if;
+   
   end process p_memless;
 
   p_memoryzing : process (ClockxCI, ResetxRBI)

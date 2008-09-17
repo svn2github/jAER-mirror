@@ -47,14 +47,11 @@ begin
                                         -- has been sent, so reset counter
       CountxDN <= (others => '0');
 
+    elsif CountxDP = 128 then            -- 128 events have been sent to the host,
+                                        -- so clear earlypakettimer 
+      OverflowxSO <= '1';
     elsif IncrementxSI = '1' then
       CountxDN <= CountxDP +1;
-    end if;
-
-    if CountxDP = 128 then            -- 128 events have been sent to the host,
-                                        -- so clear earlypakettimer 
-      CountxDN <= (others => '0');
-      OverflowxSO <= '1';
     end if;
   end process p_memoryless;
 

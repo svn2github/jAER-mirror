@@ -43,8 +43,7 @@ entity synthStateMachine is
     AddressRegWritexEO   : out std_logic;
     TimestampRegWritexEO : out std_logic;
 
-    -- reset timestamp bit 16, solves long handshake problem, see report
-    ResetTimestampBit16xSO : out std_logic;
+    SequencerResetxRBO : out std_logic;
 
     -- communication with fifo state machine
     EventRequestxSO    : out std_logic;
@@ -71,7 +70,7 @@ begin
     TimestampRegWritexEO   <= '0';
     AERREQxSBO             <= '1';      -- active low!!
     EventRequestxSO        <= '0';
-    ResetTimestampBit16xSO <= '0';
+    SequencerResetxRBO <= '1';          -- active low!!
 
     case StatexDP is
       when stIdle      =>
@@ -102,13 +101,14 @@ begin
           else
             StatexDN             <= stWaitForACK;
           end if;
-          ResetTimestampBit16xSO <= '1';
+          SequencerResetxRBO <= '0';
         end if;
       when stWaitForACKrelease =>       -- the AER device still hasn't released
                                         -- the ACK of the last event
         if AERACKxSB = '1' then
           StatexDN               <= stWaitForACK;
         end if;
+        
       when stWaitForACK        =>       -- sending out an AER request and wait
                                         -- for the aer device to ack
         AERREQxSBO               <= '0';
