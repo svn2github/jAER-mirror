@@ -13,21 +13,21 @@
             <map/>
             <node name="stereopsis">
               <map>
-                <entry key="Tmpdiff128StereoPair.IPot.cas" value="1966"/>
-                <entry key="Tmpdiff128StereoPair.IPot.injGnd" value="22703"/>
-                <entry key="Tmpdiff128StereoPair.IPot.reqPd" value="16777215"/>
-                <entry key="Tmpdiff128StereoPair.IPot.puX" value="4368853"/>
-                <entry key="Tmpdiff128StereoPair.IPot.diffOff" value="3207"/>
-                <entry key="Tmpdiff128StereoPair.IPot.req" value="111347"/>
-                <entry key="Tmpdiff128StereoPair.IPot.refr" value="0"/>
-                <entry key="Tmpdiff128StereoPair.IPot.puY" value="16777215"/>
-                <entry key="Tmpdiff128StereoPair.IPot.diffOn" value="483231"/>
-                <entry key="Tmpdiff128StereoPair.IPot.diff" value="28995"/>
-                <entry key="Tmpdiff128StereoPair.IPot.foll" value="19"/>
-                <entry key="Tmpdiff128StereoPair.IPot.Pr" value="8"/>
-                <entry key="Masterbias.rx" value="8200.0"/>
-                <entry key="Masterbias.rint" value="46000.0"/>
-                <entry key="Masterbias.internalResistorUsed" value="false"/>
+                 <entry key="Tmpdiff128StereoPair.IPot.cas" value="1966"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.injGnd" value="1137667"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.reqPd" value="16777215"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.puX" value="8053457"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.diffOff" value="133"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.req" value="160712"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.refr" value="944"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.puY" value="16777215"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.diffOn" value="205255"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.diff" value="3207"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.foll" value="278"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.Pr" value="217"/>
+                  <entry key="Masterbias.rx" value="8200.0"/>
+                  <entry key="Masterbias.rint" value="46000.0"/>
+                  <entry key="Masterbias.internalResistorUsed" value="false"/>
               </map>
             </node>
           </node>
