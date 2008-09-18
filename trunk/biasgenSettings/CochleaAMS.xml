@@ -15,6 +15,9 @@
               <map/>
               <node name="cochlea">
                 <map>
+                  <entry key="XYTypeFilter.filterEnabled" value="false"/>
+                  <entry key="RotateFilter.filterEnabled" value="false"/>
+                  <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.Vcas" value="7661"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.pdbiasTX" value="2307606"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.Vin1" value="5769011"/>

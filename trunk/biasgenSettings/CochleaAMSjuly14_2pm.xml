@@ -15,7 +15,9 @@
               <map/>
               <node name="cochlea">
                 <map>
-                  <entry key="SubSampler.bits" value="1"/>
+                  <entry key="XYTypeFilter.filterEnabled" value="false"/>
+                  <entry key="RotateFilter.filterEnabled" value="false"/>
+                  <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.Vcas" value="16777215"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.pdbiasTX" value="483231"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.Vin1" value="7126222"/>
@@ -51,6 +53,7 @@
                   <entry key="Masterbias.internalResistorUsed" value="false"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.pdbia  sTX" value="9000691"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.Viopffbpf" value="0"/>
+                  <entry key="SubSampler.bits" value="1"/>
                   <entry key="AEChip.subSamplingEnabled" value="false"/>
                 </map>
               </node>
