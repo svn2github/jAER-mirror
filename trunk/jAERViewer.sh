@@ -1,10 +1,12 @@
+#!/bin/bash
+
 # this script starts JAERViewer under linux
 
 # cd to the root folder of jAER
 cd `dirname $0`
 
 echo "checking driver..."
-if [ -r /device/retina0 ] ; then \
+if [ ! -r /dev/retina0 ] ; then \
 	echo "building driver..."; \
 	cd drivers/driverRetinaLinux; \
 	make; \
