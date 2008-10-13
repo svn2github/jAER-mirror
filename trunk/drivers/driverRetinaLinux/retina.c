@@ -62,7 +62,6 @@ struct usb_retina {
 	unsigned char           *bulk_in_buffer;	/* the buffer to receive data */
 	size_t			bulk_in_size;		/* the size of the receive buffer */
 	__u8			bulk_in_endpointAddr;	/* the address of the bulk in endpoint */
-	__u8			bulk_out_endpointAddr;	/* the address of the bulk out endpoint */
 	u32			event_counter;
 	int			errors;			/* the last request tanked */
 	int			open_count;		/* count the number of openers */
@@ -425,35 +424,32 @@ static int retina_probe(struct usb_interface *interface, const struct usb_device
 
 	dev->udev = usb_get_dev(interface_to_usbdev(interface));
 	dev->interface = interface;
-
 	/* set up the endpoint information */
-	/* use only the first bulk-in and bulk-out endpoints */
+	/* use only the first bulk-in endpoint */
 	iface_desc = interface->cur_altsetting;
 	for (i = 0; i < iface_desc->desc.bNumEndpoints; ++i) {
 		endpoint = &iface_desc->endpoint[i].desc;
-		if (!dev->bulk_out_endpointAddr &&
-		    usb_endpoint_is_bulk_out(endpoint)) {
-			/* we found a bulk out endpoint */
-			dev->bulk_out_endpointAddr = endpoint->bEndpointAddress;
-		}
-	}
-		endpoint = &iface_desc->endpoint[2].desc;
-		
-		/*dev_info(dev->interface->dev,"usb endpoint[%d] found. size=%d, addr=0x%x",i,endpoint->wMaxPacketSize,endpoint->bEndpointAddress);*/
+		/*dev_info(&interface->dev,"usb endpoint[%d] found. size=%d, addr=0x%x",i,endpoint->wMaxPacketSize,endpoint->bEndpointAddress);*/
 		if (!dev->bulk_in_endpointAddr &&
-		    usb_endpoint_is_bulk_in(endpoint)) {
-			/* we found a bulk in endpoint */
-			buffer_size = le16_to_cpu(endpoint->wMaxPacketSize);
-			dev->bulk_in_size = buffer_size;
-			dev->bulk_in_endpointAddr = endpoint->bEndpointAddress;
-			dev->bulk_in_buffer = kmalloc(buffer_size, GFP_KERNEL);
-			if (!dev->bulk_in_buffer) {
-				dev_err(&interface->dev,"Could not allocate bulk_in_buffer");
-				goto error;
+			    usb_endpoint_is_bulk_in(endpoint) 
+			    && (endpoint->wMaxPacketSize==512)) {
+			if (!dev->bulk_in_endpointAddr &&
+			    usb_endpoint_is_bulk_in(endpoint)) {
+				/* we found a bulk in endpoint */
+				buffer_size = le16_to_cpu(endpoint->wMaxPacketSize);
+				dev->bulk_in_size = buffer_size;
+				dev->bulk_in_endpointAddr = endpoint->bEndpointAddress;
+				dev->bulk_in_buffer = kmalloc(buffer_size, GFP_KERNEL);
+				if (!dev->bulk_in_buffer) {
+					dev_err(&interface->dev,"Could not allocate bulk_in_buffer");
+					goto error;
+				}
 			}
 		}
-	if (!(dev->bulk_in_endpointAddr && dev->bulk_out_endpointAddr)) {
-		dev_err(&interface->dev,"Could not find both bulk-in and bulk-out endpoints");
+	}
+
+	if (!(dev->bulk_in_endpointAddr)) {
+		dev_err(&interface->dev,"Could not find bulk-in endpoint\n");
 		goto error;
 	}
 	dev->event_counter = 0;

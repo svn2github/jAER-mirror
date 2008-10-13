@@ -1,15 +1,40 @@
 Basic Installation
 ==================
 
-type: make && sudo make install
+
+***(k)ubuntu, debian, .. linux:***
+
+installed packages: kernel-headers make
+
+1.) type: make && sudo make install
+*) create a group called "video" and add all users, which should have access to
+the retina /dev/retina0. On standard linux installations this is already done.
+(the udev rule in "make install" automatically detects
+the retina and sets the group of "/dev/retina0" to "video")
+
+>grep video /etc/group 
+>>video:x:44:myuser,...(ok)
 
 this will do it, at least on (k)ubuntu + debian
 
 see also the Makefile script
 
-'../../jAERViewer.sh' builds the driver and starts jAER.
-(first time or after kernel update the driver is reinstalled)
 
-create a group called "video" and add your user to the group, if not already done. 
->grep video /etc/group 
->>video:x:44:myuser,...
+***opensuse: ***
+
+1.)installed packages: 
+make 
+kernel-pae(or kernel-rt), update to newest
+kernel-syms
+
+2.)
+cd path.to/driverRetinaLinux
+cp Makefile.opensuse Makefile
+make && sudo make install #(or use the jAERViewer.sh for auto build)
+
+*)group video for user should already exist
+
+
+***autobuild***
+
+'../../jAERViewer.sh' builds the driver and starts jAER.
