@@ -2,7 +2,7 @@ Basic Installation
 ==================
 
 
-***(k)ubuntu, debian, .. linux:***
+*** tested on 2.6.24 kubuntu and fedora core linux:***
 
 installed packages: kernel-headers make
 
@@ -20,7 +20,7 @@ this will do it, at least on (k)ubuntu + debian
 see also the Makefile script
 
 
-***opensuse: ***
+***tested on 2.6.25 opensuse: ***
 
 1.)installed packages: 
 make 
