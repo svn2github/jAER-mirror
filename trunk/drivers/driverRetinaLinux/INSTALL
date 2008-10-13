@@ -7,17 +7,8 @@ Basic Installation
 installed packages: kernel-headers make
 
 1.) type: make && sudo make install
-*) create a group called "video" and add all users, which should have access to
-the retina /dev/retina0. On standard linux installations this is already done.
-(the udev rule in "make install" automatically detects
-the retina and sets the group of "/dev/retina0" to "video")
 
->grep video /etc/group 
->>video:x:44:myuser,...(ok)
-
-this will do it, at least on (k)ubuntu + debian
-
-see also the Makefile script
+see also the 'Makefile' script
 
 
 ***tested on 2.6.25 opensuse: ***
@@ -31,9 +22,6 @@ kernel-syms
 cd path.to/driverRetinaLinux
 cp Makefile.opensuse Makefile
 make && sudo make install #(or use the jAERViewer.sh for auto build)
-
-*)group video for user should already exist
-
 
 ***autobuild***
 
