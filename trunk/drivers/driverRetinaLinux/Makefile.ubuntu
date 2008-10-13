@@ -46,7 +46,7 @@ install:
 #	@if lsmod|grep retina; then modprobe -r retina; fi;
 	@cp retina.ko /lib/modules/`uname -r`/kernel/drivers/video
 	@depmod -a
-	@cp 10-retina.rules /etc/udev/rules.d
+	@cp 88-retina.rules /etc/udev/rules.d
 	@modprobe retina
 	@if [ -x /etc/init.d/udev ] ; then /etc/init.d/udev restart; fi;
 	@sleep 1
