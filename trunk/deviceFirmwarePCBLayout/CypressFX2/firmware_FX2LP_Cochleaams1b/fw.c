@@ -136,6 +136,7 @@ void main(void)
  //  Sleep = FALSE;
 
 	//download the serial number from the EEPROM
+	//EZUSB_InitI2C(); // already done in TD_init which was called above
 	downloadSerialNumberFromEEPROM();
 
    // Task Dispatcher

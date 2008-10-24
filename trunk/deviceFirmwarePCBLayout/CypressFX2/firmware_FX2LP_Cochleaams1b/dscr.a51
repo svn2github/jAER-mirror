@@ -46,8 +46,8 @@ DeviceDscr:
       db   00H         ;; Device sub-class
       db   00H         ;; Device sub-sub-class
       db   64         ;; Maximum packet size
-      dw   2A15H      ;;4705H    ;; Vendor ID
-      dw   0084H      ;;0187H      ;; Product ID (Sample Device)
+      dw   2A15H      ;;152a    ;; Vendor ID from Thesycon allocated to INI
+      dw   0584H      ;;8005h      ;; Product ID  in range allocated to INI - see Java class USBInterface
       dw   0000H      ;; Product version ID
       db   1         ;; Manufacturer string index
       db   2         ;; Product string index
@@ -234,16 +234,19 @@ StringDscr1End:
 StringDscr2:   
       db   StringDscr2End-StringDscr2      ;; Descriptor length
       db   DSCR_STRING
-      db   'D',00
-      db   'V',00
+      db   'C',00
+      db   'o',00
+      db   'c',00
+      db   'h',00
+      db   'l',00
+      db   'e',00
+      db   'a',00
+      db   'A',00
+      db   'M',00
       db   'S',00
       db   '1',00
-      db   '2',00
-      db   '8',00
-      db   '-',00
-      db   'V',00
-      db   '1',00
-StringDscr2End:
+      db   'b',00
+ StringDscr2End:
 
 StringDscr3:   
       db   StringDscr3End-StringDscr3      ;; String descriptor length

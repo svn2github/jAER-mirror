@@ -1,4 +1,4 @@
-#pragma NOIV               // Do not generate interrupt vectors
+#pragma NOIV               // Do not generate interrupt vectors since our interrupts are manually defined
 //-----------------------------------------------------------------------------
 //   File:      main.c
 //   Description: FX2LP firmware for the TCVS320 and Tmpdiff128 (new small board) retina chip   
@@ -96,7 +96,7 @@ long cycleCounter;
 
 BOOL JTAGinit;
 
-#define	I2C_Addr 0x51 //adress is 0101_0001
+#define	I2C_Addr 0x50 //adress is 0101_0001
 
 void startMonitor(void);
 void stopMonitor(void);
@@ -209,7 +209,20 @@ void TD_Init(void)              // Called once at startup
 	LED=0;
 
 	biasInit();	// init biasgen ports and pins
+		LED=1;
+		EZUSB_Delay(1000);
+		LED=0;
+		EZUSB_Delay(1000);
+	if(I2CS&0x18==0x18){
+		LED=1;
+		EZUSB_Delay(1000);
+		LED=0;
+		EZUSB_Delay(1000);
+		LED=1;
+	} // large eeprom detected - debug
+
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
+
 
 	IOE=IOE|ARRAY_RESET_MASK; // set bit to run normally
 	//IOE|=arrayReset;	// un-reset all the pixels
@@ -232,7 +245,7 @@ void TD_Init(void)              // Called once at startup
 void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
 	if(cycleCounter++>=50000){
-		LED=!LED;	
+		//LED=!LED;	
 		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
 	}		
 }
@@ -301,15 +314,21 @@ void EEPROMWriteByte(WORD addr, BYTE value)
 	ee_str[i++] = LSB(addr);
 	ee_str[i++] = value;
 
-	LED=1;
-	EZUSB_WriteI2C(I2C_Addr, i, ee_str);
-	LED=0;
-    EZUSB_WaitForEEPROMWrite(I2C_Addr);
+
+	//EZUSB_WriteI2C(I2C_Addr, i, ee_str);
+	// http://www.keil.com/forum/docs/thread11160.asp
+
+	while( I2CPckt.status != I2C_IDLE );      // wait for write session
+	while(EZUSB_WriteI2C( I2C_Addr, i, ee_str )!=I2C_OK);
+ 	EZUSB_WaitForEEPROMWrite( I2C_Addr );  // wait for Write Cycle Time
+//	LED=1;
+	
 }
 
 void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf)
 {
 	BYTE	i;
+	LED=!LED;
 	for(i=0;i<length;++i)
 		EEPROMWriteByte(addr++,buf[i]);
 }
@@ -836,7 +855,7 @@ BOOL DR_VendorCmnd(void)
 	return(FALSE);
 }
 
-// no interrupts are used for TCVS320
+// no interrupts are used for this firmware aside from standard ones from framework
 // RESET HOST TIMESTAMP INTERRUPT not used
 /*void ISR_TSReset(void) interrupt 3 {
 	LED=0;
