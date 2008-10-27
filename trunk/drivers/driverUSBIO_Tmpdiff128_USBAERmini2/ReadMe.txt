@@ -6,6 +6,7 @@ USBAERmapper, VID 0547, PID 8900
 Cypress Blank, VID 04B4, PID 8613
 DVS128, VID 152a PID 8400
 SimpleAESequencer VID 152a PID 8410
+CochleaAMS1b, VID 152a PID 8405
 
 to make your devices work with the new driver:
 run the thesycon cleanup wizard and remove all the drivers it finds matching VID 0547 and PID 8801 (USBAERmini2) or 8700 (TmpDiff128)
