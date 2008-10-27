@@ -46,9 +46,9 @@ DeviceDscr:
       db   00H         ;; Device sub-class
       db   00H         ;; Device sub-sub-class
       db   64         ;; Maximum packet size
-      dw   4705H      ;;0C410H   ;;0B404H      ;; Vendor ID
-      dw   0287H      ;;0000H   ;;0410H      ;; Product ID (Sample Device)
-      dw   0820H      ;; Product version ID
+      dw   2a15H      ;; 0x152a VID for jAER from thesycon
+      dw   0184H      ;; 0x8401 PID in thesycon jAER range for DVS320
+      dw   0820H      ;; Product version ID, year 2008
       db   1         ;; Manufacturer string index
       db   2         ;; Product string index
       db   0         ;; Serial number string index
@@ -234,8 +234,7 @@ StringDscr1End:
 StringDscr2:   
       db   StringDscr2End-StringDscr2      ;; Descriptor length
       db   DSCR_STRING
-      db   'T',00
-      db   'C',00
+      db   'D',00
       db   'V',00
       db   'S',00
       db   '3',00

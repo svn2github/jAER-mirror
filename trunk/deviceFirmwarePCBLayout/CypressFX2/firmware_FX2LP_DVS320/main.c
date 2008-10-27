@@ -174,7 +174,7 @@ void TD_Init(void)              // Called once at startup
 
 	cycleCounter=0;
 	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
-	LED=0;
+	LED=1; // turn on to start
 
 	biasInit();	// init biasgen ports and pins
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
@@ -489,6 +489,7 @@ BOOL DR_VendorCmnd(void)
 				}
 				EP0BCH = 0;
 				EP0BCL = 0;                   // Arm endpoint with 0 byte to transfer
+				LED=!LED;
 				return(FALSE); // very important, otherwise get stall
 			}
 		case VR_SET_POWERDOWN: // control powerDown output bit
