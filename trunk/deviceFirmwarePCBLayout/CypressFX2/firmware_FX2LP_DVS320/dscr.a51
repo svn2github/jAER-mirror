@@ -48,7 +48,7 @@ DeviceDscr:
       db   64         ;; Maximum packet size
       dw   2a15H      ;; 0x152a VID for jAER from thesycon
       dw   0184H      ;; 0x8401 PID in thesycon jAER range for DVS320
-      dw   0820H      ;; Product version ID, year 2008
+      dw   0810H      ;; Product version ID, month/year 10/2008
       db   1         ;; Manufacturer string index
       db   2         ;; Product string index
       db   0         ;; Serial number string index

@@ -70,7 +70,9 @@ extern BOOL Selfpwr;
 #define	VR_RAM			0xa3 // loads (uploads) external ram
 
 #define EP0BUFF_SIZE	0x40
-
+#define NUM_CONFIG_BITS_PRECEDING_BIAS_BYTES 36 
+// 6 muxes, each with 4 bits of config info. not a multiple of 8 so needs to be handled specially for SPI interface.
+// we handle this by just padding the most signif nibble of the first byte written - this nibble will get shifted out.
 BYTE operationMode;
 
 xdata unsigned int numBiasBytes; // number of bias bytes saved
@@ -474,7 +476,7 @@ BOOL DR_VendorCmnd(void)
 					if(SETUPDAT[1] == VR_WRITE_BIASGEN){
 						for(i=0; i<bc; i++){
 							spiwritebyte(EP0BUF[i]);
-							biasBytes[i]=EP0BUF[i];
+							biasBytes[i]=EP0BUF[i]; // not sure why these are saved...
 						}
 					}else{ // we write EEProm starting at addr with bc bytes from EP0BUF
 						//					EEPROMWrite(addr,bc,(WORD)EP0BUF);
