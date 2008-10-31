@@ -1,11 +1,10 @@
 #pragma NOIV               // Do not generate interrupt vectors since our interrupts are manually defined
 //-----------------------------------------------------------------------------
 //   File:      main.c
-//   Description: FX2LP firmware for the TCVS320 and Tmpdiff128 (new small board) retina chip   
+//   Description: FX2LP firmware for the CochleaAMS1b chip/board   
 //
-// created: 1/2008, cloned from tmpdiff128 stereo board firmware
-// Revision: 0.01 
-// authors raphael berner, patrick lichtsteiner, tobi delbruck
+// created: 10/2008, cloned from DVS128 firmware stereo board firmware
+// authors tobi delbruck, shih-chii liu, raphael berner
 //
 //-----------------------------------------------------------------------------
 #include "lp.h"
@@ -56,7 +55,7 @@ extern BOOL Selfpwr;
 #define VR_IS_TS_MASTER 0xCB
 #define VR_MISSED_EVENTS 0xCC
 
-#define VR_WRITE_BIASGEN 0xB8 // write bytes out to SPI
+#define VR_CONFIG 0xB8 // write bytes out to SPI to control on-chip biasgen, on-chip scanner, on-chip local gain, on-chip digital config, and off-chip DACs
 				// the wLengthL field of SETUPDAT specifies the number of bytes to write out (max 64 per request)
 				// the bytes are in the data packet
 #define VR_SET_POWERDOWN 0xB9 // control powerDown. wValue controls the powerDown pin. Raise high to power off, lower to power on.
@@ -74,10 +73,92 @@ extern BOOL Selfpwr;
 
 #define EP0BUFF_SIZE	0x40
 
-//BYTE operationMode;
 
+/* 
+
+// port pin definitions
+
+ports a,b,c,d are bit addressable, e is byte addressable
+
+we have available and wired to CPLD the following ports
+
+PC3-0
+FD8-15 which is the same as PD8-0 if the FIFO are configured as byte-wide (WORDWIDE in all EPxFIFOCFG registers)
+PE6-0 (PE7 is is wired from chip scanner sync directly to FX2)
+
+following are sfr and sbit definitions from header files
+
+sfr IOA     = 0x80;
+sfr IOB		= 0x90
+sfr IOC		= 0xA0 // bit addressable
+sfr IOD     = 0xB0;  // port D (bit addressable also)
+sfr IOE     = 0xB1;  // port E (only byte-addressable)
+
+
+sfr OEA     = 0xB2;  // output enable, configures port pins, 0=input=default, 1=output
+sfr OEB     = 0xB3;
+sfr OEC     = 0xB4;
+sfr OED     = 0xB5;
+sfr OEE     = 0xB6;
+
+sbit PA0=IOA^0;
+sbit PA7=IOA^7;
+
+sbit PB0=IOB^0;
+sbit PB1=IOB^1;
+
+sbit PC0=IOC^0;
+
+sbit PD0=IOD^0; etc
+*/
+
+#define sb(p,b) (((p)|=(1<<(b))));
+#define cb(p,b) ((p)&=(~(1<<(b))));
+
+// bitmasks of port E (IOE)
+#define DataSel 	1	// selects data shift register path (bitIn, clock, latch)
+#define AddrSel 	2	// selects channel selection shift register path
+#define BiasGenSel 	4	// selects biasgen shift register path
+#define ResCtr1 	8	// a preamp feedback resistor selection bit
+#define ResCtr2 	16	// another microphone preamp feedback resistor selection bit
+#define Vreset		32	// (1) to reset latch states
+#define SelIn		64	// Parallel (0) or Cascaded (1) Arch
+#define Ybit		128	// Chooses whether lpf (0)or bpf (1) neurons to be killed, use in conjunction with AddrSel and AERKillBit
+
+#define selectsMask 7 // 0000 0111 to select only select bits
+#define selectIPots IOE=(IOE&~selectsMask)|BiasGenSel // selects only biasgen select, turns off addr and data selects, leaves other bits untouched
+#define selectAddr  IOE=(IOE&~selectsMask)|AddrSel  // even addresses are left cochlea, odd addresses are right cochlea
+#define selectData	IOE=(IOE&~selectsMask)|DataSel // 
+
+//DataSel	C00-C04	bits for setting Iq of current-mode BPF
+//			B00-B04	bits for setting Vq of SOS
+
+// AddrSel is also used for selecting neuron that should be be loaded with KillBit,
+// 8 neurons per channel, 4 neurons driven by IHC output, 4 neurons driven by bpf output
+// chosen addr + Ybit=1 choses bpf neuron
+// chosen addr + Ybit=1 choses bpf neuron
+
+sbit clock=IOC^0;		// onchip clock
+sbit bitIn=IOC^1;	 	// onchip data bit
+sbit dacBitIn=IOC^2; // DAC data
+sbit dacClock=IOC^3; // DAC clock
+
+sbit dacNSync=IOD^0;	// DAC start
+sbit scanClock=IOD^1;	// scanner clock
+sbit scanSync=IOD^2;	// scanner sync output to fx2
+sbit selAer=IOD^3; //Chooses whether lpf (0) or rectified (1) lpf output drives lpf neurons
+sbit latch=IOD^4;		// onchip data latch
+sbit powerDown=IOD^5;	// onchip biasgen powerdown
+sbit aerKillBit=IOD^6;	// Set to (1) after Setting of AddrSel and Ybit to kill 4 neurons
+//sbit PD7=IOD^7;
+
+
+#define toggleLatch() latch=0; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=1;
+
+unsigned int numBiasBytes; // number of bias bytes to send, used in loop
+/*
+// not using these at present
 #define NUM_BIAS_BYTES 36
-unsigned int numBiasBytes; // number of bias bytes saved
 xdata unsigned char biasBytes[]={0x00,0x04,0x2B,\
 								0x00,0x30,0x1C,\
 								0xFF,0xFF,0xFF,\
@@ -91,6 +172,7 @@ xdata unsigned char biasBytes[]={0x00,0x04,0x2B,\
 								0x00,0x00,0x27,\
 								0x00,0x00,0x04}; // bias bytes values saved here
 
+*/
 long cycleCounter;
 //long missedEvents;
 
@@ -106,6 +188,9 @@ void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf);
 void EEPROMWriteBYTE(WORD addr, BYTE value);
 
 void downloadSerialNumberFromEEPROM(void);
+void setBiasV( unsigned char msb, unsigned char lsb, unsigned char address);
+void sendDAC(unsigned char dat1, unsigned char dat2, unsigned char dat3);
+void initDAC();
 
 //sbit arrayReset=IOE^5;	// arrayReset=0 to reset all pixels, this on port E.5 but is not bit addressable
 // arrayReset is active low, low=reset pixel array, high=operate normally
@@ -119,16 +204,27 @@ void downloadSerialNumberFromEEPROM(void);
 
 void TD_Init(void)              // Called once at startup
 {
-	BYTE i;  
 	// set the CPU clock to 48MHz
 	//CPUCS = ((CPUCS & ~bmCLKSPD) | bmCLKSPD1) ;
 	CPUCS = 0x12 ; // 1_0010 : clockspeed 48MHz, drive output pin
 
-	// set the slave FIFO interface to 30MHz, slave fifo mode
-	//IFCONFIG = 0xA3; // 1010_0011   // internal clock
-	IFCONFIG = 0x23; // 0010_0011  // extenal clock
+	IOC = 0x00; 
+	IOA = 0x00;
+	IOE=  0x00;
+	
+	OEA = 0x89; // 1000_1001 PA0: run, PA3: NotResetCPLD ;  PA7 LED
 
-	// disable interrupts by the input pins and by timers and serial ports:
+	OEC = 0x0F; // now are cochlea and offchip DAC controls, before was 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
+	OED	= 0xFF; // all bit addressable outputs, all WORDWIDE=0 so port d should be enabled
+	OEE = 0xFF; // all outputs, byte addressable
+
+	// set the slave FIFO interface to 30MHz, slave fifo mode
+	SYNCDELAY;
+	//IFCONFIG = 0xA3; // 1010_0011   // internal clock
+	IFCONFIG = 0x23; // 0010_0011  // extenal clock, slave fifo mode
+	SYNCDELAY; // may not be needed
+
+	// disable interrupts by the input pins and by timers and serial ports. timer2 scanner interrupt enabled when needed from vendor request.
 	IE &= 0x00; // 0000_0000 
 
 	// disable interrupt pins 4, 5 and 6
@@ -148,7 +244,7 @@ void TD_Init(void)              // Called once at startup
 	// UDMACRCH:L       EPxGPIFTRIG
 	// GPIFTRIG
   
-	//enable Port C and port E
+	//disable all ports A,C,E alternate functions
 	SYNCDELAY;
 	PORTCCFG = 0x00;
 	SYNCDELAY;
@@ -156,15 +252,6 @@ void TD_Init(void)              // Called once at startup
 	SYNCDELAY;
 	PORTECFG = 0x00;
 
-	// hold CPLD in reset and configure 
-	// TimestampCounter to 1 us Tick (0): 0000_0000
-	IOC = 0x00; 
-	IOA = 0x00;
-	IOE=  0x00;          //set BiasClock low 
-
-	OEC = 0x0D; // 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
-	OEE = 0xFE; // 1111_1110 configure only bit 0 (BitOut) as input
-	OEA = 0x89; // 1000_1001 PA0: run, PA3: NotResetCPLD ;  PA7 LED
 	
 	EP1OUTCFG = 0x00;			// EP1OUT disabled
 	SYNCDELAY;
@@ -194,38 +281,30 @@ void TD_Init(void)              // Called once at startup
 	EP6AUTOINLENL=0x00;
 
 	SYNCDELAY;
-	EP6FIFOCFG = 0x09 ; //0000_1001
+	EP6FIFOCFG = 0x08 ; //0000_1000, autoin=1, wordwide=0 to automatically commit packets and make this an 8 bit interface to FD
+	SYNCDELAY;
+	EP2FIFOCFG = 0x00 ; // wordwide=0
+	SYNCDELAY;
+	EP4FIFOCFG = 0x00 ; 
+	SYNCDELAY;
+	EP8FIFOCFG = 0x00 ; 
+
 
 	//set FIFO flag configuration: FlagB: EP6 full, flagC and D unused
 	SYNCDELAY;
 	PINFLAGSAB = 0xE8; // 1110_1000
+	SYNCDELAY;
 
-
-	// initialize variables
-//	operationMode=0;
 
 	cycleCounter=0;
 //	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
-	LED=0;
+	LED=1; // turn on LED
 
-	biasInit();	// init biasgen ports and pins
-		LED=1;
-		EZUSB_Delay(1000);
-		LED=0;
-		EZUSB_Delay(1000);
-	if(I2CS&0x18==0x18){
-		LED=1;
-		EZUSB_Delay(1000);
-		LED=0;
-		EZUSB_Delay(1000);
-		LED=1;
-	} // large eeprom detected - debug
-
+	clock=1; bitIn=0; latch=1; powerDown=0; // init biasgen ports and pins
+	
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
 
-
-	IOE=IOE|ARRAY_RESET_MASK; // set bit to run normally
-	//IOE|=arrayReset;	// un-reset all the pixels
+	initDAC();
 
 	JTAGinit=TRUE;	
 
@@ -235,19 +314,105 @@ void TD_Init(void)              // Called once at startup
 	IT1=1; // INT1# edge-sensitve
 	EX1=0; // do not enable INT1#
 
+	// timer2 init for scanner clocking in continuous mode
+	T2CON=0x00; // 0000 0100 timer2 control, set to 16 bit with autoreload, timer stopped
+	RCAP2L=0x00;
+	RCAP2H=0x00;  // starting reload values, counter counts up to 0xFFFF from these and generates interrupt when count rolls to 0
+	ET2=0; // disable interrupt to start
+
+/* // not using now writing initial bias values
 	for (i=0;i<NUM_BIAS_BYTES;i++)
 	{
 		spiwritebyte(biasBytes[i]);
 	}
 	latchNewBiases();	
+*/
 }
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
 	if(cycleCounter++>=50000){
-		//LED=!LED;	
+		LED=!LED;	
 		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
-	}		
+	}
+	scanClock=!scanClock; // debug port d, this is PD1= pin 81	
+}
+
+
+void setBiasV( unsigned char msb, unsigned char lsb, unsigned char address)
+{
+   unsigned char dat1 = 0x00; //00 00 0000;
+   unsigned char dat2 = 0xC0; //Reg1=1 Reg0=1 : Write output data
+   unsigned char dat3 = 0x00;
+
+   dat1 |= (address & 0x0F);
+   dat2 |= ((msb & 0x0F) << 2) | ((lsb & 0xC0)>>6) ;
+   dat3 |= (lsb << 2) | 0x03; // DEBUG; the last 2 bits are actually don't care
+   
+   sendDAC(dat1, dat2, dat3); 
+
+}
+
+void sendDACByte(unsigned char dat){
+	unsigned char i;
+	for(i=0;i<8;i++){
+		dacClock=0;
+		if(dat&1){
+			dacBitIn=1;
+		}else{
+			dacBitIn=0;
+	   	}
+		dacClock=1;
+		dacClock=0;
+		dat=dat>>1;
+	}
+}
+
+void sendDAC(unsigned char dat1, unsigned char dat2, unsigned char dat3)
+//Send a 24bit value to the DAC. dat1 is the MSB, dat3 the LSB.
+{  
+   EA=0;
+   dacNSync=0;   //' Trigger DAC. Timing problems? Disable interrupts?
+
+   sendDACByte(dat1);
+   sendDACByte(dat2);
+   sendDACByte(dat3);
+   
+   dacNSync=1;
+   EA=1;
+}
+
+
+void initDAC()
+{
+   unsigned int cnt = 0x3000;
+//   notReset = 0; // nReset tied to Vdd on board
+//   while(cnt--);
+//   notReset=1;
+//  cnt=0x3000;
+//   while(cnt--);
+     //write to control register
+ //  sendDAC(0x0C,0x35,0x00);  // 00 00 1100 00 110101XXXX00 XX: PwrDwnMd,internalRef=2.5V,CurrentBoostOff,internalRef select,Mon On,TermMonOff(good?),4dc,ToggleOff
+ 	sendDAC(0x0C,0x3E,0x00);    // 00 00 1100 00 111110XXXX00 XX
+                               // 0 W 00 A3..A0 Reg1 Reg0 CR11..CR0 XX
+   // gains und offsets setzen?
+}
+
+// sends the byte out the 'spi' interface to the cochlea 
+// - replaces assembly routine to use bit defines for clock and bitIn and C code
+void sendConfigByte(unsigned char b){
+	unsigned char i=8;
+	while(i-->0){
+		// set the bit, then toggle clock high/low
+		if(b&1!=0){
+			bitIn=1;
+		}else{
+			bitIn=0;
+		}
+		clock=1;
+		clock=0;
+		b=b>>1;
+	}
 }
 
 void downloadSerialNumberFromEEPROM(void)
@@ -282,7 +447,7 @@ void stopMonitor(void)
 
   	// force last paket
   	
-  	EP6FIFOCFG = 0x01; //0000_0001 disable auto-in
+  	EP6FIFOCFG = 0x00; //0000_0000 disable auto-in
 	SYNCDELAY;
 
 	if(EP6FIFOFLGS==0x00)
@@ -299,7 +464,7 @@ void stopMonitor(void)
   	FIFORESET = 0x00;
 	SYNCDELAY;
 
-	EP6FIFOCFG =0x09;  //0000_1001 set back to autoin
+	EP6FIFOCFG =0x08;  //0000_1000 set back to autoin
 	SYNCDELAY;
 }
 
@@ -454,7 +619,8 @@ BYTE xsvfReturn;
 
 BOOL DR_VendorCmnd(void)
 {	
-	WORD addr, len, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
+	WORD value; 
+	WORD len, ind, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
 	WORD i;
 	char *dscrRAM;
 	unsigned char xdata JTAGdata[400];
@@ -473,7 +639,7 @@ BOOL DR_VendorCmnd(void)
 		case VR_RESET_FIFOS: // reset in and out fifo
 			{
 				SYNCDELAY;
-				EP6FIFOCFG = 0x01; //0000_0001  disable auto-in
+				EP6FIFOCFG = 0x00; //0000_0000  disable auto-in
 				SYNCDELAY;
 				FIFORESET = 0x80;
 				SYNCDELAY;
@@ -483,7 +649,7 @@ BOOL DR_VendorCmnd(void)
 
 
 				SYNCDELAY;
-				EP6FIFOCFG = 0x09 ; //0000_1001 reenable auto-in
+				EP6FIFOCFG = 0x08 ; //0000_1000 reenable auto-in
 				break;
 			}
 		case VR_DOWNLOAD_CPLD_CODE:
@@ -510,7 +676,7 @@ BOOL DR_VendorCmnd(void)
 					break;
 				}
 
-				addr=0;
+				value=0;
 
 				resetReadCounter(JTAGdata);
 
@@ -525,9 +691,9 @@ BOOL DR_VendorCmnd(void)
 					bc = EP0BCL; // Get the new bytecount
 
 					for(i=0; i<bc; i++)
-							JTAGdata[addr+i] = EP0BUF[i];							
+							JTAGdata[value+i] = EP0BUF[i];							
 
-					addr += bc;
+					value += bc;
 					len -= bc;
 				}
 			
@@ -611,37 +777,111 @@ BOOL DR_VendorCmnd(void)
 
 				break;
 			}
-		case VR_WRITE_BIASGEN: // write bytes to SPI interface
+		case VR_CONFIG: // write bytes to SPI interface
 		case VR_EEPROM_BIASGEN_BYTES: // falls through and actual command is tested below
 			{
+				// the value bytes are the specific config command
+			 	// the index bytes are the arguments
+				// more data comes in the setupdat
+				
 				SYNCDELAY;
-				addr = SETUPDAT[2];		// Get address and length
-				addr |= SETUPDAT[3] << 8;
-				len = SETUPDAT[6];
+				value = SETUPDAT[2];		// Get valueess
+				value |= SETUPDAT[3] << 8;
+				ind = SETUPDAT[4];		// Get index
+				ind |= SETUPDAT[5] << 8;
+				len = SETUPDAT[6];      // length for data phase
 				len |= SETUPDAT[7] << 8;
-				numBiasBytes=len;
-				while(len){					// Move new data through EP0OUT, one packet at a time
-					// Arm endpoint - do it here to clear (after sud avail)
+				switch(value){
+ 
+				//      final short CMD_IPOT = 1,  CMD_LOCAL_BIAS = 2,  CMD_SCANNER = 3,  CMD_KILLBIT = 4,  CMD_SETBIT = 5,  CMD_VDAC = 6;
+#define CMD_IPOT  1
+#define CMD_LOCAL_BIAS  2
+#define CMD_SCANNER  3
+#define CMD_KILLBIT 4
+#define	CMD_SETBIT  5
+#define CMD_VDAC  6
+
+/*
+the scheme right now for loading the AERKillBit and the local Vq's go as follows,
+start with AddSel, which has 7 bits, RX0 to RX6, activate bitlatch - this signal
+latches the bits for the decoder.
+The output of the decoder is not activated till DataSel is chosen, the 10 bits are loaded, 5 bits
+for Vq of SOS and 5bits for Iq of bpf, then when bitlatch is activated, then the
+output of the decoder is released.
+During this time, the selected channel will also latch in the value on the AERKillBit bus.
+The only thing that I'm worrying about right now is that this value has to be remembered somewhere,
+i.e. if I choose channels 10, 15 neurons to be inactivated, then even if I choose
+new values for Vq and Iq, this information has to be stored somewhere. The
+AERKillBit in essence is like an additional bit to the bits for the DataSel.
+
+*/
+				case CMD_IPOT:
+					selectIPots;
+
+					numBiasBytes=len;
+					while(len){					// Move new data through EP0OUT, one packet at a time
+						// Arm endpoint - do it here to clear (after sud avail)
+						EP0BCH = 0;
+						EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+						while(EP0CS & bmEPBUSY);  // spin here until data arrives
+						bc = EP0BCL; // Get the new bytecount
+						for(i=0; i<bc; i++){
+							sendConfigByte(EP0BUF[i]);
+						}
+						value += bc;	// inc eeprom value to write to, in case that's what we're doing
+						len -= bc; // dec total byte count
+					}
+					toggleLatch();
+					LED=!LED;
+					break;
+				case CMD_VDAC:
+						EP0BCH = 0;
+						EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+						while(EP0CS & bmEPBUSY);  // spin here until data arrives
+						if(EP0BCL!=1) return TRUE; // error, should have 1 byte which is channel, ind holds msb,lsb of 12 bit value
+						setBiasV((unsigned char)(ind>>8), (unsigned char)(ind&0xff), EP0BUF[0]);
+						LED=!LED;
+						break;
+				case CMD_SETBIT:
+					
+					break;
+				case CMD_SCANNER:
+					// index=1, continuous, index=0 go to channel
+					// Arm endpoint - do it here to clear (after sud avail) and get the data for channel to scan to if there is one. in any case must read data
+					// or subsequent requests will fail.
 					EP0BCH = 0;
 					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
 					while(EP0CS & bmEPBUSY);  // spin here until data arrives
-					bc = EP0BCL; // Get the new bytecount
-					// Is this a  download to biasgen shift register?
-					if(SETUPDAT[1] == VR_WRITE_BIASGEN){
-						for(i=0; i<bc; i++){
-							spiwritebyte(EP0BUF[i]);
-							biasBytes[i]=EP0BUF[i];
+					if(ind==0){ // go to channel
+						ET2=0; // disable timer2 interrupt - IE.5
+						TR2=0; // stop timer2
+						i=255; // timeout on scanner clear
+						while(scanSync==0 && i-->0){ // clock scanner to end
+							scanClock=1;
+							_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
+							scanClock=0;
 						}
-					}else{ // we write EEProm starting at addr with bc bytes from EP0BUF
-						//					EEPROMWrite(addr,bc,(WORD)EP0BUF);
+						if(i==0) return TRUE; // scan to start failed
+						bc = EP0BUF[0]; // Get the channel number to scan to
+						for(i=0; i<bc; i++){
+							scanClock=1;
+							scanClock=0;
+						}
+					}else{ // continuous scanning
+						ET2=1; // enable timer2 interrupt - this is IE.5 bit addressable
+						TR2=1; // run timer2
 					}
-					addr += bc;	// inc eeprom addr to write to, in case that's what we're doing
-					len -= bc; // dec total byte count
-				}
-				if(SETUPDAT[1]==VR_WRITE_BIASGEN) {
-					latchNewBiases();
-					//setLatchTransparent(); // let values pass through latch from shift register -- these are new values
-					//setLatchOpaque();
+					LED=!LED;
+					break;
+				case CMD_KILLBIT:
+					selectAddr;
+					LED=!LED;
+					break;
+				case CMD_LOCAL_BIAS:
+					selectAddr;
+					LED=!LED;
+					break;
+
 				}
 				EP0BCH = 0;
 				EP0BCL = 0;                   // Arm endpoint with 0 byte to transfer
@@ -651,10 +891,10 @@ BOOL DR_VendorCmnd(void)
 			{
 				if (SETUPDAT[2])
 				{
-					setPowerDownBit();
+					powerDown=1;
 				} else 
 				{
-					releasePowerDownBit();
+					powerDown=0;
 				}
 				*EP0BUF=VR_SET_POWERDOWN;
 				SYNCDELAY;
@@ -775,8 +1015,8 @@ BOOL DR_VendorCmnd(void)
 		case VR_RAM:
 		case VR_EEPROM:
 		{
-			addr = SETUPDAT[2];		// Get address and length
-			addr |= SETUPDAT[3] << 8;
+			value = SETUPDAT[2];		// Get address and length
+			value |= SETUPDAT[3] << 8;
 			len = SETUPDAT[6];
 			len |= SETUPDAT[7] << 8;
 			// Is this an upload command ?
@@ -796,19 +1036,19 @@ BOOL DR_VendorCmnd(void)
 					if(SETUPDAT[1] == VR_RAM)
 					{
 						for(i=0; i<bc; i++)
-							*(EP0BUF+i) = *((BYTE xdata *)addr+i);
+							*(EP0BUF+i) = *((BYTE xdata *)value+i);
 					}
 					else
 					{
 						for(i=0; i<bc; i++)
 							*(EP0BUF+i) = 0xcd;
-						EEPROMRead(addr,(WORD)bc,(WORD)EP0BUF);
+						EEPROMRead(value,(WORD)bc,(WORD)EP0BUF);
 					}
 
 					EP0BCH = 0;
 					EP0BCL = (BYTE)bc; // Arm endpoint with # bytes to transfer
 
-					addr += bc;
+					value += bc;
 					len -= bc;
 
 				}
@@ -830,12 +1070,12 @@ BOOL DR_VendorCmnd(void)
 					if(SETUPDAT[1] == VR_RAM)
 					{
 						for(i=0; i<bc; i++)
-							*((BYTE xdata *)addr+i) = *(EP0BUF+i);
+							*((BYTE xdata *)value+i) = *(EP0BUF+i);
 					}
 					else
-						EEPROMWrite(addr,bc,(WORD)EP0BUF);
+						EEPROMWrite(value,bc,(WORD)EP0BUF);
 
-					addr += bc;
+					value += bc;
 					len -= bc;
 				}
 			}
@@ -855,37 +1095,27 @@ BOOL DR_VendorCmnd(void)
 	return(FALSE);
 }
 
-// no interrupts are used for this firmware aside from standard ones from framework
+// a single timer interrupt is used for clocking the scanner
+
 // RESET HOST TIMESTAMP INTERRUPT not used
-/*void ISR_TSReset(void) interrupt 3 {
-	LED=0;
-	
-	SYNCDELAY; // reset fifos to delete events with the old timestamps
-	FIFORESET = 0x80;
-	SYNCDELAY;
-	FIFORESET = 0x06;
-	SYNCDELAY;
-	FIFORESET = 0x00;
-
-	SYNCDELAY;
-	EP6FIFOCFG = 0x09 ; //0000_1001
-
-
-	if (EP1INCS!=0x02)
-	{
-		EP1INBUF[0]=MSG_TS_RESET;
-		SYNCDELAY;
-		EP1INBC=1;
-		SYNCDELAY;
-		IE0=0; // clear interrupt
-		EX0=1; // enable INT0# external interrupt
-		LED=1;
-	}
+void ISR_scannerClock(void) interrupt 5 { // interrupt vector address is 0x2b from fx2 manual which is interrupt 5 from c51 manual
+	EA=0; // disable all interrupts
+	TF2=0; // must clear or we come straight back here.
+	scanClock=1;
+	_nop_();
+	_nop_();
+	_nop_();
+	_nop_();
+	_nop_();
+	scanClock=0;
+	EA=1;
 }
 
+/*
 void ISR_MissedEvent(void) interrupt 3 {	
 	missedEvents++;
-}*/
+}
+*/
 
 //-----------------------------------------------------------------------------
 // USB Interrupt Handlers
