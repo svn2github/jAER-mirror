@@ -123,13 +123,16 @@ sbit PD0=IOD^0; etc
 #define ResCtr2 	16	// another microphone preamp feedback resistor selection bit
 #define Vreset		32	// (1) to reset latch states
 #define SelIn		64	// Parallel (0) or Cascaded (1) Arch
-#define Ybit		128	// Chooses whether lpf (0)or bpf (1) neurons to be killed, use in conjunction with AddrSel and AERKillBit
+#define Ybit		128	// Chooses whether lpf (0) or bpf (1) neurons to be killed, use in conjunction with AddrSel and AERKillBit
 
 #define selectsMask 7 // 0000 0111 to select only select bits
 #define selectIPots IOE=(IOE&~selectsMask)|BiasGenSel // selects only biasgen select, turns off addr and data selects, leaves other bits untouched
 #define selectAddr  IOE=(IOE&~selectsMask)|AddrSel  // even addresses are left cochlea, odd addresses are right cochlea
 #define selectData	IOE=(IOE&~selectsMask)|DataSel // 
+#define selectLPFKill IOE=(IOE&~Ybit)
+#define selectBPFKill IOE=(IOE|Ybit)
 
+#define toggleVReset(); IOE|=Vreset; _nop_();_nop_();_nop_();_nop_();_nop_();_nop_(); IOE&=~Vreset;
 //DataSel	C00-C04	bits for setting Iq of current-mode BPF
 //			B00-B04	bits for setting Vq of SOS
 
@@ -146,7 +149,7 @@ sbit dacClock=IOC^3; // DAC clock
 sbit dacNSync=IOD^0;	// DAC start
 sbit scanClock=IOD^1;	// scanner clock
 sbit scanSync=IOD^2;	// scanner sync output to fx2
-sbit selAer=IOD^3; //Chooses whether lpf (0) or rectified (1) lpf output drives lpf neurons
+sbit selAer=IOD^3;   	//Chooses whether lpf (0) or rectified (1) lpf output drives lpf neurons
 sbit latch=IOD^4;		// onchip data latch
 sbit powerDown=IOD^5;	// onchip biasgen powerdown
 sbit aerKillBit=IOD^6;	// Set to (1) after Setting of AddrSel and Ybit to kill 4 neurons
@@ -210,10 +213,10 @@ void TD_Init(void)              // Called once at startup
 
 	IOC = 0x00; 
 	IOA = 0x00;
-	IOE=  0x00;
+	IOE=  0x00; // set port output default values - enable them as outputs next
 	
 	OEA = 0x89; // 1000_1001 PA0: run, PA3: NotResetCPLD ;  PA7 LED
-
+				// port B is used as FD7-0 for 8 bit FIFO interface to CPLD
 	OEC = 0x0F; // now are cochlea and offchip DAC controls, before was 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
 	OED	= 0xFF; // all bit addressable outputs, all WORDWIDE=0 so port d should be enabled
 	OEE = 0xFF; // all outputs, byte addressable
@@ -327,6 +330,7 @@ void TD_Init(void)              // Called once at startup
 	}
 	latchNewBiases();	
 */
+	toggleVReset();
 }
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
@@ -398,12 +402,13 @@ void initDAC()
    // gains und offsets setzen?
 }
 
-// sends the byte out the 'spi' interface to the cochlea 
+// sends the byte out the 'spi' interface to the cochlea in big-endian order (msb first)
 // - replaces assembly routine to use bit defines for clock and bitIn and C code
 void sendConfigByte(unsigned char b){
 	unsigned char i=8;
 	while(i-->0){
-		// set the bit, then toggle clock high/low
+		// rotate left to get msb, test bit to set bitin, then toggle clock high/low
+		_crol_(b,1);
 		if(b&1!=0){
 			bitIn=1;
 		}else{
@@ -411,7 +416,22 @@ void sendConfigByte(unsigned char b){
 		}
 		clock=1;
 		clock=0;
-		b=b>>1;
+	}
+}
+
+// sends the nbits least significant bits in big-endian order, e.g. sendConfigBits(0xfe,3) sends 110
+void sendConfigBits(unsigned char b,unsigned char nbits){
+	unsigned char i=8-nbits;
+	_crol_(b,8-nbits); // rotate to get msb of data to send in msb of b
+	while(nbits-->0){
+		_crol_(b,1);
+		if(b&1!=0){
+			bitIn=1;
+		}else{
+			bitIn=0;
+		}
+		clock=1;
+		clock=0;
 	}
 }
 
@@ -793,28 +813,14 @@ BOOL DR_VendorCmnd(void)
 				len |= SETUPDAT[7] << 8;
 				switch(value){
  
-				//      final short CMD_IPOT = 1,  CMD_LOCAL_BIAS = 2,  CMD_SCANNER = 3,  CMD_KILLBIT = 4,  CMD_SETBIT = 5,  CMD_VDAC = 6;
+				//      final short CMD_IPOT = 1,  CMD_RESET_EQUALIZER = 2,  CMD_SCANNER = 3,  CMD_EQUALIZER = 4,  CMD_SETBIT = 5,  CMD_VDAC = 6;
 #define CMD_IPOT  1
-#define CMD_LOCAL_BIAS  2
+#define CMD_RESET_EQUALIZER  2
 #define CMD_SCANNER  3
-#define CMD_KILLBIT 4
+#define CMD_EQUALIZER 4
 #define	CMD_SETBIT  5
 #define CMD_VDAC  6
 
-/*
-the scheme right now for loading the AERKillBit and the local Vq's go as follows,
-start with AddSel, which has 7 bits, RX0 to RX6, activate bitlatch - this signal
-latches the bits for the decoder.
-The output of the decoder is not activated till DataSel is chosen, the 10 bits are loaded, 5 bits
-for Vq of SOS and 5bits for Iq of bpf, then when bitlatch is activated, then the
-output of the decoder is released.
-During this time, the selected channel will also latch in the value on the AERKillBit bus.
-The only thing that I'm worrying about right now is that this value has to be remembered somewhere,
-i.e. if I choose channels 10, 15 neurons to be inactivated, then even if I choose
-new values for Vq and Iq, this information has to be stored somewhere. The
-AERKillBit in essence is like an additional bit to the bits for the DataSel.
-
-*/
 				case CMD_IPOT:
 					selectIPots;
 
@@ -835,15 +841,18 @@ AERKillBit in essence is like an additional bit to the bits for the DataSel.
 					LED=!LED;
 					break;
 				case CMD_VDAC:
-						EP0BCH = 0;
-						EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
-						while(EP0CS & bmEPBUSY);  // spin here until data arrives
-						if(EP0BCL!=1) return TRUE; // error, should have 1 byte which is channel, ind holds msb,lsb of 12 bit value
-						setBiasV((unsigned char)(ind>>8), (unsigned char)(ind&0xff), EP0BUF[0]);
-						LED=!LED;
-						break;
+					EP0BCH = 0;
+					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+					while(EP0CS & bmEPBUSY);  // spin here until data arrives
+					if(EP0BCL!=1) return TRUE; // error, should have 1 byte which is channel, ind holds msb,lsb of 12 bit value
+					setBiasV((unsigned char)(ind>>8), (unsigned char)(ind&0xff), EP0BUF[0]);
+					LED=!LED;
+					break;
 				case CMD_SETBIT:
-					
+					EP0BCH = 0;
+					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+					while(EP0CS & bmEPBUSY);  // spin here until data arrives
+					return TRUE; // not yet implemented
 					break;
 				case CMD_SCANNER:
 					// index=1, continuous, index=0 go to channel
@@ -873,15 +882,59 @@ AERKillBit in essence is like an additional bit to the bits for the DataSel.
 					}
 					LED=!LED;
 					break;
-				case CMD_KILLBIT:
-					selectAddr;
-					LED=!LED;
-					break;
-				case CMD_LOCAL_BIAS:
-					selectAddr;
-					LED=!LED;
-					break;
+				case CMD_EQUALIZER:
+/*
+the scheme right now for loading the AERKillBit and the local Vq's go as follows,
+start with AddSel, which has 7 bits, RX0 to RX6, toggle bitlatch low/high - this signal
+latches the bits for the decoder.
+The output of the decoder is not activated till DataSel is chosen, the 10 bits are loaded, 5 bits
+for Vq of SOS and 5bits for Iq of bpf, then when bitlatch is toggled low/high, then the
+output of the decoder is released.
+During this toggle of latch, the selected channel will also latch in the value on AERKillBit.
+The only thing that I'm worrying about right now is that this value has to be remembered somewhere,
+i.e. if I choose channels 10, 15 neurons to be inactivated, then even if I choose
+new values for Vq and Iq, this information has to be stored somewhere. The
+AERKillBit in essence is like an additional bit to the bits for the DataSel.
 
+*/
+					EP0BCH = 0;
+					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+					while(EP0CS & bmEPBUSY);  // spin here until data arrives
+					//	index is channel address, bytes={gain,quality,killed (1=killed,0=active)}
+					selectAddr;
+					sendConfigBits(EP0BUF[0],7); // send 7 bit address
+					toggleLatch();
+
+					selectData;
+					sendConfigBits(EP0BUF[1],5);
+					sendConfigBits(EP0BUF[2],5);
+					
+					bc=EP0BUF[3];
+					// set each killbit
+					selectLPFKill; // clears ybit
+					if(bc&1){ // kill LPF						
+						aerKillBit=1;
+					}else{
+						aerKillBit=0;
+					}
+					toggleLatch();
+					
+					selectBPFKill; // sets ybit
+					if(bc&2){ // kill BPF						
+						aerKillBit=1;
+					}else{
+						aerKillBit=0;
+					}
+					toggleLatch();
+
+					LED=!LED;
+					break;
+				case CMD_RESET_EQUALIZER:
+					return TRUE;  // not yet implmented
+					LED=!LED;
+					break;
+				default:
+					return(TRUE);  // don't recognize command
 				}
 				EP0BCH = 0;
 				EP0BCL = 0;                   // Arm endpoint with 0 byte to transfer
@@ -902,7 +955,6 @@ AERKillBit in essence is like an additional bit to the bits for the DataSel.
 				EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
 				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
 				break; // very important, otherwise get stall
-
 			}
 		case VR_SETARRAYRESET: // set array reset, based on lsb of argument
 			{

@@ -100,11 +100,11 @@ HighSpeedConfigDscr:
 ;; Endpoint Descriptor
       db   DSCR_ENDPNT_LEN      ;; Descriptor length
       db   DSCR_ENDPNT         ;; Descriptor type
-      db   81H               ;; Endpoint number, and direction
+      db   81H               ;; Endpoint number, and direction EP1, status in to host
       db   ET_BULK            ;; Endpoint type
       db   40H               ;; Maximun packet size (LSB)
       db   00H               ;; Max packect size (MSB)
-      db   00H 
+      db   01H 		     ;; polling interval on host
 
 ;; Endpoint Descriptor
   /*    db   DSCR_ENDPNT_LEN      ;; Descriptor length
@@ -127,11 +127,11 @@ HighSpeedConfigDscr:
 ;; Endpoint Descriptor
       db   DSCR_ENDPNT_LEN      ;; Descriptor length
       db   DSCR_ENDPNT         ;; Descriptor type
-      db   86H               ;; Endpoint number, and direction
+      db   86H               ;; Endpoint number, and direction EP6 in
       db   ET_BULK            ;; Endpoint type
       db   00H               ;; Maximun packet size (LSB)
       db   02H               ;; Max packect size (MSB)
-      db   00H               ;; Polling interval
+      db   00H               ;; Polling interval - minimum, 125us
 
 HighSpeedConfigDscrEnd:   
 
