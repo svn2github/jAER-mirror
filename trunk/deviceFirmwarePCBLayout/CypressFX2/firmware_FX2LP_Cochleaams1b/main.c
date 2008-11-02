@@ -258,7 +258,7 @@ void TD_Init(void)              // Called once at startup
 	
 	EP1OUTCFG = 0x00;			// EP1OUT disabled
 	SYNCDELAY;
-	EP1INCFG = 0xA0;			// EP1IN enabled, bulk
+	EP1INCFG = 0xA0;			// 1010 0000 VALID+Bulk EP1IN enabled, bulk
 	SYNCDELAY;                   
 	EP2CFG = 0x00;				// EP2 disabled
 	SYNCDELAY;                     
@@ -336,6 +336,10 @@ void TD_Init(void)              // Called once at startup
 void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
 	if(cycleCounter++>=50000){
+// debug to see why port d not set to output
+//	OEC = 0x0F; // now are cochlea and offchip DAC controls, before was 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
+	OED	= 0xFF; // all bit addressable outputs, all WORDWIDE=0 so port d should be enabled
+//	OEE = 0xFF; // all outputs, byte addressable
 		LED=!LED;	
 		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
 	}
@@ -376,13 +380,13 @@ void sendDAC(unsigned char dat1, unsigned char dat2, unsigned char dat3)
 //Send a 24bit value to the DAC. dat1 is the MSB, dat3 the LSB.
 {  
    EA=0;
-   dacNSync=0;   //' Trigger DAC. Timing problems? Disable interrupts?
+   PD0=0; //dacNSync=0;   //' Trigger DAC. Timing problems? Disable interrupts?
 
    sendDACByte(dat1);
    sendDACByte(dat2);
    sendDACByte(dat3);
    
-   dacNSync=1;
+   PD0=1; //dacNSync=1;
    EA=1;
 }
 
@@ -852,7 +856,24 @@ BOOL DR_VendorCmnd(void)
 					EP0BCH = 0;
 					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
 					while(EP0CS & bmEPBUSY);  // spin here until data arrives
-					return TRUE; // not yet implemented
+					// sends value=CMD_SETBIT, index=portbit with port(b=0,d=1,e=2)|bitmask(e.g. 00001000) in MSB/LSB, byte[0]=value (1,0)
+					{
+						bit value=(EP0BUF[0]&1); // 1=set, 0=clear
+						unsigned char bitmask=SETUPDAT[2]; // bitmaskit mask
+						switch(SETUPDAT[3]){ // this is port, 
+							case 0: // port c
+								if(value) IOC|=bitmask; else IOC&= ~bitmask;
+							break;
+							case 1: // port d
+								if(value) IOD|=bitmask; else IOD&= ~bitmask;
+							break;
+							case 2: // port e
+								if(value) IOE|=bitmask; else IOE&= ~bitmask;
+							break;
+							default:
+								return TRUE; // error
+						}
+					}
 					break;
 				case CMD_SCANNER:
 					// index=1, continuous, index=0 go to channel
@@ -877,6 +898,7 @@ BOOL DR_VendorCmnd(void)
 							scanClock=0;
 						}
 					}else{ // continuous scanning
+						RCAP2H=0xff-EP0BUF[0];  // load timer 2 reload register with 0xff-period. period=0 reload is 0xff00 (255 counts), period=255, reload is 0x0000, period=64k
 						ET2=1; // enable timer2 interrupt - this is IE.5 bit addressable
 						TR2=1; // run timer2
 					}
