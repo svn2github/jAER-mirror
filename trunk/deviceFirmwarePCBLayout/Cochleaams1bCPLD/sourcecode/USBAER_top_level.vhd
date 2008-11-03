@@ -86,7 +86,7 @@ entity USBAER_top_level is
     RunMonitorxSI : in std_logic;
 	 HostResetTimestampxSI : in std_logic; 
 	 
-	 TimestampTickxSI : in std_logic;
+	 --TimestampTickxSI : in std_logic;
 	 
    -- Interrupt0xSB0        : out std_logic;
  --   Interrupt1xSB0        : out std_logic;

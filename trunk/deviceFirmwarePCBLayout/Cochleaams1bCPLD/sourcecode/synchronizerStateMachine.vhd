@@ -60,7 +60,7 @@ architecture Behavioral of synchronizerStateMachine is
 begin  -- Behavioral
 
   -- calculate next state
-  p_memless : process (StatexDP, SyncInxS, SyncInxAI, RunxSI, ConfigxSI, DividerxDP, HostResetTimestampxSI)
+  p_memless : process (StatexDP, SyncInxS, SyncInxAI, RunxSI, DividerxDP, HostResetTimestampxSI)
     variable counterInc : integer := 47;
     variable syncOutLow1 : integer := 43;
     variable syncOutLow2 : integer := 44;
