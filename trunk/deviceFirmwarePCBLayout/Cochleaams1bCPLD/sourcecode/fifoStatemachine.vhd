@@ -42,7 +42,7 @@ entity fifoStatemachine is
     AddressRegWritexEO     : out std_logic;
     
     -- mux control
-    AddressTimestampSelectxSO  : out std_logic;
+    AddressTimestampSelectxSO  : out std_logic_vector(1 downto 0);
 
     -- communication with other state machines
     MonitorEventReadyxSI       : in  std_logic;
@@ -67,7 +67,7 @@ entity fifoStatemachine is
 end fifoStatemachine;
 
 architecture Behavioral of fifoStatemachine is
-  type state is (stIdle, stEarlyPaket, stWraddress, stWrTime ,stOverflow,stResetTimestamp,stWrAddressNoEvent);
+  type state is (stIdle, stEarlyPaket, stWraddressLSB, stWraddressMSB, stWrTimeLSB , stWrTimeMSB ,stOverflow,stResetTimestamp,stWrAddressNoEventLSB);
 
   -- present and next state
   signal StatexDP, StatexDN : state;
@@ -89,8 +89,11 @@ architecture Behavioral of fifoStatemachine is
   signal TimestampResetxDP, TimestampResetxDN : std_logic;
 
   -- constants for mux
-  constant selectaddress   : std_logic:= '1';
-  constant selecttimestamp : std_logic := '0';
+  
+  constant selectaddressLSB : std_logic_vector(1 downto 0) := "00";
+  constant selectaddressMSB : std_logic_vector(1 downto 0) := "01";  
+  constant selecttimestampLSB : std_logic_vector(1 downto 0) := "10";  
+  constant selecttimestampMSB : std_logic_vector(1 downto 0) := "11";  
 
   -- fifo addresses
   constant EP2             : std_logic_vector := "00";
@@ -118,7 +121,7 @@ begin
     FifoWritexEBO             <= '1';
     FifoPktEndxSBO            <= '1';
     AddressRegWritexEO        <= '1';
-    AddressTimestampSelectxSO <= selectaddress;
+    AddressTimestampSelectxSO <= selectaddressLSB;
     ClearMonitorEventxSO      <= '0';
     IncEventCounterxSO        <= '0';
     ResetEventCounterxSO      <= '0';
@@ -134,7 +137,7 @@ begin
     case StatexDP is
       when stIdle =>
         if EventBeforeOverflowxD ='1' and FifoInFullxSBI = '1' then
-          StatexDN <= stWraddress;
+          StatexDN <= stWraddressLSB;
         elsif EarlyPaketTimerOverflowxSI = '1' and FifoInFullxSBI = '1' then
                        -- we haven't commited a paket for a long time
           StatexDN <= stEarlyPaket;
@@ -145,7 +148,7 @@ begin
           -- if inFifo is not full and there is a monitor event, start a
           -- fifoWrite transaction
         elsif MonitorEventReadyxSI = '1' and FifoInFullxSBI = '1' then
-          StatexDN <= stWraddress;
+          StatexDN <= stWraddressLSB;
           --ClearMonitorEventxSO <= '1'; -- problems if we do it here
         end if;
 
@@ -159,7 +162,7 @@ begin
         ResetEventCounterxSO      <= '1';
         FifoPktEndxSBO            <= '0';
       when stOverflow =>           -- send overflow event
-        StatexDN <= stWrAddressNoEvent;                
+        StatexDN <= stWrAddressNoEventLSB;                
         TimestampOverflowxDN <= '0';
     
         TimestampMSBxDO <= wrap;
@@ -168,38 +171,54 @@ begin
    
       when stResetTimestamp =>           -- send timestamp reset event
 
-        StatexDN <= stWrAddressNoEvent;       
+        StatexDN <= stWrAddressNoEventLSB;       
         TimestampResetxDN <= '0';
      
         TimestampMSBxDO <= timereset;
      
-        when stWrAddressNoEvent   =>             -- write the address to the fifo
+        when stWrAddressNoEventLSB   =>             -- write the address to the fifo
        
-        StatexDN                 <= stWrTime;
+        StatexDN                 <= stWrAddressMSB;
        
         FifoWritexEBO             <= '0';
         AddressRegWritexEO <= '0';
-        AddressTimestampSelectxSO <= selectaddress;
+        AddressTimestampSelectxSO <= selectaddressLSB;
         IncEventCounterxSO <= '1';
+  
      
-
-      when stWraddress   =>             -- write the address to the fifo
+      when stWraddressLSB   =>             -- write the address to the fifo
        
-        StatexDN                 <= stWrTime;
+        StatexDN                 <= stWraddressMSB;
        
         FifoWritexEBO             <= '0';
         AddressRegWritexEO <= '0';
-        AddressTimestampSelectxSO <= selectaddress;
+        AddressTimestampSelectxSO <= selectaddressLSB;
         IncEventCounterxSO <= '1';
         ClearMonitorEventxSO <= '1';
+		  
+		 when stWraddressMSB   =>             -- write the address to the fifo
+       
+        StatexDN                 <= stWrTimeLSB;
+       
+        FifoWritexEBO             <= '0';
+        AddressRegWritexEO <= '0';
+        AddressTimestampSelectxSO <= selectaddressMSB;
         
-      when stWrTime      =>             -- write the timestamp to the fifo
+      when stWrTimeLSB      =>             -- write the timestamp to the fifo
+      
+        StatexDN                <= stWrTimeMSB ;
+    
+        FifoWritexEBO             <= '0';
+        AddressRegWritexEO <= '0';
+        AddressTimestampSelectxSO <= selecttimestampLSB;
+		  
+		        when stWrTimeMSB      =>             -- write the timestamp to the fifo
       
         StatexDN                <= stIdle;
     
         FifoWritexEBO             <= '0';
         AddressRegWritexEO <= '0';
-        AddressTimestampSelectxSO <= selecttimestamp;
+        AddressTimestampSelectxSO <= selecttimestampMSB;
     
       when others      => null;
     end case;
