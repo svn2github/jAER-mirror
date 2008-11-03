@@ -4,5 +4,5 @@ rem ******************** copy xsvf firmware download file to java package folder
 
 iMPACT -batch impact_commands.cmd
 
-copy dvs128CPLD.xsvf ..\..\..\host\java\src\ch\unizh\ini\caviar\hardwareinterface\usb\Cochleaams1bCPLD.xsvf
+copy Cochleaams1bCPLD.xsvf ..\..\..\host\java\src\ch\unizh\ini\caviar\hardwareinterface\usb\Cochleaams1bCPLD.xsvf
 pause
