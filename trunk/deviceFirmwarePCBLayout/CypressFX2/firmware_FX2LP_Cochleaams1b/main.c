@@ -209,7 +209,14 @@ void TD_Init(void)              // Called once at startup
 {
 	// set the CPU clock to 48MHz
 	//CPUCS = ((CPUCS & ~bmCLKSPD) | bmCLKSPD1) ;
-	CPUCS = 0x12 ; // 1_0010 : clockspeed 48MHz, drive output pin
+	CPUCS = 0x12 ; // 1_0010 : CLKSP1:0=10, cpu clockspeed 48MHz, drive CLKOUT output pin 100 which clocks CPLD
+
+/*
+(from raphael berner: the clocking is as follows:
+the fx2 clockes the CPLD by the CLKOUT pin (pin 100), and the CPLD clocks
+the fifointerface on IFCLK, so in the firmware you should select external
+clocksource in the FX2 for the slave FIFO clock source.
+*/
 
 	IOC = 0x00; 
 	IOA = 0x00;
@@ -222,9 +229,14 @@ void TD_Init(void)              // Called once at startup
 	OEE = 0xFF; // all outputs, byte addressable
 
 	// set the slave FIFO interface to 30MHz, slave fifo mode
+
+	// select slave FIFO mode with with FIFO clock source as external clock (from CPLD).
+	// if the CPLD is not programmed there will not be any FIFO clock!
+	// if there is no IFCLK then the port D pins are never enabled as outputs.
+
+	// start with internal clock, switch to external CPLD clock source at end of TD_Init
 	SYNCDELAY;
-	//IFCONFIG = 0xA3; // 1010_0011   // internal clock
-	IFCONFIG = 0x23; // 0010_0011  // extenal clock, slave fifo mode
+	IFCONFIG = 0xA3; // 1010_0011   // internal clock, 30MHz, drive clock IFCLKOE, slave FIFO mode
 	SYNCDELAY; // may not be needed
 
 	// disable interrupts by the input pins and by timers and serial ports. timer2 scanner interrupt enabled when needed from vendor request.
@@ -319,8 +331,8 @@ void TD_Init(void)              // Called once at startup
 
 	// timer2 init for scanner clocking in continuous mode
 	T2CON=0x00; // 0000 0100 timer2 control, set to 16 bit with autoreload, timer stopped
-	RCAP2L=0x00;
-	RCAP2H=0x00;  // starting reload values, counter counts up to 0xFFFF from these and generates interrupt when count rolls to 0
+	RCAP2L=0x00; // timer 2 low register loaded from vendor request.
+	RCAP2H=0xFF;  // starting reload values, counter counts up to 0xFFFF from these and generates interrupt when count rolls to 0
 	ET2=0; // disable interrupt to start
 
 /* // not using now writing initial bias values
@@ -331,19 +343,22 @@ void TD_Init(void)              // Called once at startup
 	latchNewBiases();	
 */
 	toggleVReset();
-}
+
+	// now switch to external IFCLK for FIFOs
+	SYNCDELAY; // may not be needed
+ 	IFCONFIG = 0x23; // 0010_0011  // extenal clock, slave fifo mode
+	SYNCDELAY; // may not be needed
+
+	}
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
-	if(cycleCounter++>=50000){
-// debug to see why port d not set to output
-//	OEC = 0x0F; // now are cochlea and offchip DAC controls, before was 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
-	OED	= 0xFF; // all bit addressable outputs, all WORDWIDE=0 so port d should be enabled
-//	OEE = 0xFF; // all outputs, byte addressable
+	if(cycleCounter++>=100000){
+		
 		LED=!LED;	
 		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
+//		IOD=~IOD; // debug port d
 	}
-	scanClock=!scanClock; // debug port d, this is PD1= pin 81	
 }
 
 
@@ -815,7 +830,7 @@ BOOL DR_VendorCmnd(void)
 				ind |= SETUPDAT[5] << 8;
 				len = SETUPDAT[6];      // length for data phase
 				len |= SETUPDAT[7] << 8;
-				switch(value){
+				switch(value&0xFF){ // take LSB for specific setup command because equalizer uses MSB for channel
  
 				//      final short CMD_IPOT = 1,  CMD_RESET_EQUALIZER = 2,  CMD_SCANNER = 3,  CMD_EQUALIZER = 4,  CMD_SETBIT = 5,  CMD_VDAC = 6;
 #define CMD_IPOT  1
@@ -829,46 +844,53 @@ BOOL DR_VendorCmnd(void)
 					selectIPots;
 
 					numBiasBytes=len;
-					while(len){					// Move new data through EP0OUT, one packet at a time
+					while(len){	// Move new data through EP0OUT, one packet at a time, 
+						// eventually will get len down to zero by bc=64,64,15 (for example)
 						// Arm endpoint - do it here to clear (after sud avail)
 						EP0BCH = 0;
 						EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+						SYNCDELAY;
 						while(EP0CS & bmEPBUSY);  // spin here until data arrives
 						bc = EP0BCL; // Get the new bytecount
 						for(i=0; i<bc; i++){
 							sendConfigByte(EP0BUF[i]);
 						}
-						value += bc;	// inc eeprom value to write to, in case that's what we're doing
+//						value += bc;	// inc eeprom value to write to, in case that's what we're doing
 						len -= bc; // dec total byte count
 					}
 					toggleLatch();
 					LED=!LED;
 					break;
+
+					
 				case CMD_VDAC:
+					// if(len!=1) causes stalls after pots are sent and vdac is sent immediately afterwards - not debugged yet  
+					if(len!=1) return TRUE; // error, should have 1 byte which is channel, ind holds msb,lsb of 12 bit value
 					EP0BCH = 0;
 					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+					SYNCDELAY;
 					while(EP0CS & bmEPBUSY);  // spin here until data arrives
-					if(EP0BCL!=1) return TRUE; // error, should have 1 byte which is channel, ind holds msb,lsb of 12 bit value
 					setBiasV((unsigned char)(ind>>8), (unsigned char)(ind&0xff), EP0BUF[0]);
 					LED=!LED;
 					break;
 				case CMD_SETBIT:
 					EP0BCH = 0;
 					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+					SYNCDELAY;
 					while(EP0CS & bmEPBUSY);  // spin here until data arrives
 					// sends value=CMD_SETBIT, index=portbit with port(b=0,d=1,e=2)|bitmask(e.g. 00001000) in MSB/LSB, byte[0]=value (1,0)
 					{
-						bit value=(EP0BUF[0]&1); // 1=set, 0=clear
+						bit bitval=(EP0BUF[0]&1); // 1=set, 0=clear
 						unsigned char bitmask=SETUPDAT[2]; // bitmaskit mask
 						switch(SETUPDAT[3]){ // this is port, 
 							case 0: // port c
-								if(value) IOC|=bitmask; else IOC&= ~bitmask;
+								if(bitval) IOC|=bitmask; else IOC&= ~bitmask;
 							break;
 							case 1: // port d
-								if(value) IOD|=bitmask; else IOD&= ~bitmask;
+								if(bitval) IOD|=bitmask; else IOD&= ~bitmask;
 							break;
 							case 2: // port e
-								if(value) IOE|=bitmask; else IOE&= ~bitmask;
+								if(bitval) IOE|=bitmask; else IOE&= ~bitmask;
 							break;
 							default:
 								return TRUE; // error
@@ -881,6 +903,7 @@ BOOL DR_VendorCmnd(void)
 					// or subsequent requests will fail.
 					EP0BCH = 0;
 					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+					SYNCDELAY;
 					while(EP0CS & bmEPBUSY);  // spin here until data arrives
 					if(ind==0){ // go to channel
 						ET2=0; // disable timer2 interrupt - IE.5
@@ -894,11 +917,11 @@ BOOL DR_VendorCmnd(void)
 						if(i==0) return TRUE; // scan to start failed
 						bc = EP0BUF[0]; // Get the channel number to scan to
 						for(i=0; i<bc; i++){
-							scanClock=1;
-							scanClock=0;
+							scanClock=1; _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
+							scanClock=0; _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
 						}
 					}else{ // continuous scanning
-						RCAP2H=0xff-EP0BUF[0];  // load timer 2 reload register with 0xff-period. period=0 reload is 0xff00 (255 counts), period=255, reload is 0x0000, period=64k
+						RCAP2L=0xff-EP0BUF[0];  // load timer 2 low byte reload register with 0xff-period. period=0 reload is 0xff00 (255 counts), period=255, reload is 0x0000, period=64k
 						ET2=1; // enable timer2 interrupt - this is IE.5 bit addressable
 						TR2=1; // run timer2
 					}
@@ -919,6 +942,40 @@ new values for Vq and Iq, this information has to be stored somewhere. The
 AERKillBit in essence is like an additional bit to the bits for the DataSel.
 
 */
+// value has cmd in LSB, channel in MSB
+// index has b11=bpfkilled, b10=lpfkilled, b9-5=qbpf, b4-0=qsos
+					//	index is channel address, bytes={gain,quality,killed (1=killed,0=active)}
+					selectAddr;
+					sendConfigBits(SETUPDAT[3],7); // send 7 bit address
+					toggleLatch();
+
+					selectData;
+					
+					sendConfigBits((unsigned char)ind,5);
+					ind=ind>>5;
+					sendConfigBits((unsigned char)ind,5);
+					ind=ind>>1;
+					// set each killbit
+					selectLPFKill; // clears ybit
+					if(ind&1){ // kill LPF						
+						aerKillBit=1;
+					}else{
+						aerKillBit=0;
+					}
+					toggleLatch();
+					ind=ind>>1;
+					selectBPFKill; // sets ybit
+					if(ind&1){ // kill BPF						
+						aerKillBit=1;
+					}else{
+						aerKillBit=0;
+					}
+					toggleLatch();
+					LED=!LED;
+//					EP0BCH = 0;
+//					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+//					while(EP0CS & bmEPBUSY);  // spin here until data arrives - should be none for this request
+/*
 					EP0BCH = 0;
 					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
 					while(EP0CS & bmEPBUSY);  // spin here until data arrives
@@ -948,8 +1005,8 @@ AERKillBit in essence is like an additional bit to the bits for the DataSel.
 						aerKillBit=0;
 					}
 					toggleLatch();
+*/
 
-					LED=!LED;
 					break;
 				case CMD_RESET_EQUALIZER:
 					return TRUE;  // not yet implmented
@@ -975,6 +1032,7 @@ AERKillBit in essence is like an additional bit to the bits for the DataSel.
 				SYNCDELAY;
 				EP0BCH = 0;
 				EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
+				SYNCDELAY;
 				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
 				break; // very important, otherwise get stall
 			}
