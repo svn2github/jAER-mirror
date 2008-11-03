@@ -25,9 +25,6 @@ extern BOOL Selfpwr;
 
 //WORD packetSize;
 
-#define CPLD_NOT_RESET 			PA3
-#define RUN_CPLD				PA0
-#define RESET_TS				PC0
 #define TIMESTAMP_MASTER 		PC1
 #define CFG_TIMESTAMP_COUNTER 	PC2
 #define TIMESTAMP_MODE			PC3
@@ -123,14 +120,13 @@ sbit PD0=IOD^0; etc
 #define ResCtr2 	16	// another microphone preamp feedback resistor selection bit
 #define Vreset		32	// (1) to reset latch states
 #define SelIn		64	// Parallel (0) or Cascaded (1) Arch
-#define Ybit		128	// Chooses whether lpf (0) or bpf (1) neurons to be killed, use in conjunction with AddrSel and AERKillBit
+#define ScanSync	128	// scanner sync output direct from cochleaams1b to fx2 (not through CPLD like others)
 
 #define selectsMask 7 // 0000 0111 to select only select bits
 #define selectIPots IOE=(IOE&~selectsMask)|BiasGenSel // selects only biasgen select, turns off addr and data selects, leaves other bits untouched
 #define selectAddr  IOE=(IOE&~selectsMask)|AddrSel  // even addresses are left cochlea, odd addresses are right cochlea
-#define selectData	IOE=(IOE&~selectsMask)|DataSel // 
-#define selectLPFKill IOE=(IOE&~Ybit)
-#define selectBPFKill IOE=(IOE|Ybit)
+#define selectData	IOE=(IOE&~selectsMask)|DataSel  // selects data shift register
+#define isScanSyncActive	(IOE&ScanSync)		// nonzero when scansync is active (bit has fallen out of scanner shift register)
 
 #define toggleVReset(); IOE|=Vreset; _nop_();_nop_();_nop_();_nop_();_nop_();_nop_(); IOE&=~Vreset;
 //DataSel	C00-C04	bits for setting Iq of current-mode BPF
@@ -141,20 +137,27 @@ sbit PD0=IOD^0; etc
 // chosen addr + Ybit=1 choses bpf neuron
 // chosen addr + Ybit=1 choses bpf neuron
 
-sbit clock=IOC^0;		// onchip clock
+
+sbit tsReset=IOA^0;		// timestamp reset to CPLD
+sbit runCPLD=IOA^1;		// run CPLD
+sbit nResetCPLD=IOA^3;	// not reset CPLD
+
+sbit clock=IOC^0;		// onchip clock to clock cochlea shift registers
 sbit bitIn=IOC^1;	 	// onchip data bit
-sbit dacBitIn=IOC^2; // DAC data
-sbit dacClock=IOC^3; // DAC clock
+sbit dacBitIn=IOC^2; 	// DAC data
+sbit dacClock=IOC^3; 	// DAC clock
 
 sbit dacNSync=IOD^0;	// DAC start
 sbit scanClock=IOD^1;	// scanner clock
-sbit scanSync=IOD^2;	// scanner sync output to fx2
+sbit yBit=IOD^2;	    // Chooses whether lpf (0) or bpf (1) neurons to be killed, use in conjunction with AddrSel and AERKillBit
 sbit selAer=IOD^3;   	//Chooses whether lpf (0) or rectified (1) lpf output drives lpf neurons
 sbit latch=IOD^4;		// onchip data latch
 sbit powerDown=IOD^5;	// onchip biasgen powerdown
 sbit aerKillBit=IOD^6;	// Set to (1) after Setting of AddrSel and Ybit to kill 4 neurons
 //sbit PD7=IOD^7;
 
+#define selectLPFKill yBit=0
+#define selectBPFKill yBit=1
 
 #define toggleLatch() latch=0; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=1;
 
@@ -191,14 +194,7 @@ void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf);
 void EEPROMWriteBYTE(WORD addr, BYTE value);
 
 void downloadSerialNumberFromEEPROM(void);
-void setBiasV( unsigned char msb, unsigned char lsb, unsigned char address);
-void sendDAC(unsigned char dat1, unsigned char dat2, unsigned char dat3);
 void initDAC();
-
-//sbit arrayReset=IOE^5;	// arrayReset=0 to reset all pixels, this on port E.5 but is not bit addressable
-// arrayReset is active low, low=reset pixel array, high=operate normally
-#define ARRAY_RESET_MASK=0x20
-#define NOT_ARRAY_RESET_MASK=0xdf;
 
 //-----------------------------------------------------------------------------
 // Task Dispatcher hooks
@@ -222,7 +218,7 @@ clocksource in the FX2 for the slave FIFO clock source.
 	IOA = 0x00;
 	IOE=  0x00; // set port output default values - enable them as outputs next
 	
-	OEA = 0x89; // 1000_1001 PA0: run, PA3: NotResetCPLD ;  PA7 LED
+	OEA = 0x8b; // 1000_1011. PA7 LED, PA3: nResetCPLD, PA1: runCPLD, PA0: tsReset   
 				// port B is used as FD7-0 for 8 bit FIFO interface to CPLD
 	OEC = 0x0F; // now are cochlea and offchip DAC controls, before was 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
 	OED	= 0xFF; // all bit addressable outputs, all WORDWIDE=0 so port d should be enabled
@@ -361,49 +357,31 @@ void TD_Poll(void)              // Called repeatedly while the device is idle
 	}
 }
 
+/* The cochlea board has two 16 channel AD5391 DACs connected in daisy chain.
+We need to load both of the two DACs each time we want to change the output from the
+channel of one of them. To avoid using up FX2 RAM to remember the data (which we don't 
+know initially to start with), the host
+sends both DAC channels and values for changing just one of them. The other DAC just gets
+a 3-byte 0,0,0 write which selects the SFRs with SFR 0 which is a nothing register.
 
-void setBiasV( unsigned char msb, unsigned char lsb, unsigned char address)
-{
-   unsigned char dat1 = 0x00; //00 00 0000;
-   unsigned char dat2 = 0xC0; //Reg1=1 Reg0=1 : Write output data
-   unsigned char dat3 = 0x00;
+Here we just clock through both of these holding sync low during the entire 48 bit load.
+*/
 
-   dat1 |= (address & 0x0F);
-   dat2 |= ((msb & 0x0F) << 2) | ((lsb & 0xC0)>>6) ;
-   dat3 |= (lsb << 2) | 0x03; // DEBUG; the last 2 bits are actually don't care
-   
-   sendDAC(dat1, dat2, dat3); 
-
-}
-
+//sends byte dat in big endian order out 
 void sendDACByte(unsigned char dat){
-	unsigned char i;
-	for(i=0;i<8;i++){
-		dacClock=0;
+	unsigned char i=8;
+	while(i--){
+		_crol_(dat,1); // rotate left to get msb to lsb
 		if(dat&1){
 			dacBitIn=1;
 		}else{
 			dacBitIn=0;
 	   	}
+		dacClock=0; // clk edge low while data stable
 		dacClock=1;
-		dacClock=0;
-		dat=dat>>1;
 	}
 }
 
-void sendDAC(unsigned char dat1, unsigned char dat2, unsigned char dat3)
-//Send a 24bit value to the DAC. dat1 is the MSB, dat3 the LSB.
-{  
-   EA=0;
-   PD0=0; //dacNSync=0;   //' Trigger DAC. Timing problems? Disable interrupts?
-
-   sendDACByte(dat1);
-   sendDACByte(dat2);
-   sendDACByte(dat3);
-   
-   PD0=1; //dacNSync=1;
-   EA=1;
-}
 
 
 void initDAC()
@@ -416,7 +394,14 @@ void initDAC()
 //   while(cnt--);
      //write to control register
  //  sendDAC(0x0C,0x35,0x00);  // 00 00 1100 00 110101XXXX00 XX: PwrDwnMd,internalRef=2.5V,CurrentBoostOff,internalRef select,Mon On,TermMonOff(good?),4dc,ToggleOff
- 	sendDAC(0x0C,0x3E,0x00);    // 00 00 1100 00 111110XXXX00 XX
+    dacNSync=0;   //' Trigger DAC. Timing problems? Disable interrupts?
+
+   sendDACByte(0x0C);
+   sendDACByte(0x3E);
+   sendDACByte(0x00);
+   
+   dacNSync=1;
+//	sendDAC(0x0C,0x3E,0x00);    // 00 00 1100 00 111110XXXX00 XX
                                // 0 W 00 A3..A0 Reg1 Reg0 CR11..CR0 XX
    // gains und offsets setzen?
 }
@@ -476,13 +461,13 @@ void downloadSerialNumberFromEEPROM(void)
 
 void startMonitor(void)
 {
-	CPLD_NOT_RESET=1;
-    RUN_CPLD=1;
+	nResetCPLD=1; //CPLD_NOT_RESET=1;
+    runCPLD=1; //RUN_CPLD=1;
 }
 
 void stopMonitor(void)
 {
-    RUN_CPLD=0;
+    runCPLD=0; //RUN_CPLD=0;
 
   	// force last paket
   	
@@ -560,7 +545,7 @@ void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf)
 BOOL TD_Suspend(void)          // Called before the device goes into suspend mode
 {
   // reset CPLD
-  CPLD_NOT_RESET =0;  
+  nResetCPLD=0; //CPLD_NOT_RESET =0;  
   
   return(TRUE);
 }
@@ -568,7 +553,7 @@ BOOL TD_Suspend(void)          // Called before the device goes into suspend mod
 BOOL TD_Resume(void)          // Called after the device resumes
 {
   // activate CPLD 
-   CPLD_NOT_RESET=1; 
+  nResetCPLD=1;    // CPLD_NOT_RESET=1; 
 
    return(TRUE);
 }
@@ -811,8 +796,8 @@ BOOL DR_VendorCmnd(void)
 			}		
 		case VR_RESETTIMESTAMPS:
 			{
-				RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
-				RESET_TS=0;
+				tsReset=1; // RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
+				tsReset=0; // RESET_TS=0;
 
 				break;
 			}
@@ -824,11 +809,11 @@ BOOL DR_VendorCmnd(void)
 				// more data comes in the setupdat
 				
 				SYNCDELAY;
-				value = SETUPDAT[2];		// Get valueess
-				value |= SETUPDAT[3] << 8;
-				ind = SETUPDAT[4];		// Get index
+				value = SETUPDAT[2];		// Get request value
+				value |= SETUPDAT[3] << 8;	// big endian
+				ind = SETUPDAT[4];			// Get index
 				ind |= SETUPDAT[5] << 8;
-				len = SETUPDAT[6];      // length for data phase
+				len = SETUPDAT[6];      	// length for data phase
 				len |= SETUPDAT[7] << 8;
 				switch(value&0xFF){ // take LSB for specific setup command because equalizer uses MSB for channel
  
@@ -864,13 +849,17 @@ BOOL DR_VendorCmnd(void)
 
 					
 				case CMD_VDAC:
-					// if(len!=1) causes stalls after pots are sent and vdac is sent immediately afterwards - not debugged yet  
-					if(len!=1) return TRUE; // error, should have 1 byte which is channel, ind holds msb,lsb of 12 bit value
+					// EP0BUF has b0=channel (same for each DAC), b1=DAC1 MSB, b2=DAC1 LSB, b3=DAC0 MSB, b4=DAC0 LSB
+					if(len!=6) return TRUE; // error, should have 6 bytes which are just written out to DACs surrounded by dacNSync=0
 					EP0BCH = 0;
 					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
 					SYNCDELAY;
 					while(EP0CS & bmEPBUSY);  // spin here until data arrives
-					setBiasV((unsigned char)(ind>>8), (unsigned char)(ind&0xff), EP0BUF[0]);
+					dacNSync=0;
+					for(i=0;i<6;i++){
+						sendDACByte(EP0BUF[i]);
+					}
+					dacNSync=1; 
 					LED=!LED;
 					break;
 				case CMD_SETBIT:
@@ -878,11 +867,11 @@ BOOL DR_VendorCmnd(void)
 					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
 					SYNCDELAY;
 					while(EP0CS & bmEPBUSY);  // spin here until data arrives
-					// sends value=CMD_SETBIT, index=portbit with port(b=0,d=1,e=2)|bitmask(e.g. 00001000) in MSB/LSB, byte[0]=value (1,0)
+					// sends value=CMD_SETBIT, index=portbit with (port(b=0,d=1,e=2)<<8)|bitmask(e.g. 00001000) in MSB/LSB, byte[0]=value (1,0)
 					{
 						bit bitval=(EP0BUF[0]&1); // 1=set, 0=clear
-						unsigned char bitmask=SETUPDAT[2]; // bitmaskit mask
-						switch(SETUPDAT[3]){ // this is port, 
+						unsigned char bitmask=SETUPDAT[4]; // bitmaskit mask, LSB of ind
+						switch(SETUPDAT[5]){ // this is port, MSB of ind
 							case 0: // port c
 								if(bitval) IOC|=bitmask; else IOC&= ~bitmask;
 							break;
@@ -895,6 +884,7 @@ BOOL DR_VendorCmnd(void)
 							default:
 								return TRUE; // error
 						}
+						LED=!LED;
 					}
 					break;
 				case CMD_SCANNER:
@@ -909,7 +899,7 @@ BOOL DR_VendorCmnd(void)
 						ET2=0; // disable timer2 interrupt - IE.5
 						TR2=0; // stop timer2
 						i=255; // timeout on scanner clear
-						while(scanSync==0 && i-->0){ // clock scanner to end
+						while(!isScanSyncActive && i-->0){ // clock scanner to end and timeout if there is no chip there
 							scanClock=1;
 							_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
 							scanClock=0;
@@ -1036,6 +1026,7 @@ AERKillBit in essence is like an additional bit to the bits for the DataSel.
 				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
 				break; // very important, otherwise get stall
 			}
+/*
 		case VR_SETARRAYRESET: // set array reset, based on lsb of argument
 			{
 				if (SETUPDAT[2]&0x01)
@@ -1079,7 +1070,8 @@ AERKillBit in essence is like an additional bit to the bits for the DataSel.
 				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
 				return (FALSE); // very important, otherwise get stall
 			}
-	/*	case VR_TIMESTAMP_TICK:
+*/
+/*	case VR_TIMESTAMP_TICK:
 			{
 				if (SETUPDAT[0]==VR_UPLOAD) //1010_0000 :vendor request to device, direction IN
 				{
@@ -1238,7 +1230,7 @@ void ISR_scannerClock(void) interrupt 5 { // interrupt vector address is 0x2b fr
 	_nop_();
 	_nop_();
 	_nop_();
-	_nop_();
+	_nop_(); // 5 nops gives about 0.6us high time
 	scanClock=0;
 	EA=1;
 }
