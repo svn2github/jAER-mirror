@@ -154,7 +154,7 @@ sbit selAer=IOD^3;   	//Chooses whether lpf (0) or rectified (1) lpf output driv
 sbit latch=IOD^4;		// onchip data latch
 sbit powerDown=IOD^5;	// onchip biasgen powerdown
 sbit aerKillBit=IOD^6;	// Set to (1) after Setting of AddrSel and Ybit to kill 4 neurons
-//sbit PD7=IOD^7;
+sbit dacNReset=IOD^7; // debug - board hacked for this
 
 #define selectLPFKill yBit=0
 #define selectBPFKill yBit=1
@@ -353,6 +353,7 @@ void TD_Poll(void)              // Called repeatedly while the device is idle
 		
 		LED=!LED;	
 		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
+		initDAC(); // debug
 //		IOD=~IOD; // debug port d
 	}
 }
@@ -367,12 +368,12 @@ a 3-byte 0,0,0 write which selects the SFRs with SFR 0 which is a nothing regist
 Here we just clock through both of these holding sync low during the entire 48 bit load.
 */
 
-//sends byte dat in big endian order out 
-void sendDACByte(unsigned char dat){
+//sends byte dat in big endian order out the DAC bit and clock outputs.  
+void sendDACByte(unsigned char b){
 	unsigned char i=8;
 	while(i--){
-		_crol_(dat,1); // rotate left to get msb to lsb
-		if(dat&1){
+		b=_crol_(b,1); // rotate left to get msb to lsb
+		if(b&1){
 			dacBitIn=1;
 		}else{
 			dacBitIn=0;
@@ -394,25 +395,88 @@ void initDAC()
 //   while(cnt--);
      //write to control register
  //  sendDAC(0x0C,0x35,0x00);  // 00 00 1100 00 110101XXXX00 XX: PwrDwnMd,internalRef=2.5V,CurrentBoostOff,internalRef select,Mon On,TermMonOff(good?),4dc,ToggleOff
-    dacNSync=0;   //' Trigger DAC. Timing problems? Disable interrupts?
 
-   sendDACByte(0x0C);
-   sendDACByte(0x3E);
-   sendDACByte(0x00);
+	// we need to send the config twice because there are two daisy chained DACs!!
+
+	// first do a soft reset of the DAC and wait until specified time
+
+	dacNReset=0;
+	EZUSB_Delay(30); 	// pause at least 10ms because scope shows that nBUSY stays low for about 8ms after power on. Specs say 270us for power on reset of DACs
+	dacNReset=1;
+	EZUSB_Delay(30);
+	/*
+    dacNSync=0;   //' Reset DAC input counters. 
+
+    sendDACByte(0x0F); // send MSB first, sends big endian msb first
+	sendDACByte(0x00);
+	sendDACByte(0x00);
+
+	sendDACByte(0x0f); // send MSB first, sends big endian msb first
+	sendDACByte(0x00);
+	sendDACByte(0x00);
    
+	dacNSync=1;
+	EZUSB_Delay1ms(); 	// pause at least 135us
+*/
+   	
+	// RW A3:0= 0 1100 - configure Control register write,
+	// REG1:0=00 SFRs
+	// CR11=1 in power down hi z
+	// CR10=0 internal reference is 1.25V
+	// CR9=1  current boost on
+	// CR8=1  internal reference used
+	// CR7=0  monitor disabled
+	// CR6=1  thermal monitor enabled
+	// CR5:0=0 toggle default
+    dacNSync=0;   //' Trigger DAC. Timing problems? Disable interrupts?
+    sendDACByte(0x0C); // send MSB first, sends big endian msb first
+	sendDACByte(0x24);
+	//sendDACByte(0x2E);
+	sendDACByte(0x00);
+
+	sendDACByte(0x0C); // send MSB first, sends big endian msb first
+	sendDACByte(0x24);
+	sendDACByte(0x00);  
+   	dacNSync=1;
+/*
+   // now read back the data, should appear on the dout pins
+
+   EZUSB_Delay1ms();
+   dacNSync=0;
+   sendDACByte(0x04); // RW=1 to go to read mode
+   sendDACByte(0xC0);  // read the SFR config register
+   sendDACByte(0x00);
+
+	sendDACByte(0x04); // now write to the other dac
+   sendDACByte(0xC0);
+   sendDACByte(0x00);
    dacNSync=1;
-//	sendDAC(0x0C,0x3E,0x00);    // 00 00 1100 00 111110XXXX00 XX
+
+   // now read the write
+   EZUSB_Delay1ms();
+   dacNSync=0;
+   sendDACByte(0x00); // write NOP to SFRs
+   sendDACByte(0x00);  // read the SFR config register
+   sendDACByte(0x00);
+
+	sendDACByte(0x00); // the other DAC
+	sendDACByte(0x00);
+	sendDACByte(0x00);
+	dacNSync=1;
+
+   //	sendDAC(0x0C,0x3E,0x00);    // 00 00 1100 00 111110XXXX00 XX
                                // 0 W 00 A3..A0 Reg1 Reg0 CR11..CR0 XX
    // gains und offsets setzen?
-}
+*/
+   }
 
 // sends the byte out the 'spi' interface to the cochlea in big-endian order (msb first)
 // - replaces assembly routine to use bit defines for clock and bitIn and C code
 void sendConfigByte(unsigned char b){
 	unsigned char i=8;
-	while(i-->0){
+	while(i--){ // goes till i==0
 		// rotate left to get msb, test bit to set bitin, then toggle clock high/low
-		_crol_(b,1);
+		b=_crol_(b,1);
 		if(b&1!=0){
 			bitIn=1;
 		}else{
@@ -423,12 +487,12 @@ void sendConfigByte(unsigned char b){
 	}
 }
 
-// sends the nbits least significant bits in big-endian order, e.g. sendConfigBits(0xfe,3) sends 110
+// sends the nbits least significant bits in big-endian order, e.g. sendConfigBits(0xfe,3) sends 110 from 1111 1110
 void sendConfigBits(unsigned char b,unsigned char nbits){
-	unsigned char i=8-nbits;
-	_crol_(b,8-nbits); // rotate to get msb of data to send in msb of b
-	while(nbits-->0){
-		_crol_(b,1);
+	unsigned char i=nbits; // send this many
+	b=_crol_(b,8-nbits); // rotate to get msb of data to send in msb of b. if nbits=8 doesn't change b, if nbits=7, rotates left by 1
+	while(nbits--){
+		b=_crol_(b,1); // get the next bit in lsb
 		if(b&1!=0){
 			bitIn=1;
 		}else{
