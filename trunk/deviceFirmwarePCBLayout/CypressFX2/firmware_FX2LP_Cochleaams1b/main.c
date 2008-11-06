@@ -154,12 +154,15 @@ sbit selAer=IOD^3;   	//Chooses whether lpf (0) or rectified (1) lpf output driv
 sbit latch=IOD^4;		// onchip data latch
 sbit powerDown=IOD^5;	// onchip biasgen powerdown
 sbit aerKillBit=IOD^6;	// Set to (1) after Setting of AddrSel and Ybit to kill 4 neurons
-sbit dacNReset=IOD^7; // debug - board hacked for this
+sbit dacNLDAC=IOD^7; // debug - board hacked for this
 
 #define selectLPFKill yBit=0
 #define selectBPFKill yBit=1
 
 #define toggleLatch() latch=0; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=1;
+#define toggleLDAC()  _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_();  dacNLDAC=0; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); dacNLDAC=1;  // toggles LDAC after all 48 bits loaded and sync is high
+#define	startDACSync() dacNSync=0;
+#define endDACSync()	dacNSync=1; _nop_(); _nop_(); dacClock=1;
 
 unsigned int numBiasBytes; // number of bias bytes to send, used in loop
 /*
@@ -315,7 +318,6 @@ clocksource in the FX2 for the slave FIFO clock source.
 	
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
 
-	initDAC();
 
 	JTAGinit=TRUE;	
 
@@ -345,7 +347,10 @@ clocksource in the FX2 for the slave FIFO clock source.
  	IFCONFIG = 0x23; // 0010_0011  // extenal clock, slave fifo mode
 	SYNCDELAY; // may not be needed
 
-	}
+
+	initDAC();
+
+}
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
@@ -353,7 +358,7 @@ void TD_Poll(void)              // Called repeatedly while the device is idle
 		
 		LED=!LED;	
 		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
-		initDAC(); // debug
+		//initDAC(); // debug
 //		IOD=~IOD; // debug port d
 	}
 }
@@ -369,9 +374,11 @@ Here we just clock through both of these holding sync low during the entire 48 b
 */
 
 //sends byte dat in big endian order out the DAC bit and clock outputs.  
+// must leave clock low at end so that clock can be taken high *after* sync is taken high after all bytes clocked in
 void sendDACByte(unsigned char b){
 	unsigned char i=8;
 	while(i--){
+		dacClock=1;
 		b=_crol_(b,1); // rotate left to get msb to lsb
 		if(b&1){
 			dacBitIn=1;
@@ -379,7 +386,6 @@ void sendDACByte(unsigned char b){
 			dacBitIn=0;
 	   	}
 		dacClock=0; // clk edge low while data stable
-		dacClock=1;
 	}
 }
 
@@ -387,62 +393,72 @@ void sendDACByte(unsigned char b){
 
 void initDAC()
 {
-   unsigned int cnt = 0x3000;
+//   unsigned int cnt = 0x3000;
 //   notReset = 0; // nReset tied to Vdd on board
 //   while(cnt--);
 //   notReset=1;
 //  cnt=0x3000;
 //   while(cnt--);
-     //write to control register
- //  sendDAC(0x0C,0x35,0x00);  // 00 00 1100 00 110101XXXX00 XX: PwrDwnMd,internalRef=2.5V,CurrentBoostOff,internalRef select,Mon On,TermMonOff(good?),4dc,ToggleOff
 
 	// we need to send the config twice because there are two daisy chained DACs!!
+	// in addition, we need to send the entire configuration of 48 bits twice due to undocumented startup
+	// problem. The init sequence must be done twice!!!!!
 
-	// first do a soft reset of the DAC and wait until specified time
 
-	dacNReset=0;
+/*
+	dacNLDAC=0;
 	EZUSB_Delay(30); 	// pause at least 10ms because scope shows that nBUSY stays low for about 8ms after power on. Specs say 270us for power on reset of DACs
-	dacNReset=1;
+	dacNLDAC=1;
 	EZUSB_Delay(30);
-	/*
-    dacNSync=0;   //' Reset DAC input counters. 
-
-    sendDACByte(0x0F); // send MSB first, sends big endian msb first
-	sendDACByte(0x00);
-	sendDACByte(0x00);
-
-	sendDACByte(0x0f); // send MSB first, sends big endian msb first
-	sendDACByte(0x00);
-	sendDACByte(0x00);
-   
-	dacNSync=1;
-	EZUSB_Delay1ms(); 	// pause at least 135us
 */
    	
-	// RW A3:0= 0 1100 - configure Control register write,
+	// AnB RnW 00 A3:0= 0000 1100 - configure Control register write,
 	// REG1:0=00 SFRs
 	// CR11=1 in power down hi z
 	// CR10=0 internal reference is 1.25V
-	// CR9=1  current boost on
+	// CR9=0  current boost on
 	// CR8=1  internal reference used
 	// CR7=0  monitor disabled
 	// CR6=1  thermal monitor enabled
-	// CR5:0=0 toggle default
-    dacNSync=0;   //' Trigger DAC. Timing problems? Disable interrupts?
+	// CR5:0=0 toggle disabled and using default A toggle, followed by 2 unused bits 00
+	// entire config is
+    // 0000 1100 0010 1001 0000 0000
+	//   0    c    2    5    0    0
+
+ 	startDACSync();   //' Trigger DAC. 
+
+  	sendDACByte(0x0C); // send MSB first, sends big endian msb first
+	sendDACByte(0x25);
+	sendDACByte(0x00);
+
+
+	sendDACByte(0x0C); // send MSB first, sends big endian msb first
+	sendDACByte(0x25);
+	sendDACByte(0x00);  
+
+	endDACSync();
+	
+	startDACSync();
+
+	EZUSB_Delay(10);
+    
     sendDACByte(0x0C); // send MSB first, sends big endian msb first
-	sendDACByte(0x24);
-	//sendDACByte(0x2E);
+	sendDACByte(0x25);
 	sendDACByte(0x00);
 
 	sendDACByte(0x0C); // send MSB first, sends big endian msb first
-	sendDACByte(0x24);
+	sendDACByte(0x25);
 	sendDACByte(0x00);  
-   	dacNSync=1;
+
+	endDACSync();
+	toggleLDAC();
+
+
 /*
    // now read back the data, should appear on the dout pins
 
    EZUSB_Delay1ms();
-   dacNSync=0;
+   startDACSync();
    sendDACByte(0x04); // RW=1 to go to read mode
    sendDACByte(0xC0);  // read the SFR config register
    sendDACByte(0x00);
@@ -450,11 +466,11 @@ void initDAC()
 	sendDACByte(0x04); // now write to the other dac
    sendDACByte(0xC0);
    sendDACByte(0x00);
-   dacNSync=1;
+	endDACSync();
 
    // now read the write
    EZUSB_Delay1ms();
-   dacNSync=0;
+	startDACSync();
    sendDACByte(0x00); // write NOP to SFRs
    sendDACByte(0x00);  // read the SFR config register
    sendDACByte(0x00);
@@ -462,7 +478,7 @@ void initDAC()
 	sendDACByte(0x00); // the other DAC
 	sendDACByte(0x00);
 	sendDACByte(0x00);
-	dacNSync=1;
+	endDACSync();
 
    //	sendDAC(0x0C,0x3E,0x00);    // 00 00 1100 00 111110XXXX00 XX
                                // 0 W 00 A3..A0 Reg1 Reg0 CR11..CR0 XX
@@ -888,6 +904,7 @@ BOOL DR_VendorCmnd(void)
 #define CMD_EQUALIZER 4
 #define	CMD_SETBIT  5
 #define CMD_VDAC  6
+#define CMD_INITDAC 7
 
 				case CMD_IPOT:
 					selectIPots;
@@ -919,11 +936,17 @@ BOOL DR_VendorCmnd(void)
 					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
 					SYNCDELAY;
 					while(EP0CS & bmEPBUSY);  // spin here until data arrives
-					dacNSync=0;
+					startDACSync();
 					for(i=0;i<6;i++){
 						sendDACByte(EP0BUF[i]);
 					}
-					dacNSync=1; 
+					endDACSync();
+					toggleLDAC();
+					
+					LED=!LED;
+					break;
+				case CMD_INITDAC:
+					initDAC();
 					LED=!LED;
 					break;
 				case CMD_SETBIT:
