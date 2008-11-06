@@ -154,15 +154,15 @@ sbit selAer=IOD^3;   	//Chooses whether lpf (0) or rectified (1) lpf output driv
 sbit latch=IOD^4;		// onchip data latch
 sbit powerDown=IOD^5;	// onchip biasgen powerdown
 sbit aerKillBit=IOD^6;	// Set to (1) after Setting of AddrSel and Ybit to kill 4 neurons
-sbit dacNLDAC=IOD^7; // debug - board hacked for this
+//sbit dacNLDAC=IOD^7; // debug - board hacked for this
 
 #define selectLPFKill yBit=0
 #define selectBPFKill yBit=1
 
 #define toggleLatch() latch=0; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=1;
-#define toggleLDAC()  _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_();  dacNLDAC=0; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); dacNLDAC=1;  // toggles LDAC after all 48 bits loaded and sync is high
-#define	startDACSync() dacNSync=0;
-#define endDACSync()	dacNSync=1; _nop_(); _nop_(); dacClock=1;
+// was used for debug, nLDAC wired to ground on board #define toggleLDAC()  _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_();  dacNLDAC=0; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); dacNLDAC=1;  // toggles LDAC after all 48 bits loaded and sync is high
+#define	startDACSync() dacNSync=0; // starts DAC data input
+#define endDACSync()	dacNSync=1; _nop_(); _nop_(); dacClock=1; // dacClock must go high *after* dacNSync goes high
 
 unsigned int numBiasBytes; // number of bias bytes to send, used in loop
 /*
@@ -357,9 +357,7 @@ void TD_Poll(void)              // Called repeatedly while the device is idle
 	if(cycleCounter++>=100000){
 		
 		LED=!LED;	
-		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
-		//initDAC(); // debug
-//		IOD=~IOD; // debug port d
+		cycleCounter=0; // this makes a slow heartbeat with period of about 1s on the LED to show firmware is running
 	}
 }
 
@@ -389,21 +387,44 @@ void sendDACByte(unsigned char b){
 	}
 }
 
+/* implemented on host via SET_VDAC
+
+void powerDownDAC(){
+	startDACSync();
+
+ 	startDACSync();   
+
+  	sendDACByte(0x08); 
+	sendDACByte(0x00);
+	sendDACByte(0x00);
 
 
+	sendDACByte(0x08);
+	sendDACByte(0x00);
+	sendDACByte(0x00);  
+
+	endDACSync();
+}
+
+void powerUpDAC(){
+	startDACSync();
+
+ 	startDACSync();   
+
+  	sendDACByte(0x09); 
+	sendDACByte(0x00);
+	sendDACByte(0x00);
+
+
+	sendDACByte(0x09);
+	sendDACByte(0x00);
+	sendDACByte(0x00);  
+
+	endDACSync();
+}
+*/
 void initDAC()
 {
-//   unsigned int cnt = 0x3000;
-//   notReset = 0; // nReset tied to Vdd on board
-//   while(cnt--);
-//   notReset=1;
-//  cnt=0x3000;
-//   while(cnt--);
-
-	// we need to send the config twice because there are two daisy chained DACs!!
-	// in addition, we need to send the entire configuration of 48 bits twice due to undocumented startup
-	// problem. The init sequence must be done twice!!!!!
-
 
 /*
 	dacNLDAC=0;
@@ -411,79 +432,34 @@ void initDAC()
 	dacNLDAC=1;
 	EZUSB_Delay(30);
 */
-   	
+//   	dacNLDAC=0; 
 	// AnB RnW 00 A3:0= 0000 1100 - configure Control register write,
 	// REG1:0=00 SFRs
 	// CR11=1 in power down hi z
-	// CR10=0 internal reference is 1.25V
+	// CR10=1 internal reference is 2.5V
 	// CR9=0  current boost on
 	// CR8=1  internal reference used
 	// CR7=0  monitor disabled
 	// CR6=1  thermal monitor enabled
 	// CR5:0=0 toggle disabled and using default A toggle, followed by 2 unused bits 00
 	// entire config is
-    // 0000 1100 0010 1001 0000 0000
-	//   0    c    2    5    0    0
+    // 0000 1100 0011 0101 0000 0000
+	// AR00 addr RgCr             00
+	//   0    c    3    5    0    0
 
  	startDACSync();   //' Trigger DAC. 
 
   	sendDACByte(0x0C); // send MSB first, sends big endian msb first
-	sendDACByte(0x25);
+	sendDACByte(0x35);
 	sendDACByte(0x00);
 
 
 	sendDACByte(0x0C); // send MSB first, sends big endian msb first
-	sendDACByte(0x25);
+	sendDACByte(0x35);
 	sendDACByte(0x00);  
 
 	endDACSync();
-	
-	startDACSync();
 
-	EZUSB_Delay(10);
-    
-    sendDACByte(0x0C); // send MSB first, sends big endian msb first
-	sendDACByte(0x25);
-	sendDACByte(0x00);
-
-	sendDACByte(0x0C); // send MSB first, sends big endian msb first
-	sendDACByte(0x25);
-	sendDACByte(0x00);  
-
-	endDACSync();
-	toggleLDAC();
-
-
-/*
-   // now read back the data, should appear on the dout pins
-
-   EZUSB_Delay1ms();
-   startDACSync();
-   sendDACByte(0x04); // RW=1 to go to read mode
-   sendDACByte(0xC0);  // read the SFR config register
-   sendDACByte(0x00);
-
-	sendDACByte(0x04); // now write to the other dac
-   sendDACByte(0xC0);
-   sendDACByte(0x00);
-	endDACSync();
-
-   // now read the write
-   EZUSB_Delay1ms();
-	startDACSync();
-   sendDACByte(0x00); // write NOP to SFRs
-   sendDACByte(0x00);  // read the SFR config register
-   sendDACByte(0x00);
-
-	sendDACByte(0x00); // the other DAC
-	sendDACByte(0x00);
-	sendDACByte(0x00);
-	endDACSync();
-
-   //	sendDAC(0x0C,0x3E,0x00);    // 00 00 1100 00 111110XXXX00 XX
-                               // 0 W 00 A3..A0 Reg1 Reg0 CR11..CR0 XX
-   // gains und offsets setzen?
-*/
    }
 
 // sends the byte out the 'spi' interface to the cochlea in big-endian order (msb first)
@@ -941,7 +917,7 @@ BOOL DR_VendorCmnd(void)
 						sendDACByte(EP0BUF[i]);
 					}
 					endDACSync();
-					toggleLDAC();
+					//toggleLDAC();
 					
 					LED=!LED;
 					break;
