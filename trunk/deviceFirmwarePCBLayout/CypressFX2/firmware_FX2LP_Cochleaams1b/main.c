@@ -123,10 +123,13 @@ sbit PD0=IOD^0; etc
 #define ScanSync	128	// scanner sync output direct from cochleaams1b to fx2 (not through CPLD like others)
 
 #define selectsMask 7 // 0000 0111 to select only select bits
+
+// following select the ipot, addr or data shiftregisters for input
 #define selectIPots IOE=(IOE&~selectsMask)|BiasGenSel // selects only biasgen select, turns off addr and data selects, leaves other bits untouched
-#define selectAddr  IOE=(IOE&~selectsMask)|AddrSel  // even addresses are left cochlea, odd addresses are right cochlea
+#define selectAddr  IOE=(IOE&~selectsMask)|AddrSel  // selects addr shifter, even addresses are left cochlea, odd addresses are right cochlea
 #define selectData	IOE=(IOE&~selectsMask)|DataSel  // selects data shift register
-#define isScanSyncActive	(IOE&ScanSync)		// nonzero when scansync is active (bit has fallen out of scanner shift register)
+#define selectNone	IOE=(IOE&~selectsMask)			// turns off all selects
+#define isScanSyncActive	(IOE&ScanSync==0)			// nonzero when scansync is active (bit has fallen out of scanner shift register). sync is active low
 
 #define toggleVReset(); IOE|=Vreset; _nop_();_nop_();_nop_();_nop_();_nop_();_nop_(); IOE&=~Vreset;
 //DataSel	C00-C04	bits for setting Iq of current-mode BPF
@@ -136,7 +139,6 @@ sbit PD0=IOD^0; etc
 // 8 neurons per channel, 4 neurons driven by IHC output, 4 neurons driven by bpf output
 // chosen addr + Ybit=1 choses bpf neuron
 // chosen addr + Ybit=1 choses bpf neuron
-
 
 sbit tsReset=IOA^0;		// timestamp reset to CPLD
 sbit runCPLD=IOA^1;		// run CPLD
@@ -154,12 +156,15 @@ sbit selAer=IOD^3;   	//Chooses whether lpf (0) or rectified (1) lpf output driv
 sbit latch=IOD^4;		// onchip data latch
 sbit powerDown=IOD^5;	// onchip biasgen powerdown
 sbit aerKillBit=IOD^6;	// Set to (1) after Setting of AddrSel and Ybit to kill 4 neurons
-//sbit dacNLDAC=IOD^7; // debug - board hacked for this
+//sbit dacNLDAC=IOD^7; // debug - board was hacked for this and removed
 
 #define selectLPFKill yBit=0
 #define selectBPFKill yBit=1
 
-#define toggleLatch() latch=0; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=1;
+// clocks one bit into one of the shift registers
+#define toggleClockHiLow(); clock=1;  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); clock=0; // gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
+// latch input is 0=opaque, 1=transparent. toggleLatch latches the outputs of the shift registers.
+#define toggleLatch() _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=1; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=0; 
 // was used for debug, nLDAC wired to ground on board #define toggleLDAC()  _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_();  dacNLDAC=0; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); dacNLDAC=1;  // toggles LDAC after all 48 bits loaded and sync is high
 #define	startDACSync() dacNSync=0; // starts DAC data input
 #define endDACSync()	dacNSync=1; _nop_(); _nop_(); dacClock=1; // dacClock must go high *after* dacNSync goes high
@@ -225,7 +230,7 @@ clocksource in the FX2 for the slave FIFO clock source.
 				// port B is used as FD7-0 for 8 bit FIFO interface to CPLD
 	OEC = 0x0F; // now are cochlea and offchip DAC controls, before was 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
 	OED	= 0xFF; // all bit addressable outputs, all WORDWIDE=0 so port d should be enabled
-	OEE = 0xFF; // all outputs, byte addressable
+	OEE = 0x7F; // all outputs except scansync which is input, byte addressable
 
 	// set the slave FIFO interface to 30MHz, slave fifo mode
 
@@ -314,7 +319,7 @@ clocksource in the FX2 for the slave FIFO clock source.
 //	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
 	LED=1; // turn on LED
 
-	clock=1; bitIn=0; latch=1; powerDown=0; // init biasgen ports and pins
+	clock=1; bitIn=0; latch=0; powerDown=0; // init biasgen ports and pins
 	
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
 
@@ -474,8 +479,7 @@ void sendConfigByte(unsigned char b){
 		}else{
 			bitIn=0;
 		}
-		clock=1;
-		clock=0;
+		toggleClockHiLow(); 
 	}
 }
 
@@ -490,8 +494,7 @@ void sendConfigBits(unsigned char b,unsigned char nbits){
 		}else{
 			bitIn=0;
 		}
-		clock=1;
-		clock=0;
+		toggleClockHiLow();
 	}
 }
 
@@ -901,6 +904,7 @@ BOOL DR_VendorCmnd(void)
 						len -= bc; // dec total byte count
 					}
 					toggleLatch();
+					selectNone;
 					LED=!LED;
 					break;
 
@@ -962,10 +966,11 @@ BOOL DR_VendorCmnd(void)
 						ET2=0; // disable timer2 interrupt - IE.5
 						TR2=0; // stop timer2
 						i=255; // timeout on scanner clear
-						while(!isScanSyncActive && i-->0){ // clock scanner to end and timeout if there is no chip there
-							scanClock=1;
+						while(IOE&ScanSync && i-->0){ // clock scanner to end and timeout if there is no chip there
+							scanClock=1; // sync happens on falling edge
 							_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
 							scanClock=0;
+							_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
 						}
 						if(i==0) return TRUE; // scan to start failed
 						bc = EP0BUF[0]; // Get the channel number to scan to
@@ -1024,6 +1029,8 @@ AERKillBit in essence is like an additional bit to the bits for the DataSel.
 						aerKillBit=0;
 					}
 					toggleLatch();
+					selectNone;
+
 					LED=!LED;
 //					EP0BCH = 0;
 //					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
