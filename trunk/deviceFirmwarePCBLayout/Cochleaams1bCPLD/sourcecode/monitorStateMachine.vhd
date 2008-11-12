@@ -42,18 +42,21 @@ entity monitorStateMachine is
 end monitorStateMachine;
 
 architecture Behavioral of monitorStateMachine is
-  type state is (stIdle, stWaitEvent, stWriteReg, stWaitREQrls);
+  type state is (stIdle, stDelay,  stWaitEvent, stWriteReg, stWaitREQrls);
 
   -- present and next state
   signal StatexDP, StatexDN : state;
 
 -- signals used for synchronizer
   signal AERREQxSB, AERMonitorREQxSBN  : std_logic;
-  signal AERREQxSBDelay : std_logic_vector(15 downto 0); -- added to have delay on request line
+
+  signal DelayCounterxDN, DelayCounterxDP : std_logic_vector(7 downto 0);
+  
 begin
 
   -- calculate next state and outputs
-  p_memless              : process (StatexDP, AERREQxSB, EventReadyxSI, RunxSI,  AERREQxABI) 
+  p_memless              : process (StatexDP, AERREQxSB, EventReadyxSI, RunxSI,  AERREQxABI,DelayCounterxDP)
+    constant delay : integer := 47;
   begin  -- process p_memless
     -- default assignments: stay in present state, AERACK is high, don't write
     -- to the registers and don't declare that an event is ready
@@ -62,6 +65,7 @@ begin
     AERACKxSBO           <= '1';        -- active low!!
     RegWritexEO   <= '0';
     SetEventReadyxSO     <= '0';
+    DelayCounterxDN <= DelayCounterxDP;
 
     case StatexDP is
       when stIdle      =>               -- we are not monitoring
@@ -76,11 +80,18 @@ begin
                                         -- read the last event, so we have to wait
           StatexDN     <= stWaitEvent;
         elsif AERREQxSB = '0' then
-          StatexDN   <= stWriteReg;
+          StatexDN   <= stDelay; --stWriteReg;
         end if;
         
         if RunxSI = '0' then
           StatexDN           <= stIdle;
+        end if;
+        DelayCounterxDN <= (others => '0');
+      when stDelay =>
+        DelayCounterxDN <= DelayCounterxDP+1;
+
+        if DelayCounterxDP > delay then
+          StatexDN <= stWriteReg;
         end if;
       when stWriteReg =>                -- write timestamp and address to
                                         -- registers,acknowledge to AER device
@@ -110,8 +121,10 @@ begin
   begin  -- process p_memoryzing
     if ResetxRBI = '0' then             -- asynchronous reset (active low)
       StatexDP        <= stIdle;
+      DelayCounterxDP <= (others => '0');
     elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
       StatexDP        <= StatexDN;
+      DelayCounterxDP <= DelayCounterxDN;
     end if;
   end process p_memoryzing;
 
@@ -121,26 +134,8 @@ begin
   -- outputs: 
   synchronizer : process (ClockxCI)
   begin
-    if ClockxCI'event then              -- using double edge flipflops for synchronizing
---      AERREQxSB         <= AERMonitorREQxSBN;
---      AERMonitorREQxSBN <= AERREQxABI;
-      AERREQxSB         <= AERREQxSBDelay(15);
-		AERREQxSBDelay(15) <= AERREQxSBDelay(14);
-		AERREQxSBDelay(14) <= AERREQxSBDelay(13);
-		AERREQxSBDelay(13) <= AERREQxSBDelay(12);
-		AERREQxSBDelay(12) <= AERREQxSBDelay(11);
-		AERREQxSBDelay(11) <= AERREQxSBDelay(10);
-		AERREQxSBDelay(10) <= AERREQxSBDelay(9);		
-		AERREQxSBDelay(9) <= AERREQxSBDelay(8);
-		AERREQxSBDelay(8) <= AERREQxSBDelay(7);
-		AERREQxSBDelay(7) <= AERREQxSBDelay(6);
-		AERREQxSBDelay(6) <= AERREQxSBDelay(5);
-		AERREQxSBDelay(5) <= AERREQxSBDelay(4);
-		AERREQxSBDelay(4) <= AERREQxSBDelay(3);
-		AERREQxSBDelay(3) <= AERREQxSBDelay(2);
-		AERREQxSBDelay(2) <= AERREQxSBDelay(1);
-		AERREQxSBDelay(1) <= AERREQxSBDelay(0);
-		AERREQxSBDelay(0) <= AERMonitorREQxSBN;
+    if ClockxCI'event then       -- using double edge flipflops for synchronizing
+      AERREQxSB         <= AERMonitorREQxSBN;
       AERMonitorREQxSBN <= AERREQxABI;
     end if;
   end process synchronizer;
