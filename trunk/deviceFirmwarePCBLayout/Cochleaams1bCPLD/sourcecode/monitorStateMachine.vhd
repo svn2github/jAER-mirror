@@ -49,7 +49,7 @@ architecture Behavioral of monitorStateMachine is
 
 -- signals used for synchronizer
   signal AERREQxSB, AERMonitorREQxSBN  : std_logic;
-  signal AERREQxSBDelay : std_logic_vector(9 downto 0); -- added to have delay on request line
+  signal AERREQxSBDelay : std_logic_vector(15 downto 0); -- added to have delay on request line
 begin
 
   -- calculate next state and outputs
@@ -124,7 +124,13 @@ begin
     if ClockxCI'event then              -- using double edge flipflops for synchronizing
 --      AERREQxSB         <= AERMonitorREQxSBN;
 --      AERMonitorREQxSBN <= AERREQxABI;
-      AERREQxSB         <= AERREQxSBDelay(9);
+      AERREQxSB         <= AERREQxSBDelay(15);
+		AERREQxSBDelay(15) <= AERREQxSBDelay(14);
+		AERREQxSBDelay(14) <= AERREQxSBDelay(13);
+		AERREQxSBDelay(13) <= AERREQxSBDelay(12);
+		AERREQxSBDelay(12) <= AERREQxSBDelay(11);
+		AERREQxSBDelay(11) <= AERREQxSBDelay(10);
+		AERREQxSBDelay(10) <= AERREQxSBDelay(9);		
 		AERREQxSBDelay(9) <= AERREQxSBDelay(8);
 		AERREQxSBDelay(8) <= AERREQxSBDelay(7);
 		AERREQxSBDelay(7) <= AERREQxSBDelay(6);
