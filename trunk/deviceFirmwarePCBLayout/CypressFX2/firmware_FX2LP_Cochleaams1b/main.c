@@ -162,7 +162,7 @@ sbit aerKillBit=IOD^6;	// Set to (1) after Setting of AddrSel and Ybit to kill 4
 #define selectBPFKill yBit=1
 
 // clocks one bit into one of the shift registers
-#define toggleClockHiLow(); clock=1;  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); clock=0; // gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
+#define toggleClockHiLow(); clock=1;  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); clock=0; // gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
 // latch input is 0=opaque, 1=transparent. toggleLatch latches the outputs of the shift registers.
 #define toggleLatch() _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=1; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=0; 
 // was used for debug, nLDAC wired to ground on board #define toggleLDAC()  _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_();  dacNLDAC=0; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); dacNLDAC=1;  // toggles LDAC after all 48 bits loaded and sync is high
@@ -703,7 +703,14 @@ BYTE xsvfReturn;
 BOOL DR_VendorCmnd(void)
 {	
 	WORD value; 
-	WORD len, ind, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
+	WORD len,ind, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
+/*
+	union {
+		unsigned short ushort;
+		unsigned msb,lsb;
+		unsigned bytes[2]; // big endian, bytes[0] is MSB as far as C51 is concerned
+	} length;
+*/
 	WORD i;
 	char *dscrRAM;
 	unsigned char xdata JTAGdata[400];
@@ -869,7 +876,7 @@ BOOL DR_VendorCmnd(void)
 				
 				SYNCDELAY;
 				value = SETUPDAT[2];		// Get request value
-				value |= SETUPDAT[3] << 8;	// big endian
+				value |= SETUPDAT[3] << 8;	// data comes little endian
 				ind = SETUPDAT[4];			// Get index
 				ind |= SETUPDAT[5] << 8;
 				len = SETUPDAT[6];      	// length for data phase
@@ -1002,29 +1009,36 @@ AERKillBit in essence is like an additional bit to the bits for the DataSel.
 */
 // value has cmd in LSB, channel in MSB
 // index has b11=bpfkilled, b10=lpfkilled, b9-5=qbpf, b4-0=qsos
-					//	index is channel address, bytes={gain,quality,killed (1=killed,0=active)}
+/*All other 16-bit and 32-bit values are stored, contrary to other Intel
+processors, in big endian format, with the high-order byte stored first. For
+example, the LJMP and LCALL instructions expect 16-bit addresses that are
+in big endian format.
+*/
+//	index is channel address, bytes={gain,quality,killed (1=killed,0=active)}
 					selectAddr;
 					sendConfigBits(SETUPDAT[3],7); // send 7 bit address
 					toggleLatch();
-
+					_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
+					selectNone;
+					_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
 					selectData;
 					
-					sendConfigBits((unsigned char)ind,5);
-					ind=ind>>5;
-					sendConfigBits((unsigned char)ind,5);
-					ind=ind>>1;
+					sendConfigBits(SETUPDAT[4]&0x1f,5);
+					
+					sendConfigBits((SETUPDAT[4]>>5)|(SETUPDAT[5]<<3),5);
+					
 					// set each killbit
 					selectLPFKill; // clears ybit
-					if(ind&1){ // kill LPF						
-						aerKillBit=1;
+					if(SETUPDAT[5]&4){ // kill LPF						
+						aerKillBit=0; // hack
 					}else{
 						aerKillBit=0;
 					}
 					toggleLatch();
-					ind=ind>>1;
+					
 					selectBPFKill; // sets ybit
-					if(ind&1){ // kill BPF						
-						aerKillBit=1;
+					if(SETUPDAT[5]&8){ // kill BPF						
+						aerKillBit=0; // hack
 					}else{
 						aerKillBit=0;
 					}
@@ -1032,40 +1046,7 @@ AERKillBit in essence is like an additional bit to the bits for the DataSel.
 					selectNone;
 
 					LED=!LED;
-//					EP0BCH = 0;
-//					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
-//					while(EP0CS & bmEPBUSY);  // spin here until data arrives - should be none for this request
-/*
-					EP0BCH = 0;
-					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
-					while(EP0CS & bmEPBUSY);  // spin here until data arrives
-					//	index is channel address, bytes={gain,quality,killed (1=killed,0=active)}
-					selectAddr;
-					sendConfigBits(EP0BUF[0],7); // send 7 bit address
-					toggleLatch();
 
-					selectData;
-					sendConfigBits(EP0BUF[1],5);
-					sendConfigBits(EP0BUF[2],5);
-					
-					bc=EP0BUF[3];
-					// set each killbit
-					selectLPFKill; // clears ybit
-					if(bc&1){ // kill LPF						
-						aerKillBit=1;
-					}else{
-						aerKillBit=0;
-					}
-					toggleLatch();
-					
-					selectBPFKill; // sets ybit
-					if(bc&2){ // kill BPF						
-						aerKillBit=1;
-					}else{
-						aerKillBit=0;
-					}
-					toggleLatch();
-*/
 
 					break;
 				case CMD_RESET_EQUALIZER:
