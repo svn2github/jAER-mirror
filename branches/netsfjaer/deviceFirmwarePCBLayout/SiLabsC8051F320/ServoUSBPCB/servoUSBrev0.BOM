@@ -1,0 +1,19 @@
+Bill of Material for servoUSBrev0.pcbdoc
+On 11/14/2006 at 4:34:18 PM
+
+ Comment             Pattern     Quantity  Components
+------------------------------------------------------------------------------
+ 100nF               CC2013-0805      1    C1                                                
+ 1k                  CR2012-0805      1    R2                                                
+ 470                 CR2012-0805      1    R1                                                
+ B0810-2R5105 Aerogel PowerStor (solarbotics.com) CAPPR3.5-8X10.5    2    C2, C3                       Polarized Capacitor (Radial) 
+ Bat/VBUS            HDR1X4           1    J0                           Header, 4-Pin        
+ C8051F320           TQFP32           1    U1                           Silicon Labs USB Microcontroller 
+ Debug               HDR2X5           1    J4                           Header, 5-Pin, Dual row 
+ LED                 0805LED          1    DS1                          LED, SMT 3mm by 1.5mm 
+ Port2               HDR1X8           1    J5                           Header, 8-Pin        
+ S0                  HDR1X3           1    S0                           Header, 3-Pin        
+ S1                  HDR1X3           1    S1                           Header, 3-Pin        
+ S2                  HDR1X3           1    S2                           Header, 3-Pin        
+ S3                  HDR1X3           1    S3                           Header, 3-Pin        
+ USB B               usb              1    J3                           USB TypB             

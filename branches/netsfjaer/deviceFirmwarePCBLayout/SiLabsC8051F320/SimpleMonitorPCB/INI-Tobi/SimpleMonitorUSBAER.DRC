@@ -1,0 +1,36 @@
+Protel Design System Design Rule Check
+PCB File : \Documents and Settings\tobi\My Documents\tobi PCBs\SimpleMonitorUSBAER\SimpleMonitorUSBAER.PCBDOC
+Date     : 2/27/2005
+Time     : 5:52:42 PM
+
+Processing Rule : Width Constraint (Min=0.254mm) (Max=1.524mm) (Preferred=0.508mm) (InNet('VDD'))
+Rule Violations :0
+
+Processing Rule : Width Constraint (Min=0.254mm) (Max=1.524mm) (Preferred=0.508mm) (InNet('GND'))
+Rule Violations :0
+
+Processing Rule : Short-Circuit Constraint (Allowed=No) (All),(All)
+   Violation between Pad J3-5(38.47mm,45.054mm)  Multi-Layer and                      Text "tobi 3/05" (28.448mm,41.402mm)  Top Layer   
+Rule Violations :1
+
+Processing Rule : Broken-Net Constraint ( (All) )
+Rule Violations :0
+
+Processing Rule : Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (All)
+Rule Violations :0
+
+Processing Rule : Hole Size Constraint (Min=0.0254mm) (Max=2.54mm) (All)
+Rule Violations :0
+
+Processing Rule : Width Constraint (Min=0.2032mm) (Max=0.2032mm) (Preferred=0.2032mm) (All)
+Rule Violations :0
+
+Processing Rule : Clearance Constraint (Gap=0.2032mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Room SimpleMonitorUSBAER (Bounding Region = (0mm, 0mm, 142.24mm, 96.774mm) (InComponentClass('SimpleMonitorUSBAER'))
+Rule Violations :0
+
+
+Violations Detected : 1
+Time Elapsed        : 00:00:01
