@@ -1,0 +1,14 @@
+"Bill of Material for SimpleMonitorUSBAER.PRJPCB"
+"On 3/1/2005 at 12:22:23 PM"
+
+"Comment","Pattern","Quantity","Components"
+
+"100nF","CC3216-1206","1","C1",""
+"102","CR2012-0805","1","R4",""
+"471","CR2012-0805","1","R1",""
+"AER-Rome","HDR10x2 w/clips","1","J2","AER-Rome 20-Pin, Dual row, with IDC mounting clips"
+"C8051F320","TQFP32","1","U1","Silicon Labs USB Microcontroller"
+"CAVIAR","HDR2X20 with shell","1","J1","CAVIAR 40 pin IDC header"
+"Debug","HDR2X5","1","J4","Header, 5-Pin, Dual row"
+"LED","0805LED","3","G, R, Y","LED, SMT 3mm by 1.5mm"
+"USB B","usb","1","J3","USB TypB"

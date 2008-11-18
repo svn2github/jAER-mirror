@@ -1,0 +1,11 @@
+Output: Simple BOM
+Type  : SimpleBOM
+From  : Project [SimpleMonitorUSBAER.PRJPCB]
+   Generated File[SimpleMonitorUSBAER.BOM]
+   Generated File[SimpleMonitorUSBAER.CSV]
+
+
+Files Generated   : 2
+Documents Printed : 0
+
+Finished Output Generation At 12:22:23 PM On 3/1/2005
