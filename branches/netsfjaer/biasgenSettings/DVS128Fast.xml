@@ -15,6 +15,8 @@
               <map/>
               <node name="retina">
                 <map>
+                  <entry key="FilterChain.timeLimitEnabled" value="false"/>
+                  <entry key="FilterChain.timeLimitMs" value="0"/>
                   <entry key="Tmpdiff128.IPot.cas" value="1966"/>
                   <entry key="Tmpdiff128.IPot.injGnd" value="1137667"/>
                   <entry key="Tmpdiff128.IPot.reqPd" value="16777215"/>
@@ -30,6 +32,21 @@
                   <entry key="Masterbias.rx" value="8200.0"/>
                   <entry key="Masterbias.rint" value="46000.0"/>
                   <entry key="Masterbias.internalResistorUsed" value="false"/>
+                  <entry key="DVS128.IPot.cas" value="1992"/>
+                  <entry key="DVS128.IPot.injGnd" value="1108364"/>
+                  <entry key="DVS128.IPot.reqPd" value="16777215"/>
+                  <entry key="DVS128.IPot.puX" value="8159221"/>
+                  <entry key="DVS128.IPot.diffOff" value="132"/>
+                  <entry key="DVS128.IPot.req" value="159147"/>
+                  <entry key="DVS128.IPot.refr" value="969"/>
+                  <entry key="DVS128.IPot.puY" value="16777215"/>
+                  <entry key="DVS128.IPot.diffOn" value="209996"/>
+                  <entry key="DVS128.IPot.diff" value="13125"/>
+                  <entry key="DVS128.IPot.foll" value="271"/>
+                  <entry key="DVS128.IPot.Pr" value="217"/>
+                  <entry key="XYTypeFilter.filterEnabled" value="false"/>
+                  <entry key="RotateFilter.filterEnabled" value="false"/>
+                  <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
                 </map>
               </node>
             </node>
