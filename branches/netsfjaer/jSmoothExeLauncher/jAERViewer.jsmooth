@@ -17,6 +17,8 @@
 <classPath>..\host\java\jars\jsr80-1.0.1.jar</classPath>
 <classPath>..\host\java\jars\jsr80_linux-1.0.1.jar</classPath>
 <classPath>..\host\java\jars\jsr80_ri-1.0.1.jar</classPath>
+<classPath>..\host\java\jars\AbsoluteLayout.jar</classPath>
+<classPath>..\host\java\jars\RXTXcomm.jar</classPath>
 <currentDirectory>host\java</currentDirectory>
 <embeddedJar>false</embeddedJar>
 <executableName>..\jAERViewer.exe</executableName>
@@ -42,10 +44,10 @@
 <name>java.library.path</name>
 <value>${EXECUTABLEPATH}host\java\jars;${EXECUTABLEPATH}host\java\jars\SiLabsNativeWindows</value>
 </javaProperties>
-<mainClassName>ch.unizh.ini.caviar.JAERViewer</mainClassName>
+<mainClassName>sf.net.jaer.JAERViewer</mainClassName>
 <maximumMemoryHeap>536870912</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
-<minimumVersion>1.5</minimumVersion>
+<minimumVersion>1.6</minimumVersion>
 <skeletonName>Console Wrapper</skeletonName>
 <skeletonProperties>
 <key>Message</key>

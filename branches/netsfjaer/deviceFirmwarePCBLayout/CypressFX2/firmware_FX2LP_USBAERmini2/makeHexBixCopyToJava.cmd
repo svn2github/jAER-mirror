@@ -4,6 +4,6 @@ hex2bix -i -f 0xC2 -o USBAERmini2.iic USBAERmini2.hex
 
 rem ******************** copy bix firmware download file to java package folder for integration into jar file
 
-copy USBAERmini2.bix ..\..\..\host\java\src\ch\unizh\ini\caviar\hardwareinterface\usb\USBAERmini2.bix
-copy USBAERmini2.hex ..\..\..\host\java\src\ch\unizh\ini\caviar\hardwareinterface\usb\USBAERmini2.hex
-copy USBAERmini2.iic ..\..\..\host\java\src\ch\unizh\ini\caviar\hardwareinterface\usb\USBAERmini2.iic
+copy USBAERmini2.bix ..\..\..\host\java\src\sf\net\jaer\hardwareinterface\usb\cypressfx2\USBAERmini2.bix
+copy USBAERmini2.hex ..\..\..\host\java\src\sf\net\jaer\hardwareinterface\usb\cypressfx2\USBAERmini2.hex
+copy USBAERmini2.iic ..\..\..\host\java\src\sf\net\jaer\hardwareinterface\usb\cypressfx2\USBAERmini2.iic

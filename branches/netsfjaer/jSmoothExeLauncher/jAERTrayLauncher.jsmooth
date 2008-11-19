@@ -30,7 +30,7 @@
 <name>java.library.path</name>
 <value>jars</value>
 </javaProperties>
-<mainClassName>ch.unizh.ini.caviar.JAERTrayLauncher</mainClassName>
+<mainClassName>sf.net.jaer.JAERTrayLauncher</mainClassName>
 <maximumMemoryHeap>536870912</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
 <minimumVersion>1.6</minimumVersion>
