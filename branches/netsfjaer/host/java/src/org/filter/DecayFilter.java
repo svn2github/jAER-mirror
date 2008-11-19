@@ -4,14 +4,14 @@
  */
 
 package org.orangesky.visuals;
-import ch.unizh.ini.caviar.aemonitor.AEPacketRaw;
-import ch.unizh.ini.caviar.aemonitor.EventRaw;
-import ch.unizh.ini.caviar.chip.AEChip;
-import ch.unizh.ini.caviar.event.EventPacket;
-import ch.unizh.ini.caviar.event.OutputEventIterator;
-import ch.unizh.ini.caviar.event.PolarityEvent;
-import ch.unizh.ini.caviar.event.PolarityEvent.Polarity;
-import ch.unizh.ini.caviar.eventprocessing.EventFilter2D;
+import sf.net.jaer.aemonitor.AEPacketRaw;
+import sf.net.jaer.aemonitor.EventRaw;
+import sf.net.jaer.chip.AEChip;
+import sf.net.jaer.event.EventPacket;
+import sf.net.jaer.event.OutputEventIterator;
+import sf.net.jaer.event.PolarityEvent;
+import sf.net.jaer.event.PolarityEvent.Polarity;
+import sf.net.jaer.eventprocessing.EventFilter2D;
 import java.util.Random;
 import java.lang.Math.*;
 /**
