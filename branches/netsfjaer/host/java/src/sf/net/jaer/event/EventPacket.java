@@ -80,9 +80,6 @@ public class EventPacket<E extends BasicEvent> implements /*EventPacketInterface
     /** Default capacity in events for new EventPackets */
     public final int DEFAULT_INITIAL_CAPACITY=4096;
     int capacity;
-//    protected BasicEvent[] events;
-//    protected ArrayList<E> eventList;
-    private int numTypes=1;
     
     /** the number of events eventList actually contains (0 to size-1) */
     private int size=0;
@@ -239,8 +236,10 @@ public class EventPacket<E extends BasicEvent> implements /*EventPacketInterface
         /** obtains the next output event. Increments the size of the packet */
         final public E nextOutput() {
             E next;
-            if(size>=capacity)
+            if(size>=capacity){
                 enlargeCapacity();
+//                System.out.println("enlarged "+EventPacket.this);
+            }
 //            try {
 //                next = eventList.get(cursor);
             next=elementData[size];
