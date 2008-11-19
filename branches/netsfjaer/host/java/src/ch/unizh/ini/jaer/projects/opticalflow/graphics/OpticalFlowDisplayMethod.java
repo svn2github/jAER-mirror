@@ -9,10 +9,7 @@
 package ch.unizh.ini.jaer.projects.opticalflow.graphics;
 
 import sf.net.jaer.graphics.*;
-import sf.net.jaer.util.filter.HighpassFilter;
-import sf.net.jaer.util.filter.LowpassFilter;
 import ch.unizh.ini.jaer.projects.opticalflow.chip.*;
-import ch.unizh.ini.jaer.projects.opticalflow.usbinterface.SiLabsC8051F320_OpticalFlowHardwareInterface;
 import java.util.prefs.*;
 import javax.media.opengl.*;
 import javax.media.opengl.GLAutoDrawable;

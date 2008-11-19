@@ -11,7 +11,6 @@ import sf.net.jaer.graphics.FrameAnnotater;
 import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
 import sf.net.jaer.util.filter.BandpassFilter;
 import sf.net.jaer.util.filter.LowpassFilter;
-import com.sun.opengl.util.GLUT;
 import java.awt.Graphics2D;
 import java.util.Random;
 import java.util.Timer;

@@ -23,7 +23,6 @@ import java.awt.geom.*;
 import java.io.FileWriter;
 
 import java.util.*;
-import java.util.prefs.Preferences;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.*;
 import javax.media.opengl.GLAutoDrawable;

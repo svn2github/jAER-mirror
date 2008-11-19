@@ -9,7 +9,6 @@
 
 package ch.unizh.ini.jaer.projects.robothead.robotcontrol;
 
-import com.sun.opengl.impl.Java2D;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

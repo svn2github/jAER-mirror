@@ -1,11 +1,7 @@
 package ch.unizh.ini.jaer.chip.cochlea;
 
-import sf.net.jaer.biasgen.*;
-import sf.net.jaer.chip.*;
 import sf.net.jaer.chip.AEChip;
 import sf.net.jaer.chip.TypedEventExtractor;
-import sf.net.jaer.event.*;
-import sf.net.jaer.hardwareinterface.*;
 
 
 /**

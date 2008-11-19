@@ -11,7 +11,6 @@ package sf.net.jaer;
 
 import sf.net.jaer.aemonitor.AEPacketRaw;
 import sf.net.jaer.chip.AEChip;
-import ch.unizh.ini.jaer.chip.retina.*;
 import sf.net.jaer.eventio.*;
 import sf.net.jaer.graphics.*;
 import sf.net.jaer.util.*;
@@ -24,7 +23,6 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.*;
 import javax.swing.*;

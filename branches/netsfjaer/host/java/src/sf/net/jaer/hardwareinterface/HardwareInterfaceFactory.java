@@ -12,8 +12,6 @@ package sf.net.jaer.hardwareinterface;
 
 import sf.net.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320Factory;
 import sf.net.jaer.hardwareinterface.usb.cypressfx2.CypressFX2Factory;
-import sf.net.jaer.chip.Chip;
-import sf.net.jaer.hardwareinterface.usb.*;
 import sf.net.jaer.hardwareinterface.usb.linux.HardwareInterfaceFactoryLinux;
 import java.lang.reflect.*;
 import java.util.*;

@@ -21,7 +21,6 @@ import java.awt.*;
 //import ch.unizh.ini.caviar.util.PreferencesEditor;
 import java.awt.geom.*;
 import java.util.*;
-import java.util.prefs.Preferences;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import sf.net.jaer.eventprocessing.tracking.ClusterTracker.Cluster;

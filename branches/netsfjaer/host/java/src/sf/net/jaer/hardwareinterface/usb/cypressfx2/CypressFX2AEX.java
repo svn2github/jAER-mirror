@@ -12,15 +12,6 @@
 
 package sf.net.jaer.hardwareinterface.usb.cypressfx2;
 
-import sf.net.jaer.aemapper.*;
-import sf.net.jaer.aesequencer.*;
-import sf.net.jaer.aemonitor.*;
-import sf.net.jaer.hardwareinterface.*;
-import de.thesycon.usbio.*;
-import de.thesycon.usbio.structs.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.logging.*;
 
 /**
  * Daniel Fasnacht's AEX board which monitors and sequences

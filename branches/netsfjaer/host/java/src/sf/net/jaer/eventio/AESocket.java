@@ -11,7 +11,6 @@ import sf.net.jaer.aemonitor.*;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.net.*;
-import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.logging.Logger;

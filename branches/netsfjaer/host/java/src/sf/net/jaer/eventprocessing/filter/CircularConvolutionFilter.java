@@ -11,7 +11,6 @@ import sf.net.jaer.chip.*;
 import sf.net.jaer.event.*;
 import sf.net.jaer.eventprocessing.EventFilter2D;
 import java.util.*;
-import java.util.logging.Level;
 
 /**
  * Computes circular convolutions by splatting out events and checking receiving pixels to see if they exceed a threshold.

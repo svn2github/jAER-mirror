@@ -4,17 +4,12 @@
  * Created on May 13, 2007, 3:46 PM
  */
 package sf.net.jaer.util;
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.eventprocessing.EventFilter;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -22,8 +17,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.InputMap;
 import javax.swing.JList;
 import javax.swing.KeyStroke;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 /**
  * A panel that finds subclasses of a class, displays them in a left list, displays another list given as a parameter
 in the right panel, and accepts a list of default class names. The user can choose which classes and these are returned

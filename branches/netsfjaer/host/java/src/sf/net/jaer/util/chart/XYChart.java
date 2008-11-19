@@ -13,7 +13,6 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import javax.media.opengl.GL;
-import javax.swing.BorderFactory;
 
 /**
  * The XYChart class.

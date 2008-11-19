@@ -12,7 +12,6 @@
 package ch.unizh.ini.jaer.projects.facetracker;
 
 import java.lang.Math.*;
-import java.util.ArrayList;
 
 public class Mund 
 {

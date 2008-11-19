@@ -9,18 +9,14 @@
 
 package ch.unizh.ini.jaer.projects.stereo3D;
 
-import sf.net.jaer.aemonitor.*;
 import sf.net.jaer.eventio.*;
-import sf.net.jaer.graphics.AEViewer;
 import sf.net.jaer.util.EngineeringFormat;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
 
 /**
  * Class to stream in packets of events from binary input stream from a file recorded by 3D reconstructing filters.

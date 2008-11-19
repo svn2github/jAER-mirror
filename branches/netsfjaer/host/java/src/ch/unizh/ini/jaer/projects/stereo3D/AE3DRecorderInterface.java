@@ -8,7 +8,6 @@
 
 package ch.unizh.ini.jaer.projects.stereo3D;
 
-import java.io.IOException;
 import java.io.File;
 
 /**

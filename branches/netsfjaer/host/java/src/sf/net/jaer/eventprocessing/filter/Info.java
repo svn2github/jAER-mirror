@@ -12,12 +12,9 @@
 
 package sf.net.jaer.eventprocessing.filter;
 
-import sf.net.jaer.aemonitor.AEConstants;
 import sf.net.jaer.chip.*;
 import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventio.AEDataFile;
 import sf.net.jaer.eventio.AEFileInputStream;
-import sf.net.jaer.eventio.AEFileInputStreamInterface;
 import sf.net.jaer.eventprocessing.*;
 import sf.net.jaer.graphics.AEPlayerInterface;
 import sf.net.jaer.graphics.AEViewer;
@@ -28,7 +25,6 @@ import com.sun.opengl.util.*;
 import java.awt.Graphics2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.*;
 import java.io.File;
 import java.text.*;
 import java.text.SimpleDateFormat;

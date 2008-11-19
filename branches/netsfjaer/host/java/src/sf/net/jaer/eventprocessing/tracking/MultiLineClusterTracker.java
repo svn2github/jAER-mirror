@@ -9,40 +9,24 @@
  */
 
 package sf.net.jaer.eventprocessing.tracking;
-import sf.net.jaer.aemonitor.AEConstants;
 import sf.net.jaer.chip.*;
-import sf.net.jaer.eventprocessing.*;
 import sf.net.jaer.eventprocessing.EventFilter2D;
 import sf.net.jaer.event.*;
 import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.FilterChain;
-import sf.net.jaer.eventprocessing.TimeLimiter;
-import sf.net.jaer.eventprocessing.filter.*;
-import sf.net.jaer.eventprocessing.filter.BackgroundActivityFilter;
-import sf.net.jaer.eventprocessing.label.*;
-import sf.net.jaer.eventprocessing.tracking.LineDetector;
-import sf.net.jaer.eventprocessing.tracking.LineDetector;
-import sf.net.jaer.eventprocessing.tracking.LineDetector;
-import sf.net.jaer.eventprocessing.tracking.LineDetector;
 import sf.net.jaer.graphics.*;
 import sf.net.jaer.util.filter.*;
 import com.sun.opengl.util.*;
 import java.awt.*;
 //import ch.unizh.ini.caviar.util.PreferencesEditor;
 import java.awt.geom.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.util.*;
-import java.util.prefs.*;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
-import javax.swing.*;
-import sf.net.jaer.eventprocessing.tracking.*;
 
 
 /**

@@ -14,7 +14,6 @@
  */
 
 package ch.unizh.ini.jaer.projects.facetracker;
-import java.lang.Math;
 
 
 public class Sorting 

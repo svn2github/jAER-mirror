@@ -13,19 +13,14 @@
 
 package ch.unizh.ini.jaer.projects.facetracker;
 
-import sf.net.jaer.chip.*;
 import sf.net.jaer.chip.AEChip;
 import sf.net.jaer.event.*;
 import sf.net.jaer.event.EventPacket;
 import sf.net.jaer.eventprocessing.EventFilter2D;
 import java.util.*;
 import java.lang.Math.*;
-import sf.net.jaer.eventprocessing.*;
-import sf.net.jaer.eventprocessing.filter.SubSampler;
 import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.util.VectorHistogram;
 import java.awt.Graphics2D;
-import java.awt.geom.Point2D;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 

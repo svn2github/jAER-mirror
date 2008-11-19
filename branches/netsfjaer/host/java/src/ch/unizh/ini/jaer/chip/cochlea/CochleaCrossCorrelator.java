@@ -16,7 +16,6 @@ import sf.net.jaer.event.EventPacket;
 import sf.net.jaer.event.TypedEvent;
 import sf.net.jaer.graphics.FrameAnnotater;
 import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.hardwareinterface.usb.*;
 import sf.net.jaer.util.EngineeringFormat;
 import sf.net.jaer.util.filter.LowpassFilter;
 import com.sun.opengl.util.GLUT;

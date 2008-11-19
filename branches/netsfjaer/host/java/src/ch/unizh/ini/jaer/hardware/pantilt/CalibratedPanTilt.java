@@ -13,12 +13,6 @@ import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
 import sf.net.jaer.hardwareinterface.ServoInterface;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
-import java.io.*;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.util.Vector;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 

@@ -12,8 +12,6 @@ import sf.net.jaer.graphics.FrameAnnotater;
 import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 /**

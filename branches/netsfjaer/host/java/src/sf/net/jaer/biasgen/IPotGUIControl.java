@@ -12,7 +12,6 @@
 
 package sf.net.jaer.biasgen;
 
-import java.awt.*;
 import javax.swing.*;
 
 /**

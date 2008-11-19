@@ -12,7 +12,6 @@ package sf.net.jaer.eventprocessing;
 
 import sf.net.jaer.chip.*;
 import java.beans.*;
-import java.io.File;
 import java.util.HashMap;
 import java.util.logging.Logger;
 import java.util.prefs.*;

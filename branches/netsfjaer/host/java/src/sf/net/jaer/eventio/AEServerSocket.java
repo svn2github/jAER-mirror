@@ -14,10 +14,8 @@ package sf.net.jaer.eventio;
 
 import java.io.*;
 import java.net.*;
-import java.nio.channels.SocketChannel;
 import java.util.logging.*;
 import java.util.prefs.*;
-import javax.net.ServerSocketFactory;
 
 /**
  * Following is target functionality (right now this class only opens a single socket to most recent client connecting to it

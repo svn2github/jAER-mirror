@@ -13,13 +13,11 @@ import ch.unizh.ini.jaer.projects.robothead.*;
 import sf.net.jaer.chip.*;
 import sf.net.jaer.event.*;
 import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.*;
 import sf.net.jaer.eventprocessing.FilterChain;
 import sf.net.jaer.eventprocessing.EventFilter2D;
 //import com.sun.org.apache.xpath.internal.operations.Mod;
 import java.util.*;
 import ch.unizh.ini.jaer.projects.robothead.retinacochlea.*;
-import ch.unizh.ini.jaer.projects.robothead.*;
 
 import sf.net.jaer.graphics.FrameAnnotater;
 import com.sun.opengl.util.GLUT;

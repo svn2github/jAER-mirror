@@ -12,7 +12,6 @@ import sf.net.jaer.eventprocessing.EventFilter2D;
 import sf.net.jaer.graphics.FrameAnnotater;
 import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
 import sf.net.jaer.util.HexString;
-import com.sun.opengl.util.GLUT;
 import java.awt.Graphics2D;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;

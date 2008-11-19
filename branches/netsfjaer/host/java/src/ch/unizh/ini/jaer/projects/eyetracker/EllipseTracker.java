@@ -11,19 +11,14 @@ import sf.net.jaer.chip.*;
 import sf.net.jaer.event.*;
 import sf.net.jaer.eventprocessing.EventFilter2D;
 import java.util.*;
-import java.util.logging.Level;
 import sf.net.jaer.eventprocessing.EventFilterDataLogger;
 
 import sf.net.jaer.graphics.FrameAnnotater;
 import java.awt.Graphics2D;
-import java.awt.geom.*;
 import javax.media.opengl.*;
 import java.awt.*;
 import java.awt.event.*;
         
-import sf.net.jaer.eventprocessing.EventFilterDataLogger;
-import sf.net.jaer.graphics.*;
-import sf.net.jaer.graphics.FrameAnnotater;
 
 import javax.swing.*;
 

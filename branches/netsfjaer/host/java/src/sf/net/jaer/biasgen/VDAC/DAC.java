@@ -12,7 +12,6 @@
 
 package sf.net.jaer.biasgen.VDAC;
 
-import sf.net.jaer.biasgen.*;
 
 /**
  * Describes a Digital to Analog Coverter (DAC).

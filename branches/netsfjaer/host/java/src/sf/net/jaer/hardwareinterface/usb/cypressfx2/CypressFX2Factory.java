@@ -11,8 +11,6 @@ package sf.net.jaer.hardwareinterface.usb.cypressfx2;
 
 import sf.net.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_AeSequencer;
 import sf.net.jaer.hardwareinterface.usb.*;
-import sf.net.jaer.chip.Chip;
-import ch.unizh.ini.jaer.chip.cochlea.CochleaAMS1b;
 import ch.unizh.ini.jaer.chip.cochlea.CochleaAMS1bHardwareInterface;
 import ch.unizh.ini.jaer.chip.dvs320.DVS320HardwareInterface;
 import sf.net.jaer.util.HexString;

@@ -12,7 +12,6 @@
 
 package sf.net.jaer.eventprocessing.tracking;
 
-import sf.net.jaer.aemonitor.Event;
 import sf.net.jaer.chip.*;
 import sf.net.jaer.event.*;
 import sf.net.jaer.event.EventPacket;
@@ -20,12 +19,9 @@ import sf.net.jaer.eventprocessing.EventFilter2D;
 import sf.net.jaer.graphics.FrameAnnotater;
 import sf.net.jaer.util.filter.AngularLowpassFilter;
 import sf.net.jaer.util.filter.LowpassFilter;
-import com.sun.opengl.util.*;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.geom.*;
 import java.util.*;
-import java.util.prefs.Preferences;
 import javax.media.opengl.*;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;

@@ -21,7 +21,6 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.util.*;
-import java.util.prefs.*;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 

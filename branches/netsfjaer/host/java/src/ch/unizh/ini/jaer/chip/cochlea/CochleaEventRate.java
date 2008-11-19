@@ -14,15 +14,11 @@ import sf.net.jaer.eventprocessing.EventFilter2D;
 import sf.net.jaer.event.EventPacket;
 import sf.net.jaer.event.TypedEvent;
 import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.hardwareinterface.usb.*;
 import sf.net.jaer.util.EngineeringFormat;
-import sf.net.jaer.util.filter.LowpassFilter;
 import com.sun.opengl.util.GLUT;
 import java.awt.Graphics2D;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
-import java.io.*;
 
 /**
  * Computes cross corr between binaural cochleas

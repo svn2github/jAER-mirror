@@ -5,7 +5,6 @@
  */
 
 package sf.net.jaer.eventprocessing;
-import ch.unizh.ini.jaer.projects.rccar.Driver;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.ActionListener;
@@ -14,7 +13,6 @@ import java.beans.Introspector;
 import java.lang.reflect.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.BoxLayout;

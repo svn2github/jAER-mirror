@@ -10,38 +10,16 @@
 
 package sf.net.jaer.chip;
 
-import ch.unizh.ini.jaer.chip.cochlea.CochleaAERb;
-import ch.unizh.ini.jaer.chip.cochlea.CochleaAMSNoBiasgen;
-import ch.unizh.ini.jaer.chip.cochlea.CochleaAMSWithBiasgen;
-import es.cnm.imse.jaer.chip.convolution.*;
-import es.cnm.imse.jaer.chip.convolution.Conv32;
-import es.cnm.imse.jaer.chip.convolution.Conv64;
-import es.cnm.imse.jaer.chip.convolution.Conv64InOut;
 import sf.net.jaer.eventprocessing.*;
-import sf.net.jaer.eventprocessing.EventFilter2D;
 import sf.net.jaer.eventprocessing.FilterChain;
 import sf.net.jaer.eventprocessing.FilterFrame;
 import sf.net.jaer.eventprocessing.filter.BackgroundActivityFilter;
-import sf.net.jaer.eventprocessing.filter.RepetitiousFilter;
 import sf.net.jaer.eventprocessing.filter.RotateFilter;
-import sf.net.jaer.eventprocessing.filter.SubSampler;
 import sf.net.jaer.eventprocessing.filter.XYTypeFilter;
-import no.uio.ifi.jaer.chip.learning.Learning;
-import no.uio.ifi.jaer.chip.foveated.UioFoveatedImager;
-import no.uio.ifi.jaer.chip.staticbiovis.UioStaticBioVis;
-import ch.unizh.ini.jaer.chip.object.Tnc3;
-import ch.unizh.ini.jaer.chip.retina.TestchipARCSLineSensor;
-import ch.unizh.ini.jaer.chip.retina.TestchipARCsPixelTestArray;
-import ch.unizh.ini.jaer.chip.retina.Tmpdiff128;
-import ch.unizh.ini.jaer.chip.retina.Tmpdiff64;
 import sf.net.jaer.event.*;
 import sf.net.jaer.eventio.*;
 import sf.net.jaer.graphics.*;
-import ch.unizh.ini.jaer.chip.stereopsis.Tmpdiff128StereoPair;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.prefs.*;
 
 /**
  * Describes a generic address-event chip, and includes fields for associated classes like its renderer,

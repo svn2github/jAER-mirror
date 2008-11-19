@@ -10,7 +10,6 @@
 package sf.net.jaer.eventio;
 
 import sf.net.jaer.aemonitor.*;
-import sf.net.jaer.graphics.AEViewer;
 import sf.net.jaer.util.EngineeringFormat;
 import java.beans.PropertyChangeSupport;
 import java.io.*;

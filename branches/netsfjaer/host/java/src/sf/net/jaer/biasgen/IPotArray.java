@@ -6,8 +6,6 @@
 
 package sf.net.jaer.biasgen;
 
-import sf.net.jaer.hardwareinterface.*;
-import java.beans.*;
 import java.util.*;
 
 /**

@@ -19,7 +19,6 @@ import java.awt.*;
 import sf.net.jaer.graphics.*;
 import com.sun.opengl.util.GLUT;
 import javax.media.opengl.GL;
-import javax.media.opengl.glu.*;
 import javax.media.opengl.GLAutoDrawable;
 
 /**

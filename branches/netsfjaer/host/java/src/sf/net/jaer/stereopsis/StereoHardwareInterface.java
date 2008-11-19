@@ -17,9 +17,7 @@ import sf.net.jaer.aemonitor.AEListener;
 import sf.net.jaer.aemonitor.AEMonitorInterface;
 import sf.net.jaer.aemonitor.AEPacketRaw;
 import sf.net.jaer.chip.*;
-import sf.net.jaer.event.BinocularEvent;
 import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
-import sf.net.jaer.hardwareinterface.usb.*;
 import sf.net.jaer.hardwareinterface.usb.ReaderBufferControl;
 import java.util.logging.Logger;
 

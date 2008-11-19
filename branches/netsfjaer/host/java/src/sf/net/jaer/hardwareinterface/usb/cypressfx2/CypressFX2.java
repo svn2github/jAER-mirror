@@ -20,14 +20,9 @@ import java.beans.*;
 import java.io.*;
 import de.thesycon.usbio.*;
 import de.thesycon.usbio.structs.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.*;
-import javax.swing.JDialog;
-import javax.swing.SwingUtilities;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *  Devices that use the CypressFX2 and the USBIO driver, e.g. the DVS retinas, the USBAERmini2. This class should not normally be constructed but rather a subclass that overrides

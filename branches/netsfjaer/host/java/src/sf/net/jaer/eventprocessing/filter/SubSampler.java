@@ -15,7 +15,6 @@ package sf.net.jaer.eventprocessing.filter;
 import sf.net.jaer.chip.AEChip;
 import sf.net.jaer.event.*;
 import sf.net.jaer.eventprocessing.EventFilter2D;
-import java.util.prefs.*;
 
 /**
  * Subsmaples input AE packets to produce output at some binary subsampling.

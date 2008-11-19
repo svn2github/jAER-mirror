@@ -10,10 +10,8 @@
 package ch.unizh.ini.jaer.chip.retinaCochlea;
 
 import sf.net.jaer.aemonitor.AEPacketRaw;
-import sf.net.jaer.aemonitor.EventRaw;
 import sf.net.jaer.chip.AEChip;
 import sf.net.jaer.chip.EventExtractor2D;
-import sf.net.jaer.chip.RetinaExtractor;
 import sf.net.jaer.chip.TypedEventExtractor;
 import ch.unizh.ini.jaer.chip.cochlea.CochleaAERb;
 import ch.unizh.ini.jaer.chip.retina.Tmpdiff64;

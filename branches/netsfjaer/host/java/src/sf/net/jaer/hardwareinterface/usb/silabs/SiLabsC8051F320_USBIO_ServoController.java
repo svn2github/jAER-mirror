@@ -13,7 +13,6 @@
 package sf.net.jaer.hardwareinterface.usb.silabs;
 
 import sf.net.jaer.hardwareinterface.usb.*;
-import sf.net.jaer.JAERViewer;
 import sf.net.jaer.hardwareinterface.*;
 import sf.net.jaer.util.*;
 import de.thesycon.usbio.*;

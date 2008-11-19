@@ -23,7 +23,6 @@ import sf.net.jaer.graphics.BinocularRenderer;
 import sf.net.jaer.hardwareinterface.HardwareInterface;
 import sf.net.jaer.hardwareinterface.HardwareInterfaceFactory;
 import sf.net.jaer.hardwareinterface.usb.USBInterface;
-import java.util.prefs.Preferences;
 
 /**
  * A stereo pair of Tmpdiff128 retinas each with its own separate but time-sychronized hardware interface. 

@@ -15,18 +15,12 @@ package ch.unizh.ini.jaer.projects.rccar;
 import sf.net.jaer.hardwareinterface.*;
 import sf.net.jaer.hardwareinterface.usb.*;
 import sf.net.jaer.util.*;
-import sf.net.jaer.util.filter.LowpassFilter;
 import de.thesycon.usbio.*;
 import de.thesycon.usbio.PnPNotifyInterface;
 import de.thesycon.usbio.UsbIoErrorCodes;
 import de.thesycon.usbio.structs.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Random;
 import java.util.concurrent.*;
 import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 
 /**
  * Servo motor controller using USBIO driver access to SiLabsC8051F320 device for controlling car servos.

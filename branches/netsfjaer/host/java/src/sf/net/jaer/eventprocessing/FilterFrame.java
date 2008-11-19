@@ -6,7 +6,6 @@
 
 package sf.net.jaer.eventprocessing;
 
-import sf.net.jaer.*;
 import sf.net.jaer.chip.*;
 import sf.net.jaer.util.*;
 import sf.net.jaer.util.WindowSaver;
@@ -16,7 +15,6 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.lang.reflect.*;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;

@@ -13,10 +13,7 @@
 package org.ine.telluride.jaer.wowwee;
 
 import sf.net.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController;
-import sf.net.jaer.hardwareinterface.usb.*;
 import sf.net.jaer.util.HexString;
-import de.thesycon.usbio.UsbIoInterface;
-import de.thesycon.usbio.structs.*;
 import java.util.logging.Logger;
 
 /**

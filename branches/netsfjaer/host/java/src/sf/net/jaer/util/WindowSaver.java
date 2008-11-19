@@ -1,6 +1,5 @@
 package sf.net.jaer.util;
 import java.io.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.*;
 import javax.swing.*;

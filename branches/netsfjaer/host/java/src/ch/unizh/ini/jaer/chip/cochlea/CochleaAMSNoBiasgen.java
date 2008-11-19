@@ -14,9 +14,7 @@ import sf.net.jaer.chip.TypedEventExtractor;
 import sf.net.jaer.event.BasicEvent;
 import sf.net.jaer.event.EventPacket;
 import sf.net.jaer.event.OutputEventIterator;
-import sf.net.jaer.event.TypedEvent;
 import sf.net.jaer.graphics.AEChipRenderer;
-import sf.net.jaer.util.chart.Chart.Renderer;
 import java.awt.Color;
 
 /**

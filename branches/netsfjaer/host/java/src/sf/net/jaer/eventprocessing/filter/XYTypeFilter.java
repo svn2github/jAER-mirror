@@ -16,7 +16,6 @@ import sf.net.jaer.eventprocessing.EventFilter2D;
 import sf.net.jaer.graphics.FrameAnnotater;
 import java.awt.Graphics2D;
 import java.util.*;
-import java.util.prefs.*;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.*;
 

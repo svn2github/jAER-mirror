@@ -9,10 +9,7 @@
 package ch.unizh.ini.jaer.chip.retina;
 import sf.net.jaer.chip.*;
 import sf.net.jaer.event.*;
-import sf.net.jaer.graphics.ChipCanvas;
-import sf.net.jaer.graphics.RetinaCanvas;
 import sf.net.jaer.graphics.RetinaRenderer;
-import java.util.ArrayList;
 
 /**
  * A superclass for retina chips, with renderers and event filters.

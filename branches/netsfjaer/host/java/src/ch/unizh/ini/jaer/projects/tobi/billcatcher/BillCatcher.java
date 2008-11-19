@@ -24,7 +24,6 @@ import com.sun.opengl.util.*;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
 import javax.media.opengl.*;
 import javax.media.opengl.GLAutoDrawable;
 

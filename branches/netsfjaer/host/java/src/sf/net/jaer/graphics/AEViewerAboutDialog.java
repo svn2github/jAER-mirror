@@ -13,7 +13,6 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.logging.Logger;
-import javax.swing.*;
 import javax.swing.JOptionPane;
 /**
  * The About dialog.  It displays About information and latest SVN commit and build dates.

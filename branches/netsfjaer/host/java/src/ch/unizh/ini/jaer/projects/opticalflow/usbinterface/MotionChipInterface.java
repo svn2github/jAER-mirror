@@ -10,7 +10,6 @@
 package ch.unizh.ini.jaer.projects.opticalflow.usbinterface;
 
 import sf.net.jaer.biasgen.BiasgenHardwareInterface;
-import sf.net.jaer.hardwareinterface.*;
 import ch.unizh.ini.jaer.projects.opticalflow.chip.*;
 
 /**

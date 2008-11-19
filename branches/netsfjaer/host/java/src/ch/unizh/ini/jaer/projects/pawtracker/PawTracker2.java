@@ -19,7 +19,6 @@
 
 
 package ch.unizh.ini.jaer.projects.pawtracker;
-import sf.net.jaer.aemonitor.AEConstants;
 import sf.net.jaer.chip.*;
 import sf.net.jaer.eventprocessing.EventFilter2D;
 import sf.net.jaer.event.*;
@@ -28,13 +27,11 @@ import sf.net.jaer.graphics.*;
 import com.sun.opengl.util.*;
 import java.awt.*;
 //import ch.unizh.ini.caviar.util.PreferencesEditor;
-import java.awt.geom.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import java.io.*;
 import java.util.*;
-import java.util.prefs.*;
 import javax.media.opengl.*;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;

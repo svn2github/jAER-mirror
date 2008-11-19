@@ -10,13 +10,11 @@
 package sf.net.jaer.util.chart;
 
 import com.sun.opengl.util.j2d.TextRenderer;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
-import java.util.logging.Logger;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;

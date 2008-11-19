@@ -13,11 +13,7 @@ import sf.net.jaer.chip.AEChip;
 import sf.net.jaer.event.*;
 import sf.net.jaer.util.SpikeSound;
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
 import javax.swing.JButton;
 
 /**

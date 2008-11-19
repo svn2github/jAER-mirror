@@ -8,36 +8,25 @@ package sf.net.jaer.graphics;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.Stroke;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.TimerTask;
-import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JPanel;
 import java.util.Timer;
-import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
-import org.jdesktop.layout.GroupLayout;
 
 /**
  * Allows for viewing various data, e.g. XY or YT plots, logging output, tabular data.

@@ -19,11 +19,7 @@ import com.sun.opengl.util.*;
 //import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.InputEvent;
 
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
@@ -41,9 +37,6 @@ import javax.swing.*;
 import javax.media.opengl.glu.GLU;
 
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.text.*;
 
 /**

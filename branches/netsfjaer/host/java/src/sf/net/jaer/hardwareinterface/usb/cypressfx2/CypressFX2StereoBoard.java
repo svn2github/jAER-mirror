@@ -12,7 +12,6 @@ package sf.net.jaer.hardwareinterface.usb.cypressfx2;
 
 import sf.net.jaer.aemonitor.AEPacketRaw;
 import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
-import sf.net.jaer.hardwareinterface.HasUpdatableFirmware;
 import de.thesycon.usbio.UsbIoBuf;
 import de.thesycon.usbio.UsbIoInterface;
 import de.thesycon.usbio.structs.USBIO_CLASS_OR_VENDOR_REQUEST;

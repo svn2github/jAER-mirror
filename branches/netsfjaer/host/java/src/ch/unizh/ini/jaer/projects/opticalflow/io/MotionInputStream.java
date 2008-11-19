@@ -16,10 +16,8 @@ import sf.net.jaer.eventio.InputDataFileInterface;
 import ch.unizh.ini.jaer.projects.opticalflow.chip.*;
 import java.beans.*;
 import java.io.*;
-import java.nio.*;
 import java.nio.channels.*;
 import java.util.logging.*;
-import java.util.prefs.*;
 
 /**
  * An input stream of motion data. This class deserializes MotionData from the input stream.

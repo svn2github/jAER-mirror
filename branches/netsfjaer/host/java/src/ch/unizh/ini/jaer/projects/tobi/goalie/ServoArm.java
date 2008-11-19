@@ -19,10 +19,8 @@ import sf.net.jaer.graphics.*;
 import sf.net.jaer.graphics.FrameAnnotater;
 import sf.net.jaer.hardwareinterface.*;
 import sf.net.jaer.hardwareinterface.ServoInterface;
-import sf.net.jaer.hardwareinterface.usb.ServoInterfaceFactory;
 import sf.net.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController;
 import sf.net.jaer.hardwareinterface.usb.UsbIoUtilities;
-import sf.net.jaer.util.filter.HighpassFilter;
 import sf.net.jaer.util.filter.LowpassFilter;
 import com.sun.opengl.util.GLUT;
 import de.thesycon.usbio.PnPNotify;
@@ -37,7 +35,6 @@ import java.awt.Graphics2D;
 import java.io.*;
 import javax.media.opengl.*;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.glu.*;
 import java.util.Timer;
 import java.util.TimerTask;
 /**

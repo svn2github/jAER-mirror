@@ -12,14 +12,8 @@
 
 package ch.unizh.ini.jaer.projects.opticalflow;
 
-import sf.net.jaer.biasgen.*;
-import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.hardwareinterface.usb.*;
-import sf.net.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320;
 import ch.unizh.ini.jaer.projects.opticalflow.chip.*;
 import ch.unizh.ini.jaer.projects.opticalflow.graphics.*;
-import ch.unizh.ini.jaer.projects.opticalflow.usbinterface.OpticalFlowHardwareInterfaceFactory;
-import ch.unizh.ini.jaer.projects.opticalflow.usbinterface.SiLabsC8051F320_OpticalFlowHardwareInterface;
 import java.util.logging.Logger;
 
 /**

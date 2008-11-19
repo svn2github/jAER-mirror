@@ -13,7 +13,6 @@
 package ch.unizh.ini.jaer.projects.opticalflow.chip;
 
 import java.io.*;
-import java.io.Serializable;
 import java.util.Random;
 
 /**

@@ -10,7 +10,6 @@
 package ch.unizh.ini.jaer.projects.ballshooter;
 
 import sf.net.jaer.chip.*;
-import java.awt.geom.*;
 import sf.net.jaer.event.*;
 import sf.net.jaer.eventprocessing.EventFilter;
 import sf.net.jaer.eventprocessing.EventFilter2D;
@@ -19,14 +18,10 @@ import sf.net.jaer.eventprocessing.tracking.*;
 import sf.net.jaer.eventprocessing.tracking.RectangularClusterTracker.Cluster;
 import sf.net.jaer.eventprocessing.filter.*;
 import sf.net.jaer.graphics.FrameAnnotater;
-import ch.unizh.ini.jaer.projects.ballshooter.Shooter;
 import java.awt.Graphics2D;
 import java.beans.*;
 import java.util.logging.*;
-import java.util.prefs.*;
-import javax.media.opengl.*;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.glu.*;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;

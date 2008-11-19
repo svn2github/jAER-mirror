@@ -17,7 +17,6 @@ import sf.net.jaer.event.EventPacket;
 import sf.net.jaer.eventprocessing.EventFilter2D;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.prefs.*;
 
 /**
  * Transforms the events in various ways,

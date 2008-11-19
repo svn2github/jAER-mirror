@@ -15,7 +15,6 @@ package sf.net.jaer.graphics;
 import java.awt.*;
 import java.awt.Font;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * A JLabel that resizes its own font to match the label size

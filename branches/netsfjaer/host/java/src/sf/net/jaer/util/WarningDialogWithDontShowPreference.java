@@ -6,7 +6,6 @@
 package sf.net.jaer.util;
 import java.util.prefs.Preferences;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 /**
  * A warning dialog with a check box to let users choose to not show the warning in the future.
  * 

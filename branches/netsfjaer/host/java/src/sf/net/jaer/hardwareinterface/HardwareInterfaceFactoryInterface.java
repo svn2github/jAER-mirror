@@ -10,7 +10,6 @@
 
 package sf.net.jaer.hardwareinterface;
 
-import sf.net.jaer.chip.Chip;
 
 
 /**

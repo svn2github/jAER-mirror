@@ -9,7 +9,6 @@
 
 package ch.unizh.ini.jaer.projects.robothead.robotcontrol;
 
-import sf.net.jaer.eventprocessing.*;
 import sf.net.jaer.eventprocessing.tracking.*;
 
 

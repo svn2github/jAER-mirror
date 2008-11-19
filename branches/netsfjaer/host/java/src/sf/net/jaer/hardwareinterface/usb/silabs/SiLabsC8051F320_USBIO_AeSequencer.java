@@ -3,7 +3,6 @@ import sf.net.jaer.hardwareinterface.usb.*;
 import sf.net.jaer.hardwareinterface.usb.cypressfx2.CypressFX2;
 import sf.net.jaer.aemonitor.AEConstants;
 import sf.net.jaer.aemonitor.AEPacketRaw;
-import sf.net.jaer.aemonitor.EventRaw;
 import sf.net.jaer.aesequencer.AESequencerInterface;
 import sf.net.jaer.hardwareinterface.*;
 import sf.net.jaer.util.*;

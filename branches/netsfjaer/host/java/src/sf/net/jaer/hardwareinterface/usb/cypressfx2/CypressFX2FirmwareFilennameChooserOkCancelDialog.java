@@ -8,7 +8,6 @@ package sf.net.jaer.hardwareinterface.usb.cypressfx2;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.JFileChooser;

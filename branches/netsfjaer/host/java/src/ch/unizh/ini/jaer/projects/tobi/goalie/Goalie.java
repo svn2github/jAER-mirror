@@ -20,11 +20,8 @@ import sf.net.jaer.eventprocessing.FilterChain;
 import sf.net.jaer.eventprocessing.filter.BackgroundActivityFilter;
 import sf.net.jaer.eventprocessing.filter.XYTypeFilter;
 import sf.net.jaer.eventprocessing.tracking.RectangularClusterTracker;
-import sf.net.jaer.graphics.*;
 import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.hardwareinterface.*;
 import sf.net.jaer.util.StateMachineStates;
-import ch.unizh.ini.jaer.hardware.pantilt.PanTiltTracker;
 import com.sun.opengl.util.*;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
@@ -35,7 +32,6 @@ import java.util.Observer;
 import javax.media.opengl.*;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.*;
-import javax.swing.*;
 
 /**
  * Controls a servo motor that swings an arm in the way of a ball rolling towards a goal box.

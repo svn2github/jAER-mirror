@@ -12,7 +12,6 @@ package sf.net.jaer.eventprocessing.label;
 
 import sf.net.jaer.chip.*;
 import sf.net.jaer.event.*;
-import sf.net.jaer.eventprocessing.*;
 import sf.net.jaer.eventprocessing.EventFilter2D;
 import sf.net.jaer.graphics.FrameAnnotater;
 import sf.net.jaer.util.filter.*;

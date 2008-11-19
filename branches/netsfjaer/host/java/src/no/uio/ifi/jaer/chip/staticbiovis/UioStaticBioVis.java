@@ -12,7 +12,6 @@ import sf.net.jaer.chip.AEChip;
 import sf.net.jaer.chip.TypedEventExtractor;
 import sf.net.jaer.event.*;
 import sf.net.jaer.graphics.*;
-import java.io.*;
 
 /**
  * The chip is a 92x92 pixels imager which converts illumination into a 

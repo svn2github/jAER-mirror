@@ -10,7 +10,6 @@
 package ch.unizh.ini.jaer.chip.stereopsis;
 
 import sf.net.jaer.stereopsis.*;
-import sf.net.jaer.aemonitor.*;
 import sf.net.jaer.aemonitor.AEPacketRaw;
 import sf.net.jaer.aemonitor.EventRaw;
 import sf.net.jaer.chip.AEChip;

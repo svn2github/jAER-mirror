@@ -18,7 +18,6 @@ import java.util.Vector;
 import java.util.logging.Logger;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
-import javax.swing.JOptionPane;
 /** 
  * The calibrator for the PanTilt. It maintains the calibration from retinal to pan tilt values and in conjunction with 
  * PanTiltGUI allows manual calibration of the transform from retinal to pan-tilt space.

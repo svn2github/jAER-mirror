@@ -16,7 +16,6 @@ import sf.net.jaer.biasgen.VDAC.*;
 import sf.net.jaer.chip.*;
 import sf.net.jaer.chip.TypedEventExtractor;
 import sf.net.jaer.event.*;
-import sf.net.jaer.graphics.*;
 import java.io.*;
 
 

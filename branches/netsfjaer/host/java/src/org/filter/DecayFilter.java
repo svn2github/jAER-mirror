@@ -4,8 +4,6 @@
  */
 
 package org.orangesky.visuals;
-import sf.net.jaer.aemonitor.AEPacketRaw;
-import sf.net.jaer.aemonitor.EventRaw;
 import sf.net.jaer.chip.AEChip;
 import sf.net.jaer.event.EventPacket;
 import sf.net.jaer.event.OutputEventIterator;

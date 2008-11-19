@@ -8,11 +8,8 @@
 package ch.unizh.ini.jaer.projects.ballshooter;
 
 import sf.net.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController;
-import sf.net.jaer.hardwareinterface.usb.*;
 import sf.net.jaer.hardwareinterface.*;
 import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
-import ch.unizh.ini.jaer.projects.rccar.SiLabsC8051F320_USBIO_CarServoController;
-import de.thesycon.usbio.*;
 import de.thesycon.usbio.PnPNotify;
 import de.thesycon.usbio.PnPNotifyInterface;
 import java.util.*;

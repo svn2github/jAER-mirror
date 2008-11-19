@@ -10,24 +10,14 @@ package ch.unizh.ini.jaer.projects.robothead;
 
 
 
-import ch.unizh.ini.jaer.projects.robothead.HmmTools;
 import sf.net.jaer.chip.*;
 import sf.net.jaer.event.*;
 import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.*;
 import sf.net.jaer.eventprocessing.EventFilter2D;
 //import com.sun.org.apache.xpath.internal.operations.Mod;
 import java.util.*;
 //import experiment1.PanTilt;
 import java.util.Vector;
-import sf.net.jaer.util.EngineeringFormat;
-import sf.net.jaer.util.filter.LowpassFilter;
-import com.sun.opengl.util.GLUT;
-import java.awt.Graphics2D;
-import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
-import java.io.*;
-import sf.net.jaer.graphics.FrameAnnotater;
 
 /**
  *

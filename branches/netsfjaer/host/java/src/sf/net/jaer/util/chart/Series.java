@@ -11,7 +11,6 @@ package sf.net.jaer.util.chart;
 
 import com.sun.opengl.util.BufferUtil;
 import java.nio.FloatBuffer;
-import java.util.Arrays;
 import java.util.logging.Logger;
 import javax.media.opengl.GL;
 

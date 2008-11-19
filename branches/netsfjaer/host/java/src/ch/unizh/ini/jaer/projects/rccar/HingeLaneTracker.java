@@ -21,9 +21,6 @@ import java.awt.Dimension;
 import java.util.*;
 import java.util.Observable;
 import java.util.Observer;
-import java.beans.*;
-import java.io.*;
-import com.sun.opengl.util.*;
 
 /**
  * 

@@ -10,7 +10,6 @@ import sf.net.jaer.hardwareinterface.usb.cypressfx2.CypressFX2EEPROM;
 import sf.net.jaer.chip.Chip;
 import sf.net.jaer.hardwareinterface.*;
 import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
-import sf.net.jaer.hardwareinterface.usb.*;
 import sf.net.jaer.util.*;
 import sf.net.jaer.util.browser.*;
 import java.awt.*;
@@ -23,8 +22,6 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.undo.*;
 import sf.net.jaer.util.RecentFiles;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * A generic application frame for controlling a bias generator. You build the bias generator, then construct this JFrame

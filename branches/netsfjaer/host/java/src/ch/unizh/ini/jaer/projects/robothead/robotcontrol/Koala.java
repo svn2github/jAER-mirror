@@ -1,5 +1,4 @@
 package ch.unizh.ini.jaer.projects.robothead.robotcontrol;
-import java.awt.*;
 // ToDo: Run EmptyPort Routine before each sub...ensure clean answer.
 
 /*

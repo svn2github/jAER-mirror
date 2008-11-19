@@ -1,9 +1,6 @@
 package sf.net.jaer.eventprocessing.tracking;
 
 import sf.net.jaer.event.*;
-import sf.net.jaer.event.OrientationEvent;
-import java.lang.reflect.Array;
-import java.util.*;
 import java.util.Iterator;
 
 

@@ -1,5 +1,4 @@
 package ch.unizh.ini.jaer.projects.robothead.robotcontrol;
-import java.awt.*;
 /*
  * PanTilt.java
  *

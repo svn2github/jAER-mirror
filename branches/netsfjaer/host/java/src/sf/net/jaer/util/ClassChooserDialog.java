@@ -9,7 +9,6 @@ package sf.net.jaer.util;
 import sf.net.jaer.chip.AEChip;
 import java.awt.BorderLayout;
 import java.awt.Frame;
-import java.awt.Window;
 import java.awt.event.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;

@@ -9,7 +9,6 @@ Class that keeps track of state of state machine.  For usage, see, for example, 
 
 package sf.net.jaer.util;
 
-import java.util.HashMap;
 
 /**
  *Class that keeps track of state of state machine, allowing access to previous state, time since state changed, defining an initial state.

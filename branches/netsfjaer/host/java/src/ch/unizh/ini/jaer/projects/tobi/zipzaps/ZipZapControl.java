@@ -8,9 +8,7 @@ import sf.net.jaer.hardwareinterface.HardwareInterface;
 import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
 import sf.net.jaer.hardwareinterface.usb.ServoInterfaceFactory;
 import sf.net.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController;
-import sf.net.jaer.util.HexString;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  * Controls the Radio Shack ZipZaps micro RC Transformers car via the ServoController port 2, which pulls down on appropriate port 2 bits

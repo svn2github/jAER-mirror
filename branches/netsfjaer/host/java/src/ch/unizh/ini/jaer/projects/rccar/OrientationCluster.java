@@ -8,23 +8,13 @@ package ch.unizh.ini.jaer.projects.rccar;
 import sf.net.jaer.chip.*;
 import sf.net.jaer.event.*;
 import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.FilterChain;
 import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.eventprocessing.filter.XYTypeFilter;
 import sf.net.jaer.graphics.FrameAnnotater;
-import ch.unizh.ini.jaer.projects.rccar.*;
-import javax.media.opengl.*;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.glu.*;
-import javax.swing.*;
 import java.awt.Graphics2D;
-import java.awt.Dimension;
 import java.util.*;
 import java.util.Observable;
 import java.util.Observer;
-import java.beans.*;
-import java.io.*;
-import com.sun.opengl.util.*;
 
 
 

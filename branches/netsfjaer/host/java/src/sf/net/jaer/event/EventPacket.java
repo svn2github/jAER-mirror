@@ -13,7 +13,6 @@ import sf.net.jaer.chip.AEChip;
 import sf.net.jaer.eventprocessing.*;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
-import java.util.*;
 import java.util.Iterator;
 import java.util.logging.Logger;
 

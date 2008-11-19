@@ -7,7 +7,6 @@
 package sf.net.jaer.eventio;
 
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
 A dialog for opening AEServerSocket connections. Includes buffer sizes.

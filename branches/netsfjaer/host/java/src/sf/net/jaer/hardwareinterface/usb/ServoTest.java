@@ -12,7 +12,6 @@ import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
 import sf.net.jaer.util.HexString;
 import ch.unizh.ini.jaer.projects.rccar.CarServoInterfaceFactory;
 import ch.unizh.ini.jaer.projects.rccar.SiLabsC8051F320_USBIO_CarServoController;
-import de.thesycon.usbio.*;
 import de.thesycon.usbio.PnPNotify;
 import de.thesycon.usbio.PnPNotifyInterface;
 import java.text.ParseException;

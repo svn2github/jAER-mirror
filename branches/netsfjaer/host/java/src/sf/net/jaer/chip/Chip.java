@@ -10,7 +10,6 @@
 
 package sf.net.jaer.chip;
 
-import java.util.logging.Level;
 import sf.net.jaer.aemonitor.*;
 import sf.net.jaer.biasgen.*;
 import sf.net.jaer.biasgen.Biasgen;

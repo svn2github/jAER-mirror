@@ -10,7 +10,6 @@
 package ch.unizh.ini.jaer.projects.robothead;
 
 import java.util.Vector;
-import java.lang.*;
 
 /**
  * This class contains some methods that are used by the Filter HMM Filter, 

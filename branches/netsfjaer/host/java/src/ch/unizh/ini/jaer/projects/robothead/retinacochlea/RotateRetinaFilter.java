@@ -18,7 +18,6 @@ import sf.net.jaer.event.EventPacket;
 import sf.net.jaer.eventprocessing.EventFilter2D;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.prefs.*;
 
 /**
  * Rotates the Retina events 90 degree, to show nicely RobotHead data. Put this Filter at the beginning of ControlFilter..

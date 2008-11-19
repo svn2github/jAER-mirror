@@ -10,9 +10,7 @@ package sf.net.jaer.eventprocessing;
 
 import sf.net.jaer.chip.AEChip;
 import sf.net.jaer.event.*;
-import sf.net.jaer.graphics.*;
 import sf.net.jaer.util.*;
-import java.beans.*;
 import java.beans.PropertyChangeSupport;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -24,7 +22,6 @@ import java.lang.reflect.Constructor;
 import java.util.*;
 import java.util.logging.*;
 import java.util.prefs.*;
-import javax.crypto.Cipher;
 
 /**
  * A chain of EventFilter that serially filters or processes packets of AEPacket2D. An instance of
