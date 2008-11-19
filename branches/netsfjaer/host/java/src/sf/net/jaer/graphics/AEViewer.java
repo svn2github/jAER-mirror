@@ -16,7 +16,6 @@ import sf.net.jaer.aemonitor.*;
 import sf.net.jaer.aesequencer.*;
 import sf.net.jaer.biasgen.*;
 import sf.net.jaer.chip.*;
-//import ch.unizh.ini.caviar.chip.convolution.Conv64NoNegativeEvents;
 import ch.unizh.ini.jaer.chip.retina.*;
 import sf.net.jaer.event.*;
 import sf.net.jaer.eventio.*;
@@ -452,8 +451,12 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
         return aeChipClass;
     }
 
+    private long lastTimeTitleSet=0;
+    
     /** this sets window title according to actual state */
     public void setTitleAccordingToState() {
+        if(System.currentTimeMillis()-lastTimeTitleSet<1000) return; // don't bother with this expenive window operation more than 1/second
+        lastTimeTitleSet=System.currentTimeMillis();
         String ts = null;
         switch (getPlayMode()) {
             case LIVE:

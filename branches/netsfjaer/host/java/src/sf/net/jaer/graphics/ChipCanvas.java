@@ -136,7 +136,6 @@ public class ChipCanvas implements GLEventListener, Observer {
             System.exit(1);
         }
         drawable.setLocale(Locale.US); // to avoid problems with other language support in JOGL
-        drawable.setAutoSwapBufferMode(true);
 
         // will always get invalid operation here
         // checkGLError(drawable.getGL(),glu,"before add event listener");
@@ -283,6 +282,7 @@ public class ChipCanvas implements GLEventListener, Observer {
             }
             gl.glPopMatrix();
             checkGLError(gl, glu, "after display");
+//            drawable.swapBuffers(); // don't use, very slow and autoswapbuffers is set
 //            zoom.drawZoomBox(gl);
             if (grabNextImageEnabled) {
                 grabImage(drawable);
@@ -435,7 +435,7 @@ public class ChipCanvas implements GLEventListener, Observer {
 
     public void init(GLAutoDrawable drawable) {
         // drawable.setGL(new DebugGL(drawable.getGL()));
-
+        drawable.setAutoSwapBufferMode(true);
         GL gl = drawable.getGL();
 
         log.info(
