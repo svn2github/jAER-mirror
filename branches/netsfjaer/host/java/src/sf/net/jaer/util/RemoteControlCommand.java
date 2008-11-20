@@ -32,6 +32,10 @@ public class RemoteControlCommand {
         cmdName=tokens[0];
         this.description=description;
     }
+    
+    public String toString(){
+        return "Command "+cmdName;
+    }
 
     public String getCmdName() {
         return cmdName;

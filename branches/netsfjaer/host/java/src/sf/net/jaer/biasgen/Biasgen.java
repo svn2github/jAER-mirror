@@ -5,6 +5,7 @@
  */
 package sf.net.jaer.biasgen;
 
+import java.io.IOException;
 import sf.net.jaer.chip.*;
 import sf.net.jaer.hardwareinterface.*;
 import java.awt.Frame;
@@ -12,6 +13,7 @@ import java.util.*;
 import java.util.logging.*;
 import java.util.prefs.*;
 import javax.swing.*;
+import sf.net.jaer.util.RemoteControl;
 
 /**
  * Describes a complete bias
@@ -57,6 +59,7 @@ public class Biasgen implements BiasgenPreferences, Observer, BiasgenHardwareInt
         masterbias = new Masterbias(this);
         masterbias.addObserver(this);
         loadPreferences();
+ 
     }
     /** The built-in control panel that is built by getControlPanel on first call */
     protected JPanel controlPanel = null;
@@ -495,4 +498,6 @@ public class Biasgen implements BiasgenPreferences, Observer, BiasgenHardwareInt
 //        dialog.setVisible(true);
         JOptionPane.showMessageDialog(container, "<html>No bias values have been set.<p>To run your hardware you probably need to set biases.<p>To load existing bias values, open Biases panel and set or load values from a file in the folder <i>biasgenSettings</i><p>For the DVS128 sensor, using one of the <i>dvs128_*.html</i> files.<p>Otherwise, to remove this message, set any bias to a non-zero value.</html>", "Biases unitialized", JOptionPane.WARNING_MESSAGE);
     }
+
+ 
 }

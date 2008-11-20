@@ -13,8 +13,7 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
 import java.util.HashMap;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 /**
@@ -23,15 +22,25 @@ import java.util.logging.Logger;
  * 
  * @author tobi
  */
-public class RemoteControl {
+public class RemoteControl /* implements RemoteControlled */{
 
     static Logger log = Logger.getLogger("RemoteControl");
-    private int port = 8995;
+    /** The default UDP local port for the default constructor */
+    public static final int PORT_DEFAULT = 8995;
+    private int port;
     private HashMap<String, RemoteControlled> controlledMap = new HashMap<String, RemoteControlled>();
-    private HashMap<String, RemoteControlled> cmdMap = new HashMap<String, RemoteControlled>();
+    private HashMap<String, RemoteControlCommand> cmdMap = new HashMap<String, RemoteControlCommand>();
     private HashMap<String, String> descriptionMap = new HashMap<String, String>();
-    DatagramSocket datagramSocket;
+    private DatagramSocket datagramSocket;
+    private final String HELP = "help";
+    private final String PROMPT = "> ";
+    private boolean promptEnabled = true;
 
+    /** Makes a new RemoteControl on the default port */
+    public RemoteControl() throws SocketException{
+        this(PORT_DEFAULT);
+    }
+    
     /** Creates a new instance. 
      * 
      * @param port the UDP port number this RemoteControl listens on.
@@ -43,19 +52,32 @@ public class RemoteControl {
         new RemoteControlDatagramSocketThread().start();
     }
 
+    /** Objects that want to receive commands should add themselves here with a command string and command description (for showing help).
+     * 
+     * @param remoteControlled the remote controlled object.
+     * @param cmd a string such as "setv volts". "setv" is the command and the RemoteControlled is responsible for parsing the rest of the line.
+     * @param description for showing help.
+     */
     public void addCommandListener(RemoteControlled remoteControlled, String cmd, String description) {
-        if(cmd==null || cmd.length()==0) throw new Error("tried to add null or empty commad");
-        String[] tokens=cmd.split("\\s");
-        if(controlledMap.containsKey(tokens[0])){
-            throw new Error("observers already contains key "+tokens[0]+" for command "+cmd+", existing command is "+controlledMap.get(cmd));
-        }
-        String cmdName=tokens[0];
-        controlledMap.put(cmdName, remoteControlled);
-        cmdMap.put(cmdName,cmd);
-        descriptionMap.put(cmdName, description);
+        RemoteControlCommand command = new RemoteControlCommand(cmd.toLowerCase(), description);
+        String cmdKey = command.getCmdName();
+        cmdMap.put(cmdKey, command);
+        controlledMap.put(cmdKey, remoteControlled);
+        descriptionMap.put(cmdKey, description);
     }
 
-    class RemoteControlDatagramSocketThread extends Thread {
+    private String getHelp() {
+        StringBuffer s = new StringBuffer("Available commands are\n");
+        for (Entry e : cmdMap.entrySet()) {
+            RemoteControlCommand c = (RemoteControlCommand) e.getValue();
+            s.append(String.format("%s - %s\n", c.getCmd(), c.getDescription()));
+        }
+        return s.toString();
+    }
+
+    private class RemoteControlDatagramSocketThread extends Thread {
+
+        DatagramPacket packet;
 
         RemoteControlDatagramSocketThread() {
             setName("RemoteControlDatagramSocketThread");
@@ -65,14 +87,14 @@ public class RemoteControl {
         public void run() {
             while (true) {
                 try {
-                    DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);
+                    packet = new DatagramPacket(new byte[1024], 1024);
                     ByteArrayInputStream bis;
                     BufferedReader reader = new BufferedReader(new InputStreamReader((bis = new ByteArrayInputStream(packet.getData()))));
                     datagramSocket.receive(packet);
-                    System.out.println(reader.readLine());
-//                    DatagramPacket echogram=new DatagramPacket(packet.getData(),packet.getLength());
-//                    echogram.setSocketAddress(new InetSocketAddress(packet.getAddress(), packet.getPort()));
-//                    datagramSocket.send(echogram);
+                    String line = reader.readLine().toLowerCase();
+//                    System.out.println(line); // debug
+                    parseAndDispatchCommand(line);
+
                 } catch (IOException ex) {
                     log.warning(ex.toString());
                     break;
@@ -80,9 +102,78 @@ public class RemoteControl {
 
             }
         }
+
+        private void parseAndDispatchCommand(String line) throws IOException {
+            if (line == null || line.length() == 0) {
+                echo(PROMPT);
+                return;
+            }
+            if (line.startsWith(HELP)) {
+                String help = getHelp();
+                echo(help + PROMPT);
+            } else {
+                String[] tokens = line.split("\\s");
+                String cmdTok = tokens[0];
+                if (cmdTok == null || cmdTok.length() == 0) {
+                    return;
+                }
+                if (!cmdMap.containsKey(cmdTok)) {
+                    echo(String.format("%s is unknown command - type %s for help\n%s", line, HELP, PROMPT));
+                    return;
+                }
+                RemoteControlled controlled = controlledMap.get(cmdTok);
+                String response = controlled.processCommand(cmdMap.get(cmdTok), line);
+                if (response != null) {
+                    echo(response);
+                } else {
+                    if (promptEnabled) {
+                        echo(PROMPT);
+                    }
+                }
+            }
+        }
+
+        private void echo(String s) throws IOException {
+            if (s == null || s.length() == 0) {
+                return;
+            }
+            byte[] b = s.getBytes();
+            DatagramPacket echogram = new DatagramPacket(b, b.length);
+            echogram.setSocketAddress(new InetSocketAddress(packet.getAddress(), packet.getPort()));
+            datagramSocket.send(echogram);
+        }
     }
 
-    public static void main(String[] args) throws SocketException {
-        new RemoteControl(8995);
-    }
+//    public String processCommand(RemoteControlCommand command, String line) {
+//        log.info("received " + command + " with line " + line);
+//        String[] tokens = line.split("\\s");
+//        try {
+//            if (command.getCmdName().equals("doit")) {
+//                if (tokens.length < 2) {
+//                    return "not enough arguments\n";
+//                }
+//                int val = Integer.parseInt(tokens[1]);
+//                log.info(String.format("value=%d", val));
+//            }else if(command.getCmdName().equals("dd")){
+//                return "got dd\n";
+//            }
+//        } catch (Exception e) {
+//            log.warning(e.toString());
+//            return e.toString()+"\n";
+//        }
+//        return null;
+//    }
+//
+//    // debug
+//    public static void main(String[] args) throws SocketException {
+//        RemoteControl remoteControl = new RemoteControl(8995);
+//        remoteControl.addCommandListener(remoteControl, "doit thismanytimes", "i am doit");
+//        remoteControl.addCommandListener(remoteControl, "dd", "i am dd");
+//        remoteControl.addCommandListener(new RemoteControlled() {
+//
+//            public String processCommand(RemoteControlCommand command, String input) {
+//                return "got bogus";
+//            }
+//        }, "bogus", "bogus description");
+//    }
 }

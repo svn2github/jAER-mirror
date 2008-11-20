@@ -10,6 +10,7 @@
 
 package sf.net.jaer.chip;
 
+import java.io.IOException;
 import sf.net.jaer.aemonitor.*;
 import sf.net.jaer.biasgen.*;
 import sf.net.jaer.biasgen.Biasgen;
@@ -17,6 +18,7 @@ import sf.net.jaer.hardwareinterface.*;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.prefs.*;
+import sf.net.jaer.util.RemoteControl;
 
 /**
  * A chip, having possibly a hardware interface and a bias generator. 
@@ -63,6 +65,8 @@ public class Chip extends Observable {
         Chip.preferredHardwareInterface=clazz;
     }
     
+    private RemoteControl remoteControl;
+
     protected static Logger log=Logger.getLogger("Chip");
     
     /** Can be used to hold a reference to the last data associated with this Chip2D */
@@ -77,6 +81,11 @@ public class Chip extends Observable {
             setPrefs(Preferences.userNodeForPackage(getClass())); // set prefs here based on actual class
         } catch (BackingStoreException ex) {
             log.warning(ex.toString());
+        }
+       try {
+            remoteControl = new RemoteControl();
+        } catch (IOException e) {
+            log.warning("couldn't make remote control: "+e);
         }
     }
     
@@ -169,6 +178,14 @@ public class Chip extends Observable {
         this.prefs = prefs;
 //        log.info(this+" has prefs="+prefs);
     }
-    
+
+    /** This remote control can be used for remote (via UDP) control of the biasgen */
+    public RemoteControl getRemoteControl() {
+        return remoteControl;
+    }
+
+    public void setRemoteControl(RemoteControl remoteControl) {
+        this.remoteControl = remoteControl;
+    }
 
 }

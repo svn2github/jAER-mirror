@@ -8,6 +8,8 @@ package sf.net.jaer.biasgen;
 
 import java.util.*;
 import javax.swing.JComponent;
+import sf.net.jaer.util.RemoteControlCommand;
+import sf.net.jaer.util.RemoteControlled;
 
 /**
  * Describes an IPot, Bernabe Linares Barranco's name for a programamble current source.
@@ -24,7 +26,7 @@ import javax.swing.JComponent;
  *This class extends </code>Observer<code> so observers can add themselves to be notified when the pot value changes.
  * @author tobi
  */
-public class IPot extends Pot implements Cloneable, Observer {
+public class IPot extends Pot implements Cloneable, Observer, RemoteControlled {
     
     /** The enclosing bias generator */
     protected Biasgen biasgen;
@@ -66,6 +68,9 @@ public class IPot extends Pot implements Cloneable, Observer {
         this.tooltipString=tooltipString;
         this.shiftRegisterNumber=shiftRegisterNumber;
         loadPreferences(); // do this after name is set
+       if(chip.getRemoteControl()!=null){
+            chip.getRemoteControl().addCommandListener(this, String.format("set%s bitvalue",getName()), "Set the bitValue of IPot "+getName());
+        }
     }
     
     public String toString(){
@@ -213,4 +218,20 @@ public class IPot extends Pot implements Cloneable, Observer {
         }
         return bytes;
    }
+
+    public String processCommand(RemoteControlCommand command, String input) {
+        String[] t=input.split("\\s");
+        if(t.length<2){
+            return "? "+this+"\n";
+        }else{
+            try{
+                int bv=Integer.parseInt(t[1]);
+                setBitValue(bv);
+                return this+"\n";
+            }catch(NumberFormatException e){
+                log.warning(input+" caused "+e);
+                return e.toString()+"\n";
+            }
+        }
+    }
 }

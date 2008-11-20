@@ -8,6 +8,7 @@ import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 import java.util.prefs.Preferences;
 import javax.swing.*;
+import sf.net.jaer.util.RemoteControlled;
 
 
 /**
@@ -80,6 +81,7 @@ abstract public class Pot extends Observable implements PreferenceChangeListener
         this.chip=chip;
         prefs=chip.getPrefs();
         prefs.addPreferenceChangeListener(this);
+ 
     }
     
     /** called when there is a preference change for this Preferences node (the Biasgen package node).
