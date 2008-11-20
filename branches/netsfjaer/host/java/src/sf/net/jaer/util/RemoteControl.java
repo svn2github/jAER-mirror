@@ -27,7 +27,9 @@ public class RemoteControl {
 
     static Logger log = Logger.getLogger("RemoteControl");
     private int port = 8995;
-    private HashMap<String, Observer> cmdMap = new HashMap<String, Observer>();
+    private HashMap<String, RemoteControlled> controlledMap = new HashMap<String, RemoteControlled>();
+    private HashMap<String, RemoteControlled> cmdMap = new HashMap<String, RemoteControlled>();
+    private HashMap<String, String> descriptionMap = new HashMap<String, String>();
     DatagramSocket datagramSocket;
 
     /** Creates a new instance. 
@@ -41,13 +43,16 @@ public class RemoteControl {
         new RemoteControlDatagramSocketThread().start();
     }
 
-    public void addCommandListener(String cmd, String description, Observer observer) {
+    public void addCommandListener(RemoteControlled remoteControlled, String cmd, String description) {
         if(cmd==null || cmd.length()==0) throw new Error("tried to add null or empty commad");
         String[] tokens=cmd.split("\\s");
-        if(cmdMap.containsKey(tokens[0])){
-            throw new Error("observers already contains key "+tokens[0]+" for command "+cmd+", existing command is "+cmdMap.get(cmd));
+        if(controlledMap.containsKey(tokens[0])){
+            throw new Error("observers already contains key "+tokens[0]+" for command "+cmd+", existing command is "+controlledMap.get(cmd));
         }
-        cmdMap.put(tokens[0], observer);
+        String cmdName=tokens[0];
+        controlledMap.put(cmdName, remoteControlled);
+        cmdMap.put(cmdName,cmd);
+        descriptionMap.put(cmdName, description);
     }
 
     class RemoteControlDatagramSocketThread extends Thread {
