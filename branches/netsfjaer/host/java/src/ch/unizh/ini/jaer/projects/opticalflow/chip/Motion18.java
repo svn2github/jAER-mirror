@@ -49,7 +49,7 @@ public class Motion18 extends Chip2D {
     
     // public DAC(int numChannels, int resolutionBits, float refMinVolts, float refMaxVolts){
     /** The DAC on the board */
-    public static DAC dac=new DAC(16,12,0,VDD);
+    public static DAC dac=new DAC(16,12,0,VDD,VDD);
     
     public static boolean isBorder(int x, int y) {
         return ((x==0) || (y == 0) || (x == (NUM_COLUMNS-1)) || (y==(NUM_ROWS-1)));

@@ -37,7 +37,7 @@ public class Dollbrain1 extends AEChip implements Serializable  {
     }
     
     public static final float VDD=5;
-    public static DAC dac=new DAC(16,12,0,VDD);
+    public static DAC dac=new DAC(16,12,0,VDD,VDD);
     
     public class Extractor extends TypedEventExtractor implements java.io.Serializable{
         
