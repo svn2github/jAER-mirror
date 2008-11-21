@@ -33,6 +33,8 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import sf.net.jaer.hardwareinterface.usb.cypressfx2.CypressFX2;
+import sf.net.jaer.util.RemoteControlCommand;
+import sf.net.jaer.util.RemoteControlled;
 
 /**
  * Extends Shih-Chii's AMS cochlea AER chip to 
@@ -84,11 +86,9 @@ public class CochleaAMS1b extends CochleaAMSNoBiasgen {
                             glut.glutStrokeCharacter(font, c);
                         }
                         gl.glPopMatrix();
-                    }
+                    }                    // chars about 104 model units wide
+                    final float xlen = glut.glutStrokeLength(glut.STROKE_ROMAN, "channel"),  ylen = glut.glutStrokeLength(glut.STROKE_ROMAN, "cell type");
 
-                    // chars about 104 model units wide
-                    final float xlen=glut.glutStrokeLength(glut.STROKE_ROMAN, "channel"), ylen=glut.glutStrokeLength(glut.STROKE_ROMAN, "cell type");
-                    
                     public void annotate(GLAutoDrawable drawable) {
                         GL gl = drawable.getGL();
 //                        gl.glBegin(GL.GL_LINES);
@@ -99,10 +99,10 @@ public class CochleaAMS1b extends CochleaAMSNoBiasgen {
                         gl.glPushMatrix();
                         {
                             gl.glColor3f(1, 1, 1); // must set color before raster position (raster position is like glVertex)
-                            renderStrokeFontString(gl, -1, 16/2-5, 0, 90, "cell type");
-                            renderStrokeFontString(gl, sizeX / 2-4, -3, 0, 0, "channel");
+                            renderStrokeFontString(gl, -1, 16 / 2 - 5, 0, 90, "cell type");
+                            renderStrokeFontString(gl, sizeX / 2 - 4, -3, 0, 0, "channel");
                             renderStrokeFontString(gl, 0, -3, 0, 0, "hi fr");
-                            renderStrokeFontString(gl, sizeX -15, -3, 0, 0, "low fr");
+                            renderStrokeFontString(gl, sizeX - 15, -3, 0, 0, "low fr");
                         }
                         gl.glPopMatrix();
                     }
@@ -282,6 +282,7 @@ public class CochleaAMS1b extends CochleaAMSNoBiasgen {
 
 
             vpots.loadPreferences(); // need to set the pot array and loadPreferences to get these pots initialized TODO awkward, pots should update themselves!
+
 
         }
 
@@ -489,8 +490,13 @@ public class CochleaAMS1b extends CochleaAMSNoBiasgen {
             return dacPowered;
         }
 
-        class BufferIPot extends Observable {
+        class BufferIPot extends Observable implements RemoteControlled {
 
+            BufferIPot() {
+                if (getRemoteControl() != null) {
+                    getRemoteControl().addCommandListener(this, "setbufferbias bitvalue", "Sets the buffer bias value");
+                }
+            }
             int max = 63; // 8 bits
             private int value = getPrefs().getInt("CochleaAMS1b.Biasgen.BufferIPot.value", max / 2);
 
@@ -499,6 +505,7 @@ public class CochleaAMS1b extends CochleaAMSNoBiasgen {
             }
 
             public void setValue(int value) {
+                if(value>max) value=max; else if(value<0) value=0;
                 this.value = value;
                 getPrefs().putInt("CochleaAMS1b.Biasgen.BufferIPot.value", value);
                 setChanged();
@@ -509,6 +516,22 @@ public class CochleaAMS1b extends CochleaAMSNoBiasgen {
             public String toString() {
                 return String.format("BufferIPot with max=%d, value=%d", max, value);
             }
+
+            public String processCommand(RemoteControlCommand command, String input) {
+                String[] tok = input.split("\\s");
+                if (tok.length < 2) {
+                    return "bufferbias " + getValue()+"\n";
+                } else {
+                    try {
+                        int val = Integer.parseInt(tok[1]);
+                        setValue(val);
+                    } catch (NumberFormatException e) {
+                        return "?\n";
+                    }
+
+                }
+                return "bufferbias " + getValue()+"\n";
+            }
         }
 
         /** A single bitmask of digital configuration */
@@ -518,7 +541,7 @@ public class CochleaAMS1b extends CochleaAMSNoBiasgen {
             short portbit; // has port as char in MSB, bitmask in LSB
             int bitmask;
             boolean value;
-            String name, tip;
+            String name,tip ;
             String key;
             String portBitString;
 
@@ -621,7 +644,7 @@ public class CochleaAMS1b extends CochleaAMSNoBiasgen {
 
         class Equalizer extends Observable implements Observer { // describes the local gain and Q registers and the kill bits
 
-            final int numChannels = 128,  maxValue = 31;
+            final  int numChannels = 128,  maxValue = 31;
 //            private int globalGain = 15;
 //            private int globalQuality = 15;
             EqualizerChannel[] channels = new EqualizerChannel[numChannels];
@@ -666,7 +689,7 @@ public class CochleaAMS1b extends CochleaAMSNoBiasgen {
                 private String prefsKey;
                 private int qsos;
                 private int qbpf;
-                private boolean bpfkilled,  lpfkilled;
+                private  boolean bpfkilled,  lpfkilled;
 
                 EqualizerChannel(int n) {
                     channel = n;

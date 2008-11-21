@@ -10,7 +10,7 @@ public class LoggingThreadGroup extends ThreadGroup {
     public void uncaughtException(Thread t, Throwable e) {
         // Initialize logger once
         if (logger == null) {
-            logger = Logger.getLogger("example");
+            logger = Logger.getLogger("UncaughtExceptionLogger");
             Handler handler = LoggingWindowHandler.getInstance();
             logger.addHandler(handler);
         }

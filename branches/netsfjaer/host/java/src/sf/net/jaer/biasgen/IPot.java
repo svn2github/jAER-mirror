@@ -69,7 +69,7 @@ public class IPot extends Pot implements Cloneable, Observer, RemoteControlled {
         this.shiftRegisterNumber=shiftRegisterNumber;
         loadPreferences(); // do this after name is set
        if(chip.getRemoteControl()!=null){
-            chip.getRemoteControl().addCommandListener(this, String.format("set%s bitvalue",getName()), "Set the bitValue of IPot "+getName());
+            chip.getRemoteControl().addCommandListener(this, String.format("seti%s bitvalue",getName()), "Set the bitValue of IPot "+getName());
         }
     }
     

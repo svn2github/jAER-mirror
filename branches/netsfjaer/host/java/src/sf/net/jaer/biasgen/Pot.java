@@ -19,7 +19,7 @@ import sf.net.jaer.util.RemoteControlled;
  * @author tobi
  */
 abstract public class Pot extends Observable implements PreferenceChangeListener {
-    static Logger log=Logger.getLogger("Pot");
+    protected static Logger log=Logger.getLogger("Pot");
     
     /** The Chip for this Pot */
     protected Chip chip;

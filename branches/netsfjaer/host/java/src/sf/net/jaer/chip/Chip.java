@@ -31,6 +31,8 @@ import sf.net.jaer.util.RemoteControl;
  * A Chip has a preferred hardware interface class which is used in the HardwareInterfaceFactory or its subclasses
  * to construct the actual hardware interface class when the hardware interface is enumerated.
  *
+ *<p>
+ * A Chip may be remote-controllable via its remote control, see getRemoteControl().
  * @author tobi
  */
 public class Chip extends Observable {
@@ -179,7 +181,7 @@ public class Chip extends Observable {
 //        log.info(this+" has prefs="+prefs);
     }
 
-    /** This remote control can be used for remote (via UDP) control of the biasgen */
+    /** This remote control can be used for remote (via UDP) control of the Chip, e.g. the biases. */
     public RemoteControl getRemoteControl() {
         return remoteControl;
     }

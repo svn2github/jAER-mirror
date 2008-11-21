@@ -19,6 +19,31 @@ import java.util.logging.Logger;
 /**
  * Remote control via a datagram connection. Listeners add themselves with a command string and list of arguments.
  * Remote control builds a parser and returns calls the appropriate listener. The listener can access the arguments by name.
+ * A remote client can connect to the UDP port and obtain a list of commands with the help command.
+ * Using, for example, netcat (or nc.exe on Windows), a session might look as follows (the -u means use UDP connection)
+ * <pre>
+ * >nc -u localhost 8995
+
+> ?
+? is unknown command - type help for help
+> help
+Available commands are
+setifoll bitvalue - Set the bitValue of IPot foll
+setidiffoff bitvalue - Set the bitValue of IPot diffOff
+seticas bitvalue - Set the bitValue of IPot cas
+setidiffon bitvalue - Set the bitValue of IPot diffOn
+setirefr bitvalue - Set the bitValue of IPot refr
+setipux bitvalue - Set the bitValue of IPot puX
+setipuy bitvalue - Set the bitValue of IPot puY
+setireqpd bitvalue - Set the bitValue of IPot reqPd
+setireq bitvalue - Set the bitValue of IPot req
+setiinjgnd bitvalue - Set the bitValue of IPot injGnd
+setidiff bitvalue - Set the bitValue of IPot diff
+setipr bitvalue - Set the bitValue of IPot Pr
+>
+ * 
+ * </pre>
+ * 
  * 
  * @author tobi
  */
@@ -51,16 +76,25 @@ public class RemoteControl /* implements RemoteControlled */{
         datagramSocket = new DatagramSocket(port);
         new RemoteControlDatagramSocketThread().start();
     }
+    
+    public void close(){
+        datagramSocket.close();
+    }
 
+ 
     /** Objects that want to receive commands should add themselves here with a command string and command description (for showing help).
      * 
      * @param remoteControlled the remote controlled object.
-     * @param cmd a string such as "setv volts". "setv" is the command and the RemoteControlled is responsible for parsing the rest of the line.
+     * @param cmd a string such as "setipr bitvalue". "setipr" is the command and the RemoteControlled is responsible for parsing the rest of the line.
      * @param description for showing help.
      */
     public void addCommandListener(RemoteControlled remoteControlled, String cmd, String description) {
         RemoteControlCommand command = new RemoteControlCommand(cmd.toLowerCase(), description);
         String cmdKey = command.getCmdName();
+        if(cmdMap.containsKey(cmdKey)){
+            log.warning("remote control commands already contains command "+cmdKey+", not adding command "+cmd+": "+description);
+            return;
+        }
         cmdMap.put(cmdKey, command);
         controlledMap.put(cmdKey, remoteControlled);
         descriptionMap.put(cmdKey, description);

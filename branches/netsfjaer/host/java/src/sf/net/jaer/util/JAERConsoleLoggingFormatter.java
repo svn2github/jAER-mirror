@@ -67,10 +67,16 @@ public class JAERConsoleLoggingFormatter extends SimpleFormatter{
            warning=true;
        }
         sb.append(super.format(record)); // prepend marker "     ******", then append 1st line warning
-        String s=sb.toString();
-        if(warning) {
-            s=s.replaceFirst("\n","       \n"); // replace newlines with "      \n"
+        int nl=sb.indexOf("\n");
+        while(nl>=1){
+            sb.replace(nl, nl+1, ": ");
+             nl=sb.indexOf("\n");
         }
+        sb.append("\n");
+        String s=sb.toString();
+//        if(warning) {
+//            s=s.replaceFirst("\n","       \n"); // replace newlines with "      \n"
+//        }
 //        s=s.replace("\n",": ");
         return s;
     }
