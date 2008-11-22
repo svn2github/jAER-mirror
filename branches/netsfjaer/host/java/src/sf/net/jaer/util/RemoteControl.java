@@ -12,8 +12,12 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 /**
@@ -47,7 +51,7 @@ setipr bitvalue - Set the bitValue of IPot Pr
  * 
  * @author tobi
  */
-public class RemoteControl /* implements RemoteControlled */{
+public class RemoteControl /* implements RemoteControlled */ {
 
     static Logger log = Logger.getLogger("RemoteControl");
     /** The default UDP local port for the default constructor */
@@ -62,10 +66,10 @@ public class RemoteControl /* implements RemoteControlled */{
     private boolean promptEnabled = true;
 
     /** Makes a new RemoteControl on the default port */
-    public RemoteControl() throws SocketException{
+    public RemoteControl() throws SocketException {
         this(PORT_DEFAULT);
     }
-    
+
     /** Creates a new instance. 
      * 
      * @param port the UDP port number this RemoteControl listens on.
@@ -76,12 +80,11 @@ public class RemoteControl /* implements RemoteControlled */{
         datagramSocket = new DatagramSocket(port);
         new RemoteControlDatagramSocketThread().start();
     }
-    
-    public void close(){
+
+    public void close() {
         datagramSocket.close();
     }
 
- 
     /** Objects that want to receive commands should add themselves here with a command string and command description (for showing help).
      * 
      * @param remoteControlled the remote controlled object.
@@ -91,9 +94,8 @@ public class RemoteControl /* implements RemoteControlled */{
     public void addCommandListener(RemoteControlled remoteControlled, String cmd, String description) {
         RemoteControlCommand command = new RemoteControlCommand(cmd.toLowerCase(), description);
         String cmdKey = command.getCmdName();
-        if(cmdMap.containsKey(cmdKey)){
-            log.warning("remote control commands already contains command "+cmdKey+", not adding command "+cmd+": "+description);
-            return;
+        if (cmdMap.containsKey(cmdKey)) {
+            log.warning("remote control commands already contains command " + cmdKey + ", replacing existing command with " + cmd + ": " + description);
         }
         cmdMap.put(cmdKey, command);
         controlledMap.put(cmdKey, remoteControlled);
@@ -102,7 +104,8 @@ public class RemoteControl /* implements RemoteControlled */{
 
     private String getHelp() {
         StringBuffer s = new StringBuffer("Available commands are\n");
-        for (Entry e : cmdMap.entrySet()) {
+        Map<String,RemoteControlled> sortedMap=new TreeMap(cmdMap);
+        for (Entry e : sortedMap.entrySet()) {
             RemoteControlCommand c = (RemoteControlCommand) e.getValue();
             s.append(String.format("%s - %s\n", c.getCmd(), c.getDescription()));
         }
@@ -177,37 +180,38 @@ public class RemoteControl /* implements RemoteControlled */{
             datagramSocket.send(echogram);
         }
     }
+    // debug
+    public static void main(String[] args) throws SocketException {
+        RemoteControl remoteControl = new RemoteControl(8995);
+        CommandProcessor processor = new CommandProcessor();
+        remoteControl.addCommandListener(processor, "doit thismanytimes", "i am doit");
+        remoteControl.addCommandListener(processor, "dd", "i am dd");
+        remoteControl.addCommandListener(processor, "dd", "i am dd also");
+        remoteControl.addCommandListener(new RemoteControlled() {
 
-//    public String processCommand(RemoteControlCommand command, String line) {
-//        log.info("received " + command + " with line " + line);
-//        String[] tokens = line.split("\\s");
-//        try {
-//            if (command.getCmdName().equals("doit")) {
-//                if (tokens.length < 2) {
-//                    return "not enough arguments\n";
-//                }
-//                int val = Integer.parseInt(tokens[1]);
-//                log.info(String.format("value=%d", val));
-//            }else if(command.getCmdName().equals("dd")){
-//                return "got dd\n";
-//            }
-//        } catch (Exception e) {
-//            log.warning(e.toString());
-//            return e.toString()+"\n";
-//        }
-//        return null;
-//    }
-//
-//    // debug
-//    public static void main(String[] args) throws SocketException {
-//        RemoteControl remoteControl = new RemoteControl(8995);
-//        remoteControl.addCommandListener(remoteControl, "doit thismanytimes", "i am doit");
-//        remoteControl.addCommandListener(remoteControl, "dd", "i am dd");
-//        remoteControl.addCommandListener(new RemoteControlled() {
-//
-//            public String processCommand(RemoteControlCommand command, String input) {
-//                return "got bogus";
-//            }
-//        }, "bogus", "bogus description");
-//    }
+            public String processCommand(RemoteControlCommand command, String input) {
+                return "got bogus";
+            }
+        }, "bogus", "bogus description");
+    }
+}
+
+class CommandProcessor implements RemoteControlled {
+
+    public String processCommand(RemoteControlCommand command, String line) {
+        String[] tokens = line.split("\\s");
+        try {
+            if (command.getCmdName().equals("doit")) {
+                if (tokens.length < 2) {
+                    return "not enough arguments\n";
+                }
+                int val = Integer.parseInt(tokens[1]);
+            } else if (command.getCmdName().equals("dd")) {
+                return "got dd\n";
+            }
+        } catch (Exception e) {
+            return e.toString() + "\n";
+        }
+        return null;
+    }
 }
