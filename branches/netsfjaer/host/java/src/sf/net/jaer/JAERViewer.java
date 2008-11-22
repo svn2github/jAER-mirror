@@ -510,9 +510,6 @@ public class JAERViewer {
             }
             
             
-            // this is hardcoded as the package where all the chips MUST presently live to be found for .index file playback!!!!
-            final Package chipPackage=Package.getPackage("ch.unizh.ini.caviar.chip.retina");
-            
             playingViewers.clear();
             
             // this map will map from the data files to the viewer windows

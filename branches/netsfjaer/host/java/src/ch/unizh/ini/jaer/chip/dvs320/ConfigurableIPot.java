@@ -101,7 +101,6 @@ public class ConfigurableIPot extends IPot {
     
     /** Builds the component used to control the IPot. This component is the user interface.
      * @return a JComponent that can be added to a GUI
-     * @param frame the BiasgenFrame in which it sits
      */
     @Override
     public JComponent makeGUIPotControl() {

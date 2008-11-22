@@ -165,8 +165,7 @@ public class Chip extends Observable {
     }
 
 
-    /** Returns the Preferences node for this Chip. This is the node of the Chip package, e.g. ch.unizh.ini.caviar.chip.retina for the class
-     *Tmpdiff128 which is in the that package.
+    /** Returns the Preferences node for this Chip. 
      @return the node
      */
     public Preferences getPrefs() {

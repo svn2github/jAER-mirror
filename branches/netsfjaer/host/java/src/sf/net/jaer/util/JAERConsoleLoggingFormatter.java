@@ -47,7 +47,7 @@ handlers = java.util.logging.ConsoleHandler, java.util.logging.FileHandler
 java.util.logging.FileHandler.pattern=%t/jAER.log
 
 # Set the default formatter for new ConsoleHandler instances
-java.util.logging.ConsoleHandler.formatter = ch.unizh.ini.caviar.util.JAERConsoleLoggingFormatter
+java.util.logging.ConsoleHandler.formatter = net.sf.jaer.util.JAERConsoleLoggingFormatter
 java.util.logging.FileHandler.formatter = java.util.logging.SimpleFormatter
  </pre>
  * @author tobi

@@ -48,7 +48,7 @@ public class SubclassFinder {
     }
     
     /** Finds and returns list of all subclases of a class
-     * @param superClassName the fully qualified name, e.g. ch.unizh.ini.caviar.chip.AEChip
+     * @param superClassName the fully qualified name, e.g. net.sf.jaer.chip.AEChip
      * @return list of fully qualified class names that are subclasses (and not the same as) the argument
      */
     public static ArrayList<String> findSubclassesOf(String superClassName) {
@@ -81,7 +81,7 @@ public class SubclassFinder {
     }
     
     public static void main(String[] args){
-        ArrayList<String> classNames=   findSubclassesOf("ch.unizh.ini.caviar.eventprocessing.EventFilter2D");
+        ArrayList<String> classNames=   findSubclassesOf("net.sf.jaer.eventprocessing.EventFilter2D");
         for(String s:classNames){
             System.out.println(s);
         }

@@ -21,7 +21,7 @@ package sf.net.jaer.aemonitor;
  * that the arrays contain less events than their capacity, which is usually the case when the packet is reused
  in a device acquisition.
  <p>
- These AEPacketRaw are used only for device events (raw events). For processed events, see the ch.unizh.ini.caviar.event package.
+ These AEPacketRaw are used only for device events (raw events). For processed events, see the net.sf.jaer.event package.
  *
  * @author tobi
  */

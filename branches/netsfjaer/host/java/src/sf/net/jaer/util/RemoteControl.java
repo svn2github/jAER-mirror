@@ -48,6 +48,33 @@ setipr bitvalue - Set the bitValue of IPot Pr
  * 
  * </pre>
  * 
+ * Commands are added to an object as shown next; getRemoteControl accesses in this example the Chip's built-in RemoteControl.
+ * This object implements RemoteControlled. It adds a single command "setbufferbias".
+ * <pre>
+ *                 if (getRemoteControl() != null) {
+                    getRemoteControl().addCommandListener(this, "setbufferbias bitvalue", "Sets the buffer bias value");
+                }
+</pre>
+ * This RemoteControlled implements the processCommand method like this; processCommand returns a String which contains the results.
+ * <pre>
+ *            public String processCommand(RemoteControlCommand command, String input) {
+                String[] tok = input.split("\\s");
+                if (tok.length < 2) {
+                    return "bufferbias " + getValue()+"\n";
+                } else {
+                    try {
+                        int val = Integer.parseInt(tok[1]);
+                        setValue(val);
+                    } catch (NumberFormatException e) {
+                        return "?\n";
+                    }
+
+                }
+                return "bufferbias " + getValue()+"\n";
+            }
+ * </pre>
+ * 
+ * 
  * 
  * @author tobi
  */

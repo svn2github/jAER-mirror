@@ -61,7 +61,7 @@ public class Chip2DRenderer {
     
 //    /** add an annotator to the rendered event histogram frame data. This is one way to annotate the image; the other way is to directly draw graphics.
 //     *@param annotator the object that will annotate the frame data
-//     *@see ch.unizh.ini.caviar.graphics.ChipCanvas#addAnnotator
+//     *@see net.sf.jaer.graphics.ChipCanvas#addAnnotator
 //     */
 //    public synchronized void addAnnotator(FrameAnnotater annotator){
 //        annotators.add(annotator);

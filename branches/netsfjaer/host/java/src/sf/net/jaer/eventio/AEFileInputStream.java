@@ -57,7 +57,7 @@ import java.util.logging.Logger;
 public class AEFileInputStream extends DataInputStream implements AEFileInputStreamInterface {
 //    public final static long MAX_FILE_SIZE=200000000;
     private PropertyChangeSupport support=new PropertyChangeSupport(this);
-    static Logger log=Logger.getLogger("ch.unizh.ini.caviar.eventio");
+    static Logger log=Logger.getLogger("net.sf.jaer.eventio");
     FileInputStream in;
     long fileSize=0; // size of file in bytes
     InputStreamReader reader=null;

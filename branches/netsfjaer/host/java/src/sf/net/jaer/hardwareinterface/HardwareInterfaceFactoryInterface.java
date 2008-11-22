@@ -35,7 +35,7 @@ public interface HardwareInterfaceFactoryInterface  {
      * 
      * @param n the number starting from 0
      * @return the HardwareInterface
-     * @throws ch.unizh.ini.caviar.hrdwareinterface.HardwareInterfaceException if there is some error
+     * @throws net.sf.jaer.hardwareinterface.HardwareInterfaceException if there is some error
      */
     public HardwareInterface getInterface(int n) throws HardwareInterfaceException ;
     

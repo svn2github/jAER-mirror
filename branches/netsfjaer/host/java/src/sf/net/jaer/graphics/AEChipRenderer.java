@@ -90,7 +90,7 @@ public class AEChipRenderer extends Chip2DRenderer {
     protected EventPacket packet=null;
     /** the chip rendered for */
     protected boolean ignorePolarityEnabled = false;
-    protected Logger log = Logger.getLogger("ch.unizh.ini.caviar.graphics");
+    protected Logger log = Logger.getLogger("net.sf.jaer.graphics");
     
     /** The Colors that different cell types are painted. checkTypeColors should populate this array. */
     protected Color[] typeColors;

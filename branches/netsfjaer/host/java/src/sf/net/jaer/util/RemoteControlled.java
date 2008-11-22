@@ -14,7 +14,7 @@ public interface RemoteControlled {
     /** Called when remote control recieved for this RemoteControlled.
      * 
      * @param command the received command that was parsed as being the type sent.
-     * @param line the input line which starts with the command token.
+     * @param input the input line which starts with the command token.
      * @return an optional response to the command which can be null.
      */
     public String processCommand(RemoteControlCommand command, String input);

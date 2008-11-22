@@ -114,7 +114,7 @@ public class AESocket{
         return bufferedStreamSize;
     }
     private PropertyChangeSupport support=new PropertyChangeSupport(this);
-    private static Logger log=Logger.getLogger("ch.unizh.ini.caviar.eventio");
+    private static Logger log=Logger.getLogger("net.sf.jaer.eventio");
     private static Preferences prefs=Preferences.userNodeForPackage(AESocket.class);
     private Socket socket;
     public final int MAX_NONMONOTONIC_TIME_EXCEPTIONS_TO_PRINT=10;

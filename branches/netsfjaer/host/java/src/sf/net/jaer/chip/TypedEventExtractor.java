@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  * @author tobi
  */
 abstract public class TypedEventExtractor<T extends BasicEvent> implements EventExtractor2D, java.io.Serializable {
-    static Logger log=Logger.getLogger("ch.unizh.ini.caviar.chip");
+    static Logger log=Logger.getLogger("net.sf.jaer.chip");
     
 //    protected AEChip chip;
     protected int xmask,ymask;

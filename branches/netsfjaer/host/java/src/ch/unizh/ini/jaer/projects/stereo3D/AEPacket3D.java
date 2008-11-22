@@ -23,7 +23,7 @@ import sf.net.jaer.aemonitor.*;
  * that the arrays contain less events than their capacity, which is usually the case when the packet is reused
  in a device acquisition.
  <p>
- These AEPacket3D are used only for packaged 3D events (reconstructed from 3D filters/tarckers). For processed events, see the ch.unizh.ini.caviar.event package.
+ These AEPacket3D are used only for packaged 3D events (reconstructed from 3D filters/tarckers). For processed events, see the net.sf.jaer.event package.
  *
  * @author tobi/rogister
  @see sf.net.jaer.event.EventPacket

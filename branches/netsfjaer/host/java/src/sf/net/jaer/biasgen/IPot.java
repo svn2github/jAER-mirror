@@ -174,7 +174,6 @@ public class IPot extends Pot implements Cloneable, Observer, RemoteControlled {
     
     /** Builds the component used to control the IPot. This component is the user interface.
      @return a JComponent that can be added to a GUI
-     @param frame the BiasgenFrame in which it sits
      */
     public JComponent makeGUIPotControl() {
         return new IPotGUIControl(this);

@@ -31,7 +31,7 @@ public class ListClasses {
                 
     };
     
-    static Logger log=Logger.getLogger("ch.unizh.ini.caviar.util");
+    static Logger log=Logger.getLogger("net.sf.jaer.util");
     private static boolean debug = false;
     
     private static final int INIT_SIZE=500, SIZE_INC=500;
