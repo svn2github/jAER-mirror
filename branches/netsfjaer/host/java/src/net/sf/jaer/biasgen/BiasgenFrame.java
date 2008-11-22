@@ -113,7 +113,7 @@ public class BiasgenFrame extends javax.swing.JFrame implements UndoableEditList
                 }
             }
         });
-        setTitle("Biases " + lastFile.getName());
+        setTitle(chip.getName()+" - "+lastFile.getName()+ " - Biases ");
         saveMenuItem.setEnabled(false); // until we load or save a file
         pack();
 //        System.out.println("x="+prefs.getInt("BiasgenFrame.XPosition", 0));
@@ -284,7 +284,7 @@ public class BiasgenFrame extends javax.swing.JFrame implements UndoableEditList
         prefs.put("BiasgenFrame.lastFile", lastFile.toString());
         saveMenuItem.setEnabled(true);
         saveMenuItem.setText("Save " + currentFile.getName());
-        setTitle("Biasgen - " + f.getName());
+        setTitle(chip.getName()+" - "+lastFile.getName()+ " - Biases ");
     }
 
     /** Shows a dialog to choose a file to store preferences to. If the users successfully writes the file, then

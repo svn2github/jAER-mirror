@@ -47,7 +47,7 @@ public class FilterFrame extends javax.swing.JFrame implements PropertyChangeLis
         rebuildContents();
         setRestoreFilterEnabledStateEnabled(prefs.getBoolean("FilterFrame.restoreFilterEnabledStateEnabled",true)); // sets the menu item state
         if(chip!=null){
-            setTitle(chip.getName()+" filters");
+            setTitle(chip.getName()+" - filters");
         }
         switch(filterChain.getProcessingMode()){
             case RENDERING:
