@@ -10,7 +10,7 @@
 
 package ch.unizh.ini.jaer.chip.retina;
 
-import sf.net.jaer.chip.*;
+import net.sf.jaer.chip.*;
 import ch.unizh.ini.jaer.chip.cochlea.*;
 import java.io.*;
 

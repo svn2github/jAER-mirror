@@ -9,15 +9,15 @@
 
 package ch.unizh.ini.jaer.chip.cochlea;
 
-import sf.net.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320Factory;
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.event.TypedEvent;
-import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.util.EngineeringFormat;
-import sf.net.jaer.util.filter.LowpassFilter;
+import net.sf.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320Factory;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.event.TypedEvent;
+import net.sf.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.hardwareinterface.*;
+import net.sf.jaer.util.EngineeringFormat;
+import net.sf.jaer.util.filter.LowpassFilter;
 import com.sun.opengl.util.GLUT;
 import java.awt.Graphics2D;
 import javax.media.opengl.GL;

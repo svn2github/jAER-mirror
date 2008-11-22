@@ -9,15 +9,15 @@
 
 package ch.unizh.ini.jaer.projects.ballshooter;
 
-import sf.net.jaer.chip.*;
-import sf.net.jaer.event.*;
-import sf.net.jaer.eventprocessing.EventFilter;
-import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.eventprocessing.FilterChain;
-import sf.net.jaer.eventprocessing.tracking.*;
-import sf.net.jaer.eventprocessing.tracking.RectangularClusterTracker.Cluster;
-import sf.net.jaer.eventprocessing.filter.*;
-import sf.net.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.event.*;
+import net.sf.jaer.eventprocessing.EventFilter;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.eventprocessing.FilterChain;
+import net.sf.jaer.eventprocessing.tracking.*;
+import net.sf.jaer.eventprocessing.tracking.RectangularClusterTracker.Cluster;
+import net.sf.jaer.eventprocessing.filter.*;
+import net.sf.jaer.graphics.FrameAnnotater;
 import java.awt.Graphics2D;
 import java.beans.*;
 import java.util.logging.*;

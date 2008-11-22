@@ -12,11 +12,11 @@
 
 package ch.unizh.ini.jaer.projects.opticalflow.usbinterface;
 
-import sf.net.jaer.biasgen.*;
-import sf.net.jaer.biasgen.Biasgen;
-import sf.net.jaer.biasgen.VDAC.*;
-import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.util.*;
+import net.sf.jaer.biasgen.*;
+import net.sf.jaer.biasgen.Biasgen;
+import net.sf.jaer.biasgen.VDAC.*;
+import net.sf.jaer.hardwareinterface.*;
+import net.sf.jaer.util.*;
 import ch.unizh.ini.jaer.projects.opticalflow.chip.*;
 import de.thesycon.usbio.*;
 import de.thesycon.usbio.PnPNotifyInterface;

@@ -12,7 +12,7 @@
 
 package ch.unizh.ini.jaer.projects.opticalflow.usbinterface;
 
-import sf.net.jaer.hardwareinterface.*;
+import net.sf.jaer.hardwareinterface.*;
 import de.thesycon.usbio.*;
 import de.thesycon.usbio.structs.*;
 import java.util.*;

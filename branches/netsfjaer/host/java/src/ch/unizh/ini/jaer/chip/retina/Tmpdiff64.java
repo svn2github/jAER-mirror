@@ -10,8 +10,8 @@
 
 package ch.unizh.ini.jaer.chip.retina;
 
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.chip.RetinaExtractor;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.chip.RetinaExtractor;
 import java.io.*;
 
 

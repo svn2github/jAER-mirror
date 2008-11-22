@@ -12,15 +12,15 @@
 
 package ch.unizh.ini.jaer.chip.retina.sensorymotor;
 
-import sf.net.jaer.chip.*;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.eventprocessing.tracking.RectangularClusterTracker;
-import sf.net.jaer.eventprocessing.tracking.MedianTracker;
-import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.hardwareinterface.ServoInterface;
-import sf.net.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.eventprocessing.tracking.RectangularClusterTracker;
+import net.sf.jaer.eventprocessing.tracking.MedianTracker;
+import net.sf.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.hardwareinterface.*;
+import net.sf.jaer.hardwareinterface.ServoInterface;
+import net.sf.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import javax.media.opengl.*;

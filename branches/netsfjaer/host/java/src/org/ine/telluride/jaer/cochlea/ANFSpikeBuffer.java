@@ -4,10 +4,10 @@
  */
 
 package org.ine.telluride.jaer.cochlea;
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.event.TypedEvent;
-import sf.net.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.event.TypedEvent;
+import net.sf.jaer.eventprocessing.EventFilter2D;
 /**
  * Extracts pitch from AE cochlea spike output.
  * 

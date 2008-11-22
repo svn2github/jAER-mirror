@@ -10,9 +10,9 @@
 
 package es.cnm.imse.jaer.chip.convolution;
 
-import sf.net.jaer.aemonitor.AEPacketRaw;
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.event.*;
+import net.sf.jaer.aemonitor.AEPacketRaw;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.event.*;
 import java.io.*;
 
 

@@ -12,16 +12,16 @@
 
 package ch.unizh.ini.jaer.projects.tobi.goalie;
 
-import sf.net.jaer.aemonitor.AEConstants;
-import sf.net.jaer.chip.*;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.eventprocessing.FilterChain;
-import sf.net.jaer.eventprocessing.filter.BackgroundActivityFilter;
-import sf.net.jaer.eventprocessing.filter.XYTypeFilter;
-import sf.net.jaer.eventprocessing.tracking.RectangularClusterTracker;
-import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.util.StateMachineStates;
+import net.sf.jaer.aemonitor.AEConstants;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.eventprocessing.FilterChain;
+import net.sf.jaer.eventprocessing.filter.BackgroundActivityFilter;
+import net.sf.jaer.eventprocessing.filter.XYTypeFilter;
+import net.sf.jaer.eventprocessing.tracking.RectangularClusterTracker;
+import net.sf.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.util.StateMachineStates;
 import com.sun.opengl.util.*;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;

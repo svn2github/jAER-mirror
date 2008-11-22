@@ -3,11 +3,11 @@
  * and open the template in the editor.
  */
 package ch.unizh.ini.jaer.projects.tobi.goalie;
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
-import sf.net.jaer.hardwareinterface.ServoInterface;
-import sf.net.jaer.hardwareinterface.usb.ServoInterfaceFactory;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
+import net.sf.jaer.hardwareinterface.ServoInterface;
+import net.sf.jaer.hardwareinterface.usb.ServoInterfaceFactory;
 import ch.unizh.ini.jaer.hardware.pantilt.CalibratedPanTilt;
 import ch.unizh.ini.jaer.hardware.pantilt.LaserOnOffControl;
 /**

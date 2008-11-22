@@ -10,10 +10,10 @@
 
 package ch.unizh.ini.jaer.chip.object;
 
-import sf.net.jaer.aemonitor.AEPacketRaw;
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.chip.TypedEventExtractor;
-import sf.net.jaer.event.*;
+import net.sf.jaer.aemonitor.AEPacketRaw;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.chip.TypedEventExtractor;
+import net.sf.jaer.event.*;
 import java.io.*;
 
 

@@ -12,14 +12,14 @@
 
 package ch.unizh.ini.jaer.projects.tobi.billcatcher;
 
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.*;
-import sf.net.jaer.eventprocessing.label.DirectionSelectiveFilter;
-import sf.net.jaer.eventprocessing.tracking.*;
-import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.hardwareinterface.usb.ServoInterfaceFactory;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventprocessing.*;
+import net.sf.jaer.eventprocessing.label.DirectionSelectiveFilter;
+import net.sf.jaer.eventprocessing.tracking.*;
+import net.sf.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.hardwareinterface.*;
+import net.sf.jaer.hardwareinterface.usb.ServoInterfaceFactory;
 import com.sun.opengl.util.*;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;

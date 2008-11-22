@@ -4,10 +4,10 @@
  */
     package ch.unizh.ini.jaer.projects.tobi.zipzaps;
 
-import sf.net.jaer.hardwareinterface.HardwareInterface;
-import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
-import sf.net.jaer.hardwareinterface.usb.ServoInterfaceFactory;
-import sf.net.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController;
+import net.sf.jaer.hardwareinterface.HardwareInterface;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
+import net.sf.jaer.hardwareinterface.usb.ServoInterfaceFactory;
+import net.sf.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController;
 import java.util.logging.Logger;
 
 /**

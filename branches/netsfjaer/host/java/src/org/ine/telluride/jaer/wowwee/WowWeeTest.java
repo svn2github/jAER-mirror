@@ -4,8 +4,8 @@
  * Created on July 16, 2007, 4:26 PM
  */
 package org.ine.telluride.jaer.wowwee;
-import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.util.HexString;
+import net.sf.jaer.hardwareinterface.*;
+import net.sf.jaer.util.HexString;
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.util.ArrayList;

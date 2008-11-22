@@ -5,7 +5,7 @@
 
 package ch.unizh.ini.jaer.chip.dvs320;
 
-import sf.net.jaer.biasgen.Biasgen;
+import net.sf.jaer.biasgen.Biasgen;
 import java.util.ArrayList;
 
 /**

@@ -11,22 +11,22 @@
  */
 package ch.unizh.ini.jaer.projects.rccar;
 
-import sf.net.jaer.chip.*;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventio.*;
-import sf.net.jaer.eventprocessing.*;
-import sf.net.jaer.eventprocessing.filter.*;
-import sf.net.jaer.eventprocessing.label.SimpleOrientationFilter;
-import sf.net.jaer.eventprocessing.tracking.*;
-import sf.net.jaer.eventprocessing.tracking.HoughLineTracker;
-import sf.net.jaer.eventprocessing.tracking.MultiLineClusterTracker;
-import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.hardwareinterface.usb.toradex.ToradexOakG3AxisAccelerationSensor;
-import sf.net.jaer.hardwareinterface.usb.toradex.ToradexOakG3AxisAccelerationSensor.Acceleration;
-import sf.net.jaer.hardwareinterface.usb.toradex.ToradexOakG3AxisAccelerationSensorGUI;
-import sf.net.jaer.util.TobiLogger;
-import sf.net.jaer.util.filter.LowpassFilter;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventio.*;
+import net.sf.jaer.eventprocessing.*;
+import net.sf.jaer.eventprocessing.filter.*;
+import net.sf.jaer.eventprocessing.label.SimpleOrientationFilter;
+import net.sf.jaer.eventprocessing.tracking.*;
+import net.sf.jaer.eventprocessing.tracking.HoughLineTracker;
+import net.sf.jaer.eventprocessing.tracking.MultiLineClusterTracker;
+import net.sf.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.hardwareinterface.*;
+import net.sf.jaer.hardwareinterface.usb.toradex.ToradexOakG3AxisAccelerationSensor;
+import net.sf.jaer.hardwareinterface.usb.toradex.ToradexOakG3AxisAccelerationSensor.Acceleration;
+import net.sf.jaer.hardwareinterface.usb.toradex.ToradexOakG3AxisAccelerationSensorGUI;
+import net.sf.jaer.util.TobiLogger;
+import net.sf.jaer.util.filter.LowpassFilter;
 import java.awt.Graphics2D;
 import java.beans.*;
 import java.io.BufferedOutputStream;
@@ -600,7 +600,7 @@ public class Driver extends EventFilter2D implements FrameAnnotater {
         }
         try {
             if (dos == null) {
-                sf.net.jaer.graphics.AEViewer v = chip.getAeViewer();
+                net.sf.jaer.graphics.AEViewer v = chip.getAeViewer();
                 if (v == null) {
                     throw new RuntimeException("no viewer");
                 }

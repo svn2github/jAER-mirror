@@ -5,12 +5,12 @@
 
 package ch.unizh.ini.jaer.chip.cochlea;
 
-import sf.net.jaer.biasgen.Biasgen;
-import sf.net.jaer.biasgen.BiasgenHardwareInterface;
-import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
+import net.sf.jaer.biasgen.Biasgen;
+import net.sf.jaer.biasgen.BiasgenHardwareInterface;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 import java.util.Observable;
-import sf.net.jaer.hardwareinterface.usb.cypressfx2.CypressFX2;
-import sf.net.jaer.hardwareinterface.usb.cypressfx2.CypressFX2MonitorSequencer;
+import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2;
+import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2MonitorSequencer;
 
 /**
  * The hardware interface to CochleaAMS1b.

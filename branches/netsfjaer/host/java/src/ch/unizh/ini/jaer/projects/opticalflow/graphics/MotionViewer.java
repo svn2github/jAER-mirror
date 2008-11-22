@@ -6,15 +6,15 @@
 
 package ch.unizh.ini.jaer.projects.opticalflow.graphics;
 
-import sf.net.jaer.aemonitor.*;
-import sf.net.jaer.biasgen.*;
-import sf.net.jaer.chip.*;
+import net.sf.jaer.aemonitor.*;
+import net.sf.jaer.biasgen.*;
+import net.sf.jaer.chip.*;
 //import ch.unizh.ini.caviar.chip.convolution.Conv64NoNegativeEvents;
 import ch.unizh.ini.jaer.chip.retina.*;
-import sf.net.jaer.eventio.*;
-import sf.net.jaer.graphics.*;
-import sf.net.jaer.util.*;
-import sf.net.jaer.util.browser.*;
+import net.sf.jaer.eventio.*;
+import net.sf.jaer.graphics.*;
+import net.sf.jaer.util.*;
+import net.sf.jaer.util.browser.*;
 import ch.unizh.ini.jaer.projects.opticalflow.chip.*;
 import ch.unizh.ini.jaer.projects.opticalflow.io.*;
 import ch.unizh.ini.jaer.projects.opticalflow.io.MotionOutputStream;

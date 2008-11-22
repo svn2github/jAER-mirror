@@ -9,7 +9,7 @@
 
 package ch.unizh.ini.jaer.projects.stereo3D;
 
-import sf.net.jaer.aemonitor.*;
+import net.sf.jaer.aemonitor.*;
 import java.io.*;
 import java.util.*;
 import java.util.logging.*;

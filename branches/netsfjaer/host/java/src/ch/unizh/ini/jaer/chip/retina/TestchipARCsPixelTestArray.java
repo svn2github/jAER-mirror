@@ -10,9 +10,9 @@
 
 package ch.unizh.ini.jaer.chip.retina;
 
-import sf.net.jaer.biasgen.*;
-import sf.net.jaer.chip.*;
-import sf.net.jaer.hardwareinterface.*;
+import net.sf.jaer.biasgen.*;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.hardwareinterface.*;
 import java.io.*;
 
 
@@ -81,7 +81,7 @@ public class TestchipARCsPixelTestArray extends AERetina implements Serializable
      *
      * @author tobi
      */
-    public class Biasgen extends sf.net.jaer.biasgen.Biasgen {
+    public class Biasgen extends net.sf.jaer.biasgen.Biasgen {
         
         
         /** Creates a new instance of Biasgen for Tmpdiff128 with a given hardware interface

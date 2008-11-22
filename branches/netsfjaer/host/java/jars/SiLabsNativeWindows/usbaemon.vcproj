@@ -144,7 +144,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="C:\j2sdk1.4.2\include,C:\j2sdk1.4.2\include\win32"
+				AdditionalIncludeDirectories="&quot;H:\Program Files\Java\jdk1.6.0_03\include\win32&quot;;&quot;H:\Program Files\Java\jdk1.6.0_03\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;USBAEMON_EXPORTS"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -266,7 +266,7 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath=".\sf_net_jaer_hardwareinterface_usb_silabs_SiLabsC8051F320.h"
+				RelativePath=".\net_sf_jaer_hardwareinterface_usb_silabs_SiLabsC8051F320.h"
 				>
 			</File>
 			<File

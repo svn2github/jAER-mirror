@@ -7,9 +7,9 @@
  * and open the template in the editor.
  */
 package ch.unizh.ini.jaer.chip.retina;
-import sf.net.jaer.chip.*;
-import sf.net.jaer.event.*;
-import sf.net.jaer.graphics.RetinaRenderer;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.event.*;
+import net.sf.jaer.graphics.RetinaRenderer;
 
 /**
  * A superclass for retina chips, with renderers and event filters.

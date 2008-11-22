@@ -8,8 +8,8 @@ package ch.unizh.ini.jaer.chip.dvs320;
 
 
 
-import sf.net.jaer.biasgen.*;
-import sf.net.jaer.util.*;
+import net.sf.jaer.biasgen.*;
+import net.sf.jaer.util.*;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;

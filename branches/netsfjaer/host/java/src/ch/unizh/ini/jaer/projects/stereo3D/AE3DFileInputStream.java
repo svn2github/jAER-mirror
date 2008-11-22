@@ -9,8 +9,8 @@
 
 package ch.unizh.ini.jaer.projects.stereo3D;
 
-import sf.net.jaer.eventio.*;
-import sf.net.jaer.util.EngineeringFormat;
+import net.sf.jaer.eventio.*;
+import net.sf.jaer.util.EngineeringFormat;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.nio.*;

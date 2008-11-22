@@ -12,9 +12,9 @@
 
 package ch.unizh.ini.jaer.projects.rccar;
 
-import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.hardwareinterface.usb.*;
-import sf.net.jaer.util.*;
+import net.sf.jaer.hardwareinterface.*;
+import net.sf.jaer.hardwareinterface.usb.*;
+import net.sf.jaer.util.*;
 import de.thesycon.usbio.*;
 import de.thesycon.usbio.PnPNotifyInterface;
 import de.thesycon.usbio.UsbIoErrorCodes;

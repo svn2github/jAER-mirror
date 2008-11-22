@@ -10,7 +10,7 @@
 
 package ch.unizh.ini.jaer.projects.stereo3D;
 
-import sf.net.jaer.aemonitor.*;
+import net.sf.jaer.aemonitor.*;
 
 
 /**
@@ -26,7 +26,7 @@ import sf.net.jaer.aemonitor.*;
  These AEPacket3D are used only for packaged 3D events (reconstructed from 3D filters/tarckers). For processed events, see the net.sf.jaer.event package.
  *
  * @author tobi/rogister
- @see sf.net.jaer.event.EventPacket
+ @see net.sf.jaer.event.EventPacket
  */
 public class AEPacket3D extends AEPacket {
     

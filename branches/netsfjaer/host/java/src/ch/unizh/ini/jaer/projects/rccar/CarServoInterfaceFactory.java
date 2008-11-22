@@ -12,9 +12,9 @@
 
 package ch.unizh.ini.jaer.projects.rccar;
 
-import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.hardwareinterface.HardwareInterfaceFactoryInterface;
-import sf.net.jaer.hardwareinterface.usb.UsbIoUtilities;
+import net.sf.jaer.hardwareinterface.*;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceFactoryInterface;
+import net.sf.jaer.hardwareinterface.usb.UsbIoUtilities;
 import de.thesycon.usbio.*;
 import de.thesycon.usbio.structs.*;
 import java.util.*;

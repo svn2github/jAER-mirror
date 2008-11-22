@@ -1,17 +1,17 @@
 
 package ch.unizh.ini.jaer.projects.rccar;
 
-import sf.net.jaer.chip.*;
-import sf.net.jaer.event.*;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventio.*;
-import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.hardwareinterface.usb.toradex.ToradexOakG3AxisAccelerationSensor;
-import sf.net.jaer.hardwareinterface.usb.toradex.ToradexOakG3AxisAccelerationSensorGUI;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.event.*;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventio.*;
+import net.sf.jaer.hardwareinterface.*;
+import net.sf.jaer.hardwareinterface.usb.toradex.ToradexOakG3AxisAccelerationSensor;
+import net.sf.jaer.hardwareinterface.usb.toradex.ToradexOakG3AxisAccelerationSensorGUI;
 //import ch.unizh.ini.caviar.eventio.AEServerSocket;
-import sf.net.jaer.eventprocessing.*;
+import net.sf.jaer.eventprocessing.*;
 //import ch.unizh.ini.caviar.eventprocessing.label.SimpleOrientationFilter;
-import sf.net.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.graphics.FrameAnnotater;
 //import ch.unizh.ini.caviar.util.filter.LowpassFilter;
 import java.awt.Graphics2D;
 import java.io.*;
@@ -21,7 +21,7 @@ import java.net.Socket;
 import javax.media.opengl.*;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.*;
-import sf.net.jaer.util.TobiLogger;
+import net.sf.jaer.util.TobiLogger;
 
 /**
  * The FancyDriver controls the RcCar 
@@ -376,7 +376,7 @@ public class FancyDriver extends EventFilter2D implements FrameAnnotater{
         if(!sendControlToBlenderEnabled) return;
         try{
             if(dos==null){
-                sf.net.jaer.graphics.AEViewer v=chip.getAeViewer();
+                net.sf.jaer.graphics.AEViewer v=chip.getAeViewer();
                 if(v==null) throw new RuntimeException("no viewer");
                 AESocket aeSocket=v.getAeSocket();
                 if(aeSocket==null) throw new RuntimeException("no aeSocket has been opened to a server of events, no one to send controls to");

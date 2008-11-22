@@ -10,8 +10,8 @@
 
 package no.uio.ifi.jaer.chip.learning;
 
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.chip.TypedEventExtractor;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.chip.TypedEventExtractor;
 import java.io.*;
 
 

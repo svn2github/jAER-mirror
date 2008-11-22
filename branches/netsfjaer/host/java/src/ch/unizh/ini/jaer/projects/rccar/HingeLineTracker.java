@@ -6,12 +6,12 @@
 package ch.unizh.ini.jaer.projects.rccar;
 
 
-import sf.net.jaer.chip.*;
-import sf.net.jaer.event.*;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.FilterChain;
-import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.event.*;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventprocessing.FilterChain;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.graphics.FrameAnnotater;
 import javax.media.opengl.*;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.*;

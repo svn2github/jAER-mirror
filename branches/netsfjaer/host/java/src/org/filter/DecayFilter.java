@@ -4,12 +4,12 @@
  */
 
 package org.orangesky.visuals;
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.event.OutputEventIterator;
-import sf.net.jaer.event.PolarityEvent;
-import sf.net.jaer.event.PolarityEvent.Polarity;
-import sf.net.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.event.OutputEventIterator;
+import net.sf.jaer.event.PolarityEvent;
+import net.sf.jaer.event.PolarityEvent.Polarity;
+import net.sf.jaer.eventprocessing.EventFilter2D;
 import java.util.Random;
 import java.lang.Math.*;
 /**

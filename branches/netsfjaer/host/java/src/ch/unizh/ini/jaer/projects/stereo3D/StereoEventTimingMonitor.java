@@ -9,11 +9,11 @@
 
 
 package ch.unizh.ini.jaer.projects.stereo3D;
-import sf.net.jaer.chip.*;
-import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.event.*;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.graphics.*;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.event.*;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.graphics.*;
 
 //import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import java.awt.*;

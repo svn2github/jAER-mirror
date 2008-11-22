@@ -4,11 +4,11 @@ created 26 Oct 2008 for new DVS320 chip
 package ch.unizh.ini.jaer.chip.dvs320;
 
 import ch.unizh.ini.jaer.chip.retina.*;
-import sf.net.jaer.aemonitor.*;
-import sf.net.jaer.biasgen.*;
-import sf.net.jaer.chip.*;
-import sf.net.jaer.event.*;
-import sf.net.jaer.hardwareinterface.*;
+import net.sf.jaer.aemonitor.*;
+import net.sf.jaer.biasgen.*;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.event.*;
+import net.sf.jaer.hardwareinterface.*;
 import java.awt.BorderLayout;
 import java.io.*;
 import java.math.BigInteger;
@@ -169,7 +169,7 @@ public class DVS320 extends AERetina implements Serializable {
      * 
      * @author tobi
      */
-    public class DVS320Biasgen extends sf.net.jaer.biasgen.Biasgen {
+    public class DVS320Biasgen extends net.sf.jaer.biasgen.Biasgen {
 
         private ConfigurableIPot cas,  diffOn,  diffOff,  diff,  bulk;
         private ConstrainedConfigurableIPot refr,  pr,  foll,  lowpower;

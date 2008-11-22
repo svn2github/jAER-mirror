@@ -12,7 +12,7 @@
 
 package ch.unizh.ini.jaer.projects.opticalflow.io;
 
-import sf.net.jaer.eventio.InputDataFileInterface;
+import net.sf.jaer.eventio.InputDataFileInterface;
 import ch.unizh.ini.jaer.projects.opticalflow.chip.*;
 import java.beans.*;
 import java.io.*;

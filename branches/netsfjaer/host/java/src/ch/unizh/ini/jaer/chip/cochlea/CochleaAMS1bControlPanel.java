@@ -5,8 +5,8 @@
  */
 package ch.unizh.ini.jaer.chip.cochlea;
 
-import sf.net.jaer.biasgen.BiasgenPanel;
-import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
+import net.sf.jaer.biasgen.BiasgenPanel;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;

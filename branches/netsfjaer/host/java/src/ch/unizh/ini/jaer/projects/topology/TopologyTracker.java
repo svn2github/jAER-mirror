@@ -11,19 +11,19 @@
 
 package ch.unizh.ini.jaer.projects.topology;
 
-import sf.net.jaer.event.PolarityEvent;
-import sf.net.jaer.util.chart.Axis;
-import sf.net.jaer.util.chart.Category;
-import sf.net.jaer.util.chart.VectorFieldChart;
-import sf.net.jaer.util.chart.VectorSeries;
-import sf.net.jaer.util.chart.XYChart;
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.event.BasicEvent;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.event.OutputEventIterator;
-import sf.net.jaer.event.TypedEvent;
-import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.util.chart.Series;
+import net.sf.jaer.event.PolarityEvent;
+import net.sf.jaer.util.chart.Axis;
+import net.sf.jaer.util.chart.Category;
+import net.sf.jaer.util.chart.VectorFieldChart;
+import net.sf.jaer.util.chart.VectorSeries;
+import net.sf.jaer.util.chart.XYChart;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.event.BasicEvent;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.event.OutputEventIterator;
+import net.sf.jaer.event.TypedEvent;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.util.chart.Series;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;

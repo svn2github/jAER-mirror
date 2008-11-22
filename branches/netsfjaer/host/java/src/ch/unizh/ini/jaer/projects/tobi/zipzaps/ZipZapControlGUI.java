@@ -5,8 +5,8 @@
  */
 package ch.unizh.ini.jaer.projects.tobi.zipzaps;
 
-import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
-import sf.net.jaer.util.ExceptionListener;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
+import net.sf.jaer.util.ExceptionListener;
 import java.awt.event.KeyEvent;
 
 /**

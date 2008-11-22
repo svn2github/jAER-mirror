@@ -44,7 +44,7 @@
 <name>java.library.path</name>
 <value>${EXECUTABLEPATH}host\java\jars;${EXECUTABLEPATH}host\java\jars\SiLabsNativeWindows</value>
 </javaProperties>
-<mainClassName>sf.net.jaer.JAERViewer</mainClassName>
+<mainClassName>net.sf.jaer.JAERViewer</mainClassName>
 <maximumMemoryHeap>536870912</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
 <minimumVersion>1.6</minimumVersion>

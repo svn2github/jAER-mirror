@@ -12,10 +12,10 @@
 
 package ch.unizh.ini.jaer.projects.robothead.retinacochlea;
 
-import sf.net.jaer.chip.*;
-import sf.net.jaer.event.*;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.event.*;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventprocessing.EventFilter2D;
 import java.util.Observable;
 import java.util.Observer;
 

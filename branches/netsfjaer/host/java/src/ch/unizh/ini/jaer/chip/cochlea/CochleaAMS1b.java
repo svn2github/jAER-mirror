@@ -11,16 +11,16 @@
  */
 package ch.unizh.ini.jaer.chip.cochlea;
 
-import sf.net.jaer.biasgen.*;
-import sf.net.jaer.biasgen.IPotArray;
-import sf.net.jaer.biasgen.VDAC.DAC;
-import sf.net.jaer.biasgen.VDAC.VPot;
-import sf.net.jaer.chip.*;
-import sf.net.jaer.graphics.ChipRendererDisplayMethod;
-import sf.net.jaer.graphics.DisplayMethod;
-import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.graphics.SpaceTimeEventDisplayMethod;
-import sf.net.jaer.hardwareinterface.*;
+import net.sf.jaer.biasgen.*;
+import net.sf.jaer.biasgen.IPotArray;
+import net.sf.jaer.biasgen.VDAC.DAC;
+import net.sf.jaer.biasgen.VDAC.VPot;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.graphics.ChipRendererDisplayMethod;
+import net.sf.jaer.graphics.DisplayMethod;
+import net.sf.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.graphics.SpaceTimeEventDisplayMethod;
+import net.sf.jaer.hardwareinterface.*;
 import com.sun.opengl.util.GLUT;
 import java.awt.Graphics2D;
 import java.util.Arrays;
@@ -32,9 +32,9 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import sf.net.jaer.hardwareinterface.usb.cypressfx2.CypressFX2;
-import sf.net.jaer.util.RemoteControlCommand;
-import sf.net.jaer.util.RemoteControlled;
+import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2;
+import net.sf.jaer.util.RemoteControlCommand;
+import net.sf.jaer.util.RemoteControlled;
 
 /**
  * Extends Shih-Chii's AMS cochlea AER chip to 
@@ -139,7 +139,7 @@ public class CochleaAMS1b extends CochleaAMSNoBiasgen {
      *
      * @author tobi
      */
-    public class Biasgen extends sf.net.jaer.biasgen.Biasgen implements ChipControlPanel {
+    public class Biasgen extends net.sf.jaer.biasgen.Biasgen implements ChipControlPanel {
 
         @Override
         public void loadPreferences() {
@@ -465,7 +465,7 @@ public class CochleaAMS1b extends CochleaAMSNoBiasgen {
         /** Sets the VDACs on the board to be powered or high impedance output. This is a global operation.
          * 
          * @param yes true to power up DACs
-         * @throws sf.net.jaer.hardwareinterface.HardwareInterfaceException
+         * @throws net.sf.jaer.hardwareinterface.HardwareInterfaceException
          */
         public void setDACPowered(boolean yes) throws HardwareInterfaceException {
             getPrefs().putBoolean("CochleaAMS1b.Biasgen.DAC.powered", yes);

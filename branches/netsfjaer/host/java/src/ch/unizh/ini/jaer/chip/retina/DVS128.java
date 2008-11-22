@@ -10,15 +10,15 @@
 
 package ch.unizh.ini.jaer.chip.retina;
 
-import sf.net.jaer.aemonitor.*;
-import sf.net.jaer.biasgen.*;
-import sf.net.jaer.chip.*;
-import sf.net.jaer.event.*;
-import sf.net.jaer.graphics.*;
-import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.hardwareinterface.usb.cypressfx2.CypressFX2Biasgen;
-import sf.net.jaer.hardwareinterface.usb.cypressfx2.CypressFX2TmpdiffRetinaHardwareInterface;
-import sf.net.jaer.hardwareinterface.usb.linux.CypressFX2RetinaLinux;
+import net.sf.jaer.aemonitor.*;
+import net.sf.jaer.biasgen.*;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.event.*;
+import net.sf.jaer.graphics.*;
+import net.sf.jaer.hardwareinterface.*;
+import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2Biasgen;
+import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2TmpdiffRetinaHardwareInterface;
+import net.sf.jaer.hardwareinterface.usb.linux.CypressFX2RetinaLinux;
 import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.io.*;
@@ -186,7 +186,7 @@ public class DVS128 extends AERetina implements Serializable {
      *
      * @author tobi
      */
-    public class Biasgen extends sf.net.jaer.biasgen.Biasgen implements ChipControlPanel {
+    public class Biasgen extends net.sf.jaer.biasgen.Biasgen implements ChipControlPanel {
         
         private IPot diffOn, diffOff, refr, pr, sf, diff;
         

@@ -4,9 +4,9 @@
  */
 package org.ine.telluride.jaer.cuda;
 
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventprocessing.EventFilter2D;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;

@@ -4,8 +4,8 @@
  */
 
 package ch.unizh.ini.jaer.hardware.pantilt;
-import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
-import sf.net.jaer.hardwareinterface.ServoInterface;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
+import net.sf.jaer.hardwareinterface.ServoInterface;
 /**
  * Interface to a PanTilt controller.
  * 
@@ -62,7 +62,7 @@ public interface PanTiltInterface {
      *
      * @param pan the pan value from 0 to 1 inclusive, 0.5f is the center position. 1 is full right.
      * @param tilt the tilt value from 0 to 1. 1 is full down.
-     * @throws sf.net.jaer.hardwareinterface.HardwareInterfaceException
+     * @throws net.sf.jaer.hardwareinterface.HardwareInterfaceException
      */
     public void setPanTiltValues(float pan, float tilt) throws HardwareInterfaceException;
 

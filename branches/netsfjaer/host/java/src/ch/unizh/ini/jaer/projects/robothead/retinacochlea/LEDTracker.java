@@ -10,19 +10,19 @@
 package ch.unizh.ini.jaer.projects.robothead.retinacochlea;
 
 
-import sf.net.jaer.chip.*;
-import sf.net.jaer.event.*;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.eventprocessing.tracking.RectangularClusterTracker;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.event.*;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.eventprocessing.tracking.RectangularClusterTracker;
 import java.util.Observable;
 import java.util.Observer;
 import javax.media.opengl.GLAutoDrawable;
-import sf.net.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.graphics.FrameAnnotater;
 import java.awt.Graphics2D;
 import com.sun.opengl.util.GLUT;
 import javax.media.opengl.GL;
-import sf.net.jaer.util.EngineeringFormat;
+import net.sf.jaer.util.EngineeringFormat;
 
 
 /**

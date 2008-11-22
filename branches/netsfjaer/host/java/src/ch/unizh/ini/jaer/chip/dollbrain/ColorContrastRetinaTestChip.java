@@ -10,9 +10,9 @@
 
 package ch.unizh.ini.jaer.chip.dollbrain;
 
-import sf.net.jaer.chip.*;
-import sf.net.jaer.chip.TypedEventExtractor;
-import sf.net.jaer.event.*;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.chip.TypedEventExtractor;
+import net.sf.jaer.event.*;
 import java.io.*;
 
 

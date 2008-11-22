@@ -8,9 +8,9 @@
 
 package ch.unizh.ini.jaer.projects.opticalflow.chip;
 
-import sf.net.jaer.biasgen.*;
-import sf.net.jaer.biasgen.VDAC.*;
-import sf.net.jaer.chip.*;
+import net.sf.jaer.biasgen.*;
+import net.sf.jaer.biasgen.VDAC.*;
+import net.sf.jaer.chip.*;
 import ch.unizh.ini.jaer.projects.opticalflow.graphics.OpticalFlowDisplayMethod;
 import ch.unizh.ini.jaer.projects.opticalflow.usbinterface.MotionChipInterface;
 

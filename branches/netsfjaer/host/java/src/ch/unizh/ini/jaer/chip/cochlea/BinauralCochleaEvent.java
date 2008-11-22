@@ -1,6 +1,6 @@
 package ch.unizh.ini.jaer.chip.cochlea;
 /** Created Oct 2008 by tobi */
-import sf.net.jaer.event.TypedEvent;
+import net.sf.jaer.event.TypedEvent;
 
 
 /** The events that a generic binarual cochlea returns. 

@@ -1,6 +1,6 @@
 package ch.unizh.ini.jaer.chip.dollbrain;
 
-import sf.net.jaer.event.*;
+import net.sf.jaer.event.*;
 /*
  * ColorEvent.java
  *

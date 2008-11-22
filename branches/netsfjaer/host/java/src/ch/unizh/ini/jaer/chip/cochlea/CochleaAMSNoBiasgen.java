@@ -8,13 +8,13 @@
  */
 package ch.unizh.ini.jaer.chip.cochlea;
 
-import sf.net.jaer.aemonitor.AEPacketRaw;
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.chip.TypedEventExtractor;
-import sf.net.jaer.event.BasicEvent;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.event.OutputEventIterator;
-import sf.net.jaer.graphics.AEChipRenderer;
+import net.sf.jaer.aemonitor.AEPacketRaw;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.chip.TypedEventExtractor;
+import net.sf.jaer.event.BasicEvent;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.event.OutputEventIterator;
+import net.sf.jaer.graphics.AEChipRenderer;
 import java.awt.Color;
 
 /**

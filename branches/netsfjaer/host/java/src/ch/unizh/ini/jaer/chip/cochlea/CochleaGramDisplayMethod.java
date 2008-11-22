@@ -10,8 +10,8 @@
 package ch.unizh.ini.jaer.chip.cochlea;
 
 //import ch.unizh.ini.caviar.aemonitor.EventXYType;
-import sf.net.jaer.event.*;
-import sf.net.jaer.graphics.*;
+import net.sf.jaer.event.*;
+import net.sf.jaer.graphics.*;
 import com.sun.opengl.util.GLUT;
 import javax.media.opengl.*;
 

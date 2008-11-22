@@ -9,10 +9,10 @@ package ch.unizh.ini.jaer.projects.robothead;
  */
 
 
-import sf.net.jaer.chip.*;
-import sf.net.jaer.event.*;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.event.*;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventprocessing.EventFilter2D;
 //import com.sun.org.apache.xpath.internal.operations.Mod;
 import java.util.*;
 //import experiment1.PanTilt;
@@ -21,8 +21,8 @@ import com.sun.opengl.util.GLUT;
 import java.awt.Graphics2D;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
-import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.util.EngineeringFormat;
+import net.sf.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.util.EngineeringFormat;
 
 
 /**

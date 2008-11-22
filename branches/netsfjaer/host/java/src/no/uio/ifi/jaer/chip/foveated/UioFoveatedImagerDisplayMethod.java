@@ -9,10 +9,10 @@
 
 package no.uio.ifi.jaer.chip.foveated;
 
-import sf.net.jaer.graphics.AEChipRenderer;
-import sf.net.jaer.graphics.ChipCanvas;
-import sf.net.jaer.graphics.DisplayMethod;
-import sf.net.jaer.graphics.DisplayMethod2D;
+import net.sf.jaer.graphics.AEChipRenderer;
+import net.sf.jaer.graphics.ChipCanvas;
+import net.sf.jaer.graphics.DisplayMethod;
+import net.sf.jaer.graphics.DisplayMethod2D;
 // import ch.unizh.ini.caviar.graphics.*;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;

@@ -11,18 +11,18 @@
  */
 package ch.unizh.ini.jaer.chip.stereopsis;
 
-import sf.net.jaer.stereopsis.*;
-import sf.net.jaer.aemonitor.*;
-import sf.net.jaer.aemonitor.AEMonitorInterface;
-import sf.net.jaer.aemonitor.AEPacketRaw;
-import sf.net.jaer.chip.AEChip;
+import net.sf.jaer.stereopsis.*;
+import net.sf.jaer.aemonitor.*;
+import net.sf.jaer.aemonitor.AEMonitorInterface;
+import net.sf.jaer.aemonitor.AEPacketRaw;
+import net.sf.jaer.chip.AEChip;
 import ch.unizh.ini.jaer.chip.retina.Tmpdiff128;
-import sf.net.jaer.event.*;
-import sf.net.jaer.graphics.*;
-import sf.net.jaer.graphics.BinocularRenderer;
-import sf.net.jaer.hardwareinterface.HardwareInterface;
-import sf.net.jaer.hardwareinterface.HardwareInterfaceFactory;
-import sf.net.jaer.hardwareinterface.usb.USBInterface;
+import net.sf.jaer.event.*;
+import net.sf.jaer.graphics.*;
+import net.sf.jaer.graphics.BinocularRenderer;
+import net.sf.jaer.hardwareinterface.HardwareInterface;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceFactory;
+import net.sf.jaer.hardwareinterface.usb.USBInterface;
 
 /**
  * A stereo pair of Tmpdiff128 retinas each with its own separate but time-sychronized hardware interface. 
@@ -239,7 +239,7 @@ public class Tmpdiff128StereoPair extends Tmpdiff128 implements StereoChipInterf
         /** Creates a new instance of Biasgen for Tmpdiff128 with a given hardware interface
          *@param chip the hardware interface on this chip is used
          */
-        public Biasgen(sf.net.jaer.chip.Chip chip) {
+        public Biasgen(net.sf.jaer.chip.Chip chip) {
             super(chip);
             setName("Tmpdiff128StereoPair");
         }

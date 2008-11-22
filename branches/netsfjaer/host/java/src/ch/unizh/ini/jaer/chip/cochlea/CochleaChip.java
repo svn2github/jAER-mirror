@@ -9,7 +9,7 @@
 
 package ch.unizh.ini.jaer.chip.cochlea;
 
-import sf.net.jaer.chip.AEChip;
+import net.sf.jaer.chip.AEChip;
 
 /**
  * Superclass for cochlea chips. These use cochlea rendering classes.

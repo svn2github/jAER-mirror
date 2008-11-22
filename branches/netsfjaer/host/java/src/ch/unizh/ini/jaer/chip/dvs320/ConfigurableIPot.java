@@ -7,8 +7,8 @@ package ch.unizh.ini.jaer.chip.dvs320;
 
 
 
-import sf.net.jaer.biasgen.*;
-import sf.net.jaer.biasgen.IPot;
+import net.sf.jaer.biasgen.*;
+import net.sf.jaer.biasgen.IPot;
 import javax.swing.JComponent;
 
 /**

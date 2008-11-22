@@ -4,9 +4,9 @@
  */
 package ch.unizh.ini.jaer.hardware.pantilt;
 
-import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
-import sf.net.jaer.hardwareinterface.ServoInterface;
-import sf.net.jaer.hardwareinterface.usb.ServoInterfaceFactory;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
+import net.sf.jaer.hardwareinterface.ServoInterface;
+import net.sf.jaer.hardwareinterface.usb.ServoInterfaceFactory;
 import java.util.Random;
 import java.util.TimerTask;
 import java.util.logging.Logger;
@@ -73,7 +73,7 @@ public class PanTilt implements PanTiltInterface, LaserOnOffControl {
      * 
      * @param pan the pan value from 0 to 1 inclusive, 0.5f is the center position. 1 is full right.
      * @param tilt the tilt value from 0 to 1. 1 is full down.
-     * @throws sf.net.jaer.hardwareinterface.HardwareInterfaceException
+     * @throws net.sf.jaer.hardwareinterface.HardwareInterfaceException
      */
     synchronized public void setPanTiltValues(float pan, float tilt) throws HardwareInterfaceException {
         checkServos();

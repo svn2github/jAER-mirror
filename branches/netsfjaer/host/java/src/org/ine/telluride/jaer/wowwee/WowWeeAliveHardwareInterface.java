@@ -12,7 +12,7 @@
 
 package org.ine.telluride.jaer.wowwee;
 
-import sf.net.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController;
+import net.sf.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController;
 
 /**
  * For controlling WowWee Alive toys (specifically the WowWee Alive Chimp toy) 

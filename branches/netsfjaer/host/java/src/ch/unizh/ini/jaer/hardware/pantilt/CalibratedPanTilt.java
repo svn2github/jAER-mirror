@@ -4,13 +4,13 @@
  */
 package ch.unizh.ini.jaer.hardware.pantilt;
 
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.eventprocessing.tracking.RectangularClusterTracker;
-import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
-import sf.net.jaer.hardwareinterface.ServoInterface;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.eventprocessing.tracking.RectangularClusterTracker;
+import net.sf.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
+import net.sf.jaer.hardwareinterface.ServoInterface;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import javax.media.opengl.GL;

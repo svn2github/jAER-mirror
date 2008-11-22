@@ -7,21 +7,21 @@ package ch.unizh.ini.jaer.projects.tobi.goalie;
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
-import sf.net.jaer.graphics.JAERDataViewer;
-import sf.net.jaer.JAERViewer;
-import sf.net.jaer.chip.*;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.EventFilter;
-import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.eventprocessing.filter.XYTypeFilter;
-import sf.net.jaer.eventprocessing.tracking.RectangularClusterTracker;
-import sf.net.jaer.graphics.*;
-import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.hardwareinterface.*;
-import sf.net.jaer.hardwareinterface.ServoInterface;
-import sf.net.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController;
-import sf.net.jaer.hardwareinterface.usb.UsbIoUtilities;
-import sf.net.jaer.util.filter.LowpassFilter;
+import net.sf.jaer.graphics.JAERDataViewer;
+import net.sf.jaer.JAERViewer;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventprocessing.EventFilter;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.eventprocessing.filter.XYTypeFilter;
+import net.sf.jaer.eventprocessing.tracking.RectangularClusterTracker;
+import net.sf.jaer.graphics.*;
+import net.sf.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.hardwareinterface.*;
+import net.sf.jaer.hardwareinterface.ServoInterface;
+import net.sf.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController;
+import net.sf.jaer.hardwareinterface.usb.UsbIoUtilities;
+import net.sf.jaer.util.filter.LowpassFilter;
 import com.sun.opengl.util.GLUT;
 import de.thesycon.usbio.PnPNotify;
 import de.thesycon.usbio.PnPNotifyInterface;

@@ -8,12 +8,12 @@
  * Open. You can then make changes to the template in the Source Editor.
  */
 package ch.unizh.ini.jaer.projects.gesture;
-import sf.net.jaer.aemonitor.AEConstants;
-import sf.net.jaer.chip.*;
-import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.event.*;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.graphics.*;
+import net.sf.jaer.aemonitor.AEConstants;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.event.*;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.graphics.*;
 import com.sun.opengl.util.*;
 import java.awt.*;
 //import ch.unizh.ini.caviar.util.PreferencesEditor;
@@ -23,9 +23,9 @@ import java.util.*;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 
-import sf.net.jaer.hardwareinterface.*;
+import net.sf.jaer.hardwareinterface.*;
 import org.ine.telluride.jaer.wowwee.WowWeeAliveHardwareInterface;
-import sf.net.jaer.util.HexString;
+import net.sf.jaer.util.HexString;
 
 /**
  * Tracks clusters of events for and recognizes sequences of quadrants of locations of 

@@ -3,14 +3,14 @@
  * and open the template in the editor.
  */
 package org.ine.telluride.jaer.wowwee;
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.event.BasicEvent;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
-import sf.net.jaer.util.filter.BandpassFilter;
-import sf.net.jaer.util.filter.LowpassFilter;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.event.BasicEvent;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
+import net.sf.jaer.util.filter.BandpassFilter;
+import net.sf.jaer.util.filter.LowpassFilter;
 import java.awt.Graphics2D;
 import java.util.Random;
 import java.util.Timer;

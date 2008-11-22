@@ -7,12 +7,12 @@
 
 package ch.unizh.ini.jaer.chip.dvs320;
 
-import sf.net.jaer.biasgen.Biasgen;
-import sf.net.jaer.aemonitor.AEPacketRaw;
-import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
+import net.sf.jaer.biasgen.Biasgen;
+import net.sf.jaer.aemonitor.AEPacketRaw;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 import de.thesycon.usbio.UsbIoBuf;
-import sf.net.jaer.hardwareinterface.usb.cypressfx2.CypressFX2;
-import sf.net.jaer.hardwareinterface.usb.cypressfx2.CypressFX2Biasgen;
+import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2;
+import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2Biasgen;
 
 /**
  * Adds functionality of DVS320 retina to base classes for Cypress FX2 interface.
@@ -32,7 +32,7 @@ public class DVS320HardwareInterface extends CypressFX2Biasgen {
     /** Overrides the super's (CypressFX2Biasgen) sendConfiguration to use the DVS320.Biasgen to format the data
      * 
      * @param biasgen the DVS320 biasgen which knows how to format the bias and bit configuration.
-     * @throws sf.net.jaer.hardwareinterface.HardwareInterfaceException
+     * @throws net.sf.jaer.hardwareinterface.HardwareInterfaceException
      */
     @Override
     public synchronized void sendConfiguration(Biasgen biasgen) throws HardwareInterfaceException {

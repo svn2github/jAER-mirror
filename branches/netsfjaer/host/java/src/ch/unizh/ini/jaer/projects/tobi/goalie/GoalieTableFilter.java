@@ -3,12 +3,12 @@
  * and open the template in the editor.
  */
 package ch.unizh.ini.jaer.projects.tobi.goalie;
-import sf.net.jaer.chip.AEChip;
-import sf.net.jaer.event.BasicEvent;
-import sf.net.jaer.event.EventPacket;
-import sf.net.jaer.event.OutputEventIterator;
-import sf.net.jaer.eventprocessing.EventFilter2D;
-import sf.net.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.event.BasicEvent;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.event.OutputEventIterator;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.graphics.FrameAnnotater;
 import java.awt.Graphics2D;
 import java.util.Observable;
 import java.util.Observer;

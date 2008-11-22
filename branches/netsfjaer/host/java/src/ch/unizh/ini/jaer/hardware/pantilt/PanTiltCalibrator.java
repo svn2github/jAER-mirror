@@ -1,8 +1,8 @@
 package ch.unizh.ini.jaer.hardware.pantilt;
-import sf.net.jaer.eventprocessing.tracking.RectangularClusterTracker;
-import sf.net.jaer.graphics.FrameAnnotater;
-import sf.net.jaer.hardwareinterface.HardwareInterfaceException;
-import sf.net.jaer.util.Matrix;
+import net.sf.jaer.eventprocessing.tracking.RectangularClusterTracker;
+import net.sf.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
+import net.sf.jaer.util.Matrix;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;

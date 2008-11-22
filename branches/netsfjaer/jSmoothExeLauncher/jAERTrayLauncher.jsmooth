@@ -30,7 +30,7 @@
 <name>java.library.path</name>
 <value>jars</value>
 </javaProperties>
-<mainClassName>sf.net.jaer.JAERTrayLauncher</mainClassName>
+<mainClassName>net.sf.jaer.JAERTrayLauncher</mainClassName>
 <maximumMemoryHeap>536870912</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
 <minimumVersion>1.6</minimumVersion>

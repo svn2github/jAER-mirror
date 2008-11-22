@@ -12,9 +12,9 @@
 
 package ch.unizh.ini.jaer.chip.cochlea;
 
-import sf.net.jaer.biasgen.*;
-import sf.net.jaer.chip.*;
-import sf.net.jaer.hardwareinterface.*;
+import net.sf.jaer.biasgen.*;
+import net.sf.jaer.chip.*;
+import net.sf.jaer.hardwareinterface.*;
 
 /**
  * Extends Shih-Chii's AMS cochlea AER chip to 
@@ -54,7 +54,7 @@ public class CochleaAMSWithBiasgen extends CochleaAMSNoBiasgen {
      
      * @author tobi
      */
-    public class Biasgen extends sf.net.jaer.biasgen.Biasgen {
+    public class Biasgen extends net.sf.jaer.biasgen.Biasgen {
         
 //        private IPot diffOn, diffOff, refr, pr, sf, diff;
         
