@@ -518,10 +518,12 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
             }
             aeChipClass = deviceClass;
             prefs.put("AEViewer.aeChipClassName", aeChipClass.getName());
+            // chip constructed above, should have renderer already constructed as well
+            if(chip.getRenderer()!=null && chip.getRenderer() instanceof Calibratible){
             // begin added by Philipp
 //            if (aeChipClass.renderer instanceof AdaptiveIntensityRenderer){ // that does not work since the renderer is obviously not defined before a chip gets instanciated
-            if (aeChipClass.getName().equals("no.uio.ifi.jaer.chip.foveated.UioFoveatedImager") ||
-                    aeChipClass.getName().equals("no.uio.ifi.jaer.chip.staticbiovis.UioStaticBioVis")) {
+//            if (aeChipClass.getName().equals("no.uio.ifi.jaer.chip.foveated.UioFoveatedImager") ||
+//                    aeChipClass.getName().equals("no.uio.ifi.jaer.chip.staticbiovis.UioStaticBioVis")) {
                 calibrationStartStop.setVisible(true);
                 calibrationStartStop.setEnabled(true);
             } else {
@@ -4710,9 +4712,9 @@ private void enableMissedEventsCheckBoxActionPerformed(java.awt.event.ActionEven
 }//GEN-LAST:event_enableMissedEventsCheckBoxActionPerformed
 
 private void calibrationStartStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calibrationStartStopActionPerformed
-    if (renderer instanceof AdaptiveIntensityRenderer) {
-        ((AdaptiveIntensityRenderer) renderer).setCalibrationInProgress(!((AdaptiveIntensityRenderer) renderer).isCalibrationInProgress());
-        if (((AdaptiveIntensityRenderer) renderer).isCalibrationInProgress()) {
+    if (renderer instanceof Calibratible) {
+        ((Calibratible) renderer).setCalibrationInProgress(!((Calibratible) renderer).isCalibrationInProgress());
+        if (((Calibratible) renderer).isCalibrationInProgress()) {
             calibrationStartStop.setText("Stop Calibration");
         } else {
             calibrationStartStop.setText("Start Calibration");

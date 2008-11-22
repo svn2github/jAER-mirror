@@ -14,10 +14,11 @@ package net.sf.jaer.graphics;
  * @author hafliger
  */
 
+import net.sf.jaer.chip.Calibratible;
 import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.event.*;
 
-public class AdaptiveIntensityRenderer  extends AEChipRenderer {
+public class AdaptiveIntensityRenderer  extends AEChipRenderer implements Calibratible  { // this renderer implements Calibratible so the AEViewer menu has the calibration menu enabled.
 
 
     float[][] calibrationMatrix=new float[chip.getSizeY()][chip.getSizeX()];
