@@ -452,27 +452,29 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
     }
 
     private long lastTimeTitleSet=0;
+    PlayMode lastTitlePlayMode=null;
     
     /** this sets window title according to actual state */
     public void setTitleAccordingToState() {
-        if(System.currentTimeMillis()-lastTimeTitleSet<1000) return; // don't bother with this expenive window operation more than 1/second
+        if(lastTitlePlayMode==getPlayMode() && System.currentTimeMillis()-lastTimeTitleSet<1000) return; // don't bother with this expenive window operation more than 1/second
         lastTimeTitleSet=System.currentTimeMillis();
+        lastTitlePlayMode=getPlayMode();
         String ts = null;
         switch (getPlayMode()) {
             case LIVE:
-                ts = getAeChipClass().getSimpleName() + " " + aemon + " LIVE";
+                ts = "LIVE - "+ getAeChipClass().getSimpleName() + " - " + aemon + " - AEViewer";
                 break;
             case PLAYBACK:
-                ts = currentFile.getName() + " PLAYING";
+                ts = "PLAYING - " +currentFile.getName() +" - "+ getAeChipClass().getSimpleName() + " - AEViewer";
                 break;
             case WAITING:
-                ts = "AEViewer - WAITING";
+                ts = "WAITING - " +getAeChipClass().getSimpleName() + " - AEViewer";
                 break;
             case SEQUENCING:
-                ts = getAeChipClass().getSimpleName() + " " + aemon + " LIVE SEQUENCE-MONITOR";
+                ts = " LIVE SEQUENCE-MONITOR - "+ getAeChipClass().getSimpleName() + " - " + aemon + " - AEViewer";
                 break;
             case REMOTE:
-                ts = "REMOTE";
+                ts = "REMOTE - "+ getAeChipClass().getSimpleName() + " - AEViewer";
                 break;
             default:
                 ts = "Unknown state";

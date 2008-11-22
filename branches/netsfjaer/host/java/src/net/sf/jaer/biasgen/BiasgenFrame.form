@@ -240,7 +240,7 @@
         <Component class="javax.swing.JButton" name="revertButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/net/sf/jaernet/sf/jaer/revert.GIF"/>
+              <Image iconType="3" name="/net/sf/jaer/biasgen/revert.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Revert to last saved or loaded settings"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -256,7 +256,7 @@
         <Component class="javax.swing.JButton" name="resendButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/net/sf/jaernet/sf/jaer/resend.GIF"/>
+              <Image iconType="3" name="/net/sf/jaer/biasgen/resend.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Resend bias values to chip"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -272,7 +272,7 @@
         <Component class="javax.swing.JButton" name="undoButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/net/sf/jaernet/sf/jaer/undo.gif"/>
+              <Image iconType="3" name="/net/sf/jaer/biasgen/undo.gif"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Undo last bias change"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -288,7 +288,7 @@
         <Component class="javax.swing.JButton" name="redoButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/net/sf/jaernet/sf/jaer/redo.gif"/>
+              <Image iconType="3" name="/net/sf/jaer/biasgen/redo.gif"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Redo bias change"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -304,7 +304,7 @@
         <Component class="javax.swing.JButton" name="flashButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/net/sf/jaernet/sf/jaer/flash.GIF"/>
+              <Image iconType="3" name="/net/sf/jaer/biasgen/flash.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Write bias values to on-board flash memory"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -320,7 +320,7 @@
         <Component class="javax.swing.JToggleButton" name="suspendToggleButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/net/sf/jaernet/sf/jaer/suspend.gif"/>
+              <Image iconType="3" name="/net/sf/jaer/biasgen/suspend.gif"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Toggles setting all bias currents to zero"/>
           </Properties>

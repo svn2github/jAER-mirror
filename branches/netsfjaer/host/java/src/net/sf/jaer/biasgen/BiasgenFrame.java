@@ -452,7 +452,7 @@ public class BiasgenFrame extends javax.swing.JFrame implements UndoableEditList
         setTitle("Biasgen");
         setName("Biasgen"); // NOI18N
 
-        revertButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sf/net/jaer/biasgen/revert.GIF"))); // NOI18N
+        revertButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jaer/biasgen/revert.GIF"))); // NOI18N
         revertButton.setToolTipText("Revert to last saved or loaded settings");
         revertButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         revertButton.addActionListener(new java.awt.event.ActionListener() {
@@ -462,7 +462,7 @@ public class BiasgenFrame extends javax.swing.JFrame implements UndoableEditList
         });
         mainToolBar.add(revertButton);
 
-        resendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sf/net/jaer/biasgen/resend.GIF"))); // NOI18N
+        resendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jaer/biasgen/resend.GIF"))); // NOI18N
         resendButton.setToolTipText("Resend bias values to chip");
         resendButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         resendButton.addActionListener(new java.awt.event.ActionListener() {
@@ -472,7 +472,7 @@ public class BiasgenFrame extends javax.swing.JFrame implements UndoableEditList
         });
         mainToolBar.add(resendButton);
 
-        undoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sf/net/jaer/biasgen/undo.gif"))); // NOI18N
+        undoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jaer/biasgen/undo.gif"))); // NOI18N
         undoButton.setToolTipText("Undo last bias change");
         undoButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         undoButton.addActionListener(new java.awt.event.ActionListener() {
@@ -482,7 +482,7 @@ public class BiasgenFrame extends javax.swing.JFrame implements UndoableEditList
         });
         mainToolBar.add(undoButton);
 
-        redoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sf/net/jaer/biasgen/redo.gif"))); // NOI18N
+        redoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jaer/biasgen/redo.gif"))); // NOI18N
         redoButton.setToolTipText("Redo bias change");
         redoButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         redoButton.addActionListener(new java.awt.event.ActionListener() {
@@ -492,7 +492,7 @@ public class BiasgenFrame extends javax.swing.JFrame implements UndoableEditList
         });
         mainToolBar.add(redoButton);
 
-        flashButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sf/net/jaer/biasgen/flash.GIF"))); // NOI18N
+        flashButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jaer/biasgen/flash.GIF"))); // NOI18N
         flashButton.setToolTipText("Write bias values to on-board flash memory");
         flashButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         flashButton.addActionListener(new java.awt.event.ActionListener() {
@@ -502,7 +502,7 @@ public class BiasgenFrame extends javax.swing.JFrame implements UndoableEditList
         });
         mainToolBar.add(flashButton);
 
-        suspendToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sf/net/jaer/biasgen/suspend.gif"))); // NOI18N
+        suspendToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jaer/biasgen/suspend.gif"))); // NOI18N
         suspendToggleButton.setToolTipText("Toggles setting all bias currents to zero");
         suspendToggleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
