@@ -3,7 +3,6 @@
  *
  * Created on November 23, 2008, 2:06 PM
  */
-
 package net.sf.jaer.util;
 
 import java.io.File;
@@ -11,7 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
 /**
@@ -19,8 +20,12 @@ import javax.swing.filechooser.FileFilter;
  * @author  thkoch
  */
 public class PreferenceMoverDialog extends javax.swing.JDialog {
-    Preferences prefs=Preferences.userNodeForPackage(this.getClass());
-    Preferences workingPrefs=null;
+
+    Logger log = Logger.getLogger("net.sf.jaer.util");
+    Preferences prefs = Preferences.userNodeForPackage(this.getClass());
+    String fromPath = prefs.get("PreferenceMoverDialog.fromPath", "");
+    String toPath = prefs.get("PreferenceMoverDialog.toPath", "");
+    Preferences workingPrefs = null;
     /** A return status code - returned if Cancel button has been pressed */
     public static final int RET_CANCEL = 0;
     /** A return status code - returned if OK button has been pressed */
@@ -30,8 +35,8 @@ public class PreferenceMoverDialog extends javax.swing.JDialog {
     public PreferenceMoverDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        fromPackageTextField.setText(prefs.get("PreferenceMoverDialog.fromPackageTextField",""));
-        toPackageTextField.setText(prefs.get("PreferenceMoverDialog.toPackageTextField",""));
+        fromPackageTextField.setText(fromPath);
+        toPackageTextField.setText(toPath);
     }
 
     /** @return the return status of this dialog - one of RET_OK or RET_CANCEL */
@@ -85,6 +90,12 @@ public class PreferenceMoverDialog extends javax.swing.JDialog {
             }
         });
 
+        toPackageTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toPackageTextFieldActionPerformed(evt);
+            }
+        });
+
         jLabel1.setText("From package");
 
         jLabel2.setText("To package");
@@ -97,6 +108,11 @@ public class PreferenceMoverDialog extends javax.swing.JDialog {
         });
 
         toPackageChooseButton.setText("Choose...");
+        toPackageChooseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toPackageChooseButtonActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Status"));
 
@@ -169,6 +185,14 @@ public class PreferenceMoverDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        prefs.put("PreferenceMoverDialog.toPath", toPath);
+        prefs.put("PreferenceMoverDialog.fromPath", fromPath);
+ 
+        if (fromPath != null && toPath != null) {
+            Preferences fromPrefs = Preferences.userRoot().node(fromPath);
+            Preferences toPrefs = Preferences.userRoot().node(toPath);
+                   showStatus("moving Preferences from \"" + fromPath + "\" to \"" + toPath + "\"");
+        }
         doClose(RET_OK);
     }//GEN-LAST:event_okButtonActionPerformed
 
@@ -182,46 +206,88 @@ public class PreferenceMoverDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_closeDialog
 
 private void fromPackageTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromPackageTextFieldActionPerformed
-        try {
-            workingPrefs = Preferences.userRoot();
-            String pathName = fromPackageTextField.getText();
-            pathName.replace('.', '/');
-            boolean exists = workingPrefs.nodeExists(pathName);
-            statusField.setText(pathName+ " exists="+exists);
-        } catch (BackingStoreException ex) {
-            statusField.setText(ex.toString());
-        }
-}//GEN-LAST:event_fromPackageTextFieldActionPerformed
+    if (isPrefNode(fromPackageTextField.getText())) {//GEN-LAST:event_fromPackageTextFieldActionPerformed
+        fromPath = fromPackageTextField.getName();
+    }
+}                                                    
 
 private void fromPackageChooseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromPackageChooseButtonActionPerformed
-    JFileChooser chooser=new JFileChooser(System.getProperty("user.dir")+File.separator+"src");
+    fromPath = choosePath(fromPackageTextField);
+    System.out.println("fromPath=" + fromPath);
+}//GEN-LAST:event_fromPackageChooseButtonActionPerformed
+
+private void toPackageTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toPackageTextFieldActionPerformed
+    if (isPrefNode(toPackageTextField.getText())) {
+        toPath = toPackageTextField.getName();
+    }
+}//GEN-LAST:event_toPackageTextFieldActionPerformed
+
+private void toPackageChooseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toPackageChooseButtonActionPerformed
+    toPath = choosePath(toPackageTextField);
+    System.out.println("toPath=" + toPath);
+}//GEN-LAST:event_toPackageChooseButtonActionPerformed
+
+private boolean isPrefNode(String pathName){
+   try {
+        workingPrefs = Preferences.userRoot();
+        pathName.replace('.', '/');
+        boolean exists = workingPrefs.nodeExists(pathName);
+        if(exists){
+            showStatus(pathName + " IS an existing Preference node");
+        }else{
+            showStatus(pathName+" is NOT an existing Preference node");
+        }
+        return exists;
+    } catch (BackingStoreException ex) {
+        showStatus(ex.toString());
+        return false;
+    }
+}
+
+private void showStatus(String s){
+   statusField.setText(s);
+   log.info(s);
+}
+
+private String choosePath(JTextField textField){
+    String path="";
+    JFileChooser chooser = new JFileChooser(System.getProperty("user.dir") + File.separator + "src");
     chooser.setMultiSelectionEnabled(false);
     chooser.setDialogTitle("Choose a source path");
+    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
     chooser.setFileFilter(new FileFilter() {
 
-            @Override
-            public boolean accept(File f) {
-                if(f.isDirectory()){
-                    return true;
-                }
-                else return false;
+        @Override
+        public boolean accept(File f) {
+            if (f.isDirectory() && !f.getName().equals(".svn") && !f.getName().equals("doc-files")) {
+                return true;
+            } else {
+                return false;
             }
-
-            @Override
-            public String getDescription() {
-                return "Package folder in jAER preferences tree";
-            }
-        });
-    int ret=chooser.showOpenDialog(this);
-    if(ret==JFileChooser.APPROVE_OPTION){
-        File f=chooser.getSelectedFile();
-        String p=f.getAbsolutePath();
-        if(p.indexOf("host\\java\\src\\")==-1){
-            
         }
-        fromPackageTextField.setText(f.getAbsolutePath());
+
+        @Override
+        public String getDescription() {
+            return "Package folder in jAER preferences tree";
+        }
+    });
+    int ret = chooser.showOpenDialog(this);
+    if (ret == JFileChooser.APPROVE_OPTION) {
+        final String srcTree = "host" + File.separator + "java" + File.separator + "src";
+        File f = chooser.getSelectedFile();
+        String p = f.getAbsolutePath();
+        if (p.indexOf(srcTree) == -1) {
+            showStatus(f.getName() + " doesn't appear to be in source tree");
+        } else {
+            p = p.substring(p.indexOf(srcTree) + srcTree.length());
+            showStatus(path+" looks like part of source tree");
+        }
+        path = p.replace('\\', '/');
+        textField.setText(path);
+        isPrefNode(path);
     }
-}//GEN-LAST:event_fromPackageChooseButtonActionPerformed
+    return path;
+}
 
     private void doClose(int retStatus) {
         returnStatus = retStatus;
@@ -242,6 +308,10 @@ private void fromPackageChooseButtonActionPerformed(java.awt.event.ActionEvent e
                     }
                 });
                 dialog.setVisible(true);
+                while(dialog.getReturnStatus()!=RET_CANCEL){
+                    dialog.setVisible(true);
+                };
+                System.exit(0);
             }
         });
     }
