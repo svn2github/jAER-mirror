@@ -19,6 +19,7 @@
 <classPath>..\host\java\jars\jsr80_ri-1.0.1.jar</classPath>
 <classPath>..\host\java\jars\AbsoluteLayout.jar</classPath>
 <classPath>..\host\java\jars\RXTXcomm.jar</classPath>
+<classPath>..\host\java\jars\prefs-0.8.jar</classPath>
 <currentDirectory>host\java</currentDirectory>
 <embeddedJar>false</embeddedJar>
 <executableName>..\jAERViewer.exe</executableName>
