@@ -69,12 +69,12 @@ public class FilterChain extends LinkedList<EventFilter2D> {
      */
     public FilterChain(AEChip chip) {
         this.chip = chip;
-        setTimeLimitEnabled(timeLimitEnabled);
-        setTimeLimitMs(timeLimitMs);
 //        AEViewer aeViewer=chip.getAeViewer();
         getSupport().addPropertyChangeListener(chip.getFilterFrame());
         timeLimitEnabled = chip.getPrefs().getBoolean("FilterChain.timeLimitEnabled", false);
         timeLimitMs = chip.getPrefs().getInt("FilterChain.timeLimitMs", 10);
+        setTimeLimitEnabled(timeLimitEnabled);
+        setTimeLimitMs(timeLimitMs);
         timedOut = false;
         try {
             processingMode = ProcessingMode.valueOf(
