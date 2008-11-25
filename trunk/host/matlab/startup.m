@@ -13,4 +13,4 @@ javaaddpath([p,'dist\jAER.jar']);
 javaaddpath([p,'jars\jogl.jar']);  % if you get complaint here, remove the jogl in matlab's static classpath.txt
 javaaddpath([p,'jars\gluegen-rt.jar']);
 % global factory
-% factory = ch.unizh.ini.caviar.hardwareinterface.usb.CypressFX2Factory.instance()
+% factory = net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2Factory.instance()

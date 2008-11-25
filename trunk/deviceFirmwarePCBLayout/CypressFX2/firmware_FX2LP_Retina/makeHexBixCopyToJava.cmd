@@ -8,8 +8,8 @@ c:\cypress\usb\bin\hex2bix -i -f 0xC2 -o USBAER_FX2.iic USBAER_FX2.hex
 c:\cypress\usb\bin\hex2bix -b -R -M 8000 -o USBAER_FX2.bix USBAER_FX2.hex
 
 rem ******************** copy bix and hex firmware download file to java package folder for integration into jar file
-copy USBAER_FX2.bix ..\..\..\host\java\src\ch\unizh\ini\caviar\hardwareinterface\usb\USBAER_FX2LP_Retina.bix
-copy USBAER_FX2.hex ..\..\..\host\java\src\ch\unizh\ini\caviar\hardwareinterface\usb\USBAER_FX2LP_Retina.hex
+copy USBAER_FX2.bix ..\..\..\host\java\src\net\sf\jaer\hardwareinterface\usb\cypressfx2\USBAER_FX2LP_Retina.bix
+copy USBAER_FX2.hex ..\..\..\host\java\src\net\sf\jaer\hardwareinterface\usb\cypressfx2\USBAER_FX2LP_Retina.hex
 
 rem don't pollute these other folders now - system32/drivers copy could be used for USBIO capability of loading Cypress firmware
 rem on device plugin.

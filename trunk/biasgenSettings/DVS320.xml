@@ -9,9 +9,11 @@
         <map/>
         <node name="ini">
           <map/>
-          <node name="hardware">
+          <node name="jaer">
             <map/>
-            <node name="dvs320">
+            <node name="chip">
+              <map/>
+              <node name="dvs320">
               <map>
                 <entry key="FilterChain.timeLimitEnabled" value="false"/>
                 <entry key="FilterChain.timeLimitMs" value="0"/>
@@ -178,6 +180,7 @@
                 <entry key="RotateFilter.filterEnabled" value="false"/>
                 <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
               </map>
+              </node>
             </node>
           </node>
         </node>
