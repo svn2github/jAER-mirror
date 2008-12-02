@@ -9,7 +9,9 @@
         <map/>
         <node name="ini">
           <map/>
-          <node name="caviar">
+          <node name="jaer">
+            <map/>
+          <node name="chip">
             <map/>
             <node name="stereopsis">
               <map>
@@ -34,6 +36,7 @@
                 <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAEdwQAAAAEdAA3Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlhZVHlwZUZpbHRlcnQAN2NoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5Sb3RhdGVGaWx0ZXJ0AENjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuQmFja2dyb3VuZEFjdGl2aXR5RmlsdGVydAA5Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlBlbmNpbEJhbGFuY2VyeA=="/>
                 <entry key="PencilBalancer.filterEnabled" value="false"/>
               </map>
+            </node>
             </node>
           </node>
         </node>
