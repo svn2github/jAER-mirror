@@ -137,14 +137,18 @@ public class ChipRendererDisplayMethod extends DisplayMethod implements DisplayM
 
 //        pixmap.limit(n);
         final float scale=chip.getCanvas().getScale();
+//        int[] viewport=new int[4];
+//        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport,0);
+        gl.glRasterPos2i(0, 0);
         gl.glPixelZoom(scale, scale);
 //        gl.glPixelZoom((float) chip.getCanvas().getPwidth() / ncol, (float) chip.getCanvas().getPheight() / nrow);
-        gl.glRasterPos2i(0, 0);
         try {
             synchronized (renderer) {
                 FloatBuffer pixmap = renderer.getPixmap();
+                if(pixmap!=null){
                 pixmap.position(0);
                 gl.glDrawPixels(ncol, nrow, GL.GL_RGB, GL.GL_FLOAT, pixmap);
+                }
             }
         } catch (IndexOutOfBoundsException e) {
             log.warning(e.toString());

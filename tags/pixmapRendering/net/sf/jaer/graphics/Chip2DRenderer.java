@@ -75,6 +75,10 @@ public class Chip2DRenderer implements Observer{
         pixmap.get(rgb);
         return rgb;
     }
+    
+    public int getPixMapIndex(int x, int y){
+        return 3*(x+y*sizeX);
+    }
 
     public void setPixmapPosition(int x, int y){
         pixmap.position(3*(x+y*sizeX));
@@ -87,10 +91,11 @@ public class Chip2DRenderer implements Observer{
         final int n = 3 * chip.getNumPixels();
         boolean madebuffer=false;
         if(grayBuffer==null || grayBuffer.capacity()!=n){
-            grayBuffer = BufferUtil.newFloatBuffer(n);
+            grayBuffer = FloatBuffer.allocate(n); // BufferUtil.newFloatBuffer(n);
             madebuffer=true;
         }
-        if(madebuffer || pixmapGrayValue!=grayValue){
+        if(madebuffer || value!=grayValue){
+            grayBuffer.rewind();
         for (int i = 0; i < n; i++) {
             grayBuffer.put(grayValue);
         }
@@ -106,7 +111,7 @@ public class Chip2DRenderer implements Observer{
     private void checkPixmapAllocation(){
         final int n=3*chip.getNumPixels();
         if(pixmap==null || pixmap.capacity()<n){
-            pixmap=BufferUtil.newFloatBuffer(n);
+            pixmap=FloatBuffer.allocate(n); // BufferUtil.newFloatBuffer(n);
         }
     }
 

@@ -199,14 +199,16 @@ public class AEChipRenderer extends Chip2DRenderer {
                         // colorScale=1,2,3;  step = 1, 1/2, 1/3, 1/4,  ;
                         // later type-grayValue gives -.5 or .5 for spike value, when
                         // multipled gives steps of 1/2, 1/3, 1/4 to end up with 0 or 1 when colorScale=1 and you have one event
+                        float[] pm=pixmap.array();
                         for(Object obj:packet){
                             BasicEvent e=(BasicEvent)obj;
 //                        for (int i = 0; i<numEvents; i+=skipBy){
 //                            BasicEvent e=packet.getEvent(i);
                             int type=e.getType();
                             if (e.x == xsel && e.y == ysel)playSpike(type);
-                            float[] f=getPixmapRGB(e.x, e.y);
-                            a=f[0];
+                            int ind=getPixMapIndex(e.x, e.y);
+//                            float[] f=getPixmapRGB(e.x, e.y);
+                            a=pm[ind];
 //                              a = (fr[e.y][e.x][0]);
                             if (!ignorePolarity){
                                 a += step * (type- grayValue);  // type-.5 = -.5 or .5; step*type= -.5, .5, (cs=1) or -.25, .25 (cs=2) etc.
@@ -214,12 +216,12 @@ public class AEChipRenderer extends Chip2DRenderer {
                                 a += step * (1 - grayValue);  // type-.5 = -.5 or .5; step*type= -.5, .5, (cs=1) or -.25, .25 (cs=2) etc.
                                 
                             }
-                            f[0] = a;
-                            f[1] = a;
-                            f[2] = a;
+                            pm[ind++] = a;
+                            pm[ind++] = a;
+                            pm[ind] = a;
 
-                            setPixmapPosition(e.x, e.y);
-                            pixmap.put(f);
+//                            setPixmapPosition(e.x, e.y);
+//                            pixmap.put(f);
 
 //                            fr[e.y][e.x][0] = a;
 //                            fr[e.y][e.x][1] = a;

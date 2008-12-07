@@ -1564,29 +1564,29 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
                             overrunOccurred = aemon.overrunOccurred();
                             try {
                                 // try to get an event to avoid rendering empty (black) frames
-                                int triesLeft = 15;
-                                do {
-                                    if (!isInterrupted()) {
-                                        aemon = (AEMonitorInterface) chip.getHardwareInterface(); // keep setting aemon to be chip's interface, this is kludge
+//                                int triesLeft = 15;
+//                                do {
+//                                    if (!isInterrupted()) {
+                                        aemon = (AEMonitorInterface) chip.getHardwareInterface(); // TODOkeep setting aemon to be chip's interface, this is kludge
                                         if (aemon == null) {
                                             System.err.println("AEViewer.ViewLoop.run(): null aeMon");
                                             throw new HardwareInterfaceException("hardware interface became null");
                                         }
                                         aeRaw = aemon.acquireAvailableEventsFromDriver();
 //                                        System.out.println("got "+aeRaw);
-                                    }
+//                                    }
 
-                                    if (aeRaw.getNumEvents() > 0) {
-                                        break;
-                                    }
+//                                    if (aeRaw.getNumEvents() > 0) {
+//                                        break;
+//                                    }
 //                                    System.out.print("."); System.out.flush();
-                                    try {
-                                        Thread.currentThread().sleep(3);
-                                    } catch (InterruptedException e) {
-                                        log.warning("LIVE attempt to get data loop interrupted");
-                                    }
-                                } while (triesLeft-- > 0);
-//                                if(aeRaw.getNumEvents()==0) {System.out.print("0 events ..."); System.out.flush();}
+//                                    try {
+//                                        Thread.currentThread().sleep(3);
+//                                    } catch (InterruptedException e) {
+//                                        log.warning("LIVE attempt to get data loop interrupted");
+//                                    }
+//                                } while (triesLeft-- > 0);
+////                                if(aeRaw.getNumEvents()==0) {System.out.print("0 events ..."); System.out.flush();}
 
                             } catch (HardwareInterfaceException e) {
                                 setPlayMode(PlayMode.WAITING);
