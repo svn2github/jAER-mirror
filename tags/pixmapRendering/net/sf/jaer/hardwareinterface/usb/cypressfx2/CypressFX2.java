@@ -1021,12 +1021,13 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
     // not really necessary to stop this thread, i believe, because close will unbind already according to usbio docs
     public void stopAEReader() {  // raphael: changed from private to protected, because i need to access this method
         if (getAeReader() != null) {
+            AEReader reader=getAeReader();
             //   System.out.println("CypressFX2.stopAEReader(): stopping aeReader thread");
-            getAeReader().shutdownThread();
+            reader.shutdownThread();
             // unbind pipe
-            getAeReader().unbind();
+            reader.unbind();
             // close device
-            getAeReader().close();
+            reader.close();
 
             setAeReader(null);
         }

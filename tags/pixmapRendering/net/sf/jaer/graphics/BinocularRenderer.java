@@ -48,9 +48,13 @@ public class BinocularRenderer extends AEChipRenderer {
         createDisparityColors();
     }
     
-    public float[][][] render(EventPacket packet) {
-        if(packet==null) return fr;
-        if(!(packet.getEventPrototype() instanceof BinocularEvent)) return super.render(packet);
+    @Override
+    public void render(EventPacket packet) {
+        if(packet==null) return ;
+        if(!(packet.getEventPrototype() instanceof BinocularEvent)) {
+            super.render(packet);
+            return;
+        }
         int n=packet.getSize();
         int skipBy=1;
         if(isSubsamplingEnabled()){
@@ -146,7 +150,6 @@ public class BinocularRenderer extends AEChipRenderer {
             e.printStackTrace();
             log.warning(e.getCause()+": some event out of bounds for this chip type?");
         }
-        return fr;
     }
     
     /** Creates a color map for disparities */

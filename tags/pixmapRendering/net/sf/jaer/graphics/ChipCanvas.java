@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
@@ -71,10 +72,6 @@ import javax.swing.*;
 public class ChipCanvas implements GLEventListener, Observer {
 
     protected Preferences prefs = Preferences.userNodeForPackage(ChipCanvas.class);
-    /** border around drawn pixel array in screen pixels */
-    private int borderSpacePixels = 20;
-    /** border in screen pixels when in 3d space-time rendering mode */
-    protected final int BORDER3D = 70;
     /** Default scaling from chip pixel to screen pixels */
     protected static final float SCALE_DEFAULT = 4f;
     protected AEViewer aeViewer;
@@ -111,6 +108,13 @@ public class ChipCanvas implements GLEventListener, Observer {
     ByteBuffer byteBuffer = null;
     // boolean to flag that present opengl display call should write imageOpenGL
     volatile boolean grabNextImageEnabled = false;
+    /** border around drawn pixel array in screen pixels */
+    private int borderSpacePixels = 20;
+    /** border in screen pixels when in 3d space-time rendering mode */
+    protected final int BORDER3D = 70;
+    /** Insets of the drawn chip canvas in the window */
+    protected Insets insets = new Insets(borderSpacePixels, borderSpacePixels, borderSpacePixels, borderSpacePixels);
+    private boolean fillsHorizontally = false,  fillsVertically = false; // filled in in the reshape method to show how chip fills drawable space
 
     /** Creates a new instance of ChipCanvas */
     public ChipCanvas(Chip2D chip) {
@@ -702,22 +706,27 @@ public class ChipCanvas implements GLEventListener, Observer {
         if (chipSizeY > chipSizeX) {
             // chip is tall and skinny, so set scale by frame height/chip height
             newscale = height / chipSizeY;
-            if (newscale * chipSizeX > width) {
+            fillsVertically = true;
+            fillsHorizontally = false;
+            if (newscale * chipSizeX > width) { // unless it runs into left/right, then set to fill width
                 newscale = (float) width / chipSizeX;
+                fillsHorizontally = true;
+                fillsVertically = false;
             }
         } else {
             // chip is square or squat, so set scale by frame width / chip width
             newscale = (float) width / chipSizeX;
-            if (newscale * chipSizeY > height) {
+            fillsHorizontally = true;
+            fillsVertically = false;
+            if (newscale * chipSizeY > height) {// unless it runs into top/bottom, then set to fill height
                 newscale = (float) height / chipSizeY;
+                fillsVertically = true;
+                fillsHorizontally = false;
             }
         }
-//        System.out.println("RetinaCanvas.formComponentResized(): scale="+scale);
         setScale(newscale);
 
         gl.glViewport(0, 0, width, height);
-//        System.out.println("glViewport reshape");
-//        constrainAspectRatio();
         repaint();
     }
 
@@ -795,8 +804,9 @@ public class ChipCanvas implements GLEventListener, Observer {
         this.pheight = pheight;
     }
 
-    /** @param s size of retina pixel in screen pixels.
-    This method sets the pixel drawing scale so that e.g. s=2 means a chip pixel occupies 2 screen pixels. */
+    /** This method sets the pixel drawing scale so that e.g. s=2 means a chip pixel occupies 2 screen pixels.
+     * @param s size of chip pixel in screen pixels.
+     */
     public void setScale(float s) {
         if (s < 1) {
             s = 1f;
@@ -855,6 +865,7 @@ public class ChipCanvas implements GLEventListener, Observer {
 //        this.zoomMode = zoomMode;
 //        setZoomCursor(zoomMode);
 //    }
+
     /** Shows selected pixel spike count by drawn circle */
     protected void showSpike(GL gl) {        // show selected pixel that user can hear
         if (getRenderer() != null && getRenderer().getXsel() != -1 && getRenderer().getYsel() != -1) {
@@ -862,6 +873,7 @@ public class ChipCanvas implements GLEventListener, Observer {
         }
     }
     // draws a circle at pixel x,y of size+.5 radius. size is used to indicate number of spikes in this 'frame'
+
     protected void showSpike(GL gl, int x, int y, int size) {
         // circle
         size = size * 2;
@@ -959,6 +971,10 @@ public class ChipCanvas implements GLEventListener, Observer {
      */
     public void setBorderSpacePixels(int borderSpacePixels) {
         this.borderSpacePixels = borderSpacePixels;
+        insets.bottom = borderSpacePixels;
+        insets.top = borderSpacePixels;
+        insets.left = borderSpacePixels;
+        insets.right = borderSpacePixels;
     }
 
     /** Clips a Point to within the chip size. The point is modified to fit within the size of the Chip2D. 
@@ -988,6 +1004,20 @@ public class ChipCanvas implements GLEventListener, Observer {
 
     public void setZoom(ChipCanvas.Zoom zoom) {
         this.zoom = zoom;
+    }
+
+    /** Chip fills drawable horizontally.
+     * @return the fillsHorizontally
+     */
+    public boolean isFillsHorizontally() {
+        return fillsHorizontally;
+    }
+
+    /** Chip fills drawable vertically.
+     * @return the fillsVertically
+     */
+    public boolean isFillsVertically() {
+        return fillsVertically;
     }
 
     /** Encapsulates zooming the view */
@@ -1099,7 +1129,7 @@ public class ChipCanvas implements GLEventListener, Observer {
 
         private void zoomin() {
             centerPoint = getMousePixel();
-            zoomFactor *= zoomStepRatio; 
+            zoomFactor *= zoomStepRatio;
             computeProjection();
             setZoomEnabled(true);
         }

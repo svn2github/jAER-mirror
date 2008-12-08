@@ -78,11 +78,10 @@ public class Dollbrain1Renderer extends AEChipRenderer {
     /**
      * Does the rendering (only one colorMode is available)
      * 
-     * @param packet a packet of events (already extracted to x,y,type
      * @return reference to the frame   [y][x][rgb]  
      */
-    public synchronized float[][][] render(EventPacket packet){
-        if(packet==null) return fr;
+    public synchronized void render(EventPacket packet){
+        if(packet==null) return;
         this.packet=packet;
         int numEvents = packet.getSize();
       //  System.out.println("packet size: " + numEvents);
@@ -192,6 +191,5 @@ public class Dollbrain1Renderer extends AEChipRenderer {
             e.printStackTrace();
             log.warning(e.getCause()+": ChipRenderer.render(), some event out of bounds for this chip type?");
         }
-        return fr;  
     }
 }

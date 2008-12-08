@@ -104,57 +104,45 @@ public class ChipRendererDisplayMethod extends DisplayMethod implements DisplayM
 
     private void displayPixmap(GLAutoDrawable drawable) {
         Chip2DRenderer renderer = chipCanvas.getRenderer();
-        float[][][] fr = renderer.getFr();
         GL gl = setupGL(drawable);
-        float gray = clearDisplay(renderer, gl);
-//        if (fr == null) {
-//            return;
-//        }
+        clearDisplay(renderer, gl);
         final int ncol = chip.getSizeX();
         final int nrow = chip.getSizeY();
         final int n = 3 * nrow * ncol;
-
-        
         chipCanvas.checkGLError(gl, glu, "before pixmap");
 
-//        try {
-//            // now iterate over the frame (fr)
-//            for (int x = 0; x < ncol; x++) {
-//                for (int y = 0; y < nrow; y++) {
-//                    pixmap.position(3 * (x + y * ncol));
-//                    pixmap.put(fr[y][x], 0, 3);
-//                }
-//            }
-//        } catch (ArrayIndexOutOfBoundsException e) {
-//            log.warning("while drawing frame buffer");
-//            e.printStackTrace();
-//            chipCanvas.unzoom(); // in case it was some other chip had set the zoom
-//        } catch (BufferOverflowException boe) {
-//            log.warning(boe.toString());
-//        } catch (IndexOutOfBoundsException ioob) {
-//            log.warning(ioob.toString());
-//        }
 
-//        pixmap.limit(n);
-        final float scale=chip.getCanvas().getScale();
-//        int[] viewport=new int[4];
-//        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport,0);
-        gl.glRasterPos2i(0, 0);
+
+        final int wi=drawable.getWidth(), hi=drawable.getHeight();
+        float scale=1;
+        if(chip.getCanvas().isFillsVertically()){// tall chip, use chip height
+            scale=((float)hi-2*chip.getCanvas().getBorderSpacePixels())/(chip.getSizeY()-1);
+        }else if(chip.getCanvas().isFillsHorizontally()){
+           scale=((float)wi-2*chip.getCanvas().getBorderSpacePixels())/(chip.getSizeX()-1);
+        }
+//        final float scale =  chip.getCanvas().getScale();
+//        gl.glWindowPos2f(0, 0);
         gl.glPixelZoom(scale, scale);
-//        gl.glPixelZoom((float) chip.getCanvas().getPwidth() / ncol, (float) chip.getCanvas().getPheight() / nrow);
+        gl.glRasterPos2f(-.5f, -.5f); // to LL corner of chip, but must be inside viewport or else it is ignored, breaks on zoom
+//        gl.glMinmax(GL.GL_MINMAX,GL.GL_RGB,false);
+//        gl.glEnable(GL.GL_MINMAX);
+       chipCanvas.checkGLError(gl, glu, "after minmax");
+
         try {
             synchronized (renderer) {
                 FloatBuffer pixmap = renderer.getPixmap();
-                if(pixmap!=null){
-                pixmap.position(0);
-                gl.glDrawPixels(ncol, nrow, GL.GL_RGB, GL.GL_FLOAT, pixmap);
+                if (pixmap != null) {
+                    pixmap.position(0);
+                    gl.glDrawPixels(ncol, nrow, GL.GL_RGB, GL.GL_FLOAT, pixmap);
                 }
             }
         } catch (IndexOutOfBoundsException e) {
             log.warning(e.toString());
         }
+//        FloatBuffer minMax=FloatBuffer.allocate(6);
+//        gl.glGetMinmax(GL.GL_MINMAX, true, GL.GL_RGB, GL.GL_FLOAT, minMax);
+//        gl.glDisable(GL.GL_MINMAX);
         chipCanvas.checkGLError(gl, glu, "after rendering histogram rectangles");
-
         // outline frame
         gl.glColor4f(0, 0, 1f, 0f);
         gl.glLineWidth(1f);
@@ -170,10 +158,5 @@ public class ChipRendererDisplayMethod extends DisplayMethod implements DisplayM
             gl.glEnd();
         }
         chipCanvas.checkGLError(gl, glu, "after rendering frame of chip");
-
-// following are apparently not needed, this happens anyhow before buffer swap
-//        gl.glFlush();
-//        gl.glFinish();
-
     }
 }
