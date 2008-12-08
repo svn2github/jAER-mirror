@@ -608,30 +608,21 @@ public class ChipCanvas implements GLEventListener, Observer {
             float gray = (float) getRenderer().getGrayValue();
             g2.setColor(new Color(gray, gray, gray));
             g2.fill(new Rectangle(0, 0, chip.getSizeX(), chip.getSizeY()));
-            float scale = getScale();
-
-
 
             int sizex = chip.getSizeX(), sizey = chip.getSizeY();
-            float[][][] fr = getRenderer().getFr();
+            float[] fr = getRenderer().getPixmapArray();
             if (fr == null) {
                 return;
             }
+            int ind = 0;
             for (int y = 0; y < sizey; y++) {
                 for (int x = 0; x < sizex; x++) {
-                    float[] f = fr[y][x];
-                    if (f[0] == gray && f[1] == gray && f[2] == gray) {
-                        continue;
+                    if (fr[ind] != gray || fr[ind + 1] != gray || fr[ind + 2] != gray) {
+                        g2.setColor(getPixelColor(fr[ind], fr[ind + 1], fr[ind + 2]));
+                        g2.fillRect(x, sizey - y - 1, 1, 1);
                     }
-                    g2.setColor(getPixelColor(f[0], f[1], f[2]));
-                    g2.fillRect(x, sizey - y - 1, 1, 1);
-
-//                int rgb=getPixelRGB(f[0],f[1],f[2]);
-
-//                pixels[x+y*pheight]=rgb;
+                    ind+=3;
                 }
-            //            raster.setSamples(0,0,pwidth,pheight,0,pixels);
-            // draw selected pixel
             }
 
 
