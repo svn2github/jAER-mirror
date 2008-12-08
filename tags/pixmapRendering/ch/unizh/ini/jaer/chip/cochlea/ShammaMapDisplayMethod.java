@@ -200,16 +200,18 @@ public class ShammaMapDisplayMethod extends DisplayMethod implements DisplayMeth
                 }
             }
             // now plot cochlea activities as earlier rendered by ChipRenderer
-            float[][][] fr=getRenderer().getFr();
+            float[] fr=getRenderer().getPixmapArray();
             int y;
             y=0; // right
             for(int x=0;x<m;x++){
-                gl.glColor3fv(fr[y][x],0);
+                int ind=getRenderer().getPixMapIndex(x, y);
+                gl.glColor3f(fr[ind],fr[ind+1],fr[ind+2]);
                 gl.glRectf(x-.5f,y-2, x+.5f, y-1);
             }
             y=1; // left
             for(int x=0;x<m;x++){
-                gl.glColor3fv(fr[y][x],0);
+                int ind=getRenderer().getPixMapIndex(x, y);
+                gl.glColor3f(fr[ind],fr[ind+1],fr[ind+2]);
                 gl.glRectf(-2, x-.5f, -1, x+.5f);
             }
             

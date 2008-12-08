@@ -191,18 +191,18 @@ public class Chip2DRenderer implements Observer {
         annotators.removeAll(annotators);
     }
 
-    public void resetChannel(float value, int channel) {
-        for (int i = 0; i < fr.length; i++) {
-            for (int j = 0; j < fr[i].length; j++) {
-                float[] f = fr[i][j];
-                f[channel] = value;
-            }
-        }
-    }
+//    public void resetChannel(float value, int channel) {
+//        for (int i = 0; i < fr.length; i++) {
+//            for (int j = 0; j < fr[i].length; j++) {
+//                float[] f = fr[i][j];
+//                f[channel] = value;
+//            }
+//        }
+//    }
 
     /** Checks the frame buffer for the correct sizes;
     when constructed in superclass of a chip, sizes may not yet be set for chip. we can check every time
-     * @deprecated
+     * @deprecated replaced by pixmap
      */
     synchronized public void checkFr() {
         if (fr == null || fr.length == 0) {
@@ -211,9 +211,9 @@ public class Chip2DRenderer implements Observer {
     }
 
     /** reallocates the fr buffer using the current chip size
-     @deprecated
+     @deprecated replaced by pixmap
      */
-    synchronized public void reallocateFr() {
+    private void reallocateFr() {
         if (chip == null) {
             return;
         }
@@ -222,7 +222,7 @@ public class Chip2DRenderer implements Observer {
     }
     private FloatBuffer grayBuffer;
 
-    /** Resets the frame buffer to a given gray level.
+    /** Resets the pixmap frame buffer to a given gray level.
      *
      * @param value gray level 0-1.
      */
@@ -265,14 +265,14 @@ public class Chip2DRenderer implements Observer {
         this.ysel = ysel;
     }
 
-    /** @return frame data.
-     * fr is the rendered event data that we draw. Y is the first dimension, X is the second dimension, RGB 3 vector is the last dimension.
-    @see #fr
-     * @deprecated replaced by pixmap
-     */
-    public float[][][] getFr() {
-        return fr;
-    }
+//    /** @return frame data.
+//     * fr is the rendered event data that we draw. Y is the first dimension, X is the second dimension, RGB 3 vector is the last dimension.
+//    @see #fr
+//     * @deprecated replaced by pixmap
+//     */
+//    public float[][][] getFr() {
+//        return fr;
+//    }
 
     /** Returns the number of spikes in the selected pixel in the last rendered packet */
     public int getSelectedPixelEventCount() {
