@@ -1026,16 +1026,16 @@ public class ChipCanvas implements GLEventListener, Observer {
         final float zoomStepRatio = 1.3f;
         private Point startPoint = new Point();
         private Point endPoint = new Point();
-        private Point centerPoint = new Point();
+        Point centerPoint = new Point();
         float zoomFactor = 1;
         private boolean zoomEnabled = false;
         Point tmpPoint = new Point();
-        private double prl,  prr,  prb,  prt; // projection rect points, computed on zoom
+        double projectionLeft,  projectionRight,  projectionBottom,  projectionTop; // projection rect points, computed on zoom
 
         private void setProjection(GL gl) {
             gl.glMatrixMode(GL.GL_PROJECTION);
             gl.glLoadIdentity(); // very important to load identity matrix here so this works after first resize!!!
-            gl.glOrtho(prl, prr, prb, prt, 10000, -10000);
+            gl.glOrtho(projectionLeft, projectionRight, projectionBottom, projectionTop, 10000, -10000);
             gl.glMatrixMode(GL.GL_MODELVIEW);
         }
 
@@ -1047,10 +1047,10 @@ public class ChipCanvas implements GLEventListener, Observer {
             double xpad = drawable.getWidth() - pwidth, ypad = drawable.getHeight() - pheight; // padding on sides of chip display in model space
             double cpx = centerPoint.x * scale + xpad / 2;
             double cpy = centerPoint.y * scale + ypad / 2; // centerpoint of display
-            prl = cpx - w / 2;
-            prr = cpx + w / 2;
-            prb = cpy - h / 2;
-            prt = cpy + h / 2;
+            projectionLeft = cpx - w / 2;
+            projectionRight = cpx + w / 2;
+            projectionBottom = cpy - h / 2;
+            projectionTop = cpy + h / 2;
         }
 
         //        private void startZoom(Point p) {

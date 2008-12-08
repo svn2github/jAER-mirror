@@ -14,9 +14,11 @@ package net.sf.jaer.graphics;
 import com.sun.opengl.util.BufferUtil;
 import java.awt.*;
 import java.nio.BufferOverflowException;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import net.sf.jaer.graphics.ChipCanvas.Zoom;
 
 /**
  * Renders using OpenGL the RGB histogram values from Chip2DRenderer. 
@@ -102,6 +104,16 @@ public class ChipRendererDisplayMethod extends DisplayMethod implements DisplayM
         return gray;
     }
 
+    private boolean isValidRasterPosition(GL gl) {
+        boolean validRaster;
+        ByteBuffer buf = ByteBuffer.allocate(1);
+        gl.glGetBooleanv(GL.GL_CURRENT_RASTER_POSITION_VALID, buf);
+        buf.rewind();
+        byte b = buf.get();
+        validRaster = b != 0;
+        return validRaster;
+    }
+
     private void displayPixmap(GLAutoDrawable drawable) {
         Chip2DRenderer renderer = chipCanvas.getRenderer();
         GL gl = setupGL(drawable);
@@ -112,32 +124,49 @@ public class ChipRendererDisplayMethod extends DisplayMethod implements DisplayM
         chipCanvas.checkGLError(gl, glu, "before pixmap");
 
 
+        Zoom zoom = chip.getCanvas().getZoom();
+        if (!zoom.isZoomEnabled()) {
+            final int wi = drawable.getWidth(),  hi = drawable.getHeight();
+            float scale = 1;
+            if (chip.getCanvas().isFillsVertically()) {// tall chip, use chip height
+                scale = ((float) hi - 2 * chip.getCanvas().getBorderSpacePixels()) / (chip.getSizeY() - 1);
+            } else if (chip.getCanvas().isFillsHorizontally()) {
+                scale = ((float) wi - 2 * chip.getCanvas().getBorderSpacePixels()) / (chip.getSizeX() - 1);
+            }
+            gl.glPixelZoom(scale, scale);
+            gl.glRasterPos2f(-.5f, -.5f); // to LL corner of chip, but must be inside viewport or else it is ignored, breaks on zoom     if (zoom.isZoomEnabled() == false) {
 
-        final int wi=drawable.getWidth(), hi=drawable.getHeight();
-        float scale=1;
-        if(chip.getCanvas().isFillsVertically()){// tall chip, use chip height
-            scale=((float)hi-2*chip.getCanvas().getBorderSpacePixels())/(chip.getSizeY()-1);
-        }else if(chip.getCanvas().isFillsHorizontally()){
-           scale=((float)wi-2*chip.getCanvas().getBorderSpacePixels())/(chip.getSizeX()-1);
-        }
-//        final float scale =  chip.getCanvas().getScale();
-//        gl.glWindowPos2f(0, 0);
-        gl.glPixelZoom(scale, scale);
-        gl.glRasterPos2f(-.5f, -.5f); // to LL corner of chip, but must be inside viewport or else it is ignored, breaks on zoom
 //        gl.glMinmax(GL.GL_MINMAX,GL.GL_RGB,false);
 //        gl.glEnable(GL.GL_MINMAX);
-       chipCanvas.checkGLError(gl, glu, "after minmax");
-
-        try {
-            synchronized (renderer) {
-                FloatBuffer pixmap = renderer.getPixmap();
-                if (pixmap != null) {
-                    pixmap.position(0);
-                    gl.glDrawPixels(ncol, nrow, GL.GL_RGB, GL.GL_FLOAT, pixmap);
+//            chipCanvas.checkGLError(gl, glu, "after minmax");
+            {
+                try {
+                    synchronized (renderer) {
+                        FloatBuffer pixmap = renderer.getPixmap();
+                        if (pixmap != null) {
+                            pixmap.position(0);
+                            gl.glDrawPixels(ncol, nrow, GL.GL_RGB, GL.GL_FLOAT, pixmap);
+                        }
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    log.warning(e.toString());
                 }
             }
-        } catch (IndexOutOfBoundsException e) {
-            log.warning(e.toString());
+        } else { // zoomed in, easiest to drawRect the pixels
+            float scale = zoom.zoomFactor * chip.getCanvas().getScale();
+            float[] f=renderer.getPixmapArray();
+            int sx=chip.getSizeX(), sy=chip.getSizeY();
+            float gray=renderer.getGrayValue();
+            int ind=0;
+            for(int y=0;y<sx;y++){
+                for(int x=0;x<sy;x++){
+                    if(f[ind]!=gray || f[ind+1]!=gray || f[ind+2]!=gray) {
+                        gl.glColor3fv(f,ind);
+                        gl.glRectf(x-.5f, y-.5f, x+.5f, y+.5f);
+                    }
+                    ind+=3;
+                }
+            }
         }
 //        FloatBuffer minMax=FloatBuffer.allocate(6);
 //        gl.glGetMinmax(GL.GL_MINMAX, true, GL.GL_RGB, GL.GL_FLOAT, minMax);
