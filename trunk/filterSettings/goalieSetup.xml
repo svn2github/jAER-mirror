@@ -9,7 +9,7 @@
         <map/>
         <node name="ini">
           <map/>
-          <node name="caviar">
+          <node name="jaer">
             <map/>
             <node name="chip">
               <map/>
@@ -101,13 +101,13 @@
                     <map/>
                     <node name="ini">
                       <map/>
-                      <node name="caviar">
+                      <node name="jaer">
                         <map/>
-                        <node name="chip">
+                        <node name="projects">
                           <map/>
-                          <node name="retina">
+                          <node name="tobi">
                             <map/>
-                            <node name="sensorymotor">
+                            <node name="goalie">
                               <map/>
                               <node name="Goalie">
                                 <map>
@@ -237,7 +237,7 @@
                     </node>
                   </node>
                 </node>
-                <node name="sensorymotor">
+                <node name="goalie">
                   <map>
                     <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="2550"/>
                     <entry key="ClusterTracker.maxNumClusters" value="1"/>
