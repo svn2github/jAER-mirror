@@ -1490,7 +1490,8 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
                 chipCanvas.paintFrame(); // actively paint frame now, either with OpenGL or Java2D, depending on switch
             } else {
 //                log.info("repaint by "+1000/frameRater.getDesiredFPS()+" ms");
-                chipCanvas.repaint(1000 / frameRater.getDesiredFPS()); // ask for repaint within frame time
+                chipCanvas.repaint();
+//                chipCanvas.repaint(1000 / frameRater.getDesiredFPS()); // ask for repaint within frame time
             }
 
             if (canvasFileWriter.writingMovieEnabled) {
@@ -2587,6 +2588,11 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
 
         syncEnabledCheckBoxMenuItem.setText("Synchronized logging/playback enabled");
         syncEnabledCheckBoxMenuItem.setToolTipText("All viwers start/stop logging in synchrony and playback times are synchronized");
+        syncEnabledCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                syncEnabledCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(syncEnabledCheckBoxMenuItem);
         fileMenu.add(jSeparator16);
 
@@ -4777,6 +4783,10 @@ private void checkNonMonotonicTimeExceptionsEnabledCheckBoxMenuItemActionPerform
         prefs.putBoolean("AEViewer.checkNonMonotonicTimeExceptionsEnabled", checkNonMonotonicTimeExceptionsEnabledCheckBoxMenuItem.isSelected());
     }
 }//GEN-LAST:event_checkNonMonotonicTimeExceptionsEnabledCheckBoxMenuItemActionPerformed
+
+private void syncEnabledCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_syncEnabledCheckBoxMenuItemActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_syncEnabledCheckBoxMenuItemActionPerformed
 
     public int getFrameRate() {
         return frameRater.getDesiredFPS();
