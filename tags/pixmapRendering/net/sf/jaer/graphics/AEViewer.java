@@ -36,6 +36,7 @@ import java.beans.*;
 import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.lang.reflect.*;
+import java.nio.IntBuffer;
 import java.util.*;
 import java.util.logging.*;
 import java.util.prefs.*;
@@ -2044,7 +2045,7 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
         return rate;
     }// computes and executes appropriate delayForDesiredFPS to try to maintain constant rendering rate
 
-    class FrameRater {
+    private class FrameRater {
 
         final int MAX_FPS = 120;
         int desiredFPS = prefs.getInt("AEViewer.FrameRater.desiredFPS", getScreenRefreshRate());
@@ -2054,7 +2055,7 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
         int delayMs = 1;
         int desiredPeriodMs = (int) (1000f / desiredFPS);
 
-        void setDesiredFPS(int fps) {
+         final void setDesiredFPS(int fps) {
             if (fps < 1) {
                 fps = 1;
             } else if (fps > MAX_FPS) {
@@ -2065,11 +2066,11 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
             desiredPeriodMs = 1000 / fps;
         }
 
-        int getDesiredFPS() {
+         final int getDesiredFPS() {
             return desiredFPS;
         }
 
-        float getAveragePeriodNs() {
+         final float getAveragePeriodNs() {
             int sum = 0;
             for (int i = 0; i < nSamples; i++) {
                 sum += samplesNs[i];
@@ -2077,31 +2078,32 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
             return (float) sum / nSamples;
         }
 
-        float getAverageFPS() {
+         final float getAverageFPS() {
             return 1f / (getAveragePeriodNs() / 1e9f);
         }
 
-        float getLastFPS() {
+         final float getLastFPS() {
             return 1f / (lastdt / 1e9f);
         }
 
-        int getLastDelayMs() {
+        final int getLastDelayMs() {
             return delayMs;
         }
 
-        long getLastDtNs() {
+        final long getLastDtNs() {
             return lastdt;
         }
-        long beforeTimeNs = System.nanoTime(), lastdt, afterTimeNs;
+        private long beforeTimeNs = System.nanoTime(), lastdt, afterTimeNs;
 
         //  call this ONCE after capture/render. it will store the time since the last call
         void takeBefore() {
             beforeTimeNs = System.nanoTime();
         }
-        long lastAfterTime = System.nanoTime();
+
+        private long lastAfterTime = System.nanoTime();
 
         //  call this ONCE after capture/render. it will store the time since the last call
-        void takeAfter() {
+        final void takeAfter() {
             afterTimeNs = System.nanoTime();
             lastdt = afterTimeNs - beforeTimeNs;
             samplesNs[index++] = afterTimeNs - lastAfterTime;
@@ -2112,13 +2114,13 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
         }
 
         // call this to delayForDesiredFPS enough to make the total time including last sample period equal to desiredPeriodMs
-        void delayForDesiredFPS() {
-            delayMs = (int) Math.round(desiredPeriodMs - (float) getLastDtNs() / 1000000);
+        final void delayForDesiredFPS() {
+            delayMs = (int) Math.round(desiredPeriodMs - (float) lastdt / 1000000);
             if (delayMs < 0) {
                 delayMs = 1;
             }
             try {
-                Thread.currentThread().sleep(delayMs);
+                Thread.sleep(delayMs);
             } catch (java.lang.InterruptedException e) {
             }
         }

@@ -2,6 +2,7 @@ package net.sf.jaer.graphics;
 
 import com.sun.opengl.util.BufferUtil;
 import java.nio.FloatBuffer;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 import net.sf.jaer.chip.Chip2D;
@@ -78,6 +79,8 @@ public class Chip2DRenderer implements Observer {
     }
     private float pixmapGrayValue = 0;
 
+    private FloatBuffer grayBuffer;
+
     private void resetPixmapGrayLevel(float value) {
         checkPixmapAllocation();
         final int n = 3 * chip.getNumPixels();
@@ -91,10 +94,9 @@ public class Chip2DRenderer implements Observer {
             for (int i = 0; i < n; i++) {
                 grayBuffer.put(value);
             }
+            grayBuffer.rewind();
         }
-        grayBuffer.rewind();
-        pixmap.rewind();
-        pixmap.put(grayBuffer);
+        System.arraycopy(grayBuffer.array(), 0, pixmap.array(), 0, n);
         pixmap.rewind();
         pixmap.limit(n);
         pixmapGrayValue = grayValue;
@@ -220,7 +222,6 @@ public class Chip2DRenderer implements Observer {
         fr = new float[chip.getSizeY()][chip.getSizeX()][3];
         checkPixmapAllocation();
     }
-    private FloatBuffer grayBuffer;
 
     /** Resets the pixmap frame buffer to a given gray level.
      *
