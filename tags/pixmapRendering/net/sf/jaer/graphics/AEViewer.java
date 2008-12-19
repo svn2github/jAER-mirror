@@ -1903,58 +1903,59 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
         }
 
         private void makeStatisticsLabel() {
-            if (getAePlayer().isChoosingFile()) {
-                return;
-            } // don't render stats while user is choosing file
+            if (renderCount % 10 == 0 || isPaused() || isSingleStep() || frameRater.getDesiredFPS() < 20) {  // don't draw stats too fast
+                if (getAePlayer().isChoosingFile()) {
+                    return;
+                } // don't render stats while user is choosing file
 //            if(ae==null) return;
-            if (packet == null) {
-                return;
-            }
-            float dtMs = 0;
-            if (numEvents > 0) {
+                if (packet == null) {
+                    return;
+                }
+                float dtMs = 0;
+                if (numEvents > 0) {
 //                lastts=ae.getLastTimestamp();
-                lastts = packet.getLastTimestamp();
-            }
-            if (numEvents > 1) {
-                dtMs = (float) ((lastts - packet.getFirstTimestamp()) / (tickUs * 1e3));
-            }
-            String thisTimeString = null;
+                    lastts = packet.getLastTimestamp();
+                }
+                if (numEvents > 1) {
+                    dtMs = (float) ((lastts - packet.getFirstTimestamp()) / (tickUs * 1e3));
+                }
+                String thisTimeString = null;
 
-            float ratekeps = packet.getEventRateHz() / 1e3f;
-            switch (getPlayMode()) {
-                case SEQUENCING:
-                case LIVE:
-                    if (aemon == null) {
-                        return;
-                    }
+                float ratekeps = packet.getEventRateHz() / 1e3f;
+                switch (getPlayMode()) {
+                    case SEQUENCING:
+                    case LIVE:
+                        if (aemon == null) {
+                            return;
+                        }
 //                    ratekeps=aemon.getEstimatedEventRate()/1000f;
-                    thisTimeString = String.format("%5.2f", lastts * aemon.getTimestampTickUs() * 1e-6f);
-                    break;
-                case PLAYBACK:
+                        thisTimeString = String.format("%5.2f", lastts * aemon.getTimestampTickUs() * 1e-6f);
+                        break;
+                    case PLAYBACK:
 //                    if(ae.getNumEvents()>2) ratekeps=(float)ae.getNumEvents()/(float)dtMs;
 //                    if(packet.getSize()>2) ratekeps=(float)packet.getSize()/(float)dtMs;
-                    thisTimeString = String.format("%5.2f", getAePlayer().getTime() * 1e-6f); // hack here, we don't know timestamp from data file, we assume 1us
-                    break;
-                case REMOTE:
-                    thisTimeString = String.format("%5.2f", aeRaw.getLastTimestamp() * 1e-6f);
-                    break;
-            }
-            String rateString = null;
-            if (ratekeps >= 10e3f) {
-                rateString = "   >10 Meps";
-            } else {
-                rateString = String.format("%5.2f keps", ratekeps);
-            }
-            int cs = renderer.getColorScale();
+                        thisTimeString = String.format("%5.2f", getAePlayer().getTime() * 1e-6f); // hack here, we don't know timestamp from data file, we assume 1us
+                        break;
+                    case REMOTE:
+                        thisTimeString = String.format("%5.2f", aeRaw.getLastTimestamp() * 1e-6f);
+                        break;
+                }
+                String rateString = null;
+                if (ratekeps >= 10e3f) {
+                    rateString = "   >10 Meps";
+                } else {
+                    rateString = String.format("%5.2f keps", ratekeps);
+                }
+                int cs = renderer.getColorScale();
 
-            String ovstring;
-            if (overrunOccurred) {
-                ovstring = "(overrun)";
-            } else {
-                ovstring = "";
-            }
-            String s = null;
-            if (renderCount % 10 == 0 || isPaused() || isSingleStep() || frameRater.getDesiredFPS() < 20) {  // don't draw stats too fast
+                String ovstring;
+                if (overrunOccurred) {
+                    ovstring = "(overrun)";
+                } else {
+                    ovstring = "";
+                }
+                String s = null;
+
 //                if(numEvents==0) s=thisTimeString+ "s: No events";
 //                else {
                 String timeExpansionString;
