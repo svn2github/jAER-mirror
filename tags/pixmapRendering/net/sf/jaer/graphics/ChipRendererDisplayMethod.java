@@ -128,11 +128,14 @@ public class ChipRendererDisplayMethod extends DisplayMethod implements DisplayM
         if (!zoom.isZoomEnabled()) {
             final int wi = drawable.getWidth(),  hi = drawable.getHeight();
             float scale = 1;
+            float ar=(float)hi/wi;
+            final float border=chip.getCanvas().getBorderSpacePixels();
             if (chip.getCanvas().isFillsVertically()) {// tall chip, use chip height
-                scale = ((float) hi - 2 * chip.getCanvas().getBorderSpacePixels()) / (chip.getSizeY() - 1);
+                scale = ((float) hi - 2 * border) / (chip.getSizeY());
             } else if (chip.getCanvas().isFillsHorizontally()) {
-                scale = ((float) wi - 2 * chip.getCanvas().getBorderSpacePixels()) / (chip.getSizeX() - 1);
+                scale = ((float) wi - 2 * border) / (chip.getSizeX() );
             }
+
             gl.glPixelZoom(scale, scale);
             gl.glRasterPos2f(-.5f, -.5f); // to LL corner of chip, but must be inside viewport or else it is ignored, breaks on zoom     if (zoom.isZoomEnabled() == false) {
 
@@ -153,7 +156,7 @@ public class ChipRendererDisplayMethod extends DisplayMethod implements DisplayM
                 }
             }
         } else { // zoomed in, easiest to drawRect the pixels
-            float scale = zoom.zoomFactor * chip.getCanvas().getScale();
+//            float scale = zoom.zoomFactor * chip.getCanvas().getScale();
             float[] f=renderer.getPixmapArray();
             int sx=chip.getSizeX(), sy=chip.getSizeY();
             float gray=renderer.getGrayValue();

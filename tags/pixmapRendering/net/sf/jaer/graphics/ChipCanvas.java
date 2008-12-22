@@ -91,6 +91,9 @@ public class ChipCanvas implements GLEventListener, Observer {
     private float origin3dy = prefs.getInt("ChipCanvas.origin3dy", 0);
     protected int pheight = prefs.getInt("ChipCanvas.pheight", 512);
     protected int[] pixels;
+    /** defines the minimum canvas size in pixels; used when chip size has not been set to non zero value
+     */
+    public static final int MIN_DIMENSION = 70;
     /** width and height of pixel array in canvas in screen pixels. these are different than the actual canvas size */
     protected int pwidth = prefs.getInt("ChipCanvas.pwidth", 512);
     // the number of screen pixels for one retina pixel
@@ -311,7 +314,7 @@ public class ChipCanvas implements GLEventListener, Observer {
     }
 
     /** The actual drawing surface is a Canvas and this method returns a reference to it.
-     * 
+     *
      * @return the actual drawing Canvas.
      */
     public Canvas getCanvas() {
@@ -323,18 +326,8 @@ public class ChipCanvas implements GLEventListener, Observer {
         return fr;
     }
 
-    /** @return height of pixel array in canvas in screen pixels. different than the actual canvas size because array has borders rendered around it */
-    protected int getPheight() {
-        return pheight;
-    }
-
-    /** @return width of pixel array in canvas in screen pixels. different than the actual canvas size because array has borders rendered around it */
-    protected int getPwidth() {
-        return pwidth;
-    }
-
     /** Pixel drawing scale. 1 pixel is rendered to getScale screen pixels.
-     * 
+     *
      * @return scale in screen pixels/chip pixel.
      */
     public float getScale() {
@@ -353,7 +346,7 @@ public class ChipCanvas implements GLEventListener, Observer {
     }
 
     /** Finds the chip pixel from a ChipCanvas point.
-     * 
+     *
      * @param mp a Point in ChipCanvas pixels.
      * @return the AEChip pixel, clipped to the bounds of the AEChip.
      */
@@ -407,12 +400,13 @@ public class ChipCanvas implements GLEventListener, Observer {
         p.x = (int) Math.round(wcoord[0]);
         p.y = (int) Math.round(wcoord[1]);
         clipPoint(p);
+        System.out.println(p);
         return p;
 
     }
 
     /** Finds the current AEChip pixel mouse position.
-     * 
+     *
      * @return the AEChip pixel, clipped to the bounds of the AEChip
      */
     public Point getMousePixel() {
@@ -420,7 +414,7 @@ public class ChipCanvas implements GLEventListener, Observer {
         return getPixelFromPoint(mp);
     }
 
-    /** Takes a MouseEvent and returns the AEChip pixel. 
+    /** Takes a MouseEvent and returns the AEChip pixel.
      * @return pixel x,y location (integer point) from MouseEvent. Accounts for scaling and borders of chip display area */
     public Point getPixelFromMouseEvent(MouseEvent evt) {
         Point mp = evt.getPoint();
@@ -502,7 +496,7 @@ public class ChipCanvas implements GLEventListener, Observer {
                     if (is3DEnabled()) {
                         log.info("3d rotation: angley=" + angley + " anglex=" + anglex + " 3d origin: x=" + getOrigin3dx() + " y=" + getOrigin3dy());
                     }
-                //else 
+                //else
 //                        if (isZoomMode()) {
 //                        Point p = getPixelFromMouseEvent(e);
 //                        zoom.endZoom(p);
@@ -621,7 +615,7 @@ public class ChipCanvas implements GLEventListener, Observer {
                         g2.setColor(getPixelColor(fr[ind], fr[ind + 1], fr[ind + 2]));
                         g2.fillRect(x, sizey - y - 1, 1, 1);
                     }
-                    ind+=3;
+                    ind += 3;
                 }
             }
 
@@ -688,34 +682,36 @@ public class ChipCanvas implements GLEventListener, Observer {
 //        log.info("ChipCanvas.reshape(): x="+x+" y="+y+" width="+width+" height="+height);
         GL gl = drawable.getGL();
 
-        setDefaultProjection(gl, drawable); // this sets orthographic projection so that chip pixels are scaled to the drawable width
 
         gl.glLoadIdentity();
-        int chipSizeX = chip.getSizeX();
-        int chipSizeY = chip.getSizeY();
+        final int chipSizeX = chip.getSizeX();
+        final int chipSizeY = chip.getSizeY();
         float newscale;
+        final float border = 0; // getBorderSpacePixels()*(float)height/width;
         if (chipSizeY > chipSizeX) {
             // chip is tall and skinny, so set scale by frame height/chip height
-            newscale = height / chipSizeY;
+            newscale = (float) (height - border) / chipSizeY;
             fillsVertically = true;
             fillsHorizontally = false;
             if (newscale * chipSizeX > width) { // unless it runs into left/right, then set to fill width
-                newscale = (float) width / chipSizeX;
+                newscale = (float) (width - border) / chipSizeX;
                 fillsHorizontally = true;
                 fillsVertically = false;
             }
         } else {
             // chip is square or squat, so set scale by frame width / chip width
-            newscale = (float) width / chipSizeX;
+            newscale = (float) (width - border) / chipSizeX;
             fillsHorizontally = true;
             fillsVertically = false;
             if (newscale * chipSizeY > height) {// unless it runs into top/bottom, then set to fill height
-                newscale = (float) height / chipSizeY;
+                newscale = (float) (height - border) / chipSizeY;
                 fillsVertically = true;
                 fillsHorizontally = false;
             }
         }
-        setScale(newscale);
+//        setScale(newscale);
+        setScale(1);
+        setDefaultProjection(gl, drawable); // this sets orthographic projection so that chip pixels are scaled to the drawable width
 
         gl.glViewport(0, 0, width, height);
         repaint();
@@ -751,9 +747,33 @@ public class ChipCanvas implements GLEventListener, Observer {
         prefs.putBoolean("ChipCanvas.openGLEnabled", openGLEnabled);
     }
 
-    /** Sets the projection matrix so that we get an orthographic projection that is the size of the 
+    /** Orthographic projection clipping area. */
+    private class ClipArea {
+
+        float left = 0, right = 0, bottom = 0, top = 0;
+
+        ClipArea(float l, float r, float b, float t) {
+            left = l;
+            right = r;
+            bottom = b;
+            top = t;
+        }
+    }
+    /** The actual clipping box bounds for the default orthographic projection. */
+    private ClipArea clipArea = new ClipArea(0, 0, 0, 0);
+
+    /** Border around chip in clipping area. */
+    private class Borders {
+
+        float leftRight = 0, bottomTop = 0;
+    };
+
+    /** The actual borders in model space around the chip area. */
+    private Borders borders = new Borders();
+
+    /** Sets the projection matrix so that we get an orthographic projection that is the size of the
     canvas with z volume -10000 to 10000 padded with extra space around the sides.
-    
+
     @param g the GL context
     @param d the GLAutoDrawable canvas
      */
@@ -767,95 +787,61 @@ public class ChipCanvas implements GLEventListener, Observer {
         GLdouble far)
          */
 //        log.info("setDefaultProjection");
+        final int w = drawable.getWidth(),  h = drawable.getHeight(); // w,h of screen
+        final int sx = chip.getSizeX(),  sy = chip.getSizeY(); // chip size
+        final float border = getBorderSpacePixels(); // desired smallest border in screen pixels
+
         checkGLError(g, glu, "before setDefaultProjection");
         g.glMatrixMode(GL.GL_PROJECTION);
         g.glLoadIdentity(); // very important to load identity matrix here so this works after first resize!!!
-        g.glOrtho(-getBorderSpacePixels(), drawable.getWidth() + getBorderSpacePixels(), -getBorderSpacePixels(), drawable.getHeight() + getBorderSpacePixels(), 10000, -10000);
+        // now we set the clipping volume so that the volume is clipped according to whether the window is tall (ar>1) or wide (ar<1).
+
+        if (isFillsHorizontally()) { //tall
+            scale = (float) (w - 2 * border) / sx; // chip pix to screen pix scaling in horizontal&vert direction
+            float b = border / scale; // l,r border in model coordinates
+            if (b <= 0) {
+                b = 1;
+            }
+            float bb = (h / scale - sy) / 2; // leftover y in model coordinates that makes up vertical border
+            if (bb <= 0) {
+                bb = 1;
+            }
+            clipArea.left = -b;
+            clipArea.right = sx + b;
+            clipArea.bottom = -bb;
+            clipArea.top = sy + bb;
+            borders.leftRight = b;
+            borders.bottomTop = bb;
+            g.glOrtho(-b, sx + b, -bb, (sy + bb), 10000, -10000); // clip area has same ar as screen!
+        } else {
+            scale = (float) (h - 2 * border) / sy;
+            float b = border / scale;
+            if (b <= .5f) {
+                b = 1;
+            }
+            float bb = (w / scale - sx) / 2; // leftover y in model coordinates that makes up vertical border
+            if (bb <= 0) {
+                bb = 1;
+            }
+            clipArea.left = -bb;
+            clipArea.right = sx + bb;
+            clipArea.bottom = -b;
+            clipArea.top = sy + b;
+            borders.leftRight = bb;
+            borders.bottomTop = b;
+            g.glOrtho(-bb, (sx + bb), -b, sy + b, 10000, -10000);
+        }
         g.glMatrixMode(GL.GL_MODELVIEW);
-    }
-    /** defines the minimum canvas size in pixels; used when chip size has not been set to non zero value
-     */
-    public static final int MIN_DIMENSION = 70;
-
-    /** sets preferred width of pixel array in screen pixels: Math.ceil((s*(chip.getSizeX(), where s is scaling of chip pixels to screen pixels */
-    protected void setPwidth(int pwidth) {
-        if (pwidth < MIN_DIMENSION) {
-            pwidth = MIN_DIMENSION;
-        }
-        this.pwidth = pwidth;
-    }
-
-    /** sets preferred height of pixel array area in screen pixels: Math.ceil((s*(chip.getSizeY(), where s is scaling of chip pixels to screen pixels.
-    pheight is not necessarily the hieght of the window.
-     */
-    protected void setPheight(int pheight) {
-        if (pheight < MIN_DIMENSION) {
-            pheight = MIN_DIMENSION;
-        }
-        this.pheight = pheight;
     }
 
     /** This method sets the pixel drawing scale so that e.g. s=2 means a chip pixel occupies 2 screen pixels.
      * @param s size of chip pixel in screen pixels.
      */
     public void setScale(float s) {
-        if (s < 1) {
-            s = 1f;
-        }
         prefs.putFloat(scalePrefsKey(), (float) Math.round(s)); // if we don't round, window gets smaller each time we open a new one...
-//        log.info("prefs scale="+s);
         this.scale = s;
-        setPwidth((int) Math.ceil((s * (chip.getSizeX()))));
-        setPheight((int) Math.ceil((s * (chip.getSizeY()))));
-//        checkGLError(drawable.getGL(),glu,"before setPreferredSize");
-        drawable.setPreferredSize(new Dimension(getPwidth(), getPheight()));
-//        checkGLError(drawable.getGL(),glu,"after setPreferredSize");
-//        if (drawable.getParent() != null){
-//            drawable.invalidate();
-//            drawable.getParent().validate();
-//        }
-//        log.info("ChipCanvas.setScale()="+scale);
     }
-//       /**
-//     * This method takes the Zoom Cursor Image
-//     * and creates the Zoom Custom Cursor which is
-//     * shown on the Image Panel on mouse over
-//     *
-//     * @param zoomcursorImage
-//     */
-//    void setZoomCursorImage(Image zoomcursorImage)
-//    {
-//                    Image zoomcursorImage = getImage(getCodeBase(), ZOOM_CURSOR);
-//
-//            MediaTracker mt = new MediaTracker(this.getCanvas());
-//            mt.addImage(zoomcursorImage, 2);
-//
-//            try
-//            {
-//                mt.waitForAll();
-//            }
-//            catch (InterruptedException e)
-//            {
-//                e.printStackTrace();
-//            }
-//
-//            Cursor m_zoomCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-//                        zoomcursorImage, new Point(0, 0), "ZoomCursor");
-//    }
-//    protected void setZoomCursor(boolean yes) {
-//        if (yes) {
-//            Cursor zoomCursor = new Cursor(Cursor.CROSSHAIR_CURSOR);
-//            drawable.setCursor(zoomCursor);
-//        } else {
-//            Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-//            drawable.setCursor(normalCursor);
-//        }
-//    }
-//
-//    public void setZoomMode(boolean zoomMode) {
-//        this.zoomMode = zoomMode;
-//        setZoomCursor(zoomMode);
-//    }
+
 
     /** Shows selected pixel spike count by drawn circle */
     protected void showSpike(GL gl) {        // show selected pixel that user can hear
@@ -863,27 +849,20 @@ public class ChipCanvas implements GLEventListener, Observer {
             showSpike(gl, getRenderer().getXsel(), getRenderer().getYsel(), getRenderer().getSelectedPixelEventCount());
         }
     }
-    // draws a circle at pixel x,y of size+.5 radius. size is used to indicate number of spikes in this 'frame'
 
+    /** draws a circle at pixel x,y of size+.5 radius. size is used to indicate number of spikes in this 'frame'
+     */
     protected void showSpike(GL gl, int x, int y, int size) {
         // circle
-        size = size * 2;
         gl.glPushMatrix();
         gl.glColor4f(0, 0, 1f, 0f);
-//        gl.glLoadIdentity();
-//        gl.glTranslatef(xt,yt,0);
-//        gl.glScalef(scale,scale,1);
-        size = size * 3;
-        if (size > chip.getMaxSize() / 3) {
-            size = chip.getMaxSize() / 3;
+        if (size > chip.getMinSize() / 3) {
+            size = chip.getMinSize() / 3;
         }
         gl.glTranslatef(x, y, -1);
-//        gl.glRasterPos3f(x, y , 0);
         selectedQuad = glu.gluNewQuadric();
-        //                    glu.gluQuadricDrawStyle(selectedQuad,GLU.GLU_LINE);
-        //                    glu.gluCylinder(selectedQuad,1,1,2,8,1);
         glu.gluQuadricDrawStyle(selectedQuad, GLU.GLU_FILL);
-        glu.gluDisk(selectedQuad, size, size + 5 / scale, 16, 1);
+        glu.gluDisk(selectedQuad, size, size + 1, 16, 1);
         glu.gluDeleteQuadric(selectedQuad);
         gl.glPopMatrix();
 
@@ -945,7 +924,7 @@ public class ChipCanvas implements GLEventListener, Observer {
     }
 
     /** Returns minimum space around pixel array in screen pixels
-     * 
+     *
      * @return screen pixel size border
      */
     public int getBorderSpacePixels() {
@@ -957,7 +936,7 @@ public class ChipCanvas implements GLEventListener, Observer {
     }
 
     /** Sets the border around the drawn pixel canvas.
-     * 
+     *
      * @param borderSpacePixels in screen pixels.
      */
     public void setBorderSpacePixels(int borderSpacePixels) {
@@ -968,8 +947,8 @@ public class ChipCanvas implements GLEventListener, Observer {
         insets.right = borderSpacePixels;
     }
 
-    /** Clips a Point to within the chip size. The point is modified to fit within the size of the Chip2D. 
-     * 
+    /** Clips a Point to within the chip size. The point is modified to fit within the size of the Chip2D.
+     *
      * @param p a Point
      */
     void clipPoint(Point p) {
@@ -1021,67 +1000,17 @@ public class ChipCanvas implements GLEventListener, Observer {
         float zoomFactor = 1;
         private boolean zoomEnabled = false;
         Point tmpPoint = new Point();
-        double projectionLeft,  projectionRight,  projectionBottom,  projectionTop; // projection rect points, computed on zoom
+        double projectionLeft, projectionRight, projectionBottom, projectionTop; // projection rect points, computed on zoom
 
         private void setProjection(GL gl) {
+            setDefaultProjection(gl, drawable);
             gl.glMatrixMode(GL.GL_PROJECTION);
-            gl.glLoadIdentity(); // very important to load identity matrix here so this works after first resize!!!
-            gl.glOrtho(projectionLeft, projectionRight, projectionBottom, projectionTop, 10000, -10000);
+            gl.glScalef(zoomFactor, zoomFactor, 1);
+            // TODO not quite the right scaling/translation to center the centerpoint
+            gl.glTranslatef((drawable.getWidth()/2f/scale-(borders.leftRight+centerPoint.x)), (drawable.getHeight()/2f/scale-(borders.bottomTop+centerPoint.y)), 0);
             gl.glMatrixMode(GL.GL_MODELVIEW);
         }
 
-        private void computeProjection() {
-            // box is around centerPoint
-            // the LL corner of chip is drawn in drawable at model coordinates (width-sizeX*scale)/2 in unzoomed view
-            double w = drawable.getWidth() / zoomFactor;
-            double h = drawable.getHeight() / zoomFactor; // zoomed width and height of viewport on model space
-            double xpad = drawable.getWidth() - pwidth, ypad = drawable.getHeight() - pheight; // padding on sides of chip display in model space
-            double cpx = centerPoint.x * scale + xpad / 2;
-            double cpy = centerPoint.y * scale + ypad / 2; // centerpoint of display
-            projectionLeft = cpx - w / 2;
-            projectionRight = cpx + w / 2;
-            projectionBottom = cpy - h / 2;
-            projectionTop = cpy + h / 2;
-        }
-
-        //        private void startZoom(Point p) {
-//            clipPoint(p);
-//            tmpPoint = p;
-////            drawingZoomBox = true;
-//        }
-
-//        /** ends zoom gesture, sets drawing context correctly for zooming */
-//        private void endZoom(Point p) {
-//            // zoom can go in 4 directions, so sort out coordinates so the start is at LL and end at UR, so that array indexing works out
-//            clipPoint(p);
-//            drawingZoomBox = false;
-//            setZoomMode(false);
-//            setZoomEnabled(true);
-//            startPoint = tmpPoint;
-//            endPoint = p;
-//            if (startPoint.x > endPoint.x) {
-//                int x = startPoint.x;
-//                startPoint.x = endPoint.x;
-//                endPoint.x = x;
-//            }
-//            if (startPoint.y > endPoint.y) {
-//                int y = startPoint.y;
-//                startPoint.y = endPoint.y;
-//                endPoint.y = y;
-//            }
-//            int dx = endPoint.x - startPoint.x, dy = endPoint.y - startPoint.y;
-//            if (dx == 0 || dy == 0) {
-//                return;
-//            }
-//            float aspectRatio = (float) (dy) / (dx);
-//            // we want to fit the zoom region into the screen but without differentially scaling x or y.
-//            if (dx > dy) {
-//                // x box dim larger, zoom so that x region fits
-//            } else {
-//                // y box dim larger, zoom so that y region fits
-//            }
-//        // we cannot call gl methods here because we are not in drawing context, we must apply projections, etc, in display method (or init/reshpae)
-//        }
         public Point getStartPoint() {
             return startPoint;
         }
@@ -1099,10 +1028,8 @@ public class ChipCanvas implements GLEventListener, Observer {
         }
 
         private void unzoom() {
-//            log.info("unzoom");
             setZoomEnabled(false);
             zoomFactor = 1;
-//            setZoomMode(false);
             getZoom().setStartPoint(new Point(0, 0));
             getZoom().setEndPoint(new Point(getChip().getSizeX(), getChip().getSizeY()));
             GL g = drawable.getGL();
@@ -1114,21 +1041,18 @@ public class ChipCanvas implements GLEventListener, Observer {
 
         private void zoomcenter() {
             centerPoint = getMousePixel();
-            computeProjection();
             setZoomEnabled(true);
         }
 
         private void zoomin() {
             centerPoint = getMousePixel();
             zoomFactor *= zoomStepRatio;
-            computeProjection();
             setZoomEnabled(true);
         }
 
         private void zoomout() {
             centerPoint = getMousePixel();
             zoomFactor /= zoomStepRatio;
-            computeProjection();
             setZoomEnabled(true);
         }
 
@@ -1139,39 +1063,6 @@ public class ChipCanvas implements GLEventListener, Observer {
         public void setZoomEnabled(boolean zoomEnabled) {
             this.zoomEnabled = zoomEnabled;
         }
-//        boolean drawingZoomBox = false;
-//
-//        boolean isDrawingZoomBox() {
-//            return drawingZoomBox;
-//        }
-//
-//        private void drawZoomBox(GL gl) {
-//            if (!isDrawingZoomBox()) {
-//                return;
-//            }
-//            Point p = getCanvas().getMousePosition(); // in java canvas coordinates, UL is 0,0
-//            if (p == null) {
-//                return;
-//            }
-//            p.y = getCanvas().getHeight() - p.y;
-//            gl.glPushMatrix();
-//            gl.glColor3f(0, 0, 1);
-//            gl.glBegin(GL.GL_LINE_LOOP);
-//            gl.glVertex2i(zoom.startPoint.x, zoom.startPoint.y);
-//            gl.glVertex2i(p.x, zoom.startPoint.y);
-//            gl.glVertex2i(p.x, p.y);
-//            gl.glVertex2i(zoom.startPoint.x, p.y);
-//            gl.glEnd();
-//             gl.glLineWidth(5);
-//            gl.glColor3f(1, 1, 1);
-//           gl.glBegin(GL.GL_LINES); // mouse xhair
-//            gl.glVertex2f(p.x - 1, p.y);
-//            gl.glVertex2f(p.x + 1, p.y);
-//            gl.glVertex2f(p.x, p.y - 1);
-//            gl.glVertex2f(p.x, p.y + 1);
-//            gl.glEnd();
-//            gl.glPopMatrix();
-//        }
     }
 
     public void addGLEventListener(GLEventListener listener) {
@@ -1204,9 +1095,9 @@ public class ChipCanvas implements GLEventListener, Observer {
         }
     }
 
-    /**First, calls annotate(GLAutoDrawable) for all FrameAnnotators that have been added explicitly to the current DisplayMethod. 
+    /**First, calls annotate(GLAutoDrawable) for all FrameAnnotators that have been added explicitly to the current DisplayMethod.
      * Then it calls annotate on all FilterChain filters with that implement FrameAnnotator and that are enabled for the Chip2D.
-     * 
+     *
     @param drawable the context
      */
     protected void annotate(GLAutoDrawable drawable) {

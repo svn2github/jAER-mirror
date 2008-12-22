@@ -66,16 +66,16 @@ public abstract class DisplayMethod {
 //        chipCanvas.checkGLError(gl,glu,"before setting up GL context for pixel drawing");
         gl.glLoadIdentity();
         
-        // center display. do this by taking half of difference between screen width in screen pixels and chip screen size in screen pixels
-        float xt = (chipCanvas.drawable.getWidth() - chipCanvas.getPwidth()) / 2;
-        float yt = (chipCanvas.drawable.getHeight() - chipCanvas.getPheight()) / 2;
-        
-        // translate origin to this point
-        gl.glTranslatef(xt,yt,0);
-        
-        // scale everything by pixel size scale
-        gl.glScalef(chipCanvas.getScale(),chipCanvas.getScale(),1);
-        
+//        // center display. do this by taking half of difference between screen width in screen pixels and chip screen size in screen pixels
+//        float xt = (chipCanvas.drawable.getWidth() - chipCanvas.getPwidth()) / 2;
+//        float yt = (chipCanvas.drawable.getHeight() - chipCanvas.getPheight()) / 2;
+//
+//        // translate origin to this point
+//        gl.glTranslatef(xt,yt,0);
+//
+//        // scale everything by pixel size scale
+//        gl.glScalef(chipCanvas.getScale(),chipCanvas.getScale(),1);
+
         // make sure we're drawing back buffer (this is probably true anyhow)
 //        chipCanvas.checkGLError(gl,glu,"after setting scale, before setting back buffer drawing");
 //        gl.glDrawBuffer(GL.GL_BACK); // this can throw an error 1282 on platforms without double buffering e.g. linux software GL
