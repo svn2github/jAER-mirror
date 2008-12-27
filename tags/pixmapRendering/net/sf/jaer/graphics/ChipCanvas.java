@@ -8,6 +8,8 @@
  */
 package net.sf.jaer.graphics;
 
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import net.sf.jaer.chip.*;
 import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.eventprocessing.*;
@@ -16,7 +18,6 @@ import java.awt.BasicStroke;
 import java.awt.BufferCapabilities;
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -118,6 +119,7 @@ public class ChipCanvas implements GLEventListener, Observer {
     /** Insets of the drawn chip canvas in the window */
     protected Insets insets = new Insets(borderSpacePixels, borderSpacePixels, borderSpacePixels, borderSpacePixels);
     private boolean fillsHorizontally = false,  fillsVertically = false; // filled in in the reshape method to show how chip fills drawable space
+    private double ZCLIP = 1;
 
     /** Creates a new instance of ChipCanvas */
     public ChipCanvas(Chip2D chip) {
@@ -201,7 +203,6 @@ public class ChipCanvas implements GLEventListener, Observer {
         // if there is no default method yet, set one to be sure that a method is set, to avoid null pointer exceptions
         if (displayMethod == null) {
             setDisplayMethod(m);
-//        log.info("added "+m);
         }
     }
     DisplayMethod displayMethod;
@@ -263,7 +264,7 @@ public class ChipCanvas implements GLEventListener, Observer {
 //        System.out.println("display");
             GL gl = drawable.getGL();
             checkGLError(gl, glu, "before setting projection");
-            gl.glPushMatrix();
+//            gl.glPushMatrix(); // don't push so that mouse selection has correct matrices
             {
                 if (getZoom().isZoomEnabled()) {
                     getZoom().setProjection(gl);
@@ -272,8 +273,6 @@ public class ChipCanvas implements GLEventListener, Observer {
                     setDefaultProjection(gl, drawable);
                 }
                 checkGLError(gl, glu, "after setting projection, before displayMethod");
-
-
                 DisplayMethod m = getCurrentDisplayMethod();
                 if (m == null) {
                     log.warning("null display method for chip " + getChip());
@@ -284,10 +283,8 @@ public class ChipCanvas implements GLEventListener, Observer {
                 showSpike(gl);
                 annotate(drawable);
                 checkGLError(gl, glu, "after FrameAnnotator (EventFilter) annotations");
-//                if(chip!=null) chip.annotate(drawable);
-//                checkGLError(gl, glu, "after Chip2D.annotate");
             }
-            gl.glPopMatrix();
+//            gl.glPopMatrix();
             checkGLError(gl, glu, "after display");
 //            drawable.swapBuffers(); // don't use, very slow and autoswapbuffers is set
 //            zoom.drawZoomBox(gl);
@@ -346,11 +343,14 @@ public class ChipCanvas implements GLEventListener, Observer {
     }
 
     /** Finds the chip pixel from a ChipCanvas point.
+     * From <a href="http://processing.org/discourse/yabb_beta/YaBB.cgi?board=OpenGL;action=display;num=1176483247">this forum link</a>.
      *
      * @param mp a Point in ChipCanvas pixels.
      * @return the AEChip pixel, clipped to the bounds of the AEChip.
      */
     public Point getPixelFromPoint(Point mp) {
+        // this method depends on current GL context being the one that is used for rendering.
+        // the display method should not push/pop the matrix stacks!!
         if (mp == null) {
             log.warning("null Point, returning center pixel");
             return new Point(chip.getSizeX() / 2, chip.getSizeY() / 2);
@@ -363,46 +363,33 @@ public class ChipCanvas implements GLEventListener, Observer {
         } catch (GLException e) {
             log.warning("couldn't make GL context current, mouse position meaningless: " + e.toString());
         }
-
         int viewport[] = new int[4];
         double mvmatrix[] = new double[16];
         double projmatrix[] = new double[16];
         int realy = 0;// GL y coord pos
         double wcoord[] = new double[4];// wx, wy, wz;// returned xyz coords
+        //set up a floatbuffer to get the depth buffer value of the mouse position
+        FloatBuffer fb = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         GL gl = drawable.getContext().getGL();
-        {
-            gl.glPushMatrix();
-            if (getZoom().isZoomEnabled()) {
-                getZoom().setProjection(gl);
-
-            } else {
-                setDefaultProjection(gl, drawable);
-            }
-            getCurrentDisplayMethod().setupGL(drawable);
-            gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
-            gl.glGetDoublev(GL.GL_MODELVIEW_MATRIX, mvmatrix, 0);
-            gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, projmatrix, 0);
-            /* note viewport[3] is height of window in pixels */
-            realy = viewport[3] - (int) mp.getY() - 1;
-//            System.out.println("Coordinates at cursor are (" + evt.getX() + ", " + realy);
-            gl.glPopMatrix();
-        }
-
-        glu.gluUnProject((double) mp.getX(), (double) realy, 0.0, //
+        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
+        gl.glGetDoublev(GL.GL_MODELVIEW_MATRIX, mvmatrix, 0);
+        gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, projmatrix, 0);
+        /* note viewport[3] is height of window in pixels */
+        realy = viewport[3] - (int) mp.getY() - 1;
+        //Get the depth buffer value at the mouse position. have to do height-mouseY, as GL puts 0,0 in the bottom left, not top left.
+        gl.glReadPixels(mp.x, realy, 1, 1, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT, fb);
+        float z = 0; //fb.get(0);
+        glu.gluUnProject((double) mp.getX(), (double) realy, z,
                 mvmatrix, 0,
                 projmatrix, 0,
                 viewport, 0,
                 wcoord, 0);
-//        System.out.println("World coords at z=0.0 are ( " //
-//                + wcoord[0] + ", " + wcoord[1] + ", " + wcoord[2] + ")");
-
         Point p = new Point();
         p.x = (int) Math.round(wcoord[0]);
         p.y = (int) Math.round(wcoord[1]);
         clipPoint(p);
-        System.out.println(p);
+//        log.info("Mouse xyz=" + mp.getX() + "," + realy + "," + z + "   Pixel x,y=" + p.x + "," + p.y);
         return p;
-
     }
 
     /** Finds the current AEChip pixel mouse position.
@@ -479,7 +466,7 @@ public class ChipCanvas implements GLEventListener, Observer {
                         // this border means that the pixels are actually drawn on the screen in a viewport that has a borderSpacePixels sized edge on all sides
                         // for simplicity because i can't figure this out, i have set the borderSpacePixels to zero
 
-                        log.info("pwidth=" + pwidth + " pheight=" + pheight + " width=" + drawable.getWidth() + " height=" + drawable.getHeight() + " mouseX=" + evt.getX() + " mouseY=" + evt.getY() + " xt=" + xt + " yt=" + yt);
+//                        log.info(" width=" + drawable.getWidth() + " height=" + drawable.getHeight() + " mouseX=" + evt.getX() + " mouseY=" + evt.getY() + " xt=" + xt + " yt=" + yt);
 
                         //                        renderer.setXsel((short)((0+((evt.x-xt-borderSpacePixels)/scale))));
                         //                        renderer.setYsel((short)(0+((getPheight()-evt.y+yt-borderSpacePixels)/scale)));
@@ -669,20 +656,14 @@ public class ChipCanvas implements GLEventListener, Observer {
 
     /** calls repaint on the drawable */
     public void repaint(long tm) {
-//        log.info("repaint(tm)");
         drawable.repaint(tm);
     }
 
-    /** called on reshape of canvas. Sets the scaling for drawing pixels to the screen. */
+    /** Called on reshape of canvas. Determines which way the chip fits into the display area optimally and calls
+     * for a new orthographic projection to achieve this filling. Finally sets the viewport to the entire drawable area.
+     */
     public synchronized void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-        //        if(dontRecurseResize){
-        //            dontRecurseResize=false;
-        //            return;
-        //        }
-//        log.info("ChipCanvas.reshape(): x="+x+" y="+y+" width="+width+" height="+height);
         GL gl = drawable.getGL();
-
-
         gl.glLoadIdentity();
         final int chipSizeX = chip.getSizeX();
         final int chipSizeY = chip.getSizeY();
@@ -709,10 +690,8 @@ public class ChipCanvas implements GLEventListener, Observer {
                 fillsHorizontally = false;
             }
         }
-//        setScale(newscale);
-        setScale(1);
-        setDefaultProjection(gl, drawable); // this sets orthographic projection so that chip pixels are scaled to the drawable width
-
+        setScale(1); // scale meaningless now
+        setDefaultProjection(gl, drawable); // this sets orthographic projection so that chip pixels are scaled to the drawable area
         gl.glViewport(0, 0, width, height);
         repaint();
     }
@@ -767,12 +746,11 @@ public class ChipCanvas implements GLEventListener, Observer {
 
         float leftRight = 0, bottomTop = 0;
     };
-
     /** The actual borders in model space around the chip area. */
     private Borders borders = new Borders();
 
     /** Sets the projection matrix so that we get an orthographic projection that is the size of the
-    canvas with z volume -10000 to 10000 padded with extra space around the sides.
+    canvas with z volume -ZCLIP to ZCLIP padded with extra space around the sides.
 
     @param g the GL context
     @param d the GLAutoDrawable canvas
@@ -786,7 +764,6 @@ public class ChipCanvas implements GLEventListener, Observer {
         GLdouble near,
         GLdouble far)
          */
-//        log.info("setDefaultProjection");
         final int w = drawable.getWidth(),  h = drawable.getHeight(); // w,h of screen
         final int sx = chip.getSizeX(),  sy = chip.getSizeY(); // chip size
         final float border = getBorderSpacePixels(); // desired smallest border in screen pixels
@@ -812,7 +789,7 @@ public class ChipCanvas implements GLEventListener, Observer {
             clipArea.top = sy + bb;
             borders.leftRight = b;
             borders.bottomTop = bb;
-            g.glOrtho(-b, sx + b, -bb, (sy + bb), 10000, -10000); // clip area has same ar as screen!
+            g.glOrtho(-b, sx + b, -bb, (sy + bb), ZCLIP, -ZCLIP); // clip area has same ar as screen!
         } else {
             scale = (float) (h - 2 * border) / sy;
             float b = border / scale;
@@ -829,7 +806,7 @@ public class ChipCanvas implements GLEventListener, Observer {
             clipArea.top = sy + b;
             borders.leftRight = bb;
             borders.bottomTop = b;
-            g.glOrtho(-bb, (sx + bb), -b, sy + b, 10000, -10000);
+            g.glOrtho(-bb, (sx + bb), -b, sy + b, ZCLIP, -ZCLIP);
         }
         g.glMatrixMode(GL.GL_MODELVIEW);
     }
@@ -841,7 +818,6 @@ public class ChipCanvas implements GLEventListener, Observer {
         prefs.putFloat(scalePrefsKey(), (float) Math.round(s)); // if we don't round, window gets smaller each time we open a new one...
         this.scale = s;
     }
-
 
     /** Shows selected pixel spike count by drawn circle */
     protected void showSpike(GL gl) {        // show selected pixel that user can hear
@@ -898,6 +874,7 @@ public class ChipCanvas implements GLEventListener, Observer {
         if (o == chip && arg instanceof String) {
             if (arg.equals("sizeX") || arg.equals("sizeY")) {
                 setScale(prefs.getFloat(scalePrefsKey(), SCALE_DEFAULT));
+                ZCLIP = chip.getMaxSize();
                 unzoom();
             }
         }
@@ -1003,12 +980,35 @@ public class ChipCanvas implements GLEventListener, Observer {
         double projectionLeft, projectionRight, projectionBottom, projectionTop; // projection rect points, computed on zoom
 
         private void setProjection(GL gl) {
-            setDefaultProjection(gl, drawable);
+            // define a new projection matrix so that the clipping volume is centered on the centerPoint
+            // and the size of the rectangle zooms up by a factor of zoomFactor on the original scale
             gl.glMatrixMode(GL.GL_PROJECTION);
-            gl.glScalef(zoomFactor, zoomFactor, 1);
-            // TODO not quite the right scaling/translation to center the centerpoint
-            gl.glTranslatef((drawable.getWidth()/2f/scale-(borders.leftRight+centerPoint.x)), (drawable.getHeight()/2f/scale-(borders.bottomTop+centerPoint.y)), 0);
-            gl.glMatrixMode(GL.GL_MODELVIEW);
+            gl.glLoadIdentity();
+            final int w = drawable.getWidth(),  h = drawable.getHeight(); // w,h of screen
+            final int sx = chip.getSizeX(),  sy = chip.getSizeY(); // chip size
+            if (isFillsHorizontally()) { //tall
+                scale = (float) (w * zoomFactor) / sx; // chip pix to screen pix scaling in horizontal&vert direction
+                final float wx2 = sx / zoomFactor / 2;
+                clipArea.left = centerPoint.x - wx2;
+                clipArea.right = centerPoint.x + wx2;
+                final float wy2 = wx2 * h / w;
+                clipArea.bottom = centerPoint.y - wy2;
+                clipArea.top = centerPoint.y + wy2;
+                borders.leftRight = 0;
+                borders.bottomTop = 0;
+                gl.glOrtho(clipArea.left, clipArea.right, clipArea.bottom, clipArea.top, ZCLIP, -ZCLIP); // clip area has same ar as screen!
+            } else {
+                scale = (float) (h * zoomFactor) / sy; // chip pix to screen pix scaling in horizontal&vert direction
+                final float wy2 = sy / zoomFactor / 2;
+                clipArea.bottom = centerPoint.y - wy2;
+                clipArea.top = centerPoint.y + wy2;
+                final float wx2 = wy2 * w / h;
+                clipArea.left = centerPoint.x - wx2;
+                clipArea.right = centerPoint.x + wx2;
+                borders.leftRight = 0;
+                borders.bottomTop = 0;
+                gl.glOrtho(clipArea.left, clipArea.right, clipArea.bottom, clipArea.top, ZCLIP, -ZCLIP); // clip area has same ar as screen!
+            }
         }
 
         public Point getStartPoint() {
@@ -1035,7 +1035,7 @@ public class ChipCanvas implements GLEventListener, Observer {
             GL g = drawable.getGL();
             g.glMatrixMode(GL.GL_PROJECTION);
             g.glLoadIdentity(); // very important to load identity matrix here so this works after first resize!!!
-            g.glOrtho(-getBorderSpacePixels(), drawable.getWidth() + getBorderSpacePixels(), -getBorderSpacePixels(), drawable.getHeight() + getBorderSpacePixels(), 10000, -10000);
+            g.glOrtho(-getBorderSpacePixels(), drawable.getWidth() + getBorderSpacePixels(), -getBorderSpacePixels(), drawable.getHeight() + getBorderSpacePixels(), ZCLIP, -ZCLIP);
             g.glMatrixMode(GL.GL_MODELVIEW);
         }
 
