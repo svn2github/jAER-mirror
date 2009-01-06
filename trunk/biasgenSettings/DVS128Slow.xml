@@ -40,13 +40,47 @@
                   <entry key="DVS128.IPot.req" value="159147"/>
                   <entry key="DVS128.IPot.refr" value="6"/>
                   <entry key="DVS128.IPot.puY" value="16777215"/>
-                  <entry key="DVS128.IPot.diffOn" value="209996"/>
-                  <entry key="DVS128.IPot.diff" value="13125"/>
+                  <entry key="DVS128.IPot.diffOn" value="292890"/>
+                  <entry key="DVS128.IPot.diff" value="11113"/>
                   <entry key="DVS128.IPot.foll" value="5"/>
                   <entry key="DVS128.IPot.Pr" value="3"/>
                   <entry key="XYTypeFilter.filterEnabled" value="false"/>
                   <entry key="RotateFilter.filterEnabled" value="false"/>
                   <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
+                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAIdwQAAAAIdAAvbmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5YWVR5cGVGaWx0ZXJ0AC9uZXQuc2YuamFlci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlJvdGF0ZUZpbHRlcnQAO25ldC5zZi5qYWVyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuQmFja2dyb3VuZEFjdGl2aXR5RmlsdGVydAAzY2gudW5pemguaW5pLmphZXIucHJvamVjdHMudG9wb2xvZ3kuVG9wb2xvZ3lUcmFja2VydAA5bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmxhYmVsLlNpbXBsZU9yaWVudGF0aW9uRmlsdGVydAA6bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmxhYmVsLkRpcmVjdGlvblNlbGVjdGl2ZUZpbHRlcnQAPm5ldC5zZi5qYWVyLmV2ZW50cHJvY2Vzc2luZy50cmFja2luZy5SZWN0YW5ndWxhckNsdXN0ZXJUcmFja2VydAA4Y2gudW5pemguaW5pLmphZXIucHJvamVjdHMucGVuY2lsYmFsYW5jZXIuUGVuY2lsQmFsYW5jZXJ4"/>
+                  <entry key="TopologyTracker.filterEnabled" value="false"/>
+                  <entry key="TopologyTracker.showStatus" value="true"/>
+                  <entry key="TopologyTracker.mapEventsToLearnedTopologyEnabled" value="false"/>
+                  <entry key="TopologyTracker.ignoreReset" value="false"/>
+                  <entry key="TopologyTracker.learningWindowStandardDeviation" value="1.5705884"/>
+                  <entry key="TopologyTracker.learningEnabled" value="true"/>
+                  <entry key="TopologyTracker.inhibit2ndOrderNeighbors" value="false"/>
+                  <entry key="RotateFilter.rotate90deg" value="true"/>
+                  <entry key="TopologyTracker.onResetWriteStatsAndExit" value="false"/>
+                  <entry key="TopologyTracker.maxSize" value="80"/>
+                  <entry key="DirectionSelectiveFilter.searchDistance" value="7"/>
+                  <entry key="DirectionSelectiveFilter.filterEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                  <entry key="RectangularClusterTracker.maxNumClusters" value="6"/>
+                  <entry key="RectangularClusterTracker.clusterSize" value="0.083525665"/>
+                  <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
+                  <entry key="SimpleOrientationFilter.filterEnabled" value="false"/>
+                  <entry key="SimpleOrientationFilter.searchDistance" value="4"/>
+                  <entry key="SimpleOrientationFilter.minDtThreshold" value="171031"/>
+                  <entry key="SimpleOrientationFilter.passAllEvents" value="true"/>
+                  <entry key="SimpleOrientationFilter.subSampleShift" value="1"/>
+                  <entry key="DirectionSelectiveFilter.showGlobalEnabled" value="true"/>
+                  <entry key="DirectionSelectiveFilter.ppsScale" value="0.021814851"/>
+                  <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.useVelocity" value="false"/>
+                  <entry key="RectangularClusterTracker.pathsEnabled" value="false"/>
+                  <entry key="SimpleOrientationFilter.oriHistoryEnabled" value="true"/>
+                  <entry key="DirectionSelectiveFilter.tauLow" value="187"/>
+                  <entry key="DirectionSelectiveFilter.showRawInputEnabled" value="false"/>
+                  <entry key="PencilBalancer.ignoreTimestampOrdering" value="true"/>
+                  <entry key="PencilBalancer.offsetX" value="-4.5601997"/>
+                  <entry key="PencilBalancer.offsetY" value="-4.5601997"/>
                 </map>
               </node>
             </node>
