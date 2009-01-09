@@ -253,7 +253,10 @@ architecture Structural of USBAER_top_level is
   -- counter increment signal
   signal IncxS : std_logic;
 
+	signal AckdelayedxD, AckdelayedxD2 : std_logic;
   -- constants used for mux
+
+	signal AERKillBitxDP : std_logic;
 
   constant selectaddressLSB : std_logic_vector(1 downto 0) := "00";
   constant selectaddressMSB : std_logic_vector(1 downto 0) := "01";  
@@ -301,7 +304,16 @@ begin
   Selaer <= PD3;
   bitlatch <= PD4;
   powerdown <= PD5;
-  AERKillBit <= PD6;
+  AERKillBit <= AERKillBitxDP; -- fix put in for cochleaams1b chip which has mistake for the aer_req
+  
+  --this process is only used for cochleaams1b chip which has a bug, aer_req comes from 1st dimension
+  p_killbit : process (ClockxC)
+  
+  begin  -- process p_killbit
+    if ClockxC'event and ClockxC = '1' then  -- rising clock edge
+		AERKillBitxDP <= PD6 or (not AERMonitorACKxSB); 
+    end if;
+  end process p_killbit;
   
   DataSel <= PE0;
   AddSel <= PE1;
@@ -449,7 +461,7 @@ begin
   LEDxSO  <= TimestampMasterxS;
   --LEDxSO <= FifoTransactionxS;
   
-  Debug1xSO <= ActualTimestampxD(0);
+  Debug1xSO <= AERMonitorAckxSB or AckdelayedxD2;
   Debug2xSO <= ActualTimestampxD(1);
 
 
@@ -467,6 +479,9 @@ begin
       elsif ClearMonitorEventxS = '1' then
         MonitorEventReadyxS <= '0';
       end if;
+		
+		AckdelayedxD <= not AERMonitorAckxSB;
+		AckdelayedxD2 <= AckdelayedxD;
     end if;
   end process p_eventready;
 
