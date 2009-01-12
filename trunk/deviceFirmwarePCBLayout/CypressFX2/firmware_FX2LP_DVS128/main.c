@@ -122,11 +122,11 @@ void TD_Init(void)              // Called once at startup
 	BYTE i;  
 	// set the CPU clock to 48MHz
 	//CPUCS = ((CPUCS & ~bmCLKSPD) | bmCLKSPD1) ;
-	CPUCS = 0x12 ; // 1_0010 : clockspeed 48MHz, drive output pin
+	CPUCS = 0x10 ; // 1_0000 : clockspeed 48MHz, don't drive output pin
 
 	// set the slave FIFO interface to 30MHz, slave fifo mode
-	//IFCONFIG = 0xA3; // 1010_0011   // internal clock
-	IFCONFIG = 0x23; // 0010_0011  // extenal clock
+	IFCONFIG = 0xA3; // 1010_0011   // internal clock
+	//IFCONFIG = 0x23; // 0010_0011  // extenal clock
 
 	// disable interrupts by the input pins and by timers and serial ports:
 	IE &= 0x00; // 0000_0000 

@@ -34,7 +34,7 @@ entity USBAER_top_level is
     FifoPktEndxSBO       : out   std_logic;
     FifoAddressxDO       : out   std_logic_vector(1 downto 0);
 
-    IFclockxCO : out std_logic;
+    --IFclockxCO : out std_logic;
 
     -- clock and reset inputs
     ClockxCI  : in std_logic;
@@ -218,17 +218,22 @@ architecture Structural of USBAER_top_level is
   constant selecttimestamp : std_logic := '0';
  -- constant selectmonitor   : std_logic        := '1';
 
-  attribute noreduce : string;
+ -- attribute noreduce : string;
   
-  signal IFclock2xC, IFclock3xC : std_logic;
-  attribute noreduce of IFclock3xC: signal is  "YES";
-  attribute noreduce of IFclock2xC: signal is  "YES";
-  attribute noreduce of IFclockxCO: signal is  "YES";
+ -- signal IFclock2xC, IFclock3xC : std_logic;
+ -- signal IFclock4xC, IFclock5xC : std_logic;
+ -- attribute noreduce of IFclock5xC: signal is  "YES";
+ -- attribute noreduce of IFclock4xC: signal is  "YES";
+ -- attribute noreduce of IFclock3xC: signal is  "YES";
+ -- attribute noreduce of IFclock2xC: signal is  "YES";
+ -- attribute noreduce of IFclockxCO: signal is  "YES";
 begin
   --IFclockxCO <= ClockxC;
-  IFclockxCO <= not IFclock3xC;
-  IFclock3xC <= not IFclock2xC;
-  IFclock2xC <= not ClockxC;
+  --IFclockxCO <= not IFclock5xC;
+  --IFclock5xC <= not IFclock4xC;
+  --IFclock4xC <= not IFclock3xC;
+  --IFclock3xC <= not IFclock2xC;
+  --IFclock2xC <= not ClockxC;
   
   ClockxC  <= ClockxCI;
   -- run the state machines either when reset is high or when in slave mode

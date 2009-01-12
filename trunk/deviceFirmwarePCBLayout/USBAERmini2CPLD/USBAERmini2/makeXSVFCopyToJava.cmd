@@ -4,6 +4,6 @@ rem ******************** copy xsvf firmware download file to java package folder
 
 iMPACT -batch impact_commands.cmd
 
-copy USBAERmini2.xsvf ..\..\..\host\java\src\ch\unizh\ini\caviar\hardwareinterface\usb\USBAERmini2.xsvf
+copy USBAERmini2.xsvf ..\..\..\host\java\src\net\sf\jaer\hardwareinterface\usb\cypressfx2\USBAERmini2.xsvf
 
 pause
