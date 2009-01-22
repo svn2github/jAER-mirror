@@ -160,10 +160,10 @@ void TD_Init(void)              // Called once at startup
 	// TimestampCounter to 1 us Tick (0): 0000_0000
 	IOC = 0x00; 
 	IOA = 0x00;
-	IOE=  0x00;          //set BiasClock low 
+	IOE=  0x02;          //set BiasClock low, biasLatch high
 
 	OEC = 0x0D; // 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
-	OEE = 0xFE; // 1111_1110 configure only bit 0 (BitOut) as input
+	OEE = 0xFE; // 1111_1110 configure only bit 0 (biasBitOut) as input
 	OEA = 0x89; // 1000_1001 PA0: run, PA3: NotResetCPLD ;  PA7 LED
 	
 	EP1OUTCFG = 0x00;			// EP1OUT disabled
