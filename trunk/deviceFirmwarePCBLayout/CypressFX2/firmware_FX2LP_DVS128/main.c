@@ -63,7 +63,13 @@ extern BOOL Selfpwr;
 #define VR_EEPROM_BIASGEN_BYTES 0xBa // write bytes out to EEPROM for power on default
 
 #define VR_SETARRAYRESET 0xBc // set the state of the array reset
-#define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels. TCVS320 doesn't have this.
+#define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels. TCVS320/DVS320 don't have this.
+//sbit arrayReset=IOE^5;	// arrayReset=0 to reset all pixels, this on port E.5 but is not bit addressable
+// arrayReset is active low, low=reset pixel array, high=operate normally
+#define ARRAY_RESET_MASK=0x20
+#define NOT_ARRAY_RESET_MASK=0xdf;
+#define setArrayReset() 	IOE=IOE&NOT_ARRAY_RESET_MASK	
+#define releaseArrayReset()	IOE=IOE|ARRAY_RESET_MASK
 
 #define BIAS_FLASH_START 9 // start of bias value (this is where number of bytes is stored
 
@@ -78,18 +84,37 @@ extern BOOL Selfpwr;
 
 #define NUM_BIAS_BYTES 36
 unsigned int numBiasBytes; // number of bias bytes saved
-xdata unsigned char biasBytes[]={0x00,0x04,0x2B,\
-								0x00,0x30,0x1C,\
-								0xFF,0xFF,0xFF,\
-								0x55,0x23,0xD4,\
-								0x00,0x00,0x97,\
-								0x06,0x86,0x4A,\
-								0x00,0x00,0x00,\
-								0xFF,0xFF,0xFF,\
-								0x04,0x85,0x3D,\
-								0x00,0x0E,0x28,\
-								0x00,0x00,0x27,\
-								0x00,0x00,0x04}; // bias bytes values saved here
+/*                  
+initial bias bytes values specified here
+these come from DVS128Fast.xml settings which are designed to
+bias quite strongly in order to charge the biases quickly if they are knocked out
+of place by shift register power up values that are way off.
+
+<entry key="DVS128.IPot.cas" value="1992"/>
+<entry key="DVS128.IPot.injGnd" value="1108364"/>
+<entry key="DVS128.IPot.reqPd" value="16777215"/>
+<entry key="DVS128.IPot.puX" value="8159221"/>
+<entry key="DVS128.IPot.diffOff" value="132"/>
+<entry key="DVS128.IPot.req" value="159147"/>
+<entry key="DVS128.IPot.refr" value="969"/>
+<entry key="DVS128.IPot.puY" value="16777215"/>
+<entry key="DVS128.IPot.diffOn" value="209996"/>
+<entry key="DVS128.IPot.diff" value="13125"/>
+<entry key="DVS128.IPot.foll" value="271"/>
+<entry key="DVS128.IPot.Pr" value="217"/>
+*/
+xdata unsigned char biasBytes[]={0x00,0x07,0xc8,	// cas
+								0x10,0xe9,0x8C,		// injGnd
+								0xFF,0xFF,0xFF,		// reqPd
+								0x7c,0x7f,0xf5,		// puX
+								0x00,0x00,0x84,		// diffOff
+								0x02,0x6d,0xab,		// req
+								0x00,0x03,0xc9,		// refr
+								0xFF,0xFF,0xFF,		// puY
+								0x03,0x34,0x4c,		// diffOn
+								0x00,0x33,0x45,		// diff
+								0x00,0x01,0x0f,		// foll
+								0x00,0x01,0x0f}; 	// Pr
 
 long cycleCounter;
 //long missedEvents;
@@ -107,10 +132,6 @@ void EEPROMWriteBYTE(WORD addr, BYTE value);
 
 void downloadSerialNumberFromEEPROM(void);
 
-//sbit arrayReset=IOE^5;	// arrayReset=0 to reset all pixels, this on port E.5 but is not bit addressable
-// arrayReset is active low, low=reset pixel array, high=operate normally
-#define ARRAY_RESET_MASK=0x20
-#define NOT_ARRAY_RESET_MASK=0xdf;
 
 //-----------------------------------------------------------------------------
 // Task Dispatcher hooks
@@ -208,11 +229,30 @@ void TD_Init(void)              // Called once at startup
 //	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
 	LED=0;
 
+	// biases, control ports
 	biasInit();	// init biasgen ports and pins
+	setArrayReset(); // keep pixels from spiking, reset all of them
+	// pump powerdown to make sure masterbias is really started up
+	for(i=0;i<20;i++)
+	{
+		setPowerDownBit();
+		//EZUSB_Delay1ms();
+		releasePowerDownBit();
+		//EZUSB_Delay1ms();
+	}
+	EZUSB_Delay(10); // ms delay after masterbias (re)startup
+	for (i=0;i<NUM_BIAS_BYTES;i++)
+	{
+		spiwritebyte(biasBytes[i]); // load hardcoded biases
+	}
+	latchNewBiases();	
+	EZUSB_Delay(100); // ms
+	releaseArrayReset(); // release arrayReset, let pixels spike
+
+
+
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
 
-	IOE=IOE|ARRAY_RESET_MASK; // set bit to run normally
-	//IOE|=arrayReset;	// un-reset all the pixels
 
 	JTAGinit=TRUE;	
 
@@ -222,11 +262,6 @@ void TD_Init(void)              // Called once at startup
 	IT1=1; // INT1# edge-sensitve
 	EX1=0; // do not enable INT1#
 
-	for (i=0;i<NUM_BIAS_BYTES;i++)
-	{
-		spiwritebyte(biasBytes[i]);
-	}
-	latchNewBiases();	
 }
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
@@ -649,10 +684,10 @@ BOOL DR_VendorCmnd(void)
 			{
 				if (SETUPDAT[2]&0x01)
 				{
-					IOE=IOE|ARRAY_RESET_MASK; //IOE|=arrayReset;
+					setArrayReset(); //IOE|=arrayReset;
 				} else
 				{
-					IOE=IOE&NOT_ARRAY_RESET_MASK; 
+					releaseArrayReset(); 
 				}
 			
 				*EP0BUF=VR_SETARRAYRESET;
@@ -665,7 +700,7 @@ BOOL DR_VendorCmnd(void)
 			}
 		case VR_DOARRAYRESET: // reset array for fixed reset time
 			{
-				IOE=IOE&NOT_ARRAY_RESET_MASK; 
+				setArrayReset(); 
 				_nop_();
 				_nop_();
 				_nop_();
@@ -680,7 +715,7 @@ BOOL DR_VendorCmnd(void)
 				_nop_();
 				_nop_();
 				_nop_();
-				IOE=IOE|ARRAY_RESET_MASK; //IOE|=arrayReset;
+				releaseArrayReset(); //IOE|=arrayReset;
 				*EP0BUF=VR_DOARRAYRESET;
 				SYNCDELAY;
 				EP0BCH = 0;
