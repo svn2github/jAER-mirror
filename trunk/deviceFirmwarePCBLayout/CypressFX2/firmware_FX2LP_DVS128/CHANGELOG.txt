@@ -1,0 +1,9 @@
+DVS 128 firmware versions:
+
+0005 improved biasgen startup and increased firmware bias values. 25.1.2009, tobi
+0004 changed clocking scheme to internal 30MHz on FX2, CPLD is clocked from IFclock, 
+     because we had a board that did not work reliably with the 48MHz clocking, 12.1.2009, rapha
+0003 support USB suspend/resume, 22.7.2008, rapha
+0002 corrected error which lead to multiple timestamp resets at startup, 14.7.2008, rapha
+0001 downloading default biases on startup, 25.6.2008, rapha
+0000 original firmware version
