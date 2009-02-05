@@ -13,8 +13,8 @@ BYTE spireadbyte (void);//Assembly routine
 //sbit biasBit=IOE^3;
 //sbit biasLatch=IOE^1;
 //sbit powerDown=IOE^2; // altogether using 00xx xx00=0x3c
-#define biasClock 	0x10
-#define biasBit 	0x08
+#define biasClock 	0x20
+#define biasBit 	0x10
 #define biasLatch 	0x02
 #define powerDown 	0x04
 

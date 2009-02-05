@@ -38,22 +38,22 @@ sfr IOE     = 0xB1;
 _spiwritebyte:
 
 mov R6, #8 ;set up loop for 8 bits
-mov A, #11100111b      ; mask to set biasbit and clock low
+mov A, #11001111b      ; mask to set biasbit and clock low
 anl A, IOE
 mov R1, A
-mov A, #00001000b     ; mask to set biasbit high
+mov A, #00010000b     ; mask to set biasbit high
 orl A, IOE
 mov R2, A
-mov A, #11101111b   ; clock mask to set clock low
+mov A, #11011111b   ; clock mask to set clock low
 anl A, R2
 mov R2, A
-mov A, #00010000b   ; clock mask to set clock high
+mov A, #00100000b   ; clock mask to set clock high
 orl A, IOE
 mov R3, A
-mov A, #11110111b   ; mask to set biasbit low 
+mov A, #11101111b   ; mask to set biasbit low 
 anl A, R3
 mov R3, A
-mov A, #00011000b   ; mask to clock and biasbit high
+mov A, #00110000b   ; mask to clock and biasbit high
 orl A, IOE
 mov R4, A    
 loop:

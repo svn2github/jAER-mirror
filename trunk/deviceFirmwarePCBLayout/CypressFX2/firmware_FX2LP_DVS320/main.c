@@ -12,7 +12,9 @@
 #include "lpregs.h"
 #include "syncdly.h"            // SYNCDELAY macro
 #include "biasgen.h" 
+#include "portsFX2.h"
 #include "ports.h"
+#include "micro.h"
 
 extern BOOL GotSUD;             // Received setup data flag
 //extern BOOL Sleep;
@@ -27,8 +29,8 @@ extern BOOL Selfpwr;
 #define CPLD_NOT_RESET 			PA3
 #define RESET_TS				PC0
 #define TIMESTAMP_MASTER 		PC1
-#define CFG_TIMESTAMP_COUNTER 	PC2
-#define TIMESTAMP_MODE			PC3
+//#define CFG_TIMESTAMP_COUNTER 	PC2
+#define RUN_CPLD				PC3
 
 #define DB_Addr 1 // zero if only one byte address is needed for EEPROM, one if two byte address
 
@@ -46,12 +48,12 @@ extern BOOL Selfpwr;
 #define VR_TRIGGER_ADVANCE_TRANSFER 0xB7 // trigger in packet commit (for host requests for early access to AE data) NOT IMPLEMENTED
 #define VR_RESETTIMESTAMPS 0xBb 
 //#define VR_SET_DEVICE_NAME 0xC2
-#define VR_TIMESTAMP_TICK 0xC3
+//#define VR_TIMESTAMP_TICK 0xC3
 #define VR_RESET_FIFOS 0xC4
 #define VR_DOWNLOAD_CPLD_CODE 0xC5 
 #define VR_READOUT_EEPROM 0xC9
 #define VR_IS_TS_MASTER 0xCB
-#define VR_MISSED_EVENTS 0xCC
+//#define VR_MISSED_EVENTS 0xCC
 
 #define VR_WRITE_BIASGEN 0xB8 // write bytes out to SPI
 				// the wLengthL field of SETUPDAT specifies the number of bytes to write out (max 64 per request)
@@ -78,10 +80,14 @@ BYTE operationMode;
 xdata unsigned int numBiasBytes; // number of bias bytes saved
 xdata unsigned char biasBytes[255]; // bias bytes values saved here
 
+BOOL JTAGinit;
+
 long cycleCounter;
 long missedEvents;
 
 #define	I2C_Addr 0x51 //adress is 0101_0001
+
+#define DVS_nReset 0x08
 
 void startMonitor(void);
 void stopMonitor(void);
@@ -169,7 +175,7 @@ void TD_Init(void)              // Called once at startup
 	// TimestampCounter to 1 us Tick (0): 0000_0000
 	IOC = 0x00; 
 	IOA = 0x00;
-	IOE=  0x10;          //set BiasClock high 
+	IOE=  0x20;          //set BiasClock high 
 
 	// initialize variables
 	operationMode=0;
@@ -224,12 +230,15 @@ void TD_Poll(void)              // Called repeatedly while the device is idle
 void startMonitor(void)
 {
     CPLD_NOT_RESET=1;
+	RUN_CPLD=1;
+
+	IOE = IOE | DVS_nReset; //start dvs statemachines
 }
 
 void stopMonitor(void)
 {
-    CPLD_NOT_RESET=0;
-
+    //CPLD_NOT_RESET=0;
+	RUN_CPLD=1;
   	// force last paket
   	
   	EP6FIFOCFG = 0x01; //0000_0001 disable auto-in
@@ -378,12 +387,14 @@ BOOL DR_SetFeature(void)
 //         5  wIndexH
 //         6  wLengthL Number of bytes to transfer if there is a data phase
 //         7  wLengthH
+BYTE xsvfReturn;
 
 BOOL DR_VendorCmnd(void)
 {	
 	WORD addr, len, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
 	WORD i;
 //	char *dscrRAM;
+	unsigned char xdata JTAGdata[400];
 
 	// we don't actually process the command here, we process it in the main loop
 	// here we just do the handshaking and ensure if it is a command that is implemented
@@ -413,6 +424,88 @@ BOOL DR_VendorCmnd(void)
 				SYNCDELAY;
 				EP6FIFOCFG = 0x09 ; //0000_1001 reenable auto-in
 				break;
+			}
+			case VR_DOWNLOAD_CPLD_CODE:
+			{
+			if (SETUPDAT[0]==VR_DOWNLOAD) {
+				if (JTAGinit)
+				{
+					IOC=0x00;
+					OEC = 0xBD;   // configure TDO (bit 6) and TSmaster as input  : 1011_1101
+			
+					xsvfInitialize();
+					JTAGinit=FALSE;
+					
+				}
+
+				len = SETUPDAT[6];
+				len |= SETUPDAT[7] << 8;
+
+				if (len>400)
+				{
+					xsvfReturn=10;
+					OEC = 0x0D;   // configure JTAG pins to float : 0000_1111
+					JTAGinit=TRUE;
+					break;
+				}
+
+				addr=0;
+
+				resetReadCounter(JTAGdata);
+
+				while(len)					// Move new data through EP0OUT 
+				{							// one packet at a time.
+					// Arm endpoint - do it here to clear (after sud avail)
+					EP0BCH = 0;
+					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+
+					while(EP0CS & bmEPBUSY);
+
+					bc = EP0BCL; // Get the new bytecount
+
+					for(i=0; i<bc; i++)
+							JTAGdata[addr+i] = EP0BUF[i];							
+
+					addr += bc;
+					len -= bc;
+				}
+			
+
+				if (SETUPDAT[2]==0x00) //complete
+				{
+					OEC = 0x0D;   // configure JTAG pins to float : 0000_1111
+					JTAGinit=TRUE;
+				} else
+				{
+					xsvfReturn=xsvfRun();
+					if (xsvfReturn>0) // returns true if error
+					{
+						OEC = 0x0D;   // configure JTAG pins to float : 0000_1101
+						JTAGinit=TRUE;
+				
+					//	return TRUE;
+					}
+
+				}
+	
+				/* EP0BUF[0] = SETUPDAT[1];
+				EP0BCH = 0;
+				EP0BCL = 1;
+				EP0CS |= bmHSNAK;
+
+				return(FALSE); */
+				break;
+			}
+ 			else //case VR_XSVF_ERROR_CODE:
+			{
+				EP0BUF[0] = SETUPDAT[1];
+				EP0BUF[1]= xsvfReturn;
+				EP0BCH = 0;
+				EP0BCL = 2;
+				EP0CS |= bmHSNAK;
+
+				return(FALSE);
+			}
 			}
 	/*	case VR_SET_DEVICE_NAME:
 			{
@@ -561,45 +654,6 @@ BOOL DR_VendorCmnd(void)
 			{
 				break;
 			} */
-		case VR_TIMESTAMP_TICK:
-			{
-				if (SETUPDAT[0]==VR_UPLOAD) //1010_0000 :vendor request to device, direction IN
-				{
-					EP0BUF[0] = SETUPDAT[1];
-				
-					EP0BUF[1]= operationMode;
-					
-					EP0BCH = 0;
-					EP0BCL = 2;
-					EP0CS |= bmHSNAK;
-				} else
-				{
-					operationMode=SETUPDAT[2];
-					if (operationMode==0)
-					{
-						TIMESTAMP_MODE = 0;
-						CFG_TIMESTAMP_COUNTER = 0;
-					}else if (operationMode==1)
-					{
-  						CFG_TIMESTAMP_COUNTER = 1;
-						TIMESTAMP_MODE = 0;	
-					}else if (operationMode==2)
-					{
-  						CFG_TIMESTAMP_COUNTER = 0;
-						TIMESTAMP_MODE = 1;	
-					}else if (operationMode==3)
-					{
-  						CFG_TIMESTAMP_COUNTER = 1;
-						TIMESTAMP_MODE = 1;	
-					}
-
-					*EP0BUF = SETUPDAT[1];
-					EP0BCH = 0;
-					EP0BCL = 1;
-					EP0CS |= bmHSNAK;	
-				}
-				return(FALSE);
-			}
 		case VR_IS_TS_MASTER:
 			{
 				EP0BUF[0] = SETUPDAT[1];
@@ -608,22 +662,6 @@ BOOL DR_VendorCmnd(void)
 				EP0BCL = 2;
 				EP0CS |= bmHSNAK;
 
-				return(FALSE);
-			}
-		case VR_MISSED_EVENTS:
-			{
-				EX1=0;
-				EP0BUF[0] = SETUPDAT[1];
-				EP0BUF[4]= (missedEvents & 0xFF000000) >> 24;
-				EP0BUF[3]= (missedEvents & 0x00FF0000) >> 16;
-				EP0BUF[2]= (missedEvents & 0x0000FF00) >> 8;
-				EP0BUF[1]= missedEvents & 0x000000FF;
-				EP0BCH = 0;
-				EP0BCL = 5;
-				EP0CS |= bmHSNAK;
-
-				missedEvents=0;
-				EX1=1;
 				return(FALSE);
 			}
 		case VR_RAM:
