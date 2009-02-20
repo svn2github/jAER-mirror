@@ -133,6 +133,25 @@ void TD_Init(void)              // Called once at startup
 	// UDMACRCH:L       EPxGPIFTRIG
 	// GPIFTRIG
   
+	//enable Port C and port E
+	SYNCDELAY;
+	PORTCCFG = 0x00;
+	SYNCDELAY;
+	PORTACFG = 0x00; // do not use interrupts 0 and 1
+	SYNCDELAY;
+	PORTECFG = 0x00;
+
+	
+	OEC = 0x0D; // 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
+	OEE = 0xFE; // 1111_1110 configure only bit 0 (BitOut) as input
+	OEA = 0x88; // PA3: NotResetCPLD ;  PA7 LED
+
+	// hold CPLD in reset and configure 
+	// TimestampCounter to 1 us Tick (0): 0000_0000
+	IOC = 0x00; 
+	IOA = 0x00;
+	IOE=  0x20;          //set BiasClock high 
+
 	EP1OUTCFG = 0x00;			// EP1OUT disabled
 	SYNCDELAY;
 	EP1INCFG = 0xA0;			// EP1IN enabled, bulk
@@ -157,25 +176,6 @@ void TD_Init(void)              // Called once at startup
 	//set FIFO flag configuration: FlagB: EP6 full, flagC and D unused
 	SYNCDELAY;
 	PINFLAGSAB = 0xE8; // 1110_1000
-
-	//enable Port C and port E
-	SYNCDELAY;
-	PORTCCFG = 0x00;
-	SYNCDELAY;
-	PORTACFG = 0x00; // do not use interrupts 0 and 1
-	SYNCDELAY;
-	PORTECFG = 0x00;
-
-	
-	OEC = 0x0D; // 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
-	OEE = 0xFE; // 1111_1110 configure only bit 0 (BitOut) as input
-	OEA = 0x88; // PA3: NotResetCPLD ;  PA7 LED
-
-	// hold CPLD in reset and configure 
-	// TimestampCounter to 1 us Tick (0): 0000_0000
-	IOC = 0x00; 
-	IOA = 0x00;
-	IOE=  0x20;          //set BiasClock high 
 
 	// initialize variables
 	operationMode=0;
@@ -232,6 +232,7 @@ void startMonitor(void)
     CPLD_NOT_RESET=1;
 	RUN_CPLD=1;
 
+	releasePowerDownBit();
 	IOE = IOE | DVS_nReset; //start dvs statemachines
 }
 
@@ -545,8 +546,15 @@ BOOL DR_VendorCmnd(void)
 			}*/		
 		case VR_RESETTIMESTAMPS:
 			{
-				RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
-				RESET_TS=0;
+				//RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
+				//RESET_TS=0;
+
+				// reset dvs statemachines
+				IOE= IOE & ~DVS_nReset;
+				_nop_();
+				_nop_();
+				_nop_();
+				IOE = IOE | DVS_nReset; //start dvs statemachines
 
 				break;
 			}
