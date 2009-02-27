@@ -1,5 +1,5 @@
 function [x,y,pol,eye]=extractStereoRetinaEventsFromAddr(addr)
-%function [x,y,pol]=extractRetinaEventsFromAddr(addr)
+%function [x,y,pol,eye]=extractStereoRetinaEventsFromAddr(addr)
 % this is for tmpdiff128stereo pair of retinas with eye on msb of 16 bit
 % address.
 % extracts retina events from 16 bit addr vector.
