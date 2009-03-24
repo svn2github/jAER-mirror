@@ -15,26 +15,23 @@
             <map/>
             <node name="stereopsis">
               <map>
-                <entry key="XYTypeFilter.filterEnabled" value="false"/>
-                <entry key="RotateFilter.filterEnabled" value="false"/>
-                <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
-                <entry key="Tmpdiff128StereoPair.IPot.cas" value="1966"/>
-                <entry key="Tmpdiff128StereoPair.IPot.injGnd" value="1135792"/>
-                <entry key="Tmpdiff128StereoPair.IPot.reqPd" value="16769632"/>
-                <entry key="Tmpdiff128StereoPair.IPot.puX" value="8061894"/>
-                <entry key="Tmpdiff128StereoPair.IPot.diffOff" value="133"/>
-                <entry key="Tmpdiff128StereoPair.IPot.req" value="160703"/>
-                <entry key="Tmpdiff128StereoPair.IPot.refr" value="935"/>
-                <entry key="Tmpdiff128StereoPair.IPot.puY" value="16769632"/>
-                <entry key="Tmpdiff128StereoPair.IPot.diffOn" value="205244"/>
-                <entry key="Tmpdiff128StereoPair.IPot.diff" value="3207"/>
-                <entry key="Tmpdiff128StereoPair.IPot.foll" value="267"/>
-                <entry key="Tmpdiff128StereoPair.IPot.Pr" value="217"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.cas" value="54"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.injGnd" value="1108364"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.reqPd" value="16777215"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.puX" value="8159221"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.diffOff" value="132"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.req" value="159147"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.refr" value="6"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.puY" value="16777215"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.diffOn" value="482443"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.diff" value="30153"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.foll" value="51"/>
+                  <entry key="Tmpdiff128StereoPair.IPot.Pr" value="3"/>
+ 
+ 
                 <entry key="Masterbias.rx" value="8200.0"/>
                 <entry key="Masterbias.rint" value="46000.0"/>
                 <entry key="Masterbias.internalResistorUsed" value="false"/>
-                <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAEdwQAAAAEdAA3Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlhZVHlwZUZpbHRlcnQAN2NoLnVuaXpoLmluaS5jYXZpYXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5Sb3RhdGVGaWx0ZXJ0AENjaC51bml6aC5pbmkuY2F2aWFyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuQmFja2dyb3VuZEFjdGl2aXR5RmlsdGVydAA5Y2gudW5pemguaW5pLmNhdmlhci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlBlbmNpbEJhbGFuY2VyeA=="/>
-                <entry key="PencilBalancer.filterEnabled" value="false"/>
               </map>
             </node>
             </node>
