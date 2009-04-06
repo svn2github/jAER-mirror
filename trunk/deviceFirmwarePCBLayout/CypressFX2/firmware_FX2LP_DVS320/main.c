@@ -83,7 +83,7 @@ xdata unsigned char biasBytes[255]; // bias bytes values saved here
 BOOL JTAGinit;
 
 long cycleCounter;
-long missedEvents;
+//long missedEvents;
 
 #define	I2C_Addr 0x51 //adress is 0101_0001
 
@@ -181,7 +181,6 @@ void TD_Init(void)              // Called once at startup
 	operationMode=0;
 
 	cycleCounter=0;
-	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
 	LED=1; // turn on to start
 
 	biasInit();	// init biasgen ports and pins
@@ -190,10 +189,10 @@ void TD_Init(void)              // Called once at startup
 //	IOE|=arrayReset;	// un-reset all the pixels
 	
   	IT0=1;		// make INT0# edge-sensitive
-	EX0=1;		// enable INT0# (this interrupt is used to signal to the host to reset WrapAdd)
+	EX0=0;		// disable INT0# (this interrupt was used to signal to the host to reset WrapAdd)
 
 	IT1=1; // INT1# edge-sensitve
-	EX1=1; // enable INT1#
+	EX1=0; // disable INT1#
 
 	//startMonitor();
 }
@@ -546,8 +545,8 @@ BOOL DR_VendorCmnd(void)
 			}*/		
 		case VR_RESETTIMESTAMPS:
 			{
-				//RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
-				//RESET_TS=0;
+				RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
+				RESET_TS=0;
 
 				// reset dvs statemachines
 				IOE= IOE & ~DVS_nReset;
