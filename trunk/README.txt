@@ -10,10 +10,13 @@ Also includes control of a handy USB servo motor interface for experiments in ro
 The home page of this project is 
 http://jaer.wiki.soureforge.net
 
-Windows: The main viewer can be launched with either jAERViewer.cmd or jAERViewer.exe.
-The .exe launcher does not show logging output.
+Support for the DVS128 silicon retina is at
+http://siliconretina.ini.uzh.ch
 
-Linux: USB hardware will not be usable, but viewer can be launched with jAERViewer.sh script, if run
+Windows: The main viewer can be launched with jAERViewer.exe.
+Logging output can be shown by clicking the "Console" button on the lower right of the viewer.
+
+Linux: USB hardware is only in alpha. Viewer can be launched with jAERViewer.sh script, if run
 from root folder of jAER.
 
 
@@ -27,4 +30,4 @@ jSmoothExeLauncher - files used for building Windows .exe launchers
 
 
 tobi@ini.phys.ethz.ch
-March 2007
+March 2009
