@@ -132,6 +132,13 @@ void jaerSendEvent(unsigned int addrx, unsigned int addry, unsigned long timeSta
 		sendBufLen = 0;
 	}
 
+	//if(debugLevel> 2) {
+	//	if(sendBufLen == 0){
+	//		printf("addrx[0] = %d, addry[0] = %d",aerBuf[3],aerBuf[4]);
+	//	}
+	//}
+		
+
 	return;
 }
 
@@ -246,7 +253,6 @@ int makeInputSocket(){
 		exit(1);
 	}
 
-	grabIoMutex();
 	if(inputSocket!=INVALID_SOCKET){
 		int err=closesocket(inputSocket);
 		if(err==SOCKET_ERROR){
@@ -255,6 +261,9 @@ int makeInputSocket(){
 		}
 		inputSocket=INVALID_SOCKET;
 	}
+
+	grabIoMutex();
+
 	if(inputPort<=0){
 		fprintf(stderr,"makeInputSocket: invalid inputPort %d",inputPort);
 		fflush(stderr);
@@ -308,7 +317,6 @@ int makeOutputSocket(){
 		exit(1);
 	}
 
-	grabIoMutex();
 	if(outputSocket!=INVALID_SOCKET){
 		int err=closesocket(outputSocket);
 		if(err==SOCKET_ERROR){
@@ -317,6 +325,8 @@ int makeOutputSocket(){
 		}
 		outputSocket=INVALID_SOCKET;
 	}
+
+	grabIoMutex();
 
 	if(outputPort<=0){
 	   fprintf(stderr,"makeOutputSocket: invalid output port %d<0\n",outputPort);
@@ -558,6 +568,7 @@ DWORD WINAPI jaerCommandProcessorThreadFunction(LPVOID lpParam)
 
 		WSACleanup();
 		printf("closed all the sockets\n");
+		exit(1);
 		
 	  //-----------------------------------------------
 	  // Close the socket when finished receiving datagrams

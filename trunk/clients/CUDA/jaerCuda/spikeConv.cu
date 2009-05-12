@@ -407,6 +407,7 @@ char cudaUpdateINeuron(void* numFiringAddr, int* nfiredMO)
 				
 		// copy the number of template layer neurons that have fired...
 		CUDA_SAFE_CALL(cudaMemcpy(nfiredMO, numFiringAddr, sizeof(int)*num_object, cudaMemcpyDeviceToHost));
+		
 		if(debugLevel>2){
 			printf("# spikes fired by object layers: ");
 			for(int i=0;i<num_object;i++){
@@ -508,7 +509,6 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 		// the kernel writes the number of fired neurons for each template in the array
 		// pointed to by numFiringArrayAddr, at the same time, it also sets the array pointed to 
 		// by resetFiringArrayAddr all to zero. The host uses the numFiring values to update the WTA neurons.
-		firingId = (firingId ) ? 0 : 1;
 		int* numFiringArrayAddr   = (int*)((firingId)?numFiring0AddrMO:numFiring1AddrMO);
 		int* resetFiringArrayAddr = (int*)((firingId)?numFiring1AddrMO:numFiring0AddrMO); // TODO, this array is unused now
 		
@@ -520,9 +520,9 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 		convNN_multiSpikeKernelNew1 <<< gridExcDim, threadExcDim >>> (spikeLen, numFiringArrayAddr, resetFiringArrayAddr);
 		CUT_CHECK_ERROR("convNN_multiSpikeKernel Kernel execution failed");	
 		cudaThreadSynchronize();
-		
+			
 		if(debugLevel>2) fprintf(stderr, "Kernel executed %d times...\n", callCount);
-		
+			
 		//showMembranePotential(&filteredSpike_addr[index_start],spikeLen); // only for debug
 		
 		/***********************************************************************************/
@@ -636,6 +636,9 @@ runjaerCUDA( int argc, char** argv)
 		if(runCuda) {
 		
 			GPU_MODE(gridExcDim,threadExcDim, gridInhDim, threadInhDim, firingId, numSpikes);
+			
+			// toggle the id after each cycle to reset either numFiring0AddrMO or numFiring1AddrMO
+			firingId = (firingId ) ? 0 : 1;
 			
 		} // end if(runCuda)
 
