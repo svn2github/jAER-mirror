@@ -365,7 +365,7 @@ void cudaCopySpikesFromGPU2jAER(unsigned long timeStamp, int* nfiredMO, char bIn
 
 	// send one spike to jaer if any of the inhibitory neuron fires
 	if(bInhNeuronFired){
-		jaerSendEvent(1,1,timeStamp,0);  
+		jaerSendEvent(0,0,timeStamp,0);  
 		if(debugLevel > 1)
 			fprintf(stdout,"cudaCopySpikesFromGPU2jAER: sent an inhibitory spike to jaer\n");
 	}		
