@@ -141,7 +141,7 @@ int sendAEPacket()
 	grabIoMutex();
 	if(outputPort<=0){
 		fprintf(stderr,"sendAEPacket(): no outputPort yet, can't send\n");
-	   fflush(stderr);
+	    fflush(stderr);
 		return -1;
 	}
 

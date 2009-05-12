@@ -46,7 +46,7 @@
 	#define GAUSS_VAR_NEG 10.0F						// negative gaussian variance
 #endif
 
-#define REPLAY_MODE			1
+//#define REPLAY_MODE			1
 //#define RECORD_MODE			1
 //#define RECORD_MEMBRANE_POTENTIAL	1
 #define	RECORD_START 0
@@ -113,7 +113,6 @@ extern unsigned long lastTimeStamp[MAX_NUM_OBJECT][MAX_X][MAX_Y];
 extern float iNeuronPotential[MAX_NUM_OBJECT];
 
 extern int   callCount;
-extern long  tot_fired;
 extern long  tot_filteredSpikes;
 extern float accTimer;
 ///extern float cpu_accTimer;
@@ -121,10 +120,8 @@ extern float accTimer;
 
 extern bool runCuda;
 extern bool tmpRunCuda; // tmp is for command processing
-extern int  gnFired;
 extern long tot_fired_MO[MAX_NUM_OBJECT];
 extern int  inhFireCnt;
-extern int  multi_object;
 extern int  num_object;   
 extern unsigned int delta_time;
 

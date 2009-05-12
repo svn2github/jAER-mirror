@@ -11,7 +11,6 @@ extern "C"	{
 	void dumpTemplate(FILE* fp, char* fstr);
 	void printResults(FILE* fpLog);
 	void showMembranePotential(unsigned int* spikeAddr, int spikeCnt);
-	void dumpResults(int objId);
 }
 
 // Function dumps the template parameters into a file
@@ -103,47 +102,14 @@ void showMembranePotential(unsigned int* spikeAddr=NULL, int spikeCnt=0)
 
 }
 
-float g_temp_conv_value[NUM_CUDA_PACKETS][MAX_TEMPLATE_SIZE][MAX_TEMPLATE_SIZE];
-
-void cudaCopyOutputs()
-{
-	void* devPtr;// = gpu_conv_template;
-	
-	CUDA_SAFE_CALL ( cudaGetSymbolAddress(&devPtr, "temp_conv_value"));
-#pragma warning(disable:4313)
-	printf("Copying temporary template values from GPU (loc = %x size = %d\n", devPtr, sizeof(g_temp_conv_value));
-#pragma warning(default:4313)
-	CUDA_SAFE_CALL( cudaMemcpy( g_temp_conv_value, devPtr, sizeof(g_temp_conv_value), cudaMemcpyDeviceToHost));
-
-	for(int id=0; id < NUM_CUDA_PACKETS; id++) {
-
-//		char fname[25];
-		int j,k;
-
-		static FILE* fp = fopen("gpu_template.txt","w");
-
-//#define G_TEMP_CONV_VALUE(i,j,k)  *(g_temp_conv_value + i*MAX_TEMPLATE_SIZE*MAX_TEMPLATE_SIZE + j*MAX_TEMPLATE_SIZE + k)
-		
-		fprintf( fp, " template%d = [ ", id);
- 		for(j=0; j < MAX_TEMPLATE_SIZE; j++) {
-			for(k=0; k < MAX_TEMPLATE_SIZE; k++) {
-				fprintf( fp, " %f ", g_temp_conv_value[id][j][k]);
-			}
-			fprintf(fp, "; \n");
-		}
-		fprintf(fp , " ];\n\n " );
-
-	}
-}
-
 
 void printResults(FILE* fpLog)
 {
+	int tot_fired = 0;
 	if(!runCuda) {
 		extern int cpu_totFiring;
-		tot_fired = cpu_totFiring;
 		extern int cpu_totFiringMO[MAX_NUM_OBJECT];
-		printf(" Number of fired neurons is %d\n", tot_fired);	
+		printf(" Number of fired neurons is %d\n", cpu_totFiring);	
 		printf(" Template size is %dx%d\n", MAX_TEMPLATE_SIZE, MAX_TEMPLATE_SIZE);					
 		fprintf(fpLog, " Template size is %dx%d\n", MAX_TEMPLATE_SIZE, MAX_TEMPLATE_SIZE);	
 		fprintf(fpLog, " Number of fired neurons is %d\n", tot_fired);
@@ -155,6 +121,8 @@ void printResults(FILE* fpLog)
 	else {
 		printf("Kernel 1 called %d times\n", callCount);
 		printf(" Total number of spikes computed : %d\n", tot_filteredSpikes);
+		for(int i = 0; i < num_object; i++)
+			tot_fired = tot_fired + tot_fired_MO[i]; 
 		printf(" Number of fired neurons is %d\n", tot_fired);	
 		printf(" Template size is %dx%d\n", MAX_TEMPLATE_SIZE, MAX_TEMPLATE_SIZE);			
 		fprintf(fpLog, "Kernel 1 called %d times\n", callCount);
@@ -162,11 +130,9 @@ void printResults(FILE* fpLog)
 		fprintf(fpLog, " Number of fired neurons is %d\n", tot_fired);
 		fprintf(fpLog, " Template size is %dx%d\n", MAX_TEMPLATE_SIZE, MAX_TEMPLATE_SIZE);
 
-		if (multi_object) {
-			for(int i=0; i < num_object; i++) {
-				printf(" Total firing in Array %d => %d\n", i, tot_fired_MO[i]);
-				fprintf(fpLog, " Total firing in Array %d => %d\n", i, tot_fired_MO[i]);												
-			}	
+		for(int i=0; i < num_object; i++) {
+			printf(" Total firing in Array %d => %d\n", i, tot_fired_MO[i]);
+			fprintf(fpLog, " Total firing in Array %d => %d\n", i, tot_fired_MO[i]);													
 		}
 	}
 	
@@ -188,18 +154,16 @@ void printResults(FILE* fpLog)
 	}
 #endif
 
-		if(runCuda) {
-		int test_fired;
-		cudaMemcpyFromSymbol(&test_fired, "totFiring", 4, 0, cudaMemcpyDeviceToHost);
+	if(runCuda) {
 		printf( " Total Object scanned : %d\n", num_object);
 		printf( " Total firing from Inhibition Neuron : %d\n", inhFireCnt);
-		printf( " Total firing is equal to %d\n", test_fired);	
-		printf( " Average firing is equal to %f\n", test_fired*1.0/callCount);
+		printf( " Total firing is equal to %d\n", tot_fired);	
+		printf( " Average firing is equal to %f\n", tot_fired*1.0/callCount);
 		printf( "\n\nAvg. GPU Processing time per spike: %f (ms)\n", accTimer/(tot_filteredSpikes));
 		printf( "\n\nTotal GPU Processing time : %f (ms)\n", accTimer);
 		fprintf( fpLog,  " Total Object scanned : %d\n", num_object);
 		fprintf( fpLog,  " Total firing from Inhibition Neuron : %d\n", inhFireCnt);
-		fprintf( fpLog,  " Total firing is equal to %d\n", test_fired);
+		fprintf( fpLog,  " Total firing is equal to %d\n", tot_fired);
 		fprintf( fpLog,  "\n\nAvg. GPU Processing time per spike: %f (ms)\n", accTimer/(tot_filteredSpikes));
 		fprintf( fpLog,  "\n\nTotal GPU Processing time : %f (ms)\n", accTimer);	
 	}
@@ -222,74 +186,3 @@ void printResults(FILE* fpLog)
 	fflush(stdout);  // so jaer gets it
 }
 
-
-void dumpResults(int objId)
-{
-#if DUMP_DEBUG
-
-	char fname[100];
-	sprintf(fname, "recv_packet%d.m", num_packets);
-	FILE* fpDump;
-	fpDump = fopen(fname, "w");
-	sprintf(fname, "mem_pot%d.m", num_packets);
-	FILE* fpDumpPot;	
-	fpDumpPot = fopen(fname, "w");
-
-	num_packets++;
-
-
-	for(int i=0; i < MAX_Y; i++) {
-		for(int j=0; j < MAX_X; j++) {		
-			signed long long timeDiff = 0xFFFFFFFFLL&(prevTimeStamp-lastTimeStamp[objId][i][j]);
-			if(lastTimeStamp[objId][i][j] != 0 ) {
-				membranePotential[objId][i][j] = membranePotential[objId][i][j]*exp(-timeDiff/hostNeuronParams.membraneTau);
-			}
-			if ( membranePotential[objId][i][j] < hostNeuronParams.membranePotentialMin ) {
-				membranePotential[objId][i][j] = hostNeuronParams.membranePotentialMin;
-			}
-		}
-	}
-
-	if(num_packets >= DEBUG_START) {
-
-		fprintf( fpDumpPot, " memPot = [ " );
-		for(int i=0; i < MAX_Y; i++) {
-			for(int j=0; j < MAX_X; j++) {
-				fprintf( fpDumpPot, " %f ", membranePotential[objId][i][j]);
-			}
-			fprintf(fpDumpPot, "; \n");
-		}
-		
-		fprintf(fpDumpPot , " ]; " );
-
-		/*fprintf( fpDumpPot, " excSyn = [ " );
-		for(int i=0; i < MAX_Y; i++) {
-			for(int j=0; j < MAX_X; j++) {
-				fprintf( fpDumpPot, " %f ", excSyn[i][j]);
-			}
-			fprintf(fpDumpPot, "; \n");
-		}
-		
-		fprintf(fpDumpPot , " ]; " );
-
-		fprintf( fpDumpPot, " inhSyn = [ " );
-		for(int i=0; i < MAX_Y; i++) {
-			for(int j=0; j < MAX_X; j++) {
-				fprintf( fpDumpPot, " %f ", inhSyn[i][j]);
-			}
-			fprintf(fpDumpPot, "; \n");
-		}
-		
-		fprintf(fpDumpPot , " ]; " );*/
-
-		fflush(fpDumpPot);
-		fclose(fpDumpPot);
-
-	}
-
-	if(num_packets > DEBUG_END) {
-		CUT_EXIT(argc, argv);
-	}
-
-#endif
-}

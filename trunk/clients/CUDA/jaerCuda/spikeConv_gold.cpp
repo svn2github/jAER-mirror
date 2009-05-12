@@ -11,7 +11,7 @@
 extern "C" int extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, const unsigned int len);
 
 extern "C" {
-	void computeGold( unsigned int* addr, unsigned long* timeStamp, int templateIndex);
+	void computeGold( unsigned int* addr, unsigned long* timeStamp);
 	int  templateConvInit(int selectType=TEMP_METHOD1, int templateType=TEMPLATE_DoG);
 	void dumpTemplate(FILE* fp, char* fstr);
 	void playAudio();
@@ -23,24 +23,12 @@ extern "C" {
 
 
 extern unsigned int delta_time;
-extern int multi_object;
 extern int num_object;
 extern bool runCuda;
 extern globalNeuronParams_t hostNeuronParams;
 extern void jaerSendEvent(unsigned int addrx, unsigned int addry, unsigned long timeStamp, unsigned char type);
 
 ////////////////////////////////////////////////////////////////////////////////
-
-// returns jaer int (timestamp or address) from char *, using next bytes of data
-unsigned long getInt( char* data)
-{
-	// java is little endian, so LSB comes first to us. we put it at the MSB here and vice versa.
-	unsigned long temp = (((data[0]&0xffUL) << 24) 
-		+ ((data[1]&0xffUL) << 16) 
-		+ ((data[2]&0xffUL) << 8) 
-		+ (data[3]&0xffUL));
-	return temp;
-}
 
 
 int			  cpu_totFiring=0;					// used to calculate the average firing rate from CPU model
@@ -59,6 +47,25 @@ int iNeuronCallingCnt = 0;						// keeps track of number of times an inhibitory 
 
 int lastSequenceNumber=0;	// to check dropped packets from jaer
 
+/** convert 4-byte char to an integer
+ * @param: data		data stream reveived from jaer
+ * return: the converted integer, could be timestamp or address of a spike
+ **/
+unsigned long getInt( char* data)
+{
+	// java is little endian, so LSB comes first to us. we put it at the MSB here and vice versa.
+	unsigned long temp = (((data[0]&0xffUL) << 24) 
+		+ ((data[1]&0xffUL) << 16) 
+		+ ((data[2]&0xffUL) << 8) 
+		+ (data[3]&0xffUL));
+	return temp;
+}
+
+/** initiate the matrix "lastTimeStamp" using the time stamp of the first received spike
+ * @param: timeStamp	the reference time stamp, which is the timestamp of the first reveived spike
+ * @param: objId		the id of the object
+ * return 
+ **/
 void setInitLastTimeStamp(unsigned long timeStamp, int objId){
 	for(int i = 0; i < MAX_X; i++){
 		for(int j = 0; j < MAX_Y; j++){
@@ -67,266 +74,12 @@ void setInitLastTimeStamp(unsigned long timeStamp, int objId){
 	}
 }
 
-// This function implement the behaviour of inhibitory neuron.
-// the amount of inhibition is dependent upon the number
-// of neuron that has fired recently ('numFired'). If the number
-// of fired neuron increases, then the amount of inhibition increases.
-// TODO: Add leaky behavior for inhibitory neurons. Currently
-// the neuron does not have leaky behaviour. It just accumulates
-// and then fires if the membrane potential of inhibitory crosses the threshold.
-int update_inhibition_neuron(FILE *fp, unsigned long timeStamp, int objId=0,int numFired=1)
-{
-	iNeuronPotential[objId] += (float)(hostNeuronParams.eISynWeight*numFired);
-	iNeuronCallingCnt++;
-
-	if(iNeuronPotential[objId] > hostNeuronParams.threshold ) {
-		iNeuronFiringCnt++;
-		for(int i=0; i < MAX_Y; i++) {
-			for(int j=0; j < MAX_X; j++) {		
-				membranePotential[objId][i][j] -= hostNeuronParams.iESynWeight;
-				if (membranePotential[objId][i][j]< hostNeuronParams.membranePotentialMin)
-					membranePotential[objId][i][j] = hostNeuronParams.membranePotentialMin;
-			}
-		}
-
-#if RECORD_FIRING_INFO
-		if ( fp != NULL)
-			fprintf( fp, "%u -1 -1\n", timeStamp);
-#endif
-		iNeuronPotential[objId] = 0.0;
-		return 1;
-	}
-	return 0;
-}
-
-unsigned long lastSaccadeTime = 0;	// stores the time when last saccade happened
-unsigned long prevTimeStamp = 0;	// stores the time when last event happened
-unsigned int lenData = 0;			// stores the length of data generated from input
-long long num_packets = 0;			// 
-int curTemplateIndex = -1;			// stores the index of the current template. This switches
-									// to a new value after each saccade interval.
-
-void update_neurons(unsigned int addrx, unsigned int addry, unsigned long timeStamp, int templateIndex,int multiObj=0)
-{
-	static FILE* fpFiring = NULL;
-	int objId=0;
-	int numObj=1;
-	if(multiObj) {
-		numObj=num_object;
-		objId = 0;		
-	}
-
-#if RECORD_FIRING_INFO
-	if(fpFiring == NULL){
-		if ((fpFiring = fopen("firing.m", "w")) == NULL){
-			printf("failed to open file firing.m");
-			return;
-		}
-	}	
-#endif
-
-	int min_x = addrx - (MAX_TEMPLATE_SIZE/2) + 1;
-	int temp_min_x = (min_x < 0 ) ? min_x  - 1 : min_x;
-	min_x = (min_x <  0 ) ? 0 : min_x;
-
-	int min_y = addry - (MAX_TEMPLATE_SIZE/2) + 1;
-	int temp_min_y = (min_y < 0 ) ? min_y  - 1 : min_y;
-	min_y = (min_y < 0 ) ? 0 : min_y;
-
-	int max_x = addrx + (MAX_TEMPLATE_SIZE/2);
-	max_x = (max_x > MAX_X) ? MAX_X : max_x;
-
-	int max_y = addry + (MAX_TEMPLATE_SIZE/2);
-	max_y = (max_y > MAX_Y ) ? MAX_Y : max_y;
-
-	for( int k = 0; k < numObj; k++) {
-		for( int i = min_x; i < max_x; i++) {
-			for( int j = min_y; j < max_y; j++) {
-				assert(i-temp_min_x>=0);
-				assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
-				assert(j-temp_min_y>=0);
-				assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
-
-				if((timeStamp-lastTimeStamp[objId][i][j]) < 0) {
-					printf("Time stamp reversal\n");
-
-#if RECORD_FIRING_INFO
-					fclose(fpFiring);
-#endif
-					//return;
-				}
-
-				signed long long timeDiff = 0xFFFFFFFFLL&(timeStamp-lastTimeStamp[objId][i][j]);
-
-				float temp = (float)timeDiff/hostNeuronParams.membraneTau;
-				//if(temp >  500){
-				//	temp = 0;
-				//}else{
-					temp = (float)exp(-temp);
-				//}
-			
-				//if(conv_template[curTemplateIndex][i-temp_min_x][j-temp_min_y] != 0.0)
-				//	conv_template[curTemplateIndex][i-temp_min_x][j-temp_min_y] = conv_template[curTemplateIndex][i-temp_min_x][j-temp_min_y];
-				
-				if(multiObj)
-					templateIndex = objId;	
-
-				membranePotential[objId][i][j] = membranePotential[objId][i][j]*temp +
-										   conv_template[templateIndex][i-temp_min_x][j-temp_min_y];
-				
-				lastTimeStamp[objId][i][j] = timeStamp;
-
-				if((membranePotential[objId][i][j]) > hostNeuronParams.threshold) {
-
-					cpu_totFiring++;
-					cpu_totFiringMO[objId]++;
-
-					// TODO: currently we do not distiguish based on objId
-					// different color can be given to different object
-					int ineuron_fired = update_inhibition_neuron(fpFiring, timeStamp, objId);
-
-					membranePotential[objId][i][j] = 0;
-
-				#if !REPLAY_MODE
-					if(!runCuda) 
-					{
-						// accumulate fired neuron and send to jaer
-						jaerSendEvent(i,j,timeStamp,0);
-
-						if (ineuron_fired)
-							jaerSendEvent(1,1,timeStamp,1);
-
-					}
-				#endif
-				}
-				else if ( membranePotential[objId][i][j] < hostNeuronParams.membranePotentialMin ) {
-						membranePotential[objId][i][j] = hostNeuronParams.membranePotentialMin;
-				}		
-			}
-		}
-	}
-}
-
-unsigned long lastGroupingTimeStamp=0;
-void update_neurons_grouping(unsigned int addrx, unsigned int addry, unsigned long timeStamp, int templateIndex,int multiObj=0)
-{
-	static FILE* fpFiring = NULL;
-	bool  groupDiffSet = false;
-	bool updateINeuron = false;
-	int ineuron_fired = 0;
-	int numFired = 0;
-	int objId=0;
-	int numObj=1;
-	if(multiObj) {
-		numObj=num_object;
-		objId = 0;
-	}
-
-#if RECORD_FIRING_INFO
-	if(fpFiring == NULL){
-		if ((fpFiring = fopen("firing.m", "w")) == NULL){
-			printf("failed to open file firing.m");
-			return;
-		}
-	}	
-#endif
-
-	int min_x = addrx - (MAX_TEMPLATE_SIZE/2) + 1;
-	int temp_min_x = (min_x < 0 ) ? min_x  - 1 : min_x;
-	min_x = (min_x <  0 ) ? 0 : min_x;
-
-	int min_y = addry - (MAX_TEMPLATE_SIZE/2) + 1;
-	int temp_min_y = (min_y < 0 ) ? min_y  - 1 : min_y;
-	min_y = (min_y < 0 ) ? 0 : min_y;
-
-	int max_x = addrx + (MAX_TEMPLATE_SIZE/2);
-	max_x = (max_x > MAX_X) ? MAX_X : max_x;
-
-	int max_y = addry + (MAX_TEMPLATE_SIZE/2);
-	max_y = (max_y > MAX_Y ) ? MAX_Y : max_y;
-
-	for( int objId = 0; objId < numObj; objId++) {
-		for( int i = min_x; i < max_x; i++) {
-			for( int j = min_y; j < max_y; j++) {
-				assert(i-temp_min_x>=0);
-				assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
-				assert(j-temp_min_y>=0);
-				assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
-
-				if((timeStamp-lastTimeStamp[objId][i][j]) < 0) {
-					printf("Time stamp reversal\n");
-
-#if RECORD_FIRING_INFO
-					fclose(fpFiring);
-#endif
-					//return;
-				}
-
-				signed long long timeDiff = 0xFFFFFFFFLL&(timeStamp-lastTimeStamp[objId][i][j]);
-				signed long long groupDiff = 0xFFFFFFFFLL&(timeStamp - lastGroupingTimeStamp);
-				float temp = 1.0;				
-
-				if(groupDiff>delta_time) {
-						groupDiffSet = true;				
-						temp = (float)timeDiff/hostNeuronParams.membraneTau;
-						//if(temp >  500){
-						//	temp = 0;
-						//}else {
-							temp = (float)exp(-temp);
-						//}
-				}
-			
-				lastTimeStamp[objId][i][j] = timeStamp;
-
-				//TODO: Why this code was here ??
-				//if(conv_template[curTemplateIndex][i-temp_min_x][j-temp_min_y] != 0.0)
-				//	conv_template[curTemplateIndex][i-temp_min_x][j-temp_min_y] = conv_template[curTemplateIndex][i-temp_min_x][j-temp_min_y];
-				
-				if(multiObj)
-					templateIndex = objId;	
-
-				membranePotential[objId][i][j] = membranePotential[objId][i][j]*temp +
-										   conv_template[templateIndex][i-temp_min_x][j-temp_min_y];
-				
-				if((membranePotential[objId][i][j]) > hostNeuronParams.threshold) {
-
-					cpu_totFiring++;
-					numFired++;
-					cpu_totFiringMO[objId]++;
-
-#if RECORD_FIRING_INFO
-					fprintf(fpFiring, "%u %d %d\n", timeStamp, i, j);
-#endif
-					// TODO: currently we do not distiguish based on objId
-					// different color can be given to different object								
-					membranePotential[objId][i][j] = 0;
-
-				#if !REPLAY_MODE
-					if(!runCuda) {
-					// accumulate fired neuron and send to jaer
-						jaerSendEvent(i,j,timeStamp,0);
-
-						if (ineuron_fired)
-							jaerSendEvent(1,1,timeStamp,1);
-					}
-				#endif
-				}
-				else if ( membranePotential[objId][i][j] < hostNeuronParams.membranePotentialMin ) {
-						membranePotential[objId][i][j] = hostNeuronParams.membranePotentialMin;
-				}
-			}
-		}
-	}
-
-	// Delta crossed for grouping
-	if(numFired)
-		ineuron_fired = update_inhibition_neuron(fpFiring, timeStamp, objId, numFired);					
-
-	if(groupDiffSet)
-		lastGroupingTimeStamp = timeStamp;
-
-}
-
+/** filter input spikes based on the refractory period
+ * @param: addrx & addry	the x and y address of the input spike within retina coordinates
+ * @param: timeStamp		current time stamp
+ * return	true  if the spike is not filtered out
+			false otherwise
+ **/
 bool spikeFilter(unsigned int addrx, unsigned int addry, unsigned long timeStamp){
 	if((timeStamp - lastInputStamp[addrx][addry]) > hostNeuronParams.minFiringTimeDiff){
 		lastInputStamp[addrx][addry] = timeStamp;
@@ -336,8 +89,12 @@ bool spikeFilter(unsigned int addrx, unsigned int addry, unsigned long timeStamp
 	}
 }
 
-// Reads spikes information from a file 'filtered_packet.txt'
-// and returns the info in addr,timeStamp array.
+
+/** Reads spikes information from a file 'filtered_packet.txt' and returns the info in addr,timeStamp array.
+ * @param: addr			parsed address array
+ * @param: timeStamp	parsed time stamp array
+ * return  the total number of parsed events 
+ **/
 int readSpikeFromFile(unsigned int* addr, unsigned long* timeStamp)
 {
 	static FILE* fp = NULL;
@@ -366,8 +123,15 @@ int readSpikeFromFile(unsigned int* addr, unsigned long* timeStamp)
 	}		
 }
 
-// store the filtered spikes in a file quicker testing
-// without jAER TCP/UDP interface.
+unsigned long prevTimeStamp = 0;	// stores the time when last event happened
+unsigned int lenData = 0;			// stores the length of data generated from input
+long long num_packets = 0;			// 
+
+/** store the filtered spikes in a file for quickly testing without jAER TCP/UDP interface.
+ * @param: addr			the address array
+ * @param: timeStamp	the time stamp array
+ * return  the total number of parsed events 
+ **/
 void storeFilteredSpikes(unsigned int* addr, unsigned long* timeStamp)
 {
 	static FILE* fp = NULL;
@@ -397,6 +161,8 @@ void storeFilteredSpikes(unsigned int* addr, unsigned long* timeStamp)
 	}
 }
 
+
+
 /////////////////////////////////////////////////////////
 // extractJaerRawData:
 // This function filters incoming spikes and puts a list of filtered addresses and timeStamp
@@ -417,13 +183,12 @@ void storeFilteredSpikes(unsigned int* addr, unsigned long* timeStamp)
 int
 extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, const unsigned int len) 
 {	
+	num_packets++;
+
 #ifdef REPLAY_MODE
-	curTemplateIndex = 0;
 	lenData= readSpikeFromFile(addr, timeStamp);	
 	return lenData;
 #endif
-
-	lenData = 0;
 
 #if DUMP_DEBUG
 	char fname[100];
@@ -433,9 +198,10 @@ extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, co
 	fprintf( fpDumpSpike, " spikes = [ " );
 #endif
 
+	lenData = 0; // reset lenData for each received packet
+
 	unsigned int* addrCur = addr;
 	unsigned long* timeStampCur = timeStamp;
-//	bool* polarityCur = polarity;
 	unsigned int i;
 
 #ifdef USE_PACKET_SEQUENCE_NUMBER
@@ -454,27 +220,17 @@ extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, co
 	// according to the frequency of occurence.
 	bool filterFlag = false;
     for(  i = 0; i < len; i++)   {
-		int max_x = MAX_X - 1;
-		unsigned int addrxCur = max_x  - (Data[i*EVENT_LEN+3] >> 1)& 0x7f;
+		unsigned int addrxCur = MAX_X - 1  - (Data[i*EVENT_LEN+3] >> 1)& 0x7f;
 		unsigned int addryCur = (Data[i*EVENT_LEN+2]& 0x7f);
 		*timeStampCur = getInt( &Data[i*EVENT_LEN+4]); //*((unsigned int *)&Data[i*6+2]);
-		if(i == 0 && ((*timeStampCur - lastSaccadeTime) > SACCADE_TIME_INTERVAL)) {
-			curTemplateIndex++;
-			if(curTemplateIndex >= num_object)
-				curTemplateIndex = 0;
-			lastSaccadeTime = *timeStampCur;
-#if	PLAY_AUDIO
-			playAudio();
-#endif
-		}
-
+	
 #if DUMP_DEBUG
 		 fprintf(fpDumpSpike, "%u %u %u\n", addrxCur, addryCur, *timeStampCur);
 #endif
 
 		if ( *timeStampCur < prevTimeStamp ) {
-			printf("AE timestamp time reversal occured\n");			
-			printf("Packet number %d\n", num_packets);
+			printf("AE timestamp time reversal occured\n");		
+			printf("packet number = %d", num_packets);
 			printf("i (%d)====>\n, Data[EVENT_LEN*i] = %d\n, Data[EVENT_LEN*i+1] = %d\n, Data[EVENT_LEN*i+2] = %d\n, Data[EVENT_LEN*i+3] = %d\n,  \
 						Data[EVENT_LEN*i+4] = %d\n, Data[EVENT_LEN*i+5] = %d\n,	Data[EVENT_LEN*i+6] = %d\n,	Data[EVENT_LEN*i+7] = %d\n\n",	\
 						i, Data[EVENT_LEN*i] , Data[EVENT_LEN*i+1] , Data[EVENT_LEN*i+2] ,	Data[EVENT_LEN*i+3] ,	Data[EVENT_LEN*i+4] ,	Data[EVENT_LEN*i+5] , \
@@ -488,7 +244,6 @@ extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, co
 		if(filterFlag) {
 			*addrCur = addrxCur + (addryCur << 8);
 			timeStampCur++;
-			//polarityCur++;
 			addrCur++;
 			lenData++;
 		}
@@ -507,23 +262,265 @@ extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, co
 	return lenData;
 }
 
-void
-computeGold( unsigned int* addr, unsigned long* timeStamp, int templateIndex) 
+
+/******************************************************************************************************************************/
+/********************************** MEMBRANE POTENTIAL CALCULATION ************************************************************/
+/******************************************************************************************************************************/
+
+/** This function implements the integration of the global inhibitory neuron.
+ *  The change of inhibitory membrane potential is dependent upon the number of exc neurons fired ('numFired'). 
+ *  TODO: Add leaky term into the equation. Currently the neuron does not have leaky behaviour. 
+ *  It just accumulates and then fires if the membrane potential of inhibitory crosses the threshold.
+ * @param: fp			pointer to a log file which records inhibitory neuron firing time.
+ * @param: timeStamp	current time stamp
+ * @param: objId		the id of the object
+ * @param: numFired	    the number of excitatory spikes generated at this timestamp and this object
+ * return  1	if the inhibitory neuron fires
+		   0	otherwise
+ **/ 
+int update_inh_neuron(FILE *fp, unsigned long timeStamp, int objId=0,int numFired=1)
 {
-	unsigned int len = lenData;
-	unsigned int i;
-	for(i = 0; i < len; i++) {
-		unsigned int addrx = addr[i]&0xff; 
-		unsigned int addry = (addr[i]>>8)&0xff;
-#if CPU_ENABLE_SPIKE_GROUPING
-		update_neurons_grouping( addrx, addry, timeStamp[i], templateIndex,multi_object);
-#else
-		update_neurons( addrx, addry, timeStamp[i], templateIndex,multi_object);
+	iNeuronPotential[objId] += (float)(hostNeuronParams.eISynWeight*numFired);
+	iNeuronCallingCnt++;
+
+	if(iNeuronPotential[objId] > hostNeuronParams.threshold ) {
+		iNeuronFiringCnt++;
+		for(int i=0; i < MAX_Y; i++) {
+			for(int j=0; j < MAX_X; j++) {		
+				membranePotential[objId][i][j] -= hostNeuronParams.iESynWeight;
+				if (membranePotential[objId][i][j]< hostNeuronParams.membranePotentialMin)
+					membranePotential[objId][i][j] = hostNeuronParams.membranePotentialMin;
+			}
+		}
+
+#if RECORD_FIRING_INFO
+		if ( fp != NULL)
+			fprintf( fp, "%u -1 -1\n", timeStamp);
+#endif
+		iNeuronPotential[objId] = 0.0;
+		return 1;
+	}
+	return 0;
+}
+
+/** update neuron membrane potentials when input spike is received (single spike mode)
+ * @param: addrx & addry	the x and y address of the input spike within retina coordinates
+ * @param: timeStamp		current time stamp
+ **/
+
+void update_neurons(unsigned int addrx, unsigned int addry, unsigned long timeStamp)
+{
+	static FILE* fpFiring = NULL;
+	
+#if RECORD_FIRING_INFO
+	if(fpFiring == NULL){
+		if ((fpFiring = fopen("firing.m", "w")) == NULL){
+			printf("failed to open file firing.m");
+			return;
+		}
+	}	
+#endif
+
+	// calculate the coverage of the template which centers around the address of the current spike 
+	int min_x = addrx - (MAX_TEMPLATE_SIZE/2) + 1;
+	int temp_min_x = (min_x < 0 ) ? min_x  - 1 : min_x;
+	min_x = (min_x <  0 ) ? 0 : min_x;
+
+	int min_y = addry - (MAX_TEMPLATE_SIZE/2) + 1;
+	int temp_min_y = (min_y < 0 ) ? min_y  - 1 : min_y;
+	min_y = (min_y < 0 ) ? 0 : min_y;
+
+	int max_x = addrx + (MAX_TEMPLATE_SIZE/2);
+	max_x = (max_x > MAX_X) ? MAX_X : max_x;
+
+	int max_y = addry + (MAX_TEMPLATE_SIZE/2);
+	max_y = (max_y > MAX_Y ) ? MAX_Y : max_y;
+
+	// calculate the membrane potential of each neuron
+	for( int k = 0; k < num_object; k++) {
+		for( int i = min_x; i < max_x; i++) {
+			for( int j = min_y; j < max_y; j++) {
+				assert(i-temp_min_x>=0);
+				assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
+				assert(j-temp_min_y>=0);
+				assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
+
+				// check if the time is reversed
+				if((timeStamp-lastTimeStamp[k][i][j]) < 0) {
+					printf("Time stamp reversal\n");
+
+#if RECORD_FIRING_INFO
+				fclose(fpFiring);
+#endif
+					return;
+				}
+
+				// calculate membrane potential
+				signed long long timeDiff = 0xFFFFFFFFLL&(timeStamp-lastTimeStamp[k][i][j]);
+				float temp = (float)timeDiff/hostNeuronParams.membraneTau;
+				temp = (float)exp(-temp);
+				membranePotential[k][i][j] = membranePotential[k][i][j]*temp +
+										   conv_template[k][i-temp_min_x][j-temp_min_y];
+				lastTimeStamp[k][i][j] = timeStamp;
+
+				if((membranePotential[k][i][j]) > hostNeuronParams.threshold) {
+					cpu_totFiring++;
+					cpu_totFiringMO[k]++;
+					int ineuron_fired = update_inh_neuron(fpFiring, timeStamp, k);
+					membranePotential[k][i][j] = 0;
+
+				// send the output events back to cuda
+				#if !REPLAY_MODE
+					if(!runCuda) 
+					{
+						// accumulate fired neuron and send to jaer
+						jaerSendEvent(i,j,timeStamp,k);
+
+						if (ineuron_fired)
+							jaerSendEvent(1,1,timeStamp,0);
+
+					}
+				#endif
+				}
+				else if ( membranePotential[k][i][j] < hostNeuronParams.membranePotentialMin ) {
+						membranePotential[k][i][j] = hostNeuronParams.membranePotentialMin;
+				}		
+			}
+		}
+	}
+}
+
+unsigned long lastGroupingTimeStamp=0;
+
+/** update neuron membrane potentials when input spike is received (single spike mode)
+ * @param: addrx & addry	the x and y address of the input spike within retina coordinates
+ * @param: timeStamp		current time stamp
+ **/	
+void update_neurons_grouping(unsigned int addrx, unsigned int addry, unsigned long timeStamp)
+{
+	static FILE* fpFiring = NULL;
+	int ineuron_fired = 0;
+	int numFired = 0;
+
+	signed long long groupDiff = 0xFFFFFFFFLL&(timeStamp - lastGroupingTimeStamp);
+	
+#if RECORD_FIRING_INFO
+	if(fpFiring == NULL){
+		if ((fpFiring = fopen("firing.m", "w")) == NULL){
+			printf("failed to open file firing.m");
+			return;
+		}
+	}	
+#endif
+
+	// calculate the coverage of the template which centers around the address of the current spike 
+	int min_x = addrx - (MAX_TEMPLATE_SIZE/2) + 1;
+	int temp_min_x = (min_x < 0 ) ? min_x  - 1 : min_x;
+	min_x = (min_x <  0 ) ? 0 : min_x;
+
+	int min_y = addry - (MAX_TEMPLATE_SIZE/2) + 1;
+	int temp_min_y = (min_y < 0 ) ? min_y  - 1 : min_y;
+	min_y = (min_y < 0 ) ? 0 : min_y;
+
+	int max_x = addrx + (MAX_TEMPLATE_SIZE/2);
+	max_x = (max_x > MAX_X) ? MAX_X : max_x;
+
+	int max_y = addry + (MAX_TEMPLATE_SIZE/2);
+	max_y = (max_y > MAX_Y ) ? MAX_Y : max_y;
+
+	for( int objId = 0; objId < num_object; objId++) {
+		for( int i = min_x; i < max_x; i++) {
+			for( int j = min_y; j < max_y; j++) {
+				assert(i-temp_min_x>=0);
+				assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
+				assert(j-temp_min_y>=0);
+				assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
+
+				// check if time is reversed
+				if((timeStamp-lastTimeStamp[objId][i][j]) < 0) {
+					printf("Time stamp reversal\n");
+
+#if RECORD_FIRING_INFO
+					fclose(fpFiring);
+#endif
+					return;
+				}
+
+				// group the input spikes so that the leak of the membrane potential is only calculated every delta_time
+				signed long long timeDiff = 0xFFFFFFFFLL&(timeStamp-lastTimeStamp[objId][i][j]);
+				float temp = 1.0;						
+				if(groupDiff>delta_time) {
+						lastGroupingTimeStamp = timeStamp;
+
+						temp = (float)timeDiff/hostNeuronParams.membraneTau;
+						temp = (float)exp(-temp);
+				}
+				lastTimeStamp[objId][i][j] = timeStamp;
+
+				membranePotential[objId][i][j] = membranePotential[objId][i][j]*temp +
+										   conv_template[objId][i-temp_min_x][j-temp_min_y];				
+				if((membranePotential[objId][i][j]) > hostNeuronParams.threshold) {
+					cpu_totFiring++;
+					numFired++;
+					cpu_totFiringMO[objId]++;
+					membranePotential[objId][i][j] = 0;
+
+#if RECORD_FIRING_INFO
+					fprintf(fpFiring, "%u %d %d\n", timeStamp, i, j);
+#endif
+
+				// send the excitatory output events back to cuda
+				#if !REPLAY_MODE
+					if(!runCuda) {
+					// accumulate fired neuron and send to jaer
+						jaerSendEvent(i,j,timeStamp,objId);
+					}
+				#endif
+				}
+				else if ( membranePotential[objId][i][j] < hostNeuronParams.membranePotentialMin ) {
+						membranePotential[objId][i][j] = hostNeuronParams.membranePotentialMin;
+				}
+			}
+		}
+
+		// Delta crossed for grouping, and calculate the inhibitory membrane potential
+		if(numFired)
+			ineuron_fired = update_inh_neuron(fpFiring, timeStamp, objId, numFired);	
+#if !REPLAY_MODE
+		if(!runCuda) {
+			jaerSendEvent(1,1,timeStamp,0);
+		}
 #endif
 	}
 }
 
-// generate the template for ball of given size using simple Gaussian parameters
+
+/** cpu mode computation
+ * @param: addr:		address array after filtering
+ * @param: timeStamp	time stamp array after filtering
+ **/
+void computeGold( unsigned int* addr, unsigned long* timeStamp) 
+{
+	unsigned int i;
+	for(i = 0; i < lenData; i++) {
+		unsigned int addrx = addr[i]&0xff; 
+		unsigned int addry = (addr[i]>>8)&0xff;
+#if CPU_ENABLE_SPIKE_GROUPING
+		update_neurons_grouping( addrx, addry, timeStamp[i]);
+#else
+		update_neurons( addrx, addry, timeStamp[i]);
+#endif
+	}
+}
+
+/******************************************************************************************************************************/
+/********************************** TEMPLATE GENERATION ***********************************************************************/
+/******************************************************************************************************************************/
+
+/** generate a two dimensional Gaussian template with constant negative margin 
+ * @param:  templateIndex		the index of the template
+ * @param:  sizeObject			the size of the ball
+ **/
 void templateConvGau(int templateIndex, float sizeObject)
 {
 	if(debugLevel>0) {
@@ -539,16 +536,16 @@ void templateConvGau(int templateIndex, float sizeObject)
 		float ampFactor = sizeTemplate/sizeObject/2;
 		float maxNegAmp = ampFactor*MAX_NEG_AMP;
 		float maxAmpActivation = ampFactor*MAX_AMP_ACTIVATION;
-		for(i = 0; i < sizeTemplate; i++){
+		for(i = 0; i < sizeTemplate; i++){ // scanning through vertical axis
 			float dist = abs(i - center);
-			for(j = 0; j < sizeTemplate; j++){
-				if(dist > sizeObject)
+			for(j = 0; j < sizeTemplate; j++){ // scanning through horizontal axis, each row contains 0 to 2 Gaussian bumps depending on their vertical location 
+				if(dist > sizeObject) // if the vertical distance is larger than the size of the object, the amplitude is defined as max negative value
 					conv_template[templateIndex][i][j] = maxNegAmp;
-				else if(dist == sizeObject){
+				else if(dist == sizeObject){ // if the vertical distance is equal to the size of the object, there is one peak which is located at the center of the row
 					float meanGauss = center; 
 					conv_template[templateIndex][i][j] = maxAmpActivation*exp(-(pow((j - meanGauss),2))/(GAUSS_VAR*GAUSS_VAR)) + maxNegAmp;
 				} 
-				else {
+				else { // if the vertical distance is smaller than the size of the object, there are two Gaussian peaks symmetric around the center 
 					float radiusGauss = sqrt(sizeObject*sizeObject - dist*dist);
 					float meanGauss1 = center - radiusGauss,
 						  meanGauss2 = center + radiusGauss;
@@ -560,7 +557,7 @@ void templateConvGau(int templateIndex, float sizeObject)
 			}
 		}
 
-		//transpose
+		//transpose of the template matrix to reverse the horizontal and vertical axis
 		float temp;
 		for(i = 0; i < sizeTemplate; i++){
 			for(j = 0; j < sizeTemplate; j++){
@@ -572,6 +569,7 @@ void templateConvGau(int templateIndex, float sizeObject)
 			}
 		}
 
+		// calculate the amplitude in the transposed orientation again to eliminate the unsymmetry of the resulting template
 		for(i = 0; i < sizeTemplate; i++){
 			float dist = abs(i - center);
 			for(j = 0; j < sizeTemplate; j++){
@@ -593,6 +591,7 @@ void templateConvGau(int templateIndex, float sizeObject)
 			}
 		}
 
+		// transpose back to the original orientation
 		for(i = 0; i < sizeTemplate; i++){
 			for(j = 0; j < sizeTemplate; j++){
 				if(i > j){
@@ -608,7 +607,11 @@ void templateConvGau(int templateIndex, float sizeObject)
 	}
 }
 
-// Generate a template for a ball using DoG for each point in the ball.
+
+/** generate a two dimensional DOG template 
+ * @param:  templateIndex		the index of the template
+ * @param:  sizeObject			the size of the ball
+ **/
 void templateConvDoG(int templateIndex, float sizeObject)
 {
  
@@ -698,7 +701,10 @@ int pixelPos[2*MAX_TEMPLATE_SIZE][2];
 
 #define setPixel(a,b) {circleArr[a][b]=1; assert(countPixel < 2*MAX_TEMPLATE_SIZE); pixelPos[countPixel][0]=a; pixelPos[countPixel][1]=b; countPixel++;}
 
-// generate a circle for given radius and centered at x0,y0.
+/** generate a circle for given radius and centered at x0,y0.
+ * @param: x0,y0	the center of the circle
+ * @pram: radius	the radius of the circle
+ **/
 void rasterCircle(int x0, int y0, int radius)
   {
 	memset(circleArr,0,sizeof(circleArr));
