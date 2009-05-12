@@ -527,7 +527,7 @@ DWORD WINAPI jaerCommandProcessorThreadFunction(LPVOID lpParam)
 	printf("startJaerCommandProcessingThread: bound controlSocket to port %d\n",controlPort);
 
 	printf("receiving control datagrams on command port %d\n",controlPort);
-		while(1){
+		while(stopEnabled == 0){
 		  //-----------------------------------------------
 		  // Call the recvfrom function to receive datagrams
 		  // on the bound socket.
@@ -547,14 +547,17 @@ DWORD WINAPI jaerCommandProcessorThreadFunction(LPVOID lpParam)
 			  fflush(stderr);
 			  continue;
 		  }
-		cmdRecvBuf[nbytes]=0; // terminate string
-		if(debugLevel>0){
-			printf("got jaer command \"%s\" from address %d\n",cmdRecvBuf,recvAddr.sin_addr);
-			fflush(stdout);
+			cmdRecvBuf[nbytes]=0; // terminate string
+			if(debugLevel>0){
+				printf("got jaer command \"%s\" from address %d\n",cmdRecvBuf,recvAddr.sin_addr);
+				fflush(stdout);
+			}
+			jaerAEOutputAddr.sin_addr=recvAddr.sin_addr; // set output address to be same as from where we received command
+			parseJaerCommand(cmdRecvBuf);
 		}
-		jaerAEOutputAddr.sin_addr=recvAddr.sin_addr; // set output address to be same as from where we received command
-		parseJaerCommand(cmdRecvBuf);
-		}
+
+		WSACleanup();
+		printf("closed all the sockets\n");
 		
 	  //-----------------------------------------------
 	  // Close the socket when finished receiving datagrams
