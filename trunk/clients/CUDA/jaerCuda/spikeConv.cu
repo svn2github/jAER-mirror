@@ -120,7 +120,7 @@ cudaArray* cuArray; // used for texture template memory
 
 /** Initialize CUDA device. If we have multiple CUDA device we are using device 0.
 **/
-void initiateDevice()
+void initiateDevice(int argc, char** argv)
 {
 	
 	int dev;
@@ -586,7 +586,7 @@ runjaerCUDA( int argc, char** argv)
 #endif
 
 	/** initiate gpu device **/
-	initiateDevice();
+	initiateDevice(argc, argv);
 
 	/** allocates and notes down various memory in the GPU side...	 **/
 	allocateDeviceMemory();
