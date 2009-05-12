@@ -99,4 +99,11 @@ For multipleObject (we scan many Objects at a time) objId = z;
 
 For Visual Studio, set for All configurations/Debugging/Environment
 
-path=%PATH%;%NVSDKCUDA_ROOT%\common\lib;%NVSDKCUDA_ROOT%\bin\$(PlatformName)\$(ConfigurationName)
+path=%NVSDKCUDA_ROOT%\common\lib;%NVSDKCUDA_ROOT%\bin\$(PlatformName)\$(ConfigurationName);%CUDA_BIN_PATH%;%PATH%;
+
+otherwise you will get cudart.dll or cutil32.dll or cutil32D.dll missing warning when trying to run. The VC project is set up
+to use the proper subdirectory of the CUDA SDK for debug/release configs.
+ 
+CUDA_BIN_PATH=H:\CUDA\bin and NVSDKCUDA_ROOT=H:\Documents and Settings\All Users\Application Data\NVIDIA Corporation\NVIDIA CUDA SDK?'??A,
+
+http://www.rapidee.com/en/download is a useful tool for windows environment variable editing.
