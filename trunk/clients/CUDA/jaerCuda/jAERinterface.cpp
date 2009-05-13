@@ -93,9 +93,6 @@ extern DWORD maxXmitIntervalMs;
 extern int inputPort, outputPort;
 extern DWORD maxXmitIntervalMs;
 
-// Helper macro for displaying errors
-#define PRINTERROR(s)	\
-		fprintf(stderr,"\nError %s: WSAGetLastError()= %d\n", s, WSAGetLastError())
 
 bool isTimeToSend(){
 	DWORD t=GetTickCount();
@@ -132,9 +129,9 @@ void jaerSendEvent(unsigned int addrx, unsigned int addry, unsigned long timeSta
 		sendBufLen = 0;
 	}
 
-	//if(debugLevel> 2) {
+	//if(debugLevel> 1) {
 	//	if(sendBufLen == 0){
-	//		printf("addrx[0] = %d, addry[0] = %d",aerBuf[3],aerBuf[4]);
+	//		printf("addrx[0] = %u, addry[0] = %u",aerBuf[3],aerBuf[4]);
 	//	}
 	//}
 		
@@ -456,6 +453,14 @@ void parseJaerCommand(char* buf)
 	}else if(strstr(buf,"iESynWeight")){
 		sscanf(buf,"%*s%f",&hostNeuronParams.iESynWeight);
 		printf("set iESynWeight=%f\n",hostNeuronParams.iESynWeight);
+	}else if(strstr(buf,"kernelShape")){
+		if(strstr(buf,"kernelShape DoG")){
+			template_type = TEMPLATE_DoG;
+		}else if(strstr(buf,"kernelShape Gaussian")){
+			template_type = TEMPLATE_Gau;
+		}else{
+			template_type = TEMPLATE_Gab;
+		}
 	}else if(strstr(buf,"exit")){
 		printf("setting stopEnabled according to command\n");
 		fflush(stdout);
@@ -488,9 +493,15 @@ void parseJaerCommand(char* buf)
 		fflush(stdout);	
 	}else if(strstr(buf,"numObject")){
 		sscanf(buf,"%*s%d",&num_object);
-		if(num_object>MAX_NUM_OBJECT) num_object=MAX_NUM_OBJECT ; else if(num_object<0) num_object=0; // bounds checking
+		// bounds checking
+		if(template_type != TEMPLATE_Gab){
+			if(num_object>MAX_NUM_OBJECT) num_object=MAX_NUM_OBJECT ; else if(num_object<0) num_object=0;
+		}else{
+			if(num_object>GABOR_MAX_NUM_ORIENTATION) num_object=GABOR_MAX_NUM_ORIENTATION ; else if(num_object<0) num_object=0; 
+		}
 		printf("set num_object=%d\n",num_object);
 		fflush(stdout);
+		sendTemplateEnabled = 1;
 	}else{
 		printf("unknown command %s\n",buf);
 	}

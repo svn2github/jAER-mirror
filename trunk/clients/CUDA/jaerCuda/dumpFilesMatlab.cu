@@ -5,8 +5,6 @@
 
 #include "config.h"
 
-int countMem = 0;
-
 extern "C"	{
 	void dumpTemplate(FILE* fp, char* fstr);
 	void printResults(FILE* fpLog);
@@ -36,31 +34,11 @@ void dumpTemplate(FILE* fp, char* fstr)
 
 }
 
-void dumpTemplateArr(float templ[][MAX_TEMPLATE_SIZE], char* name, int id)
-{
-	char fname[25];
-	int j,k;
-	sprintf( fname, "%s%d.txt", name, id);
-	static FILE* fp = fopen(fname,"w");
-	
-	fprintf( fp, " template%d = [ ", id);
- 	for(j=0; j < MAX_TEMPLATE_SIZE; j++) {
-		for(k=0; k < MAX_TEMPLATE_SIZE; k++) {
-			fprintf( fp, " %f ", templ[j][k]);
-		}
-		fprintf(fp, "; \n");
-	}
-	fprintf(fp , " ];\n\n " );
-
-	fclose(fp);
-}
-
+int countMem = 0;
 
 // only for debug, writes the membrane potentials to a file
 void showMembranePotential(unsigned int* spikeAddr=NULL, int spikeCnt=0)
-{
-#if RECORD_MEMBRANE_POTENTIAL
-		void* devPtr;		
+{		
 		if((countMem >= RECORD_START && countMem <= RECORD_END))
 		{
 			if(runCuda)
@@ -70,17 +48,18 @@ void showMembranePotential(unsigned int* spikeAddr=NULL, int spikeCnt=0)
 			sprintf(fname, "mem_pot%d.m", countMem);
 			FILE* fpDumpPot;	
 			fpDumpPot = fopen(fname, "w");
-
-			fprintf( fpDumpPot, " memPot = [ " );		
-
-			for(int i=0; i < MAX_Y; i++) {
-				for(int j=0; j < MAX_X; j++) {
-					fprintf( fpDumpPot, " %f ", membranePotential[0][i][j]);
+	
+			for(int k = 0; k < num_object; k++){
+				fprintf( fpDumpPot, " memPot[%d] = [ ", k);
+				for(int i=0; i < MAX_Y; i++) {
+					for(int j=0; j < MAX_X; j++) {
+						fprintf( fpDumpPot, " %f ", membranePotential[k][i][j]);
+					}
+					fprintf(fpDumpPot, "; \n");
 				}
-				fprintf(fpDumpPot, "; \n");
+				fprintf( fpDumpPot, "];\n\n");
 			}
 
-			fprintf(fpDumpPot , " ]; " );
 			fclose(fpDumpPot);
 
 			if(spikeAddr != NULL) {
@@ -97,8 +76,7 @@ void showMembranePotential(unsigned int* spikeAddr=NULL, int spikeCnt=0)
 			}		
 		}	
 		
-		countMem++;			
-#endif
+		countMem++;		
 
 }
 
@@ -108,7 +86,7 @@ void printResults(FILE* fpLog)
 	int tot_fired = 0;
 	if(!runCuda) {
 		extern int cpu_totFiring;
-		extern int cpu_totFiringMO[MAX_NUM_OBJECT];
+		extern int cpu_totFiringMO[MAX_NUM_TEMPLATE];
 		printf(" Number of fired neurons is %d\n", cpu_totFiring);	
 		printf(" Template size is %dx%d\n", MAX_TEMPLATE_SIZE, MAX_TEMPLATE_SIZE);					
 		fprintf(fpLog, " Template size is %dx%d\n", MAX_TEMPLATE_SIZE, MAX_TEMPLATE_SIZE);	
@@ -136,7 +114,6 @@ void printResults(FILE* fpLog)
 		}
 	}
 	
-#if !VERSION_0_1
 	int tot=0;
 	int minLen=1000;
 	int mini=0;
@@ -152,7 +129,6 @@ void printResults(FILE* fpLog)
 		printf(" Spike Distribution Per Kernel Call: \nmean(%f), min (i=%d, val=%d), max(i=%d,val=%d)\n", tot*1.0/cnt, mini, minLen, maxi,maxLen);
 		fprintf(fpLog, " Spike Distribution Per Kernel Call: \nmean(%f), min (i=%d, val=%d), max(i=%d,val=%d)\n", tot*1.0/cnt, mini, minLen, maxi,maxLen);
 	}
-#endif
 
 	if(runCuda) {
 		printf( " Total Object scanned : %d\n", num_object);

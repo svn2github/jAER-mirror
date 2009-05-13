@@ -8,44 +8,62 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // export C interface
-extern "C" int extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, const unsigned int len);
-
 extern "C" {
+	int extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, const unsigned int len);
 	void computeGold( unsigned int* addr, unsigned long* timeStamp);
 	int  templateConvInit(int selectType=TEMP_METHOD1, int templateType=TEMPLATE_DoG);
-	void dumpTemplate(FILE* fp, char* fstr);
-	void playAudio();
 	void setInitLastTimeStamp(unsigned long timeStamp, int objId=0);
-	void printResults();
+}
 
+
+//===========================================================
+// Functions related to dumping trace info and other matlab scripts
+//=========================================================== 
+extern "C"{
+	void dumpTemplate(FILE* fp, char* fstr);
+}
+	
+//=========================================================
+// Functions for jAER communication
+//=========================================================
+
+extern "C"{
 	void jaerSendEvent(unsigned int addrx, unsigned int addry, unsigned long timeStamp, unsigned char type);
 }
 
 
 extern unsigned int delta_time;
 extern int num_object;
-extern bool runCuda;
 extern globalNeuronParams_t hostNeuronParams;
-extern void jaerSendEvent(unsigned int addrx, unsigned int addry, unsigned long timeStamp, unsigned char type);
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
 
 int			  cpu_totFiring=0;					// used to calculate the average firing rate from CPU model
-int			  cpu_totFiringMO[MAX_NUM_OBJECT];	// store the firing count for each object that is tracked.
-float		  conv_template[MAX_NUM_OBJECT][MAX_TEMPLATE_SIZE][MAX_TEMPLATE_SIZE];		// template of all objects
+int			  cpu_totFiringMO[MAX_NUM_TEMPLATE];	// store the firing count for each object that is tracked.
+float		  conv_template[MAX_NUM_TEMPLATE][MAX_TEMPLATE_SIZE][MAX_TEMPLATE_SIZE];		// template of all objects
 unsigned long lastInputStamp[MAX_X][MAX_Y];		// stores the time of last firing of the input addr. This is used
 												// to filter spikes that happens at a high rate.
-float		  membranePotential[MAX_NUM_OBJECT][MAX_X][MAX_Y];	// corresponds to membrane potential of each neuron.																	
-unsigned long lastTimeStamp[MAX_NUM_OBJECT][MAX_X][MAX_Y];		// store the firing time of each neuron. This is used
+float		  membranePotential[MAX_NUM_TEMPLATE][MAX_X][MAX_Y];	// corresponds to membrane potential of each neuron.																	
+unsigned long lastTimeStamp[MAX_NUM_TEMPLATE][MAX_X][MAX_Y];		// store the firing time of each neuron. This is used
 																// calcuate the membrane potential decay.
-const float	  objSizeArray[] = {15,8,5,3,20,30}; // 15.0,7.0,22.0,21.0,20.0,19.0,18.0,12.0,11.0,10.0};	// ball size in pixels
-float		  iNeuronPotential[MAX_NUM_OBJECT];	// membrane potential of inhibitory neuron. one inhibitory neuron
+const float	  objSizeArray[] = {10,8,5,3,2}; // 15.0,7.0,22.0,21.0,20.0,19.0,18.0,12.0,11.0,10.0};	// ball size in pixels
+float		  iNeuronPotential[MAX_NUM_TEMPLATE];	// membrane potential of inhibitory neuron. one inhibitory neuron
 												// for each object plane or object to be recognized
 int iNeuronFiringCnt = 0;						// used to calculate the firing rate of inhibitory neurons
 int iNeuronCallingCnt = 0;						// keeps track of number of times an inhibitory neuron is called.
 
 int lastSequenceNumber=0;	// to check dropped packets from jaer
+
+// paramters for gabor template
+float f_gabor_bandwidth = GABOR_BAND_WIDTH; //bandwidth of the gabor function
+float f_gabor_theta[] = {0,45,90,135};  // orientation of the gabor function
+float f_gabor_lambda = GABOR_WAVELENGTH;	//wavelength of the gabor function
+float f_gabor_psi = GABOR_PHASE_OFFSET;	//phase offset of the gabor function
+float f_gabor_gamma = GABOR_ASPECT_RATIO;	// aspect ratio of the gabor function
+float f_gabor_xymax = GABOR_XY_MAX;	// the maximum value of x and y value
+float f_gabor_maxamp = GABOR_MAX_AMP; // the maximum amplitude of the gabor function
 
 /** convert 4-byte char to an integer
  * @param: data		data stream reveived from jaer
@@ -135,7 +153,7 @@ long long num_packets = 0;			//
 void storeFilteredSpikes(unsigned int* addr, unsigned long* timeStamp)
 {
 	static FILE* fp = NULL;
-	static unsigned int fpOpened  = 0;	
+	static unsigned int tot_filtered_spikes  = 0;	
 	static int numRecorded = 0;		
 	
 	if(fp==NULL) {
@@ -150,14 +168,14 @@ void storeFilteredSpikes(unsigned int* addr, unsigned long* timeStamp)
 	for(unsigned int i = 0; i < lenData; i++) {
 		fprintf(fp, "%d %u\n", addr[i], timeStamp[i]);
 	}
-	fpOpened++;
-	if(fpOpened == (unsigned)RECORD_MODE_SAMPLES_CNT) {
+
+	tot_filtered_spikes++;
+	if(tot_filtered_spikes == (unsigned)RECORD_MODE_SAMPLES_CNT) {
 		fprintf(stdout, "RECORD MODE ===> %d filtered spikes recorded\n", numRecorded);		
 		fprintf(stdout, "RECORDING MODE FINISHED....\n");
 		fclose(fp);
 		fflush(stdout);
 		exit(0);
-		//CUT_EXIT(argc, argv);
 	}
 }
 
@@ -190,7 +208,7 @@ extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, co
 	return lenData;
 #endif
 
-#if DUMP_DEBUG
+#if DUMP_RECV_DATA
 	char fname[100];
 	sprintf(fname, "recv_packet%d.m", num_packets);
 	FILE* fpDumpSpike;
@@ -224,7 +242,7 @@ extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, co
 		unsigned int addryCur = (Data[i*EVENT_LEN+2]& 0x7f);
 		*timeStampCur = getInt( &Data[i*EVENT_LEN+4]); //*((unsigned int *)&Data[i*6+2]);
 	
-#if DUMP_DEBUG
+#if DUMP_RECV_DATA
 		 fprintf(fpDumpSpike, "%u %u %u\n", addrxCur, addryCur, *timeStampCur);
 #endif
 
@@ -250,12 +268,16 @@ extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, co
 
 	}				
 
-#if DUMP_DEBUG
+#if DUMP_RECV_DATA
 	fprintf(fpDumpSpike, " ]; " );
 	fclose(fpDumpSpike);
+
+	if(num_packets == (unsigned)RECORD_MODE_SAMPLES_CNT){
+		exit(0);
+	}
 #endif
 
-#ifdef RECORD_MODE
+#ifdef DUMP_FILTERED_DATA
 	storeFilteredSpikes(addr,timeStamp);
 #endif
 
@@ -371,15 +393,12 @@ void update_neurons(unsigned int addrx, unsigned int addry, unsigned long timeSt
 
 				// send the output events back to cuda
 				#if !REPLAY_MODE
-					if(!runCuda) 
-					{
-						// accumulate fired neuron and send to jaer
-						jaerSendEvent(i,j,timeStamp,k);
+					// accumulate fired neuron and send to jaer
+					jaerSendEvent(i,j,timeStamp,k);
 
-						if (ineuron_fired)
-							jaerSendEvent(1,1,timeStamp,0);
+					if (ineuron_fired)
+						jaerSendEvent(1,1,timeStamp,0);
 
-					}
 				#endif
 				}
 				else if ( membranePotential[k][i][j] < hostNeuronParams.membranePotentialMin ) {
@@ -471,10 +490,8 @@ void update_neurons_grouping(unsigned int addrx, unsigned int addry, unsigned lo
 
 				// send the excitatory output events back to cuda
 				#if !REPLAY_MODE
-					if(!runCuda) {
-					// accumulate fired neuron and send to jaer
-						jaerSendEvent(i,j,timeStamp,objId);
-					}
+				// accumulate fired neuron and send to jaer
+					jaerSendEvent(i,j,timeStamp,objId);
 				#endif
 				}
 				else if ( membranePotential[objId][i][j] < hostNeuronParams.membranePotentialMin ) {
@@ -487,9 +504,7 @@ void update_neurons_grouping(unsigned int addrx, unsigned int addry, unsigned lo
 		if(numFired)
 			ineuron_fired = update_inh_neuron(fpFiring, timeStamp, objId, numFired);	
 #if !REPLAY_MODE
-		if(!runCuda) {
-			jaerSendEvent(1,1,timeStamp,0);
-		}
+		jaerSendEvent(1,1,timeStamp,0);
 #endif
 	}
 }
@@ -526,19 +541,17 @@ void templateConvGau(int templateIndex, float sizeObject)
 	if(debugLevel>0) {
 		printf("templateConvGau: Generating Template #%d for sizeObject=%f\n",templateIndex,sizeObject);
 	}
-	int sizeTemplate = MAX_TEMPLATE_SIZE;
-	//float sizeObject = MAX_OBJECT_SIZE;
 
-	float center = (float)(sizeTemplate/2);
+	float center = (float)(MAX_TEMPLATE_SIZE/2);
 	int i, j;
 	
-	if(sizeTemplate > sizeObject){
-		float ampFactor = sizeTemplate/sizeObject/2;
-		float maxNegAmp = ampFactor*MAX_NEG_AMP;
-		float maxAmpActivation = ampFactor*MAX_AMP_ACTIVATION;
-		for(i = 0; i < sizeTemplate; i++){ // scanning through vertical axis
+	if(sizeObject < MAX_TEMPLATE_SIZE){
+		//float ampFactor = MAX_TEMPLATE_SIZE/sizeObject/2;
+		float maxNegAmp = MAX_NEG_AMP;
+		float maxAmpActivation = MAX_AMP_ACTIVATION;
+		for(i = 0; i < MAX_TEMPLATE_SIZE; i++){ // scanning through vertical axis
 			float dist = abs(i - center);
-			for(j = 0; j < sizeTemplate; j++){ // scanning through horizontal axis, each row contains 0 to 2 Gaussian bumps depending on their vertical location 
+			for(j = 0; j < MAX_TEMPLATE_SIZE; j++){ // scanning through horizontal axis, each row contains 0 to 2 Gaussian bumps depending on their vertical location 
 				if(dist > sizeObject) // if the vertical distance is larger than the size of the object, the amplitude is defined as max negative value
 					conv_template[templateIndex][i][j] = maxNegAmp;
 				else if(dist == sizeObject){ // if the vertical distance is equal to the size of the object, there is one peak which is located at the center of the row
@@ -559,8 +572,8 @@ void templateConvGau(int templateIndex, float sizeObject)
 
 		//transpose of the template matrix to reverse the horizontal and vertical axis
 		float temp;
-		for(i = 0; i < sizeTemplate; i++){
-			for(j = 0; j < sizeTemplate; j++){
+		for(i = 0; i < MAX_TEMPLATE_SIZE; i++){
+			for(j = 0; j < MAX_TEMPLATE_SIZE; j++){
 				if(i > j){
 					temp = conv_template[templateIndex][i][j];
 					conv_template[templateIndex][i][j] = conv_template[templateIndex][j][i];
@@ -570,9 +583,9 @@ void templateConvGau(int templateIndex, float sizeObject)
 		}
 
 		// calculate the amplitude in the transposed orientation again to eliminate the unsymmetry of the resulting template
-		for(i = 0; i < sizeTemplate; i++){
+		for(i = 0; i < MAX_TEMPLATE_SIZE; i++){
 			float dist = abs(i - center);
-			for(j = 0; j < sizeTemplate; j++){
+			for(j = 0; j < MAX_TEMPLATE_SIZE; j++){
 				if(dist > sizeObject)
 					conv_template[templateIndex][i][j] = conv_template[templateIndex][i][j] + maxNegAmp;
 				else if(dist == sizeObject){
@@ -592,8 +605,8 @@ void templateConvGau(int templateIndex, float sizeObject)
 		}
 
 		// transpose back to the original orientation
-		for(i = 0; i < sizeTemplate; i++){
-			for(j = 0; j < sizeTemplate; j++){
+		for(i = 0; i < MAX_TEMPLATE_SIZE; i++){
+			for(j = 0; j < MAX_TEMPLATE_SIZE; j++){
 				if(i > j){
 					temp = conv_template[templateIndex][i][j];
 					conv_template[templateIndex][i][j] = conv_template[templateIndex][j][i];
@@ -601,9 +614,28 @@ void templateConvGau(int templateIndex, float sizeObject)
 				}
 			}
 		}
+
+		// make templates have zero integral
+		 // compute sum of all template values to check zero integral
+		 float templateSum=0;
+		 for(i=0;i<MAX_TEMPLATE_SIZE;i++)
+			 for(j=0;j<MAX_TEMPLATE_SIZE;j++)
+				 templateSum+= conv_template[templateIndex][j][i]; // integrate
+		float f=templateSum/MAX_TEMPLATE_SIZE/MAX_TEMPLATE_SIZE; // compute value to subtract from each element
+		 for(i=0;i<MAX_TEMPLATE_SIZE;i++)
+			 for(j=0;j<MAX_TEMPLATE_SIZE;j++)
+				 conv_template[templateIndex][j][i]-=f; // subtract it
+
+		if(debugLevel>1){ // now print integral
+			float templateSum=0;
+			for(i=0;i<MAX_TEMPLATE_SIZE;i++)
+				for(j=0;j<MAX_TEMPLATE_SIZE;j++)
+					templateSum+= conv_template[templateIndex][j][i];
+			printf("Integral of template #%d for sizeObject=%f is %f\n",templateIndex,sizeObject,templateSum);
+		}
 	} 
 	else{
-		fprintf(stderr,"object size (%f) should be smaller than template size (%d).\n",sizeObject,sizeTemplate);
+		fprintf(stderr,"object size (%f) should be smaller than template size (%d).\n",sizeObject,MAX_TEMPLATE_SIZE);
 	}
 }
 
@@ -618,19 +650,19 @@ void templateConvDoG(int templateIndex, float sizeObject)
 	if(debugLevel>0){
 		printf("Generating DoG Template #%d for sizeObject=%f\n",templateIndex,sizeObject);
 	}
-	int sizeTemplate = MAX_TEMPLATE_SIZE;
+
 	 //float sizeObject = MAX_OBJECT_SIZE;
-	 float center = (float)(sizeTemplate/2);
+	 float center = (float)(MAX_TEMPLATE_SIZE/2);
 	 int i, j;
 	 
 	 // difference of gaussian shape template
-	 if(sizeTemplate > sizeObject){
-		  float ampFactor = sizeTemplate/sizeObject/2;
-		  float maxNegAmp = ampFactor*MAX_NEG_AMP;
-		  float maxAmpActivation = ampFactor*MAX_AMP_ACTIVATION;
-		  for(i = 0; i < sizeTemplate; i++){
+	 if(sizeObject < MAX_TEMPLATE_SIZE){
+		  //float ampFactor = MAX_TEMPLATE_SIZE/sizeObject/2;
+		  float maxNegAmp = MAX_NEG_AMP;
+		  float maxAmpActivation = MAX_AMP_ACTIVATION;
+		  for(i = 0; i < MAX_TEMPLATE_SIZE; i++){
 		   float dist = abs(i - center);
-		   for(j = 0; j < sizeTemplate; j++){
+		   for(j = 0; j < MAX_TEMPLATE_SIZE; j++){
 			if(dist > sizeObject)
 			 conv_template[templateIndex][i][j] = maxNegAmp;
 			else if(dist == sizeObject){
@@ -649,8 +681,8 @@ void templateConvDoG(int templateIndex, float sizeObject)
 		  }
 		  //transpose
 		  float temp;
-		  for(i = 0; i < sizeTemplate; i++){
-		   for(j = 0; j < sizeTemplate; j++){
+		  for(i = 0; i < MAX_TEMPLATE_SIZE; i++){
+		   for(j = 0; j < MAX_TEMPLATE_SIZE; j++){
 			if(i > j){
 			 temp = conv_template[templateIndex][i][j];
 			 conv_template[templateIndex][i][j] = conv_template[templateIndex][j][i];
@@ -658,9 +690,9 @@ void templateConvDoG(int templateIndex, float sizeObject)
 			}
 		   }
 		  }
-		  for(i = 0; i < sizeTemplate; i++){
+		  for(i = 0; i < MAX_TEMPLATE_SIZE; i++){
 		   float dist = abs(i - center);
-		   for(j = 0; j < sizeTemplate; j++){
+		   for(j = 0; j < MAX_TEMPLATE_SIZE; j++){
 			if(dist > sizeObject)
 			 conv_template[templateIndex][i][j] = conv_template[templateIndex][i][j];
 			else if(dist == sizeObject){
@@ -679,8 +711,8 @@ void templateConvDoG(int templateIndex, float sizeObject)
 		   }
 	  }
 
-	  for(i = 0; i < sizeTemplate; i++){
-	   for(j = 0; j < sizeTemplate; j++){
+	  for(i = 0; i < MAX_TEMPLATE_SIZE; i++){
+	   for(j = 0; j < MAX_TEMPLATE_SIZE; j++){
 		if(i > j){
 		 temp = conv_template[templateIndex][i][j];
 		 conv_template[templateIndex][i][j] = conv_template[templateIndex][j][i];
@@ -689,11 +721,68 @@ void templateConvDoG(int templateIndex, float sizeObject)
 	   }
 	  }
 	 } else{
-	  fprintf(stderr, "object size (%f) should be smaller than template size (%d); no template generated\n",sizeObject,sizeTemplate);
+	  fprintf(stderr, "object size (%f) should be smaller than template size (%d); no template generated\n",sizeObject,MAX_TEMPLATE_SIZE);
 	  fflush(stderr);
 	 }
+
+	 // make templates have zero integral
+	 // compute sum of all template values to check zero integral
+	 float templateSum=0;
+	 for(i=0;i<MAX_TEMPLATE_SIZE;i++)
+		 for(j=0;j<MAX_TEMPLATE_SIZE;j++)
+			 templateSum+= conv_template[templateIndex][j][i]; // integrate
+	 float f=templateSum/MAX_TEMPLATE_SIZE/MAX_TEMPLATE_SIZE; // compute value to subtract from each element
+	 for(i=0;i<MAX_TEMPLATE_SIZE;i++)
+		 for(j=0;j<MAX_TEMPLATE_SIZE;j++)
+			 conv_template[templateIndex][j][i]-=f; // subtract it
+
+	if(debugLevel>1){ // now print integral
+		float templateSum=0;
+		for(i=0;i<MAX_TEMPLATE_SIZE;i++)
+			for(j=0;j<MAX_TEMPLATE_SIZE;j++)
+				templateSum+= conv_template[templateIndex][j][i];
+		printf("Integral of template #%d for sizeObject=%f is %f\n",templateIndex,sizeObject,templateSum);
+	}
 }  
 
+/** generate a two dimensional DOG template 
+ * @param:  templateIndex		the index of the template
+ **/
+void templateGabor(int templateIndex)
+{
+	float sigma_x = 1/PI * sqrt( log( 2.0F )/2) * ((pow(2,f_gabor_bandwidth)+1) / (pow(2,f_gabor_bandwidth)-1)) * f_gabor_lambda;
+	float sigma_y = sigma_x / f_gabor_gamma;
+
+	float x, y, theta_radian = f_gabor_theta[templateIndex]/360*2*PI;
+	float x_theta, y_theta;
+	for(int i = 0; i < MAX_TEMPLATE_SIZE; i++){
+		y = -f_gabor_xymax+i*f_gabor_xymax/(float)(MAX_TEMPLATE_SIZE-1)*2;
+		for(int j = 0; j < MAX_TEMPLATE_SIZE; j++){
+			x = -f_gabor_xymax+j*f_gabor_xymax/(float)(MAX_TEMPLATE_SIZE-1)*2;
+			x_theta=x*cos(theta_radian)+y*sin(theta_radian);
+			y_theta=-x*sin(theta_radian)+y*cos(theta_radian);
+
+			conv_template[templateIndex][i][j] = f_gabor_maxamp*exp(-(pow(x_theta,2)/pow(sigma_x,2)+pow(y_theta,2)/pow(sigma_y,2))/2) * cos(2 * PI / f_gabor_lambda*x_theta + f_gabor_psi);
+		}
+	}
+}
+
+/*
+function gb=gabor_fn(b,theta,lambda,psi,gamma)
+ 
+sigma_x = 1/pi*sqrt(log(2)/2)*((2^b+1)/2^b-1)*lambda;
+sigma_y = sigma_x/gamma;
+
+templateSize = 16;
+ 
+[x,y] = meshgrid(-1:1/(templateSize-1)*2:1,-1:1/(templateSize-1)*2:1);
+% Rotation 
+x_theta=x*cos(theta)+y*sin(theta);
+y_theta=-x*sin(theta)+y*cos(theta);
+ 
+gb=exp(-.5*(x_theta.^2/sigma_x^2+y_theta.^2/sigma_y^2)).*cos(2*pi/lambda*x_theta+psi);
+
+*/
 
 int circleArr[MAX_TEMPLATE_SIZE][MAX_TEMPLATE_SIZE];
 int countPixel=0;
@@ -872,7 +961,7 @@ void generateObjectTemplate(FILE* fp, int templateIndex, int templateType)
 			templateSum+=conv_template[templateIndex][i][j];
 		}
 	}
-	if(debugLevel>0){
+	if(debugLevel>1){
 		printf("generated template %d, sum of values=%f\n",templateIndex,templateSum);
 	}
 	dumpGauss(fp, templateIndex);
@@ -902,7 +991,7 @@ int templateConvInit(int selectType, int templateType)
 	/// .... dump the generated template as a matlab file.
 	FILE *fp;
 	char fstr[100];
-	sprintf(fstr,"template_%s%d.m",(templateType==TEMPLATE_DoG)?"DoG":"Gau", selectType);
+	sprintf(fstr,"template.m");
 	fp = fopen(fstr,"w");
 	if(fp==NULL){
 		fprintf(stderr,"Warning !! ... Couldn't create %s for output, skipping writing templates\n", fstr);
@@ -920,37 +1009,22 @@ int templateConvInit(int selectType, int templateType)
 		case TEMP_METHOD1:
 			// generate template using method1
 			if(debugLevel>0) printf("generating template using method1\n");
-			for(i = 0; i < num_object; i++){
-				if(templateType==TEMPLATE_DoG){
+			
+			if(templateType==TEMPLATE_DoG){
+				for(i = 0; i < num_object; i++){
 					templateConvDoG(i,objSizeArray[i]);
-				}else{
+				}
+			}else if(templateType==TEMPLATE_Gau){
+				for(i = 0; i < num_object; i++){
 					templateConvGau(i,objSizeArray[i]);
+				}
+			}else{
+				for(i = 0; i < num_object; i++){
+					templateGabor(i);
 				}
 			}
 	}
 	
-	// make templates have zero integral
-	 // compute sum of all template values to check zero integral
-	int sizeTemplate=MAX_TEMPLATE_SIZE;
-	for(int templateIndex = 0; templateIndex < num_object; templateIndex++){
-		 float sizeObject=objSizeArray[templateIndex];
-		 float templateSum=0;
-		 for(i=0;i<sizeTemplate;i++)
-			 for(j=0;j<sizeTemplate;j++)
-				 templateSum+= conv_template[templateIndex][j][i]; // integrate
-		float f=templateSum/sizeTemplate/sizeTemplate; // compute value to subtract from each element
-		 for(i=0;i<sizeTemplate;i++)
-			 for(j=0;j<sizeTemplate;j++)
-				 conv_template[templateIndex][j][i]-=f; // subtract it
-
-		if(debugLevel>0){ // now print integral
-		 float templateSum=0;
-		 for(i=0;i<sizeTemplate;i++)
-			 for(j=0;j<sizeTemplate;j++)
-				 templateSum+= conv_template[templateIndex][j][i];
-			printf("Integral of template #%d for sizeObject=%f is %f\n",templateIndex,sizeObject,templateSum);
-		}
-	}
 	dumpTemplate(fp,fstr);
 
 	////...... reset the variables for simulations on CPU...

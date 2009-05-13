@@ -14,16 +14,16 @@
 // this should not be a device pointer, it should be a host pointer which is cudaMalloc'ed and which has data copied to it from the host, then bound as texture
 // we cannot refer to this data here except by texFetch1d
 texture <float> template_tex;
-//__device__ float gpu_conv_template[MAX_NUM_OBJECT][MAX_TEMPLATE_SIZE][MAX_TEMPLATE_SIZE]; // TODO tobi changed to cudaMalloc so that memory is accessible, may cause problems
+//__device__ float gpu_conv_template[MAX_NUM_TEMPLATE][MAX_TEMPLATE_SIZE][MAX_TEMPLATE_SIZE]; // TODO tobi changed to cudaMalloc so that memory is accessible, may cause problems
 
-__device__ float gpu_membranePotential[MAX_NUM_OBJECT][MAX_Y][MAX_X];
-__device__ unsigned long gpu_lastTimeStamp[MAX_NUM_OBJECT][MAX_Y][MAX_X];
+__device__ float gpu_membranePotential[MAX_NUM_TEMPLATE][MAX_Y][MAX_X];
+__device__ unsigned long gpu_lastTimeStamp[MAX_NUM_TEMPLATE][MAX_Y][MAX_X];
 
 __constant__ __device__  globalNeuronParams_t constNeuronParams;
 
-__device__ int   numFiring0[MAX_NUM_OBJECT];
-__device__ int   numFiring1[MAX_NUM_OBJECT];  
-__device__ unsigned int   firedNeuronAddr[MAX_NUM_OBJECT*MAX_FIRING]; // holds output spikes from each template
+__device__ int   numFiring0[MAX_NUM_TEMPLATE];
+__device__ int   numFiring1[MAX_NUM_TEMPLATE];  
+__device__ unsigned int   firedNeuronAddr[MAX_NUM_TEMPLATE*MAX_FIRING]; // holds output spikes from each template
 
 /** This method implements part of the winner-take-all functionality.
  * The CPU calls this kernel whenever some neurons in the neuron array has fired.

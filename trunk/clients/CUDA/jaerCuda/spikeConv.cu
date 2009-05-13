@@ -6,8 +6,6 @@
 #include <assert.h>
 #include <time.h>
 
-//#include "aer.h"
-
 // includes, project
 #include <cutil.h>
 
@@ -21,7 +19,6 @@
 // includes, kernels
 #include "spikeConv_kernel.cu"
 
-#define CUDA   1
 bool runCuda=1, tmpRunCuda=1; // tmp is for command processing
 
 //===========================================================
@@ -31,7 +28,7 @@ bool runCuda=1, tmpRunCuda=1; // tmp is for command processing
 extern char recvBuf[RECV_SOCK_BUFLEN];
 
 //=========================================================
-// Functions for jAER connections
+// Functions for jAER communication
 //=========================================================
 
 extern "C" {
@@ -39,6 +36,7 @@ extern "C" {
 	int jaerRecv(); // fills up recvBuf with some spike data
 	void jaerSendEvent(unsigned int addrx, unsigned int addry, unsigned long timeStamp, unsigned char type);
 }
+
 //==========================================================
 // Functions that interface with golden reference
 //==========================================================
@@ -60,32 +58,24 @@ extern "C"{
 }
 
 
-//===========================================================
-// Cuda related functions
-//===========================================================
 
-void  allocateDeviceMemory();
-int   runjaerCUDA( int argc, char** argv);
-
-////////////////////////////////////////////////////////////////////////////////
-// declaration, forward
-////////////////////////////////////////////////////////////////////////////////
-
-float inh_mem_potential[MAX_NUM_OBJECT];			// value of the inhibition potential
+float inh_mem_potential[MAX_NUM_TEMPLATE];			// value of the inhibition potential
 unsigned int  filteredSpike_addr[RECV_SOCK_BUFLEN/EVENT_LEN];	// array of filterred spike's address
 unsigned long filteredSpike_timeStamp[RECV_SOCK_BUFLEN/EVENT_LEN];	// array of filtered spikes's timestamp
 
 FILE *fpLog;						// Pointer to the log file...
-long tot_fired_MO[MAX_NUM_OBJECT];  // total number of firing per neuronArray
+long tot_fired_MO[MAX_NUM_TEMPLATE];  // total number of firing per neuronArray
 int  inhFireCnt=0;					// total firing by inhibitory neuron
 int   callCount=0;				// keeps track of number of times kernel is called
 long  tot_filteredSpikes = 0;	// total number of filtered spikes since the start...
 float accTimer = 0;				// total executing time is kept here...
 
-int  num_object=MAX_NUM_OBJECT;   
+int  num_object=MAX_NUM_TEMPLATE; 
+int template_type = TEMPLATE_Gab;
+int template_method = TEMP_METHOD1;  
 // delta_time is time in us that spikes are chunked together to be sent with common timestamp. 
 // increasing speeds up processing but quantizes time more.
-unsigned int delta_time=1000;
+unsigned int delta_time=DELTA_TIME;
 
 int debugLevel=DEBUG_LEVEL;
 
@@ -161,6 +151,12 @@ void allocateDeviceMemory()
 	hostNeuronParams.eISynWeight=EI_SYN_WEIGHT;
 	hostNeuronParams.iESynWeight=IE_SYN_WEIGHT;
 	
+	// bounds checking for the number of objects
+	if(template_type != TEMPLATE_Gab){
+		if(num_object>MAX_NUM_OBJECT) num_object=MAX_NUM_OBJECT ;
+	}else{
+		if(num_object>GABOR_MAX_NUM_ORIENTATION) num_object=GABOR_MAX_NUM_ORIENTATION ;
+	}
 }
 
 
@@ -188,14 +184,14 @@ void initializeNeurons()
 	cudaThreadSynchronize();
 	
 	printf("Initializing spike counter\n");
-	CUDA_SAFE_CALL( cudaMemset (numFiring0AddrMO, 0, sizeof(int)*MAX_NUM_OBJECT));		
-	CUDA_SAFE_CALL( cudaMemset (numFiring1AddrMO, 0, sizeof(int)*MAX_NUM_OBJECT));		
+	CUDA_SAFE_CALL( cudaMemset (numFiring0AddrMO, 0, sizeof(int)*MAX_NUM_TEMPLATE));		
+	CUDA_SAFE_CALL( cudaMemset (numFiring1AddrMO, 0, sizeof(int)*MAX_NUM_TEMPLATE));		
 	cudaThreadSynchronize();
 	
 	CUT_CHECK_ERROR("after initializeNeurons");
 	
-	memset(inh_mem_potential,0,sizeof(float)*MAX_NUM_OBJECT);
-	memset(tot_fired_MO,0,sizeof(long)*MAX_NUM_OBJECT);
+	memset(inh_mem_potential,0,sizeof(float)*MAX_NUM_TEMPLATE);
+	memset(tot_fired_MO,0,sizeof(long)*MAX_NUM_TEMPLATE);
 	
 	fflush(stdout);
 }
@@ -248,7 +244,7 @@ void onlineParamChange()
 	/** check if template should be send to device **/
 	if(sendTemplateEnabled){
 		sendTemplateEnabled=0;
-		templateConvInit();
+		templateConvInit(template_method,template_type);
 		
 		// send template to GPU 
 		cudaThreadSynchronize();
@@ -319,7 +315,7 @@ int recvFilterSpikes()
 	#endif
 	
 	tot_filteredSpikes += numSpikes;
-	if(debugLevel>1) printf("number of spikes after refractory filter = %d\n", numSpikes);
+	if(debugLevel>0) printf("number of spikes after refractory filter = %d\n", numSpikes);
 	
 	return numSpikes;
 }
@@ -366,11 +362,11 @@ void cudaCopySpikesFromGPU2jAER(unsigned long timeStamp, int* nfiredMO, char bIn
 	// send one spike to jaer if any of the inhibitory neuron fires
 	if(bInhNeuronFired){
 		jaerSendEvent(0,0,timeStamp,0);  
-		if(debugLevel > 1)
+		if(debugLevel > 0)
 			fprintf(stdout,"cudaCopySpikesFromGPU2jAER: sent an inhibitory spike to jaer\n");
 	}		
 				
-	if(debugLevel>1)
+	if(debugLevel > 0)
 		fprintf(stdout,"cudaCopySpikesFromGPU2jAER: sent %d spikes to jaer\n", net_firing);
 		
 #else
@@ -408,7 +404,7 @@ char cudaUpdateINeuron(void* numFiringAddr, int* nfiredMO)
 		// copy the number of template layer neurons that have fired...
 		CUDA_SAFE_CALL(cudaMemcpy(nfiredMO, numFiringAddr, sizeof(int)*num_object, cudaMemcpyDeviceToHost));
 		
-		if(debugLevel>2){
+		if(debugLevel>1){
 			printf("# spikes fired by object layers: ");
 			for(int i=0;i<num_object;i++){
 				printf("%d, ",nfiredMO[i]);
@@ -454,7 +450,7 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 	int  index_start=0;
 	int spikeLen = 1;
 	unsigned long spikeTimeStampV = filteredSpike_timeStamp[0]; // set the global timestamp for packet	
-	int cpu_nfiredMO[MAX_NUM_OBJECT];	// number of neurons that got fired in the last kernel call
+	int cpu_nfiredMO[MAX_NUM_TEMPLATE];	// number of neurons that got fired in the last kernel call
 	
 	// this loop iterates over spikes in the packet, calling the kernel periodically when it has collected enough
 	// spikes. after copying the spike addresses to GPU memory, it passes struct params to the kernel. 
@@ -487,7 +483,7 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
  		if(callCount < PARAM_LEN_SIZE)
 			paramLenArr[callCount]=spikeLen;				
 		assert(spikeLen!=0);		
-		if(debugLevel>2){
+		if(debugLevel>1){
 			printf("copying %d spike addresses to GPU\n",spikeLen);
 		}
 
@@ -512,7 +508,7 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 		int* numFiringArrayAddr   = (int*)((firingId)?numFiring0AddrMO:numFiring1AddrMO);
 		int* resetFiringArrayAddr = (int*)((firingId)?numFiring1AddrMO:numFiring0AddrMO); // TODO, this array is unused now
 		
-		if(debugLevel>2){
+		if(debugLevel>1){
 			printf("calling multi object convNN_multiSpikeKernel with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridExcDim.x, gridExcDim.y, gridExcDim.z, threadExcDim.x, threadExcDim.y,threadExcDim.z);
 		}
 		
@@ -521,9 +517,11 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 		CUT_CHECK_ERROR("convNN_multiSpikeKernel Kernel execution failed");	
 		cudaThreadSynchronize();
 			
-		if(debugLevel>2) fprintf(stderr, "Kernel executed %d times...\n", callCount);
+		if(debugLevel>1) fprintf(stderr, "Kernel executed %d times...\n", callCount);
 			
-		//showMembranePotential(&filteredSpike_addr[index_start],spikeLen); // only for debug
+	#if RECORD_MEMBRANE_POTENTIAL
+		showMembranePotential(&filteredSpike_addr[index_start],spikeLen); // only for debug
+	#endif
 		
 		/***********************************************************************************/
 		/********Update membrane potential of inhibitory neurons and call WTA kernel********/
@@ -534,7 +532,7 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 		char iNeuronFired = cudaUpdateINeuron(numFiringArrayAddr, cpu_nfiredMO);
 		if (iNeuronFired) {
 			
-			if(debugLevel>2){
+			if(debugLevel>1){
 			printf("calling winner take all kernel WTAKernel1DMO with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridInhDim.x, gridInhDim.y, gridInhDim.z, threadInhDim.x, threadInhDim.y,threadInhDim.z);
 			}
 			
@@ -598,10 +596,6 @@ runjaerCUDA( int argc, char** argv)
 	
 	/** Receive data until the server closes the connection **/
 	do { 
-
-		if(debugLevel>2){
-			printf("*** start cycle\n");
-		}
 		
 		/** main loop **/
 		
@@ -615,6 +609,10 @@ runjaerCUDA( int argc, char** argv)
 		}else if(numSpikes == -2){
 			break;
 		} // if numSpikes is not smaller than 0, it implies that numSpikes > 0
+		
+		if(debugLevel>1){
+			printf("*** start cycle\n");
+		}
 		
 		/** initiate the variables involved in neural network computation **/
 		if(setTimeStamp == 1)	{
@@ -648,7 +646,10 @@ runjaerCUDA( int argc, char** argv)
 		else {		
 			// compute reference solution
 			computeGold( filteredSpike_addr, filteredSpike_timeStamp);
+			
+		#if RECORD_MEMBRANE_POTENTIAL
 			showMembranePotential();
+		#endif
 		}
 
 	} while( stopEnabled==0 ); // until jaer tells us to exit
@@ -660,8 +661,10 @@ runjaerCUDA( int argc, char** argv)
 	
 	if(runCuda)	
 		cudaClean();
-		
+	
+#if !MEASUREMENT_MODE		
 	printResults(fpLog);	
+#endif
 
 	fflush(stdout); // for jaer to get it
 	return 0;
@@ -673,13 +676,12 @@ runjaerCUDA( int argc, char** argv)
 /**********************************************************************************************************************/
 int main( int argc, char** argv)
 {
+#if !MEASUREMENT_MODE	
     fpLog = fopen("sim.log","w");
 	if(!fpLog) {
 		fprintf(stderr, "Cannot create simulation logging file sim.log in current directory\n");		
 		exit(1);
 	}
-
-	printf("starting jaercuda \n");
 
 	/* Print out the date and time in the standard format. */
     /* Convert it to local time representation. */
@@ -692,12 +694,17 @@ int main( int argc, char** argv)
     fputs (asctime (locTime), fpLog);
     fprintf(fpLog, "Delta time value : %d\n", delta_time);
 	fflush(fpLog);    
-	fflush(stdout);
 	
+#endif
+	
+	printf("starting jaercuda \n");
 	runjaerCUDA( argc, argv);
+	fflush(stdout);
 
+#if !MEASUREMENT_MODE	
 	fprintf(fpLog, "**END**\n");
 	fclose(fpLog);
+#endif
 
 }
 
