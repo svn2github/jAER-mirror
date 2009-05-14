@@ -145,5 +145,13 @@ extern bool sendGlobalNeuronParamsEnabled; // flag set from control thread
 extern bool sendTemplateEnabled; // set from control thread
 extern bool stopEnabled;  // set by jaer command 
 
+extern float f_gabor_bandwidth; //bandwidth of the gabor function
+extern float f_gabor_theta[];  // orientation of the gabor function
+extern float f_gabor_lambda;	//wavelength of the gabor function
+extern float f_gabor_psi;	//phase offset of the gabor function
+extern float f_gabor_gamma;	// aspect ratio of the gabor function
+extern float f_gabor_xymax;	// the maximum value of x and y value
+extern float f_gabor_maxamp; // the maximum amplitude of the gabor function
+
 #endif
 

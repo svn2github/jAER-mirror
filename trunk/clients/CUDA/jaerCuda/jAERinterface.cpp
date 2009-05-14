@@ -458,8 +458,11 @@ void parseJaerCommand(char* buf)
 			template_type = TEMPLATE_DoG;
 		}else if(strstr(buf,"kernelShape Gaussian")){
 			template_type = TEMPLATE_Gau;
-		}else{
+		}else if(strstr(buf,"kernelShape Gabor")){
 			template_type = TEMPLATE_Gab;
+		}else{
+			fprintf(stderr,"unknown templateShape\n");
+			fflush(stderr);
 		}
 	}else if(strstr(buf,"exit")){
 		printf("setting stopEnabled according to command\n");
@@ -468,29 +471,23 @@ void parseJaerCommand(char* buf)
 	}else if(strstr(buf,"cudaEnabled")){
 		if(strstr(buf,"true")) {tmpRunCuda=1;} else {tmpRunCuda=0;}
 		printf("set cudaEnabled=%d (on next packet)\n", tmpRunCuda);
-		fflush(stdout);
 	}else if(strstr(buf,"debugLevel")){
 		sscanf(buf,"%*s%d",&debugLevel);
 		printf("set debugLevel=%d\n",debugLevel);
-		fflush(stdout);
 	}else if(strstr(buf,"maxXmitIntervalMs")){
 		sscanf(buf,"%*s%d",&maxXmitIntervalMs);
 		printf("set maxXmitIntervalMs=%d\n",maxXmitIntervalMs);
-		fflush(stdout);
 	}else if(strstr(buf,"outputPort")){
 		sscanf(buf,"%*s%d",&outputPort);
 		printf("set outputPort=%d\n",outputPort);
 		makeOutputSocket();
-		fflush(stdout);
 	}else if(strstr(buf,"inputPort")){
 		sscanf(buf,"%*s%d",&inputPort);
 		printf("set inputPort=%d\n",inputPort);
 		makeInputSocket();
-		fflush(stdout);
 	}else if(strstr(buf,"deltaTimeUs")){
 		sscanf(buf,"%*s%d",&delta_time);
 		printf("set delta_time=%d\n",delta_time);
-		fflush(stdout);	
 	}else if(strstr(buf,"numObject")){
 		sscanf(buf,"%*s%d",&num_object);
 		// bounds checking
@@ -500,8 +497,34 @@ void parseJaerCommand(char* buf)
 			if(num_object>GABOR_MAX_NUM_ORIENTATION) num_object=GABOR_MAX_NUM_ORIENTATION ; else if(num_object<0) num_object=0; 
 		}
 		printf("set num_object=%d\n",num_object);
-		fflush(stdout);
 		sendTemplateEnabled = 1;
+		/*
+    final String CMD_GABOR_WAVELENGTH = "gaborWavelength";
+	final String CMD_GABOR_MAX_AMP = "gaborMaxAmp"; 
+    final String CMD_GABOR_BAND_WIDTH = "gaborBandwidth";
+    final String CMD_GABOR_PHASE_OFFSET = "gaborPhase";
+    final String CMD_GABOR_ASPECT_RATIO = "gaborGamma";
+		*/
+	}else if(strstr(buf,"gaborWavelength")){
+		sscanf(buf,"%*s%f",&f_gabor_lambda);
+		sendTemplateEnabled=1; // flag change in template, resend to GPU
+		printf("set f_gabor_lambda=%f\n",f_gabor_lambda);
+	}else if(strstr(buf,"gaborMaxAmp")){
+		sscanf(buf,"%*s%f",&f_gabor_maxamp);
+		sendTemplateEnabled=1; // flag change in template, resend to GPU
+		printf("set f_gabor_maxamp=%f\n",f_gabor_maxamp);
+	}else if(strstr(buf,"gaborBandwidth")){
+		sscanf(buf,"%*s%f",&f_gabor_bandwidth);
+		sendTemplateEnabled=1; // flag change in template, resend to GPU
+		printf("set f_gabor_bandwidth=%f\n",f_gabor_bandwidth);
+	}else if(strstr(buf,"gaborPhase")){
+		sscanf(buf,"%*s%f",&f_gabor_psi);
+		sendTemplateEnabled=1; // flag change in template, resend to GPU
+		printf("set f_gabor_psi=%f\n",f_gabor_psi);
+	}else if(strstr(buf,"gaborGamma")){
+		sscanf(buf,"%*s%f",&f_gabor_gamma);
+		sendTemplateEnabled=1; // flag change in template, resend to GPU
+		printf("set f_gabor_gamma=%f\n",f_gabor_gamma);
 	}else{
 		printf("unknown command %s\n",buf);
 	}
