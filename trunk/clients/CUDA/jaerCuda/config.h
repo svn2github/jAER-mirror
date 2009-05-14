@@ -82,10 +82,13 @@
 // global neuron parameters default initial values - modified by jaer through control port interface
 #define MEMBRANE_TAU				10000.0F	// membrane time constant
 #define MEMBRANE_THRESHOLD			.1F			// membrane threshold
-#define MEMBRANE_POTENTIAL_MIN		-10.0F		// membrane equilibrium potential
+#define MEMBRANE_POTENTIAL_MIN		-200.0F		// membrane equilibrium potential
 #define MIN_FIRING_TIME_DIFF		15000		// low pass filter the events from retina
 #define EI_SYN_WEIGHT				10.0		// excitatory to inhibitory synaptic weight
 #define IE_SYN_WEIGHT				10.0		// inhibitory to excitatory synaptic weight
+
+// inhibition type
+#define GLOBAL_INH					1			// global inhibition among populations
 
 
 /******************************************** JAER Communication Parameters *******************************/

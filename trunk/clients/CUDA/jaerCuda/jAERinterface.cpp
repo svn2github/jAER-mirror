@@ -487,7 +487,7 @@ void parseJaerCommand(char* buf)
 		makeInputSocket();
 	}else if(strstr(buf,"deltaTimeUs")){
 		sscanf(buf,"%*s%d",&delta_time);
-		printf("set delta_time=%d\n",delta_time);
+		printf("set delta_time=%d\n",delta_time);	
 	}else if(strstr(buf,"numObject")){
 		sscanf(buf,"%*s%d",&num_object);
 		// bounds checking
@@ -498,7 +498,7 @@ void parseJaerCommand(char* buf)
 		}
 		printf("set num_object=%d\n",num_object);
 		sendTemplateEnabled = 1;
-		/*
+	/*
     final String CMD_GABOR_WAVELENGTH = "gaborWavelength";
 	final String CMD_GABOR_MAX_AMP = "gaborMaxAmp"; 
     final String CMD_GABOR_BAND_WIDTH = "gaborBandwidth";

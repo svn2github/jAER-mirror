@@ -25,7 +25,7 @@ __device__ int   numFiring0[MAX_NUM_TEMPLATE];
 __device__ int   numFiring1[MAX_NUM_TEMPLATE];  
 __device__ unsigned int   firedNeuronAddr[MAX_NUM_TEMPLATE*MAX_FIRING]; // holds output spikes from each template
 
-/** This method implements part of the winner-take-all functionality.
+/** This method implements part of the winner-take-all functionality within each population.
  * The CPU calls this kernel whenever some neurons in the neuron array has fired.
  * Each thread is responsible for inhibition of one neuron potential by iESynWeight amount.
  * Finally each thread clamps the membrane potential to stay within a specific value.
@@ -34,7 +34,7 @@ __device__ unsigned int   firedNeuronAddr[MAX_NUM_TEMPLATE*MAX_FIRING]; // holds
  * @param:  numFiringAddr		the array recording the number of spikes generated within each population during the current cycle
  * @param:	iNeuronFired		each bit records if the global inhibitory neuron of the corresponding excitatory population has fired during the last cycle
  **/
-__global__ void WTAKernel1DMO(int* numFiringAddr, char iNeuronFired) 
+__global__ void WTAKernelMO(int* numFiringAddr, char iNeuronFired) 
 {	
 	// Thread index
 	int my_addrx = threadIdx.x; // this thread handles neuron (x,y)=(threadIdx.x, blockIdx.x)
@@ -48,6 +48,37 @@ __global__ void WTAKernel1DMO(int* numFiringAddr, char iNeuronFired)
 		float temp = gpu_membranePotential[neuronArrayId][my_addry][my_addrx]; // membrane potential of an LIF neuron for one template array
 
 		temp -= constNeuronParams.iESynWeight; // reduce it by the iE weight (inhibitory to excitatory)
+		
+		if ( temp < constNeuronParams.membranePotentialMin )
+			// clamp it to negative driving potential (negative weight can never make it fire)
+			temp = constNeuronParams.membranePotentialMin; 
+			
+		gpu_membranePotential[neuronArrayId][my_addry][my_addrx] = temp;
+	}		
+}
+
+/** This method implements part of the global winner-take-all functionality among populations.
+ * The CPU calls this kernel whenever some neurons in the neuron array has fired.
+ * Each thread is responsible for inhibition of one neuron potential by iESynWeight amount.
+ * Finally each thread clamps the membrane potential to stay within a specific value.
+ * We use a ID grid of 128x1 thread and 128*num_object block to have simple addressing mechanism.
+ * 2D block of thread can also do similar computation but kernel needs slightly more address calculations.
+ * @param:  numFiringAddr		the array recording the number of spikes generated within each population during the current cycle
+ * @param:	n_iNeuronFired		the number of spikes the global inhibitory neuron fired during the current cycle
+ **/
+__global__ void WTAKernelMOGlob(int* numFiringAddr, int n_iNeuronFired) 
+{	
+	// Thread index
+	int my_addrx = threadIdx.x; // this thread handles neuron (x,y)=(threadIdx.x, blockIdx.x)
+	int my_addry = blockIdx.x;
+	int neuronArrayId = blockIdx.y;
+	
+	// check if the global inhibitory neuron of a particular population fired
+
+	if(n_iNeuronFired != 0){
+		float temp = gpu_membranePotential[neuronArrayId][my_addry][my_addrx]; // membrane potential of an LIF neuron for one template array
+
+		temp -= n_iNeuronFired*constNeuronParams.iESynWeight; // reduce it by the iE weight (inhibitory to excitatory)
 		
 		if ( temp < constNeuronParams.membranePotentialMin )
 			// clamp it to negative driving potential (negative weight can never make it fire)

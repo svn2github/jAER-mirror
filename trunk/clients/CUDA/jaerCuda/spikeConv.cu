@@ -326,9 +326,11 @@ int recvFilterSpikes()
 
 /** This function is to send the output spikes from E and I neurons back to jaer
  *  @param:		timeStamp		current time stamp		
- *  @param:		nInhNeuronFired	number of inhibitory spikes generated within the current cycle 
+ *  @param:		nfiredMO		the array records the number of excitatory spikes generated within each population
+ *  @param:		n_iNeuronFired	number of inhibitory spikes generated within the current cycle 
+ 
  **/
-void cudaCopySpikesFromGPU2jAER(unsigned long timeStamp, int* nfiredMO, char bInhNeuronFired)
+void cudaCopySpikesFromGPU2jAER(unsigned long timeStamp, int* nfiredMO, int n_iNeuronFired)
 {
 	int net_firing = 0;
 	// send the output spikes to jaer
@@ -359,15 +361,17 @@ void cudaCopySpikesFromGPU2jAER(unsigned long timeStamp, int* nfiredMO, char bIn
 		}
 	}
 
-	// send one spike to jaer if any of the inhibitory neuron fires
-	if(bInhNeuronFired){
-		jaerSendEvent(0,0,timeStamp,0);  
-		if(debugLevel > 0)
-			fprintf(stdout,"cudaCopySpikesFromGPU2jAER: sent an inhibitory spike to jaer\n");
-	}		
-				
 	if(debugLevel > 0)
-		fprintf(stdout,"cudaCopySpikesFromGPU2jAER: sent %d spikes to jaer\n", net_firing);
+		fprintf(stdout,"cudaCopySpikesFromGPU2jAER: sent %d excitatory spikes to jaer\n", net_firing);
+		
+	// send one spike to jaer if any of the inhibitory neuron fires
+	if(n_iNeuronFired){
+		for(int i=0; i < n_iNeuronFired; i++){
+			jaerSendEvent(1,1,timeStamp,0); 
+		} 
+		if(debugLevel > 0)
+			fprintf(stdout,"cudaCopySpikesFromGPU2jAER: sent %d inhibitory spike to jaer\n", n_iNeuronFired);
+	}		
 		
 #else
 	// ??? TODO: we bring all spike info into one firedNeuron_addr array. So all the
@@ -391,15 +395,17 @@ void cudaCopySpikesFromGPU2jAER(unsigned long timeStamp, int* nfiredMO, char bIn
 /*****************************************  UPDATE INEURON  ***********************************************************/
 /**********************************************************************************************************************/
 
-/** function that updates the membrane potential of inibitory WTA neurons and send out the spike events from both E and I neurons to jaer
+/** function that updates the membrane potential of inibitory WTA neurons. Inhibitory neuron for each object is updated separately
+ * The state of firing is described by a boolean value per object
  * TODO: Make the inhibitory neurons also leaky. Currently the inhibitory neurons are NOT leaky...
  * @param:	numFiringAddr	the device memory address recording the number of firing per population
- * returns: b_fired_Mo_Inh:		each bit records if the global inhibitory neuron of the corresponding excitatory population has fired during the last cycle
+ * @param:  nfiredMO		array records the number of spikes generated within this cycle
+ * @param:	iNeuronFired	each bit records if the global inhibitory neuron of the corresponding excitatory population has fired during the current cycle
+ * returns: n_fired_Mo_Inh:	the number of inhibitory neurons fired during the current cycle
  **/
-char cudaUpdateINeuron(void* numFiringAddr, int* nfiredMO)
+int cudaUpdateINeuron(void* numFiringAddr, int* nfiredMO, char* iNeuronFired)
 {
-		char b_fired_Mo_Inh = 0; // a byte record which inhibitory neuron has fired
-		//int n_fired_Mo_Inh = 0;	// the total number of inhibitory spikes generated within one cycle
+		int n_fired_Mo_Inh = 0;	// the total number of inhibitory spikes generated within one cycle
 				
 		// copy the number of template layer neurons that have fired...
 		CUDA_SAFE_CALL(cudaMemcpy(nfiredMO, numFiringAddr, sizeof(int)*num_object, cudaMemcpyDeviceToHost));
@@ -420,12 +426,52 @@ char cudaUpdateINeuron(void* numFiringAddr, int* nfiredMO)
 			if (inh_mem_potential[i] > hostNeuronParams.threshold) {
 				inh_mem_potential[i] = 0.0;
 				inhFireCnt++;	
-				//n_fired_Mo_Inh++;
-				b_fired_Mo_Inh = (char)(b_fired_Mo_Inh | (0x01 << i));  //set the corresponding bit to 1 if inhibitory neuron fires
+				n_fired_Mo_Inh++;
+				*iNeuronFired = (char)(*iNeuronFired | (0x01 << i));  //set the corresponding bit to 1 if inhibitory neuron fires
 			}				
 		}
 		
-		return b_fired_Mo_Inh;
+		return n_fired_Mo_Inh;
+}
+
+/** function that updates the membrane potential of the global inibitory WTA neurons. Global inhibitory neuron is updated with the number of fired spikes depending on 
+ * the total number of E spikes generated within the cycle
+ * TODO: Make the inhibitory neurons also leaky. Currently the inhibitory neurons are NOT leaky...
+ * @param:	numFiringAddr	the device memory address recording the number of firing per population
+ * @param:  nfiredMO		array records the number of spikes generated within this cycle
+ * returns: n_fired_Mo_Inh:		the number of spikes the global inhibitory neuron fired during the current cycle
+ **/
+int cudaUpdateINeuronMultiSp(void* numFiringAddr, int* nfiredMO)
+{
+		int n_fired_Mo_Inh = 0; // a byte record which inhibitory neuron has fired
+				
+		// copy the number of template layer neurons that have fired...
+		CUDA_SAFE_CALL(cudaMemcpy(nfiredMO, numFiringAddr, sizeof(int)*num_object, cudaMemcpyDeviceToHost));
+		
+		if(debugLevel>1){
+			printf("# spikes fired by object layers: ");
+			for(int i=0;i<num_object;i++){
+				printf("%d, ",nfiredMO[i]);
+			}
+			printf("\n");
+		}
+	
+		int firingWithinCycle = 0;
+		//update inhibitory neuron membrane potentials
+		for ( int i=0; i < num_object; i++) {
+			tot_fired_MO[i] += nfiredMO[i]; //per object firing
+			firingWithinCycle += nfiredMO[i]; 
+		}
+			
+		// update the global inhibitory membrane potential and calculate the number of spikes fired
+		inh_mem_potential[0] = inh_mem_potential[0] + hostNeuronParams.eISynWeight*firingWithinCycle;
+		if (inh_mem_potential[0] > hostNeuronParams.threshold) {
+			n_fired_Mo_Inh = (int)floor(inh_mem_potential[0]/hostNeuronParams.threshold);
+			inhFireCnt += n_fired_Mo_Inh;				
+			inh_mem_potential[0] = 0.0;
+		}
+		
+		return n_fired_Mo_Inh;
 }
 
 /**********************************************************************************************************************/
@@ -529,23 +575,43 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 		
 		// execute updation of iNeuron potential in CPU
 		// the single WTA neuron gets excited by the total number of spikes from the convolution
-		char iNeuronFired = cudaUpdateINeuron(numFiringArrayAddr, cpu_nfiredMO);
-		if (iNeuronFired) {
+	#ifndef GLOBAL_INH    //local inhibition
+		char iNeuronFired = 0;
+		int n_iNeuronFired = cudaUpdateINeuron(numFiringArrayAddr, cpu_nfiredMO, &iNeuronFired);
+		
+		if (n_iNeuronFired) {
 			
 			if(debugLevel>1){
-			printf("calling winner take all kernel WTAKernel1DMO with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridInhDim.x, gridInhDim.y, gridInhDim.z, threadInhDim.x, threadInhDim.y,threadInhDim.z);
+			printf("calling winner take all kernel WTAKernelMO with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridInhDim.x, gridInhDim.y, gridInhDim.z, threadInhDim.x, threadInhDim.y,threadInhDim.z);
 			}
 			
 			// execute iNeuronCalculations; inhibition of all other neurons in GPU
-			CUT_CHECK_ERROR("WTAKernel1DMO Before kernel execution");
-			WTAKernel1DMO <<< gridInhDim, threadInhDim >>> (numFiringArrayAddr, iNeuronFired);
-			CUT_CHECK_ERROR("WTAKernel1DMO After kernel execution");
+			CUT_CHECK_ERROR("WTAKernelMO Before kernel execution");
+			WTAKernelMO <<< gridInhDim, threadInhDim >>> (numFiringArrayAddr, iNeuronFired);
+			CUT_CHECK_ERROR("WTAKernelMO After kernel execution");
 			cudaThreadSynchronize();
 		}
+	#else		// global inhibition
+		int n_iNeuronFired = cudaUpdateINeuronMultiSp(numFiringArrayAddr, cpu_nfiredMO);
+		
+		if (n_iNeuronFired) {
+			
+			if(debugLevel>1){
+			printf("calling winner take all kernel WTAKernelMOGlob with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridInhDim.x, gridInhDim.y, gridInhDim.z, threadInhDim.x, threadInhDim.y,threadInhDim.z);
+			}
+			
+			// execute iNeuronCalculations; inhibition of all other neurons in GPU
+			CUT_CHECK_ERROR("WTAKernelMOGlob Before kernel execution");
+			WTAKernelMOGlob <<< gridInhDim, threadInhDim >>> (numFiringArrayAddr, n_iNeuronFired);
+			CUT_CHECK_ERROR("WTAKernelMOGlob After kernel execution");
+			cudaThreadSynchronize();
+		}
+	#endif
+		
 		
 		
 		/************************* send output spikes back to jaer  ******************/
-		cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, iNeuronFired);
+		cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, n_iNeuronFired);
 		
 		
 		/************************* update counters ***********************************/
@@ -562,8 +628,7 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 /*****************************************  MAIN FUNCTION INTERACTING WITH JAER AND CUDA GPU  *************************/
 /**********************************************************************************************************************/
 
-int
-runjaerCUDA( int argc, char** argv)
+int runjaerCUDA( int argc, char** argv)
 {
 	int setTimeStamp = 1;
 	

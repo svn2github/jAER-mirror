@@ -767,22 +767,7 @@ void templateGabor(int templateIndex)
 	}
 }
 
-/*
-function gb=gabor_fn(b,theta,lambda,psi,gamma)
- 
-sigma_x = 1/pi*sqrt(log(2)/2)*((2^b+1)/2^b-1)*lambda;
-sigma_y = sigma_x/gamma;
 
-templateSize = 16;
- 
-[x,y] = meshgrid(-1:1/(templateSize-1)*2:1,-1:1/(templateSize-1)*2:1);
-% Rotation 
-x_theta=x*cos(theta)+y*sin(theta);
-y_theta=-x*sin(theta)+y*cos(theta);
- 
-gb=exp(-.5*(x_theta.^2/sigma_x^2+y_theta.^2/sigma_y^2)).*cos(2*pi/lambda*x_theta+psi);
-
-*/
 
 int circleArr[MAX_TEMPLATE_SIZE][MAX_TEMPLATE_SIZE];
 int countPixel=0;
