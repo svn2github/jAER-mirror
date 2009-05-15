@@ -112,7 +112,7 @@ convNN_multiSpike_Kernel(int  numInpSpikes,			// length of the spikes given to G
 	//each operating 16x16 pixel array.
 	/* blockIdx.x,blockIdx.y can range from 0-31 */
 	int my_addrx = blockIdx.x*MAX_SUB_TEMPLATE_SIZE_X + threadIdx.x;
-	int my_addry = (blockIdx.y&0x7)*MAX_SUB_TEMPLATE_SIZE_Y + threadIdx.y;
+	int my_addry = blockIdx.y*MAX_SUB_TEMPLATE_SIZE_Y + threadIdx.y;
 	
 	//We encode the object dimension in blockId itself.last 3 bit denotes
 	//block number, the remaining bits denote the object number neuronArrayId

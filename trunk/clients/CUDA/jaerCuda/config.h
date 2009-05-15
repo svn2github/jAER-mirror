@@ -12,7 +12,7 @@
 /****************************************** Template Parameters ***************************************************/
 #define SCALE_FACTOR				1				// template size is 16*SCALE_FACTOR
 #define MAX_SUB_TEMPLATE_SIZE_X		16
-#define MAX_SUB_TEMPLATE_SIZE_Y		32
+#define MAX_SUB_TEMPLATE_SIZE_Y		16
 #define MAX_TEMPLATE_SIZE			(SCALE_FACTOR*MAX_SUB_TEMPLATE_SIZE_X)	//template size 
 
 
@@ -56,7 +56,7 @@
 /******************************************** Kernel Parameters *****************************************/
 #define GPU_MAX_SPIKE_PACKETS		100000		// max number spikes to xfer to GPU per kernel invocation, limited by global memory
 #define DELTA_TIME					1000		// (this is default value). delta_time is time in us that spikes are chunked together to be sent with common timestamp. increasing speeds up processing but quantizes time more.
-#define MAX_FIRING					10000 // max number of stored spikes by a kernel, using GPU global memory (big)
+#define MAX_FIRING					100000 // max number of stored spikes by a kernel, using GPU global memory (big)
 #define MAX_SENDING_SPIKES			MAX_FIRING*MAX_NUM_TEMPLATE // max number of spikes sent from GPU to CPU per invocation
 
 /******************************************** Debuging Parameters ****************************************/

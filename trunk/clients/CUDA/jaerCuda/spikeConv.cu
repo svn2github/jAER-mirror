@@ -616,7 +616,8 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 		}
 	#endif
 		
-		
+		// toggle the id after each cycle to reset either numFiring0AddrMO or numFiring1AddrMO
+		firingId = (firingId ) ? 0 : 1;
 		
 		/************************* send output spikes back to jaer  ******************/
 		cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, n_iNeuronFired);
@@ -733,6 +734,9 @@ void GPU_MODE_LOCAL_WTA(dim3 gridExcDim, dim3 threadExcDim, int firingId, int nu
 		for ( int i=0; i < num_object; i++) {
 			tot_fired_MO[i] += cpu_nfiredMO[i]; //per object firing
 		}	
+
+		// toggle the id after each cycle to reset either numFiring0AddrMO or numFiring1AddrMO
+		firingId = (firingId ) ? 0 : 1;
 		
 		/************************* send output spikes back to jaer  ******************/
 		cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, 0);
@@ -830,9 +834,6 @@ int runjaerCUDA( int argc, char** argv)
 		#else
 			GPU_MODE(gridExcDim,threadExcDim, gridInhDim, threadInhDim, firingId, numSpikes);
 		#endif
-			
-			// toggle the id after each cycle to reset either numFiring0AddrMO or numFiring1AddrMO
-			firingId = (firingId ) ? 0 : 1;
 			
 		} // end if(runCuda)
 
