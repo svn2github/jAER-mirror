@@ -12,7 +12,7 @@ extern "C" {
 	int extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, const unsigned int len);
 	void computeGold( unsigned int* addr, unsigned long* timeStamp);
 	int  templateConvInit(int selectType=TEMP_METHOD1, int templateType=TEMPLATE_DoG);
-	void setInitLastTimeStamp(unsigned long timeStamp, int objId=0);
+	void setInitLastTimeStamp(unsigned long timeStamp);
 }
 
 
@@ -46,7 +46,7 @@ float		  conv_template[MAX_NUM_TEMPLATE][MAX_TEMPLATE_SIZE][MAX_TEMPLATE_SIZE];	
 unsigned long lastInputStamp[MAX_X][MAX_Y];		// stores the time of last firing of the input addr. This is used
 												// to filter spikes that happens at a high rate.
 float		  membranePotential[MAX_NUM_TEMPLATE][MAX_X][MAX_Y];	// corresponds to membrane potential of each neuron.																	
-unsigned long lastTimeStamp[MAX_NUM_TEMPLATE][MAX_X][MAX_Y];		// store the firing time of each neuron. This is used
+unsigned long lastTimeStamp[MAX_X][MAX_Y];		// store the firing time of each neuron. This is used
 																// calcuate the membrane potential decay.
 const float	  objSizeArray[] = {10,8,5,3,2}; // 15.0,7.0,22.0,21.0,20.0,19.0,18.0,12.0,11.0,10.0};	// ball size in pixels
 float		  iNeuronPotential[MAX_NUM_TEMPLATE];	// membrane potential of inhibitory neuron. one inhibitory neuron
@@ -84,10 +84,10 @@ unsigned long getInt( char* data)
  * @param: objId		the id of the object
  * return 
  **/
-void setInitLastTimeStamp(unsigned long timeStamp, int objId){
+void setInitLastTimeStamp(unsigned long timeStamp){
 	for(int i = 0; i < MAX_X; i++){
 		for(int j = 0; j < MAX_Y; j++){
-			lastTimeStamp[objId][i][j] = timeStamp;
+			lastTimeStamp[i][j] = timeStamp;
 		}
 	}
 }
@@ -359,31 +359,33 @@ void update_neurons(unsigned int addrx, unsigned int addry, unsigned long timeSt
 	max_y = (max_y > MAX_Y ) ? MAX_Y : max_y;
 
 	// calculate the membrane potential of each neuron
-	for( int k = 0; k < num_object; k++) {
-		for( int i = min_x; i < max_x; i++) {
-			for( int j = min_y; j < max_y; j++) {
-				assert(i-temp_min_x>=0);
-				assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
-				assert(j-temp_min_y>=0);
-				assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
+	
+	for( int i = min_x; i < max_x; i++) {
+		for( int j = min_y; j < max_y; j++) {
+			
+			assert(i-temp_min_x>=0);
+			assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
+			assert(j-temp_min_y>=0);
+			assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
 
-				// check if the time is reversed
-				if((timeStamp-lastTimeStamp[k][i][j]) < 0) {
-					printf("Time stamp reversal\n");
+			// check if the time is reversed
+			if((timeStamp-lastTimeStamp[i][j]) < 0) {
+				printf("Time stamp reversal\n");
 
 #if RECORD_FIRING_INFO
-				fclose(fpFiring);
+			fclose(fpFiring);
 #endif
-					return;
-				}
+				return;
+			}
+
+			for( int k = 0; k < num_object; k++) {
 
 				// calculate membrane potential
-				signed long long timeDiff = 0xFFFFFFFFLL&(timeStamp-lastTimeStamp[k][i][j]);
+				signed long long timeDiff = 0xFFFFFFFFLL&(timeStamp-lastTimeStamp[i][j]);
 				float temp = (float)timeDiff/hostNeuronParams.membraneTau;
 				temp = (float)exp(-temp);
 				membranePotential[k][i][j] = membranePotential[k][i][j]*temp +
 										   conv_template[k][i-temp_min_x][j-temp_min_y];
-				lastTimeStamp[k][i][j] = timeStamp;
 
 				if((membranePotential[k][i][j]) > hostNeuronParams.threshold) {
 					cpu_totFiring++;
@@ -405,6 +407,8 @@ void update_neurons(unsigned int addrx, unsigned int addry, unsigned long timeSt
 						membranePotential[k][i][j] = hostNeuronParams.membranePotentialMin;
 				}		
 			}
+
+			lastTimeStamp[i][j] = timeStamp;
 		}
 	}
 }
@@ -419,7 +423,7 @@ void update_neurons_grouping(unsigned int addrx, unsigned int addry, unsigned lo
 {
 	static FILE* fpFiring = NULL;
 	int ineuron_fired = 0;
-	int numFired = 0;
+	int numFired[MAX_NUM_TEMPLATE];
 
 	signed long long groupDiff = 0xFFFFFFFFLL&(timeStamp - lastGroupingTimeStamp);
 	
@@ -447,46 +451,53 @@ void update_neurons_grouping(unsigned int addrx, unsigned int addry, unsigned lo
 	int max_y = addry + (MAX_TEMPLATE_SIZE/2);
 	max_y = (max_y > MAX_Y ) ? MAX_Y : max_y;
 
-	for( int objId = 0; objId < num_object; objId++) {
-		for( int i = min_x; i < max_x; i++) {
-			for( int j = min_y; j < max_y; j++) {
-				assert(i-temp_min_x>=0);
-				assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
-				assert(j-temp_min_y>=0);
-				assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
+	int i,j,objId;
 
-				// check if time is reversed
-				if((timeStamp-lastTimeStamp[objId][i][j]) < 0) {
-					printf("Time stamp reversal\n");
+	for(i = 0; i < num_object; i++){
+		numFired[i] = 0;
+	}
 
-#if RECORD_FIRING_INFO
-					fclose(fpFiring);
-#endif
-					return;
-				}
+	for(i = min_x; i < max_x; i++) {
+		for(j = min_y; j < max_y; j++) {
+			assert(i-temp_min_x>=0);
+			assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
+			assert(j-temp_min_y>=0);
+			assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
+
+			// check if time is reversed
+			if((timeStamp-lastTimeStamp[i][j]) < 0) {
+				printf("Time stamp reversal\n");
+
+			#if RECORD_FIRING_INFO
+				fclose(fpFiring);
+			#endif
+				return;
+			}
+
+			for(objId = 0; objId < num_object; objId++) {
 
 				// group the input spikes so that the leak of the membrane potential is only calculated every delta_time
-				signed long long timeDiff = 0xFFFFFFFFLL&(timeStamp-lastTimeStamp[objId][i][j]);
+				signed long long timeDiff = 0xFFFFFFFFLL&(timeStamp-lastTimeStamp[i][j]);
 				float temp = 1.0;						
 				if(groupDiff>delta_time) {
-						lastGroupingTimeStamp = timeStamp;
+					lastGroupingTimeStamp = timeStamp;
 
-						temp = (float)timeDiff/hostNeuronParams.membraneTau;
-						temp = (float)exp(-temp);
+					temp = (float)timeDiff/hostNeuronParams.membraneTau;
+					temp = (float)exp(-temp);
 				}
-				lastTimeStamp[objId][i][j] = timeStamp;
+				
 
 				membranePotential[objId][i][j] = membranePotential[objId][i][j]*temp +
 										   conv_template[objId][i-temp_min_x][j-temp_min_y];				
 				if((membranePotential[objId][i][j]) > hostNeuronParams.threshold) {
 					cpu_totFiring++;
-					numFired++;
+					numFired[objId]++;
 					cpu_totFiringMO[objId]++;
 					membranePotential[objId][i][j] = 0;
 
-#if RECORD_FIRING_INFO
+			#if RECORD_FIRING_INFO
 					fprintf(fpFiring, "%u %d %d\n", timeStamp, i, j);
-#endif
+			#endif
 
 				// send the excitatory output events back to cuda
 				#if !REPLAY_MODE
@@ -495,18 +506,23 @@ void update_neurons_grouping(unsigned int addrx, unsigned int addry, unsigned lo
 				#endif
 				}
 				else if ( membranePotential[objId][i][j] < hostNeuronParams.membranePotentialMin ) {
-						membranePotential[objId][i][j] = hostNeuronParams.membranePotentialMin;
+					membranePotential[objId][i][j] = hostNeuronParams.membranePotentialMin;
 				}
 			}
+
+			lastTimeStamp[i][j] = timeStamp;
 		}
+	}
 
 		// Delta crossed for grouping, and calculate the inhibitory membrane potential
-		if(numFired)
-			ineuron_fired = update_inh_neuron(fpFiring, timeStamp, objId, numFired);	
+	for(i = 0; i < num_object; i++){
+		if(numFired[i])
+			ineuron_fired = update_inh_neuron(fpFiring, timeStamp, i, numFired[i]);	
 #if !REPLAY_MODE
 		jaerSendEvent(1,1,timeStamp,0);
-#endif
 	}
+#endif
+
 }
 
 

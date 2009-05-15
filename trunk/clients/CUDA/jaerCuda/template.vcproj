@@ -927,7 +927,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="&quot;$(CUDA_BIN_PATH)\nvcc.exe&quot; -deviceemu -arch sm_11 -ccbin &quot;$(VCInstallDir)bin&quot; -c  -D_CRT_SECURE_NO_DEPRECATE  -D_DEBUG -DWIN32 -D_CONSOLE -D_MBCS -Xcompiler /EHsc,/W3,/nologo,/Wp64,/Od,/Zi,/RTC1,/MTd -I&quot;$(CUDA_INC_PATH)&quot; -I./ -I../../common/inc -I&quot;$(NVSDKCUDA_ROOT)&quot;/common/inc -o $(ConfigurationName)\$(InputName).obj $(InputFileName)&#x0D;&#x0A;"
+						CommandLine="&quot;$(CUDA_BIN_PATH)\nvcc.exe&quot; -deviceemu -arch sm_11 -ccbin &quot;$(VCInstallDir)bin&quot; -c  -D_CRT_SECURE_NO_DEPRECATE  -D_DEBUG -DWIN32 -D_CONSOLE -D_MBCS -Xcompiler /EHsc,/W3,/nologo,/Wp64,/Od,/Zi,/RTC1,/MTd -I&quot;$(CUDA_INC_PATH)&quot; -I./ -I../../common/inc -I&quot;$(NVSDKCUDA_ROOT)&quot;/common/inc -o $(ConfigurationName)\$(InputName).obj $(InputFileName) &#x0D;&#x0A;"
 						AdditionalDependencies="$(InputName)_kernel.cu;config.h"
 						Outputs="$(ConfigurationName)\$(InputName).obj"
 					/>

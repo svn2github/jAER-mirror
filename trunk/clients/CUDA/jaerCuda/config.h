@@ -12,7 +12,7 @@
 /****************************************** Template Parameters ***************************************************/
 #define SCALE_FACTOR				1				// template size is 16*SCALE_FACTOR
 #define MAX_SUB_TEMPLATE_SIZE_X		16
-#define MAX_SUB_TEMPLATE_SIZE_Y		16
+#define MAX_SUB_TEMPLATE_SIZE_Y		32
 #define MAX_TEMPLATE_SIZE			(SCALE_FACTOR*MAX_SUB_TEMPLATE_SIZE_X)	//template size 
 
 
@@ -56,7 +56,7 @@
 /******************************************** Kernel Parameters *****************************************/
 #define GPU_MAX_SPIKE_PACKETS		100000		// max number spikes to xfer to GPU per kernel invocation, limited by global memory
 #define DELTA_TIME					1000		// (this is default value). delta_time is time in us that spikes are chunked together to be sent with common timestamp. increasing speeds up processing but quantizes time more.
-#define MAX_FIRING					100000 // max number of stored spikes by a kernel, using GPU global memory (big)
+#define MAX_FIRING					10000 // max number of stored spikes by a kernel, using GPU global memory (big)
 #define MAX_SENDING_SPIKES			MAX_FIRING*MAX_NUM_TEMPLATE // max number of spikes sent from GPU to CPU per invocation
 
 /******************************************** Debuging Parameters ****************************************/
@@ -89,7 +89,7 @@
 
 // inhibition type
 #define GLOBAL_INH					1			// global inhibition among populations
-
+#define LOCAL_WTA					1			// network with inhibitory coupling between different features at the same network position
 
 /******************************************** JAER Communication Parameters *******************************/
 #define JAER_SERVER_IP_ADDRESS		"localhost" //"128.195.54.156" // host who we recieve/send AE from/to
@@ -121,7 +121,7 @@ typedef struct{
 extern float conv_template[MAX_NUM_TEMPLATE][MAX_TEMPLATE_SIZE][MAX_TEMPLATE_SIZE];
 extern unsigned long lastInputStamp[MAX_X][MAX_Y];
 extern float membranePotential[MAX_NUM_TEMPLATE][MAX_X][MAX_Y];
-extern unsigned long lastTimeStamp[MAX_NUM_TEMPLATE][MAX_X][MAX_Y];
+extern unsigned long lastTimeStamp[MAX_X][MAX_Y];
 extern float iNeuronPotential[MAX_NUM_TEMPLATE];
 
 extern long tot_fired_MO[MAX_NUM_TEMPLATE];
