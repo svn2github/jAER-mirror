@@ -1020,9 +1020,11 @@ int templateConvInit(int selectType, int templateType)
 					templateConvGau(i,objSizeArray[i]);
 				}
 			}else{
+				/* // sent from jaer now
 				for(i = 0; i < num_object; i++){
 					templateGabor(i);
 				}
+				*/
 			}
 	}
 	

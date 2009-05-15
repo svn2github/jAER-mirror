@@ -73,8 +73,8 @@ char sendBuf[SEND_SOCK_BUFLEN]; // buffer that holds ae data we send
 int  sendBufLen = 0; // bytes we have accumulated to send
 HANDLE ioMutex; // mutex for io, shared between main thread and command processor 
 
-int  cmdRecvBufLen = 1024; 
-char cmdRecvBuf[1024]; // buffer to hold received command strings
+int  cmdRecvBufLen = CMD_SOCK_BUFLEN; 
+char cmdRecvBuf[CMD_SOCK_BUFLEN]; // buffer to hold received command strings
 
 int jaerCommandConnect(); // we are controlled by a thread which receives commands from jaer and sets variables here
 int jaerClientConnect();  // connects or reconnects to jAER
@@ -504,7 +504,7 @@ void parseJaerCommand(char* buf)
     final String CMD_GABOR_BAND_WIDTH = "gaborBandwidth";
     final String CMD_GABOR_PHASE_OFFSET = "gaborPhase";
     final String CMD_GABOR_ASPECT_RATIO = "gaborGamma";
-		*/
+		
 	}else if(strstr(buf,"gaborWavelength")){
 		sscanf(buf,"%*s%f",&f_gabor_lambda);
 		sendTemplateEnabled=1; // flag change in template, resend to GPU
@@ -525,6 +525,26 @@ void parseJaerCommand(char* buf)
 		sscanf(buf,"%*s%f",&f_gabor_gamma);
 		sendTemplateEnabled=1; // flag change in template, resend to GPU
 		printf("set f_gabor_gamma=%f\n",f_gabor_gamma);
+	*/
+	}else if(strstr(buf,"template")){
+		// template index size val00 val01 val02 ....
+		int index, size;
+		sscanf(buf,"template %d %d",&index,&size);
+		printf("recieving template %d of size %d\n", index, size);
+		fflush(stdout);
+		char* b=buf;
+		b=b+8;
+		strtod(b,&b);
+		strtod(b,&b); // skip index, size
+		int n=size*size;
+		for(int i=0;i<size;i++){
+			for(int j=0;j<size;j++){
+				float v=(float)strtod(b,&b);
+				conv_template[index][i][j]=v;
+			}
+		}
+		sendTemplateEnabled=1;
+
 	}else{
 		printf("unknown command %s\n",buf);
 	}

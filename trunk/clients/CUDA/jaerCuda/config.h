@@ -99,6 +99,7 @@
 
 #define RECV_SOCK_BUFLEN			63000		// 63000 is jaer buffer size // 0x8000 // 32k	// socket buffer size for incoming events in bytes, if too small, then datagrams will not be received
 #define SEND_SOCK_BUFLEN			63000		// as big on GPU side // 0x800			// socket buffer size for outgoing events in bytes
+#define CMD_SOCK_BUFLEN			8000		// buffer for string commands sent from jaer
 #define EVENT_LEN 8								// bytes/event over socket connection (will be changed to 8 soon)
 #define USE_PACKET_SEQUENCE_NUMBER	1			// define to use leading 4 bytes sequence number in incoming packets to detect dropped packets
 #define MAX_XMIT_INTERVAL_MS		40			// default max interval in ms between sending out packets of spikes, even if buffer is not full
