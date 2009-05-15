@@ -48,7 +48,7 @@ unsigned long lastInputStamp[MAX_X][MAX_Y];		// stores the time of last firing o
 float		  membranePotential[MAX_NUM_TEMPLATE][MAX_X][MAX_Y];	// corresponds to membrane potential of each neuron.																	
 unsigned long lastTimeStamp[MAX_X][MAX_Y];		// store the firing time of each neuron. This is used
 																// calcuate the membrane potential decay.
-const float	  objSizeArray[] = {10,8,5,3,2}; // 15.0,7.0,22.0,21.0,20.0,19.0,18.0,12.0,11.0,10.0};	// ball size in pixels
+const float	  objSizeArray[] = {14,11,8,5,2}; // 15.0,7.0,22.0,21.0,20.0,19.0,18.0,12.0,11.0,10.0};	// ball size in pixels
 float		  iNeuronPotential[MAX_NUM_TEMPLATE];	// membrane potential of inhibitory neuron. one inhibitory neuron
 												// for each object plane or object to be recognized
 int iNeuronFiringCnt = 0;						// used to calculate the firing rate of inhibitory neurons

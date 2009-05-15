@@ -245,7 +245,10 @@ void onlineParamChange()
 	/** check if template should be send to device **/
 	if(sendTemplateEnabled){
 		sendTemplateEnabled=0;
-		templateConvInit(template_method,template_type);
+		
+		// generate template only when the template type is not Gabor function, otherwise, it is generated from JEAR 
+		if(template_type != TEMPLATE_Gab)
+			templateConvInit(template_method,template_type);
 		
 		// send template to GPU 
 		cudaThreadSynchronize();

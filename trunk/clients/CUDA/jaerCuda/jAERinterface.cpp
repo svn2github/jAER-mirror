@@ -464,6 +464,7 @@ void parseJaerCommand(char* buf)
 			fprintf(stderr,"unknown templateShape\n");
 			fflush(stderr);
 		}
+		sendTemplateEnabled = 1;
 	}else if(strstr(buf,"exit")){
 		printf("setting stopEnabled according to command\n");
 		fflush(stdout);
@@ -497,7 +498,6 @@ void parseJaerCommand(char* buf)
 			if(num_object>GABOR_MAX_NUM_ORIENTATION) num_object=GABOR_MAX_NUM_ORIENTATION ; else if(num_object<0) num_object=0; 
 		}
 		printf("set num_object=%d\n",num_object);
-		sendTemplateEnabled = 1;
 	/*
     final String CMD_GABOR_WAVELENGTH = "gaborWavelength";
 	final String CMD_GABOR_MAX_AMP = "gaborMaxAmp"; 
