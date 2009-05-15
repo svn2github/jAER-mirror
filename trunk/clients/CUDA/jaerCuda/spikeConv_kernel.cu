@@ -320,12 +320,14 @@ convNN_LocalWTA_Kernel(int  numInpSpikes,		// length of the spikes given to GPU
 			}
 			
 			if(b_NeuronFired != 0){	
-				// inhibit other features but itself if one neuron spikes, here it is not necessary to check the lower bound, it will be done when compute the membrane potential due to next input spike
+				// inhibit other features but itself if one neuron spikes.
 				// and i assume here that the error is negligible 
 				for(i = 0; i < const_num_object; i++){
 					for(j = 0; j < const_num_object; j++){
 						if(i != j){
 							refValue[j] = refValue[j] - ((b_NeuronFired >> i) & (0x01)) * constNeuronParams.iESynWeight;
+							if (refValue[i] < constNeuronParams.membranePotentialMin)
+								refValue[i] = constNeuronParams.membranePotentialMin;
 						}
 					}
 				}

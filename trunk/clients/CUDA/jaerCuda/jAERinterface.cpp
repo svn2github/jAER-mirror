@@ -530,21 +530,23 @@ void parseJaerCommand(char* buf)
 		// template index size val00 val01 val02 ....
 		int index, size;
 		sscanf(buf,"template %d %d",&index,&size);
-		printf("recieving template %d of size %d\n", index, size);
-		fflush(stdout);
-		char* b=buf;
-		b=b+8;
-		strtod(b,&b);
-		strtod(b,&b); // skip index, size
-		int n=size*size;
-		for(int i=0;i<size;i++){
-			for(int j=0;j<size;j++){
-				float v=(float)strtod(b,&b);
-				conv_template[index][i][j]=v;
+		if(size <= MAX_TEMPLATE_SIZE){
+			printf("recieving template %d of size %d\n", index, size);
+			char* b=buf;
+			b=b+8;
+			strtod(b,&b);
+			strtod(b,&b); // skip index, size
+			int n=size*size;
+			for(int i=0;i<size;i++){
+				for(int j=0;j<size;j++){
+					float v=(float)strtod(b,&b);
+					conv_template[index][i][j]=v;
+				}
 			}
+			sendTemplateEnabled=1;
+		}else{
+			printf("template size excesses defined maximum template size,ignore the change.\n");
 		}
-		sendTemplateEnabled=1;
-
 	}else{
 		printf("unknown command %s\n",buf);
 	}
