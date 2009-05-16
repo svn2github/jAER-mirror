@@ -710,9 +710,9 @@ void GPU_MODE_LOCAL_WTA(dim3 gridExcDim, dim3 threadExcDim, int firingId, int nu
 			printf("calling multi object convNN_LocalWTA_Kernel with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridExcDim.x, gridExcDim.y, gridExcDim.z, threadExcDim.x, threadExcDim.y,threadExcDim.z);
 		}
 		
-		CUT_CHECK_ERROR("convNN_multiSpikeKernel Before kernel execution");
+		CUT_CHECK_ERROR("convNN_LocalWTA_Kernel Before kernel execution");
 		convNN_LocalWTA_Kernel <<< gridExcDim, threadExcDim >>> (spikeLen, numFiringArrayAddr, resetFiringArrayAddr);
-		CUT_CHECK_ERROR("convNN_multiSpikeKernel Kernel execution failed");	
+		CUT_CHECK_ERROR("convNN_LocalWTA_Kernel Kernel execution failed");	
 		cudaThreadSynchronize();
 			
 		if(debugLevel>1) fprintf(stderr, "Kernel executed %d times...\n", callCount);
