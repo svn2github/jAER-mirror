@@ -15,6 +15,7 @@
 #define MAX_SUB_TEMPLATE_SIZE_Y		16
 #define MAX_TEMPLATE_SIZE			(SCALE_FACTOR*MAX_SUB_TEMPLATE_SIZE_X)	//template size 
 
+#define RADIUS_LOC_INH				3
 
 #define TEMPLATE_Gab				2				//gabor template
 #define TEMPLATE_Gau				1				//gaussian template with constant negative tail

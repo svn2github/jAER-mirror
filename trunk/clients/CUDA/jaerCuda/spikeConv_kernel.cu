@@ -22,9 +22,12 @@ __device__ unsigned long gpu_lastTimeStamp[MAX_Y][MAX_X];
 __constant__ __device__ globalNeuronParams_t constNeuronParams;
 
 __constant__ __device__ int const_num_object; 
+__constant__ __device__ int const_radius_loc_inh;
+__constant__ __device__ int const_size_loc_inh;
 
 __device__ int   numFiring0[MAX_NUM_TEMPLATE];
-__device__ int   numFiring1[MAX_NUM_TEMPLATE];  
+__device__ int   numFiring1[MAX_NUM_TEMPLATE];     
+__device__ int   gpu_curNumFiring[MAX_NUM_TEMPLATE][MAX_Y][MAX_X]; // the number of generated spikes during current kernel cycle
 __device__ unsigned int   firedNeuronAddr[MAX_NUM_TEMPLATE*MAX_FIRING]; // holds output spikes from each template
 
 /** This method implements part of the winner-take-all functionality within each population.
@@ -112,7 +115,7 @@ convNN_multiSpike_Kernel(int  numInpSpikes,			// length of the spikes given to G
 	//each operating 16x16 pixel array.
 	/* blockIdx.x,blockIdx.y can range from 0-31 */
 	int my_addrx = blockIdx.x*MAX_SUB_TEMPLATE_SIZE_X + threadIdx.x;
-	int my_addry = blockIdx.y*MAX_SUB_TEMPLATE_SIZE_Y + threadIdx.y;
+	int my_addry = (blockIdx.y&0x7)*MAX_SUB_TEMPLATE_SIZE_Y + threadIdx.y;
 	
 	//We encode the object dimension in blockId itself.last 3 bit denotes
 	//block number, the remaining bits denote the object number neuronArrayId
@@ -210,7 +213,7 @@ convNN_multiSpike_Kernel(int  numInpSpikes,			// length of the spikes given to G
    gpu_membranePotential[neuronArrayId][my_addry][my_addrx] = refValue;
 }
 
-/** This kernel is to update the excitatory neurons within each population
+/** This kernel is to update neurons (from different populations) at the same position together, and add in lateral inhibition between these neurons for each input spike
  * @param:	numInpSpikes		total number of input spikes within current cycle
  * @param:  numFiringAddr		the array recording the number of spikes generated within each population during the current cycle
  * @param:	resetAddr			the array recording the number of spikes generated within each population during the last cycle, needs to be reset during the kernel call
@@ -346,5 +349,174 @@ convNN_LocalWTA_Kernel(int  numInpSpikes,		// length of the spikes given to GPU
    
 }
 
+/** This kernel is to update neurons (from different populations) at the same position together, and add in lateral inhibition between these neurons for each input spike, 
+ *  local inhibition between populations for each kernel call
+ * @param:	numInpSpikes		total number of input spikes within current cycle
+ * @param:  numFiringAddr		the array recording the number of spikes generated within each population during the current cycle
+ * @param:	resetAddr			the array recording the number of spikes generated within each population during the last cycle, needs to be reset during the kernel call
+ **/
+__global__ void
+convNN_LocalWTA_Kernel1(int  numInpSpikes,		// length of the spikes given to GPU
+						 int* numFiringArr,			// pointer to number of fired neurons
+													// initial value is zero before calling
+						 int* resetAddr)			// This memory will be reset to zero by GPU						
+					
+{	
+	
+	//TODO: This code is specific to an image of size 128, with 8 blocks
+	//each operating 16x16 pixel array.
+	/* blockIdx.x,blockIdx.y can range from 0-31 */
+	int my_addrx = blockIdx.x*MAX_SUB_TEMPLATE_SIZE_X + threadIdx.x;
+	int my_addry = (blockIdx.y&0x7)*MAX_SUB_TEMPLATE_SIZE_Y + threadIdx.y;
+		
+    int my_localId = threadIdx.y*blockDim.x+threadIdx.x; // unique local id within a block
+
+	int i,j,k,spkCnt;
+	
+	// only one thread is updated to reduce the global memory access
+	if (my_localId == 0) {
+		for(i = 0 ; i < const_num_object; i++){
+			resetAddr[i]=0; // FAQ: why is the kernel doing this, what is resetAddr??? it's not used further in the kernel
+										// we use a simple double buffering scheme. this address will be passed as
+										// numFiringArr address during the next kernel call. We can save a cudaMemcpy or cudaMemset
+										// by the CPU for reseting the number of firing by this mechanism.
+		}
+	}
+
+   __syncthreads();
+	   
+   __shared__ unsigned long curSpikeTime;
+   __shared__ unsigned int curSpikeAddr;
+
+   unsigned long ltStamp = 0;
+   // retreive the membrane potential
+   ltStamp = gpu_lastTimeStamp[my_addry][my_addrx];
+   
+   // retreive the initial value of the membrane potential and multiply by decay value
+	float refValue[MAX_NUM_TEMPLATE];
+	int curNumFiring[MAX_NUM_TEMPLATE];
+	char b_NeuronFired; // each bit record if the neuron in each population is fired due to the current input spike
+	for(i = 0; i < const_num_object; i++){
+		refValue[i]  = gpu_membranePotential[i][my_addry][my_addrx];
+		curNumFiring[i] = 0;
+	}
+	
+	// count the number of inhibitory input spikes from last kernel cycle
+	for(i = 0; i < const_num_object; i++){
+		for(k = -const_radius_loc_inh; k <= const_radius_loc_inh; k++){
+			int tmp_addrx = my_addrx + k;
+			int tmp_addry = my_addry + k;
+			if(tmp_addrx >= 0
+				& tmp_addry >= 0
+				& tmp_addrx < MAX_X
+				& tmp_addry < MAX_Y){
+				
+				for(j = 0; j < const_num_object; j++){
+					if(j != i){
+						curNumFiring[j] += gpu_curNumFiring[j][tmp_addry][tmp_addrx];
+					}
+				}
+			}
+		}
+	}
+	
+	// calulate the membrane potential for each input spikes
+    for(spkCnt=0; spkCnt < numInpSpikes;spkCnt++) {
+   		
+   		if(my_localId == 0) {
+			curSpikeTime = gpu_spikeTime[spkCnt];
+			curSpikeAddr = gpu_spikeAddr[spkCnt];
+		}
+
+		__syncthreads();
+		
+		b_NeuronFired = 0; // reset the spike counter
+		
+		unsigned long timeDiff = curSpikeTime-ltStamp;
+		float decayFactor = __expf((float)(timeDiff/constNeuronParams.membraneTau)*(-1.0f));
+		
+		if(spkCnt == 0){
+			for(i = 0; i < num_object; i++){
+				refValue[i] = (refValue[i] - curNumFiring[i] * constNeuronParams.iESynWeight) * decayFactor;
+				curNumFiring[i] = 0;
+			}
+			decayFactor = 1;
+			ltStamp = curSpikeTime;
+		}
+		   								
+		// read the spike for spike buffer and calulate x and y addresst
+		unsigned int addrx = curSpikeAddr&0xff;
+		unsigned int addry = (curSpikeAddr>>8)&0xff;		
+
+		int offSetAddrX = my_addrx - (addrx - (MAX_TEMPLATE_SIZE/2) + 1); 
+		int offSetAddrY = my_addry - (addry - (MAX_TEMPLATE_SIZE/2) + 1); 
+			
+		// check if the neuron address is within the 
+		// valid range where modification is going to happen
+		// due to convolution operation
+		if (offSetAddrX >= 0 &&
+			offSetAddrY >= 0 &&
+			offSetAddrX < MAX_TEMPLATE_SIZE &&
+			offSetAddrY < MAX_TEMPLATE_SIZE ) {
+	
+			ltStamp = curSpikeTime;
+			
+			for(i = 0 ; i < const_num_object; i++){
+				/* we can read the template and get the weight */
+				int texPos = i*MAX_TEMPLATE_SIZE*MAX_TEMPLATE_SIZE + offSetAddrY*MAX_TEMPLATE_SIZE + offSetAddrX; 
+				float weight=tex1D(template_tex, texPos); // TODO always returns 0 now
+				
+				// weights can be positive or negative based on the template type		
+				refValue[i] = refValue[i]*decayFactor + weight; 
+			
+				// neuron's membrane potential value exceeds the threshold value
+				// and hence the neuron should fire and reset
+				if (refValue[i] > constNeuronParams.threshold)  {
+					refValue[i] = 0.0;
+					// increment the current kernel call's firing count
+					int fireId = atomicAdd(&numFiringArr[i], 1);		// returns the *old* value of numFiring in fireId
+					
+					b_NeuronFired = (char)(b_NeuronFired | (0x01 << i));
+					curNumFiring[i]++;
+					
+					// store the fired neuron's id in the firing table
+					// TODO: include the objId along with the array for rendering by jAER
+					// TODO check that templateId is correct here as MSB of addr
+					if(fireId<MAX_FIRING){ //  bounds check on output, TODO check is that correct with multi templates???
+						firedNeuronAddr[i*MAX_FIRING+fireId] = (i<<16)+(my_addry<<8)+ my_addrx;
+					}
+				}
+				// neuron's membrane potential value is lower than the threshold value hence saturate...
+				else if (refValue[i] < constNeuronParams.membranePotentialMin)
+					refValue[i] = constNeuronParams.membranePotentialMin;
+			}
+			
+			if(b_NeuronFired != 0){	
+				// inhibit other features but itself if one neuron spikes.
+				// and i assume here that the error is negligible 
+				for(i = 0; i < const_num_object; i++){
+					for(j = 0; j < const_num_object; j++){
+						if(i != j){
+							refValue[j] = refValue[j] - ((b_NeuronFired >> i) & (0x01)) * constNeuronParams.iESynWeight;
+							if (refValue[i] < constNeuronParams.membranePotentialMin)
+								refValue[i] = constNeuronParams.membranePotentialMin;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	for(i = 0; i < const_num_object; i++){   
+	   // write back the calculated refValue    
+	   gpu_membranePotential[i][my_addry][my_addrx] = refValue[i];
+	   gpu_curNumFiring[i][my_addry][my_addrx] = curNumFiring[i];
+	}
+
+   // only one thread writes down the timeStamp value.
+   gpu_lastTimeStamp[my_addry][my_addrx] = ltStamp;			   
+   
+   
+}
 
 #endif // #ifndef _TEMPLATE_KERNEL_H_

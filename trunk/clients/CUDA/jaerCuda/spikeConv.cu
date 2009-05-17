@@ -71,6 +71,7 @@ long  tot_filteredSpikes = 0;	// total number of filtered spikes since the start
 float accTimer = 0;				// total executing time is kept here...
 
 int  num_object=MAX_NUM_TEMPLATE; 
+int  radius_loc_inh = RADIUS_LOC_INH; // define the range of local inhibition project from one population to other populations
 int template_type = TEMPLATE_Gab;
 int template_method = TEMP_METHOD1;  
 // delta_time is time in us that spikes are chunked together to be sent with common timestamp. 
@@ -173,6 +174,17 @@ void initializeNeurons()
 	printf("Zeroing membrane Potentials on GPU (loc = %x, size = %d bytes)\n", devPtr, sizeof(gpu_membranePotential));
 #pragma warning(default:4313)
 	CUDA_SAFE_CALL( cudaMemset( devPtr, 0, sizeof(membranePotential)));
+	CUT_CHECK_ERROR("after initialize gpu_membranePotential");
+	cudaThreadSynchronize();
+	
+	// initiate the elements of the device counter of firing for each neuron in the current cycle
+	cudaThreadSynchronize();
+	CUDA_SAFE_CALL ( cudaGetSymbolAddress(&devPtr, "gpu_curNumFiring"));
+#pragma warning(disable:4313)
+	printf("Zeroing membrane Potentials on GPU (loc = %x, size = %d bytes)\n", devPtr, sizeof(gpu_curNumFiring));
+#pragma warning(default:4313)
+	CUDA_SAFE_CALL( cudaMemset( devPtr, 0, sizeof(membranePotential)));
+	CUT_CHECK_ERROR("after initialize gpu_curNumFiring");
 	cudaThreadSynchronize();
 
 	// initiate the elements of the device last time stamp array 
@@ -185,11 +197,10 @@ void initializeNeurons()
 	
 	printf("Initializing spike counter\n");
 	CUDA_SAFE_CALL( cudaMemset (numFiring0AddrMO, 0, sizeof(int)*MAX_NUM_TEMPLATE));		
-	CUDA_SAFE_CALL( cudaMemset (numFiring1AddrMO, 0, sizeof(int)*MAX_NUM_TEMPLATE));		
+	CUDA_SAFE_CALL( cudaMemset (numFiring1AddrMO, 0, sizeof(int)*MAX_NUM_TEMPLATE));	
+	CUT_CHECK_ERROR("after initialize gpu_lastTimeStamp");	
 	cudaThreadSynchronize();
-	
-	CUT_CHECK_ERROR("after initializeNeurons");
-	
+		
 	memset(inh_mem_potential,0,sizeof(float)*MAX_NUM_TEMPLATE);
 	memset(tot_fired_MO,0,sizeof(long)*MAX_NUM_TEMPLATE);
 	
@@ -240,6 +251,16 @@ void onlineParamChange()
 		fprintf(stderr,"Params th=%f, tau=%f, pot=%f, time=%f, eIWt=%f, iEWt=%f\n", 
 			hostNeuronParams.threshold, hostNeuronParams.membraneTau, hostNeuronParams.membranePotentialMin, hostNeuronParams.minFiringTimeDiff,
 			hostNeuronParams.eISynWeight, hostNeuronParams.iESynWeight);
+			
+		CUDA_SAFE_CALL(cudaMemcpyToSymbol("const_radius_loc_inh",&radius_loc_inh,sizeof(int),(size_t)0,cudaMemcpyHostToDevice));
+		CUT_CHECK_ERROR("Copy radius_loc_inh");
+		fprintf(stderr,"Param radius_loc_inh=%d,", radius_loc_inh);
+		
+		int size_loc_inh = radius_loc_inh*2+1;
+		CUDA_SAFE_CALL(cudaMemcpyToSymbol("const_size_loc_inh",&size_loc_inh,sizeof(int),(size_t)0,cudaMemcpyHostToDevice));
+		CUT_CHECK_ERROR("Copy size_loc_inh");
+		fprintf(stderr," size_loc_inh=%d\n", size_loc_inh);
+			
 	}
 	
 	/** check if template should be send to device **/
@@ -261,7 +282,7 @@ void onlineParamChange()
 				
 		CUDA_SAFE_CALL( cudaMemcpyToSymbol("const_num_object",&num_object,sizeof(int),(size_t)0,cudaMemcpyHostToDevice));
 		CUT_CHECK_ERROR("after send num_object"); 
-		
+			
 		cudaThreadSynchronize();
 	}
 }
@@ -498,10 +519,10 @@ int paramLenArr[PARAM_LEN_SIZE];
  *  @param:		threadExcDim	thread dimension for updating excitatory membrane potentials
  *  @param:		gridInhDim		grid dimension for updating excitatory membrane potentials after the firing of global inhibitory neuron
  *  @param:     threadInhDim	thread dimension for updating excitatory membrane potentials after the firing of global inhibitory neuron
- *	@param:		firingId		toggling between 0/1, so that one is reset (done in the kernel) and the other is used to count the number of spikes generated during one cycle 
+ *	@param:		firingId		the address of firingId, which toggles between 0/1, so that one is reset (done in the kernel) and the other is used to count the number of spikes generated during one cycle 
  *  @param:		numInSpikes		the number of input spikes after refractory filtering
  **/
-void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadInhDim, int firingId, int numInSpikes){
+void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadInhDim, int* firingId, int numInSpikes){
 	
 	// initiate variables with the first spike
 	int  index_start=0;
@@ -562,8 +583,8 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 		// the kernel writes the number of fired neurons for each template in the array
 		// pointed to by numFiringArrayAddr, at the same time, it also sets the array pointed to 
 		// by resetFiringArrayAddr all to zero. The host uses the numFiring values to update the WTA neurons.
-		int* numFiringArrayAddr   = (int*)((firingId)?numFiring0AddrMO:numFiring1AddrMO);
-		int* resetFiringArrayAddr = (int*)((firingId)?numFiring1AddrMO:numFiring0AddrMO); // TODO, this array is unused now
+		int* numFiringArrayAddr   = (int*)((*firingId)?numFiring0AddrMO:numFiring1AddrMO);
+		int* resetFiringArrayAddr = (int*)((*firingId)?numFiring1AddrMO:numFiring0AddrMO); // TODO, this array is unused now
 		
 		if(debugLevel>1){
 			printf("calling multi object convNN_multiSpikeKernel with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridExcDim.x, gridExcDim.y, gridExcDim.z, threadExcDim.x, threadExcDim.y,threadExcDim.z);
@@ -620,7 +641,7 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 	#endif
 		
 		// toggle the id after each cycle to reset either numFiring0AddrMO or numFiring1AddrMO
-		firingId = (firingId ) ? 0 : 1;
+		*firingId = (*firingId ) ? 0 : 1;
 		
 		/************************* send output spikes back to jaer  ******************/
 		cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, n_iNeuronFired);
@@ -639,10 +660,10 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 /** GPU computation on the local WTA neural network with inhibitory coupling between different features at the same network position
  *  @param:		gridExcDim		grid dimension for updating excitatory membrane potentials
  *  @param:		threadExcDim	thread dimension for updating excitatory membrane potentials
- *	@param:		firingId		toggling between 0/1, so that one is reset (done in the kernel) and the other is used to count the number of spikes generated during one cycle 
+ *	@param:		firingId		the address of firingId, which toggles between 0/1, so that one is reset (done in the kernel) and the other is used to count the number of spikes generated during one cycle 
  *  @param:		numInSpikes		the number of input spikes after refractory filtering
  **/
-void GPU_MODE_LOCAL_WTA(dim3 gridExcDim, dim3 threadExcDim, int firingId, int numInSpikes){
+void GPU_MODE_LOCAL_WTA(dim3 gridExcDim, dim3 threadExcDim, int* firingId, int numInSpikes){
 	
 	// initiate variables with the first spike
 	int  index_start=0;
@@ -703,15 +724,15 @@ void GPU_MODE_LOCAL_WTA(dim3 gridExcDim, dim3 threadExcDim, int firingId, int nu
 		// the kernel writes the number of fired neurons for each template in the array
 		// pointed to by numFiringArrayAddr, at the same time, it also sets the array pointed to 
 		// by resetFiringArrayAddr all to zero. The host uses the numFiring values to update the WTA neurons.
-		int* numFiringArrayAddr   = (int*)((firingId)?numFiring0AddrMO:numFiring1AddrMO);
-		int* resetFiringArrayAddr = (int*)((firingId)?numFiring1AddrMO:numFiring0AddrMO); // TODO, this array is unused now
+		int* numFiringArrayAddr   = (int*)((*firingId)?numFiring0AddrMO:numFiring1AddrMO);
+		int* resetFiringArrayAddr = (int*)((*firingId)?numFiring1AddrMO:numFiring0AddrMO); // TODO, this array is unused now
 		
 		if(debugLevel>1){
 			printf("calling multi object convNN_LocalWTA_Kernel with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridExcDim.x, gridExcDim.y, gridExcDim.z, threadExcDim.x, threadExcDim.y,threadExcDim.z);
 		}
 		
 		CUT_CHECK_ERROR("convNN_LocalWTA_Kernel Before kernel execution");
-		convNN_LocalWTA_Kernel <<< gridExcDim, threadExcDim >>> (spikeLen, numFiringArrayAddr, resetFiringArrayAddr);
+		convNN_LocalWTA_Kernel1 <<< gridExcDim, threadExcDim >>> (spikeLen, numFiringArrayAddr, resetFiringArrayAddr);
 		CUT_CHECK_ERROR("convNN_LocalWTA_Kernel Kernel execution failed");	
 		cudaThreadSynchronize();
 			
@@ -737,9 +758,9 @@ void GPU_MODE_LOCAL_WTA(dim3 gridExcDim, dim3 threadExcDim, int firingId, int nu
 		for ( int i=0; i < num_object; i++) {
 			tot_fired_MO[i] += cpu_nfiredMO[i]; //per object firing
 		}	
-
+		
 		// toggle the id after each cycle to reset either numFiring0AddrMO or numFiring1AddrMO
-		firingId = (firingId ) ? 0 : 1;
+		*firingId = (*firingId ) ? 0 : 1;
 		
 		/************************* send output spikes back to jaer  ******************/
 		cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, 0);
@@ -833,9 +854,9 @@ int runjaerCUDA( int argc, char** argv)
 		if(runCuda) {
 		
 		#if LOCAL_WTA
-			GPU_MODE_LOCAL_WTA(gridExcDim1,threadExcDim1, firingId, numSpikes);
+			GPU_MODE_LOCAL_WTA(gridExcDim1,threadExcDim1, &firingId, numSpikes);
 		#else
-			GPU_MODE(gridExcDim,threadExcDim, gridInhDim, threadInhDim, firingId, numSpikes);
+			GPU_MODE(gridExcDim,threadExcDim, gridInhDim, threadInhDim, &firingId, numSpikes);
 		#endif
 			
 		} // end if(runCuda)
