@@ -772,7 +772,7 @@ void GPU_MODE_LOCAL_WTA(dim3 gridExcDim, dim3 threadExcDim, int* firingId, int n
 		/************************* send output spikes back to jaer  ******************/
 		cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, 0);
 		
-		if(debug > 1){
+		if(debugLevel > 1){
 			printf("the current time stamp is %d", spikeTimeStampV);
 		}
 		
