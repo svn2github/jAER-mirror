@@ -11,7 +11,7 @@ for i=1:length(AE)
     if ((x(i)<xdim)&(y(i)<ydim))
         if (last(y(i)+1,x(i)+1)~=0)
             m(y(i)+1,x(i)+1)=1/double((t(i)-last(y(i)+1,x(i)+1)));
-            tmp=m(y(i)+1,x(i)+1)
+            %tmp=m(y(i)+1,x(i)+1)
         end;
         last(y(i)+1,x(i)+1)=t(i);
     else
