@@ -1,4 +1,4 @@
-function m=reconstructAERframe(AE,xmask,ymask,xdim,ydim)
+function m=reconstructAERframeHist(AE,xmask,ymask,xdim,ydim)
 % m=reconstructAERframe(AE,xmask,ymask,xdim,ydim)
 % shows the histogram of the address events in AE as an image defined by
 % the masks (xmask,ymask) and image dimensions (xdim,ydim)
