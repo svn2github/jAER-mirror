@@ -300,7 +300,7 @@ int recvFilterSpikes()
 {
 	int iResult;
 	int numEvents;
-	int numSpikes;
+//	int numSpikes;
 	 
 	#ifndef REPLAY_MODE
 			iResult=jaerRecv(); // in recvBuf, returns immediately if input port not yet open, blocks if waiting socket open
@@ -328,7 +328,7 @@ int recvFilterSpikes()
 	#endif
 
 			/** apply refractory filter to reduce number of events **/
-			numSpikes = extractJaerRawData(filteredSpike_addr, filteredSpike_timeStamp, recvBuf, numEvents);		
+/*			numSpikes = extractJaerRawData(filteredSpike_addr, filteredSpike_timeStamp, recvBuf, numEvents);		
 	#ifdef REPLAY_MODE
 			if (numSpikes == -1) {
 				fprintf(stderr,"readNNFilter returned -1 (error), continuing\n");
@@ -346,6 +346,13 @@ int recvFilterSpikes()
 	if(debugLevel>0) printf("number of spikes after refractory filter = %d\n", numSpikes);
 	
 	return numSpikes;
+	
+	*/
+	
+	tot_filteredSpikes += numEvents;
+	if(debugLevel>0) printf("number of spikes after refractory filter = %d\n", numEvents);
+	
+	return numEvents;
 }
 
 /**********************************************************************************************************************/
@@ -731,9 +738,9 @@ void GPU_MODE_LOCAL_WTA(dim3 gridExcDim, dim3 threadExcDim, int* firingId, int n
 			printf("calling multi object convNN_LocalWTA_Kernel with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridExcDim.x, gridExcDim.y, gridExcDim.z, threadExcDim.x, threadExcDim.y,threadExcDim.z);
 		}
 		
-		CUT_CHECK_ERROR("convNN_LocalWTA_Kernel Before kernel execution");
+		CUT_CHECK_ERROR("convNN_multiSpikeKernel Before kernel execution");
 		convNN_LocalWTA_Kernel1 <<< gridExcDim, threadExcDim >>> (spikeLen, numFiringArrayAddr, resetFiringArrayAddr);
-		CUT_CHECK_ERROR("convNN_LocalWTA_Kernel Kernel execution failed");	
+		CUT_CHECK_ERROR("convNN_multiSpikeKernel Kernel execution failed");	
 		cudaThreadSynchronize();
 			
 		if(debugLevel>1) fprintf(stderr, "Kernel executed %d times...\n", callCount);
@@ -764,6 +771,10 @@ void GPU_MODE_LOCAL_WTA(dim3 gridExcDim, dim3 threadExcDim, int* firingId, int n
 		
 		/************************* send output spikes back to jaer  ******************/
 		cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, 0);
+		
+		if(debug > 1){
+			printf("the current time stamp is %d", spikeTimeStampV);
+		}
 		
 		
 		/************************* update counters ***********************************/

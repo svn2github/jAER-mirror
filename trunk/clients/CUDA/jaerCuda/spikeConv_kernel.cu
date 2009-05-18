@@ -376,8 +376,7 @@ convNN_LocalWTA_Kernel1(int  numInpSpikes,		// length of the spikes given to GPU
 	// only one thread is updated to reduce the global memory access
 	if (my_localId == 0) {
 		for(i = 0 ; i < const_num_object; i++){
-			resetAddr[i]=0; // FAQ: why is the kernel doing this, what is resetAddr??? it's not used further in the kernel
-										// we use a simple double buffering scheme. this address will be passed as
+			resetAddr[i]=0; 			// we use a simple double buffering scheme. this address will be passed as
 										// numFiringArr address during the next kernel call. We can save a cudaMemcpy or cudaMemset
 										// by the CPU for reseting the number of firing by this mechanism.
 		}
@@ -394,24 +393,27 @@ convNN_LocalWTA_Kernel1(int  numInpSpikes,		// length of the spikes given to GPU
    
    // retreive the initial value of the membrane potential and multiply by decay value
 	float refValue[MAX_NUM_TEMPLATE];
-	int curNumFiring[MAX_NUM_TEMPLATE];
+	int curNumFiring[MAX_NUM_TEMPLATE]; //there are two functions for this variable
+										// 1. accumulate the number of spikes generated during last kernel call from other populations within a local area centered by the neuron's location
+										//	  this is to calculate the total amount of inhibition from last kernel call
+										// 2. accumulate the number of spikes generated during the current kernel call from each population, and before quitting the kernel, write it back to gpu_curNumFiring
 	char b_NeuronFired; // each bit record if the neuron in each population is fired due to the current input spike
 	for(i = 0; i < const_num_object; i++){
 		refValue[i]  = gpu_membranePotential[i][my_addry][my_addrx];
-		curNumFiring[i] = 0;
+		curNumFiring[i] = 0; // reset the counter for the accumulation of spikes generated during last kernel call from other populations
 	}
 	
 	// count the number of inhibitory input spikes from last kernel cycle
 	for(i = 0; i < const_num_object; i++){
-		for(k = -const_radius_loc_inh; k <= const_radius_loc_inh; k++){
+		for(k = -const_radius_loc_inh; k <= const_radius_loc_inh; k++){ // check the local area centered by the neuron's location
 			int tmp_addrx = my_addrx + k;
 			int tmp_addry = my_addry + k;
 			if(tmp_addrx >= 0
 				& tmp_addry >= 0
 				& tmp_addrx < MAX_X
-				& tmp_addry < MAX_Y){
+				& tmp_addry < MAX_Y){	// boundary check
 				
-				for(j = 0; j < const_num_object; j++){
+				for(j = 0; j < const_num_object; j++){	// accumulate all the spikes generated from other populations
 					if(j != i){
 						curNumFiring[j] += gpu_curNumFiring[j][tmp_addry][tmp_addrx];
 					}
@@ -435,13 +437,16 @@ convNN_LocalWTA_Kernel1(int  numInpSpikes,		// length of the spikes given to GPU
 		unsigned long timeDiff = curSpikeTime-ltStamp;
 		float decayFactor = __expf((float)(timeDiff/constNeuronParams.membraneTau)*(-1.0f));
 		
+		// at the beginning of the kernel call, calculate the amount of inhibition from the last kernel call
 		if(spkCnt == 0){
-			for(i = 0; i < num_object; i++){
+			for(i = 0; i < const_num_object; i++){
 				refValue[i] = (refValue[i] - curNumFiring[i] * constNeuronParams.iESynWeight) * decayFactor;
-				curNumFiring[i] = 0;
+				curNumFiring[i] = 0;	// reset the counter again to be used for spike counting during current kernel call
 			}
-			decayFactor = 1;
-			ltStamp = curSpikeTime;
+			
+			// reset decay factor and last time stamp since the decay has been calculated
+			decayFactor = 1;	
+			ltStamp = curSpikeTime;	
 		}
 		   								
 		// read the spike for spike buffer and calulate x and y addresst
@@ -476,8 +481,8 @@ convNN_LocalWTA_Kernel1(int  numInpSpikes,		// length of the spikes given to GPU
 					// increment the current kernel call's firing count
 					int fireId = atomicAdd(&numFiringArr[i], 1);		// returns the *old* value of numFiring in fireId
 					
-					b_NeuronFired = (char)(b_NeuronFired | (0x01 << i));
-					curNumFiring[i]++;
+					b_NeuronFired = (char)(b_NeuronFired | (0x01 << i)); // set the corresponding bit
+					curNumFiring[i]++;	// increase the spike counter by 1
 					
 					// store the fired neuron's id in the firing table
 					// TODO: include the objId along with the array for rendering by jAER
