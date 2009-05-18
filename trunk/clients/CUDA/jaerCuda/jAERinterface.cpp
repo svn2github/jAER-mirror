@@ -118,7 +118,7 @@ void jaerSendEvent(unsigned int addrx, unsigned int addry, unsigned long timeSta
 	aerBuf[3] = (((MAX_X - 1 - addrx) << 1)&0xfe);
 	aerBuf[4] = (char)((timeStamp >> 24)&0xff);
 	aerBuf[5] = (char)((timeStamp >> 16)&0xff);
-	aerBuf[6] = (char)((timeStamp >> 16)&0xff);
+	aerBuf[6] = (char)((timeStamp >> 8)&0xff);
 	aerBuf[7] = (char)((timeStamp >> 0 )&0xff);
 
 	sendBufLen+=EVENT_LEN;

@@ -257,14 +257,14 @@ extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, co
 
 		prevTimeStamp = *timeStampCur;
 
-		filterFlag = spikeFilter(addrxCur, addryCur, *timeStampCur);
+		//filterFlag = spikeFilter(addrxCur, addryCur, *timeStampCur);
 		
-		if(filterFlag) {
+		//if(filterFlag) {
 			*addrCur = addrxCur + (addryCur << 8);
 			timeStampCur++;
 			addrCur++;
 			lenData++;
-		}
+		//}
 
 	}				
 

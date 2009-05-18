@@ -669,6 +669,8 @@ void GPU_MODE_LOCAL_WTA(dim3 gridExcDim, dim3 threadExcDim, int* firingId, int n
 	int  index_start=0;
 	int spikeLen = 1;
 	unsigned long spikeTimeStampV = filteredSpike_timeStamp[0]; // set the global timestamp for packet	
+	unsigned long spikeTimeStampPre = filteredSpike_timeStamp[0]; // the last time stamp
+	int timeDiff = 0; // the time difference between last and current time stamp
 	int cpu_nfiredMO[MAX_NUM_TEMPLATE];	// number of neurons that got fired in the last kernel call
 	
 	// this loop iterates over spikes in the packet, calling the kernel periodically when it has collected enough
@@ -763,18 +765,20 @@ void GPU_MODE_LOCAL_WTA(dim3 gridExcDim, dim3 threadExcDim, int* firingId, int n
 		*firingId = (*firingId ) ? 0 : 1;
 		
 		/************************* send output spikes back to jaer  ******************/
-		cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, 0);
-		
-		if(debugLevel > 1){
-			printf("the current time stamp is %lu\n", spikeTimeStampV);
-		}
-		
+		cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, 0);		
 		
 		/************************* update counters ***********************************/
 		callCount++;
+		spikeTimeStampPre = spikeTimeStampV;
 		spikeTimeStampV = filteredSpike_timeStamp[spk_i]; // store the time stamp of spike for next grouping
+		timeDiff = spikeTimeStampV - spikeTimeStampPre;
 		spikeLen  = 1;							  // reset length
 		index_start = spk_i;					  // reset the index
+		
+		if(debugLevel > 1){
+			if(timeDiff < 0)
+				printf("********** The current time stamp is reversed by %d us\n", timeDiff);
+		}
 		
 	} // iterate over spikes in this packet		
 }
