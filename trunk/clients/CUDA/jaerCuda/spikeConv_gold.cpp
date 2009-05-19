@@ -10,7 +10,7 @@
 // export C interface
 extern "C" {
 	int extractJaerRawData( unsigned int* addr, unsigned long* timeStamp, char* Data, const unsigned int len);
-	void computeGold( unsigned int* addr, unsigned long* timeStamp);
+	void computeGold(int numInSpike);
 	int  templateConvInit(int selectType=TEMP_METHOD1, int templateType=TEMPLATE_DoG);
 	void setInitLastTimeStamp(unsigned long timeStamp);
 }
@@ -35,6 +35,10 @@ extern "C"{
 extern unsigned int delta_time;
 extern int num_object;
 extern globalNeuronParams_t hostNeuronParams;
+extern unsigned int  filteredSpike_addr[RECV_SOCK_BUFLEN/EVENT_LEN];	// array of filterred spike's address
+extern unsigned long filteredSpike_timeStamp[RECV_SOCK_BUFLEN/EVENT_LEN];	// array of filtered spikes's timestamp
+extern int radius_loc_inh;
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +49,8 @@ int			  cpu_totFiringMO[MAX_NUM_TEMPLATE];	// store the firing count for each ob
 float		  conv_template[MAX_NUM_TEMPLATE][MAX_TEMPLATE_SIZE][MAX_TEMPLATE_SIZE];		// template of all objects
 unsigned long lastInputStamp[MAX_X][MAX_Y];		// stores the time of last firing of the input addr. This is used
 												// to filter spikes that happens at a high rate.
-float		  membranePotential[MAX_NUM_TEMPLATE][MAX_X][MAX_Y];	// corresponds to membrane potential of each neuron.																	
+float		  membranePotential[MAX_NUM_TEMPLATE][MAX_X][MAX_Y];	// corresponds to membrane potential of each neuron.	
+int			  curNumFiring[MAX_NUM_TEMPLATE][MAX_Y][MAX_X]; // the number of generated spikes during current cycle
 unsigned long lastTimeStamp[MAX_X][MAX_Y];		// store the firing time of each neuron. This is used
 																// calcuate the membrane potential decay.
 const float	  objSizeArray[] = {14,11,8,5,2}; // 15.0,7.0,22.0,21.0,20.0,19.0,18.0,12.0,11.0,10.0};	// ball size in pixels
@@ -326,13 +331,13 @@ int update_inh_neuron(FILE *fp, unsigned long timeStamp, int objId=0,int numFire
 }
 
 /** update neuron membrane potentials when input spike is received (single spike mode)
- * @param: addrx & addry	the x and y address of the input spike within retina coordinates
- * @param: timeStamp		current time stamp
+ * @param: numInSpikes		the number of input spikes received from jaer
  **/
 
-void update_neurons(unsigned int addrx, unsigned int addry, unsigned long timeStamp)
+void update_neurons(int numInSpikes)
 {
 	static FILE* fpFiring = NULL;
+	unsigned long spikeTimeStampV;
 	
 #if RECORD_FIRING_INFO
 	if(fpFiring == NULL){
@@ -343,90 +348,89 @@ void update_neurons(unsigned int addrx, unsigned int addry, unsigned long timeSt
 	}	
 #endif
 
-	// calculate the coverage of the template which centers around the address of the current spike 
-	int min_x = addrx - (MAX_TEMPLATE_SIZE/2) + 1;
-	int temp_min_x = (min_x < 0 ) ? min_x  - 1 : min_x;
-	min_x = (min_x <  0 ) ? 0 : min_x;
+	int i,j,objId,spk_i;
+	// this loop iterates over spikes in the packet
+	for (spk_i = 0; spk_i < numInSpikes; spk_i++ ) {
 
-	int min_y = addry - (MAX_TEMPLATE_SIZE/2) + 1;
-	int temp_min_y = (min_y < 0 ) ? min_y  - 1 : min_y;
-	min_y = (min_y < 0 ) ? 0 : min_y;
+		// update time stamp and address of the input spike
+		spikeTimeStampV = filteredSpike_timeStamp[spk_i]; 
+		int addrx = filteredSpike_addr[spk_i]&0xff;	
+		int addry = (filteredSpike_addr[spk_i]>>8)&0xff;
 
-	int max_x = addrx + (MAX_TEMPLATE_SIZE/2);
-	max_x = (max_x > MAX_X) ? MAX_X : max_x;
+		// calculate the coverage of the template which centers around the address of the current spike 
+		int min_x = addrx - (MAX_TEMPLATE_SIZE/2) + 1;
+		int temp_min_x = (min_x < 0 ) ? min_x  - 1 : min_x;
+		min_x = (min_x <  0 ) ? 0 : min_x;
 
-	int max_y = addry + (MAX_TEMPLATE_SIZE/2);
-	max_y = (max_y > MAX_Y ) ? MAX_Y : max_y;
+		int min_y = addry - (MAX_TEMPLATE_SIZE/2) + 1;
+		int temp_min_y = (min_y < 0 ) ? min_y  - 1 : min_y;
+		min_y = (min_y < 0 ) ? 0 : min_y;
 
-	// calculate the membrane potential of each neuron
-	
-	for( int i = min_x; i < max_x; i++) {
-		for( int j = min_y; j < max_y; j++) {
-			
-			assert(i-temp_min_x>=0);
-			assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
-			assert(j-temp_min_y>=0);
-			assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
+		int max_x = addrx + (MAX_TEMPLATE_SIZE/2);
+		max_x = (max_x > MAX_X) ? MAX_X : max_x;
 
-			// check if the time is reversed
-			if((timeStamp-lastTimeStamp[i][j]) < 0) {
-				printf("Time stamp reversal\n");
+		int max_y = addry + (MAX_TEMPLATE_SIZE/2);
+		max_y = (max_y > MAX_Y ) ? MAX_Y : max_y;
 
-#if RECORD_FIRING_INFO
-			fclose(fpFiring);
-#endif
-				return;
-			}
+		// calculate the membrane potential of each neuron
+		for(i = min_x; i < max_x; i++) {
+			for(j = min_y; j < max_y; j++) {
+				
+				assert(i-temp_min_x>=0);
+				assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
+				assert(j-temp_min_y>=0);
+				assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
 
-			for( int k = 0; k < num_object; k++) {
+				for(objId = 0; objId < num_object; objId++) {
 
-				// calculate membrane potential
-				signed long long timeDiff = 0xFFFFFFFFLL&(timeStamp-lastTimeStamp[i][j]);
-				float temp = (float)timeDiff/hostNeuronParams.membraneTau;
-				temp = (float)exp(-temp);
-				membranePotential[k][i][j] = membranePotential[k][i][j]*temp +
-										   conv_template[k][i-temp_min_x][j-temp_min_y];
+					// calculate membrane potential for each neuron
+					unsigned long timeDiff = spikeTimeStampV-lastTimeStamp[j][i];
+					float decayFactor = (float)exp(timeDiff/hostNeuronParams.membraneTau*(-1.0f));					
+					membranePotential[objId][j][i] = membranePotential[objId][j][i]*decayFactor +
+											   conv_template[objId][j-temp_min_y][i-temp_min_x];
 
-				if((membranePotential[k][i][j]) > hostNeuronParams.threshold) {
-					cpu_totFiring++;
-					cpu_totFiringMO[k]++;
-					int ineuron_fired = update_inh_neuron(fpFiring, timeStamp, k);
-					membranePotential[k][i][j] = 0;
+					if((membranePotential[objId][j][i]) > hostNeuronParams.threshold) { // hit the threshold
+						cpu_totFiring++; // total number of spikes from all populations
+						cpu_totFiringMO[objId]++;	// total number of generated spikes within one population
+						membranePotential[objId][j][i] = 0;
+						
+					// send the output events back to cuda
+					#if !REPLAY_MODE
+						// accumulate fired neuron and send to jaer
+						jaerSendEvent(i,j,spikeTimeStampV,objId);
 
-				// send the output events back to cuda
-				#if !REPLAY_MODE
-					// accumulate fired neuron and send to jaer
-					jaerSendEvent(i,j,timeStamp,k);
+						// update inhibitory neuron
+						int ineuron_fired = update_inh_neuron(fpFiring, spikeTimeStampV, objId);
 
-					if (ineuron_fired)
-						jaerSendEvent(1,1,timeStamp,0);
+						if (ineuron_fired)
+							jaerSendEvent(1,1,spikeTimeStampV,0);
 
-				#endif
+					#endif
+					}
+					else if ( membranePotential[objId][j][i] < hostNeuronParams.membranePotentialMin ) {  // hit the lower bound of membrane potential
+							membranePotential[objId][j][i] = hostNeuronParams.membranePotentialMin;
+					}		
 				}
-				else if ( membranePotential[k][i][j] < hostNeuronParams.membranePotentialMin ) {
-						membranePotential[k][i][j] = hostNeuronParams.membranePotentialMin;
-				}		
-			}
 
-			lastTimeStamp[i][j] = timeStamp;
+				lastTimeStamp[j][i] = spikeTimeStampV; // update lastTimeStamp
+			}
 		}
 	}
 }
 
-unsigned long lastGroupingTimeStamp=0;
 
-/** update neuron membrane potentials when input spike is received (single spike mode)
- * @param: addrx & addry	the x and y address of the input spike within retina coordinates
- * @param: timeStamp		current time stamp
+/** update neuron membrane potentials when input spike is received (multi spike mode)
+ * @param: numInSpikes		the number of input spikes received from jaer
  **/	
-void update_neurons_grouping(unsigned int addrx, unsigned int addry, unsigned long timeStamp)
+void update_neurons_grouping(int numInSpikes)
 {
 	static FILE* fpFiring = NULL;
 	int ineuron_fired = 0;
 	int numFired[MAX_NUM_TEMPLATE];
+	// initiate variables with the first spike
+	int spikeLen = 1;
+	unsigned long spikeTimeStampV = filteredSpike_timeStamp[0]; // set the global timestamp for packet
 
-	signed long long groupDiff = 0xFFFFFFFFLL&(timeStamp - lastGroupingTimeStamp);
-	
 #if RECORD_FIRING_INFO
 	if(fpFiring == NULL){
 		if ((fpFiring = fopen("firing.m", "w")) == NULL){
@@ -436,112 +440,475 @@ void update_neurons_grouping(unsigned int addrx, unsigned int addry, unsigned lo
 	}	
 #endif
 
-	// calculate the coverage of the template which centers around the address of the current spike 
-	int min_x = addrx - (MAX_TEMPLATE_SIZE/2) + 1;
-	int temp_min_x = (min_x < 0 ) ? min_x  - 1 : min_x;
-	min_x = (min_x <  0 ) ? 0 : min_x;
-
-	int min_y = addry - (MAX_TEMPLATE_SIZE/2) + 1;
-	int temp_min_y = (min_y < 0 ) ? min_y  - 1 : min_y;
-	min_y = (min_y < 0 ) ? 0 : min_y;
-
-	int max_x = addrx + (MAX_TEMPLATE_SIZE/2);
-	max_x = (max_x > MAX_X) ? MAX_X : max_x;
-
-	int max_y = addry + (MAX_TEMPLATE_SIZE/2);
-	max_y = (max_y > MAX_Y ) ? MAX_Y : max_y;
-
-	int i,j,objId;
-
-	for(i = 0; i < num_object; i++){
-		numFired[i] = 0;
-	}
-
-	for(i = min_x; i < max_x; i++) {
-		for(j = min_y; j < max_y; j++) {
-			assert(i-temp_min_x>=0);
-			assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
-			assert(j-temp_min_y>=0);
-			assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
-
-			// check if time is reversed
-			if((timeStamp-lastTimeStamp[i][j]) < 0) {
-				printf("Time stamp reversal\n");
-
-			#if RECORD_FIRING_INFO
-				fclose(fpFiring);
-			#endif
-				return;
-			}
-
-			for(objId = 0; objId < num_object; objId++) {
-
-				// group the input spikes so that the leak of the membrane potential is only calculated every delta_time
-				signed long long timeDiff = 0xFFFFFFFFLL&(timeStamp-lastTimeStamp[i][j]);
-				float temp = 1.0;						
-				if(groupDiff>delta_time) {
-					lastGroupingTimeStamp = timeStamp;
-
-					temp = (float)timeDiff/hostNeuronParams.membraneTau;
-					temp = (float)exp(-temp);
-				}
-				
-
-				membranePotential[objId][i][j] = membranePotential[objId][i][j]*temp +
-										   conv_template[objId][i-temp_min_x][j-temp_min_y];				
-				if((membranePotential[objId][i][j]) > hostNeuronParams.threshold) {
-					cpu_totFiring++;
-					numFired[objId]++;
-					cpu_totFiringMO[objId]++;
-					membranePotential[objId][i][j] = 0;
-
-			#if RECORD_FIRING_INFO
-					fprintf(fpFiring, "%u %d %d\n", timeStamp, i, j);
-			#endif
-
-				// send the excitatory output events back to cuda
-				#if !REPLAY_MODE
-				// accumulate fired neuron and send to jaer
-					jaerSendEvent(i,j,timeStamp,objId);
-				#endif
-				}
-				else if ( membranePotential[objId][i][j] < hostNeuronParams.membranePotentialMin ) {
-					membranePotential[objId][i][j] = hostNeuronParams.membranePotentialMin;
-				}
-			}
-
-			lastTimeStamp[i][j] = timeStamp;
+	int i,j,objId,spk_i,spk_cnt;
+	// this loop iterates over spikes in the packet, calling the "kernel" periodically when it has collected enough
+	// spikes. 
+	for (spk_i = 0; spk_i < numInSpikes; spk_i++ ) {
+	
+		/*********************************************************/
+		/****Generate input event packet *************************/
+		/*********************************************************/
+		
+		if (spk_i==(numInSpikes-1)){
+			// this is the last spike then just go and process the bufferred spikes in the GPU.
+			spikeLen++; // just increment number of spikes to be processed
 		}
+		else if (spikeLen == (GPU_MAX_SPIKE_PACKETS)) {
+			// our buffer is full. so go and process existing spike buffer the current spike will be part of next group..
+		}
+		else if ((filteredSpike_timeStamp[spk_i] - spikeTimeStampV) < delta_time) {		
+			// if we're not the first or last spike or at the limit, and
+			// If the current time stamp of a spike is within the delta_time then
+			// we buffer the spike and start reading the next spike...
+			spikeLen++;
+			continue;
+		}	
+
+		// initiate the spike counter for one cycle to 0
+		for(i = 0; i < num_object; i++){
+			numFired[i] = 0;
+		}
+		
+		/*********************************************************/
+		/*******Call multi-spike "kernel"*************************/
+		/*********************************************************/
+
+		for(spk_cnt = 0; spk_cnt < spikeLen; spk_cnt++){
+			
+			// update time stamp and address of the input spike
+			spikeTimeStampV = filteredSpike_timeStamp[spk_cnt+spk_i]; 
+			int addrx = filteredSpike_addr[spk_cnt+spk_i]&0xff;	
+			int addry = (filteredSpike_addr[spk_cnt+spk_i]>>8)&0xff;
+
+			// calculate the coverage of the template which centers around the address of the current spike 
+			int min_x = addrx - (MAX_TEMPLATE_SIZE/2) + 1;
+			int temp_min_x = (min_x < 0 ) ? min_x  - 1 : min_x;
+			min_x = (min_x <  0 ) ? 0 : min_x;
+
+			int min_y = addry - (MAX_TEMPLATE_SIZE/2) + 1;
+			int temp_min_y = (min_y < 0 ) ? min_y  - 1 : min_y;
+			min_y = (min_y < 0 ) ? 0 : min_y;
+
+			int max_x = addrx + (MAX_TEMPLATE_SIZE/2);
+			max_x = (max_x > MAX_X) ? MAX_X : max_x;
+
+			int max_y = addry + (MAX_TEMPLATE_SIZE/2);
+			max_y = (max_y > MAX_Y) ? MAX_Y : max_y;
+		
+			// iterate through all the template covered addresses and calculate the membrane potentials
+			for(i = min_x; i < max_x; i++) {
+				for(j = min_y; j < max_y; j++) {
+					assert(i-temp_min_x>=0);
+					assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
+					assert(j-temp_min_y>=0);
+					assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
+
+					for(objId = 0; objId < num_object; objId++) {
+
+						// calculate membrane potential for each neuron
+						unsigned long timeDiff = spikeTimeStampV-lastTimeStamp[j][i];
+						float decayFactor = (float)exp(timeDiff/hostNeuronParams.membraneTau*(-1.0f));						
+						
+						membranePotential[objId][j][i] = membranePotential[objId][j][i]*decayFactor +
+												   conv_template[objId][j-temp_min_y][i-temp_min_x];				
+						if((membranePotential[objId][j][i]) > hostNeuronParams.threshold) { // hit the threshold
+							cpu_totFiring++; // total number of spikes from all populations
+							numFired[objId]++;	// number of generated spikes within one population in current cycle
+							cpu_totFiringMO[objId]++;	// total number of generated spikes within one population
+							membranePotential[objId][j][i] = 0;
+
+					#if RECORD_FIRING_INFO
+							fprintf(fpFiring, "%u %d %d\n", timeStamp, i, j);
+					#endif
+
+						// send the excitatory output events back to jaer
+						#if !REPLAY_MODE
+							jaerSendEvent(i,j,spikeTimeStampV,objId);
+						#endif
+						}
+						else if ( membranePotential[objId][j][i] < hostNeuronParams.membranePotentialMin ) {  // hit the lower bound of membrane potential
+							membranePotential[objId][j][i] = hostNeuronParams.membranePotentialMin;
+						}
+					}
+
+					lastTimeStamp[j][i] = spikeTimeStampV;
+				}
+			}
+
+			// Delta crossed for grouping, and calculate the inhibitory membrane potential
+			for(i = 0; i < num_object; i++){
+				if(numFired[i])
+					ineuron_fired = update_inh_neuron(fpFiring, spikeTimeStampV, i, numFired[i]);	
+		#if !REPLAY_MODE
+				if(ineuron_fired)
+					jaerSendEvent(1,1,spikeTimeStampV,0);
+			}
+		#endif
+
+			if(debugLevel>1){
+				printf("# spikes fired by object layers: ");
+				for(int i=0;i<num_object;i++){
+					printf("%d, ",numFired[i]);
+				}
+				printf("\n");
+			}
+		}
+
+		spikeLen  = 1;	
+	}
+}
+
+/** This kernel is to update neurons (from different populations) at the same position together, and add in lateral inhibition between these neurons for each input spike
+ * @param: numInSpikes		the number of input spikes received from jaer
+ **/	
+void update_neurons_grouping_inh(int numInSpikes)
+{
+	// initiate variables with the first spike
+	int spikeLen = 1;
+	unsigned long spikeTimeStampV = filteredSpike_timeStamp[0]; // set the global timestamp for packet
+	static FILE* fpFiring = NULL;
+	int numFired[MAX_NUM_TEMPLATE];
+	char b_NeuronFired; // It takes as many bits as num_object. Each bit reflects if there is a spike generated by a neuron at the same location but from different population
+	
+#if RECORD_FIRING_INFO
+	if(fpFiring == NULL){
+		if ((fpFiring = fopen("firing.m", "w")) == NULL){
+			printf("failed to open file firing.m");
+			return;
+		}
+	}	
+#endif
+	
+	int i,j,spk_cnt,spk_i,objId,m;
+	
+	// this loop iterates over spikes in the packet, calling the "kernel" periodically when it has collected enough
+	// spikes. 
+	for (spk_i = 0; spk_i < numInSpikes; spk_i++ ) {
+	
+		/*********************************************************/
+		/****Generate input event packet  ************************/
+		/*********************************************************/
+		
+		if (spk_i==(numInSpikes-1)){
+			// this is the last spike then just go and process the bufferred spikes in the GPU.
+			spikeLen++; // just increment number of spikes to be processed
+		}
+		else if (spikeLen == (GPU_MAX_SPIKE_PACKETS)) {
+			// our buffer is full. so go and process existing spike buffer the current spike will be part of next group..
+		}
+		else if ((filteredSpike_timeStamp[spk_i] - spikeTimeStampV) < delta_time) {		
+			// if we're not the first or last spike or at the limit, and
+			// If the current time stamp of a spike is within the delta_time then
+			// we buffer the spike and start reading the next spike...
+			spikeLen++;
+			continue;
+		}				
+		
+		// initiate the spike counter for one cycle to 0
+		for(i = 0; i < num_object; i++){
+			numFired[i] = 0;
+		}
+		
+		/*********************************************************/
+		/*******Call multi-spike "kernel"*************************/
+		/*********************************************************/
+
+		for(spk_cnt = 0; spk_cnt < spikeLen; spk_cnt++){
+			
+			// update time stamp and address of the input spike
+			spikeTimeStampV = filteredSpike_timeStamp[spk_cnt+spk_i]; 
+			int addrx = filteredSpike_addr[spk_cnt+spk_i]&0xff;	
+			int addry = (filteredSpike_addr[spk_cnt+spk_i]>>8)&0xff;
+
+			b_NeuronFired = 0; // reset the spike flags
+
+			// calculate the coverage of the template which centers around the address of the current spike 
+			int min_x = addrx - (MAX_TEMPLATE_SIZE/2) + 1;
+			int temp_min_x = (min_x < 0 ) ? min_x  - 1 : min_x;
+			min_x = (min_x <  0 ) ? 0 : min_x;
+
+			int min_y = addry - (MAX_TEMPLATE_SIZE/2) + 1;
+			int temp_min_y = (min_y < 0 ) ? min_y  - 1 : min_y;
+			min_y = (min_y < 0 ) ? 0 : min_y;
+
+			int max_x = addrx + (MAX_TEMPLATE_SIZE/2);
+			max_x = (max_x > MAX_X) ? MAX_X : max_x;
+
+			int max_y = addry + (MAX_TEMPLATE_SIZE/2);
+			max_y = (max_y > MAX_Y ) ? MAX_Y : max_y;
+			
+			// iterate through all the template covered addresses and calculate the membrane potentials
+			for(i = min_x; i < max_x; i++) {
+				for(j = min_y; j < max_y; j++) {
+					assert(i-temp_min_x>=0);
+					assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
+					assert(j-temp_min_y>=0);
+					assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
+
+
+					for(objId = 0; objId < num_object; objId++) {
+
+						// calculate membrane potential for each neuron
+						unsigned long timeDiff = spikeTimeStampV-lastTimeStamp[j][i];
+						float decayFactor = (float)exp(timeDiff/hostNeuronParams.membraneTau*(-1.0f));						
+						
+						membranePotential[objId][j][i] = membranePotential[objId][j][i]*decayFactor +
+												   conv_template[objId][j-temp_min_y][i-temp_min_x];				
+						if((membranePotential[objId][j][i]) > hostNeuronParams.threshold) {  // hit the threshold
+							cpu_totFiring++; // total number of spikes from all populations
+							numFired[objId]++;	// number of generated spikes within one population in current cycle
+							cpu_totFiringMO[objId]++;	// total number of generated spikes within one population
+							membranePotential[objId][j][i] = 0;
+
+							b_NeuronFired = (char)(b_NeuronFired | (0x01 << objId)); // set corresponding bit if one neuron in one population generates a spike
+
+						#if RECORD_FIRING_INFO
+							fprintf(fpFiring, "%u %d %d\n", spikeTimeStampV, i, j);
+						#endif
+
+						// send the excitatory output events back to jaer
+						#if !REPLAY_MODE
+							jaerSendEvent(i,j,spikeTimeStampV,objId);
+						#endif
+						}
+						else if ( membranePotential[objId][j][i] < hostNeuronParams.membranePotentialMin ) {  // hit the lower bound of membrane potential
+							membranePotential[objId][j][i] = hostNeuronParams.membranePotentialMin;
+						}
+					}
+
+					// update lastTimeStamp
+					lastTimeStamp[j][i] = spikeTimeStampV;
+
+					// if a spike is generated, inhibit all the neurons at the same location but in other populations 
+					if(b_NeuronFired != 0){	
+						for(objId = 0; objId < num_object; objId++){
+							char neuronFired = (b_NeuronFired >> objId) & (0x01); // check if there is a spike from the neuron
+							for(m = 0; m < num_object; m++){	// inhibit all the other neurons from other populations at the same location
+								if(objId != m){
+									membranePotential[m][j][i] = membranePotential[m][j][i] - neuronFired * hostNeuronParams.iESynWeight;
+									if (membranePotential[m][j][i] < hostNeuronParams.membranePotentialMin)
+										membranePotential[m][j][i] = hostNeuronParams.membranePotentialMin;
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+
+		if(debugLevel>1){
+			printf("# spikes fired by object layers: ");
+			for(int i=0;i<num_object;i++){
+				printf("%d, ",numFired[i]);
+			}
+			printf("\n");
+		}
+
+		spikeLen  = 1;							  // reset length
 	}
 
-		// Delta crossed for grouping, and calculate the inhibitory membrane potential
-	for(i = 0; i < num_object; i++){
-		if(numFired[i])
-			ineuron_fired = update_inh_neuron(fpFiring, timeStamp, i, numFired[i]);	
-#if !REPLAY_MODE
-		jaerSendEvent(1,1,timeStamp,0);
-	}
+}
+
+
+/** This kernel is to update neurons (from different populations) at the same position together, and add in lateral inhibition between these neurons for each input spike
+ *  local inhibition between populations for each kernel call
+ * @param: numInSpikes		the number of input spikes received from jaer
+ **/	
+void update_neurons_grouping_inh1(int numInSpikes)
+{
+	// initiate variables with the first spike
+	int spikeLen = 1;
+	unsigned long spikeTimeStampV = filteredSpike_timeStamp[0]; // set the global timestamp for packet
+	static FILE* fpFiring = NULL;
+	char b_NeuronFired;	 // It takes as many bits as num_object. Each bit reflects if there is a spike generated by a neuron at the same location but from different population
+	int numFired[MAX_NUM_TEMPLATE]; // number of generated spikes within one population in current cycle
+	float decayFactor = 1.0;
+	unsigned long timeDiff;
+	
+#if RECORD_FIRING_INFO
+	if(fpFiring == NULL){
+		if ((fpFiring = fopen("firing.m", "w")) == NULL){
+			printf("failed to open file firing.m");
+			return;
+		}
+	}	
 #endif
+	
+	int i,j,spk_cnt,spk_i,objId,m,n;
+	
+	// this loop iterates over spikes in the packet, calling the "kernel" periodically when it has collected enough
+	// spikes. 
+	for (spk_i = 0; spk_i < numInSpikes; spk_i++ ) {
+	
+		/*********************************************************/
+		/****Generate input event packet *************************/
+		/*********************************************************/
+		
+		if (spk_i==(numInSpikes-1)){
+			// this is the last spike then just go and process the bufferred spikes in the GPU.
+			spikeLen++; // just increment number of spikes to be processed
+		}
+		else if (spikeLen == (GPU_MAX_SPIKE_PACKETS)) {
+			// our buffer is full. so go and process existing spike buffer the current spike will be part of next group..
+		}
+		else if ((filteredSpike_timeStamp[spk_i] - spikeTimeStampV) < delta_time) {		
+			// if we're not the first or last spike or at the limit, and
+			// If the current time stamp of a spike is within the delta_time then
+			// we buffer the spike and start reading the next spike...
+			spikeLen++;
+			continue;
+		}	
+
+		int curNumFiringTmp[MAX_NUM_TEMPLATE]; // number of inhibitory spikes received from other neurons during last cycle
+
+		// iterate through all the neurons in the network, calculate the total amount of inhibitory spikes received from local areas of other populations and update the membrane potential
+		for(i = 0; i < MAX_X; i++){
+			for(j = 0; j < MAX_Y; j++){
+				timeDiff = filteredSpike_timeStamp[spk_i]-lastTimeStamp[j][i];
+				decayFactor = (float)exp(timeDiff/hostNeuronParams.membraneTau*(-1.0f));	
+
+				// count the number of inhibitory input spikes from last cycle
+				for(objId = 0; objId < num_object; objId++){
+					curNumFiringTmp[objId] = 0;
+					for(m = -radius_loc_inh; m <= radius_loc_inh; m++){ // check the local area centered by the neuron's location
+						int tmp_addrx = i + m;
+						int tmp_addry = j + m;
+						if((tmp_addrx >= 0) & (tmp_addry >= 0) & (tmp_addrx < MAX_X) & (tmp_addry < MAX_Y)){	// boundary check
+							
+							for(n = 0; n < num_object; n++){	// accumulate all the spikes generated from other populations
+								if(n != objId){
+									curNumFiringTmp[objId] += curNumFiring[n][tmp_addry][tmp_addrx];
+								}
+							}
+						}
+					}
+	
+					membranePotential[objId][j][i] = (membranePotential[objId][j][i] - curNumFiringTmp[objId] * hostNeuronParams.iESynWeight) * decayFactor;	
+					curNumFiring[objId][j][i] = 0; // reset the spike counter for current cycle
+				}
+
+				lastTimeStamp[j][i] = filteredSpike_timeStamp[spk_i]; //update lastTimeStamp
+			}
+		}
+
+		// initiate the spike counter for one cycle to 0
+		for(i = 0; i < num_object; i++){
+			numFired[i] = 0;
+		}
+
+		
+		/*********************************************************/
+		/*******Call multi-spike "kernel"*************************/
+		/*********************************************************/
+
+		for(spk_cnt = 0; spk_cnt < spikeLen; spk_cnt++){
+
+			// update time stamp and address of the input spike
+			spikeTimeStampV = filteredSpike_timeStamp[spk_cnt+spk_i];
+			int addrx = filteredSpike_addr[spk_cnt+spk_i]&0xff; 
+			int addry = (filteredSpike_addr[spk_cnt+spk_i]>>8)&0xff;
+
+			b_NeuronFired = 0; // reset the spike counter
+
+			// calculate the coverage of the template which centers around the address of the current spike 
+			int min_x = addrx - (MAX_TEMPLATE_SIZE/2) + 1;
+			int temp_min_x = (min_x < 0 ) ? min_x  - 1 : min_x;
+			min_x = (min_x <  0 ) ? 0 : min_x;
+
+			int min_y = addry - (MAX_TEMPLATE_SIZE/2) + 1;
+			int temp_min_y = (min_y < 0 ) ? min_y  - 1 : min_y;
+			min_y = (min_y < 0 ) ? 0 : min_y;
+
+			int max_x = addrx + (MAX_TEMPLATE_SIZE/2);
+			max_x = (max_x > MAX_X) ? MAX_X : max_x;
+
+			int max_y = addry + (MAX_TEMPLATE_SIZE/2);
+			max_y = (max_y > MAX_Y ) ? MAX_Y : max_y;
+
+			// iterate through all the template covered addresses and calculate the membrane potentials
+			for(i = min_x; i < max_x; i++) {
+				for(j = min_y; j < max_y; j++) {
+					assert(i-temp_min_x>=0);
+					assert(i-temp_min_x<MAX_TEMPLATE_SIZE);
+					assert(j-temp_min_y>=0);
+					assert(j-temp_min_y<MAX_TEMPLATE_SIZE);
+
+
+					for(objId = 0; objId < num_object; objId++) {
+
+						// calculate membrane potential for each neuron
+						timeDiff = spikeTimeStampV-lastTimeStamp[j][i];
+						decayFactor = (float)exp(timeDiff/hostNeuronParams.membraneTau*(-1.0f));						
+						
+						membranePotential[objId][j][i] = membranePotential[objId][j][i]*decayFactor +
+												   conv_template[objId][j-temp_min_y][i-temp_min_x];				
+						if((membranePotential[objId][j][i]) > hostNeuronParams.threshold) { // hit the threshold
+							cpu_totFiring++;  // total number of spikes from all populations
+							cpu_totFiringMO[objId]++;  // total number of generated spikes within one population
+							numFired[objId]++;  // number of generated spikes within one population in current cycle
+							curNumFiring[objId][j][i]++; // number of generated spikes for each neuron in current cycle
+							membranePotential[objId][j][i] = 0;
+
+							b_NeuronFired = (char)(b_NeuronFired | (0x01 << objId));  // set corresponding bit if one neuron in one population generates a spike
+
+						#if RECORD_FIRING_INFO
+							fprintf(fpFiring, "%u %d %d\n", spikeTimeStampV, i, j);
+						#endif
+
+						// send the excitatory output events back to jaer
+						#if !REPLAY_MODE
+							jaerSendEvent(i,j,spikeTimeStampV,objId);
+						#endif
+						}
+						else if ( membranePotential[objId][j][i] < hostNeuronParams.membranePotentialMin ) { // hit the lower bound of membrane potential
+							membranePotential[objId][j][i] = hostNeuronParams.membranePotentialMin;
+						}
+					}
+
+					lastTimeStamp[j][i] = spikeTimeStampV;
+
+					// if a spike is generated, inhibit all the neurons at the same location but in other populations 
+					if(b_NeuronFired != 0){	
+						for(objId = 0; objId < num_object; objId++){
+							char neuronFired = (b_NeuronFired >> objId) & (0x01); // check if there is a spike from the neuron
+							for(m = 0; m < num_object; m++){		// inhibit all the other neurons from other populations at the same location
+								if(objId != m){
+									membranePotential[m][j][i] = membranePotential[m][j][i] - neuronFired * hostNeuronParams.iESynWeight;
+									if (membranePotential[m][j][i] < hostNeuronParams.membranePotentialMin)
+										membranePotential[m][j][i] = hostNeuronParams.membranePotentialMin;
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+
+		if(debugLevel>1){
+			printf("# spikes fired by object layers: ");
+			for(int i=0;i<num_object;i++){
+				printf("%d, ",numFired[i]);
+			}
+			printf("\n");
+		}
+
+		spikeLen  = 1;							  // reset length
+	}
 
 }
 
 
 /** cpu mode computation
- * @param: addr:		address array after filtering
- * @param: timeStamp	time stamp array after filtering
+ * @param: numInSpikes		the number of input spikes received from jaer
  **/
-void computeGold( unsigned int* addr, unsigned long* timeStamp) 
+void computeGold(int numInSpike) 
 {
-	unsigned int i;
-	for(i = 0; i < lenData; i++) {
-		unsigned int addrx = addr[i]&0xff; 
-		unsigned int addry = (addr[i]>>8)&0xff;
+
 #if CPU_ENABLE_SPIKE_GROUPING
-		update_neurons_grouping( addrx, addry, timeStamp[i]);
+		update_neurons_grouping_inh1(numInSpike);
 #else
-		update_neurons( addrx, addry, timeStamp[i]);
+		update_neurons(numInSpike);
 #endif
-	}
 }
 
 /******************************************************************************************************************************/

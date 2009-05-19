@@ -271,7 +271,7 @@ convNN_LocalWTA_Kernel(int  numInpSpikes,		// length of the spikes given to GPU
 
 		__syncthreads();
 		
-		b_NeuronFired = 0; // reset the spike counter
+		b_NeuronFired = 0; // reset the spike flags
 		
 		unsigned long timeDiff = curSpikeTime-ltStamp;
 		float decayFactor = __expf((float)(timeDiff/constNeuronParams.membraneTau)*(-1.0f));
@@ -322,13 +322,13 @@ convNN_LocalWTA_Kernel(int  numInpSpikes,		// length of the spikes given to GPU
 					refValue[i] = constNeuronParams.membranePotentialMin;
 			}
 			
-			if(b_NeuronFired != 0){	
-				// inhibit other features but itself if one neuron spikes.
-				// and i assume here that the error is negligible 
+			// if a spike is generated, inhibit all the neurons at the same location but in other populations 
+			if(b_NeuronFired != 0){	 
 				for(i = 0; i < const_num_object; i++){
+					char neuronFired = (b_NeuronFired >> i) & (0x01);
 					for(j = 0; j < const_num_object; j++){
 						if(i != j){
-							refValue[j] = refValue[j] - ((b_NeuronFired >> i) & (0x01)) * constNeuronParams.iESynWeight;
+							refValue[j] = refValue[j] - neuronFired * constNeuronParams.iESynWeight;
 							if (refValue[i] < constNeuronParams.membranePotentialMin)
 								refValue[i] = constNeuronParams.membranePotentialMin;
 						}
@@ -398,13 +398,12 @@ convNN_LocalWTA_Kernel1(int  numInpSpikes,		// length of the spikes given to GPU
 										//	  this is to calculate the total amount of inhibition from last kernel call
 										// 2. accumulate the number of spikes generated during the current kernel call from each population, and before quitting the kernel, write it back to gpu_curNumFiring
 	char b_NeuronFired; // each bit record if the neuron in each population is fired due to the current input spike
-	for(i = 0; i < const_num_object; i++){
-		refValue[i]  = gpu_membranePotential[i][my_addry][my_addrx];
-		curNumFiring[i] = 0; // reset the counter for the accumulation of spikes generated during last kernel call from other populations
-	}
 	
 	// count the number of inhibitory input spikes from last kernel cycle
 	for(i = 0; i < const_num_object; i++){
+		refValue[i]  = gpu_membranePotential[i][my_addry][my_addrx]; // get the membrane potential
+		curNumFiring[i] = 0; // reset the counter for the accumulation of spikes generated during last kernel call from other populations
+		
 		for(k = -const_radius_loc_inh; k <= const_radius_loc_inh; k++){ // check the local area centered by the neuron's location
 			int tmp_addrx = my_addrx + k;
 			int tmp_addry = my_addry + k;
@@ -415,7 +414,7 @@ convNN_LocalWTA_Kernel1(int  numInpSpikes,		// length of the spikes given to GPU
 				
 				for(j = 0; j < const_num_object; j++){	// accumulate all the spikes generated from other populations
 					if(j != i){
-						curNumFiring[j] += gpu_curNumFiring[j][tmp_addry][tmp_addrx];
+						curNumFiring[i] += gpu_curNumFiring[j][tmp_addry][tmp_addrx];
 					}
 				}
 			}
@@ -432,7 +431,7 @@ convNN_LocalWTA_Kernel1(int  numInpSpikes,		// length of the spikes given to GPU
 
 		__syncthreads();
 		
-		b_NeuronFired = 0; // reset the spike counter
+		b_NeuronFired = 0; // reset the spike flags
 		
 		unsigned long timeDiff = curSpikeTime-ltStamp;
 		float decayFactor = __expf((float)(timeDiff/constNeuronParams.membraneTau)*(-1.0f));
@@ -440,7 +439,7 @@ convNN_LocalWTA_Kernel1(int  numInpSpikes,		// length of the spikes given to GPU
 		// at the beginning of the kernel call, calculate the amount of inhibition from the last kernel call
 		if(spkCnt == 0){
 			for(i = 0; i < const_num_object; i++){
-				refValue[i] = (refValue[i] - curNumFiring[i] * constNeuronParams.iESynWeight) * decayFactor;
+				refValue[i] = (refValue[i] - curNumFiring[i] * constNeuronParams.iESynWeight) * decayFactor; // do not check the lower bound here, to maintain the real efficacy of inhibition
 				curNumFiring[i] = 0;	// reset the counter again to be used for spike counting during current kernel call
 			}
 			
@@ -496,13 +495,13 @@ convNN_LocalWTA_Kernel1(int  numInpSpikes,		// length of the spikes given to GPU
 					refValue[i] = constNeuronParams.membranePotentialMin;
 			}
 			
+			// if a spike is generated, inhibit all the neurons at the same location but in other populations 
 			if(b_NeuronFired != 0){	
-				// inhibit other features but itself if one neuron spikes.
-				// and i assume here that the error is negligible 
 				for(i = 0; i < const_num_object; i++){
+					char neuronFired = (b_NeuronFired >> i) & (0x01);
 					for(j = 0; j < const_num_object; j++){
 						if(i != j){
-							refValue[j] = refValue[j] - ((b_NeuronFired >> i) & (0x01)) * constNeuronParams.iESynWeight;
+							refValue[j] = refValue[j] - neuronFired * constNeuronParams.iESynWeight;
 							if (refValue[i] < constNeuronParams.membranePotentialMin)
 								refValue[i] = constNeuronParams.membranePotentialMin;
 						}

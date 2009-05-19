@@ -57,7 +57,7 @@
 /******************************************** Kernel Parameters *****************************************/
 #define GPU_MAX_SPIKE_PACKETS		100000		// max number spikes to xfer to GPU per kernel invocation, limited by global memory
 #define DELTA_TIME					1000		// (this is default value). delta_time is time in us that spikes are chunked together to be sent with common timestamp. increasing speeds up processing but quantizes time more.
-#define MAX_FIRING					100000 // max number of stored spikes by a kernel, using GPU global memory (big)
+#define MAX_FIRING					10000 // max number of stored spikes by a kernel, using GPU global memory (big)
 #define MAX_SENDING_SPIKES			MAX_FIRING*MAX_NUM_TEMPLATE // max number of spikes sent from GPU to CPU per invocation
 
 /******************************************** Debuging Parameters ****************************************/
@@ -77,7 +77,7 @@
 
 #define PARAM_LEN_SIZE				500
 
-
+#define CPU_ENABLE_SPIKE_GROUPING	1			// this leads to the use of multi-spike scheme
 
 /******************************************** Neuron Parameters ******************************************/
 // global neuron parameters default initial values - modified by jaer through control port interface
