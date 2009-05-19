@@ -112,13 +112,13 @@ void jaerSendEvent(unsigned int addrx, unsigned int addry, unsigned long timeSta
 //	assert(addry < MAX_Y);
 
 	char* aerBuf = &sendBuf[sendBufLen];
-	aerBuf[0] = 0;
-	aerBuf[1] = type;
+	aerBuf[0] = 0;							// address first, in big endian form
+	aerBuf[1] = type;						// we use this spare byte for neuron type sent to jaer
 	aerBuf[2] = addry&0x7f;
-	aerBuf[3] = (((MAX_X - 1 - addrx) << 1)&0xfe);
-	aerBuf[4] = (char)((timeStamp >> 24)&0xff);
+	aerBuf[3] = (((MAX_X - 1 - addrx) << 1)&0xfe); // this is LSB on jaer side
+	aerBuf[4] = (char)((timeStamp >> 24)&0xff); // timestamp sent as 2nd int in big endian form (MSB first)
 	aerBuf[5] = (char)((timeStamp >> 16)&0xff);
-	aerBuf[6] = (char)((timeStamp >> 8)&0xff);
+	aerBuf[6] = (char)((timeStamp >> 8 )&0xff);
 	aerBuf[7] = (char)((timeStamp >> 0 )&0xff);
 
 	sendBufLen+=EVENT_LEN;

@@ -327,7 +327,7 @@ int recvFilterSpikes()
 			iResult = 0;
 	#endif
 
-			/** apply refractory filter to reduce number of events **/
+			
 			numSpikes = extractJaerRawData(filteredSpike_addr, filteredSpike_timeStamp, recvBuf, numEvents);		
 	#ifdef REPLAY_MODE
 			if (numSpikes == -1) {
@@ -526,7 +526,7 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 	
 	// initiate variables with the first spike
 	int  index_start=0;
-	int spikeLen = 1;
+	int spikeLen = 0;
 	unsigned long spikeTimeStampV = filteredSpike_timeStamp[0]; // set the global timestamp for packet	
 	int cpu_nfiredMO[MAX_NUM_TEMPLATE];	// number of neurons that got fired in the last kernel call
 	
@@ -559,99 +559,100 @@ void GPU_MODE(dim3 gridExcDim, dim3 threadExcDim, dim3 gridInhDim, dim3 threadIn
 		// This is useful to understand the performance, as more grouping 
 		// means good performance...and CUDA kernel launch overhead is reduced.
  		if(callCount < PARAM_LEN_SIZE)
-			paramLenArr[callCount]=spikeLen;				
-		assert(spikeLen!=0);		
+			paramLenArr[callCount]=spikeLen;						
 		if(debugLevel>1){
 			printf("copying %d spike addresses to GPU\n",spikeLen);
 		}
 
-		// copy spikes addresses to GPU
-		CUDA_SAFE_CALL(cudaMemcpy( devPtrSpikeAddr, &filteredSpike_addr[index_start], sizeof(int)*spikeLen, cudaMemcpyHostToDevice));
-		CUT_CHECK_ERROR("Copy spike addresses to GPU");
-		CUDA_SAFE_CALL(cudaMemcpy( devPtrSpikeTime, &filteredSpike_timeStamp[index_start], sizeof(unsigned long)*spikeLen, cudaMemcpyHostToDevice));
-		CUT_CHECK_ERROR("Copy spike timestamps to GPU");
+		if(spikeLen != 0){
+			// copy spikes addresses to GPU
+			CUDA_SAFE_CALL(cudaMemcpy( devPtrSpikeAddr, &filteredSpike_addr[index_start], sizeof(int)*spikeLen, cudaMemcpyHostToDevice));
+			CUT_CHECK_ERROR("Copy spike addresses to GPU");
+			CUDA_SAFE_CALL(cudaMemcpy( devPtrSpikeTime, &filteredSpike_timeStamp[index_start], sizeof(unsigned long)*spikeLen, cudaMemcpyHostToDevice));
+			CUT_CHECK_ERROR("Copy spike timestamps to GPU");
 
-#if !MEASUREMENT_MODE			
-		fprintf( fpLog, "%d => len=%d t=%d a=%d\n", callCount, spikeLen, spikeTimeStampV, filteredSpike_addr[index_start]);
-#endif
-
-		/*********************************************************/
-		/*******Call multi-spike kernel***************************/
-		/*********************************************************/
-		
-		// firingId is a toggle 0/1 that is used for odd/even kernel launches.
-		// the kernel writes the number of fired neurons for each template in the array
-		// pointed to by numFiringArrayAddr, at the same time, it also sets the array pointed to 
-		// by resetFiringArrayAddr all to zero. The host uses the numFiring values to update the WTA neurons.
-		int* numFiringArrayAddr   = (int*)((*firingId)?numFiring0AddrMO:numFiring1AddrMO);
-		int* resetFiringArrayAddr = (int*)((*firingId)?numFiring1AddrMO:numFiring0AddrMO); // TODO, this array is unused now
-		
-		if(debugLevel>1){
-			printf("calling multi object convNN_multiSpikeKernel with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridExcDim.x, gridExcDim.y, gridExcDim.z, threadExcDim.x, threadExcDim.y,threadExcDim.z);
-		}
-		
-		CUT_CHECK_ERROR("convNN_multiSpikeKernel Before kernel execution");
-		convNN_multiSpike_Kernel <<< gridExcDim, threadExcDim >>> (spikeLen, numFiringArrayAddr, resetFiringArrayAddr);
-		CUT_CHECK_ERROR("convNN_multiSpikeKernel Kernel execution failed");	
-		cudaThreadSynchronize();
-			
-		if(debugLevel>1) fprintf(stderr, "Kernel executed %d times...\n", callCount);
-			
-	#if RECORD_MEMBRANE_POTENTIAL
-		showMembranePotential(&filteredSpike_addr[index_start],spikeLen); // only for debug
+	#if !MEASUREMENT_MODE			
+			fprintf( fpLog, "%d => len=%d t=%d a=%d\n", callCount, spikeLen, spikeTimeStampV, filteredSpike_addr[index_start]);
 	#endif
-		
-		/***********************************************************************************/
-		/********Update membrane potential of inhibitory neurons and call WTA kernel********/
-		/***********************************************************************************/ 
-		
-		// execute updation of iNeuron potential in CPU
-		// the single WTA neuron gets excited by the total number of spikes from the convolution
-	#ifndef GLOBAL_INH    //local inhibition
-		char iNeuronFired = 0;
-		int n_iNeuronFired = cudaUpdateINeuron(numFiringArrayAddr, cpu_nfiredMO, &iNeuronFired);
-		
-		if (n_iNeuronFired) {
+
+			/*********************************************************/
+			/*******Call multi-spike kernel***************************/
+			/*********************************************************/
+			
+			// firingId is a toggle 0/1 that is used for odd/even kernel launches.
+			// the kernel writes the number of fired neurons for each template in the array
+			// pointed to by numFiringArrayAddr, at the same time, it also sets the array pointed to 
+			// by resetFiringArrayAddr all to zero. The host uses the numFiring values to update the WTA neurons.
+			int* numFiringArrayAddr   = (int*)((*firingId)?numFiring0AddrMO:numFiring1AddrMO);
+			int* resetFiringArrayAddr = (int*)((*firingId)?numFiring1AddrMO:numFiring0AddrMO); // TODO, this array is unused now
 			
 			if(debugLevel>1){
-			printf("calling winner take all kernel WTAKernelMO with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridInhDim.x, gridInhDim.y, gridInhDim.z, threadInhDim.x, threadInhDim.y,threadInhDim.z);
+				printf("calling multi object convNN_multiSpikeKernel with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridExcDim.x, gridExcDim.y, gridExcDim.z, threadExcDim.x, threadExcDim.y,threadExcDim.z);
 			}
 			
-			// execute iNeuronCalculations; inhibition of all other neurons in GPU
-			CUT_CHECK_ERROR("WTAKernelMO Before kernel execution");
-			WTAKernelMO <<< gridInhDim, threadInhDim >>> (numFiringArrayAddr, iNeuronFired);
-			CUT_CHECK_ERROR("WTAKernelMO After kernel execution");
+			CUT_CHECK_ERROR("convNN_multiSpikeKernel Before kernel execution");
+			convNN_multiSpike_Kernel <<< gridExcDim, threadExcDim >>> (spikeLen, numFiringArrayAddr, resetFiringArrayAddr);
+			CUT_CHECK_ERROR("convNN_multiSpikeKernel Kernel execution failed");	
 			cudaThreadSynchronize();
-		}
-	#else		// global inhibition
-		int n_iNeuronFired = cudaUpdateINeuronMultiSp(numFiringArrayAddr, cpu_nfiredMO);
-		
-		if (n_iNeuronFired) {
+				
+			if(debugLevel>1) fprintf(stderr, "Kernel executed %d times...\n", callCount);
+				
+		#if RECORD_MEMBRANE_POTENTIAL
+			showMembranePotential(&filteredSpike_addr[index_start],spikeLen); // only for debug
+		#endif
 			
-			if(debugLevel>1){
-			printf("calling winner take all kernel WTAKernelMOGlob with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridInhDim.x, gridInhDim.y, gridInhDim.z, threadInhDim.x, threadInhDim.y,threadInhDim.z);
+			/***********************************************************************************/
+			/********Update membrane potential of inhibitory neurons and call WTA kernel********/
+			/***********************************************************************************/ 
+			
+			// execute updation of iNeuron potential in CPU
+			// the single WTA neuron gets excited by the total number of spikes from the convolution
+		#ifndef GLOBAL_INH    //local inhibition
+			char iNeuronFired = 0;
+			int n_iNeuronFired = cudaUpdateINeuron(numFiringArrayAddr, cpu_nfiredMO, &iNeuronFired);
+			
+			if (n_iNeuronFired) {
+				
+				if(debugLevel>1){
+				printf("calling winner take all kernel WTAKernelMO with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridInhDim.x, gridInhDim.y, gridInhDim.z, threadInhDim.x, threadInhDim.y,threadInhDim.z);
+				}
+				
+				// execute iNeuronCalculations; inhibition of all other neurons in GPU
+				CUT_CHECK_ERROR("WTAKernelMO Before kernel execution");
+				WTAKernelMO <<< gridInhDim, threadInhDim >>> (numFiringArrayAddr, iNeuronFired);
+				CUT_CHECK_ERROR("WTAKernelMO After kernel execution");
+				cudaThreadSynchronize();
 			}
+		#else		// global inhibition
+			int n_iNeuronFired = cudaUpdateINeuronMultiSp(numFiringArrayAddr, cpu_nfiredMO);
 			
-			// execute iNeuronCalculations; inhibition of all other neurons in GPU
-			CUT_CHECK_ERROR("WTAKernelMOGlob Before kernel execution");
-			WTAKernelMOGlob <<< gridInhDim, threadInhDim >>> (numFiringArrayAddr, n_iNeuronFired);
-			CUT_CHECK_ERROR("WTAKernelMOGlob After kernel execution");
-			cudaThreadSynchronize();
+			if (n_iNeuronFired) {
+				
+				if(debugLevel>1){
+				printf("calling winner take all kernel WTAKernelMOGlob with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridInhDim.x, gridInhDim.y, gridInhDim.z, threadInhDim.x, threadInhDim.y,threadInhDim.z);
+				}
+				
+				// execute iNeuronCalculations; inhibition of all other neurons in GPU
+				CUT_CHECK_ERROR("WTAKernelMOGlob Before kernel execution");
+				WTAKernelMOGlob <<< gridInhDim, threadInhDim >>> (numFiringArrayAddr, n_iNeuronFired);
+				CUT_CHECK_ERROR("WTAKernelMOGlob After kernel execution");
+				cudaThreadSynchronize();
+			}
+		#endif
+			
+			// toggle the id after each cycle to reset either numFiring0AddrMO or numFiring1AddrMO
+			*firingId = (*firingId ) ? 0 : 1;
+			
+			/************************* send output spikes back to jaer  ******************/
+			cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, n_iNeuronFired);
+			
+			
+			/************************* update counters ***********************************/
+			callCount++;
+			spikeTimeStampV = filteredSpike_timeStamp[spk_i]; // store the time stamp of spike for next grouping
+			spikeLen  = 0;							  // reset length
+			index_start = spk_i;					  // reset the index
 		}
-	#endif
-		
-		// toggle the id after each cycle to reset either numFiring0AddrMO or numFiring1AddrMO
-		*firingId = (*firingId ) ? 0 : 1;
-		
-		/************************* send output spikes back to jaer  ******************/
-		cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, n_iNeuronFired);
-		
-		
-		/************************* update counters ***********************************/
-		callCount++;
-		spikeTimeStampV = filteredSpike_timeStamp[spk_i]; // store the time stamp of spike for next grouping
-		spikeLen  = 1;							  // reset length
-		index_start = spk_i;					  // reset the index
 		
 	} // iterate over spikes in this packet		
 }
@@ -667,7 +668,7 @@ void GPU_MODE_LOCAL_WTA(dim3 gridExcDim, dim3 threadExcDim, int* firingId, int n
 	
 	// initiate variables with the first spike
 	int  index_start=0;
-	int spikeLen = 1;
+	int spikeLen = 0;
 	unsigned long spikeTimeStampV = filteredSpike_timeStamp[0]; // set the global timestamp for packet	
 	int cpu_nfiredMO[MAX_NUM_TEMPLATE];	// number of neurons that got fired in the last kernel call
 	
@@ -700,76 +701,77 @@ void GPU_MODE_LOCAL_WTA(dim3 gridExcDim, dim3 threadExcDim, int* firingId, int n
 		// This is useful to understand the performance, as more grouping 
 		// means good performance...and CUDA kernel launch overhead is reduced.
  		if(callCount < PARAM_LEN_SIZE)
-			paramLenArr[callCount]=spikeLen;				
-		assert(spikeLen!=0);		
+			paramLenArr[callCount]=spikeLen;						
 		if(debugLevel>1){
 			printf("copying %d spike addresses to GPU\n",spikeLen);
 		}
-
-		// copy spikes addresses to GPU
-		CUDA_SAFE_CALL(cudaMemcpy( devPtrSpikeAddr, &filteredSpike_addr[index_start], sizeof(int)*spikeLen, cudaMemcpyHostToDevice));
-		CUT_CHECK_ERROR("Copy spike addresses to GPU");
-		CUDA_SAFE_CALL(cudaMemcpy( devPtrSpikeTime, &filteredSpike_timeStamp[index_start], sizeof(unsigned long)*spikeLen, cudaMemcpyHostToDevice));
-		CUT_CHECK_ERROR("Copy spike timestamps to GPU");
-
-#if !MEASUREMENT_MODE			
-		fprintf( fpLog, "%d => len=%d t=%d a=%d\n", callCount, spikeLen, spikeTimeStampV, filteredSpike_addr[index_start]);
-#endif
-
-		/*********************************************************/
-		/*******Call multi-spike kernel***************************/
-		/*********************************************************/
 		
-		// firingId is a toggle 0/1 that is used for odd/even kernel launches.
-		// the kernel writes the number of fired neurons for each template in the array
-		// pointed to by numFiringArrayAddr, at the same time, it also sets the array pointed to 
-		// by resetFiringArrayAddr all to zero. The host uses the numFiring values to update the WTA neurons.
-		int* numFiringArrayAddr   = (int*)((*firingId)?numFiring0AddrMO:numFiring1AddrMO);
-		int* resetFiringArrayAddr = (int*)((*firingId)?numFiring1AddrMO:numFiring0AddrMO); // TODO, this array is unused now
-		
-		if(debugLevel>1){
-			printf("calling multi object convNN_LocalWTA_Kernel with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridExcDim.x, gridExcDim.y, gridExcDim.z, threadExcDim.x, threadExcDim.y,threadExcDim.z);
-		}
-		
-		CUT_CHECK_ERROR("convNN_multiSpikeKernel Before kernel execution");
-		convNN_LocalWTA_Kernel1 <<< gridExcDim, threadExcDim >>> (spikeLen, numFiringArrayAddr, resetFiringArrayAddr);
-		CUT_CHECK_ERROR("convNN_multiSpikeKernel Kernel execution failed");	
-		cudaThreadSynchronize();
-			
-		if(debugLevel>1) fprintf(stderr, "Kernel executed %d times...\n", callCount);
-			
-	#if RECORD_MEMBRANE_POTENTIAL
-		showMembranePotential(&filteredSpike_addr[index_start],spikeLen); // only for debug
+		if(spikeLen != 0){
+			// copy spikes addresses to GPU
+			CUDA_SAFE_CALL(cudaMemcpy( devPtrSpikeAddr, &filteredSpike_addr[index_start], sizeof(int)*spikeLen, cudaMemcpyHostToDevice));
+			CUT_CHECK_ERROR("Copy spike addresses to GPU");
+			CUDA_SAFE_CALL(cudaMemcpy( devPtrSpikeTime, &filteredSpike_timeStamp[index_start], sizeof(unsigned long)*spikeLen, cudaMemcpyHostToDevice));
+			CUT_CHECK_ERROR("Copy spike timestamps to GPU");
+
+	#if !MEASUREMENT_MODE			
+			fprintf( fpLog, "%d => len=%d t=%d a=%d\n", callCount, spikeLen, spikeTimeStampV, filteredSpike_addr[index_start]);
 	#endif
-	
-		// copy the number of neurons that have fired...
-		CUDA_SAFE_CALL(cudaMemcpy(cpu_nfiredMO, numFiringArrayAddr, sizeof(int)*num_object, cudaMemcpyDeviceToHost));
-		CUT_CHECK_ERROR("After copying number of generated spikes from GPU to CPU");
-		
-		if(debugLevel>1){
-			printf("# spikes fired by object layers: ");
-			for(int i=0;i<num_object;i++){
-				printf("%d, ",cpu_nfiredMO[i]);
+
+			/*********************************************************/
+			/*******Call multi-spike kernel***************************/
+			/*********************************************************/
+			
+			// firingId is a toggle 0/1 that is used for odd/even kernel launches.
+			// the kernel writes the number of fired neurons for each template in the array
+			// pointed to by numFiringArrayAddr, at the same time, it also sets the array pointed to 
+			// by resetFiringArrayAddr all to zero. The host uses the numFiring values to update the WTA neurons.
+			int* numFiringArrayAddr   = (int*)((*firingId)?numFiring0AddrMO:numFiring1AddrMO);
+			int* resetFiringArrayAddr = (int*)((*firingId)?numFiring1AddrMO:numFiring0AddrMO); // TODO, this array is unused now
+			
+			if(debugLevel>1){
+				printf("calling multi object convNN_LocalWTA_Kernel with gridDim=(%d,%d,%d), threadDim=(%d,%d,%d)\n",gridExcDim.x, gridExcDim.y, gridExcDim.z, threadExcDim.x, threadExcDim.y,threadExcDim.z);
 			}
-			printf("\n");
+			
+			CUT_CHECK_ERROR("convNN_multiSpikeKernel Before kernel execution");
+			convNN_LocalWTA_Kernel1 <<< gridExcDim, threadExcDim >>> (spikeLen, numFiringArrayAddr, resetFiringArrayAddr);
+			CUT_CHECK_ERROR("convNN_multiSpikeKernel Kernel execution failed");	
+			cudaThreadSynchronize();
+				
+			if(debugLevel>1) fprintf(stderr, "Kernel executed %d times...\n", callCount);
+				
+		#if RECORD_MEMBRANE_POTENTIAL
+			showMembranePotential(&filteredSpike_addr[index_start],spikeLen); // only for debug
+		#endif
+		
+			// copy the number of neurons that have fired...
+			CUDA_SAFE_CALL(cudaMemcpy(cpu_nfiredMO, numFiringArrayAddr, sizeof(int)*num_object, cudaMemcpyDeviceToHost));
+			CUT_CHECK_ERROR("After copying number of generated spikes from GPU to CPU");
+			
+			if(debugLevel>1){
+				printf("# spikes fired by object layers: ");
+				for(int i=0;i<num_object;i++){
+					printf("%d, ",cpu_nfiredMO[i]);
+				}
+				printf("\n");
+			}
+		
+			//count total number of output spikes
+			for ( int i=0; i < num_object; i++) {
+				tot_fired_MO[i] += cpu_nfiredMO[i]; //per object firing
+			}	
+			
+			// toggle the id after each cycle to reset either numFiring0AddrMO or numFiring1AddrMO
+			*firingId = (*firingId ) ? 0 : 1;
+			
+			/************************* send output spikes back to jaer  ******************/
+			cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, 0);	
+
+			/************************* update counters ***********************************/
+			callCount++;
+			spikeTimeStampV = filteredSpike_timeStamp[spk_i]; // store the time stamp of spike for next grouping
+			spikeLen  = 0;							  // reset length
+			index_start = spk_i;					  // reset the index
 		}
-	
-		//count total number of output spikes
-		for ( int i=0; i < num_object; i++) {
-			tot_fired_MO[i] += cpu_nfiredMO[i]; //per object firing
-		}	
-		
-		// toggle the id after each cycle to reset either numFiring0AddrMO or numFiring1AddrMO
-		*firingId = (*firingId ) ? 0 : 1;
-		
-		/************************* send output spikes back to jaer  ******************/
-		cudaCopySpikesFromGPU2jAER(spikeTimeStampV, cpu_nfiredMO, 0);		
-		
-		/************************* update counters ***********************************/
-		callCount++;
-		spikeTimeStampV = filteredSpike_timeStamp[spk_i]; // store the time stamp of spike for next grouping
-		spikeLen  = 1;							  // reset length
-		index_start = spk_i;					  // reset the index
 		
 	} // iterate over spikes in this packet		
 }
