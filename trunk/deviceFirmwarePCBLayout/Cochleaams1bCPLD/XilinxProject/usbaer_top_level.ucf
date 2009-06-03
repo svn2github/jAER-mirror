@@ -57,7 +57,7 @@ NET "HostResetTimestampxSI"  LOC = "P90" | IOSTANDARD = LVCMOS33 ; #check this
 NET "RunMonitorxSI"  LOC = "P89" | IOSTANDARD = LVCMOS33 ;#check this
 NET "LEDxSO"  LOC = "P92" | IOSTANDARD = LVCMOS33 ;
 NET "ResetxRBI"  LOC = "P99" | IOSTANDARD = LVCMOS33 ;
-NET "Debug1xSO"  LOC = "P36" | IOSTANDARD = LVCMOS33 ;#check this
+NET "Debug1xSO"  LOC = "P36" | IOSTANDARD = LVCMOS33 | SLEW = SLOW ;#check this
 NET "Debug2xSO"  LOC = "P37" | IOSTANDARD = LVCMOS33 ;#check this
 NET "powerdown"  LOC = "P13" | IOSTANDARD = LVCMOS33 ;
 NET "bitlatch"  LOC = "P34" | IOSTANDARD = LVCMOS33 ;

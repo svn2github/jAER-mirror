@@ -1026,6 +1026,8 @@ in big endian format.
 					sendConfigBits(SETUPDAT[4]&0x1f,5);
 					
 					sendConfigBits((SETUPDAT[4]>>5)|(SETUPDAT[5]<<3),5);
+/* commented out because of bug in cochleaams1b where select of a single kill bit is inverted so everybody but the one you want
+is selected. however, the equalizer DAC current splitters still work
 					
 					// set each killbit
 					selectLPFKill; // clears ybit
@@ -1042,6 +1044,7 @@ in big endian format.
 					}else{
 						aerKillBit=0;
 					}
+*/
 					toggleLatch();
 					selectNone;
 

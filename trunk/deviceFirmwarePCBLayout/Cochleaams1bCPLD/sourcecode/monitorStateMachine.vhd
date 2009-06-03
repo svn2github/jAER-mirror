@@ -56,7 +56,7 @@ begin
 
   -- calculate next state and outputs
   p_memless              : process (StatexDP, AERREQxSB, EventReadyxSI, RunxSI,  AERREQxABI,DelayCounterxDP)
-    constant delay : integer := 47;
+    constant delay : integer := 6; --47
   begin  -- process p_memless
     -- default assignments: stay in present state, AERACK is high, don't write
     -- to the registers and don't declare that an event is ready
