@@ -1,0 +1,4 @@
+-- ProjNav VHDL simulation template: program_ram_test_program_ram_vhd_tb.udo
+-- You may edit this file after the line that starts with
+-- '-- START' to customize your simulation
+-- START user-defined simulation commands

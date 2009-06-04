@@ -1,0 +1,72 @@
+# Reading C:/Modeltech_6.0/tcl/vsim/pref.tcl 
+# reading C:\Modeltech_6.0\win32/../modelsim.ini
+# reading modelsim.ini
+# //  ModelSim SE 6.0 Aug 19 2004 
+# //
+# //  Copyright Mentor Graphics Corporation 2004
+# //              All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND 
+# //  PROPRIETARY INFORMATION WHICH IS THE PROPERTY
+# //  OF MENTOR GRAPHICS CORPORATION OR ITS LICENSORS
+# //  AND IS SUBJECT TO LICENSE TERMS.
+# //
+# do prueba1_vhd.fdo 
+# ** Warning: (vlib-34) Library already exists at "work".
+# Model Technology ModelSim SE vcom 6.0 Compiler 2004.08 Aug 19 2004
+# -- Loading package standard
+# -- Loading package std_logic_1164
+# -- Loading package std_logic_arith
+# -- Loading package std_logic_unsigned
+# -- Compiling entity program_ram
+# -- Compiling architecture behavioral of program_ram
+# Model Technology ModelSim SE vcom 6.0 Compiler 2004.08 Aug 19 2004
+# -- Loading package standard
+# -- Loading package std_logic_1164
+# -- Loading package std_logic_arith
+# -- Loading package std_logic_unsigned
+# -- Compiling entity mapper_function
+# -- Compiling architecture behavioral of mapper_function
+# Model Technology ModelSim SE vcom 6.0 Compiler 2004.08 Aug 19 2004
+# -- Loading package standard
+# -- Loading package std_logic_1164
+# -- Loading package std_logic_arith
+# -- Loading package std_logic_unsigned
+# -- Loading package vcomponents
+# -- Compiling entity usb_aer
+# -- Compiling architecture behavioral of usb_aer
+# Model Technology ModelSim SE vcom 6.0 Compiler 2004.08 Aug 19 2004
+# -- Loading package standard
+# -- Loading package std_logic_1164
+# -- Loading package std_logic_arith
+# -- Loading package std_logic_unsigned
+# -- Loading package numeric_std
+# -- Loading package vcomponents
+# -- Compiling entity prueba1_vhd
+# -- Compiling architecture behavior of prueba1_vhd
+# vsim -lib work -t 1ps prueba1_vhd 
+# Loading C:\Modeltech_6.0\win32/../std.standard
+# Loading C:\Modeltech_6.0\win32/../ieee.std_logic_1164(body)
+# Loading C:\Modeltech_6.0\win32/../ieee.std_logic_arith(body)
+# Loading C:\Modeltech_6.0\win32/../ieee.std_logic_unsigned(body)
+# Loading C:\Modeltech_6.0\win32/../ieee.numeric_std(body)
+# Loading C:\Modeltech_6.0\xilinx\unisim.vcomponents
+# Loading work.prueba1_vhd(behavior)
+# Loading work.usb_aer(behavioral)
+# Loading C:\Modeltech_6.0\xilinx\unisim.bufg(bufg_v)
+# Loading C:\Modeltech_6.0\win32/../std.textio(body)
+# Loading C:\Modeltech_6.0\win32/../ieee.vital_timing(body)
+# Loading C:\Modeltech_6.0\win32/../ieee.vital_primitives(body)
+# Loading C:\Modeltech_6.0\xilinx\unisim.vpkg(body)
+# Loading C:\Modeltech_6.0\xilinx\unisim.clkdll(clkdll_v)
+# Loading C:\Modeltech_6.0\xilinx\unisim.clkdll_maximum_period_check(clkdll_maximum_period_check_v)
+# Loading work.program_ram(behavioral)
+# Loading work.mapper_function(behavioral)
+# .wave
+# .main_pane.workspace
+# .main_pane.signals.interior.cs
+restart
+run
+# Break key hit 
+# Break at C:/Xilinx/vhdl/src/unisims/unisim_VITAL.vhd line 5413
+# File does not exist: C:/Xilinx/vhdl/src/unisims/unisim_VITAL.vhd

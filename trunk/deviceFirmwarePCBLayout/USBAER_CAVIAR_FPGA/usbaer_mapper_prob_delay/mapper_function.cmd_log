@@ -1,0 +1,37 @@
+xst -intstyle ise -ifn __projnav/mapper_function.xst -ofn mapper_function.syr
+xst -intstyle ise -ifn __projnav/mapper_function.xst -ofn mapper_function.syr
+ngdbuild -intstyle ise -dd "c:\usu\eii\caviar\endesarrollo\usbaer_mapper_multichip_multievent_proba/_ngo" -nt timestamp -i  -p xc2s200-pq208-6 mapper_function.ngc mapper_function.ngd
+map -intstyle ise -p xc2s200-pq208-6 -cm area -pr b -k 4 -c 100 -tx off -o mapper_function_map.ncd mapper_function.ngd mapper_function.pcf
+par -w -intstyle ise -ol std -t 1 mapper_function_map.ncd mapper_function.ncd mapper_function.pcf
+trce -intstyle ise -e 3 -l 3 -s 6 -xml mapper_function mapper_function.ncd -o mapper_function.twr mapper_function.pcf
+xst -intstyle ise -ifn __projnav/mapper_function.xst -ofn mapper_function.syr
+xst -intstyle ise -ifn __projnav/mapper_function.xst -ofn mapper_function.syr
+xst -intstyle ise -ifn __projnav/mapper_function.xst -ofn mapper_function.syr
+ngdbuild -intstyle ise -dd "c:\usu\eii\caviar\endesarrollo\usbaer_mapper_multichip_multievent_proba/_ngo" -nt timestamp -i  -p xc2s200-pq208-6 mapper_function.ngc mapper_function.ngd
+map -intstyle ise -p xc2s200-pq208-6 -cm area -pr b -k 4 -c 100 -tx off -o mapper_function_map.ncd mapper_function.ngd mapper_function.pcf
+par -w -intstyle ise -ol std -t 1 mapper_function_map.ncd mapper_function.ncd mapper_function.pcf
+trce -intstyle ise -e 3 -l 3 -s 6 -xml mapper_function mapper_function.ncd -o mapper_function.twr mapper_function.pcf
+xst -intstyle ise -ifn __projnav/mapper_function.xst -ofn mapper_function.syr
+ngdbuild -intstyle ise -dd "c:\usu\eii\caviar\endesarrollo\usbaer_mapper_multichip_multievent_proba/_ngo" -nt timestamp -i  -p xc2s200-pq208-6 mapper_function.ngc mapper_function.ngd
+map -intstyle ise -p xc2s200-pq208-6 -cm area -pr b -k 4 -c 100 -tx off -o mapper_function_map.ncd mapper_function.ngd mapper_function.pcf
+par -w -intstyle ise -ol std -t 1 mapper_function_map.ncd mapper_function.ncd mapper_function.pcf
+trce -intstyle ise -e 3 -l 3 -s 6 -xml mapper_function mapper_function.ncd -o mapper_function.twr mapper_function.pcf
+bitgen -intstyle ise -f mapper_function.ut mapper_function.ncd
+xst -intstyle ise -ifn __projnav/mapper_function.xst -ofn mapper_function.syr
+ngdbuild -intstyle ise -dd "c:\usu\eii\caviar\endesarrollo\usbaer_mapper_multichip_multievent_proba/_ngo" -nt timestamp -i  -p xc2s200-pq208-6 mapper_function.ngc mapper_function.ngd
+map -intstyle ise -p xc2s200-pq208-6 -cm area -pr b -k 4 -c 100 -tx off -o mapper_function_map.ncd mapper_function.ngd mapper_function.pcf
+par -w -intstyle ise -ol std -t 1 mapper_function_map.ncd mapper_function.ncd mapper_function.pcf
+trce -intstyle ise -e 3 -l 3 -s 6 -xml mapper_function mapper_function.ncd -o mapper_function.twr mapper_function.pcf
+bitgen -intstyle ise -f mapper_function.ut mapper_function.ncd
+xst -intstyle ise -ifn __projnav/mapper_function.xst -ofn mapper_function.syr
+ngdbuild -intstyle ise -dd "c:\usu\eii\caviar\endesarrollo\usbaer_mapper_multichip_multievent_proba/_ngo" -nt timestamp -i  -p xc2s200-pq208-6 mapper_function.ngc mapper_function.ngd
+map -intstyle ise -p xc2s200-pq208-6 -cm area -pr b -k 4 -c 100 -tx off -o mapper_function_map.ncd mapper_function.ngd mapper_function.pcf
+par -w -intstyle ise -ol std -t 1 mapper_function_map.ncd mapper_function.ncd mapper_function.pcf
+trce -intstyle ise -e 3 -l 3 -s 6 -xml mapper_function mapper_function.ncd -o mapper_function.twr mapper_function.pcf
+bitgen -intstyle ise -f mapper_function.ut mapper_function.ncd
+xst -intstyle ise -ifn __projnav/mapper_function.xst -ofn mapper_function.syr
+ngdbuild -intstyle ise -dd "c:\usu\eii\caviar\endesarrollo\usbaer_mapper_multichip_multievent_proba/_ngo" -nt timestamp -i  -p xc2s200-pq208-6 mapper_function.ngc mapper_function.ngd
+map -intstyle ise -p xc2s200-pq208-6 -cm area -pr b -k 4 -c 100 -tx off -o mapper_function_map.ncd mapper_function.ngd mapper_function.pcf
+par -w -intstyle ise -ol std -t 1 mapper_function_map.ncd mapper_function.ncd mapper_function.pcf
+trce -intstyle ise -e 3 -l 3 -s 6 -xml mapper_function mapper_function.ncd -o mapper_function.twr mapper_function.pcf
+bitgen -intstyle ise -f mapper_function.ut mapper_function.ncd

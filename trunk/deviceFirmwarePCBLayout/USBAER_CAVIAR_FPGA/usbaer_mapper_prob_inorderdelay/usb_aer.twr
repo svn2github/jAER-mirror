@@ -1,0 +1,287 @@
+--------------------------------------------------------------------------------
+Release 9.2i Trace 
+Copyright (c) 1995-2007 Xilinx, Inc.  All rights reserved.
+
+C:\Xilinx92i\bin\nt\trce.exe -ise
+D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/usbaer_mapper.ise
+-intstyle ise -e 3 -s 6 -xml usb_aer usb_aer.ncd -o usb_aer.twr usb_aer.pcf
+-ucf usb_aer.ucf
+
+Design file:              usb_aer.ncd
+Physical constraint file: usb_aer.pcf
+Device,package,speed:     xc2s200,pq208,-6 (PRODUCTION 1.27 2007-04-13)
+Report level:             error report
+
+Environment Variable      Effect 
+--------------------      ------ 
+NONE                      No environment variables were set
+--------------------------------------------------------------------------------
+
+INFO:Timing:2698 - No timing constraints found, doing default enumeration.
+INFO:Timing:2752 - To get complete path coverage, use the unconstrained paths 
+   option. All paths that are not constrained will be reported in the 
+   unconstrained paths section(s) of the report.
+INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on 
+   a 50 Ohm transmission line loading model.  For the details of this model, 
+   and for more information on accounting for different loading conditions, 
+   please see the device datasheet.
+
+
+
+Data Sheet report:
+-----------------
+All values displayed in nanoseconds (ns)
+
+Setup/Hold to clock clk
+---------------+------------+------------+------------------+--------+
+               |  Setup to  |  Hold to   |                  | Clock  |
+Source         | clk (edge) | clk (edge) |Internal Clock(s) | Phase  |
+---------------+------------+------------+------------------+--------+
+aer_in_data<0> |    2.539(R)|   -1.840(R)|Clk50int          |   0.000|
+aer_in_data<1> |    2.498(R)|   -1.799(R)|Clk50int          |   0.000|
+aer_in_data<2> |    2.209(R)|   -1.510(R)|Clk50int          |   0.000|
+aer_in_data<3> |    2.631(R)|   -1.932(R)|Clk50int          |   0.000|
+aer_in_data<4> |    2.947(R)|   -2.248(R)|Clk50int          |   0.000|
+aer_in_data<5> |    2.736(R)|   -2.037(R)|Clk50int          |   0.000|
+aer_in_data<6> |    3.073(R)|   -2.374(R)|Clk50int          |   0.000|
+aer_in_data<7> |    3.455(R)|   -2.756(R)|Clk50int          |   0.000|
+aer_in_data<8> |    3.384(R)|   -2.685(R)|Clk50int          |   0.000|
+aer_in_data<9> |    2.998(R)|   -2.299(R)|Clk50int          |   0.000|
+aer_in_data<10>|    3.054(R)|   -2.355(R)|Clk50int          |   0.000|
+aer_in_data<11>|    2.870(R)|   -2.171(R)|Clk50int          |   0.000|
+aer_in_data<12>|    2.947(R)|   -2.248(R)|Clk50int          |   0.000|
+aer_in_data<13>|    2.680(R)|   -1.981(R)|Clk50int          |   0.000|
+aer_in_data<14>|    2.752(R)|   -2.053(R)|Clk50int          |   0.000|
+aer_in_data<15>|    2.444(R)|   -1.745(R)|Clk50int          |   0.000|
+aer_in_req_l   |    2.400(R)|    0.000(R)|Clk50int          |   0.000|
+aer_out_ack_l  |    2.400(R)|    0.000(R)|Clk50int          |   0.000|
+micro_control  |    2.400(R)|    0.000(R)|Clk50int          |   0.000|
+micro_data<0>  |    3.531(R)|   -0.662(R)|Clk50int          |   0.000|
+micro_data<1>  |    3.733(R)|   -0.662(R)|Clk50int          |   0.000|
+micro_data<2>  |    3.961(R)|   -0.625(R)|Clk50int          |   0.000|
+micro_data<3>  |    4.393(R)|   -0.623(R)|Clk50int          |   0.000|
+micro_data<4>  |    2.805(R)|   -0.592(R)|Clk50int          |   0.000|
+micro_data<5>  |    4.574(R)|   -0.592(R)|Clk50int          |   0.000|
+micro_data<6>  |    4.040(R)|   -0.620(R)|Clk50int          |   0.000|
+micro_data<7>  |    2.938(R)|   -0.584(R)|Clk50int          |   0.000|
+micro_prog     |    2.400(R)|    0.000(R)|Clk50int          |   0.000|
+micro_rw       |    2.400(R)|    0.000(R)|Clk50int          |   0.000|
+micro_vdata    |    2.400(R)|    0.000(R)|Clk50int          |   0.000|
+rst_l          |    7.278(R)|   -4.379(R)|Clk50int          |   0.000|
+sram_data<0>   |    3.909(R)|   -0.670(R)|Clk50int          |   0.000|
+sram_data<1>   |    4.469(R)|   -0.670(R)|Clk50int          |   0.000|
+sram_data<2>   |    3.744(R)|   -0.662(R)|Clk50int          |   0.000|
+sram_data<3>   |    3.811(R)|   -0.662(R)|Clk50int          |   0.000|
+sram_data<4>   |    3.248(R)|   -0.584(R)|Clk50int          |   0.000|
+sram_data<5>   |    4.119(R)|   -0.584(R)|Clk50int          |   0.000|
+sram_data<6>   |    3.546(R)|   -0.620(R)|Clk50int          |   0.000|
+sram_data<7>   |    3.956(R)|   -0.622(R)|Clk50int          |   0.000|
+sram_data<8>   |    3.789(R)|   -0.584(R)|Clk50int          |   0.000|
+sram_data<9>   |    3.737(R)|   -0.584(R)|Clk50int          |   0.000|
+sram_data<10>  |    3.942(R)|   -0.615(R)|Clk50int          |   0.000|
+sram_data<11>  |    4.763(R)|   -0.618(R)|Clk50int          |   0.000|
+sram_data<12>  |    5.119(R)|   -0.627(R)|Clk50int          |   0.000|
+sram_data<13>  |    3.269(R)|   -0.622(R)|Clk50int          |   0.000|
+sram_data<14>  |    5.151(R)|   -0.589(R)|Clk50int          |   0.000|
+sram_data<15>  |    2.809(R)|   -0.589(R)|Clk50int          |   0.000|
+sram_data<16>  |    7.165(R)|   -0.619(R)|Clk50int          |   0.000|
+sram_data<17>  |    2.841(R)|   -2.293(R)|Clk50int          |   0.000|
+sram_data<18>  |    2.523(R)|   -1.955(R)|Clk50int          |   0.000|
+sram_data<19>  |    2.981(R)|   -2.433(R)|Clk50int          |   0.000|
+sram_data<20>  |    2.676(R)|   -2.108(R)|Clk50int          |   0.000|
+sram_data<21>  |   11.335(R)|   -4.724(R)|Clk50int          |   0.000|
+sram_data<22>  |    2.806(R)|   -2.238(R)|Clk50int          |   0.000|
+sram_data<23>  |    3.455(R)|   -2.907(R)|Clk50int          |   0.000|
+sram_data<24>  |   10.828(R)|   -2.593(R)|Clk50int          |   0.000|
+sram_data<25>  |   12.672(R)|   -3.716(R)|Clk50int          |   0.000|
+sram_data<26>  |   10.567(R)|   -2.523(R)|Clk50int          |   0.000|
+sram_data<27>  |   12.253(R)|   -3.906(R)|Clk50int          |   0.000|
+sram_data<28>  |   10.421(R)|   -2.893(R)|Clk50int          |   0.000|
+sram_data<29>  |   10.405(R)|   -3.088(R)|Clk50int          |   0.000|
+sram_data<30>  |   10.270(R)|   -3.033(R)|Clk50int          |   0.000|
+sram_data<31>  |   10.720(R)|   -3.790(R)|Clk50int          |   0.000|
+---------------+------------+------------+------------------+--------+
+
+Clock clk to Pad
+----------------+------------+------------------+--------+
+                | clk (edge) |                  | Clock  |
+Destination     |   to PAD   |Internal Clock(s) | Phase  |
+----------------+------------+------------------+--------+
+address<0>      |   15.027(R)|Clk50int          |   0.000|
+address<1>      |   15.042(R)|Clk50int          |   0.000|
+address<2>      |   14.711(R)|Clk50int          |   0.000|
+address<3>      |   15.888(R)|Clk50int          |   0.000|
+address<4>      |   16.752(R)|Clk50int          |   0.000|
+address<5>      |   15.800(R)|Clk50int          |   0.000|
+address<6>      |   15.947(R)|Clk50int          |   0.000|
+address<7>      |   15.253(R)|Clk50int          |   0.000|
+address<8>      |   14.961(R)|Clk50int          |   0.000|
+address<9>      |   14.624(R)|Clk50int          |   0.000|
+address<10>     |   15.356(R)|Clk50int          |   0.000|
+address<11>     |   14.947(R)|Clk50int          |   0.000|
+address<12>     |   15.004(R)|Clk50int          |   0.000|
+address<13>     |   15.655(R)|Clk50int          |   0.000|
+address<14>     |   16.935(R)|Clk50int          |   0.000|
+address<15>     |   17.068(R)|Clk50int          |   0.000|
+address<16>     |   17.378(R)|Clk50int          |   0.000|
+address<17>     |   17.210(R)|Clk50int          |   0.000|
+address<18>     |   17.160(R)|Clk50int          |   0.000|
+aer_in_ack_l    |   11.963(R)|Clk50int          |   0.000|
+aer_out_data<0> |   12.331(R)|Clk50int          |   0.000|
+aer_out_data<1> |   12.826(R)|Clk50int          |   0.000|
+aer_out_data<2> |   13.345(R)|Clk50int          |   0.000|
+aer_out_data<3> |   12.459(R)|Clk50int          |   0.000|
+aer_out_data<4> |   13.265(R)|Clk50int          |   0.000|
+aer_out_data<5> |   13.341(R)|Clk50int          |   0.000|
+aer_out_data<6> |   13.671(R)|Clk50int          |   0.000|
+aer_out_data<7> |   12.663(R)|Clk50int          |   0.000|
+aer_out_data<8> |   12.480(R)|Clk50int          |   0.000|
+aer_out_data<9> |   12.663(R)|Clk50int          |   0.000|
+aer_out_data<10>|   13.743(R)|Clk50int          |   0.000|
+aer_out_data<11>|   13.115(R)|Clk50int          |   0.000|
+aer_out_data<12>|   13.347(R)|Clk50int          |   0.000|
+aer_out_data<13>|   12.805(R)|Clk50int          |   0.000|
+aer_out_data<14>|   12.519(R)|Clk50int          |   0.000|
+aer_out_data<15>|   12.608(R)|Clk50int          |   0.000|
+aer_out_req_l   |   10.876(R)|Clk50int          |   0.000|
+led<0>          |   12.131(R)|Clk50int          |   0.000|
+led<1>          |   12.115(R)|Clk50int          |   0.000|
+led<2>          |   12.849(R)|Clk50int          |   0.000|
+micro_busy      |   10.897(R)|Clk50int          |   0.000|
+micro_data<0>   |   14.403(R)|Clk50int          |   0.000|
+micro_data<1>   |   13.955(R)|Clk50int          |   0.000|
+micro_data<2>   |   14.030(R)|Clk50int          |   0.000|
+micro_data<3>   |   13.937(R)|Clk50int          |   0.000|
+micro_data<4>   |   13.486(R)|Clk50int          |   0.000|
+micro_data<5>   |   13.208(R)|Clk50int          |   0.000|
+micro_data<6>   |   13.209(R)|Clk50int          |   0.000|
+micro_data<7>   |   13.454(R)|Clk50int          |   0.000|
+sram_data<0>    |   19.650(R)|Clk50int          |   0.000|
+sram_data<1>    |   19.889(R)|Clk50int          |   0.000|
+sram_data<2>    |   19.888(R)|Clk50int          |   0.000|
+sram_data<3>    |   19.868(R)|Clk50int          |   0.000|
+sram_data<4>    |   18.362(R)|Clk50int          |   0.000|
+sram_data<5>    |   18.049(R)|Clk50int          |   0.000|
+sram_data<6>    |   18.882(R)|Clk50int          |   0.000|
+sram_data<7>    |   18.312(R)|Clk50int          |   0.000|
+sram_data<8>    |   19.007(R)|Clk50int          |   0.000|
+sram_data<9>    |   18.987(R)|Clk50int          |   0.000|
+sram_data<10>   |   18.668(R)|Clk50int          |   0.000|
+sram_data<11>   |   18.513(R)|Clk50int          |   0.000|
+sram_data<12>   |   17.538(R)|Clk50int          |   0.000|
+sram_data<13>   |   17.102(R)|Clk50int          |   0.000|
+sram_data<14>   |   18.317(R)|Clk50int          |   0.000|
+sram_data<15>   |   17.449(R)|Clk50int          |   0.000|
+sram_data<16>   |   18.158(R)|Clk50int          |   0.000|
+sram_data<17>   |   17.608(R)|Clk50int          |   0.000|
+sram_data<18>   |   18.041(R)|Clk50int          |   0.000|
+sram_data<19>   |   17.974(R)|Clk50int          |   0.000|
+sram_data<20>   |   17.238(R)|Clk50int          |   0.000|
+sram_data<21>   |   17.150(R)|Clk50int          |   0.000|
+sram_data<22>   |   18.346(R)|Clk50int          |   0.000|
+sram_data<23>   |   17.181(R)|Clk50int          |   0.000|
+sram_data<24>   |   18.918(R)|Clk50int          |   0.000|
+sram_data<25>   |   19.401(R)|Clk50int          |   0.000|
+sram_data<26>   |   18.669(R)|Clk50int          |   0.000|
+sram_data<27>   |   18.597(R)|Clk50int          |   0.000|
+sram_data<28>   |   17.639(R)|Clk50int          |   0.000|
+sram_data<29>   |   17.750(R)|Clk50int          |   0.000|
+sram_data<30>   |   18.072(R)|Clk50int          |   0.000|
+sram_data<31>   |   17.488(R)|Clk50int          |   0.000|
+sram_oe_l       |   15.031(R)|Clk50int          |   0.000|
+sram_we_l<0>    |   15.795(R)|Clk50int          |   0.000|
+sram_we_l<1>    |   15.042(R)|Clk50int          |   0.000|
+sram_we_l<2>    |   15.622(R)|Clk50int          |   0.000|
+sram_we_l<3>    |   15.217(R)|Clk50int          |   0.000|
+----------------+------------+------------------+--------+
+
+Clock to Setup on destination clock clk
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+clk            |   13.413|         |         |         |
+---------------+---------+---------+---------+---------+
+
+Pad to Pad
+---------------+---------------+---------+
+Source Pad     |Destination Pad|  Delay  |
+---------------+---------------+---------+
+micro_data<0>  |sram_data<0>   |   12.515|
+micro_data<0>  |sram_data<8>   |   11.872|
+micro_data<0>  |sram_data<16>  |   11.023|
+micro_data<0>  |sram_data<24>  |   11.783|
+micro_data<1>  |sram_data<1>   |   13.315|
+micro_data<1>  |sram_data<9>   |   12.413|
+micro_data<1>  |sram_data<17>  |   11.034|
+micro_data<1>  |sram_data<25>  |   12.827|
+micro_data<2>  |sram_data<2>   |   12.957|
+micro_data<2>  |sram_data<10>  |   11.737|
+micro_data<2>  |sram_data<18>  |   11.110|
+micro_data<2>  |sram_data<26>  |   11.738|
+micro_data<3>  |sram_data<3>   |   13.500|
+micro_data<3>  |sram_data<11>  |   12.145|
+micro_data<3>  |sram_data<19>  |   11.606|
+micro_data<3>  |sram_data<27>  |   12.229|
+micro_data<4>  |sram_data<4>   |   11.802|
+micro_data<4>  |sram_data<12>  |   10.978|
+micro_data<4>  |sram_data<20>  |   10.678|
+micro_data<4>  |sram_data<28>  |   11.079|
+micro_data<5>  |sram_data<5>   |   12.952|
+micro_data<5>  |sram_data<13>  |   12.005|
+micro_data<5>  |sram_data<21>  |   12.053|
+micro_data<5>  |sram_data<29>  |   12.653|
+micro_data<6>  |sram_data<6>   |   13.039|
+micro_data<6>  |sram_data<14>  |   12.474|
+micro_data<6>  |sram_data<22>  |   12.503|
+micro_data<6>  |sram_data<30>  |   12.229|
+micro_data<7>  |sram_data<7>   |   12.127|
+micro_data<7>  |sram_data<15>  |   11.469|
+micro_data<7>  |sram_data<23>  |   11.201|
+micro_data<7>  |sram_data<31>  |   11.283|
+sram_data<0>   |micro_data<0>  |   13.063|
+sram_data<1>   |micro_data<1>  |   13.266|
+sram_data<2>   |micro_data<2>  |   12.188|
+sram_data<3>   |micro_data<3>  |   12.362|
+sram_data<4>   |micro_data<4>  |   11.879|
+sram_data<5>   |micro_data<5>  |   12.129|
+sram_data<6>   |micro_data<6>  |   11.800|
+sram_data<7>   |micro_data<7>  |   11.818|
+sram_data<8>   |micro_data<0>  |   13.294|
+sram_data<9>   |micro_data<1>  |   13.119|
+sram_data<10>  |micro_data<2>  |   12.695|
+sram_data<11>  |micro_data<3>  |   13.693|
+sram_data<12>  |micro_data<4>  |   12.668|
+sram_data<13>  |micro_data<5>  |   11.277|
+sram_data<14>  |micro_data<6>  |   12.856|
+sram_data<15>  |micro_data<7>  |   10.996|
+sram_data<16>  |micro_data<0>  |   11.344|
+sram_data<17>  |micro_data<1>  |   11.664|
+sram_data<18>  |micro_data<2>  |   11.195|
+sram_data<19>  |micro_data<3>  |   11.139|
+sram_data<20>  |micro_data<4>  |   10.368|
+sram_data<21>  |micro_data<5>  |   13.794|
+sram_data<22>  |micro_data<6>  |   10.269|
+sram_data<23>  |micro_data<7>  |   11.029|
+sram_data<24>  |micro_data<0>  |   12.328|
+sram_data<25>  |micro_data<1>  |   14.168|
+sram_data<26>  |micro_data<2>  |   11.766|
+sram_data<27>  |micro_data<3>  |   13.133|
+sram_data<28>  |micro_data<4>  |   10.993|
+sram_data<29>  |micro_data<5>  |   11.538|
+sram_data<30>  |micro_data<6>  |   11.382|
+sram_data<31>  |micro_data<7>  |   11.622|
+---------------+---------------+---------+
+
+
+Analysis completed Mon Sep 29 12:54:48 2008 
+--------------------------------------------------------------------------------
+
+Trace Settings:
+-------------------------
+Trace Settings 
+
+Peak Memory Usage: 75 MB
+
+
+

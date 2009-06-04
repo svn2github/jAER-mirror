@@ -1,0 +1,21 @@
+# Xilinx CORE Generator 6.1.03i
+# User = gomezroz
+Initializing default project...
+Loading plug-ins...
+All runtime messages will be recorded in C:\usu\eii\caviar\usbaer_mapper_multichip_multievent\coregen.log
+# busformat=BusFormatAngleBracketNotRipped
+# designflow=VHDL
+# expandedprojectpath=C:\usu\eii\caviar\usbaer_mapper_multichip_multievent
+# flowvendor=Foundation_iSE
+# formalverification=None
+# simulationoutputproducts=VHDL
+# xilinxfamily=Virtex2
+# outputoption=DesignFlow
+# overwritefiles=Default
+# simvendor=ModelSim
+# expandedprojectpath=C:\usu\eii\caviar\usbaer_mapper_multichip_multievent
+SETPROJECT .
+Set current Project to C:\usu\eii\caviar\usbaer_mapper_multichip_multievent
+SET BusFormat = BusFormatAngleBracketNotRipped
+SETXIPCPORTHOST 1409
+XIPCPJSENDCORES spartan2

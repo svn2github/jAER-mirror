@@ -1,0 +1,4 @@
+vhdl work "D:\alex\work\USBAER\mapperProba\usbaer_mapper_prob_delay\FIFO_delay.vhd"
+vhdl work "D:\alex\work\USBAER\mapperProba\usbaer_mapper_prob_delay\program_ram.vhd"
+vhdl work "D:\alex\work\USBAER\mapperProba\usbaer_mapper_prob_delay\Mapper_function.vhd"
+vhdl work "D:\alex\work\USBAER\mapperProba\usbaer_mapper_prob_delay\usb_aer.vhd"

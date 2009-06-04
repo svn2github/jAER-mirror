@@ -1,0 +1,3 @@
+vhdl work "program_ram.vhd"
+vhdl work "Mapper_function.vhd"
+vhdl work "usb_aer.vhd"

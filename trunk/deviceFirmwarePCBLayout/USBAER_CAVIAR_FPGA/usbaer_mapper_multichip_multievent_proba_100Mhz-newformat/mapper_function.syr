@@ -1,0 +1,391 @@
+Release 7.1.02i - xst H.40
+Copyright (c) 1995-2005 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to __projnav
+CPU : 0.00 / 0.24 s | Elapsed : 0.00 / 0.00 s
+ 
+--> Parameter xsthdpdir set to ./xst
+CPU : 0.00 / 0.24 s | Elapsed : 0.00 / 0.00 s
+ 
+--> Reading design: mapper_function.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) HDL Analysis
+  4) HDL Synthesis
+  5) Advanced HDL Synthesis
+     5.1) HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Final Report
+     7.1) Device utilization summary
+     7.2) TIMING REPORT
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "mapper_function.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "mapper_function"
+Output Format                      : NGC
+Target Device                      : xc2s200-6-pq208
+
+---- Source Options
+Top Module Name                    : mapper_function
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+FSM Style                          : lut
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+ROM Style                          : Auto
+Mux Extraction                     : YES
+Mux Style                          : Auto
+Decoder Extraction                 : YES
+Priority Encoder Extraction        : YES
+Shift Register Extraction          : YES
+Logical Shifter Extraction         : YES
+XOR Collapsing                     : YES
+Resource Sharing                   : YES
+Multiplier Style                   : lut
+Automatic Register Balancing       : No
+
+---- Target Options
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100
+Add Generic Clock Buffer(BUFG)     : 4
+Register Duplication               : YES
+Equivalent register Removal        : YES
+Slice Packing                      : YES
+Pack IO Registers into IOBs        : auto
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Keep Hierarchy                     : NO
+Global Optimization                : AllClockNets
+RTL Output                         : Yes
+Write Timing Constraints           : NO
+Hierarchy Separator                : _
+Bus Delimiter                      : <>
+Case Specifier                     : maintain
+Slice Utilization Ratio            : 100
+Slice Utilization Ratio Delta      : 5
+
+---- Other Options
+lso                                : mapper_function.lso
+Read Cores                         : YES
+cross_clock_analysis               : NO
+verilog2001                        : YES
+safe_implementation                : No
+Optimize Instantiated Primitives   : NO
+tristate2logic                     : Yes
+use_clock_enable                   : Yes
+use_sync_set                       : Yes
+use_sync_reset                     : Yes
+enable_auto_floorplanning          : No
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling vhdl file "C:/usu/eii/caviar/EnDesarrollo/usbaer_mapper_multichip_multievent_proba/Mapper_function.vhd" in Library work.
+Entity <mapper_function> compiled.
+Entity <mapper_function> (Architecture <behavioral>) compiled.
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing Entity <mapper_function> (Architecture <behavioral>).
+WARNING:Xst:819 - "C:/usu/eii/caviar/EnDesarrollo/usbaer_mapper_multichip_multievent_proba/Mapper_function.vhd" line 68: The following signals are missing in the process sensitivity list:
+   event_counter, no_event, last_event.
+Entity <mapper_function> analyzed. Unit <mapper_function> generated.
+
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <mapper_function>.
+    Related source file is "C:/usu/eii/caviar/EnDesarrollo/usbaer_mapper_multichip_multievent_proba/Mapper_function.vhd".
+WARNING:Xst:1778 - Inout <RAM_DATA<31:18>> is assigned but never used.
+INFO:Xst:1813 - Unable to extract FSM on signal <CS> : outputs depend on both state and next state.
+INFO:Xst:741 - HDL ADVISOR - A 20-bit shift register was found for signal <lfsr<21>> and currently occupies 20 logic cells (10 slices). Removing the set/reset logic would take advantage of SRL16 (and derived) primitives and reduce this to 2 logic cells (1 slices). Evaluate if the set/reset can be removed for this simple shift register. The majority of simple pipeline structures do not need to be set/reset operationally.
+INFO:Xst:741 - HDL ADVISOR - A 9-bit shift register was found for signal <lfsr<30>> and currently occupies 9 logic cells (5 slices). Removing the set/reset logic would take advantage of SRL16 (and derived) primitives and reduce this to 1 logic cells (1 slices). Evaluate if the set/reset can be removed for this simple shift register. The majority of simple pipeline structures do not need to be set/reset operationally.
+    Using one-hot encoding for signal <CS>.
+    Using one-hot encoding for signal <NS>.
+    Found 16-bit tristate buffer for signal <AER_OUT_DATA>.
+    Found 19-bit tristate buffer for signal <RAM_ADDRESS>.
+    Found 32-bit tristate buffer for signal <RAM_DATA>.
+    Found 1-bit tristate buffer for signal <RAM_OE>.
+    Found 4-bit tristate buffer for signal <RAM_WE>.
+    Found 1-bit xor4 for signal <$n0004> created at line 51.
+    Found 7-bit register for signal <CS>.
+    Found 3-bit up counter for signal <event_counter>.
+    Found 16-bit register for signal <latched_input>.
+    Found 32-bit register for signal <lfsr>.
+    Summary:
+	inferred   1 Counter(s).
+	inferred  48 D-type flip-flop(s).
+	inferred   1 Xor(s).
+	inferred  72 Tristate(s).
+Unit <mapper_function> synthesized.
+
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<31>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<30>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<29>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<28>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<27>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<26>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<25>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<24>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<23>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<22>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<21>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<20>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<19>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<18>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<17>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<16>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<15>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<14>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<13>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<12>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<11>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<10>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<9>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<8>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<7>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<6>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<5>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<4>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<3>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<2>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<1>> in unit <mapper_function> is removed.
+INFO:Xst:2182 - Always blocking tristate <RAM_DATA<0>> in unit <mapper_function> is removed.
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+Advanced RAM inference ...
+Advanced multiplier inference ...
+Advanced Registered AddSub inference ...
+Dynamic shift register inference ...
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Counters                         : 1
+ 3-bit up counter                  : 1
+# Registers                        : 2
+ 16-bit register                   : 1
+ 7-bit register                    : 1
+# Tristates                        : 4
+ 1-bit tristate buffer             : 1
+ 16-bit tristate buffer            : 1
+ 19-bit tristate buffer            : 1
+ 4-bit tristate buffer             : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+
+Optimizing unit <mapper_function> ...
+Loading device for application Rf_Device from file 'v200.nph' in environment C:/Xilinx71.
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block mapper_function, actual ratio is 1.
+FlipFlop CS_0 has been replicated 1 time(s)
+FlipFlop CS_0 has been replicated 40 time(s) to handle iob=true attribute.
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+RTL Top Level Output File Name     : mapper_function.ngr
+Top Level Output File Name         : mapper_function
+Output Format                      : NGC
+Optimization Goal                  : Speed
+Keep Hierarchy                     : NO
+
+Design Statistics
+# IOs                              : 99
+
+Macro Statistics :
+# Registers                        : 9
+#      1-bit register              : 7
+#      16-bit register             : 1
+#      3-bit register              : 1
+# Tristates                        : 4
+#      1-bit tristate buffer       : 1
+#      16-bit tristate buffer      : 1
+#      19-bit tristate buffer      : 1
+#      4-bit tristate buffer       : 1
+
+Cell Usage :
+# BELS                             : 63
+#      GND                         : 1
+#      INV                         : 1
+#      LUT2                        : 39
+#      LUT3                        : 6
+#      LUT3_L                      : 4
+#      LUT4                        : 6
+#      LUT4_L                      : 5
+#      MUXF5                       : 1
+# FlipFlops/Latches                : 67
+#      FDC                         : 6
+#      FDCE                        : 19
+#      FDP                         : 42
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 84
+#      IBUF                        : 38
+#      OBUF                        : 6
+#      OBUFT                       : 40
+=========================================================================
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 2s200pq208-6 
+
+ Number of Slices:                      41  out of   2352     1%  
+ Number of Slice Flip Flops:            67  out of   4704     1%  
+ Number of 4 input LUTs:                60  out of   4704     1%  
+ Number of bonded IOBs:                 99  out of    144    68%  
+ Number of GCLKs:                        1  out of      4    25%  
+
+
+=========================================================================
+TIMING REPORT
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+CLK                                | BUFGP                  | 67    |
+-----------------------------------+------------------------+-------+
+
+Timing Summary:
+---------------
+Speed Grade: -6
+
+   Minimum period: 7.200ns (Maximum Frequency: 138.889MHz)
+   Minimum input arrival time before clock: 6.576ns
+   Maximum output required time after clock: 15.185ns
+   Maximum combinational path delay: 8.063ns
+
+Timing Detail:
+--------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'CLK'
+  Clock period: 7.200ns (frequency: 138.889MHz)
+  Total number of paths / destination ports: 50 / 28
+-------------------------------------------------------------------------
+Delay:               7.200ns (Levels of Logic = 1)
+  Source:            CS_1 (FF)
+  Destination:       latched_input_15 (FF)
+  Source Clock:      CLK rising
+  Destination Clock: CLK rising
+
+  Data Path: CS_1 to latched_input_15
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q             12   1.085   2.160  CS_1 (CS_1)
+     LUT2:I0->O           16   0.549   2.520  _n00031 (_n0003)
+     FDCE:CE                   0.886          latched_input_1
+    ----------------------------------------
+    Total                      7.200ns (2.520ns logic, 4.680ns route)
+                                       (35.0% logic, 65.0% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'CLK'
+  Total number of paths / destination ports: 62 / 44
+-------------------------------------------------------------------------
+Offset:              6.576ns (Levels of Logic = 2)
+  Source:            AER_IN_REQ_L (PAD)
+  Destination:       latched_input_15 (FF)
+  Destination Clock: CLK rising
+
+  Data Path: AER_IN_REQ_L to latched_input_15
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             8   0.776   1.845  AER_IN_REQ_L_IBUF (AER_IN_REQ_L_IBUF)
+     LUT2:I1->O           16   0.549   2.520  _n00031 (_n0003)
+     FDCE:CE                   0.886          latched_input_1
+    ----------------------------------------
+    Total                      6.576ns (2.211ns logic, 4.365ns route)
+                                       (33.6% logic, 66.4% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'CLK'
+  Total number of paths / destination ports: 318 / 46
+-------------------------------------------------------------------------
+Offset:              15.185ns (Levels of Logic = 4)
+  Source:            CS_1 (FF)
+  Destination:       AER_OUT_DATA<15> (PAD)
+  Source Clock:      CLK rising
+
+  Data Path: CS_1 to AER_OUT_DATA<15>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q             12   1.085   2.160  CS_1 (CS_1)
+     LUT3:I0->O            1   0.549   1.035  Ker0_SW0 (N37)
+     LUT4:I3->O           35   0.549   3.555  Ker0 (N0)
+     LUT2:I1->O            1   0.549   1.035  _n0009<15>1 (RAM_ADDRESS_15_OBUFT)
+     OBUFT:I->O                4.668          RAM_ADDRESS_15_OBUFT (RAM_ADDRESS<15>)
+    ----------------------------------------
+    Total                     15.185ns (7.400ns logic, 7.785ns route)
+                                       (48.7% logic, 51.3% route)
+
+=========================================================================
+Timing constraint: Default path analysis
+  Total number of paths / destination ports: 16 / 16
+-------------------------------------------------------------------------
+Delay:               8.063ns (Levels of Logic = 3)
+  Source:            RAM_DATA<15> (PAD)
+  Destination:       AER_OUT_DATA<15> (PAD)
+
+  Data Path: RAM_DATA<15> to AER_OUT_DATA<15>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             1   0.776   1.035  RAM_DATA_15_IBUF (RAM_DATA_15_IBUF)
+     LUT2:I0->O            1   0.549   1.035  _n0008<15>1 (AER_OUT_DATA_15_OBUFT)
+     OBUFT:I->O                4.668          AER_OUT_DATA_15_OBUFT (AER_OUT_DATA<15>)
+    ----------------------------------------
+    Total                      8.063ns (5.993ns logic, 2.070ns route)
+                                       (74.3% logic, 25.7% route)
+
+=========================================================================
+CPU : 4.28 / 4.56 s | Elapsed : 4.00 / 4.00 s
+ 
+--> 
+
+Total memory usage is 88296 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    2 (   0 filtered)
+Number of infos    :   35 (   0 filtered)
+

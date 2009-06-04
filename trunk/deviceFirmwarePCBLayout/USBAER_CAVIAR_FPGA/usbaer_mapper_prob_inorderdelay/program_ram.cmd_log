@@ -1,0 +1,5 @@
+xst -intstyle ise -ifn __projnav/program_ram.xst -ofn program_ram.syr
+ngdbuild -intstyle ise -dd "c:\usu\eii\caviar\endesarrollo\usbaer_mapper_multichip_multievent_proba/_ngo" -nt timestamp -i  -p xc2s200-pq208-6 program_ram.ngc program_ram.ngd
+map -intstyle ise -p xc2s200-pq208-6 -cm area -pr b -k 4 -c 100 -tx off -o program_ram_map.ncd program_ram.ngd program_ram.pcf
+par -w -intstyle ise -ol std -t 1 program_ram_map.ncd program_ram.ncd program_ram.pcf
+trce -intstyle ise -e 3 -l 3 -s 6 -xml program_ram program_ram.ncd -o program_ram.twr program_ram.pcf

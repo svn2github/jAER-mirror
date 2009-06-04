@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IMPORTANT: This is an internal file that has been generated
+     by the Xilinx ISE software.  Any direct editing or
+     changes made to this file may result in unpredictable
+     behavior or data corruption.  It is strongly advised that
+     users do not edit the contents of this file. -->
+<messages>
+<msg type="info" file="Xst" num="2555" delta="unknown" >&apos;<arg fmt="%s" index="1">-hierarchy_separator</arg>&apos; switch is being deprecated in a future release.
+</msg>
+
+<msg type="info" file="Xst" num="2679" delta="unknown" >Register &lt;<arg fmt="%s" index="1">t2</arg>&gt; in unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; has a constant value of <arg fmt="%s" index="3">0</arg> during circuit operation. The register is replaced by logic.
+</msg>
+
+<msg type="info" file="Xst" num="2679" delta="unknown" >Register &lt;<arg fmt="%s" index="1">t3</arg>&gt; in unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; has a constant value of <arg fmt="%s" index="3">0</arg> during circuit operation. The register is replaced by logic.
+</msg>
+
+<msg type="info" file="Xst" num="2679" delta="unknown" >Register &lt;<arg fmt="%s" index="1">wait_erase</arg>&gt; in unit &lt;<arg fmt="%s" index="2">FIFO_delay</arg>&gt; has a constant value of <arg fmt="%s" index="3">0</arg> during circuit operation. The register is replaced by logic.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">LDATA</arg>&gt; is assigned but never used.
+</msg>
+
+<msg type="warning" file="Xst" num="2734" delta="unknown" >Property &quot;<arg fmt="%s" index="1">use_dsp48</arg>&quot; is not applicable for this technology.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">wait_erase</arg>&gt; is assigned but never used.
+</msg>
+
+<msg type="warning" file="Xst" num="2734" delta="unknown" >Property &quot;<arg fmt="%s" index="1">use_dsp48</arg>&quot; is not applicable for this technology.
+</msg>
+
+<msg type="warning" file="Xst" num="2734" delta="unknown" >Property &quot;<arg fmt="%s" index="1">use_dsp48</arg>&quot; is not applicable for this technology.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">repetition</arg>&gt; is assigned but never used.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">t1</arg>&gt; is assigned but never used.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">t2</arg>&gt; is assigned but never used.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">t3</arg>&gt; is assigned but never used.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">ts</arg>&gt; is never used or assigned.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">last_rep</arg>&gt; is never used or assigned.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">smRAM_DATA</arg>&gt; is never used or assigned.
+</msg>
+
+<msg type="warning" file="Xst" num="2734" delta="unknown" >Property &quot;<arg fmt="%s" index="1">use_dsp48</arg>&quot; is not applicable for this technology.
+</msg>
+
+<msg type="warning" file="Xst" num="2734" delta="unknown" >Property &quot;<arg fmt="%s" index="1">use_dsp48</arg>&quot; is not applicable for this technology.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">Clk100</arg>&gt; is never used or assigned.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">clk0b</arg>&gt; is never used or assigned.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">direccion</arg>&gt; is never used or assigned.
+</msg>
+
+<msg type="warning" file="Xst" num="1780" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">Clk100int</arg>&gt; is never used or assigned.
+</msg>
+
+<msg type="warning" file="Xst" num="646" delta="unknown" >Signal &lt;<arg fmt="%s" index="1">mapper_busy</arg>&gt; is assigned but never used.
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_15</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_15&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_14</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_14&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_13</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_13&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_2</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_2&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_1</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_1&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_0</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_0&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_12</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_12&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_11</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_11&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_10</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_10&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_9</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_9&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_8</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_8&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_7</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_7&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_6</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_6&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_5</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_5&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_4</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_4&gt; </arg>
+</msg>
+
+<msg type="info" file="Xst" num="2261" delta="unknown" >The FF/Latch &lt;<arg fmt="%s" index="1">fifo_data_3</arg>&gt; in Unit &lt;<arg fmt="%s" index="2">Mapper_function</arg>&gt; is equivalent to the following <arg fmt="%s" index="3">FF/Latch</arg>, which will be removed : <arg fmt="%s" index="4">&lt;ev_3&gt; </arg>
+</msg>
+
+<msg type="warning" file="Xst" num="2042" delta="unknown" >Unit <arg fmt="%s" index="1">Mapper_function</arg>: <arg fmt="%d" index="2">112</arg> internal tristates are replaced by logic (pull-up <arg fmt="%s" index="3">yes</arg>): </msg>
+
+<msg type="warning" file="Xst" num="2042" delta="unknown" >Unit <arg fmt="%s" index="1">program_ram</arg>: <arg fmt="%d" index="2">56</arg> internal tristates are replaced by logic (pull-up <arg fmt="%s" index="3">yes</arg>): </msg>
+
+<msg type="warning" file="Xst" num="1906" delta="unknown" >Unit <arg fmt="%s" index="1">program_ram</arg> is merged (output ports from interface drive multi-sources)
+</msg>
+
+<msg type="warning" file="Xst" num="1906" delta="unknown" >Unit <arg fmt="%s" index="1">Mapper_function</arg> is merged (output ports from interface drive multi-sources)
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_9</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_8</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_7</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_6</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_5</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_4</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_3</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_1</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_2</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_0</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_15</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_14</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_13</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_12</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_11</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2677" delta="unknown" >Node &lt;<arg fmt="%s" index="1">ControlRAM_RNG_10</arg>&gt; of sequential type is unconnected in block &lt;<arg fmt="%s" index="2">usb_aer</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="unknown" >FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_18</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_17</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_16</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_15</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_14</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="unknown" >FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_18</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_17</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_16</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_15</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_14</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="unknown" >FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_18</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_17</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_16</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_15</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_14</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1710" delta="unknown" >FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_18</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_17</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_16</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_15</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="1895" delta="unknown" >Due to other FF/Latch trimming, FF/Latch  &lt;<arg fmt="%s" index="1">fifoRAM_ADDRESS_14</arg>&gt; (without init value) has a constant value of <arg fmt="%d" index="2">1</arg> in block &lt;<arg fmt="%s" index="3">FIFO_delay</arg>&gt;.
+</msg>
+
+<msg type="warning" file="Xst" num="2170" delta="unknown" >Unit <arg fmt="%s" index="1">Mapper_BFIFO</arg> : the following signal(s) form a combinatorial loop: </msg>
+
+<msg type="info" file="Xst" num="741" delta="unknown" >HDL ADVISOR - A <arg fmt="%d" index="1">9</arg>-bit shift register was found for signal &lt;<arg fmt="%s" index="2">Mapper_lfsr_30</arg>&gt; and currently occupies <arg fmt="%d" index="3">9</arg> logic cells (<arg fmt="%d" index="4">4</arg> slices). Removing the set/reset logic would take advantage of SRL<arg fmt="%d" index="5">16</arg> (and derived) primitives and reduce this to 1 logic cells (1 slices). Evaluate if the set/reset can be removed for this simple shift register. The majority of simple pipeline structures do not need to be set/reset operationally.
+</msg>
+
+<msg type="info" file="Xst" num="741" delta="unknown" >HDL ADVISOR - A <arg fmt="%d" index="1">14</arg>-bit shift register was found for signal &lt;<arg fmt="%s" index="2">Mapper_lfsr_21</arg>&gt; and currently occupies <arg fmt="%d" index="3">14</arg> logic cells (<arg fmt="%d" index="4">7</arg> slices). Removing the set/reset logic would take advantage of SRL<arg fmt="%d" index="5">16</arg> (and derived) primitives and reduce this to 1 logic cells (1 slices). Evaluate if the set/reset can be removed for this simple shift register. The majority of simple pipeline structures do not need to be set/reset operationally.
+</msg>
+
+</messages>
+

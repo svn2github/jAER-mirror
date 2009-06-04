@@ -1,0 +1,233 @@
+Release 7.1.02i - par H.40
+Copyright (c) 1995-2005 Xilinx, Inc.  All rights reserved.
+
+Wed Oct 26 14:53:20 2005
+
+
+INPUT FILE:       mapper_function_map.ncd
+OUTPUT FILE:      mapper_function_pad.txt
+PART TYPE:        xc2s200
+SPEED GRADE:      -6
+PACKAGE:          pq208
+
+Pinout by Pin Number:
+
++----------+----------------+---------+------------+---------+-----------+--------------+----------+---------+-----------+---------+-------+----------+---------+-----------+----------------+
+|Pin Number|Signal Name     |Pin Usage|Pin Name    |Direction|IO Standard|IO Bank Number|Drive (mA)|Slew Rate|Termination|IOB Delay|Voltage|Constraint|DCI Value|IO Register|Signal Integrity|
++----------+----------------+---------+------------+---------+-----------+--------------+----------+---------+-----------+---------+-------+----------+---------+-----------+----------------+
+|P1        |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P2        |                |         |TMS         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P3        |                |IOB      |IO          |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P4        |                |IOB      |IO_VREF_7   |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P5        |                |IOB      |IO          |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P6        |                |IOB      |IO_VREF_7   |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P7        |                |IOB      |IO          |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P8        |                |IOB      |IO          |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P9        |                |IOB      |IO_VREF_7   |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P10       |                |IOB      |IO          |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P11       |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P12       |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P13       |                |         |VCCINT      |         |           |              |          |         |           |         |2.5    |          |         |           |                |
+|P14       |                |IOB      |IO          |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P15       |                |IOB      |IO          |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P16       |                |IOB      |IO          |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P17       |                |IOB      |IO          |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P18       |                |IOB      |IO          |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P19       |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P20       |                |IOB      |IO_VREF_7   |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P21       |                |IOB      |IO          |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P22       |                |IOB      |IO          |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P23       |                |IOB      |IO          |UNUSED   |           |7             |          |         |           |         |       |          |         |           |                |
+|P24       |RAM_DATA<3>     |IOB      |IO_IRDY     |INPUT    |LVTTL      |7             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P25       |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P26       |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P27       |                |PCIIOB   |IO_TRDY     |UNUSED   |           |6             |          |         |           |         |       |          |         |           |                |
+|P28       |                |         |VCCINT      |         |           |              |          |         |           |         |2.5    |          |         |           |                |
+|P29       |                |IOB      |IO          |UNUSED   |           |6             |          |         |           |         |       |          |         |           |                |
+|P30       |                |IOB      |IO          |UNUSED   |           |6             |          |         |           |         |       |          |         |           |                |
+|P31       |LED<1>          |IOB      |IO_VREF_6   |OUTPUT   |LVTTL      |6             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P32       |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P33       |AER_OUT_REQ_L   |IOB      |IO          |OUTPUT   |LVTTL      |6             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P34       |RAM_DATA<17>    |IOB      |IO          |INPUT    |LVTTL      |6             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P35       |LED<0>          |IOB      |IO          |OUTPUT   |LVTTL      |6             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P36       |AER_OUT_ACK_L   |IOB      |IO          |INPUT    |LVTTL      |6             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P37       |RAM_DATA<16>    |IOB      |IO          |INPUT    |LVTTL      |6             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P38       |                |         |VCCINT      |         |           |              |          |         |           |         |2.5    |          |         |           |                |
+|P39       |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P40       |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P41       |                |IOB      |IO          |UNUSED   |           |6             |          |         |           |         |       |          |         |           |                |
+|P42       |                |IOB      |IO_VREF_6   |UNUSED   |           |6             |          |         |           |         |       |          |         |           |                |
+|P43       |                |IOB      |IO          |UNUSED   |           |6             |          |         |           |         |       |          |         |           |                |
+|P44       |                |IOB      |IO          |UNUSED   |           |6             |          |         |           |         |       |          |         |           |                |
+|P45       |AER_IN_DATA<6>  |IOB      |IO_VREF_6   |INPUT    |LVTTL      |6             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P46       |AER_OUT_DATA<3> |IOB      |IO          |TRISTATE |LVTTL      |6             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P47       |RAM_ADDRESS<6>  |IOB      |IO_VREF_6   |TRISTATE |LVTTL      |6             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P48       |                |IOB      |IO          |UNUSED   |           |6             |          |         |           |         |       |          |         |           |                |
+|P49       |AER_IN_DATA<8>  |IOB      |IO          |INPUT    |LVTTL      |6             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P50       |                |         |M1          |         |           |              |          |         |           |         |       |          |         |           |                |
+|P51       |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P52       |                |         |M0          |         |           |              |          |         |           |         |       |          |         |           |                |
+|P53       |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P54       |                |         |M2          |         |           |              |          |         |           |         |       |          |         |           |                |
+|P55       |                |         |NC          |         |           |              |          |         |           |         |       |          |         |           |                |
+|P56       |                |         |NC          |         |           |              |          |         |           |         |       |          |         |           |                |
+|P57       |RAM_WE<1>       |IOB      |IO_VREF_5   |TRISTATE |LVTTL      |5             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P58       |RAM_WE<2>       |IOB      |IO          |TRISTATE |LVTTL      |5             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P59       |RAM_ADDRESS<8>  |IOB      |IO_VREF_5   |TRISTATE |LVTTL      |5             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P60       |AER_OUT_DATA<1> |IOB      |IO          |TRISTATE |LVTTL      |5             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P61       |RAM_DATA<1>     |IOB      |IO          |INPUT    |LVTTL      |5             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P62       |AER_OUT_DATA<9> |IOB      |IO_VREF_5   |TRISTATE |LVTTL      |5             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P63       |AER_OUT_DATA<5> |IOB      |IO          |TRISTATE |LVTTL      |5             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P64       |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P65       |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P66       |                |         |VCCINT      |         |           |              |          |         |           |         |2.5    |          |         |           |                |
+|P67       |RAM_DATA<5>     |IOB      |IO          |INPUT    |LVTTL      |5             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P68       |RAM_DATA<9>     |IOB      |IO          |INPUT    |LVTTL      |5             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P69       |AER_OUT_DATA<14>|IOB      |IO          |TRISTATE |LVTTL      |5             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P70       |AER_OUT_DATA<7> |IOB      |IO          |TRISTATE |LVTTL      |5             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P71       |AER_OUT_DATA<12>|IOB      |IO          |TRISTATE |LVTTL      |5             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P72       |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P73       |AER_IN_DATA<9>  |IOB      |IO_VREF_5   |INPUT    |LVTTL      |5             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P74       |AER_IN_DATA<4>  |IOB      |IO          |INPUT    |LVTTL      |5             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P75       |AER_IN_DATA<14> |IOB      |IO          |INPUT    |LVTTL      |5             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P76       |                |         |VCCINT      |         |           |              |          |         |           |         |2.5    |          |         |           |                |
+|P77       |CLK             |GCLKIOB  |GCK1        |INPUT    |LVTTL      |5             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P78       |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P79       |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P80       |                |GCLKIOB  |GCK0        |UNUSED   |           |4             |          |         |           |         |       |          |         |           |                |
+|P81       |RAM_ADDRESS<14> |IOB      |IO          |TRISTATE |LVTTL      |4             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P82       |RAM_ADDRESS<16> |IOB      |IO          |TRISTATE |LVTTL      |4             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P83       |RAM_ADDRESS<11> |IOB      |IO          |TRISTATE |LVTTL      |4             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P84       |RAM_ADDRESS<12> |IOB      |IO_VREF_4   |TRISTATE |LVTTL      |4             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P85       |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P86       |AER_IN_DATA<11> |IOB      |IO          |INPUT    |LVTTL      |4             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P87       |AER_IN_DATA<12> |IOB      |IO          |INPUT    |LVTTL      |4             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P88       |RAM_ADDRESS<1>  |IOB      |IO          |TRISTATE |LVTTL      |4             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P89       |RAM_ADDRESS<13> |IOB      |IO          |TRISTATE |LVTTL      |4             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P90       |RAM_ADDRESS<3>  |IOB      |IO          |TRISTATE |LVTTL      |4             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P91       |                |         |VCCINT      |         |           |              |          |         |           |         |2.5    |          |         |           |                |
+|P92       |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P93       |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P94       |RAM_ADDRESS<2>  |IOB      |IO          |TRISTATE |LVTTL      |4             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P95       |RAM_ADDRESS<4>  |IOB      |IO_VREF_4   |TRISTATE |LVTTL      |4             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P96       |AER_IN_DATA<13> |IOB      |IO          |INPUT    |LVTTL      |4             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P97       |RAM_ADDRESS<9>  |IOB      |IO          |TRISTATE |LVTTL      |4             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P98       |AER_IN_DATA<10> |IOB      |IO_VREF_4   |INPUT    |LVTTL      |4             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P99       |AER_IN_DATA<15> |IOB      |IO          |INPUT    |LVTTL      |4             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P100      |RAM_ADDRESS<10> |IOB      |IO_VREF_4   |TRISTATE |LVTTL      |4             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P101      |RAM_OE          |IOB      |IO          |TRISTATE |LVTTL      |4             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P102      |AER_IN_DATA<0>  |IOB      |IO          |INPUT    |LVTTL      |4             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P103      |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P104      |                |         |DONE        |         |           |              |          |         |           |         |       |          |         |           |                |
+|P105      |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P106      |                |         |PROGRAM     |         |           |              |          |         |           |         |       |          |         |           |                |
+|P107      |AER_IN_DATA<1>  |IOB      |IO_INIT     |INPUT    |LVTTL      |3             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P108      |AER_IN_DATA<2>  |IOB      |IO_D7       |INPUT    |LVTTL      |3             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P109      |AER_IN_DATA<3>  |IOB      |IO_VREF_3   |INPUT    |LVTTL      |3             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P110      |AER_OUT_DATA<10>|IOB      |IO          |TRISTATE |LVTTL      |3             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P111      |RAM_ADDRESS<17> |IOB      |IO_VREF_3   |TRISTATE |LVTTL      |3             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P112      |RAM_ADDRESS<0>  |IOB      |IO          |TRISTATE |LVTTL      |3             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P113      |RST_N           |IOB      |IO          |INPUT    |LVTTL      |3             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P114      |AER_OUT_DATA<13>|IOB      |IO_VREF_3   |TRISTATE |LVTTL      |3             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P115      |RAM_ADDRESS<15> |IOB      |IO_D6       |TRISTATE |LVTTL      |3             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P116      |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P117      |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P118      |                |         |VCCINT      |         |           |              |          |         |           |         |2.5    |          |         |           |                |
+|P119      |AER_OUT_DATA<15>|IOB      |IO_D5       |TRISTATE |LVTTL      |3             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P120      |RAM_ADDRESS<7>  |IOB      |IO          |TRISTATE |LVTTL      |3             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P121      |RAM_DATA<2>     |IOB      |IO          |INPUT    |LVTTL      |3             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P122      |ENABLE_N        |IOB      |IO          |INPUT    |LVTTL      |3             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P123      |AER_IN_DATA<7>  |IOB      |IO          |INPUT    |LVTTL      |3             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P124      |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P125      |AER_OUT_DATA<2> |IOB      |IO_VREF_3   |TRISTATE |LVTTL      |3             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P126      |                |IOB      |IO_D4       |UNUSED   |           |3             |          |         |           |         |       |          |         |           |                |
+|P127      |                |IOB      |IO          |UNUSED   |           |3             |          |         |           |         |       |          |         |           |                |
+|P128      |                |         |VCCINT      |         |           |              |          |         |           |         |2.5    |          |         |           |                |
+|P129      |                |PCIIOB   |IO_TRDY     |UNUSED   |           |3             |          |         |           |         |       |          |         |           |                |
+|P130      |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P131      |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P132      |                |PCIIOB   |IO_IRDY     |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P133      |                |IOB      |IO          |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P134      |                |IOB      |IO          |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P135      |                |IOB      |IO_D3       |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P136      |AER_OUT_DATA<11>|IOB      |IO_VREF_2   |TRISTATE |LVTTL      |2             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P137      |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P138      |AER_OUT_DATA<6> |IOB      |IO          |TRISTATE |LVTTL      |2             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P139      |AER_OUT_DATA<8> |IOB      |IO          |TRISTATE |LVTTL      |2             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P140      |                |IOB      |IO          |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P141      |                |IOB      |IO          |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P142      |                |IOB      |IO_D2       |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P143      |                |         |VCCINT      |         |           |              |          |         |           |         |2.5    |          |         |           |                |
+|P144      |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P145      |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P146      |                |IOB      |IO_D1       |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P147      |                |IOB      |IO_VREF_2   |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P148      |                |IOB      |IO          |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P149      |                |IOB      |IO          |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P150      |                |IOB      |IO_VREF_2   |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P151      |                |IOB      |IO          |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P152      |RAM_DATA<0>     |IOB      |IO_VREF_2   |INPUT    |LVTTL      |2             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P153      |                |IOB      |IO_DIN_D0   |UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P154      |                |IOB      |IO_DOUT_BUSY|UNUSED   |           |2             |          |         |           |         |       |          |         |           |                |
+|P155      |                |         |CCLK        |         |           |              |          |         |           |         |       |          |         |           |                |
+|P156      |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P157      |                |         |TDO         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P158      |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P159      |                |         |TDI         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P160      |                |IOB      |IO_CS       |UNUSED   |           |1             |          |         |           |         |       |          |         |           |                |
+|P161      |                |IOB      |IO_WRITE    |UNUSED   |           |1             |          |         |           |         |       |          |         |           |                |
+|P162      |                |IOB      |IO_VREF_1   |UNUSED   |           |1             |          |         |           |         |       |          |         |           |                |
+|P163      |                |IOB      |IO          |UNUSED   |           |1             |          |         |           |         |       |          |         |           |                |
+|P164      |                |IOB      |IO_VREF_1   |UNUSED   |           |1             |          |         |           |         |       |          |         |           |                |
+|P165      |                |IOB      |IO          |UNUSED   |           |1             |          |         |           |         |       |          |         |           |                |
+|P166      |                |IOB      |IO          |UNUSED   |           |1             |          |         |           |         |       |          |         |           |                |
+|P167      |RAM_DATA<15>    |IOB      |IO_VREF_1   |INPUT    |LVTTL      |1             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P168      |RAM_DATA<14>    |IOB      |IO          |INPUT    |LVTTL      |1             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P169      |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P170      |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P171      |                |         |VCCINT      |         |           |              |          |         |           |         |2.5    |          |         |           |                |
+|P172      |RAM_DATA<12>    |IOB      |IO          |INPUT    |LVTTL      |1             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P173      |RAM_DATA<11>    |IOB      |IO          |INPUT    |LVTTL      |1             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P174      |RAM_DATA<4>     |IOB      |IO          |INPUT    |LVTTL      |1             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P175      |RAM_ADDRESS<18> |IOB      |IO          |TRISTATE |LVTTL      |1             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P176      |AER_OUT_DATA<0> |IOB      |IO          |TRISTATE |LVTTL      |1             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P177      |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P178      |AER_IN_DATA<5>  |IOB      |IO_VREF_1   |INPUT    |LVTTL      |1             |          |         |           |IFD      |       |          |         |YES        |NONE            |
+|P179      |RAM_ADDRESS<5>  |IOB      |IO          |TRISTATE |LVTTL      |1             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P180      |AER_OUT_DATA<4> |IOB      |IO          |TRISTATE |LVTTL      |1             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P181      |RAM_DATA<8>     |IOB      |IO          |INPUT    |LVTTL      |1             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P182      |                |GCLKIOB  |GCK2        |UNUSED   |           |1             |          |         |           |         |       |          |         |           |                |
+|P183      |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P184      |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P185      |                |GCLKIOB  |GCK3        |UNUSED   |           |0             |          |         |           |         |       |          |         |           |                |
+|P186      |                |         |VCCINT      |         |           |              |          |         |           |         |2.5    |          |         |           |                |
+|P187      |RAM_DATA<13>    |IOB      |IO          |INPUT    |LVTTL      |0             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P188      |AER_IN_REQ_L    |IOB      |IO          |INPUT    |LVTTL      |0             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P189      |RAM_DATA<7>     |IOB      |IO_VREF_0   |INPUT    |LVTTL      |0             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P190      |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P191      |RAM_WE<0>       |IOB      |IO          |TRISTATE |LVTTL      |0             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P192      |RAM_WE<3>       |IOB      |IO          |TRISTATE |LVTTL      |0             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P193      |BUSY            |IOB      |IO          |OUTPUT   |LVTTL      |0             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P194      |RAM_DATA<6>     |IOB      |IO          |INPUT    |LVTTL      |0             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P195      |RAM_DATA<10>    |IOB      |IO          |INPUT    |LVTTL      |0             |          |         |           |NONE     |       |          |         |NO         |NONE            |
+|P196      |                |         |VCCINT      |         |           |              |          |         |           |         |2.5    |          |         |           |                |
+|P197      |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
+|P198      |                |         |GND         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P199      |AER_IN_ACK_L    |IOB      |IO          |OUTPUT   |LVTTL      |0             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P200      |LED<2>          |IOB      |IO_VREF_0   |OUTPUT   |LVTTL      |0             |12        |SLOW     |NONE**     |         |       |          |         |NO         |NONE            |
+|P201      |                |IOB      |IO          |UNUSED   |           |0             |          |         |           |         |       |          |         |           |                |
+|P202      |                |IOB      |IO          |UNUSED   |           |0             |          |         |           |         |       |          |         |           |                |
+|P203      |                |IOB      |IO_VREF_0   |UNUSED   |           |0             |          |         |           |         |       |          |         |           |                |
+|P204      |                |IOB      |IO          |UNUSED   |           |0             |          |         |           |         |       |          |         |           |                |
+|P205      |                |IOB      |IO_VREF_0   |UNUSED   |           |0             |          |         |           |         |       |          |         |           |                |
+|P206      |                |IOB      |IO          |UNUSED   |           |0             |          |         |           |         |       |          |         |           |                |
+|P207      |                |         |TCK         |         |           |              |          |         |           |         |       |          |         |           |                |
+|P208      |                |         |VCCO        |         |           |0             |          |         |           |         |3.30   |          |         |           |                |
++----------+----------------+---------+------------+---------+-----------+--------------+----------+---------+-----------+---------+-------+----------+---------+-----------+----------------+
+
+* Default value.
+** This default Pullup/Pulldown value can be overridden in Bitgen. 
+****** This value can be any of the allowed voltages 
+       (1.5v,2.5v,3.3v) or VCCAUX 
+
+

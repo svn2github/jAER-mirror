@@ -1,0 +1,804 @@
+Release 9.2i - xst J.36
+Copyright (c) 1995-2007 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to ./xst/projnav.tmp
+CPU : 0.00 / 0.55 s | Elapsed : 0.00 / 1.00 s
+ 
+--> Parameter xsthdpdir set to ./xst
+CPU : 0.00 / 0.55 s | Elapsed : 0.00 / 1.00 s
+ 
+--> Reading design: usb_aer.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) Design Hierarchy Analysis
+  4) HDL Analysis
+  5) HDL Synthesis
+     5.1) HDL Synthesis Report
+  6) Advanced HDL Synthesis
+     6.1) Advanced HDL Synthesis Report
+  7) Low Level Synthesis
+  8) Partition Report
+  9) Final Report
+     9.1) Device utilization summary
+     9.2) Partition Resource Summary
+     9.3) TIMING REPORT
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "usb_aer.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "usb_aer"
+Output Format                      : NGC
+Target Device                      : xc2s200-6-pq208
+
+---- Source Options
+Top Module Name                    : usb_aer
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : Yes
+FSM Style                          : lut
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Mux Style                          : Auto
+Decoder Extraction                 : YES
+Priority Encoder Extraction        : YES
+Shift Register Extraction          : YES
+Logical Shifter Extraction         : YES
+XOR Collapsing                     : YES
+ROM Style                          : Auto
+Mux Extraction                     : YES
+Resource Sharing                   : NO
+Asynchronous To Synchronous        : NO
+Multiplier Style                   : lut
+Automatic Register Balancing       : No
+
+---- Target Options
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100
+Add Generic Clock Buffer(BUFG)     : 4
+Register Duplication               : YES
+Slice Packing                      : NO
+Optimize Instantiated Primitives   : NO
+Convert Tristates To Logic         : Yes
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
+Pack IO Registers into IOBs        : auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Library Search Order               : usb_aer.lso
+Keep Hierarchy                     : YES
+RTL Output                         : No
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : _
+Bus Delimiter                      : <>
+Case Specifier                     : maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+Verilog 2001                       : YES
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling vhdl file "D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/FIFO_delay.vhd" in Library work.
+Architecture a of Entity fifo_delay is up to date.
+Compiling vhdl file "D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/program_ram.vhd" in Library work.
+Entity <program_ram> compiled.
+Entity <program_ram> (Architecture <behavioral>) compiled.
+Compiling vhdl file "D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/Mapper_function.vhd" in Library work.
+Architecture behavioral of Entity mapper_function is up to date.
+Compiling vhdl file "D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/usb_aer.vhd" in Library work.
+Architecture behavioral of Entity usb_aer is up to date.
+
+=========================================================================
+*                     Design Hierarchy Analysis                         *
+=========================================================================
+Analyzing hierarchy for entity <usb_aer> in library <work> (architecture <behavioral>).
+
+Analyzing hierarchy for entity <program_ram> in library <work> (architecture <behavioral>).
+
+Analyzing hierarchy for entity <Mapper_function> in library <work> (architecture <behavioral>).
+
+Analyzing hierarchy for entity <FIFO_delay> in library <work> (architecture <a>).
+
+INFO:Xst:2555 - '-hierarchy_separator' switch is being deprecated in a future release.
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing Entity <usb_aer> in library <work> (Architecture <behavioral>).
+Entity <usb_aer> analyzed. Unit <usb_aer> generated.
+
+Analyzing Entity <program_ram> in library <work> (Architecture <behavioral>).
+Entity <program_ram> analyzed. Unit <program_ram> generated.
+
+Analyzing Entity <Mapper_function> in library <work> (Architecture <behavioral>).
+INFO:Xst:2679 - Register <t2> in unit <Mapper_function> has a constant value of 0 during circuit operation. The register is replaced by logic.
+INFO:Xst:2679 - Register <t3> in unit <Mapper_function> has a constant value of 0 during circuit operation. The register is replaced by logic.
+Entity <Mapper_function> analyzed. Unit <Mapper_function> generated.
+
+Analyzing Entity <FIFO_delay> in library <work> (Architecture <a>).
+INFO:Xst:2679 - Register <wait_erase> in unit <FIFO_delay> has a constant value of 0 during circuit operation. The register is replaced by logic.
+Entity <FIFO_delay> analyzed. Unit <FIFO_delay> generated.
+
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Performing bidirectional port resolution...
+
+Synthesizing Unit <program_ram>.
+    Related source file is "D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/program_ram.vhd".
+WARNING:Xst:646 - Signal <LDATA> is assigned but never used.
+    Found finite state machine <FSM_0> for signal <CS>.
+    -----------------------------------------------------------------------
+    | States             | 8                                              |
+    | Transitions        | 14                                             |
+    | Inputs             | 3                                              |
+    | Outputs            | 15                                             |
+    | Clock              | CLK (rising_edge)                              |
+    | Reset              | CS$or0000 (positive)                           |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Recovery State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+WARNING:Xst:2734 - Property "use_dsp48" is not applicable for this technology.
+    Found 4-bit tristate buffer for signal <RAM_WE>.
+    Found 16-bit register for signal <RNG>.
+    Found 19-bit tristate buffer for signal <RAM_ADDRESS>.
+    Found 16-bit register for signal <DELAY_TIME>.
+    Found 32-bit tristate buffer for signal <RAM_DATA>.
+    Found 1-bit tristate buffer for signal <RAM_OE>.
+    Found 8-bit tristate buffer for signal <DATA>.
+    Found 19-bit register for signal <ADDR>.
+    Found 19-bit adder for signal <ADDR_7$add0000> created at line 76.
+    Found 8-bit 4-to-1 multiplexer for signal <DATA$mux0000> created at line 90.
+    Found 2-bit up counter for signal <nibble>.
+    Found 3-bit up counter for signal <nibble_address>.
+    Found 3-bit comparator less for signal <nibble_address$cmp_lt0000> created at line 81.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   2 Counter(s).
+	inferred  51 D-type flip-flop(s).
+	inferred   1 Adder/Subtractor(s).
+	inferred   1 Comparator(s).
+	inferred   8 Multiplexer(s).
+	inferred  64 Tristate(s).
+Unit <program_ram> synthesized.
+
+
+Synthesizing Unit <FIFO_delay>.
+    Related source file is "D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/FIFO_delay.vhd".
+WARNING:Xst:646 - Signal <wait_erase> is assigned but never used.
+    Found finite state machine <FSM_1> for signal <fifo_cs>.
+    -----------------------------------------------------------------------
+    | States             | 7                                              |
+    | Transitions        | 18                                             |
+    | Inputs             | 5                                              |
+    | Outputs            | 15                                             |
+    | Clock              | clk (rising_edge)                              |
+    | Reset              | rst_l (negative)                               |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Recovery State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+WARNING:Xst:2734 - Property "use_dsp48" is not applicable for this technology.
+WARNING:Xst:2734 - Property "use_dsp48" is not applicable for this technology.
+    Found 19-bit register for signal <fifoRAM_ADDRESS>.
+    Found 16-bit register for signal <FIFO_ev>.
+    Found 16-bit register for signal <FIFO_ts>.
+    Found 15-bit up counter for signal <fifoin>.
+    Found 15-bit comparator greatequal for signal <fifoin$cmp_ge0000> created at line 67.
+    Found 15-bit comparator less for signal <fifoin$cmp_lt0000> created at line 69.
+    Found 15-bit up counter for signal <fifout>.
+    Found 15-bit comparator lessequal for signal <fifout$cmp_le0000> created at line 82.
+    Found 15-bit comparator less for signal <fifout$cmp_lt0000> created at line 87.
+    Found 1-bit register for signal <ififo_empty>.
+    Found 15-bit comparator greater for signal <ififo_empty$cmp_gt0000> created at line 82.
+    Found 1-bit register for signal <ififo_full>.
+    Found 15-bit comparator less for signal <ififo_full$cmp_lt0000> created at line 67.
+    Found 15-bit register for signal <used>.
+    Found 15-bit adder for signal <used$addsub0000> created at line 68.
+    Found 15-bit subtractor for signal <used$addsub0001> created at line 84.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   2 Counter(s).
+	inferred  49 D-type flip-flop(s).
+	inferred   2 Adder/Subtractor(s).
+	inferred   6 Comparator(s).
+Unit <FIFO_delay> synthesized.
+
+
+Synthesizing Unit <Mapper_function>.
+    Related source file is "D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/Mapper_function.vhd".
+WARNING:Xst:646 - Signal <repetition> is assigned but never used.
+WARNING:Xst:646 - Signal <t1> is assigned but never used.
+WARNING:Xst:646 - Signal <t2> is assigned but never used.
+WARNING:Xst:646 - Signal <t3> is assigned but never used.
+WARNING:Xst:1780 - Signal <ts> is never used or assigned.
+WARNING:Xst:1780 - Signal <last_rep> is never used or assigned.
+WARNING:Xst:1780 - Signal <smRAM_DATA> is never used or assigned.
+    Found finite state machine <FSM_2> for signal <CS>.
+    -----------------------------------------------------------------------
+    | States             | 9                                              |
+    | Transitions        | 25                                             |
+    | Inputs             | 10                                             |
+    | Outputs            | 18                                             |
+    | Clock              | CLK (rising_edge)                              |
+    | Reset              | CS$or0000 (positive)                           |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Recovery State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found finite state machine <FSM_3> for signal <dl_cs>.
+    -----------------------------------------------------------------------
+    | States             | 5                                              |
+    | Transitions        | 19                                             |
+    | Inputs             | 7                                              |
+    | Outputs            | 7                                              |
+    | Clock              | CLK (rising_edge)                              |
+    | Reset              | RST_N (negative)                               |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | wait_event                                     |
+    | Power Up State     | wait_event                                     |
+    | Recovery State     | wait_event                                     |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+WARNING:Xst:2734 - Property "use_dsp48" is not applicable for this technology.
+WARNING:Xst:2734 - Property "use_dsp48" is not applicable for this technology.
+    Found 4-bit tristate buffer for signal <RAM_WE>.
+    Found 16-bit tristate buffer for signal <AER_OUT_DATA>.
+    Found 19-bit tristate buffer for signal <RAM_ADDRESS>.
+    Found 32-bit tristate buffer for signal <RAM_DATA>.
+    Found 1-bit tristate buffer for signal <RAM_OE>.
+    Found 1-bit register for signal <cmp_delay>.
+    Found 16-bit subtractor for signal <cmp_delay$addsub0000> created at line 381.
+    Found 16-bit comparator greatequal for signal <cmp_delay$cmp_ge0000> created at line 381.
+    Found 16-bit comparator less for signal <cmp_delay$cmp_lt0000> created at line 381.
+    Found 9-bit up counter for signal <cnt10us>.
+    Found 8-bit comparator less for signal <CS$cmp_lt0000> created at line 206.
+    Found 16-bit up counter for signal <delay_cnt>.
+    Found 9-bit comparator less for signal <delay_cnt$cmp_lt0000> created at line 98.
+    Found 16-bit register for signal <ev>.
+    Found 3-bit up counter for signal <event_counter>.
+    Found 32-bit register for signal <fifo_data>.
+    Found 16-bit adder for signal <fifo_delay_time>.
+    Found 1-bit register for signal <FIFO_erase>.
+    Found 1-bit register for signal <FIFO_save>.
+    Found 32-bit tristate buffer for signal <fifoRAM_DATA>.
+    Found 1-bit register for signal <last_event>.
+    Found 16-bit up counter for signal <latched_input>.
+    Found 32-bit register for signal <lfsr>.
+    Found 1-bit xor4 for signal <lfsr_0$xor0000> created at line 119.
+    Found 1-bit register for signal <Send_nodelay>.
+    Found 1-bit register for signal <Sent_nodelay>.
+    Found 19-bit tristate buffer for signal <smRAM_ADDRESS>.
+    Found 1-bit tristate buffer for signal <smRAM_OE>.
+    Found 4-bit tristate buffer for signal <smRAM_WE>.
+    Summary:
+	inferred   2 Finite State Machine(s).
+	inferred   4 Counter(s).
+	inferred  86 D-type flip-flop(s).
+	inferred   2 Adder/Subtractor(s).
+	inferred   4 Comparator(s).
+	inferred   1 Xor(s).
+	inferred 128 Tristate(s).
+Unit <Mapper_function> synthesized.
+
+
+Synthesizing Unit <usb_aer>.
+    Related source file is "D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/usb_aer.vhd".
+WARNING:Xst:1780 - Signal <Clk100> is never used or assigned.
+WARNING:Xst:1780 - Signal <clk0b> is never used or assigned.
+WARNING:Xst:1780 - Signal <direccion> is never used or assigned.
+WARNING:Xst:1780 - Signal <Clk100int> is never used or assigned.
+WARNING:Xst:646 - Signal <mapper_busy> is assigned but never used.
+    Found 24-bit up counter for signal <counter>.
+    Found 1-bit register for signal <iaer_in_req_l>.
+    Found 1-bit register for signal <iaer_out_ack_l>.
+    Found 1-bit register for signal <imicro_control>.
+    Found 1-bit register for signal <imicro_prog>.
+    Found 1-bit register for signal <imicro_rw>.
+    Found 1-bit register for signal <imicro_vdata>.
+    Found 1-bit register for signal <saer_in_req_l>.
+    Found 1-bit register for signal <saer_out_ack_l>.
+    Found 1-bit register for signal <smicro_control>.
+    Found 1-bit register for signal <smicro_prog>.
+    Found 1-bit register for signal <smicro_rw>.
+    Found 1-bit register for signal <smicro_vdata>.
+    Summary:
+	inferred   1 Counter(s).
+	inferred  12 D-type flip-flop(s).
+Unit <usb_aer> synthesized.
+
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 5
+ 15-bit adder                                          : 1
+ 15-bit subtractor                                     : 1
+ 16-bit adder                                          : 1
+ 16-bit subtractor                                     : 1
+ 19-bit adder                                          : 1
+# Counters                                             : 8
+ 15-bit up counter                                     : 2
+ 16-bit up counter                                     : 2
+ 2-bit up counter                                      : 1
+ 3-bit up counter                                      : 2
+ 9-bit up counter                                      : 1
+# Registers                                            : 109
+ 1-bit register                                        : 103
+ 15-bit register                                       : 1
+ 16-bit register                                       : 3
+ 19-bit register                                       : 1
+ 32-bit register                                       : 1
+# Comparators                                          : 11
+ 15-bit comparator greatequal                          : 1
+ 15-bit comparator greater                             : 1
+ 15-bit comparator less                                : 3
+ 15-bit comparator lessequal                           : 1
+ 16-bit comparator greatequal                          : 1
+ 16-bit comparator less                                : 1
+ 3-bit comparator less                                 : 1
+ 8-bit comparator less                                 : 1
+ 9-bit comparator less                                 : 1
+# Multiplexers                                         : 1
+ 8-bit 4-to-1 multiplexer                              : 1
+# Tristates                                            : 14
+ 1-bit tristate buffer                                 : 3
+ 16-bit tristate buffer                                : 1
+ 19-bit tristate buffer                                : 3
+ 32-bit tristate buffer                                : 3
+ 4-bit tristate buffer                                 : 3
+ 8-bit tristate buffer                                 : 1
+# Xors                                                 : 1
+ 1-bit xor4                                            : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+Analyzing FSM <FSM_3> for best encoding.
+Optimizing FSM <Mapper/dl_cs> on signal <dl_cs[1:3]> with sequential encoding.
+--------------------------------
+ State              | Encoding
+--------------------------------
+ wait_event         | 000
+ send_event_nodelay | 010
+ wait_ack_nodelay   | 011
+ send_event_delayed | 001
+ wait_ack_delayed   | 100
+--------------------------------
+Analyzing FSM <FSM_2> for best encoding.
+Optimizing FSM <Mapper/CS> on signal <CS[1:4]> with sequential encoding.
+-------------------------------------
+ State                   | Encoding
+-------------------------------------
+ idle                    | 0000
+ wait_req_l              | 0001
+ wait_req_h              | 0010
+ read_ram                | 0100
+ read_ram1               | 0011
+ read_ram2               | 0101
+ send_event_fifo         | 0111
+ send_event_fifo_nodelay | 1000
+ sube_ack                | 0110
+-------------------------------------
+Analyzing FSM <FSM_1> for best encoding.
+Optimizing FSM <Mapper/BFIFO/fifo_cs> on signal <fifo_cs[1:3]> with sequential encoding.
+------------------------------
+ State            | Encoding
+------------------------------
+ idle             | 000
+ sram_address     | 001
+ write_sram_fifo  | 011
+ erase_first_add  | 010
+ erase_first_read | 101
+ empty_address    | 100
+ empty_read       | 110
+------------------------------
+Analyzing FSM <FSM_0> for best encoding.
+Optimizing FSM <ControlRAM/CS> on signal <CS[1:3]> with sequential encoding.
+-------------------------
+ State       | Encoding
+-------------------------
+ idle        | 000
+ wait_valid  | 001
+ write_addr  | 010
+ write       | 100
+ check       | 111
+ read        | 011
+ estabiliza  | 101
+ estabiliza2 | 110
+-------------------------
+Loading device for application Rf_Device from file 'v200.nph' in environment C:\Xilinx92i.
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# FSMs                                                 : 4
+# Adders/Subtractors                                   : 5
+ 15-bit adder                                          : 1
+ 15-bit subtractor                                     : 1
+ 16-bit adder                                          : 1
+ 16-bit subtractor                                     : 1
+ 19-bit adder                                          : 1
+# Counters                                             : 8
+ 15-bit up counter                                     : 2
+ 16-bit up counter                                     : 2
+ 2-bit up counter                                      : 1
+ 3-bit up counter                                      : 2
+ 9-bit up counter                                      : 1
+# Registers                                            : 230
+ Flip-Flops                                            : 230
+# Comparators                                          : 11
+ 15-bit comparator greatequal                          : 1
+ 15-bit comparator greater                             : 1
+ 15-bit comparator less                                : 3
+ 15-bit comparator lessequal                           : 1
+ 16-bit comparator greatequal                          : 1
+ 16-bit comparator less                                : 1
+ 3-bit comparator less                                 : 1
+ 8-bit comparator less                                 : 1
+ 9-bit comparator less                                 : 1
+# Multiplexers                                         : 1
+ 8-bit 4-to-1 multiplexer                              : 1
+# Xors                                                 : 1
+ 1-bit xor4                                            : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+INFO:Xst:2261 - The FF/Latch <fifo_data_15> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_15> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_14> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_14> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_13> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_13> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_2> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_2> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_1> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_1> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_0> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_0> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_12> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_12> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_11> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_11> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_10> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_10> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_9> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_9> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_8> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_8> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_7> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_7> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_6> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_6> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_5> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_5> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_4> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_4> 
+INFO:Xst:2261 - The FF/Latch <fifo_data_3> in Unit <Mapper_function> is equivalent to the following FF/Latch, which will be removed : <ev_3> 
+WARNING:Xst:2042 - Unit Mapper_function: 112 internal tristates are replaced by logic (pull-up yes): fifoRAM_DATA<0>, fifoRAM_DATA<10>, fifoRAM_DATA<11>, fifoRAM_DATA<12>, fifoRAM_DATA<13>, fifoRAM_DATA<14>, fifoRAM_DATA<15>, fifoRAM_DATA<16>, fifoRAM_DATA<17>, fifoRAM_DATA<18>, fifoRAM_DATA<19>, fifoRAM_DATA<1>, fifoRAM_DATA<20>, fifoRAM_DATA<21>, fifoRAM_DATA<22>, fifoRAM_DATA<23>, fifoRAM_DATA<24>, fifoRAM_DATA<25>, fifoRAM_DATA<26>, fifoRAM_DATA<27>, fifoRAM_DATA<28>, fifoRAM_DATA<29>, fifoRAM_DATA<2>, fifoRAM_DATA<30>, fifoRAM_DATA<31>, fifoRAM_DATA<3>, fifoRAM_DATA<4>, fifoRAM_DATA<5>, fifoRAM_DATA<6>, fifoRAM_DATA<7>, fifoRAM_DATA<8>, fifoRAM_DATA<9>, RAM_ADDRESS<0>, RAM_ADDRESS<10>, RAM_ADDRESS<11>, RAM_ADDRESS<12>, RAM_ADDRESS<13>, RAM_ADDRESS<14>, RAM_ADDRESS<15>, RAM_ADDRESS<16>, RAM_ADDRESS<17>, RAM_ADDRESS<18>, RAM_ADDRESS<1>, RAM_ADDRESS<2>, RAM_ADDRESS<3>, RAM_ADDRESS<4>, RAM_ADDRESS<5>, RAM_ADDRESS<6>, RAM_ADDRESS<7>, RAM_ADDRESS<8>, RAM_ADDRESS<9>, RAM_DATA<0>, RAM_DATA<10>, RAM_DATA<11>, RAM_DATA<12>, RAM_DATA<13>, RAM_DATA<14>, RAM_DATA<15>, RAM_DATA<16>, RAM_DATA<17>, RAM_DATA<18>, RAM_DATA<19>, RAM_DATA<1>, RAM_DATA<20>, RAM_DATA<21>, RAM_DATA<22>, RAM_DATA<23>, RAM_DATA<24>, RAM_DATA<25>, RAM_DATA<26>, RAM_DATA<27>, RAM_DATA<28>, RAM_DATA<29>, RAM_DATA<2>, RAM_DATA<30>, RAM_DATA<31>, RAM_DATA<3>, RAM_DATA<4>, RAM_DATA<5>, RAM_DATA<6>, RAM_DATA<7>, RAM_DATA<8>, RAM_DATA<9>, RAM_OE, RAM_WE<0>, RAM_WE<1>, RAM_WE<2>, RAM_WE<3>, smRAM_ADDRESS<0>, smRAM_ADDRESS<10>, smRAM_ADDRESS<11>, smRAM_ADDRESS<12>, smRAM_ADDRESS<13>, smRAM_ADDRESS<14>, smRAM_ADDRESS<15>, smRAM_ADDRESS<16>, smRAM_ADDRESS<17>, smRAM_ADDRESS<18>, smRAM_ADDRESS<1>, smRAM_ADDRESS<2>, smRAM_ADDRESS<3>, smRAM_ADDRESS<4>, smRAM_ADDRESS<5>, smRAM_ADDRESS<6>, smRAM_ADDRESS<7>, smRAM_ADDRESS<8>, smRAM_ADDRESS<9>, smRAM_OE, smRAM_WE<0>, smRAM_WE<1>, smRAM_WE<2>, smRAM_WE<3>.
+WARNING:Xst:2042 - Unit program_ram: 56 internal tristates are replaced by logic (pull-up yes): RAM_ADDRESS<0>, RAM_ADDRESS<10>, RAM_ADDRESS<11>, RAM_ADDRESS<12>, RAM_ADDRESS<13>, RAM_ADDRESS<14>, RAM_ADDRESS<15>, RAM_ADDRESS<16>, RAM_ADDRESS<17>, RAM_ADDRESS<18>, RAM_ADDRESS<1>, RAM_ADDRESS<2>, RAM_ADDRESS<3>, RAM_ADDRESS<4>, RAM_ADDRESS<5>, RAM_ADDRESS<6>, RAM_ADDRESS<7>, RAM_ADDRESS<8>, RAM_ADDRESS<9>, RAM_DATA<0>, RAM_DATA<10>, RAM_DATA<11>, RAM_DATA<12>, RAM_DATA<13>, RAM_DATA<14>, RAM_DATA<15>, RAM_DATA<16>, RAM_DATA<17>, RAM_DATA<18>, RAM_DATA<19>, RAM_DATA<1>, RAM_DATA<20>, RAM_DATA<21>, RAM_DATA<22>, RAM_DATA<23>, RAM_DATA<24>, RAM_DATA<25>, RAM_DATA<26>, RAM_DATA<27>, RAM_DATA<28>, RAM_DATA<29>, RAM_DATA<2>, RAM_DATA<30>, RAM_DATA<31>, RAM_DATA<3>, RAM_DATA<4>, RAM_DATA<5>, RAM_DATA<6>, RAM_DATA<7>, RAM_DATA<8>, RAM_DATA<9>, RAM_OE, RAM_WE<0>, RAM_WE<1>, RAM_WE<2>, RAM_WE<3>.
+WARNING:Xst:1906 - Unit program_ram is merged (output ports from interface drive multi-sources)
+WARNING:Xst:1906 - Unit Mapper_function is merged (output ports from interface drive multi-sources)
+WARNING:Xst:2677 - Node <ControlRAM_RNG_9> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_8> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_7> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_6> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_5> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_4> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_3> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_1> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_2> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_0> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_15> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_14> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_13> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_12> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_11> of sequential type is unconnected in block <usb_aer>.
+WARNING:Xst:2677 - Node <ControlRAM_RNG_10> of sequential type is unconnected in block <usb_aer>.
+
+Optimizing unit <usb_aer> ...
+
+Optimizing unit <FIFO_delay> ...
+WARNING:Xst:1710 - FF/Latch  <fifoRAM_ADDRESS_18> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_17> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_16> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_15> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_14> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1710 - FF/Latch  <fifoRAM_ADDRESS_18> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_17> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_16> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_15> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_14> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1710 - FF/Latch  <fifoRAM_ADDRESS_18> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_17> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_16> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_15> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_14> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1710 - FF/Latch  <fifoRAM_ADDRESS_18> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_17> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_16> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_15> (without init value) has a constant value of 1 in block <FIFO_delay>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch  <fifoRAM_ADDRESS_14> (without init value) has a constant value of 1 in block <FIFO_delay>.
+
+Mapping all equations...
+WARNING:Xst:2170 - Unit Mapper_BFIFO : the following signal(s) form a combinatorial loop: usb_aer_Mapper/BUSY, FIFO_busy, usb_aer_Mapper_FIFO_busy, sram_busy.
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block usb_aer, actual ratio is 15.
+FlipFlop Mapper_CS_FFd2 has been replicated 1 time(s)
+FlipFlop Mapper_CS_FFd3 has been replicated 1 time(s)
+FlipFlop Mapper_CS_FFd4 has been replicated 1 time(s)
+
+Final Macro Processing ...
+
+Processing Unit <usb_aer> :
+INFO:Xst:741 - HDL ADVISOR - A 9-bit shift register was found for signal <Mapper_lfsr_30> and currently occupies 9 logic cells (4 slices). Removing the set/reset logic would take advantage of SRL16 (and derived) primitives and reduce this to 1 logic cells (1 slices). Evaluate if the set/reset can be removed for this simple shift register. The majority of simple pipeline structures do not need to be set/reset operationally.
+INFO:Xst:741 - HDL ADVISOR - A 14-bit shift register was found for signal <Mapper_lfsr_21> and currently occupies 14 logic cells (7 slices). Removing the set/reset logic would take advantage of SRL16 (and derived) primitives and reduce this to 1 logic cells (1 slices). Evaluate if the set/reset can be removed for this simple shift register. The majority of simple pipeline structures do not need to be set/reset operationally.
+Unit <usb_aer> processed.
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 275
+ Flip-Flops                                            : 275
+
+=========================================================================
+
+=========================================================================
+*                          Partition Report                             *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+Top Level Output File Name         : usb_aer
+Output Format                      : NGC
+Optimization Goal                  : Speed
+Keep Hierarchy                     : YES
+
+Design Statistics
+# IOs                              : 112
+
+Cell Usage :
+# BELS                             : 1001
+#      GND                         : 2
+#      INV                         : 26
+#      LUT1                        : 64
+#      LUT2                        : 89
+#      LUT3                        : 245
+#      LUT4                        : 201
+#      MUXCY                       : 191
+#      MUXF5                       : 36
+#      VCC                         : 2
+#      XORCY                       : 145
+# FlipFlops/Latches                : 275
+#      FDC                         : 99
+#      FDCE                        : 157
+#      FDE                         : 16
+#      FDP                         : 2
+#      FDPE                        : 1
+# Clock Buffers                    : 1
+#      BUFG                        : 1
+# IO Buffers                       : 112
+#      IBUF                        : 23
+#      IBUFG                       : 1
+#      IOBUF                       : 40
+#      OBUF                        : 8
+#      OBUFT                       : 40
+=========================================================================
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 2s200pq208-6 
+
+ Number of Slices:                     340  out of   2352    14%  
+ Number of Slice Flip Flops:           275  out of   4704     5%  
+ Number of 4 input LUTs:               625  out of   4704    13%  
+ Number of IOs:                        112
+ Number of bonded IOBs:                112  out of    140    80%  
+ Number of GCLKs:                        1  out of      4    25%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+TIMING REPORT
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+clk                                | IBUFG+BUFG             | 275   |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+-------------------------------------------------------------------------------------+-----------------------------+-------+
+Control Signal                                                                       | Buffer(FF name)             | Load  |
+-------------------------------------------------------------------------------------+-----------------------------+-------+
+Mapper_BFIFO/fifoRAM_ADDRESS_Acst_inv(Mapper_BFIFO/fifoRAM_ADDRESS_Acst_inv1_INV_0:O)| NONE(Mapper_BFIFO/fifoin_12)| 96    |
+Mapper_RST_N_inv(Mapper_RST_N_inv1_INV_0:O)                                          | NONE(Mapper_fifo_data_0)    | 65    |
+ControlRAM_CS_or0000(ControlRAM_CS_or00001:O)                                        | NONE(ControlRAM_ADDR_5)     | 27    |
+Mapper_RST_N_inv1_INV_0_1(Mapper_RST_N_inv1_INV_0_1:O)                               | NONE(Mapper_latched_input_6)| 64    |
+Mapper_CS_or0000(Mapper_CS_or00001:O)                                                | NONE(Mapper_CS_FFd4)        | 7     |
+-------------------------------------------------------------------------------------+-----------------------------+-------+
+
+Timing Summary:
+---------------
+Speed Grade: -6
+
+   Minimum period: 20.033ns (Maximum Frequency: 49.918MHz)
+   Minimum input arrival time before clock: 13.625ns
+   Maximum output required time after clock: 22.259ns
+   Maximum combinational path delay: 10.682ns
+
+Timing Detail:
+--------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk'
+  Clock period: 20.033ns (frequency: 49.918MHz)
+  Total number of paths / destination ports: 12331 / 410
+-------------------------------------------------------------------------
+Delay:               20.033ns (Levels of Logic = 8)
+  Source:            Mapper_CS_FFd2_1 (FF)
+  Destination:       Mapper_event_counter_2 (FF)
+  Source Clock:      clk rising
+  Destination Clock: clk rising
+
+  Data Path: Mapper_CS_FFd2_1 to Mapper_event_counter_2
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q              1   1.085   1.035  Mapper_CS_FFd2_1 (Mapper_CS_FFd2_1)
+     LUT4:I0->O            5   0.549   1.566  Mapper_sram_busy1 (Mapper/BUSY)
+     begin scope: 'Mapper_BFIFO'
+     LUT4:I1->O           65   0.549   4.905  FIFO_busy1 (FIFO_busy)
+     end scope: 'Mapper_BFIFO'
+     LUT4:I0->O            1   0.549   1.035  Mapper_CS_FFd3-In18 (Mapper_CS_FFd3-In_map8)
+     MUXF5:S->O            1   0.824   1.035  Mapper_CS_FFd3-In69_SW0 (N1421)
+     LUT4:I1->O            7   0.549   1.755  Mapper_CS_FFd3-In147 (Mapper_CS_FFd3-In)
+     LUT4:I0->O           19   0.549   2.790  Mapper_event_counter_and0000 (Mapper_event_counter_and0000)
+     LUT2:I0->O            1   0.549   0.000  Mapper_event_Mcount_counter_eqn_01 (Mapper_event_Mcount_counter_eqn_0)
+     FDCE:D                    0.709          Mapper_event_counter_0
+    ----------------------------------------
+    Total                     20.033ns (5.912ns logic, 14.121ns route)
+                                       (29.5% logic, 70.5% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
+  Total number of paths / destination ports: 2323 / 153
+-------------------------------------------------------------------------
+Offset:              13.625ns (Levels of Logic = 14)
+  Source:            sram_data<24> (PAD)
+  Destination:       Mapper_event_counter_2 (FF)
+  Destination Clock: clk rising
+
+  Data Path: sram_data<24> to Mapper_event_counter_2
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IOBUF:IO->O           3   0.776   1.332  sram_data_24_IOBUF (N1348)
+     LUT2:I0->O            1   0.549   0.000  Mapper_Mcompar_CS_cmp_lt0000_lut<0> (Mapper_N32)
+     MUXCY:S->O            1   0.659   0.000  Mapper_Mcompar_CS_cmp_lt0000_cy<0> (Mapper_Mcompar_CS_cmp_lt0000_cy<0>)
+     MUXCY:CI->O           1   0.042   0.000  Mapper_Mcompar_CS_cmp_lt0000_cy<1> (Mapper_Mcompar_CS_cmp_lt0000_cy<1>)
+     MUXCY:CI->O           1   0.042   0.000  Mapper_Mcompar_CS_cmp_lt0000_cy<2> (Mapper_Mcompar_CS_cmp_lt0000_cy<2>)
+     MUXCY:CI->O           1   0.042   0.000  Mapper_Mcompar_CS_cmp_lt0000_cy<3> (Mapper_Mcompar_CS_cmp_lt0000_cy<3>)
+     MUXCY:CI->O           1   0.042   0.000  Mapper_Mcompar_CS_cmp_lt0000_cy<4> (Mapper_Mcompar_CS_cmp_lt0000_cy<4>)
+     MUXCY:CI->O           1   0.042   0.000  Mapper_Mcompar_CS_cmp_lt0000_cy<5> (Mapper_Mcompar_CS_cmp_lt0000_cy<5>)
+     MUXCY:CI->O           1   0.042   0.000  Mapper_Mcompar_CS_cmp_lt0000_cy<6> (Mapper_Mcompar_CS_cmp_lt0000_cy<6>)
+     MUXCY:CI->O           4   0.042   1.440  Mapper_Mcompar_CS_cmp_lt0000_cy<7> (Mapper_Mcompar_CS_cmp_lt0000_cy<7>)
+     LUT4:I3->O            4   0.549   1.440  Mapper_CS_FFd4-In34 (Mapper_CS_FFd4-In_map13)
+     LUT4:I0->O            4   0.549   1.440  Mapper_CS_FFd4-In119 (Mapper_CS_FFd4-In)
+     LUT4:I2->O           19   0.549   2.790  Mapper_event_counter_and0000 (Mapper_event_counter_and0000)
+     LUT2:I0->O            1   0.549   0.000  Mapper_event_Mcount_counter_eqn_01 (Mapper_event_Mcount_counter_eqn_0)
+     FDCE:D                    0.709          Mapper_event_counter_0
+    ----------------------------------------
+    Total                     13.625ns (5.183ns logic, 8.442ns route)
+                                       (38.0% logic, 62.0% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clk'
+  Total number of paths / destination ports: 2061 / 86
+-------------------------------------------------------------------------
+Offset:              22.259ns (Levels of Logic = 7)
+  Source:            Mapper_CS_FFd2_1 (FF)
+  Destination:       sram_data<31> (PAD)
+  Source Clock:      clk rising
+
+  Data Path: Mapper_CS_FFd2_1 to sram_data<31>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q              1   1.085   1.035  Mapper_CS_FFd2_1 (Mapper_CS_FFd2_1)
+     LUT4:I0->O            5   0.549   1.566  Mapper_sram_busy1 (Mapper/BUSY)
+     begin scope: 'Mapper_BFIFO'
+     LUT4:I1->O           65   0.549   4.905  FIFO_busy1 (FIFO_busy)
+     end scope: 'Mapper_BFIFO'
+     LUT4:I1->O           40   0.549   3.780  sram_data<0>_MLTSRCEDGELogicTrst211 (N35)
+     LUT3:I0->O            4   0.549   1.440  sram_data<15>_MLTSRCEDGELogicTrst11 (N20)
+     LUT3:I0->O            1   0.549   1.035  sram_data<23>_MLTSRCEDGELogicTrst1 (sram_data<23>_MLTSRCEDGE)
+     IOBUF:I->IO               4.668          sram_data_23_IOBUF (sram_data<23>)
+    ----------------------------------------
+    Total                     22.259ns (8.498ns logic, 13.761ns route)
+                                       (38.2% logic, 61.8% route)
+
+=========================================================================
+Timing constraint: Default path analysis
+  Total number of paths / destination ports: 64 / 40
+-------------------------------------------------------------------------
+Delay:               10.682ns (Levels of Logic = 4)
+  Source:            micro_data<2> (PAD)
+  Destination:       sram_data<26> (PAD)
+
+  Data Path: micro_data<2> to sram_data<26>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IOBUF:IO->O           6   0.776   1.665  micro_data_2_IOBUF (N1378)
+     LUT3:I1->O            4   0.549   1.440  sram_data<10>_MLTSRCEDGELogicTrst11 (N15)
+     LUT3:I0->O            1   0.549   1.035  sram_data<18>_MLTSRCEDGELogicTrst1 (sram_data<18>_MLTSRCEDGE)
+     IOBUF:I->IO               4.668          sram_data_18_IOBUF (sram_data<18>)
+    ----------------------------------------
+    Total                     10.682ns (6.542ns logic, 4.140ns route)
+                                       (61.2% logic, 38.8% route)
+
+=========================================================================
+CPU : 19.55 / 20.25 s | Elapsed : 20.00 / 21.00 s
+ 
+--> 
+
+Total memory usage is 151204 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :   61 (   0 filtered)
+Number of infos    :   22 (   0 filtered)
+

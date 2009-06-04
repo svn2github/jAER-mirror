@@ -1,0 +1,283 @@
+--------------------------------------------------------------------------------
+Release 9.2i Trace 
+Copyright (c) 1995-2007 Xilinx, Inc.  All rights reserved.
+
+C:\Xilinx92i\bin\nt\trce.exe -ise
+D:/alex/work/USBAER/mapperProba/usbaer_mapper_multichip_multievent_proba_100Mhz-newformat/usbaer_mapper.ise
+-intstyle ise -e 3 -s 6 -xml usb_aer usb_aer.ncd -o usb_aer.twr usb_aer.pcf
+-ucf usb_aer.ucf
+
+Design file:              usb_aer.ncd
+Physical constraint file: usb_aer.pcf
+Device,package,speed:     xc2s200,pq208,-6 (PRODUCTION 1.27 2007-04-13)
+Report level:             error report
+
+Environment Variable      Effect 
+--------------------      ------ 
+NONE                      No environment variables were set
+--------------------------------------------------------------------------------
+
+INFO:Timing:2698 - No timing constraints found, doing default enumeration.
+INFO:Timing:2752 - To get complete path coverage, use the unconstrained paths 
+   option. All paths that are not constrained will be reported in the 
+   unconstrained paths section(s) of the report.
+INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on 
+   a 50 Ohm transmission line loading model.  For the details of this model, 
+   and for more information on accounting for different loading conditions, 
+   please see the device datasheet.
+
+
+
+Data Sheet report:
+-----------------
+All values displayed in nanoseconds (ns)
+
+Setup/Hold to clock clk
+---------------+------------+------------+------------------+--------+
+               |  Setup to  |  Hold to   |                  | Clock  |
+Source         | clk (edge) | clk (edge) |Internal Clock(s) | Phase  |
+---------------+------------+------------+------------------+--------+
+aer_in_data<0> |    2.868(R)|   -1.363(R)|Clk100            |   0.000|
+aer_in_data<1> |    2.876(R)|   -1.371(R)|Clk100            |   0.000|
+aer_in_data<2> |    2.876(R)|   -1.371(R)|Clk100            |   0.000|
+aer_in_data<3> |    2.868(R)|   -1.363(R)|Clk100            |   0.000|
+aer_in_data<4> |    2.868(R)|   -1.363(R)|Clk100            |   0.000|
+aer_in_data<5> |    2.876(R)|   -1.371(R)|Clk100            |   0.000|
+aer_in_data<6> |    2.876(R)|   -1.371(R)|Clk100            |   0.000|
+aer_in_data<7> |    2.868(R)|   -1.363(R)|Clk100            |   0.000|
+aer_in_data<8> |    2.868(R)|   -1.363(R)|Clk100            |   0.000|
+aer_in_data<9> |    2.876(R)|   -1.371(R)|Clk100            |   0.000|
+aer_in_data<10>|    2.868(R)|   -1.363(R)|Clk100            |   0.000|
+aer_in_data<11>|    2.868(R)|   -1.363(R)|Clk100            |   0.000|
+aer_in_data<12>|    2.868(R)|   -1.363(R)|Clk100            |   0.000|
+aer_in_data<13>|    2.868(R)|   -1.363(R)|Clk100            |   0.000|
+aer_in_data<14>|    2.876(R)|   -1.371(R)|Clk100            |   0.000|
+aer_in_data<15>|    2.868(R)|   -1.363(R)|Clk100            |   0.000|
+aer_in_req_l   |    2.825(R)|   -1.320(R)|Clk100            |   0.000|
+aer_out_ack_l  |    2.790(R)|   -1.285(R)|Clk100            |   0.000|
+micro_control  |    2.820(R)|   -1.315(R)|Clk100            |   0.000|
+micro_data<0>  |    3.923(R)|   -3.021(R)|Clk100            |   0.000|
+micro_data<1>  |    4.465(R)|   -3.346(R)|Clk100            |   0.000|
+micro_data<2>  |    4.801(R)|   -3.283(R)|Clk100            |   0.000|
+micro_data<3>  |    4.462(R)|   -3.207(R)|Clk100            |   0.000|
+micro_data<4>  |    4.219(R)|   -3.456(R)|Clk100            |   0.000|
+micro_data<5>  |    4.976(R)|   -3.596(R)|Clk100            |   0.000|
+micro_data<6>  |    5.135(R)|   -4.325(R)|Clk100            |   0.000|
+micro_data<7>  |    4.278(R)|   -3.531(R)|Clk100            |   0.000|
+micro_prog     |    2.868(R)|   -1.363(R)|Clk100            |   0.000|
+micro_rw       |    2.790(R)|   -1.285(R)|Clk100            |   0.000|
+micro_vdata    |    2.868(R)|   -1.363(R)|Clk100            |   0.000|
+sram_data<16>  |    6.162(R)|   -4.644(R)|Clk100            |   0.000|
+sram_data<17>  |    7.069(R)|   -2.787(R)|Clk100            |   0.000|
+sram_data<18>  |    8.847(R)|   -3.677(R)|Clk100            |   0.000|
+sram_data<19>  |    7.006(R)|   -2.861(R)|Clk100            |   0.000|
+sram_data<20>  |    7.063(R)|   -3.028(R)|Clk100            |   0.000|
+sram_data<24>  |    9.397(R)|   -5.442(R)|Clk100            |   0.000|
+sram_data<25>  |   10.601(R)|   -6.546(R)|Clk100            |   0.000|
+sram_data<26>  |    9.505(R)|   -5.550(R)|Clk100            |   0.000|
+sram_data<27>  |   10.577(R)|   -6.522(R)|Clk100            |   0.000|
+sram_data<28>  |    9.154(R)|   -5.199(R)|Clk100            |   0.000|
+sram_data<29>  |    8.682(R)|   -4.627(R)|Clk100            |   0.000|
+sram_data<30>  |    9.324(R)|   -5.369(R)|Clk100            |   0.000|
+sram_data<31>  |    9.284(R)|   -5.229(R)|Clk100            |   0.000|
+---------------+------------+------------+------------------+--------+
+
+Clock clk to Pad
+----------------+------------+------------------+--------+
+                | clk (edge) |                  | Clock  |
+Destination     |   to PAD   |Internal Clock(s) | Phase  |
+----------------+------------+------------------+--------+
+address<0>      |   16.227(R)|Clk100            |   0.000|
+address<1>      |   13.761(R)|Clk100            |   0.000|
+address<2>      |   15.529(R)|Clk100            |   0.000|
+address<3>      |   13.926(R)|Clk100            |   0.000|
+address<4>      |   14.285(R)|Clk100            |   0.000|
+address<5>      |   13.258(R)|Clk100            |   0.000|
+address<6>      |   13.718(R)|Clk100            |   0.000|
+address<7>      |   14.019(R)|Clk100            |   0.000|
+address<8>      |   14.331(R)|Clk100            |   0.000|
+address<9>      |   12.847(R)|Clk100            |   0.000|
+address<10>     |   15.609(R)|Clk100            |   0.000|
+address<11>     |   13.903(R)|Clk100            |   0.000|
+address<12>     |   15.631(R)|Clk100            |   0.000|
+address<13>     |   14.697(R)|Clk100            |   0.000|
+address<14>     |   15.066(R)|Clk100            |   0.000|
+address<15>     |   15.710(R)|Clk100            |   0.000|
+address<16>     |   15.029(R)|Clk100            |   0.000|
+address<17>     |   16.050(R)|Clk100            |   0.000|
+address<18>     |   15.477(R)|Clk100            |   0.000|
+aer_in_ack_l    |   10.716(R)|Clk100            |   0.000|
+aer_out_data<0> |   10.886(R)|Clk100            |   0.000|
+aer_out_data<1> |   10.645(R)|Clk100            |   0.000|
+aer_out_data<2> |   10.711(R)|Clk100            |   0.000|
+aer_out_data<3> |   10.154(R)|Clk100            |   0.000|
+aer_out_data<4> |   11.647(R)|Clk100            |   0.000|
+aer_out_data<5> |   11.647(R)|Clk100            |   0.000|
+aer_out_data<6> |   11.055(R)|Clk100            |   0.000|
+aer_out_data<7> |   11.055(R)|Clk100            |   0.000|
+aer_out_data<8> |   11.032(R)|Clk100            |   0.000|
+aer_out_data<9> |   11.055(R)|Clk100            |   0.000|
+aer_out_data<10>|   11.397(R)|Clk100            |   0.000|
+aer_out_data<11>|   11.835(R)|Clk100            |   0.000|
+aer_out_data<12>|   10.618(R)|Clk100            |   0.000|
+aer_out_data<13>|   10.645(R)|Clk100            |   0.000|
+aer_out_data<14>|   10.536(R)|Clk100            |   0.000|
+aer_out_data<15>|   10.499(R)|Clk100            |   0.000|
+aer_out_req_l   |    8.773(R)|Clk100            |   0.000|
+led<0>          |   13.405(R)|Clk100            |   0.000|
+led<1>          |   13.054(R)|Clk100            |   0.000|
+led<2>          |   12.564(R)|Clk100            |   0.000|
+micro_busy      |    9.929(R)|Clk100            |   0.000|
+micro_data<0>   |   13.168(R)|Clk100            |   0.000|
+micro_data<1>   |   12.968(R)|Clk100            |   0.000|
+micro_data<2>   |   12.403(R)|Clk100            |   0.000|
+micro_data<3>   |   12.329(R)|Clk100            |   0.000|
+micro_data<4>   |   12.658(R)|Clk100            |   0.000|
+micro_data<5>   |   12.569(R)|Clk100            |   0.000|
+micro_data<6>   |   12.738(R)|Clk100            |   0.000|
+micro_data<7>   |   12.658(R)|Clk100            |   0.000|
+sram_data<0>    |   12.439(R)|Clk100            |   0.000|
+sram_data<1>    |   12.439(R)|Clk100            |   0.000|
+sram_data<2>    |   12.359(R)|Clk100            |   0.000|
+sram_data<3>    |   12.179(R)|Clk100            |   0.000|
+sram_data<4>    |   11.777(R)|Clk100            |   0.000|
+sram_data<5>    |   11.777(R)|Clk100            |   0.000|
+sram_data<6>    |   12.028(R)|Clk100            |   0.000|
+sram_data<7>    |   12.028(R)|Clk100            |   0.000|
+sram_data<8>    |   11.579(R)|Clk100            |   0.000|
+sram_data<9>    |   11.579(R)|Clk100            |   0.000|
+sram_data<10>   |   11.118(R)|Clk100            |   0.000|
+sram_data<11>   |   11.309(R)|Clk100            |   0.000|
+sram_data<12>   |   10.270(R)|Clk100            |   0.000|
+sram_data<13>   |   10.743(R)|Clk100            |   0.000|
+sram_data<14>   |   11.402(R)|Clk100            |   0.000|
+sram_data<15>   |   11.079(R)|Clk100            |   0.000|
+sram_data<16>   |   10.284(R)|Clk100            |   0.000|
+sram_data<17>   |   10.284(R)|Clk100            |   0.000|
+sram_data<18>   |   10.598(R)|Clk100            |   0.000|
+sram_data<19>   |   10.598(R)|Clk100            |   0.000|
+sram_data<20>   |   11.671(R)|Clk100            |   0.000|
+sram_data<21>   |   11.671(R)|Clk100            |   0.000|
+sram_data<22>   |   11.568(R)|Clk100            |   0.000|
+sram_data<23>   |   11.568(R)|Clk100            |   0.000|
+sram_data<24>   |   12.130(R)|Clk100            |   0.000|
+sram_data<25>   |   12.105(R)|Clk100            |   0.000|
+sram_data<26>   |   12.130(R)|Clk100            |   0.000|
+sram_data<27>   |   12.001(R)|Clk100            |   0.000|
+sram_data<28>   |   14.109(R)|Clk100            |   0.000|
+sram_data<29>   |   14.099(R)|Clk100            |   0.000|
+sram_data<30>   |   13.393(R)|Clk100            |   0.000|
+sram_data<31>   |   13.247(R)|Clk100            |   0.000|
+sram_oe_l       |   13.095(R)|Clk100            |   0.000|
+sram_we_l<0>    |   16.027(R)|Clk100            |   0.000|
+sram_we_l<1>    |   15.100(R)|Clk100            |   0.000|
+sram_we_l<2>    |   14.379(R)|Clk100            |   0.000|
+sram_we_l<3>    |   13.215(R)|Clk100            |   0.000|
+----------------+------------+------------------+--------+
+
+Clock to Setup on destination clock clk
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+clk            |    9.286|         |         |         |
+---------------+---------+---------+---------+---------+
+
+Pad to Pad
+---------------+----------------+---------+
+Source Pad     |Destination Pad |  Delay  |
+---------------+----------------+---------+
+micro_data<0>  |sram_data<0>    |    7.814|
+micro_data<0>  |sram_data<8>    |    9.145|
+micro_data<0>  |sram_data<16>   |    8.317|
+micro_data<0>  |sram_data<24>   |    8.935|
+micro_data<1>  |sram_data<1>    |    7.895|
+micro_data<1>  |sram_data<9>    |    8.976|
+micro_data<1>  |sram_data<17>   |   10.637|
+micro_data<1>  |sram_data<25>   |   11.099|
+micro_data<2>  |sram_data<2>    |    7.639|
+micro_data<2>  |sram_data<10>   |    8.639|
+micro_data<2>  |sram_data<18>   |    8.302|
+micro_data<2>  |sram_data<26>   |    9.976|
+micro_data<3>  |sram_data<3>    |    7.939|
+micro_data<3>  |sram_data<11>   |   10.544|
+micro_data<3>  |sram_data<19>   |   10.514|
+micro_data<3>  |sram_data<27>   |   10.594|
+micro_data<4>  |sram_data<4>    |    9.257|
+micro_data<4>  |sram_data<12>   |   10.533|
+micro_data<4>  |sram_data<20>   |    7.703|
+micro_data<4>  |sram_data<28>   |    8.369|
+micro_data<5>  |sram_data<5>    |   10.840|
+micro_data<5>  |sram_data<13>   |    9.999|
+micro_data<5>  |sram_data<21>   |    7.545|
+micro_data<5>  |sram_data<29>   |    7.726|
+micro_data<6>  |sram_data<6>    |   10.146|
+micro_data<6>  |sram_data<14>   |    9.241|
+micro_data<6>  |sram_data<22>   |    8.552|
+micro_data<6>  |sram_data<30>   |    9.909|
+micro_data<7>  |sram_data<7>    |    9.229|
+micro_data<7>  |sram_data<15>   |    8.293|
+micro_data<7>  |sram_data<23>   |    8.291|
+micro_data<7>  |sram_data<31>   |    9.250|
+sram_data<0>   |aer_out_data<0> |    7.339|
+sram_data<0>   |micro_data<0>   |   12.925|
+sram_data<1>   |aer_out_data<1> |    6.863|
+sram_data<1>   |micro_data<1>   |   13.463|
+sram_data<2>   |aer_out_data<2> |    7.424|
+sram_data<2>   |micro_data<2>   |   12.506|
+sram_data<3>   |aer_out_data<3> |    6.823|
+sram_data<3>   |micro_data<3>   |   12.237|
+sram_data<4>   |aer_out_data<4> |    9.372|
+sram_data<4>   |micro_data<4>   |   14.714|
+sram_data<5>   |aer_out_data<5> |    9.515|
+sram_data<5>   |micro_data<5>   |   14.479|
+sram_data<6>   |aer_out_data<6> |    9.523|
+sram_data<6>   |micro_data<6>   |   15.005|
+sram_data<7>   |aer_out_data<7> |    9.834|
+sram_data<7>   |micro_data<7>   |   15.326|
+sram_data<8>   |aer_out_data<8> |    9.476|
+sram_data<8>   |micro_data<0>   |   15.837|
+sram_data<9>   |aer_out_data<9> |    9.022|
+sram_data<9>   |micro_data<1>   |   15.725|
+sram_data<10>  |aer_out_data<10>|    8.570|
+sram_data<10>  |micro_data<2>   |   14.850|
+sram_data<11>  |aer_out_data<11>|    9.016|
+sram_data<11>  |micro_data<3>   |   13.875|
+sram_data<12>  |aer_out_data<12>|    8.058|
+sram_data<12>  |micro_data<4>   |   13.882|
+sram_data<13>  |aer_out_data<13>|    8.890|
+sram_data<13>  |micro_data<5>   |   13.794|
+sram_data<14>  |aer_out_data<14>|    8.354|
+sram_data<14>  |micro_data<6>   |   13.583|
+sram_data<15>  |aer_out_data<15>|    8.575|
+sram_data<15>  |micro_data<7>   |   14.209|
+sram_data<16>  |micro_data<0>   |   13.099|
+sram_data<17>  |micro_data<1>   |   11.890|
+sram_data<18>  |micro_data<2>   |   12.516|
+sram_data<19>  |micro_data<3>   |   12.092|
+sram_data<20>  |micro_data<4>   |   10.710|
+sram_data<21>  |micro_data<5>   |   10.441|
+sram_data<22>  |micro_data<6>   |   10.119|
+sram_data<23>  |micro_data<7>   |    9.908|
+sram_data<24>  |micro_data<0>   |   11.926|
+sram_data<25>  |micro_data<1>   |   13.945|
+sram_data<26>  |micro_data<2>   |   11.878|
+sram_data<27>  |micro_data<3>   |   13.370|
+sram_data<28>  |micro_data<4>   |   11.749|
+sram_data<29>  |micro_data<5>   |   10.776|
+sram_data<30>  |micro_data<6>   |   11.035|
+sram_data<31>  |micro_data<7>   |   11.160|
+---------------+----------------+---------+
+
+
+Analysis completed Tue Sep 30 10:16:47 2008 
+--------------------------------------------------------------------------------
+
+Trace Settings:
+-------------------------
+Trace Settings 
+
+Peak Memory Usage: 69 MB
+
+
+

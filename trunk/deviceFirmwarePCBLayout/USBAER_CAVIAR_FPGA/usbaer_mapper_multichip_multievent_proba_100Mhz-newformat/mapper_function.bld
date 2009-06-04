@@ -1,0 +1,23 @@
+Release 7.1.02i ngdbuild H.40
+Copyright (c) 1995-2005 Xilinx, Inc.  All rights reserved.
+
+Command Line: ngdbuild -intstyle ise -dd
+c:\usu\eii\caviar\endesarrollo\usbaer_mapper_multichip_multievent_proba/_ngo -nt
+timestamp -i -p xc2s200-pq208-6 mapper_function.ngc mapper_function.ngd 
+
+Reading NGO file
+'C:/usu/eii/caviar/EnDesarrollo/usbaer_mapper_multichip_multievent_proba/mapper_
+function.ngc' ...
+
+Checking timing specifications ...
+Checking expanded design ...
+
+NGDBUILD Design Results Summary:
+  Number of errors:     0
+  Number of warnings:   0
+
+Total memory usage is 59864 kilobytes
+
+Writing NGD file "mapper_function.ngd" ...
+
+Writing NGDBUILD log file "mapper_function.bld"...
