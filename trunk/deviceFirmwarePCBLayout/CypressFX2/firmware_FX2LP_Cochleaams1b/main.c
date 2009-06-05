@@ -80,7 +80,7 @@ ports a,b,c,d are bit addressable, e is byte addressable
 we have available and wired to CPLD the following ports
 
 PC3-0
-FD8-15 which is the same as PD8-0 if the FIFO are configured as byte-wide (WORDWIDE in all EPxFIFOCFG registers)
+FD15-8 which is the same as PD7-0 if the FIFO are configured as byte-wide (WORDWIDE in all EPxFIFOCFG registers)
 PE6-0 (PE7 is is wired from chip scanner sync directly to FX2)
 
 following are sfr and sbit definitions from header files
@@ -942,18 +942,23 @@ BOOL DR_VendorCmnd(void)
 					SYNCDELAY;
 					while(EP0CS & bmEPBUSY);  // spin here until data arrives
 					// sends value=CMD_SETBIT, index=portbit with (port(b=0,d=1,e=2)<<8)|bitmask(e.g. 00001000) in MSB/LSB, byte[0]=value (1,0)
+					// also if button is tristable type in GUI, then byte[0] has tristate in bit1
 					{
 						bit bitval=(EP0BUF[0]&1); // 1=set, 0=clear
+						bit tristate=(EP0BUF[0]&2?1:0); // 1=tristate, 0=drive
 						unsigned char bitmask=SETUPDAT[4]; // bitmaskit mask, LSB of ind
 						switch(SETUPDAT[5]){ // this is port, MSB of ind
 							case 0: // port c
 								if(bitval) IOC|=bitmask; else IOC&= ~bitmask;
+								if(tristate) OEC&= ~bitmask; else OEC|=bitmask; 
 							break;
 							case 1: // port d
 								if(bitval) IOD|=bitmask; else IOD&= ~bitmask;
+								if(tristate) OED&= ~bitmask; else OED|=bitmask; 
 							break;
 							case 2: // port e
 								if(bitval) IOE|=bitmask; else IOE&= ~bitmask;
+								if(tristate) OEE&= ~bitmask; else OEE|=bitmask; 
 							break;
 							default:
 								return TRUE; // error
