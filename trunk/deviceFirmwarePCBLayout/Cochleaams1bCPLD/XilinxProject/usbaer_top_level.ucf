@@ -66,7 +66,8 @@ NET "DataSel"  LOC = "P14" | IOSTANDARD = LVCMOS33 ;
 NET "BiasGenSel"  LOC = "P32" | IOSTANDARD = LVCMOS33 ;
 NET "AddSel"  LOC = "P33" | IOSTANDARD = LVCMOS33 ;
 NET "AERKillBit"  LOC = "P17" | IOSTANDARD = LVCMOS33 ;
-NET "ScanClk"  LOC = "P18" | IOSTANDARD = LVCMOS33 ; #error Vreset and Scanclk swapped
+#NET "ScanClk"  LOC = "P18" | IOSTANDARD = LVCMOS33 ; #error Vreset and Scanclk swapped on rev0 bd, fixed on rev1
+NET "ScanClk"  LOC = "P93" | IOSTANDARD = LVCMOS33 ; #error Vreset and Scanclk swapped on rev0 bd, fixed on rev1
 NET "SelIn"  LOC = "P19" | IOSTANDARD = LVCMOS33 ;
 NET "Ybit"  LOC = "P29" | IOSTANDARD = LVCMOS33 ;
 NET "Selaer"  LOC = "30" | IOSTANDARD = LVCMOS33 ;
@@ -91,7 +92,8 @@ NET "PC1"  LOC = "P96" | IOSTANDARD = LVCMOS33 ;
 NET "PC2"  LOC = "P95" | IOSTANDARD = LVCMOS33 ;
 NET "PC3"  LOC = "P94" | IOSTANDARD = LVCMOS33 ;
 NET "Configclock"  LOC = "P91" | IOSTANDARD = LVCMOS33 ;
-NET "Vreset"  LOC = "P93" | IOSTANDARD = LVCMOS33 ; #error Vreset and Scanclk swapped
+#NET "Vreset"  LOC = "P93" | IOSTANDARD = LVCMOS33 ; #error Vreset and Scanclk swapped on ports between sheets in rev0 of the board, swapped back in rev1 so swapped back here too.
+NET "Vreset"  LOC = "P18" | IOSTANDARD = LVCMOS33 ; #error Vreset and Scanclk swapped on ports between sheets in rev0 of the board, swapped back in rev1 so swapped back here too.
 NET "DACBitIn"  LOC = "P73" | IOSTANDARD = LVCMOS33 ;
 NET "DACnSYNC"  LOC = "P74" | IOSTANDARD = LVCMOS33 ;
 NET "DACClk"  LOC = "P76" | IOSTANDARD = LVCMOS33 ;
