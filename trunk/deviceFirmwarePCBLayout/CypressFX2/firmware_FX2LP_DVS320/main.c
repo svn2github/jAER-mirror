@@ -1,7 +1,7 @@
 #pragma NOIV               // Do not generate interrupt vectors
 //-----------------------------------------------------------------------------
 //   File:      main.c
-//   Description: FX2LP firmware for the TCVS320 retina chip   
+//   Description: FX2LP firmware for the TCVS320/DVS320 retina chip   
 //
 // created: 1/2008, cloned from tmpdiff128 stereo board firmware
 // Revision: 0.01 
