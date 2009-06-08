@@ -1,6 +1,0 @@
-AR program_ram behavioral D:/alex/work/USBAER/mapperProba/usbaer_mapper_multichip_multievent_proba_100Mhz-newformat/program_ram.vhd sub00/vhpl01 1222762566
-AR usb_aer behavioral D:/alex/work/USBAER/mapperProba/usbaer_mapper_multichip_multievent_proba_100Mhz-newformat/usb_aer.vhd sub00/vhpl05 1222762570
-EN program_ram NULL D:/alex/work/USBAER/mapperProba/usbaer_mapper_multichip_multievent_proba_100Mhz-newformat/program_ram.vhd sub00/vhpl00 1222762565
-EN mapper_function NULL D:/alex/work/USBAER/mapperProba/usbaer_mapper_multichip_multievent_proba_100Mhz-newformat/Mapper_function.vhd sub00/vhpl02 1222762567
-EN usb_aer NULL D:/alex/work/USBAER/mapperProba/usbaer_mapper_multichip_multievent_proba_100Mhz-newformat/usb_aer.vhd sub00/vhpl04 1222762569
-AR mapper_function behavioral D:/alex/work/USBAER/mapperProba/usbaer_mapper_multichip_multievent_proba_100Mhz-newformat/Mapper_function.vhd sub00/vhpl03 1222762568

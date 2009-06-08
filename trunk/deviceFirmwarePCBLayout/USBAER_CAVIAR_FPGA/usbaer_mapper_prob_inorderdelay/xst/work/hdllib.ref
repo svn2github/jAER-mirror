@@ -1,8 +1,0 @@
-EN fifo_delay NULL D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/FIFO_delay.vhd sub00/vhpl06 1222685620
-AR program_ram behavioral D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/program_ram.vhd sub00/vhpl01 1222685623
-AR usb_aer behavioral D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/usb_aer.vhd sub00/vhpl05 1222685627
-EN program_ram NULL D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/program_ram.vhd sub00/vhpl00 1222685622
-EN mapper_function NULL D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/Mapper_function.vhd sub00/vhpl02 1222685624
-AR fifo_delay a D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/FIFO_delay.vhd sub00/vhpl07 1222685621
-EN usb_aer NULL D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/usb_aer.vhd sub00/vhpl04 1222685626
-AR mapper_function behavioral D:/alex/work/USBAER/mapperProba/usbaer_mapper_prob_inorderdelay/Mapper_function.vhd sub00/vhpl03 1222685625
