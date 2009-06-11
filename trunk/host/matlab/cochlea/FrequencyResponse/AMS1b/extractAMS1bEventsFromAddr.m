@@ -1,4 +1,4 @@
-function [chan, neuron, filterType, side] = extractCochleaEventsFromAddrAMS1b( addr )
+function [chan, neuron, filterType, side] = extractAMS1bEventsFromAddr( addr )
 %EXTRACTCOCHLEAEVENTSFROMADDRAMS1B Summary of this function goes here
 
 %each channel has 2 banks of neurons, one from SOS, one from bpf output of SOS
