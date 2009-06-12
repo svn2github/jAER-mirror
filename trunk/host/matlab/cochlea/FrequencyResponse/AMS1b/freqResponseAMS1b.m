@@ -38,7 +38,7 @@ if doRecord
 			fprintf(u,['startlogging ' pwd '\Recording\' calibrationname '\Freq' num2str(indFrequency) 'Vol ' num2str(indVolume) '.dat']);
 			fprintf('%s',fscanf(u));
             pause(0.5);
-            fprintf('playing now sine wave with %d Hz and %d volume, %d measurments left \n', frequencies(indFrequency), volumes(indVolume), (length(frequencies)-indFrequency)*length(volumes)-indVolume);
+            fprintf('playing now sine wave with %d Hz and %d volume, %d measurments left \n', frequencies(indFrequency), volumes(indVolume), (length(frequencies)-indFrequency+1)*length(volumes)-indVolume);
             sound(signal*volumes(indVolume),Fs);
             pause(signallength+1);
             fprintf(u,'stoplogging');
@@ -66,7 +66,7 @@ if doEvaluate
         for indVolume=1:length(volumes)
             [trialAddr]=loadaerdat([pwd '\Recording\' calibrationname '\Freq' num2str(indFrequency) 'Vol ' num2str(indVolume) '.dat']);
             [trialChan, trialNeuron, trialFilterType, trialSide]=extractAMS1bEventsFromAddr(trialAddr);
-            fprintf('evaluating now %d Hz and %d volume, %d left \n', frequencies(indFrequency), volumes(indVolume), (length(frequencies)-indFrequency)*length(volumes)-indVolume);
+            fprintf('evaluating now %d Hz and %d volume, %d left \n', frequencies(indFrequency), volumes(indVolume), (length(frequencies)-indFrequency+1)*length(volumes)-indVolume);
             for chan=1:numOfCochleaChannels
                 for neuron=1:4
                     for side=1:2

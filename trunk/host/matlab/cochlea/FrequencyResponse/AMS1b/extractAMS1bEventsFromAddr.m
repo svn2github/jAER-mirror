@@ -28,8 +28,8 @@ shftChan=2;
 maskNeur=768;
 shftNeur=8;
 
-filterType=double(bitshift(bitand(addr,maskFilt),-shftFilt));
-side=double(bitshift(bitand(addr,maskSide),-shftSide));
+filterType=1+double(bitshift(bitand(addr,maskFilt),-shftFilt));
+side=1+double(bitshift(bitand(addr,maskSide),-shftSide));
 chan=1+double(bitshift(bitand(addr,maskChan),-shftChan));
 neuron=1+double(bitshift(bitand(addr,maskNeur),-shftNeur));
 
