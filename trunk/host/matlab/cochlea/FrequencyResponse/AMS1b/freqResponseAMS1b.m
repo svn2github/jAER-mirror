@@ -5,8 +5,8 @@ function [ freqResponse ] = freqResponseAMS1b( calibrationname, frequencies, vol
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Otherwise:
 %calibrationname is a string used for the foldername to store the files
-%frequencies is a vector containing the frequencies to test (in Hz)
-%volumes is a vector containing the volume levels to play
+%frequencies is a vector containing the frequencies to test in Hz. Example: 10.^(2:0.2:4)
+%volumes is a vector containing the volume levels to play. Example: 0.1:0.1:0.4)
 %signallength is the playtime of every frequency (in seconds)
 %doRecord=0 -> don't record
 %doEvaluate=0 -> don't evaluate the frequencies
