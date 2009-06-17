@@ -285,7 +285,7 @@
                   <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAADdwQAAAADdAA7bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0ADRuZXQuc2YuamFlci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlJlcGV0aXRpb3VzRmlsdGVydAAxY2gudW5pemguaW5pLmphZXIucHJvamVjdHMuY29jaHNvdW5kbG9jLklUREZpbHRlcng="/>
                   <entry key="CorrelatorFilter.filterEnabled" value="true"/>
                   <entry key="CorrelatorFilter.display" value="true"/>
-                  <entry key="ITDFilter.filterEnabled" value="true"/>
+                  <entry key="ITDFilter.filterEnabled" value="false"/>
                   <entry key="ITDFilter.numOfCochleaChannels" value="64"/>
                   <entry key="ITDFilter.display" value="false"/>
                   <entry key="AEChip.subSamplingEnabled" value="false"/>
@@ -327,7 +327,7 @@
                   <entry key="SubSampler.bits" value="1"/>
                   <entry key="SubSampler.filterEnabled" value="false"/>
                   <entry key="BufferIPot.value" value="50"/>
-                  <entry key="RepetitiousFilter.filterEnabled" value="true"/>
+                  <entry key="RepetitiousFilter.filterEnabled" value="false"/>
                   <entry key="CochleaCrossCorrelator.filterEnabled" value="false"/>
                   <entry key="CochleaAMS1b.IPot.Vcas" value="0"/>
                   <entry key="CochleaAMS1b.IPot.pdbiasTX" value="15872213"/>
@@ -540,7 +540,7 @@
                   <entry key="CochleaAMS1b.VPot.Vbias1x" value="2205"/>
                   <entry key="CochleaAMS1b.VPot.Vthbpf1x" value="1616"/>
                   <entry key="CochleaAMS1b.VPot.Vioffbpfn" value="0"/>
-                  <entry key="CochleaAMS1b.VPot.NeuronVleak" value="2304"/>
+                  <entry key="CochleaAMS1b.VPot.NeuronVleak" value="2292"/>
                   <entry key="CochleaAMS1b.VPot.DCOutputLevel" value="1884"/>
                   <entry key="CochleaAMS1b.VPot.Vthbpf2x" value="108"/>
                   <entry key="CochleaAMS1b.VPot.DACSpOut2" value="662"/>
@@ -551,7 +551,7 @@
                   <entry key="CochleaAMS1b.VPot.Vrefn2" value="800"/>
                   <entry key="CochleaAMS1b.VPot.Vq" value="2343"/>
                   <entry key="CochleaAMS1b.VPot.Vcassyni" value="0"/>
-                  <entry key="CochleaAMS1b.VPot.Vgain" value="2061"/>
+                  <entry key="CochleaAMS1b.VPot.Vgain" value="2021"/>
                   <entry key="CochleaAMS1b.VPot.Vrefn" value="851"/>
                   <entry key="CochleaAMS1b.VPot.VAI0" value="2420"/>
                   <entry key="CochleaAMS1b.VPot.Vdd1" value="1777"/>
@@ -709,7 +709,7 @@
                   <entry key="CochleaAMS1b.Biasgen.Equalizer.EqualizerChannel.118.bpfkilled" value="false"/>
                   <entry key="CochleaAMS1b.Biasgen.Equalizer.EqualizerChannel.94.bpfkilled" value="false"/>
                   <entry key="CochleaAMS1b.Biasgen.BitConfig.powerDown" value="false"/>
-                  <entry key="CochleaAMS1b.Biasgen.Scanner.continuousScanningEnabled" value="false"/>
+                  <entry key="CochleaAMS1b.Biasgen.Scanner.continuousScanningEnabled" value="true"/>
                   <entry key="CochleaAMS1b.Biasgen.BitConfig.resCtrBit1" value="false"/>
                   <entry key="CochleaAMS1b.Biasgen.BitConfig.resCtrBit2" value="false"/>
                   <entry key="CochleaAMS1b.VPot.BiasDACBufferNBias" value="948"/>
@@ -722,6 +722,7 @@
                   <entry key="RepetitiousFilter.passRepetitiousEvents" value="false"/>
                   <entry key="RepetitiousFilter.ratioLonger" value="2"/>
                   <entry key="RepetitiousFilter.ratioShorter" value="2"/>
+                  <entry key="RepetitiousFilter.averagingSamples" value="3"/>
                 </map>
               </node>
             </node>
