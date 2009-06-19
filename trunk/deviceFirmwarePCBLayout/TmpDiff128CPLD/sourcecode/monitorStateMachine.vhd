@@ -33,6 +33,9 @@ entity monitorStateMachine is
     AERREQxABI     : in  std_logic;
     AERACKxSBO     : out std_logic;
 
+    -- fifo full flag
+    FifoInFullxSBI             : in  std_logic;
+
     -- enable register write
     RegWritexEO   : out std_logic;
 
@@ -42,7 +45,7 @@ entity monitorStateMachine is
 end monitorStateMachine;
 
 architecture Behavioral of monitorStateMachine is
-  type state is (stIdle, stWaitEvent, stWriteReg, stWaitREQrls);
+  type state is (stIdle, stWaitEvent, stWriteReg, stWaitREQrls, stMissedEvent);
 
   -- present and next state
   signal StatexDP, StatexDN : state;
@@ -71,7 +74,10 @@ begin
           StatexDN     <= stWaitEvent;
         end if;
       when stWaitEvent =>
-        if EventReadyxSI = '1' then     -- the fifostatemachine still hasn't
+        if FifoInFullxSBI ='0' and AERREQxSB ='0' then  -- drop events when
+                                                        -- fifo is full
+          StatexDN <= stMissedEvent;
+        elsif EventReadyxSI = '1' then     -- the fifostatemachine still hasn't
                                         -- read the last event, so we have to wait
           StatexDN     <= stWaitEvent;
         elsif AERREQxSB = '0' then
@@ -93,13 +99,24 @@ begin
       when stWaitREQrls =>              -- wait until the AER device releases
                                         -- the REQ line so we can release the
                                         -- ACK line
+        
         AERACKxSBO <= '0';
 
         if AERREQxSB = '1' then
+   
             StatexDN   <= stWaitEvent;
             --AERACKxSBO <= '1';          -- release ack as soon as possible
+   
         end if;
-  
+        
+   
+      when stMissedEvent =>
+        AERACKxSBO        <= '0';  -- ack events as long as fifo full
+
+        if AERREQxSB = '1' then
+          StatexDN     <= stWaitEvent;
+        end if;
+
       when others => null;
     end case;
   end process p_memless;

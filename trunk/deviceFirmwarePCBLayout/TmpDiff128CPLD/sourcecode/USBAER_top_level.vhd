@@ -117,6 +117,7 @@ architecture Structural of USBAER_top_level is
       RunxSI               : in  std_logic;
       AERREQxABI           : in  std_logic;
       AERACKxSBO           : out std_logic;
+      FifoInFullxSBI : in std_logic;
       RegWritexEO   : out std_logic;
       SetEventReadyxSO     : out std_logic;
       EventReadyxSI        : in  std_logic);
@@ -359,6 +360,7 @@ begin
       RunxSI               => RunMonitorxS,
       AERREQxABI           => AERMonitorREQxABI,
       AERACKxSBO           => AERMonitorACKxSB,
+      FifoInFullxSBI => FifoInFullxSBI,
       RegWritexEO   => MonitorRegWritexE,
       SetEventReadyxSO     => SetMonitorEventReadyxS,
       EventReadyxSI        => MonitorEventReadyxS);
@@ -387,8 +389,8 @@ begin
   LEDxSO  <= TimestampMasterxS;
   --LEDxSO <= FifoTransactionxS;
   
-  Debug1xSO <= ActualTimestampxD(0);
-  Debug2xSO <= ActualTimestampxD(1);
+  Debug1xSO <= AERMonitorREQxABI;
+  Debug2xSO <= AERMonitorACKxSB;
   
   TimestampMasterxSO <= TimestampMasterxS;
 

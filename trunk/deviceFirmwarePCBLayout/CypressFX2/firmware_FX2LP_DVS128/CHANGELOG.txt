@@ -1,5 +1,6 @@
 DVS 128 firmware versions:
 
+0006 cpld drops events while fx2 fifo is full. 19.6.2009, rapha 
 0005 improved biasgen startup and increased firmware bias values. 25.1.2009, tobi
 0004 changed clocking scheme to internal 30MHz on FX2, CPLD is clocked from IFclock, 
      because we had a board that did not work reliably with the 48MHz clocking, 12.1.2009, rapha
