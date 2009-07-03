@@ -101,7 +101,7 @@ end
 
 if doFit
     %figure()
-    FWHMscaling=2*sqrt(2*log(2)); %full width at half maximum
+    FWHMscaling=sqrt(8*log(2)); %full width at half maximum
     bandwidthScaling=sqrt(8*log(sqrt(2)));
     Ampl=zeros(length(volumes),2,4,numOfCochleaChannels);
     Mu=zeros(length(volumes),2,4,numOfCochleaChannels);
