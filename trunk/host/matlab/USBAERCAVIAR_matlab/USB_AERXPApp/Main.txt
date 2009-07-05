@@ -1,0 +1,105 @@
+object MainForm: TMainForm
+  Left = 214
+  Top = 112
+  Width = 409
+  Height = 249
+  Caption = 'MainForm'
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  PixelsPerInch = 96
+  TextHeight = 13
+  Menu = MainMenu
+  object MainMenu: TMainMenu
+    Left = 220
+    Top = 40
+    object FileMenu: TMenuItem
+      Caption = '&File'
+      object FileNewItem: TMenuItem
+        Caption = '&New'
+        Hint = 'Create a new file'
+        OnClick = FileNew
+      end
+      object FileOpenItem: TMenuItem
+        Caption = '&Open...'
+        Hint = 'Open an existing file'
+        OnClick = FileOpen
+      end
+      object FileSaveItem: TMenuItem
+        Caption = '&Save'
+        Hint = 'Save current file'
+        OnClick = FileSave
+      end
+      object FileSaveAsItem: TMenuItem
+        Caption = 'Save &As...'
+        Hint = 'Save current file under a new name'
+        OnClick = FileSaveAs
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object FilePrintItem: TMenuItem
+        Caption = '&Print'
+        Hint = 'Print current file'
+        OnClick = FilePrint
+      end
+      object FilePrintSetupItem: TMenuItem
+        Caption = 'P&rint Setup...'
+        Hint = 'Change printer setup'
+        OnClick = FilePrintSetup
+      end
+      object N4: TMenuItem
+        Caption = '-'
+      end
+      object FileExitItem: TMenuItem
+        Caption = 'E&xit'
+        Hint = 'Exit this application'
+        OnClick = FileExit
+      end
+    end
+    object HelpMenu: TMenuItem
+      Caption = '&Help'
+      object HelpContentsItem: TMenuItem
+        Caption = '&Contents'
+        Hint = 'Display the help contents screen'
+        OnClick = HelpContents
+      end
+      object HelpSearchItem: TMenuItem
+        Caption = '&Search for Help On...'
+        Hint = 'Search help file for a topic'
+        OnClick = HelpSearch
+      end
+      object HelpHowToUseItem: TMenuItem
+        Caption = '&How to Use Help'
+        Hint = 'Help on using the help system'
+        OnClick = HelpHowToUse
+      end
+      object N3: TMenuItem
+        Caption = '-'
+      end
+      object HelpAboutItem: TMenuItem
+        Caption = '&About...'
+        Hint = 'Show program information'
+        OnClick = HelpAbout
+      end
+    end
+  end
+  object OpenDialog: TOpenDialog
+    Filter = 'Binary File|bin'
+    Left = 230
+    Top = 87
+  end
+  object SaveDialog: TSaveDialog
+    Filter = 'Binary File|bin'
+    Left = 204
+    Top = 125
+  end
+  object PrintDialog: TPrintDialog
+    Left = 262
+    Top = 127
+  end
+  object PrintSetupDialog: TPrinterSetupDialog
+    Left = 276
+    Top = 93
+  end
+end
