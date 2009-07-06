@@ -137,7 +137,7 @@ if doFit
                         Sigma(indVolume,side,neuron,chan)=cfun.c1;
                         FWHM(indVolume,side,neuron,chan)=FWHMscaling*cfun.c1;
                         bandwidth(indVolume,side,neuron,chan)=bandwidthScaling*cfun.c1;
-                        Q(indVolume,side,neuron,chan)=MaxResponse(indVolume,side,neuron,chan)/FWHM(indVolume,side,neuron,chan);
+                        Q(indVolume,side,neuron,chan)=MaxResponseAtFreq(indVolume,side,neuron,chan)/FWHM(indVolume,side,neuron,chan);
 %                         fitgauss=cfun.a1*exp(-((xaxis-cfun.b1)/cfun.c1).^2);
 %                         plot(frequencies,fitgauss,'g');
 %                         hold on;
