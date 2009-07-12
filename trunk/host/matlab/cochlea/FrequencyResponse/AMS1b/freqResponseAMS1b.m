@@ -57,7 +57,7 @@ if doRecord
 end
 
 if doEvaluate
-    freqResponse=cell(4,2,2,length(volumes)); % Neuron, FilterType, Side
+    freqResponse=cell(4,2,length(volumes)); % Neuron, Side, volumes
     for neuron=1:4
         for side=1:2
             for indVolume=1:length(volumes)
