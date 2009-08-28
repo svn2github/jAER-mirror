@@ -1,2 +1,2 @@
-D:\SimpleMonitorUSBXPress\Device\MonitorModified\USB_API.LIB,
-D:\SimpleMonitorUSBXPress\Device\MonitorModified\USB_Polling_Main.obj  TO D:\SimpleMonitorUSBXPress\Device\MonitorModified\USBAEMon RS(256) PL(68) PW(78) 
+"C:\streamingSimpleMonitorFirmwareWithSync\USB_API.LIB",
+"C:\streamingSimpleMonitorFirmwareWithSync\USB_Polling_Main.obj"  TO "C:\streamingSimpleMonitorFirmwareWithSync\USBAEMon" RS(256) PL(68) PW(78) 

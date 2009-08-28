@@ -2,6 +2,10 @@
 
 monitors address-events (AEs) captured using C8051F320 directly on Anton Civit's group's small USB board.
 
+This version includes a sync bit functionality for
+generating a synthetic address on e.g., function generator input: for experiments using
+externally generated LED inputs.
+
  on USB open from host, events are transmitted to host continuously, 
  are buffered in the host USBXPress USB driver (up to 64k=16kEvents) and are acquired into matlab with
  the usbaemon.dll matlab mex file.
@@ -141,6 +145,8 @@ unsigned char code SerialNumberStr[]={12,0x03,'1',0,'0',0,'0',0,'0',0,'2',0};
 	#define LedBlueOn() LedBlue=0;
 	#define LedBlueOff() LedBlue=1;
 	#define LedBlueToggle() LedBlue=!LedBlue;
+	sbit	SYNCBIT=P2^6; 	// special sync input bit - on this TestchipARCs pixel array test chip, we use a high order AE bit (Y6, AE14) as the external sync input
+
 #else // sevilla board
 	// Note LEDs on prototype small Sevilla board are on MSBs of port 2
 	// this is OK for retina because highest two bits driven from retina are 0 anyhow; only lowest 6 y bits are significant
@@ -176,6 +182,7 @@ unsigned char data lastXmitTime;	// to hold last timestamp, to send buffer even 
 
 //unsigned char	data	state;		//	Current Machine State
 bit isActive;					// bit that is true if USB open and transmitting events
+bit data lastSyncBitValue;	// to hold last value of sync input, when this changes fire off special sync event
 
 void	Port_Init(void);			//	Initialize Ports Pins and Enable Crossbar
 void	Timer_Init(void);			// Init timer to use for spike event times
@@ -193,6 +200,26 @@ void initVariables(void){
 	LedRedOff();			// we're not connected now
 }
 
+// sends a sync address with value 0xFFFF (-1 in int16)
+void sendSync(){
+	BYTE tmp;
+	LedBlueToggle();
+	lastSyncBitValue=SYNCBIT;
+	EA=0;
+	usbCommitByte(0xFF); // send address 0xFFFF for sync
+	usbCommitByte(0xFF);
+	tmp=PCA0L; // read pca counter low byte, this captures entire counter into snapshot register (si labs ref 20.2)
+	usbCommitByte(PCA0H);	// counter MSB, first down pipe
+	usbCommitByte(tmp);	// counter LSB.
+	EA=1;
+}
+
+void checkSync(){
+	if(SYNCBIT!=lastSyncBitValue){
+			if(lastSyncBitValue==0) sendSync();
+			lastSyncBitValue=SYNCBIT;
+	}
+}
 
 //-----------------------------------------------------------------------------
 // Main Routine
@@ -230,6 +257,7 @@ void main(void)
 						usbCommitPacket(); 	// if so just send available events
 					} 
 				}
+				checkSync();
 			}
 			LedGreenOn();	// got req
 		
@@ -252,6 +280,7 @@ void main(void)
 			// but req will be low from the retina and won't go high
 			// because ack is low. therefore we can get stuck here if the retina is powered on after reset. 
 			while(NOTREQ==0){ // wait for req to go high 
+				checkSync();
 				if( TH1==0xFF) {	// while polling req, check if we have wrapped timer1 since last transfer
 					TH1=0;
 					AEByteCounter =0;	// throw away that event
