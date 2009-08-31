@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V5.03              08/31/2009  08:52:40  PAGE 1
+BL51 BANKED LINKER/LOCATER V5.03              08/31/2009  13:40:30  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
@@ -67,63 +67,67 @@ LINK MAP OF MODULE:  C:\streamingSimpleMonitorFirmwareWithSync\USBAEMon (USB_P
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  08:52:40  PAGE 2
+BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  13:40:30  PAGE 2
 
 
             CODE    0003H     0040H     UNIT         ?CO?USB_POLLING_MAIN
             CODE    0043H     0003H     ABSOLUTE     
             CODE    0046H     0033H     UNIT         ?PR?USBCOMMITPACKET?USB_P
 >> OLLING_MAIN
-                    0079H     000AH                  *** GAP ***
+            CODE    0079H     0009H     UNIT         ?PR?CHECKWRAP?USB_POLLING
+>> _MAIN
+                    0082H     0001H                  *** GAP ***
             CODE    0083H     0003H     ABSOLUTE     
             CODE    0086H     0228H     UNIT         ?PR?HANDLE_SETUP?USB_API
             CODE    02AEH     01B1H     UNIT         ?PR?_USB_INIT?USB_API
             CODE    045FH     011AH     UNIT         ?PR?USB_ISR?USB_API
-            CODE    0579H     00D7H     UNIT         ?PR?MAIN?USB_POLLING_MAIN
+            CODE    0579H     00D0H     UNIT         ?PR?MAIN?USB_POLLING_MAIN
 >> 
-            CODE    0650H     00B5H     UNIT         ?PR?VEND_USB_API?USB_API
-            CODE    0705H     00B4H     UNIT         ?PR?_BLOCK_READ?BLOCK_REA
+            CODE    0649H     00B5H     UNIT         ?PR?VEND_USB_API?USB_API
+            CODE    06FEH     00B4H     UNIT         ?PR?_BLOCK_READ?BLOCK_REA
 >> D
-            CODE    07B9H     00B2H     UNIT         ?PR?GET_DESCRIPTOR?USB_AP
+            CODE    07B2H     00B2H     UNIT         ?PR?GET_DESCRIPTOR?USB_AP
 >> I
-            CODE    086BH     0094H     UNIT         ?PR?MY_USB_ISR?USB_POLLIN
+            CODE    0864H     0094H     UNIT         ?PR?MY_USB_ISR?USB_POLLIN
 >> G_MAIN
-            CODE    08FFH     0082H     UNIT         ?C?LIB_CODE
-            CODE    0981H     0075H     UNIT         ?PR?GET_STATUS?USB_API
-            CODE    09F6H     006EH     UNIT         ?PR?USB_SUSPEND?USB_SUSPE
+            CODE    08F8H     0082H     UNIT         ?C?LIB_CODE
+            CODE    097AH     0075H     UNIT         ?PR?GET_STATUS?USB_API
+            CODE    09EFH     006EH     UNIT         ?PR?USB_SUSPEND?USB_SUSPE
 >> ND
-            CODE    0A64H     0068H     UNIT         ?CO?USB_API
-            CODE    0ACCH     005AH     UNIT         ?PR?SET_CONFIGURATION?USB
+            CODE    0A5DH     0068H     UNIT         ?CO?USB_API
+            CODE    0AC5H     005AH     UNIT         ?PR?SET_CONFIGURATION?USB
 >> _API
-            CODE    0B26H     0058H     UNIT         ?PR?CLEAR_FEATURE?USB_API
+            CODE    0B1FH     0058H     UNIT         ?PR?CLEAR_FEATURE?USB_API
 >> 
-            CODE    0B7EH     0057H     UNIT         ?PR?SET_FEATURE?USB_API
-            CODE    0BD5H     0047H     UNIT         ?PR?GET_CONFIGURATION?USB
+            CODE    0B77H     0057H     UNIT         ?PR?SET_FEATURE?USB_API
+            CODE    0BCEH     0047H     UNIT         ?PR?GET_CONFIGURATION?USB
 >> _API
-            CODE    0C1CH     0029H     UNIT         ?PR?USB_RESET?USB_API
-            CODE    0C45H     0027H     UNIT         ?PR?GET_INTERFACE?USB_API
+            CODE    0C15H     0029H     UNIT         ?PR?USB_RESET?USB_API
+            CODE    0C3EH     0027H     UNIT         ?PR?GET_INTERFACE?USB_API
 >> 
-            CODE    0C6CH     0026H     UNIT         ?PR?PORT_INIT?USB_POLLING
+            CODE    0C65H     0026H     UNIT         ?PR?PORT_INIT?USB_POLLING
 >> _MAIN
-            CODE    0C92H     0025H     UNIT         ?PR?SENDSYNC?USB_POLLING_
->> MAIN
-            CODE    0CB7H     0022H     UNIT         ?PR?_USBCOMMITBYTE?USB_PO
+            CODE    0C8BH     0022H     UNIT         ?PR?_USBCOMMITBYTE?USB_PO
 >> LLING_MAIN
-            CODE    0CD9H     0022H     UNIT         ?PR?ASM_SRC?ASM_SRC
-            CODE    0CFBH     0020H     UNIT         ?PR?SET_ADDRESS?USB_API
-            CODE    0D1BH     001DH     UNIT         ?PR?FORCE_STALL?USB_API
-            CODE    0D38H     0019H     UNIT         ?PR?USB_INT_ENABLE?USB_IN
+            CODE    0CADH     0022H     UNIT         ?PR?ASM_SRC?ASM_SRC
+            CODE    0CCFH     0021H     UNIT         ?PR?SENDSYNC?USB_POLLING_
+>> MAIN
+            CODE    0CF0H     0020H     UNIT         ?PR?SET_ADDRESS?USB_API
+            CODE    0D10H     001DH     UNIT         ?PR?FORCE_STALL?USB_API
+            CODE    0D2DH     001BH     UNIT         ?PR?SENDWRAP?USB_POLLING_
+>> MAIN
+            CODE    0D48H     0019H     UNIT         ?PR?USB_INT_ENABLE?USB_IN
 >> T_ENABLE
-            CODE    0D51H     0018H     UNIT         ?PR?TIMER_INIT?USB_POLLIN
+            CODE    0D61H     0018H     UNIT         ?PR?TIMER_INIT?USB_POLLIN
 >> G_MAIN
-            CODE    0D69H     0014H     UNIT         ?PR?SET_SOP?USB_API
-            CODE    0D7DH     0013H     UNIT         ?PR?CHECKSYNC?USB_POLLING
+            CODE    0D79H     0014H     UNIT         ?PR?SET_SOP?USB_API
+            CODE    0D8DH     0013H     UNIT         ?PR?CHECKSYNC?USB_POLLING
 >> _MAIN
-            CODE    0D90H     000EH     UNIT         ?PR?GET_INTERRUPT_SOURCE?
+            CODE    0DA0H     000EH     UNIT         ?PR?GET_INTERRUPT_SOURCE?
 >> GET_INTERRUPT_SOURCE
-            CODE    0D9EH     000DH     UNIT         ?PR?INITVARIABLES?USB_POL
+            CODE    0DAEH     000DH     UNIT         ?PR?INITVARIABLES?USB_POL
 >> LING_MAIN
-            CODE    0DABH     000CH     UNIT         ?C_C51STARTUP
+            CODE    0DBBH     000CH     UNIT         ?C_C51STARTUP
 
 
 
@@ -131,13 +135,13 @@ OVERLAY MAP OF MODULE:   C:\streamingSimpleMonitorFirmwareWithSync\USBAEMon (U
 >> SB_POLLING_MAIN)
 
 
+BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  13:40:30  PAGE 3
+
+
 SEGMENT                                            DATA_GROUP          XDATA_G
 >> ROUP
   +--> CALLED SEGMENT                            START    LENGTH     START    
 >> LENGTH
-BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  08:52:40  PAGE 3
-
-
 ------------------------------------------------------------------------------
 >> ------
 ?PR?MY_USB_ISR?USB_POLLING_MAIN                  0008H    0004H      -----    
@@ -199,13 +203,13 @@ SEGMENT                                            DATA_GROUP          XDATA_G
 ?PR?GET_DESCRIPTOR?USB_API                       -----    -----      -----    
 >> -----
   +--> ?PR?FORCE_STALL?USB_API
+BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  13:40:30  PAGE 4
+
+
   +--> ?PR?SET_SOP?USB_API
 
 ?PR?GET_CONFIGURATION?USB_API                    -----    -----      -----    
 >> -----
-BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  08:52:40  PAGE 4
-
-
   +--> ?CO?USB_API
   +--> ?PR?SET_SOP?USB_API
 
@@ -234,6 +238,7 @@ SEGMENT                                            DATA_GROUP          XDATA_G
   +--> ?PR?USB_INT_ENABLE?USB_INT_ENABLE
   +--> ?PR?USBCOMMITPACKET?USB_POLLING_MAIN
   +--> ?PR?CHECKSYNC?USB_POLLING_MAIN
+  +--> ?PR?CHECKWRAP?USB_POLLING_MAIN
   +--> ?PR?_USBCOMMITBYTE?USB_POLLING_MAIN
 
 ?PR?_USB_INIT?USB_API                            -----    -----      0003H    
@@ -252,12 +257,23 @@ SEGMENT                                            DATA_GROUP          XDATA_G
 >> -----
   +--> ?PR?USBCOMMITPACKET?USB_POLLING_MAIN
 
+?PR?CHECKWRAP?USB_POLLING_MAIN                   -----    -----      -----    
+>> -----
+  +--> ?PR?SENDWRAP?USB_POLLING_MAIN
+
+?PR?SENDWRAP?USB_POLLING_MAIN                    -----    -----      -----    
+>> -----
+  +--> ?PR?_USBCOMMITBYTE?USB_POLLING_MAIN
+
 
 
 SYMBOL TABLE OF MODULE:  C:\streamingSimpleMonitorFirmwareWithSync\USBAEMon (U
 >> SB_POLLING_MAIN)
 
   VALUE           TYPE          NAME
+BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  13:40:30  PAGE 5
+
+
   ----------------------------------
 
   -------         MODULE        USB_POLLING_MAIN
@@ -267,13 +283,11 @@ SYMBOL TABLE OF MODULE:  C:\streamingSimpleMonitorFirmwareWithSync\USBAEMon (U
   D:00A0H         PUBLIC        P2
   D:000EH         PUBLIC        AEByteCounter
   B:00A8H.7       PUBLIC        EA
+  B:00D8H.7       PUBLIC        CF
   B:0080H.4       PUBLIC        LedGreen
   D:00E8H         PUBLIC        ADC0CN
   D:00A4H         PUBLIC        P0MDOUT
   C:0037H         PUBLIC        SerialNumberStr
-BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  08:52:40  PAGE 5
-
-
   D:00A5H         PUBLIC        P1MDOUT
   D:00A8H         PUBLIC        IE
   D:00A6H         PUBLIC        P2MDOUT
@@ -287,10 +301,11 @@ SYMBOL TABLE OF MODULE:  C:\streamingSimpleMonitorFirmwareWithSync\USBAEMon (U
   D:00D8H         PUBLIC        PCA0CN
   D:00B8H         PUBLIC        IP
   D:00E1H         PUBLIC        XBR0
-  C:0C6CH         PUBLIC        Port_Init
+  C:0079H         PUBLIC        checkWrap
+  C:0C65H         PUBLIC        Port_Init
   D:00E2H         PUBLIC        XBR1
-  B:00A0H.6       PUBLIC        SYNCBIT
-  C:0D7DH         PUBLIC        checkSync
+  B:00A0H.7       PUBLIC        SYNCBIT
+  C:0D8DH         PUBLIC        checkSync
   B:0080H.5       PUBLIC        LedBlue
   C:0029H         PUBLIC        ProductStr
   D:00C0H         PUBLIC        SMB0CN
@@ -300,7 +315,7 @@ SYMBOL TABLE OF MODULE:  C:\streamingSimpleMonitorFirmwareWithSync\USBAEMon (U
   D:00F3H         PUBLIC        P2MDIN
   D:00F4H         PUBLIC        P3MDIN
   D:00F8H         PUBLIC        SPI0CN
-  C:0CB7H         PUBLIC        _usbCommitByte
+  C:0C8BH         PUBLIC        _usbCommitByte
   C:0003H         PUBLIC        ManufacturerStr
   B:0080H.3       PUBLIC        LedRed
   D:0089H         PUBLIC        TMOD
@@ -312,260 +327,277 @@ SYMBOL TABLE OF MODULE:  C:\streamingSimpleMonitorFirmwareWithSync\USBAEMon (U
   B:0020H.0       PUBLIC        isActive
   D:00A9H         PUBLIC        CLKSEL
   B:0080H.0       PUBLIC        NOTACK
-  C:0C92H         PUBLIC        sendSync
+  C:0D2DH         PUBLIC        sendWrap
+  C:0CCFH         PUBLIC        sendSync
   D:008CH         PUBLIC        TH0
   D:00FAH         PUBLIC        PCA0H
   D:008DH         PUBLIC        TH1
   D:008AH         PUBLIC        TL0
   D:00F9H         PUBLIC        PCA0L
-  C:0D9EH         PUBLIC        initVariables
+  C:0DAEH         PUBLIC        initVariables
   B:0080H.1       PUBLIC        NOTREQ
-  C:086BH         PUBLIC        My_USB_ISR
+  C:0864H         PUBLIC        My_USB_ISR
   D:00EFH         PUBLIC        RSTSRC
   D:0098H         PUBLIC        SCON0
+BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  13:40:30  PAGE 6
+
+
   D:0010H         PUBLIC        lastXmitTime
   D:008EH         PUBLIC        CKCON
   D:0096H         PUBLIC        USB0ADR
   D:0097H         PUBLIC        USB0DAT
   B:0020H.1       PUBLIC        lastSyncBitValue
-  C:0D51H         PUBLIC        Timer_Init
+  C:0D61H         PUBLIC        Timer_Init
   D:00D0H         PUBLIC        PSW
   -------         PROC          INITVARIABLES
-  C:0D9EH         LINE#         195
-  C:0D9EH         LINE#         196
-  C:0DA3H         LINE#         197
-  C:0DA5H         LINE#         198
-  C:0DA8H         LINE#         200
-  C:0DAAH         LINE#         201
+  C:0DAEH         LINE#         203
+  C:0DAEH         LINE#         204
+  C:0DB3H         LINE#         205
+  C:0DB5H         LINE#         206
+  C:0DB8H         LINE#         208
+  C:0DBAH         LINE#         209
   -------         ENDPROC       INITVARIABLES
   -------         PROC          SENDSYNC
-BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  08:52:40  PAGE 6
-
-
   -------         DO            
   D:000CH         SYMBOL        tsl
   D:000DH         SYMBOL        tsh
   -------         ENDDO         
-  C:0C92H         LINE#         204
-  C:0C92H         LINE#         206
-  C:0C95H         LINE#         207
-  C:0C98H         LINE#         208
-  C:0C9AH         LINE#         209
-  C:0C9EH         LINE#         210
-  C:0CA0H         LINE#         211
-  C:0CA5H         LINE#         212
-  C:0CAAH         LINE#         213
-  C:0CAFH         LINE#         214
-  C:0CB4H         LINE#         215
-  C:0CB6H         LINE#         216
+  C:0CCFH         LINE#         212
+  C:0CCFH         LINE#         214
+  C:0CD2H         LINE#         215
+  C:0CD5H         LINE#         216
+  C:0CD7H         LINE#         217
+  C:0CD9H         LINE#         218
+  C:0CDEH         LINE#         219
+  C:0CE3H         LINE#         220
+  C:0CE8H         LINE#         221
+  C:0CEDH         LINE#         222
+  C:0CEFH         LINE#         223
   -------         ENDPROC       SENDSYNC
+  -------         PROC          SENDWRAP
+  C:0D2DH         LINE#         225
+  C:0D2DH         LINE#         226
+  C:0D2FH         LINE#         227
+  C:0D31H         LINE#         228
+  C:0D36H         LINE#         229
+  C:0D3BH         LINE#         230
+  C:0D40H         LINE#         231
+  C:0D45H         LINE#         232
+  C:0D47H         LINE#         233
+  -------         ENDPROC       SENDWRAP
   -------         PROC          CHECKSYNC
-  C:0D7DH         LINE#         218
-  C:0D7DH         LINE#         219
-  C:0D85H         LINE#         220
-  C:0D8BH         LINE#         221
-  C:0D8FH         LINE#         222
-  C:0D8FH         LINE#         223
+  C:0D8DH         LINE#         235
+  C:0D8DH         LINE#         236
+  C:0D95H         LINE#         237
+  C:0D9BH         LINE#         238
+  C:0D9FH         LINE#         239
+  C:0D9FH         LINE#         240
   -------         ENDPROC       CHECKSYNC
+  -------         PROC          CHECKWRAP
+  C:0079H         LINE#         242
+  C:0079H         LINE#         243
+  C:007CH         LINE#         244
+  C:007EH         LINE#         245
+  C:0081H         LINE#         246
+  C:0081H         LINE#         247
+  -------         ENDPROC       CHECKWRAP
   -------         PROC          MAIN
-  C:0579H         LINE#         233
-  C:0579H         LINE#         234
-  C:0579H         LINE#         235
-  C:057CH         LINE#         242
-  C:05B4H         LINE#         243
-  C:05B7H         LINE#         244
-  C:05BAH         LINE#         245
-  C:05BDH         LINE#         246
-  C:05C0H         LINE#         247
-  C:05C3H         LINE#         248
-  C:05C5H         LINE#         249
-  C:05C7H         LINE#         251
-  C:05C9H         LINE#         252
-  C:05CCH         LINE#         253
-  C:05CCH         LINE#         254
-  C:05CFH         LINE#         255
-  C:05D2H         LINE#         256
-  C:05D7H         LINE#         257
-  C:05E2H         LINE#         258
-  C:05E5H         LINE#         259
-  C:05E5H         LINE#         260
-  C:05E5H         LINE#         261
-  C:05E8H         LINE#         262
-  C:05EAH         LINE#         263
-  C:05ECH         LINE#         265
-  C:05EEH         LINE#         267
-  C:05F0H         LINE#         271
-  C:05F5H         LINE#         272
-  C:05FAH         LINE#         274
-  C:05FFH         LINE#         275
-  C:0604H         LINE#         277
-  C:0606H         LINE#         283
-  C:0609H         LINE#         284
-  C:060CH         LINE#         285
-  C:0611H         LINE#         286
-  C:0614H         LINE#         287
-  C:0618H         LINE#         288
-  C:0618H         LINE#         289
-  C:0618H         LINE#         290
-BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  08:52:40  PAGE 7
+  C:0579H         LINE#         257
+  C:0579H         LINE#         258
+  C:0579H         LINE#         259
+  C:057CH         LINE#         266
+  C:05B4H         LINE#         267
+BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  13:40:30  PAGE 7
 
 
-  C:0618H         LINE#         291
-  C:061AH         LINE#         292
-  C:061CH         LINE#         294
-  C:0624H         LINE#         296
-  C:0627H         LINE#         297
-  C:0627H         LINE#         298
-  C:0629H         LINE#         300
-  C:062CH         LINE#         301
-  C:0631H         LINE#         302
-  C:0634H         LINE#         303
-  C:0636H         LINE#         304
-  C:0638H         LINE#         305
-  C:0638H         LINE#         306
-  C:063AH         LINE#         308
-  C:063CH         LINE#         309
-  C:063EH         LINE#         310
-  C:0641H         LINE#         311
-  C:0646H         LINE#         312
-  C:0649H         LINE#         313
-  C:0649H         LINE#         314
-  C:0649H         LINE#         315
-  C:0649H         LINE#         316
-  C:064BH         LINE#         317
-  C:064DH         LINE#         318
-  C:064DH         LINE#         319
+  C:05B7H         LINE#         268
+  C:05BAH         LINE#         269
+  C:05BDH         LINE#         270
+  C:05C0H         LINE#         271
+  C:05C3H         LINE#         272
+  C:05C5H         LINE#         273
+  C:05C7H         LINE#         275
+  C:05C9H         LINE#         276
+  C:05CCH         LINE#         277
+  C:05CCH         LINE#         278
+  C:05CFH         LINE#         279
+  C:05D2H         LINE#         280
+  C:05D7H         LINE#         281
+  C:05E2H         LINE#         282
+  C:05E5H         LINE#         283
+  C:05E5H         LINE#         284
+  C:05E5H         LINE#         285
+  C:05E8H         LINE#         286
+  C:05EBH         LINE#         287
+  C:05EDH         LINE#         288
+  C:05EFH         LINE#         290
+  C:05F1H         LINE#         292
+  C:05F3H         LINE#         296
+  C:05FBH         LINE#         297
+  C:0600H         LINE#         299
+  C:0605H         LINE#         300
+  C:060AH         LINE#         302
+  C:060CH         LINE#         308
+  C:060FH         LINE#         309
+  C:0612H         LINE#         310
+  C:0615H         LINE#         311
+  C:061AH         LINE#         312
+  C:061DH         LINE#         313
+  C:061DH         LINE#         314
+  C:061DH         LINE#         315
+  C:061DH         LINE#         316
+  C:061FH         LINE#         317
+  C:0621H         LINE#         320
+  C:0623H         LINE#         322
+  C:0626H         LINE#         323
+  C:062BH         LINE#         324
+  C:062EH         LINE#         325
+  C:0630H         LINE#         326
+  C:0632H         LINE#         327
+  C:0632H         LINE#         329
+  C:0634H         LINE#         331
+  C:0636H         LINE#         332
+  C:0638H         LINE#         333
+  C:063BH         LINE#         334
+  C:0640H         LINE#         335
+  C:0643H         LINE#         336
+  C:0643H         LINE#         337
+  C:0643H         LINE#         339
+  C:0643H         LINE#         340
+  C:0645H         LINE#         341
+  C:0647H         LINE#         342
+  C:0647H         LINE#         343
   -------         ENDPROC       MAIN
   -------         PROC          MY_USB_ISR
   -------         DO            
   D:0008H         SYMBOL        INTVAL
   D:0009H         SYMBOL        receivedMsg
   -------         ENDDO         
-  C:086BH         LINE#         324
-  C:0888H         LINE#         327
-  C:088DH         LINE#         330
-  C:0892H         LINE#         331
-  C:0892H         LINE#         332
-  C:089DH         LINE#         334
-  C:08A1H         LINE#         336
-  C:08A1H         LINE#         337
-  C:08A6H         LINE#         338
-  C:08A6H         LINE#         339
-  C:08A9H         LINE#         340
-  C:08ADH         LINE#         342
-  C:08ADH         LINE#         344
-  C:08B2H         LINE#         345
-  C:08B2H         LINE#         346
-  C:08B5H         LINE#         347
-  C:08B5H         LINE#         348
-  C:08BAH         LINE#         349
-  C:08BAH         LINE#         350
-  C:08C0H         LINE#         351
-  C:08C2H         LINE#         352
-  C:08C4H         LINE#         353
-  C:08C6H         LINE#         354
-  C:08C6H         LINE#         355
-  C:08CBH         LINE#         356
-  C:08CBH         LINE#         357
-  C:08CDH         LINE#         358
-  C:08CFH         LINE#         359
-  C:08CFH         LINE#         360
-  C:08D4H         LINE#         365
-  C:08D4H         LINE#         366
-  C:08D6H         LINE#         367
-  C:08D6H         LINE#         368
-  C:08DBH         LINE#         369
-BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  08:52:40  PAGE 8
+  C:0864H         LINE#         348
+  C:0881H         LINE#         351
+BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  13:40:30  PAGE 8
 
 
-  C:08DBH         LINE#         370
-  C:08DEH         LINE#         371
-  C:08E4H         LINE#         372
-  C:08E4H         LINE#         374
+  C:0886H         LINE#         354
+  C:088BH         LINE#         355
+  C:088BH         LINE#         356
+  C:0896H         LINE#         358
+  C:089AH         LINE#         360
+  C:089AH         LINE#         361
+  C:089FH         LINE#         362
+  C:089FH         LINE#         363
+  C:08A2H         LINE#         364
+  C:08A6H         LINE#         366
+  C:08A6H         LINE#         368
+  C:08ABH         LINE#         369
+  C:08ABH         LINE#         370
+  C:08AEH         LINE#         371
+  C:08AEH         LINE#         372
+  C:08B3H         LINE#         373
+  C:08B3H         LINE#         374
+  C:08B9H         LINE#         375
+  C:08BBH         LINE#         376
+  C:08BDH         LINE#         377
+  C:08BFH         LINE#         378
+  C:08BFH         LINE#         379
+  C:08C4H         LINE#         380
+  C:08C4H         LINE#         381
+  C:08C6H         LINE#         382
+  C:08C8H         LINE#         383
+  C:08C8H         LINE#         384
+  C:08CDH         LINE#         389
+  C:08CDH         LINE#         390
+  C:08CFH         LINE#         391
+  C:08CFH         LINE#         392
+  C:08D4H         LINE#         393
+  C:08D4H         LINE#         394
+  C:08D7H         LINE#         395
+  C:08DDH         LINE#         396
+  C:08DDH         LINE#         398
   -------         ENDPROC       MY_USB_ISR
   -------         PROC          TIMER_INIT
-  C:0D51H         LINE#         393
-  C:0D51H         LINE#         394
-  C:0D51H         LINE#         399
-  C:0D54H         LINE#         400
-  C:0D57H         LINE#         401
-  C:0D5AH         LINE#         402
-  C:0D5DH         LINE#         403
-  C:0D60H         LINE#         405
-  C:0D62H         LINE#         406
-  C:0D65H         LINE#         407
-  C:0D68H         LINE#         409
+  C:0D61H         LINE#         417
+  C:0D61H         LINE#         418
+  C:0D61H         LINE#         423
+  C:0D64H         LINE#         424
+  C:0D67H         LINE#         425
+  C:0D6AH         LINE#         426
+  C:0D6DH         LINE#         427
+  C:0D70H         LINE#         429
+  C:0D72H         LINE#         430
+  C:0D75H         LINE#         431
+  C:0D78H         LINE#         433
   -------         ENDPROC       TIMER_INIT
   -------         PROC          PORT_INIT
-  C:0C6CH         LINE#         411
-  C:0C6CH         LINE#         412
-  C:0C6CH         LINE#         443
-  C:0C6FH         LINE#         444
-  C:0C72H         LINE#         457
-  C:0C75H         LINE#         458
-  C:0C78H         LINE#         459
-  C:0C7BH         LINE#         460
-  C:0C7EH         LINE#         463
-  C:0C81H         LINE#         465
-  C:0C83H         LINE#         466
-  C:0C85H         LINE#         472
-  C:0C87H         LINE#         477
-  C:0C8AH         LINE#         482
-  C:0C8CH         LINE#         483
-  C:0C8EH         LINE#         486
-  C:0C91H         LINE#         525
+  C:0C65H         LINE#         435
+  C:0C65H         LINE#         436
+  C:0C65H         LINE#         467
+  C:0C68H         LINE#         468
+  C:0C6BH         LINE#         481
+  C:0C6EH         LINE#         482
+  C:0C71H         LINE#         483
+  C:0C74H         LINE#         484
+  C:0C77H         LINE#         487
+  C:0C7AH         LINE#         489
+  C:0C7CH         LINE#         490
+  C:0C7EH         LINE#         496
+  C:0C80H         LINE#         501
+  C:0C83H         LINE#         506
+BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  13:40:30  PAGE 9
+
+
+  C:0C85H         LINE#         507
+  C:0C87H         LINE#         510
+  C:0C8AH         LINE#         549
   -------         ENDPROC       PORT_INIT
   -------         PROC          _USBCOMMITBYTE
   D:0007H         SYMBOL        dat
-  C:0CB7H         LINE#         531
-  C:0CB7H         LINE#         533
-  C:0CB7H         LINE#         534
-  C:0CBFH         LINE#         535
-  C:0CC1H         LINE#         536
-  C:0CCBH         LINE#         537
-  C:0CCDH         LINE#         538
-  C:0CD5H         LINE#         539
-  C:0CD5H         LINE#         540
-  C:0CD8H         LINE#         541
-  C:0CD8H         LINE#         542
+  C:0C8BH         LINE#         555
+  C:0C8BH         LINE#         557
+  C:0C8BH         LINE#         558
+  C:0C93H         LINE#         559
+  C:0C95H         LINE#         560
+  C:0C9FH         LINE#         561
+  C:0CA1H         LINE#         562
+  C:0CA9H         LINE#         563
+  C:0CA9H         LINE#         564
+  C:0CACH         LINE#         565
+  C:0CACH         LINE#         566
   -------         ENDPROC       _USBCOMMITBYTE
   -------         PROC          USBCOMMITPACKET
   -------         DO            
   D:0007H         SYMBOL        reg
   -------         ENDDO         
-  C:0046H         LINE#         544
-  C:0046H         LINE#         545
-  C:0046H         LINE#         547
-  C:0048H         LINE#         548
-  C:0053H         LINE#         549
-  C:005EH         LINE#         550
-  C:0060H         LINE#         551
-  C:0060H         LINE#         552
-  C:006FH         LINE#         553
-  C:006FH         LINE#         554
-BL51 BANKED LINKER/LOCATER V5.03            08/31/2009  08:52:40  PAGE 9
-
-
-  C:0073H         LINE#         555
-  C:0078H         LINE#         556
+  C:0046H         LINE#         568
+  C:0046H         LINE#         569
+  C:0046H         LINE#         571
+  C:0048H         LINE#         572
+  C:0053H         LINE#         573
+  C:005EH         LINE#         574
+  C:0060H         LINE#         575
+  C:0060H         LINE#         576
+  C:006FH         LINE#         577
+  C:006FH         LINE#         578
+  C:0073H         LINE#         579
+  C:0078H         LINE#         580
   -------         ENDPROC       USBCOMMITPACKET
   -------         ENDMOD        USB_POLLING_MAIN
 
   -------         MODULE        ?C?CLDPTR
-  C:08FFH         PUBLIC        ?C?CLDPTR
+  C:08F8H         PUBLIC        ?C?CLDPTR
   -------         ENDMOD        ?C?CLDPTR
 
   -------         MODULE        ?C?CLDOPTR
-  C:0918H         PUBLIC        ?C?CLDOPTR
+  C:0911H         PUBLIC        ?C?CLDOPTR
   -------         ENDMOD        ?C?CLDOPTR
 
   -------         MODULE        ?C?IILDX
-  C:0945H         PUBLIC        ?C?IILDX
+  C:093EH         PUBLIC        ?C?IILDX
   -------         ENDMOD        ?C?IILDX
 
   -------         MODULE        ?C?CCASE
-  C:095BH         PUBLIC        ?C?CCASE
+  C:0954H         PUBLIC        ?C?CCASE
   -------         ENDMOD        ?C?CCASE
 
-Program Size: data=18.2 xdata=111 code=3501
+Program Size: data=18.2 xdata=111 code=3526
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -4,7 +4,15 @@ monitors address-events (AEs) captured using C8051F320 directly on Anton Civit's
 
 This version includes a sync bit functionality for
 generating a synthetic address on e.g., function generator input: for experiments using
-externally generated LED inputs.
+externally generated LED inputs.  
+
+The sync is (for historical reasons) on AE15 and only address bits 14:0 are sent; bits
+15 is masked out of the AE address. The sync sends address 0xFFFE.
+
+To handle slow event rates from the device, we also send special timestamp wrap events
+with address 0xFFFF when the timestamp counter wraps. This allows unambigous unwrapping on the host
+since we are guarenteed to know about the wrap, instead of relying on nonmonotonic 16 bit timestamps.
+This option is enabled on the host by an option to the SiLabs java device class 
 
  on USB open from host, events are transmitted to host continuously, 
  are buffered in the host USBXPress USB driver (up to 64k=16kEvents) and are acquired into matlab with
@@ -145,7 +153,7 @@ unsigned char code SerialNumberStr[]={12,0x03,'1',0,'0',0,'0',0,'0',0,'2',0};
 	#define LedBlueOn() LedBlue=0;
 	#define LedBlueOff() LedBlue=1;
 	#define LedBlueToggle() LedBlue=!LedBlue;
-	sbit	SYNCBIT=P2^6; 	// special sync input bit - on this TestchipARCs pixel array test chip, we use a high order AE bit (Y6, AE14) as the external sync input
+	sbit	SYNCBIT=P2^7; 	// special sync input bit - on this TestchipARCs pixel array test chip, we use a high order AE bit (Y6, AE14) as the external sync input
 
 #else // sevilla board
 	// Note LEDs on prototype small Sevilla board are on MSBs of port 2
@@ -206,19 +214,35 @@ void sendSync(){
 	tsl=PCA0L;// read pca counter low byte, this captures entire counter into snapshot register (si labs ref 20.1)
 	tsh=PCA0H;
 	LedBlueToggle();
-	lastSyncBitValue=SYNCBIT;
 	EA=0;
-	usbCommitByte(0xFF); // send address 0xFFFF for sync
-	usbCommitByte(0xFF);
+	usbCommitByte(0xFF); // send address 0xFFFE for sync
+	usbCommitByte(0xFE);
 	usbCommitByte(tsh);	// counter MSB, first down pipe
 	usbCommitByte(tsl);	// counter LSB.
 	EA=1;
 }
 
+void sendWrap(){
+	EA=0;
+	LedRedToggle();
+	usbCommitByte(0xFF); // send address 0xFFFF for wrap
+	usbCommitByte(0xFF);
+	usbCommitByte(0);	// counter MSB, first down pipe TS =0 for wrap event
+	usbCommitByte(0);	// counter LSB.
+	EA=1;
+}
+
 void checkSync(){
 	if(SYNCBIT!=lastSyncBitValue){
-			if(lastSyncBitValue==0) sendSync();
+			if(lastSyncBitValue==0) sendSync(); // sync was low, rising edge sync
 			lastSyncBitValue=SYNCBIT;
+	}
+}
+
+void checkWrap(){
+	if(CF){ // overflow of PCA counter
+		CF=0;
+		sendWrap();
 	}
 }
 
@@ -259,6 +283,7 @@ void main(void)
 					} 
 				}
 				checkSync();
+				checkWrap();
 			}
 			LedGreenOn();	// got req
 		
@@ -268,33 +293,30 @@ void main(void)
 			
 			//note according to C51 compiler specs, shorts are stored big-endian, MSB comes first
 
-			usbCommitByte(P2);	// AE8-15 
-			usbCommitByte(P1);	// AE07
+			usbCommitByte(P2&0x7f);	// AE14:8, with bit 15 masked out 
+			usbCommitByte(P1);	// AE7:0
 
 			usbCommitByte(PCA0CPH0);	// captured PCA counter/timer MSB. This was captured by req low.
 			usbCommitByte(PCA0CPL0);	// timer LSB.
 							
 			EA=1;			// reenable interrupts
 			
-			// if the retina is powered off, then its req will be low (no power). so this code will come here and
+			// if the device is powered off, then its req will be low (no power). so this code will come here and
 			// will have lowered ack and stored a bogus address. now it will wait for req to go high. 
-			// but req will be low from the retina and won't go high
-			// because ack is low. therefore we can get stuck here if the retina is powered on after reset. 
+			// but req will be low from the device and won't go high
+			// because ack is low. therefore we can get stuck here if the device is powered on after reset. 
 			while(NOTREQ==0){ // wait for req to go high 
 				checkSync();
+				checkWrap();
 				if( TH1==0xFF) {	// while polling req, check if we have wrapped timer1 since last transfer
 					TH1=0;
-					AEByteCounter =0;	// throw away that event
 					break;			// break from possibly infinite loop. this will raise ack
 				}
 			}
 			NOTACK=1;	// raise acknowledge, completing handshake
 			LedGreenOff();	// got req
 
-			if(AEByteCounter==MAX_PACKET_SIZE){
-				// when we have collected buffer, initiate transfer
-				usbCommitPacket();
-			}
+
 		}else{	// isActive is false, USB not open, just handshake
 			// plain handshake cycle is about 1+/-0.2us
 			while(NOTREQ==1) { // wait for !req low
@@ -303,6 +325,7 @@ void main(void)
 					NOTACK=0;
 					NOTACK=1;	// toggle ack an extra time in case we are stuck
 				}
+				
 			}
 		
 			LedGreenOn(); 	// !req received
@@ -312,6 +335,7 @@ void main(void)
 					TH1=0;
 					break;			// break from possibly infinite loop
 				}
+				
 			}
 			NOTACK=1;	// raise acknowledge, completing handshake
 			LedGreenOff();
