@@ -202,15 +202,16 @@ void initVariables(void){
 
 // sends a sync address with value 0xFFFF (-1 in int16)
 void sendSync(){
-	BYTE tmp;
+	BYTE tsl, tsh;
+	tsl=PCA0L;// read pca counter low byte, this captures entire counter into snapshot register (si labs ref 20.1)
+	tsh=PCA0H;
 	LedBlueToggle();
 	lastSyncBitValue=SYNCBIT;
 	EA=0;
 	usbCommitByte(0xFF); // send address 0xFFFF for sync
 	usbCommitByte(0xFF);
-	tmp=PCA0L; // read pca counter low byte, this captures entire counter into snapshot register (si labs ref 20.2)
-	usbCommitByte(PCA0H);	// counter MSB, first down pipe
-	usbCommitByte(tmp);	// counter LSB.
+	usbCommitByte(tsh);	// counter MSB, first down pipe
+	usbCommitByte(tsl);	// counter LSB.
 	EA=1;
 }
 
