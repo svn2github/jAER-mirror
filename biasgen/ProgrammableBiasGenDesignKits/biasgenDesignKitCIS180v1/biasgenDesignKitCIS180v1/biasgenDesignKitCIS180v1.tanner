@@ -1,0 +1,7 @@
+workspace loadfrom -path .
+cell open -design biasgenDesignKitCIS180v1 -cell biasgen -type schematic -newwindow
+window move -left 110 -top 145 -width 1298 -height 607 -undock -normal 
+window fit -x0 -3742 -y0 -3509 -x1 21754 -y1 7773 -units iu
+workspace dockinglayout load -file {.\dockinglayout.xml}
+source open.design -relativeto user
+source open.design -relativeto design
