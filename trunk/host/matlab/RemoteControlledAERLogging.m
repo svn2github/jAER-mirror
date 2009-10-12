@@ -21,5 +21,5 @@ fprintf(u,'stoplogging')
 fclose(u);
 delete(u);
 clear u
-
+pause(0.5)
 [a,t]=loadaerdat(filename);
