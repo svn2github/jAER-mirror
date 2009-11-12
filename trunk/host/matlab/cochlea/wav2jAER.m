@@ -35,6 +35,7 @@ pause(0.1);
 soundsc(signal,Fs);
 pause(length(signal)/Fs);
 
+pause(0.1);
 fprintf(u,'stoplogging');   % send the command
 fprintf('%s',fscanf(u)); % print the response
 
