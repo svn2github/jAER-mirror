@@ -97,9 +97,21 @@ else
     [chan, neuron, filterType, side] = extractAMS1bEventsFromAddr( allAddr );
 end
 
+if (length(chan)~=length(side) || length(chan)~=length(neuron))
+    bins=zeros(1,numOfBins,numOfChannels);
+    disp('Error in dta dimensions!!');
+    return;
+end
+
+%% Treat special case of overflow of timestamps
+if (allTs(end)<allTs(1))
+    overflow=find(allTs(1:end-1)-allTs(2:end));
+    allTs(overflow+1:end)=allTs(overflow+1:end)+(2^32-allTs(1));
+    allTs(1:overflow)=allTs(1:overflow)-allTs(1);
+end
 
 %% initialize some variables:
-if ~isempty(allTs)
+if length(chan)>1
     newTs=allTs(1):dt*1e6:allTs(end)+dt*1e6;
     bins=zeros(length(newTs),numOfBins,numOfChannels);
     totaltimesteps=length(newTs);
