@@ -1,5 +1,14 @@
 /* 	copyright Tobi Delbruck 11.11.09
 
+tobi 17.11.2009 -
+Setup AEMonitor.wsp is for SiLabs IDE 3.8 with USBXPress 3.1.1. This setup will not work with previous versions of USBXPress,
+which used a single .lib for all controllers. Now the included lib is USBX_F320_1.LIB.
+Added USB_Clock_Init.
+Changed USB_Init to set VID explicitly.
+Changed host side code (in <jAER>/host/java/jars/SiLabsNativeWindows according to USBXPress 3.x spec.
+
+
+
 This firmware is for DVS128_PAER_PCB_2009 board by Angel Jimenez Fernandez with Tobi Delbruck
 designed in Zurich Oct 2009. This board is intended for AER system use of the DVS128.
 The SiLabs supplies bias values to the DVS128 and sniffs the AER bus to send to the PC
@@ -256,8 +265,9 @@ void main(void)
 	*/
 	
 	//void USB_Init (int VendorID, int ProductID, uchar *ManufacturerStr,uchar *ProductStr, uchar *SerialNumberStr, byte MaxPower, byte PwAttributes, uint bcdDevice)
-	USB_Init (0, 0xEA61, ManufacturerStr, ProductStr, SerialNumberStr,30,0x80,0x0100);
-	// very important, USB_Init should be called AFTER config() so that USB clock is setup correctly. 
+	USB_Clock_Start();
+	USB_Init (0x10C4, 0xEA61, ManufacturerStr, ProductStr, SerialNumberStr,30,0x80,0x0100);
+	// USB_Init should be called AFTER config() so that USB clock is setup correctly. 
 	//Config doesn't deal with USB at all.
 
 	CLKSEL |= 0x02;		// system clock 24MHz (48MHz USB/2)
