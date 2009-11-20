@@ -1,14 +1,15 @@
 function [allAddr,allTs]=loadaerdat(file);
 %function [allAddr,allTs]=loadaerdat(file);
 % loads events from a .dat file.
-% allAddr are int16 raw addresses.
-% allTs are int32 timestamps (1 us tick).
-% noarg invocations open file browser dialog (in the case of no input argument) directly create vars allAddr, allTs in
+% allAddr are uint32 (or uint16 for legacy recordings) raw addresses.
+% allTs are uint32 timestamps (1 us tick).
+% noarg invocations open file browser dialog (in the case of no input argument) 
+% and directly create vars allAddr, allTs in
 % base workspace (in the case of no output argument).
 %
 % Header lines starting with '#' are ignored and printed
 %
-% Note: it is possible that the header parser can be fooled if the first
+% It is possible that the header parser can be fooled if the first
 % data byte is the comment character '#'; in this case the header must be
 % manually removed before parsing. Each header line starts with '#' and
 % ends with the hex characters 0x0D 0x0A (CRLF, windows line ending).

@@ -16,7 +16,7 @@ if nargin==0,
 end
 
 if nargin<2,
-    [filename,path,filterindex]=uigetfile('*.dat','Select recorded retina data file');
+    [filename,path,filterindex]=uigetfile('*.dat','Select recorded AER data file');
     if filename==0, return; end
 end
 if nargin==1,
