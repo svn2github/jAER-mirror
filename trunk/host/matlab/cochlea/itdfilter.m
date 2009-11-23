@@ -30,7 +30,18 @@ function [ bins ] = itdfilter(varargin)
 %
 %   NUMOFCHANNELS - The number of cochlea channels (default: 64)
 %
+%   SPIKES - A structure containing the AER data
+%
+%   ALLADDR - the addresses of the spikes (must be used with ALLTS)
+%
+%   ALLTS - the timestamps of the spikes (must be used with ALLADDR)
+%
 %   USEWEIGHTING - 1 to weight silence before spikes or 0 for no weighting
+%
+%   PLOT - 1 to plot the resulting bin histograms or 0 for no plot
+%
+%   CHANNELMASK - a vector of length NUMOFCHANNELS with a 1 at the positions 
+%   of the channels which shall be used.
 %
 %   Author: Holger Finger
 %
@@ -45,10 +56,15 @@ dimLastTs=4;
 maxWeightTime=4000;
 numOfChannels=64;
 numOfNeurons=4;
+useWeighting=1;
+doPlot=1;
+channelmask=ones(1,64);
 
 %% parse properties:
 datFileName=[];
 spikes=[];
+allAddr=[];
+allTs=[];
 if nargin > 0
     for arg = 1:2:(nargin - 1)
         switch lower(varargin{arg})
@@ -74,8 +90,16 @@ if nargin > 0
                 numOfNeurons=varargin{arg + 1};
             case 'spikes'
                 spikes=varargin{arg + 1};
+            case 'alladdr'
+                allAddr=varargin{arg + 1};
+            case 'allts'
+                allTs=varargin{arg + 1};
             case 'useweighting'
                 useWeighting=varargin{arg + 1};
+            case 'plot'
+                doPlot=varargin{arg + 1};
+            case 'channelmask'
+                channelmask=varargin{arg + 1};
             otherwise
                 error('Invalid property. Type ''help itdfilter''for information about available properties.');
         end
@@ -89,10 +113,12 @@ if ~isempty(spikes)
     neuron=spikes.neuron;
     side=spikes.side;
 else
-    if ~isempty(datFileName)
-        [allAddr,allTs]=loadaerdat(datFileName);
-    else
-        [allAddr,allTs]=loadaerdat;
+    if isempty(allAddr) || isempty(allTs)
+        if ~isempty(datFileName)
+            [allAddr,allTs]=loadaerdat(datFileName);
+        else
+            [allAddr,allTs]=loadaerdat;
+        end
     end
     [chan, neuron, filterType, side] = extractAMS1bEventsFromAddr( allAddr );
 end
@@ -103,15 +129,16 @@ if (length(chan)~=length(side) || length(chan)~=length(neuron))
     return;
 end
 
-%% Treat special case of overflow of timestamps
-if (allTs(end)<allTs(1))
-    overflow=find(allTs(1:end-1)-allTs(2:end));
-    allTs(overflow+1:end)=allTs(overflow+1:end)+(2^32-allTs(1));
-    allTs(1:overflow)=allTs(1:overflow)-allTs(1);
-end
-
 %% initialize some variables:
 if length(chan)>1
+    
+    %% Treat special case of overflow of timestamps
+    if (allTs(end)<allTs(1))
+        overflow=find(allTs(1:end-1)-allTs(2:end));
+        allTs(overflow+1:end)=allTs(overflow+1:end)+(2^32-allTs(1));
+        allTs(1:overflow)=allTs(1:overflow)-allTs(1);
+    end
+    
     newTs=allTs(1):dt*1e6:allTs(end)+dt*1e6;
     bins=zeros(length(newTs),numOfBins,numOfChannels);
     totaltimesteps=length(newTs);
@@ -137,71 +164,73 @@ if length(chan)>1
         
         %% iterate over all spikes which occured in the last interval dt
         while currentT <= newTs(i)
-            otherside=3-side(indexTs);
-            
-            %% compute the ITD to all spikes from all 4 neurons of other side
-            for compare2neuron=1:numOfNeurons
-                cursor=lastTsCursor(chan(indexTs),compare2neuron,otherside);
+            if channelmask(chan(indexTs))==1
+                otherside=3-side(indexTs);
                 
-                %% this is a do...while loop in which the ITDs are computed:
-                dowhile = true;
-                while (cursor~=lastTsCursor(chan(indexTs),compare2neuron,otherside)) || dowhile
-                    dowhile = false;
+                %% compute the ITD to all spikes from all 4 neurons of other side
+                for compare2neuron=1:numOfNeurons
+                    cursor=lastTsCursor(chan(indexTs),compare2neuron,otherside);
                     
-                    %% compute the time difference
-                    diff=int32(allTs(indexTs)-lastTs(chan(indexTs),compare2neuron,otherside,cursor));
-                    
-                    %% if reaching an ITD which is too big then interrupt
-                    if abs(diff) > maxITD
+                    %% this is a do...while loop in which the ITDs are computed:
+                    dowhile = true;
+                    while (cursor~=lastTsCursor(chan(indexTs),compare2neuron,otherside)) || dowhile
+                        dowhile = false;
+                        
+                        %% compute the time difference
+                        diff=int32(allTs(indexTs)-lastTs(chan(indexTs),compare2neuron,otherside,cursor));
+                        
+                        %% if reaching an ITD which is too big then interrupt
+                        if abs(diff) > maxITD
+                            cursor = 1+mod(cursor,dimLastTs);
+                            continue;
+                            %break;
+                        end
+                        %% make ITD negative depending on side:
+                        if (side(indexTs) == 1)
+                            diff = -diff;
+                        end
+                        
+                        %% Compute the weight for this ITD:
+                        lastWeight = 1;
+                        if useWeighting
+                            weightTimeThisSide = currentT - lastTs(chan(indexTs),neuron(indexTs),side(indexTs),lastTsCursor(chan(indexTs),neuron(indexTs),side(indexTs)));
+                            if (weightTimeThisSide > maxWeightTime)
+                                weightTimeThisSide = maxWeightTime;
+                            end
+                            lastWeight = lastWeight * (((weightTimeThisSide * (maxWeight - 1)) / maxWeightTime) + 1);
+                            weightTimeOtherSide = lastTs(chan(indexTs),compare2neuron,otherside,cursor) - lastTs(chan(indexTs),compare2neuron,otherside,1+mod(cursor,dimLastTs));
+                            if (weightTimeOtherSide > maxWeightTime)
+                                weightTimeOtherSide = maxWeightTime;
+                            end
+                            lastWeight = lastWeight * (((weightTimeOtherSide * (maxWeight - 1)) / maxWeightTime) + 1);
+                            if (weightTimeOtherSide < 0 || weightTimeThisSide < 0)
+                                lastWeight = 0;
+                            end
+                        end
+                        
+                        %% compute index of the corresponding bin:
+                        indexBin=1+round(((diff + maxITD) * (numOfBins-1)) / (2 * maxITD));
+                        
+                        %% Add the ITD to the histogram with the weight:
+                        if averagingDecay==0
+                            bins(i+1,indexBin,chan(indexTs))=bins(i+1,indexBin,chan(indexTs))+lastWeight;
+                        else
+                            bins(i+1,indexBin,chan(indexTs))=bins(i+1,indexBin,chan(indexTs))+lastWeight*exp( double(currentT - newTs(i)) / (1e6*averagingDecay) );
+                        end
+                        
                         cursor = 1+mod(cursor,dimLastTs);
-                        continue;
-                        %break;
                     end
-                    %% make ITD negative depending on side:
-                    if (side(indexTs) == 1)
-                        diff = -diff;
-                    end
-                    
-                    %% Compute the weight for this ITD:
-                    lastWeight = 1;
-                    if useWeighting
-                        weightTimeThisSide = currentT - lastTs(chan(indexTs),neuron(indexTs),side(indexTs),lastTsCursor(chan(indexTs),neuron(indexTs),side(indexTs)));
-                        if (weightTimeThisSide > maxWeightTime)
-                            weightTimeThisSide = maxWeightTime;
-                        end
-                        lastWeight = lastWeight * (((weightTimeThisSide * (maxWeight - 1)) / maxWeightTime) + 1);
-                        weightTimeOtherSide = lastTs(chan(indexTs),compare2neuron,otherside,cursor) - lastTs(chan(indexTs),compare2neuron,otherside,1+mod(cursor,dimLastTs));
-                        if (weightTimeOtherSide > maxWeightTime)
-                            weightTimeOtherSide = maxWeightTime;
-                        end
-                        lastWeight = lastWeight * (((weightTimeOtherSide * (maxWeight - 1)) / maxWeightTime) + 1);
-                        if (weightTimeOtherSide < 0 || weightTimeThisSide < 0)
-                            lastWeight = 0;
-                        end
-                    end
-                    
-                    %% compute index of the corresponding bin:
-                    indexBin=1+round(((diff + maxITD) * (numOfBins-1)) / (2 * maxITD));
-                    
-                    %% Add the ITD to the histogram with the weight:
-                    if averagingDecay==0
-                        bins(i+1,indexBin,chan(indexTs))=bins(i+1,indexBin,chan(indexTs))+lastWeight;
-                    else
-                        bins(i+1,indexBin,chan(indexTs))=bins(i+1,indexBin,chan(indexTs))+lastWeight*exp( double(currentT - newTs(i)) / (1e6*averagingDecay) );
-                    end
-                    
-                    cursor = 1+mod(cursor,dimLastTs);
                 end
+                
+                %% Now decrement the cursor (circularly)
+                if (lastTsCursor(chan(indexTs),neuron(indexTs),side(indexTs)) == 1)
+                    lastTsCursor(chan(indexTs),neuron(indexTs),side(indexTs)) = dimLastTs+1;
+                end
+                lastTsCursor(chan(indexTs),neuron(indexTs),side(indexTs))=lastTsCursor(chan(indexTs),neuron(indexTs),side(indexTs))-1;
+                
+                %% Add the new timestamp to the list:
+                lastTs(chan(indexTs),neuron(indexTs),side(indexTs),lastTsCursor(chan(indexTs),neuron(indexTs),side(indexTs))) = currentT;
             end
-            
-            %% Now decrement the cursor (circularly)
-            if (lastTsCursor(chan(indexTs),neuron(indexTs),side(indexTs)) == 1)
-                lastTsCursor(chan(indexTs),neuron(indexTs),side(indexTs)) = dimLastTs+1;
-            end
-            lastTsCursor(chan(indexTs),neuron(indexTs),side(indexTs))=lastTsCursor(chan(indexTs),neuron(indexTs),side(indexTs))-1;
-            
-            %% Add the new timestamp to the list:
-            lastTs(chan(indexTs),neuron(indexTs),side(indexTs),lastTsCursor(chan(indexTs),neuron(indexTs),side(indexTs))) = currentT;
             
             %% go to the next spike:
             indexTs = indexTs+1;
@@ -219,9 +248,10 @@ end
 
 %% plot the result:
 binsum=sum(bins,3);
-%surf(linspace(-maxITD,maxITD,numOfBins),newTs,binsum);
-%xlabel('ITD [us]')
-%ylabel('time [us]')
-
+if doPlot
+    surf(linspace(-maxITD,maxITD,numOfBins),newTs,binsum);
+    xlabel('ITD [us]')
+    ylabel('time [us]')
+end
 
 end
