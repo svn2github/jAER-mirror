@@ -93,6 +93,7 @@ HKR,,Icon,,"-20"
 %S_DeviceDescBlank%=_Install, USB\Vid_04B4&Pid_8613
 %S_DeviceDescStereoTmpdiff128%=_Install, USB\Vid_0547&Pid_8703
 %S_DeviceDescDVS128%=_Install, USB\Vid_152A&Pid_8400
+%S_DeviceDescDVS128%=_Install, USB\Vid_152A&Pid_8405
 
 ;******************************************************************************
 ; Install sections x64-based systems
