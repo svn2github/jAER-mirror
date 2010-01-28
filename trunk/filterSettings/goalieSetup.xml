@@ -59,7 +59,7 @@
                   <entry key="TopologyTracker.learningWindowStandardDeviation" value="1.5705884"/>
                   <entry key="TopologyTracker.mapEventsToLearnedTopologyEnabled" value="false"/>
                   <entry key="TopologyTracker.showStatus" value="false"/>
-                  <entry key="Goalie.filterEnabled" value="false"/>
+                  <entry key="Goalie.filterEnabled" value="true"/>
                   <entry key="SubSampler.bits" value="1"/>
                   <entry key="RepetitiousFilter.filterEnabled" value="false"/>
                   <entry key="SubSampler.filterEnabled" value="false"/>
@@ -419,8 +419,8 @@
                                   <entry key="XYTypeFilter.endX" value="128"/>
                                   <entry key="ServoArm.servoLimitLeft" value="0.3455351"/>
                                   <entry key="ServoArm.servoLimitRight" value="0.73499995"/>
-                                  <entry key="ServoArm.learned_k" value="0.00235251"/>
-                                  <entry key="ServoArm.learned_d" value="0.3748425"/>
+                                  <entry key="ServoArm.learned_k" value="0.0023488735"/>
+                                  <entry key="ServoArm.learned_d" value="0.37583855"/>
                                   <entry key="BackgroundActivityFilter.dt" value="8611"/>
                                   <entry key="ServoArm.learningLeftSamplingBoundary" value="0.4653983"/>
                                   <entry key="RectangularClusterTracker.highwayPerspectiveEnabled" value="true"/>
