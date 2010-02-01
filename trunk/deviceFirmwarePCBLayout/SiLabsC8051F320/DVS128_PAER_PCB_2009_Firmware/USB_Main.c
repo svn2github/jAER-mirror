@@ -228,7 +228,7 @@ void usbCommitPacket() // This function is called when we detect a request to wr
 		}
       while(reg & rbInINPRDY); 					// Wait until a new packet can be written.
       AEByteCounter=0;							// Reset the counter
-	  TH1=0;  // reset timer to ensure min packet rate
+	  TH1=0xB2;  // reset timer to 65k-20k so that timer1 counts 20k=10ms to overflow (roughly) to ensure min packet rate
 }
 
 
@@ -288,6 +288,7 @@ void main(void)
 			while(NOTREQ==1) { // wait for !req low
 				if( TF1==1 ){	// while polling req, check if we have wrapped timer1 since last transfer
 					TF1=0;
+					LedUSBToggle();  // flash USB led when timed xfers occur
 					if(AEByteCounter>0){
 						usbCommitPacket(); 	// if so just send available events
 					} 
@@ -627,7 +628,6 @@ void 	My_USB_ISR(void)	interrupt	16
 	if	(INTVAL	&	DEVICE_OPEN)				//	Device opened on host, go to active state to send events
 	{
 		AEByteCounter=0;        // reset the byte counter
-		//NOTACK	=	1;			// start by not acknowledging, so that !req can come in
 		LedUSBOn();				// we're active now
 		isActive=1;
 	}
