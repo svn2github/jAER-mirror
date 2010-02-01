@@ -38,7 +38,7 @@ The current assignements are as follows for the Thesycon PIDs
 0x840F 
 
 0x8410 SimpleAESequencer
-0x8411 
+0x8411 DVS128_PAER
 0x8412 
 0x8413 
 0x8414 
@@ -57,7 +57,7 @@ The current assignements are as follows for the Thesycon PIDs
 
 
 The assignments of VID/PID actually used are scattered over the .inf files in different driver folders. A search 12.5.2009 showed 
-the following. 
+the preceeding. 
 
 Some of the devices predate the licensing and use either the Cypress blank VID 0x04B4 or the SiLabs VID 0x0547.
 The Thesycon VID 0x152a is used for more recent devices.

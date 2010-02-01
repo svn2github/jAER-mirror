@@ -104,6 +104,8 @@ HKR,,Icon,,"-20"
 %S_DeviceDescCochleaAMS%=_Install, USB\Vid_152A&Pid_8405
 ; following device firmware was built in telluride 2008 and is based on silabs C8051f320
 %S_DeviceDescSimpleAESequencer%=_Install, USB\Vid_152A&Pid_8410
+;following device is for Tmpdiff128 chip with SiLabs C8051F3xx on board DVS128_PAER with parallel AER connectors
+%S_DeviceDescDVS128_PAER%=_Install, USB\Vid_152A&Pid_8411
 
 ;******************************************************************************
 ; Install sections x86-based systems
@@ -268,6 +270,7 @@ S_DeviceDescDVS128="DVS128"
 S_DeviceDescDVS320="DVS320"
 S_DeviceDescCochleaAMS="CochleaAMS"
 S_DeviceDescSimpleAESequencer="SimpleAESequencer"
+S_DeviceDescDVS128_PAER="DVS128_PAER"
 
 ; disk name
 S_DiskName="jAER USBAER host driver Thesycon USBIO"
