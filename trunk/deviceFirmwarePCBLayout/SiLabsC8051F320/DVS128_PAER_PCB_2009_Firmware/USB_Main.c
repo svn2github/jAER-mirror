@@ -5,15 +5,15 @@ Setup AEMonitor.wsp is for SiLabs IDE 3.8 with USBXPress 3.1.1. This setup will 
 which used a single .lib for all controllers. Now the included lib is USBX_F320_1.LIB.
 Added USB_Clock_Init.
 Changed USB_Init to set VID explicitly.
-Changed host side code (in <jAER>/host/java/jars/SiLabsNativeWindows according to USBXPress 3.x spec.
-
-
+Changed host side code to use Thesycon USBIO driver. VID/PID are in inf file in drivers/driverUSBIO_Tmpdiff128_USBAERmini2.
 
 This firmware is for DVS128_PAER_PCB_2009 board by Angel Jimenez Fernandez with Tobi Delbruck
 designed in Zurich Oct 2009. This board is intended for AER system use of the DVS128.
 The SiLabs supplies bias values to the DVS128 and sniffs the AER bus to send to the PC
 a subsample of the DVS activity.  Therefore the SiLabs does NOT handshake with the 
-DVS, but only tries to read the address when Request goes low.
+DVS, but only tries to read the address when Request goes low.  Therefore some addresses will not be read
+properly because they change during the read (under heavy activity).
+Risk of race is minimized by caching 2 bytes of address before writing to USB FIFO.
 
 The code directly writes to EP2 with double budffering enabled and avoids the Xram completely.
 
@@ -21,11 +21,9 @@ Monitors address-events (AEs) and controls an on-chip bias
 generator, based on Silicon Labs C8051F320 USB1 microcontroller.
 
  on USB open from host, events are transmitted to host continuously, 
- are buffered in the host USBXPress USB driver (up to 64k=16kEvents) and can be acquired into matlab with
- the java native interface (JNI) DLL through the java class SiLabsC8051F320.java.
-
+ 
  addresses are 16 bits
- timestamps are 16 bit and tick is 2us
+ timestamps are 16 bit and tick is 1us
  
  Because C51 Keil compiler is big-endian (MSB at lower mem 
  addresses) these are transmitted as 
@@ -69,7 +67,7 @@ binary data.
 
 //	Include files
 #include <c8051f320.h>		//	Header file for SiLabs c8051f320  
-#include <stddef.h>			//	Used for NULL pointer definition
+//#include <stddef.h>			//	Used for NULL pointer definition
 #include <INTRINS.H>
 #include "USB_API.h"		//	Header file for USB_API.lib
 #include "Register.h"		//	Header file for the Register definitions
@@ -106,15 +104,19 @@ sbit	BIAS_POWERDOWN=P0^3;	// output, biasgen powerDown input, active high to pow
 sbit	NOTACK	= P0^4;			// input, !ack line, normally output but set as input since we only sniff events here
 sbit	NOTREQ	= P0^5;			// input, !req line
 
-sbit	LedUSB	=	P0^6;	//	USB activity output, LED='1' means ON, outer LED, "L2", indicates control commands, e.g. biases
-sbit	LedAER	=	P0^7;	//	AER activity output, blinks to indicate AER activity or transmission, inner LED, "L1"
+sbit	LedUSB	=	P0^6;	//	this is L2 on DVS128_PAER board. USB activity output, LED='1' means ON, outer LED, "L2", indicates control commands, e.g. biases
+sbit	LedAER	=	P0^7;	//	 this is L1. AER activity output, blinks to indicate AER activity or transmission, inner LED, "L1"
 
 #define LedUSBOn() LedUSB=0;
 #define LedUSBOff()  LedUSB=1;
-#define LedUSBToggle() LedUSB=!LedUSB; 
+#define LedUSBToggle() LedUSB=!LedUSB; // this is L2 on DVS128_PAER board
 #define LedAEROn() LedAER=0;
 #define LedAEROff() LedAER=1;
-#define LedAERToggle() LedAER=!LedAER;
+#define LedAERToggle() LedAER=!LedAER; // this is L1
+
+
+#define VID 0x152a // Thesycon VID
+#define PID 0x8411 // in range owned by jAER
 
 // commands
 
@@ -144,7 +146,8 @@ sbit	LedAER	=	P0^7;	//	AER activity output, blinks to indicate AER activity or t
 
 //unsigned char xdata * data AEPtr;		// pointer to next write location. ptr in data, ptr to xdata
 unsigned short	data AEByteCounter;	// counter of bytes collected
-unsigned char data lastXmitTime;	// to hold last timestamp, to send buffer even before it is full. this is char for just high byte of timer0
+//unsigned char data lastXmitTime;	// to hold last timestamp, to send buffer even before it is full. this is char for just high byte of timer0
+unsigned char p1val, p2val; // to cache port values for stuffing USB fifo
 bit isActive=0;					// bit that is true if USB open and transmitting events
 
 // function prototypes
@@ -173,7 +176,7 @@ code unsigned char biasFlashValues[BIAS_FLASH_SIZE] _at_ BIAS_FLASH_START;  // c
 void initVariables(void){
 	AEByteCounter=0;
 	NOTACK	=	1;	 // not using ACK here (since either req-ack shorted on board or ack comes from external receiver) but set high to avoid open drain pulldown
-	lastXmitTime=TH0;	
+//	lastXmitTime=TH0;	
 
 	BIAS_LATCH=1;  		// bias latch opaque
 	BIAS_POWERDOWN=0;	// powerup biasgen
@@ -192,12 +195,8 @@ void sendWrap(){
 	EA=1;
 }
 
-void checkWrap(){
-	if(CF){ // overflow of PCA counter
-		CF=0;
-		sendWrap();
-	}
-}
+
+#define checkWrap(); if(CF){CF=0;sendWrap();}
 
 // These two routines are added to directly communicate with EP2 in which double buffering is enabled according
 // to the default USB Express configurations
@@ -206,19 +205,20 @@ void checkWrap(){
 void usbCommitByte(unsigned char dat) // This function is called when a request to write data to the FIFO is detected
 
 {
-   AEByteCounter++;  						// Increment our byte counter
    EA=0;									// Disable interrupts
    POLL_WRITE_BYTE(FIFO_EP2, dat); 			// write one byte to EP2
-   EA=1; 									// Enable the Interrupts
+   AEByteCounter++;  						// Increment our byte counter
    if(AEByteCounter==MAX_PACKET_SIZE)		// Checking if the FIFO is full
    {
       usbCommitPacket();					// Submitting a packet to the PC if the FIFO is full
    }
+   EA=1; 									// Enable the Interrupts
 }
 
 void usbCommitPacket() // This function is called when we detect a request to write data to the FIFO
 {
       unsigned char reg; 						
+	//	LedUSBToggle();
 	  EA=0;										// Disable the interrupts
 	  POLL_WRITE_BYTE(INDEX, 2);				// Set up EP2 for communications
       POLL_WRITE_BYTE(EINCSR1, rbInINPRDY);		// Commit the Packet
@@ -228,6 +228,7 @@ void usbCommitPacket() // This function is called when we detect a request to wr
 		}
       while(reg & rbInINPRDY); 					// Wait until a new packet can be written.
       AEByteCounter=0;							// Reset the counter
+	  TH1=0;  // reset timer to ensure min packet rate
 }
 
 
@@ -266,9 +267,7 @@ void main(void)
 	
 	//void USB_Init (int VendorID, int ProductID, uchar *ManufacturerStr,uchar *ProductStr, uchar *SerialNumberStr, byte MaxPower, byte PwAttributes, uint bcdDevice)
 	USB_Clock_Start();
-	USB_Init (0x10C4, 0xEA61, ManufacturerStr, ProductStr, SerialNumberStr,30,0x80,0x0100);
-	// USB_Init should be called AFTER config() so that USB clock is setup correctly. 
-	//Config doesn't deal with USB at all.
+	USB_Init (VID, PID, ManufacturerStr, ProductStr, SerialNumberStr,30,0x80,0x0100); // USBIO Thesycon VID. SiLabs DVS128 PID for Thesycon USBIO driver.
 
 	CLKSEL |= 0x02;		// system clock 24MHz (48MHz USB/2)
 	RSTSRC	|=	0x02;	// power on reset
@@ -287,14 +286,15 @@ void main(void)
 	while (1){
 	if(isActive){
 			while(NOTREQ==1) { // wait for !req low
-				if( TH1==0xFF){	// while polling req, check if we have wrapped timer1 since last transfer
+				if( TF1==1 ){	// while polling req, check if we have wrapped timer1 since last transfer
+					TF1=0;
 					if(AEByteCounter>0){
 						usbCommitPacket(); 	// if so just send available events
 					} 
 				}
 				checkWrap();
 			}
-			LedAEROn();	// got req
+			LedAERToggle();	// got req
 		
 			//NOTACK=0;	// lower acknowledge
 
@@ -310,27 +310,38 @@ void main(void)
 			//note according to C51 compiler specs, shorts are stored big-endian, MSB comes first.
 			// We send the MSB first which are the Y address bits
 
-			usbCommitByte(P1); // AE14:8, with bit 15 masked out, 7 bit y address	
-			usbCommitByte(P2);	// AE7:0 - 7 bit x address + 1 bit polarity (AE0)  // P2
+
+			p1val=P1;
+			p2val=P2;
+
+			usbCommitByte(p1val); // AE14:8, with bit 15 masked out, 7 bit y address	
+			usbCommitByte(p2val);	// AE7:0 - 7 bit x address + 1 bit polarity (AE0)  // P2
 
 			usbCommitByte(PCA0CPH0);	// captured PCA counter/timer MSB. This was captured by req low.
 			usbCommitByte(PCA0CPL0);	// timer LSB.
 							
 			EA=1;			// reenable interrupts
-			
+	
+/*		
+following disabled since we are sniffing (Req shorted to Ack on board)
+
 			// if the device is powered off, then its req will be low (no power). so this code will come here and
 			// will have lowered ack and stored a bogus address. now it will wait for req to go high. 
 			// but req will be low from the device and won't go high
 			// because ack is low. therefore we can get stuck here if the device is powered on after reset. 
 			while(NOTREQ==0){ // wait for req to go high 
 				checkWrap();
-				if( TH1==0xFF) {	// while polling req, check if we have wrapped timer1 since last transfer
-					TH1=0;
+				if( TF1==1 ) {	// while polling req, check if we have wrapped timer1 since last transfer
+					TF1=0;
+					if(AEByteCounter>0){
+						usbCommitPacket(); 	// if so just send available events
+					} 
 					break;			// break from possibly infinite loop. this will raise ack
 				}
 			}
 			//NOTACK=1;	// raise acknowledge, completing handshake
-			LedAEROff();	// got req
+*/
+			//LedAEROff();	// got req
 
 			// measured time from led on to off is 7 to 8 us
 			// measured req low time is 100ns
@@ -340,19 +351,18 @@ void main(void)
 		}else{	// isActive is false, USB not open, just handshake
 			// plain handshake cycle is about 1+/-0.2us
 			while(NOTREQ==1) { // wait for !req low
-				if( TH1==0xFF) {	// while polling req, check if we have wrapped timer1 since last transfer
-					TH1=0;
-					//NOTACK=0;
-					//NOTACK=1;	// toggle ack an extra time in case we are stuck
+				if( TF1==1 ) {	// while polling req, check if we have wrapped timer1 since last transfer
+					TF1=0;
 				}
 				
 			}
 		
 			LedAEROn(); 	// !req received
+			// this firmware does not handshake since it sniffs the addresses
 			//NOTACK=0;	// lower acknowledge
 			while(NOTREQ==0){ // wait for req to go high 
-				if( TH1==0xFF) {	// while polling req, check if we have wrapped timer1 since last transfer
-					TH1=0;
+				if( TF1==1 ) {	// while polling req, check if we have wrapped timer1 since last transfer
+					TF1=0;
 					break;			// break from possibly infinite loop
 				}
 				
@@ -406,6 +416,62 @@ void sendFlashedBiases(){
 	//SPIEN=0;				// disable SPI  -- always enabled so pins don't float
 }
 
+//-----------------------------------------------------------------------------
+// Force_Stall
+//-----------------------------------------------------------------------------
+//
+// Return Value : None
+// Parameters   : None
+//
+// Force a procedural stall to be sent to the host
+//
+//-----------------------------------------------------------------------------
+
+void Force_Stall(void)
+{
+   POLL_WRITE_BYTE(INDEX, 0);
+   POLL_WRITE_BYTE(E0CSR, rbSDSTL);       // Set the send stall bit
+}
+
+
+//-----------------------------------------------------------------------------
+// Fifo_Read
+//-----------------------------------------------------------------------------
+//
+// Return Value : None
+// Parameters   :
+//                1) BYTE addr : target address
+//                2) unsigned int uNumBytes : number of bytes to unload
+//                3) BYTE * pData : read data destination
+//
+// Read from the selected endpoint FIFO
+//
+//-----------------------------------------------------------------------------
+
+void Fifo_Read(BYTE addr, unsigned int uNumBytes, BYTE * pData)
+{
+   int i;
+
+   if (uNumBytes)                         // Check if >0 bytes requested,
+   {
+      USB0ADR = (addr);                   // Set address
+      USB0ADR |= 0xC0;                    // Set auto-read and initiate
+                                          // first read
+
+      // Unload <NumBytes> from the selected FIFO
+      for(i=0;i<uNumBytes-1;i++)
+      {
+         while(USB0ADR & 0x80);           // Wait for BUSY->'0' (data ready)
+         pData[i] = USB0DAT;              // Copy data byte
+      }
+
+      USB0ADR = 0;                           // Clear auto-read
+
+      while(USB0ADR & 0x80);               // Wait for BUSY->'0' (data ready)
+      pData[i] = USB0DAT;                  // Copy data byte
+   }
+}
+
 //	ISR for USB_API, run when API interrupts are enabled, and an interrupt is received
 //  no data transmission is initiated here except for reception (OUT transfers). only state is set or counters are reset
 void 	My_USB_ISR(void)	interrupt	16
@@ -419,16 +485,37 @@ void 	My_USB_ISR(void)	interrupt	16
 	BYTE	x;			
 	BYTE	numBytes;
 	BYTE	cmd;
+   	BYTE ControlReg;
 
 	if (INTVAL	&	RX_COMPLETE)				//	RX Complete, assume we should send data
 	{
 		
 		LedUSBToggle();
-		numBytes=Block_Read(&receivedMsg,64);	// on rcv, read all the data
+
+   		POLL_WRITE_BYTE(INDEX, 2);          // Set index to endpoint 2 registers
+   		POLL_READ_BYTE(EOUTCSR1, ControlReg);
+
+      if (ControlReg & rbOutSTSTL)     // Clear sent stall bit if last packet 
+                                       // was a stall
+      {
+         POLL_WRITE_BYTE(EOUTCSR1, rbOutCLRDT);
+      }
+
+      POLL_READ_BYTE(EOUTCNTL, numBytes);
+
+         Fifo_Read(FIFO_EP2, numBytes, (BYTE*)&receivedMsg);
+    
+      POLL_WRITE_BYTE(EOUTCSR1, 0);    // Clear Out Packet ready bit
+
+	//	numBytes=Block_Read(&receivedMsg,64);	// on rcv, read all the data
 										// we don't do anything with it now
 										// msg/command is always 64 bytes.
 										// for now this simplifies things because message can just be processed here
 		cmd=receivedMsg[0];
+		if(numBytes==0||cmd==0){
+			Force_Stall(); // command error
+			return;
+		}
 		switch(cmd){
 		case CMDMSG_BIAS_SENDBIASES:
 			// next byte is number of bytes to output on SPI
@@ -523,15 +610,13 @@ void 	My_USB_ISR(void)	interrupt	16
 			PCA0CPL0=0;
 			break;
 		default: 
-			break;
+			Force_Stall();
 		}
 		return;
 	}
 	if	(INTVAL	&	TX_COMPLETE)	// same for TX_COMPLETE, assume we are connected and should send events
 	{
-		TH1=0;
 		isActive=1;
-		LedUSBToggle();
 		return;
 	}
 	// exceptional conditions

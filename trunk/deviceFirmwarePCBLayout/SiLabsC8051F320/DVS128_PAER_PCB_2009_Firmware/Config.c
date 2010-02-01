@@ -15,7 +15,7 @@ This timing has been verified with a function generator generating events down t
 
 In addition timer1 is used to ensure transfers happen every 32ms (30Hz) regardless of how many events have 
 been captured. Otherwise host could wait a long time for a slow sender.
-16 bit timer1 is set for sysclk/12=.5us*65k=32ms wrap. 
+16 bit timer1 is set for sysclk/12=0.5us*65k=32ms wrap. 
 We check in event loop for timer1 high bit less than last value
 captured at end of last USB transfer. This signals wrap of timer1 and time to send all available events.
 */
