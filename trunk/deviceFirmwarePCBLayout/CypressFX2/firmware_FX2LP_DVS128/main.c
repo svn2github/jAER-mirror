@@ -64,6 +64,7 @@ extern BOOL Selfpwr;
 
 #define VR_SETARRAYRESET 0xBc // set the state of the array reset
 #define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels. TCVS320/DVS320 don't have this.
+#define VR_SYNC_ENABLE 0xBe // sets whether sync events are sent on slave clock input instead of acting as slave clock.
 //sbit arrayReset=IOE^5;	// arrayReset=0 to reset all pixels, this on port E.5 but is not bit addressable
 // arrayReset is active low, low=reset pixel array, high=operate normally
 #define ARRAY_RESET_MASK=0x20
@@ -691,6 +692,24 @@ BOOL DR_VendorCmnd(void)
 				}
 			
 				*EP0BUF=VR_SETARRAYRESET;
+				SYNCDELAY;
+				EP0BCH = 0;
+				EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
+				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
+				return(FALSE); // very important, otherwise get stall
+
+			}
+		case VR_SYNC_ENABLE: // sets sync event output or master/slave clocking, based on lsb of argument
+			{
+				if (SETUPDAT[2]&0x01)
+				{
+					setArrayReset(); //IOE|=arrayReset; // TODO change to SYNC_ENABLE
+				} else
+				{
+					releaseArrayReset(); 
+				}
+			
+				*EP0BUF=VR_SYNC_ENABLE;
 				SYNCDELAY;
 				EP0BCH = 0;
 				EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
