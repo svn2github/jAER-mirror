@@ -1,21 +1,35 @@
 #pragma NOIV               // Do not generate interrupt vectors
 //-----------------------------------------------------------------------------
 //   File:      main.c
-//   Description: FX2LP firmware for the TCVS320 and Tmpdiff128 (new small board) retina chip   
+//   Description: FX2LP firmware for the DVS128 retina chip   
 //
 // created: 1/2008, cloned from tmpdiff128 stereo board firmware
 // Revision: 0.01 
 // authors raphael berner, patrick lichtsteiner, tobi delbruck
+// rev history
+// V7:  Added sync event capability
+// V6:	Changed so that full FIFO discards events to prevent back-queue on retina.
 //
 //-----------------------------------------------------------------------------
-#include "lp.h"
-#include "lpregs.h"
-#include "syncdly.h"            // SYNCDELAY macro
+
+
+// if missing system headers, install the FX2LP development kit, which goes to C:\Cypress\...
+// See 	  http://www.cypress.com/?rID=14321
+
+#include <Fx2.h>
+#include <fx2regs.h>
+#include <syncdly.h>
 #include "biasgen.h" 
-#include "portsFX2.h"
+//#include "portsFX2.h"
 #include "ports.h"
 #include "micro.h"
+/*
 
+#include "lp.h"		  
+#include "lpregs.h"
+#include "syncdly.h"            // SYNCDELAY macro
+
+*/
 extern BOOL GotSUD;             // Received setup data flag
 //extern BOOL Sleep;
 extern BOOL Rwuen;
@@ -26,6 +40,7 @@ extern BOOL Selfpwr;
 
 //WORD packetSize;
 
+// declare port bits for bit-addressable pins. Port E is not addressable.
 #define CPLD_NOT_RESET 			PA3
 #define RUN_CPLD				PA0
 #define RESET_TS				PC0
@@ -62,15 +77,22 @@ extern BOOL Selfpwr;
 #define VR_SET_POWERDOWN 0xB9 // control powerDown. wValue controls the powerDown pin. Raise high to power off, lower to power on.
 #define VR_EEPROM_BIASGEN_BYTES 0xBa // write bytes out to EEPROM for power on default
 
+// array reset
 #define VR_SETARRAYRESET 0xBc // set the state of the array reset
 #define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels. TCVS320/DVS320 don't have this.
-#define VR_SYNC_ENABLE 0xBe // sets whether sync events are sent on slave clock input instead of acting as slave clock.
 //sbit arrayReset=IOE^5;	// arrayReset=0 to reset all pixels, this on port E.5 but is not bit addressable
 // arrayReset is active low, low=reset pixel array, high=operate normally
-#define ARRAY_RESET_MASK=0x20
+#define ARRAY_RESET_MASK=0x20	// on PE5, goes straight to tmpdiff128 on bottom board
 #define NOT_ARRAY_RESET_MASK=0xdf;
 #define setArrayReset() 	IOE=IOE&NOT_ARRAY_RESET_MASK	
 #define releaseArrayReset()	IOE=IOE|ARRAY_RESET_MASK
+
+// sync event enable
+#define VR_SYNC_ENABLE 0xBe // sets whether sync events are sent on slave clock input instead of acting as slave clock.
+#define SYNC_ENABLE_MASK=0x40	   // on PE6, goes to CPLD pin 66
+#define NOT_SYNC_ENABLE_MASK=0xbf;
+#define disableSyncEvents() 	IOE=IOE&NOT_SYNC_ENABLE_MASK	
+#define enableSyncEvents()		IOE=IOE|SYNC_ENABLE_MASK
 
 #define BIAS_FLASH_START 9 // start of bias value (this is where number of bytes is stored
 
@@ -703,10 +725,10 @@ BOOL DR_VendorCmnd(void)
 			{
 				if (SETUPDAT[2]&0x01)
 				{
-					setArrayReset(); //IOE|=arrayReset; // TODO change to SYNC_ENABLE
+					enableSyncEvents(); //IOE|=arrayReset; // TODO change to SYNC_ENABLE
 				} else
 				{
-					releaseArrayReset(); 
+					disableSyncEvents(); 
 				}
 			
 				*EP0BUF=VR_SYNC_ENABLE;

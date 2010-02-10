@@ -46,9 +46,9 @@ DeviceDscr:
       db   00H         ;; Device sub-class
       db   00H         ;; Device sub-sub-class
       db   64         ;; Maximum packet size
-      dw   2A15H      ;;4705H    ;; Vendor ID
-      dw   0084H      ;;0187H      ;; Product ID (Sample Device)
-      dw   0600H      ;; Product version ID - this is our DVS128 firmware version number
+      dw   2A15H      ;;4705H    ;; Vendor ID	0x152a, this is Thesycon VID
+      dw   0084H      ;;0187H      ;; Product ID 0x8701 ; this is DVS128
+      dw   0700H      ;; Product version ID - this is our DVS128 firmware version number
       db   1         ;; Manufacturer string index
       db   2         ;; Product string index
       db   3         ;; Serial number string index

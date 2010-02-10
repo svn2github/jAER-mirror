@@ -503,9 +503,7 @@ void 	My_USB_ISR(void)	interrupt	16
       }
 
       POLL_READ_BYTE(EOUTCNTL, numBytes);
-
-         Fifo_Read(FIFO_EP2, numBytes, (BYTE*)&receivedMsg);
-    
+      Fifo_Read(FIFO_EP2, numBytes, (BYTE*)&receivedMsg);   
       POLL_WRITE_BYTE(EOUTCSR1, 0);    // Clear Out Packet ready bit
 
 	//	numBytes=Block_Read(&receivedMsg,64);	// on rcv, read all the data
@@ -627,12 +625,14 @@ void 	My_USB_ISR(void)	interrupt	16
 	}
 	if	(INTVAL	&	DEVICE_OPEN)				//	Device opened on host, go to active state to send events
 	{
+	// never gets here
 		AEByteCounter=0;        // reset the byte counter
 		LedUSBOn();				// we're active now
 		isActive=1;
 	}
 	if	(INTVAL	&	DEVICE_CLOSE)				//	Device closed, wait for re-open. only handshake in this state
 	{
+	// never gets here
 		LedUSBOff();				// we're not connected
 		isActive=0;
 	}
