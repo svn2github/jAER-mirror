@@ -41,10 +41,11 @@ entity USBAER_top_level is
     ResetxRBI : in std_logic;
 
     -- ports to synchronize other USBAER boards
-    TriggerxAI   : in  std_logic;        -- needs synchronization
+    TriggerxABI   : in  std_logic;        -- needs synchronization
+    SyncOutxSBO : out std_logic;
 
     -- communication with 8051
-    TimestampTickxSI      : in  std_logic;
+    ConfigxSI      : in  std_logic;
     TriggerModexSI        : in  std_logic;
     TimestampMasterxSO    : out std_logic;
     HostResetTimestampxSI : in  std_logic;
@@ -101,8 +102,9 @@ architecture Structural of USBAER_top_level is
       ResetxRBI             : in  std_logic;
       RunxSI : in std_logic;
       ConfigxSI             : in  std_logic;
-      TriggerxAI             : in  std_logic;
+      TriggerxABI             : in  std_logic;
       TriggerxSO            : out std_logic;
+      SyncOutxSBO : out std_logic;
       HostResetTimestampxSI : in  std_logic;
       MasterxSO             : out std_logic;
       ResetTimestampxSBO    : out std_logic;
@@ -212,6 +214,8 @@ architecture Structural of USBAER_top_level is
   signal FifoTransactionxS : std_logic;
   signal FifoPktEndxSB     : std_logic;
 
+  signal SyncOutxSB : std_logic;
+
   signal LEDxDN, LEDxDP : std_logic;
   -- counter increment signal
   signal IncxS : std_logic;
@@ -221,22 +225,7 @@ architecture Structural of USBAER_top_level is
   constant selecttimestamp : std_logic := '0';
  -- constant selectmonitor   : std_logic        := '1';
 
- -- attribute noreduce : string;
-  
- -- signal IFclock2xC, IFclock3xC : std_logic;
- -- signal IFclock4xC, IFclock5xC : std_logic;
- -- attribute noreduce of IFclock5xC: signal is  "YES";
- -- attribute noreduce of IFclock4xC: signal is  "YES";
- -- attribute noreduce of IFclock3xC: signal is  "YES";
- -- attribute noreduce of IFclock2xC: signal is  "YES";
- -- attribute noreduce of IFclockxCO: signal is  "YES";
 begin
-  --IFclockxCO <= ClockxC;
-  --IFclockxCO <= not IFclock5xC;
-  --IFclock5xC <= not IFclock4xC;
-  --IFclock4xC <= not IFclock3xC;
-  --IFclock3xC <= not IFclock2xC;
-  --IFclock2xC <= not ClockxC;
   
   ClockxC  <= ClockxCI;
   -- run the state machines either when reset is high or when in slave mode
@@ -248,10 +237,12 @@ begin
   FifoReadxEBO <= '1';
   FifoOutputEnablexEBO <= '1';
 
-p_LED: process (TriggerxS,LEDxDP)
+p_LED: process (TriggerxS,LEDxDP, TimestampMasterxS, ConfigxSI)
   begin  -- process p_LED
     LEDxDN <= LEDxDP;
-    if TriggerxS = '1' then
+    if ConfigxSI = '0' then
+      LEDxDN <= TimestampMasterxS;
+    elsif TriggerxS = '1' then
       LEDxDN <= not LEDxDP;
     end if;
   end process p_LED;  
@@ -342,9 +333,10 @@ p_LED: process (TriggerxS,LEDxDP)
       ClockxCI              => ClockxC,
       ResetxRBI             => ResetxRBI,
       RunxSI => RunxS,
-      ConfigxSI             => TimestampTickxSI,
-      TriggerxAI             => TriggerxAI,
+      ConfigxSI             => ConfigxSI,
+      TriggerxABI             => TriggerxABI,
       TriggerxSO            => TriggerxS,
+      SyncOutxSBO            =>  SyncOutxSB,
       HostResetTimestampxSI => HostResetTimestampxSI,
       MasterxSO             => TimestampMasterxS,
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
@@ -415,7 +407,9 @@ p_LED: process (TriggerxS,LEDxDP)
   
   Debug1xSO <= AERMonitorREQxABI;
   Debug2xSO <= AERMonitorACKxSB;
-  
+
+  SyncOutxSBO <= SyncOutxSB;
+
   TimestampMasterxSO <= TimestampMasterxS;
 
   -- this process controls the EventReady Register which is used for the
@@ -438,5 +432,3 @@ p_LED: process (TriggerxS,LEDxDP)
   end process p_eventready;
 
 end Structural;
-
-

@@ -23,12 +23,13 @@ entity synchronizerStateMachine is
     ResetxRBI : in std_logic;
     RunxSI : in std_logic;
 
-    -- set temporal resolution
+    -- if config==1 trigger event mode, config==0 sync mode
     ConfigxSI : in std_logic;
 
     --
-    TriggerxAI : in std_logic;
+    TriggerxABI : in std_logic;
     TriggerxSO: out std_logic;
+    SyncOutxSBO : out std_logic;
     
     -- host commands to reset timestamps
     HostResetTimestampxSI : in std_logic;
@@ -45,13 +46,13 @@ entity synchronizerStateMachine is
 end synchronizerStateMachine;
 
 architecture Behavioral of synchronizerStateMachine is
-  type state is (stMasterIdle, stResetTS, stRunMaster, stTrigger);
+  type state is (stMasterIdle, stResetTS, stRunMaster, stTrigger, stResetSlaves, stSlaveIdle, stSyncInHigh, stSInc);
 
   -- present and next state
   signal StatexDP, StatexDN : state;
 
   -- signals used for synchronizer
-  signal TriggerxS, TriggerxSN : std_logic;
+  signal TriggerxSB, TriggerxSBN : std_logic;
 
   -- used to produce different timestamp ticks and to remain in a certain state
   -- for a certain amount of time
@@ -60,8 +61,10 @@ architecture Behavioral of synchronizerStateMachine is
 begin  -- Behavioral
 
   -- calculate next state
-  p_memless : process (StatexDP, RunxSI, ConfigxSI, DividerxDP, HostResetTimestampxSI,TriggerxS)
+  p_memless : process (StatexDP, RunxSI, ConfigxSI, DividerxDP, HostResetTimestampxSI,TriggerxSB, TriggerxABI)
     constant counterInc : integer := 29;  --47
+    constant syncOutLow1 : integer := 25;  --43
+    constant syncOutLow2 : integer := 26;  --44
   
   begin  -- process p_memless
     -- default assignements
@@ -72,52 +75,83 @@ begin  -- Behavioral
     MasterxSO            <= '1';        -- we are master
 
     TriggerxSO <= '0';
+    SyncOutxSBO           <= '0';        -- we are master
 
-  --  if ConfigxSI = '0' then
-  --    counterInc :=  47;
-  --    syncOutLow2 :=  43;
-  --    syncOutLow1 := 44;
-  --  elsif ConfigxSI = '1' then
-  --    counterInc :=  5;
-  --    syncOutLow2 :=  3;
-  --    syncOutLow1 :=  2;
-  --  end if;
-    
+      
     case StatexDP is
       when stMasterIdle               =>  -- waiting for either sync in to go
                                           -- high or run to go high
         ResetTimestampxSBO <= '1';
         DividerxDN         <= (others => '0');
         MasterxSO          <= '1';
-       
+
+        SyncOutxSBO         <= TriggerxABI;
    
-        if RunxSI = '1' then
+        if TriggerxSB = '0' and ConfigxSI = '0' then
+          StatexDN         <= stSlaveIdle;
+          ResetTimestampxSBO <= '0';
+        elsif RunxSI = '1' then
             StatexDN       <= stRunMaster;
             ResetTimestampxSBO <= '0';
         end if;
-      
+     when stResetSlaves              =>  -- reset potential slave usbaermini2
+                                          -- devices
+        DividerxDN         <= DividerxDP+1;
+
+        if DividerxDP >= 8 then         -- stay four cycles in this state
+          DividerxDN <= (others => '0');
+          ResetTimestampxSBO <= '0';
+          StatexDN <= stRunMaster;
+        end if;
+        if TriggerxSB = '0' then
+          StatexDN   <= stResetTS;
+          DividerxDN <= (others => '0');
+        end if;
+
+        SyncOutxSBO         <= '1';
+        --ResetTimestampxSBO <= '0'; assign this for only one cycle
+
+        MasterxSO <= '1';               -- we are master
+  
       when stResetTS              =>  
-                                         
+        SyncOutxSBO           <= TriggerxABI;                                
         ResetTimestampxSBO <= '0';
-        StatexDN <= stRunMaster;
+     
 
         MasterxSO <= '1';
+
+        DividerxDN <= (others => '0');
+        if TriggerxSB = '0' and ConfigxSI = '0' then
+          StatexDN <= stSlaveIdle;
+        else
+          StatexDN <= stRunMaster;
+        end if;
       when stRunMaster                =>      -- 1us timestamp tick mode
         DividerxDN   <= DividerxDP +1;
 
-        if DividerxDP >= counterInc then     -- increment local timestamp
+        if DividerxDP = syncOutLow2 or DividerxDP = syncOutLow1 then  -- hold SyncOutxSBO high for
+                                        -- two clockcycles to tell
+                                        -- other boards to
+                                        -- increment their timestamps
+          SyncOutxSBO          <= '1';
+        elsif DividerxDP >= counterInc then     -- increment local timestamp
           DividerxDN          <= (others => '0');
           IncrementCounterxSO <= '1';
         end if;
 
-        if HostResetTimestampxSI = '1' then
+        if TriggerxSB = '0' and ConfigxSI = '0' then
           StatexDN   <= stResetTS;
           DividerxDN <= (others => '0');
-        elsif TriggerxS = '1' then
+        elsif RunxSI = '0' then
+          StatexDN   <= stMasterIdle;
+        elsif HostResetTimestampxSI = '1' then
+          StatexDN   <= stResetTS;
+          DividerxDN <= (others => '0');
+        elsif TriggerxSB = '0' and ConfigxSI = '1' then
           StatexDN <= stTrigger;
           TriggerxSO <= '1';
         end if;        
-      when stTrigger                =>      -- 1us timestamp tick mode
+      when stTrigger                =>      
         DividerxDN   <= DividerxDP +1;
 
         if DividerxDP >= counterInc then     -- increment local timestamp
@@ -128,12 +162,40 @@ begin  -- Behavioral
         if HostResetTimestampxSI = '1' then
           StatexDN   <= stResetTS;
           DividerxDN <= (others => '0');
-        elsif TriggerxS = '0' then
+        elsif TriggerxSB = '1' then
           StatexDN <= stRunMaster;
         end if;
-        
+
+      when stSlaveIdle        =>        -- wait for sync in to go low
+        SyncOutxSBO <= TriggerxABI;
+        DividerxDN <= (others => '0');
+        if TriggerxSB = '1' then
+          StatexDN <= stSyncInHigh;
+        end if;
+        MasterxSO  <= '0';              -- we are not master
+      when stSyncInHigh        =>        -- wait for sync in to go low again,
+                                        -- if this not happens after three
+                                        -- cycles, change to master mode  
+        SyncOutxSBO <= TriggerxABI;
+        MasterxSO  <= '0';
+        DividerxDN <= DividerxDP +1;
+
+        if TriggerxSB = '0' then
+          StatexDN <= stSInc;
+        elsif DividerxDP >= 2 then
+          StatexDN   <= stResetTS;
+          DividerxDN <= (others => '0');
+        end if;
+
+      when stSInc      =>               -- increment counter
+        SyncOutxSBO          <= TriggerxABI;
+        IncrementCounterxSO <= '1';
+        StatexDN            <= stSlaveIdle;
+        MasterxSO           <= '0';     -- we are not master
+
       when others =>
         StatexDN            <= stMasterIdle;
+    
     end case;
 
   end process p_memless;
@@ -157,8 +219,8 @@ begin  -- Behavioral
   synchronizer : process (ClockxCI)
   begin
     if ClockxCI'event then              -- using double edge flipflops for synchronizing 
-      TriggerxS  <= TriggerxSN;
-      TriggerxSN <= TriggerxAI;
+      TriggerxSB  <= TriggerxSBN;
+      TriggerxSBN <= TriggerxABI;
     end if;
   end process synchronizer;
 
