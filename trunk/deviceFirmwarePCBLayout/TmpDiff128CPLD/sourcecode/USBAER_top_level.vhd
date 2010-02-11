@@ -41,11 +41,11 @@ entity USBAER_top_level is
     ResetxRBI : in std_logic;
 
     -- ports to synchronize other USBAER boards
-    SyncInxAI   : in  std_logic;        -- needs synchronization
-    SyncOutxSO : out std_logic;
+    TriggerxABI   : in  std_logic;        -- needs synchronization
+    SyncOutxSBO : out std_logic;
 
     -- communication with 8051
-    TimestampTickxSI      : in  std_logic;
+    ConfigxSI      : in  std_logic;
     TriggerModexSI        : in  std_logic;
     TimestampMasterxSO    : out std_logic;
     HostResetTimestampxSI : in  std_logic;
@@ -63,7 +63,7 @@ entity USBAER_top_level is
     -- AER monitor interface
     AERMonitorREQxABI    : in  std_logic;  -- needs synchronization
     AERMonitorACKxSBO    : out std_logic;
-    AERMonitorAddressxDI : in  std_logic_vector(15 downto 0));
+    AERMonitorAddressxDI : in  std_logic_vector(14 downto 0));
 
 end USBAER_top_level;
 
@@ -102,9 +102,10 @@ architecture Structural of USBAER_top_level is
       ResetxRBI             : in  std_logic;
       RunxSI : in std_logic;
       ConfigxSI             : in  std_logic;
+      TriggerxABI             : in  std_logic;
+      TriggerxSO            : out std_logic;
+      SyncOutxSBO : out std_logic;
       HostResetTimestampxSI : in  std_logic;
-      SyncInxAI             : in  std_logic;
-      SyncOutxSO            : out std_logic;
       MasterxSO             : out std_logic;
       ResetTimestampxSBO    : out std_logic;
       IncrementCounterxSO   : out std_logic);
@@ -118,6 +119,9 @@ architecture Structural of USBAER_top_level is
       AERREQxABI           : in  std_logic;
       AERACKxSBO           : out std_logic;
       FifoInFullxSBI : in std_logic;
+      -- Trigger stuff
+      AddressMSBxSO : out std_logic;
+      TriggerxSI : in std_logic;
       RegWritexEO   : out std_logic;
       SetEventReadyxSO     : out std_logic;
       EventReadyxSI        : in  std_logic);
@@ -161,21 +165,21 @@ architecture Structural of USBAER_top_level is
   end component;
 
   -- signal declarations
-  signal MonitorAddressxD                            : std_logic_vector(15 downto 0);
-  signal MonitorTimestampxD                          : std_logic_vector(13 downto 0);
+  signal MonitorAddressxD, MonitorAddressRegInxD     : std_logic_vector(15 downto 0);
+  signal MonitorTimestampxD, MonitorTimestampInxD    : std_logic_vector(13 downto 0);
   
   signal FifoAddressRegInxD, FifoAddressRegOutxD     : std_logic_vector(15 downto 0);
   signal FifoTimestampRegInxD, FifoTimestampRegOutxD     : std_logic_vector(15 downto 0);
   signal FifoAddressxD, FifoTimestampxD : std_logic_vector(15 downto 0);
   
-  signal ActualTimestampxD                           : std_logic_vector(13 downto 0);
+  signal ActualTimestampxD, TriggerTimestampxD       : std_logic_vector(13 downto 0);
 
   -- register write enables
   signal FifoRegWritexE      : std_logic;
   signal MonitorRegWritexE   : std_logic;
-  
-  signal SyncInxA : std_logic;
 
+  signal TriggerxS, AddressMSBxS : std_logic;
+  
   signal AERMonitorACKxSB : std_logic;
   
   -- mux control signals
@@ -209,8 +213,10 @@ architecture Structural of USBAER_top_level is
   -- various
   signal FifoTransactionxS : std_logic;
   signal FifoPktEndxSB     : std_logic;
-  signal SyncOutxS        : std_logic;
 
+  signal SyncOutxSB : std_logic;
+
+  signal LEDxDN, LEDxDP : std_logic;
   -- counter increment signal
   signal IncxS : std_logic;
 
@@ -219,22 +225,7 @@ architecture Structural of USBAER_top_level is
   constant selecttimestamp : std_logic := '0';
  -- constant selectmonitor   : std_logic        := '1';
 
- -- attribute noreduce : string;
-  
- -- signal IFclock2xC, IFclock3xC : std_logic;
- -- signal IFclock4xC, IFclock5xC : std_logic;
- -- attribute noreduce of IFclock5xC: signal is  "YES";
- -- attribute noreduce of IFclock4xC: signal is  "YES";
- -- attribute noreduce of IFclock3xC: signal is  "YES";
- -- attribute noreduce of IFclock2xC: signal is  "YES";
- -- attribute noreduce of IFclockxCO: signal is  "YES";
 begin
-  --IFclockxCO <= ClockxC;
-  --IFclockxCO <= not IFclock5xC;
-  --IFclock5xC <= not IFclock4xC;
-  --IFclock4xC <= not IFclock3xC;
-  --IFclock3xC <= not IFclock2xC;
-  --IFclock2xC <= not ClockxC;
   
   ClockxC  <= ClockxCI;
   -- run the state machines either when reset is high or when in slave mode
@@ -246,7 +237,15 @@ begin
   FifoReadxEBO <= '1';
   FifoOutputEnablexEBO <= '1';
 
-  SyncInxA <= not SyncInxAI;
+p_LED: process (TriggerxS,LEDxDP, TimestampMasterxS, ConfigxSI)
+  begin  -- process p_LED
+    LEDxDN <= LEDxDP;
+    if ConfigxSI = '0' then
+      LEDxDN <= TimestampMasterxS;
+    elsif TriggerxS = '1' then
+      LEDxDN <= not LEDxDP;
+    end if;
+  end process p_LED;  
   
   FifoAddressRegInxD <= MonitorAddressxD;
   FifoAddressxD <= FifoAddressRegOutxD; 
@@ -280,9 +279,11 @@ begin
       ClockxCI       => ClockxC,
       ResetxRBI      => RunxS,
       WriteEnablexEI => MonitorRegWritexE,
-      DataInxDI      => AERMonitorAddressxDI,
+      DataInxDI      => MonitorAddressRegInxD,
       DataOutxDO     => MonitorAddressxD);
 
+  MonitorAddressRegInxD <=  AddressMSBxS & AERMonitorAddressxDI;
+  --MonitorAddressRegInxD <=  AddressMSBxS & AddressMSBxS & "0000000000000" & AddressMSBxS ;
   uMonitorTimestampRegister : wordRegister
     generic map (
       width          => 14)
@@ -290,10 +291,18 @@ begin
       ClockxCI       => ClockxC,
       ResetxRBI      => RunxS,
       WriteEnablexEI => MonitorRegWritexE,
-      DataInxDI      => ActualTimestampxD,
+      DataInxDI      => MonitorTimestampInxD,
       DataOutxDO     => MonitorTimestampxD);
 
-
+  uTriggerTimestampRegister : wordRegister
+    generic map (
+      width          => 14)
+    port map (
+      ClockxCI       => ClockxC,
+      ResetxRBI      => RunxS,
+      WriteEnablexEI => TriggerxS,
+      DataInxDI      => ActualTimestampxD,
+      DataOutxDO     => TriggerTimestampxD);
   uEarlyPaketTimer : earlyPaketTimer
     port map (
       ClockxCI        => ClockxC,
@@ -324,10 +333,11 @@ begin
       ClockxCI              => ClockxC,
       ResetxRBI             => ResetxRBI,
       RunxSI => RunxS,
-      ConfigxSI             => TimestampTickxSI,
+      ConfigxSI             => ConfigxSI,
+      TriggerxABI             => TriggerxABI,
+      TriggerxSO            => TriggerxS,
+      SyncOutxSBO            =>  SyncOutxSB,
       HostResetTimestampxSI => HostResetTimestampxSI,
-      SyncInxAI             => SyncInxA,
-      SyncOutxSO            => SyncOutxS,
       MasterxSO             => TimestampMasterxS,
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
       IncrementCounterxSO   => IncxS);
@@ -361,13 +371,14 @@ begin
       AERREQxABI           => AERMonitorREQxABI,
       AERACKxSBO           => AERMonitorACKxSB,
       FifoInFullxSBI => FifoInFullxSBI,
+      AddressMSBxSO => AddressMSBxS,
+      TriggerxSI => TriggerxS,
       RegWritexEO   => MonitorRegWritexE,
       SetEventReadyxSO     => SetMonitorEventReadyxS,
       EventReadyxSI        => MonitorEventReadyxS);
 
  
-
-  SyncOutxSO <= not SyncOutxS;
+  
   FifoPktEndxSBO <= FifoPktEndxSB;
  
   AERMonitorACKxSBO <= AERMonitorACKxSB;
@@ -386,12 +397,19 @@ begin
     FifoAddressxD   when selectaddress,
     FifoTimestampxD when others;
 
-  LEDxSO  <= TimestampMasterxS;
+  with AddressMSBxS select
+    MonitorTimestampInxD <=
+    TriggerTimestampxD   when '1',
+    ActualTimestampxD when others;
+
+  LEDxSO  <= LEDxDP;
   --LEDxSO <= FifoTransactionxS;
   
   Debug1xSO <= AERMonitorREQxABI;
   Debug2xSO <= AERMonitorACKxSB;
-  
+
+  SyncOutxSBO <= SyncOutxSB;
+
   TimestampMasterxSO <= TimestampMasterxS;
 
   -- this process controls the EventReady Register which is used for the
@@ -400,6 +418,7 @@ begin
   begin  -- process p_eventready
     if RunxS = '0' then              -- asynchronous reset (active low)
       MonitorEventReadyxS   <= '0';
+      LEDxDP <= '0';
     elsif ClockxC'event and ClockxC = '1' then  -- rising clock edge
       if SetMonitorEventReadyxS = '1' and ClearMonitorEventxS = '1' then
         MonitorEventReadyxS <= '0';
@@ -408,9 +427,8 @@ begin
       elsif ClearMonitorEventxS = '1' then
         MonitorEventReadyxS <= '0';
       end if;
+      LEDxDP <= LEDxDN;
     end if;
   end process p_eventready;
 
 end Structural;
-
-

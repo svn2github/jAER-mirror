@@ -36,6 +36,10 @@ entity monitorStateMachine is
     -- fifo full flag
     FifoInFullxSBI             : in  std_logic;
 
+    -- Trigger stuff
+    AddressMSBxSO : out std_logic;
+    TriggerxSI : in std_logic;
+    
     -- enable register write
     RegWritexEO   : out std_logic;
 
@@ -45,8 +49,10 @@ entity monitorStateMachine is
 end monitorStateMachine;
 
 architecture Behavioral of monitorStateMachine is
-  type state is (stIdle, stWaitEvent, stWriteReg, stWaitREQrls, stMissedEvent);
+  type state is (stIdle, stWaitEvent, stWriteReg, stWaitREQrls, stMissedEvent, stTrigger);
 
+  signal TriggerxDP, TriggerxDN : std_logic;
+  
   -- present and next state
   signal StatexDP, StatexDN : state;
 
@@ -55,7 +61,7 @@ architecture Behavioral of monitorStateMachine is
 begin
 
   -- calculate next state and outputs
-  p_memless              : process (StatexDP, AERREQxSB, EventReadyxSI, RunxSI,  AERREQxABI) 
+  p_memless              : process (StatexDP, AERREQxSB, EventReadyxSI, RunxSI,  AERREQxABI, TriggerxDP, TriggerxSI,FifoInFullxSBI) 
   begin  -- process p_memless
     -- default assignments: stay in present state, AERACK is high, don't write
     -- to the registers and don't declare that an event is ready
@@ -64,6 +70,9 @@ begin
     AERACKxSBO           <= '1';        -- active low!!
     RegWritexEO   <= '0';
     SetEventReadyxSO     <= '0';
+    AddressMSBxSO <= '0';
+
+    TriggerxDN <= (TriggerxSI or TriggerxDP);
 
     case StatexDP is
       when stIdle      =>               -- we are not monitoring
@@ -80,6 +89,8 @@ begin
         elsif EventReadyxSI = '1' then     -- the fifostatemachine still hasn't
                                         -- read the last event, so we have to wait
           StatexDN     <= stWaitEvent;
+        elsif TriggerxDP = '1' then
+          StatexDN <= stTrigger;
         elsif AERREQxSB = '0' then
           StatexDN   <= stWriteReg;
         end if;
@@ -95,7 +106,15 @@ begin
         -- AERACKxSBO           <= '0'; acknowledge only when registers are
         -- written, this will slow down
         RegWritexEO   <= '1';
-
+      when stTrigger =>                -- write timestamp and address to
+                                        -- registers,acknowledge to AER device
+                                        -- and set the EventReady flag
+        StatexDN             <= stWaitEvent;
+        SetEventReadyxSO     <= '1';
+        AddressMSBxSO <= '1';
+        TriggerxDN <= '0';
+  
+        RegWritexEO   <= '1';
       when stWaitREQrls =>              -- wait until the AER device releases
                                         -- the REQ line so we can release the
                                         -- ACK line
@@ -126,8 +145,10 @@ begin
   begin  -- process p_memoryzing
     if ResetxRBI = '0' then             -- asynchronous reset (active low)
       StatexDP        <= stIdle;
+      TriggerxDP <= '0';
     elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
       StatexDP        <= StatexDN;
+      TriggerxDP <= TriggerxDN;
     end if;
   end process p_memoryzing;
 
