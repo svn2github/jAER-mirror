@@ -17,11 +17,12 @@
                 <map>
                   <entry key="FilterChain.timeLimitEnabled" value="false"/>
                   <entry key="FilterChain.timeLimitMs" value="0"/>
+                  <entry key="CochleaAMS1b.Biasgen.DAC.powered" value="true"/>
+                  <entry key="class ch.unizh.ini.jaer.chip.cochlea.CochleaAMS1b.preferredDisplayMethod" value="ch.unizh.ini.jaer.chip.cochlea.CochleaGramDisplayMethod"/>
                   <entry key="CochleaAMS1bControlPanel.selectedPaneIndex" value="1"/>
                   <entry key="XYTypeFilter.filterEnabled" value="false"/>
                   <entry key="RotateFilter.filterEnabled" value="false"/>
                   <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
-                  <entry key="CochleaAMS1b.Biasgen.DAC.powered" value="true"/>
                   <entry key="CochleaAMS1b.Biasgen.Scanner.currentStage" value="50"/>
                   <entry key="CochleaAMS1b.Biasgen.BufferIPot.value" value="50"/>
                   <entry key="CochleaAMS1b.Biasgen.Equalizer.EqualizerChannel.0.qsos" value="0"/>
@@ -316,7 +317,7 @@
                   <entry key="Masterbias.internalResistorUsed" value="false"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.pdbia  sTX" value="9000691"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.Viopffbpf" value="0"/>
-                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAADdwQAAAADdAA7bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0ADRuZXQuc2YuamFlci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlJlcGV0aXRpb3VzRmlsdGVydAAxY2gudW5pemguaW5pLmphZXIucHJvamVjdHMuY29jaHNvdW5kbG9jLklUREZpbHRlcng="/>
+                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAEdwQAAAAEdAA7bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0ADRuZXQuc2YuamFlci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlJlcGV0aXRpb3VzRmlsdGVydAAxY2gudW5pemguaW5pLmphZXIucHJvamVjdHMuY29jaHNvdW5kbG9jLklUREZpbHRlcnQAU2NoLnVuaXpoLmluaS5qYWVyLnByb2plY3RzLmNvY2hzb3VuZGxvYy5tdWx0aWNoaXB2aWV3ZXIuTXVsdGljaGlwQU1TMWJFdmVudFByb2R1Y2VyeA=="/>
                   <entry key="SubSampler.bits" value="1"/>
                   <entry key="SubSampler.filterEnabled" value="false"/>
                   <entry key="BufferIPot.value" value="50"/>
@@ -529,7 +530,7 @@
                   <entry key="CochleaAMS1b.VPot.Vbpf2x" value="956"/>
                   <entry key="CochleaAMS1b.VPot.Vbias2x" value="168"/>
                   <entry key="CochleaAMS1b.VPot.Vbpf1x" value="2305"/>
-                  <entry key="CochleaAMS1b.VPot.Vrefpreamp" value="678"/>
+                  <entry key="CochleaAMS1b.VPot.Vrefpreamp" value="484"/>
                   <entry key="CochleaAMS1b.VPot.Vbias1x" value="2205"/>
                   <entry key="CochleaAMS1b.VPot.Vthbpf1x" value="166"/>
                   <entry key="CochleaAMS1b.VPot.Vioffbpfn" value="0"/>
@@ -707,11 +708,11 @@
                   <entry key="CochleaAMS1b.Biasgen.Scanner.continuousScanningEnabled" value="false"/>
                   <entry key="CochleaAMS1b.Biasgen.BitConfig.resCtrBit1" value="false"/>
                   <entry key="CochleaAMS1b.Biasgen.BitConfig.resCtrBit2" value="false"/>
-                  <entry key="ITDFilter.filterEnabled" value="true"/>
+                  <entry key="ITDFilter.filterEnabled" value="false"/>
                   <entry key="ITDFilter.numOfCochleaChannels" value="64"/>
                   <entry key="CorrelatorFilter.filterEnabled" value="true"/>
                   <entry key="CorrelatorFilter.display" value="true"/>
-                  <entry key="ITDFilter.display" value="true"/>
+                  <entry key="ITDFilter.display" value="false"/>
                   <entry key="CochleaAMS1b.VPot.BiasDACBufferNBias" value="917"/>
                   <entry key="CochleaAMS1b.VPot.PreampAGCThreshold" value="1358"/>
                   <entry key="CochleaAMS1b.Biasgen.BitConfig.preampAR" value="false"/>
@@ -724,6 +725,7 @@
                   <entry key="ITDFilter.numOfBins" value="16"/>
                   <entry key="ITDFilter.averagingDecay" value="1.0"/>
                   <entry key="ITDFilter.computeMeanInLoop" value="true"/>
+                  <entry key="MultichipAMS1bEventProducer.filterEnabled" value="true"/>
                 </map>
               </node>
             </node>
