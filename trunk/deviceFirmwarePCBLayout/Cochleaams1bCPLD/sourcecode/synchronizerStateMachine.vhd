@@ -61,9 +61,9 @@ begin  -- Behavioral
 
   -- calculate next state
   p_memless : process (StatexDP, SyncInxS, SyncInxAI, RunxSI, DividerxDP, HostResetTimestampxSI)
-    variable counterInc : integer := 47;
-    variable syncOutLow1 : integer := 43;
-    variable syncOutLow2 : integer := 44;
+    variable counterInc : integer := 29;
+    variable syncOutLow1 : integer := 25;
+    variable syncOutLow2 : integer := 26;
   begin  -- process p_memless
     -- default assignements
     StatexDN             <= StatexDP;

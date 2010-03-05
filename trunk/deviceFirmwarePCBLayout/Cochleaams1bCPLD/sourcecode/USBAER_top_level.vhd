@@ -34,7 +34,7 @@ entity USBAER_top_level is
     FifoPktEndxSBO       : out   std_logic;
     FifoAddressxDO       : out   std_logic_vector(1 downto 0);
 
-    IFclockxCO : out std_logic;
+    --IFclockxCO : out std_logic;
 
     -- clock and reset inputs
     ClockxCI  : in std_logic;
@@ -84,7 +84,7 @@ entity USBAER_top_level is
 	 AERKillBit : out std_logic;
   
     RunMonitorxSI : in std_logic;
-	 HostResetTimestampxSI : in std_logic; 
+    HostResetTimestampxSI : in std_logic; 
 	 
 	 --TimestampTickxSI : in std_logic;
 	 
@@ -95,9 +95,13 @@ entity USBAER_top_level is
 
     -- control LED
     LEDxSO : out std_logic;
-    Debug1xSO : out std_logic;
-    Debug2xSO : out std_logic;
+    --Debug1xSO : out std_logic;
+    --Debug2xSO : out std_logic;
 
+    -- sync
+    SyncInxABI : in std_logic;
+    SyncOutxSBO : out std_logic;
+    
     -- AER monitor interface
     AERMonitorREQxABI    : in  std_logic;  -- needs synchronization
     AERMonitorACKxSBO    : out std_logic;
@@ -265,17 +269,10 @@ architecture Structural of USBAER_top_level is
   
  -- constant selectmonitor   : std_logic        := '1';
 
-  attribute noreduce : string;
+
   
-  signal IFclock2xC, IFclock3xC : std_logic;
-  attribute noreduce of IFclock3xC: signal is  "YES";
-  attribute noreduce of IFclock2xC: signal is  "YES";
-  attribute noreduce of IFclockxCO: signal is  "YES";
+
 begin
-  --IFclockxCO <= ClockxC;
-  IFclockxCO <= not IFclock3xC;
-  IFclock3xC <= not IFclock2xC;
-  IFclock2xC <= not ClockxC;
   
   ClockxC  <= ClockxCI;
   -- run the state machines either when reset is high or when in slave mode
@@ -284,7 +281,7 @@ begin
   FifoReadxEBO <= '1';
   FifoOutputEnablexEBO <= '1';
 
-  SyncInxA <= '0';
+  SyncInxA <= not SyncInxABI;
   
   FifoAddressRegInxD <= MonitorAddressxD;
   FifoAddressxD <= FifoAddressRegOutxD; 
@@ -460,9 +457,11 @@ begin
 
   LEDxSO  <= TimestampMasterxS;
   --LEDxSO <= FifoTransactionxS;
+
+  SyncOutxSBO <= not SyncOutxS;
   
-  Debug1xSO <= AERMonitorAckxSB or AckdelayedxD2;
-  Debug2xSO <= ActualTimestampxD(1);
+  --Debug1xSO <= AERMonitorAckxSB or AckdelayedxD2;
+  --Debug2xSO <= ActualTimestampxD(1);
 
 
   -- this process controls the EventReady Register which is used for the

@@ -240,7 +240,7 @@ clocksource in the FX2 for the slave FIFO clock source.
 
 	// start with internal clock, switch to external CPLD clock source at end of TD_Init
 	SYNCDELAY;
-	IFCONFIG = 0x03; // 0000_0011   // external clock, 30MHz, don't drive clock IFCLKOE, slave FIFO mode
+	IFCONFIG = 0xA3; // 0000_0011   // external clock, 30MHz, don't drive clock IFCLKOE, slave FIFO mode
 	SYNCDELAY; // may not be needed
 
 	// disable interrupts by the input pins and by timers and serial ports. timer2 scanner interrupt enabled when needed from vendor request.
