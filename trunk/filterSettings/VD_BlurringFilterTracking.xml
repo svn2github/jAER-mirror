@@ -20,7 +20,7 @@
                   <entry key="XYTypeFilter.filterEnabled" value="false"/>
                   <entry key="RotateFilter.filterEnabled" value="false"/>
                   <entry key="BackgroundActivityFilter.filterEnabled" value="true"/>
-                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAADdwQAAAADdAA7bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0AEhjaC51bml6aC5pbmkuamFlci5wcm9qZWN0cy5nZXN0dXJlLnZpcnR1YWxkcnVtbWVyLkJsdXJpbmdGaWx0ZXIyRFRyYWNrZXJ0AEBjaC51bml6aC5pbmkuamFlci5wcm9qZWN0cy5nZXN0dXJlLnZpcnR1YWxkcnVtbWVyLlZpcnR1YWxEcnVtbWVyeA=="/>
+                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAACdwQAAAACdAA7bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0AEBjaC51bml6aC5pbmkuamFlci5wcm9qZWN0cy5nZXN0dXJlLnZpcnR1YWxkcnVtbWVyLlZpcnR1YWxEcnVtbWVyeA=="/>
                   <entry key="GestureTracker.clusterLifetimeWithoutSupport" value="10000"/>
                   <entry key="GestureTracker.maxNumClusters" value="1"/>
                   <entry key="GestureTracker.clusterSize" value="0.15f"/>
