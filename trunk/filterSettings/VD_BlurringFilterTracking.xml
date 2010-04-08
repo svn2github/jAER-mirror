@@ -20,7 +20,7 @@
                   <entry key="XYTypeFilter.filterEnabled" value="false"/>
                   <entry key="RotateFilter.filterEnabled" value="false"/>
                   <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
-                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAADdwQAAAADdAA7bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0AEBjaC51bml6aC5pbmkuamFlci5wcm9qZWN0cy5nZXN0dXJlLnZpcnR1YWxkcnVtbWVyLlZpcnR1YWxEcnVtbWVydABCY2gudW5pemguaW5pLmphZXIucHJvamVjdHMuZ2VzdHVyZS52aXJ0dWFsZHJ1bW1lci5CbHVycmluZ0ZpbHRlcjJEeA=="/>
+                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAACdwQAAAACdAA7bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0AEBjaC51bml6aC5pbmkuamFlci5wcm9qZWN0cy5nZXN0dXJlLnZpcnR1YWxkcnVtbWVyLlZpcnR1YWxEcnVtbWVyeA=="/>
                   <entry key="GestureTracker.clusterLifetimeWithoutSupport" value="10000"/>
                   <entry key="GestureTracker.maxNumClusters" value="1"/>
                   <entry key="GestureTracker.clusterSize" value="0.15f"/>
@@ -461,10 +461,16 @@
                   <entry key="BluringFilter2DTracker.showClusterNumber" value="true"/>
                   <entry key="BluringFilter2DTracker.useVelocity" value="true"/>
                   <entry key="BluringFilter2DTracker.pathsEnabled" value="true"/>
-                  <entry key="BluringFilter2DTracker.pathLength" value="20"/>
+                  <entry key="BluringFilter2DTracker.pathLength" value="200"/>
                   <entry key="BluringFilter2DTracker.showClusterVelocity" value="false"/>
                   <entry key="BluringFilter2DTracker.maximumClusterAgeFrames" value="50"/>
-                  <entry key="VirtualDrummer.subFrameDivisionRatio" value="1.0"/>
+                  <entry key="VirtualDrummer.subFrameDivisionRatio" value="10.0"/>
+                  <entry key="VirtualDrummer.subPacketRatio" value="1.0"/>
+                  <entry key="BluringFilter2DTracker.velocityPoints" value="5"/>
+                  <entry key="BluringFilter2DTracker.subPacketRatio" value="5"/>
+                  <entry key="BluringFilter2DTracker.enableClusterExitPurging" value="true"/>
+                  <entry key="BluringFilter2DTracker.initializeVelocityToAverage" value="true"/>
+                  <entry key="BluringFilter2DTracker.showClusters" value="true"/>
                 </map>
                 <node name="ch">
                   <map/>
@@ -540,6 +546,9 @@
                                   <entry key="DirectionSelectiveFilter.ppsScale" value="0.0218"/>
                                   <entry key="DirectionSelectiveFilter.speedMixingFactor" value="0.0219"/>
                                   <entry key="DirectionSelectiveFilter.tauLow" value="187"/>
+                                  <entry key="BluringFilter2DTracker.velocityPoints" value="3"/>
+                                  <entry key="BluringFilter2DTracker.velocityVectorScaling" value="0.16872068"/>
+                                  <entry key="BluringFilter2DTracker.showClusters" value="true"/>
                                 </map>
                               </node>
                             </node>
