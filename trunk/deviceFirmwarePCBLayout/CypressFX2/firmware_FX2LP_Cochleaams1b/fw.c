@@ -10,9 +10,12 @@
 //-----------------------------------------------------------------------------
 // Copyright 2003, Cypress Semiconductor Corporation
 //-----------------------------------------------------------------------------
-#include "lp.h"
-#include "lpregs.h"
-#include "syncdly.h"            // SYNCDELAY macro
+// if missing system headers, install the FX2LP development kit, which goes to C:\Cypress\...
+// See 	  http://www.cypress.com/?rID=14321
+
+#include <Fx2.h>
+#include <fx2regs.h>
+#include <syncdly.h>
 
 //-----------------------------------------------------------------------------
 // Constants

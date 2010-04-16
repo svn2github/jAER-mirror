@@ -7,11 +7,17 @@
 // authors tobi delbruck, shih-chii liu, raphael berner
 //
 //-----------------------------------------------------------------------------
-#include "lp.h"
-#include "lpregs.h"
-#include "syncdly.h"            // SYNCDELAY macro
+
+// changelog
+// apr 2010 tobi changed clock polarity to end high
+
+// if missing system headers, install the FX2LP development kit, which goes to C:\Cypress\...
+// See 	  http://www.cypress.com/?rID=14321
+
+#include <Fx2.h>
+#include <fx2regs.h>
+#include <syncdly.h>
 #include "biasgen.h" 
-#include "portsFX2.h"
 #include "ports.h"
 #include "micro.h"
 
@@ -125,10 +131,20 @@ sbit PD0=IOD^0; etc
 #define selectsMask 7 // 0000 0111 to select only select bits
 
 // following select the ipot, addr or data shiftregisters for input
+// note these are changed from original notion so that all select are high normally (no one selected)
+// and the other two go low when one is selected. This is so that the clock can be left high at the end as it should be
 #define selectIPots IOE=(IOE&~selectsMask)|BiasGenSel // selects only biasgen select, turns off addr and data selects, leaves other bits untouched
 #define selectAddr  IOE=(IOE&~selectsMask)|AddrSel  // selects addr shifter, even addresses are left cochlea, odd addresses are right cochlea
 #define selectData	IOE=(IOE&~selectsMask)|DataSel  // selects data shift register
-#define selectNone	IOE=(IOE&~selectsMask)			// turns off all selects
+#define selectNone	IOE=(IOE|selectsMask)			// turns on all selects
+// old, which is one-hot high active
+//#define selectIPots IOE=(IOE&~selectsMask)|BiasGenSel // selects only biasgen select, turns off addr and data selects, leaves other bits untouched
+//#define selectAddr  IOE=(IOE&~selectsMask)|AddrSel  // selects addr shifter, even addresses are left cochlea, odd addresses are right cochlea
+//#define selectData	IOE=(IOE&~selectsMask)|DataSel  // selects data shift register
+//#define selectNone	IOE=(IOE&~selectsMask)			// turns off all selects
+
+
+
 #define isScanSyncActive	(IOE&ScanSync==0)			// nonzero when scansync is active (bit has fallen out of scanner shift register). sync is active low
 
 #define toggleVReset(); IOE|=Vreset; _nop_();_nop_();_nop_();_nop_();_nop_();_nop_(); IOE&=~Vreset;
@@ -161,11 +177,26 @@ sbit aerKillBit=IOD^6;	// Set to (1) after Setting of AddrSel and Ybit to kill 4
 #define selectLPFKill yBit=0
 #define selectBPFKill yBit=1
 
-// clocks one bit into one of the shift registers
-#define toggleClockHiLow(); clock=1;  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); clock=0; // gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
+/*
+ The clock should end up high, so that the slave shift register (SR) is powered.
+ This is changed from original firmware which ended up clock low.
+ Additional complication on cochleaAMS1b is that the clock is directed to the appropriate SRs 
+ by the 3 select bits for the bias and local DACs.
+ i.e., the clock to each SR chain is clock&select.
+ When select goes low, then clock will go low too. Therefore, we have to end up with all selects set high, so that all clocks
+ can be left high. Then when we load new data, we have to take other selects low, which will take their clocks low.
+ We then load the data, toggle the latches, and leave clock high while setting other selects high.
+ The selects are also anded.
+
+*/
+// Clocks one bit into one of the shift registers
+#define clockOnce(); clock=0;  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); clock=1; // gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
+//#define clockOnce(); clock=1;  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); clock=0; // gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
+
 // latch input is 0=opaque, 1=transparent. toggleLatch latches the outputs of the shift registers.
 #define toggleLatch() _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=1; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=0; 
-// was used for debug, nLDAC wired to ground on board #define toggleLDAC()  _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_();  dacNLDAC=0; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); dacNLDAC=1;  // toggles LDAC after all 48 bits loaded and sync is high
+
+// was used for debug, nLDAC wired to ground on board #define toggleLDAC()  _nop_();  _nop_();  _nop_().; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_();  dacNLDAC=0; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); dacNLDAC=1;  // toggles LDAC after all 48 bits loaded and sync is high
 #define	startDACSync() dacNSync=0; // starts DAC data input
 #define endDACSync()	dacNSync=1; _nop_(); _nop_(); dacClock=1; // dacClock must go high *after* dacNSync goes high
 
@@ -479,7 +510,7 @@ void sendConfigByte(unsigned char b){
 		}else{
 			bitIn=0;
 		}
-		toggleClockHiLow(); 
+		clockOnce(); 
 	}
 }
 
@@ -494,7 +525,7 @@ void sendConfigBits(unsigned char b,unsigned char nbits){
 		}else{
 			bitIn=0;
 		}
-		toggleClockHiLow();
+		clockOnce();
 	}
 }
 
@@ -1028,7 +1059,7 @@ in big endian format.
 					_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
 					selectData;
 					
-					sendConfigBits(SETUPDAT[4]&0x1f,5);
+					sendConfigBits(SETUPDAT[4]&0x1f,5);	   // what is this for?
 					
 					sendConfigBits((SETUPDAT[4]>>5)|(SETUPDAT[5]<<3),5);
 /* commented out because of bug in cochleaams1b where select of a single kill bit is inverted so everybody but the one you want

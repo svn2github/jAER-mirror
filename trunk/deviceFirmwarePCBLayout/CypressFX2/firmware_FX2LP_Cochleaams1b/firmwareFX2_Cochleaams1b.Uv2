@@ -29,19 +29,24 @@ Options 1,0,0  // Target 'Target 1'
  FlashUt ()
  StupF ("LIB\STARTUP.A51" ("Standard 8051 Startup Code"))
  FlashDR ()
+ DevID ()
  Rgf (FX2REGS.H)
  Mem ()
  C ()
  A ()
  RL ()
  OH ()
+ DBC_IFX ()
+ DBC_CMS ()
+ DBC_AMS ()
+ DBC_LMS ()
  UseEnv=1
  EnvBin (C:\Keil\C51\BIN\)
  EnvInc (C:\Cypress\USB\Target\Inc;C:\Keil\C51\INC\)
  EnvLib (C:\Keil\C51\LIB\)
  EnvReg (.\Cypress\)
  OrgReg (ÿCypress\)
- TgStat=0
+ TgStat=25
  OutDir (.\)
  OutName (firmwareFX2_Cochleaams1b)
  GenApp=1
@@ -64,6 +69,7 @@ Options 1,0,0  // Target 'Target 1'
  DHOLD5=0
  XHOLD5=0
  T51FL=304
+ XT51FL=0
  CBANKS5=0
  XBANKS5=0
  RCB51 { 0,0,0,0,0,255,255,0,0 }
@@ -74,6 +80,7 @@ Options 1,0,0  // Target 'Target 1'
  IRA51 { 0,0,0,0,0,0,1,0,0 }
  XRA51 { 0,0,224,0,0,0,4,0,0 }
  XRA512 { 0,0,0,0,0,0,0,0,0 }
+ IROM512 { 0,0,0,0,0,0,0,0,0 }
  C51FL=17435920
  C51VA=0
  C51MSC ()
@@ -124,5 +131,6 @@ Options 1,0,0  // Target 'Target 1'
  FLASH1 { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  FLASH2 ()
  FLASH3 ("" ())
+ FLASH4 ()
 EndOpt
 
