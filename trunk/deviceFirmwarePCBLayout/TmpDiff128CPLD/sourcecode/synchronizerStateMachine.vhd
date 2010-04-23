@@ -128,6 +128,7 @@ begin  -- Behavioral
         end if;
       when stRunMaster                =>      -- 1us timestamp tick mode
         DividerxDN   <= DividerxDP +1;
+        SyncOutxSBO <= '0';
 
         if DividerxDP = syncOutLow2 or DividerxDP = syncOutLow1 then  -- hold SyncOutxSBO high for
                                         -- two clockcycles to tell
@@ -153,8 +154,13 @@ begin  -- Behavioral
         end if;        
       when stTrigger                =>      
         DividerxDN   <= DividerxDP +1;
-
-        if DividerxDP >= counterInc then     -- increment local timestamp
+        SyncOutxSBO <= '0';
+        if DividerxDP = syncOutLow2 or DividerxDP = syncOutLow1 then  -- hold SyncOutxSBO high for
+                                        -- two clockcycles to tell
+                                        -- other boards to
+                                        -- increment their timestamps
+          SyncOutxSBO          <= '1';
+        elsif DividerxDP >= counterInc then     -- increment local timestamp
           DividerxDN          <= (others => '0');
           IncrementCounterxSO <= '1';
         end if;

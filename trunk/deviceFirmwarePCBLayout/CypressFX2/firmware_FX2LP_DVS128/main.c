@@ -20,7 +20,7 @@
 #include <fx2regs.h>
 #include <syncdly.h>
 #include "biasgen.h" 
-//#include "portsFX2.h"
+#include "portsFX2.h"
 #include "ports.h"
 #include "micro.h"
 /*
