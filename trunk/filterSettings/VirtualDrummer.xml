@@ -19,8 +19,89 @@
                   <entry key="FilterChain.timeLimitMs" value="0"/>
                   <entry key="XYTypeFilter.filterEnabled" value="false"/>
                   <entry key="RotateFilter.filterEnabled" value="false"/>
-                  <entry key="BackgroundActivityFilter.filterEnabled" value="true"/>
+                  <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
                   <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAHdwQAAAAHdAAnbmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5JbmZvdAA7bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0ADluZXQuc2YuamFlci5ldmVudHByb2Nlc3NpbmcubGFiZWwuU2ltcGxlT3JpZW50YXRpb25GaWx0ZXJ0ADpuZXQuc2YuamFlci5ldmVudHByb2Nlc3NpbmcubGFiZWwuRGlyZWN0aW9uU2VsZWN0aXZlRmlsdGVydAA+bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLnRyYWNraW5nLlJlY3Rhbmd1bGFyQ2x1c3RlclRyYWNrZXJ0AEBjaC51bml6aC5pbmkuamFlci5wcm9qZWN0cy5nZXN0dXJlLnZpcnR1YWxkcnVtbWVyLlZpcnR1YWxEcnVtbWVydAAvbmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5YWVR5cGVGaWx0ZXJ4"/>
+                  <entry key="GestureTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                  <entry key="GestureTracker.maxNumClusters" value="1"/>
+                  <entry key="GestureTracker.clusterSize" value="0.15f"/>
+                  <entry key="GestureTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="GestureTracker.thresholdEventsForVisibleCluster" value="100"/>
+                  <entry key="VirtualDrummer.filterEnabled" value="true"/>
+                  <entry key="GestureTracker.filterEnabled" value="false"/>
+                  <entry key="PawTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                  <entry key="PawTracker.maxNumClusters" value="10"/>
+                  <entry key="PawTracker.clusterSize" value="0.15f"/>
+                  <entry key="PawTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="PawTracker.thresholdEventsForVisibleCluster" value="30"/>
+                  <entry key="PawTracker.thresholdISIForVisibleCluster" value="2.0f"/>
+                  <entry key="PawTracker.resetPawTracking" value="false"/>
+                  <entry key="PawTracker2.clusterLifetimeWithoutSupport" value="10000"/>
+                  <entry key="PawTracker2.maxNumClusters" value="10"/>
+                  <entry key="PawTracker2.clusterSize" value="0.15f"/>
+                  <entry key="PawTracker2.numEventsStoredInCluster" value="100"/>
+                  <entry key="PawTracker2.thresholdEventsForVisibleCluster" value="30"/>
+                  <entry key="PawTracker2.thresholdISIForVisibleCluster" value="2.0f"/>
+                  <entry key="PawTracker2.resetPawTracking" value="false"/>
+                  <entry key="PawTracker3.resetPawTracking" value="false"/>
+                  <entry key="PawTracker3.validateParameters" value="false"/>
+                  <entry key="PawTracker.filterEnabled" value="false"/>
+                  <entry key="PawTracker2.filterEnabled" value="false"/>
+                  <entry key="PawTracker3.filterEnabled" value="false"/>
+                  <entry key="ClusterTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                  <entry key="ClusterTracker.maxNumClusters" value="10"/>
+                  <entry key="ClusterTracker.clusterSize" value="0.15f"/>
+                  <entry key="ClusterTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="ClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
+                  <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="33000"/>
+                  <entry key="RectangularClusterTracker.maxNumClusters" value="12"/>
+                  <entry key="RectangularClusterTracker.clusterSize" value="0.123"/>
+                  <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="10000"/>
+                  <entry key="QuadrantGestureTracker.filterEnabled" value="false"/>
+                  <entry key="HeadTracker.filterEnabled" value="false"/>
+                  <entry key="HingeLineTracker.filterEnabled" value="false"/>
+                  <entry key="ClusterTracker.filterEnabled" value="false"/>
+                  <entry key="EinsteinClusterTracker.filterEnabled" value="false"/>
+                  <entry key="MedianTracker.filterEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
+                  <entry key="CUDAObjectTrackerControl.filterEnabled" value="false"/>
+                  <entry key="class ch.unizh.ini.jaer.chip.retina.DVS128.preferredDisplayMethod" value="net.sf.jaer.graphics.ChipRendererDisplayMethod"/>
+                  <entry key="BlurringFilter2D.filterEnabled" value="false"/>
+                  <entry key="BlurringFilter2D.showCells" value="true"/>
+                  <entry key="BlurringFilter2D.useOffPolarityOnlyEnabled" value="false"/>
+                  <entry key="BlurringFilter2D.useOnePolarityOnlyEnabled" value="false"/>
+                  <entry key="BlurringFilter2D.thresholdEventsForVisibleCell" value="100"/>
+                  <entry key="BlurringFilter2D.cellSizePixels" value="8"/>
+                  <entry key="BlurringFilter2D.thresholdMassForVisibleCell" value="20"/>
+                  <entry key="BlurringFilter2D.cleanSurroundedCells" value="false"/>
+                  <entry key="BlurringFilter2D.filledCells" value="true"/>
+                  <entry key="BlurringFilter2D.showInfo" value="false"/>
+                  <entry key="BlurringFilter2D.cellLifeTimeUs" value="5000"/>
+                  <entry key="BlurringFilter2D.showBorderCellsOnly" value="true"/>
+                  <entry key="GestureTracker.colorClustersDifferentlyEnabled" value="false"/>
+                  <entry key="GestureTracker.showVelocity" value="false"/>
+                  <entry key="GestureTracker.useNearestCluster" value="false"/>
+                  <entry key="GestureTracker.showAllClusters" value="false"/>
+                  <entry key="GestureTracker.classifierEnabled" value="false"/>
+                  <entry key="GestureTracker.clusterLifetimeIncreasesWithAge" value="false"/>
+                  <entry key="GestureTracker.pathsEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.updateIntervalMs" value="17.83"/>
+                  <entry key="BlurringFilter2D.showInsideCellsOnly" value="true"/>
+                  <entry key="HandTracker.filterEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.showAllClusters" value="false"/>
+                  <entry key="RectangularClusterTracker.pathsEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.showClusterMass" value="false"/>
+                  <entry key="HandTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                  <entry key="HandTracker.numEventsStoredInCluster" value="100"/>
+                  <entry key="HandTracker.showAllClusters" value="true"/>
+                  <entry key="BlurringFilter2D.filterEventsEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.thresholdVelocityForVisibleCluster" value="1.5367377"/>
+                  <entry key="RectangularClusterTracker.dynamicSizeEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.dynamicAngleEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.dynamicAspectRatioEnabled" value="false"/>
+                  <entry key="RectangularClusterTracker.filterEventsEnabled" value="true"/>
+                  <entry key="RectangularClusterTracker.loggingIntervalUs" value="1050"/>
+                  <entry key="BackgroundActivityFilter.dt" value="25276"/>
                   <entry key="TopologyTracker.filterEnabled" value="false"/>
                   <entry key="TopologyTracker.learningEnabled" value="true"/>
                   <entry key="TopologyTracker.learningWindowMean" value="2.0"/>
@@ -72,28 +153,16 @@
                   <entry key="SimpleOrientationFilter.filterEnabled" value="false"/>
                   <entry key="Tmpdiff128RateController.filterEnabled" value="false"/>
                   <entry key="ClassTracker.filterEnabled" value="false"/>
-                  <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="33000"/>
-                  <entry key="RectangularClusterTracker.maxNumClusters" value="12"/>
-                  <entry key="RectangularClusterTracker.clusterSize" value="0.123"/>
-                  <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
-                  <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="10000"/>
-                  <entry key="RectangularClusterTracker.filterEnabled" value="true"/>
-                  <entry key="RectangularClusterTracker.dynamicSizeEnabled" value="false"/>
-                  <entry key="RectangularClusterTracker.dynamicAspectRatioEnabled" value="false"/>
                   <entry key="RectangularClusterTracker.showVelocity" value="true"/>
-                  <entry key="RectangularClusterTracker.pathsEnabled" value="true"/>
-                  <entry key="RectangularClusterTracker.showAllClusters" value="false"/>
-                  <entry key="RectangularClusterTracker.mixingFactor" value="0.0016"/>
+                  <entry key="RectangularClusterTracker.mixingFactor" value="0.0013163242"/>
                   <entry key="Goalie.pixelsToEdgeOfGoal" value="37"/>
                   <entry key="Goalie.useSoonest" value="true"/>
                   <entry key="Goalie.topRowsToIgnore" value="1"/>
                   <entry key="Goalie.learnTimeMs" value="84427"/>
                   <entry key="Goalie.pixelsToTipOfArm" value="37"/>
-                  <entry key="RectangularClusterTracker.thresholdVelocityForVisibleCluster" value="1.5367377"/>
                   <entry key="RectangularClusterTracker.velocityMixingFactor" value="0.05963748"/>
                   <entry key="RectangularClusterTracker.pathLength" value="159"/>
                   <entry key="Goalie.useVelocityForGoalie" value="true"/>
-                  <entry key="BackgroundActivityFilter.dt" value="25276"/>
                   <entry key="XYTypeFilter.yEnabled" value="true"/>
                   <entry key="XYTypeFilter.endY" value="120"/>
                   <entry key="XYTypeFilter.startY" value="15"/>
@@ -124,7 +193,6 @@
                   <entry key="DirectionSelectiveFilter.ppsScale" value="0.021814851"/>
                   <entry key="DirectionSelectiveFilter.speedMixingFactor" value="0.021928865"/>
                   <entry key="DirectionSelectiveFilter.maxDtThreshold" value="227996"/>
-                  <entry key="CUDAObjectTrackerControl.filterEnabled" value="false"/>
                   <entry key="CUDAObjectTrackerControl.cudaExecutablePath" value="H:\Program Files\NVIDIA Corporation\NVIDIA CUDA SDK\projects\gpgpu08\jaerCuda\win32\emudebug\jaercuda.exe"/>
                   <entry key="RefractoryFilter.filterEnabled" value="true"/>
                   <entry key="CUDAObjectTrackerControl.threshold" value="6.865555"/>
@@ -351,7 +419,6 @@
                   <entry key="Info.analogClock" value="true"/>
                   <entry key="Info.date" value="true"/>
                   <entry key="Info.digitalClock" value="true"/>
-                  <entry key="class ch.unizh.ini.jaer.chip.retina.DVS128.preferredDisplayMethod" value="net.sf.jaer.graphics.ChipRendererDisplayMethod"/>
                   <entry key="EndStoppedOrientationLabeler.filterEnabled" value="false"/>
                   <entry key="Info.eventRate" value="true"/>
                   <entry key="EndStoppedOrientationLabeler.minDt" value="3"/>
@@ -363,8 +430,6 @@
                   <entry key="EndStoppedOrientationLabeler.minActivityDifference" value="0.28"/>
                   <entry key="EndStoppedOrientationLabeler.probabilisitcFiltering" value="false"/>
                   <entry key="RectangularClusterTracker.velocityVectorScaling" value="0.05902306"/>
-                  <entry key="RectangularClusterTracker.filterEventsEnabled" value="true"/>
-                  <entry key="RectangularClusterTracker.updateIntervalMs" value="17.83"/>
                   <entry key="RectangularClusterTracker.useNearestCluster" value="true"/>
                   <entry key="ParticleTracker.clusterUnsupportedLifetime" value="50000"/>
                   <entry key="ParticleTracker.ParticleTracker.clusterMinMass4Display" value="10"/>
@@ -373,7 +438,6 @@
                   <entry key="ParticleTracker.LogFrameRate" value="0"/>
                   <entry key="ParticleTracker.filterEnabled" value="false"/>
                   <entry key="ParticleTracker.clusterMinMass4Display" value="5.050684"/>
-                  <entry key="VirtualDrummer.filterEnabled" value="false"/>
                   <entry key="RectangularClusterTracker.enableClusterExitPurging" value="false"/>
                   <entry key="RectangularClusterTracker.showClusterVelocity" value="true"/>
                   <entry key="RectangularClusterTracker.clusterLifetimeIncreasesWithAge" value="true"/>
@@ -381,6 +445,34 @@
                   <entry key="VirtualDrummer.beatClusterVelocityPPS" value="41.552097"/>
                   <entry key="RectangularClusterTracker.growMergedSizeEnabled" value="false"/>
                   <entry key="RectangularClusterTracker.velAngDiffDegToNotMerge" value="180.0"/>
+                  <entry key="HandTracker.showClusterNumber" value="true"/>
+                  <entry key="HandTracker.maximumClusterAgeFrames" value="50"/>
+                  <entry key="HandTracker.showClusterVelocity" value="false"/>
+                  <entry key="HandTracker.pathLength" value="30"/>
+                  <entry key="HandTracker.velAngDiffDegToNotMerge" value="62.999996"/>
+                  <entry key="HandTracker.pathsEnabled" value="true"/>
+                  <entry key="HandTracker.velocityVectorScaling" value="1.0"/>
+                  <entry key="HandTracker.useVelocity" value="false"/>
+                  <entry key="HandTracker.velocityPoints" value="2"/>
+                  <entry key="HandTracker.initializeVelocityToAverage" value="false"/>
+                  <entry key="BluringFilter2DTracker.filterEnabled" value="false"/>
+                  <entry key="HandTracker.enableClusterExitPurging" value="true"/>
+                  <entry key="BluringFilter2DTracker.showAllClusters" value="true"/>
+                  <entry key="BluringFilter2DTracker.showClusterNumber" value="true"/>
+                  <entry key="BluringFilter2DTracker.useVelocity" value="true"/>
+                  <entry key="BluringFilter2DTracker.pathsEnabled" value="true"/>
+                  <entry key="BluringFilter2DTracker.pathLength" value="200"/>
+                  <entry key="BluringFilter2DTracker.showClusterVelocity" value="false"/>
+                  <entry key="BluringFilter2DTracker.maximumClusterAgeFrames" value="50"/>
+                  <entry key="VirtualDrummer.subFrameDivisionRatio" value="10.0"/>
+                  <entry key="VirtualDrummer.subPacketRatio" value="1.0"/>
+                  <entry key="BluringFilter2DTracker.velocityPoints" value="5"/>
+                  <entry key="BluringFilter2DTracker.subPacketRatio" value="5"/>
+                  <entry key="BluringFilter2DTracker.enableClusterExitPurging" value="true"/>
+                  <entry key="BluringFilter2DTracker.initializeVelocityToAverage" value="true"/>
+                  <entry key="BluringFilter2DTracker.showClusters" value="false"/>
+                  <entry key="VirtualDrummer.trackerToUse" value="BlurringFilter2DTracker"/>
+                  <entry key="FilterChain.updateIntervalMs" value="25.0"/>
                 </map>
                 <node name="ch">
                   <map/>
@@ -396,6 +488,42 @@
                             <map/>
                             <node name="virtualdrummer">
                               <map/>
+                              <node name="BluringFilter2DTracker">
+                                <map>
+                                  <entry key="BlurringFilter2D.showCells" value="false"/>
+                                  <entry key="BlurringFilter2D.filledCells" value="true"/>
+                                  <entry key="BlurringFilter2D.cellLifeTimeUs" value="5000"/>
+                                  <entry key="BlurringFilter2D.thresholdMassForVisibleCell" value="20"/>
+                                  <entry key="BlurringFilter2D.thresholdEventsForVisibleCell" value="30"/>
+                                  <entry key="BlurringFilter2D.showBorderCellsOnly" value="true"/>
+                                  <entry key="BlurringFilter2D.showInsideCellsOnly" value="true"/>
+                                  <entry key="BlurringFilter2D.cellSizePixels" value="8"/>
+                                  <entry key="RectangularClusterTracker.updateIntervalMs" value="23.77"/>
+                                </map>
+                              </node>
+                              <node name="BlurringFilter2DTracker">
+                                <map>
+                                  <entry key="BlurringFilter2D.showCells" value="false"/>
+                                  <entry key="BlurringFilter2D.filledCells" value="true"/>
+                                  <entry key="BlurringFilter2D.showBorderCellsOnly" value="true"/>
+                                  <entry key="BlurringFilter2D.cellLifeTimeUs" value="5000"/>
+                                  <entry key="BlurringFilter2D.thresholdMassForVisibleCell" value="25"/>
+                                  <entry key="BlurringFilter2D.thresholdEventsForVisibleCell" value="1"/>
+                                  <entry key="BlurringFilter2D.showInsideCellsOnly" value="true"/>
+                                  <entry key="BlurringFilter2D.cellMassTimeConstantUs" value="5000"/>
+                                </map>
+                              </node>
+                              <node name="HandTracker">
+                                <map>
+                                  <entry key="BlurringFilter2D.filledCells" value="true"/>
+                                  <entry key="BlurringFilter2D.showInsideCellsOnly" value="true"/>
+                                  <entry key="BlurringFilter2D.thresholdMassForVisibleCell" value="150"/>
+                                  <entry key="BlurringFilter2D.showBorderCellsOnly" value="false"/>
+                                  <entry key="BlurringFilter2D.showCells" value="false"/>
+                                  <entry key="BlurringFilter2D.thresholdEventsForVisibleCell" value="200"/>
+                                  <entry key="BlurringFilter2D.cellLifeTimeUs" value="50000"/>
+                                </map>
+                              </node>
                               <node name="VirtualDrummer">
                                 <map>
                                   <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="89858"/>
@@ -403,20 +531,64 @@
                                   <entry key="RectangularClusterTracker.clusterSize" value="0.15f"/>
                                   <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
                                   <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="259"/>
+                                  <entry key="RectangularClusterTracker.dynamicAspectRatioEnabled" value="true"/>
+                                  <entry key="RectangularClusterTracker.thresholdVelocityForVisibleCluster" value="11.927501"/>
                                   <entry key="RectangularClusterTracker.dynamicSizeEnabled" value="true"/>
                                   <entry key="RectangularClusterTracker.updateIntervalMs" value="8.92"/>
                                   <entry key="RectangularClusterTracker.velocityPoints" value="8"/>
                                   <entry key="RectangularClusterTracker.mixingFactor" value="0.0056"/>
                                   <entry key="RectangularClusterTracker.surround" value="1.29"/>
                                   <entry key="RectangularClusterTracker.enableClusterExitPurging" value="false"/>
-                                  <entry key="RectangularClusterTracker.thresholdVelocityForVisibleCluster" value="11.927501"/>
                                   <entry key="RectangularClusterTracker.pathsEnabled" value="true"/>
                                   <entry key="RectangularClusterTracker.showClusterVelocity" value="true"/>
                                   <entry key="RectangularClusterTracker.useVelocity" value="true"/>
                                   <entry key="RectangularClusterTracker.velocityVectorScaling" value="0.19987282"/>
                                   <entry key="RectangularClusterTracker.pathLength" value="38"/>
+                                  <entry key="RectangularClusterTracker.showClusterNumber" value="true"/>
+                                  <entry key="BluringFilter2DTracker.pathLength" value="100"/>
+                                  <entry key="BluringFilter2DTracker.showAllClusters" value="true"/>
+                                  <entry key="BluringFilter2DTracker.showClusterVelocity" value="false"/>
+                                  <entry key="DirectionSelectiveFilter.filterEnabled" value="false"/>
+                                  <entry key="DirectionSelectiveFilter.showRawInputEnabled" value="false"/>
+                                  <entry key="DirectionSelectiveFilter.showVectorsEnabled" value="true"/>
+                                  <entry key="DirectionSelectiveFilter.speedControlEnabled" value="true"/>
+                                  <entry key="DirectionSelectiveFilter.useAvgDtEnabled" value="true"/>
+                                  <entry key="DirectionSelectiveFilter.showGlobalEnabled" value="true"/>
+                                  <entry key="BluringFilter2DTracker.showClusterNumber" value="true"/>
+                                  <entry key="DirectionSelectiveFilter.excessSpeedRejectFactor" value="4"/>
+                                  <entry key="DirectionSelectiveFilter.maxDtThreshold" value="227996"/>
+                                  <entry key="DirectionSelectiveFilter.ppsScale" value="0.0218"/>
+                                  <entry key="DirectionSelectiveFilter.speedMixingFactor" value="0.0219"/>
+                                  <entry key="DirectionSelectiveFilter.tauLow" value="187"/>
+                                  <entry key="BluringFilter2DTracker.velocityPoints" value="3"/>
+                                  <entry key="BluringFilter2DTracker.velocityVectorScaling" value="0.25476822"/>
+                                  <entry key="BluringFilter2DTracker.showClusters" value="true"/>
+                                  <entry key="BluringFilter2DTracker.numVelocityPoints" value="3"/>
+                                  <entry key="BluringFilter2DTracker.initializeVelocityToAverage" value="false"/>
                                 </map>
                               </node>
+                            </node>
+                          </node>
+                          <node name="headtracker">
+                            <map/>
+                            <node name="HeadTracker">
+                              <map>
+                                <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                                <entry key="RectangularClusterTracker.maxNumClusters" value="10"/>
+                                <entry key="RectangularClusterTracker.clusterSize" value="0.1"/>
+                                <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                                <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
+                                <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
+                              </map>
+                            </node>
+                          </node>
+                          <node name="rccar">
+                            <map/>
+                            <node name="HingeLineTracker">
+                              <map/>
+                            </node>
+                            <node name="PerspecTransform">
+                              <map/>
                             </node>
                           </node>
                           <node name="tobi">
@@ -484,6 +656,34 @@
                         <node name="label">
                           <map/>
                           <node name="DirectionSelectiveFilter">
+                            <map>
+                              <entry key="SimpleOrientationFilter.showGlobalEnabled" value="false"/>
+                              <entry key="SimpleOrientationFilter.showVectorsEnabled" value="false"/>
+                              <entry key="SimpleOrientationFilter.passAllEvents" value="false"/>
+                            </map>
+                          </node>
+                        </node>
+                        <node name="tracking">
+                          <map/>
+                          <node name="ClusterTracker">
+                            <map/>
+                          </node>
+                        </node>
+                      </node>
+                    </node>
+                  </node>
+                </node>
+                <node name="org">
+                  <map/>
+                  <node name="ine">
+                    <map/>
+                    <node name="telluride">
+                      <map/>
+                      <node name="jaer">
+                        <map/>
+                        <node name="cuda">
+                          <map/>
+                          <node name="CUDAObjectTrackerControl">
                             <map/>
                           </node>
                         </node>
