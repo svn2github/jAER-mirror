@@ -574,6 +574,7 @@
                                   <entry key="BluringFilter2DTracker.useVelocity" value="true"/>
                                   <entry key="BluringFilter2DTracker.pathsEnabled" value="true"/>
                                   <entry key="BluringFilter2DTracker.velAngDiffDegToNotMerge" value="57.14286"/>
+                                  <entry key="BluringFilter2DTracker.maximumClusterLifetimeMs" value="894.9702"/>
                                 </map>
                               </node>
                             </node>
