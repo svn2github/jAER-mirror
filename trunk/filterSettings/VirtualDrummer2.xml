@@ -378,7 +378,7 @@
                   <entry key="RectangularClusterTracker.showClusterVelocity" value="true"/>
                   <entry key="RectangularClusterTracker.clusterLifetimeIncreasesWithAge" value="true"/>
                   <entry key="VirtualDrummer.minBeatRepeatIntervalMs" value="100.0"/>
-                  <entry key="VirtualDrummer.beatClusterVelocityPPS" value="4.0479808E-4"/>
+                  <entry key="VirtualDrummer.beatClusterVelocityPPS" value="27.517942"/>
                   <entry key="RectangularClusterTracker.growMergedSizeEnabled" value="false"/>
                   <entry key="RectangularClusterTracker.velAngDiffDegToNotMerge" value="180.0"/>
                   <entry key="RectangularClusterTracker.showClusterNumber" value="true"/>
@@ -472,7 +472,7 @@
                   <entry key="BluringFilter2DTracker.subPacketRatio" value="5"/>
                   <entry key="BluringFilter2DTracker.enableClusterExitPurging" value="true"/>
                   <entry key="BluringFilter2DTracker.initializeVelocityToAverage" value="true"/>
-                  <entry key="BluringFilter2DTracker.showClusters" value="false"/>
+                  <entry key="BluringFilter2DTracker.showClusters" value="true"/>
                   <entry key="FilterChain.updateIntervalMs" value="10000.0"/>
                   <entry key="VirtualDrummer.numVelocityToCheck" value="5"/>
                   <entry key="BluringFilter2DTracker.numVelocityPoints" value="3"/>
@@ -510,12 +510,12 @@
                                   <entry key="BlurringFilter2D.filledCells" value="true"/>
                                   <entry key="BlurringFilter2D.showBorderCellsOnly" value="true"/>
                                   <entry key="BlurringFilter2D.showInsideCellsOnly" value="true"/>
-                                  <entry key="BlurringFilter2D.thresholdEventsForVisibleCell" value="3"/>
-                                  <entry key="BlurringFilter2D.thresholdMassForVisibleCell" value="68"/>
-                                  <entry key="BlurringFilter2D.cellLifeTimeUs" value="500000"/>
-                                  <entry key="BlurringFilter2D.cellSizePixels" value="8"/>
-                                  <entry key="BlurringFilter2D.showCells" value="true"/>
-                                  <entry key="BlurringFilter2D.cellMassTimeConstantUs" value="20000"/>
+                                  <entry key="BlurringFilter2D.thresholdEventsForVisibleCell" value="2"/>
+                                  <entry key="BlurringFilter2D.thresholdMassForVisibleCell" value="20"/>
+                                  <entry key="BlurringFilter2D.cellLifeTimeUs" value="5000000"/>
+                                  <entry key="BlurringFilter2D.cellSizePixels" value="6"/>
+                                  <entry key="BlurringFilter2D.showCells" value="false"/>
+                                  <entry key="BlurringFilter2D.cellMassTimeConstantUs" value="30000"/>
                                 </map>
                               </node>
                               <node name="HandTracker">
@@ -569,7 +569,7 @@
                                   <entry key="DirectionSelectiveFilter.speedMixingFactor" value="0.0219"/>
                                   <entry key="DirectionSelectiveFilter.tauLow" value="187"/>
                                   <entry key="BluringFilter2DTracker.velocityPoints" value="3"/>
-                                  <entry key="BluringFilter2DTracker.velocityVectorScaling" value="0.24263641"/>
+                                  <entry key="BluringFilter2DTracker.velocityVectorScaling" value="0.25476822"/>
                                   <entry key="BluringFilter2DTracker.initializeVelocityToAverage" value="false"/>
                                   <entry key="BluringFilter2DTracker.useVelocity" value="true"/>
                                   <entry key="BluringFilter2DTracker.pathsEnabled" value="true"/>
