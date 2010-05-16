@@ -17,6 +17,10 @@
 <classPath>..\host\java\jars\AbsoluteLayout.jar</classPath>
 <classPath>..\host\java\jars\RXTXcomm.jar</classPath>
 <classPath>..\host\java\jars\prefs-0.8.jar</classPath>
+<classPath>..\host\java\jars\beansbinding-1.2.1.jar</classPath>
+<classPath>..\host\java\jars\flanagan.jar</classPath>
+<classPath>..\host\java\jars\jlfgr-1_0.jar</classPath>
+<classPath>..\host\java\jars\prefs-0.8.jar</classPath>
 <currentDirectory>host\java</currentDirectory>
 <embeddedJar>false</embeddedJar>
 <executableName>..\jAERViewer.exe</executableName>
