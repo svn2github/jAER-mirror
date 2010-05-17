@@ -1,5 +1,6 @@
 DVS 128 firmware versions:
 
+0009 fixed bug in CPLD firmware, syncronization was not working anymore. the master did not output the reset pulse to the slave retinas. 17.5.2010, rapha
 0008 the snyc clock to clock a slave retina is now also output in trigger mode. 23.4.2010 rapha 
 0007 firmware allows inserting a special trigger event when syncIn pin goes low, 
      enabling of this feature is controlled via FX2 pin PE6 to CPLD. 11.2.2010 tobi (FX2) and rapha (CPLD)

@@ -146,7 +146,7 @@ begin  -- Behavioral
         elsif RunxSI = '0' then
           StatexDN   <= stMasterIdle;
         elsif HostResetTimestampxSI = '1' then
-          StatexDN   <= stResetTS;
+          StatexDN   <= stResetSlaves;
           DividerxDN <= (others => '0');
         elsif TriggerxSB = '0' and ConfigxSI = '1' then
           StatexDN <= stTrigger;
