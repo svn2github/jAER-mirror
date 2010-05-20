@@ -1,4 +1,4 @@
-function [ bins ] = itdfilter(varargin)
+function [ bins, binsum ] = itdfilter(varargin)
 %ITDFILTER Computes ITDbins from an AER file for every channel seperately.
 %   bins=ITDFILTER() will open a file dialog to choose the .dat file and will
 %   then compute the bins and display them in a surface plot. For the plot
@@ -243,7 +243,7 @@ if length(chan)>1
     end
     bins=bins(2:end,:,:);
 else
-    bins=zeros(1,numOfBins,numOfChannels);
+    bins=zeros(2,numOfBins,numOfChannels);
 end
 
 %% plot the result:
