@@ -1,22 +1,41 @@
-function plotParticleTrackerLog(logName,frameN,time_shift,xshift,yshift,xscaling,yscaling,xlim,ylim)
-% Hydrolab: xshift=-62*366e-6; yshift=67*366e-6; xscaling=-366e-6;
-% yscaling=366e-6; xlim=[-70 70]*366e-6; ylim=xlim;
+function plotParticleTrackerLog(file)
+% plots paths of clusters logged from RectangularClusterTracker
+% call it with plotParticleTrackerLog
+persistent filename
+if isempty(filename),
+    filename='';
+end
+if nargin==0,
+    [filename,path,filterindex]=uigetfile('*.m','Select recorded tracker log file',filename);
+    if filename==0, return; end
+end
+if nargin==1,
+    path='';
+    filename=file;
+end
 
-for i=frameN
-  [particles]=feval(logName,i+time_shift);
-  i
-  if (~isempty(particles))
-    x=xscaling*particles(:,2)-xshift;
-    y=yscaling*particles(:,3)-yshift;
-    u=xscaling*particles(:,4);
-    v=yscaling*particles(:,5);
-    plot(x,y,'o');
+i=0;
+while(1),
+    try
+        [path]=feval(filename(1:end-2),i);
+    catch
+        break;
+    end
+%  i
+  if (~isempty(path))
+    t=path(:,1); 
+    x=path(:,2);
+    y=path(:,3);
+    nevents=path(:,4);
+    figure(1);
+    plot3(t,x,y); 
+    xlabel t
+    ylabel x
+    zlabel y
     hold on
-    quiver(x,y,u*1e3,v*1e3,0);
-    set(gca,'xlim',xlim,'ylim',ylim);
-    hold off
   else
       cla;
   end; %if
   drawnow;
+  i=i+1;
 end; %for
