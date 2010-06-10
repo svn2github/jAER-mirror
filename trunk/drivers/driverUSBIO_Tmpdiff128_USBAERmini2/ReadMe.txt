@@ -5,10 +5,14 @@ TmpDiff128 retina, VID 0547, PID 8700
 USBAERmini2, VID 0547, PID 8801
 TCVS320 retina, VIC 0547, PID 8702
 USBAERmapper, VID 0547, PID 8900
-Cypress Blank, VID 04B4, PID 8613
+Cypress Blank, VID 04B4, PID 8613   // used for blank CypressFX2 - firmeware is downloaded to RAM, which then allows writing the firmware to the EEPROM
 DVS128, VID 152a PID 8400
 SimpleAESequencer VID 152a PID 8410
 CochleaAMS1b, VID 152a PID 8405
+
+32 and 64 bit drivers are in separate folders to facilitate driver code signing.
+Drivers are signed using the "iniLabs GmbH" certificate purchased from GlobalSign CA.
+
 
 to make your devices work with this driver:
 

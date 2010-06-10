@@ -10,6 +10,7 @@ To install the driver
 
 DVS128 or Tmpdiff128: navigate to folder driverUSBIO_Tmpdiff128_USBAERmini2
 
+A blank CypressFX2 has VID=0x04b4 PID=0x8613
 
 ----------------------------------------------
 USB VID/PID assignments for jAER
