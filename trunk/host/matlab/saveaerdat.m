@@ -15,7 +15,7 @@ function saveaerdat(train,filename)
 % filename is an optional filename which overrides the dialog box
 
 if nargin==1,
-    [filename,path,filterindex]=uiputfile('*.dat','Save data file');
+    [filename,path,filterindex]=uiputfile('*.aedat','Save data file');
 elseif nargin==2,
     path='';
 end
