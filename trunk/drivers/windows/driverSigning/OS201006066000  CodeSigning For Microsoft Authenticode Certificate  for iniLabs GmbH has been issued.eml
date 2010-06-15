@@ -1,0 +1,117 @@
+Return-Path: <no_reply@globalsign.com>
+Received: from smtp.ini.uzh.ch (celeborn.dmz.ini.uzh.ch [130.60.230.185])
+	 by imap.ini.uzh.ch (Cyrus v2.3.11) with LMTPA;
+	 Tue, 08 Jun 2010 11:04:47 +0200
+X-Sieve: CMU Sieve 2.3
+Received: from smtp.ini.uzh.ch (localhost.lan.ini.uzh.ch [127.0.0.1])
+	by smtp.ini.uzh.ch (Postfix) with ESMTP id B0BCC125907
+	for <tobi@ini.phys.ethz.ch>; Tue,  8 Jun 2010 11:09:02 +0200 (CEST)
+Received: from smtp.globalsign.com (smtp.globalsign.com [198.104.188.56])
+	by smtp.ini.uzh.ch (Postfix) with ESMTP id 498BD125901
+	for <tobi@ini.phys.ethz.ch>; Tue,  8 Jun 2010 11:09:01 +0200 (CEST)
+Received: from gssvr01.globalsign.com (ns1.globalsign.com [211.0.153.1])
+	by smtp.globalsign.com (8.14.4/8.13.1) with ESMTP id o5898vlG010048
+	for <tobi@ini.phys.ethz.ch>; Tue, 8 Jun 2010 09:09:00 GMT
+Received: from gsgas01 ([211.0.153.14])
+	by gssvr01.globalsign.com (8.13.1/8.13.1) with ESMTP id o5898uL7011759
+	for <tobi@ini.phys.ethz.ch>; Tue, 8 Jun 2010 18:08:57 +0900
+Date: Tue, 8 Jun 2010 18:08:56 +0900 (JST)
+From: no_reply@globalsign.com
+To: tobi@ini.phys.ethz.ch
+Message-ID: <2725305.971275988136422.JavaMail.gsadmin@gsgas01>
+Subject: OS201006066000: CodeSigning For Microsoft Authenticode Certificate
+  for iniLabs GmbH has been issued
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: yes
+
+--------------------------------------------------
+Please note that this e-mail is automatically sent from a noreply mailbox.  
+To contact GlobalSign please use the Contact Details at the foot of this email. 
+--------------------------------------------------
+
+Dear Tobi Delbruck,
+
+Your CodeSigning For Microsoft Authenticode Certificate should now 
+have been generated and installed.
+
+If this is the case then you can ignore this email, but if you 
+experienced problems installing the Certificate, you can follow 
+the instructions below.
+
+
+YOUR ORDER INFORMATION
+--------------------------------------------------
+Order Number:           OS201006066000
+Product Type:           CodeSigning For Microsoft Authenticode
+Cert Common Name:       iniLabs GmbH
+Validity Period:        3 year
+Placed by User ID:      PAR28750_tobidelbruck
+--------------------------------------------------
+
+
+EXPERIENCE PROBLEMS INSTALLING YOUR CERTIFICATE?
+--------------------------------------------------
+If you have generated your Certificate but the installation failed, click 
+on the link below to open the Certificate installation page where you 
+can repeat the installation process.
+
+https://system.globalsign.com/pc/public/certificate/pickup.do?p=4eb8a40b9dc57dc648641df048a125d363d5b195
+
+Make sure the above link is unbroken and complete. Copy and Paste the 
+entire link into your browser if necessary.
+
+If you have already successfully installed your Certificate, you can 
+ignore this section.
+
+
+YOUR ACCOUNT & GCC LOGIN DETAILS
+--------------------------------------------------
+Organisation:           iniLabs GmbH
+Organisation ID:        PAR28750 
+
+Login to your GlobalSign Certificate Center (GCC) Account to manage 
+the lifecycle of your Certificate.  Your Account gives you easy access 
+to renew Certificates, buy additional Certificates and to revoke or 
+cancel existing Certificates if necessary.
+
+Your GCC User Name:     PAR28750_tobidelbruck
+Your GCC Password:      As you provided during application
+GCC Login URL:          https://www.globalsign.com/ssl-login.htm
+
+
+
+Thank you for choosing GlobalSign, if you have any questions or 
+issues please do not hesitate to contact us.
+
+
+GLOBALSIGN CONTACT DETAILS
+--------------------------------------------------
+For online Technical Support:
+http://www.globalsign.com/support
+
+To create a new Support ticket:
+http://www.globalsign.com/help.html
+
+Self-diagnose SSL installation issues using the Healthcheck web service:
+http://www.globalsign.com/support/healthcheck
+
+For Sales & Existing Account Queries: 
+UK  Tel:  +44 1622 766766  |  Fax:  +44 1622 235590 
+EU  Tel:  +32 16 89 19 00  |  Fax:  +32 16 89 19 09 
+Email:  sales@globalsign.com
+
+If you are faxing vetting documents - fax directly to 
+most appropriate vetting department:
+UK  Fax:  +44 1622 235589
+EU  Fax:  +32 16 79 52 30
+
+UK  Web:  http://www.globalsign.co.uk
+EU  Web:  http://eu.globalsign.com
+
+--------------------------------------------------
+GlobalSign - Over 10 years of securing Identities, 
+Web Sites and Transactions
+--------------------------------------------------
+
