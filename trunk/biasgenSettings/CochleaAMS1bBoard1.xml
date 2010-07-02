@@ -316,7 +316,7 @@
                   <entry key="Masterbias.internalResistorUsed" value="false"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.pdbia  sTX" value="9000691"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.Viopffbpf" value="0"/>
-                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAACdwQAAAACdAA7bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0ACtjaC51bml6aC5pbmkuamFlci5wcm9qZWN0cy5ob2xnZXIuSVRERmlsdGVyeA=="/>
+                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAADdwQAAAADdAA7bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0ADRuZXQuc2YuamFlci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlJlcGV0aXRpb3VzRmlsdGVydAAxY2gudW5pemguaW5pLmphZXIucHJvamVjdHMuY29jaHNvdW5kbG9jLklUREZpbHRlcng="/>
                   <entry key="SubSampler.bits" value="1"/>
                   <entry key="SubSampler.filterEnabled" value="false"/>
                   <entry key="BufferIPot.value" value="50"/>
@@ -340,10 +340,10 @@
                   <entry key="CochleaAMS1b.IPot.Vcascode" value="31872"/>
                   <entry key="CochleaAMS1b.IPot.Vrefo" value="0"/>
                   <entry key="CochleaAMS1b.IPot.Vtau" value="0"/>
-                  <entry key="CochleaAMS1b.IPot.Vbias2" value="127488"/>
+                  <entry key="CochleaAMS1b.IPot.Vbias2" value="58656"/>
                   <entry key="CochleaAMS1b.IPot.Vth1" value="0"/>
                   <entry key="CochleaAMS1b.IPot.Vsetioadap" value="0"/>
-                  <entry key="CochleaAMS1b.IPot.Vbias1" value="569762"/>
+                  <entry key="CochleaAMS1b.IPot.Vbias1" value="345901"/>
                   <entry key="CochleaAMS1b.IPot.Vbpf1" value="7968"/>
                   <entry key="CochleaAMS1b.IPot.Vrefn" value="0"/>
                   <entry key="CochleaAMS1b.IPot.Vbamp" value="0"/>
@@ -533,8 +533,8 @@
                   <entry key="CochleaAMS1b.VPot.Vbias1x" value="2205"/>
                   <entry key="CochleaAMS1b.VPot.Vthbpf1x" value="1616"/>
                   <entry key="CochleaAMS1b.VPot.Vioffbpfn" value="0"/>
-                  <entry key="CochleaAMS1b.VPot.NeuronVleak" value="2211"/>
-                  <entry key="CochleaAMS1b.VPot.DCOutputLevel" value="1242"/>
+                  <entry key="CochleaAMS1b.VPot.NeuronVleak" value="2293"/>
+                  <entry key="CochleaAMS1b.VPot.DCOutputLevel" value="1232"/>
                   <entry key="CochleaAMS1b.VPot.Vthbpf2x" value="108"/>
                   <entry key="CochleaAMS1b.VPot.DACSpOut2" value="662"/>
                   <entry key="CochleaAMS1b.VPot.DACSpOut1" value="2091"/>
@@ -542,9 +542,9 @@
                   <entry key="CochleaAMS1b.VPot.Vcas2x" value="11"/>
                   <entry key="CochleaAMS1b.VPot.Vrefo" value="2726"/>
                   <entry key="CochleaAMS1b.VPot.Vrefn2" value="800"/>
-                  <entry key="CochleaAMS1b.VPot.Vq" value="2343"/>
+                  <entry key="CochleaAMS1b.VPot.Vq" value="2356"/>
                   <entry key="CochleaAMS1b.VPot.Vcassyni" value="0"/>
-                  <entry key="CochleaAMS1b.VPot.Vgain" value="2097"/>
+                  <entry key="CochleaAMS1b.VPot.Vgain" value="2127"/>
                   <entry key="CochleaAMS1b.VPot.Vrefn" value="851"/>
                   <entry key="CochleaAMS1b.VPot.VAI0" value="2420"/>
                   <entry key="CochleaAMS1b.VPot.Vdd1" value="1777"/>
@@ -712,15 +712,15 @@
                   <entry key="CorrelatorFilter.filterEnabled" value="true"/>
                   <entry key="CorrelatorFilter.display" value="true"/>
                   <entry key="ITDFilter.display" value="true"/>
-                  <entry key="CochleaAMS1b.VPot.BiasDACBufferNBias" value="948"/>
+                  <entry key="CochleaAMS1b.VPot.BiasDACBufferNBias" value="806"/>
                   <entry key="CochleaAMS1b.VPot.PreampAGCThreshold" value="1358"/>
                   <entry key="CochleaAMS1b.Biasgen.BitConfig.preampAR" value="false"/>
                   <entry key="CochleaAMS1b.Biasgen.BitConfig.preampGain" value="false"/>
-                  <entry key="CochleaAMS1b.VPot.Vrefract" value="146"/>
-                  <entry key="CochleaAMS1b.VPot.PreampAGCThreshold (TH)" value="2054"/>
+                  <entry key="CochleaAMS1b.VPot.Vrefract" value="111"/>
+                  <entry key="CochleaAMS1b.VPot.PreampAGCThreshold (TH)" value="684"/>
                   <entry key="CochleaAMS1b.VPot.NeuronRp" value="2094"/>
-                  <entry key="ITDfilter.useGanglionCellType" value="BPF"/>
-                  <entry key="ITDFilter.maxITD" value="800"/>
+                  <entry key="ITDfilter.useGanglionCellType" value="LPF"/>
+                  <entry key="ITDFilter.maxITD" value="703"/>
                   <entry key="ITDFilter.numOfBins" value="16"/>
                   <entry key="ITDFilter.averagingDecay" value="1.0"/>
                   <entry key="ITDFilter.computeMeanInLoop" value="true"/>
@@ -729,7 +729,82 @@
                   <entry key="RepetitiousFilter.ratioShorter" value="2"/>
                   <entry key="RepetitiousFilter.averagingSamples" value="3"/>
                   <entry key="ITDFilter.normToConfThresh" value="false"/>
-                  <entry key="ITDFilter.confidenceThreshold" value="40"/>
+                  <entry key="ITDFilter.confidenceThreshold" value="300"/>
+                  <entry key="ITDfilter.estimationMethod" value="useMedian"/>
+                  <entry key="class ch.unizh.ini.jaer.chip.cochlea.CochleaAMS1b.preferredDisplayMethod" value="ch.unizh.ini.jaer.chip.cochlea.CochleaGramDisplayMethod"/>
+                  <entry key="filterEnabled" value="false"/>
+                  <entry key="CochleaPitchExtractor.filterEnabled" value="false"/>
+                  <entry key="AuditoryReflex.filterEnabled" value="false"/>
+                  <entry key="CochleaXCorrelator.filterEnabled" value="false"/>
+                  <entry key="FilterChain.processingMode" value="RENDERING"/>
+                  <entry key="CorrelatorFilter.numberOfPairs" value="50"/>
+                  <entry key="CorrelatorFilter.dimLastTs" value="4"/>
+                  <entry key="CorrelatorFilter.binSize" value="40"/>
+                  <entry key="CorrelatorFilter.shiftSize" value="600"/>
+                  <entry key="CorrelatorFilter.maxWeightsTime" value="6000"/>
+                  <entry key="ITDFilter.maxWeights" value="6"/>
+                  <entry key="ITDFilter.shiftSize" value="800"/>
+                  <entry key="ITDFilter.maxWeightsTime" value="30000"/>
+                  <entry key="ITDFilter.binSize" value="16"/>
+                  <entry key="ITDFilter.dimLastTs" value="5"/>
+                  <entry key="OldITDFilter.filterEnabled" value="false"/>
+                  <entry key="HopfieldRecognitionFilter.filterEnabled" value="false"/>
+                  <entry key="ITDFilter.maxWeightTime" value="3000"/>
+                  <entry key="ITDFilter.calibrationFilePath" value="src\ch\unizh\ini\jaer\projects\holger\calibration.xml"/>
+                  <entry key="PawTracker2.clusterLifetimeWithoutSupport" value="10000"/>
+                  <entry key="PawTracker2.maxNumClusters" value="10"/>
+                  <entry key="PawTracker2.clusterSize" value="0.15f"/>
+                  <entry key="PawTracker2.numEventsStoredInCluster" value="100"/>
+                  <entry key="PawTracker2.thresholdEventsForVisibleCluster" value="30"/>
+                  <entry key="PawTracker2.thresholdISIForVisibleCluster" value="2.0f"/>
+                  <entry key="PawTracker2.resetPawTracking" value="false"/>
+                  <entry key="PawTrackerStereoBoard2.resetPawTracking" value="false"/>
+                  <entry key="StereoEventTimingMonitor.filterEnabled" value="false"/>
+                  <entry key="StereoEpilolarLineMonitor.filterEnabled" value="false"/>
+                  <entry key="StereoDisplay.filterEnabled" value="false"/>
+                  <entry key="GravityCentersImageDumper.filterEnabled" value="false"/>
+                  <entry key="EventTimingMonitor.filterEnabled" value="false"/>
+                  <entry key="EpilolarLineMonitor.filterEnabled" value="false"/>
+                  <entry key="RetinaExtractorFilter.filterEnabled" value="false"/>
+                  <entry key="ChannelFilter.filterEnabled" value="false"/>
+                  <entry key="PawTracker2.filterEnabled" value="false"/>
+                  <entry key="PawTrackerStereoBoard2.filterEnabled" value="false"/>
+                  <entry key="numOfBins" value="16"/>
+                  <entry key="SceneStabilizer.positionComputer" value="RectangularClusterTracker"/>
+                  <entry key="SceneStabilizer.cornerFreqHz" value="0.1"/>
+                  <entry key="SceneStabilizer.filterEnabled" value="false"/>
+                  <entry key="ITDfilter.meanComputer" value="useMax"/>
+                  <entry key="ITDFilter.numLoopMean" value="5"/>
+                  <entry key="ITDFilter.pantiltPort" value="COM9"/>
+                  <entry key="ITDFilter.panTiltPos" value="-232"/>
+                  <entry key="ITDFilter.pantiltCommand" value="PP0"/>
+                  <entry key="ITDfilter.amsProcessingMethod" value="StoreSeparetlyCompareEvery"/>
+                  <entry key="ITDFilter.maxWeight" value="5"/>
+                  <entry key="ITDFilter.useCalibration" value="false"/>
+                  <entry key="ITDFilter.useLaterSpikeForWeight" value="true"/>
+                  <entry key="ITDFilter.usePriorSpikeForWeight" value="true"/>
+                  <entry key="ITDFilter.usePanTilt" value="false"/>
+                  <entry key="ITDFilter.writeBin2File" value="false"/>
+                  <entry key="ITDFilter.writeITD2File" value="false"/>
+                  <entry key="ITDFilter.connectToPanTiltThread" value="true"/>
+                  <entry key="ITDFilter.showAnnotations" value="true"/>
+                  <entry key="ITDFilter.write2FileForEverySpike" value="false"/>
+                  <entry key="RepetitiousFilter.minDtToStore" value="100"/>
+                  <entry key="ISIHistogrammer.nBins" value="50"/>
+                  <entry key="ISIHistogrammer.maxIsiUs" value="9000"/>
+                  <entry key="ISIHistogrammer.minIsiUs" value="3000"/>
+                  <entry key="ISIHistogrammer.direction" value="XtimesYDirection"/>
+                  <entry key="CochleaGenderClassifier.filterEnabled" value="false"/>
+                  <entry key="ISIFilter.filterEnabled" value="false"/>
+                  <entry key="ISIFilter.tauDecayMs" value="1000.0"/>
+                  <entry key="ISIFilter.useChannels" value="6-45"/>
+                  <entry key="ISIFilter.minIsiUs" value="10"/>
+                  <entry key="ISIFilter.maxIsiUs" value="4000"/>
+                  <entry key="ISIFilter.isiBetween" value="OnlyToTheNextHigherFrequency"/>
+                  <entry key="FiringRateFilter.filterEnabled" value="false"/>
+                  <entry key="ISIFilter.nBins" value="50"/>
+                  <entry key="CochleaSVM.filterEnabled" value="true"/>
+                  <entry key="class ch.unizh.ini.jaer.chip.cochlea.CochleaAERb.preferredDisplayMethod" value="ch.unizh.ini.jaer.chip.cochlea.CochleaGramDisplayMethod"/>
                 </map>
               </node>
             </node>
