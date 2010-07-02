@@ -1,7 +1,10 @@
 /* Firmware for Servo control using the SiLabs C8051F320 and the ServoUSB board
 see http://jaer.wiki.sourceforge.net. 
 This is device side of SiLabsC8051F320_USBIO_ServoController host side java class.
-author Tobi Delbruck, 2006-2008
+author Tobi Delbruck, 2006-2010
+
+Tell 2010: added mode to set PXMDOUT from host, to set port pushpull/opendrain mode
+
 */
 
 /*
@@ -95,8 +98,9 @@ sbit 	WowWeePort = P2^0;
 #define CMD_SET_ALL_SERVOS 9
 #define CMD_DISABLE_ALL_SERVOS 10
 #define CMD_SET_TIMER0_RELOAD_VALUE 11
-#define CMD_SET_PORT2 12
-#define CMD_SEND_WOWWEE_RS_CMD 13
+#define CMD_SET_PORT2 12  // sets P2 to 8 bit value
+#define CMD_SEND_WOWWEE_RS_CMD 13 // send wowwee output on p2
+#define CMD_SET_PORT_DOUT 14 // sets P2.0 in PWM output mode and programs the duty cycle
 
 // PWM servo output variables. these are used to hold the new values for the PCA compare registers so that 
 // they can be updated on the interrupt generated when the value can be updated safely without introducing glitches.
@@ -268,6 +272,7 @@ void main(void)
 				Out_Packet[0]=0; //ack
 				LedToggle();
 				P2=Out_Packet[1];
+				break;
 			}
 			case CMD_SEND_WOWWEE_RS_CMD:
 			{
@@ -283,6 +288,15 @@ void main(void)
 				rsv2_cmdidx = 12; // 12 bits
 				rsv2_sendcmd = 1; // we're sending a cmd state
 				EIE1|=0x80; // enable timer 3 interrupts, disabled at end of cmd
+				break;
+			}			
+			case CMD_SET_PORT_DOUT:
+			{
+				Out_Packet[0]=0; // cmd has been processed
+				LedToggle();
+				
+				P1MDOUT= (Out_Packet[1]); // setting bit to 1 makes port pin push-pull, 0 makes it open drain
+				P2MDOUT= (Out_Packet[2]);
 				break;
 			}
 
@@ -502,10 +516,10 @@ Step 5.  Enable the Crossbar (XBARE = ‘1’).
 // outputs, depending on the configuration of the peripheral. By default,
 // the configuration utility will configure these I/O pins as push-pull 
 // outputs.
-                      // Port configuration (1 = Push Pull Output)
+                      // Port configuration (1 = Push Pull Output, 0=open drain; when value=1, then output does NOT pull down; when value=0 then pulldown is on)
     P0MDOUT = 0x00; // Output configuration for P0 
-    P1MDOUT = 0x0F; // Output configuration for P1 
-    P2MDOUT = 0x00; // Output configuration for P2 
+    P1MDOUT = 0x0F; // Output configuration for P1  - servo outputs are pushpull
+    P2MDOUT = 0x00; // Output configuration for P2  - all open drain
     P3MDOUT = 0x00; // Output configuration for P3 
      
     P0MDIN = 0xFF;  // Input configuration for P0          
