@@ -236,9 +236,9 @@ REG_DWORD      = 0x00010001
 ; Some of the strings are shown at the user interface.
 
 ; provider name
-S_Provider="ini"
+S_Provider="iniLabs GmbH"
 ; manufacturer name
-S_Mfg="ini"
+S_Mfg="iniLabs GmbH"
 
 ; device class display name, shown in Device Manager
 S_DeviceClassDisplayName="USBIO controlled devices"
