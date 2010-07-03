@@ -14,3 +14,4 @@ set d=%root%\x64
 Inf2Cat.exe /driver:%d% /os:XP_X86,Vista_X86,7_X86 /verbose
 signtool sign /v /n "iniLabs GmbH" /ac MSCV-GlobalSign.cer /t http://timestamp.verisign.com/scripts/timestamp.dll %d%\usb2aemon_x64.cat
 
+pause
