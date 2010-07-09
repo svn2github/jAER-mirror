@@ -4,6 +4,8 @@ This is device side of SiLabsC8051F320_USBIO_ServoController host side java clas
 author Tobi Delbruck, 2006-2010
 
 Tell 2010: added mode to set PXMDOUT from host, to set port pushpull/opendrain mode
+			added various watchdog/brownout/missing sysclk reset sources to deal with inductive kickback in
+			the slot car project
 
 */
 
@@ -101,6 +103,7 @@ sbit 	WowWeePort = P2^0;
 #define CMD_SET_PORT2 12  // sets P2 to 8 bit value
 #define CMD_SEND_WOWWEE_RS_CMD 13 // send wowwee output on p2
 #define CMD_SET_PORT_DOUT 14 // sets P2.0 in PWM output mode and programs the duty cycle
+#define CMD_SET_PCA0MD_CPS 15 // sets the PCA clock source bits
 
 // PWM servo output variables. these are used to hold the new values for the PCA compare registers so that 
 // they can be updated on the interrupt generated when the value can be updated safely without introducing glitches.
@@ -143,6 +146,18 @@ void main(void)
    Usb0_Init();                        // Initialize USB0
    Timer_Init();                       // Initialize timer2
 	LedOn(); 
+
+  	//RSTSRC =0x80;	;				   // enable USB and
+                                       // missing clock detector reset sources
+									   // if we enabled missing clock detector then the device doesn't work, don't know why
+
+    // watchdog
+	// load watchdog offset 
+	PCA0CPL4=0xff; // maximum offset so that watchdog takes a good long time to time out
+	// enable watchdog 
+  PCA0MD |= 0x44;   // WDT enabled, PCA clock source is timer0 overflow
+  PCA0CPH4 = 0x00;  // write value to WDT PCA to start watchdog                   
+
 	
 /*	Servo0=0;
 	Servo1=0;
@@ -157,7 +172,11 @@ void main(void)
     // independent, packet update routines should be moved to an interrupt
     // service routine, or interrupts should be disabled during data updates.
 
+
+	  PCA0CPH4 = 355;  // write value to WDT PCA to reset watchdog                
+		
 		EA=0; // disable ints
+	//	LedToggle();
 		cmd=Out_Packet[0];
 		switch(cmd){
 		case CMD_SET_SERVO:
@@ -265,6 +284,23 @@ void main(void)
 				Out_Packet[0]=0; // command is processed
 				LedToggle();
 				TH0=255-Out_Packet[1]; // timer0 reload value, 2 for 60Hz, 1 for 91Hz servo pulse rate, 0 for 180 Hz
+			}
+			break;
+			case CMD_SET_PCA0MD_CPS: // bit are ORed with 0x7, left shifted by one, and set to the PCA0MD bits 3:1
+			{
+				Out_Packet[0]=0; // command is processed
+				LedToggle();
+				// must disable watchdog before changing these bits
+				PCA0MD&=~0x40;	
+
+				PCA0MD = (PCA0MD & 0xf1) | (  (0x7&Out_Packet[1])  <<1); // this is the PCA control register, bits 3:1 are the CPS bits that control the PCA clock source
+				// CPS = 0 sysclk/12
+				// CPS = 1 sysclk/4
+				// CPS = 2 timer0 overflow
+
+				PCA0MD|=0x40; // re-enable watchdog
+				PCA0CPH4 = 0xff;  // write value to WDT PCA to start watchdog                   
+
 			}
 			break;
 			case CMD_SET_PORT2:
@@ -464,9 +500,9 @@ void Sysclk_Init(void)
    CLKSEL |= USB_INT_OSC_DIV_2;        // Select USB clock
 #else
    OSCICN |= 0x03;                     // Configure internal oscillator for
-                                       // its maximum frequency and enable
-                                       // missing clock detector
-
+                                       // its maximum frequency
+									   
+ 
    CLKMUL  = 0x00;                     // Select internal oscillator as
                                        // input to clock multiplier
 
@@ -600,6 +636,10 @@ void	Timer_Init(void)
 	// PCA uses timer 0 overflow which is 1us clock. all pca modules share same timer which runs at 1MHz.
 
 	PCA0MD|=0x84;	// use timer0 overflow to clock PCA counter. leave wdt bit undisturbed. turn off PCA in idle.
+
+	// change PCA0MD to change PCA clock source using bits CPS2:0 which are PCA0MD3:1.
+
+	
 
 	// pca pwm output frequency depends on pca clock source because pca counter rolls over
 	// every 64k cycles. we want pwm update frequency to be about 100 Hz which means rollower
