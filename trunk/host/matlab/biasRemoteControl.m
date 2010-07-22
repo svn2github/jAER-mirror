@@ -9,7 +9,7 @@ u=udp('localhost',8995,'inputbuffersize',8000);
 fopen(u);
 
 %% test by sending command
-fprintf(u,'selectMux_Currents 1');
+fwrite(u,'selectMux_Currents 1');
 fprintf('%s',fscanf(u));
 
 %% close the connection
@@ -18,7 +18,7 @@ delete(u);
 clear u
 
 %% get the help from jaer
-fprintf(u,'help');
+fwrite(u,'help');
 fprintf('%s',fscanf(u));
     
 %% iterate over biases
@@ -27,7 +27,7 @@ for i=1:length(vals),
     v=vals(i);
     c=sprintf('seti_ifthr %d\n',v);
     fprintf(c,v);
-    fprintf(u,c);
+    fwrite(u,c);
     fprintf('%s',fscanf(u));
     pause(.5);
 end
@@ -46,11 +46,11 @@ levelcmds={'setlevel_ifthr Normal','setlevel_ifthr Low'};
 flushinput(u); % clear out leftover junk
 biassign=-1;
 k6430_SourceVolt(.9);
-fprintf(u,'setibuf_ifthr 4');
+fwrite(u,'setibuf_ifthr 4');
 fprintf('%s',fscanf(u));
 
 for j=1:2,
-    fprintf(u,sexcmds{j});
+    fwrite(u,sexcmds{j});
     fprintf('%s',fscanf(u));
     
      biassign=-biassign;
