@@ -173,7 +173,9 @@ void main(void)
     // service routine, or interrupts should be disabled during data updates.
 
 
-	  PCA0CPH4 = 355;  // write value to WDT PCA to reset watchdog                
+	  PCA0CPH4 = 355;  // write value to WDT PCA to reset watchdog
+	  
+	             
 		
 		EA=0; // disable ints
 	//	LedToggle();
@@ -253,17 +255,23 @@ void main(void)
 			{
 				Out_Packet[0]=0; // command is processed
 				LedToggle();
-				PCA0CPH0=Out_Packet[1]; // store the PCA compare value for later interrupt to load
+				
+				// TODO the set all servos probably doesn't work because it doesn't save the values for the ISR to later load
+
 				PCA0CPL0=Out_Packet[2];
+				PCA0CPH0=Out_Packet[1]; // store the PCA compare value for later interrupt to load, write low value FIRST
 				PCA0CPM0 |= 0x49; // enable compare function and match and interrupt for match for pca
-				PCA0CPH1=Out_Packet[3];
+				
 				PCA0CPL1=Out_Packet[4];
+				PCA0CPH1=Out_Packet[3];
 				PCA0CPM1 |= 0x49; // enable compare function and enable match and interrupt for match for pca
-				PCA0CPH2=Out_Packet[5];
+				
 				PCA0CPL2=Out_Packet[6];
+				PCA0CPH2=Out_Packet[5];
 				PCA0CPM2 |= 0x49; // enable compare function and enable match and interrupt for match for pca
-				PCA0CPH3=Out_Packet[7];
+				
 				PCA0CPL3=Out_Packet[8];
+				PCA0CPH3=Out_Packet[7];
 				PCA0CPM3 |= 0x49; // enable compare function and enable match and interrupt for match for pca
 			}	
 			EIE1 |= 0x10; // enable PCA interrupt
@@ -348,6 +356,12 @@ void main(void)
 void PWM_Update_ISR(void) interrupt 11
 {
 	EIE1 &= (~0x10); // disable PCA interrupt
+
+	// Switch depending on interrupt source - this can either be from PCA counter overflow OR from
+	// PCA comparator match for one of the PCA modules.
+	// If the source is PCA counter overflow, the load the PCA counter reload value.
+	// If the source is one of the PCA compare modules, then load that modules pwm value.
+
 	switch(pwmNumber)
 	{
 		case 0:
@@ -378,8 +392,6 @@ void PWM_Update_ISR(void) interrupt 11
 }
 
 
-// pwm interrupt vectored when there is a match interrupt for PCA: only then do we change PCA compare register
-// pwm interrupt happens every 1us
 // for wowwee rs2 command format see http://www.aibohack.com/robosap/ir_codes_v2.htm
 /* to make the IR output, cut out the IR led and bipolar driver part of a dead roboquad remote control and wired it
 up to port p2.0 so that the LED got 5V USB vbus and the p2.0 pulled down on the 1000 ohm base input resistor to the bipolar driver
@@ -629,7 +641,7 @@ void	Timer_Init(void)
     TMOD = 0x12;    // Timer Mode Register: timer0 8 bit with reload, timer1 16 bit
    	TCON = 0x50;    // Timer Control Register: timer0 and 1 running
     TH0 = 0xFF-1; 	// Timer 0 High Byte: reload value. 
-				    //This is FF-n so timer0 takes n+1 cycles = to roll over, time is (n+1)*1/12us=1/6us, timer0 rolls over at 6MHz
+				    //This is FF-n so timer0 takes n+1 cycles = to roll over, time is (n+1)*1/12us=1/6us, timer0 rolls over at 6MHz after reset
     TL0 = 0x00;     // Timer 0 Low Byte
  	
 	CR=1;			// run PCA counter/timer
