@@ -20,19 +20,19 @@
 #define TMSshift 4
 
 /* set the port "p" (TCK, TMS, or TDI) to val (0 or 1) */
-extern void setPort(unsigned char p, short val);
+//extern void setPort(unsigned char p, short val);
 
-extern void resetReadCounter( unsigned char *dataArray);
+//extern void resetReadCounter( unsigned char *dataArray);
 
 /* read the TDO bit and store it in val */
-extern unsigned char readTDOBit();
+//extern unsigned char readTDOBit();
 
 /* make clock go down->up */
-extern void pulseClock();
+//extern void pulseClock();
 
 /* read the next byte of data from the xsvf file */
-extern void readByte(unsigned char *ucdata);
+//extern void readByte(unsigned char *ucdata);
 
-extern void waitTime(int microsec);
+//extern void waitTime(int microsec);
 
 #endif

@@ -13,8 +13,9 @@
 #include "syncdly.h"            // SYNCDELAY macro
 #include "biasgen.h" 
 #include "portsFX2.h"
-#include "ports.h"
-#include "micro.h"
+//#include "ports.h"
+//#include "micro.h"
+#include "opcode.h"
 
 extern BOOL GotSUD;             // Received setup data flag
 //extern BOOL Sleep;
@@ -41,7 +42,7 @@ extern BOOL Selfpwr;
 #define LEDmask 	0x40  // PE6
 BOOL LEDon;
 
-#define EEPROM_SIZE 0x4000
+
 //#define MAX_NAME_LENGTH 8
 //#define STRING_ADDRESS (EEPROM_SIZE - MAX_NAME_LENGTH)
 
@@ -130,9 +131,9 @@ void stopMonitor(void);
 void configTimestampCounter(void);
 void toggleLED(void);
 
-void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf);
 void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf);
 void EEPROMWriteBYTE(WORD addr, BYTE value);
+void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf);
 
 void downloadSerialNumberFromEEPROM(void);
 
@@ -497,31 +498,12 @@ BOOL DR_VendorCmnd(void)
 		case VR_DOWNLOAD_CPLD_CODE:
 			{
 			if (SETUPDAT[0]==VR_DOWNLOAD) {
-				if (JTAGinit)
-				{
-					IOC=0x00;
-					OEC = 0xBD;   // configure TDO (bit 6) and TSmaster as input  : 1011_1101
-			
-					xsvfInitialize();
-					JTAGinit=FALSE;
-					
-				}
-
+	
 				len = SETUPDAT[6];
 				len |= SETUPDAT[7] << 8;
 
-				if (len>400)
-				{
-					xsvfReturn=10;
-					OEC = 0x0D;   // configure JTAG pins to float : 0000_1111
-					JTAGinit=TRUE;
-					break;
-				}
-
-				addr=0;
-
-				resetReadCounter(JTAGdata);
-
+				// first download programming data to EEPROM
+				addr= EEPROM_CPLDCODE_START; 
 				while(len)					// Move new data through EP0OUT 
 				{							// one packet at a time.
 					// Arm endpoint - do it here to clear (after sud avail)
@@ -533,36 +515,14 @@ BOOL DR_VendorCmnd(void)
 					bc = EP0BCL; // Get the new bytecount
 
 					for(i=0; i<bc; i++)
-							JTAGdata[addr+i] = EP0BUF[i];							
+							EEPROMWriteBYTE(addr+i, EP0BUF[i]);							
 
 					addr += bc;
 					len -= bc;
 				}
 			
+				xsvfReturn = ispEntryPoint();
 
-				if (SETUPDAT[2]==0x00) //complete
-				{
-					OEC = 0x0D;   // configure JTAG pins to float : 0000_1111
-					JTAGinit=TRUE;
-				} else
-				{
-					xsvfReturn=xsvfRun();
-					if (xsvfReturn>0) // returns true if error
-					{
-						OEC = 0x0D;   // configure JTAG pins to float : 0000_1101
-						JTAGinit=TRUE;
-				
-					//	return TRUE;
-					}
-
-				}
-	
-				/* EP0BUF[0] = SETUPDAT[1];
-				EP0BCH = 0;
-				EP0BCL = 1;
-				EP0CS |= bmHSNAK;
-
-				return(FALSE); */
 				break;
 			}
  			else //case VR_XSVF_ERROR_CODE:
@@ -574,7 +534,7 @@ BOOL DR_VendorCmnd(void)
 				EP0CS |= bmHSNAK;
 
 				return(FALSE);
-			}
+			} 
 			}
 	/*	case VR_SET_DEVICE_NAME:
 			{
