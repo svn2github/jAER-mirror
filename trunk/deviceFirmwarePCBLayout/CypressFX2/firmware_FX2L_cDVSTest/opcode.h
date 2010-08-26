@@ -29,7 +29,7 @@
 #define TMSshift 4
 
 #define EEPROM_SIZE 0x8000
-#define EEPROM_CPLDCODE_START 0x31E0 // 0x8000 - 20000
+#define EEPROM_CPLDCODE_START 0x3900 // 0x8000 - 20000
 
 #define    pinTDI       (unsigned char) 0x80 // 1011_1111
 #define    pinTCK       (unsigned char) 0x20 // 1110_1111
@@ -146,6 +146,6 @@
 #define signalCableEN    0x22    /*assert the RESET or CableEN pin*/  
 
 short int ispEntryPoint();
-
+short int ispProcessVME(void) reentrant;
 
 #endif

@@ -19,7 +19,7 @@ BYTE spireadbyte (void);//Assembly routine
 #define powerDown 	0x04
 
 #define latchNewBiases() IOE&=~biasLatch; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); IOE|=biasLatch;
-#define setPowerDownBit() IOE&=~powerDown;
-#define releasePowerDownBit() IOE|=powerDown;
+#define setPowerDownBit() IOE|=powerDown;
+#define releasePowerDownBit() IOE&=~powerDown;
 #define biasInit(); IOE|=biasClock; IOE&=~biasBit; IOE|=biasLatch; IOE&=~powerDown;
 

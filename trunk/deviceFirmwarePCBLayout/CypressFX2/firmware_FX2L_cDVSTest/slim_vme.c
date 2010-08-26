@@ -29,7 +29,7 @@
 *************************************************************/
 
 extern unsigned char GetByte( int a_iCurrentIndex, char a_cAlgo );
-extern short ispProcessVME();
+//extern short int ispProcessVME(void);
 extern void EnableHardware();
 extern void DisableHardware();
 
@@ -112,7 +112,7 @@ short int ispEntryPoint()
 	***************************************************************/
 
 	for ( iIndex = 0; iIndex < 8; iIndex++ ) {
-		szFileVersion[ iIndex ] = GetByte( g_iMovingAlgoIndex++, 1 );
+		szFileVersion[ iIndex ] = GetByte( g_iMovingAlgoIndex++, 1 );  // reading from algo file
 	}
 
 	/***************************************************************

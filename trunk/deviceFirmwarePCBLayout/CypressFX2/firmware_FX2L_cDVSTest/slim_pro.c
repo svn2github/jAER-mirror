@@ -21,6 +21,7 @@
 //#include <stdio.h>
 #include "opcode.h"
 #include "lp.h"
+#include "cDVSTest20_chain_ALGO.h"
 /*************************************************************
 *                                                            *
 * PROTOTYPES                                                 *
@@ -102,8 +103,8 @@ xdata const int g_iDataSize = 18127;
 *                                                            *
 *************************************************************/
 
-extern xdata unsigned char *g_pucAlgoArray;
-extern xdata const int g_iAlgoSize;
+//extern xdata unsigned char *g_pucAlgoArray;
+//extern xdata const int g_iAlgoSize;
 //xdata const unsigned char g_pucAlgoArray[]= {0};
 //xdata const unsigned char g_pucDataArray[]= {0};
 //xdata const int g_iAlgoSize = 0;
@@ -115,7 +116,7 @@ void EEPROMRe(unsigned short addr, unsigned char length, unsigned char *buf)
 {
 	unsigned char		i = 0;
 	unsigned char		j = 0;
-	unsigned char  	ee_str[2];
+	xdata unsigned char  	ee_str[2];
 
 	ee_str[i++] = MSB(addr);
 	ee_str[i++] = LSB(addr);
@@ -184,7 +185,7 @@ xdata const struct iState
 *                                                            *
 *************************************************************/
 
-short int ispProcessVME() reentrant
+short int ispProcessVME(void) reentrant
 {
 	unsigned char ucOpcode        = 0;
 	unsigned char ucState         = 0;

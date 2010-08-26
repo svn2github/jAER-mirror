@@ -168,12 +168,17 @@ void writePort( unsigned char a_ucPins, unsigned char a_ucValue )
 /* the unit of a_uiDelay is milliseconds */
 void ispVMDelay( unsigned int a_uiDelay )
 {
-    unsigned int        i;
-	
-    for ( i = 0; i < a_uiDelay; ++i )
-    {
-		_nop_();
-    }	
+                              
+        //  unsigned int L = 6; // 48/8;  //microseconds.                    
+          unsigned int index, m;                            
+                                                            
+                                                            
+        //  if (L < 1) L = 1;   //minimum is i microsecond.                
+          for (index=0; index < a_uiDelay * 6; index++)     
+              {                                             
+   //loop 1K times to produce milliseconds delay            
+                for (m=0; m<1000; m++); //milliseconds      
+              }   	
 }
 
 /*************************************************************

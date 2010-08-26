@@ -85,6 +85,9 @@ BOOL LEDon;
 
 xdata unsigned int numBiasBytes; // number of bias bytes saved
 
+extern int g_iMovingAlgoIndex;	    
+extern int g_iMovingDataIndex;
+
 BOOL JTAGinit;
 
 #define NUM_BIAS_BYTES 97 // 22 biases a 4 bytes, 1 Vdac a one byte plus 4 shifted source a 2 bytes 
@@ -306,14 +309,14 @@ void stopMonitor(void)
 
   	// force last paket
   	
-  	EP6FIFOCFG = 0x01; //0000_0001 disable auto-in
-	SYNCDELAY;
+//  	EP6FIFOCFG = 0x01; //0000_0001 disable auto-in
+//	SYNCDELAY;
 
-	if(EP6FIFOFLGS==0x00)
-	{ // if buffer available
-    	INPKTEND=0x06; // force in paket
-		SYNCDELAY;
-	}
+//	if(EP6FIFOFLGS==0x00)
+//	{ // if buffer available
+//    	INPKTEND=0x06; // force in paket
+//		SYNCDELAY;
+//	}
 
   	// reset fifo  	
   	FIFORESET = 0x80;
@@ -498,39 +501,57 @@ BOOL DR_VendorCmnd(void)
 		case VR_DOWNLOAD_CPLD_CODE:
 			{
 			if (SETUPDAT[0]==VR_DOWNLOAD) {
+		
+				if (SETUPDAT[4]) {
+					xsvfReturn = ispEntryPoint();
+				} else
+				{
+					addr = SETUPDAT[2];		// Get address and length
+					addr |= SETUPDAT[3] << 8;
+					len = SETUPDAT[6];
+					len |= SETUPDAT[7] << 8;
 	
-				len = SETUPDAT[6];
-				len |= SETUPDAT[7] << 8;
-
-				// first download programming data to EEPROM
-				addr= EEPROM_CPLDCODE_START; 
-				while(len)					// Move new data through EP0OUT 
-				{							// one packet at a time.
-					// Arm endpoint - do it here to clear (after sud avail)
-					EP0BCH = 0;
-					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
-
-					while(EP0CS & bmEPBUSY);
-
-					bc = EP0BCL; // Get the new bytecount
-
-					for(i=0; i<bc; i++)
-							EEPROMWriteBYTE(addr+i, EP0BUF[i]);							
-
-					addr += bc;
-					len -= bc;
+					// first download programming data to EEPROM
+					addr= addr + EEPROM_CPLDCODE_START; 
+					while(len)					// Move new data through EP0OUT 
+					{							// one packet at a time.
+						// Arm endpoint - do it here to clear (after sud avail)
+						EP0BCH = 0;
+						EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+	
+						while(EP0CS & bmEPBUSY);
+	
+						bc = EP0BCL; // Get the new bytecount
+	
+						for(i=0; i<bc; i++)
+								EEPROMWriteBYTE(addr+i, EP0BUF[i]);							
+	
+						addr += bc;
+						len -= bc;
+					}
 				}
-			
-				xsvfReturn = ispEntryPoint();
 
 				break;
 			}
  			else //case VR_XSVF_ERROR_CODE:
 			{
+				 // program CPLD when host ask
+
 				EP0BUF[0] = SETUPDAT[1];
 				EP0BUF[1]= xsvfReturn;
+
+				EP0BUF[2] = 0xFF & (g_iMovingAlgoIndex >> 24);
+	    		EP0BUF[3] = 0xFF & (g_iMovingAlgoIndex >> 16);
+				EP0BUF[4] = 0xFF & (g_iMovingAlgoIndex >> 8);
+				EP0BUF[5] = 0xFF & (g_iMovingAlgoIndex);
+
+				EP0BUF[6] = 0xFF & (g_iMovingDataIndex >> 24);
+	    		EP0BUF[7] = 0xFF & (g_iMovingDataIndex >> 16);
+				EP0BUF[8] = 0xFF & (g_iMovingDataIndex >> 8);
+				EP0BUF[9] = 0xFF & (g_iMovingDataIndex);
+
 				EP0BCH = 0;
-				EP0BCL = 2;
+				EP0BCL = 10;
 				EP0CS |= bmHSNAK;
 
 				return(FALSE);
@@ -641,7 +662,7 @@ BOOL DR_VendorCmnd(void)
 
 			}
 
-		case VR_SETARRAYRESET: // set array reset, based on lsb of argument
+/*		case VR_SETARRAYRESET: // set array reset, based on lsb of argument
 			{
 				if (SETUPDAT[2]&0x01)
 				{
@@ -694,7 +715,7 @@ BOOL DR_VendorCmnd(void)
 				EP0CS |= bmHSNAK;
 
 				return(FALSE);
-			}
+			}*/
 		case VR_RAM:
 		case VR_EEPROM:
 		{
