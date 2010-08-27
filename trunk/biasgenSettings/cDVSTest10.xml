@@ -107,7 +107,7 @@
                   <entry key="DVS320.ConfigurableIPot.test.LowCurrent" value="false"/>
                   <entry key="DVS320.ConfigurableIPot.test.Sex" value="N"/>
                   <entry key="DVS320.ConfigurableIPot.test.Type" value="NORMAL"/>
-                  <entry key="Masterbias.rx" value="8200.0"/>
+                  <entry key="Masterbias.rx" value="30000.0"/>
                   <entry key="Masterbias.rint" value="46000.0"/>
                   <entry key="Masterbias.internalResistorUsed" value="false"/>
                   <entry key="DVS320.VoltageOutputMux.AnaMux2.selectedChannel" value="1"/>

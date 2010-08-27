@@ -185,7 +185,7 @@ void TD_Init(void)              // Called once at startup
 	
 	OEC = 0x0F; // 0000_1111 // JTAG, shift register stuff
 	OEE = 0xFE; // 1111_1110 configure only bit 0 (BitOut) as input
-	OEA = 0xFD;  // 1111_1101 PA1: timestampMaster
+	OEA = 0x89;  // 1000_1001 PA1: timestampMaster
 
 	// 
 	IOC = 0x00; 
