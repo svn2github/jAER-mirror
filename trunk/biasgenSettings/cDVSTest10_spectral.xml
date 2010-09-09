@@ -195,12 +195,12 @@
                   <entry key="cDVSTest10.ConfigurableIPot.diff.LowCurrent" value="false"/>
                   <entry key="cDVSTest10.ConfigurableIPot.diff.Sex" value="N"/>
                   <entry key="cDVSTest10.ConfigurableIPot.diff.Type" value="NORMAL"/>
-                  <entry key="cDVSTest10.ConfigurableIPot.ON.BitValue" value="287"/>
+                  <entry key="cDVSTest10.ConfigurableIPot.ON.BitValue" value="4194303"/>
                   <entry key="cDVSTest10.ConfigurableIPot.ON.BufferBitValue" value="10"/>
                   <entry key="cDVSTest10.ConfigurableIPot.ON.Enabled" value="true"/>
                   <entry key="cDVSTest10.ConfigurableIPot.ON.LowCurrent" value="false"/>
                   <entry key="cDVSTest10.ConfigurableIPot.ON.Sex" value="N"/>
-                  <entry key="cDVSTest10.ConfigurableIPot.ON.Type" value="NORMAL"/>
+                  <entry key="cDVSTest10.ConfigurableIPot.ON.Type" value="CASCODE"/>
                   <entry key="cDVSTest10.ConfigurableIPot.OFF.BitValue" value="6"/>
                   <entry key="cDVSTest10.ConfigurableIPot.OFF.BufferBitValue" value="10"/>
                   <entry key="cDVSTest10.ConfigurableIPot.OFF.Enabled" value="true"/>
@@ -213,7 +213,7 @@
                   <entry key="cDVSTest10.ConfigurableIPot.Red.LowCurrent" value="false"/>
                   <entry key="cDVSTest10.ConfigurableIPot.Red.Sex" value="N"/>
                   <entry key="cDVSTest10.ConfigurableIPot.Red.Type" value="NORMAL"/>
-                  <entry key="cDVSTest10.ConfigurableIPot.Blue.BitValue" value="338"/>
+                  <entry key="cDVSTest10.ConfigurableIPot.Blue.BitValue" value="4194303"/>
                   <entry key="cDVSTest10.ConfigurableIPot.Blue.BufferBitValue" value="10"/>
                   <entry key="cDVSTest10.ConfigurableIPot.Blue.Enabled" value="true"/>
                   <entry key="cDVSTest10.ConfigurableIPot.Blue.LowCurrent" value="false"/>
@@ -255,19 +255,19 @@
                   <entry key="cDVSTest10.ConfigurableIPot.refr.LowCurrent" value="false"/>
                   <entry key="cDVSTest10.ConfigurableIPot.refr.Sex" value="P"/>
                   <entry key="cDVSTest10.ConfigurableIPot.refr.Type" value="NORMAL"/>
-                  <entry key="cDVSTest10.ConfigurableIPot.AReqPd.BitValue" value="1831191"/>
+                  <entry key="cDVSTest10.ConfigurableIPot.AReqPd.BitValue" value="1113726"/>
                   <entry key="cDVSTest10.ConfigurableIPot.AReqPd.BufferBitValue" value="11"/>
                   <entry key="cDVSTest10.ConfigurableIPot.AReqPd.Enabled" value="true"/>
                   <entry key="cDVSTest10.ConfigurableIPot.AReqPd.LowCurrent" value="false"/>
                   <entry key="cDVSTest10.ConfigurableIPot.AReqPd.Sex" value="N"/>
-                  <entry key="cDVSTest10.ConfigurableIPot.AReqPd.Type" value="NORMAL"/>
-                  <entry key="cDVSTest10.ConfigurableIPot.AReqEndPd.BitValue" value="12"/>
+                  <entry key="cDVSTest10.ConfigurableIPot.AReqPd.Type" value="CASCODE"/>
+                  <entry key="cDVSTest10.ConfigurableIPot.AReqEndPd.BitValue" value="0"/>
                   <entry key="cDVSTest10.ConfigurableIPot.AReqEndPd.BufferBitValue" value="11"/>
                   <entry key="cDVSTest10.ConfigurableIPot.AReqEndPd.Enabled" value="true"/>
                   <entry key="cDVSTest10.ConfigurableIPot.AReqEndPd.LowCurrent" value="false"/>
                   <entry key="cDVSTest10.ConfigurableIPot.AReqEndPd.Sex" value="N"/>
                   <entry key="cDVSTest10.ConfigurableIPot.AReqEndPd.Type" value="NORMAL"/>
-                  <entry key="cDVSTest10.ConfigurableIPot.AEPuX.BitValue" value="109398"/>
+                  <entry key="cDVSTest10.ConfigurableIPot.AEPuX.BitValue" value="295735"/>
                   <entry key="cDVSTest10.ConfigurableIPot.AEPuX.BufferBitValue" value="10"/>
                   <entry key="cDVSTest10.ConfigurableIPot.AEPuX.Enabled" value="true"/>
                   <entry key="cDVSTest10.ConfigurableIPot.AEPuX.LowCurrent" value="false"/>
@@ -297,7 +297,7 @@
                   <entry key="cDVSTest10.ConfigurableIPot.FollPadBias.LowCurrent" value="false"/>
                   <entry key="cDVSTest10.ConfigurableIPot.FollPadBias.Sex" value="N"/>
                   <entry key="cDVSTest10.ConfigurableIPot.FollPadBias.Type" value="NORMAL"/>
-                  <entry key="cDVSTest.VoltageOutputMux.AnaMux3.selectedChannel" value="3"/>
+                  <entry key="cDVSTest.VoltageOutputMux.AnaMux3.selectedChannel" value="7"/>
                   <entry key="cDVSTest.VoltageOutputMux.AnaMux2.selectedChannel" value="7"/>
                   <entry key="cDVSTest.VoltageOutputMux.AnaMux1.selectedChannel" value="6"/>
                   <entry key="cDVSTest.VoltageOutputMux.AnaMux0.selectedChannel" value="7"/>
@@ -307,7 +307,7 @@
                   <entry key="cDVSTest.LogicMux.DigMux1.selectedChannel" value="-1"/>
                   <entry key="cDVSTest.LogicMux.DigMux0.selectedChannel" value="-1"/>
                   <entry key="cDVSTest.BiasOutputMux.Bias.selectedChannel" value="11"/>
-                  <entry key="cDVSTest10.ConfigurableIPot.pixInvB.BitValue" value="35"/>
+                  <entry key="cDVSTest10.ConfigurableIPot.pixInvB.BitValue" value="0"/>
                   <entry key="cDVSTest10.ConfigurableIPot.pixInvB.BufferBitValue" value="10"/>
                   <entry key="cDVSTest10.ConfigurableIPot.pixInvB.Enabled" value="true"/>
                   <entry key="cDVSTest10.ConfigurableIPot.pixInvB.LowCurrent" value="false"/>
