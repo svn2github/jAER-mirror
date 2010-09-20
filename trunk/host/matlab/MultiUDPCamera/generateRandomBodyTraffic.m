@@ -10,14 +10,14 @@ filename = strcat('randomBodyTraffic_',datestr(now,'yyyy-mm-ddTHH-MM-SS'),'.aeda
 %         6  6 6 5 4 3 2 1 0 -1 -2 -3 -4 -5 -5 -5 -4 -3 -2 -1  0  1  2  3  4  5  2 3 2 -1 -2 -1];
 body = generateBody();
 
-seq_length = 120000; %sequence length in ms
+seq_length = 100000; %sequence length in ms
 timestep = 80; %interval for redrawing the figures [in ms]
 noise_per_timestep = 200; %amount of random spikes per timestep
 nr_agents = 20;
-agent_pos_x = ((rand(nr_agents,1)-0.5)*2);
+agent_pos_x = ((rand(nr_agents,1)-0.5)*2)*(dsx);
 agent_pos_y = zeros(nr_agents,1);
 agent_start_y = rand(nr_agents,1)*dsy;
-max_speed = 30;
+max_speed = 30;%pixel per milisecond
 agent_speed = max_speed*rand(nr_agents,1);
 agent_freq = 1+(rand(nr_agents,1)-0.5);
 agent_amplitude = (rand(nr_agents,1)-0.5)*2;
