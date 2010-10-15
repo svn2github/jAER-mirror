@@ -16,6 +16,7 @@
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/device.h>
+// #include <linux/slab.h> // to compile on openSuSE 11.3 uncomment include this header file
 #include <asm/uaccess.h>
 
 
