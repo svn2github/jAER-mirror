@@ -15,7 +15,7 @@
 #include "portsFX2.h"
 //#include "ports.h"
 //#include "micro.h"
-#include "opcode.h"
+//#include "opcode.h"
 
 extern BOOL GotSUD;             // Received setup data flag
 //extern BOOL Sleep;
@@ -467,7 +467,7 @@ BOOL DR_VendorCmnd(void)
 	WORD addr, len, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
 	WORD i;
 //	char *dscrRAM;
-	unsigned char xdata JTAGdata[400];
+//	unsigned char xdata JTAGdata[400];
 
 	// we don't actually process the command here, we process it in the main loop
 	// here we just do the handshaking and ensure if it is a command that is implemented
@@ -498,7 +498,7 @@ BOOL DR_VendorCmnd(void)
 				EP6FIFOCFG = 0x09 ; //0000_1001 reenable auto-in
 				break;
 			}
-		case VR_DOWNLOAD_CPLD_CODE:
+	/*	case VR_DOWNLOAD_CPLD_CODE:
 			{
 			if (SETUPDAT[0]==VR_DOWNLOAD) {
 		
@@ -556,7 +556,7 @@ BOOL DR_VendorCmnd(void)
 
 				return(FALSE);
 			} 
-			}
+			}*/
 	/*	case VR_SET_DEVICE_NAME:
 			{
 				*EP0BUF = SETUPDAT[1];
@@ -595,8 +595,8 @@ BOOL DR_VendorCmnd(void)
 			}*/		
 		case VR_RESETTIMESTAMPS:
 			{
-				RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
-				RESET_TS=0;
+		//		RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
+		//		RESET_TS=0;
 
 				// reset dvs statemachines
 				IOE= IOE & ~DVS_nReset;
@@ -662,7 +662,7 @@ BOOL DR_VendorCmnd(void)
 
 			}
 
-/*		case VR_SETARRAYRESET: // set array reset, based on lsb of argument
+		case VR_SETARRAYRESET: // set array reset, based on lsb of argument
 			{
 				if (SETUPDAT[2]&0x01)
 				{
@@ -680,7 +680,7 @@ BOOL DR_VendorCmnd(void)
 				return(FALSE); // very important, otherwise get stall
 
 			}
-		case VR_DOARRAYRESET: // reset array for fixed reset time
+	/*	case VR_DOARRAYRESET: // reset array for fixed reset time
 			{
 				IOE &= ~DVS_nReset;
 				_nop_();
