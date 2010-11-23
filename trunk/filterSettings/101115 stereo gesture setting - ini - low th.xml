@@ -35,7 +35,7 @@
                   <entry key="Masterbias.rx" value="8200.0"/>
                   <entry key="Masterbias.rint" value="46000.0"/>
                   <entry key="Masterbias.internalResistorUsed" value="false"/>
-                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAFdwQAAAAFdAA7bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0AD5jaC51bml6aC5pbmkuamFlci5wcm9qZWN0cy5nZXN0dXJlLnN0ZXJlby5TdGVyZW9WZXJnZW5jZUZpbHRlcnQAPmNoLnVuaXpoLmluaS5qYWVyLnByb2plY3RzLmdlc3R1cmUuc3RlcmVvLkJsdXJyaW5nRmlsdGVyU3RlcmVvdABFY2gudW5pemguaW5pLmphZXIucHJvamVjdHMuZ2VzdHVyZS5zdGVyZW8uQmx1cnJpbmdGaWx0ZXJTdGVyZW9UcmFja2VydAA2Y2gudW5pemguaW5pLmphZXIucHJvamVjdHMuZ2VzdHVyZS5obW0uR2VzdHVyZUJGU3RlcmVveA=="/>
+                  <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAGdwQAAAAGdAA7bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0ACduZXQuc2YuamFlci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLkluZm90AD5jaC51bml6aC5pbmkuamFlci5wcm9qZWN0cy5nZXN0dXJlLnN0ZXJlby5TdGVyZW9WZXJnZW5jZUZpbHRlcnQAPmNoLnVuaXpoLmluaS5qYWVyLnByb2plY3RzLmdlc3R1cmUuc3RlcmVvLkJsdXJyaW5nRmlsdGVyU3RlcmVvdABFY2gudW5pemguaW5pLmphZXIucHJvamVjdHMuZ2VzdHVyZS5zdGVyZW8uQmx1cnJpbmdGaWx0ZXJTdGVyZW9UcmFja2VydAA2Y2gudW5pemguaW5pLmphZXIucHJvamVjdHMuZ2VzdHVyZS5obW0uR2VzdHVyZUJGU3RlcmVveA=="/>
                   <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="10000"/>
                   <entry key="RectangularClusterTracker.maxNumClusters" value="5"/>
                   <entry key="RectangularClusterTracker.clusterSize" value="0.15f"/>
@@ -150,13 +150,13 @@
                   <entry key="BlurringFilter2D.colorToDrawRF" value="green"/>
                   <entry key="BluringFilter2DTracker.enableMerge" value="true"/>
                   <entry key="GestureBFStereo.filterEnabled" value="true"/>
-                  <entry key="GestureBFStereo.autoLogoutTimeMs" value="50000"/>
+                  <entry key="GestureBFStereo.autoLogoutTimeMs" value="10000"/>
                   <entry key="GestureBF2D.refractoryTimeMs" value="0"/>
-                  <entry key="GestureBF2D.numPointsThreshold" value="50"/>
+                  <entry key="GestureBF2D.numPointsThreshold" value="30"/>
                   <entry key="StereoVergenceFilter.maxDisparityChangePixels" value="1000"/>
                   <entry key="GestureBF2D.maxSpeedThreshold_kPPT" value="0.1"/>
                   <entry key="GestureBF2D.headTrimmingPercents" value="30"/>
-                  <entry key="GestureBF2D.tailTrimmingPercents" value="10"/>
+                  <entry key="GestureBF2D.tailTrimmingPercents" value="15"/>
                   <entry key="Info.useLocalTimeZone" value="true"/>
                   <entry key="Info.filterEnabled" value="false"/>
                   <entry key="Info.analogClock" value="false"/>
@@ -192,8 +192,8 @@
                                   <entry key="BluringFilter2DTracker.clusterRadiusLifetimeMs" value="200.0"/>
                                   <entry key="BluringFilter2DTracker.numVelocityPoints" value="5"/>
                                   <entry key="BlurringFilterStereoTracker.removeInvalidClusters" value="false"/>
-                                  <entry key="BlurringFilterStereoTracker.autoThresholdReferenceThreshold" value="60"/>
-                                  <entry key="BlurringFilterStereoTracker.autoThresholdSlope" value="3.2"/>
+                                  <entry key="BlurringFilterStereoTracker.autoThresholdReferenceThreshold" value="30"/>
+                                  <entry key="BlurringFilterStereoTracker.autoThresholdSlope" value="-3.2"/>
                                   <entry key="BlurringFilterStereoTracker.enableAutoThreshold" value="true"/>
                                 </map>
                               </node>
@@ -237,7 +237,7 @@
                               </node>
                               <node name="StereoVergenceFilter">
                                 <map>
-                                  <entry key="StereoTranslateRotate.dx" value="6"/>
+                                  <entry key="StereoTranslateRotate.dx" value="9"/>
                                   <entry key="StereoTranslateRotate.phi" value="0.0"/>
                                   <entry key="StereoTranslateRotate.swapEyes" value="false"/>
                                   <entry key="StereoTranslateRotate.dy" value="0"/>
@@ -285,8 +285,8 @@
                                   <entry key="BlurringFilterStereo.binocluarAssociationMassThreshold" value="20.0"/>
                                   <entry key="BlurringFilterStereo.growthRateOfSigmoidCurve" value="1.0"/>
                                   <entry key="BlurringFilter2D.showFiringNeurons" value="true"/>
-                                  <entry key="BlurringFilter2D.MPJumpAfterFiring" value="10.0"/>
-                                  <entry key="BlurringFilter2D.MPThreshold" value="60"/>
+                                  <entry key="BlurringFilter2D.MPJumpAfterFiring" value="5.0"/>
+                                  <entry key="BlurringFilter2D.MPThreshold" value="90"/>
                                   <entry key="BlurringFilter2D.MPTimeConstantUs" value="25000"/>
                                   <entry key="BlurringFilterStereo.activateNonoverlapingArea" value="true"/>
                                   <entry key="BlurringFilter2D.showMPThreshold" value="true"/>
