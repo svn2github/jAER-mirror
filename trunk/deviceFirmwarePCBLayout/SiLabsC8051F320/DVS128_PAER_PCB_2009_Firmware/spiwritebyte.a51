@@ -50,17 +50,25 @@ sjmp skip ;skip setting bit high
 highbit:
 setb DATABIT
 skip:
-;nop
-;nop
-;nop
-;nop
-setb CLKBIT
-;nop
-;nop
-;nop
-;nop
+nop
+nop
+nop
+nop
+nop
 clr CLKBIT
-;nop ;may need this to stretch clock high time
+nop
+nop
+nop
+nop
+nop
+nop
+setb CLKBIT
+nop
+nop
+nop
+nop
+nop
+nop
 ;nop
 ;nop
 ;nop
