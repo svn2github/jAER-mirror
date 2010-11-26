@@ -1,5 +1,9 @@
 NAME spiwritebyte
-;
+; This routine takes a byte variable and
+; shifts it out with the clock;
+
+; the byte is shited out big endian, i.e. starting with the msb and ending with the lsb.
+
 ; adapted from Cypress Software SPI example for EZ-USB (NOT the FX2) spiwrite.a51 4-19-00 ott]
 ; difference is that FX2 has ports at 0x80 0x90 etc and not in XRAM. plus port A is bit addressable,
 ; so we can just set and clear the bits and/or we don't need to use movx for xdata access
@@ -7,8 +11,7 @@ NAME spiwritebyte
 ; 
 ; also, this routine changes bit, then clocks up and down, unlike real SPI that changes bit and clock at the same time
 
-; This routine takes a byte variable and
-; shifts it out with the clock
+
 ; worst case bit rate of 250kHz
 ; byte rate of 35 kHz
 ;
