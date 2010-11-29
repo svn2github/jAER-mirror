@@ -1,1 +1,0 @@
-showLiveRetina('chip','tmpdiff128');

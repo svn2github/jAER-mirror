@@ -1,6 +1,0 @@
-DVS 128 firmware versions:
-
-0000 original firmware version
-0001 downloading default biases on startup, 25.6.2008, rapha
-0002 corrected error which lead to multiple timestamp resets at startup, 14.7.2008, rapha
-0003 support USB suspend/resume, 22.7.2008, rapha 
