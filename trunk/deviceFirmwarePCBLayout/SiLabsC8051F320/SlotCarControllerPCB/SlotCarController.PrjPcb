@@ -94,14 +94,36 @@ ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 
+[Document6]
+DocumentPath=datasheets\optocoupler-farnell.pdf
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+
+[Document7]
+DocumentPath=SlotCarController.PcbLib
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+
 [GeneratedDocument1]
-DocumentPath=..\ServoUSBPCB\Project Outputs for ServoUSB\ServoUSB.BOM
-
-[GeneratedDocument2]
-DocumentPath=..\ServoUSBPCB\Project Outputs for ServoUSB\ServoUSB.CSV
-
-[GeneratedDocument3]
-DocumentPath=..\ServoUSBPCB\servoUSBrev0.pcbdoc.htm
+DocumentPath=Project Outputs for SlotCarController\Design Rule Check - SlotCarControllerRev0.html
 
 [Generic_SmartPDF]
 AutoOpenFile=-1
@@ -278,7 +300,7 @@ TargetPrinter=Send To OneNote 2010
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=Composite
 OutputName1=Composite Drawing
-OutputDocumentPath1=
+OutputDocumentPath1=D:\Users\tobi\Documents\~jaer-all\trunk\deviceFirmwarePCBLayout\SiLabsC8051F320\SlotCarControllerPCB\SlotCarControllerRev0.PcbDoc
 OutputVariantName1=
 OutputDefault1=0
 PageOptions1=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=4.65|XCorrection=1.00|YCorrection=1.00|PrintKind=0|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-4|MediaType=1|DitherType=10|PaperKind=A4|PrintScaleMode=1
@@ -818,14 +840,14 @@ Type1=1
 Type2=1
 Type3=1
 Type4=1
-Type5=1
+Type5=0
 Type6=1
 Type7=1
 Type8=1
 Type9=1
 Type10=1
 Type11=1
-Type12=1
+Type12=0
 Type13=1
 Type14=1
 Type15=1
@@ -835,7 +857,7 @@ Type18=1
 Type19=1
 Type20=1
 Type21=1
-Type22=1
+Type22=0
 Type23=1
 Type24=1
 Type25=1
