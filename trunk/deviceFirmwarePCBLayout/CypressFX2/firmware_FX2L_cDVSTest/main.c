@@ -37,6 +37,11 @@ extern BOOL Selfpwr;
 #define TIMESTAMP_MASTER 		PA1
 #define RUN_CPLD				PA3
 
+#define RUN_ADC 		PC0
+#define CPLD_SR_CLOCK	PC1
+#define CPLD_SR_LATCH	PC2
+#define CPLD_SR_BIT		PC3
+
 #define DB_Addr 1 // zero if only one byte address is needed for EEPROM, one if two byte address
 
 #define LEDmask 	0x40  // PE6
@@ -60,6 +65,8 @@ BOOL LEDon;
 #define VR_READOUT_EEPROM 0xC9
 #define VR_IS_TS_MASTER 0xCB
 //#define VR_MISSED_EVENTS 0xCC
+#define VR_WRITE_CPLD_SR 0xCF
+#define VR_RUN_ADC		0xCE
 
 #define VR_WRITE_BIASGEN 0xB8 // write bytes out to SPI
 				// the wLengthL field of SETUPDAT specifies the number of bytes to write out (max 64 per request)
@@ -81,7 +88,6 @@ BOOL LEDon;
 #define NUM_CONFIG_BITS_PRECEDING_BIAS_BYTES 40 
 // 10 muxes, each with 4 bits of config info. not a multiple of 8 so needs to be handled specially for SPI interface.
 // we handle this by just padding the most signif nibble of the first byte written - this nibble will get shifted out.
-
 
 xdata unsigned int numBiasBytes; // number of bias bytes saved
 
@@ -335,6 +341,20 @@ void stopMonitor(void)
 	IOE &= ~DVS_nReset;
 }
 
+void CPLDwriteByte(BYTE dat)
+{
+	BYTE i=0;
+	BYTE mask=0x80;
+
+	CPLD_SR_CLOCK = 0;
+	for (i=0; i<8;i++)
+	{
+		CPLD_SR_BIT= dat & mask;
+		CPLD_SR_CLOCK = 1;
+		CPLD_SR_CLOCK = 0;
+		mask= mask >> 1;	
+	}
+}
 
 void EEPROMWriteByte(WORD addr, BYTE value)
 {
@@ -644,6 +664,45 @@ BOOL DR_VendorCmnd(void)
 				toggleLED();
 				return(FALSE); // very important, otherwise get stall
 			}
+	case VR_WRITE_CPLD_SR: // write bytes to SPI interface
+			{
+				SYNCDELAY;
+				len = SETUPDAT[6];
+				len |= SETUPDAT[7] << 8;
+		
+				while(len){					// Move new data through EP0OUT, one packet at a time
+					// Arm endpoint - do it here to clear (after sud avail)
+					EP0BCH = 0;
+					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+					while(EP0CS & bmEPBUSY);  // spin here until data arrives
+					bc = EP0BCL; // Get the new bytecount
+				
+					for(i=0; i<bc; i++){
+						CPLDwriteByte(EP0BUF[i]);					
+					}
+				
+					len -= bc; // dec total byte count
+				}
+		
+				CPLD_SR_LATCH=0;
+				CPLD_SR_LATCH=1;
+
+				EP0BCH = 0;
+				EP0BCL = 0;                   // Arm endpoint with 0 byte to transfer
+				toggleLED();
+				return(FALSE); // very important, otherwise get stall
+			}
+		case VR_RUN_ADC:
+			{	
+				if (SETUPDAT[2])
+				{
+					RUN_ADC=1;
+				} else 
+				{
+					RUN_ADC=0;
+				}
+				break;
+			}
 		case VR_SET_POWERDOWN: // control powerDown output bit
 			{
 				if (SETUPDAT[2])
@@ -653,12 +712,7 @@ BOOL DR_VendorCmnd(void)
 				{
 					releasePowerDownBit();
 				}
-				*EP0BUF=VR_SET_POWERDOWN;
-				SYNCDELAY;
-				EP0BCH = 0;
-				EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
-				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
-				break; // very important, otherwise get stall
+				break;
 
 			}
 
@@ -672,15 +726,9 @@ BOOL DR_VendorCmnd(void)
 					IOE |= DVS_nReset;
 				}
 			
-				*EP0BUF=VR_SETARRAYRESET;
-				SYNCDELAY;
-				EP0BCH = 0;
-				EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
-				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
-				return(FALSE); // very important, otherwise get stall
-
+				break;
 			}
-	/*	case VR_DOARRAYRESET: // reset array for fixed reset time
+		case VR_DOARRAYRESET: // reset array for fixed reset time
 			{
 				IOE &= ~DVS_nReset;
 				_nop_();
@@ -698,15 +746,9 @@ BOOL DR_VendorCmnd(void)
 				_nop_();
 				_nop_();
 				IOE |= DVS_nReset;
-				*EP0BUF=VR_DOARRAYRESET;
-				SYNCDELAY;
-				EP0BCH = 0;
-				EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
-				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
-				return (FALSE); // very important, otherwise get stall
+				break;
 			}
-
-		case VR_IS_TS_MASTER:
+	/*	case VR_IS_TS_MASTER:
 			{
 				EP0BUF[0] = SETUPDAT[1];
 				EP0BUF[1]= TIMESTAMP_MASTER;
