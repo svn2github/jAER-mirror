@@ -155,7 +155,7 @@
                   <entry key="GestureBF2D.numPointsThreshold" value="30"/>
                   <entry key="StereoVergenceFilter.maxDisparityChangePixels" value="1000"/>
                   <entry key="GestureBF2D.maxSpeedThreshold_kPPT" value="0.1"/>
-                  <entry key="GestureBF2D.headTrimmingPercents" value="30"/>
+                  <entry key="GestureBF2D.headTrimmingPercents" value="20"/>
                   <entry key="GestureBF2D.tailTrimmingPercents" value="15"/>
                   <entry key="Info.useLocalTimeZone" value="true"/>
                   <entry key="Info.filterEnabled" value="false"/>
@@ -165,7 +165,11 @@
                   <entry key="GestureBF2D.enableLPF" value="true"/>
                   <entry key="BlurringFilterStereoTracker.autoThresholdSlope" value="2.0"/>
                   <entry key="BlurringFilterStereoTracker.autoThresholdReferenceThreshold" value="60"/>
-                  <entry key="GestureBF2D.tauPathMs" value="80.0"/>
+                  <entry key="GestureBF2D.tauPathMs" value="125.0"/>
+                  <entry key="BlurringFilterStereoTracker.enableAutoThreshold" value="false"/>
+                  <entry key="BluringFilter2DTracker.clusterRadiusLifetimeMs" value="200.0"/>
+                  <entry key="GestureBF2D.GTCriterion" value="3.5"/>
+                  <entry key="GestureBF2D.autoLogoutTimeMs" value="5000"/>
                 </map>
                 <node name="ch">
                   <map/>
@@ -188,13 +192,18 @@
                                   <entry key="BluringFilter2DTracker.pathLength" value="1000"/>
                                   <entry key="BluringFilter2DTracker.enableMerge" value="true"/>
                                   <entry key="BluringFilter2DTracker.minimumClusterSizePixels" value="16"/>
-                                  <entry key="BluringFilter2DTracker.maximumClusterLifetimeMs" value="20.0"/>
+                                  <entry key="BluringFilter2DTracker.maximumClusterLifetimeMs" value="10.0"/>
                                   <entry key="BluringFilter2DTracker.clusterRadiusLifetimeMs" value="200.0"/>
                                   <entry key="BluringFilter2DTracker.numVelocityPoints" value="5"/>
                                   <entry key="BlurringFilterStereoTracker.removeInvalidClusters" value="false"/>
-                                  <entry key="BlurringFilterStereoTracker.autoThresholdReferenceThreshold" value="30"/>
-                                  <entry key="BlurringFilterStereoTracker.autoThresholdSlope" value="-3.2"/>
+                                  <entry key="BlurringFilterStereoTracker.autoThresholdReferenceThreshold" value="40"/>
+                                  <entry key="BlurringFilterStereoTracker.autoThresholdSlope" value="2.5"/>
                                   <entry key="BlurringFilterStereoTracker.enableAutoThreshold" value="true"/>
+                                  <entry key="BluringFilter2DTracker.enableTrjPersLimit" value="true"/>
+                                  <entry key="BluringFilter2DTracker.maxmumTrjPersTimeMs" value="2000"/>
+                                  <entry key="BluringFilter2DTracker.tauLPFMs" value="1.0"/>
+                                  <entry key="BluringFilter2DTracker.useVelocity" value="true"/>
+                                  <entry key="BluringFilter2DTracker.pathsEnabled" value="true"/>
                                 </map>
                               </node>
                             </node>
@@ -237,7 +246,7 @@
                               </node>
                               <node name="StereoVergenceFilter">
                                 <map>
-                                  <entry key="StereoTranslateRotate.dx" value="9"/>
+                                  <entry key="StereoTranslateRotate.dx" value="6"/>
                                   <entry key="StereoTranslateRotate.phi" value="0.0"/>
                                   <entry key="StereoTranslateRotate.swapEyes" value="false"/>
                                   <entry key="StereoTranslateRotate.dy" value="0"/>
@@ -284,14 +293,19 @@
                                   <entry key="BlurringFilterStereo.enableBinocluarAssociation" value="true"/>
                                   <entry key="BlurringFilterStereo.binocluarAssociationMassThreshold" value="20.0"/>
                                   <entry key="BlurringFilterStereo.growthRateOfSigmoidCurve" value="1.0"/>
-                                  <entry key="BlurringFilter2D.showFiringNeurons" value="true"/>
+                                  <entry key="BlurringFilter2D.showFiringNeurons" value="false"/>
                                   <entry key="BlurringFilter2D.MPJumpAfterFiring" value="5.0"/>
-                                  <entry key="BlurringFilter2D.MPThreshold" value="90"/>
+                                  <entry key="BlurringFilter2D.MPThreshold" value="10"/>
                                   <entry key="BlurringFilter2D.MPTimeConstantUs" value="25000"/>
                                   <entry key="BlurringFilterStereo.activateNonoverlapingArea" value="true"/>
                                   <entry key="BlurringFilter2D.showMPThreshold" value="true"/>
                                   <entry key="BlurringFilter2D.neuronLifeTimeUs" value="2000000"/>
                                   <entry key="BlurringFilter2D.filledReceptiveField" value="true"/>
+                                  <entry key="BlurringFilter2D.receptiveFieldSizePixels" value="8"/>
+                                  <entry key="BlurringFilter2D.showInsideNeuronsOnly" value="true"/>
+                                  <entry key="BlurringFilter2D.showBorderNeuronsOnly" value="true"/>
+                                  <entry key="BlurringFilter2D.MPJumpAfterFiringPercentTh" value="10.0"/>
+                                  <entry key="BlurringFilterStereo.binocluarAssMassThresholdPercentTh" value="10.0"/>
                                 </map>
                               </node>
                             </node>
@@ -335,7 +349,9 @@
                         <node name="filter">
                           <map/>
                           <node name="Info">
-                            <map/>
+                            <map>
+                              <entry key="EventRateEstimator.eventRateTauMs" value="0.2"/>
+                            </map>
                           </node>
                         </node>
                       </node>
