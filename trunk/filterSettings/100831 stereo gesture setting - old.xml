@@ -156,7 +156,7 @@
                   <entry key="StereoVergenceFilter.maxDisparityChangePixels" value="1000"/>
                   <entry key="GestureBF2D.maxSpeedThreshold_kPPT" value="0.1"/>
                   <entry key="GestureBF2D.headTrimmingPercents" value="30"/>
-                  <entry key="GestureBF2D.tailTrimmingPercents" value="10"/>
+                  <entry key="GestureBF2D.tailTrimmingPercents" value="15"/>
                   <entry key="Info.useLocalTimeZone" value="true"/>
                   <entry key="Info.filterEnabled" value="false"/>
                   <entry key="Info.analogClock" value="false"/>
@@ -168,7 +168,7 @@
                   <entry key="GestureBF2D.tauPathMs" value="50.0"/>
                   <entry key="BlurringFilterStereoTracker.enableAutoThreshold" value="false"/>
                   <entry key="BluringFilter2DTracker.clusterRadiusLifetimeMs" value="200.0"/>
-                  <entry key="GestureBF2D.GTCriterion" value="2.0"/>
+                  <entry key="GestureBF2D.GTCriterion" value="1.5"/>
                   <entry key="GestureBF2D.autoLogoutTimeMs" value="5000"/>
                 </map>
                 <node name="ch">
@@ -196,7 +196,7 @@
                                   <entry key="BluringFilter2DTracker.clusterRadiusLifetimeMs" value="200.0"/>
                                   <entry key="BluringFilter2DTracker.numVelocityPoints" value="5"/>
                                   <entry key="BlurringFilterStereoTracker.removeInvalidClusters" value="false"/>
-                                  <entry key="BlurringFilterStereoTracker.autoThresholdReferenceThreshold" value="25"/>
+                                  <entry key="BlurringFilterStereoTracker.autoThresholdReferenceThreshold" value="30"/>
                                   <entry key="BlurringFilterStereoTracker.autoThresholdSlope" value="1.0"/>
                                   <entry key="BlurringFilterStereoTracker.enableAutoThreshold" value="true"/>
                                   <entry key="BluringFilter2DTracker.enableTrjPersLimit" value="true"/>
@@ -246,7 +246,7 @@
                               </node>
                               <node name="StereoVergenceFilter">
                                 <map>
-                                  <entry key="StereoTranslateRotate.dx" value="5"/>
+                                  <entry key="StereoTranslateRotate.dx" value="39"/>
                                   <entry key="StereoTranslateRotate.phi" value="0.0"/>
                                   <entry key="StereoTranslateRotate.swapEyes" value="false"/>
                                   <entry key="StereoTranslateRotate.dy" value="0"/>
@@ -295,7 +295,7 @@
                                   <entry key="BlurringFilterStereo.growthRateOfSigmoidCurve" value="1.0"/>
                                   <entry key="BlurringFilter2D.showFiringNeurons" value="false"/>
                                   <entry key="BlurringFilter2D.MPJumpAfterFiring" value="5.0"/>
-                                  <entry key="BlurringFilter2D.MPThreshold" value="25"/>
+                                  <entry key="BlurringFilter2D.MPThreshold" value="1"/>
                                   <entry key="BlurringFilter2D.MPTimeConstantUs" value="25000"/>
                                   <entry key="BlurringFilterStereo.activateNonoverlapingArea" value="true"/>
                                   <entry key="BlurringFilter2D.showMPThreshold" value="true"/>
