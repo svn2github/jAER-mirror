@@ -168,7 +168,7 @@
                   <entry key="GestureBF2D.tauPathMs" value="50.0"/>
                   <entry key="BlurringFilterStereoTracker.enableAutoThreshold" value="false"/>
                   <entry key="BluringFilter2DTracker.clusterRadiusLifetimeMs" value="200.0"/>
-                  <entry key="GestureBF2D.GTCriterion" value="4.0"/>
+                  <entry key="GestureBF2D.GTCriterion" value="2.0"/>
                   <entry key="GestureBF2D.autoLogoutTimeMs" value="5000"/>
                 </map>
                 <node name="ch">
