@@ -615,15 +615,15 @@ BOOL DR_VendorCmnd(void)
 			}*/		
 		case VR_RESETTIMESTAMPS:
 			{
-		//		RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
-		//		RESET_TS=0;
+				RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
+				RESET_TS=0;
 
 				// reset dvs statemachines
-				IOE= IOE & ~DVS_nReset;
-				_nop_();
-				_nop_();
-				_nop_();
-				IOE = IOE | DVS_nReset; //start dvs statemachines
+//				IOE= IOE & ~DVS_nReset;
+//				_nop_();
+//				_nop_();
+//				_nop_();
+//				IOE = IOE | DVS_nReset; //start dvs statemachines
 
 				break;
 			}
@@ -670,6 +670,7 @@ BOOL DR_VendorCmnd(void)
 				len = SETUPDAT[6];
 				len |= SETUPDAT[7] << 8;
 		
+				RUN_ADC=0;
 				while(len){					// Move new data through EP0OUT, one packet at a time
 					// Arm endpoint - do it here to clear (after sud avail)
 					EP0BCH = 0;
