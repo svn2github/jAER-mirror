@@ -118,12 +118,37 @@ module biasgen_macro_module
 /* End */
 
 FILE *logFile;
+FILE *testdataFile;//PDZ		
 bool logFileOpened=false;
  // the name of the logfile
 #define LOGFILE "biasgen-log.txt" 
 
 FILE *schematicFile=NULL, *lvsSchematicFile=NULL; // the original schematic, along with the one that can be LVS'ed vs layout
 
+/** the structure that holds an individual bias */
+typedef struct biasStruct{
+	char name[MAX_NAME];				// name of bias, used to make ports and cell instance name
+	char typeString[MAX_TYPE];		// the type of bias "N", "P", 
+	int typeInt;						// type as one of int defs above
+	double current;					// the *desired* current in amps
+	float width;						// width in lambda of users fet with specified current
+	float length;						// length in lambda
+	int multiplier;					// number of copies of current
+	int splitterNumber;				// the number of the splitter output to use starting from 0, which gives a current master/2 when using octave splitter
+	int location;						// location numbered from 0 closest to the masterbias
+	int busNumber;				// the number of the bus segment (bus segments could be reused if multiple biases use same splitter output)
+	double actualCurrent;			//	the actual current from splitter
+	double actualToDesiredCurrentRatio;		// ratio actual/desired current
+//	biasStruct *next;
+//	biasStruct *previous;
+} biasStruct;
+
+void writeBiasFet(int number, char *drain, char *gate, char *source, char *bulk, char *model, biasStruct *bias);//PDZ
+void refresh();//PDZ
+void cleanup();//PDZ
+void writeTestBench();//PDZ
+void routeBiasToSplitter(int n, int typeInt);//PDZ
+void writeSplitterSchematic();//PDZ
 /** logs string to log file with \n appended
 @param s char string
 */
@@ -157,24 +182,24 @@ void alert(char *s){
 	LDialog_AlertBox(s);
 }
 
-/** the structure that holds an individual bias */
-typedef struct biasStruct{
-	char name[MAX_NAME];				// name of bias, used to make ports and cell instance name
-	char typeString[MAX_TYPE];		// the type of bias "N", "P", 
-	int typeInt;						// type as one of int defs above
-	double current;					// the *desired* current in amps
-	float width;						// width in lambda of users fet with specified current
-	float length;						// length in lambda
-	int multiplier;					// number of copies of current
-	int splitterNumber;				// the number of the splitter output to use starting from 0, which gives a current master/2 when using octave splitter
-	int location;						// location numbered from 0 closest to the masterbias
-	int busNumber;				// the number of the bus segment (bus segments could be reused if multiple biases use same splitter output)
-	double actualCurrent;			//	the actual current from splitter
-	double actualToDesiredCurrentRatio;		// ratio actual/desired current
-//	biasStruct *next;
-//	biasStruct *previous;
-} biasStruct;
-
+///** the structure that holds an individual bias */
+//typedef struct biasStruct{
+//	char name[MAX_NAME];				// name of bias, used to make ports and cell instance name
+//	char typeString[MAX_TYPE];		// the type of bias "N", "P", 
+//	int typeInt;						// type as one of int defs above
+//	double current;					// the *desired* current in amps
+//	float width;						// width in lambda of users fet with specified current
+//	float length;						// length in lambda
+//	int multiplier;					// number of copies of current
+//	int splitterNumber;				// the number of the splitter output to use starting from 0, which gives a current master/2 when using octave splitter
+//	int location;						// location numbered from 0 closest to the masterbias
+//	int busNumber;				// the number of the bus segment (bus segments could be reused if multiple biases use same splitter output)
+//	double actualCurrent;			//	the actual current from splitter
+//	double actualToDesiredCurrentRatio;		// ratio actual/desired current
+////	biasStruct *next;
+////	biasStruct *previous;
+//} biasStruct;
+//
 /** holds general information about bias generator */
 struct {	
 	int numBiases;
@@ -376,9 +401,9 @@ void cleanup(){
 			free(biasgen.biases[i]);
 		}
 		closeOutputSchematicFile();
-		fcloseall();
+//PDZ		fcloseall();
 		//if(schematicFile!=NULL) fclose(schematicFile);	
-		//if(logFile!=NULL) fclose(logFile);
+		if(logFile!=NULL) fclose(logFile);
 		
 }
 
@@ -386,6 +411,7 @@ void cleanup(){
 @return 0 if no error
  */
 int makeBiasgen(){
+	int qq=2000;//PDZ
 	// init bias gen vars here explicitly
 	initVariables();
 	if(parseSchematic()!=0) return -1;
@@ -1182,11 +1208,11 @@ int nearestSplitter(double current){
 }
 
 /** @return nearest int if int>0. We need this because rint is not shipped with interpreter... and (int)double truncates */
-int rint(double x){
-	double n;
-	double rem=modf(x,&n);
-	if(rem<.5) return (int)n; else return (int)(n+1);
-}
+//PDZ	int rint(double x){
+//PDZ		double n;
+//PDZ		double rem=modf(x,&n);
+//PDZ		if(rem<.5) return (int)n; else return (int)(n+1);
+//PDZ	}
 
 	
 // already defined in headers
@@ -1203,14 +1229,19 @@ The max and min bias currents are computed and stored in maxBiasCurrent and minB
 int parseSchematic(){
 	char line[MAX_LINE];
 	biasStruct *newBias;
-	int i;
-		
+	int i,qq;
+//	FILE *testdataFile=NULL;//PDZ		
 //	alert("parseSchematic");
+//beginPDZ
+	testdataFile=NULL;
+	testdataFile=fopen("D:\\Piter\\BiasGen\\biasgen\\FixedBiasGenDesignKit\\MOSIS-SCMOS-SUBM\\testdata.txt","w");
+	if(testdataFile==NULL) LDialog_AlertBox(LFormat("La hemos cagao..."));
+//endPDZ
 	
 	schematicFile=fopen(NETLIST,"r");
 	if(schematicFile==NULL){
 		alert(LFormat("couldn't open schematic netlist %s",NETLIST));
-		return -1;
+		return -3;
 	}
 	
 	openOutputSchematicFile(); // open file for writing out netlist of compiled biasgen, which includes individual biases
@@ -1224,6 +1255,9 @@ int parseSchematic(){
 	while(!feof(schematicFile)){
 		//fgets(line,MAX_LINE,schematicFile);
 		getLine(line);
+//beginPDZxxx
+		fprintf(testdataFile,"%s\n",line);
+//endPDZ
 //		LDialog_MsgBox(LFormat("%ld",ftell(schematicFile)));
 		// if not compiler or process parameters, contine
 //		LDialog_MsgBox(line);
@@ -1234,20 +1268,27 @@ int parseSchematic(){
 			biasgen.numBiases++;
 			if(biasgen.numBiases>MAX_BIASES){
 				alert("Too many biases, edit MAX_BIASES and reload macro");
-				return -1;
+				return -5;
 			}
 			newBias=(biasStruct*)calloc(1,sizeof(biasStruct));
 			initBiasDefaults(newBias);
 			biasgen.biases[biasgen.numBiases-1]=newBias;
-			if(parseBias(line,newBias)!=0) return -1;
+//PDZ			if(parseBias(line,newBias)!=0) {fclose(testdataFile); return -7;}
+//beginPDZ
+			qq=parseBias(line,newBias);
+			if(qq!=0){fclose(logFile); 
+				alert(LFormat("parseBias returned, %d",qq)); 
+				return -7;}
+//endPDZ
 		}else if(strstr(line,BIASPROCESS)!=NULL){
 			// process parameters
 			parseProcessParameters(line);
 		}else{
 			alert(line);
-		}
-	}
+		}//if(strstr(line,BIASCOMPILE)!=NULL)
+	}//while(!feof(schematicFile))
 	fclose(schematicFile);	
+	fclose(testdataFile);	
 //	alert("parsed schematic");
 	
 	return 0;
@@ -1291,27 +1332,37 @@ int getLine(char* line){
 int parseBias(char *line, biasStruct *bias){
 
 	char *tok,*subTok;
+	char *phc;//PDZ
 	logger(LFormat("bias line: %s",line));
 	
+	fprintf(testdataFile, "LINEA %s\n", line);//PDZ
 	tok=strtok(line," \t");
 	while(tok!=NULL){
 		if(strstr(tok,BIASCOMPILE)!=NULL){
 			// do nothing, just recognize it
 		}else	if(strstr(tok,"name=")!=NULL){
 			strncpy(bias->name,strchr(tok,'=')+1,MAX_NAME);
+			fprintf(testdataFile, "PARSEBIAS1 %s\n", bias->name);//PDZ
 		}else if(strstr(tok,"W=")!=NULL){
 			sscanf(strchr(tok,'=')+1,"%g",&bias->width);
+			fprintf(testdataFile, "PARSEBIAS2 %g\n", bias->width);//PDZ
 		}else if(strstr(tok,"L=")!=NULL){
 			sscanf(strchr(tok,'=')+1,"%g",&bias->length);
+			fprintf(testdataFile, "PARSEBIAS3 %g\n", bias->length);//PDZ
 		}else if(strstr(tok,"I=")!=NULL){
-			subTok=strchr(tok,'=')+1;
-			//logger(LFormat("subTok=%s",subTok));
+			subTok=strchr(tok,'=')+2;
+			phc=strtok(subTok,"'");//PDZ
+			//logger(LFormat("subTok=%s",subTok));//lg
+			fprintf(testdataFile, "PARSEBIAS4subtok %s\n", subTok);//PDZ
 			sscanf(subTok,"%lg",&bias->current);
+			fprintf(testdataFile, "PARSEBIAS4 %lg\n", bias->current);//PDZ
 		}else if(strstr(tok,"M=")!=NULL){
 			sscanf(strchr(tok,'=')+1,"%d",&bias->multiplier);
+			fprintf(testdataFile, "PARSEBIAS5 %d\n", bias->multiplier);//PDZ
 		}else if(strstr(tok,"type=")!=NULL){
 			sscanf(strchr(tok,'=')+1,"%s",bias->typeString);
 			subTok=strchr(tok,'=')+1;
+			fprintf(testdataFile, "PARSEBIAS6 %s\n", bias->typeString);//PDZ
 			//logger(LFormat("type token=%s",subTok));
 			if(strcmp(subTok,"N_CURRENT")==0){
 				bias->typeInt=BIAS_TYPE_N_CURRENT;
@@ -1327,7 +1378,7 @@ int parseBias(char *line, biasStruct *bias){
 			}
 		}else {
 			alert(LFormat("unknown token %s in line %s",tok,line));
-			return -1;
+			return -2;
 		}
 		tok=strtok(NULL," \t");
 	}// tokens
@@ -1337,12 +1388,12 @@ int parseBias(char *line, biasStruct *bias){
 	
 	if(strlen(bias->name)==0){
 		alert("empty bias name");
-		return -1;
+		return -4;
 	}
 	
 	if(bias->current<=0.0){
 		alert("zero current bias");
-		return -1;
+		return -6;
 	}
 	
 	
@@ -1358,19 +1409,35 @@ int parseBias(char *line, biasStruct *bias){
 */
 int parseProcessParameters(char *line){
 	char *tok,*subTok;
+	char *phc;//PDZ
 	
 	logger(LFormat("biasprocess line: %s",line));
-	
+/*
+		}else if(strstr(tok,"I=")!=NULL){
+			subTok=strchr(tok,'=')+2;
+			phc=strtok(subTok,"'");//PDZ
+			//logger(LFormat("subTok=%s",subTok));//lg
+			fprintf(testdataFile, "PARSEBIAS4subtok %s\n", subTok);//PDZ
+			sscanf(subTok,"%lg",&bias->current);
+			fprintf(testdataFile, "PARSEBIAS4 %lg\n", bias->current);//PDZ
+*/	
 	tok=strtok(line," \t");
 	while(tok!=NULL){
 		if(strstr(tok,BIASPROCESS)!=NULL){
 			// do nothing, just recognize it
 		}else	if(strstr(tok,"kprime=")!=NULL){
-			sscanf(strchr(tok,'=')+1,"%lg",&process.kprime);
+//PDZ			sscanf(strchr(tok,'=')+1,"%lg",&process.kprime);
+//beginPDZ
+			subTok=strchr(tok,'=')+2;
+			phc=strtok(subTok,"'");
+			sscanf(subTok,"%lg",&process.kprime);
+			fprintf(testdataFile, "ASUNTO KPRIME: %lg", process.kprime );
+//endPDZ		
 		}else if(strstr(tok,"temperature=")!=NULL){
 			sscanf(strchr(tok,'=')+1,"%lg",&process.temperature);
 		}else {
 			alert(LFormat("unknown token %s in line %s\nTokens are Kprime and Temperature (case sensitive)",tok,line));
+			fclose(testdataFile);
 			return -1;
 		}
 		tok=strtok(NULL," \t");
@@ -1379,6 +1446,7 @@ int parseProcessParameters(char *line){
 	
 	logger(LFormat("process kprime=%lg, temperature=%lg, UT=%lg",process.kprime,process.temperature,process.ut));
 
+	fclose(testdataFile);//PDZ
 	return 0;
 } // parseProcessParameters
 
