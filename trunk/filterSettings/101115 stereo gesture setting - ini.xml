@@ -172,6 +172,7 @@
                   <entry key="GestureBF2D.autoLogoutTimeMs" value="5000"/>
                   <entry key="GestureBF2D.maxTimeDiffCorrSegmentsUs" value="400000"/>
                   <entry key="GestureBF2D.usePrevPath" value="true"/>
+                  <entry key="GestureBF2D.enableAutoLogout" value="false"/>
                 </map>
                 <node name="ch">
                   <map/>
@@ -189,7 +190,7 @@
                               <map/>
                               <node name="GestureBF2D">
                                 <map>
-                                  <entry key="BluringFilter2DTracker.showClusters" value="true"/>
+                                  <entry key="BluringFilter2DTracker.showClusters" value="false"/>
                                   <entry key="BluringFilter2DTracker.trackSingleCluster" value="true"/>
                                   <entry key="BluringFilter2DTracker.pathLength" value="1000"/>
                                   <entry key="BluringFilter2DTracker.enableMerge" value="true"/>
@@ -199,7 +200,7 @@
                                   <entry key="BluringFilter2DTracker.numVelocityPoints" value="5"/>
                                   <entry key="BlurringFilterStereoTracker.removeInvalidClusters" value="false"/>
                                   <entry key="BlurringFilterStereoTracker.autoThresholdReferenceThreshold" value="60"/>
-                                  <entry key="BlurringFilterStereoTracker.autoThresholdSlope" value="-2.5"/>
+                                  <entry key="BlurringFilterStereoTracker.autoThresholdSlope" value="2.5"/>
                                   <entry key="BlurringFilterStereoTracker.enableAutoThreshold" value="true"/>
                                   <entry key="BluringFilter2DTracker.enableTrjPersLimit" value="true"/>
                                   <entry key="BluringFilter2DTracker.maxmumTrjPersTimeMs" value="2000"/>
@@ -250,7 +251,7 @@
                               </node>
                               <node name="StereoVergenceFilter">
                                 <map>
-                                  <entry key="StereoTranslateRotate.dx" value="-3"/>
+                                  <entry key="StereoTranslateRotate.dx" value="4"/>
                                   <entry key="StereoTranslateRotate.phi" value="0.0"/>
                                   <entry key="StereoTranslateRotate.swapEyes" value="false"/>
                                   <entry key="StereoTranslateRotate.dy" value="0"/>
@@ -299,7 +300,7 @@
                                   <entry key="BlurringFilterStereo.growthRateOfSigmoidCurve" value="1.0"/>
                                   <entry key="BlurringFilter2D.showFiringNeurons" value="false"/>
                                   <entry key="BlurringFilter2D.MPJumpAfterFiring" value="15.0"/>
-                                  <entry key="BlurringFilter2D.MPThreshold" value="45"/>
+                                  <entry key="BlurringFilter2D.MPThreshold" value="37"/>
                                   <entry key="BlurringFilter2D.MPTimeConstantUs" value="22000"/>
                                   <entry key="BlurringFilterStereo.activateNonoverlapingArea" value="true"/>
                                   <entry key="BlurringFilter2D.showMPThreshold" value="true"/>
@@ -309,7 +310,7 @@
                                   <entry key="BlurringFilter2D.showInsideNeuronsOnly" value="true"/>
                                   <entry key="BlurringFilter2D.showBorderNeuronsOnly" value="true"/>
                                   <entry key="BlurringFilter2D.MPJumpAfterFiringPercentTh" value="10.0"/>
-                                  <entry key="BlurringFilterStereo.binocluarAssMassThresholdPercentTh" value="10.0"/>
+                                  <entry key="BlurringFilterStereo.binocluarAssMassThresholdPercentTh" value="30.0"/>
                                   <entry key="BlurringFilter2D.MPInitialPercnetTh" value="50.0"/>
                                 </map>
                               </node>
