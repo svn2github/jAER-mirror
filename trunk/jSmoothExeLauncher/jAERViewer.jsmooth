@@ -21,6 +21,7 @@
 <classPath>..\host\java\jars\flanagan.jar</classPath>
 <classPath>..\host\java\jars\jlfgr-1_0.jar</classPath>
 <classPath>..\host\java\jars\prefs-0.8.jar</classPath>
+<classPath>..\host\java\jars\commons-net-2.2.jar</classPath>
 <currentDirectory>host\java</currentDirectory>
 <embeddedJar>false</embeddedJar>
 <executableName>..\jAERViewer.exe</executableName>
