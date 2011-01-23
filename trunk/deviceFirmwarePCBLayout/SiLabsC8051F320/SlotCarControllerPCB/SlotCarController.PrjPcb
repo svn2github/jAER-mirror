@@ -15,6 +15,7 @@ PinSwapBy_Pin=1
 AllowPortNetNames=0
 AllowSheetEntryNetNames=1
 AppendSheetNumberToLocalNets=0
+NetlistSinglePinNets=0
 DefaultConfiguration=
 UserID=0xFFFFFFFF
 DefaultPcbProtel=1
@@ -23,6 +24,7 @@ ReorderDocumentsOnCompile=1
 NameNetsHierarchically=0
 PowerPortNamesTakePriority=0
 PushECOToAnnotationFile=1
+DItemRevisionGUID=
 
 [Document1]
 DocumentPath=SlotCarControllerRev0.SchDoc
@@ -37,6 +39,7 @@ DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
+DItemRevisionGUID=
 
 [Document2]
 DocumentPath=SlotCarControllerRev0.PcbDoc
@@ -51,6 +54,7 @@ DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
+DItemRevisionGUID=
 
 [Document3]
 DocumentPath=..\ServoUSBPCB\SimpleMonitorUSBAER.SCHLIB
@@ -65,6 +69,7 @@ DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
+DItemRevisionGUID=
 
 [Document4]
 DocumentPath=..\ServoUSBPCB\SimpleMonitorUSBAER.PcbLib
@@ -79,6 +84,7 @@ DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
+DItemRevisionGUID=
 
 [Document5]
 DocumentPath=SlotCarController.SchLib
@@ -93,6 +99,7 @@ DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
+DItemRevisionGUID=
 
 [Document6]
 DocumentPath=datasheets\optocoupler-farnell.pdf
@@ -107,6 +114,7 @@ DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
+DItemRevisionGUID=
 
 [Document7]
 DocumentPath=tilepcb.PCBLIB
@@ -121,6 +129,7 @@ DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
+DItemRevisionGUID=
 
 [Document8]
 DocumentPath=tilesch.SCHLIB
@@ -135,6 +144,7 @@ DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
+DItemRevisionGUID=
 
 [Document9]
 DocumentPath=SlotCarChannel.SchDoc
@@ -149,6 +159,7 @@ DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
+DItemRevisionGUID=
 
 [Document10]
 DocumentPath=SlotCarController.PcbLib
@@ -163,6 +174,7 @@ DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
+DItemRevisionGUID=
 
 [Document11]
 DocumentPath=..\..\..\..\..\avlsi-svn\tretina\pcb\tobi PCB.PCBLIB
@@ -177,15 +189,102 @@ DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
+DItemRevisionGUID=
+
+[Document12]
+DocumentPath=datasheets\cap electrolytic 535408.pdf
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+
+[Document13]
+DocumentPath=datasheets\infinion coolmos 16N50C3.pdf
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+
+[Document14]
+DocumentPath=datasheets\pc815-optocoupler.pdf
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+
+[Document15]
+DocumentPath=datasheets\power resistor.pdf
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+
+[Document16]
+DocumentPath=datasheets\notesSlotCarControllerTobi.pdf
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
 
 [GeneratedDocument1]
-DocumentPath=Project Outputs for SlotCarController\Design Rule Check - SlotCarControllerRev0.html
+DocumentPath=..\..\..\..\..\avlsi-svn\CAVIAR\wp3\Boards\CochleaAMS1c_USB\cochleaams1c.PcbDoc.htm
+DItemRevisionGUID=
 
 [GeneratedDocument2]
-DocumentPath=Project Outputs for SlotCarController\SlotCarControllerRev0.BOM
+DocumentPath=Project Outputs for SlotCarController\Design Rule Check - SlotCarControllerRev0.html
+DItemRevisionGUID=
 
 [GeneratedDocument3]
+DocumentPath=Project Outputs for SlotCarController\SlotCarControllerRev0.BOM
+DItemRevisionGUID=
+
+[GeneratedDocument4]
 DocumentPath=Project Outputs for SlotCarController\SlotCarControllerRev0.CSV
+DItemRevisionGUID=
+
+[GeneratedDocument5]
+DocumentPath=SlotCarControllerRev0.PcbDoc.htm
+DItemRevisionGUID=
 
 [Generic_SmartPDF]
 AutoOpenFile=-1
@@ -447,6 +546,11 @@ OutputName2=Generates pick and place files
 OutputDocumentPath2=
 OutputVariantName2=
 OutputDefault2=0
+OutputType3=Test Points For Assembly
+OutputName3=Test Point Report
+OutputDocumentPath3=
+OutputVariantName3=
+OutputDefault3=0
 
 [OutputGroup5]
 Name=Fabrication Outputs
@@ -828,6 +932,12 @@ OutputDocumentPath27=
 OutputVariantName27=
 OutputDefault27=0
 PageOptions27=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-4|MediaType=1|DitherType=10|PaperKind=Letter|PrintScaleMode=1
+OutputType28=Text Print
+OutputName28=Text Print
+OutputDocumentPath28=
+OutputVariantName28=
+OutputDefault28=0
+PageOptions28=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-4|MediaType=1|DitherType=10|PaperKind=Letter|PrintScaleMode=1
 
 [Modification Levels]
 Type1=1
@@ -896,6 +1006,8 @@ Type63=1
 Type64=1
 Type65=1
 Type66=1
+Type67=1
+Type68=1
 
 [Difference Levels]
 Type1=1
@@ -932,6 +1044,8 @@ Type31=1
 Type32=1
 Type33=1
 Type34=1
+Type35=1
+Type36=1
 
 [Electrical Rules Check]
 Type1=1
