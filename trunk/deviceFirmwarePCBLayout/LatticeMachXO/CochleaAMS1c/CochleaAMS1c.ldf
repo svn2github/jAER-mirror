@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject title="CochleaAMS1c" device="LCMXO2280C-3FT256C" synthesis="synplify" default_implementation="CochleaAMS1c">
+    <Implementation title="CochleaAMS1c" dir="CochleaAMS1c" description="CochleaAMS1c" default_strategy="Timing">
+        <Options def_top="USBAER_top_level" top="USBAER_top_level"/>
+        <Source name="sourcecode/wordRegister.vhd" type="VHDL"/>
+        <Source name="sourcecode/AERfifo.vhd" type="VHDL"/>
+        <Source name="sourcecode/clockgen.vhd" type="VHDL"/>
+        <Source name="sourcecode/earlyPaketTimer.vhd" type="VHDL"/>
+        <Source name="sourcecode/EventBeforeOverflow.vhd" type="VHDL"/>
+        <Source name="sourcecode/eventCounter.vhd" type="VHDL"/>
+        <Source name="sourcecode/fifoStatemachine.vhd" type="VHDL"/>
+        <Source name="sourcecode/monitorStateMachine.vhd" type="VHDL"/>
+        <Source name="sourcecode/synchronizerStateMachine.vhd" type="VHDL"/>
+        <Source name="sourcecode/timestampCounter.vhd" type="VHDL"/>
+        <Source name="sourcecode/USBAER_top_level.vhd" type="VHDL">
+            <Options top_module="USBAER_top_level"/>
+        </Source>
+        <Source name="sourcecode/AERfifo.ipx" type="IPX_Module"/>
+        <Source name="sourcecode/clockgen.ipx" type="IPX_Module"/>
+        <Source name="sourcecode/ADCvalueReady.vhd" type="VHDL"/>
+        <Source name="sourcecode/ADCStateMachine.vhd" type="VHDL"/>
+        <Source name="sourcecode/cDVSResetStateMachine.vhd" type="VHDL"/>
+        <Source name="sourcecode/shiftRegister.vhd" type="VHDL"/>
+        <Source name="CochleaAMS1c.lpf" type="Logic Preference"/>
+    </Implementation>
+    <Strategy name="Strategy1" file="Strategy1.sty"/>
+</BaliProject>
