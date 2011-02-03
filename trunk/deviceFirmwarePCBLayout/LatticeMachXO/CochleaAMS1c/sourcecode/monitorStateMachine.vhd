@@ -31,7 +31,7 @@ entity monitorStateMachine is
     AERREQxSBI     : in  std_logic;
     AERACKxSBO     : out std_logic;
 
-    XxDI : in std_logic;
+   -- XxDI : in std_logic;
     UseLongAckxSI : in std_logic;
     
     -- fifo flags
@@ -93,7 +93,7 @@ begin
   AERREQxSB <= AERREQxSBI;
 
 -- calculate next state and outputs
-  p_memless : process (StatexDP, FifoFullxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, AERREQxSB, XxDI, ADCvalueReadyxSI,CountxDP,UseLongAckxSI)
+  p_memless : process (StatexDP, FifoFullxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, AERREQxSB, ADCvalueReadyxSI,CountxDP,UseLongAckxSI)
   begin  -- process p_memless
     -- default assignements: stay in present state, don't change address in
     -- FifoAddress register, no Fifo transaction, 
@@ -128,12 +128,12 @@ begin
         elsif ADCvalueReadyxSI ='1' then
           StatexDN <= stADC;
         elsif AERREQxSB = '0' then
-          if XxDI = '0' then
+       --   if XxDI = '0' then
             TimestampRegWritexEO <= '0';
             StatexDN <= stWrTime;
-          else
-            StatexDN <= stWraddress;
-          end if;
+      --    else
+       --     StatexDN <= stWraddress;
+       --   end if;
         end if;
 
         AddressMSBxDO <= address;

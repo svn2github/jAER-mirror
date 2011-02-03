@@ -37,25 +37,18 @@ entity ADCStateMachine is
     RegisterWritexEO      : out   std_logic;
     SRLatchxEI            : in    std_logic;
     RunADCxSI             : in    std_logic;
-    UseCalibrationxSI     : in    std_logic;
     ScanEnablexSI         : in    std_logic;
-    ScanXxSI              : in    std_logic_vector(4 downto 0);
-    ScanYxSI              : in    std_logic_vector(4 downto 0);
+    ScanXxSI              : in    std_logic_vector(6 downto 0);
     ADCconfigxDI          : in    std_logic_vector(11 downto 0);
-    TrackTimexDI          : in    std_logic_vector(15 downto 0);
-    RefOnTimexDI          : in    std_logic_vector(15 downto 0);
-    RefOffTimexDI         : in    std_logic_vector(15 downto 0);
+    TrackTimexDI          : in    std_logic_vector(15 downto 0);  
     IdleTimexDI           : in    std_logic_vector(15 downto 0);
-    CDVSTestSRRowInxSO    : out   std_logic;
-    CDVSTestSRRowClockxSO : out   std_logic;
-    CDVSTestSRColInxSO    : out   std_logic;
-    CDVSTestSRColClockxSO : out   std_logic;
-    CDVSTestRefEnablexEO  : out   std_logic);
+    ScanClockxSO          : out   std_logic;
+    ScanSyncxSI          : in   std_logic);
 
 end ADCStateMachine;
 
 architecture Behavioral of ADCStateMachine is
-  type state is (stIdle,  stStartup, stLatch, stWriteConfig, stInit, stTrack ,stRefHigh,stRefLow, stStartConversion, stBusy, stRead, stWriteReg, stWait,stSinglePixelClockLow,stSinglePixelClockHigh);
+  type state is (stIdle,  stStartup, stLatch, stWriteConfig, stInit, stTrack , stStartConversion, stBusy, stRead, stWriteReg, stWait,stSinglePixelClockLow,stSinglePixelClockHigh);
 
 
   -- present and next state
@@ -66,23 +59,25 @@ architecture Behavioral of ADCStateMachine is
                                         -- input clock frequency: 15 MHz
 
   signal ADCoutMSBxS : std_logic_vector(3 downto 0);
-  signal StartPixelxSN, StartPixelxSP : std_logic;
-  signal ChannelxD : std_logic_vector(1 downto 0);
+  signal ChannelxDN, ChannelxDP : std_logic_vector(1 downto 0);
 
+  signal ScanPixelxS : std_logic_vector(7 downto 0);
   -- timestamp reset register
   signal DividerxDP, DividerxDN : std_logic_vector(16 downto 0);
 
   constant configword : std_logic_vector(11 downto 0) := "000101100000";--"100101101000";
-  signal CountRowxDN, CountColxDN : std_logic_vector(4 downto 0);
-  signal CountRowxDP, CountColxDP : std_logic_vector(4 downto 0);
+  signal CountxDN, CountxDP : std_logic_vector(8 downto 0);
+
 
 begin
 
   
   ADCconfigWordxS <= ADCconfigxDI;
-  ADCoutxDO <= ADCoutMSBxS(3 downto 2) &  ADCwordxDIO(11 downto 0);
-  ADCoutMSBxS <= '1' & StartPixelxSP & ChannelxD;
-  ChannelxD <= ADCconfigWordxS(6 downto 5);
+  ADCoutxDO <= ADCoutMSBxS(3 downto 0) &  ADCwordxDIO(11 downto 2);
+  ADCoutMSBxS <= '1' & ScanSyncxSI & ChannelxDP;
+  --ChannelxD <= ADCconfigWordxS(6 downto 5);
+
+  ScanPixelxS <= '0' & ScanXxSI;
   
   with ADCwordWritexE select
     ADCwordxDIO <=
@@ -90,27 +85,21 @@ begin
     (others => 'Z')       when others;
   
 -- calculate next state and outputs
-  p_memless : process (StatexDP, DividerxDP, ADCbusyxSI, ClockxC, SRLatchxEI, UseCalibrationxSI, IdleTimexDI, RefOnTimexDI, RefOffTimexDI, TrackTimexDI, RunADCxSI, CountColxDP, CountRowxDP, StartPixelxSP,ScanEnablexSI, ScanYxSI, ScanXxSI)
+  p_memless : process (StatexDP, DividerxDP, ADCbusyxSI, ClockxC, SRLatchxEI, IdleTimexDI,  TrackTimexDI, RunADCxSI, CountxDP,ScanEnablexSI, ScanPixelxS, ScanSyncxSI, ChannelxDP)
   begin  -- process p_memless
     -- default assignements: stay in present state
 
     StatexDN   <= StatexDP;
     DividerxDN <= DividerxDP;
-    CDVSTestSRColClockxSO <= '0';
-    CDVSTestSRRowClockxSO <= '0';
-    CDVSTestSRColInxSO <= '0';
-    CDVSTestSRRowInxSO <= '0';
-
-    StartPixelxSN <= StartPixelxSP;
-    
-    CountRowxDN <= CountRowxDP;
-    CountColxDN <= CountColxDP;
+    ScanClockxSO <= '0';
+   
+    ChannelxDN <= ChannelxDP;
+    CountxDN <= CountxDP;
     
     ADCwritexEBO <= '1';
     ADCreadxEBO <= '1';
     ADCconvstxEBO <= '1';
     RegisterWritexEO <= '0';
-    CDVSTestRefEnablexEO <= '0';
     ADCwordWritexE <= '0';
     ADCclockxCO <= ClockxC;
     
@@ -144,16 +133,7 @@ begin
         DividerxDN <= (others => '0');
         ADCconvstxEBO <= '0';
       when stInit =>
-        if CountRowxDP = 0 and CountColxDP = 0 then
-          StartPixelxSN <= '1';
-          CDVSTestSRRowInxSO <= '1';
-          CDVSTestSRColInxSO <= '1';
-        elsif CountRowxDP = 0 then
-          StartPixelxSN <= '0';
-          CDVSTestSRRowInxSO <= '1';
-        else
-          StartPixelxSN <= '0';
-        end if;
+ 
         StatexDN <= stTrack;
         ADCconvstxEBO <= '0';
         DividerxDN <= (others => '0');
@@ -162,51 +142,15 @@ begin
         DividerxDN <= DividerxDP + 1;
 
         if ScanEnablexSI='1' then
-          if CountRowxDP = 0 and CountColxDP = 0 then
-            CDVSTestSRRowInxSO <= '1';
-            CDVSTestSRColInxSO <= '1';
-            CDVSTestSRColClockxSO <= '1';
-          elsif CountRowxDP = 0 then
-            CDVSTestSRColClockxSO <= '1';
-            CDVSTestSRRowInxSO <= '1';
-          end if;
-          CDVSTestSRRowClockxSO <= '1';
+          ScanClockxSO <= '1';
         end if;
 
         if DividerxDP > TrackTimexDI then
-          if UseCalibrationxSI = '1' and ScanEnablexSI='1'  then
-            StatexDN <= stRefHigh;
-          else
-            StatexDN <= stStartConversion;
-          end if;
-          
-          DividerxDN <= (others => '0');
-          
-          if ScanEnablexSI='1' then
-            if CountRowxDP = 0 then
-              CountColxDN <= CountColxDP + 1;
-            end if;
-            CountRowxDN <= CountRowxDP + 1;
-          end if;
-        end if;
-      when stRefHigh =>
-        ADCconvstxEBO <= '1';
-        DividerxDN <= DividerxDP + 1;
-
-        CDVSTestRefEnablexEO <= '1';
-        if DividerxDP > RefOnTimexDI then
-          StatexDN <= stRefLow;
-          DividerxDN <= (others => '0');
-        end if;
-      when stRefLow =>
-        ADCconvstxEBO <= '1';
-        DividerxDN <= DividerxDP + 1;
-
-        CDVSTestRefEnablexEO <= '0';
-        if DividerxDP > RefOffTimexDI then
+    
           StatexDN <= stStartConversion;
           DividerxDN <= (others => '0');
         end if;
+   
       when stStartConversion =>
         ADCconvstxEBO <= '0';
         if ADCbusyxSI = '1' then
@@ -239,31 +183,29 @@ begin
           else
             StatexDN <= stTrack;
           end if;
+          ChannelxDN <= ChannelxDP +1;
         end if;
       when stSinglePixelClockLow =>
-        if DividerxDP > 31 then
+        if CountxDP > ScanPixelxS then
           StatexDN <= stTrack;
         else
           StatexDN <= stSinglePixelClockHigh;
         end if;
 
-        if DividerxDP = not ScanXxSI then
-          CDVSTestSRColInxSO <= '1';
-        end if;
-        if DividerxDP = not ScanYxSI then
-          CDVSTestSRRowInxSO <= '1';
+        if ScanSyncxSI = '1' then
+          DividerxDN <= "00000000000000001";            -- divider >0 indicates that we
+                                        -- received sync, now count up to the
+                                        -- desired channel
         end if;
       when stSinglePixelClockHigh =>
         StatexDN <= stSinglePixelClockLow;
-        CDVSTestSRRowClockxSO <= '1';
-        CDVSTestSRColClockxSO <= '1';
-        if DividerxDP = not ScanXxSI then
-          CDVSTestSRColInxSO <= '1';
+
+        ScanClockxSO <= '1';
+        if DividerxDP >0 then
+          CountxDN <= CountxDP +1;
+        else
+          CountxDN <= (others => '0');
         end if;
-        if DividerxDP = not ScanYxSI then
-          CDVSTestSRRowInxSO <= '1';
-        end if;
-        DividerxDN <= DividerxDP+1;
       when others      => null;
     end case;
 
@@ -275,15 +217,13 @@ begin
     if ResetxRBI = '0' then             -- asynchronous reset (active low)
       StatexDP <= stStartup;
       DividerxDP <= (others => '0');
-      StartPixelxSP <= '0';
-      CountColxDP <= (others => '0');
-      CountRowxDP <= (others => '0');
+      ChannelxDP <= (others => '0');
+      CountxDP <= (others => '0');      
     elsif ClockxC'event and ClockxC = '1' then  -- rising clock edge
       StatexDP <= StatexDN;
-      DividerxDP <= DividerxDN;
-      StartPixelxSP <= StartPixelxSN;
-      CountRowxDP <= CountRowxDN;
-      CountColxDP <= CountColxDN;
+      DividerxDP <= DividerxDN;  
+      ChannelxDP <= ChannelxDN;
+      CountxDP <= CountxDN;
     end if;
   end process p_memoryzing;
 
