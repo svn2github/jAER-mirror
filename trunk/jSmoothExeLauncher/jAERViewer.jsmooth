@@ -6,6 +6,7 @@
 <JVMSearchPath>jdkpath</JVMSearchPath>
 <JVMSearchPath>exepath</JVMSearchPath>
 <JVMSearchPath>jview</JVMSearchPath>
+<arguments></arguments>
 <classPath>..\host\java\dist\jAER.jar</classPath>
 <classPath>..\host\java\jars\jogl.jar</classPath>
 <classPath>..\host\java\jars\swing-layout-0.9.jar</classPath>
@@ -21,6 +22,7 @@
 <classPath>..\host\java\jars\jlfgr-1_0.jar</classPath>
 <classPath>..\host\java\jars\prefs-0.8.jar</classPath>
 <classPath>..\host\java\jars\commons-net-2.2.jar</classPath>
+<classPath>..\host\java\jars\mail.jar</classPath>
 <currentDirectory>host\java</currentDirectory>
 <embeddedJar>false</embeddedJar>
 <executableName>..\jAERViewer.exe</executableName>
