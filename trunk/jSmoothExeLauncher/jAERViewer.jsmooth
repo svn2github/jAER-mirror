@@ -6,7 +6,6 @@
 <JVMSearchPath>jdkpath</JVMSearchPath>
 <JVMSearchPath>exepath</JVMSearchPath>
 <JVMSearchPath>jview</JVMSearchPath>
-<arguments></arguments>
 <classPath>..\host\java\dist\jAER.jar</classPath>
 <classPath>..\host\java\jars\jogl.jar</classPath>
 <classPath>..\host\java\jars\swing-layout-0.9.jar</classPath>
