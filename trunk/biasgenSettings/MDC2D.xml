@@ -30,16 +30,16 @@
                     <entry key="MDC2D.IPot.Screfpix" value="0"/>
                     <entry key="Masterbias.rx" value="8200.0"/>
                     <entry key="MDC2D.VPot.Vpscrcfbias" value="2354"/>
-                    <entry key="MDC2D.VPot.Vlmcfb" value="403"/>
+                    <entry key="MDC2D.VPot.Vlmcfb" value="451"/>
                     <entry key="Masterbias.internalResistorUsed" value="false"/>
                     <entry key="MDC2D.IPot.VprBias" value="69273"/>
                     <entry key="MDC2D.VPot.FollBias" value="573"/>
                     <entry key="MDC2D.VPot.Srcrefmin" value="1228"/>
-                    <entry key="MDC2D.VPot.Vlmcbuff" value="2310"/>
+                    <entry key="MDC2D.VPot.Vlmcbuff" value="2730"/>
                     <entry key="MDC2D.IPot.VRegRefBiasMain" value="309590"/>
-                    <entry key="MDC2D.VPot.Vprlmcbias" value="2533"/>
+                    <entry key="MDC2D.VPot.Vprlmcbias" value="2550"/>
                     <entry key="MDC2D.IPot.refposDAC" value="0"/>
-                    <entry key="MDC2D.VPot.Screfpix" value="280"/>
+                    <entry key="MDC2D.VPot.Screfpix" value="649"/>
                     <entry key="MDC2D.IPot.VRegRefBiasAmp" value="57"/>
                     <entry key="MDC2D.IPot.VADCbias" value="1308969"/>
                     <entry key="MDC2D.VPot.VprBias" value="2220"/>
