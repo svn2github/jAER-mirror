@@ -28,7 +28,9 @@
 [Version]
 Signature="$Windows NT$"
 Provider=%S_Provider%
-DriverVer=11/23/2005,2.31.0.0
+;DriverVer=11/23/2005,2.31.0.0
+; copied from usb2aemon.inf
+DriverVer=10/06/2009,2.50.0.0
 
 ; This specifies the .cat file provided by WHQL if the driver is certified.
 CatalogFile=usbio.cat
