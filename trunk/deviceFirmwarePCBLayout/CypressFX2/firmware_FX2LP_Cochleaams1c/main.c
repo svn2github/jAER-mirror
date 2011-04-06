@@ -1,8 +1,9 @@
 #pragma NOIV               // Do not generate interrupt vectors since our interrupts are manually defined
 //-----------------------------------------------------------------------------
 //   File:      main.c
-//   Description: FX2LP firmware for the CochleaAMS1b chip/board   
-//
+//   Description: FX2LP firmware for the CochleaAMS1c chip/board
+//    
+// cloned from cochleaAMS1b March 2011 by tobi
 // created: 10/2008, cloned from DVS128 firmware stereo board firmware
 // authors tobi delbruck, shih-chii liu, raphael berner
 //
@@ -127,7 +128,7 @@ sbit PD0=IOD^0; etc
 #define ResCtr2 	16	// another microphone preamp feedback resistor selection bit
 #define Vreset		32	// (1) to reset latch states
 #define SelIn		64	// Parallel (0) or Cascaded (1) Arch
-#define ScanSync	128	// scanner sync output direct from cochleaams1b to fx2 (not through CPLD like others)
+#define ScanSync	128	// scanner sync output direct from cochleaams1c to fx2 (not through CPLD like others)
 
 #define selectsMask 7 // 0000 0111 to select only select bits
 
@@ -915,7 +916,7 @@ BOOL DR_VendorCmnd(void)
 				len |= SETUPDAT[7] << 8;
 				switch(value&0xFF){ // take LSB for specific setup command because equalizer uses MSB for channel
  
-				//      final short CMD_IPOT = 1,  CMD_RESET_EQUALIZER = 2,  CMD_SCANNER = 3,  CMD_EQUALIZER = 4,  CMD_SETBIT = 5,  CMD_VDAC = 6;
+// from CochleaAMS1c.Biasgen java class 
 #define CMD_IPOT  1
 #define CMD_RESET_EQUALIZER  2
 #define CMD_SCANNER  3
@@ -923,6 +924,7 @@ BOOL DR_VendorCmnd(void)
 #define	CMD_SETBIT  5
 #define CMD_VDAC  6
 #define CMD_INITDAC 7
+#define CMD_CPLDCONFIG 8
 
 				case CMD_IPOT:
 					selectIPots;
@@ -980,15 +982,19 @@ BOOL DR_VendorCmnd(void)
 						bit tristate=(EP0BUF[0]&2?1:0); // 1=tristate, 0=drive
 						unsigned char bitmask=SETUPDAT[4]; // bitmaskit mask, LSB of ind
 						switch(SETUPDAT[5]){ // this is port, MSB of ind
-							case 0: // port c
+							case 0: // port a
+								if(bitval) IOA|=bitmask; else IOA&= ~bitmask;
+								if(tristate) OEA&= ~bitmask; else OEA|=bitmask; 
+							break;
+							case 1: // port c
 								if(bitval) IOC|=bitmask; else IOC&= ~bitmask;
 								if(tristate) OEC&= ~bitmask; else OEC|=bitmask; 
 							break;
-							case 1: // port d
+							case 2: // port d
 								if(bitval) IOD|=bitmask; else IOD&= ~bitmask;
 								if(tristate) OED&= ~bitmask; else OED|=bitmask; 
 							break;
-							case 2: // port e
+							case 3: // port e
 								if(bitval) IOE|=bitmask; else IOE&= ~bitmask;
 								if(tristate) OEE&= ~bitmask; else OEE|=bitmask; 
 							break;
@@ -1093,12 +1099,19 @@ is selected. however, the equalizer DAC current splitters still work
 					return TRUE;  // not yet implmented
 					LED=!LED;
 					break;
+
+				case CMD_CPLDCONFIG: // send bit string to CPLD configuration shift register (new feature on cochleaAMS1c board/cpld/firmware)
+
+					
+					LED=!LED;
+					break;
+
 				default:
-					return(TRUE);  // don't recognize command
+					return(TRUE);  // don't recognize command, generate stall
 				}
 				EP0BCH = 0;
 				EP0BCL = 0;                   // Arm endpoint with 0 byte to transfer
-				return(FALSE); // very important, otherwise get stall
+				return(FALSE); // FALSE means no error - very important, otherwise get stall
 			}
 		case VR_SET_POWERDOWN: // control powerDown output bit
 			{

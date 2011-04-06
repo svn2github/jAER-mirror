@@ -248,7 +248,7 @@ void main(void)
 			{
 				Out_Packet[0]=0; // command is processed
 				LedToggle();
-				TH0=255-Out_Packet[1]; // timer0 reload value, 2 for 60Hz, 1 for 91Hz servo pulse rate, 0 for 180 Hz
+				TH0=255-Out_Packet[1]; // timer0 reload value, 
 			}
 			break;
 			case CMD_SET_PCA0MD_CPS: // bit are ORed with 0x7, left shifted by one, and set to the PCA0MD bits 3:1

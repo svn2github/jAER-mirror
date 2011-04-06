@@ -645,7 +645,9 @@ BOOL DR_VendorCmnd(void)
 					// Is this a  download to biasgen shift register?
 					if(SETUPDAT[1] == VR_WRITE_BIASGEN){
 						for(i=0; i<bc; i++){
-							spiwritebyte(EP0BUF[i]);
+							spiwritebyte(EP0BUF[i]); // writes out the bits big endian (msb to lsb)
+							// bytes are written in increasing memory address order.
+							
 							biasBytes[i]=EP0BUF[i]; // not sure why these are saved...
 						}
 					}else{ // we write EEProm starting at addr with bc bytes from EP0BUF

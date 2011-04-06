@@ -17,6 +17,7 @@
                 <map>
                   <entry key="FilterChain.timeLimitEnabled" value="false"/>
                   <entry key="FilterChain.timeLimitMs" value="0"/>
+                  <entry key="agcTauMs" value="800.0"/>
                   <entry key="DVS320.ConfigurableIPot.pr.BitValue" value="1420"/>
                   <entry key="DVS320.ConfigurableIPot.pr.BufferBitValue" value="6"/>
                   <entry key="DVS320.ConfigurableIPot.pr.Enabled" value="true"/>
@@ -107,7 +108,7 @@
                   <entry key="DVS320.ConfigurableIPot.test.LowCurrent" value="false"/>
                   <entry key="DVS320.ConfigurableIPot.test.Sex" value="N"/>
                   <entry key="DVS320.ConfigurableIPot.test.Type" value="NORMAL"/>
-                  <entry key="Masterbias.rx" value="30000.0"/>
+                  <entry key="Masterbias.rx" value="82000.0"/>
                   <entry key="Masterbias.rint" value="46000.0"/>
                   <entry key="Masterbias.internalResistorUsed" value="false"/>
                   <entry key="DVS320.VoltageOutputMux.AnaMux2.selectedChannel" value="1"/>
@@ -352,7 +353,7 @@
                   <entry key="cDVSTest20.ConfigurableIPot.diff.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.diff.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.diff.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.ON.BitValue" value="6542"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.ON.BitValue" value="3981"/>
                   <entry key="cDVSTest20.ConfigurableIPot.ON.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.ON.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.ON.LowCurrent" value="false"/>
@@ -406,7 +407,7 @@
                   <entry key="cDVSTest20.ConfigurableIPot.fb.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.fb.Sex" value="P"/>
                   <entry key="cDVSTest20.ConfigurableIPot.fb.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.refr.BitValue" value="45"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.refr.BitValue" value="12688"/>
                   <entry key="cDVSTest20.ConfigurableIPot.refr.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.refr.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.refr.LowCurrent" value="false"/>
@@ -509,16 +510,20 @@
                   <entry key="logIntensityGain" value="7"/>
                   <entry key="logIntensityOffset" value="2025"/>
                   <entry key="intensityDisplayEnabled" value="true"/>
-                  <entry key="agcTauMs" value="800.0"/>
                   <entry key="agcEnabled" value="false"/>
-                  <entry key="cDVSTestHardwareInterface.Select5Tbuffer" value="true"/>
-                  <entry key="cDVSTestHardwareInterface.ADCchannel" value="3"/>
-                  <entry key="cDVSTestHardwareInterface.UseCalibration" value="false"/>
                   <entry key="cDVSTest20.VPot.LogAmpRef" value="128"/>
+                  <entry key="cDVSTestHardwareInterface.ADCchannel" value="3"/>
                   <entry key="cDVSTestHardwareInterface.IdleTime" value="5"/>
                   <entry key="cDVSTestHardwareInterface.RefOffTime" value="15"/>
                   <entry key="cDVSTestHardwareInterface.RefOnTime" value="15"/>
+                  <entry key="cDVSTestHardwareInterface.Select5Tbuffer" value="true"/>
+                  <entry key="cDVSTestHardwareInterface.UseCalibration" value="false"/>
                   <entry key="cDVSTestHardwareInterface.TrackTime" value="45"/>
+                  <entry key="cDVSTestHardwareInterface.scanContinuouslyEnabled" value="true"/>
+                  <entry key="cDVSTestHardwareInterface.adcEnabled" value="false"/>
+                  <entry key="cDVSTestHardwareInterface.scanX" value="15"/>
+                  <entry key="cDVSTestHardwareInterface.scanY" value="15"/>
+                  <entry key="cDVSTest20.bgTabbedPaneSelectedIndex" value="0"/>
                 </map>
               </node>
             </node>
