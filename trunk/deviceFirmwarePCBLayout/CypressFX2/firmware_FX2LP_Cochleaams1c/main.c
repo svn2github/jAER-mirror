@@ -79,17 +79,16 @@ extern BOOL Selfpwr;
 #define EP0BUFF_SIZE	0x40
 
 
-/* 
-
-// port pin definitions
+/* port pin definitions
 
 ports a,b,c,d are bit addressable, e is byte addressable
 
-we have available and wired to CPLD the following ports
+we have available and wired to CPLD the following ports as defined in the port assigment list for the lattice CPLD in 
+C:\Users\tobi\Documents\~jAER-sourceForge\trunk\deviceFirmwarePCBLayout\LatticeMachXO\CochleaAMS1c\cochleaCPLD_FX2-portAssignement.txt
 
 PC3-0
 FD15-8 which is the same as PD7-0 if the FIFO are configured as byte-wide (WORDWIDE in all EPxFIFOCFG registers)
-PE6-0 (PE7 is is wired from chip scanner sync directly to FX2)
+PE6-0 
 
 following are sfr and sbit definitions from header files
 
@@ -117,67 +116,48 @@ sbit PC0=IOC^0;
 sbit PD0=IOD^0; etc
 */
 
-#define sb(p,b) (((p)|=(1<<(b))));
-#define cb(p,b) ((p)&=(~(1<<(b))));
+// set/clear bits in a register that is byte-addressable, e.g. port E, e.g. sb(IOE,BitOut)
+#define sb(p,m) (((p)|=(m)));
+#define cb(p,m) ((p)&=(~(m)));
 
-// bitmasks of port E (IOE)
-#define DataSel 	1	// selects data shift register path (bitIn, clock, latch)
-#define AddrSel 	2	// selects channel selection shift register path
-#define BiasGenSel 	4	// selects biasgen shift register path
-#define ResCtr1 	8	// a preamp feedback resistor selection bit
-#define ResCtr2 	16	// another microphone preamp feedback resistor selection bit
-#define Vreset		32	// (1) to reset latch states
-#define SelIn		64	// Parallel (0) or Cascaded (1) Arch
-#define ScanSync	128	// scanner sync output direct from cochleaams1c to fx2 (not through CPLD like others)
+// Port E is not bit-addressable. Therefore we define bitmasks of port E (IOE) here and use them later to define macros to set/clear these bits
+// port E connections are in the schematics of the PCB and in the port assignments of the CPLD, where some ports are mapped through the CPLD
+
+// from the port assigment readme file for the CPLD:
+//  Line 18:	PowerdownxEO <= PE2xSI; // onchip masterbias shutdown
+//	Line 19:   CochleaResetxRBO <= PE3xSI;	// cochlea logic reset
+//	Line 20: 	CPLDReset <= PE7xsI; // cypress asserts this to reset CPLD
+
+// from the PCB schematic:
+// E0 bitOut from one chip shift registers
+// E1 = bitLatch for onchip shift registers
+// e2 = passed through CPLD, powerDown biasgen master bias
+// e3 = passed through, cochlea logic reset
+// e4 bitIn to onchip shift register for config etc
+// e5 bitClock to onchip shift register
+// e6 FXLED
+// e7 ResetCPLD holds CPLD in reset until enumeration and host open happens
+
+
+#define BitOut 	1	// selects data shift register path (bitIn, clock, latch)
+#define BitLatch 	2	// selects channel selection shift register path
+#define PowerDown 	4	// selects biasgen shift register path
+#define ResetCochlea 	8	// a preamp feedback resistor selection bit
+#define BitIn 	16	// another microphone preamp feedback resistor selection bit
+#define BitClock		32	// (1) to reset latch states
+#define FXLED		64	// Parallel (0) or Cascaded (1) Arch
+#define ResetCPLD	128	// scanner sync output direct from cochleaams1c to fx2 (not through CPLD like others)
 
 #define selectsMask 7 // 0000 0111 to select only select bits
 
-// following select the ipot, addr or data shiftregisters for input
-// note these are changed from original notion so that all select are high normally (no one selected)
-// and the other two go low when one is selected. This is so that the clock can be left high at the end as it should be
-#define selectIPots IOE=(IOE&~selectsMask)|BiasGenSel // selects only biasgen select, turns off addr and data selects, leaves other bits untouched
-#define selectAddr  IOE=(IOE&~selectsMask)|AddrSel  // selects addr shifter, even addresses are left cochlea, odd addresses are right cochlea
-#define selectData	IOE=(IOE&~selectsMask)|DataSel  // selects data shift register
-#define selectNone	IOE=(IOE|selectsMask)			// turns on all selects
-// old, which is one-hot high active
-//#define selectIPots IOE=(IOE&~selectsMask)|BiasGenSel // selects only biasgen select, turns off addr and data selects, leaves other bits untouched
-//#define selectAddr  IOE=(IOE&~selectsMask)|AddrSel  // selects addr shifter, even addresses are left cochlea, odd addresses are right cochlea
-//#define selectData	IOE=(IOE&~selectsMask)|DataSel  // selects data shift register
-//#define selectNone	IOE=(IOE&~selectsMask)			// turns off all selects
+#define powerDown() IOE|=Powerdown
+#define powerUp() IOE&=(!Powerdown)
 
+#define resetCochlea() IOE|=ResetCochlea
+#define unresetCochlea() IOD&=(~ResetCochlea)
 
-
-#define isScanSyncActive	(IOE&ScanSync==0)			// nonzero when scansync is active (bit has fallen out of scanner shift register). sync is active low
-
-#define toggleVReset(); IOE|=Vreset; _nop_();_nop_();_nop_();_nop_();_nop_();_nop_(); IOE&=~Vreset;
-//DataSel	C00-C04	bits for setting Iq of current-mode BPF
-//			B00-B04	bits for setting Vq of SOS
-
-// AddrSel is also used for selecting neuron that should be be loaded with KillBit,
-// 8 neurons per channel, 4 neurons driven by IHC output, 4 neurons driven by bpf output
-// chosen addr + Ybit=1 choses bpf neuron
-// chosen addr + Ybit=1 choses bpf neuron
-
-sbit tsReset=IOA^0;		// timestamp reset to CPLD
-sbit runCPLD=IOA^1;		// run CPLD
-sbit nResetCPLD=IOA^3;	// not reset CPLD
-
-sbit clock=IOC^0;		// onchip clock to clock cochlea shift registers
-sbit bitIn=IOC^1;	 	// onchip data bit
-sbit dacBitIn=IOC^2; 	// DAC data
-sbit dacClock=IOC^3; 	// DAC clock
-
-sbit dacNSync=IOD^0;	// DAC start
-sbit scanClock=IOD^1;	// scanner clock
-sbit yBit=IOD^2;	    // Chooses whether lpf (0) or bpf (1) neurons to be killed, use in conjunction with AddrSel and AERKillBit
-sbit selAer=IOD^3;   	//Chooses whether lpf (0) or rectified (1) lpf output drives lpf neurons
-sbit latch=IOD^4;		// onchip data latch
-sbit powerDown=IOD^5;	// onchip biasgen powerdown
-sbit aerKillBit=IOD^6;	// Set to (1) after Setting of AddrSel and Ybit to kill 4 neurons
-//sbit dacNLDAC=IOD^7; // debug - board was hacked for this and removed
-
-#define selectLPFKill yBit=0
-#define selectBPFKill yBit=1
+#define resetCPLD() IOE|=ResetCPLD
+#define unresetCPLD() IOD&=(~ResetCPLD)
 
 /*
  The clock should end up high, so that the slave shift register (SR) is powered.
@@ -197,6 +177,62 @@ sbit aerKillBit=IOD^6;	// Set to (1) after Setting of AddrSel and Ybit to kill 4
 
 // latch input is 0=opaque, 1=transparent. toggleLatch latches the outputs of the shift registers.
 #define toggleLatch() _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=1; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=0; 
+
+
+
+#define isScanSyncActive	(IOE&ScanSync==0)			// nonzero when scansync is active (bit has fallen out of scanner shift register). sync is active low
+
+#define toggleVReset(); IOE|=Vreset; _nop_();_nop_();_nop_();_nop_();_nop_();_nop_(); IOE&=~Vreset;
+//DataSel	C00-C04	bits for setting Iq of current-mode BPF
+//			B00-B04	bits for setting Vq of SOS
+
+// AddrSel is also used for selecting neuron that should be be loaded with KillBit,
+// 8 neurons per channel, 4 neurons driven by IHC output, 4 neurons driven by bpf output
+// chosen addr + Ybit=1 choses bpf neuron
+// chosen addr + Ybit=1 choses bpf neuron
+
+sbit tsReset=IOA^7;		// timestamp reset to CPLD
+sbit runCPLD=IOA^3;		// runXs, run event acquisition
+
+
+sbit cpldSRClk=IOC^1;		// CPLD config shift register
+sbit cpldSRLatch=IOC^2;
+sbit cpldSRBit=IOC^3;
+
+
+sbit dacNSync=IOD^0;	// DAC start
+sbit dacClock=IOD^1; 	// DAC clock
+sbit dacBitIn=IOD^2; 	// DAC data
+
+#define DATA_SEL (1<<3);
+#define ADD_SEL (1<<4);
+#define BIAS_SEL (1<<5);
+
+sbit dataSel=IOD^3;
+sbit addSel=IOD^4;
+sbit biasgenSel=IOD^5; 
+
+
+// following select the ipot, addr or data shiftregisters for input
+// note these are changed from original notion so that all select are high normally (no one selected)
+// and the other two go low when one is selected. This is so that the clock can be left high at the end as it should be
+
+#define selectIPots IOD&=(~(DATA_SEL|ADD_SEL)) //  selects only biasgen select, turns off addr and data selects, leaves other bits untouched
+#define selectAddr  IOD&=(~(DATA_SEL|BIAS_SEL)) // selects addr shifter, even addresses are left cochlea, odd addresses are right cochlea
+#define selectData	IOD^3=(!(BIAS_SEL|ADD_SEL)) //  selects data shift register
+#define selectNone	IOD|=(DATA_SEL|ADD_SEL|BIAS_SEL)			// raise all selects (yes, this is correct)
+
+
+sbit scanClock=IOD^1;	// scanner clock
+sbit yBit=IOD^2;	    // Chooses whether lpf (0) or bpf (1) neurons to be killed, use in conjunction with AddrSel and AERKillBit
+sbit selAer=IOD^3;   	//Chooses whether lpf (0) or rectified (1) lpf output drives lpf neurons
+sbit latch=IOD^4;		// onchip data latch
+
+sbit aerKillBit=IOD^7;	// Set to (1) after Setting of AddrSel and Ybit to kill 4 neurons
+//sbit dacNLDAC=IOD^7; // debug - board was hacked for this and removed
+
+#define selectLPFKill yBit=0
+#define selectBPFKill yBit=1
 
 // was used for debug, nLDAC wired to ground on board #define toggleLDAC()  _nop_();  _nop_();  _nop_().; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_();  dacNLDAC=0; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); dacNLDAC=1;  // toggles LDAC after all 48 bits loaded and sync is high
 #define	startDACSync() dacNSync=0; // starts DAC data input
@@ -425,6 +461,22 @@ void sendDACByte(unsigned char b){
 	}
 }
 
+// sends byte in big endian order to the CPLD for CPLD configuration
+void sendCPLDByte(unsigned char b){
+	unsigned char i=8;
+	while(i--){
+		cpldClk=1;
+		b=_crol_(b,1); // rotate left to get msb to lsb
+		if(b&1){
+			cpldBitIn=1;
+		}else{
+			cpldBitIn=0;
+	   	}
+		cpldClk=0; // clk edge low while data stable
+	}
+}
+
+
 /* implemented on host via SET_VDAC
 
 void powerDownDAC(){
@@ -508,7 +560,7 @@ void sendConfigByte(unsigned char b){
 		// rotate left to get msb, test bit to set bitin, then toggle clock high/low
 		b=_crol_(b,1);
 		if(b&1!=0){
-			bitIn=1;
+			sb(=1;
 		}else{
 			bitIn=0;
 		}
@@ -1101,8 +1153,16 @@ is selected. however, the equalizer DAC current splitters still work
 					break;
 
 				case CMD_CPLDCONFIG: // send bit string to CPLD configuration shift register (new feature on cochleaAMS1c board/cpld/firmware)
-
+					// len holds the number of bytes to send
+					EP0BCH = 0;
+					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+					SYNCDELAY;
+					while(EP0CS & bmEPBUSY);  // spin here until data arrives
 					
+					for(i=0;i<len;i++){ // send out each byte of cpld config
+						sendCPLDByte(EP0BUF[i]);
+					}
+										
 					LED=!LED;
 					break;
 

@@ -2,26 +2,26 @@
 // the ports here are specified in the firmware for the CypressFX2.
 
 // offchip DACs
-  DACnSyncxSBO <= PDxSIO(0);   // port D0 on CypressFX2
-  DACClkxSO <= PDxSIO(1);
-  DACbitInxSO <= PDxSIO(2);
+ * DACnSyncxSBO <= PDxSIO(0);   // port D0 on CypressFX2
+*  DACClkxSO <= PDxSIO(1);
+ * DACbitInxSO <= PDxSIO(2);
   
 // onchip selects
-  DataSelxSO <= PDxSIO(3);
-  AddSelxSO <= PDxSIO(4);
-  BiasgenSelxSO <= PDxSIO(5);
+*  DataSelxSO <= PDxSIO(3);
+*  AddSelxSO <= PDxSIO(4);
+*  BiasgenSelxSO <= PDxSIO(5);
   
 // other bits
   VctrlKillBitxSO <= PDxSIO(6);
-  AERkillBitxSO <= PDxSIO(7);
+*  AERkillBitxSO <= PDxSIO(7);
 
-  PowerdownxEO <= PE2xSI; // onchip masterbias shutdown
-  CochleaResetxRBO <= PE3xSI;	// cochlea logic reset
-	CPLDReset <= PE7xsI; // cypress asserts this to reset CPLD
+ * PowerdownxEO <= PE2xSI; // onchip masterbias shutdown
+*  CochleaResetxRBO <= PE3xSI;	// cochlea logic reset
+*	CPLDReset <= PE7xsI; // cypress asserts this to reset CPLD
 		
   // timestamping
-  HostResetTimestampxS <= PA7xSIO; // host uses PA7 to reset timestamps with this; cypress controls PA7 and asserts to tell CPLD to reset timestamps
-  RunxS <= PA3xSIO or not TimestampMasterxS; // tells CPLD to run event acquisition
+*  HostResetTimestampxS <= PA7xSIO; // PA7 resets timestamps with this; cypress controls PA7 and asserts to tell CPLD to reset timestamps 
+*  RunxS <= PA3xSIO or not TimestampMasterxS; // tells CPLD to run event acquisition 
   PA1xSIO <= TimestampMasterxS;  // from CPLD to cypressfx2, telling this device is master (high) or slave for timestamps
 
   // offchip ADC
