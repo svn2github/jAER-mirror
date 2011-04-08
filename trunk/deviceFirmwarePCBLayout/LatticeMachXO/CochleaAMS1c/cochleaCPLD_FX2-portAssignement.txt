@@ -1,42 +1,66 @@
-  DACnSyncxSBO <= PDxSIO(0);
+// (this is just a text file). It shows the connections from CPLD to Cypress on the cochleaAMS1c PCB.
+// the ports here are specified in the firmware for the CypressFX2.
+
+// offchip DACs
+  DACnSyncxSBO <= PDxSIO(0);   // port D0 on CypressFX2
   DACClkxSO <= PDxSIO(1);
   DACbitInxSO <= PDxSIO(2);
+  
+// onchip selects
   DataSelxSO <= PDxSIO(3);
   AddSelxSO <= PDxSIO(4);
   BiasgenSelxSO <= PDxSIO(5);
+  
+// other bits
   VctrlKillBitxSO <= PDxSIO(6);
   AERkillBitxSO <= PDxSIO(7);
 
-  PowerdownxEO <= PE2xSI;
-  CochleaResetxRBO <= PE3xSI;
+  PowerdownxEO <= PE2xSI; // onchip masterbias shutdown
+  CochleaResetxRBO <= PE3xSI;	// cochlea logic reset
+	CPLDReset <= PE7xsI; // cypress asserts this to reset CPLD
+		
+  // timestamping
+  HostResetTimestampxS <= PA7xSIO; // host uses PA7 to reset timestamps with this; cypress controls PA7 and asserts to tell CPLD to reset timestamps
+  RunxS <= PA3xSIO or not TimestampMasterxS; // tells CPLD to run event acquisition
+  PA1xSIO <= TimestampMasterxS;  // from CPLD to cypressfx2, telling this device is master (high) or slave for timestamps
 
-  HostResetTimestampxS <= PA7xSIO;
-  RunxS <= PA3xSIO or not TimestampMasterxS;
-  PA1xSIO <= TimestampMasterxS;
+  // offchip ADC
+  RunADCxS <= PC0xSIO; // run ADC from CPLD
+  
+  // CPLD config shift register
+  SRClockxC <= PC1xSIO; // CPLD internal config shift register clock
+  SRLatchxE <= PC2xSIO; // toggle up/down to latch new values in config SR
+  SRinxD <= PC3xSIO;   // data bit for config SR
 
-  RunADCxS <= PC0xSIO;
-  SRClockxC <= PC1xSIO;
-  SRLatchxE <= PC2xSIO;
-  SRinxD <= PC3xSIO;  
-
-
+  //********************************
+  // CPLD config SR contents, load big endian so that last bit (63) goes first
+  
   YbitxSO <= SRDataOutxD(0);
+  
+  // onchip preamp feedback resistor
   ResCtrlBit1xSO <= SRDataOutxD(1);
   ResCtrlBit2xSO <= SRDataOutxD(2);
+  
+  // mysterious bits
   SelAERxSO <= SRDataOutxD(3);
   SelInxSO <= SRDataOutxD(4);
+  
+  // offchip preamp control
   PreampARxS <= SRDataOutxD(5);
   PreampARTristateEnablexE <= SRDataOutxD(6);
   PreampGainLxS <= SRDataOutxD(7);
   PreampGainLTristateEnablexE <= SRDataOutxD(8);
   PreampGainRxS <= SRDataOutxD(9);
   PreampGainRTristateEnablexE <= SRDataOutxD(10);
+  
+  // offchip ADC config
   ADCconfigxD <= SRDataOutxD(22 downto 11);
   TrackTimexD <= SRDataOutxD(38 downto 23);
   IdleTimexD <= SRDataOutxD(54 downto 39);
+  
+  // onchip scanner control
   ScanXxS <= SRDataOutxD(61 downto 55);          --- which channel to look at
   ScanSelectxS <= SRDataOutxD(62);               --- which one of the two shift registers to look at
   ScanEnablexS <= SRDataOutxD(63);               --- scanning or single pixel
 
-
-	CPLDReset <= PE7xsI;
+  
