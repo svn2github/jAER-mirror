@@ -138,7 +138,9 @@ begin
         if EarlyPaketTimerOverflowxSI = '1' and FifoInFullxSBI = '1' then
                        -- we haven't commited a paket for a long time
           StatexDN <= stEarlyPaket;
-        elsif TimestampOverflowxDP= '1' and FifoInFullxSBI = '1' then
+        elsif TimestampOverflowxDP= '1' and FifoInFullxSBI = '1' then ---------
+
+---------maybe test here against input too
           StatexDN <= stOverflow;
         elsif TimestampResetxDP = '1' and FifoInFullxSBI = '1' then
           StatexDN <= stResetTimestamp;
