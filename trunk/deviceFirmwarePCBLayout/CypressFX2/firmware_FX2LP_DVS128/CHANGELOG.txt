@@ -1,5 +1,6 @@
 DVS 128 firmware versions:
 
+0010 Changed early packet timer to 1ms (it was 4ms) to reduce latency for low rate situations. Fixed bug where timestamps could be nonmonotonic if event occured nearly synchronous with timestamp wrap. 20.4.2011, rapha and tobi
 0009 fixed bug in CPLD firmware, syncronization was not working anymore. the master did not output the reset pulse to the slave retinas. 17.5.2010, rapha
 0008 the snyc clock to clock a slave retina is now also output in trigger mode. 23.4.2010 rapha 
 0007 firmware allows inserting a special trigger event when syncIn pin goes low, 

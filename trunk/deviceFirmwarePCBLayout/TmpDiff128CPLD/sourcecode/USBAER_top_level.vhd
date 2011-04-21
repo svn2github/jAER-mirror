@@ -284,25 +284,30 @@ p_LED: process (TriggerxS,LEDxDP, TimestampMasterxS, ConfigxSI)
 
   MonitorAddressRegInxD <=  AddressMSBxS & AERMonitorAddressxDI;
   --MonitorAddressRegInxD <=  AddressMSBxS & AddressMSBxS & "0000000000000" & AddressMSBxS ;
-  uMonitorTimestampRegister : wordRegister
-    generic map (
-      width          => 14)
-    port map (
-      ClockxCI       => ClockxC,
-      ResetxRBI      => RunxS,
-      WriteEnablexEI => MonitorRegWritexE,
-      DataInxDI      => MonitorTimestampInxD,
-      DataOutxDO     => MonitorTimestampxD);
+--  uMonitorTimestampRegister : wordRegister
+--    generic map (
+--      width          => 14)
+--    port map (
+--      ClockxCI       => ClockxC,
+--      ResetxRBI      => RunxS,
+--      WriteEnablexEI => MonitorRegWritexE,
+--      DataInxDI      => MonitorTimestampInxD,
+--      DataOutxDO     => MonitorTimestampxD);
+		
+	MonitorTimestampxD <= MonitorTimestampInxD;
 
-  uTriggerTimestampRegister : wordRegister
-    generic map (
-      width          => 14)
-    port map (
-      ClockxCI       => ClockxC,
-      ResetxRBI      => RunxS,
-      WriteEnablexEI => TriggerxS,
-      DataInxDI      => ActualTimestampxD,
-      DataOutxDO     => TriggerTimestampxD);
+--  uTriggerTimestampRegister : wordRegister
+--    generic map (
+--      width          => 14)
+--    port map (
+--      ClockxCI       => ClockxC,
+--      ResetxRBI      => RunxS,
+--      WriteEnablexEI => TriggerxS,
+--      DataInxDI      => ActualTimestampxD,
+--      DataOutxDO     => TriggerTimestampxD);
+
+	TriggerTimestampxD <= ActualTimestampxD;
+
   uEarlyPaketTimer : earlyPaketTimer
     port map (
       ClockxCI        => ClockxC,
@@ -397,10 +402,10 @@ p_LED: process (TriggerxS,LEDxDP, TimestampMasterxS, ConfigxSI)
     FifoAddressxD   when selectaddress,
     FifoTimestampxD when others;
 
-  with AddressMSBxS select
-    MonitorTimestampInxD <=
-    TriggerTimestampxD   when '1',
-    ActualTimestampxD when others;
+  --with AddressMSBxS select
+    MonitorTimestampInxD <= ActualTimestampxD;
+  --  TriggerTimestampxD   when '1',
+  --  ActualTimestampxD when others;
 
   LEDxSO  <= LEDxDP;
   --LEDxSO <= FifoTransactionxS;

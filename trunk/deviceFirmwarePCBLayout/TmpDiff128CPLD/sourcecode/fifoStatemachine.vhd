@@ -72,16 +72,16 @@ architecture Behavioral of fifoStatemachine is
   -- present and next state
   signal StatexDP, StatexDN : state;
 
-  component EventBeforeOverflow
-    port (
-      ClockxCI               : in  std_logic;
-      ResetxRBI              : in  std_logic;
-      OverflowxDI            : in  std_logic;
-      EventxDI               : in  std_logic;
-      EventBeforeOverflowxDO : out std_logic);
-  end component;
+--  component EventBeforeOverflow
+--    port (
+--      ClockxCI               : in  std_logic;
+--      ResetxRBI              : in  std_logic;
+--      OverflowxDI            : in  std_logic;
+--      EventxDI               : in  std_logic;
+--      EventBeforeOverflowxDO : out std_logic);
+--  end component;
 
-  signal EventBeforeOverflowxD : std_logic;
+--  signal EventBeforeOverflowxD : std_logic;
   -- timestamp overflow register
   signal TimestampOverflowxDN, TimestampOverflowxDP : std_logic;
 
@@ -101,16 +101,16 @@ architecture Behavioral of fifoStatemachine is
   constant timereset : std_logic_vector(1 downto 0) := "01";
 begin
 
-  EventBeforeOverflow_1: EventBeforeOverflow
-    port map (
-      ClockxCI               => ClockxCI,
-      ResetxRBI              => ResetxRBI,
-      OverflowxDI            => TimestampOverflowxSI,
-      EventxDI               => MonitorEventReadyxSI,
-      EventBeforeOverflowxDO => EventBeforeOverflowxD);
+--  EventBeforeOverflow_1: EventBeforeOverflow
+--    port map (
+--      ClockxCI               => ClockxCI,
+--      ResetxRBI              => ResetxRBI,
+--      OverflowxDI            => TimestampOverflowxSI,
+--      EventxDI               => MonitorEventReadyxSI,
+--      EventBeforeOverflowxDO => EventBeforeOverflowxD);
   
   -- calculate next state and outputs
-  p_memless : process (StatexDP, FifoInFullxSBI, MonitorEventReadyxSI,  EarlyPaketTimerOverflowxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI,EventBeforeOverflowxD)
+  p_memless : process (StatexDP, FifoInFullxSBI, MonitorEventReadyxSI,  EarlyPaketTimerOverflowxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI)
   begin  -- process p_memless
     -- default assignements: stay in present state, don't change address in
     -- FifoAddress register, no Fifo transaction, write registers, don't reset the counters
@@ -133,9 +133,9 @@ begin
 
     case StatexDP is
       when stIdle =>
-        if EventBeforeOverflowxD ='1' and FifoInFullxSBI = '1' then
-          StatexDN <= stWraddress;
-        elsif EarlyPaketTimerOverflowxSI = '1' and FifoInFullxSBI = '1' then
+    --    if EventBeforeOverflowxD ='1' and FifoInFullxSBI = '1' then
+    --      StatexDN <= stWraddress;
+        if EarlyPaketTimerOverflowxSI = '1' and FifoInFullxSBI = '1' then
                        -- we haven't commited a paket for a long time
           StatexDN <= stEarlyPaket;
         elsif TimestampOverflowxDP= '1' and FifoInFullxSBI = '1' then
