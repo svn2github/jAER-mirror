@@ -8,7 +8,7 @@ Also includes PC control of on-chip and off-chip (commodity DAC) control of chip
 Also includes control of a handy USB servo motor interface for experiments in robotics.
 
 The home page of this project is 
-http://jaer.wiki.soureforge.net
+http://sourceforge.net/projects/jaer/
 
 Support for the DVS128 silicon retina is at
 http://siliconretina.ini.uzh.ch
