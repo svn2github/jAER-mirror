@@ -300,8 +300,8 @@
                   <entry key="cDVSTest10.ConfigurableIPot.FollPadBias.Type" value="NORMAL"/>
                   <entry key="cDVSTest.VoltageOutputMux.AnaMux3.selectedChannel" value="1"/>
                   <entry key="cDVSTest.VoltageOutputMux.AnaMux2.selectedChannel" value="6"/>
-                  <entry key="cDVSTest.VoltageOutputMux.AnaMux1.selectedChannel" value="6"/>
-                  <entry key="cDVSTest.VoltageOutputMux.AnaMux0.selectedChannel" value="7"/>
+                  <entry key="cDVSTest.VoltageOutputMux.AnaMux1.selectedChannel" value="5"/>
+                  <entry key="cDVSTest.VoltageOutputMux.AnaMux0.selectedChannel" value="2"/>
                   <entry key="cDVSTest.LogicMux.DigMux4.selectedChannel" value="14"/>
                   <entry key="cDVSTest.LogicMux.DigMux3.selectedChannel" value="1"/>
                   <entry key="cDVSTest.LogicMux.DigMux2.selectedChannel" value="0"/>
@@ -347,43 +347,43 @@
                   <entry key="cDVSTest10.ShiftedSourceBias.SSP.OperatingMode" value="TiedToRail"/>
                   <entry key="cDVSTest10.ShiftedSourceBias.SSP.VoltageLevel" value="SplitGate"/>
                   <entry key="class ch.unizh.ini.jaer.chip.dvs320.cDVSTest10.preferredDisplayMethod" value="net.sf.jaer.graphics.SpaceTimeEventDisplayMethod"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.diff.BitValue" value="551"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.diff.BitValue" value="468"/>
                   <entry key="cDVSTest20.ConfigurableIPot.diff.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.diff.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.diff.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.diff.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.diff.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.ON.BitValue" value="109398"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.ON.BitValue" value="901"/>
                   <entry key="cDVSTest20.ConfigurableIPot.ON.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.ON.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.ON.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.ON.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.ON.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.OFF.BitValue" value="13"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.OFF.BitValue" value="39"/>
                   <entry key="cDVSTest20.ConfigurableIPot.OFF.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.OFF.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.OFF.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.OFF.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.OFF.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.Red.BitValue" value="3"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.Red.BitValue" value="81"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Red.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Red.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Red.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Red.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Red.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.Blue.BitValue" value="677367"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.Blue.BitValue" value="287"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Blue.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Blue.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Blue.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Blue.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Blue.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.Amp.BitValue" value="338"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.Amp.BitValue" value="177"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Amp.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Amp.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Amp.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Amp.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Amp.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.pcas.BitValue" value="0"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.pcas.BitValue" value="5"/>
                   <entry key="cDVSTest20.ConfigurableIPot.pcas.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.pcas.Enabled" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.pcas.LowCurrent" value="false"/>
@@ -395,49 +395,49 @@
                   <entry key="cDVSTest20.ConfigurableIPot.pixInvB.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.pixInvB.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.pixInvB.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.pr.BitValue" value="3981"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.pr.BufferBitValue" value="9"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.pr.BitValue" value="81"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.pr.BufferBitValue" value="10"/>
                   <entry key="cDVSTest20.ConfigurableIPot.pr.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.pr.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.pr.Sex" value="P"/>
                   <entry key="cDVSTest20.ConfigurableIPot.pr.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.fb.BitValue" value="81"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.fb.BitValue" value="151"/>
                   <entry key="cDVSTest20.ConfigurableIPot.fb.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.fb.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.fb.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.fb.Sex" value="P"/>
                   <entry key="cDVSTest20.ConfigurableIPot.fb.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.refr.BitValue" value="129"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.refr.BitValue" value="17"/>
                   <entry key="cDVSTest20.ConfigurableIPot.refr.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.refr.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.refr.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.refr.Sex" value="P"/>
                   <entry key="cDVSTest20.ConfigurableIPot.refr.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.AReqPd.BitValue" value="17673"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.AReqPd.BitValue" value="40471"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AReqPd.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AReqPd.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AReqPd.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AReqPd.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AReqPd.Type" value="CASCODE"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.AReqEndPd.BitValue" value="799482"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.AReqEndPd.BitValue" value="250564"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AReqEndPd.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AReqEndPd.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AReqEndPd.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AReqEndPd.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AReqEndPd.Type" value="CASCODE"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.AEPuX.BitValue" value="2055"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.AEPuX.BitValue" value="3981"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AEPuX.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AEPuX.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AEPuX.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AEPuX.Sex" value="P"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AEPuX.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.AEPuY.BitValue" value="287"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.AEPuY.BitValue" value="3981"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AEPuY.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AEPuY.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AEPuY.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AEPuY.Sex" value="P"/>
                   <entry key="cDVSTest20.ConfigurableIPot.AEPuY.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.If_threshold.BitValue" value="551"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.If_threshold.BitValue" value="338"/>
                   <entry key="cDVSTest20.ConfigurableIPot.If_threshold.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.If_threshold.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.If_threshold.LowCurrent" value="false"/>
@@ -449,7 +449,7 @@
                   <entry key="cDVSTest20.ConfigurableIPot.If_refractory.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.If_refractory.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.If_refractory.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.FollPadBias.BitValue" value="250564"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.FollPadBias.BitValue" value="799482"/>
                   <entry key="cDVSTest20.ConfigurableIPot.FollPadBias.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.FollPadBias.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.FollPadBias.LowCurrent" value="false"/>
@@ -479,17 +479,17 @@
                   <entry key="cDVSTest20.ConfigurableIPot.RObuffer.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.RObuffer.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.RObuffer.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ShiftedSourceBias.SSNMid.BitValue" value="1"/>
-                  <entry key="cDVSTest20.ShiftedSourceBias.SSNMid.BufferBitValue" value="17"/>
+                  <entry key="cDVSTest20.ShiftedSourceBias.SSNMid.BitValue" value="41"/>
+                  <entry key="cDVSTest20.ShiftedSourceBias.SSNMid.BufferBitValue" value="32"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSNMid.OperatingMode" value="ShiftedSource"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSNMid.VoltageLevel" value="SplitGate"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSN.BitValue" value="1"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSN.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSN.OperatingMode" value="TiedToRail"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSN.VoltageLevel" value="SplitGate"/>
-                  <entry key="cDVSTest20.ShiftedSourceBias.SSPMid.BitValue" value="2"/>
-                  <entry key="cDVSTest20.ShiftedSourceBias.SSPMid.BufferBitValue" value="25"/>
-                  <entry key="cDVSTest20.ShiftedSourceBias.SSPMid.OperatingMode" value="TiedToRail"/>
+                  <entry key="cDVSTest20.ShiftedSourceBias.SSPMid.BitValue" value="6"/>
+                  <entry key="cDVSTest20.ShiftedSourceBias.SSPMid.BufferBitValue" value="36"/>
+                  <entry key="cDVSTest20.ShiftedSourceBias.SSPMid.OperatingMode" value="ShiftedSource"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSPMid.VoltageLevel" value="SplitGate"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSP.BitValue" value="1"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSP.BufferBitValue" value="9"/>
@@ -525,6 +525,7 @@
                   <entry key="cDVSTest30.bgTabbedPaneSelectedIndex" value="2"/>
                   <entry key="cDVSTestHardwareInterface.scanX" value="7"/>
                   <entry key="cDVSTestHardwareInterface.scanY" value="7"/>
+                  <entry key="intensityScale" value="1.0"/>
                 </map>
               </node>
             </node>
