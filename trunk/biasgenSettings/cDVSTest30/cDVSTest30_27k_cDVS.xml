@@ -347,25 +347,25 @@
                   <entry key="cDVSTest10.ShiftedSourceBias.SSP.OperatingMode" value="TiedToRail"/>
                   <entry key="cDVSTest10.ShiftedSourceBias.SSP.VoltageLevel" value="SplitGate"/>
                   <entry key="class ch.unizh.ini.jaer.chip.dvs320.cDVSTest10.preferredDisplayMethod" value="net.sf.jaer.graphics.SpaceTimeEventDisplayMethod"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.diff.BitValue" value="52"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.diff.BitValue" value="81"/>
                   <entry key="cDVSTest20.ConfigurableIPot.diff.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.diff.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.diff.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.diff.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.diff.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.ON.BitValue" value="109398"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.ON.BitValue" value="1742"/>
                   <entry key="cDVSTest20.ConfigurableIPot.ON.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.ON.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.ON.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.ON.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.ON.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.OFF.BitValue" value="3"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.OFF.BitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.OFF.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.OFF.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.OFF.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.OFF.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.OFF.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.Red.BitValue" value="0"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.Red.BitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Red.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Red.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.Red.LowCurrent" value="false"/>
@@ -480,7 +480,7 @@
                   <entry key="cDVSTest20.ConfigurableIPot.RObuffer.Sex" value="N"/>
                   <entry key="cDVSTest20.ConfigurableIPot.RObuffer.Type" value="NORMAL"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSNMid.BitValue" value="7"/>
-                  <entry key="cDVSTest20.ShiftedSourceBias.SSNMid.BufferBitValue" value="63"/>
+                  <entry key="cDVSTest20.ShiftedSourceBias.SSNMid.BufferBitValue" value="38"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSNMid.OperatingMode" value="ShiftedSource"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSNMid.VoltageLevel" value="SplitGate"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSN.BitValue" value="1"/>
@@ -488,7 +488,7 @@
                   <entry key="cDVSTest20.ShiftedSourceBias.SSN.OperatingMode" value="ShiftedSource"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSN.VoltageLevel" value="SplitGate"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSPMid.BitValue" value="2"/>
-                  <entry key="cDVSTest20.ShiftedSourceBias.SSPMid.BufferBitValue" value="63"/>
+                  <entry key="cDVSTest20.ShiftedSourceBias.SSPMid.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSPMid.OperatingMode" value="TiedToRail"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSPMid.VoltageLevel" value="SplitGate"/>
                   <entry key="cDVSTest20.ShiftedSourceBias.SSP.BitValue" value="0"/>
@@ -504,7 +504,7 @@
                   <entry key="XYTypeFilter.invertEnabled" value="false"/>
                   <entry key="XYTypeFilter.endX" value="140"/>
                   <entry key="cDVSTestFilter.filterEnabled" value="true"/>
-                  <entry key="displayLogIntensityChangeEvents" value="true"/>
+                  <entry key="displayLogIntensityChangeEvents" value="false"/>
                   <entry key="displayColorChangeEvents" value="true"/>
                   <entry key="displayLogIntensity" value="false"/>
                   <entry key="logIntensityGain" value="13"/>
