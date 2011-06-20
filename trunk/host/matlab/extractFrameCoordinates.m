@@ -23,8 +23,8 @@ for i=16:-1:1
     end; %if
     if ~isempty(type),
         if (bitget(typeMask,i)==1)
-            y=bitshift(y,1);
-            y=bitor(bitget(AE,16),y);
+            type=bitshift(type,1);
+            type=bitor(bitget(AE,16),type);
         end; %if
     end
     AE=bitshift(AE,1);
