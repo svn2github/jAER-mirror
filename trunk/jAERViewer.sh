@@ -8,12 +8,13 @@ cd `dirname $0`
 echo "checking driver..."
 if [ ! -r /dev/retina0 ] ; then \
 	echo "building driver..."; \
-	cd drivers/linux/driverRetinaLinux; \
+	pushd drivers/linux/driverRetinaLinux; \
 	make; \
 	echo "installing driver..."; \
 	echo "please plug in a retina device..."; \
 	sudo make install; \
-	cd ../..
+        popd
+	
 fi;
 	
 echo startup jAER...
