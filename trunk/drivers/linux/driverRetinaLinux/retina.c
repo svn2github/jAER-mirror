@@ -17,7 +17,7 @@
 #include <linux/kernel.h>
 #include <linux/device.h>
 // #include <linux/slab.h> // to compile on openSuSE 11.3 uncomment include this header file
-#include <asm/uaccess.h>
+#include <asm/uaccess.h> ///usr/src/linux-headers-2.6.32-32/include/asm-generic
 
 
 /* this is the DVS 128 retina */
@@ -109,7 +109,7 @@ static int retina_open(struct inode *inode, struct file *file)
 	subminor = iminor(inode);
 
 	interface = usb_find_interface(&retina_driver, subminor);
-	dev_info(&interface->dev,"retina_open()"); 
+	dev_info(&interface->dev,"retina_open"); 
 	if (!interface) {
 		dev_err(&interface->dev,"%s - error, can't find device for minor %d", __FUNCTION__, subminor);
 		retval = -ENODEV;
@@ -293,22 +293,29 @@ static ssize_t retina_write(struct file *file, const char *user_buffer, size_t c
 	/*dev_info(&dev->interface->dev,"Request,Value,Index,Count=0x%x,%d,%d,%d",request,value,index,writesize);*/
 
 
-	/* create a urb, and a buffer for it, and copy the data to the urb 
+	//create an urb, and a buffer for it, and copy the data to the urb 
 	urb = usb_alloc_urb(0, GFP_KERNEL);
 	if (!urb) {
 		retval = -ENOMEM;
 		goto error;
-	}*/
+	}
 
-	if (0)//writesize > 0)
+	if (writesize > 0)
 	{
-		buf = usb_buffer_alloc(dev->udev, writesize, GFP_KERNEL, &urb->transfer_dma);
+		
+/*
+                dev_info(&dev->interface->dev,"retina_write(ioctl): allocating %d bytes",writesize);
+*/
+              buf = usb_buffer_alloc(dev->udev, writesize, GFP_KERNEL, &urb->transfer_dma);
 		if (!buf) {
 			retval = -ENOMEM;
 			goto error;
 		}
 	
-		if (copy_from_user(buf, user_buffer, writesize)) {
+/*
+              dev_info(&dev->interface->dev,"retina_write(ioctl): copying from user space %d bytes",writesize);
+*/
+  		if (copy_from_user(buf, user_buffer, writesize)) {
 			retval = -EFAULT;
 			goto error;
 		}
@@ -333,12 +340,17 @@ static ssize_t retina_write(struct file *file, const char *user_buffer, size_t c
 
 	/*use the write call for submitting vendor requests. java has no ioctl.*/
 	/*retval = vendorRequest(dev, request, value, index, buf, writesize);*/
+        
+/*
+	dev_info(&dev->interface->dev,"retina_write(ioctl): VENDOR_REQUEST 0x%x. (Val,Ind,Cnt=0x%x,0x%x,0x%x)",request,value,index,writesize);
+*/
 	retval = vendorRequest(dev, request, value, index, buf, writesize);
-	/*dev_info(&dev->interface->dev,"retina_write(ioctl): VENDOR_REQUEST 0x%x returned %d.\n(Val,Ind,Cnt=0x%x,0x%x,0x%x)",request,
-	    retval,value,index,writesize);*/
+/*
+	dev_info(&dev->interface->dev,"retina_write(ioctl): VENDOR_REQUEST 0x%x returned 0x%x. (Val,Ind,Cnt=0x%x,0x%x,0x%x)",request,retval,value,index,writesize);
+*/
 
 	/*mutex_unlock(&dev->io_mutex);*/
-	if (retval) {
+	if (retval!=writesize) {
 		dev_err(&dev->interface->dev,"%s - failed vendor request, error %d", __FUNCTION__, retval);
 		goto exit;
 	}

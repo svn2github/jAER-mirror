@@ -17,6 +17,7 @@ KDIR	:= /lib/modules/$(shell uname -r)/build
 PWD		:= $(shell pwd)
 
 all::
+	echo $(KDIR)
 	rm -f *.ko *.o 
 	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules
 	rm -f *~ *.symvers *.o *.mod.c
