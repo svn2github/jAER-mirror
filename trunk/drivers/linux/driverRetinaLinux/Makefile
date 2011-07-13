@@ -1,62 +1,38 @@
-# martin ebner, igi, tu graz, austria
-# this script builds and reloads the linux aer driver
-# this script must run once for each new kernel
-# runs on the (k)ubuntu and debian linux distributions
-
-UNAME := $(shell uname -r)
-KERNEL26 := 2.6
-KERNELVERSION := $(findstring $(KERNEL26),$(UNAME))
-
-all:: retina_test
-
-ifeq ($(KERNELVERSION),2.6)
 
 obj-m	:= retina.o
 
-KDIR	:= /lib/modules/$(shell uname -r)/build
-PWD		:= $(shell pwd)
+# if we want warnings to be fatal:
+EXTRA_CFLAGS += -Werror
 
-all::
-	echo $(KDIR)
-	rm -f *.ko *.o 
-	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules
-	rm -f *~ *.symvers *.o *.mod.c
-	
-else
+all:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
-TARGET	:= retina
-CFLAGS	:= -O2 -Wall -DMODULE -D__KERNEL__ -DLINUX
-CC	:= gcc
+clean:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 
-#builds retina driver for linux
-all:: ${TARGET}.o
+install: all
+	mkdir -p /lib/modules/$(shell uname -r)/extra/
+	cp retina.ko /lib/modules/$(shell uname -r)/extra/
+	depmod -a
+	cp 88-retina.rules /etc/udev/rules.d/
 
-${TARGET}.o: ${TARGET}.c
-	$(CC) $(CFLAGS) ${INCLUDE} -c ${TARGET}.c
-	
-endif
+uninstall:
+	rmmod -s retina || true
+	rm /lib/modules/*/kernel/drivers/video/retina.ko || true
+	rm /lib/modules/*/extra/retina.ko || true
+	rm /etc/udev/rules.d/88-retina.rules || true
 
-retina_test: retina_test.c
-	gcc -o $@ $<
+load:
+	sync
+	modprobe retina
 
-install: 
-#ubuntu:        add line "retina" to /etc/modules [finished]
-#other distros: load module at boot time (modprobe retina)
-#               i.e. /etc/rc.3/S10retina.sh
-#               linking to /etc/init.d/retina
-#	@if lsmod|grep retina; then modprobe -r retina; fi;
-	@cp retina.ko /lib/modules/`uname -r`/kernel/drivers/video
-	@depmod -a
-	@cp 88-retina.rules /etc/udev/rules.d
-	@modprobe retina
-	@if [ -x /etc/init.d/udev ] ; then /etc/init.d/udev restart; fi;
-	@sleep 1
-	@if [ -r /etc/modules ] ; then \
-		if ! less /etc/modules | grep retina ; then \
-			echo retina >> /etc/modules; \
-		fi; \
-		echo "autoload at system boot [ubuntu/debian]"; \
-	fi;
-#	@ls -l /dev/retina?
-	@echo "retina driver module built for kernel `uname -r` and module installed.";
-	
+unload:
+	modprobe -r retina
+
+reload: unload load
+
+usbtestkill:
+	rmmod -s usbtest || true
+	echo "blacklist usbtest" >/etc/modprobe.d/blacklist-usbtest.conf
+	find /lib/modules/ -name aerfx2.ko -exec rm '{}' ';' || true
+	depmod -a

@@ -16,8 +16,12 @@
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/device.h>
-// #include <linux/slab.h> // to compile on openSuSE 11.3 uncomment include this header file
+#include <linux/slab.h>
 #include <asm/uaccess.h> ///usr/src/linux-headers-2.6.32-32/include/asm-generic
+
+
+// for older kernels you might have to activate this:
+//#define usb_alloc_coherent usb_buffer_alloc
 
 
 /* this is the DVS 128 retina */
@@ -283,6 +287,8 @@ static ssize_t retina_write(struct file *file, const char *user_buffer, size_t c
 	struct urb *urb = NULL;
 	void *buf = NULL;
 	size_t writesize;
+
+	// POSSIBLE BUG: user_buffer should be checked before it is used!!! ..:
 	u8 request = user_buffer[0];
 	u16 value  = (user_buffer[1]&0x00ff)+((user_buffer[2]<<8)&0xff00);
 	u16 index  = (user_buffer[3]&0x00ff)+((user_buffer[4]<<8)&0xff00);
@@ -290,7 +296,7 @@ static ssize_t retina_write(struct file *file, const char *user_buffer, size_t c
 	writesize = min(count-5, (size_t)MAX_TRANSFER);
 
 	dev = (struct usb_retina *)file->private_data;
-	/*dev_info(&dev->interface->dev,"Request,Value,Index,Count=0x%x,%d,%d,%d",request,value,index,writesize);*/
+	//dev_info(&dev->interface->dev,"Request,Value,Index,Count=0x%x,%d,%d,%d",request,value,index,writesize);
 
 
 	//create an urb, and a buffer for it, and copy the data to the urb 
@@ -302,20 +308,17 @@ static ssize_t retina_write(struct file *file, const char *user_buffer, size_t c
 
 	if (writesize > 0)
 	{
+		//dev_info(&dev->interface->dev,"retina_write(ioctl): allocating %d bytes",writesize);
+		buf = usb_alloc_coherent(dev->udev, writesize, GFP_KERNEL, &urb->transfer_dma);
+		// POSSIBLE BUG: usb_alloc_coherent called, but this buffer is never freed! -> mem leak...!
 		
-/*
-                dev_info(&dev->interface->dev,"retina_write(ioctl): allocating %d bytes",writesize);
-*/
-              buf = usb_buffer_alloc(dev->udev, writesize, GFP_KERNEL, &urb->transfer_dma);
 		if (!buf) {
 			retval = -ENOMEM;
 			goto error;
 		}
 	
-/*
-              dev_info(&dev->interface->dev,"retina_write(ioctl): copying from user space %d bytes",writesize);
-*/
-  		if (copy_from_user(buf, user_buffer, writesize)) {
+		//dev_info(&dev->interface->dev,"retina_write(ioctl): copying from user space %d bytes",writesize);
+		if (copy_from_user(buf, user_buffer, writesize)) {
 			retval = -EFAULT;
 			goto error;
 		}
@@ -341,13 +344,10 @@ static ssize_t retina_write(struct file *file, const char *user_buffer, size_t c
 	/*use the write call for submitting vendor requests. java has no ioctl.*/
 	/*retval = vendorRequest(dev, request, value, index, buf, writesize);*/
         
-/*
-	dev_info(&dev->interface->dev,"retina_write(ioctl): VENDOR_REQUEST 0x%x. (Val,Ind,Cnt=0x%x,0x%x,0x%x)",request,value,index,writesize);
-*/
+	//dev_info(&dev->interface->dev,"retina_write(ioctl): VENDOR_REQUEST 0x%x. (Val,Ind,Cnt=0x%x,0x%x,0x%x)",request,value,index,writesize);
 	retval = vendorRequest(dev, request, value, index, buf, writesize);
-/*
-	dev_info(&dev->interface->dev,"retina_write(ioctl): VENDOR_REQUEST 0x%x returned 0x%x. (Val,Ind,Cnt=0x%x,0x%x,0x%x)",request,retval,value,index,writesize);
-*/
+
+	//dev_info(&dev->interface->dev,"retina_write(ioctl): VENDOR_REQUEST 0x%x returned 0x%x. (Val,Ind,Cnt=0x%x,0x%x,0x%x)",request,retval,value,index,writesize);
 
 	/*mutex_unlock(&dev->io_mutex);*/
 	if (retval!=writesize) {
@@ -408,8 +408,9 @@ static void address_event_callback(struct urb *urb)
 		}
 	}
 	else
-	{	/*dev_info(&dev->interface->dev,"testing: %d address events read.", dev->event_counter);
-		dev_info(&dev->interface->dev,"testing: event#1 = {0x%x,0x%x,0x%x,0x%x}",dev->bulk_in_buffer[0],dev->bulk_in_buffer[1],dev->bulk_in_buffer[2],dev->bulk_in_buffer[3]);*/
+	{
+		//dev_info(&dev->interface->dev,"testing: %d address events read.", dev->event_counter);
+		//dev_info(&dev->interface->dev,"testing: event#1 = {0x%x,0x%x,0x%x,0x%x}",dev->bulk_in_buffer[0],dev->bulk_in_buffer[1],dev->bulk_in_buffer[2],dev->bulk_in_buffer[3]);
 	}
 }
 
@@ -442,7 +443,7 @@ static int retina_probe(struct usb_interface *interface, const struct usb_device
 	iface_desc = interface->cur_altsetting;
 	for (i = 0; i < iface_desc->desc.bNumEndpoints; ++i) {
 		endpoint = &iface_desc->endpoint[i].desc;
-		/*dev_info(&interface->dev,"usb endpoint[%d] found. size=%d, addr=0x%x",i,endpoint->wMaxPacketSize,endpoint->bEndpointAddress);*/
+		//dev_info(&interface->dev,"usb endpoint[%d] found. size=%d, addr=0x%x",i,endpoint->wMaxPacketSize,endpoint->bEndpointAddress);
 		if (!dev->bulk_in_endpointAddr &&
 			    usb_endpoint_is_bulk_in(endpoint) 
 			    && (endpoint->wMaxPacketSize==512)) {
@@ -482,7 +483,7 @@ static int retina_probe(struct usb_interface *interface, const struct usb_device
 	dev_info(&interface->dev,"retina now attached to /dev/retina0\n");
 	
 	vendorRequest(dev, VENDOR_REQUEST_START_TRANSFER, 0, 0, NULL, 0);
-	/*dev_info(&dev->interface->dev,"VENDOR_REQUEST_START_TRANSFER returned %d",retval);*/
+	//dev_info(&dev->interface->dev,"VENDOR_REQUEST_START_TRANSFER returned %d",retval);
 	urb = usb_alloc_urb (0, GFP_KERNEL);
 	if (!urb)
 	    goto error;
@@ -595,7 +596,7 @@ static int __init usblab_init(void)
 {
 	int result;
 
-	/*dev_info(&retina_driver.interface->dev,"retina module initialisation");*/
+	//dev_info(&retina_driver.interface->dev,"retina module initialisation");
 	/* register this driver with the USB subsystem */
 	result = usb_register(&retina_driver);
 	if (result)
@@ -618,74 +619,3 @@ MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("USB lab module");
 
 
-/* lsusb -v : dvs128 usb info
-Bus 007 Device 007: ID 152a:8400
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass            0 (Defined at Interface level)
-  bDeviceSubClass         0
-  bDeviceProtocol         0
-  bMaxPacketSize0        64
-  idVendor           0x152a
-  idProduct          0x8400
-  bcdDevice            0.00
-  iManufacturer           1
-  iProduct                2
-  iSerial                 3
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength           39
-    bNumInterfaces          1
-    bConfigurationValue     1
-    iConfiguration          0
-    bmAttributes         0x80
-      (Bus Powered)
-    MaxPower              300mA
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           3
-      bInterfaceClass       255 Vendor Specific Class
-      bInterfaceSubClass      0
-      bInterfaceProtocol      0
-      iInterface              0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0040  1x 64 bytes
-        bInterval               0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x02  EP 2 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x86  EP 6 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-can't get device qualifier: Operation not permitted
-can't get debug descriptor: Operation not permitted
-cannot read device status, Operation not permitted (1)
-*/
