@@ -7,7 +7,7 @@ cd `dirname $0`
 
 echo "checking driver..."
 if [ ! -r /dev/retina0 ] ; then \
-	echo "building driver..."; \
+	echo "/dev/retina0 not found; building driver..."; \
 	pushd drivers/linux/driverRetinaLinux; \
 	make; \
 	echo "installing driver..."; \
