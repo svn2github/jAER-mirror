@@ -17,7 +17,7 @@
 #include <linux/kernel.h>
 #include <linux/device.h>
 #include <linux/slab.h>
-#include <asm/uaccess.h> ///usr/src/linux-headers-2.6.32-32/include/asm-generic
+#include <asm/uaccess.h> // /usr/src/linux-headers-2.6.32-32/include/asm-generic
 
 
 // for older kernels you might have to activate this:
@@ -25,15 +25,17 @@
 
 
 /* this is the DVS 128 retina */
-#define USB_RETINA_VENDOR_ID	0x152a
-#define USB_RETINA_PRODUCT_ID	0x8400
+#define USB_USBIO_VENDOR_ID	0x152a
+#define USB_USBIO_DVS128_PRODUCT_ID	0x8400
+#define USB_USBIO_COCHLEAAMS_PRODUCT_ID	0x8405
 
 /* table of devices that work with this driver */
-static struct usb_device_id retina_table [] = {
-	{ USB_DEVICE(USB_RETINA_VENDOR_ID, USB_RETINA_PRODUCT_ID) },
+static struct usb_device_id device_table [] = {
+	{ USB_DEVICE(USB_USBIO_VENDOR_ID, USB_USBIO_DVS128_PRODUCT_ID) },
+	{ USB_DEVICE(USB_USBIO_VENDOR_ID, USB_USBIO_COCHLEAAMS_PRODUCT_ID) },
 	{ }					/* Terminating entry */
 };
-MODULE_DEVICE_TABLE(usb, retina_table);
+MODULE_DEVICE_TABLE(usb, device_table);
 
 #define MAX_TRANSFER		(PAGE_SIZE - 512)
 /* MAX_TRANSFER is chosen so that the VM is not stressed by
@@ -288,7 +290,7 @@ static ssize_t retina_write(struct file *file, const char *user_buffer, size_t c
 	void *buf = NULL;
 	size_t writesize;
 
-	// POSSIBLE BUG: user_buffer should be checked before it is used!!! ..:
+	// TODO POSSIBLE BUG: user_buffer should be checked before it is used!!! ..:
 	u8 request = user_buffer[0];
 	u16 value  = (user_buffer[1]&0x00ff)+((user_buffer[2]<<8)&0xff00);
 	u16 index  = (user_buffer[3]&0x00ff)+((user_buffer[4]<<8)&0xff00);
@@ -309,8 +311,11 @@ static ssize_t retina_write(struct file *file, const char *user_buffer, size_t c
 	if (writesize > 0)
 	{
 		//dev_info(&dev->interface->dev,"retina_write(ioctl): allocating %d bytes",writesize);
-		buf = usb_alloc_coherent(dev->udev, writesize, GFP_KERNEL, &urb->transfer_dma);
-		// POSSIBLE BUG: usb_alloc_coherent called, but this buffer is never freed! -> mem leak...!
+/*
+		buf = usb_alloc_coherent(dev->udev, writesize, GFP_KERNEL, &urb->transfer_dma); // under fedora
+*/
+		buf = usb_buffer_alloc(dev->udev, writesize, GFP_KERNEL, &urb->transfer_dma); // under ubuntu 10
+		// TODO POSSIBLE BUG: usb_alloc_coherent called, but this buffer is never freed! -> mem leak...!
 		
 		if (!buf) {
 			retval = -ENOMEM;
@@ -588,7 +593,7 @@ static struct usb_driver retina_driver = {
 	.resume =	retina_resume,
 	.pre_reset =	retina_pre_reset,
 	.post_reset =	retina_post_reset,
-	.id_table =	retina_table,
+	.id_table =	device_table,
 	.supports_autosuspend = 1,
 };
 
