@@ -40,4 +40,49 @@ Institute of Automatic Control Engineering  www.lsr.ei.tum.de
 Technische Universität München, Karlstr. 45, 80333 Munich, Germany
 Tel: +49 89 289-26925, Fax: +49 89 289-26913, E-mail: conradt@tum.de
 
+
+Here some further info:
+
+ 
+
+- the timer (Timer 1) is 32 bit (LPC2106 user manual, chapter 14, page 183).
+
+ 
+
+- the timer is running at full speed, i.e. 64MHz. It’s exactly 64MHz:   16 MHz crystal * 4 (PLL)
+
+ 
+
+- I use changes in the timer capture register to disambiguate successive events (from noise on the bus). Each “request” from DVS will capture a new timestamp (in hardware; no interrupt, no polling, etc.) into register T1_CR0. Therefore, the max total event rate is limited to 64M-events per second (which we will never reach anyways).
+
+ 
+
+- in the mainloop (file mainloop.c) --- where all work happens after initialization --- lines 159ff capture new events:
+
+  - line 159 fetches the last captured timestamp from the timer (32 bit, at full 64MHz time resolution)
+
+  - line 174-177 shift the timestamp by 6 (so divide by 64), keep only the 16 LSB, and store the timestamp in the 16 LSB of newDVSEvent.
+
+So taken all together we should get a timestamp from 0x0000 (0) to 0xFFFF (65535), with each step representing a microsecond (64 MHz / 64).
+
+ 
+
+- you can check that the code until here works well when setting output mode “!E31” (human readable decimal with timestamps).
+
+  The timestamps wrap around at 65535. Also, when I record about 2 seconds of real time data, I see 35 “wrap around” --- which corresponds to 35 * 65ms = 2,3 seconds. Seems all right to me.
+
+ 
+
+ 
+
+- transmitting timestamps in the most compact data format “!e1” happens in lines 491ff (EDVS_DATA_FORMAT_BIN_TS). TXBuffer[3] is sent first, TXBuffer[0] is sent last. I am sending MSB first. Maybe the Java program is swapping those two bytes for the time stamp? That, however, would result in a timestamp overrun every 65ms / 256 = 0,25ms...
+
+ 
+
+ 
+
+ 
+ 
+ 
+ 
  
