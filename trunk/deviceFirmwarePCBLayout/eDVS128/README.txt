@@ -5,11 +5,12 @@ J. Conradt. July 2011.
 
 2)      Powercycle eDVS (disconnect / reconnect USB cable). Wait for COM port to appear.
 
-3)      Open terminal program (terminal.exe in the jAER/Utilities folder works on Windows 7), send “R<return>” (Reset) to eDVS. Wait briefly. Send “P<return>” to eDVS. Close COM port. Ensure you press no further keys after “P<return>”. eDVS will change into reprogramming mode.
+3)      Open terminal program (terminal.exe in the jAER/Utilities folder works on Windows 7), with baud rate 4000000, RTS/CTS, 8B no parity, 1 stop bit. 
+		Send “R<return>” (Reset) to eDVS. You should get echo of current version, e.g. "rDVS128 - LPC2106/01 Interface Board, V6.0: Apr 25 2011, 13:09:50System Clock: 64MHz / 64 -> 1000ns event time resolutionModules: " Wait briefly. Send “P<return>” to eDVS. Close COM port. Ensure you press no further keys after “P<return>”. eDVS will change into reprogramming mode.
 
 4)      Start Flashmagic software.
 
-5)      Step 1: Select Device “LPC2106”, COM port (to match your connection), BaudRate 19200, Interface “None (ISP)”, Oscillator (MHz) “16”.
+5)      Step 1: Select Device “Arm7/LPC2106”, COM port (to match your connection), BaudRate 19200, Interface “None (ISP)”, Oscillator (MHz) “16”.
 
 6)      Step 2: tick the box “Erase all Flash+Code ...”
 

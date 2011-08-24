@@ -26,8 +26,8 @@ The current assignements are as follows for the Thesycon PIDs
 0x8402  
 0x8403 
 0x8404 
-0x8405 CochleaAMS
-0x8406 
+0x8405 CochleaAMS1b
+0x8406 CochleaAMS1c
 0x8407 
 0x8408 
 0x8409 

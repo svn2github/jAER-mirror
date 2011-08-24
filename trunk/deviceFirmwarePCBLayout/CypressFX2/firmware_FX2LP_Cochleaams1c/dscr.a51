@@ -47,7 +47,7 @@ DeviceDscr:
       db   00H         ;; Device sub-sub-class
       db   64         ;; Maximum packet size
       dw   2A15H      ;;152a    ;; Vendor ID from Thesycon allocated to INI
-      dw   0584H      ;;8405h      ;; Product ID  in range allocated to INI - see Java class USBInterface
+      dw   0684H      ;;8406h      ;; Product ID  in range allocated to INI - see Java class USBInterface
       dw   0000H      ;; Product version ID
       db   1         ;; Manufacturer string index
       db   2         ;; Product string index
@@ -245,7 +245,7 @@ StringDscr2:
       db   'M',00
       db   'S',00
       db   '1',00
-      db   'b',00
+      db   'c',00
  StringDscr2End:
 
 StringDscr3:   

@@ -9,6 +9,7 @@ Cypress Blank, VID 04B4, PID 8613   // used for blank CypressFX2 - firmeware is 
 DVS128, VID 152a PID 8400
 SimpleAESequencer VID 152a PID 8410
 CochleaAMS1b, VID 152a PID 8405
+CochleaAMS1b, VID 152a PID 8406
 
 32 and 64 bit drivers are in separate folders to facilitate driver code signing.
 Drivers are signed using the "iniLabs GmbH" certificate purchased from GlobalSign CA.

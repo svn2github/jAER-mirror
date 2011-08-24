@@ -17,9 +17,10 @@
 #include <Fx2.h>
 #include <fx2regs.h>
 #include <syncdly.h>
-#include "biasgen.h" 
-#include "ports.h"
-#include "micro.h"
+#include "biasgen.h" // macros to write to biasgen
+#include "ports.h" // JTAG defs
+#include "micro.h" // XSVF macros for JTAG reprogramming
+#include "portsFX2.h" // defines PA7 etc
 
 extern BOOL GotSUD;             // Received setup data flag
 //extern BOOL Sleep;

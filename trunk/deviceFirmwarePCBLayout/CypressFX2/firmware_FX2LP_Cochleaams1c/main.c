@@ -19,8 +19,8 @@
 #include <fx2regs.h>
 #include <syncdly.h>
 #include "biasgen.h" 
-#include "ports.h"
 #include "portsFX2.h"
+#include "ports.h"
 #include "micro.h"
 
 extern BOOL GotSUD;             // Received setup data flag
@@ -38,8 +38,6 @@ extern BOOL Selfpwr;
 #define TIMESTAMP_MODE			PC3
 
 #define DB_Addr 1 // zero if only one byte address is needed for EEPROM, one if two byte address
-
-#define LED 	PA7
 
 #define EEPROM_SIZE 0x8000
 #define MAX_NAME_LENGTH 4
@@ -116,9 +114,6 @@ sbit PC0=IOC^0;
 sbit PD0=IOD^0; etc
 */
 
-// set/clear bits in a register that is byte-addressable, e.g. port E, e.g. sb(IOE,BitOut)
-#define sb(p,m) (((p)|=(m)));
-#define cb(p,m) ((p)&=(~(m)));
 
 // Port E is not bit-addressable. Therefore we define bitmasks of port E (IOE) here and use them later to define macros to set/clear these bits
 // port E connections are in the schematics of the PCB and in the port assignments of the CPLD, where some ports are mapped through the CPLD
@@ -128,7 +123,7 @@ sbit PD0=IOD^0; etc
 //	Line 19:   CochleaResetxRBO <= PE3xSI;	// cochlea logic reset
 //	Line 20: 	CPLDReset <= PE7xsI; // cypress asserts this to reset CPLD
 
-// from the PCB schematic:
+// from the cochams1c PCB schematic:
 // E0 bitOut from one chip shift registers
 // E1 = bitLatch for onchip shift registers
 // e2 = passed through CPLD, powerDown biasgen master bias
@@ -139,25 +134,23 @@ sbit PD0=IOD^0; etc
 // e7 ResetCPLD holds CPLD in reset until enumeration and host open happens
 
 
-#define BitOut 	1	// selects data shift register path (bitIn, clock, latch)
-#define BitLatch 	2	// selects channel selection shift register path
-#define PowerDown 	4	// selects biasgen shift register path
-#define ResetCochlea 	8	// a preamp feedback resistor selection bit
-#define BitIn 	16	// another microphone preamp feedback resistor selection bit
-#define BitClock		32	// (1) to reset latch states
-#define FXLED		64	// Parallel (0) or Cascaded (1) Arch
-#define ResetCPLD	128	// scanner sync output direct from cochleaams1c to fx2 (not through CPLD like others)
+#define BitOutMask 	1	
+#define BitLatchMask 	2	
+#define PowerDownMask 	4	
+#define ResetCochleaMask 	8	
+#define BitInMask 	16	
+#define BitClockMask		32	
+#define FXLEDMask		64	
+#define ResetCPLDMask	128	
 
 #define selectsMask 7 // 0000 0111 to select only select bits
 
-#define powerDown() IOE|=Powerdown
-#define powerUp() IOE&=(!Powerdown)
 
-#define resetCochlea() IOE|=ResetCochlea
-#define unresetCochlea() IOD&=(~ResetCochlea)
+#define resetCochlea() IOE|=ResetCochleaMask
+#define unresetCochlea() IOD&=(~ResetCochleaMask)
 
-#define resetCPLD() IOE|=ResetCPLD
-#define unresetCPLD() IOD&=(~ResetCPLD)
+#define resetCPLD() IOE|=ResetCPLDMask
+#define unresetCPLD() IOD&=(~ResetCPLDMask)
 
 /*
  The clock should end up high, so that the slave shift register (SR) is powered.
@@ -171,12 +164,11 @@ sbit PD0=IOD^0; etc
  The selects are also anded.
 
 */
-// Clocks one bit into one of the shift registers
-#define clockOnce(); clock=0;  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); clock=1; // gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
-//#define clockOnce(); clock=1;  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); clock=0; // gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
+// Clocks one bit into one of the on-chip shift registers
+#define clockConfigOnce(); IOE&=~BitClockMask;  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); IOE|=BitClockMask; // gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
 
 // latch input is 0=opaque, 1=transparent. toggleLatch latches the outputs of the shift registers.
-#define toggleLatch() _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=1; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=0; 
+#define toggleOnChipLatch() _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=1; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=0; 
 
 
 
@@ -186,10 +178,7 @@ sbit PD0=IOD^0; etc
 //DataSel	C00-C04	bits for setting Iq of current-mode BPF
 //			B00-B04	bits for setting Vq of SOS
 
-// AddrSel is also used for selecting neuron that should be be loaded with KillBit,
-// 8 neurons per channel, 4 neurons driven by IHC output, 4 neurons driven by bpf output
-// chosen addr + Ybit=1 choses bpf neuron
-// chosen addr + Ybit=1 choses bpf neuron
+
 
 sbit tsReset=IOA^7;		// timestamp reset to CPLD
 sbit runCPLD=IOA^3;		// runXs, run event acquisition
@@ -204,9 +193,9 @@ sbit dacNSync=IOD^0;	// DAC start
 sbit dacClock=IOD^1; 	// DAC clock
 sbit dacBitIn=IOD^2; 	// DAC data
 
-#define DATA_SEL (1<<3);
-#define ADD_SEL (1<<4);
-#define BIAS_SEL (1<<5);
+#define DATA_SEL (1<<3)
+#define ADD_SEL (1<<4)
+#define BIAS_SEL (1<<5)
 
 sbit dataSel=IOD^3;
 sbit addSel=IOD^4;
@@ -216,19 +205,24 @@ sbit biasgenSel=IOD^5;
 // following select the ipot, addr or data shiftregisters for input
 // note these are changed from original notion so that all select are high normally (no one selected)
 // and the other two go low when one is selected. This is so that the clock can be left high at the end as it should be
+// AddrSel is also used for selecting neuron that should be be loaded with KillBit,
+// 8 neurons per channel, 4 neurons driven by IHC output, 4 neurons driven by bpf output
+// chosen addr + Ybit=1 choses bpf neuron
+// chosen addr + Ybit=1 choses bpf neuron
 
 #define selectIPots IOD&=(~(DATA_SEL|ADD_SEL)) //  selects only biasgen select, turns off addr and data selects, leaves other bits untouched
 #define selectAddr  IOD&=(~(DATA_SEL|BIAS_SEL)) // selects addr shifter, even addresses are left cochlea, odd addresses are right cochlea
-#define selectData	IOD^3=(!(BIAS_SEL|ADD_SEL)) //  selects data shift register
+#define selectData	IOD&=(~(BIAS_SEL|ADD_SEL)) //  selects data shift register
 #define selectNone	IOD|=(DATA_SEL|ADD_SEL|BIAS_SEL)			// raise all selects (yes, this is correct)
 
 
-sbit scanClock=IOD^1;	// scanner clock
-sbit yBit=IOD^2;	    // Chooses whether lpf (0) or bpf (1) neurons to be killed, use in conjunction with AddrSel and AERKillBit
-sbit selAer=IOD^3;   	//Chooses whether lpf (0) or rectified (1) lpf output drives lpf neurons
+// LED from FX2
+#define ledOn() IOE|=FXLEDMask
+#define ledOff() IOE&=~FXLEDMask
+#define ledToggle() IOE^=FXLEDMask // check this one, is xor correct?
+
 sbit latch=IOD^4;		// onchip data latch
 
-sbit aerKillBit=IOD^7;	// Set to (1) after Setting of AddrSel and Ybit to kill 4 neurons
 //sbit dacNLDAC=IOD^7; // debug - board was hacked for this and removed
 
 #define selectLPFKill yBit=0
@@ -295,11 +289,11 @@ clocksource in the FX2 for the slave FIFO clock source.
 	IOA = 0x00;
 	IOE=  0x00; // set port output default values - enable them as outputs next
 	
-	OEA = 0x8b; // 1000_1011. PA7 LED, PA3: nResetCPLD, PA1: runCPLD, PA0: tsReset   
+	OEA = 0x8b; // 1000_1011, PA3: nResetCPLD, PA1: runCPLD, PA0: tsReset  // TODO check  
 				// port B is used as FD7-0 for 8 bit FIFO interface to CPLD
 	OEC = 0x0F; // now are cochlea and offchip DAC controls, before was 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
 	OED	= 0xFF; // all bit addressable outputs, all WORDWIDE=0 so port d should be enabled
-	OEE = 0x7F; // all outputs except scansync which is input, byte addressable
+	OEE = 0xFF; // all outputs, byte addressable
 
 	// set the slave FIFO interface to 30MHz, slave fifo mode
 
@@ -371,7 +365,7 @@ clocksource in the FX2 for the slave FIFO clock source.
 	SYNCDELAY;
 	EP6FIFOCFG = 0x08 ; //0000_1000, autoin=1, wordwide=0 to automatically commit packets and make this an 8 bit interface to FD
 	SYNCDELAY;
-	EP2FIFOCFG = 0x00 ; // wordwide=0
+	EP2FIFOCFG = 0x00 ; // wordwide=0; we are byte wide with 8 bit FIFO interface on FD7:0
 	SYNCDELAY;
 	EP4FIFOCFG = 0x00 ; 
 	SYNCDELAY;
@@ -386,9 +380,9 @@ clocksource in the FX2 for the slave FIFO clock source.
 
 	cycleCounter=0;
 //	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
-	LED=1; // turn on LED
+	ledOn(); // turn on LED
 
-	clock=1; bitIn=0; latch=0; powerDown=0; // init biasgen ports and pins
+	biasInit(); // init biasgen ports and pins
 	
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
 
@@ -414,7 +408,9 @@ clocksource in the FX2 for the slave FIFO clock source.
 	}
 	latchNewBiases();	
 */
-	toggleVReset();
+
+	// reset cochlea logic
+	IOE|=0x80; _nop_(); _nop_(); _nop_(); IOE&=(~0x80);
 
 	// now switch to external IFCLK for FIFOs
 //	SYNCDELAY; // may not be needed
@@ -430,7 +426,7 @@ void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
 	if(cycleCounter++>=100000){
 		
-		LED=!LED;	
+		ledToggle();	
 		cycleCounter=0; // this makes a slow heartbeat with period of about 1s on the LED to show firmware is running
 	}
 }
@@ -465,14 +461,14 @@ void sendDACByte(unsigned char b){
 void sendCPLDByte(unsigned char b){
 	unsigned char i=8;
 	while(i--){
-		cpldClk=1;
+		cpldSRClk=1;
 		b=_crol_(b,1); // rotate left to get msb to lsb
 		if(b&1){
-			cpldBitIn=1;
+			cpldSRBit=1;
 		}else{
-			cpldBitIn=0;
+			cpldSRBit=0;
 	   	}
-		cpldClk=0; // clk edge low while data stable
+		cpldSRClk=0; // clk edge low while data stable
 	}
 }
 
@@ -513,8 +509,7 @@ void powerUpDAC(){
 	endDACSync();
 }
 */
-void initDAC()
-{
+void initDAC(){
 
 /*
 	dacNLDAC=0;
@@ -549,37 +544,36 @@ void initDAC()
 	sendDACByte(0x00);  
 
 	endDACSync();
+}
 
-   }
 
-// sends the byte out the 'spi' interface to the cochlea in big-endian order (msb first)
-// - replaces assembly routine to use bit defines for clock and bitIn and C code
-void sendConfigByte(unsigned char b){
+// sends the byte to the cochlea shift register which has been selected previously
+void sendOnChipConfigByte(unsigned char b){
 	unsigned char i=8;
 	while(i--){ // goes till i==0
 		// rotate left to get msb, test bit to set bitin, then toggle clock high/low
 		b=_crol_(b,1);
 		if(b&1!=0){
-			sb(=1;
+			IOE|=BitInMask;
 		}else{
-			bitIn=0;
+			IOE&=~BitInMask;
 		}
-		clockOnce(); 
+		clockConfigOnce(); 
 	}
 }
 
-// sends the nbits least significant bits in big-endian order, e.g. sendConfigBits(0xfe,3) sends 110 from 1111 1110
-void sendConfigBits(unsigned char b,unsigned char nbits){
+// sends the nbits least significant bits in big-endian order, e.g. sendOnChipConfigBits(0xfe,3) sends 110 from 1111 1110
+void sendOnChipConfigBits(unsigned char b,unsigned char nbits){
 	unsigned char i=nbits; // send this many
 	b=_crol_(b,8-nbits); // rotate to get msb of data to send in msb of b. if nbits=8 doesn't change b, if nbits=7, rotates left by 1
 	while(nbits--){
 		b=_crol_(b,1); // get the next bit in lsb
 		if(b&1!=0){
-			bitIn=1;
+			IOE|=BitInMask;
 		}else{
-			bitIn=0;
+			IOE&=~BitInMask;
 		}
-		clockOnce();
+		clockConfigOnce();
 	}
 }
 
@@ -605,7 +599,7 @@ void downloadSerialNumberFromEEPROM(void)
 
 void startMonitor(void)
 {
-	nResetCPLD=1; //CPLD_NOT_RESET=1;
+	resetCPLD(); //CPLD_NOT_RESET=1;
     runCPLD=1; //RUN_CPLD=1;
 }
 
@@ -654,14 +648,14 @@ void EEPROMWriteByte(WORD addr, BYTE value)
 	while( I2CPckt.status != I2C_IDLE );      // wait for write session
 	while(EZUSB_WriteI2C( I2C_Addr, i, ee_str )!=I2C_OK);
  	EZUSB_WaitForEEPROMWrite( I2C_Addr );  // wait for Write Cycle Time
-//	LED=1;
+//	ledOn();
 	
 }
 
 void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf)
 {
 	BYTE	i;
-	LED=!LED;
+	ledToggle();
 	for(i=0;i<length;++i)
 		EEPROMWriteByte(addr++,buf[i]);
 }
@@ -689,16 +683,14 @@ void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf)
 BOOL TD_Suspend(void)          // Called before the device goes into suspend mode
 {
   // reset CPLD
-  nResetCPLD=0; //CPLD_NOT_RESET =0;  
-  
+  resetCPLD(); 
   return(TRUE);
 }
 
 BOOL TD_Resume(void)          // Called after the device resumes
 {
   // activate CPLD 
-  nResetCPLD=1;    // CPLD_NOT_RESET=1; 
-
+  unresetCPLD();
    return(TRUE);
 }
 
@@ -707,10 +699,12 @@ BOOL TD_Resume(void)          // Called after the device resumes
 //   The following hooks are called by the end point 0 device request parser.
 //-----------------------------------------------------------------------------
 
-/*BOOL DR_GetDescriptor(void)
+/*
+BOOL DR_GetDescriptor(void)
 {
    return(TRUE);
-}*/
+}
+*/
 
 BOOL DR_SetConfiguration(void)   // Called when a Set Configuration command is received
 {
@@ -991,14 +985,14 @@ BOOL DR_VendorCmnd(void)
 						while(EP0CS & bmEPBUSY);  // spin here until data arrives
 						bc = EP0BCL; // Get the new bytecount
 						for(i=0; i<bc; i++){
-							sendConfigByte(EP0BUF[i]);
+							sendOnChipConfigByte(EP0BUF[i]);
 						}
 //						value += bc;	// inc eeprom value to write to, in case that's what we're doing
 						len -= bc; // dec total byte count
 					}
-					toggleLatch();
+					toggleOnChipLatch();
 					selectNone;
-					LED=!LED;
+					ledToggle();
 					break;
 
 					
@@ -1016,11 +1010,11 @@ BOOL DR_VendorCmnd(void)
 					endDACSync();
 					//toggleLDAC();
 					
-					LED=!LED;
+					ledToggle();
 					break;
 				case CMD_INITDAC:
 					initDAC();
-					LED=!LED;
+					ledToggle();
 					break;
 				case CMD_SETBIT:
 					EP0BCH = 0;
@@ -1053,39 +1047,12 @@ BOOL DR_VendorCmnd(void)
 							default:
 								return TRUE; // error
 						}
-						LED=!LED;
+						ledToggle();
 					}
 					break;
 				case CMD_SCANNER:
-					// index=1, continuous, index=0 go to channel
-					// Arm endpoint - do it here to clear (after sud avail) and get the data for channel to scan to if there is one. in any case must read data
-					// or subsequent requests will fail.
-					EP0BCH = 0;
-					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
-					SYNCDELAY;
-					while(EP0CS & bmEPBUSY);  // spin here until data arrives
-					if(ind==0){ // go to channel
-						ET2=0; // disable timer2 interrupt - IE.5
-						TR2=0; // stop timer2
-						i=255; // timeout on scanner clear
-						while(IOE&ScanSync && i-->0){ // clock scanner to end and timeout if there is no chip there
-							scanClock=1; // sync happens on falling edge
-							_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
-							scanClock=0;
-							_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
-						}
-						if(i==0) return TRUE; // scan to start failed
-						bc = EP0BUF[0]; // Get the channel number to scan to
-						for(i=0; i<bc; i++){
-							scanClock=1; _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
-							scanClock=0; _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
-						}
-					}else{ // continuous scanning
-						RCAP2L=0xff-EP0BUF[0];  // load timer 2 low byte reload register with 0xff-period. period=0 reload is 0xff00 (255 counts), period=255, reload is 0x0000, period=64k
-						ET2=1; // enable timer2 interrupt - this is IE.5 bit addressable
-						TR2=1; // run timer2
-					}
-					LED=!LED;
+					// scanner is controlled by CPLD entirely, we just write the correct bits to the CPLD config SR.  This legacy cmd now returns a stall.
+					return TRUE;
 					break;
 				case CMD_EQUALIZER:
 /*
@@ -1111,16 +1078,16 @@ in big endian format.
 */
 //	index is channel address, bytes={gain,quality,killed (1=killed,0=active)}
 					selectAddr;
-					sendConfigBits(SETUPDAT[3],7); // send 7 bit address
-					toggleLatch();
+					sendOnChipConfigBits(SETUPDAT[3],7); // send 7 bit address
+					toggleOnChipLatch();
 					_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
 					selectNone;
 					_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
 					selectData;
 					
-					sendConfigBits(SETUPDAT[4]&0x1f,5);	   // what is this for?
+					sendOnChipConfigBits(SETUPDAT[4]&0x1f,5);	   // what is this for?
 					
-					sendConfigBits((SETUPDAT[4]>>5)|(SETUPDAT[5]<<3),5);
+					sendOnChipConfigBits((SETUPDAT[4]>>5)|(SETUPDAT[5]<<3),5);
 /* commented out because of bug in cochleaams1b where select of a single kill bit is inverted so everybody but the one you want
 is selected. however, the equalizer DAC current splitters still work
 					
@@ -1131,7 +1098,7 @@ is selected. however, the equalizer DAC current splitters still work
 					}else{
 						aerKillBit=0;
 					}
-					toggleLatch();
+					toggleOnChipLatch();
 					
 					selectBPFKill; // sets ybit
 					if(SETUPDAT[5]&8){ // kill BPF						
@@ -1140,16 +1107,14 @@ is selected. however, the equalizer DAC current splitters still work
 						aerKillBit=0;
 					}
 */
-					toggleLatch();
+					toggleOnChipLatch();
 					selectNone;
 
-					LED=!LED;
-
-
+					ledToggle();
 					break;
 				case CMD_RESET_EQUALIZER:
 					return TRUE;  // not yet implmented
-					LED=!LED;
+					ledToggle();
 					break;
 
 				case CMD_CPLDCONFIG: // send bit string to CPLD configuration shift register (new feature on cochleaAMS1c board/cpld/firmware)
@@ -1162,8 +1127,12 @@ is selected. however, the equalizer DAC current splitters still work
 					for(i=0;i<len;i++){ // send out each byte of cpld config
 						sendCPLDByte(EP0BUF[i]);
 					}
+					cpldSRLatch=1;
+					//_nop_();
+					cpldSRLatch=0;
+
 										
-					LED=!LED;
+					ledToggle();
 					break;
 
 				default:
@@ -1177,10 +1146,10 @@ is selected. however, the equalizer DAC current splitters still work
 			{
 				if (SETUPDAT[2])
 				{
-					powerDown=1;
+					IOE|=powerDownMask; // TODO powerdown not here anymore
 				} else 
 				{
-					powerDown=0;
+					IOE&= ~powerDownMask;
 				}
 				*EP0BUF=VR_SET_POWERDOWN;
 				SYNCDELAY;
@@ -1383,21 +1352,6 @@ is selected. however, the equalizer DAC current splitters still work
 	return(FALSE);
 }
 
-// a single timer interrupt is used for clocking the scanner
-
-// RESET HOST TIMESTAMP INTERRUPT not used
-void ISR_scannerClock(void) interrupt 5 { // interrupt vector address is 0x2b from fx2 manual which is interrupt 5 from c51 manual
-	EA=0; // disable all interrupts
-	TF2=0; // must clear or we come straight back here.
-	scanClock=1;
-	_nop_();
-	_nop_();
-	_nop_();
-	_nop_();
-	_nop_(); // 5 nops gives about 0.6us high time
-	scanClock=0;
-	EA=1;
-}
 
 /*
 void ISR_MissedEvent(void) interrupt 3 {	

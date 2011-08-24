@@ -1,22 +1,26 @@
-// (this is just a text file). It shows the connections from CPLD to Cypress on the cochleaAMS1c PCB.
-// the ports here are specified in the firmware for the CypressFX2.
+// (this is just a text file). 
+// It shows the connections from CPLD to Cypress on the cochleaAMS1c PCB.
+// The ports here are specified in the firmware for the CypressFX2.
 
 // offchip DACs
  * DACnSyncxSBO <= PDxSIO(0);   // port D0 on CypressFX2
-*  DACClkxSO <= PDxSIO(1);
+ * DACClkxSO <= PDxSIO(1);
  * DACbitInxSO <= PDxSIO(2);
   
 // onchip selects
-*  DataSelxSO <= PDxSIO(3);
-*  AddSelxSO <= PDxSIO(4);
-*  BiasgenSelxSO <= PDxSIO(5);
+// following select the ipot, addr or data shiftregisters for input
+// note these are changed from original notion so that all select are high normally (no one selected)
+// and the other two go low when one is selected. This is so that the clock can be left high at the end as it should be
+*  DataSelxSO <= PDxSIO(3);//  selects data shift register
+*  AddSelxSO <= PDxSIO(4);// selects addr shifter, even addresses are left cochlea, odd addresses are right cochlea
+*  BiasgenSelxSO <= PDxSIO(5);//  selects only biasgen select, turns off addr and data selects, leaves other bits untouched
   
 // other bits
-  VctrlKillBitxSO <= PDxSIO(6);
-*  AERkillBitxSO <= PDxSIO(7);
+  VctrlKillBitxSO <= PDxSIO(6); // ???
+*  AERkillBitxSO <= PDxSIO(7); // Set to (1) after Setting of AddrSel and Ybit to kill 4 neurons
 
- * PowerdownxEO <= PE2xSI; // onchip masterbias shutdown
-*  CochleaResetxRBO <= PE3xSI;	// cochlea logic reset
+*	PowerdownxEO <= PE2xSI; // onchip masterbias shutdown - routed through CPLD pin R16 to coch chip powerdown input pin K1
+*	CochleaResetxRBO <= PE3xSI;	// cochlea logic reset, routed from through to CPLD pin B2 to coch Vreset on pin E1
 *	CPLDReset <= PE7xsI; // cypress asserts this to reset CPLD
 		
   // timestamping
@@ -29,20 +33,20 @@
   
   // CPLD config shift register
   SRClockxC <= PC1xSIO; // CPLD internal config shift register clock
-  SRLatchxE <= PC2xSIO; // toggle up/down to latch new values in config SR
-  SRinxD <= PC3xSIO;   // data bit for config SR
+  SRLatchxE <= PC2xSIO; // toggle up/down to latch new values in CPLD config SR
+  SRinxD <= PC3xSIO;   // data bit for CPLD config SR
 
   //********************************
   // CPLD config SR contents, load big endian so that last bit (63) goes first
   
-  YbitxSO <= SRDataOutxD(0);
+  YbitxSO <= SRDataOutxD(0); // Chooses whether lpf (0) or bpf (1) neurons to be killed, use in conjunction with AddrSel and AERKillBit
   
   // onchip preamp feedback resistor
   ResCtrlBit1xSO <= SRDataOutxD(1);
   ResCtrlBit2xSO <= SRDataOutxD(2);
   
   // mysterious bits
-  SelAERxSO <= SRDataOutxD(3);
+  SelAERxSO <= SRDataOutxD(3); //Chooses whether lpf (0) or rectified (1) lpf output drives lpf neurons
   SelInxSO <= SRDataOutxD(4);
   
   // offchip preamp control

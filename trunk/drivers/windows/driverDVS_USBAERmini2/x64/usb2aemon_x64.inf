@@ -101,7 +101,8 @@ HKR,,Icon,,"-20"
 %S_DeviceDescStereoTmpdiff128%=_Install, USB\Vid_0547&Pid_8703
 %S_DeviceDescDVS128%=_Install, USB\Vid_152A&Pid_8400
 %S_DeviceDescDVS320%=_Install, USB\Vid_152A&Pid_8401
-%S_DeviceDescCochleaAMS%=_Install, USB\Vid_152A&Pid_8405
+%S_DeviceDescCochleaAMS1b%=_Install, USB\Vid_152A&Pid_8405
+%S_DeviceDescCochleaAMS1c%=_Install, USB\Vid_152A&Pid_8406
 ; following is yagi lab IVS128x128 scanned silicon retina
 %S_DeviceDescIVS128%=_Install, USB\Vid_04b4&Pid_1004
 %S_DeviceDesccDVSTest%=_Install, USB\Vid_152A&Pid_840A
@@ -284,7 +285,8 @@ S_DeviceDescTCVS320="TCVS320"
 S_DeviceDescStereoTmpdiff128="StereoTmpdiff128"
 S_DeviceDescDVS128="DVS128"
 S_DeviceDescDVS320="DVS320"
-S_DeviceDescCochleaAMS="CochleaAMS"
+S_DeviceDescCochleaAMS1b="CochleaAMS1b"
+S_DeviceDescCochleaAMS1c="CochleaAMS1c"
 S_DeviceDescIVS128="IVS128"
 S_DeviceDesccDVSTest="cDVSTest"
 S_DeviceDescSimpleAESequencer="SimpleAESequencer"
