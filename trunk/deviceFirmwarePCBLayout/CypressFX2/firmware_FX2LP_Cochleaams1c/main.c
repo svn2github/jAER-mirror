@@ -147,10 +147,10 @@ sbit PD0=IOD^0; etc
 
 
 #define resetCochlea() IOE|=ResetCochleaMask
-#define unresetCochlea() IOD&=(~ResetCochleaMask)
+#define unresetCochlea() IOE&=(~ResetCochleaMask)
 
 #define resetCPLD() IOE|=ResetCPLDMask
-#define unresetCPLD() IOD&=(~ResetCPLDMask)
+#define unresetCPLD() IOE&=(~ResetCPLDMask)
 
 /*
  The clock should end up high, so that the slave shift register (SR) is powered.
@@ -174,7 +174,7 @@ sbit PD0=IOD^0; etc
 
 #define isScanSyncActive	(IOE&ScanSync==0)			// nonzero when scansync is active (bit has fallen out of scanner shift register). sync is active low
 
-#define toggleVReset(); IOE|=Vreset; _nop_();_nop_();_nop_();_nop_();_nop_();_nop_(); IOE&=~Vreset;
+#define toggleVReset(); IOE|=Vreset; _nop_();_nop_();_nop_();_nop_();_nop_();_nop_(); IOE&=~Vreset; // TODO not right
 //DataSel	C00-C04	bits for setting Iq of current-mode BPF
 //			B00-B04	bits for setting Vq of SOS
 
@@ -289,11 +289,11 @@ clocksource in the FX2 for the slave FIFO clock source.
 	IOA = 0x00;
 	IOE=  0x00; // set port output default values - enable them as outputs next
 	
-	OEA = 0x8b; // 1000_1011, PA3: nResetCPLD, PA1: runCPLD, PA0: tsReset  // TODO check  
+	OEA = 0x8b; // 1000_1001, a7=hostresettimestamp/out, a3=runeventaquistion/out, a1=timestampmaster/in 
 				// port B is used as FD7-0 for 8 bit FIFO interface to CPLD
-	OEC = 0x0F; // now are cochlea and offchip DAC controls, before was 0000_1101 // JTAG, timestampMode, timestampTick, timestampMaster, resetTimestamp
-	OED	= 0xFF; // all bit addressable outputs, all WORDWIDE=0 so port d should be enabled
-	OEE = 0xFF; // all outputs, byte addressable
+	OEC = 0x0F; // 4msb are jtag stuff unused for now, c3=SR CPLD data bit /out, c2=CPLD SR latch/out, c1=SR CPLD clock/out, c0=runADC/out 
+	OED	= 0xFF; // all wired to CPLD, d7,aer kill bit/out, d6=vtrl kill bit, d5=biasgenSel/out, d4=addrSel/out, d3=dataSel/out, d2=dac bit in/out, d1=dan clock/out, d0=dac nsync/out,  bit addressable outputs, all WORDWIDE=0 so port d should be enabled
+	OEE = 0xFE; // all outputs except e0 which is out bit of coch SR, byte addressable
 
 	// set the slave FIFO interface to 30MHz, slave fifo mode
 

@@ -21,7 +21,7 @@
 
 *	PowerdownxEO <= PE2xSI; // onchip masterbias shutdown - routed through CPLD pin R16 to coch chip powerdown input pin K1
 *	CochleaResetxRBO <= PE3xSI;	// cochlea logic reset, routed from through to CPLD pin B2 to coch Vreset on pin E1
-*	CPLDReset <= PE7xsI; // cypress asserts this to reset CPLD
+*	CPLDReset <= PE7xsI; // cypress asserts this high to reset CPLD
 		
   // timestamping
 *  HostResetTimestampxS <= PA7xSIO; // PA7 resets timestamps with this; cypress controls PA7 and asserts to tell CPLD to reset timestamps 
