@@ -134,7 +134,7 @@ code const BYTE String1Desc[STR1LEN] =
    'k', 0,
   }; //end of String1Desc
 
-#define STR2LEN sizeof("C8051F320 Slot Car Controller")*2
+#define STR2LEN sizeof("C8051F320 Servo Controller")*2
 
 code const BYTE String2Desc[STR2LEN] =
 {
@@ -150,13 +150,10 @@ code const BYTE String2Desc[STR2LEN] =
    '0', 0,
    ' ', 0,
    'S', 0,
-   'l', 0,
-   'o', 0,
-   't', 0,
-   ' ', 0,
-   'C', 0,
-   'a', 0,
+   'e', 0,
    'r', 0,
+   'v', 0,
+   'o', 0,
    ' ', 0,
    'C', 0,
    'o', 0,
