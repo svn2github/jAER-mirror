@@ -33,9 +33,9 @@ extern BOOL Selfpwr;
 
 //WORD packetSize;
 
-#define TIMESTAMP_MASTER 		PC1
-#define CFG_TIMESTAMP_COUNTER 	PC2
-#define TIMESTAMP_MODE			PC3
+//#define TIMESTAMP_MASTER 		PC1
+//#define CFG_TIMESTAMP_COUNTER 	PC2
+//#define TIMESTAMP_MODE			PC3
 
 #define DB_Addr 1 // zero if only one byte address is needed for EEPROM, one if two byte address
 
@@ -167,8 +167,12 @@ sbit PD0=IOD^0; etc
 // Clocks one bit into one of the on-chip shift registers
 #define clockConfigOnce(); IOE&=~BitClockMask;  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); IOE|=BitClockMask; // gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
 
+
+//sbit latch=IOD^4;		// onchip data latch
+#define setLatch() IOE|=BitLatchMask
+#define clearLatch() IOE&=~BitLatchMask
 // latch input is 0=opaque, 1=transparent. toggleLatch latches the outputs of the shift registers.
-#define toggleOnChipLatch() _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=1; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); latch=0; 
+#define toggleOnChipLatch() _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); setLatch(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); clearLatch(); 
 
 
 
@@ -182,7 +186,7 @@ sbit PD0=IOD^0; etc
 
 sbit tsReset=IOA^7;		// timestamp reset to CPLD
 sbit runCPLD=IOA^3;		// runXs, run event acquisition
-
+sbit TIMESTAMP_MASTER=IOA^1; // signals whether this board is timestamp master
 
 sbit cpldSRClk=IOC^1;		// CPLD config shift register
 sbit cpldSRLatch=IOC^2;
@@ -200,6 +204,7 @@ sbit dacBitIn=IOD^2; 	// DAC data
 sbit dataSel=IOD^3;
 sbit addSel=IOD^4;
 sbit biasgenSel=IOD^5; 
+
 
 
 // following select the ipot, addr or data shiftregisters for input
@@ -221,7 +226,6 @@ sbit biasgenSel=IOD^5;
 #define ledOff() IOE&=~FXLEDMask
 #define ledToggle() IOE^=FXLEDMask // check this one, is xor correct?
 
-sbit latch=IOD^4;		// onchip data latch
 
 //sbit dacNLDAC=IOD^7; // debug - board was hacked for this and removed
 
@@ -412,6 +416,8 @@ clocksource in the FX2 for the slave FIFO clock source.
 	// reset cochlea logic
 	IOE|=0x80; _nop_(); _nop_(); _nop_(); IOE&=(~0x80);
 
+	unresetCPLD();
+
 	// now switch to external IFCLK for FIFOs
 //	SYNCDELAY; // may not be needed
  //	IFCONFIG = 0x23; // 0010_0011  // extenal clock, slave fifo mode
@@ -458,17 +464,17 @@ void sendDACByte(unsigned char b){
 }
 
 // sends byte in big endian order to the CPLD for CPLD configuration
-void sendCPLDByte(unsigned char b){
-	unsigned char i=8;
-	while(i--){
-		cpldSRClk=1;
-		b=_crol_(b,1); // rotate left to get msb to lsb
-		if(b&1){
-			cpldSRBit=1;
-		}else{
-			cpldSRBit=0;
-	   	}
-		cpldSRClk=0; // clk edge low while data stable
+void sendCPLDByte(unsigned char dat){
+	BYTE i=0;
+	BYTE mask=0x80;
+
+	cpldSRClk = 0;
+	for (i=0; i<8;i++)
+	{
+		cpldSRBit= dat & mask;
+		cpldSRClk = 1;
+		cpldSRClk = 0;
+		mask= mask >> 1;	
 	}
 }
 
@@ -1127,9 +1133,9 @@ is selected. however, the equalizer DAC current splitters still work
 					for(i=0;i<len;i++){ // send out each byte of cpld config
 						sendCPLDByte(EP0BUF[i]);
 					}
-					cpldSRLatch=1;
-					//_nop_();
 					cpldSRLatch=0;
+					//_nop_();
+					cpldSRLatch=1;
 
 										
 					ledToggle();
