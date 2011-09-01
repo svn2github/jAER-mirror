@@ -407,7 +407,7 @@
                   <entry key="cDVSTest20.ConfigurableIPot.fb.LowCurrent" value="false"/>
                   <entry key="cDVSTest20.ConfigurableIPot.fb.Sex" value="P"/>
                   <entry key="cDVSTest20.ConfigurableIPot.fb.Type" value="NORMAL"/>
-                  <entry key="cDVSTest20.ConfigurableIPot.refr.BitValue" value="12688"/>
+                  <entry key="cDVSTest20.ConfigurableIPot.refr.BitValue" value="111"/>
                   <entry key="cDVSTest20.ConfigurableIPot.refr.BufferBitValue" value="9"/>
                   <entry key="cDVSTest20.ConfigurableIPot.refr.Enabled" value="true"/>
                   <entry key="cDVSTest20.ConfigurableIPot.refr.LowCurrent" value="false"/>
@@ -511,19 +511,27 @@
                   <entry key="logIntensityOffset" value="2025"/>
                   <entry key="intensityDisplayEnabled" value="true"/>
                   <entry key="agcEnabled" value="false"/>
-                  <entry key="cDVSTest20.VPot.LogAmpRef" value="128"/>
+                  <entry key="cDVSTestHardwareInterface.Select5Tbuffer" value="true"/>
                   <entry key="cDVSTestHardwareInterface.ADCchannel" value="3"/>
+                  <entry key="cDVSTestHardwareInterface.UseCalibration" value="false"/>
+                  <entry key="cDVSTest20.VPot.LogAmpRef" value="128"/>
                   <entry key="cDVSTestHardwareInterface.IdleTime" value="5"/>
                   <entry key="cDVSTestHardwareInterface.RefOffTime" value="15"/>
                   <entry key="cDVSTestHardwareInterface.RefOnTime" value="15"/>
-                  <entry key="cDVSTestHardwareInterface.Select5Tbuffer" value="true"/>
-                  <entry key="cDVSTestHardwareInterface.UseCalibration" value="false"/>
                   <entry key="cDVSTestHardwareInterface.TrackTime" value="45"/>
-                  <entry key="cDVSTestHardwareInterface.scanContinuouslyEnabled" value="true"/>
+                  <entry key="cDVSTest20.bgTabbedPaneSelectedIndex" value="0"/>
                   <entry key="cDVSTestHardwareInterface.adcEnabled" value="false"/>
+                  <entry key="cDVSTestHardwareInterface.scanContinuouslyEnabled" value="true"/>
+                  <entry key="cDVSTest30.bgTabbedPaneSelectedIndex" value="2"/>
                   <entry key="cDVSTestHardwareInterface.scanX" value="15"/>
                   <entry key="cDVSTestHardwareInterface.scanY" value="15"/>
-                  <entry key="cDVSTest20.bgTabbedPaneSelectedIndex" value="0"/>
+                  <entry key="intensityScale" value="1.0"/>
+                  <entry key="XYTypeFilter.startY" value="0"/>
+                  <entry key="XYTypeFilter.endY" value="63"/>
+                  <entry key="XYTypeFilter.startType" value="0"/>
+                  <entry key="XYTypeFilter.typeEnabled" value="false"/>
+                  <entry key="XYTypeFilter.endType" value="2"/>
+                  <entry key="XYTypeFilter.multiSelectionEnabled" value="true"/>
                 </map>
               </node>
             </node>
