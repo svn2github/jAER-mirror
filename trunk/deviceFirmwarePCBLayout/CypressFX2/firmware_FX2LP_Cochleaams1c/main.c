@@ -464,6 +464,8 @@ void sendDACByte(unsigned char b){
 }
 
 // sends byte in big endian order to the CPLD for CPLD configuration
+// the msb is sent first and the data is then left shifted so that the 
+// last bit sent is bit 0, the lsb
 void sendCPLDByte(unsigned char dat){
 	BYTE i=0;
 	BYTE mask=0x80;
@@ -1125,12 +1127,16 @@ is selected. however, the equalizer DAC current splitters still work
 
 				case CMD_CPLDCONFIG: // send bit string to CPLD configuration shift register (new feature on cochleaAMS1c board/cpld/firmware)
 					// len holds the number of bytes to send
+					// the bytes should be sent from host so that the first byte
+					// holds the MSB, i.e., the bytes should be sent big endian from the host.
+					// i.e., the msb of the first byte should be the biggest-numbered bit
+					// and the lsb of the last byte is bit 0.
 					EP0BCH = 0;
 					EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
 					SYNCDELAY;
 					while(EP0CS & bmEPBUSY);  // spin here until data arrives
 					
-					for(i=0;i<len;i++){ // send out each byte of cpld config
+					for(i=0;i<len;i++){ // send out each byte of cpld config, each one big endian
 						sendCPLDByte(EP0BUF[i]);
 					}
 					cpldSRLatch=0;
