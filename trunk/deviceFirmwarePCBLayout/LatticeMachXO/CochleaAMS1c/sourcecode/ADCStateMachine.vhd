@@ -59,7 +59,8 @@ architecture Behavioral of ADCStateMachine is
                                         -- input clock frequency: 15 MHz
 
   signal ADCoutMSBxS : std_logic_vector(3 downto 0);
-  signal ChannelxDN, ChannelxDP : std_logic_vector(1 downto 0);
+  signal ChannelxDN, ChannelxDP, ChannelxD, ConfigChannelxD : std_logic_vector(1 downto 0);
+  signal SeqxD : std_logic;
 
   signal ScanPixelxS : std_logic_vector(7 downto 0);
   -- timestamp reset register
@@ -74,8 +75,14 @@ begin
   
   ADCconfigWordxS <= ADCconfigxDI;
   ADCoutxDO <= ADCoutMSBxS(3 downto 0) &  ADCwordxDIO(11 downto 2);
-  ADCoutMSBxS <= '1' & ScanSyncxSI & ChannelxDP;
-  --ChannelxD <= ADCconfigWordxS(6 downto 5);
+  ADCoutMSBxS <= '1' & ScanSyncxSI & ChannelxD;
+  ConfigChannelxD <= ADCconfigWordxS(6 downto 5);
+  SeqxD <= ADCconfigWordxS(2);
+
+  with SeqxD select
+    ChannelxD <=
+    ConfigChannelxD when '0',
+    ChannelxDP      when others;
 
   ScanPixelxS <= '0' & ScanXxSI;
   
@@ -184,6 +191,9 @@ begin
             StatexDN <= stTrack;
           end if;
           ChannelxDN <= ChannelxDP +1;
+          if ChannelxDN > ConfigChannelxD then
+            ChannelxDN <= (others => '0');
+          end if;
         end if;
       when stSinglePixelClockLow =>
         if CountxDP > ScanPixelxS then
