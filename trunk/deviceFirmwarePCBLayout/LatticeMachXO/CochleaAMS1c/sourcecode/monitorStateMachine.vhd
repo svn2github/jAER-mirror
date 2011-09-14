@@ -62,7 +62,7 @@ entity monitorStateMachine is
 end monitorStateMachine;
 
 architecture Behavioral of monitorStateMachine is
-  type state is (stIdle,  stWraddress, stWrTime ,stOverflow,stResetTimestamp, stFifoFull, stReqRelease, stADC);
+  type state is (stIdle,  stWraddress, stWrTime ,stOverflow,stResetTimestamp, stFifoFull, stReqRelease, stADC, stADCTime);
 
   -- for synchronizing AER Req
   signal AERREQxSB: std_logic;
@@ -126,7 +126,7 @@ begin
           -- if inFifo is not full and there is a monitor event, start a
           -- fifoWrite transaction
         elsif ADCvalueReadyxSI ='1' then
-          StatexDN <= stADC;
+          StatexDN <= stADCTime;
         elsif AERREQxSB = '0' then
        --   if XxDI = '0' then
             TimestampRegWritexEO <= '0';
@@ -156,7 +156,15 @@ begin
         AddressMSBxDO <= timereset;
         AddressTimestampSelectxSO <= selectaddress;
         FifoWritexEO <= '1';
-      when stADC   =>             -- write the address to the fifo
+      when stADCTime      =>             -- write the timestamp to the fifo
+
+        StatexDN <= stADC;
+    
+        FifoWritexEO             <= '1';
+        TimestampRegWritexEO <= '0';
+        AddressTimestampSelectxSO <= selecttimestamp;
+        AddressMSBxDO <= timestamp;
+     when stADC   =>             -- write the ADC word to the fifo
         
         StatexDN              <= stIdle;
         
