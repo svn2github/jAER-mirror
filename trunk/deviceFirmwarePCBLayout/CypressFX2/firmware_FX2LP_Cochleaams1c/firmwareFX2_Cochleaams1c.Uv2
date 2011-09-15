@@ -44,7 +44,7 @@ Options 1,0,0  // Target 'firmware'
  EnvLib (C:\Keil\C51\LIB\)
  EnvReg (ÿCypress\)
  OrgReg (ÿCypress\)
- TgStat=0
+ TgStat=9
  OutDir (.\)
  OutName (firmwareFX2_Cochleaams1c)
  GenApp=1

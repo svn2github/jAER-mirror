@@ -43,13 +43,25 @@ extern BOOL Selfpwr;
 #define MAX_NAME_LENGTH 4
 #define STRING_ADDRESS (EEPROM_SIZE - MAX_NAME_LENGTH)
 
+#define RUN_ADC 		PC0
+#define CPLD_SR_CLOCK	PC1
+#define CPLD_SR_LATCH	PC2
+#define CPLD_SR_BIT		PC3
+
 #define MSG_TS_RESET 1
 
 // vendor requests
 #define VR_ENABLE_AE_IN 0xB3 // enable IN transfers
 #define VR_DISABLE_AE_IN 0xB4 // disable IN transfers
 #define VR_TRIGGER_ADVANCE_TRANSFER 0xB7 // trigger in packet commit (for host requests for early access to AE data) NOT IMPLEMENTED
+#define VR_CONFIG 0xB8 // write bytes out to SPI to control on-chip biasgen, on-chip scanner, on-chip local gain, on-chip digital config, and off-chip DACs
+				// the wLengthL field of SETUPDAT specifies the number of bytes to write out (max 64 per request)
+				// the bytes are in the data packet
+#define VR_SET_POWERDOWN 0xB9 // control powerDown. wValue controls the powerDown pin. Raise high to power off, lower to power on.
+#define VR_EEPROM_BIASGEN_BYTES 0xBa // write bytes out to EEPROM for power on default
 #define VR_RESETTIMESTAMPS 0xBb 
+#define VR_SETARRAYRESET 0xBc // set the state of the array reset
+#define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels. TCVS320 doesn't have this.
 #define VR_SET_DEVICE_NAME 0xC2
 #define VR_TIMESTAMP_TICK 0xC3
 #define VR_RESET_FIFOS 0xC4
@@ -58,16 +70,9 @@ extern BOOL Selfpwr;
 #define VR_IS_TS_MASTER 0xCB
 #define VR_MISSED_EVENTS 0xCC
 
-#define VR_CONFIG 0xB8 // write bytes out to SPI to control on-chip biasgen, on-chip scanner, on-chip local gain, on-chip digital config, and off-chip DACs
-				// the wLengthL field of SETUPDAT specifies the number of bytes to write out (max 64 per request)
-				// the bytes are in the data packet
-#define VR_SET_POWERDOWN 0xB9 // control powerDown. wValue controls the powerDown pin. Raise high to power off, lower to power on.
-#define VR_EEPROM_BIASGEN_BYTES 0xBa // write bytes out to EEPROM for power on default
+#define VR_RUN_ADC		0xCE
 
-#define VR_SETARRAYRESET 0xBc // set the state of the array reset
-#define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels. TCVS320 doesn't have this.
-
-#define BIAS_FLASH_START 9 // start of bias value (this is where number of bytes is stored
+#define BIAS_FLASH_START 9 // start of bias value (this is where number of bytes is stored)
 
 #define	VR_UPLOAD		0xc0
 #define VR_DOWNLOAD		0x40
@@ -204,8 +209,6 @@ sbit dacBitIn=IOD^2; 	// DAC data
 sbit dataSel=IOD^3;
 sbit addSel=IOD^4;
 sbit biasgenSel=IOD^5; 
-
-
 
 // following select the ipot, addr or data shiftregisters for input
 // note these are changed from original notion so that all select are high normally (no one selected)
@@ -952,6 +955,17 @@ BOOL DR_VendorCmnd(void)
 				tsReset=1; // RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
 				tsReset=0; // RESET_TS=0;
 
+				break;
+			}
+		case VR_RUN_ADC:
+			{	
+				if (SETUPDAT[2])
+				{
+					RUN_ADC=1;
+				} else 
+				{
+					RUN_ADC=0;
+				}
 				break;
 			}
 		case VR_CONFIG: // write bytes to SPI interface
