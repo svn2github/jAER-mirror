@@ -92,7 +92,7 @@ begin
     (others => 'Z')       when others;
   
 -- calculate next state and outputs
-  p_memless : process (StatexDP, DividerxDP, ADCbusyxSI, ClockxC, SRLatchxEI, IdleTimexDI,  TrackTimexDI, RunADCxSI, CountxDP,ScanEnablexSI, ScanPixelxS, ScanSyncxSI, ChannelxDP)
+  p_memless : process (StatexDP, DividerxDP, ADCbusyxSI, ClockxC, SRLatchxEI, IdleTimexDI,  TrackTimexDI, RunADCxSI, CountxDP,ScanEnablexSI, ScanPixelxS, ScanSyncxSI, ChannelxDP, ConfigChannelxD)
   begin  -- process p_memless
     -- default assignements: stay in present state
 
@@ -191,7 +191,7 @@ begin
             StatexDN <= stTrack;
           end if;
           ChannelxDN <= ChannelxDP +1;
-          if ChannelxDN > ConfigChannelxD then
+          if ChannelxDP > ConfigChannelxD then
             ChannelxDN <= (others => '0');
           end if;
         end if;
