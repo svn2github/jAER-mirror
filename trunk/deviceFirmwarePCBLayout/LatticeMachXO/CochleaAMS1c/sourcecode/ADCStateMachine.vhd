@@ -191,7 +191,7 @@ begin
             StatexDN <= stTrack;
           end if;
           ChannelxDN <= ChannelxDP +1;
-          if ChannelxDP > ConfigChannelxD then
+          if ChannelxDP = ConfigChannelxD then
             ChannelxDN <= (others => '0');
           end if;
         end if;
