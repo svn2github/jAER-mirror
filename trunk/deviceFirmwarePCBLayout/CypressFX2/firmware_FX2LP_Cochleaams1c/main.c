@@ -209,6 +209,8 @@ sbit dacBitIn=IOD^2; 	// DAC data
 sbit dataSel=IOD^3;
 sbit addSel=IOD^4;
 sbit biasgenSel=IOD^5; 
+sbit vCtrlKillBit=IOD^6; 
+sbit aerKillBit=IOD^7;  // yBit is inside CPLD SR now
 
 // following select the ipot, addr or data shiftregisters for input
 // note these are changed from original notion so that all select are high normally (no one selected)
@@ -230,7 +232,6 @@ sbit biasgenSel=IOD^5;
 #define ledToggle() IOE^=FXLEDMask // check this one, is xor correct?
 
 
-//sbit dacNLDAC=IOD^7; // debug - board was hacked for this and removed
 
 #define selectLPFKill yBit=0
 #define selectBPFKill yBit=1
@@ -273,6 +274,10 @@ void EEPROMWriteBYTE(WORD addr, BYTE value);
 
 void downloadSerialNumberFromEEPROM(void);
 void initDAC();
+
+#define NUM_CPLD_BYTES 8
+
+idata unsigned char cpldSRBytes[NUM_CPLD_BYTES]; // used to cache CPLD shift register contents
 
 //-----------------------------------------------------------------------------
 // Task Dispatcher hooks
@@ -1110,25 +1115,34 @@ in big endian format.
 					sendOnChipConfigBits(SETUPDAT[4]&0x1f,5);	   // what is this for?
 					
 					sendOnChipConfigBits((SETUPDAT[4]>>5)|(SETUPDAT[5]<<3),5);
-/* commented out because of bug in cochleaams1b where select of a single kill bit is inverted so everybody but the one you want
-is selected. however, the equalizer DAC current splitters still work
+
+/* needs to be fixed now because yBit is not defined above and aerKillBit is now coming from CPLD and so needs reload of CPLD configuration */
 					
 					// set each killbit
-					selectLPFKill; // clears ybit
+					// clear ybit
+					cpldSRBytes[0]&= ~1;  // clear lsb of first byte, which is yBit
+					for(i=0;i<NUM_CPLD_BYTES;i++){
+						sendCPLDByte(cpldSRBytes[i]);
+					}
+
 					if(SETUPDAT[5]&4){ // kill LPF						
 						aerKillBit=0; // hack
 					}else{
 						aerKillBit=0;
 					}
 					toggleOnChipLatch();
-					
-					selectBPFKill; // sets ybit
+										
+					// set ybit
+					cpldSRBytes[0]|= 1;  // clear lsb of first byte, which is yBit
+					for(i=0;i<NUM_CPLD_BYTES;i++){
+						sendCPLDByte(cpldSRBytes[i]);
+					}
+
 					if(SETUPDAT[5]&8){ // kill BPF						
 						aerKillBit=0; // hack
 					}else{
 						aerKillBit=0;
 					}
-*/
 					toggleOnChipLatch();
 					selectNone;
 
@@ -1152,6 +1166,7 @@ is selected. however, the equalizer DAC current splitters still work
 					
 					for(i=0;i<len;i++){ // send out each byte of cpld config, each one big endian
 						sendCPLDByte(EP0BUF[i]);
+						cpldSRBytes[i]=EP0BUF[i]; // make sure we don't sent too many to overflow this buffer, which is in idata space
 					}
 					cpldSRLatch=0;
 					//_nop_();

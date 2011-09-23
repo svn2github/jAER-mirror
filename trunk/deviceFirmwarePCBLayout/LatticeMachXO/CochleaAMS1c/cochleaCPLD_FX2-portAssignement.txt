@@ -16,7 +16,7 @@
 *  BiasgenSelxSO <= PDxSIO(5);//  selects only biasgen select, turns off addr and data selects, leaves other bits untouched
   
 // other bits
-  VctrlKillBitxSO <= PDxSIO(6); // ???
+  VctrlKillBitxSO <= PDxSIO(6); // vCtlKillBit
 *  AERkillBitxSO <= PDxSIO(7); // Set to (1) after Setting of AddrSel and Ybit to kill 4 neurons
 
 *	PowerdownxEO <= PE2xSI; // onchip masterbias shutdown - routed through CPLD pin R16 to coch chip powerdown input pin K1
