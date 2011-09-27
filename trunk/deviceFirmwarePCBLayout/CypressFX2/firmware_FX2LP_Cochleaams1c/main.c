@@ -438,7 +438,7 @@ clocksource in the FX2 for the slave FIFO clock source.
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
-	if(cycleCounter++>=100000){
+	if(cycleCounter++>=300000){
 		
 		ledToggle();	
 		cycleCounter=0; // this makes a slow heartbeat with period of about 1s on the LED to show firmware is running
@@ -1115,8 +1115,6 @@ in big endian format.
 					sendOnChipConfigBits(SETUPDAT[4]&0x1f,5);	   // what is this for?
 					
 					sendOnChipConfigBits((SETUPDAT[4]>>5)|(SETUPDAT[5]<<3),5);
-
-/* needs to be fixed now because yBit is not defined above and aerKillBit is now coming from CPLD and so needs reload of CPLD configuration */
 					
 					// set each killbit
 					// clear ybit
@@ -1124,22 +1122,28 @@ in big endian format.
 					for(i=0;i<NUM_CPLD_BYTES;i++){
 						sendCPLDByte(cpldSRBytes[i]);
 					}
+					cpldSRLatch=0;
+					//_nop_();
+					cpldSRLatch=1;
 
 					if(SETUPDAT[5]&4){ // kill LPF						
-						aerKillBit=0; // hack
+						aerKillBit=1; // hack
 					}else{
 						aerKillBit=0;
 					}
 					toggleOnChipLatch();
 										
 					// set ybit
-					cpldSRBytes[0]|= 1;  // clear lsb of first byte, which is yBit
+					cpldSRBytes[0]|= 1;  // set lsb of first byte, which is yBit
 					for(i=0;i<NUM_CPLD_BYTES;i++){
 						sendCPLDByte(cpldSRBytes[i]);
 					}
+					cpldSRLatch=0;
+					//_nop_();
+					cpldSRLatch=1;
 
 					if(SETUPDAT[5]&8){ // kill BPF						
-						aerKillBit=0; // hack
+						aerKillBit=1; // hack
 					}else{
 						aerKillBit=0;
 					}

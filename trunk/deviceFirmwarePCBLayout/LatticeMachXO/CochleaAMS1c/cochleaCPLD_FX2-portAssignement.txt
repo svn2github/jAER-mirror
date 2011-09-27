@@ -53,7 +53,7 @@
   PreampARxS <= SRDataOutxD(5);
   PreampARTristateEnablexE <= SRDataOutxD(6);
   PreampGainLxS <= SRDataOutxD(7);
-  PreampGainLTristateEnablexE <= SRDataOutxD(8);
+  PreampGainLTristateEnablexE <= SRDataOutxD(8); -- left and right are actually swapped on board
   PreampGainRxS <= SRDataOutxD(9);
   PreampGainRTristateEnablexE <= SRDataOutxD(10);
   
@@ -64,7 +64,7 @@
   
   // onchip scanner control
   ScanXxS <= SRDataOutxD(61 downto 55);          --- which channel to look at
-  ScanSelectxS <= SRDataOutxD(62);               --- which one of the two shift registers to look at
+  ScanSelectxS <= SRDataOutxD(62);               --- which one of the two shift registers (basilar membrane BPF (0) or ganglion cell neuron membrane (1)) to look at - the cochlea has two independent sync outputs
   ScanEnablexS <= SRDataOutxD(63);               --- scanning or single pixel
 
   
