@@ -67,7 +67,7 @@ architecture Behavioral of ADCStateMachine is
   signal DividerxDP, DividerxDN : std_logic_vector(16 downto 0);
 
   constant configword : std_logic_vector(11 downto 0) := "000101100000";--"100101101000";
-  signal CountxDN, CountxDP : std_logic_vector(8 downto 0);
+  signal CountxDN, CountxDP : std_logic_vector(7 downto 0);
 
 
 begin
@@ -92,7 +92,7 @@ begin
     (others => 'Z')       when others;
   
 -- calculate next state and outputs
-  p_memless : process (StatexDP, DividerxDP, ADCbusyxSI, ClockxC, SRLatchxEI, IdleTimexDI,  TrackTimexDI, RunADCxSI, CountxDP,ScanEnablexSI, ScanPixelxS, ScanSyncxSI, ChannelxDP, ConfigChannelxD)
+  p_memless : process (StatexDP, DividerxDP, ADCbusyxSI, ClockxC, SRLatchxEI, IdleTimexDI,  TrackTimexDI, RunADCxSI, CountxDP,ScanEnablexSI, ScanPixelxS, ScanSyncxSI, ChannelxDP, ConfigChannelxD, SeqxD)
   begin  -- process p_memless
     -- default assignements: stay in present state
 
@@ -138,6 +138,7 @@ begin
           end if;
         end if;
         DividerxDN <= (others => '0');
+        CountxDN <= (others => '0');
         ADCconvstxEBO <= '0';
       when stInit =>
  
@@ -148,7 +149,9 @@ begin
         ADCconvstxEBO <= '1';
         DividerxDN <= DividerxDP + 1;
 
-        if ScanEnablexSI='1' then
+        if ScanEnablexSI='1' and SeqxD='0' then
+          ScanClockxSO <= '1';
+        elsif ScanEnablexSI='1' and SeqxD='1' and ChannelxDP="00" then
           ScanClockxSO <= '1';
         end if;
 
@@ -202,7 +205,7 @@ begin
           StatexDN <= stSinglePixelClockHigh;
         end if;
 
-        if ScanSyncxSI = '1' then
+        if ScanSyncxSI = '0' then
           DividerxDN <= "00000000000000001";            -- divider >0 indicates that we
                                         -- received sync, now count up to the
                                         -- desired channel
