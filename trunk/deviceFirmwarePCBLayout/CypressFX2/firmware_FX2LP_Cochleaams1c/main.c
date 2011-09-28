@@ -170,14 +170,14 @@ sbit PD0=IOD^0; etc
 
 */
 // Clocks one bit into one of the on-chip shift registers
-#define clockConfigOnce(); IOE&=~BitClockMask;  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); IOE|=BitClockMask; // gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
+#define clockConfigOnce(); IOE&=~BitClockMask;  _nop_();  _nop_();  _nop_();  _nop_();  _nop_();  _nop_();  _nop_();  _nop_();  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); IOE|=BitClockMask; // gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
 
 
 //sbit latch=IOD^4;		// onchip data latch
 #define setLatch() IOE|=BitLatchMask
 #define clearLatch() IOE&=~BitLatchMask
 // latch input is 0=opaque, 1=transparent. toggleLatch latches the outputs of the shift registers.
-#define toggleOnChipLatch() _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); setLatch(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); clearLatch(); 
+#define toggleOnChipLatch() _nop_();  _nop_();   _nop_();  _nop_();  _nop_();  _nop_();  _nop_(); _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); setLatch(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); clearLatch(); 
 
 
 
@@ -193,6 +193,7 @@ sbit tsReset=IOA^7;		// timestamp reset to CPLD
 sbit runCPLD=IOA^3;		// runXs, run event acquisition
 sbit TIMESTAMP_MASTER=IOA^1; // signals whether this board is timestamp master
 
+sbit runADC=IOC^0;
 sbit cpldSRClk=IOC^1;		// CPLD config shift register
 sbit cpldSRLatch=IOC^2;
 sbit cpldSRBit=IOC^3;
@@ -277,7 +278,10 @@ void initDAC();
 
 #define NUM_CPLD_BYTES 8
 
-idata unsigned char cpldSRBytes[NUM_CPLD_BYTES]; // used to cache CPLD shift register contents
+void sendCPLDState();
+void sendCPLDByte(unsigned char dat);
+
+xdata unsigned char cpldSRBytes[NUM_CPLD_BYTES]; // used to cache CPLD shift register contents
 
 //-----------------------------------------------------------------------------
 // Task Dispatcher hooks
@@ -488,6 +492,20 @@ void sendCPLDByte(unsigned char dat){
 	}
 }
 
+// assumes that bytes have been cached in cpldSRBytes
+void sendCPLDState(){
+	bit oldADCState;
+	int i;
+	oldADCState=runADC;
+	runADC=0;
+	for(i=0;i<NUM_CPLD_BYTES;i++){
+		sendCPLDByte(cpldSRBytes[i]);
+	}
+	cpldSRLatch=0;
+	//_nop_();
+	cpldSRLatch=1;
+	runADC=oldADCState;
+}
 
 /* implemented on host via SET_VDAC
 
@@ -966,10 +984,10 @@ BOOL DR_VendorCmnd(void)
 			{	
 				if (SETUPDAT[2])
 				{
-					RUN_ADC=1;
+					runADC=1;
 				} else 
 				{
-					RUN_ADC=0;
+					runADC=0;
 				}
 				break;
 			}
@@ -1116,15 +1134,11 @@ in big endian format.
 					
 					sendOnChipConfigBits((SETUPDAT[4]>>5)|(SETUPDAT[5]<<3),5);
 					
-					// set each killbit
+	/*
+				// set each killbit
 					// clear ybit
 					cpldSRBytes[0]&= ~1;  // clear lsb of first byte, which is yBit
-					for(i=0;i<NUM_CPLD_BYTES;i++){
-						sendCPLDByte(cpldSRBytes[i]);
-					}
-					cpldSRLatch=0;
-					//_nop_();
-					cpldSRLatch=1;
+					sendCPLDState();
 
 					if(SETUPDAT[5]&4){ // kill LPF						
 						aerKillBit=1; // hack
@@ -1135,24 +1149,22 @@ in big endian format.
 										
 					// set ybit
 					cpldSRBytes[0]|= 1;  // set lsb of first byte, which is yBit
-					for(i=0;i<NUM_CPLD_BYTES;i++){
-						sendCPLDByte(cpldSRBytes[i]);
-					}
-					cpldSRLatch=0;
-					//_nop_();
-					cpldSRLatch=1;
+					sendCPLDState();
 
 					if(SETUPDAT[5]&8){ // kill BPF						
 						aerKillBit=1; // hack
 					}else{
 						aerKillBit=0;
 					}
+
+*/
 					toggleOnChipLatch();
 					selectNone;
 
 					ledToggle();
 					break;
 				case CMD_RESET_EQUALIZER:
+					
 					return TRUE;  // not yet implmented
 					ledToggle();
 					break;
@@ -1168,13 +1180,10 @@ in big endian format.
 					SYNCDELAY;
 					while(EP0CS & bmEPBUSY);  // spin here until data arrives
 					
-					for(i=0;i<len;i++){ // send out each byte of cpld config, each one big endian
-						sendCPLDByte(EP0BUF[i]);
+					for(i=0;i<len;i++){ // save CPLD config each one big endian
 						cpldSRBytes[i]=EP0BUF[i]; // make sure we don't sent too many to overflow this buffer, which is in idata space
 					}
-					cpldSRLatch=0;
-					//_nop_();
-					cpldSRLatch=1;
+					sendCPLDState();
 
 										
 					ledToggle();
