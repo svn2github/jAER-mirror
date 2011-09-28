@@ -639,10 +639,12 @@ begin
   
 
   --DebugxSIO(3) <= ADCconvstxEB;
-  --DebugxSIO(0) <= '0';
+  DebugxSIO(0) <= ScanEnablexS;
+  DebugxSIO(1) <= ScanSyncxS;
+  DebugxSIO(7 downto 2) <= ScanXxS(5 downto 0);
   --DebugxSIO(2) <= '1';
  -- DebugxSIO(4) <= ADCbusyxS;
-  DebugxSIO(7 downto 0) <= ActualTimestampxD(7 downto 0);
+--  DebugxSIO(7 downto 0) <= ActualTimestampxD(7 downto 0);
 --  DebugxSIO(7) <= FX2FifoWritexEB;
 --  DebugxSIO(6) <= FX2FifoPktEndxSB;
  -- DebugxSIO(5) <= SRLatchxE;

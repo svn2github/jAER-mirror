@@ -206,7 +206,7 @@ begin
         end if;
 
         if ScanSyncxSI = '0' then
-          DividerxDN <= "00000000000000001";            -- divider >0 indicates that we
+          DividerxDN(0) <= '1';            -- divider >0 indicates that we
                                         -- received sync, now count up to the
                                         -- desired channel
         end if;
@@ -214,10 +214,16 @@ begin
         StatexDN <= stSinglePixelClockLow;
 
         ScanClockxSO <= '1';
-        if DividerxDP >0 then
+        if DividerxDP(0)='1' then
           CountxDN <= CountxDP +1;
         else
           CountxDN <= (others => '0');
+        end if;
+
+        if ScanSyncxSI = '0' then
+          DividerxDN(0) <= '1';            -- divider >0 indicates that we
+          CountxDN <= CountxDP +1;          -- received sync, now count up to the
+                                        -- desired channel
         end if;
       when others      => null;
     end case;
