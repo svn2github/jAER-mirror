@@ -41,13 +41,13 @@ entity USBAER_top_level is
     ResetxRBI : in std_logic;
 
     -- ports to synchronize other USBAER boards
-    TriggerxABI   : in  std_logic;        -- needs synchronization
+    SyncInxABI   : in  std_logic;        -- needs synchronization
     SyncOutxSBO : out std_logic;
 
     -- communication with 8051
     ConfigxSI      : in  std_logic;
-    TriggerModexSI        : in  std_logic;
-    TimestampMasterxSO    : out std_logic;
+    UnusedxSI        : in  std_logic;
+    TimestampMasterxSI    : in std_logic;
     HostResetTimestampxSI : in  std_logic;
     RunMonitorxSI : in std_logic;
    -- Interrupt0xSB0        : out std_logic;
@@ -98,17 +98,16 @@ architecture Structural of USBAER_top_level is
 
   component synchronizerStateMachine
     port (
-      ClockxCI              : in  std_logic;
-      ResetxRBI             : in  std_logic;
-      RunxSI : in std_logic;
-      ConfigxSI             : in  std_logic;
-      TriggerxABI             : in  std_logic;
-      TriggerxSO            : out std_logic;
-      SyncOutxSBO : out std_logic;
-      HostResetTimestampxSI : in  std_logic;
-      MasterxSO             : out std_logic;
-      ResetTimestampxSBO    : out std_logic;
-      IncrementCounterxSO   : out std_logic);
+      ClockxCI              : in    std_logic;
+      ResetxRBI             : in    std_logic;
+      RunxSI                : in    std_logic;
+      ConfigxSI             : in    std_logic;
+      SyncInxABI           : in std_logic;
+      SyncOutxSBO          : out std_logic;
+      TriggerxSO            : out   std_logic;
+      HostResetTimestampxSI : in    std_logic;    
+      ResetTimestampxSBO    : out   std_logic;
+      IncrementCounterxSO   : out   std_logic);
   end component;
 
   component monitorStateMachine
@@ -205,18 +204,13 @@ architecture Structural of USBAER_top_level is
   -- signals regarding the timestamp
   signal TimestampOverflowxS   : std_logic;
   signal TimestampMSBxD          : std_logic_vector(1 downto 0);
-  signal TimestampMasterxS     : std_logic;
 
-  -- enable signals for monitor
-  signal RunMonitorxS : std_logic;
+ 
 
   -- various
   signal FifoTransactionxS : std_logic;
   signal FifoPktEndxSB     : std_logic;
 
-  signal SyncOutxSB : std_logic;
-
-  signal LEDxDN, LEDxDP : std_logic;
   -- counter increment signal
   signal IncxS : std_logic;
 
@@ -229,7 +223,8 @@ begin
   
   ClockxC  <= ClockxCI;
   -- run the state machines either when reset is high or when in slave mode
-  RunxS <= RunMonitorxSI or not TimestampMasterxS;
+  RunxS <= RunMonitorxSI;
+  
   
   --Interrupt0xSB0 <= '1';
   Interrupt1xSB0 <= '1';
@@ -237,15 +232,6 @@ begin
   FifoReadxEBO <= '1';
   FifoOutputEnablexEBO <= '1';
 
-p_LED: process (TriggerxS,LEDxDP, TimestampMasterxS, ConfigxSI)
-  begin  -- process p_LED
-    LEDxDN <= LEDxDP;
-    if ConfigxSI = '0' then
-      LEDxDN <= TimestampMasterxS;
-    elsif TriggerxS = '1' then
-      LEDxDN <= not LEDxDP;
-    end if;
-  end process p_LED;  
   
   FifoAddressRegInxD <= MonitorAddressxD;
   FifoAddressxD <= FifoAddressRegOutxD; 
@@ -332,18 +318,17 @@ p_LED: process (TriggerxS,LEDxDP, TimestampMasterxS, ConfigxSI)
       DataxDO       => ActualTimestampxD);
 
   CounterResetxRB <= ResetxRBI and SynchronizerResetTimestampxSB;
-  
-  uSyncStateMachine : synchronizerStateMachine
+
+  synchronizerStateMachine_1: synchronizerStateMachine
     port map (
       ClockxCI              => ClockxC,
       ResetxRBI             => ResetxRBI,
-      RunxSI => RunxS,
+      RunxSI                => RunxS,
       ConfigxSI             => ConfigxSI,
-      TriggerxABI             => TriggerxABI,
+      SyncInxABI           => SyncInxABI,
+      SyncOutxSBO          => SyncOutxSBO,
       TriggerxSO            => TriggerxS,
-      SyncOutxSBO            =>  SyncOutxSB,
       HostResetTimestampxSI => HostResetTimestampxSI,
-      MasterxSO             => TimestampMasterxS,
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
       IncrementCounterxSO   => IncxS);
 
@@ -372,7 +357,7 @@ p_LED: process (TriggerxS,LEDxDP, TimestampMasterxS, ConfigxSI)
     port map (
       ClockxCI             => ClockxC,
       ResetxRBI            => ResetxRBI,
-      RunxSI               => RunMonitorxS,
+      RunxSI               => RunMonitorxSI,
       AERREQxABI           => AERMonitorREQxABI,
       AERACKxSBO           => AERMonitorACKxSB,
       FifoInFullxSBI => FifoInFullxSBI,
@@ -386,12 +371,7 @@ p_LED: process (TriggerxS,LEDxDP, TimestampMasterxS, ConfigxSI)
   
   FifoPktEndxSBO <= FifoPktEndxSB;
  
-  AERMonitorACKxSBO <= AERMonitorACKxSB;
-  
-  -- run monitor either when 8051 signals to do so,
-  -- or when in slave mode
-  RunMonitorxS <= RunMonitorxSI when (TriggerModexSI = '0')
-                  else not TimestampMasterxS;
+  AERMonitorACKxSBO <= AERMonitorACKxSB; 
 
   -- reset early paket timer whenever a paket is sent (short or normal)
   ResetEarlyPaketTimerxS <= (SMResetEarlyPaketTimerxS or ECResetEarlyPaketTimerxS);
@@ -407,15 +387,11 @@ p_LED: process (TriggerxS,LEDxDP, TimestampMasterxS, ConfigxSI)
   --  TriggerTimestampxD   when '1',
   --  ActualTimestampxD when others;
 
-  LEDxSO  <= LEDxDP;
+  LEDxSO  <= ConfigxSI and RunxS;
   --LEDxSO <= FifoTransactionxS;
   
   Debug1xSO <= AERMonitorREQxABI;
   Debug2xSO <= AERMonitorACKxSB;
-
-  SyncOutxSBO <= SyncOutxSB;
-
-  TimestampMasterxSO <= TimestampMasterxS;
 
   -- this process controls the EventReady Register which is used for the
   -- communication between fifoSM and monitor SM
@@ -423,7 +399,6 @@ p_LED: process (TriggerxS,LEDxDP, TimestampMasterxS, ConfigxSI)
   begin  -- process p_eventready
     if RunxS = '0' then              -- asynchronous reset (active low)
       MonitorEventReadyxS   <= '0';
-      LEDxDP <= '0';
     elsif ClockxC'event and ClockxC = '1' then  -- rising clock edge
       if SetMonitorEventReadyxS = '1' and ClearMonitorEventxS = '1' then
         MonitorEventReadyxS <= '0';
@@ -432,7 +407,7 @@ p_LED: process (TriggerxS,LEDxDP, TimestampMasterxS, ConfigxSI)
       elsif ClearMonitorEventxS = '1' then
         MonitorEventReadyxS <= '0';
       end if;
-      LEDxDP <= LEDxDN;
+    
     end if;
   end process p_eventready;
 
