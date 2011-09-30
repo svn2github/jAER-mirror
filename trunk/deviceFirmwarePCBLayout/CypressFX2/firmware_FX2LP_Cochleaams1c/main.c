@@ -1134,7 +1134,7 @@ in big endian format.
 					
 					sendOnChipConfigBits((SETUPDAT[4]>>5)|(SETUPDAT[5]<<3),5);
 					
-	/*
+
 				// set each killbit
 					// clear ybit
 					cpldSRBytes[0]&= ~1;  // clear lsb of first byte, which is yBit
@@ -1157,7 +1157,7 @@ in big endian format.
 						aerKillBit=0;
 					}
 
-*/
+
 					toggleOnChipLatch();
 					selectNone;
 

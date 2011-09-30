@@ -17,14 +17,14 @@
                 <map>
                   <entry key="FilterChain.timeLimitEnabled" value="false"/>
                   <entry key="FilterChain.timeLimitMs" value="0"/>
-                  <entry key="CochleaAMS1cControlPanel.selectedPaneIndex" value="6"/>
+                  <entry key="CochleaAMS1cControlPanel.selectedPaneIndex" value="3"/>
                   <entry key="XYTypeFilter.filterEnabled" value="false"/>
                   <entry key="RotateFilter.filterEnabled" value="false"/>
                   <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
                   <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAADdwQAAAADdAA7bmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5CYWNrZ3JvdW5kQWN0aXZpdHlGaWx0ZXJ0ADRuZXQuc2YuamFlci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlJlcGV0aXRpb3VzRmlsdGVydAAxY2gudW5pemguaW5pLmphZXIucHJvamVjdHMuY29jaHNvdW5kbG9jLklUREZpbHRlcng="/>
                   <entry key="ITDFilter.sendITD_UDP_port" value="localhost:9999"/>
                   <entry key="ITDFilter.writeBin2File" value="false"/>
-                  <entry key="ITDFilter.filterEnabled" value="true"/>
+                  <entry key="ITDFilter.filterEnabled" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.DAC.powered" value="true"/>
                   <entry key="CochleaAMS1c.Biasgen.Scanner.currentStage" value="50"/>
                   <entry key="CochleaAMS1c.Biasgen.BufferIPot.value" value="50"/>
@@ -532,7 +532,7 @@
                   <entry key="CochleaAMS1c.VPot.Vbpf2x" value="956"/>
                   <entry key="CochleaAMS1c.VPot.Vbias2x" value="168"/>
                   <entry key="CochleaAMS1c.VPot.Vbpf1x" value="2305"/>
-                  <entry key="CochleaAMS1c.VPot.Vrefpreamp" value="774"/>
+                  <entry key="CochleaAMS1c.VPot.Vrefpreamp" value="625"/>
                   <entry key="CochleaAMS1c.VPot.Vbias1x" value="2205"/>
                   <entry key="CochleaAMS1c.VPot.Vthbpf1x" value="1222"/>
                   <entry key="CochleaAMS1c.VPot.Vioffbpfn" value="0"/>
@@ -561,14 +561,14 @@
                   <entry key="CochleaAMS1c.IPot.Curstartbpf" value="120611"/>
                   <entry key="CochleaAMS1c.IPot.DacBufferNb" value="14206029"/>
                   <entry key="CochleaAMS1c.IPot.Vbp" value="134757"/>
-                  <entry key="CochleaAMS1c.IPot.Ibias20OpAmp" value="5"/>
+                  <entry key="CochleaAMS1c.IPot.Ibias20OpAmp" value="1727196"/>
                   <entry key="CochleaAMS1c.IPot.N.C." value="0"/>
                   <entry key="CochleaAMS1c.IPot.NeuronRp" value="386471"/>
-                  <entry key="CochleaAMS1c.IPot.Ibias10OpAmp" value="3"/>
+                  <entry key="CochleaAMS1c.IPot.Ibias10OpAmp" value="1687"/>
                   <entry key="CochleaAMS1c.IPot.Vthbpf2" value="2487"/>
                   <entry key="CochleaAMS1c.IPot.Follbias" value="21619"/>
                   <entry key="CochleaAMS1c.IPot.VbampP" value="20453"/>
-                  <entry key="CochleaAMS1c.IPot.Ibias10OTA" value="5"/>
+                  <entry key="CochleaAMS1c.IPot.Ibias10OTA" value="6"/>
                   <entry key="CochleaAMS1c.IPot.Vthbpf1" value="887877"/>
                   <entry key="CochleaAMS1c.IPot.Curstart " value="2353"/>
                   <entry key="CochleaAMS1c.IPot.NeuronVleak" value="164"/>
@@ -814,10 +814,10 @@
                   <entry key="CochleaAMS1c.Biasgen.ConfigBit.powerDown" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.ConfigBit.nCochleaReset" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.CPLDInt.onchipPreampGain" value="1"/>
-                  <entry key="CochleaAMS1c.Biasgen.CPLDInt.adcConfig" value="352"/>
-                  <entry key="CochleaAMS1c.Biasgen.CPLDInt.adcTrackTime" value="6060"/>
-                  <entry key="CochleaAMS1c.Biasgen.CPLDInt.adcIdleTime" value="4035"/>
-                  <entry key="CochleaAMS1c.Biasgen.CPLDInt.scanChannel" value="0"/>
+                  <entry key="CochleaAMS1c.Biasgen.CPLDInt.adcConfig" value="358"/>
+                  <entry key="CochleaAMS1c.Biasgen.CPLDInt.adcTrackTime" value="1350"/>
+                  <entry key="CochleaAMS1c.Biasgen.CPLDInt.adcIdleTime" value="0"/>
+                  <entry key="CochleaAMS1c.Biasgen.CPLDInt.scanChannel" value="36"/>
                   <entry key="OnChipPreamp" value="Medium"/>
                   <entry key="OffChipPreamp.arRatio" value="Medium"/>
                   <entry key="AbstractConfigValue" value="true"/>
@@ -826,23 +826,23 @@
                   <entry key="CochleaAMS1cHardwareInterface.adcEnabled" value="true"/>
                   <entry key="CochleaAMS1cHardwareInterface.ADCchannel" value="2"/>
                   <entry key="CochleaAMS1cHardwareInterface.IdleTime" value="39"/>
-                  <entry key="ADCHardwareInterfaceProxy.idleTime" value="269"/>
+                  <entry key="ADCHardwareInterfaceProxy.idleTime" value="0"/>
                   <entry key="ADCHardwareInterfaceProxy.adcChannelMask" value="0"/>
                   <entry key="ADCHardwareInterfaceProxy.adcEnabled" value="true"/>
-                  <entry key="ScannerHardwareInterface.scanX" value="12"/>
+                  <entry key="ScannerHardwareInterface.scanX" value="36"/>
                   <entry key="ScannerHardwareInterface.scanContinuouslyEnabled" value="false"/>
-                  <entry key="ADCHardwareInterfaceProxy.trackTime" value="404"/>
+                  <entry key="ADCHardwareInterfaceProxy.trackTime" value="90"/>
                   <entry key="ADCHardwareInterfaceProxy.adcLastChannel" value="3"/>
-                  <entry key="ADCHardwareInterfaceProxy.sequencingEnabled" value="false"/>
+                  <entry key="ADCHardwareInterfaceProxy.sequencingEnabled" value="true"/>
                   <entry key="ADCHardwareInterfaceProxy.adcChannel" value="3"/>
                   <entry key="CochleaAMS1c.VPot.Vpf" value="421"/>
                   <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethodGainGUI.gain0" value="0"/>
                   <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethodGainGUI.offset0" value="0"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain0" value="1"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain1" value="1"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain2" value="1"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain3" value="7"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.offset3" value="-78"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain0" value="4"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain1" value="4"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain2" value="4"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain3" value="4"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.offset3" value="0"/>
                   <entry key="CochleaAMS1b.Biasgen.Scanner.currentStage" value="50"/>
                   <entry key="CochleaAMS1b.Biasgen.BufferIPot.value" value="50"/>
                   <entry key="CochleaAMS1b.Biasgen.Equalizer.EqualizerChannel.0.qsos" value="0"/>
@@ -1499,8 +1499,8 @@
                   <entry key="CPLDBit.yBit" value="false"/>
                   <entry key="CPLDBit.selAER" value="true"/>
                   <entry key="CPLDBit.selIn" value="true"/>
-                  <entry key="CPLDBit.scanSel" value="true"/>
-                  <entry key="CPLDBit.scanContinuouslyEnabled" value="true"/>
+                  <entry key="CPLDBit.scanSel" value="false"/>
+                  <entry key="CPLDBit.scanContinuouslyEnabled" value="false"/>
                   <entry key="TriStateableCPLDBit.preampAttack/Release" value="false"/>
                   <entry key="TriStateableCPLDBit.preamp gain, left" value="true"/>
                   <entry key="TriStateableCPLDBit.preamp gain, right" value="true"/>
@@ -1508,10 +1508,12 @@
                   <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.hidden0" value="false"/>
                   <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.hidden1" value="false"/>
                   <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.hidden3" value="false"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.offset2" value="-43"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.offset2" value="1"/>
                   <entry key="TriStateableCPLDBit.preampAttackRelease" value="false"/>
                   <entry key="TriStateableCPLDBit.preampGain.Right" value="true"/>
                   <entry key="TriStateableCPLDBit.preampGain.Left" value="true"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.offset0" value="-127"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.offset1" value="-108"/>
                 </map>
               </node>
             </node>
