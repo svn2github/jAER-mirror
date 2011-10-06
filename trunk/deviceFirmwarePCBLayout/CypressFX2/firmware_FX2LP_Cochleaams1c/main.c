@@ -177,7 +177,7 @@ sbit PD0=IOD^0; etc
 #define setLatch() IOE|=BitLatchMask
 #define clearLatch() IOE&=~BitLatchMask
 // latch input is 0=opaque, 1=transparent. toggleLatch latches the outputs of the shift registers.
-#define toggleOnChipLatch() _nop_();  _nop_();   _nop_();  _nop_();  _nop_();  _nop_();  _nop_(); _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); setLatch(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); clearLatch(); 
+#define toggleOnChipLatch() _nop_(); _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); setLatch(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); clearLatch(); 
 
 
 
@@ -1101,58 +1101,73 @@ BOOL DR_VendorCmnd(void)
 					break;
 				case CMD_EQUALIZER:
 /*
-the scheme right now for loading the AERKillBit and the local Vq's go as follows,
+
+the scheme for loading the AERKillBit and the local Vq's go as follows,
 start with AddSel, which has 7 bits, RX0 to RX6, toggle bitlatch low/high - this signal
 latches the bits for the decoder.
 The output of the decoder is not activated till DataSel is chosen, the 10 bits are loaded, 5 bits
 for Vq of SOS and 5bits for Iq of bpf, then when bitlatch is toggled low/high, then the
-output of the decoder is released.
+output of the decoder is enabled, because DataSel&BitLatch is the data latch for the data registers and NOT the decoder latch.  
+
 During this toggle of latch, the selected channel will also latch in the value on AERKillBit.
 The only thing that I'm worrying about right now is that this value has to be remembered somewhere,
-i.e. if I choose channels 10, 15 neurons to be inactivated, then even if I choose
+i.e. if I choose the neurons from two channels (channels 10 and 15, for example) to be inactivated, 
+then even if I choose
 new values for Vq and Iq, this information has to be stored somewhere. The
-AERKillBit in essence is like an additional bit to the bits for the DataSel.
+AERKillBit in essence is like an additional bit to the bits for the data latches.
 
 */
-// value has cmd in LSB, channel in MSB
-// index has b11=bpfkilled, b10=lpfkilled, b9-5=qbpf, b4-0=qsos
 /*All other 16-bit and 32-bit values are stored, contrary to other Intel
 processors, in big endian format, with the high-order byte stored first. For
 example, the LJMP and LCALL instructions expect 16-bit addresses that are
 in big endian format.
 */
-//	index is channel address, bytes={gain,quality,killed (1=killed,0=active)}
+
+/*
+// value has cmd in LSB, channel in MSB
+				value = SETUPDAT[2];		// Get request value
+				value |= SETUPDAT[3] << 8;	// data comes little endian
+// index is channel address, bytes={gain,quality,killed (1=killed,0=active)}
+// index has b11=bpfkilled, b10=lpfkilled, b9-5=qbpf, b4-0=qsos
+				ind = SETUPDAT[4];			// Get index
+				ind |= SETUPDAT[5] << 8;
+				len = SETUPDAT[6];      	// length for data phase
+				len |= SETUPDAT[7] << 8;
+*/
+
 					selectAddr;
-					sendOnChipConfigBits(SETUPDAT[3],7); // send 7 bit address
+					sendOnChipConfigBits(SETUPDAT[3],7); // send 7 bit address from bits 6:0 of setup[3] which is MSB of value in vendor req
 					toggleOnChipLatch();
 					_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
 					selectNone;
 					_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
 					selectData;
 					
-					sendOnChipConfigBits(SETUPDAT[4]&0x1f,5);	   // what is this for?
-					
-					sendOnChipConfigBits((SETUPDAT[4]>>5)|(SETUPDAT[5]<<3),5);
+					// send 5 DAC bits for Q of BPF from bits 4:0 of ind
+					sendOnChipConfigBits(SETUPDAT[4]&0x1f,5);	   
+					// send 5 DAC bits for SOS from bits 9:5 of ind, which is bits 9:8 of setup5 and 7:5 of setup4 
+					// so rightshift setup 4 by 5 bits and OR with setup5 left shifted by 3 bits
+					sendOnChipConfigBits((SETUPDAT[4]>>5)|(SETUPDAT[5]<<3),5); 
 					
 
-				// set each killbit
-					// clear ybit
+					// set each killbit
+					// clear ybit to select the LPF neurons
 					cpldSRBytes[0]&= ~1;  // clear lsb of first byte, which is yBit
 					sendCPLDState();
 
-					if(SETUPDAT[5]&4){ // kill LPF						
-						aerKillBit=1; // hack
+					if(SETUPDAT[5]&4){ // kill LPF based on ind bit 10					
+						aerKillBit=1; 
 					}else{
 						aerKillBit=0;
 					}
 					toggleOnChipLatch();
 										
-					// set ybit
+					// set ybit to select the BPF neurons killbit latches
 					cpldSRBytes[0]|= 1;  // set lsb of first byte, which is yBit
 					sendCPLDState();
 
-					if(SETUPDAT[5]&8){ // kill BPF						
-						aerKillBit=1; // hack
+					if(SETUPDAT[5]&8){ // kill BPF based on ind bit 11					
+						aerKillBit=1; 
 					}else{
 						aerKillBit=0;
 					}
@@ -1180,10 +1195,13 @@ in big endian format.
 					SYNCDELAY;
 					while(EP0CS & bmEPBUSY);  // spin here until data arrives
 					
+					// make sure we don't sent too many to overflow this buffer, which is in RAM somewhere
+					if(len!=NUM_CPLD_BYTES) return(TRUE); // error, sent wrong CPLD config length
+
 					for(i=0;i<len;i++){ // save CPLD config each one big endian
-						cpldSRBytes[i]=EP0BUF[i]; // make sure we don't sent too many to overflow this buffer, which is in idata space
+						cpldSRBytes[i]=EP0BUF[i]; 
 					}
-					sendCPLDState();
+					sendCPLDState(); // send the cached bit string
 
 										
 					ledToggle();
