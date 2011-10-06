@@ -1152,7 +1152,7 @@ in big endian format.
 
 					// set each killbit
 					// clear ybit to select the LPF neurons
-					cpldSRBytes[7]&= ~0x80;  // clear lsb of first byte, which is yBit (bits are written big endian, so bit 63 is actually bit0 host side)
+					cpldSRBytes[7]&= ~0x01;  // clear lsb of first byte, which is yBit (bits are written big endian, so bit 63 is actually bit0 host side)
 					sendCPLDState();
 
 					if(SETUPDAT[5]&4){ // kill LPF based on ind bit 10					
@@ -1163,7 +1163,7 @@ in big endian format.
 					toggleOnChipLatch();
 										
 					// set ybit to select the BPF neurons killbit latches
-					cpldSRBytes[7]|= 0x80;  // set lsb of first byte, which is yBit
+					cpldSRBytes[7]|= 0x01;  // set lsb of first byte, which is yBit
 					sendCPLDState();
 
 					if(SETUPDAT[5]&8){ // kill BPF based on ind bit 11					
