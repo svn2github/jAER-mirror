@@ -170,14 +170,14 @@ sbit PD0=IOD^0; etc
 
 */
 // Clocks one bit into one of the on-chip shift registers
-#define clockConfigOnce(); IOE&=~BitClockMask;  _nop_();  _nop_();  _nop_();  _nop_();  _nop_();  _nop_();  _nop_();  _nop_();  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); IOE|=BitClockMask; // gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
+#define clockConfigOnce(); IOE&=~BitClockMask;  _nop_();  _nop_();  _nop_();  _nop_();  _nop_();  _nop_();  _nop_();  _nop_();  _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); IOE|=BitClockMask; _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();// gives about 700n with 6 nops, which is needed on cochleaams1b because logic is not sized for speed
 
 
 //sbit latch=IOD^4;		// onchip data latch
 #define setLatch() IOE|=BitLatchMask
 #define clearLatch() IOE&=~BitLatchMask
 // latch input is 0=opaque, 1=transparent. toggleLatch latches the outputs of the shift registers.
-#define toggleOnChipLatch() _nop_(); _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); setLatch(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); clearLatch(); 
+#define toggleOnChipLatch() _nop_(); _nop_();_nop_();_nop_();_nop_();  _nop_(); _nop_();  _nop_();  _nop_(); setLatch(); _nop_(); _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_(); _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); clearLatch(); _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
 
 
 

@@ -25,10 +25,10 @@ it finds matching VID 0547 and PID 8801 (USBAERmini2) or
 
 replug the device. windows hardware installation wizard will 
 show up and ask you for the driver. choose advanced driver 
-installation and navigate to /CAVIAR/wp5/USBAER/INI-AE-
-Biasgen/driverUSBIO
+installation and navigate to <jaer root>\drivers\windows\driverDVS_USBAERmini2 .
+These drivers are signed for Windows 32 bit and 64 bit.
 
-if there are problems please see the jAER project 
+If there are problems please see the jAER project 
 http://jaer.wiki.sourceforge.net.
 
 If you don't want to see the New Hardware Found dialog every 

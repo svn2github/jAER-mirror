@@ -17,12 +17,7 @@
                 <map>
                   <entry key="FilterChain.timeLimitEnabled" value="false"/>
                   <entry key="FilterChain.timeLimitMs" value="0"/>
-                  <entry key="class ch.unizh.ini.jaer.chip.cochlea.CochleaAMS1b.preferredDisplayMethod" value="ch.unizh.ini.jaer.chip.cochlea.CochleaGramDisplayMethod"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain0" value="5"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain1" value="1"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain2" value="3"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain3" value="3"/>
-                  <entry key="CochleaAMS1cControlPanel.selectedPaneIndex" value="1"/>
+                  <entry key="CochleaAMS1cControlPanel.selectedPaneIndex" value="0"/>
                   <entry key="XYTypeFilter.filterEnabled" value="false"/>
                   <entry key="RotateFilter.filterEnabled" value="false"/>
                   <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
@@ -37,258 +32,258 @@
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.0.qbpf" value="0"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.1.qsos" value="0"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.1.qbpf" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.2.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.2.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.3.qsos" value="0"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.2.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.2.qbpf" value="0"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.3.qsos" value="16"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.3.qbpf" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.4.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.4.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.5.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.5.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.6.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.6.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.7.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.7.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.8.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.8.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.9.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.9.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.10.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.10.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.11.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.11.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.12.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.12.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.13.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.13.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.14.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.14.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.15.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.15.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.16.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.16.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.17.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.17.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.18.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.18.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.19.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.19.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.20.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.20.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.21.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.21.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.22.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.22.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.23.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.23.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.24.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.24.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.25.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.25.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.26.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.26.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.27.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.27.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.28.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.28.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.29.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.29.qbpf" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.30.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.30.qbpf" value="30"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.4.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.4.qbpf" value="24"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.5.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.5.qbpf" value="24"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.6.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.6.qbpf" value="24"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.7.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.7.qbpf" value="0"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.8.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.8.qbpf" value="24"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.9.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.9.qbpf" value="0"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.10.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.10.qbpf" value="0"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.11.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.11.qbpf" value="17"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.12.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.12.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.13.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.13.qbpf" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.14.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.14.qbpf" value="18"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.15.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.15.qbpf" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.16.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.16.qbpf" value="14"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.17.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.17.qbpf" value="24"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.18.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.18.qbpf" value="14"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.19.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.19.qbpf" value="13"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.20.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.20.qbpf" value="13"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.21.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.21.qbpf" value="13"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.22.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.22.qbpf" value="19"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.23.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.23.qbpf" value="13"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.24.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.24.qbpf" value="17"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.25.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.25.qbpf" value="17"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.26.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.26.qbpf" value="17"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.27.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.27.qbpf" value="22"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.28.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.28.qbpf" value="17"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.29.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.29.qbpf" value="17"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.30.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.30.qbpf" value="16"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.31.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.31.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.32.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.32.qbpf" value="30"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.31.qbpf" value="21"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.32.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.32.qbpf" value="16"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.33.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.33.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.34.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.34.qbpf" value="30"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.33.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.34.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.34.qbpf" value="16"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.35.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.35.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.36.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.36.qbpf" value="30"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.35.qbpf" value="14"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.36.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.36.qbpf" value="16"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.37.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.37.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.38.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.38.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.39.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.39.qbpf" value="30"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.37.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.38.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.38.qbpf" value="14"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.39.qsos" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.39.qbpf" value="16"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.40.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.40.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.41.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.41.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.42.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.42.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.43.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.43.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.44.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.44.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.45.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.45.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.46.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.46.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.47.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.47.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.48.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.48.qbpf" value="30"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.40.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.41.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.41.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.42.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.42.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.43.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.43.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.44.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.44.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.45.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.45.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.46.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.46.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.47.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.47.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.48.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.48.qbpf" value="14"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.49.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.49.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.50.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.50.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.51.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.51.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.52.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.52.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.53.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.53.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.54.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.54.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.55.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.55.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.56.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.56.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.57.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.57.qbpf" value="30"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.49.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.50.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.50.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.51.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.51.qbpf" value="14"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.52.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.52.qbpf" value="14"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.53.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.53.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.54.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.54.qbpf" value="14"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.55.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.55.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.56.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.56.qbpf" value="14"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.57.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.57.qbpf" value="14"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.58.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.58.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.59.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.59.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.60.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.60.qbpf" value="30"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.58.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.59.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.59.qbpf" value="19"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.60.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.60.qbpf" value="13"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.61.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.61.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.62.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.62.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.63.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.63.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.64.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.64.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.65.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.65.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.66.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.66.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.67.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.67.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.68.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.68.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.69.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.69.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.70.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.70.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.71.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.71.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.72.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.72.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.73.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.73.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.74.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.74.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.75.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.75.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.76.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.76.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.77.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.77.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.78.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.78.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.79.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.79.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.80.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.80.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.81.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.81.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.82.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.82.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.83.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.83.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.84.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.84.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.85.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.85.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.86.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.86.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.87.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.87.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.88.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.88.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.89.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.89.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.90.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.90.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.91.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.91.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.92.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.92.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.93.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.93.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.94.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.94.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.95.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.95.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.96.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.96.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.97.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.97.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.98.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.98.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.99.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.99.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.100.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.100.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.101.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.101.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.102.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.102.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.103.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.103.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.104.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.104.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.105.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.105.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.106.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.106.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.107.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.107.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.108.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.108.qbpf" value="30"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.109.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.109.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.110.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.110.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.111.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.111.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.112.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.112.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.113.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.113.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.114.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.114.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.115.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.115.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.116.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.116.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.117.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.117.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.118.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.118.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.119.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.119.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.120.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.120.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.121.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.121.qbpf" value="28"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.122.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.122.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.123.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.123.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.124.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.124.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.125.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.125.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.126.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.126.qbpf" value="29"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.127.qsos" value="0"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.127.qbpf" value="29"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.61.qbpf" value="19"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.62.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.62.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.63.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.63.qbpf" value="19"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.64.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.64.qbpf" value="13"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.65.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.65.qbpf" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.66.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.66.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.67.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.67.qbpf" value="19"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.68.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.68.qbpf" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.69.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.69.qbpf" value="13"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.70.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.70.qbpf" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.71.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.71.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.72.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.72.qbpf" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.73.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.73.qbpf" value="12"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.74.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.74.qbpf" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.75.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.75.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.76.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.76.qbpf" value="23"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.77.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.77.qbpf" value="18"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.78.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.78.qbpf" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.79.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.79.qbpf" value="23"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.80.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.80.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.81.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.81.qbpf" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.82.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.82.qbpf" value="23"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.83.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.83.qbpf" value="18"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.84.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.84.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.85.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.85.qbpf" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.86.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.86.qbpf" value="18"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.87.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.87.qbpf" value="18"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.88.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.88.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.89.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.89.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.90.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.90.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.91.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.91.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.92.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.92.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.93.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.93.qbpf" value="21"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.94.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.94.qbpf" value="18"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.95.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.95.qbpf" value="18"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.96.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.96.qbpf" value="18"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.97.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.97.qbpf" value="18"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.98.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.98.qbpf" value="18"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.99.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.99.qbpf" value="18"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.100.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.100.qbpf" value="23"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.101.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.101.qbpf" value="17"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.102.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.102.qbpf" value="17"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.103.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.103.qbpf" value="23"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.104.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.104.qbpf" value="17"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.105.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.105.qbpf" value="17"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.106.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.106.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.107.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.107.qbpf" value="20"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.108.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.108.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.109.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.109.qbpf" value="20"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.110.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.110.qbpf" value="16"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.111.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.111.qbpf" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.112.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.112.qbpf" value="23"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.113.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.113.qbpf" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.114.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.114.qbpf" value="23"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.115.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.115.qbpf" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.116.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.116.qbpf" value="20"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.117.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.117.qbpf" value="14"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.118.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.118.qbpf" value="20"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.119.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.119.qbpf" value="20"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.120.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.120.qbpf" value="13"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.121.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.121.qbpf" value="18"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.122.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.122.qbpf" value="13"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.123.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.123.qbpf" value="12"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.124.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.124.qbpf" value="12"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.125.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.125.qbpf" value="11"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.126.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.126.qbpf" value="11"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.127.qsos" value="15"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.127.qbpf" value="11"/>
                   <entry key="AEChip.subSamplingEnabled" value="false"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.Vcas" value="7661"/>
                   <entry key="CochleaAMSWithBiasgen.IPot.pdbiasTX" value="2307606"/>
@@ -532,7 +527,7 @@
                   <entry key="CochleaAMS1c.Biasgen.BitConfig.selAER" value="true"/>
                   <entry key="CochleaAMS1c.VPot.Vterm" value="211"/>
                   <entry key="CochleaAMS1c.VPot.Vrefhres" value="1263"/>
-                  <entry key="CochleaAMS1c.VPot.VthAGC" value="1256"/>
+                  <entry key="CochleaAMS1c.VPot.VthAGC" value="1795"/>
                   <entry key="CochleaAMS1c.VPot.Vrefreadout" value="1415"/>
                   <entry key="CochleaAMS1c.VPot.Vbpf2x" value="956"/>
                   <entry key="CochleaAMS1c.VPot.Vbias2x" value="168"/>
@@ -575,7 +570,7 @@
                   <entry key="CochleaAMS1c.IPot.VbampP" value="20453"/>
                   <entry key="CochleaAMS1c.IPot.Ibias10OTA" value="5"/>
                   <entry key="CochleaAMS1c.IPot.Vthbpf1" value="887877"/>
-                  <entry key="CochleaAMS1c.IPot.Curstart " value="2353"/>
+                  <entry key="CochleaAMS1c.IPot.Curstart " value="18306"/>
                   <entry key="CochleaAMS1c.IPot.NeuronVleak" value="164"/>
                   <entry key="CochleaAMS1c.IPot.Vioffbpfn" value="0"/>
                   <entry key="CochleaAMS1c.IPot.Vcasbpf" value="25532"/>
@@ -612,7 +607,7 @@
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.26.bpfkilled" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.25.bpfkilled" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.24.bpfkilled" value="false"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.8.bpfkilled" value="false"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.8.bpfkilled" value="true"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.7.bpfkilled" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.6.bpfkilled" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.5.bpfkilled" value="false"/>
@@ -699,8 +694,8 @@
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.112.bpfkilled" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.111.bpfkilled" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.110.bpfkilled" value="false"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.109.bpfkilled" value="false"/>
-                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.108.bpfkilled" value="false"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.109.bpfkilled" value="true"/>
+                  <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.108.bpfkilled" value="true"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.95.bpfkilled" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.93.bpfkilled" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.Equalizer.EqualizerChannel.12.bpfkilled" value="false"/>
@@ -843,6 +838,10 @@
                   <entry key="CochleaAMS1c.VPot.Vpf" value="421"/>
                   <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethodGainGUI.gain0" value="0"/>
                   <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethodGainGUI.offset0" value="0"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain0" value="5"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain1" value="1"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain2" value="3"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain3" value="3"/>
                   <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.offset3" value="121"/>
                   <entry key="CochleaAMS1b.Biasgen.Scanner.currentStage" value="50"/>
                   <entry key="CochleaAMS1b.Biasgen.BufferIPot.value" value="50"/>
@@ -1458,6 +1457,7 @@
                   <entry key="CochleaAMS1b.VPot.Vrefract" value="111"/>
                   <entry key="CochleaAMS1b.VPot.PreampAGCThreshold (TH)" value="2054"/>
                   <entry key="CochleaAMS1b.VPot.NeuronRp" value="2111"/>
+                  <entry key="class ch.unizh.ini.jaer.chip.cochlea.CochleaAMS1b.preferredDisplayMethod" value="ch.unizh.ini.jaer.chip.cochlea.CochleaGramDisplayMethod"/>
                   <entry key="ISIHistogrammer.tauDecayMs" value="20.0"/>
                   <entry key="SpatialSensoryFusion.filterEnabled" value="false"/>
                   <entry key="BackgroundActivityFilter.dt" value="12374"/>
