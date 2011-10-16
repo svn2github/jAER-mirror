@@ -16,7 +16,7 @@ http://siliconretina.ini.uzh.ch
 Windows: The main viewer can be launched with jAERViewer.exe.
 Logging output can be shown by clicking the "Console" button on the lower right of the viewer.
 
-Linux: USB hardware is only in alpha. Viewer can be launched with jAERViewer.sh script, if run
+Linux: USB hardware is in beta and regularly used with native driver. Viewer can be launched with jAERViewer.sh script, if run
 from root folder of jAER.
 
 
@@ -26,8 +26,9 @@ host - all code that runs on a host machine
 utilities - useful command scripts to launch utilities
 biasgenSettings - on-chip bias settings files for various chips
 filterSettings - various settings for filtering events
-jSmoothExeLauncher - files used for building Windows .exe launchers
+jSmoothExeLauncher - files used for building Windows .exe launchers using jsmoothgen. No longer using. Instead see
+WinRun4J - new launcher started using Oct 2011
 
 
 tobi@ini.phys.ethz.ch
-March 2009
+Oct 2011
