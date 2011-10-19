@@ -1,3 +1,5 @@
+*** jsmoothgen was original launcher for jAERViewer. Now deprecated in jAER in favor of WinRun4J - Tobi Oct 2011 ***
+
 jsmooth is a Java .exe launcher builder. 
 http://sourceforge.net/projects/jsmooth/
 caviarViewer.jsmooth is the project file for building CaviarViewer.exe.
