@@ -1,0 +1,1 @@
+This is the original SiLabs USBXPress firmware for the Tmpdiff128 CAVIAR test board for the Tmpdiff128 chip, with lots of pots and a Rome AER connector on it, from Patrick.  It is no longer used. Should be replaced by ???? some firmware adapted from the PAER board.
