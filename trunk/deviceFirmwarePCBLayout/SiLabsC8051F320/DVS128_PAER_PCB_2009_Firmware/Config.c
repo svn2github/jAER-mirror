@@ -1,4 +1,5 @@
 #include <c8051f320.h>		//	Header file for SiLabs c8051f320  
+#include "USB_Main.h"
 
 void	timerInit(void)
 {
@@ -78,8 +79,15 @@ sbit	LedOrange	=	P0^7;	//	output, blinks to indicate data transmission
 */
 
     // configure port outputs (1 = Push Pull Output)
-    P0MDOUT = 0x0f; // 00001111 Output configuration for P0 - bits 5:4 are inputs, and CEX0 is routed here by crossbar, 
-					// LEDs on 7:6 are also inputs but are used in open drain pulldown mode to turn on LEDs
+    // 00001111 Output configuration for P0 - bits 3:0 are biasgen, bits 5 is REQ input, 4 is ACK
+	//  and CEX0 is routed here by crossbar, 
+	// LEDs on 7:6 are also inputs but are used in open drain pulldown mode to turn on LEDs
+	// ACK is output when HANDSHAKE_ENABLED is defined
+#ifdef HANDSHAKE_ENABLED
+	P0MDOUT = 0x1f;
+#else
+	P0MDOUT = 0x0f;
+#endif
     P1MDOUT = 0x00; // port 1 and 2 are AE bus input
     P2MDOUT = 0x00; 
     P3MDOUT = 0x00; 

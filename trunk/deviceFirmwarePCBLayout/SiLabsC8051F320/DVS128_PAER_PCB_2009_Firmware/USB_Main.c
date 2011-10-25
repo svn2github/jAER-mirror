@@ -1,5 +1,10 @@
 /* 	copyright Tobi Delbruck 11.11.09
 
+tobi 25.10.2011 - 
+added #define HANDSHAKE_ENABLED to use the NOTACK pin to handshake. This is needed on the Tmpdiff128 CAVIAR board when
+the REQ-ACK pins are not shorted by a jumper. But not needed on the PAER board.
+Enabling handshake slightly slows down the loop.
+
 tobi 17.11.2009 -
 Setup AEMonitor.wsp is for SiLabs IDE 3.8 with USBXPress 3.1.1. This setup will not work with previous versions of USBXPress,
 which used a single .lib for all controllers. Now the included lib is USBX_F320_1.LIB.
@@ -62,6 +67,7 @@ binary data.
 */
 
 
+
 #pragma small code 
 // optimize(speed)		// use small model, show assembly in .lst file
 
@@ -71,15 +77,22 @@ binary data.
 #include <INTRINS.H>
 #include "USB_API.h"		//	Header file for USB_API.lib
 #include "Register.h"		//	Header file for the Register definitions
+#include "USB_Main.h"
 
 // USB string identifier constants
 // first element (num chars)*2+2
 // 2nd element 3
 // INI (3*2+2=8)
-unsigned char code ManufacturerStr[]={8,0x03,'I',0,'N',0,'I',0};
+unsigned char code ManufacturerStr[]={26,0x03,'i',0,'n',0,'i',0,'l',0,'a',0,'b',0,'s',0,' ',0,'G',0,'m',0,'b',0,'H',0};
 //USBAER (this shows up in Windows Device Manager under Other Devices if no driver is installed)
-// this string is not returned when USBXPress device driver is loaded. Then product string is "USBXpress Device"
-unsigned char code ProductStr[]={14,0x03,'D',0,'V',0,'S',0,'1',0,'2',0,'8',0};
+// and is returned by USBIO driver as product string
+#ifdef DVS128_PAER
+unsigned char code ProductStr[]={24,0x03,'D',0,'V',0,'S',0,'1',0,'2',0,'8',0,'_',0,'P',0,'A',0,'E',0,'R',0};
+#endif
+#ifdef TMPDIFF128_CAVIAR
+unsigned char code ProductStr[]={36,0x03,'T',0,'m',0,'p',0,'d',0,'i',0,'f',0,'f',0,'1',0,'2',0,'8',0,'_',0,'C',0,'A',0,'V',0,'I',0,'A',0,'R',0};
+#endif
+
 // 20000
 unsigned char code SerialNumberStr[]={12,0x03,'2',0,'0',0,'0',0,'0',0,'0',0};
 
@@ -101,6 +114,8 @@ sbit	BIAS_LATCH=P0^1;		// output, biasgen latch, active high to make latch opaqu
 sbit	BIAS_BITIN=P0^2;		// output, biasgen input bit (for chip, output bit from here), active high to enable current splitter output
 
 sbit	BIAS_POWERDOWN=P0^3;	// output, biasgen powerDown input, active high to power down
+
+// NOTACK defined as output when HANDSHAKE_ENABLED
 sbit	NOTACK	= P0^4;			// input, !ack line, normally output but set as input since we only sniff events here
 sbit	NOTREQ	= P0^5;			// input, !req line
 
@@ -175,7 +190,7 @@ code unsigned char biasFlashValues[BIAS_FLASH_SIZE] _at_ BIAS_FLASH_START;  // c
 // all ports have reset value 0xff, so we don't really need to set these if we set bits to 1
 void initVariables(void){
 	AEByteCounter=0;
-	NOTACK	=	1;	 // not using ACK here (since either req-ack shorted on board or ack comes from external receiver) but set high to avoid open drain pulldown
+	NOTACK	=	1;	 // not using ACK here when !HANDSHAKE_ENABLED (since either req-ack shorted on board or ack comes from external receiver) but set high to avoid open drain pulldown
 //	lastXmitTime=TH0;	
 
 	BIAS_LATCH=1;  		// bias latch opaque
@@ -296,12 +311,13 @@ void main(void)
 				checkWrap();
 			}
 			LedAERToggle();	// got req
-		
-			//NOTACK=0;	// lower acknowledge
-
+#ifdef HANDSHAKE_ENABLED
+			NOTACK=0;	// lower acknowledge
+#endif
 			EA=0; 	// disable interrupts during snapshot of AE to avoid USB interrupt during snapshot
 
-			// On the DVS128_PAER_PCB_2009 board, the AE outputs from the DVS are wired up incorrectly (according to past convention).
+			// On the DVS128_PAER_PCB_2009 board, the AE outputs from the DVS are wired up differently than in
+			// the Tmpdiff128_CAVIAR (according to past convention).
 			// The X bits + polarity are wired as though they were AE15:8 and the y bits Y6:0 are wired to AE6:0.
 			// Therefore we swap the order of sending the bytes over USB here.
 			// The PCB has X7:0 (X0 is polarity) are wired to AE15:8, and Y7:0 (Y7 is not used) are wired to AE7:0
@@ -312,8 +328,13 @@ void main(void)
 			// We send the MSB first which are the Y address bits
 
 
+#ifdef DVS128_PAER
 			p1val=P1;
 			p2val=P2;
+#else
+			p1val=P2;
+			p2val=P1;
+#endif
 
 			usbCommitByte(p1val); // AE14:8, with bit 15 masked out, 7 bit y address	
 			usbCommitByte(p2val);	// AE7:0 - 7 bit x address + 1 bit polarity (AE0)  // P2
@@ -323,8 +344,8 @@ void main(void)
 							
 			EA=1;			// reenable interrupts
 	
-/*		
-following disabled since we are sniffing (Req shorted to Ack on board)
+#ifdef HANDSHAKE_ENABLED
+// following disabled if we are sniffing (Req shorted to Ack on board)
 
 			// if the device is powered off, then its req will be low (no power). so this code will come here and
 			// will have lowered ack and stored a bogus address. now it will wait for req to go high. 
@@ -340,8 +361,8 @@ following disabled since we are sniffing (Req shorted to Ack on board)
 					break;			// break from possibly infinite loop. this will raise ack
 				}
 			}
-			//NOTACK=1;	// raise acknowledge, completing handshake
-*/
+			NOTACK=1;	// raise acknowledge, completing handshake
+#endif
 			//LedAEROff();	// got req
 
 			// measured time from led on to off is 7 to 8 us
@@ -360,7 +381,9 @@ following disabled since we are sniffing (Req shorted to Ack on board)
 		
 			LedAEROn(); 	// !req received
 			// this firmware does not handshake since it sniffs the addresses
-			//NOTACK=0;	// lower acknowledge
+#ifdef HANDSHAKE_ENABLED
+			NOTACK=0;	// lower acknowledge
+#endif
 			while(NOTREQ==0){ // wait for req to go high 
 				if( TF1==1 ) {	// while polling req, check if we have wrapped timer1 since last transfer
 					TF1=0;
@@ -368,7 +391,9 @@ following disabled since we are sniffing (Req shorted to Ack on board)
 				}
 				
 			}
-			//NOTACK=1;	// raise acknowledge, completing handshake
+#ifdef HANDSHAKE_ENABLED
+			NOTACK=1;	// raise acknowledge, completing handshake
+#endif
 			LedAEROff();
 		}
 	}
