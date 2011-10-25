@@ -1,0 +1,31 @@
+a:link, a:visited { 
+  color: #004D91; 
+}
+
+a:hover {
+    color:#E10915;
+}
+
+body, td, th, p, ul, ol, div {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 10pt;
+}
+
+h2 {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 14pt;
+}
+
+h3 {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 12pt;
+}
+
+.TableHeadingColor, .TableSubHeadingColor {
+    background: #004D91;
+    color: white;
+}
+
+table {
+    border-collapse:collapse;
+}
