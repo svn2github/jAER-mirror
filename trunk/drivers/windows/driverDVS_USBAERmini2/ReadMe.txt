@@ -1,15 +1,23 @@
 this folder contains a customized thesycon driver for the 
 following cypressFX2/silabs C8051F3XX devices:
 
-TmpDiff128 retina, VID 0547, PID 8700
-USBAERmini2, VID 0547, PID 8801
-TCVS320 retina, VIC 0547, PID 8702
-USBAERmapper, VID 0547, PID 8900
-Cypress Blank, VID 04B4, PID 8613   // used for blank CypressFX2 - firmeware is downloaded to RAM, which then allows writing the firmware to the EEPROM
-DVS128, VID 152a PID 8400
-SimpleAESequencer VID 152a PID 8410
-CochleaAMS1b, VID 152a PID 8405
-CochleaAMS1c, VID 152a PID 8406
+see drivers/readme.txt for global jaer VID/PID assignment table
+
+TmpDiff128 retina, 		VID 0547, PID 8700
+USBAERmini2, 			VID 0547, PID 8801
+TCVS320 retina, 		VID 0547, PID 8702
+USBAERmapper, 			VID 0547, PID 8900
+
+Cypress Blank, 			VID 04B4, PID 8613   // used for blank CypressFX2 - firmeware is downloaded to RAM, which then allows writing the firmware to the EEPROM
+
+DVS128, 				VID 152a PID 8400
+DVS320, 				VID 152a PID 8401
+CochleaAMS1b, 			VID 152a PID 8405
+CochleaAMS1c, 			VID 152a PID 8406
+cDVSTest, 				VID 152a PID 840a
+SeeBetter, 				VID 152a PID 840b
+SimpleAESequencer 		VID 152a PID 8410
+DVS128_PAER 			VID 152a PID 8411
 
 32 and 64 bit drivers are in separate folders to facilitate driver code signing.
 Drivers are signed using the "iniLabs GmbH" certificate purchased from GlobalSign CA.

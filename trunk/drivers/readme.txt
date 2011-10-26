@@ -32,7 +32,7 @@ The current assignements are as follows for the Thesycon PIDs
 0x8408 
 0x8409 
 0x840A cDVSTest
-0x840B 
+0x840B SeeBetter
 0x840C 
 0x840D 
 0x840E 
