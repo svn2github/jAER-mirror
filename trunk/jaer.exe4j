@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <exe4j version="4.4.2" transformSequenceNumber="1">
-  <directoryPresets config="D:/Users/tobi/Documents/1jaer/trunk/host/java/dist" />
-  <application name="jaer" distributionSourceDir="D:/Users/tobi/Documents/1jaer/trunk">
+  <directoryPresets config="C:/Users/tobi/Documents/1jAERsourceForge" />
+  <application name="jaer" distributionSourceDir=".">
     <languages>
       <principalLanguage id="en" customLocalizationFile="" />
     </languages>
