@@ -507,25 +507,25 @@
                   <entry key="displayLogIntensityChangeEvents" value="true"/>
                   <entry key="displayColorChangeEvents" value="true"/>
                   <entry key="displayLogIntensity" value="false"/>
-                  <entry key="logIntensityGain" value="10"/>
-                  <entry key="logIntensityOffset" value="2774"/>
+                  <entry key="logIntensityGain" value="9"/>
+                  <entry key="logIntensityOffset" value="2862"/>
                   <entry key="intensityDisplayEnabled" value="true"/>
                   <entry key="agcEnabled" value="false"/>
                   <entry key="cDVSTestHardwareInterface.Select5Tbuffer" value="true"/>
                   <entry key="cDVSTestHardwareInterface.ADCchannel" value="3"/>
                   <entry key="cDVSTestHardwareInterface.UseCalibration" value="false"/>
                   <entry key="cDVSTest20.VPot.LogAmpRef" value="113"/>
-                  <entry key="cDVSTestHardwareInterface.IdleTime" value="12"/>
+                  <entry key="cDVSTestHardwareInterface.IdleTime" value="8"/>
                   <entry key="cDVSTestHardwareInterface.RefOffTime" value="21"/>
                   <entry key="cDVSTestHardwareInterface.RefOnTime" value="21"/>
-                  <entry key="cDVSTestHardwareInterface.TrackTime" value="35"/>
+                  <entry key="cDVSTestHardwareInterface.TrackTime" value="42"/>
                   <entry key="cDVSTest20.bgTabbedPaneSelectedIndex" value="2"/>
                   <entry key="cDVSTestHardwareInterface.adcEnabled" value="false"/>
-                  <entry key="cDVSTestHardwareInterface.scanContinuouslyEnabled" value="true"/>
+                  <entry key="cDVSTestHardwareInterface.scanContinuouslyEnabled" value="false"/>
                   <entry key="cDVSTest30.bgTabbedPaneSelectedIndex" value="0"/>
-                  <entry key="cDVSTestHardwareInterface.scanX" value="7"/>
-                  <entry key="cDVSTestHardwareInterface.scanY" value="7"/>
-                  <entry key="intensityScale" value="1.0"/>
+                  <entry key="cDVSTestHardwareInterface.scanX" value="1"/>
+                  <entry key="cDVSTestHardwareInterface.scanY" value="1"/>
+                  <entry key="intensityScale" value="1.1"/>
                   <entry key="XYTypeFilter.startY" value="0"/>
                   <entry key="XYTypeFilter.endY" value="63"/>
                   <entry key="XYTypeFilter.startType" value="0"/>
@@ -538,7 +538,7 @@
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.diff.LowCurrent" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.diff.Sex" value="N"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.diff.Type" value="NORMAL"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.ON.BitValue" value="3981"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.ON.BitValue" value="4698"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.ON.BufferBitValue" value="9"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.ON.Enabled" value="true"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.ON.LowCurrent" value="false"/>
@@ -550,17 +550,17 @@
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.OFF.LowCurrent" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.OFF.Sex" value="N"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.OFF.Type" value="NORMAL"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Red.BitValue" value="338"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Red.BitValue" value="60"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Red.BufferBitValue" value="9"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Red.Enabled" value="true"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Red.LowCurrent" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Red.Sex" value="P"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Red.Type" value="NORMAL"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Blue.BitValue" value="152395"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Blue.BitValue" value="4194303"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Blue.BufferBitValue" value="9"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Blue.Enabled" value="true"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Blue.Enabled" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Blue.LowCurrent" value="false"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Blue.Sex" value="N"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Blue.Sex" value="P"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Blue.Type" value="CASCODE"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Amp.BitValue" value="70"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.Amp.BufferBitValue" value="9"/>
@@ -574,49 +574,49 @@
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pcas.LowCurrent" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pcas.Sex" value="N"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pcas.Type" value="NORMAL"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pixInvB.BitValue" value="179868"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pixInvB.BitValue" value="677367"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pixInvB.BufferBitValue" value="9"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pixInvB.Enabled" value="true"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pixInvB.LowCurrent" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pixInvB.Sex" value="N"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pixInvB.Type" value="NORMAL"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pr.BitValue" value="901"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pr.BitValue" value="397"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pr.BufferBitValue" value="9"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pr.Enabled" value="true"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pr.LowCurrent" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pr.Sex" value="P"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.pr.Type" value="NORMAL"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.fb.BitValue" value="1062"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.fb.BitValue" value="551"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.fb.BufferBitValue" value="9"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.fb.Enabled" value="true"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.fb.LowCurrent" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.fb.Sex" value="P"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.fb.Type" value="NORMAL"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.refr.BitValue" value="39"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.refr.BitValue" value="24"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.refr.BufferBitValue" value="9"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.refr.Enabled" value="true"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.refr.LowCurrent" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.refr.Sex" value="P"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.refr.Type" value="NORMAL"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqPd.BitValue" value="10751"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqPd.BitValue" value="7720"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqPd.BufferBitValue" value="9"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqPd.Enabled" value="true"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqPd.LowCurrent" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqPd.Sex" value="N"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqPd.Type" value="CASCODE"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqEndPd.BitValue" value="29054"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqEndPd.BitValue" value="56376"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqEndPd.BufferBitValue" value="9"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqEndPd.Enabled" value="true"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqEndPd.LowCurrent" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqEndPd.Sex" value="N"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AReqEndPd.Type" value="CASCODE"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AEPuX.BitValue" value="551"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AEPuX.BitValue" value="12688"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AEPuX.BufferBitValue" value="9"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AEPuX.Enabled" value="true"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AEPuX.LowCurrent" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AEPuX.Sex" value="P"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AEPuX.Type" value="NORMAL"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AEPuY.BitValue" value="573904"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AEPuY.BitValue" value="92689"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AEPuY.BufferBitValue" value="9"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AEPuY.Enabled" value="true"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.AEPuY.LowCurrent" value="false"/>
@@ -642,7 +642,7 @@
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.FollPadBias.Type" value="NORMAL"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.ROgate.BitValue" value="4"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.ROgate.BufferBitValue" value="10"/>
-                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.ROgate.Enabled" value="true"/>
+                  <entry key="SeeBetter1011_Temporary.ConfigurableIPot.ROgate.Enabled" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.ROgate.LowCurrent" value="false"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.ROgate.Sex" value="P"/>
                   <entry key="SeeBetter1011_Temporary.ConfigurableIPot.ROgate.Type" value="NORMAL"/>
