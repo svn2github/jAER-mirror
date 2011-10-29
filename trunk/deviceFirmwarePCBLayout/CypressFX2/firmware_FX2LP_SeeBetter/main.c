@@ -27,17 +27,18 @@ extern BOOL Selfpwr;
 
 //WORD packetSize;
 
-#define CPLD_NOT_RESET 			0x80  // PE7
-#define DVS_nReset 				0x08  // PE3
+// port E, not bit addressable - more bits are in biasgen.h
+#define CPLD_NOT_RESET 			0x80  // PE7 called nCPLDReset on host 
+#define DVS_nReset 				0x08  // PE3 called nChipReset on host, resets DVS array and AER logic
 
 #define setArrayReset() 	IOE=IOE&~DVS_nReset	
 #define releaseArrayReset()	IOE=IOE|DVS_nReset
 
 #define RESET_TS				PA7
 #define TIMESTAMP_MASTER 		PA1
-#define RUN_CPLD				PA3
+#define RUN_CPLD				PA3  // called runCpld on host
 
-#define RUN_ADC 		PC0
+#define RUN_ADC 		PC0  // called runAdc on host
 #define CPLD_SR_CLOCK	PC1
 #define CPLD_SR_LATCH	PC2
 #define CPLD_SR_BIT		PC3
@@ -501,14 +502,12 @@ BOOL DR_VendorCmnd(void)
 		case VR_ENABLE_AE_IN: // enable IN transfers
 			{
 				startMonitor();
-				toggleLED();
 				break;  // handshake phase triggered below
 			}
 		case VR_DISABLE_AE_IN: // disable IN transfers
 			{
 				stopMonitor();
-				toggleLED();
-				break;
+					break;
 			}
 		case VR_RESET_FIFOS: // reset in and out fifo
 			{
@@ -746,9 +745,7 @@ BOOL DR_VendorCmnd(void)
 					CPLD_SR_LATCH=1;
 					RUN_ADC=oldbit;
 	
-					EP0BCH = 0;
-					EP0BCL = 0;                   // Arm endpoint with 0 byte to transfer
-					break; // very important, otherwise get stall
+						break; // very important, otherwise get stall
 				default:
 					return(TRUE);  // don't recognize command, generate stall
 				} // end of subcmd switch
@@ -757,7 +754,7 @@ BOOL DR_VendorCmnd(void)
 				EP0BCL = 0;                   // Arm endpoint with 0 byte to transfer
 				toggleLED();
 				return(FALSE); // very important, otherwise get stall
-			}
+			} // end of subcmds to config cmds
 /* commented out because these VR's are replaced by direct bit control from host side via general interface to ports
 	case VR_WRITE_CPLD_SR: // write bytes to SPI interface
 			{
