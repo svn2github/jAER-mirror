@@ -66,16 +66,16 @@ BOOL LEDon;
 #define VR_IS_TS_MASTER 0xCB
 //#define VR_MISSED_EVENTS 0xCC
 #define VR_WRITE_CPLD_SR 0xCF
-#define VR_RUN_ADC		0xCE
+//#define VR_RUN_ADC		0xCE
 
-#define VR_WRITE_BIASGEN 0xB8 // write bytes out to SPI
+#define VR_WRITE_CONFIG 0xB8 // write bytes out to SPI
 				// the wLengthL field of SETUPDAT specifies the number of bytes to write out (max 64 per request)
 				// the bytes are in the data packet
-#define VR_SET_POWERDOWN 0xB9 // control powerDown. wValue controls the powerDown pin. Raise high to power off, lower to power on.
+//#define VR_SET_POWERDOWN 0xB9 // control powerDown. wValue controls the powerDown pin. Raise high to power off, lower to power on.
 #define VR_EEPROM_BIASGEN_BYTES 0xBa // write bytes out to EEPROM for power on default
 
-#define VR_SETARRAYRESET 0xBc // set the state of the array reset
-#define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels. 
+#define VR_SETARRAYRESET 0xBc // set the state of the array reset which resets communication logic, and possibly also holds pixels in reset
+#define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels and communication logic 
 
 #define BIAS_FLASH_START 9 // start of bias value (this is where number of bytes is stored
 
@@ -260,7 +260,7 @@ void TD_Init(void)              // Called once at startup
 void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
 
-	if(cycleCounter++>=50000){
+	if(cycleCounter++>=100000){
 
 		toggleLED();
 		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
@@ -308,6 +308,7 @@ void startMonitor(void)
 
 	releasePowerDownBit();
 	IOE = IOE | DVS_nReset; //start dvs statemachines
+ 
 }
 
 void stopMonitor(void)
@@ -341,6 +342,7 @@ void stopMonitor(void)
 	IOE &= ~DVS_nReset;
 }
 
+// writes the byte in big endian order, e.g. from msb to lsb
 void CPLDwriteByte(BYTE dat)
 {
 	BYTE i=0;
@@ -489,6 +491,7 @@ BOOL DR_VendorCmnd(void)
 
 	WORD addr; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
 	WORD i;
+	bit oldbit;
 //	char *dscrRAM;
 //	unsigned char xdata JTAGdata[400];
 
@@ -498,11 +501,13 @@ BOOL DR_VendorCmnd(void)
 		case VR_ENABLE_AE_IN: // enable IN transfers
 			{
 				startMonitor();
+				toggleLED();
 				break;  // handshake phase triggered below
 			}
 		case VR_DISABLE_AE_IN: // disable IN transfers
 			{
 				stopMonitor();
+				toggleLED();
 				break;
 			}
 		case VR_RESET_FIFOS: // reset in and out fifo
@@ -630,7 +635,7 @@ BOOL DR_VendorCmnd(void)
 
 				break;
 			}
-		case VR_WRITE_BIASGEN: // write bytes to SPI interface
+		case VR_WRITE_CONFIG: // write bytes to SPI interface and also handles other configuration of board like CPLD and port bits on FX2
 		case VR_EEPROM_BIASGEN_BYTES: // falls through and actual command is tested below
 			{
 				// the value bytes are the specific config command
@@ -644,13 +649,12 @@ BOOL DR_VendorCmnd(void)
 				ind |= SETUPDAT[5] << 8;
 				len = SETUPDAT[6];      	// length for data phase
 				len |= SETUPDAT[7] << 8;
-				switch(value&0xFF){ // take LSB for specific setup command because equalizer uses MSB for channel
+				switch(value&0xFF){ // take LSB for specific setup command 
  
-// from CochleaAMS1c.Biasgen java class 
+// from SeeBetter.Biasgen inner class 
 #define CMD_IPOT  1
 #define CMD_SCANNER  3
 #define	CMD_SETBIT  5
-#define CMD_INITDAC 7
 #define CMD_CPLDCONFIG 8
 
 				case CMD_IPOT:
@@ -671,7 +675,6 @@ BOOL DR_VendorCmnd(void)
 						len -= bc; // dec total byte count
 					}
 					latchNewBiases();
-					toggleLED();
 					break;
 
 					
@@ -706,7 +709,6 @@ BOOL DR_VendorCmnd(void)
 							default:
 								return TRUE; // error
 						}
-						toggleLED();
 					}
 					break;
 				case CMD_SCANNER:
@@ -719,8 +721,13 @@ BOOL DR_VendorCmnd(void)
 						// the bytes should be sent from host so that the first byte
 						// holds the MSB, i.e., the bytes should be sent big endian from the host.
 						// i.e., the msb of the first byte should be the biggest-numbered bit
-						// and the lsb of the last byte is bit 0.
+						// and the lsb of the last byte is bit 0 as specified in the CPLD HDL configuration.
+						// Each byte here is written out big endian, from msb to lsb.
+						// Only integral bytes are written, so if the number of bytes is not a multiple of 8, 
+						// then the first byte written (the MSB) should be left padded so that the msb ends up at the corret
+						// position.
 			
+					oldbit=RUN_ADC;
 					RUN_ADC=0;
 					while(len){					// Move new data through EP0OUT, one packet at a time
 						// Arm endpoint - do it here to clear (after sud avail)
@@ -730,38 +737,34 @@ BOOL DR_VendorCmnd(void)
 						bc = EP0BCL; // Get the new bytecount
 					
 						for(i=0; i<bc; i++){
-							CPLDwriteByte(EP0BUF[i]);					
+							CPLDwriteByte(EP0BUF[i]); // writes the byte in big endian order, e.g. from msb to lsb
 						}
-					
 						len -= bc; // dec total byte count
 					}
 			
 					CPLD_SR_LATCH=0;
 					CPLD_SR_LATCH=1;
+					RUN_ADC=oldbit;
 	
 					EP0BCH = 0;
 					EP0BCL = 0;                   // Arm endpoint with 0 byte to transfer
-					toggleLED();
 					break; // very important, otherwise get stall
 				default:
 					return(TRUE);  // don't recognize command, generate stall
-				}
-
-
-
-
+				} // end of subcmd switch
 
 				EP0BCH = 0;
 				EP0BCL = 0;                   // Arm endpoint with 0 byte to transfer
 				toggleLED();
 				return(FALSE); // very important, otherwise get stall
 			}
+/* commented out because these VR's are replaced by direct bit control from host side via general interface to ports
 	case VR_WRITE_CPLD_SR: // write bytes to SPI interface
 			{
 				SYNCDELAY;
 				len = SETUPDAT[6];
 				len |= SETUPDAT[7] << 8;
-		
+				oldbit=RUN_ADC;
 				RUN_ADC=0;
 				while(len){					// Move new data through EP0OUT, one packet at a time
 					// Arm endpoint - do it here to clear (after sud avail)
@@ -809,7 +812,8 @@ BOOL DR_VendorCmnd(void)
 
 			}
 
-		case VR_SETARRAYRESET: // set array reset, based on lsb of argument
+*/
+		case VR_SETARRAYRESET: // set array reset, based on lsb of argument. This also resets the AER logic.
 			{
 				if (SETUPDAT[2]&0x01)
 				{
@@ -821,6 +825,7 @@ BOOL DR_VendorCmnd(void)
 			
 				break;
 			}
+
 		case VR_DOARRAYRESET: // reset array for fixed reset time
 			{
 				IOE &= ~DVS_nReset;

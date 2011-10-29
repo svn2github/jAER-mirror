@@ -41,7 +41,7 @@ Options 1,0,0  // Target 'Target 1'
  EnvLib (C:\Keil\C51\LIB\)
  EnvReg (.\Cypress\)
  OrgReg (ÿCypress\)
- TgStat=9
+ TgStat=0
  OutDir (.\)
  OutName (SeeBetter)
  GenApp=1
