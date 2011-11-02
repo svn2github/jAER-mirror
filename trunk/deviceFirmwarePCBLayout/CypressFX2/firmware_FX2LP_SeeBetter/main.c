@@ -255,7 +255,9 @@ void TD_Init(void)              // Called once at startup
 	EX1=0; // disable INT1#
 
 	LEDon=FALSE;
-	//startMonitor();
+   IOE |= CPLD_NOT_RESET; // take CPLD out of reset
+
+
 }
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
@@ -304,11 +306,10 @@ void toggleLED(void)
 
 void startMonitor(void)
 {
-    IOE |= CPLD_NOT_RESET;
-	RUN_CPLD=1;
+ 	RUN_CPLD=1;
 
 	releasePowerDownBit();
-	IOE = IOE | DVS_nReset; //start dvs statemachines
+//	IOE = IOE | DVS_nReset; //start dvs statemachines
  
 }
 
@@ -339,8 +340,7 @@ void stopMonitor(void)
 
 	RUN_CPLD=0;
 
-	IOE &= ~CPLD_NOT_RESET;
-	IOE &= ~DVS_nReset;
+//	IOE &= ~DVS_nReset;
 }
 
 // writes the byte in big endian order, e.g. from msb to lsb
