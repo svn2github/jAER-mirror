@@ -3,14 +3,17 @@
 ; It has the driver installation information for jAER CypressFX2 devices.
 ; It uses the VID 0x152a and PIDs ranging from 0x8400 to 0x841f llicenced by the INI for the jAER project.
 ;
-; USBIO Setup Information file V2.31
-; Copyright (c) 1998-2005 by Thesycon GmbH
+; USBIO Setup Information file V2.52
+; Copyright (c) 1998-2010 by Thesycon GmbH
 ;
 ; This file supports:
 ;     Windows 2000
-;     Windows 2000 Server
 ;     Windows XP
+;     Windows Vista
+;     Windows 7
+;     Windows 2000 Server
 ;     Windows Server 2003
+;     Windows Server 2008
 ;
 ; To create a customized version of this file
 ; modify sections marked with ### modify here ###
@@ -29,7 +32,8 @@
 [Version]
 Signature="$Windows NT$"
 Provider=%S_Provider%
-DriverVer=10/06/2009,2.50.0.0
+DriverVer=03/22/2010,2.52.0.0
+
 
 ; This specifies the .cat file provided by WHQL if the driver is certified.
 CatalogFile=usb2aemon.cat
