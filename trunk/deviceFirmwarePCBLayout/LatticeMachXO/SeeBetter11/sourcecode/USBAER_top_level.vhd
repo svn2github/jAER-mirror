@@ -41,7 +41,7 @@ entity USBAER_top_level is
     ResetxRBI : in std_logic;
 
     -- ports to synchronize other USBAER boards
-    SyncInxAI   : in  std_logic;        -- needs synchronization
+  --  SyncInxAI   : in  std_logic;        -- needs synchronization
     SynchOutxSO : out std_logic;
 
     -- communication with 8051   
@@ -50,7 +50,7 @@ entity USBAER_top_level is
     PC2xSIO  : inout  std_logic;
     PC3xSIO  : inout  std_logic;
 
-    PA0xSIO : inout std_logic;
+--    PA0xSIO : inout std_logic;
     PA1xSIO : inout std_logic;
     PA3xSIO : inout std_logic;
     PA7xSIO : inout std_logic;
@@ -384,7 +384,8 @@ begin
   
   FX2FifoReadxEBO <= '1';
 
-  SyncInxA <= not SyncInxAI;
+  --SyncInxA <= not SyncInxAI;
+  SyncInxA <= '0';                      -- no external sync
   
   shiftRegister_1: shiftRegister
     generic map (

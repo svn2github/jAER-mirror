@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
-<ispXCF version="17.9.1">
+<!DOCTYPE			ispXCF	SYSTEM			"IspXCF.dtd" >
+<ispXCF version="Programmer">
 	<Comment></Comment>
 	<Chain>
 		<Comm>JTAG</Comm>
@@ -9,7 +9,7 @@
 			<Vendor>Lattice</Vendor>
 			<Family>MachXO</Family>
 			<Name>LCMXO2280C</Name>
-			<IDCode>0x0128d043</IDCode>
+			<IDCode>0x0128D043</IDCode>
 			<Package>All</Package>
 			<PON>LCMXO2280C</PON>
 			<Bypass>
@@ -18,16 +18,13 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>E:\tobi-repository\dollbrain\Firmware\cDVSTest20\CPLD\cDVSTest20\cDVSTest20_cDVSTest20.jed</File>
-			<MaskFile>C:\LATTICEDIAMOND\DIAMOND\1.1\ISPVMSYSTEM\DataBase\xpga\machxo\lcmxo2280.msk</MaskFile>
-			<FileTime>05/23/11 14:59:14</FileTime>
-			<JedecChecksum>0x2FF8</JedecChecksum>
+			<File>E:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter11/SeeBetter11/SeeBetter11_SeeBetter11.jed</File>
+			<FileTime>Mi 2. Nov 15:40:27 2011</FileTime>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
-				<IOState>HighZ</IOState>
-				<PreloadLength>544</PreloadLength>
-				<IOVectorData>0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</IOVectorData>
+				<IOState>Leave Alone</IOState>
+				<IOVectorData>0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</IOVectorData>
 				<OverideUES value="TRUE"/>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
 				<SVFProcessor>ispVM</SVFProcessor>
@@ -42,17 +39,13 @@
 		<OperationOverride>No Override</OperationOverride>
 		<StartTAP>TLR</StartTAP>
 		<EndTAP>TLR</EndTAP>
-		<DeGlitch value="TRUE"/>
 		<VerifyUsercode value="TRUE"/>
 		<PinSetting>
-			TMS	LOW;
-			TCK	LOW;
-			TDI	LOW;
-			TDO	LOW;
+			TMS        LOW;
+			TCK        LOW;
+			TDI        LOW;
+			TDO        LOW;
+			CableEN    HIGH;
 		</PinSetting>
 	</ProjectOptions>
-	<USBOptions>
-		<PortAdd>EzUSB-0</PortAdd>
-		<USBID>USB\VID_1134&amp;PID_8001\5&amp;37B1D9E0&amp;0&amp;5</USBID>
-	</USBOptions>
 </ispXCF>
