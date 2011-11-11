@@ -15,7 +15,7 @@
               <map>
                 <entry key="FilterChain.timeLimitEnabled" value="false"/>
                 <entry key="FilterChain.timeLimitMs" value="10"/>
-                <entry key="agcTauMs" value="1000.0"/>
+                <entry key="agcTauMs" value="800.0"/>
                 <entry key="cDVSTest30.bgTabbedPaneSelectedIndex" value="0"/>
                 <entry key="ADCHardwareInterfaceProxy.adcChannel" value="1"/>
                 <entry key="ScannerHardwareInterface.scanX" value="0"/>
@@ -183,67 +183,67 @@
                 <entry key="SeeBetter1011.ShiftedSourceBias.SSP.OperatingMode" value="ShiftedSource"/>
                 <entry key="SeeBetter1011.ShiftedSourceBias.SSP.VoltageLevel" value="SplitGate"/>
                 <entry key="SeeBetter1011.VPot.LogAmpRef" value="24"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.DiffBn.BitValue" value="177"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.DiffBn.BitValue" value="1742"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.DiffBn.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.DiffBn.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.DiffBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.DiffBn.Sex" value="N"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.DiffBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.OnBn.BitValue" value="20858"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.OnBn.BitValue" value="92689"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.OnBn.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.OnBn.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.OnBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.OnBn.Sex" value="N"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.OnBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.OffBn.BitValue" value="19"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.OffBn.BitValue" value="24"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.OffBn.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.OffBn.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.OffBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.OffBn.Sex" value="N"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.OffBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.PrOTABp.BitValue" value="397"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.PrOTABp.BitValue" value="29054"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrOTABp.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrOTABp.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrOTABp.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrOTABp.Sex" value="P"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrOTABp.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.PrCasBnc.BitValue" value="56376"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.PrCasBnc.BufferBitValue" value="9"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.PrCasBnc.BitValue" value="2424"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.PrCasBnc.BufferBitValue" value="7"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrCasBnc.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrCasBnc.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrCasBnc.Sex" value="N"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrCasBnc.Type" value="CASCODE"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.RODiffAmpBn.BitValue" value="29054"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.RODiffAmpBn.BitValue" value="34290"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.RODiffAmpBn.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.RODiffAmpBn.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.RODiffAmpBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.RODiffAmpBn.Sex" value="N"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.RODiffAmpBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.PrLvlShiftBn.BitValue" value="468"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.PrLvlShiftBn.BitValue" value="34290"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrLvlShiftBn.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrLvlShiftBn.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrLvlShiftBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrLvlShiftBn.Sex" value="N"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrLvlShiftBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.PixInvBn.BitValue" value="56376"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.PixInvBn.BitValue" value="109398"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PixInvBn.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PixInvBn.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PixInvBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PixInvBn.Sex" value="N"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PixInvBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.PrBp.BitValue" value="47766"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.PrBp.BitValue" value="152395"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrBp.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrBp.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrBp.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrBp.Sex" value="P"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrBp.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.PrSFBp.BitValue" value="1062"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.PrSFBp.BitValue" value="677367"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrSFBp.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrSFBp.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrSFBp.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrSFBp.Sex" value="P"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PrSFBp.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.RefrBp.BitValue" value="12"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.RefrBp.BitValue" value="52"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.RefrBp.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.RefrBp.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.RefrBp.LowCurrent" value="false"/>
@@ -261,31 +261,31 @@
                 <entry key="SeeBetter1011.ConfigurableIPot.AERxEBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.AERxEBn.Sex" value="N"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.AERxEBn.Type" value="CASCODE"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.AEPuXBp.BitValue" value="10751"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.AEPuXBp.BitValue" value="7"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.AEPuXBp.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.AEPuXBp.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.AEPuXBp.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.AEPuXBp.Sex" value="P"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.AEPuXBp.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.AEPuYBp.BitValue" value="573904"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.AEPuYBp.BitValue" value="5"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.AEPuYBp.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.AEPuYBp.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.AEPuYBp.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.AEPuYBp.Sex" value="P"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.AEPuYBp.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.IFThrBn.BitValue" value="17"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.IFThrBn.BitValue" value="5"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.IFThrBn.BufferBitValue" value="10"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.IFThrBn.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.IFThrBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.IFThrBn.Sex" value="N"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.IFThrBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.IFRefrBn.BitValue" value="27"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.IFRefrBn.BitValue" value="5"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.IFRefrBn.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.IFRefrBn.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.IFRefrBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.IFRefrBn.Sex" value="N"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.IFRefrBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.PadFollBn.BitValue" value="24617"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.PadFollBn.BitValue" value="20858"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PadFollBn.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PadFollBn.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.PadFollBn.LowCurrent" value="false"/>
@@ -309,7 +309,7 @@
                 <entry key="SeeBetter1011.ConfigurableIPot.RefCurrentBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.RefCurrentBn.Sex" value="N"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.RefCurrentBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter1011.ConfigurableIPot.LocalBufBn.BitValue" value="40471"/>
+                <entry key="SeeBetter1011.ConfigurableIPot.LocalBufBn.BitValue" value="14975"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.LocalBufBn.BufferBitValue" value="9"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.LocalBufBn.Enabled" value="true"/>
                 <entry key="SeeBetter1011.ConfigurableIPot.LocalBufBn.LowCurrent" value="false"/>
@@ -324,7 +324,7 @@
                 <entry key="cDVSTest.LogicMux.DigMux2.selectedChannel" value="0"/>
                 <entry key="cDVSTest.LogicMux.DigMux1.selectedChannel" value="12"/>
                 <entry key="cDVSTest.LogicMux.DigMux0.selectedChannel" value="8"/>
-                <entry key="SeeBetter1011.bgTabbedPaneSelectedIndex" value="3"/>
+                <entry key="SeeBetter1011.bgTabbedPaneSelectedIndex" value="0"/>
                 <entry key="SeeBetter1011.useStaticPullupX.useStaticPullupX.value" value="false"/>
                 <entry key="SeeBetter1011.useStaticPullupY.useStaticPullupY.value" value="true"/>
                 <entry key="SeeBetter1011.delayY0.delayY0.value" value="false"/>
@@ -343,7 +343,7 @@
                 <entry key="ADCHardwareInterfaceProxy.adcEnabled" value="false"/>
                 <entry key="class eu.seebetter.ini.chips.seebetter1011.SeeBetter1011.preferredDisplayMethod" value="eu.seebetter.ini.chips.seebetter1011.SeeBetter1011$SeeBetter1011DisplayMethod"/>
                 <entry key="ScannerHardwareInterface.scanY" value="0"/>
-                <entry key="logIntensityOffset" value="2400"/>
+                <entry key="logIntensityOffset" value="2180"/>
                 <entry key="CypressFX2.defaultFirmwareBixFileForBlankDevice" value="C:\Users\tobi\Documents\1jAERsourceForge\trunk\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SeeBetter\SeeBetter.bix"/>
                 <entry key="ADC.channel" value="3"/>
                 <entry key="CypressFX2Blank.defaultFirmwareBixFileForBlankDevice" value="C:\Users\tobi\Documents\1jAERsourceForge\trunk\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SeeBetter\SeeBetter.bix"/>
@@ -353,7 +353,7 @@
                 <entry key="SeeBetter1011.powerDown" value="false"/>
                 <entry key="CPLDInt.adcConfig" value="352"/>
                 <entry key="CPLDInt.adcTrackTime" value="270"/>
-                <entry key="CPLDInt.adcIdleTime" value="120"/>
+                <entry key="CPLDInt.adcIdleTime" value="0"/>
                 <entry key="SeeBetter1011.use5TBuffer" value="true"/>
                 <entry key="SeeBetter1011.useCalibration" value="false"/>
                 <entry key="CPLDInt.adcRefOffTime" value="255"/>
@@ -361,36 +361,44 @@
                 <entry key="CPLDInt.scanY" value="15"/>
                 <entry key="CPLDInt.scanX" value="6"/>
                 <entry key="SeeBetter1011.scanContinuouslyEnabled" value="true"/>
-                <entry key="logIntensityGain" value="18"/>
+                <entry key="logIntensityGain" value="19"/>
                 <entry key="displayLogIntensityChangeEvents" value="true"/>
                 <entry key="SeeBetter1011.nCPLDReset" value="true"/>
-                <entry key="SeeBetter1011.useStaticPullupX" value="true"/>
-                <entry key="SeeBetter1011.useStaticPullupY" value="true"/>
+                <entry key="SeeBetter1011.useStaticPullupX" value="false"/>
+                <entry key="SeeBetter1011.useStaticPullupY" value="false"/>
                 <entry key="SeeBetter1011.delayY0" value="false"/>
                 <entry key="SeeBetter1011.delayY1" value="false"/>
                 <entry key="SeeBetter1011.delayY2" value="false"/>
                 <entry key="SeeBetter1011.delayX0" value="false"/>
                 <entry key="SeeBetter1011.delayX1" value="false"/>
                 <entry key="SeeBetter1011.delayX2" value="false"/>
-                <entry key="SeeBetter1011.sDVSReset" value="false"/>
-                <entry key="SeeBetter1011.bDVSReset" value="false"/>
+                <entry key="SeeBetter1011.sDVSReset" value="true"/>
+                <entry key="SeeBetter1011.bDVSReset" value="true"/>
                 <entry key="SeeBetter1011.ROS" value="false"/>
                 <entry key="SeeBetter1011.delaySM0" value="false"/>
                 <entry key="SeeBetter1011.delaySM1" value="false"/>
                 <entry key="SeeBetter1011.delaySM2" value="false"/>
                 <entry key="displayLogIntensity" value="true"/>
-                <entry key="SeeBetter1011.nChipReset" value="false"/>
-                <entry key="intensityScale" value="0.1"/>
-                <entry key="agcEnabled" value="false"/>
+                <entry key="SeeBetter1011.nChipReset" value="true"/>
+                <entry key="intensityScale" value="9.3"/>
+                <entry key="agcEnabled" value="true"/>
                 <entry key="VoltageOutputMux.AnaMux3.selectedChannel" value="0"/>
                 <entry key="VoltageOutputMux.AnaMux2.selectedChannel" value="0"/>
                 <entry key="VoltageOutputMux.AnaMux1.selectedChannel" value="1"/>
-                <entry key="VoltageOutputMux.AnaMux0.selectedChannel" value="0"/>
-                <entry key="LogicMux.DigMux4.selectedChannel" value="0"/>
+                <entry key="VoltageOutputMux.AnaMux0.selectedChannel" value="7"/>
+                <entry key="LogicMux.DigMux4.selectedChannel" value="1"/>
                 <entry key="LogicMux.DigMux3.selectedChannel" value="1"/>
-                <entry key="LogicMux.DigMux2.selectedChannel" value="0"/>
-                <entry key="LogicMux.DigMux1.selectedChannel" value="3"/>
-                <entry key="LogicMux.DigMux0.selectedChannel" value="-1"/>
+                <entry key="LogicMux.DigMux2.selectedChannel" value="1"/>
+                <entry key="LogicMux.DigMux1.selectedChannel" value="1"/>
+                <entry key="LogicMux.DigMux0.selectedChannel" value="1"/>
+                <entry key="XYTypeFilter.filterEnabled" value="false"/>
+                <entry key="RotateFilter.filterEnabled" value="false"/>
+                <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
+                <entry key="LogIntensityFrameData.calibData1" value="rO0ABXVyAAJbSU26YCZ26rKlAgAAeHAAAAIAAAAINQAACIIAAAjOAAAI/AAACO0AAAi/AAAItgAACO8AAAkCAAAI8QAACNsAAAjLAAAI1QAACNAAAAkXAAAI8wAACMIAAAkHAAAIuAAACSQAAAjyAAAJPwAACPEAAAjbAAAJGgAACLAAAAkJAAAIvgAACTAAAAk3AAAI2wAACQoAAAgLAAAIngAACOUAAAj6AAAI5QAACREAAAjyAAAI6wAACP8AAAjQAAAI6gAACJcAAAjsAAAIbwAACNYAAAjDAAAJHAAACIYAAAkPAAAI5QAACO8AAAkCAAAJCwAACMUAAAkLAAAI+QAACOQAAAj/AAAI8gAACOoAAAj1AAAI/wAAB+YAAAiJAAAItgAACNwAAAjlAAAIiAAACOgAAAjYAAAI/QAACOUAAAjPAAAIugAACQUAAAjfAAAI6gAACKUAAAiVAAAJDQAACNEAAAj8AAAIrQAACQwAAAjqAAAIoQAACRsAAAi2AAAI9wAACPkAAAkpAAAI0QAACNsAAAjrAAAIGQAACJIAAAjPAAAJIQAACOIAAAjRAAAI7AAACLUAAAjAAAAIjgAACREAAAjqAAAI4wAACMQAAAj4AAAIwwAACLUAAAjkAAAIpwAACMwAAAihAAAJDQAACRMAAAjeAAAJGgAACOgAAAjRAAAIvgAACQ8AAAkFAAAJGwAACMcAAAgFAAAIcAAACKsAAAkvAAAI6gAACKUAAAiQAAAIwgAACNsAAAilAAAIxQAACMIAAAkaAAAIywAACPcAAAi8AAAI2wAACNcAAAjnAAAJGgAACKkAAAkAAAAJBgAACJoAAAkIAAAI8gAACRgAAAjpAAAI4wAACQwAAAj3AAAJIAAACDEAAAiLAAAIzgAACSkAAAj7AAAI8wAACH0AAAi9AAAIywAACPQAAAjHAAAIywAACMgAAAjHAAAI4wAACLgAAAjfAAAI4AAACN8AAAkpAAAIqwAACPsAAAjxAAAIpAAACUsAAAjfAAAI1wAACKAAAAj0AAAIuQAACOQAAAkUAAAH+gAACMkAAAiZAAAI5wAACPYAAAjKAAAI2AAACMoAAAj+AAAI6QAACOMAAAjBAAAI+QAACMgAAAj0AAAI+AAACMkAAAiNAAAInQAACOYAAAjNAAAJCwAACPAAAAj5AAAJQwAACQAAAAkDAAAI4QAACS4AAAkgAAAI0wAACN0AAAgYAAAIcAAACPAAAAjjAAAI8wAACOYAAAi4AAAI+QAACOMAAAjdAAAJAwAACN8AAAjYAAAIogAACQsAAAixAAAI5AAACNMAAAjhAAAI6QAACNwAAAkFAAAJHgAACNsAAAkdAAAI7gAACLoAAAjVAAAJGAAACNwAAAj2AAAJBQAACBIAAAhsAAAIrAAACPMAAAkAAAAIjgAACKIAAAjHAAAI3gAACNcAAAjNAAAIowAACN0AAAjOAAAIxAAACLYAAAjKAAAI4gAACPQAAAjvAAAIxwAACQ8AAAkHAAAIvQAACUYAAAkOAAAI9QAACMAAAAk2AAAIzAAACQgAAAj4AAAIBQAACJ0AAAisAAAI6AAACP4AAAiiAAAJAgAACK0AAAi2AAAIoQAACPgAAAjQAAAI3wAACNcAAAjkAAAItwAACPMAAAjAAAAItwAACPQAAAi7AAAJBwAACQ8AAAihAAAJCQAACMAAAAkkAAAI0QAACPUAAAkQAAAI6QAACOgAAAgIAAAIpgAACMYAAAkhAAAI2wAACN4AAAi3AAAIwQAACQkAAAjMAAAI2wAACNEAAAj2AAAIrwAACQQAAAjCAAAI3AAACPUAAAjwAAAI0gAACL4AAAkdAAAJAwAACO4AAAk4AAAJFgAACP4AAAkGAAAJFwAACQIAAAkEAAAJIQAAB8AAAAi+AAAI2AAACL4AAAkpAAAIxgAACNsAAAjKAAAIvQAACKYAAAiyAAAI0wAACKwAAAiUAAAI0gAACHEAAAjDAAAIvwAACNUAAAjwAAAIwQAACOIAAAkAAAAIwwAACRoAAAjpAAAI1AAACL8AAAj2AAAJIAAACNQAAAjZAAAIFAAACIMAAAiHAAAI4QAACPkAAAjdAAAIswAACMYAAAkZAAAIvwAACMcAAAjbAAAI5gAACL8AAAkkAAAIugAACPIAAAi4AAAIuAAACPQAAAjwAAAJBgAACSMAAAjWAAAJBAAACNsAAAjiAAAJAgAACOEAAAkdAAAI3wAACOUAAAgqAAAIrAAACMMAAAj4AAAI9AAACNUAAAimAAAIqQAACNQAAAimAAAI6wAACJMAAAjUAAAIyQAACN0AAAicAAAIiwAACLoAAAjMAAAI3gAACPEAAAkFAAAI7AAACNUAAAjjAAAI/QAACPEAAAjVAAAJLQAACLkAAAj5AAAI9wAAB9QAAAh2AAAItAAACO0AAAj3AAAIyQAACLsAAAi4AAAJEAAACKUAAAkPAAAI6wAACKcAAAifAAAJBwAACKUAAAjlAAAIuwAACJsAAAjAAAAIvgAACQQAAAkUAAAJHgAACRMAAAjpAAAJEwAACMcAAAj9AAAI3AAACO4AAAjoAAAHyAAACJsAAAirAAAI+QAACOgAAAjWAAAIyAAACL8AAAjQAAAIpgAACNUAAAjKAAAI/gAACK8AAAjWAAAI2wAACNAAAAi9AAAI2wAACPcAAAimAAAI9wAACRIAAAjtAAAJFAAACOkAAAkiAAAI5gAACR8AAAkVAAAIzwAACPg="/>
+                <entry key="LogIntensityFrameData.calibData2" value="rO0ABXVyAAJbSU26YCZ26rKlAgAAeHAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="/>
+                <entry key="useOffChipCalibration" value="true"/>
+                <entry key="FilterFrame.lastFilterSelected" value=""/>
+                <entry key="BackgroundActivityFilter.dt" value="17213"/>
               </map>
             </node>
           </node>
