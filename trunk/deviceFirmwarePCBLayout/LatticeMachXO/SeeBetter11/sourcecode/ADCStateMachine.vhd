@@ -139,6 +139,8 @@ begin
             StatexDN <= stInit;
           else
             StatexDN <= stSinglePixelClockLow;
+            CountRowxDN <= (others => '0');
+            CountColxDN <= (others => '0');
           end if;
         end if;
         DividerxDN <= (others => '0');
@@ -241,29 +243,40 @@ begin
           end if;
         end if;
       when stSinglePixelClockLow =>
-        if DividerxDP > 31 then
+        if DividerxDP >31 and CountColxDP = ScanXxSI(3 downto 0) and CountRowxDP = ScanYxSI(4 downto 0) then
           StatexDN <= stTrack;
         else
           StatexDN <= stSinglePixelClockHigh;
         end if;
-
-        if DividerxDP = not ScanXxSI then
+        
+        if DividerxDP = 31 then
           CDVSTestSRColInxSO <= '1';
-        end if;
-        if DividerxDP = not ScanYxSI then
           CDVSTestSRRowInxSO <= '1';
         end if;
       when stSinglePixelClockHigh =>
         StatexDN <= stSinglePixelClockLow;
-        CDVSTestSRRowClockxSO <= '1';
-        CDVSTestSRColClockxSO <= '1';
-        if DividerxDP = not ScanXxSI then
+        
+        if DividerxDP = 31 then         -- load bit into shift register after
+                                        -- 32 clocks
           CDVSTestSRColInxSO <= '1';
-        end if;
-        if DividerxDP = not ScanYxSI then
           CDVSTestSRRowInxSO <= '1';
         end if;
-        DividerxDN <= DividerxDP+1;
+        
+        if DividerxDP <32 then
+          DividerxDN <= DividerxDP+1;
+          CDVSTestSRRowClockxSO <= '1';
+          CDVSTestSRColClockxSO <= '1';
+        else
+          if CountRowxDP < ScanYxSI(4 downto 0) then
+            CDVSTestSRRowClockxSO <= '1';
+            CountRowxDN <= CountRowxDP +1;
+          end if;
+          if CountColxDP < ScanXxSI(3 downto 0) then
+            CDVSTestSRColClockxSO <= '1';
+            CountColxDN <= CountColxDP +1;
+          end if; 
+        end if;
+       
       when others      => null;
     end case;
 

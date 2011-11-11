@@ -19,7 +19,7 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>E:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter11/SeeBetter11/SeeBetter11_SeeBetter11.jed</File>
-			<FileTime>Mi 2. Nov 15:40:27 2011</FileTime>
+			<FileTime>Do 10. Nov 16:20:11 2011</FileTime>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
