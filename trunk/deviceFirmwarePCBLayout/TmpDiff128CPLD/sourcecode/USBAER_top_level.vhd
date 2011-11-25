@@ -227,7 +227,6 @@ begin
   -- run the state machines either when reset is high or when in slave mode
   RunxS <= RunMonitorxSI;
   
-  
   --Interrupt0xSB0 <= '1';
   Interrupt1xSB0 <= '1';
   
@@ -239,8 +238,10 @@ begin
   
   FifoAddressRegInxD <=  AddressMSBxS & MonitorAddressxD;
   FifoAddressxD <= FifoAddressRegOutxD; 
+
   FifoTimestampRegInxD <= TimestampMSBxD & MonitorTimestampxD;
   FifoTimestampxD <= FifoTimestampRegOutxD;
+  MonitorTimestampxD <= ActualTimestampxD;
 
   uFifoAddressRegister : wordRegister
     generic map (
@@ -284,19 +285,6 @@ begin
 --      DataInxDI      => MonitorTimestampInxD,
 --      DataOutxDO     => MonitorTimestampxD);
 		
-	MonitorTimestampxD <= ActualTimestampxD;
-
---  uTriggerTimestampRegister : wordRegister
---    generic map (
---      width          => 14)
---    port map (
---      ClockxCI       => ClockxC,
---      ResetxRBI      => RunxS,
---      WriteEnablexEI => TriggerxS,
---      DataInxDI      => ActualTimestampxD,
---      DataOutxDO     => TriggerTimestampxD);
-
---	TriggerTimestampxD <= ActualTimestampxD;
 
   uEarlyPaketTimer : earlyPaketTimer
     port map (
