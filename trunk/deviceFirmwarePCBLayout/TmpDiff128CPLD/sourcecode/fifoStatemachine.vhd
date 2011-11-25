@@ -32,6 +32,7 @@ entity fifoStatemachine is
 
     -- fifo flags
     FifoInFullxSBI         : in  std_logic;
+    FifoAlmostFullxSBI  : in  std_logic;
 
     -- fifo control lines
     FifoWritexEBO          : out std_logic;
@@ -61,13 +62,17 @@ entity fifoStatemachine is
 
     -- reset timestamp
     ResetTimestampxSBI : in std_logic;
-    
+
+    -- Trigger stuff
+    AddressMSBxSO : out std_logic;
+    TriggerxSI : in std_logic;
+
     -- short paket timer overflow
     EarlyPaketTimerOverflowxSI : in  std_logic);
 end fifoStatemachine;
 
 architecture Behavioral of fifoStatemachine is
-  type state is (stIdle, stEarlyPaket, stWraddress, stWrTime ,stOverflow,stResetTimestamp,stWrAddressNoEvent);
+  type state is (stIdle, stEarlyPaket, stWraddress, stWrTime ,stOverflow,stResetTimestamp,stWrAddressNoEvent,stTrigger);
 
   -- present and next state
   signal StatexDP, StatexDN : state;
@@ -83,11 +88,12 @@ architecture Behavioral of fifoStatemachine is
 
 --  signal EventBeforeOverflowxD : std_logic;
   -- timestamp overflow register
-  signal TimestampOverflowxDN, TimestampOverflowxDP : std_logic;
+  signal TimestampOverflowxDN, TimestampOverflowxDP : std_logic_vector(15 downto 0);
 
   -- timestamp reset register
   signal TimestampResetxDP, TimestampResetxDN : std_logic;
-
+  signal TriggerxDP, TriggerxDN : std_logic;
+  
   -- constants for mux
   constant selectaddress   : std_logic:= '1';
   constant selecttimestamp : std_logic := '0';
@@ -110,7 +116,7 @@ begin
 --      EventBeforeOverflowxDO => EventBeforeOverflowxD);
   
   -- calculate next state and outputs
-  p_memless : process (StatexDP, FifoInFullxSBI, MonitorEventReadyxSI,  EarlyPaketTimerOverflowxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI)
+  p_memless : process (StatexDP, FifoInFullxSBI,FifoAlmostFullxSBI, MonitorEventReadyxSI,  EarlyPaketTimerOverflowxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, TriggerxDP, TriggerxSI)
   begin  -- process p_memless
     -- default assignements: stay in present state, don't change address in
     -- FifoAddress register, no Fifo transaction, write registers, don't reset the counters
@@ -126,24 +132,39 @@ begin
     FifoAddressxDO            <= EP6;
     TimestampMSBxDO <= timestamp;
 
-    TimestampOverflowxDN <= (TimestampOverflowxDP or TimestampOverflowxSI);
+    if TimestampResetxDP = '1' then     -- as long as there is a timestamp
+                                        -- reset pending, do not send wrap events
+      TimestampOverflowxDN <= (others => '0');
+    elsif TimestampOverflowxSI = '1' then
+      TimestampOverflowxDN <= TimestampOverflowxDP +1;
+    else
+      TimestampOverflowxDN <= TimestampOverflowxDP;
+    end if;
+                        
     TimestampResetxDN <= (TimestampResetxDP or not ResetTimestampxSBI);
-    
+    TriggerxDN <= (TriggerxSI or TriggerxDP);
+
+    AddressMSBxSO <= '0';
+
     FifoTransactionxSO <= '1';          -- is zero only in idle state
 
     case StatexDP is
       when stIdle =>
     --    if EventBeforeOverflowxD ='1' and FifoInFullxSBI = '1' then
     --      StatexDN <= stWraddress;
-        if EarlyPaketTimerOverflowxSI = '1' and FifoInFullxSBI = '1' then
+        if EarlyPaketTimerOverflowxSI = '1' and FifoAlmostFullxSBI = '1' then
                        -- we haven't commited a paket for a long time
           StatexDN <= stEarlyPaket;
-        elsif TimestampOverflowxDN= '1' and FifoInFullxSBI = '1' then -- test xDN instead of xDP to include also clockcycle where input is active
-          StatexDN <= stOverflow;
         elsif TimestampResetxDP = '1' and FifoInFullxSBI = '1' then
           StatexDN <= stResetTimestamp;
+        elsif TimestampOverflowxDP > 0 and FifoInFullxSBI = '1' then 
+          StatexDN <= stOverflow;
+        elsif TimestampOverflowxSI = '1' and FifoInFullxSBI = '1' then 
+          StatexDN <= stOverflow;
           -- if inFifo is not full and there is a monitor event, start a
           -- fifoWrite transaction
+        elsif TriggerxDP = '1' and FifoInFullxSBI ='1' then
+          StatexDN <= stTrigger;
         elsif MonitorEventReadyxSI = '1' and FifoInFullxSBI = '1' then
           StatexDN <= stWraddress;
           --ClearMonitorEventxSO <= '1'; -- problems if we do it here
@@ -160,11 +181,14 @@ begin
         FifoPktEndxSBO            <= '0';
       when stOverflow =>           -- send overflow event
         StatexDN <= stWrAddressNoEvent;                
-        TimestampOverflowxDN <= '0';
-    
-        TimestampMSBxDO <= wrap;
-     
         
+        if TimestampOverflowxSI = '1' then
+          TimestampOverflowxDN <= TimestampOverflowxDP;
+        else
+          TimestampOverflowxDN <= TimestampOverflowxDP - 1;
+        end if;
+    
+        TimestampMSBxDO <= wrap;     
    
       when stResetTimestamp =>           -- send timestamp reset event
 
@@ -172,8 +196,15 @@ begin
         TimestampResetxDN <= '0';
      
         TimestampMSBxDO <= timereset;
+
+      when stTrigger =>           -- send trigger event
+
+        StatexDN <= stWrAddressNoEvent;       
+        TriggerxDN <= '0';
+        AddressMSBxSO <= '1';
      
-        when stWrAddressNoEvent   =>             -- write the address to the fifo
+        TimestampMSBxDO <= timestamp;
+      when stWrAddressNoEvent   =>             -- write the address to the fifo
        
         StatexDN                 <= stWrTime;
        
@@ -211,12 +242,14 @@ begin
   begin  -- process p_memoryzing
     if ResetxRBI = '0' then             -- asynchronous reset (active low)
       StatexDP <= stIdle;
-      TimestampOverflowxDP <= '0';
+      TimestampOverflowxDP <= (others => '0');
       TimestampResetxDP <= '0';
+      TriggerxDP <= '0';
     elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
       StatexDP <= StatexDN;
       TimestampOverflowxDP <= TimestampOverflowxDN;
       TimestampResetxDP <= TimestampResetxDN;
+      TriggerxDP <= TriggerxDN;
     end if;
   end process p_memoryzing;
   

@@ -28,6 +28,7 @@ entity USBAER_top_level is
     -- communication ports to FX2 Fifos
     FifoDataxDIO         : out std_logic_vector(15 downto 0);
     FifoInFullxSBI       : in    std_logic;
+    FifoFlagAxSBI        : in    std_logic;
     FifoWritexEBO        : out   std_logic;
     FifoReadxEBO         : out   std_logic;
     FifoOutputEnablexEBO : out   std_logic;
@@ -76,7 +77,7 @@ architecture Structural of USBAER_top_level is
       FifoTransactionxSO         : out std_logic;
       
       FifoInFullxSBI             : in  std_logic;
-      
+      FifoAlmostFullxSBI  : in  std_logic;
       FifoWritexEBO              : out std_logic;
       FifoPktEndxSBO             : out std_logic;
       FifoAddressxDO             : out std_logic_vector(1 downto 0);
@@ -93,6 +94,8 @@ architecture Structural of USBAER_top_level is
       TimestampOverflowxSI       : in  std_logic;
       TimestampMSBxDO          : out std_logic_vector(1 downto 0);
       ResetTimestampxSBI          : in std_logic;
+      AddressMSBxSO : out std_logic;
+      TriggerxSI : in std_logic;
       EarlyPaketTimerOverflowxSI : in  std_logic);
   end component;
 
@@ -117,10 +120,7 @@ architecture Structural of USBAER_top_level is
       RunxSI               : in  std_logic;
       AERREQxABI           : in  std_logic;
       AERACKxSBO           : out std_logic;
-      FifoInFullxSBI : in std_logic;
-      -- Trigger stuff
-      AddressMSBxSO : out std_logic;
-      TriggerxSI : in std_logic;
+      FifoAlmostFullxSBI : in std_logic;
       RegWritexEO   : out std_logic;
       SetEventReadyxSO     : out std_logic;
       EventReadyxSI        : in  std_logic);
@@ -164,14 +164,14 @@ architecture Structural of USBAER_top_level is
   end component;
 
   -- signal declarations
-  signal MonitorAddressxD, MonitorAddressRegInxD     : std_logic_vector(15 downto 0);
-  signal MonitorTimestampxD, MonitorTimestampInxD    : std_logic_vector(13 downto 0);
+  signal MonitorAddressxD, MonitorAddressRegInxD     : std_logic_vector(14 downto 0);
+  signal MonitorTimestampxD    : std_logic_vector(13 downto 0);
   
   signal FifoAddressRegInxD, FifoAddressRegOutxD     : std_logic_vector(15 downto 0);
   signal FifoTimestampRegInxD, FifoTimestampRegOutxD     : std_logic_vector(15 downto 0);
   signal FifoAddressxD, FifoTimestampxD : std_logic_vector(15 downto 0);
   
-  signal ActualTimestampxD, TriggerTimestampxD       : std_logic_vector(13 downto 0);
+  signal ActualTimestampxD       : std_logic_vector(13 downto 0);
 
   -- register write enables
   signal FifoRegWritexE      : std_logic;
@@ -210,6 +210,8 @@ architecture Structural of USBAER_top_level is
   -- various
   signal FifoTransactionxS : std_logic;
   signal FifoPktEndxSB     : std_logic;
+  signal FifoInFullxSB : std_logic;
+  signal FifoAlmostFullxSB : std_logic;
 
   -- counter increment signal
   signal IncxS : std_logic;
@@ -232,8 +234,10 @@ begin
   FifoReadxEBO <= '1';
   FifoOutputEnablexEBO <= '1';
 
+  FifoInFullxSB <= FifoInFullxSBI;
+  FifoAlmostFullxSB <= FifoFlagAxSBI;
   
-  FifoAddressRegInxD <= MonitorAddressxD;
+  FifoAddressRegInxD <=  AddressMSBxS & MonitorAddressxD;
   FifoAddressxD <= FifoAddressRegOutxD; 
   FifoTimestampRegInxD <= TimestampMSBxD & MonitorTimestampxD;
   FifoTimestampxD <= FifoTimestampRegOutxD;
@@ -260,7 +264,7 @@ begin
   
   uMonitorAddressRegister : wordRegister
     generic map (
-      width          => 16)
+      width          => 15)
     port map (
       ClockxCI       => ClockxC,
       ResetxRBI      => RunxS,
@@ -268,7 +272,7 @@ begin
       DataInxDI      => MonitorAddressRegInxD,
       DataOutxDO     => MonitorAddressxD);
 
-  MonitorAddressRegInxD <=  AddressMSBxS & AERMonitorAddressxDI;
+  MonitorAddressRegInxD <=  AERMonitorAddressxDI;
   --MonitorAddressRegInxD <=  AddressMSBxS & AddressMSBxS & "0000000000000" & AddressMSBxS ;
 --  uMonitorTimestampRegister : wordRegister
 --    generic map (
@@ -280,7 +284,7 @@ begin
 --      DataInxDI      => MonitorTimestampInxD,
 --      DataOutxDO     => MonitorTimestampxD);
 		
-	MonitorTimestampxD <= MonitorTimestampInxD;
+	MonitorTimestampxD <= ActualTimestampxD;
 
 --  uTriggerTimestampRegister : wordRegister
 --    generic map (
@@ -292,7 +296,7 @@ begin
 --      DataInxDI      => ActualTimestampxD,
 --      DataOutxDO     => TriggerTimestampxD);
 
-	TriggerTimestampxD <= ActualTimestampxD;
+--	TriggerTimestampxD <= ActualTimestampxD;
 
   uEarlyPaketTimer : earlyPaketTimer
     port map (
@@ -337,7 +341,8 @@ begin
       ClockxCI                   => ClockxC,
       ResetxRBI                  => ResetxRBI,
       FifoTransactionxSO         => FifoTransactionxS,
-      FifoInFullxSBI             => FifoInFullxSBI,
+      FifoInFullxSBI             => FifoInFullxSB,
+      FifoAlmostFullxSBI         => FifoAlmostFullxSB,
       FifoWritexEBO              => FifoWritexEBO,
       FifoPktEndxSBO             => FifoPktEndxSB,
       FifoAddressxDO             => FifoAddressxDO,
@@ -351,6 +356,8 @@ begin
       TimestampOverflowxSI       => TimestampOverflowxS,
       TimestampMSBxDO          => TimestampMSBxD,
       ResetTimestampxSBI => SynchronizerResetTimestampxSB,
+      AddressMSBxSO => AddressMSBxS,
+      TriggerxSI => TriggerxS,
       EarlyPaketTimerOverflowxSI => EarlyPaketTimerOverflowxS);
 
   uMonitorStateMachine : monitorStateMachine
@@ -360,9 +367,7 @@ begin
       RunxSI               => RunMonitorxSI,
       AERREQxABI           => AERMonitorREQxABI,
       AERACKxSBO           => AERMonitorACKxSB,
-      FifoInFullxSBI => FifoInFullxSBI,
-      AddressMSBxSO => AddressMSBxS,
-      TriggerxSI => TriggerxS,
+      FifoAlmostFullxSBI => FifoAlmostFullxSB,  
       RegWritexEO   => MonitorRegWritexE,
       SetEventReadyxSO     => SetMonitorEventReadyxS,
       EventReadyxSI        => MonitorEventReadyxS);
@@ -382,16 +387,11 @@ begin
     FifoAddressxD   when selectaddress,
     FifoTimestampxD when others;
 
-  --with AddressMSBxS select
-    MonitorTimestampInxD <= ActualTimestampxD;
-  --  TriggerTimestampxD   when '1',
-  --  ActualTimestampxD when others;
-
   LEDxSO  <= ConfigxSI and RunxS;
   --LEDxSO <= FifoTransactionxS;
   
-  Debug1xSO <= AERMonitorREQxABI;
-  Debug2xSO <= AERMonitorACKxSB;
+  Debug1xSO <= FifoInFullxSB;
+  Debug2xSO <= FifoAlmostFullxSB;
 
   -- this process controls the EventReady Register which is used for the
   -- communication between fifoSM and monitor SM

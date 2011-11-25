@@ -242,8 +242,11 @@ void TD_Init(void)              // Called once at startup
 
 	//set FIFO flag configuration: FlagB: EP6 full, flagC and D unused
 	SYNCDELAY;
-	PINFLAGSAB = 0xE8; // 1110_1000
-
+	PINFLAGSAB = 0xE6; // 1110_0110 FlagB:  EP6 full, flag A EP6 programmable flag
+	SYNCDELAY;
+	EP6FIFOPFH = 0x18; // 0001_1001 3 pakets already commited, 400 bytes in the uncommited packet
+	SYNCDELAY;
+	EP6FIFOPFL = 0x90; // 1001_0000
 
 	// initialize variables
 //	operationMode=0;

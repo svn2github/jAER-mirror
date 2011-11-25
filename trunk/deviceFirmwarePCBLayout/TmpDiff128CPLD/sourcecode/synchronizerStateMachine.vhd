@@ -54,7 +54,7 @@ architecture Behavioral of synchronizerStateMachine is
   -- used to produce different timestamp ticks and to remain in a certain state
   -- for a certain amount of time
   signal DividerxDN, DividerxDP : std_logic_vector(4 downto 0);
-  signal CounterxDN, CounterxDP : std_logic_vector(11 downto 0);
+  signal CounterxDN, CounterxDP : std_logic_vector(13 downto 0);
 
 begin  -- Behavioral
 
@@ -63,8 +63,8 @@ begin  -- Behavioral
     constant counterInc : integer := 29;  --47
     constant squareWaveHighTime : integer := 50;
     constant squareWavePeriod : integer := 100;
-    constant timeout : integer := 200;
-    constant resetSlavesTime : integer := 3000;
+    constant timeout : integer := 500;
+    constant resetSlavesTime : integer := 6000;
   
   begin  -- process p_memless
     -- default assignements
@@ -99,7 +99,7 @@ begin  -- Behavioral
      when stResetSlaves              =>  -- reset  slaves
         DividerxDN         <= (others => '0');
 
-        if CounterxDP > resetSlavesTime then         -- stay 3000 (100us) cycles in this state
+        if CounterxDP > resetSlavesTime then         -- stay 6000 (200us) cycles in this state
           CounterxDN <= (others => '0');
           ResetTimestampxSBO <= '0';
           StatexDN <= stTriggerInHigh;
@@ -115,6 +115,10 @@ begin  -- Behavioral
           DividerxDN          <= (others => '0');
           IncrementCounterxSO <= '1';
           CounterxDN <= CounterxDP+1;
+          if CounterxDP > squareWavePeriod - 2 then
+            CounterxDN <= (others => '0');
+            --TriggerxSO <= '1';  --------------------------- debug
+          end if;
         end if;
 
         if SyncInxSB = '0' then
@@ -126,10 +130,6 @@ begin  -- Behavioral
           SyncOutxSBO <= '0';
         else
           SyncOutxSBO <= '1';
-        end if;
-
-        if CounterxDP > squareWavePeriod - 2 then
-          CounterxDN <= (others => '0');
         end if;
 
         if RunxSI = '0' or ConfigxSI='0'  then
@@ -148,6 +148,9 @@ begin  -- Behavioral
           DividerxDN          <= (others => '0');
           IncrementCounterxSO <= '1';
           CounterxDN <= CounterxDP+1;
+          if CounterxDP > squareWavePeriod - 2 then
+            CounterxDN <= (others => '0');
+          end if;
         end if;
 
         if SyncInxSB = '1' then
@@ -158,10 +161,6 @@ begin  -- Behavioral
           SyncOutxSBO <= '0';
         else
           SyncOutxSBO <= '1';
-        end if;
-
-        if CounterxDP > squareWavePeriod - 2 then
-          CounterxDN <= (others => '0');
         end if;
             
         if RunxSI = '0' or ConfigxSI='0'  then
@@ -174,7 +173,8 @@ begin  -- Behavioral
         
       when stRunSlave =>
 
-        SyncOutxSBO <= SyncInxABI;
+        --SyncOutxSBO <= '0';
+        SyncOutxSBO <= SyncInxSB;
         
         DividerxDN   <= DividerxDP +1;
 
@@ -185,7 +185,7 @@ begin  -- Behavioral
         end if;
 
         
-        if CounterxDP > squareWavePeriod - 3 then
+        if CounterxDP > squareWavePeriod - 2 then
           StatexDN <= stSlaveWaitEdge;
         end if;
         
@@ -196,19 +196,20 @@ begin  -- Behavioral
 
       when stSlaveWaitEdge =>
 
-        SyncOutxSBO <= SyncInxABI;
-
+        --SyncOutxSBO <= '1';
+        SyncOutxSBO <= SyncInxSB;
+        
         DividerxDN          <= (others => '0');
         CounterxDN <= CounterxDP + 1;
         if SyncInxSB = '0' then
           IncrementCounterxSO <= '1';
           StatexDN <= stRunSlave;
+          CounterxDN <= (others => '0');
+          --TriggerxSO <= '1'; --------------------------- debug
         end if;
 
-        if ConfigxSI='1'  then
+        if ConfigxSI='1' or CounterxDP > timeout then
           StatexDN   <= stIdle;
-        elsif CounterxDP > timeout then
-          StatexDN <= stIdle;
         end if;
         
       when others =>
