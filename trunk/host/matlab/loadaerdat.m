@@ -17,7 +17,7 @@ function [allAddr,allTs]=loadaerdat(file);
 maxEvents=30e6;
 
 if nargin==0,
-    [filename,path,filterindex]=uigetfile({'*.aedat','*.aedat, *.dat'},'Select recorded retina data file');
+    [filename,path,filterindex]=uigetfile({'*.*dat','*.aedat, *.dat'},'Select recorded retina data file');
     if filename==0, return; end
 end
 if nargin==1,
