@@ -288,6 +288,8 @@ void TD_Init(void)              // Called once at startup
 	IT1=1; // INT1# edge-sensitve
 	EX1=0; // do not enable INT1#
 
+	// make this device timestamp master as default
+	enableSyncEvents();
 }
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
