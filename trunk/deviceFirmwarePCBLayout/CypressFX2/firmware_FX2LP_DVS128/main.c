@@ -70,6 +70,7 @@ extern BOOL Selfpwr;
 #define VR_READOUT_EEPROM 0xC9
 #define VR_IS_TS_MASTER 0xCB
 #define VR_MISSED_EVENTS 0xCC
+#define VR_LED 0xCD // controls LED 0, 1, 2 (flashing)
 
 #define VR_WRITE_BIASGEN 0xB8 // write bytes out to SPI
 				// the wLengthL field of SETUPDAT specifies the number of bytes to write out (max 64 per request)
@@ -140,6 +141,8 @@ xdata unsigned char biasBytes[]={0x00,0x07,0xc8,	// cas
 								0x00,0x01,0x0f}; 	// Pr
 
 long cycleCounter;
+bit flashLED;
+
 //long missedEvents;
 
 BOOL JTAGinit;
@@ -254,6 +257,7 @@ void TD_Init(void)              // Called once at startup
 	cycleCounter=0;
 //	missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in high state
 	LED=0;
+	flashLED=1;
 
 	// biases, control ports
 	biasInit();	// init biasgen ports and pins
@@ -294,7 +298,7 @@ void TD_Init(void)              // Called once at startup
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
-	if(cycleCounter++>=50000){
+	if(flashLED && cycleCounter++>=50000){
 		LED=!LED;	
 		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
 	}		
@@ -834,6 +838,30 @@ BOOL DR_VendorCmnd(void)
 				EX1=1;
 				return(FALSE);
 			}*/
+		case VR_LED:
+			{
+			switch(SETUPDAT[2]){
+				case 0:
+					LED=0;
+					flashLED=0;
+				break;
+				case 1:
+					LED=1;
+					flashLED=0;
+				break;
+				case 2:
+					flashLED=1;
+				break;
+			}
+		
+			*EP0BUF=VR_LED;
+			SYNCDELAY;
+			EP0BCH = 0;
+			EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
+			EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
+			return(FALSE); // very important, otherwise get stall
+
+			}
 		case VR_RAM:
 		case VR_EEPROM:
 		{
@@ -901,6 +929,7 @@ BOOL DR_VendorCmnd(void)
 					len -= bc;
 				}
 			}
+
 			return(FALSE);
 		}
 		default:
