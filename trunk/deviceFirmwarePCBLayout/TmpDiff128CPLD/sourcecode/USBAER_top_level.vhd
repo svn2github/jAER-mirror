@@ -47,13 +47,12 @@ entity USBAER_top_level is
 
     -- communication with 8051
     ConfigxSI      : in  std_logic;
-    UnusedxSI        : in  std_logic;
     TimestampMasterxSI    : in std_logic;
     HostResetTimestampxSI : in  std_logic;
     RunMonitorxSI : in std_logic;
    -- Interrupt0xSB0        : out std_logic;
     Interrupt1xSB0        : out std_logic;
-   -- PC1xSI                : in  std_logic;                     -- unused
+    PC3xSI                : in  std_logic;                     -- unused
    -- PExDI                 : in  std_logic_vector(3 downto 0);  -- unused
 
     -- control LED
@@ -113,6 +112,14 @@ architecture Structural of USBAER_top_level is
       IncrementCounterxSO   : out   std_logic);
   end component;
 
+  component HostSyncTriggerGenerator
+    port (
+      ClockxCI       : in  std_logic;
+      ResetxRBI      : in  std_logic;
+      HostSyncxSI    : in  std_logic;
+      HostTriggerxSO : out std_logic);
+  end component;
+  
   component monitorStateMachine
     port (
       ClockxCI             : in  std_logic;
@@ -178,6 +185,7 @@ architecture Structural of USBAER_top_level is
   signal MonitorRegWritexE   : std_logic;
 
   signal TriggerxS, AddressMSBxS : std_logic;
+  signal ExternalTriggerxS, HostTriggerxS : std_logic;
   
   signal AERMonitorACKxSB : std_logic;
   
@@ -319,11 +327,20 @@ begin
       ConfigxSI             => ConfigxSI,
       SyncInxABI           => SyncInxABI,
       SyncOutxSBO          => SyncOutxSBO,
-      TriggerxSO            => TriggerxS,
+      TriggerxSO            => ExternalTriggerxS,
       HostResetTimestampxSI => HostResetTimestampxSI,
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
       IncrementCounterxSO   => IncxS);
 
+  HostSyncTriggerGenerator_1: HostSyncTriggerGenerator
+    port map (
+      ClockxCI       => ClockxC,
+      ResetxRBI      => ResetxRBI,
+      HostSyncxSI    => PC3xSI,
+      HostTriggerxSO => HostTriggerxS);
+
+  TriggerxS <= HostTriggerxS or ExternalTriggerxS;
+  
   uFifoStateMachine : fifoStateMachine
     port map (
       ClockxCI                   => ClockxC,

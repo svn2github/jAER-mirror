@@ -1,5 +1,7 @@
 DVS 128 firmware versions:
 
+0013 added sync events controlled from host computer, a sync event is insereted when the vr_led is used
+     to either turn on or off the LED, rapha 20.12.2011
 0012 Added LED control. 15.12.2011, tobi
 0011 Reworked synchronization. Sync is now done using a 10kHz square wave, the slave resyncs all 100us to the falling clock edge. Master / slave has to be set in software.
      CPLD now stoppes writing events to FX2 fifos when the last (fourth) buffer is almost full. It then writes only sync events, wrap and timestamp resets. FifoStateMachine now includes

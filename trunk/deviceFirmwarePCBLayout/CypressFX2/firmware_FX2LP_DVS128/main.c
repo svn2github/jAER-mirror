@@ -46,7 +46,7 @@ extern BOOL Selfpwr;
 #define RESET_TS				PC0
 #define TIMESTAMP_MASTER 		PC1
 #define CFG_TIMESTAMP_COUNTER 	PC2
-#define TIMESTAMP_MODE			PC3
+#define HOST_SYNC				PC3
 
 #define DB_Addr 1 // zero if only one byte address is needed for EEPROM, one if two byte address
 
@@ -773,45 +773,6 @@ BOOL DR_VendorCmnd(void)
 				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
 				return (FALSE); // very important, otherwise get stall
 			}
-	/*	case VR_TIMESTAMP_TICK:
-			{
-				if (SETUPDAT[0]==VR_UPLOAD) //1010_0000 :vendor request to device, direction IN
-				{
-					EP0BUF[0] = SETUPDAT[1];
-				
-					EP0BUF[1]= operationMode;
-					
-					EP0BCH = 0;
-					EP0BCL = 2;
-					EP0CS |= bmHSNAK;
-				} else
-				{
-					operationMode=SETUPDAT[2];
-					if (operationMode==0)
-					{
-						TIMESTAMP_MODE = 0;
-						CFG_TIMESTAMP_COUNTER = 0;
-					}else if (operationMode==1)
-					{
-  						CFG_TIMESTAMP_COUNTER = 1;
-						TIMESTAMP_MODE = 0;	
-					}else if (operationMode==2)
-					{
-  						CFG_TIMESTAMP_COUNTER = 0;
-						TIMESTAMP_MODE = 1;	
-					}else if (operationMode==3)
-					{
-  						CFG_TIMESTAMP_COUNTER = 1;
-						TIMESTAMP_MODE = 1;	
-					}
-
-					*EP0BUF = SETUPDAT[1];
-					EP0BCH = 0;
-					EP0BCL = 1;
-					EP0CS |= bmHSNAK;	
-				}
-				return(FALSE);
-			}*/
 		case VR_IS_TS_MASTER:
 			{
 				EP0BUF[0] = SETUPDAT[1];
@@ -844,10 +805,14 @@ BOOL DR_VendorCmnd(void)
 				case 0:
 					LED=0;
 					flashLED=0;
+					HOST_SYNC=1;
+					HOST_SYNC=0;
 				break;
 				case 1:
 					LED=1;
 					flashLED=0;
+					HOST_SYNC=1;
+					HOST_SYNC=0;
 				break;
 				case 2:
 					flashLED=1;
