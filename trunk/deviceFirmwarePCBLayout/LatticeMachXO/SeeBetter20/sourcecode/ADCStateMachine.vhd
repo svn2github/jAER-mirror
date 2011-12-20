@@ -37,264 +37,329 @@ entity ADCStateMachine is
     RegisterWritexEO      : out   std_logic;
     SRLatchxEI            : in    std_logic;
     RunADCxSI             : in    std_logic;
-    UseCalibrationxSI     : in    std_logic;
-    ScanEnablexSI         : in    std_logic;
-    ScanXxSI              : in    std_logic_vector(4 downto 0);
-    ScanYxSI              : in    std_logic_vector(4 downto 0);
     ADCconfigxDI          : in    std_logic_vector(11 downto 0);
-    TrackTimexDI          : in    std_logic_vector(15 downto 0);
-    RefOnTimexDI          : in    std_logic_vector(15 downto 0);
-    RefOffTimexDI         : in    std_logic_vector(15 downto 0);
-    IdleTimexDI           : in    std_logic_vector(15 downto 0);
+    ExposurexDI           : in    std_logic_vector(15 downto 0);
+    ColSettlexDI          : in    std_logic_vector(15 downto 0);
+    RowSettlexDI          : in    std_logic_vector(15 downto 0);
+    ResSettlexDI          : in    std_logic_vector(15 downto 0);
     CDVSTestSRRowInxSO    : out   std_logic;
     CDVSTestSRRowClockxSO : out   std_logic;
     CDVSTestSRColInxSO    : out   std_logic;
     CDVSTestSRColClockxSO : out   std_logic;
-    CDVSTestRefEnablexEO  : out   std_logic);
+    CDVSTestColState1xSO  : out   std_logic;
+    CDVSTestColState2xSO  : out   std_logic);
 
 end ADCStateMachine;
 
 architecture Behavioral of ADCStateMachine is
-  type state is (stIdle,  stStartup, stLatch, stWriteConfig, stInit, stTrack ,stRefHigh,stRefLow, stStartConversion, stBusy, stRead, stWriteReg, stWait,stSinglePixelClockLow,stSinglePixelClockHigh);
+  type ColState is (stIdle, stFeedReset, stFeedRead ,stFeedRow,stReadColumn, stColumnCount, stFeedNull, stWaitFrame);
+  type RowState is (stIdle, stStartup, stLatch, stWriteConfig, stFeedRow, stResetA, stInitA, stTrackA, stStartConvA, stBusyA, stReadA, stWriteA, stInitB, stTrackB, stStartConvB, stBusyB, stReadB, stWriteB, stRowDone, stColumnDone);
 
 
   -- present and next state
-  signal StatexDP, StatexDN : state;
+  signal StateColxDP, StateColxDN, StateColxDL : ColState;
+  signal StateRowxDP, StateRowxDN : RowState;
   signal ADCconfigWordxS : std_logic_vector(11 downto 0);
   signal ADCwordWritexE : std_logic;
-  signal ClockxC : std_logic;           -- clock this circuit with half the
-                                        -- input clock frequency: 15 MHz
+  signal ClockxC : std_logic;
+
+-- clock this circuit with half the
+-- input clock frequency: 15 MHz
 
   signal ADCoutMSBxS : std_logic_vector(3 downto 0);
-  signal StartPixelxSN, StartPixelxSP : std_logic;
+  signal StartPixelxS : std_logic;
+  signal StartColxSN, StartColxSP : std_logic;
+  signal StartRowxSN, StartRowxSP : std_logic;
   signal ChannelxD : std_logic_vector(1 downto 0);
 
   -- timestamp reset register
-  signal DividerxDP, DividerxDN : std_logic_vector(16 downto 0);
+  signal DividerColxDP, DividerColxDN : std_logic_vector(16 downto 0);
+  signal DividerRowxDP, DividerRowxDN : std_logic_vector(16 downto 0);
 
   constant configword : std_logic_vector(11 downto 0) := "000101100000";--"100101101000";
   signal CountRowxDN, CountRowxDP : std_logic_vector(4 downto 0);
-  signal CountColxDN, CountColxDP : std_logic_vector(3 downto 0);
+  signal CountColxDN, CountColxDP : std_logic_vector(5 downto 0);
+  signal NoBxS, DoReadxS, ReadDonexS : std_logic;
+  signal ColModexD : std_logic_vector(1 downto 0); -- "00" Null, "01" Sel A, "10" Sel B, "11" Res A
+                                    							
 
 begin
 
-  
+  StartPixelxS <= StartColxSP and StartRowxSP;
   ADCconfigWordxS <= ADCconfigxDI;
   ADCoutxDO <= ADCoutMSBxS(3 downto 2) &  ADCwordxDIO(11 downto 0);
   ADCoutMSBxS <= '1' & StartPixelxSP & ChannelxD;
   ChannelxD <= ADCconfigWordxS(6 downto 5);
+  
+  CDVSTestColState1xSO <= ColModexD(0);
+  CDVSTestColState2xSO <= ColModexD(1);
   
   with ADCwordWritexE select
     ADCwordxDIO <=
     ADCconfigWordxS when '1',
     (others => 'Z')       when others;
   
--- calculate next state and outputs
-  p_memless : process (StatexDP, DividerxDP, ADCbusyxSI, ClockxC, SRLatchxEI, UseCalibrationxSI, IdleTimexDI, RefOnTimexDI, RefOffTimexDI, TrackTimexDI, RunADCxSI, CountColxDP, CountRowxDP, StartPixelxSP,ScanEnablexSI, ScanYxSI, ScanXxSI)
+                                             
+-- calculate col next state and outputs
+  p_col : process (StateColxDP, DividerColxDP, ColSettlexDI, ExposurexDI, RunADCxSI, CountColxDP, StartColxSP, ReadDonexS)
   begin  -- process p_memless
     -- default assignements: stay in present state
 
-    StatexDN   <= StatexDP;
-    DividerxDN <= DividerxDP;
+    StateColxDN   <= StateColxDP;
+    DividerColxDN <= DividerColxDP;
     CDVSTestSRColClockxSO <= '0';
-    CDVSTestSRRowClockxSO <= '0';
     CDVSTestSRColInxSO <= '0';
-    CDVSTestSRRowInxSO <= '0';
 
-    StartPixelxSN <= StartPixelxSP;
+    StartColxSN <= StartColxSP;
     
     CountRowxDN <= CountRowxDP;
     CountColxDN <= CountColxDP;
     
+    case StateColxDP is
+      when stIdle =>
+     	if RunADCxSI = '1' then
+          StateColxDN <= stFeedReset;
+		  StartColxSN <= '1';
+        end if;
+        DividerColxDN <= (others => '0');
+        CountRowxDN <= (others => '0');
+        CountColxDN <= (others => '0');
+      when stFeedReset =>
+        if StateColxDL = StateColxDP then
+         StateColxDN <= stFeedRead;
+        else
+         CDVSTestSRColInxSO <= '1';
+         CDVSTestSRColClockxSO <= '1';
+        end if;
+        DividerColxDN <= (others => '0');
+      when stFeedRead =>
+        if StateColxDL = StateColxDP then
+          DividerColxDN <= DividerColxDP + 1;
+          if DividerColxDN > ColSettlexDI then
+            StateColxDN <= stFeedRow;
+          end if;
+        else
+         CDVSTestSRColInxSO <= '1';
+         CDVSTestSRColClockxSO <= '1';
+        end if;
+      when stFeedRow =>
+        DividerColxDN <= (others => '0');
+        DoReadxS <= 1;
+        if ReadDonexS = '1' then
+          StateColxDN <= stColumnCount;
+        end if;
+      when stColumnCount =>
+		  CountColxDN <= CountColxDP + 1;
+		  StartColxSN <= '0';
+		  DoReadxS <= '0';
+        if CountColxDP = (ExposurexDI + 1) then
+          StateColxDN <= stFeedRead;
+          NoBxS <= '0';
+        elsif CountColxDP > (ExposurexDI + 64) then
+          StateColxDN <= stWaitFrame
+        else
+          StateColxDN <= stFeedNull;
+        end if;
+      when stFeedNull =>
+        if StateColxDL = StateColxDP then
+          DividerColxDN <= DividerColxDP + 1;
+          if DividerColxDN > ColSettlexDI then
+            StateColxDN <= stFeedRow;
+          end if;
+        else
+         CDVSTestSRColClockxSO <= '1';
+        end if; 
+      when stWaitFrame =>
+        DividerColxDN <= DividerColxDP + 1;
+        if DividerColxDN > ColSettlexDI then
+          StateColxDN <= stFeedRow;
+        end if;
+      when others      => null;
+    end case;
+
+  end process p_col;
+
+-- calculate next Row state and outputs
+  p_row : process (StateRowxDP, ADCbusyxSI, ClockxC, SRLatchxEI, DividerRowxDP, CountRowxDP, ResSettleDI, RowSettlexDI, StartRowxSP, NoBxS, DoReadxS)
+  begin  -- process p_row
+    -- default assignements: stay in present state
+
+    StateRowxDN   <= StateRowxDP;
+    DividerRowxDN <= DividerRowxDP;
+    CDVSTestSRRowClockxSO <= '0';
+    CDVSTestSRRowInxSO <= '0';
+    
+    CountRowxDN <= CountRowxDP;
+    CountColxDN <= CountColxDP;
+    
+	ColModexD <= "00";
+	
     ADCwritexEBO <= '1';
     ADCreadxEBO <= '1';
     ADCconvstxEBO <= '1';
     RegisterWritexEO <= '0';
-    CDVSTestRefEnablexEO <= '0';
     ADCwordWritexE <= '0';
     ADCclockxCO <= ClockxC;
     
-    case StatexDP is
+    case StateRowxDP is
       when stStartup =>
         ADCwritexEBO <= '0';
-        StatexDN <= stWriteConfig;
+        StateRowxDN <= stWriteConfig;
         ADCwordWritexE <= '1';
         ADCconvstxEBO <= '0';
       when stWriteConfig =>
         ADCwordWritexE <= '1';
-        StatexDN <= stIdle;
+        StateRowxDN <= stIdle;
         ADCconvstxEBO <= '0';
       when stLatch =>
         if SRLatchxEI = '1' then
-          StatexDN <= stStartup;
+          StateRowxDN <= stStartup;
         end if;
         ADCconvstxEBO <= '0';
       when stIdle =>
+		ColModexD <= "00";
         ADCclockxCO <= '0';             -- switch off clock in idle state to-- safe power
-
         if SRLatchxEI = '0' then
-          StatexDN <= stLatch;
-        elsif RunADCxSI = '1' then
-          if ScanEnablexSI='1' then
-            StatexDN <= stInit;
-          else
-            StatexDN <= stSinglePixelClockLow;
-            CountRowxDN <= (others => '0');
-            CountColxDN <= (others => '0');
-          end if;
+          StateRowxDN <= stLatch;
+        elsif DoReadxS = '1' then
+          StateRowxDN <= stReadRow;
         end if;
-        DividerxDN <= (others => '0');
+        DividerRowxDN <= (others => '0');
         ADCconvstxEBO <= '0';
-      when stInit =>
-        if CountRowxDP = 0 and CountColxDP = 0 then
-          StartPixelxSN <= '1';
-          CDVSTestSRRowInxSO <= '1';
-          CDVSTestSRColInxSO <= '1';
-        elsif CountRowxDP = 0 then
-          StartPixelxSN <= '0';
-          CDVSTestSRRowInxSO <= '1';
-        else
-          StartPixelxSN <= '0';
-        end if;
-        StatexDN <= stTrack;
+	  when stFeedRow =>
+		ColModexD <= "00";
+		CDVSTestSRRowClockxSO <= '1';
+		CDVSTestSRRowInxSO <= '1';
+		StartRowxSN <= '1';
+		StateRowxDN <= stResetA;
+	  when stResetA =>
+		ColModexD <= "11";
+		DividerRowxDN <= DividerRowxDP + 1;
+		if DividerRowxDP > ResSettlexDI then
+			StateRowxDN <= stInitA;
+		end if;
+      when stInitA =>
+		ColModexD <= "00";
+		DividerRowxDN <= (others => '0');
+        StateRowxDN <= stTrackA;
         ADCconvstxEBO <= '0';
-        DividerxDN <= (others => '0');
-      when stTrack =>
+      when stTrackA =>
+		ColModexD <= "01";
         ADCconvstxEBO <= '1';
-        DividerxDN <= DividerxDP + 1;
-
-        if ScanEnablexSI='1' then
-          if CountRowxDP = 0 and CountColxDP = 0 then
-            CDVSTestSRRowInxSO <= '1';
-            CDVSTestSRColInxSO <= '1';
-            CDVSTestSRColClockxSO <= '1';
-          elsif CountRowxDP = 0 then
-            CDVSTestSRColClockxSO <= '1';
-            CDVSTestSRRowInxSO <= '1';
-          end if;
-          CDVSTestSRRowClockxSO <= '1';
+        DividerRowxDN <= DividerRowxDP + 1;
+        if DividerxDP > RowSettlexDI then
+          StateRowxDN <= stStartConversionA;
+          DividerRowxDN <= (others => '0');
         end if;
-
-        if DividerxDP > TrackTimexDI then
-          if UseCalibrationxSI = '1' and ScanEnablexSI='1'  then
-            StatexDN <= stRefHigh;
-          else
-            StatexDN <= stStartConversion;
-          end if;
-          
-          DividerxDN <= (others => '0');
-          
-          if ScanEnablexSI='1' then
-            if CountRowxDP = 0 then
-              CountColxDN <= CountColxDP + 1;
-            end if;
-            CountRowxDN <= CountRowxDP + 1;
-          end if;
-        end if;
-      when stRefHigh =>
-        ADCconvstxEBO <= '1';
-        DividerxDN <= DividerxDP + 1;
-
-        CDVSTestRefEnablexEO <= '1';
-        if DividerxDP > RefOnTimexDI then
-          StatexDN <= stRefLow;
-          DividerxDN <= (others => '0');
-        end if;
-      when stRefLow =>
-        ADCconvstxEBO <= '1';
-        DividerxDN <= DividerxDP + 1;
-
-        CDVSTestRefEnablexEO <= '0';
-        if DividerxDP > RefOffTimexDI then
-          StatexDN <= stStartConversion;
-          DividerxDN <= (others => '0');
-        end if;
-      when stStartConversion =>
+      when stStartConversionA =>
+		ColModexD <= "01";
         ADCconvstxEBO <= '0';
         if ADCbusyxSI = '1' then
-          StatexDN <= stBusy;
-        end if;
-       
-      when stBusy =>
+          StatexDN <= stBusyA;
+        end if; 
+      when stBusyA =>
+		ColModexD <= "01";
         ADCconvstxEBO <= '0';
         if ADCbusyxSI = '0' then
-          StatexDN <= stRead;
+          StatexDN <= stReadA;
         end if;
-      when stRead =>
+      when stReadA =>
+		ColModexD <= "00";
         ADCconvstxEBO <= '0';
         ADCreadxEBO <= '0';
-        StatexDN <= stWriteReg;
-      when stWriteReg =>
+        StatexDN <= stWriteA;
+      when stWriteA =>
         ADCconvstxEBO <= '0';
         ADCreadxEBO <= '0';
         StatexDN <= stWait;
         RegisterWritexEO <= '1';
         DividerxDN <= (others => '0');
-      when stWait =>
+		if NoBxS = '1' then
+			StateRowxDN <= stRowDone;
+		else
+			StateRowxDN <= stInitB;
+		end if;
+		
+	  when stInitB =>
+		ColModexD <= "00";
+		DividerRowxDN <= (others => '0');
+        StateRowxDN <= stTrackB;
         ADCconvstxEBO <= '0';
-        DividerxDN <= DividerxDP+1;
-        if RunADCxSI = '0' then
-          StatexDN <= stIdle;
-        elsif DividerxDP > IdleTimexDI then
-          if ScanEnablexSI='1' then    
-            StatexDN <= stInit;
-          else
-            StatexDN <= stTrack;
-          end if;
+      when stTrackB =>
+		ColModexD <= "10";
+        ADCconvstxEBO <= '1';
+        DividerRowxDN <= DividerRowxDP + 1;
+        if DividerxDP > RowSettlexDI then
+          StateRowxDN <= stStartConversionB;
+          DividerRowxDN <= (others => '0');
         end if;
-      when stSinglePixelClockLow =>
-        if DividerxDP >31 and CountColxDP = ScanXxSI(3 downto 0) and CountRowxDP = ScanYxSI(4 downto 0) then
-          StatexDN <= stTrack;
-        else
-          StatexDN <= stSinglePixelClockHigh;
+      when stStartConversionB =>
+		ColModexD <= "10";
+        ADCconvstxEBO <= '0';
+        if ADCbusyxSI = '1' then
+          StatexDN <= stBusyB;
+        end if; 
+      when stBusyB =>
+		ColModexD <= "10";
+        ADCconvstxEBO <= '0';
+        if ADCbusyxSI = '0' then
+          StatexDN <= stReadB;
         end if;
-        
-        if DividerxDP = 31 then
-          CDVSTestSRColInxSO <= '1';
-          CDVSTestSRRowInxSO <= '1';
-        end if;
-      when stSinglePixelClockHigh =>
-        StatexDN <= stSinglePixelClockLow;
-        
-        if DividerxDP = 31 then         -- load bit into shift register after
-                                        -- 32 clocks
-          CDVSTestSRColInxSO <= '1';
-          CDVSTestSRRowInxSO <= '1';
-        end if;
-        
-        if DividerxDP <32 then
-          DividerxDN <= DividerxDP+1;
-          CDVSTestSRRowClockxSO <= '1';
-          CDVSTestSRColClockxSO <= '1';
-        else
-          if CountRowxDP < ScanYxSI(4 downto 0) then
-            CDVSTestSRRowClockxSO <= '1';
-            CountRowxDN <= CountRowxDP +1;
-          end if;
-          if CountColxDP < ScanXxSI(3 downto 0) then
-            CDVSTestSRColClockxSO <= '1';
-            CountColxDN <= CountColxDP +1;
-          end if; 
-        end if;
+      when stReadB =>
+		ColModexD <= "00";
+        ADCconvstxEBO <= '0';
+        ADCreadxEBO <= '0';
+        StatexDN <= stWriteB;
+      when stWriteB =>
+        ADCconvstxEBO <= '0';
+        ADCreadxEBO <= '0';
+        StatexDN <= stWait;
+        RegisterWritexEO <= '1';
+        DividerxDN <= (others => '0');
+		StateRowxDN <= stRowDone;
+		
+	  when stRowDone =>
+		ColModexD <= "00";
+        ADCconvstxEBO <= '0';
+		CDVSTestSRRowClockxSO <= '1';
+		CDVSTestSRRowInxSO <= '0';
+		if CountRowxDP >= 31 then
+			StateRowxDN <= stInitA;
+		else
+			StateRowxDN <= stColumnDone;
+		end if;
+		CountRowxDN <= CountRowxDP + 1;
+      when stColumnDone =>
+        ColModexD <= "00";
+		CountRowxDN <= (others => '0');
+		ReadDonexS <= '1';
+		StateRowxDN <= stInit;
        
       when others      => null;
     end case;
 
-  end process p_memless;
+  end process p_row;
 
   -- change state on clock edge
   p_memoryzing : process (ClockxC, ResetxRBI)
   begin  -- process p_memoryzing
     if ResetxRBI = '0' then             -- asynchronous reset (active low)
-      StatexDP <= stStartup;
-      DividerxDP <= (others => '0');
-      StartPixelxSP <= '0';
+      StateColxDP <= stStartup;
+	  StateRowxDP <= stIdle;
+      DividerColxDP <= (others => '0');
+	  DividerRowxDP <= (others => '0');
+      StartColxSP <= '0';
+	  StartRowxSP <= '0';
       CountColxDP <= (others => '0');
       CountRowxDP <= (others => '0');
     elsif ClockxC'event and ClockxC = '1' then  -- rising clock edge
-      StatexDP <= StatexDN;
-      DividerxDP <= DividerxDN;
-      StartPixelxSP <= StartPixelxSN;
+      StateColxDL <= StateColxDP;
+      StateColxDP <= StateColxDN;
+      StateRowxDP <= StateRowxDN;
+      DividerColxDP <= DividerColxDN;
+	  DividerRowxDP <= DividerRowxDN;
+      StartColxSP <= StartColxSN;
+	  StartRowxSP <= StartRowxSN;
       CountRowxDP <= CountRowxDN;
       CountColxDP <= CountColxDN;
     end if;
