@@ -73,11 +73,13 @@ entity USBAER_top_level is
     CDVSTestSRColClockxSO: out std_logic;
     CDVSTestSRRowInxSO: out std_logic;
     CDVSTestSRColInxSO: out std_logic;
-    CDVSTestRefEnablexEO : out std_logic;
     
     CDVSTestPowerdownxEO : out std_logic;
-    CDVSTestSel5TxSO : out std_logic;
     CDVSTestChipResetxRBO: out std_logic;
+	
+	CDVSTestColMode0xSO : out std_logic;
+	CDVSTestColMode1xSO : out std_logic;
+
     
     -- control LED
     LED1xSO : out std_logic;
@@ -177,32 +179,30 @@ architecture Structural of USBAER_top_level is
 
   component ADCStateMachine
     port (
-      ClockxCI              : in    std_logic;
-      ADCclockxCO           : out   std_logic;
-      ResetxRBI             : in    std_logic;
-      ADCwordxDIO           : inout std_logic_vector(11 downto 0);
-      ADCoutxDO             : out   std_logic_vector(13 downto 0);
-      ADCwritexEBO          : out   std_logic;
-      ADCreadxEBO           : out   std_logic;
-      ADCconvstxEBO         : out   std_logic;
-      ADCbusyxSI            : in    std_logic;
-      RegisterWritexEO      : out   std_logic;
-      SRLatchxEI            : in    std_logic;
-      RunADCxSI             : in    std_logic;
-      UseCalibrationxSI     : in    std_logic;
-      ScanEnablexSI         : in    std_logic;
-      ScanXxSI              : in    std_logic_vector(4 downto 0);
-      ScanYxSI              : in    std_logic_vector(4 downto 0);
-      ADCconfigxDI          : in    std_logic_vector(11 downto 0);
-      TrackTimexDI          : in    std_logic_vector(15 downto 0);
-      RefOnTimexDI          : in    std_logic_vector(15 downto 0);
-      RefOffTimexDI         : in    std_logic_vector(15 downto 0);
-      IdleTimexDI           : in    std_logic_vector(15 downto 0);
-      CDVSTestSRRowInxSO    : out   std_logic;
-      CDVSTestSRRowClockxSO : out   std_logic;
-      CDVSTestSRColInxSO    : out   std_logic;
-      CDVSTestSRColClockxSO : out   std_logic;
-      CDVSTestRefEnablexEO  : out   std_logic);
+		ClockxCI              : in    std_logic;
+		ADCclockxCO           : out   std_logic;
+		ResetxRBI             : in    std_logic;
+		ADCwordxDIO           : inout std_logic_vector(11 downto 0);
+		ADCoutxDO             : out   std_logic_vector(13 downto 0);
+		ADCwritexEBO          : out   std_logic;
+		ADCreadxEBO           : out   std_logic;
+		ADCconvstxEBO         : out   std_logic;
+		ADCbusyxSI            : in    std_logic;
+		RegisterWritexEO      : out   std_logic;
+		SRLatchxEI            : in    std_logic;
+		RunADCxSI             : in    std_logic;
+		ADCconfigxDI          : in    std_logic_vector(11 downto 0);
+		ExposurexDI           : in    std_logic_vector(15 downto 0);
+		ColSettlexDI          : in    std_logic_vector(15 downto 0);
+		RowSettlexDI          : in    std_logic_vector(15 downto 0);
+		ResSettlexDI          : in    std_logic_vector(15 downto 0);
+		FramePeriodxDI		  : in    std_logic_vector(31 downto 0);
+		CDVSTestSRRowInxSO    : out   std_logic;
+		CDVSTestSRRowClockxSO : out   std_logic;
+		CDVSTestSRColInxSO    : out   std_logic;
+		CDVSTestSRColClockxSO : out   std_logic;
+		CDVSTestColMode0xSO  : out   std_logic;
+		CDVSTestColMode1xSO  : out   std_logic);
   end component;
   
   component ADCvalueReady
@@ -336,20 +336,16 @@ architecture Structural of USBAER_top_level is
   signal CDVSTestSRRowClockxS, CDVSTestSRRowInxS : std_logic;
   signal CDVSTestSRColClockxS, CDVSTestSRColInxS : std_logic;
   signal CDVSTestRefEnablexE  : std_logic;
-
-  signal SRDataOutxD : std_logic_vector(90 downto 0);
-  signal RefOnTimexD, RefOffTimexD : std_logic_vector(15 downto 0);  -- allows a max time of
-  signal IdleTimexD, TrackTimexD : std_logic_vector(15 downto 0);    -- ca 3ms (adc state
-                                                                     -- machine is clocked
-                                                                     -- at 15MHz)
-  signal UseCalibrationxS : std_logic;
+  signal CDVSTestColMode0xS, CDVSTestColMode1xS : std_logic;
+  
+  signal SRDataOutxD : std_logic_vector(107 downto 0);
+  
+  signal ExposurexD, ColSettlexD, RowSettlexD, ResSettlexD : std_logic_vector(15 downto 0); 
+  signal FramePeriodxD : std_logic_vector(31 downto 0);   
+  
   signal ADCconfigxD : std_logic_vector(11 downto 0);
   signal SRoutxD, SRinxD, SRLatchxE, SRClockxC : std_logic;
   signal RunADCxS : std_logic;
-  signal CDVSTestSel5TxS : std_logic;
-
-  signal ScanEnablexS : std_logic;            -- whether scanner should run continously or we take ADC values from a single pixel
-  signal ScanXxS, ScanYxS : std_logic_vector(4 downto 0);
   
   -- lock signal from PLL, unused so far
   signal LockxS : std_logic;
@@ -389,7 +385,7 @@ begin
   
   shiftRegister_1: shiftRegister
     generic map (
-      width => 91)
+      width => 108)
     port map (
       ClockxCI   => SRClockxC,
       ResetxRBI  => ResetxRB,
@@ -398,16 +394,12 @@ begin
       QxDO       => SRoutxD,
       DataOutxDO => SRDataOutxD);
 
-  CDVSTestSel5TxS <= SRDataOutxD(0);
-  UseCalibrationxS <= SRDataOutxD(1);
-  ADCconfigxD <= SRDataOutxD(13 downto 2);
-  TrackTimexD <= SRDataOutxD(29 downto 14);
-  RefOnTimexD <= SRDataOutxD(45 downto 30);
-  RefOffTimexD <= SRDataOutxD(61 downto 46);
-  IdleTimexD <= SRDataOutxD(77 downto 62);
-  ScanYxS <= SRDataOutxD(82 downto 78);
-  ScanXxS <= SRDataOutxD(88 downto 84);
-  ScanEnablexS <= SRDataOutxD(90);
+  ADCconfigxD <= SRDataOutxD(11 downto 0);
+  ExposurexD <= SRDataOutxD(27 downto 12);
+  ColSettlexD <= SRDataOutxD(43 downto 28);
+  RowSettlexD <= SRDataOutxD(59 downto 44);
+  ResSettlexD <= SRDataOutxD(75 downto 60);
+  FramePeriodxD <= SRDataOutxD(107 downto 76);
   
   uFifo : AERfifo
     port map (
@@ -531,20 +523,19 @@ begin
       RegisterWritexEO      => ADCregWritexE,
       SRLatchxEI            => SRLatchxE,
       RunADCxSI             => RunADCxS,
-      UseCalibrationxSI     => UseCalibrationxS,
-      ScanEnablexSI         => ScanEnablexS,
-      ScanXxSI              => ScanXxS,
-      ScanYxSI              => ScanYxS,
-      ADCconfigxDI           => ADCconfigxD,
-      TrackTimexDI           => TrackTimexD,
-      RefOnTimexDI           => RefOnTimexD,
-      RefOffTimexDI          => RefOffTimexD,
-      IdleTimexDI            => IdleTimexD,
+	  ExposurexDI           => ExposurexD,
+	  ColSettlexDI          => ColSettlexD,
+	  RowSettlexDI          => RowSettlexD,
+	  ResSettlexDI          => ResSettlexD,
+	  FramePeriodxDI		=> FramePeriodxD,
+	  ADCconfigxDI          => ADCconfigxD,
       CDVSTestSRRowInxSO    => CDVSTestSRRowInxS,
       CDVSTestSRRowClockxSO => CDVSTestSRRowClockxS,
       CDVSTestSRColInxSO    => CDVSTestSRColInxS,
       CDVSTestSRColClockxSO => CDVSTestSRColClockxS,
-      CDVSTestRefEnablexEO  => CDVSTestRefEnablexE);
+	  CDVSTestColMode0xSO   => CDVSTestColMode0xS,
+	  CDVSTestColMode1xSO   => CDVSTestColMode1xS
+	  );
   
   ADCbusyxS <= ADCbusyxSI;
 
@@ -608,9 +599,9 @@ begin
   CDVSTestSRRowClockxSO <= CDVSTestSRRowClockxS;
   CDVSTestSRColInxSO <= CDVSTestSRColInxS;
   CDVSTestSRRowInxSO <= CDVSTestSRRowInxS;
-  CDVSTestRefEnablexEO <= CDVSTestRefEnablexE;
 
-  CDVSTestSel5TxSO <= CDVSTestSel5TxS;
+  CDVSTestColMode0xSO <= CDVSTestColMode0xS;
+  CDVSTestColMode1xSO <= CDVSTestColMode1xS;
 
   ADCconvstxEBO <= ADCconvstxEB;
   ADCreadxEBO <= ADCreadxEB;

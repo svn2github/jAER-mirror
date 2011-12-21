@@ -42,18 +42,19 @@ entity ADCStateMachine is
     ColSettlexDI          : in    std_logic_vector(15 downto 0);
     RowSettlexDI          : in    std_logic_vector(15 downto 0);
     ResSettlexDI          : in    std_logic_vector(15 downto 0);
+	FramePeriodxDI		  : in    std_logic_vector(31 downto 0);
     CDVSTestSRRowInxSO    : out   std_logic;
     CDVSTestSRRowClockxSO : out   std_logic;
     CDVSTestSRColInxSO    : out   std_logic;
     CDVSTestSRColClockxSO : out   std_logic;
-    CDVSTestColState1xSO  : out   std_logic;
-    CDVSTestColState2xSO  : out   std_logic);
+    CDVSTestColMode0xSO  : out   std_logic;
+    CDVSTestColMode1xSO  : out   std_logic);
 
 end ADCStateMachine;
 
 architecture Behavioral of ADCStateMachine is
   type ColState is (stIdle, stFeedReset, stFeedRead ,stFeedRow,stReadColumn, stColumnCount, stFeedNull, stWaitFrame);
-  type RowState is (stIdle, stStartup, stLatch, stWriteConfig, stFeedRow, stResetA, stInitA, stTrackA, stStartConvA, stBusyA, stReadA, stWriteA, stInitB, stTrackB, stStartConvB, stBusyB, stReadB, stWriteB, stRowDone, stColumnDone);
+  type RowState is (stIdle, stStartup, stLatch, stWriteConfig, stFeedRow, stResetA, stInitA, stTrackA, stStartConversionA, stBusyA, stReadA, stWriteA, stInitB, stTrackB, stStartConversionB, stBusyB, stReadB, stWriteB, stRowDone, stColumnDone);
 
 
   -- present and next state
@@ -73,7 +74,7 @@ architecture Behavioral of ADCStateMachine is
   signal ChannelxD : std_logic_vector(1 downto 0);
 
   -- timestamp reset register
-  signal DividerColxDP, DividerColxDN : std_logic_vector(16 downto 0);
+  signal DividerColxDP, DividerColxDN : std_logic_vector(32 downto 0);
   signal DividerRowxDP, DividerRowxDN : std_logic_vector(16 downto 0);
 
   constant configword : std_logic_vector(11 downto 0) := "000101100000";--"100101101000";
@@ -88,11 +89,11 @@ begin
   StartPixelxS <= StartColxSP and StartRowxSP;
   ADCconfigWordxS <= ADCconfigxDI;
   ADCoutxDO <= ADCoutMSBxS(3 downto 2) &  ADCwordxDIO(11 downto 0);
-  ADCoutMSBxS <= '1' & StartPixelxSP & ChannelxD;
+  ADCoutMSBxS <= '1' & StartPixelxS & ChannelxD;
   ChannelxD <= ADCconfigWordxS(6 downto 5);
   
-  CDVSTestColState1xSO <= ColModexD(0);
-  CDVSTestColState2xSO <= ColModexD(1);
+  CDVSTestColMode0xSO <= ColModexD(0);
+  CDVSTestColMode1xSO <= ColModexD(1);
   
   with ADCwordWritexE select
     ADCwordxDIO <=
@@ -112,7 +113,6 @@ begin
 
     StartColxSN <= StartColxSP;
     
-    CountRowxDN <= CountRowxDP;
     CountColxDN <= CountColxDP;
     
     case StateColxDP is
@@ -122,8 +122,8 @@ begin
 		  StartColxSN <= '1';
         end if;
         DividerColxDN <= (others => '0');
-        CountRowxDN <= (others => '0');
         CountColxDN <= (others => '0');
+		NoBxS <= '1';
       when stFeedReset =>
         if StateColxDL = StateColxDP then
          StateColxDN <= stFeedRead;
@@ -135,7 +135,7 @@ begin
       when stFeedRead =>
         if StateColxDL = StateColxDP then
           DividerColxDN <= DividerColxDP + 1;
-          if DividerColxDN > ColSettlexDI then
+          if DividerColxDP > ColSettlexDI then
             StateColxDN <= stFeedRow;
           end if;
         else
@@ -144,7 +144,7 @@ begin
         end if;
       when stFeedRow =>
         DividerColxDN <= (others => '0');
-        DoReadxS <= 1;
+        DoReadxS <= '1';
         if ReadDonexS = '1' then
           StateColxDN <= stColumnCount;
         end if;
@@ -156,14 +156,14 @@ begin
           StateColxDN <= stFeedRead;
           NoBxS <= '0';
         elsif CountColxDP > (ExposurexDI + 64) then
-          StateColxDN <= stWaitFrame
+          StateColxDN <= stWaitFrame;
         else
           StateColxDN <= stFeedNull;
         end if;
       when stFeedNull =>
         if StateColxDL = StateColxDP then
           DividerColxDN <= DividerColxDP + 1;
-          if DividerColxDN > ColSettlexDI then
+          if DividerColxDP > ColSettlexDI then
             StateColxDN <= stFeedRow;
           end if;
         else
@@ -171,8 +171,8 @@ begin
         end if; 
       when stWaitFrame =>
         DividerColxDN <= DividerColxDP + 1;
-        if DividerColxDN > ColSettlexDI then
-          StateColxDN <= stFeedRow;
+        if DividerColxDP > FramePeriodxDI then
+          StateColxDN <= stIdle;
         end if;
       when others      => null;
     end case;
@@ -180,7 +180,7 @@ begin
   end process p_col;
 
 -- calculate next Row state and outputs
-  p_row : process (StateRowxDP, ADCbusyxSI, ClockxC, SRLatchxEI, DividerRowxDP, CountRowxDP, ResSettleDI, RowSettlexDI, StartRowxSP, NoBxS, DoReadxS)
+  p_row : process (StateRowxDP, ADCbusyxSI, ClockxC, SRLatchxEI, DividerRowxDP, CountRowxDP, ResSettlexDI, RowSettlexDI, StartRowxSP, NoBxS, DoReadxS)
   begin  -- process p_row
     -- default assignements: stay in present state
 
@@ -190,7 +190,6 @@ begin
     CDVSTestSRRowInxSO <= '0';
     
     CountRowxDN <= CountRowxDP;
-    CountColxDN <= CountColxDP;
     
 	ColModexD <= "00";
 	
@@ -222,10 +221,11 @@ begin
         if SRLatchxEI = '0' then
           StateRowxDN <= stLatch;
         elsif DoReadxS = '1' then
-          StateRowxDN <= stReadRow;
+          StateRowxDN <= stFeedRow;
         end if;
         DividerRowxDN <= (others => '0');
         ADCconvstxEBO <= '0';
+		CountRowxDN <= (others => '0');
 	  when stFeedRow =>
 		ColModexD <= "00";
 		CDVSTestSRRowClockxSO <= '1';
@@ -247,7 +247,7 @@ begin
 		ColModexD <= "01";
         ADCconvstxEBO <= '1';
         DividerRowxDN <= DividerRowxDP + 1;
-        if DividerxDP > RowSettlexDI then
+        if DividerRowxDP > RowSettlexDI then
           StateRowxDN <= stStartConversionA;
           DividerRowxDN <= (others => '0');
         end if;
@@ -255,25 +255,24 @@ begin
 		ColModexD <= "01";
         ADCconvstxEBO <= '0';
         if ADCbusyxSI = '1' then
-          StatexDN <= stBusyA;
+          StateRowxDN <= stBusyA;
         end if; 
       when stBusyA =>
 		ColModexD <= "01";
         ADCconvstxEBO <= '0';
         if ADCbusyxSI = '0' then
-          StatexDN <= stReadA;
+          StateRowxDN <= stReadA;
         end if;
       when stReadA =>
 		ColModexD <= "00";
         ADCconvstxEBO <= '0';
         ADCreadxEBO <= '0';
-        StatexDN <= stWriteA;
+        StateRowxDN <= stWriteA;
       when stWriteA =>
         ADCconvstxEBO <= '0';
         ADCreadxEBO <= '0';
-        StatexDN <= stWait;
         RegisterWritexEO <= '1';
-        DividerxDN <= (others => '0');
+        DividerRowxDN <= (others => '0');
 		if NoBxS = '1' then
 			StateRowxDN <= stRowDone;
 		else
@@ -289,7 +288,7 @@ begin
 		ColModexD <= "10";
         ADCconvstxEBO <= '1';
         DividerRowxDN <= DividerRowxDP + 1;
-        if DividerxDP > RowSettlexDI then
+        if DividerRowxDP > RowSettlexDI then
           StateRowxDN <= stStartConversionB;
           DividerRowxDN <= (others => '0');
         end if;
@@ -297,25 +296,24 @@ begin
 		ColModexD <= "10";
         ADCconvstxEBO <= '0';
         if ADCbusyxSI = '1' then
-          StatexDN <= stBusyB;
+          StateRowxDN <= stBusyB;
         end if; 
       when stBusyB =>
 		ColModexD <= "10";
         ADCconvstxEBO <= '0';
         if ADCbusyxSI = '0' then
-          StatexDN <= stReadB;
+          StateRowxDN <= stReadB;
         end if;
       when stReadB =>
 		ColModexD <= "00";
         ADCconvstxEBO <= '0';
         ADCreadxEBO <= '0';
-        StatexDN <= stWriteB;
+        StateRowxDN <= stWriteB;
       when stWriteB =>
         ADCconvstxEBO <= '0';
         ADCreadxEBO <= '0';
-        StatexDN <= stWait;
         RegisterWritexEO <= '1';
-        DividerxDN <= (others => '0');
+        DividerRowxDN <= (others => '0');
 		StateRowxDN <= stRowDone;
 		
 	  when stRowDone =>
@@ -323,6 +321,7 @@ begin
         ADCconvstxEBO <= '0';
 		CDVSTestSRRowClockxSO <= '1';
 		CDVSTestSRRowInxSO <= '0';
+		StartRowxSN <= '0';
 		if CountRowxDP >= 31 then
 			StateRowxDN <= stInitA;
 		else
@@ -331,9 +330,8 @@ begin
 		CountRowxDN <= CountRowxDP + 1;
       when stColumnDone =>
         ColModexD <= "00";
-		CountRowxDN <= (others => '0');
 		ReadDonexS <= '1';
-		StateRowxDN <= stInit;
+		StateRowxDN <= stIdle;
        
       when others      => null;
     end case;
@@ -344,8 +342,8 @@ begin
   p_memoryzing : process (ClockxC, ResetxRBI)
   begin  -- process p_memoryzing
     if ResetxRBI = '0' then             -- asynchronous reset (active low)
-      StateColxDP <= stStartup;
-	  StateRowxDP <= stIdle;
+      StateColxDP <= stIdle;
+	  StateRowxDP <= stStartup;
       DividerColxDP <= (others => '0');
 	  DividerRowxDP <= (others => '0');
       StartColxSP <= '0';
