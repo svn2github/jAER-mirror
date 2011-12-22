@@ -51,6 +51,7 @@ entity USBAER_top_level is
     PC3xSIO  : inout  std_logic;
 
 --    PA0xSIO : inout std_logic;
+    PA0xSIO : inout std_logic;
     PA1xSIO : inout std_logic;
     PA3xSIO : inout std_logic;
     PA7xSIO : inout std_logic;
@@ -79,6 +80,8 @@ entity USBAER_top_level is
 	
 	CDVSTestColMode0xSO : out std_logic;
 	CDVSTestColMode1xSO : out std_logic;
+	
+	CDVSTestBiasDiagSelxSO : out std_logic;
 
     
     -- control LED
@@ -267,6 +270,9 @@ architecture Structural of USBAER_top_level is
       AlmostFull: out  std_logic);
   end component;
 
+  -- routing
+  -- signal CDVSTestBiasDiagSelxS 	: std_logic;
+
   -- signal declarations
   signal MonitorTimestampxD                          : std_logic_vector(13 downto 0);
   signal ActualTimestampxD                           : std_logic_vector(13 downto 0);
@@ -372,6 +378,10 @@ begin
       LOCK=>  LockxS);
 
   --ClockxC <= IFClockxCI;
+  
+  -- routing
+  
+  CDVSTestBiasDiagSelxSO <= PA0xSIO; 
   
   -- run the state machines either when reset is high or when in slave mode
   ResetxRB <= ResetxRBI;
@@ -584,7 +594,7 @@ begin
   --CDVSTestChipResetxRBO <= PE3xSI;
   --CDVSTestChipResetxRBO <= CDVSTestChipResetxRB;
 
-  CDVSTestPowerdownxEO <= PE2xSI;
+  CDVSTestPowerdownxEO <= not PE2xSI;
 
   HostResetTimestampxS <= PA7xSIO;
   RunxS <= PA3xSIO or not TimestampMasterxS;
