@@ -1,15 +1,16 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE			ispXCF	SYSTEM			"IspXCF.dtd" >
+<!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
 <ispXCF version="Programmer">
 	<Comment></Comment>
 	<Chain>
 		<Comm>JTAG</Comm>
 		<Device>
+			<SelectedProg value="TRUE"/>
 			<Pos>1</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>MachXO</Family>
 			<Name>LCMXO2280C</Name>
-			<IDCode>0x0128D043</IDCode>
+			<IDCode>0x0128d043</IDCode>
 			<Package>All</Package>
 			<PON>LCMXO2280C</PON>
 			<Bypass>
@@ -19,12 +20,14 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/SeeBetter20/SeeBetter20_SeeBetter20.jed</File>
-			<FileTime>Do 10. Nov 16:20:11 2011</FileTime>
+			<FileTime>12/22/2011 16:56:0</FileTime>
+			<JedecChecksum>0x8D1D</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
-				<IOState>Leave Alone</IOState>
-				<IOVectorData>0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</IOVectorData>
+				<IOState>HighZ</IOState>
+				<PreloadLength>544</PreloadLength>
+				<IOVectorData>0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</IOVectorData>
 				<OverideUES value="TRUE"/>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
 				<SVFProcessor>ispVM</SVFProcessor>
@@ -40,12 +43,16 @@
 		<StartTAP>TLR</StartTAP>
 		<EndTAP>TLR</EndTAP>
 		<VerifyUsercode value="TRUE"/>
-		<PinSetting>
-			TMS        LOW;
-			TCK        LOW;
-			TDI        LOW;
-			TDO        LOW;
-			CableEN    HIGH;
-		</PinSetting>
 	</ProjectOptions>
+	<CableOptions>
+		<CableName>USB</CableName>
+		<PortAdd>EzUSB-0</PortAdd>
+		<JTAGPinSetting>
+			TMS	LOW;
+			TCK	LOW;
+			TDI	LOW;
+			TDO	LOW;
+			CableEN	HIGH;
+		</JTAGPinSetting>
+	</CableOptions>
 </ispXCF>
