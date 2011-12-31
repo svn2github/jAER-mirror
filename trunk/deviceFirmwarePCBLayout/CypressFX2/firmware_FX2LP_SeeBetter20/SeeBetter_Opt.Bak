@@ -17,15 +17,15 @@ OPTFFF 1,1,1,0,0,0,0,0,<.\fw.c><fw.c>
 OPTFFF 1,2,2,0,0,0,0,0,<.\dscr.a51><dscr.a51> 
 OPTFFF 1,3,4,0,0,0,0,0,<C:\Cypress\USB\Target\Lib\LP\EZUSB.LIB><EZUSB.LIB> 
 OPTFFF 1,4,3,0,0,0,0,0,<C:\Cypress\USB\Target\Lib\LP\USBJmpTb.OBJ><USBJmpTb.OBJ> 
-OPTFFF 1,5,5,2,0,1,1,0,<.\biasgen.h><biasgen.h> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,194,6,0,0,244,0,0,0 }
-OPTFFF 1,6,2,754974720,0,0,0,0,<.\spiwritebyte.a51><spiwritebyte.a51> 
+OPTFFF 1,5,5,0,0,1,1,0,<.\biasgen.h><biasgen.h> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,194,6,0,0,244,0,0,0 }
+OPTFFF 1,6,2,0,0,0,0,0,<.\spiwritebyte.a51><spiwritebyte.a51> 
 OPTFFF 1,7,5,0,0,0,0,0,<C:\Cypress\USB\Target\Inc\syncdly.h><syncdly.h> 
 OPTFFF 1,8,5,0,0,0,0,0,<C:\Cypress\USB\Target\Inc\lp.h><lp.h> 
 OPTFFF 1,9,5,0,0,0,0,0,<C:\Cypress\USB\Target\Inc\lpregs.h><lpregs.h> 
 OPTFFF 1,10,5,0,0,0,0,0,<C:\Cypress\USB\Target\Inc\lpregs.inc><lpregs.inc> 
 OPTFFF 1,11,5,0,0,0,0,0,<C:\Keil\C51\INC\Cypress\Fx2.h><Fx2.h> 
 OPTFFF 1,12,5,0,0,0,0,0,<C:\Keil\C51\INC\Cypress\fx2regs.h><fx2regs.h> 
-OPTFFF 1,13,1,469762049,0,647,647,0,<.\main.c><main.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,244,0,0,0,194,6,0,0,232,1,0,0 }
+OPTFFF 1,13,1,1325400067,0,634,639,0,<.\main.c><main.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,244,0,0,0,194,6,0,0,232,1,0,0 }
 OPTFFF 1,14,5,0,0,0,0,0,<.\ports.h><ports.h> 
 OPTFFF 1,15,5,0,0,0,0,0,<.\opcode.h><opcode.h> 
 
