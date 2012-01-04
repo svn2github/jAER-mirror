@@ -32,11 +32,11 @@ extern BOOL Selfpwr;
 #define DVS_nReset 				0x08  // PE3 called nChipReset on host, resets DVS array and AER logic
 #define BIAS_ADDR_SEL			0x01  // PE0 called biasAddrSel selects the address shift register
 
-#define setArrayReset() 	IOE=IOE&~DVS_nReset	
-#define releaseArrayReset()	IOE=IOE|DVS_nReset
+#define setArrayReset() 	IOE=IOE&~DVS_nReset;	
+#define releaseArrayReset()	IOE=IOE|DVS_nReset;
 
-#define selectAddrSR()		IOE=IOE&~BIAS_ADDR_SEL
-#define releaseAddrSR()		IOE=IOE|BIAS_ADDR_SEL	
+#define releaseAddrSR()		IOE=IOE|BIAS_ADDR_SEL;
+#define selectAddrSR()		IOE=IOE&~BIAS_ADDR_SEL;	
 
 #define BIAS_DIAG_SEL			PA0
 #define RESET_TS				PA7
@@ -196,7 +196,7 @@ void TD_Init(void)              // Called once at startup
 
 	
 	OEC = 0x0F; // 0000_1111 // JTAG, shift register stuff
-	OEE = 0xFE; // 1111_1110 configure only bit 0 (BitOut) as input
+	OEE = 0xFF; // 1111_1111 
 	OEA = 0x89;  // 1000_1001 PA1: timestampMaster
 
 	// 
@@ -232,7 +232,7 @@ void TD_Init(void)              // Called once at startup
 
 	cycleCounter=0;
 
-	biasInit();	// init biasgen ports and pins
+	biasInit();	// init biasgen ports and pins                             
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
 
 	setArrayReset(); // keep pixels from spiking, reset all of them
@@ -760,6 +760,7 @@ BOOL DR_VendorCmnd(void)
 						len -= bc; // dec total byte count
 					}
 					latchNewBiases();
+					BIAS_DIAG_SEL = 0;
 					break;
 
 				case CMD_CPLDCONFIG: // send bit string to CPLD configuration shift register (new feature on cochleaAMS1c board/cpld/firmware)

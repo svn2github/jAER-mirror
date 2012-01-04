@@ -75,13 +75,14 @@ entity USBAER_top_level is
     CDVSTestSRRowInxSO: out std_logic;
     CDVSTestSRColInxSO: out std_logic;
     
-    CDVSTestPowerdownxEO : out std_logic;
+    CDVSTestBiasEnablexEO : out std_logic;
     CDVSTestChipResetxRBO: out std_logic;
 	
 	CDVSTestColMode0xSO : out std_logic;
 	CDVSTestColMode1xSO : out std_logic;
 	
 	CDVSTestBiasDiagSelxSO : out std_logic;
+	CDVSTestBiasBitOutxSI : out std_logic;
 
     
     -- control LED
@@ -89,7 +90,7 @@ entity USBAER_top_level is
     LED2xSO : out std_logic;
     LED3xSO : out std_logic;
  
-    DebugxSIO : inout std_logic_vector(7 downto 0);
+    DebugxSIO : inout std_logic_vector(15 downto 0);
 
     -- AER monitor interface
     AERMonitorREQxABI    : in  std_logic;  -- needs synchronization
@@ -307,7 +308,7 @@ architecture Structural of USBAER_top_level is
   signal RunxS : std_logic;
   signal CounterResetxRB               : std_logic;
   signal SynchronizerResetTimestampxSB : std_logic;
-  signal CDVSTestChipResetxRB : std_logic;
+  signal CDVSTestChipResetxRB : std_logic; 
   signal CDVSTestPeriodicChipResetxRB : std_logic;
   signal UseCDVSperiodicResetxS : std_logic;
   signal RxcolGxS : std_logic;
@@ -583,7 +584,7 @@ begin
 
   LED1xSO <= CDVSTestChipResetxRB;
   LED2xSO <= RunxS;
-  LED3xSO <= FXLEDxSI;
+  LED3xSO <= PC0xSIO;
 
   CDVSTestChipResetxRBO <= CDVSTestChipResetxRB;
   with UseCDVSperiodicResetxS select
@@ -594,7 +595,7 @@ begin
   --CDVSTestChipResetxRBO <= PE3xSI;
   --CDVSTestChipResetxRBO <= CDVSTestChipResetxRB;
 
-  CDVSTestPowerdownxEO <= not PE2xSI;
+  CDVSTestBiasEnablexEO <= not PE2xSI;
 
   HostResetTimestampxS <= PA7xSIO;
   RunxS <= PA3xSIO or not TimestampMasterxS;
@@ -617,19 +618,24 @@ begin
   ADCreadxEBO <= ADCreadxEB;
   ADCwritexEBO <= ADCwritexEB;
 
-  UseCDVSperiodicResetxS <= DebugxSIO(1);
+  
   RxcolGxS <= '0';
-  DebugxSIO(3) <= ADCconvstxEB;
-  DebugxSIO(0) <= '0';
-  DebugxSIO(2) <= '1';
-  DebugxSIO(4) <= ADCbusyxS;
+  
+  DebugxSIO(8) <= '0';
+  UseCDVSperiodicResetxS <= DebugxSIO(9);
+  DebugxSIO(10) <= '1';
+  
+  DebugxSIO(11) <= ADCconvstxEB;
+  DebugxSIO(12) <= ADCbusyxS;
 --  DebugxSIO(1 downto 0) <= ActualTimestampxD(2 downto 1);
 --  DebugxSIO(7) <= FX2FifoWritexEB;
 --  DebugxSIO(6) <= FX2FifoPktEndxSB;
-  DebugxSIO(5) <= '0';
-  UseLongAckxS <= DebugxSIO(6);
-    
-  DebugxSIO(7) <= '1';
+
+  DebugxSIO(13) <= '0';
+  UseLongAckxS <= DebugxSIO(14);  
+  DebugxSIO(15) <= '1';
+  
+  -- DebugxSIO(8) <= CDVSTestBiasBitOutxSI;
  -- DebugxSIO(4) <= AERMonitorAddressxDI(8);
 
     -- purpose: synchronize asynchronous inputs

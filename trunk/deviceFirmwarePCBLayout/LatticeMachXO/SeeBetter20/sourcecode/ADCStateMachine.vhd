@@ -49,8 +49,15 @@ entity ADCStateMachine is
     CDVSTestSRColClockxSO : out   std_logic;
     CDVSTestColMode0xSO  : out   std_logic;
     CDVSTestColMode1xSO  : out   std_logic);
-
 end ADCStateMachine;
+
+component clockgen
+    port (
+      CLK: in std_logic;
+      RESET: in std_logic;
+      CLKOP: out std_logic; 
+      LOCK: out std_logic);
+  end component;
 
 architecture Behavioral of ADCStateMachine is
   type ColState is (stIdle, stFeedReset, stFeedRead ,stFeedRow,stReadColumn, stColumnCount, stFeedNull, stWaitFrame);
