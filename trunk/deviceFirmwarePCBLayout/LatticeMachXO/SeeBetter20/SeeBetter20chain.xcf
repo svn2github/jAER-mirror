@@ -20,8 +20,8 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/SeeBetter20/SeeBetter20_SeeBetter20.jed</File>
-			<FileTime>12/22/2011 16:56:0</FileTime>
-			<JedecChecksum>0x8D1D</JedecChecksum>
+			<FileTime>1/6/2012 18:54:54</FileTime>
+			<JedecChecksum>0xBBD5</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>

@@ -584,7 +584,7 @@ begin
 
   LED1xSO <= CDVSTestChipResetxRB;
   LED2xSO <= RunxS;
-  LED3xSO <= PC0xSIO;
+  LED3xSO <= ADCconfigxD(5);
 
   CDVSTestChipResetxRBO <= CDVSTestChipResetxRB;
   with UseCDVSperiodicResetxS select
