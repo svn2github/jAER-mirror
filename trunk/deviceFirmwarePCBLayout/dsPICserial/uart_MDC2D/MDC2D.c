@@ -31,6 +31,8 @@
 #include "DAC.h"
 
 
+//! pointer to the last frame data; initially set to zero; see main.c
+int *lastframe= (int *) 0;
 
 
 #define VDD3280		// adjust biases for the TPS79328

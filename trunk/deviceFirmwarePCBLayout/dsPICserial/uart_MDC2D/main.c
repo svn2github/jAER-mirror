@@ -49,6 +49,7 @@ _FWDT( FWDTEN_ON | WDTPRE_PR32 | WDTPOST_PS2048 );
 #include "srinivasan.h"
 #include "message.h"
 #include "var.h"
+#include "filter.h"
 #include <string.h>
 
 
@@ -204,7 +205,6 @@ void stream_loop()
 	struct msg_frame_words *frame_words;
 	struct msg_frame_words_dxdy *frame_words_dxdy;
 	struct msg_dxdy dxdybuf;
-	int *lastframe= (int *) 0;
 	cmd_channel_type current_channel= -1;			// make sure it's set in the first run
 	
 	// input is handled by command-ISR
@@ -322,6 +322,8 @@ void stream_loop()
 				TOC;
 				capture_us= tictoc_us;
 
+				// remove fixed pattern noise
+				FPN_remove( frame_words_dxdy->buf );
 
 				// only calculate motion data if we have to stream it
 				// calculate dx,dy between this and the last frame
@@ -396,6 +398,7 @@ int main()
 	DAC_init(); // call before mdc_init()
 	mdc_init();
 	ana_init();
+	FPN_reset();
 	
 	stream_loop();
 	

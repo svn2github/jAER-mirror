@@ -29,7 +29,7 @@
  * in the minor number indicates new features but retains
  * compatability with the older versions
  */
-#define PROTOCOL_STRING "6.2"
+#define PROTOCOL_STRING "6.3"
 
 
 

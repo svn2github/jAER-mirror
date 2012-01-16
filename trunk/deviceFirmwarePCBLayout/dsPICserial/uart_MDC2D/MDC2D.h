@@ -28,6 +28,8 @@
 //! height (in pixels) of image sensor
 #define MDC_HEIGHT 20
 
+extern int *lastframe;
+
 
 extern unsigned char mdc_channels;
 //! converting values from 2nd LMC circuit

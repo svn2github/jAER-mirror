@@ -40,11 +40,9 @@ COMPILATION
 -----------
 
 Download MPLAB IDE from http://www.microchip.com; for development
-the version v8.63 was used on a Windows XP SP3 machine; but other
-versions should work fine, too and the program runs on any windows
-machine; since 2011 there is also a new product from Microchip
-called "MPLAB X IDE" that is a plugin for NetBeans and should run
-under Linux, but this was not tested.
+the version v8.63 was used on a Windows XP SP3 machine; the firmware
+was also successfully compiled and programmed on the device using the
+new "MPLAB IDE X" (based on NetBeans) under Windows 7 as well as Linux.
 
 After installing the MPLAB IDE make sure you install the right C
 compiler for the dsPIC33 family. Search on the Microchip website
@@ -78,9 +76,8 @@ main files
     ("include" means move it into the "Source Files" group)
   - test_*.c : each of this source files contains a main
     entry point and thereby only one can be compiled at any time,
-    while the others should be moved into the "Other Files"
-    group in the MPLAB project window (thereby avoiding their
-    compilation)
+    while the others should be removed from project" (right click
+    on the file in the project tab to remove)
 
 
 All the files contain DOXYGEN documentation; please see

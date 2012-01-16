@@ -22,7 +22,7 @@
 #include "config.h"
 #include "port.h"
 
-#include <p33fxxxx.h>
+#include <p33Fxxxx.h>
 
 
 // platform is defined in config.h

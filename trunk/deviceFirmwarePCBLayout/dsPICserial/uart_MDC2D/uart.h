@@ -73,8 +73,8 @@ typedef enum
 	UART_MESSAGE_TOO_LONG
 }eUART_sending_state;	
 
-//! buffer size of answer; needs evtl. be increased when new commands are introduced
-#define ANSWER_BUFSIZE 512
+//! buffer size of answer; currently quite large due to long help
+#define ANSWER_BUFSIZE 1024
 extern char answer_buf[ANSWER_BUFSIZE];
 
 

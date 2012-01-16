@@ -47,6 +47,7 @@
 #include "var.h"
 #include "DAC.h"
 #include "MDC2D.h"
+#include "filter.h"
 
 //! indicates what data should be streamed in main loop
 int cmd_stream_data = CMD_STREAM_FRAMES | CMD_STREAM_SRINIVASAN;
@@ -71,8 +72,10 @@ void cmd_stream (int argn, char *argc[]);
 void cmd_channel(int argn, char *argc[]);
 void cmd_onchip (int argn, char *argc[]);
 void cmd_DAC    (int argn, char *argc[]);
+void cmd_FPN    (int argn, char *argc[]);
 void cmd_set    (int argn, char *argc[]);
 void cmd_get    (int argn, char *argc[]);
+void cmd_echo   (int argn, char *argc[]);
 void cmd_goto   (int argn, char *argc[]);
 void cmd_next   (int argn, char *argc[]);
 void cmd_sample (int argn, char *argc[]);
@@ -92,7 +95,7 @@ cmd_table_entry cmd_table[]=
 	// commands concerning streaming, pixel readout
 	{"start",cmd_start,"starts streaming"},
 	{"stop",cmd_stop,"stops streaming"},
-	{"stream",cmd_stream,"what to stream : stream [fake] [pixels] [motion]"},
+	{"stream",cmd_stream,"what to stream : stream [fake] [frames] [srinivasan]"},
 
 	// commands for setting parameters of MDC2D
 	{"DAC",cmd_DAC,"sets a voltage , usage 'DAC [0-E] mv_hex'"},
@@ -106,9 +109,13 @@ cmd_table_entry cmd_table[]=
 	{"status",cmd_status,"displays some status informations"},
 	{"version",cmd_version,"displays some version informations"},
 
+        // commands for processing pixel data
+	{"FPN",cmd_FPN,"{set|zero} sets/unsets FPN reference"},
+
 	// commands for tuning, debugging
 	{"set",cmd_set,"sets (many) variables, usage 'set var1 val1 ...'"},
 	{"get",cmd_get,"gets value of variable(s), usage 'get var1 ...'"},
+        {"echo",cmd_echo,"simply echoes the provided argument(s)"},
 	{"goto",cmd_goto,"jumps to pixel : goto x_hex y_hex"},
 	{"next",cmd_next,"goto next pixel (optional argument indicates number)"},
 	{"sample",cmd_sample,"samples analog input"},
@@ -426,6 +433,20 @@ void cmd_pd    (int argn, char *argc[])
 }
 
 
+void cmd_FPN    (int argn, char *argc[])
+{
+	if (argn==1 && strcmpi("set",argc[0])==0) {
+		if (lastframe == 0)
+			uart_print_answer("!no last frame");
+		else
+			FPN_set(lastframe);
+	} else if (argn==1 && strcmpi("zero",argc[0])==0) 
+		FPN_reset();
+	else
+		uart_print_answer("!invalid arguments");
+	uart_print_answer("\n");
+}
+
 void cmd_set    (int argn, char *argc[])
 {
 	int i;
@@ -527,6 +548,17 @@ void cmd_get    (int argn, char *argc[])
 	uart_print_answer("\n");
 }
 
+void cmd_echo(int argn, char *argc[])
+{
+    int i;
+    for(i=0; i<argn; i++) {
+        uart_print_answer("#");
+        uart_print_answer_i(i);
+        uart_print_answer(" : ");
+        uart_print_answer(argc[i]);
+        uart_print_answer("\n");
+    }
+}
 
 void cmd_blink(int argn, char *argc[])
 {
