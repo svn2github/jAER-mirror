@@ -26,6 +26,7 @@ entity fifoStatemachine is
   port (
     ClockxCI               : in  std_logic;
     ResetxRBI              : in  std_logic;
+	RunxSI              : in  std_logic;
 
     -- signal if transaction is going on
     FifoTransactionxSO         : out std_logic;
@@ -84,11 +85,11 @@ begin
     case StatexDP is
       when stIdle =>
 
-        if EarlyPaketTimerOverflowxSI = '1' and FX2FifoInFullxSBI = '1' then
+        if EarlyPaketTimerOverflowxSI = '1' and FX2FifoInFullxSBI = '1' and RunxSI = '1' then
                        -- we haven't commited a paket for a long time
           StatexDN <= stEarlyPaket1;
        
-        elsif FifoEmptyxSI = '0' and FX2FifoInFullxSBI = '1' then
+        elsif FifoEmptyxSI = '0' and FX2FifoInFullxSBI = '1' and RunxSI = '1' then
           StatexDN <= stSetupWrite1;
         end if;
 

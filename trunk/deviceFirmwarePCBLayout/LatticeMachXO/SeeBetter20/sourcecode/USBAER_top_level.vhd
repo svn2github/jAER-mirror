@@ -105,6 +105,7 @@ architecture Structural of USBAER_top_level is
     port (
       ClockxCI                   : in  std_logic;
       ResetxRBI                  : in  std_logic;
+	  RunxSI                     : in  std_logic;
       FifoTransactionxSO         : out std_logic;
       FX2FifoInFullxSBI          : in  std_logic;
       FifoEmptyxSI               : in  std_logic;
@@ -201,12 +202,14 @@ architecture Structural of USBAER_top_level is
 		RowSettlexDI          : in    std_logic_vector(15 downto 0);
 		ResSettlexDI          : in    std_logic_vector(15 downto 0);
 		FramePeriodxDI		  : in    std_logic_vector(31 downto 0);
+		TestPixelxEI		  : in    std_logic;
 		CDVSTestSRRowInxSO    : out   std_logic;
 		CDVSTestSRRowClockxSO : out   std_logic;
 		CDVSTestSRColInxSO    : out   std_logic;
 		CDVSTestSRColClockxSO : out   std_logic;
 		CDVSTestColMode0xSO  : out   std_logic;
-		CDVSTestColMode1xSO  : out   std_logic);
+		CDVSTestColMode1xSO  : out   std_logic;
+		ADCStateOutputLEDxSO  : out	 std_logic);
   end component;
   
   component ADCvalueReady
@@ -334,7 +337,8 @@ architecture Structural of USBAER_top_level is
   signal ADCregOutxD : std_logic_vector(13 downto 0);
   signal ADCregWritexE : std_logic;
   signal ADCdataxD : std_logic_vector(13 downto 0);
-
+  
+  signal ADCsmRstxE           : std_logic;
   signal ADCclockxC           : std_logic;
   signal ADCwritexEB          : std_logic;
   signal ADCreadxEB           : std_logic;
@@ -345,14 +349,17 @@ architecture Structural of USBAER_top_level is
   signal CDVSTestRefEnablexE  : std_logic;
   signal CDVSTestColMode0xS, CDVSTestColMode1xS : std_logic;
   
-  signal SRDataOutxD : std_logic_vector(107 downto 0);
+  signal SRDataOutxD : std_logic_vector(108 downto 0);
   
   signal ExposurexD, ColSettlexD, RowSettlexD, ResSettlexD : std_logic_vector(15 downto 0); 
-  signal FramePeriodxD : std_logic_vector(31 downto 0);   
+  signal FramePeriodxD : std_logic_vector(31 downto 0);
+  signal TestPixelxE : std_logic;  
   
   signal ADCconfigxD : std_logic_vector(11 downto 0);
   signal SRoutxD, SRinxD, SRLatchxE, SRClockxC : std_logic;
   signal RunADCxS : std_logic;
+  
+  signal ADCStateOutputLEDxS : std_logic;
   
   -- lock signal from PLL, unused so far
   signal LockxS : std_logic;
@@ -396,7 +403,7 @@ begin
   
   shiftRegister_1: shiftRegister
     generic map (
-      width => 108)
+      width => 109)
     port map (
       ClockxCI   => SRClockxC,
       ResetxRBI  => ResetxRB,
@@ -411,6 +418,7 @@ begin
   RowSettlexD <= SRDataOutxD(59 downto 44);
   ResSettlexD <= SRDataOutxD(75 downto 60);
   FramePeriodxD <= SRDataOutxD(107 downto 76);
+  TestPixelxE <= SRDataOutxD(108);
   
   uFifo : AERfifo
     port map (
@@ -490,6 +498,7 @@ begin
     port map (
       ClockxCI                   => IfClockxC,
       ResetxRBI                  => ResetxRB,
+	  RunxSI					 => RunxS,
       FifoTransactionxSO         => FifoTransactionxS,
       FX2FifoInFullxSBI          => FX2FifoInFullxSBI,
       FifoEmptyxSI               => FifoEmptyxS,
@@ -524,7 +533,7 @@ begin
     port map (
       ClockxCI              => IfClockxC,
       ADCclockxCO           => ADCclockxC,
-      ResetxRBI             => ResetxRB,
+      ResetxRBI             => ADCsmRstxE,
       ADCwordxDIO           => ADCwordxDIO,
       ADCoutxDO             => ADCdataxD,
       ADCwritexEBO          => ADCwritexEB,
@@ -539,16 +548,19 @@ begin
 	  RowSettlexDI          => RowSettlexD,
 	  ResSettlexDI          => ResSettlexD,
 	  FramePeriodxDI		=> FramePeriodxD,
+	  TestPixelxEI 			=> TestPixelxE,
 	  ADCconfigxDI          => ADCconfigxD,
       CDVSTestSRRowInxSO    => CDVSTestSRRowInxS,
       CDVSTestSRRowClockxSO => CDVSTestSRRowClockxS,
       CDVSTestSRColInxSO    => CDVSTestSRColInxS,
       CDVSTestSRColClockxSO => CDVSTestSRColClockxS,
 	  CDVSTestColMode0xSO   => CDVSTestColMode0xS,
-	  CDVSTestColMode1xSO   => CDVSTestColMode1xS
+	  CDVSTestColMode1xSO   => CDVSTestColMode1xS,
+	  ADCStateOutputLEDxSO  => ADCStateOutputLEDxS
 	  );
   
   ADCbusyxS <= ADCbusyxSI;
+  ADCsmRstxE <= ResetxRB and RunxS;
 
   ADCvalueReady_1: ADCvalueReady
     port map (
@@ -584,7 +596,7 @@ begin
 
   LED1xSO <= CDVSTestChipResetxRB;
   LED2xSO <= RunxS;
-  LED3xSO <= ADCconfigxD(5);
+  LED3xSO <= ADCStateOutputLEDxS;
 
   CDVSTestChipResetxRBO <= CDVSTestChipResetxRB;
   with UseCDVSperiodicResetxS select
