@@ -182,7 +182,7 @@ architecture Structural of USBAER_top_level is
     );
   end component;
 
-  component ADCStateMachine
+  component ADCStateMachineAB
     port (
 		ClockxCI              : in    std_logic;
 		ADCclockxCO           : out   std_logic;
@@ -529,7 +529,7 @@ begin
       AddressMSBxDO             => AddressMSBxD,
       ResetTimestampxSBI        => SynchronizerResetTimestampxSB);
   
-  ADCStateMachine_2: ADCStateMachine
+  ADCStateMachine_2: ADCStateMachineAB
     port map (
       ClockxCI              => IfClockxC,
       ADCclockxCO           => ADCclockxC,
