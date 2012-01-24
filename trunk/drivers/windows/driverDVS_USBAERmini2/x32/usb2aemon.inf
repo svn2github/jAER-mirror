@@ -109,6 +109,7 @@ HKR,,Icon,,"-20"
 %S_DeviceDescCochleaAMS1c%=_Install, USB\Vid_152A&Pid_8406
 %S_DeviceDesccDVSTest%=_Install, USB\Vid_152A&Pid_840A
 %S_DeviceDesccSeeBetter%=_Install, USB\Vid_152A&Pid_840B
+%S_DeviceDesccSeeBetter20%=_Install, USB\Vid_152A&Pid_840C
 ; following device firmware was built in telluride 2008 and is based on silabs C8051f320
 %S_DeviceDescSimpleAESequencer%=_Install, USB\Vid_152A&Pid_8410
 ;following device is for Tmpdiff128 chip with SiLabs C8051F3xx on board DVS128_PAER with parallel AER connectors
@@ -281,6 +282,7 @@ S_DeviceDescCochleaAMS1b="CochleaAMS1b"
 S_DeviceDescCochleaAMS1c="CochleaAMS1c"
 S_DeviceDesccDVSTest="cDVSTest"
 S_DeviceDesccSeeBetter="SeeBetter"
+S_DeviceDesccSeeBetter20="SeeBetter20"
 S_DeviceDescSimpleAESequencer="SimpleAESequencer"
 S_DeviceDescDVS128_PAER="DVS128_PAER"
 S_DeviceDescTmpdiff128_SiLabs="Tmpdiff128_SiLabs"

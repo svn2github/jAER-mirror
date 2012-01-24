@@ -103,13 +103,13 @@ begin
   RunADCoffxS <= ADCbusyxS after 1000 ns;
   RegisterWritexE <= 'Z';
   SRLatchxE <= '1', '0' after 2000 ns, '1' after 2500 ns;
-  RunADCxS <= '0', '1' after 5000 ns;
+  RunADCxS <= '0', '1' after 5 us;--, '0' after 15 us, '1' after 40005 us, '0' after 40015 us; 
   ADCConfigxD   <= "000101100000";
-  ExposurexD    <= "0000000010000100";
+  ExposurexD    <= "0000000000000100";
   ColSettlexD   <= "0000000000000010";
   RowSettlexD   <= "0000000000000010";
   ResSettlexD   <= "0000000000001000";
-  FramePeriodxD <= "00000000000000000000000000000000";
+  FramePeriodxD <= "00000000000000000000000000001000";
   TestPixelxE	<= '0';
   CDVSTestSRRowInxS <= 'Z';
   CDVSTestSRRowClockxS <= 'Z';

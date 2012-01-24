@@ -336,9 +336,7 @@ begin
         ADCconvstxEBO <= '1';
       when stIdle =>
         ADCclockxCO <= '1';             -- switch off clock in idle state to-- safe power
-        if SRLatchxEI = '0' and StateColxDP = stIdle then
-          StateRowxDN <= stLatch;
-        elsif DoReadxS = '1' then
+        if DoReadxS = '1' and (StateColxDP = stReadA or StateColxDP = stReadB) then
           StateRowxDN <= stFeedRow;
         end if;
         DividerRowxDN <= (others => '0');
@@ -420,7 +418,7 @@ begin
   begin  -- process p_memoryzing
     if ResetxRBI = '0' then             -- asynchronous reset (active low)
       StateColxDP <= stIdle;
-	  StateRowxDP <= stIdle;
+	  StateRowxDP <= stStartup;
       DividerColxDP <= (others => '0');
 	  DividerRowxDP <= (others => '0');
       StartColxSP <= '0';
