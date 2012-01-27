@@ -41,8 +41,8 @@ entity USBAER_top_level is
     ResetxRBI : in std_logic;
 
     -- ports to synchronize other USBAER boards
-  --  SyncInxAI   : in  std_logic;        -- needs synchronization
-    SynchOutxSO : out std_logic;
+    Sync1xABI   : in  std_logic;        -- needs synchronization
+    SynchOutxSBO : out std_logic;
 
     -- communication with 8051   
     PC0xSIO  : inout  std_logic;
@@ -149,18 +149,19 @@ architecture Structural of USBAER_top_level is
       CDVSresetxRBO : out std_logic);
   end component;
   
-  component synchronizerStateMachine
-    port (
-      ClockxCI              : in  std_logic;
-      ResetxRBI             : in  std_logic;
-      RunxSI                : in  std_logic;
-      HostResetTimestampxSI : in  std_logic;
-      SyncInxAI             : in  std_logic;
-      SyncOutxSO            : out std_logic;
-      MasterxSO             : out std_logic;
-      ResetTimestampxSBO    : out std_logic;
-      IncrementCounterxSO   : out std_logic);
-  end component;
+   component synchronizerStateMachine
+     port (
+       ClockxCI              : in  std_logic;
+       ResetxRBI             : in  std_logic;
+       RunxSI                : in  std_logic;
+       ConfigxSI             : in  std_logic;
+       SyncInxABI            : in  std_logic;
+       SyncOutxSBO           : out std_logic;
+       TriggerxSO            : out std_logic;
+       HostResetTimestampxSI : in  std_logic;
+       ResetTimestampxSBO    : out std_logic;
+       IncrementCounterxSO   : out std_logic);
+   end component;                                       
 
   component monitorStateMachine
     port (
@@ -177,6 +178,7 @@ architecture Structural of USBAER_top_level is
     ADCvalueReadyxSI : in std_logic;
     ReadADCvaluexEO : out std_logic;
     TimestampOverflowxSI : in std_logic;
+    TriggerxSI : in std_logic;
     AddressMSBxDO : out std_logic_vector(1 downto 0);
     ResetTimestampxSBI : in std_logic
     );
@@ -284,7 +286,7 @@ architecture Structural of USBAER_top_level is
   -- register write enables
   signal TimestampRegWritexE   : std_logic;
   
-  signal SyncInxA : std_logic;
+  signal SyncInxAB : std_logic;
 
   signal AERREQxSB, AERReqSyncxSBN  : std_logic;
 
@@ -325,8 +327,10 @@ architecture Structural of USBAER_top_level is
   signal FifoTransactionxS : std_logic;
   signal FX2FifoWritexEB : std_logic;
   signal FX2FifoPktEndxSB     : std_logic;
-  signal SynchOutxS        : std_logic;
+  signal SynchOutxSB        : std_logic;
   signal HostResetTimestampxS : std_logic;
+
+  signal TriggerxS : std_logic;
 
   -- counter increment signal
   signal IncxS : std_logic;
@@ -373,6 +377,7 @@ architecture Structural of USBAER_top_level is
   constant selectADC : std_logic_vector(1 downto 0) := "11";
   constant selectaddress   : std_logic_vector(1 downto 0) := "01";
   constant selecttimestamp : std_logic_vector(1 downto 0) := "00";
+  constant selecttrigger : std_logic_vector(1 downto 0) := "10";
   
 begin
   IfClockxC <= IfClockxCI;
@@ -398,8 +403,7 @@ begin
   
   FX2FifoReadxEBO <= '1';
 
-  --SyncInxA <= not SyncInxAI;
-  SyncInxA <= '0';                      -- no external sync
+  SyncInxAB <= Sync1xABI;
   
   shiftRegister_1: shiftRegister
     generic map (
@@ -482,18 +486,19 @@ begin
       OverflowxSO   => TimestampOverflowxS,
       DataxDO       => ActualTimestampxD);
 
-  uSyncStateMachine : synchronizerStateMachine
+  uSynchronizerStateMachine_1: synchronizerStateMachine
     port map (
       ClockxCI              => ClockxC,
       ResetxRBI             => ResetxRB,
-      RunxSI             => RunxS,
+      RunxSI                => RunxS,
+      ConfigxSI             => TimestampMasterxS,
+      SyncInxABI            => SyncInxAB,
+      SyncOutxSBO           => SyncOutxSB,
+      TriggerxSO            => TriggerxS,
       HostResetTimestampxSI => HostResetTimestampxS,
-      SyncInxAI             => SyncInxA,
-      SyncOutxSO            => SynchOutxS,
-      MasterxSO             => TimestampMasterxS,
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
       IncrementCounterxSO   => IncxS);
-
+     
   fifoStatemachine_1: fifoStatemachine
     port map (
       ClockxCI                   => IfClockxC,
@@ -526,6 +531,7 @@ begin
       ADCvalueReadyxSI => ADCvalueReadyxS,
       ReadADCvaluexEO => ReadADCvaluexE,
       TimestampOverflowxSI      => TimestampOverflowxS,
+      TriggerxSI => TriggerxS,
       AddressMSBxDO             => AddressMSBxD,
       ResetTimestampxSBI        => SynchronizerResetTimestampxSB);
   
@@ -579,7 +585,7 @@ begin
       cDVSresetxRBI => PE3xSI,
       CDVSresetxRBO => CDVSTestPeriodicChipResetxRB);
   
-  SynchOutxSO <= SynchOutxS;
+  SynchOutxSBO <= SynchOutxSB;
   FX2FifoPktEndxSBO <= FX2FifoPktEndxSB;
   FX2FifoWritexEBO <= FX2FifoWritexEB;
   AERMonitorACKxSBO <= AERMonitorACKxSB;
@@ -592,6 +598,7 @@ begin
     FifoDataInxD <=
     AddressMSBxD & "00000" & AERMonitorAddressxDI   when selectaddress,
     AddressMSBxD & MonitorTimestampxD when selecttimestamp,
+    AddressMSBxD & "01000000000000" when selecttrigger,                                    
     AddressMSBxD & ADCregOutxD when others;
 
   LED1xSO <= CDVSTestChipResetxRB;
@@ -610,7 +617,7 @@ begin
   CDVSTestBiasEnablexEO <= not PE2xSI;
 
   HostResetTimestampxS <= PA7xSIO;
-  RunxS <= PA3xSIO or not TimestampMasterxS;
+  RunxS <= PA3xSIO;
   PA1xSIO <= TimestampMasterxS;
 
   RunADCxS <= PC0xSIO;

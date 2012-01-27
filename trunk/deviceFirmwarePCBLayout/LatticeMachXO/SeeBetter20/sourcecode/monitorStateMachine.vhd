@@ -53,6 +53,9 @@ entity monitorStateMachine is
     -- timestamp overflow, send wrap event
     TimestampOverflowxSI : in std_logic;
 
+    -- trigger event
+    TriggerxSI : in std_logic;
+    
     -- valid event or wrap event
     AddressMSBxDO : out std_logic_vector(1 downto 0);
 
@@ -62,7 +65,7 @@ entity monitorStateMachine is
 end monitorStateMachine;
 
 architecture Behavioral of monitorStateMachine is
-  type state is (stIdle,  stWraddress, stWrTime ,stOverflow,stResetTimestamp, stFifoFull, stReqRelease, stADC,stADCTime);
+  type state is (stIdle,  stWraddress, stWrTime ,stOverflow,stResetTimestamp, stFifoFull, stReqRelease, stADC,stADCTime,stWrTriggerTime, stWrTrigger);
 
   -- for synchronizing AER Req
   signal AERREQxSB: std_logic;
@@ -70,9 +73,10 @@ architecture Behavioral of monitorStateMachine is
   -- present and next state
   signal StatexDP, StatexDN : state;
   signal CountxDP, CountxDN : std_logic_vector(7 downto 0);
-
+  signal TriggerxDP, TriggerxDN : std_logic;
+  
   -- timestamp overflow register
-  signal TimestampOverflowxDN, TimestampOverflowxDP : std_logic;
+  signal TimestampOverflowxDN, TimestampOverflowxDP : std_logic_vector(15 downto 0);
 
   -- timestamp reset register
   signal TimestampResetxDP, TimestampResetxDN : std_logic;
@@ -81,7 +85,8 @@ architecture Behavioral of monitorStateMachine is
   constant selectADC : std_logic_vector(1 downto 0) := "11";
   constant selectaddress   : std_logic_vector(1 downto 0) := "01";
   constant selecttimestamp : std_logic_vector(1 downto 0) := "00";
-
+  constant selecttrigger : std_logic_vector(1 downto 0) := "10";
+  
   constant address : std_logic_vector(1 downto 0) := "00";
   constant wrap : std_logic_vector(1 downto 0) := "10";
   constant timereset : std_logic_vector(1 downto 0) := "11";
@@ -93,7 +98,7 @@ begin
   AERREQxSB <= AERREQxSBI;
 
 -- calculate next state and outputs
-  p_memless : process (StatexDP, FifoFullxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, AERREQxSB, XxDI, ADCvalueReadyxSI,CountxDP,UseLongAckxSI)
+  p_memless : process (StatexDP, FifoFullxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, AERREQxSB, XxDI, ADCvalueReadyxSI,CountxDP,UseLongAckxSI,TriggerxSI,TriggerxDP)
   begin  -- process p_memless
     -- default assignements: stay in present state, don't change address in
     -- FifoAddress register, no Fifo transaction, 
@@ -108,8 +113,18 @@ begin
 
     AERACKxSBO <= '1';
 
-    TimestampOverflowxDN <= (TimestampOverflowxDP or TimestampOverflowxSI);
+    if TimestampResetxDP = '1' then     -- as long as there is a timestamp
+                                        -- reset pending, do not send wrap events
+      TimestampOverflowxDN <= (others => '0');
+    elsif TimestampOverflowxSI = '1' then
+      TimestampOverflowxDN <= TimestampOverflowxDP +1;
+    else
+      TimestampOverflowxDN <= TimestampOverflowxDP;
+    end if;
+    
     TimestampResetxDN <= (TimestampResetxDP or not ResetTimestampxSBI);
+
+    TriggerxDN <= (TriggerxSI or TriggerxDP);
 
     ReadADCvaluexEO <= '0';
 
@@ -118,13 +133,15 @@ begin
 
         if FifoFullxSI = '1' then
           StatexDN <= stFifoFull;
-        
-        elsif TimestampOverflowxDP= '1' then
-          StatexDN <= stOverflow;
         elsif TimestampResetxDP = '1'  then
           StatexDN <= stResetTimestamp;
+        elsif TimestampOverflowxDP > 0 then
+          StatexDN <= stOverflow;
+
           -- if inFifo is not full and there is a monitor event, start a
           -- fifoWrite transaction
+        elsif TriggerxDP = '1' then
+          StatexDN <= stWrTriggerTime;
         elsif ADCvalueReadyxSI ='1' then
           StatexDN <= stADCTime;
         elsif AERREQxSB = '0' then
@@ -142,8 +159,13 @@ begin
    
       when stOverflow =>           -- send overflow event
         StatexDN <= stIdle;                
-        TimestampOverflowxDN <= '0';
-
+        
+        if TimestampOverflowxSI = '1' then
+          TimestampOverflowxDN <= TimestampOverflowxDP;
+        else
+          TimestampOverflowxDN <= TimestampOverflowxDP - 1;
+        end if;
+        
         AddressMSBxDO <= wrap;
         AddressTimestampSelectxSO <= selectaddress;
         FifoWritexEO <= '1';
@@ -164,6 +186,23 @@ begin
         TimestampRegWritexEO <= '0';
         AddressTimestampSelectxSO <= selecttimestamp;
         AddressMSBxDO <= timestamp;
+      when stWrTrigger   =>             -- write the address to the fifo
+     
+        StatexDN                  <= stIdle;
+        TriggerxDN <= '0';
+        FifoWritexEO             <= '1';
+        TimestampRegWritexEO <= '0';
+        AddressTimestampSelectxSO <= selecttrigger;
+        AddressMSBxDO <= address;
+
+      when stWrTriggerTime      =>             -- write the timestamp to the fifo
+
+        StatexDN <= stWrTrigger;
+        FifoWritexEO             <= '1';
+        TimestampRegWritexEO <= '0';
+        AddressTimestampSelectxSO <= selecttimestamp;
+        AddressMSBxDO <= timestamp;
+        
       when stADC   =>             -- write the address to the fifo
         
         StatexDN              <= stIdle;
