@@ -44,6 +44,7 @@ entity ADCStateMachineAB is
     ResSettlexDI          : in    std_logic_vector(15 downto 0);
 	FramePeriodxDI		  : in    std_logic_vector(31 downto 0);
 	TestPixelxEI		  : in    std_logic;
+	ExtTriggerxEI		  	  : in    std_logic;
     CDVSTestSRRowInxSO    : out   std_logic;
     CDVSTestSRRowClockxSO : out   std_logic;
     CDVSTestSRColInxSO    : out   std_logic;

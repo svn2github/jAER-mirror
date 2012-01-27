@@ -205,6 +205,7 @@ architecture Structural of USBAER_top_level is
 		ResSettlexDI          : in    std_logic_vector(15 downto 0);
 		FramePeriodxDI		  : in    std_logic_vector(31 downto 0);
 		TestPixelxEI		  : in    std_logic;
+		ExtTriggerxEI			  : in    std_logic;
 		CDVSTestSRRowInxSO    : out   std_logic;
 		CDVSTestSRRowClockxSO : out   std_logic;
 		CDVSTestSRColInxSO    : out   std_logic;
@@ -352,6 +353,7 @@ architecture Structural of USBAER_top_level is
   signal CDVSTestSRColClockxS, CDVSTestSRColInxS : std_logic;
   signal CDVSTestRefEnablexE  : std_logic;
   signal CDVSTestColMode0xS, CDVSTestColMode1xS : std_logic;
+  signal ExtTriggerxE				: std_logic;
   
   signal SRDataOutxD : std_logic_vector(108 downto 0);
   
@@ -555,6 +557,7 @@ begin
 	  ResSettlexDI          => ResSettlexD,
 	  FramePeriodxDI		=> FramePeriodxD,
 	  TestPixelxEI 			=> TestPixelxE,
+	  ExtTriggerxEI			=> ExtTriggerxE,
 	  ADCconfigxDI          => ADCconfigxD,
       CDVSTestSRRowInxSO    => CDVSTestSRRowInxS,
       CDVSTestSRRowClockxSO => CDVSTestSRRowClockxS,
@@ -618,7 +621,7 @@ begin
 
   HostResetTimestampxS <= PA7xSIO;
   RunxS <= PA3xSIO;
-  PA1xSIO <= TimestampMasterxS;
+  ExtTriggerxE <= PA1xSIO;
 
   RunADCxS <= PC0xSIO;
   SRClockxC <= PC1xSIO;
@@ -639,6 +642,11 @@ begin
 
   
   RxcolGxS <= '0';
+  
+  DebugxSIO(0) <= '0';
+  ExtTriggerxE <= DebugxSIO(2);
+  DebugxSIO(1) <= '1';
+
   
   DebugxSIO(8) <= '0';
   UseCDVSperiodicResetxS <= DebugxSIO(9);
