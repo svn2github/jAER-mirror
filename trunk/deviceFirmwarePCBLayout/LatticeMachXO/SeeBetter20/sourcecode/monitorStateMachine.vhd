@@ -174,7 +174,7 @@ begin
 
         StatexDN <= stIdle;       
         TimestampResetxDN <= '0';
-        TimestampOverflowxDN <= '0';
+        TimestampOverflowxDN <= (others => '0');
         AddressMSBxDO <= timereset;
         AddressTimestampSelectxSO <= selectaddress;
         FifoWritexEO <= '1';
@@ -262,13 +262,15 @@ begin
     if ResetxRBI = '0' then             -- asynchronous reset (active low)
       StatexDP <= stIdle;
       CountxDP <= (others => '0');
-      TimestampOverflowxDP <= '0';
+      TimestampOverflowxDP <= (others => '0');
       TimestampResetxDP <= '0';
+      TriggerxDP <= '0';
     elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
       StatexDP <= StatexDN;
       TimestampOverflowxDP <= TimestampOverflowxDN;
       TimestampResetxDP <= TimestampResetxDN;
       CountxDP <= CountxDN;
+      TriggerxDP <= TriggerxDN;
     end if;
   end process p_memoryzing;
   

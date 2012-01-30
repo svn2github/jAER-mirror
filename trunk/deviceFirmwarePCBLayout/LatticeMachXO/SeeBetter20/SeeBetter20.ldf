@@ -57,9 +57,6 @@
         <Source name="ADCStateMachine_tb.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="sourcecode/ADCStateMachineA.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
         <Source name="sourcecode/ADCStateMachineAB.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
@@ -76,5 +73,4 @@
             <Options/>
         </Source>
     </Implementation>
-    <Strategy name="Strategy1" file="Strategy1.sty"/>
 </BaliProject>

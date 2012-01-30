@@ -239,7 +239,7 @@ begin  -- Behavioral
   -- outputs: 
   synchronizer : process (ClockxCI)
   begin
-    if ClockxCI'event then  and ClockxCI = '1' then   
+    if ClockxCI'event  and ClockxCI = '1' then   
       SyncInxSB  <= SyncInxSBN;
       SyncInxSBN <= SyncInxABI;
     end if;

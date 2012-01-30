@@ -65,7 +65,7 @@ architecture Behavioral of fifoStatemachine is
 begin
 
 -- calculate next state and outputs
-  p_memless : process (StatexDP, FX2FifoInFullxSBI,  EarlyPaketTimerOverflowxSI, FifoEmptyxSI)
+  p_memless : process (StatexDP, FX2FifoInFullxSBI,  EarlyPaketTimerOverflowxSI, FifoEmptyxSI, RunxSI)
   begin  -- process p_memless
     -- default assignements: stay in present state, don't change address in
     -- FifoAddress register, no Fifo transaction, write registers, don't reset the counters

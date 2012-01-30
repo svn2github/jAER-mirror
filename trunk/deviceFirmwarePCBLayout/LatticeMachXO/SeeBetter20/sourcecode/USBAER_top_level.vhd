@@ -82,7 +82,7 @@ entity USBAER_top_level is
 	CDVSTestColMode1xSO : out std_logic;
 	
 	CDVSTestBiasDiagSelxSO : out std_logic;
-	CDVSTestBiasBitOutxSI : out std_logic;
+	CDVSTestBiasBitOutxSI : in std_logic;
 
     
     -- control LED
@@ -328,7 +328,7 @@ architecture Structural of USBAER_top_level is
   signal FifoTransactionxS : std_logic;
   signal FX2FifoWritexEB : std_logic;
   signal FX2FifoPktEndxSB     : std_logic;
-  signal SynchOutxSB        : std_logic;
+  signal SyncOutxSB        : std_logic;
   signal HostResetTimestampxS : std_logic;
 
   signal TriggerxS : std_logic;
@@ -351,7 +351,6 @@ architecture Structural of USBAER_top_level is
   signal ADCbusyxS            : std_logic;
   signal CDVSTestSRRowClockxS, CDVSTestSRRowInxS : std_logic;
   signal CDVSTestSRColClockxS, CDVSTestSRColInxS : std_logic;
-  signal CDVSTestRefEnablexE  : std_logic;
   signal CDVSTestColMode0xS, CDVSTestColMode1xS : std_logic;
   signal ExtTriggerxE				: std_logic;
   
@@ -500,6 +499,8 @@ begin
       HostResetTimestampxSI => HostResetTimestampxS,
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
       IncrementCounterxSO   => IncxS);
+
+   TimestampMasterxS <= '1';
      
   fifoStatemachine_1: fifoStatemachine
     port map (
@@ -588,7 +589,7 @@ begin
       cDVSresetxRBI => PE3xSI,
       CDVSresetxRBO => CDVSTestPeriodicChipResetxRB);
   
-  SynchOutxSBO <= SynchOutxSB;
+  SynchOutxSBO <= SyncOutxSB;
   FX2FifoPktEndxSBO <= FX2FifoPktEndxSB;
   FX2FifoWritexEBO <= FX2FifoWritexEB;
   AERMonitorACKxSBO <= AERMonitorACKxSB;
