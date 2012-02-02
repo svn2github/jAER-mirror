@@ -88,9 +88,9 @@ type ColState is (stIdle, stFeedReset1, stFeedReset2, stFeedRead ,stReset, stRel
   signal IsAxS, NoBxS, DoReadxS, ReadDonexS : std_logic;
   signal ColModexD : std_logic_vector(1 downto 0); -- "00" Null, "01" Sel A, "10" Sel B, "11" Res A		
   
-  signal FrameEndxS : std_logic_vector(17 downto 0);
+--  signal FrameEndxS : std_logic_vector(17 downto 0);
   
-  signal SizeX : integer := 64;
+  constant SizeX : integer := 64;
 
 begin
 	
@@ -104,7 +104,7 @@ begin
   ChannelxD <= ADCconfigWordxS(6 downto 5);
   
   CDVSTestColMode0xSO <= ColModexD(0);
-  CDVSTestColMode1xSO <= ColModexD(1); 
+  CDVSTestColMode1xSO <= ColModexD(1) or ExtTriggerxEI; 
   
   ADCStateOutputLEDxSO <= '1' when StateColxDP = stIdle and StateRowxDP = stIdle else '0' ;
   
@@ -115,7 +115,7 @@ begin
   
                                              
 -- calculate col next state and outputs
-  p_col : process (StateColxDP, DividerColxDP, ColSettlexDI, ExposurexDI, RunADCxSI, CountColxDP, StartColxSP, ReadDonexS, StateRowxDP, FramePeriodxDI)
+  p_col : process (StateColxDP, DividerColxDP, ColSettlexDI, ExposurexDI, RunADCxSI, CountColxDP, StartColxSP, ReadDonexS, StateRowxDP, FramePeriodxDI, ResSettlexDI)
   begin  -- process p_memless
     -- default assignements: stay in present state
 
@@ -301,7 +301,7 @@ begin
   end process p_col;
 
 -- calculate next Row state and outputs
-  p_row : process (ClockxC, ADCbusyxSI, SRLatchxEI, DividerRowxDP, CountRowxDP, ResSettlexDI, RowSettlexDI, StateRowxDP, IsAxS, DoReadxS, StateColxDP)
+  p_row : process (ClockxC, ADCbusyxSI, SRLatchxEI, DividerRowxDP, CountRowxDP, ResSettlexDI, RowSettlexDI, StateRowxDP, IsAxS, DoReadxS, StateColxDP, ExposurexDI,CountColxDP, NoBxS)
   begin  -- process p_row
     -- default assignements: stay in present state
 

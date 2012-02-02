@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
-<ispXCF version="Programmer">
+<ispXCF version="1.4">
 	<Comment></Comment>
 	<Chain>
 		<Comm>JTAG</Comm>
@@ -19,9 +19,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/SeeBetter20/SeeBetter20_SeeBetter20.jed</File>
-			<FileTime>1/6/2012 18:54:54</FileTime>
-			<JedecChecksum>0xBBD5</JedecChecksum>
+			<File>D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/SeeBetter20/SeeBetter20_SeeBetter20.jed</File>
+			<FileTime>2/1/2012 15:29:51</FileTime>
+			<JedecChecksum>0x9025</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -42,7 +42,7 @@
 		<OperationOverride>No Override</OperationOverride>
 		<StartTAP>TLR</StartTAP>
 		<EndTAP>TLR</EndTAP>
-		<VerifyUsercode value="TRUE"/>
+		<VerifyUsercode value="FALSE"/>
 	</ProjectOptions>
 	<CableOptions>
 		<CableName>USB</CableName>
