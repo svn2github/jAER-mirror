@@ -17,28 +17,28 @@
                 <entry key="FilterChain.timeLimitMs" value="10"/>
                 <entry key="agcTauMs" value="1000.0"/>
                 <entry key="SeeBetter20.AddressedIPotCF.DiffBn.BitValueCoarse" value="5"/>
-                <entry key="SeeBetter20.AddressedIPotCF.DiffBn.BitValueFine" value="61"/>
+                <entry key="SeeBetter20.AddressedIPotCF.DiffBn.BitValueFine" value="54"/>
                 <entry key="SeeBetter20.AddressedIPotCF.DiffBn.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.DiffBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter20.AddressedIPotCF.DiffBn.Sex" value="N"/>
                 <entry key="SeeBetter20.AddressedIPotCF.DiffBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter20.AddressedIPotCF.OnBn.BitValueCoarse" value="5"/>
-                <entry key="SeeBetter20.AddressedIPotCF.OnBn.BitValueFine" value="230"/>
+                <entry key="SeeBetter20.AddressedIPotCF.OnBn.BitValueCoarse" value="4"/>
+                <entry key="SeeBetter20.AddressedIPotCF.OnBn.BitValueFine" value="120"/>
                 <entry key="SeeBetter20.AddressedIPotCF.OnBn.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.OnBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter20.AddressedIPotCF.OnBn.Sex" value="N"/>
                 <entry key="SeeBetter20.AddressedIPotCF.OnBn.Type" value="NORMAL"/>
                 <entry key="SeeBetter20.AddressedIPotCF.OffBn.BitValueCoarse" value="5"/>
-                <entry key="SeeBetter20.AddressedIPotCF.OffBn.BitValueFine" value="14"/>
+                <entry key="SeeBetter20.AddressedIPotCF.OffBn.BitValueFine" value="12"/>
                 <entry key="SeeBetter20.AddressedIPotCF.OffBn.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.OffBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter20.AddressedIPotCF.OffBn.Sex" value="N"/>
                 <entry key="SeeBetter20.AddressedIPotCF.OffBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter20.AddressedIPotCF.ApsCasEpc.BitValueCoarse" value="7"/>
-                <entry key="SeeBetter20.AddressedIPotCF.ApsCasEpc.BitValueFine" value="218"/>
+                <entry key="SeeBetter20.AddressedIPotCF.ApsCasEpc.BitValueCoarse" value="0"/>
+                <entry key="SeeBetter20.AddressedIPotCF.ApsCasEpc.BitValueFine" value="111"/>
                 <entry key="SeeBetter20.AddressedIPotCF.ApsCasEpc.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.ApsCasEpc.LowCurrent" value="false"/>
-                <entry key="SeeBetter20.AddressedIPotCF.ApsCasEpc.Sex" value="P"/>
+                <entry key="SeeBetter20.AddressedIPotCF.ApsCasEpc.Sex" value="N"/>
                 <entry key="SeeBetter20.AddressedIPotCF.ApsCasEpc.Type" value="CASCODE"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PrCasBnc.BitValueCoarse" value="0"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PrCasBnc.BitValueFine" value="153"/>
@@ -47,8 +47,8 @@
                 <entry key="SeeBetter20.AddressedIPotCF.PrCasBnc.Sex" value="N"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PrCasBnc.Type" value="CASCODE"/>
                 <entry key="SeeBetter20.AddressedIPotCF.ApsROSF.BitValueCoarse" value="3"/>
-                <entry key="SeeBetter20.AddressedIPotCF.ApsROSF.BitValueFine" value="40"/>
-                <entry key="SeeBetter20.AddressedIPotCF.ApsROSF.Enabled" value="false"/>
+                <entry key="SeeBetter20.AddressedIPotCF.ApsROSF.BitValueFine" value="128"/>
+                <entry key="SeeBetter20.AddressedIPotCF.ApsROSF.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.ApsROSF.LowCurrent" value="false"/>
                 <entry key="SeeBetter20.AddressedIPotCF.ApsROSF.Sex" value="N"/>
                 <entry key="SeeBetter20.AddressedIPotCF.ApsROSF.Type" value="NORMAL"/>
@@ -65,34 +65,34 @@
                 <entry key="SeeBetter20.AddressedIPotCF.PixInvBn.Sex" value="N"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PixInvBn.Type" value="NORMAL"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PrBp.BitValueCoarse" value="5"/>
-                <entry key="SeeBetter20.AddressedIPotCF.PrBp.BitValueFine" value="161"/>
+                <entry key="SeeBetter20.AddressedIPotCF.PrBp.BitValueFine" value="1"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PrBp.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PrBp.LowCurrent" value="false"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PrBp.Sex" value="P"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PrBp.Type" value="NORMAL"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PrSFBp.BitValueCoarse" value="5"/>
-                <entry key="SeeBetter20.AddressedIPotCF.PrSFBp.BitValueFine" value="161"/>
+                <entry key="SeeBetter20.AddressedIPotCF.PrSFBp.BitValueFine" value="1"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PrSFBp.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PrSFBp.LowCurrent" value="false"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PrSFBp.Sex" value="P"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PrSFBp.Type" value="NORMAL"/>
-                <entry key="SeeBetter20.AddressedIPotCF.RefrBp.BitValueCoarse" value="3"/>
-                <entry key="SeeBetter20.AddressedIPotCF.RefrBp.BitValueFine" value="3"/>
+                <entry key="SeeBetter20.AddressedIPotCF.RefrBp.BitValueCoarse" value="4"/>
+                <entry key="SeeBetter20.AddressedIPotCF.RefrBp.BitValueFine" value="17"/>
                 <entry key="SeeBetter20.AddressedIPotCF.RefrBp.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.RefrBp.LowCurrent" value="false"/>
                 <entry key="SeeBetter20.AddressedIPotCF.RefrBp.Sex" value="P"/>
                 <entry key="SeeBetter20.AddressedIPotCF.RefrBp.Type" value="NORMAL"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AEPdBn.BitValueCoarse" value="0"/>
-                <entry key="SeeBetter20.AddressedIPotCF.AEPdBn.BitValueFine" value="115"/>
+                <entry key="SeeBetter20.AddressedIPotCF.AEPdBn.BitValueFine" value="157"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AEPdBn.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AEPdBn.LowCurrent" value="false"/>
-                <entry key="SeeBetter20.AddressedIPotCF.AEPdBn.Sex" value="P"/>
+                <entry key="SeeBetter20.AddressedIPotCF.AEPdBn.Sex" value="N"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AEPdBn.Type" value="NORMAL"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AERxEBn.BitValueCoarse" value="0"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AERxEBn.BitValueFine" value="165"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AERxEBn.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AERxEBn.LowCurrent" value="false"/>
-                <entry key="SeeBetter20.AddressedIPotCF.AERxEBn.Sex" value="P"/>
+                <entry key="SeeBetter20.AddressedIPotCF.AERxEBn.Sex" value="N"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AERxEBn.Type" value="NORMAL"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AEPuXBp.BitValueCoarse" value="2"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AEPuXBp.BitValueFine" value="156"/>
@@ -107,7 +107,7 @@
                 <entry key="SeeBetter20.AddressedIPotCF.AEPuYBp.Sex" value="P"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AEPuYBp.Type" value="NORMAL"/>
                 <entry key="SeeBetter20.AddressedIPotCF.IFThrBn.BitValueCoarse" value="3"/>
-                <entry key="SeeBetter20.AddressedIPotCF.IFThrBn.BitValueFine" value="135"/>
+                <entry key="SeeBetter20.AddressedIPotCF.IFThrBn.BitValueFine" value="3"/>
                 <entry key="SeeBetter20.AddressedIPotCF.IFThrBn.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.IFThrBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter20.AddressedIPotCF.IFThrBn.Sex" value="N"/>
@@ -118,20 +118,20 @@
                 <entry key="SeeBetter20.AddressedIPotCF.IFRefrBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter20.AddressedIPotCF.IFRefrBn.Sex" value="N"/>
                 <entry key="SeeBetter20.AddressedIPotCF.IFRefrBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter20.AddressedIPotCF.PadFollBn.BitValueCoarse" value="0"/>
-                <entry key="SeeBetter20.AddressedIPotCF.PadFollBn.BitValueFine" value="255"/>
+                <entry key="SeeBetter20.AddressedIPotCF.PadFollBn.BitValueCoarse" value="1"/>
+                <entry key="SeeBetter20.AddressedIPotCF.PadFollBn.BitValueFine" value="53"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PadFollBn.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PadFollBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PadFollBn.Sex" value="N"/>
                 <entry key="SeeBetter20.AddressedIPotCF.PadFollBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter20.AddressedIPotCF.apsOverflowLevel.BitValueCoarse" value="5"/>
-                <entry key="SeeBetter20.AddressedIPotCF.apsOverflowLevel.BitValueFine" value="32"/>
+                <entry key="SeeBetter20.AddressedIPotCF.apsOverflowLevel.BitValueCoarse" value="7"/>
+                <entry key="SeeBetter20.AddressedIPotCF.apsOverflowLevel.BitValueFine" value="201"/>
                 <entry key="SeeBetter20.AddressedIPotCF.apsOverflowLevel.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.apsOverflowLevel.LowCurrent" value="false"/>
                 <entry key="SeeBetter20.AddressedIPotCF.apsOverflowLevel.Sex" value="N"/>
                 <entry key="SeeBetter20.AddressedIPotCF.apsOverflowLevel.Type" value="NORMAL"/>
-                <entry key="SeeBetter20.AddressedIPotCF.biasBuffer.BitValueCoarse" value="0"/>
-                <entry key="SeeBetter20.AddressedIPotCF.biasBuffer.BitValueFine" value="109"/>
+                <entry key="SeeBetter20.AddressedIPotCF.biasBuffer.BitValueCoarse" value="1"/>
+                <entry key="SeeBetter20.AddressedIPotCF.biasBuffer.BitValueFine" value="192"/>
                 <entry key="SeeBetter20.AddressedIPotCF.biasBuffer.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.biasBuffer.LowCurrent" value="false"/>
                 <entry key="SeeBetter20.AddressedIPotCF.biasBuffer.Sex" value="N"/>
@@ -141,14 +141,14 @@
                 <entry key="Masterbias.internalResistorUsed" value="false"/>
                 <entry key="SeeBetter20.nChipReset" value="true"/>
                 <entry key="SeeBetter20.powerDown" value="false"/>
-                <entry key="SeeBetter20.runAdc" value="false"/>
+                <entry key="SeeBetter20.runAdc" value="true"/>
                 <entry key="SeeBetter20.runCpld" value="true"/>
                 <entry key="CPLDInt.adcConfig" value="352"/>
-                <entry key="CPLDInt.exposure" value="50"/>
-                <entry key="CPLDInt.resSettle" value="600"/>
-                <entry key="CPLDInt.rowSettle" value="300"/>
-                <entry key="CPLDInt.colSettle" value="15"/>
-                <entry key="CPLDInt.framePeriod" value="0"/>
+                <entry key="CPLDInt.exposure" value="72"/>
+                <entry key="CPLDInt.resSettle" value="50"/>
+                <entry key="CPLDInt.rowSettle" value="7"/>
+                <entry key="CPLDInt.colSettle" value="19"/>
+                <entry key="CPLDInt.framePeriod" value="2"/>
                 <entry key="SeeBetter20.biasDiag0" value="false"/>
                 <entry key="SeeBetter20.biasDiag1" value="false"/>
                 <entry key="SeeBetter20.biasDiag2" value="false"/>
@@ -175,12 +175,12 @@
                 <entry key="SeeBetter20.ShiftedSourceBias.SSN.OperatingMode" value="ShiftedSource"/>
                 <entry key="SeeBetter20.ShiftedSourceBias.SSN.VoltageLevel" value="SplitGate"/>
                 <entry key="autoResetEnabled" value="true"/>
-                <entry key="SeeBetter20.bgTabbedPaneSelectedIndex" value="2"/>
+                <entry key="SeeBetter20.bgTabbedPaneSelectedIndex" value="0"/>
                 <entry key="apsIntensityOffset" value="495"/>
                 <entry key="apsIntensityGain" value="1"/>
                 <entry key="invertADCvalues" value="false"/>
                 <entry key="displayLogIntensityChangeEvents" value="true"/>
-                <entry key="SeeBetter20.testPixel" value="true"/>
+                <entry key="SeeBetter20.testPixel" value="false"/>
                 <entry key="VoltageOutputMux.AnaMux0.selectedChannel" value="1"/>
                 <entry key="LogicMux.BiasOutMux.selectedChannel" value="0"/>
                 <entry key="displayIntensity" value="false"/>
@@ -193,7 +193,15 @@
                 <entry key="FilterFrame.lastFilterSelected" value="class net.sf.jaer.eventprocessing.filter.RefractoryFilter"/>
                 <entry key="RefractoryFilter.refractoryPeriodUs" value="967"/>
                 <entry key="RefractoryFilter.passShortISIsEnabled" value="false"/>
-                <entry key="SeeBetter20.resetTestpixel" value="false"/>
+                <entry key="SeeBetter20.resetTestpixel" value="true"/>
+                <entry key="XYTypeFilter.startX" value="69"/>
+                <entry key="XYTypeFilter.xEnabled" value="true"/>
+                <entry key="XYTypeFilter.endX" value="91"/>
+                <entry key="XYTypeFilter.startY" value="30"/>
+                <entry key="XYTypeFilter.yEnabled" value="true"/>
+                <entry key="XYTypeFilter.endY" value="43"/>
+                <entry key="XYTypeFilter.invertEnabled" value="false"/>
+                <entry key="RefractoryFilter.subsampleBy" value="1"/>
               </map>
             </node>
           </node>
