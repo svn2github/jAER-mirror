@@ -46,7 +46,7 @@ entity USBAER_top_level is
     SyncOutxSBO : out std_logic;
 
     -- communication with 8051
-    ConfigxSI      : in  std_logic;
+  --  ConfigxSI      : in  std_logic;
     TimestampMasterxSI    : in std_logic;
     HostResetTimestampxSI : in  std_logic;
     RunMonitorxSI : in std_logic;
@@ -256,7 +256,7 @@ begin
       width          => 16)
     port map (
       ClockxCI       => ClockxC,
-      ResetxRBI      => RunxS,
+      ResetxRBI      => ResetxRBI,
       WriteEnablexEI => FifoRegWritexE,
       DataInxDI      => FifoAddressRegInxD,
       DataOutxDO     => FifoAddressRegOutxD);
@@ -266,7 +266,7 @@ begin
       width          => 16)
     port map (
       ClockxCI       => ClockxC,
-      ResetxRBI      => RunxS,
+      ResetxRBI      => ResetxRBI,
       WriteEnablexEI => FifoRegWritexE,
       DataInxDI      => FifoTimestampRegInxD,
       DataOutxDO     => FifoTimestampRegOutxD);
@@ -276,7 +276,7 @@ begin
       width          => 15)
     port map (
       ClockxCI       => ClockxC,
-      ResetxRBI      => RunxS,
+      ResetxRBI      => ResetxRBI,
       WriteEnablexEI => MonitorRegWritexE,
       DataInxDI      => MonitorAddressRegInxD,
       DataOutxDO     => MonitorAddressxD);
@@ -297,7 +297,7 @@ begin
   uEarlyPaketTimer : earlyPaketTimer
     port map (
       ClockxCI        => ClockxC,
-      ResetxRBI       => RunxS,
+      ResetxRBI       => ResetxRBI,
       ClearxSI        => ResetEarlyPaketTimerxS,
       TimerExpiredxSO => EarlyPaketTimerOverflowxS);
 
@@ -324,7 +324,7 @@ begin
       ClockxCI              => ClockxC,
       ResetxRBI             => ResetxRBI,
       RunxSI                => RunxS,
-      ConfigxSI             => ConfigxSI,
+      ConfigxSI             => TimestampMasterxSI,
       SyncInxABI           => SyncInxABI,
       SyncOutxSBO          => SyncOutxSBO,
       TriggerxSO            => ExternalTriggerxS,
@@ -392,7 +392,7 @@ begin
     FifoAddressxD   when selectaddress,
     FifoTimestampxD when others;
 
-  LEDxSO  <= ConfigxSI and RunxS;
+  LEDxSO  <= TimestampMasterxSI and RunxS;
   --LEDxSO <= FifoTransactionxS;
   
   Debug1xSO <= FifoInFullxSB;

@@ -336,7 +336,7 @@ void stopMonitor(void)
 
   	// force last paket
   	
-  	EP6FIFOCFG = 0x01; //0000_0001 disable auto-in
+  /*	EP6FIFOCFG = 0x01; //0000_0001 disable auto-in
 	SYNCDELAY;
 
 	if(EP6FIFOFLGS==0x00)
@@ -354,7 +354,7 @@ void stopMonitor(void)
 	SYNCDELAY;
 
 	EP6FIFOCFG =0x09;  //0000_1001 set back to autoin
-	SYNCDELAY;
+	SYNCDELAY;*/
 }
 
 

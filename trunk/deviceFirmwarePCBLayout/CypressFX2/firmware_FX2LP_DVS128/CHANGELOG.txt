@@ -1,5 +1,8 @@
 DVS 128 firmware versions:
 
+0014 made EnableEventAcquisition and TimestampReset, CPLDReset completely independant. This means that the 
+     timestamp will start to advance (and keep advancing and writing wraps etc to FIFO) as soon as CPLD
+     is unreset. rapha, 6.2.2012
 0013 added sync events controlled from host computer, a sync event is insereted when the vr_led is used
      to either turn on or off the LED, rapha 20.12.2011
 0012 Added LED control. 15.12.2011, tobi

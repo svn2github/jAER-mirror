@@ -59,7 +59,7 @@ architecture Behavioral of synchronizerStateMachine is
 begin  -- Behavioral
 
   -- calculate next state
-  p_memless : process (StatexDP, RunxSI, ConfigxSI, DividerxDP, CounterxDP, HostResetTimestampxSI, SyncInxSB, SyncInxABI)
+  p_memless : process (StatexDP, ConfigxSI, DividerxDP, CounterxDP, HostResetTimestampxSI, SyncInxSB, SyncInxABI)
     constant counterInc : integer := 29;  --47
     constant squareWaveHighTime : integer := 50;
     constant squareWavePeriod : integer := 100;
@@ -92,7 +92,7 @@ begin  -- Behavioral
           StatexDN         <= stRunSlave;
           ResetTimestampxSBO <= '0';
       
-        elsif ConfigxSI='1' and RunxSI='1' then
+        elsif ConfigxSI='1' then --and RunxSI='1' then
           StatexDN <= stTriggerInHigh;
           ResetTimestampxSBO <= '0';
         end if;
@@ -132,7 +132,7 @@ begin  -- Behavioral
           SyncOutxSBO <= '1';
         end if;
 
-        if RunxSI = '0' or ConfigxSI='0'  then
+        if ConfigxSI='0'  then          -- or RunxSI ='0'
           StatexDN   <= stIdle;
         elsif HostResetTimestampxSI = '1' then
           StatexDN   <= stResetSlaves;
@@ -163,7 +163,7 @@ begin  -- Behavioral
           SyncOutxSBO <= '1';
         end if;
             
-        if RunxSI = '0' or ConfigxSI='0'  then
+        if ConfigxSI='0'  then -- or RunxSI = '0' 
           StatexDN   <= stIdle;
         elsif HostResetTimestampxSI = '1' then
           StatexDN   <= stResetSlaves;
