@@ -644,9 +644,13 @@ begin
   
   RxcolGxS <= '0';
   
-  DebugxSIO(0) <= '0';
-  ExtTriggerxE <= DebugxSIO(2);
-  DebugxSIO(1) <= '1';
+  --DebugxSIO(0) <= '0';
+  --ExtTriggerxE <= DebugxSIO(2);
+  --DebugxSIO(1) <= '1';
+  DebugxSIO(0) <= FX2FifoInFullxSBI;
+  DebugxSIO(7) <= FifoFullxS;
+     DebugxSIO(1) <= ADCvalueReadyxS;
+     DebugxSIO(6) <= ReadADCvaluexE;
 
   
   DebugxSIO(8) <= '0';
