@@ -144,11 +144,11 @@
                 <entry key="SeeBetter20.runAdc" value="true"/>
                 <entry key="SeeBetter20.runCpld" value="true"/>
                 <entry key="CPLDInt.adcConfig" value="352"/>
-                <entry key="CPLDInt.exposure" value="47"/>
+                <entry key="CPLDInt.exposure" value="84"/>
                 <entry key="CPLDInt.resSettle" value="20"/>
-                <entry key="CPLDInt.rowSettle" value="9"/>
+                <entry key="CPLDInt.rowSettle" value="3"/>
                 <entry key="CPLDInt.colSettle" value="13"/>
-                <entry key="CPLDInt.framePeriod" value="2"/>
+                <entry key="CPLDInt.framePeriod" value="16396"/>
                 <entry key="SeeBetter20.biasDiag0" value="false"/>
                 <entry key="SeeBetter20.biasDiag1" value="false"/>
                 <entry key="SeeBetter20.biasDiag2" value="false"/>
@@ -175,7 +175,7 @@
                 <entry key="SeeBetter20.ShiftedSourceBias.SSN.OperatingMode" value="ShiftedSource"/>
                 <entry key="SeeBetter20.ShiftedSourceBias.SSN.VoltageLevel" value="SplitGate"/>
                 <entry key="autoResetEnabled" value="true"/>
-                <entry key="SeeBetter20.bgTabbedPaneSelectedIndex" value="0"/>
+                <entry key="SeeBetter20.bgTabbedPaneSelectedIndex" value="2"/>
                 <entry key="apsIntensityOffset" value="0"/>
                 <entry key="apsIntensityGain" value="1"/>
                 <entry key="invertADCvalues" value="false"/>
@@ -202,6 +202,8 @@
                 <entry key="XYTypeFilter.endY" value="43"/>
                 <entry key="XYTypeFilter.invertEnabled" value="false"/>
                 <entry key="RefractoryFilter.subsampleBy" value="1"/>
+                <entry key="CPLDInt.pad" value="0"/>
+                <entry key="intensityDisplayEnabled" value="false"/>
               </map>
             </node>
           </node>

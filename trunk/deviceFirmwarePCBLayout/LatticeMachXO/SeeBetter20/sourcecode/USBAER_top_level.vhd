@@ -203,7 +203,7 @@ architecture Structural of USBAER_top_level is
 		ColSettlexDI          : in    std_logic_vector(15 downto 0);
 		RowSettlexDI          : in    std_logic_vector(15 downto 0);
 		ResSettlexDI          : in    std_logic_vector(15 downto 0);
-		FramePeriodxDI		  : in    std_logic_vector(31 downto 0);
+		FramePeriodxDI		  : in    std_logic_vector(15 downto 0);
 		TestPixelxEI		  : in    std_logic;
 		ExtTriggerxEI			  : in    std_logic;
 		CDVSTestSRRowInxSO    : out   std_logic;
@@ -354,10 +354,10 @@ architecture Structural of USBAER_top_level is
   signal CDVSTestColMode0xS, CDVSTestColMode1xS : std_logic;
   signal ExtTriggerxE				: std_logic;
   
-  signal SRDataOutxD : std_logic_vector(108 downto 0);
+  signal SRDataOutxD : std_logic_vector(92 downto 0);
   
   signal ExposurexD, ColSettlexD, RowSettlexD, ResSettlexD : std_logic_vector(15 downto 0); 
-  signal FramePeriodxD : std_logic_vector(31 downto 0);
+  signal FramePeriodxD : std_logic_vector(15 downto 0);
   signal TestPixelxE : std_logic;  
   
   signal ADCconfigxD : std_logic_vector(11 downto 0);
@@ -408,7 +408,7 @@ begin
   
   shiftRegister_1: shiftRegister
     generic map (
-      width => 109)
+      width => 93)
     port map (
       ClockxCI   => SRClockxC,
       ResetxRBI  => ResetxRB,
@@ -422,8 +422,8 @@ begin
   ColSettlexD <= SRDataOutxD(43 downto 28);
   RowSettlexD <= SRDataOutxD(59 downto 44);
   ResSettlexD <= SRDataOutxD(75 downto 60);
-  FramePeriodxD <= SRDataOutxD(107 downto 76);
-  TestPixelxE <= SRDataOutxD(108);
+  FramePeriodxD <= SRDataOutxD(91 downto 76);
+  TestPixelxE <= SRDataOutxD(92);
   
   uFifo : AERfifo
     port map (
@@ -647,10 +647,11 @@ begin
   --DebugxSIO(0) <= '0';
   --ExtTriggerxE <= DebugxSIO(2);
   --DebugxSIO(1) <= '1';
-  DebugxSIO(0) <= FX2FifoInFullxSBI;
-  DebugxSIO(7) <= FifoFullxS;
-     DebugxSIO(1) <= ADCvalueReadyxS;
-     DebugxSIO(6) <= ReadADCvaluexE;
+ -- DebugxSIO(0) <= FX2FifoInFullxSBI;
+ -- DebugxSIO(7) <= FifoFullxS;
+ --    DebugxSIO(1) <= ADCvalueReadyxS;
+ --    DebugxSIO(6) <= ReadADCvaluexE;
+  DebugxSIO(7 downto 0) <= FramePeriodxD(7 downto 0);
 
   
   DebugxSIO(8) <= '0';
