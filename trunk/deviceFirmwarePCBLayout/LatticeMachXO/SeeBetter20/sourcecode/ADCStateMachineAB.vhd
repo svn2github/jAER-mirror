@@ -104,7 +104,7 @@ begin
   ChannelxD       <= ADCconfigWordxS(6 downto 5);
 
   CDVSTestColMode0xSO <= ColModexD(0);
-  CDVSTestColMode1xSO <= ColModexD(1) or ExtTriggerxEI;
+  CDVSTestColMode1xSO <= ColModexD(1) or (ExtTriggerxEI and TestPixelxEI);
 
   ADCStateOutputLEDxSO <= '1' when StateColxDP = stIdle and StateRowxDP = stIdle else '0';
 
