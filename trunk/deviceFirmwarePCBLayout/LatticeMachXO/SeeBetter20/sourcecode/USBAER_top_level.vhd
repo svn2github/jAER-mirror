@@ -552,6 +552,7 @@ begin
       RegisterWritexEO      => ADCregWritexE,
       SRLatchxEI            => SRLatchxE,
       RunADCxSI             => RunADCxS,
+      ADCconfigxDI          => ADCconfigxD,
 	  ExposurexDI           => ExposurexD,
 	  ColSettlexDI          => ColSettlexD,
 	  RowSettlexDI          => RowSettlexD,
@@ -559,8 +560,7 @@ begin
 	  FramePeriodxDI		=> FramePeriodxD,
 	  TestPixelxEI 			=> TestPixelxE,
 	  ExtTriggerxEI			=> ExtTriggerxE,
-	  ADCconfigxDI          => ADCconfigxD,
-      CDVSTestSRRowInxSO    => CDVSTestSRRowInxS,
+	      CDVSTestSRRowInxSO    => CDVSTestSRRowInxS,
       CDVSTestSRRowClockxSO => CDVSTestSRRowClockxS,
       CDVSTestSRColInxSO    => CDVSTestSRColInxS,
       CDVSTestSRColClockxSO => CDVSTestSRColClockxS,
@@ -658,7 +658,7 @@ begin
   UseCDVSperiodicResetxS <= DebugxSIO(9);
   DebugxSIO(10) <= '1';
   
-  DebugxSIO(11) <= ADCconvstxEB;
+  DebugxSIO(11) <= TestPixelxE;
   DebugxSIO(12) <= ADCbusyxS;
 --  DebugxSIO(1 downto 0) <= ActualTimestampxD(2 downto 1);
 --  DebugxSIO(7) <= FX2FifoWritexEB;
