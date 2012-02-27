@@ -20,14 +20,19 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/SeeBetter20/SeeBetter20_SeeBetter20.jed</File>
+			<FileTime>2/23/2012 18:3:2</FileTime>
+			<JedecChecksum>0xBEDE</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
+				<PreloadLength>544</PreloadLength>
 				<IOVectorData>0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</IOVectorData>
 				<OverideUES value="TRUE"/>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
 				<SVFProcessor>ispVM</SVFProcessor>
+				<Usercode>0x00000000</Usercode>
+				<AccessMode>FLASH</AccessMode>
 			</Option>
 		</Device>
 	</Chain>

@@ -60,6 +60,9 @@
         <Source name="sourcecode/ADCStateMachineAB.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="sourcecode/ADCStateMachineABC.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="ADCStateMachine/ADCStateMachine.spf" type="Simulation Project File" type_short="SPF">
             <Options/>
         </Source>
