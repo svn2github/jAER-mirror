@@ -356,7 +356,7 @@ architecture Structural of USBAER_top_level is
   signal CDVSTestColMode0xS, CDVSTestColMode1xS : std_logic;
   signal ExtTriggerxE				: std_logic;
   
-  signal SRDataOutxD : std_logic_vector(109 downto 0);
+  signal SRDataOutxD : std_logic_vector(119 downto 0);
   
   signal ExposureBxD, ExposureCxD, ColSettlexD, RowSettlexD, ResSettlexD : std_logic_vector(15 downto 0); 
   signal FramePeriodxD : std_logic_vector(15 downto 0);
@@ -411,7 +411,7 @@ begin
   
   shiftRegister_1: shiftRegister
     generic map (
-      width => 110)
+      width => 120)
     port map (
       ClockxCI   => SRClockxC,
       ResetxRBI  => ResetxRB,
@@ -421,14 +421,14 @@ begin
       DataOutxDO => SRDataOutxD);
 
   ADCconfigxD <= SRDataOutxD(11 downto 0);
-  ExposureBxD <= SRDataOutxD(27 downto 12);
-  ExposureCxD <= SRDataOutxD(43 downto 28);
-  ColSettlexD <= SRDataOutxD(59 downto 44);
-  RowSettlexD <= SRDataOutxD(75 downto 60);
-  ResSettlexD <= SRDataOutxD(91 downto 76);
-  FramePeriodxD <= SRDataOutxD(107 downto 92);
-  TestPixelxE <= SRDataOutxD(108);
-  UseCxE <= SRDataOutxD(109);
+  ExposureBxD <= SRDataOutxD(31 downto 16);
+  ExposureCxD <= SRDataOutxD(47 downto 32);
+  ColSettlexD <= SRDataOutxD(63 downto 48);
+  RowSettlexD <= SRDataOutxD(79 downto 64);
+  ResSettlexD <= SRDataOutxD(95 downto 80);
+  FramePeriodxD <= SRDataOutxD(111 downto 96);
+  TestPixelxE <= SRDataOutxD(118);
+  UseCxE <= SRDataOutxD(119);
   
   uFifo : AERfifo
     port map (
