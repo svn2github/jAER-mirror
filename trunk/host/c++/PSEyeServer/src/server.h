@@ -9,6 +9,7 @@
 #define	SERVER_H
 
 #include <windows.h>
+#include<iostream>
 #include<map>
 #include "../include/PSEyeServer.h"
 #include "../include/CLEyeMulticam.h"
@@ -16,20 +17,17 @@
 class PSEyeServer {
    
    class PSEyeCamera {
-       HANDLE hMmf;                 // handle to memory-mapped file
-       uint8_t *pBuffer;            // pointer to mmf buffer
-       PSEyeFrameBuffer *frameBuffer;
+       PSEyeMemoryMappedFile mmf;    
+       uint32_t frameSize;
+       HANDLE hEvent;               // handle for stopping thread
        HANDLE hThread;              // thread for getting frames
        
        PSEyeInstance instance;      // camera instance
        volatile bool running;       // flag used by thread
        
-       // settings structure
-       PSEyeState state;
-       
        // create and destroy shared memory
-       bool allocateSharedMemory();
-       bool deallocateSharedMemory(); 
+       bool allocateMemoryFile();
+       bool deallocateMemoryFile(); 
        
        int getFrameSize();
        
@@ -48,6 +46,9 @@ class PSEyeServer {
        PSEyeCamera();
        ~PSEyeCamera();
        
+       // settings structure
+       PSEyeState state;
+       
        bool create();
        bool destroy();
        
@@ -59,20 +60,25 @@ class PSEyeServer {
    };
    
    // map of index to camera objects
-   std::map<uint32_t, PSEyeCamera> cameras;   
+   std::map<int32_t, PSEyeCamera> cameras;   
    
    // pipe used for direct ipc 
    HANDLE hPipe;
    bool createPipe();
    bool destroyPipe(); 
-   
-   void answerRequest(PSEyeMessage * request);
+   void answerMessage(PSEyeMessage &message);
    
 public:
     PSEyeServer();
     ~PSEyeServer();
     
-    bool run();
+    bool listen();
+    bool createCamera(int32_t index, PSEyeColourMode colourMode, PSEyeResolution resolution, float frameRate);
+    bool destroyCamera(int32_t index);
+    
+    bool startCamera(int32_t index);
+    bool stopCamera(int32_t index);
+    
     static CLEyeCameraColorMode mapColourMode(PSEyeColourMode colourMode);
     static CLEyeCameraResolution mapResolution(PSEyeResolution resolution);
     static CLEyeCameraParameter mapParameter(PSEyeParameter parameter);

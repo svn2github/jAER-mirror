@@ -34,11 +34,12 @@ bool PSEyeServer::destroyPipe() {
     return true;
 }
 
-bool PSEyeServer::run() {
+bool PSEyeServer::listen() {
     bool fConnected, fSuccess;
-    PSEyeMessage * message;
+    PSEyeMessage message;
     uint32_t bytesPosted;
     
+    std::cout << "Creating pipe." << std::endl;
     // try to create named pipe
     if (!createPipe()) {
         return false;
@@ -57,19 +58,18 @@ bool PSEyeServer::run() {
             fSuccess = false;
             fSuccess = ReadFile(
                     hPipe,        // handle to pipe 
-                    message,    // buffer to receive data 
+                    &message,    // buffer to receive data 
                     sizeof(PSEyeMessage), // size of buffer 
                     (DWORD*) &bytesPosted, // number of bytes read
                     NULL);        // not overlapped I/O
             // successfully read message
             if (fSuccess && bytesPosted == sizeof(PSEyeMessage)) {
                 // deal with message
-                answerRequest(message);
-                
+                answerMessage(message);
                 //post response
                 fSuccess = WriteFile( 
                         hPipe,        // handle to pipe 
-                        message,     // buffer to write from 
+                        &message,     // buffer to write from 
                         sizeof(PSEyeMessage), // number of bytes to write 
                         (DWORD*) &bytesPosted,   // number of bytes written
                         NULL);        // not overlapped I/O
@@ -77,53 +77,78 @@ bool PSEyeServer::run() {
                 FlushFileBuffers(hPipe);
             }   
         }
+        else {
+            // client closed handle to pipe
+            if (GetLastError() == ERROR_NO_DATA) {
+                DisconnectNamedPipe(hPipe);
+            }
+        }
     }
 }
 
-void PSEyeServer::answerRequest(PSEyeMessage* request) {
-    switch (request->type) {
+void PSEyeServer::answerMessage(PSEyeMessage &message) {
+    switch (message.type) {
         case CAMERA_COUNT:
-            request->state.index = CLEyeGetCameraCount();
+            message.state.index = CLEyeGetCameraCount();
             break;
         case CAMERA_GUID:
-            request->state.guid = CLEyeGetCameraUUID(request->state.index);
+            message.state.guid = CLEyeGetCameraUUID(message.state.index);
             break;
         case CREATE_CAMERA:
+            if (!createCamera(message.state.index, message.state.colourMode, 
+                    message.state.resolution, message.state.frameRate)) message.type = SERVER_ERROR;
+            break;
         case DESTROY_CAMERA:
+            if (!destroyCamera(message.state.index)) message.type = SERVER_ERROR;
+            break;
         case START_CAMERA:
+            if (!startCamera(message.state.index)) message.type = SERVER_ERROR;
+            break;            
         case STOP_CAMERA:
+            if (!stopCamera(message.state.index)) message.type = SERVER_ERROR;
+            break;            
         case GET_PARAMETERS:
         case SET_PARAMETERS:
         default:
-            request->state.index = CLEyeGetCameraCount();
+            message.state.index = CLEyeGetCameraCount();
             break;
     }
 }
 
-PSEyeServer::PSEyeCamera::PSEyeCamera() : hMmf(NULL), pBuffer(NULL), 
-        hThread(NULL), frameBuffer(NULL), instance(NULL), running(false) {
-    // default camera state
-    state.index = 0;
-    state.guid;  
-       
-    state.colourMode = BAYER_RAW;
-    state.resolution = QVGA;
-    state.frameRate = 0;
+bool PSEyeServer::createCamera(int32_t index, PSEyeColourMode colourMode, PSEyeResolution resolution, float frameRate) {
+    cameras[index].state.index = index;
+    cameras[index].state.guid = CLEyeGetCameraUUID(index);
+    cameras[index].state.colourMode = colourMode;
+    cameras[index].state.resolution = resolution;
+    cameras[index].state.frameRate = frameRate;
     
-    state.exposure.isAuto = true;
-    state.exposure.value = 0;
-    
-    state.gain.isAuto = true;
-    state.gain.value = 0;
-    
-    state.balance.isAuto = true;
-    state.balance.red = 0;
-    state.balance.green = 0;
-    state.balance.blue = 0;
+    return cameras[index].create();
+}
+
+bool PSEyeServer::destroyCamera(int32_t index) {
+    return cameras[index].destroy();
+}
+
+bool PSEyeServer::startCamera(int32_t index) {
+    return cameras[index].start();
+}
+
+bool PSEyeServer::stopCamera(int32_t index) {
+    return cameras[index].stop();
+}
+
+PSEyeServer::PSEyeCamera::PSEyeCamera() : hEvent(NULL), hThread(NULL), frameSize(0), 
+        instance(NULL), running(false) {
+    mmf.index = 0;
+    mmf.handle = NULL;
+    mmf.rawBuffer = NULL;
+    mmf.frameBuffer = NULL;
 }
 
 PSEyeServer::PSEyeCamera::~PSEyeCamera() {
-    deallocateSharedMemory();
+    stop();
+    destroy();
+    deallocateMemoryFile();
 }
 
 int PSEyeServer::PSEyeCamera::getFrameSize() {
@@ -131,8 +156,8 @@ int PSEyeServer::PSEyeCamera::getFrameSize() {
     int nPixels;
     
     switch(state.colourMode) {
-        case MONO_RAW: bytesPerPixel = 1; break;
-        default: bytesPerPixel = 3;
+        case COLOUR_RAW: bytesPerPixel = 3; break;
+        default: bytesPerPixel = 1;
     }
     switch(state.resolution) {
         case QVGA: nPixels = 320 * 240; break;
@@ -142,23 +167,26 @@ int PSEyeServer::PSEyeCamera::getFrameSize() {
     return nPixels * bytesPerPixel;
 }
 
-bool PSEyeServer::PSEyeCamera::allocateSharedMemory() {
-    if (hMmf != NULL || pBuffer != NULL) {
-        deallocateSharedMemory();
+bool PSEyeServer::PSEyeCamera::allocateMemoryFile() {
+    if (mmf.handle != NULL || mmf.rawBuffer != NULL) {
+        deallocateMemoryFile();
     }
+    
+    std::cout << "allocating memory." << std::endl;
     
     // concatenate index and base name to get unique mmf
     char mmfName[1024];
-    sprintf(mmfName, "%s%i", mmfBaseName, state.index);
+    mmf.index = state.index;
+    sprintf(mmfName, "%s%i", mmfBaseName, mmf.index);
 
     // calculate buffer sizes needed
-    int dataFrameSize = getFrameSize();
-    int padding = dataFrameSize % CACHE_LINE_SIZE;
-    int totalFrameSize = dataFrameSize + padding;
+    frameSize = getFrameSize();
+    int padding = frameSize % CACHE_LINE_SIZE;
+    int totalFrameSize = frameSize + padding;
     int bufferSize = sizeof(PSEyeFrameBuffer) + BUFFER_FRAMES * totalFrameSize;
-    
+    std::cout << "buffer size: " << bufferSize << std::endl;
     // create memory-mapped file
-    hMmf = CreateFileMapping(
+    mmf.handle = CreateFileMapping(
             INVALID_HANDLE_VALUE,       // use memory
             NULL,                       // no security
             PAGE_READWRITE,             // allow read/write access
@@ -167,69 +195,83 @@ bool PSEyeServer::PSEyeCamera::allocateSharedMemory() {
             mmfName                     // name of memory-mapped file
             );
     
-    if (hMmf == NULL) {
+    if (mmf.handle == NULL) {
         return false;
     }
     
     // create local buffer view of mmf
-    pBuffer = (uint8_t *) MapViewOfFile(hMmf,   // handle to map object
+    mmf.rawBuffer = (uint8_t *) MapViewOfFile(mmf.handle,   // handle to map object
             FILE_MAP_ALL_ACCESS, // read/write permission
             0,
             0,
             bufferSize);
 
-    if (pBuffer == NULL) {
-        CloseHandle(hMmf);
-        hMmf = NULL;
+    if (mmf.rawBuffer == NULL) {
+        CloseHandle(mmf.handle);
+        mmf.handle = NULL;
         return false;
     }
     
     // Clear the buffer
-    ZeroMemory(pBuffer, bufferSize);
+    ZeroMemory(mmf.rawBuffer, bufferSize);
     
     // Pack buffer with objects using placement new (don't need to free as buffer freed)
-    frameBuffer = new(pBuffer) PSEyeFrameBuffer;
+    mmf.frameBuffer = new(mmf.rawBuffer) PSEyeFrameBuffer;
     int offset = sizeof(PSEyeFrameBuffer);
-    PSEyeFrame frame;
+    PSEyeFrame *frame;
     for (int i = 1; i <= BUFFER_FRAMES; i++) {
-        frame = frameBuffer->frames[i - 1];
-        new(&(pBuffer[offset])) uint8_t[totalFrameSize];
-        frame.dataOffset = offset;
-        frame.size = dataFrameSize;
-        frame._padding = padding;
-        frame.next = i == BUFFER_FRAMES ? i : 0;
+        std::cout << "offset: " << offset << std::endl;
+        frame = &(mmf.frameBuffer->frames[i - 1]);
+        new(mmf.rawBuffer + offset) uint8_t[totalFrameSize];
+        frame->dataOffset = offset;
+        frame->size = frameSize;
+        frame->_padding = padding;
+        frame->next = (i == BUFFER_FRAMES ? 0 : i);
         offset += totalFrameSize;
     }
     
-    frameBuffer->head = 0;
-    frameBuffer->tail = 0;
-    
+    mmf.frameBuffer->head = 0;
+    mmf.frameBuffer->tail = 0;
+
     return true;
 }
 
-bool PSEyeServer::PSEyeCamera::deallocateSharedMemory() {
-    if (pBuffer != NULL) {
-        UnmapViewOfFile(pBuffer);
-        pBuffer = NULL;
+bool PSEyeServer::PSEyeCamera::deallocateMemoryFile() {
+    std::cout << "deallocating memory." << std::endl;
+    if (mmf.rawBuffer != NULL) {
+        UnmapViewOfFile(mmf.rawBuffer);
+        mmf.rawBuffer = NULL;
     }
 
-    if (hMmf != NULL) {
-        CloseHandle(hMmf);
-        hMmf = NULL;
+    if (mmf.handle != NULL) {
+        CloseHandle(mmf.handle);
+        mmf.handle = NULL;
     }
     
-    frameBuffer = NULL;
+    mmf.frameBuffer = NULL;
     return true;
 }
 
 bool PSEyeServer::PSEyeCamera::start() {
-    if (frameBuffer == NULL) {
+    if (mmf.frameBuffer == NULL) {
         return false;
     }
     if (!running) {
+        std::cout << "Starting camera...";
         if (!CLEyeCameraStart(instance)) {
             return false;
         }
+        // create event to stop thread
+        hEvent = CreateEvent(
+                 NULL,     // no security attributes
+                 false,    // auto-reset event
+                 false,    // initial state is non-signaled
+                 NULL);    // lpName
+        
+        if (hEvent == NULL) {
+            return false;
+        }
+        
         // Create a thread for this client. 
         hThread = CreateThread( 
                 NULL,              // no security attribute 
@@ -238,21 +280,29 @@ bool PSEyeServer::PSEyeCamera::start() {
                 this,    // thread parameter 
                 CREATE_SUSPENDED,   // create suspended 
                 NULL);      // returns thread ID
-        if (hThread == 0) {
+        if (hThread == NULL) {
+            CloseHandle(hEvent);
+            hEvent = NULL;
             return false;
         }
         running = true;
         ResumeThread(hThread);
+        std::cout << "Done." << std::endl;
     }
     return true;
 }
 
 bool PSEyeServer::PSEyeCamera::stop() {
     if (running) {
+        std::cout << "Stopping camera...";
         running = false;
+        SetEvent(hEvent);
         WaitForSingleObject(hThread, INFINITE);
         CloseHandle(hThread);
+        CloseHandle(hEvent);
         hThread = NULL;
+        hEvent = NULL;
+        std::cout << "Done." << std::endl;
         return CLEyeCameraStop(instance);
     }
     return true;
@@ -260,13 +310,17 @@ bool PSEyeServer::PSEyeCamera::stop() {
 
 void PSEyeServer::PSEyeCamera::runThread() {
     PSEyeFrame frame;
-    while(running) {
-        frame = frameBuffer->frames[frameBuffer->head];
-        if (CLEyeCameraGetFrame(instance, (BYTE *) &pBuffer[frame.dataOffset])) {
-            if (frame.next != frameBuffer->tail) {
-                frameBuffer->head = frame.next;
+    bool run = true;
+    while(run) {
+        frame = mmf.frameBuffer->frames[mmf.frameBuffer->head];
+        if (CLEyeCameraGetFrame(instance, (BYTE *) (mmf.rawBuffer + frame.dataOffset))) {
+            if (frame.next != mmf.frameBuffer->tail) {
+                mmf.frameBuffer->head = frame.next;
             }
         }
+        // running check
+        if (WaitForSingleObject(hEvent, 0) == WAIT_OBJECT_0) run = false;
+
     }
 }
 
@@ -274,21 +328,47 @@ bool PSEyeServer::PSEyeCamera::create() {
     if (instance != NULL) {
         destroy();
     }
+    
+    if (frameSize != getFrameSize()) {
+        allocateMemoryFile();
+    }
+
+    std::cout << "Creating camera...";
+    
     instance = CLEyeCreateCamera(state.guid, 
             PSEyeServer::mapColourMode(state.colourMode), 
             PSEyeServer::mapResolution(state.resolution), 
             state.frameRate);
+
+    if (instance != NULL) {
+        std::cout << "Done." << std::endl << "Reading Parameters...";
+        state.exposure.isAuto = CLEyeGetCameraParameter(instance, CLEYE_AUTO_GAIN);
+        state.exposure.value = CLEyeGetCameraParameter(instance, CLEYE_GAIN);
+        
+        state.gain.isAuto = CLEyeGetCameraParameter(instance, CLEYE_AUTO_EXPOSURE);
+        state.gain.value = CLEyeGetCameraParameter(instance, CLEYE_EXPOSURE);
     
-    return instance != NULL;
+        state.balance.isAuto = CLEyeGetCameraParameter(instance, CLEYE_AUTO_WHITEBALANCE);
+        state.balance.red = CLEyeGetCameraParameter(instance, CLEYE_WHITEBALANCE_RED);
+        state.balance.green = CLEyeGetCameraParameter(instance, CLEYE_WHITEBALANCE_GREEN);
+        state.balance.blue = CLEyeGetCameraParameter(instance, CLEYE_WHITEBALANCE_BLUE);
+        std::cout << "Done." << std::endl;    
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 bool PSEyeServer::PSEyeCamera::destroy() {
+    std::cout << "Destroying camera...";
     if (instance != NULL) {
         if (!CLEyeDestroyCamera(instance)) {
             return false;
         }
         instance = NULL;
     }
+    std::cout << "Done." << std::endl;
     return true;
 }
 
