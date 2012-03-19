@@ -1,0 +1,17 @@
+0.9	· Events processing is implemented in datalogger context.
+	· A combobox is added for sending specific commands.
+	· Some checkBoxes are replaced by comboBoxes.
+
+0.9.1	· PicuteBox is increased in 2 píxels for each axis to avoid cutting images
+
+0.9.2	· 'Find Device' button lists device alias (instead of 'MapBulDevice...')
+
+0.9.3	· 'Find Device' button and 'DeviceName' TextBox are replaced by a ComboBox that lists connected devices alias. This allows you to quickly select the device to use.
+
+0.9.4	· 'Sequencer' device type is Added.
+	· timestamps Calculation when receiving data is fixed.
+
+0.9.5	· 'Config' button is added.
+	· Added a method for automatic loading of firmwares.
+	· Data processing is now faster when downloading.
+	

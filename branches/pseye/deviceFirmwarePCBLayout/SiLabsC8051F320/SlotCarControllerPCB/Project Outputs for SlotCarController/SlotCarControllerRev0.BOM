@@ -1,0 +1,29 @@
+Bill of Material for SlotCarControllerRev0.PcbDoc
+On 12/2/2010 at 1:35:27 PM
+
+ Comment             Pattern     Quantity  Components
+------------------------------------------------------------------------------
+ 100                 CR1608-0603      8    R4_T0, R4_T1, R4_T2, R4_T3   Semiconductor Resistor 
+                                           R15_T0, R15_T1, R15_T2
+                                           R15_T3
+ 100nF               CC1608-0603      1    C1                                                
+ 1k                  CR1608-0603      9    R2, R3_T0, R3_T1, R3_T2                           
+                                           R3_T3, R6_T0, R6_T1, R6_T2
+                                           R6_T3
+ 1uF                 CC1608-0603      4    C4_T0, C4_T1, C4_T2, C4_T3   Capacitor (Semiconductor SIM Model) 
+ 2200uF              CAPPR5-12.5x35    4    C3_T0, C3_T1, C3_T2, C3_T3   Polarized Capacitor (Radial) 
+ 2A                  2920Littelfuse    4    F1_T0, F1_T1, F1_T2, F1_T3   Fuse                 
+ 470                 CR1608-0603      1    R1                                                
+ 5k                  CR1608-0603      4    R5_T0, R5_T1, R5_T2, R5_T3   Semiconductor Resistor 
+ 7334                TO220_HEATSINK    4    MN_T0, MN_T1, MN_T2, MN_T3   N-Channel MOSFET     
+ ACPL847             DIP16            2    U2, U3                       16-Pin 4-channel Phototransistor Optocoupler 
+ Brake               CAPPR1.27-1.7x3.18    4    R16_T0, R16_T1, R16_T2       Resistor             
+                                           R16_T3
+ C8051F320           TQFP32           1    U1                           Silicon Labs USB Microcontroller 
+ Debug               HDR2X5           1    J4                           Header, 5-Pin, Dual row 
+ Header 10H          SL508/10/90      1    H1                           Header, 10-Pin, Right Angle 
+ LED                 0805LED          1    DS1                          LED, SMT 3mm by 1.5mm 
+ MOSFET-P GDS        TO220_HEATSINK    4    MP_T0, MP_T1, MP_T2, MP_T3   P-Channel MOSFET     
+ Port2               HDR1X8           1    J5                           Header, 8-Pin        
+ POW                 HDR1X3           1    POW                          Header, 3-Pin        
+ USB B               usb              1    J3                           USB TypB             

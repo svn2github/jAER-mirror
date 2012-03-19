@@ -1,0 +1,970 @@
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 1   
+
+
+C51 COMPILER V7.50, COMPILATION OF MODULE USBAERMINI2_FIRMWARE
+OBJECT MODULE PLACED IN USBAERmini2_firmware.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE USBAERmini2_firmware.c DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #pragma NOIV               // Do not generate interrupt vectors
+   2          //-----------------------------------------------------------------------------
+   3          //   File:      USBAERmini2_firmware.c
+   4          //   Description: FX2 firmware for the USBAERmini2 project   
+   5          //
+   6          // created: 11/08/05 
+   7          // Revision: 0.01 
+   8          //
+   9          //-----------------------------------------------------------------------------
+  10          #include "lp.h"
+  11          #include "lpregs.h"
+  12          #include "syncdly.h"            // SYNCDELAY macro
+  13          #include "biasgen.h" 
+  14          #include "ports.h"
+  15          
+  16          extern BOOL GotSUD;             // Received setup data flag
+  17          //extern BOOL Sleep;
+  18          extern BOOL Rwuen;
+  19          extern BOOL Selfpwr;
+  20          
+  21          //BYTE Configuration;             // Current configuration
+  22          //BYTE AlternateSetting;          // Alternate settings
+  23          
+  24          //WORD packetSize;
+  25          
+  26          #define CPLD_NOT_RESET                  PC0
+  27          #define RESET_TS                                PC6
+  28          #define MONITOR                                 PC7
+  29          #define TIMESTAMP_MASTER                PC4
+  30          #define CFG_TIMESTAMP_COUNTER   PC3
+  31          #define TIMESTAMP_MODE                  PC2
+  32          
+  33          //sbit arrayReset=IOA^1;        // arrayReset=0 to reset all pixels
+  34          #define arrayReset 0x60 // 0110_0000 for both retinas
+  35          
+  36          #define DB_Addr 1 // zero if only one byte address is needed for EEPROM, one if two byte address
+  37          
+  38          #define LED     PA7
+  39          #define LED2    PC5
+  40          
+  41          #define EEPROM_SIZE 0x4000
+  42          //#define MAX_NAME_LENGTH 8
+  43          //#define STRING_ADDRESS (EEPROM_SIZE - MAX_NAME_LENGTH)
+  44          
+  45          #define MSG_TS_RESET 1
+  46          
+  47          // vendor requests
+  48          #define VR_ENABLE_AE_IN 0xB3 // enable IN transfers
+  49          #define VR_DISABLE_AE_IN 0xB4 // disable IN transfers
+  50          #define VR_TRIGGER_ADVANCE_TRANSFER 0xB7 // trigger in packet commit (for host requests for early access t
+             -o AE data) NOT IMPLEMENTED
+  51          #define VR_RESETTIMESTAMPS 0xBb 
+  52          //#define VR_SET_DEVICE_NAME 0xC2
+  53          #define VR_TIMESTAMP_TICK 0xC3
+  54          #define VR_RESET_FIFOS 0xC4
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 2   
+
+  55          #define VR_DOWNLOAD_CPLD_CODE 0xC5 
+  56          #define VR_READOUT_EEPROM 0xC9
+  57          #define VR_IS_TS_MASTER 0xCB
+  58          #define VR_MISSED_EVENTS 0xCC
+  59          
+  60          #define VR_WRITE_BIASGEN 0xB8 // write bytes out to SPI
+  61                                          // the wLengthL field of SETUPDAT specifies the number of bytes to write out (max 64 per request)
+  62                                          // the bytes are in the data packet
+  63          #define VR_SET_POWERDOWN 0xB9 // control powerDown. wValue controls the powerDown pin. Raise high to power
+             - off, lower to power on.
+  64          #define VR_EEPROM_BIASGEN_BYTES 0xBa // write bytes out to EEPROM for power on default
+  65          
+  66          #define VR_SETARRAYRESET 0xBc // set the state of the array reset
+  67          #define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels
+  68          
+  69          #define BIAS_FLASH_START 9 // start of bias value (this is where number of bytes is stored
+  70          
+  71          #define VR_UPLOAD               0xc0
+  72          #define VR_DOWNLOAD             0x40
+  73          #define VR_EEPROM               0xa2 // loads (uploads) EEPROM
+  74          #define VR_RAM                  0xa3 // loads (uploads) external ram
+  75          
+  76          #define EP0BUFF_SIZE    0x40
+  77          
+  78          BOOL monitorRunning;
+  79          BYTE operationMode;
+  80          
+  81          xdata unsigned int numBiasBytes; // number of bias bytes saved
+  82          xdata unsigned char biasBytes[255]; // bias bytes values saved here
+  83          
+  84          long cycleCounter;
+  85          long missedEvents;
+  86          
+  87          #define I2C_Addr 0x51 //adress is 0101_0001
+  88          
+  89          void startMonitor(void);
+  90          void stopMonitor(void);
+  91          void configTimestampCounter(void);
+  92          
+  93          void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf);
+  94          void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf);
+  95          void EEPROMWriteBYTE(WORD addr, BYTE value);
+  96          
+  97          void downloadSerialNumberFromEEPROM(void);
+  98          
+  99          //-----------------------------------------------------------------------------
+ 100          // Task Dispatcher hooks
+ 101          //   The following hooks are called by the task dispatcher.
+ 102          //-----------------------------------------------------------------------------
+ 103          
+ 104          void TD_Init(void)              // Called once at startup
+ 105          {  
+ 106   1              // set the CPU clock to 48MHz
+ 107   1              CPUCS = ((CPUCS & ~bmCLKSPD) | bmCLKSPD1) ;
+ 108   1      
+ 109   1              // set the slave FIFO interface to 30MHz, slave fifo mode
+ 110   1              IFCONFIG = 0xA3; // 1010_0011
+ 111   1      
+ 112   1              // disable interrupts by the input pins and by timers and serial ports:
+ 113   1              IE &= 0x00; // 0000_0000 
+ 114   1      
+ 115   1              // disable interrupt pins 4, 5 and 6
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 3   
+
+ 116   1              EIE &= 0xE3; // 1110_0011;
+ 117   1      
+ 118   1              // Registers which require a synchronization delay, see section 15.14
+ 119   1              // FIFORESET        FIFOPINPOLAR
+ 120   1              // INPKTEND         OUTPKTEND
+ 121   1              // EPxBCH:L         REVCTL
+ 122   1              // GPIFTCB3         GPIFTCB2
+ 123   1              // GPIFTCB1         GPIFTCB0
+ 124   1              // EPxFIFOPFH:L     EPxAUTOINLENH:L
+ 125   1              // EPxFIFOCFG       EPxGPIFFLGSEL
+ 126   1              // PINFLAGSxx       EPxFIFOIRQ
+ 127   1              // EPxFIFOIE        GPIFIRQ
+ 128   1              // GPIFIE           GPIFADRH:L
+ 129   1              // UDMACRCH:L       EPxGPIFTRIG
+ 130   1              // GPIFTRIG
+ 131   1        
+ 132   1              EP1OUTCFG = 0x00;                       // EP1OUT disabled
+ 133   1              SYNCDELAY;
+ 134   1              EP1INCFG = 0xA0;                        // EP1IN enabled, bulk
+ 135   1              SYNCDELAY;                   
+ 136   1              EP2CFG = 0x00;                          // EP2 disabled
+ 137   1              SYNCDELAY;                     
+ 138   1              EP4CFG = 0x00;                          // EP4 disabled
+ 139   1              SYNCDELAY;                 
+ 140   1              EP6CFG = 0xE0;                          // EP6 enabled, in bulk, quad buffered 
+ 141   1              SYNCDELAY;               
+ 142   1              EP8CFG = 0x00;                          // EP8 disabled
+ 143   1      
+ 144   1              SYNCDELAY;
+ 145   1              REVCTL= 0x03;
+ 146   1      
+ 147   1              EP6AUTOINLENH=0x02;
+ 148   1              EP6AUTOINLENL=0x00;
+ 149   1      
+ 150   1              SYNCDELAY;
+ 151   1              EP6FIFOCFG = 0x09 ; //0000_1001
+ 152   1      
+ 153   1              //set FIFO flag configuration: FlagA: EP2 empty, FlagB: EP6 full, flagC and D unused
+ 154   1              SYNCDELAY;
+ 155   1              PINFLAGSAB = 0xE8; // 1110_1000
+ 156   1      
+ 157   1              //enable Port C and port E
+ 158   1              SYNCDELAY;
+ 159   1              PORTCCFG = 0x00;
+ 160   1              SYNCDELAY;
+ 161   1              PORTACFG = 0x03; // use interrupts 0 and 1
+ 162   1              SYNCDELAY;
+ 163   1              PORTECFG = 0x00;
+ 164   1      
+ 165   1              //enable Port C as output, except timestamp_master pin (4)
+ 166   1              OEC = 0xEF; // 1110_1111
+ 167   1              OEE = 0xFE; // 1111_1110 configure only bit 0 (BitOut) as output
+ 168   1              OEA = 0x88; // configure remaining two pins as output to avoid floating inputs: 1000_1000
+ 169   1      
+ 170   1              // hold CPLD in reset and configure 
+ 171   1              // TimestampCounter to 1 us Tick (0): 0000_0000
+ 172   1              IOC = 0x02; // do not set it to 0x00, stops working, but i don't know why....
+ 173   1      
+ 174   1              // initialize variables
+ 175   1              monitorRunning = FALSE;
+ 176   1              operationMode=0;
+ 177   1      
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 4   
+
+ 178   1              cycleCounter=0;
+ 179   1              missedEvents=0xFFFFFFFF; // one interrupt is generated at startup, maybe some cpld registers start in hig
+             -h state
+ 180   1              LED=1;
+ 181   1              LED2=0;
+ 182   1      
+ 183   1              biasInit();     // init biasgen ports and pins
+ 184   1              EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
+ 185   1      
+ 186   1              IOE|=arrayReset;        // un-reset all the pixels
+ 187   1      
+ 188   1              // interrupt not used anymore with new CPLD firmware    
+ 189   1      //      IT0=1;          // make INT0# edge-sensitive
+ 190   1      //      EX0=1;          // enable INT0# (this interrupt is used to signal to the host to reset WrapAdd)
+ 191   1      
+ 192   1              IT1=1; // INT1# edge-sensitve
+ 193   1              EX1=1; // enable INT1#
+ 194   1      
+ 195   1              //startMonitor();
+ 196   1      }
+ 197          
+ 198          void TD_Poll(void)              // Called repeatedly while the device is idle
+ 199          {       
+ 200   1              if(cycleCounter++>=50000){
+ 201   2      
+ 202   2                      LED=!LED;
+ 203   2                      //LED2=!LED2;
+ 204   2                      cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
+ 205   2              }       
+ 206   1      }
+ 207          
+ 208          /*void downloadSerialNumberFromEEPROM(void)
+ 209          {
+ 210                  BYTE i;
+ 211          
+ 212                  char *dscrRAM;
+ 213                  BYTE xdata buf[MAX_NAME_LENGTH];
+ 214          
+ 215                  // get pointer to string descriptor 3
+ 216                  dscrRAM =  (char *)EZUSB_GetStringDscr(3);
+ 217          
+ 218                  // read string description from EEPROM
+ 219                  EEPROMRead(STRING_ADDRESS, MAX_NAME_LENGTH, buf);
+ 220                  
+ 221                  //write string description (serial number) to RAM
+ 222                  for (i=0;i<MAX_NAME_LENGTH;i++)
+ 223                  {
+ 224                          dscrRAM[2+i*2] = buf[i];
+ 225                  }
+ 226          }*/
+ 227          
+ 228          void startMonitor(void)
+ 229          {
+ 230   1              //start monitor state machine
+ 231   1              monitorRunning = TRUE;
+ 232   1              MONITOR=1;
+ 233   1      
+ 234   1          CPLD_NOT_RESET=1;
+ 235   1      }
+ 236          
+ 237          void stopMonitor(void)
+ 238          {
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 5   
+
+ 239   1              monitorRunning = FALSE;
+ 240   1              MONITOR=0;
+ 241   1      
+ 242   1              _nop_(); // wait, so CPLD can finish the last transaction
+ 243   1              _nop_();
+ 244   1              _nop_();
+ 245   1              _nop_();
+ 246   1              _nop_();
+ 247   1              _nop_();
+ 248   1              _nop_();
+ 249   1              _nop_();
+ 250   1      
+ 251   1          CPLD_NOT_RESET=0;
+ 252   1      
+ 253   1              // force last paket
+ 254   1              
+ 255   1              EP6FIFOCFG = 0x01; //0000_0001 disable auto-in
+ 256   1              SYNCDELAY;
+ 257   1      
+ 258   1              if(EP6FIFOFLGS==0x00)
+ 259   1              { // if buffer available
+ 260   2              INPKTEND=0x06; // force in paket
+ 261   2                      SYNCDELAY;
+ 262   2              }
+ 263   1      
+ 264   1              // reset fifo   
+ 265   1              FIFORESET = 0x80;
+ 266   1              SYNCDELAY;
+ 267   1              FIFORESET = 0x06;
+ 268   1              SYNCDELAY;
+ 269   1              FIFORESET = 0x00;
+ 270   1              SYNCDELAY;
+ 271   1      
+ 272   1              EP6FIFOCFG =0x09;  //0000_1001 set back to autoin
+ 273   1              SYNCDELAY;
+ 274   1      }
+ 275          
+ 276          
+ 277          void EEPROMWriteByte(WORD addr, BYTE value)
+ 278          {
+ 279   1              BYTE            i = 0;
+ 280   1              BYTE xdata      ee_str[3];
+ 281   1              if(DB_Addr)
+ 282   1                      ee_str[i++] = MSB(addr); // if 16 bit, we need 2-byte address and 1 byte data
+ 283   1      
+ 284   1              ee_str[i++] = LSB(addr);
+ 285   1              ee_str[i++] = value;
+ 286   1      
+ 287   1              LED=1;
+ 288   1              EZUSB_WriteI2C(I2C_Addr, i, ee_str);
+ 289   1              LED=0;
+ 290   1          EZUSB_WaitForEEPROMWrite(I2C_Addr);
+ 291   1      }
+ 292          
+ 293          void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf)
+ 294          {
+ 295   1              BYTE    i;
+ 296   1              for(i=0;i<length;++i)
+ 297   1                      EEPROMWriteByte(addr++,buf[i]);
+ 298   1      }
+ 299          
+ 300          void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf)
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 6   
+
+ 301          {
+ 302   1              BYTE            i = 0;
+ 303   1              BYTE            j = 0;
+ 304   1              BYTE xdata      ee_str[2];
+ 305   1      
+ 306   1              if(DB_Addr)
+ 307   1                      ee_str[i++] = MSB(addr);
+ 308   1      
+ 309   1              ee_str[i++] = LSB(addr);
+ 310   1      
+ 311   1              EZUSB_WriteI2C(I2C_Addr, i, ee_str);
+ 312   1      
+ 313   1              for(j=0; j < length; j++)
+ 314   1                      *(buf+j) = 0xcd;
+ 315   1      
+ 316   1              EZUSB_ReadI2C(I2C_Addr, length, buf);
+ 317   1      }
+ 318          
+ 319          
+ 320          /*BOOL TD_Suspend(void)          // Called before the device goes into suspend mode
+ 321          {
+ 322            // reset CPLD
+ 323            CPLD_NOT_RESET =0;  
+ 324            
+ 325            return(TRUE);
+ 326          }
+ 327          
+ 328          BOOL TD_Resume(void)          // Called after the device resumes
+ 329          {
+ 330            // activate CPLD if monitorRunning and/or synthesizerRunning is true
+ 331            if (monitorRunning || synthesizerRunning)
+ 332              {
+ 333                CPLD_NOT_RESET=1;
+ 334              }
+ 335          
+ 336             return(TRUE);
+ 337          }*/
+ 338          
+ 339          //-----------------------------------------------------------------------------
+ 340          // Device Request hooks
+ 341          //   The following hooks are called by the end point 0 device request parser.
+ 342          //-----------------------------------------------------------------------------
+ 343          
+ 344          /*BOOL DR_GetDescriptor(void)
+ 345          {
+ 346             return(TRUE);
+ 347          }
+ 348          
+ 349          BOOL DR_SetConfiguration(void)   // Called when a Set Configuration command is received
+ 350          {
+ 351          //   Configuration = SETUPDAT[2];
+ 352             return(TRUE);            // Handled by user code
+ 353          }*/
+ 354          
+ 355          BOOL DR_GetConfiguration(void)   // Called when a Get Configuration command is received
+ 356          {
+ 357   1         EP0BUF[0] = 0x00;//Configuration;
+ 358   1         EP0BCH = 0;
+ 359   1         EP0BCL = 1;
+ 360   1         return(TRUE);            // Handled by user code
+ 361   1      }
+ 362          
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 7   
+
+ 363          /*BOOL DR_SetInterface(void)       // Called when a Set Interface command is received
+ 364          {
+ 365          //   AlternateSetting = SETUPDAT[2];
+ 366             return(TRUE);            // Handled by user code
+ 367          }*/
+ 368          
+ 369          BOOL DR_GetInterface(void)       // Called when a Set Interface command is received
+ 370          {
+ 371   1         EP0BUF[0] = 0x00;//AlternateSetting;
+ 372   1         EP0BCH = 0;
+ 373   1         EP0BCL = 1;
+ 374   1         return(TRUE);            // Handled by user code
+ 375   1      }
+ 376          
+ 377          /*BOOL DR_GetStatus(void)
+ 378          {
+ 379             return(TRUE);
+ 380          }
+ 381          
+ 382          BOOL DR_ClearFeature(void)
+ 383          {
+ 384             return(TRUE);
+ 385          }
+ 386          
+ 387          BOOL DR_SetFeature(void)
+ 388          {
+ 389             return(TRUE);
+ 390          }*/
+ 391          
+ 392          // the SETUPDAT array has the following 8 elements (see FX2 TRM Section 2.3)
+ 393          //SETUPDAT[0] VendorRequest 0x40 for OUT type, 0xC0 for IN type
+ 394          //SETUPDAT[1] The actual vendor request (e.g. VR_ENABLE_AE_IN below)
+ 395          //SETUPDAT[2] wValueL 16 bit value LSB
+ 396          //         3  wValueH MSB
+ 397          //         4  wIndexL 16 bit field, varies according to request
+ 398          //         5  wIndexH
+ 399          //         6  wLengthL Number of bytes to transfer if there is a data phase
+ 400          //         7  wLengthH
+ 401          
+ 402          BOOL DR_VendorCmnd(void)
+ 403          {       
+ 404   1              WORD addr, len, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
+ 405   1              WORD i;
+ 406   1      //      char *dscrRAM;
+ 407   1      
+ 408   1              // we don't actually process the command here, we process it in the main loop
+ 409   1              // here we just do the handshaking and ensure if it is a command that is implemented
+ 410   1              switch (SETUPDAT[1]){
+ 411   2                      case VR_ENABLE_AE_IN: // enable IN transfers
+ 412   2                              {
+ 413   3                                      startMonitor();
+ 414   3                                      break;
+ 415   3                              }
+ 416   2                      case VR_DISABLE_AE_IN: // disable IN transfers
+ 417   2                              {
+ 418   3                                      stopMonitor();
+ 419   3                                      break;
+ 420   3                              }
+ 421   2                      case VR_RESET_FIFOS: // reset in and out fifo
+ 422   2                              {
+ 423   3                                      SYNCDELAY;
+ 424   3                                      EP6FIFOCFG = 0x01; //0000_0001  disable auto-in
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 8   
+
+ 425   3                                      SYNCDELAY;
+ 426   3                                      FIFORESET = 0x80;
+ 427   3                                      SYNCDELAY;
+ 428   3                                      FIFORESET = 0x06;
+ 429   3                                      SYNCDELAY;
+ 430   3                                      FIFORESET = 0x00;
+ 431   3      
+ 432   3      
+ 433   3                                      SYNCDELAY;
+ 434   3                                      EP6FIFOCFG = 0x09 ; //0000_1001 reenable auto-in
+ 435   3                                      break;
+ 436   3                              }
+ 437   2              /*      case VR_SET_DEVICE_NAME:
+ 438   2                              {
+ 439   2                                      *EP0BUF = SETUPDAT[1];
+ 440   2                                      EP0BCH = 0;
+ 441   2                                      EP0BCL = 1;
+ 442   2                                      EP0CS |= bmHSNAK;
+ 443   2      
+ 444   2                                      while(EP0CS & bmEPBUSY); //wait for the data packet to arrive
+ 445   2      
+ 446   2                                      dscrRAM = (char*)EZUSB_GetStringDscr(3); // get address of serial number descriptor-string in RAM
+ 447   2      
+ 448   2                                      if (EP0BCL > MAX_NAME_LENGTH)
+ 449   2                                      {
+ 450   2                                              len=MAX_NAME_LENGTH;
+ 451   2                                      } else 
+ 452   2                                      {
+ 453   2                                              len=EP0BCL;
+ 454   2                                      }
+ 455   2              
+ 456   2                                      for (i=0;i<len;i++)
+ 457   2                                      {
+ 458   2                                              EEPROMWriteBYTE(STRING_ADDRESS+i, EP0BUF[i]); // write string to EEPROM
+ 459   2                                              dscrRAM[2+i*2] = EP0BUF[i]; // write string to RAM
+ 460   2                                      }
+ 461   2      
+ 462   2                                      for (i=len; i<MAX_NAME_LENGTH; i++) // fill the rest with stop characters
+ 463   2                                      {
+ 464   2                                              EEPROMWriteBYTE(STRING_ADDRESS+i, ' '); // write string to EEPROM                               
+ 465   2                                              dscrRAM[2+i*2] = ' '; // write string to RAM
+ 466   2                                      }
+ 467   2      
+ 468   2                                      EP0BCH = 0;
+ 469   2                                      EP0BCL = 0;
+ 470   2      
+ 471   2                                      return(FALSE);
+ 472   2                              }*/             
+ 473   2                      case VR_RESETTIMESTAMPS:
+ 474   2                              {
+ 475   3                                      RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
+ 476   3                                      RESET_TS=0;
+ 477   3      
+ 478   3                                      break;
+ 479   3                              }
+ 480   2                      case VR_WRITE_BIASGEN: // write bytes to SPI interface
+ 481   2                      case VR_EEPROM_BIASGEN_BYTES: // falls through and actual command is tested below
+ 482   2                              {
+ 483   3                                      SYNCDELAY;
+ 484   3                                      addr = SETUPDAT[2];             // Get address and length
+ 485   3                                      addr |= SETUPDAT[3] << 8;
+ 486   3                                      len = SETUPDAT[6];
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 9   
+
+ 487   3                                      len |= SETUPDAT[7] << 8;
+ 488   3                                      numBiasBytes=len;
+ 489   3                                      while(len){                                     // Move new data through EP0OUT, one packet at a time
+ 490   4                                              // Arm endpoint - do it here to clear (after sud avail)
+ 491   4                                              EP0BCH = 0;
+ 492   4                                              EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+ 493   4                                              while(EP0CS & bmEPBUSY);  // spin here until data arrives
+ 494   4                                              bc = EP0BCL; // Get the new bytecount
+ 495   4                                              // Is this a  download to biasgen shift register?
+ 496   4                                              if(SETUPDAT[1] == VR_WRITE_BIASGEN){
+ 497   5                                                      for(i=0; i<bc; i++){
+ 498   6                                                              spiwritebyte(EP0BUF[i]);
+ 499   6                                                              biasBytes[i]=EP0BUF[i];
+ 500   6                                                      }
+ 501   5                                              }else{ // we write EEProm starting at addr with bc bytes from EP0BUF
+ 502   5                                                      //                                      EEPROMWrite(addr,bc,(WORD)EP0BUF);
+ 503   5                                              }
+ 504   4                                              addr += bc;     // inc eeprom addr to write to, in case that's what we're doing
+ 505   4                                              len -= bc; // dec total byte count
+ 506   4                                      }
+ 507   3                                      if(SETUPDAT[1]==VR_WRITE_BIASGEN) {
+ 508   4                                              latchNewBiases();
+ 509   4                                              //setLatchTransparent(); // let values pass through latch from shift register -- these are new values
+ 510   4                                              //setLatchOpaque();
+ 511   4                                      }
+ 512   3                                      EP0BCH = 0;
+ 513   3                                      EP0BCL = 0;                   // Arm endpoint with 0 byte to transfer
+ 514   3                                      return(FALSE); // very important, otherwise get stall
+ 515   3                              }
+ 516   2                      case VR_SET_POWERDOWN: // control powerDown output bit
+ 517   2                              {
+ 518   3                                      if (SETUPDAT[2])
+ 519   3                                      {
+ 520   4                                              setPowerDownBit();
+ 521   4                                      } else 
+ 522   3                                      {
+ 523   4                                              releasePowerDownBit();
+ 524   4                                      }
+ 525   3                                      *EP0BUF=VR_SET_POWERDOWN;
+ 526   3                                      SYNCDELAY;
+ 527   3                                      EP0BCH = 0;
+ 528   3                                      EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
+ 529   3                                      EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
+ 530   3                                      break; // very important, otherwise get stall
+ 531   3      
+ 532   3                              }
+ 533   2                      case VR_SETARRAYRESET: // set array reset, based on lsb of argument
+ 534   2                              {
+ 535   3                                      if (SETUPDAT[2]&0x01)
+ 536   3                                      {
+ 537   4                                              IOE|=arrayReset;
+ 538   4                                      } else
+ 539   3                                      {
+ 540   4                                              IOE&=~arrayReset;
+ 541   4                                      }
+ 542   3                              
+ 543   3                                      *EP0BUF=VR_SETARRAYRESET;
+ 544   3                                      SYNCDELAY;
+ 545   3                                      EP0BCH = 0;
+ 546   3                                      EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
+ 547   3                                      EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
+ 548   3                                      return(FALSE); // very important, otherwise get stall
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 10  
+
+ 549   3      
+ 550   3                              }
+ 551   2                      case VR_DOARRAYRESET: // reset array for fixed reset time
+ 552   2                              {
+ 553   3                                      IOE&=~arrayReset;
+ 554   3                                      _nop_();
+ 555   3                                      _nop_();
+ 556   3                                      _nop_();
+ 557   3                                      _nop_();
+ 558   3                                      _nop_();
+ 559   3                                      _nop_();
+ 560   3                                      _nop_();
+ 561   3                                      _nop_();        // a few us
+ 562   3                                      _nop_();
+ 563   3                                      _nop_();
+ 564   3                                      _nop_();
+ 565   3                                      _nop_();
+ 566   3                                      _nop_();
+ 567   3                                      _nop_();
+ 568   3                                      IOE|=arrayReset;
+ 569   3                                      *EP0BUF=VR_DOARRAYRESET;
+ 570   3                                      SYNCDELAY;
+ 571   3                                      EP0BCH = 0;
+ 572   3                                      EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
+ 573   3                                      EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
+ 574   3                                      return (FALSE); // very important, otherwise get stall
+ 575   3                              }
+ 576   2              /*      case VR_DOWNLOAD_CPLD_CODE:
+ 577   2                              {
+ 578   2                                      break;
+ 579   2                              } */
+ 580   2                      case VR_TIMESTAMP_TICK:
+ 581   2                              {
+ 582   3                                      if (SETUPDAT[0]==VR_UPLOAD) //1010_0000 :vendor request to device, direction IN
+ 583   3                                      {
+ 584   4                                              EP0BUF[0] = SETUPDAT[1];
+ 585   4                                      
+ 586   4                                              EP0BUF[1]= operationMode;
+ 587   4                                              
+ 588   4                                              EP0BCH = 0;
+ 589   4                                              EP0BCL = 2;
+ 590   4                                              EP0CS |= bmHSNAK;
+ 591   4                                      } else
+ 592   3                                      {
+ 593   4                                              operationMode=SETUPDAT[2];
+ 594   4                                              if (operationMode==0)
+ 595   4                                              {
+ 596   5                                                      TIMESTAMP_MODE = 0;
+ 597   5                                                      CFG_TIMESTAMP_COUNTER = 0;
+ 598   5                                              }else if (operationMode==1)
+ 599   4                                              {
+ 600   5                                                      CFG_TIMESTAMP_COUNTER = 1;
+ 601   5                                                      TIMESTAMP_MODE = 0;     
+ 602   5                                              }else if (operationMode==2)
+ 603   4                                              {
+ 604   5                                                      CFG_TIMESTAMP_COUNTER = 0;
+ 605   5                                                      TIMESTAMP_MODE = 1;     
+ 606   5                                              }else if (operationMode==3)
+ 607   4                                              {
+ 608   5                                                      CFG_TIMESTAMP_COUNTER = 1;
+ 609   5                                                      TIMESTAMP_MODE = 1;     
+ 610   5                                              }
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 11  
+
+ 611   4      
+ 612   4                                              *EP0BUF = SETUPDAT[1];
+ 613   4                                              EP0BCH = 0;
+ 614   4                                              EP0BCL = 1;
+ 615   4                                              EP0CS |= bmHSNAK;       
+ 616   4                                      }
+ 617   3                                      return(FALSE);
+ 618   3                              }
+ 619   2                      case VR_IS_TS_MASTER:
+ 620   2                              {
+ 621   3                                      EP0BUF[0] = SETUPDAT[1];
+ 622   3                                      EP0BUF[1]= TIMESTAMP_MASTER;
+ 623   3                                      EP0BCH = 0;
+ 624   3                                      EP0BCL = 2;
+ 625   3                                      EP0CS |= bmHSNAK;
+ 626   3      
+ 627   3                                      return(FALSE);
+ 628   3                              }
+ 629   2                      case VR_MISSED_EVENTS:
+ 630   2                              {
+ 631   3                                      EX1=0;
+ 632   3                                      EP0BUF[0] = SETUPDAT[1];
+ 633   3                                      EP0BUF[4]= (missedEvents & 0xFF000000) >> 24;
+ 634   3                                      EP0BUF[3]= (missedEvents & 0x00FF0000) >> 16;
+ 635   3                                      EP0BUF[2]= (missedEvents & 0x0000FF00) >> 8;
+ 636   3                                      EP0BUF[1]= missedEvents & 0x000000FF;
+ 637   3                                      EP0BCH = 0;
+ 638   3                                      EP0BCL = 5;
+ 639   3                                      EP0CS |= bmHSNAK;
+ 640   3      
+ 641   3                                      missedEvents=0;
+ 642   3                                      EX1=1;
+ 643   3                                      return(FALSE);
+ 644   3                              }
+ 645   2                      case VR_RAM:
+ 646   2                      case VR_EEPROM:
+ 647   2                      {
+ 648   3                              addr = SETUPDAT[2];             // Get address and length
+ 649   3                              addr |= SETUPDAT[3] << 8;
+ 650   3                              len = SETUPDAT[6];
+ 651   3                              len |= SETUPDAT[7] << 8;
+ 652   3                              // Is this an upload command ?
+ 653   3                              //      led0=!led0;
+ 654   3                              if(SETUPDAT[0] == VR_UPLOAD)  // this is automatically defined on host from direction of vendor request
+ 655   3                              {
+ 656   4                                      while(len)                                      // Move requested data through EP0IN 
+ 657   4                                      {                                                       // one packet at a time.
+ 658   5      
+ 659   5                                              while(EP0CS & bmEPBUSY);
+ 660   5      
+ 661   5                                              if(len < EP0BUFF_SIZE)
+ 662   5                                                      bc = len;
+ 663   5                                              else
+ 664   5                                                      bc = EP0BUFF_SIZE;
+ 665   5      
+ 666   5                                              // Is this a RAM upload ?
+ 667   5                                              if(SETUPDAT[1] == VR_RAM)
+ 668   5                                              {
+ 669   6                                                      for(i=0; i<bc; i++)
+ 670   6                                                              *(EP0BUF+i) = *((BYTE xdata *)addr+i);
+ 671   6                                              }
+ 672   5                                              else
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 12  
+
+ 673   5                                              {
+ 674   6                                                      for(i=0; i<bc; i++)
+ 675   6                                                              *(EP0BUF+i) = 0xcd;
+ 676   6                                                      EEPROMRead(addr,(WORD)bc,(WORD)EP0BUF);
+ 677   6                                              }
+ 678   5      
+ 679   5                                              EP0BCH = 0;
+ 680   5                                              EP0BCL = (BYTE)bc; // Arm endpoint with # bytes to transfer
+ 681   5      
+ 682   5                                              addr += bc;
+ 683   5                                              len -= bc;
+ 684   5      
+ 685   5                                      }
+ 686   4                              }
+ 687   3                              // Is this a download command ?
+ 688   3                              else if(SETUPDAT[0] == VR_DOWNLOAD) // this is automatically defined on host from direction of vendor r
+             -equest
+ 689   3                              {
+ 690   4                                      while(len)                                      // Move new data through EP0OUT 
+ 691   4                                      {                                                       // one packet at a time.
+ 692   5                                              // Arm endpoint - do it here to clear (after sud avail)
+ 693   5                                              EP0BCH = 0;
+ 694   5                                              EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+ 695   5      
+ 696   5                                              while(EP0CS & bmEPBUSY);
+ 697   5      
+ 698   5                                              bc = EP0BCL; // Get the new bytecount
+ 699   5      
+ 700   5                                              // Is this a RAM download ?
+ 701   5                                              if(SETUPDAT[1] == VR_RAM)
+ 702   5                                              {
+ 703   6                                                      for(i=0; i<bc; i++)
+ 704   6                                                              *((BYTE xdata *)addr+i) = *(EP0BUF+i);
+ 705   6                                              }
+ 706   5                                              else
+ 707   5                                                      EEPROMWrite(addr,bc,(WORD)EP0BUF);
+ 708   5      
+ 709   5                                              addr += bc;
+ 710   5                                              len -= bc;
+ 711   5                                      }
+ 712   4                              }
+ 713   3                              return(FALSE);
+ 714   3                      }
+ 715   2                      default:
+ 716   2                      { // we received an invalid command
+ 717   3                              return(TRUE);
+ 718   3                      }
+ 719   2              }
+ 720   1      
+ 721   1              *EP0BUF = SETUPDAT[1];
+ 722   1              EP0BCH = 0;
+ 723   1              EP0BCL = 1;
+ 724   1              EP0CS |= bmHSNAK;
+ 725   1      
+ 726   1              return(FALSE);
+ 727   1      }
+ 728          
+ 729          
+ 730          void ISR_MissedEvent(void) interrupt 3 {        
+ 731   1              missedEvents++;
+ 732   1      }
+ 733          
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 13  
+
+ 734          //-----------------------------------------------------------------------------
+ 735          // USB Interrupt Handlers
+ 736          //   The following functions are called by the USB interrupt jump table.
+ 737          //-----------------------------------------------------------------------------
+ 738          
+ 739          // Setup Data Available Interrupt Handler
+ 740          void ISR_Sudav(void) interrupt 0
+ 741          {
+ 742   1         GotSUD = TRUE;            // Set flag
+ 743   1         EZUSB_IRQ_CLEAR();
+ 744   1         USBIRQ = bmSUDAV;         // Clear SUDAV IRQ
+ 745   1      }
+ 746          
+ 747          // Setup Token Interrupt Handler
+ 748          void ISR_Sutok(void) interrupt 0
+ 749          {
+ 750   1         EZUSB_IRQ_CLEAR();
+ 751   1         USBIRQ = bmSUTOK;         // Clear SUTOK IRQ
+ 752   1      }
+ 753          
+ 754          void ISR_Sof(void) interrupt 0
+ 755          {
+ 756   1         EZUSB_IRQ_CLEAR();
+ 757   1         USBIRQ = bmSOF;            // Clear SOF IRQ
+ 758   1      }
+ 759          
+ 760          void ISR_Ures(void) interrupt 0
+ 761          {
+ 762   1         if (EZUSB_HIGHSPEED())
+ 763   1         {
+ 764   2            pConfigDscr = pHighSpeedConfigDscr;
+ 765   2            pOtherConfigDscr = pFullSpeedConfigDscr;
+ 766   2          //  packetSize = 512;
+ 767   2      
+ 768   2         }
+ 769   1         else
+ 770   1         {
+ 771   2            pConfigDscr = pFullSpeedConfigDscr;
+ 772   2            pOtherConfigDscr = pHighSpeedConfigDscr;
+ 773   2          //  packetSize = 64;
+ 774   2         }
+ 775   1         
+ 776   1         EZUSB_IRQ_CLEAR();
+ 777   1         USBIRQ = bmURES;         // Clear URES IRQ
+ 778   1      }
+ 779          
+ 780          void ISR_Susp(void) interrupt 0
+ 781          {
+ 782   1      //   Sleep = TRUE;
+ 783   1      //   EZUSB_IRQ_CLEAR();
+ 784   1      //   USBIRQ = bmSUSP;
+ 785   1      }
+ 786          
+ 787          void ISR_Highspeed(void) interrupt 0
+ 788          {
+ 789   1         if (EZUSB_HIGHSPEED())
+ 790   1         {
+ 791   2            pConfigDscr = pHighSpeedConfigDscr;
+ 792   2            pOtherConfigDscr = pFullSpeedConfigDscr;
+ 793   2          //  packetSize = 512;
+ 794   2      
+ 795   2         }
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 14  
+
+ 796   1         else
+ 797   1         {
+ 798   2            pConfigDscr = pFullSpeedConfigDscr;
+ 799   2            pOtherConfigDscr = pHighSpeedConfigDscr;
+ 800   2          //  packetSize = 64;
+ 801   2         }
+ 802   1      
+ 803   1         EZUSB_IRQ_CLEAR();
+ 804   1         USBIRQ = bmHSGRANT;
+ 805   1      }
+ 806          void ISR_Ep0ack(void) interrupt 0
+ 807          {
+ 808   1      }
+ 809          void ISR_Stub(void) interrupt 0
+ 810          {
+ 811   1      }
+ 812          void ISR_Ep0in(void) interrupt 0
+ 813          {
+ 814   1      }
+ 815          void ISR_Ep0out(void) interrupt 0
+ 816          {
+ 817   1      }
+ 818          void ISR_Ep1in(void) interrupt 0
+ 819          {
+ 820   1      }
+ 821          void ISR_Ep1out(void) interrupt 0
+ 822          {
+ 823   1      }
+ 824          void ISR_Ep2inout(void) interrupt 0
+ 825          {
+ 826   1      }
+ 827          void ISR_Ep4inout(void) interrupt 0
+ 828          {
+ 829   1      }
+ 830          void ISR_Ep6inout(void) interrupt 0
+ 831          {
+ 832   1      }
+ 833          void ISR_Ep8inout(void) interrupt 0
+ 834          {
+ 835   1      }
+ 836          void ISR_Ibn(void) interrupt 0
+ 837          {
+ 838   1      }
+ 839          void ISR_Ep0pingnak(void) interrupt 0
+ 840          {
+ 841   1      }
+ 842          void ISR_Ep1pingnak(void) interrupt 0
+ 843          {
+ 844   1      }
+ 845          void ISR_Ep2pingnak(void) interrupt 0
+ 846          {
+ 847   1      }
+ 848          void ISR_Ep4pingnak(void) interrupt 0
+ 849          {
+ 850   1      }
+ 851          void ISR_Ep6pingnak(void) interrupt 0
+ 852          {
+ 853   1      }
+ 854          void ISR_Ep8pingnak(void) interrupt 0
+ 855          {
+ 856   1      }
+ 857          void ISR_Errorlimit(void) interrupt 0
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 15  
+
+ 858          {
+ 859   1      }
+ 860          void ISR_Ep2piderror(void) interrupt 0
+ 861          {
+ 862   1      }
+ 863          void ISR_Ep4piderror(void) interrupt 0
+ 864          {
+ 865   1      }
+ 866          void ISR_Ep6piderror(void) interrupt 0
+ 867          {
+ 868   1      }
+ 869          void ISR_Ep8piderror(void) interrupt 0
+ 870          {
+ 871   1      }
+ 872          void ISR_Ep2pflag(void) interrupt 0
+ 873          {
+ 874   1      }
+ 875          void ISR_Ep4pflag(void) interrupt 0
+ 876          {
+ 877   1      }
+ 878          void ISR_Ep6pflag(void) interrupt 0
+ 879          {
+ 880   1      }
+ 881          void ISR_Ep8pflag(void) interrupt 0
+ 882          {
+ 883   1      }
+ 884          void ISR_Ep2eflag(void) interrupt 0
+ 885          {
+ 886   1      }
+ 887          void ISR_Ep4eflag(void) interrupt 0
+ 888          {
+ 889   1      }
+ 890          void ISR_Ep6eflag(void) interrupt 0
+ 891          {
+ 892   1      }
+ 893          void ISR_Ep8eflag(void) interrupt 0
+ 894          {
+ 895   1      }
+ 896          void ISR_Ep2fflag(void) interrupt 0
+ 897          {
+ 898   1      }
+ 899          void ISR_Ep4fflag(void) interrupt 0
+ 900          {
+ 901   1      }
+ 902          void ISR_Ep6fflag(void) interrupt 0
+ 903          {
+ 904   1      }
+ 905          void ISR_Ep8fflag(void) interrupt 0
+ 906          {
+ 907   1      }
+ 908          void ISR_GpifComplete(void) interrupt 0
+ 909          {
+ 910   1      }
+ 911          void ISR_GpifWaveform(void) interrupt 0
+ 912          {
+ 913   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1865    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =    257       5
+C51 COMPILER V7.50   USBAERMINI2_FIRMWARE                                                  02/25/2008 13:23:25 PAGE 16  
+
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      9      19
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

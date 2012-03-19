@@ -1,0 +1,9 @@
+ToDo PCB:
+
+pull-down resistor on synchronizer input
+
+ev add LED on some cypress IO Port
+
+add Rome connectors for definitve board
+
+debugger interface needed for definitive board?

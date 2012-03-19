@@ -1,0 +1,63 @@
+Basic Installation
+==================
+
+
+*** tested on 2.6.24 kubuntu and fedora core linux:***
+
+installed packages: kernel-headers make
+
+1.) type: make && sudo make install
+
+see also the 'Makefile' script
+
+
+***tested on 2.6.25 opensuse: ***
+
+1.)installed packages: 
+make 
+kernel-pae(or kernel-rt), update to newest
+kernel-syms
+
+2.)
+cd path.to/driverRetinaLinux
+cp Makefile.opensuse Makefile
+make && sudo make install #(or use the jAERViewer.sh for auto build)
+
+***autobuild***
+
+'../../jAERViewer.sh' builds the driver and starts jAER.
+
+
+
+***what the installation routine does***
+
+make:
+
+*)it builds the kernel module using the 'make' (with gnu c++) command.
+the kernel version (i.e. 2.6.24xx) must be the same for:
+a)the kernel binary, which is loaded at system startup (kernel-xx package)
+b)the kernel source or linux headers, wich the kernel module is compiled with 
+(kernel-headers or kernel-source package)
+The file 'Module.symvers' is needed. Either it is in the kernel-headers or
+in the kernle-source directory. (/usr/src/...) Custom kernels should also
+generate a Module.symvers file, when compiled.
+Without Module.symvers, the driver dependencies are not included. (So
+the retina module doesnt know to start the usbcore module, on which it
+depends)
+
+make install:
+
+*)copies the module 'retina.ko' to its standard location 
+/lib/modules/2.6.24xx/kernel/drivers/video/
+*)rebuilds the dependency file for modules (depmod -a)
+*)copies the udev rule '88-retina.rules' to /etc/udev/rules.d and
+restarts udev: in this rule, udev will detect a plugged in retina
+and give the device file /dev/retina0 read rights
+*)***load the module retina (modprobe retina)***
+*)adding the modprobe retina command at boot time is different
+for each linux distribution:
+*)on (k)ubuntu/debian distributions this is done by 'make install'
+*)on fedora core distribution the retina module is loaded automatically
+when the retina is plugged in, without any boot script
+*)on opensuse and other distros the 'modprobe retina' command has to
+be added to a boot script in the /etc/init.d folder

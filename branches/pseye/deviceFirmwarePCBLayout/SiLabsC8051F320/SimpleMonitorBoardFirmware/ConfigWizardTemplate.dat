@@ -1,0 +1,605 @@
+1TITLEPort I/O and Crossbar
+ 2Configure the Crossbar
+  3Select Peripherals to Enable
+   4UART0 Enable[E1=01,01]{NX}@F8
+   4SPI0 Enable[E1=02,02]{NX}@F8
+   4SMBus0 Enable[E1=04,04]{NX}@F8
+   4SYSCLK Enable[E1=08,08]{NX}@F8
+   4Comparator 0 Synchronous Output Enable[E1=10,10]{NX}@F8
+   4Comparator 0 Asynchronous Output Enable[E1=20,20]{NX}@F8
+   4Comparator 1 Synchronous Output Enable[E1=40,40]{NX}@F8
+   4Comparator 1 Asynchronous Output Enable[E1=80,80]{NX}@F8
+   4PCA
+	5ECIE: PCA External Counter Input Enable[E2=08,08]{NX}@F8
+	5PCA Modules
+     6Enable CEX0,CEX1,CEX2,CEX3,CEX4[E2=05,07]@F8
+     6Enable CEX0,CEX1,CEX2,CEX3[E2=04,07]@F8
+	 6Enable CEX0,CEX1,CEX2[E2=03,07]@F8
+	 6Enable CEX0,CEX1[E2=02,07]@F8
+	 6Enable CEX0[E2=01,07]@F8
+	 6Disable PCA Module I/O[E2=00,07]DU@F8
+   4T0 Enable[E2=10,10]{NX}@F8
+   4T1 Enable[E2=20,20]{NX}@F8
+  3Select Pins for Crossbar to Skip
+   4Port 0 Crossbar Pin Skip Configuration
+	5Skip P0.0?[D4=01,01]{NX}@C9
+	5Skip P0.1?[D4=02,02]{NX}@C9
+	5Skip P0.2?[D4=04,04]{NX}@C9
+	5Skip P0.3?[D4=08,08]{NX}@C9
+	5Skip P0.4?[D4=10,10]{NX}@C9
+	5Skip P0.5?[D4=20,20]{NX}@C9
+	5Skip P0.6?[D4=40,40]{NX}@C9
+	5Skip P0.7?[D4=80,80]{NX}@C9
+   4Port 1 Crossbar Pin Skip Configuration
+	5Skip P1.0?[D5=01,01]{NX}@F9
+	5Skip P1.1?[D5=02,02]{NX}@F9
+	5Skip P1.2?[D5=04,04]{NX}@F9
+	5Skip P1.3?[D5=08,08]{NX}@F9
+	5Skip P1.4?[D5=10,10]{NX}@F9
+	5Skip P1.5?[D5=20,20]{NX}@F9
+	5Skip P1.6?[D5=40,40]{NX}@F9
+	5Skip P1.7?[D5=80,80]{NX}@F9
+   4Port 2 Crossbar Pin Skip Configuration
+	5Skip P2.0?[D6=01,01]{NX}@FA
+	5Skip P2.1?[D6=02,02]{NX}@FA
+	5Skip P2.2?[D6=04,04]{NX}@FA
+	5Skip P2.3?[D6=08,08]{NX}@FA
+  3Enable Crossbar[E2=40,40]U
+ 2Select Pin Mode
+  3Port Pin Pull-Up Selection
+   4Weak Pull-Ups globally disabled[E2=80,80]U
+  3Port Pin Output Mode
+   4Port 0 Configure
+	5Bit 0 of Port 0 Push Pull Output[A4=01,01]{NX}@67
+	5Bit 1 of Port 0 Push Pull Output[A4=02,02]U{NX}@67
+	5Bit 2 of Port 0 Push Pull Output[A4=04,04]{NX}@67
+	5Bit 3 of Port 0 Push Pull Output[A4=08,08]{NX}@67
+	5Bit 4 of Port 0 Push Pull Output[A4=10,10]{NX}@67
+	5Bit 5 of Port 0 Push Pull Output[A4=20,20]{NX}@67
+	5Bit 6 of Port 0 Push Pull Output[A4=40,40]{NX}@67
+	5Bit 7 of Port 0 Push Pull Output[A4=80,80]{NX}@67
+   4Port 1 Configure
+	5Bit 0 of Port 1 Push Pull Output[A5=01,01]{NX}@67
+	5Bit 1 of Port 1 Push Pull Output[A5=02,02]{NX}@67
+	5Bit 2 of Port 1 Push Pull Output[A5=04,04]{NX}@67
+	5Bit 3 of Port 1 Push Pull Output[A5=08,08]{NX}@67
+	5Bit 4 of Port 1 Push Pull Output[A5=10,10]{NX}@67
+	5Bit 5 of Port 1 Push Pull Output[A5=20,20]{NX}@67
+	5Bit 6 of Port 1 Push Pull Output[A5=40,40]{NX}@67
+	5Bit 7 of Port 1 Push Pull Output[A5=80,80]{NX}@67
+   4Port 2 Configure
+	5Bit 0 of Port 2 Push Pull Output[A6=01,01]{NX}@67
+	5Bit 1 of Port 2 Push Pull Output[A6=02,02]{NX}@67
+	5Bit 2 of Port 2 Push Pull Output[A6=04,04]{NX}@67
+	5Bit 3 of Port 2 Push Pull Output[A6=08,08]{NX}@67
+	5Bit 4 of Port 2 Push Pull Output[A6=10,10]{NX}@67
+	5Bit 5 of Port 2 Push Pull Output[A6=20,20]{NX}@67
+	5Bit 6 of Port 2 Push Pull Output[A6=40,40]U{NX}@67
+	5Bit 7 of Port 2 Push Pull Output[A6=80,80]U{NX}@67
+   4Port 3 Configure
+	5Bit 0 of Port 3 Push Pull Output[A7=01,01]{NX}@67
+  3Port Pin Input Mode
+   4Port 0@DF
+	5Bit 0 of Port 0 Analog Input[F1=00,01]{NX}@97
+	5Bit 1 of Port 0 Analog Input[F1=00,02]{NX}@97
+	5Bit 2 of Port 0 Analog Input[F1=00,04]{NX}@97
+	5Bit 3 of Port 0 Analog Input[F1=00,08]{NX}@97
+	5Bit 4 of Port 0 Analog Input[F1=00,10]{NX}@97
+	5Bit 5 of Port 0 Analog Input[F1=00,20]{NX}@97
+	5Bit 6 of Port 0 Analog Input[F1=00,40]{NX}@97
+	5Bit 7 of Port 0 Analog Input[F1=00,80]{NX}@97
+   4Port 1@DF
+	5Bit 0 of Port 1 Analog Input[F2=00,01]{NX}@97
+	5Bit 1 of Port 1 Analog Input[F2=00,02]{NX}@97
+	5Bit 2 of Port 1 Analog Input[F2=00,04]{NX}@97
+	5Bit 3 of Port 1 Analog Input[F2=00,08]{NX}@97
+	5Bit 4 of Port 1 Analog Input[F2=00,10]{NX}@97
+	5Bit 5 of Port 1 Analog Input[F2=00,20]{NX}@97
+	5Bit 6 of Port 1 Analog Input[F2=00,40]{NX}@97
+	5Bit 7 of Port 1 Analog Input[F2=00,80]{NX}@97
+   4Port 2@DF
+	5Bit 0 of Port 2 Analog Input[F3=00,01]{NX}@97
+	5Bit 1 of Port 2 Analog Input[F3=00,02]{NX}@97
+	5Bit 2 of Port 2 Analog Input[F3=00,04]{NX}@97
+	5Bit 3 of Port 2 Analog Input[F3=00,08]{NX}@97
+	5Bit 4 of Port 2 Analog Input[F3=00,10]{NX}@97
+	5Bit 5 of Port 2 Analog Input[F3=00,20]{NX}@97
+	5Bit 6 of Port 2 Analog Input[F3=00,40]{NX}@97
+	5Bit 7 of Port 2 Analog Input[F3=00,80]{NX}@97
+   4Port 3@DF
+	5Bit 0 of Port 3 Analog Input[F4=00,01]{NX}@97
+ 2TITLEView port pinout
+1TITLEOscillator Configuration
+ 2Enable SYSCLK on Port I/O Crossbar?[E1=08,08]{NX}@F8
+ 2Internal Oscillator Configuration
+  3Enable Internal Oscillator?[B2=80,80]DU
+  3Select Internal Oscillator Divider
+   4Divide by 8[B2=00,03]DU
+   4Divide by 4[B2=01,03]
+   4Divide by 2[B2=02,03]
+   4Divide by 1[B2=03,03]
+ 2External Oscillator Configuration
+  3Select External Oscillator Mode
+   4OFF[B1=00,70]DU@E8
+   4CMOS Clock on XTAL2 pin[B1=20,70]@E8
+   4CMOS Clock on XTAL2 pin with Divide by 2[B1=30,70]@E8
+   4RC Oscillator Mode with Divide by 2[B1=40,70]@E8
+	5Select Frequency
+	 6'f<25kHz'[B1=00,07]DU
+	 6'25kHz<f<50kHz'[B1=01,07]
+	 6'50kHz<f<100kHz'[B1=02,07]
+	 6'100kHz<f<200kHz'[B1=03,07]
+	 6'200kHz<f<400kHz'[B1=04,07]
+	 6'400kHz<f<800kHz'[B1=05,07]
+	 6'800kHz<f<1.6MHz'[B1=06,07]
+	 6'1.6MHz<f<3.2MHz'[B1=07,07]
+   4C Oscillator Mode with Divide by 2[B1=50,70]@E8
+    5Select frequency assuming c= 33pF and VDD = 3.3V
+	 6'4KHz'[B1=00,07]DU
+     6'12KHz'[B1=01,07]
+     6'40KHz'[B1=02,07]
+     6'120KHz'[B1=03,07]
+     6'350KHz'[B1=04,07]
+     6'1MHz'[B1=05,07]
+     6'4MHz'[B1=06,07]
+     6'13MHz'[B1=07,07]
+   4Crystal Oscillator Mode with Divide by 1 stage[B1=60,70]@E8
+	5Select Crystal Frequency
+	 6'f<32kHz'[B1=00,07]DUU
+	 6'32kHz<f<84kHz'[B1=01,07]
+     6'84kHz<f<230kHz'[B1=02,07]
+     6'230kHz<f<600kHz'[B1=03,07]
+	 6'600kHz<f<1.5MHz'[B1=04,07]
+     6'1.5MHz<f<4.0MHz'[B1=05,07]
+	 6'4.0MHzM<f<10MHz'[B1=06,07]
+     6'f>10MHz'[B1=07,07]
+   4Crystal Oscillator Mode with Divide by 2 stage[B1=70,70]@E8
+	5Select Crystal Frequency
+	 6'f<32kHz'[B1=00,07]D
+	 6'32kHz<f<84kHz'[B1=01,07]
+	 6'84kHz<f<230kHz'[B1=02,07]
+	 6'230kHz<f<600kHz'[B1=03,07]
+     6'600kHz<f<1.5MHz'[B1=04,07]
+	 6'1.5MHz<f<4.0MHz'[B1=05,07]
+	 6'4.0MHz<f<10MHz'[B1=06,07]
+	 6'f>10MHz'[B1=07,07]
+ 2Select SYSCLK Source
+  3Internal Oscillator[A9=00,01]DU
+  3External Oscillator[A9=01,01]
+ 2Enable Missing Clock Detector?[EF=04,04]{NX}
+1TITLESPI Configuration
+ 2SPI Interrupt Enabled?[A8=40,40]{NX}
+  3Set SPI Interrupt Priority High?[B8=40,40]
+ 2Enable SPI Bus I/O on the Port I/O Crossbar?[E1=02,02]{NX}@F8
+ 2SPI Clock Phase
+  3Data sampled on first edge of SCK?[A1=00,20,0]D
+  3Data sampled on second edge of SCK?[A1=20,20,0]
+ 2SPI Clock Polarity
+  3SCK data sampled on rising edge?[A1=00,10,0]D
+  3SCK data sampled on falling edge?[A1=10,10,0]
+ 2Click to Set SPI Clock Rate@13
+ 2Select Mode
+  3Enable Master Mode?[A1=40,40,0]
+  3Enable Slave Mode?[A1=00,40,0]D
+   4Slave Select Mode
+    5NSS signal does not use any pins on the device (3-wire slave or 3-wire Master Mode)[F8=00,0C,0]@F5
+    5NSS is always an input to the device (4-wire slave or multi-master mode)[F8=04,0C,0]D@F5
+    5NSS signal is mapped as an output from the device (4-wire single-master mode)[F8=08,0C,0]@F5
+ 2Enable SPI?[F8=01,01]{NX}
+1TITLESMBus Configuration
+ 2Enable SMBus?[C1=80,80]{NX}
+  3Inhibit Slave Mode?[C1=40,40]
+ 2Enable SMBus Interrupt?[E6=01,01]{NX}
+  3Set SMBus Interrupt Priority High?[F6=01,01]
+ 2Enable SMBus I/O on the Port I/O Crossbar?[E1=04,04]{NX}@F8
+ 2Select SMBus Clock Source
+  3Timer0[C1=00,03]DU@CB
+  3Timer1[C1=01,03]@CB
+ 2Click to set SMBus clock rate@CA
+ 2Bus free timeout enabled?[C1=04,04]{NX}
+ 2SCL low timeout enabled?[C1=08,08]{NX}@CC
+  3Configure Timer 3
+   4Click to enter 16-bit Reload Value@58
+   4Click to enter 16-bit Initial Value@59  
+   4Enable Timer 3?[91=04,04]{NX}
+ 2SCL and SDA setup and hold time extension enabled (recommended for SYSCLK > 10MHz)?[C1=10,10]{NX}
+1TITLEUART0 Configuration
+ 2UART Interrupt Configuration
+  3Clear UART Receive and Transmit Flags?[98=00,00]@CF
+  3Enable Serial Port (UART0) Interrupt?[A8=10,10]
+   4Set Serial Port (UART) Interrupt High Priority?[B8=10,10]
+ 2Enable UART0 Receiver?[98=10,10]{NX}
+ 2Enable UART0 on the Port I/O Crossbar?[E1=01,01]{NX}@F8
+ 2Select UART0 Mode
+  3'8-bit UART, Variable Baud Rate[98=00,80]DU
+  3'9-bit UART, Variable Baud Rate[98=80,80]
+ 2Enable Multiprocessor Communications?[98=20,20]{NX}
+ 2Click to Configure Baud Rate Source@D1
+1TITLETimers Configuration
+ 2Timer 0 and Timer 1
+  3Select Timer 0/1 Clock Prescaler
+   4SYSCLK / 12[8E=00,03]DU@E0
+   4SYSLCK / 4[8E=01,03]@E0
+   4SYSCLK / 48[8E=02,03]@E0
+   4External Oscillator / 8[8E=03,03]@E0
+  3Timer 0
+   4Enable Timer 0 Interrupt?[A8=02,02]
+    5Set Timer 0 Interrupt Priority High?[B8=02,02]
+   4Select Mode
+    5'13-bit Counter/Timer[89=00,03]DU
+    5'16-bit Counter/Timer[89=01,03]
+    5Two 8-bit Counter/Timers[89=03,03]
+    5'8-bit Auto-reload:Click to Enter 8-bit Reload Value[89=02,03]@51
+   4Gate Timer 0 with /INT0?[89=08,08]
+    5/INT0 Polarity
+     6/INT0 is active-low[E4=00,08]DU
+	 6/INT0 is active-high[E4=08,08]
+    5Select /INT0 Pin
+     6P0.0?[E4=00,07]@E5
+	 6P0.1?[E4=01,07]DU@E5
+	 6P0.2?[E4=02,07]@E5
+	 6P0.3?[E4=03,07]@E5
+	 6P0.4?[E4=04,07]@E5
+	 6P0.5?[E4=05,07]@E5
+	 6P0.6?[E4=06,07]@E5
+	 6P0.7?[E4=07,07]@E5
+   4Timer 0 Timebase
+    5Timer 0 uses SYSCLK[8E=04,04]@D2
+    5Timer 0 uses the Timer 0/1 Clock Prescaler[8E=00,04]DU@D3
+    5External T0[89=04,04]@D4
+     6Enable T0 on the Port I/O Crossbar?[E2=10,10]{NX}@F8
+   4Enable Timer 0?[88=10,10]
+   4Click to Enter Timer 0 Initial Value@52
+  3Timer 1
+   4Enable Timer 1 Interrupt?[A8=08,08]
+    5Set Timer 1 Interrupt Priority High?[B8=08,08]
+   4Select Mode
+	5'13-bit Counter/Timer[89=00,30]DU
+    5'16-bit Counter/Timer[89=10,30]
+    5'8-bit Auto-reload:Click to Enter 8-bit Reload Value[89=20,30]@53
+    5Timer 1 Inactive OFF[89=30,30]
+   4Gate Timer 1 with /INT1?[89=80,80]
+    5/INT1 Polarity
+     6/INT1 is active-low[E4=00,80]DU
+	 6/INT1 is active high[E4=80,80]
+    5Select /INT1 Pin
+	 6P0.0?[E4=00,70]DU@E6
+	 6P0.1?[E4=10,70]@E6
+	 6P0.2?[E4=20,70]@E6
+	 6P0.3?[E4=30,70]@E6
+	 6P0.4?[E4=40,70]@E6
+	 6P0.5?[E4=50,70]@E6
+	 6P0.6?[E4=60,70]@E6
+	 6P0.7?[E4=70,70]@E6
+   4Timer 1 Timebase
+    5Timer 1 uses SYSCLK[8E=08,08]@D5
+    5Timer 1 uses the Timer 0/1 Prescaler[8E=00,08]DU@D5
+    5External T1[89=40,40]@D6
+     6Enable T1 on the Port I/O Crossbar?[E2=20,20]{NX}@F8
+   4Enable Timer 1?[88=40,40]
+   4Click to Enter Timer 1 Initial Value@54
+ 2Timer 2
+  3Timer 2 Interrupt Configuration
+   4Enable Timer 2 Interrupts?[A8=20,20]{NX}
+    5Set Timer 2 Interrupt Priority High?[B8=20,20]
+   4Enable Timer 2 Low Byte Overflow Interrupt?[C8=20,20]{NX}  
+  3Timer 2 Mode Selection and Configuration
+   4'16-bit Auto-reload[C8=00,08]DU
+    5Timebase Selection
+     6SYSCLK[8E=10,10]
+     6SYSCLK / 12[8E=00,10]@D9
+     6External Oscillator / 8[C8=01,01]@D8
+    5Timer 2 Enabled[C8=04,04]
+    5Click to Enter 16-bit Initial Value@5A
+    5Click to Enter 16-bit Reload Value@55
+   4Two 8-bit Auto-reload Timers (Split Mode)[C8=08,08]  
+    5High Byte Timebase Selection
+     6Timer 2 External Clock (selected below)[8E=00,20]
+     6SYSCLK[8E=20,20]
+    5Low Byte Timebase Selection
+     6Timer 2 External Clock (selected below)[8E=00,10]
+     6SYSCLK[8E=10,10]
+	5Timer 2 External Clock Selection
+     6SYSCLK / 12[C8=00,01]
+     6External Oscillator / 8[C8=01,01]
+    5Click to Enter High Byte Reload Value@DA
+    5Click to Enter High Byte Initial Value@DC
+    5Click to Enter Low Byte Reload Value@DB
+    5Click to Enter Low Byte Initial Value@DD
+    5Timer 2 High Byte Enabled?(Low Byte Always Enabled)[C8=04,04]
+ 2Timer 3
+  3Timer 3 Interrupt Configuration
+   4Enable Timer 3 Interrupts?[E6=80,80]{NX}
+    5Set Timer 3 Interrupt Priority High?[F6=80,80]
+   4Enable Timer 3 Low Byte Overflow Interrupt?[91=20,20]{NX}
+  3Timer 3 Mode Selection and Configuration
+   4'16-bit Auto-reload[91=00,08]DU
+    5Timebase Selection
+     6SYSCLK[8E=40,40]@90
+     6SYSCLK / 12[8E=00,40]DU@90
+     6External Oscillator / 8[91=01,01]@8F
+    5Timer 3 Enabled[91=04,04]
+    5Click to Enter 16-bit Initial Value@59
+    5Click to Enter 16-bit Reload Value@58
+   4Two 8-bit Auto-reload Timers (Split Mode)[91=08,08]  
+    5High Byte Timebase Selection
+     6Timer 3 External Clock (selected below)[8E=00,80]
+     6SYSCLK[8E=80,80]
+    5Low Byte Timebase Selection
+     6Timer 3 External Clock (selected below)[8E=00,40]
+     6SYSCLK[8E=40,40]
+	5Timer 3 External Clock Selection
+     6SYSCLK / 12[91=00,01]
+     6External Oscillator / 8[91=01,01]
+    5Click to Enter T3 High Byte Reload Value@DA
+    5Click to Enter T3 High Byte Initial Value@DC
+    5Click to Enter T3 Low Byte Reload Value@DB
+    5Click to Enter T3 Low Byte Initial Value@DD
+    5Timer 3 High Byte Enabled?(Low Byte Always Enabled)[91=04,04]
+1TITLEPCA Configuration
+ 2Enable PCA Module I/O on the Port I/O Crossbar?
+  3Enable CEX0,CEX1,CEX2,CEX3,CEX4 on the Port I/O Crossbar[E2=05,07]@F8
+  3Enable CEX0,CEX1,CEX2,CEX3 on the Port I/O Crossbar[E2=04,07]@F8
+  3Enable CEX0,CEX1,CEX2 on the Port I/O Crossbar[E2=03,07]@F8
+  3Enable CEX0,CEX1 on the Port I/O Crossbar[E2=02,07]@F8
+  3Enable CEX0 on the Port I/O Crossbar[E2=01,07]@F8
+  3Disable Module I/O[E2=00,07]DU@F8
+ 2Enable PCA Interrupt?[E6=10,10]{NX}
+  3Set PCA Interrupt Priority High?[F6=10,10]
+ 2Configure PCA counter
+  3Timebase
+   4SYSCLK/12[D9=00,0E]DU
+   4SYSCLK/4[D9=02,0E]
+   4SYSCLK[D9=08,0E]
+   4Timer 0 overflow[D9=04,0E]
+   4High-to-low transitions on ECI(max rate is SYSCLK/4)[D9=06,0E]
+   4External Clock/8[D9=0A,0E]
+  3Start the PCA Counter/Timer?[D8=40,40]{NX}
+  3Enable PCA Overflow interrupt?[D9=01,01]{NX}
+  3Click to enter 16 bit counter value (PCA0L, PCA0H){NX}@72
+ 2Enable PCA Counter Input on the Port I/O Crossbar?[E2=08,08]{NX}@F8
+ 2Module 0
+  3Module 0 Interrupt
+   4Enable Module 0 interrupt ECCF[DA=01,01]
+  3Capture Mode
+   4Capture triggered by positive edge on CEXn[DA=20,20]{NX}
+   4Capture triggered by negative edge on CEXn[DA=10,10]{NX}
+  3Software Timer Mode click to enter 16-bit compare value[DA=48,FE]@30
+  3High Speed Output Mode click to enter 16-bit compare value[DA=4C,FE]@30
+  3 8-bit PWM[DA=42,FE]@35
+  3 16-bit PWM[DA=C2,FE]@AC
+  3Frequency Output Mode Set Module 0 Capture Compare Module high Byte[DA=46,FE]@B4
+ 2Module 1
+  3Module 1 Interrupt
+   4Enable Module 1 interrupt ECCF[DB=01,01]{NX}
+  3Capture Mode
+   4Capture triggered by positive edge on CEXn[DB=20,20]{NX}
+   4Capture triggered by negative edge on CEXn[DB=10,10]{NX}
+  3Software Timer Mode click to enter 16-bit compare value[DB=48,FE]@31
+  3High Speed Output Mode click to enter 16-bit compare value[DB=4C,FE]@31
+  3 8-bit PWM[DB=42,FE]@36
+  3 16-bit PWM[DB=C2,FE]@AD
+  3Frequency Output Mode Set Module 1 Capture Compare Module high Byte[DB=46,FE]@B5
+ 2Module 2  
+  3Module 2 Interrupt
+   4Enable Module 2 interrupt ECCF[DC=01,01]{NX}
+  3Capture Mode
+   4Capture triggered by positive edge on CEXn[DC=20,20]{NX}
+   4Capture triggered by negative edge on CEXn[DC=10,10]{NX}
+  3Software Timer Mode click to enter 16-bit compare value[DC=48,FE]@32
+  3High Speed Output Mode click to enter 16-bit compare value[DC=4C,FE]@32
+  3 8-bit PWM[DC=42,FE]@37
+  3 16-bit PWM[DC=C2,FE]@AE
+  3Frequency Output Mode Set Module 2 Capture Compare Module high Byte[DC=46,FE]@B6
+ 2Module 3
+  3Module 3 Interrupt
+   4Enable Module 3 interrupt ECCF[DD=01,01]
+  3Capture Mode
+   4Capture triggered by positive edge on CEXn[DD=20,20]{NX}
+   4Capture triggered by negative edge on CEXn[DD=10,10]{NX}
+  3Software Timer Mode click to enter 16-bit compare value[DD=48,FE]@33
+  3High Speed Output Mode click to enter 16-bit compare value[DD=4C,FE]@33
+  3 8-bit PWM[DD=42,FE]@38
+  3 16-bit PWM[DD=C2,FE]@AF
+  3Frequency Output Mode click to enter 16-bit compare value[DD=46,FE]@B7
+ 2Module 4
+  3Module 4 Interrupt
+   4Enable Module 4 interrupt ECCF[DE=01,01]
+  3Capture Mode
+   4Capture triggered by positive edge on CEXn[DE=20,20]{NX}
+   4Capture triggered by negative edge on CEXn[DE=10,10]{NX}
+  3Software Timer Mode click to enter 16-bit compare value[DE=48,FE]@34
+  3High Speed Output Mode click to enter 16-bit compare value[DE=4C,FE]@34
+  3 8-bit PWM[DE=42,FE]@39
+  3 16-bit PWM[DE=C2,FE]@B0
+  3Frequency Output Mode click to enter 16-bit value[DE=46,FE]@B8
+1TITLEADC0 Configuration
+ 2Enable ADC0?[E8=80,80]{NX}@B2
+ 2Enable ADC0 End of Conversion Interrupt?[E6=08,08]{NX}
+  3Set ADC0 End of Conversion Interrupt Priority High?[F6=08,08]
+ 2Enable Low power tracking mode?[E8=40,40]{NX}@5C
+ 2Start of Conversion Source
+   3AD0BUSY[E8=00,07]DU@91
+   3Timer 0 Overflow[E8=01,07]@91
+   3Timer 2 Overflow[E8=02,07]@91
+   3Timer 1 Overflow[E8=03,07]@91
+   3External CNVSTR[E8=04,07]@C3
+ 2SAR Clock Configuration@BC
+ 2AMUX Configuration@C4
+  3Positive Input
+   4P1.0[BB=00,1F]@BE
+   4P1.1[BB=01,1F]@BE
+   4P1.2[BB=02,1F]@BE
+   4P1.3[BB=03,1F]@BE
+   4P1.4[BB=04,1F]@BE
+   4P1.5[BB=05,1F]@BE
+   4P1.6[BB=06,1F]@BE
+   4P1.7[BB=07,1F]@BE
+   4P2.0[BB=08,1F]@BE
+   4P2.1[BB=09,1F]@BE
+   4P2.2[BB=0A,1F]@BE
+   4P2.3[BB=0B,1F]@BE
+   4P2.4[BB=0C,1F]@BE
+   4P2.5[BB=0D,1F]@BE
+   4P2.6[BB=0E,1F]@BE
+   4P2.7[BB=0F,1F]@BE
+   4P3.0[BB=10,1F]@BE
+   4Temperature Sensor[BB=1E,1F]
+   4VDD[BB=1F,1F]
+  3Negative Input
+   4P1.0[BA=00,1F]@E7
+   4P1.1[BA=01,1F]@E7
+   4P1.2[BA=02,1F]@E7
+   4P1.3[BA=03,1F]@E7
+   4P1.4[BA=04,1F]@E7
+   4P1.5[BA=05,1F]@E7
+   4P1.6[BA=06,1F]@E7
+   4P1.7[BA=07,1F]@E7
+   4P2.0[BA=08,1F]@E7
+   4P2.1[BA=09,1F]@E7
+   4P2.2[BA=0A,1F]@E7
+   4P2.3[BA=0B,1F]@E7
+   4P2.4[BA=0C,1F]@E7
+   4P2.5[BA=0D,1F]@E7
+   4P2.6[BA=0E,1F]@E7
+   4P2.7[BA=0F,1F]@E7
+   4P3.0[BA=10,1F]@E7
+   4VREF[BA=1E,1F]
+   4GND (Force Single-Ended Mode)[BA=1F,1F]
+ 2Window Compare Configuration   
+  3Enable ADC0 Window Comparison Interrupt?[E6=04,04]{NX}
+   4Set ADC0 Window Comparison Interrupt Priority High?[F6=04,04]{NX}
+  3Click to Enter "LESS THAN" Threshold@4F
+  3Click to Enter "GREATER THAN" Threshold@50  
+1TITLEReference Control Register
+ 2Temperature Sensor Enabled?[D1=04,04]{NX}
+ 2ADC0 Reference Configuration
+  3VREF Pin[D1=00,08]DU@C7
+   4Internal Reference Enable?[D1=01,01]{NX}
+  3VDD[D1=08,08]
+ 2Enable Internal Bias Generator?[D1=02,02]{NX}@B2
+1TITLEComparator 0
+ 2Comparator 0 Initially Enabled?[9B=80,80]{NX}@16
+ 2Positive Hysteresis
+  3Disabled [9B=00,0C]DU
+  3'5mV'  [9B=04,0C]
+  3'10mV' [9B=08,0C]
+  3'20mV' [9B=0C,0C]
+ 2Negative Hysteresis
+  3Disabled [9B=00,03]DU
+  3'5mV'  [9B=01,03]
+  3'10mV' [9B=02,03]
+  3'20mV' [9B=03,03]
+ 2Response Time
+  3'100 ns'[9D=00,03]
+  3'175 ns'[9D=01,03]
+  3'320 ns'[9D=02,03]DU
+  3'1050 ns'[9D=03,03]
+ 2Comparator 0 Mux Selection@C8
+  3Positive Input Pin
+   4P1.0[9F=00,03]DU@FB
+   4P1.4[9F=01,03]@FB
+   4P2.0[9F=02,03]@FB
+   4P2.4[9F=03,03]@FB
+  3Negative Input Pin
+   4P1.1[9F=00,30]DU@FC
+   4P1.5[9F=10,30]@FC
+   4P2.1[9F=20,30]@FC
+   4P2.5[9F=30,30]@FC
+ 2Comp0 Interrupt Enabled?[E6=20,20]{NX}
+  3Comparator 0 Interrupt Priority High?[F6=20,20]
+ 2Enable Comparator 0 as Reset Source?[EF=20,20]{NX}@05
+1TITLEComparator 1
+ 2Comparator 1 Initially Enabled?[9A=80,80]{NX}@17
+ 2Positive Hysteresis
+  3Disabled [9A=00,0C]DU
+  3'5mV'  [9A=04,0C]
+  3'10mV' [9A=08,0C]
+  3'20mV' [9A=0C,0C]
+ 2Negative Hysteresis
+  3Disabled [9A=00,03]DU
+  3'5mV'  [9A=01,03]
+  3'10mV' [9A=02,03]
+  3'20mV' [9A=03,03]
+ 2Response Time
+  3'100 ns'[9C=00,03]
+  3'175 ns'[9C=01,03]
+  3'320 ns'[9C=02,03]DU
+  3'1050 ns'[9C=03,03]
+ 2Comparator 1 Mux Selection@C8
+  3Positive Input Pin
+   4P1.2[9E=00,03]DU@FD
+   4P1.6[9E=01,03]@FD
+   4P2.2[9E=02,03]@FD
+   4P2.6[9E=03,03]@FD
+  3Negative Input Pin
+   4P1.3[9E=00,30]DU@BB
+   4P1.7[9E=10,30]@BB
+   4P2.3[9E=20,30]@BB
+   4P2.7[9E=30,30]@BB
+ 2Comp1 Interrupt Enabled?[E6=40,40]{NX}
+  3Comparator 1 Interrupt Priority High?[F6=40,40]
+1TITLEReset Source Configuration
+ 2Enable Comparator 0 as a Reset Source?[EF=20,20]{NX}@05
+ 2Enable Missing Clock Detector?[EF=04,04,0]{NX}
+1TITLEInterrupt Configuration
+ 2Enable External /INT0?[A8=01,01]{NX}
+  3Set External /INT0 Priority to High?[B8=01,01]
+  3External /INT0 Polarity
+   4Set External /INT0 Polarity Active LOW[E4=00,08]DU
+   4Set External /INT0 Polarity Active HIGH[E4=08,08]
+  3External /INT0 Trigger
+   4Set External /INT0 to be LEVEL triggered?[88=00,01]DU
+   4Set External /INT0 to be EDGE triggered?[88=01,01]
+  3Exernal /INT0 Assignment
+   4Assign /INT0 to port pin P0.0?[E4=00,07]@E5
+   4Assign /INT0 to port pin P0.1?[E4=01,07]DU@E5
+   4Assign /INT0 to port pin P0.2?[E4=02,07]@E5
+   4Assign /INT0 to port pin P0.3?[E4=03,07]@E5
+   4Assign /INT0 to port pin P0.4?[E4=04,07]@E5
+   4Assign /INT0 to port pin P0.5?[E4=05,07]@E5
+   4Assign /INT0 to port pin P0.6?[E4=06,07]@E5
+   4Assign /INT0 to port pin P0.7?[E4=07,07]@E5
+ 2Enable External /INT1?[A8=04,04]{NX}
+  3Set External /INT1 Priority to High?[B8=04,04]
+  3External /INT1 Polarity
+   4Set External /INT1 Polarity Active LOW[E4=00,80]DU
+   4Set External /INT1 Polarity Active HIGH[E4=80,80]
+  3External /INT1 Trigger
+   4Set External /INT1 to be LEVEL triggered?[88=00,04]DU
+   4Set External /INT1 to be EDGE triggered?[88=04,04]
+  3Exernal /INT1 Assignment
+   4Assign /INT1 to port pin P0.0?[E4=00,70]DU@E6
+   4Assign /INT1 to port pin P0.1?[E4=10,70]@E6
+   4Assign /INT1 to port pin P0.2?[E4=20,70]@E6
+   4Assign /INT1 to port pin P0.3?[E4=30,70]@E6
+   4Assign /INT1 to port pin P0.4?[E4=40,70]@E6
+   4Assign /INT1 to port pin P0.5?[E4=50,70]@E6
+   4Assign /INT1 to port pin P0.6?[E4=60,70]@E6
+   4Assign /INT1 to port pin P0.7?[E4=70,70]@E6
+ 2Comparator 0 Interrupt Enabled?[E6=20,20]{NX}
+  3Set Comparator 0 Interrupt Priority to High?[F6=20,20]
+ 2Comparator 1 Interrupt Enabled?[E6=40,40]{NX}
+  3Set Comparator 1 Interrupt Priority to High?[F6=40,40]
+ 2Serial Port (UART0) Interrupt Enabled?[A8=10,10]{NX}@29
+  3Set Serial Port (UART0) Interrupt Priority to High?[B8=10,10]@29
+ 2SMBus Interrupt Enabled?[E6=01,01]{NX}
+  3Set SMBus Interrupt Priority to High?[F6=01,01]
+ 2PCA Interrupt Enabled?[E6=10,10]{NX}
+  3Set PCA Interrupt Priority to High?[F6=10,10]
+ 2Timer 0 Interrupt Enabled?[A8=02,02]{NX}
+  3Set Timer 0 Interrpt Priority to High?[B8=02,02]
+ 2Timer 1 Interrupt Enabled?[A8=08,08]{NX}
+  3Set Timer 1 Interrpt Priority to High?[B8=08,08]
+ 2Timer 2 Interrupt Enabled?[A8=20,20]{NX}
+  3Set Timer 2 Interrpt Priority to High?[B8=20,20]
+ 2Timer 3 Interrupt Enabled?[E6=80,80]{NX}
+  3Set Timer 3 Interrpt Priority to High?[F6=80,80]
+ 2ADC0 End of Conversion Interrupt Enabled?[E6=08,08]{NX}
+  3Set ADC0 End of Conversion Interrupt Priority to High?[F6=08,08]
+ 2ADC0 Window Comparison Interrupt Enabled?[E6=04,04]{NX}
+  3Set ADC0 Window Comparison Interrupt Priority to High?[F6=04,04]{NX}
+ 2Enable Global Interrupts?[A8=80,80]{NX}
+END
+
+       *C:\SiLabs\MCU\Config\templates\F320FULLC.c%      0000                                                  00                000000    00    000000000000                  ÿÿÿÿ                       ÍÌ@ÍÌ@                          š™@               €„                                                                                                                          ÿÿÿÿ ÿ           À ÿ           ÿÿ        ÿÿ     ø   €  ÿ  ÿ À  ÿ                 

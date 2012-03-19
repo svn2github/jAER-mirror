@@ -1,0 +1,22 @@
+<!DOCTYPE cpj>
+<cpj version="1.0" >
+ <session>
+  <name>Session1</name>
+  <progpath>"C:/Documents and Settings/All Users/Application Data/NVIDIA Corporation/NVIDIA CUDA SDK/projects/gpgpu08/jaerCuda/win32/debug/jaercuda.exe"</progpath>
+  <workdirpath>C:/Documents and Settings/All Users/Application Data/NVIDIA Corporation/NVIDIA CUDA SDK/projects/gpgpu08/jaerCuda/win32/debug</workdirpath>
+  <datetime>22 Feb 2009 06:04:25</datetime>
+ </session>
+ <session>
+  <name>Session2</name>
+  <progpath>"C:/Documents and Settings/All Users/Application Data/NVIDIA Corporation/NVIDIA CUDA SDK/projects/gpgpu08/jaerCuda/win32/debug/jaercuda.exe"</progpath>
+  <workdirpath>C:/Documents and Settings/All Users/Application Data/NVIDIA Corporation/NVIDIA CUDA SDK/projects/gpgpu08/jaerCuda/win32/debug</workdirpath>
+  <datetime>22 Feb 2009 06:08:14</datetime>
+ </session>
+ <session>
+  <name>Session3</name>
+  <progpath>"C:/Documents and Settings/All Users/Application Data/NVIDIA Corporation/NVIDIA CUDA SDK/projects/gpgpu08/jaerCuda/win32/debug/jaercuda.exe"</progpath>
+  <workdirpath>C:/Documents and Settings/All Users/Application Data/NVIDIA Corporation/NVIDIA CUDA SDK/projects/gpgpu08/jaerCuda/win32/debug</workdirpath>
+  <datetime>22 Feb 2009 08:33:21</datetime>
+ </session>
+</cpj>
+

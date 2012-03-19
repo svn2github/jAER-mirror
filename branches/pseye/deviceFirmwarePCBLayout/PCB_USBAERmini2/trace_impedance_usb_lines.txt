@@ -1,0 +1,16 @@
+Differential Trace impedance of USB lines on PCB should be 90 ohms.
+
+constants:
+material (FR3): epsilon_r 4.9
+thickness: 1.464 mm
+track thickness 0.018mm
+
+calculated with:
+http://www.eecircle.com/applets/TraceAnalyzerApplet/TraceAnalyzerApplet.html#Applet
+
+usb track width: 0.4mm
+usb track clearance 0.2mm
+
+usb track clearance from polygon 0.2mm
+
+resulting diff impedance 98 ohms

@@ -1,0 +1,5 @@
+MODULE clockgen DEFIN clockgen.vhd
+	SUBMODULE EHXPLLC
+		INSTANCE PLLCInst_0
+	SUBMODULE VLO
+		INSTANCE scuba_vlo_inst

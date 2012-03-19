@@ -1,0 +1,70 @@
+// (this is just a text file). 
+// It shows the connections from CPLD to Cypress on the cochleaAMS1c PCB.
+// The ports here are specified in the firmware for the CypressFX2.
+
+// offchip DACs
+ * DACnSyncxSBO <= PDxSIO(0);   // port D0 on CypressFX2
+ * DACClkxSO <= PDxSIO(1);
+ * DACbitInxSO <= PDxSIO(2);
+  
+// onchip selects
+// following select the ipot, addr or data shiftregisters for input
+// note these are changed from original notion so that all select are high normally (no one selected)
+// and the other two go low when one is selected. This is so that the clock can be left high at the end as it should be
+*  DataSelxSO <= PDxSIO(3);//  selects data shift register
+*  AddSelxSO <= PDxSIO(4);// selects addr shifter, even addresses are left cochlea, odd addresses are right cochlea
+*  BiasgenSelxSO <= PDxSIO(5);//  selects only biasgen select, turns off addr and data selects, leaves other bits untouched
+  
+// other bits
+  VctrlKillBitxSO <= PDxSIO(6); // vCtlKillBit
+*  AERkillBitxSO <= PDxSIO(7); // Set to (1) after Setting of AddrSel and Ybit to kill 4 neurons
+
+*	PowerdownxEO <= PE2xSI; // onchip masterbias shutdown - routed through CPLD pin R16 to coch chip powerdown input pin K1
+*	CochleaResetxRBO <= PE3xSI;	// cochlea logic reset, routed from through to CPLD pin B2 to coch Vreset on pin E1
+*	CPLDReset <= PE7xsI; // cypress asserts this high to reset CPLD
+		
+  // timestamping
+*  HostResetTimestampxS <= PA7xSIO; // PA7 resets timestamps with this; cypress controls PA7 and asserts to tell CPLD to reset timestamps 
+*  RunxS <= PA3xSIO or not TimestampMasterxS; // tells CPLD to run event acquisition 
+  PA1xSIO <= TimestampMasterxS;  // from CPLD to cypressfx2, telling this device is master (high) or slave for timestamps
+
+  // offchip ADC
+  RunADCxS <= PC0xSIO; // run ADC from CPLD
+  
+  // CPLD config shift register
+  SRClockxC <= PC1xSIO; // CPLD internal config shift register clock
+  SRLatchxE <= PC2xSIO; // toggle up/down to latch new values in CPLD config SR
+  SRinxD <= PC3xSIO;   // data bit for CPLD config SR
+
+  //********************************
+  // CPLD config SR contents, load big endian so that last bit (63) goes first
+  
+  YbitxSO <= SRDataOutxD(0); // Chooses whether lpf (0) or bpf (1) neurons to be killed, use in conjunction with AddrSel and AERKillBit
+  
+  // onchip preamp feedback resistor
+  ResCtrlBit1xSO <= SRDataOutxD(1);
+  ResCtrlBit2xSO <= SRDataOutxD(2);
+  
+  // mysterious bits
+  SelAERxSO <= SRDataOutxD(3); //Chooses whether lpf (0) or rectified (1) lpf output drives lpf neurons
+  SelInxSO <= SRDataOutxD(4);
+  
+  // offchip preamp control
+  PreampARxS <= SRDataOutxD(5);
+  PreampARTristateEnablexE <= SRDataOutxD(6);
+  PreampGainLxS <= SRDataOutxD(7);
+  PreampGainLTristateEnablexE <= SRDataOutxD(8); -- left and right are actually swapped on board
+  PreampGainRxS <= SRDataOutxD(9);
+  PreampGainRTristateEnablexE <= SRDataOutxD(10);
+  
+  // offchip ADC config
+  ADCconfigxD <= SRDataOutxD(22 downto 11);  // 2 bits specify channel or end channel, 1 bit specifies sequencing or single channel, other bits specify single/double ended and reference voltage, specifically, bits are config=(1<<8)+(lastChan<<5)+(seq?6:0);
+  TrackTimexD <= SRDataOutxD(38 downto 23); // 1/15 of us per count
+  IdleTimexD <= SRDataOutxD(54 downto 39);
+  
+  // onchip scanner control
+  ScanXxS <= SRDataOutxD(61 downto 55);          --- which channel to look at
+  ScanSelectxS <= SRDataOutxD(62);               --- which one of the two shift registers (basilar membrane BPF (0) or ganglion cell neuron membrane (1)) to look at - the cochlea has two independent sync outputs
+  ScanEnablexS <= SRDataOutxD(63);               --- scanning or single pixel
+
+  
