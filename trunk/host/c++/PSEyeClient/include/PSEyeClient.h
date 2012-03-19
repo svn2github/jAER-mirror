@@ -60,8 +60,10 @@ JNIEXPORT jboolean JNICALL Java_uk_ac_imperial_pseye_PSEyeCamera_PSEyeCameraStop
  * Method:    PSEyeCameraLED
  * Signature: (IZ)Z
  */
+/* NOT IMPLEMENTED YET
 JNIEXPORT jboolean JNICALL Java_uk_ac_imperial_pseye_PSEyeCamera_PSEyeCameraLED
   (JNIEnv *, jclass, jint, jboolean);
+ */ 
 
 /*
  * Class:     uk_ac_imperial_pseye_PSEyeCamera
@@ -84,16 +86,26 @@ JNIEXPORT jint JNICALL Java_uk_ac_imperial_pseye_PSEyeCamera_PSEyeGetCameraParam
  * Method:    PSEyeCameraGetFrameDimensions
  * Signature: (I[I)Z
  */
+/* NOT IMPLEMENTED YET
 JNIEXPORT jboolean JNICALL Java_uk_ac_imperial_pseye_PSEyeCamera_PSEyeCameraGetFrameDimensions
   (JNIEnv *, jclass, jint, jintArray);
+ */ 
 
 /*
  * Class:     uk_ac_imperial_pseye_PSEyeCamera
  * Method:    PSEyeCameraGetFrame
- * Signature: (ILjava/nio/ByteBuffer;I)Z
+ * Signature: (ILjava/nio/ByteBuffer;)Z
  */
 JNIEXPORT jboolean JNICALL Java_uk_ac_imperial_pseye_PSEyeCamera_PSEyeCameraGetFrame
-  (JNIEnv *, jclass, jint, jobject, jint);
+  (JNIEnv *, jclass, jint, jobject);
+
+/*
+ * Class:     uk_ac_imperial_pseye_PSEyeCamera
+ * Method:    PSEyeCameraFrameCount
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_uk_ac_imperial_pseye_PSEyeCamera_PSEyeCameraFrameCount
+  (JNIEnv *, jclass, jint);
 
 #ifdef __cplusplus
 }
