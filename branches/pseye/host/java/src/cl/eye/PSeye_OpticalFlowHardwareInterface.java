@@ -13,14 +13,14 @@ import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 
 /**
  * OpticalFlowHardwareInterface for the playstation3 psEYE camera built on
- * top of CodeLaboratories CLCamera() class
+ * top of CodeLaboratories CLCameraWrapper() class
  * <br /><br />
  * since this camera is only used for comparison reasons with the MDC2D system,
  * it uses the same MotionDataMDC2D class and masquerades as a MDC2D chip
  *
  * @author andstein
  */
-public class PSeye_OpticalFlowHardwareInterface extends CLCamera
+public class PSeye_OpticalFlowHardwareInterface extends CLCameraWrapper
     implements MotionChipInterface 
 {
     static final Logger log=Logger.getLogger(PSeye_OpticalFlowHardwareInterface.class.getName());
@@ -36,7 +36,7 @@ public class PSeye_OpticalFlowHardwareInterface extends CLCamera
     
     public PSeye_OpticalFlowHardwareInterface(int num)
     {
-        super(num,CLCamera.CameraMode.QVGA_MONO_30);
+        super(num,CLCameraWrapper.CameraMode.QVGA_MONO_30);
         
         configPanel= new PSeye_ConfigurationPanel(this);
         chip= new MDC2D(); //TODO implement PSeyeChip
@@ -159,7 +159,7 @@ public class PSeye_OpticalFlowHardwareInterface extends CLCamera
 
     ///////////////////////////   boring   ///////////////////////////////////
 
-    // open, close, isOpen are already implemented in CLCamera...
+    // open, close, isOpen are already implemented in CLCameraWrapper...
     /*
     @Override
     public void close() {

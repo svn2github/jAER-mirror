@@ -38,8 +38,8 @@ public class CLEyeHardwareInterfaceFactory implements HardwareInterfaceFactoryIn
     }
 
     private void buildList() {
-        if(CLCamera.isLibraryLoaded()) { // TODO only does this once on construction, never again
-            this.interfaces = new HardwareInterface[CLCamera.cameraCount()];
+        if(CLCameraWrapper.isLibraryLoaded()) { // TODO only does this once on construction, never again
+            this.interfaces = new HardwareInterface[CLCameraWrapper.cameraCount()];
             for ( int i = 0; i < this.interfaces.length; i++ ) {
                 this.interfaces[i] = new CLRetinaHardwareInterface(i);
             }
@@ -77,9 +77,9 @@ public class CLEyeHardwareInterfaceFactory implements HardwareInterfaceFactoryIn
      */
     @Override
     public HardwareInterface getInterface(int n) throws HardwareInterfaceException {
-        if(!CLCamera.isLibraryLoaded()) return null;
+        if(!CLCameraWrapper.isLibraryLoaded()) return null;
         if(getNumInterfacesAvailable() == 0 || getNumInterfacesAvailable() < n + 1) return null;
-        return (CLCamera) this.interfaces[n];
+        return (CLCameraWrapper) this.interfaces[n];
     }
 
     @Override
@@ -115,17 +115,17 @@ public class CLEyeHardwareInterfaceFactory implements HardwareInterfaceFactoryIn
             if(!UsbIoUtilities.isLibraryLoaded()){
                 log.warning("no USBIO libraries found");
             }
-            if(!CLCamera.isLibraryLoaded()) {
+            if(!CLCameraWrapper.isLibraryLoaded()) {
                 log.warning("no library found");
                 return;
             }
             int camCount = 0;
-            if ((camCount = CLCamera.cameraCount()) == 0) {
+            if ((camCount = CLCameraWrapper.cameraCount()) == 0) {
                 log.warning("no cameras found");
                 return;
             }
             log.info(camCount + " CLEye cameras found");
-            CLCamera cam = new CLCamera();
+            CLCameraWrapper cam = new CLCameraWrapper();
             cam.open();
             
             BufferedImage image = new BufferedImage(320, 240, BufferedImage.TYPE_INT_RGB);

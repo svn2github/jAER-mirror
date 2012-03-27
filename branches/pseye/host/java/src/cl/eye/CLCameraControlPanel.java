@@ -10,7 +10,7 @@
  */
 package cl.eye;
 
-import cl.eye.CLCamera.CameraMode;
+import cl.eye.CLCameraWrapper.CameraMode;
 import cl.eye.PSEyeCLModelRetina.RetinaModel;
 import java.awt.BorderLayout;
 import java.util.Observable;
@@ -35,7 +35,7 @@ public class CLCameraControlPanel extends javax.swing.JPanel implements Observer
         this.chip = chip;
         hardware = (CLRetinaHardwareInterface) chip.getHardwareInterface();
         initComponents();
-        camModeCB.setModel(new DefaultComboBoxModel(CLCamera.CameraMode.values()));
+        camModeCB.setModel(new DefaultComboBoxModel(CLCameraWrapper.CameraMode.values()));
         modelCB.setModel(new DefaultComboBoxModel(RetinaModel.values()));
         handleUpdate(null);
         chip.addObserver(this);

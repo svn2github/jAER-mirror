@@ -9,7 +9,7 @@ import javax.swing.event.ChangeListener;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 
 /**
- * simple GUI to most basic settings of CLCamera()
+ * simple GUI to most basic settings of CLCameraWrapper()
  *
  * @author andstein
  */
@@ -187,13 +187,13 @@ public class PSeye_ConfigurationPanel extends javax.swing.JPanel
         try {
             switch (modeCB.getSelectedIndex()) {
                 case 0:
-                    hardwareInterface.setCameraMode(CLCamera.CameraMode.QVGA_MONO_30);
+                    hardwareInterface.setCameraMode(CLCameraWrapper.CameraMode.QVGA_MONO_30);
                     break;
                 case 1:
-                    hardwareInterface.setCameraMode(CLCamera.CameraMode.QVGA_MONO_60);
+                    hardwareInterface.setCameraMode(CLCameraWrapper.CameraMode.QVGA_MONO_60);
                     break;
                 case 2:
-                    hardwareInterface.setCameraMode(CLCamera.CameraMode.QVGA_MONO_125);
+                    hardwareInterface.setCameraMode(CLCameraWrapper.CameraMode.QVGA_MONO_125);
                     break;
                 default:
                     throw new RuntimeException("index out of bounds");

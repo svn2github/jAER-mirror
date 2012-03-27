@@ -6,7 +6,7 @@ package cl.eye;
 
 import ch.unizh.ini.jaer.chip.dvs320.cDVSEvent;
 import ch.unizh.ini.jaer.projects.thresholdlearner.TemporalContrastEvent;
-import cl.eye.CLCamera.CameraMode;
+import cl.eye.CLCameraWrapper.CameraMode;
 import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
@@ -113,11 +113,11 @@ public class PSEyeCLModelRetina extends AEChip implements PreferenceChangeListen
             EVENT_BRIGHTNESS_CHANGE_THRESHOLD = "brightnessChangeThreshold",
             EVENT_LOG_INTENSITY_MODE = "logIntensityMode",
             EVENT_LINEAR_INTERPOLATE_TIMESTAMP = "linearInterpolateTimeStamp",
-            EVENT_GAIN = CLCamera.EVENT_GAIN,
-            EVENT_EXPOSURE = CLCamera.EVENT_EXPOSURE,
-            EVENT_AUTO_GAIN = CLCamera.EVENT_AUTOGAIN,
-            EVENT_AUTOEXPOSURE = CLCamera.EVENT_AUTOEXPOSURE,
-            EVENT_CAMERA_MODE = CLCamera.EVENT_CAMERA_MODE,
+            EVENT_GAIN = CLCameraWrapper.EVENT_GAIN,
+            EVENT_EXPOSURE = CLCameraWrapper.EVENT_EXPOSURE,
+            EVENT_AUTO_GAIN = CLCameraWrapper.EVENT_AUTOGAIN,
+            EVENT_AUTOEXPOSURE = CLCameraWrapper.EVENT_AUTOEXPOSURE,
+            EVENT_CAMERA_MODE = CLCameraWrapper.EVENT_CAMERA_MODE,
             EVENT_RETINA_MODEL = "retinaModel",
             EVENT_LINLOG_TRANSITION_VALUE = "linLogTransitionValue",
             EVENT_SIGMA_THRESHOLD = "sigmaThreshold",
@@ -133,8 +133,8 @@ public class PSEyeCLModelRetina extends AEChip implements PreferenceChangeListen
     private boolean colorMode = false;
     //
     // validators for int values, meant to be used in bindings to GUI but not used yet in GUI.
-    private ByteValueValidator gainValidator = new ByteValueValidator(CLCamera.CLEYE_MAX_GAIN);
-    private ByteValueValidator exposureValidator = new ByteValueValidator(CLCamera.CLEYE_MAX_EXPOSURE);
+    private ByteValueValidator gainValidator = new ByteValueValidator(CLCameraWrapper.CLEYE_MAX_GAIN);
+    private ByteValueValidator exposureValidator = new ByteValueValidator(CLCameraWrapper.CLEYE_MAX_EXPOSURE);
     PSEyeModelRetinaRenderer renderer = null;
     private Observer cameraObserver; // observes updates from the camera
 
@@ -165,21 +165,21 @@ public class PSEyeCLModelRetina extends AEChip implements PreferenceChangeListen
             @Override
             public void update(Observable o, Object arg) {
                 log.info(o + " sent " + arg);
-                if (o != null && getHardwareInterface() != null && (o instanceof CLCamera) && arg != null) {
+                if (o != null && getHardwareInterface() != null && (o instanceof CLCameraWrapper) && arg != null) {
                     CLRetinaHardwareInterface hw = (CLRetinaHardwareInterface) getHardwareInterface();
-                    if (arg == CLCamera.EVENT_AUTOEXPOSURE) {
+                    if (arg == CLCameraWrapper.EVENT_AUTOEXPOSURE) {
                         setAutoExposureEnabled(hw.isAutoExposure());
-                    } else if (arg == CLCamera.EVENT_AUTOGAIN) {
+                    } else if (arg == CLCameraWrapper.EVENT_AUTOGAIN) {
                         setAutoGainEnabled(hw.isAutoGain());
-                    } else if (arg == CLCamera.EVENT_CAMERA_MODE) {
+                    } else if (arg == CLCameraWrapper.EVENT_CAMERA_MODE) {
                         try {
                             setCameraMode(hw.getCameraMode());
                         } catch (HardwareInterfaceException ex) {
                             log.warning(ex.toString());
                         }
-                    } else if (arg == CLCamera.EVENT_EXPOSURE) {
+                    } else if (arg == CLCameraWrapper.EVENT_EXPOSURE) {
                         setExposure(hw.getExposure());
-                    } else if (arg == CLCamera.EVENT_GAIN) {
+                    } else if (arg == CLCameraWrapper.EVENT_GAIN) {
                         setGain(hw.getGain());
                     } else {
                         log.warning(o + " sent unknown event " + arg);
@@ -237,7 +237,7 @@ public class PSEyeCLModelRetina extends AEChip implements PreferenceChangeListen
                 CLRetinaHardwareInterface hw = (CLRetinaHardwareInterface) hardwareInterface;
                 hw.addObserver(cameraObserver); // we update our state depending on how camera is setup.
                 hw.setCameraMode(getCameraMode());
-                colorMode = (hw.getCameraMode().color == CLCamera.CLEYE_COLOR_PROCESSED); // sets whether input is color or not
+                colorMode = (hw.getCameraMode().color == CLCameraWrapper.cl.CLEYE_COLOR); // sets whether input is color or not
             } catch (Exception ex) {
                 log.warning(ex.toString());
             }
@@ -425,7 +425,7 @@ public class PSEyeCLModelRetina extends AEChip implements PreferenceChangeListen
          * <li> If the mode is mono, only {@link PolarityEvent} are output. 
          * <li>If the mode is color, then {@link cDVSEvent} are output, reporting both intensity and color change.
          * </ul>
-         * @param in in raw input packet from the CLCamera holding intensity/color pixel RGB values
+         * @param in in raw input packet from the CLCameraWrapper holding intensity/color pixel RGB values
          * @param out the output event packet holding cooked events
          */
         @Override
@@ -442,7 +442,7 @@ public class PSEyeCLModelRetina extends AEChip implements PreferenceChangeListen
             if (out.getEventClass() != cDVSEvent.class) {
                 out.setEventClass(cDVSEvent.class); // set the proper output event class to include color change events
             }
-            colorMode = getCameraMode() == null ? true : getCameraMode().color == CLCamera.CLEYE_COLOR_PROCESSED; // TODO what do we do with recorded data? assumes color raw data now
+            colorMode = getCameraMode() == null ? true : getCameraMode().color == CLCameraWrapper.cl.CLEYE_COLOR; // TODO what do we do with recorded data? assumes color raw data now
             int bgIntervalUs = Integer.MAX_VALUE;
             if (backgroundEventRatePerPixelHz > 0) {
                 bgIntervalUs = (int) (1e6f / backgroundEventRatePerPixelHz);
@@ -667,8 +667,8 @@ public class PSEyeCLModelRetina extends AEChip implements PreferenceChangeListen
     synchronized public void setGain(int gain) {
         if (gain < 1) {
             gain = 1;
-        } else if (gain > CLCamera.CLEYE_MAX_GAIN) {
-            gain = CLCamera.CLEYE_MAX_GAIN;
+        } else if (gain > CLCameraWrapper.CLEYE_MAX_GAIN) {
+            gain = CLCameraWrapper.CLEYE_MAX_GAIN;
         }
         if (this.gain != gain) {
             setChanged();
@@ -691,8 +691,8 @@ public class PSEyeCLModelRetina extends AEChip implements PreferenceChangeListen
     synchronized public void setExposure(int exposure) {
         if (exposure < 1) {
             exposure = 1;
-        } else if (exposure > CLCamera.CLEYE_MAX_EXPOSURE) {
-            exposure = CLCamera.CLEYE_MAX_EXPOSURE;
+        } else if (exposure > CLCameraWrapper.CLEYE_MAX_EXPOSURE) {
+            exposure = CLCameraWrapper.CLEYE_MAX_EXPOSURE;
         }
         if (this.exposure != exposure) {
             setChanged();
@@ -812,10 +812,10 @@ public class PSEyeCLModelRetina extends AEChip implements PreferenceChangeListen
      * @return camera mode or null
      */
     public CameraMode getCameraMode() {
-        if (getHardwareInterface() == null || !(getHardwareInterface() instanceof CLCamera)) {
+        if (getHardwareInterface() == null || !(getHardwareInterface() instanceof CLCameraWrapper)) {
             return null;
         } else {
-            CLCamera cl = (CLCamera) getHardwareInterface();
+            CLCameraWrapper cl = (CLCameraWrapper) getHardwareInterface();
             return cl.getCameraMode();
         }
     }
@@ -825,10 +825,10 @@ public class PSEyeCLModelRetina extends AEChip implements PreferenceChangeListen
      * @param mode desired new mode.
      */
     synchronized public void setCameraMode(CameraMode mode) throws HardwareInterfaceException {
-        if (getHardwareInterface() == null || !(getHardwareInterface() instanceof CLCamera)) {
+        if (getHardwareInterface() == null || !(getHardwareInterface() instanceof CLCameraWrapper)) {
             return;
         }
-        CLCamera cl = (CLCamera) getHardwareInterface();
+        CLCameraWrapper cl = (CLCameraWrapper) getHardwareInterface();
         if (cl.getCameraMode() != mode) {
             setChanged();
         }

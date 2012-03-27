@@ -13,11 +13,11 @@ import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 
 /**
- * Extends the frame based CLCamera to add packing and return of AEPacketRaw object holding frame data.
+ * Extends the frame based CLCameraWrapper to add packing and return of AEPacketRaw object holding frame data.
  * 
  * @author tobi
  */
-public class CLRetinaHardwareInterface extends CLCamera implements AEMonitorInterface {
+public class CLRetinaHardwareInterface extends CLCameraWrapper implements AEMonitorInterface {
 
     /**
      * event supplied to listeners when new events are collected. this is final because it is just a marker for the listeners that new events are available
@@ -35,7 +35,7 @@ public class CLRetinaHardwareInterface extends CLCamera implements AEMonitorInte
         super(cameraIndex);
     }
         
-    public CLRetinaHardwareInterface(int cameraIndex, CLCamera.CameraMode cameraMode) {
+    public CLRetinaHardwareInterface(int cameraIndex, CLCameraWrapper.CameraMode cameraMode) {
         super(cameraIndex, cameraMode);
     }
 
@@ -47,7 +47,7 @@ public class CLRetinaHardwareInterface extends CLCamera implements AEMonitorInte
      * The AEFileInputStream subclass for the PSEyeCLModelRetina actually can read multiple input frames. It assigns the event timestamps using the
      * frame timestamps we write here.
      * 
-     * @return the raw RGBA pixel data from one QVGA frame from the camera. The pixel data is packed in the AEPacketRaw addresses array. The pixel color data depends on the CameraMode of the CLCamera.
+     * @return the raw RGBA pixel data from one QVGA frame from the camera. The pixel data is packed in the AEPacketRaw addresses array. The pixel color data depends on the CameraMode of the CLCameraWrapper.
      * The timestamp of the frame is in the first timestamp of the packets timestamp array - the rest of the elements are untouched. The timestamps are untouched except for the first one, which is set to the System.currentTimeMillis*1000-startTimeUs.
      *
      */
