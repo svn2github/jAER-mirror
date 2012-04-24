@@ -74,8 +74,8 @@ if doEvaluate
            % [trialChan, trialNeuron, trialFilterType, trialSide]=extractAMS1bEventsFromAddr(trialAddr);
             fprintf('evaluating now %d Hz and %d volume, %d left \n', frequencies(indFrequency), volumes(indVolume), (length(frequencies)-indFrequency+1)*length(volumes)-indVolume);
             for side=1:2 
-                [trialChan, trialNeuron, trialTs] = extractAMS1bEventsAddr(trialAddr, allTs, side);
-                %[trialChan, trialNeuron, trialTs] = extractAMS1bEventsAddrTs(trialAddr, allTs, side);
+                %[trialChan, trialNeuron, trialTs] = extractAMS1bEventsAddr(trialAddr, allTs, side);
+                [trialChan, trialNeuron, trialTs] = extractAMS1bEventsAddrTs(trialAddr, allTs, side);
                 for chan=1:numOfCochleaChannels
                     for neuron=1:4
                         freqResponse{neuron,side,indVolume}(indFrequency,chan)=length(find(trialChan==chan & trialNeuron==neuron-1))/(signallength+0.3);%neuron-1 if using  extractAMS1bEventsAddrTs
