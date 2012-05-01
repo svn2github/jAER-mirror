@@ -2,17 +2,18 @@
 package uk.ac.imperial.pseye;
 
 import javax.swing.JPanel;
-import net.sf.jaer.biasgen.BiasgenFrame;
 import java.awt.GridBagConstraints;
+import java.util.Observer;
+import java.util.Observable;
 
 /**
  * A panel for controlling a PSEyeModelChip and PSEyeCamera
  * This is added to the content panel of BiasgenFrame. 
- * It encapsulates the PSEyeCameraPanel, PSEyeViewPanel, and PSEyeModelPanel
+ * It encapsulates the PSEyeSettingPanel, CameraFramePanel, and PSEyeModelPanel
  *
  * @author  mlk
  */
-public class PSEyeBiasgenPanel extends JPanel {
+public class PSEyeBiasgenPanel extends JPanel implements Observer {
     public PSEyeBiasgen biasgen;
     GridBagConstraints gbc = new GridBagConstraints();
     
@@ -20,17 +21,31 @@ public class PSEyeBiasgenPanel extends JPanel {
         this.biasgen = biasgen;
         if(biasgen == null) 
             throw new RuntimeException("null biasgen while trying to construct BiasgenPanel");
-        
-        
+
         initComponents();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        this.add(new PSEyeCameraPanel(biasgen.getChip()), gbc);
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        this.add(new PSEyeViewPanel(biasgen.getChip()), gbc);
-    }                
+        biasgen.getChip().addObserver(this);
+        setHardware((PSEyeCamera) biasgen.getChip().getHardwareInterface());
+    }   
+    
+    private void setHardware(PSEyeCamera camera) {
+        if (camera != null) {
+            gbc.gridx = 0;
+            gbc.gridy = 2;
+            this.add(camera.getControlPanel(), gbc);        
+        }
+        
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o != null && o == biasgen.getChip() && arg instanceof PSEyeCamera) {
+            setHardware((PSEyeCamera) arg);
+            revalidate();
+        }
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

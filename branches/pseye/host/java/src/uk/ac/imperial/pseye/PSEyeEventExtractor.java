@@ -1,6 +1,7 @@
 
 package uk.ac.imperial.pseye;
 
+import uk.ac.imperial.vsbe.CameraFramePacketRaw;
 import net.sf.jaer.aemonitor.AEMonitorInterface;
 import net.sf.jaer.chip.TypedEventExtractor;
 import ch.unizh.ini.jaer.projects.thresholdlearner.TemporalContrastEvent;
@@ -11,7 +12,6 @@ import java.util.prefs.Preferences;
 import net.sf.jaer.event.OutputEventIterator;
 import ch.unizh.ini.jaer.chip.dvs320.cDVSEvent;
 import java.util.logging.Logger;
-import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -58,12 +58,12 @@ abstract class PSEyeEventExtractor extends TypedEventExtractor<TemporalContrastE
     protected double[] previousValues;
     protected int nPixels;
     
-    protected PSEyeModelChip modelChip;
+    protected PSEyeModelAEChip modelChip;
     protected AEMonitorInterface hardwareInterface;
 
     public PSEyeEventExtractor(AEChip aechip) {
         super(aechip);
-        modelChip = (PSEyeModelChip) chip;
+        modelChip = (PSEyeModelAEChip) chip;
     }
     
     abstract protected void createEvents(int pixelIndex, OutputEventIterator itr);
@@ -149,10 +149,10 @@ abstract class PSEyeEventExtractor extends TypedEventExtractor<TemporalContrastE
             return;
         
         // check to see that framepacket has correct number of pixels
-        if (!(in instanceof PSEyeFramePacketRaw))
+        if (!(in instanceof CameraFramePacketRaw))
             return;
         
-        PSEyeFramePacketRaw framePacket = (PSEyeFramePacketRaw) in;
+        CameraFramePacketRaw framePacket = (CameraFramePacketRaw) in;
         if (framePacket.frameSize != nPixels)
             return;
         

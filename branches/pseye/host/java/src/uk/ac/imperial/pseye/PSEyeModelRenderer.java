@@ -15,11 +15,11 @@ import net.sf.jaer.graphics.RetinaRenderer;
  */
 public class PSEyeModelRenderer extends RetinaRenderer {
 
-    private PSEyeModelChip psEye = null;
+    private PSEyeModelAEChip psEye = null;
     private final float[] redder = {1, 0, 0}, bluer = {0, 0, 1}, brighter = {1, 1, 1}, darker = {-1, -1, -1};
     private int sizeX = 1;
 
-    public PSEyeModelRenderer(PSEyeModelChip chip) {
+    public PSEyeModelRenderer(PSEyeModelAEChip chip) {
         super(chip);
         psEye = chip;
     }
@@ -27,7 +27,7 @@ public class PSEyeModelRenderer extends RetinaRenderer {
     @Override
     public synchronized void render(EventPacket packet) {
         // rendering is a hack to use the standard pixmap to duplicate pixels on left side (where 32x32 cDVS array lives) with superimposed Brighter, Darker, Redder, Bluer, and log intensity values,
-        // and to show PSEyeModelChip test pixel events on right side (where the 64x64 total consisting of 4x 32x32 types of pixels live)
+        // and to show PSEyeModelAEChip test pixel events on right side (where the 64x64 total consisting of 4x 32x32 types of pixels live)
 
         if (packet == null) {
             return;

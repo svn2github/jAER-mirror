@@ -11,15 +11,10 @@ import ch.unizh.ini.jaer.chip.dvs320.cDVSEvent;
  * @author Mat Katz
  */
 @Description("DVS emulator using the PS-Eye Playstation camera")
-public class PSEyeModelDVS extends PSEyeModelChip {
-    private static ArrayList<PSEyeCamera.Mode> supportedModes =
+public class PSEyeModelDVS extends PSEyeModelAEChip {
+    public static ArrayList<PSEyeCamera.Mode> supportedMode =
             new ArrayList<PSEyeCamera.Mode>(Arrays.asList(PSEyeCamera.Mode.MONO));
            
-    @Override
-    public ArrayList<PSEyeCamera.Mode> getSupportedModes() {
-        return this.supportedModes;
-    }
-    
     @Override
     protected PSEyeEventExtractor createEventExtractor() {
         return new DVSExtractor(this);

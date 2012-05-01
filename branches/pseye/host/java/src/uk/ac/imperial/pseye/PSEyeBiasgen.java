@@ -2,15 +2,14 @@
 package uk.ac.imperial.pseye;
 
 import net.sf.jaer.chip.Chip;
-import net.sf.jaer.biasgen.BiasgenFrame;
-import net.sf.jaer.graphics.AEViewer;
 import net.sf.jaer.biasgen.Biasgen;
 import javax.swing.JPanel;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 
 /**
- * Bias gen for PSEyeModelChip
+ * Bias gen for PSEyeModelAEChip
  * extends Biasgen but requires a lot of hacking to make work
+ * due to extended functionality of base class
  * @author mlk
  */
 public class PSEyeBiasgen extends Biasgen {
@@ -22,20 +21,20 @@ public class PSEyeBiasgen extends Biasgen {
         setMasterbias(null);
     }
     
-    // ensure chip being set is a PSEyeModelChip
+    // ensure chip being set is a PSEyeModelAEChip
     @Override
     public void setChip(Chip chip) {
-        if (chip instanceof PSEyeModelChip) 
+        if (chip instanceof PSEyeModelAEChip) 
             super.setChip(chip);
         else
             super.setChip(null);
     }
     
-    /* Returns PSEyeModelChip associated with this biasgen.
+    /* Returns PSEyeModelAEChip associated with this biasgen.
      */
     @Override
-    public PSEyeModelChip getChip() {
-        return (PSEyeModelChip) super.getChip();
+    public PSEyeModelAEChip getChip() {
+        return (PSEyeModelAEChip) super.getChip();
     }
 
     /* 
@@ -47,7 +46,7 @@ public class PSEyeBiasgen extends Biasgen {
         startBatchEdit();
         JPanel panel = null;
         
-        if (getChip() instanceof PSEyeModelChip) {
+        if (getChip() instanceof PSEyeModelAEChip) {
             panel = new PSEyeBiasgenPanel(this);
         }
         try {

@@ -31,7 +31,7 @@ public class PSEyeHardwareInterfaceFactory implements HardwareInterfaceFactoryIn
     private void buildList() {
         this.interfaces = new HardwareInterface[PSEyeCamera.cameraCount()];
         for ( int i = 0; i < this.interfaces.length; i++ ) {
-            this.interfaces[i] = new PSEyeHardwareInterface(i);
+            this.interfaces[i] = new PSEyeHardwareAEInterface(i);
         }
     }
     
