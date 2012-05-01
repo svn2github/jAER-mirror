@@ -13,7 +13,7 @@
 package ch.unizh.ini.jaer.projects.opticalflow.usbinterface;
 
 import cl.eye.PSeye_OpticalFlowHardwareInterface;
-import cl.eye.CLCamera;
+import cl.eye.CLCameraWrapper;
 import cl.eye.CLRetinaHardwareInterface;
 import net.sf.jaer.hardwareinterface.*;
 import de.thesycon.usbio.*;
@@ -116,8 +116,8 @@ public class OpticalFlowHardwareInterfaceFactory implements UsbIoErrorCodes, PnP
     }
     
     void buildPsEyeList() {
-        if (CLCamera.isLibraryLoaded()) {
-            psEyes= new MotionChipInterface[ CLCamera.cameraCount() ];
+        if (CLCameraWrapper.isLibraryLoaded()) {
+            psEyes= new MotionChipInterface[ CLCameraWrapper.cameraCount() ];
             for ( int i = 0; i < psEyes.length; i++ )
                 psEyes[i] = new PSeye_OpticalFlowHardwareInterface(i);
         }
