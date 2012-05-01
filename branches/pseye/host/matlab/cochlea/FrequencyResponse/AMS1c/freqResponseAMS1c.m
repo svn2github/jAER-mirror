@@ -1,6 +1,5 @@
 function [ freqResponse ] = freqResponseAMS1c( calibrationname, frequencies, volumes, signallength, doRecord, doEvaluate, doPlot, doFit )
-%COMPUTEFREQRESPAMS1C Summary of this function goes here
-
+%freqResponseAMS1c Summary of this function goes here
 %Call the function without arguments to plot a previously stored freqResponse
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Otherwise:
@@ -11,6 +10,7 @@ function [ freqResponse ] = freqResponseAMS1c( calibrationname, frequencies, vol
 %doRecord=0 -> don't record
 %doEvaluate=0 -> don't evaluate the frequencies
 %doPlot=0 -> don't plot
+%[ freqResponse ] = freqResponseAMS1c('testApr23', 10.^[1.5:0.1:4],[0.05:0.05:0.35], 2, 1, 1, 1, 1)
 %[ freqResponse ] = freqResponseAMS1c('testJuly8', 10.^[1.5:0.05:4],[0.05:0.1:0.35], 2, 1, 1, 1, 0)
 %[ freqResponse ] = freqResponseAMS1c('testJuly14', 10.^[2.5:0.04:4],[0.05:0.05:0.35], 2, 1, 1, 1, 1)
 %use 180 Hz to 10kHz,frequencies=10.^[2.5:0.04:4.1];
@@ -74,8 +74,8 @@ if doEvaluate
            % [trialChan, trialNeuron, trialFilterType, trialSide]=extractAMS1bEventsFromAddr(trialAddr);
             fprintf('evaluating now %d Hz and %d volume, %d left \n', frequencies(indFrequency), volumes(indVolume), (length(frequencies)-indFrequency+1)*length(volumes)-indVolume);
             for side=1:2 
-                [trialChan, trialNeuron, trialTs] = extractAMS1bEventsAddr(trialAddr, allTs, side);
-                %[trialChan, trialNeuron, trialTs] = extractAMS1bEventsAddrTs(trialAddr, allTs, side);
+                %[trialChan, trialNeuron, trialTs] = extractAMS1bEventsAddr(trialAddr, allTs, side);
+                [trialChan, trialNeuron, trialTs] = extractAMS1bEventsAddrTs(trialAddr, allTs, side);
                 for chan=1:numOfCochleaChannels
                     for neuron=1:4
                         freqResponse{neuron,side,indVolume}(indFrequency,chan)=length(find(trialChan==chan & trialNeuron==neuron-1))/(signallength+0.3);%neuron-1 if using  extractAMS1bEventsAddrTs

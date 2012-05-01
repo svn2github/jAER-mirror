@@ -32,25 +32,26 @@ public class TobiLogger {
     private boolean nanotimeEnabled=false;
     private long startingTime=0;
     private String headerLine;
-    private String filename;
+    private String fileNameBase;
+    private String fileNameActual=null;
     
     /**
      * Creates a new instance of TobiLogger.
      *@param filename the filename. Date/Timestamp string us appended to the filename 
      * and ".txt" is appended if it is not already the suffix, e.g. "PencilBalancer-2008-10-12T10-23-58+0200.txt". The file is created in the program startup folder.
-     *@param headerLineComment a comment usuually specifying the contents and data fields, a # is prepended automatically. 
+     *@param headerLineComment a comment usually specifying the contents and data fields, a # is prepended automatically. 
      A second header line is also written automatically with the file creation date, e.g. "# created Sat Oct 11 13:04:34 CEST 2008"
      */
     public TobiLogger(String filename, String headerLineComment) {
         if(!filename.endsWith(".txt")) filename=filename+".txt";
-        this.filename=filename;
+        this.fileNameBase=filename;
         this.headerLine=headerLineComment;
     }
     
     private String getTimestampedFilename(){
-        String base=filename;
-        if(filename.endsWith(".txt")){
-            base=filename.substring(0, filename.lastIndexOf('.'));
+        String base=fileNameBase;
+        if(fileNameBase.endsWith(".txt")){
+            base=fileNameBase.substring(0, fileNameBase.lastIndexOf('.'));
         }
         Date d=new Date();
         String fn=base+'-'+AEDataFile.DATE_FORMAT.format(d)+".txt";
@@ -93,17 +94,17 @@ public class TobiLogger {
                 log.warning("disabling logging but stream was never created");
                 return;
             }
-            log.info("closing log file "+filename+" in folder "+System.getProperties().getProperty("user.dir"));
+            log.info("closing log file "+fileNameBase+" in folder "+System.getProperties().getProperty("user.dir"));
             logStream.flush();
             logStream.close();
             logStream=null;
         }else{
             try{
-                String fn=getTimestampedFilename();
-                logStream=new PrintStream(new BufferedOutputStream(new FileOutputStream(new File(fn))));
-                logStream.println("# "+headerLine);
+                fileNameActual=getTimestampedFilename();
+                logStream=new PrintStream(new BufferedOutputStream(new FileOutputStream(new File(fileNameActual))));
+                logStream.println("# "+getHeaderLine());
                 logStream.println("# created "+new Date());
-                log.info("created log file name "+fn+" in folder "+System.getProperties().getProperty("user.dir"));
+                log.info("created log file name "+fileNameActual+" in folder "+System.getProperties().getProperty("user.dir"));
                 startingTime=nanotimeEnabled? System.nanoTime():System.currentTimeMillis();
                 Runtime.getRuntime().addShutdownHook(new Thread(){
                         public void run(){
@@ -141,5 +142,29 @@ public class TobiLogger {
     public void setNanotimeEnabled(boolean nanotimeEnabled) {
         this.nanotimeEnabled = nanotimeEnabled;
     }
+
+    /**
+     * @return the headerLine
+     */
+    public String getHeaderLine() {
+        return headerLine;
+    }
+
+    /**
+     * Sets the contents of the first header line
+     *     *@param headerLineComment a comment usually specifying the contents and data fields, a # is prepended automatically. 
+     A second header line is also written automatically with the file creation date, e.g. "# created Sat Oct 11 13:04:34 CEST 2008"
+     */
+    public void setHeaderLine(String headerLine) {
+        this.headerLine = headerLine;
+    }
+
+    @Override
+    public String toString() {
+        return "TobiLogger{" + "absoluteTimeEnabled=" + absoluteTimeEnabled + ", nanotimeEnabled=" + nanotimeEnabled + ", startingTime=" + startingTime + ", headerLine=" + headerLine + ", fileNameActual=" + fileNameActual + '}';
+    }
+
+    
+    
     
 }

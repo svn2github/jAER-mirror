@@ -11,48 +11,50 @@
  */
 package net.sf.jaer.eventprocessing.filter;
 
-import net.sf.jaer.chip.*;
-import net.sf.jaer.event.EventPacket;
-import net.sf.jaer.eventio.AEFileInputStream;
-import net.sf.jaer.eventio.AEInputStream;
-import net.sf.jaer.eventprocessing.*;
-import net.sf.jaer.graphics.AbstractAEPlayer;
-import net.sf.jaer.graphics.AEViewer;
-import net.sf.jaer.graphics.FrameAnnotater;
-import net.sf.jaer.util.EngineeringFormat;
-import com.sun.opengl.util.*;
+import com.sun.opengl.util.GLUT;
 import com.sun.opengl.util.j2d.TextRenderer;
 import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.text.*;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import javax.media.opengl.*;
+import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.glu.*;
+import javax.media.opengl.glu.GLU;
+import javax.media.opengl.glu.GLUquadric;
 import net.sf.jaer.Description;
 import net.sf.jaer.DevelopmentStatus;
 import net.sf.jaer.aemonitor.AEConstants;
+import net.sf.jaer.chip.AEChip;
+import net.sf.jaer.event.BasicEvent;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.eventio.AEFileInputStream;
+import net.sf.jaer.eventio.AEInputStream;
+import net.sf.jaer.eventprocessing.EventFilter2D;
+import net.sf.jaer.eventprocessing.FilterChain;
+import net.sf.jaer.graphics.AEViewer;
+import net.sf.jaer.graphics.AbstractAEPlayer;
+import net.sf.jaer.graphics.FrameAnnotater;
+import net.sf.jaer.util.EngineeringFormat;
+import net.sf.jaer.util.TobiLogger;
 
 /**
- * Annotates the rendered data stream canvas
-with additional information like a
-clock with absolute time, a bar showing instantaneous activity rate,
-a graph showing historical activity over the file, etc.
-These features are enabled by flags of the filter.
+ * Annotates the rendered data stream canvas with additional information like a
+ * clock with absolute time, a bar showing instantaneous activity rate, a graph
+ * showing historical activity over the file, etc. These features are enabled by
+ * flags of the filter.
+ *
  * @author tobi
  */
 @Description("Adds useful information annotation to the display, e.g. date/time/event rate")
 @DevelopmentStatus(DevelopmentStatus.Status.Stable)
-public class Info extends EventFilter2D implements FrameAnnotater, PropertyChangeListener {
+public class Info extends EventFilter2D implements FrameAnnotater, PropertyChangeListener, Observer {
 
     private DateFormat timeFormat = new SimpleDateFormat("k:mm:ss.S"); //DateFormat.getTimeInstance();
     private DateFormat dateFormat = DateFormat.getDateInstance();
-    private Date dateInstance = new Date();
     private Calendar calendar = Calendar.getInstance();
-    private File lastFile = null;
     private boolean analogClock = getPrefs().getBoolean("Info.analogClock", true);
     private boolean digitalClock = getPrefs().getBoolean("Info.digitalClock", true);
     private boolean date = getPrefs().getBoolean("Info.date", true);
@@ -63,37 +65,159 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
     private float eventRateScaleMax = getPrefs().getFloat("Info.eventRateScaleMax", 1e5f);
     private boolean timeScaling = getPrefs().getBoolean("Info.timeScaling", true);
     private boolean showRateTrace = getBoolean("showRateTrace", true);
-    public final int MAX_SAMPLES=1000; // to avoid running out of memory
-    private int maxSamples=getInt("maxSamples",MAX_SAMPLES);
-    private long dataFileTimestampStartTimeMs = 0;
+    public final int MAX_SAMPLES = 1000; // to avoid running out of memory
+    private int maxSamples = getInt("maxSamples", MAX_SAMPLES);
+    private long dataFileTimestampStartTimeUs = 0;
     private long wrappingCorrectionMs = 0;
     private long absoluteStartTimeMs = 0;
-    volatile private long relativeTimeInFileMs = 0; // volatile because this field accessed by filtering and rendering threads
+    volatile private long clockTimeMs = 0; // volatile because this field accessed by filtering and rendering threads
+    volatile private long updateTimeMs = 0; // volatile because this field accessed by filtering and rendering threads
     volatile private float eventRateMeasured = 0; // volatile, also shared
     private boolean addedViewerPropertyChangeListener = false; // need flag because viewer doesn't exist on creation
     private boolean eventRate = getPrefs().getBoolean("Info.eventRate", true);
     private EventRateEstimator eventRateFilter;
     private EngineeringFormat engFmt = new EngineeringFormat();
+    private String maxRateString = engFmt.format(eventRateScaleMax);
+    private boolean logStatistics = false;
+    private TobiLogger tobiLogger = null;
+
+    /** computes the absolute time (since 1970) or relative time (in file) given the timestamp.
+     * The internal wrappingCorrection and any scaling and start time is applied.
+     * @param relativeTimeInFileMs the relative time in file in ms
+     * @return the absolute or relative time depending on absoluteTime switch, or the System.currentTimeMillis() if we are in live playback mode
+     */
+    private long computeDisplayTime(long relativeTimeInFileMs) {
+        long t = 0;
+        if (chip.getAeViewer() != null && chip.getAeViewer().getPlayMode() == AEViewer.PlayMode.LIVE) {
+            t = System.currentTimeMillis();
+        } else {
+            t = relativeTimeInFileMs + wrappingCorrectionMs;
+            t = (long) (t * timestampScaleFactor);
+            if (absoluteTime) {
+                t += absoluteStartTimeMs;
+            }
+            t = t + timeOffsetMs;
+        }
+        return t;
+    }
+
+    /**
+     * @return the logStatistics
+     */
+    public boolean isLogStatistics() {
+        return logStatistics;
+    }
+
+    /**
+     * @param logStatistics the logStatistics to set
+     */
+    synchronized public void setLogStatistics(boolean logStatistics) {
+        boolean old = this.logStatistics;
+        if (logStatistics) {
+            if (!this.logStatistics) {
+                setEventRate(true);
+                String s = "# statistics from Info filter logged starting at " + new Date() + " and originating from ";
+                if (chip.getAeViewer().getPlayMode() == AEViewer.PlayMode.PLAYBACK) {
+                    s = s + " file " + chip.getAeViewer().getAePlayer().getAEInputStream().getFile().toString();
+                } else {
+                    s = s + " input during PlayMode=" + chip.getAeViewer().getPlayMode().toString();
+                }
+                s = s + "\n# evenRateFilterTauMs=" + eventRateFilter.getEventRateTauMs();
+                s = s + "\n#relativeLoggingTimeMs\tabsDataTimeSince1970Ms\teventRateHz";
+
+                if (tobiLogger == null) {
+                    tobiLogger = new TobiLogger("Info", s);
+                } else {
+                    tobiLogger.setHeaderLine(s);
+                }
+                tobiLogger.setEnabled(true);
+            }
+        } else {
+            if (this.logStatistics) {
+                tobiLogger.setEnabled(false);
+                log.info("stopped logging Info data to "+tobiLogger);
+            }
+        }
+        this.logStatistics = logStatistics;
+        getSupport().firePropertyChange("logStatistics", old, this.logStatistics);
+    }
+
+    public void doStartLogging() {
+        setLogStatistics(true);
+    }
+
+    public void doStopLogging() {
+        setLogStatistics(false);
+    }
+    private long lastUpdateTime = 0;
+
+    
+    
+    /**
+     * make event rate statistics be computed throughout a large package which
+     * could span many seconds....
+     *
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        if (!(arg instanceof UpdateMessage)) {
+            return;
+        }
+        UpdateMessage msg = (UpdateMessage) arg;
+  //        System.out.println("dt=" + (msg.timestamp - lastUpdateTime)/1000+" ms");
+        lastUpdateTime = msg.timestamp;
+        // for large files, the relativeTimeInFileMs wraps around after 2G us and then every 4G us
+        long relativeTimeInFileMs = (msg.timestamp - dataFileTimestampStartTimeUs) / 1000;
+        updateTimeMs = computeDisplayTime(relativeTimeInFileMs);
+        long dt = (updateTimeMs - lastUpdateTime);
+//        if (dt > eventRateFilter.getEventRateTauMs() * 2) {  // TODO hack to get around problem that sometimes the wrap preceeds the actual data
+//            log.warning("not adding this RateHistory point because dt is too big, indicating a big wrap came too soon");
+//            return;
+//        }
+        if (updateTimeMs < lastUpdateTime) {
+
+            log.warning("dt=" + dt);
+        }
+        lastUpdateTime = updateTimeMs;
+
+        eventRateMeasured = eventRateFilter.getFilteredEventRate(); // TODO time is wrong here to plot
+        if (showRateTrace) {
+            rateHistory.addSample(updateTimeMs, eventRateMeasured);
+        }
+        if (logStatistics) {
+            String s = String.format("%20d\t%20.2g", updateTimeMs, eventRateFilter.getFilteredEventRate());
+            tobiLogger.log(s);
+        }
+
+    }
 
     private class RateHistory {
 
-
-        ArrayList<RateSample> rateSamples = new ArrayList(getMaxSamples());
-        float startTime = Float.MAX_VALUE, endTime = Float.MIN_VALUE;
+        LinkedList<RateSample> rateSamples = new LinkedList();
+        long startTime = Long.MAX_VALUE, endTime = Long.MIN_VALUE;
         float minRate = Float.MAX_VALUE, maxRate = Float.MIN_VALUE;
         TextRenderer renderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 24));
+        long lastTimeAdded=Long.MIN_VALUE;
 
-        void clear() {
+        synchronized void clear() {
             rateSamples.clear();
-            startTime = Float.POSITIVE_INFINITY;
-            endTime = Float.NEGATIVE_INFINITY;
+            startTime = Long.MAX_VALUE;
+            endTime = Long.MIN_VALUE;
             minRate = Float.MAX_VALUE;
             maxRate = Float.MIN_VALUE;
         }
 
-        void addSample(float time, float rate) {
-            if(rateSamples.size()>=getMaxSamples()){
-                clear();
+        synchronized void addSample(long time, float rate) {
+            if(time<lastTimeAdded){
+                log.warning("time went backwards by "+(time-lastTimeAdded));
+            }
+//            System.out.println(String.format("adding RateHistory point at t=%-20d, dt=%-15d",time,(time-lastTimeAdded)));
+            lastTimeAdded=time;
+            if (rateSamples.size() >= getMaxSamples()) {
+                RateSample s=rateSamples.get(2);
+                startTime=s.time;
+                rateSamples.removeFirst();
+                return;
             }
             rateSamples.add(new RateSample(time, rate));
             if (time < startTime) {
@@ -110,32 +234,55 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
             }
         }
 
-        private void draw(GL gl) {
-            if (rateSamples.size() < 2 || endTime - startTime == 0) {
+        synchronized private void draw(GL gl) {
+            int n = rateSamples.size();
+            if (n < 2 || endTime - startTime == 0) {
                 return;
             }
-            gl.glPushMatrix();
-            final int pos = chip.getSizeY() / 3;
-            gl.glColor3f(0, 0, 1);
-            gl.glTranslatef(0, pos, 0);
-//            gl.glRotatef(90, 0, 0, 1);
-            renderer.begin3DRendering();
-            renderer.draw3D("Max rate="+engFmt.format(maxRate)+"eps", chip.getSizeY()*.3f, 0, 0,.2f);
-            renderer.end3DRendering();
-//            gl.glRotatef(-90, 0, 0, 1);
-            gl.glScalef((float) chip.getSizeX() / (endTime - startTime), (float) (chip.getSizeY() * .2f) / (maxRate), 1);
-            gl.glLineWidth(1);
+            gl.glColor3f(.8f, .8f, .8f);
+            gl.glLineWidth(1.5f);
+            // draw xaxis
+            gl.glBegin(GL.GL_LINES);
+            float x0 = 0;
+            final int ypos = chip.getSizeY() / 3; // where graph starts along y axis of chip
+
+            gl.glVertex2f(x0, ypos);
+            gl.glVertex2f(chip.getSizeX(), ypos);
+            gl.glEnd();
+            // draw y axis
             gl.glBegin(GL.GL_LINE_STRIP);
-            for (RateSample s : rateSamples) {
+            gl.glVertex2f(x0, ypos);
+            gl.glVertex2f(x0, ypos + chip.getSizeY() * .2f);
+            gl.glEnd();
+
+
+            gl.glPushMatrix();
+            gl.glColor3f(1, 1, .8f);
+            gl.glLineWidth(1.5f);
+            gl.glTranslatef(0.5f, ypos, 0);
+//            gl.glRotatef(90, 0, 0, 1);
+//            gl.glRotatef(-90, 0, 0, 1);
+            gl.glScalef((float) (chip.getSizeX()-1) / (endTime - startTime), (float) (chip.getSizeY() * .2f) / (maxRate), 1);
+            gl.glBegin(GL.GL_LINE_STRIP);
+            for(RateSample s:rateSamples){
                 gl.glVertex2f(s.time - startTime, s.rate);
             }
             gl.glEnd();
+
+            gl.glPopMatrix();
+            gl.glPushMatrix();
+            gl.glTranslatef(0, (int) (chip.getSizeY() * .5f), 1);
+            gl.glScalef(.2f, .2f, 1);
+            maxRateString = engFmt.format(maxRate) + "eps";
+            renderer.begin3DRendering();
+            renderer.draw(maxRateString, 0, 0);
+            renderer.end3DRendering();
             gl.glPopMatrix();
         }
 
-        private void initFromAEFileInputStream(AEFileInputStream fis) {
-            startTime = 1e-3f * AEConstants.TICK_DEFAULT_US * fis.getFirstTimestamp();
-            endTime = 1e-3f * AEConstants.TICK_DEFAULT_US * fis.getLastTimestamp();
+        synchronized private void initFromAEFileInputStream(AEFileInputStream fis) {
+            startTime =  AEConstants.TICK_DEFAULT_US * fis.getFirstTimestamp()/1000;
+            endTime = AEConstants.TICK_DEFAULT_US * fis.getLastTimestamp()/1000;
             if (endTime < startTime) {
                 clear();
             }
@@ -144,22 +291,26 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
 
     private class RateSample {
 
-        float time, rate;
+        long time;
+                float rate;
 
-        public RateSample(float time, float rate) {
+        public RateSample(long time, float rate) {
             this.time = time;
             this.rate = rate;
         }
     }
     private RateHistory rateHistory = new RateHistory();
 
-    /** Creates a new instance of Info for the chip
-    @param chip the chip object
+    /**
+     * Creates a new instance of Info for the chip
+     *
+     * @param chip the chip object
      */
     public Info(AEChip chip) {
         super(chip);
         calendar.setLenient(true); // speed up calendar
         eventRateFilter = new EventRateEstimator(chip);
+        eventRateFilter.addObserver(this);
         FilterChain fc = new FilterChain(chip);
         fc.add(eventRateFilter);
         setEnclosedFilterChain(fc);
@@ -176,37 +327,38 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
         setPropertyTooltip("eventRate", "shows average event rate");
         setPropertyTooltip("eventRateTauMs", "lowpass time constant in ms for filtering event rate");
         setPropertyTooltip("showRateTrace", "shows a historical trace of event rate");
-        setPropertyTooltip("maxSamples","maximum number of samples before clearing rate history");
+        setPropertyTooltip("maxSamples", "maximum number of samples before clearing rate history");
+        setPropertyTooltip("logStatistics", "<html>enables logging of any activiated statistics (e.g. event rate) to a log file <br>written to the startup folder (host/java). <p>See the logging output for the file location.");
     }
+    
+    private boolean increaseWrappingCorrectionOnNextPacket=false;
 
-    /** handles tricky property changes coming from AEViewer and AEFileInputStream */
+    /**
+     * handles tricky property changes coming from AEViewer and
+     * AEFileInputStream
+     */
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getSource() instanceof AEFileInputStream) {
             if (evt.getPropertyName().equals(AEInputStream.EVENT_REWIND)) {
                 log.info("rewind PropertyChangeEvent received by " + this + " from " + evt.getSource());
                 wrappingCorrectionMs = 0;
                 rateHistory.clear();
+                setLogStatistics(false);
             } else if (evt.getPropertyName().equals(AEInputStream.EVENT_WRAPPED_TIME)) {
-                long old = wrappingCorrectionMs;
-                int newtime = ((Integer) evt.getNewValue()).intValue();
-                boolean fwds = true;
-                if (newtime == 0) {
-                    wrappingCorrectionMs = wrappingCorrectionMs + (fwds ? (long) (1L << 31L) / 1000 : -(long) (1L << 31L) / 1000); // 2G us, handles case of wrapping back to 0 and not -2^31
-//                System.out.println("incremented wrappingCorrectionMs");
-                } else {
-                    wrappingCorrectionMs = wrappingCorrectionMs + (fwds ? (long) (1L << 32L) / 1000 : -(long) (1L << 31L) / 1000); // 4G us
-                }
-                log.info("timestamp wrap event received by " + this + " from " + evt.getSource() + " oldValue=" + evt.getOldValue() + " newValue=" + evt.getNewValue() + ", wrappingCorrectionMs increased by " + (wrappingCorrectionMs - old));
+                increaseWrappingCorrectionOnNextPacket=true;
+//                System.out.println("property change in Info that is wrap time event");
+                 log.info("timestamp wrap event received by " + this + " from " + evt.getSource() + " oldValue=" + evt.getOldValue() + " newValue=" + evt.getNewValue() + ", wrappingCorrectionMs will increase on next packet");
             } else if (evt.getPropertyName().equals(AEInputStream.EVENT_INIT)) {
                 log.info("EVENT_INIT recieved, signaling new input stream");
                 AEFileInputStream fis = (AEFileInputStream) (evt.getSource());
                 rateHistory.initFromAEFileInputStream(fis);
             } else if (evt.getPropertyName().equals(AEInputStream.EVENT_NON_MONOTONIC_TIMESTAMP)) {
-                rateHistory.clear();
+//                rateHistory.clear();
             }
         } else if (evt.getSource() instanceof AEViewer) {
             if (evt.getPropertyName().equals(AEViewer.EVENT_FILEOPEN)) { // TODO don't getString this because AEViewer doesn't refire event from AEPlayer and we don't getString this on initial fileopen because this filter has not yet been run so we have not added ourselves to the viewer
-               rateHistory.clear();
+                rateHistory.clear();
             }
         }
     }
@@ -217,20 +369,24 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
             AEFileInputStream in = (AEFileInputStream) (player.getAEInputStream());
             if (in != null) {
                 in.getSupport().addPropertyChangeListener(this);
-                dataFileTimestampStartTimeMs = in.getFirstTimestamp();
+                dataFileTimestampStartTimeUs = in.getFirstTimestamp();
                 log.info("added ourselves for PropertyChangeEvents from " + in);
                 absoluteStartTimeMs = in.getAbsoluteStartingTimeMs();
             }
         }
     }
+    private int lastLogTimestampUs = 0;
+    private boolean logInitialized = false;
 
+    @Override
     synchronized public EventPacket<?> filterPacket(EventPacket<?> in) {
-        if (!isFilterEnabled() || in == null || in.getSize() == 0) {
+         if (!isFilterEnabled() || in == null || in.getSize() == 0) {
             return in;
         }
         if (!addedViewerPropertyChangeListener) {
             if (chip.getAeViewer() != null) {
                 chip.getAeViewer().addPropertyChangeListener(this);
+                chip.getAeViewer().getAePlayer().getSupport().addPropertyChangeListener(this); // TODO might be duplicated callback
                 addedViewerPropertyChangeListener = true;
                 getAbsoluteStartingTimeMsFromFile();
             }
@@ -238,45 +394,45 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
         if (in != null && in.getSize() > 0) {
             if (resetTimeEnabled) {
                 resetTimeEnabled = false;
-                dataFileTimestampStartTimeMs = in.getFirstTimestamp();
+                dataFileTimestampStartTimeUs = in.getFirstTimestamp();
             }
-            relativeTimeInFileMs = (in.getLastTimestamp() - dataFileTimestampStartTimeMs) / 1000;
-            if (isEventRate()) {
-                eventRateFilter.filterPacket(in);
-                eventRateMeasured = eventRateFilter.getFilteredEventRate();
-                if (showRateTrace ) {
-                    rateHistory.addSample(relativeTimeInFileMs + wrappingCorrectionMs, eventRateMeasured);
-                }
-            }
-        }
 
-        return in;
+        }
+        eventRateFilter.filterPacket(in);
+        long relativeTimeInFileMs = (in.getLastTimestamp() - dataFileTimestampStartTimeUs) / 1000;
+
+        clockTimeMs = computeDisplayTime(relativeTimeInFileMs);
+
+        // if the reader generated a bigwrap, then it told us already, before we processed this packet.
+        // This msg said that the *next* packet will be wrapped.
+        // so just process this packet normally, as above, then increment our wrap correction after that.
+        if (increaseWrappingCorrectionOnNextPacket) {
+            long old=wrappingCorrectionMs;
+            boolean fwds = true; // TODO backwards not handled yet, since we don't know from wrap event which way we are going in a file
+            wrappingCorrectionMs = wrappingCorrectionMs + (fwds ? (long) (1L << 32L) / 1000 : -(long) (1L << 31L) / 1000); // 4G us
+            increaseWrappingCorrectionOnNextPacket = false;
+//            System.out.println("In Info, because flag was set, increased wrapping correction by "+(wrappingCorrectionMs-old));
+            log.info("because flag was set, increased wrapping correction by "+(wrappingCorrectionMs-old));
+        }
+       return in;
     }
 
+    @Override
     synchronized public void resetFilter() {
         eventRateFilter.resetFilter();
         rateHistory.clear();
     }
 
+    @Override
     public void initFilter() {
     }
     GLU glu = null;
     GLUquadric wheelQuad;
 
+    @Override
     public void annotate(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
-        long t = 0;
-        if (chip.getAeViewer() != null && chip.getAeViewer().getPlayMode() == AEViewer.PlayMode.LIVE) {
-            t = System.currentTimeMillis();
-        } else {
-            t = relativeTimeInFileMs + wrappingCorrectionMs;
-            t = (long) (t * timestampScaleFactor);
-            if (absoluteTime) {
-                t += absoluteStartTimeMs;
-            }
-            t = t + timeOffsetMs;
-        }
-        drawClock(gl, t);
+        drawClock(gl, clockTimeMs); // clockTimeMs is updated at the end of each packet, when the clock is displayed
         drawEventRate(gl, eventRateMeasured);
         if (chip.getAeViewer() != null) {
             drawTimeScaling(gl, chip.getAeViewer().getTimeExpansion());
@@ -287,8 +443,14 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
     private void drawClock(GL gl, long t) {
         final int radius = 20, hourLen = 10, minLen = 18, secLen = 7, msLen = 19;
         calendar.setTimeInMillis(t);
+        final int hour = calendar.get(Calendar.HOUR);
+        final int hourofday = calendar.get(Calendar.HOUR_OF_DAY);
 
-        gl.glColor3f(1, 1, 1);
+        if (hourofday > 18 || hourofday < 6) {
+            gl.glColor3f(.5f, .5f, 1);
+        } else {
+            gl.glColor3f(1f, 1f, .5f);
+        }
         if (analogClock) {
             // draw clock circle
             if (glu == null) {
@@ -343,7 +505,7 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
                 gl.glLineWidth(6f);
                 gl.glBegin(GL.GL_LINES);
                 gl.glVertex2f(0, 0);
-                a = 2 * Math.PI * (calendar.get(Calendar.HOUR) + minute / 60.0) / 12; // a=0 for midnight, a=2*3/12*pi=pi/2 for 3am/pm, etc
+                a = 2 * Math.PI * (hour + minute / 60.0) / 12; // a=0 for midnight, a=2*3/12*pi=pi/2 for 3am/pm, etc
                 x = hourLen * (float) Math.sin(a);
                 y = hourLen * (float) Math.cos(a);
                 gl.glVertex2f(x, y);
@@ -370,12 +532,12 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
         }
         final int pos = 8, xpos = 25;
         gl.glPushMatrix();
-        gl.glColor3f(0, 0, 1);
+        gl.glColor3f(1, 1, 1);
         gl.glRasterPos3f(0, chip.getSizeY() - pos, 0);
         GLUT glut = chip.getCanvas().getGlut();
         glut.glutBitmapString(GLUT.BITMAP_HELVETICA_18, String.format("%10s", engFmt.format(eventRateMeasured) + " Hz"));
-        gl.glColor3f(0, 0, 1);
-        gl.glRectf(xpos, chip.getSizeY() - pos, xpos + eventRateMeasured * chip.getSizeX() / getEventRateScaleMax(), chip.getSizeY() - pos + 3);
+        gl.glColor3f(1, 1, 1);
+        gl.glRectf(xpos, chip.getSizeY() - pos + 1, xpos + eventRateMeasured * chip.getSizeX() / getEventRateScaleMax(), chip.getSizeY() - pos);
         gl.glPopMatrix();
     }
 
@@ -394,7 +556,7 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
         }
         final int pos = 4, xpos = 25;
         gl.glPushMatrix();
-        gl.glColor3f(0, 0, 1);
+        gl.glColor3f(1, 1, 1);
         gl.glRasterPos3f(0, chip.getSizeY() - pos, 0);
         GLUT glut = chip.getCanvas().getGlut();
         StringBuilder s = new StringBuilder();
@@ -402,14 +564,13 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
             s.append('/');
             timeExpansion = 1 / timeExpansion;
         } else {
-            s.append('/');
+            s.append('x');
         }
 
         glut.glutBitmapString(GLUT.BITMAP_HELVETICA_18, String.format("%10s", engFmt.format(timeExpansion) + s));
-        gl.glColor3f(0, 0, 1);
         float x0 = xpos;
         float x1 = (float) (xpos + x0 * Math.log10(timeExpansion));
-        float y0 = chip.getSizeY() - pos;
+        float y0 = chip.getSizeY() - pos + 1;
         float y1 = y0 - 1;
         gl.glRectf(x0, y0, x1, y1);
         gl.glPopMatrix();
@@ -456,14 +617,20 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
         return eventRate;
     }
 
-    /** True to show event rate in Hz */
+    /**
+     * True to show event rate in Hz
+     */
     public void setEventRate(boolean eventRate) {
+        boolean old = this.eventRate;
         this.eventRate = eventRate;
         getPrefs().putBoolean("Info.eventRate", eventRate);
+        getSupport().firePropertyChange("eventRate", old, eventRate);
     }
     private volatile boolean resetTimeEnabled = false;
 
-    /** Reset the time zero marker to the next packet's first timestamp */
+    /**
+     * Reset the time zero marker to the next packet's first timestamp
+     */
     public void doResetTime() {
         resetTimeEnabled = true;
     }
@@ -516,6 +683,7 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
     public void setEventRateScaleMax(float eventRateScaleMax) {
         this.eventRateScaleMax = eventRateScaleMax;
         getPrefs().putFloat("Info.eventRateScaleMax", eventRateScaleMax);
+        maxRateString = engFmt.format(eventRateScaleMax);
     }
 
     /**
@@ -559,10 +727,12 @@ public class Info extends EventFilter2D implements FrameAnnotater, PropertyChang
      * @param maxSamples the maxSamples to set
      */
     public void setMaxSamples(int maxSamples) {
-        int old=this.maxSamples;
-        if(maxSamples<100) maxSamples=100;
+        int old = this.maxSamples;
+        if (maxSamples < 100) {
+            maxSamples = 100;
+        }
         this.maxSamples = maxSamples;
-        putInt("maxSamples",maxSamples);
+        putInt("maxSamples", maxSamples);
         getSupport().firePropertyChange("maxSamples", old, maxSamples);
     }
 }

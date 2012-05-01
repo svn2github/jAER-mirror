@@ -24,14 +24,16 @@ enum PSEyeColourMode
     */ 
     MONO_RAW,
     COLOUR_RAW,
-    BAYER_RAW
+    BAYER_RAW,
+    IGNORE_MODE
 };
 
 // camera resolutions
 enum PSEyeResolution
 {
     QVGA,
-    VGA
+    VGA,
+    IGNORE_RESOLUTION
 };
 
 // camera parameters

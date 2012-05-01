@@ -5,6 +5,8 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>include/PSEyeClient.h</itemPath>
+      <itemPath>include/PSEyeConstants.h</itemPath>
+      <itemPath>include/PSEyeServer.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"

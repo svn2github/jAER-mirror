@@ -19,9 +19,10 @@
 
 #define CACHE_LINE_SIZE 128
 #define BUFFER_FRAMES 10
+#define IGNORE_PARAMETER -1
 
 // name of memory-mapped file object to use for sharing frames
-const char mmfBaseName[] = "Global\\MMFPSEyeBuffer";
+const char mmfBaseName[] = "Local\\MMFPSEyeBuffer";
 // name of pipe to use for server control
 const char ipcPipeName[] = "\\\\.\\pipe\\IPCPSEyePipe";
 
@@ -49,30 +50,40 @@ struct PSEyeFrameBuffer
     uint8_t _padding2[CACHE_LINE_SIZE - sizeof(uint32_t)];
 };
 
+// structure representing mapped-memory file
+struct PSEyeMemoryMappedFile
+{
+    int32_t index;
+    HANDLE handle;                 // handle to memory-mapped file
+    uint8_t *rawBuffer;            // pointer to mmf buffer
+    PSEyeFrameBuffer *frameBuffer; // pointer to frame buffer
+};
+
 /* Message structures */
 enum PSEyeMessageType
 {
     CAMERA_COUNT, CAMERA_GUID,
     CREATE_CAMERA, DESTROY_CAMERA,
     START_CAMERA, STOP_CAMERA,
-    GET_PARAMETERS, SET_PARAMETERS
+    GET_PARAMETERS, SET_PARAMETERS,
+    SERVER_ERROR
 };
 
 struct PSEyeExposure
 {
-    bool isAuto;
+    int32_t isAuto;
     int32_t value;
 };
 
 struct PSEyeGain
 {
-    bool isAuto;
+    int32_t isAuto;
     int32_t value;
 };
 
 struct PSEyeColourBalance
 {
-    bool isAuto;
+    int32_t isAuto;
     int32_t red;
     int32_t blue;
     int32_t green;
@@ -80,7 +91,7 @@ struct PSEyeColourBalance
 
 struct PSEyeState
 {   
-    uint8_t index;
+    int32_t index;
     GUID guid;
        
     PSEyeColourMode colourMode;
