@@ -25,11 +25,11 @@ import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
  */
 public class CLCameraWrapper extends Observable implements HardwareInterface {
 
-    protected final static Logger log = Logger.getLogger("cl.CLEYE");
+    protected final static Logger log = Logger.getLogger("CLCamera.CLEYE");
 //    protected static Preferences prefs=Preferences.userNodeForPackage(CLCameraWrapper.class);
-    protected final static CLCamera cl = new CLCamera();
     
     private int cameraIndex = 0; // index of camera to open
+    private int cameraInstance = 0; // instance of camera
     private boolean isOpened = false;
     
    /** Observable events; This event is fired when the parameter is changed. */
@@ -50,18 +50,18 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
 
     /** Possible camera modes */
     public enum CameraMode {
-        QVGA_MONO_15(cl.CLEYE_QVGA, cl.CLEYE_GRAYSCALE, 15),
-        QVGA_MONO_30(cl.CLEYE_QVGA, cl.CLEYE_GRAYSCALE, 30),
-        QVGA_MONO_60(cl.CLEYE_QVGA, cl.CLEYE_GRAYSCALE, 60),
-        QVGA_MONO_75(cl.CLEYE_QVGA, cl.CLEYE_GRAYSCALE, 75),
-        QVGA_MONO_100(cl.CLEYE_QVGA, cl.CLEYE_GRAYSCALE, 100),
-        QVGA_MONO_125(cl.CLEYE_QVGA, cl.CLEYE_GRAYSCALE, 125),
-        QVGA_COLOR_15(cl.CLEYE_QVGA, cl.CLEYE_COLOR, 15),
-        QVGA_COLOR_30(cl.CLEYE_QVGA, cl.CLEYE_COLOR, 30),
-        QVGA_COLOR_60(cl.CLEYE_QVGA, cl.CLEYE_COLOR, 60),
-        QVGA_COLOR_75(cl.CLEYE_QVGA, cl.CLEYE_COLOR, 75),
-        QVGA_COLOR_100(cl.CLEYE_QVGA, cl.CLEYE_COLOR, 100),
-        QVGA_COLOR_125(cl.CLEYE_QVGA, cl.CLEYE_COLOR, 125);
+        QVGA_MONO_15(CLCamera.CLEYE_QVGA, CLCamera.CLEYE_GRAYSCALE, 15),
+        QVGA_MONO_30(CLCamera.CLEYE_QVGA, CLCamera.CLEYE_GRAYSCALE, 30),
+        QVGA_MONO_60(CLCamera.CLEYE_QVGA, CLCamera.CLEYE_GRAYSCALE, 60),
+        QVGA_MONO_75(CLCamera.CLEYE_QVGA, CLCamera.CLEYE_GRAYSCALE, 75),
+        QVGA_MONO_100(CLCamera.CLEYE_QVGA, CLCamera.CLEYE_GRAYSCALE, 100),
+        QVGA_MONO_125(CLCamera.CLEYE_QVGA, CLCamera.CLEYE_GRAYSCALE, 125),
+        QVGA_COLOR_15(CLCamera.CLEYE_QVGA, CLCamera.CLEYE_COLOR, 15),
+        QVGA_COLOR_30(CLCamera.CLEYE_QVGA, CLCamera.CLEYE_COLOR, 30),
+        QVGA_COLOR_60(CLCamera.CLEYE_QVGA, CLCamera.CLEYE_COLOR, 60),
+        QVGA_COLOR_75(CLCamera.CLEYE_QVGA, CLCamera.CLEYE_COLOR, 75),
+        QVGA_COLOR_100(CLCamera.CLEYE_QVGA, CLCamera.CLEYE_COLOR, 100),
+        QVGA_COLOR_125(CLCamera.CLEYE_QVGA, CLCamera.CLEYE_COLOR, 125);
         
         int resolution;
         int color;
@@ -81,15 +81,15 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
      * @return the libraryLoaded
      */
     synchronized public static boolean isLibraryLoaded() {
-        return cl.IsLibraryLoaded();
+        return CLCamera.IsLibraryLoaded();
     }
 
     public static int cameraCount() {
-        return cl.CLEyeGetCameraCount();
+        return CLCamera.CLEyeGetCameraCount();
     }
 
     public static String cameraUUID(int index) {
-        return cl.CLEyeGetCameraUUID(index);
+        return CLCamera.CLEyeGetCameraUUID(index);
     }
 
     /** Constructs instance for first camera
@@ -132,13 +132,13 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
     
 
     synchronized private boolean createCamera(int cameraIndex, int mode, int resolution, int framerate) {
-        cl.cameraInstance = cl.CLEyeCreateCamera(cameraIndex, mode, resolution, framerate);
-        return cl.cameraInstance != 0;
+        cameraInstance = CLCamera.CLEyeCreateCamera(cameraIndex, mode, resolution, framerate);
+        return cameraInstance != 0;
     }
 
     synchronized private boolean destroyCamera() {
-        if (cl.cameraInstance == 0) return true;
-        return cl.CLEyeDestroyCamera(cl.cameraInstance);
+        if (cameraInstance == 0) return true;
+        return CLCamera.CLEyeDestroyCamera(cameraInstance);
     }
     
     protected boolean cameraStarted = false;
@@ -151,7 +151,7 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
         if (cameraStarted) {
             return true;
         }
-        cameraStarted = cl.CLEyeCameraStart(cl.cameraInstance);
+        cameraStarted = CLCamera.CLEyeCameraStart(cameraInstance);
         return cameraStarted;
     }
 
@@ -163,7 +163,7 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
         if (!cameraStarted) {
             return true;
         }
-        boolean stopped = cl.CLEyeCameraStop(cl.cameraInstance);
+        boolean stopped = CLCamera.CLEyeCameraStop(cameraInstance);
         cameraStarted = false;
         return stopped;
     }
@@ -175,7 +175,7 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
      * @throws HardwareInterfaceException if there is an error
      */
     synchronized public void getCameraFrame(int[] imgData, int waitTimeout) throws HardwareInterfaceException {
-        if (!cameraStarted || !cl.CLEyeCameraGetFrame(cl.cameraInstance, imgData, waitTimeout)) {
+        if (!cameraStarted || !CLCamera.CLEyeCameraGetFrame(cameraInstance, imgData, waitTimeout)) {
             try {
                 // Added to give external thread time to catch up as cannot synchronize directly
                 Thread.sleep(500);
@@ -191,14 +191,14 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
      * @return true if successful
      */
     synchronized public boolean setCameraParam(int param, int val) {
-        if (cl.cameraInstance == 0) {
+        if (cameraInstance == 0) {
             return false;
         }
-        return cl.CLEyeSetCameraParameter(cl.cameraInstance, param, val);
+        return CLCamera.CLEyeSetCameraParameter(cameraInstance, param, val);
     }
 
     public int getCameraParam(int param) {
-        return cl.CLEyeGetCameraParameter(cl.cameraInstance, param);
+        return CLCamera.CLEyeGetCameraParameter(cameraInstance, param);
     }
 
     @Override
@@ -226,7 +226,7 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
         if(!destroyed){
             log.warning("destroyCamera returned an error");
         }
-        cl.cameraInstance=0;
+        cameraInstance=0;
     }
 
     /** Opens the cameraIndex camera with some default settings and starts the camera. Set the frameRateHz before calling open().
@@ -240,7 +240,7 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
         }
 //        if (cameraInstance == 0) { // only make one instance, don't destroy it on close
             /* removed by mlk as settings included in mode
-            boolean gotCam = createCamera(cameraIndex, colorMode.code, cl.CLEYE_QVGA, getFrameRateHz()); // TODO fixed settings now
+            boolean gotCam = createCamera(cameraIndex, colorMode.code, CLCamera.CLEYE_QVGA, getFrameRateHz()); // TODO fixed settings now
             */
             boolean gotCam = createCamera(cameraIndex, this.cameraMode.color, this.cameraMode.resolution, 
                     this.cameraMode.frameRateHz);
@@ -333,14 +333,14 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
     }
 
     private int closestRateTo(int rate) {
-        int ind = Arrays.binarySearch(cl.CLEYE_FRAME_RATES, rate);
-        if(-ind>=cl.CLEYE_FRAME_RATES.length){
-            return cl.CLEYE_FRAME_RATES[cl.CLEYE_FRAME_RATES.length];
+        int ind = Arrays.binarySearch(CLCamera.CLEYE_FRAME_RATES, rate);
+        if(-ind>=CLCamera.CLEYE_FRAME_RATES.length){
+            return CLCamera.CLEYE_FRAME_RATES[CLCamera.CLEYE_FRAME_RATES.length];
         }
         if (ind <0) {
-            return cl.CLEYE_FRAME_RATES[-ind-1];
+            return CLCamera.CLEYE_FRAME_RATES[-ind-1];
         }
-        return cl.CLEYE_FRAME_RATES[ind];
+        return CLCamera.CLEYE_FRAME_RATES[ind];
     }
      * 
      */
@@ -358,7 +358,7 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
      * 
      * @param gain gain value, range 0-79
      * @throws HardwareInterfaceException if there is a hardware exception signaled by false return from driver
-     * @throws cl.eye.CLCameraWrapper.InvalidParameterException if parameter is invalid (outside range)
+     * @throws CLCamera.eye.CLCameraWrapper.InvalidParameterException if parameter is invalid (outside range)
      */
     synchronized public void setGain(int gain) throws HardwareInterfaceException, InvalidParameterException {
         if(gain!=getGain())setChanged();
@@ -368,7 +368,7 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
         if (gain > 79) {
             throw new InvalidParameterException("tried to set gain>79 (" + gain + ")");
         }
-        if (!setCameraParam(cl.CLEYE_GAIN, gain)) {
+        if (!setCameraParam(CLCamera.CLEYE_GAIN, gain)) {
             throw new HardwareInterfaceException("setting gain to " + gain);
         }
         notifyObservers(EVENT_GAIN);
@@ -379,7 +379,7 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
      * @return gain value 
      */
     public int getGain() {
-        int gain = getCameraParam(cl.CLEYE_GAIN);
+        int gain = getCameraParam(CLCamera.CLEYE_GAIN);
         return gain;
     }
 
@@ -387,7 +387,7 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
      * 
      * @param exp exposure value, range 0-511
      * @throws HardwareInterfaceException if there is a hardware exception signaled by false return from driver
-     * @throws cl.eye.CLCameraWrapper.InvalidParameterException if parameter is invalid (outside range)
+     * @throws CLCamera.eye.CLCameraWrapper.InvalidParameterException if parameter is invalid (outside range)
      */
     synchronized public void setExposure(int exp) throws HardwareInterfaceException, InvalidParameterException {
         if(exp!=getExposure()) setChanged();
@@ -397,7 +397,7 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
         if (exp > CLEYE_MAX_EXPOSURE) {
             throw new InvalidParameterException("tried to set exposure>511 (" + exp + ")");
         }
-        if (!setCameraParam(cl.CLEYE_EXPOSURE, exp)) {
+        if (!setCameraParam(CLCamera.CLEYE_EXPOSURE, exp)) {
             throw new HardwareInterfaceException("setting exposure to " + exp);
         }
         notifyObservers(EVENT_EXPOSURE);
@@ -408,7 +408,7 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
      * @return exposure value 
      */
     public int getExposure() {
-        int gain = getCameraParam(cl.CLEYE_EXPOSURE);
+        int gain = getCameraParam(CLCamera.CLEYE_EXPOSURE);
         return gain;
     }
 
@@ -419,14 +419,14 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
      */
     synchronized public void setAutoGain(boolean yes) throws HardwareInterfaceException {
        if(yes!=isAutoGain()) setChanged();
-        if (!setCameraParam(cl.CLEYE_AUTO_GAIN, yes ? 1 : 0)) {
+        if (!setCameraParam(CLCamera.CLEYE_AUTO_GAIN, yes ? 1 : 0)) {
             throw new HardwareInterfaceException("setting auto gain=" + yes);
         }
         notifyObservers(EVENT_AUTOGAIN);
     }
 
     public boolean isAutoGain() {
-        return getCameraParam(cl.CLEYE_AUTO_GAIN) != 0;
+        return getCameraParam(CLCamera.CLEYE_AUTO_GAIN) != 0;
     }
 
     /** Enables auto exposure
@@ -436,13 +436,13 @@ public class CLCameraWrapper extends Observable implements HardwareInterface {
      */
     synchronized public void setAutoExposure(boolean yes) throws HardwareInterfaceException {
         if(yes!=isAutoExposure()) setChanged();
-        if (!setCameraParam(cl.CLEYE_AUTO_EXPOSURE, yes ? 1 : 0)) {
+        if (!setCameraParam(CLCamera.CLEYE_AUTO_EXPOSURE, yes ? 1 : 0)) {
             throw new HardwareInterfaceException("setting auto exposure=" + yes);
         }
         notifyObservers(EVENT_AUTOEXPOSURE);
     }
 
     public boolean isAutoExposure() {
-        return getCameraParam(cl.CLEYE_AUTO_EXPOSURE) != 0;
+        return getCameraParam(CLCamera.CLEYE_AUTO_EXPOSURE) != 0;
     }
 }

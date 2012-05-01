@@ -237,7 +237,7 @@ public class PSEyeCLModelRetina extends AEChip implements PreferenceChangeListen
                 CLRetinaHardwareInterface hw = (CLRetinaHardwareInterface) hardwareInterface;
                 hw.addObserver(cameraObserver); // we update our state depending on how camera is setup.
                 hw.setCameraMode(getCameraMode());
-                colorMode = (hw.getCameraMode().color == CLCameraWrapper.cl.CLEYE_COLOR); // sets whether input is color or not
+                colorMode = (hw.getCameraMode().color == CLCamera.CLEYE_COLOR); // sets whether input is color or not
             } catch (Exception ex) {
                 log.warning(ex.toString());
             }
@@ -442,7 +442,7 @@ public class PSEyeCLModelRetina extends AEChip implements PreferenceChangeListen
             if (out.getEventClass() != cDVSEvent.class) {
                 out.setEventClass(cDVSEvent.class); // set the proper output event class to include color change events
             }
-            colorMode = getCameraMode() == null ? true : getCameraMode().color == CLCameraWrapper.cl.CLEYE_COLOR; // TODO what do we do with recorded data? assumes color raw data now
+            colorMode = getCameraMode() == null ? true : getCameraMode().color == CLCamera.CLEYE_COLOR; // TODO what do we do with recorded data? assumes color raw data now
             int bgIntervalUs = Integer.MAX_VALUE;
             if (backgroundEventRatePerPixelHz > 0) {
                 bgIntervalUs = (int) (1e6f / backgroundEventRatePerPixelHz);

@@ -58,14 +58,16 @@ public class CLCamera
     public native static int CLEyeGetCameraCount();
     public native static String CLEyeGetCameraUUID(int index);
     public native static int CLEyeCreateCamera(int cameraIndex, int mode, int resolution, int framerate);
-    public native static boolean CLEyeDestroyCamera(int cameraIndex);
+    //public native static boolean CLEyeDestroyCamera(int cameraIndex);
+    // Bug - Destroy takes instance NOT index as indicated by original JNI
+    public native static boolean CLEyeDestroyCamera(int cameraInstance);
     public native static boolean CLEyeCameraStart(int cameraInstance);
     public native static boolean CLEyeCameraStop(int cameraInstance);
     public native static boolean CLEyeSetCameraParameter(int cameraInstance, int param, int val);
     public native static int CLEyeGetCameraParameter(int cameraInstance, int param);
     public native static boolean CLEyeCameraGetFrame(int cameraInstance, int[] imgData, int waitTimeout);
 
-    public int cameraInstance = 0;
+    private int cameraInstance = 0;
     /* omit line - mlk
      * private PApplet parent;
      */
