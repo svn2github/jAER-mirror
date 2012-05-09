@@ -4,85 +4,35 @@
  */
 package uk.ac.imperial.pseye;
 
-import de.thesycon.usbio.PnPNotifyInterface;
 import java.util.logging.Logger;
+import uk.ac.imperial.vsbe.CameraHardwareInterfaceFactory;
+import uk.ac.imperial.vsbe.CameraAEHardwareInterface;
 import net.sf.jaer.hardwareinterface.HardwareInterface;
-import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
-import net.sf.jaer.hardwareinterface.HardwareInterfaceFactoryInterface;
-import net.sf.jaer.hardwareinterface.usb.UsbIoUtilities;
 
 /**
  * Constructs CLEye hardware interfaces.
  * 
  * @author tobi
  */
-public class PSEyeHardwareInterfaceFactory implements HardwareInterfaceFactoryInterface, PnPNotifyInterface {
+public class PSEyeHardwareInterfaceFactory extends CameraHardwareInterfaceFactory {
     /** The GUID associated with jAERs Code Labs driver installation for the PS Eye camera.*/
     public static final String GUID = "{4b4803fb-ff80-41bd-ae22-1d40defb0d01}";
     final static Logger log = Logger.getLogger("PSEye");
     private static PSEyeHardwareInterfaceFactory instance = new PSEyeHardwareInterfaceFactory(); // singleton
-    private HardwareInterface[] interfaces;
     
-    private PSEyeHardwareInterfaceFactory() { // TODO doesn't support PnP, only finds cameras plugged in on construction at JVM startup.
-       buildList();
-       UsbIoUtilities.enablePnPNotification(this, GUID); // TODO doesn't do anything since we are not using UsbIo driver for the PS Eye. Doesn't hurt however so will leave in in case we can get equivalent functionality.
-    }
+    private PSEyeHardwareInterfaceFactory() {}
 
-    private void buildList() {
-        this.interfaces = new HardwareInterface[PSEyeCamera.cameraCount()];
+    @Override
+    protected void buildList() {
+        this.interfaces = new HardwareInterface[PSEyeCameraHardware.cameraCount()];
         for ( int i = 0; i < this.interfaces.length; i++ ) {
-            this.interfaces[i] = new PSEyeHardwareAEInterface(i);
+            this.interfaces[i] = new CameraAEHardwareInterface<PSEyeCameraHardware>(new PSEyeCameraHardware(i));
         }
     }
-    
-    /** @return singleton instance used to construct PSEyeCameras. */
-    public static HardwareInterfaceFactoryInterface instance() {
-        return instance;
-    }
 
     @Override
-    public int getNumInterfacesAvailable() {
-        if(interfaces==null) return 0;
-        return this.interfaces.length;
-    }
-
-    /** Returns the first camera
-     * 
-     * @return first camera, or null if none available.
-     * @throws HardwareInterfaceException 
-     */
-    @Override
-    public HardwareInterface getFirstAvailableInterface() throws HardwareInterfaceException {
-        return getInterface(0);
-    }
-
-    /** Returns the n'th camera (0 based) 
-     * 
-     * @param n
-     * @return the camera
-     * @throws HardwareInterfaceException 
-     */
-    @Override
-    public HardwareInterface getInterface(int n) throws HardwareInterfaceException {
-        if(getNumInterfacesAvailable() == 0 || getNumInterfacesAvailable() < n + 1) return null;
-        return (PSEyeCamera) this.interfaces[n];
-    }
-
-    @Override
-    public String getGUID() {
-        return GUID; // taken from working installation
-    }
+    public Logger getLog() { return log; }
     
     @Override
-    public void onAdd() {
-        log.info("camera added, rebuilding list of cameras");
-        buildList();
-    }
-
-    @Override
-    public void onRemove() {
-        log.info("camera removed, rebuilding list of cameras");
-        buildList();
-    }
-    
+    public String getGUID() { return GUID; }    
 }

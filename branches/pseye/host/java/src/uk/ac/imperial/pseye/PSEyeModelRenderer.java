@@ -40,7 +40,7 @@ public class PSEyeModelRenderer extends RetinaRenderer {
         checkPixmapAllocation();
         float[] f = getPixmapArray();
         sizeX = chip.getSizeX();
-        final boolean showColorChange = psEye.getMode() == PSEyeCamera.Mode.COLOUR;
+        final boolean showColorChange = psEye.getMode() == PSEyeCameraHardware.Mode.COLOUR;
         final boolean showLogIntensityChange = true;
         resetSelectedPixelEventCount();
         try {

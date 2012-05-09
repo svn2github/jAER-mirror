@@ -1,7 +1,7 @@
 
 package uk.ac.imperial.pseye;
 
-import uk.ac.imperial.vsbe.CameraFramePacketRaw;
+import uk.ac.imperial.vsbe.CameraAEPacketRaw;
 import net.sf.jaer.aemonitor.AEMonitorInterface;
 import net.sf.jaer.chip.TypedEventExtractor;
 import ch.unizh.ini.jaer.projects.thresholdlearner.TemporalContrastEvent;
@@ -149,10 +149,10 @@ abstract class PSEyeEventExtractor extends TypedEventExtractor<TemporalContrastE
             return;
         
         // check to see that framepacket has correct number of pixels
-        if (!(in instanceof CameraFramePacketRaw))
+        if (!(in instanceof CameraAEPacketRaw))
             return;
         
-        CameraFramePacketRaw framePacket = (CameraFramePacketRaw) in;
+        CameraAEPacketRaw framePacket = (CameraAEPacketRaw) in;
         if (framePacket.frameSize != nPixels)
             return;
         

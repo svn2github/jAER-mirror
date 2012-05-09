@@ -11,8 +11,8 @@
 package cl.eye;
 
 //import cl.eye.CLCameraWrapper.CameraMode;
-import uk.ac.imperial.vsbe.CameraFrameView;
-import uk.ac.imperial.pseye.PSEyeHardwareAEInterface;
+import uk.ac.imperial.vsbe.CameraViewPanel;
+import uk.ac.imperial.pseye.CameraAEHardwareInterface;
 import cl.eye.OldPSEyeCLModelRetina.RetinaModel;
 import java.awt.BorderLayout;
 import java.util.Observable;
@@ -29,13 +29,13 @@ public class PSEyeModelDVSPanel extends javax.swing.JPanel implements Observer {
 
     private final static Logger log = Logger.getLogger("CLCamera");
     private OldPSEyeCLModelRetina chip;
-    private PSEyeHardwareAEInterface hardware;
-    private CameraFrameView rawCameraPanel;
+    private CameraAEHardwareInterface hardware;
+    private CameraViewPanel rawCameraPanel;
 
     /** Creates new form CLCameraControlPanel */
     public PSEyeModelDVSPanel(OldPSEyeCLModelRetina chip) {
         this.chip = chip;
-        hardware = (PSEyeHardwareAEInterface) chip.getHardwareInterface();
+        hardware = (CameraAEHardwareInterface) chip.getHardwareInterface();
         initComponents();
         camModeCB.setModel(new DefaultComboBoxModel(CLCameraWrapper.CameraMode.values()));
         modelCB.setModel(new DefaultComboBoxModel(RetinaModel.values()));
@@ -44,7 +44,7 @@ public class PSEyeModelDVSPanel extends javax.swing.JPanel implements Observer {
     }
 
     private boolean checkHardware() {
-        hardware = (PSEyeHardwareAEInterface) chip.getHardwareInterface();
+        hardware = (CameraAEHardwareInterface) chip.getHardwareInterface();
         return hardware!=null;
     }
 
@@ -445,7 +445,7 @@ public class PSEyeModelDVSPanel extends javax.swing.JPanel implements Observer {
 
     private void showRawInputCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRawInputCBActionPerformed
         if (rawCameraPanel == null) {
-            rawCameraPanel = new CameraFrameView(chip);
+            rawCameraPanel = new CameraViewPanel(chip);
             rawInputPanel.add(rawCameraPanel, BorderLayout.CENTER);
             revalidate();
         }
@@ -453,9 +453,9 @@ public class PSEyeModelDVSPanel extends javax.swing.JPanel implements Observer {
             return;
         }
         if (showRawInputCB.isSelected()) {
-            ((PSEyeHardwareAEInterface) chip.getHardwareInterface()).addAEListener(rawCameraPanel);
+            ((CameraAEHardwareInterface) chip.getHardwareInterface()).addAEListener(rawCameraPanel);
         } else {
-            ((PSEyeHardwareAEInterface) chip.getHardwareInterface()).removeAEListener(rawCameraPanel);
+            ((CameraAEHardwareInterface) chip.getHardwareInterface()).removeAEListener(rawCameraPanel);
         }
 }//GEN-LAST:event_showRawInputCBActionPerformed
 

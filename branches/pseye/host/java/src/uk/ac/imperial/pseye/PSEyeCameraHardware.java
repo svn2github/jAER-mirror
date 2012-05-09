@@ -1,16 +1,17 @@
 
 package uk.ac.imperial.pseye;
 
+import java.util.ArrayList;
+import java.util.Observable;
 import java.util.logging.Level;
-import uk.ac.imperial.vsbe.Camera;
-import uk.ac.imperial.vsbe.CameraControlPanel;
+import uk.ac.imperial.vsbe.AbstractCamera;
 import cl.eye.CLCamera;
 import java.util.List;
 import java.util.Collections;
-import java.util.Observable;
 import java.util.logging.Logger;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 import javax.swing.JPanel;
+import uk.ac.imperial.vsbe.Frame;
 
 /**
  * Wrapper class for camera driver - currently CL 
@@ -18,12 +19,12 @@ import javax.swing.JPanel;
  * All underlying variables / methods are overridden
  * Constants and mappings are contained in CLDriverValues interface
  * 
- * Camera defaults to MONO, QVGA, 15FPS, 
+ * AbstractCamera defaults to MONO, QVGA, 15FPS, 
  * gain=0, auto_gain=true, exposure=0, auto_exposure=true
  * 
  * @author mlk
  */
-public class PSEyeCamera extends Camera implements PSEyeDriverInterface {
+public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverInterface {
     protected final static Logger log = Logger.getLogger("PSEye");
     protected int index; // index of camera to open
     protected int cameraInstance = 0; // local instance of camera
@@ -31,14 +32,14 @@ public class PSEyeCamera extends Camera implements PSEyeDriverInterface {
     
     public static int GET_FRAME_TIMEOUT = 50;
    
-    /* Base Camera hardware parameters - updates require restart */
+    /* Base AbstractCamera hardware parameters - updates require restart */
     protected Mode mode = Mode.COLOUR;
     protected Resolution resolution = Resolution.QVGA;
-    protected int frameRate = supportedFrameRate.get(resolution).get(0);
+    protected int frameRate = supportedFrameRates.get(resolution).get(0);
     
     /* store parameters so can be re-set after camera closed() */
-    protected int gain = supportedGain.get(resolution).min;
-    protected int exposure = supportedExposure.get(resolution).min;
+    protected int gain = supportedGains.get(resolution).min;
+    protected int exposure = supportedExposures.get(resolution).min;
     
     /* channel balance (min value of 0 removes channel) */
     protected int red = 1;
@@ -51,7 +52,7 @@ public class PSEyeCamera extends Camera implements PSEyeDriverInterface {
     protected boolean autoBalance = false;
     
     /* Constructs instance to open with passed index */
-    PSEyeCamera(int index) {
+    PSEyeCameraHardware(int index) {
         super();
         // check index valid and make singleton? mlk
         this.index = index;
@@ -170,42 +171,30 @@ public class PSEyeCamera extends Camera implements PSEyeDriverInterface {
      */
     @Override
     public int getFrameX() {
-        switch(resolution) {
-            case QVGA: return 320;
-            case VGA: return 640;
-            default: return 0;
-        }
+        return frameSizeX.get(resolution);
     }
     
     @Override
     public int getFrameY() {
-        switch(resolution) {
-            case QVGA: return 240;
-            case VGA: return 480;
-            default: return 0;
-        }    
+        return frameSizeY.get(resolution);  
     }
     
     @Override
     public int getPixelSize() {
-        switch(mode) {
-            case MONO: return 1;
-            case COLOUR: return 1;
-            default: return 0;
-        }        
+        return pixelSize.get(mode);   
     }
     
     @Override
-    public boolean readFrameStream(int[] imgData, int offset) {
+    public boolean read(Frame frame) {
         // check camera created and started and that passed array big enough to store data
-        if (!isCreated || !isStarted || frameSizeMap.get(resolution) > imgData.length) return false;
-        return CLCamera.CLEyeCameraGetFrame(cameraInstance, imgData, GET_FRAME_TIMEOUT);        
+        if (!isCreated || !isStarted ) return false;
+        return CLCamera.CLEyeCameraGetFrame(cameraInstance, frame.getData().array(), GET_FRAME_TIMEOUT);        
     }
     
     
     @Override
     public JPanel getControlPanel() {
-        return new CameraControlPanel(this, new PSEyeSettingPanel(this));
+        return new PSEyeControlPanel(this);
     }
     
      /*
@@ -338,7 +327,7 @@ public class PSEyeCamera extends Camera implements PSEyeDriverInterface {
     
     /* Get the nearest supported frame rate above that passed */
     private int getClosestFrameRate(int frameRate) {
-        List<Integer> frs = supportedFrameRate.get(resolution);
+        List<Integer> frs = supportedFrameRates.get(resolution);
         Collections.sort(frs);
         int pos = Collections.binarySearch(frs, frameRate);
         if (pos >= 0) {
@@ -362,7 +351,18 @@ public class PSEyeCamera extends Camera implements PSEyeDriverInterface {
     
     /* Sets the gain value. */
     private int setGain(int gain, boolean force) {
-        gain = supportedGain.get(resolution).trimValue(gain);
+        if (gain > getMaxGain()) {
+            log.log(Level.WARNING, "Gain {0} above maximum, setting to max {1}", 
+                    new Object[] {gain, getMaxGain()});
+            gain = getMaxGain();
+        }
+        
+        if (gain < getMinGain()) {
+            log.log(Level.WARNING, "Gain {0} below minimum, setting to min {1}", 
+                    new Object[] {gain, getMinGain()});
+            gain = getMinGain();            
+        }   
+        
         if(force || getGain() != gain) {
             if (isCreated) {
                 if (setCameraParam(CLCamera.CLEYE_GAIN, gain))
@@ -389,7 +389,18 @@ public class PSEyeCamera extends Camera implements PSEyeDriverInterface {
     
     /* Sets the exposure value. */
     private int setExposure(int exp, boolean force) {
-        exp = supportedExposure.get(resolution).trimValue(exp);
+        if (exposure > getMaxExposure()) {
+            log.log(Level.WARNING, "Exposure {0} above maximum, setting to max {1}", 
+                    new Object[] {exposure, getMaxExposure()});
+            exposure = getMaxExposure();
+        }
+        
+        if (exposure < getMinExposure()) {
+            log.log(Level.WARNING, "Exposure {0} below minimum, setting to min {1}", 
+                    new Object[] {exposure, getMinExposure()});
+            exposure = getMinExposure();            
+        }   
+        
         if(force || exp != getExposure()) {
             if(isCreated) {
                 if (setCameraParam(CLCamera.CLEYE_EXPOSURE, exp))
@@ -416,7 +427,18 @@ public class PSEyeCamera extends Camera implements PSEyeDriverInterface {
     
     /* Sets the red value. */
     private int setRedBalance(int red, boolean force) {
-        red = supportedBalance.get(resolution).trimValue(red);
+        if (red > getMaxBalance()) {
+            log.log(Level.WARNING, "Red balance {0} above maximum, setting to max {1}", 
+                    new Object[] {red, getMaxBalance()});
+            red = getMaxBalance();
+        }
+        
+        if (red < getMinBalance()) {
+            log.log(Level.WARNING, "Red balance {0} below minimum, setting to min {1}", 
+                    new Object[] {red, getMinBalance()});
+            red = getMinBalance();            
+        }  
+        
         if(force || getRedBalance() != red) {
             if (isCreated) {
                 if (setCameraParam(CLCamera.CLEYE_WHITEBALANCE_RED, red))
@@ -443,7 +465,18 @@ public class PSEyeCamera extends Camera implements PSEyeDriverInterface {
     
     /* Sets the green value. */
     private int setGreenBalance(int green, boolean force) {
-        green = supportedBalance.get(resolution).trimValue(green);
+        if (green > getMaxBalance()) {
+            log.log(Level.WARNING, "Green balance {0} above maximum, setting to max {1}", 
+                    new Object[] {green, getMaxBalance()});
+            green = getMaxBalance();
+        }
+        
+        if (green < getMinBalance()) {
+            log.log(Level.WARNING, "Green balance {0} below minimum, setting to min {1}", 
+                    new Object[] {green, getMinBalance()});
+            green = getMinBalance();            
+        }  
+        
         if(force || getGreenBalance() != green) {
             if (isCreated) {
                 if (setCameraParam(CLCamera.CLEYE_WHITEBALANCE_GREEN, green))
@@ -470,7 +503,18 @@ public class PSEyeCamera extends Camera implements PSEyeDriverInterface {
     
     /* Sets the blue value. */
     private int setBlueBalance(int blue, boolean force) {
-        blue = supportedBalance.get(resolution).trimValue(blue);
+        if (blue > getMaxBalance()) {
+            log.log(Level.WARNING, "Blue balance {0} above maximum, setting to max {1}", 
+                    new Object[] {blue, getMaxBalance()});
+            blue = getMaxBalance();
+        }
+        
+        if (blue < getMinBalance()) {
+            log.log(Level.WARNING, "Blue balance {0} below minimum, setting to min {1}", 
+                    new Object[] {blue, getMinBalance()});
+            blue = getMinBalance();            
+        }  
+        
         if(force || getBlueBalance() != blue) {
             if (isCreated) {
                 if (setCameraParam(CLCamera.CLEYE_WHITEBALANCE_BLUE, blue))
@@ -568,6 +612,56 @@ public class PSEyeCamera extends Camera implements PSEyeDriverInterface {
         return autoBalance;
     }
     
+    @Override
+    public ArrayList<Mode> getModes() {
+        return supportedModes;
+    }
+
+    @Override
+    public ArrayList<Resolution> getResolutions() {
+        return supportedResolutions;
+    }
+
+    @Override
+    public ArrayList<Integer> getFrameRates() {
+        return supportedFrameRates.get(resolution);
+    }
+
+    @Override
+    public int getMaxExposure() {
+        return supportedExposures.get(resolution).max;
+    }
+
+    @Override
+    public int getMinExposure() {
+        return supportedExposures.get(resolution).min;
+    }
+
+    @Override
+    public int getMaxGain() {
+        return supportedGains.get(resolution).max;
+    }
+
+    @Override
+    public int getMinGain() {
+        return supportedGains.get(resolution).min;
+    }
+
+    @Override
+    public int getMaxBalance() {
+        return supportedBalances.get(resolution).max;
+    }
+
+    @Override
+    public int getMinBalance() {
+        return supportedBalances.get(resolution).min;
+    }
+    
+    @Override
+    public Logger getLog() {
+        return log;
+    }
+
     @Override
     public Observable getObservable() {
         return this;

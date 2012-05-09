@@ -6,6 +6,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Observable;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 
 /*
@@ -14,7 +15,7 @@ import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
  */
 public interface PSEyeDriverInterface {
     /* Enums representing possible colour modes */
-    public static enum Mode {
+    enum Mode {
         MONO(CLCamera.CLEYE_GRAYSCALE), 
         COLOUR(CLCamera.CLEYE_COLOR);
         
@@ -24,7 +25,7 @@ public interface PSEyeDriverInterface {
     }
     
     /* Enums representing possible resolutions */
-    public static enum Resolution {
+    enum Resolution {
         VGA(CLCamera.CLEYE_VGA), 
         QVGA(CLCamera.CLEYE_QVGA);
 
@@ -33,66 +34,69 @@ public interface PSEyeDriverInterface {
         public int getValue() { return _v; }
     }
     
-    public static final ArrayList<Mode> supportedMode = 
+    ArrayList<Mode> supportedModes = 
             new ArrayList<Mode>(Arrays.asList(Mode.values()));
     
-    public static final ArrayList<Resolution> supportedResolution = 
+    ArrayList<Resolution> supportedResolutions = 
             new ArrayList<Resolution>(Arrays.asList(Resolution.values()));
     
     /* Supported frame rates for each resolution */
-    public static final EnumMap<Resolution, List<Integer>> supportedFrameRate = 
-            new EnumMap<Resolution, List<Integer>>(Resolution.class) {{
-                put(Resolution.VGA, Arrays.asList(15, 30, 40, 50, 60, 75));
-                put(Resolution.QVGA, Arrays.asList(15, 30, 60, 75, 100, 125));
+    EnumMap<Resolution, ArrayList<Integer>> supportedFrameRates = 
+            new EnumMap<Resolution, ArrayList<Integer>>(Resolution.class) {{
+                put(Resolution.VGA, new ArrayList<Integer>(Arrays.asList(15, 30, 40, 50, 60, 75)));
+                put(Resolution.QVGA, new ArrayList<Integer>(Arrays.asList(15, 30, 60, 75, 100, 125)));
     }};   
     
     /* Helper class for describing parameter ranges */
-    public static class Range {
+    class Range {
         public int max, min;
         Range(int min, int max) { this.min = min; this.max = max; }
-        
-        int trimValue(int val) {
-            return val > max ? max : (val < min ? min : val);
-        }
     }
     
     /* Map of supported exposures for each resolution */
-    public static final EnumMap<Resolution, Range> supportedExposure = 
+    EnumMap<Resolution, Range> supportedExposures = 
             new EnumMap<Resolution, Range>(Resolution.class) {{
                 put(Resolution.VGA, new Range(0, 509));
                 put(Resolution.QVGA, new Range(0, 277));
     }}; 
 
     /* Map of supported gain for each resolution */
-    public static final EnumMap<Resolution, Range> supportedGain = 
+    EnumMap<Resolution, Range> supportedGains = 
             new EnumMap<Resolution, Range>(Resolution.class) {{
                 put(Resolution.VGA, new Range(0, 79));
                 put(Resolution.QVGA, new Range(0, 79));
     }}; 
     
     /* Map of supported balance for each resolution */
-    public static final EnumMap<Resolution, Range> supportedBalance = 
+    EnumMap<Resolution, Range> supportedBalances = 
             new EnumMap<Resolution, Range>(Resolution.class) {{
                 put(Resolution.VGA, new Range(0, 255));
                 put(Resolution.QVGA, new Range(0, 255));
     }}; 
     
     /* Map of data size */
-    public static final EnumMap<Mode, Integer> pixelByte = 
+    EnumMap<Mode, Integer> pixelSize = 
             new EnumMap<Mode, Integer>(Mode.class) {{
                 put(Mode.MONO, 1);
-                put(Mode.COLOUR, 3);
+                put(Mode.COLOUR, 1);
     }};     
     
     /* Map of frame sizes */
-    public static final EnumMap<Resolution, Integer> frameSizeMap = 
+    EnumMap<Resolution, Integer> frameSizeX = 
             new EnumMap<Resolution, Integer>(Resolution.class) {{
-                put(Resolution.QVGA, 320 * 240);
-                put(Resolution.VGA, 640 * 480);
-    }};   
+                put(Resolution.QVGA, 320);
+                put(Resolution.VGA, 640);
+    }};
+    
+    /* Map of frame sizes */
+    EnumMap<Resolution, Integer> frameSizeY = 
+            new EnumMap<Resolution, Integer>(Resolution.class) {{
+                put(Resolution.QVGA, 240);
+                put(Resolution.VGA, 480);
+    }};  
 
     /* Observable events; This event enum is fired when the parameter is changed. */
-    public static enum EVENT { 
+    enum EVENT { 
         MODE,
         RESOLUTION,
         FRAMERATE,
@@ -138,6 +142,19 @@ public interface PSEyeDriverInterface {
     
     public boolean setAutoBalance(boolean yes);
     public boolean getAutoBalance();
+    
+    public ArrayList<Mode> getModes();
+    public ArrayList<Resolution> getResolutions();
+    public ArrayList<Integer> getFrameRates();
+    
+    public int getMaxExposure();
+    public int getMinExposure();
+    public int getMaxGain();
+    public int getMinGain();
+    public int getMaxBalance();
+    public int getMinBalance();
+    
+    public Observable getObservable();
 }
 
 
