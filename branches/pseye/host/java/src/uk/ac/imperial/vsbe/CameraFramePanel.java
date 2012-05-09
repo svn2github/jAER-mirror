@@ -11,10 +11,10 @@ import java.util.Observable;
  * @author tobi - modified mlk
  */
 public class CameraFramePanel extends javax.swing.JPanel implements Observer {
-    private Camera hardware;
-    private CameraFrameView rawCameraPanel = new CameraFrameView();
+    private AbstractCamera hardware;
+    private CameraViewPanel rawCameraPanel = new CameraViewPanel();
 
-    public CameraFramePanel(Camera hardware) {
+    public CameraFramePanel(AbstractCamera hardware) {
         this.hardware = hardware;
         initComponents();
         this.hardware.addObserver(this);

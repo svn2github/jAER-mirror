@@ -1,7 +1,6 @@
 
 package uk.ac.imperial.vsbe;
 
-//import java.beans.PropertyChangeEvent;
 import java.nio.IntBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,17 +10,18 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLJPanel;
 import javax.media.opengl.glu.GLU;
 import com.sun.opengl.util.FPSAnimator;
-/**
- * An openGL container that displays the PSEyeCamera raw frame data.
- * 
- * @author Tobi - modified mlk
- */
-public class CameraFrameView extends GLJPanel implements GLEventListener {
 
-    final static Logger log = Logger.getLogger("PSEyeCamera");
+/*
+ * An openGL container that displays the raw frame data for cameras.
+ * 
+ * @author Tobi - modified mlk11
+ */
+public class CameraViewPanel extends GLJPanel implements GLEventListener {
+
+    final static Logger log = Logger.getLogger("CameraViewPanel");
     final static GLU glu = new GLU();
-    FrameStreamable stream = null;
-    private IntBuffer buffer;
+    FrameSource stream = null;
+    private Frame frame;
     private final double ZCLIP = 1;
     // is scaled width longer then height
     private boolean fillHorizontal;
@@ -34,7 +34,7 @@ public class CameraFrameView extends GLJPanel implements GLEventListener {
     
     public FPSAnimator animator;
 
-    /** border class for neatness (symmetric top/bottom and left/right). */
+    /* Border class for neatness (symmetric top/bottom and left/right). */
     private class Borders {
 
         float x = 0, y = 0;
@@ -44,19 +44,19 @@ public class CameraFrameView extends GLJPanel implements GLEventListener {
             this.y = y;
         }
     }
-    /** The actual borders are generated as space around the chip area. */
+    /* The actual borders are generated as space around the chip area. */
     private Borders borders = new Borders(1, 1);
 
-    public CameraFrameView() {
+    public CameraViewPanel() {
         super();
         addGLEventListener(this);
         
     }
 
-    public void setStream(FrameStreamable stream) {
+    public void setStream(FrameSource stream) {
         this.stream = stream;
         if (stream != null) {
-            buffer = IntBuffer.allocate(stream.getFrameX() * stream.getFrameY() * stream.getPixelSize());
+            frame.setSize(stream.getFrameX() * stream.getFrameY() * stream.getPixelSize());
             
             // set the current chip size and necessary scales
             this.reshape(0, 0, this.getWidth(), this.getHeight());
@@ -134,7 +134,9 @@ public class CameraFrameView extends GLJPanel implements GLEventListener {
             return;
         }        
 
-        stream.readFrameStream(buffer.array(), 0);
+        if (!stream.read(frame)) {
+            return;
+        }
 
         clearDisplay(gl);
                 
@@ -149,8 +151,7 @@ public class CameraFrameView extends GLJPanel implements GLEventListener {
         // sy - 1 as coordinate not length
         gl.glRasterPos2f(0, sy - 1); 
 
-        buffer.position(0);
-        gl.glDrawPixels(sx, sy, GL.GL_BGRA, GL.GL_UNSIGNED_INT_8_8_8_8_REV, buffer);
+        gl.glDrawPixels(sx, sy, GL.GL_BGRA, GL.GL_UNSIGNED_INT_8_8_8_8_REV, frame.getData());
         checkGLError(gl, glu, "after pixmap");
     }
 

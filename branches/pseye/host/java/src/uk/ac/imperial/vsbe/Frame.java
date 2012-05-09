@@ -1,10 +1,16 @@
 
 package uk.ac.imperial.vsbe;
 
-/* Package private wrapper class for PSEye frame data */
-class Frame {
+import java.nio.IntBuffer;
+
+/*
+ * Class used to wrap frame data for a standard camera implementation in VSBE.
+ * 
+ * @author mlk
+ */
+public class Frame {
     private long timeStamp;
-    private int[] data;
+    private IntBuffer data;
     private int size = 0;
         
     public Frame() {
@@ -17,7 +23,7 @@ class Frame {
     public void setSize(int size) {
         if (size != this.size) {
             this.size = size;
-            data = new int[size];
+            data = IntBuffer.allocate(size);
         }
     }
     
@@ -29,12 +35,30 @@ class Frame {
         this.timeStamp = timeStamp;
     }
     
-    public int[] getData() {
+    public IntBuffer getData() {
         return data;
     }
-    
-    public void copyData(int[] target, int offset) {
-        // copy frame data to passed array
-        System.arraycopy(data, 0, target, offset, getSize());
+
+    public void setData(IntBuffer data) {
+        this.data = data;
     }
+    
+    public boolean copyData(Frame frame) {
+        // copyData frame data to passed array
+        if (frame.size != size) return false;
+        if (!data.hasArray() || !frame.getData().hasArray()) return false;
+        frame.timeStamp = timeStamp;
+        System.arraycopy(data.array(), 0, frame.getData().array(), 0, size);
+        return true;
+    }
+    
+    /*
+    public boolean deepCopy(Frame frame) {
+        if (!data.hasArray()) return false;
+        frame.setSize(size);
+        frame.timeStamp = timeStamp;
+        System.arraycopy(data.array(), 0, frame.getData().array(), 0, size);
+        return true;
+    }
+     */
 }
