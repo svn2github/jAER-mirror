@@ -55,24 +55,27 @@ public class CameraAEHardwareInterface<C extends AbstractCamera> implements AEMo
         // keep consuming until queue empty
         int nframes = camera.stream.available();
         if (nframes == 0) return null;
-        
-        int frameSize = camera.stream.frameSize;
+        frame.setSize(camera.stream.getFrameX(), camera.stream.getFrameY(),
+                    camera.stream.getPixelSize());
+        int frameSize = frame.getSize();
         packet.ensureCapacity(nframes * frameSize);
-        packet.nFrames = 0;
+        packet.numFrames = 0;
         
         int[] addresses = packet.getAddresses();
         
         // loop across available frames
-        while (packet.nFrames < nframes) {
-            frame.setData(IntBuffer.wrap(addresses, packet.nFrames * frameSize, frameSize));
+        while (packet.numFrames < nframes) {
+            frame.setData(IntBuffer.wrap(addresses, packet.numFrames * frameSize, frameSize));
             if (camera.getFrame(frame)) {
-                packet.getTimestamps()[packet.nFrames * frameSize] = (int) (frame.getTimeStamp() - startTimeUs);
-                packet.nFrames++;
+                packet.getTimestamps()[packet.numFrames * frameSize] = (int) (frame.getTimeStamp() - startTimeUs);
+                packet.numFrames++;
                 
                 frameCounter++; // TODO notify AE listeners here or in thread acquiring frames
             }
         }
         packet.setNumEvents(nframes * frameSize);
+        packet.setNumFrames(nframes);
+        packet.setFrameSize(frameSize);
         support.firePropertyChange(newEventPropertyChange);
         return (AEPacketRaw) packet;
     }
@@ -157,6 +160,14 @@ public class CameraAEHardwareInterface<C extends AbstractCamera> implements AEMo
         return 0;
     }
 
+    public C getCamera() {
+        return camera;
+    }
+
+    public void setCamera(C camera) {
+        this.camera = camera;
+    }
+
     @Override
     public int getEstimatedEventRate() {
         return 0;
@@ -175,6 +186,11 @@ public class CameraAEHardwareInterface<C extends AbstractCamera> implements AEMo
     @Override
     public AEChip getChip() {
         return chip;
+    }
+    
+    @Override
+    public String toString() {
+        return camera.toString();
     }
 
     /* Overrides from HardwareInterface extended by AEMonitorInterface.

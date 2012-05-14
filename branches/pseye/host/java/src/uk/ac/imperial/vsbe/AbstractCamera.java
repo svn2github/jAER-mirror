@@ -30,7 +30,7 @@ public abstract class AbstractCamera extends Observable implements HardwareInter
     {
         // return if camera not already started
         if (!isStarted) return false;
-        return stream.read(frame);
+        return stream.read(frame, true);
     } 
     
     public AbstractCamera() {}
@@ -85,7 +85,7 @@ public abstract class AbstractCamera extends Observable implements HardwareInter
     @Override public abstract boolean isOpen();
     
     /* Overrides from FrameSource Interface */
-    @Override public abstract boolean read(Frame frame);
+    @Override public abstract boolean read(Frame frame, boolean inPlace);
     @Override public abstract int getFrameX();
     @Override public abstract int getFrameY();
     @Override public abstract int getPixelSize();

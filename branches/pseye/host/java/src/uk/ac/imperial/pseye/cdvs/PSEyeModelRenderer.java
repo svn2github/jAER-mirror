@@ -2,11 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.ac.imperial.pseye;
+package uk.ac.imperial.pseye.cdvs;
 
 import ch.unizh.ini.jaer.chip.dvs320.*;
 import net.sf.jaer.event.EventPacket;
 import net.sf.jaer.graphics.RetinaRenderer;
+import uk.ac.imperial.pseye.PSEyeCameraHardware;
+import uk.ac.imperial.pseye.PSEyeModelAEChip;
 
 /**
  * Renders complex data from PSEyeModelRetina chip.

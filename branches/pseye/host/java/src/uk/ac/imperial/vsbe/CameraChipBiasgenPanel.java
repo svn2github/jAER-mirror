@@ -18,8 +18,9 @@ public class CameraChipBiasgenPanel extends JPanel {
         if(biasgen == null) 
             throw new RuntimeException("null biasgen while trying to construct BiasgenPanel");
 
-        jPanelChip.add(biasgen.getChip().getChipPanel());
         initComponents();
+        //jPanelChip.add(biasgen.getChip().getChipPanel());
+        jPanelCamera.add(biasgen.getChip().getCameraPanel());
     }
     
     /** This method is called from within the constructor to

@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class FrameQueue implements FrameSource {
     /* Default number of frames in consumer and producer queues */
-    protected static final int BUFFER_SIZE = 6;
+    protected static final int BUFFER_SIZE = 8;
     protected int bufferSize;    
     protected ArrayBlockingQueue<Frame> consumerQueue;
     protected ArrayBlockingQueue<Frame> producerQueue;
@@ -35,10 +35,6 @@ public class FrameQueue implements FrameSource {
     
     /* source to collect frames from */
     protected FrameSource source = null;
-    
-    /* current frame size, volatile to ensure all frames of consistent size between threads */
-    public int frameSize;
-    protected long timeStamp = 0;
     
     /* Construct queue with default buffer size  
      * 
@@ -80,13 +76,11 @@ public class FrameQueue implements FrameSource {
         
         // Set source
         this.source = source;
-        
-        // Calculate frame size
-        frameSize = source.getPixelSize() * source.getFrameX() * source.getFrameY();
-
-        // Start the producer thread
-        running = true;
-        status = executor.submit(producer);
+        if (source != null) {
+            // Start the producer thread
+            running = true;
+            status = executor.submit(producer);
+        }
     }
     
     /* Stop collecting frames and close producer thread
@@ -129,39 +123,36 @@ public class FrameQueue implements FrameSource {
         return consumerQueue.size();
     }
     
-   /* Number of available frames 
-     * 
-     * @return: Number of frames in consumer queue
-     */
-    public synchronized long getLastTimeStamp() {
-        return timeStamp;
-    }
-    
     /* Overrides of FrameSource */
     
     /* Copy the consumed frame data
      * 
-     * @param imgData: buffer to copyData data to
-     * @param offset: offset in imgData to copyData data to
+     * @param imgData: buffer to copyInPlace data to
+     * @param offset: offset in imgData to copyInPlace data to
      * @return: true on success
      */
     @Override
-    public synchronized boolean read(Frame frame) {
+    public synchronized boolean read(Frame frame, boolean inPlace) {
         // Check running
         if (!running) return false;
         
         // Get frame from consumer queue
-        Frame f = consumerQueue.poll();
-        if (f == null) return false;
-            
-        // Copy frame data to passed array
-        f.copyData(frame);
-        timeStamp = frame.getTimeStamp();
-            
-        // Put read frame back into producer queue
-        producerQueue.offer(frame);
+        Frame f = null;
         
-        return true;
+        // Copy frame data to passed array
+        if (!inPlace) {
+            f = consumerQueue.peek();
+            if (f == null) return false;
+            return f.copy(frame);
+        }
+        
+        f = consumerQueue.poll();
+        if (f == null) return false;
+        boolean copied = f.copyInPlace(frame);  
+        // Put read frame back into producer queue
+        producerQueue.offer(f);
+        
+        return copied;
     }
     
     /* Return frame X extent from source
@@ -223,7 +214,8 @@ public class FrameQueue implements FrameSource {
 
             // Set frame sizes
             for (Frame f : queue.producerQueue) {
-                    f.setSize(queue.frameSize);
+                    f.setSize(queue.getFrameX(), queue.getFrameY(),
+                            queue.getPixelSize());
             }
             
             while (queue.running) {
@@ -232,7 +224,7 @@ public class FrameQueue implements FrameSource {
                 
                 if (frame != null) {
                     // Check for return of frame data
-                    if (queue.source.read(frame)) {
+                    if (queue.source.read(frame, true)) {
                         frame.setTimeStamp(System.currentTimeMillis() * 1000);
                         // Place filled frame in consumer queue
                         queue.consumerQueue.offer(frame);

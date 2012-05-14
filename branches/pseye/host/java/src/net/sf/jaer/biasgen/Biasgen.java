@@ -39,7 +39,7 @@ import net.sf.jaer.util.WarningDialogWithDontShowPreference;
 public class Biasgen implements BiasgenPreferences, Observer, BiasgenHardwareInterface {
 
     transient protected PotArray potArray = null; // this is now PotArray instead of IPotArray, to make this class more generic
-    transient private Masterbias masterbias = null;
+    transient protected Masterbias masterbias = null;
     private String name = null;
     /** The hardware interface for this Biasgen object */
     protected BiasgenHardwareInterface hardwareInterface = null;

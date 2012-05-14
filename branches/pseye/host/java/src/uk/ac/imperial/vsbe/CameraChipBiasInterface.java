@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  *
  * @author mlk11
  */
-public interface CameraChipInterface extends BiasgenPreferences, BiasgenHardwareInterface {
+public interface CameraChipBiasInterface extends BiasgenPreferences, BiasgenHardwareInterface {
     
     abstract JPanel getChipPanel();
     abstract JPanel getCameraPanel();

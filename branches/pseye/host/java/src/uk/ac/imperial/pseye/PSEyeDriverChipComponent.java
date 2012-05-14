@@ -4,7 +4,7 @@ package uk.ac.imperial.pseye;
 import java.util.Observable;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 import net.sf.jaer.chip.Chip;
-import uk.ac.imperial.vsbe.CameraChipInterface;
+import uk.ac.imperial.vsbe.CameraChipBiasInterface;
 import java.util.logging.Logger;
 
 /**
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * 
  * @author Tobi Delbruck and Mat Katz
  */
-public class PSEyeDriverChipComponent<C extends Chip & CameraChipInterface> implements PSEyeDriverInterface {
+public class PSEyeDriverChipComponent<C extends Chip & CameraChipBiasInterface> implements PSEyeDriverInterface {
     protected Logger log;
     // camera values being used by chip
     public Mode mode;

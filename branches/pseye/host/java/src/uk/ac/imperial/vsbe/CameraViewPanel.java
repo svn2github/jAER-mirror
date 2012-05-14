@@ -21,7 +21,7 @@ public class CameraViewPanel extends GLJPanel implements GLEventListener {
     final static Logger log = Logger.getLogger("CameraViewPanel");
     final static GLU glu = new GLU();
     FrameSource stream = null;
-    private Frame frame;
+    private Frame frame = new Frame();
     private final double ZCLIP = 1;
     // is scaled width longer then height
     private boolean fillHorizontal;
@@ -55,12 +55,6 @@ public class CameraViewPanel extends GLJPanel implements GLEventListener {
 
     public void setStream(FrameSource stream) {
         this.stream = stream;
-        if (stream != null) {
-            frame.setSize(stream.getFrameX() * stream.getFrameY() * stream.getPixelSize());
-            
-            // set the current chip size and necessary scales
-            this.reshape(0, 0, this.getWidth(), this.getHeight());
-        }
     }
     
     @Override
@@ -90,8 +84,9 @@ public class CameraViewPanel extends GLJPanel implements GLEventListener {
     }
     
     public void setScaling(int width, int height) {
-        sx = stream.getFrameX();
-        sy = stream.getFrameY(); 
+        if (stream == null) return;
+        sx = frame.getWidth();
+        sy = frame.getHeight(); 
         
         scaleX = (float) (width - 2 * borders.x) / sx;
         scaleY = (float) (height - 2 * borders.y) / sy;
@@ -134,9 +129,14 @@ public class CameraViewPanel extends GLJPanel implements GLEventListener {
             return;
         }        
 
-        if (!stream.read(frame)) {
+        if (!stream.read(frame, false)) {
             return;
         }
+        
+        if (frame.getWidth() != sx || frame.getHeight() != sy) {
+            reshape(drawable, 0, 0, getWidth(), getHeight());
+        }
+        
 
         clearDisplay(gl);
                 

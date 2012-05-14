@@ -20,13 +20,13 @@ import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
  * Incorporates BiasgenPreferences to load and save
  * 
  * BiasgenFrame uses:
- *  isOpen, open, sendConfiguration, importPreferences, exportPreferences,
+ *  isOpen, open, close, sendConfiguration, importPreferences, exportPreferences,
  *  suspend, resume, flashConfiguration, loadPreferences, storePreferences,
- *  close, buildControlPanel
+ *  buildControlPanel
  * 
  * @author mlk
  */
-public class CameraChipBiasgen<C extends Chip & CameraChipInterface> extends Biasgen {
+public class CameraChipBiasgen<C extends Chip & CameraChipBiasInterface> extends Biasgen {
     // constructor used to ensure only PSEye chip used
     public CameraChipBiasgen(C chip) {
         super(chip);
@@ -38,7 +38,7 @@ public class CameraChipBiasgen<C extends Chip & CameraChipInterface> extends Bia
     // ensure chip being set is a PSEyeModelAEChip
     @Override
     public void setChip(Chip chip) {
-        if (chip instanceof CameraChipInterface) 
+        if (chip instanceof CameraChipBiasInterface) 
             super.setChip(chip);
         else
             super.setChip(null);
@@ -75,21 +75,13 @@ public class CameraChipBiasgen<C extends Chip & CameraChipInterface> extends Bia
     @Override
     public void loadPreferences() {
         startBatchEdit();
-        getChip().loadPreferences();
+        //getChip().loadPreferences();
         try {
             endBatchEdit();
         } catch (HardwareInterfaceException e) {
             log.warning(e.toString());
         }
-    }
-    
-    @Override
-    public boolean isOpen() {
-        if (getChip().getHardwareInterface() == null) {
-            return false;
-        }
-        return getChip().getHardwareInterface().isOpen();
-    }    
+    }  
     
     @Override
     public void sendConfiguration(Biasgen biasgen) throws HardwareInterfaceException {
@@ -115,13 +107,19 @@ public class CameraChipBiasgen<C extends Chip & CameraChipInterface> extends Bia
     }
     
     @Override
-    public void suspend() {}
+    public void suspend() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
     @Override
-    public void flashConfiguration(Biasgen biasgen) throws HardwareInterfaceException {}
+    public void flashConfiguration(Biasgen biasgen) throws HardwareInterfaceException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
     /*
      * Biasgen methods used but forwarded to super for safety
@@ -130,6 +128,46 @@ public class CameraChipBiasgen<C extends Chip & CameraChipInterface> extends Bia
     @Override
     public void setMasterbias(final Masterbias masterbias) {
         super.setMasterbias(masterbias);
+    }
+    
+    @Override
+    public void startBatchEdit() {
+        super.startBatchEdit();
+    }
+
+    @Override
+    public void endBatchEdit() throws HardwareInterfaceException {
+        super.endBatchEdit();
+    }
+    
+    @Override
+    public boolean isOpen() {
+        return super.isOpen();
+    }  
+
+    @Override
+    public void open() throws HardwareInterfaceException {
+        super.open();
+    }
+    
+    @Override
+    public void close() {
+        super.close();
+    }
+    
+    @Override
+    public void setHardwareInterface(final BiasgenHardwareInterface hardwareInterface) {
+        super.setHardwareInterface(hardwareInterface);
+    }
+    
+    @Override
+    public void setBatchEditOccurring(boolean batchEditOccurring) {
+        super.setBatchEditOccurring(batchEditOccurring);
+    }
+    
+    @Override
+    public boolean isBatchEditOccurring() {
+        return super.isBatchEditOccurring();
     }
     
     /*
@@ -202,17 +240,6 @@ public class CameraChipBiasgen<C extends Chip & CameraChipInterface> extends Bia
     }
 
     @Override
-    public void startBatchEdit() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-
-    @Override
-    public void endBatchEdit() throws HardwareInterfaceException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void update(Observable observable, Object object) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -233,22 +260,7 @@ public class CameraChipBiasgen<C extends Chip & CameraChipInterface> extends Bia
     }
 
     @Override
-    public void setHardwareInterface(final BiasgenHardwareInterface hardwareInterface) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public int getNumPots() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void close() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void open() throws HardwareInterfaceException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
@@ -264,17 +276,6 @@ public class CameraChipBiasgen<C extends Chip & CameraChipInterface> extends Bia
 
     @Override
     public String getTypeName() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public boolean isBatchEditOccurring() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-
-    @Override
-    public void setBatchEditOccurring(boolean batchEditOccurring) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

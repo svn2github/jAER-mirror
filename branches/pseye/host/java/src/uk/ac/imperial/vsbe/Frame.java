@@ -10,17 +10,50 @@ import java.nio.IntBuffer;
  */
 public class Frame {
     private long timeStamp;
+    
     private IntBuffer data;
+    
+    private int width;
+    private int height;
+    private int pixelSize;
     private int size = 0;
         
     public Frame() {
     }
         
+    public int getPixelSize() {
+        return pixelSize;
+    }
+
+    public void setPixelSize(int pixelSize) {
+        this.pixelSize = pixelSize;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int x) {
+        width = x;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int y) {
+        height = y;
+    }
+    
     public int getSize() {
         return size;
     }
     
-    public void setSize(int size) {
+    public void setSize(int width, int height, int pixelSize) {
+        this.width = width;
+        this.height = height;
+        this.pixelSize = pixelSize;
+        int size = width * height * pixelSize;
         if (size != this.size) {
             this.size = size;
             data = IntBuffer.allocate(size);
@@ -43,22 +76,23 @@ public class Frame {
         this.data = data;
     }
     
-    public boolean copyData(Frame frame) {
-        // copyData frame data to passed array
+    public boolean copyInPlace(Frame frame) {
+        // copyInPlace frame data to passed array
         if (frame.size != size) return false;
-        if (!data.hasArray() || !frame.getData().hasArray()) return false;
+        if (!frame.getData().hasArray()) return false;
         frame.timeStamp = timeStamp;
-        System.arraycopy(data.array(), 0, frame.getData().array(), 0, size);
+        if (data.hasArray()) {
+            System.arraycopy(data.array(), 0, frame.getData().array(), 0, size);
+        }
         return true;
     }
     
-    /*
-    public boolean deepCopy(Frame frame) {
-        if (!data.hasArray()) return false;
-        frame.setSize(size);
+    public boolean copy(Frame frame) {
         frame.timeStamp = timeStamp;
-        System.arraycopy(data.array(), 0, frame.getData().array(), 0, size);
+        frame.setSize(width, height, pixelSize);
+        if (data.hasArray()) {
+            System.arraycopy(data.array(), 0, frame.getData().array(), 0, size);
+        }
         return true;
     }
-     */
 }

@@ -17,11 +17,10 @@ public class CameraFramePanel extends javax.swing.JPanel implements Observer {
     public CameraFramePanel(AbstractCamera hardware) {
         this.hardware = hardware;
         initComponents();
-        this.hardware.addObserver(this);
         rawCameraPanel.reshape(0, 0, jPanel1.getWidth(), jPanel1.getHeight());
         jPanel1.add(rawCameraPanel, BorderLayout.CENTER);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

@@ -4,7 +4,6 @@
  */
 package uk.ac.imperial.pseye;
 
-import cl.eye.*;
 import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +47,7 @@ public class PSEyeCameraFileInputStream extends AEFileInputStream {
         }
         int[] addr = packet.getAddresses();
         int[] ts = packet.getTimestamps();
-        int oldPosition = position();
+        int oldPosition = (int) position();
         EventRaw ev;
         int count = 0;
         for (int frame = 0; frame < nframes; frame++) {

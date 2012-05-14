@@ -1,5 +1,5 @@
 
-package uk.ac.imperial.pseye;
+package uk.ac.imperial.pseye.cdvs;
 
 import uk.ac.imperial.vsbe.CameraAEPacketRaw;
 import net.sf.jaer.aemonitor.AEMonitorInterface;
@@ -15,12 +15,13 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import uk.ac.imperial.pseye.PSEyeModelAEChip;
 
 /**
  * Generic event extractor for PSEye frame type data
  * @author Mat Katz
  */
-abstract class PSEyeEventExtractor extends TypedEventExtractor<TemporalContrastEvent> {
+public abstract class PSEyeEventExtractor extends TypedEventExtractor<TemporalContrastEvent> {
     protected static final Logger log = Logger.getLogger("Chip");
     public static final int MAX_EVENTS = 1000000;
     
@@ -70,37 +71,12 @@ abstract class PSEyeEventExtractor extends TypedEventExtractor<TemporalContrastE
     abstract protected void initValues(int pixelIndex);
 
     protected boolean isHardwareInterfaceEnabled() {
-
         hardwareInterface = null;
-        if (modelChip != null && modelChip.checkHardware()) {
+        if (modelChip != null) {
             hardwareInterface = (AEMonitorInterface) modelChip.getHardwareInterface();
             return hardwareInterface.isEventAcquisitionEnabled();
         }
         return false;
-    }
-    
-    protected void storePreferences(Preferences prefs) {
-        prefs.putDouble("sigmaOnThreshold", sigmaOnThreshold);
-        prefs.putDouble("sigmaOffThreshold", sigmaOffThreshold);
-        prefs.putDouble("sigmaOnDeviation", sigmaOnDeviation);
-        prefs.putDouble("sigmaOffDeviation", sigmaOffDeviation);
-        
-        prefs.putBoolean("linearInterpolateTimeStamp", linearInterpolateTimeStamp);
-        prefs.putBoolean("logIntensityMode", logIntensityMode);
-        prefs.putInt("linLogTransitionValue", linLogTransitionValue);
-    }
-    
-    protected void loadPreferences(Preferences prefs) {
-        sigmaOnThreshold = prefs.getDouble("sigmaOnThreshold", 10);
-        sigmaOffThreshold = prefs.getDouble("sigmaOffThreshold", -10);
-        sigmaOnDeviation = prefs.getDouble("sigmaOnDeviation", 0.02);
-        sigmaOffDeviation = prefs.getDouble("sigmaOffDeviation", 0.02);
-        
-        linearInterpolateTimeStamp = prefs.getBoolean("linearInterpolateTimeStamp", false);
-        logIntensityMode = prefs.getBoolean("logIntensityMode", true);
-        linLogTransitionValue = prefs.getInt("linLogTransitionValue", 15);
-        
-        init();
     }
     
     protected synchronized void init() {
@@ -153,10 +129,10 @@ abstract class PSEyeEventExtractor extends TypedEventExtractor<TemporalContrastE
             return;
         
         CameraAEPacketRaw framePacket = (CameraAEPacketRaw) in;
-        if (framePacket.frameSize != nPixels)
+        if (framePacket.getFrameSize() != nPixels)
             return;
         
-        int nFrames = framePacket.nFrames;
+        int nFrames = framePacket.getNumFrames();
         
         pixelValues = in.getAddresses(); // pixel RGB values stored here by hardware interface
         out.allocate(MAX_EVENTS);

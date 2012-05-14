@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import uk.ac.imperial.vsbe.CameraHardwareInterfaceFactory;
 import uk.ac.imperial.vsbe.CameraAEHardwareInterface;
 import net.sf.jaer.hardwareinterface.HardwareInterface;
+import net.sf.jaer.hardwareinterface.HardwareInterfaceFactoryInterface;
 
 /**
  * Constructs CLEye hardware interfaces.
@@ -34,5 +35,9 @@ public class PSEyeHardwareInterfaceFactory extends CameraHardwareInterfaceFactor
     public Logger getLog() { return log; }
     
     @Override
-    public String getGUID() { return GUID; }    
+    public String getGUID() { return GUID; }
+
+    public static HardwareInterfaceFactoryInterface instance() {
+        return instance;
+    }
 }

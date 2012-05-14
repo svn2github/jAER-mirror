@@ -31,7 +31,7 @@ abstract public class CameraHardwareInterfaceFactory implements HardwareInterfac
     //public static HardwareInterfaceFactoryInterface instance() {
     //    return instance;
     //}
-
+    
     @Override
     public int getNumInterfacesAvailable() {
         if(interfaces==null) return 0;
@@ -71,5 +71,4 @@ abstract public class CameraHardwareInterfaceFactory implements HardwareInterfac
         getLog().info("camera removed, rebuilding list of cameras");
         buildList();
     }
-    
 }

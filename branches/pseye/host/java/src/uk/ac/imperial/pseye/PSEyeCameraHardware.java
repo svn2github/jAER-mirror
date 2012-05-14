@@ -52,6 +52,11 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     protected boolean autoBalance = false;
     
     /* Constructs instance to open with passed index */
+    PSEyeCameraHardware() {
+        super();
+    }
+    
+    /* Constructs instance to open with passed index */
     PSEyeCameraHardware(int index) {
         super();
         // check index valid and make singleton? mlk
@@ -90,20 +95,51 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
         cameraInstance = CLCamera.CLEyeCreateCamera(index, mode.getValue(), 
                 resolution.getValue(), frameRate);
         if (cameraInstance != 0) {
+            isCreated = true;
             // set all parameters to initial values
             initCamera();
-            isCreated = true;
+            
             return true;
         }
         return false;
     }
     
+    public PSEyeCameraHardware copySettings(PSEyeCameraHardware pseye)  throws HardwareInterfaceException {    
+        try {
+            setMode(pseye.getMode(), false);
+            setResolution(pseye.getResolution(), false);
+            setFrameRate(pseye.getFrameRate(), true);
+        } catch (Exception e) {
+            throw new HardwareInterfaceException("couldn't create camera");
+        }
+            
+        setGain(pseye.getGain());
+        setExposure(pseye.getExposure());
+    
+        setRedBalance(pseye.getRedBalance());
+        setGreenBalance(pseye.getGreenBalance());
+        setBlueBalance(pseye.getBlueBalance());
+    
+        setAutoGain(pseye.getAutoGain());
+        setAutoExposure(pseye.getAutoExposure());
+        setAutoBalance(pseye.getAutoBalance());
+            
+        return this;
+    }
+    
     /* Set initial parameter values */
     private void initCamera() {
-        // set parameters forcing update - auto also updates underlying parameters
+        // set parameters forcing update
         setAutoGain(autoGain, true);
+        setGain(gain, true);
+        
         setAutoExposure(autoExposure, true);
+        setExposure(exposure, true);
+        
         setAutoBalance(autoBalance, true);
+        setRedBalance(red, true);
+        setGreenBalance(green, true);
+        setBlueBalance(blue, true);
     }
     
     /* Destroys the camera instance */
@@ -185,9 +221,14 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     }
     
     @Override
-    public boolean read(Frame frame) {
+    public boolean read(Frame frame, boolean inPlace) {
         // check camera created and started and that passed array big enough to store data
         if (!isCreated || !isStarted ) return false;
+        if (!inPlace) {
+            frame.setTimeStamp(0);
+            frame.setSize(getFrameX(), getFrameY(), getPixelSize());
+        }
+        else if (frame.getSize() != (getFrameX() * getFrameY() * getPixelSize())) return false;
         return CLCamera.CLEyeCameraGetFrame(cameraInstance, frame.getData().array(), GET_FRAME_TIMEOUT);        
     }
     
@@ -294,6 +335,13 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             // alter resolution dependent framerate            
             setFrameRate(frameRate, false);
             if (reset) reload();
+            // try re-setting parameters as dependent on resolution
+            setGain(gain);
+            setExposure(exposure);
+            setRedBalance(red);
+            setRedBalance(green);
+            setRedBalance(blue);
+        
             setChanged();            
             notifyObservers(EVENT.RESOLUTION);
         }
@@ -545,7 +593,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             if (isCreated) {
                 if (setCameraParam(CLCamera.CLEYE_AUTO_GAIN, yes ? 1 : 0)) {
                     autoGain = getCameraParam(CLCamera.CLEYE_AUTO_GAIN) == 1;
-                    setGain(gain, true);
+                    if (!yes) setGain(gain, true);
                 }
                 else return autoGain;
             }
@@ -572,7 +620,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             if (isCreated) {
                 if (setCameraParam(CLCamera.CLEYE_AUTO_EXPOSURE, yes ? 1 : 0)) {
                     autoExposure = getCameraParam(CLCamera.CLEYE_AUTO_EXPOSURE) == 1;
-                    setExposure(exposure, true);
+                    if (!yes) setExposure(exposure, true);
                 }
                 else return autoExposure;
             }
@@ -599,9 +647,11 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             if (isCreated) {
                 if (setCameraParam(CLCamera.CLEYE_AUTO_WHITEBALANCE, yes ? 1 : 0)) {
                     autoBalance = getCameraParam(CLCamera.CLEYE_AUTO_WHITEBALANCE) == 1;
-                    setRedBalance(red, true);
-                    setRedBalance(green, true);
-                    setRedBalance(blue, true);
+                    if (!yes) {
+                        setRedBalance(red, true);
+                        setGreenBalance(green, true);
+                        setBlueBalance(blue, true);
+                    }
                 }
                 else return autoBalance;
             }
@@ -681,6 +731,9 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
         int cameraInstance = CLCamera.CLEyeCreateCamera(0, CLCamera.CLEYE_GRAYSCALE, 
                 CLCamera.CLEYE_VGA, 15);
         log.log(Level.INFO, "{0}", cameraInstance);
+        log.log(Level.INFO, "{0}", CLCamera.CLEyeGetCameraParameter(cameraInstance, CLCamera.CLEYE_EXPOSURE));
+        log.log(Level.INFO, "{0}", CLCamera.CLEyeSetCameraParameter(cameraInstance, CLCamera.CLEYE_EXPOSURE, 1));
+        log.log(Level.INFO, "{0}", CLCamera.CLEyeGetCameraParameter(cameraInstance, CLCamera.CLEYE_EXPOSURE));
         log.log(Level.INFO, "{0}", CLCamera.CLEyeCameraStart(cameraInstance));
         log.log(Level.INFO, "{0}", CLCamera.CLEyeGetCameraParameter(cameraInstance, CLCamera.CLEYE_EXPOSURE));
         log.log(Level.INFO, "{0}", CLCamera.CLEyeCameraStop(cameraInstance));

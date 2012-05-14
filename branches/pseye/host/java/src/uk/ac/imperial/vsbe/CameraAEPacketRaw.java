@@ -12,9 +12,9 @@ import java.util.Collection;
  */
 public class CameraAEPacketRaw extends AEPacketRaw {
     /* Number of pixels in frame */
-    public int frameSize;
+    protected int frameSize;
     /* Number of frames in packet */
-    public int nFrames;
+    protected int numFrames;
 
     public CameraAEPacketRaw() {
         super();
@@ -34,5 +34,21 @@ public class CameraAEPacketRaw extends AEPacketRaw {
 
     public CameraAEPacketRaw(Collection<AEPacketRaw> collection) {
         super(collection);
+    }
+
+    public int getFrameSize() {
+        return frameSize;
+    }
+
+    public void setFrameSize(int frameSize) {
+        this.frameSize = frameSize;
+    }
+
+    public int getNumFrames() {
+        return numFrames;
+    }
+
+    public void setNumFrames(int nFrames) {
+        this.numFrames = nFrames;
     }
 }

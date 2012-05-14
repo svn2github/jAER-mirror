@@ -4,6 +4,7 @@ package uk.ac.imperial.pseye;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Observer;
 import java.util.Observable;
 import java.util.logging.Logger;
 import java.util.prefs.InvalidPreferencesFormatException;
@@ -11,7 +12,7 @@ import javax.swing.JPanel;
 import net.sf.jaer.biasgen.Biasgen;
 import uk.ac.imperial.vsbe.CameraChipBiasgen;
 import uk.ac.imperial.vsbe.CameraAEHardwareInterface;
-import uk.ac.imperial.vsbe.CameraChipInterface;
+import uk.ac.imperial.vsbe.CameraChipBiasInterface;
 import net.sf.jaer.chip.AEChip;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
@@ -30,10 +31,10 @@ import net.sf.jaer.eventio.AEFileInputStream;
  * 
  * @author Tobi Delbruck and Mat Katz
  */
-public class PSEyeModelAEChip extends AEChip implements PreferenceChangeListener, 
-        PSEyeDriverInterface, CameraChipInterface {
-    PSEyeModelRenderer renderer = null;
-    PSEyeCameraHardware camera = null;
+public abstract class PSEyeModelAEChip extends AEChip implements PreferenceChangeListener, 
+        PSEyeDriverInterface, CameraChipBiasInterface, Observer {
+    protected PSEyeCameraHardware camera = new PSEyeCameraHardware();
+    protected PSEyeCameraPanel panel = null;
     
     @Override
     public void preferenceChange(PreferenceChangeEvent evt) {
@@ -41,16 +42,17 @@ public class PSEyeModelAEChip extends AEChip implements PreferenceChangeListener
     }
 
     public PSEyeModelAEChip() {
-        setEventExtractor(createEventExtractor());
-        loadPreferences();
+        super();
+        //loadPreferences();
         
         setBiasgen(new CameraChipBiasgen<PSEyeModelAEChip>(this));
-        setRenderer((renderer = new PSEyeModelRenderer(this)));
+        //setRenderer((renderer = new PSEyeModelRenderer(this)));
         
         getPrefs().addPreferenceChangeListener(this);
+        camera.addObserver(this);
         //camera = new PSEyeDriverChipComponent<PSEyeModelAEChip>(this);
     }
-
+    
     /* needed to ensure listener deregistered on construction of
      * an equivalent instance and so prevent a memory leak 
      */
@@ -63,21 +65,51 @@ public class PSEyeModelAEChip extends AEChip implements PreferenceChangeListener
     @Override
     public void loadPreferences() {
         try {
-            camera.loadPreferences();    
+            // set mode, resolution, framerate
+            setMode(Mode.valueOf(getPrefs().get("mode", getMode().name())));
+            setResolution(Resolution.valueOf(getPrefs().get("resolution", getResolution().name())));
+            setFrameRate(getPrefs().getInt("frameRate", getFrameRate()));
+                
+            // set exposure, gain, and auto gain/exposure settings
+            setGain(getPrefs().getInt("gain", getGain()));
+            setExposure(getPrefs().getInt("exposure", getExposure()));
+            
+            setRedBalance(getPrefs().getInt("red", getRedBalance()));
+            setGreenBalance(getPrefs().getInt("green", getGreenBalance()));
+            setBlueBalance(getPrefs().getInt("blue", getBlueBalance()));
+            
+            setAutoGain(getPrefs().getBoolean("autoGain", getAutoGain()));
+            setAutoExposure(getPrefs().getBoolean("autoExposure", getAutoExposure()));      
+            setAutoBalance(getPrefs().getBoolean("autoBalance", getAutoBalance()));      
+            
         } catch (Exception ex) {
             log.warning(ex.toString());
         }
         
-        if (getEventExtractor() != null && (getEventExtractor() instanceof PSEyeEventExtractor))
-            ((PSEyeEventExtractor) getEventExtractor()).loadPreferences(getPrefs());
+        //if (getEventExtractor() != null && (getEventExtractor() instanceof PSEyeEventExtractor))
+        //    ((PSEyeEventExtractor) getEventExtractor()).loadPreferences(getPrefs());
     }
 
     @Override
     public void storePreferences() {
         // use getter functions to store parameters
-        camera.storePreferences();
-        if (getEventExtractor() != null && (getEventExtractor() instanceof PSEyeEventExtractor))
-            ((PSEyeEventExtractor) getEventExtractor()).storePreferences(getPrefs());
+        getPrefs().put("mode", getMode().name());
+        getPrefs().put("resolution", getResolution().name());
+        getPrefs().putInt("frameRate", getFrameRate());
+        
+        getPrefs().putInt("gain", getGain());
+        getPrefs().putInt("exposure", getExposure());
+        
+        getPrefs().putInt("red", getRedBalance());
+        getPrefs().putInt("green", getGreenBalance());
+        getPrefs().putInt("blue", getBlueBalance());
+        
+        getPrefs().putBoolean("autoGain", getAutoGain());
+        getPrefs().putBoolean("autoExposure", getAutoExposure());
+        getPrefs().putBoolean("autoBalance", getAutoBalance());
+        
+        //if (getEventExtractor() != null && (getEventExtractor() instanceof PSEyeEventExtractor))
+        //    ((PSEyeEventExtractor) getEventExtractor()).storePreferences(getPrefs());
     }
 
     /* load all hardware parameters from chip 
@@ -89,22 +121,45 @@ public class PSEyeModelAEChip extends AEChip implements PreferenceChangeListener
     @Override
     public void setHardwareInterface(HardwareInterface hardwareInterface) {
         if (hardwareInterface != null && (hardwareInterface instanceof CameraAEHardwareInterface)) { 
+            CameraAEHardwareInterface hw = (CameraAEHardwareInterface) hardwareInterface;
             super.setHardwareInterface(hardwareInterface);
-            PSEyeCameraHardware pseye = (PSEyeCameraHardware) getHardwareInterface();
+            PSEyeCameraHardware pseye = (PSEyeCameraHardware) hw.getCamera();
             try {
-                camera.setCamera(pseye);
+                camera.deleteObserver(this);
+                camera = pseye.copySettings(camera);
+                camera.addObserver(this);
+                panel.reload();
             } catch (Exception ex) {
                 log.warning(ex.toString());
             }
         }
         else if (hardwareInterface == null) {
-            camera.setCamera(null);
+            PSEyeCameraHardware pseye = new PSEyeCameraHardware();
+            try {
+                camera.deleteObserver(this);
+                camera = pseye.copySettings(camera);
+                camera.addObserver(this);
+                panel.reload();
+            } catch (Exception ex) {
+                log.warning(ex.toString());
+            }
             super.setHardwareInterface(null);
         }
         else
             log.warning("tried to set HardwareInterface to not a PSEyeHardwareInterface: " + hardwareInterface);
     }
-
+    
+    @Override
+    public JPanel getCameraPanel() {
+        panel = new PSEyeCameraPanel(this);
+        return panel;
+    }
+    
+    @Override
+    public JPanel getChipPanel() {
+        return new JPanel();
+    }
+    
    // abstract protected PSEyeEventExtractor createEventExtractor();
     @Override
     public AEFileInputStream constuctFileInputStream(File file) throws IOException {
@@ -137,19 +192,25 @@ public class PSEyeModelAEChip extends AEChip implements PreferenceChangeListener
     @Override public Observable getObservable() { return this; }
     @Override public void notifyChip() { setChanged(); }
     @Override public Logger getLog() { return log; }
+    
+    @Override public ArrayList<Mode> getModes() { return camera.getModes(); }
+    @Override public ArrayList<Resolution> getResolutions() { return camera.getResolutions(); }
+    @Override public ArrayList<Integer> getFrameRates() { return camera.getFrameRates(); }
+    @Override public int getMaxExposure() { return camera.getMaxExposure(); }
+    @Override public int getMinExposure() { return camera.getMinExposure(); }
+    @Override public int getMaxGain() { return camera.getMaxGain(); }
+    @Override public int getMinGain() { return camera.getMinGain(); }
+    @Override public int getMaxBalance() { return camera.getMaxBalance(); }
+    @Override public int getMinBalance() { return camera.getMinBalance(); }
 
     @Override
-    public JPanel getChipPanel() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void update(Observable o, Object arg) {
+        if (o != null && o == camera && arg instanceof PSEyeDriverInterface.EVENT) {
+                setChanged();
+                notifyObservers(arg);
+        }
     }
-
-    @Override
-    public JPanel getCameraPanel() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-
-
+    
     @Override
     public void exportPreferences(OutputStream os) throws IOException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -167,7 +228,7 @@ public class PSEyeModelAEChip extends AEChip implements PreferenceChangeListener
 
     @Override
     public void sendConfiguration(Biasgen biasgen) throws HardwareInterfaceException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        loadPreferences();
     }
 
     @Override
@@ -197,51 +258,6 @@ public class PSEyeModelAEChip extends AEChip implements PreferenceChangeListener
 
     @Override
     public boolean isOpen() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ArrayList<Mode> getModes() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ArrayList<Resolution> getResolutions() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ArrayList<Integer> getFrameRates() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getMaxExposure() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getMinExposure() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getMaxGain() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getMinGain() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getMaxBalance() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getMinBalance() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

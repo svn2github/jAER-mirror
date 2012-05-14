@@ -53,7 +53,7 @@ public class HardwareInterfaceFactory extends HashSet<Class> implements Hardware
         HardwareInterfaceFactoryLinux.class,
         USBAERatcFactory.class,
         UDPInterfaceFactory.class,
-        CLEyeHardwareInterfaceFactory.class,
+        //CLEyeHardwareInterfaceFactory.class,
         PSEyeHardwareInterfaceFactory.class,
         eDVS128_InterfaceFactory.class,
     }; 
