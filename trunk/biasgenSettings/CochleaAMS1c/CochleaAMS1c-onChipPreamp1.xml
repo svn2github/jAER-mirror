@@ -532,7 +532,7 @@
                   <entry key="CochleaAMS1c.VPot.Vbpf2x" value="956"/>
                   <entry key="CochleaAMS1c.VPot.Vbias2x" value="168"/>
                   <entry key="CochleaAMS1c.VPot.Vbpf1x" value="2305"/>
-                  <entry key="CochleaAMS1c.VPot.Vrefpreamp" value="880"/>
+                  <entry key="CochleaAMS1c.VPot.Vrefpreamp" value="584"/>
                   <entry key="CochleaAMS1c.VPot.Vbias1x" value="2205"/>
                   <entry key="CochleaAMS1c.VPot.Vthbpf1x" value="184"/>
                   <entry key="CochleaAMS1c.VPot.Vioffbpfn" value="0"/>
@@ -561,14 +561,14 @@
                   <entry key="CochleaAMS1c.IPot.Curstartbpf" value="3968053"/>
                   <entry key="CochleaAMS1c.IPot.DacBufferNb" value="408507"/>
                   <entry key="CochleaAMS1c.IPot.Vbp" value="81811"/>
-                  <entry key="CochleaAMS1c.IPot.Ibias20OpAmp" value="3007222"/>
+                  <entry key="CochleaAMS1c.IPot.Ibias20OpAmp" value="221969"/>
                   <entry key="CochleaAMS1c.IPot.N.C." value="0"/>
                   <entry key="CochleaAMS1c.IPot.NeuronRp" value="142441"/>
-                  <entry key="CochleaAMS1c.IPot.Ibias10OpAmp" value="622"/>
+                  <entry key="CochleaAMS1c.IPot.Ibias10OpAmp" value="1885"/>
                   <entry key="CochleaAMS1c.IPot.Vthbpf2" value="118"/>
                   <entry key="CochleaAMS1c.IPot.Follbias" value="91406"/>
                   <entry key="CochleaAMS1c.IPot.VbampP" value="174"/>
-                  <entry key="CochleaAMS1c.IPot.Ibias10OTA" value="5"/>
+                  <entry key="CochleaAMS1c.IPot.Ibias10OTA" value="2"/>
                   <entry key="CochleaAMS1c.IPot.Vthbpf1" value="1082"/>
                   <entry key="CochleaAMS1c.IPot.Curstart " value="168221"/>
                   <entry key="CochleaAMS1c.IPot.NeuronVleak" value="28"/>
@@ -733,7 +733,7 @@
                   <entry key="ITDFilter.normToConfThresh" value="false"/>
                   <entry key="ITDFilter.confidenceThreshold" value="300"/>
                   <entry key="ITDfilter.estimationMethod" value="useMedian"/>
-                  <entry key="class ch.unizh.ini.jaer.chip.cochlea.CochleaAMS1c.preferredDisplayMethod" value="ch.unizh.ini.jaer.chip.cochlea.CochleaGramDisplayMethod"/>
+                  <entry key="class ch.unizh.ini.jaer.chip.cochlea.CochleaAMS1c.preferredDisplayMethod" value="ch.unizh.ini.jaer.chip.cochlea.RollingCochleaGramDisplayMethod"/>
                   <entry key="filterEnabled" value="false"/>
                   <entry key="CochleaPitchExtractor.filterEnabled" value="false"/>
                   <entry key="AuditoryReflex.filterEnabled" value="false"/>
@@ -813,12 +813,12 @@
                   <entry key="CochleaAMS1c.Biasgen.ConfigBit.aerKillBit" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.ConfigBit.powerDown" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.ConfigBit.nCochleaReset" value="false"/>
-                  <entry key="CochleaAMS1c.Biasgen.CPLDInt.onchipPreampGain" value="2"/>
+                  <entry key="CochleaAMS1c.Biasgen.CPLDInt.onchipPreampGain" value="1"/>
                   <entry key="CochleaAMS1c.Biasgen.CPLDInt.adcConfig" value="288"/>
                   <entry key="CochleaAMS1c.Biasgen.CPLDInt.adcTrackTime" value="2685"/>
                   <entry key="CochleaAMS1c.Biasgen.CPLDInt.adcIdleTime" value="31545"/>
                   <entry key="CochleaAMS1c.Biasgen.CPLDInt.scanChannel" value="0"/>
-                  <entry key="OnChipPreamp" value="High"/>
+                  <entry key="OnChipPreamp" value="Medium"/>
                   <entry key="OffChipPreamp.arRatio" value="Fast"/>
                   <entry key="AbstractConfigValue" value="true"/>
                   <entry key="OffChipPreamp.gain.Left" value="High"/>
