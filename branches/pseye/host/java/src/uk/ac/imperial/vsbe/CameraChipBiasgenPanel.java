@@ -19,8 +19,8 @@ public class CameraChipBiasgenPanel extends JPanel {
             throw new RuntimeException("null biasgen while trying to construct BiasgenPanel");
 
         initComponents();
-        //jPanelChip.add(biasgen.getChip().getChipPanel());
-        jPanelCamera.add(biasgen.getChip().getCameraPanel());
+        add(biasgen.getChip().getChipPanel());
+        add(biasgen.getChip().getCameraPanel());
     }
     
     /** This method is called from within the constructor to
@@ -31,24 +31,8 @@ public class CameraChipBiasgenPanel extends JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanelChip = new javax.swing.JPanel();
-        jPanelCamera = new javax.swing.JPanel();
-
-        setLayout(new java.awt.BorderLayout());
-
-        jTabbedPane1.setAlignmentX(0.0F);
-        jTabbedPane1.setAlignmentY(0.0F);
-        jTabbedPane1.addTab("Chip", jPanelChip);
-
-        jPanelCamera.setLayout(new java.awt.GridBagLayout());
-        jTabbedPane1.addTab("Camera", jPanelCamera);
-
-        add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS));
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanelCamera;
-    private javax.swing.JPanel jPanelChip;
-    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }

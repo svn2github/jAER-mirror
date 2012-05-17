@@ -13,8 +13,9 @@ public interface FrameSource {
      * @param frame: data frame data is copied to  
      * @return true if data copied, false if not
      */
-    public boolean read(Frame frame, boolean inPlace);
+    public boolean read(Frame frame);
     
+    public boolean peek(Frame frame);
     /* Return frame X extent
      * Used to ensure all buffers have correct capacity.
      * 

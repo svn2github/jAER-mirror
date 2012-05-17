@@ -20,17 +20,19 @@ import net.sf.jaer.eventio.AEInputStream;
 public class PSEyeCameraFileInputStream extends AEFileInputStream {
 
     /** Packets can hold this many frames at most. */
-    public static final int MAX_FRAMES=20;
+    public static final int MAX_FRAMES=2;
     
     /** Assumed number of pixels in each frame, each event holding the RGB data in address field of raw event. */
-    public static final int NPIXELS = 320 * 240; // TODO assumes QVGA, can be obtained from CameraModel in principle, but only QVGA models for now
-    /** Assumed frame interval in ms */
-    public static final int FRAME_INTERVAL_MS = 15; 
+    protected int frameSize = 320 * 240; // TODO assumes QVGA, can be obtained from CameraModel in principle, but only QVGA models for now
+    /** Assumed frame interval in us */
+    protected int frameInterval = 15; 
     
 
-    public PSEyeCameraFileInputStream(File f) throws IOException {
+    public PSEyeCameraFileInputStream(File f, int frameSize, int frameInterval) throws IOException {
         super(f);
-        packet.ensureCapacity(NPIXELS*MAX_FRAMES);
+        this.frameSize = frameSize;
+        this.frameInterval = frameInterval;
+        packet.ensureCapacity(frameSize * MAX_FRAMES);
     }
 
     /** Overrides to read image frames rather than events. 
@@ -51,7 +53,7 @@ public class PSEyeCameraFileInputStream extends AEFileInputStream {
         EventRaw ev;
         int count = 0;
         for (int frame = 0; frame < nframes; frame++) {
-            for (int i = 0; i < NPIXELS; i++) {
+            for (int i = 0; i < frameSize; i++) {
                 ev = readEventForwards();
                 addr[count] = ev.address;
                 ts[count] = ev.timestamp;
@@ -73,7 +75,7 @@ public class PSEyeCameraFileInputStream extends AEFileInputStream {
      */
     @Override
     public synchronized AEPacketRaw readPacketByTime(int dt) throws IOException {
-        int nframes = dt / 1000 / FRAME_INTERVAL_MS;
+        int nframes = dt / frameInterval;
         if (nframes < 1) {
             nframes = 1;
         }
@@ -89,8 +91,8 @@ public class PSEyeCameraFileInputStream extends AEFileInputStream {
      */
     private EventRaw readEventForwards() throws IOException {
         try {
-            tmpEvent.address = byteBuffer.getInt();;
-            tmpEvent.timestamp = byteBuffer.getInt();;
+            tmpEvent.address = byteBuffer.getInt();
+            tmpEvent.timestamp = byteBuffer.getInt();
             position++;
 
             return tmpEvent;

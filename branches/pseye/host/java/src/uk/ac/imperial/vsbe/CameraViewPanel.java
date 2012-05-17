@@ -129,7 +129,7 @@ public class CameraViewPanel extends GLJPanel implements GLEventListener {
             return;
         }        
 
-        if (!stream.read(frame, false)) {
+        if (!stream.peek(frame)) {
             return;
         }
         

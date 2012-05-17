@@ -76,13 +76,13 @@ public class Frame {
         this.data = data;
     }
     
-    public boolean copyInPlace(Frame frame) {
+    public boolean copyData(Frame frame) {
         // copyInPlace frame data to passed array
         if (frame.size != size) return false;
         if (!frame.getData().hasArray()) return false;
         frame.timeStamp = timeStamp;
         if (data.hasArray()) {
-            System.arraycopy(data.array(), 0, frame.getData().array(), 0, size);
+            System.arraycopy(data.array(), 0, frame.getData().array(), frame.getData().position(), size);
         }
         return true;
     }
@@ -91,7 +91,7 @@ public class Frame {
         frame.timeStamp = timeStamp;
         frame.setSize(width, height, pixelSize);
         if (data.hasArray()) {
-            System.arraycopy(data.array(), 0, frame.getData().array(), 0, size);
+            System.arraycopy(data.array(), 0, frame.getData().array(), frame.getData().position(), size);
         }
         return true;
     }

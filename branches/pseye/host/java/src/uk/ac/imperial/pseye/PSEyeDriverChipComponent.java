@@ -143,7 +143,7 @@ public class PSEyeDriverChipComponent<C extends Chip & CameraChipBiasInterface> 
             else this.mode = mode; 
             
             chip.notifyChip();
-            chip.notifyObservers(EVENT.MODE);
+            chip.notifyObservers(EVENT_CAMERA.MODE);
         }   
         return this.mode;
     }
@@ -162,7 +162,7 @@ public class PSEyeDriverChipComponent<C extends Chip & CameraChipBiasInterface> 
             else this.resolution = resolution; 
             
             chip.notifyChip();            
-            chip.notifyObservers(EVENT.RESOLUTION);
+            chip.notifyObservers(EVENT_CAMERA.RESOLUTION);
         }   
         return this.resolution;
     }
@@ -181,7 +181,7 @@ public class PSEyeDriverChipComponent<C extends Chip & CameraChipBiasInterface> 
             else this.frameRate = frameRate; 
             
             chip.notifyChip();            
-            chip.notifyObservers(EVENT.FRAMERATE);
+            chip.notifyObservers(EVENT_CAMERA.FRAMERATE);
         }   
         return this.frameRate;        
     }
@@ -201,7 +201,7 @@ public class PSEyeDriverChipComponent<C extends Chip & CameraChipBiasInterface> 
             else this.gain = gain;
 
             chip.notifyChip();
-            chip.notifyObservers(EVENT.GAIN);
+            chip.notifyObservers(EVENT_CAMERA.GAIN);
         }
         return this.gain;
     }
@@ -223,7 +223,7 @@ public class PSEyeDriverChipComponent<C extends Chip & CameraChipBiasInterface> 
             else this.exposure = exposure;
 
             chip.notifyChip();
-            chip.notifyObservers(EVENT.EXPOSURE);
+            chip.notifyObservers(EVENT_CAMERA.EXPOSURE);
         }
         return this.exposure;
     }
@@ -244,7 +244,7 @@ public class PSEyeDriverChipComponent<C extends Chip & CameraChipBiasInterface> 
             else this.red = red;
 
             chip.notifyChip();
-            chip.notifyObservers(EVENT.RED_BALANCE);
+            chip.notifyObservers(EVENT_CAMERA.RED_BALANCE);
         }
         return this.red;      
     }
@@ -264,7 +264,7 @@ public class PSEyeDriverChipComponent<C extends Chip & CameraChipBiasInterface> 
             else this.green = green;
 
             chip.notifyChip();
-            chip.notifyObservers(EVENT.GREEN_BALANCE);
+            chip.notifyObservers(EVENT_CAMERA.GREEN_BALANCE);
         }
         return this.green;      
     }
@@ -284,7 +284,7 @@ public class PSEyeDriverChipComponent<C extends Chip & CameraChipBiasInterface> 
             else this.blue = blue;
 
             chip.notifyChip();
-            chip.notifyObservers(EVENT.BLUE_BALANCE);
+            chip.notifyObservers(EVENT_CAMERA.BLUE_BALANCE);
         }
         return this.blue;      
     }
@@ -304,7 +304,7 @@ public class PSEyeDriverChipComponent<C extends Chip & CameraChipBiasInterface> 
             else this.autoGain = yes;
 
             chip.notifyChip();
-            chip.notifyObservers(EVENT.AUTO_GAIN);
+            chip.notifyObservers(EVENT_CAMERA.AUTO_GAIN);
         }
         return this.autoGain;        
     }
@@ -324,7 +324,7 @@ public class PSEyeDriverChipComponent<C extends Chip & CameraChipBiasInterface> 
             else this.autoExposure = yes;
 
             chip.notifyChip();
-            chip.notifyObservers(EVENT.AUTO_EXPOSURE);
+            chip.notifyObservers(EVENT_CAMERA.AUTO_EXPOSURE);
         }
         return this.autoExposure;        
     }    
@@ -351,7 +351,7 @@ public class PSEyeDriverChipComponent<C extends Chip & CameraChipBiasInterface> 
             else this.autoBalance = yes;
 
             chip.notifyChip();
-            chip.notifyObservers(EVENT.AUTO_BALANCE);
+            chip.notifyObservers(EVENT_CAMERA.AUTO_BALANCE);
         }
         return this.autoBalance;        
     }

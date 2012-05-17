@@ -34,7 +34,7 @@ import net.sf.jaer.eventio.AEFileInputStream;
 public abstract class PSEyeModelAEChip extends AEChip implements PreferenceChangeListener, 
         PSEyeDriverInterface, CameraChipBiasInterface, Observer {
     protected PSEyeCameraHardware camera = new PSEyeCameraHardware();
-    protected PSEyeCameraPanel panel = null;
+    protected PSEyeCameraPanel cameraPanel = null;
     
     @Override
     public void preferenceChange(PreferenceChangeEvent evt) {
@@ -128,7 +128,7 @@ public abstract class PSEyeModelAEChip extends AEChip implements PreferenceChang
                 camera.deleteObserver(this);
                 camera = pseye.copySettings(camera);
                 camera.addObserver(this);
-                panel.reload();
+                cameraPanel.reload();
             } catch (Exception ex) {
                 log.warning(ex.toString());
             }
@@ -139,7 +139,7 @@ public abstract class PSEyeModelAEChip extends AEChip implements PreferenceChang
                 camera.deleteObserver(this);
                 camera = pseye.copySettings(camera);
                 camera.addObserver(this);
-                panel.reload();
+                cameraPanel.reload();
             } catch (Exception ex) {
                 log.warning(ex.toString());
             }
@@ -151,19 +151,18 @@ public abstract class PSEyeModelAEChip extends AEChip implements PreferenceChang
     
     @Override
     public JPanel getCameraPanel() {
-        panel = new PSEyeCameraPanel(this);
-        return panel;
+        if (cameraPanel == null)
+            cameraPanel = new PSEyeCameraPanel(this);
+        return cameraPanel;
     }
     
     @Override
-    public JPanel getChipPanel() {
-        return new JPanel();
-    }
+    abstract public JPanel getChipPanel();
     
    // abstract protected PSEyeEventExtractor createEventExtractor();
     @Override
     public AEFileInputStream constuctFileInputStream(File file) throws IOException {
-        return new PSEyeCameraFileInputStream(file);
+        return new PSEyeCameraFileInputStream(file, getSizeX() * getSizeY(), 1000000 / getFrameRate());
     }
 
     @Override public Mode setMode(Mode mode) throws HardwareInterfaceException { return camera.setMode(mode); }
@@ -205,7 +204,7 @@ public abstract class PSEyeModelAEChip extends AEChip implements PreferenceChang
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o != null && o == camera && arg instanceof PSEyeDriverInterface.EVENT) {
+        if (o != null && o == camera && arg instanceof PSEyeDriverInterface.EVENT_CAMERA) {
                 setChanged();
                 notifyObservers(arg);
         }

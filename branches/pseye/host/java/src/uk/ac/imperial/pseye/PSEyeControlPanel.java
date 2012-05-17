@@ -659,7 +659,7 @@ public class PSEyeControlPanel extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o != null && o == driver && arg instanceof PSEyeDriverInterface.EVENT) {
+        if (o != null && o == driver && arg instanceof PSEyeDriverInterface.EVENT_CAMERA) {
             // update all components and models just in case
             setComponents();
         }

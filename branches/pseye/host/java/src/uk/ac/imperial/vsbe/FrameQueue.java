@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class FrameQueue implements FrameSource {
     /* Default number of frames in consumer and producer queues */
-    protected static final int BUFFER_SIZE = 8;
+    protected static final int BUFFER_SIZE = 10;
     protected int bufferSize;    
     protected ArrayBlockingQueue<Frame> consumerQueue;
     protected ArrayBlockingQueue<Frame> producerQueue;
@@ -132,7 +132,24 @@ public class FrameQueue implements FrameSource {
      * @return: true on success
      */
     @Override
-    public synchronized boolean read(Frame frame, boolean inPlace) {
+    public synchronized boolean read(Frame frame) {
+        // Check running
+        if (!running) return false;
+        
+        // Get frame from consumer queue
+        Frame f = null;
+        
+        f = consumerQueue.poll();
+        if (f == null) return false;
+        boolean copied = f.copyData(frame); 
+        // Put read frame back into producer queue
+        producerQueue.offer(f);
+        
+        return copied;
+    }
+    
+    @Override
+    public synchronized boolean peek(Frame frame) {
         // Check running
         if (!running) return false;
         
@@ -140,20 +157,10 @@ public class FrameQueue implements FrameSource {
         Frame f = null;
         
         // Copy frame data to passed array
-        if (!inPlace) {
-            f = consumerQueue.peek();
-            if (f == null) return false;
-            return f.copy(frame);
-        }
-        
-        f = consumerQueue.poll();
+        f = consumerQueue.peek();
         if (f == null) return false;
-        boolean copied = f.copyInPlace(frame);  
-        // Put read frame back into producer queue
-        producerQueue.offer(f);
-        
-        return copied;
-    }
+        return f.copy(frame);
+    }    
     
     /* Return frame X extent from source
      * Used to ensure all buffers have correct capacity.
@@ -224,7 +231,7 @@ public class FrameQueue implements FrameSource {
                 
                 if (frame != null) {
                     // Check for return of frame data
-                    if (queue.source.read(frame, true)) {
+                    if (queue.source.read(frame)) {
                         frame.setTimeStamp(System.currentTimeMillis() * 1000);
                         // Place filled frame in consumer queue
                         queue.consumerQueue.offer(frame);

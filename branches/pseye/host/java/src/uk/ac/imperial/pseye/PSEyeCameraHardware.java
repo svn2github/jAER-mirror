@@ -6,6 +6,11 @@ import java.util.Observable;
 import java.util.logging.Level;
 import uk.ac.imperial.vsbe.AbstractCamera;
 import cl.eye.CLCamera;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import java.nio.channels.FileChannel;
 import java.util.List;
 import java.util.Collections;
 import java.util.logging.Logger;
@@ -221,15 +226,16 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     }
     
     @Override
-    public boolean read(Frame frame, boolean inPlace) {
+    public boolean read(Frame frame) {
         // check camera created and started and that passed array big enough to store data
         if (!isCreated || !isStarted ) return false;
-        if (!inPlace) {
-            frame.setTimeStamp(0);
-            frame.setSize(getFrameX(), getFrameY(), getPixelSize());
-        }
-        else if (frame.getSize() != (getFrameX() * getFrameY() * getPixelSize())) return false;
+        if (frame.getSize() != (getFrameX() * getFrameY() * getPixelSize())) return false;
         return CLCamera.CLEyeCameraGetFrame(cameraInstance, frame.getData().array(), GET_FRAME_TIMEOUT);        
+    }
+    
+    @Override
+    public boolean peek(Frame frame) {
+        return false;      
     }
     
     
@@ -312,7 +318,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             mode = cameraMode;
             if (reset) reload();
             setChanged();
-            notifyObservers(EVENT.MODE);
+            notifyObservers(EVENT_CAMERA.MODE);
         }
         
         return mode;
@@ -343,7 +349,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             setRedBalance(blue);
         
             setChanged();            
-            notifyObservers(EVENT.RESOLUTION);
+            notifyObservers(EVENT_CAMERA.RESOLUTION);
         }
         
         return resolution;
@@ -367,7 +373,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             frameRate = cameraFrameRate;
             if(reset) reload();
             setChanged();
-            notifyObservers(EVENT.FRAMERATE);
+            notifyObservers(EVENT_CAMERA.FRAMERATE);
         }
         
         return cameraFrameRate;
@@ -420,7 +426,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             else this.gain = gain;
             // parameter changed so set flag and notify
             setChanged();
-            notifyObservers(EVENT.GAIN);
+            notifyObservers(EVENT_CAMERA.GAIN);
         }
         return this.gain;
     }
@@ -458,7 +464,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             else exposure = exp;
             // parameter changed so set flag and notify
             setChanged();
-            notifyObservers(EVENT.EXPOSURE);
+            notifyObservers(EVENT_CAMERA.EXPOSURE);
         }
         return exposure;
     }
@@ -496,7 +502,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             else this.red = red;
             // parameter changed so set flag and notify
             setChanged();
-            notifyObservers(EVENT.RED_BALANCE);
+            notifyObservers(EVENT_CAMERA.RED_BALANCE);
         }
         return this.red;
     }
@@ -534,7 +540,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             else this.green = green;
             // parameter changed so set flag and notify
             setChanged();
-            notifyObservers(EVENT.GREEN_BALANCE);
+            notifyObservers(EVENT_CAMERA.GREEN_BALANCE);
         }
         return this.green;
     }
@@ -572,7 +578,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             else this.blue = blue;
             // parameter changed so set flag and notify
             setChanged();
-            notifyObservers(EVENT.BLUE_BALANCE);
+            notifyObservers(EVENT_CAMERA.BLUE_BALANCE);
         }
         return this.blue;
     }
@@ -599,7 +605,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             }
             else autoGain = yes;
             setChanged();
-            notifyObservers(EVENT.AUTO_GAIN);
+            notifyObservers(EVENT_CAMERA.AUTO_GAIN);
         }
         return autoGain;
     }
@@ -626,7 +632,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             }
             else autoExposure = yes;
             setChanged();
-            notifyObservers(EVENT.AUTO_EXPOSURE);
+            notifyObservers(EVENT_CAMERA.AUTO_EXPOSURE);
         }
         return autoExposure;
     }
@@ -657,7 +663,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
             }
             else autoBalance = yes;
             setChanged();
-            notifyObservers(EVENT.AUTO_BALANCE);
+            notifyObservers(EVENT_CAMERA.AUTO_BALANCE);
         }
         return autoBalance;
     }
@@ -728,15 +734,39 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     public static void main (String arg[]) {
         log.log(Level.INFO, "{0}", cameraCount());
         log.log(Level.INFO, "{0}", cameraUUID(0));
-        int cameraInstance = CLCamera.CLEyeCreateCamera(0, CLCamera.CLEYE_GRAYSCALE, 
-                CLCamera.CLEYE_VGA, 15);
+        int i = 0;
+        int cameraInstance = CLCamera.CLEyeCreateCamera(0, CLCamera.CLEYE_COLOR, 
+                CLCamera.CLEYE_QVGA, 125);
         log.log(Level.INFO, "{0}", cameraInstance);
-        log.log(Level.INFO, "{0}", CLCamera.CLEyeGetCameraParameter(cameraInstance, CLCamera.CLEYE_EXPOSURE));
-        log.log(Level.INFO, "{0}", CLCamera.CLEyeSetCameraParameter(cameraInstance, CLCamera.CLEYE_EXPOSURE, 1));
-        log.log(Level.INFO, "{0}", CLCamera.CLEyeGetCameraParameter(cameraInstance, CLCamera.CLEYE_EXPOSURE));
+        log.log(Level.INFO, "{0}", CLCamera.CLEyeSetCameraParameter(cameraInstance, CLCamera.CLEYE_EXPOSURE, 200));
+        log.log(Level.INFO, "{0}", CLCamera.CLEyeSetCameraParameter(cameraInstance, CLCamera.CLEYE_GAIN, 0));
+        log.log(Level.INFO, "{0}", CLCamera.CLEyeSetCameraParameter(cameraInstance, CLCamera.CLEYE_WHITEBALANCE_RED, 0));
+        log.log(Level.INFO, "{0}", CLCamera.CLEyeSetCameraParameter(cameraInstance, CLCamera.CLEYE_WHITEBALANCE_GREEN, 0));
+        log.log(Level.INFO, "{0}", CLCamera.CLEyeSetCameraParameter(cameraInstance, CLCamera.CLEYE_WHITEBALANCE_BLUE, 255));
         log.log(Level.INFO, "{0}", CLCamera.CLEyeCameraStart(cameraInstance));
-        log.log(Level.INFO, "{0}", CLCamera.CLEyeGetCameraParameter(cameraInstance, CLCamera.CLEYE_EXPOSURE));
+        
+        
+        ByteBuffer temp = ByteBuffer.allocate(320 * 240);
+        IntBuffer temp2 = IntBuffer.allocate(320*240);
+        log.log(Level.INFO, "{0}", temp2.hasArray());
+        for (i=0; i < 300; i++) {
+            CLCamera.CLEyeCameraGetFrame(cameraInstance, temp2.array(), 50);
+        }
         log.log(Level.INFO, "{0}", CLCamera.CLEyeCameraStop(cameraInstance));
+        
+        for (i=0; i<temp2.capacity(); i++) {
+            temp.put((byte)(temp2.get() & 0xff));
+        }
+        
+        FileChannel fc = null;
+        temp.rewind();
+        try {
+            fc = new FileOutputStream(new File("D:\\test.txt")).getChannel();
+            fc.write(temp);
+            fc.close();
+        } catch (Exception e) { log.log(Level.INFO, "{0}", e.getMessage());}            
+
+        /*
         cameraInstance = CLCamera.CLEyeCreateCamera(0, CLCamera.CLEYE_GRAYSCALE, 
                 CLCamera.CLEYE_VGA, 15);                    
         try {
@@ -754,6 +784,6 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
         } catch (Exception e) {}
         log.log(Level.INFO, "{0}", CLCamera.CLEyeDestroyCamera(cameraInstance));
         //log.info("" + CLCamera.CLEyeGetCameraParameter(cameraInstance, CLCamera.CLEYE_EXPOSURE));
-        
+        */
     }
 }

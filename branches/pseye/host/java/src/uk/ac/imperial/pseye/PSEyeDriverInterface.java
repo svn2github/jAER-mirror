@@ -118,7 +118,7 @@ public interface PSEyeDriverInterface {
         947.5,955.5,963.5,971.5,979.5,987.5,995.5,1003.5,1011.5,1019.5};
     
     /* Observable events; This event enum is fired when the parameter is changed. */
-    enum EVENT { 
+    enum EVENT_CAMERA { 
         MODE,
         RESOLUTION,
         FRAMERATE,
