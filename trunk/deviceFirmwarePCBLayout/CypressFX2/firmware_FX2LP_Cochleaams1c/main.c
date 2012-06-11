@@ -301,6 +301,8 @@ the fifointerface on IFCLK, so in the firmware you should select external
 clocksource in the FX2 for the slave FIFO clock source.
 */
 
+	IOD =0;  
+
 	IOC = 0x00; 
 	IOA = 0x00;
 	IOE=  0x00; // set port output default values - enable them as outputs next
@@ -434,7 +436,7 @@ clocksource in the FX2 for the slave FIFO clock source.
 //	SYNCDELAY; // may not be needed
  //	IFCONFIG = 0x23; // 0010_0011  // extenal clock, slave fifo mode
 //	SYNCDELAY; // may not be needed
-
+	vCtrlKillBit=1;  // 
 
 	initDAC();
 
@@ -1009,7 +1011,7 @@ BOOL DR_VendorCmnd(void)
  
 // from CochleaAMS1c.Biasgen java class 
 #define CMD_IPOT  1
-#define CMD_RESET_EQUALIZER  2
+#define CMD_CLEAR_KILLBITS  2
 #define CMD_SCANNER  3
 #define CMD_EQUALIZER 4
 #define	CMD_SETBIT  5
@@ -1134,6 +1136,7 @@ in big endian format.
 				len = SETUPDAT[6];      	// length for data phase
 				len |= SETUPDAT[7] << 8;
 */
+					
 
 					selectAddr;
 					sendOnChipConfigBits(SETUPDAT[3],7); // send 7 bit address from bits 6:0 of setup[3] which is MSB of value in vendor req
@@ -1155,11 +1158,16 @@ in big endian format.
 					cpldSRBytes[7]&= ~0x01;  // clear lsb of first byte, which is yBit (bits are written big endian, so bit 63 is actually bit0 host side)
 					sendCPLDState();
 
+					// to load kill bit latches, vCtrlKillBit must be high. We make it low afterwards to protect the kill bits, even
+					// through we load all the equalizer state anytime we change any part of the equalizer channel.
+					vCtrlKillBit=1;
+
 					if(SETUPDAT[5]&4){ // kill LPF based on ind bit 10					
 						aerKillBit=1; 
 					}else{
 						aerKillBit=0;
 					}
+					_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
 					toggleOnChipLatch();
 										
 					// set ybit to select the BPF neurons killbit latches
@@ -1173,14 +1181,35 @@ in big endian format.
 					}
 
 
+					_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
 					toggleOnChipLatch();
 					selectNone;
 
+					vCtrlKillBit=1;
 					ledToggle();
 					break;
-				case CMD_RESET_EQUALIZER:
+				case CMD_CLEAR_KILLBITS:
+					// uses vCtrlKillBit to clear all LPF and BPF neuron kill bits
+
+					// clear ybit to select the LPF neurons
+					cpldSRBytes[7]&= ~0x01;  // clear lsb of first byte, which is yBit (bits are written big endian, so bit 63 is actually bit0 host side)
+					sendCPLDState();
+
+					aerKillBit=0;
 					
-					return TRUE;  // not yet implmented
+					// select all kill bits
+					vCtrlKillBit=0;
+
+										
+					// set ybit to select the BPF neurons killbit latches
+					cpldSRBytes[7]|= 0x01;  // set lsb of first byte, which is yBit
+					sendCPLDState();
+					
+					// stop selection of all kill bits
+
+					vCtrlKillBit=1;
+
+			
 					ledToggle();
 					break;
 
