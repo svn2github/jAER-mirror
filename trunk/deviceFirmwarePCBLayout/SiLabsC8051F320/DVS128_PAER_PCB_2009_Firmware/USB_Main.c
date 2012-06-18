@@ -327,14 +327,15 @@ void main(void)
 			//note according to C51 compiler specs, shorts are stored big-endian, MSB comes first.
 			// We send the MSB first which are the Y address bits
 
-
-#ifdef DVS128_PAER
+// original PAER board has mistake of swapping bytes. On new rev from 2012 (marked that same unfortunately) this has been fixed.
+// That's why below is commmented.
+//#ifdef DVS128_PAER
 			p1val=P1;
 			p2val=P2;
-#else
-			p1val=P2;
-			p2val=P1;
-#endif
+//#else
+//			p1val=P2;
+//			p2val=P1;
+//#endif
 
 			usbCommitByte(p1val); // AE14:8, with bit 15 masked out, 7 bit y address	
 			usbCommitByte(p2val);	// AE7:0 - 7 bit x address + 1 bit polarity (AE0)  // P2
