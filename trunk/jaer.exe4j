@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <exe4j version="4.4.2" transformSequenceNumber="1">
-  <directoryPresets config="C:/Users/tobi/Documents/1jAERsourceForge" />
+  <directoryPresets config="./host/java/jars/SiLabsNativeWindows" />
   <application name="jaer" distributionSourceDir=".">
     <languages>
       <principalLanguage id="en" customLocalizationFile="" />
@@ -16,7 +16,7 @@
       <versionLine x="20" y="40" text="version %VERSION%" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
     </text>
   </splashScreen>
-  <java mainClass="net.sf.jaer.JAERViewer" vmParameters="-splash:SplashScreen.gif -Djava.library.path=jars;jars\SiLabsNativeWindows  -Djava.util.logging.config.file=conf/Logging.properties  -Dsun.java2d.noddraw=true  -Dsun.java2d.opengl=false" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true" minVersion="1.6" maxVersion="" allowBetaVM="true" jdkOnly="false">
+  <java mainClass="net.sf.jaer.JAERViewer" vmParameters="-splash:SplashScreen.gif  -Djava.util.logging.config.file=conf/Logging.properties  -Dsun.java2d.noddraw=true  -Dsun.java2d.opengl=false" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true" minVersion="1.6" maxVersion="" allowBetaVM="true" jdkOnly="false">
     <searchSequence>
       <registry />
       <envVar name="JAVA_HOME" />
@@ -26,7 +26,10 @@
       <scanDirectory location="./host/java/jars" failOnError="false" />
       <archive location="./host/java/dist/jAER.jar" failOnError="false" />
     </classPath>
-    <nativeLibraryDirectories />
+    <nativeLibraryDirectories>
+      <directory name="./host/java/jars/win32" />
+      <directory name="./host/java/jars/SiLabsNativeWindows" />
+    </nativeLibraryDirectories>
   </java>
   <includedFiles />
   <unextractableFiles />
