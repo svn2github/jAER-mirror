@@ -311,7 +311,7 @@ void main(void)
 				checkWrap();
 			}
 			LedAERToggle();	// got req
-#ifdef HANDSHAKE_ENABLED
+#ifdef HANDSHAKE_ENABLED // see USB_Main.h and make sure DVS128_PAER or TMPDIFF128 is chosen there!!!!!!!!!
 			NOTACK=0;	// lower acknowledge
 #endif
 			EA=0; 	// disable interrupts during snapshot of AE to avoid USB interrupt during snapshot
