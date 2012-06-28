@@ -47,7 +47,7 @@ The current assignements are as follows for the Thesycon PIDs
 0x8416 
 0x8417 
 0x8418 
-0x8419 
+0x8419 Retina Teresa (provisorial)
 0x841A 
 0x841B 
 0x841C 
