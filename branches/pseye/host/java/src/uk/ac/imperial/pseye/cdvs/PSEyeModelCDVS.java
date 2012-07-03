@@ -1,9 +1,8 @@
 
-package uk.ac.imperial.pseye.dvs;
+package uk.ac.imperial.pseye.cdvs;
 
 import net.sf.jaer.aemonitor.AEPacketRaw;
 import net.sf.jaer.event.EventPacket;
-import net.sf.jaer.event.PolarityEvent;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
@@ -11,6 +10,8 @@ import net.sf.jaer.Description;
 import net.sf.jaer.event.OutputEventIterator;
 import javax.swing.JPanel;
 import net.sf.jaer.chip.TypedEventExtractor;
+import ch.unizh.ini.jaer.chip.dvs320.cDVSEvent;
+import java.util.Arrays;
 import net.sf.jaer.event.BasicEvent;
 import uk.ac.imperial.pseye.PSEyeDriverInterface;
 import uk.ac.imperial.pseye.PSEyeModelAEChip;
@@ -20,18 +21,30 @@ import uk.ac.imperial.vsbe.CameraChipBiasgen;
 /**
  * @author Mat Katz
  */
-@Description("DVS emulator using the PS-Eye Playstation camera")
-public class PSEyeModelDVS extends PSEyeModelAEChip {
+@Description("Colour DVS emulator using the PS-Eye Playstation camera")
+public class PSEyeModelCDVS extends PSEyeModelAEChip {
     public static final int MAX_EVENTS = 1000000;
     public static final long SEED = 328923423;
     public static final int NLEVELS = 255;
     
-    protected PSEyeDVSPanel chipPanel = null;
+    protected PSEyeCDVSPanel chipPanel = null;
     
     ArrayList<Mode> modes = new ArrayList<Mode>() {{
-        add(Mode.MONO);
+        add(Mode.COLOUR);
     }};
     
+    public enum ColourModel {
+        RatioBtoRG("Uses change of ratio of R/(B+G)"),
+        DifferenceRB("Uses normalized absolute difference (B-R)^2/(R^2+B^2)"),
+        MeanWaveLength("Uses mean wavelength (lr * pixR + lg * pixG + lb * pixB) / sum, where lx is the mean filter wavelength");
+        String description;
+
+        ColourModel(String description) {
+            this.description = description;
+        }
+    };
+    
+    protected ColourModel colourModel = ColourModel.RatioBtoRG;
     protected double sigmaOnThreshold = 10;
     protected double sigmaOffThreshold = 10;
     protected double sigmaOnDeviation = 0;
@@ -39,6 +52,11 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
     
     protected double[] sigmaOnThresholds = null;
     protected double[] sigmaOffThresholds = null;
+    
+    protected double pixR;
+    protected double pixG;
+    protected double pixB;
+    protected double sum;
     
     protected double backgroundEventRatePerPixelHz = 10;
     protected Random bgRandom = new Random();
@@ -54,11 +72,11 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
     protected double[] lensCorrection = null;
     
     protected boolean isLogValue = false;
-    protected double[] logValues = null;
+    protected boolean isDVSShown = false;
     
     protected boolean linearInterpolateTimeStamp;
     protected ArrayList<Integer> discreteEventCount = new ArrayList<Integer>();
-    private BasicEvent tempEvent = new BasicEvent();
+    private BasicEvent tempEvent = new cDVSEvent();
     
     protected double logTransitionValue = 20;
     protected double expWeight = 2;
@@ -76,6 +94,7 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
     //protected ArrayList<Integer> pixelIndices = new ArrayList<Integer>();
     protected int[] pixelValues;
     protected double[] previousValues;
+    protected double[] previousBrightness;
     protected int nPixels;
     
     protected double tempValue;
@@ -83,11 +102,12 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
     @Override
     public JPanel getChipPanel() {
         if (chipPanel == null) 
-            chipPanel = new PSEyeDVSPanel(this);
+            chipPanel = new PSEyeCDVSPanel(this);
         return chipPanel;
     }
     
     enum EVENT_MODEL { 
+        MODEL,
         GAMMA,
         LENS_CORRECTION,
         LOG_VALUE,
@@ -95,6 +115,7 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
         SIGMA_OFF,
         SIGMA_ON,        
         LOG_TRANSISTION,
+        INCLUDE_DVS,
         EXP_WEIGHT,
         SIGMA_ON_STD,
         SIGMA_OFF_STD,
@@ -102,19 +123,24 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
         BACKGROUND_RATE
     }
     
-    public PSEyeModelDVS () {
+    public PSEyeModelCDVS () {
         super();
         loadPreferences();
         
-        setBiasgen(new CameraChipBiasgen<PSEyeModelDVS>(this));
+        setBiasgen(new CameraChipBiasgen<PSEyeModelCDVS>(this));
         camera.addObserver(this);
         init();
-        setEventExtractor(new DVSExtractor(this));
+        setEventExtractor(new CDVSExtractor(this));
+        setRenderer((renderer = new PSEyeCDVSRenderer(this)));
     }
     
     @Override 
     public ArrayList<Mode> getModes() { 
         return modes;
+    }
+    
+    public ArrayList<ColourModel> getModels() { 
+        return new ArrayList<ColourModel>(Arrays.asList(ColourModel.values()));
     }
     
     protected void init() {
@@ -132,6 +158,9 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
     
     @Override
     public void storePreferences() {
+        getPrefs().put("colourModel", getColourModel().name());
+        getPrefs().putBoolean("isDVSShown", isDVSShown);
+        
         getPrefs().putDouble("sigmaOnThreshold", sigmaOnThreshold);
         getPrefs().putDouble("sigmaOffThreshold", sigmaOffThreshold);
         getPrefs().putDouble("sigmaOnDeviation", sigmaOnDeviation);
@@ -153,6 +182,10 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
     
     @Override
     public void loadPreferences() {
+        colourModel = ColourModel.valueOf(getPrefs().get("colourModel", colourModel.name()));
+        getPrefs().put("colourModel", getColourModel().name());
+        isDVSShown = getPrefs().getBoolean("isDVSShown", isDVSShown);
+        
         sigmaOnThreshold = getPrefs().getDouble("sigmaOnThreshold", sigmaOnThreshold);
         sigmaOffThreshold = getPrefs().getDouble("sigmaOffThreshold", sigmaOffThreshold);
         sigmaOnDeviation = getPrefs().getDouble("sigmaOnDeviation", sigmaOnDeviation);
@@ -177,6 +210,18 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
         return "PSEyeModelDVS";
     }
 
+    public ColourModel getColourModel() {
+        return colourModel;
+    }
+
+    public void setColourModel(ColourModel colourModel) {
+        if(colourModel != getColourModel()) {
+            this.colourModel = colourModel;
+            setChanged();
+            notifyObservers(EVENT_MODEL.MODEL);
+        }
+    }
+
     public boolean getIsGamma() {
         return isGamma;
     }
@@ -198,6 +243,18 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
             this.isLensCorrection = isLensCorrection;
             setChanged();
             notifyObservers(EVENT_MODEL.LENS_CORRECTION);
+        }
+    }
+
+    public boolean getIsDVSShown() {
+        return isDVSShown;
+    }
+
+    public void setIsDVSShown(boolean isDVSShown) {
+        if (isDVSShown != getIsDVSShown()) {
+            this.isDVSShown = isDVSShown;
+            setChanged();
+            notifyObservers(EVENT_MODEL.INCLUDE_DVS);
         }
     }
 
@@ -355,7 +412,7 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
             notifyObservers(EVENT_MODEL.BACKGROUND_RATE);
         }
     }
-        
+    
     protected double logValue(double value) {
         if (value >= logTransitionValue) {
             return Math.log(value);
@@ -405,12 +462,6 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
     }
     
     protected double transformValue(int pixelIndex, int value) {
-        //if (isRawData) {
-        //    value = getRawData(x, y, value);
-        //}
-        //else value = value & 0xff;
-        value = value & 0xff;
-        
         if (isGamma) {
             tempValue = PSEyeDriverInterface.gamma[value];
         }
@@ -438,50 +489,106 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
         }
     }
     
-    class DVSExtractor extends TypedEventExtractor<PolarityEvent> {
+    class CDVSExtractor extends TypedEventExtractor<cDVSEvent> {
         private double valueDelta;
         private int number;
         private int x;
         private int y;
     
-        public DVSExtractor(PSEyeModelDVS aechip) {
+        public CDVSExtractor(PSEyeModelCDVS aechip) {
             super(aechip);
         }
 
+        protected double calculateHue() {
+            final float lr = 650, lg = 500, lb = 430; // guesstimated mean wavelengh of color filters
+            sum = 0;
+            
+            switch (colourModel) {
+                case DifferenceRB:
+                    if (pixR > 0 || pixB > 0) {
+                        valueDelta = 255 - 510 * (pixR * pixB) / (pixR * pixR + pixB * pixB);
+                    }
+                    else valueDelta = 0;
+                    break;
+                case MeanWaveLength:
+                    sum = (pixR + pixG + pixB);
+                    if (sum > 0) {
+                        // new method computes hue directly
+                        valueDelta = (lr * pixR + lg * pixG + lb * pixB) / sum;
+                        valueDelta = 255 * (valueDelta - lb) / ((float) (lr - lb));
+                        valueDelta = 256 - valueDelta; // flip hue value to get in same sense os RatioBtoRG, higher value is more blue
+                    }
+                    else valueDelta = 0;
+                    break;
+                case RatioBtoRG:
+                    sum = pixG + pixR;
+                    if (sum > 0) {
+                        valueDelta = 255 * ((pixB) / sum);
+                    }
+                    else valueDelta = 0;
+                    break;
+            }
+            return valueDelta;
+        }
+        
         
         protected void createEvents(int pixelIndex, OutputEventIterator itr) {
+            
             x = pixelIndex % chip.getSizeX();
             y = (int) Math.floor(pixelIndex / chip.getSizeX()); 
-            valueDelta = (transformValue(pixelIndex, pixelValues[pixelIndex])) - previousValues[pixelIndex]; 
-            // brightness change 
+            
+            pixR = transformValue(pixelIndex, (pixelValues[pixelIndex] >> 16) & 0xff);
+            pixG = transformValue(pixelIndex, (pixelValues[pixelIndex] >> 8) & 0xff);
+            pixB = transformValue(pixelIndex, pixelValues[pixelIndex] & 0xff);
+            
+            valueDelta = calculateHue() - previousValues[pixelIndex];
+            
+            // hue change 
             if (valueDelta > sigmaOnThresholds[pixelIndex]) { // if our gray level is sufficiently higher than the stored gray level
                 number = (int) Math.floor(valueDelta / sigmaOnThresholds[pixelIndex]);
-                outputEvents(PolarityEvent.Polarity.On, number, itr, x, y);
+                outputEvents(cDVSEvent.EventType.Bluer, number, itr, x, y);
                 previousValues[pixelIndex] += sigmaOnThresholds[pixelIndex] * number; // update stored gray level by events // TODO include mismatch
                 lastEventTimes[pixelIndex] = currentFrameTimestamp + (long) (bgRandom.nextDouble() * 2 * bgIntervalUs);
             } 
             else if (valueDelta < sigmaOffThresholds[pixelIndex]) { // if our gray level is sufficiently higher than the stored gray level
                 number = (int) Math.floor(valueDelta / sigmaOffThresholds[pixelIndex]);
-                outputEvents(PolarityEvent.Polarity.Off, number, itr, x, y);
+                outputEvents(cDVSEvent.EventType.Redder, number, itr, x, y);
                 previousValues[pixelIndex] += sigmaOffThresholds[pixelIndex] * number; // update stored gray level by events // TODO include mismatch
                 lastEventTimes[pixelIndex] = currentFrameTimestamp + (long) (bgRandom.nextDouble() * 2 * bgIntervalUs);
             } 
             // emit background event possibly
             else if (backgroundEventRatePerPixelHz > 0 && (currentFrameTimestamp - lastEventTimes[pixelIndex]) > bgIntervalUs) {
-                // randomly emit either Brighter event
-                outputEvents(PolarityEvent.Polarity.On, 1, itr, x, y);
+                // randomly emit either Brighter or Redder event TODO check Redder/Bluer
+                cDVSEvent.EventType bgType = cDVSEvent.EventType.Redder;
+                outputEvents(bgType, 1, itr, x, y);
                 lastEventTimes[pixelIndex] = currentFrameTimestamp + (long) (bgRandom.nextDouble() * 2 * bgIntervalUs);
+            }
+            
+            if (isDVSShown) {
+                valueDelta = pixB - previousBrightness[pixelIndex];
+            
+                // brightness change 
+                if (valueDelta > sigmaOnThresholds[pixelIndex]) { // if our gray level is sufficiently higher than the stored gray level
+                    number = (int) Math.floor(valueDelta / sigmaOnThresholds[pixelIndex]);
+                    outputEvents(cDVSEvent.EventType.Brighter, number, itr, x, y);
+                    previousBrightness[pixelIndex] += sigmaOnThresholds[pixelIndex] * number; // update stored gray level by events // TODO include mismatch
+                } 
+                else if (valueDelta < sigmaOffThresholds[pixelIndex]) { // if our gray level is sufficiently higher than the stored gray level
+                    number = (int) Math.floor(valueDelta / sigmaOffThresholds[pixelIndex]);
+                    outputEvents(cDVSEvent.EventType.Darker, number, itr, x, y);
+                    previousBrightness[pixelIndex] += sigmaOffThresholds[pixelIndex] * number; // update stored gray level by events // TODO include mismatch
+                }
             }
         }
         
-        protected void outputEvents(PolarityEvent.Polarity type, int number, OutputEventIterator itr, int x, int y) {
+        protected void outputEvents(cDVSEvent.EventType type, int number, OutputEventIterator itr, int x, int y) {
             for (int j = 0; j < number; j++) { // use down iterator as ensures latest timestamp as last event
                 if (eventCount >= MAX_EVENTS) break;
-                PolarityEvent e = (PolarityEvent) itr.nextOutput();
+                cDVSEvent e = (cDVSEvent) itr.nextOutput();
                 e.x = (short) x;
                 e.y = (short) (chip.getSizeY() - y - 1); // flip y according to jAER with 0,0 at LL
                                
-                e.polarity = type;
+                e.eventType = type;
                 if (linearInterpolateTimeStamp) {
                     e.timestamp = (int) (currentFrameTimestamp - j * (currentFrameTimestamp - lastFrameTimestamp) / number);
                     orderedLastSwap(out, j);
@@ -500,7 +607,7 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
                 return;
         
             CameraAEPacketRaw framePacket = (CameraAEPacketRaw) in;
-            if (nPixels != framePacket.getFrameSize()) 
+            if (nPixels != framePacket.getFrameSize())
                 init();
         
             int nFrames = framePacket.getNumFrames();
@@ -513,8 +620,8 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
                 discreteEventCount.clear();
             }
 
-            if (out.getEventClass() != PolarityEvent.class) {
-                out.setEventClass(PolarityEvent.class); // set the proper output event class to include color change events
+            if (out.getEventClass() != cDVSEvent.class) {
+                out.setEventClass(cDVSEvent.class); // set the proper output event class to include color change events
             }
 
             currentFrameTimestamp = 0;
@@ -535,8 +642,15 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
                 else {
                     currentFrameTimestamp = in.getTimestamp(0);
                     previousValues = new double[nPixels];
+                    previousBrightness = new double[nPixels];
                     for (int i = 0; i < nPixels; i++) {
-                        previousValues[i] = transformValue(i, pixelValues[i]);
+                        pixR = transformValue(i, (pixelValues[i] >> 16) & 0xff);
+                        pixG = transformValue(i, (pixelValues[i] >> 8) & 0xff);
+                        pixB = transformValue(i, pixelValues[i] & 0xff);
+            
+                        valueDelta = calculateHue();
+                        previousValues[i] = valueDelta;
+                        previousBrightness[i] = pixB;
                         lastEventTimes[i] = currentFrameTimestamp;
                     } 
                     initialised = true;

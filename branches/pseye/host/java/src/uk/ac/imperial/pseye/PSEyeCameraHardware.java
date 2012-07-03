@@ -94,7 +94,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     /* Create a camera instance */
     synchronized private boolean createCamera() {
         // Check to see if camera already exists, cannot create new
-        if (isCreated) return false;
+        if (isCreated) return true;
         
         // create camera instance
         cameraInstance = CLCamera.CLEyeCreateCamera(index, mode.getValue(), 
@@ -150,7 +150,9 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     /* Destroys the camera instance */
     synchronized private boolean destroyCamera() {
         // no camera to destroy or camera running
-        if (!isCreated || isStarted) return false;
+        if (!isCreated) return true;
+        
+        if (isStarted) stop();
         
         if (CLCamera.CLEyeDestroyCamera(cameraInstance)) {
             cameraInstance = 0;
@@ -164,7 +166,8 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     @Override
     synchronized public boolean start() {
         // camera doesn't exist or already started
-        if (!isCreated || isStarted) return false;
+        if (isStarted) return true;
+        if (!isCreated) return false;
         
         //  try to start camera
         if (CLCamera.CLEyeCameraStart(cameraInstance)) {
@@ -179,7 +182,8 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     @Override
     synchronized public boolean stop() {
         // camera doesn't exist or is already stopped
-        if (!isCreated || !isStarted) return false;
+        if (!isStarted) return true;
+        if (!isCreated) return false;
 
         // try to stop camera
         if (CLCamera.CLEyeCameraStop(cameraInstance)) {
@@ -280,7 +284,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
         return isStarted;
     }
     
-    private void reload() throws HardwareInterfaceException {
+    synchronized private void reload() throws HardwareInterfaceException {
         // used when re-loading camera
         boolean wasStarted = isStarted;
         boolean wasCreated = isCreated;
@@ -362,11 +366,11 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     }
     
     @Override
-    synchronized public int setFrameRate(int cameraFrameRate) throws HardwareInterfaceException {
+    public int setFrameRate(int cameraFrameRate) throws HardwareInterfaceException {
         return setFrameRate(cameraFrameRate, true);
     }
     
-    private int setFrameRate(int cameraFrameRate, boolean reset) throws HardwareInterfaceException {
+    synchronized private int setFrameRate(int cameraFrameRate, boolean reset) throws HardwareInterfaceException {
         // get a supported frame rate
         cameraFrameRate = getClosestFrameRate(cameraFrameRate);
         if(getFrameRate() != cameraFrameRate) {
@@ -399,7 +403,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     }    
 
     @Override
-    synchronized public int setGain(int gain) {
+    public int setGain(int gain) {
         return setGain(gain, false);
     }
     
@@ -437,7 +441,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     }
         
     @Override
-    synchronized public int setExposure(int exp) {
+    public int setExposure(int exp) {
         return setExposure(exp, false);
     }
     
@@ -475,7 +479,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     }    
 
     @Override
-    synchronized public int setRedBalance(int red) {
+    public int setRedBalance(int red) {
         return setRedBalance(red, false);
     }
     
@@ -513,7 +517,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     }    
 
     @Override
-    synchronized public int setGreenBalance(int green) {
+    public int setGreenBalance(int green) {
         return setGreenBalance(green, false);
     }
     
@@ -551,7 +555,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     }    
 
     @Override
-    synchronized public int setBlueBalance(int blue) {
+    public int setBlueBalance(int blue) {
         return setBlueBalance(blue, false);
     }
     
@@ -589,7 +593,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     } 
     
     @Override
-    synchronized public boolean setAutoGain(boolean yes) {
+    public boolean setAutoGain(boolean yes) {
         return setAutoGain(yes, false);
     }
     
@@ -616,7 +620,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     } 
     
     @Override
-    synchronized public boolean setAutoExposure(boolean yes) {
+    public boolean setAutoExposure(boolean yes) {
         return setAutoExposure(yes, false);
     }
     
@@ -643,7 +647,7 @@ public class PSEyeCameraHardware extends AbstractCamera implements PSEyeDriverIn
     } 
     
     @Override
-    synchronized public boolean setAutoBalance(boolean yes) {
+    public boolean setAutoBalance(boolean yes) {
         return setAutoBalance(yes, false);
     }
     

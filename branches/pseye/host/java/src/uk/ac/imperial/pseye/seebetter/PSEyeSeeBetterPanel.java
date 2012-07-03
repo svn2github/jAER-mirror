@@ -1,15 +1,11 @@
 
-package uk.ac.imperial.pseye.dvs;
+package uk.ac.imperial.pseye.seebetter;
 
-import uk.ac.imperial.pseye.*;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JPanel;
-import java.util.Hashtable;
-import javax.swing.JLabel;
 
 /*
  * JPanel used to control PSEye settings.
@@ -18,16 +14,17 @@ import javax.swing.JLabel;
  * 
  * @author mlk
  */
-public class PSEyeChipPanel extends JPanel implements Observer {
+public class PSEyeSeeBetterPanel extends JPanel implements Observer {
 
-    private final static Logger log = Logger.getLogger("PSEyeChipPanel");
-    public PSEyeModelDVS chip;
+    private final static Logger log = Logger.getLogger("PSEyeDVSPanel");
+    public PSEyeModelSeeBetter chip;
+    protected boolean refresh = false;
 
     /* Create a control panel 
      * 
      * @param driver: the interface to observer and use to control the camera
      */
-    public PSEyeChipPanel(PSEyeModelDVS chip) {
+    public PSEyeSeeBetterPanel(PSEyeModelSeeBetter chip) {
         this.chip = chip;
         // create all panel components
         initComponents();
@@ -50,103 +47,47 @@ public class PSEyeChipPanel extends JPanel implements Observer {
     /* Read the driver settings and set components to these values 
      * 
      */
-    private void setComponents() {
-        /*
-        Object[] modes = chip.getModes().toArray();
-        modeCB.setModel(new DefaultComboBoxModel(modes));
-        modeCB.setSelectedItem(chip.getMode());
-        modeCB.setEnabled(modes.length > 1);
+    synchronized private void setComponents() {
+        refresh = true;
         
-        Object[] resolutions = chip.getResolutions().toArray();
-        resCB.setModel(new DefaultComboBoxModel(resolutions));
-        resCB.setEnabled(resolutions.length > 1);
-        resCB.setSelectedItem(chip.getResolution());
+        siSp.setModel(new SpinnerNumberModel(chip.getSubSampleRate(), 
+                1, 250, 1));
         
-        Object[] frameRates = chip.getFrameRates().toArray();
-        rateCB.setModel(new DefaultComboBoxModel(frameRates));
-        rateCB.setEnabled(frameRates.length > 1);
-        rateCB.setSelectedItem(chip.getFrameRate());
+        itCB.setSelected(chip.getLinearInterpolateTimeStamp());
+        gcCB.setSelected(chip.getIsGamma());
+        lcCB.setSelected(chip.getIsLensCorrection());
         
-        agCB.setSelected(chip.getAutoGain());
-        aeCB.setSelected(chip.getAutoExposure());
-        abCB.setSelected(chip.getAutoBalance());
-        */
-        Hashtable labelTable = null;
+        bgSp.setModel(new SpinnerNumberModel(chip.getBackgroundEventRatePerPixelHz(), 
+                0, 1000.0, 1));
         
-        /*
-        expSl.setMinimum(chip.getMinExposure());
-        expSl.setMaximum(chip.getMaxExposure());
-        expSl.setValue(chip.getExposure());
-        labelTable = new Hashtable();
-        labelTable.put(chip.getMinExposure(), new JLabel(Integer.toString(chip.getMinExposure())));
-        labelTable.put(chip.getMaxExposure(), new JLabel(Integer.toString(chip.getMaxExposure())));
-        expSl.setLabelTable(labelTable);
-        expSl.setPaintLabels(true);
-        expSl.setEnabled(!aeCB.isSelected());
+        llCB.setSelected(chip.getIsLogValue());
         
-        expSp.setModel(new SpinnerNumberModel(chip.getExposure(), 
-                chip.getMinExposure(), chip.getMaxExposure(), 1));
-        expSp.setValue(chip.getExposure());
-        expSp.setEnabled(!aeCB.isSelected());
+        ltSp.setModel(new SpinnerNumberModel(chip.getLogTransitionValue(), 
+                0, 255, 1));
         
-        gainSl.setMinimum(chip.getMinGain());
-        gainSl.setMaximum(chip.getMaxGain());
-        gainSl.setValue(chip.getGain());
-        labelTable = new Hashtable();
-        labelTable.put(chip.getMinGain(), new JLabel(Integer.toString(chip.getMinGain())));
-        labelTable.put(chip.getMaxGain(), new JLabel(Integer.toString(chip.getMaxGain())));
-        gainSl.setLabelTable(labelTable);
-        gainSl.setPaintLabels(true);
-        gainSl.setEnabled(!agCB.isSelected());
-                
-        gainSp.setModel(new SpinnerNumberModel(chip.getGain(), 
-                chip.getMinGain(), chip.getMaxGain(), 1));
-        gainSp.setValue(chip.getGain());
-        gainSp.setEnabled(!agCB.isSelected());
-        */
+        expSp.setModel(new SpinnerNumberModel(chip.getExpWeight(), 
+                0, 10, 1));
         
         onSl.setMinimum(1);
         onSl.setMaximum(255);
-        onSl.setValue((int) Math.floor(chip.getSigmaOnThreshold() / chip.getMinSigmaOn()));
-        onSl.setPaintLabels(false);
-        onSl.setPaintTicks(false);
-        /*
-        labelTable = new Hashtable();
-        labelTable.put(1, new JLabel("MIN"));
-        labelTable.put(255, new JLabel("MAX"));
-        onSl.setLabelTable(labelTable);
-        */
-        onSp.setModel(new SpinnerNumberModel(chip.getSigmaOnThreshold(), 
-                chip.getMinSigmaOn(), chip.getMaxSigmaOn(), chip.getMinSigmaOn()));
+        onSl.setValue((int) Math.ceil(chip.getSigmaOnThreshold()));
+        onSp.setModel(new SpinnerNumberModel(chip.getSigmaOnThreshold(),
+                1., 255., 1.));
         
         onstdSp.setModel(new SpinnerNumberModel(chip.getSigmaOnDeviation() * 100, 
-                0, 100, 1));
+                0., 100., 1.));
                         
         offSl.setMinimum(1);
         offSl.setMaximum(255);
-        offSl.setValue((int) Math.floor(chip.getSigmaOffThreshold() / chip.getMinSigmaOff()));
-        /*
-        labelTable = new Hashtable();
-        labelTable.put(1, new JLabel("MIN"));
-        labelTable.put(255, new JLabel("MAX"));
-        offSl.setLabelTable(labelTable);
-        */
-        offSp.setModel(new SpinnerNumberModel(chip.getSigmaOffThreshold(), 
-                chip.getMinSigmaOff(), chip.getMaxSigmaOff(), chip.getMinSigmaOff()));        
+        offSl.setValue((int) Math.ceil(chip.getSigmaOffThreshold()));
+        offSp.setModel(new SpinnerNumberModel(chip.getSigmaOffThreshold(),
+                1., 255., 1.));     
         
         offstdSp.setModel(new SpinnerNumberModel(chip.getSigmaOffDeviation() * 100, 
-                0, 100, 1));
-        
-        ltSp.setModel(new SpinnerNumberModel(20, 
-                0, 255, 1));
-        
-        expSp.setModel(new SpinnerNumberModel(1, 
-                0, 255, 1));
-        
-        bgSp.setModel(new SpinnerNumberModel(10, 
-                0, 255, 1));
+                0., 100., 1.));
                 
         revalidate();
+        refresh = false;
     }
 
    /** This method is called from within the constructor to
@@ -159,6 +100,9 @@ public class PSEyeChipPanel extends JPanel implements Observer {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jPanel4 = new javax.swing.JPanel();
+        jLabel23 = new javax.swing.JLabel();
+        siSp = new javax.swing.JSpinner();
         jPanel1 = new javax.swing.JPanel();
         onSl = new javax.swing.JSlider();
         offSl = new javax.swing.JSlider();
@@ -185,11 +129,46 @@ public class PSEyeChipPanel extends JPanel implements Observer {
         expSp = new javax.swing.JSpinner();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
+        llCB = new javax.swing.JCheckBox();
+        jLabel22 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder("Model"), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        setMinimumSize(new java.awt.Dimension(300, 400));
-        setPreferredSize(new java.awt.Dimension(300, 400));
+        setMinimumSize(new java.awt.Dimension(300, 485));
+        setPreferredSize(new java.awt.Dimension(300, 485));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder("ADC"), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        jPanel4.setMinimumSize(new java.awt.Dimension(300, 50));
+        jPanel4.setPreferredSize(new java.awt.Dimension(300, 50));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel23.setText("Sample Interval");
+        jLabel23.setAlignmentY(0.0F);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(jLabel23, gridBagConstraints);
+
+        siSp.setToolTipText("Sample full image every x frames");
+        siSp.setMaximumSize(null);
+        siSp.setMinimumSize(null);
+        siSp.setPreferredSize(null);
+        siSp.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                siSpStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        jPanel4.add(siSp, gridBagConstraints);
+
+        add(jPanel4);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder("Thresholds"), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         jPanel1.setMinimumSize(new java.awt.Dimension(300, 150));
@@ -245,6 +224,7 @@ public class PSEyeChipPanel extends JPanel implements Observer {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel1.add(offSp, gridBagConstraints);
 
         onSp.setToolTipText("CL eye exposure value (0-511)");
@@ -256,6 +236,7 @@ public class PSEyeChipPanel extends JPanel implements Observer {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel1.add(onSp, gridBagConstraints);
 
         onstdSp.setToolTipText("CL eye exposure value (0-511)");
@@ -305,8 +286,7 @@ public class PSEyeChipPanel extends JPanel implements Observer {
         jPanel2.setPreferredSize(new java.awt.Dimension(300, 100));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        gcCB.setText("Auto");
-        gcCB.setToolTipText("Enables AGC");
+        gcCB.setToolTipText("");
         gcCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gcCBActionPerformed(evt);
@@ -336,8 +316,7 @@ public class PSEyeChipPanel extends JPanel implements Observer {
         gridBagConstraints.weightx = 1.0;
         jPanel2.add(jLabel16, gridBagConstraints);
 
-        lcCB.setText("Auto");
-        lcCB.setToolTipText("Enables AGC");
+        lcCB.setToolTipText("");
         lcCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lcCBActionPerformed(evt);
@@ -358,8 +337,7 @@ public class PSEyeChipPanel extends JPanel implements Observer {
         gridBagConstraints.weightx = 1.0;
         jPanel2.add(jLabel18, gridBagConstraints);
 
-        itCB.setText("Auto");
-        itCB.setToolTipText("Enables AGC");
+        itCB.setToolTipText("");
         itCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itCBActionPerformed(evt);
@@ -392,7 +370,7 @@ public class PSEyeChipPanel extends JPanel implements Observer {
         gridBagConstraints.weightx = 1.0;
         jPanel3.add(jLabel19, gridBagConstraints);
 
-        bgSp.setToolTipText("CL eye exposure value (0-511)");
+        bgSp.setToolTipText("Rate of RED events due to reset leakage");
         bgSp.setMaximumSize(null);
         bgSp.setMinimumSize(null);
         bgSp.setPreferredSize(null);
@@ -404,17 +382,17 @@ public class PSEyeChipPanel extends JPanel implements Observer {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel3.add(bgSp, gridBagConstraints);
 
         add(jPanel3);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder("Log-Linear Settings"), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        jPanel5.setMaximumSize(null);
         jPanel5.setMinimumSize(new java.awt.Dimension(300, 100));
         jPanel5.setPreferredSize(new java.awt.Dimension(300, 100));
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
-        ltSp.setToolTipText("CL eye exposure value (0-511)");
+        ltSp.setToolTipText("Value at which to use log transform");
         ltSp.setMaximumSize(null);
         ltSp.setMinimumSize(null);
         ltSp.setPreferredSize(null);
@@ -425,10 +403,11 @@ public class PSEyeChipPanel extends JPanel implements Observer {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel5.add(ltSp, gridBagConstraints);
 
-        expSp.setToolTipText("CL eye exposure value (0-511)");
+        expSp.setToolTipText("Exponential weighting to pre-log to further reduce noise");
         expSp.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 expSpStateChanged(evt);
@@ -436,19 +415,15 @@ public class PSEyeChipPanel extends JPanel implements Observer {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel5.add(expSp, gridBagConstraints);
 
-        jLabel20.setText("Threshold");
-        jLabel20.setMaximumSize(null);
-        jLabel20.setMinimumSize(null);
-        jLabel20.setPreferredSize(null);
+        jLabel20.setText("Enable");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipady = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 1.0;
         jPanel5.add(jLabel20, gridBagConstraints);
 
         jLabel21.setText("Exp Weighting");
@@ -457,65 +432,107 @@ public class PSEyeChipPanel extends JPanel implements Observer {
         jLabel21.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.ipady = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel5.add(jLabel21, gridBagConstraints);
+
+        llCB.setToolTipText("");
+        llCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                llCBActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        jPanel5.add(llCB, gridBagConstraints);
+
+        jLabel22.setText("Threshold");
+        jLabel22.setMaximumSize(null);
+        jLabel22.setMinimumSize(null);
+        jLabel22.setPreferredSize(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        jPanel5.add(jLabel22, gridBagConstraints);
 
         add(jPanel5);
     }// </editor-fold>//GEN-END:initComponents
 
     private void bgSpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_bgSpStateChanged
-
+        if (!refresh) 
+            chip.setBackgroundEventRatePerPixelHz((Double) bgSp.getValue());
     }//GEN-LAST:event_bgSpStateChanged
 
     private void onSlStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_onSlStateChanged
-        if (onSl.getValue() != (int) Math.floor(chip.getSigmaOnThreshold() / chip.getMinSigmaOn())) {
-            chip.setSigmaOnThreshold(onSl.getValue() * chip.getMinSigmaOn());
-        }
+        if (!refresh) 
+            chip.setSigmaOnThreshold(onSl.getValue());
     }//GEN-LAST:event_onSlStateChanged
 
     private void offSlStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_offSlStateChanged
-        if (offSl.getValue() != (int) Math.floor(chip.getSigmaOffThreshold() / chip.getMinSigmaOff())) {
-            chip.setSigmaOffThreshold(offSl.getValue() * chip.getMinSigmaOff());
-        }
+        if (!refresh)
+            chip.setSigmaOffThreshold(offSl.getValue());
     }//GEN-LAST:event_offSlStateChanged
 
     private void offSpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_offSpStateChanged
-        chip.setSigmaOffThreshold((Double) offSp.getValue());
+        if (!refresh)
+            chip.setSigmaOffThreshold((Double) offSp.getValue());
     }//GEN-LAST:event_offSpStateChanged
 
     private void onSpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_onSpStateChanged
-        chip.setSigmaOnThreshold((Double) onSp.getValue());
+        if (!refresh)
+            chip.setSigmaOnThreshold((Double) onSp.getValue());
     }//GEN-LAST:event_onSpStateChanged
 
     private void onstdSpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_onstdSpStateChanged
-        chip.setSigmaOnDeviation((Double) onstdSp.getValue() / 100.0);
+        if (!refresh)
+            chip.setSigmaOnDeviation((Double) onstdSp.getValue() / 100.0);
     }//GEN-LAST:event_onstdSpStateChanged
 
     private void offstdSpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_offstdSpStateChanged
-        chip.setSigmaOffDeviation((Double) offstdSp.getValue() / 100.0);
+        if (!refresh)
+            chip.setSigmaOffDeviation((Double) offstdSp.getValue() / 100.0);
     }//GEN-LAST:event_offstdSpStateChanged
 
     private void gcCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcCBActionPerformed
-
+        if (!refresh)
+            chip.setIsGamma(gcCB.isSelected());
     }//GEN-LAST:event_gcCBActionPerformed
 
     private void lcCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lcCBActionPerformed
-        // TODO add your handling code here:
+    if (!refresh)
+            chip.setIsLensCorrection(lcCB.isSelected());
     }//GEN-LAST:event_lcCBActionPerformed
 
     private void ltSpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ltSpStateChanged
-        // TODO add your handling code here:
+        if (!refresh) 
+            chip.setLogTransitionValue((Double) ltSp.getValue());
     }//GEN-LAST:event_ltSpStateChanged
 
     private void itCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itCBActionPerformed
-        // TODO add your handling code here:
+    if (!refresh)
+            chip.setLinearInterpolateTimeStamp(itCB.isSelected());
     }//GEN-LAST:event_itCBActionPerformed
 
     private void expSpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_expSpStateChanged
-        // TODO add your handling code here:
+        if (!refresh) 
+            chip.setExpWeight((Double) expSp.getValue());
     }//GEN-LAST:event_expSpStateChanged
+
+    private void llCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_llCBActionPerformed
+        if (!refresh)
+            chip.setIsLogValue(llCB.isSelected());
+    }//GEN-LAST:event_llCBActionPerformed
+
+    private void siSpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_siSpStateChanged
+    if (!refresh) 
+            chip.setSubSampleRate((Integer) siSp.getValue());
+    }//GEN-LAST:event_siSpStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner bgSp;
@@ -529,14 +546,18 @@ public class PSEyeChipPanel extends JPanel implements Observer {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JCheckBox lcCB;
+    private javax.swing.JCheckBox llCB;
     private javax.swing.JSpinner ltSp;
     private javax.swing.JSlider offSl;
     private javax.swing.JSpinner offSp;
@@ -544,25 +565,26 @@ public class PSEyeChipPanel extends JPanel implements Observer {
     private javax.swing.JSlider onSl;
     private javax.swing.JSpinner onSp;
     private javax.swing.JSpinner onstdSp;
+    private javax.swing.JSpinner siSp;
     // End of variables declaration//GEN-END:variables
 
     /**
      * @return the driver
      */
-    public PSEyeModelDVS getChip() {
+    public PSEyeModelSeeBetter getChip() {
         return chip;
     }
 
     /**
      * @param driver the driver to set
      */
-    public void setChip(PSEyeModelDVS chip) {
+    public void setChip(PSEyeModelSeeBetter chip) {
         this.chip = chip;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o != null && o == chip && arg instanceof PSEyeModelDVS.EVENT_MODEL) {
+        if (o != null && o == chip && arg instanceof PSEyeModelSeeBetter.EVENT_MODEL) {
             // update all components and models just in case
             setComponents();
         }

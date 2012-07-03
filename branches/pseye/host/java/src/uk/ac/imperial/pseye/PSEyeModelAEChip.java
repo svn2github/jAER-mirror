@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import java.util.prefs.InvalidPreferencesFormatException;
 import javax.swing.JPanel;
 import net.sf.jaer.biasgen.Biasgen;
-import uk.ac.imperial.vsbe.CameraChipBiasgen;
 import uk.ac.imperial.vsbe.CameraAEHardwareInterface;
 import uk.ac.imperial.vsbe.CameraChipBiasInterface;
 import net.sf.jaer.chip.AEChip;
@@ -31,37 +30,19 @@ import net.sf.jaer.eventio.AEFileInputStream;
  * 
  * @author Tobi Delbruck and Mat Katz
  */
-public abstract class PSEyeModelAEChip extends AEChip implements PreferenceChangeListener, 
-        PSEyeDriverInterface, CameraChipBiasInterface, Observer {
+public abstract class PSEyeModelAEChip extends AEChip implements PSEyeDriverInterface, 
+        CameraChipBiasInterface, Observer {
     protected PSEyeCameraHardware camera = new PSEyeCameraHardware();
     protected PSEyeCameraPanel cameraPanel = null;
     
-    @Override
-    public void preferenceChange(PreferenceChangeEvent evt) {
-        getBiasgen().loadPreferences();
-    }
 
     public PSEyeModelAEChip() {
         super();
-        //loadPreferences();
-        
-        setBiasgen(new CameraChipBiasgen<PSEyeModelAEChip>(this));
-        //setRenderer((renderer = new PSEyeModelRenderer(this)));
-        
-        getPrefs().addPreferenceChangeListener(this);
-        camera.addObserver(this);
-        //camera = new PSEyeDriverChipComponent<PSEyeModelAEChip>(this);
     }
     
     /* needed to ensure listener deregistered on construction of
      * an equivalent instance and so prevent a memory leak 
      */
-    @Override
-    public void cleanup() {
-        super.cleanup();
-        getPrefs().removePreferenceChangeListener(this);
-    }
-    
     @Override
     public void loadPreferences() {
         try {
@@ -85,9 +66,6 @@ public abstract class PSEyeModelAEChip extends AEChip implements PreferenceChang
         } catch (Exception ex) {
             log.warning(ex.toString());
         }
-        
-        //if (getEventExtractor() != null && (getEventExtractor() instanceof PSEyeEventExtractor))
-        //    ((PSEyeEventExtractor) getEventExtractor()).loadPreferences(getPrefs());
     }
 
     @Override
@@ -107,9 +85,6 @@ public abstract class PSEyeModelAEChip extends AEChip implements PreferenceChang
         getPrefs().putBoolean("autoGain", getAutoGain());
         getPrefs().putBoolean("autoExposure", getAutoExposure());
         getPrefs().putBoolean("autoBalance", getAutoBalance());
-        
-        //if (getEventExtractor() != null && (getEventExtractor() instanceof PSEyeEventExtractor))
-        //    ((PSEyeEventExtractor) getEventExtractor()).storePreferences(getPrefs());
     }
 
     /* load all hardware parameters from chip 

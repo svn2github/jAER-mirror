@@ -15,13 +15,13 @@ import uk.ac.imperial.pseye.PSEyeModelAEChip;
  *
  * @author tobi
  */
-public class PSEyeModelRenderer extends RetinaRenderer {
+public class PSEyeCDVSRenderer extends RetinaRenderer {
 
     private PSEyeModelAEChip psEye = null;
     private final float[] redder = {1, 0, 0}, bluer = {0, 0, 1}, brighter = {1, 1, 1}, darker = {-1, -1, -1};
     private int sizeX = 1;
 
-    public PSEyeModelRenderer(PSEyeModelAEChip chip) {
+    public PSEyeCDVSRenderer(PSEyeModelAEChip chip) {
         super(chip);
         psEye = chip;
     }

@@ -21,6 +21,7 @@ public class PSEyeControlPanel extends JPanel implements Observer {
 
     private final static Logger log = Logger.getLogger("PSEyeControlPanel");
     public PSEyeDriverInterface driver;
+    protected boolean refresh = false;
 
     /* Create a control panel 
      * 
@@ -50,6 +51,8 @@ public class PSEyeControlPanel extends JPanel implements Observer {
      * 
      */
     private void setComponents() {
+        refresh = true;
+        
         Object[] modes = driver.getModes().toArray();
         modeCB.setModel(new DefaultComboBoxModel(modes));
         modeCB.setSelectedItem(driver.getMode());
@@ -147,6 +150,7 @@ public class PSEyeControlPanel extends JPanel implements Observer {
         bbSp.setEnabled(!abCB.isSelected());
         
         revalidate();
+        refresh = false;
     }
 
    /** This method is called from within the constructor to
@@ -159,6 +163,21 @@ public class PSEyeControlPanel extends JPanel implements Observer {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jPanel4 = new javax.swing.JPanel();
+        modeCB = new javax.swing.JComboBox();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        rateCB = new javax.swing.JComboBox();
+        resCB = new javax.swing.JComboBox();
+        jPanel3 = new javax.swing.JPanel();
+        expSl = new javax.swing.JSlider();
+        expSp = new javax.swing.JSpinner();
+        aeCB = new javax.swing.JCheckBox();
+        jPanel2 = new javax.swing.JPanel();
+        gainSl = new javax.swing.JSlider();
+        gainSp = new javax.swing.JSpinner();
+        agCB = new javax.swing.JCheckBox();
         jPanel1 = new javax.swing.JPanel();
         rbSl = new javax.swing.JSlider();
         gbSl = new javax.swing.JSlider();
@@ -170,31 +189,189 @@ public class PSEyeControlPanel extends JPanel implements Observer {
         abCB = new javax.swing.JCheckBox();
         gbSp = new javax.swing.JSpinner();
         bbSp = new javax.swing.JSpinner();
-        jPanel2 = new javax.swing.JPanel();
-        gainSl = new javax.swing.JSlider();
-        gainSp = new javax.swing.JSpinner();
-        agCB = new javax.swing.JCheckBox();
-        jLabel10 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        expSl = new javax.swing.JSlider();
-        expSp = new javax.swing.JSpinner();
-        aeCB = new javax.swing.JCheckBox();
-        jLabel12 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        modeCB = new javax.swing.JComboBox();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        rateCB = new javax.swing.JComboBox();
-        resCB = new javax.swing.JComboBox();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder("PS Eye Control"));
-        setLayout(new java.awt.GridBagLayout());
+        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder("PS Eye Controls"), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        setMinimumSize(new java.awt.Dimension(300, 400));
+        setPreferredSize(new java.awt.Dimension(300, 400));
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Colour Balance"));
+        jPanel4.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEtchedBorder(), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        jPanel4.setMinimumSize(new java.awt.Dimension(300, 100));
+        jPanel4.setPreferredSize(new java.awt.Dimension(300, 100));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        modeCB.setMaximumRowCount(30);
+        modeCB.setMaximumSize(null);
+        modeCB.setPreferredSize(null);
+        modeCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modeCBActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(modeCB, gridBagConstraints);
+
+        jLabel6.setText("Mode");
+        jLabel6.setMaximumSize(null);
+        jLabel6.setPreferredSize(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(jLabel6, gridBagConstraints);
+
+        jLabel11.setText("Resolution");
+        jLabel11.setMaximumSize(null);
+        jLabel11.setPreferredSize(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(jLabel11, gridBagConstraints);
+
+        jLabel13.setText("Framerate");
+        jLabel13.setMaximumSize(null);
+        jLabel13.setPreferredSize(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel4.add(jLabel13, gridBagConstraints);
+
+        rateCB.setMaximumRowCount(30);
+        rateCB.setMaximumSize(null);
+        rateCB.setPreferredSize(null);
+        rateCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rateCBActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(rateCB, gridBagConstraints);
+
+        resCB.setMaximumRowCount(30);
+        resCB.setMaximumSize(null);
+        resCB.setPreferredSize(null);
+        resCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resCBActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(resCB, gridBagConstraints);
+
+        add(jPanel4);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder("Exposure"), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        jPanel3.setMinimumSize(new java.awt.Dimension(300, 70));
+        jPanel3.setPreferredSize(new java.awt.Dimension(300, 70));
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        expSl.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                expSlStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        jPanel3.add(expSl, gridBagConstraints);
+
+        expSp.setToolTipText("CL eye exposure value (0-511)");
+        expSp.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                expSpStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        jPanel3.add(expSp, gridBagConstraints);
+
+        aeCB.setText("Auto");
+        aeCB.setToolTipText("Enables automatic exposure control");
+        aeCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aeCBActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        jPanel3.add(aeCB, gridBagConstraints);
+
+        add(jPanel3);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder("Gain"), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        jPanel2.setMinimumSize(new java.awt.Dimension(300, 70));
+        jPanel2.setPreferredSize(new java.awt.Dimension(300, 70));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        gainSl.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                gainSlStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        jPanel2.add(gainSl, gridBagConstraints);
+
+        gainSp.setToolTipText("CL eye gain (0-79)");
+        gainSp.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                gainSpStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        jPanel2.add(gainSp, gridBagConstraints);
+
+        agCB.setText("Auto");
+        agCB.setToolTipText("Enables AGC");
+        agCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agCBActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        jPanel2.add(agCB, gridBagConstraints);
+
+        add(jPanel2);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder("Colour Balance"), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        jPanel1.setMinimumSize(new java.awt.Dimension(300, 120));
+        jPanel1.setPreferredSize(new java.awt.Dimension(300, 120));
+        jPanel1.setRequestFocusEnabled(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        rbSl.setPaintTicks(true);
         rbSl.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 rbSlStateChanged(evt);
@@ -205,9 +382,9 @@ public class PSEyeControlPanel extends JPanel implements Observer {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         jPanel1.add(rbSl, gridBagConstraints);
 
-        gbSl.setPaintTicks(true);
         gbSl.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 gbSlStateChanged(evt);
@@ -218,9 +395,9 @@ public class PSEyeControlPanel extends JPanel implements Observer {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         jPanel1.add(gbSl, gridBagConstraints);
 
-        bbSl.setPaintTicks(true);
         bbSl.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 bbSlStateChanged(evt);
@@ -231,6 +408,7 @@ public class PSEyeControlPanel extends JPanel implements Observer {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         jPanel1.add(bbSl, gridBagConstraints);
 
         jLabel7.setText("R");
@@ -266,7 +444,6 @@ public class PSEyeControlPanel extends JPanel implements Observer {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         jPanel1.add(rbSp, gridBagConstraints);
 
         abCB.setText("Auto");
@@ -290,7 +467,6 @@ public class PSEyeControlPanel extends JPanel implements Observer {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         jPanel1.add(gbSp, gridBagConstraints);
 
         bbSp.setToolTipText("CL eye exposure value (0-511)");
@@ -302,225 +478,9 @@ public class PSEyeControlPanel extends JPanel implements Observer {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         jPanel1.add(bbSp, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 5;
-        gridBagConstraints.ipady = 5;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        add(jPanel1, gridBagConstraints);
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Gain"));
-        jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        gainSl.setPaintTicks(true);
-        gainSl.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                gainSlStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        jPanel2.add(gainSl, gridBagConstraints);
-
-        gainSp.setToolTipText("CL eye gain (0-79)");
-        gainSp.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                gainSpStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        jPanel2.add(gainSp, gridBagConstraints);
-
-        agCB.setText("Auto");
-        agCB.setToolTipText("Enables AGC");
-        agCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agCBActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        jPanel2.add(agCB, gridBagConstraints);
-
-        jLabel10.setText(" ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        jPanel2.add(jLabel10, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 5;
-        gridBagConstraints.ipady = 5;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        add(jPanel2, gridBagConstraints);
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Exposure"));
-        jPanel3.setLayout(new java.awt.GridBagLayout());
-
-        expSl.setPaintTicks(true);
-        expSl.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                expSlStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        jPanel3.add(expSl, gridBagConstraints);
-
-        expSp.setToolTipText("CL eye exposure value (0-511)");
-        expSp.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                expSpStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        jPanel3.add(expSp, gridBagConstraints);
-
-        aeCB.setText("Auto");
-        aeCB.setToolTipText("Enables automatic exposure control");
-        aeCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aeCBActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        jPanel3.add(aeCB, gridBagConstraints);
-
-        jLabel12.setText(" ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        jPanel3.add(jLabel12, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 5;
-        gridBagConstraints.ipady = 5;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        add(jPanel3, gridBagConstraints);
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        jPanel4.setLayout(new java.awt.GridBagLayout());
-
-        modeCB.setMaximumRowCount(30);
-        modeCB.setMaximumSize(null);
-        modeCB.setPreferredSize(null);
-        modeCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modeCBActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        jPanel4.add(modeCB, gridBagConstraints);
-
-        jLabel6.setText("Mode");
-        jLabel6.setMaximumSize(null);
-        jLabel6.setPreferredSize(null);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel4.add(jLabel6, gridBagConstraints);
-
-        jLabel11.setText("Resolution");
-        jLabel11.setMaximumSize(null);
-        jLabel11.setPreferredSize(null);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel4.add(jLabel11, gridBagConstraints);
-
-        jLabel13.setText("Framerate");
-        jLabel13.setMaximumSize(null);
-        jLabel13.setPreferredSize(null);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel4.add(jLabel13, gridBagConstraints);
-
-        rateCB.setMaximumRowCount(30);
-        rateCB.setMaximumSize(null);
-        rateCB.setPreferredSize(null);
-        rateCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rateCBActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        jPanel4.add(rateCB, gridBagConstraints);
-
-        resCB.setMaximumRowCount(30);
-        resCB.setMaximumSize(null);
-        resCB.setPreferredSize(null);
-        resCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resCBActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        jPanel4.add(resCB, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 5;
-        gridBagConstraints.ipady = 5;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        add(jPanel4, gridBagConstraints);
+        add(jPanel1);
     }// </editor-fold>//GEN-END:initComponents
 
     private void aeCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aeCBActionPerformed
@@ -624,9 +584,7 @@ public class PSEyeControlPanel extends JPanel implements Observer {
     private javax.swing.JSpinner gainSp;
     private javax.swing.JSlider gbSl;
     private javax.swing.JSpinner gbSp;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

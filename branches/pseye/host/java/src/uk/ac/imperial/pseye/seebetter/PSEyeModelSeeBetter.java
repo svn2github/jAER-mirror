@@ -1,6 +1,8 @@
 
-package uk.ac.imperial.pseye.dvs;
+package uk.ac.imperial.pseye.seebetter;
 
+import eu.seebetter.ini.chips.seebetter20.PolarityADCSampleEvent;
+import eu.seebetter.ini.chips.seebetter20.SeeBetter20.SeeBetter20Renderer;
 import net.sf.jaer.aemonitor.AEPacketRaw;
 import net.sf.jaer.event.EventPacket;
 import net.sf.jaer.event.PolarityEvent;
@@ -20,13 +22,15 @@ import uk.ac.imperial.vsbe.CameraChipBiasgen;
 /**
  * @author Mat Katz
  */
-@Description("DVS emulator using the PS-Eye Playstation camera")
-public class PSEyeModelDVS extends PSEyeModelAEChip {
+@Description("SeeBetter emulator using the PS-Eye Playstation camera")
+public class PSEyeModelSeeBetter extends PSEyeModelAEChip implements SeeBetterChipInterface {
     public static final int MAX_EVENTS = 1000000;
     public static final long SEED = 328923423;
     public static final int NLEVELS = 255;
     
-    protected PSEyeDVSPanel chipPanel = null;
+    public static final int MAX_ADC = 255;
+    
+    protected PSEyeSeeBetterPanel chipPanel = null;
     
     ArrayList<Mode> modes = new ArrayList<Mode>() {{
         add(Mode.MONO);
@@ -64,9 +68,16 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
     protected double expWeight = 2;
     
     protected boolean initialised = false;
+    protected boolean sampleADC = false;
     
     protected long currentFrameTimestamp;
     protected long lastFrameTimestamp;
+    
+    protected boolean useDVSExtrapolation = false;
+    protected boolean displayIntensity = true;
+    protected boolean displayLogIntensityChangeEvents = true;
+    protected int subSampleRate = 30;
+    protected int totalFrames = 0;
     
     // counters
     protected int eventCount;
@@ -83,8 +94,61 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
     @Override
     public JPanel getChipPanel() {
         if (chipPanel == null) 
-            chipPanel = new PSEyeDVSPanel(this);
+            chipPanel = new PSEyeSeeBetterPanel(this);
         return chipPanel;
+    }
+
+    public int getSubSampleRate() {
+        return subSampleRate;
+    }
+
+    public void setSubSampleRate(int subSampleRate) {
+        this.subSampleRate = subSampleRate;
+    }
+
+    @Override
+    public int getApsIntensityGain() {
+        return 1;
+    }
+
+    @Override
+    public void setApsIntensityGain(int apsIntensityGain) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int getApsIntensityOffset() {
+        return 0;
+    }
+
+    @Override
+    public void setApsIntensityOffset(int apsIntensityOffset) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean getAgcEnabled() {
+        return false;
+    }
+
+    @Override
+    public void setAgcEnabled(boolean agcEnabled) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setAGCTauMs(float tauMs) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public float getTauMs() {
+        return 1;
+    }
+
+    @Override
+    public int getMaxADC() {
+        return 255;
     }
     
     enum EVENT_MODEL { 
@@ -102,14 +166,15 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
         BACKGROUND_RATE
     }
     
-    public PSEyeModelDVS () {
+    public PSEyeModelSeeBetter () {
         super();
         loadPreferences();
         
-        setBiasgen(new CameraChipBiasgen<PSEyeModelDVS>(this));
+        setBiasgen(new CameraChipBiasgen<PSEyeModelSeeBetter>(this));
         camera.addObserver(this);
         init();
-        setEventExtractor(new DVSExtractor(this));
+        setEventExtractor(new SeeBetterExtractor(this));
+        setRenderer((renderer = new SeeBetterRenderer<PSEyeModelSeeBetter>(this)));
     }
     
     @Override 
@@ -132,6 +197,8 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
     
     @Override
     public void storePreferences() {
+        getPrefs().putInt("subSampleRate", subSampleRate);
+        
         getPrefs().putDouble("sigmaOnThreshold", sigmaOnThreshold);
         getPrefs().putDouble("sigmaOffThreshold", sigmaOffThreshold);
         getPrefs().putDouble("sigmaOnDeviation", sigmaOnDeviation);
@@ -153,6 +220,8 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
     
     @Override
     public void loadPreferences() {
+        subSampleRate = getPrefs().getInt("subSampleRate", subSampleRate);
+        
         sigmaOnThreshold = getPrefs().getDouble("sigmaOnThreshold", sigmaOnThreshold);
         sigmaOffThreshold = getPrefs().getDouble("sigmaOffThreshold", sigmaOffThreshold);
         sigmaOnDeviation = getPrefs().getDouble("sigmaOnDeviation", sigmaOnDeviation);
@@ -177,6 +246,32 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
         return "PSEyeModelDVS";
     }
 
+    public boolean getDisplayIntensity() {
+        return displayIntensity;
+    }
+
+    public void setDisplayIntensity(boolean displayIntensity) {
+        this.displayIntensity = displayIntensity;
+    }
+
+    public boolean getDisplayLogIntensityChangeEvents() {
+        return displayLogIntensityChangeEvents;
+    }
+
+    public void setDisplayLogIntensityChangeEvents(boolean displayLogIntensityChangeEvents) {
+        this.displayLogIntensityChangeEvents = displayLogIntensityChangeEvents;
+    }
+
+    public boolean getUseDVSExtrapolation() {
+        return useDVSExtrapolation;
+    }
+
+    public void setUseDVSExtrapolation(boolean useDVSExtrapolation) {
+        this.useDVSExtrapolation = useDVSExtrapolation;
+    }
+
+    
+    
     public boolean getIsGamma() {
         return isGamma;
     }
@@ -355,7 +450,7 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
             notifyObservers(EVENT_MODEL.BACKGROUND_RATE);
         }
     }
-        
+    
     protected double logValue(double value) {
         if (value >= logTransitionValue) {
             return Math.log(value);
@@ -438,13 +533,13 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
         }
     }
     
-    class DVSExtractor extends TypedEventExtractor<PolarityEvent> {
+    class SeeBetterExtractor extends TypedEventExtractor<PolarityADCSampleEvent> {
         private double valueDelta;
         private int number;
         private int x;
         private int y;
     
-        public DVSExtractor(PSEyeModelDVS aechip) {
+        public SeeBetterExtractor(PSEyeModelSeeBetter aechip) {
             super(aechip);
         }
 
@@ -452,34 +547,55 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
         protected void createEvents(int pixelIndex, OutputEventIterator itr) {
             x = pixelIndex % chip.getSizeX();
             y = (int) Math.floor(pixelIndex / chip.getSizeX()); 
-            valueDelta = (transformValue(pixelIndex, pixelValues[pixelIndex])) - previousValues[pixelIndex]; 
+            valueDelta = transformValue(pixelIndex, pixelValues[pixelIndex]);
+            if ((totalFrames % subSampleRate) == 0) {
+                outputADCEvents(itr, x, y, valueDelta);
+                totalFrames = 0;
+            }
+            valueDelta = valueDelta - previousValues[pixelIndex];
+            
             // brightness change 
             if (valueDelta > sigmaOnThresholds[pixelIndex]) { // if our gray level is sufficiently higher than the stored gray level
                 number = (int) Math.floor(valueDelta / sigmaOnThresholds[pixelIndex]);
-                outputEvents(PolarityEvent.Polarity.On, number, itr, x, y);
+                outputDVSEvents(PolarityEvent.Polarity.On, number, itr, x, y);
                 previousValues[pixelIndex] += sigmaOnThresholds[pixelIndex] * number; // update stored gray level by events // TODO include mismatch
                 lastEventTimes[pixelIndex] = currentFrameTimestamp + (long) (bgRandom.nextDouble() * 2 * bgIntervalUs);
             } 
             else if (valueDelta < sigmaOffThresholds[pixelIndex]) { // if our gray level is sufficiently higher than the stored gray level
                 number = (int) Math.floor(valueDelta / sigmaOffThresholds[pixelIndex]);
-                outputEvents(PolarityEvent.Polarity.Off, number, itr, x, y);
+                outputDVSEvents(PolarityEvent.Polarity.Off, number, itr, x, y);
                 previousValues[pixelIndex] += sigmaOffThresholds[pixelIndex] * number; // update stored gray level by events // TODO include mismatch
                 lastEventTimes[pixelIndex] = currentFrameTimestamp + (long) (bgRandom.nextDouble() * 2 * bgIntervalUs);
             } 
             // emit background event possibly
             else if (backgroundEventRatePerPixelHz > 0 && (currentFrameTimestamp - lastEventTimes[pixelIndex]) > bgIntervalUs) {
-                // randomly emit either Brighter event
-                outputEvents(PolarityEvent.Polarity.On, 1, itr, x, y);
+                // randomly emit either Brighter or Redder event TODO check Redder/Bluer
+                PolarityEvent.Polarity bgType = bgRandom.nextBoolean() ? PolarityEvent.Polarity.On : PolarityEvent.Polarity.Off;
+                outputDVSEvents(bgType, 1, itr, x, y);
                 lastEventTimes[pixelIndex] = currentFrameTimestamp + (long) (bgRandom.nextDouble() * 2 * bgIntervalUs);
             }
         }
         
-        protected void outputEvents(PolarityEvent.Polarity type, int number, OutputEventIterator itr, int x, int y) {
+        protected void outputADCEvents(OutputEventIterator itr, int x, int y, double value) {
+            PolarityADCSampleEvent e = (PolarityADCSampleEvent) itr.nextOutput();
+            e.x = (short) x;
+            e.y = (short) (chip.getSizeY() - y - 1); // flip y according to jAER with 0,0 at LL
+            if (e.x == 120 && e.y == 100) {
+                value = value;
+            }
+            e.setAdcSample((int) Math.floor(value));
+            e.timestamp = (int) currentFrameTimestamp;
+                               
+            e.setReadoutType(PolarityADCSampleEvent.Type.A);
+        }
+        
+        protected void outputDVSEvents(PolarityADCSampleEvent.Polarity type, int number, OutputEventIterator itr, int x, int y) {
             for (int j = 0; j < number; j++) { // use down iterator as ensures latest timestamp as last event
                 if (eventCount >= MAX_EVENTS) break;
-                PolarityEvent e = (PolarityEvent) itr.nextOutput();
+                PolarityADCSampleEvent e = (PolarityADCSampleEvent) itr.nextOutput();
                 e.x = (short) x;
                 e.y = (short) (chip.getSizeY() - y - 1); // flip y according to jAER with 0,0 at LL
+                e.setAdcSample(-1);
                                
                 e.polarity = type;
                 if (linearInterpolateTimeStamp) {
@@ -500,7 +616,7 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
                 return;
         
             CameraAEPacketRaw framePacket = (CameraAEPacketRaw) in;
-            if (nPixels != framePacket.getFrameSize()) 
+            if (nPixels != framePacket.getFrameSize())
                 init();
         
             int nFrames = framePacket.getNumFrames();
@@ -513,8 +629,8 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
                 discreteEventCount.clear();
             }
 
-            if (out.getEventClass() != PolarityEvent.class) {
-                out.setEventClass(PolarityEvent.class); // set the proper output event class to include color change events
+            if (out.getEventClass() != PolarityADCSampleEvent.class) {
+                out.setEventClass(PolarityADCSampleEvent.class); // set the proper output event class to include color change events
             }
 
             currentFrameTimestamp = 0;
@@ -545,6 +661,7 @@ public class PSEyeModelDVS extends PSEyeModelAEChip {
                 timeCount += currentFrameTimestamp - lastFrameTimestamp;
                 lastFrameTimestamp = currentFrameTimestamp;
                 frameCount++;    
+                totalFrames++;
             
                 if (frameCount >= (3 * getFrameRate())) {
                     log.warning("Frame Rate: " + frameCount * 1000000.0f / timeCount);

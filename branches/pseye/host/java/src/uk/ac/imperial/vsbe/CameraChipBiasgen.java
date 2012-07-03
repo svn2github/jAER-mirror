@@ -97,33 +97,34 @@ public class CameraChipBiasgen<C extends Chip & CameraChipBiasInterface> extends
     }    
     
     @Override
-    public void exportPreferences(java.io.OutputStream os) throws java.io.IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    @Override
-    public void importPreferences(java.io.InputStream is) throws java.io.IOException, InvalidPreferencesFormatException, HardwareInterfaceException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    @Override
     public void suspend() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return;
     }
 
     @Override
     public void resume() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return;
     }
     
     @Override
     public void flashConfiguration(Biasgen biasgen) throws HardwareInterfaceException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        getChip().storePreferences();
+        sendConfiguration(biasgen);
     }
     
     /*
      * Biasgen methods used but forwarded to super for safety
      */
+    
+    @Override
+    public void exportPreferences(java.io.OutputStream os) throws java.io.IOException {
+        super.exportPreferences(os);
+    }
+    
+    @Override
+    public void importPreferences(java.io.InputStream is) throws java.io.IOException, InvalidPreferencesFormatException, HardwareInterfaceException {
+        super.importPreferences(is);
+    }
     
     @Override
     public void setMasterbias(final Masterbias masterbias) {

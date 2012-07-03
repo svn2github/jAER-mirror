@@ -12,6 +12,7 @@ import net.sf.jaer.aemonitor.AEPacketRaw;
 import net.sf.jaer.aemonitor.EventRaw;
 import net.sf.jaer.eventio.AEFileInputStream;
 import net.sf.jaer.eventio.AEInputStream;
+import uk.ac.imperial.vsbe.CameraAEPacketRaw;
 
 /**
  * Reads raw data files written from the CLCamera, so they can be played back.
@@ -20,17 +21,18 @@ import net.sf.jaer.eventio.AEInputStream;
 public class PSEyeCameraFileInputStream extends AEFileInputStream {
 
     /** Packets can hold this many frames at most. */
+    protected CameraAEPacketRaw packet = new CameraAEPacketRaw(MAX_BUFFER_SIZE_EVENTS);
     public static final int MAX_FRAMES=2;
     
     /** Assumed number of pixels in each frame, each event holding the RGB data in address field of raw event. */
-    protected int frameSize = 320 * 240; // TODO assumes QVGA, can be obtained from CameraModel in principle, but only QVGA models for now
+    //protected int frameSize = 320 * 240; // TODO assumes QVGA, can be obtained from CameraModel in principle, but only QVGA models for now
     /** Assumed frame interval in us */
     protected int frameInterval = 15; 
     
 
     public PSEyeCameraFileInputStream(File f, int frameSize, int frameInterval) throws IOException {
         super(f);
-        this.frameSize = frameSize;
+        packet.setFrameSize(frameSize);
         this.frameInterval = frameInterval;
         packet.ensureCapacity(frameSize * MAX_FRAMES);
     }
@@ -38,12 +40,12 @@ public class PSEyeCameraFileInputStream extends AEFileInputStream {
     /** Overrides to read image frames rather than events. 
      * The events are extracted by the PSEyeCLModelRetina event extractor.
      * 
-     * @param nframes the number of frames to read
+     * @param nevents the number of frames to read
      * @return
      * @throws IOException 
      */
     @Override
-    public synchronized AEPacketRaw readPacketByNumber(int nframes) throws IOException {
+    public synchronized AEPacketRaw readPacketByNumber(int nevents) throws IOException {
         if (!firstReadCompleted) {
             fireInitPropertyChange();
         }
@@ -52,16 +54,22 @@ public class PSEyeCameraFileInputStream extends AEFileInputStream {
         int oldPosition = (int) position();
         EventRaw ev;
         int count = 0;
-        for (int frame = 0; frame < nframes; frame++) {
-            for (int i = 0; i < frameSize; i++) {
+        int nframes = nevents / packet.getFrameSize();
+        if (nframes < 1) nframes = 1;
+        
+        if (nevents != (packet.getFrameSize() * nframes)) {
+            nevents = packet.getFrameSize() * nframes;
+        }
+            
+        for (int i = 0; i < nevents; i++) {
                 ev = readEventForwards();
                 addr[count] = ev.address;
                 ts[count] = ev.timestamp;
 //                if(ev.timestamp!=0)System.out.println("count="+count+" ev.timetamp="+ev.timestamp);
                 count++;
-            }
         }
         packet.setNumEvents(count);
+        packet.setNumFrames(nframes);
         getSupport().firePropertyChange(AEInputStream.EVENT_POSITION, oldPosition, position());
         return packet;
 //        return new AEPacketRaw(addr,ts);
@@ -80,7 +88,7 @@ public class PSEyeCameraFileInputStream extends AEFileInputStream {
             nframes = 1;
         }
 
-        return readPacketByNumber(nframes);
+        return readPacketByNumber(nframes * packet.getFrameSize());
     }
     private EventRaw tmpEvent = new EventRaw();
 

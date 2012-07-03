@@ -27,19 +27,18 @@ public class CameraFramePanel extends javax.swing.JPanel implements Observer {
 
         showRawInputCB = new javax.swing.JCheckBox();
         jPanel1 = new javax.swing.JPanel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
-        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
-        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder("Raw camera input (when enabled)"));
-        setMaximumSize(new java.awt.Dimension(430, 2147483647));
-        setMinimumSize(new java.awt.Dimension(430, 50));
-        setPreferredSize(new java.awt.Dimension(430, 329));
+        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder("Raw camera input (when enabled)"), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        setMinimumSize(new java.awt.Dimension(320, 240));
+        setPreferredSize(new java.awt.Dimension(320, 240));
         setLayout(new java.awt.BorderLayout());
 
         showRawInputCB.setText("Show raw input");
         showRawInputCB.setToolTipText("Activates raw input panel to show camera output");
+        showRawInputCB.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        showRawInputCB.setMaximumSize(null);
+        showRawInputCB.setMinimumSize(new java.awt.Dimension(320, 50));
+        showRawInputCB.setPreferredSize(new java.awt.Dimension(320, 50));
         showRawInputCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showRawInputCBActionPerformed(evt);
@@ -47,15 +46,10 @@ public class CameraFramePanel extends javax.swing.JPanel implements Observer {
         });
         add(showRawInputCB, java.awt.BorderLayout.PAGE_START);
 
-        jPanel1.setMaximumSize(new java.awt.Dimension(322, 242));
-        jPanel1.setMinimumSize(new java.awt.Dimension(322, 242));
-        jPanel1.setPreferredSize(new java.awt.Dimension(322, 242));
+        jPanel1.setMaximumSize(new java.awt.Dimension(640, 480));
+        jPanel1.setMinimumSize(new java.awt.Dimension(640, 480));
+        jPanel1.setPreferredSize(new java.awt.Dimension(640, 480));
         jPanel1.setLayout(new java.awt.BorderLayout());
-        jPanel1.add(filler1, java.awt.BorderLayout.LINE_START);
-        jPanel1.add(filler2, java.awt.BorderLayout.LINE_END);
-        jPanel1.add(filler3, java.awt.BorderLayout.PAGE_END);
-        jPanel1.add(filler4, java.awt.BorderLayout.PAGE_START);
-
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -79,10 +73,6 @@ public class CameraFramePanel extends javax.swing.JPanel implements Observer {
 }//GEN-LAST:event_showRawInputCBActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler2;
-    private javax.swing.Box.Filler filler3;
-    private javax.swing.Box.Filler filler4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JCheckBox showRawInputCB;
     // End of variables declaration//GEN-END:variables

@@ -85,4 +85,12 @@ public class PolarityADCSampleEvent extends PolarityEvent {
     public boolean isC(){
         return readoutType == Type.C;
     }
+
+    public Type getReadoutType() {
+        return readoutType;
+    }
+
+    public void setReadoutType(Type readoutType) {
+        this.readoutType = readoutType;
+    }
 }
