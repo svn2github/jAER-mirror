@@ -122,6 +122,12 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
         return menuItem;
     }
 
+    @Override
+    public String getName()
+    {
+        return chip.getName();
+    }
+    
     /** Registers a new item in the Help menu.
      * 
      * @param url for the item to be opened in the browser, e.g. pathToURL("docs/board.pdf"), or "http://jaer.wiki.sourceforge.net".
@@ -385,7 +391,7 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
 //        imagePanel.get
         chip.getCanvas().getCanvas().setBounds(imagePanel.getBounds());
 //            imagePanel.add(chip.getCanvas().getCanvas());
-        
+                
         this.displayPanel=imagePanel;
         imagePanel.add(chip.getCanvas().getCanvas());
         //throw new UnsupportedOperationException("Not supported yet.");
@@ -1682,7 +1688,7 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
         @Override
         public void run() { // don't know why this needs to be thread-safe
         /* TODO synchronized tobi removed sync because it was causing deadlocks on exit. */
-            while (!isVisible()) {
+            while (!isVisible() && !globalized) {
                 try {
                     log.info("sleeping until isVisible()==true");
                     Thread.sleep(1000); // sleep to let components realize on screen - may be crashing opengl on nvidia drivers if we draw to unrealized components
@@ -2693,13 +2699,13 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
         monSeqOpModeButtonGroup = new javax.swing.ButtonGroup();
         statisticsPanel = new javax.swing.JPanel();
         imagePanel = new javax.swing.JPanel();
-        pushMulti = new javax.swing.JButton();
         bottomPanel = new javax.swing.JPanel();
         buttonsPanel = new javax.swing.JPanel();
         biasesToggleButton = new javax.swing.JToggleButton();
         filtersToggleButton = new javax.swing.JToggleButton();
         dontRenderToggleButton = new javax.swing.JToggleButton();
         loggingButton = new javax.swing.JToggleButton();
+        multiMode = new javax.swing.JToggleButton();
         playerControlPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         statusTextField = new javax.swing.JTextField();
@@ -2840,15 +2846,6 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
             }
         });
         imagePanel.setLayout(new java.awt.BorderLayout());
-
-        pushMulti.setText("Multi-Input Mode");
-        pushMulti.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pushMultiActionPerformed(evt);
-            }
-        });
-        imagePanel.add(pushMulti, java.awt.BorderLayout.PAGE_END);
-
         getContentPane().add(imagePanel, java.awt.BorderLayout.CENTER);
 
         bottomPanel.setLayout(new java.awt.BorderLayout());
@@ -2899,6 +2896,19 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
         loggingButton.setAlignmentY(0.0F);
         loggingButton.setMargin(new java.awt.Insets(2, 2, 2, 2));
         buttonsPanel.add(loggingButton);
+
+        multiMode.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        multiMode.setMnemonic('l');
+        multiMode.setText("Multi-Input Mode");
+        multiMode.setToolTipText("Starts or stops logging or relogging");
+        multiMode.setAlignmentY(0.0F);
+        multiMode.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        multiMode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                multiModeActionPerformed(evt);
+            }
+        });
+        buttonsPanel.add(multiMode);
 
         playerControlPanel.setToolTipText("");
         playerControlPanel.setAlignmentY(0.0F);
@@ -5394,9 +5404,10 @@ private void openSocketOutputStreamMenuItemActionPerformed(java.awt.event.Action
 
         buildInterfaceMenu();     }//GEN-LAST:event_interfaceMenuMenuSelected
 
-    private void pushMultiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pushMultiActionPerformed
-        this.jaerViewer.setViewMode(true);
-    }//GEN-LAST:event_pushMultiActionPerformed
+    private void multiModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multiModeActionPerformed
+        // TODO add your handling code here:
+        this.jaerViewer.setViewMode(true);   
+    }//GEN-LAST:event_multiModeActionPerformed
 
     /** Returns desired frame rate of FrameRater
      * 
@@ -5738,6 +5749,42 @@ private void openSocketOutputStreamMenuItemActionPerformed(java.awt.event.Action
     {   return packet;        
     }
     
+    /** This method takes in an hardware interface and tries to find the 
+     * appropriate chip class.  You could use it before initializing an AEViewer.
+     * 
+     * It will return null if it does not find the appropriate chipclassname.
+     * 
+     * @return 
+     */
+    
+    
+    public static Class hardwareInterface2chipClassName(HardwareInterface hw)
+    {
+        
+        if (hw.toString().contains("DVS128"))
+            return ch.unizh.ini.jaer.chip.retina.DVS128.class;
+        else if (hw.toString().contains("Cochlea"))
+            return ch.unizh.ini.jaer.chip.cochlea.CochleaAMS1b.class;
+        else
+            return null;
+//        
+//        if (hw instanceof CypressFX2DVS128HardwareInterface)
+//        CypressFX2DVS128HardwareInterface
+//        
+//        
+//        
+//        
+//        AEViewer cochleaViewer = new AEViewer(jaerViewer);
+//                cochleaViewer.setAeChipClass(ch.unizh.ini.jaer.chip.cochlea.CochleaAMS1b.class);
+//                AEChip cochleaChip = cochleaViewer.getChip();
+//
+//                //start the retina viewer:
+//                AEViewer retinaViewer = new AEViewer(jaerViewer);
+//                retinaViewer.setAeChipClass(ch.unizh.ini.jaer.chip.retina.DVS128.class);
+//                AEChip retinaChip = retinaViewer.getChip();
+//        
+    }
+    
     
 // AEViewer is a Swing Component and already has PropertyChangeSupport!!!
 //    /** AEViewer supports property change events. See the class description for supported events
@@ -5826,6 +5873,7 @@ private void openSocketOutputStreamMenuItemActionPerformed(java.awt.event.Action
     private javax.swing.JRadioButtonMenuItem monSeqOpMode1;
     private javax.swing.ButtonGroup monSeqOpModeButtonGroup;
     private javax.swing.JMenu monSeqOperationModeMenu;
+    private javax.swing.JToggleButton multiMode;
     private javax.swing.JCheckBoxMenuItem multicastOutputEnabledCheckBoxMenuItem;
     private javax.swing.JSeparator networkSeparator;
     private javax.swing.JMenuItem newViewerMenuItem;
@@ -5838,7 +5886,6 @@ private void openSocketOutputStreamMenuItemActionPerformed(java.awt.event.Action
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JCheckBoxMenuItem pauseRenderingCheckBoxMenuItem;
     private javax.swing.JPanel playerControlPanel;
-    private javax.swing.JButton pushMulti;
     private javax.swing.JMenuItem refreshInterfaceMenuItem;
     private javax.swing.JMenu remoteMenu;
     private javax.swing.ButtonGroup renderModeButtonGroup;

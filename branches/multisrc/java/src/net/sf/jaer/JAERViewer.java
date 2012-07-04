@@ -39,6 +39,7 @@ import net.sf.jaer.event.BasicEvent;
 import net.sf.jaer.event.EventPacket;
 import net.sf.jaer.event.InputEventIterator;
 import net.sf.jaer.event.OutputEventIterator;
+import net.sf.jaer.hardwareinterface.HardwareInterface;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceFactory;
 
 /**
@@ -114,7 +115,7 @@ public class JAERViewer {
 
             
             public void run() {
-                // try to load a list of previous chip classes that running in viewers and then reopen them
+                // try to load a list of previous chip classes that running in viewers and then reOGloopen them
                 ArrayList<String> classNames = null;
                 try {
                     byte[] bytes = prefs.getByteArray(JAERVIEWER_VIEWER_CHIP_CLASS_NAMES_KEY, null);
@@ -678,13 +679,21 @@ public class JAERViewer {
                     int nInterfaces=HardwareInterfaceFactory.instance().getNumInterfacesAvailable();
                     
                     // Open however many viewers need to be opened
-                    for (int i=0; i<nInterfaces-viewers.size(); i++)
-                        JAERViewer.this.addViewer(new AEViewer(JAERViewer.this));
+                    int vsize=viewers.size();
+                    for (int i=0; i<nInterfaces-vsize; i++)
+                        new AEViewer(JAERViewer.this);
                     
                     // Set one inteface per viewer
                     for (int i=0; i<viewers.size(); i++)
-                    {   viewers.get(i).getChip().setHardwareInterface(HardwareInterfaceFactory.instance().getInterface(i));
-                        viewers.get(i).setVisible(true);
+                    {   
+                        AEViewer v=viewers.get(i);
+                        HardwareInterface hi=HardwareInterfaceFactory.instance().getInterface(i);
+                        Class guess=AEViewer.hardwareInterface2chipClassName(hi);
+                        if (guess!=null)
+                            v.setAeChipClass(guess);
+                        
+                        v.getChip().setHardwareInterface(hi);
+                        v.setVisible(true);
                     }
                     
                     //                        synchronized(v)

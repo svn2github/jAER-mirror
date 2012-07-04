@@ -11,22 +11,40 @@
 package net.sf.jaer.graphics;
 
 import ch.unizh.ini.jaer.chip.projects.sensoryfusion.FusionReactor;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.Vector;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.xml.stream.EventFilter;
 import net.sf.jaer.JAERViewer;
 import net.sf.jaer.event.BasicEvent;
 import net.sf.jaer.eventprocessing.FilterChain;
-import net.sf.jaer.eventprocessing.FilterNetwork;
+import net.sf.jaer.eventprocessing.FilterFrame;
+import net.sf.jaer.eventprocessing.MultiInputFrame;
+import net.sf.jaer.eventprocessing.ProcessingNetwork;
 import net.sf.jaer.eventprocessing.MultiSensoryFilter;
 import net.sf.jaer.eventprocessing.PacketStream;
 
@@ -36,6 +54,7 @@ import net.sf.jaer.eventprocessing.PacketStream;
  */
 public class GlobalViewer extends javax.swing.JFrame {
 
+        // <editor-fold defaultstate="collapsed" desc=" Properties " >
     
         // Properties ----------------------------------
         
@@ -43,22 +62,22 @@ public class GlobalViewer extends javax.swing.JFrame {
         JAERViewer jaerView;
         public boolean enabled=true;
         
-        FilterNetwork filterChain = null;
+        ProcessingNetwork procNet=new ProcessingNetwork();
         
         // THIS IS JUST A TEST AND WILL BE DELETED!
         MultiSensoryFilter testFilter;
-        
-        ArrayList<DisplayWriter> displayWriters=new ArrayList();
-        
-                
+        public final ArrayList<DisplayWriter> displayWriters=new ArrayList();
         ArrayList<PacketStream> packetStreams=new ArrayList();
         int[] packetStreamIndeces;
-        
         Semaphore waitFlag;
         
+        // </editor-fold>
+        
+        // <editor-fold defaultstate="collapsed" desc=" Builder/Startup Methods " >
+        
+                
         // Methods -----------------------------------------
         public void collectAllInputs(ArrayList<AEViewer> viewers){
-            
             
             displayWriters.clear();
             packetStreams.clear();
@@ -73,62 +92,45 @@ public class GlobalViewer extends javax.swing.JFrame {
                 AEViewer v=viewers.get(i);
                 addPacketStream(v);
                 addDisplayWriter(v);
-                
             }
             
-            resizePanels();
+//            resizePanels();
         }
-
-        public void pauseViewLoop(final boolean desiredState) {
-            if (!viewLoop.isAlive()) {
-                return;
-                //... because how can you kill what is already dead?
-            }
-            try {
-                SwingUtilities.invokeAndWait(new Runnable() {
-
-                    public void run() {
-                        synchronized (GlobalViewer.this) {
-                            if (desiredState) {
-                                viewLoop.paused = true;
-                                try {
-                                    GlobalViewer.this.wait(); // Wait for notification that viewLoop is paused
-                                } catch (InterruptedException ex) {
-                                    Logger.getLogger(GlobalViewer.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                            } else {
-                                viewLoop.paused = false;
-
-                                GlobalViewer.this.notifyAll();
-                                try {
-                                    GlobalViewer.this.wait(); // Wait for notification that viewLoop is no longer paused
-                                } catch (InterruptedException ex) {
-                                    Logger.getLogger(GlobalViewer.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-
-                            }
-                        }
-                    }
-                });
-            } catch (InterruptedException ex) {
-                Logger.getLogger(GlobalViewer.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvocationTargetException ex) {
-                Logger.getLogger(GlobalViewer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        };
+        
+        public ArrayList<PacketStream> getInputStreams()
+        {
+            ArrayList arr=jaerView.getViewers();
+                        
+            return arr;
+        }
+        
         
         public void addDisplayWriter(DisplayWriter d){
             
-            pauseViewLoop(true);
-            
-            displayWriters.add(d);
-            d.setWatched(true);
-            d.setPanel(makePanel());
-            
-            pauseViewLoop(false);
-//            enabled=true;
-//            viewLoop.start();
+//            try {
+//                //
+//                waitFlag.acquire(packetStreams.size());
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(GlobalViewer.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+                
+            synchronized(displayWriters)
+            {
+                displayWriters.add(d);
+                d.setWatched(true);
+                
+            }
         }
+        
+        public void start(){
+            
+            enabled=true;
+            viewLoop.start();
+                                    
+            initComponents();
+            
+        }
+        
         
 //        public void addDisplayWriter(AEViewer v){
 //            displayWriters.add(v);
@@ -137,91 +139,42 @@ public class GlobalViewer extends javax.swing.JFrame {
 //        }
         
         
+        /** Add a new packet source 
+         * @TODO: semaphore concerns
+         */
         public void addPacketStream(PacketStream v){
             packetStreams.add(v);
             v.setSemaphore(waitFlag);
             
         }
-
-        void resizePanels() {
-            for (int i = 0; i < displayWriters.size(); i++) {
-                DisplayWriter dw = displayWriters.get(i);
-               // dw.getPanel().setVisible(false);
-                
-                dw.getPanel().setBounds(getPanelLoc(i, displayWriters.size()));
-                //dw.getPanel().setVisible(true);
-                dw.setPanel(dw.getPanel());
-                
-                dw.getPanel().revalidate();
-            }
-            
-        }
         
-        JPanel makePanel(){
-            
-            JPanel imagePanel=new JPanel();
-            
-//            Dimension dims=this.getSize();
-//            int dx=dims.width/numPanels;
-            
-            //imagePanel.setBounds(new Rectangle(panelNumber*dx,0,dx,dims.height));
-            
-            imagePanel.setBounds(getPanelLoc(1,1));
-            imagePanel.setBackground(Color.DARK_GRAY);
-
-            //imagePanel.setEnabled(false);
-            //imagePanel.setFocusable(false);
-            //imagePanel.setPreferredSize(new java.awt.Dimension(200, 200));
-            //imagePanel.setLayout(new java.awt.BorderLayout());
-            getContentPane().add(imagePanel, java.awt.BorderLayout.CENTER);
-            //imagePanel.setEnabled(true);
-
-            imagePanel.setVisible(true);
-            return imagePanel;
-        }
+        // </editor-fold>
         
-        Rectangle getPanelLoc(int panelNumber,int numPanels)
-        {   Dimension dims=this.getSize();
-                        
-            int dx=dims.width/numPanels;
-            
-            int gap=(int)(dx*0.05);
-            int wid=dx-2*gap;
-                        
-            return new Rectangle(panelNumber*dx+gap,(dims.height-wid)/2,wid,wid);            
-        }
+        // <editor-fold defaultstate="collapsed" desc=" Access Methods " >
         
         
-        
-        public void start(){
-//            
-//            for (Stream inp:inputStreams)
-//            {   
-//                
-//            }
-            enabled=true;
-            this.setVisible(true);
-            
-            viewLoop.start();
-            
-        }
-                
         public void setJaerViewer(JAERViewer v){
             this.jaerView=v;
         }
+                            
+        public void setPaused(boolean desiredState)
+        {
+            viewLoop.paused=desiredState;
             
-        /** Creates new form MultiViewer */
-        public GlobalViewer() {
-            initComponents();
+            if (desiredState)
+                // Wait for current thread to updause
+                synchronized(Thread.currentThread()){
+                {try {
+                    Thread.currentThread().wait();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(GlobalViewer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }}
         }
+        
+        // </editor-fold>
                 
-        /**
-         * Run input streams through the filter chain
-         */
-        void filterStreams(){
-            
-            
-        }
+        // <editor-fold defaultstate="collapsed" desc=" ViewLoop Thread " >
         
         class ViewLoop extends Thread{
                         
@@ -270,8 +223,10 @@ public class GlobalViewer extends javax.swing.JFrame {
 //                    }
 
                     // 2) Display all displayables
-                    for (DisplayWriter s : displayWriters) {
-                        s.display();
+                    synchronized(displayWriters){
+                        for (DisplayWriter s : displayWriters) {
+                            s.display();
+                        }
                     }
 
 //                    System.out.println("GlobalStream");
@@ -282,140 +237,157 @@ public class GlobalViewer extends javax.swing.JFrame {
                         GlobalViewer.this.notifyAll();
                     }
 
+                }
+                
+            }
+        }
+        
+        
+        // </editor-fold>
+        
+        // <editor-fold defaultstate="collapsed" desc=" GUI Methods " >
+        
+        JToolBar bottomBar;
+        JPanel viewPanel;
+        JPanel filterPanel;
+        Container multiInputControl;
+        
+        void initComponents()
+        {
+            this.setTitle("Global Viewer");
+            
+            this.setBackground(Color.DARK_GRAY);
+            this.setLayout(new BorderLayout());
+            
+            
+            filterPanel=new JPanel();
+            this.add(filterPanel,BorderLayout.WEST);
+//            filterPanel.setBackground(Color.GRAY);
+//            filterPanel.setLayout(new GridLayout(2,1));
+            
+            bottomBar=new JToolBar();
+            this.add(bottomBar,BorderLayout.SOUTH);
+//            bottomBar.setBackground(Color.GRAY);
+            
+            JButton button;
+            
+            button=new JButton("Old View");
+            bottomBar.add(button);
+            
+            button=new JButton("Do Something");
+            bottomBar.add(button);
+            
+            final JToggleButton but=new JToggleButton("Show Filters");
+            but.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
                     
-                    // filter events, do processing on them in rendering loop here
-                    /*if (filterChain.getProcessingMode() == FilterChain.ProcessingMode.RENDERING || playMode != PlayMode.LIVE) {
-                    try {
-                    packet = filterChain.filterPacket(packet);
-                    } catch (Exception e) {
-                    log.warning("Caught " + e + ", disabling all filters. See following stack trace.");
-                    log.log(Level.WARNING, "Filter exception", e);
-                    for (EventFilter f : filterChain) {
-                    f.setFilterEnabled(false);
-                    }
-                    }
-                    if (packet == null) {
-                    //   log.warning("null packet after filtering");
-                    continue;
-                    }
-                    }*/
+                    if (but.isSelected())
+                    {
+                        
+                        procNet.setInputStreams(getInputStreams());
 
+                        if (multiInputControl == null) {
+                            MultiInputFrame mif = new MultiInputFrame(jaerView.getViewers().get(0).getChip(), procNet);
 
-                }
+                            mif.setVisible(true);
+                            
+                            mif.getComponents();
+                            
+//                            multiInputControl = mif.getContentPane();
+                            multiInputControl = mif.getRootPane();
+                            
+                            mif.dispose();
+                        }
+                        filterPanel.add(multiInputControl);
+//                        GlobalViewer.this.add(mifp,BorderLayout.WEST);
+
+                        but.setText("Hide Filters");
+                        GlobalViewer.this.pack();
+                    }
+                    else
+                    {
+                        filterPanel.remove(multiInputControl);
+                        but.setText("Show Filters");
+                        GlobalViewer.this.pack();
+                        
+                    }
                 
+                
+                    
+                }
+            });
+            
+            bottomBar.add(but);
+            
+            
+            viewPanel=new JPanel();
+            this.add(viewPanel,BorderLayout.CENTER);
+            viewPanel.setBackground(Color.DARK_GRAY);            
+            
+            buildDisplay();
+
+//            this.setPreferredSize(new Dimension(1000,800));
+            
+//            this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+            
+            this.setState(JFrame.NORMAL);
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
+            Dimension dimension = toolkit.getScreenSize();
+            dimension.height*=.8;
+            this.setPreferredSize(dimension);
+            
+            pack();
+            setVisible(true);
+            
+            // Hide the Viewers
+            for (AEViewer v:jaerView.getViewers())
+                v.setVisible(false);
+            
+        }
+        
+        
+        public void buildDisplay()
+        {   viewPanel.removeAll();
+        
+            viewPanel.setLayout(new FlowLayout());
+        
+            viewPanel.setLayout(new GridBagLayout());
+            GridBagConstraints c=new GridBagConstraints();
+            
+            c.weightx=c.weighty=1;
+            
+            int i=0;
+            for (DisplayWriter d:displayWriters)
+            {
+                c.gridx=i++;
+                c.gridy=1;
+                c.weightx=c.weighty=1;
+                
+//                viewPanel.add(d.getPanel(),c);
+                
+                JPanel imagePanel=new JPanel();
+//            
+                imagePanel.setLayout(new GridLayout());
+                
+                
+                imagePanel.setPreferredSize(new Dimension(400,400));
+//            Dimension dims=this.getSize();
+//            int dx=dims.width/numPanels;
+////            
+//            imagePanel.setBounds(new Rectangle(panelNumber*dx,0,dx,dims.height));
+//            
+//                imagePanel.setBounds(getPanelLoc(1,1));
+                imagePanel.setBackground(Color.DARK_GRAY);
+
+                viewPanel.add(imagePanel,c);
+               
+                
+                imagePanel.setVisible(true);
+                
+                
+                d.setPanel(imagePanel);
             }
         }
-                
-        
-        
-    //<editor-fold defaultstate="collapsed" desc="GUI code">
-
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        pushNormal = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(51, 51, 51));
-
-        pushNormal.setText("Normal View");
-        pushNormal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pushNormalActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("doSomething");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pushNormal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addContainerGap(500, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(418, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pushNormal)
-                    .addComponent(jButton1)))
-        );
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void pushNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pushNormalActionPerformed
-        this.jaerView.setViewMode(false);
-    }//GEN-LAST:event_pushNormalActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        
-        pauseViewLoop(true);
-        
-        testFilter=new FusionReactor(this.jaerView.getViewers().get(0).getChip());
-        testFilter.initFilter();
-        
-         pauseViewLoop(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GlobalViewer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GlobalViewer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GlobalViewer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GlobalViewer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                new GlobalViewer().setVisible(true);
-            }
-        });
-    }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JToggleButton pushNormal;
-    // End of variables declaration//GEN-END:variables
-
-    // </editor-fold>     
+        // </editor-fold>       
 }

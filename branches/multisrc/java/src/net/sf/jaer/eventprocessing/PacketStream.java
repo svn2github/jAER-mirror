@@ -24,4 +24,7 @@ public interface PacketStream {
      */
     void setSemaphore(Semaphore semi);
     
+    String getName();
+    
+    
 }

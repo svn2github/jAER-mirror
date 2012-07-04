@@ -1260,7 +1260,7 @@ public class FilterPanel extends javax.swing.JPanel implements PropertyChangeLis
         jPanel1.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
 
-        enabledCheckBox.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        enabledCheckBox.setFont(new java.awt.Font("Tahoma", 0, 9));
         enabledCheckBox.setToolTipText("Enable or disable the filter");
         enabledCheckBox.setMargin(new java.awt.Insets(1, 1, 1, 1));
         enabledCheckBox.addActionListener(new java.awt.event.ActionListener() {
@@ -1270,7 +1270,7 @@ public class FilterPanel extends javax.swing.JPanel implements PropertyChangeLis
         });
         jPanel1.add(enabledCheckBox);
 
-        resetButton.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        resetButton.setFont(new java.awt.Font("Tahoma", 0, 9));
         resetButton.setText("Reset");
         resetButton.setToolTipText("Resets the filter");
         resetButton.setMargin(new java.awt.Insets(1, 5, 1, 5));
@@ -1281,7 +1281,7 @@ public class FilterPanel extends javax.swing.JPanel implements PropertyChangeLis
         });
         jPanel1.add(resetButton);
 
-        showControlsToggleButton.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        showControlsToggleButton.setFont(new java.awt.Font("Tahoma", 0, 9));
         showControlsToggleButton.setText("Controls");
         showControlsToggleButton.setToolTipText("Show filter parameters, hides other filters. Click again to see all filters.");
         showControlsToggleButton.setMargin(new java.awt.Insets(1, 5, 1, 5));
@@ -1289,6 +1289,11 @@ public class FilterPanel extends javax.swing.JPanel implements PropertyChangeLis
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${controlsVisible}"), showControlsToggleButton, org.jdesktop.beansbinding.BeanProperty.create("selected"));
         bindingGroup.addBinding(binding);
 
+        showControlsToggleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showControlsToggleButtonActionPerformed(evt);
+            }
+        });
         jPanel1.add(showControlsToggleButton);
 
         add(jPanel1);
@@ -1322,7 +1327,7 @@ public class FilterPanel extends javax.swing.JPanel implements PropertyChangeLis
         if (!getFilter().isEnclosed() && c instanceof Window) {
             if (c instanceof FilterFrame) {
                 // hide all filters except one that is being modified, *unless* we are an enclosed filter
-                FilterFrame ff = (FilterFrame) c;
+                FilterFrame<FilterPanel> ff = (FilterFrame) c; 
                 for (FilterPanel f : ff.filterPanels) {
                     if (f == this) {  // for us and if !visible
                         f.setVisible(true); // always set us visible in chain since we are the one being touched
@@ -1398,6 +1403,11 @@ public class FilterPanel extends javax.swing.JPanel implements PropertyChangeLis
         }
         getFilter().setSelected(true);
     }//GEN-LAST:event_resetButtonActionPerformed
+
+    private void showControlsToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showControlsToggleButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_showControlsToggleButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox enabledCheckBox;
     private javax.swing.JPanel jPanel1;

@@ -5,6 +5,7 @@
 package ch.unizh.ini.jaer.chip.projects.sensoryfusion;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import javax.swing.JPanel;
 import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.event.EventPacket;
@@ -19,7 +20,7 @@ import net.sf.jaer.graphics.DisplayWriter;
 public class FusionReactor extends MultiSensoryFilter {
 
    // Chip2DRenderer mat=new Chip2DRenderer();
-    ShowMat mat=new ShowMat();
+    final ShowMat mat=new ShowMat();
     
     class ShowMat implements DisplayWriter{
 
@@ -47,16 +48,24 @@ public class FusionReactor extends MultiSensoryFilter {
         
     }
     
+    public enum xxx {AAA,BBB};
+    
     
     public FusionReactor(AEChip chip)
-    {   super(chip);        
+    {   super(chip,2);    
     }
     
+    
+//    public Class<Enum> getOpts(){
+//        return xxx.valueOf(xxx.class,"AAA").getDeclaringClass();
+////        return xxx.class.getDeclaringClass();
+//    }
+    
     @Override
-    public void filterPacket(ArrayList<EventPacket> packets, int[] order) {
+    public EventPacket filterPacket(EventPacket<?> in) {
         
         
-        
+        return in;
         
     }
 
@@ -67,11 +76,11 @@ public class FusionReactor extends MultiSensoryFilter {
 
     @Override
     public void initFilter() {
-        this.getChip().getAeViewer().getJaerViewer().globalViewer.addDisplayWriter(mat);
+        addDisplayWriter(mat);
     }
-
+        
     @Override
-    public String[] getInputLabels() {
+    public String[] getInputNames() {
         String[] s = {"inputA","inputB"};
         return s;
     }
