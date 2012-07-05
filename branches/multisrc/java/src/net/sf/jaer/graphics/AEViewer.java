@@ -72,7 +72,7 @@ In addition, when A5EViewer is in PLAYBACK PlayMode, users can register as Prope
  *
  * @author  tobi
  */
-public class AEViewer extends javax.swing.JFrame implements PropertyChangeListener, DropTargetListener, ExceptionListener, RemoteControlled, PacketStream, DisplayWriter {
+public class AEViewer extends javax.swing.JFrame implements PropertyChangeListener, DropTargetListener, ExceptionListener, RemoteControlled {
     
     /** PropertyChangeEvent fired from this AEViewer*/
     public static final String EVENT_PLAYMODE = "playmode", EVENT_FILEOPEN = "fileopen", EVENT_STOPME = "stopme", EVENT_CHIP = "chip", EVENT_PAUSED = "paused", EVENT_TIMESTAMPS_RESET = "timestampsReset", EVENT_CHECK_NONMONOTONIC_TIMESTAMPS = "checkNonMonotonicTimestamps";
@@ -386,37 +386,6 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
         this.aeChipClassName = aeChipClassName;
     }
 
-    @Override
-    public void setPanel(JPanel imagePanel) {
-//        imagePanel.get
-        chip.getCanvas().getCanvas().setBounds(imagePanel.getBounds());
-//            imagePanel.add(chip.getCanvas().getCanvas());
-                
-        this.displayPanel=imagePanel;
-        imagePanel.add(chip.getCanvas().getCanvas());
-        //throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void display() {
-        this.viewLoop.renderPacket(packet);
-        //throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setSemaphore(Semaphore semi) {
-        this.waitFlag=semi;
-    }
-
-    @Override
-    public void setWatched(boolean displayed) {
-        this.globalized=true;
-    }
-
-    @Override
-    public JPanel getPanel() {
-        return this.displayPanel;
-    }
 
 
     /** Modes of viewing: WAITING means waiting for device or for playback or remote, LIVE means showing a hardware interface, PLAYBACK means playing
@@ -1757,6 +1726,9 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
                 } // if (!isPaused() || isSingleStep())
 
                 
+                
+                
+                
                 //--------------------------------------------------------
                 // Peter's addition: Enable write to global
 
@@ -1765,7 +1737,7 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
                         
                         // Notify global of packet readiness\
 //                        System.out.println("AEstream "+AEViewer.this.hashCode());
-                        waitFlag.release();
+                        waitFlag.release(1);
                         
                         // Notify, wait for global viewer to release
                         //globalViewer.notify();
@@ -1777,10 +1749,12 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
                         
                         // Acquire semaphore
                         try {
-                            waitFlag.acquire();
+                            waitFlag.acquire(1);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(AEViewer.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        
+//                        globalViewer.notify();
                         
                     }
                     
@@ -1797,13 +1771,19 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
                     }
                     getFrameRater().takeAfter();
                     renderCount++;
+                    
 
                     
                 }
+                
+                
+                
+                
             //--------------------------------------------------------
-
-
+                System.out.println("Viewer Loop end");
                 fpsDelay();
+                
+                
 //                rerenderFlagDone=true;
             } // while (stop == false): end of run() loop - main loop of AEViewer.ViewLoop
 
@@ -5749,6 +5729,97 @@ private void openSocketOutputStreamMenuItemActionPerformed(java.awt.event.Action
     {   return packet;        
     }
     
+    
+    Ambassador ambassador=new Ambassador();
+    
+    /** Return the ambassador object from this AEViewer.  It contains the methods
+     * for communication between threads 
+     * @return 
+     */
+    public Ambassador getAmbassador()
+    {   return ambassador;        
+    }
+    
+    /** This class allows the AEviewer to serve as a global communicator. */
+    public class Ambassador implements PacketStream, DisplayWriter
+    {        
+        int id;    // Number identifying this viewer
+        
+        public void setID(int ident)
+        {
+            id=ident;
+        }
+        
+        public void resetTimeStamps()
+        {
+            AEViewer.this.zeroTimestamps();
+        }
+        
+        @Override
+        public void setPanel(JPanel imagePanel) {
+    //        imagePanel.get
+            chip.getCanvas().getCanvas().setBounds(imagePanel.getBounds());
+    //            imagePanel.add(chip.getCanvas().getCanvas());
+
+            displayPanel=imagePanel;
+            imagePanel.add(chip.getCanvas().getCanvas());
+            //throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void setSemaphore(Semaphore semi) {
+            waitFlag=semi;
+        }
+
+        /** Set the viewer as being "watched".  This means its loop is synchronized
+         * with the global loop
+         * @param displayed 
+         */
+        public void setWatched(boolean displayed) {
+            globalized=displayed;
+        }
+
+        @Override
+        public Container getPanel() {
+            return getRootPane();
+    //        return this.displayPanel;
+        }
+
+        @Override
+        public EventPacket getPacket() {
+            return packet;
+        }
+
+        @Override
+        public String getName() {
+            
+            return "V"+id+": "+chip.getClass().getSimpleName();
+        }
+
+        @Override
+        public boolean isReady() {
+            return true; // AEViewer streams are always considered ready.
+        }
+
+        public void display()
+        {   //chip.getRenderer().render(packet);  
+            viewLoop.renderPacket(packet);
+        }
+        
+        
+        @Override
+        public boolean process() {
+            throw new UnsupportedOperationException("This call should never be made");
+        }
+
+        @Override
+        public void setDisplayEnabled(boolean state) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        
+    }
+    
+    
     /** This method takes in an hardware interface and tries to find the 
      * appropriate chip class.  You could use it before initializing an AEViewer.
      * 
@@ -5756,8 +5827,6 @@ private void openSocketOutputStreamMenuItemActionPerformed(java.awt.event.Action
      * 
      * @return 
      */
-    
-    
     public static Class hardwareInterface2chipClassName(HardwareInterface hw)
     {
         

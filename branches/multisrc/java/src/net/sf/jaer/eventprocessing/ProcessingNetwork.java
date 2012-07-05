@@ -4,9 +4,12 @@
  */
 package net.sf.jaer.eventprocessing;
 
+import java.awt.Container;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+import javax.swing.JPanel;
 import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.graphics.DisplayWriter;
 
 /**
  * This is an equivalent to the filter-chain that can include multi-input filters.
@@ -21,6 +24,26 @@ public class ProcessingNetwork {
     ArrayList<PacketStream> inputStreams=new ArrayList();
     
     ArrayList<Node> nodes=new ArrayList();
+            
+    /** Compute! */
+    public void crunch()
+    {   int i=0;
+        try {            
+            // Mark all nodes as needing to be computed
+            for (Node n : nodes) {
+                n.ready = false;
+            }
+
+            // Compute all nodes
+            for (i=0;i<nodes.size();i++) {
+                nodes.get(i).process();
+            }
+            
+        } catch (Exception ME) {
+            nodes.get(i).setEnabled(false);
+            ME.printStackTrace();
+        }
+    }   
     
     
     /** Mainly for back-compatibility.  Build the processing network out of a 
@@ -44,13 +67,15 @@ public class ProcessingNetwork {
     }
     
     
-    class Node implements PacketStream
+    class Node implements PacketStream, DisplayWriter
     {   
         int nodeID;
         EventFilter2D filt;
         boolean isMultiInput=false;
-        ArrayList<PacketStream> sources;
+        private boolean enabled=false;
+        PacketStream[] sources;
         EventPacket outputPacket;
+        boolean ready=false;
         
         public Node(EventFilter2D philt,int id)
         {
@@ -59,8 +84,9 @@ public class ProcessingNetwork {
             nodeID=id;
             // This is a sinful use of instanceof, but it's all in the name of 
             // backwards-compatibility
-            isMultiInput=philt instanceof MultiSensoryFilter;
+            isMultiInput=philt instanceof MultiSourceProcessor;
             
+            sources=new PacketStream[nInputs()];
         }
         
         /** Return a list of possible input sources */
@@ -77,28 +103,54 @@ public class ProcessingNetwork {
                 if (p!=this)
                     arr.add(p);
             
+            
+            
             return arr;
         }
         
         
         /** Do the processing for this node */
-        void process() {
+        @Override
+        public boolean process() {
+            
+            if (isReady()) return true;
+            else if (!isEnabled())
+                return false;            
+            
+            // Step 1: Prepare all inputs
+            for (PacketStream p:sources)
+                if (!p.isReady())
+                {   boolean status=p.process();
+                    if (!status) return false;
+                }
+                
+            // Step 2: Compute the output packet.
             if (isMultiInput) {
                 ArrayList<EventPacket> inputs=new ArrayList();
                 for (PacketStream n :sources)
-                    inputs.add(n.getPacket());       
-                
-                outputPacket=((MultiSensoryFilter)filt).filterPackets(inputs);
-                
+                    inputs.add(n.getPacket());
+                outputPacket=((MultiSourceProcessor)filt).filterPackets(inputs);
             } else {
-                outputPacket=filt.filterPacket(sources.get(0).getPacket());
+                outputPacket=filt.filterPacket(sources[0].getPacket());
             }
 
+            return true;
         }
 
         @Override
         public EventPacket getPacket() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            return outputPacket;
+        }
+        
+        
+        /** Set the input source at the given index */
+        public void setSource(int sourceNumber,PacketStream src) throws Exception
+        {   
+//            if (sourceNumber>nInputs())
+//                throw new Exception("Warning: You set a source number higher than the allowable limit.  Nothing is being done.");
+            
+//            sources.set(sourceNumber,src);
+            sources[sourceNumber]=src;
         }
 
         @Override
@@ -108,13 +160,13 @@ public class ProcessingNetwork {
         @Override
         public String getName() {
             String name= filt.getClass().getName();
-            return nodeID+": "+name.substring(name.lastIndexOf('.') + 1);
+            return "N"+nodeID+": "+name.substring(name.lastIndexOf('.') + 1);
         }
         
         public int nInputs()
         {
-            if (filt instanceof MultiSensoryFilter)
-            {   return ((MultiSensoryFilter)filt).nInputs();
+            if (filt instanceof MultiSourceProcessor)
+            {   return ((MultiSourceProcessor)filt).nInputs();
             }
             else
             {   return 1;
@@ -124,13 +176,52 @@ public class ProcessingNetwork {
         /** Get the names of the inputs */
         public String[] getInputNames()
         {
-            if (filt instanceof MultiSensoryFilter)
-            {   return ((MultiSensoryFilter)filt).getInputNames();
+            if (filt instanceof MultiSourceProcessor)
+            {   return ((MultiSourceProcessor)filt).getInputNames();
             }
             else
             {   return new String[] {"input"};
             }
             
+        }
+
+        @Override
+        public boolean isReady() {
+            return ready;
+        }
+
+        /**
+         * @return the enabled
+         */
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        /**
+         * @param enabled the enabled to set
+         */
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        @Override
+        public void setPanel(JPanel imagePanel) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public Container getPanel() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+//        @Override
+//        public void display() {
+//            throw new UnsupportedOperationException("Not supported yet.");
+//        }
+
+        @Override
+        public void setDisplayEnabled(boolean state) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
         
     }
@@ -142,7 +233,12 @@ public class ProcessingNetwork {
      */
     int[] defineExecutionOrder()
     {
-        return new int[0];
+        executionOrder=new int[nodes.size()];
+        
+        
+        
+        return executionOrder;
+        
     }
     
     /**
@@ -150,18 +246,18 @@ public class ProcessingNetwork {
      * @param packets
      * @return 
      */
-    public ArrayList<EventPacket> filterPackets(ArrayList<EventPacket> packets)
-    {
-        for (int i:executionOrder)
-            nodes.get(i).process();
-        
-        ArrayList<EventPacket> outputs=new ArrayList();
-        for (Node n:nodes)
-            outputs.add(n.outputPacket);
-        
-        return outputs;
-        
-    }
+//    public ArrayList<EventPacket> filterPackets(ArrayList<EventPacket> packets)
+//    {
+//        for (int i:executionOrder)
+//            nodes.get(i).process();
+//        
+//        ArrayList<EventPacket> outputs=new ArrayList();
+//        for (Node n:nodes)
+//            outputs.add(n.outputPacket);
+//        
+//        return outputs;
+//        
+//    }
     
     
     

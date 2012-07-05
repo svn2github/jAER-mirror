@@ -9,7 +9,7 @@ import java.util.EnumMap;
 import javax.swing.JPanel;
 import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.event.EventPacket;
-import net.sf.jaer.eventprocessing.MultiSensoryFilter;
+import net.sf.jaer.eventprocessing.MultiSourceProcessor;
 import net.sf.jaer.graphics.Chip2DRenderer;
 import net.sf.jaer.graphics.DisplayWriter;
 
@@ -17,7 +17,7 @@ import net.sf.jaer.graphics.DisplayWriter;
  *
  * @author Peter
  */
-public class FusionReactor extends MultiSensoryFilter {
+public class BasicMultiSensoryFilt extends MultiSourceProcessor {
 
    // Chip2DRenderer mat=new Chip2DRenderer();
     final ShowMat mat=new ShowMat();
@@ -26,10 +26,6 @@ public class FusionReactor extends MultiSensoryFilter {
 
         JPanel p;
         
-        @Override
-        public void setWatched(boolean displayed) {
-            
-        }
 
         @Override
         public void setPanel(JPanel imagePanel) {
@@ -42,8 +38,8 @@ public class FusionReactor extends MultiSensoryFilter {
         }
 
         @Override
-        public void display() {
-            System.out.println("Running Display Method");
+        public void setDisplayEnabled(boolean state) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
         
     }
@@ -51,7 +47,7 @@ public class FusionReactor extends MultiSensoryFilter {
     public enum xxx {AAA,BBB};
     
     
-    public FusionReactor(AEChip chip)
+    public BasicMultiSensoryFilt(AEChip chip)
     {   super(chip,2);    
     }
     

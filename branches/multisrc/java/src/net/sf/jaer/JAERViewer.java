@@ -91,6 +91,10 @@ public class JAERViewer {
     
     /** Creates a new instance of JAERViewer */
     public JAERViewer() {
+        
+        // Internal switch
+        final boolean multistartmode=true;
+        
         Thread.UncaughtExceptionHandler handler = new LoggingThreadGroup("jAER UncaughtExceptionHandler");
         Thread.setDefaultUncaughtExceptionHandler(handler);
 
@@ -115,6 +119,13 @@ public class JAERViewer {
 
             
             public void run() {
+                
+                
+                if (multistartmode)
+                {   setViewMode(true);
+                    return;
+                }
+                
                 // try to load a list of previous chip classes that running in viewers and then reOGloopen them
                 ArrayList<String> classNames = null;
                 try {

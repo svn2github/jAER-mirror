@@ -4,6 +4,8 @@
  */
 package net.sf.jaer.eventprocessing;
 
+import java.awt.Container;
+import javax.swing.JRootPane;
 import net.sf.jaer.chip.AEChip;
 
 /**
@@ -13,6 +15,9 @@ import net.sf.jaer.chip.AEChip;
 public class MultiInputFrame extends FilterFrame{
     
     ProcessingNetwork procNet;
+    Container parentContainer;
+    
+    Container multiInputControl;
     
     public MultiInputFrame(AEChip chip,ProcessingNetwork pr)
     {   super(chip);
@@ -22,6 +27,32 @@ public class MultiInputFrame extends FilterFrame{
         
         rebuildContents();
     }
+    
+    public MultiInputFrame(AEChip chip,ProcessingNetwork pr,Container parent)
+    {   this(chip,pr);
+    
+        parentContainer=parent;
+        
+        this.setVisible(true);
+
+        this.getComponents();
+        //                            multiInputControl = mif.getContentPane();
+        multiInputControl = this.getRootPane();
+
+        this.dispose();
+
+        parent.add(multiInputControl);
+    }
+    
+    public void setHidden(boolean hiddenState)
+    {
+        if (hiddenState)
+            parentContainer.remove(multiInputControl);
+        else
+            parentContainer.add(multiInputControl);
+    }
+    
+    
     
     /** rebuilds the frame contents using the existing filters in the filterChain */
     @Override
@@ -46,13 +77,19 @@ public class MultiInputFrame extends FilterFrame{
         for (ProcessingNetwork.Node node : procNet.nodes) {
             MultiInputPanel p = new MultiInputPanel(node);
             addToFiltersPanel(p);
-            p.addSources();
+            
             n++;
             h += p.getHeight();
             w = p.getWidth();
         }
 //            pack();
-        pack();
+//        pack();
+        
+        if (parentContainer!=null)
+            this.parentContainer.revalidate();
+//        this.filtersPanel.updateUI();
+        
+//        this.repaint();
     }    
     
     

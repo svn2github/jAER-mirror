@@ -26,5 +26,12 @@ public interface PacketStream {
     
     String getName();
     
+    /** Check if packet is ready */
+    public boolean isReady();
+    
+    /** Do what it takes to get your packets to a ready state.  If for whatever
+     * reason (stream disabled, etc) they don't process, return false.
+     */
+    public boolean process();
     
 }

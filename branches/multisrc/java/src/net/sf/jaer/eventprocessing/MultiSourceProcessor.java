@@ -5,9 +5,7 @@
 package net.sf.jaer.eventprocessing;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
@@ -19,21 +17,23 @@ import net.sf.jaer.event.OutputEventIterator;
 import net.sf.jaer.graphics.DisplayWriter;
 
 /**
- *
+ * This is an extension of EventFilter2D that can deal with multiple streams of 
+ * input packets, for example from two different sensors.
  * @author Peter
  */
-public abstract class MultiSensoryFilter extends EventFilter2D {
+public abstract class MultiSourceProcessor extends EventFilter2D {
     
     
     ArrayList<Queue<BasicEvent>> buffers=new ArrayList();   // Stores events to ensure monotonicity between calls.
     
     PriorityQueue<BasicEvent> pq;
     
+    int maxWaitTime=100000; // Maximum time to wait (in microseconds) for events from one source before continuing
     
     /** Initialize a MultiSensoryFilter with the chip, and the number of inputs
      it will take
      */
-    public MultiSensoryFilter(AEChip chip,int nInputs) // Why is "chip" so tightly bound with viewing options??
+    public MultiSourceProcessor(AEChip chip,int nInputs) // Why is "chip" so tightly bound with viewing options??
     {   super(chip);        
     
         pq=new PriorityQueue(nInputs,new EventComp());
@@ -136,7 +136,7 @@ public abstract class MultiSensoryFilter extends EventFilter2D {
      *  
      * @return 
      */
-    public EventPacket mergePackets(ArrayList<EventPacket> packets)
+    EventPacket mergePackets(ArrayList<EventPacket> packets)
     {
         /*
          * packet 0:    ooooo \
@@ -190,13 +190,10 @@ public abstract class MultiSensoryFilter extends EventFilter2D {
             ev=outItr.nextOutput();
             ev.copyFrom(pq.poll());
                         
+            pq.add(buffers.get(ev.source).poll());
         }
         
         
     }
     
-    @Override
-    public EventPacket<?> filterPacket(EventPacket<?> in) {
-        throw new UnsupportedOperationException("This filter type does not filter single packets.  Subclass off EventFilter2D instead if you want to do that.");
-    }
 }

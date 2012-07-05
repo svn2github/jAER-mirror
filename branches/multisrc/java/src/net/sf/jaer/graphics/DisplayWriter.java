@@ -4,6 +4,7 @@
  */
 package net.sf.jaer.graphics;
 
+import java.awt.Container;
 import javax.swing.JPanel;
 
 /**
@@ -15,19 +16,16 @@ import javax.swing.JPanel;
  * 
  * @author Peter
  */
-public interface DisplayWriter {
+public interface DisplayWriter {    
     
-    /**
-     * Set the object as being watched.  This may do nothing, but certain things
-     * may change in the object if it is being watched.
-     * @param displayed 
-     */
-    void setWatched(boolean displayed);
-    
+    /** Give the object a panel to display to */
     void setPanel(JPanel imagePanel);
     
-    JPanel getPanel();
+    /** Get the panel that the object is displaying to */
+    Container getPanel();
     
-    void display();
+    /** Enable/disable the display */
+    public void setDisplayEnabled(boolean state);
+    
     
 }

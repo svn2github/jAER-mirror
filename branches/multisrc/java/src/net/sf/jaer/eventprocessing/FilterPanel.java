@@ -139,7 +139,7 @@ public class FilterPanel extends javax.swing.JPanel implements PropertyChangeLis
     private Border normalBorder, redLineBorder;
     private TitledBorder titledBorder;
     private HashMap<String, HasSetter> setterMap = new HashMap<String, HasSetter>(); // map from filter to property, to apply property change events to control
-    private java.util.ArrayList<JComponent> controls = new ArrayList<JComponent>();
+    protected java.util.ArrayList<JComponent> controls = new ArrayList<JComponent>();
     private HashMap<String, Container> groupContainerMap = new HashMap();
     private JPanel inheritedPanel = null;
     private float DEFAULT_REAL_VALUE=0.01f; // value jumped to from zero on key or wheel up
@@ -1260,7 +1260,7 @@ public class FilterPanel extends javax.swing.JPanel implements PropertyChangeLis
         jPanel1.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
 
-        enabledCheckBox.setFont(new java.awt.Font("Tahoma", 0, 9));
+        enabledCheckBox.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         enabledCheckBox.setToolTipText("Enable or disable the filter");
         enabledCheckBox.setMargin(new java.awt.Insets(1, 1, 1, 1));
         enabledCheckBox.addActionListener(new java.awt.event.ActionListener() {
@@ -1327,7 +1327,7 @@ public class FilterPanel extends javax.swing.JPanel implements PropertyChangeLis
         if (!getFilter().isEnclosed() && c instanceof Window) {
             if (c instanceof FilterFrame) {
                 // hide all filters except one that is being modified, *unless* we are an enclosed filter
-                FilterFrame<FilterPanel> ff = (FilterFrame) c; 
+                FilterFrame<FilterPanel> ff = (FilterFrame) c;
                 for (FilterPanel f : ff.filterPanels) {
                     if (f == this) {  // for us and if !visible
                         f.setVisible(true); // always set us visible in chain since we are the one being touched
@@ -1409,8 +1409,8 @@ public class FilterPanel extends javax.swing.JPanel implements PropertyChangeLis
     }//GEN-LAST:event_showControlsToggleButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox enabledCheckBox;
-    private javax.swing.JPanel jPanel1;
+    protected javax.swing.JCheckBox enabledCheckBox;
+    protected javax.swing.JPanel jPanel1;
     private javax.swing.JButton resetButton;
     private javax.swing.JToggleButton showControlsToggleButton;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
