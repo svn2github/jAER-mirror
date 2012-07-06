@@ -57,6 +57,9 @@ public abstract class MultiSourceProcessor extends EventFilter2D {
         this.getChip().getAeViewer().getJaerViewer().globalViewer.addDisplayWriter(disp);
     }
     
+    
+    
+    
 //    /** return an Enumerator indicating the list of inputs to the filter.
 //     *  
 //     * @TODO  determine if this should be something more dynamic in future

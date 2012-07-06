@@ -720,7 +720,7 @@ public class JAERViewer {
 //                    }
                     
                     globalViewer.setJaerViewer(JAERViewer.this);
-                    globalViewer.collectAllInputs(viewers);
+                    
                     globalViewer.start();               
 
 //                    for (AEViewer v: viewers)

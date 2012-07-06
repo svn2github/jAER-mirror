@@ -4,6 +4,7 @@
  */
 package net.sf.jaer.graphics;
 
+import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JPanel;
 
@@ -19,10 +20,10 @@ import javax.swing.JPanel;
 public interface DisplayWriter {    
     
     /** Give the object a panel to display to */
-    void setPanel(JPanel imagePanel);
+    void setPanel(javax.swing.JPanel imagePanel);
     
     /** Get the panel that the object is displaying to */
-    Container getPanel();
+    Component getPanel();
     
     /** Enable/disable the display */
     public void setDisplayEnabled(boolean state);

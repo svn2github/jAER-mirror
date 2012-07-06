@@ -100,7 +100,7 @@ public class MultiInputPanel extends FilterPanel {
             }
         
         this.revalidate();
-//        this.getParent().revalidate();
+//        this.getParent().getParent().revalidate();
         
         this.repaint();
         

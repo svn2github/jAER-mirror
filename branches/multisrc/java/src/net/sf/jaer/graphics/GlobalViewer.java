@@ -10,7 +10,7 @@
  */
 package net.sf.jaer.graphics;
 
-import ch.unizh.ini.jaer.chip.projects.sensoryfusion.BasicMultiSensoryFilt;
+import ch.unizh.ini.jaer.chip.projects.sensoryfusion.SensoryFusionExample;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -28,12 +28,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.Vector;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
@@ -57,27 +59,25 @@ public class GlobalViewer extends javax.swing.JFrame {
 
         // <editor-fold defaultstate="collapsed" desc=" Properties " >
     
-        // Properties ----------------------------------
         
         private final ViewLoop viewLoop=new ViewLoop();
         JAERViewer jaerView;
         public boolean enabled=true;
         
         ProcessingNetwork procNet=new ProcessingNetwork();
-        
-        // THIS IS JUST A TEST AND WILL BE DELETED!
-        MultiSourceProcessor testFilter;
-        
+                
         public final ArrayList<AEViewer.Ambassador> aeviewers=new ArrayList();
         public final ArrayList<DisplayWriter> inputDisplays=new ArrayList();
         public final ArrayList<DisplayWriter> internalDisplays=new ArrayList();
         
         ArrayList<PacketStream> packetStreams=new ArrayList();
         int[] packetStreamIndeces;
-        Semaphore waitFlag;
+        CyclicBarrier waitFlag;
         
         boolean synchDisp=false;
         SourceSynchronizer srcSync;
+        
+        
         
         // </editor-fold>
         
@@ -91,7 +91,7 @@ public class GlobalViewer extends javax.swing.JFrame {
             packetStreams.clear();
             
             
-            waitFlag=new Semaphore(viewers.size());
+            waitFlag=new CyclicBarrier(viewers.size(),new ViewLoop());
             
             // Add all the viewers
             for (int i=0; i<viewers.size(); i++) 
@@ -102,6 +102,8 @@ public class GlobalViewer extends javax.swing.JFrame {
                 addPacketStream(v);
                 addDisplayWriter(v);
                 v.setWatched(true);
+                v.setSemaphore(waitFlag);
+                inputDisplays.add(v);
             }
             
             // In (Hopefully) rapid succession, zero the time-stamps
@@ -116,47 +118,25 @@ public class GlobalViewer extends javax.swing.JFrame {
             return arr;
         }
         
-        
-        public void addDisplayWriter(DisplayWriter d){
-            
-//            try {
-//                //
-//                waitFlag.acquire(packetStreams.size());
-//            } catch (InterruptedException ex) {
-//                Logger.getLogger(GlobalViewer.class.getName()).log(Level.SEVERE, null, ex);
-//            }
                 
-            synchronized(inputDisplays)
-            {
-                inputDisplays.add(d);
-                
-            }
-        }
-        
         public void start(){
             
             enabled=true;
-            viewLoop.start();
-                                    
+//            viewLoop.start();
+                        
             initComponents();
             
+            collectAllInputs(jaerView.getViewers());
+            
+//            buildDisplay();
+            
         }
-        
-        
-//        public void addDisplayWriter(AEViewer v){
-//            displayWriters.add(v);
-//            v.setWatched(true);
-//            v.setPanel(makePanel());
-//        }
-        
-        
+                
         /** Add a new packet source 
          * @TODO: semaphore concerns
          */
         public void addPacketStream(PacketStream v){
-            packetStreams.add(v);
-            v.setSemaphore(waitFlag);
-            
+            packetStreams.add(v);            
         }
         
         // </editor-fold>
@@ -195,15 +175,9 @@ public class GlobalViewer extends javax.swing.JFrame {
                 
         // <editor-fold defaultstate="collapsed" desc=" ViewLoop Thread " >
         
-        class ViewLoop extends Thread{
+        class ViewLoop implements Runnable{
                         
             public volatile boolean paused;
-            
-            @Override
-            public void start(){
-                this.setName("GlobalViewer.ViewLoop");
-                super.start();
-            }
             
             @Override
             public void run() {
@@ -212,78 +186,13 @@ public class GlobalViewer extends javax.swing.JFrame {
                 // 2) Filter Packet & display
                 // 3) Release other threads
                 
-                while (enabled) {
-                    
-//                    // Handle thread pausing
-//                    synchronized (GlobalViewer.this) {
-//                        if (this.paused) {
-//                            GlobalViewer.this.notifyAll(); // Notify other threads that this loop is paused
-//                            try {
-//                                GlobalViewer.this.wait();
-//                            } catch (InterruptedException ex) {
-//                                Logger.getLogger(GlobalViewer.class.getName()).log(Level.SEVERE, null, ex);
-//                            }
-//                            GlobalViewer.this.notifyAll();   // Notify other threads that this loop is now unpaused
-//                        }
-//                    }
-                    
-                    int permits=aeviewers.size();
-
-
-                    try {
-                        // Wait for all AEViewers to finish
-                        // The max is because some funny start condition caused extra permits
-                        waitFlag.acquire(Math.max(waitFlag.availablePermits(),permits));
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(GlobalViewer.class.getName()).log(Level.SEVERE, null, ex);
-                        continue;
-                    }
-                    
-                    // Synchronization display: 
-                    if (synchDisp) //Update if window is open, otherwise turn off.
-                    {   synchDisp=srcSync.update();
-                    }
-
-
-                    // 1) Process Packets
-//                    procNet.crunch();
-//                    for (PacketStream p:packetStreams){
-//                        ...
-//                    }
-
-                    // 2) Display all displayables
-                    synchronized(inputDisplays){
-                        for (DisplayWriter s : inputDisplays) {
-                            ((AEViewer.Ambassador)s).display();
-                        }
-                    }
-
-//                    System.out.println("GlobalStream");
-//                    synchronized(GlobalViewer.this)
-//                    {
-                        
-//                    }
-//                    waitFlag.release(3);
-//                try {
-//                    Thread.sleep(30);
-//                } catch (InterruptedException ex) {
-//                    Logger.getLogger(GlobalViewer.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-                    waitFlag.release(permits);
-
-                    synchronized (GlobalViewer.this) {   // Release the globalized AEViewers, which should ALL be hanging on this thread
-                        GlobalViewer.this.notifyAll();
-                        
-//                        try {
-//                            GlobalViewer.this.wait();
-//                        } catch (InterruptedException ex) {
-//                            Logger.getLogger(GlobalViewer.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-                    }
-                    System.out.println("Global Loop end");
+                // Synchronization display: 
+                if (synchDisp) //Update if window is open, otherwise turn off.
+                {   synchDisp=srcSync.update();
                 }
-                
-                
+
+                // 1) Process Packets
+                procNet.crunch();
                 
             }
         }
@@ -297,6 +206,7 @@ public class GlobalViewer extends javax.swing.JFrame {
         JPanel viewPanel;
         JPanel filterPanel;
         MultiInputFrame multiInputControl;
+        ArrayList<JPanel> viewPanels=new ArrayList();
         
         void initComponents()
         {
@@ -329,7 +239,7 @@ public class GlobalViewer extends javax.swing.JFrame {
                     {   
                         
                         ((AEViewer) v).getContentPane().add(v.getPanel());
-                        v.getPanel().removeAll();
+//                        v.getPanel().removeAll();
                         
                         
                         GlobalViewer.this.enabled=false;
@@ -408,11 +318,32 @@ public class GlobalViewer extends javax.swing.JFrame {
             bottomBar.add(button);
             
             
+            button=new JButton("?");
+            button.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                    "This viewer allows you to view input from multiple source, "+
+                    "and dispatch them to filters with variable numbers of input "+
+                    "sources.\n\n"
+                            + "TODO:\n"
+                            + "Allow Processed Packets to render\n"
+                            + "Implement max-wait time for each input source\n"
+                            + "Allow better control of opening/closing displays\n"
+                            + "Allow access to AEViewer controls"
+                            );
+                }
+            });
+            bottomBar.add(button);
+            
+            
             viewPanel=new JPanel();
             this.add(viewPanel,BorderLayout.CENTER);
-            viewPanel.setBackground(Color.DARK_GRAY);            
+            viewPanel.setBackground(Color.DARK_GRAY); 
+            viewPanel.setLayout(new GridBagLayout());
             
-            buildDisplay();
+            
+//            buildDisplay();
 
 //            this.setPreferredSize(new Dimension(1000,800));
             
@@ -433,21 +364,57 @@ public class GlobalViewer extends javax.swing.JFrame {
             
         }
         
-        
-        public void buildDisplay()
-        {   viewPanel.removeAll();
-        
-            viewPanel.setLayout(new FlowLayout());
-        
-            viewPanel.setLayout(new GridBagLayout());
+//        
+//        public void buildDisplay()
+//        {   viewPanel.removeAll();
+//        
+//            viewPanel.setLayout(new FlowLayout());
+//        
+//            viewPanel.setLayout(new GridBagLayout());
+//            GridBagConstraints c=new GridBagConstraints();
+//            
+//            c.weightx=c.weighty=1;
+//            
+//            int i=0;
+//            for (DisplayWriter d:inputDisplays)
+//            {
+//                c.gridx=i++;
+//                c.gridy=1;
+//                c.weightx=c.weighty=1;
+//                
+////                viewPanel.add(d.getPanel(),c);
+//                
+//                JPanel imagePanel=new JPanel();
+////            
+//                imagePanel.setLayout(new GridLayout());
+//                
+//                
+//                imagePanel.setPreferredSize(new Dimension(400,400));
+////            Dimension dims=this.getSize();
+////            int dx=dims.width/numPanels;
+//////            
+////            imagePanel.setBounds(new Rectangle(panelNumber*dx,0,dx,dims.height));
+////            
+////                imagePanel.setBounds(getPanelLoc(1,1));
+//                imagePanel.setBackground(Color.DARK_GRAY);
+//
+//                viewPanel.add(imagePanel,c);
+//               
+//                
+//                imagePanel.setVisible(true);
+//                
+//                d.setPanel(imagePanel);
+////                d.setPanel(null);
+//            }
+//        }
+//        
+        public void addDisplayWriter(DisplayWriter d)
+        {
             GridBagConstraints c=new GridBagConstraints();
             
             c.weightx=c.weighty=1;
             
-            int i=0;
-            for (DisplayWriter d:inputDisplays)
-            {
-                c.gridx=i++;
+            c.gridx=GridBagConstraints.RELATIVE;
                 c.gridy=1;
                 c.weightx=c.weighty=1;
                 
@@ -470,11 +437,15 @@ public class GlobalViewer extends javax.swing.JFrame {
                 viewPanel.add(imagePanel,c);
                
                 
-                imagePanel.setVisible(true);
-                
+//                imagePanel.setVisible(true);
                 
                 d.setPanel(imagePanel);
-            }
+            
+//                viewPanel.revalidate();
+                
         }
+//                
+        
+        
         // </editor-fold>       
 }

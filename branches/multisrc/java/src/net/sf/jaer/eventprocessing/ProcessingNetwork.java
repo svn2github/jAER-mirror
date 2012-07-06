@@ -4,8 +4,10 @@
  */
 package net.sf.jaer.eventprocessing;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.util.ArrayList;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
 import javax.swing.JPanel;
 import net.sf.jaer.event.EventPacket;
@@ -103,8 +105,6 @@ public class ProcessingNetwork {
                 if (p!=this)
                     arr.add(p);
             
-            
-            
             return arr;
         }
         
@@ -154,7 +154,7 @@ public class ProcessingNetwork {
         }
 
         @Override
-        public void setSemaphore(Semaphore semi) {
+        public void setSemaphore(CyclicBarrier barr) {
         }
 
         @Override
@@ -210,7 +210,7 @@ public class ProcessingNetwork {
         }
 
         @Override
-        public Container getPanel() {
+        public Component getPanel() {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 

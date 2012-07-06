@@ -24,7 +24,6 @@ public class MultiInputFrame extends FilterFrame{
     
         procNet=pr;
         
-        
         rebuildContents();
     }
     

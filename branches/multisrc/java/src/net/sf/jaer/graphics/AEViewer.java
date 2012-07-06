@@ -11,6 +11,7 @@ import edu.stanford.ejalbert.BrowserLauncher;
 import java.net.SocketException;
 import java.net.URI;
 import java.net.URL;
+import java.util.concurrent.BrokenBarrierException;
 import javax.swing.Timer;
 import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2;
 import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2EEPROM;
@@ -53,6 +54,7 @@ import net.sf.jaer.stereopsis.StereoPairHardwareInterface;
 import spread.*;
 import cl.eye.*;
 import java.net.MalformedURLException;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
 import net.sf.jaer.eventprocessing.PacketStream;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceFactoryChooserDialog;
@@ -1565,7 +1567,7 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
     final GlobalViewer globalViewer;
     public boolean globalized;
     //public Boolean waitFlag=false;    // Roll your own mutex!
-    public Semaphore waitFlag;
+    public CyclicBarrier waitFlag;
     private JPanel displayPanel;        // Panel to display to.
     
     volatile private EventPacket packet;
@@ -1726,6 +1728,15 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
                 } // if (!isPaused() || isSingleStep())
 
                 
+                if (skipPacketsRenderingCount-- == 0) {
+                    // we only got new events if we were NOT paused. but now we can apply filters, different rendering methods, etc in 'paused' condition
+                    makeStatisticsLabel(packet);
+                    renderPacket(packet);
+                    skipPacketsRenderingCount = skipPacketsRenderingNumber;
+                }
+                getFrameRater().takeAfter();
+                renderCount++;
+
                 
                 
                 
@@ -1733,54 +1744,21 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
                 // Peter's addition: Enable write to global
 
                 if (globalized) {
-                    synchronized (globalViewer) {
+                    
+                    try {
+                        waitFlag.await();
                         
-                        // Notify global of packet readiness\
-//                        System.out.println("AEstream "+AEViewer.this.hashCode());
-                        waitFlag.release(1);
-                        
-                        // Notify, wait for global viewer to release
-                        //globalViewer.notify();
-                        try {
-                            globalViewer.wait(); // Wait for global to release packet
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(AEViewer.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        
-                        // Acquire semaphore
-                        try {
-                            waitFlag.acquire(1);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(AEViewer.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        
-//                        globalViewer.notify();
-                        
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(AEViewer.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (BrokenBarrierException ex) {
+                        Logger.getLogger(AEViewer.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
-                    
-                    
-                }else{ // Only Render Packet If not globalized (GlobalViewer should handle rendering otherwise)
-                    
-
-                    if (skipPacketsRenderingCount-- == 0) {
-                        // we only got new events if we were NOT paused. but now we can apply filters, different rendering methods, etc in 'paused' condition
-                        makeStatisticsLabel(packet);
-                        renderPacket(packet);
-                        skipPacketsRenderingCount = skipPacketsRenderingNumber;
-                    }
-                    getFrameRater().takeAfter();
-                    renderCount++;
-                    
-
                     
                 }
                 
                 
-                
-                
             //--------------------------------------------------------
-                System.out.println("Viewer Loop end");
+//                System.out.println("Viewer Loop end");
                 fpsDelay();
                 
                 
@@ -5757,18 +5735,20 @@ private void openSocketOutputStreamMenuItemActionPerformed(java.awt.event.Action
         
         @Override
         public void setPanel(JPanel imagePanel) {
-    //        imagePanel.get
+//            imagePanel.get
             chip.getCanvas().getCanvas().setBounds(imagePanel.getBounds());
-    //            imagePanel.add(chip.getCanvas().getCanvas());
+//            imagePanel.add(chip.getCanvas().getCanvas());
 
             displayPanel=imagePanel;
             imagePanel.add(chip.getCanvas().getCanvas());
-            //throw new UnsupportedOperationException("Not supported yet.");
+//            
+//            
+//            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
-        public void setSemaphore(Semaphore semi) {
-            waitFlag=semi;
+        public void setSemaphore(CyclicBarrier barr) {
+            waitFlag=barr;
         }
 
         /** Set the viewer as being "watched".  This means its loop is synchronized
@@ -5780,9 +5760,10 @@ private void openSocketOutputStreamMenuItemActionPerformed(java.awt.event.Action
         }
 
         @Override
-        public Container getPanel() {
-            return getRootPane();
-    //        return this.displayPanel;
+        public Component getPanel() {
+//            return getRootPane();
+            return displayPanel;
+//            return chip.getCanvas().getCanvas();
         }
 
         @Override

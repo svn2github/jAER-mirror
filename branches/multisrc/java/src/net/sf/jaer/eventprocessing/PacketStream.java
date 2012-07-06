@@ -4,6 +4,7 @@
  */
 package net.sf.jaer.eventprocessing;
 
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
 import net.sf.jaer.event.EventPacket;
 
@@ -22,7 +23,7 @@ public interface PacketStream {
      * implemented for subclasses of Thread - otherwise, just leave this method 
      * empty and you'll be fine.
      */
-    void setSemaphore(Semaphore semi);
+    void setSemaphore(CyclicBarrier barr);
     
     String getName();
     
