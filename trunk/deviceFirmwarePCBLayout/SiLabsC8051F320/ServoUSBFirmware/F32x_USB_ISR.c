@@ -318,8 +318,11 @@ void Handle_In1()
       }
 
                                         // Put new data on Fifo
-      Fifo_Write(FIFO_EP1, EP1_PACKET_SIZE, (BYTE *)IN_PACKET);
-      POLL_WRITE_BYTE(EINCSR1, rbInINPRDY);
+ // here we don't load data onto the fifo or commit it to the USB domain, instead
+	// we leave this to the ISR that handles PCA interrupts. 
+	// here we just set a bit that tells the PCA ISR that it is OK to load data and commit it
+	//     Fifo_Write(FIFO_EP1, EP1_PACKET_SIZE, (BYTE *)IN_PACKET);
+   //   POLL_WRITE_BYTE(EINCSR1, rbInINPRDY);
                                         // Set In Packet ready bit, indicating 
    }                                    // fresh data on Fifo 1
 }

@@ -93,11 +93,11 @@ typedef union {unsigned int i; unsigned char c[2];} WORD;
 #define  EP0_PACKET_SIZE         0x40
 #endif // _USB_LOW_SPEED_ 
 
-// Can range 0 - 1024 depending on data and transfer type
-#define  EP1_PACKET_SIZE         0x0008
+// Can range 0 - 1024 depending on data and transfer type - set to 1 for port 2 status
+#define  EP1_PACKET_SIZE         0x0001
 
 // IMPORTANT- this should be Little-Endian version of EP1_PACKET_SIZE
-#define  EP1_PACKET_SIZE_LE      0x0800
+#define  EP1_PACKET_SIZE_LE      0x0100
 
 // Can range 0 - 1024 depending on data and transfer type
 // tobi set to 16 bytes as EP2 size for this servo motor control (max 1 byte command + 2*numServos=9)

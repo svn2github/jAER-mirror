@@ -104,6 +104,7 @@ sbit 	WowWeePort = P2^0;
 #define CMD_SEND_WOWWEE_RS_CMD 13 // send wowwee output on p2
 #define CMD_SET_PORT_DOUT 14 // sets P2.0 in PWM output mode and programs the duty cycle
 #define CMD_SET_PCA0MD_CPS 15 // sets the PCA clock source bits
+#define CMD_READ_PORT2 16  // sends port value to host
 
 // PWM servo output variables. these are used to hold the new values for the PCA compare registers so that 
 // they can be updated on the interrupt generated when the value can be updated safely without introducing glitches.
@@ -114,6 +115,7 @@ idata BYTE In_Packet[64];              // Next packet to sent to host
 
 void	Port_Init(void);			//	Initialize Ports Pins and Enable Crossbar
 void	Timer_Init(void);			// Init timer to use for spike event times
+void Main_Fifo_Write(BYTE addr, unsigned int uNumBytes, BYTE * pData);
 
 // wowwee command stuff
 union{
@@ -128,6 +130,8 @@ bit rsv2_precmd=0;
 bit rsv2_firstbithalf=0;
 bit rsv2_sendingone=0;
 bit rsv2_startingbit=0;
+extern unsigned int DataSize;
+unsigned char lastP2Value;
 
 
 
@@ -137,6 +141,7 @@ bit rsv2_startingbit=0;
 void main(void)  
 {
 	char cmd;
+   BYTE ControlReg;
 
    PCA0MD &= ~0x40;                    // Disable Watchdog timer
 
@@ -343,9 +348,20 @@ void main(void)
 				P2MDOUT= (Out_Packet[2]);
 				break;
 			}
-
+			
 		} // switch
 		EA=1; // enable interrupts
+		cmd=P2&1;
+		if(cmd!=lastP2Value){
+			lastP2Value=cmd;
+			In_Packet[0] = lastP2Value;
+			POLL_WRITE_BYTE(INDEX, 1);           // Set index to endpoint 1 registers
+			POLL_READ_BYTE(EINCSR1, ControlReg); // Read contol register for EP 1
+			if(! (ControlReg & rbInINPRDY) ){
+				Main_Fifo_Write(FIFO_EP1, EP1_PACKET_SIZE, (BYTE *)In_Packet);
+				POLL_WRITE_BYTE(EINCSR1, rbInINPRDY); // commit the packet
+			}
+		}
 		//LedOn();
 	} // while(1)
 }
@@ -696,6 +712,30 @@ void Delay(void)
    for(x = 0;x < 500;x)
       x++;
 }
+
+
+
+
+void Main_Fifo_Write(BYTE addr, unsigned int uNumBytes, BYTE * pData)
+{
+   int i;
+
+   // If >0 bytes requested,
+   if (uNumBytes)
+   {
+      while(USB0ADR & 0x80);              // Wait for BUSY->'0'
+                                          // (register available)
+      USB0ADR = (addr);                   // Set address (mask out bits7-6)
+
+      // Write <NumBytes> to the selected FIFO
+      for(i=0;i<uNumBytes;i++)
+      {
+         USB0DAT = pData[i];
+         while(USB0ADR & 0x80);           // Wait for BUSY->'0' (data ready)
+      }
+   }
+}
+
 
 //-----------------------------------------------------------------------------
 // End Of File

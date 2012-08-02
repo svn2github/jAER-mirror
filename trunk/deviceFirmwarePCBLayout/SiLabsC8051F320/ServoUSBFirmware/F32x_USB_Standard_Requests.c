@@ -510,6 +510,7 @@ void Set_Configuration(void)
          USB_State = DEV_CONFIGURED;
          Ep_Status[1] = EP_IDLE;                // Set endpoint status to idle (enabled)
          Ep_Status[2] = EP_IDLE;
+		 // don't understand why config causes write on EP1 - tobi, causes babble error later for real writes on EP1
          POLL_WRITE_BYTE(INDEX, 1);             // Change index to endpoint 1
          POLL_WRITE_BYTE(EINCSR2, rbInDIRSEL);  // Set DIRSEL to indicate endpoint 1 is IN
          Handle_In1();                          // Put first data packet on fifo
