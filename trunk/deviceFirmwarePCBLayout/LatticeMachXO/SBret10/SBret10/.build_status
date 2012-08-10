@@ -5,25 +5,31 @@
             <Task name="IBIS" build_result="0" update_result="3" update_time="0"/>
             <Task name="TimingSimFileVlg" build_result="0" update_result="3" update_time="0"/>
             <Task name="TimingSimFileVHD" build_result="0" update_result="3" update_time="0"/>
-            <Task name="Bitgen" build_result="0" update_result="3" update_time="0"/>
+            <Task name="Bitgen" build_result="2" update_result="0" update_time="1344603609"/>
         </Milestone>
-        <Milestone name="Map" build_result="0" build_time="0">
-            <Task name="Map" build_result="0" update_result="3" update_time="0"/>
+        <Milestone name="Map" build_result="2" build_time="1344603583">
+            <Task name="Map" build_result="2" update_result="0" update_time="1344603583"/>
             <Task name="MapEqu" build_result="0" update_result="3" update_time="0"/>
             <Task name="MapTrace" build_result="0" update_result="3" update_time="0"/>
             <Task name="MapVerilogSimFile" build_result="0" update_result="3" update_time="0"/>
             <Task name="MapVHDLSimFile" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="PAR" build_result="0" build_time="0">
-            <Task name="PAR" build_result="0" update_result="3" update_time="0"/>
+        <Milestone name="PAR" build_result="2" build_time="1344603607">
+            <Task name="PAR" build_result="2" update_result="0" update_time="1344603607"/>
             <Task name="PARTrace" build_result="0" update_result="3" update_time="0"/>
             <Task name="IOTiming" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="Synthesis" build_result="0" build_time="0">
-            <Task name="Synplify_Synthesis" build_result="0" update_result="2" update_time="0"/>
+        <Milestone name="Synthesis" build_result="2" build_time="1344603580">
+            <Task name="Synplify_Synthesis" build_result="2" update_result="0" update_time="1344603580"/>
         </Milestone>
-        <Milestone name="Translate" build_result="0" build_time="0">
-            <Task name="Translate" build_result="0" update_result="3" update_time="0"/>
+        <Milestone name="Translate" build_result="2" build_time="1344603582">
+            <Task name="Translate" build_result="2" update_result="0" update_time="1344603582"/>
         </Milestone>
+        <Report name="SBret10_SBret10.bgn" last_build_time="1344603609" last_build_size="1802"/>
+        <Report name="SBret10_SBret10.edi" last_build_time="1344603578" last_build_size="966312"/>
+        <Report name="SBret10_SBret10.jed" last_build_time="1344603609" last_build_size="504167"/>
+        <Report name="SBret10_SBret10.ncd" last_build_time="1344603607" last_build_size="925813"/>
+        <Report name="SBret10_SBret10.ngd" last_build_time="1344603582" last_build_size="833126"/>
+        <Report name="SBret10_SBret10_map.ncd" last_build_time="1344603583" last_build_size="637216"/>
     </Strategy>
 </BuildStatus>

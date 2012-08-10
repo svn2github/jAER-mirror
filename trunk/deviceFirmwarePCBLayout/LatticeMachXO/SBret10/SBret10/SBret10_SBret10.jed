@@ -5,7 +5,7 @@ NOTE Readback:       Off*
 NOTE Security:      Off*
 NOTE Copyright (C), 1992-2010, Lattice Semiconductor Corporation *
 NOTE All Rights Reserved *
-NOTE DATE CREATED: Wed Jun 27 17:27:32 2012 *
+NOTE DATE CREATED: Fri Aug 10 15:00:09 2012 *
 NOTE DESIGN NAME: USBAER_top_level *
 NOTE DEVICE NAME: LCMXO2280C-3FTBGA256 *
 NOTE PIN ASSIGNMENTS *
@@ -6809,4 +6809,4 @@ L000000
 CB2D6*
 N User Electronic Signature Data*
 U00000000000000000000000000000000*
-14BB
+149D
