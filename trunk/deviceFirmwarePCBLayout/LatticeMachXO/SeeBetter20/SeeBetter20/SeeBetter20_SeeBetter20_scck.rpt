@@ -1,0 +1,18 @@
+# Synospys Constraint Checker(syntax only), version maplat, Build 118R, built May  4 2011
+# Copyright (C) 1994-2011, Synopsys Inc.  All Rights Reserved
+
+# Written on Wed Jun 27 17:26:53 2012
+
+
+##### DESIGN INFO #######################################################
+
+Top View:                "USBAER_top_level"
+Constraint File(s):      (none)
+
+#Run constraint checker to find more issues with constraints.
+#########################################################################
+
+
+
+No issues found in constraint syntax.
+

@@ -1,0 +1,662 @@
+#Build: Synplify Pro E-2011.03L, Build 002R, Mar 15 2011
+#install: C:\Program Files\Lattice\diamond\1.3\synpbase
+#OS:  6.1
+#Hostname: TOBI_SB_1
+
+#Implementation: SeeBetter20
+
+#Mon Jan 09 17:09:57 2012
+
+$ Start of Compile
+#Mon Jan 09 17:09:57 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+VHDL syntax check successful!
+File C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCStateMachine.vhd changed - recompiling
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Synthesizing work.usbaer_top_level.structural 
+@W: CD638 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":345:9:345:27|Signal cdvstestrefenablexe is undriven 
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\cDVSResetStateMachine.vhd":25:7:25:27|Synthesizing work.cdvsresetstatemachine.behavioral 
+@N: CD233 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\cDVSResetStateMachine.vhd":38:13:38:14|Using sequential encoding for type state
+Post processing for work.cdvsresetstatemachine.behavioral
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCvalueReady.vhd":25:7:25:19|Synthesizing work.adcvalueready.behavioral 
+@N: CD233 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCvalueReady.vhd":37:13:37:14|Using sequential encoding for type state
+Post processing for work.adcvalueready.behavioral
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCStateMachine.vhd":25:7:25:21|Synthesizing work.adcstatemachine.behavioral 
+@N: CD231 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCStateMachine.vhd":55:16:55:17|Using onehot encoding for type colstate (stidle="10000000")
+@N: CD231 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCStateMachine.vhd":56:16:56:17|Using onehot encoding for type rowstate (stidle="10000000000000000000")
+Post processing for work.adcstatemachine.behavioral
+@W: CL117 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCStateMachine.vhd":123:4:123:7|Latch generated from process for signal NoBxS, probably caused by a missing assignment in an if or case stmt
+@W: CL117 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCStateMachine.vhd":123:4:123:7|Latch generated from process for signal DoReadxS, probably caused by a missing assignment in an if or case stmt
+@W: CL117 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCStateMachine.vhd":202:4:202:7|Latch generated from process for signal StartRowxSN, probably caused by a missing assignment in an if or case stmt
+@W: CL117 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCStateMachine.vhd":202:4:202:7|Latch generated from process for signal ReadDonexS, probably caused by a missing assignment in an if or case stmt
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\monitorStateMachine.vhd":25:7:25:25|Synthesizing work.monitorstatemachine.behavioral 
+@N: CD231 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\monitorStateMachine.vhd":65:13:65:14|Using onehot encoding for type state (stidle="100000000")
+Post processing for work.monitorstatemachine.behavioral
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\fifoStatemachine.vhd":25:7:25:22|Synthesizing work.fifostatemachine.behavioral 
+@N: CD233 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\fifoStatemachine.vhd":53:13:53:14|Using sequential encoding for type state
+Post processing for work.fifostatemachine.behavioral
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\synchronizerStateMachine.vhd":19:7:19:30|Synthesizing work.synchronizerstatemachine.behavioral 
+@N: CD231 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\synchronizerStateMachine.vhd":47:13:47:14|Using onehot encoding for type state (stmasteridle="1000000")
+Post processing for work.synchronizerstatemachine.behavioral
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\timestampCounter.vhd":25:7:25:22|Synthesizing work.timestampcounter.behavioral 
+Post processing for work.timestampcounter.behavioral
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\eventCounter.vhd":26:7:26:18|Synthesizing work.eventcounter.behavioral 
+Post processing for work.eventcounter.behavioral
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\earlyPaketTimer.vhd":25:7:25:21|Synthesizing work.earlypakettimer.behavioral 
+Post processing for work.earlypakettimer.behavioral
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\wordRegister.vhd":30:7:30:18|Synthesizing work.wordregister.behavioral 
+Post processing for work.wordregister.behavioral
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\AERfifo.vhd":14:7:14:13|Synthesizing work.aerfifo.structure 
+@N: CD630 :"C:\Program Files\Lattice\diamond\1.3\cae_library\synthesis\vhdl\machxo.vhd":1597:10:1597:16|Synthesizing work.fifo8ka.syn_black_box 
+Post processing for work.fifo8ka.syn_black_box
+@N: CD630 :"C:\Program Files\Lattice\diamond\1.3\cae_library\synthesis\vhdl\machxo.vhd":1278:10:1278:12|Synthesizing work.vlo.syn_black_box 
+Post processing for work.vlo.syn_black_box
+@N: CD630 :"C:\Program Files\Lattice\diamond\1.3\cae_library\synthesis\vhdl\machxo.vhd":1270:10:1270:12|Synthesizing work.vhi.syn_black_box 
+Post processing for work.vhi.syn_black_box
+Post processing for work.aerfifo.structure
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\shiftRegister.vhd":30:7:30:19|Synthesizing work.shiftregister.behavioral 
+Post processing for work.shiftregister.behavioral
+@W: CL117 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\shiftRegister.vhd":52:4:52:5|Latch generated from process for signal DataOutxDO(107 downto 0), probably caused by a missing assignment in an if or case stmt
+@N: CD630 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\clockgen.vhd":14:7:14:14|Synthesizing work.clockgen.structure 
+@N: CD630 :"C:\Program Files\Lattice\diamond\1.3\cae_library\synthesis\vhdl\machxo.vhd":1630:10:1630:16|Synthesizing work.ehxpllc.syn_black_box 
+Post processing for work.ehxpllc.syn_black_box
+Post processing for work.clockgen.structure
+Post processing for work.usbaer_top_level.structural
+@W: CL240 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":85:1:85:21|CDVSTestBiasBitOutxSI is not assigned a value (floating) - a simulation mismatch is possible 
+@N: CL201 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\synchronizerStateMachine.vhd":179:4:179:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 7 reachable states with original encodings of:
+   0000001
+   0000010
+   0000100
+   0001000
+   0010000
+   0100000
+   1000000
+@N: CL201 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\fifoStatemachine.vhd":128:4:128:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 4 reachable states with original encodings of:
+   00
+   01
+   10
+   11
+@N: CL201 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\monitorStateMachine.vhd":223:4:223:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 9 reachable states with original encodings of:
+   000000001
+   000000010
+   000000100
+   000001000
+   000010000
+   000100000
+   001000000
+   010000000
+   100000000
+@N: CL201 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCStateMachine.vhd":349:4:349:5|Trying to extract state machine for register StateRowxDP
+Extracted state machine for register StateRowxDP
+State machine has 20 reachable states with original encodings of:
+   00000000000000000001
+   00000000000000000010
+   00000000000000000100
+   00000000000000001000
+   00000000000000010000
+   00000000000000100000
+   00000000000001000000
+   00000000000010000000
+   00000000000100000000
+   00000000001000000000
+   00000000010000000000
+   00000000100000000000
+   00000001000000000000
+   00000010000000000000
+   00000100000000000000
+   00001000000000000000
+   00010000000000000000
+   00100000000000000000
+   01000000000000000000
+   10000000000000000000
+@N: CL201 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCStateMachine.vhd":349:4:349:5|Trying to extract state machine for register StateColxDP
+Extracted state machine for register StateColxDP
+State machine has 7 reachable states with original encodings of:
+   00000001
+   00000010
+   00000100
+   00001000
+   00100000
+   01000000
+   10000000
+@W: CL159 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCStateMachine.vhd":40:4:40:15|Input ADCconfigxDI is unused
+@N: CL201 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCvalueReady.vhd":80:4:80:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 4 reachable states with original encodings of:
+   00
+   01
+   10
+   11
+@N: CL201 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\cDVSResetStateMachine.vhd":107:4:107:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 3 reachable states with original encodings of:
+   00
+   01
+   10
+@W: CL159 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\cDVSResetStateMachine.vhd":31:4:31:12|Input RxcolGxSI is unused
+@W: CL247 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 15 of debugxsio(15 downto 0) is unused 
+@W: CL247 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 13 of debugxsio(15 downto 0) is unused 
+@W: CL247 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 10 of debugxsio(15 downto 0) is unused 
+@W: CL247 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 8 of debugxsio(15 downto 0) is unused 
+@W: CL159 :"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":62:4:62:11|Input FXLEDxSI is unused
+@END
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Jan 09 17:09:57 2012
+
+###########################################################]
+Pre-mapping Report (contents appended below)
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\SeeBetter20\synlog\SeeBetter20_SeeBetter20_premapping.srr"
+Synopsys Lattice Technology Pre-mapping, Version maplat, Build 118R, Built May  4 2011 10:54:50
+Copyright (C) 1994-2011, Synopsys Inc.  All Rights Reserved
+Product Version E-2011.03L
+@N: MF249 |Running in 32-bit mode.
+@N: MF257 |Gated clock conversion enabled 
+
+Finished Pre Mapping Phase. (Time elapsed 0h:00m:00s; Memory used current: 75MB peak: 78MB)
+
+Pre Mapping successful!
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Jan 09 17:09:59 2012
+
+###########################################################]
+Mapping Report (contents appended below)
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\SeeBetter20\synlog\SeeBetter20_SeeBetter20_MACHXO_Mapper.srr"
+Synopsys Lattice Technology Mapper, Version maplat, Build 118R, Built May  4 2011 10:54:50
+Copyright (C) 1994-2011, Synopsys Inc.  All Rights Reserved
+Product Version E-2011.03L
+@N: MF249 |Running in 32-bit mode.
+@N: MF257 |Gated clock conversion enabled 
+@N: MF203 |Set autoconstraint_io 
+
+@W: MO171 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\synchronizerstatemachine.vhd":194:4:194:5|Sequential instance uSyncStateMachine.SyncInxSN has been reduced to a combinational gate by constant propagation 
+
+Available hyper_sources - for debug and ip models
+	None Found
+
+@N: MT206 |Autoconstrain Mode is ON
+
+Finished RTL optimizations (Time elapsed 0h:00m:00s; Memory used current: 75MB peak: 78MB)
+
+@N:"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\timestampcounter.vhd":67:4:67:5|Found counter in view:work.USBAER_top_level(structural) inst uTimestampCounter.CountxDP[14:0]
+@N:"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\earlypakettimer.vhd":57:4:57:5|Found counter in view:work.earlyPaketTimer(behavioral) inst CountxDP[20:0]
+@N:"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\eventcounter.vhd":63:4:63:5|Found counter in view:work.eventCounter(behavioral) inst CountxDP[8:0]
+Encoding state machine work.synchronizerStateMachine(behavioral)-StatexDP[0:6]
+original code -> new code
+   0000001 -> 0000001
+   0000010 -> 0000010
+   0000100 -> 0000100
+   0001000 -> 0001000
+   0010000 -> 0010000
+   0100000 -> 0100000
+   1000000 -> 1000000
+@W: MO129 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\synchronizerstatemachine.vhd":163:6:163:24|Sequential instance uSyncStateMachine.StatexDP[0] has been reduced to a combinational gate by constant propagation
+@W: MO161 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\synchronizerstatemachine.vhd":149:6:149:31|Register bit StatexDP[1] is always 0, optimizing ...
+@N:"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\synchronizerstatemachine.vhd":179:4:179:5|Found counter in view:work.synchronizerStateMachine(behavioral) inst DividerxDP[7:0]
+Encoding state machine work.fifoStatemachine(behavioral)-StatexDP[0:3]
+original code -> new code
+   00 -> 00
+   01 -> 01
+   10 -> 10
+   11 -> 11
+Encoding state machine work.monitorStateMachine(behavioral)-StatexDP[0:8]
+original code -> new code
+   000000001 -> 000000001
+   000000010 -> 000000010
+   000000100 -> 000000100
+   000001000 -> 000001000
+   000010000 -> 000010000
+   000100000 -> 000100000
+   001000000 -> 001000000
+   010000000 -> 010000000
+   100000000 -> 100000000
+@N:"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\monitorstatemachine.vhd":223:4:223:5|Found counter in view:work.monitorStateMachine(behavioral) inst CountxDP[7:0]
+Encoding state machine work.ADCvalueReady(behavioral)-StatexDP[0:3]
+original code -> new code
+   00 -> 00
+   01 -> 01
+   10 -> 10
+   11 -> 11
+Encoding state machine work.cDVSResetStateMachine(behavioral)-StatexDP[0:2]
+original code -> new code
+   00 -> 00
+   01 -> 01
+   10 -> 10
+@N:"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\cdvsresetstatemachine.vhd":107:4:107:5|Found counter in view:work.cDVSResetStateMachine(behavioral) inst CountxDP[18:0]
+Encoding state machine work.ADCStateMachine(behavioral)-StateRowxDP[0:19]
+original code -> new code
+   00000000000000000001 -> 00000000000000000001
+   00000000000000000010 -> 00000000000000000010
+   00000000000000000100 -> 00000000000000000100
+   00000000000000001000 -> 00000000000000001000
+   00000000000000010000 -> 00000000000000010000
+   00000000000000100000 -> 00000000000000100000
+   00000000000001000000 -> 00000000000001000000
+   00000000000010000000 -> 00000000000010000000
+   00000000000100000000 -> 00000000000100000000
+   00000000001000000000 -> 00000000001000000000
+   00000000010000000000 -> 00000000010000000000
+   00000000100000000000 -> 00000000100000000000
+   00000001000000000000 -> 00000001000000000000
+   00000010000000000000 -> 00000010000000000000
+   00000100000000000000 -> 00000100000000000000
+   00001000000000000000 -> 00001000000000000000
+   00010000000000000000 -> 00010000000000000000
+   00100000000000000000 -> 00100000000000000000
+   01000000000000000000 -> 01000000000000000000
+   10000000000000000000 -> 10000000000000000000
+Encoding state machine work.ADCStateMachine(behavioral)-StateColxDP[0:6]
+original code -> new code
+   00000001 -> 0000001
+   00000010 -> 0000010
+   00000100 -> 0000100
+   00001000 -> 0001000
+   00100000 -> 0010000
+   01000000 -> 0100000
+   10000000 -> 1000000
+@N:"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\adcstatemachine.vhd":349:4:349:5|Found counter in view:work.ADCStateMachine(behavioral) inst DividerColxDP[32:0]
+@N:"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\adcstatemachine.vhd":349:4:349:5|Found counter in view:work.ADCStateMachine(behavioral) inst DividerRowxDP[16:0]
+@N:"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\adcstatemachine.vhd":349:4:349:5|Found counter in view:work.ADCStateMachine(behavioral) inst CountColxDP[6:0]
+@N:"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\adcstatemachine.vhd":349:4:349:5|Found counter in view:work.ADCStateMachine(behavioral) inst CountRowxDP[4:0]
+@N: MF179 :|Found 16 bit by 16 bit '==' comparator, 'p_col\.un4_countcolxdp'
+@N: BN116 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[7] of view:UNILIB.LDCPE(PRIM) because there are no references to its outputs 
+@N: BN116 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[6] of view:UNILIB.LDCPE(PRIM) because there are no references to its outputs 
+@N: BN116 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[4] of view:UNILIB.LDCPE(PRIM) because there are no references to its outputs 
+@N: BN116 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[3] of view:UNILIB.LDCPE(PRIM) because there are no references to its outputs 
+@N: BN116 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[2] of view:UNILIB.LDCPE(PRIM) because there are no references to its outputs 
+@N: BN116 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[1] of view:UNILIB.LDCPE(PRIM) because there are no references to its outputs 
+@N: BN116 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[0] of view:UNILIB.LDCPE(PRIM) because there are no references to its outputs 
+@N: BN116 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[11] of view:UNILIB.LDCPE(PRIM) because there are no references to its outputs 
+@N: BN116 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[10] of view:UNILIB.LDCPE(PRIM) because there are no references to its outputs 
+@N: BN116 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[9] of view:UNILIB.LDCPE(PRIM) because there are no references to its outputs 
+@N: BN116 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[8] of view:UNILIB.LDCPE(PRIM) because there are no references to its outputs 
+
+Finished factoring (Time elapsed 0h:00m:00s; Memory used current: 83MB peak: 87MB)
+
+
+
+#################### START OF GENERATED CLOCK OPTIMIZATION REPORT ####################[
+
+======================================================================================
+                                Instance:Pin        Generated Clock Optimization Status
+======================================================================================
+         uTimestampCounter.MSbDelayedxDP:C              Not Done
+ ADCStateMachine_2.CDVSTestSRRowClockxSO:C              Done
+ ADCStateMachine_2.CDVSTestSRColClockxSO:C              Done
+           ADCStateMachine_2.StartRowxSP:C              Done
+       ADCStateMachine_2.StateRowxDP[15]:C              Done
+       ADCStateMachine_2.StateRowxDP[16]:C              Done
+       ADCStateMachine_2.StateRowxDP[17]:C              Done
+       ADCStateMachine_2.StateRowxDP[18]:C              Done
+       ADCStateMachine_2.StateRowxDP[19]:C              Done
+        ADCStateMachine_2.StateRowxDP[0]:C              Done
+        ADCStateMachine_2.StateRowxDP[1]:C              Done
+        ADCStateMachine_2.StateRowxDP[2]:C              Done
+        ADCStateMachine_2.StateRowxDP[3]:C              Done
+        ADCStateMachine_2.StateRowxDP[4]:C              Done
+        ADCStateMachine_2.StateRowxDP[5]:C              Done
+        ADCStateMachine_2.StateRowxDP[6]:C              Done
+        ADCStateMachine_2.StateRowxDP[7]:C              Done
+        ADCStateMachine_2.StateRowxDP[8]:C              Done
+        ADCStateMachine_2.StateRowxDP[9]:C              Done
+       ADCStateMachine_2.StateRowxDP[10]:C              Done
+       ADCStateMachine_2.StateRowxDP[11]:C              Done
+       ADCStateMachine_2.StateRowxDP[12]:C              Done
+       ADCStateMachine_2.StateRowxDP[13]:C              Done
+       ADCStateMachine_2.StateRowxDP[14]:C              Done
+        ADCStateMachine_2.StateColxDP[2]:C              Done
+        ADCStateMachine_2.StateColxDP[3]:C              Done
+        ADCStateMachine_2.StateColxDP[4]:C              Done
+        ADCStateMachine_2.StateColxDP[5]:C              Done
+        ADCStateMachine_2.StateColxDP[6]:C              Done
+        ADCStateMachine_2.StateColxDP[0]:C              Done
+        ADCStateMachine_2.StateColxDP[1]:C              Done
+      ADCStateMachine_2.CountRowxDP[4:0]:C              Done
+      ADCStateMachine_2.CountColxDP[6:0]:C              Done
+   ADCStateMachine_2.DividerRowxDP[16:0]:C              Done
+   ADCStateMachine_2.DividerColxDP[32:0]:C              Done
+           ADCStateMachine_2.StartColxSP:C              Done
+
+
+##################### END OF GENERATED CLOCK OPTIMIZATION REPORT #####################]
+
+
+Finished gated-clock and generated-clock conversion (Time elapsed 0h:00m:00s; Memory used current: 83MB peak: 87MB)
+
+
+
+Finished generic timing optimizations - Pass 1 (Time elapsed 0h:00m:00s; Memory used current: 83MB peak: 87MB)
+
+
+Starting Early Timing Optimization (Time elapsed 0h:00m:00s; Memory used current: 83MB peak: 87MB)
+
+
+Finished Early Timing Optimization (Time elapsed 0h:00m:01s; Memory used current: 84MB peak: 87MB)
+
+
+Finished generic timing optimizations - Pass 2 (Time elapsed 0h:00m:01s; Memory used current: 83MB peak: 87MB)
+
+
+Finished preparing to map (Time elapsed 0h:00m:01s; Memory used current: 84MB peak: 87MB)
+
+
+Finished technology mapping (Time elapsed 0h:00m:01s; Memory used current: 84MB peak: 87MB)
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+   1		0h:00m:01s		    -4.29ns		 326 /       333
+   2		0h:00m:01s		    -4.29ns		 325 /       333
+   3		0h:00m:01s		    -4.29ns		 325 /       333
+------------------------------------------------------------
+
+@N: FX271 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\adcstatemachine.vhd":317:6:317:21|Instance "ADCStateMachine_2.StateRowxDP[2]" with 6 loads has been replicated 1 time(s) to improve timing 
+@N: FX271 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\adcstatemachine.vhd":312:6:312:20|Instance "ADCStateMachine_2.StateRowxDP[3]" with 6 loads has been replicated 1 time(s) to improve timing 
+@N: FX271 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\adcstatemachine.vhd":349:4:349:5|Instance "ADCStateMachine_2.CountColxDP[0]" with 5 loads has been replicated 1 time(s) to improve timing 
+@N: FX271 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\adcstatemachine.vhd":349:4:349:5|Instance "ADCStateMachine_2.CountColxDP[1]" with 5 loads has been replicated 1 time(s) to improve timing 
+@N: FX271 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\adcstatemachine.vhd":349:4:349:5|Instance "ADCStateMachine_2.CountColxDP[3]" with 4 loads has been replicated 1 time(s) to improve timing 
+@N: FX271 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\adcstatemachine.vhd":349:4:349:5|Instance "ADCStateMachine_2.CountColxDP[2]" with 4 loads has been replicated 1 time(s) to improve timing 
+Timing driven replication report
+Added 6 Registers via timing driven replication
+Added 1 LUTs via timing driven replication
+
+
+
+
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+   1		0h:00m:02s		    -3.04ns		 329 /       339
+   2		0h:00m:02s		    -3.04ns		 329 /       339
+
+   3		0h:00m:02s		    -3.04ns		 329 /       339
+   4		0h:00m:02s		    -3.04ns		 329 /       339
+   5		0h:00m:02s		    -3.04ns		 329 /       339
+------------------------------------------------------------
+
+
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+   1		0h:00m:02s		    -3.04ns		 329 /       339
+
+   2		0h:00m:02s		    -3.04ns		 329 /       339
+   3		0h:00m:02s		    -3.04ns		 329 /       339
+   4		0h:00m:02s		    -3.04ns		 329 /       339
+------------------------------------------------------------
+
+
+Finished technology timing optimizations and critical path resynthesis (Time elapsed 0h:00m:02s; Memory used current: 84MB peak: 87MB)
+
+@N: FX164 |The option to pack flops in the IOB has not been specified 
+@W: MO129 :|Sequential instance ADCStateMachine_2.DoReadxS.res_reg has been reduced to a combinational gate by constant propagation
+
+Finished restoring hierarchy (Time elapsed 0h:00m:03s; Memory used current: 84MB peak: 87MB)
+
+Writing Analyst data base C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\SeeBetter20\SeeBetter20_SeeBetter20.srm
+
+Finished Writing Netlist Databases (Time elapsed 0h:00m:03s; Memory used current: 84MB peak: 87MB)
+
+Writing EDIF Netlist and constraint files
+E-2011.03L
+
+Finished Writing EDIF Netlist and constraint files (Time elapsed 0h:00m:03s; Memory used current: 89MB peak: 90MB)
+
+
+Starting Writing Gated Clock Conversion Report (Time elapsed 0h:00m:03s; Memory used current: 88MB peak: 90MB)
+
+@N: MF276 |Gated clock conversion enabled, but no gated clocks found in design 
+
+Finished Writing Gated Clock Conversion Report (Time elapsed 0h:00m:03s; Memory used current: 88MB peak: 90MB)
+
+
+Starting Writing Generated Clock Conversion Report (Time elapsed 0h:00m:03s; Memory used current: 88MB peak: 90MB)
+
+@N: MF333 |Generated clock conversion enabled, but no generated clocks found in design 
+
+Finished Writing Generated Clock Conversion Report (Time elapsed 0h:00m:03s; Memory used current: 88MB peak: 90MB)
+
+@W: MT246 :"c:\proj\jaer\devicefirmwarepcblayout\latticemachxo\seebetter20\sourcecode\aerfifo.vhd":179:4:179:14|Blackbox FIFO8KA is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
+@W: MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 8.74ns. A user-defined clock should be declared on object "p:IfClockxCI"
+
+@W: MT420 |Found inferred clock USBAER_top_level|PC1xSIO with period 1.48ns. A user-defined clock should be declared on object "p:PC1xSIO"
+
+@W: MT420 |Found inferred clock clockgen|CLKOP_inferred_clock with period 7.20ns. A user-defined clock should be declared on object "n:uClockGen.CLKOP"
+
+BitPort FX2FifoDataxDIO[0] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[1] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[2] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[3] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[4] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[5] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[6] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[7] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[8] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[9] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[10] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[11] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[12] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[13] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[14] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[15] - has output constraint of 2.55ns w.r.t. clock System:r nBitPort FX2FifoWritexEBO - has output constraint of 1.49ns w.r.t. clock System:r nBitPort FX2FifoPktEndxSBO - has output constraint of 1.43ns w.r.t. clock System:r nBitPort ResetxRBI - has input  constraint of 2.51ns w.r.t. clock System:r nBitPort PC3xSIO - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort PA0xSIO - has input  constraint of 2.55ns w.r.t. clock System:r nBitPort PE2xSI - has input  constraint of 2.55ns w.r.t. clock System:r nBitPort ADCwritexEBO - has output constraint of 1.39ns w.r.t. clock System:r nBitPort CDVSTestSRRowClockxSO - has output constraint of 1.20ns w.r.t. clock System:r nBitPort CDVSTestSRColClockxSO - has output constraint of 1.20ns w.r.t. clock System:r nBitPort CDVSTestSRRowInxSO - has output constraint of 1.37ns w.r.t. clock System:r nBitPort CDVSTestBiasEnablexEO - has output constraint of 2.55ns w.r.t. clock System:r nBitPort CDVSTestBiasDiagSelxSO - has output constraint of 2.55ns w.r.t. clock System:r nBitPort LED3xSO - has output constraint of 2.55ns w.r.t. clock System:r nBitPort DebugxSIO[9] - has input  constraint of 1.24ns w.r.t. clock System:r nBitPort AERMonitorREQxABI - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[0] - has input  constraint of 1.00ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[1] - has input  constraint of 1.00ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[2] - has input  constraint of 1.00ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[3] - has input  constraint of 1.00ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[4] - has input  constraint of 1.00ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[5] - has input  constraint of 1.00ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[6] - has input  constraint of 1.00ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[7] - has input  constraint of 1.00ns w.r.t. clock System:r n
+
+##### START OF TIMING REPORT #####[
+# Timing Report written on Mon Jan 09 17:10:03 2012
+#
+
+
+Top view:               USBAER_top_level
+Requested Frequency:    114.4 MHz
+Wire load mode:         top
+Paths requested:        3
+Constraint File(s):    
+@N: MT320 |This timing report estimates place and route data. Please look at the place and route timing report for final timing..
+
+
+Performance Summary 
+*******************
+
+
+Worst slack in design: -1.662
+
+                                  Requested     Estimated     Requested     Estimated                Clock        Clock                
+Starting Clock                    Frequency     Frequency     Period        Period        Slack      Type         Group                
+---------------------------------------------------------------------------------------------------------------------------------------
+USBAER_top_level|IfClockxCI       114.4 MHz     97.3 MHz      8.738         10.280        -1.542     inferred     Autoconstr_clkgroup_1
+USBAER_top_level|PC1xSIO          676.5 MHz     575.0 MHz     1.478         1.739         -0.261     inferred     Autoconstr_clkgroup_2
+clockgen|CLKOP_inferred_clock     138.9 MHz     118.1 MHz     7.199         8.470         -1.271     inferred     Autoconstr_clkgroup_0
+System                            142.9 MHz     121.4 MHz     6.999         8.234         -1.235     system       system_clkgroup      
+=======================================================================================================================================
+
+
+
+
+
+Clock Relationships
+*******************
+
+Clocks                                                        |    rise  to  rise    |    fall  to  fall   |    rise  to  fall   |    fall  to  rise 
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Starting                       Ending                         |  constraint  slack   |  constraint  slack  |  constraint  slack  |  constraint  slack
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+System                         System                         |  6.999       -1.235  |  No paths    -      |  No paths    -      |  No paths    -    
+System                         clockgen|CLKOP_inferred_clock  |  7.200       1.337   |  No paths    -      |  No paths    -      |  No paths    -    
+System                         USBAER_top_level|IfClockxCI    |  8.738       -1.488  |  No paths    -      |  No paths    -      |  No paths    -    
+System                         USBAER_top_level|PC1xSIO       |  1.478       -1.035  |  No paths    -      |  No paths    -      |  No paths    -    
+clockgen|CLKOP_inferred_clock  System                         |  7.200       -1.542  |  No paths    -      |  No paths    -      |  No paths    -    
+clockgen|CLKOP_inferred_clock  clockgen|CLKOP_inferred_clock  |  7.200       -1.271  |  No paths    -      |  No paths    -      |  No paths    -    
+clockgen|CLKOP_inferred_clock  USBAER_top_level|IfClockxCI    |  Diff grp    -       |  No paths    -      |  No paths    -      |  No paths    -    
+USBAER_top_level|IfClockxCI    System                         |  8.738       -1.662  |  No paths    -      |  No paths    -      |  No paths    -    
+USBAER_top_level|IfClockxCI    clockgen|CLKOP_inferred_clock  |  Diff grp    -       |  No paths    -      |  No paths    -      |  No paths    -    
+USBAER_top_level|IfClockxCI    USBAER_top_level|IfClockxCI    |  8.738       -1.542  |  No paths    -      |  No paths    -      |  No paths    -    
+USBAER_top_level|PC1xSIO       System                         |  1.478       -0.261  |  No paths    -      |  No paths    -      |  No paths    -    
+USBAER_top_level|PC1xSIO       USBAER_top_level|PC1xSIO       |  1.478       -0.261  |  No paths    -      |  No paths    -      |  No paths    -    
+=====================================================================================================================================================
+ Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
+       'Diff grp' indicates that paths exist but the starting clock and ending clock are in different clock groups.
+
+
+
+Interface Information 
+*********************
+
+
+
+Input Ports: 
+
+Port                        Starting            User           Arrival     Required          
+Name                        Reference           Constraint     Time        Time         Slack
+                            Clock                                                            
+---------------------------------------------------------------------------------------------
+ADCbusyxSI                  System (rising)     NA             0.000       -0.106            
+ADCwordxDIO[1]              System (rising)     NA             0.000       7.077             
+ADCwordxDIO[2]              System (rising)     NA             0.000       7.077             
+ADCwordxDIO[3]              System (rising)     NA             0.000       7.077             
+ADCwordxDIO[4]              System (rising)     NA             0.000       7.077             
+ADCwordxDIO[5]              System (rising)     NA             0.000       7.077             
+ADCwordxDIO[6]              System (rising)     NA             0.000       7.077             
+ADCwordxDIO[7]              System (rising)     NA             0.000       7.077             
+ADCwordxDIO[8]              System (rising)     NA             0.000       7.077             
+ADCwordxDIO[9]              System (rising)     NA             0.000       7.077             
+ADCwordxDIO[10]             System (rising)     NA             0.000       7.077             
+ADCwordxDIO[11]             System (rising)     NA             0.000       7.077             
+AERMonitorAddressxDI[0]     System (rising)     NA             0.000       3.580             
+AERMonitorAddressxDI[1]     System (rising)     NA             0.000       3.580             
+AERMonitorAddressxDI[2]     System (rising)     NA             0.000       3.580             
+AERMonitorAddressxDI[3]     System (rising)     NA             0.000       3.580             
+AERMonitorAddressxDI[4]     System (rising)     NA             0.000       3.580             
+AERMonitorAddressxDI[5]     System (rising)     NA             0.000       3.580             
+AERMonitorAddressxDI[6]     System (rising)     NA             0.000       3.580             
+AERMonitorAddressxDI[7]     System (rising)     NA             0.000       3.580             
+AERMonitorAddressxDI[8]     System (rising)     NA             0.000       1.708             
+AERMonitorREQxABI           System (rising)     NA             0.000       4.686             
+DebugxSIO[0]                NA                  NA             NA          NA           NA   
+DebugxSIO[1]                NA                  NA             NA          NA           NA   
+DebugxSIO[2]                NA                  NA             NA          NA           NA   
+DebugxSIO[3]                NA                  NA             NA          NA           NA   
+DebugxSIO[4]                NA                  NA             NA          NA           NA   
+DebugxSIO[5]                NA                  NA             NA          NA           NA   
+DebugxSIO[6]                NA                  NA             NA          NA           NA   
+DebugxSIO[7]                NA                  NA             NA          NA           NA   
+DebugxSIO[9]                System (rising)     NA             0.000       -0.179            
+DebugxSIO[14]               System (rising)     NA             0.000       -0.071            
+FX2FifoInFullxSBI           System (rising)     NA             0.000       3.451             
+FXLEDxSI                    NA                  NA             NA          NA           NA   
+IfClockxCI                  NA                  NA             NA          NA           NA   
+PA0xSIO                     System (rising)     NA             0.000       0.266             
+PA3xSIO                     System (rising)     NA             0.000       -1.235            
+PA7xSIO                     System (rising)     NA             0.000       1.444             
+PC0xSIO                     System (rising)     NA             0.000       2.166             
+PC1xSIO                     NA                  NA             NA          NA           NA   
+PC2xSIO                     System (rising)     NA             0.000       1.998             
+PC3xSIO                     System (rising)     NA             0.000       -1.035            
+PE2xSI                      System (rising)     NA             0.000       -0.586            
+PE3xSI                      System (rising)     NA             0.000       -1.031            
+ResetxRBI                   System (rising)     NA             0.000       3.605             
+=============================================================================================
+
+
+Output Ports: 
+
+Port                       Starting                                   User           Arrival     Required          
+Name                       Reference                                  Constraint     Time        Time         Slack
+                           Clock                                                                                   
+-------------------------------------------------------------------------------------------------------------------
+ADCclockxCO                USBAER_top_level|IfClockxCI (rising)       NA             7.466       6.999             
+ADCconvstxEBO              USBAER_top_level|IfClockxCI (rising)       NA             8.661       6.999             
+ADCreadxEBO                USBAER_top_level|IfClockxCI (rising)       NA             7.424       6.999             
+ADCwordxDIO[0]             USBAER_top_level|IfClockxCI (rising)       NA             7.772       6.999             
+ADCwordxDIO[1]             USBAER_top_level|IfClockxCI (rising)       NA             7.772       6.999             
+ADCwordxDIO[2]             USBAER_top_level|IfClockxCI (rising)       NA             7.772       6.999             
+ADCwordxDIO[3]             USBAER_top_level|IfClockxCI (rising)       NA             7.772       6.999             
+ADCwordxDIO[4]             USBAER_top_level|IfClockxCI (rising)       NA             7.772       6.999             
+ADCwordxDIO[5]             USBAER_top_level|IfClockxCI (rising)       NA             7.772       6.999             
+ADCwordxDIO[6]             USBAER_top_level|IfClockxCI (rising)       NA             7.772       6.999             
+ADCwordxDIO[7]             USBAER_top_level|IfClockxCI (rising)       NA             7.772       6.999             
+ADCwordxDIO[8]             USBAER_top_level|IfClockxCI (rising)       NA             7.772       6.999             
+ADCwordxDIO[9]             USBAER_top_level|IfClockxCI (rising)       NA             7.772       6.999             
+ADCwordxDIO[10]            USBAER_top_level|IfClockxCI (rising)       NA             7.772       6.999             
+ADCwordxDIO[11]            USBAER_top_level|IfClockxCI (rising)       NA             7.772       6.999             
+ADCwritexEBO               USBAER_top_level|IfClockxCI (rising)       NA             7.027       6.999             
+AERMonitorACKxSBO          clockgen|CLKOP_inferred_clock (rising)     NA             7.466       6.999             
+CDVSTestBiasBitOutxSI      NA                                         NA             NA          NA           NA   
+CDVSTestBiasDiagSelxSO     System (rising)                            NA             6.733       6.999             
+CDVSTestBiasEnablexEO      System (rising)                            NA             7.585       6.999             
+CDVSTestChipResetxRBO      System (rising)                            NA             8.030       6.999             
+CDVSTestColMode0xSO        USBAER_top_level|IfClockxCI (rising)       NA             8.541       6.999             
+CDVSTestColMode1xSO        USBAER_top_level|IfClockxCI (rising)       NA             8.649       6.999             
+CDVSTestSRColClockxSO      USBAER_top_level|IfClockxCI (rising)       NA             5.851       6.999             
+CDVSTestSRColInxSO         USBAER_top_level|IfClockxCI (rising)       NA             7.617       6.999             
+CDVSTestSRRowClockxSO      USBAER_top_level|IfClockxCI (rising)       NA             5.851       6.999             
+CDVSTestSRRowInxSO         USBAER_top_level|IfClockxCI (rising)       NA             6.163       6.999             
+DebugxSIO[8]               NA                                         NA             NA          NA           NA   
+DebugxSIO[9]               NA                                         NA             NA          NA           NA   
+DebugxSIO[10]              NA                                         NA             NA          NA           NA   
+DebugxSIO[11]              USBAER_top_level|IfClockxCI (rising)       NA             8.661       6.999             
+DebugxSIO[12]              System (rising)                            NA             7.105       6.999             
+DebugxSIO[13]              NA                                         NA             NA          NA           NA   
+DebugxSIO[14]              NA                                         NA             NA          NA           NA   
+DebugxSIO[15]              NA                                         NA             NA          NA           NA   
+FX2FifoAddressxDO[0]       NA                                         NA             NA          NA           NA   
+FX2FifoAddressxDO[1]       NA                                         NA             NA          NA           NA   
+FX2FifoDataxDIO[0]         System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[1]         System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[2]         System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[3]         System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[4]         System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[5]         System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[6]         System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[7]         System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[8]         System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[9]         System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[10]        System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[11]        System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[12]        System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[13]        System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[14]        System (rising)                            NA             4.503       6.999             
+FX2FifoDataxDIO[15]        System (rising)                            NA             4.503       6.999             
+FX2FifoPktEndxSBO          USBAER_top_level|IfClockxCI (rising)       NA             7.388       6.999             
+FX2FifoReadxEBO            NA                                         NA             NA          NA           NA   
+FX2FifoWritexEBO           USBAER_top_level|IfClockxCI (rising)       NA             7.388       6.999             
+LED1xSO                    System (rising)                            NA             8.030       6.999             
+LED2xSO                    System (rising)                            NA             8.234       6.999             
+LED3xSO                    System (rising)                            NA             5.851       6.999             
+PA1xSIO                    clockgen|CLKOP_inferred_clock (rising)     NA             7.436       6.999             
+SynchOutxSO                clockgen|CLKOP_inferred_clock (rising)     NA             8.541       6.999             
+===================================================================================================================
+
+
+##### END OF TIMING REPORT #####]
+
+---------------------------------------
+Resource Usage Report
+Part: lcmxo2280c-3
+
+Register bits: 339 of 2280 (15%)
+Latch bits:      102
+PIC Latch:       0
+I/O cells:       84
+
+
+Details:
+BB:             13
+CCU2:           136
+FD1P3BX:        2
+FD1P3DX:        169
+FD1S1B:         1
+FD1S1D:         101
+FD1S3AX:        2
+FD1S3BX:        2
+FD1S3DX:        164
+GSR:            1
+IB:             23
+INV:            7
+OB:             47
+OBZ:            1
+ORCALUT4:       324
+PUR:            1
+VHI:            1
+VLO:            1
+false:          15
+true:           15
+Mapper successful!
+Process took 0h:00m:03s realtime, 0h:00m:03s cputime
+# Mon Jan 09 17:10:03 2012
+
+###########################################################]

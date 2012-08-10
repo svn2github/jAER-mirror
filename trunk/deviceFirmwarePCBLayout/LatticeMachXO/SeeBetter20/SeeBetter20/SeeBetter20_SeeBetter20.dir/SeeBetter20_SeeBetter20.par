@@ -1,0 +1,23 @@
+PAR: Place And Route Diamond_1.3_Production (92).
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2011 Lattice Semiconductor Corporation,  All rights reserved.
+Wed Jun 27 17:27:05 2012
+
+C:/Program Files/Lattice/diamond/1.3/ispfpga\bin\nt\par -f
+SeeBetter20_SeeBetter20.p2t SeeBetter20_SeeBetter20_map.ncd
+SeeBetter20_SeeBetter20.dir SeeBetter20_SeeBetter20.prf
+
+Preference file: SeeBetter20_SeeBetter20.prf.
+
+Level/      Number      Timing      Run         NCD
+Cost [ncd]  Unrouted    Score       Time        Status
+----------  --------    --------    -----       ------------
+5_1   *     0           0           22          Complete        
+
+
+* : Design saved.
+
+par done!

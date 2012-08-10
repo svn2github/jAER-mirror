@@ -1,0 +1,85 @@
+#-- Synopsys, Inc.
+#-- Version E-2011.03L
+#-- Project file C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\SeeBetter20\run_options.txt
+
+#project files
+add_file -vhdl -lib work "C:/Program Files/Lattice/diamond/1.3/cae_library/synthesis/vhdl/machxo.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/wordRegister.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/earlyPaketTimer.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/EventBeforeOverflow.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/eventCounter.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/fifoStatemachine.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/monitorStateMachine.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/synchronizerStateMachine.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/timestampCounter.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCvalueReady.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineAB.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd"
+add_file -vhdl -lib work "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd"
+
+
+#implementation: "SeeBetter20"
+impl -add SeeBetter20 -type fpga
+
+#
+#implementation attributes
+
+set_option -vlog_std v2001
+set_option -num_critical_paths 3
+set_option -num_startend_points 0
+set_option -project_relative_includes 1
+
+#device options
+set_option -technology MACHXO
+set_option -part LCMXO2280C
+set_option -package FT256C
+set_option -speed_grade -3
+set_option -part_companion ""
+
+#compilation/mapping options
+set_option -top_module "USBAER_top_level"
+
+# mapper_options
+set_option -frequency auto
+set_option -auto_constrain_io 1
+set_option -write_verilog 0
+set_option -write_vhdl 0
+set_option -resolve_multiple_driver 1
+
+# Lattice XP
+set_option -maxfan 100
+set_option -disable_io_insertion 0
+set_option -retiming 0
+set_option -pipe 0
+set_option -forcegsr false
+set_option -fixgatedclocks 3
+set_option -fixgeneratedclocks 3
+set_option -update_models_cp 0
+
+# NFilter
+set_option -popfeed 0
+set_option -constprop 0
+set_option -createhierarchy 0
+
+# sequential_optimization_options
+set_option -symbolic_fsm_compiler 1
+
+# Compiler Options
+set_option -compiler_compatible 1
+set_option -resource_sharing 1
+
+#automatic place and route (vendor) options
+set_option -write_apr_constraint 0
+
+#set result format/file last
+project -result_file "./SeeBetter20_SeeBetter20.edi"
+
+#set log file 
+set_option log_file "C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/SeeBetter20/SeeBetter20_SeeBetter20.srf" 
+impl -active "SeeBetter20"

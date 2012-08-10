@@ -1,0 +1,215 @@
+timestamp=1325674530762
+
+[adcstatemachine]
+A/behavioral=A/Behavioral 21|./../../sourcecode/ADCStateMachine.vhd|54|1*138962
+B/behavioral=3*89050
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*59632
+I/behavioral=I/Behavioral 0*80822
+M=11|0|v63|1325674107106|./../../sourcecode/ADCStateMachine.vhd|0*58404*0xbf509a9852d2c8af0850d201d037570278650a20|0*59531*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1325674207523|./../../sourcecode/ADCStateMachine.vhd|0*73583*0xed4aec3f1003a5059ba430a1c708ec43befd9678|0*80707*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/ADCStateMachine.vhd|25
+
+[adcstatemachine_tb]
+A/behavioural=A/Behavioural 21|./../../ADCStateMachine_tb.vhd|23|1*149539
+B/behavioural=3*105333
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioural=8.2.1986.SP1.35.3497  (Windows)
+I=0*81532
+I/behavioural=I/Behavioural 0*85457
+M=11|0|v63|1325674321674|./../../ADCStateMachine_tb.vhd|0*81176*0x43b4d29babc86fb088fdff51d8ed8b36673ac55c|0*81436*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioural=M/Behavioural 21|0|v63|1325674530696|./../../ADCStateMachine_tb.vhd|0*81778*0x2436f9f8623c90cdba7aede765fbcb8fbb5d3c2c|0*85346*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../ADCStateMachine_tb.vhd|20
+
+[adcvalueready]
+A/behavioral=A/Behavioral 21|./../../sourcecode/ADCvalueReady.vhd|36|1*94362
+B/behavioral=3*54832
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*55860
+I/behavioral=I/Behavioral 0*57184
+M=11|0|v63|1325674106854|./../../sourcecode/ADCvalueReady.vhd|0*55357*0xb75aee56e7d6f26400e376efee96c3ce2b74fb21|0*55763*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1325674106856|./../../sourcecode/ADCvalueReady.vhd|0*56101*0x80e84b1bdf06827a4a1aeb81b695b45d3e0568f7|0*57073*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/ADCvalueReady.vhd|25
+
+[aerfifo]
+A/structure=A/Structure 21|./../../sourcecode/AERfifo.vhd|30|1*111775
+B/structure=3*79597
+C=8.2.1986.SP1.35.3497  (Windows)
+C/structure=8.2.1986.SP1.35.3497  (Windows)
+I=0*3069
+I/structure=I/Structure 0*10888
+M=11|0|v63|1325674104435|./../../sourcecode/AERfifo.vhd|0*2463*0xf9a2cd644292ebbc9251e308b19ee1b917b6855d|0*2984*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/structure=M/Structure 21|0|v63|1325674109070|./../../sourcecode/AERfifo.vhd|0*3233*0xb78e27fca8bbf9bccdd362f31133ddaa582503dd|0*10790*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/AERfifo.vhd|14
+
+[cdvsresetstatemachine]
+A/behavioral=A/Behavioral 21|./../../sourcecode/cDVSResetStateMachine.vhd|37|1*106670
+B/behavioral=3*73073
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*68247
+I/behavioral=I/Behavioral 0*69806
+M=11|0|v63|1325674108103|./../../sourcecode/cDVSResetStateMachine.vhd|0*67674*0xb5d1db2333857d38f861265e133a94b66e18e82d|0*68134*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1325674108105|./../../sourcecode/cDVSResetStateMachine.vhd|0*68496*0x20b039f59656a96f82e93092d05a1cccb6c6a131|0*69679*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/cDVSResetStateMachine.vhd|25
+
+[clockgen]
+A/structure=A/Structure 21|./../../sourcecode/clockgen.vhd|24|1*132690
+B/structure=3*86919
+C=8.2.1986.SP1.35.3497  (Windows)
+C/structure=8.2.1986.SP1.35.3497  (Windows)
+I=0*12617
+I/structure=I/Structure 0*15080
+M=11|0|v63|1325674104691|./../../sourcecode/clockgen.vhd|0*12167*0x4dcab9e5e2d6e5718a325c4dc2ad2e34dde51a32|0*12530*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/structure=M/Structure 21|0|v63|1325674109325|./../../sourcecode/clockgen.vhd|0*12782*0x3070ee7ebeb342dfd09dbd6241727b6712347c98|0*14980*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/clockgen.vhd|14
+
+[earlypakettimer]
+A/behavioral=A/Behavioral 21|./../../sourcecode/earlyPaketTimer.vhd|33|1*29606
+B/behavioral=3*11927
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*16740
+I/behavioral=I/Behavioral 0*17722
+M=11|0|v63|1325674104923|./../../sourcecode/earlyPaketTimer.vhd|0*16263*0x71e5b47461dd7424b2e29b4f7eb14d0653a7ca24|0*16639*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1325674104925|./../../sourcecode/earlyPaketTimer.vhd|0*16983*0x3e1eb9c3dd79b76391ab4adfa10edda9383297a0|0*17607*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/earlyPaketTimer.vhd|25
+
+[eventbeforeoverflow]
+A/behavioral=A/Behavioral 21|./../../sourcecode/EventBeforeOverflow.vhd|39|1*31536
+B/behavioral=3*13993
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*18792
+I/behavioral=I/Behavioral 0*20004
+M=11|0|v63|1325674105163|./../../sourcecode/EventBeforeOverflow.vhd|0*18255*0x6e601e432dc123544cb0735b9701d6ab83cd3b92|0*18683*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1325674105165|./../../sourcecode/EventBeforeOverflow.vhd|0*19039*0x60841989a79e245fc7e80d04014f6b61da5f5d32|0*19881*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/EventBeforeOverflow.vhd|30
+
+[eventcounter]
+A/behavioral=A/Behavioral 21|./../../sourcecode/eventCounter.vhd|35|1*33252
+B/behavioral=3*15867
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*20995
+I/behavioral=I/Behavioral 0*22009
+M=11|0|v63|1325674105405|./../../sourcecode/eventCounter.vhd|0*20510*0xf2ded6cd50df8eb12ec8df7545e4ee72cf79c67d|0*20900*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1325674105407|./../../sourcecode/eventCounter.vhd|0*21235*0x8f5b6eed793dbc072c8a84403757039ac0b3946e|0*21900*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/eventCounter.vhd|26
+
+[fifostatemachine]
+A/behavioral=A/Behavioral 21|./../../sourcecode/fifoStatemachine.vhd|52|1*35238
+B/behavioral=3*18053
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*23670
+I/behavioral=I/Behavioral 0*25439
+M=11|0|v63|1325674105644|./../../sourcecode/fifoStatemachine.vhd|0*22839*0xa139aedfd8e33d541c9494b0852ceb40d9c62254|0*23567*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1325674105646|./../../sourcecode/fifoStatemachine.vhd|0*23914*0xfb3ebe06cb86c98be57123f03bf7c2a0512fe1c5|0*25322*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/fifoStatemachine.vhd|25
+
+[monitorstatemachine]
+A/behavioral=A/Behavioral 21|./../../sourcecode/monitorStateMachine.vhd|64|1*38431
+B/behavioral=3*20731
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*27211
+I/behavioral=I/Behavioral 0*31158
+M=11|0|v63|1325674105886|./../../sourcecode/monitorStateMachine.vhd|0*26318*0xae67b96284138c7de1e1ab0f351714cf881ca465|0*27102*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1325674105888|./../../sourcecode/monitorStateMachine.vhd|0*27458*0xc67b4bf5713ac7fb6c2baec7a2db78af8531eb01|0*31035*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/monitorStateMachine.vhd|25
+
+[shiftregister]
+A/behavioral=A/Behavioral 21|./../../sourcecode/shiftRegister.vhd|42|1*109382
+B/behavioral=3*76111
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*70942
+I/behavioral=I/Behavioral 0*71922
+M=11|0|v63|1325674108356|./../../sourcecode/shiftRegister.vhd|0*70386*0x8618f8a35f3ff55ddf753c3ef5ccd08a79161ee7|0*70845*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1325674108358|./../../sourcecode/shiftRegister.vhd|0*71183*0xfb0567903b12623d3b4560ffbc48e68153eceabe|0*71811*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/shiftRegister.vhd|30
+
+[structure_con]
+B/structure_con__aerfifo__structure__code__0=3*80233
+B/structure_con__clockgen__structure__code__0=3*87263
+C=8.2.1986.SP1.35.3497  (Windows)
+E=1*137809
+I=0*73299
+M=2|0|v63|1325674109326|./../../sourcecode/clockgen.vhd|0*72921*0xa77b9004689b48eea9382f598bc03e7e91c69777|0*73196*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/clockgen.vhd|99
+
+[synchronizerstatemachine]
+A/behavioral=A/Behavioral 21|./../../sourcecode/synchronizerStateMachine.vhd|46|1*44478
+B/behavioral=3*27049
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*32522
+I/behavioral=I/Behavioral 0*35559
+M=11|0|v63|1325674106125|./../../sourcecode/synchronizerStateMachine.vhd|0*31832*0xddb0fa4dc001ea124222c7d457dce8d3d4704988|0*32403*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1325674106127|./../../sourcecode/synchronizerStateMachine.vhd|0*32774*0x37c64688301c00f0a14901a65065ac05ca261669|0*35426*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/synchronizerStateMachine.vhd|19
+
+[timestampcounter]
+A/behavioral=A/Behavioral 21|./../../sourcecode/timestampCounter.vhd|36|1*47995
+B/behavioral=3*32755
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*36617
+I/behavioral=I/Behavioral 0*37733
+M=11|0|v63|1325674106366|./../../sourcecode/timestampCounter.vhd|0*36095*0xc586efd68fe8a0ba10bc5b9c93c573f75fa1a239|0*36514*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1325674106368|./../../sourcecode/timestampCounter.vhd|0*36861*0xa6edbf9949a8651835333bbd205606b9acc9e280|0*37616*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/timestampCounter.vhd|25
+
+[usbaer_top_level]
+A/structural=A/Structural 21|./../../sourcecode/USBAER_top_level.vhd|102|1*50520
+B/structural=3*35657
+C=8.2.1986.SP1.35.3497  (Windows)
+C/structural=8.2.1986.SP1.35.3497  (Windows)
+I=0*41321
+I/structural=I/Structural 0*55020
+M=11|0|v63|1325674106606|./../../sourcecode/USBAER_top_level.vhd|0*39519*0x89d76871738b70f5879a385936c70fd0a4d82fd5|0*41218*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/structural=M/Structural 21|0|v63|1325674106622|./../../sourcecode/USBAER_top_level.vhd|0*41626*0xe7971014e728b250a670fe802d0d3cfc3cd996e4|0*54903*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/USBAER_top_level.vhd|26
+
+[wordregister]
+A/behavioral=A/Behavioral 21|./../../sourcecode/wordRegister.vhd|41|1*0
+B/behavioral=3*0
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*883
+I/behavioral=I/Behavioral 0*1809
+M=11|0|v63|1325674103702|./../../sourcecode/wordRegister.vhd|0*324*0xba59aa2da7a6d8fc6b215fc38ddcd1241d8a3347|0*788*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1325674103704|./../../sourcecode/wordRegister.vhd|0*1123*0xb23a28cf3e00185eff075a83a6842949aea061c0|0*1700*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/wordRegister.vhd|30
+
+[~A]
+ModifyID=139
+Version=73
+
+[~MFT]
+0=138|0work.mgf|85457|9649
+1=28|1work.mgf|149539|39236
+3=27|3work.mgf|105333|25736
+
+[~U]
+adcstatemachine=ADCStateMachine 11|0*57436|
+adcstatemachine_tb=ADCStateMachine_tb 11|0*81076|
+adcvalueready=ADCvalueReady 11|0*55096|
+aerfifo=AERfifo 11|0*2060|
+cdvsresetstatemachine=cDVSResetStateMachine 11|0*67368|
+clockgen=11|0*11978|
+earlypakettimer=earlyPaketTimer 11|0*16031|
+eventbeforeoverflow=EventBeforeOverflow 11|0*17976|
+eventcounter=eventCounter 11|0*20262|
+fifostatemachine=fifoStatemachine 11|0*22260|
+monitorstatemachine=monitorStateMachine 11|0*25694|
+shiftregister=shiftRegister 11|0*70066|
+structure_con=Structure_CON 2||
+synchronizerstatemachine=synchronizerStateMachine 11|0*31416|
+timestampcounter=timestampCounter 11|0*35822|
+usbaer_top_level=USBAER_top_level 11|0*37988|
+wordregister=wordRegister 11|0*0|
+

@@ -1,0 +1,85 @@
+Running in Lattice mode
+
+
+Starting:    C:\Program Files\Lattice\diamond\1.3\synpbase\win64\mbin\synbatch.exe
+Install:     C:\Program Files\Lattice\diamond\1.3\synpbase
+Date:        Wed Jun 27 17:26:49 2012
+Version:     E-2011.03L
+
+Arguments:   -product synplify_pro  -batch SeeBetter20_SeeBetter20_synplify.tcl
+ProductType: synplify_pro
+
+
+
+
+
+
+Warning: File already exists in project: "C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\AERfifo.vhd"
+
+Warning: File already exists in project: "C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\clockgen.vhd"
+
+Generating HDL info...
+
+HDL info generator Completed
+Return Code: 0
+
+Run Time:00:00:00
+
+Running hdl_info_gen on proj_1|SeeBetter20
+
+Job flow hdl_info_gen completed on proj_1|SeeBetter20
+
+
+log file: "C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\SeeBetter20\SeeBetter20_SeeBetter20.srf"
+
+
+Running proj_1|SeeBetter20
+
+Running Premap Flow on proj_1|SeeBetter20
+
+Running Compile Flow on proj_1|SeeBetter20
+
+Running HDL Compile on proj_1|SeeBetter20
+
+compiler Completed
+Return Code: 0
+
+Run Time:00:00:02
+
+Copied C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\SeeBetter20\synwork\SeeBetter20_SeeBetter20_compiler.srs to C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\SeeBetter20\SeeBetter20_SeeBetter20.srl
+
+Copied C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\SeeBetter20\synwork\SeeBetter20_SeeBetter20_compiler.srs to C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\SeeBetter20\SeeBetter20_SeeBetter20.srs
+
+Job flow Compile Flow completed on proj_1|SeeBetter20
+
+
+Running Pre-mapping on proj_1|SeeBetter20
+
+premapping Completed
+Return Code: 0
+
+Run Time:00:00:01
+
+Job flow Premap Flow completed on proj_1|SeeBetter20
+
+
+Running Mapping Flow on proj_1|SeeBetter20
+
+Running Mapping on proj_1|SeeBetter20
+
+MACHXO Mapper Completed with warnings
+Return Code: 1
+
+Run Time:00:00:06
+
+Job flow Mapping Flow completed on proj_1|SeeBetter20
+
+
+Job flow Synthesis completed on proj_1|SeeBetter20
+
+
+TCL script complete: "SeeBetter20_SeeBetter20_synplify.tcl"
+
+exit status=0
+
+

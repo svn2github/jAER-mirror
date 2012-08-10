@@ -1,0 +1,197 @@
+PAR: Place And Route Diamond_1.3_Production (92).
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2011 Lattice Semiconductor Corporation,  All rights reserved.
+Wed Jun 27 17:27:05 2012
+
+C:/Program Files/Lattice/diamond/1.3/ispfpga\bin\nt\par -f
+SeeBetter20_SeeBetter20.p2t SeeBetter20_SeeBetter20_map.ncd
+SeeBetter20_SeeBetter20.dir SeeBetter20_SeeBetter20.prf
+
+Preference file: SeeBetter20_SeeBetter20.prf.
+
+Level/      Number      Timing      Run         NCD
+Cost [ncd]  Unrouted    Score       Time        Status
+----------  --------    --------    -----       ------------
+5_1   *     0           0           22          Complete        
+
+
+* : Design saved.
+
+par done!
+
+Lattice Place and Route Report for Design "SeeBetter20_SeeBetter20_map.ncd"
+Wed Jun 27 17:27:05 2012
+
+PAR: Place And Route Diamond_1.3_Production (92).
+Command Line: C:/Program Files/Lattice/diamond/1.3/ispfpga\bin\nt\par -f
+SeeBetter20_SeeBetter20.p2t SeeBetter20_SeeBetter20_map.ncd
+SeeBetter20_SeeBetter20.dir SeeBetter20_SeeBetter20.prf
+Preference file: SeeBetter20_SeeBetter20.prf.
+Placement level-cost: 5-1.
+Routing Iterations: 6
+
+Loading design for application par from file SeeBetter20_SeeBetter20_map.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Speed:       3
+Loading device for application par from file 'mj5g21x17.nph' in environment C:/Program Files/Lattice/diamond/1.3/ispfpga.
+Package Status:               Final          Version 1.26
+Speed Hardware Data Status: Version 1.69
+License checked out.
+
+
+Ignore Preference Error(s):  True
+Device utilization summary:
+
+   GSR                1/1           100% used
+   PIO (prelim)      92/271          33% used
+                     92/211          43% bonded
+   EBR                2/3            66% used
+   PLL3               1/2            50% used
+   SLICE            654/1140         57% used
+
+
+
+Number of Signals: 1502
+Number of Connections: 3643
+
+Pin Constraint Summary:
+   92 out of 92 pins locked (100% locked).
+
+The following 4 signals are selected to use the primary clock routing resources:
+    ClockxC_c (driver: uClockGen/PLLCInst_0, clk load #: 86)
+    IfClockxCI_c (driver: IfClockxCI, clk load #: 78)
+    PC1xSIO_c (driver: PC1xSIO, clk load #: 60)
+    PC2xSIO_c (driver: PC2xSIO, clk load #: 50)
+
+The following 2 signals are selected to use the secondary clock routing resources:
+    ADCsmRstxE_i (driver: SLICE_659, clk load #: 0, sr load #: 63, ce load #: 0)
+    ADCStateMachine_2/ClockxC (driver: ADCStateMachine_2/SLICE_647, clk load #: 0, sr load #: 0, ce load #: 39)
+
+Starting Placer Phase 0.
+...........
+Finished Placer Phase 0.  REAL time: 0 secs 
+
+Starting Placer Phase 1.
+...................
+Placer score = 940309.
+Finished Placer Phase 1.  REAL time: 12 secs 
+
+Starting Placer Phase 2.
+.
+Placer score =  938364
+Finished Placer Phase 2.  REAL time: 13 secs 
+
+
+------------------ Clock Report ------------------
+
+Global Clock Resources:
+  CLK_PIN    : 1 out of 4 (25%)
+  General PIO: 2 out of 272 (0%)
+  PLL        : 1 out of 2 (50%)
+
+Quadrants All (TL, TR, BL, BR) - Global Clocks:
+  PRIMARY "ClockxC_c" from CLKOP on comp "uClockGen/PLLCInst_0" on PLL site "PLL3_R20C1", clk load = 86
+  PRIMARY "IfClockxCI_c" from comp "IfClockxCI" on CLK_PIN site "A9 (PT10B)", clk load = 78
+  PRIMARY "PC1xSIO_c" from comp "PC1xSIO" on PIO site "K1 (PL12B)", clk load = 60
+  PRIMARY "PC2xSIO_c" from comp "PC2xSIO" on PIO site "J2 (PL11B)", clk load = 50
+  SECONDARY "ADCsmRstxE_i" from F0 on comp "SLICE_659" on site "R13C2D", clk load = 0, ce load = 0, sr load = 63
+  SECONDARY "ADCStateMachine_2/ClockxC" from Q0 on comp "ADCStateMachine_2/SLICE_647" on site "R12C2B", clk load = 0, ce load = 39, sr load = 0
+
+  PRIMARY  : 4 out of 4 (100%)
+  SECONDARY: 2 out of 4 (50%)
+
+--------------- End of Clock Report ---------------
+
+
+I/O Usage Summary (final):
+   92 out of 271 (33.9%) PIO sites used.
+   92 out of 211 (43.6%) bonded PIO sites used.
+   Number of PIO comps: 92; differential: 0
+   Number of Vref pins used: 0
+
+I/O Bank Usage Summary:
++----------+----------------+------------+------------+------------+
+| I/O Bank | Usage          | Bank Vccio | Bank Vref1 | Bank Vref2 |
++----------+----------------+------------+------------+------------+
+| 0        | 11 / 24 ( 45%) | 3.3V       | -          | -          |
+| 1        | 13 / 30 ( 43%) | 3.3V       | -          | -          |
+| 2        | 9 / 26 ( 34%)  | 3.3V       | -          | -          |
+| 3        | 10 / 28 ( 35%) | 3.3V       | -          | -          |
+| 4        | 10 / 29 ( 34%) | 3.3V       | -          | -          |
+| 5        | 13 / 20 ( 65%) | 3.3V       | -          | -          |
+| 6        | 13 / 28 ( 46%) | 3.3V       | -          | -          |
+| 7        | 13 / 26 ( 50%) | 3.3V       | -          | -          |
++----------+----------------+------------+------------+------------+
+
+Total placer CPU time: 12 secs 
+
+Dumping design to file SeeBetter20_SeeBetter20.dir/5_1.ncd.
+
+0 connections routed; 3643 unrouted.
+Starting router resource preassignment
+WARNING - par: The driver of primary clock net PC1xSIO_c is not placed on one of the PIO sites dedicated for primary clocks.  This primary clock will be routed to a H-spine through general routing resource or will be routed as a secondary clock and may suffer from excessive delay or skew.
+WARNING - par: The driver of primary clock net PC2xSIO_c is not placed on one of the PIO sites dedicated for primary clocks.  This primary clock will be routed to a H-spine through general routing resource or will be routed as a secondary clock and may suffer from excessive delay or skew.
+
+Completed router resource preassignment. Real time: 15 secs 
+Starting iterative routing.
+
+For each routing iteration the number inside the parenthesis is the
+total time (in picoseconds) the design is failing the timing constraints.
+For each routing iteration the router will attempt to reduce this number
+until the number of routing iterations is completed or the value is 0
+meaning the design has fully met the timing constraints.
+
+End of iteration 1
+3643 successful; 0 unrouted; (3135) real time: 17 secs 
+Dumping design to file SeeBetter20_SeeBetter20.dir/5_1.ncd.
+End of iteration 2
+3643 successful; 0 unrouted; (0) real time: 18 secs 
+Dumping design to file SeeBetter20_SeeBetter20.dir/5_1.ncd.
+
+Hold time optimization iteration 0:
+There are 2 hold time violations, the optimization is running ...
+End of iteration 0
+3643 successful; 0 unrouted;  real time: 20 secs 
+
+Hold time optimization iteration 1:
+All hold time violations have been successfully corrected in speed grade M
+
+---------------IO Configurable Delay Element Usage Summary---------------
+
+Total IO Configurable Delay Elements used: 0 
+---------------End of IO Configurable Delay Element Usage Summary--------
+
+Dumping design to file SeeBetter20_SeeBetter20.dir/5_1.ncd.
+Total CPU time 20 secs 
+Total REAL time: 21 secs 
+Completely routed.
+End of route.  3643 routed (100.00%); 0 unrouted.
+Checking DRC ... 
+No errors found.
+
+Hold time timing score: 0, hold timing errors: 0
+
+Timing score: 0 
+
+Total REAL time to completion: 22 secs 
+
+Dumping design to file SeeBetter20_SeeBetter20.dir/5_1.ncd.
+
+
+All signals are completely routed.
+
+
+par done!
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2011 Lattice Semiconductor Corporation,  All rights reserved.

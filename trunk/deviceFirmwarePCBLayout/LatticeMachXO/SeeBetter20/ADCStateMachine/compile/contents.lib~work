@@ -1,0 +1,13 @@
+3570
+~E 1 "./../../sourcecode/ADCStateMachineAB.vhd" 25 adcstatemachineab
+~A 1 "./../../sourcecode/ADCStateMachineAB.vhd" 57 behavioral
+~E 1 "./../../ADCStateMachine_tb.vhd" 20 adcstatemachine_tb
+~A 1 "./../../ADCStateMachine_tb.vhd" 23 behavioural
+~E 1 "./../../sourcecode/ADCStateMachine.vhd" 25 adcstatemachine
+~A 1 "./../../sourcecode/ADCStateMachine.vhd" 56 behavioral
+~E 1 "./../src/ADCStateMachineA.vhd" 25 adcstatemachinea
+~A 1 "./../src/ADCStateMachineA.vhd" 56 behavioral
+~E 1 "./../src/ADCStateMachineABC.vhd" 25 adcstatemachineabc
+~A 1 "./../src/ADCStateMachineABC.vhd" 59 behavioral
+~E 1 "./../../sourcecode/ADCvalueReady.vhd" 25 adcvalueready
+~A 1 "./../../sourcecode/ADCvalueReady.vhd" 36 behavioral
