@@ -63,12 +63,13 @@ entity USBAER_top_level is
 
     -- ADC
     ADCclockxCO : out std_logic;
-    ADCwordxDIO : inout std_logic_vector(11 downto 0);
+    ADCwordxDI : in std_logic_vector(9 downto 0);
    
     ADCwritexEBO : out std_logic;
     ADCreadxEBO : out std_logic;
     ADCconvstxEBO : out std_logic;
     ADCbusyxSI: in std_logic;
+	ADCovrxSI : in std_logic;
    
     CDVSTestSRRowClockxSO: out std_logic;
     CDVSTestSRColClockxSO: out std_logic;
@@ -84,6 +85,7 @@ entity USBAER_top_level is
 	CDVSTestBiasDiagSelxSO : out std_logic;
 	CDVSTestBiasBitOutxSI : in std_logic;
 
+	CDVSTestApsTxGatexSO : out std_logic;
     
     -- control LED
     LED1xSO : out std_logic;
@@ -189,16 +191,16 @@ architecture Structural of USBAER_top_level is
 		ClockxCI              : in    std_logic;
 		ADCclockxCO           : out   std_logic;
 		ResetxRBI             : in    std_logic;
-		ADCwordxDIO           : inout std_logic_vector(11 downto 0);
+		ADCwordxDI            : in    std_logic_vector(9 downto 0);
 		ADCoutxDO             : out   std_logic_vector(13 downto 0);
 		ADCwritexEBO          : out   std_logic;
 		ADCreadxEBO           : out   std_logic;
 		ADCconvstxEBO         : out   std_logic;
 		ADCbusyxSI            : in    std_logic;
+		ADCovrxSI			  : in	  std_logic;
 		RegisterWritexEO      : out   std_logic;
 		SRLatchxEI            : in    std_logic;
 		RunADCxSI             : in    std_logic;
-		ADCconfigxDI          : in    std_logic_vector(11 downto 0);
 		ExposureBxDI          : in    std_logic_vector(15 downto 0);
 		ExposureCxDI          : in    std_logic_vector(15 downto 0);
 		ColSettlexDI          : in    std_logic_vector(15 downto 0);
@@ -212,9 +214,10 @@ architecture Structural of USBAER_top_level is
 		CDVSTestSRRowClockxSO : out   std_logic;
 		CDVSTestSRColInxSO    : out   std_logic;
 		CDVSTestSRColClockxSO : out   std_logic;
-		CDVSTestColMode0xSO  : out   std_logic;
-		CDVSTestColMode1xSO  : out   std_logic;
-		ADCStateOutputLEDxSO  : out	 std_logic);
+		CDVSTestColMode0xSO   : out   std_logic;
+		CDVSTestColMode1xSO   : out   std_logic;
+		CDVSTestApsTxGatexSO  : out   std_logic;
+		ADCStateOutputLEDxSO  : out	  std_logic);
   end component;
   
   component ADCvalueReady
@@ -351,9 +354,11 @@ architecture Structural of USBAER_top_level is
   signal ADCreadxEB           : std_logic;
   signal ADCconvstxEB         : std_logic;
   signal ADCbusyxS            : std_logic;
+  signal ADCovrxS			  : std_logic;
   signal CDVSTestSRRowClockxS, CDVSTestSRRowInxS : std_logic;
   signal CDVSTestSRColClockxS, CDVSTestSRColInxS : std_logic;
   signal CDVSTestColMode0xS, CDVSTestColMode1xS : std_logic;
+  signal CDVSTestApsTxGatexS  : std_logic;
   signal ExtTriggerxE				: std_logic;
   
   signal SRDataOutxD : std_logic_vector(119 downto 0);
@@ -363,7 +368,6 @@ architecture Structural of USBAER_top_level is
   signal TestPixelxE : std_logic;  
   signal UseCxE : std_logic;  
   
-  signal ADCconfigxD : std_logic_vector(11 downto 0);
   signal SRoutxD, SRinxD, SRLatchxE, SRClockxC : std_logic;
   signal RunADCxS : std_logic;
   
@@ -420,15 +424,14 @@ begin
       QxDO       => SRoutxD,
       DataOutxDO => SRDataOutxD);
 
-  ADCconfigxD <= SRDataOutxD(11 downto 0);
-  ExposureBxD <= SRDataOutxD(31 downto 16);
-  ExposureCxD <= SRDataOutxD(47 downto 32);
-  ColSettlexD <= SRDataOutxD(63 downto 48);
-  RowSettlexD <= SRDataOutxD(79 downto 64);
-  ResSettlexD <= SRDataOutxD(95 downto 80);
-  FramePeriodxD <= SRDataOutxD(111 downto 96);
-  TestPixelxE <= SRDataOutxD(118);
-  UseCxE <= SRDataOutxD(119);
+  ExposureBxD <= SRDataOutxD(15 downto 0);
+  ExposureCxD <= SRDataOutxD(31 downto 16);
+  ColSettlexD <= SRDataOutxD(47 downto 32);
+  RowSettlexD <= SRDataOutxD(63 downto 48);
+  ResSettlexD <= SRDataOutxD(79 downto 64);
+  FramePeriodxD <= SRDataOutxD(95 downto 80);
+  TestPixelxE <= SRDataOutxD(96);
+  UseCxE <= SRDataOutxD(97);
   
   uFifo : AERfifo
     port map (
@@ -548,16 +551,16 @@ begin
       ClockxCI              => IfClockxC,
       ADCclockxCO           => ADCclockxC,
       ResetxRBI             => ADCsmRstxE,
-      ADCwordxDIO           => ADCwordxDIO,
+      ADCwordxDI           => ADCwordxDI,
       ADCoutxDO             => ADCdataxD,
       ADCwritexEBO          => ADCwritexEB,
       ADCreadxEBO           => ADCreadxEB,
       ADCconvstxEBO         => ADCconvstxEB,
       ADCbusyxSI            => ADCbusyxS,
+	  ADCovrxSI				=> ADCovrxS,
       RegisterWritexEO      => ADCregWritexE,
       SRLatchxEI            => SRLatchxE,
       RunADCxSI             => RunADCxS,
-      ADCconfigxDI          => ADCconfigxD,
 	  ExposureBxDI          => ExposureBxD,
 	  ExposureCxDI          => ExposureCxD,
 	  ColSettlexDI          => ColSettlexD,
@@ -573,10 +576,12 @@ begin
       CDVSTestSRColClockxSO => CDVSTestSRColClockxS,
 	  CDVSTestColMode0xSO   => CDVSTestColMode0xS,
 	  CDVSTestColMode1xSO   => CDVSTestColMode1xS,
+	  CDVSTestApsTxGatexSO   => CDVSTestApsTxGatexS,
 	  ADCStateOutputLEDxSO  => ADCStateOutputLEDxS
 	  );
   
   ADCbusyxS <= ADCbusyxSI;
+  ADCovrxS	<= ADCovrxSI;
   ADCsmRstxE <= ResetxRB and RunxS;
 
   ADCvalueReady_1: ADCvalueReady
@@ -643,6 +648,8 @@ begin
 
   CDVSTestColMode0xSO <= CDVSTestColMode0xS;
   CDVSTestColMode1xSO <= CDVSTestColMode1xS;
+
+  CDVSTestApsTxGatexSO <= CDVSTestApsTxGatexS;
 
   ADCconvstxEBO <= ADCconvstxEB;
   ADCreadxEBO <= ADCreadxEB;
