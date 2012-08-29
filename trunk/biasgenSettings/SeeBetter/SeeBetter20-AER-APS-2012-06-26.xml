@@ -91,7 +91,7 @@
                 <entry key="SeeBetter20.AddressedIPotCF.AERxEBn.LowCurrent" value="false"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AERxEBn.Sex" value="N"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AERxEBn.Type" value="NORMAL"/>
-                <entry key="SeeBetter20.AddressedIPotCF.AEPuXBp.BitValueCoarse" value="2"/>
+                <entry key="SeeBetter20.AddressedIPotCF.AEPuXBp.BitValueCoarse" value="4"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AEPuXBp.BitValueFine" value="156"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AEPuXBp.Enabled" value="true"/>
                 <entry key="SeeBetter20.AddressedIPotCF.AEPuXBp.LowCurrent" value="false"/>
@@ -213,6 +213,7 @@
                 <entry key="CPLDInt.exposureC" value="120"/>
                 <entry key="SeeBetter20.useC" value="true"/>
                 <entry key="CPLDInt.frameDelay" value="0"/>
+                <entry key="AEChip.subSamplingEnabled" value="false"/>
               </map>
             </node>
           </node>

@@ -65,8 +65,8 @@ entity USBAER_top_level is
     ADCclockxCO : out std_logic;
     ADCwordxDI : in std_logic_vector(9 downto 0);
    
-    ADCwritexEBO : out std_logic;
-    ADCreadxEBO : out std_logic;
+    ADCoexEBO : out std_logic;
+    ADCstbyxEO : out std_logic;
     ADCconvstxEBO : out std_logic;
     ADCbusyxSI: in std_logic;
 	ADCovrxSI : in std_logic;
@@ -97,7 +97,7 @@ entity USBAER_top_level is
     -- AER monitor interface
     AERMonitorREQxABI    : in  std_logic;  -- needs synchronization
     AERMonitorACKxSBO    : out std_logic;
-    AERMonitorAddressxDI : in  std_logic_vector(8 downto 0));
+    AERMonitorAddressxDI : in  std_logic_vector(9 downto 0));
 
 end USBAER_top_level;
 
@@ -193,10 +193,8 @@ architecture Structural of USBAER_top_level is
 		ResetxRBI             : in    std_logic;
 		ADCwordxDI            : in    std_logic_vector(9 downto 0);
 		ADCoutxDO             : out   std_logic_vector(13 downto 0);
-		ADCwritexEBO          : out   std_logic;
-		ADCreadxEBO           : out   std_logic;
-		ADCconvstxEBO         : out   std_logic;
-		ADCbusyxSI            : in    std_logic;
+		ADCoexEBO	          : out   std_logic;
+		ADCstbyxEO            : out   std_logic;
 		ADCovrxSI			  : in	  std_logic;
 		RegisterWritexEO      : out   std_logic;
 		SRLatchxEI            : in    std_logic;
@@ -350,8 +348,8 @@ architecture Structural of USBAER_top_level is
   
   signal ADCsmRstxE           : std_logic;
   signal ADCclockxC           : std_logic;
-  signal ADCwritexEB          : std_logic;
-  signal ADCreadxEB           : std_logic;
+  signal ADCoexEB	          : std_logic;
+  signal ADCstbyxE            : std_logic;
   signal ADCconvstxEB         : std_logic;
   signal ADCbusyxS            : std_logic;
   signal ADCovrxS			  : std_logic;
@@ -361,7 +359,7 @@ architecture Structural of USBAER_top_level is
   signal CDVSTestApsTxGatexS  : std_logic;
   signal ExtTriggerxE				: std_logic;
   
-  signal SRDataOutxD : std_logic_vector(119 downto 0);
+  signal SRDataOutxD : std_logic_vector(97 downto 0);
   
   signal ExposureBxD, ExposureCxD, ColSettlexD, RowSettlexD, ResSettlexD : std_logic_vector(15 downto 0); 
   signal FramePeriodxD : std_logic_vector(15 downto 0);
@@ -415,7 +413,7 @@ begin
   
   shiftRegister_1: shiftRegister
     generic map (
-      width => 120)
+      width => 98)
     port map (
       ClockxCI   => SRClockxC,
       ResetxRBI  => ResetxRB,
@@ -533,7 +531,7 @@ begin
       ResetxRBI                 => ResetxRB,
       AERREQxSBI                => AERREQxSB,
       AERACKxSBO                => AERMonitorACKxSB,
-      XxDI                      => AERMonitorAddressxDI(8),
+      XxDI                      => AERMonitorAddressxDI(9),
       UseLongAckxSI             => UseLongAckxS,
       FifoFullxSI               => FifoFullxS,
       FifoWritexEO              => FifoWritexE,
@@ -551,12 +549,10 @@ begin
       ClockxCI              => IfClockxC,
       ADCclockxCO           => ADCclockxC,
       ResetxRBI             => ADCsmRstxE,
-      ADCwordxDI           => ADCwordxDI,
+      ADCwordxDI           	=> ADCwordxDI,
       ADCoutxDO             => ADCdataxD,
-      ADCwritexEBO          => ADCwritexEB,
-      ADCreadxEBO           => ADCreadxEB,
-      ADCconvstxEBO         => ADCconvstxEB,
-      ADCbusyxSI            => ADCbusyxS,
+      ADCoexEBO          	=> ADCoexEB,
+      ADCstbyxEO           	=> ADCstbyxE,
 	  ADCovrxSI				=> ADCovrxS,
       RegisterWritexEO      => ADCregWritexE,
       SRLatchxEI            => SRLatchxE,
@@ -612,7 +608,7 @@ begin
   -- mux to select how to drive datalines
   with AddressTimestampSelectxS select
     FifoDataInxD <=
-    AddressMSBxD & "00000" & AERMonitorAddressxDI   when selectaddress,
+    AddressMSBxD & "0000" & AERMonitorAddressxDI   when selectaddress,
     AddressMSBxD & MonitorTimestampxD when selecttimestamp,
     AddressMSBxD & "01000000000000" when selecttrigger,                                    
     AddressMSBxD & ADCregOutxD when others;
@@ -652,8 +648,8 @@ begin
   CDVSTestApsTxGatexSO <= CDVSTestApsTxGatexS;
 
   ADCconvstxEBO <= ADCconvstxEB;
-  ADCreadxEBO <= ADCreadxEB;
-  ADCwritexEBO <= ADCwritexEB;
+  ADCstbyxEO <= ADCstbyxE;
+  ADCoexEBO <= ADCoexEB;
 
   
   RxcolGxS <= '0';

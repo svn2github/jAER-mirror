@@ -30,10 +30,8 @@ entity ADCStateMachineABC is
     ResetxRBI             : in    std_logic;
     ADCwordxDI            : in    std_logic_vector(9 downto 0);
     ADCoutxDO             : out   std_logic_vector(13 downto 0);
-    ADCwritexEBO          : out   std_logic;
-    ADCreadxEBO           : out   std_logic;
-    ADCconvstxEBO         : out   std_logic;
-    ADCbusyxSI            : in    std_logic;
+    ADCstbyxEO            : out   std_logic;
+    ADCoexEBO             : out   std_logic;
 	ADCovrxSI			  : in	  std_logic;
     RegisterWritexEO      : out   std_logic;
     SRLatchxEI            : in    std_logic;
@@ -59,7 +57,7 @@ end ADCStateMachineABC;
 
 architecture Behavioral of ADCStateMachineABC is
   type ColState is (stIdle, stFeedReset1, stFeedReset2, stFeedRead , stReset, stReleaseReset, stReadA, stSwitch, stReadB, stColumnCount, stFeedNull, stWaitFrame, stResetT, stInitAT, stReadAT, stInitBT, stReadBT, stWaitT);
-  type RowState is (stIdle, stFeedRow, stInit, stStartConversion, stBusy, stRead, stWrite, stRowDone, stColumnDone,stColSettle);
+  type RowState is (stIdle, stFeedRow, stInit, stRead, stWrite, stRowDone, stColumnDone,stColSettle);
 
 
   -- present and next state
@@ -87,9 +85,10 @@ architecture Behavioral of ADCStateMachineABC is
   signal DividerRowxDP, DividerRowxDN : std_logic_vector(16 downto 0);
   signal FramePeriodxD : std_logic_vector(25 downto 0);
 
-  signal   CountRowxDN, CountRowxDP           : std_logic_vector(4 downto 0);
+  signal   CountRowxDN, CountRowxDP           : std_logic_vector(7 downto 0);
   signal   CountColxDN, CountColxDP           : std_logic_vector(17 downto 0);
-  signal   IsAxS, NoBxS, DoReadxS, ReadDonexS : std_logic;
+  signal   NoBxS, DoReadxS, ReadDonexS 		  : std_logic;
+  signal   ReadCyclexS						  : std_logic_vector(1 downto 0); -- "00" A, "01" B, "10" C
   signal   ColModexD                          : std_logic_vector(1 downto 0);  -- "00" Null, "01" Sel A, "10" Sel B, "11" Res A             
 
 --  signal FrameEndxS : std_logic_vector(17 downto 0);
@@ -100,15 +99,17 @@ architecture Behavioral of ADCStateMachineABC is
 begin
   
   StateClockxC <= ClockxC;
+  ADCclockxCO  <= not ClockxC;
   
   CDVSTestSRRowInxSO <= CDVSTestSRRowInxS;
   CDVSTestSRColInxSO <= CDVSTestSRColInxS;
-  CDVSTestApsTxGatexSO <= '0';
+  CDVSTestApsTxGatexSO <= '1';
 
   StartPixelxS    <= StartColxSP and StartRowxSP;
   ADCoutxDO       <= ADCoutMSBxS(3 downto 0) & ADCsamplexS(9 downto 0);
-  ADCoutMSBxS     <= '1' & StartPixelxS & not IsAxS & '0';
-  ADCconvstxEBO   <= '0';
+  ADCoutMSBxS     <= '1' & StartPixelxS & ReadCyclexS;
+  ADCstbyxEO	<= '0';
+  ADCoexEBO		<= '0';
 
   CDVSTestColMode0xSO <= ColModexD(0);
   CDVSTestColMode1xSO <= ColModexD(1) or (ExtTriggerxEI and TestPixelxEI);
@@ -187,7 +188,7 @@ begin
       when stReadA =>
         CDVSTestSRColClockxS <= '0';
         CDVSTestSRColInxS    <= '0';
-        IsAxS                <= '1';
+        ReadCyclexS          <= "00";
      
         DoReadxS <= '1';
         if ReadDonexS = '1' then
@@ -206,21 +207,21 @@ begin
         StateColxDN <= stReadB;
         ColModexD   <= "00";
       when stReadB =>
-        IsAxS <= '0';
-     
         DoReadxS <= '1';
+		if NoBxS = '0' and CountColxDP > ExposureBxDI + 1 and CountColxDP < ExposureBxDI + SizeX+2 then
+          ColModexD <= "10";
+		  ReadCyclexS <= "01";
+		elsif NoBxS = '0' and CountColxDP > ExposureBxDI + ExposureCxDI + 1 and CountColxDP < ExposureBxDI + ExposureCxDI + SizeX+2 then
+          ColModexD <= "10";
+		  ReadCyclexS <= "10";
+        else
+          ColModexD <= "00";
+		  ReadCyclexS <= "11";
+        end if;
         if ReadDonexS = '1' then
           DoReadxS <= '0';
           StateColxDN   <= stColumnCount;
           DividerColxDN <= (others => '0');
-        end if;
-     
-        if NoBxS = '0' and CountColxDP > ExposureBxDI + 1 and CountColxDP < ExposureBxDI + 66 then
-          ColModexD <= "10";
-		elsif NoBxS = '0' and CountColxDP > ExposureBxDI + ExposureCxDI + 1 and CountColxDP < ExposureBxDI + ExposureCxDI + 66 then
-          ColModexD <= "10";
-        else
-          ColModexD <= "00";
         end if;
       when stColumnCount =>
         DividerColxDN <= (others => '0');
@@ -310,7 +311,7 @@ begin
   end process p_col;
 
 -- calculate next Row state and outputs
-  p_row : process (ClockxC, ADCbusyxSI, SRLatchxEI, DividerRowxDP, CountRowxDP, ResSettlexDI, RowSettlexDI, StateRowxDP, IsAxS, DoReadxS, StateColxDP, ExposureBxDI, ExposureCxDI, CountColxDP, NoBxS, ColSettlexDI)
+  p_row : process (ClockxC, SRLatchxEI, DividerRowxDP, CountRowxDP, ResSettlexDI, RowSettlexDI, StateRowxDP, DoReadxS, StateColxDP, ExposureBxDI, ExposureCxDI, CountColxDP, ReadCyclexS, NoBxS, ColSettlexDI)
   begin  -- process p_row
     -- default assignements: stay in present state
 
@@ -322,16 +323,12 @@ begin
     CountRowxDN <= CountRowxDP;
 
     ReadDonexS <= '0';
-    ADCwritexEBO     <= '1';
-    ADCreadxEBO      <= '1';
     RegisterWritexEO <= '0';
     ADCwordWritexE   <= '0';
-    ADCclockxCO      <= ClockxC;
 	ADCgetSamplexE	 <= '0';
 
     case StateRowxDP is
       when stIdle =>
-        ADCclockxCO <= '1';  -- switch off clock in idle state to-- safe power
         if DoReadxS = '1' and (StateColxDP = stReadA or StateColxDP = stReadB) then
           StateRowxDN <= stFeedRow;
         end if;
@@ -342,7 +339,7 @@ begin
         CDVSTestSRRowClockxS <= '1';
         CDVSTestSRRowInxS    <= '1';
         StateRowxDN          <= stColSettle;
-        if IsAxS = '1' then
+        if ReadCyclexS = "00" then
           StartRowxSN <= '1';
         else
           StartRowxSN <= '0';
@@ -363,18 +360,17 @@ begin
           DividerRowxDN <= DividerRowxDP + 1;
         end if;
       when stWrite =>
-        ADCreadxEBO   <= '0';
 		ADCgetSamplexE	 <= '0';
-        if IsAxS = '1' then
+        if ReadCyclexS = "00" then
           if CountColxDP < SizeX then
             RegisterWritexEO <= '1';
           else
             RegisterWritexEO <= '0';
           end if;
         else
-		  if NoBxS = '0' and CountColxDP > ExposureBxDI + 1 and CountColxDP < ExposureBxDI + 66 then
+		  if NoBxS = '0' and CountColxDP > ExposureBxDI + 1 and CountColxDP < ExposureBxDI + SizeX+2 then
           	RegisterWritexEO <= '1';
-		  elsif NoBxS = '0' and CountColxDP > ExposureBxDI + ExposureCxDI + 1 and CountColxDP < ExposureBxDI + ExposureCxDI + 66 then	 
+		  elsif NoBxS = '0' and CountColxDP > ExposureBxDI + ExposureCxDI + 1 and CountColxDP < ExposureBxDI + ExposureCxDI + SizeX+2 then	 
 			RegisterWritexEO <= '1';
           else
             RegisterWritexEO <= '0';
@@ -451,7 +447,7 @@ begin
     end if;
   end process p_clock;
 
-  -- 90 degree phase shifted clock for shift registers on chip
+  -- 180 degree phase shifted clock for shift registers on chip
   p_clock_chip : process (ClockxC, ResetxRBI)
   begin  -- process 
     if ResetxRBI = '0' then
