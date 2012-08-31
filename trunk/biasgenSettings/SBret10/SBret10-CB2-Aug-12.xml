@@ -16,7 +16,7 @@
                 <entry key="FilterChain.timeLimitEnabled" value="false"/>
                 <entry key="FilterChain.timeLimitMs" value="10"/>
                 <entry key="agcTauMs" value="1000.0"/>
-                <entry key="SBret10.bgTabbedPaneSelectedIndex" value="0"/>
+                <entry key="SBret10.bgTabbedPaneSelectedIndex" value="2"/>
                 <entry key="displayLogIntensityChangeEvents" value="true"/>
                 <entry key="displayIntensity" value="true"/>
                 <entry key="CypressFX2Blank.defaultFirmwareBixFileForBlankDevice" value="C:\PROJ\jAER\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SBret10\SBret10.bix"/>
@@ -148,14 +148,14 @@
                 <entry key="SBret10.runAdc" value="true"/>
                 <entry key="SBret10.runCpld" value="true"/>
                 <entry key="SBret10.resetTestpixel" value="true"/>
-                <entry key="CPLDInt.exposureB" value="250"/>
-                <entry key="CPLDInt.exposureC" value="500"/>
+                <entry key="CPLDInt.exposureB" value="5"/>
+                <entry key="CPLDInt.exposureC" value="250"/>
                 <entry key="CPLDInt.resSettle" value="5"/>
-                <entry key="CPLDInt.rowSettle" value="5"/>
+                <entry key="CPLDInt.rowSettle" value="20"/>
                 <entry key="CPLDInt.colSettle" value="10"/>
-                <entry key="CPLDInt.frameDelay" value="0"/>
+                <entry key="CPLDInt.frameDelay" value="5"/>
                 <entry key="SBret10.testPixel" value="false"/>
-                <entry key="SBret10.useC" value="true"/>
+                <entry key="SBret10.useC" value="false"/>
                 <entry key="SBret10.resetCalib" value="true"/>
                 <entry key="SBret10.typePCalib" value="false"/>
                 <entry key="SBret10.hotPixelSuppression" value="false"/>
@@ -171,7 +171,7 @@
                 <entry key="SBret10.ShiftedSourceBias.SSN.VoltageLevel" value="SplitGate"/>
                 <entry key="autoResetEnabled" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.DiffCasBnc.BitValueCoarse" value="3"/>
-                <entry key="SBret10.AddressedIPotCF.DiffCasBnc.BitValueFine" value="117"/>
+                <entry key="SBret10.AddressedIPotCF.DiffCasBnc.BitValueFine" value="3"/>
                 <entry key="SBret10.AddressedIPotCF.DiffCasBnc.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.DiffCasBnc.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.DiffCasBnc.Sex" value="N"/>
@@ -198,6 +198,9 @@
                 <entry key="SBret10.AddressedIPotCF.ApsROSFBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.ApsROSFBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.ApsROSFBn.Type" value="NORMAL"/>
+                <entry key="apsIntensityOffset" value="50"/>
+                <entry key="apsIntensityGain" value="10"/>
+                <entry key="ignoreReadout" value="true"/>
               </map>
             </node>
           </node>

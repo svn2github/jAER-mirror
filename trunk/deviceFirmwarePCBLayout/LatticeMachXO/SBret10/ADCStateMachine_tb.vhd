@@ -29,8 +29,8 @@ architecture Behavioural of ADCStateMachine_tb is
     ResetxRBI             : in    std_logic;
     ADCwordxDI            : in    std_logic_vector(9 downto 0);
     ADCoutxDO             : out   std_logic_vector(13 downto 0);
-    ADCwritexEBO          : out   std_logic;
-    ADCreadxEBO           : out   std_logic;
+    ADCoexEBO          	: out   std_logic;
+    ADCstbyxEO           : out   std_logic;
 	ADCovrxSI			  : in	  std_logic;
     RegisterWritexEO      : out   std_logic;
     SRLatchxEI            : in    std_logic;
@@ -59,8 +59,8 @@ architecture Behavioural of ADCStateMachine_tb is
   signal ResetxRB 			: std_logic;
   signal ADCwordxD          : std_logic_vector(9 downto 0);
   signal ADCdataxD            : std_logic_vector(13 downto 0);
-  signal ADCwritexEB          :   std_logic;
-  signal ADCreadxEB           :   std_logic;
+  signal ADCoexEB          :   std_logic;
+  signal ADCstbyxE           :   std_logic;
   signal ADCovrxS			  :   std_logic;
   signal RegisterWritexE      :   std_logic;
   signal SRLatchxE            :    std_logic;
@@ -95,9 +95,10 @@ begin
   
   ADCclockxC <= 'Z';
   ResetxRB <= '0', '1' after 1000 ns;
-  ADCwordxD <= "0110001110" when ADCwritexEB = '1' else (others=>'Z');
+  ADCwordxD <= "0100110111";
   ADCdataxD <= (others=>'Z');
-  ADCwritexEB <= 'Z';
+  ADCoexEB <= 'Z';
+  ADCstbyxE <= 'Z';
   RegisterWritexE <= 'Z';
   SRLatchxE <= '1', '0' after 2000 ns, '1' after 2500 ns;
   RunADCxS <= '0', '1' after 5 us;--, '0' after 15 us, '1' after 40005 us, '0' after 40015 us; 
@@ -126,8 +127,8 @@ begin
       ResetxRBI             => ResetxRB,
       ADCwordxDI            => ADCwordxD,
       ADCoutxDO             => ADCdataxD,
-      ADCwritexEBO          => ADCwritexEB,
-      ADCreadxEBO	  		=> ADCreadxEB,
+      ADCoexEBO          	=> ADCoexEB,
+      ADCstbyxEO	  		=> ADCstbyxE,
 	  ADCovrxSI				=> ADCovrxS,
       RegisterWritexEO      => RegisterWritexE,
       SRLatchxEI            => SRLatchxE,

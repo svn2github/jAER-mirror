@@ -66,9 +66,7 @@ entity USBAER_top_level is
     ADCwordxDI : in std_logic_vector(9 downto 0);
    
     ADCoexEBO : out std_logic;
-    ADCstbyxEO : out std_logic;
-    ADCconvstxEBO : out std_logic;
-    ADCbusyxSI: in std_logic;
+    ADCstbyxEO : out std_logic;	
 	ADCovrxSI : in std_logic;
    
     CDVSTestSRRowClockxSO: out std_logic;
@@ -319,7 +317,6 @@ architecture Structural of USBAER_top_level is
   signal SynchronizerResetTimestampxSB : std_logic;
   signal CDVSTestChipResetxRB : std_logic; 
   signal CDVSTestPeriodicChipResetxRB : std_logic;
-  signal UseCDVSperiodicResetxS : std_logic;
   signal RxcolGxS : std_logic;
 
   -- signals regarding the timestamp
@@ -350,8 +347,6 @@ architecture Structural of USBAER_top_level is
   signal ADCclockxC           : std_logic;
   signal ADCoexEB	          : std_logic;
   signal ADCstbyxE            : std_logic;
-  signal ADCconvstxEB         : std_logic;
-  signal ADCbusyxS            : std_logic;
   signal ADCovrxS			  : std_logic;
   signal CDVSTestSRRowClockxS, CDVSTestSRRowInxS : std_logic;
   signal CDVSTestSRColClockxS, CDVSTestSRColInxS : std_logic;
@@ -359,7 +354,7 @@ architecture Structural of USBAER_top_level is
   signal CDVSTestApsTxGatexS  : std_logic;
   signal ExtTriggerxE				: std_logic;
   
-  signal SRDataOutxD : std_logic_vector(97 downto 0);
+  signal SRDataOutxD : std_logic_vector(111 downto 0);
   
   signal ExposureBxD, ExposureCxD, ColSettlexD, RowSettlexD, ResSettlexD : std_logic_vector(15 downto 0); 
   signal FramePeriodxD : std_logic_vector(15 downto 0);
@@ -413,7 +408,7 @@ begin
   
   shiftRegister_1: shiftRegister
     generic map (
-      width => 98)
+      width => 112)
     port map (
       ClockxCI   => SRClockxC,
       ResetxRBI  => ResetxRB,
@@ -428,8 +423,8 @@ begin
   RowSettlexD <= SRDataOutxD(63 downto 48);
   ResSettlexD <= SRDataOutxD(79 downto 64);
   FramePeriodxD <= SRDataOutxD(95 downto 80);
-  TestPixelxE <= SRDataOutxD(96);
-  UseCxE <= SRDataOutxD(97);
+  TestPixelxE <= SRDataOutxD(110);
+  UseCxE <= SRDataOutxD(111);
   
   uFifo : AERfifo
     port map (
@@ -576,7 +571,6 @@ begin
 	  ADCStateOutputLEDxSO  => ADCStateOutputLEDxS
 	  );
   
-  ADCbusyxS <= ADCbusyxSI;
   ADCovrxS	<= ADCovrxSI;
   ADCsmRstxE <= ResetxRB and RunxS;
 
@@ -616,12 +610,10 @@ begin
   LED1xSO <= CDVSTestChipResetxRB;
   LED2xSO <= RunxS;
   LED3xSO <= ADCStateOutputLEDxS;
+  --LED3xSO <= ExtTriggerxE;
 
   CDVSTestChipResetxRBO <= CDVSTestChipResetxRB;
-  with UseCDVSperiodicResetxS select
-    CDVSTestChipResetxRB <=
-    PE3xSI when '0',
-    CDVSTestPeriodicChipResetxRB when others;
+  CDVSTestChipResetxRB <= PE3xSI;
   
   --CDVSTestChipResetxRBO <= PE3xSI;
   --CDVSTestChipResetxRBO <= CDVSTestChipResetxRB;
@@ -647,40 +639,19 @@ begin
 
   CDVSTestApsTxGatexSO <= CDVSTestApsTxGatexS;
 
-  ADCconvstxEBO <= ADCconvstxEB;
   ADCstbyxEO <= ADCstbyxE;
   ADCoexEBO <= ADCoexEB;
 
   
   RxcolGxS <= '0';
-  
-  --DebugxSIO(0) <= '0';
-  --ExtTriggerxE <= DebugxSIO(2);
-  --DebugxSIO(1) <= '1';
- -- DebugxSIO(0) <= FX2FifoInFullxSBI;
- -- DebugxSIO(7) <= FifoFullxS;
- --    DebugxSIO(1) <= ADCvalueReadyxS;
- --    DebugxSIO(6) <= ReadADCvaluexE;
-  DebugxSIO(7 downto 0) <= FramePeriodxD(7 downto 0);
+  UseLongAckxS <= '0';
 
+--  DebugxSIO(13) <= '0';
+--  UseLongAckxS <= DebugxSIO(14);  
+--  DebugxSIO(15) <= '1';
   
-  DebugxSIO(8) <= '0';
-  UseCDVSperiodicResetxS <= DebugxSIO(9);
-  DebugxSIO(10) <= '1';
+  DebugxSIO <= FramePeriodxD;
   
-  DebugxSIO(11) <= TestPixelxE;
-  DebugxSIO(12) <= ADCbusyxS;
---  DebugxSIO(1 downto 0) <= ActualTimestampxD(2 downto 1);
---  DebugxSIO(7) <= FX2FifoWritexEB;
---  DebugxSIO(6) <= FX2FifoPktEndxSB;
-
-  DebugxSIO(13) <= '0';
-  UseLongAckxS <= DebugxSIO(14);  
-  DebugxSIO(15) <= '1';
-  
-  -- DebugxSIO(8) <= CDVSTestBiasBitOutxSI;
- -- DebugxSIO(4) <= AERMonitorAddressxDI(8);
-
     -- purpose: synchronize asynchronous inputs
   -- type   : sequential
   -- inputs : ClockxCI
@@ -690,7 +661,6 @@ begin
     if ClockxC'event and ClockxC = '1' then 
       AERREQxSB         <= AERReqSyncxSBN;
       AERReqSyncxSBN <= AERMonitorREQxABI;
-      --AERReqSyncxSBN <= DebugxSIO(3);
     end if;
   end process synchronizer;
 end Structural;
