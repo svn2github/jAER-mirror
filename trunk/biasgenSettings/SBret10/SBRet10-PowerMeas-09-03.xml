@@ -18,7 +18,7 @@
                 <entry key="agcTauMs" value="1000.0"/>
                 <entry key="SBret10.bgTabbedPaneSelectedIndex" value="0"/>
                 <entry key="displayLogIntensityChangeEvents" value="true"/>
-                <entry key="displayIntensity" value="false"/>
+                <entry key="displayIntensity" value="true"/>
                 <entry key="CypressFX2Blank.defaultFirmwareBixFileForBlankDevice" value="C:\PROJ\jAER\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SBret10\SBret10.bix"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.BitValueCoarse" value="5"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.BitValueFine" value="163"/>
@@ -87,7 +87,7 @@
                 <entry key="SBret10.AddressedIPotCF.RefrBp.Sex" value="P"/>
                 <entry key="SBret10.AddressedIPotCF.RefrBp.Type" value="NORMAL"/>
                 <entry key="SBret10.AddressedIPotCF.AEPdBn.BitValueCoarse" value="1"/>
-                <entry key="SBret10.AddressedIPotCF.AEPdBn.BitValueFine" value="91"/>
+                <entry key="SBret10.AddressedIPotCF.AEPdBn.BitValueFine" value="47"/>
                 <entry key="SBret10.AddressedIPotCF.AEPdBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.AEPdBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.AEPdBn.Sex" value="N"/>
@@ -117,7 +117,7 @@
                 <entry key="SBret10.AddressedIPotCF.IFThrBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.IFThrBn.Type" value="NORMAL"/>
                 <entry key="SBret10.AddressedIPotCF.IFRefrBn.BitValueCoarse" value="3"/>
-                <entry key="SBret10.AddressedIPotCF.IFRefrBn.BitValueFine" value="128"/>
+                <entry key="SBret10.AddressedIPotCF.IFRefrBn.BitValueFine" value="3"/>
                 <entry key="SBret10.AddressedIPotCF.IFRefrBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.IFRefrBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.IFRefrBn.Sex" value="N"/>
