@@ -650,7 +650,7 @@ begin
 --  UseLongAckxS <= DebugxSIO(14);  
 --  DebugxSIO(15) <= '1';
   
-  DebugxSIO <= FramePeriodxD;
+  DebugxSIO(0) <= ADCStateOutputLEDxS;
   
     -- purpose: synchronize asynchronous inputs
   -- type   : sequential

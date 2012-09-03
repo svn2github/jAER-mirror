@@ -116,9 +116,9 @@ begin
   CDVSTestColMode0xSO <= ColModexD(0);
   CDVSTestColMode1xSO <= ColModexD(1) or (ExtTriggerxEI and TestPixelxEI);
 
-  ADCStateOutputLEDxSO <= UseCxEI;
+  --ADCStateOutputLEDxSO <= StartPixelxS;
   --ADCStateOutputLEDxSO <= '1' when StateColxDP = stIdle and StateRowxDP = stIdle else '0';
-  --ADCStateOutputLEDxSO <= UseCxEI;
+  ADCStateOutputLEDxSO <= UseCxEI;
   
   FramePeriodxD <= FramePeriodxDI;
 
@@ -226,9 +226,9 @@ begin
         CountColxDN   <= CountColxDP + 1;
         StartColxSN   <= '0';
         DoReadxS      <= '0';
-        if UseCxEI = '0' and CountColxDP > (SizeX+ExposureBxDI) then
+        if UseCxEI = '0' and CountColxDP > (SizeX + ExposureBxDI) then
           StateColxDN <= stWaitFrame;
-		elsif CountColxDP > (SizeX+ExposureBxDI+ExposureCxDI) then
+		elsif UseCxEI = '1' and CountColxDP > (SizeX + ExposureBxDI + ExposureCxDI) then
           StateColxDN <= stWaitFrame;
         elsif (CountColxDP = ExposureBxDI) or (CountColxDP = ExposureBxDI+ExposureCxDI) then
           StateColxDN <= stFeedRead;
@@ -381,7 +381,7 @@ begin
 --   end if;
 --  end process p_clock;
 
-  -- 180 degree phase shifted clock for shift registers on chip
+  -- 90 degree phase shifted clock for shift registers on chip
   p_clock_chip : process (ClockxC, ResetxRB)
   begin  -- process 
     if ResetxRB = '0' then
