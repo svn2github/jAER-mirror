@@ -42,6 +42,7 @@ entity monitorStateMachine is
 
     -- register write enable
     TimestampRegWritexEO     : out std_logic;
+    AddressRegWritexEO       : out std_logic;
     
     -- mux control
     AddressTimestampSelectxSO  : out std_logic_vector(1 downto 0);
@@ -110,7 +111,7 @@ begin
     AddressTimestampSelectxSO <= selectaddress;
     
     AddressMSBxDO <= address;
-
+    AddressRegWritexEO <= '1';
     AERACKxSBO <= '1';
 
     if TimestampResetxDP = '1' then     -- as long as there is a timestamp
@@ -214,17 +215,17 @@ begin
       when stWraddress   =>             -- write the address to the fifo
      
         StatexDN                  <= stReqRelease;
-     
+        AddressRegWritexEO <= '0';
         FifoWritexEO             <= '1';
         TimestampRegWritexEO <= '0';
         AddressTimestampSelectxSO <= selectaddress;
---        AERACKxSBO <= '0';
+        AERACKxSBO <= '0';
         AddressMSBxDO <= address;
       when stWrTime      =>             -- write the timestamp to the fifo
 
         StatexDN <= stWraddress;
-
---        AERACKxSBO <= '0';  don't do that here, sender might take address
+        AddressRegWritexEO <= '0';
+        AERACKxSBO <= '0'; -- don't do that here, sender might take address
 --        away already
         FifoWritexEO             <= '1';
         TimestampRegWritexEO <= '0';

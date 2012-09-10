@@ -174,6 +174,7 @@ architecture Structural of USBAER_top_level is
     FifoFullxSI         : in  std_logic;
     FifoWritexEO          : out std_logic;
     TimestampRegWritexEO     : out std_logic;
+    AddressRegWritexEO       : out std_logic;
     AddressTimestampSelectxSO  : out std_logic_vector(1 downto 0);
     ADCvalueReadyxSI : in std_logic;
     ReadADCvaluexEO : out std_logic;
@@ -333,6 +334,9 @@ architecture Structural of USBAER_top_level is
 
   signal TriggerxS : std_logic;
 
+  signal AddressRegOutxD : std_logic_vector(9 downto 0);
+  signal AddressRegWritexE : std_logic;
+
   -- counter increment signal
   signal IncxS : std_logic;
 
@@ -442,6 +446,16 @@ begin
       AlmostFull=> FifoAlmostFullxS);
 
   FX2FifoDataxDIO <= FifoDataOutxD;
+
+  uMonitorAddressRegister : wordRegister
+    generic map (
+      width          => 10)
+    port map (
+      ClockxCI       => ClockxC,
+      ResetxRBI      => ResetxRB,
+      WriteEnablexEI => AddressRegWritexE,
+      DataInxDI      => AERMonitorAddressxDI,
+      DataOutxDO     => AddressRegOutxD);
   
   uMonitorTimestampRegister : wordRegister
     generic map (
@@ -531,6 +545,7 @@ begin
       FifoFullxSI               => FifoFullxS,
       FifoWritexEO              => FifoWritexE,
       TimestampRegWritexEO      => TimestampRegWritexE,
+      AddressRegWritexEO => AddressRegWritexE,
       AddressTimestampSelectxSO => AddressTimestampSelectxS,
       ADCvalueReadyxSI => ADCvalueReadyxS,
       ReadADCvaluexEO => ReadADCvaluexE,
@@ -602,7 +617,7 @@ begin
   -- mux to select how to drive datalines
   with AddressTimestampSelectxS select
     FifoDataInxD <=
-    AddressMSBxD & "0000" & AERMonitorAddressxDI   when selectaddress,
+    AddressMSBxD & "0000" & AddressRegOutxD  when selectaddress,
     AddressMSBxD & MonitorTimestampxD when selecttimestamp,
     AddressMSBxD & "01000000000000" when selecttrigger,                                    
     AddressMSBxD & ADCregOutxD when others;
