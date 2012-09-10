@@ -16,11 +16,11 @@
                 <entry key="FilterChain.timeLimitEnabled" value="false"/>
                 <entry key="FilterChain.timeLimitMs" value="10"/>
                 <entry key="agcTauMs" value="1000.0"/>
-                <entry key="SBret10.bgTabbedPaneSelectedIndex" value="0"/>
+                <entry key="SBret10.bgTabbedPaneSelectedIndex" value="2"/>
                 <entry key="displayLogIntensityChangeEvents" value="true"/>
-                <entry key="displayIntensity" value="true"/>
+                <entry key="displayIntensity" value="false"/>
                 <entry key="CypressFX2Blank.defaultFirmwareBixFileForBlankDevice" value="C:\PROJ\jAER\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SBret10\SBret10.bix"/>
-                <entry key="SBret10.AddressedIPotCF.DiffBn.BitValueCoarse" value="4"/>
+                <entry key="SBret10.AddressedIPotCF.DiffBn.BitValueCoarse" value="3"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.BitValueFine" value="47"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.LowCurrent" value="false"/>
@@ -86,7 +86,7 @@
                 <entry key="SBret10.AddressedIPotCF.RefrBp.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.RefrBp.Sex" value="P"/>
                 <entry key="SBret10.AddressedIPotCF.RefrBp.Type" value="NORMAL"/>
-                <entry key="SBret10.AddressedIPotCF.AEPdBn.BitValueCoarse" value="0"/>
+                <entry key="SBret10.AddressedIPotCF.AEPdBn.BitValueCoarse" value="1"/>
                 <entry key="SBret10.AddressedIPotCF.AEPdBn.BitValueFine" value="91"/>
                 <entry key="SBret10.AddressedIPotCF.AEPdBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.AEPdBn.LowCurrent" value="false"/>
@@ -98,20 +98,20 @@
                 <entry key="SBret10.AddressedIPotCF.AERxEBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.AERxEBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.AERxEBn.Type" value="NORMAL"/>
-                <entry key="SBret10.AddressedIPotCF.AEPuXBp.BitValueCoarse" value="6"/>
-                <entry key="SBret10.AddressedIPotCF.AEPuXBp.BitValueFine" value="151"/>
+                <entry key="SBret10.AddressedIPotCF.AEPuXBp.BitValueCoarse" value="3"/>
+                <entry key="SBret10.AddressedIPotCF.AEPuXBp.BitValueFine" value="36"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuXBp.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuXBp.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuXBp.Sex" value="P"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuXBp.Type" value="NORMAL"/>
-                <entry key="SBret10.AddressedIPotCF.AEPuYBp.BitValueCoarse" value="6"/>
-                <entry key="SBret10.AddressedIPotCF.AEPuYBp.BitValueFine" value="208"/>
+                <entry key="SBret10.AddressedIPotCF.AEPuYBp.BitValueCoarse" value="3"/>
+                <entry key="SBret10.AddressedIPotCF.AEPuYBp.BitValueFine" value="248"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuYBp.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuYBp.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuYBp.Sex" value="P"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuYBp.Type" value="NORMAL"/>
                 <entry key="SBret10.AddressedIPotCF.IFThrBn.BitValueCoarse" value="3"/>
-                <entry key="SBret10.AddressedIPotCF.IFThrBn.BitValueFine" value="135"/>
+                <entry key="SBret10.AddressedIPotCF.IFThrBn.BitValueFine" value="3"/>
                 <entry key="SBret10.AddressedIPotCF.IFThrBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.IFThrBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.IFThrBn.Sex" value="N"/>
@@ -148,7 +148,7 @@
                 <entry key="SBret10.runAdc" value="true"/>
                 <entry key="SBret10.runCpld" value="true"/>
                 <entry key="SBret10.resetTestpixel" value="true"/>
-                <entry key="CPLDInt.exposureB" value="27"/>
+                <entry key="CPLDInt.exposureB" value="107"/>
                 <entry key="CPLDInt.exposureC" value="263"/>
                 <entry key="CPLDInt.resSettle" value="10"/>
                 <entry key="CPLDInt.rowSettle" value="10"/>
@@ -177,7 +177,7 @@
                 <entry key="SBret10.AddressedIPotCF.DiffCasBnc.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.DiffCasBnc.Type" value="CASCODE"/>
                 <entry key="SBret10.AddressedIPotCF.LcolTimeoutBn.BitValueCoarse" value="2"/>
-                <entry key="SBret10.AddressedIPotCF.LcolTimeoutBn.BitValueFine" value="25"/>
+                <entry key="SBret10.AddressedIPotCF.LcolTimeoutBn.BitValueFine" value="54"/>
                 <entry key="SBret10.AddressedIPotCF.LcolTimeoutBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.LcolTimeoutBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.LcolTimeoutBn.Sex" value="N"/>
@@ -199,11 +199,19 @@
                 <entry key="SBret10.AddressedIPotCF.ApsROSFBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.ApsROSFBn.Type" value="NORMAL"/>
                 <entry key="apsIntensityOffset" value="50"/>
-                <entry key="apsIntensityGain" value="10"/>
+                <entry key="apsIntensityGain" value="1"/>
                 <entry key="ignoreReadout" value="true"/>
                 <entry key="AEChip.subSamplingEnabled" value="false"/>
                 <entry key="useDVSExtrapolation" value="false"/>
                 <entry key="CPLDInt.pad" value="0"/>
+                <entry key="FilterFrame.lastFilterSelected" value="class net.sf.jaer.eventprocessing.filter.XYTypeFilter"/>
+                <entry key="XYTypeFilter.startX" value="134"/>
+                <entry key="XYTypeFilter.xEnabled" value="true"/>
+                <entry key="XYTypeFilter.endX" value="139"/>
+                <entry key="XYTypeFilter.startY" value="85"/>
+                <entry key="XYTypeFilter.yEnabled" value="true"/>
+                <entry key="XYTypeFilter.endY" value="92"/>
+                <entry key="XYTypeFilter.invertEnabled" value="false"/>
               </map>
             </node>
           </node>
