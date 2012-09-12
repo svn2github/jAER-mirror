@@ -1,5 +1,11 @@
 /* 	copyright Tobi Delbruck 11.11.09
 
+This is firmware for the PAER DVS retina board. 
+
+tobi 12.9.12 -
+Search below for DVS128_PAER. This section of code that translates data from port to addresses to be sent is
+currently hardcoded for the PAER retina board.
+
 tobi 25.10.2011 - 
 added #define HANDSHAKE_ENABLED to use the NOTACK pin to handshake. This is needed on the Tmpdiff128 CAVIAR board when
 the REQ-ACK pins are not shorted by a jumper. But not needed on the PAER board.
