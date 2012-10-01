@@ -16,6 +16,7 @@ CochleaAMS1b, 			VID 152a PID 8405
 CochleaAMS1c, 			VID 152a PID 8406
 cDVSTest, 				VID 152a PID 840a
 SeeBetter, 				VID 152a PID 840b
+SBret10,				VID 152a PID 840d
 SimpleAESequencer 		VID 152a PID 8410
 DVS128_PAER 			VID 152a PID 8411
 
