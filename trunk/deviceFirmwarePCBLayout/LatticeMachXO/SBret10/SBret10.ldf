@@ -63,6 +63,12 @@
         <Source name="SBret10/SBret10.spf" type="Simulation Project File" type_short="SPF">
             <Options/>
         </Source>
+        <Source name="sbret10_adc_state_machine/sbret10_adc_state_machine.spf" type="Simulation Project File" type_short="SPF">
+            <Options/>
+        </Source>
+        <Source name="SBret10_APS_statemachine/SBret10_APS_statemachine.spf" type="Simulation Project File" type_short="SPF">
+            <Options/>
+        </Source>
         <Source name="SBret10chain.xcf" type="ispVM Download Project" type_short="ispVM">
             <Options/>
         </Source>

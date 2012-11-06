@@ -47,11 +47,11 @@ architecture Behavioral of shiftRegister is
 
 begin
 
-  p_latch: process (LatchxEI, ResetxRBI,StatexD)
+  p_latch: process (LatchxEI, ResetxRBI)
   begin  -- process p_latch\
     if ResetxRBI = '0' then
       DataOutxDO <= (others => '0');
-    elsif LatchxEI='0' then
+    elsif LatchxEI'event and LatchxEI='0' then
       DataOutxDO <= StatexD;
     end if;
   end process p_latch;

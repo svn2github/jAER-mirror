@@ -5,33 +5,33 @@
             <Task name="IBIS" build_result="0" update_result="3" update_time="0"/>
             <Task name="TimingSimFileVlg" build_result="0" update_result="3" update_time="0"/>
             <Task name="TimingSimFileVHD" build_result="0" update_result="3" update_time="0"/>
-            <Task name="Bitgen" build_result="2" update_result="0" update_time="1346508803"/>
+            <Task name="Bitgen" build_result="2" update_result="0" update_time="1352214017"/>
         </Milestone>
-        <Milestone name="Map" build_result="2" build_time="1346508783">
-            <Task name="Map" build_result="2" update_result="0" update_time="1346508783"/>
+        <Milestone name="Map" build_result="2" build_time="1352211398">
+            <Task name="Map" build_result="2" update_result="0" update_time="1352211398"/>
             <Task name="MapEqu" build_result="0" update_result="3" update_time="0"/>
-            <Task name="MapTrace" build_result="2" update_result="0" update_time="1346666378"/>
+            <Task name="MapTrace" build_result="0" update_result="2" update_time="1346666378"/>
             <Task name="MapVerilogSimFile" build_result="0" update_result="3" update_time="0"/>
             <Task name="MapVHDLSimFile" build_result="0" update_result="2" update_time="1344880000"/>
         </Milestone>
-        <Milestone name="PAR" build_result="2" build_time="1346508802">
-            <Task name="PAR" build_result="2" update_result="0" update_time="1346508802"/>
+        <Milestone name="PAR" build_result="2" build_time="1352211430">
+            <Task name="PAR" build_result="2" update_result="0" update_time="1352211430"/>
             <Task name="PARTrace" build_result="0" update_result="3" update_time="0"/>
             <Task name="IOTiming" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="Synthesis" build_result="2" build_time="1346508781">
-            <Task name="Synplify_Synthesis" build_result="2" update_result="0" update_time="1346508781"/>
+        <Milestone name="Synthesis" build_result="2" build_time="1352211394">
+            <Task name="Synplify_Synthesis" build_result="2" update_result="0" update_time="1352211394"/>
         </Milestone>
-        <Milestone name="Translate" build_result="2" build_time="1346508782">
-            <Task name="Translate" build_result="2" update_result="0" update_time="1346508782"/>
+        <Milestone name="Translate" build_result="2" build_time="1352211396">
+            <Task name="Translate" build_result="2" update_result="0" update_time="1352211396"/>
         </Milestone>
-        <Report name="SBret10_SBret10.bgn" last_build_time="1346508803" last_build_size="1802"/>
-        <Report name="SBret10_SBret10.edi" last_build_time="1346508779" last_build_size="824985"/>
-        <Report name="SBret10_SBret10.jed" last_build_time="1346508803" last_build_size="504060"/>
-        <Report name="SBret10_SBret10.ncd" last_build_time="1346508802" last_build_size="766893"/>
-        <Report name="SBret10_SBret10.ngd" last_build_time="1346508782" last_build_size="708454"/>
+        <Report name="SBret10_SBret10.bgn" last_build_time="1352214017" last_build_size="1802"/>
+        <Report name="SBret10_SBret10.edi" last_build_time="1352211391" last_build_size="918629"/>
+        <Report name="SBret10_SBret10.jed" last_build_time="1352214017" last_build_size="504060"/>
+        <Report name="SBret10_SBret10.ncd" last_build_time="1352211430" last_build_size="855041"/>
+        <Report name="SBret10_SBret10.ngd" last_build_time="1352211396" last_build_size="785624"/>
         <Report name="SBret10_SBret10.tw1" last_build_time="1346666378" last_build_size="43674"/>
-        <Report name="SBret10_SBret10_map.ncd" last_build_time="1346508783" last_build_size="534646"/>
+        <Report name="SBret10_SBret10_map.ncd" last_build_time="1352211398" last_build_size="592791"/>
         <Report name="SBret10_SBret10_mapvho.sdf" last_build_time="1344880000" last_build_size="825782"/>
         <Report name="SBret10_SBret10_mapvho.vho" last_build_time="1344880000" last_build_size="5392556"/>
     </Strategy>
