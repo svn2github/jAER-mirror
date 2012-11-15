@@ -13,10 +13,10 @@ BYTE spireadbyte (void);//Assembly routine
 //sbit biasBit=IOE^3;
 //sbit biasLatch=IOE^1;
 //sbit powerDown=IOE^2; // altogether using 00xx xx00=0x3c
-#define biasClock 	0x10
-#define biasBit 	0x08
-#define biasLatch 	0x02
-#define powerDown 	0x04
+#define biasClock 	0x10 // port E, bit 4
+#define biasBit 	0x08 // E3
+#define powerDown 	0x04 // E2
+#define biasLatch 	0x02 // E1
 
 #define latchNewBiases() IOE&=~biasLatch; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); IOE|=biasLatch;
 #define setPowerDownBit() IOE|=powerDown;
