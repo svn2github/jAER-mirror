@@ -295,7 +295,7 @@ void latchConfigBits(void)
 {
 	short count;
 	IOE&=~biasLatch;
-	for (count=0; count<1000;count++)
+	for (count=0; count<50;count++)
 	{
  		_nop_();  
 	}
