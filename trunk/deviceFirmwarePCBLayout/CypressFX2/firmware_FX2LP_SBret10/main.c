@@ -152,6 +152,8 @@ void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf);
 
 void downloadSerialNumberFromEEPROM(void);
 
+void latchConfigBits(void);
+
 //-----------------------------------------------------------------------------
 // Task Dispatcher hooks
 //   The following hooks are called by the task dispatcher.
@@ -289,6 +291,16 @@ void toggleLED(void)
 	}
 }
 
+void latchConfigBits(void)
+{
+	short count;
+	IOE&=~biasLatch;
+	for (count=0; count<1000;count++)
+	{
+ 		_nop_();  
+	}
+	IOE|=biasLatch;
+}
 /*void downloadSerialNumberFromEEPROM(void)
 {
 	BYTE i;
@@ -759,7 +771,7 @@ BOOL DR_VendorCmnd(void)
 //						value += bc;	// inc eeprom value to write to, in case that's what we're doing
 						len -= bc; // dec total byte count
 					}
-					latchNewBiases();
+					latchConfigBits();
 					BIAS_DIAG_SEL = 0;
 					break;
 
