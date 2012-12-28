@@ -1,0 +1,5 @@
+-rem
+-distrce
+-log "SeeBetter20_SeeBetter20.log"
+-o "SeeBetter20_SeeBetter20.csv"
+-pr "SeeBetter20_SeeBetter20.prf"

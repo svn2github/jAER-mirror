@@ -1,0 +1,5 @@
+MODULE ADCvalueReady DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCvalueReady.vhd
+MODULE ADCStateMachine DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+MODULE ADCStateMachine_tb DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+	SUBMODULE ADCStateMachine
+		INSTANCE ADCStateMachine_1

@@ -1,0 +1,41 @@
+#Build: Synplify Pro F-2012.03L-1 , Build 063R, May 17 2012
+#install: E:\LatticeDiamond\diamond\2.0\synpbase
+#OS: Windows 7 6.1
+#Hostname: TOBI-PC
+
+$ Start of Compile
+#Wed Dec 12 17:23:14 2012
+
+Synopsys VHDL Compiler, version comp201203rcp1, Build 061R, built May 17 2012
+@N|Running in 64-bit mode
+Copyright (C) 1994-2012 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"E:\LatticeDiamond\diamond\2.0\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD632 :"E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/ADCStateMachine.vhd":25:23:25:24|duplicate entity name adcstatemachine
+@E: CD213 :"E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/ADCStateMachine.vhd":104:2:104:20|Undefined identifier
+@E: CD213 :"E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/ADCStateMachine.vhd":105:2:105:20|Undefined identifier
+@E: CD213 :"E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/ADCStateMachine.vhd":107:2:107:21|Undefined identifier
+@E: CD255 :"E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/ADCStateMachine.vhd":116:59:116:59|No identifier "colsettlexdi" in scope
+5 errors parsing file E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/ADCStateMachine.vhd
+@END
+5 errors parsing file E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/ADCStateMachineA.vhd
+@END
+5 errors parsing file E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/ADCStateMachineAB.vhd
+@END
+5 errors parsing file E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/ADCStateMachineABC.vhd
+@END
+5 errors parsing file E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/ADCvalueReady.vhd
+@END
+@E: CD430 :"E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/AERfifo_tmpl.vhd":6:0:6:8|Expecting library unit
+@E: CD492 :"E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/AERfifo_tmpl.vhd":16:0:16:0|character '_' is not allowed as the first character
+@E: CD492 :"E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/AERfifo_tmpl.vhd":16:1:16:1|character '_' is not allowed as the first character
+@E: CD492 :"E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/AERfifo_tmpl.vhd":17:34:17:34|character '_' is not allowed as the first character
+@E: CD492 :"E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/AERfifo_tmpl.vhd":17:35:17:35|character '_' is not allowed as the first character
+@E: CD492 :"E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/AERfifo_tmpl.vhd":17:47:17:47|character '_' is not allowed as the first character
+@E: CD492 :"E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/AERfifo_tmpl.vhd":17:47:17:47|Too many errors - aborting.
+@END
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 12 17:23:14 2012
+
+###########################################################]

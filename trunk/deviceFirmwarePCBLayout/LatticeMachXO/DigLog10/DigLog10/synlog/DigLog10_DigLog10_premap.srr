@@ -1,0 +1,59 @@
+Synopsys Lattice Technology Pre-mapping, Version maplat, Build 437R, Built Jul 16 2012 10:38:54
+Copyright (C) 1994-2012, Synopsys Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+Product Version F-2012.03L-1 
+
+Mapper Startup Complete (Time elapsed 0h:00m:00s; Memory used current: 91MB peak: 92MB)
+
+@L: E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10_scck.rpt 
+Printing clock  summary report in "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10_scck.rpt" file 
+@N: MF248 |Running in 64-bit mode.
+@N: MF257 |Gated clock conversion enabled 
+@N: MF546 |Generated clock conversion enabled 
+
+Design Input Complete (Time elapsed 0h:00m:00s; Memory used current: 93MB peak: 94MB)
+
+
+Mapper Initialization Complete (Time elapsed 0h:00m:00s; Memory used current: 93MB peak: 94MB)
+
+
+Start loading timing files (Time elapsed 0h:00m:00s; Memory used current: 106MB peak: 106MB)
+
+
+Finished loading timing files (Time elapsed 0h:00m:00s; Memory used current: 106MB peak: 108MB)
+
+
+
+Clock Summary
+**************
+
+Start                                                Requested     Requested     Clock                                          Clock              
+Clock                                                Frequency     Period        Type                                           Group              
+---------------------------------------------------------------------------------------------------------------------------------------------------
+System                                               1.0 MHz       1000.000      system                                         system_clkgroup    
+clockgen|CLKOP_inferred_clock                        1.0 MHz       1000.000      inferred                                       Inferred_clkgroup_0
+USBAER_top_level|IfClockxCI                          1.0 MHz       1000.000      inferred                                       Inferred_clkgroup_1
+USBAER_top_level|PC2xSIO                             1.0 MHz       1000.000      inferred                                       Inferred_clkgroup_2
+USBAER_top_level|PC1xSIO                             1.0 MHz       1000.000      inferred                                       Inferred_clkgroup_3
+ADCStateMachineABC|ClockxC_derived_clock             1.0 MHz       1000.000      derived (from USBAER_top_level|IfClockxCI)     Inferred_clkgroup_1
+ADCStateMachineABC|StateColxDP_derived_clock[17]     1.0 MHz       1000.000      derived (from USBAER_top_level|IfClockxCI)     Inferred_clkgroup_1
+ADCStateMachineABC|StateColxDP_derived_clock[9]      1.0 MHz       1000.000      derived (from USBAER_top_level|IfClockxCI)     Inferred_clkgroup_1
+ADCStateMachineABC|StateRowxDP_derived_clock[8]      1.0 MHz       1000.000      derived (from USBAER_top_level|IfClockxCI)     Inferred_clkgroup_1
+===================================================================================================================================================
+
+@W: MT529 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\wordregister.vhd":63:4:63:5|Found inferred clock clockgen|CLKOP_inferred_clock which controls 154 sequential elements including uMonitorTimestampRegister/StatexDP[13:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+@W: MT529 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\wordregister.vhd":63:4:63:5|Found inferred clock USBAER_top_level|IfClockxCI which controls 19 sequential elements including uADCRegister/StatexDP[13:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+@W: MT529 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Found inferred clock USBAER_top_level|PC2xSIO which controls 144 sequential elements including shiftRegister_1/DataOutxDO[119:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+@W: MT529 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":65:4:65:5|Found inferred clock USBAER_top_level|PC1xSIO which controls 120 sequential elements including shiftRegister_1/StatexD[119:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+
+syn_allowed_resources : blockrams=3  set on top level netlist USBAER_top_level
+
+Finished Pre Mapping Phase. (Time elapsed 0h:00m:00s; Memory used current: 131MB peak: 133MB)
+
+Pre-mapping successful!
+
+At Mapper Exit (Time elapsed 0h:00m:00s; Memory used current: 68MB peak: 133MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Dec 13 14:13:49 2012
+
+###########################################################]

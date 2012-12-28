@@ -1,0 +1,2 @@
+@E|No entity with name vhd to synthesize
+

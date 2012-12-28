@@ -1,0 +1,22 @@
+PAR: Place And Route Diamond (64-bit) 2.0.1.184.
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+Thu Dec 13 14:13:57 2012
+
+E:/LatticeDiamond/diamond/2.0/ispfpga\bin\nt64\par -f DigLog10_DigLog10.p2t
+DigLog10_DigLog10_map.ncd DigLog10_DigLog10.dir DigLog10_DigLog10.prf
+
+Preference file: DigLog10_DigLog10.prf.
+
+Level/      Number      Timing      Run         NCD
+Cost [ncd]  Unrouted    Score       Time        Status
+----------  --------    --------    -----       ------------
+5_1   *     0           20399       27          Complete        
+
+
+* : Design saved.
+
+par done!

@@ -1,0 +1,104 @@
+
+fsm_encoding {1722542251} onehot
+
+fsm_state_encoding {1722542251} stidle {000001}
+
+fsm_state_encoding {1722542251} sttriggerinhigh {000010}
+
+fsm_state_encoding {1722542251} sttriggerinlow {000100}
+
+fsm_state_encoding {1722542251} stresetslaves {001000}
+
+fsm_state_encoding {1722542251} strunslave {010000}
+
+fsm_state_encoding {1722542251} stslavewaitedge {100000}
+
+fsm_registers {1722542251} {StatexDP[0]}  {StatexDP[1]}  {StatexDP[2]}  {StatexDP[3]}  {StatexDP[4]}  {StatexDP[5]} 
+
+fsm_encoding {1412941292} sequential
+
+fsm_state_encoding {1412941292} stidle {00}
+
+fsm_state_encoding {1412941292} stearlypaket1 {01}
+
+fsm_state_encoding {1412941292} stsetupwrite1 {10}
+
+fsm_state_encoding {1412941292} stwrite {11}
+
+fsm_registers {1412941292} {StatexDP[1]}  {StatexDP[0]} 
+
+fsm_encoding {1526242623} onehot
+
+fsm_state_encoding {1526242623} stidle {00000000001}
+
+fsm_state_encoding {1526242623} stwraddress {00000000010}
+
+fsm_state_encoding {1526242623} stwrtime {00000000100}
+
+fsm_state_encoding {1526242623} stoverflow {00000001000}
+
+fsm_state_encoding {1526242623} stresettimestamp {00000010000}
+
+fsm_state_encoding {1526242623} stfifofull {00000100000}
+
+fsm_state_encoding {1526242623} streqrelease {00001000000}
+
+fsm_state_encoding {1526242623} stadc {00010000000}
+
+fsm_state_encoding {1526242623} stadctime {00100000000}
+
+fsm_state_encoding {1526242623} stwrtriggertime {01000000000}
+
+fsm_state_encoding {1526242623} stwrtrigger {10000000000}
+
+fsm_registers {1526242623} {StatexDP[0]}  {StatexDP[1]}  {StatexDP[2]}  {StatexDP[3]}  {StatexDP[4]}  {StatexDP[5]}  {StatexDP[6]}  {StatexDP[7]}  {StatexDP[8]}  {StatexDP[9]}  {StatexDP[10]} 
+
+fsm_encoding {9804805} sequential
+
+fsm_state_encoding {9804805} stidle {00}
+
+fsm_state_encoding {9804805} stadcvalueready {01}
+
+fsm_state_encoding {9804805} stread {10}
+
+fsm_state_encoding {9804805} stadcvalueready2 {11}
+
+fsm_registers {9804805} {StatexDP[1]}  {StatexDP[0]} 
+
+fsm_encoding {1010741076} sequential
+
+fsm_state_encoding {1010741076} stidle {00}
+
+fsm_state_encoding {1010741076} stevent {01}
+
+fsm_state_encoding {1010741076} stresetcdvs {10}
+
+fsm_registers {1010741076} {StatexDP[1]}  {StatexDP[0]} 
+
+fsm_encoding {844644464} onehot
+
+fsm_state_encoding {844644464} stidle {000000000001}
+
+fsm_state_encoding {844644464} ststartup {000000000010}
+
+fsm_state_encoding {844644464} stwriteconfig {000000000100}
+
+fsm_state_encoding {844644464} stfeedrow {000000001000}
+
+fsm_state_encoding {844644464} stinit {000000010000}
+
+fsm_state_encoding {844644464} ststartconversion {000000100000}
+
+fsm_state_encoding {844644464} stbusy {000001000000}
+
+fsm_state_encoding {844644464} stread {000010000000}
+
+fsm_state_encoding {844644464} stwrite {000100000000}
+
+fsm_state_encoding {844644464} strowdone {001000000000}
+
+fsm_state_encoding {844644464} stcolumndone {010000000000}
+
+fsm_state_encoding {844644464} stcolsettle {100000000000}
+
+fsm_registers {844644464} {StateRowxDP[0]}  {StateRowxDP[1]}  {StateRowxDP[2]}  {StateRowxDP[3]}  {StateRowxDP[4]}  {StateRowxDP[5]}  {StateRowxDP[6]}  {StateRowxDP[7]}  {StateRowxDP[8]}  {StateRowxDP[9]}  {StateRowxDP[10]}  {StateRowxDP[11]} 

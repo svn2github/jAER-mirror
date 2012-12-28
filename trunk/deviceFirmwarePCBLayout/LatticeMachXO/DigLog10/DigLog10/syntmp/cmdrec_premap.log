@@ -1,0 +1,13 @@
+E:\LatticeDiamond\diamond\2.0\synpbase\bin64\m_gen_lattice.exe  -prodtype synplify_pro -encrypt  -pro  -rundir  E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10  -part LCMXO2280C  -package FT256C  -grade -3   -maxfan 100     -forcenogsr -fixgatedclocks 3 -fixgeneratedclocks 3  -use_rename_in_edif 1 -auto_constrain_io   -resolveMultipleDriver -summaryfile E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\synlog\report\DigLog10_DigLog10_premap.xml -top_level_module  USBAER_top_level  -ta_num_paths 3  -ta_num_points 0  -oedif  E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10.edi  -conchk_prepass  E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10_cck_prepass.rpt  -freq 1.000  E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\synwork\DigLog10_DigLog10_compiler.srs  -flow prepass  -gcc_prepass  -osrd  E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\synwork\DigLog10_DigLog10_premap.srd  -devicelib  E:\LatticeDiamond\diamond\2.0\synpbase\lib\lucent\machxo.v  -devicelib  E:\LatticeDiamond\diamond\2.0\synpbase\lib\lucent\pmi_def.v  -ologparam  E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\syntmp\DigLog10_DigLog10.plg  -noforwanno -osyn  E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\synwork\DigLog10_DigLog10_premap.srd  -prjdir  E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\  -prjname  proj_1  -log  E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\synlog\DigLog10_DigLog10_premap.srr 
+rc:1 success:1
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10.edi|o|0|0
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10_cck_prepass.rpt|o|0|0
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\synwork\DigLog10_DigLog10_compiler.srs|i|1355404426|49015
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\synwork\DigLog10_DigLog10_premap.srd|o|1355404429|60078
+E:\LatticeDiamond\diamond\2.0\synpbase\lib\lucent\machxo.v|i|1311940116|41271
+E:\LatticeDiamond\diamond\2.0\synpbase\lib\lucent\pmi_def.v|i|1337332248|40586
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\syntmp\DigLog10_DigLog10.plg|o|1355404429|0
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\synwork\DigLog10_DigLog10_premap.srd|o|1355404429|60078
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\synlog\DigLog10_DigLog10_premap.srr|o|1355404429|5228
+E:\LatticeDiamond\diamond\2.0\synpbase\bin64\m_gen_lattice.exe|i|1342429726|24331264
+E:\LatticeDiamond\diamond\2.0\synpbase\bin\m_gen_lattice.exe|i|1342429698|20950528

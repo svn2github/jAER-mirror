@@ -1,0 +1,17 @@
+@W: CG296 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":127:10:127:16|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":234:11:234:17|Referenced variable usecxei is not in sensitivity list
+@W: CD434 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":317:80:317:91|Signal ressettlexdi in the sensitivity list is not used in the process
+@W: CL117 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":142:4:142:7|Latch generated from process for signal NoBxS; possible missing assignment in an if or case statement.
+@W: CL117 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":336:4:336:7|Latch generated from process for signal StartRowxSN; possible missing assignment in an if or case statement.
+@W: CL117 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":142:4:142:7|Latch generated from process for signal IsAxS; possible missing assignment in an if or case statement.
+@W: CD604 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\synchronizerStateMachine.vhd":215:6:215:19|OTHERS clause is not synthesized 
+@W: CL117 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\shiftRegister.vhd":52:4:52:5|Latch generated from process for signal DataOutxDO(119 downto 0); possible missing assignment in an if or case statement.
+@W: CL159 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":40:4:40:15|Input ADCconfigxDI is unused
+@W: CL159 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\cDVSResetStateMachine.vhd":31:4:31:12|Input RxcolGxSI is unused
+@W: CL247 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 15 of debugxsio(15 downto 0) is unused 
+@W: CL247 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 13 of debugxsio(15 downto 0) is unused 
+@W: CL247 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 10 of debugxsio(15 downto 0) is unused 
+@W: CL247 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 8 of debugxsio(15 downto 0) is unused 
+@W: CL159 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":62:4:62:11|Input FXLEDxSI is unused
+@W: CL159 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":85:1:85:21|Input CDVSTestBiasBitOutxSI is unused
+

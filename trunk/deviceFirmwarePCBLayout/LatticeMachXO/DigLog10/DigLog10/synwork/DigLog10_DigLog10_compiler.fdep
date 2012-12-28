@@ -1,0 +1,97 @@
+%%% protect protected_file
+#OPTIONS:"|-prodtype|synplify_pro|-top|USBAER_top_level|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ll|2000|-compiler_compatible|-ui|-fid2|-ram|-sharing|on|-autosm|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work"
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\bin64\\c_vhdl.exe":1337332178
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\location.map":1337597118
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\std.vhd":1337332410
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1337332410
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\std1164.vhd":1337332410
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\numeric.vhd":1337332410
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\umr_capim.vhd":1337332412
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\arith.vhd":1337332410
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\unsigned.vhd":1337332412
+1 "E:\LatticeDiamond\diamond\2.0\cae_library\synthesis\vhdl\machxo.vhd"
+2 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd"
+3 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCvalueReady.vhd"
+4 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\cDVSResetStateMachine.vhd"
+5 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\earlyPaketTimer.vhd"
+6 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\EventBeforeOverflow.vhd"
+7 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\eventCounter.vhd"
+8 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\fifoStatemachine.vhd"
+9 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\monitorStateMachine.vhd"
+10 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\shiftRegister.vhd"
+11 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\synchronizerStateMachine.vhd"
+12 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\timestampCounter.vhd"
+13 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\wordRegister.vhd"
+14 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\AERfifo.vhd"
+15 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\clockgen.vhd"
+16 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd"
+
+# Dependency Lists (Uses list)
+1 -1
+2 -1
+3 -1
+4 -1
+5 -1
+6 -1
+7 -1
+8 -1
+9 -1
+10 -1
+11 -1
+12 -1
+13 -1
+14 1 
+15 1 
+16 15 10 14 13 5 7 12 11 8 9 2 3 4 
+
+# Dependency Lists (Users Of)
+1 15 14 
+2 16 
+3 16 
+4 16 
+5 16 
+6 -1
+7 16 
+8 16 
+9 16 
+10 16 
+11 16 
+12 16 
+13 16 
+14 16 
+15 16 
+16 -1
+
+# Design Unit to File Association
+arch work adcstatemachineabc behavioral 2
+module work adcstatemachineabc 2
+arch work adcvalueready behavioral 3
+module work adcvalueready 3
+arch work cdvsresetstatemachine behavioral 4
+module work cdvsresetstatemachine 4
+arch work earlypakettimer behavioral 5
+module work earlypakettimer 5
+arch work eventbeforeoverflow behavioral 6
+module work eventbeforeoverflow 6
+arch work eventcounter behavioral 7
+module work eventcounter 7
+arch work fifostatemachine behavioral 8
+module work fifostatemachine 8
+arch work monitorstatemachine behavioral 9
+module work monitorstatemachine 9
+arch work shiftregister behavioral 10
+module work shiftregister 10
+arch work synchronizerstatemachine behavioral 11
+module work synchronizerstatemachine 11
+arch work timestampcounter behavioral 12
+module work timestampcounter 12
+arch work wordregister behavioral 13
+module work wordregister 13
+config work structure_con 14
+arch work aerfifo structure 14
+module work aerfifo 14
+config work structure_con 15
+arch work clockgen structure 15
+module work clockgen 15
+arch work usbaer_top_level structural 16
+module work usbaer_top_level 16

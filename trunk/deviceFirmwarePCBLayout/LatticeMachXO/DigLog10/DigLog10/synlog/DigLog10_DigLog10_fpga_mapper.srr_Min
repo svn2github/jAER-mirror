@@ -1,0 +1,205 @@
+
+
+##### START OF TIMING REPORT #####[
+# Timing Report written on Thu Dec 13 14:13:51 2012
+#
+
+
+Top view:               USBAER_top_level
+Requested Frequency:    1.0 MHz
+Wire load mode:         top
+Paths requested:        3
+Constraint File(s):    
+@N: MT320 |Timing report estimates place and route data. Please look at the place and route timing report for final timing.
+
+
+Performance Summary 
+*******************
+
+
+Worst slack in design: -0.172
+
+                                                     Requested     Estimated     Requested     Estimated                 Clock        Clock              
+Starting Clock                                       Frequency     Frequency     Period        Period        Slack       Type         Group              
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+ADCStateMachineABC|StateColxDP_derived_clock[9]      1.0 MHz       197.9 MHz     1000.000      5.054         994.946     derived      Inferred_clkgroup_1
+ADCStateMachineABC|StateColxDP_derived_clock[17]     1.0 MHz       162.7 MHz     1000.000      6.147         993.853     derived      Inferred_clkgroup_1
+ADCStateMachineABC|StateRowxDP_derived_clock[8]      1.0 MHz       357.8 MHz     1000.000      2.795         998.369     derived      Inferred_clkgroup_1
+USBAER_top_level|IfClockxCI                          1.0 MHz       64.8 MHz      1000.000      15.438        984.562     inferred     Inferred_clkgroup_1
+USBAER_top_level|PC1xSIO                             1.0 MHz       575.0 MHz     1000.000      1.739         998.261     inferred     Inferred_clkgroup_3
+USBAER_top_level|PC2xSIO                             1.0 MHz       1.0 MHz       1000.000      996.674       3.326       inferred     Inferred_clkgroup_2
+clockgen|CLKOP_inferred_clock                        1.0 MHz       74.7 MHz      1000.000      13.394        986.606     inferred     Inferred_clkgroup_0
+System                                               1.0 MHz       269.1 MHz     1000.000      3.716         992.949     system       system_clkgroup    
+=========================================================================================================================================================
+
+
+
+Clock Relationships
+*******************
+
+Clocks                                                                                             |    rise  to  rise    |    fall  to  fall   |    rise  to  fall   |    fall  to  rise 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Starting                                          Ending                                           |  constraint  slack   |  constraint  slack  |  constraint  slack  |  constraint  slack
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+System                                            System                                           |  0.000       0.000   |  No paths    -      |  No paths    -      |  No paths    -    
+System                                            clockgen|CLKOP_inferred_clock                    |  0.000       -0.172  |  No paths    -      |  No paths    -      |  No paths    -    
+System                                            USBAER_top_level|IfClockxCI                      |  0.000       0.660   |  No paths    -      |  No paths    -      |  No paths    -    
+System                                            USBAER_top_level|PC1xSIO                         |  0.000       1.363   |  No paths    -      |  No paths    -      |  No paths    -    
+clockgen|CLKOP_inferred_clock                     System                                           |  0.000       1.364   |  No paths    -      |  No paths    -      |  No paths    -    
+clockgen|CLKOP_inferred_clock                     clockgen|CLKOP_inferred_clock                    |  0.000       0.746   |  No paths    -      |  No paths    -      |  No paths    -    
+clockgen|CLKOP_inferred_clock                     USBAER_top_level|IfClockxCI                      |  Diff grp    -       |  No paths    -      |  No paths    -      |  No paths    -    
+USBAER_top_level|IfClockxCI                       System                                           |  0.000       1.204   |  No paths    -      |  No paths    -      |  No paths    -    
+USBAER_top_level|IfClockxCI                       clockgen|CLKOP_inferred_clock                    |  Diff grp    -       |  No paths    -      |  No paths    -      |  No paths    -    
+USBAER_top_level|IfClockxCI                       USBAER_top_level|IfClockxCI                      |  0.000       0.477   |  No paths    -      |  No paths    -      |  No paths    -    
+USBAER_top_level|PC2xSIO                          System                                           |  No paths    -       |  No paths    -      |  No paths    -      |  0.000       3.326
+USBAER_top_level|PC2xSIO                          clockgen|CLKOP_inferred_clock                    |  No paths    -       |  No paths    -      |  No paths    -      |  Diff grp    -    
+USBAER_top_level|PC2xSIO                          USBAER_top_level|IfClockxCI                      |  No paths    -       |  No paths    -      |  No paths    -      |  Diff grp    -    
+USBAER_top_level|PC1xSIO                          USBAER_top_level|PC2xSIO                         |  No paths    -       |  No paths    -      |  Diff grp    -      |  No paths    -    
+USBAER_top_level|PC1xSIO                          USBAER_top_level|PC1xSIO                         |  0.000       0.746   |  No paths    -      |  No paths    -      |  No paths    -    
+ADCStateMachineABC|StateColxDP_derived_clock[17]  System                                           |  0.000       0.000   |  No paths    -      |  No paths    -      |  No paths    -    
+ADCStateMachineABC|StateColxDP_derived_clock[17]  clockgen|CLKOP_inferred_clock                    |  Diff grp    -       |  No paths    -      |  No paths    -      |  No paths    -    
+ADCStateMachineABC|StateColxDP_derived_clock[17]  USBAER_top_level|IfClockxCI                      |  0.000       2.899   |  No paths    -      |  No paths    -      |  No paths    -    
+ADCStateMachineABC|StateColxDP_derived_clock[9]   System                                           |  0.000       0.000   |  No paths    -      |  No paths    -      |  No paths    -    
+ADCStateMachineABC|StateColxDP_derived_clock[9]   clockgen|CLKOP_inferred_clock                    |  Diff grp    -       |  No paths    -      |  No paths    -      |  No paths    -    
+ADCStateMachineABC|StateColxDP_derived_clock[9]   USBAER_top_level|IfClockxCI                      |  0.000       0.964   |  No paths    -      |  No paths    -      |  No paths    -    
+ADCStateMachineABC|StateColxDP_derived_clock[9]   ADCStateMachineABC|StateRowxDP_derived_clock[8]  |  0.000       1.560   |  No paths    -      |  No paths    -      |  No paths    -    
+ADCStateMachineABC|StateRowxDP_derived_clock[8]   System                                           |  0.000       0.000   |  No paths    -      |  No paths    -      |  No paths    -    
+ADCStateMachineABC|StateRowxDP_derived_clock[8]   USBAER_top_level|IfClockxCI                      |  0.000       0.746   |  No paths    -      |  No paths    -      |  No paths    -    
+==========================================================================================================================================================================================
+ Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
+       'Diff grp' indicates that paths exist but the starting clock and ending clock are in different clock groups.
+
+
+
+Interface Information 
+*********************
+
+
+
+Input Ports: 
+
+Port                        Starting            User           Arrival     Required          
+Name                        Reference           Constraint     Time        Time         Slack
+                            Clock                                                            
+---------------------------------------------------------------------------------------------
+ADCbusyxSI                  System (rising)     NA             0.000       -1.574       1.574
+ADCwordxDIO[1]              System (rising)     NA             0.000       -0.766       0.766
+ADCwordxDIO[2]              System (rising)     NA             0.000       -0.766       0.766
+ADCwordxDIO[3]              System (rising)     NA             0.000       -0.766       0.766
+ADCwordxDIO[4]              System (rising)     NA             0.000       -0.766       0.766
+ADCwordxDIO[5]              System (rising)     NA             0.000       -0.766       0.766
+ADCwordxDIO[6]              System (rising)     NA             0.000       -0.766       0.766
+ADCwordxDIO[7]              System (rising)     NA             0.000       -0.766       0.766
+ADCwordxDIO[8]              System (rising)     NA             0.000       -0.766       0.766
+ADCwordxDIO[9]              System (rising)     NA             0.000       -0.766       0.766
+ADCwordxDIO[10]             System (rising)     NA             0.000       -0.766       0.766
+ADCwordxDIO[11]             System (rising)     NA             0.000       -0.766       0.766
+AERMonitorAddressxDI[0]     System (rising)     NA             0.000       -2.393       2.393
+AERMonitorAddressxDI[1]     System (rising)     NA             0.000       -2.393       2.393
+AERMonitorAddressxDI[2]     System (rising)     NA             0.000       -2.393       2.393
+AERMonitorAddressxDI[3]     System (rising)     NA             0.000       -2.393       2.393
+AERMonitorAddressxDI[4]     System (rising)     NA             0.000       -2.458       2.458
+AERMonitorAddressxDI[5]     System (rising)     NA             0.000       -2.393       2.393
+AERMonitorAddressxDI[6]     System (rising)     NA             0.000       -2.458       2.458
+AERMonitorAddressxDI[7]     System (rising)     NA             0.000       -2.393       2.393
+AERMonitorAddressxDI[8]     System (rising)     NA             0.000       -1.532       1.532
+AERMonitorREQxABI           System (rising)     NA             0.000       -1.363       1.363
+CDVSTestBiasBitOutxSI       NA                  NA             NA          NA           NA   
+DebugxSIO[9]                System (rising)     NA             0.000       -4.179       4.179
+DebugxSIO[14]               System (rising)     NA             0.000       -1.700       1.700
+FX2FifoInFullxSBI           System (rising)     NA             0.000       -2.297       2.297
+FXLEDxSI                    NA                  NA             NA          NA           NA   
+IfClockxCI                  NA                  NA             NA          NA           NA   
+PA0xSIO                     System (rising)     NA             0.000       -3.868       3.868
+PA1xSIO                     System (rising)     NA             0.000       -4.936       4.936
+PA3xSIO                     System (rising)     NA             0.000       -1.662       1.662
+PA7xSIO                     System (rising)     NA             0.000       -1.574       1.574
+PC0xSIO                     System (rising)     NA             0.000       -1.532       1.532
+PC1xSIO                     NA                  NA             NA          NA           NA   
+PC2xSIO                     NA                  NA             NA          NA           NA   
+PC3xSIO                     System (rising)     NA             0.000       -1.363       1.363
+PE2xSI                      System (rising)     NA             0.000       -4.464       4.464
+PE3xSI                      System (rising)     NA             0.000       -4.775       4.775
+ResetxRBI                   System (rising)     NA             0.000       -2.451       2.451
+Sync1xABI                   System (rising)     NA             0.000       -1.438       1.438
+=============================================================================================
+
+
+Output Ports: 
+
+Port                       Starting                                   User           Arrival     Required          
+Name                       Reference                                  Constraint     Time        Time         Slack
+                           Clock                                                                                   
+-------------------------------------------------------------------------------------------------------------------
+ADCclockxCO                USBAER_top_level|IfClockxCI (rising)       NA             3.772       0.000        3.772
+ADCconvstxEBO              USBAER_top_level|IfClockxCI (rising)       NA             3.671       0.000        3.671
+ADCreadxEBO                USBAER_top_level|IfClockxCI (rising)       NA             4.301       0.000        4.301
+ADCwordxDIO[0]             USBAER_top_level|IfClockxCI (rising)       NA             3.562       0.000        3.562
+ADCwordxDIO[1]             USBAER_top_level|IfClockxCI (rising)       NA             3.562       0.000        3.562
+ADCwordxDIO[2]             USBAER_top_level|IfClockxCI (rising)       NA             3.562       0.000        3.562
+ADCwordxDIO[3]             USBAER_top_level|IfClockxCI (rising)       NA             3.562       0.000        3.562
+ADCwordxDIO[4]             USBAER_top_level|IfClockxCI (rising)       NA             3.562       0.000        3.562
+ADCwordxDIO[5]             USBAER_top_level|IfClockxCI (rising)       NA             3.562       0.000        3.562
+ADCwordxDIO[6]             USBAER_top_level|IfClockxCI (rising)       NA             3.562       0.000        3.562
+ADCwordxDIO[7]             USBAER_top_level|IfClockxCI (rising)       NA             3.562       0.000        3.562
+ADCwordxDIO[8]             USBAER_top_level|IfClockxCI (rising)       NA             3.562       0.000        3.562
+ADCwordxDIO[9]             USBAER_top_level|IfClockxCI (rising)       NA             3.562       0.000        3.562
+ADCwordxDIO[10]            USBAER_top_level|IfClockxCI (rising)       NA             3.562       0.000        3.562
+ADCwordxDIO[11]            USBAER_top_level|IfClockxCI (rising)       NA             3.562       0.000        3.562
+ADCwritexEBO               USBAER_top_level|IfClockxCI (rising)       NA             3.326       0.000        3.326
+AERMonitorACKxSBO          System (rising)                            NA             3.507       0.000        3.507
+CDVSTestBiasDiagSelxSO     System (rising)                            NA             3.868       0.000        3.868
+CDVSTestBiasEnablexEO      System (rising)                            NA             4.464       0.000        4.464
+CDVSTestChipResetxRBO      System (rising)                            NA             4.179       0.000        4.179
+CDVSTestColMode0xSO        USBAER_top_level|IfClockxCI (rising)       NA             3.671       0.000        3.671
+CDVSTestColMode1xSO        NA                                         NA             NA          NA           NA   
+CDVSTestSRColClockxSO      USBAER_top_level|IfClockxCI (rising)       NA             3.250       0.000        3.250
+CDVSTestSRColInxSO         NA                                         NA             NA          NA           NA   
+CDVSTestSRRowClockxSO      USBAER_top_level|IfClockxCI (rising)       NA             3.250       0.000        3.250
+CDVSTestSRRowInxSO         NA                                         NA             NA          NA           NA   
+DebugxSIO[0]               USBAER_top_level|PC2xSIO (falling)         NA             3.326       0.000        3.326
+DebugxSIO[1]               USBAER_top_level|PC2xSIO (falling)         NA             3.326       0.000        3.326
+DebugxSIO[2]               USBAER_top_level|PC2xSIO (falling)         NA             3.326       0.000        3.326
+DebugxSIO[3]               USBAER_top_level|PC2xSIO (falling)         NA             3.326       0.000        3.326
+DebugxSIO[4]               USBAER_top_level|PC2xSIO (falling)         NA             3.326       0.000        3.326
+DebugxSIO[5]               USBAER_top_level|PC2xSIO (falling)         NA             3.326       0.000        3.326
+DebugxSIO[6]               USBAER_top_level|PC2xSIO (falling)         NA             3.326       0.000        3.326
+DebugxSIO[7]               USBAER_top_level|PC2xSIO (falling)         NA             3.393       0.000        3.393
+DebugxSIO[8]               NA                                         NA             NA          NA           NA   
+DebugxSIO[9]               NA                                         NA             NA          NA           NA   
+DebugxSIO[10]              NA                                         NA             NA          NA           NA   
+DebugxSIO[11]              USBAER_top_level|PC2xSIO (falling)         NA             3.511       0.000        3.511
+DebugxSIO[12]              System (rising)                            NA             4.052       0.000        4.052
+DebugxSIO[13]              NA                                         NA             NA          NA           NA   
+DebugxSIO[14]              NA                                         NA             NA          NA           NA   
+DebugxSIO[15]              NA                                         NA             NA          NA           NA   
+FX2FifoAddressxDO[0]       NA                                         NA             NA          NA           NA   
+FX2FifoAddressxDO[1]       NA                                         NA             NA          NA           NA   
+FX2FifoDataxDIO[0]         System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[1]         System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[2]         System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[3]         System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[4]         System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[5]         System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[6]         System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[7]         System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[8]         System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[9]         System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[10]        System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[11]        System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[12]        System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[13]        System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[14]        System (rising)                            NA             2.307       0.000        2.307
+FX2FifoDataxDIO[15]        System (rising)                            NA             2.307       0.000        2.307
+FX2FifoPktEndxSBO          USBAER_top_level|IfClockxCI (rising)       NA             3.746       0.000        3.746
+FX2FifoReadxEBO            NA                                         NA             NA          NA           NA   
+FX2FifoWritexEBO           USBAER_top_level|IfClockxCI (rising)       NA             3.746       0.000        3.746
+LED1xSO                    System (rising)                            NA             4.179       0.000        4.179
+LED2xSO                    System (rising)                            NA             4.141       0.000        4.141
+LED3xSO                    NA                                         NA             NA          NA           NA   
+SynchOutxSBO               clockgen|CLKOP_inferred_clock (rising)     NA             3.746       0.000        3.746
+===================================================================================================================
+
+
+##### END OF TIMING REPORT #####]
+

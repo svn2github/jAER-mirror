@@ -1,0 +1,9 @@
+<BaliSimProject version="1.3" path="." stage="0" language="-1" name="ADCStateMachine" simType="Active-HDL">
+    <Source worklib="work" path="sourcecode/ADCvalueReady.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/ADCStateMachine.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="ADCStateMachine_tb.vhd" type="VHDL" include="none"/>
+    <SimLib value="pmi_work ovi_machxo"/>
+    <GlbInc value=""/>
+    <Macro value=""/>
+    <TopModule instance="" language="VHDL" name="ADCStateMachine_tb"/>
+</BaliSimProject>

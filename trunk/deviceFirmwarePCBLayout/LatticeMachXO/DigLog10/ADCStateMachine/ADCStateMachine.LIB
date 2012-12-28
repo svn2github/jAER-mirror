@@ -1,0 +1,61 @@
+timestamp=1340804625578
+
+[adcstatemachine_tb]
+A/behavioural=A/Behavioural 21|./../ADCStateMachine_tb.vhd|23|1*14995
+B/behavioural=3*10321
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioural=8.2.1986.SP1.35.3497  (Windows)
+I=0*450
+I/behavioural=I/Behavioural 0*4797
+M=11|0|v63|1340804623166|./../ADCStateMachine_tb.vhd|0*100*0x43b4d29babc86fb088fdff51d8ed8b36673ac55c|0*357*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioural=M/Behavioural 21|0|v63|1340804625469|./../ADCStateMachine_tb.vhd|0*696*0x1c41d3d797612fa80438010596ab4bbfe94b7c9a|0*4689*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../ADCStateMachine_tb.vhd|20
+
+[adcstatemachinea]
+A/behavioral=A/Behavioral 21|./src/ADCStateMachineA.vhd|56|1*42445
+B/behavioral=3*47887
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*23078
+I/behavioral=I/Behavioral 0*31912
+M=11|0|v63|1340804625541|./src/ADCStateMachineA.vhd|0*21802*0xe3349f14f2e1b558860721e1e8eb971ed8b968ec|0*22988*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1340804625546|./src/ADCStateMachineA.vhd|0*23322*0xbf461509120bac747e96897de131e3c6380b5f70|0*31808*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./src/ADCStateMachineA.vhd|25
+
+[adcstatemachineabc]
+A/behavioral=A/Behavioral 21|./src/ADCStateMachineABC.vhd|59|1*28268
+B/behavioral=3*18684
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*9735
+I/behavioral=I/Behavioral 0*20507
+M=11|0|v63|1340804625497|./src/ADCStateMachineABC.vhd|0*8346*0x96a464bcc81b9ea9bf6fc79bf5cd5b522c83fb6a|0*9641*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1340804625503|./src/ADCStateMachineABC.vhd|0*9981*0x01b7abe1c1d0b28211e556df252dc1ce6d9a6188|0*20399*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./src/ADCStateMachineABC.vhd|25
+
+[adcvalueready]
+A/behavioral=A/Behavioral 21|./../sourcecode/ADCvalueReady.vhd|36|1*13273
+B/behavioral=3*8363
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*5634
+I/behavioral=I/Behavioral 0*6952
+M=11|0|v63|1340804625415|./../sourcecode/ADCvalueReady.vhd|0*5137*0xb75aee56e7d6f26400e376efee96c3ce2b74fb21|0*5540*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1340804625417|./../sourcecode/ADCvalueReady.vhd|0*5875*0x80e84b1bdf06827a4a1aeb81b695b45d3e0568f7|0*6844*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../sourcecode/ADCvalueReady.vhd|25
+
+[~A]
+ModifyID=31
+Version=73
+
+[~MFT]
+0=27|0ADCStateMachine.mgf|31912|0
+1=5|1ADCStateMachine.mgf|42445|13273
+3=5|3ADCStateMachine.mgf|47887|8363
+
+[~U]
+adcstatemachine_tb=ADCStateMachine_tb 11|0*0|
+adcstatemachinea=ADCStateMachineA 11|0*20764|
+adcstatemachineabc=ADCStateMachineABC 11|0*7204|
+adcvalueready=ADCvalueReady 11|0*4876|
+

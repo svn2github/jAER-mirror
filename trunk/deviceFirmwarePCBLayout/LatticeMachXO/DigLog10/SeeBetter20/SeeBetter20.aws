@@ -1,0 +1,14 @@
+[Version]
+Version=8.2
+[Designs]
+SeeBetter20=SeeBetter20.adf
+[Settings]
+Active=SeeBetter20
+[Expand]
+seebetter20=1
+[Browser]
+sort=order
+mode=none
+[Order]
+order=1
+macro=

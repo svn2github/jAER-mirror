@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- *************************************************************************************
+FILE DESCRIPTION
+Max Top 5 critical clocks will be reported. For rest user needs to refer to Detailed report
+*******************************************************************************************-->
+<report_table display_priority="2" name="Timing Summary">
+<report_link name="Detailed report">
+<data>E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\synlog\DigLog10_DigLog10_fpga_mapper.srr</data>
+<title>##### START OF TIMING REPORT #####[</title>
+</report_link>
+<row>
+<data>Clock Name</data>
+<data>Req Freq</data>
+<data>Est Freq</data>
+<data>Slack</data>
+</row>
+<row>
+<data>ADCStateMachineABC|StateColxDP_derived_clock[9]</data>
+<data>1.0 MHz</data>
+<data>197.9 MHz</data>
+<data>994.946</data>
+</row>
+<row>
+<data>ADCStateMachineABC|StateColxDP_derived_clock[17]</data>
+<data>1.0 MHz</data>
+<data>162.7 MHz</data>
+<data>993.853</data>
+</row>
+<row>
+<data>ADCStateMachineABC|StateRowxDP_derived_clock[8]</data>
+<data>1.0 MHz</data>
+<data>357.8 MHz</data>
+<data>998.369</data>
+</row>
+<row>
+<data>USBAER_top_level|IfClockxCI</data>
+<data>1.0 MHz</data>
+<data>64.8 MHz</data>
+<data>984.562</data>
+</row>
+<row>
+<data>USBAER_top_level|PC1xSIO</data>
+<data>1.0 MHz</data>
+<data>575.0 MHz</data>
+<data>998.261</data>
+</row>
+<row>
+<data>USBAER_top_level|PC2xSIO</data>
+<data>1.0 MHz</data>
+<data>57.3 MHz</data>
+<data>982.537</data>
+</row>
+<row>
+<data>clockgen|CLKOP_inferred_clock</data>
+<data>1.0 MHz</data>
+<data>74.7 MHz</data>
+<data>986.606</data>
+</row>
+<row>
+<data>System</data>
+<data>1.0 MHz</data>
+<data>269.1 MHz</data>
+<data>992.949</data>
+</row>
+</report_table>

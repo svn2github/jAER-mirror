@@ -1,0 +1,50 @@
+
+
+#################### START OF GENERATED CLOCK OPTIMIZATION REPORT ####################[
+
+======================================================================================
+                                Instance:Pin        Generated Clock Optimization Status
+======================================================================================
+         uTimestampCounter.MSbDelayedxDP:C              Not Done
+ ADCStateMachine_2.CDVSTestSRRowClockxSO:C              Done
+           ADCStateMachine_2.StartRowxSP:C              Done
+ ADCStateMachine_2.CDVSTestSRColClockxSO:C              Done
+        ADCStateMachine_2.StateRowxDP[0]:C              Done
+        ADCStateMachine_2.StateRowxDP[1]:C              Done
+        ADCStateMachine_2.StateRowxDP[2]:C              Done
+        ADCStateMachine_2.StateRowxDP[3]:C              Done
+        ADCStateMachine_2.StateRowxDP[4]:C              Done
+        ADCStateMachine_2.StateRowxDP[5]:C              Done
+        ADCStateMachine_2.StateRowxDP[6]:C              Done
+        ADCStateMachine_2.StateRowxDP[7]:C              Done
+        ADCStateMachine_2.StateRowxDP[8]:C              Done
+        ADCStateMachine_2.StateRowxDP[9]:C              Done
+       ADCStateMachine_2.StateRowxDP[10]:C              Done
+       ADCStateMachine_2.StateRowxDP[11]:C              Done
+        ADCStateMachine_2.StateColxDP[4]:C              Done
+        ADCStateMachine_2.StateColxDP[5]:C              Done
+        ADCStateMachine_2.StateColxDP[6]:C              Done
+        ADCStateMachine_2.StateColxDP[7]:C              Done
+        ADCStateMachine_2.StateColxDP[8]:C              Done
+        ADCStateMachine_2.StateColxDP[9]:C              Done
+       ADCStateMachine_2.StateColxDP[10]:C              Done
+       ADCStateMachine_2.StateColxDP[11]:C              Done
+       ADCStateMachine_2.StateColxDP[12]:C              Done
+       ADCStateMachine_2.StateColxDP[13]:C              Done
+       ADCStateMachine_2.StateColxDP[14]:C              Done
+       ADCStateMachine_2.StateColxDP[15]:C              Done
+       ADCStateMachine_2.StateColxDP[16]:C              Done
+       ADCStateMachine_2.StateColxDP[17]:C              Done
+        ADCStateMachine_2.StateColxDP[0]:C              Done
+        ADCStateMachine_2.StateColxDP[1]:C              Done
+        ADCStateMachine_2.StateColxDP[2]:C              Done
+        ADCStateMachine_2.StateColxDP[3]:C              Done
+     ADCStateMachine_2.CountColxDP[17:0]:C              Done
+   ADCStateMachine_2.DividerRowxDP[16:0]:C              Done
+      ADCStateMachine_2.CountRowxDP[4:0]:C              Done
+   ADCStateMachine_2.DividerColxDP[32:0]:C              Done
+           ADCStateMachine_2.StartColxSP:C              Done
+
+
+##################### END OF GENERATED CLOCK OPTIMIZATION REPORT #####################]
+

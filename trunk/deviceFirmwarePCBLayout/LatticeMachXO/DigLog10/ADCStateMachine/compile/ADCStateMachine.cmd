@@ -1,0 +1,1 @@
+-w -s "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\ADCStateMachine\library.cfg"  -j "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\ADCStateMachine\projlib.cfg"  -d "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\ADCStateMachine\compile"   -work work  -O3 -e 100 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\ADCStateMachine_tb.vhd"

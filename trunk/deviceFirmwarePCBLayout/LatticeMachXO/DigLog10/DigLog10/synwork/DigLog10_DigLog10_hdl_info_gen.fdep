@@ -1,0 +1,97 @@
+%%% protect protected_file
+#OPTIONS:"|-top|USBAER_top_level|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ll|2000|-compiler_compatible|-ui|-fid2|-ram|-sharing|on|-autosm|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-fileorder|E:\\jaer\\deviceFirmwarePCBLayout\\LatticeMachXO\\DigLog10\\DigLog10\\syntmp\\hdlorder.tcl"
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\bin64\\c_vhdl.exe":1337332178
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\location.map":1337597118
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\std.vhd":1337332410
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1337332410
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\std1164.vhd":1337332410
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\numeric.vhd":1337332410
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\umr_capim.vhd":1337332412
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\arith.vhd":1337332410
+#CUR:"E:\\LatticeDiamond\\diamond\\2.0\\synpbase\\lib\\vhd\\unsigned.vhd":1337332412
+1 "E:\LatticeDiamond\diamond\2.0\cae_library\synthesis\vhdl\machxo.vhd"
+2 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd"
+3 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCvalueReady.vhd"
+4 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\AERfifo.vhd"
+5 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\cDVSResetStateMachine.vhd"
+6 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\clockgen.vhd"
+7 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\earlyPaketTimer.vhd"
+8 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\EventBeforeOverflow.vhd"
+9 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\eventCounter.vhd"
+10 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\fifoStatemachine.vhd"
+11 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\monitorStateMachine.vhd"
+12 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\shiftRegister.vhd"
+13 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\synchronizerStateMachine.vhd"
+14 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\timestampCounter.vhd"
+15 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd"
+16 "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\wordRegister.vhd"
+
+# Dependency Lists (Uses list)
+1 -1
+2 -1
+3 -1
+4 1 
+5 -1
+6 1 
+7 -1
+8 -1
+9 -1
+10 -1
+11 -1
+12 -1
+13 -1
+14 -1
+15 6 12 4 16 7 9 14 13 10 11 2 3 5 
+16 -1
+
+# Dependency Lists (Users Of)
+1 6 4 
+2 15 
+3 15 
+4 15 
+5 15 
+6 15 
+7 15 
+8 -1
+9 15 
+10 15 
+11 15 
+12 15 
+13 15 
+14 15 
+15 -1
+16 15 
+
+# Design Unit to File Association
+arch work adcstatemachineabc behavioral 2
+module work adcstatemachineabc 2
+arch work adcvalueready behavioral 3
+module work adcvalueready 3
+config work structure_con 4
+arch work aerfifo structure 4
+module work aerfifo 4
+arch work cdvsresetstatemachine behavioral 5
+module work cdvsresetstatemachine 5
+config work structure_con 6
+arch work clockgen structure 6
+module work clockgen 6
+arch work earlypakettimer behavioral 7
+module work earlypakettimer 7
+arch work eventbeforeoverflow behavioral 8
+module work eventbeforeoverflow 8
+arch work eventcounter behavioral 9
+module work eventcounter 9
+arch work fifostatemachine behavioral 10
+module work fifostatemachine 10
+arch work monitorstatemachine behavioral 11
+module work monitorstatemachine 11
+arch work shiftregister behavioral 12
+module work shiftregister 12
+arch work synchronizerstatemachine behavioral 13
+module work synchronizerstatemachine 13
+arch work timestampcounter behavioral 14
+module work timestampcounter 14
+arch work usbaer_top_level structural 15
+module work usbaer_top_level 15
+arch work wordregister behavioral 16
+module work wordregister 16

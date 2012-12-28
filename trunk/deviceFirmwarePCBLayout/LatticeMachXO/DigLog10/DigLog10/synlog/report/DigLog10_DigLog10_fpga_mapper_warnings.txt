@@ -1,0 +1,7 @@
+@W: MO197 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\synchronizerstatemachine.vhd":174:6:174:23|FSM register StatexDP[1] removed due to constant propagation
+@W: MO197 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\synchronizerstatemachine.vhd":197:6:197:28|FSM register StatexDP[0] removed due to constant propagation
+@W: MT246 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\aerfifo.vhd":179:4:179:14|Blackbox FIFO8KA is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
+@W: MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 1000.00ns. Please declare a user-defined clock on object "p:IfClockxCI"
+@W: MT420 |Found inferred clock USBAER_top_level|PC1xSIO with period 1000.00ns. Please declare a user-defined clock on object "p:PC1xSIO"
+@W: MT420 |Found inferred clock USBAER_top_level|PC2xSIO with period 1000.00ns. Please declare a user-defined clock on object "p:PC2xSIO"
+@W: MT420 |Found inferred clock clockgen|CLKOP_inferred_clock with period 1000.00ns. Please declare a user-defined clock on object "n:uClockGen.CLKOP"

@@ -1,0 +1,49 @@
+timestamp=1355330227993
+
+[adcstatemachine]
+A/behavioral=A/Behavioral 21|./../../sourcecode/ADCStateMachine.vhd|56|1*1650
+BinI32/behavioral=3*787
+I=0*4680
+I/behavioral=I/Behavioral 0*14193
+M=11|0|v98|1355330227707|./../../sourcecode/ADCStateMachine.vhd|0*3381*0x09566480cf0110d20cfddf4fb5768e24f706680f|0*4576*0xab32bc1a2daf049573e14469f634e0e6
+M/behavioral=M/Behavioral 21|0|v98|1355330227714|./../../sourcecode/ADCStateMachine.vhd|0*4923*0xec65da3fb58a4ec9ac6fcbf0033270fc9af2b1a6|0*14075*0xb33770ff1c10522f9491560174ac8e6c
+R=./../../sourcecode/ADCStateMachine.vhd|25
+Version=9.1.2353.4205  (Windows)|00000003789cd3f5370600015b00b0
+Version/behavioral=9.1.2353.4205  (Windows)|00000003789cd3f5370600015b00b0
+
+[adcstatemachine_tb]
+A/behavioural=A/Behavioural 21|./../../ADCStateMachine_tb.vhd|23|1*13892
+BinI32/behavioural=3*6859
+I=0*14906
+I/behavioural=I/Behavioural 0*19260
+M=11|0|v98|1355330227941|./../../ADCStateMachine_tb.vhd|0*14547*0x98a155bbb581b6bcc4416dcbe6de3b2199e81efa|0*14807*0xab32bc1a2daf049573e14469f634e0e6
+M/behavioural=M/Behavioural 21|0|v98|1355330227943|./../../ADCStateMachine_tb.vhd|0*15152*0xde98fd1a29d071856f43fc3be07f22283d960102|0*19146*0xb33770ff1c10522f9491560174ac8e6c
+R=./../../ADCStateMachine_tb.vhd|20
+Version=9.1.2353.4205  (Windows)|00000003789cd3f5370600015b00b0
+Version/behavioural=9.1.2353.4205  (Windows)|00000003789cd3f5370600015b00b0
+
+[adcvalueready]
+A/behavioral=A/Behavioral 21|./../../sourcecode/ADCvalueReady.vhd|36|1*0
+BinI32/behavioral=3*0
+I=0*767
+I/behavioral=I/Behavioral 0*2094
+M=11|0|v98|1355330227319|./../../sourcecode/ADCvalueReady.vhd|0*261*0x7459f08dd847af7bea3786d2a7cb84bdb627f3c5|0*667*0xab32bc1a2daf049573e14469f634e0e6
+M/behavioral=M/Behavioral 21|0|v98|1355330227321|./../../sourcecode/ADCvalueReady.vhd|0*1008*0x5f07e0444aece55a9ecc15362724386f471d2ca3|0*1980*0xb33770ff1c10522f9491560174ac8e6c
+R=./../../sourcecode/ADCvalueReady.vhd|25
+Version=9.1.2353.4205  (Windows)|00000003789cd3f5370600015b00b0
+Version/behavioral=9.1.2353.4205  (Windows)|00000003789cd3f5370600015b00b0
+
+[~A]
+ModifyID=16
+Version=73
+
+[~MFT]
+0=20|0work.mgf|19260|0
+1=2|1work.mgf|13892|0
+3=2|3work.mgf|6859|0
+
+[~U]
+adcstatemachine=ADCStateMachine 11|0*2346|
+adcstatemachine_tb=ADCStateMachine_tb 11|0*14447|
+adcvalueready=ADCvalueReady 11|0*0|
+

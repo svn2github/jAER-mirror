@@ -1,0 +1,79 @@
+Running in Lattice mode
+
+
+Starting:    E:\LatticeDiamond\diamond\2.0\synpbase\win64\mbin\synbatch.exe
+Install:     E:\LatticeDiamond\diamond\2.0\synpbase
+Date:        Thu Dec 13 14:13:44 2012
+Version:     F-2012.03L-1 
+
+Arguments:   -product synplify_pro  -batch DigLog10_DigLog10_synplify.tcl
+ProductType: synplify_pro
+
+
+
+
+
+
+Warning: File already exists in project: "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\AERfifo.vhd"
+
+Warning: File already exists in project: "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\clockgen.vhd"
+
+Warning: File already exists in project: "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\clockgen.vhd"
+
+log file: "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10.srf"
+
+
+Generating HDL info...
+
+hdl_info_gen Completed
+Return Code: 0
+Run Time:0h:00m:00s
+
+
+log file: "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10.srf"
+
+
+Running proj_1|DigLog10
+
+Running Compile on proj_1|DigLog10
+
+Running Compile Process on proj_1|DigLog10
+
+Running Compile Input on proj_1|DigLog10
+
+Copied E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\synwork\DigLog10_DigLog10_compiler.srs to E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10.srs
+
+compiler Completed
+Return Code: 0
+Run Time:0h:00m:02s
+
+
+Job Compile Process completed on proj_1|DigLog10
+
+Running Premap on proj_1|DigLog10
+
+premap Completed with warnings
+Return Code: 1
+Run Time:0h:00m:02s
+
+
+Job Compile completed on proj_1|DigLog10
+
+Running Map on proj_1|DigLog10
+
+Running Map & Optimize on proj_1|DigLog10
+
+fpga_mapper Completed with warnings
+Return Code: 1
+Run Time:0h:00m:03s
+
+
+Job Map completed on proj_1|DigLog10
+
+Job Logic Synthesis completed on proj_1|DigLog10
+
+TCL script complete: "DigLog10_DigLog10_synplify.tcl"
+
+exit status=0
+
+

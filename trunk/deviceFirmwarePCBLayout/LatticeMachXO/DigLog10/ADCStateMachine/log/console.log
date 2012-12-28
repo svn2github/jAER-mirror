@@ -1,0 +1,44 @@
+# Design Explorer: Shortcut to "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\ADCStateMachine\ADCStateMachine.aws" design added.
+designverincludedir -clear
+designverlibrarysim -PL -clear
+designverlibrarysim -L -clear
+designverlibrarysim -PL pmi_work
+designverlibrarysim ovi_machxo
+designverdefinemacro -clear
+removefile -Y -D *
+addfile E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCvalueReady.vhd
+# Adding file E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCvalueReady.vhd ... Done
+addfile E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+# Adding file E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCStateMachine.vhd ... Done
+addfile E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+# Adding file E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\ADCStateMachine_tb.vhd ... Done
+vlib E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine/work
+# Warning: Library work already exists
+adel -all
+# Library contents cleared.
+vcom -work work E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCvalueReady.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCvalueReady.vhd
+# Compile Entity "ADCvalueReady"
+# Compile Architecture "Behavioral" of Entity "ADCvalueReady"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+vcom -work work E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\ADCStateMachine.vhd
+# Compile Entity "ADCStateMachine"
+# Compile Architecture "Behavioral" of Entity "ADCStateMachine"
+# Compile success 0 Errors 0 Warnings  Analysis time :  62.0 [ms]
+vcom -work work E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\ADCStateMachine_tb.vhd
+# Compile Entity "ADCStateMachine_tb"
+# Compile Architecture "Behavioural" of Entity "ADCStateMachine_tb"
+# Warning: ELAB1_0026: ADCStateMachine_tb.vhd : (122, 0): There is no default binding for component "ADCStateMachineAB". (No entity named "ADCStateMachineAB" was found).
+# Compile success 0 Errors 1 Warnings  Analysis time :  62.0 [ms]
+entity ADCStateMachine_tb
+# ELBREAD: Elaboration process.
+# ELBREAD: Warning: Component /ADCStateMachine_tb/ADCStateMachine_1 : ADCStateMachineAB not bound.
+# ELBREAD: Elaboration time 0.2 [s].

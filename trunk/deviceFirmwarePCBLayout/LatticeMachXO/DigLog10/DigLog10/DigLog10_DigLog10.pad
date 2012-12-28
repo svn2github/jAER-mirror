@@ -1,0 +1,520 @@
+PAD Specification File
+***************************
+
+PART TYPE:        LCMXO2280C
+Performance Grade:      3
+PACKAGE:          FTBGA256
+Package Status:                     Final          Version 1.26
+
+Thu Dec 13 14:14:12 2012
+
+Pinout by Port Name:
++-------------------------+----------+---------------+-------+-------------------------------+
+| Port Name               | Pin/Bank | Buffer Type   | Site  | Properties                    |
++-------------------------+----------+---------------+-------+-------------------------------+
+| ADCbusyxSI              | M12/3    | LVCMOS25_IN   | PR17C | SLEW:FAST PULL:UP             |
+| ADCclockxCO             | P14/4    | LVCMOS25_OUT  | PB15D | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCconvstxEBO           | P9/4     | LVCMOS25_OUT  | PB10C | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCreadxEBO             | R8/5     | LVCMOS25_OUT  | PB8D  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCwordxDIO[0]          | N4/6     | LVCMOS25_OUT  | PL19A | DRIVE:12mA SLEW:FAST          |
+| ADCwordxDIO[10]         | P8/4     | LVCMOS25_BIDI | PB9B  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCwordxDIO[11]         | P7/4     | LVCMOS25_BIDI | PB9A  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCwordxDIO[1]          | N2/6     | LVCMOS25_BIDI | PL15D | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCwordxDIO[2]          | L2/6     | LVCMOS25_BIDI | PL12D | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCwordxDIO[3]          | K2/6     | LVCMOS25_BIDI | PL12C | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCwordxDIO[4]          | R10/4    | LVCMOS25_BIDI | PB11D | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCwordxDIO[5]          | N8/4     | LVCMOS25_BIDI | PB10E | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCwordxDIO[6]          | T8/5     | LVCMOS25_BIDI | PB6A  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCwordxDIO[7]          | M8/5     | LVCMOS25_BIDI | PB7D  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCwordxDIO[8]          | R6/5     | LVCMOS25_BIDI | PB5A  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCwordxDIO[9]          | L5/6     | LVCMOS25_BIDI | PL17C | DRIVE:12mA SLEW:FAST PULL:UP  |
+| ADCwritexEBO            | H2/6     | LVCMOS25_OUT  | PL11A | DRIVE:12mA SLEW:FAST PULL:UP  |
+| AERMonitorACKxSBO       | B1/7     | LVCMOS25_OUT  | PL5A  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| AERMonitorAddressxDI[0] | K15/3    | LVCMOS25_IN   | PR13B | SLEW:FAST PULL:UP             |
+| AERMonitorAddressxDI[1] | T6/5     | LVCMOS25_IN   | PB5B  | SLEW:FAST PULL:UP             |
+| AERMonitorAddressxDI[2] | M4/6     | LVCMOS25_IN   | PL18B | SLEW:FAST PULL:UP             |
+| AERMonitorAddressxDI[3] | J4/6     | LVCMOS25_IN   | PL16A | SLEW:FAST PULL:UP             |
+| AERMonitorAddressxDI[4] | P1/6     | LVCMOS25_IN   | PL14D | SLEW:FAST PULL:UP             |
+| AERMonitorAddressxDI[5] | K5/6     | LVCMOS25_IN   | PL17A | SLEW:FAST PULL:UP             |
+| AERMonitorAddressxDI[6] | M1/6     | LVCMOS25_IN   | PL13B | SLEW:FAST PULL:UP             |
+| AERMonitorAddressxDI[7] | J1/6     | LVCMOS25_IN   | PL12A | SLEW:FAST PULL:UP             |
+| AERMonitorAddressxDI[8] | D1/7     | LVCMOS25_IN   | PL6D  | SLEW:FAST PULL:UP             |
+| AERMonitorREQxABI       | N11/4    | LVCMOS25_IN   | PB12D | SLEW:FAST PULL:UP             |
+| CDVSTestBiasDiagSelxSO  | H13/2    | LVCMOS25_OUT  | PR9D  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| CDVSTestBiasEnablexEO   | F1/7     | LVCMOS25_OUT  | PL7D  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| CDVSTestChipResetxRBO   | T7/5     | LVCMOS25_OUT  | PB6B  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| CDVSTestColMode0xSO     | C9/1     | LVCMOS25_OUT  | PT10C | DRIVE:12mA SLEW:FAST PULL:UP  |
+| CDVSTestColMode1xSO     | K16/3    | LVCMOS25_OUT  | PR14C | DRIVE:12mA SLEW:FAST PULL:UP  |
+| CDVSTestSRColClockxSO   | J3/6     | LVCMOS25_OUT  | PL11C | DRIVE:12mA SLEW:FAST PULL:UP  |
+| CDVSTestSRColInxSO      | K3/6     | LVCMOS25_OUT  | PL11D | DRIVE:12mA SLEW:FAST PULL:UP  |
+| CDVSTestSRRowClockxSO   | P11/4    | LVCMOS25_OUT  | PB13C | DRIVE:12mA SLEW:FAST PULL:UP  |
+| CDVSTestSRRowInxSO      | T10/4    | LVCMOS25_OUT  | PB12A | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[0]            | M10/4    | LVCMOS25_OUT  | PB10A | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[10]           | C4/0     | LVCMOS25_OUT  | PT4A  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[11]           | M2/6     | LVCMOS25_OUT  | PL15C | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[12]           | L13/3    | LVCMOS25_OUT  | PR16D | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[13]           | F2/7     | LVCMOS25_OUT  | PL7A  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[14]           | H3/7     | LVCMOS25_BIDI | PL8D  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[15]           | R4/5     | LVCMOS25_OUT  | PB3C  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[1]            | M9/4     | LVCMOS25_OUT  | PB10B | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[2]            | N10/4    | LVCMOS25_OUT  | PB12C | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[3]            | P10/4    | LVCMOS25_OUT  | PB10D | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[4]            | N15/3    | LVCMOS25_OUT  | PR17A | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[5]            | M15/3    | LVCMOS25_OUT  | PR15B | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[6]            | L15/3    | LVCMOS25_OUT  | PR15A | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[7]            | P16/4    | LVCMOS25_OUT  | PB16D | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[8]            | K13/3    | LVCMOS25_OUT  | PR14B | DRIVE:12mA SLEW:FAST PULL:UP  |
+| DebugxSIO[9]            | M7/5     | LVCMOS25_BIDI | PB7C  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoAddressxDO[0]    | D8/1     | LVCMOS25_OUT  | PT9A  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoAddressxDO[1]    | A10/1    | LVCMOS25_OUT  | PT10A | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[0]      | J5/6     | LVCMOS25_OUT  | PL16B | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[10]     | E1/7     | LVCMOS25_OUT  | PL7C  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[11]     | J2/6     | LVCMOS25_OUT  | PL11B | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[12]     | H4/7     | LVCMOS25_OUT  | PL9A  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[13]     | C2/7     | LVCMOS25_OUT  | PL4D  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[14]     | G3/7     | LVCMOS25_OUT  | PL8C  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[15]     | H5/7     | LVCMOS25_OUT  | PL9B  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[1]      | M3/6     | LVCMOS25_OUT  | PL15B | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[2]      | M5/6     | LVCMOS25_OUT  | PL18A | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[3]      | L4/6     | LVCMOS25_OUT  | PL17D | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[4]      | N1/6     | LVCMOS25_OUT  | PL14C | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[5]      | R2/6     | LVCMOS25_OUT  | PL16D | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[6]      | L3/6     | LVCMOS25_OUT  | PL15A | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[7]      | K4/6     | LVCMOS25_OUT  | PL17B | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[8]      | R1/6     | LVCMOS25_OUT  | PL16C | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoDataxDIO[9]      | H1/7     | LVCMOS25_OUT  | PL10D | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoInFullxSBI       | J15/3    | LVCMOS25_IN   | PR13A | SLEW:FAST PULL:UP             |
+| FX2FifoPktEndxSBO       | H14/2    | LVCMOS25_OUT  | PR10B | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoReadxEBO         | D3/0     | LVCMOS25_OUT  | PT3C  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| FX2FifoWritexEBO        | H16/3    | LVCMOS25_OUT  | PR11A | DRIVE:12mA SLEW:FAST PULL:UP  |
+| IfClockxCI              | A9/1     | LVCMOS25_IN   | PT10B | SLEW:FAST PULL:UP             |
+| LED1xSO                 | T4/5     | LVCMOS25_OUT  | PB4D  | DRIVE:12mA SLEW:FAST PULL:UP  |
+| LED2xSO                 | H15/2    | LVCMOS25_OUT  | PR10D | DRIVE:12mA SLEW:FAST PULL:UP  |
+| LED3xSO                 | K1/6     | LVCMOS25_OUT  | PL12B | DRIVE:12mA SLEW:FAST PULL:UP  |
+| PA0xSIO                 | G12/2    | LVCMOS25_IN   | PR9A  | SLEW:FAST PULL:UP             |
+| PA1xSIO                 | L16/3    | LVCMOS25_IN   | PR14D | SLEW:FAST PULL:UP             |
+| PA3xSIO                 | F16/2    | LVCMOS25_IN   | PR7C  | SLEW:FAST PULL:UP             |
+| PA7xSIO                 | A7/0     | LVCMOS25_IN   | PT7D  | SLEW:FAST PULL:UP             |
+| PC0xSIO                 | L1/6     | LVCMOS25_IN   | PL13A | SLEW:FAST PULL:UP             |
+| PC1xSIO                 | N9/4     | LVCMOS25_IN   | PB10F | SLEW:FAST PULL:UP             |
+| PC2xSIO                 | D7/1     | LVCMOS25_IN   | PT9B  | SLEW:FAST PULL:UP             |
+| PC3xSIO                 | P12/4    | LVCMOS25_IN   | PB13D | SLEW:FAST PULL:UP             |
+| PE2xSI                  | G5/7     | LVCMOS25_IN   | PL8B  | SLEW:FAST PULL:UP             |
+| PE3xSI                  | R7/5     | LVCMOS25_IN   | PB8C  | SLEW:FAST PULL:UP             |
+| ResetxRBI               | K14/3    | LVCMOS25_IN   | PR13D | SLEW:FAST PULL:UP             |
+| Sync1xABI               | G4/7     | LVCMOS25_IN   | PL8A  | SLEW:FAST PULL:UP             |
+| SynchOutxSBO            | G1/7     | LVCMOS25_OUT  | PL10C | DRIVE:12mA SLEW:FAST PULL:UP  |
++-------------------------+----------+---------------+-------+-------------------------------+
+
+Vccio by Bank:
++------+-------+
+| Bank | Vccio |
++------+-------+
+| 0    | 2.5V  |
+| 1    | 2.5V  |
+| 2    | 2.5V  |
+| 3    | 2.5V  |
+| 4    | 2.5V  |
+| 5    | 2.5V  |
+| 6    | 2.5V  |
+| 7    | 2.5V  |
++------+-------+
+
+Vref by Bank:
++------+-----+-----------------+---------+
+| Vref | Pin | Bank # / Vref # | Load(s) |
++------+-----+-----------------+---------+
++------+-----+-----------------+---------+
+
+Pinout by Pin Number:
++----------+-------------------------+------------+---------------+-------+----------------+
+| Pin/Bank | Pin Info                | Preference | Buffer Type   | Site  | Dual Function  |
++----------+-------------------------+------------+---------------+-------+----------------+
+| A2/0     |     unused, PULL:UP     |            |               | PT3A  |                |
+| A3/0     |     unused, PULL:UP     |            |               | PT3B  | D1             |
+| A4/0     |     unused, PULL:UP     |            |               | PT6D  | D3             |
+| A5/0     |     unused, PULL:UP     |            |               | PT6C  |                |
+| A6/0     |     unused, PULL:UP     |            |               | PT7C  |                |
+| A7/0     | PA7xSIO                 |            | LVCMOS25_IN   | PT7D  |                |
+| A9/1     | IfClockxCI              |            | LVCMOS25_IN   | PT10B | PCLKT1_1       |
+| A10/1    | FX2FifoAddressxDO[1]    |            | LVCMOS25_OUT  | PT10A |                |
+| A11/1    |     unused, PULL:UP     |            |               | PT12A |                |
+| A12/1    |     unused, PULL:UP     |            |               | PT12B |                |
+| A13/1    |     unused, PULL:UP     |            |               | PT14A | D7             |
+| A14/1    |     unused, PULL:UP     |            |               | PT14B |                |
+| A15/1    |     unused, PULL:UP     |            |               | PT16C |                |
+| B1/7     | AERMonitorACKxSBO       |            | LVCMOS25_OUT  | PL5A  |                |
+| B2/0     |     unused, PULL:UP     |            |               | PT2C  |                |
+| B3/0     |     unused, PULL:UP     |            |               | PT2D  |                |
+| B4/0     |     unused, PULL:UP     |            |               | PT5C  |                |
+| B5/0     |     unused, PULL:UP     |            |               | PT5D  |                |
+| B6/0     |     unused, PULL:UP     |            |               | PT7A  |                |
+| B7/0     |     unused, PULL:UP     |            |               | PT7B  |                |
+| B8/0     |     unused, PULL:UP     |            |               | PT8C  |                |
+| B9/1     |     unused, PULL:UP     |            |               | PT11A |                |
+| B10/1    |     unused, PULL:UP     |            |               | PT11B |                |
+| B11/1    |     unused, PULL:UP     |            |               | PT12C | D6             |
+| B12/1    |     unused, PULL:UP     |            |               | PT12D |                |
+| B13/1    |     unused, PULL:UP     |            |               | PT15C |                |
+| B14/1    |     unused, PULL:UP     |            |               | PT16A |                |
+| B15/1    |     unused, PULL:UP     |            |               | PT16D |                |
+| B16/2    |     unused, PULL:UP     |            |               | PR5C  |                |
+| C1/7     |     unused, PULL:UP     |            |               | PL5B  |                |
+| C2/7     | FX2FifoDataxDIO[13]     |            | LVCMOS25_OUT  | PL4D  |                |
+| C3/7     |     unused, PULL:UP     |            |               | PL4C  |                |
+| C4/0     | DebugxSIO[10]           |            | LVCMOS25_OUT  | PT4A  |                |
+| C5/0     |     unused, PULL:UP     |            |               | PT4B  | D2             |
+| C6/0     |     unused, PULL:UP     |            |               | PT6A  |                |
+| C7/0     |     unused, PULL:UP     |            |               | PT6B  |                |
+| C8/0     |     unused, PULL:UP     |            |               | PT8D  |                |
+| C9/1     | CDVSTestColMode0xSO     |            | LVCMOS25_OUT  | PT10C |                |
+| C10/1    |     unused, PULL:UP     |            |               | PT10D |                |
+| C11/1    |     unused, PULL:UP     |            |               | PT13C |                |
+| C12/1    |     unused, PULL:UP     |            |               | PT13D |                |
+| C13/1    |     unused, PULL:UP     |            |               | PT15D |                |
+| C14/1    |     unused, PULL:UP     |            |               | PT16B |                |
+| C15/2    |     unused, PULL:UP     |            |               | PR6A  |                |
+| C16/2    |     unused, PULL:UP     |            |               | PR5D  |                |
+| D1/7     | AERMonitorAddressxDI[8] |            | LVCMOS25_IN   | PL6D  |                |
+| D2/7     |     unused, PULL:UP     |            |               | PL6C  |                |
+| D3/0     | FX2FifoReadxEBO         |            | LVCMOS25_OUT  | PT3C  |                |
+| D4/0     |     unused, PULL:UP     |            |               | PT3D  |                |
+| D5/0     |     unused, PULL:UP     |            |               | PT5B  |                |
+| D6/0     |     unused, PULL:UP     |            |               | PT5A  |                |
+| D7/1     | PC2xSIO                 |            | LVCMOS25_IN   | PT9B  | PCLKT1_0       |
+| D8/1     | FX2FifoAddressxDO[0]    |            | LVCMOS25_OUT  | PT9A  |                |
+| D9/1     |     unused, PULL:UP     |            |               | PT10E |                |
+| D10/1    |     unused, PULL:UP     |            |               | PT10F |                |
+| D11/1    |     unused, PULL:UP     |            |               | PT14C |                |
+| D12/1    |     unused, PULL:UP     |            |               | PT14D |                |
+| D13/2    |     unused, PULL:UP     |            |               | PR3B  |                |
+| D14/2    |     unused, PULL:UP     |            |               | PR3A  |                |
+| D15/2    |     unused, PULL:UP     |            |               | PR6B  |                |
+| D16/2    |     unused, PULL:UP     |            |               | PR6C  |                |
+| E1/7     | FX2FifoDataxDIO[10]     |            | LVCMOS25_OUT  | PL7C  |                |
+| E2/7     |     unused, PULL:UP     |            |               | PL4B  |                |
+| E3/7     |     unused, PULL:UP     |            |               | PL4A  |                |
+| E4/7     |     unused, PULL:UP     |            |               | PL2A  | LUM0_PLLT_FB_A |
+| E5/7     |     unused, PULL:UP     |            |               | PL2B  | LUM0_PLLC_FB_A |
+| E6/0     |     unused, PULL:UP     |            |               | PT6F  |                |
+| E7/0     |     unused, PULL:UP     |            |               | PT6E  |                |
+| E8/1     |     unused, PULL:UP     |            |               | PT9C  |                |
+| E9/1     |     unused, PULL:UP     |            |               | PT9D  |                |
+| E10/1    |     unused, PULL:UP     |            |               | PT15A |                |
+| E11/1    |     unused, PULL:UP     |            |               | PT15B |                |
+| E12/2    |     unused, PULL:UP     |            |               | PR4B  |                |
+| E13/2    |     unused, PULL:UP     |            |               | PR4A  |                |
+| E14/2    |     unused, PULL:UP     |            |               | PR5A  |                |
+| E15/2    |     unused, PULL:UP     |            |               | PR7A  |                |
+| E16/2    |     unused, PULL:UP     |            |               | PR6D  |                |
+| F1/7     | CDVSTestBiasEnablexEO   |            | LVCMOS25_OUT  | PL7D  |                |
+| F2/7     | DebugxSIO[13]           |            | LVCMOS25_OUT  | PL7A  |                |
+| F3/7     |     unused, PULL:UP     |            |               | PL3C  | LUM0_PLLT_IN_A |
+| F4/7     |     unused, PULL:UP     |            |               | PL3D  | LUM0_PLLC_IN_A |
+| F5/7     |     unused, PULL:UP     |            |               | PL3A  |                |
+| F6/7     |     unused, PULL:UP     |            |               | PL3B  |                |
+| F12/2    |     unused, PULL:UP     |            |               | PR4D  |                |
+| F13/2    |     unused, PULL:UP     |            |               | PR4C  |                |
+| F14/2    |     unused, PULL:UP     |            |               | PR5B  |                |
+| F15/2    |     unused, PULL:UP     |            |               | PR7B  |                |
+| F16/2    | PA3xSIO                 |            | LVCMOS25_IN   | PR7C  |                |
+| G1/7     | SynchOutxSBO            |            | LVCMOS25_OUT  | PL10C |                |
+| G2/7     |     unused, PULL:UP     |            |               | PL7B  | GSR_PADN       |
+| G3/7     | FX2FifoDataxDIO[14]     |            | LVCMOS25_OUT  | PL8C  |                |
+| G4/7     | Sync1xABI               |            | LVCMOS25_IN   | PL8A  |                |
+| G5/7     | PE2xSI                  |            | LVCMOS25_IN   | PL8B  |                |
+| G12/2    | PA0xSIO                 |            | LVCMOS25_IN   | PR9A  |                |
+| G13/2    |     unused, PULL:UP     |            |               | PR9B  |                |
+| G14/2    |     unused, PULL:UP     |            |               | PR10A |                |
+| G15/2    |     unused, PULL:UP     |            |               | PR10C |                |
+| G16/2    |     unused, PULL:UP     |            |               | PR7D  |                |
+| H1/7     | FX2FifoDataxDIO[9]      |            | LVCMOS25_OUT  | PL10D |                |
+| H2/6     | ADCwritexEBO            |            | LVCMOS25_OUT  | PL11A |                |
+| H3/7     | DebugxSIO[14]           |            | LVCMOS25_BIDI | PL8D  |                |
+| H4/7     | FX2FifoDataxDIO[12]     |            | LVCMOS25_OUT  | PL9A  |                |
+| H5/7     | FX2FifoDataxDIO[15]     |            | LVCMOS25_OUT  | PL9B  |                |
+| H12/2    |     unused, PULL:UP     |            |               | PR9C  |                |
+| H13/2    | CDVSTestBiasDiagSelxSO  |            | LVCMOS25_OUT  | PR9D  |                |
+| H14/2    | FX2FifoPktEndxSBO       |            | LVCMOS25_OUT  | PR10B |                |
+| H15/2    | LED2xSO                 |            | LVCMOS25_OUT  | PR10D |                |
+| H16/3    | FX2FifoWritexEBO        |            | LVCMOS25_OUT  | PR11A |                |
+| J1/6     | AERMonitorAddressxDI[7] |            | LVCMOS25_IN   | PL12A |                |
+| J2/6     | FX2FifoDataxDIO[11]     |            | LVCMOS25_OUT  | PL11B |                |
+| J3/6     | CDVSTestSRColClockxSO   |            | LVCMOS25_OUT  | PL11C |                |
+| J4/6     | AERMonitorAddressxDI[3] |            | LVCMOS25_IN   | PL16A |                |
+| J5/6     | FX2FifoDataxDIO[0]      |            | LVCMOS25_OUT  | PL16B |                |
+| J12/3    |     unused, PULL:UP     |            |               | PR11C |                |
+| J13/3    |     unused, PULL:UP     |            |               | PR14A |                |
+| J14/3    |     unused, PULL:UP     |            |               | PR13C |                |
+| J15/3    | FX2FifoInFullxSBI       |            | LVCMOS25_IN   | PR13A |                |
+| J16/3    |     unused, PULL:UP     |            |               | PR11B |                |
+| K1/6     | LED3xSO                 |            | LVCMOS25_OUT  | PL12B |                |
+| K2/6     | ADCwordxDIO[3]          |            | LVCMOS25_BIDI | PL12C |                |
+| K3/6     | CDVSTestSRColInxSO      |            | LVCMOS25_OUT  | PL11D |                |
+| K4/6     | FX2FifoDataxDIO[7]      |            | LVCMOS25_OUT  | PL17B | LLM0_PLLC_FB_A |
+| K5/6     | AERMonitorAddressxDI[5] |            | LVCMOS25_IN   | PL17A | LLM0_PLLT_FB_A |
+| K12/3    |     unused, PULL:UP     |            |               | PR11D |                |
+| K13/3    | DebugxSIO[8]            |            | LVCMOS25_OUT  | PR14B |                |
+| K14/3    | ResetxRBI               |            | LVCMOS25_IN   | PR13D |                |
+| K15/3    | AERMonitorAddressxDI[0] |            | LVCMOS25_IN   | PR13B |                |
+| K16/3    | CDVSTestColMode1xSO     |            | LVCMOS25_OUT  | PR14C |                |
+| L1/6     | PC0xSIO                 |            | LVCMOS25_IN   | PL13A |                |
+| L2/6     | ADCwordxDIO[2]          |            | LVCMOS25_BIDI | PL12D |                |
+| L3/6     | FX2FifoDataxDIO[6]      |            | LVCMOS25_OUT  | PL15A |                |
+| L4/6     | FX2FifoDataxDIO[3]      |            | LVCMOS25_OUT  | PL17D |                |
+| L5/6     | ADCwordxDIO[9]          |            | LVCMOS25_BIDI | PL17C |                |
+| L11/3    |     unused, PULL:UP     |            |               | PR20A |                |
+| L12/3    |     unused, PULL:UP     |            |               | PR16C |                |
+| L13/3    | DebugxSIO[12]           |            | LVCMOS25_OUT  | PR16D |                |
+| L14/3    |     unused, PULL:UP     |            |               | PR16A |                |
+| L15/3    | DebugxSIO[6]            |            | LVCMOS25_OUT  | PR15A |                |
+| L16/3    | PA1xSIO                 |            | LVCMOS25_IN   | PR14D |                |
+| M1/6     | AERMonitorAddressxDI[6] |            | LVCMOS25_IN   | PL13B |                |
+| M2/6     | DebugxSIO[11]           |            | LVCMOS25_OUT  | PL15C |                |
+| M3/6     | FX2FifoDataxDIO[1]      |            | LVCMOS25_OUT  | PL15B |                |
+| M4/6     | AERMonitorAddressxDI[2] |            | LVCMOS25_IN   | PL18B | LLM0_PLLC_IN_A |
+| M5/6     | FX2FifoDataxDIO[2]      |            | LVCMOS25_OUT  | PL18A | LLM0_PLLT_IN_A |
+| M7/5     | DebugxSIO[9]            |            | LVCMOS25_BIDI | PB7C  |                |
+| M8/5     | ADCwordxDIO[7]          |            | LVCMOS25_BIDI | PB7D  |                |
+| M9/4     | DebugxSIO[1]            |            | LVCMOS25_OUT  | PB10B | PCLKT4_0       |
+| M10/4    | DebugxSIO[0]            |            | LVCMOS25_OUT  | PB10A |                |
+| M11/3    |     unused, PULL:UP     |            |               | PR20B |                |
+| M12/3    | ADCbusyxSI              |            | LVCMOS25_IN   | PR17C |                |
+| M13/3    |     unused, PULL:UP     |            |               | PR17D |                |
+| M14/3    |     unused, PULL:UP     |            |               | PR16B |                |
+| M15/3    | DebugxSIO[5]            |            | LVCMOS25_OUT  | PR15B |                |
+| M16/3    |     unused, PULL:UP     |            |               | PR15C |                |
+| N1/6     | FX2FifoDataxDIO[4]      |            | LVCMOS25_OUT  | PL14C | TSALLPAD       |
+| N2/6     | ADCwordxDIO[1]          |            | LVCMOS25_BIDI | PL15D |                |
+| N3/6     |     unused, PULL:UP     |            |               | PL19B |                |
+| N4/6     | ADCwordxDIO[0]          |            | LVCMOS25_OUT  | PL19A |                |
+| N5/5     |     unused, PULL:UP     |            |               | PB2C  |                |
+| N6/5     |     unused, PULL:UP     |            |               | PB2D  |                |
+| N8/4     | ADCwordxDIO[5]          |            | LVCMOS25_BIDI | PB10E |                |
+| N9/4     | PC1xSIO                 |            | LVCMOS25_IN   | PB10F | PCLKT4_1       |
+| N10/4    | DebugxSIO[2]            |            | LVCMOS25_OUT  | PB12C |                |
+| N11/4    | AERMonitorREQxABI       |            | LVCMOS25_IN   | PB12D |                |
+| N12/3    |     unused, PULL:UP     |            |               | PR18B |                |
+| N13/3    |     unused, PULL:UP     |            |               | PR18A |                |
+| N14/3    |     unused, PULL:UP     |            |               | PR17B |                |
+| N15/3    | DebugxSIO[4]            |            | LVCMOS25_OUT  | PR17A |                |
+| N16/3    |     unused, PULL:UP     |            |               | PR15D |                |
+| P1/6     | AERMonitorAddressxDI[4] |            | LVCMOS25_IN   | PL14D |                |
+| P2/5     |     unused, PULL:UP     |            |               | PB2A  |                |
+| P3/5     |     unused, PULL:UP     |            |               | PB2B  |                |
+| P5/5     |     unused, PULL:UP     |            |               | PB4A  |                |
+| P6/5     |     unused, PULL:UP     |            |               | PB4B  |                |
+| P7/4     | ADCwordxDIO[11]         |            | LVCMOS25_BIDI | PB9A  |                |
+| P8/4     | ADCwordxDIO[10]         |            | LVCMOS25_BIDI | PB9B  |                |
+| P9/4     | ADCconvstxEBO           |            | LVCMOS25_OUT  | PB10C |                |
+| P10/4    | DebugxSIO[3]            |            | LVCMOS25_OUT  | PB10D |                |
+| P11/4    | CDVSTestSRRowClockxSO   |            | LVCMOS25_OUT  | PB13C |                |
+| P12/4    | PC3xSIO                 |            | LVCMOS25_IN   | PB13D |                |
+| P14/4    | ADCclockxCO             |            | LVCMOS25_OUT  | PB15D |                |
+| P15/4    |     unused, PULL:UP     |            |               | PB16C |                |
+| P16/4    | DebugxSIO[7]            |            | LVCMOS25_OUT  | PB16D |                |
+| PB5C/5   |     unused, PULL:UP     |            |               | PB5C  |                |
+| PB5D/5   |     unused, PULL:UP     |            |               | PB5D  |                |
+| PB6C/5   |     unused, PULL:UP     |            |               | PB6C  |                |
+| PB6D/5   |     unused, PULL:UP     |            |               | PB6D  |                |
+| PB7A/5   |     unused, PULL:UP     |            |               | PB7A  |                |
+| PB7B/5   |     unused, PULL:UP     |            |               | PB7B  |                |
+| PB8A/5   |     unused, PULL:UP     |            |               | PB8A  |                |
+| PB8B/5   |     unused, PULL:UP     |            |               | PB8B  |                |
+| PB8E/5   |     unused, PULL:UP     |            |               | PB8E  |                |
+| PB8F/5   |     unused, PULL:UP     |            |               | PB8F  |                |
+| PB9C/4   |     unused, PULL:UP     |            |               | PB9C  |                |
+| PB9D/4   |     unused, PULL:UP     |            |               | PB9D  |                |
+| PB11A/4  |     unused, PULL:UP     |            |               | PB11A |                |
+| PB11B/4  |     unused, PULL:UP     |            |               | PB11B |                |
+| PB12E/4  |     unused, PULL:UP     |            |               | PB12E |                |
+| PB12F/4  |     unused, PULL:UP     |            |               | PB12F |                |
+| PB15C/0  |     unused, PULL:UP     |            |               | PB15C |                |
+| PL5C/7   |     unused, PULL:UP     |            |               | PL5C  |                |
+| PL5D/7   |     unused, PULL:UP     |            |               | PL5D  |                |
+| PL6A/7   |     unused, PULL:UP     |            |               | PL6A  |                |
+| PL6B/7   |     unused, PULL:UP     |            |               | PL6B  |                |
+| PL9C/7   |     unused, PULL:UP     |            |               | PL9C  |                |
+| PL9D/7   |     unused, PULL:UP     |            |               | PL9D  |                |
+| PL10A/7  |     unused, PULL:UP     |            |               | PL10A |                |
+| PL10B/7  |     unused, PULL:UP     |            |               | PL10B |                |
+| PL13C/6  |     unused, PULL:UP     |            |               | PL13C |                |
+| PL13D/6  |     unused, PULL:UP     |            |               | PL13D |                |
+| PL14A/6  |     unused, PULL:UP     |            |               | PL14A |                |
+| PL14B/6  |     unused, PULL:UP     |            |               | PL14B |                |
+| PL20A/6  |     unused, PULL:UP     |            |               | PL20A |                |
+| PL20B/6  |     unused, PULL:UP     |            |               | PL20B |                |
+| PR2A/2   |     unused, PULL:UP     |            |               | PR2A  |                |
+| PR2B/2   |     unused, PULL:UP     |            |               | PR2B  |                |
+| PR3C/2   |     unused, PULL:UP     |            |               | PR3C  |                |
+| PR3D/2   |     unused, PULL:UP     |            |               | PR3D  |                |
+| PR8A/2   |     unused, PULL:UP     |            |               | PR8A  |                |
+| PR8B/2   |     unused, PULL:UP     |            |               | PR8B  |                |
+| PR8C/2   |     unused, PULL:UP     |            |               | PR8C  |                |
+| PR8D/2   |     unused, PULL:UP     |            |               | PR8D  |                |
+| PR12A/3  |     unused, PULL:UP     |            |               | PR12A |                |
+| PR12B/3  |     unused, PULL:UP     |            |               | PR12B |                |
+| PR12C/3  |     unused, PULL:UP     |            |               | PR12C |                |
+| PR12D/3  |     unused, PULL:UP     |            |               | PR12D |                |
+| PR19A/3  |     unused, PULL:UP     |            |               | PR19A |                |
+| PR19B/3  |     unused, PULL:UP     |            |               | PR19B |                |
+| PT2A/0   |     unused, PULL:UP     |            |               | PT2A  |                |
+| PT2B/0   |     unused, PULL:UP     |            |               | PT2B  |                |
+| PT4C/0   |     unused, PULL:UP     |            |               | PT4C  |                |
+| PT4D/0   |     unused, PULL:UP     |            |               | PT4D  |                |
+| PT4E/0   |     unused, PULL:UP     |            |               | PT4E  |                |
+| PT4F/0   |     unused, PULL:UP     |            |               | PT4F  |                |
+| PT8A/0   |     unused, PULL:UP     |            |               | PT8A  |                |
+| PT8B/0   |     unused, PULL:UP     |            |               | PT8B  |                |
+| PT8E/0   |     unused, PULL:UP     |            |               | PT8E  |                |
+| PT8F/0   |     unused, PULL:UP     |            |               | PT8F  |                |
+| PT11C/1  |     unused, PULL:UP     |            |               | PT11C |                |
+| PT11D/1  |     unused, PULL:UP     |            |               | PT11D |                |
+| PT12E/1  |     unused, PULL:UP     |            |               | PT12E |                |
+| PT12F/1  |     unused, PULL:UP     |            |               | PT12F |                |
+| PT13A/1  |     unused, PULL:UP     |            |               | PT13A |                |
+| PT13B/1  |     unused, PULL:UP     |            |               | PT13B |                |
+| R1/6     | FX2FifoDataxDIO[8]      |            | LVCMOS25_OUT  | PL16C |                |
+| R2/6     | FX2FifoDataxDIO[5]      |            | LVCMOS25_OUT  | PL16D |                |
+| R4/5     | DebugxSIO[15]           |            | LVCMOS25_OUT  | PB3C  |                |
+| R5/5     |     unused, PULL:UP     |            |               | PB3D  |                |
+| R6/5     | ADCwordxDIO[8]          |            | LVCMOS25_BIDI | PB5A  |                |
+| R7/5     | PE3xSI                  |            | LVCMOS25_IN   | PB8C  |                |
+| R8/5     | ADCreadxEBO             |            | LVCMOS25_OUT  | PB8D  |                |
+| R9/4     |     unused, PULL:UP     |            |               | PB11C |                |
+| R10/4    | ADCwordxDIO[4]          |            | LVCMOS25_BIDI | PB11D |                |
+| R11/4    |     unused, PULL:UP     |            |               | PB13A |                |
+| R12/4    |     unused, PULL:UP     |            |               | PB13B |                |
+| R13/4    |     unused, PULL:UP     |            |               | PB14C |                |
+| R14/4    |     unused, PULL:UP     |            |               | PB14D |                |
+| R15/4    |     unused, PULL:UP     |            |               | PB16A |                |
+| R16/4    |     unused, PULL:UP     |            |               | PB16B |                |
+| T2/5     |     unused, PULL:UP     |            |               | PB3A  |                |
+| T3/5     |     unused, PULL:UP     |            |               | PB3B  |                |
+| T4/5     | LED1xSO                 |            | LVCMOS25_OUT  | PB4D  |                |
+| T5/5     |     unused, PULL:UP     |            |               | PB4C  |                |
+| T6/5     | AERMonitorAddressxDI[1] |            | LVCMOS25_IN   | PB5B  |                |
+| T7/5     | CDVSTestChipResetxRBO   |            | LVCMOS25_OUT  | PB6B  |                |
+| T8/5     | ADCwordxDIO[6]          |            | LVCMOS25_BIDI | PB6A  |                |
+| T10/4    | CDVSTestSRRowInxSO      |            | LVCMOS25_OUT  | PB12A |                |
+| T11/4    |     unused, PULL:UP     |            |               | PB12B |                |
+| T12/4    |     unused, PULL:UP     |            |               | PB14B |                |
+| T13/4    |     unused, PULL:UP     |            |               | PB14A |                |
+| T14/4    |     unused, PULL:UP     |            |               | PB15A |                |
+| T15/4    |     unused, PULL:UP     |            |               | PB15B |                |
+| TCK/5    |                         |            |               | TCK   | TCK            |
+| TDI/5    |                         |            |               | TDI   | TDI            |
+| TDO/5    |                         |            |               | TDO   | TDO            |
+| TMS/5    |                         |            |               | TMS   | TMS            |
++----------+-------------------------+------------+---------------+-------+----------------+
+
+
+Locate Preferences for each Pin: 
+
+LOCATE  COMP  "ADCbusyxSI"  SITE  "M12";
+LOCATE  COMP  "ADCclockxCO"  SITE  "P14";
+LOCATE  COMP  "ADCconvstxEBO"  SITE  "P9";
+LOCATE  COMP  "ADCreadxEBO"  SITE  "R8";
+LOCATE  COMP  "ADCwordxDIO[0]"  SITE  "N4";
+LOCATE  COMP  "ADCwordxDIO[10]"  SITE  "P8";
+LOCATE  COMP  "ADCwordxDIO[11]"  SITE  "P7";
+LOCATE  COMP  "ADCwordxDIO[1]"  SITE  "N2";
+LOCATE  COMP  "ADCwordxDIO[2]"  SITE  "L2";
+LOCATE  COMP  "ADCwordxDIO[3]"  SITE  "K2";
+LOCATE  COMP  "ADCwordxDIO[4]"  SITE  "R10";
+LOCATE  COMP  "ADCwordxDIO[5]"  SITE  "N8";
+LOCATE  COMP  "ADCwordxDIO[6]"  SITE  "T8";
+LOCATE  COMP  "ADCwordxDIO[7]"  SITE  "M8";
+LOCATE  COMP  "ADCwordxDIO[8]"  SITE  "R6";
+LOCATE  COMP  "ADCwordxDIO[9]"  SITE  "L5";
+LOCATE  COMP  "ADCwritexEBO"  SITE  "H2";
+LOCATE  COMP  "AERMonitorACKxSBO"  SITE  "B1";
+LOCATE  COMP  "AERMonitorAddressxDI[0]"  SITE  "K15";
+LOCATE  COMP  "AERMonitorAddressxDI[1]"  SITE  "T6";
+LOCATE  COMP  "AERMonitorAddressxDI[2]"  SITE  "M4";
+LOCATE  COMP  "AERMonitorAddressxDI[3]"  SITE  "J4";
+LOCATE  COMP  "AERMonitorAddressxDI[4]"  SITE  "P1";
+LOCATE  COMP  "AERMonitorAddressxDI[5]"  SITE  "K5";
+LOCATE  COMP  "AERMonitorAddressxDI[6]"  SITE  "M1";
+LOCATE  COMP  "AERMonitorAddressxDI[7]"  SITE  "J1";
+LOCATE  COMP  "AERMonitorAddressxDI[8]"  SITE  "D1";
+LOCATE  COMP  "AERMonitorREQxABI"  SITE  "N11";
+LOCATE  COMP  "CDVSTestBiasDiagSelxSO"  SITE  "H13";
+LOCATE  COMP  "CDVSTestBiasEnablexEO"  SITE  "F1";
+LOCATE  COMP  "CDVSTestChipResetxRBO"  SITE  "T7";
+LOCATE  COMP  "CDVSTestColMode0xSO"  SITE  "C9";
+LOCATE  COMP  "CDVSTestColMode1xSO"  SITE  "K16";
+LOCATE  COMP  "CDVSTestSRColClockxSO"  SITE  "J3";
+LOCATE  COMP  "CDVSTestSRColInxSO"  SITE  "K3";
+LOCATE  COMP  "CDVSTestSRRowClockxSO"  SITE  "P11";
+LOCATE  COMP  "CDVSTestSRRowInxSO"  SITE  "T10";
+LOCATE  COMP  "DebugxSIO[0]"  SITE  "M10";
+LOCATE  COMP  "DebugxSIO[10]"  SITE  "C4";
+LOCATE  COMP  "DebugxSIO[11]"  SITE  "M2";
+LOCATE  COMP  "DebugxSIO[12]"  SITE  "L13";
+LOCATE  COMP  "DebugxSIO[13]"  SITE  "F2";
+LOCATE  COMP  "DebugxSIO[14]"  SITE  "H3";
+LOCATE  COMP  "DebugxSIO[15]"  SITE  "R4";
+LOCATE  COMP  "DebugxSIO[1]"  SITE  "M9";
+LOCATE  COMP  "DebugxSIO[2]"  SITE  "N10";
+LOCATE  COMP  "DebugxSIO[3]"  SITE  "P10";
+LOCATE  COMP  "DebugxSIO[4]"  SITE  "N15";
+LOCATE  COMP  "DebugxSIO[5]"  SITE  "M15";
+LOCATE  COMP  "DebugxSIO[6]"  SITE  "L15";
+LOCATE  COMP  "DebugxSIO[7]"  SITE  "P16";
+LOCATE  COMP  "DebugxSIO[8]"  SITE  "K13";
+LOCATE  COMP  "DebugxSIO[9]"  SITE  "M7";
+LOCATE  COMP  "FX2FifoAddressxDO[0]"  SITE  "D8";
+LOCATE  COMP  "FX2FifoAddressxDO[1]"  SITE  "A10";
+LOCATE  COMP  "FX2FifoDataxDIO[0]"  SITE  "J5";
+LOCATE  COMP  "FX2FifoDataxDIO[10]"  SITE  "E1";
+LOCATE  COMP  "FX2FifoDataxDIO[11]"  SITE  "J2";
+LOCATE  COMP  "FX2FifoDataxDIO[12]"  SITE  "H4";
+LOCATE  COMP  "FX2FifoDataxDIO[13]"  SITE  "C2";
+LOCATE  COMP  "FX2FifoDataxDIO[14]"  SITE  "G3";
+LOCATE  COMP  "FX2FifoDataxDIO[15]"  SITE  "H5";
+LOCATE  COMP  "FX2FifoDataxDIO[1]"  SITE  "M3";
+LOCATE  COMP  "FX2FifoDataxDIO[2]"  SITE  "M5";
+LOCATE  COMP  "FX2FifoDataxDIO[3]"  SITE  "L4";
+LOCATE  COMP  "FX2FifoDataxDIO[4]"  SITE  "N1";
+LOCATE  COMP  "FX2FifoDataxDIO[5]"  SITE  "R2";
+LOCATE  COMP  "FX2FifoDataxDIO[6]"  SITE  "L3";
+LOCATE  COMP  "FX2FifoDataxDIO[7]"  SITE  "K4";
+LOCATE  COMP  "FX2FifoDataxDIO[8]"  SITE  "R1";
+LOCATE  COMP  "FX2FifoDataxDIO[9]"  SITE  "H1";
+LOCATE  COMP  "FX2FifoInFullxSBI"  SITE  "J15";
+LOCATE  COMP  "FX2FifoPktEndxSBO"  SITE  "H14";
+LOCATE  COMP  "FX2FifoReadxEBO"  SITE  "D3";
+LOCATE  COMP  "FX2FifoWritexEBO"  SITE  "H16";
+LOCATE  COMP  "IfClockxCI"  SITE  "A9";
+LOCATE  COMP  "LED1xSO"  SITE  "T4";
+LOCATE  COMP  "LED2xSO"  SITE  "H15";
+LOCATE  COMP  "LED3xSO"  SITE  "K1";
+LOCATE  COMP  "PA0xSIO"  SITE  "G12";
+LOCATE  COMP  "PA1xSIO"  SITE  "L16";
+LOCATE  COMP  "PA3xSIO"  SITE  "F16";
+LOCATE  COMP  "PA7xSIO"  SITE  "A7";
+LOCATE  COMP  "PC0xSIO"  SITE  "L1";
+LOCATE  COMP  "PC1xSIO"  SITE  "N9";
+LOCATE  COMP  "PC2xSIO"  SITE  "D7";
+LOCATE  COMP  "PC3xSIO"  SITE  "P12";
+LOCATE  COMP  "PE2xSI"  SITE  "G5";
+LOCATE  COMP  "PE3xSI"  SITE  "R7";
+LOCATE  COMP  "ResetxRBI"  SITE  "K14";
+LOCATE  COMP  "Sync1xABI"  SITE  "G4";
+LOCATE  COMP  "SynchOutxSBO"  SITE  "G1";
+
+#PLL
+LOCATE  COMP  "uClockGen/PLLCInst_0"  SITE  "PLL3_R20C1" ;
+
+
+
+
+PAR: Place And Route Diamond (64-bit) 2.0.1.184.
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+Thu Dec 13 14:14:12 2012
+

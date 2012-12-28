@@ -1,0 +1,5 @@
+-rem
+-distrce
+-log "DigLog10_DigLog10.log"
+-o "DigLog10_DigLog10.csv"
+-pr "DigLog10_DigLog10.prf"

@@ -1,0 +1,244 @@
+
+Lattice Place and Route Report for Design "DigLog10_DigLog10_map.ncd"
+Thu Dec 13 14:13:57 2012
+
+PAR: Place And Route Diamond (64-bit) 2.0.1.184.
+Command Line: E:/LatticeDiamond/diamond/2.0/ispfpga\bin\nt64\par -f DigLog10_DigLog10.p2t
+DigLog10_DigLog10_map.ncd DigLog10_DigLog10.dir DigLog10_DigLog10.prf
+Preference file: DigLog10_DigLog10.prf.
+Placement level-cost: 5-1.
+Routing Iterations: 6
+
+Loading design for application par from file DigLog10_DigLog10_map.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 3
+Loading device for application par from file 'mj5g21x17.nph' in environment E:/LatticeDiamond/diamond/2.0/ispfpga.
+loading NP_PATTERN_MANAGER 
+end NP_PATTERN_MANAGER 
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.73
+License checked out.
+
+
+Ignore Preference Error(s):  True
+Device utilization summary:
+
+   GSR                1/1           100% used
+   PIO (prelim)      92/271          33% used
+                     92/211          43% bonded
+   EBR                2/3            66% used
+   PLL3               1/2            50% used
+   SLICE            417/1140         36% used
+
+
+
+Number of Signals: 1165
+Number of Connections: 3035
+The following 4 signals are selected to use the primary clock routing resources:
+    ClockxC_c (driver: uClockGen/PLLCInst_0, clk load #: 88)
+    IfClockxCI_c (driver: IfClockxCI, clk load #: 76)
+    PC1xSIO_c (driver: PC1xSIO, clk load #: 62)
+    PC2xSIO_c (driver: PC2xSIO, clk load #: 50)
+
+The following 2 signals are selected to use the secondary clock routing resources:
+    ADCsmRstxE_i (driver: SLICE_538, clk load #: 0, sr load #: 61, ce load #: 0)
+    ADCStateMachine_2/ClockxC (driver: ADCStateMachine_2/SLICE_319, clk load #: 0, sr load #: 0, ce load #: 29)
+
+No signal is selected as GOE.
+.
+Starting Placer Phase 0.
+...............
+Finished Placer Phase 0.  REAL time: 5 secs 
+
+Starting Placer Phase 1.
+...................
+Placer score = 690738.
+Finished Placer Phase 1.  REAL time: 15 secs 
+
+Starting Placer Phase 2.
+.
+Placer score =  688952
+Finished Placer Phase 2.  REAL time: 15 secs 
+
+
+------------------ Clock Report ------------------
+
+Global Clock Resources:
+  CLK_PIN    : 3 out of 4 (75%)
+  PLL        : 1 out of 2 (50%)
+
+Quadrants All (TL, TR, BL, BR) - Global Clocks:
+  PRIMARY "ClockxC_c" from CLKOP on comp "uClockGen/PLLCInst_0" on PLL site "PLL3_R20C1", clk load = 88
+  PRIMARY "IfClockxCI_c" from comp "IfClockxCI" on CLK_PIN site "A9 (PT10B)", clk load = 76
+  PRIMARY "PC1xSIO_c" from comp "PC1xSIO" on CLK_PIN site "N9 (PB10F)", clk load = 62
+  PRIMARY "PC2xSIO_c" from comp "PC2xSIO" on CLK_PIN site "D7 (PT9B)", clk load = 50
+  SECONDARY "ADCsmRstxE_i" from F1 on comp "SLICE_538" on site "R12C2D", clk load = 0, ce load = 0, sr load = 61
+  SECONDARY "ADCStateMachine_2/ClockxC" from Q1 on comp "ADCStateMachine_2/SLICE_319" on site "R13C2B", clk load = 0, ce load = 29, sr load = 0
+
+  PRIMARY  : 4 out of 4 (100%)
+  SECONDARY: 2 out of 4 (50%)
+
+--------------- End of Clock Report ---------------
+
+
+I/O Usage Summary (final):
+   92 out of 271 (33.9%) PIO sites used.
+   92 out of 211 (43.6%) bonded PIO sites used.
+   Number of PIO comps: 92; differential: 0
+   Number of Vref pins used: 0
+
+I/O Bank Usage Summary:
++----------+----------------+------------+------------+------------+
+| I/O Bank | Usage          | Bank Vccio | Bank Vref1 | Bank Vref2 |
++----------+----------------+------------+------------+------------+
+| 0        | 3 / 24 ( 12%)  | 2.5V       | -          | -          |
+| 1        | 5 / 30 ( 16%)  | 2.5V       | -          | -          |
+| 2        | 5 / 26 ( 19%)  | 2.5V       | -          | -          |
+| 3        | 12 / 28 ( 42%) | 2.5V       | -          | -          |
+| 4        | 16 / 29 ( 55%) | 2.5V       | -          | -          |
+| 5        | 10 / 20 ( 50%) | 2.5V       | -          | -          |
+| 6        | 27 / 28 ( 96%) | 2.5V       | -          | -          |
+| 7        | 14 / 26 ( 53%) | 2.5V       | -          | -          |
++----------+----------------+------------+------------+------------+
+
+Total placer CPU time: 14 secs 
+
+Dumping design to file DigLog10_DigLog10.dir/5_1.ncd.
+
+0 connections routed; 3035 unrouted.
+Starting router resource preassignment
+
+WARNING - par: The following clock signals will be routed by using generic routing resource and may suffer from excessive delay and/or skew.
+   Signal=ADCStateMachine_2/StateColxDP[17] loads=29 clock_loads=1
+   Signal=CDVSTestSRRowInxSO_c loads=5 clock_loads=1
+   Signal=ADCStateMachine_2/StateColxDP[9] loads=7 clock_loads=1
+
+Completed router resource preassignment. Real time: 19 secs 
+
+Start NBR router at 14:14:16 12/13/12
+
+*****************************************************************
+Info: NBR allows conflicts(one node used by more than one signal)
+      in the earlier iterations. In each iteration, it tries to  
+      solve the conflicts while keeping the critical connections 
+      routed as shorter as possible. The routing process is said 
+      to be completed when no conflicts exist and all connections
+      are routed.                                                
+Note: NBR uses a different method to calculate timing slacks. The
+      worst slack and total negative slack may not be the same as
+      that in TRCE report. You should always run TRCE to verify  
+      your design. Thanks.                                       
+*****************************************************************
+
+Start NBR special constraint process at 14:14:16 12/13/12
+
+Start NBR section for initial routing
+Level 1, iteration 1
+18(0.02%) conflicts; 2239(73.77%) untouched conns; 23812 (nbr) score; 
+Estimated worst slack/total negative slack: -0.619ns/-23.813ns; real time: 20 secs 
+Level 2, iteration 1
+27(0.03%) conflicts; 2065(68.04%) untouched conns; 24020 (nbr) score; 
+Estimated worst slack/total negative slack: -0.619ns/-24.020ns; real time: 20 secs 
+Level 3, iteration 1
+15(0.02%) conflicts; 1848(60.89%) untouched conns; 24592 (nbr) score; 
+Estimated worst slack/total negative slack: -0.619ns/-24.592ns; real time: 20 secs 
+Level 4, iteration 1
+116(0.13%) conflicts; 0(0.00%) untouched conn; 26342 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.343ns; real time: 21 secs 
+
+Info: Initial congestion level at 75% usage is 0
+Info: Initial congestion area  at 75% usage is 0 (0.00%)
+
+Start NBR section for normal routing
+Level 1, iteration 1
+9(0.01%) conflicts; 128(4.22%) untouched conns; 23242 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-23.242ns; real time: 21 secs 
+Level 2, iteration 1
+5(0.01%) conflicts; 128(4.22%) untouched conns; 26348 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.349ns; real time: 22 secs 
+Level 3, iteration 1
+5(0.01%) conflicts; 128(4.22%) untouched conns; 26348 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.349ns; real time: 22 secs 
+Level 4, iteration 1
+70(0.08%) conflicts; 0(0.00%) untouched conn; 26348 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.349ns; real time: 22 secs 
+Level 4, iteration 2
+30(0.03%) conflicts; 0(0.00%) untouched conn; 26573 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.574ns; real time: 22 secs 
+Level 4, iteration 3
+8(0.01%) conflicts; 0(0.00%) untouched conn; 26573 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.574ns; real time: 23 secs 
+Level 4, iteration 4
+2(0.00%) conflicts; 0(0.00%) untouched conn; 26573 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.574ns; real time: 23 secs 
+Level 4, iteration 5
+1(0.00%) conflict; 0(0.00%) untouched conn; 26573 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.574ns; real time: 23 secs 
+Level 4, iteration 6
+2(0.00%) conflicts; 0(0.00%) untouched conn; 26573 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.574ns; real time: 23 secs 
+Level 4, iteration 7
+0(0.00%) conflict; 0(0.00%) untouched conn; 26228 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.229ns; real time: 23 secs 
+
+Start NBR section for performance tunning (iteration 1)
+Level 4, iteration 1
+0(0.00%) conflict; 0(0.00%) untouched conn; 26228 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.229ns; real time: 23 secs 
+
+Start NBR section for post-routing
+0(0.00%) conflict; 0(0.00%) untouched conn; 26246 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.247ns; real time: 24 secs 
+
+Dumping design to file DigLog10_DigLog10.dir/5_1.ncd.
+End NBR router with 0 unrouted connection
+
+NBR Summary
+-----------
+  Number of unrouted connections : 0 (0.00%)
+  Number of connections with timing violations : 65 (2.14%)
+  Estimated worst slack : -0.651ns
+  Timing score : 20399
+-----------
+Notes: The timing info is calculated for SETUP only and all PAR_ADJs are ignored.
+
+
+
+Hold time optimization iteration 0:
+All hold time violations have been successfully corrected in speed grade M
+
+---------------IO Configurable Delay Element Usage Summary---------------
+
+Total IO Configurable Delay Elements used: 0 
+---------------End of IO Configurable Delay Element Usage Summary--------
+
+Total CPU time 25 secs 
+Total REAL time: 26 secs 
+Completely routed.
+End of route.  3035 routed (100.00%); 0 unrouted.
+Checking DRC ... 
+No errors found.
+
+Hold time timing score: 0, hold timing errors: 0
+
+Timing score: 20399 
+
+Total REAL time to completion: 27 secs 
+
+Dumping design to file DigLog10_DigLog10.dir/5_1.ncd.
+
+
+All signals are completely routed.
+
+
+par done!
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.

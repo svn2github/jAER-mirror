@@ -1,0 +1,114 @@
+// Design: USBAER_top_level
+// Package: FTBGA256
+// ncd File: seebetter20_seebetter20.ncd
+// Version: Diamond_1.3_Production (92)
+// Written on Wed Jun 27 17:27:31 2012
+// M: Minimum Speed Grade
+// iotiming SeeBetter20_SeeBetter20.ncd SeeBetter20_SeeBetter20.prf
+
+I/O Timing Report (All units are in ns)
+
+Worst Case Results across Speed Grades (M, 5, 4, 3):
+
+// Input Setup and Hold Times
+
+Port                   Clock      Edge  Setup Speed_Grade  Hold Speed_Grade
+----------------------------------------------------------------------
+ADCbusyxSI             IfClockxCI R     3.100      3      -0.179     M
+ADCwordxDIO_1          IfClockxCI R     0.538      3       0.762     3
+ADCwordxDIO_10         IfClockxCI R     3.181      3      -0.369     M
+ADCwordxDIO_11         IfClockxCI R     2.209      3      -0.153     M
+ADCwordxDIO_2          IfClockxCI R     0.908      3       0.462     3
+ADCwordxDIO_3          IfClockxCI R     0.908      3       0.462     3
+ADCwordxDIO_4          IfClockxCI R     1.747      3      -0.063     M
+ADCwordxDIO_5          IfClockxCI R     1.428      3       0.015     3
+ADCwordxDIO_6          IfClockxCI R     2.208      3      -0.163     M
+ADCwordxDIO_7          IfClockxCI R     2.670      3      -0.252     M
+ADCwordxDIO_8          IfClockxCI R     1.839      3      -0.079     M
+ADCwordxDIO_9          IfClockxCI R     1.747      3      -0.063     M
+AERMonitorAddressxDI_0 IfClockxCI R     4.393      3      -0.520     M
+AERMonitorAddressxDI_1 IfClockxCI R     3.932      3      -0.420     M
+AERMonitorAddressxDI_2 IfClockxCI R     3.932      3      -0.420     M
+AERMonitorAddressxDI_3 IfClockxCI R     3.113      3      -0.250     M
+AERMonitorAddressxDI_4 IfClockxCI R     3.662      3      -0.369     M
+AERMonitorAddressxDI_5 IfClockxCI R     3.011      3      -0.234     M
+AERMonitorAddressxDI_6 IfClockxCI R     3.227      3      -0.274     M
+AERMonitorAddressxDI_7 IfClockxCI R     2.740      3      -0.171     M
+AERMonitorAddressxDI_8 IfClockxCI R     6.087      3      -0.146     M
+AERMonitorREQxABI      IfClockxCI R     1.552      3      -0.003     M
+DebugxSIO_14           IfClockxCI R     8.253      3      -1.128     M
+FX2FifoInFullxSBI      IfClockxCI R     3.352      3      -0.334     M
+PA3xSIO                IfClockxCI R     5.494      3      -0.204     M
+PA7xSIO                IfClockxCI R     4.770      3      -0.170     M
+PC0xSIO                IfClockxCI R    15.730      3      -0.188     M
+PC3xSIO                PC1xSIO    R    -0.299      M       2.893     3
+ResetxRBI              IfClockxCI R     4.205      3      -0.354     M
+Sync1xABI              IfClockxCI R     1.053      3       0.324     3
+
+
+// Clock to Output Delay
+
+Port                  Clock      Edge  Max_Delay Speed_Grade  Min_Delay Speed_Grade
+------------------------------------------------------------------------
+ADCclockxCO           IfClockxCI R    11.936         3        2.010          M
+ADCconvstxEBO         IfClockxCI R    15.945         3        1.905          M
+ADCreadxEBO           IfClockxCI R    10.582         3        2.181          M
+ADCwordxDIO_0         IfClockxCI R    11.141         3        2.271          M
+ADCwordxDIO_1         IfClockxCI R    11.141         3        2.271          M
+ADCwordxDIO_10        IfClockxCI R    10.157         3        2.062          M
+ADCwordxDIO_11        IfClockxCI R    10.157         3        2.062          M
+ADCwordxDIO_2         IfClockxCI R    11.141         3        2.271          M
+ADCwordxDIO_3         IfClockxCI R    11.141         3        2.271          M
+ADCwordxDIO_4         IfClockxCI R     9.372         3        1.906          M
+ADCwordxDIO_5         IfClockxCI R     9.709         3        1.964          M
+ADCwordxDIO_6         IfClockxCI R    11.293         3        2.285          M
+ADCwordxDIO_7         IfClockxCI R    10.630         3        2.165          M
+ADCwordxDIO_8         IfClockxCI R    10.157         3        2.062          M
+ADCwordxDIO_9         IfClockxCI R     9.264         3        1.880          M
+ADCwritexEBO          IfClockxCI R     6.256         3        1.301          M
+AERMonitorACKxSBO     IfClockxCI R    10.327         3        1.845          M
+CDVSTestChipResetxRBO IfClockxCI R    10.383         3        1.766          M
+CDVSTestColMode0xSO   IfClockxCI R    13.843         3        1.786          M
+CDVSTestColMode1xSO   IfClockxCI R    17.718         3        2.183          M
+CDVSTestColMode1xSO   PC2xSIO    F    26.815         3        2.041          M
+CDVSTestSRColClockxSO IfClockxCI R     7.983         3        1.650          M
+CDVSTestSRColInxSO    IfClockxCI R    11.423         3        1.836          M
+CDVSTestSRRowClockxSO IfClockxCI R     9.348         3        1.936          M
+CDVSTestSRRowInxSO    IfClockxCI R     6.256         3        1.301          M
+DebugxSIO_0           PC2xSIO    F     7.710         3        1.545          M
+DebugxSIO_1           PC2xSIO    F     8.893         3        1.768          M
+DebugxSIO_11          PC2xSIO    F    10.930         3        2.213          M
+DebugxSIO_2           PC2xSIO    F     8.435         3        1.677          M
+DebugxSIO_3           PC2xSIO    F     8.435         3        1.677          M
+DebugxSIO_4           PC2xSIO    F     8.992         3        1.799          M
+DebugxSIO_5           PC2xSIO    F     9.384         3        1.879          M
+DebugxSIO_6           PC2xSIO    F     7.710         3        1.545          M
+DebugxSIO_7           PC2xSIO    F     7.710         3        1.545          M
+FX2FifoDataxDIO_0     IfClockxCI R    10.998         3        2.360          M
+FX2FifoDataxDIO_1     IfClockxCI R    11.081         3        2.382          M
+FX2FifoDataxDIO_10    IfClockxCI R    10.986         3        2.349          M
+FX2FifoDataxDIO_11    IfClockxCI R    10.620         3        2.283          M
+FX2FifoDataxDIO_12    IfClockxCI R    11.473         3        2.461          M
+FX2FifoDataxDIO_13    IfClockxCI R    11.542         3        2.481          M
+FX2FifoDataxDIO_14    IfClockxCI R    11.593         3        2.489          M
+FX2FifoDataxDIO_15    IfClockxCI R    11.528         3        2.469          M
+FX2FifoDataxDIO_2     IfClockxCI R    11.473         3        2.461          M
+FX2FifoDataxDIO_3     IfClockxCI R    10.620         3        2.283          M
+FX2FifoDataxDIO_4     IfClockxCI R    11.477         3        2.460          M
+FX2FifoDataxDIO_5     IfClockxCI R    11.081         3        2.382          M
+FX2FifoDataxDIO_6     IfClockxCI R    11.473         3        2.461          M
+FX2FifoDataxDIO_7     IfClockxCI R    11.077         3        2.383          M
+FX2FifoDataxDIO_8     IfClockxCI R    10.620         3        2.283          M
+FX2FifoDataxDIO_9     IfClockxCI R    10.620         3        2.283          M
+FX2FifoPktEndxSBO     IfClockxCI R     9.184         3        1.800          M
+FX2FifoWritexEBO      IfClockxCI R     9.156         3        1.867          M
+LED1xSO               IfClockxCI R    12.688         3        2.262          M
+LED3xSO               IfClockxCI R    11.558         3        2.024          M
+SynchOutxSBO          IfClockxCI R    13.627         3        1.726          M
+
+
+// Internal_Clock to Output
+
+Port                Internal_Clock                  
+--------------------------------------------------------
+CDVSTestColMode1xSO ADCStateMachine_2/StateColxDP_17

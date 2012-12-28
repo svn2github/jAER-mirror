@@ -1,0 +1,7 @@
+16
+~E 1 "./../../sourcecode/ADCStateMachine.vhd" 25 ADCStateMachine
+~A 1 "./../../sourcecode/ADCStateMachine.vhd" 56 Behavioral
+~E 1 "./../../ADCStateMachine_tb.vhd" 20 ADCStateMachine_tb
+~A 1 "./../../ADCStateMachine_tb.vhd" 23 Behavioural
+~E 1 "./../../sourcecode/ADCvalueReady.vhd" 25 ADCvalueReady
+~A 1 "./../../sourcecode/ADCvalueReady.vhd" 36 Behavioral

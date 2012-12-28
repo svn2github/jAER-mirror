@@ -1,0 +1,98 @@
+@P:  Worst Slack : 982.537
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[9] - Estimated Frequency : 197.9 MHz
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[9] - Requested Frequency : 1.0 MHz
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[9] - Estimated Period : 5.054
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[9] - Requested Period : 1000.000
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[9] - Slack : 994.946
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[17] - Estimated Frequency : 162.7 MHz
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[17] - Requested Frequency : 1.0 MHz
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[17] - Estimated Period : 6.147
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[17] - Requested Period : 1000.000
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[17] - Slack : 993.853
+@P:  ADCStateMachineABC|StateRowxDP_derived_clock[8] - Estimated Frequency : 357.8 MHz
+@P:  ADCStateMachineABC|StateRowxDP_derived_clock[8] - Requested Frequency : 1.0 MHz
+@P:  ADCStateMachineABC|StateRowxDP_derived_clock[8] - Estimated Period : 2.795
+@P:  ADCStateMachineABC|StateRowxDP_derived_clock[8] - Requested Period : 1000.000
+@P:  ADCStateMachineABC|StateRowxDP_derived_clock[8] - Slack : 998.369
+@P:  USBAER_top_level|IfClockxCI - Estimated Frequency : 64.8 MHz
+@P:  USBAER_top_level|IfClockxCI - Requested Frequency : 1.0 MHz
+@P:  USBAER_top_level|IfClockxCI - Estimated Period : 15.438
+@P:  USBAER_top_level|IfClockxCI - Requested Period : 1000.000
+@P:  USBAER_top_level|IfClockxCI - Slack : 984.562
+@P:  USBAER_top_level|PC1xSIO - Estimated Frequency : 575.0 MHz
+@P:  USBAER_top_level|PC1xSIO - Requested Frequency : 1.0 MHz
+@P:  USBAER_top_level|PC1xSIO - Estimated Period : 1.739
+@P:  USBAER_top_level|PC1xSIO - Requested Period : 1000.000
+@P:  USBAER_top_level|PC1xSIO - Slack : 998.261
+@P:  USBAER_top_level|PC2xSIO - Estimated Frequency : 57.3 MHz
+@P:  USBAER_top_level|PC2xSIO - Requested Frequency : 1.0 MHz
+@P:  USBAER_top_level|PC2xSIO - Estimated Period : 17.463
+@P:  USBAER_top_level|PC2xSIO - Requested Period : 1000.000
+@P:  USBAER_top_level|PC2xSIO - Slack : 982.537
+@P:  clockgen|CLKOP_inferred_clock - Estimated Frequency : 74.7 MHz
+@P:  clockgen|CLKOP_inferred_clock - Requested Frequency : 1.0 MHz
+@P:  clockgen|CLKOP_inferred_clock - Estimated Period : 13.394
+@P:  clockgen|CLKOP_inferred_clock - Requested Period : 1000.000
+@P:  clockgen|CLKOP_inferred_clock - Slack : 986.606
+@P:  System - Estimated Frequency : 269.1 MHz
+@P:  System - Requested Frequency : 1.0 MHz
+@P:  System - Estimated Period : 3.716
+@P:  System - Requested Period : 1000.000
+@P:  System - Slack : 992.949
+@P:  Worst Slack(min analysis) : -0.172
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[9] - Estimated Frequency(min analysis) : 197.9 MHz
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[9] - Requested Frequency(min analysis) : 1.0 MHz
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[9] - Estimated Period(min analysis) : 5.054
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[9] - Requested Period(min analysis) : 1000.000
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[9] - Slack(min analysis) : 994.946
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[17] - Estimated Frequency(min analysis) : 162.7 MHz
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[17] - Requested Frequency(min analysis) : 1.0 MHz
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[17] - Estimated Period(min analysis) : 6.147
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[17] - Requested Period(min analysis) : 1000.000
+@P:  ADCStateMachineABC|StateColxDP_derived_clock[17] - Slack(min analysis) : 993.853
+@P:  ADCStateMachineABC|StateRowxDP_derived_clock[8] - Estimated Frequency(min analysis) : 357.8 MHz
+@P:  ADCStateMachineABC|StateRowxDP_derived_clock[8] - Requested Frequency(min analysis) : 1.0 MHz
+@P:  ADCStateMachineABC|StateRowxDP_derived_clock[8] - Estimated Period(min analysis) : 2.795
+@P:  ADCStateMachineABC|StateRowxDP_derived_clock[8] - Requested Period(min analysis) : 1000.000
+@P:  ADCStateMachineABC|StateRowxDP_derived_clock[8] - Slack(min analysis) : 998.369
+@P:  USBAER_top_level|IfClockxCI - Estimated Frequency(min analysis) : 64.8 MHz
+@P:  USBAER_top_level|IfClockxCI - Requested Frequency(min analysis) : 1.0 MHz
+@P:  USBAER_top_level|IfClockxCI - Estimated Period(min analysis) : 15.438
+@P:  USBAER_top_level|IfClockxCI - Requested Period(min analysis) : 1000.000
+@P:  USBAER_top_level|IfClockxCI - Slack(min analysis) : 984.562
+@P:  USBAER_top_level|PC1xSIO - Estimated Frequency(min analysis) : 575.0 MHz
+@P:  USBAER_top_level|PC1xSIO - Requested Frequency(min analysis) : 1.0 MHz
+@P:  USBAER_top_level|PC1xSIO - Estimated Period(min analysis) : 1.739
+@P:  USBAER_top_level|PC1xSIO - Requested Period(min analysis) : 1000.000
+@P:  USBAER_top_level|PC1xSIO - Slack(min analysis) : 998.261
+@P:  USBAER_top_level|PC2xSIO - Estimated Frequency(min analysis) : 1.0 MHz
+@P:  USBAER_top_level|PC2xSIO - Requested Frequency(min analysis) : 1.0 MHz
+@P:  USBAER_top_level|PC2xSIO - Estimated Period(min analysis) : 996.674
+@P:  USBAER_top_level|PC2xSIO - Requested Period(min analysis) : 1000.000
+@P:  USBAER_top_level|PC2xSIO - Slack(min analysis) : 3.326
+@P:  clockgen|CLKOP_inferred_clock - Estimated Frequency(min analysis) : 74.7 MHz
+@P:  clockgen|CLKOP_inferred_clock - Requested Frequency(min analysis) : 1.0 MHz
+@P:  clockgen|CLKOP_inferred_clock - Estimated Period(min analysis) : 13.394
+@P:  clockgen|CLKOP_inferred_clock - Requested Period(min analysis) : 1000.000
+@P:  clockgen|CLKOP_inferred_clock - Slack(min analysis) : 986.606
+@P:  System - Estimated Frequency(min analysis) : 269.1 MHz
+@P:  System - Requested Frequency(min analysis) : 1.0 MHz
+@P:  System - Estimated Period(min analysis) : 3.716
+@P:  System - Requested Period(min analysis) : 1000.000
+@P:  System - Slack(min analysis) : 992.949
+@P:  Total Area : 242.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  CPU Time : 0h:00m:02s

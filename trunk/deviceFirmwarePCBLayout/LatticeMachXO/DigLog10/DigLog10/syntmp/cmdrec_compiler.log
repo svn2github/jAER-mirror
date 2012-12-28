@@ -1,0 +1,22 @@
+E:\LatticeDiamond\diamond\2.0\synpbase\bin64\c_vhdl.exe  -prodtype  synplify_pro  -osyn  E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\synwork\DigLog10_DigLog10_compiler.srs  -top  USBAER_top_level  -fixsmult -infer_seqShift -nram -divnmod -encrypt  -pro  -dmgen  E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\dm  -lite -ll 2000 -compiler_compatible  -ui -fid2 -ram -sharing on  -autosm -ignore_undefined_lib  -lib work E:\LatticeDiamond\diamond\2.0\cae_library\synthesis\vhdl\machxo.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCvalueReady.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\cDVSResetStateMachine.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\earlyPaketTimer.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\EventBeforeOverflow.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\eventCounter.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\fifoStatemachine.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\monitorStateMachine.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\shiftRegister.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\synchronizerStateMachine.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\timestampCounter.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\wordRegister.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\AERfifo.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\clockgen.vhd -lib work E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd -loga  E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10.srf 
+rc:0 success:1
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\synwork\DigLog10_DigLog10_compiler.srs|o|1355404426|49015
+E:\LatticeDiamond\diamond\2.0\cae_library\synthesis\vhdl\machxo.vhd|i|1340167464|65101
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd|i|1354885463|17502
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCvalueReady.vhd|i|1354885463|2602
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\cDVSResetStateMachine.vhd|i|1354885463|3520
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\earlyPaketTimer.vhd|i|1354885463|2050
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\EventBeforeOverflow.vhd|i|1354885463|2315
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\eventCounter.vhd|i|1354885463|2228
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\fifoStatemachine.vhd|i|1354885463|4568
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\monitorStateMachine.vhd|i|1354885463|9450
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\shiftRegister.vhd|i|1354885463|2000
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\synchronizerStateMachine.vhd|i|1354885463|7609
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\timestampCounter.vhd|i|1354885463|2383
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\wordRegister.vhd|i|1354885463|2008
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\AERfifo.vhd|i|1355404045|11061
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\clockgen.vhd|i|1354885463|4055
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd|i|1354885463|23307
+E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10.srf|o|1355404426|11171
+E:\LatticeDiamond\diamond\2.0\synpbase\bin64\c_vhdl.exe|i|1337332178|5310976
+E:\LatticeDiamond\diamond\2.0\synpbase\bin\c_vhdl.exe|i|1337332174|1862144

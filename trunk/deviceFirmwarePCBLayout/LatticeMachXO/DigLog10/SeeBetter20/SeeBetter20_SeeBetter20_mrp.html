@@ -1,0 +1,1864 @@
+<HTML>
+<HEAD><TITLE>Project Summary</TITLE>
+<STYLE TYPE="text/css">
+<!--
+ body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
+-->
+</STYLE>
+</HEAD>
+<PRE><A name="Mrp"></A>       Lattice Mapping Report File for Design Module 'USBAER_top_level'
+
+
+<A name="mrp_di"></A><B><U><big>Design Information</big></U></B>
+
+Command line:   map -a MachXO -p LCMXO2280C -t FTBGA256 -s 3 -oc Commercial
+     SeeBetter20_SeeBetter20.ngd -o SeeBetter20_SeeBetter20_map.ncd -pr
+     SeeBetter20_SeeBetter20.prf -mp SeeBetter20_SeeBetter20.mrp C:/PROJ/jAER/de
+     viceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/SeeBetter20.lpf
+Target Vendor:  LATTICE
+Target Device:  LCMXO2280CFTBGA256
+Target Speed:   3
+Mapper:  mj5g00,  version:  Diamond_1.3_Production (92)
+Mapped on:  06/27/12  17:27:02
+
+
+<A name="mrp_ds"></A><B><U><big>Design Summary</big></U></B>
+   Number of PFU registers:    495
+   Number of SLICEs:           654 out of  1140 (57%)
+      SLICEs(logic/ROM):       654 out of   900 (73%)
+      SLICEs(logic/ROM/RAM):     0 out of   240 (0%)
+          As RAM:            0
+          As Logic/ROM:      0
+   Number of logic LUT4s:     429
+   Number of distributed RAM:   0 (0 LUT4s)
+   Number of ripple logic:    295 (590 LUT4s)
+   Number of shift registers:   0
+   Total number of LUT4s:     1019
+   Number of external PIOs: 92 out of 211 (44%)
+   Number of PLLs:  1 out of 2 (50%)
+   Number of block RAMs:  2 out of 3 (67%)
+   Number of GSRs:  1 out of 1 (100%)
+   JTAG used :      No
+   Readback used :  No
+   Oscillator used :  No
+   Startup used :   No
+   Number of TSALL: 0 out of 1 (0%)
+   Notes:-
+      1. Total number of LUT4s = (Number of logic LUT4s) + 2*(Number of
+     distributed RAMs) + 2*(Number of ripple logic)
+      2. Number of logic LUT4s does not include count of distributed RAM and
+     ripple logic.
+   Number of clocks:  7
+     Net ClockxC_c: 84 loads, 84 rising, 0 falling (Driver: uClockGen/PLLCInst_0
+     )
+     Net IfClockxCI_c: 76 loads, 76 rising, 0 falling (Driver: PIO IfClockxCI )
+     Net ADCStateMachine_2/StateColxDP_17: 1 loads, 1 rising, 0 falling (Driver:
+     ADCStateMachine_2/StateColxDP_17 )
+     Net CDVSTestSRRowInxSO_c: 1 loads, 1 rising, 0 falling (Driver:
+     ADCStateMachine_2/StateRowxDP_8 )
+     Net ADCStateMachine_2/StateColxDP_9: 1 loads, 1 rising, 0 falling (Driver:
+     ADCStateMachine_2/StateColxDP_9 )
+     Net PC1xSIO_c: 60 loads, 60 rising, 0 falling (Driver: PIO PC1xSIO )
+     Net PC2xSIO_c: 50 loads, 0 rising, 50 falling (Driver: PIO PC2xSIO )
+   Number of Clock Enables:  12
+     Net FifoReadxE: 2 loads, 0 LSLICEs
+     Net ADCStateMachine_2/un1_DividerColxDN_1_sqmuxa_RNIB1GA: 3 loads, 3
+     LSLICEs
+     Net ADCStateMachine_2/ClockxC: 39 loads, 39 LSLICEs
+
+     Net ADCStateMachine_2/StartColxSP_RNO: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/StateRowxDP_RNI72483_1: 17 loads, 17 LSLICEs
+     Net ADCregWritexE: 7 loads, 7 LSLICEs
+     Net FifoWritexE: 2 loads, 0 LSLICEs
+     Net TimestampRegWritexE: 7 loads, 7 LSLICEs
+     Net uSynchronizerStateMachine_1/CounterxDPe_0_i: 7 loads, 7 LSLICEs
+     Net IncxS: 8 loads, 8 LSLICEs
+     Net uEventCounter/CountxDPe_0_i: 5 loads, 5 LSLICEs
+     Net uEarlyPaketTimer/EarlyPaketTimerOverflowxS_i: 11 loads, 11 LSLICEs
+   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  363
+   Number of LSRs:  6
+     Net ADCsmRstxE_i: 63 loads, 63 LSLICEs
+     Net ADCStateMachine_2/StateRowxDP_2: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/StateColxDP_11: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/StateColxDN_2_sqmuxa_2: 1 loads, 1 LSLICEs
+     Net SynchronizerResetTimestampxSB_i: 9 loads, 9 LSLICEs
+     Net ResetxRBI_c: 4 loads, 0 LSLICEs
+   Number of nets driven by tri-state buffers:  0
+   Top 10 highest fanout non-clock nets:
+     Net ADCsmRstxE_i: 63 loads
+     Net ADCStateMachine_2/ClockxC: 46 loads
+     Net ADCStateMachine_2/N_407: 33 loads
+     Net ResetEarlyPaketTimerxS_0: 33 loads
+     Net monitorStateMachine_1/TimestampResetxDP: 23 loads
+     Net ReadADCvaluexE: 23 loads
+     Net monitorStateMachine_1_StatexDP_0: 22 loads
+     Net uSynchronizerStateMachine_1/StatexDP_5: 22 loads
+     Net monitorStateMachine_1/StatexDP_6: 21 loads
+     Net ADCStateMachine_2/N_306: 20 loads
+
+
+
+
+   Number of warnings:  8
+   Number of errors:    0
+
+
+
+
+<A name="mrp_dwe"></A><B><U><big>Design Errors/Warnings</big></U></B>
+
+WARNING: Semantic Error: SynchOutxSO matches no ports in the design.  Occurred
+     at line 147 in "OUTPUT PORT "SynchOutxSO" LOAD 1.000000 pF ;
+".  Disabled this preference.
+WARNING: Port FXLEDxSI does not connect to any buffers
+WARNING: Port CDVSTestBiasBitOutxSI does not connect to any buffers
+WARNING: Preference parsing results:  1 semantic error detected
+WARNING: There are errors in the preference file, "C:/PROJ/jAER/deviceFirmwarePC
+     BLayout/LatticeMachXO/SeeBetter20/SeeBetter20.lpf".
+WARNING: Using local reset signal 'ResetxRBI_c' to infer global GSR net.
+WARNING: IO buffer missing for top level port FXLEDxSI...logic will be
+     discarded.
+WARNING: IO buffer missing for top level port CDVSTestBiasBitOutxSI...logic will
+     be discarded.
+
+
+
+
+
+
+
+<A name="mrp_ioa"></A><B><U><big>IO (PIO) Attributes</big></U></B>
+
++---------------------+-----------+-----------+------------+------------+
+| IO Name             | Direction | Levelmode | IO         | FIXEDDELAY |
+|                     |           |  IO_TYPE  | Register   |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCwordxDIO_1       | BIDIR     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCwordxDIO_0       | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_0   | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoInFullxSBI   | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorAddressxDI_8| INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorAddressxDI_7| INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorAddressxDI_6| INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorAddressxDI_5| INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorAddressxDI_4| INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorAddressxDI_3| INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorAddressxDI_2| INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorAddressxDI_1| INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorAddressxDI_0| INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorACKxSBO   | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorREQxABI   | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_15        | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_14        | BIDIR     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_13        | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_12        | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_11        | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_10        | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_9         | BIDIR     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_8         | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_7         | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_6         | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_5         | OUTPUT    | LVCMOS33  |            |            |
+
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_4         | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_3         | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_2         | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_1         | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DebugxSIO_0         | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| LED3xSO             | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| LED2xSO             | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| LED1xSO             | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| CDVSTestBiasDiagSelxSO| OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| CDVSTestColMode1xSO | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| CDVSTestColMode0xSO | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| CDVSTestChipResetxRBO| OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| CDVSTestBiasEnablexEO| OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| CDVSTestSRColInxSO  | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| CDVSTestSRRowInxSO  | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| CDVSTestSRColClockxSO| OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| CDVSTestSRRowClockxSO| OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCbusyxSI          | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCconvstxEBO       | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCreadxEBO         | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCwritexEBO        | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCwordxDIO_11      | BIDIR     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCwordxDIO_10      | BIDIR     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCwordxDIO_9       | BIDIR     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCwordxDIO_8       | BIDIR     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCwordxDIO_7       | BIDIR     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCwordxDIO_6       | BIDIR     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCwordxDIO_5       | BIDIR     | LVCMOS33  |            |            |
+
++---------------------+-----------+-----------+------------+------------+
+| ADCwordxDIO_4       | BIDIR     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCwordxDIO_3       | BIDIR     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCwordxDIO_2       | BIDIR     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ADCclockxCO         | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PE3xSI              | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PE2xSI              | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PA7xSIO             | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PA3xSIO             | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PA1xSIO             | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PA0xSIO             | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PC3xSIO             | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PC2xSIO             | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PC1xSIO             | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PC0xSIO             | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SynchOutxSBO        | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| Sync1xABI           | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ResetxRBI           | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| IfClockxCI          | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoAddressxDO_1 | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoAddressxDO_0 | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoPktEndxSBO   | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoReadxEBO     | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoWritexEBO    | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_15  | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_14  | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_13  | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_12  | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_11  | OUTPUT    | LVCMOS33  |            |            |
+
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_10  | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_9   | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_8   | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_7   | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_6   | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_5   | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_4   | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_3   | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_2   | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO_1   | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+
+
+
+<A name="mrp_rm"></A><B><U><big>Removed logic</big></U></B>
+
+Signal shiftRegister_1/GN was merged into signal PC2xSIO_c
+Signal ADCStateMachine_2/ClockxC_i was merged into signal
+     ADCStateMachine_2/ClockxC
+Signal ADCStateMachine_2/ADCdataxD_i_11 was merged into signal ADCdataxD_11
+Signal GND undriven or does not drive anything - clipped.
+Signal uClockGen/CLKINTFB undriven or does not drive anything - clipped.
+Signal uClockGen/LockxS undriven or does not drive anything - clipped.
+Signal uClockGen/CLKOK undriven or does not drive anything - clipped.
+Signal uClockGen/CLKOS undriven or does not drive anything - clipped.
+Signal uFifo/FF undriven or does not drive anything - clipped.
+Signal uFifo/AFF undriven or does not drive anything - clipped.
+Signal uFifo/AEF undriven or does not drive anything - clipped.
+Signal uFifo/EF undriven or does not drive anything - clipped.
+Signal uFifo/DO35 undriven or does not drive anything - clipped.
+Signal uFifo/DO34 undriven or does not drive anything - clipped.
+Signal uFifo/DO33 undriven or does not drive anything - clipped.
+Signal uFifo/DO32 undriven or does not drive anything - clipped.
+Signal uFifo/DO31 undriven or does not drive anything - clipped.
+Signal uFifo/DO30 undriven or does not drive anything - clipped.
+Signal uFifo/DO29 undriven or does not drive anything - clipped.
+Signal uFifo/DO28 undriven or does not drive anything - clipped.
+Signal uFifo/DO27 undriven or does not drive anything - clipped.
+Signal uFifo/DO26 undriven or does not drive anything - clipped.
+Signal uFifo/DO25 undriven or does not drive anything - clipped.
+Signal uFifo/DO24 undriven or does not drive anything - clipped.
+Signal uFifo/DO23 undriven or does not drive anything - clipped.
+Signal uFifo/DO22 undriven or does not drive anything - clipped.
+Signal uFifo/DO21 undriven or does not drive anything - clipped.
+Signal uFifo/DO20 undriven or does not drive anything - clipped.
+Signal uFifo/DO19 undriven or does not drive anything - clipped.
+Signal uFifo/DO18 undriven or does not drive anything - clipped.
+
+Signal uFifo/DO17 undriven or does not drive anything - clipped.
+Signal uFifo/DO16 undriven or does not drive anything - clipped.
+Signal uFifo/DO15 undriven or does not drive anything - clipped.
+Signal uFifo/DO14 undriven or does not drive anything - clipped.
+Signal uFifo/DO13 undriven or does not drive anything - clipped.
+Signal uFifo/DO12 undriven or does not drive anything - clipped.
+Signal uFifo/DO11 undriven or does not drive anything - clipped.
+Signal uFifo/DO10 undriven or does not drive anything - clipped.
+Signal uFifo/DO9 undriven or does not drive anything - clipped.
+Signal uFifo/DO8 undriven or does not drive anything - clipped.
+Signal uFifo/DO7 undriven or does not drive anything - clipped.
+Signal uFifo/FifoAlmostFullxS undriven or does not drive anything - clipped.
+Signal uFifo/FifoAlmostEmptyxS undriven or does not drive anything - clipped.
+Signal uFifo/DO35_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO34_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO33_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO32_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO31_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO30_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO29_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO28_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO27_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO26_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO25_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO24_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO23_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO22_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO21_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO20_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO19_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO18_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO17_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO16_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO15_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO14_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO13_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO12_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO11_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO10_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO9_0 undriven or does not drive anything - clipped.
+Signal uEarlyPaketTimer/CountxDP_cry_2 undriven or does not drive anything -
+     clipped.
+Signal uEarlyPaketTimer/CountxDP_cry_4 undriven or does not drive anything -
+     clipped.
+Signal uEarlyPaketTimer/CountxDP_cry_6 undriven or does not drive anything -
+     clipped.
+Signal uEarlyPaketTimer/CountxDP_cry_8 undriven or does not drive anything -
+     clipped.
+Signal uEarlyPaketTimer/CountxDP_cry_10 undriven or does not drive anything -
+     clipped.
+Signal uEarlyPaketTimer/CountxDP_cry_12 undriven or does not drive anything -
+     clipped.
+Signal uEarlyPaketTimer/CountxDP_cry_14 undriven or does not drive anything -
+     clipped.
+Signal uEarlyPaketTimer/CountxDP_cry_16 undriven or does not drive anything -
+     clipped.
+
+Signal uEarlyPaketTimer/CountxDP_cry_18 undriven or does not drive anything -
+     clipped.
+Signal uEarlyPaketTimer/CountxDP_s_0_S1_20 undriven or does not drive anything -
+     clipped.
+Signal uEarlyPaketTimer/CountxDP_s_0_COUT1_20 undriven or does not drive
+     anything - clipped.
+Signal uEarlyPaketTimer/CountxDP_s_0_COUT0_20 undriven or does not drive
+     anything - clipped.
+Signal uEarlyPaketTimer/CountxDP_cry_0 undriven or does not drive anything -
+     clipped.
+Signal uEventCounter/CountxDP_cry_0 undriven or does not drive anything -
+     clipped.
+Signal uEventCounter/CountxDP_cry_2 undriven or does not drive anything -
+     clipped.
+Signal uEventCounter/CountxDP_cry_4 undriven or does not drive anything -
+     clipped.
+Signal uEventCounter/CountxDP_cry_6 undriven or does not drive anything -
+     clipped.
+Signal uEventCounter/CountxDP_s_0_S1_8 undriven or does not drive anything -
+     clipped.
+Signal uEventCounter/CountxDP_s_0_COUT1_8 undriven or does not drive anything -
+     clipped.
+Signal uEventCounter/CountxDP_s_0_COUT0_8 undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry_0 undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry_2 undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry_4 undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry_6 undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry_8 undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry_10 undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry_12 undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_s_0_S1_14 undriven or does not drive anything
+     - clipped.
+Signal uTimestampCounter/CountxDP_s_0_COUT1_14 undriven or does not drive
+     anything - clipped.
+Signal uTimestampCounter/CountxDP_s_0_COUT0_14 undriven or does not drive
+     anything - clipped.
+Signal uSynchronizerStateMachine_1/DividerxDP_cry_0 undriven or does not drive
+     anything - clipped.
+Signal uSynchronizerStateMachine_1/DividerxDP_cry_2 undriven or does not drive
+     anything - clipped.
+Signal uSynchronizerStateMachine_1/DividerxDP_cry_4 undriven or does not drive
+     anything - clipped.
+Signal uSynchronizerStateMachine_1/DividerxDP_s_0_S1_6 undriven or does not
+     drive anything - clipped.
+Signal uSynchronizerStateMachine_1/DividerxDP_s_0_COUT1_6 undriven or does not
+     drive anything - clipped.
+Signal uSynchronizerStateMachine_1/DividerxDP_s_0_COUT0_6 undriven or does not
+     drive anything - clipped.
+
+Signal uSynchronizerStateMachine_1/CounterxDP_cry_0 undriven or does not drive
+     anything - clipped.
+Signal uSynchronizerStateMachine_1/CounterxDP_cry_2 undriven or does not drive
+     anything - clipped.
+Signal uSynchronizerStateMachine_1/CounterxDP_cry_4 undriven or does not drive
+     anything - clipped.
+Signal uSynchronizerStateMachine_1/CounterxDP_cry_6 undriven or does not drive
+     anything - clipped.
+Signal uSynchronizerStateMachine_1/CounterxDP_cry_8 undriven or does not drive
+     anything - clipped.
+Signal uSynchronizerStateMachine_1/CounterxDP_cry_10 undriven or does not drive
+     anything - clipped.
+Signal uSynchronizerStateMachine_1/CounterxDP_cry_0_COUT1_12 undriven or does
+     not drive anything - clipped.
+Signal uSynchronizerStateMachine_1/CounterxDP_cry_12 undriven or does not drive
+     anything - clipped.
+Signal monitorStateMachine_1/CountxDP_cry_0 undriven or does not drive anything
+     - clipped.
+Signal monitorStateMachine_1/CountxDP_cry_2 undriven or does not drive anything
+     - clipped.
+Signal monitorStateMachine_1/CountxDP_cry_4 undriven or does not drive anything
+     - clipped.
+Signal monitorStateMachine_1/CountxDP_cry_0_COUT1_6 undriven or does not drive
+     anything - clipped.
+Signal monitorStateMachine_1/CountxDP_cry_6 undriven or does not drive anything
+     - clipped.
+Signal monitorStateMachine_1/TimestampOverflowxDP_cry_0 undriven or does not
+     drive anything - clipped.
+Signal monitorStateMachine_1/TimestampOverflowxDP_cry_2 undriven or does not
+     drive anything - clipped.
+Signal monitorStateMachine_1/TimestampOverflowxDP_cry_4 undriven or does not
+     drive anything - clipped.
+Signal monitorStateMachine_1/TimestampOverflowxDP_cry_6 undriven or does not
+     drive anything - clipped.
+Signal monitorStateMachine_1/TimestampOverflowxDP_cry_8 undriven or does not
+     drive anything - clipped.
+Signal monitorStateMachine_1/TimestampOverflowxDP_cry_10 undriven or does not
+     drive anything - clipped.
+Signal monitorStateMachine_1/TimestampOverflowxDP_cry_12 undriven or does not
+     drive anything - clipped.
+Signal monitorStateMachine_1/TimestampOverflowxDP_cry_0_COUT1_14 undriven or
+     does not drive anything - clipped.
+Signal monitorStateMachine_1/TimestampOverflowxDP_cry_14 undriven or does not
+     drive anything - clipped.
+Signal cDVSResetStateMachine_1/CountxDP_cry_0 undriven or does not drive
+     anything - clipped.
+Signal cDVSResetStateMachine_1/CountxDP_cry_2 undriven or does not drive
+     anything - clipped.
+Signal cDVSResetStateMachine_1/CountxDP_cry_4 undriven or does not drive
+     anything - clipped.
+Signal cDVSResetStateMachine_1/CountxDP_cry_6 undriven or does not drive
+     anything - clipped.
+Signal cDVSResetStateMachine_1/CountxDP_cry_8 undriven or does not drive
+     anything - clipped.
+Signal cDVSResetStateMachine_1/CountxDP_cry_10 undriven or does not drive
+     anything - clipped.
+
+Signal cDVSResetStateMachine_1/CountxDP_cry_12 undriven or does not drive
+     anything - clipped.
+Signal cDVSResetStateMachine_1/CountxDP_cry_14 undriven or does not drive
+     anything - clipped.
+Signal cDVSResetStateMachine_1/CountxDP_cry_16 undriven or does not drive
+     anything - clipped.
+Signal cDVSResetStateMachine_1/CountxDP_s_0_S1_18 undriven or does not drive
+     anything - clipped.
+Signal cDVSResetStateMachine_1/CountxDP_s_0_COUT1_18 undriven or does not drive
+     anything - clipped.
+Signal cDVSResetStateMachine_1/CountxDP_s_0_COUT0_18 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerRowxDP_cry_s1_0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerRowxDP_cry_s1_2 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerRowxDP_cry_s1_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerRowxDP_cry_s1_6 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerRowxDP_cry_s1_8 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerRowxDP_cry_s1_10 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerRowxDP_cry_s1_12 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerRowxDP_cry_s1_14 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerRowxDP_s_s1_0_S1_16 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerRowxDP_s_s1_0_COUT1_16 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/DividerRowxDP_s_s1_0_COUT0_16 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/CountColxDP_cry_0 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/CountColxDP_cry_2 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/CountColxDP_cry_4 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/CountColxDP_cry_6 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/CountColxDP_cry_8 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/CountColxDP_cry_10 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/CountColxDP_cry_12 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/CountColxDP_cry_14 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/CountColxDP_cry_0_COUT1_16 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/CountColxDP_cry_16 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/CountRowxDP_cry_0 undriven or does not drive anything -
+     clipped.
+
+Signal ADCStateMachine_2/CountRowxDP_cry_2 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/CountRowxDP_s_0_S1_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/CountRowxDP_s_0_COUT1_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/CountRowxDP_s_0_COUT0_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_0 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_2 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_4 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_6 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_8 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_10 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_12 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_14 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_16 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_18 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_20 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_22 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_24 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_26 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_28 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_cry_30 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_s_0_S1_32 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_s_0_COUT1_32 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/DividerColxDP_s_0_COUT0_32 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un19_nobxs_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un19_nobxs_cry_0 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un19_nobxs_cry_2 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un19_nobxs_cry_4 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un19_nobxs_cry_6 undriven or does not drive anything -
+     clipped.
+
+Signal ADCStateMachine_2/un19_nobxs_cry_8 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un19_nobxs_cry_10 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un19_nobxs_cry_12 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un19_nobxs_cry_14_0_COUT1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un19_nobxs_cry_14 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un12_usecxei_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un12_usecxei_cry_0 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un12_usecxei_cry_2 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un12_usecxei_cry_4 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un12_usecxei_cry_6 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un12_usecxei_cry_8 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un12_usecxei_cry_10 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un12_usecxei_cry_12 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un12_usecxei_cry_14_0_COUT1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un12_usecxei_cry_14 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un3_nobxs_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un3_nobxs_cry_0 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un3_nobxs_cry_2 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un3_nobxs_cry_4 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un3_nobxs_cry_6 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un3_nobxs_cry_8 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un3_nobxs_cry_10 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un3_nobxs_cry_12 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un3_nobxs_cry_14_0_COUT1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un3_nobxs_cry_14 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un16_nobxs_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un16_nobxs_cry_0 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un16_nobxs_cry_2 undriven or does not drive anything -
+     clipped.
+
+Signal ADCStateMachine_2/un16_nobxs_cry_4 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un16_nobxs_cry_6 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un16_nobxs_cry_8 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un16_nobxs_cry_10 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un16_nobxs_cry_12 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un16_nobxs_cry_14_0_COUT1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un16_nobxs_cry_14 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un10_nobxs_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un10_nobxs_cry_0 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un10_nobxs_cry_2 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un10_nobxs_cry_4 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un10_nobxs_cry_6 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un10_nobxs_cry_8 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un10_nobxs_cry_10 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un10_nobxs_cry_12 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un10_nobxs_s_14_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un10_nobxs_s_14_0_COUT1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un10_nobxs_s_14_0_COUT0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un3_usecxei_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un3_usecxei_cry_0 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un3_usecxei_cry_2 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un3_usecxei_cry_4 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un3_usecxei_cry_6 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un3_usecxei_cry_8_0_COUT1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un3_usecxei_cry_8 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un27_nobxs_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un27_nobxs_cry_0 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un27_nobxs_cry_2 undriven or does not drive anything -
+     clipped.
+
+Signal ADCStateMachine_2/un27_nobxs_cry_4 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un27_nobxs_cry_6 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un27_nobxs_cry_8 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un27_nobxs_cry_10 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un27_nobxs_cry_12 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un27_nobxs_cry_14_0_COUT1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un27_nobxs_cry_14 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S1_0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S0_0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S1_2 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S0_2 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_2 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S1_4 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S0_4 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S1_6 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S0_6 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_6 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S1_8 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S0_8 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_8 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S1_10 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S0_10 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_10 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S1_12 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S0_12 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_12 undriven or does not drive
+     anything - clipped.
+
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S1_14 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S0_14 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_14 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S1_16 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S0_16 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_16 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S1_19 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S0_19 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_19 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S1_23 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S0_23 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_23 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S1_27 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S0_27 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_27 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S1_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_S0_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_4_cry_0_COUT1_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S1_0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S0_0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S1_2 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S0_2 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_2 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S1_4 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S0_4 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S1_6 undriven or does not
+     drive anything - clipped.
+
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S0_6 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_6 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S1_8 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S0_8 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_8 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S1_10 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S0_10 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_10 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S1_12 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S0_12 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_12 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S1_14 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S0_14 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_14 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S1_16 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S0_16 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_16 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S1_19 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S0_19 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_19 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S1_23 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S0_23 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_23 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S1_27 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S0_27 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_27 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S1_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_S0_31 undriven or does not
+     drive anything - clipped.
+
+Signal ADCStateMachine_2/un1_DividerColxDP_3_cry_0_COUT1_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S1_0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S0_0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S1_2 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S0_2 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_2 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S1_4 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S0_4 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S1_6 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S0_6 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_6 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S1_8 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S0_8 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_8 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S1_10 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S0_10 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_10 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S1_12 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S0_12 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_12 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S1_14 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S0_14 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_14 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S1_16 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S0_16 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_16 undriven or does not drive
+     anything - clipped.
+
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S1_19 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S0_19 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_19 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S1_23 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S0_23 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_23 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S1_27 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S0_27 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_27 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S1_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_S0_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_2_cry_0_COUT1_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1_0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0_0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1_2 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0_2 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_2 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1_4 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0_4 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1_6 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0_6 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_6 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1_8 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0_8 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_8 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1_10 undriven or does not
+     drive anything - clipped.
+
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0_10 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_10 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1_12 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0_12 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_12 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1_14 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0_14 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_14 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1_16 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0_16 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_16 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1_19 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0_19 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_19 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1_23 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0_23 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_23 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1_27 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0_27 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_27 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_1_cry_0_COUT1_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S1_0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S0_0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S1_2 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S0_2 undriven or does not drive
+     anything - clipped.
+
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_2 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S1_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S0_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S1_6 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S0_6 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_6 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S1_8 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S0_8 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_8 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S1_10 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S0_10 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_10 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S1_12 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S0_12 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_12 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S1_14 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S0_14 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_14 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S1_16 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S0_16 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_16 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S1_19 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S0_19 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_19 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S1_23 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S0_23 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_23 undriven or does not drive
+     anything - clipped.
+
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S1_27 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S0_27 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_27 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S1_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_S0_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerColxDP_cry_0_COUT1_31 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_0_0_S1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_0_0_S0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_2_0_S1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_2_0_S0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_2 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_4_0_S1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_4_0_S0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_6_0_S1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_6_0_S0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_6 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_8_0_S1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_8_0_S0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_8 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_10_0_S1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_10_0_S0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_10 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_12_0_S1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_12_0_S0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_12 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_14_0_S1 undriven or does not
+     drive anything - clipped.
+
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_14_0_S0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_14 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_16_0_S1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_16_0_S0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_1_cry_16_0_COUT1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_0_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_2_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_2_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_2 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_4_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_4_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_6_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_6_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_6 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_8_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_8_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_8 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_10_0_S1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_10_0_S0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_10 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_12_0_S1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_12_0_S0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_12 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_14_0_S1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_14_0_S0 undriven or does not
+     drive anything - clipped.
+
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_14 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_16_0_S1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_16_0_S0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un1_DividerRowxDP_cry_16_0_COUT1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_0_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_0 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_2_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_2_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_2 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_4_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_4_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_4 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_6_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_6_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_6 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_8_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_8_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_8 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_10_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_10_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_10 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_12_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_12_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_12 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_14_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_14_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_14 undriven or does not drive anything
+     - clipped.
+
+Signal ADCStateMachine_2/un15_usecxei_cry_16_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_16_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un15_usecxei_cry_16 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_0_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_0 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_2_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_2_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_2 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_4_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_4_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_4 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_6_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_6_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_6 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_8_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_8_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_8 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_10_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_10_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_10 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_12_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_12_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_12 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_14_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_14_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_14 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_16_0_S1 undriven or does not drive
+     anything - clipped.
+
+Signal ADCStateMachine_2/un22_nobxs_cry_16_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un22_nobxs_cry_16 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_0_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_0 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_2_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_2_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_2 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_4_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_4_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_4 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_6_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_6_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_6 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_8_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_8_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_8 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_10_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_10_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_10 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_12_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_12_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_12 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_14_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_14_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_14 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_16_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un30_nobxs_cry_16_0_S0 undriven or does not drive
+     anything - clipped.
+
+Signal ADCStateMachine_2/un30_nobxs_cry_16 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_0_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_0 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_2_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_2_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_2 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_4_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_4_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_4 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_6_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_6_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_6 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_8_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_8_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_8 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_10_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_10_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_10 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_12_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_12_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_12 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_14_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_14_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_14 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_16_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_16_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_nobxs_cry_16 undriven or does not drive anything -
+     clipped.
+
+Signal ADCStateMachine_2/un13_nobxs_cry_0_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_0 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_2_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_2_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_2 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_4_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_4_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_4 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_6_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_6_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_6 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_8_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_8_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_8 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_10_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_10_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_10 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_12_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_12_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_12 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_14_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_14_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_14 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_16_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_16_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un13_nobxs_cry_16 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_0_0_S1 undriven or does not drive
+     anything - clipped.
+
+Signal ADCStateMachine_2/un6_usecxei_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_0 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_2_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_2_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_2 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_4_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_4_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_4 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_6_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_6_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_6 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_8_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_8_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_8 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_10_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_10_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_10 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_12_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_12_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_12 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_14_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_14_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_14 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_16_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_16_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_usecxei_cry_16 undriven or does not drive anything
+     - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_I_1_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_N_42 undriven or does not drive
+     anything - clipped.
+
+Signal ADCStateMachine_2/un1_countcolxdp_0_data_tmp_0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_I_15_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_I_15_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_data_tmp_2 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_I_27_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_I_27_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_data_tmp_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_I_39_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_I_39_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_data_tmp_6 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_I_51_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_I_51_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un1_countcolxdp_0_I_51_0_COUT1 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_I_1_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_N_42 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_data_tmp_0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_I_15_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_I_15_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_data_tmp_2 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_I_27_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_I_27_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_data_tmp_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_I_39_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_I_39_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_data_tmp_6 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_I_51_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_I_51_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_2/un6_countcolxdp_0_I_51_0_COUT1 undriven or does not
+     drive anything - clipped.
+
+Block shiftRegister_1/DataOutxDO_102__GN was optimized away.
+Block ADCStateMachine_2/ClockxC_RNIMCI2 was optimized away.
+Block ADCStateMachine_2/StartRowxSN_RNO was optimized away.
+Block GND was optimized away.
+
+
+
+<A name="mrp_mem"></A><B><U><big>Memory Usage</big></U></B>
+
+    INFO: Design contains EBR with ASYNC Reset Mode that has a limitation:
+    The use of the EBR block asynchronous reset requires that certain timing
+    be met between the clock and the reset within the memory block.
+    See the device specific data sheet for additional details.
+
+
+
+
+/uFifo:
+    EBRs: 2
+    RAM SLICEs: 0
+    Logic SLICEs: 0
+    PFU Registers: 0
+    -Contains EBR AERfifo_0_1:  TYPE= FIFO8KA,  Width= 9,  REGMODE= NOREG,
+         RESETMODE= ASYNC,  GSR= DISABLED
+    -Contains EBR AERfifo_1_0:  TYPE= FIFO8KA,  Width= 7,  REGMODE= NOREG,
+         RESETMODE= ASYNC,  GSR= DISABLED
+
+
+
+<A name="mrp_pll"></A><B><U><big>PLL/DLL Summary</big></U></B>
+---------------
+
+PLL 1:                                     Pin/Node Value
+  PLL Instance Name:                                uClockGen/PLLCInst_0
+  PLL Type:                                         EHXPLLC
+  Input Clock:                             PIN      IfClockxCI_c
+  Output Clock(P):                         NODE     ClockxC_c
+  Output Clock(S):                                  NONE
+  Output Clock(K):                                  NONE
+  PLL FeedbackSignal:                      NODE     ClockxC_c
+  PLLResetSignal:                          NODE     ResetxRBI_c_i
+  PLLLOCKSignal:                                    NONE
+  DynamicDelayModeSignal:                           NONE
+  DynamicDelayZeroSignal:                           NONE
+  DynamicDelayLag/LeadSelect:                       NONE
+  DynamicDelay0:                                    NONE
+  DynamicDelay1:                                    NONE
+  DynamicDelay2:                                    NONE
+  Input Clock Frequency (MHz):                      30.0000
+  Output Clock(P) Frequency (MHz):                  90.0000
+  Output Clock(K) Frequency (MHz):                  NA
+  CLKI Divider:                                     1
+  CLKFB Divider:                                    3
+  CLKOP Divider:                                    8
+  CLKOK Divider:                                    2
+  PLL Delay Factor (*250ps):                        0
+  CLKOS Phaseadj (degree):                          0
+  CLKOS Duty Cycle (*1/8):                          4
+
+  Delay Control:                                    STATIC
+
+
+
+<A name="mrp_asic"></A><B><U><big>ASIC Components</big></U></B>
+---------------
+
+Instance Name: uFifo/AERfifo_0_1
+         Type: FIFO8KA
+Instance Name: uFifo/AERfifo_1_0
+         Type: FIFO8KA
+Instance Name: uClockGen/PLLCInst_0
+         Type: EHXPLLC
+
+
+
+<A name="mrp_gsr"></A><B><U><big>GSR Usage</big></U></B>
+---------
+
+GSR Component:
+   The local reset signal 'ResetxRBI_c' of the design has been inferred as
+        Global Set Reset (GSR). The reset signal used for GSR control is
+        'ResetxRBI_c'.
+
+GSR Property:
+   The design components with GSR property set to ENABLED will respond to global
+        set reset while the components with GSR property set to DISABLED will
+        not.
+
+Components on inferred reset domain with GSR Property disabled
+--------------------------------------------------------------
+
+These components have the GSR property set to DISABLED and are on the inferred
+     reset domain. The components will respond to the reset signal 'ResetxRBI_c'
+     via the local reset on the component and not the GSR component.
+
+Type and number of components of the type:
+   FIFO8KA = 4
+
+Type and instance name of component:
+   FIFO8KA : uFifo/AERfifo_0_1
+   FIFO8KA : uFifo/AERfifo_0_1
+   FIFO8KA : uFifo/AERfifo_1_0
+   FIFO8KA : uFifo/AERfifo_1_0
+
+
+
+<A name="mrp_runtime"></A><B><U><big>Run Time and Memory Usage</big></U></B>
+-------------------------
+
+   Total CPU Time: 0 secs
+   Total REAL Time: 0 secs
+   Peak Memory Usage: 39 MB
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995
+     AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent
+     Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems
+     All rights reserved.
+Copyright (c) 2002-2011 Lattice Semiconductor
+     Corporation,  All rights reserved.
+
+
+
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</PRE></FONT>
+</BODY>
+</HTML>

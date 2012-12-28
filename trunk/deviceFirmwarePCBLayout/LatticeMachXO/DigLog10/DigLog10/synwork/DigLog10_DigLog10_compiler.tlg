@@ -1,0 +1,118 @@
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":26:7:26:22|Synthesizing work.usbaer_top_level.structural 
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\cDVSResetStateMachine.vhd":25:7:25:27|Synthesizing work.cdvsresetstatemachine.behavioral 
+@N: CD233 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\cDVSResetStateMachine.vhd":38:13:38:14|Using sequential encoding for type state
+Post processing for work.cdvsresetstatemachine.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCvalueReady.vhd":25:7:25:19|Synthesizing work.adcvalueready.behavioral 
+@N: CD233 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCvalueReady.vhd":37:13:37:14|Using sequential encoding for type state
+Post processing for work.adcvalueready.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":25:7:25:24|Synthesizing work.adcstatemachineabc.behavioral 
+@N: CD231 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":60:16:60:17|Using onehot encoding for type colstate (stidle="100000000000000000")
+@N: CD231 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":61:16:61:17|Using onehot encoding for type rowstate (stidle="1000000000000")
+@W: CG296 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":127:10:127:16|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":234:11:234:17|Referenced variable usecxei is not in sensitivity list
+@W: CD434 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":317:80:317:91|Signal ressettlexdi in the sensitivity list is not used in the process
+Post processing for work.adcstatemachineabc.behavioral
+@W: CL117 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":142:4:142:7|Latch generated from process for signal NoBxS; possible missing assignment in an if or case statement.
+@W: CL117 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":336:4:336:7|Latch generated from process for signal StartRowxSN; possible missing assignment in an if or case statement.
+@W: CL117 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":142:4:142:7|Latch generated from process for signal IsAxS; possible missing assignment in an if or case statement.
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\monitorStateMachine.vhd":25:7:25:25|Synthesizing work.monitorstatemachine.behavioral 
+@N: CD231 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\monitorStateMachine.vhd":68:13:68:14|Using onehot encoding for type state (stidle="10000000000")
+Post processing for work.monitorstatemachine.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\fifoStatemachine.vhd":25:7:25:22|Synthesizing work.fifostatemachine.behavioral 
+@N: CD233 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\fifoStatemachine.vhd":54:13:54:14|Using sequential encoding for type state
+Post processing for work.fifostatemachine.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\synchronizerStateMachine.vhd":19:7:19:30|Synthesizing work.synchronizerstatemachine.behavioral 
+@N: CD231 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\synchronizerStateMachine.vhd":46:13:46:14|Using onehot encoding for type state (stidle="100000")
+@W: CD604 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\synchronizerStateMachine.vhd":215:6:215:19|OTHERS clause is not synthesized 
+Post processing for work.synchronizerstatemachine.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\timestampCounter.vhd":25:7:25:22|Synthesizing work.timestampcounter.behavioral 
+Post processing for work.timestampcounter.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\eventCounter.vhd":26:7:26:18|Synthesizing work.eventcounter.behavioral 
+Post processing for work.eventcounter.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\earlyPaketTimer.vhd":25:7:25:21|Synthesizing work.earlypakettimer.behavioral 
+Post processing for work.earlypakettimer.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\wordRegister.vhd":30:7:30:18|Synthesizing work.wordregister.behavioral 
+Post processing for work.wordregister.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\AERfifo.vhd":14:7:14:13|Synthesizing work.aerfifo.structure 
+@N: CD630 :"E:\LatticeDiamond\diamond\2.0\cae_library\synthesis\vhdl\machxo.vhd":1597:10:1597:16|Synthesizing work.fifo8ka.syn_black_box 
+Post processing for work.fifo8ka.syn_black_box
+@N: CD630 :"E:\LatticeDiamond\diamond\2.0\cae_library\synthesis\vhdl\machxo.vhd":1278:10:1278:12|Synthesizing work.vlo.syn_black_box 
+Post processing for work.vlo.syn_black_box
+@N: CD630 :"E:\LatticeDiamond\diamond\2.0\cae_library\synthesis\vhdl\machxo.vhd":1270:10:1270:12|Synthesizing work.vhi.syn_black_box 
+Post processing for work.vhi.syn_black_box
+Post processing for work.aerfifo.structure
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\shiftRegister.vhd":30:7:30:19|Synthesizing work.shiftregister.behavioral 
+Post processing for work.shiftregister.behavioral
+@W: CL117 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\shiftRegister.vhd":52:4:52:5|Latch generated from process for signal DataOutxDO(119 downto 0); possible missing assignment in an if or case statement.
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\clockgen.vhd":14:7:14:14|Synthesizing work.clockgen.structure 
+@N: CD630 :"E:\LatticeDiamond\diamond\2.0\cae_library\synthesis\vhdl\machxo.vhd":1630:10:1630:16|Synthesizing work.ehxpllc.syn_black_box 
+Post processing for work.ehxpllc.syn_black_box
+Post processing for work.clockgen.structure
+Post processing for work.usbaer_top_level.structural
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\synchronizerStateMachine.vhd":225:4:225:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 6 reachable states with original encodings of:
+   000001
+   000010
+   000100
+   001000
+   010000
+   100000
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\fifoStatemachine.vhd":129:4:129:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 4 reachable states with original encodings of:
+   00
+   01
+   10
+   11
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\monitorStateMachine.vhd":262:4:262:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 11 reachable states with original encodings of:
+   00000000001
+   00000000010
+   00000000100
+   00000001000
+   00000010000
+   00000100000
+   00001000000
+   00010000000
+   00100000000
+   01000000000
+   10000000000
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":446:4:446:5|Trying to extract state machine for register StateRowxDP
+Extracted state machine for register StateRowxDP
+State machine has 12 reachable states with original encodings of:
+   0000000000001
+   0000000000010
+   0000000001000
+   0000000010000
+   0000000100000
+   0000001000000
+   0000010000000
+   0000100000000
+   0001000000000
+   0010000000000
+   0100000000000
+   1000000000000
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":446:4:446:5|Trying to extract state machine for register StateColxDP
+@W: CL159 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":40:4:40:15|Input ADCconfigxDI is unused
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCvalueReady.vhd":80:4:80:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 4 reachable states with original encodings of:
+   00
+   01
+   10
+   11
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\cDVSResetStateMachine.vhd":107:4:107:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 3 reachable states with original encodings of:
+   00
+   01
+   10
+@W: CL159 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\cDVSResetStateMachine.vhd":31:4:31:12|Input RxcolGxSI is unused
+@W: CL247 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 15 of debugxsio(15 downto 0) is unused 
+@W: CL247 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 13 of debugxsio(15 downto 0) is unused 
+@W: CL247 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 10 of debugxsio(15 downto 0) is unused 
+@W: CL247 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 8 of debugxsio(15 downto 0) is unused 
+@W: CL159 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":62:4:62:11|Input FXLEDxSI is unused
+@W: CL159 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":85:1:85:21|Input CDVSTestBiasBitOutxSI is unused

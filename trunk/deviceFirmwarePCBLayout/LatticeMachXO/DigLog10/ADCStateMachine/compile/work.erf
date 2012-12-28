@@ -1,0 +1,6 @@
+WARNING DAGGEN_0523: "The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available." 
+MESSAGE "File: E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\ADCStateMachine_tb.vhd" 
+MESSAGE "Compile Entity "ADCStateMachine_tb"" 
+MESSAGE "Compile Architecture "Behavioural" of Entity "ADCStateMachine_tb"" 
+WARNING ELAB1_0026: "There is no default binding for component "ADCStateMachineAB". (No entity named "ADCStateMachineAB" was found)." "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\ADCStateMachine_tb.vhd" 122 0
+SUCCESS "Compile success 0 Errors 1 Warnings  Analysis time :  62.0 [ms]" 

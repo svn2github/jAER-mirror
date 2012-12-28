@@ -1,0 +1,2010 @@
+
+synpwrap -prj "DigLog10_DigLog10_synplify.tcl" -log "DigLog10_DigLog10.srf"
+Copyright (C) 1992-2012 Lattice Semiconductor Corporation. All rights reserved.
+Lattice Diamond Version 2.0.1.184
+
+==contents of DigLog10_DigLog10.srf
+#Build: Synplify Pro F-2012.03L-1 , Build 063R, May 17 2012
+#install: E:\LatticeDiamond\diamond\2.0\synpbase
+#OS: Windows 7 6.1
+#Hostname: TOBI-PC
+
+#Implementation: DigLog10
+
+$ Start of Compile
+#Thu Dec 13 14:13:45 2012
+
+Synopsys VHDL Compiler, version comp201203rcp1, Build 061R, built May 17 2012
+@N|Running in 64-bit mode
+Copyright (C) 1994-2012 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"E:\LatticeDiamond\diamond\2.0\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Options changed - recompiling
+VHDL syntax check successful!
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":26:7:26:22|Synthesizing work.usbaer_top_level.structural 
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\cDVSResetStateMachine.vhd":25:7:25:27|Synthesizing work.cdvsresetstatemachine.behavioral 
+@N: CD233 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\cDVSResetStateMachine.vhd":38:13:38:14|Using sequential encoding for type state
+Post processing for work.cdvsresetstatemachine.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCvalueReady.vhd":25:7:25:19|Synthesizing work.adcvalueready.behavioral 
+@N: CD233 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCvalueReady.vhd":37:13:37:14|Using sequential encoding for type state
+Post processing for work.adcvalueready.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":25:7:25:24|Synthesizing work.adcstatemachineabc.behavioral 
+@N: CD231 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":60:16:60:17|Using onehot encoding for type colstate (stidle="100000000000000000")
+@N: CD231 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":61:16:61:17|Using onehot encoding for type rowstate (stidle="1000000000000")
+@W: CG296 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":127:10:127:16|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":234:11:234:17|Referenced variable usecxei is not in sensitivity list
+@W: CD434 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":317:80:317:91|Signal ressettlexdi in the sensitivity list is not used in the process
+Post processing for work.adcstatemachineabc.behavioral
+@W: CL117 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":142:4:142:7|Latch generated from process for signal NoBxS; possible missing assignment in an if or case statement.
+@W: CL117 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":336:4:336:7|Latch generated from process for signal StartRowxSN; possible missing assignment in an if or case statement.
+@W: CL117 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":142:4:142:7|Latch generated from process for signal IsAxS; possible missing assignment in an if or case statement.
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\monitorStateMachine.vhd":25:7:25:25|Synthesizing work.monitorstatemachine.behavioral 
+@N: CD231 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\monitorStateMachine.vhd":68:13:68:14|Using onehot encoding for type state (stidle="10000000000")
+Post processing for work.monitorstatemachine.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\fifoStatemachine.vhd":25:7:25:22|Synthesizing work.fifostatemachine.behavioral 
+@N: CD233 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\fifoStatemachine.vhd":54:13:54:14|Using sequential encoding for type state
+Post processing for work.fifostatemachine.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\synchronizerStateMachine.vhd":19:7:19:30|Synthesizing work.synchronizerstatemachine.behavioral 
+@N: CD231 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\synchronizerStateMachine.vhd":46:13:46:14|Using onehot encoding for type state (stidle="100000")
+@W: CD604 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\synchronizerStateMachine.vhd":215:6:215:19|OTHERS clause is not synthesized 
+Post processing for work.synchronizerstatemachine.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\timestampCounter.vhd":25:7:25:22|Synthesizing work.timestampcounter.behavioral 
+Post processing for work.timestampcounter.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\eventCounter.vhd":26:7:26:18|Synthesizing work.eventcounter.behavioral 
+Post processing for work.eventcounter.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\earlyPaketTimer.vhd":25:7:25:21|Synthesizing work.earlypakettimer.behavioral 
+Post processing for work.earlypakettimer.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\wordRegister.vhd":30:7:30:18|Synthesizing work.wordregister.behavioral 
+Post processing for work.wordregister.behavioral
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\AERfifo.vhd":14:7:14:13|Synthesizing work.aerfifo.structure 
+@N: CD630 :"E:\LatticeDiamond\diamond\2.0\cae_library\synthesis\vhdl\machxo.vhd":1597:10:1597:16|Synthesizing work.fifo8ka.syn_black_box 
+Post processing for work.fifo8ka.syn_black_box
+@N: CD630 :"E:\LatticeDiamond\diamond\2.0\cae_library\synthesis\vhdl\machxo.vhd":1278:10:1278:12|Synthesizing work.vlo.syn_black_box 
+Post processing for work.vlo.syn_black_box
+@N: CD630 :"E:\LatticeDiamond\diamond\2.0\cae_library\synthesis\vhdl\machxo.vhd":1270:10:1270:12|Synthesizing work.vhi.syn_black_box 
+Post processing for work.vhi.syn_black_box
+Post processing for work.aerfifo.structure
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\shiftRegister.vhd":30:7:30:19|Synthesizing work.shiftregister.behavioral 
+Post processing for work.shiftregister.behavioral
+@W: CL117 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\shiftRegister.vhd":52:4:52:5|Latch generated from process for signal DataOutxDO(119 downto 0); possible missing assignment in an if or case statement.
+@N: CD630 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\clockgen.vhd":14:7:14:14|Synthesizing work.clockgen.structure 
+@N: CD630 :"E:\LatticeDiamond\diamond\2.0\cae_library\synthesis\vhdl\machxo.vhd":1630:10:1630:16|Synthesizing work.ehxpllc.syn_black_box 
+Post processing for work.ehxpllc.syn_black_box
+Post processing for work.clockgen.structure
+Post processing for work.usbaer_top_level.structural
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\synchronizerStateMachine.vhd":225:4:225:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 6 reachable states with original encodings of:
+   000001
+   000010
+   000100
+   001000
+   010000
+   100000
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\fifoStatemachine.vhd":129:4:129:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 4 reachable states with original encodings of:
+   00
+   01
+   10
+   11
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\monitorStateMachine.vhd":262:4:262:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 11 reachable states with original encodings of:
+   00000000001
+   00000000010
+   00000000100
+   00000001000
+   00000010000
+   00000100000
+   00001000000
+   00010000000
+   00100000000
+   01000000000
+   10000000000
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":446:4:446:5|Trying to extract state machine for register StateRowxDP
+Extracted state machine for register StateRowxDP
+State machine has 12 reachable states with original encodings of:
+   0000000000001
+   0000000000010
+   0000000001000
+   0000000010000
+   0000000100000
+   0000001000000
+   0000010000000
+   0000100000000
+   0001000000000
+   0010000000000
+   0100000000000
+   1000000000000
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":446:4:446:5|Trying to extract state machine for register StateColxDP
+@W: CL159 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCStateMachineABC.vhd":40:4:40:15|Input ADCconfigxDI is unused
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\ADCvalueReady.vhd":80:4:80:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 4 reachable states with original encodings of:
+   00
+   01
+   10
+   11
+@N: CL201 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\cDVSResetStateMachine.vhd":107:4:107:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 3 reachable states with original encodings of:
+   00
+   01
+   10
+@W: CL159 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\cDVSResetStateMachine.vhd":31:4:31:12|Input RxcolGxSI is unused
+@W: CL247 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 15 of debugxsio(15 downto 0) is unused 
+@W: CL247 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 13 of debugxsio(15 downto 0) is unused 
+@W: CL247 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 10 of debugxsio(15 downto 0) is unused 
+@W: CL247 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":93:4:93:12|Input port bit 8 of debugxsio(15 downto 0) is unused 
+@W: CL159 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":62:4:62:11|Input FXLEDxSI is unused
+@W: CL159 :"E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\sourcecode\USBAER_top_level.vhd":85:1:85:21|Input CDVSTestBiasBitOutxSI is unused
+@END
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Dec 13 14:13:46 2012
+
+###########################################################]
+Premap Report
+
+Synopsys Lattice Technology Pre-mapping, Version maplat, Build 437R, Built Jul 16 2012 10:38:54
+Copyright (C) 1994-2012, Synopsys Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+Product Version F-2012.03L-1 
+
+Mapper Startup Complete (Time elapsed 0h:00m:00s; Memory used current: 91MB peak: 92MB)
+
+@L: E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10_scck.rpt 
+Printing clock  summary report in "E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10_scck.rpt" file 
+@N: MF248 |Running in 64-bit mode.
+@N: MF257 |Gated clock conversion enabled 
+@N: MF546 |Generated clock conversion enabled 
+
+Design Input Complete (Time elapsed 0h:00m:00s; Memory used current: 93MB peak: 94MB)
+
+
+Mapper Initialization Complete (Time elapsed 0h:00m:00s; Memory used current: 93MB peak: 94MB)
+
+
+Start loading timing files (Time elapsed 0h:00m:00s; Memory used current: 106MB peak: 106MB)
+
+
+Finished loading timing files (Time elapsed 0h:00m:00s; Memory used current: 106MB peak: 108MB)
+
+
+
+Clock Summary
+**************
+
+Start                                                Requested     Requested     Clock                                          Clock              
+Clock                                                Frequency     Period        Type                                           Group              
+---------------------------------------------------------------------------------------------------------------------------------------------------
+System                                               1.0 MHz       1000.000      system                                         system_clkgroup    
+clockgen|CLKOP_inferred_clock                        1.0 MHz       1000.000      inferred                                       Inferred_clkgroup_0
+USBAER_top_level|IfClockxCI                          1.0 MHz       1000.000      inferred                                       Inferred_clkgroup_1
+USBAER_top_level|PC2xSIO                             1.0 MHz       1000.000      inferred                                       Inferred_clkgroup_2
+USBAER_top_level|PC1xSIO                             1.0 MHz       1000.000      inferred                                       Inferred_clkgroup_3
+ADCStateMachineABC|ClockxC_derived_clock             1.0 MHz       1000.000      derived (from USBAER_top_level|IfClockxCI)     Inferred_clkgroup_1
+ADCStateMachineABC|StateColxDP_derived_clock[17]     1.0 MHz       1000.000      derived (from USBAER_top_level|IfClockxCI)     Inferred_clkgroup_1
+ADCStateMachineABC|StateColxDP_derived_clock[9]      1.0 MHz       1000.000      derived (from USBAER_top_level|IfClockxCI)     Inferred_clkgroup_1
+ADCStateMachineABC|StateRowxDP_derived_clock[8]      1.0 MHz       1000.000      derived (from USBAER_top_level|IfClockxCI)     Inferred_clkgroup_1
+===================================================================================================================================================
+
+@W: MT529 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\wordregister.vhd":63:4:63:5|Found inferred clock clockgen|CLKOP_inferred_clock which controls 154 sequential elements including uMonitorTimestampRegister/StatexDP[13:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+@W: MT529 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\wordregister.vhd":63:4:63:5|Found inferred clock USBAER_top_level|IfClockxCI which controls 19 sequential elements including uADCRegister/StatexDP[13:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+@W: MT529 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Found inferred clock USBAER_top_level|PC2xSIO which controls 144 sequential elements including shiftRegister_1/DataOutxDO[119:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+@W: MT529 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":65:4:65:5|Found inferred clock USBAER_top_level|PC1xSIO which controls 120 sequential elements including shiftRegister_1/StatexD[119:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+
+syn_allowed_resources : blockrams=3  set on top level netlist USBAER_top_level
+
+Finished Pre Mapping Phase. (Time elapsed 0h:00m:00s; Memory used current: 131MB peak: 133MB)
+
+Pre-mapping successful!
+
+At Mapper Exit (Time elapsed 0h:00m:00s; Memory used current: 68MB peak: 133MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Dec 13 14:13:49 2012
+
+###########################################################]
+Map & Optimize Report
+
+Synopsys Lattice Technology Mapper, Version maplat, Build 437R, Built Jul 16 2012 10:38:54
+Copyright (C) 1994-2012, Synopsys Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+Product Version F-2012.03L-1 
+
+Mapper Startup Complete (Time elapsed 0h:00m:00s; Memory used current: 91MB peak: 92MB)
+
+@N: MF248 |Running in 64-bit mode.
+@N: MF257 |Gated clock conversion enabled 
+@N: MF546 |Generated clock conversion enabled 
+
+Design Input Complete (Time elapsed 0h:00m:00s; Memory used current: 91MB peak: 92MB)
+
+
+Mapper Initialization Complete (Time elapsed 0h:00m:00s; Memory used current: 91MB peak: 92MB)
+
+
+Start loading timing files (Time elapsed 0h:00m:00s; Memory used current: 105MB peak: 105MB)
+
+
+Finished loading timing files (Time elapsed 0h:00m:00s; Memory used current: 105MB peak: 107MB)
+
+@N: MF203 |Set autoconstraint_io 
+
+
+Starting Optimization and Mapping (Time elapsed 0h:00m:00s; Memory used current: 131MB peak: 133MB)
+
+
+Available hyper_sources - for debug and ip models
+	None Found
+
+
+Finished RTL optimizations (Time elapsed 0h:00m:00s; Memory used current: 130MB peak: 133MB)
+
+@N:"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\timestampcounter.vhd":67:4:67:5|Found counter in view:work.USBAER_top_level(structural) inst uTimestampCounter.CountxDP[14:0]
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[117] of view:PrimLib.latr(prim) in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[116] of view:PrimLib.latr(prim) in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[115] of view:PrimLib.latr(prim) in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[114] of view:PrimLib.latr(prim) in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[113] of view:PrimLib.latr(prim) in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[112] of view:PrimLib.latr(prim) in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[15] of view:PrimLib.latr(prim) in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[14] of view:PrimLib.latr(prim) in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[13] of view:PrimLib.latr(prim) in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[12] of view:PrimLib.latr(prim) in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N:"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\earlypakettimer.vhd":57:4:57:5|Found counter in view:work.earlyPaketTimer(behavioral) inst CountxDP[20:0]
+@N:"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\eventcounter.vhd":63:4:63:5|Found counter in view:work.eventCounter(behavioral) inst CountxDP[8:0]
+Encoding state machine StatexDP[0:5] (netlist:statemachine)
+original code -> new code
+   000001 -> 000001
+   000010 -> 000010
+   000100 -> 000100
+   001000 -> 001000
+   010000 -> 010000
+   100000 -> 100000
+@W: MO197 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\synchronizerstatemachine.vhd":174:6:174:23|FSM register StatexDP[1] removed due to constant propagation
+@W: MO197 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\synchronizerstatemachine.vhd":197:6:197:28|FSM register StatexDP[0] removed due to constant propagation
+@N:"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\synchronizerstatemachine.vhd":225:4:225:5|Found counter in view:work.synchronizerStateMachine(behavioral) inst CounterxDP[13:0]
+@N:"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\synchronizerstatemachine.vhd":225:4:225:5|Found counter in view:work.synchronizerStateMachine(behavioral) inst DividerxDP[6:0]
+Encoding state machine StatexDP[0:3] (netlist:statemachine)
+original code -> new code
+   00 -> 00
+   01 -> 01
+   10 -> 10
+   11 -> 11
+Encoding state machine StatexDP[0:10] (netlist:statemachine)
+original code -> new code
+   00000000001 -> 00000000001
+   00000000010 -> 00000000010
+   00000000100 -> 00000000100
+   00000001000 -> 00000001000
+   00000010000 -> 00000010000
+   00000100000 -> 00000100000
+   00001000000 -> 00001000000
+   00010000000 -> 00010000000
+   00100000000 -> 00100000000
+   01000000000 -> 01000000000
+   10000000000 -> 10000000000
+@N:"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\monitorstatemachine.vhd":262:4:262:5|Found updn counter in view:work.monitorStateMachine(behavioral) inst TimestampOverflowxDP[15:0] 
+@N:"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\monitorstatemachine.vhd":262:4:262:5|Found counter in view:work.monitorStateMachine(behavioral) inst CountxDP[7:0]
+Encoding state machine StatexDP[0:3] (netlist:statemachine)
+original code -> new code
+   00 -> 00
+   01 -> 01
+   10 -> 10
+   11 -> 11
+Encoding state machine StatexDP[0:2] (netlist:statemachine)
+original code -> new code
+   00 -> 00
+   01 -> 01
+   10 -> 10
+@N:"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\cdvsresetstatemachine.vhd":107:4:107:5|Found counter in view:work.cDVSResetStateMachine(behavioral) inst CountxDP[18:0]
+Encoding state machine StateRowxDP[0:11] (netlist:statemachine)
+original code -> new code
+   0000000000001 -> 000000000001
+   0000000000010 -> 000000000010
+   0000000001000 -> 000000000100
+   0000000010000 -> 000000001000
+   0000000100000 -> 000000010000
+   0000001000000 -> 000000100000
+   0000010000000 -> 000001000000
+   0000100000000 -> 000010000000
+   0001000000000 -> 000100000000
+   0010000000000 -> 001000000000
+   0100000000000 -> 010000000000
+   1000000000000 -> 100000000000
+@N:"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\adcstatemachineabc.vhd":446:4:446:5|Found counter in view:work.ADCStateMachineABC(behavioral) inst DividerColxDP[32:0]
+@N:"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\adcstatemachineabc.vhd":446:4:446:5|Found counter in view:work.ADCStateMachineABC(behavioral) inst CountRowxDP[4:0]
+@N:"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\adcstatemachineabc.vhd":446:4:446:5|Found counter in view:work.ADCStateMachineABC(behavioral) inst DividerRowxDP[16:0]
+@N:"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\adcstatemachineabc.vhd":446:4:446:5|Found counter in view:work.ADCStateMachineABC(behavioral) inst CountColxDP[17:0]
+@N: MF179 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\adcstatemachineabc.vhd":239:44:239:82|Found 18 bit by 18 bit '==' comparator, 'p_col\.un6_countcolxdp'
+@N: MF179 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\adcstatemachineabc.vhd":239:14:239:39|Found 18 bit by 18 bit '==' comparator, 'p_col\.un1_countcolxdp'
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[7] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[6] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[5] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[4] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[3] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[2] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[1] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[0] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[11] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[10] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[9] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@N: BN362 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\shiftregister.vhd":52:4:52:5|Removing sequential instance shiftRegister_1.DataOutxDO[8] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+
+Finished factoring (Time elapsed 0h:00m:00s; Memory used current: 138MB peak: 138MB)
+
+
+
+#################### START OF GENERATED CLOCK OPTIMIZATION REPORT ####################[
+
+======================================================================================
+                                Instance:Pin        Generated Clock Optimization Status
+======================================================================================
+         uTimestampCounter.MSbDelayedxDP:C              Not Done
+ ADCStateMachine_2.CDVSTestSRRowClockxSO:C              Done
+           ADCStateMachine_2.StartRowxSP:C              Done
+ ADCStateMachine_2.CDVSTestSRColClockxSO:C              Done
+       ADCStateMachine_2.StateRowxDP[11]:C              Done
+        ADCStateMachine_2.StateRowxDP[0]:C              Done
+        ADCStateMachine_2.StateRowxDP[1]:C              Done
+        ADCStateMachine_2.StateRowxDP[2]:C              Done
+        ADCStateMachine_2.StateRowxDP[3]:C              Done
+        ADCStateMachine_2.StateRowxDP[4]:C              Done
+        ADCStateMachine_2.StateRowxDP[5]:C              Done
+        ADCStateMachine_2.StateRowxDP[6]:C              Done
+        ADCStateMachine_2.StateRowxDP[7]:C              Done
+        ADCStateMachine_2.StateRowxDP[8]:C              Done
+        ADCStateMachine_2.StateRowxDP[9]:C              Done
+       ADCStateMachine_2.StateRowxDP[10]:C              Done
+        ADCStateMachine_2.StateColxDP[4]:C              Done
+        ADCStateMachine_2.StateColxDP[5]:C              Done
+        ADCStateMachine_2.StateColxDP[6]:C              Done
+        ADCStateMachine_2.StateColxDP[7]:C              Done
+        ADCStateMachine_2.StateColxDP[8]:C              Done
+        ADCStateMachine_2.StateColxDP[9]:C              Done
+       ADCStateMachine_2.StateColxDP[10]:C              Done
+       ADCStateMachine_2.StateColxDP[11]:C              Done
+       ADCStateMachine_2.StateColxDP[12]:C              Done
+       ADCStateMachine_2.StateColxDP[13]:C              Done
+       ADCStateMachine_2.StateColxDP[14]:C              Done
+       ADCStateMachine_2.StateColxDP[15]:C              Done
+       ADCStateMachine_2.StateColxDP[16]:C              Done
+       ADCStateMachine_2.StateColxDP[17]:C              Done
+        ADCStateMachine_2.StateColxDP[0]:C              Done
+        ADCStateMachine_2.StateColxDP[1]:C              Done
+        ADCStateMachine_2.StateColxDP[2]:C              Done
+        ADCStateMachine_2.StateColxDP[3]:C              Done
+     ADCStateMachine_2.CountColxDP[17:0]:C              Done
+   ADCStateMachine_2.DividerRowxDP[16:0]:C              Done
+      ADCStateMachine_2.CountRowxDP[4:0]:C              Done
+   ADCStateMachine_2.DividerColxDP[32:0]:C              Done
+           ADCStateMachine_2.StartColxSP:C              Done
+
+
+##################### END OF GENERATED CLOCK OPTIMIZATION REPORT #####################]
+
+
+Finished gated-clock and generated-clock conversion (Time elapsed 0h:00m:00s; Memory used current: 136MB peak: 138MB)
+
+
+
+Finished generic timing optimizations - Pass 1 (Time elapsed 0h:00m:00s; Memory used current: 135MB peak: 138MB)
+
+
+Starting Early Timing Optimization (Time elapsed 0h:00m:00s; Memory used current: 135MB peak: 138MB)
+
+
+Finished Early Timing Optimization (Time elapsed 0h:00m:00s; Memory used current: 135MB peak: 138MB)
+
+
+Finished generic timing optimizations - Pass 2 (Time elapsed 0h:00m:00s; Memory used current: 135MB peak: 138MB)
+
+
+Finished preparing to map (Time elapsed 0h:00m:00s; Memory used current: 136MB peak: 138MB)
+
+
+Finished technology mapping (Time elapsed 0h:00m:01s; Memory used current: 142MB peak: 145MB)
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+------------------------------------------------------------
+
+
+Finished technology timing optimizations and critical path resynthesis (Time elapsed 0h:00m:01s; Memory used current: 137MB peak: 145MB)
+
+@N: FX164 |The option to pack flops in the IOB has not been specified 
+
+Finished restoring hierarchy (Time elapsed 0h:00m:01s; Memory used current: 139MB peak: 145MB)
+
+Writing Analyst data base E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\DigLog10_DigLog10.srm
+
+Finished Writing Netlist Databases (Time elapsed 0h:00m:01s; Memory used current: 137MB peak: 145MB)
+
+Writing EDIF Netlist and constraint files
+F-2012.03L-1 
+
+Finished Writing EDIF Netlist and constraint files (Time elapsed 0h:00m:02s; Memory used current: 143MB peak: 145MB)
+
+
+Starting Writing Gated Clock Conversion Report (Time elapsed 0h:00m:02s; Memory used current: 142MB peak: 145MB)
+
+
+================= Gated clock report =================
+
+
+The following instances have NOT been converted
+Seq Inst                                           Instance Port     Clock                   Reason for not converting                               
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+uMonitorTimestampRegister.StatexDP[13]             CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uMonitorTimestampRegister.StatexDP[12]             CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uMonitorTimestampRegister.StatexDP[11]             CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uMonitorTimestampRegister.StatexDP[10]             CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uMonitorTimestampRegister.StatexDP[9]              CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uMonitorTimestampRegister.StatexDP[8]              CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uMonitorTimestampRegister.StatexDP[7]              CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uMonitorTimestampRegister.StatexDP[6]              CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uMonitorTimestampRegister.StatexDP[5]              CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uMonitorTimestampRegister.StatexDP[4]              CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uMonitorTimestampRegister.StatexDP[3]              CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uMonitorTimestampRegister.StatexDP[2]              CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uMonitorTimestampRegister.StatexDP[1]              CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uMonitorTimestampRegister.StatexDP[0]              CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[20]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[19]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[18]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[17]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[16]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[15]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[14]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[13]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[12]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[11]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[10]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[9]                       CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[8]                       CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[7]                       CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[6]                       CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[5]                       CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[4]                       CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[3]                       CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[2]                       CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[1]                       CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEarlyPaketTimer.CountxDP[0]                       CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEventCounter.CountxDP[8]                          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEventCounter.CountxDP[7]                          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEventCounter.CountxDP[6]                          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEventCounter.CountxDP[5]                          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEventCounter.CountxDP[4]                          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEventCounter.CountxDP[3]                          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEventCounter.CountxDP[2]                          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEventCounter.CountxDP[1]                          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uEventCounter.CountxDP[0]                          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[14]                     CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[13]                     CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[12]                     CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[11]                     CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[10]                     CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[9]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[8]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[7]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[6]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[5]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[4]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[3]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[2]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[1]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.CountxDP[0]                      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uTimestampCounter.MSbDelayedxDP                    CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[13]         CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[12]         CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[11]         CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[10]         CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[9]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[8]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[7]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[6]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[5]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[4]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[3]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[2]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[1]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.CounterxDP[0]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.DividerxDP[6]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.DividerxDP[5]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.DividerxDP[4]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.DividerxDP[3]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.DividerxDP[2]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.DividerxDP[1]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.DividerxDP[0]          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.StatexDP[5]            CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.StatexDP[4]            CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.StatexDP[3]            CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.StatexDP[2]            CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.SyncInxSB              CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+uSynchronizerStateMachine_1.SyncInxSBN             CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.CountxDP[7]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.CountxDP[6]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.CountxDP[5]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.CountxDP[4]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.CountxDP[3]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.CountxDP[2]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.CountxDP[1]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.CountxDP[0]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.StatexDP[10]                 CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.StatexDP[9]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.StatexDP[8]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.StatexDP[7]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.StatexDP[6]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.StatexDP[5]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.StatexDP[4]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.StatexDP[3]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.StatexDP[2]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.StatexDP[1]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.StatexDP[0]                  CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[15]     CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[14]     CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[13]     CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[12]     CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[11]     CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[10]     CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[9]      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[8]      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[7]      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[6]      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[5]      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[4]      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[3]      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[2]      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[1]      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampOverflowxDP[0]      CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TimestampResetxDP            CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+monitorStateMachine_1.TriggerxDP                   CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+ADCvalueReady_1.StatexDP[1]                        CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+ADCvalueReady_1.StatexDP[0]                        CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[18]               CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[17]               CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[16]               CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[15]               CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[14]               CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[13]               CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[12]               CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[11]               CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[10]               CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[9]                CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[8]                CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[7]                CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[6]                CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[5]                CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[4]                CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[3]                CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[2]                CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[1]                CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.CountxDP[0]                CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.StatexDP[1]                CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+cDVSResetStateMachine_1.StatexDP[0]                CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+AERREQxSB                                          CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+AERReqSyncxSBN                                     CK                uClockGen.ClockxC_c     Gated clock either has NO DRIVER or has MULTIPLE DRIVERS
+=====================================================================================================================================================
+
+================= End gated clock report =================
+
+
+Finished Writing Gated Clock Conversion Report (Time elapsed 0h:00m:02s; Memory used current: 142MB peak: 145MB)
+
+
+Starting Writing Generated Clock Conversion Report (Time elapsed 0h:00m:02s; Memory used current: 142MB peak: 145MB)
+
+@N: MF333 |Generated clock conversion enabled, but no generated clocks found in design 
+
+Finished Writing Generated Clock Conversion Report (Time elapsed 0h:00m:02s; Memory used current: 142MB peak: 145MB)
+
+@W: MT246 :"e:\jaer\devicefirmwarepcblayout\latticemachxo\diglog10\sourcecode\aerfifo.vhd":179:4:179:14|Blackbox FIFO8KA is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
+@W: MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 1000.00ns. Please declare a user-defined clock on object "p:IfClockxCI"
+
+@W: MT420 |Found inferred clock USBAER_top_level|PC1xSIO with period 1000.00ns. Please declare a user-defined clock on object "p:PC1xSIO"
+
+@W: MT420 |Found inferred clock USBAER_top_level|PC2xSIO with period 1000.00ns. Please declare a user-defined clock on object "p:PC2xSIO"
+
+Found clock ADCStateMachineABC|StateRowxDP_derived_clock[8] with period 1000.00ns 
+Found clock ADCStateMachineABC|StateColxDP_derived_clock[9] with period 1000.00ns 
+Found clock ADCStateMachineABC|StateColxDP_derived_clock[17] with period 1000.00ns 
+@W: MT420 |Found inferred clock clockgen|CLKOP_inferred_clock with period 1000.00ns. Please declare a user-defined clock on object "n:uClockGen.CLKOP"
+
+
+
+##### START OF TIMING REPORT #####[
+# Timing Report written on Thu Dec 13 14:13:51 2012
+#
+
+
+Top view:               USBAER_top_level
+Requested Frequency:    1.0 MHz
+Wire load mode:         top
+Paths requested:        3
+Constraint File(s):    
+@N: MT320 |Timing report estimates place and route data. Please look at the place and route timing report for final timing.
+
+
+Performance Summary 
+*******************
+
+
+Worst slack in design: 982.537
+
+                                                     Requested     Estimated     Requested     Estimated                 Clock        Clock              
+Starting Clock                                       Frequency     Frequency     Period        Period        Slack       Type         Group              
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+ADCStateMachineABC|StateColxDP_derived_clock[9]      1.0 MHz       197.9 MHz     1000.000      5.054         994.946     derived      Inferred_clkgroup_1
+ADCStateMachineABC|StateColxDP_derived_clock[17]     1.0 MHz       162.7 MHz     1000.000      6.147         993.853     derived      Inferred_clkgroup_1
+ADCStateMachineABC|StateRowxDP_derived_clock[8]      1.0 MHz       357.8 MHz     1000.000      2.795         998.369     derived      Inferred_clkgroup_1
+USBAER_top_level|IfClockxCI                          1.0 MHz       64.8 MHz      1000.000      15.438        984.562     inferred     Inferred_clkgroup_1
+USBAER_top_level|PC1xSIO                             1.0 MHz       575.0 MHz     1000.000      1.739         998.261     inferred     Inferred_clkgroup_3
+USBAER_top_level|PC2xSIO                             1.0 MHz       57.3 MHz      1000.000      17.463        982.537     inferred     Inferred_clkgroup_2
+clockgen|CLKOP_inferred_clock                        1.0 MHz       74.7 MHz      1000.000      13.394        986.606     inferred     Inferred_clkgroup_0
+System                                               1.0 MHz       269.1 MHz     1000.000      3.716         992.949     system       system_clkgroup    
+=========================================================================================================================================================
+
+
+
+
+
+Clock Relationships
+*******************
+
+Clocks                                                                                             |    rise  to  rise     |    fall  to  fall   |    rise  to  fall   |    fall  to  rise   
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Starting                                          Ending                                           |  constraint  slack    |  constraint  slack  |  constraint  slack  |  constraint  slack  
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+System                                            System                                           |  1000.000    992.949  |  No paths    -      |  No paths    -      |  No paths    -      
+System                                            clockgen|CLKOP_inferred_clock                    |  1000.000    990.829  |  No paths    -      |  No paths    -      |  No paths    -      
+System                                            USBAER_top_level|IfClockxCI                      |  1000.000    991.543  |  No paths    -      |  No paths    -      |  No paths    -      
+System                                            USBAER_top_level|PC1xSIO                         |  1000.000    997.487  |  No paths    -      |  No paths    -      |  No paths    -      
+clockgen|CLKOP_inferred_clock                     System                                           |  1000.000    992.126  |  No paths    -      |  No paths    -      |  No paths    -      
+clockgen|CLKOP_inferred_clock                     clockgen|CLKOP_inferred_clock                    |  1000.000    986.607  |  No paths    -      |  No paths    -      |  No paths    -      
+clockgen|CLKOP_inferred_clock                     USBAER_top_level|IfClockxCI                      |  Diff grp    -        |  No paths    -      |  No paths    -      |  No paths    -      
+USBAER_top_level|IfClockxCI                       System                                           |  1000.000    989.610  |  No paths    -      |  No paths    -      |  No paths    -      
+USBAER_top_level|IfClockxCI                       clockgen|CLKOP_inferred_clock                    |  Diff grp    -        |  No paths    -      |  No paths    -      |  No paths    -      
+USBAER_top_level|IfClockxCI                       USBAER_top_level|IfClockxCI                      |  1000.000    984.562  |  No paths    -      |  No paths    -      |  No paths    -      
+USBAER_top_level|PC2xSIO                          System                                           |  No paths    -        |  No paths    -      |  No paths    -      |  1000.000    982.537
+USBAER_top_level|PC2xSIO                          clockgen|CLKOP_inferred_clock                    |  No paths    -        |  No paths    -      |  No paths    -      |  Diff grp    -      
+USBAER_top_level|PC2xSIO                          USBAER_top_level|IfClockxCI                      |  No paths    -        |  No paths    -      |  No paths    -      |  Diff grp    -      
+USBAER_top_level|PC1xSIO                          USBAER_top_level|PC2xSIO                         |  No paths    -        |  No paths    -      |  Diff grp    -      |  No paths    -      
+USBAER_top_level|PC1xSIO                          USBAER_top_level|PC1xSIO                         |  1000.000    998.261  |  No paths    -      |  No paths    -      |  No paths    -      
+ADCStateMachineABC|StateColxDP_derived_clock[17]  System                                           |  1000.000    993.615  |  No paths    -      |  No paths    -      |  No paths    -      
+ADCStateMachineABC|StateColxDP_derived_clock[17]  clockgen|CLKOP_inferred_clock                    |  Diff grp    -        |  No paths    -      |  No paths    -      |  No paths    -      
+ADCStateMachineABC|StateColxDP_derived_clock[17]  USBAER_top_level|IfClockxCI                      |  1000.000    993.853  |  No paths    -      |  No paths    -      |  No paths    -      
+ADCStateMachineABC|StateColxDP_derived_clock[9]   clockgen|CLKOP_inferred_clock                    |  Diff grp    -        |  No paths    -      |  No paths    -      |  No paths    -      
+ADCStateMachineABC|StateColxDP_derived_clock[9]   USBAER_top_level|IfClockxCI                      |  1000.000    994.946  |  No paths    -      |  No paths    -      |  No paths    -      
+ADCStateMachineABC|StateColxDP_derived_clock[9]   ADCStateMachineABC|StateRowxDP_derived_clock[8]  |  1000.000    997.205  |  No paths    -      |  No paths    -      |  No paths    -      
+ADCStateMachineABC|StateRowxDP_derived_clock[8]   USBAER_top_level|IfClockxCI                      |  1000.000    998.369  |  No paths    -      |  No paths    -      |  No paths    -      
+=============================================================================================================================================================================================
+ Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
+       'Diff grp' indicates that paths exist but the starting clock and ending clock are in different clock groups.
+
+
+
+Interface Information 
+*********************
+
+
+
+Input Ports: 
+
+Port                        Starting            User           Arrival     Required            
+Name                        Reference           Constraint     Time        Time         Slack  
+                            Clock                                                              
+-----------------------------------------------------------------------------------------------
+ADCbusyxSI                  System (rising)     NA             0.000       994.211      994.211
+ADCwordxDIO[1]              System (rising)     NA             0.000       998.339      998.339
+ADCwordxDIO[2]              System (rising)     NA             0.000       998.339      998.339
+ADCwordxDIO[3]              System (rising)     NA             0.000       998.339      998.339
+ADCwordxDIO[4]              System (rising)     NA             0.000       998.339      998.339
+ADCwordxDIO[5]              System (rising)     NA             0.000       998.339      998.339
+ADCwordxDIO[6]              System (rising)     NA             0.000       998.339      998.339
+ADCwordxDIO[7]              System (rising)     NA             0.000       998.339      998.339
+ADCwordxDIO[8]              System (rising)     NA             0.000       998.339      998.339
+ADCwordxDIO[9]              System (rising)     NA             0.000       998.339      998.339
+ADCwordxDIO[10]             System (rising)     NA             0.000       998.339      998.339
+ADCwordxDIO[11]             System (rising)     NA             0.000       998.339      998.339
+AERMonitorAddressxDI[0]     System (rising)     NA             0.000       996.581      996.581
+AERMonitorAddressxDI[1]     System (rising)     NA             0.000       996.581      996.581
+AERMonitorAddressxDI[2]     System (rising)     NA             0.000       996.581      996.581
+AERMonitorAddressxDI[3]     System (rising)     NA             0.000       996.581      996.581
+AERMonitorAddressxDI[4]     System (rising)     NA             0.000       996.488      996.488
+AERMonitorAddressxDI[5]     System (rising)     NA             0.000       996.581      996.581
+AERMonitorAddressxDI[6]     System (rising)     NA             0.000       996.488      996.488
+AERMonitorAddressxDI[7]     System (rising)     NA             0.000       996.581      996.581
+AERMonitorAddressxDI[8]     System (rising)     NA             0.000       995.739      995.739
+AERMonitorREQxABI           System (rising)     NA             0.000       997.487      997.487
+CDVSTestBiasBitOutxSI       NA                  NA             NA          NA           NA     
+DebugxSIO[9]                System (rising)     NA             0.000       994.030      994.030
+DebugxSIO[14]               System (rising)     NA             0.000       994.376      994.376
+FX2FifoInFullxSBI           System (rising)     NA             0.000       994.713      994.713
+FXLEDxSI                    NA                  NA             NA          NA           NA     
+IfClockxCI                  NA                  NA             NA          NA           NA     
+PA0xSIO                     System (rising)     NA             0.000       994.475      994.475
+PA1xSIO                     System (rising)     NA             0.000       992.949      992.949
+PA3xSIO                     System (rising)     NA             0.000       990.828      990.828
+PA7xSIO                     System (rising)     NA             0.000       990.955      990.955
+PC0xSIO                     System (rising)     NA             0.000       991.543      991.543
+PC1xSIO                     NA                  NA             NA          NA           NA     
+PC2xSIO                     NA                  NA             NA          NA           NA     
+PC3xSIO                     System (rising)     NA             0.000       997.487      997.487
+PE2xSI                      System (rising)     NA             0.000       993.623      993.623
+PE3xSI                      System (rising)     NA             0.000       993.178      993.178
+ResetxRBI                   System (rising)     NA             0.000       996.498      996.498
+Sync1xABI                   System (rising)     NA             0.000       994.030      994.030
+===============================================================================================
+
+
+Output Ports: 
+
+Port                       Starting                                   User           Arrival     Required            
+Name                       Reference                                  Constraint     Time        Time         Slack  
+                           Clock                                                                                     
+---------------------------------------------------------------------------------------------------------------------
+ADCclockxCO                USBAER_top_level|IfClockxCI (rising)       NA             5.412       1000.000     994.588
+ADCconvstxEBO              USBAER_top_level|IfClockxCI (rising)       NA             6.601       1000.000     993.399
+ADCreadxEBO                USBAER_top_level|IfClockxCI (rising)       NA             6.264       1000.000     993.736
+ADCwordxDIO[0]             USBAER_top_level|IfClockxCI (rising)       NA             5.244       1000.000     994.756
+ADCwordxDIO[1]             USBAER_top_level|IfClockxCI (rising)       NA             5.244       1000.000     994.756
+ADCwordxDIO[2]             USBAER_top_level|IfClockxCI (rising)       NA             5.244       1000.000     994.756
+ADCwordxDIO[3]             USBAER_top_level|IfClockxCI (rising)       NA             5.244       1000.000     994.756
+ADCwordxDIO[4]             USBAER_top_level|IfClockxCI (rising)       NA             5.244       1000.000     994.756
+ADCwordxDIO[5]             USBAER_top_level|IfClockxCI (rising)       NA             5.244       1000.000     994.756
+ADCwordxDIO[6]             USBAER_top_level|IfClockxCI (rising)       NA             5.244       1000.000     994.756
+ADCwordxDIO[7]             USBAER_top_level|IfClockxCI (rising)       NA             5.244       1000.000     994.756
+ADCwordxDIO[8]             USBAER_top_level|IfClockxCI (rising)       NA             5.244       1000.000     994.756
+ADCwordxDIO[9]             USBAER_top_level|IfClockxCI (rising)       NA             5.244       1000.000     994.756
+ADCwordxDIO[10]            USBAER_top_level|IfClockxCI (rising)       NA             5.244       1000.000     994.756
+ADCwordxDIO[11]            USBAER_top_level|IfClockxCI (rising)       NA             5.244       1000.000     994.756
+ADCwritexEBO               USBAER_top_level|IfClockxCI (rising)       NA             4.751       1000.000     995.249
+AERMonitorACKxSBO          clockgen|CLKOP_inferred_clock (rising)     NA             5.406       1000.000     994.594
+CDVSTestBiasDiagSelxSO     System (rising)                            NA             5.525       1000.000     994.475
+CDVSTestBiasEnablexEO      System (rising)                            NA             6.377       1000.000     993.623
+CDVSTestChipResetxRBO      System (rising)                            NA             6.822       1000.000     993.178
+CDVSTestColMode0xSO        USBAER_top_level|IfClockxCI (rising)       NA             9.201       1000.000     990.799
+CDVSTestColMode1xSO        NA                                         NA             NA          NA           NA     
+CDVSTestSRColClockxSO      USBAER_top_level|IfClockxCI (rising)       NA             4.643       1000.000     995.357
+CDVSTestSRColInxSO         NA                                         NA             NA          NA           NA     
+CDVSTestSRRowClockxSO      USBAER_top_level|IfClockxCI (rising)       NA             4.643       1000.000     995.357
+CDVSTestSRRowInxSO         NA                                         NA             NA          NA           NA     
+DebugxSIO[0]               USBAER_top_level|PC2xSIO (falling)         NA             4.751       1000.000     995.249
+DebugxSIO[1]               USBAER_top_level|PC2xSIO (falling)         NA             4.751       1000.000     995.249
+DebugxSIO[2]               USBAER_top_level|PC2xSIO (falling)         NA             4.751       1000.000     995.249
+DebugxSIO[3]               USBAER_top_level|PC2xSIO (falling)         NA             4.751       1000.000     995.249
+DebugxSIO[4]               USBAER_top_level|PC2xSIO (falling)         NA             4.751       1000.000     995.249
+DebugxSIO[5]               USBAER_top_level|PC2xSIO (falling)         NA             4.751       1000.000     995.249
+DebugxSIO[6]               USBAER_top_level|PC2xSIO (falling)         NA             4.751       1000.000     995.249
+DebugxSIO[7]               USBAER_top_level|PC2xSIO (falling)         NA             4.847       1000.000     995.153
+DebugxSIO[8]               NA                                         NA             NA          NA           NA     
+DebugxSIO[9]               NA                                         NA             NA          NA           NA     
+DebugxSIO[10]              NA                                         NA             NA          NA           NA     
+DebugxSIO[11]              USBAER_top_level|PC2xSIO (falling)         NA             5.015       1000.000     994.985
+DebugxSIO[12]              System (rising)                            NA             5.789       1000.000     994.211
+DebugxSIO[13]              NA                                         NA             NA          NA           NA     
+DebugxSIO[14]              NA                                         NA             NA          NA           NA     
+DebugxSIO[15]              NA                                         NA             NA          NA           NA     
+FX2FifoAddressxDO[0]       NA                                         NA             NA          NA           NA     
+FX2FifoAddressxDO[1]       NA                                         NA             NA          NA           NA     
+FX2FifoDataxDIO[0]         System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[1]         System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[2]         System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[3]         System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[4]         System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[5]         System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[6]         System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[7]         System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[8]         System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[9]         System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[10]        System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[11]        System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[12]        System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[13]        System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[14]        System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoDataxDIO[15]        System (rising)                            NA             3.295       1000.000     996.705
+FX2FifoPktEndxSBO          USBAER_top_level|IfClockxCI (rising)       NA             5.352       1000.000     994.648
+FX2FifoReadxEBO            NA                                         NA             NA          NA           NA     
+FX2FifoWritexEBO           USBAER_top_level|IfClockxCI (rising)       NA             5.352       1000.000     994.648
+LED1xSO                    System (rising)                            NA             6.822       1000.000     993.178
+LED2xSO                    System (rising)                            NA             5.915       1000.000     994.085
+LED3xSO                    NA                                         NA             NA          NA           NA     
+SynchOutxSBO               clockgen|CLKOP_inferred_clock (rising)     NA             7.874       1000.000     992.126
+=====================================================================================================================
+
+
+##### END OF TIMING REPORT #####]
+
+---------------------------------------
+Resource Usage Report
+Part: lcmxo2280c-3
+
+Register bits: 394 of 2280 (17%)
+Latch bits:      101
+PIC Latch:       0
+I/O cells:       92
+
+
+Details:
+BB:             13
+CCU2:           296
+FD1P3BX:        1
+FD1P3DX:        191
+FD1S1D:         101
+FD1S3AX:        4
+FD1S3BX:        3
+FD1S3DX:        195
+GSR:            1
+IB:             25
+INV:            6
+OB:             53
+OBZ:            1
+ORCALUT4:       236
+PFUMX:          3
+PUR:            1
+VHI:            1
+VLO:            1
+false:          15
+true:           15
+Mapper successful!
+
+At Mapper Exit (Time elapsed 0h:00m:02s; Memory used current: 45MB peak: 145MB)
+
+Process took 0h:00m:02s realtime, 0h:00m:02s cputime
+# Thu Dec 13 14:13:51 2012
+
+###########################################################]
+
+
+Synthesis exit by 0.
+
+edif2ngd  -l "MachXO" -d LCMXO2280C -path "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/DigLog10" -path "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10"  "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/DigLog10/DigLog10_DigLog10.edi" "DigLog10_DigLog10.ngo"   
+edif2ngd:  version Diamond (64-bit) 2.0.1.184
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+     Copyright (c) 1995 AT&T Corp.   All rights reserved.
+     Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+     Copyright (c) 2001 Agere Systems   All rights reserved.
+     Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+Writing the design to DigLog10_DigLog10.ngo...
+
+ngdbuild  -a "MachXO" -d LCMXO2280C  -p "E:/LatticeDiamond/diamond/2.0/ispfpga/mj5g00/data"  -p "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/DigLog10" -p "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10"  "DigLog10_DigLog10.ngo" "DigLog10_DigLog10.ngd"  	
+ngdbuild:  version Diamond (64-bit) 2.0.1.184
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+     Copyright (c) 1995 AT&T Corp.   All rights reserved.
+     Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+     Copyright (c) 2001 Agere Systems   All rights reserved.
+     Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+Reading 'DigLog10_DigLog10.ngo' ...
+Loading NGL library 'E:/LatticeDiamond/diamond/2.0/ispfpga/mj5g00e/data/mj5gelib.ngl'...
+Loading NGL library 'E:/LatticeDiamond/diamond/2.0/ispfpga/mj5g00/data/mj5glib.ngl'...
+Loading NGL library 'E:/LatticeDiamond/diamond/2.0/ispfpga/mg5g00/data/mg5glib.ngl'...
+Loading NGL library 'E:/LatticeDiamond/diamond/2.0/ispfpga/or5g00/data/orc5glib.ngl'...
+
+Running DRC...
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_51_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_51_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_51_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_data_tmp[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_39_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_39_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_data_tmp[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_27_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_27_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_data_tmp[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_15_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_15_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_data_tmp[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_N_42' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_1_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_51_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_51_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_51_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_data_tmp[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_39_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_39_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_data_tmp[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_27_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_27_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_data_tmp[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_15_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_15_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_data_tmp[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_N_42' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_1_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_COUT1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_COUT1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_COUT1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_16' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_16' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_16' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_16' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_16' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_16' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_16_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_16_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_COUT1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_COUT1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_8_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_s_14_0_COUT0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_s_14_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_s_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_14_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_14_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_14_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_14_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_s_15_0_COUT0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_s_15_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_s_15_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_13' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_11' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_9' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_7' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_5' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_3' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_1_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_s_0_COUT0[32]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_s_0_COUT1[32]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_s_0_S1[32]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[30]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[28]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[26]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[24]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[22]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[20]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[18]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountRowxDP_cry[3]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountRowxDP_cry_0_COUT1[3]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountRowxDP_cry[1]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountRowxDP' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountRowxDP_lcry_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry[15]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry_0_COUT1[15]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry[13]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry[11]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry[9]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry[7]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry[5]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry[3]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry[1]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_lcry_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry_0_COUT1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_s_0_COUT0[18]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_s_0_COUT1[18]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_s_0_S1[18]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[16]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[14]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_s_0_COUT0[15]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_s_0_COUT1[15]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_s_0_S1[15]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[13]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[11]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[9]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[7]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[5]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[3]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[1]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_lcry_0_S0' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/CountxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/CountxDP_cry_0_COUT1[6]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/CountxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/CountxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/CountxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry_0_COUT1[12]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/DividerxDP_s_0_COUT0[6]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/DividerxDP_s_0_COUT1[6]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/DividerxDP_s_0_S1[6]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/DividerxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/DividerxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/DividerxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_s_0_COUT0[14]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_s_0_COUT1[14]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_s_0_S1[14]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_s_0_COUT0[8]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_s_0_COUT1[8]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_s_0_S1[8]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_s_0_COUT0[20]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_s_0_COUT1[20]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_s_0_S1[20]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[18]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[16]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[14]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO7' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO8' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO9' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO10' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO11' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO12' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO13' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO14' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO15' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO16' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO17' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO18' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO19' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO20' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO21' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO22' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO23' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO24' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO25' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO26' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO27' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO28' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO29' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO30' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO31' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO32' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO33' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO34' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO35' has no load
+WARNING - ngdbuild: logical net 'uFifo/EF' has no load
+WARNING - ngdbuild: logical net 'uFifo/AEF' has no load
+WARNING - ngdbuild: logical net 'uFifo/AFF' has no load
+WARNING - ngdbuild: logical net 'uFifo/FF' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO9_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO10_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO11_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO12_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO13_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO14_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO15_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO16_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO17_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO18_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO19_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO20_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO21_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO22_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO23_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO24_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO25_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO26_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO27_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO28_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO29_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO30_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO31_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO32_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO33_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO34_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO35_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/FifoAlmostEmptyxS' has no load
+WARNING - ngdbuild: logical net 'uFifo/FifoAlmostFullxS' has no load
+WARNING - ngdbuild: logical net 'uClockGen/CLKOS' has no load
+WARNING - ngdbuild: logical net 'uClockGen/CLKOK' has no load
+WARNING - ngdbuild: logical net 'uClockGen/LockxS' has no load
+WARNING - ngdbuild: logical net 'uClockGen/CLKINTFB' has no load
+WARNING - ngdbuild: logical net 'FXLEDxSI' has no load
+WARNING - ngdbuild: logical net 'CDVSTestBiasBitOutxSI' has no load
+WARNING - ngdbuild: DRC complete with 696 warnings
+
+Design Results:
+   1134 blocks expanded
+complete the first expansion
+Writing 'DigLog10_DigLog10.ngd' ...
+
+map -a "MachXO" -p LCMXO2280C -t FTBGA256 -s 3 -oc Commercial  "DigLog10_DigLog10.ngd" -o "DigLog10_DigLog10_map.ncd" -pr "DigLog10_DigLog10.prf" -mp "DigLog10_DigLog10.mrp" "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/DigLog10.lpf" -c 0            
+map:  version Diamond (64-bit) 2.0.1.184
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+     Copyright (c) 1995 AT&T Corp.   All rights reserved.
+     Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+     Copyright (c) 2001 Agere Systems   All rights reserved.
+     Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+   Process the file: DigLog10_DigLog10.ngd
+   Picdevice="LCMXO2280C"
+   Pictype="FTBGA256"
+   Picspeed=3
+   Remove unused logic
+   Do not produce over sized NCDs.
+Part used: LCMXO2280CFTBGA256, Performance used: 3.
+Loading device for application map from file 'mj5g21x17.nph' in environment E:/LatticeDiamond/diamond/2.0/ispfpga.
+loading NP_PATTERN_MANAGER
+end NP_PATTERN_MANAGER
+Package Status:                     Final          Version 1.26
+Running general design DRC...
+Removing unused logic...
+Optimizing...
+WARNING - map: Using local reset signal 'ResetxRBI_c' to infer global GSR net.
+WARNING - map: IO buffer missing for top level port FXLEDxSI...logic will be discarded.
+WARNING - map: IO buffer missing for top level port CDVSTestBiasBitOutxSI...logic will be discarded.
+
+
+
+Design Summary:
+   Number of PFU registers:    495
+   Number of SLICEs:           417 out of  1140 (37%)
+      SLICEs(logic/ROM):       417 out of   900 (46%)
+      SLICEs(logic/ROM/RAM):     0 out of   240 (0%)
+          As RAM:            0
+          As Logic/ROM:      0
+   Number of logic LUT4s:     242
+   Number of distributed RAM:   0 (0 LUT4s)
+   Number of ripple logic:    296 (592 LUT4s)
+   Number of shift registers:   0
+   Total number of LUT4s:     834
+   Number of external PIOs: 92 out of 211 (44%)
+   Number of PLLs:  1 out of 2 (50%)
+   Number of block RAMs:  2 out of 3 (67%)
+   Number of GSRs:  1 out of 1 (100%)
+   JTAG used :      No
+   Readback used :  No
+   Oscillator used :  No
+   Startup used :   No
+   Number of TSALL: 0 out of 1 (0%)
+   Notes:-
+      1. Total number of LUT4s = (Number of logic LUT4s) + 2*(Number of distributed RAMs) + 2*(Number of ripple logic)
+      2. Number of logic LUT4s does not include count of distributed RAM and ripple logic.
+   Number of clocks:  7
+     Net ClockxC_c: 86 loads, 86 rising, 0 falling (Driver: uClockGen/PLLCInst_0 )
+     Net IfClockxCI_c: 74 loads, 74 rising, 0 falling (Driver: PIO IfClockxCI )
+     Net ADCStateMachine_2/StateColxDP[17]: 1 loads, 1 rising, 0 falling (Driver: ADCStateMachine_2/StateColxDP[17] )
+     Net CDVSTestSRRowInxSO_c: 1 loads, 1 rising, 0 falling (Driver: ADCStateMachine_2/StateRowxDP[8] )
+     Net ADCStateMachine_2/StateColxDP[9]: 1 loads, 1 rising, 0 falling (Driver: ADCStateMachine_2/StateColxDP[9] )
+     Net PC1xSIO_c: 62 loads, 62 rising, 0 falling (Driver: PIO PC1xSIO )
+     Net PC2xSIO_c: 50 loads, 0 rising, 50 falling (Driver: PIO PC2xSIO )
+   Number of Clock Enables:  15
+     Net ADCStateMachine_2/StateColxDP_RNO_0[17]: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/ClockxC: 29 loads, 29 LSLICEs
+     Net ADCStateMachine_2/StartColxSP_RNO: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/StateColxDP_RNO[9]: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/un1_DividerColxDN_1_sqmuxa_9_RNIGNJB: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/ClockxC_RNIG7BG3: 17 loads, 17 LSLICEs
+     Net ADCStateMachine_2/StartColxSP_cnv_0: 9 loads, 9 LSLICEs
+     Net ADCStateMachine_2.N_321_i: 7 loads, 7 LSLICEs
+     Net monitorStateMachine_1.N_256_i: 8 loads, 8 LSLICEs
+     Net FifoWritexE: 2 loads, 0 LSLICEs
+     Net FifoReadxE: 2 loads, 0 LSLICEs
+     Net uEarlyPaketTimer.CountxDPe: 11 loads, 11 LSLICEs
+     Net uSynchronizerStateMachine_1/CounterxDPe: 7 loads, 7 LSLICEs
+     Net IncxS: 8 loads, 8 LSLICEs
+     Net uEventCounter/CountxDPe: 5 loads, 5 LSLICEs
+   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  363
+   Number of LSRs:  6
+     Net ADCsmRstxE_i: 61 loads, 61 LSLICEs
+     Net ADCStateMachine_2/StateColxDP[11]: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/StateRowxDP[2]: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/StateColxDN_2_sqmuxa_2: 1 loads, 1 LSLICEs
+     Net ResetTimestampxSBO_i_0_o2: 9 loads, 9 LSLICEs
+     Net ResetxRBI_c: 4 loads, 0 LSLICEs
+   Number of nets driven by tri-state buffers:  0
+   Top 10 highest fanout non-clock nets:
+     Net ADCsmRstxE_i: 61 loads
+     Net ADCStateMachine_2/ClockxC: 39 loads
+     Net ADCStateMachine_2/N_430_i: 34 loads
+     Net ResetEarlyPaketTimerxS_i: 32 loads
+     Net ReadADCvaluexE: 23 loads
+     Net cDVSResetStateMachine_1/CountxDP: 20 loads
+     Net ADCStateMachine_2/un1_StateRowxDP_3_i: 19 loads
+     Net ADCStateMachine_2/ClockxC_RNIG7BG3: 17 loads
+     Net monitorStateMachine_1/un1_StatexDP_5_0_0: 17 loads
+     Net monitorStateMachine_1/StatexDP_RNIN10U[7]: 16 loads
+ 
+   Number of warnings:  3
+   Number of errors:    0
+
+
+
+INFO: Design contains EBR with ASYNC Reset Mode that has a limitation:
+The use of the EBR block asynchronous reset requires that certain timing
+be met between the clock and the reset within the memory block. 
+See the device specific data sheet for additional details.
+
+Total CPU Time: 0 secs  
+Total REAL Time: 0 secs  
+Peak Memory Usage: 43 MB
+
+Dumping design to file DigLog10_DigLog10_map.ncd.
+
+mpartrce -p "DigLog10_DigLog10.p2t" -f "DigLog10_DigLog10.p3t" -tf "DigLog10_DigLog10.pt" "DigLog10_DigLog10_map.ncd" "DigLog10_DigLog10.ncd"
+
+---- MParTrce Tool ----
+Removing old design directory at request of -rem command line option to this program.
+Running par. Please wait . . .
+
+Lattice Place and Route Report for Design "DigLog10_DigLog10_map.ncd"
+Thu Dec 13 14:13:57 2012
+
+PAR: Place And Route Diamond (64-bit) 2.0.1.184.
+Command Line: E:/LatticeDiamond/diamond/2.0/ispfpga\bin\nt64\par -f DigLog10_DigLog10.p2t
+DigLog10_DigLog10_map.ncd DigLog10_DigLog10.dir DigLog10_DigLog10.prf
+Preference file: DigLog10_DigLog10.prf.
+Placement level-cost: 5-1.
+Routing Iterations: 6
+
+Loading design for application par from file DigLog10_DigLog10_map.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 3
+Loading device for application par from file 'mj5g21x17.nph' in environment E:/LatticeDiamond/diamond/2.0/ispfpga.
+loading NP_PATTERN_MANAGER 
+end NP_PATTERN_MANAGER 
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.73
+License checked out.
+
+
+Ignore Preference Error(s):  True
+Device utilization summary:
+
+   GSR                1/1           100% used
+   PIO (prelim)      92/271          33% used
+                     92/211          43% bonded
+   EBR                2/3            66% used
+   PLL3               1/2            50% used
+   SLICE            417/1140         36% used
+
+
+
+Number of Signals: 1165
+Number of Connections: 3035
+The following 4 signals are selected to use the primary clock routing resources:
+    ClockxC_c (driver: uClockGen/PLLCInst_0, clk load #: 88)
+    IfClockxCI_c (driver: IfClockxCI, clk load #: 76)
+    PC1xSIO_c (driver: PC1xSIO, clk load #: 62)
+    PC2xSIO_c (driver: PC2xSIO, clk load #: 50)
+
+The following 2 signals are selected to use the secondary clock routing resources:
+    ADCsmRstxE_i (driver: SLICE_538, clk load #: 0, sr load #: 61, ce load #: 0)
+    ADCStateMachine_2/ClockxC (driver: ADCStateMachine_2/SLICE_319, clk load #: 0, sr load #: 0, ce load #: 29)
+
+No signal is selected as GOE.
+.
+Starting Placer Phase 0.
+...............
+Finished Placer Phase 0.  REAL time: 5 secs 
+
+Starting Placer Phase 1.
+...................
+Placer score = 690738.
+Finished Placer Phase 1.  REAL time: 15 secs 
+
+Starting Placer Phase 2.
+.
+Placer score =  688952
+Finished Placer Phase 2.  REAL time: 15 secs 
+
+
+------------------ Clock Report ------------------
+
+Global Clock Resources:
+  CLK_PIN    : 3 out of 4 (75%)
+  PLL        : 1 out of 2 (50%)
+
+Quadrants All (TL, TR, BL, BR) - Global Clocks:
+  PRIMARY "ClockxC_c" from CLKOP on comp "uClockGen/PLLCInst_0" on PLL site "PLL3_R20C1", clk load = 88
+  PRIMARY "IfClockxCI_c" from comp "IfClockxCI" on CLK_PIN site "A9 (PT10B)", clk load = 76
+  PRIMARY "PC1xSIO_c" from comp "PC1xSIO" on CLK_PIN site "N9 (PB10F)", clk load = 62
+  PRIMARY "PC2xSIO_c" from comp "PC2xSIO" on CLK_PIN site "D7 (PT9B)", clk load = 50
+  SECONDARY "ADCsmRstxE_i" from F1 on comp "SLICE_538" on site "R12C2D", clk load = 0, ce load = 0, sr load = 61
+  SECONDARY "ADCStateMachine_2/ClockxC" from Q1 on comp "ADCStateMachine_2/SLICE_319" on site "R13C2B", clk load = 0, ce load = 29, sr load = 0
+
+  PRIMARY  : 4 out of 4 (100%)
+  SECONDARY: 2 out of 4 (50%)
+
+--------------- End of Clock Report ---------------
+
+
+I/O Usage Summary (final):
+   92 out of 271 (33.9%) PIO sites used.
+   92 out of 211 (43.6%) bonded PIO sites used.
+   Number of PIO comps: 92; differential: 0
+   Number of Vref pins used: 0
+
+I/O Bank Usage Summary:
++----------+----------------+------------+------------+------------+
+| I/O Bank | Usage          | Bank Vccio | Bank Vref1 | Bank Vref2 |
++----------+----------------+------------+------------+------------+
+| 0        | 3 / 24 ( 12%)  | 2.5V       | -          | -          |
+| 1        | 5 / 30 ( 16%)  | 2.5V       | -          | -          |
+| 2        | 5 / 26 ( 19%)  | 2.5V       | -          | -          |
+| 3        | 12 / 28 ( 42%) | 2.5V       | -          | -          |
+| 4        | 16 / 29 ( 55%) | 2.5V       | -          | -          |
+| 5        | 10 / 20 ( 50%) | 2.5V       | -          | -          |
+| 6        | 27 / 28 ( 96%) | 2.5V       | -          | -          |
+| 7        | 14 / 26 ( 53%) | 2.5V       | -          | -          |
++----------+----------------+------------+------------+------------+
+
+Total placer CPU time: 14 secs 
+
+Dumping design to file DigLog10_DigLog10.dir/5_1.ncd.
+
+0 connections routed; 3035 unrouted.
+Starting router resource preassignment
+
+WARNING - par: The following clock signals will be routed by using generic routing resource and may suffer from excessive delay and/or skew.
+   Signal=ADCStateMachine_2/StateColxDP[17] loads=29 clock_loads=1
+   Signal=CDVSTestSRRowInxSO_c loads=5 clock_loads=1
+   Signal=ADCStateMachine_2/StateColxDP[9] loads=7 clock_loads=1
+
+Completed router resource preassignment. Real time: 19 secs 
+
+Start NBR router at 14:14:16 12/13/12
+
+*****************************************************************
+Info: NBR allows conflicts(one node used by more than one signal)
+      in the earlier iterations. In each iteration, it tries to  
+      solve the conflicts while keeping the critical connections 
+      routed as shorter as possible. The routing process is said 
+      to be completed when no conflicts exist and all connections
+      are routed.                                                
+Note: NBR uses a different method to calculate timing slacks. The
+      worst slack and total negative slack may not be the same as
+      that in TRCE report. You should always run TRCE to verify  
+      your design. Thanks.                                       
+*****************************************************************
+
+Start NBR special constraint process at 14:14:16 12/13/12
+
+Start NBR section for initial routing
+Level 1, iteration 1
+18(0.02%) conflicts; 2239(73.77%) untouched conns; 23812 (nbr) score; 
+Estimated worst slack/total negative slack: -0.619ns/-23.813ns; real time: 20 secs 
+Level 2, iteration 1
+27(0.03%) conflicts; 2065(68.04%) untouched conns; 24020 (nbr) score; 
+Estimated worst slack/total negative slack: -0.619ns/-24.020ns; real time: 20 secs 
+Level 3, iteration 1
+15(0.02%) conflicts; 1848(60.89%) untouched conns; 24592 (nbr) score; 
+Estimated worst slack/total negative slack: -0.619ns/-24.592ns; real time: 20 secs 
+Level 4, iteration 1
+116(0.13%) conflicts; 0(0.00%) untouched conn; 26342 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.343ns; real time: 21 secs 
+
+Info: Initial congestion level at 75% usage is 0
+Info: Initial congestion area  at 75% usage is 0 (0.00%)
+
+Start NBR section for normal routing
+Level 1, iteration 1
+9(0.01%) conflicts; 128(4.22%) untouched conns; 23242 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-23.242ns; real time: 21 secs 
+Level 2, iteration 1
+5(0.01%) conflicts; 128(4.22%) untouched conns; 26348 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.349ns; real time: 22 secs 
+Level 3, iteration 1
+5(0.01%) conflicts; 128(4.22%) untouched conns; 26348 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.349ns; real time: 22 secs 
+Level 4, iteration 1
+70(0.08%) conflicts; 0(0.00%) untouched conn; 26348 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.349ns; real time: 22 secs 
+Level 4, iteration 2
+30(0.03%) conflicts; 0(0.00%) untouched conn; 26573 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.574ns; real time: 22 secs 
+Level 4, iteration 3
+8(0.01%) conflicts; 0(0.00%) untouched conn; 26573 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.574ns; real time: 23 secs 
+Level 4, iteration 4
+2(0.00%) conflicts; 0(0.00%) untouched conn; 26573 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.574ns; real time: 23 secs 
+Level 4, iteration 5
+1(0.00%) conflict; 0(0.00%) untouched conn; 26573 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.574ns; real time: 23 secs 
+Level 4, iteration 6
+2(0.00%) conflicts; 0(0.00%) untouched conn; 26573 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.574ns; real time: 23 secs 
+Level 4, iteration 7
+0(0.00%) conflict; 0(0.00%) untouched conn; 26228 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.229ns; real time: 23 secs 
+
+Start NBR section for performance tunning (iteration 1)
+Level 4, iteration 1
+0(0.00%) conflict; 0(0.00%) untouched conn; 26228 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.229ns; real time: 23 secs 
+
+Start NBR section for post-routing
+0(0.00%) conflict; 0(0.00%) untouched conn; 26246 (nbr) score; 
+Estimated worst slack/total negative slack: -0.651ns/-26.247ns; real time: 24 secs 
+
+Dumping design to file DigLog10_DigLog10.dir/5_1.ncd.
+End NBR router with 0 unrouted connection
+
+NBR Summary
+-----------
+  Number of unrouted connections : 0 (0.00%)
+  Number of connections with timing violations : 65 (2.14%)
+  Estimated worst slack : -0.651ns
+  Timing score : 20399
+-----------
+Notes: The timing info is calculated for SETUP only and all PAR_ADJs are ignored.
+
+
+
+Hold time optimization iteration 0:
+All hold time violations have been successfully corrected in speed grade M
+
+---------------IO Configurable Delay Element Usage Summary---------------
+
+Total IO Configurable Delay Elements used: 0 
+---------------End of IO Configurable Delay Element Usage Summary--------
+
+Total CPU time 25 secs 
+Total REAL time: 26 secs 
+Completely routed.
+End of route.  3035 routed (100.00%); 0 unrouted.
+Checking DRC ... 
+No errors found.
+
+Hold time timing score: 0, hold timing errors: 0
+
+Timing score: 20399 
+
+Dumping design to file DigLog10_DigLog10.dir/5_1.ncd.
+
+
+par done!
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+Exiting par with exit code 0
+Exiting mpartrce with exit code 0
+
+bitgen -w "DigLog10_DigLog10.ncd" -f "DigLog10_DigLog10.t2b" "DigLog10_DigLog10.prf"
+
+
+BITGEN: Bitstream Generator Diamond (64-bit) 2.0.1.184
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+
+
+Loading design for application Bitgen from file DigLog10_DigLog10.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 3
+Loading device for application Bitgen from file 'mj5g21x17.nph' in environment E:/LatticeDiamond/diamond/2.0/ispfpga.
+loading NP_PATTERN_MANAGER 
+end NP_PATTERN_MANAGER 
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.73
+
+Running DRC.
+DRC detected 0 errors and 0 warnings.
+Reading Preference File from DigLog10_DigLog10.prf...
+
+Preference Summary:
++---------------------------------+---------------------------------+
+|  Preference                     |  Current Setting                |
++---------------------------------+---------------------------------+
+|                  CONFIG_SECURE  |                          OFF**  |
++---------------------------------+---------------------------------+
+|                          INBUF  |                           ON**  |
++---------------------------------+---------------------------------+
+|                             ES  |                           No**  |
++---------------------------------+---------------------------------+
+ *  Default setting.
+ ** The specified setting matches the default setting.
+
+
+Creating bit map...
+Saving bit stream in "DigLog10_DigLog10.bit".
+
+ispdfw -dev LCMXO2280C-XXFT256 -if "DigLog10_DigLog10.bit" -oft -jed -of "DigLog10_DigLog10.jed"  -comment "DigLog10_DigLog10.alt"
+
+Device Info:
+Full name: LCMXO2280C
+Row Width: 1116
+Column Width: 436
+Usercode bit #: 32
+Processing BIT2JED...
+
+Input: DigLog10_DigLog10.bit
+Output: DigLog10_DigLog10.jed
+Overwriteues: 0
+Comment file: DigLog10_DigLog10.alt
+Lever: 0
++-------------+
+|   Succeed!  |
++-------------+

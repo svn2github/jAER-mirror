@@ -1,0 +1,44 @@
+MODULE wordRegister DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/wordRegister.vhd
+MODULE AERfifo DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+MODULE clockgen DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+MODULE earlyPaketTimer DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/earlyPaketTimer.vhd
+MODULE EventBeforeOverflow DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/EventBeforeOverflow.vhd
+MODULE eventCounter DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/eventCounter.vhd
+MODULE fifoStatemachine DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/fifoStatemachine.vhd
+MODULE monitorStateMachine DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/monitorStateMachine.vhd
+MODULE synchronizerStateMachine DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/synchronizerStateMachine.vhd
+MODULE timestampCounter DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/timestampCounter.vhd
+MODULE USBAER_top_level DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+	SUBMODULE cDVSResetStateMachine
+		INSTANCE cDVSResetStateMachine_1
+	SUBMODULE ADCvalueReady
+		INSTANCE ADCvalueReady_1
+	SUBMODULE ADCStateMachine
+		INSTANCE ADCStateMachine_2
+	SUBMODULE monitorStateMachine
+		INSTANCE monitorStateMachine_1
+	SUBMODULE fifoStatemachine
+		INSTANCE fifoStatemachine_1
+	SUBMODULE synchronizerStateMachine
+		INSTANCE uSyncStateMachine
+	SUBMODULE timestampCounter
+		INSTANCE uTimestampCounter
+	SUBMODULE eventCounter
+		INSTANCE uEventCounter
+	SUBMODULE earlyPaketTimer
+		INSTANCE uEarlyPaketTimer
+	SUBMODULE wordRegister
+		INSTANCE uADCRegister
+	SUBMODULE wordRegister
+		INSTANCE uMonitorTimestampRegister
+	SUBMODULE AERfifo
+		INSTANCE uFifo
+	SUBMODULE shiftRegister
+		INSTANCE shiftRegister_1
+	SUBMODULE clockgen
+		INSTANCE uClockGen
+MODULE ADCvalueReady DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCvalueReady.vhd
+VHDL_ENTITY_ONLY ADCStateMachine DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+MODULE ADCStateMachine DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+MODULE cDVSResetStateMachine DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+MODULE shiftRegister DEFIN C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd

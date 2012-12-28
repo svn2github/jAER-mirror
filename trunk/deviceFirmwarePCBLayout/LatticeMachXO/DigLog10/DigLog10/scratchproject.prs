@@ -1,0 +1,85 @@
+#--  Synopsys, Inc.
+#--  Version F-2012.03L-1 
+#--  Project file E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10\scratchproject.prs
+
+#project files
+add_file -vhdl -lib work "E:/LatticeDiamond/diamond/2.0/cae_library/synthesis/vhdl/machxo.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/ADCStateMachineABC.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/ADCvalueReady.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/cDVSResetStateMachine.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/earlyPaketTimer.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/EventBeforeOverflow.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/eventCounter.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/fifoStatemachine.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/monitorStateMachine.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/shiftRegister.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/synchronizerStateMachine.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/timestampCounter.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/wordRegister.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/AERfifo.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/clockgen.vhd"
+add_file -vhdl -lib work "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/sourcecode/USBAER_top_level.vhd"
+
+
+#implementation: "DigLog10"
+impl -add E:\jaer\deviceFirmwarePCBLayout\LatticeMachXO\DigLog10\DigLog10 -type fpga
+
+#
+#implementation attributes
+
+set_option -vlog_std v2001
+set_option -num_critical_paths 3
+set_option -num_startend_points 0
+set_option -project_relative_includes 1
+set_option -include_path {E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/DigLog10/}
+
+#device options
+set_option -technology MACHXO
+set_option -part LCMXO2280C
+set_option -package FT256C
+set_option -speed_grade -3
+set_option -part_companion ""
+
+#compilation/mapping options
+set_option -top_module "USBAER_top_level"
+
+# mapper_options
+set_option -frequency 1
+set_option -auto_constrain_io 1
+set_option -write_verilog 0
+set_option -write_vhdl 0
+set_option -resolve_multiple_driver 1
+
+# Lattice XP
+set_option -maxfan 100
+set_option -disable_io_insertion 0
+set_option -retiming 0
+set_option -pipe 0
+set_option -forcegsr false
+set_option -fixgatedclocks 3
+set_option -fixgeneratedclocks 3
+set_option -update_models_cp 0
+set_option -syn_edif_array_rename 1
+
+# NFilter
+set_option -popfeed 0
+set_option -constprop 0
+set_option -createhierarchy 0
+
+# sequential_optimization_options
+set_option -symbolic_fsm_compiler 1
+
+# Compiler Options
+set_option -compiler_compatible 1
+set_option -resource_sharing 1
+set_option -multi_file_compilation_unit 1
+
+#automatic place and route (vendor) options
+set_option -write_apr_constraint 0
+
+#set result format/file last
+project -result_file "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/DigLog10/DigLog10_DigLog10.edi"
+
+#set log file 
+set_option log_file "E:/jaer/deviceFirmwarePCBLayout/LatticeMachXO/DigLog10/DigLog10/DigLog10_DigLog10.srf" 
+impl -active "DigLog10"

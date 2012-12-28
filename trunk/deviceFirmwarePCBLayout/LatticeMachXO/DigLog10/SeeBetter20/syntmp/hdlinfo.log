@@ -1,0 +1,2174 @@
+$ Start of Compile
+#Thu Dec 01 16:46:03 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Dec 01 16:46:04 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:04:56 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD541 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":159:8:159:11|Expecting ;
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+@E: CD632 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine - Copy.vhd":25:23:25:24|duplicate entity name adcstatemachine
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine - Copy.vhd":93:95:93:95|No identifier "usecalibrationxsi" in scope
+3 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine - Copy.vhd
+@END
+3 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+3 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+3 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:04:57 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:05:23 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD541 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":159:8:159:11|Expecting ;
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:05:23 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:05:53 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":182:104:182:104|No identifier "ressettledi" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:05:53 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:06:33 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":223:34:223:34|No identifier "streadrow" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:06:33 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:07:45 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":250:43:250:43|No identifier "ststartconversiona" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:07:45 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:08:45 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD200 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":257:10:257:17|Misspelled variable, signal or procedure name?
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:08:45 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:09:04 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD200 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":263:10:263:17|Misspelled variable, signal or procedure name?
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:09:04 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:09:54 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD200 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":263:10:263:20|Misspelled variable, signal or procedure name?
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:09:54 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:10:17 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD200 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":273:8:273:18|Misspelled variable, signal or procedure name?
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:10:17 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:10:35 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":273:29:273:29|No identifier "stwait" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:10:35 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:11:10 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":314:29:314:29|No identifier "stwait" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:11:11 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:11:28 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":333:23:333:23|No identifier "stinit" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:11:29 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:11:53 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:11:53 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:51:06 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD178 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":536:28:536:44|Can't find formal dvstestcolmode0xso
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:51:06 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:52:11 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD174 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":537:29:537:45|Duplicate specification of formal cdvstestcolmode0xso
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:52:12 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:52:35 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CG103 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":538:3:538:3|Expecting expression
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:52:35 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:52:49 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":603:43:603:43|No identifier "cdvstestcolmode0xs" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:52:49 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:53:49 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":535:46:535:46|No identifier "dvstestcolmode0xs" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:53:49 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:54:16 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:54:16 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:55:34 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:55:34 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:56:10 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:56:10 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:56:49 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:56:49 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 11:58:52 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 11:58:52 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 12:05:37 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 12:05:37 2011
+
+###########################################################]
+$ Start of Compile
+#Wed Dec 21 12:50:12 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Dec 21 12:50:12 2011
+
+###########################################################]
+$ Start of Compile
+#Thu Dec 22 16:54:33 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD213 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":597:2:597:12|Undefined identifier
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Dec 22 16:54:34 2011
+
+###########################################################]
+$ Start of Compile
+#Thu Dec 22 16:55:24 2011
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Dec 22 16:55:24 2011
+
+###########################################################]
+$ Start of Compile
+#Mon Jan 02 16:06:08 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@W: CD266 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":634:18:634:38|cdvstestbiasbitoutxsi is not readable.  This may cause a simulation mismatch.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Jan 02 16:06:08 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Jan 02 17:20:37 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CS187 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":564:6:564:14|Expecting =>
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Jan 02 17:20:38 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Jan 02 17:23:04 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CS187 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":564:6:564:14|Expecting =>
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Jan 02 17:23:04 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Jan 02 17:23:25 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CS187 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":564:6:564:14|Expecting =>
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Jan 02 17:23:25 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Jan 02 17:25:53 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@W: CD266 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":634:18:634:38|cdvstestbiasbitoutxsi is not readable.  This may cause a simulation mismatch.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Jan 02 17:25:53 2012
+
+###########################################################]
+$ Start of Compile
+#Tue Jan 03 14:00:28 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 03 14:00:28 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jan 04 10:13:05 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jan 04 10:13:06 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 05 16:26:13 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 05 16:26:13 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 05 16:27:06 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 05 16:27:06 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 05 16:31:20 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 05 16:31:20 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 05 16:32:15 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 05 16:32:15 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 05 16:33:28 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 05 16:33:28 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 05 16:36:15 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 05 16:36:15 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 05 16:37:55 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 05 16:37:55 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 05 16:39:00 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 05 16:39:00 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 05 16:52:29 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 05 16:52:29 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 06 14:36:38 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 06 14:36:38 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 06 18:26:21 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 06 18:26:22 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 06 18:51:56 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 06 18:51:56 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 06 19:27:28 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 06 19:27:28 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Jan 09 13:40:05 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Jan 09 13:40:05 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Jan 09 17:09:56 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Jan 09 17:09:56 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 12 16:47:37 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 12 16:47:37 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 12 17:02:32 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 12 17:02:32 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 13 10:08:56 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 13 10:08:56 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 13 10:32:13 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 13 10:32:13 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 13 10:59:47 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 13 10:59:47 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 13 11:15:02 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 13 11:15:02 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 13 11:26:50 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 13 11:26:50 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 13 11:34:04 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 13 11:34:04 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 13 15:38:12 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 13 15:38:12 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 13 16:34:20 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 13 16:34:20 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 13 16:49:43 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 13 16:49:43 2012
+
+###########################################################]
+$ Start of Compile
+#Tue Jan 17 16:12:32 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 17 16:12:32 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jan 18 10:52:18 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD565 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":400:17:400:18|Duplicate case label detected 
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+@E: CD178 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":551:22:551:32|Can't find formal testpixelxei
+2 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+2 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jan 18 10:52:19 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jan 18 10:53:32 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD565 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":400:17:400:18|Duplicate case label detected 
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jan 18 10:53:32 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jan 18 11:02:13 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":403:25:403:25|No identifier "stinit" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jan 18 11:02:14 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jan 18 11:02:40 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jan 18 11:02:40 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jan 18 11:03:23 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jan 18 11:03:23 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jan 18 11:46:55 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jan 18 11:46:55 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jan 18 11:58:37 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jan 18 11:58:37 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 19 09:09:31 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 19 09:09:31 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 19 14:07:07 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineA.vhd":271:32:271:32|No identifier "stbusya" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineA.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 19 14:07:07 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 19 14:08:24 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineA.vhd":271:32:271:32|No identifier "stbusya" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineA.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 19 14:08:24 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 19 14:09:58 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 19 14:09:58 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 19 14:35:53 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 19 14:35:53 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Jan 19 16:31:52 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Jan 19 16:31:52 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 20 10:52:55 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 20 10:52:55 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 20 11:08:35 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 20 11:08:35 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 20 11:14:19 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 20 11:14:19 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 20 11:23:02 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 20 11:23:02 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 20 13:35:51 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 20 13:35:51 2012
+
+###########################################################]
+$ Start of Compile
+#Fri Jan 20 14:20:46 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Jan 20 14:20:46 2012
+
+###########################################################]
+$ Start of Compile
+#Tue Jan 24 09:17:12 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 24 09:17:12 2012
+
+###########################################################]
+$ Start of Compile
+#Tue Jan 24 11:32:46 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 24 11:32:46 2012
+
+###########################################################]
+$ Start of Compile
+#Tue Jan 24 17:53:18 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 24 17:53:18 2012
+
+###########################################################]
+$ Start of Compile
+#Tue Jan 24 18:12:46 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD213 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":617:2:617:12|Undefined identifier
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 24 18:12:47 2012
+
+###########################################################]
+$ Start of Compile
+#Tue Jan 24 18:13:07 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 24 18:13:07 2012
+
+###########################################################]
+$ Start of Compile
+#Tue Jan 24 18:14:38 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 24 18:14:38 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jan 25 09:38:00 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jan 25 09:38:00 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jan 25 10:04:36 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jan 25 10:04:36 2012
+
+###########################################################]
+$ Start of Compile
+#Tue Feb 21 15:38:22 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Feb 21 15:38:23 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Feb 23 17:51:52 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD717 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd":57:4:57:20|entity: end identifier adcstatemachineab does not match
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+@E: CD213 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":424:2:424:12|Undefined identifier
+2 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+2 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Feb 23 17:51:52 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Feb 23 17:52:17 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD717 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd":57:4:57:20|entity: end identifier adcstatemachineab does not match
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+@E: CD213 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":424:2:424:12|Undefined identifier
+2 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+2 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Feb 23 17:52:17 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Feb 23 17:52:46 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD717 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd":57:4:57:20|entity: end identifier adcstatemachineab does not match
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Feb 23 17:52:46 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Feb 23 17:54:11 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD717 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd":57:4:57:20|entity: end identifier adcstatemachineab does not match
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Feb 23 17:54:11 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Feb 23 17:54:59 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Feb 23 17:54:59 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Feb 23 17:58:18 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Feb 23 17:58:18 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Feb 23 18:00:05 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Feb 23 18:00:05 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Feb 23 18:01:18 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Feb 23 18:01:18 2012
+
+###########################################################]
+$ Start of Compile
+#Thu Feb 23 18:02:10 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Thu Feb 23 18:02:10 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Feb 27 14:44:12 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CG103 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd":114:2:114:5|Expecting expression
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+@E: CD213 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":409:0:409:1|Undefined identifier
+2 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+2 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Feb 27 14:44:13 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Feb 27 14:44:58 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD415 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd":115:26:115:26|Expecting keyword when
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+@E: CD213 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd":409:0:409:1|Undefined identifier
+2 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+2 errors parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Feb 27 14:44:59 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Feb 27 14:45:42 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD415 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd":115:26:115:26|Expecting keyword when
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Feb 27 14:45:42 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Feb 27 14:46:24 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Feb 27 14:46:24 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Feb 27 14:52:09 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Feb 27 14:52:09 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Feb 27 15:24:19 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Feb 27 15:24:19 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Feb 27 17:07:11 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Feb 27 17:07:13 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Feb 27 17:21:25 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Feb 27 17:21:26 2012
+
+###########################################################]
+$ Start of Compile
+#Mon Feb 27 17:28:01 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Feb 27 17:28:01 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 14:24:26 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD200 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd":446:6:446:19|Misspelled variable, signal or procedure name?
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineAB.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 14:24:27 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 14:25:19 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 14:25:19 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 14:45:28 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 14:45:28 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 14:51:29 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 14:51:29 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 14:53:27 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 14:53:27 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 14:53:54 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 14:53:54 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 14:56:24 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 14:56:24 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 15:03:49 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD493 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd":451:22:451:22|character '!' is not allowed
+
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 15:03:49 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 15:05:59 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd":451:22:451:23|No identifier "colstatexdp" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 15:05:59 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 15:06:34 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd":440:57:440:57|No identifier "colstatexdp" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 15:06:34 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 15:07:33 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd":460:19:460:19|No identifier "colstatexdp" in scope
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 15:07:33 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 15:07:48 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD251 :"C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd":460:20:460:20|The comparison operator in VHDL is a single '='
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/ADCStateMachineABC.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/AERfifo.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/clockgen.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/sourcecode/USBAER_top_level.vhd
+@END
+1 error parsing file C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter20/ADCStateMachine_tb.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 15:07:48 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 15:08:01 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 15:08:01 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 15:30:34 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 15:30:35 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 15:36:24 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 15:36:24 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 15:52:33 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 15:52:33 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 15:54:59 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 15:54:59 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 17:01:57 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 17:01:57 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 17:02:17 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 17:02:17 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 17:02:35 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 17:02:35 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 17:02:54 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 17:02:54 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 17:08:48 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 17:08:48 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 17:12:38 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 17:12:38 2012
+
+###########################################################]
+$ Start of Compile
+#Wed Jun 27 17:26:49 2012
+
+Synopsys VHDL Compiler, version comp550rcp1, Build 047R, built Apr 29 2011
+@N|Running in 64-bit mode
+Copyright (C) 1994-2011 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
+
+@N: CD720 :"C:\Program Files\Lattice\diamond\1.3\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\PROJ\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jun 27 17:26:49 2012
+
+###########################################################]
