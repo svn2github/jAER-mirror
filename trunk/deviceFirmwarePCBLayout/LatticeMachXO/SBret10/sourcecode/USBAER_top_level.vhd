@@ -617,7 +617,7 @@ begin
   -- mux to select how to drive datalines
   with AddressTimestampSelectxS select
     FifoDataInxD <=
-    AddressMSBxD & "0000" & AddressRegOutxD  when selectaddress,
+    AddressMSBxD & "00" & AddressRegOutxD(9) & "00" & AddressRegOutxD(8 downto 0) when selectaddress, -- hack to put the xbit at bit position 11 (which allows addresses up to 10 bits)
     AddressMSBxD & MonitorTimestampxD when selecttimestamp,
     AddressMSBxD & "01000000000000" when selecttrigger,                                    
     AddressMSBxD & ADCregOutxD when others;
