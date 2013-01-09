@@ -336,6 +336,7 @@ architecture Structural of USBAER_top_level is
 
   signal AddressRegOutxD : std_logic_vector(9 downto 0);
   signal AddressRegWritexE : std_logic;
+  signal AddressRegOut8xD : std_logic;
 
   -- counter increment signal
   signal IncxS : std_logic;
@@ -614,10 +615,18 @@ begin
   -- reset early paket timer whenever a paket is sent (short or normal)
   ResetEarlyPaketTimerxS <= (SMResetEarlyPaketTimerxS or ECResetEarlyPaketTimerxS);
 
+  -- mux to select how to drive dataline 8
+  
+  with AddressRegOutxD(9) select
+    AddressRegOut8xD <=
+	'0' when '0',
+	AddressRegOutxD(8) when '1',
+	'0' when others;
+
   -- mux to select how to drive datalines
   with AddressTimestampSelectxS select
     FifoDataInxD <=
-    AddressMSBxD & "00" & AddressRegOutxD(9) & "00" & AddressRegOutxD(8 downto 0) when selectaddress, -- hack to put the xbit at bit position 11 (which allows addresses up to 10 bits)
+    AddressMSBxD & "00" & AddressRegOutxD(9) & "00" & AddressRegOut8xD & AddressRegOutxD(7 downto 0) when selectaddress, -- hack to put the xbit at bit position 11 (which allows addresses up to 10 bits)
     AddressMSBxD & MonitorTimestampxD when selecttimestamp,
     AddressMSBxD & "01000000000000" when selecttrigger,                                    
     AddressMSBxD & ADCregOutxD when others;
