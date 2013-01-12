@@ -81,6 +81,7 @@ extern cmd_state_type cmd_state;
 extern int cmd_stream_data;
 extern cmd_channel_type cmd_channel_select;
 extern int cmd_use_onchip;
+extern int nth;
 
 void cmd_init();
 

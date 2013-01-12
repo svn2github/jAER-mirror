@@ -57,6 +57,8 @@ cmd_state_type cmd_state = CMD_STATE_IDLE;
 cmd_channel_type cmd_channel_select = CMD_CHANNEL_LMC1;
 //! flag indicating whether to use the on-chip DAC
 int cmd_use_onchip = 0;
+//! every how manieth frame is to be sent to the computer (1= every frame)
+int nth = 1;
 
 /*! this buffer is filled with the incoming command by #_CNInterrupt
  *  and also serves as a buffer for parsed commands (by #cmd_parse) */
@@ -69,6 +71,7 @@ void cmd_version(int argn, char *argc[]);
 void cmd_start  (int argn, char *argc[]);
 void cmd_stop   (int argn, char *argc[]);
 void cmd_stream (int argn, char *argc[]);
+void cmd_nth    (int argn, char *argc[]);
 void cmd_channel(int argn, char *argc[]);
 void cmd_onchip (int argn, char *argc[]);
 void cmd_DAC    (int argn, char *argc[]);
@@ -96,6 +99,7 @@ cmd_table_entry cmd_table[]=
 	{"start",cmd_start,"starts streaming"},
 	{"stop",cmd_stop,"stops streaming"},
 	{"stream",cmd_stream,"what to stream : stream [fake] [frames] [srinivasan]"},
+	{"nth",cmd_nth,"every how manieth frame to stream (1=every frame)"},
 
 	// commands for setting parameters of MDC2D
 	{"DAC",cmd_DAC,"sets a voltage , usage 'DAC [0-E] mv_hex'"},
@@ -115,7 +119,7 @@ cmd_table_entry cmd_table[]=
 	// commands for tuning, debugging
 	{"set",cmd_set,"sets (many) variables, usage 'set var1 val1 ...'"},
 	{"get",cmd_get,"gets value of variable(s), usage 'get var1 ...'"},
-        {"echo",cmd_echo,"simply echoes the provided argument(s)"},
+	{"echo",cmd_echo,"simply echoes the provided argument(s)"},
 	{"goto",cmd_goto,"jumps to pixel : goto x_hex y_hex"},
 	{"next",cmd_next,"goto next pixel (optional argument indicates number)"},
 	{"sample",cmd_sample,"samples analog input"},
@@ -337,6 +341,22 @@ void cmd_stream (int argn, char *argc[])
 			uart_print_answer("???");
 		uart_print_answer(" ");
 	}
+	uart_print_answer("\n");
+}
+
+
+void cmd_nth    (int argn, char *argc[])
+{
+	int i;
+	if (argn > 1)
+	{
+		uart_print_answer("!invalid number of arguments\n");
+		return;
+	}
+	uart_print_answer("nth ");
+	if (argn == 1)
+		nth = htoi(argc[0]);
+	uart_print_answer_i(nth);
 	uart_print_answer("\n");
 }
 

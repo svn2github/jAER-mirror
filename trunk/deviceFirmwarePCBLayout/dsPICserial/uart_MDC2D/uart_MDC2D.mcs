@@ -171,6 +171,162 @@ ToolArgsString=-g -Wall
 TraceCmdString=
 DebugOptions=
 [File013]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\uart.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File014]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\port.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File015]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\time.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File016]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\command.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File017]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\string.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File018]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\var.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File019]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\DAC.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File020]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\MDC2D.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File021]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\srinivasan.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={DE18EB1A-B46B-486B-B96F-A811A635DFAC}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-as.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-g
+TraceCmdString=
+DebugOptions=
+[File022]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\message.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File023]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\main.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File024]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\filter.o
+Folder=Intermediary
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={069BD372-6CA0-40D4-BF2F-5DC806D05083}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-gcc.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c|filter.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-g -Wall
+TraceCmdString=
+DebugOptions=
+[File025]
 Location=X:\uflyer\svn_ini\dsPIC33F\firmware\uart_MDC2D\uart_MDC2D.cof
 Folder=Output
 DeviceName=dsPIC33FJ128MC804
@@ -183,7 +339,7 @@ SuiteArgsString=
 ToolArgsString=-o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)" -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem
 TraceCmdString=
 DebugOptions=
-[File014]
+[File026]
 Location=X:\uflyer\svn_ini\dsPIC33F\firmware\uart_MDC2D\uart_MDC2D.hex
 Folder=Output
 DeviceName=dsPIC33FJ128MC804
@@ -196,7 +352,33 @@ SuiteArgsString=
 ToolArgsString=-o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)" -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem
 TraceCmdString=
 DebugOptions=
+[File027]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\uart_MDC2D.cof
+Folder=Output
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={433C3D55-811D-409D-A6BF-159CF9355B42}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-ld.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c|filter.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)" -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem
+TraceCmdString=
+DebugOptions=
+[File028]
+Location=C:\Users\tobi\Documents\1jaer\deviceFirmwarePCBLayout\dsPICserial\uart_MDC2D\uart_MDC2D.hex
+Folder=Output
+DeviceName=dsPIC33FJ128MC804
+LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
+LanguageToolID={433C3D55-811D-409D-A6BF-159CF9355B42}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-ld.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|uart.c|port.c|time.c|command.c|string.c|var.c|DAC.c|MDC2D.c|srinivasan.s|message.c|main.c|filter.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=-o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)" -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem
+TraceCmdString=
+DebugOptions=
 [TOOL_LOC_STAMPS]
-tool_loc{DE18EB1A-B46B-486B-B96F-A811A635DFAC}=C:\Program Files\Microchip\mplabc30\v3.25\bin\pic30-as.exe
-tool_loc{069BD372-6CA0-40D4-BF2F-5DC806D05083}=C:\Program Files\Microchip\mplabc30\v3.25\bin\pic30-gcc.exe
-tool_loc{433C3D55-811D-409D-A6BF-159CF9355B42}=C:\Program Files\Microchip\mplabc30\v3.25\bin\pic30-ld.exe
+tool_loc{DE18EB1A-B46B-486B-B96F-A811A635DFAC}=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-as.exe
+tool_loc{069BD372-6CA0-40D4-BF2F-5DC806D05083}=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-gcc.exe
+tool_loc{433C3D55-811D-409D-A6BF-159CF9355B42}=C:\Program Files (x86)\Microchip\MPLAB C30\bin\pic30-ld.exe

@@ -278,7 +278,8 @@ void stream_loop()
 							frame_bytes->buf[y*20+x]= (i&0xff)^0xff;
 					}
 					
-				uart_dma_send_msg(buffer);
+				if (i%nth == 0)
+					uart_dma_send_msg(buffer);
 				switch_buffers();
 			}
 			
@@ -352,19 +353,22 @@ void stream_loop()
 				lastframe= (int *) MSG_PAYLOAD(buffer);
 				
 
-				// either stream the frame (+/- motion data) via DMA...
-				if (cmd_stream_data & CMD_STREAM_FRAMES)
-					uart_dma_send_msg(buffer);
-				else
-				// or simply send the motion data via blocking i/o
+				if (i%nth == 0)
 				{
-					msgbuf.type= MSG_DXDY;
-					msgbuf.marker= MSG_MARKER;
-					msgbuf.payload_length= sizeof(struct msg_dxdy);
-					dxdybuf.dx= dx;
-					dxdybuf.dy= dy;
-					uart_write((char *) &msgbuf,sizeof(struct msg));
-					uart_write((char *) &dxdybuf,sizeof(struct msg_dxdy));
+					// either stream the frame (+/- motion data) via DMA...
+					if (cmd_stream_data & CMD_STREAM_FRAMES)
+						uart_dma_send_msg(buffer);
+					else
+					// or simply send the motion data via blocking i/o
+					{
+						msgbuf.type= MSG_DXDY;
+						msgbuf.marker= MSG_MARKER;
+						msgbuf.payload_length= sizeof(struct msg_dxdy);
+						dxdybuf.dx= dx;
+						dxdybuf.dy= dy;
+						uart_write((char *) &msgbuf,sizeof(struct msg));
+						uart_write((char *) &dxdybuf,sizeof(struct msg_dxdy));
+					}
 				}
 				
 				// in any case, switch the buffers for motion calculation...
