@@ -62,24 +62,24 @@ entity USBAER_top_level is
     FXLEDxSI : in std_logic;
 
     -- ADC
-    ADCclockxCO : out std_logic;
-    ADCwordxDIO : inout std_logic_vector(11 downto 0);
+    --ADCclockxCO : out std_logic;
+    --ADCwordxDIO : inout std_logic_vector(11 downto 0);
    
-    ADCwritexEBO : out std_logic;
-    ADCreadxEBO : out std_logic;
-    ADCconvstxEBO : out std_logic;
-    ADCbusyxSI: in std_logic;
+    --ADCwritexEBO : out std_logic;
+    --ADCreadxEBO : out std_logic;
+    --ADCconvstxEBO : out std_logic;
+    --ADCbusyxSI: in std_logic;
    
-    CDVSTestSRRowClockxSO: out std_logic;
-    CDVSTestSRColClockxSO: out std_logic;
-    CDVSTestSRRowInxSO: out std_logic;
-    CDVSTestSRColInxSO: out std_logic;
+    --CDVSTestSRRowClockxSO: out std_logic;
+    --CDVSTestSRColClockxSO: out std_logic;
+    --CDVSTestSRRowInxSO: out std_logic;
+    --CDVSTestSRColInxSO: out std_logic;
     
     CDVSTestBiasEnablexEO : out std_logic;
-    CDVSTestChipResetxRBO: out std_logic;
+    --CDVSTestChipResetxRBO: out std_logic;
 	
-	CDVSTestColMode0xSO : out std_logic;
-	CDVSTestColMode1xSO : out std_logic;
+	--CDVSTestColMode0xSO : out std_logic;
+	--CDVSTestColMode1xSO : out std_logic;
 	
 	CDVSTestBiasDiagSelxSO : out std_logic;
 	CDVSTestBiasBitOutxSI : in std_logic;
@@ -93,9 +93,9 @@ entity USBAER_top_level is
     DebugxSIO : inout std_logic_vector(15 downto 0);
 
     -- AER monitor interface
-    AERMonitorREQxABI    : in  std_logic;  -- needs synchronization
-    AERMonitorACKxSBO    : out std_logic;
-    AERMonitorAddressxDI : in  std_logic_vector(8 downto 0));
+    --AERMonitorREQxABI    : in  std_logic;  -- needs synchronization
+    --AERMonitorACKxSBO    : out std_logic;
+    --AERMonitorAddressxDI : in  std_logic_vector(8 downto 0));
 
 end USBAER_top_level;
 
@@ -131,7 +131,7 @@ architecture Structural of USBAER_top_level is
       DataOutxDO : out std_logic_vector((width-1) downto 0));
   end component;
   
-  component clockgen
+  component DigLogClock --replacing the clockgen
     port (
       CLK: in std_logic;
       RESET: in std_logic;
@@ -139,76 +139,33 @@ architecture Structural of USBAER_top_level is
       LOCK: out std_logic);
   end component;
 
-  component cDVSResetStateMachine
-    port (
-      ClockxCI      : in  std_logic;
-      ResetxRBI     : in  std_logic;
-      AERackxSBI    : in  std_logic;
-      RxcolGxSI     : in  std_logic;
-      cDVSresetxRBI : in  std_logic;
-      CDVSresetxRBO : out std_logic);
-  end component;
-  
-   component synchronizerStateMachine
-     port (
-       ClockxCI              : in  std_logic;
-       ResetxRBI             : in  std_logic;
-       RunxSI                : in  std_logic;
-       ConfigxSI             : in  std_logic;
-       SyncInxABI            : in  std_logic;
-       SyncOutxSBO           : out std_logic;
-       TriggerxSO            : out std_logic;
-       HostResetTimestampxSI : in  std_logic;
-       ResetTimestampxSBO    : out std_logic;
-       IncrementCounterxSO   : out std_logic);
-   end component;                                       
-
-  component monitorStateMachine
-    port (
-    ClockxCI               : in  std_logic;
-    ResetxRBI              : in  std_logic;
-    AERREQxSBI     : in  std_logic;
-    AERACKxSBO     : out std_logic;
-    XxDI        : in std_logic;
-    UseLongAckxSI        : in std_logic;
-    FifoFullxSI         : in  std_logic;
-    FifoWritexEO          : out std_logic;
-    TimestampRegWritexEO     : out std_logic;
-    AddressTimestampSelectxSO  : out std_logic_vector(1 downto 0);
-    ADCvalueReadyxSI : in std_logic;
-    ReadADCvaluexEO : out std_logic;
-    TimestampOverflowxSI : in std_logic;
-    TriggerxSI : in std_logic;
-    AddressMSBxDO : out std_logic_vector(1 downto 0);
-    ResetTimestampxSBI : in std_logic
-    );
-  end component;
-
   component OperationStateMachineABC
     port (
 		ClockxCI              : in    std_logic;
-		CheckxDI              : in    std_logic;
-		S0xDI				  : in    std_logic;
-		S1xDI				  : in    std_logic;
-		ResetxDO			  : out   std_logic;
-		PreChargexDO		  : out   std_logic;
-		RreadoutxDO			  : out   std_logic;
-		RowScanInitxDO		  : out   std_logic;
-		ColScanInitxDO		  : out   std_logic;
-		ClockRowScanxCO		  : out   std_logic;
-		ClockColScanxCO		  : out   std_logic;
-		--fifo
-		
+		CheckxDI			  : in    std_logic;
+	S0xDI				  : in    std_logic;
+	S1xDI				  : in    std_logic;
+	ResetxDO			  : out   std_logic;
+	PreChargexDO		  : out   std_logic;
+	RreadoutxDO			  : out   std_logic;
+	RowScanInitxDO		  : out   std_logic;
+	ColScanInitxDO		  : out   std_logic;
+	ClockRowScanxCO		  : out   std_logic;
+	ClockColScanxCO		  : out   std_logic;
+	--fifo interface, adapting from monitorStateMachine
+	-- fifo flags
+    FifoFullxSI           : in  std_logic;
+    -- fifo control lines
+    FifoWritexEO          : out std_logic;
+	
+	-- log counter interface
+	CounterResetxRBO		: out	std_logic;
+	CounterIncrementxSO		: out	std_logic;
+	
+	)	
   end component;
   
-  component ADCvalueReady
-    port (
-      ClockxCI         : in  std_logic;
-      ResetxRBI        : in  std_logic;
-      RegisterWritexEI : in  std_logic;
-      ReadValuexEI     : in  std_logic;
-      ValueReadyxSO    : out std_logic);
-  end component;
+ 
   
   component wordRegister
     generic (
@@ -221,16 +178,8 @@ architecture Structural of USBAER_top_level is
       DataOutxDO     : out std_logic_vector(width-1 downto 0));
   end component;
 
-  component eventCounter
-    port (
-      ClockxCI     : in  std_logic;
-      ResetxRBI    : in  std_logic;
-      ClearxSI     : in  std_logic;
-      IncrementxSI : in  std_logic;
-      OverflowxSO  : out std_logic);
-  end component;
-
-  component timestampCounter
+  
+  component timestampCounter -- to be modified to be the log counter
     port (
       ClockxCI      : in  std_logic;
       ResetxRBI     : in  std_logic;
@@ -239,14 +188,7 @@ architecture Structural of USBAER_top_level is
       DataxDO       : out std_logic_vector(13 downto 0));
   end component;
 
-  component earlyPaketTimer
-    port (
-      ClockxCI        : in  std_logic;
-      ResetxRBI       : in  std_logic;
-      ClearxSI        : in  std_logic;
-      TimerExpiredxSO : out std_logic);
-  end component;
-
+  
   component AERfifo
     port (
       Data: in  std_logic_vector(15 downto 0); 
@@ -267,17 +209,15 @@ architecture Structural of USBAER_top_level is
   -- signal CDVSTestBiasDiagSelxS 	: std_logic;
 
   -- signal declarations
-  signal MonitorTimestampxD                          : std_logic_vector(13 downto 0);
-  signal ActualTimestampxD                           : std_logic_vector(13 downto 0);
-
+  
   -- register write enables
-  signal TimestampRegWritexE   : std_logic;
+  --signal TimestampRegWritexE   : std_logic;
   
   signal SyncInxAB : std_logic;
 
-  signal AERREQxSB, AERReqSyncxSBN  : std_logic;
+  --signal AERREQxSB, AERReqSyncxSBN  : std_logic;
 
-  signal AERMonitorACKxSB : std_logic;
+  --signal AERMonitorACKxSB : std_logic;
   signal UseLongAckxS : std_logic;
   
   -- mux control signals
@@ -371,7 +311,7 @@ begin
   IfClockxC <= IfClockxCI;
   ADCclockxCO <= ADCclockxC;
   
-  uClockGen : clockgen
+  uClockGen : DigLogClock
     port map (
       CLK  =>  IFClockxCI,
       RESET=> ResetxR,
@@ -404,15 +344,18 @@ begin
       QxDO       => SRoutxD,
       DataOutxDO => SRDataOutxD);
 
-  ADCconfigxD <= SRDataOutxD(11 downto 0);
-  ExposureBxD <= SRDataOutxD(31 downto 16);
-  ExposureCxD <= SRDataOutxD(47 downto 32);
-  ColSettlexD <= SRDataOutxD(63 downto 48);
-  RowSettlexD <= SRDataOutxD(79 downto 64);
-  ResSettlexD <= SRDataOutxD(95 downto 80);
-  FramePeriodxD <= SRDataOutxD(111 downto 96);
-  TestPixelxE <= SRDataOutxD(118);
-  UseCxE <= SRDataOutxD(119);
+  --ADCconfigxD <= SRDataOutxD(11 downto 0);
+  --ExposureBxD <= SRDataOutxD(31 downto 16);
+  --ExposureCxD <= SRDataOutxD(47 downto 32);
+  --ColSettlexD <= SRDataOutxD(63 downto 48);
+  --RowSettlexD <= SRDataOutxD(79 downto 64);
+  --ResSettlexD <= SRDataOutxD(95 downto 80);
+  --FramePeriodxD <= SRDataOutxD(111 downto 96);
+  CheckxD		<= SRDataOutxD(?);
+  S0xD	 		<= SRDataOutxD(?);
+  S1xD			<= SRDataOutxD(?);
+  --TestPixelxE 	<= SRDataOutxD(?);
+  --UseCxE 		<= SRDataOutxD(?);
   
   uFifo : AERfifo
     port map (
@@ -431,43 +374,8 @@ begin
 
   FX2FifoDataxDIO <= FifoDataOutxD;
   
-  uMonitorTimestampRegister : wordRegister
-    generic map (
-      width          => 14)
-    port map (
-      ClockxCI       => ClockxC,
-      ResetxRBI      => ResetxRB,
-      WriteEnablexEI => TimestampRegWritexE,
-      DataInxDI      => ActualTimestampxD,
-      DataOutxDO     => MonitorTimestampxD);
-
-  uADCRegister : wordRegister
-    generic map (
-      width          => 14)
-    port map (
-      ClockxCI       => IfClockxC,
-      ResetxRBI      => ResetxRB,
-      WriteEnablexEI => ADCregWritexE,
-      DataInxDI      => ADCregInxD,
-      DataOutxDO     => ADCregOutxD);
-
-  ADCregInxD <= ADCdataxD;
+  -- ADCregInxD <= ADCdataxD;
   
-  uEarlyPaketTimer : earlyPaketTimer
-    port map (
-      ClockxCI        => ClockxC,
-      ResetxRBI       => ResetxRB,
-      ClearxSI        => ResetEarlyPaketTimerxS,
-      TimerExpiredxSO => EarlyPaketTimerOverflowxS);
-
-  uEventCounter : eventCounter
-    port map (
-      ClockxCI     => ClockxC,
-      ResetxRBI    => ResetxRB,
-      ClearxSI     => ResetEventCounterxS,
-      IncrementxSI => IncEventCounterxS,
-      OverflowxSO  => ECResetEarlyPaketTimerxS);
-
   uTimestampCounter : timestampCounter
     port map (
       ClockxCI      => ClockxC,
@@ -476,18 +384,7 @@ begin
       OverflowxSO   => TimestampOverflowxS,
       DataxDO       => ActualTimestampxD);
 
-  uSynchronizerStateMachine_1: synchronizerStateMachine
-    port map (
-      ClockxCI              => ClockxC,
-      ResetxRBI             => ResetxRB,
-      RunxSI                => RunxS,
-      ConfigxSI             => TimestampMasterxS,
-      SyncInxABI            => SyncInxAB,
-      SyncOutxSBO           => SyncOutxSB,
-      TriggerxSO            => TriggerxS,
-      HostResetTimestampxSI => HostResetTimestampxS,
-      ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
-      IncrementCounterxSO   => IncxS);
+ 
 
    TimestampMasterxS <= '1';
      
@@ -508,77 +405,41 @@ begin
       ResetEarlyPaketTimerxSO    => SMResetEarlyPaketTimerxS,
       EarlyPaketTimerOverflowxSI => EarlyPaketTimerOverflowxS);
 
-  monitorStateMachine_1: monitorStateMachine
-    port map (
-      ClockxCI                  => ClockxC,
-      ResetxRBI                 => ResetxRB,
-      AERREQxSBI                => AERREQxSB,
-      AERACKxSBO                => AERMonitorACKxSB,
-      XxDI                      => AERMonitorAddressxDI(8),
-      UseLongAckxSI             => UseLongAckxS,
-      FifoFullxSI               => FifoFullxS,
-      FifoWritexEO              => FifoWritexE,
-      TimestampRegWritexEO      => TimestampRegWritexE,
-      AddressTimestampSelectxSO => AddressTimestampSelectxS,
-      ADCvalueReadyxSI => ADCvalueReadyxS,
-      ReadADCvaluexEO => ReadADCvaluexE,
-      TimestampOverflowxSI      => TimestampOverflowxS,
-      TriggerxSI => TriggerxS,
-      AddressMSBxDO             => AddressMSBxD,
-      ResetTimestampxSBI        => SynchronizerResetTimestampxSB);
-  
-  ADCStateMachine_2: ADCStateMachineABC
-    port map (
-      ClockxCI              => IfClockxC,
-      ADCclockxCO           => ADCclockxC,
-      ResetxRBI             => ADCsmRstxE,
-      ADCwordxDIO           => ADCwordxDIO,
-      ADCoutxDO             => ADCdataxD,
-      ADCwritexEBO          => ADCwritexEB,
-      ADCreadxEBO           => ADCreadxEB,
-      ADCconvstxEBO         => ADCconvstxEB,
-      ADCbusyxSI            => ADCbusyxS,
-      RegisterWritexEO      => ADCregWritexE,
-      SRLatchxEI            => SRLatchxE,
-      RunADCxSI             => RunADCxS,
-      ADCconfigxDI          => ADCconfigxD,
-	  ExposureBxDI          => ExposureBxD,
-	  ExposureCxDI          => ExposureCxD,
-	  ColSettlexDI          => ColSettlexD,
-	  RowSettlexDI          => RowSettlexD,
-	  ResSettlexDI          => ResSettlexD,
-	  FramePeriodxDI		=> FramePeriodxD,
-	  TestPixelxEI 			=> TestPixelxE,
-	  UseCxEI 				=> UseCxE,
-	  ExtTriggerxEI			=> ExtTriggerxE,
-	  CDVSTestSRRowInxSO    => CDVSTestSRRowInxS,
-      CDVSTestSRRowClockxSO => CDVSTestSRRowClockxS,
-      CDVSTestSRColInxSO    => CDVSTestSRColInxS,
-      CDVSTestSRColClockxSO => CDVSTestSRColClockxS,
-	  CDVSTestColMode0xSO   => CDVSTestColMode0xS,
-	  CDVSTestColMode1xSO   => CDVSTestColMode1xS,
-	  ADCStateOutputLEDxSO  => ADCStateOutputLEDxS
-	  );
+  OperationStateMachine: OperationStateMachineABC
+	port map (
+		ClockxCI              	=> IfClockxC,
+		CheckxDI			  	=> CheckxD,
+		S0xDI				  	=> S0xD,
+		S1xDI				  	=> S1xD,
+		ResetxDO			  	=> ,
+		PreChargexDO		  	=> ,
+		RreadoutxDO			  	=> ,
+		RowScanInitxDO		  	=> ,
+		ColScanInitxDO		  	=> ,
+		ClockRowScanxCO		  	=> ,
+		ClockColScanxCO		  	=> ,
+		--fifo interface, adapting from monitorStateMachine
+		-- fifo flags
+		FifoFullxSI           	=> FifoFullxS,
+		-- fifo control lines
+		FifoWritexEO           	=> FifoWritexE,
+	
+		-- log counter interface
+		CounterResetxRBO		=> CounterResetxRB,
+		CounterIncrementxSO		=> IncxS,
+		-- FX2 interface to produce VREF
+		FX2FifoInFullxSBI       : in    std_logic;
+		FX2FifoWritexEBO        : out   std_logic;
+		FX2FifoReadxEBO         : out   std_logic;
+		
+		FX2FifoPktEndxSBO       : out   std_logic; --???
+		FX2FifoAddressxDO       : out   std_logic_vector(1 downto 0); --???
+		)
   
   ADCbusyxS <= ADCbusyxSI;
   ADCsmRstxE <= ResetxRB and RunxS;
 
-  ADCvalueReady_1: ADCvalueReady
-    port map (
-      ClockxCI         => ClockxC,
-      ResetxRBI        => ResetxRB,
-      RegisterWritexEI => ADCregWritexE,
-      ReadValuexEI     => ReadADCvaluexE,
-      ValueReadyxSO    => ADCvalueReadyxS);
-
-  cDVSResetStateMachine_1: cDVSResetStateMachine
-    port map (
-      ClockxCI      => ClockxC,
-      ResetxRBI     => ResetxRB,
-      AERackxSBI    => AERREQxSB,
-      RxcolGxSI => RxcolGxS,
-      cDVSresetxRBI => PE3xSI,
-      CDVSresetxRBO => CDVSTestPeriodicChipResetxRB);
+  
   
   SynchOutxSBO <= SyncOutxSB;
   FX2FifoPktEndxSBO <= FX2FifoPktEndxSB;
