@@ -43,15 +43,16 @@ entity OperationStateMachineABC is
     FifoWritexEO          : out std_logic;
 	
 	-- log counter interface
-	
-	-- FX2 interface
+	CounterResetxRBO		: out	std_logic;
+	CounterIncrementxSO		: out	std_logic;
+	-- FX2 interface to produce VREF
 	FX2FifoInFullxSBI       : in    std_logic;
     FX2FifoWritexEBO        : out   std_logic;
     FX2FifoReadxEBO         : out   std_logic;
   
     FX2FifoPktEndxSBO       : out   std_logic; --???
     FX2FifoAddressxDO       : out   std_logic_vector(1 downto 0); --???
-    
+    )
 end OperationStateMachineABC;
 
 architecture Behavioral of OperationStateMachineABC is
@@ -68,16 +69,18 @@ architecture Behavioral of OperationStateMachineABC is
  
 begin
   
-  StateClockxC <= ClockxC;
-  
-   
+  --StateClockxC <= ClockxC;
+     
 -- determine the operation cycle
   op_cycle : process (CheckxDI, S1xDI, S0xDI, ResetEnd, ExposureEnd, TerminationEnd, ClockxC)
   begin  
-  
+	FifoWritexEO <= '0';
+
     if CheckxDI = '1' then
 		--readout phase
 		--reset log counter...
+		CounterResetxRB <= '0';
+		CounterIncrementxSO <= '0';
 		
 		ReadoutxDO <= '1';
 		if RowCount = 30 then
@@ -98,25 +101,25 @@ begin
 				ClockRowScanxCO <= '1';
 				ClockColScanxCO <= ClockxC;
 				-- write to fifo
-				
+				FifoWritexEO <= '1';
 			elseif ColCount > '1' and ColCount < 60 then --"111100"?
 				ColCount <= ColCount + 1;
 				ColScanInitxDO <= '0';
 				ClockColScanxCO <= ClockxC;
 				ClockRowScanxCO <= '0';
 				-- write to fifo
-				
+				FifoWritexEO <= '1';
 			else -- ColCount reaches 60
 				ColCount <= '0';
 				RowCount <= RowCount + 1;
 				-- write to fifo and fifo to FX2
-				
+				FifoWritexEO <= '1';
 			end if;
 		end if;
 		
 	else
 		if S0 = '0' and S1 = '0' then
-			-- stay in idle state
+			-- initialize
 			ResetxDO    <= '0';
 			VREFstatus	<= VREFisLow;
 			ReadoutxDO <= '0';
@@ -132,6 +135,9 @@ begin
 			ExposureEnd <= '0';
 			TerminationCount <= '0';
 			TerminationEnd <= '0';
+			CounterResetxRB <= '0';
+			CounterIncrementxSO <= '0';
+			FifoWritexEO <= '0';
 			
 		elseif S0 = '1' or S1 = '1' then
 			--reset pixel
@@ -148,7 +154,8 @@ begin
 				if S1 = '0' then
 					--readout phase
 					--reset log counter...
-					
+					CounterResetxRBO <= '0';
+					CounterIncrementxSO <= '0';
 					ReadoutxDO <= '1';
 					if RowCount = 30 then
 						--CheckxDI <= '0';
@@ -168,19 +175,19 @@ begin
 							ClockRowScanxCO <= '1';
 							ClockColScanxCO <= ClockxC;
 							-- write to fifo
-				
+							FifoWritexEO <= '1';
 						elseif ColCount > '1' and ColCount < 60 then --"111100"?
 							ColCount <= ColCount + 1;
 							ColScanInitxDO <= '0';
 							ClockColScanxCO <= ClockxC;
 							ClockRowScanxCO <= '0';
 							-- write to fifo
-				
+							FifoWritexEO <= '1';
 						else -- ColCount reaches 60
 							ColCount <= '0';
 							RowCount <= RowCount + 1;
 							-- write to fifo
-							
+							FifoWritexEO <= '1';
 						end if;
 					end if;
 				else
@@ -190,7 +197,8 @@ begin
 					--...
 					
 					--start log counter...
-					
+					CounterResetxRB <= '1';
+					CounterIncrementxSO <= '1';
 					if EposureCount < 1800000 then -- 20ms exposure time
 						ExposureCount <= ExposureCount + 1;
 					else
@@ -200,7 +208,8 @@ begin
 						if S0 = '0' then
 							--readout phase
 							--reset log counter...
-							
+							CounterResetxRBO <= '0';
+							CounterIncrementxSO <= '0';
 							ReadoutxDO <= '1';
 							if RowCount = 30 then
 								--Check <= '0';
@@ -220,24 +229,26 @@ begin
 									ClockRowScanxCO <= '1';
 									ClockColScanxCO <= ClockxC;
 									-- write to fifo
-				
+									FifoWritexEO <= '1';
 								elseif ColCount > '1' and ColCount < 60 then --"111100"?
 									ColCount <= ColCount + 1;
 									ColScanInitxDO <= '0';
 									ClockColScanxCO <= ClockxC;
 									ClockRowScanxCO <= '0';
 									-- write to fifo
-				
+									FifoWritexEO <= '1';
 								else -- ColCount reaches 60
 									ColCount <= '0';
 									RowCount <= RowCount + 1;
 									-- write to fifo
-								
+									FifoWritexEO <= '1';
 								end if;
 							end if;
 						else
 							--termination phase
 							VREFstatus	<= VREFisDecay;
+							--...
+							--counter to linear mode
 							--...
 							
 							if TerminationCount < 900000 then -- 10ms termination time
@@ -248,7 +259,8 @@ begin
 							if TerminationEnd = '1' then
 								--readout phase
 								--reset log counter...
-								
+								CounterResetxRBO <= '0';
+								CounterIncrementxSO <= '0';
 								ReadoutxDO <= '1';
 								if RowCount = 30 then
 									--Check <= '0';
@@ -268,19 +280,19 @@ begin
 										ClockRowScanxCO <= '1';
 										ClockColScanxCO <= ClockxC;
 										-- write to fifo
-				
+										FifoWritexEO <= '1';
 									elseif ColCount > '1' and ColCount < 60 then --"111100"?
 										ColCount <= ColCount + 1;
 										ColScanInitxDO <= '0';
 										ClockColScanxCO <= ClockxC;
 										ClockRowScanxCO <= '0';
 										-- write to fifo
-				
+										FifoWritexEO <= '1';
 									else -- ColCount reaches 60
 										ColCount <= '0';
 										RowCount <= RowCount + 1;
 										-- write to fifo
-								
+										FifoWritexEO <= '1';
 									end if;
 								end if;
 							end if;
