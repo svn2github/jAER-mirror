@@ -1,9 +1,3 @@
-Data[15]  i
-Data[14]  i
-Data[13]  i
-Data[12]  i
-Data[11]  i
-Data[10]  i
 Data[9]  i
 Data[8]  i
 Data[7]  i
@@ -20,12 +14,6 @@ WrEn  i
 RdEn  i
 Reset  i
 RPReset  i
-Q[15]  o
-Q[14]  o
-Q[13]  o
-Q[12]  o
-Q[11]  o
-Q[10]  o
 Q[9]  o
 Q[8]  o
 Q[7]  o

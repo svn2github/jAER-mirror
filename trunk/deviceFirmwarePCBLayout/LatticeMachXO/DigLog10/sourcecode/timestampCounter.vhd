@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
 -- Company: 
--- Engineer: raphael berner
+-- Engineer: raphael berner moddified by chenghan 2013
 --
 -- Create Date:    14:06:46 10/24/05
 -- Design Name:    
@@ -30,7 +30,7 @@ entity timestampCounter is
     IncrementxSI  : in  std_logic;
                                         -- see report for more details
     OverflowxSO   : out std_logic;      -- increment MSB on host
-    DataxDO       : out std_logic_vector(13 downto 0));  --actual timestamp
+    DataxDO       : out std_logic_vector(9 downto 0));  --actual timestamp
 end timestampCounter;
 
 architecture Behavioral of timestampCounter is
@@ -41,7 +41,7 @@ architecture Behavioral of timestampCounter is
 
 begin
 
-  DataxDO <= CountxDP(13 downto 0);
+  DataxDO <= CountxDP(9 downto 0);
 
   -- the 14 bit timestamp used for
   -- monitoring had an overflow, so send

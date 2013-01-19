@@ -35,57 +35,134 @@ architecture behavioural_hardcoded of USBAER_top_level_tb is
 
   component USBAER_top_level
     port (
-      FifoDataxDIO              : inout std_logic_vector(15 downto 0);
-      FifoInFullxSBI            : in    std_logic;
-      FifoOutEmptyxSBI          : in    std_logic;
-      FifoWritexEBO             : out   std_logic;
-      FifoReadxEBO              : out   std_logic;
-      FifoOutputEnablexEBO      : out   std_logic;
-      FifoPktEndxSBO            : out   std_logic;
-      ClockxCI                  : in    std_logic;
-      SynchxRI                  : in    std_logic;
-      RunMonitorxSI             : in    std_logic;
-      RunSynthesizerxSI         : in    std_logic;
-      SynchOutxSO               : out   std_logic;
-      ResetxRBI                 : in    std_logic;
-      ConfigTimestampCounterxSI : in    std_logic_vector(1 downto 0);
-      ConfigEarlyPaketTimerxSI  : in    std_logic_vector(1 downto 0);
-      AERMonitorREQxABI         : in    std_logic;
-      AERSnifACKxABI            : in    std_logic;
-      AERSnifREQxSBO            : out   std_logic;
-      AERMonitorACKxSBO         : out   std_logic;
-      AERSynthREQxSBO           : out   std_logic;
-      AERSynthACKxABI           : in    std_logic;
-      AERMonitorAddressxDI      : in    std_logic_vector(15 downto 0);
-      AERSynthAddressxDO        : out   std_logic_vector(15 downto 0);
-      FifoAddressxDO            : out   std_logic_vector(1 downto 0));
-  end component;
+      -- communication ports to FX2 Fifos
+	FX2FifoDataxDIO         : out std_logic_vector(9 downto 0);
+    FX2FifoInFullxSBI       : in    std_logic;
+    FX2FifoWritexEBO        : out   std_logic;
+    FX2FifoReadxEBO         : out   std_logic;
+  
+    FX2FifoPktEndxSBO       : out   std_logic;
+    FX2FifoAddressxDO       : out   std_logic_vector(1 downto 0);
+	
+	-- FX2 interface to produce VREF
+	FX2VrefStatusxDO       : out    std_logic_vector(1 downto 0);
 
-  signal FifoDataxD               : std_logic_vector(15 downto 0);
+    -- clock and reset inputs
+    -- ClockxCI  : in std_logic;
+    --IfClockxCO : out std_logic;
+    IfClockxCI : in std_logic;
+    ResetxRBI : in std_logic;
+
+    -- ports to synchronize other USBAER boards
+    Sync1xABI   : in  std_logic;        -- needs synchronization
+    SynchOutxSBO : out std_logic;
+
+    -- communication with 8051   
+    PC0xSIO  : inout  std_logic;
+    PC1xSIO  : inout  std_logic;
+    PC2xSIO  : inout  std_logic;
+    PC3xSIO  : inout  std_logic;
+
+--    PA0xSIO : inout std_logic;
+    PA0xSIO : inout std_logic;
+    PA1xSIO : inout std_logic;
+    PA3xSIO : inout std_logic;
+    PA7xSIO : inout std_logic;
+
+    PE2xSI : in std_logic;
+    PE3xSI : in std_logic;
+
+    FXLEDxSI : in std_logic;
+
+	-- communication with chip
+	ChipResetxDO			  : out   std_logic;
+	ChipPreChargexDO		  : out   std_logic;
+	ChipRreadoutxDO			  : out   std_logic;
+	ChipRowScanInitxDO		  : out   std_logic;
+	ChipColScanInitxDO		  : out   std_logic;
+	ChipClockRowScanxCO		  : out   std_logic;
+	ChipClockColScanxCO		  : out   std_logic;
+	
+	ChipBLoutxDI 			: in  std_logic_vector(9 downto 0);
+	ChipBLinxDO				: out std_logic_vector(9 downto 0);
+    
+    CDVSTestBiasEnablexEO : out std_logic;
+    
+	
+	CDVSTestBiasDiagSelxSO : out std_logic;
+	CDVSTestBiasBitOutxSI : in std_logic;
+
+    
+    -- control LED
+    LED1xSO : out std_logic;
+    LED2xSO : out std_logic;
+    LED3xSO : out std_logic;
+ 
+    DebugxSIO : inout std_logic_vector(15 downto 0));
+  end component;
+	
+	--FX2 fifo
+  signal FifoDataxD               : std_logic_vector(9 downto 0);
   signal FifoInFullxSB            : std_logic;
-  signal FifoOutEmptyxSB          : std_logic;
+  
   signal FifoWritexEB             : std_logic;
   signal FifoReadxEB              : std_logic;
-  signal FifoOutputEnablexEB      : std_logic;
+  
+  signal FifoAddressxD		      : std_logic_vector(1 downto 0);
   signal FifoPktEndxSB            : std_logic;
-  signal ClockxC                  : std_logic;
-  signal RunMonitorxS             : std_logic;
-  signal RunSynthesizerxS         : std_logic;
-  signal SynchxR                  : std_logic;
-  signal SynchOutxS               : std_logic;
-  signal ResetxRB                 : std_logic;
-  signal ConfigTimestampCounterxS : std_logic_vector(1 downto 0);
-  signal ConfigEarlyPaketTimerxS  : std_logic_vector(1 downto 0);
-  signal AERMonitorREQxAB         : std_logic;
-  signal AERSnifACKxAB            : std_logic;
-  signal AERSnifREQxSB            : std_logic;
-  signal AERMonitorACKxSB         : std_logic;
-  signal AERSynthREQxSB           : std_logic;
-  signal AERSynthACKxAB           : std_logic;
-  signal AERMonitorAddressxD      : std_logic_vector(15 downto 0);
-  signal AERSynthAddressxD        : std_logic_vector(15 downto 0);
-  signal FifoAddressxD            : std_logic_vector(1 downto 0);
+  
+  signal VrefStatusxD       	: std_logic_vector(1 downto 0);
 
+  
+  signal IfClockxC                  : std_logic;
+  signal ResetxRB                 : std_logic;
+  
+  signal SynchxAB                  : std_logic;
+  signal SynchOutxSB               : std_logic;
+  
+  -- communication with 8051   
+  signal  PC0xS  :  std_logic;
+  signal  PC1xS  :  std_logic;
+  signal  PC2xS  :  std_logic;
+  signal  PC3xS  :  std_logic; -- SR config
+
+--    PA0xSIO : inout std_logic;
+  signal  PA0xS : std_logic;
+  signal  PA1xS : std_logic;
+  signal  PA3xS : std_logic;
+  signal  PA7xS : std_logic;
+
+  signal  PE2xS : std_logic;
+  signal  PE3xS : std_logic;
+
+  signal  FXLEDxS : std_logic;
+  
+	-- communication with chip
+	signal ChipResetxD			  :   std_logic;
+	signal ChipPreChargexD		  :   std_logic;
+	signal ChipRreadoutxD		  :   std_logic;
+	signal ChipRowScanInitxD		  :   std_logic;
+	signal ChipColScanInitxD		  :   std_logic;
+	signal ChipClockRowScanxC		  :   std_logic;
+	signal ChipClockColScanxC		  :   std_logic;
+	
+	signal ChipBLoutxD			:  std_logic_vector(9 downto 0);
+	signal ChipBLinxD			:  std_logic_vector(9 downto 0);
+	
+	signal CDVSTestBiasEnablexE : std_logic;
+    
+	
+	signal CDVSTestBiasDiagSelxS : std_logic;
+	signal CDVSTestBiasBitOutxS : std_logic;
+
+    
+    -- control LED
+    signal LED1xS : std_logic;
+    signal LED2xS : std_logic;
+    signal LED3xS : std_logic;
+ 
+    signal DebugxS :  std_logic_vector(15 downto 0);
+	
   constant PERIOD    : time := 20 ns;   -- clock period
   constant HIGHPHASE : time := 10 ns;   -- high phase of clock
   constant LOWPHASE  : time := 10 ns;   -- low phase of clock
@@ -119,30 +196,71 @@ begin  -- behavioural_hardcoded
 
   DUT : USBAER_top_level
     port map (
-      FifoDataxDIO              => FifoDataxD,
-      FifoInFullxSBI            => FifoInFullxSB,
-      FifoOutEmptyxSBI          => FifoOutEmptyxSB,
-      FifoWritexEBO             => FifoWritexEB,
-      FifoReadxEBO              => FifoReadxEB,
-      FifoOutputEnablexEBO      => FifoOutputEnablexEB,
-      FifoPktEndxSBO            => FifoPktEndxSB,
-      ClockxCI                  => ClockxC,
-      RunMonitorxSI             => RunMonitorxS,
-      RunSynthesizerxSI         => RunSynthesizerxS,
-      SynchxRI                  => SynchxR,
-      SynchOutxSO               => SynchOutxS,
-      ResetxRBI                 => ResetxRB,
-      ConfigTimestampCounterxSI => ConfigTimestampCounterxS,
-      ConfigEarlyPaketTimerxSI  => ConfigEarlyPaketTimerxS,
-      AERMonitorREQxABI         => AERMonitorREQxAB,
-      AERSnifACKxABI            => AERSnifACKxAB,
-      AERSnifREQxSBO            => AERSnifREQxSB,
-      AERMonitorACKxSBO         => AERMonitorACKxSB,
-      AERSynthREQxSBO           => AERSynthREQxSB,
-      AERSynthACKxABI           => AERSynthACKxAB,
-      AERMonitorAddressxDI      => AERMonitorAddressxD,
-      AERSynthAddressxDO        => AERSynthAddressxD,
-      FifoAddressxDO            => FifoAddressxD);
+      -- communication ports to FX2 Fifos
+	FX2FifoDataxDIO         => FifoDataxD,
+    FX2FifoInFullxSBI       => FifoInFullxSB,
+    FX2FifoWritexEBO        => FifoWritexEB,
+    FX2FifoReadxEBO         => FifoReadxEB,
+  
+    FX2FifoPktEndxSBO       => FifoPktEndxSB,
+    FX2FifoAddressxDO       => FifoAddressxD,
+	
+	-- FX2 interface to produce VREF
+	FX2VrefStatusxDO       => VrefStatusxD,
+
+    -- clock and reset inputs
+    -- ClockxCI  : in std_logic;
+    --IfClockxCO : out std_logic;
+    IfClockxCI => IfClockxC,
+    ResetxRBI => ResetxRB,
+
+    -- ports to synchronize other USBAER boards
+    Sync1xABI   => SynchxAB,
+    SynchOutxSBO => SynchOutxSB,
+
+    -- communication with 8051   
+    PC0xSIO  => PC0xS,
+    PC1xSIO  => PC1xS,
+    PC2xSIO  => PC2xS,
+    PC3xSIO  => PC3xS,
+
+--    PA0xSIO : inout std_logic;
+    PA0xSIO => PA0xS,
+    PA1xSIO => PA1xS,
+    PA3xSIO => PA3xS,
+    PA7xSIO => PA7xS,
+
+    PE2xSI => PE2xS,
+    PE3xSI => PE3xS,
+
+    FXLEDxSI => FXLEDxS,
+
+	-- communication with chip
+	ChipResetxDO			  => ChipResetxD,
+	ChipPreChargexDO		  => ChipPreChargexD,
+	ChipRreadoutxDO			  => ChipRreadoutxDO,
+	ChipRowScanInitxDO		  => ChipRowScanInitxD,
+	ChipColScanInitxDO		  => ChipColScanInitxD,
+	ChipClockRowScanxCO		  => ChipClockRowScanxC,
+	ChipClockColScanxCO		  => ChipClockColScanxC,
+	
+	ChipBLoutxDI 			=> ChipBLoutxD,
+	ChipBLinxDO				=> ChipBLinxD,
+    
+    CDVSTestBiasEnablexEO 	=> CDVSTestBiasEnablexE,
+    
+	
+	CDVSTestBiasDiagSelxSO 	=> CDVSTestBiasDiagSelxS,
+	CDVSTestBiasBitOutxSI 	=> CDVSTestBiasBitOutxS,
+
+    
+    -- control LED
+    LED1xSO => LED1xS,
+    LED2xSO => LED2xS,
+    LED3xSO => LED3xS,
+ 
+    DebugxSIO => DebugxS,
+	);
 
   p_clockgen : process
   begin
