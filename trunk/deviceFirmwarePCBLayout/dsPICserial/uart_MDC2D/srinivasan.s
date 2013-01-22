@@ -25,7 +25,6 @@
 #include <p33Fxxxx.h>
 ;#define CORCON 0x44
 
-
 ;TODO make width/height adjustable
 ;TODO check that data is in bss
 
@@ -62,18 +61,18 @@ _srinivasan2D_16bit:
 	; initialize
 	; -------------------------------------------------------
 	
-	LNK #0x10
+	LNK #0x0E
 	; [w14+ 0] = &dx/2
 	; [w14+ 2] = &dy/2
 	; [w14+ 4] = abs d/4
 	; [w14+ 6] = sign d/4
 	; [w14+ 8] = sign a
-	; [w14+10] = how many bits a was shifted
-	; [w14+12] = how many bits d and e are shifted
-	; [w14+14] = how many bits the nominator was shifted
+	; [w14+10] = # of bits nominator/denominator are shifted
+	; [w14+12] = # of bits a,b,c,d/2,e/2 are shifted
 	
 	MOV w2,[w14]
 	MOV w3,[w14+2]
+	MOV w4,[w14+12]
 
 	; init
 	BSET CORCON,#0			; enable integer multiply
@@ -166,20 +165,16 @@ loopy_prepare:
 	NEG w11,w11				; switch sign in numerator
 	NEG a					; and sign of d
 d_not_neg:
-	MOV #0,w1				; # of bits d is shifted
-shift_d:
-	SFTAC a,#1				; shift d (at least once to get d/2)
-	INC w1,w1				; increase counter
+
+	CALL shiftacc
+	SFTAC a,#1				; use d/2 instead of d
 	SAC a,#0,w5
 	CP0 w5					; must certainly be <17bits
-	BRA nz,shift_d
+	BRA nz,overflow_d
 	CALL store_acca_w4w5_pos
 	BTST.Z w4,#15			; must be <=15bits
-	BRA z,d_in_range
-	LSR w4,#1,w4
-	INC w1,w1
-d_in_range:
-	MOV w1,[w14+12]			; save # of bits d was shifted
+	BRA nz,overflow_d
+
 	MOV w4,[w14+4]			; store abs d/2 for later use
 	MOV w0,[w14+6]			; store sign d/2 for later use
 	MOV w4,w1				; w1= abs(d/2)
@@ -201,6 +196,7 @@ d_in_range:
 	NEG w13,w13				; switch sign b
 	NEG a					; and sign of b
 b_not_neg:
+	CALL shiftacc
 	CALL store_acca_w4w5_pos
 	CP0 w5
 	BRA nz,overflow_b		; unsigned b must be <=16bit
@@ -222,22 +218,15 @@ b_not_neg:
 	NEG w0,w0
 	NEG a					; and sign of a
 a_not_neg:
-	CLR w4					; # of bits a was shifted
-check_shift_a:
-	SAC a,#0,w5
-	CP0 w5					; a must be <=16bits
-	BRA z,a_in_range
-	SFTAC a,#1				; shift a to the right
-	INC w4,w4				; increase # of bits
-	BRA check_shift_a
-a_in_range:
-	MOV w4,[w14+10]			; save # of bits a was shifted
+	CALL shiftacc
 	CALL store_acca_w4w5_pos
+	CP0 w5
+	BRA nz,overflow_a		; unsigned b must be <=16bit
 	CP0 w4
 	BRA z,singular_a		; error if a==0
 	MOV w4,w3				; w3= abs(a)
 	MOV w0,[w14+8]			; store sign(a) for later use
-	
+
 	; e = sum(dfx*fy)
 	MOV #dfx,w8
 	ADD #(21*2),w8			; w8 = dfx[21]
@@ -246,9 +235,8 @@ a_in_range:
 	CLR a,[w8]+=2,w4,[w10]+=2,w5	; clear ACCA & prefetch 1st value
 	REPEAT #(400-21-21 -1)	; skip border pixels (1st/last row/column)
 	MAC w4*w5,a,[w8]+=2,w4,[w10]+=2,w5
-	MOV [w14+12],w0			; restore # of bits d was shifted
-	SFTAC a,w0				; shift e by same amount to the right
-							; acca= d/2
+	CALL shiftacc
+	SFTAC a,#1				; use e/2 instead of e
 	
 	
 	; -------------------------------------------------------
@@ -257,8 +245,8 @@ a_in_range:
 	
 	; calculate nominator= e/2-d/2*b/a
 	MUL.UU w1,w2,w4			; w4(LSB)-w5(MSB) = abs(d/2)*b
-	MOV [w14+10],w0			; get # of bits a was shifted
-	CALL divide_shifted_w4w5_w3
+	REPEAT #0x21
+	DIV.UD w4,w3
 	BTST.Z w0,#15
 	BRA nz,overflow_db2a	; result must be <=15bit (for signed MAC)
 	MOV w0,w4
@@ -282,7 +270,7 @@ check_nominator:
 	SFTAC a,#1
 	BRA check_nominator
 nominator_in_range:
-	MOV w4,[w14+14]			; store # of bits nominator was shifted
+	MOV w4,[w14+10]			; store # of bits nominator was shifted
 	CALL store_acca_w4w5_pos
 	MOV w4,w9				; w9 = nominator
 	
@@ -293,10 +281,13 @@ nominator_in_range:
 	REPEAT #(400-21-21 -1)	; skip border pixels (1st/last row/column)
 	MAC w5*w5,a,[w10]+=2,w5
 
+	CALL shiftacc
+
 	; (still true : w2=b, w3=a, w12=sign b*b/a)
 	; calculate denominator=c-b*b/a
 	MUL.UU w2,w2,w4			; w4(LSB)-w5(MSB) = b*b
-	CALL divide_shifted_w4w5_w3
+	REPEAT #0x21
+	DIV.UD w4,w3
 	MOV w0,w4
 	MOV w12,w5
 	MAC w4*w5,a				; add b*b/a to c
@@ -308,7 +299,7 @@ nominator_in_range:
 	NEG w11,w11				; switch sign of nominator
 	NEG a					; and denominator
 denominator_pos:
-	MOV [w14+14],w4			; restore # of bits nominator was shifted
+	MOV [w14+10],w4			; restore # of bits nominator was shifted
 	SFTAC a,w4				; shift denominator by same amount
 check_denominator:
 	SAC a,#0,w5
@@ -367,24 +358,13 @@ divide_dx:
 dx_same_sign_as_a:
 	CALL store_acca_w4w5_pos ; w4(LSB)-w5(MSB)= d/2-b*dy/4
 	
-	CALL divide_shifted_w4w5_w3
+	REPEAT #0x21
+	DIV.UD w4,w3
 	REPEAT #0x21
 	DIV.UD w4,w3			; w0=(d/2-b*dy/4)/a =dx/4 -- w1=remainder
 	BTST.Z w0,#15
 	BRA nz,overflow_dx		; abs(dx/4) must be <= 15bits
 	
-
-	; fix dx/4 and dy/4; if d,e were shifted more than d/2,e/2 then
-	; this shift has to be reverted here
-    MOV [w14+12],w1			; # of bits d and e were shifted
-    DEC w1,w1				; 1st bit (d->d/2 and e->e/2) is expected
-    SL w0,w1,w0				; shift dx to the left by w1
-	BTST.Z w0,#15
-	BRA nz,overflow_dx		; abs(dx/4) must be <= 15bits
-    SL w6,w1,w6
-    BTST.Z w6,#15
-    BRA nz,overflow_dy		; abs(dy/4) must be <= 15bits
-
 
 	; -------------------------------------------------------
 	; store results
@@ -452,14 +432,20 @@ singular_denominator:
 	MOV #0x04,w0
 	BRA store_error
 
+overflow_a:
+	MOV #0x12,w0
+	BRA store_error
 overflow_b:
 	MOV #0x13,w0
 	BRA store_error
-overflow_db2a:
+overflow_d:
 	MOV #0x14,w0
 	BRA store_error
+overflow_db2a:
+	MOV #0x15,w0
+	BRA store_error
 overflow_bdya:
-	MOV #0x17,w0
+	MOV #0x16,w0
 	BRA store_error
 	
 store_error:
@@ -521,30 +507,9 @@ store_acca_w4w5_pos:
 	POP w7
 	RETURN
 
-
-
-; divides w4(LSB)-w5(MSB) by w3=a
-; a was previously shifted to the right by [w14+10] bits
-; returns result in w0 -- remainder in w1
-divide_shifted_w4w5_w3:
-	MOV [w14+10],w0
-evtl_shift:
-	CP0 w0
-	BRA z,divide_now
-	BTST w5,#0
-	BRA z,no_carry_shift
-carry_shift:
-	ASR w5,#1,w5
-	LSR w4,#1,w4
-	BSET w4,#15
-	DEC w0,w0
-	BRA evtl_shift
-no_carry_shift:
-	ASR w5,#1,w5
-	LSR w4,#1,w4
-	DEC w0,w0
-	BRA evtl_shift
-divide_now:
-	REPEAT #0x21
-	DIV.UD w4,w3
+shiftacc:
+	PUSH w0
+	MOV [w14+12],w0
+	SFTAC a,w0
+	POP w0
 	RETURN

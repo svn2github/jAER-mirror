@@ -42,12 +42,15 @@ var_table_entry var_table[]=
 	// asymmetrically...
 	{"main_us1",5000},
 	{"main_us2",5000},
-	
+
 	// some statistics
 	{"stats_frames_total",0},
 	{"stats_srinivasan_us",0},
 	{"stats_capture_us",0},
-	
+
+	// settings for srinivasan algorithm	
+	{"shiftacc",0},
+
 	// for debugging
 	{NULL,0}
 };

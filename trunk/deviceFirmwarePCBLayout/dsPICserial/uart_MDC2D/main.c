@@ -163,6 +163,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T2Interrupt(void)
 		T2CONbits.TON = 0;	// disable timer upon sampling of last pixel
 
 	AD1CON1bits.SAMP = 0;	// start conversion
+	Nop(); Nop(); Nop();	//? time to settle
 	mdc_next_pixel();		// go to next pixel during conversion
 
 	IFS0bits.T2IF = 0; 		// clear timer2 interrupt flag
@@ -296,8 +297,11 @@ void stream_loop()
 				frame_words_dxdy = (struct msg_frame_words_dxdy *) MSG_PAYLOAD(buffer);
 				
 				// init scanner, ADC
-				mdc_goto_xy(0,0);
 				mdc_adc_init();
+				// don't move the scanner here because the analog values need some
+				// time to settle after mdc_goto_xy(0,0) -- that's why it's done
+				// just _after_ the frame is acquired
+
 				
 				tictoc_us=0;
 				TIC;
@@ -320,6 +324,8 @@ void stream_loop()
 					while(!frame_finished)
 						Nop();	// we could actually do something useful here...
 				}
+				// position to first pixel for next acquisition already
+				mdc_goto_xy(0,0);
 				TOC;
 				capture_us= tictoc_us;
 
@@ -334,7 +340,7 @@ void stream_loop()
 				{
 					if (lastframe != (int *) 0) {
 						dx=0x1234; dy=0x5678;
-						srinivasan2D_16bit(lastframe,(int *)MSG_PAYLOAD(buffer),&dx,&dy);
+						srinivasan2D_16bit(lastframe,(int *)MSG_PAYLOAD(buffer),&dx,&dy,var_get("shiftacc"));
 					} else {
 						dx=0; dy=0;
 					}

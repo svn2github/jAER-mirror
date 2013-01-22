@@ -35,17 +35,23 @@
  * @param dx_half where to store the \c dx/2 value (format Q15)
  *        ((unsigned int) dx4_ret) == 0xFFFF indicates an error
  *
+ * @param shiftacc by how many bits to shift the accumulator in order to prevent
+ *        overflow when transferring value into 16bit registers; increase this
+ *        value if you get "overflow errors" -- a high value will reduce the
+ *        precision
+ *
  * @param dy_half where to store the \c dy/2 value (format Q15)
  *        in case of an error, ((unsigned int) dy4_ret) indicates
  *        the error source
  *         - 0x01 : overflow of dx (e.g. dx>2)
  *         - 0x02 : overflow of dy (e.g. dy>2)
  *         - 0x03,0x04 : singular matrix decomposition (exceptional)
- *         - 0x10-0x17 : internal overflow (exceptional)
+ *         - 0x12..0x16 : internal overflow (see srinivasan.s)
  */
 
 void srinivasan2D_16bit(const int *frame1,const int *frame2,
-						int *dx_half,int *dy_half);
+						int *dx_half,int *dy_half,
+						int shiftacc);
 
 
 #endif /* __SRINIVASAN_H__ */
