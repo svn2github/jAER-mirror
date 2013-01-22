@@ -16,11 +16,11 @@
                 <entry key="FilterChain.timeLimitEnabled" value="false"/>
                 <entry key="FilterChain.timeLimitMs" value="10"/>
                 <entry key="agcTauMs" value="1000.0"/>
-                <entry key="SBret10.bgTabbedPaneSelectedIndex" value="0"/>
+                <entry key="SBret10.bgTabbedPaneSelectedIndex" value="1"/>
                 <entry key="displayLogIntensityChangeEvents" value="true"/>
                 <entry key="displayIntensity" value="true"/>
                 <entry key="CypressFX2Blank.defaultFirmwareBixFileForBlankDevice" value="C:\PROJ\jAER\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SBret10\SBret10.bix"/>
-                <entry key="SBret10.AddressedIPotCF.DiffBn.BitValueCoarse" value="4"/>
+                <entry key="SBret10.AddressedIPotCF.DiffBn.BitValueCoarse" value="3"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.BitValueFine" value="47"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.LowCurrent" value="false"/>
@@ -204,6 +204,42 @@
                 <entry key="AEChip.subSamplingEnabled" value="false"/>
                 <entry key="useDVSExtrapolation" value="false"/>
                 <entry key="CPLDInt.pad" value="0"/>
+                <entry key="FilterFrame.lastFilterSelected" value=""/>
+                <entry key="BackgroundActivityFilter.dt" value="15062"/>
+                <entry key="useMismatchCorrection" value="true"/>
+                <entry key="EdgeFragments.filterEnabled" value="false"/>
+                <entry key="EdgeConstructor.filterEnabled" value="true"/>
+                <entry key="BackgroundActivityFilter.subsampleBy" value="2"/>
+                <entry key="ApsFrameExtractor.filterEnabled" value="false"/>
+                <entry key="ApsFrameExtractor.edgePixelMethod" value="DIFF_B"/>
+                <entry key="ApsFrameExtractor.displayGain" value="2.526948"/>
+                <entry key="ApsFrameExtractor.displayOffset" value="0.0"/>
+                <entry key="ApsFrameExtractor.invertIntensity" value="false"/>
+                <entry key="ApsFeatureExtractor.filterEnabled" value="false"/>
+                <entry key="ApsFeatureExtractor.detectionThreshold" value="25"/>
+                <entry key="FilterChain.processingMode" value="RENDERING"/>
+                <entry key="SBret10.typeNCalib" value="false"/>
+                <entry key="RotateFilter.invertX" value="false"/>
+                <entry key="RotateFilter.invertY" value="false"/>
+                <entry key="XYTypeFilter.startX" value="134"/>
+                <entry key="XYTypeFilter.xEnabled" value="true"/>
+                <entry key="XYTypeFilter.endX" value="139"/>
+                <entry key="XYTypeFilter.startY" value="85"/>
+                <entry key="XYTypeFilter.yEnabled" value="true"/>
+                <entry key="XYTypeFilter.endY" value="92"/>
+                <entry key="XYTypeFilter.invertEnabled" value="false"/>
+                <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="10000"/>
+                <entry key="RectangularClusterTracker.maxNumClusters" value="10"/>
+                <entry key="RectangularClusterTracker.clusterSize" value="0.15f"/>
+                <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
+                <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
+                <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
+                <entry key="ApsEventFilter.filterEnabled" value="true"/>
+                <entry key="ApsEventFilter.filterAPSEvents" value="true"/>
+                <entry key="displayEvents" value="true"/>
+                <entry key="displayFrames" value="true"/>
+                <entry key="VideoControl.useAutoContrast" value="false"/>
+                <entry key="VideoControl.displayFrames" value="true"/>
               </map>
             </node>
           </node>
