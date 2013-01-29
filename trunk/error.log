@@ -1,14 +1,14 @@
-11월 14, 2012 1:40:11 오후 net.sf.jaer.JAERViewer <init>
-INFO: java.vm.version=23.5-b02 user.dir=D:\Work\INI\jaer\host\java
-11월 14, 2012 1:40:12 오후 net.sf.jaer.graphics.AEViewer <init>
+Jan 29, 2013 2:01:33 PM net.sf.jaer.JAERViewer <init>
+INFO: java.vm.version=23.3-b01 user.dir=C:\Users\giselher\Documents\uzh\jAER\host\java
+Jan 29, 2013 2:01:34 PM net.sf.jaer.graphics.AEViewer <init>
 INFO: AEViewer starting up...
-11월 14, 2012 1:40:12 오후 net.sf.jaer.graphics.AEViewer <init>
+Jan 29, 2013 2:01:34 PM net.sf.jaer.graphics.AEViewer <init>
 INFO: AEChip class name is ch.unizh.ini.jaer.chip.retina.DVS128
-11월 14, 2012 1:40:35 오후 net.sf.jaer.hardwareinterface.serial.eDVS128.eDVS128_InterfaceFactory focusLast
+Jan 29, 2013 2:01:36 PM net.sf.jaer.hardwareinterface.serial.eDVS128.eDVS128_InterfaceFactory focusLast
 INFO: focused on doCloseCancel
-11월 14, 2012 1:40:36 오후 net.sf.jaer.graphics.AEViewer getChipClassPrefs
+Jan 29, 2013 2:01:37 PM net.sf.jaer.graphics.AEViewer getChipClassPrefs
 WARNING: building list of all AEChip classses - this takes some time. To reduce startup time, use AEChip/Customize to specify desired classes
-java.lang.UnsatisfiedLinkError: D:\Work\INI\jaer\host\java\jars\win32\jinput-wintab.dll: Can't find dependent libraries
+java.lang.UnsatisfiedLinkError: C:\Users\giselher\Documents\uzh\jAER\host\java\jars\win32\jinput-wintab.dll: Can't find dependent libraries
 	at java.lang.ClassLoader$NativeLibrary.load(Native Method)
 	at java.lang.ClassLoader.loadLibrary1(Unknown Source)
 	at java.lang.ClassLoader.loadLibrary0(Unknown Source)
@@ -44,84 +44,88 @@ java.lang.UnsatisfiedLinkError: D:\Work\INI\jaer\host\java\jars\win32\jinput-win
 	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
 	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
 	at java.awt.EventDispatchThread.run(Unknown Source)
-11월 14, 2012 1:40:37 오후 net.sf.jaer.util.SubclassFinder findSubclassesOf
+Jan 29, 2013 2:01:38 PM net.sf.jaer.util.SubclassFinder findSubclassesOf
 WARNING: ERROR: java.lang.NoClassDefFoundError: org/apache/tools/ant/Task while seeing if class net.sf.jaer.chip.AEChip isAssignableFrom class com.kitfox.svg.app.VersionDialog
-11월 14, 2012 1:40:40 오후 net.sf.jaer.util.SubclassFinder findSubclassesOf
+Jan 29, 2013 2:01:39 PM net.sf.jaer.util.SubclassFinder findSubclassesOf
 WARNING: ERROR: java.lang.NoClassDefFoundError: jspikestack/ControlPanel while seeing if class net.sf.jaer.chip.AEChip isAssignableFrom class ch.unizh.ini.jaer.projects.neuralnets.AERProcessor
-11월 14, 2012 1:40:40 오후 net.sf.jaer.util.SubclassFinder findSubclassesOf
+Jan 29, 2013 2:01:39 PM net.sf.jaer.util.SubclassFinder findSubclassesOf
 WARNING: ERROR: java.lang.NoClassDefFoundError: jspikestack/ControlPanel while seeing if class net.sf.jaer.chip.AEChip isAssignableFrom class ch.unizh.ini.jaer.projects.neuralnets.AERProcessor
-11월 14, 2012 1:40:40 오후 net.sf.jaer.util.SubclassFinder findSubclassesOf
+Jan 29, 2013 2:01:39 PM net.sf.jaer.util.SubclassFinder findSubclassesOf
 WARNING: ERROR: java.lang.NoClassDefFoundError: jspikestack/ControlPanel while seeing if class net.sf.jaer.chip.AEChip isAssignableFrom class ch.unizh.ini.jaer.projects.neuralnets.ISIMapper
-11월 14, 2012 1:40:40 오후 net.sf.jaer.util.SubclassFinder findSubclassesOf
+Jan 29, 2013 2:01:39 PM net.sf.jaer.util.SubclassFinder findSubclassesOf
 WARNING: ERROR: java.lang.NoClassDefFoundError: jspikestack/ControlPanel while seeing if class net.sf.jaer.chip.AEChip isAssignableFrom class ch.unizh.ini.jaer.projects.neuralnets.ISIMapper
-11월 14, 2012 1:40:40 오후 net.sf.jaer.util.SubclassFinder findSubclassesOf
+Jan 29, 2013 2:01:39 PM net.sf.jaer.util.SubclassFinder findSubclassesOf
 WARNING: ERROR: java.lang.NoClassDefFoundError: jspikestack/ControlPanel while seeing if class net.sf.jaer.chip.AEChip isAssignableFrom class ch.unizh.ini.jaer.projects.neuralnets.NetworkList
-11월 14, 2012 1:40:40 오후 net.sf.jaer.util.SubclassFinder findSubclassesOf
+Jan 29, 2013 2:01:39 PM net.sf.jaer.util.SubclassFinder findSubclassesOf
 WARNING: ERROR: java.lang.NoClassDefFoundError: jspikestack/ControlPanel while seeing if class net.sf.jaer.chip.AEChip isAssignableFrom class ch.unizh.ini.jaer.projects.neuralnets.NetworkList
-11월 14, 2012 1:40:40 오후 net.sf.jaer.util.SubclassFinder findSubclassesOf
+Jan 29, 2013 2:01:39 PM net.sf.jaer.util.SubclassFinder findSubclassesOf
 WARNING: ERROR: java.lang.NoClassDefFoundError: jspikestack/ControlPanel while seeing if class net.sf.jaer.chip.AEChip isAssignableFrom class ch.unizh.ini.jaer.projects.neuralnets.SampleMultiSensoryFilter
-11월 14, 2012 1:40:40 오후 net.sf.jaer.util.SubclassFinder findSubclassesOf
+Jan 29, 2013 2:01:39 PM net.sf.jaer.util.SubclassFinder findSubclassesOf
 WARNING: ERROR: java.lang.NoClassDefFoundError: jspikestack/KernelMaker2D$Computable while seeing if class net.sf.jaer.chip.AEChip isAssignableFrom class ch.unizh.ini.jaer.projects.neuralnets.SampleMultiSensoryFilter
-11월 14, 2012 1:40:40 오후 net.sf.jaer.util.SubclassFinder findSubclassesOf
+Jan 29, 2013 2:01:39 PM net.sf.jaer.util.SubclassFinder findSubclassesOf
 WARNING: ERROR: java.lang.NoClassDefFoundError: jspikestack/ControlPanel while seeing if class net.sf.jaer.chip.AEChip isAssignableFrom class ch.unizh.ini.jaer.projects.neuralnets.SampleMultiSensoryFilter
-11월 14, 2012 1:40:40 오후 net.sf.jaer.util.SubclassFinder findSubclassesOf
+Jan 29, 2013 2:01:39 PM net.sf.jaer.util.SubclassFinder findSubclassesOf
 WARNING: ERROR: java.lang.NoClassDefFoundError: jspikestack/PSP while seeing if class net.sf.jaer.chip.AEChip isAssignableFrom class ch.unizh.ini.jaer.projects.neuralnets.SpikeStackArrayFilter
-11월 14, 2012 1:40:42 오후 net.sf.jaer.util.RemoteControl <init>
+Jan 29, 2013 2:01:41 PM net.sf.jaer.util.RemoteControl <init>
 INFO: Constructed RemoteControl on port=8995
-11월 14, 2012 1:40:42 오후 net.sf.jaer.chip.Chip <init>
+Jan 29, 2013 2:01:41 PM net.sf.jaer.chip.Chip <init>
 INFO: Created RemoteControl on port=8995 for control of DVS128 sizeX=0 sizeY=0 eventClass=null
-11월 14, 2012 1:40:43 오후 net.sf.jaer.graphics.ChipCanvas setDisplayMethod
-INFO: no menu item for display method net.sf.jaer.graphics.ChipRendererDisplayMethod@d14d8c cannot set it as the selected display method in the menu
-11월 14, 2012 1:40:43 오후 net.sf.jaer.chip.AEChip onRegistration
+Jan 29, 2013 2:01:46 PM net.sf.jaer.graphics.ChipCanvas setDisplayMethod
+INFO: no menu item for display method net.sf.jaer.graphics.ChipRendererDisplayMethod@1540b48 cannot set it as the selected display method in the menu
+Jan 29, 2013 2:01:46 PM net.sf.jaer.chip.AEChip onRegistration
 INFO: registering DVS128 sizeX=128 sizeY=128 eventClass=PolarityEvent
-11월 14, 2012 1:40:44 오후 net.sf.jaer.util.RemoteControl <init>
+Jan 29, 2013 2:01:46 PM net.sf.jaer.util.RemoteControl <init>
 INFO: Constructed RemoteControl on port=8997
-11월 14, 2012 1:40:44 오후 net.sf.jaer.graphics.AEViewer$ViewLoop run
+Jan 29, 2013 2:01:46 PM net.sf.jaer.graphics.AEViewer$ViewLoop run
 INFO: sleeping until isVisible()==true
-11월 14, 2012 1:40:44 오후 net.sf.jaer.graphics.AEViewer <init>
+Jan 29, 2013 2:01:46 PM net.sf.jaer.graphics.AEViewer <init>
 INFO: created RemoteControl on port=8997 for remote control of some AEViewer functions
-11월 14, 2012 1:40:44 오후 net.sf.jaer.eventio.AEServerSocket run
+Jan 29, 2013 2:01:46 PM net.sf.jaer.eventio.AEServerSocket run
 INFO: bound AEServerSocket on port=8990
-11월 14, 2012 1:40:45 오후 net.sf.jaer.graphics.AEViewer$ViewLoop run
+Jan 29, 2013 2:01:47 PM net.sf.jaer.graphics.AEViewer$ViewLoop run
 INFO: sleeping until isVisible()==true
-11월 14, 2012 1:40:46 오후 net.sf.jaer.graphics.AEViewer openHardwareIfNonambiguous
-INFO: setting hardware interface for unambiguous device to DVS128-V1  129
-11월 14, 2012 1:40:46 오후 net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2 acquireDevice
-INFO: DVS128-V1  129 acquiring device for exclusive access
-11월 14, 2012 1:40:47 오후 net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2DVS128HardwareInterface setSyncEventEnabled
-INFO: setting true
-11월 14, 2012 1:40:47 오후 net.sf.jaer.graphics.AEViewer setPlayMode
-INFO: Changing PlayMode from WAITING to LIVE
-11월 14, 2012 1:40:47 오후 net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2$AEReader resetTimestamps
-INFO: DVS128-V1  129: wrapAdd=0, zeroing it
-11월 14, 2012 1:40:47 오후 net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2DVS128HardwareInterface$RetinaAEReader translateEvents
-INFO: AEReader for DVS128-V1  129.translateEvents got reset event from hardware, timestamp 0
-11월 14, 2012 1:40:47 오후 net.sf.jaer.event.EventPacket enlargeCapacity
-INFO: enlarging capacity of EventPacket #11882787 holding PolarityEvent with size=4096 capacity=4096
-11월 14, 2012 1:40:47 오후 net.sf.jaer.event.EventPacket enlargeCapacity
-INFO: enlarging capacity of EventPacket #11882787 holding PolarityEvent with size=8192 capacity=8192
-11월 14, 2012 1:40:47 오후 net.sf.jaer.event.EventPacket enlargeCapacity
-INFO: enlarging capacity of EventPacket #11882787 holding PolarityEvent with size=16384 capacity=16384
-11월 14, 2012 1:40:48 오후 net.sf.jaer.graphics.ChipCanvas init
+Jan 29, 2013 2:01:48 PM net.sf.jaer.graphics.AEViewer$ViewLoop run
+INFO: sleeping until isVisible()==true
+Jan 29, 2013 2:01:49 PM net.sf.jaer.graphics.AEViewer$ViewLoop run
+INFO: sleeping until isVisible()==true
+Jan 29, 2013 2:01:50 PM net.sf.jaer.graphics.AEViewer$ViewLoop run
+INFO: sleeping until isVisible()==true
+Jan 29, 2013 2:01:51 PM net.sf.jaer.graphics.AEViewer$ViewLoop run
+INFO: sleeping until isVisible()==true
+Jan 29, 2013 2:01:52 PM net.sf.jaer.graphics.AEViewer$ViewLoop run
+INFO: sleeping until isVisible()==true
+Jan 29, 2013 2:01:53 PM net.sf.jaer.graphics.AEViewer$ViewLoop run
+INFO: sleeping until isVisible()==true
+Jan 29, 2013 2:01:54 PM net.sf.jaer.graphics.AEViewer$ViewLoop run
+INFO: sleeping until isVisible()==true
+Jan 29, 2013 2:01:55 PM net.sf.jaer.graphics.AEViewer$ViewLoop run
+INFO: sleeping until isVisible()==true
+Jan 29, 2013 2:01:56 PM net.sf.jaer.graphics.AEViewer$ViewLoop run
+INFO: sleeping until isVisible()==true
+Jan 29, 2013 2:01:58 PM net.sf.jaer.util.WindowSaver loadSettings
+INFO: window x origin is <0, moving back to zero
+Jan 29, 2013 2:01:58 PM net.sf.jaer.util.WindowSaver loadSettings
+INFO: window y origin is < lowerInset, moving back to 28
+Jan 29, 2013 2:01:58 PM net.sf.jaer.util.WindowSaver loadSettings
+INFO: window extends over edge of screen, moving back to origin
+Jan 29, 2013 2:01:58 PM net.sf.jaer.util.WindowSaver loadSettings
+INFO: window height (780) is bigger than screen height minus WINDOWS_TASK_BAR_HEIGHT (700), resizing height
+Jan 29, 2013 2:01:58 PM net.sf.jaer.util.WindowSaver loadSettings
+INFO: window width (1288) is bigger than screen width (1280), resizing height
+Jan 29, 2013 2:01:59 PM net.sf.jaer.graphics.ChipCanvas init
 INFO: OpenGL implementation is: com.sun.opengl.impl.GLImpl
-GL_VENDOR: Intel
-GL_RENDERER: Intel(R) HD Graphics Family
-GL_VERSION: 3.0.0 - Build 8.15.10.2253
-11월 14, 2012 1:41:25 오후 net.sf.jaer.graphics.AEViewer formWindowClosing
+GL_VENDOR: NVIDIA Corporation
+GL_RENDERER: GeForce 8400M GT/PCI/SSE2
+GL_VERSION: 3.1.0
+Jan 29, 2013 2:02:00 PM net.sf.jaer.graphics.AEViewer formWindowClosing
 INFO: window closing
-11월 14, 2012 1:41:25 오후 net.sf.jaer.graphics.AEViewer cleanup
-INFO: closing DVS128-V1  129
-11월 14, 2012 1:41:25 오후 net.sf.jaer.graphics.AEViewer$ViewLoop run
-INFO: AEViewer.run() ending: stop=true isInterrupted=false
-11월 14, 2012 1:41:25 오후 net.sf.jaer.graphics.AEViewer cleanup
+Jan 29, 2013 2:02:00 PM net.sf.jaer.graphics.AEViewer cleanup
 INFO: closing AEServerSocket on port=8990
-11월 14, 2012 1:41:25 오후 net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2 disableINEndpoint
-INFO: disableINEndpoint: couldn't send vendor request to disable IN transfers--it could be that device is gone or sendor is OFF and and completing GPIF cycle
-11월 14, 2012 1:41:25 오후 net.sf.jaer.eventio.AEServerSocket close
+Jan 29, 2013 2:02:00 PM net.sf.jaer.eventio.AEServerSocket close
 INFO: closing AEServerSocket thread
-11월 14, 2012 1:41:25 오후 net.sf.jaer.eventio.AEServerSocket run
+Jan 29, 2013 2:02:00 PM net.sf.jaer.eventio.AEServerSocket run
 INFO: socket closed gracefully? caught java.net.SocketException: socket closed
-11월 14, 2012 1:41:25 오후 net.sf.jaer.eventio.AEServerSocket close
+Jan 29, 2013 2:02:00 PM net.sf.jaer.eventio.AEServerSocket close
 INFO: closed server socket
-11월 14, 2012 1:41:25 오후 net.sf.jaer.graphics.AEViewer formWindowClosing
+Jan 29, 2013 2:02:00 PM net.sf.jaer.graphics.AEViewer formWindowClosing
 INFO: window closing event, only 1 viewer, calling System.exit
