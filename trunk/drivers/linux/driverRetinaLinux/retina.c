@@ -312,9 +312,21 @@ static ssize_t retina_write(struct file *file, const char *user_buffer, size_t c
 	{
 		//dev_info(&dev->interface->dev,"retina_write(ioctl): allocating %d bytes",writesize);
 /*
-		buf = usb_alloc_coherent(dev->udev, writesize, GFP_KERNEL, &urb->transfer_dma); // under fedora
+		TODO the next line may need to be used on some linux releases instead of the following one 
+		see https://lkml.org/lkml/2010/4/12/132 which says
+		For more clearance what the functions actually do,
+
+  usb_buffer_alloc() is renamed to usb_alloc_coherent()
+  usb_buffer_free()  is renamed to usb_free_coherent()
+
+They should only be used in code which really needs DMA coherency.
 */
-		buf = usb_buffer_alloc(dev->udev, writesize, GFP_KERNEL, &urb->transfer_dma); // under ubuntu 10
+
+		// use for later linux kernels
+		buf = usb_alloc_coherent(dev->udev, writesize, GFP_KERNEL, &urb->transfer_dma); // under fedora
+
+		// use for earlier kernels
+//		buf = usb_buffer_alloc(dev->udev, writesize, GFP_KERNEL, &urb->transfer_dma); // under ubuntu 10
 		// TODO POSSIBLE BUG: usb_alloc_coherent called, but this buffer is never freed! -> mem leak...!
 		
 		if (!buf) {
