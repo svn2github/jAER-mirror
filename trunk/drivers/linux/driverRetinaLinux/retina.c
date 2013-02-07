@@ -22,6 +22,19 @@
 
 // for older kernels you might have to activate this:
 //#define usb_alloc_coherent usb_buffer_alloc
+/*
+-The cause for these errors is that the driver makes use of the functions usb_buffer_alloc() and usb_buffer_free() which got renamed in kernel 2.6.35. This is stated in the Changelog:   USB: rename usb_buffer_alloc() and usb_buffer_free() users
+-    For more clearance what the functions actually do,
+-      usb_buffer_alloc() is renamed to usb_alloc_coherent()
+-      usb_buffer_free()  is renamed to usb_free_coherent()
+-   This is needed on Debian 2.6.32-5-amd64
+-*/
+#if ( LINUX_VERSION_CODE < KERNEL_VERSION(2,6,35) )
+#define usb_alloc_coherent usb_buffer_alloc
+#define usb_free_coherent  usb_buffer_free
+#define noop_llseek NULL
+#endif
+
 
 
 /* this is the DVS 128 retina */
