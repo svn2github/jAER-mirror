@@ -1,7 +1,7 @@
 #include "udpinterface.h"
 
 #define EVENT_FRAME_LENGTH 6
-#define NUM_PACKET_BUFS 2
+#define NUM_PACKET_BUFS 10
 
 UDPInterface::UDPInterface(QObject *parent) : QObject(parent){
     //eventBuffer = new RingBuffer<Event>(20000);
@@ -73,7 +73,6 @@ void UDPInterface::readEvents(QByteArray data){
             counter++;
 
         lastEventTime = currentEventTime;
-
     }
 }
 

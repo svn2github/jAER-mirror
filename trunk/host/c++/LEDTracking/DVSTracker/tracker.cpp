@@ -4,6 +4,7 @@
 #include "localmaximum.h"
 #include "include/opencv2/opencv.hpp"
 #include <math.h>
+#include <cfloat>
 
 // Resolution of DVS
 #define DVS_RES 128
@@ -30,6 +31,7 @@
 // Combination analysis
 #define CA_MIN_DIST 8.0f
 #define CA_NUM_HYPOTHESIS 4
+
 
 
 //! Constructor
@@ -69,7 +71,7 @@ Tracker::Tracker(PacketBuffer *buffer, std::vector<int> frequencies,
 
     logger = new HypothesisLogger("C:/Users/giselher/Documents/uzh/hypo_log.txt");
     poseLogger = new PoseLogger("C:/Users/giselher/Documents/uzh/Master\ Projekt/code/dvs_tracking/MATLAB/pose_log.txt");
-    lastEventTs = 0;
+    lastEventTs = DBL_MIN;
     eventCount = 0;
 
     combinationAnalyzer = new CombinationAnalyzer(particleFilters,targetFrequencies.size(),CA_MIN_DIST,CA_NUM_HYPOTHESIS);
@@ -114,17 +116,6 @@ void Tracker::processEvent(Event e){
     if(dt.timeStamp == 0 || dt.deltaT < 0){
         return;
     }
-
-    //stop logger/saving image output (for udp interface, since jAER loops the videos)
-    if(lastEventTs > e.timeStamp && !poseLogger->done()){
-        printf("#Events(tra): %d\n",eventCount);
-        eventCount = 0;
-        //logger->stop();
-        poseLogger->stop();
-        //widget->stopSaving();
-    }
-    else
-        eventCount++;
 
     //Calculate importance of interval for each frequency
     for(unsigned int i = 0; i < targetFrequencies.size(); i++){
@@ -294,18 +285,31 @@ void Tracker::run(){
                 for(int i = 0; i < packet->size(); i++){
                     // do not process if special event
                     Event *e = packet->get(i);
+
+                    //stop logger/saving image output (for udp interface, since jAER loops the videos)
+                    if(lastEventTs > e->timeStamp && !poseLogger->done()){
+                        printf("#Events(tra): %d\n",eventCount);
+                        eventCount = 0;
+                        //logger->stop();
+                        poseLogger->stop();
+                        //widget->stopSaving();
+                    }
+                    else
+                        eventCount++;
+
                     if(e->isSpecial())
                         return;
 
                     //process events here
                     //updateCamWidget(e);
-//                    e->timeStamp += 1000;
+                    //e->timeStamp += 2000;
                     processEvent(*e);
                 }
                 processPacket();
             }
         }
-        else
-            msleep(1);
+        else{
+            usleep(1);
+        }
     }
 }
