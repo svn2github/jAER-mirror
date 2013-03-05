@@ -106,6 +106,7 @@ HKR,,Icon,,"-20"
 %S_DeviceDesccDVSTest%=_Install, USB\Vid_152A&Pid_840A
 %S_DeviceDesccSeeBetter%=_Install, USB\Vid_152A&Pid_840B
 %S_DeviceDesccApsDvsSensor%=_Install, USB\Vid_152A&Pid_840D
+%S_DeviceDescSeeBetter30%=_Install, USB\Vid_152A&Pid_840E
 ; following device firmware was built in telluride 2008 and is based on silabs C8051f320
 %S_DeviceDescSimpleAESequencer%=_Install, USB\Vid_152A&Pid_8410
 ;following device is for Tmpdiff128 chip with SiLabs C8051F3xx on board DVS128_PAER with parallel AER connectors
