@@ -16,6 +16,9 @@
                 <entry key="FilterChain.timeLimitEnabled" value="false"/>
                 <entry key="FilterChain.timeLimitMs" value="10"/>
                 <entry key="agcTauMs" value="1000.0"/>
+                <entry key="XYTypeFilter.filterEnabled" value="false"/>
+                <entry key="RotateFilter.filterEnabled" value="false"/>
+                <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
                 <entry key="SBret10.bgTabbedPaneSelectedIndex" value="1"/>
                 <entry key="displayLogIntensityChangeEvents" value="true"/>
                 <entry key="displayIntensity" value="true"/>
@@ -129,7 +132,7 @@
                 <entry key="SBret10.AddressedIPotCF.PadFollBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.PadFollBn.Type" value="NORMAL"/>
                 <entry key="SBret10.AddressedIPotCF.apsOverflowLevel.BitValueCoarse" value="0"/>
-                <entry key="SBret10.AddressedIPotCF.apsOverflowLevel.BitValueFine" value="27"/>
+                <entry key="SBret10.AddressedIPotCF.apsOverflowLevel.BitValueFine" value="11"/>
                 <entry key="SBret10.AddressedIPotCF.apsOverflowLevel.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.apsOverflowLevel.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.apsOverflowLevel.Sex" value="N"/>
@@ -186,9 +189,6 @@
                 <entry key="SBret10.extTrigger" value="false"/>
                 <entry key="SBret10.testPixAPSread" value="false"/>
                 <entry key="agcEnabled" value="false"/>
-                <entry key="XYTypeFilter.filterEnabled" value="false"/>
-                <entry key="RotateFilter.filterEnabled" value="false"/>
-                <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
                 <entry key="FilterFrame.filters" value="rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAEdwQAAAAEdAAvbmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5YWVR5cGVGaWx0ZXJ0AC9uZXQuc2YuamFlci5ldmVudHByb2Nlc3NpbmcuZmlsdGVyLlJvdGF0ZUZpbHRlcnQAO25ldC5zZi5qYWVyLmV2ZW50cHJvY2Vzc2luZy5maWx0ZXIuQmFja2dyb3VuZEFjdGl2aXR5RmlsdGVydAAzbmV0LnNmLmphZXIuZXZlbnRwcm9jZXNzaW5nLmZpbHRlci5SZWZyYWN0b3J5RmlsdGVyeA=="/>
                 <entry key="RefractoryFilter.filterEnabled" value="false"/>
                 <entry key="invertADCvalues" value="false"/>
@@ -240,6 +240,7 @@
                 <entry key="displayFrames" value="true"/>
                 <entry key="VideoControl.useAutoContrast" value="false"/>
                 <entry key="VideoControl.displayFrames" value="true"/>
+                <entry key="SpatioTemporalFusion.filterEnabled" value="true"/>
               </map>
             </node>
           </node>
