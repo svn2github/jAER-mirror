@@ -1,0 +1,1613 @@
+
+edif2ngd  -l "MachXO" -d LCMXO2280C -path "C:/Users/Minhao/Documents/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter30/SeeBetter30" -path "C:/Users/Minhao/Documents/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter30"  "C:/Users/Minhao/Documents/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter30/SeeBetter30/SeeBetter30_SeeBetter30.edi" "SeeBetter30_SeeBetter30.ngo"   
+edif2ngd:  version Diamond (64-bit) 2.1.0.103
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+WARNING - edif2ngd: Unsupported property is_pwr found - ignoring...
+  On or above line 175 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property is_pwr found - ignoring...
+  On or above line 183 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 282 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 303 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 9849 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 10739 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 10803 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 12304 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 12440 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 13909 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 14335 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 14713 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 15460 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 15722 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 15928 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 16414 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 18387 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 18450 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+WARNING - edif2ngd: Unsupported property orig_inst_of found - ignoring...
+  On or above line 20206 in file C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\LatticeMachXO\SeeBetter30\SeeBetter30\SeeBetter30_SeeBetter30.edi
+
+Writing the design to SeeBetter30_SeeBetter30.ngo...
+
+
+ngdbuild  -a "MachXO" -d LCMXO2280C  -p "C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga/mj5g00/data"  -p "C:/Users/Minhao/Documents/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter30/SeeBetter30" -p "C:/Users/Minhao/Documents/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter30"  "SeeBetter30_SeeBetter30.ngo" "SeeBetter30_SeeBetter30.ngd"  	
+ngdbuild:  version Diamond (64-bit) 2.1.0.103
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+Reading 'SeeBetter30_SeeBetter30.ngo' ...
+Loading NGL library 'C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga/mj5g00e/data/mj5gelib.ngl'...
+Loading NGL library 'C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga/mj5g00/data/mj5glib.ngl'...
+Loading NGL library 'C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga/mg5g00/data/mg5glib.ngl'...
+Loading NGL library 'C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga/or5g00/data/orc5glib.ngl'...
+
+
+Running DRC...
+
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_51_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_51_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_51_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_data_tmp[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_39_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_39_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_data_tmp[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_27_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_27_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_data_tmp[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_15_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_15_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_data_tmp[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_N_42' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_countcolxdp_0_I_1_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_51_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_51_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_51_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_data_tmp[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_39_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_39_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_data_tmp[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_27_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_27_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_data_tmp[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_15_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_15_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_data_tmp[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_N_42' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_countcolxdp_0_I_1_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_COUT1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S0[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_10_cry_0_S1[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_COUT1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S0[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_11_cry_0_S1[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_COUT1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S0[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_0_cry_0_S1[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_16' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_usecxei_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_16' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un13_nobxs_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_16' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un6_nobxs_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_16' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un30_nobxs_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_16' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un22_nobxs_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_16' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un15_usecxei_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_16_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_16_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_16_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_16_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_14_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_12_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_12_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_10_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_10_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_8_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_8_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_6_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_6_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_4_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_4_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_2_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_2_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerRowxDP_1_cry_0_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_COUT1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S0[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_cry_0_S1[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_COUT1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[31]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[27]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[23]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[19]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S0[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un1_DividerColxDP_1_cry_0_S1[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_8_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_usecxei_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_s_14_0_COUT0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_s_14_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_s_14_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un10_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_14_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un16_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_14_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un3_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_14_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un19_nobxs_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_14' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_14_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_12' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_10' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_8' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_6' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_4' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_2' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un12_usecxei_cry_0_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_s_15_0_COUT0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_s_15_0_COUT1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_s_15_0_S1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_13' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_11' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_9' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_7' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_5' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_3' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_1' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/un27_nobxs_cry_1_0_S0' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_s_0_COUT0[32]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_s_0_COUT1[32]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_s_0_S1[32]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[30]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[28]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[26]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[24]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[22]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[20]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[18]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerColxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountRowxDP_s_0_COUT0[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountRowxDP_s_0_COUT1[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountRowxDP_s_0_S1[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountRowxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountRowxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry_0_COUT1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/CountColxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_s_s1_0_COUT0[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_s_s1_0_COUT1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_s_s1_0_S1[16]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry_s1[14]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry_s1[12]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry_s1[10]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry_s1[8]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry_s1[6]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry_s1[4]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry_s1[2]' has no load
+WARNING - ngdbuild: logical net 'ADCStateMachine_2/DividerRowxDP_cry_s1[0]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_s_0_COUT0[18]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_s_0_COUT1[18]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_s_0_S1[18]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[16]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[14]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'cDVSResetStateMachine_1/CountxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[14]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry_0_COUT1[14]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/CountxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/CountxDP_cry_0_COUT1[6]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/CountxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/CountxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'monitorStateMachine_1/CountxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry_0_COUT1[12]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/CounterxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/DividerxDP_s_0_COUT0[6]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/DividerxDP_s_0_COUT1[6]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/DividerxDP_s_0_S1[6]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/DividerxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/DividerxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'uSynchronizerStateMachine_1/DividerxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_s_0_COUT0[14]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_s_0_COUT1[14]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_s_0_S1[14]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'uTimestampCounter/CountxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_s_0_COUT0[8]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_s_0_COUT1[8]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_s_0_S1[8]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'uEventCounter/CountxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_s_0_COUT0[20]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_s_0_COUT1[20]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_s_0_S1[20]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[18]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[16]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[14]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[12]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[10]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[8]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[6]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[4]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[2]' has no load
+WARNING - ngdbuild: logical net 'uEarlyPaketTimer/CountxDP_cry[0]' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO7' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO8' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO9' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO10' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO11' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO12' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO13' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO14' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO15' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO16' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO17' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO18' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO19' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO20' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO21' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO22' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO23' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO24' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO25' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO26' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO27' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO28' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO29' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO30' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO31' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO32' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO33' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO34' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO35' has no load
+WARNING - ngdbuild: logical net 'uFifo/EF' has no load
+WARNING - ngdbuild: logical net 'uFifo/AEF' has no load
+WARNING - ngdbuild: logical net 'uFifo/AFF' has no load
+WARNING - ngdbuild: logical net 'uFifo/FF' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO9_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO10_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO11_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO12_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO13_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO14_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO15_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO16_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO17_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO18_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO19_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO20_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO21_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO22_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO23_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO24_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO25_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO26_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO27_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO28_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO29_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO30_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO31_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO32_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO33_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO34_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/DO35_0' has no load
+WARNING - ngdbuild: logical net 'uFifo/FifoAlmostEmptyxS' has no load
+WARNING - ngdbuild: logical net 'uFifo/FifoAlmostFullxS' has no load
+WARNING - ngdbuild: logical net 'uClockGen/CLKOS' has no load
+WARNING - ngdbuild: logical net 'uClockGen/CLKOK' has no load
+WARNING - ngdbuild: logical net 'uClockGen/LockxS' has no load
+WARNING - ngdbuild: logical net 'uClockGen/CLKINTFB' has no load
+WARNING - ngdbuild: logical net 'FXLEDxSI' has no load
+WARNING - ngdbuild: logical net 'CDVSTestBiasBitOutxSI' has no load
+WARNING - ngdbuild: DRC complete with 693 warnings
+
+Design Results:
+   1329 blocks expanded
+complete the first expansion
+Writing 'SeeBetter30_SeeBetter30.ngd' ...
+
+map -a "MachXO" -p LCMXO2280C -t FTBGA256 -s 3 -oc Commercial   "SeeBetter30_SeeBetter30.ngd" -o "SeeBetter30_SeeBetter30_map.ncd" -pr "SeeBetter30_SeeBetter30.prf" -mp "SeeBetter30_SeeBetter30.mrp" "C:/Users/Minhao/Documents/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter30/SeeBetter30.lpf"             
+map:  version Diamond (64-bit) 2.1.0.103
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+   Process the file: SeeBetter30_SeeBetter30.ngd
+   Picdevice="LCMXO2280C"
+
+   Pictype="FTBGA256"
+
+   Picspeed=3
+
+   Remove unused logic
+
+   Do not produce over sized NCDs.
+
+Part used: LCMXO2280CFTBGA256, Performance used: 3.
+WARNING - map: Semantic Error: SynchOutxSO matches no ports in the design.  Occurred at line 147 in "OUTPUT PORT "SynchOutxSO" LOAD 1.000000 pF ;
+".  Disabled this preference.
+WARNING - map: Preference parsing results:  1 semantic error detected
+WARNING - map: There are errors in the preference file, "C:/Users/Minhao/Documents/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter30/SeeBetter30.lpf".
+Loading device for application map from file 'mj5g21x17.nph' in environment C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga.
+loading NP_PATTERN_MANAGER
+
+end NP_PATTERN_MANAGER
+
+Package Status:                     Final          Version 1.26
+Running general design DRC...
+Removing unused logic...
+Optimizing...
+WARNING - map: Using local reset signal 'ResetxRBI_c' to infer global GSR net.
+WARNING - map: IO buffer missing for top level port FXLEDxSI...logic will be discarded.
+WARNING - map: IO buffer missing for top level port CDVSTestBiasBitOutxSI...logic will be discarded.
+
+
+
+Design Summary:
+   Number of PFU registers:    498
+   Number of SLICEs:           637 out of  1140 (56%)
+      SLICEs(logic/ROM):       637 out of   900 (71%)
+      SLICEs(logic/ROM/RAM):     0 out of   240 (0%)
+          As RAM:            0
+          As Logic/ROM:      0
+   Number of logic LUT4s:     411
+   Number of distributed RAM:   0 (0 LUT4s)
+   Number of ripple logic:    295 (590 LUT4s)
+   Number of shift registers:   0
+   Total number of LUT4s:     1001
+   Number of external PIOs: 92 out of 211 (44%)
+   Number of PLLs:  1 out of 2 (50%)
+   Number of block RAMs:  2 out of 3 (67%)
+   Number of GSRs:  1 out of 1 (100%)
+   JTAG used :      No
+   Readback used :  No
+   Oscillator used :  No
+   Startup used :   No
+   Number of TSALL: 0 out of 1 (0%)
+   Notes:-
+      1. Total number of LUT4s = (Number of logic LUT4s) + 2*(Number of distributed RAMs) + 2*(Number of ripple logic)
+      2. Number of logic LUT4s does not include count of distributed RAM and ripple logic.
+   Number of clocks:  7
+     Net ClockxC_c: 89 loads, 89 rising, 0 falling (Driver: uClockGen/PLLCInst_0 )
+     Net IfClockxCI_c: 77 loads, 77 rising, 0 falling (Driver: PIO IfClockxCI )
+     Net ADCStateMachine_2/StateColxDP[17]: 1 loads, 1 rising, 0 falling (Driver: ADCStateMachine_2/StateColxDP[17] )
+     Net ADCStateMachine_2/StateColxDP[9]: 1 loads, 1 rising, 0 falling (Driver: ADCStateMachine_2/StateColxDP[9] )
+     Net CDVSTestSRRowInxSO_c: 1 loads, 1 rising, 0 falling (Driver: ADCStateMachine_2/StateRowxDP[8] )
+     Net PC1xSIO_c: 60 loads, 60 rising, 0 falling (Driver: PIO PC1xSIO )
+     Net PC2xSIO_c: 50 loads, 0 rising, 50 falling (Driver: PIO PC2xSIO )
+   Number of Clock Enables:  16
+     Net ADCStateMachine_2/StateColxDP_RNO_0[17]: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/ClockxC: 31 loads, 31 LSLICEs
+     Net ADCStateMachine_2/StartColxSP_RNO: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/StateColxDP_RNO[9]: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/ClockxC_RNIU9VN5: 2 loads, 2 LSLICEs
+     Net ADCStateMachine_2/ClockxC_RNI4URR2: 17 loads, 17 LSLICEs
+     Net ADCStateMachine_2/StartColxSP_cnv_0: 9 loads, 9 LSLICEs
+     Net ADCStateMachine_2.N_321_i: 6 loads, 6 LSLICEs
+     Net ADCStateMachine_2.N_323_i: 1 loads, 1 LSLICEs
+     Net monitorStateMachine_1.N_256_i: 7 loads, 7 LSLICEs
+     Net FifoWritexE: 2 loads, 0 LSLICEs
+     Net FifoReadxE: 2 loads, 0 LSLICEs
+     Net uEarlyPaketTimer.CountxDPe: 11 loads, 11 LSLICEs
+     Net uSynchronizerStateMachine_1/CounterxDPe: 8 loads, 8 LSLICEs
+     Net IncxS: 9 loads, 9 LSLICEs
+     Net uEventCounter/CountxDPe: 5 loads, 5 LSLICEs
+   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  365
+   Number of LSRs:  6
+     Net ADCsmRstxE_i: 65 loads, 65 LSLICEs
+     Net ADCStateMachine_2/StateColxDP[11]: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/StateRowxDP[2]: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_2/StateColxDN_2_sqmuxa_2: 1 loads, 1 LSLICEs
+     Net ResetTimestampxSBO_i_0_o2_2_RNICSNV: 10 loads, 10 LSLICEs
+     Net ResetxRBI_c: 4 loads, 0 LSLICEs
+   Number of nets driven by tri-state buffers:  0
+   Top 10 highest fanout non-clock nets:
+     Net ADCsmRstxE_i: 65 loads
+     Net ADCStateMachine_2/ClockxC: 41 loads
+     Net fifoStatemachine_1.StatexDP[0]: 38 loads
+     Net FifoReadxE: 37 loads
+     Net ADCStateMachine_2/un1_StateColxDP_9_2: 35 loads
+     Net ADCStateMachine_2/un1_StateColxDP_9_i_0_199_a2_0: 33 loads
+     Net ADCStateMachine_2/un1_StateColxDP_9_i_0_199_a2_1: 33 loads
+     Net ECResetEarlyPaketTimerxS: 33 loads
+     Net monitorStateMachine_1/TimestampResetxDP: 26 loads
+     Net uSynchronizerStateMachine_1/N_195: 25 loads
+ 
+   Number of warnings:  6
+   Number of errors:    0
+
+
+
+INFO: Design contains EBR with ASYNC Reset Mode that has a limitation:
+The use of the EBR block asynchronous reset requires that certain timing
+be met between the clock and the reset within the memory block. 
+See the device specific data sheet for additional details.
+
+Total CPU Time: 0 secs  
+Total REAL Time: 0 secs  
+Peak Memory Usage: 47 MB
+
+Dumping design to file SeeBetter30_SeeBetter30_map.ncd.
+
+ncd2eqn "SeeBetter30_SeeBetter30_map.ncd"
+Start loading SeeBetter30_SeeBetter30_map.ncd
+
+
+Loading design for application ncd2eqn from file SeeBetter30_SeeBetter30_map.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 3
+Loading device for application ncd2eqn from file 'mj5g21x17.nph' in environment C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga.
+loading NP_PATTERN_MANAGER
+
+end NP_PATTERN_MANAGER
+
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.75
+Finish loading SeeBetter30_SeeBetter30_map.ncd
+
+
+ncd2eqn runs successfully
+
+
+trce -f "SeeBetter30_SeeBetter30.mt" -o "SeeBetter30_SeeBetter30.tw1" "SeeBetter30_SeeBetter30_map.ncd" "SeeBetter30_SeeBetter30.prf"
+trce:  version Diamond (64-bit) 2.1.0.103
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+
+Loading design for application trce from file seebetter30_seebetter30_map.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 3
+Loading device for application trce from file 'mj5g21x17.nph' in environment C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga.
+loading NP_PATTERN_MANAGER
+
+end NP_PATTERN_MANAGER
+
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.75
+Setup and Hold Report
+
+--------------------------------------------------------------------------------
+Lattice TRACE Report - Setup, Version Diamond (64-bit) 2.1.0.103
+Mon Feb 25 15:16:17 2013
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+
+Report Information
+------------------
+Command line:    trce -v 1 -gt -mapchkpnt 0 -sethld -o SeeBetter30_SeeBetter30.tw1 SeeBetter30_SeeBetter30_map.ncd SeeBetter30_SeeBetter30.prf 
+Design file:     seebetter30_seebetter30_map.ncd
+Preference file: seebetter30_seebetter30.prf
+Device,speed:    LCMXO2280C,3
+Report level:    verbose report, limited to 1 item per preference
+--------------------------------------------------------------------------------
+
+BLOCK ASYNCPATHS
+BLOCK RESETPATHS
+--------------------------------------------------------------------------------
+
+
+
+Timing summary (Setup):
+---------------
+
+Timing errors: 0  Score: 0
+Cumulative negative slack: 0
+
+Constraints cover 18191 paths, 7 nets, and 2989 connections (80.4% coverage)
+
+--------------------------------------------------------------------------------
+Lattice TRACE Report - Hold, Version Diamond (64-bit) 2.1.0.103
+Mon Feb 25 15:16:17 2013
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+
+Report Information
+------------------
+Command line:    trce -v 1 -gt -mapchkpnt 0 -sethld -o SeeBetter30_SeeBetter30.tw1 SeeBetter30_SeeBetter30_map.ncd SeeBetter30_SeeBetter30.prf 
+Design file:     seebetter30_seebetter30_map.ncd
+Preference file: seebetter30_seebetter30.prf
+Device,speed:    LCMXO2280C,M
+Report level:    verbose report, limited to 1 item per preference
+--------------------------------------------------------------------------------
+
+BLOCK ASYNCPATHS
+BLOCK RESETPATHS
+--------------------------------------------------------------------------------
+
+
+
+Timing summary (Hold):
+---------------
+
+Timing errors: 0  Score: 0
+Cumulative negative slack: 0
+
+Constraints cover 18191 paths, 7 nets, and 2989 connections (80.4% coverage)
+
+
+
+Timing summary (Setup and Hold):
+---------------
+
+Timing errors: 0 (setup), 0 (hold)
+Score: 0 (setup), 0 (hold)
+Cumulative negative slack: 0 (0+0)
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+
+Total time: 0 secs 
+
+ldbanno "SeeBetter30_SeeBetter30_map.ncd" -n Verilog -o "SeeBetter30_SeeBetter30_mapvo.vo" -w -neg
+ldbanno: version Diamond (64-bit) 2.1.0.103
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+
+Writing a Verilog netlist using the orca library type based on the SeeBetter30_SeeBetter30_map design file.
+
+
+Loading design for application ldbanno from file SeeBetter30_SeeBetter30_map.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 3
+Loading device for application ldbanno from file 'mj5g21x17.nph' in environment C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga.
+loading NP_PATTERN_MANAGER
+
+end NP_PATTERN_MANAGER
+
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.75
+Converting design "SeeBetter30_SeeBetter30_map.ncd" into .ldb format.
+Writing Verilog netlist to file SeeBetter30_SeeBetter30_mapvo.vo
+Writing SDF timing to file SeeBetter30_SeeBetter30_mapvo.sdf
+
+ldbanno "SeeBetter30_SeeBetter30_map.ncd" -n VHDL -o "SeeBetter30_SeeBetter30_mapvho.vho" -w -neg
+ldbanno: version Diamond (64-bit) 2.1.0.103
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+
+Writing a VHDL netlist using the orca library type based on the SeeBetter30_SeeBetter30_map design file.
+
+
+Loading design for application ldbanno from file SeeBetter30_SeeBetter30_map.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 3
+Loading device for application ldbanno from file 'mj5g21x17.nph' in environment C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga.
+loading NP_PATTERN_MANAGER
+
+end NP_PATTERN_MANAGER
+
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.75
+Converting design "SeeBetter30_SeeBetter30_map.ncd" into .ldb format.
+Writing VHDL netlist to file SeeBetter30_SeeBetter30_mapvho.vho
+Writing SDF timing to file SeeBetter30_SeeBetter30_mapvho.sdf
+
+mpartrce -p "SeeBetter30_SeeBetter30.p2t" -f "SeeBetter30_SeeBetter30.p3t" -tf "SeeBetter30_SeeBetter30.pt" "SeeBetter30_SeeBetter30_map.ncd" "SeeBetter30_SeeBetter30.ncd"
+
+---- MParTrce Tool ----
+Removing old design directory at request of -rem command line option to this program.
+Running par. Please wait . . .
+
+Lattice Place and Route Report for Design "SeeBetter30_SeeBetter30_map.ncd"
+Mon Feb 25 15:16:23 2013
+
+PAR: Place And Route Diamond (64-bit) 2.1.0.103.
+Command Line: par -w -l 5 -i 6 -t 1 -c 0 -e 0 -exp parUseNBR=1:parCDP=0:parCDR=0:parPathBased=OFF SeeBetter30_SeeBetter30_map.ncd SeeBetter30_SeeBetter30.dir/5_1.ncd SeeBetter30_SeeBetter30.prf
+Preference file: SeeBetter30_SeeBetter30.prf.
+Placement level-cost: 5-1.
+Routing Iterations: 6
+
+Loading design for application par from file SeeBetter30_SeeBetter30_map.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 3
+Loading device for application par from file 'mj5g21x17.nph' in environment C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga.
+loading NP_PATTERN_MANAGER
+
+end NP_PATTERN_MANAGER
+
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.75
+License checked out.
+
+
+Ignore Preference Error(s):  True
+Device utilization summary:
+
+   GSR                1/1           100% used
+   PIO (prelim)      92/271          33% used
+                     92/211          43% bonded
+   EBR                2/3            66% used
+   PLL3               1/2            50% used
+   SLICE            637/1140         55% used
+
+
+
+Number of Signals: 1477
+Number of Connections: 3717
+
+Pin Constraint Summary:
+   92 out of 92 pins locked (100% locked).
+
+The following 4 signals are selected to use the primary clock routing resources:
+    ClockxC_c (driver: uClockGen/PLLCInst_0, clk load #: 91)
+    IfClockxCI_c (driver: IfClockxCI, clk load #: 79)
+    PC1xSIO_c (driver: PC1xSIO, clk load #: 60)
+    PC2xSIO_c (driver: PC2xSIO, clk load #: 50)
+
+The following 2 signals are selected to use the secondary clock routing resources:
+    ADCsmRstxE_i (driver: uSynchronizerStateMachine_1/SLICE_642, clk load #: 0, sr load #: 65, ce load #: 0)
+    ADCStateMachine_2/ClockxC (driver: ADCStateMachine_2/SLICE_612, clk load #: 0, sr load #: 0, ce load #: 31)
+
+Starting Placer Phase 0.
+...........
+Finished Placer Phase 0.  REAL time: 0 secs 
+
+Starting Placer Phase 1.
+................
+Placer score = 1077768.
+Finished Placer Phase 1.  REAL time: 11 secs 
+
+Starting Placer Phase 2.
+.
+Placer score =  1068610
+Finished Placer Phase 2.  REAL time: 12 secs 
+
+
+------------------ Clock Report ------------------
+
+Global Clock Resources:
+  CLK_PIN    : 1 out of 4 (25%)
+  General PIO: 2 out of 272 (0%)
+  PLL        : 1 out of 2 (50%)
+
+Quadrants All (TL, TR, BL, BR) - Global Clocks:
+  PRIMARY "ClockxC_c" from CLKOP on comp "uClockGen/PLLCInst_0" on PLL site "PLL3_R20C1", clk load = 91
+  PRIMARY "IfClockxCI_c" from comp "IfClockxCI" on CLK_PIN site "A9 (PT10B)", clk load = 79
+  PRIMARY "PC1xSIO_c" from comp "PC1xSIO" on PIO site "K1 (PL12B)", clk load = 60
+  PRIMARY "PC2xSIO_c" from comp "PC2xSIO" on PIO site "J2 (PL11B)", clk load = 50
+  SECONDARY "ADCsmRstxE_i" from F0 on comp "uSynchronizerStateMachine_1/SLICE_642" on site "R13C2A", clk load = 0, ce load = 0, sr load = 65
+  SECONDARY "ADCStateMachine_2/ClockxC" from Q0 on comp "ADCStateMachine_2/SLICE_612" on site "R12C2B", clk load = 0, ce load = 31, sr load = 0
+
+  PRIMARY  : 4 out of 4 (100%)
+  SECONDARY: 2 out of 4 (50%)
+
+--------------- End of Clock Report ---------------
+
+
+I/O Usage Summary (final):
+   92 out of 271 (33.9%) PIO sites used.
+   92 out of 211 (43.6%) bonded PIO sites used.
+   Number of PIO comps: 92; differential: 0
+   Number of Vref pins used: 0
+
+I/O Bank Usage Summary:
++----------+----------------+------------+------------+------------+
+| I/O Bank | Usage          | Bank Vccio | Bank Vref1 | Bank Vref2 |
++----------+----------------+------------+------------+------------+
+| 0        | 11 / 24 ( 45%) | 3.3V       | -          | -          |
+| 1        | 13 / 30 ( 43%) | 3.3V       | -          | -          |
+| 2        | 9 / 26 ( 34%)  | 3.3V       | -          | -          |
+| 3        | 10 / 28 ( 35%) | 3.3V       | -          | -          |
+| 4        | 10 / 29 ( 34%) | 3.3V       | -          | -          |
+| 5        | 13 / 20 ( 65%) | 3.3V       | -          | -          |
+| 6        | 13 / 28 ( 46%) | 3.3V       | -          | -          |
+| 7        | 13 / 26 ( 50%) | 3.3V       | -          | -          |
++----------+----------------+------------+------------+------------+
+
+Total placer CPU time: 11 secs 
+
+Dumping design to file SeeBetter30_SeeBetter30.dir/5_1.ncd.
+
+0 connections routed; 3717 unrouted.
+Starting router resource preassignment
+WARNING - par: The driver of primary clock net PC1xSIO_c is not placed on one of the PIO sites dedicated for primary clocks.  This primary clock will be routed to a H-spine through general routing resource or will be routed as a secondary clock and may suffer from excessive delay or skew.
+WARNING - par: The driver of primary clock net PC2xSIO_c is not placed on one of the PIO sites dedicated for primary clocks.  This primary clock will be routed to a H-spine through general routing resource or will be routed as a secondary clock and may suffer from excessive delay or skew.
+WARNING - par: The following clock signals will be routed by using generic routing resource and may suffer from excessive delay and/or skew.
+
+   Signal=ADCStateMachine_2/StateColxDP[17] loads=29 clock_loads=1
+   Signal=ADCStateMachine_2/StateColxDP[9] loads=8 clock_loads=1
+   Signal=CDVSTestSRRowInxSO_c loads=5 clock_loads=1
+
+Completed router resource preassignment. Real time: 14 secs 
+
+Start NBR router at 15:16:37 02/25/13
+
+*****************************************************************
+Info: NBR allows conflicts(one node used by more than one signal)
+      in the earlier iterations. In each iteration, it tries to  
+      solve the conflicts while keeping the critical connections 
+      routed as short as possible. The routing process is said to
+      be completed when no conflicts exist and all connections   
+      are routed.                                                
+Note: NBR uses a different method to calculate timing slacks. The
+      worst slack and total negative slack may not be the same as
+      that in TRCE report. You should always run TRCE to verify  
+      your design. Thanks.                                       
+*****************************************************************
+
+Start NBR special constraint process at 15:16:37 02/25/13
+
+Start NBR section for initial routing
+Level 1, iteration 1
+14(0.02%) conflicts; 2844(76.51%) untouched conns; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.586ns/0.000ns; real time: 16 secs 
+Level 2, iteration 1
+4(0.00%) conflicts; 2821(75.89%) untouched conns; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.586ns/0.000ns; real time: 16 secs 
+Level 3, iteration 1
+21(0.02%) conflicts; 2415(64.97%) untouched conns; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.573ns/0.000ns; real time: 16 secs 
+Level 4, iteration 1
+116(0.13%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.423ns/0.000ns; real time: 17 secs 
+Info: Initial congestion level at 75% usage is 0
+Info: Initial congestion area  at 75% usage is 0 (0.00%)
+
+Start NBR section for normal routing
+Level 1, iteration 1
+4(0.00%) conflicts; 119(3.20%) untouched conns; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.479ns/0.000ns; real time: 17 secs 
+Level 2, iteration 1
+3(0.00%) conflicts; 123(3.31%) untouched conns; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.479ns/0.000ns; real time: 18 secs 
+Level 3, iteration 1
+8(0.01%) conflicts; 114(3.07%) untouched conns; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.479ns/0.000ns; real time: 18 secs 
+Level 4, iteration 1
+58(0.06%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.479ns/0.000ns; real time: 18 secs 
+Level 4, iteration 2
+22(0.02%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.479ns/0.000ns; real time: 18 secs 
+Level 4, iteration 3
+13(0.01%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.479ns/0.000ns; real time: 19 secs 
+Level 4, iteration 4
+3(0.00%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.479ns/0.000ns; real time: 19 secs 
+Level 4, iteration 5
+2(0.00%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.479ns/0.000ns; real time: 19 secs 
+Level 4, iteration 6
+2(0.00%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.479ns/0.000ns; real time: 19 secs 
+Level 4, iteration 7
+1(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.330ns/0.000ns; real time: 19 secs 
+Level 4, iteration 8
+1(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.330ns/0.000ns; real time: 19 secs 
+Level 4, iteration 9
+0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.330ns/0.000ns; real time: 20 secs 
+
+Start NBR section for re-routing
+Level 4, iteration 1
+0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 0.330ns/0.000ns; real time: 20 secs 
+
+Start NBR section for post-routing
+
+End NBR router with 0 unrouted connection
+
+NBR Summary
+-----------
+  Number of unrouted connections : 0 (0.00%)
+  Number of connections with timing violations : 0 (0.00%)
+  Estimated worst slack : 0.330ns
+  Timing score : 0
+-----------
+Notes: The timing info is calculated for SETUP only and all PAR_ADJs are ignored.
+
+
+
+Hold time optimization iteration 0:
+There are 2 hold time violations, the optimization is running ...
+End of iteration 0
+3717 successful; 0 unrouted;  real time: 22 secs 
+
+Hold time optimization iteration 1:
+All hold time violations have been successfully corrected in speed grade M
+
+---------------IO Configurable Delay Element Usage Summary---------------
+
+Total IO Configurable Delay Elements used: 0 
+---------------End of IO Configurable Delay Element Usage Summary--------
+
+Total CPU time 22 secs 
+Total REAL time: 23 secs 
+Completely routed.
+End of route.  3717 routed (100.00%); 0 unrouted.
+Checking DRC ... 
+No errors found.
+
+Hold time timing score: 0, hold timing errors: 0
+
+Timing score: 0 
+
+Dumping design to file SeeBetter30_SeeBetter30.dir/5_1.ncd.
+
+
+PAR_SUMMARY::Run status = completed
+PAR_SUMMARY::Number of unrouted conns = 0
+PAR_SUMMARY::Worst  slack<setup/<ns>> = 0.330
+PAR_SUMMARY::Timing score<setup/<ns>> = 0.000
+PAR_SUMMARY::Worst  slack<hold /<ns>> = 0.061
+PAR_SUMMARY::Timing score<hold /<ns>> = 0.000
+
+Total CPU  time to completion: 23 secs 
+Total REAL time to completion: 23 secs 
+
+par done!
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+Exiting par with exit code 0
+Exiting mpartrce with exit code 0
+
+trce -f "SeeBetter30_SeeBetter30.pt" -o "SeeBetter30_SeeBetter30.twr" "SeeBetter30_SeeBetter30.ncd" "SeeBetter30_SeeBetter30.prf"
+trce:  version Diamond (64-bit) 2.1.0.103
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+
+Loading design for application trce from file seebetter30_seebetter30.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 3
+Loading device for application trce from file 'mj5g21x17.nph' in environment C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga.
+loading NP_PATTERN_MANAGER
+
+end NP_PATTERN_MANAGER
+
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.75
+Setup and Hold Report
+
+--------------------------------------------------------------------------------
+Lattice TRACE Report - Setup, Version Diamond (64-bit) 2.1.0.103
+Mon Feb 25 15:16:47 2013
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+
+Report Information
+------------------
+Command line:    trce -v 10 -gt -sethld -sp 3 -sphld m -o SeeBetter30_SeeBetter30.twr SeeBetter30_SeeBetter30.ncd SeeBetter30_SeeBetter30.prf 
+Design file:     seebetter30_seebetter30.ncd
+Preference file: seebetter30_seebetter30.prf
+Device,speed:    LCMXO2280C,3
+Report level:    verbose report, limited to 10 items per preference
+--------------------------------------------------------------------------------
+
+BLOCK ASYNCPATHS
+BLOCK RESETPATHS
+--------------------------------------------------------------------------------
+
+
+
+Timing summary (Setup):
+---------------
+
+Timing errors: 0  Score: 0
+Cumulative negative slack: 0
+
+Constraints cover 18191 paths, 7 nets, and 2989 connections (80.4% coverage)
+
+--------------------------------------------------------------------------------
+Lattice TRACE Report - Hold, Version Diamond (64-bit) 2.1.0.103
+Mon Feb 25 15:16:47 2013
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+
+Report Information
+------------------
+Command line:    trce -v 10 -gt -sethld -sp 3 -sphld m -o SeeBetter30_SeeBetter30.twr SeeBetter30_SeeBetter30.ncd SeeBetter30_SeeBetter30.prf 
+Design file:     seebetter30_seebetter30.ncd
+Preference file: seebetter30_seebetter30.prf
+Device,speed:    LCMXO2280C,m
+Report level:    verbose report, limited to 10 items per preference
+--------------------------------------------------------------------------------
+
+BLOCK ASYNCPATHS
+BLOCK RESETPATHS
+--------------------------------------------------------------------------------
+
+
+
+Timing summary (Hold):
+---------------
+
+Timing errors: 0  Score: 0
+Cumulative negative slack: 0
+
+Constraints cover 18191 paths, 7 nets, and 2989 connections (80.4% coverage)
+
+
+
+Timing summary (Setup and Hold):
+---------------
+
+Timing errors: 0 (setup), 0 (hold)
+Score: 0 (setup), 0 (hold)
+Cumulative negative slack: 0 (0+0)
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+
+Total time: 0 secs 
+
+iotiming  "SeeBetter30_SeeBetter30.ncd" "SeeBetter30_SeeBetter30.prf"
+I/O Timing Report:
+:  version Diamond (64-bit) 2.1.0.103
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+
+Loading design for application iotiming from file seebetter30_seebetter30.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 3
+Loading device for application iotiming from file 'mj5g21x17.nph' in environment C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga.
+loading NP_PATTERN_MANAGER
+
+end NP_PATTERN_MANAGER
+
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.75
+Running Performance Grade: 3
+Computing Setup Time ...
+Computing Max Clock to Output Delay ...
+Computing Hold Time ...
+Computing Min Clock to Output Delay ...
+
+Loading design for application iotiming from file seebetter30_seebetter30.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 4
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.75
+Running Performance Grade: 4
+Computing Setup Time ...
+Computing Max Clock to Output Delay ...
+Computing Hold Time ...
+Computing Min Clock to Output Delay ...
+
+Loading design for application iotiming from file seebetter30_seebetter30.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 5
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.75
+Running Performance Grade: 5
+Computing Setup Time ...
+Computing Max Clock to Output Delay ...
+Computing Hold Time ...
+Computing Min Clock to Output Delay ...
+
+Loading design for application iotiming from file seebetter30_seebetter30.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: M
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.75
+Running Performance Grade: M
+Computing Setup Time ...
+Computing Max Clock to Output Delay ...
+Computing Hold Time ...
+Computing Min Clock to Output Delay ...
+Done.
+
+bitgen -w "SeeBetter30_SeeBetter30.ncd" -f "SeeBetter30_SeeBetter30.t2b" "SeeBetter30_SeeBetter30.prf"
+
+
+BITGEN: Bitstream Generator Diamond (64-bit) 2.1.0.103
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+
+
+Loading design for application Bitgen from file SeeBetter30_SeeBetter30.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 3
+Loading device for application Bitgen from file 'mj5g21x17.nph' in environment C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga.
+loading NP_PATTERN_MANAGER
+
+end NP_PATTERN_MANAGER
+
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.75
+
+Running DRC.
+DRC detected 0 errors and 0 warnings.
+Reading Preference File from SeeBetter30_SeeBetter30.prf...
+
+Preference Summary:
++---------------------------------+---------------------------------+
+|  Preference                     |  Current Setting                |
++---------------------------------+---------------------------------+
+|                  CONFIG_SECURE  |                          OFF**  |
++---------------------------------+---------------------------------+
+|                          INBUF  |                           ON**  |
++---------------------------------+---------------------------------+
+|                             ES  |                           No**  |
++---------------------------------+---------------------------------+
+ *  Default setting.
+ ** The specified setting matches the default setting.
+
+
+Creating bit map...
+Saving bit stream in "SeeBetter30_SeeBetter30.bit".
+
+ispdfw -dev LCMXO2280C-XXFT256 -if "SeeBetter30_SeeBetter30.bit" -oft -jed -of "SeeBetter30_SeeBetter30.jed"  -comment "SeeBetter30_SeeBetter30.alt"
+
+Device Info:
+Full name: LCMXO2280C
+Row Width: 1116
+Column Width: 436
+Usercode bit #: 32
+Processing BIT2JED...
+
+Input: SeeBetter30_SeeBetter30.bit
+Output: SeeBetter30_SeeBetter30.jed
+Overwriteues: 0
+Comment file: SeeBetter30_SeeBetter30.alt
+Lever: 0
++-------------+
+|   Succeed!  |
++-------------+

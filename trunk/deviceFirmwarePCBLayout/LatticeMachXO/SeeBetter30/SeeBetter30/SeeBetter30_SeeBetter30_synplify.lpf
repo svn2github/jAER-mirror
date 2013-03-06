@@ -1,0 +1,22 @@
+#
+# Logical Preferences generated for Lattice by Synplify maplat201209latp1, Build 002R.
+#
+
+# Period Constraints
+FREQUENCY NET "ADCStateMachine_2/CDVSTestSRRowInxSO_c" 0.1 MHz;
+FREQUENCY NET "ADCStateMachine_2/StateColxDP[9]" 0.1 MHz;
+FREQUENCY NET "ADCStateMachine_2/StateColxDP[17]" 0.1 MHz;
+FREQUENCY PORT "PC1xSIO" 676.5 MHz;
+FREQUENCY PORT "PC2xSIO" 1.0 MHz;
+FREQUENCY PORT "IfClockxCI" 1.2 MHz;
+FREQUENCY NET "uClockGen/ClockxC_c" 127.3 MHz;
+# Output Constraints
+# Input Constraints
+# Point-to-point Delay Constraints 
+
+
+
+
+BLOCK ASYNCPATHS;
+
+# End of generated Logical Preferences.

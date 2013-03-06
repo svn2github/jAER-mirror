@@ -1,0 +1,1023 @@
+<HTML>
+<HEAD><TITLE>Lattice Map TRACE Report</TITLE>
+<STYLE TYPE="text/css">
+<!--
+ body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
+-->
+</STYLE>
+</HEAD>
+<PRE><A name="Map_Twr"></A><B><U><big>Map TRACE Report</big></U></B>
+
+Loading design for application trce from file seebetter30_seebetter30_map.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 3
+Loading device for application trce from file 'mj5g21x17.nph' in environment C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga.
+loading NP_PATTERN_MANAGER
+
+end NP_PATTERN_MANAGER
+
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.75
+Setup and Hold Report
+
+--------------------------------------------------------------------------------
+<A name="Map_Twr_setup"></A><B><U><big>Lattice TRACE Report - Setup, Version Diamond (64-bit) 2.1.0.103</big></U></B>
+Mon Feb 25 15:16:17 2013
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+
+<A name="mtw1_set_ri"></A><B><U><big>Report Information</big></U></B>
+------------------
+Command line:    trce -v 1 -gt -mapchkpnt 0 -sethld -o SeeBetter30_SeeBetter30.tw1 SeeBetter30_SeeBetter30_map.ncd SeeBetter30_SeeBetter30.prf 
+Design file:     seebetter30_seebetter30_map.ncd
+Preference file: seebetter30_seebetter30.prf
+Device,speed:    LCMXO2280C,3
+Report level:    verbose report, limited to 1 item per preference
+--------------------------------------------------------------------------------
+
+<A name="mtw1_set_ps"></A><B><U><big>Preference Summary</big></U></B>
+
+<LI><A href='#map_twr_pref_0_0' Target='right'>FREQUENCY NET "IfClockxCI_c" 30.000000 MHz (0 errors)</A></LI>            4096 items scored, 0 timing errors detected.
+Report:   37.361MHz is the maximum frequency for this preference.
+
+<LI><A href='#map_twr_pref_0_1' Target='right'>FREQUENCY NET "ClockxC_c" 90.000000 MHz (0 errors)</A></LI>            4096 items scored, 0 timing errors detected.
+Report:  100.492MHz is the maximum frequency for this preference.
+
+<LI><A href='#map_twr_pref_0_2' Target='right'>FREQUENCY 90.000000 MHz (0 errors)</A></LI>            194 items scored, 0 timing errors detected.
+Report:  102.733MHz is the maximum frequency for this preference.
+
+<LI><A href='#map_twr_pref_0_3' Target='right'>CLOCK_TO_OUT GROUP "FX2FifoData" 20.000000 ns MIN 0.000000 ns CLKPORT "IfClockxCI" (0 errors)</A></LI>            16 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_4' Target='right'>CLOCK_TO_OUT PORT "FX2FifoWritexEBO" 12.000000 ns MIN 0.000000 ns CLKPORT "IfClockxCI" (0 errors)</A></LI>            2 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_5' Target='right'>CLOCK_TO_OUT PORT "FX2FifoPktEndxSBO" 15.000000 ns MIN 0.000000 ns CLKPORT "IfClockxCI" (0 errors)</A></LI>            2 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_0_6' Target='right'>INPUT_SETUP PORT "FX2FifoInFullxSBI" 20.000000 ns HOLD 0.000000 ns CLKPORT "IfClockxCI" (0 errors)</A></LI>            2 items scored, 0 timing errors detected.
+
+BLOCK ASYNCPATHS
+BLOCK RESETPATHS
+--------------------------------------------------------------------------------
+
+
+
+================================================================================
+<A name="map_twr_pref_0_0"></A>Preference: FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;
+            4096 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed: The following path meets requirements by 2.189ns (weighted slack = 6.567ns)
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              uEventCounter/CountxDP[0]  (from ClockxC_c +)
+   Destination:    FF         Data in        fifoStatemachine_1/StatexDP[1]  (to IfClockxCI_c +)
+
+   Delay:               8.741ns  (27.6% logic, 72.4% route), 6 logic levels.
+
+ Constraint Details:
+
+      8.741ns physical path delay uEventCounter/SLICE_527 to fifoStatemachine_1/SLICE_371 meets
+     11.111ns delay constraint less
+      0.181ns DIN_SET requirement (totaling 10.930ns) by 2.189ns
+
+ Physical Path Details:
+
+      Data path uEventCounter/SLICE_527 to fifoStatemachine_1/SLICE_371:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.560 *SLICE_527.CLK to */SLICE_527.Q0 uEventCounter/SLICE_527 (from ClockxC_c)
+ROUTE         2   e 1.441 */SLICE_527.Q0 to */SLICE_646.A0 uEventCounter/CountxDP[0]
+CTOF_DEL    ---     0.371 */SLICE_646.A0 to */SLICE_646.F0 uEventCounter/SLICE_646
+ROUTE         1   e 1.441 */SLICE_646.F0 to */SLICE_531.D1 uEventCounter/countxdn15_5
+CTOF_DEL    ---     0.371 */SLICE_531.D1 to */SLICE_531.F1 uEventCounter/SLICE_531
+ROUTE        33   e 1.441 */SLICE_531.F1 to */SLICE_516.A1 ECResetEarlyPaketTimerxS
+CTOF_DEL    ---     0.371 */SLICE_516.A1 to */SLICE_516.F1 uEarlyPaketTimer/SLICE_516
+ROUTE        12   e 1.441 */SLICE_516.F1 to */SLICE_371.C1 uEarlyPaketTimer.CountxDPe
+CTOF_DEL    ---     0.371 */SLICE_371.C1 to */SLICE_371.F1 fifoStatemachine_1/SLICE_371
+ROUTE         1   e 0.561 */SLICE_371.F1 to */SLICE_371.D0 fifoStatemachine_1/N_11_mux
+CTOF_DEL    ---     0.371 */SLICE_371.D0 to */SLICE_371.F0 fifoStatemachine_1/SLICE_371
+ROUTE         1   e 0.001 */SLICE_371.F0 to *SLICE_371.DI0 fifoStatemachine_1/StatexDP_ns[1] (to IfClockxCI_c)
+                  --------
+                    8.741   (27.6% logic, 72.4% route), 6 logic levels.
+
+Report:   37.361MHz is the maximum frequency for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_1"></A>Preference: FREQUENCY NET "ClockxC_c" 90.000000 MHz ;
+            4096 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed: The following path meets requirements by 1.160ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              uSynchronizerStateMachine_1/CounterxDP[2]  (from ClockxC_c +)
+   Destination:    FF         Data in        uTimestampCounter/CountxDP[14]  (to ClockxC_c +)
+
+   Delay:               9.301ns  (26.0% logic, 74.0% route), 6 logic levels.
+
+ Constraint Details:
+
+      9.301ns physical path delay uSynchronizerStateMachine_1/SLICE_539 to SLICE_639 meets
+     11.111ns delay constraint less
+      0.650ns LSRREC_SET requirement (totaling 10.461ns) by 1.160ns
+
+ Physical Path Details:
+
+      Data path uSynchronizerStateMachine_1/SLICE_539 to SLICE_639:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.560 *SLICE_539.CLK to */SLICE_539.Q0 uSynchronizerStateMachine_1/SLICE_539 (from ClockxC_c)
+ROUTE         4   e 1.441 */SLICE_539.Q0 to */SLICE_643.C0 uSynchronizerStateMachine_1/CounterxDP[2]
+CTOF_DEL    ---     0.371 */SLICE_643.C0 to */SLICE_643.F0 uSynchronizerStateMachine_1/SLICE_643
+ROUTE         1   e 1.441 */SLICE_643.F0 to */SLICE_597.D0 uSynchronizerStateMachine_1/counterxdn5lt6
+CTOF_DEL    ---     0.371 */SLICE_597.D0 to */SLICE_597.F0 uSynchronizerStateMachine_1/SLICE_597
+ROUTE         2   e 0.561 */SLICE_597.F0 to */SLICE_597.D1 uSynchronizerStateMachine_1.p_memless.op_gt.op_gt.counterxdn5lt7
+CTOF_DEL    ---     0.371 */SLICE_597.D1 to */SLICE_597.F1 uSynchronizerStateMachine_1/SLICE_597
+ROUTE         1   e 1.441 */SLICE_597.F1 to */SLICE_585.D1 uSynchronizerStateMachine_1/ResetTimestampxSBO_i_0_o2_2_1
+CTOF_DEL    ---     0.371 */SLICE_585.D1 to */SLICE_585.F1 uSynchronizerStateMachine_1/SLICE_585
+ROUTE         3   e 0.561 */SLICE_585.F1 to */SLICE_585.B0 uSynchronizerStateMachine_1/N_110
+CTOF_DEL    ---     0.371 */SLICE_585.B0 to */SLICE_585.F0 uSynchronizerStateMachine_1/SLICE_585
+ROUTE        10   e 1.441 */SLICE_585.F0 to  SLICE_639.LSR ResetTimestampxSBO_i_0_o2_2_RNICSNV (to ClockxC_c)
+                  --------
+                    9.301   (26.0% logic, 74.0% route), 6 logic levels.
+
+Report:  100.492MHz is the maximum frequency for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_2"></A>Preference: FREQUENCY 90.000000 MHz ;
+            194 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed: The following path meets requirements by 1.377ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              ADCStateMachine_2/CountColxDP[0]  (from IfClockxCI_c +)
+   Destination:    FF         Data in        ADCStateMachine_2/NoBxS  (to ADCStateMachine_2/StateColxDP[17] +)
+
+   Delay:               9.084ns  (36.5% logic, 63.5% route), 12 logic levels.
+
+ Constraint Details:
+
+      9.084ns physical path delay ADCStateMachine_2/SLICE_228 to ADCStateMachine_2/SLICE_328 meets
+     11.111ns delay constraint less
+      0.650ns LSRREC_SET requirement (totaling 10.461ns) by 1.377ns
+
+ Physical Path Details:
+
+      Data path ADCStateMachine_2/SLICE_228 to ADCStateMachine_2/SLICE_328:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.560 *SLICE_228.CLK to */SLICE_228.Q0 ADCStateMachine_2/SLICE_228 (from IfClockxCI_c)
+ROUTE         9   e 1.441 */SLICE_228.Q0 to */SLICE_102.A0 ADCStateMachine_2/CountColxDP[0]
+A0TOFCO_DE  ---     0.882 */SLICE_102.A0 to *SLICE_102.FCO ADCStateMachine_2/SLICE_102
+ROUTE         1   e 0.001 *SLICE_102.FCO to *SLICE_101.FCI ADCStateMachine_2/un15_usecxei_cry_1
+FCITOFCO_D  ---     0.141 *SLICE_101.FCI to *SLICE_101.FCO ADCStateMachine_2/SLICE_101
+ROUTE         1   e 0.001 *SLICE_101.FCO to *SLICE_100.FCI ADCStateMachine_2/un15_usecxei_cry_3
+FCITOFCO_D  ---     0.141 *SLICE_100.FCI to *SLICE_100.FCO ADCStateMachine_2/SLICE_100
+ROUTE         1   e 0.001 *SLICE_100.FCO to */SLICE_99.FCI ADCStateMachine_2/un15_usecxei_cry_5
+FCITOFCO_D  ---     0.141 */SLICE_99.FCI to */SLICE_99.FCO ADCStateMachine_2/SLICE_99
+ROUTE         1   e 0.001 */SLICE_99.FCO to */SLICE_98.FCI ADCStateMachine_2/un15_usecxei_cry_7
+FCITOFCO_D  ---     0.141 */SLICE_98.FCI to */SLICE_98.FCO ADCStateMachine_2/SLICE_98
+ROUTE         1   e 0.001 */SLICE_98.FCO to */SLICE_97.FCI ADCStateMachine_2/un15_usecxei_cry_9
+FCITOFCO_D  ---     0.141 */SLICE_97.FCI to */SLICE_97.FCO ADCStateMachine_2/SLICE_97
+ROUTE         1   e 0.001 */SLICE_97.FCO to */SLICE_96.FCI ADCStateMachine_2/un15_usecxei_cry_11
+FCITOFCO_D  ---     0.141 */SLICE_96.FCI to */SLICE_96.FCO ADCStateMachine_2/SLICE_96
+ROUTE         1   e 0.001 */SLICE_96.FCO to */SLICE_95.FCI ADCStateMachine_2/un15_usecxei_cry_13
+FCITOFCO_D  ---     0.141 */SLICE_95.FCI to */SLICE_95.FCO ADCStateMachine_2/SLICE_95
+ROUTE         1   e 0.001 */SLICE_95.FCO to */SLICE_94.FCI ADCStateMachine_2/un15_usecxei_cry_15
+FCITOFCO_D  ---     0.141 */SLICE_94.FCI to */SLICE_94.FCO ADCStateMachine_2/SLICE_94
+ROUTE         2   e 1.441 */SLICE_94.FCO to   SLICE_618.B0 ADCStateMachine_2/un15_usecxei
+CTOF_DEL    ---     0.371   SLICE_618.B0 to   SLICE_618.F0 SLICE_618
+ROUTE         2   e 1.441   SLICE_618.F0 to */SLICE_340.D1 ADCStateMachine_2/un15_usecxei_cry_16_0_RNIHVDP
+CTOF_DEL    ---     0.371 */SLICE_340.D1 to */SLICE_340.F1 ADCStateMachine_2/SLICE_340
+ROUTE         2   e 1.441 */SLICE_340.F1 to *SLICE_328.LSR ADCStateMachine_2/StateColxDN_2_sqmuxa_2 (to ADCStateMachine_2/StateColxDP[17])
+                  --------
+                    9.084   (36.5% logic, 63.5% route), 12 logic levels.
+
+Report:  102.733MHz is the maximum frequency for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_3"></A>Preference: CLOCK_TO_OUT GROUP "FX2FifoData" 20.000000 ns MIN 0.000000 ns CLKPORT "IfClockxCI" ;
+            16 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 10.903ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FIFO8KA    Port           uFifo/AERfifo_0_1(ASIC)  (from IfClockxCI_c +)
+   Destination:    Port       Pad            FX2FifoDataxDIO[0]
+
+   Data Path Delay:     6.593ns  (78.1% logic, 21.9% route), 2 logic levels.
+
+   Clock Path Delay:    2.504ns  (42.5% logic, 57.5% route), 1 logic levels.
+
+ Constraint Details:
+      2.504ns delay IfClockxCI to uFifo/AERfifo_0_1 and
+      6.593ns delay uFifo/AERfifo_0_1 to FX2FifoDataxDIO[0] (totaling 9.097ns) meets
+     20.000ns offset IfClockxCI to FX2FifoDataxDIO[0] by 10.903ns
+
+ Physical Path Details:
+
+      Clock path IfClockxCI to uFifo/AERfifo_0_1:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.063         A9.PAD to       A9.PADDI IfClockxCI
+ROUTE        79   e 1.441       A9.PADDI to *fifo_0_1.CLKR IfClockxCI_c
+                  --------
+                    2.504   (42.5% logic, 57.5% route), 1 logic levels.
+
+      Data path uFifo/AERfifo_0_1 to FX2FifoDataxDIO[0]:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2Q_DEL     ---     3.171 *fifo_0_1.CLKR to *Rfifo_0_1.DO0 uFifo/AERfifo_0_1 (from IfClockxCI_c)
+ROUTE         1   e 1.441 *Rfifo_0_1.DO0 to       R2.PADDO FX2FifoDataxDIO_c[0]
+DOPAD_DEL   ---     1.981       R2.PADDO to         R2.PAD FX2FifoDataxDIO[0]
+                  --------
+                    6.593   (78.1% logic, 21.9% route), 2 logic levels.
+
+Report:    9.097ns is the minimum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_4"></A>Preference: CLOCK_TO_OUT PORT "FX2FifoWritexEBO" 12.000000 ns MIN 0.000000 ns CLKPORT "IfClockxCI" ;
+            2 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 3.723ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              fifoStatemachine_1/StatexDP[1]  (from IfClockxCI_c +)
+   Destination:    Port       Pad            FX2FifoWritexEBO
+
+   Data Path Delay:     5.773ns  (50.1% logic, 49.9% route), 3 logic levels.
+
+   Clock Path Delay:    2.504ns  (42.5% logic, 57.5% route), 1 logic levels.
+
+ Constraint Details:
+      2.504ns delay IfClockxCI to fifoStatemachine_1/SLICE_371 and
+      5.773ns delay fifoStatemachine_1/SLICE_371 to FX2FifoWritexEBO (totaling 8.277ns) meets
+     12.000ns offset IfClockxCI to FX2FifoWritexEBO by 3.723ns
+
+ Physical Path Details:
+
+      Clock path IfClockxCI to fifoStatemachine_1/SLICE_371:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.063         A9.PAD to       A9.PADDI IfClockxCI
+ROUTE        79   e 1.441       A9.PADDI to *SLICE_371.CLK IfClockxCI_c
+                  --------
+                    2.504   (42.5% logic, 57.5% route), 1 logic levels.
+
+      Data path fifoStatemachine_1/SLICE_371 to FX2FifoWritexEBO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.560 *SLICE_371.CLK to */SLICE_371.Q0 fifoStatemachine_1/SLICE_371 (from IfClockxCI_c)
+ROUTE        37   e 1.441 */SLICE_371.Q0 to */SLICE_613.A0 FifoReadxE
+CTOF_DEL    ---     0.371 */SLICE_613.A0 to */SLICE_613.F0 fifoStatemachine_1/SLICE_613
+ROUTE         1   e 1.441 */SLICE_613.F0 to       A5.PADDO FX2FifoWritexEBO_c
+DOPAD_DEL   ---     1.960       A5.PADDO to         A5.PAD FX2FifoWritexEBO
+                  --------
+                    5.773   (50.1% logic, 49.9% route), 3 logic levels.
+
+Report:    8.277ns is the minimum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_5"></A>Preference: CLOCK_TO_OUT PORT "FX2FifoPktEndxSBO" 15.000000 ns MIN 0.000000 ns CLKPORT "IfClockxCI" ;
+            2 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 6.723ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              fifoStatemachine_1/StatexDP[1]  (from IfClockxCI_c +)
+   Destination:    Port       Pad            FX2FifoPktEndxSBO
+
+   Data Path Delay:     5.773ns  (50.1% logic, 49.9% route), 3 logic levels.
+
+   Clock Path Delay:    2.504ns  (42.5% logic, 57.5% route), 1 logic levels.
+
+ Constraint Details:
+      2.504ns delay IfClockxCI to fifoStatemachine_1/SLICE_371 and
+      5.773ns delay fifoStatemachine_1/SLICE_371 to FX2FifoPktEndxSBO (totaling 8.277ns) meets
+     15.000ns offset IfClockxCI to FX2FifoPktEndxSBO by 6.723ns
+
+ Physical Path Details:
+
+      Clock path IfClockxCI to fifoStatemachine_1/SLICE_371:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.063         A9.PAD to       A9.PADDI IfClockxCI
+ROUTE        79   e 1.441       A9.PADDI to *SLICE_371.CLK IfClockxCI_c
+                  --------
+                    2.504   (42.5% logic, 57.5% route), 1 logic levels.
+
+      Data path fifoStatemachine_1/SLICE_371 to FX2FifoPktEndxSBO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.560 *SLICE_371.CLK to */SLICE_371.Q0 fifoStatemachine_1/SLICE_371 (from IfClockxCI_c)
+ROUTE        37   e 1.441 */SLICE_371.Q0 to */SLICE_613.A1 FifoReadxE
+CTOF_DEL    ---     0.371 */SLICE_613.A1 to */SLICE_613.F1 fifoStatemachine_1/SLICE_613
+ROUTE         1   e 1.441 */SLICE_613.F1 to       E1.PADDO FX2FifoPktEndxSBO_c
+DOPAD_DEL   ---     1.960       E1.PADDO to         E1.PAD FX2FifoPktEndxSBO
+                  --------
+                    5.773   (50.1% logic, 49.9% route), 3 logic levels.
+
+Report:    8.277ns is the minimum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_0_6"></A>Preference: INPUT_SETUP PORT "FX2FifoInFullxSBI" 20.000000 ns HOLD 0.000000 ns CLKPORT "IfClockxCI" ;
+            2 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 16.507ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            FX2FifoInFullxSBI
+   Destination:    FF         Data in        fifoStatemachine_1/StatexDP[1]  (to IfClockxCI_c +)
+
+   Max Data Path Delay:     5.620ns  (38.7% logic, 61.3% route), 4 logic levels.
+
+   Min Clock Path Delay:    2.308ns  (37.6% logic, 62.4% route), 1 logic levels.
+
+ Constraint Details:
+
+      5.620ns delay FX2FifoInFullxSBI to fifoStatemachine_1/SLICE_371 less
+     20.000ns offset FX2FifoInFullxSBI to IfClockxCI (totaling -14.380ns) meets
+      2.308ns delay IfClockxCI to fifoStatemachine_1/SLICE_371 less
+      0.181ns DIN_SET requirement (totaling 2.127ns) by 16.507ns
+
+ Physical Path Details:
+
+      Data path FX2FifoInFullxSBI to fifoStatemachine_1/SLICE_371:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.063         L1.PAD to       L1.PADDI FX2FifoInFullxSBI
+ROUTE         1   e 1.441       L1.PADDI to   SLICE_628.A0 FX2FifoInFullxSBI_c
+CTOF_DEL    ---     0.371   SLICE_628.A0 to   SLICE_628.F0 SLICE_628
+ROUTE         2   e 1.441   SLICE_628.F0 to */SLICE_371.B1 fifoStatemachine_1/N_10_mux
+CTOF_DEL    ---     0.371 */SLICE_371.B1 to */SLICE_371.F1 fifoStatemachine_1/SLICE_371
+ROUTE         1   e 0.561 */SLICE_371.F1 to */SLICE_371.D0 fifoStatemachine_1/N_11_mux
+CTOF_DEL    ---     0.371 */SLICE_371.D0 to */SLICE_371.F0 fifoStatemachine_1/SLICE_371
+ROUTE         1   e 0.001 */SLICE_371.F0 to *SLICE_371.DI0 fifoStatemachine_1/StatexDP_ns[1] (to IfClockxCI_c)
+                  --------
+                    5.620   (38.7% logic, 61.3% route), 4 logic levels.
+
+      Clock path IfClockxCI to fifoStatemachine_1/SLICE_371:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.867         A9.PAD to       A9.PADDI IfClockxCI
+ROUTE        79   e 1.441       A9.PADDI to *SLICE_371.CLK IfClockxCI_c
+                  --------
+                    2.308   (37.6% logic, 62.4% route), 1 logic levels.
+
+Report:    3.493ns is the minimum offset for this preference.
+
+<A name="mtw1_set_rs"></A><B><U><big>Report Summary</big></U></B>
+--------------
+----------------------------------------------------------------------------
+Preference                              |   Constraint|       Actual|Levels
+----------------------------------------------------------------------------
+                                        |             |             |
+FREQUENCY NET "IfClockxCI_c" 30.000000  |             |             |
+MHz ;                                   |   30.000 MHz|   37.361 MHz|   6  
+                                        |             |             |
+FREQUENCY NET "ClockxC_c" 90.000000 MHz |             |             |
+;                                       |   90.000 MHz|  100.492 MHz|   6  
+                                        |             |             |
+FREQUENCY 90.000000 MHz ;               |   90.000 MHz|  102.733 MHz|  12  
+                                        |             |             |
+CLOCK_TO_OUT GROUP "FX2FifoData"        |             |             |
+20.000000 ns MIN 0.000000 ns CLKPORT    |             |             |
+"IfClockxCI" ;                          |    20.000 ns|     9.097 ns|   2  
+                                        |             |             |
+CLOCK_TO_OUT PORT "FX2FifoWritexEBO"    |             |             |
+12.000000 ns MIN 0.000000 ns CLKPORT    |             |             |
+"IfClockxCI" ;                          |    12.000 ns|     8.277 ns|   3  
+                                        |             |             |
+CLOCK_TO_OUT PORT "FX2FifoPktEndxSBO"   |             |             |
+15.000000 ns MIN 0.000000 ns CLKPORT    |             |             |
+"IfClockxCI" ;                          |    15.000 ns|     8.277 ns|   3  
+                                        |             |             |
+INPUT_SETUP PORT "FX2FifoInFullxSBI"    |             |             |
+20.000000 ns HOLD 0.000000 ns CLKPORT   |             |             |
+"IfClockxCI" ;                          |    20.000 ns|     3.493 ns|   4  
+                                        |             |             |
+----------------------------------------------------------------------------
+
+
+All preferences were met.
+
+
+<A name="mtw1_set_clkda"></A><B><U><big>Clock Domains Analysis</big></U></B>
+------------------------
+
+Found 7 clocks:
+
+Clock Domain: ClockxC_c   Source: uClockGen/PLLCInst_0.CLKOP   Loads: 91
+   Covered under: FREQUENCY NET "ClockxC_c" 90.000000 MHz ;
+
+   Data transfers from:
+   Clock Domain: IfClockxCI_c   Source: IfClockxCI.PAD
+      Covered under: FREQUENCY NET "ClockxC_c" 90.000000 MHz ;   Transfers: 35
+
+   Clock Domain: ADCStateMachine_2/StateColxDP[17]   Source: ADCStateMachine_2/SLICE_342.Q0
+      Covered under: FREQUENCY NET "ClockxC_c" 90.000000 MHz ;   Transfers: 1
+
+   Clock Domain: ADCStateMachine_2/StateColxDP[9]   Source: ADCStateMachine_2/SLICE_604.Q0
+      Covered under: FREQUENCY NET "ClockxC_c" 90.000000 MHz ;   Transfers: 1
+
+   Clock Domain: PC2xSIO_c   Source: PC2xSIO.PAD
+      Not reported because source and destination domains are unrelated.
+
+Clock Domain: IfClockxCI_c   Source: IfClockxCI.PAD   Loads: 79
+   Covered under: FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;
+
+   Data transfers from:
+   Clock Domain: ClockxC_c   Source: uClockGen/PLLCInst_0.CLKOP
+      Covered under: FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;   Transfers: 10
+
+   Clock Domain: ADCStateMachine_2/StateColxDP[17]   Source: ADCStateMachine_2/SLICE_342.Q0
+      Covered under: FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;   Transfers: 1
+
+   Clock Domain: ADCStateMachine_2/StateColxDP[9]   Source: ADCStateMachine_2/SLICE_604.Q0
+      Covered under: FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;   Transfers: 1
+
+   Clock Domain: CDVSTestSRRowInxSO_c   Source: ADCStateMachine_2/SLICE_365.Q0
+      Covered under: FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;   Transfers: 1
+
+   Clock Domain: PC2xSIO_c   Source: PC2xSIO.PAD
+      Not reported because source and destination domains are unrelated.
+      To report these transfers please refer to preference CLKSKEWDIFF to define
+      external clock skew between clock ports.
+
+Clock Domain: ADCStateMachine_2/StateColxDP[17]   Source: ADCStateMachine_2/SLICE_342.Q0   Loads: 29
+   No transfer within this clock domain is found
+
+   Data transfers from:
+   Clock Domain: IfClockxCI_c   Source: IfClockxCI.PAD
+      Covered under: FREQUENCY 90.000000 MHz ;   Transfers: 19
+
+   Clock Domain: PC2xSIO_c   Source: PC2xSIO.PAD
+      Not reported because source and destination domains are unrelated.
+
+Clock Domain: ADCStateMachine_2/StateColxDP[9]   Source: ADCStateMachine_2/SLICE_604.Q0   Loads: 8
+   No transfer within this clock domain is found
+
+   Data transfers from:
+   Clock Domain: IfClockxCI_c   Source: IfClockxCI.PAD
+      Covered under: FREQUENCY 90.000000 MHz ;   Transfers: 1
+
+Clock Domain: CDVSTestSRRowInxSO_c   Source: ADCStateMachine_2/SLICE_365.Q0   Loads: 5
+   No transfer within this clock domain is found
+
+   Data transfers from:
+   Clock Domain: IfClockxCI_c   Source: IfClockxCI.PAD
+      Covered under: FREQUENCY 90.000000 MHz ;   Transfers: 1
+
+Clock Domain: PC1xSIO_c   Source: PC1xSIO.PAD   Loads: 60
+   Covered under: FREQUENCY 90.000000 MHz ;
+
+Clock Domain: PC2xSIO_c   Source: PC2xSIO.PAD   Loads: 50
+   No transfer within this clock domain is found
+
+
+<A name="mtw1_set_ts"></A><B><U><big>Timing summary (Setup):</big></U></B>
+---------------
+
+Timing errors: 0  Score: 0
+Cumulative negative slack: 0
+
+Constraints cover 18191 paths, 7 nets, and 2989 connections (80.4% coverage)
+
+--------------------------------------------------------------------------------
+<A name="Map_Twr_hold"></A><B><U><big>Lattice TRACE Report - Hold, Version Diamond (64-bit) 2.1.0.103</big></U></B>
+Mon Feb 25 15:16:17 2013
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+
+<A name="mtw1_hold_ri"></A><B><U><big>Report Information</big></U></B>
+------------------
+Command line:    trce -v 1 -gt -mapchkpnt 0 -sethld -o SeeBetter30_SeeBetter30.tw1 SeeBetter30_SeeBetter30_map.ncd SeeBetter30_SeeBetter30.prf 
+Design file:     seebetter30_seebetter30_map.ncd
+Preference file: seebetter30_seebetter30.prf
+Device,speed:    LCMXO2280C,M
+Report level:    verbose report, limited to 1 item per preference
+--------------------------------------------------------------------------------
+
+<A name="mtw1_hold_ps"></A><B><U><big>Preference Summary</big></U></B>
+
+<LI><A href='#map_twr_pref_1_0' Target='right'>FREQUENCY NET "IfClockxCI_c" 30.000000 MHz (0 errors)</A></LI>            4096 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_1' Target='right'>FREQUENCY NET "ClockxC_c" 90.000000 MHz (0 errors)</A></LI>            4096 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_2' Target='right'>FREQUENCY 90.000000 MHz (0 errors)</A></LI>            194 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_3' Target='right'>CLOCK_TO_OUT GROUP "FX2FifoData" 20.000000 ns MIN 0.000000 ns CLKPORT "IfClockxCI" (0 errors)</A></LI>            16 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_4' Target='right'>CLOCK_TO_OUT PORT "FX2FifoWritexEBO" 12.000000 ns MIN 0.000000 ns CLKPORT "IfClockxCI" (0 errors)</A></LI>            2 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_5' Target='right'>CLOCK_TO_OUT PORT "FX2FifoPktEndxSBO" 15.000000 ns MIN 0.000000 ns CLKPORT "IfClockxCI" (0 errors)</A></LI>            2 items scored, 0 timing errors detected.
+
+<LI><A href='#map_twr_pref_1_6' Target='right'>INPUT_SETUP PORT "FX2FifoInFullxSBI" 20.000000 ns HOLD 0.000000 ns CLKPORT "IfClockxCI" (0 errors)</A></LI>            2 items scored, 0 timing errors detected.
+
+BLOCK ASYNCPATHS
+BLOCK RESETPATHS
+--------------------------------------------------------------------------------
+
+
+
+================================================================================
+<A name="map_twr_pref_1_0"></A>Preference: FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;
+            4096 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed: The following path meets requirements by 0.310ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FIFO8KA    Port           uFifo/AERfifo_0_1(ASIC)  (from IfClockxCI_c +)
+   Destination:    FIFO8KA    Port           uFifo/AERfifo_0_1(ASIC)  (to IfClockxCI_c +)
+
+   Delay:               0.409ns  (51.3% logic, 48.7% route), 1 logic levels.
+
+ Constraint Details:
+
+      0.409ns physical path delay uFifo/AERfifo_0_1 to uFifo/AERfifo_0_1 meets
+      0.099ns CS_HLD and
+      0.000ns delay constraint requirement (totaling 0.099ns) by 0.310ns
+
+ Physical Path Details:
+
+      Data path uFifo/AERfifo_0_1 to uFifo/AERfifo_0_1:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2Q_DEL     ---     0.210 *fifo_0_1.CLKR to *ERfifo_0_1.EF uFifo/AERfifo_0_1 (from IfClockxCI_c)
+ROUTE         5   e 0.199 *ERfifo_0_1.EF to *fo_0_1.EMPTYI FifoEmptyxS (to IfClockxCI_c)
+                  --------
+                    0.409   (51.3% logic, 48.7% route), 1 logic levels.
+
+
+================================================================================
+<A name="map_twr_pref_1_1"></A>Preference: FREQUENCY NET "ClockxC_c" 90.000000 MHz ;
+            4096 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed: The following path meets requirements by 0.320ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FIFO8KA    Port           uFifo/AERfifo_0_1(ASIC)  (from ClockxC_c +)
+   Destination:    FIFO8KA    Port           uFifo/AERfifo_0_1(ASIC)  (to ClockxC_c +)
+
+   Delay:               0.419ns  (52.5% logic, 47.5% route), 1 logic levels.
+
+ Constraint Details:
+
+      0.419ns physical path delay uFifo/AERfifo_0_1 to uFifo/AERfifo_0_1 meets
+      0.099ns CS_HLD and
+      0.000ns delay constraint requirement (totaling 0.099ns) by 0.320ns
+
+ Physical Path Details:
+
+      Data path uFifo/AERfifo_0_1 to uFifo/AERfifo_0_1:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2Q_DEL     ---     0.220 *fifo_0_1.CLKW to *ERfifo_0_1.FF uFifo/AERfifo_0_1 (from ClockxC_c)
+ROUTE        10   e 0.199 *ERfifo_0_1.FF to *ifo_0_1.FULLI FifoFullxS (to ClockxC_c)
+                  --------
+                    0.419   (52.5% logic, 47.5% route), 1 logic levels.
+
+
+================================================================================
+<A name="map_twr_pref_1_2"></A>Preference: FREQUENCY 90.000000 MHz ;
+            194 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed: The following path meets requirements by 0.342ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              shiftRegister_1/StatexD[0]  (from PC1xSIO_c +)
+   Destination:    FF         Data in        shiftRegister_1/StatexD[1]  (to PC1xSIO_c +)
+
+   Delay:               0.325ns  (38.8% logic, 61.2% route), 1 logic levels.
+
+ Constraint Details:
+
+      0.325ns physical path delay shiftRegister_1/SLICE_456 to shiftRegister_1/SLICE_456 meets
+     -0.017ns M_HLD and
+      0.000ns delay constraint requirement (totaling -0.017ns) by 0.342ns
+
+ Physical Path Details:
+
+      Data path shiftRegister_1/SLICE_456 to shiftRegister_1/SLICE_456:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.126 *SLICE_456.CLK to */SLICE_456.Q0 shiftRegister_1/SLICE_456 (from PC1xSIO_c)
+ROUTE         1   e 0.199 */SLICE_456.Q0 to */SLICE_456.M1 shiftRegister_1/StatexD[0] (to PC1xSIO_c)
+                  --------
+                    0.325   (38.8% logic, 61.2% route), 1 logic levels.
+
+
+================================================================================
+<A name="map_twr_pref_1_3"></A>Preference: CLOCK_TO_OUT GROUP "FX2FifoData" 20.000000 ns MIN 0.000000 ns CLKPORT "IfClockxCI" ;
+            16 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 2.510ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FIFO8KA    Port           uFifo/AERfifo_0_1(ASIC)  (from IfClockxCI_c +)
+   Destination:    Port       Pad            FX2FifoDataxDIO[0]
+
+   Data Path Delay:     1.782ns  (71.1% logic, 28.9% route), 2 logic levels.
+
+   Clock Path Delay:    0.728ns  (29.3% logic, 70.7% route), 1 logic levels.
+
+ Constraint Details:
+      0.728ns delay IfClockxCI to uFifo/AERfifo_0_1 and
+      1.782ns delay uFifo/AERfifo_0_1 to FX2FifoDataxDIO[0] (totaling 2.510ns) meets
+      0.000ns hold offset IfClockxCI to FX2FifoDataxDIO[0] by 2.510ns
+
+ Physical Path Details:
+
+      Clock path IfClockxCI to uFifo/AERfifo_0_1:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.213         A9.PAD to       A9.PADDI IfClockxCI
+ROUTE        79   e 0.515       A9.PADDI to *fifo_0_1.CLKR IfClockxCI_c
+                  --------
+                    0.728   (29.3% logic, 70.7% route), 1 logic levels.
+
+      Data path uFifo/AERfifo_0_1 to FX2FifoDataxDIO[0]:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+C2Q_DEL     ---     0.780 *fifo_0_1.CLKR to *Rfifo_0_1.DO0 uFifo/AERfifo_0_1 (from IfClockxCI_c)
+ROUTE         1   e 0.515 *Rfifo_0_1.DO0 to       R2.PADDO FX2FifoDataxDIO_c[0]
+DOPAD_DEL   ---     0.487       R2.PADDO to         R2.PAD FX2FifoDataxDIO[0]
+                  --------
+                    1.782   (71.1% logic, 28.9% route), 2 logic levels.
+
+Report:    2.510ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_4"></A>Preference: CLOCK_TO_OUT PORT "FX2FifoWritexEBO" 12.000000 ns MIN 0.000000 ns CLKPORT "IfClockxCI" ;
+            2 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 2.440ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              fifoStatemachine_1/StatexDP[1]  (from IfClockxCI_c +)
+   Destination:    Port       Pad            FX2FifoWritexEBO
+
+   Data Path Delay:     1.712ns  (39.8% logic, 60.2% route), 3 logic levels.
+
+   Clock Path Delay:    0.728ns  (29.3% logic, 70.7% route), 1 logic levels.
+
+ Constraint Details:
+      0.728ns delay IfClockxCI to fifoStatemachine_1/SLICE_371 and
+      1.712ns delay fifoStatemachine_1/SLICE_371 to FX2FifoWritexEBO (totaling 2.440ns) meets
+      0.000ns hold offset IfClockxCI to FX2FifoWritexEBO by 2.440ns
+
+ Physical Path Details:
+
+      Clock path IfClockxCI to fifoStatemachine_1/SLICE_371:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.213         A9.PAD to       A9.PADDI IfClockxCI
+ROUTE        79   e 0.515       A9.PADDI to *SLICE_371.CLK IfClockxCI_c
+                  --------
+                    0.728   (29.3% logic, 70.7% route), 1 logic levels.
+
+      Data path fifoStatemachine_1/SLICE_371 to FX2FifoWritexEBO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.126 *SLICE_371.CLK to */SLICE_371.Q0 fifoStatemachine_1/SLICE_371 (from IfClockxCI_c)
+ROUTE        37   e 0.515 */SLICE_371.Q0 to */SLICE_613.A0 FifoReadxE
+CTOF_DEL    ---     0.074 */SLICE_613.A0 to */SLICE_613.F0 fifoStatemachine_1/SLICE_613
+ROUTE         1   e 0.515 */SLICE_613.F0 to       A5.PADDO FX2FifoWritexEBO_c
+DOPAD_DEL   ---     0.482       A5.PADDO to         A5.PAD FX2FifoWritexEBO
+                  --------
+                    1.712   (39.8% logic, 60.2% route), 3 logic levels.
+
+Report:    2.440ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_5"></A>Preference: CLOCK_TO_OUT PORT "FX2FifoPktEndxSBO" 15.000000 ns MIN 0.000000 ns CLKPORT "IfClockxCI" ;
+            2 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 2.440ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              fifoStatemachine_1/StatexDP[1]  (from IfClockxCI_c +)
+   Destination:    Port       Pad            FX2FifoPktEndxSBO
+
+   Data Path Delay:     1.712ns  (39.8% logic, 60.2% route), 3 logic levels.
+
+   Clock Path Delay:    0.728ns  (29.3% logic, 70.7% route), 1 logic levels.
+
+ Constraint Details:
+      0.728ns delay IfClockxCI to fifoStatemachine_1/SLICE_371 and
+      1.712ns delay fifoStatemachine_1/SLICE_371 to FX2FifoPktEndxSBO (totaling 2.440ns) meets
+      0.000ns hold offset IfClockxCI to FX2FifoPktEndxSBO by 2.440ns
+
+ Physical Path Details:
+
+      Clock path IfClockxCI to fifoStatemachine_1/SLICE_371:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.213         A9.PAD to       A9.PADDI IfClockxCI
+ROUTE        79   e 0.515       A9.PADDI to *SLICE_371.CLK IfClockxCI_c
+                  --------
+                    0.728   (29.3% logic, 70.7% route), 1 logic levels.
+
+      Data path fifoStatemachine_1/SLICE_371 to FX2FifoPktEndxSBO:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.126 *SLICE_371.CLK to */SLICE_371.Q0 fifoStatemachine_1/SLICE_371 (from IfClockxCI_c)
+ROUTE        37   e 0.515 */SLICE_371.Q0 to */SLICE_613.A1 FifoReadxE
+CTOF_DEL    ---     0.074 */SLICE_613.A1 to */SLICE_613.F1 fifoStatemachine_1/SLICE_613
+ROUTE         1   e 0.515 */SLICE_613.F1 to       E1.PADDO FX2FifoPktEndxSBO_c
+DOPAD_DEL   ---     0.482       E1.PADDO to         E1.PAD FX2FifoPktEndxSBO
+                  --------
+                    1.712   (39.8% logic, 60.2% route), 3 logic levels.
+
+Report:    2.440ns is the maximum offset for this preference.
+
+
+================================================================================
+<A name="map_twr_pref_1_6"></A>Preference: INPUT_SETUP PORT "FX2FifoInFullxSBI" 20.000000 ns HOLD 0.000000 ns CLKPORT "IfClockxCI" ;
+            2 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 0.675ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         Port       Pad            FX2FifoInFullxSBI
+   Destination:    FF         Data in        fifoStatemachine_1/StatexDP[0]  (to IfClockxCI_c +)
+
+   Min Data Path Delay:     1.443ns  (28.6% logic, 71.4% route), 3 logic levels.
+
+   Max Clock Path Delay:    0.776ns  (33.6% logic, 66.4% route), 1 logic levels.
+
+ Constraint Details:
+
+      1.443ns delay FX2FifoInFullxSBI to fifoStatemachine_1/SLICE_436 plus
+      0.000ns hold offset FX2FifoInFullxSBI to IfClockxCI (totaling 1.443ns) meets
+      0.776ns delay IfClockxCI to fifoStatemachine_1/SLICE_436 plus
+     -0.008ns DIN_HLD requirement (totaling 0.768ns) by 0.675ns
+
+ Physical Path Details:
+
+      Data path FX2FifoInFullxSBI to fifoStatemachine_1/SLICE_436:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.213         L1.PAD to       L1.PADDI FX2FifoInFullxSBI
+ROUTE         1   e 0.515       L1.PADDI to   SLICE_628.A0 FX2FifoInFullxSBI_c
+CTOF_DEL    ---     0.074   SLICE_628.A0 to   SLICE_628.F0 SLICE_628
+ROUTE         2   e 0.515   SLICE_628.F0 to */SLICE_436.C0 fifoStatemachine_1/N_10_mux
+CTOOFX_DEL  ---     0.125 */SLICE_436.C0 to *LICE_436.OFX0 fifoStatemachine_1/SLICE_436
+ROUTE         1   e 0.001 *LICE_436.OFX0 to *SLICE_436.DI0 fifoStatemachine_1/StatexDP_ns[0] (to IfClockxCI_c)
+                  --------
+                    1.443   (28.6% logic, 71.4% route), 3 logic levels.
+
+      Clock path IfClockxCI to fifoStatemachine_1/SLICE_436:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     0.261         A9.PAD to       A9.PADDI IfClockxCI
+ROUTE        79   e 0.515       A9.PADDI to *SLICE_436.CLK IfClockxCI_c
+                  --------
+                    0.776   (33.6% logic, 66.4% route), 1 logic levels.
+
+Report: There is no minimum offset greater than zero for this preference.
+
+<A name="mtw1_hold_rs"></A><B><U><big>Report Summary</big></U></B>
+--------------
+----------------------------------------------------------------------------
+Preference(MIN Delays)                  |   Constraint|       Actual|Levels
+----------------------------------------------------------------------------
+                                        |             |             |
+FREQUENCY NET "IfClockxCI_c" 30.000000  |             |             |
+MHz ;                                   |            -|            -|   1  
+                                        |             |             |
+FREQUENCY NET "ClockxC_c" 90.000000 MHz |             |             |
+;                                       |            -|            -|   1  
+                                        |             |             |
+FREQUENCY 90.000000 MHz ;               |            -|            -|   1  
+                                        |             |             |
+CLOCK_TO_OUT GROUP "FX2FifoData"        |             |             |
+20.000000 ns MIN 0.000000 ns CLKPORT    |             |             |
+"IfClockxCI" ;                          |     0.000 ns|     2.510 ns|   2  
+                                        |             |             |
+CLOCK_TO_OUT PORT "FX2FifoWritexEBO"    |             |             |
+12.000000 ns MIN 0.000000 ns CLKPORT    |             |             |
+"IfClockxCI" ;                          |     0.000 ns|     2.440 ns|   3  
+                                        |             |             |
+CLOCK_TO_OUT PORT "FX2FifoPktEndxSBO"   |             |             |
+15.000000 ns MIN 0.000000 ns CLKPORT    |             |             |
+"IfClockxCI" ;                          |     0.000 ns|     2.440 ns|   3  
+                                        |             |             |
+INPUT_SETUP PORT "FX2FifoInFullxSBI"    |             |             |
+20.000000 ns HOLD 0.000000 ns CLKPORT   |             |             |
+"IfClockxCI" ;                          |     0.000 ns|    -0.675 ns|   3  
+                                        |             |             |
+----------------------------------------------------------------------------
+
+
+All preferences were met.
+
+
+<A name="mtw1_hold_clkda"></A><B><U><big>Clock Domains Analysis</big></U></B>
+------------------------
+
+Found 7 clocks:
+
+Clock Domain: ClockxC_c   Source: uClockGen/PLLCInst_0.CLKOP   Loads: 91
+   Covered under: FREQUENCY NET "ClockxC_c" 90.000000 MHz ;
+
+   Data transfers from:
+   Clock Domain: IfClockxCI_c   Source: IfClockxCI.PAD
+      Covered under: FREQUENCY NET "ClockxC_c" 90.000000 MHz ;   Transfers: 35
+
+   Clock Domain: ADCStateMachine_2/StateColxDP[17]   Source: ADCStateMachine_2/SLICE_342.Q0
+      Covered under: FREQUENCY NET "ClockxC_c" 90.000000 MHz ;   Transfers: 1
+
+   Clock Domain: ADCStateMachine_2/StateColxDP[9]   Source: ADCStateMachine_2/SLICE_604.Q0
+      Covered under: FREQUENCY NET "ClockxC_c" 90.000000 MHz ;   Transfers: 1
+
+   Clock Domain: PC2xSIO_c   Source: PC2xSIO.PAD
+      Not reported because source and destination domains are unrelated.
+
+Clock Domain: IfClockxCI_c   Source: IfClockxCI.PAD   Loads: 79
+   Covered under: FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;
+
+   Data transfers from:
+   Clock Domain: ClockxC_c   Source: uClockGen/PLLCInst_0.CLKOP
+      Covered under: FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;   Transfers: 10
+
+   Clock Domain: ADCStateMachine_2/StateColxDP[17]   Source: ADCStateMachine_2/SLICE_342.Q0
+      Covered under: FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;   Transfers: 1
+
+   Clock Domain: ADCStateMachine_2/StateColxDP[9]   Source: ADCStateMachine_2/SLICE_604.Q0
+      Covered under: FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;   Transfers: 1
+
+   Clock Domain: CDVSTestSRRowInxSO_c   Source: ADCStateMachine_2/SLICE_365.Q0
+      Covered under: FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;   Transfers: 1
+
+   Clock Domain: PC2xSIO_c   Source: PC2xSIO.PAD
+      Not reported because source and destination domains are unrelated.
+      To report these transfers please refer to preference CLKSKEWDIFF to define
+      external clock skew between clock ports.
+
+Clock Domain: ADCStateMachine_2/StateColxDP[17]   Source: ADCStateMachine_2/SLICE_342.Q0   Loads: 29
+   No transfer within this clock domain is found
+
+   Data transfers from:
+   Clock Domain: IfClockxCI_c   Source: IfClockxCI.PAD
+      Covered under: FREQUENCY 90.000000 MHz ;   Transfers: 19
+
+   Clock Domain: PC2xSIO_c   Source: PC2xSIO.PAD
+      Not reported because source and destination domains are unrelated.
+
+Clock Domain: ADCStateMachine_2/StateColxDP[9]   Source: ADCStateMachine_2/SLICE_604.Q0   Loads: 8
+   No transfer within this clock domain is found
+
+   Data transfers from:
+   Clock Domain: IfClockxCI_c   Source: IfClockxCI.PAD
+      Covered under: FREQUENCY 90.000000 MHz ;   Transfers: 1
+
+Clock Domain: CDVSTestSRRowInxSO_c   Source: ADCStateMachine_2/SLICE_365.Q0   Loads: 5
+   No transfer within this clock domain is found
+
+   Data transfers from:
+   Clock Domain: IfClockxCI_c   Source: IfClockxCI.PAD
+      Covered under: FREQUENCY 90.000000 MHz ;   Transfers: 1
+
+Clock Domain: PC1xSIO_c   Source: PC1xSIO.PAD   Loads: 60
+   Covered under: FREQUENCY 90.000000 MHz ;
+
+Clock Domain: PC2xSIO_c   Source: PC2xSIO.PAD   Loads: 50
+   No transfer within this clock domain is found
+
+
+<A name="mtw1_hold_ts"></A><B><U><big>Timing summary (Hold):</big></U></B>
+---------------
+
+Timing errors: 0  Score: 0
+Cumulative negative slack: 0
+
+Constraints cover 18191 paths, 7 nets, and 2989 connections (80.4% coverage)
+
+
+
+<A name="mtw1_ts"></A><B><U><big>Timing summary (Setup and Hold):</big></U></B>
+---------------
+
+Timing errors: 0 (setup), 0 (hold)
+Score: 0 (setup), 0 (hold)
+Cumulative negative slack: 0 (0+0)
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+
+
+
+
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</PRE></FONT>
+</BODY>
+</HTML>

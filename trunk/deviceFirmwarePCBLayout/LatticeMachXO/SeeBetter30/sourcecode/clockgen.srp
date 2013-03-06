@@ -1,0 +1,26 @@
+SCUBA, Version Diamond_1.0_Production (529)
+Thu Aug 26 09:53:23 2010
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2010 Lattice Semiconductor Corporation,  All rights reserved.
+
+    Issued command   : C:\LatticeDiamond\diamond\1.0\ispfpga\bin\nt\scuba.exe -w -n clockgen -lang vhdl -synth synplify -arch mj5g00 -type pll -fin 30 -fclkop 90 -fclkop_tol 0.0 -delay_cntl STATIC -fdel 0 -fb_mode CLOCKTREE -noclkos -e 
+    Circuit name     : clockgen
+    Module type      : pll
+    Module Version   : 5.2
+    Ports            : 
+	Inputs       : CLK, RESET
+	Outputs      : CLKOP, LOCK
+    I/O buffer       : not inserted
+    EDIF output      : suppressed
+    VHDL output      : clockgen.vhd
+    VHDL template    : clockgen_tmpl.vhd
+    VHDL purpose     : for synthesis and simulation
+    Bus notation     : not used
+    Report output    : clockgen.srp
+    Element Usage    :
+        EHXPLLC : 1
+    Estimated Resource Usage:

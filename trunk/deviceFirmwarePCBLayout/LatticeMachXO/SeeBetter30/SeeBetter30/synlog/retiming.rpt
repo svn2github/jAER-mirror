@@ -1,0 +1,16 @@
+
+		#####  BEGIN RETIMING REPORT  #####
+
+Retiming summary : 3 registers retimed to 1
+
+Original and Pipelined registers replaced by retiming :
+		ADCStateMachine_2.ClockxC_0
+		ADCStateMachine_2.ClockxC_1
+		ADCStateMachine_2.WaitClockxC_0
+
+New registers created by retiming :
+		ADCStateMachine_2.WaitClockxC_ret_0
+
+
+		#####   END RETIMING REPORT  #####
+

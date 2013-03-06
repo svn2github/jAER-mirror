@@ -1,0 +1,85 @@
+timestamp=1340804565971
+
+[adcstatemachine]
+A/behavioral=A/Behavioral 21|./../../sourcecode/ADCStateMachine.vhd|56|1*4196890
+B/behavioral=3*5335151
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*466694
+I/behavioral=I/Behavioral 0*522274
+M=11|0|v63|1326887877056|./../../sourcecode/ADCStateMachine.vhd|0*465398*0xeaa2ad26772f7a250ad1b8ab469f395a85e3faef|0*466593*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1327400574928|./../../sourcecode/ADCStateMachine.vhd|0*513007*0x9b2354db39fa496e0fe31515f2812a9f9a05890d|0*522159*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/ADCStateMachine.vhd|25
+
+[adcstatemachine_tb]
+A/behavioural=A/Behavioural 21|./../../ADCStateMachine_tb.vhd|23|1*4515379
+B/behavioural=3*5804364
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioural=8.2.1986.SP1.35.3497  (Windows)
+I=0*12728
+I/behavioural=I/Behavioural 0*758620
+M=11|0|v63|1325674666519|./../../ADCStateMachine_tb.vhd|0*12372*0x43b4d29babc86fb088fdff51d8ed8b36673ac55c|0*12632*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioural=M/Behavioural 21|0|v63|1340804565857|./../../ADCStateMachine_tb.vhd|0*754513*0x1c41d3d797612fa80438010596ab4bbfe94b7c9a|0*758509*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../ADCStateMachine_tb.vhd|20
+
+[adcstatemachinea]
+A/behavioral=A/Behavioral 21|./../src/ADCStateMachineA.vhd|56|1*4542835
+B/behavioral=3*5841930
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*529032
+I/behavioral=I/Behavioral 0*804202
+M=11|0|v63|1326976806041|./../src/ADCStateMachineA.vhd|0*527750*0xe3349f14f2e1b558860721e1e8eb971ed8b968ec|0*528939*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1340804565938|./../src/ADCStateMachineA.vhd|0*795606*0xbf461509120bac747e96897de131e3c6380b5f70|0*804095*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../src/ADCStateMachineA.vhd|25
+
+[adcstatemachineab]
+A/behavioral=A/Behavioral 21|./../../sourcecode/ADCStateMachineAB.vhd|57|1*4383842
+B/behavioral=3*5608547
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*761110
+I/behavioral=I/Behavioral 0*770757
+M=11|0|v63|1340802841227|./../../sourcecode/ADCStateMachineAB.vhd|0*759771*0x2f3edd52807e670be3bb2bee89046c5a89375f50|0*761005*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1340803101776|./../../sourcecode/ADCStateMachineAB.vhd|0*761355*0x01dfb80ad55f308144bba565fa3d9fd64c833cd3|0*770638*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/ADCStateMachineAB.vhd|25
+
+[adcstatemachineabc]
+A/behavioral=A/Behavioral 21|./../src/ADCStateMachineABC.vhd|59|1*4528655
+B/behavioral=3*5812727
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*773550
+I/behavioral=I/Behavioral 0*795349
+M=11|0|v63|1340802841270|./../src/ADCStateMachineABC.vhd|0*772155*0x96a464bcc81b9ea9bf6fc79bf5cd5b522c83fb6a|0*773453*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1340804565891|./../src/ADCStateMachineABC.vhd|0*784817*0x01b7abe1c1d0b28211e556df252dc1ce6d9a6188|0*795238*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../src/ADCStateMachineABC.vhd|25
+
+[adcvalueready]
+A/behavioral=A/Behavioral 21|./../../sourcecode/ADCvalueReady.vhd|36|1*4513654
+B/behavioral=3*5802406
+C=8.2.1986.SP1.35.3497  (Windows)
+C/behavioral=8.2.1986.SP1.35.3497  (Windows)
+I=0*764
+I/behavioral=I/Behavioral 0*2088
+M=11|0|v63|1325674666043|./../../sourcecode/ADCvalueReady.vhd|0*261*0xb75aee56e7d6f26400e376efee96c3ce2b74fb21|0*667*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+M/behavioral=M/Behavioral 21|0|v63|1340804565812|./../../sourcecode/ADCvalueReady.vhd|0*1005*0x80e84b1bdf06827a4a1aeb81b695b45d3e0568f7|0*1977*0xfce7a17cbf8a959a0c8fb6f5d0fad10d
+R=./../../sourcecode/ADCvalueReady.vhd|25
+
+[~A]
+ModifyID=3570
+Version=73
+
+[~MFT]
+0=681|0work.mgf|804202|747833
+1=1011|1work.mgf|4542835|4488290
+3=1011|3work.mgf|5841930|5756676
+
+[~U]
+adcstatemachine=ADCStateMachine 11|0*464363|
+adcstatemachine_tb=ADCStateMachine_tb 11|0*12272|
+adcstatemachinea=ADCStateMachineA 11|0*526712|
+adcstatemachineab=ADCStateMachineAB 11|0*758699|
+adcstatemachineabc=ADCStateMachineABC 11|0*771013|
+adcvalueready=ADCvalueReady 11|0*0|
+

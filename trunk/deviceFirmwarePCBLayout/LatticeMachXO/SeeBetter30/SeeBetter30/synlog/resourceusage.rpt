@@ -1,0 +1,30 @@
+---------------------------------------
+Resource Usage Report
+Part: lcmxo2280c-3
+
+Register bits: 394 of 2280 (17%)
+Latch bits:      101
+PIC Latch:       0
+I/O cells:       92
+
+Details:
+BB:             13
+CCU2:           295
+FD1P3BX:        1
+FD1P3DX:        191
+FD1S1D:         101
+FD1S3AX:        4
+FD1S3BX:        3
+FD1S3DX:        195
+GSR:            1
+IB:             25
+INV:            5
+OB:             53
+OBZ:            1
+ORCALUT4:       424
+PFUMX:          12
+PUR:            1
+VHI:            1
+VLO:            1
+false:          15
+true:           15

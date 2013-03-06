@@ -1,0 +1,4 @@
+.\..\sourcecode\ADCvalueReady.vhd
+.\..\ADCStateMachine_tb.vhd
+.\src\ADCStateMachineABC.vhd
+.\src\ADCStateMachineA.vhd

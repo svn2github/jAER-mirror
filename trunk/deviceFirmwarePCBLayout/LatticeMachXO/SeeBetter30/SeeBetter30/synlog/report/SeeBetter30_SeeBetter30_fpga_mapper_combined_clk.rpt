@@ -1,0 +1,27 @@
+
+
+#### START OF CLOCK OPTIMIZATION REPORT #####[
+
+3 non-gated/non-generated clock tree(s) driving 343 clock pin(s) of sequential element(s)
+4 gated/generated clock tree(s) driving 155 clock pin(s) of sequential element(s)
+108 instances converted, 155 sequential instances remain driven by gated/generated clocks
+
+=============================================================================== Non-Gated/Non-Generated Clocks ===============================================================================
+Clock Tree ID                                                                                             Driving Element     Drive Element Type     Fanout     Sample Instance               
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+@K:"@|S:IfClockxCI@|E:ADCStateMachine_2.ClockxC@|F:@syn_sample_clock_path3==CKID0005@|M:ClockId0005"      IfClockxCI          port                   125        ADCStateMachine_2.ClockxC     
+@K:"@|S:PC1xSIO@|E:shiftRegister_1.StatexD[119]@|F:@syn_sample_clock_path==CKID0006@|M:ClockId0006"       PC1xSIO             port                   120        shiftRegister_1.StatexD[119]  
+@K:"@|S:PC2xSIO@|E:shiftRegister_1.DataOutxDO[16]@|F:@syn_sample_clock_path==CKID0007@|M:ClockId0007"     PC2xSIO             port                   98         shiftRegister_1.DataOutxDO[16]
+==============================================================================================================================================================================================
+========================================================================================================================================================================= Gated/Generated Clocks =========================================================================================================================================================================
+Clock Tree ID                                                                                                                     Driving Element                       Drive Element Type     Fanout     Sample Instance                   Explanation                                                                                                                   
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+@K:"@|S:uClockGen.PLLCInst_0@|E:AERREQxSB@|F:@syn_sample_clock_path==CKID0001@|M:ClockId0001"                                     uClockGen.PLLCInst_0                  EHXPLLC                152        AERREQxSB                         Gating structure creates improper gating logic. See the Gated Clocks description in the user guide for conversion requirements
+@K:"@|S:ADCStateMachine_2.StateRowxDP[8]@|E:ADCStateMachine_2.StartRowxSN@|F:@syn_sample_clock_path==CKID0002@|M:ClockId0002"     ADCStateMachine_2.StateRowxDP[8]      FD1P3DX                1          ADCStateMachine_2.StartRowxSN     Inferred clock from port                                                                                                      
+@K:"@|S:ADCStateMachine_2.StateColxDP[9]@|E:ADCStateMachine_2.IsAxS@|F:@syn_sample_clock_path1==CKID0003@|M:ClockId0003"          ADCStateMachine_2.StateColxDP[9]      FD1P3DX                1          ADCStateMachine_2.IsAxS           Inferred clock from port                                                                                                      
+@K:"@|S:ADCStateMachine_2.StateColxDP[17]@|E:ADCStateMachine_2.NoBxS@|F:@syn_sample_clock_path2==CKID0004@|M:ClockId0004"         ADCStateMachine_2.StateColxDP[17]     FD1P3BX                1          ADCStateMachine_2.NoBxS           Inferred clock from port                                                                                                      
+==========================================================================================================================================================================================================================================================================================================================================================================
+
+
+##### END OF CLOCK OPTIMIZATION REPORT ######]
+

@@ -1,0 +1,26 @@
+PAR: Place And Route Diamond (64-bit) 2.1.0.103.
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2012 Lattice Semiconductor Corporation,  All rights reserved.
+Mon Feb 25 15:16:23 2013
+
+C:/Program Files (x86)/Lattice/diamond/2.1_x64/ispfpga\bin\nt64\par -f
+SeeBetter30_SeeBetter30.p2t SeeBetter30_SeeBetter30_map.ncd
+SeeBetter30_SeeBetter30.dir SeeBetter30_SeeBetter30.prf
+
+
+Preference file: SeeBetter30_SeeBetter30.prf.
+
+Level/      Number      Worst       Timing      Run         NCD
+Cost [ncd]  Unrouted    Slack       Score       Time        Status
+----------  --------    -----       --------    -----       ------
+5_1   *     0           0.330       0           23          Complete        
+
+
+* : Design saved.
+
+Total (real) run time for 1-seed: 23 secs 
+
+par done!
