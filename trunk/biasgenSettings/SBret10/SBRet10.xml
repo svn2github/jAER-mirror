@@ -32,8 +32,8 @@
                 <entry key="SBret10.AddressedIPotCF.OnBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.OnBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.OnBn.Type" value="NORMAL"/>
-                <entry key="SBret10.AddressedIPotCF.OffBn.BitValueCoarse" value="4"/>
-                <entry key="SBret10.AddressedIPotCF.OffBn.BitValueFine" value="86"/>
+                <entry key="SBret10.AddressedIPotCF.OffBn.BitValueCoarse" value="3"/>
+                <entry key="SBret10.AddressedIPotCF.OffBn.BitValueFine" value="4"/>
                 <entry key="SBret10.AddressedIPotCF.OffBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.OffBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.OffBn.Sex" value="N"/>
@@ -98,13 +98,13 @@
                 <entry key="SBret10.AddressedIPotCF.AERxEBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.AERxEBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.AERxEBn.Type" value="NORMAL"/>
-                <entry key="SBret10.AddressedIPotCF.AEPuXBp.BitValueCoarse" value="4"/>
+                <entry key="SBret10.AddressedIPotCF.AEPuXBp.BitValueCoarse" value="3"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuXBp.BitValueFine" value="80"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuXBp.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuXBp.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuXBp.Sex" value="P"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuXBp.Type" value="NORMAL"/>
-                <entry key="SBret10.AddressedIPotCF.AEPuYBp.BitValueCoarse" value="4"/>
+                <entry key="SBret10.AddressedIPotCF.AEPuYBp.BitValueCoarse" value="3"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuYBp.BitValueFine" value="152"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuYBp.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.AEPuYBp.LowCurrent" value="false"/>
@@ -205,29 +205,8 @@
                 <entry key="useDVSExtrapolation" value="false"/>
                 <entry key="CPLDInt.pad" value="0"/>
                 <entry key="FilterFrame.lastFilterSelected" value=""/>
-                <entry key="XYTypeFilter.startX" value="134"/>
-                <entry key="XYTypeFilter.xEnabled" value="true"/>
-                <entry key="XYTypeFilter.endX" value="139"/>
-                <entry key="XYTypeFilter.startY" value="85"/>
-                <entry key="XYTypeFilter.yEnabled" value="true"/>
-                <entry key="XYTypeFilter.endY" value="92"/>
-                <entry key="XYTypeFilter.invertEnabled" value="false"/>
-                <entry key="SBret10.typeNCalib" value="false"/>
-                <entry key="useMismatchCorrection" value="true"/>
-                <entry key="ApsEventFilter.filterEnabled" value="true"/>
-                <entry key="ApsEventFilter.filterAPSEvents" value="true"/>
-                <entry key="ApsEventFilter.filterDVSEvents" value="false"/>
-                <entry key="class eu.seebetter.ini.chips.sbret10.SBret10old.preferredDisplayMethod" value="eu.seebetter.ini.chips.sbret10.SBret10old$SBret10DisplayMethod"/>
-                <entry key="BinaryFeatureDetector.filterEnabled" value="false"/>
-                <entry key="displayEvents" value="true"/>
-                <entry key="displayFrames" value="true"/>
-                <entry key="VideoControl.useAutoContrast" value="false"/>
-                <entry key="ApproachCell.filterEnabled" value="false"/>
-                <entry key="VideoControl.brightness" value="1.0854651"/>
-                <entry key="VideoControl.contrast" value="0.9345483"/>
-                <entry key="VideoControl.displayEvents" value="true"/>
-                <entry key="VideoControl.displayFrames" value="false"/>
                 <entry key="BackgroundActivityFilter.dt" value="15062"/>
+                <entry key="useMismatchCorrection" value="true"/>
                 <entry key="EdgeFragments.filterEnabled" value="false"/>
                 <entry key="EdgeConstructor.filterEnabled" value="true"/>
                 <entry key="BackgroundActivityFilter.subsampleBy" value="2"/>
@@ -239,14 +218,43 @@
                 <entry key="ApsFeatureExtractor.filterEnabled" value="false"/>
                 <entry key="ApsFeatureExtractor.detectionThreshold" value="25"/>
                 <entry key="FilterChain.processingMode" value="RENDERING"/>
+                <entry key="SBret10.typeNCalib" value="false"/>
                 <entry key="RotateFilter.invertX" value="false"/>
                 <entry key="RotateFilter.invertY" value="false"/>
+                <entry key="XYTypeFilter.startX" value="134"/>
+                <entry key="XYTypeFilter.xEnabled" value="true"/>
+                <entry key="XYTypeFilter.endX" value="139"/>
+                <entry key="XYTypeFilter.startY" value="85"/>
+                <entry key="XYTypeFilter.yEnabled" value="true"/>
+                <entry key="XYTypeFilter.endY" value="92"/>
+                <entry key="XYTypeFilter.invertEnabled" value="false"/>
                 <entry key="RectangularClusterTracker.clusterLifetimeWithoutSupport" value="10000"/>
                 <entry key="RectangularClusterTracker.maxNumClusters" value="10"/>
                 <entry key="RectangularClusterTracker.clusterSize" value="0.15f"/>
                 <entry key="RectangularClusterTracker.numEventsStoredInCluster" value="100"/>
                 <entry key="RectangularClusterTracker.thresholdEventsForVisibleCluster" value="30"/>
                 <entry key="RectangularClusterTracker.filterEnabled" value="false"/>
+                <entry key="ApsEventFilter.filterEnabled" value="true"/>
+                <entry key="ApsEventFilter.filterAPSEvents" value="true"/>
+                <entry key="displayEvents" value="true"/>
+                <entry key="displayFrames" value="true"/>
+                <entry key="VideoControl.useAutoContrast" value="false"/>
+                <entry key="VideoControl.displayFrames" value="false"/>
+                <entry key="VideoControl.displayEvents" value="true"/>
+                <entry key="VideoControl.contrast" value="0.9345483"/>
+                <entry key="VideoControl.brightness" value="1.0854651"/>
+                <entry key="ApsFrameExtrapolation.filterEnabled" value="false"/>
+                <entry key="ApsFrameExtrapolation.useOpenCV" value="false"/>
+                <entry key="ApsFrameExtrapolation.extrapolationMethod" value="Accum"/>
+                <entry key="ApsFrameExtractor.manualOffGain" value="-0.2218"/>
+                <entry key="ApsFrameExtrapolation.manualOnGain" value="0.065114334"/>
+                <entry key="ApsFrameExtrapolation.manualOffGain" value="-0.06837005"/>
+                <entry key="ApsFrameExtrapolation.lowPassTimeConst" value="1.0"/>
+                <entry key="ApsFrameExtrapolation.averagingWindow" value="10"/>
+                <entry key="ApsEventFilter.filterDVSEvents" value="false"/>
+                <entry key="class eu.seebetter.ini.chips.sbret10.SBret10old.preferredDisplayMethod" value="eu.seebetter.ini.chips.sbret10.SBret10old$SBret10DisplayMethod"/>
+                <entry key="BinaryFeatureDetector.filterEnabled" value="false"/>
+                <entry key="ApproachCell.filterEnabled" value="false"/>
                 <entry key="SpatioTemporalFusion.filterEnabled" value="true"/>
               </map>
             </node>
