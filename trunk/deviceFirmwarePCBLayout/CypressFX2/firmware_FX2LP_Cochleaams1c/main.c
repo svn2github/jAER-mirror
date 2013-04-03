@@ -635,7 +635,7 @@ void downloadSerialNumberFromEEPROM(void)
 
 void startMonitor(void)
 {
-	resetCPLD(); //CPLD_NOT_RESET=1;
+	unresetCPLD(); //CPLD_NOT_RESET=1;
     runCPLD=1; //RUN_CPLD=1;
 }
 
