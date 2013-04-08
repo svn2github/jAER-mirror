@@ -16,7 +16,7 @@
                 <entry key="FilterChain.timeLimitEnabled" value="false"/>
                 <entry key="FilterChain.timeLimitMs" value="10"/>
                 <entry key="agcTauMs" value="1000.0"/>
-                <entry key="SBret10.bgTabbedPaneSelectedIndex" value="1"/>
+                <entry key="SBret10.bgTabbedPaneSelectedIndex" value="3"/>
                 <entry key="displayLogIntensityChangeEvents" value="true"/>
                 <entry key="displayIntensity" value="true"/>
                 <entry key="CypressFX2Blank.defaultFirmwareBixFileForBlankDevice" value="C:\PROJ\jAER\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SBret10\SBret10.bix"/>
@@ -152,7 +152,7 @@
                 <entry key="CPLDInt.exposureC" value="263"/>
                 <entry key="CPLDInt.resSettle" value="10"/>
                 <entry key="CPLDInt.rowSettle" value="10"/>
-                <entry key="CPLDInt.colSettle" value="10"/>
+                <entry key="CPLDInt.colSettle" value="300"/>
                 <entry key="CPLDInt.frameDelay" value="17"/>
                 <entry key="SBret10.testPixel" value="false"/>
                 <entry key="SBret10.useC" value="true"/>
@@ -239,7 +239,7 @@
                 <entry key="displayEvents" value="true"/>
                 <entry key="displayFrames" value="true"/>
                 <entry key="VideoControl.useAutoContrast" value="false"/>
-                <entry key="VideoControl.displayFrames" value="false"/>
+                <entry key="VideoControl.displayFrames" value="true"/>
                 <entry key="VideoControl.displayEvents" value="true"/>
                 <entry key="VideoControl.contrast" value="0.9345483"/>
                 <entry key="VideoControl.brightness" value="1.0854651"/>
