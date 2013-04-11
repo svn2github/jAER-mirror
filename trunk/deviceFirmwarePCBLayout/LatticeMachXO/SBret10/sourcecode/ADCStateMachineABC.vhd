@@ -42,6 +42,7 @@ entity ADCStateMachineABC is
     RowSettlexDI          : in    std_logic_vector(15 downto 0);
     ResSettlexDI          : in    std_logic_vector(15 downto 0);
     FramePeriodxDI        : in    std_logic_vector(15 downto 0);
+	SBRet10xEI			: in    std_logic;
     TestPixelxEI          : in    std_logic;
 	UseCxEI				  : in    std_logic;
     ExtTriggerxEI         : in    std_logic;
@@ -106,7 +107,7 @@ begin
   
   CDVSTestSRRowInxSO <= CDVSTestSRRowInxS;
   CDVSTestSRColInxSO <= CDVSTestSRColInxS;
-  CDVSTestApsTxGatexSO <= '1';
+  CDVSTestApsTxGatexSO <= SBRet10xEI;
 
   StartPixelxS    <= StartColxSP and StartRowxSP;
   ADCoutxDO       <= ADCoutMSBxS(3 downto 0) & ADCwordxDI(9 downto 0);

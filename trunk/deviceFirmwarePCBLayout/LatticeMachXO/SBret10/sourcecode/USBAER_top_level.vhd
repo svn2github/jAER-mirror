@@ -204,6 +204,7 @@ architecture Structural of USBAER_top_level is
 		RowSettlexDI          : in    std_logic_vector(15 downto 0);
 		ResSettlexDI          : in    std_logic_vector(15 downto 0);
 		FramePeriodxDI		  : in    std_logic_vector(15 downto 0);
+		SBRet10xEI			: in    std_logic;
 		TestPixelxEI		  : in    std_logic;
 		UseCxEI				  : in    std_logic;
 		ExtTriggerxEI		  : in    std_logic;
@@ -347,6 +348,7 @@ architecture Structural of USBAER_top_level is
   signal ADCregOutxD : std_logic_vector(13 downto 0);
   signal ADCregWritexE : std_logic;
   signal ADCdataxD : std_logic_vector(13 downto 0);
+  signal SBRet10xE : std_logic;
   
   signal ADCsmRstxE           : std_logic;
   signal ADCclockxC           : std_logic;
@@ -359,7 +361,7 @@ architecture Structural of USBAER_top_level is
   signal CDVSTestApsTxGatexS  : std_logic;
   signal ExtTriggerxE				: std_logic;
   
-  signal SRDataOutxD : std_logic_vector(111 downto 0);
+  signal SRDataOutxD : std_logic_vector(112 downto 0);
   
   signal ExposureBxD, ExposureCxD, ColSettlexD, RowSettlexD, ResSettlexD : std_logic_vector(15 downto 0); 
   signal FramePeriodxD : std_logic_vector(15 downto 0);
@@ -413,7 +415,7 @@ begin
   
   shiftRegister_1: shiftRegister
     generic map (
-      width => 112)
+      width => 113)
     port map (
       ClockxCI   => SRClockxC,
       ResetxRBI  => ResetxRB,
@@ -430,6 +432,7 @@ begin
   FramePeriodxD <= SRDataOutxD(95 downto 80);
   TestPixelxE <= SRDataOutxD(110);
   UseCxE <= SRDataOutxD(111);
+  SBRet10xE <= SRDataOutxD(112);
   
   uFifo : AERfifo
     port map (
@@ -574,6 +577,7 @@ begin
 	  RowSettlexDI          => RowSettlexD,
 	  ResSettlexDI          => ResSettlexD,
 	  FramePeriodxDI		=> FramePeriodxD,
+	  SBRet10xEI			=> SBRet10xE,
 	  TestPixelxEI 			=> TestPixelxE,
 	  UseCxEI 				=> UseCxE,
 	  ExtTriggerxEI			=> ExtTriggerxE,

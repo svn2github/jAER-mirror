@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Report>
-<ReportView version="1.0">
-    <ToolReport id="toolhle_genhierarchy" path="C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/SBret10/hdldiagram_gen_hierarchy.html" status="1"/>
-    <ToolReport id="toolhle_runbkm" path="C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter12/SeeBetter12/hdldiagram_run_bkm.html" status="1"/>
-    <ToolReport id="toolsso" path="" status="0"/>
+<ReportView version="2.0">
+    <Implement name="SBret10">
+        <ToolReport id="toolhle_genhierarchy" path="C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/SBret10/hdldiagram_gen_hierarchy.html" status="1"/>
+        <ToolReport id="toolhle_runbkm" path="C:/PROJ/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter12/SeeBetter12/hdldiagram_run_bkm.html" status="1"/>
+        <ToolReport id="toolpio" path="" status="0"/>
+        <ToolReport id="toolsso" path="" status="0"/>
+    </Implement>
 </ReportView>
