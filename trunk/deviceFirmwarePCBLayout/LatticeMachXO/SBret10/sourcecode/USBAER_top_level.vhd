@@ -361,7 +361,7 @@ architecture Structural of USBAER_top_level is
   signal CDVSTestApsTxGatexS  : std_logic;
   signal ExtTriggerxE				: std_logic;
   
-  signal SRDataOutxD : std_logic_vector(112 downto 0);
+  signal SRDataOutxD : std_logic_vector(111 downto 0);
   
   signal ExposureBxD, ExposureCxD, ColSettlexD, RowSettlexD, ResSettlexD : std_logic_vector(15 downto 0); 
   signal FramePeriodxD : std_logic_vector(15 downto 0);
@@ -415,7 +415,7 @@ begin
   
   shiftRegister_1: shiftRegister
     generic map (
-      width => 113)
+      width => 112)
     port map (
       ClockxCI   => SRClockxC,
       ResetxRBI  => ResetxRB,
@@ -430,9 +430,9 @@ begin
   RowSettlexD <= SRDataOutxD(63 downto 48);
   ResSettlexD <= SRDataOutxD(79 downto 64);
   FramePeriodxD <= SRDataOutxD(95 downto 80);
-  TestPixelxE <= SRDataOutxD(110);
-  UseCxE <= SRDataOutxD(111);
-  SBRet10xE <= SRDataOutxD(112);
+  TestPixelxE <= SRDataOutxD(109);
+  UseCxE <= SRDataOutxD(110);
+  SBRet10xE <= SRDataOutxD(111);
   
   uFifo : AERfifo
     port map (
