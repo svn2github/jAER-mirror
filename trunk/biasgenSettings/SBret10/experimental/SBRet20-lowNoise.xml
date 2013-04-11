@@ -27,13 +27,13 @@
                 <entry key="SBret10.AddressedIPotCF.DiffBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.Type" value="NORMAL"/>
                 <entry key="SBret10.AddressedIPotCF.OnBn.BitValueCoarse" value="2"/>
-                <entry key="SBret10.AddressedIPotCF.OnBn.BitValueFine" value="172"/>
+                <entry key="SBret10.AddressedIPotCF.OnBn.BitValueFine" value="160"/>
                 <entry key="SBret10.AddressedIPotCF.OnBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.OnBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.OnBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.OnBn.Type" value="NORMAL"/>
                 <entry key="SBret10.AddressedIPotCF.OffBn.BitValueCoarse" value="3"/>
-                <entry key="SBret10.AddressedIPotCF.OffBn.BitValueFine" value="3"/>
+                <entry key="SBret10.AddressedIPotCF.OffBn.BitValueFine" value="6"/>
                 <entry key="SBret10.AddressedIPotCF.OffBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.OffBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.OffBn.Sex" value="N"/>
@@ -62,20 +62,20 @@
                 <entry key="SBret10.AddressedIPotCF.LocalBufBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.LocalBufBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.LocalBufBn.Type" value="NORMAL"/>
-                <entry key="SBret10.AddressedIPotCF.PixInvBn.BitValueCoarse" value="2"/>
-                <entry key="SBret10.AddressedIPotCF.PixInvBn.BitValueFine" value="239"/>
+                <entry key="SBret10.AddressedIPotCF.PixInvBn.BitValueCoarse" value="1"/>
+                <entry key="SBret10.AddressedIPotCF.PixInvBn.BitValueFine" value="151"/>
                 <entry key="SBret10.AddressedIPotCF.PixInvBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.PixInvBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.PixInvBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.PixInvBn.Type" value="NORMAL"/>
-                <entry key="SBret10.AddressedIPotCF.PrBp.BitValueCoarse" value="7"/>
-                <entry key="SBret10.AddressedIPotCF.PrBp.BitValueFine" value="108"/>
+                <entry key="SBret10.AddressedIPotCF.PrBp.BitValueCoarse" value="6"/>
+                <entry key="SBret10.AddressedIPotCF.PrBp.BitValueFine" value="100"/>
                 <entry key="SBret10.AddressedIPotCF.PrBp.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.PrBp.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.PrBp.Sex" value="P"/>
                 <entry key="SBret10.AddressedIPotCF.PrBp.Type" value="NORMAL"/>
-                <entry key="SBret10.AddressedIPotCF.PrSFBp.BitValueCoarse" value="5"/>
-                <entry key="SBret10.AddressedIPotCF.PrSFBp.BitValueFine" value="159"/>
+                <entry key="SBret10.AddressedIPotCF.PrSFBp.BitValueCoarse" value="6"/>
+                <entry key="SBret10.AddressedIPotCF.PrSFBp.BitValueFine" value="25"/>
                 <entry key="SBret10.AddressedIPotCF.PrSFBp.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.PrSFBp.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.PrSFBp.Sex" value="P"/>
@@ -134,8 +134,8 @@
                 <entry key="SBret10.AddressedIPotCF.apsOverflowLevel.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.apsOverflowLevel.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.apsOverflowLevel.Type" value="NORMAL"/>
-                <entry key="SBret10.AddressedIPotCF.biasBuffer.BitValueCoarse" value="1"/>
-                <entry key="SBret10.AddressedIPotCF.biasBuffer.BitValueFine" value="251"/>
+                <entry key="SBret10.AddressedIPotCF.biasBuffer.BitValueCoarse" value="2"/>
+                <entry key="SBret10.AddressedIPotCF.biasBuffer.BitValueFine" value="239"/>
                 <entry key="SBret10.AddressedIPotCF.biasBuffer.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.biasBuffer.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.biasBuffer.Sex" value="N"/>
@@ -158,7 +158,7 @@
                 <entry key="SBret10.useC" value="false"/>
                 <entry key="SBret10.resetCalib" value="false"/>
                 <entry key="SBret10.typePCalib" value="false"/>
-                <entry key="SBret10.hotPixelSuppression" value="false"/>
+                <entry key="SBret10.hotPixelSuppression" value="true"/>
                 <entry key="SBret10.nArow" value="false"/>
                 <entry key="SBret10.useAout" value="false"/>
                 <entry key="SBret10.ShiftedSourceBias.SSP.RefValue" value="1"/>
