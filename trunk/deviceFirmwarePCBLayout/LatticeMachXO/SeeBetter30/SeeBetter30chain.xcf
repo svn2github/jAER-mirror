@@ -20,8 +20,8 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>C:/Users/Minhao/Documents/jaer/deviceFirmwarePCBLayout/LatticeMachXO/SeeBetter30/SeeBetter30/SeeBetter30_SeeBetter30.jed</File>
-			<FileTime>02/25/13 15:16:51</FileTime>
-			<JedecChecksum>0xD899</JedecChecksum>
+			<FileTime>04/08/13 15:42:57</FileTime>
+			<JedecChecksum>0xE84B</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
