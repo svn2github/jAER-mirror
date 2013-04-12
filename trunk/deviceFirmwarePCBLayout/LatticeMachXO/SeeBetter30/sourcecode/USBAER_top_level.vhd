@@ -541,7 +541,7 @@ begin
       ResetxRBI                 => ResetxRB,
       AERREQxSBI                => AERREQxSB,
       AERACKxSBO                => AERMonitorACKxSB,
-      XxDI                      => AERMonitorAddressxDI(8),
+      XxDI                      => AERMonitorAddressxDI(7),
       UseLongAckxSI             => UseLongAckxS,
       FifoFullxSI               => FifoFullxS,
       FifoWritexEO              => FifoWritexE,
@@ -618,7 +618,7 @@ begin
   -- mux to select how to drive datalines
   with AddressTimestampSelectxS select
     FifoDataInxD <=
-    AddressMSBxD & "00000" & AERMonitorAddressxDI   when selectaddress,
+    AddressMSBxD & "00000" & AERMonitorAddressxDI(7) & '0' & AERMonitorAddressxDI(6 downto 0)   when selectaddress,
     AddressMSBxD & MonitorTimestampxD when selecttimestamp,
     AddressMSBxD & "01000000000000" when selecttrigger,                                    
     AddressMSBxD & ADCregOutxD when others;
