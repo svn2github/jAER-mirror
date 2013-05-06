@@ -1,4 +1,4 @@
-C51 COMPILER V7.50   FW                                                                    01/24/2012 15:59:54 PAGE 1   
+C51 COMPILER V7.50   FW                                                                    05/06/2013 10:30:04 PAGE 1   
 
 
 C51 COMPILER V7.50, COMPILATION OF MODULE FW
@@ -62,7 +62,7 @@ line level    source
   53          BOOL TD_Resume(void);
   54          
   55          //void downloadSerialNumberFromEEPROM();
-C51 COMPILER V7.50   FW                                                                    01/24/2012 15:59:54 PAGE 2   
+C51 COMPILER V7.50   FW                                                                    05/06/2013 10:30:04 PAGE 2   
 
   56          
   57          BOOL DR_GetDescriptor(void);
@@ -126,7 +126,7 @@ line level    source
  115   1         EA = 1;                  // Enable 8051 interrupts
  116   1      
  117   1      
-C51 COMPILER V7.50   FW                                                                    01/24/2012 15:59:54 PAGE 3   
+C51 COMPILER V7.50   FW                                                                    05/06/2013 10:30:04 PAGE 3   
 
  118   1      #ifndef NO_RENUM
  119   1         // Renumerate if necessary.  Do this by checking the renum bit.  If it
@@ -190,7 +190,7 @@ line level    source
  176   3            }
  177   2         }
  178   1      }
-C51 COMPILER V7.50   FW                                                                    01/24/2012 15:59:54 PAGE 4   
+C51 COMPILER V7.50   FW                                                                    05/06/2013 10:30:04 PAGE 4   
 
  179          
  180          BOOL HighSpeedCapable()
@@ -254,7 +254,7 @@ line level    source
  238   3                        EZUSB_STALL_EP0();      // Stall End Point 0
  239   3                  }
  240   2               break;
-C51 COMPILER V7.50   FW                                                                    01/24/2012 15:59:54 PAGE 5   
+C51 COMPILER V7.50   FW                                                                    05/06/2013 10:30:04 PAGE 5   
 
  241   2            case SC_GET_INTERFACE:                  // *** Get Interface
  242   2               DR_GetInterface();
@@ -318,7 +318,7 @@ line level    source
  300   2            case SC_SET_FEATURE:                  // *** Set Feature
  301   2               if(TRUE)//DR_SetFeature())
  302   2                  switch(SETUPDAT[0])
-C51 COMPILER V7.50   FW                                                                    01/24/2012 15:59:54 PAGE 6   
+C51 COMPILER V7.50   FW                                                                    05/06/2013 10:30:04 PAGE 6   
 
  303   2                  {
  304   3                     case FT_DEVICE:            // Device

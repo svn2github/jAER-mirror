@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  DSCR                                                                 01/24/2012 15:59:54 PAGE     1
+A51 MACRO ASSEMBLER  DSCR                                                                 05/06/2013 10:30:04 PAGE     1
 
 
 MACRO ASSEMBLER A51 V7.10
@@ -58,14 +58,14 @@ LOC  OBJ            LINE     SOURCE
 0006 00               47           db   00H         ;; Device sub-sub-class
 0007 40               48           db   64         ;; Maximum packet size
 0008 2A15             49           dw   2a15H      ;; 0x152a VID for jAER from thesycon for USBIO devices
-000A 0C84             50           dw   0c84H      ;; 0x840b PID in thesycon jAER range , used for SeeBetter
-000C 0100             51           dw   0100H      ;; Product version ID, month/year 10/2008
+000A 0B84             50           dw   0b84H      ;; 0x840b PID in thesycon jAER range , used for SeeBetter
+000C 0200             51           dw   0200H      ;; Product version ID, month/year 10/2008
 000E 01               52           db   1         ;; Manufacturer string index
 000F 02               53           db   2         ;; Product string index
 0010 00               54           db   0         ;; Serial number string index
 0011 01               55           db   1         ;; Number of configurations
                       56     
-A51 MACRO ASSEMBLER  DSCR                                                                 01/24/2012 15:59:54 PAGE     2
+A51 MACRO ASSEMBLER  DSCR                                                                 05/06/2013 10:30:04 PAGE     2
 
 0012                  57     DeviceQualDscr:
 0012 0A               58           db   DSCR_DEVQUAL_LEN   ;; Descriptor length
@@ -133,7 +133,7 @@ LOC  OBJ            LINE     SOURCE
                      120     
                      121     
                      122     
-A51 MACRO ASSEMBLER  DSCR                                                                 01/24/2012 15:59:54 PAGE     3
+A51 MACRO ASSEMBLER  DSCR                                                                 05/06/2013 10:30:04 PAGE     3
 
                      123     
                      124     
@@ -201,7 +201,7 @@ LOC  OBJ            LINE     SOURCE
 0061 00              186           db   00H               ;; Max packect size (MSB)
 0062 00              187           db   00H               ;; Polling interval
                      188     
-A51 MACRO ASSEMBLER  DSCR                                                                 01/24/2012 15:59:54 PAGE     4
+A51 MACRO ASSEMBLER  DSCR                                                                 05/06/2013 10:30:04 PAGE     4
 
                      189     ;; Endpoint Descriptor
                      190     
@@ -266,7 +266,7 @@ LOC  OBJ            LINE     SOURCE
 008A 0000            249           dw   0000H
                      250           end
                                    
-A51 MACRO ASSEMBLER  DSCR                                                                 01/24/2012 15:59:54 PAGE     5
+A51 MACRO ASSEMBLER  DSCR                                                                 05/06/2013 10:30:04 PAGE     5
 
 SYMBOL TABLE LISTING
 ------ ----- -------

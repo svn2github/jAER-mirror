@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  SPIWRITEBYTE                                                         01/24/2012 15:59:54 PAGE     1
+A51 MACRO ASSEMBLER  SPIWRITEBYTE                                                         05/06/2013 10:30:04 PAGE     1
 
 
 MACRO ASSEMBLER A51 V7.10
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
 000F FA               52     mov R2, A
 0010 7420             53     mov A, #00100000b   ; clock mask to set clock high
 0012 45B1             54     orl A, IOE
-A51 MACRO ASSEMBLER  SPIWRITEBYTE                                                         01/24/2012 15:59:54 PAGE     2
+A51 MACRO ASSEMBLER  SPIWRITEBYTE                                                         05/06/2013 10:30:04 PAGE     2
 
 0014 FB               55     mov R3, A
 0015 74EF             56     mov A, #11101111b   ; mask to set biasbit low 
@@ -115,7 +115,7 @@ LOC  OBJ            LINE     SOURCE
 0047 22               99     ret
                      100     end
                               
-A51 MACRO ASSEMBLER  SPIWRITEBYTE                                                         01/24/2012 15:59:54 PAGE     3
+A51 MACRO ASSEMBLER  SPIWRITEBYTE                                                         05/06/2013 10:30:04 PAGE     3
 
 SYMBOL TABLE LISTING
 ------ ----- -------

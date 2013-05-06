@@ -479,6 +479,17 @@ BOOL DR_SetFeature(void)
    return(TRUE);
 }*/
 
+void latchConfigBits(void)
+{
+	short count;
+	IOE&=~biasLatch;
+	for (count=0; count<50;count++)
+	{
+ 		_nop_();  
+	}
+	IOE|=biasLatch;
+}
+
 // the SETUPDAT array has the following 8 elements (see FX2 TRM Section 2.3)
 //SETUPDAT[0] VendorRequest 0x40 for OUT type, 0xC0 for IN type
 //SETUPDAT[1] The actual vendor request (e.g. VR_ENABLE_AE_IN below)
@@ -759,7 +770,7 @@ BOOL DR_VendorCmnd(void)
 //						value += bc;	// inc eeprom value to write to, in case that's what we're doing
 						len -= bc; // dec total byte count
 					}
-					latchNewBiases();
+					latchConfigBits();
 					BIAS_DIAG_SEL = 0;
 					break;
 
