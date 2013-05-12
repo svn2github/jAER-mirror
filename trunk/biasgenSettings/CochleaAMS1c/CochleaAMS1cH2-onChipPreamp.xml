@@ -17,7 +17,14 @@
                 <map>
                   <entry key="FilterChain.timeLimitEnabled" value="false"/>
                   <entry key="FilterChain.timeLimitMs" value="0"/>
-                  <entry key="CypressFX2Blank.defaultFirmwareBixFileForBlankDevice" value="C:\Users\shih\Documents\jaer\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_Cochleaams1c\firmwareFX2_Cochleaams1c.bix"/>
+                  <entry key="ScannerHardwareInterface.scanX" value="0"/>
+                  <entry key="ScannerHardwareInterface.scanContinuouslyEnabled" value="false"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain0" value="1"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain1" value="1"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain2" value="1"/>
+                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain3" value="1"/>
+                  <entry key="CochleaAMS1c.Biasgen.DAC.powered" value="true"/>
+                  <entry key="CypressFX2Blank.defaultFirmwareBixFileForBlankDevice" value="..\..\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_Cochleaams1c\firmwareFX2_Cochleaams1c.bix"/>
                   <entry key="XYTypeFilter.filterEnabled" value="false"/>
                   <entry key="RotateFilter.filterEnabled" value="false"/>
                   <entry key="BackgroundActivityFilter.filterEnabled" value="false"/>
@@ -114,13 +121,6 @@
                   <entry key="MultichipAMS1bEventProducer.filterEnabled" value="true"/>
                   <entry key="ITDFilter.sendITD_UDP_port" value="localhost:9999"/>
                   <entry key="FilterFrame.lastFilterSelected" value="class ch.unizh.ini.jaer.projects.cochsoundloc.ITDFilter"/>
-                  <entry key="ScannerHardwareInterface.scanX" value="0"/>
-                  <entry key="ScannerHardwareInterface.scanContinuouslyEnabled" value="false"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain0" value="4"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain1" value="4"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain2" value="3"/>
-                  <entry key="CochleaAMS1cRollingCochleagramADCDisplayMethod.gain3" value="3"/>
-                  <entry key="CochleaAMS1c.Biasgen.DAC.powered" value="true"/>
                   <entry key="CochleaAMS1cControlPanel.selectedPaneIndex" value="5"/>
                   <entry key="ITDFilter.writeBin2File" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.Scanner.currentStage" value="50"/>
@@ -742,7 +742,7 @@
                   <entry key="ITDFilter.normToConfThresh" value="false"/>
                   <entry key="ITDFilter.confidenceThreshold" value="300"/>
                   <entry key="ITDfilter.estimationMethod" value="useMedian"/>
-                  <entry key="class ch.unizh.ini.jaer.chip.cochlea.CochleaAMS1c.preferredDisplayMethod" value="ch.unizh.ini.jaer.chip.cochlea.CochleaGramDisplayMethod"/>
+                  <entry key="class ch.unizh.ini.jaer.chip.cochlea.CochleaAMS1c.preferredDisplayMethod" value="ch.unizh.ini.jaer.chip.cochlea.CochleaAMS1cRollingCochleagramADCDisplayMethod"/>
                   <entry key="filterEnabled" value="false"/>
                   <entry key="CochleaPitchExtractor.filterEnabled" value="false"/>
                   <entry key="AuditoryReflex.filterEnabled" value="false"/>
@@ -822,12 +822,12 @@
                   <entry key="CochleaAMS1c.Biasgen.ConfigBit.aerKillBit" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.ConfigBit.powerDown" value="false"/>
                   <entry key="CochleaAMS1c.Biasgen.ConfigBit.nCochleaReset" value="false"/>
-                  <entry key="CochleaAMS1c.Biasgen.CPLDInt.onchipPreampGain" value="1"/>
+                  <entry key="CochleaAMS1c.Biasgen.CPLDInt.onchipPreampGain" value="2"/>
                   <entry key="CochleaAMS1c.Biasgen.CPLDInt.adcConfig" value="294"/>
                   <entry key="CochleaAMS1c.Biasgen.CPLDInt.adcTrackTime" value="1740"/>
                   <entry key="CochleaAMS1c.Biasgen.CPLDInt.adcIdleTime" value="0"/>
                   <entry key="CochleaAMS1c.Biasgen.CPLDInt.scanChannel" value="0"/>
-                  <entry key="OnChipPreamp" value="Medium"/>
+                  <entry key="OnChipPreamp" value="Higher"/>
                   <entry key="OffChipPreamp.arRatio" value="Fast"/>
                   <entry key="AbstractConfigValue" value="true"/>
                   <entry key="OffChipPreamp.gain.Left" value="High"/>
