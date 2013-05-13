@@ -154,7 +154,7 @@ sbit PD0=IOD^0; etc
 #define resetCochlea() IOE|=ResetCochleaMask
 #define unresetCochlea() IOE&=(~ResetCochleaMask)
 
-#define resetCPLD() IOE|=ResetCPLDMask
+#define resetCPLD() IOE|=ResetCPLDMask // TODO it could be that logic is inverted here owing to mislabling of reset in CPLD logic as non-inverted
 #define unresetCPLD() IOE&=(~ResetCPLDMask)
 
 /*
@@ -259,7 +259,12 @@ xdata unsigned char biasBytes[]={0x00,0x04,0x2B,\
 								0x00,0x00,0x04}; // bias bytes values saved here
 
 */
+
+#define HEARTBEAT_ACTIVE 50000
+#define HEARTBEAT_SUSPENDED 200000
 long cycleCounter;
+long heartbeatPeriod;
+
 //long missedEvents;
 
 BOOL JTAGinit;
@@ -428,23 +433,28 @@ clocksource in the FX2 for the slave FIFO clock source.
 */
 
 	// reset cochlea logic
-	IOE|=0x80; _nop_(); _nop_(); _nop_(); IOE&=(~0x80);
+	resetCochlea(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); unresetCochlea();
 
-	unresetCPLD();
 
 	// now switch to external IFCLK for FIFOs
 //	SYNCDELAY; // may not be needed
  //	IFCONFIG = 0x23; // 0010_0011  // extenal clock, slave fifo mode
 //	SYNCDELAY; // may not be needed
-	vCtrlKillBit=1;  // 
+	
+	//vCtrlKillBit=1;  // TODO why is vCtrlKillBit=1 being set here?
 
+//	resetCPLD();
+//	runCPLD=1;  // just start everything now
+	startMonitor();
 	initDAC();
+
+	heartbeatPeriod=HEARTBEAT_ACTIVE;
 
 }
 
 void TD_Poll(void)              // Called repeatedly while the device is idle
 { 	
-	if(cycleCounter++>=30000){
+	if(cycleCounter++>=heartbeatPeriod){
 		
 		ledToggle();	
 		cycleCounter=0; // this makes a slow heartbeat with period of about 1s on the LED to show firmware is running
@@ -635,13 +645,14 @@ void downloadSerialNumberFromEEPROM(void)
 
 void startMonitor(void)
 {
-	resetCPLD(); //CPLD_NOT_RESET=1;
+	// TODO it could be that resetCPLD() actually unresets the CPLD, sign error
+	resetCPLD(); // TODO why do we reset the CPLD when all we want is to run the state machine again?  Does reset also clear all the state?
     runCPLD=1; //RUN_CPLD=1;
 }
 
 void stopMonitor(void)
 {
-    runCPLD=0; //RUN_CPLD=0;
+//    runCPLD=0; //RUN_CPLD=0;
 
   	// force last packet
   	
@@ -719,14 +730,16 @@ void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf)
 BOOL TD_Suspend(void)          // Called before the device goes into suspend mode
 {
   // reset CPLD
-  resetCPLD(); 
+  unresetCPLD(); 
+  heartbeatPeriod=HEARTBEAT_SUSPENDED;
   return(TRUE);
 }
 
 BOOL TD_Resume(void)          // Called after the device resumes
 {
   // activate CPLD 
-  unresetCPLD();
+  resetCPLD();
+  heartbeatPeriod=HEARTBEAT_ACTIVE;
    return(TRUE);
 }
 
