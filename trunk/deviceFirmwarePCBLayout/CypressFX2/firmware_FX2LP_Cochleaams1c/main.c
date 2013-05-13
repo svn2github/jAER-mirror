@@ -154,8 +154,9 @@ sbit PD0=IOD^0; etc
 #define resetCochlea() IOE|=ResetCochleaMask
 #define unresetCochlea() IOE&=(~ResetCochleaMask)
 
-#define resetCPLD() IOE|=ResetCPLDMask // TODO it could be that logic is inverted here owing to mislabling of reset in CPLD logic as non-inverted
-#define unresetCPLD() IOE&=(~ResetCPLDMask)
+// RESET is active LOW on the CPLD  (it is called ResetxBI, meaning RBI where R=reset, B=bar, I=input.
+#define resetCPLD() IOE&=(~ResetCPLDMask) // sets reset cpld low
+#define unresetCPLD() IOE|=ResetCPLDMask  // sets reset cpld high
 
 /*
  The clock should end up high, so that the slave shift register (SR) is powered.
@@ -443,9 +444,8 @@ clocksource in the FX2 for the slave FIFO clock source.
 	
 	//vCtrlKillBit=1;  // TODO why is vCtrlKillBit=1 being set here?
 
-//	resetCPLD();
-//	runCPLD=1;  // just start everything now
-	startMonitor();
+	resetCPLD();
+	unresetCPLD();
 	initDAC();
 
 	heartbeatPeriod=HEARTBEAT_ACTIVE;
@@ -645,14 +645,12 @@ void downloadSerialNumberFromEEPROM(void)
 
 void startMonitor(void)
 {
-	// TODO it could be that resetCPLD() actually unresets the CPLD, sign error
-	resetCPLD(); // TODO why do we reset the CPLD when all we want is to run the state machine again?  Does reset also clear all the state?
     runCPLD=1; //RUN_CPLD=1;
 }
 
 void stopMonitor(void)
 {
-//    runCPLD=0; //RUN_CPLD=0;
+    runCPLD=0; //RUN_CPLD=0;
 
   	// force last packet
   	
