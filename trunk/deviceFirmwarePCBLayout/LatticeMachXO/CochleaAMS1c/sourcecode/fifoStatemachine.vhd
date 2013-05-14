@@ -83,12 +83,15 @@ begin
 
     case StatexDP is
       when stIdle =>
-
-        if EarlyPaketTimerOverflowxSI = '1' and FX2FifoInFullxSBI = '1' then
-                       -- we haven't commited a paket for a long time
-          StatexDN <= stEarlyPaket1;
+  -- Early packet timer disabled in this rev of logic because it appears to periodically create packets that are missing one byte
+  -- of the two that make up each event sent. Then the host side becomes confused and treats data packets as timestamp resets or wraps
+  -- An overnight test showed that this fix appears to work. However it means that the host will only recieve packets when the Cypress FX2 FIFO 
+  -- fills up, increasing latency at low data rates.
+        --if EarlyPaketTimerOverflowxSI = '1' and FX2FifoInFullxSBI = '1' then
+                       ---- we haven't commited a paket for a long time
+          --StatexDN <= stEarlyPaket1;
        
-        elsif FifoEmptyxSI = '0' and FX2FifoInFullxSBI = '1' then
+        if FifoEmptyxSI = '0' and FX2FifoInFullxSBI = '1' then
           StatexDN <= stSetupWrite1;
         end if;
 
