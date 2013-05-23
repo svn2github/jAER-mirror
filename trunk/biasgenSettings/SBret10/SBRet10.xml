@@ -23,23 +23,23 @@
                 <entry key="apsIntensityOffset" value="0"/>
                 <entry key="invertADCvalues" value="false"/>
                 <entry key="displayLogIntensityChangeEvents" value="true"/>
-                <entry key="SBret10.bgTabbedPaneSelectedIndex" value="0"/>
+                <entry key="SBret10.bgTabbedPaneSelectedIndex" value="1"/>
                 <entry key="displayIntensity" value="true"/>
                 <entry key="CypressFX2Blank.defaultFirmwareBixFileForBlankDevice" value="C:\PROJ\jAER\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SBret10\SBret10.bix"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.BitValueCoarse" value="3"/>
-                <entry key="SBret10.AddressedIPotCF.DiffBn.BitValueFine" value="72"/>
+                <entry key="SBret10.AddressedIPotCF.DiffBn.BitValueFine" value="39"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.Type" value="NORMAL"/>
                 <entry key="SBret10.AddressedIPotCF.OnBn.BitValueCoarse" value="2"/>
-                <entry key="SBret10.AddressedIPotCF.OnBn.BitValueFine" value="110"/>
+                <entry key="SBret10.AddressedIPotCF.OnBn.BitValueFine" value="117"/>
                 <entry key="SBret10.AddressedIPotCF.OnBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.OnBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.OnBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.OnBn.Type" value="NORMAL"/>
                 <entry key="SBret10.AddressedIPotCF.OffBn.BitValueCoarse" value="3"/>
-                <entry key="SBret10.AddressedIPotCF.OffBn.BitValueFine" value="4"/>
+                <entry key="SBret10.AddressedIPotCF.OffBn.BitValueFine" value="7"/>
                 <entry key="SBret10.AddressedIPotCF.OffBn.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.OffBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.OffBn.Sex" value="N"/>
@@ -74,20 +74,20 @@
                 <entry key="SBret10.AddressedIPotCF.PixInvBn.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.PixInvBn.Sex" value="N"/>
                 <entry key="SBret10.AddressedIPotCF.PixInvBn.Type" value="NORMAL"/>
-                <entry key="SBret10.AddressedIPotCF.PrBp.BitValueCoarse" value="6"/>
-                <entry key="SBret10.AddressedIPotCF.PrBp.BitValueFine" value="255"/>
+                <entry key="SBret10.AddressedIPotCF.PrBp.BitValueCoarse" value="5"/>
+                <entry key="SBret10.AddressedIPotCF.PrBp.BitValueFine" value="34"/>
                 <entry key="SBret10.AddressedIPotCF.PrBp.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.PrBp.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.PrBp.Sex" value="P"/>
                 <entry key="SBret10.AddressedIPotCF.PrBp.Type" value="NORMAL"/>
                 <entry key="SBret10.AddressedIPotCF.PrSFBp.BitValueCoarse" value="6"/>
-                <entry key="SBret10.AddressedIPotCF.PrSFBp.BitValueFine" value="2"/>
+                <entry key="SBret10.AddressedIPotCF.PrSFBp.BitValueFine" value="4"/>
                 <entry key="SBret10.AddressedIPotCF.PrSFBp.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.PrSFBp.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.PrSFBp.Sex" value="P"/>
                 <entry key="SBret10.AddressedIPotCF.PrSFBp.Type" value="NORMAL"/>
                 <entry key="SBret10.AddressedIPotCF.RefrBp.BitValueCoarse" value="3"/>
-                <entry key="SBret10.AddressedIPotCF.RefrBp.BitValueFine" value="19"/>
+                <entry key="SBret10.AddressedIPotCF.RefrBp.BitValueFine" value="25"/>
                 <entry key="SBret10.AddressedIPotCF.RefrBp.Enabled" value="true"/>
                 <entry key="SBret10.AddressedIPotCF.RefrBp.LowCurrent" value="false"/>
                 <entry key="SBret10.AddressedIPotCF.RefrBp.Sex" value="P"/>
@@ -204,7 +204,7 @@
                 <entry key="AEChip.subSamplingEnabled" value="false"/>
                 <entry key="useDVSExtrapolation" value="false"/>
                 <entry key="CPLDInt.pad" value="0"/>
-                <entry key="FilterFrame.lastFilterSelected" value=""/>
+                <entry key="FilterFrame.lastFilterSelected" value="class net.sf.jaer.eventprocessing.filter.Info"/>
                 <entry key="XYTypeFilter.startX" value="134"/>
                 <entry key="XYTypeFilter.xEnabled" value="true"/>
                 <entry key="XYTypeFilter.endX" value="139"/>
@@ -257,8 +257,8 @@
                 <entry key="ApsFrameExtrapolation.lowPassTimeConst" value="1.0"/>
                 <entry key="ApsFrameExtrapolation.averagingWindow" value="10"/>
                 <entry key="Info.useLocalTimeZone" value="true"/>
-                <entry key="Info.filterEnabled" value="false"/>
-                <entry key="Info.eventRateScaleMax" value="2.0E7"/>
+                <entry key="Info.filterEnabled" value="true"/>
+                <entry key="Info.eventRateScaleMax" value="1049999.9"/>
                 <entry key="RefractoryFilter.refractoryPeriodUs" value="586"/>
                 <entry key="DirectionSelectiveFilter.filterEnabled" value="false"/>
                 <entry key="DepressingSynapseFilter.filterEnabled" value="false"/>
@@ -306,6 +306,10 @@
                 <entry key="SimpleOrientationFilter.subSampleShift" value="2"/>
                 <entry key="SimpleOrientationFilter.minDtThreshold" value="26762"/>
                 <entry key="SimpleOrientationFilter.useAverageDtEnabled" value="false"/>
+                <entry key="HotPixelSupressor.HotPixelSet" value="rO0ABXVyABNbTGphdmEubGFuZy5PYmplY3Q7kM5YnxBzKWwCAAB4cAAAAB5zcgA5ZXUuc2VlYmV0dGVyLmluaS5jaGlwcy5zYnJldDEwLkhvdFBpeGVsU3VwcmVzc29yJEhvdFBpeGVsXkZNlO9FccICAARJAAdhZGRyZXNzSQAFY291bnRJAAF4SQABeXhwEwd4AAAAAAAAAAB4AAAATHNxAH4AAgtOuAAAAAAAAAAABAAAAC1zcQB+AAILTtgAAAAAAAAAAAIAAAAtc3EAfgACDIzIAAAAAAAAAAAjAAAAMnNxAH4AAgaMmAAAAAAAAAAAJgAAABpzcQB+AAITR3gAAAAAAAAAAHgAAABNc3EAfgACDY1YAAAAAAAAAAAaAAAANnNxAH4AAhDOmAAAAAAAAAAABgAAAENzcQB+AAIMTvgAAAAAAAAAAAAAAAAxc3EAfgACDE7YAAAAAAAAAAACAAAAMXNxAH4AAhGOIAAAAAAAAAAADQAAAEZzcQB+AAIQzjgAAAAAAAAAAAwAAABDc3EAfgACDA74AAAAAAAAAAAAAAAAMHNxAH4AAgwO2AAAAAAAAAAAAgAAADBzcQB+AAIDTigAAAAAAAAAAA0AAAANc3EAfgACC07IAAAAAAAAAAADAAAALXNxAH4AAgtO6AAAAAAAAAAAAQAAAC1zcQB+AAISh3gAAAAAAAAAAHgAAABKc3EAfgACG4C4AAAAAAAAAADkAAAAbnNxAH4AAgxO6AAAAAAAAAAAAQAAADFzcQB+AAIMTsgAAAAAAAAAAAMAAAAxc3EAfgACEM6oAAAAAAAAAAAFAAAAQ3NxAH4AAg0K0AAAAAAAAAAAQgAAADRzcQB+AAIRDngAAAAAAAAAAAgAAABEc3EAfgACB4yYAAAAAAAAAAAmAAAAHnNxAH4AAhJHeAAAAAAAAAAAeAAAAElzcQB+AAIMDugAAAAAAAAAAAEAAAAwc3EAfgACGkO4AAAAAAAAAAC0AAAAaXNxAH4AAg1OEAAAAAAAAAAADgAAADVzcQB+AAIQzmgAAAAAAAAAAAkAAABD"/>
+                <entry key="HotPixelSupressor.showHotPixels" value="false"/>
+                <entry key="EventRateEstimator.eventRateTauMs" value="100.0"/>
+                <entry key="EventRateEstimator.maxRate" value="1000000.0"/>
               </map>
             </node>
           </node>
