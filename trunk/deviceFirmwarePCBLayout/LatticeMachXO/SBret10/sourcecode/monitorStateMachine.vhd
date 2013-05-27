@@ -66,7 +66,7 @@ entity monitorStateMachine is
 end monitorStateMachine;
 
 architecture Behavioral of monitorStateMachine is
-  type state is (stIdle,  stWraddress, stWrTime ,stOverflow,stResetTimestamp, stFifoFull, stReqRelease, stADC,stADCTime,stWrTriggerTime, stWrTrigger);
+  type state is (stIdle,  stWraddress, stWrTime ,stWait,stOverflow,stResetTimestamp, stFifoFull, stReqRelease, stADC,stADCTime,stWrTriggerTime, stWrTrigger);
 
   -- for synchronizing AER Req
   signal AERREQxSB: std_logic;
@@ -93,7 +93,7 @@ architecture Behavioral of monitorStateMachine is
   constant timereset : std_logic_vector(1 downto 0) := "11";
   constant timestamp : std_logic_vector(1 downto 0) := "01";
 
-  constant ackExtension : integer := 70;  -- number of clockcycles ack should stay active
+  constant ackExtension : integer := 80;  -- number of clockcycles ack should stay active
 
 begin
   AERREQxSB <= AERREQxSBI;
@@ -219,19 +219,31 @@ begin
         FifoWritexEO             <= '1';
         TimestampRegWritexEO <= '0';
         AddressTimestampSelectxSO <= selectaddress;
-        AERACKxSBO <= '0';
+--        AERACKxSBO <= '0';
         AddressMSBxDO <= address;
       when stWrTime      =>             -- write the timestamp to the fifo
 
-        StatexDN <= stWraddress;
+        StatexDN <= stWait;
         AddressRegWritexEO <= '0';
-        AERACKxSBO <= '0'; -- don't do that here, sender might take address
+--        AERACKxSBO <= '0'; -- don't do that here, sender might take address
 --        away already
         FifoWritexEO             <= '1';
         TimestampRegWritexEO <= '0';
         AddressTimestampSelectxSO <= selecttimestamp;
         AddressMSBxDO <= timestamp;
-
+        CountxDN <= (others => '0');
+        
+      when stWait =>
+        CountxDN <= CountxDP +1;
+      
+      
+        if CountxDP > ackExtension then
+          StatexDN <= stWraddress;
+          CountxDN <= (others => '0');
+        end if;
+        
+       
+        TimestampRegWritexEO <= '0';
       when stReqRelease =>
         AERACKxSBO <= '0';
         CountxDN <= CountxDP +1;
