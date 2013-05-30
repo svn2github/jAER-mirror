@@ -54,7 +54,7 @@
         <Source name="ADCStateMachine_tb.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="sourcecode/ADCStateMachineABC.vhd" type="VHDL" type_short="VHDL">
+        <Source name="sourcecode/ADCStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="SBret10.lpf" type="Logic Preference" type_short="LPF">
