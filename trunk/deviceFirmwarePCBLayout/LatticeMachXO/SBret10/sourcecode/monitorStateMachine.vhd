@@ -93,7 +93,7 @@ architecture Behavioral of monitorStateMachine is
   constant timereset : std_logic_vector(1 downto 0) := "11";
   constant timestamp : std_logic_vector(1 downto 0) := "01";
 
-  constant ackExtension : integer := 80;  -- number of clockcycles ack should stay active
+  constant ackExtension : integer := 5;  -- number of clockcycles ack should stay active
 
 begin
   AERREQxSB <= AERREQxSBI;
