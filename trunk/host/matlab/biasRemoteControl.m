@@ -191,3 +191,8 @@ end
 %% go to local mode for live readings
 k6430_GoToLocal
 
+%% select a mux channel example
+fprintf(u,'selectMux_AnaMux4 0')
+fprintf('%s',fscanf(u));
+
+
