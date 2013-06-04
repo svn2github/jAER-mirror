@@ -5,28 +5,28 @@
             <Task name="IBIS" build_result="0" update_result="2" update_time="1365428363"/>
             <Task name="TimingSimFileVlg" build_result="0" update_result="2" update_time="1365428366"/>
             <Task name="TimingSimFileVHD" build_result="0" update_result="2" update_time="1365428368"/>
-            <Task name="Bitgen" build_result="2" update_result="0" update_time="1365428577"/>
+            <Task name="Bitgen" build_result="0" update_result="2" update_time="1365428577"/>
         </Milestone>
-        <Milestone name="Map" build_result="2" build_time="1365428543">
-            <Task name="Map" build_result="2" update_result="0" update_time="1365428543"/>
-            <Task name="MapEqu" build_result="2" update_result="0" update_time="1365428544"/>
-            <Task name="MapTrace" build_result="2" update_result="0" update_time="1365428545"/>
-            <Task name="MapVerilogSimFile" build_result="2" update_result="0" update_time="1365428547"/>
-            <Task name="MapVHDLSimFile" build_result="2" update_result="0" update_time="1365428550"/>
+        <Milestone name="Map" build_result="2" build_time="1370262528">
+            <Task name="Map" build_result="2" update_result="0" update_time="1370262528"/>
+            <Task name="MapEqu" build_result="0" update_result="2" update_time="1365428544"/>
+            <Task name="MapTrace" build_result="0" update_result="2" update_time="1365428545"/>
+            <Task name="MapVerilogSimFile" build_result="0" update_result="2" update_time="1365428547"/>
+            <Task name="MapVHDLSimFile" build_result="0" update_result="2" update_time="1365428550"/>
         </Milestone>
-        <Milestone name="PAR" build_result="2" build_time="1365428572">
-            <Task name="PAR" build_result="2" update_result="0" update_time="1365428572"/>
-            <Task name="PARTrace" build_result="2" update_result="0" update_time="1365428573"/>
-            <Task name="IOTiming" build_result="2" update_result="0" update_time="1365428575"/>
+        <Milestone name="PAR" build_result="0" build_time="1370262542">
+            <Task name="PAR" build_result="0" update_result="2" update_time="1370262542"/>
+            <Task name="PARTrace" build_result="0" update_result="2" update_time="1365428573"/>
+            <Task name="IOTiming" build_result="0" update_result="2" update_time="1365428575"/>
         </Milestone>
-        <Milestone name="Synthesis" build_result="2" build_time="1365428542">
-            <Task name="Synplify_Synthesis" build_result="2" update_result="0" update_time="1365428542"/>
+        <Milestone name="Synthesis" build_result="2" build_time="1370262526">
+            <Task name="Synplify_Synthesis" build_result="2" update_result="0" update_time="1370262526"/>
         </Milestone>
         <Milestone name="TOOL_Report" build_result="0" build_time="0">
-            <Task name="HDLE" build_result="2" update_result="0" update_time="1365428454"/>
+            <Task name="HDLE" build_result="2" update_result="0" update_time="1370262502"/>
         </Milestone>
-        <Milestone name="Translate" build_result="2" build_time="1365428543">
-            <Task name="Translate" build_result="2" update_result="0" update_time="1365428543"/>
+        <Milestone name="Translate" build_result="2" build_time="1370262527">
+            <Task name="Translate" build_result="2" update_result="0" update_time="1370262527"/>
         </Milestone>
         <Report name="SeeBetter11_SeeBetter11.edi" last_build_time="0" last_build_size="0"/>
         <Report name="SeeBetter12_SeeBetter12.bgn" last_build_time="1322491872" last_build_size="1842"/>
@@ -44,16 +44,16 @@
         <Report name="SeeBetter12_SeeBetter12_vho.sdf" last_build_time="1322491871" last_build_size="500959"/>
         <Report name="SeeBetter12_SeeBetter12_vho.vho" last_build_time="1322491870" last_build_size="3268086"/>
         <Report name="SeeBetter30_SeeBetter30.bgn" last_build_time="1365428577" last_build_size="1919"/>
-        <Report name="SeeBetter30_SeeBetter30.edi" last_build_time="1365428539" last_build_size="1095626"/>
+        <Report name="SeeBetter30_SeeBetter30.edi" last_build_time="1370262522" last_build_size="1095626"/>
         <Report name="SeeBetter30_SeeBetter30.ibs" last_build_time="1365428363" last_build_size="402403"/>
         <Report name="SeeBetter30_SeeBetter30.ior" last_build_time="1365428575" last_build_size="8484"/>
         <Report name="SeeBetter30_SeeBetter30.jed" last_build_time="1365428577" last_build_size="504273"/>
         <Report name="SeeBetter30_SeeBetter30.n2e" last_build_time="1365428544" last_build_size="248319"/>
-        <Report name="SeeBetter30_SeeBetter30.ncd" last_build_time="1365428572" last_build_size="935080"/>
-        <Report name="SeeBetter30_SeeBetter30.ngd" last_build_time="1365428543" last_build_size="945189"/>
+        <Report name="SeeBetter30_SeeBetter30.ncd" last_build_time="0" last_build_size="0"/>
+        <Report name="SeeBetter30_SeeBetter30.ngd" last_build_time="1370262527" last_build_size="945189"/>
         <Report name="SeeBetter30_SeeBetter30.tw1" last_build_time="1365428545" last_build_size="44013"/>
         <Report name="SeeBetter30_SeeBetter30.twr" last_build_time="1365428573" last_build_size="240966"/>
-        <Report name="SeeBetter30_SeeBetter30_map.ncd" last_build_time="1365428543" last_build_size="648460"/>
+        <Report name="SeeBetter30_SeeBetter30_map.ncd" last_build_time="1370262528" last_build_size="648460"/>
         <Report name="SeeBetter30_SeeBetter30_mapvho.sdf" last_build_time="1365428550" last_build_size="855594"/>
         <Report name="SeeBetter30_SeeBetter30_mapvho.vho" last_build_time="1365428550" last_build_size="5447317"/>
         <Report name="SeeBetter30_SeeBetter30_mapvo.sdf" last_build_time="1365428547" last_build_size="856467"/>
