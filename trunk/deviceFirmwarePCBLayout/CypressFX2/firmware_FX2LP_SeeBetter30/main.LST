@@ -1,0 +1,1376 @@
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 1   
+
+
+C51 COMPILER V7.50, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #pragma NOIV               // Do not generate interrupt vectors
+   2          //-----------------------------------------------------------------------------
+   3          //   File:      main.c
+   4          //   Description: FX2LP firmware for the TCVS320/DVS320 retina chip   
+   5          //
+   6          // created: 1/2008, cloned from tmpdiff128 stereo board firmware
+   7          // Revision: 0.01 
+   8          // authors raphael berner, patrick lichtsteiner, tobi delbruck
+   9          //
+  10          //-----------------------------------------------------------------------------
+  11          #include "lp.h"
+  12          #include "lpregs.h"
+  13          #include "syncdly.h"            // SYNCDELAY macro
+  14          #include "biasgen.h" 
+  15          #include "portsFX2.h"
+  16          //#include "ports.h"
+  17          //#include "micro.h"
+  18          //#include "opcode.h"
+  19          
+  20          extern BOOL GotSUD;             // Received setup data flag
+  21          //extern BOOL Sleep;
+  22          extern BOOL Rwuen;
+  23          extern BOOL Selfpwr;
+  24          
+  25          //BYTE Configuration;             // Current configuration
+  26          //BYTE AlternateSetting;          // Alternate settings
+  27          
+  28          //WORD packetSize;
+  29          
+  30          // port E, not bit addressable - more bits are in biasgen.h
+  31          #define CPLD_NOT_RESET                  0x80  // PE7 called nCPLDReset on host 
+  32          #define DVS_nReset                              0x08  // PE3 called nChipReset on host, resets DVS array and AER logic
+  33          #define BIAS_ADDR_SEL                   0x01  // PE0 called biasAddrSel selects the address shift register
+  34          
+  35          #define setArrayReset()         IOE=IOE&~DVS_nReset;    
+  36          #define releaseArrayReset()     IOE=IOE|DVS_nReset;
+  37          
+  38          #define releaseAddrSR()         IOE=IOE|BIAS_ADDR_SEL;
+  39          #define selectAddrSR()          IOE=IOE&~BIAS_ADDR_SEL; 
+  40          
+  41          #define BIAS_DIAG_SEL                   PA0
+  42          #define RESET_TS                                PA7
+  43          #define TIMESTAMP_MASTER                PA1
+  44          #define RUN_CPLD                                PA3  // called runCpld on host
+  45          
+  46          //#define RUN_ADC               PC0  // called runAdc on host
+  47          //#define CPLD_SR_CLOCK PC1
+  48          //#define CPLD_SR_LATCH PC2
+  49          //#define CPLD_SR_BIT           PC3
+  50          
+  51          sbit dacNSync=IOC^2;    // DAC start
+  52          sbit dacClock=IOC^1;    // DAC clock
+  53          sbit dacBitIn=IOC^0;    // DAC data
+  54          
+  55          #define startDACSync() dacNSync=0; // starts DAC data input
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 2   
+
+  56          #define endDACSync()    dacNSync=1; _nop_(); _nop_(); dacClock=1; // dacClock must go high *after* dacNSync g
+             -oes high
+  57          
+  58          #define DB_Addr 1 // zero if only one byte address is needed for EEPROM, one if two byte address
+  59          
+  60          #define LEDmask         0x40  // PE6
+  61          BOOL LEDon;
+  62          
+  63          
+  64          //#define MAX_NAME_LENGTH 8
+  65          //#define STRING_ADDRESS (EEPROM_SIZE - MAX_NAME_LENGTH)
+  66          
+  67          #define MSG_TS_RESET 1
+  68          
+  69          // vendor requests
+  70          #define VR_ENABLE_AE_IN 0xB3 // enable IN transfers
+  71          #define VR_DISABLE_AE_IN 0xB4 // disable IN transfers
+  72          #define VR_TRIGGER_ADVANCE_TRANSFER 0xB7 // trigger in packet commit (for host requests for early access t
+             -o AE data) NOT IMPLEMENTED
+  73          #define VR_RESETTIMESTAMPS 0xBb 
+  74          //#define VR_SET_DEVICE_NAME 0xC2
+  75          //#define VR_TIMESTAMP_TICK 0xC3
+  76          #define VR_RESET_FIFOS 0xC4
+  77          #define VR_DOWNLOAD_CPLD_CODE 0xC5 
+  78          #define VR_READOUT_EEPROM 0xC9
+  79          #define VR_IS_TS_MASTER 0xCB
+  80          //#define VR_MISSED_EVENTS 0xCC
+  81          #define VR_WRITE_CPLD_SR 0xCF
+  82          //#define VR_RUN_ADC            0xCE
+  83          
+  84          #define VR_WRITE_CONFIG 0xB8 // write bytes out to SPI
+  85                                          // the wLengthL field of SETUPDAT specifies the number of bytes to write out (max 64 per request)
+  86                                          // the bytes are in the data packet
+  87          //#define VR_SET_POWERDOWN 0xB9 // control powerDown. wValue controls the powerDown pin. Raise high to pow
+             -er off, lower to power on.
+  88          #define VR_EEPROM_BIASGEN_BYTES 0xBa // write bytes out to EEPROM for power on default
+  89          
+  90          #define VR_SETARRAYRESET 0xBc // set the state of the array reset which resets communication logic, and po
+             -ssibly also holds pixels in reset
+  91          #define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels and communicati
+             -on logic 
+  92          
+  93          #define BIAS_FLASH_START 9 // start of bias value (this is where number of bytes is stored
+  94          
+  95          #define VR_UPLOAD               0xc0
+  96          #define VR_DOWNLOAD             0x40
+  97          #define VR_EEPROM               0xa2 // loads (uploads) EEPROM
+  98          #define VR_RAM                  0xa3 // loads (uploads) external ram
+  99          
+ 100          #define EP0BUFF_SIZE    0x40
+ 101          #define NUM_CONFIG_BITS_PRECEDING_BIAS_BYTES 40 
+ 102          // 10 muxes, each with 4 bits of config info. not a multiple of 8 so needs to be handled specially for SPI
+             - interface.
+ 103          // we handle this by just padding the most signif nibble of the first byte written - this nibble will get 
+             -shifted out.
+ 104          
+ 105          xdata unsigned int numBiasBytes; // number of bias bytes saved
+ 106          
+ 107          extern int g_iMovingAlgoIndex;      
+ 108          extern int g_iMovingDataIndex;
+ 109          
+ 110          BOOL JTAGinit;
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 3   
+
+ 111          
+ 112          #define NUM_BIAS_BYTES 97 // 22 biases a 4 bytes, 1 Vdac a one byte plus 4 shifted source a 2 bytes 
+ 113          // (remember there are also 10 muxes a 4 bits, so the total bitstream is 102 bytes)
+ 114          // cDVSTest10 does not have the Vdac and the first four biases, but it does not matter if we shift in too 
+             -many bits
+ 115          xdata unsigned char biasBytes[]={0x00,                                  // Vdac readout reference
+ 116                                                                           0x00,0x00,0x00,0x00,   // RObuffer
+ 117                                                                           0x00,0x00,0x00,0x00,   // refcurrent
+ 118                                                                           0x00,0x00,0x00,0x00,   // ROcas
+ 119                                                                           0x00,0x00,0x00,0x00,   // ROgate
+ 120                                                                           0x00,0x00,0x00,0x00,   // follPad
+ 121                                                                           0x00,0x00,0x00,0x00,   // if_refr
+ 122                                                                           0x00,0x00,0x00,0x00,   // if_threshol
+ 123                                                                           0x00,0x00,0x00,0x00,   // AEpuY
+ 124                                                                           0x00,0x00,0x00,0x00,   // AEpuX
+ 125                                                                           0x00,0x00,0x00,0x00,   // AEReqEndPd
+ 126                                                                           0x00,0x00,0x00,0x00,   // AEReqPD
+ 127                                                                           0x00,0x00,0x00,0x00,   // refr
+ 128                                                                           0x00,0x00,0x00,0x00,   // fb
+ 129                                                                           0x00,0x00,0x00,0x00,   // pr
+ 130                                                                           0x00,0x00,0x00,0x00,   //pixInv
+ 131                                                                           0x00,0x00,0x00,0x00,   // pcas
+ 132                                                                           0x00,0x00,0x00,0x00,   // amp
+ 133                                                                           0x00,0x00,0x00,0x00,   // blue
+ 134                                                                           0x00,0x00,0x00,0x00,   // red
+ 135                                                                           0x00,0x00,0x00,0x00,   // off
+ 136                                                                           0x00,0x00,0x00,0x00,   // On
+ 137                                                                           0x00,0x00,0x00,0x00,   // diff
+ 138                                                                           0x00,0x00,             // SSNmid
+ 139                                                                           0x00,0x00,             // SSN
+ 140                                                                           0x00,0x00,  // SSPmid
+ 141                                                                           0x00,0x00}; // SSP
+ 142                                                                                   
+ 143          
+ 144          long cycleCounter;
+ 145          int i;
+ 146          
+ 147          #define I2C_Addr 0x51 //adress is 0101_0001
+ 148          
+ 149          
+ 150          
+ 151          void startMonitor(void);
+ 152          void stopMonitor(void);
+ 153          void configTimestampCounter(void);
+ 154          void toggleLED(void);
+ 155          
+ 156          void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf);
+ 157          void EEPROMWriteBYTE(WORD addr, BYTE value);
+ 158          void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf);
+ 159          
+ 160          void downloadSerialNumberFromEEPROM(void);
+ 161          void initDAC();
+ 162          
+ 163          //-----------------------------------------------------------------------------
+ 164          // Task Dispatcher hooks
+ 165          //   The following hooks are called by the task dispatcher.
+ 166          //-----------------------------------------------------------------------------
+ 167          
+ 168          void TD_Init(void)              // Called once at startup
+ 169          {  
+ 170   1              // set the CPU clock to 48MHz
+ 171   1              CPUCS = ((CPUCS & ~bmCLKSPD) | bmCLKSPD1) ;
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 4   
+
+ 172   1              CPUCS = CPUCS & 0xFD ; // 1111_1101
+ 173   1      
+ 174   1              // set the slave FIFO interface to 30MHz, slave fifo mode
+ 175   1              IFCONFIG = 0xA3; // 1010_0011
+ 176   1      
+ 177   1              // disable interrupts by the input pins and by timers and serial ports:
+ 178   1              IE &= 0x00; // 0000_0000 
+ 179   1      
+ 180   1              // disable interrupt pins 4, 5 and 6
+ 181   1              EIE &= 0xE3; // 1110_0011;
+ 182   1      
+ 183   1              // Registers which require a synchronization delay, see section 15.14
+ 184   1              // FIFORESET        FIFOPINPOLAR
+ 185   1              // INPKTEND         OUTPKTEND
+ 186   1              // EPxBCH:L         REVCTL
+ 187   1              // GPIFTCB3         GPIFTCB2
+ 188   1              // GPIFTCB1         GPIFTCB0
+ 189   1              // EPxFIFOPFH:L     EPxAUTOINLENH:L
+ 190   1              // EPxFIFOCFG       EPxGPIFFLGSEL
+ 191   1              // PINFLAGSxx       EPxFIFOIRQ
+ 192   1              // EPxFIFOIE        GPIFIRQ
+ 193   1              // GPIFIE           GPIFADRH:L
+ 194   1              // UDMACRCH:L       EPxGPIFTRIG
+ 195   1              // GPIFTRIG
+ 196   1        
+ 197   1              //enable Port C and port E
+ 198   1              SYNCDELAY;
+ 199   1              PORTCCFG = 0x00;
+ 200   1              SYNCDELAY;
+ 201   1              PORTACFG = 0x00; // do not use interrupts 0 and 1
+ 202   1              SYNCDELAY;
+ 203   1              PORTECFG = 0x00;
+ 204   1      
+ 205   1              
+ 206   1              OEC = 0x0F; // 0000_1111 // JTAG, shift register stuff
+ 207   1              OEE = 0xFF; // 1111_1111 
+ 208   1              OEA = 0x89;  // 1000_1001 PA1: timestampMaster
+ 209   1      
+ 210   1              // 
+ 211   1              IOC = 0x00; 
+ 212   1              IOA = 0x00;
+ 213   1              IOE=  0x20;          //set BiasClock high 
+ 214   1              setPowerDownBit();      // tie biases to rail
+ 215   1      
+ 216   1              EP1OUTCFG = 0x00;                       // EP1OUT disabled
+ 217   1              SYNCDELAY;
+ 218   1              EP1INCFG = 0xA0;                        // EP1IN enabled, bulk
+ 219   1              SYNCDELAY;                   
+ 220   1              EP2CFG = 0x00;                          // EP2 disabled
+ 221   1              SYNCDELAY;                     
+ 222   1              EP4CFG = 0x00;                          // EP4 disabled
+ 223   1              SYNCDELAY;                 
+ 224   1              EP6CFG = 0xE0;                          // EP6 enabled, in bulk, quad buffered 
+ 225   1              SYNCDELAY;               
+ 226   1              EP8CFG = 0x00;                          // EP8 disabled
+ 227   1      
+ 228   1              SYNCDELAY;
+ 229   1              REVCTL= 0x03;
+ 230   1      
+ 231   1              EP6AUTOINLENH=0x02;
+ 232   1              EP6AUTOINLENL=0x00;
+ 233   1      
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 5   
+
+ 234   1              SYNCDELAY;
+ 235   1              EP6FIFOCFG = 0x09 ; //0000_1001
+ 236   1      
+ 237   1              //set FIFO flag configuration: FlagB: EP6 full, flagC and D unused
+ 238   1              SYNCDELAY;
+ 239   1              PINFLAGSAB = 0xE8; // 1110_1000
+ 240   1      
+ 241   1              cycleCounter=0;
+ 242   1      
+ 243   1              biasInit();     // init biasgen ports and pins                             
+ 244   1              EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
+ 245   1      
+ 246   1              setArrayReset(); // keep pixels from spiking, reset all of them
+ 247   1              // pump powerdown to make sure masterbias is really started up
+ 248   1      /*      for(i=0;i<20;i++)
+ 249   1              {
+ 250   1                      setPowerDownBit();
+ 251   1                      //EZUSB_Delay1ms();
+ 252   1                      releasePowerDownBit();
+ 253   1                      //EZUSB_Delay1ms();
+ 254   1              }
+ 255   1              EZUSB_Delay(10); // ms delay after masterbias (re)startup
+ 256   1              for (i=0;i<NUM_BIAS_BYTES;i++)
+ 257   1              {
+ 258   1                      spiwritebyte(biasBytes[i]); // load hardcoded biases
+ 259   1              }
+ 260   1              latchNewBiases();       */
+ 261   1              
+ 262   1      
+ 263   1              
+ 264   1              IT0=1;          // make INT0# edge-sensitive
+ 265   1              EX0=0;          // disable INT0# (this interrupt was used to signal to the host to reset WrapAdd)
+ 266   1      
+ 267   1              IT1=1; // INT1# edge-sensitve
+ 268   1              EX1=0; // disable INT1#
+ 269   1      
+ 270   1              LEDon=FALSE;
+ 271   1          IOE |= CPLD_NOT_RESET; // take CPLD out of reset
+ 272   1      
+ 273   1              initDAC();  // initialize the DAC
+ 274   1      }
+ 275          
+ 276          void TD_Poll(void)              // Called repeatedly while the device is idle
+ 277          {       
+ 278   1      
+ 279   1              if(cycleCounter++>=100000){
+ 280   2      
+ 281   2                      toggleLED();
+ 282   2                      cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
+ 283   2              }               
+ 284   1      }
+ 285          
+ 286          void toggleLED(void)
+ 287          {
+ 288   1              if (LEDon==TRUE)
+ 289   1              {
+ 290   2                      IOE &= ~LEDmask;
+ 291   2                      LEDon=FALSE;
+ 292   2              }
+ 293   1              else
+ 294   1              {
+ 295   2                      IOE |= LEDmask;
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 6   
+
+ 296   2                      LEDon=TRUE;
+ 297   2              }
+ 298   1      }
+ 299          
+ 300          /*void downloadSerialNumberFromEEPROM(void)
+ 301          {
+ 302                  BYTE i;
+ 303          
+ 304                  char *dscrRAM;
+ 305                  BYTE xdata buf[MAX_NAME_LENGTH];
+ 306          
+ 307                  // get pointer to string descriptor 3
+ 308                  dscrRAM =  (char *)EZUSB_GetStringDscr(3);
+ 309          
+ 310                  // read string description from EEPROM
+ 311                  EEPROMRead(STRING_ADDRESS, MAX_NAME_LENGTH, buf);
+ 312                  
+ 313                  //write string description (serial number) to RAM
+ 314                  for (i=0;i<MAX_NAME_LENGTH;i++)
+ 315                  {
+ 316                          dscrRAM[2+i*2] = buf[i];
+ 317                  }
+ 318          }*/
+ 319          
+ 320          void startMonitor(void)
+ 321          {
+ 322   1              RUN_CPLD=1;
+ 323   1      
+ 324   1              releasePowerDownBit();
+ 325   1      //      IOE = IOE | DVS_nReset; //start dvs statemachines
+ 326   1       
+ 327   1      }
+ 328          
+ 329          void stopMonitor(void)
+ 330          {
+ 331   1      
+ 332   1              // force last paket
+ 333   1              
+ 334   1      //      EP6FIFOCFG = 0x01; //0000_0001 disable auto-in
+ 335   1      //      SYNCDELAY;
+ 336   1      
+ 337   1      //      if(EP6FIFOFLGS==0x00)
+ 338   1      //      { // if buffer available
+ 339   1      //      INPKTEND=0x06; // force in paket
+ 340   1      //              SYNCDELAY;
+ 341   1      //      }
+ 342   1      
+ 343   1              // reset fifo   
+ 344   1              FIFORESET = 0x80;
+ 345   1              SYNCDELAY;
+ 346   1              FIFORESET = 0x06;
+ 347   1              SYNCDELAY;
+ 348   1              FIFORESET = 0x00;
+ 349   1              SYNCDELAY;
+ 350   1      
+ 351   1              EP6FIFOCFG =0x09;  //0000_1001 set back to autoin
+ 352   1              SYNCDELAY;
+ 353   1      
+ 354   1              RUN_CPLD=0;
+ 355   1      
+ 356   1      //      IOE &= ~DVS_nReset;
+ 357   1      }
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 7   
+
+ 358          
+ 359          /*
+ 360          // writes the byte in big endian order, e.g. from msb to lsb
+ 361          void CPLDwriteByte(BYTE dat)
+ 362          {
+ 363                  BYTE i=0;
+ 364                  BYTE mask=0x80;
+ 365          
+ 366                  CPLD_SR_CLOCK = 0;
+ 367                  for (i=0; i<8;i++)
+ 368                  {
+ 369                          CPLD_SR_BIT= dat & mask;
+ 370                          CPLD_SR_CLOCK = 1;
+ 371                          CPLD_SR_CLOCK = 0;
+ 372                          mask= mask >> 1;        
+ 373                  }
+ 374          }
+ 375          */
+ 376          
+ 377          void sendDACByte(unsigned char b){
+ 378   1              unsigned char i=8;
+ 379   1              while(i--){
+ 380   2                      dacClock=1;
+ 381   2                      b=_crol_(b,1); // rotate left to get msb to lsb
+ 382   2                      if(b&1){
+ 383   3                              dacBitIn=1;
+ 384   3                      }else{
+ 385   3                              dacBitIn=0;
+ 386   3                      }
+ 387   2                      dacClock=0; // clk edge low while data stable
+ 388   2              }
+ 389   1      }
+ 390          
+ 391          void initDAC(){
+ 392   1      
+ 393   1      /*
+ 394   1              dacNLDAC=0;
+ 395   1              EZUSB_Delay(30);        // pause at least 10ms because scope shows that nBUSY stays low for about 8ms after pow
+             -er on. Specs say 270us for power on reset of DACs
+ 396   1              dacNLDAC=1;
+ 397   1              EZUSB_Delay(30);
+ 398   1      */
+ 399   1      //      dacNLDAC=0; 
+ 400   1              // AnB RnW 00 A3:0= 0000 1100 - configure Control register write,
+ 401   1              // REG1:0=00 SFRs
+ 402   1              // CR11=1 in power down hi z
+ 403   1              // CR10=1 internal reference is 2.5V
+ 404   1              // CR9=0  current boost on
+ 405   1              // CR8=1  internal reference used
+ 406   1              // CR7=0  monitor disabled
+ 407   1              // CR6=1  thermal monitor enabled
+ 408   1              // CR5:0=0 toggle disabled and using default A toggle, followed by 2 unused bits 00
+ 409   1              // entire config is
+ 410   1          // 0000 1100 0011 0101 0000 0000
+ 411   1              // AR00 addr RgCr             00
+ 412   1              //   0    c    3    5    0    0
+ 413   1      
+ 414   1              startDACSync();   //' Trigger DAC. 
+ 415   1      
+ 416   1              sendDACByte(0x0C); // send MSB first, sends big endian msb first
+ 417   1              sendDACByte(0x35);
+ 418   1              sendDACByte(0x00);
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 8   
+
+ 419   1      
+ 420   1      
+ 421   1              sendDACByte(0x0C); // send MSB first, sends big endian msb first
+ 422   1              sendDACByte(0x35);
+ 423   1              sendDACByte(0x00);  
+ 424   1      
+ 425   1              endDACSync();
+ 426   1      }
+ 427          
+ 428          void EEPROMWriteByte(WORD addr, BYTE value)
+ 429          {
+ 430   1              BYTE            i = 0;
+ 431   1              BYTE xdata      ee_str[3];
+ 432   1              if(DB_Addr)
+ 433   1                      ee_str[i++] = MSB(addr); // if 16 bit, we need 2-byte address and 1 byte data
+ 434   1      
+ 435   1              ee_str[i++] = LSB(addr);
+ 436   1              ee_str[i++] = value;
+ 437   1      
+ 438   1              IOE |= LEDmask;
+ 439   1              EZUSB_WriteI2C(I2C_Addr, i, ee_str);
+ 440   1              IOE &= ~LEDmask;
+ 441   1              LEDon=FALSE;
+ 442   1          EZUSB_WaitForEEPROMWrite(I2C_Addr);
+ 443   1      }
+ 444          
+ 445          void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf)
+ 446          {
+ 447   1              BYTE    i;
+ 448   1              for(i=0;i<length;++i)
+ 449   1                      EEPROMWriteByte(addr++,buf[i]);
+ 450   1      }
+ 451          
+ 452          void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf)
+ 453          {
+ 454   1              BYTE            i = 0;
+ 455   1              BYTE            j = 0;
+ 456   1              BYTE xdata      ee_str[2];
+ 457   1      
+ 458   1              if(DB_Addr)
+ 459   1                      ee_str[i++] = MSB(addr);
+ 460   1      
+ 461   1              ee_str[i++] = LSB(addr);
+ 462   1      
+ 463   1              EZUSB_WriteI2C(I2C_Addr, i, ee_str);
+ 464   1      
+ 465   1              for(j=0; j < length; j++)
+ 466   1                      *(buf+j) = 0xcd;
+ 467   1      
+ 468   1              EZUSB_ReadI2C(I2C_Addr, length, buf);
+ 469   1      }
+ 470          
+ 471          
+ 472          BOOL TD_Suspend(void)          // Called before the device goes into suspend mode
+ 473          {
+ 474   1        // reset CPLD
+ 475   1        IOE &= ~CPLD_NOT_RESET;  
+ 476   1        IOE &= ~DVS_nReset; 
+ 477   1      
+ 478   1        return(TRUE);
+ 479   1      }
+ 480          
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 9   
+
+ 481          BOOL TD_Resume(void)          // Called after the device resumes
+ 482          {
+ 483   1      
+ 484   1         IOE |= CPLD_NOT_RESET;
+ 485   1         IOE |= DVS_nReset;
+ 486   1      
+ 487   1         return(TRUE);
+ 488   1      }
+ 489          
+ 490          //-----------------------------------------------------------------------------
+ 491          // Device Request hooks
+ 492          //   The following hooks are called by the end point 0 device request parser.
+ 493          //-----------------------------------------------------------------------------
+ 494          
+ 495          /*BOOL DR_GetDescriptor(void)
+ 496          {
+ 497             return(TRUE);
+ 498          }
+ 499          
+ 500          BOOL DR_SetConfiguration(void)   // Called when a Set Configuration command is received
+ 501          {
+ 502          //   Configuration = SETUPDAT[2];
+ 503             return(TRUE);            // Handled by user code
+ 504          }*/
+ 505          
+ 506          BOOL DR_GetConfiguration(void)   // Called when a Get Configuration command is received
+ 507          {
+ 508   1         EP0BUF[0] = 0x00;//Configuration;
+ 509   1         EP0BCH = 0;
+ 510   1         EP0BCL = 1;
+ 511   1         return(TRUE);            // Handled by user code
+ 512   1      }
+ 513          
+ 514          /*BOOL DR_SetInterface(void)       // Called when a Set Interface command is received
+ 515          {
+ 516          //   AlternateSetting = SETUPDAT[2];
+ 517             return(TRUE);            // Handled by user code
+ 518          }*/
+ 519          
+ 520          BOOL DR_GetInterface(void)       // Called when a Set Interface command is received
+ 521          {
+ 522   1         EP0BUF[0] = 0x00;//AlternateSetting;
+ 523   1         EP0BCH = 0;
+ 524   1         EP0BCL = 1;
+ 525   1         return(TRUE);            // Handled by user code
+ 526   1      }
+ 527          
+ 528          /*BOOL DR_GetStatus(void)
+ 529          {
+ 530             return(TRUE);
+ 531          }
+ 532          
+ 533          BOOL DR_ClearFeature(void)
+ 534          {
+ 535             return(TRUE);
+ 536          }
+ 537          
+ 538          BOOL DR_SetFeature(void)
+ 539          {
+ 540             return(TRUE);
+ 541          }*/
+ 542          
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 10  
+
+ 543          void latchConfigBits(void)
+ 544          {
+ 545   1              short count;
+ 546   1              IOE&=~biasLatch;
+ 547   1              for (count=0; count<50;count++)
+ 548   1              {
+ 549   2                      _nop_();  
+ 550   2              }
+ 551   1              IOE|=biasLatch;
+ 552   1      }
+ 553          
+ 554          // the SETUPDAT array has the following 8 elements (see FX2 TRM Section 2.3)
+ 555          //SETUPDAT[0] VendorRequest 0x40 for OUT type, 0xC0 for IN type
+ 556          //SETUPDAT[1] The actual vendor request (e.g. VR_ENABLE_AE_IN below)
+ 557          //SETUPDAT[2] wValueL 16 bit value LSB
+ 558          //         3  wValueH MSB
+ 559          //         4  wIndexL 16 bit field, varies according to request
+ 560          //         5  wIndexH
+ 561          //         6  wLengthL Number of bytes to transfer if there is a data phase
+ 562          //         7  wLengthH
+ 563          BYTE xsvfReturn;
+ 564          
+ 565          BOOL DR_VendorCmnd(void)
+ 566          {       
+ 567   1              WORD value; 
+ 568   1              WORD len,ind, bc; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
+ 569   1      
+ 570   1              WORD addr; // xdata used here to conserve data ram; if not EEPROM writes don't work anymore
+ 571   1              WORD i;
+ 572   1              bit oldbit;
+ 573   1      //      char *dscrRAM;
+ 574   1      //      unsigned char xdata JTAGdata[400];
+ 575   1      
+ 576   1              // we don't actually process the command here, we process it in the main loop
+ 577   1              // here we just do the handshaking and ensure if it is a command that is implemented
+ 578   1              switch (SETUPDAT[1]){
+ 579   2                      case VR_ENABLE_AE_IN: // enable IN transfers
+ 580   2                              {
+ 581   3                                      startMonitor();
+ 582   3                                      break;  // handshake phase triggered below
+ 583   3                              }
+ 584   2                      case VR_DISABLE_AE_IN: // disable IN transfers
+ 585   2                              {
+ 586   3                                      stopMonitor();
+ 587   3                                              break;
+ 588   3                              }
+ 589   2                      case VR_RESET_FIFOS: // reset in and out fifo
+ 590   2                              {
+ 591   3                                      SYNCDELAY;
+ 592   3                                      EP6FIFOCFG = 0x01; //0000_0001  disable auto-in
+ 593   3                                      SYNCDELAY;
+ 594   3                                      FIFORESET = 0x80;
+ 595   3                                      SYNCDELAY;
+ 596   3                                      FIFORESET = 0x06;
+ 597   3                                      SYNCDELAY;
+ 598   3                                      FIFORESET = 0x00;
+ 599   3      
+ 600   3      
+ 601   3                                      SYNCDELAY;
+ 602   3                                      EP6FIFOCFG = 0x09 ; //0000_1001 reenable auto-in
+ 603   3                                      break;
+ 604   3                              }
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 11  
+
+ 605   2              /*      case VR_DOWNLOAD_CPLD_CODE:
+ 606   2                              {
+ 607   2                              if (SETUPDAT[0]==VR_DOWNLOAD) {
+ 608   2                      
+ 609   2                                      if (SETUPDAT[4]) {
+ 610   2                                              xsvfReturn = ispEntryPoint();
+ 611   2                                      } else
+ 612   2                                      {
+ 613   2                                              addr = SETUPDAT[2];             // Get address and length
+ 614   2                                              addr |= SETUPDAT[3] << 8;
+ 615   2                                              len = SETUPDAT[6];
+ 616   2                                              len |= SETUPDAT[7] << 8;
+ 617   2              
+ 618   2                                              // first download programming data to EEPROM
+ 619   2                                              addr= addr + EEPROM_CPLDCODE_START; 
+ 620   2                                              while(len)                                      // Move new data through EP0OUT 
+ 621   2                                              {                                                       // one packet at a time.
+ 622   2                                                      // Arm endpoint - do it here to clear (after sud avail)
+ 623   2                                                      EP0BCH = 0;
+ 624   2                                                      EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+ 625   2              
+ 626   2                                                      while(EP0CS & bmEPBUSY);
+ 627   2              
+ 628   2                                                      bc = EP0BCL; // Get the new bytecount
+ 629   2              
+ 630   2                                                      for(i=0; i<bc; i++)
+ 631   2                                                                      EEPROMWriteBYTE(addr+i, EP0BUF[i]);                                                     
+ 632   2              
+ 633   2                                                      addr += bc;
+ 634   2                                                      len -= bc;
+ 635   2                                              }
+ 636   2                                      }
+ 637   2      
+ 638   2                                      break;
+ 639   2                              }
+ 640   2                              else //case VR_XSVF_ERROR_CODE:
+ 641   2                              {
+ 642   2                                       // program CPLD when host ask
+ 643   2      
+ 644   2                                      EP0BUF[0] = SETUPDAT[1];
+ 645   2                                      EP0BUF[1]= xsvfReturn;
+ 646   2      
+ 647   2                                      EP0BUF[2] = 0xFF & (g_iMovingAlgoIndex >> 24);
+ 648   2                              EP0BUF[3] = 0xFF & (g_iMovingAlgoIndex >> 16);
+ 649   2                                      EP0BUF[4] = 0xFF & (g_iMovingAlgoIndex >> 8);
+ 650   2                                      EP0BUF[5] = 0xFF & (g_iMovingAlgoIndex);
+ 651   2      
+ 652   2                                      EP0BUF[6] = 0xFF & (g_iMovingDataIndex >> 24);
+ 653   2                              EP0BUF[7] = 0xFF & (g_iMovingDataIndex >> 16);
+ 654   2                                      EP0BUF[8] = 0xFF & (g_iMovingDataIndex >> 8);
+ 655   2                                      EP0BUF[9] = 0xFF & (g_iMovingDataIndex);
+ 656   2      
+ 657   2                                      EP0BCH = 0;
+ 658   2                                      EP0BCL = 10;
+ 659   2                                      EP0CS |= bmHSNAK;
+ 660   2      
+ 661   2                                      return(FALSE);
+ 662   2                              } 
+ 663   2                              }*/
+ 664   2              /*      case VR_SET_DEVICE_NAME:
+ 665   2                              {
+ 666   2                                      *EP0BUF = SETUPDAT[1];
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 12  
+
+ 667   2                                      EP0BCH = 0;
+ 668   2                                      EP0BCL = 1;
+ 669   2                                      EP0CS |= bmHSNAK;
+ 670   2      
+ 671   2                                      while(EP0CS & bmEPBUSY); //wait for the data packet to arrive
+ 672   2      
+ 673   2                                      dscrRAM = (char*)EZUSB_GetStringDscr(3); // get address of serial number descriptor-string in RAM
+ 674   2      
+ 675   2                                      if (EP0BCL > MAX_NAME_LENGTH)
+ 676   2                                      {
+ 677   2                                              len=MAX_NAME_LENGTH;
+ 678   2                                      } else 
+ 679   2                                      {
+ 680   2                                              len=EP0BCL;
+ 681   2                                      }
+ 682   2              
+ 683   2                                      for (i=0;i<len;i++)
+ 684   2                                      {
+ 685   2                                              EEPROMWriteBYTE(STRING_ADDRESS+i, EP0BUF[i]); // write string to EEPROM
+ 686   2                                              dscrRAM[2+i*2] = EP0BUF[i]; // write string to RAM
+ 687   2                                      }
+ 688   2      
+ 689   2                                      for (i=len; i<MAX_NAME_LENGTH; i++) // fill the rest with stop characters
+ 690   2                                      {
+ 691   2                                              EEPROMWriteBYTE(STRING_ADDRESS+i, ' '); // write string to EEPROM                               
+ 692   2                                              dscrRAM[2+i*2] = ' '; // write string to RAM
+ 693   2                                      }
+ 694   2      
+ 695   2                                      EP0BCH = 0;
+ 696   2                                      EP0BCL = 0;
+ 697   2      
+ 698   2                                      return(FALSE);
+ 699   2                              }*/             
+ 700   2                      case VR_RESETTIMESTAMPS:
+ 701   2                              {
+ 702   3                                      RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
+ 703   3                                      RESET_TS=0;
+ 704   3      
+ 705   3                                      // reset dvs statemachines
+ 706   3      //                              IOE= IOE & ~DVS_nReset;
+ 707   3      //                              _nop_();
+ 708   3      //                              _nop_();
+ 709   3      //                              _nop_();
+ 710   3      //                              IOE = IOE | DVS_nReset; //start dvs statemachines
+ 711   3      
+ 712   3                                      break;
+ 713   3                              }
+ 714   2                      case VR_WRITE_CONFIG: // write bytes to SPI interface and also handles other configuration of board like
+             - CPLD and port bits on FX2
+ 715   2                      case VR_EEPROM_BIASGEN_BYTES: // falls through and actual command is tested below
+ 716   2                              {
+ 717   3                                      // the value bytes are the specific config command
+ 718   3                                      // the index bytes are the arguments
+ 719   3                                      // more data comes in the setupdat
+ 720   3                                      
+ 721   3                                      SYNCDELAY;
+ 722   3                                      value = SETUPDAT[2];            // Get request value
+ 723   3                                      value |= SETUPDAT[3] << 8;      // data comes little endian
+ 724   3                                      ind = SETUPDAT[4];                      // Get index
+ 725   3                                      ind |= SETUPDAT[5] << 8;
+ 726   3                                      len = SETUPDAT[6];              // length for data phase
+ 727   3                                      len |= SETUPDAT[7] << 8;
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 13  
+
+ 728   3                                      switch(value&0xFF){ // take LSB for specific setup command 
+ 729   4       
+ 730   4      // from SeeBetter.Biasgen inner class 
+ 731   4      #define CMD_IPOT  1
+ 732   4      #define CMD_AIPOT  2
+ 733   4      #define CMD_SCANNER  3
+ 734   4      #define CMD_CHIP  4
+ 735   4      #define CMD_SETBIT  5
+ 736   4      #define CMD_VDAC  6
+ 737   4      #define CMD_INITDAC 7
+ 738   4      //#define CMD_CPLDCONFIG 8
+ 739   4      
+ 740   4                                      case CMD_IPOT:
+ 741   4      
+ 742   4                                              numBiasBytes=len;
+ 743   4                                              while(len){     // Move new data through EP0OUT, one packet at a time, 
+ 744   5                                                      // eventually will get len down to zero by bc=64,64,15 (for example)
+ 745   5                                                      // Arm endpoint - do it here to clear (after sud avail)
+ 746   5                                                      EP0BCH = 0;
+ 747   5                                                      EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+ 748   5                                                      SYNCDELAY;
+ 749   5                                                      while(EP0CS & bmEPBUSY);  // spin here until data arrives
+ 750   5                                                      bc = EP0BCL; // Get the new bytecount
+ 751   5                                                      for(i=0; i<bc; i++){
+ 752   6                                                              spiwritebyte(EP0BUF[i]); // writes out the bits big endian (msb to lsb)
+ 753   6                                                      }
+ 754   5      //                                              value += bc;    // inc eeprom value to write to, in case that's what we're doing
+ 755   5                                                      len -= bc; // dec total byte count
+ 756   5                                              }
+ 757   4                                              latchNewBiases();
+ 758   4                                              break;
+ 759   4      
+ 760   4                                      case CMD_AIPOT:
+ 761   4                                              
+ 762   4                                              EP0BCH = 0;
+ 763   4                                              EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+ 764   4                                              BIAS_DIAG_SEL = 0;
+ 765   4                                              selectAddrSR();
+ 766   4                                              SYNCDELAY;
+ 767   4                                              while(EP0CS & bmEPBUSY);  // spin here until data arrives
+ 768   4                                              bc = EP0BCL; // Get the new bytecount
+ 769   4                                              spiwritebyte(EP0BUF[0]); // write bias address
+ 770   4                                              latchNewBiases();
+ 771   4                                              releaseAddrSR();
+ 772   4                                              //two data bytes per bias
+ 773   4                                              for(i=1; i<3; i++){
+ 774   5                                                      spiwritebyte(EP0BUF[i]); // writes out the bits big endian (msb to lsb)
+ 775   5                                              }
+ 776   4                                              latchNewBiases();
+ 777   4                                              break;
+ 778   4      
+ 779   4                                              
+ 780   4                                      case CMD_SETBIT:
+ 781   4                                              EP0BCH = 0;
+ 782   4                                              EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+ 783   4                                              SYNCDELAY;
+ 784   4                                              while(EP0CS & bmEPBUSY);  // spin here until data arrives
+ 785   4                                              // sends value=CMD_SETBIT, index=portbit with (port(b=0,d=1,e=2)<<8)|bitmask(e.g. 00001000) in MSB/LS
+             -B, byte[0]=value (1,0)
+ 786   4                                              // also if button is tristable type in GUI, then byte[0] has tristate in bit1
+ 787   4                                              {
+ 788   5                                                      bit bitval=(EP0BUF[0]&1); // 1=set, 0=clear
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 14  
+
+ 789   5                                                      bit tristate=(EP0BUF[0]&2?1:0); // 1=tristate, 0=drive
+ 790   5                                                      unsigned char bitmask=SETUPDAT[4]; // bitmaskit mask, LSB of ind
+ 791   5                                                      switch(SETUPDAT[5]){ // this is port, MSB of ind
+ 792   6                                                              case 0: // port a
+ 793   6                                                                      if(bitval) IOA|=bitmask; else IOA&= ~bitmask;
+ 794   6                                                                      if(tristate) OEA&= ~bitmask; else OEA|=bitmask; 
+ 795   6                                                              break;
+ 796   6                                                              case 1: // port c
+ 797   6                                                                      if(bitval) IOC|=bitmask; else IOC&= ~bitmask;
+ 798   6                                                                      if(tristate) OEC&= ~bitmask; else OEC|=bitmask; 
+ 799   6                                                              break;
+ 800   6                                                              case 2: // port d
+ 801   6                                                                      if(bitval) IOD|=bitmask; else IOD&= ~bitmask;
+ 802   6                                                                      if(tristate) OED&= ~bitmask; else OED|=bitmask; 
+ 803   6                                                              break;
+ 804   6                                                              case 3: // port e
+ 805   6                                                                      if(bitval) IOE|=bitmask; else IOE&= ~bitmask;
+ 806   6                                                                      if(tristate) OEE&= ~bitmask; else OEE|=bitmask; 
+ 807   6                                                              break;
+ 808   6                                                              default:
+ 809   6                                                                      return TRUE; // error
+ 810   6                                                      }
+ 811   5                                              }
+ 812   4                                              break;
+ 813   4                                      case CMD_SCANNER:
+ 814   4                                              // scanner is controlled by CPLD entirely, we just write the correct bits to the CPLD config SR.  Thi
+             -s legacy cmd now returns a stall.
+ 815   4                                              return TRUE;
+ 816   4                                              break;
+ 817   4      
+ 818   4                                      case CMD_CHIP:
+ 819   4                                              // send diagnose SR values to chip
+ 820   4                                              BIAS_DIAG_SEL = 1;
+ 821   4                                              numBiasBytes=len;
+ 822   4                                              while(len){     // Move new data through EP0OUT, one packet at a time, 
+ 823   5                                                      // eventually will get len down to zero by bc=64,64,15 (for example)
+ 824   5                                                      // Arm endpoint - do it here to clear (after sud avail)
+ 825   5                                                      EP0BCH = 0;
+ 826   5                                                      EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+ 827   5                                                      SYNCDELAY;
+ 828   5                                                      while(EP0CS & bmEPBUSY);  // spin here until data arrives
+ 829   5                                                      bc = EP0BCL; // Get the new bytecount
+ 830   5                                                      for(i=0; i<bc; i++){
+ 831   6                                                              spiwritebyte(EP0BUF[i]); // writes out the bits big endian (msb to lsb)
+ 832   6                                                      }
+ 833   5      //                                              value += bc;    // inc eeprom value to write to, in case that's what we're doing
+ 834   5                                                      len -= bc; // dec total byte count
+ 835   5                                              }
+ 836   4                                              latchConfigBits();
+ 837   4                              //      latchNewBiases();
+ 838   4                                              BIAS_DIAG_SEL = 0;
+ 839   4                                              break;
+ 840   4      
+ 841   4                                      case CMD_VDAC:
+ 842   4                                              // EP0BUF has b0=channel (same for each DAC), b1=DAC1 MSB, b2=DAC1 LSB, b3=DAC0 MSB, b4=DAC0 LSB
+ 843   4                                              if(len!=6) return TRUE; // error, should have 6 bytes which are just written out to DACs surrounded b
+             -y dacNSync=0
+ 844   4                                              EP0BCH = 0;
+ 845   4                                              EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+ 846   4                                              SYNCDELAY;
+ 847   4                                              while(EP0CS & bmEPBUSY);  // spin here until data arrives
+ 848   4                                              startDACSync();
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 15  
+
+ 849   4                                              for(i=0;i<6;i++){
+ 850   5                                                      sendDACByte(EP0BUF[i]);
+ 851   5                                              }
+ 852   4                                              endDACSync();
+ 853   4                                              //toggleLDAC();
+ 854   4                                              
+ 855   4      //                                      ledToggle();
+ 856   4                                              break;
+ 857   4      
+ 858   4                                      case CMD_INITDAC:
+ 859   4                                              initDAC();
+ 860   4      //                                      ledToggle();
+ 861   4                                              break;
+ 862   4      
+ 863   4      /*                              case CMD_CPLDCONFIG: // send bit string to CPLD configuration shift register (new feature on cochlea
+             -AMS1c board/cpld/firmware)
+ 864   4                                                      // len holds the number of bytes to send
+ 865   4                                                      // the bytes should be sent from host so that the first byte
+ 866   4                                                      // holds the MSB, i.e., the bytes should be sent big endian from the host.
+ 867   4                                                      // i.e., the msb of the first byte should be the biggest-numbered bit
+ 868   4                                                      // and the lsb of the last byte is bit 0 as specified in the CPLD HDL configuration.
+ 869   4                                                      // Each byte here is written out big endian, from msb to lsb.
+ 870   4                                                      // Only integral bytes are written, so if the number of bytes is not a multiple of 8, 
+ 871   4                                                      // then the first byte written (the MSB) should be left padded so that the msb ends up at the corret
+ 872   4                                                      // position.
+ 873   4                                              
+ 874   4                                              oldbit=RUN_ADC;
+ 875   4                                              RUN_ADC=0;
+ 876   4                                              while(len){                                     // Move new data through EP0OUT, one packet at a time
+ 877   4                                                      // Arm endpoint - do it here to clear (after sud avail)
+ 878   4                                                      EP0BCH = 0;
+ 879   4                                                      EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+ 880   4                                                      while(EP0CS & bmEPBUSY);  // spin here until data arrives
+ 881   4                                                      bc = EP0BCL; // Get the new bytecount
+ 882   4                                              
+ 883   4                                                      for(i=0; i<bc; i++){
+ 884   4                                                              CPLDwriteByte(EP0BUF[i]); // writes the byte in big endian order, e.g. from msb to lsb
+ 885   4                                                      }
+ 886   4                                                      len -= bc; // dec total byte count
+ 887   4                                              }
+ 888   4                              
+ 889   4                                              CPLD_SR_LATCH=0;
+ 890   4                                              CPLD_SR_LATCH=1;
+ 891   4                                              RUN_ADC=oldbit;
+ 892   4                                                      break; // very important, otherwise get stall
+ 893   4      */
+ 894   4      
+ 895   4                                      default:
+ 896   4                                              return(TRUE);  // don't recognize command, generate stall
+ 897   4                                      } // end of subcmd switch
+ 898   3      
+ 899   3                                      EP0BCH = 0;
+ 900   3                                      EP0BCL = 0;                   // Arm endpoint with 0 byte to transfer
+ 901   3                                      toggleLED();
+ 902   3                                      return(FALSE); // very important, otherwise get stall
+ 903   3                              } // end of subcmds to config cmds
+ 904   2      /* commented out because these VR's are replaced by direct bit control from host side via general interfac
+             -e to ports
+ 905   2              case VR_WRITE_CPLD_SR: // write bytes to SPI interface
+ 906   2                              {
+ 907   2                                      SYNCDELAY;
+ 908   2                                      len = SETUPDAT[6];
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 16  
+
+ 909   2                                      len |= SETUPDAT[7] << 8;
+ 910   2                                      oldbit=RUN_ADC;
+ 911   2                                      RUN_ADC=0;
+ 912   2                                      while(len){                                     // Move new data through EP0OUT, one packet at a time
+ 913   2                                              // Arm endpoint - do it here to clear (after sud avail)
+ 914   2                                              EP0BCH = 0;
+ 915   2                                              EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+ 916   2                                              while(EP0CS & bmEPBUSY);  // spin here until data arrives
+ 917   2                                              bc = EP0BCL; // Get the new bytecount
+ 918   2                                      
+ 919   2                                              for(i=0; i<bc; i++){
+ 920   2                                                      CPLDwriteByte(EP0BUF[i]);                                       
+ 921   2                                              }
+ 922   2                                      
+ 923   2                                              len -= bc; // dec total byte count
+ 924   2                                      }
+ 925   2                      
+ 926   2                                      CPLD_SR_LATCH=0;
+ 927   2                                      CPLD_SR_LATCH=1;
+ 928   2      
+ 929   2                                      EP0BCH = 0;
+ 930   2                                      EP0BCL = 0;                   // Arm endpoint with 0 byte to transfer
+ 931   2                                      toggleLED();
+ 932   2                                      return(FALSE); // very important, otherwise get stall
+ 933   2                              }
+ 934   2                      case VR_RUN_ADC:
+ 935   2                              {       
+ 936   2                                      if (SETUPDAT[2])
+ 937   2                                      {
+ 938   2                                              RUN_ADC=1;
+ 939   2                                      } else 
+ 940   2                                      {
+ 941   2                                              RUN_ADC=0;
+ 942   2                                      }
+ 943   2                                      break;
+ 944   2                              }
+ 945   2                      case VR_SET_POWERDOWN: // control powerDown output bit
+ 946   2                              {
+ 947   2                                      if (SETUPDAT[2])
+ 948   2                                      {
+ 949   2                                              setPowerDownBit();
+ 950   2                                      } else 
+ 951   2                                      {
+ 952   2                                              releasePowerDownBit();
+ 953   2                                      }
+ 954   2                                      break;
+ 955   2      
+ 956   2                              }
+ 957   2      
+ 958   2      */
+ 959   2                      case VR_SETARRAYRESET: // set array reset, based on lsb of argument. This also resets the AER logic.
+ 960   2                              {
+ 961   3                                      if (SETUPDAT[2]&0x01)
+ 962   3                                      {
+ 963   4                                              IOE &= ~DVS_nReset;
+ 964   4                                      } else
+ 965   3                                      {
+ 966   4                                              IOE |= DVS_nReset;
+ 967   4                                      }
+ 968   3                              
+ 969   3                                      break;
+ 970   3                              }
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 17  
+
+ 971   2      
+ 972   2                      case VR_DOARRAYRESET: // reset array for fixed reset time
+ 973   2                              {
+ 974   3                                      IOE &= ~DVS_nReset;
+ 975   3                                      _nop_();
+ 976   3                                      _nop_();
+ 977   3                                      _nop_();
+ 978   3                                      _nop_();
+ 979   3                                      _nop_();
+ 980   3                                      _nop_();
+ 981   3                                      _nop_();
+ 982   3                                      _nop_();        // a few us
+ 983   3                                      _nop_();
+ 984   3                                      _nop_();
+ 985   3                                      _nop_();
+ 986   3                                      _nop_();
+ 987   3                                      _nop_();
+ 988   3                                      _nop_();
+ 989   3                                      IOE |= DVS_nReset;
+ 990   3                                      break;
+ 991   3                              }
+ 992   2              /*      case VR_IS_TS_MASTER:
+ 993   2                              {
+ 994   2                                      EP0BUF[0] = SETUPDAT[1];
+ 995   2                                      EP0BUF[1]= TIMESTAMP_MASTER;
+ 996   2                                      EP0BCH = 0;
+ 997   2                                      EP0BCL = 2;
+ 998   2                                      EP0CS |= bmHSNAK;
+ 999   2      
+1000   2                                      return(FALSE);
+1001   2                              }*/
+1002   2                      case VR_RAM:
+1003   2                      case VR_EEPROM:
+1004   2                      {
+1005   3                              addr = SETUPDAT[2];             // Get address and length
+1006   3                              addr |= SETUPDAT[3] << 8;
+1007   3                              len = SETUPDAT[6];
+1008   3                              len |= SETUPDAT[7] << 8;
+1009   3                              // Is this an upload command ?
+1010   3                              if(SETUPDAT[0] == VR_UPLOAD)  // this is automatically defined on host from direction of vendor request
+1011   3                              {
+1012   4                                      while(len)                                      // Move requested data through EP0IN 
+1013   4                                      {                                                       // one packet at a time.
+1014   5      
+1015   5                                              while(EP0CS & bmEPBUSY);
+1016   5      
+1017   5                                              if(len < EP0BUFF_SIZE)
+1018   5                                                      bc = len;
+1019   5                                              else
+1020   5                                                      bc = EP0BUFF_SIZE;
+1021   5      
+1022   5                                              // Is this a RAM upload ?
+1023   5                                              if(SETUPDAT[1] == VR_RAM)
+1024   5                                              {
+1025   6                                                      for(i=0; i<bc; i++)
+1026   6                                                              *(EP0BUF+i) = *((BYTE xdata *)addr+i);
+1027   6                                              }
+1028   5                                              else
+1029   5                                              {
+1030   6                                                      for(i=0; i<bc; i++)
+1031   6                                                              *(EP0BUF+i) = 0xcd;
+1032   6                                                      EEPROMRead(addr,(WORD)bc,(WORD)EP0BUF);
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 18  
+
+1033   6                                              }
+1034   5      
+1035   5                                              EP0BCH = 0;
+1036   5                                              EP0BCL = (BYTE)bc; // Arm endpoint with # bytes to transfer
+1037   5      
+1038   5                                              addr += bc;
+1039   5                                              len -= bc;
+1040   5      
+1041   5                                      }
+1042   4                              }
+1043   3                              // Is this a download command ?
+1044   3                              else if(SETUPDAT[0] == VR_DOWNLOAD) // this is automatically defined on host from direction of vendor r
+             -equest
+1045   3                              {
+1046   4                                      while(len)                                      // Move new data through EP0OUT 
+1047   4                                      {                                                       // one packet at a time.
+1048   5                                              // Arm endpoint - do it here to clear (after sud avail)
+1049   5                                              EP0BCH = 0;
+1050   5                                              EP0BCL = 0; // Clear bytecount to allow new data in; also stops NAKing
+1051   5      
+1052   5                                              while(EP0CS & bmEPBUSY);
+1053   5      
+1054   5                                              bc = EP0BCL; // Get the new bytecount
+1055   5      
+1056   5                                              // Is this a RAM download ?
+1057   5                                              if(SETUPDAT[1] == VR_RAM)
+1058   5                                              {
+1059   6                                                      for(i=0; i<bc; i++)
+1060   6                                                              *((BYTE xdata *)addr+i) = *(EP0BUF+i);
+1061   6                                              }
+1062   5                                              else
+1063   5                                                      EEPROMWrite(addr,bc,(WORD)EP0BUF);
+1064   5      
+1065   5                                              addr += bc;
+1066   5                                              len -= bc;
+1067   5                                      }
+1068   4                              }
+1069   3                              return(FALSE);
+1070   3                      }
+1071   2                      default:
+1072   2                      { // we received an invalid command
+1073   3                              return(TRUE);
+1074   3                      }
+1075   2              }
+1076   1      
+1077   1              *EP0BUF = SETUPDAT[1];
+1078   1              EP0BCH = 0;
+1079   1              EP0BCL = 1;
+1080   1              EP0CS |= bmHSNAK;
+1081   1      
+1082   1              return(FALSE);
+1083   1      }
+*** WARNING C280 IN LINE 572 OF MAIN.C: 'oldbit': unreferenced local variable
+1084          
+1085          // no interrupts are used for TCVS320
+1086          // RESET HOST TIMESTAMP INTERRUPT not used
+1087          /*void ISR_TSReset(void) interrupt 3 {
+1088                  LED=0;
+1089                  
+1090                  SYNCDELAY; // reset fifos to delete events with the old timestamps
+1091                  FIFORESET = 0x80;
+1092                  SYNCDELAY;
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 19  
+
+1093                  FIFORESET = 0x06;
+1094                  SYNCDELAY;
+1095                  FIFORESET = 0x00;
+1096          
+1097                  SYNCDELAY;
+1098                  EP6FIFOCFG = 0x09 ; //0000_1001
+1099          
+1100          
+1101                  if (EP1INCS!=0x02)
+1102                  {
+1103                          EP1INBUF[0]=MSG_TS_RESET;
+1104                          SYNCDELAY;
+1105                          EP1INBC=1;
+1106                          SYNCDELAY;
+1107                          IE0=0; // clear interrupt
+1108                          EX0=1; // enable INT0# external interrupt
+1109                          LED=1;
+1110                  }
+1111          }
+1112          
+1113          */
+1114          
+1115          //-----------------------------------------------------------------------------
+1116          // USB Interrupt Handlers
+1117          //   The following functions are called by the USB interrupt jump table.
+1118          //-----------------------------------------------------------------------------
+1119          
+1120          // Setup Data Available Interrupt Handler
+1121          void ISR_Sudav(void) interrupt 0
+1122          {
+1123   1         GotSUD = TRUE;            // Set flag
+1124   1         EZUSB_IRQ_CLEAR();
+1125   1         USBIRQ = bmSUDAV;         // Clear SUDAV IRQ
+1126   1      }
+1127          
+1128          // Setup Token Interrupt Handler
+1129          void ISR_Sutok(void) interrupt 0
+1130          {
+1131   1         EZUSB_IRQ_CLEAR();
+1132   1         USBIRQ = bmSUTOK;         // Clear SUTOK IRQ
+1133   1      }
+1134          
+1135          void ISR_Sof(void) interrupt 0
+1136          {
+1137   1         EZUSB_IRQ_CLEAR();
+1138   1         USBIRQ = bmSOF;            // Clear SOF IRQ
+1139   1      }
+1140          
+1141          void ISR_Ures(void) interrupt 0
+1142          {
+1143   1         if (EZUSB_HIGHSPEED())
+1144   1         {
+1145   2            pConfigDscr = pHighSpeedConfigDscr;
+1146   2            pOtherConfigDscr = pFullSpeedConfigDscr;
+1147   2          //  packetSize = 512;
+1148   2      
+1149   2         }
+1150   1         else
+1151   1         {
+1152   2            pConfigDscr = pFullSpeedConfigDscr;
+1153   2            pOtherConfigDscr = pHighSpeedConfigDscr;
+1154   2          //  packetSize = 64;
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 20  
+
+1155   2         }
+1156   1         
+1157   1         EZUSB_IRQ_CLEAR();
+1158   1         USBIRQ = bmURES;         // Clear URES IRQ
+1159   1      }
+1160          
+1161          void ISR_Susp(void) interrupt 0
+1162          {
+1163   1      //   Sleep = TRUE;
+1164   1      //   EZUSB_IRQ_CLEAR();
+1165   1      //   USBIRQ = bmSUSP;
+1166   1      }
+1167          
+1168          void ISR_Highspeed(void) interrupt 0
+1169          {
+1170   1         if (EZUSB_HIGHSPEED())
+1171   1         {
+1172   2            pConfigDscr = pHighSpeedConfigDscr;
+1173   2            pOtherConfigDscr = pFullSpeedConfigDscr;
+1174   2          //  packetSize = 512;
+1175   2      
+1176   2         }
+1177   1         else
+1178   1         {
+1179   2            pConfigDscr = pFullSpeedConfigDscr;
+1180   2            pOtherConfigDscr = pHighSpeedConfigDscr;
+1181   2          //  packetSize = 64;
+1182   2         }
+1183   1      
+1184   1         EZUSB_IRQ_CLEAR();
+1185   1         USBIRQ = bmHSGRANT;
+1186   1      }
+1187          void ISR_Ep0ack(void) interrupt 0
+1188          {
+1189   1      }
+1190          void ISR_Stub(void) interrupt 0
+1191          {
+1192   1      }
+1193          void ISR_Ep0in(void) interrupt 0
+1194          {
+1195   1      }
+1196          void ISR_Ep0out(void) interrupt 0
+1197          {
+1198   1      }
+1199          void ISR_Ep1in(void) interrupt 0
+1200          {
+1201   1      }
+1202          void ISR_Ep1out(void) interrupt 0
+1203          {
+1204   1      }
+1205          void ISR_Ep2inout(void) interrupt 0
+1206          {
+1207   1      }
+1208          void ISR_Ep4inout(void) interrupt 0
+1209          {
+1210   1      }
+1211          void ISR_Ep6inout(void) interrupt 0
+1212          {
+1213   1      }
+1214          void ISR_Ep8inout(void) interrupt 0
+1215          {
+1216   1      }
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 21  
+
+1217          void ISR_Ibn(void) interrupt 0
+1218          {
+1219   1      }
+1220          void ISR_Ep0pingnak(void) interrupt 0
+1221          {
+1222   1      }
+1223          void ISR_Ep1pingnak(void) interrupt 0
+1224          {
+1225   1      }
+1226          void ISR_Ep2pingnak(void) interrupt 0
+1227          {
+1228   1      }
+1229          void ISR_Ep4pingnak(void) interrupt 0
+1230          {
+1231   1      }
+1232          void ISR_Ep6pingnak(void) interrupt 0
+1233          {
+1234   1      }
+1235          void ISR_Ep8pingnak(void) interrupt 0
+1236          {
+1237   1      }
+1238          void ISR_Errorlimit(void) interrupt 0
+1239          {
+1240   1      }
+1241          void ISR_Ep2piderror(void) interrupt 0
+1242          {
+1243   1      }
+1244          void ISR_Ep4piderror(void) interrupt 0
+1245          {
+1246   1      }
+1247          void ISR_Ep6piderror(void) interrupt 0
+1248          {
+1249   1      }
+1250          void ISR_Ep8piderror(void) interrupt 0
+1251          {
+1252   1      }
+1253          void ISR_Ep2pflag(void) interrupt 0
+1254          {
+1255   1      }
+1256          void ISR_Ep4pflag(void) interrupt 0
+1257          {
+1258   1      }
+1259          void ISR_Ep6pflag(void) interrupt 0
+1260          {
+1261   1      }
+1262          void ISR_Ep8pflag(void) interrupt 0
+1263          {
+1264   1      }
+1265          void ISR_Ep2eflag(void) interrupt 0
+1266          {
+1267   1      }
+1268          void ISR_Ep4eflag(void) interrupt 0
+1269          {
+1270   1      }
+1271          void ISR_Ep6eflag(void) interrupt 0
+1272          {
+1273   1      }
+1274          void ISR_Ep8eflag(void) interrupt 0
+1275          {
+1276   1      }
+1277          void ISR_Ep2fflag(void) interrupt 0
+1278          {
+C51 COMPILER V7.50   MAIN                                                                  05/07/2013 09:53:07 PAGE 22  
+
+1279   1      }
+1280          void ISR_Ep4fflag(void) interrupt 0
+1281          {
+1282   1      }
+1283          void ISR_Ep6fflag(void) interrupt 0
+1284          {
+1285   1      }
+1286          void ISR_Ep8fflag(void) interrupt 0
+1287          {
+1288   1      }
+1289          void ISR_GpifComplete(void) interrupt 0
+1290          {
+1291   1      }
+1292          void ISR_GpifWaveform(void) interrupt 0
+1293          {
+1294   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   2067    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     99       5
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      7      20
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2       3
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

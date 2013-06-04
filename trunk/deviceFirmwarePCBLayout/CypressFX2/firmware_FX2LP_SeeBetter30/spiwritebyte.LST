@@ -1,0 +1,141 @@
+A51 MACRO ASSEMBLER  SPIWRITEBYTE                                                         05/07/2013 09:53:07 PAGE     1
+
+
+MACRO ASSEMBLER A51 V7.10
+OBJECT MODULE PLACED IN spiwritebyte.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE spiwritebyte.a51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     NAME spiwritebyte
+                       2     ; This routine takes a byte variable and
+                       3     ; shifts it out with the clock;
+                       4     
+                       5     ; the byte is shited out big endian, i.e. starting with the msb and ending with the lsb.
+                       6     
+                       7     ; adapted from Cypress Software SPI example for EZ-USB (NOT the FX2) spiwrite.a51 4-19-00 o
+                             tt]
+                       8     ; difference is that FX2 has ports at 0x80 0x90 etc and not in XRAM. plus port A is bit add
+                             ressable,
+                       9     ; so we can just set and clear the bits and/or we don't need to use movx for xdata access
+                      10     ; see FX2 TRM Section 15.3 "About SFRs"
+                      11     ; 
+                      12     ; also, this routine changes bit, then clocks up and down, unlike real SPI that changes bit
+                              and clock at the same time
+                      13     
+                      14     
+                      15     ; worst case bit rate of 250kHz
+                      16     ; byte rate of 35 kHz
+                      17     ;
+                      18     ; port is defined below on first line (mov instruction)
+                      19     ; tobi redefined to be port A
+                      20     
+                      21     ?PR?SPIWRITEBYTE?MODULE segment code
+                      22     ?DT?SPIWRITEBYTE?MODULE segment data overlayable
+                      23     
+                      24     PUBLIC _spiwritebyte, ?_spiwritebyte?BYTE
+                      25     
+----                  26     rseg ?DT?SPIWRITEBYTE?MODULE
+0000                  27     ?_spiwritebyte?BYTE:
+0000                  28     d: ds 1
+                      29     
+----                  30     rseg ?PR?SPIWRITEBYTE?MODULE
+                      31     
+                      32     ; following define clock and bit locations and polarities
+                      33     ; see the SPIUtil.c for biasgen bit locations
+                      34     ; from msb to lsb of nibble: bit, clock
+                      35     ; this is DATA location of SFR for port E
+  00B1                36     sfr IOE     = 0xB1;
+                      37     ;; port E bits are NOT bit addressable, so we need to read, AND, and then write the port
+                      38     
+                      39     ; ends with leaving clock in a polarity that may matter for biasgen sivillotti shift regist
+                             ers
+                      40     
+0000                  41     _spiwritebyte:
+                      42     
+0000 7E08             43     mov R6, #8 ;set up loop for 8 bits
+0002 74CF             44     mov A, #11001111b      ; mask to set biasbit and clock low
+0004 55B1             45     anl A, IOE
+0006 F9               46     mov R1, A
+0007 7410             47     mov A, #00010000b     ; mask to set biasbit high
+0009 45B1             48     orl A, IOE
+000B FA               49     mov R2, A
+000C 74DF             50     mov A, #11011111b   ; clock mask to set clock low
+000E 5A               51     anl A, R2
+000F FA               52     mov R2, A
+0010 7420             53     mov A, #00100000b   ; clock mask to set clock high
+0012 45B1             54     orl A, IOE
+A51 MACRO ASSEMBLER  SPIWRITEBYTE                                                         05/07/2013 09:53:07 PAGE     2
+
+0014 FB               55     mov R3, A
+0015 74EF             56     mov A, #11101111b   ; mask to set biasbit low 
+0017 5B               57     anl A, R3
+0018 FB               58     mov R3, A
+0019 7430             59     mov A, #00110000b   ; mask to clock and biasbit high
+001B 45B1             60     orl A, IOE
+001D FC               61     mov R4, A    
+001E                  62     loop:
+001E EF               63     mov A, R7 ;move data to send to A -- R7 is register that has argument
+001F 33               64     rlc A ;rotate left through carry
+0020 FF               65     mov R7, A ;save rotated for later
+0021 4010             66     jc highbit ;if carry bit is high jump (jump if carry bit (msb) is set)
+                      67     ; bit is low
+0023 8BB1             68     mov IOE, R3 ; data bit=0 and clock=1  ;  clr DATABIT
+0025 00               69     nop
+0026 00               70     nop
+0027 00               71     nop
+0028 00               72     nop
+0029 89B1             73     mov IOE, R1  ; clr CLKBIT
+002B 00               74     nop
+002C 00               75     nop
+002D 00               76     nop
+002E 00               77     nop
+002F 8BB1             78     mov IOE, R3 ; databit=0, clock=1   ;clr CLKBIT
+0031 800E             79     sjmp skip ;skip setting bit high
+0033                  80     highbit:
+0033 8CB1             81     mov IOE, R4 ; databit=1, clock=1 ;setb DATABIT 
+0035 00               82     nop
+0036 00               83     nop
+0037 00               84     nop
+0038 00               85     nop
+0039 8AB1             86     mov IOE, R2  ;clr CLKBIT
+003B 00               87     nop
+003C 00               88     nop
+003D 00               89     nop
+003E 00               90     nop
+003F 8CB1             91     mov IOE, R4 ; databit=1, clock=1   ;clr CLKBIT
+0041                  92     skip:
+0041 00               93     nop ;may need this to stretch clock high time
+0042 00               94     nop
+0043 00               95     nop
+0044 00               96     nop
+0045 DED7             97     djnz R6, loop ;repeat eight times
+                      98     ;clr DATABIT ; end with databit always low (shouldn't need this, but now databit state depe
+                             nds on last data)
+0047 22               99     ret
+                     100     end
+                              
+A51 MACRO ASSEMBLER  SPIWRITEBYTE                                                         05/07/2013 09:53:07 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                  T Y P E  V A L U E   ATTRIBUTES
+
+?DT?SPIWRITEBYTE?MODULE  D SEG    0001H       REL=UNIT
+?PR?SPIWRITEBYTE?MODULE  C SEG    0048H       REL=UNIT
+?_SPIWRITEBYTE?BYTE . .  D ADDR   0000H   R   SEG=?DT?SPIWRITEBYTE?MODULE
+D . . . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?SPIWRITEBYTE?MODULE
+HIGHBIT . . . . . . . .  C ADDR   0033H   R   SEG=?PR?SPIWRITEBYTE?MODULE
+IOE . . . . . . . . . .  D ADDR   00B1H   A   
+LOOP. . . . . . . . . .  C ADDR   001EH   R   SEG=?PR?SPIWRITEBYTE?MODULE
+SKIP. . . . . . . . . .  C ADDR   0041H   R   SEG=?PR?SPIWRITEBYTE?MODULE
+SPIWRITEBYTE. . . . . .  N NUMB   -----       
+_SPIWRITEBYTE . . . . .  C ADDR   0000H   R   SEG=?PR?SPIWRITEBYTE?MODULE
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

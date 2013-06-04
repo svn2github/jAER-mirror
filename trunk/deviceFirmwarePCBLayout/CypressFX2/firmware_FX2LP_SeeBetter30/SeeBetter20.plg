@@ -1,0 +1,34 @@
+<html>
+<body>
+<pre>
+<h1>µVision2 Build Log</h1>
+<h2>Project:</h2>
+C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SeeBetter30\SeeBetter20.uv2
+Project File Date:  05/06/2013
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling fw.c...
+assembling dscr.a51...
+assembling spiwritebyte.a51...
+compiling main.c...
+MAIN.C(572): warning C280: 'oldbit': unreferenced local variable
+linking...
+Program Size: data=52.1 xdata=4575 code=4297
+creating hex file from "SeeBetter20"...
+User command #1: "makeHexBixCopyToJava.cmd"
+C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SeeBetter30>hex2bix -i -M 14592 -F 0xC2 -o SeeBetter20.iic SeeBetter20.hex 
+Intel Hex file to EZ-USB Binary file conversion utility
+Copyright (c) 1997-1999, Cypress Semiconductor Inc.
+4337 Bytes written.
+Total Code Bytes = 4297
+Conversion completed successfully.
+C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SeeBetter30>hex2bix -b -R -M 14592 -o SeeBetter20.bix SeeBetter20.hex 
+Intel Hex file to EZ-USB Binary file conversion utility
+Copyright (c) 1997-1999, Cypress Semiconductor Inc.
+14592 Bytes written.
+Total Code Bytes = 0
+Conversion completed successfully.
+C:\Users\Minhao\Documents\jaer\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SeeBetter30>pause
+Press any key to continue . . . 
+"SeeBetter20" - 0 Error(s), 1 Warning(s).

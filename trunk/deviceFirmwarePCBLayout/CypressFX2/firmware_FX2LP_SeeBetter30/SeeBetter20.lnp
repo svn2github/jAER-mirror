@@ -1,0 +1,10 @@
+"fw.obj",
+"dscr.obj",
+"C:\Cypress\USB\Target\Lib\LP\EZUSB.LIB",
+"C:\Cypress\USB\Target\Lib\LP\USBJmpTb.OBJ",
+"spiwritebyte.obj",
+"main.obj" 
+TO "SeeBetter20" 
+RAMSIZE(256) 
+CODE( 0X0200-0X21FF )
+XDATA( 0X2200-0X38FF )
