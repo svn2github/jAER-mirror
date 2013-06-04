@@ -1,25 +1,25 @@
-#-- Synopsys, Inc.
-#-- Version E-2011.03L
-#-- Project file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\SBret10\run_options.txt
+#--  Synopsys, Inc.
+#--  Version F-2011.09L
+#--  Project file D:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\SBret10\run_options.txt
 
 #project files
-add_file -vhdl -lib work "C:/Program Files/Lattice/diamond/1.3/cae_library/synthesis/vhdl/machxo.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/wordRegister.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/earlyPaketTimer.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/EventBeforeOverflow.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/eventCounter.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/fifoStatemachine.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/monitorStateMachine.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/synchronizerStateMachine.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/timestampCounter.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/ADCvalueReady.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/cDVSResetStateMachine.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/shiftRegister.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/ADCStateMachine_tb.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/ADCStateMachine.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/AERfifo.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/clockgen.vhd"
-add_file -vhdl -lib work "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/USBAER_top_level.vhd"
+add_file -vhdl -lib work "C:/LatticeDiamond/diamond/1.4/cae_library/synthesis/vhdl/machxo.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/wordRegister.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/earlyPaketTimer.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/EventBeforeOverflow.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/eventCounter.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/fifoStatemachine.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/monitorStateMachine.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/synchronizerStateMachine.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/timestampCounter.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/ADCvalueReady.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/cDVSResetStateMachine.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/shiftRegister.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/ADCStateMachine_tb.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/ADCStateMachine.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/AERfifo.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/clockgen.vhd"
+add_file -vhdl -lib work "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/sourcecode/USBAER_top_level.vhd"
 
 
 #implementation: "SBret10"
@@ -71,6 +71,7 @@ set_option -symbolic_fsm_compiler 1
 # Compiler Options
 set_option -compiler_compatible 1
 set_option -resource_sharing 1
+set_option -multi_file_compilation_unit 1
 
 #automatic place and route (vendor) options
 set_option -write_apr_constraint 0
@@ -79,5 +80,5 @@ set_option -write_apr_constraint 0
 project -result_file "./SBret10_SBret10.edi"
 
 #set log file 
-set_option log_file "C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/SBret10/SBret10_SBret10.srf" 
+set_option log_file "D:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10s/SBret10/SBret10_SBret10.srf" 
 impl -active "SBret10"
