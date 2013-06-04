@@ -7,6 +7,7 @@ CyBool_t CyFxHandleCustomVR_Common(uint8_t bDirection, uint8_t bRequest, uint16_
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
 
 	switch (FX3_REQ_DIR(bRequest, bDirection)) {
+#if MS_FEATURE_DESCRIPTOR_ENABLED == 1
 		case FX3_REQ_DIR(VR_MS_FEATURE_DSCR, FX3_USB_DIRECTION_OUT):
 			if (wIndex == 0x0004) {
 				// Microsoft Compatible ID Feature Descriptor
@@ -70,6 +71,7 @@ CyBool_t CyFxHandleCustomVR_Common(uint8_t bDirection, uint8_t bRequest, uint16_
 			}
 
 			break;
+#endif
 
 		case FX3_REQ_DIR(VR_TEST, FX3_USB_DIRECTION_IN):
 			// Get data from host

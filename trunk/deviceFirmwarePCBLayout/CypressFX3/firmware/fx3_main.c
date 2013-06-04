@@ -408,6 +408,7 @@ static CyBool_t CyFxUSBSetupRequestsCB(uint32_t setupdat0, uint32_t setupdat1) {
 
 	// Handle USB standard requests.
 	if (bType == CY_U3P_USB_STANDARD_RQT) {
+#if MS_FEATURE_DESCRIPTOR_ENABLED == 1
 		/* Handle Microsoft OS string descriptor request. */
 		if ((bTarget == CY_U3P_USB_TARGET_DEVICE) && (bRequest == CY_U3P_USB_SC_GET_DESCRIPTOR)
 			&& (wValue == ((CY_U3P_USB_STRING_DESCR << 8) | 0xEE))) {
@@ -420,6 +421,7 @@ static CyBool_t CyFxUSBSetupRequestsCB(uint32_t setupdat0, uint32_t setupdat1) {
 
 			reqHandled = CyTrue;
 		}
+#endif
 
 		/* Handle SET_FEATURE(FUNCTION_SUSPEND) and CLEAR_FEATURE(FUNCTION_SUSPEND)
 		 * requests here. It should be allowed to pass if the device is in configured

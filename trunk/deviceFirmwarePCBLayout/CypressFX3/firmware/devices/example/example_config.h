@@ -5,6 +5,8 @@
 #define STRING_PRODUCT 'F', 0x00, 'X', 0x00, '3', 0x00, ' ', 0x00, 'E', 0x00, 'X', 0x00, 'A', 0x00, 'M', 0x00, 'P', 0x00, 'L', 0x00, 'E', 0x00
 #define STRING_PRODUCT_LEN 22
 
+#define MS_FEATURE_DESCRIPTOR_ENABLED (0)
+
 #define GPIF_32BIT_SUPPORT_ENABLED (0)
 #define I2C_SUPPORT_ENABLED (0)
 #define SPI_SUPPORT_ENABLED (1)

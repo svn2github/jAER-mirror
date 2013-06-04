@@ -13,6 +13,8 @@
 #define STRING_SERIALNUMBER '0', 0x00, '0', 0x00, '0', 0x00, '0', 0x00, '0', 0x00, '0', 0x00, '0', 0x00, '0', 0x00
 #define STRING_SERIALNUMBER_LEN 16
 
+#define MS_FEATURE_DESCRIPTOR_ENABLED (0)
+
 #define GPIF_32BIT_SUPPORT_ENABLED (0)
 
 /*

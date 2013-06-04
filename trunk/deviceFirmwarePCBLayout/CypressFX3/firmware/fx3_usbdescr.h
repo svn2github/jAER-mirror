@@ -267,11 +267,13 @@ uint8_t CyFxUSBSerialNumberDscr[] __attribute__ ((aligned (32))) = { STRING_SERI
 CY_U3P_USB_STRING_DESCR, /* Device descriptor type */
 STRING_SERIALNUMBER };
 
+#if MS_FEATURE_DESCRIPTOR_ENABLED == 1
 /* Microsoft OS string descriptor */
 const uint8_t CyFxUSBMicrosoftOSDscr[] __attribute__ ((aligned (32))) = { 0x12, /* Descriptor size */
 CY_U3P_USB_STRING_DESCR, /* Device descriptor type */
 0x4D, 0x00, 0x53, 0x00, 0x46, 0x00, 0x54, 0x00, 0x31, 0x00, 0x30, 0x00, 0x30, 0x00, /* "MSFT100" signature */
 0xAF, 0x00 /* Vendor Request code */};
+#endif
 
 /* Place this buffer as the last buffer so that no other variable / code shares
  * the same cache line. Do not add any other variables / arrays in this file.
