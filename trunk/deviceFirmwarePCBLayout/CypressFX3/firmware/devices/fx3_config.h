@@ -100,8 +100,16 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 void CyFxDmaUSBtoFIFOCallback(CyU3PDmaChannel *chHandle, CyU3PDmaCbType_t type, CyU3PDmaCBInput_t *input);
 
+// Additional helper functions for USBtoFIFO DMA channel management
+void CyFxDmaUSBtoFIFOCallbackInit(CyU3PDmaChannel *chHandle);
+void CyFxDmaUSBtoFIFOCallbackDestroy(CyU3PDmaChannel *chHandle);
+
 #define DMA_FIFOTOUSB_CALLBACK (0)
 
 void CyFxDmaFIFOtoUSBCallback(CyU3PDmaChannel *chHandle, CyU3PDmaCbType_t type, CyU3PDmaCBInput_t *input);
+
+// Additional helper functions for FIFOtoUSB DMA channel management
+void CyFxDmaFIFOtoUSBCallbackInit(CyU3PDmaChannel *chHandle);
+void CyFxDmaFIFOtoUSBCallbackDestroy(CyU3PDmaChannel *chHandle);
 
 #endif /* _INCLUDED_FX3_CONFIG_H_ */

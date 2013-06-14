@@ -299,6 +299,13 @@ static void CyFxFIFODataInit(void) {
 		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaChannelSetXfer(FIFOtoUSB) failed", status);
 	}
 
+#if DMA_USBTOFIFO_CALLBACK == 1
+	CyFxDmaUSBtoFIFOCallbackInit(&glEP2DMAChannelUSBtoFIFO);
+#endif
+#if DMA_FIFOTOUSB_CALLBACK == 1
+	CyFxDmaFIFOtoUSBCallbackInit(&glEP2DMAChannelFIFOtoUSB);
+#endif
+
 	// Update the status flag.
 	glAppRunning = CyTrue;
 }
@@ -312,6 +319,13 @@ static void CyFxFIFODataDestroy(void) {
 
 	// Update the status flag.
 	glAppRunning = CyFalse;
+
+#if DMA_USBTOFIFO_CALLBACK == 1
+	CyFxDmaUSBtoFIFOCallbackDestroy(&glEP2DMAChannelUSBtoFIFO);
+#endif
+#if DMA_FIFOTOUSB_CALLBACK == 1
+	CyFxDmaFIFOtoUSBCallbackDestroy(&glEP2DMAChannelFIFOtoUSB);
+#endif
 
 	// Flush the endpoint memory
 	CyU3PUsbFlushEp(FX3_EP_ADDR_FIFO_DATA_OUT);
