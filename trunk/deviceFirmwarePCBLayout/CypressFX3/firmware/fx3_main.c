@@ -627,14 +627,18 @@ static void CyFxAppInit(void) {
 	}
 
 	// Configure watermarks for almost full/almost empty flags. */
-	status = CyU3PGpifSocketConfigure(0, FX3_FIFO_DATA_PRODUCER_FX3_SOCKET, FX3_SOCKET_0_WATERMARK, CyFalse, 1);
-	if (status != CY_U3P_SUCCESS) {
-		goto handle_error;
+	if (FX3_FIFO_DATA_PRODUCER_FX3_SOCKET == CY_U3P_PIB_SOCKET_0) {
+		status = CyU3PGpifSocketConfigure(0, FX3_FIFO_DATA_PRODUCER_FX3_SOCKET, FX3_SOCKET_0_WATERMARK, CyFalse, 1);
+		if (status != CY_U3P_SUCCESS) {
+			goto handle_error;
+		}
 	}
 
-	status = CyU3PGpifSocketConfigure(1, FX3_FIFO_DATA_CONSUMER_FX3_SOCKET, FX3_SOCKET_1_WATERMARK, CyFalse, 1);
-	if (status != CY_U3P_SUCCESS) {
-		goto handle_error;
+	if (FX3_FIFO_DATA_CONSUMER_FX3_SOCKET == CY_U3P_PIB_SOCKET_1) {
+		status = CyU3PGpifSocketConfigure(1, FX3_FIFO_DATA_CONSUMER_FX3_SOCKET, FX3_SOCKET_1_WATERMARK, CyFalse, 1);
+		if (status != CY_U3P_SUCCESS) {
+			goto handle_error;
+		}
 	}
 
 	// Start the GPIF state machine.
