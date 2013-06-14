@@ -108,7 +108,7 @@ CY_U3P_USB_INTRFC_DESCR, /* Interface Descriptor type */
 /* Endpoint descriptor for consumer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
-FX3_EP_ADDR_STATUS_IN, /* Endpoint address and description */
+FX3_STATUS_EP_ADDR_OUT, /* Endpoint address and description */
 CY_U3P_USB_EP_INTR, /* Interrupt endpoint type */
 0x40, 0x00, /* Max packet size = 64 bytes */
 0x04, /* Servicing interval for data transfers : 0.5ms (125us frames) */
@@ -123,7 +123,7 @@ CY_U3P_SS_EP_COMPN_DESCR, /* SS endpoint companion descriptor type */
 /* Endpoint descriptor for producer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
-FX3_EP_ADDR_FIFO_DATA_OUT, /* Endpoint address and description */
+FX3_FIFO_DATA_EP_ADDR_IN, /* Endpoint address and description */
 CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 0x00, 0x04, /* Max packet size = 1024 bytes */
 0x00, /* Servicing interval for data transfers : 0 for bulk */
@@ -131,14 +131,14 @@ CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 /* Super speed endpoint companion descriptor for producer EP */
 0x06, /* Descriptor size */
 CY_U3P_SS_EP_COMPN_DESCR, /* SS endpoint companion descriptor type */
-FX3_SLFIFO_DMA_BURST_LEN - 1, /* Max no. of packets in a burst : 0: burst 1 packet at a time */
+FX3_FIFO_DATA_DMA_USBTOFX3_BURST_LEN - 1, /* Max no. of packets in a burst : 0: burst 1 packet at a time */
 0x00, /* Max streams for bulk EP = 0 (No streams) */
 0x00, 0x00, /* Service interval for the EP : 0 for bulk */
 
 /* Endpoint descriptor for consumer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
-FX3_EP_ADDR_FIFO_DATA_IN, /* Endpoint address and description */
+FX3_FIFO_DATA_EP_ADDR_OUT, /* Endpoint address and description */
 CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 0x00, 0x04, /* Max packet size = 1024 bytes */
 0x00, /* Servicing interval for data transfers : 0 for Bulk */
@@ -146,7 +146,7 @@ CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 /* Super speed endpoint companion descriptor for consumer EP */
 0x06, /* Descriptor size */
 CY_U3P_SS_EP_COMPN_DESCR, /* SS endpoint companion descriptor type */
-FX3_SLFIFO_DMA_BURST_LEN - 1, /* Max no. of packets in a burst : 0: burst 1 packet at a time */
+FX3_FIFO_DATA_DMA_FX3TOUSB_BURST_LEN - 1, /* Max no. of packets in a burst : 0: burst 1 packet at a time */
 0x00, /* Max streams for bulk EP = 0 (No streams) */
 0x00, 0x00 /* Service interval for the EP : 0 for bulk */
 };
@@ -177,7 +177,7 @@ CY_U3P_USB_INTRFC_DESCR, /* Interface Descriptor type */
 /* Endpoint descriptor for consumer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
-FX3_EP_ADDR_STATUS_IN, /* Endpoint address and description */
+FX3_STATUS_EP_ADDR_OUT, /* Endpoint address and description */
 CY_U3P_USB_EP_INTR, /* Interrupt endpoint type */
 0x40, 0x00, /* Max packet size = 64 bytes */
 0x04, /* Servicing interval for data transfers : 0.5ms (125us frames) */
@@ -185,7 +185,7 @@ CY_U3P_USB_EP_INTR, /* Interrupt endpoint type */
 /* Endpoint descriptor for producer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
-FX3_EP_ADDR_FIFO_DATA_OUT, /* Endpoint address and description */
+FX3_FIFO_DATA_EP_ADDR_IN, /* Endpoint address and description */
 CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 0x00, 0x02, /* Max packet size = 512 bytes */
 0x00, /* Servicing interval for data transfers : 0 for bulk */
@@ -193,7 +193,7 @@ CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 /* Endpoint descriptor for consumer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
-FX3_EP_ADDR_FIFO_DATA_IN, /* Endpoint address and description */
+FX3_FIFO_DATA_EP_ADDR_OUT, /* Endpoint address and description */
 CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 0x00, 0x02, /* Max packet size = 512 bytes */
 0x00 /* Servicing interval for data transfers : 0 for bulk */
@@ -225,7 +225,7 @@ CY_U3P_USB_INTRFC_DESCR, /* Interface descriptor type */
 /* Endpoint descriptor for consumer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
-FX3_EP_ADDR_STATUS_IN, /* Endpoint address and description */
+FX3_STATUS_EP_ADDR_OUT, /* Endpoint address and description */
 CY_U3P_USB_EP_INTR, /* Interrupt endpoint type */
 0x40, 0x00, /* Max packet size = 64 bytes */
 0x01, /* Servicing interval for data transfers : 1ms (1ms frames) */
@@ -233,7 +233,7 @@ CY_U3P_USB_EP_INTR, /* Interrupt endpoint type */
 /* Endpoint descriptor for producer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
-FX3_EP_ADDR_FIFO_DATA_OUT, /* Endpoint address and description */
+FX3_FIFO_DATA_EP_ADDR_IN, /* Endpoint address and description */
 CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 0x40, 0x00, /* Max packet size = 64 bytes */
 0x00, /* Servicing interval for data transfers : 0 for bulk */
@@ -241,7 +241,7 @@ CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 /* Endpoint descriptor for consumer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
-FX3_EP_ADDR_FIFO_DATA_IN, /* Endpoint address and description */
+FX3_FIFO_DATA_EP_ADDR_OUT, /* Endpoint address and description */
 CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 0x40, 0x00, /* Max packet size = 64 bytes */
 0x00 /* Servicing interval for data transfers : 0 for bulk */
@@ -272,7 +272,7 @@ STRING_SERIALNUMBER };
 const uint8_t CyFxUSBMicrosoftOSDscr[] __attribute__ ((aligned (32))) = { 0x12, /* Descriptor size */
 CY_U3P_USB_STRING_DESCR, /* Device descriptor type */
 0x4D, 0x00, 0x53, 0x00, 0x46, 0x00, 0x54, 0x00, 0x31, 0x00, 0x30, 0x00, 0x30, 0x00, /* "MSFT100" signature */
-0xAF, 0x00 /* Vendor Request code */};
+0xAF, 0x00 /* Vendor Request code */ };
 #endif
 
 /* Place this buffer as the last buffer so that no other variable / code shares

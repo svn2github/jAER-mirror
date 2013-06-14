@@ -32,9 +32,9 @@ CyBool_t glAppRunning = CyFalse; // Whether the application is active or not
 uint8_t glLogLevel = FX3_LOG_LEVEL; // Default log level
 uint8_t glLogFailedAmount = 0; // Number of failed log calls made
 
-static CyU3PDmaChannel glEP1DMAChannelCPUtoUSB; // DMA Channel handle for C2U transfer
-static CyU3PDmaChannel glEP2DMAChannelUSBtoFIFO; // DMA Channel handle for U2P transfer
-static CyU3PDmaChannel glEP2DMAChannelFIFOtoUSB; // DMA Channel handle for P2U transfer
+static CyU3PDmaChannel glEP1DMAChannelCPUtoUSB; // DMA Channel handle for CPU2U transfer
+static CyU3PDmaChannel glEP2DMAChannelUSBtoFX3; // DMA Channel handle for U2FX transfer
+static CyU3PDmaChannel glEP2DMAChannelFX3toUSB; // DMA Channel handle for FX2U transfer
 
 uint8_t glEP0Buffer[FX3_MAX_TRANSFER_SIZE_CONTROL] __attribute__ ((aligned (32))) = { 0 };
 
@@ -62,7 +62,7 @@ void CyFxErrorHandler(uint8_t log_level, const char *debug_message, CyU3PReturnS
 		CyU3PReturnStatus_t status;
 		CyU3PDmaBuffer_t buffer;
 
-		status = CyU3PDmaChannelGetBuffer(&glEP1DMAChannelCPUtoUSB, &buffer, 100);
+		status = CyU3PDmaChannelGetBuffer(&glEP1DMAChannelCPUtoUSB, &buffer, FX3_STATUS_DMA_CPUTOUSB_BUF_TIMEOUT);
 		if (status != CY_U3P_SUCCESS) {
 			glLogFailedAmount++;
 			return;
@@ -117,7 +117,7 @@ static void CyFxStatusInit(void) {
 	epCfg.isoPkts = 0;
 
 	// EP1 Consumer endpoint configuration
-	status = CyU3PSetEpConfig(FX3_EP_ADDR_STATUS_IN, &epCfg);
+	status = CyU3PSetEpConfig(FX3_STATUS_EP_ADDR_OUT, &epCfg);
 	if (status != CY_U3P_SUCCESS) {
 		// No debug facility ready yet!
 		CyU3PDeviceReset(CyFalse);
@@ -128,8 +128,8 @@ static void CyFxStatusInit(void) {
 	CyU3PDmaChannelConfig_t dmaCfg;
 
 	dmaCfg.size = FX3_MAX_TRANSFER_SIZE_STATUS;
-	dmaCfg.count = 1;
-	dmaCfg.prodSckId = FX3_STATUS_PRODUCER_PPORT_SOCKET;
+	dmaCfg.count = FX3_STATUS_DMA_CPUTOUSB_BUF_COUNT;
+	dmaCfg.prodSckId = FX3_STATUS_PRODUCER_CPU_SOCKET;
 	dmaCfg.consSckId = FX3_STATUS_CONSUMER_USB_SOCKET;
 	dmaCfg.dmaMode = CY_U3P_DMA_MODE_BYTE;
 	dmaCfg.notification = 0;
@@ -146,7 +146,7 @@ static void CyFxStatusInit(void) {
 	}
 
 	// Flush the endpoint memory
-	CyU3PUsbFlushEp(FX3_EP_ADDR_STATUS_IN);
+	CyU3PUsbFlushEp(FX3_STATUS_EP_ADDR_OUT);
 
 	// Set DMA channel transfer size to infinite.
 	status = CyU3PDmaChannelSetXfer(&glEP1DMAChannelCPUtoUSB, 0);
@@ -163,7 +163,7 @@ static void CyFxStatusDestroy(void) {
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
 
 	// Flush the endpoint memory
-	CyU3PUsbFlushEp(FX3_EP_ADDR_STATUS_IN);
+	CyU3PUsbFlushEp(FX3_STATUS_EP_ADDR_OUT);
 
 	// Destroy the DMA channels
 	CyU3PDmaChannelDestroy(&glEP1DMAChannelCPUtoUSB);
@@ -174,7 +174,7 @@ static void CyFxStatusDestroy(void) {
 	epCfg.enable = CyFalse;
 
 	// EP1 Consumer endpoint configuration
-	status = CyU3PSetEpConfig(FX3_EP_ADDR_STATUS_IN, &epCfg);
+	status = CyU3PSetEpConfig(FX3_STATUS_EP_ADDR_OUT, &epCfg);
 	if (status != CY_U3P_SUCCESS) {
 		// No debug facility ready anymore! Ignore error.
 	}
@@ -187,12 +187,13 @@ static void CyFxStatusDestroy(void) {
 static void CyFxFIFODataInit(void) {
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
 
-	// First identify the USB speed
+	// First identify the USB speed.
 	CyU3PUSBSpeed_t usbSpeed = CyU3PUsbGetSpeed();
 
-	// Based on the USB Speed configure the endpoint packet size and other features
+	// Based on the USB Speed configure the end-point packet size and the burst length.
 	uint16_t size = 64;
-	uint8_t burst_len = 1;
+	uint8_t burst_len_fx3tousb = 1;
+	uint8_t burst_len_usbtofx3 = 1;
 
 	switch (usbSpeed) {
 		case CY_U3P_FULL_SPEED:
@@ -204,7 +205,9 @@ static void CyFxFIFODataInit(void) {
 
 		case CY_U3P_SUPER_SPEED:
 			size = 1024;
-			burst_len = FX3_SLFIFO_DMA_BURST_LEN; // USB 3.0 supports bursts!
+			// USB 3.0 supports bursts!
+			burst_len_fx3tousb = FX3_FIFO_DATA_DMA_FX3TOUSB_BURST_LEN;
+			burst_len_usbtofx3 = FX3_FIFO_DATA_DMA_USBTOFX3_BURST_LEN;
 			break;
 
 		default:
@@ -212,98 +215,104 @@ static void CyFxFIFODataInit(void) {
 			break;
 	}
 
-	// FIFO Data endpoint (EP2) configuration
+	// FIFO_DATA end-point (EP2) configuration.
 	CyU3PEpConfig_t epCfg;
 
 	epCfg.enable = CyTrue;
 	epCfg.epType = CY_U3P_USB_EP_BULK;
-	epCfg.burstLen = burst_len;
 	epCfg.streams = 0;
-	epCfg.pcktSize = size;
 	epCfg.isoPkts = 0;
+	epCfg.pcktSize = size;
 
-	// EP2 Producer endpoint configuration
-	status = CyU3PSetEpConfig(FX3_EP_ADDR_FIFO_DATA_OUT, &epCfg);
+	// EP2 FX3toUSB end-point configuration.
+	epCfg.burstLen = burst_len_fx3tousb;
+
+	status = CyU3PSetEpConfig(FX3_FIFO_DATA_EP_ADDR_OUT, &epCfg);
 	if (status != CY_U3P_SUCCESS) {
-		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PSetEpConfig(FIFO_DATA_OUT) failed", status);
+		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PSetEpConfig(FX3toUSB) failed", status);
 	}
 
-	// EP2 Consumer endpoint configuration
-	status = CyU3PSetEpConfig(FX3_EP_ADDR_FIFO_DATA_IN, &epCfg);
+	// EP2 USBtoFX3 end-point configuration.
+	epCfg.burstLen = burst_len_usbtofx3;
+
+	status = CyU3PSetEpConfig(FX3_FIFO_DATA_EP_ADDR_IN, &epCfg);
 	if (status != CY_U3P_SUCCESS) {
-		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PSetEpConfig(FIFO_DATA_IN) failed", status);
+		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PSetEpConfig(USBtoFX3) failed", status);
 	}
 
-	// Create a DMA Auto Channel between two sockets of an endpoint.
-	// DMA size is based on the USB speed.
+	// FIFO_DATA end-point (EP2) DMA channels configuration.
+	// DMA size is based on the detected USB speed and the burst length.
 	CyU3PDmaChannelConfig_t dmaCfg;
 
-	dmaCfg.size = (uint16_t) (size * burst_len);
-	dmaCfg.count = FX3_SLFIFO_DMA_BUF_COUNT_USBTOFIFO;
-	dmaCfg.prodSckId = FX3_FIFO_DATA_PRODUCER_USB_SOCKET;
-	dmaCfg.consSckId = FX3_FIFO_DATA_CONSUMER_PPORT_SOCKET;
 	dmaCfg.dmaMode = CY_U3P_DMA_MODE_BYTE;
-#if DMA_USBTOFIFO_CALLBACK == 1
-	dmaCfg.notification = CY_U3P_DMA_CB_PROD_EVENT;
-	dmaCfg.cb = &CyFxDmaUSBtoFIFOCallback;
-#else
-	dmaCfg.notification = 0;
-	dmaCfg.cb = NULL;
-#endif
 	dmaCfg.prodHeader = 0;
 	dmaCfg.prodFooter = 0;
 	dmaCfg.consHeader = 0;
 	dmaCfg.prodAvailCount = 0;
 
-#if DMA_USBTOFIFO_CALLBACK == 1
-	status = CyU3PDmaChannelCreate(&glEP2DMAChannelUSBtoFIFO, CY_U3P_DMA_TYPE_MANUAL, &dmaCfg);
-#else
-	status = CyU3PDmaChannelCreate(&glEP2DMAChannelUSBtoFIFO, CY_U3P_DMA_TYPE_AUTO, &dmaCfg);
-#endif
-	if (status != CY_U3P_SUCCESS) {
-		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaChannelCreate(USBtoFIFO) failed", status);
-	}
-
-	dmaCfg.count = FX3_SLFIFO_DMA_BUF_COUNT_FIFOTOUSB;
-	dmaCfg.prodSckId = FX3_FIFO_DATA_PRODUCER_PPORT_SOCKET;
+	// EP2 FX3toUSB end-point DMA channel configuration.
+	dmaCfg.size = (uint16_t) (size * burst_len_fx3tousb);
+	dmaCfg.count = FX3_FIFO_DATA_DMA_FX3TOUSB_BUF_COUNT;
+	dmaCfg.prodSckId = FX3_FIFO_DATA_PRODUCER_FX3_SOCKET;
 	dmaCfg.consSckId = FX3_FIFO_DATA_CONSUMER_USB_SOCKET;
-#if DMA_FIFOTOUSB_CALLBACK == 1
-	dmaCfg.notification = CY_U3P_DMA_CB_PROD_EVENT;
-	dmaCfg.cb = &CyFxDmaFIFOtoUSBCallback;
+
+#if DMA_FX3TOUSB_CALLBACK == 1
+	dmaCfg.notification = FX3_FIFO_DATA_DMA_FX3TOUSB_CB_EVENT;
+	dmaCfg.cb = &CyFxDmaFX3toUSBCallback;
+
+	status = CyU3PDmaChannelCreate(&glEP2DMAChannelFX3toUSB, CY_U3P_DMA_TYPE_MANUAL, &dmaCfg);
 #else
 	dmaCfg.notification = 0;
 	dmaCfg.cb = NULL;
-#endif
 
-#if DMA_FIFOTOUSB_CALLBACK == 1
-	status = CyU3PDmaChannelCreate(&glEP2DMAChannelFIFOtoUSB, CY_U3P_DMA_TYPE_MANUAL, &dmaCfg);
-#else
-	status = CyU3PDmaChannelCreate(&glEP2DMAChannelFIFOtoUSB, CY_U3P_DMA_TYPE_AUTO, &dmaCfg);
+	status = CyU3PDmaChannelCreate(&glEP2DMAChannelFX3toUSB, CY_U3P_DMA_TYPE_AUTO, &dmaCfg);
 #endif
 	if (status != CY_U3P_SUCCESS) {
-		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaChannelCreate(FIFOtoUSB) failed", status);
+		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaChannelCreate(FX3toUSB) failed", status);
 	}
 
-	// Flush the endpoint memory
-	CyU3PUsbFlushEp(FX3_EP_ADDR_FIFO_DATA_OUT);
-	CyU3PUsbFlushEp(FX3_EP_ADDR_FIFO_DATA_IN);
+	// EP2 USBtoFX3 end-point DMA channel configuration.
+	dmaCfg.size = (uint16_t) (size * burst_len_usbtofx3);
+	dmaCfg.count = FX3_FIFO_DATA_DMA_USBTOFX3_BUF_COUNT;
+	dmaCfg.prodSckId = FX3_FIFO_DATA_PRODUCER_USB_SOCKET;
+	dmaCfg.consSckId = FX3_FIFO_DATA_CONSUMER_FX3_SOCKET;
+
+#if DMA_USBTOFX3_CALLBACK == 1
+	dmaCfg.notification = FX3_FIFO_DATA_DMA_USBTOFX3_CB_EVENT;
+	dmaCfg.cb = &CyFxDmaUSBtoFX3Callback;
+
+	status = CyU3PDmaChannelCreate(&glEP2DMAChannelUSBtoFX3, CY_U3P_DMA_TYPE_MANUAL, &dmaCfg);
+#else
+	dmaCfg.notification = 0;
+	dmaCfg.cb = NULL;
+
+	status = CyU3PDmaChannelCreate(&glEP2DMAChannelUSBtoFX3, CY_U3P_DMA_TYPE_AUTO, &dmaCfg);
+#endif
+	if (status != CY_U3P_SUCCESS) {
+		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaChannelCreate(USBtoFX3) failed", status);
+	}
+
+	// Flush the end-point memory.
+	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_OUT);
+	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_IN);
 
 	// Set DMA channel transfer size to infinite.
-	status = CyU3PDmaChannelSetXfer(&glEP2DMAChannelUSBtoFIFO, 0);
+	status = CyU3PDmaChannelSetXfer(&glEP2DMAChannelFX3toUSB, 0);
 	if (status != CY_U3P_SUCCESS) {
-		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaChannelSetXfer(USBtoFIFO) failed", status);
+		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaChannelSetXfer(FX3toUSB) failed", status);
 	}
 
-	status = CyU3PDmaChannelSetXfer(&glEP2DMAChannelFIFOtoUSB, 0);
+	status = CyU3PDmaChannelSetXfer(&glEP2DMAChannelUSBtoFX3, 0);
 	if (status != CY_U3P_SUCCESS) {
-		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaChannelSetXfer(FIFOtoUSB) failed", status);
+		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaChannelSetXfer(USBtoFX3) failed", status);
 	}
 
-#if DMA_USBTOFIFO_CALLBACK == 1
-	CyFxDmaUSBtoFIFOCallbackInit(&glEP2DMAChannelUSBtoFIFO);
+	// Call additional DMA management functions.
+#if DMA_FX3TOUSB_CALLBACK == 1
+	CyFxDmaFX3toUSBCallbackInit(&glEP2DMAChannelFX3toUSB);
 #endif
-#if DMA_FIFOTOUSB_CALLBACK == 1
-	CyFxDmaFIFOtoUSBCallbackInit(&glEP2DMAChannelFIFOtoUSB);
+#if DMA_USBTOFX3_CALLBACK == 1
+	CyFxDmaUSBtoFX3CallbackInit(&glEP2DMAChannelUSBtoFX3);
 #endif
 
 	// Update the status flag.
@@ -320,36 +329,37 @@ static void CyFxFIFODataDestroy(void) {
 	// Update the status flag.
 	glAppRunning = CyFalse;
 
-#if DMA_USBTOFIFO_CALLBACK == 1
-	CyFxDmaUSBtoFIFOCallbackDestroy(&glEP2DMAChannelUSBtoFIFO);
+	// Call additional DMA management functions.
+#if DMA_USBTOFX3_CALLBACK == 1
+	CyFxDmaUSBtoFX3CallbackDestroy(&glEP2DMAChannelUSBtoFX3);
 #endif
-#if DMA_FIFOTOUSB_CALLBACK == 1
-	CyFxDmaFIFOtoUSBCallbackDestroy(&glEP2DMAChannelFIFOtoUSB);
+#if DMA_FX3TOUSB_CALLBACK == 1
+	CyFxDmaFX3toUSBCallbackDestroy(&glEP2DMAChannelFX3toUSB);
 #endif
 
-	// Flush the endpoint memory
-	CyU3PUsbFlushEp(FX3_EP_ADDR_FIFO_DATA_OUT);
-	CyU3PUsbFlushEp(FX3_EP_ADDR_FIFO_DATA_IN);
+	// Flush the end-point memory.
+	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_IN);
+	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_OUT);
 
-	// Destroy the DMA channels
-	CyU3PDmaChannelDestroy(&glEP2DMAChannelUSBtoFIFO);
-	CyU3PDmaChannelDestroy(&glEP2DMAChannelFIFOtoUSB);
+	// Destroy the DMA channels.
+	CyU3PDmaChannelDestroy(&glEP2DMAChannelUSBtoFX3);
+	CyU3PDmaChannelDestroy(&glEP2DMAChannelFX3toUSB);
 
-	// Disable endpoints
+	// Disable end-points.
 	CyU3PEpConfig_t epCfg;
 	memset(&epCfg, 0, sizeof(epCfg));
 	epCfg.enable = CyFalse;
 
-	// EP2 Producer endpoint configuration
-	status = CyU3PSetEpConfig(FX3_EP_ADDR_FIFO_DATA_OUT, &epCfg);
+	// EP2 USBtoFX3 end-point configuration.
+	status = CyU3PSetEpConfig(FX3_FIFO_DATA_EP_ADDR_IN, &epCfg);
 	if (status != CY_U3P_SUCCESS) {
-		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataDestroy: CyU3PSetEpConfig(FIFO_DATA_OUT) failed", status);
+		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataDestroy: CyU3PSetEpConfig(USBtoFX3) failed", status);
 	}
 
-	// EP2 Consumer endpoint configuration
-	status = CyU3PSetEpConfig(FX3_EP_ADDR_FIFO_DATA_IN, &epCfg);
+	// EP2 FX3toUSB end-point configuration.
+	status = CyU3PSetEpConfig(FX3_FIFO_DATA_EP_ADDR_OUT, &epCfg);
 	if (status != CY_U3P_SUCCESS) {
-		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataDestroy: CyU3PSetEpConfig(FIFO_DATA_IN) failed", status);
+		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataDestroy: CyU3PSetEpConfig(FX3toUSB) failed", status);
 	}
 }
 
@@ -466,25 +476,25 @@ static CyBool_t CyFxUSBSetupRequestsCB(uint32_t setupdat0, uint32_t setupdat1) {
 		if ((bTarget == CY_U3P_USB_TARGET_ENDPT) && (bRequest == CY_U3P_USB_SC_CLEAR_FEATURE)
 			&& (wValue == CY_U3P_USBX_FS_EP_HALT)) {
 			if (glAppRunning) {
-				if (wIndex == FX3_EP_ADDR_STATUS_IN) {
+				if (wIndex == FX3_STATUS_EP_ADDR_OUT) {
 					CyU3PDmaChannelReset(&glEP1DMAChannelCPUtoUSB);
-					CyU3PUsbFlushEp(FX3_EP_ADDR_STATUS_IN);
-					CyU3PUsbResetEp(FX3_EP_ADDR_STATUS_IN);
+					CyU3PUsbFlushEp(FX3_STATUS_EP_ADDR_OUT);
+					CyU3PUsbResetEp(FX3_STATUS_EP_ADDR_OUT);
 					CyU3PDmaChannelSetXfer(&glEP1DMAChannelCPUtoUSB, 0);
 				}
 
-				if (wIndex == FX3_EP_ADDR_FIFO_DATA_OUT) {
-					CyU3PDmaChannelReset(&glEP2DMAChannelUSBtoFIFO);
-					CyU3PUsbFlushEp(FX3_EP_ADDR_FIFO_DATA_OUT);
-					CyU3PUsbResetEp(FX3_EP_ADDR_FIFO_DATA_OUT);
-					CyU3PDmaChannelSetXfer(&glEP2DMAChannelUSBtoFIFO, 0);
+				if (wIndex == FX3_FIFO_DATA_EP_ADDR_OUT) {
+					CyU3PDmaChannelReset(&glEP2DMAChannelFX3toUSB);
+					CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_OUT);
+					CyU3PUsbResetEp(FX3_FIFO_DATA_EP_ADDR_OUT);
+					CyU3PDmaChannelSetXfer(&glEP2DMAChannelFX3toUSB, 0);
 				}
 
-				if (wIndex == FX3_EP_ADDR_FIFO_DATA_IN) {
-					CyU3PDmaChannelReset(&glEP2DMAChannelFIFOtoUSB);
-					CyU3PUsbFlushEp(FX3_EP_ADDR_FIFO_DATA_IN);
-					CyU3PUsbResetEp(FX3_EP_ADDR_FIFO_DATA_IN);
-					CyU3PDmaChannelSetXfer(&glEP2DMAChannelFIFOtoUSB, 0);
+				if (wIndex == FX3_FIFO_DATA_EP_ADDR_IN) {
+					CyU3PDmaChannelReset(&glEP2DMAChannelUSBtoFX3);
+					CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_IN);
+					CyU3PUsbResetEp(FX3_FIFO_DATA_EP_ADDR_IN);
+					CyU3PDmaChannelSetXfer(&glEP2DMAChannelUSBtoFX3, 0);
 				}
 
 				CyU3PUsbStall((uint8_t) wIndex, CyFalse, CyTrue);
@@ -617,12 +627,12 @@ static void CyFxAppInit(void) {
 	}
 
 	// Configure watermarks for almost full/almost empty flags. */
-	status = CyU3PGpifSocketConfigure(0, FX3_FIFO_DATA_PRODUCER_PPORT_SOCKET, FX3_SOCKET_0_WATERMARK, CyFalse, 1);
+	status = CyU3PGpifSocketConfigure(0, FX3_FIFO_DATA_PRODUCER_FX3_SOCKET, FX3_SOCKET_0_WATERMARK, CyFalse, 1);
 	if (status != CY_U3P_SUCCESS) {
 		goto handle_error;
 	}
 
-	status = CyU3PGpifSocketConfigure(1, FX3_FIFO_DATA_CONSUMER_PPORT_SOCKET, FX3_SOCKET_1_WATERMARK, CyFalse, 1);
+	status = CyU3PGpifSocketConfigure(1, FX3_FIFO_DATA_CONSUMER_FX3_SOCKET, FX3_SOCKET_1_WATERMARK, CyFalse, 1);
 	if (status != CY_U3P_SUCCESS) {
 		goto handle_error;
 	}

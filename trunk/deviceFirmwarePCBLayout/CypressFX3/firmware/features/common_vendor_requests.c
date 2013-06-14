@@ -159,8 +159,8 @@ CyBool_t CyFxHandleCustomVR_Common(uint8_t bDirection, uint8_t bRequest, uint16_
 			glEP0Buffer[2] = SPI_SUPPORT_ENABLED;
 			glEP0Buffer[3] = GPIO_SUPPORT_ENABLED;
 			glEP0Buffer[4] = DEVICE_SPECIFIC_VENDOR_REQUESTS;
-			glEP0Buffer[5] = DMA_USBTOFIFO_CALLBACK;
-			glEP0Buffer[6] = DMA_FIFOTOUSB_CALLBACK;
+			glEP0Buffer[5] = DMA_USBTOFX3_CALLBACK;
+			glEP0Buffer[6] = DMA_FX3TOUSB_CALLBACK;
 
 			status = CyU3PUsbSendEP0Data(7, glEP0Buffer);
 			if (status != CY_U3P_SUCCESS) {

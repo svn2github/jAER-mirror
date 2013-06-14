@@ -5,6 +5,8 @@
 #define STRING_PRODUCT 'S', 0x00, 'B', 0x00, 'R', 0x00, 'E', 0x00, 'T', 0x00, '1', 0x00, '0', 0x00, 'F', 0x00, 'X', 0x00, '3', 0x00
 #define STRING_PRODUCT_LEN 20
 
+#define FX3_LOG_LEVEL (LOG_DEBUG)
+
 #define MS_FEATURE_DESCRIPTOR_ENABLED (1)
 
 #define I2C_SUPPORT_ENABLED (1)

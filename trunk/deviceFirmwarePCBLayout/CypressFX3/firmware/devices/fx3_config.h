@@ -96,20 +96,20 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 // You can process packets as they pass through the FX3, in either direction. Only enable this if really needed,
 // and remember that you then will have to explicitly commit each and every buffer! Be wary of performance!
-#define DMA_USBTOFIFO_CALLBACK (0)
+#define DMA_USBTOFX3_CALLBACK (0)
 
-void CyFxDmaUSBtoFIFOCallback(CyU3PDmaChannel *chHandle, CyU3PDmaCbType_t type, CyU3PDmaCBInput_t *input);
+void CyFxDmaUSBtoFX3Callback(CyU3PDmaChannel *chHandle, CyU3PDmaCbType_t type, CyU3PDmaCBInput_t *input);
 
-// Additional helper functions for USBtoFIFO DMA channel management
-void CyFxDmaUSBtoFIFOCallbackInit(CyU3PDmaChannel *chHandle);
-void CyFxDmaUSBtoFIFOCallbackDestroy(CyU3PDmaChannel *chHandle);
+// Additional helper functions for USBtoFX3 DMA channel management.
+void CyFxDmaUSBtoFX3CallbackInit(CyU3PDmaChannel *chHandle);
+void CyFxDmaUSBtoFX3CallbackDestroy(CyU3PDmaChannel *chHandle);
 
-#define DMA_FIFOTOUSB_CALLBACK (0)
+#define DMA_FX3TOUSB_CALLBACK (0)
 
-void CyFxDmaFIFOtoUSBCallback(CyU3PDmaChannel *chHandle, CyU3PDmaCbType_t type, CyU3PDmaCBInput_t *input);
+void CyFxDmaFX3toUSBCallback(CyU3PDmaChannel *chHandle, CyU3PDmaCbType_t type, CyU3PDmaCBInput_t *input);
 
-// Additional helper functions for FIFOtoUSB DMA channel management
-void CyFxDmaFIFOtoUSBCallbackInit(CyU3PDmaChannel *chHandle);
-void CyFxDmaFIFOtoUSBCallbackDestroy(CyU3PDmaChannel *chHandle);
+// Additional helper functions for FX3toUSB DMA channel management.
+void CyFxDmaFX3toUSBCallbackInit(CyU3PDmaChannel *chHandle);
+void CyFxDmaFX3toUSBCallbackDestroy(CyU3PDmaChannel *chHandle);
 
 #endif /* _INCLUDED_FX3_CONFIG_H_ */
