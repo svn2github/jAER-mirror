@@ -260,7 +260,9 @@ static void CyFxFIFODataInit(void) {
 	dmaCfg.notification = FX3_FIFO_DATA_DMA_FX3TOUSB_CB_EVENT;
 	dmaCfg.cb = &CyFxDmaFX3toUSBCallback;
 
-	status = CyU3PDmaChannelCreate(&glEP2DMAChannelFX3toUSB, CY_U3P_DMA_TYPE_MANUAL, &dmaCfg);
+	status = CyU3PDmaChannelCreate(&glEP2DMAChannelFX3toUSB,
+		(FX3_FIFO_DATA_PRODUCER_FX3_SOCKET == CY_U3P_CPU_SOCKET_PROD) ?
+			(CY_U3P_DMA_TYPE_MANUAL_OUT) : (CY_U3P_DMA_TYPE_MANUAL), &dmaCfg);
 #else
 	dmaCfg.notification = 0;
 	dmaCfg.cb = NULL;
@@ -281,7 +283,9 @@ static void CyFxFIFODataInit(void) {
 	dmaCfg.notification = FX3_FIFO_DATA_DMA_USBTOFX3_CB_EVENT;
 	dmaCfg.cb = &CyFxDmaUSBtoFX3Callback;
 
-	status = CyU3PDmaChannelCreate(&glEP2DMAChannelUSBtoFX3, CY_U3P_DMA_TYPE_MANUAL, &dmaCfg);
+	status = CyU3PDmaChannelCreate(&glEP2DMAChannelUSBtoFX3,
+		(FX3_FIFO_DATA_CONSUMER_FX3_SOCKET == CY_U3P_CPU_SOCKET_CONS) ?
+			(CY_U3P_DMA_TYPE_MANUAL_IN) : (CY_U3P_DMA_TYPE_MANUAL), &dmaCfg);
 #else
 	dmaCfg.notification = 0;
 	dmaCfg.cb = NULL;
