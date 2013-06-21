@@ -1,0 +1,20 @@
+SYS_CLK 400M (CyU3PSysClockSrc_t with CY_U3P_SYS_CLK)
+
+CyU3PDeviceInit() with CyU3PSysClockConfig_t
+	CPU 200M (divider on SYS_CLK, 2 to 16, default 2)
+		DMA 100M (divider on CPU, 2 to 16, default 2)
+		MMIO 100M (divider on CPU, 2 to 16, default 2)
+
+CyU3PPibInit() with CyU3PPibClock_t
+	PIB 100M (divider on SYS_CLK, 2 to 1024, default 4)
+
+CyU3PGpioInit() with CyU3PGpioClock_t
+	FAST_CLK 100M (for Complex GPIO, divider on SYS_CLK, 2 to 16, default 4)
+	SLOW_CLK - (for Complex GPIO, divider on FAST_CLK, 2 to 64, 0 to disable, default 0)
+	SIMPLE_CLK 50M (for Simple GPIO, divider on FAST_CLK, 2/4/16/64, default 2)
+
+CyU3PSpiSetConfig() with CyU3PSpiConfig_t
+	SPI 33M (freely configurable 10K-33M, default 33M or highest device)
+
+CyU3PI2cSetConfig() with CyU3PI2cConfig_t
+	I2C 1M (freely configurable 100K-1M, default 1M or highest device)

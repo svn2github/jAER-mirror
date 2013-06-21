@@ -611,7 +611,7 @@ static void CyFxAppInit(void) {
 	// Initialize the p-port block.
 	CyU3PPibClock_t pibClock;
 
-	pibClock.clkDiv = 2;
+	pibClock.clkDiv = 4;
 	pibClock.clkSrc = CY_U3P_SYS_CLK;
 	pibClock.isHalfDiv = CyFalse;
 	pibClock.isDllEnable = CyFalse; // Disable DLL for sync GPIF!
