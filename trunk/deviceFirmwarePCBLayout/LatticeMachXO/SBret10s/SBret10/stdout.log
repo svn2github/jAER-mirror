@@ -1,0 +1,85 @@
+Running in Lattice mode
+
+
+Starting:    C:\Program Files\Lattice\diamond\1.3\synpbase\win64\mbin\synbatch.exe
+Install:     C:\Program Files\Lattice\diamond\1.3\synpbase
+Date:        Thu May 30 12:01:02 2013
+Version:     E-2011.03L
+
+Arguments:   -product synplify_pro  -batch SBret10_SBret10_synplify.tcl
+ProductType: synplify_pro
+
+
+
+
+
+
+Warning: File already exists in project: "C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\AERfifo.vhd"
+
+Warning: File already exists in project: "C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\clockgen.vhd"
+
+Generating HDL info...
+
+HDL info generator Completed
+Return Code: 0
+
+Run Time:00:00:01
+
+Running hdl_info_gen on proj_1|SBret10
+
+Job flow hdl_info_gen completed on proj_1|SBret10
+
+
+log file: "C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\SBret10\SBret10_SBret10.srf"
+
+
+Running proj_1|SBret10
+
+Running Premap Flow on proj_1|SBret10
+
+Running Compile Flow on proj_1|SBret10
+
+Running HDL Compile on proj_1|SBret10
+
+compiler Completed
+Return Code: 0
+
+Run Time:00:00:02
+
+Copied C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\SBret10\synwork\SBret10_SBret10_compiler.srs to C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\SBret10\SBret10_SBret10.srl
+
+Copied C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\SBret10\synwork\SBret10_SBret10_compiler.srs to C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\SBret10\SBret10_SBret10.srs
+
+Job flow Compile Flow completed on proj_1|SBret10
+
+
+Running Pre-mapping on proj_1|SBret10
+
+premapping Completed with warnings
+Return Code: 1
+
+Run Time:00:00:02
+
+Job flow Premap Flow completed on proj_1|SBret10
+
+
+Running Mapping Flow on proj_1|SBret10
+
+Running Mapping on proj_1|SBret10
+
+MACHXO Mapper Completed with warnings
+Return Code: 1
+
+Run Time:00:00:07
+
+Job flow Mapping Flow completed on proj_1|SBret10
+
+
+Job flow Synthesis completed on proj_1|SBret10
+
+
+TCL script complete: "SBret10_SBret10_synplify.tcl"
+
+exit status=0
+
+

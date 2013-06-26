@@ -1,0 +1,133 @@
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\USBAER_top_level.vhd":26:7:26:22|Synthesizing work.usbaer_top_level.structural 
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\cDVSResetStateMachine.vhd":25:7:25:27|Synthesizing work.cdvsresetstatemachine.behavioral 
+@N: CD233 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\cDVSResetStateMachine.vhd":38:13:38:14|Using sequential encoding for type state
+Post processing for work.cdvsresetstatemachine.behavioral
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCvalueReady.vhd":25:7:25:19|Synthesizing work.adcvalueready.behavioral 
+@N: CD233 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCvalueReady.vhd":37:13:37:14|Using sequential encoding for type state
+Post processing for work.adcvalueready.behavioral
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCStateMachine.vhd":25:7:25:21|Synthesizing work.adcstatemachine.behavioral 
+@N: CD231 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCStateMachine.vhd":58:16:58:17|Using onehot encoding for type colstate (stidle="100000000000000000")
+@N: CD231 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCStateMachine.vhd":59:16:59:17|Using onehot encoding for type rowstate (stidle="10000000")
+@W: CG296 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCStateMachine.vhd":127:10:127:16|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCStateMachine.vhd":270:28:270:39|Referenced variable rowsettlexdi is not in sensitivity list
+@W: CG290 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCStateMachine.vhd":262:28:262:39|Referenced variable colsettlexdi is not in sensitivity list
+@W: CG290 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCStateMachine.vhd":278:28:278:38|Referenced variable exposuretxd is not in sensitivity list
+Post processing for work.adcstatemachine.behavioral
+@W: CL117 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCStateMachine.vhd":143:4:143:7|Latch generated from process for signal NoBxS, probably caused by a missing assignment in an if or case stmt
+@W: CL117 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCStateMachine.vhd":325:4:325:7|Latch generated from process for signal StartRowxSN, probably caused by a missing assignment in an if or case stmt
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\monitorStateMachine.vhd":25:7:25:25|Synthesizing work.monitorstatemachine.behavioral 
+@N: CD231 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\monitorStateMachine.vhd":69:13:69:14|Using onehot encoding for type state (stidle="100000000000")
+Post processing for work.monitorstatemachine.behavioral
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\fifoStatemachine.vhd":25:7:25:22|Synthesizing work.fifostatemachine.behavioral 
+@N: CD233 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\fifoStatemachine.vhd":54:13:54:14|Using sequential encoding for type state
+Post processing for work.fifostatemachine.behavioral
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\synchronizerStateMachine.vhd":19:7:19:30|Synthesizing work.synchronizerstatemachine.behavioral 
+@N: CD231 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\synchronizerStateMachine.vhd":46:13:46:14|Using onehot encoding for type state (stidle="100000")
+@W: CD604 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\synchronizerStateMachine.vhd":215:6:215:19|OTHERS clause is not synthesized 
+Post processing for work.synchronizerstatemachine.behavioral
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\timestampCounter.vhd":25:7:25:22|Synthesizing work.timestampcounter.behavioral 
+Post processing for work.timestampcounter.behavioral
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\eventCounter.vhd":26:7:26:18|Synthesizing work.eventcounter.behavioral 
+Post processing for work.eventcounter.behavioral
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\earlyPaketTimer.vhd":25:7:25:21|Synthesizing work.earlypakettimer.behavioral 
+Post processing for work.earlypakettimer.behavioral
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\wordRegister.vhd":30:7:30:18|Synthesizing work.wordregister.behavioral 
+Post processing for work.wordregister.behavioral
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\wordRegister.vhd":30:7:30:18|Synthesizing work.wordregister.behavioral 
+Post processing for work.wordregister.behavioral
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\AERfifo.vhd":14:7:14:13|Synthesizing work.aerfifo.structure 
+@N: CD630 :"C:\Program Files\Lattice\diamond\1.3\cae_library\synthesis\vhdl\machxo.vhd":1597:10:1597:16|Synthesizing work.fifo8ka.syn_black_box 
+Post processing for work.fifo8ka.syn_black_box
+@N: CD630 :"C:\Program Files\Lattice\diamond\1.3\cae_library\synthesis\vhdl\machxo.vhd":1278:10:1278:12|Synthesizing work.vlo.syn_black_box 
+Post processing for work.vlo.syn_black_box
+@N: CD630 :"C:\Program Files\Lattice\diamond\1.3\cae_library\synthesis\vhdl\machxo.vhd":1270:10:1270:12|Synthesizing work.vhi.syn_black_box 
+Post processing for work.vhi.syn_black_box
+Post processing for work.aerfifo.structure
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\shiftRegister.vhd":30:7:30:19|Synthesizing work.shiftregister.behavioral 
+Post processing for work.shiftregister.behavioral
+@N: CD630 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\clockgen.vhd":14:7:14:14|Synthesizing work.clockgen.structure 
+@N: CD630 :"C:\Program Files\Lattice\diamond\1.3\cae_library\synthesis\vhdl\machxo.vhd":1630:10:1630:16|Synthesizing work.ehxpllc.syn_black_box 
+Post processing for work.ehxpllc.syn_black_box
+Post processing for work.clockgen.structure
+Post processing for work.usbaer_top_level.structural
+@W: CL168 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\USBAER_top_level.vhd":598:2:598:24|Pruning instance cDVSResetStateMachine_1 - not in use ... 
+@N: CL201 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\synchronizerStateMachine.vhd":225:4:225:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 6 reachable states with original encodings of:
+   000001
+   000010
+   000100
+   001000
+   010000
+   100000
+@N: CL201 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\fifoStatemachine.vhd":129:4:129:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 4 reachable states with original encodings of:
+   00
+   01
+   10
+   11
+@N: CL201 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\monitorStateMachine.vhd":275:4:275:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 12 reachable states with original encodings of:
+   000000000001
+   000000000010
+   000000000100
+   000000001000
+   000000010000
+   000000100000
+   000001000000
+   000010000000
+   000100000000
+   001000000000
+   010000000000
+   100000000000
+@N: CL201 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCStateMachine.vhd":397:4:397:5|Trying to extract state machine for register StateRowxDP
+Extracted state machine for register StateRowxDP
+State machine has 7 reachable states with original encodings of:
+   00000001
+   00000010
+   00000100
+   00010000
+   00100000
+   01000000
+   10000000
+@N: CL201 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCStateMachine.vhd":397:4:397:5|Trying to extract state machine for register StateColxDP
+Extracted state machine for register StateColxDP
+State machine has 18 reachable states with original encodings of:
+   000000000000000001
+   000000000000000010
+   000000000000000100
+   000000000000001000
+   000000000000010000
+   000000000000100000
+   000000000001000000
+   000000000010000000
+   000000000100000000
+   000000001000000000
+   000000010000000000
+   000000100000000000
+   000001000000000000
+   000010000000000000
+   000100000000000000
+   001000000000000000
+   010000000000000000
+   100000000000000000
+@W: CL159 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCStateMachine.vhd":35:1:35:9|Input ADCovrxSI is unused
+@W: CL159 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCStateMachine.vhd":37:4:37:13|Input SRLatchxEI is unused
+@N: CL201 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\ADCvalueReady.vhd":80:4:80:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 4 reachable states with original encodings of:
+   00
+   01
+   10
+   11
+@N: CL201 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\cDVSResetStateMachine.vhd":107:4:107:5|Trying to extract state machine for register StatexDP
+Extracted state machine for register StatexDP
+State machine has 3 reachable states with original encodings of:
+   00
+   01
+   10
+@W: CL159 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\cDVSResetStateMachine.vhd":31:4:31:12|Input RxcolGxSI is unused
+@W: CL159 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\USBAER_top_level.vhd":62:4:62:11|Input FXLEDxSI is unused
+@W: CL159 :"C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10s\sourcecode\USBAER_top_level.vhd":84:1:84:21|Input CDVSTestBiasBitOutxSI is unused
