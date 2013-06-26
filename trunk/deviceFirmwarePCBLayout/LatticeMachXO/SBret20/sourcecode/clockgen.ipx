@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DiamondModule name="clockgen" module="PLL" VendorName="Lattice Semiconductor Corporation" generator="IPexpress" date="2010 08 26 09:53:28.546" version="" type="Module" source_format="VHDL">
+  <Package>
+		<File name="clockgen.lpc" type="lpc" modified="2010 08 26 09:53:22.781"/>
+		<File name="clockgen.vhd" type="top_level_vhdl" modified="2010 08 26 09:53:23.000"/>
+		<File name="clockgen_tmpl.vhd" type="template_vhdl" modified="2010 08 26 09:53:23.000"/>
+  </Package>
+</DiamondModule>
