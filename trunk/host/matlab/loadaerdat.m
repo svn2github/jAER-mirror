@@ -25,6 +25,7 @@ if nargin==1,
     filename=file;
 end
 
+fprintf('Reading at most %d events from file %s\n', maxEvents,filename);
 
 f=fopen([path,filename],'r');
 % skip header lines
@@ -37,21 +38,21 @@ while line(1)=='#',
     if strncmp(line,tok, length(tok))==1,
         version=sscanf(line(length(tok)+1:end),'%f');
     end
-    fprintf('%s\n',line(1:end-2)); % print line using \n for newline, discarding CRLF written by java under windows
-    bof=ftell(f);
+    fprintf('%s',line); % print line using \n for newline, discarding CRLF written by java under windows
+    bof=ftell(f); % save end of comment header location
     line=native2unicode(fgets(f)); % gets the line including line ending chars
 end
 
 switch version,
     case 0
-        fprintf('No #!AER-DAT version header found, assuming 16 bit addresses\n');
+        fprintf('No #!AER-DAT version header found, assuming 16 bit addresses with version 1 AER-DAT file format\n');
         version=1;
     case 1
-        fprintf('Addresses are 16 bit\n');
+        fprintf('Addresses are 16 bit with version 1 AER-DAT file format\n');
     case 2
-        fprintf('Addresses are 32 bit\n');
+        fprintf('Addresses are 32 bit with version 2 AER-DAT file format\n');
     otherwise
-        fprintf('Unknown file version %g',version);
+        fprintf('Unknown AER-DAT file format version %g',version);
 end
 
 numBytesPerEvent=6;
@@ -64,7 +65,7 @@ end
 
         
 fseek(f,0,'eof');
-numEvents=floor((ftell(f)-bof)/numBytesPerEvent); % 6 bytes/event
+numEvents=floor((ftell(f)-bof)/numBytesPerEvent); % 6 or 8 bytes/event
 if numEvents>maxEvents, 
     fprintf('clipping to %d events although there are %d events in file\n',maxEvents,numEvents);
     numEvents=maxEvents;
