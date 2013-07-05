@@ -19,6 +19,10 @@ import javax.swing.JPanel;
 
  
 /**
+ * Abstract class defining the properties of a signal processing kernel. This kernel could be for example a convolution kernel which would then transform an incoming 
+ * spike into a set of signals which are transmitted to another {@link FiringModelMap}.
+ * @see ExpressionBasedSpatialInputKernel
+ * 
  * @author Dennis Goehlsdorf
  *
  */
@@ -84,12 +88,31 @@ public abstract class SignalTransformationKernel extends ParameterContainer impl
 		return outputHeight;
 	}
 
+	/**
+	 * Overwrite this function if your kernel needs to respond to size changes in the inputs.
+	 * @param oldWidth
+	 * @param oldHeight
+	 * @param newWidth
+	 * @param newHeight
+	 */
 	protected void inputSizeChanged(int oldWidth, int oldHeight, int newWidth, int newHeight) {
 	}
 	
+	/**
+	 * Overwrite this function if your kernel needs to respond to size changes in the outputs.
+	 * @param oldWidth
+	 * @param oldHeight
+	 * @param newWidth
+	 * @param newHeight
+	 */
 	protected void outputSizeChanged(int oldWidth, int oldHeight, int newWidth, int newHeight) {
 	}
 	
+	/**
+	 * Function to allow changes 
+	 * @param width
+	 * @param height
+	 */
 	public void setOutputSize(int width, int height) {
 		synchronized (SpatioTemporalFusion.getFilteringLock(this)) {
 			if (width != outputWidth || height != outputHeight) {
