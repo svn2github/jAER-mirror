@@ -984,7 +984,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 */
 	@Override
 	public void close() {
-		if (!isOpened) {
+		if (!isOpen()) {
 			return;
 		}
 
@@ -1001,6 +1001,12 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 		LibUsb.releaseInterface(deviceHandle, 0);
 		LibUsb.close(deviceHandle);
+
+		deviceHandle = null;
+
+		LibUsb.freeDeviceDescriptor(deviceDescriptor);
+
+		deviceDescriptor = null;
 
 		inEndpointEnabled = false;
 		isOpened = false;
