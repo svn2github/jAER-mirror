@@ -6,6 +6,9 @@ After signup (confirming email, sometimes email takes up to 2 hours to come beca
 
 Programming the Lattice parts requires a Lattice programmer for Cypress FX firmware that does not yet support USB upgrade of CPLD.
 The USB programmer costs about $170 on USA web site.
+HW-USBN-2A 
+USB DOWNLOAD CABLE STANDARD SPEED, PB-FREE
+http://www.latticestore.com/searchresults.aspx?supplieruvid=55850000&searchstring=HW-USBN-2A
 
 You do not need to install the FPGA tools.
 You can choose Node locked license.
