@@ -21,6 +21,23 @@ import net.sf.jaer.graphics.FrameAnnotater;
  * @author Michael Pfeiffer, modified by Dan Neil
  */
 public class MultiCameraGaussianTracker extends EventFilter2D implements FrameAnnotater{
+    // Geometry Builder
+    // ----------------------------------------------------------------------------------
+    
+    private float xGeoMean, yGeoMean, zGeoMean;
+    private float xGeoStd, yGeoStd, zGeoStd;
+    
+    // FIXME - make user editable
+    private float geoMixRate = 0.01f;
+
+    // Add in cluster destroy
+    private boolean geometryLocked = false;
+    private int geoWeight = 0;
+    private int geoThresh = 1000000;
+
+    
+    // Orientation builder
+    // ---------------------------------------------------
 
     // Number of regions per camera
     private int numRegions = getInt("numRegions", 1);
@@ -99,14 +116,11 @@ public class MultiCameraGaussianTracker extends EventFilter2D implements FrameAn
 
     // Age of each cluster
     float[][] age;
-
-    // Geometry of tracked object
-    private float objWidth = 10.0f, objHeight = 10.0f, objDepth = 10.0f;
     
-    //
-    private boolean geometryLocked = false;
-    private int geoWeight = 0;
-    private int geoThresh = 100000;
+    // Save orientation
+    float xrot, yrot, zrot;
+    
+    private float rotMixRate = 0.001f;
     
     public MultiCameraGaussianTracker(AEChip chip) {
         super(chip);
@@ -142,6 +156,16 @@ public class MultiCameraGaussianTracker extends EventFilter2D implements FrameAn
             queueY[c] = new float[queueLength];
             queuePointer[c] = 0;
         }
+        
+        
+        // Initialize Geometry
+        xGeoMean = chip.getSizeX()/2;
+        yGeoMean = chip.getSizeY()/2;
+        xGeoMean = chip.getSizeX()/2;        
+        xGeoStd = 10;
+        yGeoStd = 10;
+        zGeoStd = 10;                
+        
     }
 
     // Computes the determinant and inverse of a matrix
@@ -427,22 +451,11 @@ public class MultiCameraGaussianTracker extends EventFilter2D implements FrameAn
             // Compute distance to all Gaussians
             double max_dist = Double.MIN_VALUE;         
             
-            // FIX K SWEEP
+            // FIXME K SWEEP
             int min_k = 0;
             float sum_dist = 0.0f;
             
             int camera = (int) ((MultiCameraEvent) e).getCamera();
-            
-            if(!geometryLocked){
-                geoWeight = geoWeight + 1;
-             
-                if(geoWeight > geoThresh){
-                    geometryLocked = true;
-                    objWidth  = 2 * gaussRadius * (float)Math.sqrt(eigenValueSigma[0][0][0])*eigenVectorSigma[0][0][0];
-                    objHeight = 2 * gaussRadius * (float)Math.sqrt(eigenValueSigma[0][0][1])*eigenVectorSigma[0][0][1];
-                    objDepth  = 2 * gaussRadius * (float)Math.sqrt(eigenValueSigma[1][0][0])*eigenVectorSigma[0][0][0];
-                }
-            }
             
             // Update Gaussians
             float dX = e.x - centerX[camera][min_k];
@@ -476,12 +489,67 @@ public class MultiCameraGaussianTracker extends EventFilter2D implements FrameAn
             eigen(min_k, camera);
 
             // Check if region becomes too large, then move randomly
+            /*
             if (detSigma[camera][min_k] > maxEigenProduct) {
                 moveRandom(min_k, max_time, camera);                 
             }
+            */
+            
+            // Update Geometry
+            if(!geometryLocked){
+                geoWeight = geoWeight + 1;
+                if(camera == 0){
+                    xGeoStd  = (1 - geoMixRate) * xGeoStd + Math.abs(e.x - xGeoMean) * geoMixRate;
+                }
+                else{
+                    zGeoStd  = (1 - geoMixRate) * zGeoStd + Math.abs(e.x - zGeoMean) * geoMixRate;
+                }
+                yGeoStd  = (1 - geoMixRate) * yGeoStd + Math.abs(e.y - yGeoMean) * geoMixRate;
 
+                xGeoStd = (xGeoStd > 30) ? 30 : xGeoStd;
+                yGeoStd = (yGeoStd > 30) ? 30 : yGeoStd;
+                zGeoStd = (zGeoStd > 30) ? 30 : zGeoStd;
+                
+                if(geoWeight > geoThresh){
+                    geometryLocked = false;
+                    
+
+                }
+            }
+            
+            // Update point location
+            if(camera == 0) xGeoMean = (1 - geoMixRate) * xGeoMean + e.x * geoMixRate;             
+            else zGeoMean = (1 - geoMixRate) * zGeoMean + e.x * geoMixRate;
+            yGeoMean = (1 - geoMixRate) * yGeoMean + e.y * geoMixRate;
+            
+            // Update rotations
+            /*if(Math.abs(e.x - xGeoMean) > 2){
+                if(camera == 0)
+                    zrot = (float) ( (1-rotMixRate) * zrot + rotMixRate * Math.toDegrees(Math.atan((e.y-yGeoMean) / (e.x - xGeoMean))));
+                else
+                    xrot = (float) ( (1-rotMixRate) * xrot + rotMixRate * Math.toDegrees(Math.atan((e.y-yGeoMean) / (e.x - xGeoMean))));
+            }*/
         }
-       
+
+        // Destroy cluster if events stop
+        /*
+        for(int c=0; c<NUMCAMS; c++){
+            for (int i=0; i<numRegions; i++) {
+                if ((max_time-age[c][i]) > maxAge) {
+                    moveRandom(i, max_time);
+                    TrackerEvent te = new TrackerEvent();
+                    te.randomMove = 1;
+                    te.setX((short) centerX[i]);
+                    te.setY((short) centerY[i]);
+                    te.trackerID = i;
+                    te.setTimestamp((int) max_time);
+
+                    TrackerEvent oe=(TrackerEvent)outItr.nextOutput();
+                    oe.copyFrom(te);
+                }
+            }
+        }
+        */
         return out;
     }
 
@@ -512,8 +580,12 @@ public class MultiCameraGaussianTracker extends EventFilter2D implements FrameAn
 
     
     @Override
-    public void resetFilter() {
+    public void resetFilter() {        
         if (enableReset) {
+            // Reset the geoemtry
+            geometryLocked = false;
+            geoWeight = 0;
+            
             createRegions();
 
             for (int c=0; c < NUMCAMS; c++){
@@ -528,15 +600,23 @@ public class MultiCameraGaussianTracker extends EventFilter2D implements FrameAn
 
     @Override
     public void initFilter() {
-        resetFilter();
+        resetFilter();        
+        // Initialize Geometry
+        xGeoMean = chip.getSizeX()/2;
+        yGeoMean = chip.getSizeY()/2;
+        xGeoMean = chip.getSizeX()/2;        
+        xGeoStd = 10;
+        yGeoStd = 10;
+        zGeoStd = 10;             
     }
 
     @Override
     public void annotate(GLAutoDrawable drawable) {
         // Plot the Gaussians
-        GL gl = drawable.getGL(); // gets the OpenGL GL context. Coordinates are in chip pixels, 0,0 is LL
+        GL gl = drawable.getGL(); // gets the OpenGL GL context. Coordinates are in chip pixels, 0,0 is LL                        
         Chip2D chip = this.getChip();
-        gl.glPushMatrix();                
+        gl.glPushMatrix();                        
+        
         if (drawEllipses) {
             // rotate and align viewpoint for filters
             gl.glRotatef(chip.getCanvas().getAngley(), 0, 1, 0); // rotate viewpoint by angle deg around the upvector
@@ -581,8 +661,8 @@ public class MultiCameraGaussianTracker extends EventFilter2D implements FrameAn
                 x = (camera==0) ?   x1 : 0.0f;
                 y = (camera==0) ?   y1 : y1;
                 z = (camera==0) ? 0.0f : x1;
-                gl.glVertex3f(x, y, z);
-                gl.glVertex3f(-x, -y, -z);
+                //gl.glVertex3f(x, y, z);
+                //gl.glVertex3f(-x, -y, -z);
                 gl.glEnd();
 
                 // Minor Axis
@@ -592,8 +672,8 @@ public class MultiCameraGaussianTracker extends EventFilter2D implements FrameAn
                 x = (camera==0) ?   x2 : 0.0f;
                 y = (camera==0) ?   y2 : y2;
                 z = (camera==0) ? 0.0f : x2;
-                gl.glVertex3f(x, y, z);
-                gl.glVertex3f(-x, -y, -z);
+                //gl.glVertex3f(x, y, z);
+                //gl.glVertex3f(-x, -y, -z);
                 gl.glEnd();
             
                 gl.glPopMatrix();                            
@@ -603,43 +683,36 @@ public class MultiCameraGaussianTracker extends EventFilter2D implements FrameAn
             y = (centerY[1][k]+centerY[0][k])/2;
             z = centerX[1][k];
             
-            int uniquevec = findUnique(eigenValueSigma);
+            float objWidth, objHeight, objDepth;
+            
+            // Major axis is x
+            objWidth  = 2 * (float) Math.sqrt(eigenValueSigma[0][0][0]);
+            objHeight = 2 * (float) Math.sqrt(eigenValueSigma[0][0][1]);
+            objDepth  = 2 * (float) Math.sqrt(eigenValueSigma[1][0][0]);            
             
             drawPrism(x, y, z,
                       objWidth, objHeight, objDepth,
-                      (float) Math.toDegrees(Math.atan(eigenVectorSigma[1][k][2] / eigenVectorSigma[1][k][0])),
+                      (float) Math.toDegrees(-Math.atan(eigenVectorSigma[1][0][2]/eigenVectorSigma[1][0][0])),
                       0.0f,
-                      (float) Math.toDegrees(Math.atan(eigenVectorSigma[0][k][2] / eigenVectorSigma[0][k][0])),
+                      (float) Math.toDegrees(Math.atan(eigenVectorSigma[0][0][2]/eigenVectorSigma[0][0][0])),
                       gl);
         }
         gl.glPopMatrix();
     }
 
-    // Match the sizes and find something new
-    public int findUnique(float [][][] eigenValues){
-        float diffAA, diffAB, diffBA, diffBB;
-        diffAA = Math.abs(eigenValues[0][0][0] - eigenValues[1][0][0]);// / eigenValues[0][0][0];
-        diffAB = Math.abs(eigenValues[0][0][0] - eigenValues[1][0][1]);// / eigenValues[0][0][1];
-        diffBA = Math.abs(eigenValues[0][0][1] - eigenValues[1][0][0]);// / eigenValues[0][0][0];
-        diffBB = Math.abs(eigenValues[0][0][1] - eigenValues[1][0][1]);// / eigenValues[0][0][0];
+    // Match the sizes of the ellipses and pick out whether minor or major is new on second cam    
+    public int findUnique(){
+        float amajx = gaussRadius * (float)Math.sqrt(eigenValueSigma[0][0][0])*eigenVectorSigma[0][0][0];                                
+        float amajy = gaussRadius * (float)Math.sqrt(eigenValueSigma[0][0][0])*eigenVectorSigma[0][0][2];        
+        float bmajx = gaussRadius * (float)Math.sqrt(eigenValueSigma[1][0][0])*eigenVectorSigma[1][0][0];                                
+        float bmajy = gaussRadius * (float)Math.sqrt(eigenValueSigma[1][0][0])*eigenVectorSigma[1][0][2];        
         
-        // Match on the first vectors; second one is unique in second cam
-        if((diffAA < diffAB) && (diffAA < diffBA) && (diffAA < diffBB))
-            return 1;
-
-        // Match on the first vector and the second; first one is unique in second cam
-        if((diffAB < diffAA) && (diffAB < diffBA) && (diffAB < diffBB))
-            return 0;
+        float aminx = gaussRadius * (float)Math.sqrt(eigenValueSigma[0][0][1])*eigenVectorSigma[0][0][1];
+        float aminy = gaussRadius * (float)Math.sqrt(eigenValueSigma[0][0][1])*eigenVectorSigma[0][0][3];
+        float bminx = gaussRadius * (float)Math.sqrt(eigenValueSigma[1][0][1])*eigenVectorSigma[1][0][1];
+        float bminy = gaussRadius * (float)Math.sqrt(eigenValueSigma[1][0][1])*eigenVectorSigma[1][0][3];
         
-
-        // Match on the second vector and the first; second one is unique in second cam
-        if((diffBA < diffAA) && (diffBA < diffAB) && (diffBA < diffBB))
-            return 1;        
-        // Match on the second vectors; second one is unique in second cam
-        if((diffBB < diffAA) && (diffBB < diffAB) && (diffBB < diffBA))
-            return 0;
-        
-        return -1;
+        return 0;
     }
     
     public float getAlpha() {
@@ -877,6 +950,15 @@ public class MultiCameraGaussianTracker extends EventFilter2D implements FrameAn
         putBoolean("enableReset", enableReset);
     }
     
+    
+    void drawSphere(float x, float y, float z, 
+                    float xscale, float yscale, float zscale)
+    {
+        
+        
+    }
+            
+
      void drawPrism(float x, float y, float z, 
                     float width, float height, float depth,
                     float xang, float yang, float zang,

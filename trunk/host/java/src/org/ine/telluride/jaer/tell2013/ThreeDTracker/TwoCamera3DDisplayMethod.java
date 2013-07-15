@@ -36,7 +36,7 @@ public class TwoCamera3DDisplayMethod extends DisplayMethod implements DisplayMe
      * Creates a new instance of SpaceTimeEventDisplayMethod
      */
     public TwoCamera3DDisplayMethod(ChipCanvas chipCanvas) {
-        super(chipCanvas);
+        super(chipCanvas);                        
     }
     boolean spikeListCreated = false;
     int spikeList = 1;
