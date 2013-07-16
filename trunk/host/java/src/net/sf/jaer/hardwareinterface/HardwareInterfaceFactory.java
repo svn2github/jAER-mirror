@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.logging.Logger;
 
 import net.sf.jaer.hardwareinterface.serial.eDVS128.eDVS128_InterfaceFactory;
+import net.sf.jaer.hardwareinterface.serial.SpiNNaker.SpiNNaker_InterfaceFactory;
 import net.sf.jaer.hardwareinterface.udp.UDPInterfaceFactory;
 import net.sf.jaer.hardwareinterface.usb.cypressfx2.USBIOHardwareInterfaceFactory;
 import net.sf.jaer.hardwareinterface.usb.cypressfx2libusb.LibUsbHardwareInterfaceFactory;
@@ -54,6 +55,7 @@ HardwareInterfaceFactoryInterface, PnPNotifyInterface {
 		UDPInterfaceFactory.class,
 		CLEyeHardwareInterfaceFactory.class,
 		eDVS128_InterfaceFactory.class,
+                SpiNNaker_InterfaceFactory.class,
 	};
 	private static HardwareInterfaceFactory instance = new HardwareInterfaceFactory();
 
