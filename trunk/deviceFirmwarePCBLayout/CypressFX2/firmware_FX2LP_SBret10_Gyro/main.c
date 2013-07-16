@@ -1,11 +1,13 @@
 #pragma NOIV               // Do not generate interrupt vectors
 //-----------------------------------------------------------------------------
 //   File:      main.c
-//   Description: FX2LP firmware for the TCVS320/DVS320 retina chip   
+//   Description: FX2LP firmware for the SBRet10 retina chip   
 //
 // created: 1/2008, cloned from tmpdiff128 stereo board firmware
 // Revision: 0.01 
 // authors raphael berner, patrick lichtsteiner, tobi delbruck
+// 
+// July 2013: Luca added gyro SPI interface that writes data to EP2 (the async endpoint in jAER)
 //
 //-----------------------------------------------------------------------------
 #include "lp.h"
@@ -137,7 +139,7 @@ xdata unsigned char biasBytes[]={0x00,					// Vdac readout reference
 long cycleCounter;
 int i;
 
-#define	I2C_Addr 0x51 //adress is 0101_0001
+#define	I2C_Addr 0x51 //adress is 0101_0001 of the external serial EEPROM that holds FX2 program and static data
 
 
 void startMonitor(void);
@@ -153,6 +155,15 @@ void downloadSerialNumberFromEEPROM(void);
 
 void latchConfigBits(void);
 
+void IMU_init(void);
+
+#define I2C_GYRO_ADDR 0x68 // Address is: 0110_1000
+#define I2C_GYRO_DATA_ADDR 0x3B // Address to query on the gyro for data
+#define I2C_GYRO_DATA_LEN 14 // accel x/y/z, temp, gyro x/y/z => 7 x 2 bytes = 14 bytes
+// see page 7 of RM-MPU-6100A.pdf (register map for MPU6150 IMU)
+// data is sent big-endian (MSB first for each sample).
+// data is scaled according to product specification datasheet PS-MPU-6100A.pdf
+
 //-----------------------------------------------------------------------------
 // Task Dispatcher hooks
 //   The following hooks are called by the task dispatcher.
@@ -160,6 +171,7 @@ void latchConfigBits(void);
 
 void TD_Init(void)              // Called once at startup
 {  
+
 	// set the CPU clock to 48MHz
 	CPUCS = ((CPUCS & ~bmCLKSPD) | bmCLKSPD1) ;
 	CPUCS = CPUCS & 0xFD ; // 1111_1101
@@ -235,6 +247,7 @@ void TD_Init(void)              // Called once at startup
 
 	biasInit();	// init biasgen ports and pins                             
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
+	IMU_init(); // initialize IMU gyro chip
 
 	setArrayReset(); // keep pixels from spiking, reset all of them
 	// pump powerdown to make sure masterbias is really started up
@@ -264,17 +277,25 @@ void TD_Init(void)              // Called once at startup
    IOE |= CPLD_NOT_RESET; // take CPLD out of reset
 
 
+
 }
 
-#define I2C_GYRO_ADDR 0x68 // Address is: 0110_1000
-#define I2C_GYRO_DATA_ADDR 0x3B // Address to query on the gyro for data
-#define I2C_GYRO_DATA_LEN 14 // accel x/y/z, temp, gyro x/y/z => 7 x 2 bytes = 14 bytes
+void IMU_init(void){
+   	BYTE xdata b[2]; // to talk to FX2 I2C we use this byte array
+	// initialize IMU
+	// IMU starts in sleep mode. We need to disable sleep and select gyro clock as the clock source for better stability
+	b[0] = 0x6b; // IMU power management register and clock selection, sec 4.36 of IMU register map PDF
+	b[1] = 0x02; // disable sleep, select x axis gyro as clock source 
+	EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &b); // select this register for writing on IMU and supply data to write to it
+}
+
+
 
 void TD_Poll(void) // Called repeatedly while the device is idle
 {
 	// Try to get and send data from the gyro every 1000 cycles, and check EP1IN's BUSY flag:
 	// if still set, the last data from the gyro wasn't yet read, so we can't add any new data.
-	if (((cycleCounter % 1000) == 0) && (EP1INCS != 0x02)) {
+	if (((cycleCounter++ % 1000) == 0) && (EP1INCS != 0x02)) {
 		// Set the address of where the data is located on the gyro.
 		BYTE xdata dataAddr;
 		dataAddr = I2C_GYRO_DATA_ADDR;
@@ -290,13 +311,13 @@ void TD_Poll(void) // Called repeatedly while the device is idle
 		SYNCDELAY;
 		EP1INBC = 1 + I2C_GYRO_DATA_LEN;
 		SYNCDELAY;
+		toggleLED();
 	}
 
 	// Every 100000 cycles toggle the LED to get a slow heartbeat, to show the firmware is running.
-	if (cycleCounter++ >= 100000) {
-		toggleLED();
-		cycleCounter = 1;
-	}
+//	if (cycleCounter++ >= 100000) {
+//		cycleCounter = 1;
+//	}
 }
 
 void toggleLED(void)
