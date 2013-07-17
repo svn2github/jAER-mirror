@@ -11,6 +11,7 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.channels.DatagramChannel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,93 +20,96 @@ import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.event.EventPacket;
 import net.sf.jaer.eventprocessing.EventFilter2D;
 import net.sf.jaer.eventprocessing.FilterChain;
+import net.sf.jaer.graphics.AePlayerAdvancedControlsPanel;
 
 /**
- * Combines ITDfilter and ISIFilter to supply heading direction to SpiNNaker using UDP packets to steer robot.
+ * Combines ITDfilter and ISIFilter to supply heading direction to SpiNNaker
+ * using UDP packets to steer robot.
+ *
  * @author tobi
  */
 @Description("Uses ITDFilter and ISI histograms to supply heading direction to SpiNNaker for Telluride 2013 UNS project")
-public class SpiNNakerITDISI extends EventFilter2D{
+public class SpiNNakerITDISI extends EventFilter2D {
 
-    private ITDFilter itdFilter=null;
-    private ISIFilter isiFilter=null;
-    private int bestItdBin=-1;
-    
+    private ITDFilter itdFilter = null;
+    private ISIFilter isiFilter = null;
+    private int bestItdBin = -1;
     /* typedef struct // SDP header
-        {
-        uchar flags; // Flag byte
-        uchar tag; // IP Tag byte
-        uchar dest_port_cpu; // Destination Port & CPU
-        uchar srce_port_cpu // Source Port & CPU
-        ushort dest_addr; // Destination P2P Address
-        ushort srce_addr; // Source P2P Address
-        } sdp_hdr_t;
-    */
+     {
+     uchar flags; // Flag byte
+     uchar tag; // IP Tag byte
+     uchar dest_port_cpu; // Destination Port & CPU
+     uchar srce_port_cpu // Source Port & CPU
+     ushort dest_addr; // Destination P2P Address
+     ushort srce_addr; // Source P2P Address
+     } sdp_hdr_t;
+     */
     // communication to SpiNNaker
-    private int spinnakerPort=getInt("spinnakerPort",9000); // TODO
-    private String spinnakerHost=getString("spinnakerHost", "localhost");
-    private int spinnakerDestCPU=getInt("spinnakerDestCPU",0);
-    private int spinnakerDestPort=getInt("spinnakerDestPort",0);
-    private int spinnakerSrcePort=getInt("spinnakerSrcePort",0);
-    private int spinnakerSrceCPU=getInt("spinnakerSrceCPU",0);
-    private int spinnakerDestAddrX=getInt("spinnakerDestAddrX",0);
-    private int spinnakerDestAddrY=getInt("spinnakerDestAddrY",0);
-    private int spinnakerSrceAddrX=getInt("spinnakerSrceAddrX",0);
-    private int spinnakerSrceAddrY=getInt("spinnakerSrceAddrY",0);
-    
+    private int spinnakerPort = getInt("spinnakerPort", 17893); // TODO
+    private String spinnakerHost = getString("spinnakerHost", "192.168.240.12");
+    private int spinnakerDestCPU = getInt("spinnakerDestCPU", 1);
+    private int spinnakerDestPort = getInt("spinnakerDestPort", 1);
+    private int spinnakerSrcePort = getInt("spinnakerSrcePort", 7);
+    private int spinnakerSrceCPU = getInt("spinnakerSrceCPU", 31);
+    private int spinnakerDestAddrX = getInt("spinnakerDestAddrX", 0);
+    private int spinnakerDestAddrY = getInt("spinnakerDestAddrY", 0);
+    private int spinnakerSrceAddrX = getInt("spinnakerSrceAddrX", 0);
+    private int spinnakerSrceAddrY = getInt("spinnakerSrceAddrY", 0);
+
+    // spinnaker motor comands
+    private enum MotorCommand {
+
+        f, b, l, r, cw, ccw, stop(0);
+        int speed = 10;
+
+        MotorCommand(int speed) {
+            this.speed = speed;
+        }
+
+        MotorCommand() {
+        }
+    }
     private InetSocketAddress client = null;
-     private DatagramChannel channel = null;
-    private ByteBuffer byteBuffer = ByteBuffer.allocateDirect(32);// the buffer to render/process first
-   
+    private DatagramChannel channel = null;
+    private ByteBuffer byteBuffer = ByteBuffer.allocateDirect(255).order(ByteOrder.LITTLE_ENDIAN);// the buffer to render/process first
+
     public SpiNNakerITDISI(AEChip chip) {
         super(chip);
-        FilterChain filterChain=new FilterChain(chip);
-        filterChain.add(itdFilter=new ITDFilter(chip));
-        filterChain.add(isiFilter=new ISIFilter(chip));
+        FilterChain filterChain = new FilterChain(chip);
+        filterChain.add(itdFilter = new ITDFilter(chip));
+        filterChain.add(isiFilter = new ISIFilter(chip));
         setEnclosedFilterChain(filterChain);
     }
 
     @Override
-    public EventPacket<?> filterPacket(EventPacket<?> in) {
-        // check spinnaker UDP socket and construct bound to any available local port if it is null
-        if(channel==null || client==null){
-             try {
-                 channel = DatagramChannel.open();
-                 client = new InetSocketAddress(spinnakerHost,spinnakerPort);
-            } catch (IOException ex) {
-                log.warning(ex.toString());
-                return in;
-            }
+    synchronized public EventPacket<?> filterPacket(EventPacket<?> in) {
+        if (!checkUDPChannel()) {
+            return in;
         }
         getEnclosedFilterChain().filterPacket(in);
-        int currentBestItdBin=itdFilter.getBestITD();
-        if(currentBestItdBin!=bestItdBin){
-            bestItdBin=currentBestItdBin;
-            byteBuffer.clear();
-            // construct SDP header, 8 bytes, according to https://spinnaker.cs.man.ac.uk/tiki-download_wiki_attachment.php?attId=16
-            byteBuffer.put((byte)0); // pad
-            byteBuffer.put((byte)0); // pad
-            byteBuffer.put((byte)0x07); // flags, no reply expected
-            byteBuffer.put((byte)0); // tags, not used here since we come from internet
-            byteBuffer.put((byte)(0xff&(spinnakerDestPort&0x7)<<5 | (spinnakerDestCPU&0x1f)));
-            byteBuffer.put((byte)(0xff&(spinnakerSrcePort&0x7)<<5 | (spinnakerSrceCPU&0x1f)));
-            byteBuffer.put((byte)(0xff&spinnakerDestAddrX));
-            byteBuffer.put((byte)(0xff&spinnakerDestAddrY));
-            byteBuffer.put((byte)(0xff&spinnakerSrceAddrX));
-            byteBuffer.put((byte)(0xff&spinnakerSrceAddrY));
-            byteBuffer.put((byte)bestItdBin); // TODO supply heading direction
-            try {
-                channel.send(byteBuffer, client);
-            } catch (IOException ex) {
-                log.warning(ex.toString());
+        int currentBestItdBin = itdFilter.getBestITD();
+        if (currentBestItdBin != bestItdBin) { // only do something if bestItdBin changes
+            bestItdBin = currentBestItdBin;
+            // here is the business logic
+            if (bestItdBin > itdFilter.getNumOfBins() / 2) {
+                sendMotorCommand(MotorCommand.cw);
+            } else if (bestItdBin < itdFilter.getNumOfBins() / 2) {
+                sendMotorCommand(MotorCommand.ccw);
             }
         }
-        
         return in;
     }
 
     @Override
     public void resetFilter() {
+        if(isFilterEnabled())sendMotorCommand(MotorCommand.stop);
+    }
+
+    @Override
+    public synchronized void setFilterEnabled(boolean yes) {
+        if (!yes) {
+            sendMotorCommand(MotorCommand.stop);
+        }
     }
 
     @Override
@@ -123,9 +127,11 @@ public class SpiNNakerITDISI extends EventFilter2D{
      * @param spinnakerPort the spinnakerPort to set
      */
     synchronized public void setSpinnakerPort(int spinnakerPort) {
-        if(spinnakerPort!=this.spinnakerPort) client=null;
+        if (spinnakerPort != this.spinnakerPort) {
+            client = null;
+        }
         this.spinnakerPort = spinnakerPort;
-        putInt("spinnakerPort",spinnakerPort);
+        putInt("spinnakerPort", spinnakerPort);
     }
 
     /**
@@ -139,9 +145,11 @@ public class SpiNNakerITDISI extends EventFilter2D{
      * @param spinnakerHost the spinnakerHost to set
      */
     synchronized public void setSpinnakerHost(String spinnakerHost) {
-         if(spinnakerHost!=this.spinnakerHost) client=null;
-       this.spinnakerHost = spinnakerHost;
-        putString("spinnakerHost",spinnakerHost);
+        if (spinnakerHost != this.spinnakerHost) {
+            client = null;
+        }
+        this.spinnakerHost = spinnakerHost;
+        putString("spinnakerHost", spinnakerHost);
     }
 
     /**
@@ -156,7 +164,7 @@ public class SpiNNakerITDISI extends EventFilter2D{
      */
     public void setSpinnakerDestCPU(int spinnakerDestCPU) {
         this.spinnakerDestCPU = spinnakerDestCPU;
-        putInt("spinnakerDestCPU",spinnakerDestCPU);
+        putInt("spinnakerDestCPU", spinnakerDestCPU);
     }
 
     /**
@@ -171,7 +179,7 @@ public class SpiNNakerITDISI extends EventFilter2D{
      */
     public void setSpinnakerDestPort(int spinnakerDestPort) {
         this.spinnakerDestPort = spinnakerDestPort;
-        putInt("spinnakerDestPort",spinnakerDestPort);
+        putInt("spinnakerDestPort", spinnakerDestPort);
     }
 
     /**
@@ -186,7 +194,7 @@ public class SpiNNakerITDISI extends EventFilter2D{
      */
     public void setSpinnakerSrcePort(int spinnakerSrcePort) {
         this.spinnakerSrcePort = spinnakerSrcePort;
-        putInt("spinnakerSrcePort",spinnakerSrcePort);
+        putInt("spinnakerSrcePort", spinnakerSrcePort);
     }
 
     /**
@@ -201,7 +209,7 @@ public class SpiNNakerITDISI extends EventFilter2D{
      */
     public void setSpinnakerSrceCPU(int spinnakerSrceCPU) {
         this.spinnakerSrceCPU = spinnakerSrceCPU;
-        putInt("spinnakerSrceCPU",spinnakerSrceCPU);
+        putInt("spinnakerSrceCPU", spinnakerSrceCPU);
     }
 
     /**
@@ -216,10 +224,10 @@ public class SpiNNakerITDISI extends EventFilter2D{
      */
     public void setSpinnakerDestAddrX(int spinnakerDestAddr) {
         this.spinnakerDestAddrX = spinnakerDestAddr;
-        putInt("spinnakerDestAddrX",spinnakerDestAddr);
+        putInt("spinnakerDestAddrX", spinnakerDestAddr);
     }
 
-        /**
+    /**
      * @return the spinnakerDestAddr
      */
     public int getSpinnakerDestAddrY() {
@@ -231,7 +239,7 @@ public class SpiNNakerITDISI extends EventFilter2D{
      */
     public void setSpinnakerDestAddrY(int spinnakerDestAddr) {
         this.spinnakerDestAddrY = spinnakerDestAddr;
-        putInt("spinnakerDestAddrY",spinnakerDestAddr);
+        putInt("spinnakerDestAddrY", spinnakerDestAddr);
     }
 
     /**
@@ -246,9 +254,10 @@ public class SpiNNakerITDISI extends EventFilter2D{
      */
     public void setSpinnakerSrceAddrX(int spinnakerSrceAddr) {
         this.spinnakerSrceAddrX = spinnakerSrceAddr;
-        putInt("spinnakerSrceAddrX",spinnakerSrceAddr);
+        putInt("spinnakerSrceAddrX", spinnakerSrceAddr);
     }
-       /**
+
+    /**
      * @return the spinnakerSrceAddr
      */
     public int getSpinnakerSrceAddrY() {
@@ -260,7 +269,77 @@ public class SpiNNakerITDISI extends EventFilter2D{
      */
     public void setSpinnakerSrceAddrY(int spinnakerSrceAddr) {
         this.spinnakerSrceAddrY = spinnakerSrceAddr;
-        putInt("spinnakerSrceAddrY",spinnakerSrceAddr);
+        putInt("spinnakerSrceAddrY", spinnakerSrceAddr);
     }
-    
+
+    private void sendMotorCommand(MotorCommand mc) {
+        checkUDPChannel();
+        byteBuffer.clear();
+        // construct SDP header, 8 bytes, according to https://spinnaker.cs.man.ac.uk/tiki-download_wiki_attachment.php?attId=16
+        byteBuffer.put((byte) 0); // pad
+        byteBuffer.put((byte) 0); // pad
+        byteBuffer.put((byte) 0x07); // flags, no reply expected
+        byteBuffer.put((byte) 0xff); // tags, not used here since we come from internet
+        byteBuffer.put((byte) (0xff & (spinnakerDestPort & 0x7) << 5 | (spinnakerDestCPU & 0x1f)));
+        byteBuffer.put((byte) (0xff & (spinnakerSrcePort & 0x7) << 5 | (spinnakerSrceCPU & 0x1f)));
+        byteBuffer.put((byte) (0xff & spinnakerDestAddrX));
+        byteBuffer.put((byte) (0xff & spinnakerDestAddrY));
+        byteBuffer.put((byte) (0xff & spinnakerSrceAddrX));
+        byteBuffer.put((byte) (0xff & spinnakerSrceAddrY));
+
+        // next is 4 int32 payload
+        byteBuffer.putInt(mc.ordinal());
+        byteBuffer.putInt(mc.speed);
+        byteBuffer.putInt(0); // unused for now
+        byteBuffer.putInt(0);
+        // must flip before transmitting
+        byteBuffer.flip();
+        try {
+            channel.send(byteBuffer, client);
+        } catch (IOException ex) {
+            log.warning(ex.toString());
+        }
+    }
+
+    private boolean checkUDPChannel() {
+        // check spinnaker UDP socket and construct bound to any available local port if it is null
+        if (channel == null || client == null) {
+            try {
+                channel = DatagramChannel.open();
+                client = new InetSocketAddress(spinnakerHost, spinnakerPort);
+            } catch (IOException ex) {
+                log.warning(ex.toString());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void doStop() {
+        sendMotorCommand(MotorCommand.stop);
+    }
+
+    public void doRight() {
+        sendMotorCommand(MotorCommand.r);
+    }
+
+    public void doLeft() {
+        sendMotorCommand(MotorCommand.l);
+    }
+
+    public void doFwd() {
+        sendMotorCommand(MotorCommand.f);
+    }
+
+    public void doBack() {
+        sendMotorCommand(MotorCommand.b);
+    }
+
+    public void doCW() {
+        sendMotorCommand(MotorCommand.cw);
+    }
+
+    public void doCCW() {
+        sendMotorCommand(MotorCommand.ccw);
+    }
 }
