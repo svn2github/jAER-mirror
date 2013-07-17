@@ -34,6 +34,8 @@ public class SpiNNakerITDISI extends EventFilter2D {
     private ITDFilter itdFilter = null;
     private ISIFilter isiFilter = null;
     private int bestItdBin = -1;
+    private int motorSpeed=35;
+    
     /* typedef struct // SDP header
      {
      uchar flags; // Flag byte
@@ -55,6 +57,22 @@ public class SpiNNakerITDISI extends EventFilter2D {
     private int spinnakerDestAddrY = getInt("spinnakerDestAddrY", 0);
     private int spinnakerSrceAddrX = getInt("spinnakerSrceAddrX", 0);
     private int spinnakerSrceAddrY = getInt("spinnakerSrceAddrY", 0);
+
+    /**
+     * @return the motorSpeed
+     */
+    public int getMotorSpeed() {
+        return motorSpeed;
+    }
+
+    /**
+     * @param motorSpeed the motorSpeed to set
+     */
+    public void setMotorSpeed(int motorSpeed) {
+        if(motorSpeed<0)motorSpeed=0; else if(motorSpeed>70)motorSpeed=70;
+        this.motorSpeed = motorSpeed;
+        putInt("motorSpeed",motorSpeed);
+    }
 
     // spinnaker motor comands
     private enum MotorCommand {
@@ -79,6 +97,9 @@ public class SpiNNakerITDISI extends EventFilter2D {
         filterChain.add(itdFilter = new ITDFilter(chip));
         filterChain.add(isiFilter = new ISIFilter(chip));
         setEnclosedFilterChain(filterChain);
+        String comm="Communication";
+        String behav="Behavior";
+        setPropertyTooltip(behav, "motorSpeed", "motor speed 0-70");
     }
 
     @Override
@@ -272,7 +293,7 @@ public class SpiNNakerITDISI extends EventFilter2D {
         putInt("spinnakerSrceAddrY", spinnakerSrceAddr);
     }
 
-    private void sendMotorCommand(MotorCommand mc) {
+    synchronized private void sendMotorCommand(MotorCommand mc) {
         checkUDPChannel();
         byteBuffer.clear();
         // construct SDP header, 8 bytes, according to https://spinnaker.cs.man.ac.uk/tiki-download_wiki_attachment.php?attId=16
@@ -289,7 +310,7 @@ public class SpiNNakerITDISI extends EventFilter2D {
 
         // next is 4 int32 payload
         byteBuffer.putInt(mc.ordinal());
-        byteBuffer.putInt(mc.speed);
+        byteBuffer.putInt(motorSpeed);
         byteBuffer.putInt(0); // unused for now
         byteBuffer.putInt(0);
         // must flip before transmitting
