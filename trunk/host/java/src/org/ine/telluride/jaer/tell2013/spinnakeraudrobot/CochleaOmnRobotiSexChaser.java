@@ -15,25 +15,28 @@ import java.nio.ByteOrder;
 import java.nio.channels.DatagramChannel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.media.opengl.GLAutoDrawable;
 import net.sf.jaer.Description;
 import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.event.EventPacket;
 import net.sf.jaer.eventprocessing.EventFilter2D;
 import net.sf.jaer.eventprocessing.FilterChain;
 import net.sf.jaer.graphics.AePlayerAdvancedControlsPanel;
+import net.sf.jaer.graphics.FrameAnnotater;
 import org.ine.telluride.jaer.tell2009.CochleaGenderClassifier;
 import org.ine.telluride.jaer.tell2013.spinnakeraudrobot.OmniRobotControl.MotorCommand;
+import sun.awt.AWTAccessor;
 
 /**
- * Uses ITDFilter and ISIFilter to to control OmniRobot to steer towards sound sound for Telluride 2013 UNS project
+ * Uses ITDFilter and CochleaGenderClassifier to to control OmniRobot to steer towards sound sound for Telluride 2013 UNS project
  *
  * @author tobi
  */
-@Description("Uses ITDFilter and ISIFilter to to control OmniRobot to steer towards sound sound for Telluride 2013 UNS project")
-public class CochleaOmnRobotiSexChaser extends EventFilter2D {
+@Description("Uses ITDFilter and CochleaGenderClassifier to to control OmniRobot to steer towards sound sound for Telluride 2013 UNS project")
+public class CochleaOmnRobotiSexChaser extends EventFilter2D implements FrameAnnotater{
 
     private ITDFilter itdFilter;
-    private ISIFilter isiFilter;
+//    private ISIFilter isiFilter;
     private OmniRobotControl omniRobotControl;
     private CochleaGenderClassifier genderClassifier;
     private int bestItdBin = -1;
@@ -72,6 +75,11 @@ public class CochleaOmnRobotiSexChaser extends EventFilter2D {
 
     @Override
     public void resetFilter() {
+        getEnclosedFilterChain().reset();
+    }
+
+    @Override
+    public void annotate(GLAutoDrawable drawable) {
     }
 
 }
