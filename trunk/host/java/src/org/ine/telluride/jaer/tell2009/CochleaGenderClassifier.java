@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.*;
 import javax.media.opengl.*;
 import javax.media.opengl.GLAutoDrawable;
+import net.sf.jaer.Description;
 import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.event.EventPacket;
 import net.sf.jaer.graphics.FrameAnnotater;
@@ -22,9 +23,10 @@ import net.sf.jaer.graphics.FrameAnnotater;
 <a href="http://jaerproject.net/">jaerproject.net</a>,
 licensed under the LGPL (<a href="http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License">http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License</a>.
  */
+@Description("Extends ISIHistogrammer to use ISI histograms for gender classification based on pre-learned histograms.")
 public class CochleaGenderClassifier extends ISIHistogrammer implements FrameAnnotater{
-    private float threshold = getPrefs().getFloat("CochleaGenderClassifier.threshold",1f);
-    private enum Gender{
+    private float getGenderThreshold = getPrefs().getFloat("CochleaGenderClassifier.threshold",1f);
+    public enum Gender{
         Male, Female, Unknown
     };
     private Gender gender = Gender.Unknown;
@@ -50,18 +52,18 @@ public class CochleaGenderClassifier extends ISIHistogrammer implements FrameAnn
         titleRenderer = new TextRenderer(new Font("Helvetica",Font.PLAIN,48));
         Rectangle2D bounds = titleRenderer.getBounds(Gender.Unknown.toString());
         titleArea = new Rectangle((int)bounds.getWidth(),(int)bounds.getHeight());
-        setPropertyTooltip("Gender params","threshold","threshold for abs(dot product) to classify");
+        setPropertyTooltip("Gender params","genderThreshold","threshold for abs(dot product) to classify as (female) speaker. If abs(dot)<genderThreshold then sex is Unknown.");
     }
-    volatile float lastdot = 0;
+    private volatile float genderDotProduct = 0;
 
     @Override
     public synchronized EventPacket<?> filterPacket (EventPacket<?> in){
         super.filterPacket(in);
-        lastdot = computeDotProduct();
-        if ( lastdot > threshold / SCALE ){
+        genderDotProduct = computeDotProduct();
+        if ( genderDotProduct > getGenderThreshold / SCALE ){
             gender = Gender.Female;
 //            System.out.println("MALE");
-        } else if ( lastdot < -threshold / SCALE ){
+        } else if ( genderDotProduct < -getGenderThreshold / SCALE ){
             gender = Gender.Male;
 //            System.out.println("FEMALE");
         } else{
@@ -92,27 +94,22 @@ public class CochleaGenderClassifier extends ISIHistogrammer implements FrameAnn
     }
 
     /**
-     * @return the threshold
+     * @return the getGenderThreshold
      */
-    public float getThreshold (){
-        return threshold;
+    public float getGetGenderThreshold (){
+        return getGenderThreshold;
     }
 
     /**
-     * @param threshold the threshold to set
+     * @param getGenderThreshold the getGenderThreshold to set
      */
-    public void setThreshold (float threshold){
-        float old = this.threshold;
-        this.threshold = threshold;
-        getPrefs().putFloat("CochleaGenderClassifier.threshold",threshold);
-        getSupport().firePropertyChange("threshold",old,this.threshold);
+    public void setGetGenderThreshold (float getGenderThreshold){
+        float old = this.getGenderThreshold;
+        this.getGenderThreshold = getGenderThreshold;
+        getPrefs().putFloat("CochleaGenderClassifier.threshold",getGenderThreshold);
+        getSupport().firePropertyChange("threshold",old,this.getGenderThreshold);
     }
 
-    public void annotate (float[][][] frame){
-    }
-
-    public void annotate (Graphics2D g){
-    }
     private GLUT glut = new GLUT();
 
     public void annotate (GLAutoDrawable drawable){
@@ -121,9 +118,19 @@ public class CochleaGenderClassifier extends ISIHistogrammer implements FrameAnn
 //        gl.glRasterPos3f(10,10,0);
 //        glut.glutBitmapString(GLUT.BITMAP_HELVETICA_18,gender.toString());
         // title
-        titleRenderer.beginRendering(drawable.getWidth(),drawable.getHeight());
-        titleRenderer.setColor(Color.WHITE);
-        titleRenderer.draw(gender.toString() + String.format(" %.2f",SCALE * lastdot),titleArea.x,titleArea.y);
+        titleRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
+        switch (gender) {
+            case Male:
+                titleRenderer.setColor(Color.RED);
+                break;
+            case Female:
+                titleRenderer.setColor(Color.GREEN);
+                break;
+            case Unknown:
+                titleRenderer.setColor(Color.WHITE);
+                break;
+        }
+        titleRenderer.draw(String.format("%10s %-6.2f", gender.toString(), SCALE * genderDotProduct), titleArea.width / 2, titleArea.height / 2);
         titleRenderer.endRendering();
         gl.glPushMatrix();
         gl.glLoadIdentity();
@@ -139,9 +146,25 @@ public class CochleaGenderClassifier extends ISIHistogrammer implements FrameAnn
                 gl.glColor3f(1,1,1);
                 break;
         }
-        float w = drawable.getWidth() * lastdot*5;
+        float w = drawable.getWidth() * genderDotProduct*5;
         gl.glRectf(0,-10,w,10);
 
         gl.glPopMatrix();
     }
+
+    /**
+     * @return the gender
+     */
+    public Gender getGender() {
+        return gender;
+    }
+
+    /**
+     * @return the genderDotProduct
+     */
+    public float getGenderDotProduct() {
+        return genderDotProduct;
+    }
+
+  
 }
