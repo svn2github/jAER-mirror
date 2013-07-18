@@ -24,8 +24,8 @@ import net.sf.jaer.eventprocessing.FilterChain;
 import net.sf.jaer.graphics.AePlayerAdvancedControlsPanel;
 import net.sf.jaer.graphics.FrameAnnotater;
 import org.ine.telluride.jaer.tell2009.CochleaGenderClassifier;
+import org.ine.telluride.jaer.tell2009.CochleaGenderClassifier.Gender;
 import org.ine.telluride.jaer.tell2013.spinnakeraudrobot.OmniRobotControl.MotorCommand;
-import sun.awt.AWTAccessor;
 
 /**
  * Uses ITDFilter and CochleaGenderClassifier to to control OmniRobot to steer towards sound sound for Telluride 2013 UNS project
@@ -40,7 +40,8 @@ public class CochleaOmnRobotiSexChaser extends EventFilter2D implements FrameAnn
     private OmniRobotControl omniRobotControl;
     private CochleaGenderClassifier genderClassifier;
     private int bestItdBin = -1;
-    
+    private int maxSpeed=getInt("maxSpeed",70);
+    private Gender desiredGender=Gender.valueOf(getString("desiredGender",Gender.Unknown.toString()));
 
     public CochleaOmnRobotiSexChaser(AEChip chip) {
         super(chip);
@@ -56,12 +57,16 @@ public class CochleaOmnRobotiSexChaser extends EventFilter2D implements FrameAnn
     synchronized public EventPacket<?> filterPacket(EventPacket<?> in) {
         getEnclosedFilterChain().filterPacket(in);
         int currentBestItdBin = itdFilter.getBestITD();
+        Gender gender=genderClassifier.getGender();
+        if(gender!=desiredGender) return in; // take no action unless we hear desired gender
         if (currentBestItdBin != bestItdBin) { // only do something if bestItdBin changes
             bestItdBin = currentBestItdBin;
             // here is the business logic
-            if (bestItdBin > itdFilter.getNumOfBins() / 2) {
+            float err=(bestItdBin - itdFilter.getNumOfBins() / 2)/(float)itdFilter.getNumOfBins();
+                omniRobotControl.setSpeed((int)(maxSpeed*err));
+            if (err>0) {
                 omniRobotControl.sendMotorCommand(MotorCommand.cw);
-            } else if (bestItdBin < itdFilter.getNumOfBins() / 2) {
+            } else {
                 omniRobotControl.sendMotorCommand(MotorCommand.ccw);
             }
         }
@@ -81,5 +86,32 @@ public class CochleaOmnRobotiSexChaser extends EventFilter2D implements FrameAnn
     @Override
     public void annotate(GLAutoDrawable drawable) {
     }
+
+    
+    public int getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(int speed) {
+        this.maxSpeed=speed;
+        putInt("maxSpeed",maxSpeed);
+    }
+
+    /**
+     * @return the desiredGender
+     */
+    public Gender getDesiredGender() {
+        return desiredGender;
+    }
+
+    /**
+     * @param desiredGender the desiredGender to set
+     */
+    public void setDesiredGender(Gender desiredGender) {
+        this.desiredGender = desiredGender;
+        putString("desiredGender",desiredGender.toString());
+    }
+    
+    
 
 }
