@@ -328,7 +328,7 @@ public class AEFrameChipRenderer extends AEChipRenderer {
         int x=e.x, y=e.y;
         if (x < 0 || y < 0 || x >= sizeX || y >= sizeY) {
             if (System.currentTimeMillis() - lastWarningPrintedTimeMs > INTERVAL_BETWEEEN_OUT_OF_BOUNDS_EXCEPTIONS_PRINTED_MS) {
-                log.warning(String.format("Event %s out of bounds and cannot be rendered in bounds sizeX=%d sizeY=%d- delaying next warning for %dms", e.toString(), sizeX, sizeY,INTERVAL_BETWEEEN_OUT_OF_BOUNDS_EXCEPTIONS_PRINTED_MS));
+                log.warning(String.format("Event %s out of bounds and cannot be rendered in bounds sizeX=%d sizeY=%d - delaying next warning for %dms", e.toString(), sizeX, sizeY,INTERVAL_BETWEEEN_OUT_OF_BOUNDS_EXCEPTIONS_PRINTED_MS));
                 lastWarningPrintedTimeMs = System.currentTimeMillis();
             }
             return -1;

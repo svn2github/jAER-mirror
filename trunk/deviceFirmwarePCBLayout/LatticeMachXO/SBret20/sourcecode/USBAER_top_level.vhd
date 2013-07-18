@@ -357,6 +357,7 @@ architecture Structural of USBAER_top_level is
   signal CDVSTestSRColClockxS, CDVSTestSRColInxS : std_logic;
   signal CDVSTestColMode0xS, CDVSTestColMode1xS : std_logic;
   signal CDVSTestApsTxGatexS  : std_logic;
+  signal CDVSTestBiasBitOutxS : std_logic;
   signal ExtTriggerxE				: std_logic;
   
   signal SRDataOutxD : std_logic_vector(95 downto 0);
@@ -659,6 +660,8 @@ begin
   CDVSTestColMode1xSO <= CDVSTestColMode1xS;
 
   CDVSTestApsTxGatexSO <= CDVSTestApsTxGatexS;
+  
+  CDVSTestBiasBitOutxS <= CDVSTestBiasBitOutxSI;
 
   ADCstbyxEO <= ADCstbyxE;
   ADCoexEBO <= ADCoexEB;
@@ -671,7 +674,7 @@ begin
 --  UseLongAckxS <= DebugxSIO(14);  
 --  DebugxSIO(15) <= '1';
   
-  DebugxSIO(0) <= ADCStateOutputLEDxS;
+  DebugxSIO(0) <= CDVSTestBiasBitOutxS;
   
     -- purpose: synchronize asynchronous inputs
   -- type   : sequential

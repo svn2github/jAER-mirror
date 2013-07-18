@@ -22,27 +22,26 @@ end ADCStateMachine_tb;
 
 architecture Behavioural of ADCStateMachine_tb is
 
-  component ADCStateMachineABC
+  component ADCStateMachine
     port (
 	ClockxCI              : in    std_logic;
     ADCclockxCO           : out   std_logic;
     ResetxRBI             : in    std_logic;
     ADCwordxDI            : in    std_logic_vector(9 downto 0);
     ADCoutxDO             : out   std_logic_vector(13 downto 0);
-    ADCoexEBO          	: out   std_logic;
-    ADCstbyxEO           : out   std_logic;
+    ADCstbyxEO            : out   std_logic;
+    ADCoexEBO             : out   std_logic;
 	ADCovrxSI			  : in	  std_logic;
     RegisterWritexEO      : out   std_logic;
     SRLatchxEI            : in    std_logic;
     RunADCxSI             : in    std_logic;
-    ExposureBxDI          : in    std_logic_vector(15 downto 0);
-	ExposureCxDI          : in    std_logic_vector(15 downto 0);
+    ExposurexDI          : in    std_logic_vector(15 downto 0);
     ColSettlexDI          : in    std_logic_vector(15 downto 0);
     RowSettlexDI          : in    std_logic_vector(15 downto 0);
     ResSettlexDI          : in    std_logic_vector(15 downto 0);
     FramePeriodxDI        : in    std_logic_vector(15 downto 0);
+	SBRet10xEI			: in    std_logic;
     TestPixelxEI          : in    std_logic;
-	UseCxEI				  : in    std_logic;
     ExtTriggerxEI         : in    std_logic;
     CDVSTestSRRowInxSO    : out   std_logic;
     CDVSTestSRRowClockxSO : out   std_logic;
@@ -65,14 +64,13 @@ architecture Behavioural of ADCStateMachine_tb is
   signal RegisterWritexE      :   std_logic;
   signal SRLatchxE            :    std_logic;
   signal RunADCxS             :    std_logic;
-  signal ExposureBxD          :    std_logic_vector(15 downto 0);
-  signal ExposureCxD          :    std_logic_vector(15 downto 0);
+  signal ExposurexD          :    std_logic_vector(15 downto 0);
   signal ColSettlexD          :    std_logic_vector(15 downto 0);
   signal RowSettlexD          :    std_logic_vector(15 downto 0);
   signal ResSettlexD          :    std_logic_vector(15 downto 0);
   signal FramePeriodxD		  :    std_logic_vector(15 downto 0);
   signal TestPixelxE		  :    std_logic;
-  signal UseCxE				  :    std_logic;
+  signal SBRet10xE			  :    std_logic;
   signal ExtTriggerxE 	      :    std_logic;
   signal CDVSTestSRRowInxS    :    std_logic;
   signal CDVSTestSRRowClockxS :    std_logic;
@@ -102,14 +100,13 @@ begin
   RegisterWritexE <= 'Z';
   SRLatchxE <= '1', '0' after 2000 ns, '1' after 2500 ns;
   RunADCxS <= '0', '1' after 5 us;--, '0' after 15 us, '1' after 40005 us, '0' after 40015 us; 
-  ExposureBxD   <= "0000000000000100";
-  ExposureCxD   <= "0000000100000000";
+  ExposurexD   <= "0000000000000100";
   ColSettlexD   <= "0000000000000010";
   RowSettlexD   <= "0000000000000010";
   ResSettlexD   <= "0000000000001000";
   FramePeriodxD <= "0000000000001000";
   TestPixelxE	<= '0';
-  UseCxE		<= '1';
+  SBRet10xE		<= '0';
   ExtTriggerxE	<= '0';
   CDVSTestSRRowInxS <= 'Z';
   CDVSTestSRRowClockxS <= 'Z';
@@ -120,7 +117,7 @@ begin
   CDVSTestApsTxGatexS <= 'Z';
   ADCStateOutputLEDxS <= 'Z';
 
-  ADCStateMachine_1: ADCStateMachineABC
+  ADCStateMachine_1: ADCStateMachine
     port map (
       ClockxCI              => IfClockxC,
       ADCclockxCO           => ADCclockxC,
@@ -133,14 +130,13 @@ begin
       RegisterWritexEO      => RegisterWritexE,
       SRLatchxEI            => SRLatchxE,
       RunADCxSI             => RunADCxS,
-	  ExposureBxDI			=> ExposureBxD,
-	  ExposureCxDI          => ExposureCxD,
+	  ExposurexDI			=> ExposurexD,
 	  ColSettlexDI          => ColSettlexD,
 	  RowSettlexDI          => RowSettlexD,
 	  ResSettlexDI          => ResSettlexD,
 	  FramePeriodxDI		=> FramePeriodxD,
 	  TestpixelxEI			=> TestpixelxE,
-	  UseCxEI				=> UseCxE,
+	  SBRet10xEI			=> SBRet10xE,
 	  ExtTriggerxEI			=> ExtTriggerxE,
       CDVSTestSRRowInxSO    => CDVSTestSRRowInxS,
       CDVSTestSRRowClockxSO => CDVSTestSRRowClockxS,

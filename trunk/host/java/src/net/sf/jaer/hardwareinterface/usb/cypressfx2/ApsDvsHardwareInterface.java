@@ -387,6 +387,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                                         }
                                         int xAddr=(short)(chip.getSizeX()-1-countX[readcycle]);
                                         int yAddr=(short)(chip.getSizeY()-1-countY[readcycle]);
+//                                        if(xAddr >= chip.getSizeX() || xAddr<0 || yAddr >= chip.getSizeY() || yAddr<0)System.out.println("out of bounds event: x = "+xAddr+", y = "+yAddr+", read = "+readcycle);
                                         countY[readcycle]++;
                                         addresses[eventCounter] = APSDVSchip.ADDRESS_TYPE_APS | 
                                                 (yAddr<<APSDVSchip.YSHIFT)|
@@ -468,6 +469,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
             }
             Arrays.fill(countX, 0, numReadoutTypes, (short)0);
             Arrays.fill(countY, 0, numReadoutTypes, (short)0);
+//            log.info("Start of new frame");
         }
     }
 }
