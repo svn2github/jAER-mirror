@@ -1,4 +1,4 @@
-/*
+W/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -37,7 +37,7 @@ public class ApsDvsAutoShooter extends EventFilter2D implements FrameAnnotater {
     public ApsDvsAutoShooter(AEChip chip) {
         super(chip);
         if (!(chip instanceof ApsDvsChip)) {
-            throw new RuntimeException("AEChip needs to be APSDVSchip to use ApsDvsAutoShooter");
+            throw new RuntimeException("AEChip needs to be ApsDvsChip to use ApsDvsAutoShooter");
         }
         FilterChain chain = new FilterChain(chip);
         chain.add(eventRateEstimator);
