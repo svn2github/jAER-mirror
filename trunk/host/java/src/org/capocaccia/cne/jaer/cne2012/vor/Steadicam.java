@@ -12,6 +12,8 @@
 package org.capocaccia.cne.jaer.cne2012.vor;
 
 import ch.unizh.ini.jaer.hardware.pantilt.PanTilt;
+import ch.unizh.ini.jaer.projects.poseestimation.TransformAtTime;
+import ch.unizh.ini.jaer.projects.poseestimation.VORSensorForSteadicam;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -78,7 +80,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     private PanTilt panTilt = null;
     ArrayList<TransformAtTime> transformList = new ArrayList(); // holds list of transforms over update times commputed by enclosed filter update callbacks
     int sx2, sy2;
-    VORSensor vorSensor = null;
+    VORSensorForSteadicam vorSensor = null;
     TransformAtTime lastTransform = null;
 
     /**
@@ -99,7 +101,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         opticalGyro.addObserver(this);
         filterChain.add(opticalGyro);
 
-        vorSensor = new VORSensor(chip);
+        vorSensor = new VORSensorForSteadicam(chip);
         vorSensor.addObserver(this);
         filterChain.add(vorSensor);
 
@@ -218,7 +220,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
      * long term DC offsets. <p> Using OpticalGyro, the lastTransform is
      * computed by the optical gyro which tracks clusters and measures scene
      * translation (and possibly rotation) from a consensus of the tracked
-     * clusters. <p> Using VORSensor, lastTransform is computed by VORSensor
+     * clusters. <p> Using PhidgetsVORSensor, lastTransform is computed by PhidgetsVORSensor
      * using rate gyro sensors.
      *
      *
@@ -582,4 +584,10 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     public float getOpticalGyroTauLowpassMs() {
         return opticalGyro.getOpticalGyroTauLowpassMs();
     }
+
+    public void doZeroGyro() {
+        vorSensor.doZeroGyro();
+    }
+    
+    
 }

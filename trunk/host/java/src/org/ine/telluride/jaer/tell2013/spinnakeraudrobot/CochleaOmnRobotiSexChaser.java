@@ -39,7 +39,7 @@ public class CochleaOmnRobotiSexChaser extends EventFilter2D implements FrameAnn
 //    private ISIFilter isiFilter;
     private OmniRobotControl omniRobotControl;
     private CochleaGenderClassifier genderClassifier;
-    private int bestItdBin = -1;
+    private int bestItd = -1;
     private int maxSpeed=getInt("maxSpeed",70);
     private Gender desiredGender=Gender.valueOf(getString("desiredGender",Gender.Unknown.toString()));
 
@@ -56,19 +56,21 @@ public class CochleaOmnRobotiSexChaser extends EventFilter2D implements FrameAnn
     @Override
     synchronized public EventPacket<?> filterPacket(EventPacket<?> in) {
         getEnclosedFilterChain().filterPacket(in);
-        int currentBestItdBin = itdFilter.getBestITD();
+        int currentBestItd = itdFilter.getBestITD();
         Gender gender=genderClassifier.getGender();
         if(gender!=desiredGender) return in; // take no action unless we hear desired gender
-        if (currentBestItdBin != bestItdBin) { // only do something if bestItdBin changes
-            bestItdBin = currentBestItdBin;
+        if (currentBestItd != bestItd) { // only do something if bestItdBin changes
+            bestItd = currentBestItd;
             // here is the business logic
-            float err=(bestItdBin - itdFilter.getNumOfBins() / 2)/(float)itdFilter.getNumOfBins();
-                omniRobotControl.setSpeed((int)(maxSpeed*err));
+            float err=(bestItd)/(float)itdFilter.getMaxITD();
+            int speed=(int)Math.abs((maxSpeed*err));
+                omniRobotControl.setSpeed(speed);
             if (err>0) {
                 omniRobotControl.sendMotorCommand(MotorCommand.cw);
             } else {
                 omniRobotControl.sendMotorCommand(MotorCommand.ccw);
             }
+            log.info(String.format("err=%-8.2f speed=%-10d",err,speed));
         }
         return in;
     }

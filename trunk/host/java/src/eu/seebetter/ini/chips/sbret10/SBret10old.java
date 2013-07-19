@@ -18,8 +18,8 @@ import ch.unizh.ini.jaer.config.onchip.OutputMux;
 import com.kitfox.svg.A;
 import com.sun.opengl.util.j2d.TextRenderer;
 import eu.seebetter.ini.chips.*;
-import static eu.seebetter.ini.chips.APSDVSchip.PROPERTY_EXPOSURE_MS;
-import static eu.seebetter.ini.chips.APSDVSchip.PROPERTY_FRAME_RATE_HZ;
+import static eu.seebetter.ini.chips.ApsDvsChip.PROPERTY_EXPOSURE_MS;
+import static eu.seebetter.ini.chips.ApsDvsChip.PROPERTY_FRAME_RATE_HZ;
 import eu.seebetter.ini.chips.config.*;
 import eu.seebetter.ini.chips.sbret10.SBret10old.SBret10Config.ADC;
 import eu.seebetter.ini.chips.sbret10.SBret10old.SBret10Config.ApsReadoutControl;
@@ -85,7 +85,9 @@ import net.sf.jaer.util.filter.LowpassFilter2d;
  * @author tobi
  */
 @Description("SBret version 1.0")
-public class SBret10old extends APSDVSchip {
+public class SBret10old extends ApsDvsChip {
+
+ 
 
  
 
@@ -277,7 +279,7 @@ public class SBret10old extends APSDVSchip {
          */
         @Override
         synchronized public EventPacket extractPacket(AEPacketRaw in) {
-            if(!(chip instanceof APSDVSchip))return null;
+            if(!(chip instanceof ApsDvsChip))return null;
             if (out == null) {
                 out = new ApsDvsEventPacket(chip.getEventClass());
             } else {
@@ -2193,5 +2195,12 @@ public class SBret10old extends APSDVSchip {
         getPrefs().putBoolean("SBRet10.showImageHistogram", yes);
     }
     
-    
+       @Override
+    public void setShowIMU(boolean yes) {
+    }
+
+    @Override
+    public boolean isShowIMU() {
+        return false;
+    }
 }

@@ -10,6 +10,8 @@ import com.phidgets.PhidgetException;
 import com.phidgets.SpatialEventData;
 import com.phidgets.SpatialPhidget;
 import com.phidgets.event.*;
+import eu.seebetter.ini.chips.sbret10.IMUSample;
+import eu.seebetter.ini.chips.sbret10.SBret10;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
@@ -43,6 +45,7 @@ public class VORSensorForSteadicam extends EventFilter2D implements FrameAnnotat
     private int sampleIntervalMs = getInt("sampleIntervalMs", 100);
     private double[] angular, acceleration;
     private float panRate = 0, tiltRate = 0, rollRate = 0; // in deg/sec
+    private float panOffset,tiltOffset,rollOffset;
     private float upAccel = 0, rightAccel = 0, zAccel = 0; // in g in m/s^2
     private int lastAeTimestamp = 0;
     private int timestampUs = 0;
@@ -114,10 +117,18 @@ public class VORSensorForSteadicam extends EventFilter2D implements FrameAnnotat
             tiltRate = -(float)((DVS128Phidget)chip).getGyro()[1];
             rollRate = (float)((DVS128Phidget)chip).getGyro()[2];
             timestampUs = ((DVS128Phidget)chip).getTimeUs();
+        }else if (chip.getClass() == SBret10.class) {
+            IMUSample imuSample=((SBret10)chip).getImuSample();
+            panRate=imuSample.getGyroYawY();
+            tiltRate=imuSample.getGyroTiltX();
+            rollRate=imuSample.getGyroRollZ();
+            zAccel=imuSample.getAccelZ();
+            upAccel=imuSample.getAccelY();
+            rightAccel=imuSample.getAccelX();
         }
-        panDC += panRate * dtS;
-        tiltDC += tiltRate * dtS;
-        rollDC += rollRate * dtS;
+        panDC += getPanRate() * dtS;
+        tiltDC += getTiltRate() * dtS;
+        rollDC += getRollRate() * dtS;
 
         panTranslationDeg = panTranslationFilter.filter(panDC, timestamp);
         tiltTranslationDeg = tiltTranslationFilter.filter(tiltDC, timestamp);
@@ -143,11 +154,15 @@ public class VORSensorForSteadicam extends EventFilter2D implements FrameAnnotat
         return tr;
     }
 
-    public void doZeroGyro(){
-              if (chip.getClass() == DVS128Phidget.class) {
-            ((DVS128Phidget)chip).doZeroGyro();
+    public void doZeroGyro() {
+        if (chip.getClass() == DVS128Phidget.class) {
+            ((DVS128Phidget) chip).doZeroGyro();
+        }else if(chip.getClass()==SBret10.class){
+            panOffset=panRate; // TODO offsets should really be some average over some samples
+            tiltOffset=tiltRate;
+            rollOffset=rollRate;
         }
- 
+
     }
     @Override
     synchronized public void resetFilter() {
@@ -240,7 +255,7 @@ public class VORSensorForSteadicam extends EventFilter2D implements FrameAnnotat
         if (chip.getClass() == DVS128Phidget.class) {
             panRate =  (float)((DVS128Phidget)chip).getGyro()[0];
         }
-        return panRate;
+        return panRate-panOffset;
     }
 
     /**
@@ -250,7 +265,7 @@ public class VORSensorForSteadicam extends EventFilter2D implements FrameAnnotat
         if (chip.getClass() == DVS128Phidget.class) {
             tiltRate = (float)(-((DVS128Phidget)chip).getGyro()[1]);
         }
-        return tiltRate;
+        return tiltRate-tiltOffset;
     }
 
     /**
@@ -260,7 +275,7 @@ public class VORSensorForSteadicam extends EventFilter2D implements FrameAnnotat
         if (chip.getClass() == DVS128Phidget.class) {
             rollRate = (float)((DVS128Phidget)chip).getGyro()[2];
         }
-        return rollRate;
+        return rollRate-rollOffset;
     }
 
     /**

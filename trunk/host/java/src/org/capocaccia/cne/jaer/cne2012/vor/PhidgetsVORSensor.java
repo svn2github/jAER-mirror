@@ -38,7 +38,7 @@ import net.sf.jaer.util.filter.HighpassFilter;
  * @author tobi
  */
 @Description("The Phidgets Spatial 9-DOF rate gyro, accelormeter, compass")
-public class VORSensor extends EventFilter2D implements FrameAnnotater, Observer {
+public class PhidgetsVORSensor extends EventFilter2D implements FrameAnnotater, Observer {
 
     SpatialPhidget spatial = null;
     SpatialDataEvent lastSpatialData = null;
@@ -64,7 +64,7 @@ public class VORSensor extends EventFilter2D implements FrameAnnotater, Observer
     private ArrayBlockingQueue<PhidgetsSpatialEvent> spatialDataQueue = new ArrayBlockingQueue<PhidgetsSpatialEvent>(9 * 4); // each phidgets sample could be 9 (3 gyro + 3 accel + 3 compass) and we want room for 4 samples
     private volatile boolean resetCalled=false;
     
-    public VORSensor(AEChip chip) {
+    public PhidgetsVORSensor(AEChip chip) {
         super(chip);
         chip.addObserver(this);
         rollFilter.setTauMs(highpassTauMsRotation);
@@ -180,7 +180,7 @@ public class VORSensor extends EventFilter2D implements FrameAnnotater, Observer
         try {
             if(spatial!=null) spatial.close();
         } catch (PhidgetException ex) {
-            Logger.getLogger(VORSensor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PhidgetsVORSensor.class.getName()).log(Level.SEVERE, null, ex);
         }
         spatial = null;
     }

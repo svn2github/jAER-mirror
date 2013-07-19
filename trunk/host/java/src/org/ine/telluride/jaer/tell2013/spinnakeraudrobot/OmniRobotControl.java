@@ -56,7 +56,7 @@ public class OmniRobotControl extends EventFilter2D {
     // spinnaker motor comands
     public enum MotorCommand {
 
-        f(1,0,0), b(-1,0,0), l(-1,0,0), r(1,0,0), cw(0,0,1), ccw(0,0,-1), stop(0,0,0);
+        f(1,0,0), b(-1,0,0), l(-1,0,0), r(1,0,0), cw(0,0,-1), ccw(0,0,1), stop(0,0,0);
         int x,y,a;
         
         MotorCommand(int x, int y, int a) {

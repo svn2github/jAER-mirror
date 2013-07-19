@@ -8,17 +8,14 @@ package eu.seebetter.ini.chips.sbret10;
 
 import ch.unizh.ini.jaer.projects.spatiatemporaltracking.data.histogram.AbstractHistogram;
 import com.sun.opengl.util.j2d.TextRenderer;
-import eu.seebetter.ini.chips.APSDVSchip;
-import static eu.seebetter.ini.chips.APSDVSchip.ADC_DATA_MASK;
-import static eu.seebetter.ini.chips.APSDVSchip.ADC_READCYCLE_MASK;
-import static eu.seebetter.ini.chips.APSDVSchip.ADDRESS_TYPE_APS;
-import static eu.seebetter.ini.chips.APSDVSchip.ADDRESS_TYPE_DVS;
-import static eu.seebetter.ini.chips.APSDVSchip.ADDRESS_TYPE_MASK;
-import static eu.seebetter.ini.chips.APSDVSchip.POLMASK;
-import static eu.seebetter.ini.chips.APSDVSchip.XMASK;
-import static eu.seebetter.ini.chips.APSDVSchip.XSHIFT;
-import static eu.seebetter.ini.chips.APSDVSchip.YMASK;
-import static eu.seebetter.ini.chips.APSDVSchip.YSHIFT;
+import eu.seebetter.ini.chips.ApsDvsChip;
+import static eu.seebetter.ini.chips.ApsDvsChip.ADC_DATA_MASK;
+import static eu.seebetter.ini.chips.ApsDvsChip.ADC_READCYCLE_MASK;
+import static eu.seebetter.ini.chips.ApsDvsChip.POLMASK;
+import static eu.seebetter.ini.chips.ApsDvsChip.XMASK;
+import static eu.seebetter.ini.chips.ApsDvsChip.XSHIFT;
+import static eu.seebetter.ini.chips.ApsDvsChip.YMASK;
+import static eu.seebetter.ini.chips.ApsDvsChip.YSHIFT;
 import java.awt.Font;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -54,7 +51,7 @@ import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
  * @author tobi, christian
  */
 @Description("SBret version 1.0")
-public class SBret10 extends APSDVSchip {
+public class SBret10 extends ApsDvsChip {
 
     private final int ADC_NUMBER_OF_TRAILING_ZEROS = Integer.numberOfTrailingZeros(ADC_READCYCLE_MASK); // speedup in loop
     // following define bit masks for various hardware data types. 
@@ -88,6 +85,7 @@ public class SBret10 extends APSDVSchip {
     public static short HEIGHT = 180;
     int sx1 = getSizeX() - 1, sy1 = getSizeY() - 1;
     private int autoshotThresholdEvents=getPrefs().getInt("SBRet10.autoshotThresholdEvents",0);
+    private IMUSample imuSample;
  
     /**
      * Creates a new instance of cDVSTest20.
@@ -145,6 +143,7 @@ public class SBret10 extends APSDVSchip {
         setHardwareInterface(hardwareInterface);
     }
 
+  
  
 
 //    int pixcnt=0; // TODO debug
@@ -186,7 +185,7 @@ public class SBret10 extends APSDVSchip {
          */
         @Override
         synchronized public EventPacket extractPacket(AEPacketRaw in) {
-            if (!(chip instanceof APSDVSchip)) {
+            if (!(chip instanceof ApsDvsChip)) {
                 return null;
             }
             if (out == null) {
@@ -215,8 +214,16 @@ public class SBret10 extends APSDVSchip {
 
             for (int i = 0; i < n; i++) {  // TODO implement skipBy/subsampling, but without missing the frame start/end events and still delivering frames
                 int data = datas[i];
-
-                if ((data & ADDRESS_TYPE_MASK) == ADDRESS_TYPE_DVS) {
+                if((ApsDvsChip.ADDRESS_TYPE_MASK&data)==ApsDvsChip.ADDRESS_TYPE_IMU){
+                    try {
+                        imuSample = new IMUSample(in, i);
+    //                    System.out.println(imuSample); // debug
+                        i+=IMUSample.SIZE_EVENTS;
+                        continue;
+                    } catch (IMUSample.IncompleteIMUSampleException ex) {
+                        log.warning(ex.toString());
+                    }
+                }else if((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_DVS) {
                     //DVS event
                     ApsDvsEvent e = (ApsDvsEvent) outItr.nextOutput();
                     e.adcSample = -1; // TODO hack to mark as not an ADC sample
@@ -230,7 +237,7 @@ public class SBret10 extends APSDVSchip {
                     //System.out.println(data);
                     // autoshot triggering
                     autoshotEventsSinceLastShot++; // number DVS events captured here
-                } else if ((data & ADDRESS_TYPE_MASK) == ADDRESS_TYPE_APS) {
+                } else if ((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_APS) {
                     //APS event
                     ApsDvsEvent e = (ApsDvsEvent) outItr.nextOutput();
                     e.adcSample = data & ADC_DATA_MASK;
@@ -411,8 +418,57 @@ public class SBret10 extends APSDVSchip {
                         exposureRenderer, 
                         sizeX/2-size/2, sizeY/2+size/2, size, size);
             }
+            
+            if(showIMU && chip instanceof SBret10){
+                IMUSample imuSample=((SBret10)chip).getImuSample();
+                if(imuSample!=null){
+                    imuRender(drawable, imuSample);
+                }
+            }
         }
+        
+        TextRenderer imuTextRenderer=new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
 
+        private void imuRender(GLAutoDrawable drawable, IMUSample imuSample) {
+//            System.out.println("on rendering: "+imuSample.toString());
+            GL gl = drawable.getGL();
+            gl.glPushMatrix();
+            gl.glTranslatef(chip.getSizeX()/2,chip.getSizeY()/2,0);
+            gl.glLineWidth(3);
+            
+            final float s=.8f;
+            // gyro pan/tilt
+            gl.glColor3f(1, 0, 0);
+            gl.glBegin(GL.GL_LINES);
+            gl.glVertex2f(0, 0);
+            gl.glVertex2f(s*imuSample.getGyroYawY() * HEIGHT / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC, s*imuSample.getGyroTiltX() * HEIGHT / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC);
+            // gyro roll
+            gl.glVertex2f(0, 40);
+            gl.glVertex2f(s*imuSample.getGyroRollZ() * HEIGHT / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC, 40);
+            gl.glEnd();
+
+            //acceleration x,y
+            gl.glColor3f(0, 1, 0);
+            gl.glBegin(GL.GL_LINES);
+            gl.glVertex2f(0, 0);
+            gl.glVertex2f(s*imuSample.getAccelX() * HEIGHT / IMUSample.FULL_SCALE_ACCEL_G, s*imuSample.getAccelY() * HEIGHT / IMUSample.FULL_SCALE_ACCEL_G);
+            gl.glEnd();
+
+            imuTextRenderer.begin3DRendering();
+            final float trans = .7f;
+            imuTextRenderer.setColor(1,1,0, trans);
+            imuTextRenderer.draw3D("IMU", -4, 0,0,.2f); // x,y,z, scale factor 
+            imuTextRenderer.setColor(1,0,0, trans);
+            imuTextRenderer.draw3D("G", -6, -6,0,.2f); // x,y,z, scale factor 
+            imuTextRenderer.setColor(0,1,0, trans);
+            imuTextRenderer.draw3D("A", +6, -6,0,.2f); // x,y,z, scale factor 
+            imuTextRenderer.setColor(1,1,1, trans);
+            imuTextRenderer.draw3D(String.format("%-6.1fms",IMUSample.getAverageSampleIntervalUs()/1000), -6, -12,0,.2f); // x,y,z, scale factor 
+            
+            imuTextRenderer.end3DRendering();
+          gl.glPopMatrix();
+         }
+        
         private void exposureRender(GL gl) {
             gl.glPushMatrix();
             exposureRenderer.begin3DRendering();  // TODO make string rendering more efficient here using String.format or StringBuilder
@@ -553,12 +609,32 @@ public class SBret10 extends APSDVSchip {
     /** Controls exposure automatically to try to optimize captured gray levels
      * 
      */
-    private class AutoExposureController {
+    private class AutoExposureController { // TODO not implemented yet
         
         public void controlExposure(){
             AbstractHistogram hist=apsDVSrenderer.getAdcSampleValueHistogram();
             
         }
     }
-    
+
+      /**
+     * Returns the current Inertial Measurement Unit sample.
+     * @return the imuSample, or null if there is no sample
+     */
+    public IMUSample getImuSample() {
+        return imuSample;
+    }
+
+     private boolean showIMU=getPrefs().getBoolean("SBRet10.showIMU", false);
+  @Override
+    public void setShowIMU(boolean yes) {
+        showIMU=yes;
+        getPrefs().putBoolean("SBRet10.showIMU",showIMU);
+    }
+
+    @Override
+    public boolean isShowIMU() {
+        return showIMU;
+    }
+
 }

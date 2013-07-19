@@ -5,7 +5,7 @@
 package eu.seebetter.ini.chips.sbret10;
 
 import com.sun.opengl.util.j2d.TextRenderer;
-import eu.seebetter.ini.chips.APSDVSchip;
+import eu.seebetter.ini.chips.ApsDvsChip;
 import java.awt.Color;
 import java.awt.Font;
 import javax.media.opengl.GL;
@@ -36,7 +36,7 @@ public class ApsDvsAutoShooter extends EventFilter2D implements FrameAnnotater {
 
     public ApsDvsAutoShooter(AEChip chip) {
         super(chip);
-        if (!(chip instanceof APSDVSchip)) {
+        if (!(chip instanceof ApsDvsChip)) {
             throw new RuntimeException("AEChip needs to be APSDVSchip to use ApsDvsAutoShooter");
         }
         FilterChain chain = new FilterChain(chip);
@@ -65,7 +65,7 @@ public class ApsDvsAutoShooter extends EventFilter2D implements FrameAnnotater {
             // trigger shot
             eventsSinceLastShot = 0;
             snapshotTriggered = true;
-            ((APSDVSchip) chip).takeSnapshot();
+            ((ApsDvsChip) chip).takeSnapshot();
             uninitialized=false;
         } else {
             snapshotTriggered = false;
