@@ -161,7 +161,7 @@ void IMU_init(void);
 #define I2C_GYRO_DATA_ADDR 0x3B // Address to query on the gyro for data
 #define I2C_GYRO_DATA_LEN 14 // accel x/y/z, temp, gyro x/y/z => 7 x 2 bytes = 14 bytes
 // see page 7 of RM-MPU-6100A.pdf (register map for MPU6150 IMU)
-// data is sent big-endian (MSB first for each sample).
+// data is sent big-endian (MSB first for each sample, in twos-complement 16 bit form).
 // data is scaled according to product specification datasheet PS-MPU-6100A.pdf
 
 //-----------------------------------------------------------------------------
@@ -295,7 +295,7 @@ void TD_Poll(void) // Called repeatedly while the device is idle
 {
 	// Try to get and send data from the gyro every 1000 cycles, and check EP1IN's BUSY flag:
 	// if still set, the last data from the gyro wasn't yet read, so we can't add any new data.
-	if (((cycleCounter++ % 1000) == 0) && (EP1INCS != 0x02)) {
+	if (((cycleCounter++ % 10) == 0) && (EP1INCS != 0x02)) {
 		// Set the address of where the data is located on the gyro.
 		BYTE xdata dataAddr;
 		dataAddr = I2C_GYRO_DATA_ADDR;

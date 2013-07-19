@@ -97,14 +97,14 @@ HighSpeedConfigDscr:
       db   02H               ;; Max packect size (MSB)
       db   00H               ;; Polling interval
 */
-;; Endpoint Descriptor
+;; Endpoint Descriptor - EP1 in, async status updates
       db   DSCR_ENDPNT_LEN      ;; Descriptor length
       db   DSCR_ENDPNT         ;; Descriptor type
       db   81H               ;; Endpoint number, and direction
-      db   ET_BULK            ;; Endpoint type
+      db   ET_INT            ;; Endpoint type
       db   40H               ;; Maximun packet size (LSB)
       db   00H               ;; Max packect size (MSB)
-      db   00H 
+      db   01H 			;; Polling interval
 
 ;; Endpoint Descriptor
       db   DSCR_ENDPNT_LEN      ;; Descriptor length
