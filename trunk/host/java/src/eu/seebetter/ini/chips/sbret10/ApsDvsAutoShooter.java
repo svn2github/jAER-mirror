@@ -1,15 +1,14 @@
-W/*
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package eu.seebetter.ini.chips.sbret10;
 
-import com.sun.opengl.util.j2d.TextRenderer;
-import eu.seebetter.ini.chips.ApsDvsChip;
-import java.awt.Color;
 import java.awt.Font;
+
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+
 import net.sf.jaer.Description;
 import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.event.EventPacket;
@@ -17,6 +16,10 @@ import net.sf.jaer.eventprocessing.EventFilter2D;
 import net.sf.jaer.eventprocessing.FilterChain;
 import net.sf.jaer.eventprocessing.filter.EventRateEstimator;
 import net.sf.jaer.graphics.FrameAnnotater;
+
+import com.sun.opengl.util.j2d.TextRenderer;
+
+import eu.seebetter.ini.chips.ApsDvsChip;
 
 /**
  * Triggers snapshots of APS frames based on sensor data stream.
@@ -61,7 +64,7 @@ public class ApsDvsAutoShooter extends EventFilter2D implements FrameAnnotater {
         checkOutputPacketEventType(in);
         eventRateEstimator.filterPacket(in);
         eventsSinceLastShot += eventRateEstimator.getNumEventsInLastPacket();
-        if (uninitialized || eventRateEstimator.getFilteredEventRate() > eventRateThresholdHz || eventsSinceLastShot > eventCountThresholdKEvents << 10) {
+        if (uninitialized || (eventRateEstimator.getFilteredEventRate() > eventRateThresholdHz) || (eventsSinceLastShot > (eventCountThresholdKEvents << 10))) {
             // trigger shot
             eventsSinceLastShot = 0;
             snapshotTriggered = true;
