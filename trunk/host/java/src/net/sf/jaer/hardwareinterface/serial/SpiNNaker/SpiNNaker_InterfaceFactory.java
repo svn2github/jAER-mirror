@@ -190,7 +190,6 @@ public class SpiNNaker_InterfaceFactory extends javax.swing.JDialog implements H
         pingButton = new javax.swing.JButton();
 
         setTitle("Interface Chooser");
-        setAutoRequestFocus(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);
