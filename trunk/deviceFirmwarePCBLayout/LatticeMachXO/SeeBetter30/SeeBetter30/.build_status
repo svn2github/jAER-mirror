@@ -23,7 +23,7 @@
             <Task name="Synplify_Synthesis" build_result="2" update_result="0" update_time="1370262526"/>
         </Milestone>
         <Milestone name="TOOL_Report" build_result="0" build_time="0">
-            <Task name="HDLE" build_result="2" update_result="0" update_time="1370262502"/>
+            <Task name="HDLE" build_result="2" update_result="0" update_time="1370359839"/>
         </Milestone>
         <Milestone name="Translate" build_result="2" build_time="1370262527">
             <Task name="Translate" build_result="2" update_result="0" update_time="1370262527"/>
