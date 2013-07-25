@@ -73,9 +73,6 @@ public class SBret10config extends LatticeMachFX2config implements ApsDvsConfig,
     protected CPLDInt rowSettle = new CPLDInt(chip, 47, 32, "rowSettle", "time in 30MHz clock cycles to settle after row select before readout", 0);
     protected CPLDInt resSettle = new CPLDInt(chip, 63, 48, "resSettle", "time in 30MHz clock cycles  to settle after column reset before readout", 0);
     protected CPLDInt frameDelay = new CPLDInt(chip, 79, 64, "frameDelay", "time between two frames", 0);
-    protected CPLDInt padding = new CPLDInt(chip, 93, 80, "pad", "used to insert necessary unused (but should be zero) bits", 0);
-    protected CPLDBit testPixAPSread = new CPLDBit(chip, 94, "testPixAPSread", "enables continuous scanning of testpixel", false);
-    protected CPLDBit sbret10 = new CPLDBit(chip, 95, "sbret10", "puts TX high (as needed in SBRet10)", true);
     // DVSTweaks
     private AddressedIPotCF diffOn, diffOff, refr, pr, sf, diff;
     // graphic options for rendering
@@ -108,9 +105,6 @@ public class SBret10config extends LatticeMachFX2config implements ApsDvsConfig,
         addConfigValue(rowSettle);
         addConfigValue(colSettle);
         addConfigValue(frameDelay);
-        addConfigValue(padding);
-        addConfigValue(testPixAPSread);
-        addConfigValue(sbret10);
 
         // masterbias
         getMasterbias().setKPrimeNFet(55e-3f); // estimated from tox=42A, mu_n=670 cm^2/Vs // TODO fix for UMC18 process
@@ -396,9 +390,7 @@ public class SBret10config extends LatticeMachFX2config implements ApsDvsConfig,
             exposure.addObserver(this);
             resSettle.addObserver(this);
             frameDelay.addObserver(this);
-            testPixAPSread.addObserver(this);
             runAdc.addObserver(this);
-            sbret10.addObserver(this);
             // TODO awkward renaming of properties here due to wrongly named delegator methods
             tooltipSupport.setPropertyTooltip("adcEnabled", runAdc.getDescription());
             tooltipSupport.setPropertyTooltip("rowSettleCC", rowSettle.getDescription());
@@ -406,8 +398,6 @@ public class SBret10config extends LatticeMachFX2config implements ApsDvsConfig,
             tooltipSupport.setPropertyTooltip("exposureDelayCC", exposure.getDescription());
             tooltipSupport.setPropertyTooltip("resSettleCC", resSettle.getDescription());
             tooltipSupport.setPropertyTooltip("frameDelayCC", frameDelay.getDescription());
-            tooltipSupport.setPropertyTooltip("testPixelScanEnabled", testPixAPSread.getDescription());
-            tooltipSupport.setPropertyTooltip("sbret10", sbret10.getDescription());
         }
 
         public boolean isAdcEnabled() {
@@ -436,22 +426,6 @@ public class SBret10config extends LatticeMachFX2config implements ApsDvsConfig,
 
         public void setExposureDelayCC(int cc) {
             exposure.set(cc);
-        }
-
-        public boolean isTestpixelScanEnabled() {
-            return testPixAPSread.isSet();
-        }
-
-        public void setTestpixelScanEnabled(boolean testpixel) {
-            testPixAPSread.set(testpixel);
-        }
-
-        public boolean isSbret10() {
-            return sbret10.isSet();
-        }
-
-        public void setSbret10(boolean useSbret10) {
-            sbret10.set(useSbret10);
         }
 
         public int getColSettleCC() {

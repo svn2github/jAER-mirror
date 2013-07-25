@@ -203,8 +203,6 @@ architecture Structural of USBAER_top_level is
 		RowSettlexDI          : in    std_logic_vector(15 downto 0);
 		ResSettlexDI          : in    std_logic_vector(15 downto 0);
 		FramePeriodxDI		  : in    std_logic_vector(15 downto 0);
-		SBRet10xEI			: in    std_logic;
-		TestPixelxEI		  : in    std_logic;
 		ExtTriggerxEI		  : in    std_logic;
 		CDVSTestSRRowInxSO    : out   std_logic;
 		CDVSTestSRRowClockxSO : out   std_logic;
@@ -346,7 +344,6 @@ architecture Structural of USBAER_top_level is
   signal ADCregOutxD : std_logic_vector(13 downto 0);
   signal ADCregWritexE : std_logic;
   signal ADCdataxD : std_logic_vector(13 downto 0);
-  signal SBRet10xE : std_logic;
   
   signal ADCsmRstxE           : std_logic;
   signal ADCclockxC           : std_logic;
@@ -359,11 +356,10 @@ architecture Structural of USBAER_top_level is
   signal CDVSTestApsTxGatexS  : std_logic;
   signal ExtTriggerxE				: std_logic;
   
-  signal SRDataOutxD : std_logic_vector(95 downto 0);
+  signal SRDataOutxD : std_logic_vector(79 downto 0);
   
   signal ExposurexD, ColSettlexD, RowSettlexD, ResSettlexD : std_logic_vector(15 downto 0); 
   signal FramePeriodxD : std_logic_vector(15 downto 0);
-  signal TestPixelxE : std_logic;  
   
   signal SRoutxD, SRinxD, SRLatchxE, SRClockxC : std_logic;
   signal RunADCxS : std_logic;
@@ -412,7 +408,7 @@ begin
   
   shiftRegister_1: shiftRegister
     generic map (
-      width => 96)
+      width => 80)
     port map (
       ClockxCI   => SRClockxC,
       ResetxRBI  => ResetxRB,
@@ -426,8 +422,6 @@ begin
   RowSettlexD <= SRDataOutxD(47 downto 32);
   ResSettlexD <= SRDataOutxD(63 downto 48);
   FramePeriodxD <= SRDataOutxD(79 downto 64);
-  TestPixelxE <= SRDataOutxD(94);
-  SBRet10xE <= SRDataOutxD(95);
   
   uFifo : AERfifo
     port map (
@@ -571,8 +565,6 @@ begin
 	  RowSettlexDI          => RowSettlexD,
 	  ResSettlexDI          => ResSettlexD,
 	  FramePeriodxDI		=> FramePeriodxD,
-	  SBRet10xEI			=> SBRet10xE,
-	  TestPixelxEI 			=> TestPixelxE,
 	  ExtTriggerxEI			=> ExtTriggerxE,
 	  CDVSTestSRRowInxSO    => CDVSTestSRRowInxS,
       CDVSTestSRRowClockxSO => CDVSTestSRRowClockxS,

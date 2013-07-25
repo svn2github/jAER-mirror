@@ -42,8 +42,8 @@ import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2;
 public class LatticeMachFX2config extends Biasgen implements HasPreference{
 
     public AEChip chip;      
+    public ChipConfigChain chipConfigChain = null;
     protected ShiftedSourceBiasCF[] ssBiases = new ShiftedSourceBiasCF[2];
-    protected ChipConfigChain chipConfigChain = null;
     protected ArrayList<HasPreference> hasPreferenceList = new ArrayList<HasPreference>();
     
     public LatticeMachFX2config(Chip chip) {

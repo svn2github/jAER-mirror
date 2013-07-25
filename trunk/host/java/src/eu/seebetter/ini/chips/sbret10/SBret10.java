@@ -264,17 +264,22 @@ public class SBret10 extends ApsDvsChip {
                     e.address = data;
                     e.x = (short) (((data & XMASK) >>> XSHIFT));
                     e.y = (short) ((data & YMASK) >>> YSHIFT);
-                    boolean pixZero = e.x == 0 && e.y == 0;
+                    boolean pixZero = e.x == sx1 && e.y == sy1;//first event of frame (addresses get flipped)
                     e.startOfFrame = (e.readoutType == ApsDvsEvent.ReadoutType.ResetRead) && pixZero;
-                    if (e.startOfFrame) {
+                    if (!config.chipConfigChain.configBits[6].isSet() && e.startOfFrame) {
                         //if(pixCnt!=129600) System.out.println("New frame, pixCnt was incorrectly "+pixCnt+" instead of 129600 but this could happen at end of file");
                         frameTime = e.timestamp - firstFrameTs;
                         firstFrameTs = e.timestamp;
                     }
+                    if (config.chipConfigChain.configBits[6].isSet() && e.isResetRead() && e.x == 0 && e.y == sy1) {
+                        frameTime = e.timestamp - firstFrameTs;
+                        firstFrameTs = e.timestamp;
+                    }
+                    e.isEndOfFrame();
                     if (pixZero && e.isSignalRead()) {
                         exposure = e.timestamp - firstFrameTs;
                     }
-                    if (e.isSignalRead() && e.x == 0 && e.y == sy1) {
+                    if (e.isSignalRead() && e.x == 0 && e.y == 0) {
                         // if we use ResetRead+SignalRead+C readout, OR, if we use ResetRead-SignalRead readout and we are at last APS pixel, then write EOF event
                         lastADCevent(); // TODO what does this do?
                         //insert a new "end of frame" event not present in original data

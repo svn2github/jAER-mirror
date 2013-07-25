@@ -41,8 +41,6 @@ entity ADCStateMachine is
     RowSettlexDI          : in    std_logic_vector(15 downto 0);
     ResSettlexDI          : in    std_logic_vector(15 downto 0);
     FramePeriodxDI        : in    std_logic_vector(15 downto 0);
-	SBRet10xEI			: in    std_logic;
-    TestPixelxEI          : in    std_logic;
     ExtTriggerxEI         : in    std_logic;
     CDVSTestSRRowInxSO    : out   std_logic;
     CDVSTestSRRowClockxSO : out   std_logic;
@@ -55,7 +53,7 @@ entity ADCStateMachine is
 end ADCStateMachine;
 
 architecture Behavioral of ADCStateMachine is
-  type ColState is (stIdle, stReset, stReleaseReset, stReadReset, stCountReset, stNextReset, stIntegrate, stStopIntegrate, stReadSignal, stCountSignal, stNextSignal, stWaitFrame, stResetT, stInitAT, stReadResetT, stInitBT, stReadSignalT, stWaitT);
+  type ColState is (stIdle, stReset, stReleaseReset, stReadReset, stCountReset, stNextReset, stIntegrate, stStopIntegrate, stReadSignal, stCountSignal, stNextSignal, stWaitFrame);
   type RowState is (stIdle, stFeedRow, stInit, stRead, stWrite, stRowDone, stColumnDone,stColSettle);
 
   signal ResetxRB	: std_logic;
@@ -116,11 +114,10 @@ begin
   ADCoexEBO		<= '0';
 
   CDVSTestColMode0xSO <= ColModexD(0);
-  CDVSTestColMode1xSO <= ColModexD(1) or (ExtTriggerxEI and TestPixelxEI);
+  CDVSTestColMode1xSO <= ColModexD(1) or ExtTriggerxEI;
 
-  --ADCStateOutputLEDxSO <= StartPixelxS;
-  --ADCStateOutputLEDxSO <= '1' when StateColxDP = stIdle and StateRowxDP = stIdle else '0';
-  ADCStateOutputLEDxSO <= TestPixelxEI;
+  ADCStateOutputLEDxSO <= StartPixelxS;
+  --ADCStateOutputLEDxSO <= '1' when StateColxDP = stIdle and StateRowxDP = stIdle else '0'
   
   FramePeriodxD <= FramePeriodxDI & "0000000001";
   ExposureTxD <= ExposurexDI & "0000000001";
@@ -129,7 +126,7 @@ begin
   CDVSTestApsTxGatexSO <= not TxGatexE;
 
 -- calculate col next state and outputs
-  p_col : process (StateColxDP, DividerColxDP, ExposurexDI, RunADCxSI, CountColxDP, ReadDonexS, FramePeriodxD, ResSettlexDI, TestPixelxEI, RowSettlexDI, ColSettlexDI, ExposureTxD)
+  p_col : process (StateColxDP, DividerColxDP, ExposurexDI, RunADCxSI, CountColxDP, ReadDonexS, FramePeriodxD, ResSettlexDI, RowSettlexDI, ColSettlexDI, ExposureTxD)
   begin  -- process p_memless
     -- default assignements: stay in present state
 
@@ -146,10 +143,8 @@ begin
 
     case StateColxDP is
       when stIdle =>
-        if RunADCxSI = '1' and TestPixelxEI = '0' then
+        if RunADCxSI = '1' then
             StateColxDN <= stReset;
-		elsif TestPixelxEI = '1' then
-            StateColxDN <= stResetT;
         end if;
         DividerColxDN        <= (others => '0');
         CountColxDN          <= (others => '0');
@@ -263,65 +258,13 @@ begin
 		TxGatexE			 <= '0';
       when stWaitFrame =>
         if DividerColxDP >= FramePeriodxD then
-          --StateColxDN   <= stIdle;
-          DividerColxDN <= (others => '0');
-        else
-          DividerColxDN <= DividerColxDP + 1;
-        end if;
-		StateColxDN   <= stIdle;
-        ColModexD <= "00";
-		
-	  when stResetT =>
-        ColModexD <= "10";
-        if DividerColxDP >= ResSettlexDI then
-          StateColxDN   <= stInitAT;
-          DividerColxDN <= (others => '0');
-        else
-          DividerColxDN <= DividerColxDP + 1;
-        end if;
-      when stInitAT =>
-        ColModexD <= "00";
-        if DividerColxDP >= ColSettlexDI then
-          StateColxDN   <= stReadResetT;
-          DividerColxDN <= (others => '0');
-        else
-          DividerColxDN <= DividerColxDP + 1;
-        end if;
-      when stReadResetT =>
-        ColModexD <= "01";
-        if DividerColxDP >= RowSettlexDI then
-          StateColxDN   <= stInitBT;
-          DividerColxDN <= (others => '0');
-        else
-          DividerColxDN <= DividerColxDP + 1;
-        end if;
-      when stInitBT =>
-        ColModexD <= "00";
-        if DividerColxDP >= ExposureTxD then
-          StateColxDN   <= stReadSignalT;
-          DividerColxDN <= (others => '0');
-        else
-          DividerColxDN <= DividerColxDP + 1;
-        end if;
-      when stReadSignalT =>
-        ColModexD <= "01";
-        if DividerColxDP >= RowSettlexDI then
-          StateColxDN   <= stWaitT;
-          DividerColxDN <= (others => '0');
-	    else
-          DividerColxDN <= DividerColxDP + 1;
-        end if;
-      when stWaitT =>
-        ColModexD <= "00";
-        if TestPixelxEI = '0' then
           StateColxDN   <= stIdle;
           DividerColxDN <= (others => '0');
-        elsif DividerColxDP >= FramePeriodxD then
-          StateColxDN   <= stResetT;
-          DividerColxDN <= (others => '0');
         else
           DividerColxDN <= DividerColxDP + 1;
         end if;
+		--StateColxDN   <= stIdle;
+        ColModexD <= "00";
 		
       when others => null;
     end case;
