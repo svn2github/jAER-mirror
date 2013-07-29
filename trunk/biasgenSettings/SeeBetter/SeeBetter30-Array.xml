@@ -32,7 +32,7 @@
                 <entry key="SeeBetter30.AddressedIPotCF.VBP1.Sex" value="P"/>
                 <entry key="SeeBetter30.AddressedIPotCF.VBP1.Type" value="NORMAL"/>
                 <entry key="SeeBetter30.AddressedIPotCF.VBP2.BitValueCoarse" value="5"/>
-                <entry key="SeeBetter30.AddressedIPotCF.VBP2.BitValueFine" value="102"/>
+                <entry key="SeeBetter30.AddressedIPotCF.VBP2.BitValueFine" value="30"/>
                 <entry key="SeeBetter30.AddressedIPotCF.VBP2.Enabled" value="true"/>
                 <entry key="SeeBetter30.AddressedIPotCF.VBP2.LowCurrent" value="false"/>
                 <entry key="SeeBetter30.AddressedIPotCF.VBP2.Sex" value="P"/>
@@ -118,7 +118,7 @@
                 <entry key="SeeBetter30.AddressedIPotCF.biasBuffer.LowCurrent" value="false"/>
                 <entry key="SeeBetter30.AddressedIPotCF.biasBuffer.Sex" value="N"/>
                 <entry key="SeeBetter30.AddressedIPotCF.biasBuffer.Type" value="NORMAL"/>
-                <entry key="SeeBetter30.nChipReset" value="false"/>
+                <entry key="SeeBetter30.nChipReset" value="true"/>
                 <entry key="SeeBetter30.powerDown" value="false"/>
                 <entry key="SeeBetter30.runCpld" value="true"/>
                 <entry key="SeeBetter30.extTrigger" value="false"/>
