@@ -220,7 +220,7 @@ public class SpatioTemporalFusion extends EventFilter2D { //implements ActionLis
 		}
 	}
 
-	ArrayList<KernelProcessor> kernelProcessors = new ArrayList<KernelProcessor>();
+//	ArrayList<KernelProcessor> kernelProcessors = new ArrayList<KernelProcessor>();
 	
 //	SpikingOutputDisplay spikingOutputDisplay = null;// = new SpikingOutputDisplay();
 	
@@ -1317,11 +1317,11 @@ public class SpatioTemporalFusion extends EventFilter2D { //implements ActionLis
 			
 			summarizeAPS();
 		}
-		synchronized (kernelProcessors) {
-			for (KernelProcessor kp : kernelProcessors) {
-				kp.reset();
-			}
-		}
+//		synchronized (kernelProcessors) {
+//			for (KernelProcessor kp : kernelProcessors) {
+//				kp.reset();
+//			}
+//		}
 		synchronized (firingModelMaps) {
 			for (FiringModelMap map : firingModelMaps) {
 				map.reset();
@@ -1358,19 +1358,19 @@ public class SpatioTemporalFusion extends EventFilter2D { //implements ActionLis
 //		}
 //	}
 	
-	public void addKernelProcessor(KernelProcessor kernelProcessor) {
-		synchronized (kernelProcessors) {
-			if (!kernelProcessors.contains(kernelProcessor))
-				kernelProcessors.add(kernelProcessor);
-		}
-	}
-	
-	public void removeKernelProcessor(KernelProcessor kernelProcessor) {
-		synchronized (kernelProcessors) {
-			if (kernelProcessors.contains(kernelProcessor))
-				kernelProcessors.remove(kernelProcessor);
-		}
-	}
+//	public void addKernelProcessor(KernelProcessor kernelProcessor) {
+//		synchronized (kernelProcessors) {
+//			if (!kernelProcessors.contains(kernelProcessor))
+//				kernelProcessors.add(kernelProcessor);
+//		}
+//	}
+//	
+//	public void removeKernelProcessor(KernelProcessor kernelProcessor) {
+//		synchronized (kernelProcessors) {
+//			if (kernelProcessors.contains(kernelProcessor))
+//				kernelProcessors.remove(kernelProcessor);
+//		}
+//	}
 
 	@Override
 	public void initFilter() {

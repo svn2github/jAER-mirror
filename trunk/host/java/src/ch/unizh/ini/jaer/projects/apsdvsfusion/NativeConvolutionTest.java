@@ -9,7 +9,9 @@ import java.util.prefs.Preferences;
 import net.sf.jaer.event.PolarityEvent.Polarity;
 
 /**
- * @author Dennis
+ * This class was originally created to test the performance of convolution operations when executed in
+ * native code. Summary is: Due to JIT compiling, Java is NOT slower, rather faster than native code!
+ * @author Dennis Goehlsdorf
  *
  */
 public class NativeConvolutionTest extends SignalTransformationKernel {
