@@ -265,6 +265,7 @@ public class SBret10 extends ApsDvsChip {
                     e.address = data;
                     e.x = (short) (((data & XMASK) >>> XSHIFT));
                     e.y = (short) ((data & YMASK) >>> YSHIFT);
+                    e.type = (byte)(2);
                     boolean pixZero = e.x == sx1 && e.y == sy1;//first event of frame (addresses get flipped)
                     e.startOfFrame = (e.readoutType == ApsDvsEvent.ReadoutType.ResetRead) && pixZero;
                     if (!config.chipConfigChain.configBits[6].isSet() && e.startOfFrame) {

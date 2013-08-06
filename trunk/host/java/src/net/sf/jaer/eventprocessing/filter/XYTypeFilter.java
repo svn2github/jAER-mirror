@@ -163,19 +163,19 @@ public class XYTypeFilter extends EventFilter2D implements FrameAnnotater,Observ
                 }
             } else{
                 // if we pass all outside tests then any test pass event
-                if ( xEnabled && ( e.x >= startX && e.x <= endX ) ){
-                    if ( yEnabled && ( e.y >= startY && e.y <= endY ) ){
-                        if ( typeEnabled ){
-                            TypedEvent te = (TypedEvent)e;
-                            if ( te.type >= startType && te.type <= endType ){
-                                continue;
-                            }
-                        } else{
-                            continue;
-                        }
-                    }
+                if ( !(xEnabled && ( e.x < startX || e.x > endX )) && 
+                        !(yEnabled && ( e.y < startY || e.y > endY ))){
+                    continue; // failed xtest, x outisde, goto next event
                 }
-                pass(outItr,e);
+                if ( typeEnabled ){
+                    TypedEvent te = (TypedEvent)e;
+                    if ( !(te.type < startType || te.type > endType) ){
+                        continue;
+                    }
+                    pass(outItr,te);
+                } else{
+                    pass(outItr,e);
+                }
             }
         }
 
