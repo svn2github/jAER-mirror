@@ -66,7 +66,12 @@ public class AEChipRenderer extends Chip2DRenderer {
     protected ColorMode colorMode;
 
     {
-        ColorMode oldMode = ColorMode.valueOf(prefs.get("ChipRenderer.colorMode", ColorMode.GrayLevel.toString()));
+        ColorMode oldMode;
+        try{
+            oldMode = ColorMode.valueOf(prefs.get("ChipRenderer.colorMode", ColorMode.GrayLevel.name()));
+        }catch(IllegalArgumentException e){
+            oldMode=ColorMode.GrayLevel;
+        }
         for (ColorMode c : colorModes) {
             if (c == oldMode) {
                 colorMode = c;
