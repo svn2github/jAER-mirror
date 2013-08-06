@@ -232,6 +232,7 @@ public class SBret10 extends ApsDvsChip {
                     e.address = data;
                     e.timestamp = (timestamps[i]);
                     e.polarity = (data & POLMASK) == POLMASK ? ApsDvsEvent.Polarity.On : ApsDvsEvent.Polarity.Off;
+                    e.type = (byte)((data & POLMASK) == POLMASK ? 1 : 0);
                     e.x = (short) (sx1 - ((data & XMASK) >>> XSHIFT));
                     e.y = (short) ((data & YMASK) >>> YSHIFT);
                     //System.out.println(data);
