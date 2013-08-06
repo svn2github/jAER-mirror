@@ -45,6 +45,7 @@ public class AEFrameChipRenderer extends AEChipRenderer {
     private float[] onColor, offColor;
     private ApsDvsConfig config;
     
+    /** The linear buffer of RGBA pixel colors of image frame brightness values */
     protected FloatBuffer pixBuffer;
     protected FloatBuffer onMap, onBuffer;
     protected FloatBuffer offMap, offBuffer;
@@ -397,6 +398,11 @@ public class AEFrameChipRenderer extends AEChipRenderer {
     @Override
     public int getPixMapIndex(int x, int y) {
         return 4 * (x + y * sizeX);
+    }
+    
+    /** Returns the buffer holding the image frame brightness values in RGBA order */
+    public FloatBuffer getPixBuffer(){
+        return pixBuffer;
     }
     
     @Override
