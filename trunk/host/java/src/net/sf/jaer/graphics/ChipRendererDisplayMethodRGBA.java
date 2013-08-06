@@ -92,13 +92,15 @@ public class ChipRendererDisplayMethodRGBA extends DisplayMethod implements Disp
         gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA); 
         gl.glEnable (GL.GL_BLEND);
         
+        final int nearestFilter=GL.GL_NEAREST; // tobi changed to GL_NEAREST so that pixels are not intepolated but rather are rendered exactly as they come from data not matter what zoom.
+        final int linearFilter=GL.GL_LINEAR; // tobi changed to GL_NEAREST so that pixels are not intepolated but rather are rendered exactly as they come from data not matter what zoom.
         if(displayFrames){
             gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
             gl.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1);
             gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP);
             gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP);
-            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);
-            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR);
+            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, linearFilter);
+            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, linearFilter);
             gl.glTexEnvf(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_REPLACE);
             gl.glTexImage2D (GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0, GL.GL_RGBA, 
                             GL.GL_FLOAT, pixmap);
@@ -109,14 +111,13 @@ public class ChipRendererDisplayMethodRGBA extends DisplayMethod implements Disp
             gl.glDisable(GL.GL_TEXTURE_2D);
         }
         
-        final int magfilter=GL.GL_NEAREST; // tobi changed to GL_NEAREST so that pixels are not intepolated but rather are rendered exactly as they come from data not matter what zoom.
         if(onMap != null && displayEvents){
             gl.glBindTexture(GL.GL_TEXTURE_2D, 1);
             gl.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1);
             gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP);
             gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP);
-            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, magfilter);
-            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, magfilter);
+            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, nearestFilter);
+            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, nearestFilter);
             gl.glTexEnvf(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_REPLACE);
             gl.glTexImage2D (GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0, GL.GL_RGBA,     
                             GL.GL_FLOAT, onMap);
@@ -132,8 +133,8 @@ public class ChipRendererDisplayMethodRGBA extends DisplayMethod implements Disp
             gl.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1);
             gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP);
             gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP);
-            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, magfilter);
-            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, magfilter);
+            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, nearestFilter);
+            gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, nearestFilter);
             gl.glTexEnvf(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_REPLACE);
             gl.glTexImage2D (GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0, GL.GL_RGBA,     
                             GL.GL_FLOAT, offMap);
