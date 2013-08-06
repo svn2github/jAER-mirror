@@ -49,9 +49,19 @@ public class AEChipRenderer extends Chip2DRenderer {
     }
 
     public enum ColorMode {
-
-        GrayLevel, Contrast, RedGreen, ColorTime
+        GrayLevel("Each event causes linear change in brightness"), 
+        Contrast("Each event causes multiplicative change in brightness to produce logarithmic scale"), 
+                RedGreen("ON events are green; OFF events are red"), 
+                ColorTime("Events are colored according to time within displayed slice, with red coding old events and green coding new events");
+        public String description;
+        ColorMode(String description){
+            this.description=description;
+        }
+        public String toString(){
+            return super.toString()+": "+description;
+        }
     };
+    
     protected ColorMode[] colorModes = ColorMode.values(); // array of mode enums
     protected ColorMode colorMode;
 
