@@ -269,11 +269,13 @@ public class SBret10 extends ApsDvsChip {
                     boolean pixZero = e.x == sx1 && e.y == sy1;//first event of frame (addresses get flipped)
                     e.startOfFrame = (e.readoutType == ApsDvsEvent.ReadoutType.ResetRead) && pixZero;
                     if (!config.chipConfigChain.configBits[6].isSet() && e.startOfFrame) {
+                        //rolling shutter
                         //if(pixCnt!=129600) System.out.println("New frame, pixCnt was incorrectly "+pixCnt+" instead of 129600 but this could happen at end of file");
                         frameTime = e.timestamp - firstFrameTs;
                         firstFrameTs = e.timestamp;
                     }
                     if (config.chipConfigChain.configBits[6].isSet() && e.isResetRead() && e.x == 0 && e.y == sy1) {
+                        //global shutter
                         frameTime = e.timestamp - firstFrameTs;
                         firstFrameTs = e.timestamp;
                     }
