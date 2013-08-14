@@ -419,7 +419,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                                         eventCounter++;
 //                                              System.out.println("ADC word: " + (dataword&SeeBetter20.ADC_DATA_MASK));
                                     } else if ((buf[i + 1] & TRIGGER_BIT) == TRIGGER_BIT) { 
-                                        addresses[eventCounter] = 1024;  // combine current bits with last y address bits and send
+                                        addresses[eventCounter] = ApsDvsChip.TRIGGERMASK;  // combine current bits with last y address bits and send
                                         timestamps[eventCounter] = currentts;
                                         eventCounter++;
                                      } else if ((buf[i + 1] & XBIT) == XBIT) {////  received an X address, write out event to addresses/timestamps output arrays

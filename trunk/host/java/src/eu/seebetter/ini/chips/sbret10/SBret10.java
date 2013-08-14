@@ -214,6 +214,7 @@ public class SBret10 extends ApsDvsChip {
 
             for (int i = 0; i < n; i++) {  // TODO implement skipBy/subsampling, but without missing the frame start/end events and still delivering frames
                 int data = datas[i];
+                
                 if((ApsDvsChip.ADDRESS_TYPE_MASK&data)==ApsDvsChip.ADDRESS_TYPE_IMU){
                     try {
                         imuSample = new IMUSample(in, i);
@@ -226,18 +227,26 @@ public class SBret10 extends ApsDvsChip {
                 }else if((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_DVS) {
                     //DVS event
                     ApsDvsEvent e = (ApsDvsEvent) outItr.nextOutput();
-                    e.adcSample = -1; // TODO hack to mark as not an ADC sample
-                    e.startOfFrame = false;
-                    e.special = false;
-                    e.address = data;
-                    e.timestamp = (timestamps[i]);
-                    e.polarity = (data & POLMASK) == POLMASK ? ApsDvsEvent.Polarity.On : ApsDvsEvent.Polarity.Off;
-                    e.type = (byte)((data & POLMASK) == POLMASK ? 1 : 0);
-                    e.x = (short) (sx1 - ((data & XMASK) >>> XSHIFT));
-                    e.y = (short) ((data & YMASK) >>> YSHIFT);
-                    //System.out.println(data);
-                    // autoshot triggering
-                    autoshotEventsSinceLastShot++; // number DVS events captured here
+                    if((data & ApsDvsChip.TRIGGERMASK) == ApsDvsChip.TRIGGERMASK){
+                        e.adcSample = -1; // TODO hack to mark as not an ADC sample
+                        e.startOfFrame = false;
+                        e.special = true;
+                        e.address = data;
+                        e.timestamp = (timestamps[i]);
+                    }else{
+                        e.adcSample = -1; // TODO hack to mark as not an ADC sample
+                        e.startOfFrame = false;
+                        e.special = false;
+                        e.address = data;
+                        e.timestamp = (timestamps[i]);
+                        e.polarity = (data & POLMASK) == POLMASK ? ApsDvsEvent.Polarity.On : ApsDvsEvent.Polarity.Off;
+                        e.type = (byte)((data & POLMASK) == POLMASK ? 1 : 0);
+                        e.x = (short) (sx1 - ((data & XMASK) >>> XSHIFT));
+                        e.y = (short) ((data & YMASK) >>> YSHIFT);
+                        //System.out.println(data);
+                        // autoshot triggering
+                        autoshotEventsSinceLastShot++; // number DVS events captured here
+                    }
                 } else if ((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_APS) {
                     //APS event
                     ApsDvsEvent e = (ApsDvsEvent) outItr.nextOutput();

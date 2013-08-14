@@ -201,9 +201,14 @@ public class AEFrameChipRenderer extends AEChipRenderer {
                 paused=chip.getAeViewer().isPaused(), backwards=packet.getDurationUs()<0;
             
         Iterator allItr = packet.fullIterator();
+        setSpecialCount(0);
         while(allItr.hasNext()){
             //The iterator only iterates over the DVS events
-            ApsDvsEvent e = (ApsDvsEvent) allItr.next();                        
+            ApsDvsEvent e = (ApsDvsEvent) allItr.next();
+            if (e.special) {
+                setSpecialCount(specialCount + 1); // TODO optimize special count increment
+                continue;
+            }
             int type = e.getType();
             boolean isAdcSampleFlag=e.isAdcSample();
             if(!isAdcSampleFlag){
