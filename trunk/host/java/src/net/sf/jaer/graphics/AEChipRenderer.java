@@ -636,7 +636,7 @@ public class AEChipRenderer extends Chip2DRenderer {
     public synchronized void setColorMode(ColorMode colorMode) {
         ColorMode old = this.colorMode;
         this.colorMode = colorMode;
-        prefs.put("ChipRenderer.colorMode", colorMode.toString());
+        prefs.put("ChipRenderer.colorMode", colorMode.name());
         log.info("set colorMode=" + colorMode);
         getSupport().firePropertyChange(PROPERTY_COLOR_MODE, old, colorMode);
 //        if (method<0 || method >NUM_METHODS-1)            throw new RuntimeException("no such rendering method "+method);
