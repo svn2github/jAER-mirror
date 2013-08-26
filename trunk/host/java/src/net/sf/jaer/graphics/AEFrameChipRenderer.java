@@ -172,6 +172,8 @@ public class AEFrameChipRenderer extends AEChipRenderer {
 
         if (!(pkt instanceof ApsDvsEventPacket)) {
             if(warningCount++%WARNING_INTERVAL==0) log.info("I only know how to render ApsDvsEventPacket but got "+pkt);
+               resetEventMaps();
+               resetFrame(0);
             return;
         }
         
@@ -189,7 +191,7 @@ public class AEFrameChipRenderer extends AEChipRenderer {
         }
         this.packet = packet;
         if (!(packet.getEventPrototype() instanceof ApsDvsEvent)) {
-            log.warning("wrong input event class, got " + packet.getEventPrototype() + " but we need to have " + ApsDvsEvent.class);
+            if(warningCount++%WARNING_INTERVAL==0) log.warning("wrong input event class, got " + packet.getEventPrototype() + " but we need to have " + ApsDvsEvent.class);
             return;
         }
         if (!accumulateEnabled){
