@@ -335,11 +335,12 @@ public class SimpleOrientationFilter extends EventFilter2D implements Observer,F
             gl.glEnd();
             gl.glPopMatrix();
         }
-        if ( isShowVectorsEnabled() && outputPacket!=null ){
+        if ( isShowVectorsEnabled() && getOutputPacket()!=null ){
             // draw individual orientation vectors
             gl.glPushMatrix();
             gl.glColor3f(1,1,1);
-            gl.glLineWidth(1f);
+            gl.glLineWidth(2f);
+            EventPacket outputPacket=getOutputPacket();
             gl.glBegin(GL.GL_LINES);
             for ( Object o:outputPacket ){
                 OrientationEvent e = (OrientationEvent)o;
@@ -349,7 +350,6 @@ public class SimpleOrientationFilter extends EventFilter2D implements Observer,F
             gl.glPopMatrix();
         }
     }
-    private EventPacket outputPacket=null;
     private Random r=new Random();
     
     // plots a single motion vector which is the number of pixels per second times scaling
@@ -363,8 +363,21 @@ public class SimpleOrientationFilter extends EventFilter2D implements Observer,F
             jx=(r.nextFloat()-.5f)*jitterAmountPixels;
             jy=(r.nextFloat()-.5f)*jitterAmountPixels;
         }
-        gl.glVertex2f(e.x - d.x * length+jx,e.y - d.y * length+jy);
-        gl.glVertex2f(e.x + d.x * length+jx,e.y + d.y * length+jy);
+        switch (e.orientation) {
+            case 0:
+                gl.glColor3f(1, 0, 0);
+                break;
+            case 1:
+                gl.glColor3f(1, 1, 0);
+                break;
+            case 2:
+                gl.glColor3f(0, 1, 0);
+                break;
+            case 3:
+                gl.glColor3f(0, 1, 1);
+        }
+        gl.glVertex2f(e.x - d.x * length + jx, e.y - d.y * length + jy);
+        gl.glVertex2f(e.x + d.x * length + jx, e.y + d.y * length+jy);
     }
 
     public boolean isShowVectorsEnabled (){
@@ -386,7 +399,7 @@ public class SimpleOrientationFilter extends EventFilter2D implements Observer,F
     }
 
     /**
-     * filters in to in.getOutputPacket(). if filtering is enabled, the number of in.getOutputPacket() may be less
+     * filters in to getOutputPacket(). if filtering is enabled, the number of getOutputPacket() may be less
      * than the number putString in
      *@param in input events can be null or empty.
      *@return the processed events, may be fewer in number.
@@ -412,14 +425,14 @@ public class SimpleOrientationFilter extends EventFilter2D implements Observer,F
         boolean isBinocular;
         if ( in.getEventClass() == BinocularEvent.class ){
             isBinocular = true;
-            in.checkOutputPacketEventType(BinocularOrientationEvent.class);
+            checkOutputPacketEventType(BinocularOrientationEvent.class);
         } else{
             isBinocular = false;
-            in.checkOutputPacketEventType(OrientationEvent.class);
+            checkOutputPacketEventType(OrientationEvent.class);
         }
 
-        outputPacket=in.getOutputPacket(); // for rendering orientation vectors
-        OutputEventIterator outItr = in.getOutputPacket().outputIterator();
+        EventPacket outputPacket=getOutputPacket();
+        OutputEventIterator outItr = outputPacket.outputIterator();
 
         int sizex = chip.getSizeX() - 1;
         int sizey = chip.getSizeY() - 1;
@@ -432,6 +445,9 @@ public class SimpleOrientationFilter extends EventFilter2D implements Observer,F
         for ( Object ein:in ){
             PolarityEvent e = (PolarityEvent)ein;
             int type = e.getType();
+            if (type >= NUM_TYPES || e.x<0||e.y<0) {
+                continue;  // tobi - some special type like IMU sample
+            }
             int x = e.x >>> subSampleShift;
             int y = e.y >>> subSampleShift;
 
@@ -448,8 +464,11 @@ public class SimpleOrientationFilter extends EventFilter2D implements Observer,F
             if ( eye == 1 ){
                 type = type << 1;
             }
+//            try{
             lastTimesMap[x][y][type] = e.timestamp;
-
+//            }catch(ArrayIndexOutOfBoundsException ex){
+//                System.out.println(e.toString());
+//            }
             // getString times to neighbors in all directions
             // check if search distance has been changed before iterating - for some reason the synchronized doesn't work
             int xx, yy;
@@ -590,11 +609,11 @@ public class SimpleOrientationFilter extends EventFilter2D implements Observer,F
             }
         }
         final int ORI_SHIFT = 16; // will shift our orientation value this many bits in raw address
-        for (Object o : in.getOutputPacket()) {
+        for (Object o : outputPacket) {
             OrientationEvent e = (OrientationEvent) o;
             e.address = e.address | (e.orientation << ORI_SHIFT);
         }
-        return in.getOutputPacket();
+        return getOutputPacket();
     }
 
     public boolean isPassAllEvents (){
