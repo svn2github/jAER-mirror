@@ -10,6 +10,16 @@
 	<name>jAER2</name>
 	<url>https://sourceforge.net/p/jaer/</url>
 
+	<organization>
+		<name>INI</name>
+		<url>https://www.ini.uzh.ch/</url>
+	</organization>
+
+	<issueManagement>
+		<url>https://sourceforge.net/p/jaer/tickets/</url>
+		<system>SF Tickets</system>
+	</issueManagement>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
@@ -132,13 +142,45 @@
 		</dependency>
 	</dependencies>
 
-	<organization>
-		<name>INI</name>
-		<url>https://www.ini.uzh.ch/</url>
-	</organization>
-
-	<issueManagement>
-		<url>https://sourceforge.net/p/jaer/tickets/</url>
-		<system>SF Tickets</system>
-	</issueManagement>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>net.sf.jaer2.JAER2</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>net.sf.jaer2.JAER2</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
