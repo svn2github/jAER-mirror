@@ -27,24 +27,24 @@ cochlea_id=double(bitshift((bitand(allAddrT,cochleaaddrmask)), -13)); %cochleaid
 allAddr=allAddrT(cochlea_id==0);
 allTs=allTsT(cochlea_id==0);
 
-%%To Find DAC addresses for microphone output
-allAddrDAC=allAddrT(cochlea_id==1);
-allTsDAC=allTsT(cochlea_id==1);
-chanDAC=double(bitshift((bitand(allAddrDAC, ADCchannelmask)), -10));
+%%To Find ADC addresses for microphone output
+allAddrADC=allAddrT(cochlea_id==1);
+allTsADC=allTsT(cochlea_id==1);
+chanADC=double(bitshift((bitand(allAddrADC, ADCchannelmask)), -10));
 
-valueDAC=double(bitand(allAddrDAC, ADCvaluemask));
+valueADC=double(bitand(allAddrADC, ADCvaluemask));
 
-valueDAC0=valueDAC(chanDAC==0);
-allTsDAC0=allTsDAC(chanDAC==0);%allTsDAC0 tells the time difference, divide by 1e6 to get time scales to match up
+valueADC0=valueADC(chanADC==0);
+allTsADC0=allTsADC(chanADC==0);%allTsADC0 tells the time difference, divide by 1e6 to get time scales to match up
 
-renorm_valueDAC0=valueDAC0-min(valueDAC0);
-renorm_valueDAC0=double((2500/1024)*renorm_valueDAC0);
+renorm_valueADC0=valueADC0-min(valueADC0);
+renorm_valueADC0=double((2500/1024)*renorm_valueADC0);
 
-valueDAC1=allAddrDAC(chanDAC==1);
-allTsDAC1=allTsDAC(chanDAC==1);
+valueADC1=allAddrADC(chanADC==1);
+allTsADC1=allTsADC(chanADC==1);
 
-renorm_valueDAC1=valueDAC1-min(valueDAC1);
-renorm_valueDAC1=double((2500/1024)*renorm_valueDAC1);
+renorm_valueADC1=valueADC1-min(valueADC1);
+renorm_valueADC1=double((2500/1024)*renorm_valueADC1);
 
 %%To find Cochlea AER output
 sosbpfid=double(bitand(allAddr,1)); %first bit, TX0
@@ -85,6 +85,7 @@ if ((length(tsleft)>0) | (length(tsright)>0))
 
 %left channel, take addr * 4 then add neuronY
 		   laddress=[];
+
 lengthl=length(aeleft);
 laddress=aeleft*4+neuronleft; 
 
@@ -114,20 +115,42 @@ offset=64*4; %64 channels by 4 neurons
            
 hold off
 
+           tsl=tsleft(neuronleft==0);
+           addrl=aeleft(neuronleft==0);
+           tsr=tsright(neuronright==0);
+           addrr=aeright(neuronright==0);
 %rescaled down by 40 for display reasons
-plot(234*[1:length(renorm_valueDAC0)]/1e6,renorm_valueDAC0/5, 'k')
- 
+
+nplot=[500:7000];
+rend=tsl(nplot(end)); rfirst=tsl(nplot(1));
+subplot(212);
+%plot(allTsADC0/1e6,renorm_valueADC0, 'k.')
+plot(234*[1:length(renorm_valueADC0(nplot))]/1e6,renorm_valueADC0(nplot), 'k.')
+%plot(234*[1:length(renorm_valueADC0)]/1e6,renorm_valueADC0/5, 'k')
+ylabel 'mV'
+xlabel 'Time (ms)'
+
+subplot(211);
+
 hold on
-plot (tsleft, laddress+60, '.', 'MarkerSize', 10, 'Color', [0.6 0 0])
-hold on
-plot (tsleftinteger, laddressinteger+60, '.', 'MarkerSize', 10, 'Color',[0.6 0 0])% [0.6 0.6 0.6])
+plot (tsl(nplot), addrl(nplot), '.', 'MarkerSize', 10, 'Color', [0.6 0 0])
 hold on
 
-offset=0;
-plot (tsright, raddress+offset+60, '.', 'MarkerSize', 10, 'Color', [0 0.6 0])
-hold on
-plot (tsrightinteger,raddressinteger+offset+60, '.', 'MarkerSize', 10, 'Color',[0 0.6 0])% [0.6 0.6 0.6])
-hold off
+plot (tsr(nplot), addrr(nplot), '.', 'MarkerSize', 10, 'Color', [0 0.6 0])
+ylabel 'Channel'
+xlabel 'Time (ms)'
+ylim ([0 70]);
+% hold on
+% plot (tsleft, laddress+60, '.', 'MarkerSize', 10, 'Color', [0.6 0 0])
+% hold on
+% plot (tsleftinteger, laddressinteger+60, '.', 'MarkerSize', 10, 'Color',[0.6 0 0])% [0.6 0.6 0.6])
+% hold on
+% 
+% offset=0;
+% plot (tsright, raddress+offset+60, '.', 'MarkerSize', 10, 'Color', [0 0.6 0])
+% hold on
+% plot (tsrightinteger,raddressinteger+offset+60, '.', 'MarkerSize', 10, 'Color',[0 0.6 0])% [0.6 0.6 0.6])
+% hold off
 
             %xlim ([0 Time]);
 %            ylim ([0 33]);
