@@ -1,0 +1,4 @@
+FST - 1.20 - http://code.google.com/p/fast-serialization/
+javax.usb (usb-api) - 1.0.2 - https://sourceforge.net/projects/javax-usb/
+usb4java - 1.1.0-SNAPSHOT - https://github.com/llongi/usb4java/
+USBTransferThread - 0.7 - https://github.com/llongi/USBTransferThread/
