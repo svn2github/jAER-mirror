@@ -20,7 +20,7 @@
 		<repository>
 			<id>in-project-repo</id>
 			<name>Internal Project Repo</name>
-			<url>file://${project.basedir}/jars</url>
+			<url>file://${project.basedir}/jars/</url>
 		</repository>
 		<repository>
 			<id>javacv-repo</id>
@@ -30,7 +30,7 @@
 		<repository>
 			<id>snapshots-repo</id>
 			<name>Sonatype Snapshots Repo</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
