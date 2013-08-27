@@ -1,0 +1,142 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.sf.jaer</groupId>
+	<artifactId>jAER2</artifactId>
+	<version>0.2-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>jAER2</name>
+	<url>https://sourceforge.net/p/jaer/</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>in-project-repo</id>
+			<name>Internal Project Repo</name>
+			<url>file://${project.basedir}/jars</url>
+		</repository>
+		<repository>
+			<id>javacv-repo</id>
+			<name>JavaCV Repo</name>
+			<url>http://maven2.javacv.googlecode.com/git/</url>
+		</repository>
+		<repository>
+			<id>snapshots-repo</id>
+			<name>Sonatype Snapshots Repo</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<dependency>
+			<!-- Specifies the logging back-end (java.util.logging). -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-jdk14</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>14.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.javacv</groupId>
+			<artifactId>javacv</artifactId>
+			<version>0.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.controlsfx</groupId>
+			<artifactId>controlsfx</artifactId>
+			<version>8.0.2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<!-- Needed by usb4java. -->
+			<groupId>javax.usb</groupId>
+			<artifactId>usb-api</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>li.longi</groupId>
+			<artifactId>usb4java</artifactId>
+			<version>1.1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>li.longi</groupId>
+			<artifactId>USBTransferThread</artifactId>
+			<version>0.7</version>
+		</dependency>
+		<dependency>
+			<groupId>de.ruedigermoeller</groupId>
+			<artifactId>fst</artifactId>
+			<version>1.20</version>
+		</dependency>
+		<dependency>
+			<!-- Needed by FST. -->
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.18.0-GA</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jogamp.gluegen</groupId>
+			<artifactId>gluegen-rt-main</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jogamp.jogl</groupId>
+			<artifactId>jogl-all-main</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.9-RC1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.4</version>
+		</dependency>
+	</dependencies>
+
+	<organization>
+		<name>INI</name>
+		<url>https://www.ini.uzh.ch/</url>
+	</organization>
+
+	<issueManagement>
+		<url>https://sourceforge.net/p/jaer/tickets/</url>
+		<system>SF Tickets</system>
+	</issueManagement>
+</project>
