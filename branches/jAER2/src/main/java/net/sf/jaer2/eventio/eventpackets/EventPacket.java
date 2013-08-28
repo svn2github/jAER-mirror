@@ -474,11 +474,11 @@ public final class EventPacket<E extends Event> extends AbstractCollection<E> im
 	private final class EventTimestampComparator implements Comparator<E> {
 		@Override
 		public int compare(final E evt1, final E evt2) {
-			if (evt1.getTimestamp() > evt2.getTimestamp()) {
+			if (evt1.timestamp > evt2.timestamp) {
 				return 1;
 			}
 
-			if (evt1.getTimestamp() < evt2.getTimestamp()) {
+			if (evt1.timestamp < evt2.timestamp) {
 				return -1;
 			}
 

@@ -295,11 +295,11 @@ public final class EventPacketContainer implements Iterable<Event> {
 	private final class EventTimestampComparator implements Comparator<Event> {
 		@Override
 		public int compare(final Event evt1, final Event evt2) {
-			if (evt1.getTimestamp() > evt2.getTimestamp()) {
+			if (evt1.timestamp > evt2.timestamp) {
 				return 1;
 			}
 
-			if (evt1.getTimestamp() < evt2.getTimestamp()) {
+			if (evt1.timestamp < evt2.timestamp) {
 				return -1;
 			}
 

@@ -38,10 +38,6 @@ public abstract class Event implements Serializable {
 		valid = false;
 	}
 
-	public final int getTimestamp() {
-		return timestamp;
-	}
-
 	protected final void deepCopyInternal(final Event evt) {
 		evt.sourceID = sourceID;
 		evt.valid = valid;
