@@ -1,0 +1,40 @@
+\begin{center}
+\begin{longtabu} to \linewidth {|c|c|l|l|}
+\caption{SPI Flash memory map and notes} \label{tab:spi_memory_map}
+\\
+\hline
+32 KByte Blocks & Address (bytes) & \multicolumn{1}{c|}{Usage} & \multicolumn{1}{c|}{Notes} \\ \hline
+1 & 00000 & FX3 Firmware Image. & Directly written here, no \\ \hline
+2 & 08000 & (192 KB) & preamble, to boot from. \\ \hline
+3 & 10000 &  &  \\ \hline
+4 & 18000 &  &  \\ \hline
+5 & 20000 &  &  \\ \hline
+6 & 28000 &  &  \\ \hline
+7 & 30000 & FPGA Bitstream. & 8 byte preamble: \\ \hline
+8 & 38000 & (576 KB) & 4 byte string "FPGA" + \\ \hline
+9 & 40000 &  & 4 byte length (LE) \\ \hline
+10 & 48000 &  & then bitstream as \\ \hline
+11 & 50000 &  & exported by tools. \\ \hline
+12 & 58000 &  &  \\ \hline
+13 & 60000 &  &  \\ \hline
+14 & 68000 &  &  \\ \hline
+15 & 70000 &  &  \\ \hline
+16 & 78000 &  &  \\ \hline
+17 & 80000 &  &  \\ \hline
+18 & 88000 &  &  \\ \hline
+19 & 90000 &  &  \\ \hline
+20 & 98000 &  &  \\ \hline
+21 & A0000 &  &  \\ \hline
+22 & A8000 &  &  \\ \hline
+23 & B0000 &  &  \\ \hline
+24 & B8000 &  &  \\ \hline
+25 & C0000 & Data. & Each piece of data has \\ \hline
+26 & C8000 & (256 KB) & an 8 byte preamble: \\ \hline
+27 & D0000 &  & 4 byte string identifier + \\ \hline
+28 & D8000 &  & 4 byte length (LE) \\ \hline
+29 & E0000 &  & then the data as specified. \\ \hline
+30 & E8000 &  & Memory regions have to be \\ \hline
+31 & F0000 &  & reserved by marking them \\ \hline
+32 & F8000 &  & in the SPI Memory Map doc. \\ \hline
+\end{longtabu}
+\end{center}

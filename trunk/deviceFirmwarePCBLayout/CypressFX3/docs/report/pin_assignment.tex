@@ -1,0 +1,70 @@
+\begin{center}
+\begin{longtabu} to \linewidth {|c|c|c|c|c|}
+\caption{FX3 firmware expected pin assignment} \label{tab:pin_assignment}
+\\
+\hline
+FX3 IO & FX3 DVK Pin & 16-bit SlvFIFO & 32-bit SlvFIFO & Direction \\ \hline
+GPIO [0] & 68 & DATA 0 & DATA 0 & IN / OUT \\ \hline
+GPIO [1] & 74 & DATA 1 & DATA 1 & IN / OUT \\ \hline
+GPIO [2] & 76 & DATA 2 & DATA 2 & IN / OUT \\ \hline
+GPIO [3] & 70 & DATA 3 & DATA 3 & IN / OUT \\ \hline
+GPIO [4] & 50 & DATA 4 & DATA 4 & IN / OUT \\ \hline
+GPIO [5] & 80 & DATA 5 & DATA 5 & IN / OUT \\ \hline
+GPIO [6] & 32 & DATA 6 & DATA 6 & IN / OUT \\ \hline
+GPIO [7] & 42 & DATA 7 & DATA 7 & IN / OUT \\ \hline
+GPIO [8] & 66 & DATA 8 & DATA 8 & IN / OUT \\ \hline
+GPIO [9] & 89 & DATA 9 & DATA 9 & IN / OUT \\ \hline
+GPIO [10] & 61 & DATA 10 & DATA 10 & IN / OUT \\ \hline
+GPIO [11] & 79 & DATA 11 & DATA 11 & IN / OUT \\ \hline
+GPIO [12] & 71 & DATA 12 & DATA 12 & IN / OUT \\ \hline
+GPIO [13] & 81 & DATA 13 & DATA 13 & IN / OUT \\ \hline
+GPIO [14] & 65 & DATA 14 & DATA 14 & IN / OUT \\ \hline
+GPIO [15] & 83 & DATA 15 & DATA 15 & IN / OUT \\ \hline
+GPIO [16] & 44 & PCLK & PCLK & IN / OUT \\ \hline
+GPIO [17] & 33 & SLCS & SLCS & IN \\ \hline
+GPIO [18] & 51 & SLWR & SLWR & IN \\ \hline
+GPIO [19] & 55 & SLOE & SLOE & IN \\ \hline
+GPIO [20] & 31 & SLRD & SLRD & IN \\ \hline
+GPIO [21] & 60 & SOCK 0 FULL & SOCK 0 FULL & OUT \\ \hline
+GPIO [22] & 39 & SOCK 0 PART FULL & SOCK 0 PART FULL & OUT \\ \hline
+GPIO [23] & 45 & SOCK 1 EMPTY & SOCK 1 EMPTY & OUT \\ \hline
+GPIO [24] & 37 & PKTEND & PKTEND & IN \\ \hline
+GPIO [25] & 49 & SOCK 1 PART EMPTY & SOCK 1 PART EMPTY & OUT \\ \hline
+GPIO [26] & 41 & GPIO & GPIO & IN / OUT \\ \hline
+GPIO [27] & 43 & GPIO & GPIO & IN / OUT \\ \hline
+GPIO [28] & 54 & A 1 &  A 1 & IN \\ \hline
+GPIO [29] & 57 & A 0 & A 0 & IN \\ \hline
+GPIO [30] & 36 & PMODE 0 & PMODE 0 & IN \\ \hline
+GPIO [31] & 46 & PMODE 1 & PMODE 1 & IN \\ \hline
+GPIO [32] & 30 & PMODE 2 & PMODE 2 & IN \\ \hline
+GPIO [33] & 56 & GPIO & DATA 16 & IN / OUT \\ \hline
+GPIO [34] & 85 & GPIO & DATA 17 & IN / OUT \\ \hline
+GPIO [35] & 73 & GPIO & DATA 18 & IN / OUT \\ \hline
+GPIO [36] & 87 & GPIO & DATA 19 & IN / OUT \\ \hline
+GPIO [37] & 77 & GPIO & DATA 20 & IN / OUT \\ \hline
+GPIO [38] & 75 & GPIO & DATA 21 & IN / OUT \\ \hline
+GPIO [39] & 69 & GPIO & DATA 22 & IN / OUT \\ \hline
+GPIO [40] & 67 & GPIO & DATA 23 & IN / OUT \\ \hline
+GPIO [41] & 78 & GPIO & DATA 24 & IN / OUT \\ \hline
+GPIO [42] & 72 & GPIO & DATA 25 & IN / OUT \\ \hline
+GPIO [43] & 63 & GPIO & DATA 26 & IN / OUT \\ \hline
+GPIO [44] & 58 & GPIO & DATA 27 & IN / OUT \\ \hline
+GPIO [45] & TP 13 & GPIO & GPIO & IN / OUT \\ \hline
+GPIO [46] & 38 & GPIO & DATA 28 & IN / OUT \\ \hline
+GPIO [47] & 62 & GPIO & DATA 29 & IN / OUT \\ \hline
+GPIO [48] & 40 & GPIO & DATA 30 & IN / OUT \\ \hline
+GPIO [49] & 64 & GPIO & DATA 31 & IN / OUT \\ \hline
+GPIO [50] & 95 & GPIO & GPIO & IN / OUT \\ \hline
+GPIO [51] & 93 & GPIO & GPIO & IN / OUT \\ \hline
+GPIO [52] & 91 & GPIO & GPIO & IN / OUT \\ \hline
+GPIO [53] & COM port & SPI\_CLK & GPIO & OUT \\ \hline
+GPIO [54] & COM port & SPI\_SSN & GPIO & OUT \\ \hline
+GPIO [55] & COM port & SPI\_MISO & GPIO & IN \\ \hline
+GPIO [56] & COM port & SPI\_MOSI & GPIO & OUT \\ \hline
+GPIO [57] & 90 & GPIO & GPIO & IN / OUT \\ \hline
+GPIO [58] & 88 & I2C-SCL & I2C-SCL & OUT \\ \hline
+GPIO [59] & 86 & I2C-SDA & I2C-SDA & IN / OUT \\ \hline
+int\# & 52 & INT & INT & IN / OUT \\ \hline
+reset\# & 59 & RESET & RESET & IN \\ \hline
+\end{longtabu}
+\end{center}

@@ -1,0 +1,39 @@
+\begin{center}
+\begin{longtabu} to \linewidth {|c|c|X|}
+\caption{Vendor Request assignment map} \label{tab:vr_assignment}
+\\
+\hline
+VR Byte & Name & Description \\ \hline
+A0 & VR\_FIRMWARE & Read/Write firmware to Cypress FX3 RAM and execute it. ONLY ON BLANK DEVICES! \\ \hline
+A1 & FX3 BOOT RESERVED &  \\ \hline
+A2 & FX3 BOOT RESERVED &  \\ \hline
+A3 & FX3 BOOT RESERVED &  \\ \hline
+A4 & FX3 BOOT RESERVED &  \\ \hline
+A5 & FX3 BOOT RESERVED &  \\ \hline
+A6 & FX3 BOOT RESERVED &  \\ \hline
+A7 & FX3 BOOT RESERVED &  \\ \hline
+A8 & FX3 BOOT RESERVED &  \\ \hline
+A9 & FX3 BOOT RESERVED &  \\ \hline
+AA & FX3 BOOT RESERVED &  \\ \hline
+AB & FX3 BOOT RESERVED &  \\ \hline
+AC & FX3 BOOT RESERVED &  \\ \hline
+AD & FX3 BOOT RESERVED &  \\ \hline
+AE & FX3 BOOT RESERVED &  \\ \hline
+AF & VR\_MS\_FEATURE\_DSCR & Microsoft OS Feature Descriptor request for advanced functionality (WCID, ...). \\ \hline
+B0 & VR\_TEST & Read test byte sequence from Control pipe (EP0) and write it back to the Status pipe (EP1). \\ \hline
+B1 & VR\_LOG\_LEVEL & Set log level to wValue. \\ \hline
+B2 & VR\_FX3\_RESET & Perform a cold-reset of the Cypress FX3 device. \\ \hline
+B3 & VR\_STATUS & Return various status information (like USB speed, log\_level, ...). \\ \hline
+B4 & VR\_SUPPORTED & Return information on supported firmware features. \\ \hline
+B5 & VR\_GPIO\_GET & Read GPIO wValue and get back the state. \\ \hline
+B6 & VR\_GPIO\_SET & Execute operation wIndex on GPIO wValue (supported are OFF, ON, TOGGLE, TIMED, RECURRING). \\ \hline
+B7 & VR\_I2C\_CONFIG & Configure I2C device. \\ \hline
+B8 & VR\_I2C\_TRANSFER & Read/Write from I2C device. \\ \hline
+B9 & VR\_SPI\_CONFIG & Configure SPI device, set command to execute with VR\_SPI\_CMD. \\ \hline
+BA & VR\_SPI\_CMD & Send any command to SPI device and read/write result (more general than VR\_SPI\_TRANSFER). \\ \hline
+BB & VR\_SPI\_TRANSFER & Read/Write from SPI memory-like device. \\ \hline
+BC & VR\_SPI\_ERASE & Erase a 64KB block on SPI memory-like device. \\ \hline
+BD & VR\_BIAS & Write Bias configuration to chip. \\ \hline
+BE & VR\_FPGA\_CONFIG & Configure FPGA via USB, by loading a new bitstream into it. \\ \hline
+\end{longtabu}
+\end{center}
