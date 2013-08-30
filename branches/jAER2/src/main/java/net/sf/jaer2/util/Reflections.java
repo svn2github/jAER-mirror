@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import net.sf.jaer2.chips.Chip;
+import net.sf.jaer2.devices.chips.Chip;
 import net.sf.jaer2.eventio.processors.EventProcessor;
 import net.sf.jaer2.eventio.sinks.Sink;
 import net.sf.jaer2.eventio.sources.Source;

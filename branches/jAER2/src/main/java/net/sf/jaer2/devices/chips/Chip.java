@@ -1,4 +1,4 @@
-package net.sf.jaer2.chips;
+package net.sf.jaer2.devices.chips;
 
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
 import net.sf.jaer2.eventio.eventpackets.raw.RawEventPacket;

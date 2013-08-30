@@ -23,7 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import net.sf.jaer2.chips.Chip;
+import net.sf.jaer2.devices.chips.Chip;
 import net.sf.jaer2.eventio.processors.EventProcessor;
 import net.sf.jaer2.eventio.processors.InputProcessor;
 import net.sf.jaer2.eventio.processors.OutputProcessor;
