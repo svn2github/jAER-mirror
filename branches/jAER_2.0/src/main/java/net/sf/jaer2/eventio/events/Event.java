@@ -5,7 +5,7 @@ import java.io.Serializable;
 public abstract class Event implements Serializable {
 	private static final long serialVersionUID = 6776816266258337111L;
 
-	transient private int sourceID = 0;
+	transient private short sourceID = 0;
 	private boolean valid = true;
 
 	public final int timestamp;
@@ -18,11 +18,11 @@ public abstract class Event implements Serializable {
 		return getClass();
 	}
 
-	public final int getEventSource() {
+	public final short getEventSource() {
 		return sourceID;
 	}
 
-	public final void setEventSource(final int source) {
+	public final void setEventSource(final short source) {
 		sourceID = source;
 	}
 

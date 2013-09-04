@@ -3,13 +3,13 @@ package net.sf.jaer2.eventio.events;
 public class IMUEvent extends Event {
 	private static final long serialVersionUID = 4495287162153651358L;
 
-	public double accelX;
-	public double accelY;
-	public double accelZ;
+	public short accelX;
+	public short accelY;
+	public short accelZ;
 
-	public double gyroX;
-	public double gyroY;
-	public double gyroZ;
+	public short gyroX;
+	public short gyroY;
+	public short gyroZ;
 
 	public IMUEvent(final int ts) {
 		super(ts);

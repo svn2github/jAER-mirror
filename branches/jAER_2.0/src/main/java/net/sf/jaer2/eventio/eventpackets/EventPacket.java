@@ -23,25 +23,25 @@ public final class EventPacket<E extends Event> extends AbstractCollection<E> im
 	private int validEvents;
 
 	private final Class<E> eventType;
-	transient private int eventSource;
+	transient private short eventSource;
 	transient private EventPacketContainer parentContainer;
 
 	private boolean timeOrdered;
 	private boolean timeOrderingEnforced;
 
-	public EventPacket(final Class<E> type, final int source) {
+	public EventPacket(final Class<E> type, final short source) {
 		this(type, source, false);
 	}
 
-	public EventPacket(final Class<E> type, final int source, final boolean timeOrder) {
+	public EventPacket(final Class<E> type, final short source, final boolean timeOrder) {
 		this(type, source, EventPacket.DEFAULT_EVENT_CAPACITY, timeOrder);
 	}
 
-	public EventPacket(final Class<E> type, final int source, final int capacity) {
+	public EventPacket(final Class<E> type, final short source, final int capacity) {
 		this(type, source, capacity, false);
 	}
 
-	public EventPacket(final Class<E> type, final int source, final int capacity, final boolean timeOrder) {
+	public EventPacket(final Class<E> type, final short source, final int capacity, final boolean timeOrder) {
 		super();
 
 		// Check passed parameters before assigning.
@@ -67,11 +67,11 @@ public final class EventPacket<E extends Event> extends AbstractCollection<E> im
 		return eventType;
 	}
 
-	public int getEventSource() {
+	public short getEventSource() {
 		return eventSource;
 	}
 
-	public void setEventSource(final int source) {
+	public void setEventSource(final short source) {
 		eventSource = source;
 
 		// Update all events accordingly!

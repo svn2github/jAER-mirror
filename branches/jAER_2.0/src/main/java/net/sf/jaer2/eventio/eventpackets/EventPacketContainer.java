@@ -19,9 +19,9 @@ import com.google.common.collect.Iterators;
 public final class EventPacketContainer implements Iterable<Event> {
 	// Lookup map: a Pair consisting of the Event type and the Event source
 	// determine the returned EventPacket<Type>.
-	private final Map<ImmutablePair<Class<? extends Event>, Integer>, EventPacket<? extends Event>> eventPackets = new HashMap<>();
+	private final Map<ImmutablePair<Class<? extends Event>, Short>, EventPacket<? extends Event>> eventPackets = new HashMap<>();
 	private final ArrayList<Object> annotateDataSets = new ArrayList<>();
-	private final int sourceId;
+	private final short sourceId;
 
 	private ArrayList<Event> eventsTimeOrdered;
 	private boolean timeOrderingEnforced;
@@ -31,7 +31,8 @@ public final class EventPacketContainer implements Iterable<Event> {
 	}
 
 	public EventPacketContainer(final Processor parentProcessor, final boolean timeOrder) {
-		sourceId = parentProcessor.getProcessorId();
+		// TODO: convert processors and chains to use a short as ID too.
+		sourceId = (short) parentProcessor.getProcessorId();
 
 		timeOrderingEnforced = timeOrder;
 
@@ -48,7 +49,7 @@ public final class EventPacketContainer implements Iterable<Event> {
 		return annotateDataSets.remove(0);
 	}
 
-	public int getSourceId() {
+	public short getSourceId() {
 		return sourceId;
 	}
 
@@ -139,7 +140,7 @@ public final class EventPacketContainer implements Iterable<Event> {
 		}
 	}
 
-	public <E extends Event> EventPacket<E> createPacket(final Class<E> type, final int source) {
+	public <E extends Event> EventPacket<E> createPacket(final Class<E> type, final short source) {
 		@SuppressWarnings("unchecked")
 		EventPacket<E> internalEventPacket = (EventPacket<E>) eventPackets.get(new ImmutablePair<>(type, source));
 
@@ -148,7 +149,7 @@ public final class EventPacketContainer implements Iterable<Event> {
 			internalEventPacket = new EventPacket<>(type, source);
 			internalEventPacket.setParentContainer(this);
 
-			eventPackets.put(new ImmutablePair<Class<? extends Event>, Integer>(type, source), internalEventPacket);
+			eventPackets.put(new ImmutablePair<Class<? extends Event>, Short>(type, source), internalEventPacket);
 		}
 
 		return internalEventPacket;
