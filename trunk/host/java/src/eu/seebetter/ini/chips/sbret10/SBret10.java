@@ -6,28 +6,24 @@
  */
 package eu.seebetter.ini.chips.sbret10;
 
-import ch.unizh.ini.jaer.projects.spatiatemporaltracking.data.histogram.AbstractHistogram;
-import com.sun.opengl.util.j2d.TextRenderer;
-import eu.seebetter.ini.chips.ApsDvsChip;
-import static eu.seebetter.ini.chips.ApsDvsChip.ADC_DATA_MASK;
-import static eu.seebetter.ini.chips.ApsDvsChip.ADC_READCYCLE_MASK;
-import static eu.seebetter.ini.chips.ApsDvsChip.POLMASK;
-import static eu.seebetter.ini.chips.ApsDvsChip.XMASK;
-import static eu.seebetter.ini.chips.ApsDvsChip.XSHIFT;
-import static eu.seebetter.ini.chips.ApsDvsChip.YMASK;
-import static eu.seebetter.ini.chips.ApsDvsChip.YSHIFT;
 import java.awt.Font;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.JFrame;
+
 import net.sf.jaer.Description;
 import net.sf.jaer.aemonitor.AEPacketRaw;
 import net.sf.jaer.biasgen.BiasgenHardwareInterface;
 import net.sf.jaer.chip.RetinaExtractor;
-import net.sf.jaer.event.*;
+import net.sf.jaer.event.ApsDvsEvent;
+import net.sf.jaer.event.ApsDvsEventPacket;
+import net.sf.jaer.event.EventPacket;
+import net.sf.jaer.event.OutputEventIterator;
+import net.sf.jaer.event.TypedEvent;
 import net.sf.jaer.eventprocessing.filter.ApsDvsEventFilter;
 import net.sf.jaer.eventprocessing.filter.Info;
 import net.sf.jaer.eventprocessing.filter.RefractoryFilter;
@@ -36,6 +32,11 @@ import net.sf.jaer.graphics.ChipRendererDisplayMethodRGBA;
 import net.sf.jaer.graphics.DisplayMethod;
 import net.sf.jaer.hardwareinterface.HardwareInterface;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
+import ch.unizh.ini.jaer.projects.spatiatemporaltracking.data.histogram.AbstractHistogram;
+
+import com.sun.opengl.util.j2d.TextRenderer;
+
+import eu.seebetter.ini.chips.ApsDvsChip;
 
 /**
  * Describes retina and its event extractor and bias generator. Two constructors
@@ -54,7 +55,7 @@ import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 public class SBret10 extends ApsDvsChip {
 
     private final int ADC_NUMBER_OF_TRAILING_ZEROS = Integer.numberOfTrailingZeros(ADC_READCYCLE_MASK); // speedup in loop
-    // following define bit masks for various hardware data types. 
+    // following define bit masks for various hardware data types.
     // The hardware interface translateEvents method packs the raw device data into 32 bit 'addresses' and timestamps.
     // timestamps are unwrapped and timestamp resets are handled in translateEvents. Addresses are filled with either AE or ADC data.
     // AEs are filled in according the XMASK, YMASK, XSHIFT, YSHIFT below.
@@ -68,15 +69,15 @@ public class SBret10 extends ApsDvsChip {
     /**
      *holds measured variable in Hz for GUI rendering of rate
      */
-    protected float frameRateHz; 
+    protected float frameRateHz;
     /**
      * holds measured variable in ms for GUI rendering
      */
-    protected float exposureMs; 
+    protected float exposureMs;
     /**
      * Holds count of frames obtained by end of frame events
      */
-    private int frameCount=0; 
+    private int frameCount=0;
     private boolean snapshot = false;
     private boolean resetOnReadout = false;
     private SBret10config config;
@@ -86,7 +87,7 @@ public class SBret10 extends ApsDvsChip {
     int sx1 = getSizeX() - 1, sy1 = getSizeY() - 1;
     private int autoshotThresholdEvents=getPrefs().getInt("SBRet10.autoshotThresholdEvents",0);
     private IMUSample imuSample;
- 
+
     /**
      * Creates a new instance of cDVSTest20.
      */
@@ -143,8 +144,8 @@ public class SBret10 extends ApsDvsChip {
         setHardwareInterface(hardwareInterface);
     }
 
-  
- 
+
+
 
 //    int pixcnt=0; // TODO debug
     /**
@@ -214,8 +215,8 @@ public class SBret10 extends ApsDvsChip {
 
             for (int i = 0; i < n; i++) {  // TODO implement skipBy/subsampling, but without missing the frame start/end events and still delivering frames
                 int data = datas[i];
-                
-                if((ApsDvsChip.ADDRESS_TYPE_MASK&data)==ApsDvsChip.ADDRESS_TYPE_IMU){
+
+                if((ApsDvsChip.ADDRESS_TYPE_IMU & data)==ApsDvsChip.ADDRESS_TYPE_IMU){
                     try {
                         imuSample = new IMUSample(in, i);
     //                    System.out.println(imuSample); // debug
@@ -264,7 +265,7 @@ public class SBret10 extends ApsDvsChip {
                             log.warning("Event with readout cycle null was sent out!");
                             break;
                         default:
-                            if (warningCount < 10 || warningCount % WARNING_COUNT_DIVIDER == 0) {
+                            if ((warningCount < 10) || ((warningCount % WARNING_COUNT_DIVIDER) == 0)) {
                                 log.warning("Event with unknown readout cycle was sent out! You might be reading a file that had the deprecated C readout mode enabled.");
                             }
                             warningCount++;
@@ -275,7 +276,7 @@ public class SBret10 extends ApsDvsChip {
                     e.x = (short) (((data & XMASK) >>> XSHIFT));
                     e.y = (short) ((data & YMASK) >>> YSHIFT);
                     e.type = (byte)(2);
-                    boolean pixZero = e.x == sx1 && e.y == sy1;//first event of frame (addresses get flipped)
+                    boolean pixZero = (e.x == sx1) && (e.y == sy1);//first event of frame (addresses get flipped)
                     e.startOfFrame = (e.readoutType == ApsDvsEvent.ReadoutType.ResetRead) && pixZero;
                     if (!config.chipConfigChain.configBits[6].isSet() && e.startOfFrame) {
                         //rolling shutter
@@ -283,7 +284,7 @@ public class SBret10 extends ApsDvsChip {
                         frameTime = e.timestamp - firstFrameTs;
                         firstFrameTs = e.timestamp;
                     }
-                    if (config.chipConfigChain.configBits[6].isSet() && e.isResetRead() && e.x == 0 && e.y == sy1) {
+                    if (config.chipConfigChain.configBits[6].isSet() && e.isResetRead() && (e.x == 0) && (e.y == sy1)) {
                         //global shutter
                         frameTime = e.timestamp - firstFrameTs;
                         firstFrameTs = e.timestamp;
@@ -292,7 +293,7 @@ public class SBret10 extends ApsDvsChip {
                     if (pixZero && e.isSignalRead()) {
                         exposure = e.timestamp - firstFrameTs;
                     }
-                    if (e.isSignalRead() && e.x == 0 && e.y == 0) {
+                    if (e.isSignalRead() && (e.x == 0) && (e.y == 0)) {
                         // if we use ResetRead+SignalRead+C readout, OR, if we use ResetRead-SignalRead readout and we are at last APS pixel, then write EOF event
                         lastADCevent(); // TODO what does this do?
                         //insert a new "end of frame" event not present in original data
@@ -311,7 +312,7 @@ public class SBret10 extends ApsDvsChip {
                     }
                 }
             }
-            if(getAutoshotThresholdEvents()>0 && autoshotEventsSinceLastShot>getAutoshotThresholdEvents()){
+            if((getAutoshotThresholdEvents()>0) && (autoshotEventsSinceLastShot>getAutoshotThresholdEvents())){
                 takeSnapshot();
                 autoshotEventsSinceLastShot=0;
             }
@@ -423,28 +424,28 @@ public class SBret10 extends ApsDvsChip {
                 exposureRenderer.setColor(1, 1, 1, 1);
             }
             super.display(drawable);
-            if (config.videoControl != null && config.videoControl.displayFrames) {
+            if ((config.videoControl != null) && config.videoControl.displayFrames) {
                 GL gl = drawable.getGL();
                 exposureRender(gl);
             }
             // draw sample histogram
-            if(showImageHistogram && renderer instanceof AEFrameChipRenderer){
+            if(showImageHistogram && (renderer instanceof AEFrameChipRenderer)){
 //                System.out.println("drawing hist");
                 final int size=100;
                 AbstractHistogram hist=((AEFrameChipRenderer)renderer).getAdcSampleValueHistogram();
-                hist.draw(drawable, 
-                        exposureRenderer, 
-                        sizeX/2-size/2, sizeY/2+size/2, size, size);
+                hist.draw(drawable,
+                        exposureRenderer,
+                        (sizeX/2)-(size/2), (sizeY/2)+(size/2), size, size);
             }
-            
-            if(showIMU && chip instanceof SBret10){
+
+            if(showIMU && (chip instanceof SBret10)){
                 IMUSample imuSample=((SBret10)chip).getImuSample();
                 if(imuSample!=null){
                     imuRender(drawable, imuSample);
                 }
             }
         }
-        
+
         TextRenderer imuTextRenderer=new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
 
         private void imuRender(GLAutoDrawable drawable, IMUSample imuSample) {
@@ -453,40 +454,40 @@ public class SBret10 extends ApsDvsChip {
             gl.glPushMatrix();
             gl.glTranslatef(chip.getSizeX()/2,chip.getSizeY()/2,0);
             gl.glLineWidth(3);
-            
+
             final float s=.8f;
             // gyro pan/tilt
             gl.glColor3f(1, 0, 0);
             gl.glBegin(GL.GL_LINES);
             gl.glVertex2f(0, 0);
-            gl.glVertex2f(s*imuSample.getGyroYawY() * HEIGHT / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC, s*imuSample.getGyroTiltX() * HEIGHT / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC);
+            gl.glVertex2f((s*imuSample.getGyroYawY() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC, (s*imuSample.getGyroTiltX() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC);
             // gyro roll
             gl.glVertex2f(0, 40);
-            gl.glVertex2f(s*imuSample.getGyroRollZ() * HEIGHT / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC, 40);
+            gl.glVertex2f((s*imuSample.getGyroRollZ() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC, 40);
             gl.glEnd();
 
             //acceleration x,y
             gl.glColor3f(0, 1, 0);
             gl.glBegin(GL.GL_LINES);
             gl.glVertex2f(0, 0);
-            gl.glVertex2f(s*imuSample.getAccelX() * HEIGHT / IMUSample.FULL_SCALE_ACCEL_G, s*imuSample.getAccelY() * HEIGHT / IMUSample.FULL_SCALE_ACCEL_G);
+            gl.glVertex2f((s*imuSample.getAccelX() * HEIGHT) / IMUSample.FULL_SCALE_ACCEL_G, (s*imuSample.getAccelY() * HEIGHT) / IMUSample.FULL_SCALE_ACCEL_G);
             gl.glEnd();
 
             imuTextRenderer.begin3DRendering();
             final float trans = .7f;
             imuTextRenderer.setColor(1,1,0, trans);
-            imuTextRenderer.draw3D("IMU", -4, 0,0,.2f); // x,y,z, scale factor 
+            imuTextRenderer.draw3D("IMU", -4, 0,0,.2f); // x,y,z, scale factor
             imuTextRenderer.setColor(1,0,0, trans);
-            imuTextRenderer.draw3D("G", -6, -6,0,.2f); // x,y,z, scale factor 
+            imuTextRenderer.draw3D("G", -6, -6,0,.2f); // x,y,z, scale factor
             imuTextRenderer.setColor(0,1,0, trans);
-            imuTextRenderer.draw3D("A", +6, -6,0,.2f); // x,y,z, scale factor 
+            imuTextRenderer.draw3D("A", +6, -6,0,.2f); // x,y,z, scale factor
             imuTextRenderer.setColor(1,1,1, trans);
-            imuTextRenderer.draw3D(String.format("%-6.1fms",IMUSample.getAverageSampleIntervalUs()/1000), -6, -12,0,.2f); // x,y,z, scale factor 
-            
+            imuTextRenderer.draw3D(String.format("%-6.1fms",IMUSample.getAverageSampleIntervalUs()/1000), -6, -12,0,.2f); // x,y,z, scale factor
+
             imuTextRenderer.end3DRendering();
           gl.glPopMatrix();
          }
-        
+
         private void exposureRender(GL gl) {
             gl.glPushMatrix();
             exposureRenderer.begin3DRendering();  // TODO make string rendering more efficient here using String.format or StringBuilder
@@ -495,13 +496,13 @@ public class SBret10 extends ApsDvsChip {
             }
             setExposureMs((float) exposure / 1000);
             String s=String.format("Frame: %d; Exposure %.2f ms; Frame rate: %.2f Hz", getFrameCount(),exposureMs,frameRateHz);
-            exposureRenderer.draw3D(s, 0, HEIGHT + FONTSIZE/2, 0, .5f); // x,y,z, scale factor 
+            exposureRenderer.draw3D(s, 0, HEIGHT + (FONTSIZE/2), 0, .5f); // x,y,z, scale factor
             exposureRenderer.end3DRendering();
             int nframes=frameCount%FRAME_COUNTER_BAR_LENGTH_FRAMES;
             int rectw=WIDTH/FRAME_COUNTER_BAR_LENGTH_FRAMES;
             gl.glColor4f(1,1,1,.5f);
             for(int i=0;i<nframes;i++){
-                gl.glRectf(nframes*rectw, HEIGHT+1, (nframes+1)*rectw-3, HEIGHT+FONTSIZE/2-1);
+                gl.glRectf(nframes*rectw, HEIGHT+1, ((nframes+1)*rectw)-3, (HEIGHT+(FONTSIZE/2))-1);
             }
             gl.glPopMatrix();
         }
@@ -560,7 +561,7 @@ public class SBret10 extends ApsDvsChip {
 
    /**
     * Returns the frame counter. This value is set on each end-of-frame sample.
-    * 
+    *
      * @return the frameCount
      */
     public int getFrameCount() {
@@ -568,13 +569,13 @@ public class SBret10 extends ApsDvsChip {
     }
 
     /**
-     * Sets the frame counter. 
+     * Sets the frame counter.
      * @param frameCount the frameCount to set
      */
     public void setFrameCount(int frameCount) {
         this.frameCount = frameCount;
     }
-    
+
     /**
      * Triggers shot of one APS frame
      */
@@ -585,20 +586,24 @@ public class SBret10 extends ApsDvsChip {
     }
 
     /** Sets threshold for shooting a frame automatically
-     * 
-     * @param thresholdEvents the number of events to trigger shot on. Less than or equal to zero disables auto-shot. 
+     *
+     * @param thresholdEvents the number of events to trigger shot on. Less than or equal to zero disables auto-shot.
      */
     @Override
     public void setAutoshotThresholdEvents(int thresholdEvents) {
-        if(thresholdEvents<0) thresholdEvents=0;
+        if(thresholdEvents<0) {
+			thresholdEvents=0;
+		}
         autoshotThresholdEvents=thresholdEvents;
         getPrefs().putInt("SBret10.autoshotThresholdEvents",thresholdEvents);
-        if(autoshotThresholdEvents==0) config.runAdc.set(true);
+        if(autoshotThresholdEvents==0) {
+			config.runAdc.set(true);
+		}
     }
 
     /** Returns threshold for auto-shot.
-     * 
-     * @return events to shoot frame 
+     *
+     * @return events to shoot frame
      */
     @Override
     public int getAutoshotThresholdEvents() {
@@ -614,24 +619,26 @@ public class SBret10 extends ApsDvsChip {
     public boolean isAutoExposureEnabled() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     private boolean showImageHistogram=getPrefs().getBoolean("SBRet10.showImageHistogram", false);
-    public boolean isShowImageHistogram(){
+    @Override
+	public boolean isShowImageHistogram(){
         return showImageHistogram;
     }
-    public void setShowImageHistogram(boolean yes){
+    @Override
+	public void setShowImageHistogram(boolean yes){
         showImageHistogram=yes;
         getPrefs().putBoolean("SBRet10.showImageHistogram", yes);
     }
-    
+
     /** Controls exposure automatically to try to optimize captured gray levels
-     * 
+     *
      */
     private class AutoExposureController { // TODO not implemented yet
-        
+
         public void controlExposure(){
             AbstractHistogram hist=apsDVSrenderer.getAdcSampleValueHistogram();
-            
+
         }
     }
 

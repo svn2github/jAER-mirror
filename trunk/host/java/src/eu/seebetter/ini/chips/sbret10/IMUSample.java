@@ -1,41 +1,41 @@
 package eu.seebetter.ini.chips.sbret10;
 /* This class created in Telluride 2013 to encapsulate Invensense IMU MPU-6150 used on SeeBetter cammeras for gyro/accelometer */
 
-import de.thesycon.usbio.UsbIoBuf;
-import eu.seebetter.ini.chips.ApsDvsChip;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.logging.Logger;
+
 import net.sf.jaer.aemonitor.AEPacketRaw;
 import net.sf.jaer.util.filter.LowpassFilter;
+import de.thesycon.usbio.UsbIoBuf;
+import eu.seebetter.ini.chips.ApsDvsChip;
 
 /**
  * Data sent from device IMU: // accel x/y/z, temp, gyro x/y/z => 7 x 2 bytes =
  * 14 bytes
  */
 public class IMUSample {
-    
+
     private static Logger log=Logger.getLogger("IMUSample");
    /**
      * This byte value as first byte signals an IMU (gyro/accelerometer/compass) sample in the USB byte array sent from device
      */
     private static final byte IMU_SAMPLE_CODE = (byte) 0xff;
-    
+
     /** The data bits of the IMU data are these bits */
-    private static final int DATABITMASK = 0xffff;
-    
+    private static final int DATABITMASK = 0x0FFFF000;
+
    /** code for this sample is left shifted this many bits in the raw 32 bit AE address. The lsbs are the data, and the code for the data type is at this BITSHIFT */
     private static final int CODEBITSHIFT = 16;
-   
+
     /** These bits contain the type of the sample. If any of these bits are set then also this AE address is an IMU sample of some type. */
     private static final int CODEBITMASK=0x0f<<CODEBITSHIFT; // 4 bits to code 7 types of samples because we cannot have a zero code, otherwise we could not detect that we have an IMU sample
- 
+
     private short[] data=new short[SIZE_EVENTS];
 
     private int timestamp, deltaTimeUs;
-    
+
     /** Size of IMUSample in events written or read from AEPacketRaw */
-    public static final int SIZE_EVENTS=7; 
+    public static final int SIZE_EVENTS=7;
 
     private static long lastSampleTimeSystemNs=System.nanoTime();
      /**
@@ -43,10 +43,10 @@ public class IMUSample {
      */
 //    final float accelScale = 2f / ((1 << 16)-1), gyroScale = 250f / ((1 << 16)-1), temperatureScale = 1f/340;
     private static final float accelScale = 1f/16384, gyroScale = 1f/131, temperatureScale = 1f/340, temperatureOffset=35;
-    
+
     /** Full scale values */
     public static final float FULL_SCALE_ACCEL_G=2f, FULL_SCALE_GYRO_DEG_PER_SEC=250f;
-    
+
     private static LowpassFilter sampleIntervalFilter=new LowpassFilter(1000);
 
     public class IncompleteIMUSampleException extends Exception{
@@ -55,38 +55,32 @@ public class IMUSample {
             super(message);
         }
     }
-    
+
     /** Creates an new IMUSample from the AEPacketRaw
      @param packet the packet
      * @param start the starting index where the sample is
      */
     public IMUSample(AEPacketRaw packet, int start)  throws IncompleteIMUSampleException{
-        if(start+SIZE_EVENTS>=packet.getCapacity()){
+        if((start+SIZE_EVENTS)>=packet.getCapacity()){
             throw new IncompleteIMUSampleException("IMUSample cannot be constructed from packet "+packet+" starting from event "+start+", not enough events for a complete sample");
         }
         for (IMUSampleType sampleType : IMUSampleType.values()) {
-//            int v = DATABITMASK & 0xffff;
-            int v = DATABITMASK & packet.addresses[start + sampleType.code];
-            if (v>32767) { // negative short
-                v-=65637;
-                short s=(short)v;
-                data[sampleType.code] = s;
-            } else { // positive short
-                data[sampleType.code] = (short) v;
-            }
+        	final int v = (IMUSample.DATABITMASK & packet.addresses[start + sampleType.code]) >>> 12;
+
+        	data[sampleType.code] = (short) v;
         }
         timestamp = packet.timestamps[start]; // assume all have same timestamp
     }
 
     /** Creates a new IMUSample collection from the byte buffer sent from device, assigning the given timestamp to the samples
-     * 
+     *
      * @param buf the buffer sent on the endpoint from the device
      * @param timestamp the timestamp in us which comes from the AE event stream thread
      */
     public IMUSample(UsbIoBuf buf, int timestamp) {
         setFromUsbIoBuf(buf, timestamp);
     }
-    
+
     final void setFromUsbIoBuf(UsbIoBuf buf, int ts) {
         if (buf.BytesTransferred != 15) {
             log.warning("wrong number of bytes transferred, got " + buf.BytesTransferred);
@@ -116,8 +110,9 @@ public class IMUSample {
 //        System.out.println("on reception: "+this.toString()); // debug
     }
 
-    public String toString() {
-        return String.format("timestamp=%-14d deltaTime=%-8d ax=%-8.3f ay=%-8.3f az=%-8.3f gx=%-8.3f gy=%-8.3f gz=%-8.3f temp=%-8.1f ax= %-8d ay= %-8d az= %-8d gx= %-8d gy= %-8d gz= %-8d temp= %-8d", 
+    @Override
+	public String toString() {
+        return String.format("timestamp=%-14d deltaTime=%-8d ax=%-8.3f ay=%-8.3f az=%-8.3f gx=%-8.3f gy=%-8.3f gz=%-8.3f temp=%-8.1f ax= %-8d ay= %-8d az= %-8d gx= %-8d gy= %-8d gz= %-8d temp= %-8d",
                 getTimestamp(), deltaTimeUs, getAccelX(), getAccelY(), getAccelZ(), getGyroTiltX(), getGyroYawY(), getGyroRollZ(), getTemperature(),
                 getSensorRaw(IMUSampleType.ax), getSensorRaw(IMUSampleType.ay), getSensorRaw(IMUSampleType.az),
                  getSensorRaw(IMUSampleType.gx), getSensorRaw(IMUSampleType.gy), getSensorRaw(IMUSampleType.gz),
@@ -190,7 +185,7 @@ public class IMUSample {
      * @return the temperature
      */
     final public float getTemperature() {
-        return data[IMUSampleType.temp.code] * temperatureScale+temperatureOffset;
+        return (data[IMUSampleType.temp.code] * temperatureScale)+temperatureOffset;
     }
 
     /**
@@ -217,26 +212,33 @@ public class IMUSample {
      * @param imuSampletype the type of sensor value event address we want
      */
     final public int getAddress(IMUSampleType imuSampleType) {
-        switch (imuSampleType) {
-            case ax:
-                return ApsDvsChip.ADDRESS_TYPE_IMU |  IMUSampleType.ax.code<<CODEBITSHIFT | data[IMUSampleType.ax.code];
-            case ay:
-                return ApsDvsChip.ADDRESS_TYPE_IMU |IMUSampleType.ay.code<<CODEBITSHIFT | data[IMUSampleType.ay.code];
-            case az:
-                return ApsDvsChip.ADDRESS_TYPE_IMU |IMUSampleType.az.code<<CODEBITSHIFT | data[IMUSampleType.az.code];
-            case gx:
-                return ApsDvsChip.ADDRESS_TYPE_IMU |IMUSampleType.gx.code<<CODEBITSHIFT | data[IMUSampleType.gx.code];
-            case gy:
-                return ApsDvsChip.ADDRESS_TYPE_IMU |IMUSampleType.gy.code<<CODEBITSHIFT | data[IMUSampleType.gy.code];
-            case gz:
-                return ApsDvsChip.ADDRESS_TYPE_IMU |IMUSampleType.gz.code<<CODEBITSHIFT | data[IMUSampleType.gz.code];
-            case temp:
-                return ApsDvsChip.ADDRESS_TYPE_IMU |IMUSampleType.temp.code<<CODEBITSHIFT | data[IMUSampleType.temp.code];
-            default:
-                throw new RuntimeException("no such sample type " + imuSampleType);
-        }
+    	switch (imuSampleType) {
+			case ax:
+				return ApsDvsChip.ADDRESS_TYPE_IMU
+					| (((IMUSampleType.ax.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.ax.code]) << 12);
+			case ay:
+				return ApsDvsChip.ADDRESS_TYPE_IMU
+					| (((IMUSampleType.ay.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.ay.code]) << 12);
+			case az:
+				return ApsDvsChip.ADDRESS_TYPE_IMU
+					| (((IMUSampleType.az.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.az.code]) << 12);
+			case gx:
+				return ApsDvsChip.ADDRESS_TYPE_IMU
+					| (((IMUSampleType.gx.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.gx.code]) << 12);
+			case gy:
+				return ApsDvsChip.ADDRESS_TYPE_IMU
+					| (((IMUSampleType.gy.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.gy.code]) << 12);
+			case gz:
+				return ApsDvsChip.ADDRESS_TYPE_IMU
+					| (((IMUSampleType.gz.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.gz.code]) << 12);
+			case temp:
+				return ApsDvsChip.ADDRESS_TYPE_IMU
+					| (((IMUSampleType.temp.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.temp.code]) << 12);
+			default:
+				throw new RuntimeException("no such sample type " + imuSampleType);
+		}
     }
-    
+
     /** Writes the IMUSample to the packet starting at start location. The number of events written to packet is returned and
      * can be used to update the eventCouner in the translateEvents method.
      * @param packet to write to
@@ -244,7 +246,7 @@ public class IMUSample {
      * @return the number of events written
      */
     public int writeToPacket(AEPacketRaw packet, int start) {
-        if (start + SIZE_EVENTS >= packet.getCapacity()) {
+        if ((start + SIZE_EVENTS) >= packet.getCapacity()) {
             packet.ensureCapacity(packet.getCapacity() + SIZE_EVENTS);
         }
         for (IMUSampleType sampleType : IMUSampleType.values()) {
@@ -260,17 +262,17 @@ public class IMUSample {
 //     * If the packet ends before this can be filled then the method returns false, but an internal counter is set
 //     * that allow completing the fill from the next call.
 //     * @param packet
-//     * @param start 
+//     * @param start
 //     * @return true if sample is filled in, false if read is not completed before packet ends
 //     */
 //    public boolean readFromPacket(AEPacketRaw packet, int start){
 //         for (IMUSampleType sampleType : IMUSampleType.values()) {
 //            data[sampleType.code]=DATABITMASK&packet.addresses[start + sampleType.code];
 //            packet.timestamps[start + sampleType.code] = timestamp;
-//        }          
+//        }
 //        return true;
 //    }
-     
+
      static public float getAverageSampleIntervalUs(){
          return sampleIntervalFilter.getValue();
      }
