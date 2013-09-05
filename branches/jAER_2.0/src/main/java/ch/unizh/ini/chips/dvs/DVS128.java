@@ -1,4 +1,4 @@
-package ch.unizh.ini.jaer2.chip.dvs;
+package ch.unizh.ini.chips.dvs;
 
 import net.sf.jaer2.devices.chips.Chip;
 import net.sf.jaer2.eventio.eventpackets.EventPacket;

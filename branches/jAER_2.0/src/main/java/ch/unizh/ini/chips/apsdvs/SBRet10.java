@@ -1,4 +1,4 @@
-package ch.unizh.ini.jaer2.chip.apsdvs;
+package ch.unizh.ini.chips.apsdvs;
 
 import net.sf.jaer2.devices.chips.Chip;
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;

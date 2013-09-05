@@ -5,4 +5,4 @@
  * @author llongi
  *
  */
-package ch.unizh.ini.jaer2.chip.dvs;
+package ch.unizh.ini.chips.dvs;
