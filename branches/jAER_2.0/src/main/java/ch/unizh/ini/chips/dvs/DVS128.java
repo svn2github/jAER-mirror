@@ -84,16 +84,16 @@ public class DVS128 implements Chip {
 			eventPacketContainer.getSourceId());
 
 		for (final RawEvent rawEvent : rawEventPacket) {
-			final int addr = rawEvent.address;
+			final int addr = rawEvent.getAddress();
 
 			if ((addr & (SYNC_EVENT_BITMASK | SPECIAL_EVENT_BIT_MASK)) != 0) {
 				// Special Event (MSB is set)
-				final SpecialEvent specEvent = new SpecialEvent(rawEvent.timestamp);
+				final SpecialEvent specEvent = new SpecialEvent(rawEvent.getTimestamp());
 
-				specEvent.x = -1;
-				specEvent.y = -1;
+				specEvent.setX((short) -1);
+				specEvent.setY((short) -1);
 
-				specEvent.type = Type.SYNC;
+				specEvent.setType(Type.SYNC);
 
 				eventPacketSpecial.append(specEvent);
 
@@ -108,13 +108,13 @@ public class DVS128 implements Chip {
 				}
 			}
 			else {
-				final PolarityEvent polEvent = new PolarityEvent(rawEvent.timestamp);
+				final PolarityEvent polEvent = new PolarityEvent(rawEvent.getTimestamp());
 
-				polEvent.x = (short) (sxm - ((short) ((addr & XMASK) >>> XSHIFT)));
-				polEvent.y = (short) ((addr & YMASK) >>> YSHIFT);
+				polEvent.setX((short) (sxm - ((short) ((addr & XMASK) >>> XSHIFT))));
+				polEvent.setY((short) ((addr & YMASK) >>> YSHIFT));
 
-				polEvent.polarity = (((byte) ((1 - addr) & 1)) == 0) ? (PolarityEvent.Polarity.OFF)
-					: (PolarityEvent.Polarity.ON);
+				polEvent.setPolarity((((byte) ((1 - addr) & 1)) == 0) ? (PolarityEvent.Polarity.OFF)
+					: (PolarityEvent.Polarity.ON));
 
 				eventPacketPolarity.append(polEvent);
 			}

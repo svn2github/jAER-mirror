@@ -410,7 +410,7 @@ public final class EventPacketContainer implements Iterable<Event> {
 		return new PredicateIterator<Event>(iteratorTimeOrderFull()) {
 			@Override
 			public boolean verifyPredicate(final Event element) {
-				return (element.isValid() && (element.getEventSource() == source));
+				return (element.isValid() && (element.getSourceID() == source));
 			}
 		};
 	}
@@ -462,7 +462,7 @@ public final class EventPacketContainer implements Iterable<Event> {
 		return new PredicateIterator<Event>(iteratorTimeOrderFull()) {
 			@Override
 			public boolean verifyPredicate(final Event element) {
-				return (element.getEventSource() == source);
+				return (element.getSourceID() == source);
 			}
 		};
 	}

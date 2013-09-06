@@ -4,14 +4,13 @@ import net.sf.jaer2.devices.ConfigBit;
 import net.sf.jaer2.devices.ConfigBitTristate;
 import net.sf.jaer2.devices.ConfigBitTristate.Tristate;
 import net.sf.jaer2.devices.ConfigInt;
-import net.sf.jaer2.devices.controllers.Controller;
 import net.sf.jaer2.devices.controllers.FX2;
 
 import com.sun.org.apache.bcel.internal.generic.I2C;
 
 public class AEREAR2 {
 	public AEREAR2() {
-		Controller fx2 = new FX2();
+		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);
 
 		fx2.addSetting(new ConfigBit("runAERComm", true), FX2.Ports.PA3);
@@ -23,13 +22,13 @@ public class AEREAR2 {
 		fx2.addSetting(new ConfigBit("powerDown", false), FX2.Ports.PE2);
 		fx2.addSetting(new ConfigBit("cochleaReset", false), FX2.Ports.PE3);
 
-		I2C eeprom = new EEPROM_I2C(32, 0x51); // Size in KB and I2C address.
+		final I2C eeprom = new EEPROM_I2C(32, 0x51); // Size in KB and I2C address.
 		eeprom.setProgrammer(fx2);
 
 		// Support flashing FX2 firmware.
 		fx2.firmwareToFlash(eeprom);
 
-		Logic latticeMachX0 = new LatticeMachX0();
+		final Logic latticeMachX0 = new LatticeMachX0();
 		latticeMachX0.setProgrammer(fx2);
 
 		latticeMachX0.addSetting(new ConfigBit("yBit", false), 0);
@@ -49,7 +48,7 @@ public class AEREAR2 {
 		// ADC adcAD7933 = new AD7933();
 		// Not actively configurable.
 
-		AER cochlea = new AEREAR2();
+		final AER cochlea = new AEREAR2();
 		cochlea.setBiasProgrammer(fx2);
 
 		// BufferBias BufferIPot ???
@@ -87,7 +86,7 @@ public class AEREAR2 {
 		cochlea.addBias(new IPot("reqpuTX", 30, NORMAL, P, 0));
 		cochlea.addBias(new IPot("Vbpf1", 31, NORMAL, P, 0));
 
-		DAC dacAD5391 = new AD5391_32chan();
+		final DAC dacAD5391 = new AD5391_32chan();
 
 		dacAD5391.addBias(new VPot("Vterm", 0, NORMAL, N, 0));
 		dacAD5391.addBias(new VPot("Vrefhres", 1, NORMAL, N, 0));

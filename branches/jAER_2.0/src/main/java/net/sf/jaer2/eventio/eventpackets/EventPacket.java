@@ -75,7 +75,7 @@ public final class EventPacket<E extends Event> extends AbstractCollection<E> im
 
 		// Update all events accordingly!
 		for (int i = 0; i < lastEvent; i++) {
-			events[i].setEventSource(source);
+			events[i].setSourceID(source);
 		}
 	}
 
@@ -269,14 +269,14 @@ public final class EventPacket<E extends Event> extends AbstractCollection<E> im
 
 		// Disallow adding events from other sources.
 		// <= 0 are accepted and converted to this source implicitly.
-		final int source = evt.getEventSource();
+		final int source = evt.getSourceID();
 
 		if (source != eventSource) {
 			if (source > 0) {
 				throw new InvalidParameterException("Event from incompatible source!");
 			}
 
-			evt.setEventSource(eventSource);
+			evt.setSourceID(eventSource);
 		}
 
 		ensureCapacity(1);

@@ -12,8 +12,8 @@ public final class RawEvent implements Serializable, Comparable<RawEvent> {
 	private static final long serialVersionUID = 808179108331580491L;
 
 	// 32 bit time-stamp and address
-	public final int timestamp;
-	public final int address;
+	private final int timestamp;
+	private final int address;
 
 	/**
 	 * Creates a new instance of RawEvent, initialized with the given values.
@@ -26,6 +26,14 @@ public final class RawEvent implements Serializable, Comparable<RawEvent> {
 	public RawEvent(final int ts, final int addr) {
 		timestamp = ts;
 		address = addr;
+	}
+
+	public int getTimestamp() {
+		return timestamp;
+	}
+
+	public int getAddress() {
+		return address;
 	}
 
 	@Override

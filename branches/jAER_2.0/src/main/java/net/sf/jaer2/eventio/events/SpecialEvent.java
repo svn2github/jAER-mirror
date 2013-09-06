@@ -9,10 +9,18 @@ public class SpecialEvent extends XYPositionEvent {
 		ROW_ONLY,
 	}
 
-	public Type type;
+	private Type type;
 
 	public SpecialEvent(final int ts) {
 		super(ts);
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(final Type type) {
+		this.type = type;
 	}
 
 	protected final void deepCopyInternal(final SpecialEvent evt) {
@@ -23,7 +31,7 @@ public class SpecialEvent extends XYPositionEvent {
 
 	@Override
 	public SpecialEvent deepCopy() {
-		final SpecialEvent evt = new SpecialEvent(timestamp);
+		final SpecialEvent evt = new SpecialEvent(getTimestamp());
 		deepCopyInternal(evt);
 		return evt;
 	}

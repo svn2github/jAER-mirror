@@ -2,14 +2,13 @@ package ch.unizh.ini.devices;
 
 import net.sf.jaer2.devices.ConfigBit;
 import net.sf.jaer2.devices.ConfigInt;
-import net.sf.jaer2.devices.controllers.Controller;
 import net.sf.jaer2.devices.controllers.FX2;
 
 import com.sun.org.apache.bcel.internal.generic.I2C;
 
 public class ApsDvs10 {
 	public ApsDvs10() {
-		Controller fx2 = new FX2();
+		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);
 
 		fx2.addSetting(new ConfigBit("extTrigger", false), FX2.Ports.PA1);
@@ -18,13 +17,13 @@ public class ApsDvs10 {
 		fx2.addSetting(new ConfigBit("powerDown", false), FX2.Ports.PE2);
 		fx2.addSetting(new ConfigBit("nChipReset", true), FX2.Ports.PE3);
 
-		I2C eeprom = new EEPROM_I2C(32, 0x51); // Size in KB and I2C address.
+		final I2C eeprom = new EEPROM_I2C(32, 0x51); // Size in KB and I2C address.
 		eeprom.setProgrammer(fx2);
 
 		// Support flashing FX2 firmware.
 		fx2.firmwareToFlash(eeprom);
 
-		Logic latticeMachX0 = new LatticeMachX0();
+		final Logic latticeMachX0 = new LatticeMachX0();
 		latticeMachX0.setProgrammer(fx2);
 
 		latticeMachX0.addSetting(new ConfigInt("exposure", 0), 15, 0);
@@ -36,7 +35,7 @@ public class ApsDvs10 {
 		// ADC adcTHS1030 = new THS1030();
 		// Not actively configurable.
 
-		AER sbret10 = new ApsDvs10();
+		final AER sbret10 = new ApsDvs10();
 		sbret10.setBiasProgrammer(fx2);
 
 		sbret10.addBias(new AddressedIPotCF("DiffBn", 0, NORMAL, N, 0));

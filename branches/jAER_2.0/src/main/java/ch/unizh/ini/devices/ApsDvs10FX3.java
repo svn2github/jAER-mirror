@@ -3,18 +3,17 @@ package ch.unizh.ini.devices;
 import net.sf.jaer2.devices.ConfigBit;
 import net.sf.jaer2.devices.ConfigByte;
 import net.sf.jaer2.devices.ConfigInt;
-import net.sf.jaer2.devices.controllers.Controller;
 import net.sf.jaer2.devices.controllers.FX3;
 
 import com.sun.org.apache.bcel.internal.generic.I2C;
 
 public class ApsDvs10FX3 {
 	public ApsDvs10FX3() {
-		Controller fx3 = new FX3();
+		final Controller fx3 = new FX3();
 		fx3.firmwareToRam(false);
 
 		fx3.addSetting(new ConfigByte("LOG_LEVEL",
-			"Set the logging level, to restrict which error messages will be sent over the Status EP1.", (byte)6),
+			"Set the logging level, to restrict which error messages will be sent over the Status EP1.", (byte) 6),
 			FX3.VR_LOG_LEVEL);
 		fx3.addSetting(new ConfigBit("FX3_RESET", "Hard-reset the FX3 microcontroller", false), FX3.VR_FX3_RESET);
 
@@ -24,13 +23,13 @@ public class ApsDvs10FX3 {
 		fx3.addSetting(new ConfigBit("powerDown", false), FX3.Ports.GPIO42);
 		fx3.addSetting(new ConfigBit("nChipReset", true), FX3.Ports.GPIO43);
 
-		SPI flash = new FLASH_SPI(512, 0); // Size in KB and SPI address.
+		final SPI flash = new FLASH_SPI(512, 0); // Size in KB and SPI address.
 		flash.setProgrammer(fx3);
 
 		// Support flashing FX3 firmware.
 		fx3.firmwareToFlash(flash);
 
-		Logic latticeECP3 = new LatticeECP3();
+		final Logic latticeECP3 = new LatticeECP3();
 		latticeECP3.setProgrammer(fx3);
 		latticeECP3.firmwareToRam(true);
 
@@ -46,7 +45,7 @@ public class ApsDvs10FX3 {
 		// ADC adcTHS1030 = new THS1030();
 		// Not actively configurable.
 
-		AER sbret10 = new ApsDvs10();
+		final AER sbret10 = new ApsDvs10();
 		sbret10.setBiasProgrammer(fx3);
 
 		sbret10.addBias(new AddressedIPotCF("DiffBn", 0, NORMAL, N, 0));
@@ -93,7 +92,7 @@ public class ApsDvs10FX3 {
 		sbret10.addMux(new BiasMux("BiasOutMux"), 0);
 
 		// Add inertial measurement unit.
-		I2C invenSenseIMU = new InvenSense6050(0x68);
+		final I2C invenSenseIMU = new InvenSense6050(0x68);
 		invenSenseIMU.setProgrammer(fx3);
 	}
 }

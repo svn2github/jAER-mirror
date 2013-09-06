@@ -3,16 +3,64 @@ package net.sf.jaer2.eventio.events;
 public class IMUEvent extends Event {
 	private static final long serialVersionUID = 4495287162153651358L;
 
-	public short accelX;
-	public short accelY;
-	public short accelZ;
+	private short accelX;
+	private short accelY;
+	private short accelZ;
 
-	public short gyroX;
-	public short gyroY;
-	public short gyroZ;
+	private short gyroX;
+	private short gyroY;
+	private short gyroZ;
 
 	public IMUEvent(final int ts) {
 		super(ts);
+	}
+
+	public short getAccelX() {
+		return accelX;
+	}
+
+	public void setAccelX(final short accelX) {
+		this.accelX = accelX;
+	}
+
+	public short getAccelY() {
+		return accelY;
+	}
+
+	public void setAccelY(final short accelY) {
+		this.accelY = accelY;
+	}
+
+	public short getAccelZ() {
+		return accelZ;
+	}
+
+	public void setAccelZ(final short accelZ) {
+		this.accelZ = accelZ;
+	}
+
+	public short getGyroX() {
+		return gyroX;
+	}
+
+	public void setGyroX(final short gyroX) {
+		this.gyroX = gyroX;
+	}
+
+	public short getGyroY() {
+		return gyroY;
+	}
+
+	public void setGyroY(final short gyroY) {
+		this.gyroY = gyroY;
+	}
+
+	public short getGyroZ() {
+		return gyroZ;
+	}
+
+	public void setGyroZ(final short gyroZ) {
+		this.gyroZ = gyroZ;
 	}
 
 	protected final void deepCopyInternal(final IMUEvent evt) {
@@ -29,7 +77,7 @@ public class IMUEvent extends Event {
 
 	@Override
 	public IMUEvent deepCopy() {
-		final IMUEvent evt = new IMUEvent(timestamp);
+		final IMUEvent evt = new IMUEvent(getTimestamp());
 		deepCopyInternal(evt);
 		return evt;
 	}

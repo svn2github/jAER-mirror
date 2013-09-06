@@ -8,7 +8,7 @@ public abstract class Event implements Serializable, Comparable<Event> {
 	transient private short sourceID = 0;
 	private boolean valid = true;
 
-	public final int timestamp;
+	private final int timestamp;
 
 	public Event(final int ts) {
 		timestamp = ts;
@@ -18,20 +18,24 @@ public abstract class Event implements Serializable, Comparable<Event> {
 		return getClass();
 	}
 
-	public final short getEventSource() {
+	public final int getTimestamp() {
+		return timestamp;
+	}
+
+	public final short getSourceID() {
 		return sourceID;
 	}
 
-	public final void setEventSource(final short source) {
-		sourceID = source;
+	public final void setSourceID(final short sourceID) {
+		this.sourceID = sourceID;
 	}
 
 	public final boolean isValid() {
 		return valid;
 	}
 
-	public final void setValid(final boolean validEvent) {
-		valid = validEvent;
+	public final void setValid(final boolean valid) {
+		this.valid = valid;
 	}
 
 	public final void invalidate() {
@@ -49,7 +53,7 @@ public abstract class Event implements Serializable, Comparable<Event> {
 	 * Note: this class has a natural ordering that is inconsistent with equals.
 	 */
 	@Override
-	public int compareTo(final Event o) {
+	public final int compareTo(final Event o) {
 		// RawEvents and Events have a default total ordering dependent on
 		// their time-stamps only, bigger is newer.
 		if (timestamp < o.timestamp) {

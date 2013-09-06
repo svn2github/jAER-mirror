@@ -7,7 +7,7 @@ public class ApsDvs10IMU extends ApsDvs10 {
 		super();
 
 		// Add inertial measurement unit.
-		I2C invenSenseIMU = new InvenSense6050(0x68);
+		final I2C invenSenseIMU = new InvenSense6050(0x68);
 		invenSenseIMU.setProgrammer(fx2);
 	}
 }
