@@ -2,7 +2,7 @@ package net.sf.jaer2.eventio.events;
 
 import java.io.Serializable;
 
-public abstract class Event implements Serializable {
+public abstract class Event implements Serializable, Comparable<Event> {
 	private static final long serialVersionUID = 6776816266258337111L;
 
 	transient private short sourceID = 0;
@@ -44,4 +44,22 @@ public abstract class Event implements Serializable {
 	}
 
 	public abstract Event deepCopy();
+
+	/**
+	 * Note: this class has a natural ordering that is inconsistent with equals.
+	 */
+	@Override
+	public int compareTo(final Event o) {
+		// RawEvents and Events have a default total ordering dependent on
+		// their time-stamps only, bigger is newer.
+		if (timestamp < o.timestamp) {
+			return -1;
+		}
+
+		if (timestamp > o.timestamp) {
+			return 1;
+		}
+
+		return 0;
+	}
 }

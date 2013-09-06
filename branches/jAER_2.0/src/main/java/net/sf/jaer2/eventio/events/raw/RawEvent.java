@@ -8,28 +8,46 @@ import java.io.Serializable;
  *
  * @author llongi
  */
-public final class RawEvent implements Serializable {
+public final class RawEvent implements Serializable, Comparable<RawEvent> {
 	private static final long serialVersionUID = 808179108331580491L;
 
-	// 32 bit address and time-stamp
-	public final int address;
+	// 32 bit time-stamp and address
 	public final int timestamp;
+	public final int address;
 
 	/**
 	 * Creates a new instance of RawEvent, initialized with the given values.
 	 *
-	 * @param addr
-	 *            the address.
 	 * @param ts
 	 *            the time-stamp.
+	 * @param addr
+	 *            the address.
 	 */
-	public RawEvent(final int addr, final int ts) {
-		address = addr;
+	public RawEvent(final int ts, final int addr) {
 		timestamp = ts;
+		address = addr;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("RawEvent with address %d and timestamp %d", address, timestamp);
+		return String.format("RawEvent with time-stamp %d and address %d", timestamp, address);
+	}
+
+	/**
+	 * Note: this class has a natural ordering that is inconsistent with equals.
+	 */
+	@Override
+	public int compareTo(final RawEvent o) {
+		// RawEvents and Events have a default total ordering dependent on
+		// their time-stamps only, bigger is newer.
+		if (timestamp < o.timestamp) {
+			return -1;
+		}
+
+		if (timestamp > o.timestamp) {
+			return 1;
+		}
+
+		return 0;
 	}
 }

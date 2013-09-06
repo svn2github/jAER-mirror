@@ -3,7 +3,6 @@ package net.sf.jaer2.eventio.eventpackets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -290,22 +289,7 @@ public final class EventPacketContainer implements Iterable<Event> {
 		}
 
 		// Sort global time-order list by timestamp.
-		Collections.sort(eventsTimeOrdered, new EventTimestampComparator());
-	}
-
-	private final class EventTimestampComparator implements Comparator<Event> {
-		@Override
-		public int compare(final Event evt1, final Event evt2) {
-			if (evt1.timestamp > evt2.timestamp) {
-				return 1;
-			}
-
-			if (evt1.timestamp < evt2.timestamp) {
-				return -1;
-			}
-
-			return 0;
-		}
+		Collections.sort(eventsTimeOrdered);
 	}
 
 	@Override

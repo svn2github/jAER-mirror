@@ -5,7 +5,6 @@ import java.security.InvalidParameterException;
 import java.util.AbstractCollection;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -466,24 +465,9 @@ public final class EventPacket<E extends Event> extends AbstractCollection<E> im
 		timeOrdered = true;
 
 		// Sort by timestamp.
-		Arrays.sort(events, 0, lastEvent, new EventTimestampComparator());
+		Arrays.sort(events, 0, lastEvent);
 
 		return true;
-	}
-
-	private final class EventTimestampComparator implements Comparator<E> {
-		@Override
-		public int compare(final E evt1, final E evt2) {
-			if (evt1.timestamp > evt2.timestamp) {
-				return 1;
-			}
-
-			if (evt1.timestamp < evt2.timestamp) {
-				return -1;
-			}
-
-			return 0;
-		}
 	}
 
 	@Override
