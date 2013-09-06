@@ -46,7 +46,7 @@ public class JavaFXJOGLIntegrationTest extends Application {
 	}
 
 	@Override
-	public void start(final Stage primaryStage) throws Exception {
+	public void start(final Stage primaryStage) {
 		final StackPane root = new StackPane();
 
 		final GridPane displayGrid = new GridPane();

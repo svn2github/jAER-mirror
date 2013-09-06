@@ -69,8 +69,7 @@ public final class Reflections {
 	public static final SortedSet<Class<? extends Sink>> sinkTypes = Reflections.getSubClasses(Sink.class);
 
 	public static <T> T newInstanceForClass(final Class<T> clazz) throws NoSuchMethodException, SecurityException,
-		InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-		NullPointerException {
+		InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Constructor<T> constr = null;
 
 		constr = clazz.getConstructor();
@@ -92,7 +91,7 @@ public final class Reflections {
 
 	public static <T, E> T newInstanceForClassWithArgument(final Class<T> clazz, final Class<E> argumentType,
 		final E argumentValue) throws NoSuchMethodException, SecurityException, InstantiationException,
-		IllegalAccessException, IllegalArgumentException, InvocationTargetException, NullPointerException {
+		IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Constructor<T> constr = null;
 
 		// Try to find a compatible constructor for the given concrete type.

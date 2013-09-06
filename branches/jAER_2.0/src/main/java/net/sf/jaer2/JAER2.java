@@ -25,7 +25,7 @@ public final class JAER2 extends Application {
 	}
 
 	@Override
-	public void start(final Stage primaryStage) throws Exception {
+	public void start(final Stage primaryStage) {
 		final String lastSessionDirectory = JAER2.homeDirectory.concat(File.separator + "lastSession");
 		final File savedSession = new File(lastSessionDirectory.concat(File.separator + "net-last.xml"));
 

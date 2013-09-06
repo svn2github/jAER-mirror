@@ -291,7 +291,7 @@ public abstract class Processor implements Runnable, Serializable {
 	 * @throws UnsupportedOperationException
 	 *             not supported, since output types do never change.
 	 */
-	protected abstract Set<Class<? extends Event>> updateAdditionalOutputTypes() throws UnsupportedOperationException;
+	protected abstract Set<Class<? extends Event>> updateAdditionalOutputTypes();
 
 	private List<ImmutablePair<Class<? extends Event>, Integer>> getAllOutputStreams() {
 		return Collections.unmodifiableList(outputStreams);

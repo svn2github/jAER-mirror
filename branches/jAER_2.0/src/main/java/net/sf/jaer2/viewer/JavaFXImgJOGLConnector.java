@@ -83,7 +83,7 @@ public final class JavaFXImgJOGLConnector extends ImageView {
 		glOffscreenDrawable.addGLEventListener(index, listener);
 	}
 
-	public synchronized GLEventListener getGLEventListener(final int index) throws IndexOutOfBoundsException {
+	public synchronized GLEventListener getGLEventListener(final int index) {
 		// Index can never be negative or bigger than the count (minus the
 		// readOutListener).
 		if ((index < 0) || (index > getGLEventListenerCount())) {

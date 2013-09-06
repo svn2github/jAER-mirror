@@ -260,8 +260,10 @@ public final class EventPacket<E extends Event> extends AbstractCollection<E> im
 	 *
 	 * @throws NullPointerException
 	 *             evt cannot be null
+	 * @throws InvalidParameterException
+	 *             evt has an incompatible source ID
 	 */
-	public void append(final E evt) throws NullPointerException {
+	public void append(final E evt) {
 		// Disallow adding NULL events.
 		if (evt == null) {
 			throw new NullPointerException();
@@ -430,7 +432,7 @@ public final class EventPacket<E extends Event> extends AbstractCollection<E> im
 	 *             if trying to disable time-order enforcing while the parent
 	 *             container still requires it
 	 */
-	public void setTimeOrderingEnforced(final boolean timeOrderEnforced) throws IllegalStateException {
+	public void setTimeOrderingEnforced(final boolean timeOrderEnforced) {
 		if (timeOrderingEnforced == timeOrderEnforced) {
 			// Return right away if setting to previous value (no change).
 			return;
@@ -526,7 +528,7 @@ public final class EventPacket<E extends Event> extends AbstractCollection<E> im
 		}
 	}
 
-	public Iterator<E> iteratorTimeOrder() throws UnsupportedOperationException {
+	public Iterator<E> iteratorTimeOrder() {
 		if (!timeOrdered) {
 			throw new UnsupportedOperationException("EventPacket doesn't support time-ordering (not time-ordered).");
 		}
@@ -534,7 +536,7 @@ public final class EventPacket<E extends Event> extends AbstractCollection<E> im
 		return iterator();
 	}
 
-	public Iterator<E> iteratorTimeOrderFull() throws UnsupportedOperationException {
+	public Iterator<E> iteratorTimeOrderFull() {
 		if (!timeOrdered) {
 			throw new UnsupportedOperationException("EventPacket doesn't support time-ordering (not time-ordered).");
 		}

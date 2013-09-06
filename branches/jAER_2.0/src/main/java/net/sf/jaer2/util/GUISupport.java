@@ -306,7 +306,7 @@ public final class GUISupport {
 		return toSave;
 	}
 
-	public static boolean checkReadPermissions(final File f) throws NullPointerException {
+	public static boolean checkReadPermissions(final File f) {
 		if (f == null) {
 			throw new NullPointerException();
 		}
@@ -319,7 +319,7 @@ public final class GUISupport {
 		return false;
 	}
 
-	public static boolean checkWritePermissions(final File f) throws NullPointerException {
+	public static boolean checkWritePermissions(final File f) {
 		if (f == null) {
 			throw new NullPointerException();
 		}
@@ -360,7 +360,7 @@ public final class GUISupport {
 		return arrow;
 	}
 
-	public static void runOnJavaFXThread(final Runnable operationToRun) throws NullPointerException {
+	public static void runOnJavaFXThread(final Runnable operationToRun) {
 		if (operationToRun == null) {
 			throw new NullPointerException();
 		}

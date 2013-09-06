@@ -375,7 +375,7 @@ public final class EventPacketContainer implements Iterable<Event> {
 		return evtPkt.iteratorFull();
 	}
 
-	public Iterator<Event> iteratorTimeOrder() throws UnsupportedOperationException {
+	public Iterator<Event> iteratorTimeOrder() {
 		if (!timeOrderingEnforced) {
 			throw new UnsupportedOperationException("EventPacketContainer doesn't support global time-ordering.");
 		}
@@ -402,7 +402,7 @@ public final class EventPacketContainer implements Iterable<Event> {
 		};
 	}
 
-	public Iterator<Event> iteratorTimeOrderSource(final int source) throws UnsupportedOperationException {
+	public Iterator<Event> iteratorTimeOrderSource(final int source) {
 		if (!timeOrderingEnforced) {
 			throw new UnsupportedOperationException("EventPacketContainer doesn't support global time-ordering.");
 		}
@@ -432,7 +432,7 @@ public final class EventPacketContainer implements Iterable<Event> {
 		return evtPkt.iteratorTimeOrder();
 	}
 
-	public Iterator<Event> iteratorTimeOrderFull() throws UnsupportedOperationException {
+	public Iterator<Event> iteratorTimeOrderFull() {
 		if (!timeOrderingEnforced) {
 			throw new UnsupportedOperationException("EventPacketContainer doesn't support global time-ordering.");
 		}
@@ -454,7 +454,7 @@ public final class EventPacketContainer implements Iterable<Event> {
 		};
 	}
 
-	public Iterator<Event> iteratorTimeOrderFullSource(final int source) throws UnsupportedOperationException {
+	public Iterator<Event> iteratorTimeOrderFullSource(final int source) {
 		if (!timeOrderingEnforced) {
 			throw new UnsupportedOperationException("EventPacketContainer doesn't support global time-ordering.");
 		}
