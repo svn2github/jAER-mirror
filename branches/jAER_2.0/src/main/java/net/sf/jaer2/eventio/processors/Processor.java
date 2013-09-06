@@ -297,7 +297,7 @@ public abstract class Processor implements Runnable, Serializable {
 		return Collections.unmodifiableList(outputStreams);
 	}
 
-	private final class StreamComparator implements Comparator<ImmutablePair<Class<? extends Event>, Integer>> {
+	private static final class StreamComparator implements Comparator<ImmutablePair<Class<? extends Event>, Integer>> {
 		@Override
 		public int compare(final ImmutablePair<Class<? extends Event>, Integer> stream1,
 			final ImmutablePair<Class<? extends Event>, Integer> stream2) {
