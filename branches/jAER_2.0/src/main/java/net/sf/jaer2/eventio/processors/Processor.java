@@ -70,7 +70,7 @@ public abstract class Processor implements Runnable, Serializable {
 	protected final String processorName;
 
 	/** Chain this processor belongs to. */
-	transient protected ProcessorChain parentChain;
+	transient protected final ProcessorChain parentChain;
 	/** Previous processor in the ordered chain. */
 	private Processor prevProcessor;
 	/** Next processor in the ordered chain. */
@@ -134,6 +134,7 @@ public abstract class Processor implements Runnable, Serializable {
 	transient protected final List<Runnable> rootConfigTasksDialogOK = new ArrayList<>();
 
 	public Processor() {
+		parentChain = null;
 		processorId = 0;
 		processorName = getClass().getSimpleName();
 
@@ -245,7 +246,7 @@ public abstract class Processor implements Runnable, Serializable {
 	 *            parent chain.
 	 */
 	public final void setParentChain(final ProcessorChain chain) {
-		parentChain = chain;
+		Reflections.setFinalField(this, "parentChain", chain);
 
 		// Update processor ID, while keeping the field read-only.
 		if (processorId == 0) {

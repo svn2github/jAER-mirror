@@ -1,7 +1,7 @@
 package ch.unizh.ini.devices;
 
-import net.sf.jaer2.devices.ConfigBit;
-import net.sf.jaer2.devices.ConfigInt;
+import net.sf.jaer2.devices.config.ConfigBit;
+import net.sf.jaer2.devices.config.ConfigInt;
 import net.sf.jaer2.devices.controllers.FX2;
 
 import com.sun.org.apache.bcel.internal.generic.I2C;

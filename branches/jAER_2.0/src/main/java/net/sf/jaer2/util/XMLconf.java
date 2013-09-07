@@ -62,8 +62,7 @@ public final class XMLconf {
 		return XMLconf.fromXML(clazz, toLoad);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T> T fromXML(@SuppressWarnings("unused") final Class<T> clazz, final File xmlFile) {
+	public static <T> T fromXML(final Class<T> clazz, final File xmlFile) {
 		if (!GUISupport.checkReadPermissions(xmlFile)) {
 			// Error in opening file.
 			return null;
@@ -72,6 +71,6 @@ public final class XMLconf {
 		final XStream xstream = new XStream();
 		xstream.setMode(XStream.ID_REFERENCES);
 
-		return (T) xstream.fromXML(xmlFile);
+		return clazz.cast(xstream.fromXML(xmlFile));
 	}
 }

@@ -1,4 +1,4 @@
-package net.sf.jaer2.devices;
+package net.sf.jaer2.devices.config;
 
 public class ConfigLong extends ConfigBase {
 	private long value;

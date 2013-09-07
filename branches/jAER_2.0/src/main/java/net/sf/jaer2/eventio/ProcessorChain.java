@@ -23,12 +23,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import net.sf.jaer2.devices.chips.Chip;
 import net.sf.jaer2.eventio.processors.EventProcessor;
 import net.sf.jaer2.eventio.processors.InputProcessor;
 import net.sf.jaer2.eventio.processors.OutputProcessor;
 import net.sf.jaer2.eventio.processors.Processor;
 import net.sf.jaer2.eventio.processors.Processor.ProcessorTypes;
+import net.sf.jaer2.eventio.translators.Translator;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Reflections;
 import net.sf.jaer2.util.XMLconf;
@@ -631,11 +631,11 @@ public final class ProcessorChain implements Serializable {
 		return idToProcessorMap.get(sourceId);
 	}
 
-	public Chip getChipForSourceId(final int sourceId) {
+	public Translator getTranslatorForSourceId(final int sourceId) {
 		final Processor procSource = getProcessorForSourceId(sourceId);
 
 		if ((procSource != null) && (procSource instanceof InputProcessor)) {
-			return ((InputProcessor) procSource).getInterpreterChip();
+			return ((InputProcessor) procSource).getEventTranslator();
 		}
 
 		return null;

@@ -9,13 +9,14 @@ import net.sf.jaer2.eventio.events.PolarityEvent;
 import net.sf.jaer2.eventio.events.SpecialEvent;
 import net.sf.jaer2.eventio.events.SpecialEvent.Type;
 import net.sf.jaer2.eventio.events.raw.RawEvent;
+import net.sf.jaer2.eventio.translators.Translator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableList;
 
-public class DVS128 implements Chip {
+public class DVS128 implements Chip, Translator {
 	/** Local logger for log messages. */
 	protected final static Logger logger = LoggerFactory.getLogger(DVS128.class);
 

@@ -7,10 +7,11 @@ import net.sf.jaer2.eventio.events.Event;
 import net.sf.jaer2.eventio.events.PolarityEvent;
 import net.sf.jaer2.eventio.events.SampleEvent;
 import net.sf.jaer2.eventio.events.SpecialEvent;
+import net.sf.jaer2.eventio.translators.Translator;
 
 import com.google.common.collect.ImmutableList;
 
-public class SBRet10 implements Chip {
+public class SBRet10 implements Chip, Translator {
 	@Override
 	public int getSizeX() {
 		return 240;

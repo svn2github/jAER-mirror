@@ -14,11 +14,11 @@ import java.util.concurrent.BlockingQueue;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
-import net.sf.jaer2.devices.chips.Chip;
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
 import net.sf.jaer2.eventio.eventpackets.raw.RawEventPacket;
 import net.sf.jaer2.eventio.events.Event;
 import net.sf.jaer2.eventio.sources.Source;
+import net.sf.jaer2.eventio.translators.Translator;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Reflections;
 
@@ -29,7 +29,7 @@ public final class InputProcessor extends Processor {
 	transient private final List<RawEventPacket> inputToProcess = new ArrayList<>(32);
 
 	private Source connectedSource;
-	private Chip interpreterChip;
+	private Translator eventTranslator;
 
 	/** For displaying and maintaining a link to the current config GUI. */
 	transient private Source currentSourceConfig;
@@ -67,17 +67,17 @@ public final class InputProcessor extends Processor {
 		Processor.logger.debug("ConnectedSource set to: {}.", source);
 	}
 
-	public Chip getInterpreterChip() {
-		return interpreterChip;
+	public Translator getEventTranslator() {
+		return eventTranslator;
 	}
 
-	public void setInterpreterChip(final Chip chip) {
-		interpreterChip = chip;
+	public void setEventTranslator(final Translator translator) {
+		eventTranslator = translator;
 
-		// Regenerate output types based on what the Chip can produce.
+		// Regenerate output types based on what the Translator can produce.
 		rebuildStreamSets();
 
-		Processor.logger.debug("InterpreterChip set to: {}.", chip);
+		Processor.logger.debug("EventTranslator set to: {}.", translator);
 	}
 
 	@Override
@@ -95,8 +95,8 @@ public final class InputProcessor extends Processor {
 	protected Set<Class<? extends Event>> updateAdditionalOutputTypes() {
 		final Set<Class<? extends Event>> newOutputs = new HashSet<>();
 
-		if (interpreterChip != null) {
-			newOutputs.addAll(interpreterChip.getEventTypes());
+		if (eventTranslator != null) {
+			newOutputs.addAll(eventTranslator.getEventTypes());
 		}
 
 		return newOutputs;
@@ -104,7 +104,7 @@ public final class InputProcessor extends Processor {
 
 	@Override
 	public boolean readyToRun() {
-		return ((interpreterChip != null) && (connectedSource != null));
+		return ((eventTranslator != null) && (connectedSource != null));
 	}
 
 	@Override
@@ -127,7 +127,7 @@ public final class InputProcessor extends Processor {
 			for (final RawEventPacket inRawEventPacket : inputToProcess) {
 				final EventPacketContainer outPacketContainer = new EventPacketContainer(this);
 
-				interpreterChip.extractEventPacketContainer(inRawEventPacket, outPacketContainer);
+				eventTranslator.extractEventPacketContainer(inRawEventPacket, outPacketContainer);
 
 				// Send only packets with some (in)valid events on their way.
 				if (outPacketContainer.sizeFull() != 0) {
@@ -155,8 +155,8 @@ public final class InputProcessor extends Processor {
 			public void run() {
 				rootLayoutChildren.getChildren().clear();
 
-				if (interpreterChip != null) {
-					GUISupport.addLabel(rootLayoutChildren, interpreterChip.toString(), null, null, null);
+				if (eventTranslator != null) {
+					GUISupport.addLabel(rootLayoutChildren, eventTranslator.toString(), null, null, null);
 				}
 
 				if (connectedSource != null) {
@@ -167,18 +167,18 @@ public final class InputProcessor extends Processor {
 	}
 
 	private void buildConfigGUI() {
-		// Create Chip type chooser box.
-		final ComboBox<Class<? extends Chip>> chipTypeChooser = GUISupport.addComboBox(null, Reflections.chipTypes, 0);
-		GUISupport.addLabelWithControlsHorizontal(rootConfigLayoutChildren, "Chip:",
-			"Select the Chip you want to use to translate the raw events coming from the source into meaningful ones.",
-			chipTypeChooser);
+		// Create Translator type chooser box.
+		final ComboBox<Class<? extends Translator>> translatorTypeChooser = GUISupport.addComboBox(null, Reflections.translatorTypes, 0);
+		GUISupport.addLabelWithControlsHorizontal(rootConfigLayoutChildren, "Translator:",
+			"Select the Translator you want to use to translate the raw events coming from the source into meaningful ones.",
+			translatorTypeChooser);
 
 		rootConfigTasksDialogRefresh.add(new Runnable() {
 			@Override
 			public void run() {
-				if (interpreterChip != null) {
+				if (eventTranslator != null) {
 					// Set default value.
-					chipTypeChooser.setValue(interpreterChip.getClass());
+					translatorTypeChooser.setValue(eventTranslator.getClass());
 				}
 			}
 		});
@@ -186,10 +186,10 @@ public final class InputProcessor extends Processor {
 		rootConfigTasksDialogOK.add(new Runnable() {
 			@Override
 			public void run() {
-				Chip chip;
+				Translator translator;
 
 				try {
-					chip = Reflections.newInstanceForClass(chipTypeChooser.getValue());
+					translator = Reflections.newInstanceForClass(translatorTypeChooser.getValue());
 				}
 				catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException | NullPointerException e) {
@@ -197,7 +197,7 @@ public final class InputProcessor extends Processor {
 					return;
 				}
 
-				setInterpreterChip(chip);
+				setEventTranslator(translator);
 			}
 		});
 

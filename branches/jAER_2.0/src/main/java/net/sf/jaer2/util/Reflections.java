@@ -10,13 +10,11 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import net.sf.jaer2.devices.chips.Chip;
 import net.sf.jaer2.eventio.processors.EventProcessor;
 import net.sf.jaer2.eventio.sinks.Sink;
 import net.sf.jaer2.eventio.sources.Source;
+import net.sf.jaer2.eventio.translators.Translator;
 
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,13 +22,7 @@ public final class Reflections {
 	/** Local logger for log messages. */
 	private static final Logger logger = LoggerFactory.getLogger(Reflections.class);
 
-	private static final ConfigurationBuilder config = new ConfigurationBuilder();
-	static {
-		Reflections.config.addUrls(ClasspathHelper.forPackage("net.sf.jaer2"));
-		Reflections.config.addUrls(ClasspathHelper.forPackage("ch.unizh.ini.jaer2"));
-	}
-
-	private static final org.reflections.Reflections reflections = new org.reflections.Reflections(Reflections.config);
+	private static final org.reflections.Reflections reflections = new org.reflections.Reflections("");
 
 	public static <T> SortedSet<Class<? extends T>> getSubClasses(final Class<T> clazz) {
 		final Set<Class<? extends T>> classes = Reflections.reflections.getSubTypesOf(clazz);
@@ -59,11 +51,11 @@ public final class Reflections {
 	public static final SortedSet<Class<? extends EventProcessor>> eventProcessorTypes = Reflections
 		.getSubClasses(EventProcessor.class);
 
-	/** List of classes extending Sink. */
+	/** List of classes extending Source. */
 	public static final SortedSet<Class<? extends Source>> sourceTypes = Reflections.getSubClasses(Source.class);
 
-	/** List of classes extending Chip. */
-	public static final SortedSet<Class<? extends Chip>> chipTypes = Reflections.getSubClasses(Chip.class);
+	/** List of classes extending Translator. */
+	public static final SortedSet<Class<? extends Translator>> translatorTypes = Reflections.getSubClasses(Translator.class);
 
 	/** List of classes extending Sink. */
 	public static final SortedSet<Class<? extends Sink>> sinkTypes = Reflections.getSubClasses(Sink.class);

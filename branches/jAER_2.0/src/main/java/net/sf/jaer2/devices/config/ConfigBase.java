@@ -1,4 +1,4 @@
-package net.sf.jaer2.devices;
+package net.sf.jaer2.devices.config;
 
 public abstract class ConfigBase {
 	private final String name;
