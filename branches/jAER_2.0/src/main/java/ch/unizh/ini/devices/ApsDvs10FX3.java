@@ -1,14 +1,19 @@
 package ch.unizh.ini.devices;
 
+import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigByte;
 import net.sf.jaer2.devices.config.ConfigInt;
 import net.sf.jaer2.devices.controllers.FX3;
+import net.sf.jaer2.eventio.translators.Translator;
 
 import com.sun.org.apache.bcel.internal.generic.I2C;
 
-public class ApsDvs10FX3 {
+public class ApsDvs10FX3 extends USBDevice  {
 	public ApsDvs10FX3() {
+		super("ApsDVS 10 FX3", "USB 3.0 vision sensor with active and dynamic pixels, using the SBRet10 chip.", VID_THESYCON,
+			(short) 0x841A);
+
 		final Controller fx3 = new FX3();
 		fx3.firmwareToRam(false);
 
@@ -94,5 +99,11 @@ public class ApsDvs10FX3 {
 		// Add inertial measurement unit.
 		final I2C invenSenseIMU = new InvenSense6050(0x68);
 		invenSenseIMU.setProgrammer(fx3);
+	}
+
+	@Override
+	public Class<? extends Translator> getPreferredTranslator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

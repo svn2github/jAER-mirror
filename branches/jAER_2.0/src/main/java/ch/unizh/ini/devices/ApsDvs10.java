@@ -1,13 +1,18 @@
 package ch.unizh.ini.devices;
 
+import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigInt;
 import net.sf.jaer2.devices.controllers.FX2;
+import net.sf.jaer2.eventio.translators.Translator;
 
 import com.sun.org.apache.bcel.internal.generic.I2C;
 
-public class ApsDvs10 {
+public class ApsDvs10 extends USBDevice {
 	public ApsDvs10() {
+		super("ApsDVS 10", "USB vision sensor with active and dynamic pixels, using the SBRet10 chip.", VID_THESYCON,
+			(short) 0x840D);
+
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);
 
@@ -17,7 +22,8 @@ public class ApsDvs10 {
 		fx2.addSetting(new ConfigBit("powerDown", false), FX2.Ports.PE2);
 		fx2.addSetting(new ConfigBit("nChipReset", true), FX2.Ports.PE3);
 
-		final I2C eeprom = new EEPROM_I2C(32, 0x51); // Size in KB and I2C address.
+		final I2C eeprom = new EEPROM_I2C(32, 0x51); // Size in KB and I2C
+														// address.
 		eeprom.setProgrammer(fx2);
 
 		// Support flashing FX2 firmware.
@@ -80,5 +86,11 @@ public class ApsDvs10 {
 		sbret10.addMux(new DigitalMux("DigMux0"), 4);
 
 		sbret10.addMux(new BiasMux("BiasOutMux"), 0);
+	}
+
+	@Override
+	public Class<? extends Translator> getPreferredTranslator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

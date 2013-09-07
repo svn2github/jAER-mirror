@@ -1,11 +1,15 @@
 package ch.unizh.ini.devices;
 
+import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.controllers.FX2;
+import net.sf.jaer2.eventio.translators.Translator;
 
 import com.sun.org.apache.bcel.internal.generic.I2C;
 
-public class DVS128 {
+public class DVS128  extends USBDevice {
 	public DVS128() {
+		super("DVS 128", "USB Dynamic Vision Sensor, 128x128 pixels.", VID_THESYCON, (short) 0x8400);
+
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);
 
@@ -33,5 +37,11 @@ public class DVS128 {
 		tmpdiff128.addBias(new IPot("reqPd", 9, NORMAL, N, 0));
 		tmpdiff128.addBias(new IPot("injGnd", 10, CASCODE, P, 0));
 		tmpdiff128.addBias(new IPot("cas", 11, CASCODE, N, 0));
+	}
+
+	@Override
+	public Class<? extends Translator> getPreferredTranslator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

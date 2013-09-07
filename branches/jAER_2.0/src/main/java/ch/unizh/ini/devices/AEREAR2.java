@@ -1,15 +1,19 @@
 package ch.unizh.ini.devices;
 
+import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigBitTristate;
-import net.sf.jaer2.devices.config.ConfigInt;
 import net.sf.jaer2.devices.config.ConfigBitTristate.Tristate;
+import net.sf.jaer2.devices.config.ConfigInt;
 import net.sf.jaer2.devices.controllers.FX2;
+import net.sf.jaer2.eventio.translators.Translator;
 
 import com.sun.org.apache.bcel.internal.generic.I2C;
 
-public class AEREAR2 {
+public class AEREAR2 extends USBDevice {
 	public AEREAR2() {
+		super("AER EAR 2", "USB cochlea using the CochleaAMS1c chip.", VID_THESYCON, (short) 0x8406);
+
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);
 
@@ -120,5 +124,11 @@ public class AEREAR2 {
 		dacAD5391.addBias(new VPot("VcondVt", 29, NORMAL, N, 0));
 		dacAD5391.addBias(new VPot("Vpm", 30, NORMAL, N, 0));
 		dacAD5391.addBias(new VPot("Vhm", 31, NORMAL, N, 0));
+	}
+
+	@Override
+	public Class<? extends Translator> getPreferredTranslator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

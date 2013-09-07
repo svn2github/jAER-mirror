@@ -6,18 +6,27 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.eventio.translators.Translator;
+import net.sf.jaer2.util.GUISupport;
 
 public abstract class Device {
-	private Map<String, Component> nameComponentMap = new HashMap<>();
+	private final Map<String, Component> nameComponentMap = new HashMap<>();
 
 	protected final String name;
 	protected final String description;
 
-	public Device(String deviceName, String deviceDescription) {
+	private VBox rootLayout;
+
+	public Device(final String deviceName, final String deviceDescription) {
 		name = deviceName;
 		description = deviceDescription;
+
+		buildConfigGUI();
 	}
 
 	public String getName() {
@@ -28,7 +37,7 @@ public abstract class Device {
 		return description;
 	}
 
-	public void addComponent(Component c) {
+	public void addComponent(final Component c) {
 		nameComponentMap.put(c.getName(), c);
 	}
 
@@ -36,10 +45,10 @@ public abstract class Device {
 		return Collections.unmodifiableCollection(nameComponentMap.values());
 	}
 
-	public <E extends Component> Collection<E> getComponents(Class<E> type) {
-		Collection<E> components = new ArrayList<>();
+	public <E extends Component> Collection<E> getComponents(final Class<E> type) {
+		final Collection<E> components = new ArrayList<>();
 
-		for (Component c : nameComponentMap.values()) {
+		for (final Component c : nameComponentMap.values()) {
 			if (type.isAssignableFrom(c.getClass())) {
 				components.add(type.cast(c));
 			}
@@ -48,12 +57,12 @@ public abstract class Device {
 		return Collections.unmodifiableCollection(components);
 	}
 
-	public Component getComponent(String componentName) {
+	public Component getComponent(final String componentName) {
 		return nameComponentMap.get(componentName);
 	}
 
-	public <E extends Component> E getComponent(Class<E> type, String componentName) {
-		Component c = nameComponentMap.get(componentName);
+	public <E extends Component> E getComponent(final Class<E> type, final String componentName) {
+		final Component c = nameComponentMap.get(componentName);
 
 		// Found a component with specified name, now check the type.
 		if ((c != null) && type.isAssignableFrom(c.getClass())) {
@@ -64,4 +73,34 @@ public abstract class Device {
 	}
 
 	public abstract Class<? extends Translator> getPreferredTranslator();
+
+	synchronized public Pane getConfigGUI() {
+		if (rootLayout == null) {
+			rootLayout = new VBox(10);
+
+			buildConfigGUI();
+		}
+
+		return rootLayout;
+	}
+
+	private void buildConfigGUI() {
+		// Add device general data, under that, one Tab for each component.
+		GUISupport.addLabel(rootLayout, toString(), description, null, null);
+
+		final TabPane tabLayout = new TabPane();
+
+		for (final Component c : nameComponentMap.values()) {
+			final Tab t = new Tab();
+			t.setContent(c.getConfigGUI());
+			tabLayout.getTabs().add(t);
+		}
+
+		rootLayout.getChildren().add(tabLayout);
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }

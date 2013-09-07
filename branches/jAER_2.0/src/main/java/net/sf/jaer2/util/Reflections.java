@@ -55,7 +55,8 @@ public final class Reflections {
 	public static final SortedSet<Class<? extends Source>> sourceTypes = Reflections.getSubClasses(Source.class);
 
 	/** List of classes extending Translator. */
-	public static final SortedSet<Class<? extends Translator>> translatorTypes = Reflections.getSubClasses(Translator.class);
+	public static final SortedSet<Class<? extends Translator>> translatorTypes = Reflections
+		.getSubClasses(Translator.class);
 
 	/** List of classes extending Sink. */
 	public static final SortedSet<Class<? extends Sink>> sinkTypes = Reflections.getSubClasses(Sink.class);
