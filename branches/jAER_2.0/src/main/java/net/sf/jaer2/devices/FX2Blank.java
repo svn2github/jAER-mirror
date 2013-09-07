@@ -14,7 +14,7 @@ public class FX2Blank extends USBDevice {
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);
 
-		 // Size in KB and I2C address.
+		// Size in KB and I2C address.
 		final I2C eeprom = new EEPROM_I2C(32, 0x51);
 		eeprom.setProgrammer(fx2);
 

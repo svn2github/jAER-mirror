@@ -36,14 +36,6 @@ public final class InputProcessor extends Processor {
 
 	public InputProcessor() {
 		super();
-
-		CommonConstructor();
-	}
-
-	private void CommonConstructor() {
-		// Build GUIs for this processor, always in this order!
-		buildConfigGUI();
-		buildGUI();
 	}
 
 	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -52,9 +44,6 @@ public final class InputProcessor extends Processor {
 		// Restore transient fields.
 		Reflections.setFinalField(this, "inputQueue", new ArrayBlockingQueue<RawEventPacket>(32));
 		Reflections.setFinalField(this, "inputToProcess", new ArrayList<RawEventPacket>(32));
-
-		// Do construction.
-		CommonConstructor();
 	}
 
 	public Source getConnectedSource() {
@@ -149,7 +138,10 @@ public final class InputProcessor extends Processor {
 		}
 	}
 
-	private void buildGUI() {
+	@Override
+	protected void buildGUI() {
+		super.buildGUI();
+
 		rootTasksUIRefresh.add(new Runnable() {
 			@Override
 			public void run() {
@@ -166,12 +158,19 @@ public final class InputProcessor extends Processor {
 		});
 	}
 
-	private void buildConfigGUI() {
+	@Override
+	protected void buildConfigGUI() {
+		super.buildConfigGUI();
+
 		// Create Translator type chooser box.
-		final ComboBox<Class<? extends Translator>> translatorTypeChooser = GUISupport.addComboBox(null, Reflections.translatorTypes, 0);
-		GUISupport.addLabelWithControlsHorizontal(rootConfigLayoutChildren, "Translator:",
-			"Select the Translator you want to use to translate the raw events coming from the source into meaningful ones.",
-			translatorTypeChooser);
+		final ComboBox<Class<? extends Translator>> translatorTypeChooser = GUISupport.addComboBox(null,
+			Reflections.translatorTypes, 0);
+		GUISupport
+			.addLabelWithControlsHorizontal(
+				rootConfigLayoutChildren,
+				"Translator:",
+				"Select the Translator you want to use to translate the raw events coming from the source into meaningful ones.",
+				translatorTypeChooser);
 
 		rootConfigTasksDialogRefresh.add(new Runnable() {
 			@Override

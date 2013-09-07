@@ -3,6 +3,10 @@ package ch.unizh.ini.devices;
 import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.components.controllers.FX2;
+import net.sf.jaer2.devices.components.controllers.logic.LatticeMachX0;
+import net.sf.jaer2.devices.components.controllers.logic.Logic;
+import net.sf.jaer2.devices.components.misc.DAC;
+import net.sf.jaer2.devices.components.misc.memory.EEPROM_I2C;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigBitTristate;
 import net.sf.jaer2.devices.config.ConfigBitTristate.Tristate;
@@ -13,7 +17,7 @@ import com.sun.org.apache.bcel.internal.generic.I2C;
 
 public class AEREAR2 extends USBDevice {
 	public AEREAR2() {
-		super("AER EAR 2", "USB cochlea using the CochleaAMS1c chip.", VID_THESYCON, (short) 0x8406);
+		super("AER EAR 2", "USB cochlea using the CochleaAMS1c chip.", USBDevice.VID_THESYCON, (short) 0x8406);
 
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);
@@ -27,7 +31,8 @@ public class AEREAR2 extends USBDevice {
 		fx2.addSetting(new ConfigBit("powerDown", false), FX2.Ports.PE2);
 		fx2.addSetting(new ConfigBit("cochleaReset", false), FX2.Ports.PE3);
 
-		final I2C eeprom = new EEPROM_I2C(32, 0x51); // Size in KB and I2C address.
+		// Size in KB and I2C address.
+		final I2C eeprom = new EEPROM_I2C(32, 0x51);
 		eeprom.setProgrammer(fx2);
 
 		// Support flashing FX2 firmware.

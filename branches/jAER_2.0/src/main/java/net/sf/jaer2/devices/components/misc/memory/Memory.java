@@ -12,7 +12,7 @@ public abstract class Memory implements Component {
 	}
 
 	@Override
-	public void setProgrammer(Component programmer) {
+	public void setProgrammer(final Component programmer) {
 		// TODO Auto-generated method stub
 
 	}

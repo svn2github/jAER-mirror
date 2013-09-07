@@ -3,6 +3,9 @@ package ch.unizh.ini.devices;
 import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.components.controllers.FX3;
+import net.sf.jaer2.devices.components.controllers.logic.LatticeECP3;
+import net.sf.jaer2.devices.components.controllers.logic.Logic;
+import net.sf.jaer2.devices.components.misc.InvenSense6050;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigByte;
 import net.sf.jaer2.devices.config.ConfigInt;
@@ -10,10 +13,10 @@ import net.sf.jaer2.eventio.translators.Translator;
 
 import com.sun.org.apache.bcel.internal.generic.I2C;
 
-public class ApsDvs10FX3 extends USBDevice  {
+public class ApsDvs10FX3 extends USBDevice {
 	public ApsDvs10FX3() {
-		super("ApsDVS 10 FX3", "USB 3.0 vision sensor with active and dynamic pixels, using the SBRet10 chip.", VID_THESYCON,
-			(short) 0x841A);
+		super("ApsDVS 10 FX3", "USB 3.0 vision sensor with active and dynamic pixels, using the SBRet10 chip.",
+			USBDevice.VID_THESYCON, (short) 0x841A);
 
 		final Controller fx3 = new FX3();
 		fx3.firmwareToRam(false);
@@ -29,7 +32,8 @@ public class ApsDvs10FX3 extends USBDevice  {
 		fx3.addSetting(new ConfigBit("powerDown", false), FX3.Ports.GPIO42);
 		fx3.addSetting(new ConfigBit("nChipReset", true), FX3.Ports.GPIO43);
 
-		final SPI flash = new FLASH_SPI(512, 0); // Size in KB and SPI address.
+		// Size in KB and SPI address.
+		final SPI flash = new FLASH_SPI(512, 0);
 		flash.setProgrammer(fx3);
 
 		// Support flashing FX3 firmware.

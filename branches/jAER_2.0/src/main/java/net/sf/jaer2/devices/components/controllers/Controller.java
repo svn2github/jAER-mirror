@@ -13,7 +13,7 @@ public abstract class Controller implements Component {
 	}
 
 	@Override
-	public void setProgrammer(Component programmer) {
+	public void setProgrammer(final Component programmer) {
 		// TODO Auto-generated method stub
 
 	}
@@ -24,11 +24,11 @@ public abstract class Controller implements Component {
 		return null;
 	}
 
-	public void firmwareToRam(boolean fwRAM) {
+	public void firmwareToRam(final boolean fwRAM) {
 
 	}
 
-	public void firmwareToFlash(Memory fwMemory) {
+	public void firmwareToFlash(final Memory fwMemory) {
 
 	}
 }

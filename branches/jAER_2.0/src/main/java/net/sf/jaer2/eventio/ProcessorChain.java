@@ -63,10 +63,10 @@ public final class ProcessorChain implements Serializable {
 	transient private final BooleanProperty changesToCommit = new SimpleBooleanProperty(false);
 
 	/** Main GUI layout - Horizontal Box. */
-	transient private final HBox rootLayout = new HBox(10);
+	transient private HBox rootLayout;
 
 	/** Configuration GUI layout - Vertical Box. */
-	transient private final VBox rootConfigLayout = new VBox(10);
+	transient private VBox rootConfigLayout;
 
 	/** Configuration GUI: tasks to execute before showing the dialog. */
 	transient private final List<Runnable> rootConfigTasksDialogRefresh = new ArrayList<>();
@@ -81,10 +81,6 @@ public final class ProcessorChain implements Serializable {
 	}
 
 	private void CommonConstructor() {
-		// Build GUIs for this processor, always in this order!
-		buildConfigGUI();
-		buildGUI();
-
 		ProcessorChain.logger.debug("Created ProcessorChain {}.", this);
 	}
 
@@ -94,8 +90,6 @@ public final class ProcessorChain implements Serializable {
 		// Restore transient fields.
 		Reflections.setFinalField(this, "chainId", ProcessorNetwork.getNextAvailableChainID());
 		Reflections.setFinalField(this, "changesToCommit", new SimpleBooleanProperty(false));
-		Reflections.setFinalField(this, "rootLayout", new HBox(10));
-		Reflections.setFinalField(this, "rootConfigLayout", new VBox(10));
 		Reflections.setFinalField(this, "rootConfigTasksDialogRefresh", new ArrayList<Runnable>());
 		Reflections.setFinalField(this, "rootConfigTasksDialogOK", new ArrayList<Runnable>());
 
@@ -167,7 +161,13 @@ public final class ProcessorChain implements Serializable {
 	 *
 	 * @return GUI reference to display.
 	 */
-	public Pane getGUI() {
+	synchronized public Pane getGUI() {
+		if (rootLayout == null) {
+			rootLayout = new HBox(10);
+
+			buildGUI();
+		}
+
 		return rootLayout;
 	}
 
@@ -206,8 +206,8 @@ public final class ProcessorChain implements Serializable {
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent event) {
-					GUISupport.showDialog("New Processor Configuration", rootConfigLayout,
-						rootConfigTasksDialogRefresh, rootConfigTasksDialogOK, null);
+					GUISupport.showDialog("New Processor Configuration", getConfigGUI(), rootConfigTasksDialogRefresh,
+						rootConfigTasksDialogOK, null);
 				}
 			});
 
@@ -283,7 +283,13 @@ public final class ProcessorChain implements Serializable {
 	 *
 	 * @return GUI reference to display.
 	 */
-	public Pane getConfigGUI() {
+	synchronized public Pane getConfigGUI() {
+		if (rootConfigLayout == null) {
+			rootConfigLayout = new VBox(10);
+
+			buildConfigGUI();
+		}
+
 		return rootConfigLayout;
 	}
 
@@ -539,7 +545,7 @@ public final class ProcessorChain implements Serializable {
 
 				processors.add(position, processor);
 				// Add +1 to compensate for ControlBox element at start.
-				rootLayout.getChildren().add(position + 1, processor.getGUI());
+				getGUI().getChildren().add(position + 1, processor.getGUI());
 
 				linkProcessor(processor);
 
@@ -562,7 +568,7 @@ public final class ProcessorChain implements Serializable {
 			public void run() {
 				unlinkProcessor(processor);
 
-				rootLayout.getChildren().remove(processor.getGUI());
+				getGUI().getChildren().remove(processor.getGUI());
 				processors.remove(processor);
 
 				ProcessorChain.logger.debug("Removed Processor {}.", processor);

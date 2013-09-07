@@ -11,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import net.sf.jaer2.util.GUISupport;
-import net.sf.jaer2.util.Reflections;
 import net.sf.jaer2.util.XMLconf;
 
 import org.slf4j.Logger;
@@ -30,23 +29,18 @@ public final class ProcessorNetwork implements Serializable {
 	private final List<ProcessorChain> processorChains = new ArrayList<>();
 
 	/** Main GUI layout - Vertical Box. */
-	transient private final VBox rootLayout = new VBox(10);
+	transient private VBox rootLayout;
 
 	public ProcessorNetwork() {
 		CommonConstructor();
 	}
 
 	private void CommonConstructor() {
-		buildGUI();
-
 		ProcessorNetwork.logger.debug("Created ProcessorNetwork {}.", this);
 	}
 
 	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
 		in.defaultReadObject();
-
-		// Restore transient fields.
-		Reflections.setFinalField(this, "rootLayout", new VBox(10));
 
 		// Update chains to set parent network to this current instance.
 		for (final ProcessorChain chain : processorChains) {
@@ -74,7 +68,13 @@ public final class ProcessorNetwork implements Serializable {
 	 *
 	 * @return GUI reference to display.
 	 */
-	public Pane getGUI() {
+	synchronized public Pane getGUI() {
+		if (rootLayout == null) {
+			rootLayout = new VBox(10);
+
+			buildGUI();
+		}
+
 		return rootLayout;
 	}
 
@@ -93,7 +93,7 @@ public final class ProcessorNetwork implements Serializable {
 				chain.setParentNetwork(ProcessorNetwork.this);
 
 				processorChains.add(chain);
-				rootLayout.getChildren().add(chain.getGUI());
+				getGUI().getChildren().add(chain.getGUI());
 
 				ProcessorNetwork.logger.debug("Added chain {}.", chain);
 			}
@@ -110,7 +110,7 @@ public final class ProcessorNetwork implements Serializable {
 		GUISupport.runOnJavaFXThread(new Runnable() {
 			@Override
 			public void run() {
-				rootLayout.getChildren().remove(chain.getGUI());
+				getGUI().getChildren().remove(chain.getGUI());
 				processorChains.remove(chain);
 
 				ProcessorNetwork.logger.debug("Removed chain {}.", chain);

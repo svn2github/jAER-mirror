@@ -11,7 +11,7 @@ import net.sf.jaer2.eventio.translators.Translator;
 
 import com.google.common.collect.ImmutableList;
 
-public class SBRet10 extends AERChip implements  Translator {
+public class SBRet10 extends AERChip implements Translator {
 	@Override
 	public int getSizeX() {
 		return 240;

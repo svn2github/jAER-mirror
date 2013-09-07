@@ -3,18 +3,21 @@ package ch.unizh.ini.devices;
 import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.components.controllers.FX2;
+import net.sf.jaer2.devices.components.misc.memory.EEPROM_I2C;
 import net.sf.jaer2.eventio.translators.Translator;
+import ch.unizh.ini.devices.components.aer.Tmpdiff128;
 
 import com.sun.org.apache.bcel.internal.generic.I2C;
 
-public class DVS128  extends USBDevice {
+public class DVS128 extends USBDevice {
 	public DVS128() {
-		super("DVS 128", "USB Dynamic Vision Sensor, 128x128 pixels.", VID_THESYCON, (short) 0x8400);
+		super("DVS 128", "USB Dynamic Vision Sensor, 128x128 pixels.", USBDevice.VID_THESYCON, (short) 0x8400);
 
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);
 
-		final I2C eeprom = new EEPROM_I2C(32, 0x51); // Size in KB and I2C address.
+		// Size in KB and I2C address.
+		final I2C eeprom = new EEPROM_I2C(32, 0x51);
 		eeprom.setProgrammer(fx2);
 
 		// Support flashing FX2 firmware.

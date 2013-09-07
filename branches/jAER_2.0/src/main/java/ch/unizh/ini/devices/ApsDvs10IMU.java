@@ -1,5 +1,6 @@
 package ch.unizh.ini.devices;
 
+import net.sf.jaer2.devices.components.misc.InvenSense6050;
 import net.sf.jaer2.eventio.translators.Translator;
 
 import com.sun.org.apache.bcel.internal.generic.I2C;

@@ -29,14 +29,6 @@ public final class OutputProcessor extends Processor {
 
 	public OutputProcessor() {
 		super();
-
-		CommonConstructor();
-	}
-
-	private void CommonConstructor() {
-		// Build GUIs for this processor, always in this order!
-		buildConfigGUI();
-		buildGUI();
 	}
 
 	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -44,9 +36,6 @@ public final class OutputProcessor extends Processor {
 
 		// Restore transient fields.
 		Reflections.setFinalField(this, "outputQueue", new ArrayBlockingQueue<EventPacketContainer>(32));
-
-		// Do construction.
-		CommonConstructor();
 	}
 
 	public Sink getConnectedSink() {
@@ -113,7 +102,10 @@ public final class OutputProcessor extends Processor {
 		outputQueue.drainTo(eventPacketContainers);
 	}
 
-	private void buildGUI() {
+	@Override
+	protected void buildGUI() {
+		super.buildGUI();
+
 		rootTasksUIRefresh.add(new Runnable() {
 			@Override
 			public void run() {
@@ -126,7 +118,10 @@ public final class OutputProcessor extends Processor {
 		});
 	}
 
-	private void buildConfigGUI() {
+	@Override
+	protected void buildConfigGUI() {
+		super.buildConfigGUI();
+
 		// Create Sink type chooser box.
 		final ComboBox<Class<? extends Sink>> sinkTypeChooser = GUISupport.addComboBox(null, Reflections.sinkTypes, -1);
 		GUISupport.addLabelWithControlsHorizontal(rootConfigLayoutChildren, "Sink:",

@@ -70,7 +70,7 @@ public abstract class Processor implements Runnable, Serializable {
 	protected final String processorName;
 
 	/** Chain this processor belongs to. */
-	transient protected final ProcessorChain parentChain;
+	transient protected ProcessorChain parentChain;
 	/** Previous processor in the ordered chain. */
 	private Processor prevProcessor;
 	/** Next processor in the ordered chain. */
@@ -116,17 +116,17 @@ public abstract class Processor implements Runnable, Serializable {
 	transient protected final List<EventPacketContainer> workToProcess = new ArrayList<>(16);
 
 	/** Main GUI layout - Horizontal Box. */
-	transient private final HBox rootLayout = new HBox(10);
+	transient private HBox rootLayout;
 	/** Main GUI layout for Sub-Classes - Vertical Box. */
-	transient protected final VBox rootLayoutChildren = new VBox(5);
+	transient protected VBox rootLayoutChildren;
 
 	/** Main GUI GUI: tasks to execute when related data changes. */
 	transient protected final List<Runnable> rootTasksUIRefresh = new ArrayList<>();
 
 	/** Configuration GUI layout - Vertical Box. */
-	transient private final VBox rootConfigLayout = new VBox(10);
+	transient private VBox rootConfigLayout;
 	/** Configuration GUI layout for Sub-Classes - Vertical Box. */
-	transient protected final VBox rootConfigLayoutChildren = new VBox(5);
+	transient protected VBox rootConfigLayoutChildren;
 
 	/** Configuration GUI: tasks to execute before showing the dialog. */
 	transient protected final List<Runnable> rootConfigTasksDialogRefresh = new ArrayList<>();
@@ -134,7 +134,6 @@ public abstract class Processor implements Runnable, Serializable {
 	transient protected final List<Runnable> rootConfigTasksDialogOK = new ArrayList<>();
 
 	public Processor() {
-		parentChain = null;
 		processorId = 0;
 		processorName = getClass().getSimpleName();
 
@@ -164,10 +163,6 @@ public abstract class Processor implements Runnable, Serializable {
 		CollectionsUpdate.replaceNonDestructive(compatibleInputTypes, loadedCompatibleInputTypes);
 
 		CollectionsUpdate.replaceNonDestructive(additionalOutputTypes, loadedAdditionalOutputTypes);
-
-		// Build GUIs for this processor, always in this order!
-		buildConfigGUI();
-		buildGUI();
 
 		Processor.logger.debug("Created Processor {}.", this);
 	}
@@ -200,11 +195,7 @@ public abstract class Processor implements Runnable, Serializable {
 			Collections.unmodifiableList(selectedInputStreams));
 		Reflections.setFinalField(this, "workQueue", new ArrayBlockingQueue<EventPacketContainer>(16));
 		Reflections.setFinalField(this, "workToProcess", new ArrayList<EventPacketContainer>(16));
-		Reflections.setFinalField(this, "rootLayout", new HBox(10));
-		Reflections.setFinalField(this, "rootLayoutChildren", new VBox(5));
 		Reflections.setFinalField(this, "rootTasksUIRefresh", new ArrayList<Runnable>());
-		Reflections.setFinalField(this, "rootConfigLayout", new VBox(10));
-		Reflections.setFinalField(this, "rootConfigLayoutChildren", new VBox(5));
 		Reflections.setFinalField(this, "rootConfigTasksDialogRefresh", new ArrayList<Runnable>());
 		Reflections.setFinalField(this, "rootConfigTasksDialogOK", new ArrayList<Runnable>());
 
@@ -246,7 +237,7 @@ public abstract class Processor implements Runnable, Serializable {
 	 *            parent chain.
 	 */
 	public final void setParentChain(final ProcessorChain chain) {
-		Reflections.setFinalField(this, "parentChain", chain);
+		parentChain = chain;
 
 		// Update processor ID, while keeping the field read-only.
 		if (processorId == 0) {
@@ -429,14 +420,24 @@ public abstract class Processor implements Runnable, Serializable {
 	 *
 	 * @return GUI reference to display.
 	 */
-	public final Pane getGUI() {
+	synchronized public final Pane getGUI() {
+		if (rootLayout == null) {
+			rootLayout = new HBox(10);
+			rootLayoutChildren = new VBox(5);
+
+			buildGUI();
+
+			// Ensure display of all newly built GUI elements.
+			GUISupport.runTasksCollection(rootTasksUIRefresh);
+		}
+
 		return rootLayout;
 	}
 
 	/**
 	 * Create the base GUI elements and add them to the rootLayout.
 	 */
-	private void buildGUI() {
+	protected void buildGUI() {
 		// Box holding information and controls for the processor.
 		final VBox processorBox = new VBox(5);
 		processorBox.setPadding(new Insets(5));
@@ -485,7 +486,7 @@ public abstract class Processor implements Runnable, Serializable {
 			"/images/icons/Gear.png", new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent event) {
-					GUISupport.showDialog("Processor Configuration", rootConfigLayout, rootConfigTasksDialogRefresh,
+					GUISupport.showDialog("Processor Configuration", getConfigGUI(), rootConfigTasksDialogRefresh,
 						rootConfigTasksDialogOK, rootTasksUIRefresh);
 				}
 			});
@@ -556,7 +557,14 @@ public abstract class Processor implements Runnable, Serializable {
 	 *
 	 * @return GUI reference to display.
 	 */
-	public final Pane getConfigGUI() {
+	synchronized public final Pane getConfigGUI() {
+		if (rootConfigLayout == null) {
+			rootConfigLayout = new VBox(10);
+			rootConfigLayoutChildren = new VBox(5);
+
+			buildConfigGUI();
+		}
+
 		return rootConfigLayout;
 	}
 
@@ -564,7 +572,7 @@ public abstract class Processor implements Runnable, Serializable {
 	 * Create the base GUI elements for the configuration screen and add them to
 	 * the rootConfigLayout.
 	 */
-	private void buildConfigGUI() {
+	protected void buildConfigGUI() {
 		// List view of all possible input streams, to select on which to work.
 		final ListView<ImmutablePair<Class<? extends Event>, Integer>> streamsView = new ListView<>();
 

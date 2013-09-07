@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableList;
 
-public class Tmpdiff128 extends AERChip implements  Translator {
+public class Tmpdiff128 extends AERChip implements Translator {
 	/** Local logger for log messages. */
 	protected final static Logger logger = LoggerFactory.getLogger(Tmpdiff128.class);
 
@@ -89,8 +89,8 @@ public class Tmpdiff128 extends AERChip implements  Translator {
 				eventPacketSpecial.append(specEvent);
 
 				if (printedSyncBitWarningCount > 0) {
-					Tmpdiff128.logger
-						.warn("Raw address " + addr + " is >32767 (0xEFFF), either sync or stereo bit is set!");
+					Tmpdiff128.logger.warn("Raw address " + addr
+						+ " is >32767 (0xEFFF), either sync or stereo bit is set!");
 					printedSyncBitWarningCount--;
 
 					if (printedSyncBitWarningCount == 0) {

@@ -16,13 +16,13 @@ public class CochleaAMS1c extends AERChip implements Translator {
 	}
 
 	@Override
-	public void extractEventPacketContainer(RawEventPacket rawEventPacket, EventPacketContainer eventPacketContainer) {
+	public void extractEventPacketContainer(final RawEventPacket rawEventPacket, final EventPacketContainer eventPacketContainer) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void reconstructRawEventPacket(EventPacketContainer eventPacketContainer, RawEventPacket rawEventPacket) {
+	public void reconstructRawEventPacket(final EventPacketContainer eventPacketContainer, final RawEventPacket rawEventPacket) {
 		// TODO Auto-generated method stub
 
 	}
@@ -52,7 +52,7 @@ public class CochleaAMS1c extends AERChip implements Translator {
 	}
 
 	@Override
-	public boolean compatibleWith(AERChip chip) {
+	public boolean compatibleWith(final AERChip chip) {
 		// TODO Auto-generated method stub
 		return false;
 	}
