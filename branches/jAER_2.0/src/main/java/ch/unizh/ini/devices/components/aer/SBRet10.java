@@ -1,4 +1,4 @@
-package ch.unizh.ini.chips.apsdvs;
+package ch.unizh.ini.devices.components.aer;
 
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
@@ -11,7 +11,7 @@ import net.sf.jaer2.eventio.translators.Translator;
 
 import com.google.common.collect.ImmutableList;
 
-public class SBRet10 implements AERChip, Translator {
+public class SBRet10 extends AERChip implements  Translator {
 	@Override
 	public int getSizeX() {
 		return 240;
@@ -19,16 +19,6 @@ public class SBRet10 implements AERChip, Translator {
 
 	@Override
 	public int getSizeY() {
-		return 180;
-	}
-
-	@Override
-	public int getMaxSize() {
-		return 240;
-	}
-
-	@Override
-	public int getMinSize() {
 		return 180;
 	}
 

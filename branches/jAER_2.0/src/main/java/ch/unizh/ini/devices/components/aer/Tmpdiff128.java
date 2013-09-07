@@ -1,4 +1,4 @@
-package ch.unizh.ini.chips.dvs;
+package ch.unizh.ini.devices.components.aer;
 
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.eventio.eventpackets.EventPacket;
@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableList;
 
-public class DVS128 implements AERChip, Translator {
+public class Tmpdiff128 extends AERChip implements  Translator {
 	/** Local logger for log messages. */
-	protected final static Logger logger = LoggerFactory.getLogger(DVS128.class);
+	protected final static Logger logger = LoggerFactory.getLogger(Tmpdiff128.class);
 
 	@Override
 	public int getSizeX() {
@@ -27,16 +27,6 @@ public class DVS128 implements AERChip, Translator {
 
 	@Override
 	public int getSizeY() {
-		return 128;
-	}
-
-	@Override
-	public int getMaxSize() {
-		return 128;
-	}
-
-	@Override
-	public int getMinSize() {
 		return 128;
 	}
 
@@ -99,12 +89,12 @@ public class DVS128 implements AERChip, Translator {
 				eventPacketSpecial.append(specEvent);
 
 				if (printedSyncBitWarningCount > 0) {
-					DVS128.logger
+					Tmpdiff128.logger
 						.warn("Raw address " + addr + " is >32767 (0xEFFF), either sync or stereo bit is set!");
 					printedSyncBitWarningCount--;
 
 					if (printedSyncBitWarningCount == 0) {
-						DVS128.logger.warn("Suppressing futher warnings about MSB of raw address.");
+						Tmpdiff128.logger.warn("Suppressing futher warnings about MSB of raw address.");
 					}
 				}
 			}
