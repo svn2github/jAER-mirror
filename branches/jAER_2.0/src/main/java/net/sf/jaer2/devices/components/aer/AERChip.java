@@ -1,7 +1,7 @@
-package net.sf.jaer2.devices.chips;
+package net.sf.jaer2.devices.components.aer;
 
 
-public interface Chip {
+public interface AERChip {
 	public int getSizeX();
 
 	public int getSizeY();
@@ -24,5 +24,5 @@ public interface Chip {
 	 */
 	public int getNumPixels();
 
-	public boolean compatibleWith(final Chip chip);
+	public boolean compatibleWith(final AERChip chip);
 }

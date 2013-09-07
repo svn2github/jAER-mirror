@@ -1,6 +1,6 @@
 package ch.unizh.ini.chips.apsdvs;
 
-import net.sf.jaer2.devices.chips.Chip;
+import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
 import net.sf.jaer2.eventio.eventpackets.raw.RawEventPacket;
 import net.sf.jaer2.eventio.events.Event;
@@ -11,7 +11,7 @@ import net.sf.jaer2.eventio.translators.Translator;
 
 import com.google.common.collect.ImmutableList;
 
-public class SBRet10 implements Chip, Translator {
+public class SBRet10 implements AERChip, Translator {
 	@Override
 	public int getSizeX() {
 		return 240;
@@ -45,7 +45,7 @@ public class SBRet10 implements Chip, Translator {
 	}
 
 	@Override
-	public boolean compatibleWith(final Chip chip) {
+	public boolean compatibleWith(final AERChip chip) {
 		// TODO Auto-generated method stub
 		return false;
 	}

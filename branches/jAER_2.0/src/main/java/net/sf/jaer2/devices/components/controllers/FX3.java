@@ -1,6 +1,6 @@
-package net.sf.jaer2.devices.controllers;
+package net.sf.jaer2.devices.components.controllers;
 
-public class FX3 {
+public class FX3 extends Controller {
 	public static enum Ports {
 		GPIO26,
 		GPIO27,

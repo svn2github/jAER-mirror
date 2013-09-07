@@ -1,9 +1,10 @@
 package ch.unizh.ini.devices;
 
 import net.sf.jaer2.devices.USBDevice;
+import net.sf.jaer2.devices.components.controllers.Controller;
+import net.sf.jaer2.devices.components.controllers.FX2;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigInt;
-import net.sf.jaer2.devices.controllers.FX2;
 import net.sf.jaer2.eventio.translators.Translator;
 
 import com.sun.org.apache.bcel.internal.generic.I2C;

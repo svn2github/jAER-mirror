@@ -1,6 +1,7 @@
 package net.sf.jaer2.devices;
 
-import net.sf.jaer2.devices.controllers.FX3;
+import net.sf.jaer2.devices.components.controllers.Controller;
+import net.sf.jaer2.devices.components.controllers.FX3;
 import net.sf.jaer2.eventio.translators.Translator;
 
 public class FX3Blank extends USBDevice {

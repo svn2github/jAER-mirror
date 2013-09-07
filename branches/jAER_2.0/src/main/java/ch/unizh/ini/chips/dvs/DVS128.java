@@ -1,6 +1,6 @@
 package ch.unizh.ini.chips.dvs;
 
-import net.sf.jaer2.devices.chips.Chip;
+import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.eventio.eventpackets.EventPacket;
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
 import net.sf.jaer2.eventio.eventpackets.raw.RawEventPacket;
@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableList;
 
-public class DVS128 implements Chip, Translator {
+public class DVS128 implements AERChip, Translator {
 	/** Local logger for log messages. */
 	protected final static Logger logger = LoggerFactory.getLogger(DVS128.class);
 
@@ -53,7 +53,7 @@ public class DVS128 implements Chip, Translator {
 	}
 
 	@Override
-	public boolean compatibleWith(final Chip chip) {
+	public boolean compatibleWith(final AERChip chip) {
 		// TODO Auto-generated method stub
 		return false;
 	}

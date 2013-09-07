@@ -1,6 +1,6 @@
-package net.sf.jaer2.devices.controllers;
+package net.sf.jaer2.devices.components.controllers;
 
-public class FX2 {
+public class FX2 extends Controller {
 	public static enum Ports {
 		PA0,
 		PA1,
