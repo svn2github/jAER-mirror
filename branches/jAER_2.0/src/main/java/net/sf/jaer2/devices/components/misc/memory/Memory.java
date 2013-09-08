@@ -4,6 +4,9 @@ import javafx.scene.layout.Pane;
 import net.sf.jaer2.devices.components.Component;
 
 public abstract class Memory implements Component {
+	public Memory(final String name, final int size) {
+
+	}
 
 	@Override
 	public String getName() {
@@ -22,5 +25,4 @@ public abstract class Memory implements Component {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

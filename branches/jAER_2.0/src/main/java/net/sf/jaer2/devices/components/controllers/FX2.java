@@ -14,6 +14,14 @@ public class FX2 extends Controller {
 		PC5, // JTAG
 		PC6, // JTAG
 		PC7, // JTAG
+		PD0, // FD 8
+		PD1, // FD 9
+		PD2, // FD 10
+		PD3, // FD 11
+		PD4, // FD 12
+		PD5, // FD 13
+		PD6, // FD 14
+		PD7, // FD 15
 		PE0,
 		PE1,
 		PE2,

@@ -16,13 +16,15 @@ public class CochleaAMS1c extends AERChip implements Translator {
 	}
 
 	@Override
-	public void extractEventPacketContainer(final RawEventPacket rawEventPacket, final EventPacketContainer eventPacketContainer) {
+	public void extractEventPacketContainer(final RawEventPacket rawEventPacket,
+		final EventPacketContainer eventPacketContainer) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void reconstructRawEventPacket(final EventPacketContainer eventPacketContainer, final RawEventPacket rawEventPacket) {
+	public void reconstructRawEventPacket(final EventPacketContainer eventPacketContainer,
+		final RawEventPacket rawEventPacket) {
 		// TODO Auto-generated method stub
 
 	}

@@ -2,6 +2,8 @@ package net.sf.jaer2.devices;
 
 import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.components.controllers.FX3;
+import net.sf.jaer2.devices.components.misc.memory.Flash_SPI;
+import net.sf.jaer2.devices.components.misc.memory.Memory;
 import net.sf.jaer2.eventio.translators.Translator;
 
 public class FX3Blank extends USBDevice {
@@ -11,7 +13,8 @@ public class FX3Blank extends USBDevice {
 		final Controller fx3 = new FX3();
 		fx3.firmwareToRam(true);
 
-		final SPI flash = new FLASH_SPI(512, 0); // Size in KB and SPI address.
+		// Size in KB and SPI address.
+		final Memory flash = new Flash_SPI(512, 0);
 		flash.setProgrammer(fx3);
 
 		// Support flashing FX3 firmware.

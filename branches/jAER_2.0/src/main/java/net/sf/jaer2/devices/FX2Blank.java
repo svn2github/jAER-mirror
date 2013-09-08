@@ -3,9 +3,8 @@ package net.sf.jaer2.devices;
 import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.components.controllers.FX2;
 import net.sf.jaer2.devices.components.misc.memory.EEPROM_I2C;
+import net.sf.jaer2.devices.components.misc.memory.Memory;
 import net.sf.jaer2.eventio.translators.Translator;
-
-import com.sun.org.apache.bcel.internal.generic.I2C;
 
 public class FX2Blank extends USBDevice {
 	public FX2Blank() {
@@ -15,7 +14,7 @@ public class FX2Blank extends USBDevice {
 		fx2.firmwareToRam(true);
 
 		// Size in KB and I2C address.
-		final I2C eeprom = new EEPROM_I2C(32, 0x51);
+		final Memory eeprom = new EEPROM_I2C(32, 0x51);
 		eeprom.setProgrammer(fx2);
 
 		// Support flashing FX2 firmware.

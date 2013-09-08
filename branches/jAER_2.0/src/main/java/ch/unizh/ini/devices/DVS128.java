@@ -1,13 +1,14 @@
 package ch.unizh.ini.devices;
 
 import net.sf.jaer2.devices.USBDevice;
+import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.components.controllers.FX2;
 import net.sf.jaer2.devices.components.misc.memory.EEPROM_I2C;
+import net.sf.jaer2.devices.components.misc.memory.Memory;
+import net.sf.jaer2.devices.config.pots.Pot;
 import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.Tmpdiff128;
-
-import com.sun.org.apache.bcel.internal.generic.I2C;
 
 public class DVS128 extends USBDevice {
 	public DVS128() {
@@ -17,7 +18,7 @@ public class DVS128 extends USBDevice {
 		fx2.firmwareToRam(true);
 
 		// Size in KB and I2C address.
-		final I2C eeprom = new EEPROM_I2C(32, 0x51);
+		final Memory eeprom = new EEPROM_I2C(32, 0x51);
 		eeprom.setProgrammer(fx2);
 
 		// Support flashing FX2 firmware.
@@ -26,21 +27,21 @@ public class DVS128 extends USBDevice {
 		// Logic xilinxCoolRunner2 = new XilinxCoolRunner2();
 		// Not actively configurable.
 
-		final AER tmpdiff128 = new Tmpdiff128();
-		tmpdiff128.setBiasProgrammer(fx2);
+		final AERChip tmpdiff128 = new Tmpdiff128();
+		tmpdiff128.setProgrammer(fx2);
 
-		tmpdiff128.addBias(new IPot("pr", 0, NORMAL, P, 0));
-		tmpdiff128.addBias(new IPot("foll", 1, NORMAL, P, 0));
-		tmpdiff128.addBias(new IPot("diff", 2, NORMAL, N, 0));
-		tmpdiff128.addBias(new IPot("diffOn", 3, NORMAL, N, 0));
-		tmpdiff128.addBias(new IPot("puY", 4, NORMAL, P, 0));
-		tmpdiff128.addBias(new IPot("refr", 5, NORMAL, P, 0));
-		tmpdiff128.addBias(new IPot("req", 6, NORMAL, N, 0));
-		tmpdiff128.addBias(new IPot("diffOff", 7, NORMAL, N, 0));
-		tmpdiff128.addBias(new IPot("puX", 8, NORMAL, P, 0));
-		tmpdiff128.addBias(new IPot("reqPd", 9, NORMAL, N, 0));
-		tmpdiff128.addBias(new IPot("injGnd", 10, CASCODE, P, 0));
-		tmpdiff128.addBias(new IPot("cas", 11, CASCODE, N, 0));
+		tmpdiff128.addBias(new IPot("pr", 0, Pot.Type.NORMAL, Pot.Sex.P, 0));
+		tmpdiff128.addBias(new IPot("foll", 1, Pot.Type.NORMAL, Pot.Sex.P, 0));
+		tmpdiff128.addBias(new IPot("diff", 2, Pot.Type.NORMAL, Pot.Sex.N, 0));
+		tmpdiff128.addBias(new IPot("diffOn", 3, Pot.Type.NORMAL, Pot.Sex.N, 0));
+		tmpdiff128.addBias(new IPot("puY", 4, Pot.Type.NORMAL, Pot.Sex.P, 0));
+		tmpdiff128.addBias(new IPot("refr", 5, Pot.Type.NORMAL, Pot.Sex.P, 0));
+		tmpdiff128.addBias(new IPot("req", 6, Pot.Type.NORMAL, Pot.Sex.N, 0));
+		tmpdiff128.addBias(new IPot("diffOff", 7, Pot.Type.NORMAL, Pot.Sex.N, 0));
+		tmpdiff128.addBias(new IPot("puX", 8, Pot.Type.NORMAL, Pot.Sex.P, 0));
+		tmpdiff128.addBias(new IPot("reqPd", 9, Pot.Type.NORMAL, Pot.Sex.N, 0));
+		tmpdiff128.addBias(new IPot("injGnd", 10, Pot.Type.CASCODE, Pot.Sex.P, 0));
+		tmpdiff128.addBias(new IPot("cas", 11, Pot.Type.CASCODE, Pot.Sex.N, 0));
 	}
 
 	@Override

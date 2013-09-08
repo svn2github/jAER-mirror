@@ -4,6 +4,9 @@ import javafx.scene.layout.Pane;
 import net.sf.jaer2.devices.components.Component;
 
 public class InvenSense6050 implements Component {
+	public InvenSense6050(final int i2cAddress) {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public String getName() {
@@ -22,5 +25,4 @@ public class InvenSense6050 implements Component {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

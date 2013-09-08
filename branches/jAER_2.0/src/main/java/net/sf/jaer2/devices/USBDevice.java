@@ -7,11 +7,13 @@ public abstract class USBDevice extends Device {
 	protected final short PID;
 	protected final short DID;
 
-	public USBDevice(final String deviceName, final String deviceDescription, final short deviceVID, final short devicePID) {
+	public USBDevice(final String deviceName, final String deviceDescription, final short deviceVID,
+		final short devicePID) {
 		this(deviceName, deviceDescription, deviceVID, devicePID, (short) 0x0000);
 	}
 
-	public USBDevice(final String deviceName, final String deviceDescription, final short deviceVID, final short devicePID, final short deviceDID) {
+	public USBDevice(final String deviceName, final String deviceDescription, final short deviceVID,
+		final short devicePID, final short deviceDID) {
 		super(deviceName, deviceDescription);
 
 		VID = deviceVID;
