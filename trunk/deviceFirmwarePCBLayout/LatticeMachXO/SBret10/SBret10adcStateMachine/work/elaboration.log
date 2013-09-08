@@ -1,0 +1,19 @@
+elbread.dll ver. 1.0.5.375 Thu Jul 25 20:25:43 2013
+
+
+----------------------------------------------
+Entity              | Architecture | Library
+----------------------------------------------
+adcstatemachine_tb  | behavioural  | work
+ADCStateMachine     | behavioral   | work
+--------------------------------------------
+
+-------------------------------
+Package             | Library
+-------------------------------
+standard            | std
+TEXTIO              | std
+std_logic_1164      | ieee
+std_logic_arith     | ieee
+STD_LOGIC_UNSIGNED  | ieee
+-----------------------------

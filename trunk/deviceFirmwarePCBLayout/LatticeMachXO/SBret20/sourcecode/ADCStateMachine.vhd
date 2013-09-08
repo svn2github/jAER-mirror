@@ -151,7 +151,7 @@ begin
         CDVSTestSRColInxS    <= '0';
         CDVSTestSRColClockxS <= '0';
         DoReadxS             <= '0';
-        ColModexD            <= "00";
+        ColModexD            <= "11";
 		TxGatexE			 <= '0';
       when stReset =>
         CDVSTestSRColClockxS <= '0';
@@ -264,7 +264,7 @@ begin
           DividerColxDN <= DividerColxDP + 1;
         end if;
 		--StateColxDN   <= stIdle;
-        ColModexD <= "00";
+        ColModexD <= "11";
 		
       when others => null;
     end case;

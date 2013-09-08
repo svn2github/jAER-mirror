@@ -1,0 +1,424 @@
+designverincludedir -clear
+designverlibrarysim -PL -clear
+designverlibrarysim -L -clear
+designverlibrarysim -PL pmi_work
+designverlibrarysim ovi_machxo
+designverdefinemacro -clear
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/wordRegister.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\wordRegister.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/AERfifo.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\AERfifo.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/clockgen.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\clockgen.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/earlyPaketTimer.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\earlyPaketTimer.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/EventBeforeOverflow.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\EventBeforeOverflow.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/eventCounter.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\eventCounter.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/fifoStatemachine.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\fifoStatemachine.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/monitorStateMachine.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\monitorStateMachine.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/synchronizerStateMachine.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\synchronizerStateMachine.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/timestampCounter.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\timestampCounter.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/USBAER_top_level.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\USBAER_top_level.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/ADCvalueReady.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCvalueReady.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/cDVSResetStateMachine.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\cDVSResetStateMachine.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/shiftRegister.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\shiftRegister.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/ADCStateMachine_tb.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\ADCStateMachine_tb.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/ADCStateMachine.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCStateMachine.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/AERfifo.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\AERfifo.vhd ... Done
+addfile C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/clockgen.vhd
+# Adding file C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\clockgen.vhd ... Done
+vlib C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sbret10adcStateMachine/work
+# Warning: Library work already exists
+adel -all
+# Library contents cleared.
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/wordRegister.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\wordRegister.vhd
+# Compile Entity "wordRegister"
+# Compile Architecture "Behavioral" of Entity "wordRegister"
+# Compile success 0 Errors 0 Warnings  Analysis time :  93.0 [ms]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/AERfifo.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\AERfifo.vhd
+# Compile Entity "AERfifo"
+# Compile Architecture "Structure" of Entity "AERfifo"
+# Compile Configuration "Structure_CON"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/clockgen.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\clockgen.vhd
+# Compile Entity "clockgen"
+# Compile Architecture "Structure" of Entity "clockgen"
+# Compile Configuration "Structure_CON"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/earlyPaketTimer.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\earlyPaketTimer.vhd
+# Compile Entity "earlyPaketTimer"
+# Compile Architecture "Behavioral" of Entity "earlyPaketTimer"
+# Compile success 0 Errors 0 Warnings  Analysis time :  78.0 [ms]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/EventBeforeOverflow.vhd
+# Compile...
+acom -work work -2002  $dsn/../sourcecode/wordRegister.vhd $dsn/../sourcecode/AERfifo.vhd $dsn/../sourcecode/clockgen.vhd $dsn/../sourcecode/earlyPaketTimer.vhd $dsn/../sourcecode/EventBeforeOverflow.vhd $dsn/../sourcecode/eventCounter.vhd $dsn/../sourcecode/fifoStatemachine.vhd $dsn/../sourcecode/monitorStateMachine.vhd $dsn/../sourcecode/synchronizerStateMachine.vhd $dsn/../sourcecode/timestampCounter.vhd $dsn/../sourcecode/USBAER_top_level.vhd $dsn/../sourcecode/ADCvalueReady.vhd $dsn/../sourcecode/cDVSResetStateMachine.vhd $dsn/../sourcecode/shiftRegister.vhd $dsn/../ADCStateMachine_tb.vhd $dsn/../sourcecode/ADCStateMachine.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\wordRegister.vhd
+# Compile Entity "wordRegister"
+# Compile Architecture "Behavioral" of Entity "wordRegister"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\AERfifo.vhd
+# Compile Entity "AERfifo"
+# Compile Architecture "Structure" of Entity "AERfifo"
+# Compile Configuration "Structure_CON"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\clockgen.vhd
+# Compile Entity "clockgen"
+# Compile Architecture "Structure" of Entity "clockgen"
+# Compile Configuration "Structure_CON"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\earlyPaketTimer.vhd
+# Compile Entity "earlyPaketTimer"
+# Compile Architecture "Behavioral" of Entity "earlyPaketTimer"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\EventBeforeOverflow.vhd
+# Compile Entity "EventBeforeOverflow"
+# Compile Architecture "Behavioral" of Entity "EventBeforeOverflow"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\eventCounter.vhd
+# Compile Entity "eventCounter"
+# Compile Architecture "Behavioral" of Entity "eventCounter"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\fifoStatemachine.vhd
+# Compile Entity "fifoStatemachine"
+# Compile Architecture "Behavioral" of Entity "fifoStatemachine"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\monitorStateMachine.vhd
+# Compile Entity "monitorStateMachine"
+# Compile Architecture "Behavioral" of Entity "monitorStateMachine"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\synchronizerStateMachine.vhd
+# Compile Entity "synchronizerStateMachine"
+# Compile Architecture "Behavioral" of Entity "synchronizerStateMachine"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\timestampCounter.vhd
+# Compile Entity "timestampCounter"
+# Compile Architecture "Behavioral" of Entity "timestampCounter"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\USBAER_top_level.vhd
+# Compile Entity "USBAER_top_level"
+# Compile Architecture "Structural" of Entity "USBAER_top_level"
+# Warning: ELAB1_0026: USBAER_top_level.vhd : (409, 0): There is no default binding for component "shiftRegister".(No entity named "shiftRegister" was found).
+# Warning: ELAB1_0026: USBAER_top_level.vhd : (550, 0): There is no default binding for component "ADCStateMachine".(No entity named "ADCStateMachine" was found).
+# Warning: ELAB1_0026: USBAER_top_level.vhd : (582, 0): There is no default binding for component "ADCvalueReady".(No entity named "ADCvalueReady" was found).
+# Warning: ELAB1_0026: USBAER_top_level.vhd : (590, 0): There is no default binding for component "cDVSResetStateMachine".(No entity named "cDVSResetStateMachine" was found).
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCvalueReady.vhd
+# Compile Entity "ADCvalueReady"
+# Compile Architecture "Behavioral" of Entity "ADCvalueReady"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\cDVSResetStateMachine.vhd
+# Compile Entity "cDVSResetStateMachine"
+# Compile Architecture "Behavioral" of Entity "cDVSResetStateMachine"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\shiftRegister.vhd
+# Compile Entity "shiftRegister"
+# Compile Architecture "Behavioral" of Entity "shiftRegister"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\ADCStateMachine_tb.vhd
+# Compile Entity "ADCStateMachine_tb"
+# Compile Architecture "Behavioural" of Entity "ADCStateMachine_tb"
+# Warning: ELAB1_0026: ADCStateMachine_tb.vhd : (114, 0): There is no default binding for component "ADCStateMachine".(No entity named "ADCStateMachine" was found).
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCStateMachine.vhd
+# Compile Entity "ADCStateMachine"
+# Compile Architecture "Behavioral" of Entity "ADCStateMachine"
+# Compile success 0 Errors 5 Warnings  Analysis time :  1.0 [s]
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\wordRegister.vhd
+# Compile Entity "wordRegister"
+# Compile Architecture "Behavioral" of Entity "wordRegister"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\AERfifo.vhd
+# Compile Entity "AERfifo"
+# Compile Architecture "Structure" of Entity "AERfifo"
+# Compile Configuration "Structure_CON"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\clockgen.vhd
+# Compile Entity "clockgen"
+# Compile Architecture "Structure" of Entity "clockgen"
+# Compile Configuration "Structure_CON"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\earlyPaketTimer.vhd
+# Compile Entity "earlyPaketTimer"
+# Compile Architecture "Behavioral" of Entity "earlyPaketTimer"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\EventBeforeOverflow.vhd
+# Compile Entity "EventBeforeOverflow"
+# Compile Architecture "Behavioral" of Entity "EventBeforeOverflow"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\eventCounter.vhd
+# Compile Entity "eventCounter"
+# Compile Architecture "Behavioral" of Entity "eventCounter"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\fifoStatemachine.vhd
+# Compile Entity "fifoStatemachine"
+# Compile Architecture "Behavioral" of Entity "fifoStatemachine"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\monitorStateMachine.vhd
+# Compile Entity "monitorStateMachine"
+# Compile Architecture "Behavioral" of Entity "monitorStateMachine"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\synchronizerStateMachine.vhd
+# Compile Entity "synchronizerStateMachine"
+# Compile Architecture "Behavioral" of Entity "synchronizerStateMachine"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\timestampCounter.vhd
+# Compile Entity "timestampCounter"
+# Compile Architecture "Behavioral" of Entity "timestampCounter"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\USBAER_top_level.vhd
+# Compile Entity "USBAER_top_level"
+# Compile Architecture "Structural" of Entity "USBAER_top_level"
+# Warning: ELAB1_0026: USBAER_top_level.vhd : (409, 0): There is no default binding for component "shiftRegister".(No entity named "shiftRegister" was found).
+# Warning: ELAB1_0026: USBAER_top_level.vhd : (550, 0): There is no default binding for component "ADCStateMachine".(No entity named "ADCStateMachine" was found).
+# Warning: ELAB1_0026: USBAER_top_level.vhd : (582, 0): There is no default binding for component "ADCvalueReady".(No entity named "ADCvalueReady" was found).
+# Warning: ELAB1_0026: USBAER_top_level.vhd : (590, 0): There is no default binding for component "cDVSResetStateMachine".(No entity named "cDVSResetStateMachine" was found).
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCvalueReady.vhd
+# Compile Entity "ADCvalueReady"
+# Compile Architecture "Behavioral" of Entity "ADCvalueReady"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\cDVSResetStateMachine.vhd
+# Compile Entity "cDVSResetStateMachine"
+# Compile Architecture "Behavioral" of Entity "cDVSResetStateMachine"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\shiftRegister.vhd
+# Compile Entity "shiftRegister"
+# Compile Architecture "Behavioral" of Entity "shiftRegister"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\ADCStateMachine_tb.vhd
+# Compile Entity "ADCStateMachine_tb"
+# Compile Architecture "Behavioural" of Entity "ADCStateMachine_tb"
+# Warning: ELAB1_0026: ADCStateMachine_tb.vhd : (114, 0): There is no default binding for component "ADCStateMachine".(No entity named "ADCStateMachine" was found).
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCStateMachine.vhd
+# Compile Entity "ADCStateMachine"
+# Compile Architecture "Behavioral" of Entity "ADCStateMachine"
+# Compile success 0 Errors 5 Warnings  Analysis time :  1.0 [s]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/eventCounter.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\eventCounter.vhd
+# Compile Entity "eventCounter"
+# Compile Architecture "Behavioral" of Entity "eventCounter"
+# Compile success 0 Errors 0 Warnings  Analysis time :  78.0 [ms]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/fifoStatemachine.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\fifoStatemachine.vhd
+# Compile Entity "fifoStatemachine"
+# Compile Architecture "Behavioral" of Entity "fifoStatemachine"
+# Compile success 0 Errors 0 Warnings  Analysis time :  78.0 [ms]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/monitorStateMachine.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\monitorStateMachine.vhd
+# Compile Entity "monitorStateMachine"
+# Compile Architecture "Behavioral" of Entity "monitorStateMachine"
+# Compile success 0 Errors 0 Warnings  Analysis time :  78.0 [ms]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/synchronizerStateMachine.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\synchronizerStateMachine.vhd
+# Compile Entity "synchronizerStateMachine"
+# Compile Architecture "Behavioral" of Entity "synchronizerStateMachine"
+# Compile success 0 Errors 0 Warnings  Analysis time :  62.0 [ms]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/timestampCounter.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\timestampCounter.vhd
+# Compile Entity "timestampCounter"
+# Compile Architecture "Behavioral" of Entity "timestampCounter"
+# Compile success 0 Errors 0 Warnings  Analysis time :  62.0 [ms]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/USBAER_top_level.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\USBAER_top_level.vhd
+# Compile Entity "USBAER_top_level"
+# Compile Architecture "Structural" of Entity "USBAER_top_level"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.3 [s]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/ADCvalueReady.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCvalueReady.vhd
+# Compile Entity "ADCvalueReady"
+# Compile Architecture "Behavioral" of Entity "ADCvalueReady"
+# Compile success 0 Errors 0 Warnings  Analysis time :  62.0 [ms]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/cDVSResetStateMachine.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\cDVSResetStateMachine.vhd
+# Compile Entity "cDVSResetStateMachine"
+# Compile Architecture "Behavioral" of Entity "cDVSResetStateMachine"
+# Compile success 0 Errors 0 Warnings  Analysis time :  78.0 [ms]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/shiftRegister.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\shiftRegister.vhd
+# Compile Entity "shiftRegister"
+# Compile Architecture "Behavioral" of Entity "shiftRegister"
+# Compile success 0 Errors 0 Warnings  Analysis time :  78.0 [ms]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/ADCStateMachine_tb.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\ADCStateMachine_tb.vhd
+# Compile Entity "ADCStateMachine_tb"
+# Compile Architecture "Behavioural" of Entity "ADCStateMachine_tb"
+# Compile success 0 Errors 0 Warnings  Analysis time :  78.0 [ms]
+vcom -work work C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/ADCStateMachine.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCStateMachine.vhd
+# Compile Entity "ADCStateMachine"
+# Compile Architecture "Behavioral" of Entity "ADCStateMachine"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.2 [s]
+vcom C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/AERfifo.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\AERfifo.vhd
+# Compile Entity "AERfifo"
+# Compile Architecture "Structure" of Entity "AERfifo"
+# Compile Configuration "Structure_CON"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+vcom C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/clockgen.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\clockgen.vhd
+# Compile Entity "clockgen"
+# Compile Architecture "Structure" of Entity "clockgen"
+# Compile Configuration "Structure_CON"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+entity ADCStateMachine_tb
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+acom -work work -2002  $dsn/../sourcecode/wordRegister.vhd $dsn/../sourcecode/AERfifo.vhd $dsn/../sourcecode/clockgen.vhd $dsn/../sourcecode/earlyPaketTimer.vhd $dsn/../sourcecode/EventBeforeOverflow.vhd $dsn/../sourcecode/eventCounter.vhd $dsn/../sourcecode/fifoStatemachine.vhd $dsn/../sourcecode/monitorStateMachine.vhd $dsn/../sourcecode/synchronizerStateMachine.vhd $dsn/../sourcecode/timestampCounter.vhd $dsn/../sourcecode/USBAER_top_level.vhd $dsn/../sourcecode/ADCvalueReady.vhd $dsn/../sourcecode/cDVSResetStateMachine.vhd $dsn/../sourcecode/shiftRegister.vhd $dsn/../ADCStateMachine_tb.vhd $dsn/../sourcecode/ADCStateMachine.vhd
+# Compile...
+# Warning: DAGGEN_0523: The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available.
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\wordRegister.vhd
+# Compile Entity "wordRegister"
+# Compile Architecture "Behavioral" of Entity "wordRegister"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\AERfifo.vhd
+# Compile Entity "AERfifo"
+# Compile Architecture "Structure" of Entity "AERfifo"
+# Compile Configuration "Structure_CON"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\clockgen.vhd
+# Compile Entity "clockgen"
+# Compile Architecture "Structure" of Entity "clockgen"
+# Compile Configuration "Structure_CON"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\earlyPaketTimer.vhd
+# Compile Entity "earlyPaketTimer"
+# Compile Architecture "Behavioral" of Entity "earlyPaketTimer"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\EventBeforeOverflow.vhd
+# Compile Entity "EventBeforeOverflow"
+# Compile Architecture "Behavioral" of Entity "EventBeforeOverflow"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\eventCounter.vhd
+# Compile Entity "eventCounter"
+# Compile Architecture "Behavioral" of Entity "eventCounter"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\fifoStatemachine.vhd
+# Compile Entity "fifoStatemachine"
+# Compile Architecture "Behavioral" of Entity "fifoStatemachine"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\monitorStateMachine.vhd
+# Compile Entity "monitorStateMachine"
+# Compile Architecture "Behavioral" of Entity "monitorStateMachine"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\synchronizerStateMachine.vhd
+# Compile Entity "synchronizerStateMachine"
+# Compile Architecture "Behavioral" of Entity "synchronizerStateMachine"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\timestampCounter.vhd
+# Compile Entity "timestampCounter"
+# Compile Architecture "Behavioral" of Entity "timestampCounter"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\USBAER_top_level.vhd
+# Compile Entity "USBAER_top_level"
+# Compile Architecture "Structural" of Entity "USBAER_top_level"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCvalueReady.vhd
+# Compile Entity "ADCvalueReady"
+# Compile Architecture "Behavioral" of Entity "ADCvalueReady"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\cDVSResetStateMachine.vhd
+# Compile Entity "cDVSResetStateMachine"
+# Compile Architecture "Behavioral" of Entity "cDVSResetStateMachine"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\shiftRegister.vhd
+# Compile Entity "shiftRegister"
+# Compile Architecture "Behavioral" of Entity "shiftRegister"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\ADCStateMachine_tb.vhd
+# Compile Entity "ADCStateMachine_tb"
+# Compile Architecture "Behavioural" of Entity "ADCStateMachine_tb"
+# File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCStateMachine.vhd
+# Compile Entity "ADCStateMachine"
+# Compile Architecture "Behavioral" of Entity "ADCStateMachine"
+# Compile success 0 Errors 0 Warnings  Analysis time :  1.0 [s]
+# add wave -noreg {ADCStateMachine_1/ClockxCI}
+# add wave -noreg {ADCStateMachine_1/ADCclockxCO}
+# add wave -noreg {ADCStateMachine_1/ResetxRBI}
+# add wave -noreg {ADCStateMachine_1/ADCwordxDI}
+# add wave -noreg {ADCStateMachine_1/ADCoutxDO}
+# add wave -noreg {ADCStateMachine_1/ADCstbyxEO}
+# add wave -noreg {ADCStateMachine_1/ADCoexEBO}
+# add wave -noreg {ADCStateMachine_1/ADCovrxSI}
+# add wave -noreg {ADCStateMachine_1/RegisterWritexEO}
+# add wave -noreg {ADCStateMachine_1/SRLatchxEI}
+# add wave -noreg {ADCStateMachine_1/RunADCxSI}
+# add wave -noreg {ADCStateMachine_1/ExposurexDI}
+# add wave -noreg {ADCStateMachine_1/ColSettlexDI}
+# add wave -noreg {ADCStateMachine_1/RowSettlexDI}
+# add wave -noreg {ADCStateMachine_1/ResSettlexDI}
+# add wave -noreg {ADCStateMachine_1/FramePeriodxDI}
+# add wave -noreg {ADCStateMachine_1/ExtTriggerxEI}
+# add wave -noreg {ADCStateMachine_1/CDVSTestSRRowInxSO}
+# add wave -noreg {ADCStateMachine_1/CDVSTestSRRowClockxSO}
+# add wave -noreg {ADCStateMachine_1/CDVSTestSRColInxSO}
+# add wave -noreg {ADCStateMachine_1/CDVSTestSRColClockxSO}
+# add wave -noreg {ADCStateMachine_1/CDVSTestColMode0xSO}
+# add wave -noreg {ADCStateMachine_1/CDVSTestColMode1xSO}
+# add wave -noreg {ADCStateMachine_1/CDVSTestApsTxGatexSO}
+# add wave -noreg {ADCStateMachine_1/ADCStateOutputLEDxSO}
+# add wave -noreg {ADCStateMachine_1/ResetxRB}
+# add wave -noreg {ADCStateMachine_1/StateColxDP}
+# add wave -noreg {ADCStateMachine_1/StateColxDN}
+# add wave -noreg {ADCStateMachine_1/StateRowxDP}
+# add wave -noreg {ADCStateMachine_1/StateRowxDN}
+# add wave -noreg {ADCStateMachine_1/ADCwordWritexE}
+# add wave -noreg {ADCStateMachine_1/ClockxC}
+# add wave -noreg {ADCStateMachine_1/StateClockxC}
+# add wave -noreg {ADCStateMachine_1/CDVSTestSRRowInxS}
+# add wave -noreg {ADCStateMachine_1/CDVSTestSRRowClockxS}
+# add wave -noreg {ADCStateMachine_1/CDVSTestSRColInxS}
+# add wave -noreg {ADCStateMachine_1/CDVSTestSRColClockxS}
+# add wave -noreg {ADCStateMachine_1/ADCoutMSBxS}
+# add wave -noreg {ADCStateMachine_1/StartColxSN}
+# add wave -noreg {ADCStateMachine_1/StartColxSP}
+# add wave -noreg {ADCStateMachine_1/StartRowxSN}
+# add wave -noreg {ADCStateMachine_1/StartRowxSP}
+# add wave -noreg {ADCStateMachine_1/DividerColxDP}
+# add wave -noreg {ADCStateMachine_1/DividerColxDN}
+# add wave -noreg {ADCStateMachine_1/DividerRowxDP}
+# add wave -noreg {ADCStateMachine_1/DividerRowxDN}
+# add wave -noreg {ADCStateMachine_1/ExposureTxD}
+# add wave -noreg {ADCStateMachine_1/FramePeriodxD}
+# add wave -noreg {ADCStateMachine_1/CountRowxDN}
+# add wave -noreg {ADCStateMachine_1/CountRowxDP}
+# add wave -noreg {ADCStateMachine_1/CountColxDN}
+# add wave -noreg {ADCStateMachine_1/CountColxDP}
+# add wave -noreg {ADCStateMachine_1/NoBxS}
+# add wave -noreg {ADCStateMachine_1/DoReadxS}
+# add wave -noreg {ADCStateMachine_1/ReadDonexS}
+# add wave -noreg {ADCStateMachine_1/ReadCyclexS}
+# add wave -noreg {ADCStateMachine_1/ColModexD}
+asim -L ovi_machxo -PL pmi_work +access +r adcstatemachine_tb behavioural
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# asim: Stack memory: 32MB
+# asim: Retval memory: 32MB
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# ELAB2: You do not have a license to run VHDL performance optimized simulation. Contact Aldec for ordering information - sales@aldec.com.
+# ELAB2: Elaboration final pass complete - time: 0.0 [s].
+# KERNEL: Warning: You are using the Active-HDL Lattice Edition. The performance of simulation is running at a reduced rate.
+# KERNEL: Warning: Contact Aldec for available upgrade options - sales@aldec.com.
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 2405 kB (elbread=1023 elab2=1034 kernel=346 sdf=0)
+#  8:25 PM, Thursday, July 25, 2013
+#  Simulation has been initialized
+#  Selected Top-Level: adcstatemachine_tb (behavioural)
+run @100ms
+# KERNEL: stopped at time: 100 ms
+#  Simulation has been stopped

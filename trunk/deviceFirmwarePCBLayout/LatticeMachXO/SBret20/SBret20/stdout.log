@@ -1,0 +1,85 @@
+Running in Lattice mode
+
+
+Starting:    C:\Program Files\Lattice\diamond\1.3\synpbase\win64\mbin\synbatch.exe
+Install:     C:\Program Files\Lattice\diamond\1.3\synpbase
+Date:        Thu Aug 29 14:23:08 2013
+Version:     E-2011.03L
+
+Arguments:   -product synplify_pro  -batch SBret20_SBret20_synplify.tcl
+ProductType: synplify_pro
+
+
+
+
+
+
+Warning: File already exists in project: "C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\AERfifo.vhd"
+
+Warning: File already exists in project: "C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\clockgen.vhd"
+
+Generating HDL info...
+
+HDL info generator Completed
+Return Code: 0
+
+Run Time:00:00:01
+
+Running hdl_info_gen on proj_1|SBret20
+
+Job flow hdl_info_gen completed on proj_1|SBret20
+
+
+log file: "C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srf"
+
+
+Running proj_1|SBret20
+
+Running Premap Flow on proj_1|SBret20
+
+Running Compile Flow on proj_1|SBret20
+
+Running HDL Compile on proj_1|SBret20
+
+compiler Completed
+Return Code: 0
+
+Run Time:00:00:01
+
+Copied C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synwork\SBret20_SBret20_compiler.srs to C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srl
+
+Copied C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synwork\SBret20_SBret20_compiler.srs to C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srs
+
+Job flow Compile Flow completed on proj_1|SBret20
+
+
+Running Pre-mapping on proj_1|SBret20
+
+premapping Completed with warnings
+Return Code: 1
+
+Run Time:00:00:02
+
+Job flow Premap Flow completed on proj_1|SBret20
+
+
+Running Mapping Flow on proj_1|SBret20
+
+Running Mapping on proj_1|SBret20
+
+MACHXO Mapper Completed with warnings
+Return Code: 1
+
+Run Time:00:00:05
+
+Job flow Mapping Flow completed on proj_1|SBret20
+
+
+Job flow Synthesis completed on proj_1|SBret20
+
+
+TCL script complete: "SBret20_SBret20_synplify.tcl"
+
+exit status=0
+
+

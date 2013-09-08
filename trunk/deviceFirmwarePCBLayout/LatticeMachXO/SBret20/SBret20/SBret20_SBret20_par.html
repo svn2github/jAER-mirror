@@ -1,0 +1,253 @@
+<HTML>
+<HEAD><TITLE>Place & Route Report</TITLE>
+<STYLE TYPE="text/css">
+<!--
+ body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
+-->
+</STYLE>
+</HEAD>
+<PRE><A name="Par"></A>PAR: Place And Route Diamond_1.3_Production (92).
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2011 Lattice Semiconductor Corporation,  All rights reserved.
+Thu Aug 29 14:23:24 2013
+
+C:/Program Files/Lattice/diamond/1.3/ispfpga\bin\nt\par -f SBret20_SBret20.p2t
+SBret20_SBret20_map.ncd SBret20_SBret20.dir SBret20_SBret20.prf
+
+Preference file: SBret20_SBret20.prf.
+
+<A name="par_cts"></A><B><U><big>Cost Table Summary</big></U></B>
+Level/      Number      Timing      Run         NCD
+Cost [ncd]  Unrouted    Score       Time        Status
+----------  --------    --------    -----       ------------
+5_1   *     0           0           17          Complete        
+
+
+* : Design saved.
+
+par done!
+
+Lattice Place and Route Report for Design "SBret20_SBret20_map.ncd"
+Thu Aug 29 14:23:24 2013
+
+
+<A name="par_best"></A><B><U><big>Best Par Run</big></U></B>
+PAR: Place And Route Diamond_1.3_Production (92).
+Command Line: C:/Program Files/Lattice/diamond/1.3/ispfpga\bin\nt\par -f SBret20_SBret20.p2t
+SBret20_SBret20_map.ncd SBret20_SBret20.dir SBret20_SBret20.prf
+Preference file: SBret20_SBret20.prf.
+Placement level-cost: 5-1.
+Routing Iterations: 6
+
+Loading design for application par from file SBret20_SBret20_map.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Speed:       3
+Loading device for application par from file 'mj5g21x17.nph' in environment C:/Program Files/Lattice/diamond/1.3/ispfpga.
+Package Status:               Final          Version 1.26
+Speed Hardware Data Status: Version 1.69
+License checked out.
+
+
+Ignore Preference Error(s):  True
+
+<A name="par_dus"></A><B><U><big>Device utilization summary:</big></U></B>
+
+   GSR                1/1           100% used
+   PIO (prelim)      91/271          33% used
+                     91/211          43% bonded
+   EBR                2/3            66% used
+   PLL3               1/2            50% used
+   SLICE            420/1140         36% used
+
+
+
+Number of Signals: 1081
+Number of Connections: 2615
+
+Pin Constraint Summary:
+   91 out of 91 pins locked (100% locked).
+
+The following 4 signals are selected to use the primary clock routing resources:
+    ClockxC_c (driver: uClockGen/PLLCInst_0, clk load #: 84)
+    IfClockxCI_c (driver: IfClockxCI, clk load #: 69)
+    PC1xSIO_c (driver: PC1xSIO, clk load #: 40)
+    PC2xSIO_c (driver: PC2xSIO, clk load #: 40)
+
+The following 1 signal is selected to use the secondary clock routing resources:
+    ADCStateMachine_1/ResetxRB_i (driver: SLICE_414, clk load #: 0, sr load #: 54, ce load #: 0)
+
+Starting Placer Phase 0.
+..........
+Finished Placer Phase 0.  REAL time: 2 secs 
+
+Starting Placer Phase 1.
+...................
+Placer score = 751111.
+Finished Placer Phase 1.  REAL time: 11 secs 
+
+Starting Placer Phase 2.
+.
+Placer score =  748040
+Finished Placer Phase 2.  REAL time: 12 secs 
+
+
+
+<A name="par_clk"></A><B><U><big>Clock Report</big></U></B>
+
+Global Clock Resources:
+  CLK_PIN    : 1 out of 4 (25%)
+  General PIO: 2 out of 272 (0%)
+  PLL        : 1 out of 2 (50%)
+
+Quadrants All (TL, TR, BL, BR) - Global Clocks:
+  PRIMARY "ClockxC_c" from CLKOP on comp "uClockGen/PLLCInst_0" on PLL site "PLL3_R20C1", clk load = 84
+  PRIMARY "IfClockxCI_c" from comp "IfClockxCI" on CLK_PIN site "A9 (PT10B)", clk load = 69
+  PRIMARY "PC1xSIO_c" from comp "PC1xSIO" on PIO site "K1 (PL12B)", clk load = 40
+  PRIMARY "PC2xSIO_c" from comp "PC2xSIO" on PIO site "J2 (PL11B)", clk load = 40
+  SECONDARY "ADCStateMachine_1/ResetxRB_i" from F1 on comp "SLICE_414" on site "R14C2A", clk load = 0, ce load = 0, sr load = 54
+
+  PRIMARY  : 4 out of 4 (100%)
+  SECONDARY: 1 out of 4 (25%)
+
+
+
+
+I/O Usage Summary (final):
+   91 out of 271 (33.6%) PIO sites used.
+   91 out of 211 (43.1%) bonded PIO sites used.
+   Number of PIO comps: 91; differential: 0
+   Number of Vref pins used: 0
+
+I/O Bank Usage Summary:
++----------+----------------+------------+------------+------------+
+| I/O Bank | Usage          | Bank Vccio | Bank Vref1 | Bank Vref2 |
++----------+----------------+------------+------------+------------+
+| 0        | 9 / 24 ( 37%)  | 3.3V       | -          | -          |
+| 1        | 6 / 30 ( 20%)  | 3.3V       | -          | -          |
+| 2        | 10 / 26 ( 38%) | 3.3V       | -          | -          |
+| 3        | 11 / 28 ( 39%) | 3.3V       | -          | -          |
+| 4        | 16 / 29 ( 55%) | 3.3V       | -          | -          |
+| 5        | 13 / 20 ( 65%) | 3.3V       | -          | -          |
+| 6        | 13 / 28 ( 46%) | 3.3V       | -          | -          |
+| 7        | 13 / 26 ( 50%) | 3.3V       | -          | -          |
++----------+----------------+------------+------------+------------+
+
+Total placer CPU time: 10 secs 
+
+Dumping design to file SBret20_SBret20.dir/5_1.ncd.
+
+0 connections routed; 2615 unrouted.
+Starting router resource preassignment
+WARNING - par: The driver of primary clock net PC1xSIO_c is not placed on one of the PIO sites dedicated for primary clocks.  This primary clock will be routed to a H-spine through general routing resource or will be routed as a secondary clock and may suffer from excessive delay or skew.
+WARNING - par: The driver of primary clock net PC2xSIO_c is not placed on one of the PIO sites dedicated for primary clocks.  This primary clock will be routed to a H-spine through general routing resource or will be routed as a secondary clock and may suffer from excessive delay or skew.
+
+Completed router resource preassignment. Real time: 14 secs 
+Starting iterative routing.
+
+For each routing iteration the number inside the parenthesis is the
+total time (in picoseconds) the design is failing the timing constraints.
+For each routing iteration the router will attempt to reduce this number
+until the number of routing iterations is completed or the value is 0
+meaning the design has fully met the timing constraints.
+
+End of iteration 1
+2615 successful; 0 unrouted; (0) real time: 15 secs 
+Dumping design to file SBret20_SBret20.dir/5_1.ncd.
+
+Hold time optimization iteration 0:
+All hold time violations have been successfully corrected in speed grade M
+
+---------------IO Configurable Delay Element Usage Summary---------------
+
+Total IO Configurable Delay Elements used: 0 
+---------------End of IO Configurable Delay Element Usage Summary--------
+
+Total CPU time 14 secs 
+Total REAL time: 16 secs 
+Completely routed.
+End of route.  2615 routed (100.00%); 0 unrouted.
+Checking DRC ... 
+No errors found.
+
+Hold time timing score: 0, hold timing errors: 0
+
+Timing score: 0 
+
+Total REAL time to completion: 17 secs 
+
+Dumping design to file SBret20_SBret20.dir/5_1.ncd.
+
+
+All signals are completely routed.
+
+
+par done!
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2011 Lattice Semiconductor Corporation,  All rights reserved.
+
+
+
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</PRE></FONT>
+</BODY>
+</HTML>

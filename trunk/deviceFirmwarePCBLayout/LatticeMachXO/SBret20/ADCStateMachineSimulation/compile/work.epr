@@ -1,0 +1,17 @@
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\EventBeforeOverflow.vhd" VHDL work 1 0 1550021468
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\synchronizerStateMachine.vhd" VHDL work 1 0 1550021468
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\wordRegister.vhd" VHDL work 1 0 1550017884
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\timestampCounter.vhd" VHDL work 1 0 1550874716
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\fifoStatemachine.vhd" VHDL work 1 0 1870094179
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\monitorStateMachine.vhd" VHDL work 1 0 1814981490
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\shiftRegister.vhd" VHDL work 1 0 1651076142
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\eventCounter.vhd" VHDL work 1 0 1651076142
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\AERfifo.vhd" VHDL work 1 0 1651076142
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\clockgen.vhd" VHDL work 1 0 1870094179
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\earlyPaketTimer.vhd" VHDL work 1 0 1814981490
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\cDVSResetStateMachine.vhd" VHDL work 1 0 1651076142
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd" VHDL work 1 0 1651076142
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCvalueReady.vhd" VHDL work 1 0 1651076142
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\USBAER_top_level.vhd" VHDL work 1 0 1550612060
+"c:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\ADCStateMachine_tb.vhd" VHDL work 1 0 0
+. . 0 0 0
