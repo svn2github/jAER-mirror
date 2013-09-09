@@ -6,15 +6,14 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import li.longi.libusb4java.Context;
+import li.longi.libusb4java.Device;
+import li.longi.libusb4java.DeviceList;
+import li.longi.libusb4java.HotplugCallback;
+import li.longi.libusb4java.HotplugCallbackHandle;
+import li.longi.libusb4java.LibUsb;
 
 import com.google.common.collect.Lists;
-
-import de.ailis.usb4java.libusb.Context;
-import de.ailis.usb4java.libusb.Device;
-import de.ailis.usb4java.libusb.DeviceList;
-import de.ailis.usb4java.libusb.HotplugCallback;
-import de.ailis.usb4java.libusb.HotplugCallbackHandle;
-import de.ailis.usb4java.libusb.LibUsb;
 
 public class USBDeviceList implements Runnable {
 	private static ObservableList<Device> usbDevices = FXCollections.observableArrayList();

@@ -1,7 +1,7 @@
 package net.sf.jaer2.devices.discovery;
 
 import javafx.collections.ListChangeListener;
-import de.ailis.usb4java.libusb.Device;
+import li.longi.libusb4java.Device;
 
 
 public class Discovery {
