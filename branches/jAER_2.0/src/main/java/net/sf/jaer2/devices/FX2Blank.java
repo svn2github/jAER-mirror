@@ -7,8 +7,14 @@ import net.sf.jaer2.devices.components.misc.memory.Memory;
 import net.sf.jaer2.eventio.translators.Translator;
 
 public class FX2Blank extends USBDevice {
+	@SuppressWarnings("hiding")
+	public static final short VID = 0x04B4;
+	@SuppressWarnings("hiding")
+	public static final short PID = (short) 0x8613;
+
 	public FX2Blank() {
-		super("FX2 Blank", "Blank FX2 device, needs to have firmware loaded onto it.", (short) 0x04B4, (short) 0x8613);
+		super("FX2 Blank", "Blank FX2 device, needs to have firmware loaded onto it.", FX2Blank.VID, FX2Blank.PID,
+			USBDevice.DID);
 
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);

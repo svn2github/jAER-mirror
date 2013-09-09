@@ -19,8 +19,11 @@ import ch.unizh.ini.devices.components.aer.CochleaAMS1c;
 import ch.unizh.ini.devices.components.misc.AD5391_32chan;
 
 public class AEREAR2 extends USBDevice {
+	@SuppressWarnings("hiding")
+	public static final short PID = (short) 0x8406;
+
 	public AEREAR2() {
-		super("AER EAR 2", "USB cochlea using the CochleaAMS1c chip.", USBDevice.VID_THESYCON, (short) 0x8406);
+		super("AER EAR 2", "USB cochlea using the CochleaAMS1c chip.", USBDevice.VID, AEREAR2.PID, USBDevice.DID);
 
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);

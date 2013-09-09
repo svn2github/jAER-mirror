@@ -15,9 +15,16 @@ import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.SBRet10;
 
 public class ApsDvs10 extends USBDevice {
+	@SuppressWarnings("hiding")
+	public static final short PID = (short) 0x840D;
+
 	public ApsDvs10() {
-		super("ApsDVS 10", "USB vision sensor with active and dynamic pixels, using the SBRet10 chip.",
-			USBDevice.VID_THESYCON, (short) 0x840D);
+		this(USBDevice.DID);
+	}
+
+	protected ApsDvs10(final short deviceDID) {
+		super("ApsDVS 10", "USB vision sensor with active and dynamic pixels, using the SBRet10 chip.", USBDevice.VID, ApsDvs10.PID,
+			deviceDID);
 
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);

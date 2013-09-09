@@ -4,14 +4,13 @@ import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.components.controllers.FX2;
 import net.sf.jaer2.devices.components.misc.InvenSense6050;
 import net.sf.jaer2.eventio.translators.Translator;
-import net.sf.jaer2.util.Reflections;
 
 public class ApsDvs10IMU extends ApsDvs10 {
-	public ApsDvs10IMU() {
-		super();
+	@SuppressWarnings("hiding")
+	public static final short DID = 0x0100;
 
-		// Differentiate between versions with IMU and without using DID.
-		Reflections.setFinalField(this, "DID", 0x0100);
+	public ApsDvs10IMU() {
+		super(ApsDvs10IMU.DID);
 
 		// Add inertial measurement unit.
 		final Component invenSenseIMU = new InvenSense6050(0x68);

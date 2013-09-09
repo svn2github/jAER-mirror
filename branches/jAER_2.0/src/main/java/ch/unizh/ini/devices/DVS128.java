@@ -12,7 +12,7 @@ import ch.unizh.ini.devices.components.aer.Tmpdiff128;
 
 public class DVS128 extends USBDevice {
 	public DVS128() {
-		super("DVS 128", "USB Dynamic Vision Sensor, 128x128 pixels.", USBDevice.VID_THESYCON, (short) 0x8400);
+		super("DVS 128", "USB Dynamic Vision Sensor, 128x128 pixels.", USBDevice.VID, USBDevice.PID, USBDevice.DID);
 
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);

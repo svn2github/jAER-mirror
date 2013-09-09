@@ -20,13 +20,11 @@ public abstract class Device {
 	protected final String name;
 	protected final String description;
 
-	private VBox rootLayout;
+	private VBox rootConfigLayout;
 
 	public Device(final String deviceName, final String deviceDescription) {
 		name = deviceName;
 		description = deviceDescription;
-
-		buildConfigGUI();
 	}
 
 	public String getName() {
@@ -37,7 +35,7 @@ public abstract class Device {
 		return description;
 	}
 
-	public void addComponent(final Component c) {
+	protected void addComponent(final Component c) {
 		nameComponentMap.put(c.getName(), c);
 	}
 
@@ -75,18 +73,18 @@ public abstract class Device {
 	public abstract Class<? extends Translator> getPreferredTranslator();
 
 	synchronized public Pane getConfigGUI() {
-		if (rootLayout == null) {
-			rootLayout = new VBox(10);
+		if (rootConfigLayout == null) {
+			rootConfigLayout = new VBox(10);
 
 			buildConfigGUI();
 		}
 
-		return rootLayout;
+		return rootConfigLayout;
 	}
 
 	private void buildConfigGUI() {
 		// Add device general data, under that, one Tab for each component.
-		GUISupport.addLabel(rootLayout, toString(), description, null, null);
+		GUISupport.addLabel(rootConfigLayout, toString(), description, null, null);
 
 		final TabPane tabLayout = new TabPane();
 
@@ -96,8 +94,12 @@ public abstract class Device {
 			tabLayout.getTabs().add(t);
 		}
 
-		rootLayout.getChildren().add(tabLayout);
+		rootConfigLayout.getChildren().add(tabLayout);
 	}
+
+	public abstract void open();
+
+	public abstract void close();
 
 	@Override
 	public String toString() {
