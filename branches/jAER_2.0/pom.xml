@@ -94,25 +94,19 @@
 			<version>8.0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<!-- Needed by usb4java. -->
-			<groupId>javax.usb</groupId>
-			<artifactId>usb-api</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
 			<groupId>li.longi</groupId>
-			<artifactId>usb4java</artifactId>
-			<version>1.1.0-SNAPSHOT</version>
+			<artifactId>libusb4java</artifactId>
+			<version>1.0.17</version>
 		</dependency>
 		<dependency>
 			<groupId>li.longi</groupId>
 			<artifactId>USBTransferThread</artifactId>
-			<version>0.7</version>
+			<version>0.8</version>
 		</dependency>
 		<dependency>
 			<groupId>de.ruedigermoeller</groupId>
 			<artifactId>fst</artifactId>
-			<version>1.20</version>
+			<version>1.22</version>
 		</dependency>
 		<dependency>
 			<!-- Needed by FST. -->
