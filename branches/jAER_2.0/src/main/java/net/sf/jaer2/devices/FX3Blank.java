@@ -1,5 +1,6 @@
 package net.sf.jaer2.devices;
 
+import li.longi.libusb4java.Device;
 import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.components.controllers.FX3;
 import net.sf.jaer2.devices.components.misc.memory.Flash_SPI;
@@ -12,9 +13,9 @@ public class FX3Blank extends USBDevice {
 	@SuppressWarnings("hiding")
 	public static final short PID = 0x00F3;
 
-	public FX3Blank() {
+	public FX3Blank(Device usbDevice) {
 		super("FX3 Blank", "Blank FX3 device, needs to have firmware loaded onto it.", FX3Blank.VID, FX3Blank.PID,
-			USBDevice.DID);
+			USBDevice.DID, usbDevice);
 
 		final Controller fx3 = new FX3();
 		fx3.firmwareToRam(true);

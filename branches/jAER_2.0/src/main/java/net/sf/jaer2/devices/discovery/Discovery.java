@@ -14,9 +14,7 @@ public class Discovery {
 			return;
 		}
 
-		// Start discovery on all supported interfaces.
-		Thread usbDiscovery = new Thread(new USBDeviceList());
-		usbDiscovery.start();
+		USBDiscovery.start();
 
 		discoveryActive = true;
 	}
@@ -26,7 +24,7 @@ public class Discovery {
 			return;
 		}
 
-		// TODO: implement.
+		USBDiscovery.stop();
 
 		discoveryActive = false;
 	}

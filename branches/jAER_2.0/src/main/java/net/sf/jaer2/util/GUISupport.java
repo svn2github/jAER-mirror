@@ -70,8 +70,7 @@ public final class GUISupport {
 		return button;
 	}
 
-	public static <T> ComboBox<T> addComboBox(final Pane parentPane, final Collection<T> values, final int defaultValue)
-		throws IndexOutOfBoundsException {
+	public static <T> ComboBox<T> addComboBox(final Pane parentPane, final Collection<T> values, final int defaultValue) {
 		if ((defaultValue < -1) || (defaultValue >= values.size())) {
 			throw new IndexOutOfBoundsException();
 		}

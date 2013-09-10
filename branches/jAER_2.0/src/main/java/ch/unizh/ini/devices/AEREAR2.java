@@ -1,5 +1,6 @@
 package ch.unizh.ini.devices;
 
+import li.longi.libusb4java.Device;
 import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.components.controllers.Controller;
@@ -22,8 +23,9 @@ public class AEREAR2 extends USBDevice {
 	@SuppressWarnings("hiding")
 	public static final short PID = (short) 0x8406;
 
-	public AEREAR2() {
-		super("AER EAR 2", "USB cochlea using the CochleaAMS1c chip.", USBDevice.VID, AEREAR2.PID, USBDevice.DID);
+	public AEREAR2(Device usbDevice) {
+		super("AER EAR 2", "USB cochlea using the CochleaAMS1c chip.", USBDevice.VID, AEREAR2.PID, USBDevice.DID,
+			usbDevice);
 
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);

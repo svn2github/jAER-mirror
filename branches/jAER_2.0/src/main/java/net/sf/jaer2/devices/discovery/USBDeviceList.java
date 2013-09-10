@@ -111,6 +111,9 @@ public class USBDeviceList implements Runnable {
 			LibUsb.hotplugDeregisterCallback(null, hotplugHandle);
 		}
 
+		// Ensure all USB events have been handled (0.2 second timeout).
+		LibUsb.handleEventsTimeout(null, 200000);
+
 		LibUsb.exit(null);
 	}
 }

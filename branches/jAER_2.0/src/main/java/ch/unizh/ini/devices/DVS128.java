@@ -1,5 +1,6 @@
 package ch.unizh.ini.devices;
 
+import li.longi.libusb4java.Device;
 import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.components.controllers.Controller;
@@ -11,8 +12,8 @@ import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.Tmpdiff128;
 
 public class DVS128 extends USBDevice {
-	public DVS128() {
-		super("DVS 128", "USB Dynamic Vision Sensor, 128x128 pixels.", USBDevice.VID, USBDevice.PID, USBDevice.DID);
+	public DVS128(Device usbDevice) {
+		super("DVS 128", "USB Dynamic Vision Sensor, 128x128 pixels.", USBDevice.VID, USBDevice.PID, USBDevice.DID, usbDevice);
 
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);

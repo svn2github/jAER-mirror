@@ -3,6 +3,7 @@ package net.sf.jaer2.util;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -35,16 +36,18 @@ public final class Reflections {
 		}
 
 		// Return a sorted set, to give predictable order.
-		final SortedSet<Class<? extends T>> sortedClasses = new TreeSet<>(new Comparator<Class<? extends T>>() {
-			@Override
-			public int compare(final Class<? extends T> cl1, final Class<? extends T> cl2) {
-				return cl1.getCanonicalName().compareTo(cl2.getCanonicalName());
-			}
-		});
+		final SortedSet<Class<? extends T>> sortedClasses = new TreeSet<>(new ClassComparator<>());
 
 		sortedClasses.addAll(classes);
 
 		return sortedClasses;
+	}
+
+	private static final class ClassComparator<T> implements Comparator<Class<? extends T>> {
+		@Override
+		public int compare(final Class<? extends T> cl1, final Class<? extends T> cl2) {
+			return cl1.getCanonicalName().compareTo(cl2.getCanonicalName());
+		}
 	}
 
 	/** List of classes extending EventProcessor. */
@@ -61,11 +64,16 @@ public final class Reflections {
 	/** List of classes extending Sink. */
 	public static final SortedSet<Class<? extends Sink>> sinkTypes = Reflections.getSubClasses(Sink.class);
 
-	public static <T> T newInstanceForClass(final Class<T> clazz) throws NoSuchMethodException, SecurityException,
-		InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static <T> T newInstanceForClass(final Class<T> clazz) {
 		Constructor<T> constr = null;
 
-		constr = clazz.getConstructor();
+		try {
+			constr = clazz.getConstructor();
+		}
+		catch (NoSuchMethodException | SecurityException e) {
+			Reflections.logger.error("Exception while getting constructor.", e);
+			return null;
+		}
 
 		if (constr == null) {
 			throw new NullPointerException("constructor is null");
@@ -73,22 +81,33 @@ public final class Reflections {
 
 		T newClass = null;
 
-		newClass = constr.newInstance();
+		try {
+			newClass = constr.newInstance();
+		}
+		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			Reflections.logger.error("Exception while creating new instance.", e);
+			return null;
+		}
 
 		if (newClass == null) {
-			throw new NullPointerException("newly created class is null");
+			throw new NullPointerException("new instance is null");
 		}
 
 		return newClass;
 	}
 
 	public static <T, E> T newInstanceForClassWithArgument(final Class<T> clazz, final Class<E> argumentType,
-		final E argumentValue) throws NoSuchMethodException, SecurityException, InstantiationException,
-		IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		final E argumentValue) {
 		Constructor<T> constr = null;
 
 		// Try to find a compatible constructor for the given concrete type.
-		constr = clazz.getConstructor(argumentType);
+		try {
+			constr = clazz.getConstructor(argumentType);
+		}
+		catch (NoSuchMethodException | SecurityException e) {
+			Reflections.logger.error("Exception while getting constructor.", e);
+			return null;
+		}
 
 		if (constr == null) {
 			throw new NullPointerException("constructor is null");
@@ -98,13 +117,77 @@ public final class Reflections {
 
 		// Try to create a new instance of the given concrete type, using the
 		// constructor found above.
-		newClass = constr.newInstance(argumentValue);
+		try {
+			newClass = constr.newInstance(argumentValue);
+		}
+		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			Reflections.logger.error("Exception while creating new instance.", e);
+			return null;
+		}
 
 		if (newClass == null) {
-			throw new NullPointerException("newly created class is null");
+			throw new NullPointerException("new instance is null");
 		}
 
 		return newClass;
+	}
+
+	public static <T, R> R callStaticMethodForClass(final Class<T> clazz, final String methodName,
+		final Class<R> returnType) {
+		Method m = null;
+
+		try {
+			m = clazz.getMethod(methodName);
+		}
+		catch (NoSuchMethodException | SecurityException e) {
+			Reflections.logger.error("Exception while getting method.", e);
+			return null;
+		}
+
+		if (m == null) {
+			throw new NullPointerException("method is null");
+		}
+
+		R result = null;
+
+		try {
+			result = returnType.cast(m.invoke(null));
+		}
+		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			Reflections.logger.error("Exception while calling method.", e);
+			return null;
+		}
+
+		return result;
+	}
+
+	public static <T, R, E> R callStaticMethodForClassWithArgument(final Class<T> clazz, final String methodName,
+		final Class<R> returnType, final Class<E> argumentType, final E argumentValue) {
+		Method m = null;
+
+		try {
+			m = clazz.getMethod(methodName, argumentType);
+		}
+		catch (NoSuchMethodException | SecurityException e) {
+			Reflections.logger.error("Exception while getting method.", e);
+			return null;
+		}
+
+		if (m == null) {
+			throw new NullPointerException("method is null");
+		}
+
+		R result = null;
+
+		try {
+			result = returnType.cast(m.invoke(null, argumentValue));
+		}
+		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			Reflections.logger.error("Exception while calling method.", e);
+			return null;
+		}
+
+		return result;
 	}
 
 	/**
@@ -112,21 +195,20 @@ public final class Reflections {
 	 * SERIOUSLY, NEVER, EVER!
 	 */
 	public static <T> void setFinalField(final T instance, final String field, final Object value) {
+		if ((instance == null) || (field == null)) {
+			throw new NullPointerException();
+		}
+
+		Reflections.logger.debug("Searching for field {} in instance {} of type {}.", field, instance,
+			instance.getClass());
+
 		try {
-			if ((instance == null) || (field == null) || (value == null)) {
-				throw new NullPointerException();
-			}
-
-			Reflections.logger.debug("Searching for field {} in instance {} of type {}.", field, instance,
-				instance.getClass());
-
 			final Field f = Reflections.getSuperField(instance.getClass(), field);
 			f.setAccessible(true);
 			f.set(instance, value);
 		}
-		catch (NullPointerException | NoSuchFieldException | SecurityException | IllegalArgumentException
-			| IllegalAccessException e) {
-			Reflections.logger.error("CRITICAL: Exception while setting final field!", e);
+		catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			Reflections.logger.error("Exception while setting final field.", e);
 		}
 	}
 

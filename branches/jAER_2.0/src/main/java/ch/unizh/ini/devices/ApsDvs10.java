@@ -1,5 +1,6 @@
 package ch.unizh.ini.devices;
 
+import li.longi.libusb4java.Device;
 import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.components.controllers.Controller;
@@ -18,13 +19,13 @@ public class ApsDvs10 extends USBDevice {
 	@SuppressWarnings("hiding")
 	public static final short PID = (short) 0x840D;
 
-	public ApsDvs10() {
-		this(USBDevice.DID);
+	public ApsDvs10(Device usbDevice) {
+		this(usbDevice, USBDevice.DID);
 	}
 
-	protected ApsDvs10(final short deviceDID) {
+	protected ApsDvs10(Device usbDevice, final short deviceDID) {
 		super("ApsDVS 10", "USB vision sensor with active and dynamic pixels, using the SBRet10 chip.", USBDevice.VID, ApsDvs10.PID,
-			deviceDID);
+			deviceDID, usbDevice);
 
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);

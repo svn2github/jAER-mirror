@@ -1,23 +1,31 @@
 package net.sf.jaer2.devices;
 
+import li.longi.libusb4java.DeviceHandle;
+import li.longi.libusb4java.LibUsb;
+
 public abstract class USBDevice extends Device {
 	// Default VID/PID/DID from Thesycon.
 	public static final short VID = 0x152A;
 	public static final short PID = (short) 0x8400;
 	public static final short DID = 0x0000;
 
-	private final short devVID;
-	private final short devPID;
-	private final short devDID;
+	protected final short devVID;
+	protected final short devPID;
+	protected final short devDID;
+
+	protected final li.longi.libusb4java.Device usbDevice;
+	protected final DeviceHandle usbDeviceHandle = new DeviceHandle();
 	private boolean isOpen = false;
 
 	public USBDevice(final String deviceName, final String deviceDescription, final short deviceVID,
-		final short devicePID, final short deviceDID) {
+		final short devicePID, final short deviceDID, li.longi.libusb4java.Device device) {
 		super(deviceName, deviceDescription);
 
 		devVID = deviceVID;
 		devPID = devicePID;
 		devDID = deviceDID;
+
+		usbDevice = device;
 	}
 
 	public short getVID() {
@@ -39,6 +47,7 @@ public abstract class USBDevice extends Device {
 		}
 
 		// TODO: implement.
+		LibUsb.open(usbDevice, usbDeviceHandle);
 
 		isOpen = true;
 	}
@@ -50,6 +59,7 @@ public abstract class USBDevice extends Device {
 		}
 
 		// TODO: implement.
+		LibUsb.close(usbDeviceHandle);
 
 		isOpen = false;
 	}
