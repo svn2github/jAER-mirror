@@ -3,6 +3,9 @@ package net.sf.jaer2.devices.discovery;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import javafx.collections.ListChangeListener;
 import li.longi.libusb4java.Device;
@@ -14,7 +17,7 @@ import net.sf.jaer2.util.TripleRO;
 
 public class USBDiscovery {
 	private static final Map<TripleRO<Short, Short, Short>, Class<? extends USBDevice>> compatibleUSBDevices = new HashMap<>();
-	private static final Map<Device, USBDevice> currentUSBDevices = new HashMap<>();
+	private static final ConcurrentMap<Device, USBDevice> currentUSBDevices = new ConcurrentHashMap<>();
 
 	/**
 	 * Fill compatibleUSBDevices map at startup with the needed data on the VID,
@@ -96,8 +99,10 @@ public class USBDiscovery {
 						LibUsb.getDeviceDescriptor(addedDevice, devDesc);
 
 						// Check if any compatible device exists.
+						// Only upper byte of DID is checked, lower is reserved.
 						final Class<? extends USBDevice> deviceClass = USBDiscovery.compatibleUSBDevices
-							.get(new TripleRO<>(devDesc.idVendor(), devDesc.idProduct(), devDesc.bcdDevice()));
+							.get(new TripleRO<>(devDesc.idVendor(), devDesc.idProduct(),
+								(short) (devDesc.bcdDevice() & 0xFF00)));
 
 						LibUsb.freeDeviceDescriptor(devDesc);
 
@@ -111,8 +116,7 @@ public class USBDiscovery {
 							addedDevice);
 
 						// Error in above call to instantiate device, skip.
-						// Check
-						// logs for real failure cause.
+						// Check logs for real failure cause.
 						if (device == null) {
 							continue;
 						}
@@ -146,6 +150,31 @@ public class USBDiscovery {
 
 		// TODO: how to deregister listener?
 
+		USBDiscovery.currentUSBDevices.clear();
+
 		USBDiscovery.discoveryActive = false;
+	}
+
+	/**
+	 * USB discovery test entry point.
+	 *
+	 * @param args
+	 *            unused
+	 */
+	public static void main(final String[] args) {
+		for (final Entry<TripleRO<Short, Short, Short>, Class<? extends USBDevice>> devices : USBDiscovery.compatibleUSBDevices
+			.entrySet()) {
+			System.out.println(String.format("%s - %s", devices.getKey().toString(), devices.getValue().toString()));
+		}
+
+		USBDiscovery.start();
+
+		System.out.println(USBDiscovery.currentUSBDevices.size());
+
+		for (final USBDevice current : USBDiscovery.currentUSBDevices.values()) {
+			System.out.println(current.toString());
+		}
+
+		USBDiscovery.stop();
 	}
 }

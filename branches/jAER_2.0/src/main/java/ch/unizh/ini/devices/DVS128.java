@@ -7,6 +7,7 @@ import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.components.controllers.FX2;
 import net.sf.jaer2.devices.components.misc.memory.EEPROM_I2C;
 import net.sf.jaer2.devices.components.misc.memory.Memory;
+import net.sf.jaer2.devices.config.pots.IPot;
 import net.sf.jaer2.devices.config.pots.Pot;
 import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.Tmpdiff128;
@@ -32,18 +33,18 @@ public class DVS128 extends USBDevice {
 		final AERChip tmpdiff128 = new Tmpdiff128();
 		tmpdiff128.setProgrammer(fx2);
 
-		tmpdiff128.addBias(new IPot("pr", 0, Pot.Type.NORMAL, Pot.Sex.P, 0));
-		tmpdiff128.addBias(new IPot("foll", 1, Pot.Type.NORMAL, Pot.Sex.P, 0));
-		tmpdiff128.addBias(new IPot("diff", 2, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		tmpdiff128.addBias(new IPot("diffOn", 3, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		tmpdiff128.addBias(new IPot("puY", 4, Pot.Type.NORMAL, Pot.Sex.P, 0));
-		tmpdiff128.addBias(new IPot("refr", 5, Pot.Type.NORMAL, Pot.Sex.P, 0));
-		tmpdiff128.addBias(new IPot("req", 6, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		tmpdiff128.addBias(new IPot("diffOff", 7, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		tmpdiff128.addBias(new IPot("puX", 8, Pot.Type.NORMAL, Pot.Sex.P, 0));
-		tmpdiff128.addBias(new IPot("reqPd", 9, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		tmpdiff128.addBias(new IPot("injGnd", 10, Pot.Type.CASCODE, Pot.Sex.P, 0));
-		tmpdiff128.addBias(new IPot("cas", 11, Pot.Type.CASCODE, Pot.Sex.N, 0));
+		tmpdiff128.addBias(new IPot("pr", ".", 0, Pot.Type.NORMAL, Pot.Sex.P, 0));
+		tmpdiff128.addBias(new IPot("foll", ".", 1, Pot.Type.NORMAL, Pot.Sex.P, 0));
+		tmpdiff128.addBias(new IPot("diff", ".", 2, Pot.Type.NORMAL, Pot.Sex.N, 0));
+		tmpdiff128.addBias(new IPot("diffOn", ".", 3, Pot.Type.NORMAL, Pot.Sex.N, 0));
+		tmpdiff128.addBias(new IPot("puY", ".", 4, Pot.Type.NORMAL, Pot.Sex.P, 0));
+		tmpdiff128.addBias(new IPot("refr", ".", 5, Pot.Type.NORMAL, Pot.Sex.P, 0));
+		tmpdiff128.addBias(new IPot("req", ".", 6, Pot.Type.NORMAL, Pot.Sex.N, 0));
+		tmpdiff128.addBias(new IPot("diffOff", ".", 7, Pot.Type.NORMAL, Pot.Sex.N, 0));
+		tmpdiff128.addBias(new IPot("puX", ".", 8, Pot.Type.NORMAL, Pot.Sex.P, 0));
+		tmpdiff128.addBias(new IPot("reqPd", ".", 9, Pot.Type.NORMAL, Pot.Sex.N, 0));
+		tmpdiff128.addBias(new IPot("injGnd", ".", 10, Pot.Type.CASCODE, Pot.Sex.P, 0));
+		tmpdiff128.addBias(new IPot("cas", ".", 11, Pot.Type.CASCODE, Pot.Sex.N, 0));
 	}
 
 	@Override
