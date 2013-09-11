@@ -5,15 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-
 import com.google.common.collect.ImmutableList;
 import com.thoughtworks.xstream.XStream;
 
 public final class XMLconf {
-	public static <T> void toXML(final T object, final List<ImmutablePair<Class<?>, String>> fieldsToOmit) {
-		final File toSave = GUISupport.showDialogSaveFile(ImmutableList
-			.<ImmutablePair<String, String>> of(ImmutablePair.of("XML", "*.xml")));
+	public static <T> void toXML(final T object, final List<PairRO<Class<?>, String>> fieldsToOmit) {
+		final File toSave = GUISupport.showDialogSaveFile(ImmutableList.of(PairRO.of("XML", "*.xml")));
 
 		if (toSave == null) {
 			// Error in opening file, check dialog message for what went wrong.
@@ -23,8 +20,7 @@ public final class XMLconf {
 		XMLconf.toXML(object, fieldsToOmit, toSave);
 	}
 
-	public static <T> void toXML(final T object, final List<ImmutablePair<Class<?>, String>> fieldsToOmit,
-		final File xmlFile) {
+	public static <T> void toXML(final T object, final List<PairRO<Class<?>, String>> fieldsToOmit, final File xmlFile) {
 		if (!GUISupport.checkWritePermissions(xmlFile)) {
 			// Error in opening file.
 			return;
@@ -38,8 +34,8 @@ public final class XMLconf {
 			xstream.setMode(XStream.ID_REFERENCES);
 
 			if (fieldsToOmit != null) {
-				for (final ImmutablePair<Class<?>, String> field : fieldsToOmit) {
-					xstream.omitField(field.left, field.right);
+				for (final PairRO<Class<?>, String> field : fieldsToOmit) {
+					xstream.omitField(field.getFirst(), field.getSecond());
 				}
 			}
 
@@ -51,8 +47,7 @@ public final class XMLconf {
 	}
 
 	public static <T> T fromXML(final Class<T> clazz) {
-		final File toLoad = GUISupport.showDialogLoadFile(ImmutableList
-			.<ImmutablePair<String, String>> of(ImmutablePair.of("XML", "*.xml")));
+		final File toLoad = GUISupport.showDialogLoadFile(ImmutableList.of(PairRO.of("XML", "*.xml")));
 
 		if (toLoad == null) {
 			// Error in opening file, check dialog message for what went wrong.

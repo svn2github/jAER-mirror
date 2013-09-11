@@ -3,7 +3,7 @@ package net.sf.jaer2.util;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public final class PairRO<T, U> {
+public class PairRO<T, U> {
 	private final T one;
 	private final U two;
 
@@ -45,5 +45,9 @@ public final class PairRO<T, U> {
 	@Override
 	public String toString() {
 		return String.format("First = [%s], Second = [%s]", one.toString(), two.toString());
+	}
+
+	public static <T, U> PairRO<T, U> of(final T one, final U two) {
+		return new PairRO<>(one, two);
 	}
 }

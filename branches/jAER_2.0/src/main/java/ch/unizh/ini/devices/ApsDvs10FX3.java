@@ -22,9 +22,9 @@ public class ApsDvs10FX3 extends USBDevice {
 	@SuppressWarnings("hiding")
 	public static final short PID = (short) 0x841A;
 
-	public ApsDvs10FX3(Device usbDevice) {
-		super("ApsDVS 10 FX3", "USB 3.0 vision sensor with active and dynamic pixels, using the SBRet10 chip.", USBDevice.VID,
-			ApsDvs10FX3.PID, USBDevice.DID, usbDevice);
+	public ApsDvs10FX3(final Device usbDevice) {
+		super("ApsDVS 10 FX3", "USB 3.0 vision sensor with active and dynamic pixels, using the SBRet10 chip.",
+			USBDevice.VID, ApsDvs10FX3.PID, USBDevice.DID, usbDevice);
 
 		final Controller fx3 = new FX3();
 		fx3.firmwareToRam(false);

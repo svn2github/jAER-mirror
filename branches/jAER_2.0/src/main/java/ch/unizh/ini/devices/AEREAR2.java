@@ -23,7 +23,7 @@ public class AEREAR2 extends USBDevice {
 	@SuppressWarnings("hiding")
 	public static final short PID = (short) 0x8406;
 
-	public AEREAR2(Device usbDevice) {
+	public AEREAR2(final Device usbDevice) {
 		super("AER EAR 2", "USB cochlea using the CochleaAMS1c chip.", USBDevice.VID, AEREAR2.PID, USBDevice.DID,
 			usbDevice);
 

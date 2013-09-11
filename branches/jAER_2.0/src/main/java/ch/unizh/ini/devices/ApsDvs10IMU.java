@@ -10,7 +10,7 @@ public class ApsDvs10IMU extends ApsDvs10 {
 	@SuppressWarnings("hiding")
 	public static final short DID = 0x0100;
 
-	public ApsDvs10IMU(Device usbDevice) {
+	public ApsDvs10IMU(final Device usbDevice) {
 		super(usbDevice, ApsDvs10IMU.DID);
 
 		// Add inertial measurement unit.

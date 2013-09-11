@@ -10,22 +10,22 @@ public class Discovery {
 	private static boolean discoveryActive = false;
 
 	synchronized public static void start() {
-		if (discoveryActive) {
+		if (Discovery.discoveryActive) {
 			return;
 		}
 
 		USBDiscovery.start();
 
-		discoveryActive = true;
+		Discovery.discoveryActive = true;
 	}
 
 	synchronized public static void stop() {
-		if (!discoveryActive) {
+		if (!Discovery.discoveryActive) {
 			return;
 		}
 
 		USBDiscovery.stop();
 
-		discoveryActive = false;
+		Discovery.discoveryActive = false;
 	}
 }

@@ -9,16 +9,15 @@ import java.util.Map;
 
 import net.sf.jaer2.eventio.events.Event;
 import net.sf.jaer2.eventio.processors.Processor;
+import net.sf.jaer2.util.PairRO;
 import net.sf.jaer2.util.PredicateIterator;
-
-import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import com.google.common.collect.Iterators;
 
 public final class EventPacketContainer implements Iterable<Event> {
 	// Lookup map: a Pair consisting of the Event type and the Event source
 	// determine the returned EventPacket<Type>.
-	private final Map<ImmutablePair<Class<? extends Event>, Short>, EventPacket<? extends Event>> eventPackets = new HashMap<>();
+	private final Map<PairRO<Class<? extends Event>, Short>, EventPacket<? extends Event>> eventPackets = new HashMap<>();
 	private final ArrayList<Object> annotateDataSets = new ArrayList<>();
 	private final short sourceId;
 
@@ -141,14 +140,14 @@ public final class EventPacketContainer implements Iterable<Event> {
 
 	public <E extends Event> EventPacket<E> createPacket(final Class<E> type, final short source) {
 		@SuppressWarnings("unchecked")
-		EventPacket<E> internalEventPacket = (EventPacket<E>) eventPackets.get(new ImmutablePair<>(type, source));
+		EventPacket<E> internalEventPacket = (EventPacket<E>) eventPackets.get(new PairRO<>(type, source));
 
 		if (internalEventPacket == null) {
 			// Packet of this type not found, create it and add it to map.
 			internalEventPacket = new EventPacket<>(type, source);
 			internalEventPacket.setParentContainer(this);
 
-			eventPackets.put(new ImmutablePair<Class<? extends Event>, Short>(type, source), internalEventPacket);
+			eventPackets.put(new PairRO<Class<? extends Event>, Short>(type, source), internalEventPacket);
 		}
 
 		return internalEventPacket;
@@ -192,13 +191,12 @@ public final class EventPacketContainer implements Iterable<Event> {
 
 	@SuppressWarnings("unchecked")
 	public <E extends Event> EventPacket<E> getPacket(final Class<E> type, final int source) {
-		return (EventPacket<E>) eventPackets.get(new ImmutablePair<>(type, source));
+		return (EventPacket<E>) eventPackets.get(new PairRO<>(type, source));
 	}
 
 	public <E extends Event> EventPacket<E> removePacket(final Class<E> type, final int source) {
 		@SuppressWarnings("unchecked")
-		final EventPacket<E> internalEventPacket = (EventPacket<E>) eventPackets.remove(new ImmutablePair<>(type,
-			source));
+		final EventPacket<E> internalEventPacket = (EventPacket<E>) eventPackets.remove(new PairRO<>(type, source));
 
 		if (internalEventPacket != null) {
 			internalEventPacket.setParentContainer(null);

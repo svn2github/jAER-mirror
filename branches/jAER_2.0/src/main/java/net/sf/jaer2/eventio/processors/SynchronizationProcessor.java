@@ -8,8 +8,6 @@ import java.util.Set;
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
 import net.sf.jaer2.eventio.events.Event;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-
 public final class SynchronizationProcessor extends EventProcessor {
 	private static final long serialVersionUID = -5426769954051929383L;
 
@@ -61,8 +59,8 @@ public final class SynchronizationProcessor extends EventProcessor {
 	protected Set<Class<? extends Event>> updateAdditionalOutputTypes() {
 		final Set<Class<? extends Event>> newOutputs = new HashSet<>();
 
-		for (final ImmutablePair<Class<? extends Event>, Integer> selInStream : selectedInputStreamsReadOnly) {
-			newOutputs.add(selInStream.left);
+		for (final Stream selInStream : selectedInputStreamsReadOnly) {
+			newOutputs.add(selInStream.getFirst());
 		}
 
 		return newOutputs;

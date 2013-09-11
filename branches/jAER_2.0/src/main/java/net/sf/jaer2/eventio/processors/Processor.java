@@ -28,10 +28,10 @@ import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
 import net.sf.jaer2.eventio.events.Event;
 import net.sf.jaer2.util.CollectionsUpdate;
 import net.sf.jaer2.util.GUISupport;
+import net.sf.jaer2.util.PairRO;
 import net.sf.jaer2.util.Reflections;
 import net.sf.jaer2.util.XMLconf;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,9 +82,15 @@ public abstract class Processor implements Runnable, Serializable {
 	/** Defines which Event types this Processor creates and then outputs. */
 	private final Set<Class<? extends Event>> additionalOutputTypes = new HashSet<>();
 
+	protected static final class Stream extends PairRO<Class<? extends Event>, Integer> {
+		public Stream(final Class<? extends Event> one, final Integer two) {
+			super(one, two);
+		}
+	}
+
 	// Processor stream management
 	/** Defines which streams of events this Processor can work on. */
-	private final List<ImmutablePair<Class<? extends Event>, Integer>> inputStreams = new ArrayList<>();
+	private final List<Stream> inputStreams = new ArrayList<>();
 	/**
 	 * Defines which streams of events this Processor will work on, based on
 	 * user configuration.
@@ -92,19 +98,19 @@ public abstract class Processor implements Runnable, Serializable {
 	 * when either inputStreams or the selection is changed, thanks to JavaFX
 	 * observables and bindings.
 	 */
-	private final List<ImmutablePair<Class<? extends Event>, Integer>> selectedInputStreams = new CopyOnWriteArrayList<>();
+	private final List<Stream> selectedInputStreams = new CopyOnWriteArrayList<>();
 	/**
 	 * Defines which streams of events this Processor can output, based upon the
 	 * Processor itself and all previous processors before it in the chain.
 	 */
-	private final List<ImmutablePair<Class<? extends Event>, Integer>> outputStreams = new ArrayList<>();
+	private final List<Stream> outputStreams = new ArrayList<>();
 	/**
 	 * Input streams on which this Processor is working on, based on user
 	 * configuration. This is the fast, thread-safe counter-part to
 	 * selectedInputStreams, for use inside processors, and as such limited to
 	 * read-only operations.
 	 */
-	transient protected final List<ImmutablePair<Class<? extends Event>, Integer>> selectedInputStreamsReadOnly = Collections
+	transient protected final List<Stream> selectedInputStreamsReadOnly = Collections
 		.unmodifiableList(selectedInputStreams);
 
 	/** Queue containing all containers to process. */
@@ -178,16 +184,13 @@ public abstract class Processor implements Runnable, Serializable {
 			Reflections.setFinalField(this, "additionalOutputTypes", new HashSet<Class<? extends Event>>());
 		}
 		if (inputStreams == null) {
-			Reflections.setFinalField(this, "inputStreams",
-				new ArrayList<ImmutablePair<Class<? extends Event>, Integer>>());
+			Reflections.setFinalField(this, "inputStreams", new ArrayList<Stream>());
 		}
 		if (selectedInputStreams == null) {
-			Reflections.setFinalField(this, "selectedInputStreams",
-				new CopyOnWriteArrayList<ImmutablePair<Class<? extends Event>, Integer>>());
+			Reflections.setFinalField(this, "selectedInputStreams", new CopyOnWriteArrayList<Stream>());
 		}
 		if (outputStreams == null) {
-			Reflections.setFinalField(this, "outputStreams",
-				new ArrayList<ImmutablePair<Class<? extends Event>, Integer>>());
+			Reflections.setFinalField(this, "outputStreams", new ArrayList<Stream>());
 		}
 
 		// Restore transient fields.
@@ -285,19 +288,18 @@ public abstract class Processor implements Runnable, Serializable {
 	 */
 	protected abstract Set<Class<? extends Event>> updateAdditionalOutputTypes();
 
-	private List<ImmutablePair<Class<? extends Event>, Integer>> getAllOutputStreams() {
+	private List<Stream> getAllOutputStreams() {
 		return Collections.unmodifiableList(outputStreams);
 	}
 
-	private static final class StreamComparator implements Comparator<ImmutablePair<Class<? extends Event>, Integer>> {
+	private static final class StreamComparator implements Comparator<Stream> {
 		@Override
-		public int compare(final ImmutablePair<Class<? extends Event>, Integer> stream1,
-			final ImmutablePair<Class<? extends Event>, Integer> stream2) {
-			if (stream1.right > stream2.right) {
+		public int compare(final Stream stream1, final Stream stream2) {
+			if (stream1.getSecond() > stream2.getSecond()) {
 				return 1;
 			}
 
-			if (stream1.right < stream2.right) {
+			if (stream1.getSecond() < stream2.getSecond()) {
 				return -1;
 			}
 
@@ -307,12 +309,12 @@ public abstract class Processor implements Runnable, Serializable {
 
 	private void rebuildInputStreams() {
 		if (prevProcessor != null) {
-			final List<ImmutablePair<Class<? extends Event>, Integer>> compatibleInputStreams = new ArrayList<>();
+			final List<Stream> compatibleInputStreams = new ArrayList<>();
 
 			// Add all outputs from previous Processor, filtering incompatible
 			// Event types out.
-			for (final ImmutablePair<Class<? extends Event>, Integer> stream : prevProcessor.getAllOutputStreams()) {
-				if (compatibleInputTypes.contains(stream.left)) {
+			for (final Stream stream : prevProcessor.getAllOutputStreams()) {
+				if (compatibleInputTypes.contains(stream.getFirst())) {
 					compatibleInputStreams.add(stream);
 				}
 			}
@@ -330,7 +332,7 @@ public abstract class Processor implements Runnable, Serializable {
 	}
 
 	private void rebuildOutputStreams() {
-		final List<ImmutablePair<Class<? extends Event>, Integer>> allOutputStreams = new ArrayList<>();
+		final List<Stream> allOutputStreams = new ArrayList<>();
 
 		// Add all outputs from previous Processor, as well as outputs produced
 		// by the current Processor.
@@ -348,7 +350,7 @@ public abstract class Processor implements Runnable, Serializable {
 		}
 
 		for (final Class<? extends Event> outputType : additionalOutputTypes) {
-			allOutputStreams.add(new ImmutablePair<Class<? extends Event>, Integer>(outputType, processorId));
+			allOutputStreams.add(new Stream(outputType, processorId));
 		}
 
 		CollectionsUpdate.replaceNonDestructive(outputStreams, allOutputStreams);
@@ -393,8 +395,8 @@ public abstract class Processor implements Runnable, Serializable {
 	 * @return whether relevant EventPackets are present or not.
 	 */
 	public final boolean processContainer(final EventPacketContainer container) {
-		for (final ImmutablePair<Class<? extends Event>, Integer> relevant : selectedInputStreams) {
-			if (container.getPacket(relevant.left, relevant.right) != null) {
+		for (final Stream relevant : selectedInputStreams) {
+			if (container.getPacket(relevant.getFirst(), relevant.getSecond()) != null) {
 				return true;
 			}
 		}
@@ -470,15 +472,16 @@ public abstract class Processor implements Runnable, Serializable {
 			"/images/icons/Export To Document.png", new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent event) {
-					XMLconf.toXML(Processor.this, ImmutableList.<ImmutablePair<Class<?>, String>> of(
-						ImmutablePair.<Class<?>, String> of(Processor.class, "prevProcessor"),
-						ImmutablePair.<Class<?>, String> of(Processor.class, "nextProcessor"),
-						ImmutablePair.<Class<?>, String> of(Processor.class, "processorId"),
-						ImmutablePair.<Class<?>, String> of(Processor.class, "compatibleInputTypes"),
-						ImmutablePair.<Class<?>, String> of(Processor.class, "additionalOutputTypes"),
-						ImmutablePair.<Class<?>, String> of(Processor.class, "inputStreams"),
-						ImmutablePair.<Class<?>, String> of(Processor.class, "selectedInputStreams"),
-						ImmutablePair.<Class<?>, String> of(Processor.class, "outputStreams")));
+					XMLconf.toXML(
+						Processor.this,
+						ImmutableList.of(PairRO.<Class<?>, String> of(Processor.class, "prevProcessor"),
+							PairRO.<Class<?>, String> of(Processor.class, "nextProcessor"),
+							PairRO.<Class<?>, String> of(Processor.class, "processorId"),
+							PairRO.<Class<?>, String> of(Processor.class, "compatibleInputTypes"),
+							PairRO.<Class<?>, String> of(Processor.class, "additionalOutputTypes"),
+							PairRO.<Class<?>, String> of(Processor.class, "inputStreams"),
+							PairRO.<Class<?>, String> of(Processor.class, "selectedInputStreams"),
+							PairRO.<Class<?>, String> of(Processor.class, "outputStreams")));
 				}
 			});
 
@@ -505,10 +508,9 @@ public abstract class Processor implements Runnable, Serializable {
 				if (!selectedInputStreams.isEmpty()) {
 					GUISupport.addLabel(selectedInputStreamsBox, "Currently processing:", null, null, null);
 
-					for (final ImmutablePair<Class<? extends Event>, Integer> selInStream : selectedInputStreams) {
-						GUISupport.addLabel(selectedInputStreamsBox,
-							String.format("< %s, %d >", selInStream.left.getSimpleName(), selInStream.right), null,
-							null, null);
+					for (final Stream selInStream : selectedInputStreams) {
+						GUISupport.addLabel(selectedInputStreamsBox, String.format("< %s, %d >", selInStream.getFirst()
+							.getSimpleName(), selInStream.getSecond()), null, null, null);
 					}
 				}
 			}
@@ -530,10 +532,10 @@ public abstract class Processor implements Runnable, Serializable {
 				if (!outputStreams.isEmpty()) {
 					GUISupport.addArrow(typesBox, 150, 2, 10, 6);
 
-					for (final ImmutablePair<Class<? extends Event>, Integer> outStream : outputStreams) {
+					for (final Stream outStream : outputStreams) {
 						GUISupport.addLabel(typesBox,
-							String.format("< %s, %d >", outStream.left.getSimpleName(), outStream.right), null, null,
-							null);
+							String.format("< %s, %d >", outStream.getFirst().getSimpleName(), outStream.getSecond()),
+							null, null, null);
 					}
 				}
 
@@ -574,7 +576,7 @@ public abstract class Processor implements Runnable, Serializable {
 	 */
 	protected void buildConfigGUI() {
 		// List view of all possible input streams, to select on which to work.
-		final ListView<ImmutablePair<Class<? extends Event>, Integer>> streamsView = new ListView<>();
+		final ListView<Stream> streamsView = new ListView<>();
 
 		// Enable multiple selections and fix the height to something sensible.
 		streamsView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

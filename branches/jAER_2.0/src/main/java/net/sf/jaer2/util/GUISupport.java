@@ -27,7 +27,6 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
@@ -231,14 +230,14 @@ public final class GUISupport {
 		Dialogs.create().lightweight().title("Exception detected").showException(exception);
 	}
 
-	public static File showDialogLoadFile(final List<ImmutablePair<String, String>> allowedExtensions) {
+	public static File showDialogLoadFile(final List<PairRO<String, String>> allowedExtensions) {
 		final FileChooser fileChooser = new FileChooser();
 
 		fileChooser.setTitle("Select File to load from ...");
 
 		if (allowedExtensions != null) {
-			for (final ImmutablePair<String, String> ext : allowedExtensions) {
-				fileChooser.getExtensionFilters().add(new ExtensionFilter(ext.left, ext.right));
+			for (final PairRO<String, String> ext : allowedExtensions) {
+				fileChooser.getExtensionFilters().add(new ExtensionFilter(ext.getFirst(), ext.getSecond()));
 			}
 		}
 
@@ -255,8 +254,8 @@ public final class GUISupport {
 
 		// Sanity check on file name extension.
 		if (allowedExtensions != null) {
-			for (final ImmutablePair<String, String> ext : allowedExtensions) {
-				if (toLoad.getName().endsWith(ext.right.substring(ext.right.indexOf('.')))) {
+			for (final PairRO<String, String> ext : allowedExtensions) {
+				if (toLoad.getName().endsWith(ext.getSecond().substring(ext.getSecond().indexOf('.')))) {
 					return toLoad;
 				}
 			}
@@ -268,14 +267,14 @@ public final class GUISupport {
 		return toLoad;
 	}
 
-	public static File showDialogSaveFile(final List<ImmutablePair<String, String>> allowedExtensions) {
+	public static File showDialogSaveFile(final List<PairRO<String, String>> allowedExtensions) {
 		final FileChooser fileChooser = new FileChooser();
 
 		fileChooser.setTitle("Select File to save to ...");
 
 		if (allowedExtensions != null) {
-			for (final ImmutablePair<String, String> ext : allowedExtensions) {
-				fileChooser.getExtensionFilters().add(new ExtensionFilter(ext.left, ext.right));
+			for (final PairRO<String, String> ext : allowedExtensions) {
+				fileChooser.getExtensionFilters().add(new ExtensionFilter(ext.getFirst(), ext.getSecond()));
 			}
 		}
 
@@ -292,8 +291,8 @@ public final class GUISupport {
 
 		// Sanity check on file name extension.
 		if (allowedExtensions != null) {
-			for (final ImmutablePair<String, String> ext : allowedExtensions) {
-				if (toSave.getName().endsWith(ext.right.substring(ext.right.indexOf('.')))) {
+			for (final PairRO<String, String> ext : allowedExtensions) {
+				if (toSave.getName().endsWith(ext.getSecond().substring(ext.getSecond().indexOf('.')))) {
 					return toSave;
 				}
 			}

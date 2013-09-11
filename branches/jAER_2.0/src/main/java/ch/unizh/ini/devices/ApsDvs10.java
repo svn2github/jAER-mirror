@@ -19,13 +19,13 @@ public class ApsDvs10 extends USBDevice {
 	@SuppressWarnings("hiding")
 	public static final short PID = (short) 0x840D;
 
-	public ApsDvs10(Device usbDevice) {
+	public ApsDvs10(final Device usbDevice) {
 		this(usbDevice, USBDevice.DID);
 	}
 
-	protected ApsDvs10(Device usbDevice, final short deviceDID) {
-		super("ApsDVS 10", "USB vision sensor with active and dynamic pixels, using the SBRet10 chip.", USBDevice.VID, ApsDvs10.PID,
-			deviceDID, usbDevice);
+	protected ApsDvs10(final Device usbDevice, final short deviceDID) {
+		super("ApsDVS 10", "USB vision sensor with active and dynamic pixels, using the SBRet10 chip.", USBDevice.VID,
+			ApsDvs10.PID, deviceDID, usbDevice);
 
 		final Controller fx2 = new FX2();
 		fx2.firmwareToRam(true);

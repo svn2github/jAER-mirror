@@ -13,7 +13,7 @@ public class FX2Blank extends USBDevice {
 	@SuppressWarnings("hiding")
 	public static final short PID = (short) 0x8613;
 
-	public FX2Blank(Device usbDevice) {
+	public FX2Blank(final Device usbDevice) {
 		super("FX2 Blank", "Blank FX2 device, needs to have firmware loaded onto it.", FX2Blank.VID, FX2Blank.PID,
 			USBDevice.DID, usbDevice);
 

@@ -18,7 +18,7 @@ public abstract class USBDevice extends Device {
 	private boolean isOpen = false;
 
 	public USBDevice(final String deviceName, final String deviceDescription, final short deviceVID,
-		final short devicePID, final short deviceDID, li.longi.libusb4java.Device device) {
+		final short devicePID, final short deviceDID, final li.longi.libusb4java.Device device) {
 		super(deviceName, deviceDescription);
 
 		devVID = deviceVID;
