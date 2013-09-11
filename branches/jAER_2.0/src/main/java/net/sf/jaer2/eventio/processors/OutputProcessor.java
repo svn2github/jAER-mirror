@@ -2,7 +2,6 @@ package net.sf.jaer2.eventio.processors;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -145,17 +144,12 @@ public final class OutputProcessor extends Processor {
 				// When the chosen sink type changes, create an instance
 				// of the new one and save it for future reference, so that
 				// when the user clicks OK, it gets saved.
-				try {
-					currentSinkConfig = Reflections.newInstanceForClass(newValue);
-				}
-				catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException | NullPointerException e) {
-					GUISupport.showDialogException(e);
-					return;
-				}
+				currentSinkConfig = Reflections.newInstanceForClass(newValue);
 
-				// Add config GUI for new sink instance.
-				rootConfigLayoutChildren.getChildren().add(currentSinkConfig.getConfigGUI());
+				if (currentSinkConfig != null) {
+					// Add config GUI for new sink instance.
+					rootConfigLayoutChildren.getChildren().add(currentSinkConfig.getConfigGUI());
+				}
 			}
 		});
 

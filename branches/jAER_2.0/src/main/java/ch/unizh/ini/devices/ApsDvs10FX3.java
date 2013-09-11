@@ -4,7 +4,6 @@ import li.longi.libusb4java.Device;
 import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.components.aer.AERChip;
-import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.components.controllers.FX3;
 import net.sf.jaer2.devices.components.controllers.logic.LatticeECP3;
 import net.sf.jaer2.devices.components.controllers.logic.Logic;
@@ -14,6 +13,9 @@ import net.sf.jaer2.devices.components.misc.memory.Memory;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigByte;
 import net.sf.jaer2.devices.config.ConfigInt;
+import net.sf.jaer2.devices.config.muxes.AnalogMux;
+import net.sf.jaer2.devices.config.muxes.BiasMux;
+import net.sf.jaer2.devices.config.muxes.DigitalMux;
 import net.sf.jaer2.devices.config.pots.AddressedIPotCoarseFine;
 import net.sf.jaer2.devices.config.pots.Pot;
 import net.sf.jaer2.devices.config.pots.ShiftedSourceBiasCoarseFine;
@@ -28,13 +30,14 @@ public class ApsDvs10FX3 extends USBDevice {
 		super("ApsDVS 10 FX3", "USB 3.0 vision sensor with active and dynamic pixels, using the SBRet10 chip.",
 			USBDevice.VID, ApsDvs10FX3.PID, USBDevice.DID, usbDevice);
 
-		final Controller fx3 = new FX3();
+		final FX3 fx3 = new FX3();
 		fx3.firmwareToRam(false);
 
 		fx3.addSetting(new ConfigByte("LOG_LEVEL",
 			"Set the logging level, to restrict which error messages will be sent over the Status EP1.", (byte) 6),
-			FX3.VR_LOG_LEVEL);
-		fx3.addSetting(new ConfigBit("FX3_RESET", "Hard-reset the FX3 microcontroller", false), FX3.VR_FX3_RESET);
+			FX3.VendorRequests.VR_LOG_LEVEL);
+		fx3.addSetting(new ConfigBit("FX3_RESET", "Hard-reset the FX3 microcontroller", false),
+			FX3.VendorRequests.VR_FX3_RESET);
 
 		fx3.addSetting(new ConfigBit("extTrigger", "External trigger.", false), FX3.Ports.GPIO40);
 		fx3.addSetting(new ConfigBit("runCpld", "Enable the CPLD.", true), FX3.Ports.GPIO41);
@@ -56,11 +59,11 @@ public class ApsDvs10FX3 extends USBDevice {
 		// Support flashing LatticeECP3 firmware.
 		latticeECP3.firmwareToFlash(flash);
 
-		latticeECP3.addSetting(new ConfigInt("exposure", ".", 0), 15, 0);
-		latticeECP3.addSetting(new ConfigInt("colSettle", ".", 0), 31, 16);
-		latticeECP3.addSetting(new ConfigInt("rowSettle", ".", 0), 47, 32);
-		latticeECP3.addSetting(new ConfigInt("resSettle", ".", 0), 63, 48);
-		latticeECP3.addSetting(new ConfigInt("frameDelay", ".", 0), 79, 64);
+		latticeECP3.addSetting(new ConfigInt("exposure", ".", 0), 0, 16);
+		latticeECP3.addSetting(new ConfigInt("colSettle", ".", 0), 16, 16);
+		latticeECP3.addSetting(new ConfigInt("rowSettle", ".", 0), 32, 16);
+		latticeECP3.addSetting(new ConfigInt("resSettle", ".", 0), 48, 16);
+		latticeECP3.addSetting(new ConfigInt("frameDelay", ".", 0), 64, 16);
 
 		// ADC adcTHS1030 = new THS1030();
 		// Not actively configurable.
@@ -68,29 +71,29 @@ public class ApsDvs10FX3 extends USBDevice {
 		final AERChip sbret10 = new SBRet10();
 		sbret10.setProgrammer(fx3);
 
-		sbret10.addBias(new AddressedIPotCoarseFine("DiffBn", ".", 0, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("OnBn", ".", 1, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("OffBn", ".", 2, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("ApsCasEpc", ".", 3, Pot.Type.CASCODE, Pot.Sex.P, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("DiffCasBnc", ".", 4, Pot.Type.CASCODE, Pot.Sex.N, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("ApsROSFBn", ".", 5, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("LocalBufBn", ".", 6, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("PixInvBn", ".", 7, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("PrBp", ".", 8, Pot.Type.NORMAL, Pot.Sex.P, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("PrSFBp", ".", 9, Pot.Type.NORMAL, Pot.Sex.P, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("RefrBp", ".", 10, Pot.Type.NORMAL, Pot.Sex.P, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("AEPdBn", ".", 11, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("LcolTimeoutBn", ".", 12, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("AEPuXBp", ".", 13, Pot.Type.NORMAL, Pot.Sex.P, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("AEPuYBp", ".", 14, Pot.Type.NORMAL, Pot.Sex.P, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("IFThrBn", ".", 15, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("IFRefrBn", ".", 16, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("PadFollBn", ".", 17, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("apsOverflowLevel", ".", 18, Pot.Type.NORMAL, Pot.Sex.N, 0));
-		sbret10.addBias(new AddressedIPotCoarseFine("biasBuffer", ".", 19, Pot.Type.NORMAL, Pot.Sex.N, 0));
+		sbret10.addSetting(new AddressedIPotCoarseFine("DiffBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 0);
+		sbret10.addSetting(new AddressedIPotCoarseFine("OnBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 1);
+		sbret10.addSetting(new AddressedIPotCoarseFine("OffBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 2);
+		sbret10.addSetting(new AddressedIPotCoarseFine("ApsCasEpc", ".", Pot.Type.CASCODE, Pot.Sex.P, 0), 3);
+		sbret10.addSetting(new AddressedIPotCoarseFine("DiffCasBnc", ".", Pot.Type.CASCODE, Pot.Sex.N, 0), 4);
+		sbret10.addSetting(new AddressedIPotCoarseFine("ApsROSFBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 5);
+		sbret10.addSetting(new AddressedIPotCoarseFine("LocalBufBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 6);
+		sbret10.addSetting(new AddressedIPotCoarseFine("PixInvBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 7);
+		sbret10.addSetting(new AddressedIPotCoarseFine("PrBp", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 8);
+		sbret10.addSetting(new AddressedIPotCoarseFine("PrSFBp", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 9);
+		sbret10.addSetting(new AddressedIPotCoarseFine("RefrBp", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 10);
+		sbret10.addSetting(new AddressedIPotCoarseFine("AEPdBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 11);
+		sbret10.addSetting(new AddressedIPotCoarseFine("LcolTimeoutBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 12);
+		sbret10.addSetting(new AddressedIPotCoarseFine("AEPuXBp", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 13);
+		sbret10.addSetting(new AddressedIPotCoarseFine("AEPuYBp", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 14);
+		sbret10.addSetting(new AddressedIPotCoarseFine("IFThrBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 15);
+		sbret10.addSetting(new AddressedIPotCoarseFine("IFRefrBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 16);
+		sbret10.addSetting(new AddressedIPotCoarseFine("PadFollBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 17);
+		sbret10.addSetting(new AddressedIPotCoarseFine("apsOverflowLevel", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 18);
+		sbret10.addSetting(new AddressedIPotCoarseFine("biasBuffer", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 19);
 
-		sbret10.addBias(new ShiftedSourceBiasCoarseFine("SSP", ".", 20, Pot.Type.NORMAL, Pot.Sex.P, 0));
-		sbret10.addBias(new ShiftedSourceBiasCoarseFine("SSN", ".", 21, Pot.Type.NORMAL, Pot.Sex.N, 0));
+		sbret10.addSetting(new ShiftedSourceBiasCoarseFine("SSP", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 20);
+		sbret10.addSetting(new ShiftedSourceBiasCoarseFine("SSN", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 21);
 
 		sbret10.addSetting(new ConfigBit("resetCalib", ".", true), 0);
 		sbret10.addSetting(new ConfigBit("typeNCalib", ".", false), 1);
@@ -100,16 +103,16 @@ public class ApsDvs10FX3 extends USBDevice {
 		sbret10.addSetting(new ConfigBit("useAout", ".", true), 5);
 		sbret10.addSetting(new ConfigBit("globalShutter", ".", false), 6);
 
-		sbret10.addMux(new AnalogMux("AnaMux2", "."), 1);
-		sbret10.addMux(new AnalogMux("AnaMux1", "."), 2);
-		sbret10.addMux(new AnalogMux("AnaMux0", "."), 3);
+		sbret10.addSetting(new AnalogMux("AnaMux2", "."), 1);
+		sbret10.addSetting(new AnalogMux("AnaMux1", "."), 2);
+		sbret10.addSetting(new AnalogMux("AnaMux0", "."), 3);
 
-		sbret10.addMux(new DigitalMux("DigMux3", "."), 1);
-		sbret10.addMux(new DigitalMux("DigMux2", "."), 2);
-		sbret10.addMux(new DigitalMux("DigMux1", "."), 3);
-		sbret10.addMux(new DigitalMux("DigMux0", "."), 4);
+		sbret10.addSetting(new DigitalMux("DigMux3", "."), 1);
+		sbret10.addSetting(new DigitalMux("DigMux2", "."), 2);
+		sbret10.addSetting(new DigitalMux("DigMux1", "."), 3);
+		sbret10.addSetting(new DigitalMux("DigMux0", "."), 4);
 
-		sbret10.addMux(new BiasMux("BiasOutMux", "."), 0);
+		sbret10.addSetting(new BiasMux("BiasOutMux", "."), 0);
 
 		// Add inertial measurement unit.
 		final Component invenSenseIMU = new InvenSense6050(0x68);

@@ -3,7 +3,6 @@ package net.sf.jaer2.eventio;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -505,14 +504,8 @@ public final class ProcessorChain implements Serializable {
 				break;
 
 			case EVENT_PROCESSOR:
-				try {
-					processor = Reflections.newInstanceForClass(clazz);
-				}
-				catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException | NullPointerException e) {
-					GUISupport.showDialogException(e);
-					return null;
-				}
+				// Can return null, which is then returned as-is.
+				processor = Reflections.newInstanceForClass(clazz);
 				break;
 
 			default:

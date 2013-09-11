@@ -1,5 +1,7 @@
 package net.sf.jaer2.devices.components.controllers;
 
+import net.sf.jaer2.devices.config.ConfigBase;
+
 public class FX2 extends Controller {
 	public static enum Ports {
 		PA0,
@@ -29,6 +31,34 @@ public class FX2 extends Controller {
 		PE4,
 		PE5,
 		PE6,
-		PE7,
+		PE7;
+	}
+
+	public static enum VendorRequests {
+		VR_NONE((short) 0x00);
+
+		private final short vr;
+
+		private VendorRequests(final short s) {
+			vr = s;
+		}
+
+		@Override
+		public final String toString() {
+			return String.format("0x%X", vr);
+		}
+	}
+
+	public void addSetting(final ConfigBase setting, final Ports port) {
+		// TODO Auto-generated method stub
+	}
+
+	public void addSetting(final ConfigBase setting, final VendorRequests vr) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void addSetting(final ConfigBase setting, final int address) {
+		throw new UnsupportedOperationException("General address unsupported, use either Ports or Vendor Requests.");
 	}
 }

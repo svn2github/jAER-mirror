@@ -1,6 +1,9 @@
 package ch.unizh.ini.devices.components.aer;
 
+import javafx.scene.layout.Pane;
 import net.sf.jaer2.devices.components.aer.AERChip;
+import net.sf.jaer2.devices.components.controllers.Controller;
+import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
 import net.sf.jaer2.eventio.eventpackets.raw.RawEventPacket;
 import net.sf.jaer2.eventio.events.Event;
@@ -19,14 +22,12 @@ public class CochleaAMS1c extends AERChip implements Translator {
 	public void extractEventPacketContainer(final RawEventPacket rawEventPacket,
 		final EventPacketContainer eventPacketContainer) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void reconstructRawEventPacket(final EventPacketContainer eventPacketContainer,
 		final RawEventPacket rawEventPacket) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -57,5 +58,27 @@ public class CochleaAMS1c extends AERChip implements Translator {
 	public boolean compatibleWith(final AERChip chip) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Pane getConfigGUI() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setProgrammer(final Controller programmer) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void addSetting(final ConfigBase setting, final int address) {
+		// TODO Auto-generated method stub
 	}
 }

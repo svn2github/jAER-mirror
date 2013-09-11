@@ -2,7 +2,6 @@ package net.sf.jaer2.eventio.processors;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -185,18 +184,11 @@ public final class InputProcessor extends Processor {
 		rootConfigTasksDialogOK.add(new Runnable() {
 			@Override
 			public void run() {
-				Translator translator;
+				final Translator translator = Reflections.newInstanceForClass(translatorTypeChooser.getValue());
 
-				try {
-					translator = Reflections.newInstanceForClass(translatorTypeChooser.getValue());
+				if (translator != null) {
+					setEventTranslator(translator);
 				}
-				catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException | NullPointerException e) {
-					GUISupport.showDialogException(e);
-					return;
-				}
-
-				setEventTranslator(translator);
 			}
 		});
 
@@ -224,17 +216,12 @@ public final class InputProcessor extends Processor {
 				// When the chosen source type changes, create an instance
 				// of the new one and save it for future reference, so that
 				// when the user clicks OK, it gets saved.
-				try {
-					currentSourceConfig = Reflections.newInstanceForClass(newValue);
-				}
-				catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException | NullPointerException e) {
-					GUISupport.showDialogException(e);
-					return;
-				}
+				currentSourceConfig = Reflections.newInstanceForClass(newValue);
 
-				// Add config GUI for new source instance.
-				rootConfigLayoutChildren.getChildren().add(currentSourceConfig.getConfigGUI());
+				if (currentSourceConfig != null) {
+					// Add config GUI for new source instance.
+					rootConfigLayoutChildren.getChildren().add(currentSourceConfig.getConfigGUI());
+				}
 			}
 		});
 
