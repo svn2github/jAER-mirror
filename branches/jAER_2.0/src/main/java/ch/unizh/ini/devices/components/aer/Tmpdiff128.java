@@ -4,6 +4,8 @@ import javafx.scene.layout.Pane;
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.config.ConfigBase;
+import net.sf.jaer2.devices.config.pots.IPot;
+import net.sf.jaer2.devices.config.pots.Pot;
 import net.sf.jaer2.eventio.eventpackets.EventPacket;
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
 import net.sf.jaer2.eventio.eventpackets.raw.RawEventPacket;
@@ -22,6 +24,21 @@ import com.google.common.collect.ImmutableList;
 public class Tmpdiff128 extends AERChip implements Translator {
 	/** Local logger for log messages. */
 	protected final static Logger logger = LoggerFactory.getLogger(Tmpdiff128.class);
+
+	public Tmpdiff128() {
+		addSetting(new IPot("pr", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 0);
+		addSetting(new IPot("foll", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 1);
+		addSetting(new IPot("diff", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 2);
+		addSetting(new IPot("diffOn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 3);
+		addSetting(new IPot("puY", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 4);
+		addSetting(new IPot("refr", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 5);
+		addSetting(new IPot("req", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 6);
+		addSetting(new IPot("diffOff", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 7);
+		addSetting(new IPot("puX", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 8);
+		addSetting(new IPot("reqPd", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 9);
+		addSetting(new IPot("injGnd", ".", Pot.Type.CASCODE, Pot.Sex.P, 0), 10);
+		addSetting(new IPot("cas", ".", Pot.Type.CASCODE, Pot.Sex.N, 0), 11);
+	}
 
 	@Override
 	public int getSizeX() {

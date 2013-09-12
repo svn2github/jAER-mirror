@@ -10,12 +10,6 @@ import net.sf.jaer2.devices.components.misc.memory.EEPROM_I2C;
 import net.sf.jaer2.devices.components.misc.memory.Memory;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigInt;
-import net.sf.jaer2.devices.config.muxes.AnalogMux;
-import net.sf.jaer2.devices.config.muxes.BiasMux;
-import net.sf.jaer2.devices.config.muxes.DigitalMux;
-import net.sf.jaer2.devices.config.pots.AddressedIPotCoarseFine;
-import net.sf.jaer2.devices.config.pots.Pot;
-import net.sf.jaer2.devices.config.pots.ShiftedSourceBiasCoarseFine;
 import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.SBRet10;
 
@@ -61,49 +55,6 @@ public class ApsDvs10 extends USBDevice {
 
 		final AERChip sbret10 = new SBRet10();
 		sbret10.setProgrammer(fx2);
-
-		sbret10.addSetting(new AddressedIPotCoarseFine("DiffBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 0);
-		sbret10.addSetting(new AddressedIPotCoarseFine("OnBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 1);
-		sbret10.addSetting(new AddressedIPotCoarseFine("OffBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 2);
-		sbret10.addSetting(new AddressedIPotCoarseFine("ApsCasEpc", ".", Pot.Type.CASCODE, Pot.Sex.P, 0), 3);
-		sbret10.addSetting(new AddressedIPotCoarseFine("DiffCasBnc", ".", Pot.Type.CASCODE, Pot.Sex.N, 0), 4);
-		sbret10.addSetting(new AddressedIPotCoarseFine("ApsROSFBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 5);
-		sbret10.addSetting(new AddressedIPotCoarseFine("LocalBufBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 6);
-		sbret10.addSetting(new AddressedIPotCoarseFine("PixInvBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 7);
-		sbret10.addSetting(new AddressedIPotCoarseFine("PrBp", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 8);
-		sbret10.addSetting(new AddressedIPotCoarseFine("PrSFBp", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 9);
-		sbret10.addSetting(new AddressedIPotCoarseFine("RefrBp", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 10);
-		sbret10.addSetting(new AddressedIPotCoarseFine("AEPdBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 11);
-		sbret10.addSetting(new AddressedIPotCoarseFine("LcolTimeoutBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 12);
-		sbret10.addSetting(new AddressedIPotCoarseFine("AEPuXBp", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 13);
-		sbret10.addSetting(new AddressedIPotCoarseFine("AEPuYBp", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 14);
-		sbret10.addSetting(new AddressedIPotCoarseFine("IFThrBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 15);
-		sbret10.addSetting(new AddressedIPotCoarseFine("IFRefrBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 16);
-		sbret10.addSetting(new AddressedIPotCoarseFine("PadFollBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 17);
-		sbret10.addSetting(new AddressedIPotCoarseFine("apsOverflowLevel", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 18);
-		sbret10.addSetting(new AddressedIPotCoarseFine("biasBuffer", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 19);
-
-		sbret10.addSetting(new ShiftedSourceBiasCoarseFine("SSP", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 20);
-		sbret10.addSetting(new ShiftedSourceBiasCoarseFine("SSN", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 21);
-
-		sbret10.addSetting(new ConfigBit("resetCalib", ".", true), 0);
-		sbret10.addSetting(new ConfigBit("typeNCalib", ".", false), 1);
-		sbret10.addSetting(new ConfigBit("resetTestpixel", ".", true), 2);
-		sbret10.addSetting(new ConfigBit("hotPixelSuppression", ".", false), 3);
-		sbret10.addSetting(new ConfigBit("nArow", ".", false), 4);
-		sbret10.addSetting(new ConfigBit("useAout", ".", true), 5);
-		sbret10.addSetting(new ConfigBit("globalShutter", ".", false), 6);
-
-		sbret10.addSetting(new AnalogMux("AnaMux2", "."), 1);
-		sbret10.addSetting(new AnalogMux("AnaMux1", "."), 2);
-		sbret10.addSetting(new AnalogMux("AnaMux0", "."), 3);
-
-		sbret10.addSetting(new DigitalMux("DigMux3", "."), 1);
-		sbret10.addSetting(new DigitalMux("DigMux2", "."), 2);
-		sbret10.addSetting(new DigitalMux("DigMux1", "."), 3);
-		sbret10.addSetting(new DigitalMux("DigMux0", "."), 4);
-
-		sbret10.addSetting(new BiasMux("BiasOutMux", "."), 0);
 	}
 
 	@Override

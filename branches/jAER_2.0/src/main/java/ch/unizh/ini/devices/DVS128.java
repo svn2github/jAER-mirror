@@ -7,8 +7,6 @@ import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.components.controllers.FX2;
 import net.sf.jaer2.devices.components.misc.memory.EEPROM_I2C;
 import net.sf.jaer2.devices.components.misc.memory.Memory;
-import net.sf.jaer2.devices.config.pots.IPot;
-import net.sf.jaer2.devices.config.pots.Pot;
 import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.Tmpdiff128;
 
@@ -32,19 +30,6 @@ public class DVS128 extends USBDevice {
 
 		final AERChip tmpdiff128 = new Tmpdiff128();
 		tmpdiff128.setProgrammer(fx2);
-
-		tmpdiff128.addSetting(new IPot("pr", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 0);
-		tmpdiff128.addSetting(new IPot("foll", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 1);
-		tmpdiff128.addSetting(new IPot("diff", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 2);
-		tmpdiff128.addSetting(new IPot("diffOn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 3);
-		tmpdiff128.addSetting(new IPot("puY", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 4);
-		tmpdiff128.addSetting(new IPot("refr", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 5);
-		tmpdiff128.addSetting(new IPot("req", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 6);
-		tmpdiff128.addSetting(new IPot("diffOff", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 7);
-		tmpdiff128.addSetting(new IPot("puX", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 8);
-		tmpdiff128.addSetting(new IPot("reqPd", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 9);
-		tmpdiff128.addSetting(new IPot("injGnd", ".", Pot.Type.CASCODE, Pot.Sex.P, 0), 10);
-		tmpdiff128.addSetting(new IPot("cas", ".", Pot.Type.CASCODE, Pot.Sex.N, 0), 11);
 	}
 
 	@Override
