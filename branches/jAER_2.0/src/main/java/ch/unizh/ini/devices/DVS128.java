@@ -38,7 +38,6 @@ public class DVS128 extends USBDevice {
 
 	@Override
 	public Class<? extends Translator> getPreferredTranslator() {
-		// TODO Auto-generated method stub
-		return null;
+		return Tmpdiff128.class;
 	}
 }

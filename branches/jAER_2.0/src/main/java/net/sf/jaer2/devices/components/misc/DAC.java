@@ -8,8 +8,7 @@ import net.sf.jaer2.devices.config.ConfigBase;
 public class DAC implements Component {
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "DAC";
 	}
 
 	@Override

@@ -70,8 +70,6 @@ public abstract class Device {
 		return null;
 	}
 
-	public abstract Class<? extends Translator> getPreferredTranslator();
-
 	synchronized public Pane getConfigGUI() {
 		if (rootConfigLayout == null) {
 			rootConfigLayout = new VBox(10);
@@ -96,6 +94,8 @@ public abstract class Device {
 
 		rootConfigLayout.getChildren().add(tabLayout);
 	}
+
+	public abstract Class<? extends Translator> getPreferredTranslator();
 
 	public abstract void open();
 

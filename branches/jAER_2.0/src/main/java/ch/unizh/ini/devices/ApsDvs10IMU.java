@@ -5,6 +5,7 @@ import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.components.controllers.FX2;
 import net.sf.jaer2.devices.components.misc.InvenSense6050;
 import net.sf.jaer2.eventio.translators.Translator;
+import ch.unizh.ini.devices.components.aer.SBRet10;
 
 public class ApsDvs10IMU extends ApsDvs10 {
 	@SuppressWarnings("hiding")
@@ -21,7 +22,7 @@ public class ApsDvs10IMU extends ApsDvs10 {
 
 	@Override
 	public Class<? extends Translator> getPreferredTranslator() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO: need translator with IMU here.
+		return SBRet10.class;
 	}
 }

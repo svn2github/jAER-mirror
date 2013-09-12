@@ -6,14 +6,21 @@ import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.config.ConfigBase;
 
 public abstract class Memory implements Component {
-	public Memory(final String name, final int size) {
+	private final String name;
+	private final int sizeKB;
 
+	public Memory(final String memName, final int memSizeKB) {
+		name = memName;
+		sizeKB = memSizeKB;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
+	}
+
+	public int getSize() {
+		return sizeKB;
 	}
 
 	@Override

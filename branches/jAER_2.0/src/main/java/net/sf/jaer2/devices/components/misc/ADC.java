@@ -8,8 +8,7 @@ import net.sf.jaer2.devices.config.ConfigBase;
 public class ADC implements Component {
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "ADC";
 	}
 
 	@Override

@@ -12,8 +12,7 @@ public class InvenSense6050 implements Component {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "InvenSense6050";
 	}
 
 	@Override

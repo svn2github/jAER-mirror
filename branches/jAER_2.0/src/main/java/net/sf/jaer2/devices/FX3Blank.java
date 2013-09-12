@@ -18,11 +18,14 @@ public class FX3Blank extends USBDevice {
 			USBDevice.DID, usbDevice);
 
 		final Controller fx3 = new FX3();
+		addComponent(fx3);
+
 		fx3.firmwareToRam(true);
 
 		// Size in KB and SPI address.
 		final Memory flash = new Flash_SPI(512, 0);
 		flash.setProgrammer(fx3);
+		addComponent(flash);
 
 		// Support flashing FX3 firmware.
 		fx3.firmwareToFlash(flash);

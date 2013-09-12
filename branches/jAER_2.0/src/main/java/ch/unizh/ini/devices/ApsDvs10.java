@@ -64,7 +64,6 @@ public class ApsDvs10 extends USBDevice {
 
 	@Override
 	public Class<? extends Translator> getPreferredTranslator() {
-		// TODO Auto-generated method stub
-		return null;
+		return SBRet10.class;
 	}
 }

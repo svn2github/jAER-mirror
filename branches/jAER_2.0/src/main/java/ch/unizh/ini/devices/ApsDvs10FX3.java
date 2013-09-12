@@ -70,7 +70,7 @@ public class ApsDvs10FX3 extends USBDevice {
 
 	@Override
 	public Class<? extends Translator> getPreferredTranslator() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO: need translator with IMU here.
+		return SBRet10.class;
 	}
 }

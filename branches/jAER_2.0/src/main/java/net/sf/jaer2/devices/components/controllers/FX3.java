@@ -1,5 +1,6 @@
 package net.sf.jaer2.devices.components.controllers;
 
+import javafx.scene.layout.Pane;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigByte;
@@ -88,5 +89,21 @@ public class FX3 extends Controller {
 	@Override
 	public void addSetting(final ConfigBase setting, final int address) {
 		throw new UnsupportedOperationException("General address unsupported, use either Ports or Vendor Requests.");
+	}
+
+	@Override
+	public String getName() {
+		return "FX3";
+	}
+
+	@Override
+	public Pane getConfigGUI() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setProgrammer(final Controller programmer) {
+		throw new UnsupportedOperationException("FX3 cannot be programmed by others, as it is the initial controller.");
 	}
 }
