@@ -30,6 +30,8 @@ public class AEREAR2 extends USBDevice {
 			usbDevice);
 
 		final FX2 fx2 = new FX2();
+		addComponent(fx2);
+
 		fx2.firmwareToRam(true);
 
 		fx2.addSetting(new ConfigBit("runAERComm", ".", true), FX2.Ports.PA3);
@@ -44,12 +46,14 @@ public class AEREAR2 extends USBDevice {
 		// Size in KB and I2C address.
 		final Memory eeprom = new EEPROM_I2C(32, 0x51);
 		eeprom.setProgrammer(fx2);
+		addComponent(eeprom);
 
 		// Support flashing FX2 firmware.
 		fx2.firmwareToFlash(eeprom);
 
 		final Logic latticeMachX0 = new LatticeMachX0();
 		latticeMachX0.setProgrammer(fx2);
+		addComponent(latticeMachX0);
 
 		latticeMachX0.addSetting(new ConfigBit("yBit", ".", false), 0);
 		latticeMachX0.addSetting(new ConfigByte("onchipPreampGain", ".", (byte) 3), 1, 2);
@@ -70,8 +74,11 @@ public class AEREAR2 extends USBDevice {
 
 		final AERChip cochlea = new CochleaAMS1c();
 		cochlea.setProgrammer(fx2);
+		addComponent(cochlea);
 
 		final DAC dacAD5391 = new AD5391_32chan();
+		dacAD5391.setProgrammer(latticeMachX0);
+		addComponent(dacAD5391);
 
 		dacAD5391.addSetting(new VPot("Vterm", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 0);
 		dacAD5391.addSetting(new VPot("Vrefhres", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 1);

@@ -24,7 +24,7 @@ public class ApsDvs10FX3 extends USBDevice {
 			USBDevice.VID, ApsDvs10FX3.PID, USBDevice.DID, usbDevice);
 
 		final FX3 fx3 = new FX3();
-		fx3.firmwareToRam(false);
+		addComponent(fx3);
 
 		fx3.addSetting(new ConfigBit("extTrigger", "External trigger.", false), FX3.Ports.GPIO40);
 		fx3.addSetting(new ConfigBit("runCpld", "Enable the CPLD.", true), FX3.Ports.GPIO41);
@@ -35,12 +35,15 @@ public class ApsDvs10FX3 extends USBDevice {
 		// Size in KB and SPI address.
 		final Memory flash = new Flash_SPI(512, 0);
 		flash.setProgrammer(fx3);
+		addComponent(flash);
 
 		// Support flashing FX3 firmware.
 		fx3.firmwareToFlash(flash);
 
 		final Logic latticeECP3 = new LatticeECP3();
 		latticeECP3.setProgrammer(fx3);
+		addComponent(latticeECP3);
+
 		latticeECP3.firmwareToRam(true);
 
 		// Support flashing LatticeECP3 firmware.
@@ -57,10 +60,12 @@ public class ApsDvs10FX3 extends USBDevice {
 
 		final AERChip sbret10 = new SBRet10();
 		sbret10.setProgrammer(fx3);
+		addComponent(sbret10);
 
 		// Add inertial measurement unit.
 		final Component invenSenseIMU = new InvenSense6050(0x68);
 		invenSenseIMU.setProgrammer(fx3);
+		addComponent(invenSenseIMU);
 	}
 
 	@Override

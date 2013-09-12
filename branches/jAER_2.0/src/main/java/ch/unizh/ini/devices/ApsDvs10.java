@@ -26,6 +26,8 @@ public class ApsDvs10 extends USBDevice {
 			ApsDvs10.PID, deviceDID, usbDevice);
 
 		final FX2 fx2 = new FX2();
+		addComponent(fx2);
+
 		fx2.firmwareToRam(true);
 
 		fx2.addSetting(new ConfigBit("extTrigger", "External trigger.", false), FX2.Ports.PA1);
@@ -37,12 +39,14 @@ public class ApsDvs10 extends USBDevice {
 		// Size in KB and I2C address.
 		final Memory eeprom = new EEPROM_I2C(32, 0x51);
 		eeprom.setProgrammer(fx2);
+		addComponent(eeprom);
 
 		// Support flashing FX2 firmware.
 		fx2.firmwareToFlash(eeprom);
 
 		final Logic latticeMachX0 = new LatticeMachX0();
 		latticeMachX0.setProgrammer(fx2);
+		addComponent(latticeMachX0);
 
 		latticeMachX0.addSetting(new ConfigInt("exposure", ".", 0), 0, 16);
 		latticeMachX0.addSetting(new ConfigInt("colSettle", ".", 0), 16, 16);
@@ -55,6 +59,7 @@ public class ApsDvs10 extends USBDevice {
 
 		final AERChip sbret10 = new SBRet10();
 		sbret10.setProgrammer(fx2);
+		addComponent(sbret10);
 	}
 
 	@Override

@@ -16,6 +16,7 @@ public class ApsDvs10IMU extends ApsDvs10 {
 		// Add inertial measurement unit.
 		final Component invenSenseIMU = new InvenSense6050(0x68);
 		invenSenseIMU.setProgrammer(getComponent(FX2.class, "FX2"));
+		addComponent(invenSenseIMU);
 	}
 
 	@Override

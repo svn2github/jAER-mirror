@@ -16,11 +16,14 @@ public class DVS128 extends USBDevice {
 			usbDevice);
 
 		final Controller fx2 = new FX2();
+		addComponent(fx2);
+
 		fx2.firmwareToRam(true);
 
 		// Size in KB and I2C address.
 		final Memory eeprom = new EEPROM_I2C(32, 0x51);
 		eeprom.setProgrammer(fx2);
+		addComponent(eeprom);
 
 		// Support flashing FX2 firmware.
 		fx2.firmwareToFlash(eeprom);
@@ -30,6 +33,7 @@ public class DVS128 extends USBDevice {
 
 		final AERChip tmpdiff128 = new Tmpdiff128();
 		tmpdiff128.setProgrammer(fx2);
+		addComponent(tmpdiff128);
 	}
 
 	@Override
