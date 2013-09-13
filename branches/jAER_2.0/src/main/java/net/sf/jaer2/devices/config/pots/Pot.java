@@ -1,5 +1,8 @@
 package net.sf.jaer2.devices.config.pots;
 
+import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import net.sf.jaer2.devices.config.ConfigBase;
 
 public abstract class Pot extends ConfigBase {
@@ -161,6 +164,25 @@ public abstract class Pot extends ConfigBase {
 		}
 
 		return bytes;
+	}
+
+	@Override
+	protected void buildConfigGUI() {
+		super.buildConfigGUI();
+
+		final Slider slider = new Slider();
+		HBox.setHgrow(slider, Priority.ALWAYS);
+
+		slider.setMin(0);
+		slider.setMax(1000);
+		slider.setValue(0);
+		slider.setShowTickLabels(true);
+		slider.setShowTickMarks(true);
+		slider.setMajorTickUnit(100);
+		slider.setMinorTickCount(10);
+		slider.setBlockIncrement(10);
+
+		rootConfigLayout.getChildren().add(slider);
 	}
 
 	@Override
