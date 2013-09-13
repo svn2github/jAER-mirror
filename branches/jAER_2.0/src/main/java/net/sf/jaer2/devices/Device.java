@@ -3,8 +3,8 @@ package net.sf.jaer2.devices;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -15,7 +15,7 @@ import net.sf.jaer2.eventio.translators.Translator;
 import net.sf.jaer2.util.GUISupport;
 
 public abstract class Device {
-	private final Map<String, Component> nameComponentMap = new HashMap<>();
+	private final SortedMap<String, Component> nameComponentMap = new TreeMap<>();
 
 	protected final String name;
 	protected final String description;
@@ -82,13 +82,16 @@ public abstract class Device {
 
 	private void buildConfigGUI() {
 		// Add device general data, under that, one Tab for each component.
-		GUISupport.addLabel(rootConfigLayout, toString(), description, null, null);
+		GUISupport.addLabel(rootConfigLayout, name, description, null, null);
 
 		final TabPane tabLayout = new TabPane();
 
 		for (final Component c : nameComponentMap.values()) {
-			final Tab t = new Tab();
+			final Tab t = new Tab(c.getName());
+
 			t.setContent(c.getConfigGUI());
+			t.setClosable(false);
+
 			tabLayout.getTabs().add(t);
 		}
 
