@@ -36,6 +36,10 @@ public abstract class Component {
 		addressSettingMap.put(address, setting);
 	}
 
+	public ConfigBase getSetting(final int address) {
+		return addressSettingMap.get(address);
+	}
+
 	synchronized public Pane getConfigGUI() {
 		if (rootConfigLayout == null) {
 			rootConfigLayout = new VBox(10);

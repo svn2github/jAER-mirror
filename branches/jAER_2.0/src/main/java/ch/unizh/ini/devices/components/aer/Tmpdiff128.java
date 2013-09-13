@@ -2,6 +2,7 @@ package ch.unizh.ini.devices.components.aer;
 
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.config.pots.IPot;
+import net.sf.jaer2.devices.config.pots.Masterbias;
 import net.sf.jaer2.devices.config.pots.Pot;
 import net.sf.jaer2.eventio.eventpackets.EventPacket;
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
@@ -28,6 +29,9 @@ public class Tmpdiff128 extends AERChip implements Translator {
 
 	public Tmpdiff128(final String componentName) {
 		super(componentName);
+
+		// Masterbias needs to be added first!
+		addSetting(new Masterbias("Masterbias", "."), AERChip.MASTERBIAS_ADDRESS);
 
 		addSetting(new IPot("pr", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 0);
 		addSetting(new IPot("foll", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 1);

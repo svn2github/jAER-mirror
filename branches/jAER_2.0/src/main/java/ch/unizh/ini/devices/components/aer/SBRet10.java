@@ -6,6 +6,7 @@ import net.sf.jaer2.devices.config.muxes.AnalogMux;
 import net.sf.jaer2.devices.config.muxes.BiasMux;
 import net.sf.jaer2.devices.config.muxes.DigitalMux;
 import net.sf.jaer2.devices.config.pots.AddressedIPotCoarseFine;
+import net.sf.jaer2.devices.config.pots.Masterbias;
 import net.sf.jaer2.devices.config.pots.Pot;
 import net.sf.jaer2.devices.config.pots.ShiftedSourceBiasCoarseFine;
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
@@ -25,6 +26,17 @@ public class SBRet10 extends AERChip implements Translator {
 
 	public SBRet10(final String componentName) {
 		super(componentName);
+
+		// Masterbias needs to be added first!
+		final Masterbias masterbias = new Masterbias("Masterbias", ".");
+		addSetting(masterbias, AERChip.MASTERBIAS_ADDRESS);
+
+		// Estimated from tox=42A, mu_n=670 cm^2/Vs.
+		masterbias.setKPrimeNFet(55e-3f);
+		// =45 correct for DVS320.
+		masterbias.setMultiplier(4);
+		// Masterbias has nfet with w/l=2 at output.
+		masterbias.setWOverL(4.8f / 2.4f);
 
 		addSetting(new AddressedIPotCoarseFine("DiffBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 0);
 		addSetting(new AddressedIPotCoarseFine("OnBn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 1);

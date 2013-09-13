@@ -2,6 +2,7 @@ package ch.unizh.ini.devices.components.aer;
 
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.config.pots.IPot;
+import net.sf.jaer2.devices.config.pots.Masterbias;
 import net.sf.jaer2.devices.config.pots.Pot;
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
 import net.sf.jaer2.eventio.eventpackets.raw.RawEventPacket;
@@ -17,6 +18,9 @@ public class CochleaAMS1c extends AERChip implements Translator {
 
 	public CochleaAMS1c(final String componentName) {
 		super(componentName);
+
+		// Masterbias needs to be added first!
+		addSetting(new Masterbias("Masterbias", "."), AERChip.MASTERBIAS_ADDRESS);
 
 		// BufferBias BufferIPot ???
 
