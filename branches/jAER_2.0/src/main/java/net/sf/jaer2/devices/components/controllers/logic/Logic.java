@@ -4,5 +4,9 @@ import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.config.ConfigBase;
 
 public abstract class Logic extends Controller {
+	public Logic(final String componentName) {
+		super(componentName);
+	}
+
 	public abstract void addSetting(ConfigBase setting, int bitAddress, int bitLength);
 }

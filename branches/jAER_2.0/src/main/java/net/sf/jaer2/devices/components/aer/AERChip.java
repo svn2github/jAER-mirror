@@ -2,10 +2,16 @@ package net.sf.jaer2.devices.components.aer;
 
 import net.sf.jaer2.devices.components.Component;
 
-public abstract class AERChip implements Component {
+public abstract class AERChip extends Component {
+	public AERChip(final String componentName) {
+		super(componentName);
+	}
+
 	public abstract int getSizeX();
 
 	public abstract int getSizeY();
+
+	public abstract int getNumCellTypes();
 
 	public int getMaxSize() {
 		return Math.max(getSizeX(), getSizeY());
@@ -20,14 +26,25 @@ public abstract class AERChip implements Component {
 	 *
 	 * @return number of cells.
 	 */
-	public abstract int getNumCells();
+	public int getNumCells() {
+		return getSizeX() * getSizeY() * getNumCellTypes();
+	}
 
 	/**
 	 * Total number of pixels on the chip.
 	 *
 	 * @return number of pixels.
 	 */
-	public abstract int getNumPixels();
+	public int getNumPixels() {
+		return getSizeX() * getSizeY();
+	}
 
-	public abstract boolean compatibleWith(final AERChip chip);
+	public boolean compatibleWith(final AERChip chip) {
+		// If sizes match, let's for now say it's compatible.
+		if ((getSizeX() == chip.getSizeX()) && (getSizeY() == chip.getSizeY())) {
+			return true;
+		}
+
+		return false;
+	}
 }

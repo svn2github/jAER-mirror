@@ -1,6 +1,5 @@
 package net.sf.jaer2.devices.components.controllers;
 
-import javafx.scene.layout.Pane;
 import net.sf.jaer2.devices.config.ConfigBase;
 
 public class FX2 extends Controller {
@@ -50,6 +49,14 @@ public class FX2 extends Controller {
 		}
 	}
 
+	public FX2() {
+		this("FX2");
+	}
+
+	public FX2(final String componentName) {
+		super(componentName);
+	}
+
 	public void addSetting(final ConfigBase setting, final Ports port) {
 		// TODO Auto-generated method stub
 	}
@@ -61,17 +68,6 @@ public class FX2 extends Controller {
 	@Override
 	public void addSetting(final ConfigBase setting, final int address) {
 		throw new UnsupportedOperationException("General address unsupported, use either Ports or Vendor Requests.");
-	}
-
-	@Override
-	public String getName() {
-		return "FX2";
-	}
-
-	@Override
-	public Pane getConfigGUI() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

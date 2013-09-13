@@ -1,9 +1,6 @@
 package ch.unizh.ini.devices.components.aer;
 
-import javafx.scene.layout.Pane;
 import net.sf.jaer2.devices.components.aer.AERChip;
-import net.sf.jaer2.devices.components.controllers.Controller;
-import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.devices.config.pots.IPot;
 import net.sf.jaer2.devices.config.pots.Pot;
 import net.sf.jaer2.eventio.eventpackets.EventPacket;
@@ -23,9 +20,15 @@ import com.google.common.collect.ImmutableList;
 
 public class Tmpdiff128 extends AERChip implements Translator {
 	/** Local logger for log messages. */
-	protected final static Logger logger = LoggerFactory.getLogger(Tmpdiff128.class);
+	private final static Logger logger = LoggerFactory.getLogger(Tmpdiff128.class);
 
 	public Tmpdiff128() {
+		this("Tmpdiff128");
+	}
+
+	public Tmpdiff128(final String componentName) {
+		super(componentName);
+
 		addSetting(new IPot("pr", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 0);
 		addSetting(new IPot("foll", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 1);
 		addSetting(new IPot("diff", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 2);
@@ -51,21 +54,8 @@ public class Tmpdiff128 extends AERChip implements Translator {
 	}
 
 	@Override
-	public int getNumCells() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getNumPixels() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean compatibleWith(final AERChip chip) {
-		// TODO Auto-generated method stub
-		return false;
+	public int getNumCellTypes() {
+		return 2;
 	}
 
 	@Override
@@ -109,8 +99,8 @@ public class Tmpdiff128 extends AERChip implements Translator {
 				eventPacketSpecial.append(specEvent);
 
 				if (printedSyncBitWarningCount > 0) {
-					Tmpdiff128.logger.warn("Raw address " + addr
-						+ " is >32767 (0xEFFF), either sync or stereo bit is set!");
+					Tmpdiff128.logger
+						.warn("Raw address {} is >32767 (0xEFFF), either sync or stereo bit is set!", addr);
 					printedSyncBitWarningCount--;
 
 					if (printedSyncBitWarningCount == 0) {
@@ -135,33 +125,6 @@ public class Tmpdiff128 extends AERChip implements Translator {
 	@Override
 	public void reconstructRawEventPacket(final EventPacketContainer eventPacketContainer,
 		final RawEventPacket rawEventPacket) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public String toString() {
-		return getClass().getSimpleName();
-	}
-
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Pane getConfigGUI() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setProgrammer(final Controller programmer) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void addSetting(final ConfigBase setting, final int address) {
 		// TODO Auto-generated method stub
 	}
 }

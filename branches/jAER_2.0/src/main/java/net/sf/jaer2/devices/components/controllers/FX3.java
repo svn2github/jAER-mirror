@@ -1,6 +1,5 @@
 package net.sf.jaer2.devices.components.controllers;
 
-import javafx.scene.layout.Pane;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigByte;
@@ -71,6 +70,12 @@ public class FX3 extends Controller {
 	}
 
 	public FX3() {
+		this("FX3");
+	}
+
+	public FX3(final String componentName) {
+		super(componentName);
+
 		addSetting(new ConfigByte("LOG_LEVEL",
 			"Set the logging level, to restrict which error messages will be sent over the Status EP1.", (byte) 6),
 			FX3.VendorRequests.VR_LOG_LEVEL);
@@ -89,17 +94,6 @@ public class FX3 extends Controller {
 	@Override
 	public void addSetting(final ConfigBase setting, final int address) {
 		throw new UnsupportedOperationException("General address unsupported, use either Ports or Vendor Requests.");
-	}
-
-	@Override
-	public String getName() {
-		return "FX3";
-	}
-
-	@Override
-	public Pane getConfigGUI() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

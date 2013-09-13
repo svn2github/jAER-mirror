@@ -1,29 +1,13 @@
 package net.sf.jaer2.devices.components.misc;
 
-import javafx.scene.layout.Pane;
 import net.sf.jaer2.devices.components.Component;
-import net.sf.jaer2.devices.components.controllers.Controller;
-import net.sf.jaer2.devices.config.ConfigBase;
 
-public class ADC implements Component {
-	@Override
-	public String getName() {
-		return "ADC";
+public class ADC extends Component {
+	public ADC() {
+		this("ADC");
 	}
 
-	@Override
-	public Pane getConfigGUI() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setProgrammer(final Controller programmer) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void addSetting(final ConfigBase setting, final int address) {
-		// TODO Auto-generated method stub
+	public ADC(final String componentName) {
+		super(componentName);
 	}
 }
