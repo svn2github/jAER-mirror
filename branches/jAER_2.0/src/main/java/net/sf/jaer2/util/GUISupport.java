@@ -13,9 +13,13 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -182,6 +186,87 @@ public final class GUISupport {
 		}
 
 		return txt;
+	}
+
+	public static Slider addSlider(final Pane parentPane, final double min, final double max,
+		final double defaultValue, final int ticks) {
+		final Slider slider = new Slider();
+
+		slider.setMin(min);
+		slider.setMax(max);
+		slider.setValue(defaultValue);
+
+		slider.setShowTickLabels(true);
+		slider.setShowTickMarks(true);
+
+		slider.setMajorTickUnit(10 * ticks);
+		slider.setMinorTickCount(ticks);
+		slider.setBlockIncrement(1);
+
+		slider.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
+				slider.requestFocus();
+			}
+		});
+
+		slider.setOnScroll(new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(final ScrollEvent scroll) {
+				int i = 1;
+
+				// Increment by one full tick if CTRL pressed.
+				if (scroll.isShortcutDown()) {
+					i = ticks;
+				}
+
+				if (scroll.getDeltaY() > 0) {
+					while ((i--) > 0) {
+						slider.increment();
+					}
+				}
+
+				if (scroll.getDeltaY() < 0) {
+					while ((i--) > 0) {
+						slider.decrement();
+					}
+				}
+
+				scroll.consume();
+			}
+		});
+
+		slider.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(final KeyEvent key) {
+				int i = 1;
+
+				// Increment by one full tick if CTRL pressed.
+				if (key.isShortcutDown()) {
+					i = ticks;
+				}
+
+				if (key.getCode() == KeyCode.RIGHT) {
+					while ((i--) > 0) {
+						slider.increment();
+					}
+				}
+
+				if (key.getCode() == KeyCode.LEFT) {
+					while ((i--) > 0) {
+						slider.decrement();
+					}
+				}
+
+				key.consume();
+			}
+		});
+
+		if (parentPane != null) {
+			parentPane.getChildren().add(slider);
+		}
+
+		return slider;
 	}
 
 	public static void runTasksCollection(final Collection<Runnable> tasks) {
