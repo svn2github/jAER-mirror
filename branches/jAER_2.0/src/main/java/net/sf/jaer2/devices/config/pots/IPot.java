@@ -133,14 +133,18 @@ public class IPot extends Pot {
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				bitValue.setValue((int) Math.round((newVal.doubleValue() / slider.getMax()) * getMaxBitValue()));
+				if (newVal != oldVal) {
+					bitValue.setValue((int) Math.round((newVal.doubleValue() / slider.getMax()) * getMaxBitValue()));
+				}
 			}
 		});
 
 		bitValue.addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				slider.setValue((int) Math.round((newVal.doubleValue() / getMaxBitValue()) * slider.getMax()));
+				if (newVal != oldVal) {
+					slider.setValue((int) Math.round((newVal.doubleValue() / getMaxBitValue()) * slider.getMax()));
+				}
 			}
 		});
 	}

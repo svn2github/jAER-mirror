@@ -200,31 +200,31 @@ public abstract class Pot extends ConfigBase {
 
 		GUISupport.addLabel(rootConfigLayout, sex.toString(), null, null, null);
 
-		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, NumberFormat.BINARY, null);
+		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, NumberFormat.BINARY_UNSIGNED, null);
 
 		valueBits.textProperty().bindBidirectional(bitValue.asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
-				return Numbers.stringToInteger(str, NumberFormat.BINARY);
+				return Numbers.stringToInteger(str, NumberFormat.BINARY_UNSIGNED);
 			}
 
 			@Override
 			public String toString(final Integer i) {
-				return Numbers.integerToString(i, NumberFormat.BINARY);
+				return Numbers.integerToString(i, NumberFormat.BINARY_UNSIGNED);
 			}
 		});
 
-		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, NumberFormat.DECIMAL, null);
+		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, NumberFormat.DECIMAL_UNSIGNED, null);
 
 		valueInt.textProperty().bindBidirectional(bitValue.asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
-				return Numbers.stringToInteger(str, NumberFormat.DECIMAL);
+				return Numbers.stringToInteger(str, NumberFormat.DECIMAL_UNSIGNED);
 			}
 
 			@Override
 			public String toString(final Integer i) {
-				return Numbers.integerToString(i, NumberFormat.DECIMAL);
+				return Numbers.integerToString(i, NumberFormat.DECIMAL_UNSIGNED);
 			}
 		});
 	}
