@@ -1,5 +1,12 @@
 package net.sf.jaer2.devices.config.pots;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import net.sf.jaer2.util.GUISupport;
+
 public class IPot extends Pot {
 	/** Fraction that bias current changes on increment or decrement. */
 	public static final float CHANGE_FRACTION = 0.1f;
@@ -114,6 +121,28 @@ public class IPot extends Pot {
 	@Override
 	public void setPhysicalValue(final float value) {
 		setCurrent(value);
+	}
+
+	@Override
+	protected void buildConfigGUI() {
+		super.buildConfigGUI();
+
+		final Slider slider = GUISupport.addSlider(rootConfigLayout, 0, 4095, 0, 10);
+		HBox.setHgrow(slider, Priority.ALWAYS);
+
+		slider.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
+				bitValue.setValue((int) Math.round((newVal.doubleValue() / slider.getMax()) * getMaxBitValue()));
+			}
+		});
+
+		bitValue.addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
+				slider.setValue((int) Math.round((newVal.doubleValue() / getMaxBitValue()) * slider.getMax()));
+			}
+		});
 	}
 
 	@Override

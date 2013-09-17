@@ -14,6 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -27,9 +28,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import net.sf.jaer2.util.Numbers.NumberFormat;
 
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
@@ -170,16 +171,59 @@ public final class GUISupport {
 		return vbox;
 	}
 
-	public static Text addText(final Pane parentPane, final String text, final Color color, final Font font) {
-		final Text txt = new Text(text);
-
-		if (color != null) {
-			txt.setFill(color);
-		}
+	public static TextField addTextField(final Pane parentPane, final Font font) {
+		final TextField txt = new TextField();
 
 		if (font != null) {
 			txt.setFont(font);
 		}
+
+		txt.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
+				txt.requestFocus();
+			}
+		});
+
+		if (parentPane != null) {
+			parentPane.getChildren().add(txt);
+		}
+
+		return txt;
+	}
+
+	public static TextField addTextNumberField(final Pane parentPane, final NumberFormat fmt, final Font font) {
+		final TextField txt = new TextField();
+
+		if (font != null) {
+			txt.setFont(font);
+		}
+
+		txt.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
+				txt.requestFocus();
+			}
+		});
+
+		txt.setOnScroll(new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(final ScrollEvent scroll) {
+				if (scroll.getDeltaY() > 0) {
+					int i = Numbers.stringToInteger(txt.getText(), fmt);
+					i++;
+					txt.setText(Numbers.integerToString(i, fmt));
+				}
+
+				if (scroll.getDeltaY() < 0) {
+					int i = Numbers.stringToInteger(txt.getText(), fmt);
+					i--;
+					txt.setText(Numbers.integerToString(i, fmt));
+				}
+
+				scroll.consume();
+			}
+		});
 
 		if (parentPane != null) {
 			parentPane.getChildren().add(txt);
@@ -196,7 +240,7 @@ public final class GUISupport {
 		slider.setMax(max);
 		slider.setValue(defaultValue);
 
-		slider.setShowTickLabels(true);
+		slider.setShowTickLabels(false);
 		slider.setShowTickMarks(true);
 
 		slider.setMajorTickUnit(10 * ticks);

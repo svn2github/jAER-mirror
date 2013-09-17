@@ -1,30 +1,56 @@
 package net.sf.jaer2.devices.config.pots;
 
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.util.GUISupport;
+import net.sf.jaer2.util.Numbers;
+import net.sf.jaer2.util.Numbers.NumberFormat;
 
 public abstract class Pot extends ConfigBase {
 	/** Type of bias, NORMAL, CASCODE or REFERENCE. */
 	public static enum Type {
-		NORMAL,
-		CASCODE,
-		REFERENCE;
+		NORMAL("Normal"),
+		CASCODE("Cascode"),
+		REFERENCE("Reference");
+
+		private final String str;
+
+		private Type(final String s) {
+			str = s;
+		}
+
+		@Override
+		public final String toString() {
+			return str;
+		}
 	}
 
 	/** Transistor type for bias, N, P or not available (na). */
 	public static enum Sex {
-		N,
-		P,
-		na;
+		N("N"),
+		P("P"),
+		na("N/A");
+
+		private final String str;
+
+		private Sex(final String s) {
+			str = s;
+		}
+
+		@Override
+		public final String toString() {
+			return str;
+		}
 	}
 
 	private final Type type;
 	private final Sex sex;
 
 	/** The current value of the bias in bits. */
-	private int bitValue = 0;
+	protected final IntegerProperty bitValue = new SimpleIntegerProperty(0);
 
 	/**
 	 * The number of bits of resolution for this bias. This number is used to
@@ -39,7 +65,7 @@ public abstract class Pot extends ConfigBase {
 		this.type = type;
 		this.sex = sex;
 
-		bitValue = defaultValue;
+		bitValue.set(defaultValue);
 	}
 
 	public Type getType() {
@@ -51,11 +77,11 @@ public abstract class Pot extends ConfigBase {
 	}
 
 	public int getBitValue() {
-		return bitValue;
+		return bitValue.get();
 	}
 
 	public void setBitValue(final int bitVal) {
-		bitValue = clip(bitVal);
+		bitValue.set(clip(bitVal));
 	}
 
 	/**
@@ -170,7 +196,37 @@ public abstract class Pot extends ConfigBase {
 	protected void buildConfigGUI() {
 		super.buildConfigGUI();
 
-		HBox.setHgrow(GUISupport.addSlider(rootConfigLayout, 0, 1000, 0, 10), Priority.ALWAYS);
+		GUISupport.addLabel(rootConfigLayout, type.toString(), null, null, null);
+
+		GUISupport.addLabel(rootConfigLayout, sex.toString(), null, null, null);
+
+		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, NumberFormat.BINARY, null);
+
+		valueBits.textProperty().bindBidirectional(bitValue.asObject(), new StringConverter<Integer>() {
+			@Override
+			public Integer fromString(final String str) {
+				return Numbers.stringToInteger(str, NumberFormat.BINARY);
+			}
+
+			@Override
+			public String toString(final Integer i) {
+				return Numbers.integerToString(i, NumberFormat.BINARY);
+			}
+		});
+
+		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, NumberFormat.DECIMAL, null);
+
+		valueInt.textProperty().bindBidirectional(bitValue.asObject(), new StringConverter<Integer>() {
+			@Override
+			public Integer fromString(final String str) {
+				return Numbers.stringToInteger(str, NumberFormat.DECIMAL);
+			}
+
+			@Override
+			public String toString(final Integer i) {
+				return Numbers.integerToString(i, NumberFormat.DECIMAL);
+			}
+		});
 	}
 
 	@Override

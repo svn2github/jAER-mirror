@@ -1,5 +1,7 @@
 package net.sf.jaer2.devices.config;
 
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import net.sf.jaer2.util.GUISupport;
@@ -35,7 +37,10 @@ public abstract class ConfigBase {
 
 	protected void buildConfigGUI() {
 		// Add name label, with description as tool-tip.
-		GUISupport.addLabel(rootConfigLayout, name, description, null, null);
+		Label l = GUISupport.addLabel(rootConfigLayout, name, description, null, null);
+
+		l.setPrefWidth(80);
+		l.setAlignment(Pos.CENTER_RIGHT);
 	}
 
 	@Override
