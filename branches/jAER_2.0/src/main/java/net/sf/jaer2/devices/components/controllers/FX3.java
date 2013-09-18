@@ -5,6 +5,11 @@ import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigByte;
 
 public class FX3 extends Controller {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7230612434040940891L;
+
 	public static enum Ports {
 		GPIO26(26),
 		GPIO27(27),

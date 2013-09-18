@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.ImmutableList;
 
 public class Tmpdiff128 extends AERChip implements Translator {
+	private static final long serialVersionUID = -7614038645899184474L;
+
 	/** Local logger for log messages. */
 	private final static Logger logger = LoggerFactory.getLogger(Tmpdiff128.class);
 

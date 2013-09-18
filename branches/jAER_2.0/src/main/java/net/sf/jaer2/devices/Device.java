@@ -1,5 +1,6 @@
 package net.sf.jaer2.devices;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,13 +15,15 @@ import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.eventio.translators.Translator;
 import net.sf.jaer2.util.GUISupport;
 
-public abstract class Device {
+public abstract class Device implements Serializable {
+	private static final long serialVersionUID = -4456253680300169997L;
+
 	private final SortedMap<String, Component> nameComponentMap = new TreeMap<>();
 
 	protected final String name;
 	protected final String description;
 
-	private VBox rootConfigLayout;
+	transient private VBox rootConfigLayout;
 
 	public Device(final String deviceName, final String deviceDescription) {
 		name = deviceName;

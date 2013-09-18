@@ -16,6 +16,8 @@ import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.SBRet10;
 
 public class ApsDvs10FX3 extends USBDevice {
+	private static final long serialVersionUID = -1073347395314847493L;
+
 	@SuppressWarnings("hiding")
 	public static final short PID = (short) 0x841A;
 

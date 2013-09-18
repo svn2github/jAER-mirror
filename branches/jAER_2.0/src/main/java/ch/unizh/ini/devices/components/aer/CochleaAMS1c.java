@@ -12,6 +12,8 @@ import net.sf.jaer2.eventio.translators.Translator;
 import com.google.common.collect.ImmutableList;
 
 public class CochleaAMS1c extends AERChip implements Translator {
+	private static final long serialVersionUID = -2933845194421958981L;
+
 	public CochleaAMS1c() {
 		this("CochleaAMS1c");
 	}

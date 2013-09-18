@@ -3,6 +3,11 @@ package net.sf.jaer2.devices.components.controllers;
 import net.sf.jaer2.devices.config.ConfigBase;
 
 public class FX2 extends Controller {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8642369183345730219L;
+
 	public static enum Ports {
 		PA0,
 		PA1,

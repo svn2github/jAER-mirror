@@ -192,7 +192,8 @@ public final class GUISupport {
 		return txt;
 	}
 
-	public static TextField addTextNumberField(final Pane parentPane, final NumberFormat fmt, final Font font) {
+	public static TextField addTextNumberField(final Pane parentPane, final NumberFormat fmt, final double min,
+		final double max, final Font font) {
 		final TextField txt = new TextField();
 
 		if (font != null) {
@@ -209,15 +210,17 @@ public final class GUISupport {
 		txt.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(final ScrollEvent scroll) {
+				int i = Numbers.stringToInteger(txt.getText(), fmt);
+
 				if (scroll.getDeltaY() > 0) {
-					int i = Numbers.stringToInteger(txt.getText(), fmt);
 					i++;
-					txt.setText(Numbers.integerToString(i, fmt));
 				}
 
 				if (scroll.getDeltaY() < 0) {
-					int i = Numbers.stringToInteger(txt.getText(), fmt);
 					i--;
+				}
+
+				if ((i >= min) && (i <= max)) {
 					txt.setText(Numbers.integerToString(i, fmt));
 				}
 

@@ -5,6 +5,10 @@ import net.sf.jaer2.devices.config.pots.IPot;
 import net.sf.jaer2.devices.config.pots.Masterbias;
 
 public abstract class AERChip extends Component {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3997803229199934198L;
 	protected static final int MASTERBIAS_ADDRESS = -1;
 
 	public AERChip(final String componentName) {

@@ -11,6 +11,8 @@ import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.Tmpdiff128;
 
 public class DVS128 extends USBDevice {
+	private static final long serialVersionUID = 8948891814252920904L;
+
 	public DVS128(final Device usbDevice) {
 		super("DVS 128", "USB Dynamic Vision Sensor, 128x128 pixels.", USBDevice.VID, USBDevice.PID, USBDevice.DID,
 			usbDevice);

@@ -1,5 +1,6 @@
 package net.sf.jaer2.devices.components;
 
+import java.io.Serializable;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -8,13 +9,15 @@ import javafx.scene.layout.VBox;
 import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.config.ConfigBase;
 
-public abstract class Component {
+public abstract class Component implements Serializable {
+	private static final long serialVersionUID = 1690782428425851787L;
+
 	protected final SortedMap<Integer, ConfigBase> addressSettingMap = new TreeMap<>();
 
 	protected final String name;
 	protected Controller programmer;
 
-	protected VBox rootConfigLayout;
+	transient protected VBox rootConfigLayout;
 
 	public Component(final String componentName) {
 		name = componentName;

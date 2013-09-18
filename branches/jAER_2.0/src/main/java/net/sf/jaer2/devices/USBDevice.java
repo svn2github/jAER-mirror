@@ -4,6 +4,8 @@ import li.longi.libusb4java.DeviceHandle;
 import li.longi.libusb4java.LibUsb;
 
 public abstract class USBDevice extends Device {
+	private static final long serialVersionUID = -1443942547496897821L;
+
 	// Default VID/PID/DID from Thesycon.
 	public static final short VID = 0x152A;
 	public static final short PID = (short) 0x8400;
@@ -13,9 +15,9 @@ public abstract class USBDevice extends Device {
 	protected final short devPID;
 	protected final short devDID;
 
-	protected final li.longi.libusb4java.Device usbDevice;
-	protected final DeviceHandle usbDeviceHandle = new DeviceHandle();
-	private boolean isOpen = false;
+	transient protected final li.longi.libusb4java.Device usbDevice;
+	transient protected final DeviceHandle usbDeviceHandle;
+	transient private boolean isOpen = false;
 
 	public USBDevice(final String deviceName, final String deviceDescription, final short deviceVID,
 		final short devicePID, final short deviceDID, final li.longi.libusb4java.Device device) {
@@ -26,6 +28,7 @@ public abstract class USBDevice extends Device {
 		devDID = deviceDID;
 
 		usbDevice = device;
+		usbDeviceHandle = new DeviceHandle();
 	}
 
 	public short getVID() {

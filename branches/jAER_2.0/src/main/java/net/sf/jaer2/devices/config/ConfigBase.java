@@ -1,16 +1,20 @@
 package net.sf.jaer2.devices.config;
 
+import java.io.Serializable;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import net.sf.jaer2.util.GUISupport;
 
-public abstract class ConfigBase {
+public abstract class ConfigBase implements Serializable {
+	private static final long serialVersionUID = -4814139458067416419L;
+
 	protected final String name;
 	protected final String description;
 
-	protected HBox rootConfigLayout;
+	transient protected HBox rootConfigLayout;
 
 	public ConfigBase(final String name, final String description) {
 		this.name = name;

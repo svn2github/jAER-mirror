@@ -3,6 +3,11 @@ package net.sf.jaer2.devices.config.pots;
 import net.sf.jaer2.devices.components.misc.DAC;
 
 public class VPot extends Pot {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5367992495461216L;
+
 	/** the delta voltage to change by in increment and decrement methods */
 	public static final float VOLTAGE_CHANGE_VALUE_VOLTS = 0.005f;
 

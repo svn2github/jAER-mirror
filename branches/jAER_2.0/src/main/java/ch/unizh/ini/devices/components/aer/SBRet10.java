@@ -20,6 +20,8 @@ import net.sf.jaer2.eventio.translators.Translator;
 import com.google.common.collect.ImmutableList;
 
 public class SBRet10 extends AERChip implements Translator {
+	private static final long serialVersionUID = -4741673273319613810L;
+
 	public SBRet10() {
 		this("SBRet10");
 	}

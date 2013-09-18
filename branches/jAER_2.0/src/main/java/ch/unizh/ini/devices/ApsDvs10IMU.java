@@ -8,6 +8,8 @@ import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.SBRet10;
 
 public class ApsDvs10IMU extends ApsDvs10 {
+	private static final long serialVersionUID = 3287324623698834991L;
+
 	@SuppressWarnings("hiding")
 	public static final short DID = 0x0100;
 

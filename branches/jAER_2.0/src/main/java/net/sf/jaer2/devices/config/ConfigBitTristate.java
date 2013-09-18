@@ -1,6 +1,11 @@
 package net.sf.jaer2.devices.config;
 
 public class ConfigBitTristate extends ConfigBase {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -554758992623341136L;
+
 	public static enum Tristate {
 		LOW(0),
 		HIGH(1),

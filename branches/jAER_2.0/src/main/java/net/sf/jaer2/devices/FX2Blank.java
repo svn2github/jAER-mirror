@@ -8,6 +8,8 @@ import net.sf.jaer2.devices.components.misc.memory.Memory;
 import net.sf.jaer2.eventio.translators.Translator;
 
 public class FX2Blank extends USBDevice {
+	private static final long serialVersionUID = -8046080586966523028L;
+
 	@SuppressWarnings("hiding")
 	public static final short VID = 0x04B4;
 	@SuppressWarnings("hiding")

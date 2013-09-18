@@ -1,15 +1,16 @@
 package net.sf.jaer2.devices.config.pots;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers;
 import net.sf.jaer2.util.Numbers.NumberFormat;
+import net.sf.jaer2.util.serializable.SerializableIntegerProperty;
 
 public abstract class Pot extends ConfigBase {
+	private static final long serialVersionUID = -4040508924962174123L;
+
 	/** Type of bias, NORMAL, CASCODE or REFERENCE. */
 	public static enum Type {
 		NORMAL("Normal"),
@@ -50,7 +51,7 @@ public abstract class Pot extends ConfigBase {
 	private final Sex sex;
 
 	/** The current value of the bias in bits. */
-	protected final IntegerProperty bitValue = new SimpleIntegerProperty(0);
+	protected final SerializableIntegerProperty bitValue = new SerializableIntegerProperty(0);
 
 	/**
 	 * The number of bits of resolution for this bias. This number is used to
@@ -65,7 +66,7 @@ public abstract class Pot extends ConfigBase {
 		this.type = type;
 		this.sex = sex;
 
-		bitValue.set(defaultValue);
+		setBitValue(defaultValue);
 	}
 
 	public Type getType() {
@@ -77,11 +78,11 @@ public abstract class Pot extends ConfigBase {
 	}
 
 	public int getBitValue() {
-		return bitValue.get();
+		return bitValue.property().get();
 	}
 
 	public void setBitValue(final int bitVal) {
-		bitValue.set(clip(bitVal));
+		bitValue.property().set(clip(bitVal));
 	}
 
 	/**
@@ -200,31 +201,33 @@ public abstract class Pot extends ConfigBase {
 
 		GUISupport.addLabel(rootConfigLayout, sex.toString(), null, null, null);
 
-		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, NumberFormat.BINARY_UNSIGNED, null);
+		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, NumberFormat.BINARY_UNSIGNED,
+			getMinBitValue(), getMaxBitValue(), null);
 
-		valueBits.textProperty().bindBidirectional(bitValue.asObject(), new StringConverter<Integer>() {
+		valueBits.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
-				return Numbers.stringToInteger(str, NumberFormat.BINARY_UNSIGNED);
+				return clip(Numbers.stringToInteger(str, NumberFormat.BINARY_UNSIGNED));
 			}
 
 			@Override
 			public String toString(final Integer i) {
-				return Numbers.integerToString(i, NumberFormat.BINARY_UNSIGNED);
+				return Numbers.integerToString(clip(i), NumberFormat.BINARY_UNSIGNED);
 			}
 		});
 
-		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, NumberFormat.DECIMAL_UNSIGNED, null);
+		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, NumberFormat.DECIMAL_UNSIGNED,
+			getMinBitValue(), getMaxBitValue(), null);
 
-		valueInt.textProperty().bindBidirectional(bitValue.asObject(), new StringConverter<Integer>() {
+		valueInt.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
-				return Numbers.stringToInteger(str, NumberFormat.DECIMAL_UNSIGNED);
+				return clip(Numbers.stringToInteger(str, NumberFormat.DECIMAL_UNSIGNED));
 			}
 
 			@Override
 			public String toString(final Integer i) {
-				return Numbers.integerToString(i, NumberFormat.DECIMAL_UNSIGNED);
+				return Numbers.integerToString(clip(i), NumberFormat.DECIMAL_UNSIGNED);
 			}
 		});
 	}

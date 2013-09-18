@@ -4,6 +4,11 @@ import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.config.pots.VPot;
 
 public class DAC extends Component {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 419464332057192955L;
+
 	public DAC() {
 		this("DAC");
 	}

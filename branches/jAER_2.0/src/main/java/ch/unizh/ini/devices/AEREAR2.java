@@ -22,6 +22,8 @@ import ch.unizh.ini.devices.components.aer.CochleaAMS1c;
 import ch.unizh.ini.devices.components.misc.AD5391_32chan;
 
 public class AEREAR2 extends USBDevice {
+	private static final long serialVersionUID = 4796720824881098486L;
+
 	@SuppressWarnings("hiding")
 	public static final short PID = (short) 0x8406;
 

@@ -8,6 +8,8 @@ import javafx.scene.layout.Priority;
 import net.sf.jaer2.util.GUISupport;
 
 public class IPot extends Pot {
+	private static final long serialVersionUID = 8770260772132405397L;
+
 	/** Fraction that bias current changes on increment or decrement. */
 	public static final float CHANGE_FRACTION = 0.1f;
 
@@ -131,20 +133,19 @@ public class IPot extends Pot {
 		HBox.setHgrow(slider, Priority.ALWAYS);
 
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
+			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				if (newVal != oldVal) {
-					bitValue.setValue((int) Math.round((newVal.doubleValue() / slider.getMax()) * getMaxBitValue()));
-				}
+				bitValue.property().setValue(
+					(int) Math.round((newVal.doubleValue() / slider.getMax()) * getMaxBitValue()));
 			}
 		});
 
-		bitValue.addListener(new ChangeListener<Number>() {
+		bitValue.property().addListener(new ChangeListener<Number>() {
+			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				if (newVal != oldVal) {
-					slider.setValue((int) Math.round((newVal.doubleValue() / getMaxBitValue()) * slider.getMax()));
-				}
+				slider.setValue((int) Math.round((newVal.doubleValue() / getMaxBitValue()) * slider.getMax()));
 			}
 		});
 	}
