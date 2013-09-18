@@ -10,7 +10,7 @@ import de.thesycon.usbio.UsbIoBuf;
 import eu.seebetter.ini.chips.ApsDvsChip;
 
 /**
- * Data sent from device IMU: // accel x/y/z, temp, gyro x/y/z => 7 x 2 bytes =
+ * Data sent from device Invensense Inertial Measurement Unit (IMU) MPU-6150 : // accel x/y/z, temp, gyro x/y/z => 7 x 2 bytes =
  * 14 bytes
  */
 public class IMUSample {
