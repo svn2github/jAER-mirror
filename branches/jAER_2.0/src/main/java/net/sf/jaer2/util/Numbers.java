@@ -1,15 +1,13 @@
 package net.sf.jaer2.util;
 
+import java.util.EnumSet;
+
 public final class Numbers {
 	public static enum NumberFormat {
 		BINARY(2),
-		BINARY_UNSIGNED(2),
 		OCTAL(8),
-		OCTAL_UNSIGNED(8),
 		DECIMAL(10),
-		DECIMAL_UNSIGNED(10),
-		HEXADECIMAL(16),
-		HEXADECIMAL_UNSIGNED(16);
+		HEXADECIMAL(16);
 
 		private final int base;
 
@@ -27,49 +25,69 @@ public final class Numbers {
 		}
 	}
 
-	public static Integer stringToInteger(final String str, final NumberFormat fmt) {
+	public static enum NumberOptions {
+		UNSIGNED,
+		ZERO_PADDING,
+		LEFT_PADDING,
+		RIGHT_PADDING;
+	}
+
+	public static Integer stringToInteger(final String str, final NumberFormat fmt, final NumberOptions opt) {
+		return Numbers.stringToInteger(str, fmt, EnumSet.of(opt));
+	}
+
+	public static Integer stringToInteger(final String str, final NumberFormat fmt, final EnumSet<NumberOptions> opts) {
 		if ((str == null) || str.isEmpty()) {
 			return 0;
 		}
 
-		Integer result;
-
-		switch (fmt) {
-			case BINARY:
-			case OCTAL:
-			case DECIMAL:
-			case HEXADECIMAL:
-				result = Integer.parseInt(str, fmt.base());
-				break;
-
-			default:
-				result = Integer.parseUnsignedInt(str, fmt.base());
-				break;
+		if (opts.contains(NumberOptions.UNSIGNED)) {
+			return Integer.parseUnsignedInt(str, fmt.base());
 		}
 
-		return result;
+		return Integer.parseInt(str, fmt.base());
 	}
 
-	public static String integerToString(final Integer i, final NumberFormat fmt) {
+	public static String integerToString(final Integer i, final NumberFormat fmt, final NumberOptions opt) {
+		return Numbers.integerToString(i, fmt, EnumSet.of(opt));
+	}
+
+	public static String integerToString(final Integer i, final NumberFormat fmt, final EnumSet<NumberOptions> opts) {
+		final StringBuilder s = new StringBuilder();
+
 		if ((i == null) || (i == 0)) {
-			return "0";
+			s.append('0');
+		}
+		else if (opts.contains(NumberOptions.UNSIGNED)) {
+			s.append(Integer.toUnsignedString(i, fmt.base()));
+		}
+		else {
+			s.append(Integer.toString(i, fmt.base()));
 		}
 
-		String result;
+		// Determine the character to use for padding.
+		char padChar = ' ';
 
-		switch (fmt) {
-			case BINARY:
-			case OCTAL:
-			case DECIMAL:
-			case HEXADECIMAL:
-				result = Integer.toString(i, fmt.base());
-				break;
-
-			default:
-				result = Integer.toUnsignedString(i, fmt.base());
-				break;
+		if (opts.contains(NumberOptions.ZERO_PADDING)) {
+			padChar = '0';
 		}
 
-		return result;
+		// Pad if needed to 32 characters.
+		if (opts.contains(NumberOptions.LEFT_PADDING)) {
+			int pads = 32 - s.length();
+
+			while (pads-- > 0) {
+				s.insert(0, padChar);
+			}
+		}
+		else if (opts.contains(NumberOptions.RIGHT_PADDING)) {
+			int pads = 32 - s.length();
+
+			while (pads-- > 0) {
+				s.append(padChar);
+			}
+		}
+
+		return s.toString();
 	}
 }

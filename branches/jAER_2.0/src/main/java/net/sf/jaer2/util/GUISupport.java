@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -30,7 +31,6 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import net.sf.jaer2.util.Numbers.NumberFormat;
 
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
@@ -192,8 +192,8 @@ public final class GUISupport {
 		return txt;
 	}
 
-	public static TextField addTextNumberField(final Pane parentPane, final NumberFormat fmt, final double min,
-		final double max, final Font font) {
+	public static TextField addTextNumberField(final Pane parentPane, final IntegerProperty backendValue,
+		final double min, final double max, final Font font) {
 		final TextField txt = new TextField();
 
 		if (font != null) {
@@ -210,7 +210,7 @@ public final class GUISupport {
 		txt.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(final ScrollEvent scroll) {
-				int i = Numbers.stringToInteger(txt.getText(), fmt);
+				int i = backendValue.get();
 
 				if (scroll.getDeltaY() > 0) {
 					i++;
@@ -221,7 +221,7 @@ public final class GUISupport {
 				}
 
 				if ((i >= min) && (i <= max)) {
-					txt.setText(Numbers.integerToString(i, fmt));
+					backendValue.set(i);
 				}
 
 				scroll.consume();

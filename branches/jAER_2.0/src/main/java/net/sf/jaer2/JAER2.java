@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.XMLconf;
-import ch.unizh.ini.devices.DVS128;
+import ch.unizh.ini.devices.ApsDvs10;
 
 public final class JAER2 extends Application {
 	public static final String homeDirectory = System.getProperty("user.home") + File.separator + "jAER2";
@@ -29,15 +29,15 @@ public final class JAER2 extends Application {
 		final String lastSessionDirectory = JAER2.homeDirectory + File.separator + "lastSession";
 		final File savedSession = new File(lastSessionDirectory + File.separator + "net-last.xml");
 
-		final DVS128 dvs;
+		final ApsDvs10 dvs;
 
 		if (GUISupport.checkReadPermissions(savedSession)) {
 			// Restore last network from saved file.
-			dvs = XMLconf.fromXML(DVS128.class, savedSession);
+			dvs = XMLconf.fromXML(ApsDvs10.class, savedSession);
 		}
 		else {
 			// Create new empty network.
-			dvs = new DVS128(null);
+			dvs = new ApsDvs10(null);
 		}
 
 		final BorderPane main = new BorderPane();

@@ -35,7 +35,7 @@ public class IPot extends Pot {
 	 * @return current in Amps.
 	 */
 	public float getCurrent() {
-		final float im = masterbias.getCurrent();
+		final float im = getMasterbias().getCurrent();
 		final float i = (im * getBitValue()) / getMaxBitValue();
 
 		return i;
@@ -50,7 +50,7 @@ public class IPot extends Pot {
 	 * @return actual float value of current after resolution clipping.
 	 */
 	public float setCurrent(final float current) {
-		final float im = masterbias.getCurrent();
+		final float im = getMasterbias().getCurrent();
 		final float r = current / im;
 
 		setBitValue(Math.round(r * getMaxBitValue()));
@@ -60,7 +60,7 @@ public class IPot extends Pot {
 
 	/** @return max possible current (master current) */
 	public float getMaxCurrent() {
-		return masterbias.getCurrent();
+		return getMasterbias().getCurrent();
 	}
 
 	/**
@@ -82,17 +82,25 @@ public class IPot extends Pot {
 	}
 
 	/** increment pot value by {@link #CHANGE_FRACTION} ratio */
-	public void incrementCurrent() {
-		final int v = Math.round(1 + ((1 + IPot.CHANGE_FRACTION) * getBitValue()));
+	public boolean incrementCurrent() {
+		if (getBitValue() == getMaxBitValue()) {
+			return false;
+		}
 
+		final int v = Math.round(1 + ((1 + IPot.CHANGE_FRACTION) * getBitValue()));
 		setBitValue(v);
+		return true;
 	}
 
 	/** decrement pot value by ratio */
-	public void decrementCurrent() {
-		final int v = Math.round(-1 + ((1 - IPot.CHANGE_FRACTION) * getBitValue()));
+	public boolean decrementCurrent() {
+		if (getBitValue() == Pot.getMinBitValue()) {
+			return false;
+		}
 
+		final int v = Math.round(-1 + ((1 - IPot.CHANGE_FRACTION) * getBitValue()));
 		setBitValue(v);
+		return true;
 	}
 
 	/**
@@ -136,8 +144,7 @@ public class IPot extends Pot {
 			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				bitValue.property().setValue(
-					(int) Math.round((newVal.doubleValue() / slider.getMax()) * getMaxBitValue()));
+				setBitValue((int) Math.round((newVal.doubleValue() / slider.getMax()) * getMaxBitValue()));
 			}
 		});
 

@@ -1,12 +1,16 @@
 package net.sf.jaer2.devices.config.pots;
 
+import java.util.EnumSet;
+
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers;
 import net.sf.jaer2.util.Numbers.NumberFormat;
+import net.sf.jaer2.util.Numbers.NumberOptions;
 import net.sf.jaer2.util.serializable.SerializableIntegerProperty;
+import net.sf.jaer2.util.serializable.SerializableObjectProperty;
 
 public abstract class Pot extends ConfigBase {
 	private static final long serialVersionUID = -4040508924962174123L;
@@ -47,8 +51,8 @@ public abstract class Pot extends ConfigBase {
 		}
 	}
 
-	private final Type type;
-	private final Sex sex;
+	protected final SerializableObjectProperty<Type> type = new SerializableObjectProperty<>();
+	protected final SerializableObjectProperty<Sex> sex = new SerializableObjectProperty<>();
 
 	/** The current value of the bias in bits. */
 	protected final SerializableIntegerProperty bitValue = new SerializableIntegerProperty(0);
@@ -63,18 +67,26 @@ public abstract class Pot extends ConfigBase {
 	public Pot(final String name, final String description, final Type type, final Sex sex, final int defaultValue) {
 		super(name, description);
 
-		this.type = type;
-		this.sex = sex;
+		setType(type);
+		setSex(sex);
 
 		setBitValue(defaultValue);
 	}
 
 	public Type getType() {
-		return type;
+		return type.property().get();
+	}
+
+	public void setType(final Type t) {
+		type.property().set(t);
 	}
 
 	public Sex getSex() {
-		return sex;
+		return sex.property().get();
+	}
+
+	public void setSex(final Sex s) {
+		sex.property().set(s);
 	}
 
 	public int getBitValue() {
@@ -94,16 +106,15 @@ public abstract class Pot extends ConfigBase {
 	}
 
 	/** Return the minimum value, no current: zero. */
-	@SuppressWarnings("static-method")
-	public int getMinBitValue() {
+	public static int getMinBitValue() {
 		return 0;
 	}
 
-	private int clip(final int in) {
+	protected int clip(final int in) {
 		int out = in;
 
-		if (in < getMinBitValue()) {
-			out = getMinBitValue();
+		if (in < Pot.getMinBitValue()) {
+			out = Pot.getMinBitValue();
 		}
 		if (in > getMaxBitValue()) {
 			out = getMaxBitValue();
@@ -121,21 +132,31 @@ public abstract class Pot extends ConfigBase {
 	}
 
 	public int getNumBytes() {
-		return getNumBits() >>> 3;
+		return (getNumBits() / 8) + (((getNumBits() % 8) == 0) ? (0) : (1));
 	}
 
 	public void setNumBytes(final int nBytes) {
-		setNumBits(nBytes << 3);
+		setNumBits(nBytes * 8);
 	}
 
 	/** Increment bias value by one count. */
-	public void incrementBitValue() {
+	public boolean incrementBitValue() {
+		if (getBitValue() == getMaxBitValue()) {
+			return false;
+		}
+
 		setBitValue(getBitValue() + 1);
+		return true;
 	}
 
 	/** Decrement bias value by one count. */
-	public void decrementBitValue() {
+	public boolean decrementBitValue() {
+		if (getBitValue() == Pot.getMinBitValue()) {
+			return false;
+		}
+
 		setBitValue(getBitValue() - 1);
+		return true;
 	}
 
 	public String toBitPatternString() {
@@ -197,37 +218,41 @@ public abstract class Pot extends ConfigBase {
 	protected void buildConfigGUI() {
 		super.buildConfigGUI();
 
-		GUISupport.addLabel(rootConfigLayout, type.toString(), null, null, null);
+		GUISupport.addLabel(rootConfigLayout, getType().toString(), null, null, null);
 
-		GUISupport.addLabel(rootConfigLayout, sex.toString(), null, null, null);
+		GUISupport.addLabel(rootConfigLayout, getSex().toString(), null, null, null);
 
-		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, NumberFormat.BINARY_UNSIGNED,
-			getMinBitValue(), getMaxBitValue(), null);
+		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
+			Pot.getMinBitValue(), getMaxBitValue(), null);
+		valueBits.setPrefColumnCount(getNumBits());
 
 		valueBits.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
-				return clip(Numbers.stringToInteger(str, NumberFormat.BINARY_UNSIGNED));
+				return clip(Numbers.stringToInteger(str, NumberFormat.BINARY, NumberOptions.UNSIGNED));
 			}
 
 			@Override
 			public String toString(final Integer i) {
-				return Numbers.integerToString(clip(i), NumberFormat.BINARY_UNSIGNED);
+				return Numbers.integerToString(clip(i), NumberFormat.BINARY,
+					EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING))
+					.substring(32 - getNumBits(), 32);
 			}
 		});
 
-		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, NumberFormat.DECIMAL_UNSIGNED,
-			getMinBitValue(), getMaxBitValue(), null);
+		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
+			Pot.getMinBitValue(), getMaxBitValue(), null);
+		valueInt.setPrefColumnCount(10);
 
 		valueInt.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
-				return clip(Numbers.stringToInteger(str, NumberFormat.DECIMAL_UNSIGNED));
+				return clip(Numbers.stringToInteger(str, NumberFormat.DECIMAL, NumberOptions.UNSIGNED));
 			}
 
 			@Override
 			public String toString(final Integer i) {
-				return Numbers.integerToString(clip(i), NumberFormat.DECIMAL_UNSIGNED);
+				return Numbers.integerToString(clip(i), NumberFormat.DECIMAL, NumberOptions.UNSIGNED);
 			}
 		});
 	}

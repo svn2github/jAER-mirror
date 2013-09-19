@@ -1,11 +1,14 @@
 package net.sf.jaer2.devices.config.pots;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import net.sf.jaer2.devices.components.misc.DAC;
+import net.sf.jaer2.util.GUISupport;
 
 public class VPot extends Pot {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5367992495461216L;
 
 	/** the delta voltage to change by in increment and decrement methods */
@@ -80,13 +83,23 @@ public class VPot extends Pot {
 	}
 
 	/** increment pot value */
-	public void incrementVoltage() {
+	public boolean incrementVoltage() {
+		if (getBitValue() == getMaxBitValue()) {
+			return false;
+		}
+
 		setVoltage(getVoltage() + VPot.VOLTAGE_CHANGE_VALUE_VOLTS);
+		return true;
 	}
 
 	/** decrement pot value */
-	public void decrementVoltage() {
+	public boolean decrementVoltage() {
+		if (getBitValue() == getMinBitValue()) {
+			return false;
+		}
+
 		setVoltage(getVoltage() - VPot.VOLTAGE_CHANGE_VALUE_VOLTS);
+		return true;
 	}
 
 	/**
@@ -115,6 +128,31 @@ public class VPot extends Pot {
 	@Override
 	public void setPhysicalValue(final float value) {
 		setVoltage(value);
+	}
+
+	@Override
+	protected void buildConfigGUI() {
+		super.buildConfigGUI();
+
+		final Slider slider = GUISupport.addSlider(rootConfigLayout, 0, 4095, 0, 10);
+		HBox.setHgrow(slider, Priority.ALWAYS);
+
+		slider.valueProperty().addListener(new ChangeListener<Number>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
+				bitValue.property().setValue(
+					(int) Math.round((newVal.doubleValue() / slider.getMax()) * getMaxBitValue()));
+			}
+		});
+
+		bitValue.property().addListener(new ChangeListener<Number>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
+				slider.setValue((int) Math.round((newVal.doubleValue() / getMaxBitValue()) * slider.getMax()));
+			}
+		});
 	}
 
 	@Override
