@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.EnumSet;
 
+import javafx.beans.binding.StringBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -482,6 +483,23 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 		HBox.setHgrow(fineSlider, Priority.ALWAYS);
 
 		fineSlider.valueProperty().bindBidirectional(fineBitValue.property());
+
+		final Label binaryRep = GUISupport.addLabel(rootConfigLayout, getBinaryRepresentationAsString(),
+			"Binary data to be sent to the device.", null, null);
+
+		final StringBinding binStr = new StringBinding() {
+			{
+				super.bind(bitValue.property(), type.property(), sex.property(), biasEnabled.property(),
+					currentLevel.property());
+			}
+
+			@Override
+			protected String computeValue() {
+				return getBinaryRepresentationAsString();
+			}
+		};
+
+		binaryRep.textProperty().bind(binStr);
 	}
 
 	@Override

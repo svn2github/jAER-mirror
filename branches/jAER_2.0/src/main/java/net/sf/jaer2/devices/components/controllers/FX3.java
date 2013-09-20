@@ -6,7 +6,7 @@ import net.sf.jaer2.devices.config.ConfigByte;
 
 public class FX3 extends Controller {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 7230612434040940891L;
 

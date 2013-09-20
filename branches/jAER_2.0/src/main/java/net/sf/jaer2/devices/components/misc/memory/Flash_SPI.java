@@ -2,7 +2,7 @@ package net.sf.jaer2.devices.components.misc.memory;
 
 public class Flash_SPI extends Memory {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -5149304076077627592L;
 

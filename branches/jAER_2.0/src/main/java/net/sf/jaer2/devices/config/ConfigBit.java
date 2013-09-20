@@ -2,7 +2,7 @@ package net.sf.jaer2.devices.config;
 
 public class ConfigBit extends ConfigBase {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 4713262582313018900L;
 	private boolean value;

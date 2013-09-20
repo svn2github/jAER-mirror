@@ -2,10 +2,6 @@ package net.sf.jaer2.devices.config.pots;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import net.sf.jaer2.util.GUISupport;
 
 public class IPot extends Pot {
 	private static final long serialVersionUID = 8770260772132405397L;
@@ -141,15 +137,11 @@ public class IPot extends Pot {
 	protected void buildConfigGUI() {
 		super.buildConfigGUI();
 
-		final Slider slider = GUISupport.addSlider(rootConfigLayout, 0, 4095,
-			Math.round(((double) getBitValue() / getMaxBitValue()) * 4095), 10);
-		HBox.setHgrow(slider, Priority.ALWAYS);
-
-		slider.valueProperty().addListener(new ChangeListener<Number>() {
+		mainSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				setBitValue((int) Math.round((newVal.doubleValue() / slider.getMax()) * getMaxBitValue()));
+				setBitValue((int) Math.round((newVal.doubleValue() / mainSlider.getMax()) * getMaxBitValue()));
 			}
 		});
 
@@ -157,7 +149,7 @@ public class IPot extends Pot {
 			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				slider.setValue((int) Math.round((newVal.doubleValue() / getMaxBitValue()) * slider.getMax()));
+				mainSlider.setValue((int) Math.round((newVal.doubleValue() / getMaxBitValue()) * mainSlider.getMax()));
 			}
 		});
 	}

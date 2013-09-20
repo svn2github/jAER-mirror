@@ -4,7 +4,7 @@ import net.sf.jaer2.devices.components.Component;
 
 public class InvenSense6050 extends Component {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 3488776086871761753L;
 

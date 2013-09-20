@@ -4,7 +4,7 @@ import net.sf.jaer2.devices.config.ConfigBase;
 
 public class LatticeECP3 extends Logic {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 4245851377878757216L;
 

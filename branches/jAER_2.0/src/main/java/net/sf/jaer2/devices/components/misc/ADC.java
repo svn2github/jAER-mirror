@@ -4,7 +4,7 @@ import net.sf.jaer2.devices.components.Component;
 
 public class ADC extends Component {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -401169611135640256L;
 

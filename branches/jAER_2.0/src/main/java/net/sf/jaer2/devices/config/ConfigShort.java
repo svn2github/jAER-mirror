@@ -2,7 +2,7 @@ package net.sf.jaer2.devices.config;
 
 public class ConfigShort extends ConfigBase {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 3845479397628108503L;
 	private short value;

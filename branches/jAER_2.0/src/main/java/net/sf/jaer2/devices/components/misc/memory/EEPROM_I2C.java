@@ -2,7 +2,7 @@ package net.sf.jaer2.devices.components.misc.memory;
 
 public class EEPROM_I2C extends Memory {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 6483810761979125129L;
 

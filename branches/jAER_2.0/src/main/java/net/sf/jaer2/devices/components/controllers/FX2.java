@@ -4,7 +4,7 @@ import net.sf.jaer2.devices.config.ConfigBase;
 
 public class FX2 extends Controller {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -8642369183345730219L;
 

@@ -1,6 +1,9 @@
 package net.sf.jaer2.devices.config.pots;
 
+import javafx.scene.control.CheckBox;
+import javafx.scene.layout.VBox;
 import net.sf.jaer2.devices.config.ConfigBase;
+import net.sf.jaer2.util.GUISupport;
 
 public class Masterbias extends ConfigBase {
 	private static final long serialVersionUID = -388498356207159346L;
@@ -179,6 +182,32 @@ public class Masterbias extends ConfigBase {
 	 */
 	public void setKPrimeNFet(final float kPrimeNFet) {
 		this.kPrimeNFet = kPrimeNFet;
+	}
+
+	@Override
+	protected void buildConfigGUI() {
+		super.buildConfigGUI();
+
+		// Add vertical box to contain the configuration parameters.
+		final VBox vConfig = new VBox(5);
+		rootConfigLayout.getChildren().add(vConfig);
+
+		// Label for internal resistor.
+		GUISupport.addLabel(vConfig, "Rint: " + Float.toString(getRInternal()), "The internal resistor value.", null,
+			null);
+
+		// Label for external resistor.
+		GUISupport.addLabel(vConfig, "Rext: " + Float.toString(getRExternal()), "The external resistor value.", null,
+			null);
+
+		// Checkbox for internal resistor usage.
+		final CheckBox rIntUsed = GUISupport.addCheckBox(vConfig, "Use internal resistor", isInternalResistorUsed());
+		rIntUsed.disableProperty().set(true);
+
+		// Labels to show resistance and current.
+		GUISupport.addLabel(vConfig, "Total resistance: " + Float.toString(getTotalResistance()), "Total resistance.",
+			null, null);
+		GUISupport.addLabel(vConfig, "Current: " + Float.toString(getCurrent()), "Current.", null, null);
 	}
 
 	@Override

@@ -171,8 +171,8 @@ public final class GUISupport {
 		return vbox;
 	}
 
-	public static TextField addTextField(final Pane parentPane, final Font font) {
-		final TextField txt = new TextField();
+	public static TextField addTextField(final Pane parentPane, final String defaultText, final Font font) {
+		final TextField txt = new TextField(defaultText);
 
 		if (font != null) {
 			txt.setFont(font);
@@ -194,7 +194,7 @@ public final class GUISupport {
 
 	public static TextField addTextNumberField(final Pane parentPane, final IntegerProperty backendValue,
 		final double min, final double max, final Font font) {
-		final TextField txt = new TextField();
+		final TextField txt = new TextField(Integer.toString(backendValue.get()));
 
 		if (font != null) {
 			txt.setFont(font);

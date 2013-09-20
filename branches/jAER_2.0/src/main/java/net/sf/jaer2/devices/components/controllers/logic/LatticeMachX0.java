@@ -4,7 +4,7 @@ import net.sf.jaer2.devices.config.ConfigBase;
 
 public class LatticeMachX0 extends Logic {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 8956964709797461828L;
 

@@ -47,7 +47,7 @@ public abstract class ConfigBase implements Serializable {
 
 	protected void buildConfigGUI() {
 		// Add name label, with description as tool-tip.
-		Label l = GUISupport.addLabel(rootConfigLayout, name, description, null, null);
+		final Label l = GUISupport.addLabel(rootConfigLayout, name, description, null, null);
 
 		l.setPrefWidth(80);
 		l.setAlignment(Pos.CENTER_RIGHT);

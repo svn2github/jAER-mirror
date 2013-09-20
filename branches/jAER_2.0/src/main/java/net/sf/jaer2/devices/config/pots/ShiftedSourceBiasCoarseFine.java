@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.EnumSet;
 
+import javafx.beans.binding.StringBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -364,15 +365,32 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 			}
 		});
 
-		final Slider refSlider = GUISupport
-			.addSlider(rootConfigLayout, ShiftedSourceBiasCoarseFine.getMinRefBitValue(), ShiftedSourceBiasCoarseFine.getMaxRefBitValue(), 0, 10);
+		final Slider refSlider = GUISupport.addSlider(rootConfigLayout,
+			ShiftedSourceBiasCoarseFine.getMinRefBitValue(), ShiftedSourceBiasCoarseFine.getMaxRefBitValue(), 0, 10);
 
 		refSlider.valueProperty().bindBidirectional(refBitValue.property());
 
-		final Slider regSlider = GUISupport
-			.addSlider(rootConfigLayout, ShiftedSourceBiasCoarseFine.getMinRegBitValue(), ShiftedSourceBiasCoarseFine.getMaxRegBitValue(), 0, 10);
+		final Slider regSlider = GUISupport.addSlider(rootConfigLayout,
+			ShiftedSourceBiasCoarseFine.getMinRegBitValue(), ShiftedSourceBiasCoarseFine.getMaxRegBitValue(), 0, 10);
 
 		regSlider.valueProperty().bindBidirectional(regBitValue.property());
+
+		final Label binaryRep = GUISupport.addLabel(rootConfigLayout, getBinaryRepresentationAsString(),
+			"Binary data to be sent to the device.", null, null);
+
+		final StringBinding binStr = new StringBinding() {
+			{
+				super.bind(bitValue.property(), type.property(), sex.property(), operatingMode.property(),
+					voltageLevel.property());
+			}
+
+			@Override
+			protected String computeValue() {
+				return getBinaryRepresentationAsString();
+			}
+		};
+
+		binaryRep.textProperty().bind(binStr);
 	}
 
 	@Override

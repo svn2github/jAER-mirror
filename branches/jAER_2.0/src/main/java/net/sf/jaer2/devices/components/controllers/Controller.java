@@ -5,7 +5,7 @@ import net.sf.jaer2.devices.components.misc.memory.Memory;
 
 public abstract class Controller extends Component {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -8449535038409300001L;
 

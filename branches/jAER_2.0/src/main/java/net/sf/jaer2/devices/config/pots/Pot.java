@@ -2,7 +2,12 @@ package net.sf.jaer2.devices.config.pots;
 
 import java.util.EnumSet;
 
+import javafx.beans.binding.StringBinding;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.util.StringConverter;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.util.GUISupport;
@@ -163,19 +168,10 @@ public abstract class Pot extends ConfigBase {
 		return true;
 	}
 
-	public String toBitPatternString() {
-		final StringBuilder s = new StringBuilder(getNumBits());
-
-		for (int k = getNumBits() - 1; k >= 0; k--) {
-			if ((getBitValue() & (1 << k)) != 0) {
-				s.append("1");
-			}
-			else {
-				s.append("0");
-			}
-		}
-
-		return s.toString();
+	public String getBitValueAsString() {
+		return Numbers.integerToString(getBitValue(), NumberFormat.BINARY,
+			EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING)).substring(
+			32 - getNumBits(), 32);
 	}
 
 	/**
@@ -222,6 +218,22 @@ public abstract class Pot extends ConfigBase {
 		return bytes;
 	}
 
+	public String getBinaryRepresentationAsString() {
+		final byte[] binRep = getBinaryRepresentation();
+
+		final StringBuilder s = new StringBuilder(binRep.length * 8);
+
+		for (final byte element : binRep) {
+			s.append(Numbers.integerToString((int) element, NumberFormat.BINARY,
+				EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING)).substring(
+				24, 32));
+		}
+
+		return s.toString();
+	}
+
+	transient protected Slider mainSlider;
+
 	@Override
 	protected void buildConfigGUI() {
 		super.buildConfigGUI();
@@ -263,6 +275,26 @@ public abstract class Pot extends ConfigBase {
 				return Numbers.integerToString(clip(i), NumberFormat.DECIMAL, NumberOptions.UNSIGNED);
 			}
 		});
+
+		mainSlider = GUISupport.addSlider(rootConfigLayout, 0, 4095,
+			Math.round(((double) getBitValue() / getMaxBitValue()) * 4095), 10);
+		HBox.setHgrow(mainSlider, Priority.ALWAYS);
+
+		final Label binaryRep = GUISupport.addLabel(rootConfigLayout, getBinaryRepresentationAsString(),
+			"Binary data to be sent to the device.", null, null);
+
+		final StringBinding binStr = new StringBinding() {
+			{
+				super.bind(bitValue.property(), type.property(), sex.property());
+			}
+
+			@Override
+			protected String computeValue() {
+				return getBinaryRepresentationAsString();
+			}
+		};
+
+		binaryRep.textProperty().bind(binStr);
 	}
 
 	@Override
