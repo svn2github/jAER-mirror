@@ -12,9 +12,7 @@ import net.sf.jaer2.devices.components.misc.memory.Memory;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigBitTristate;
 import net.sf.jaer2.devices.config.ConfigBitTristate.Tristate;
-import net.sf.jaer2.devices.config.ConfigByte;
 import net.sf.jaer2.devices.config.ConfigInt;
-import net.sf.jaer2.devices.config.ConfigShort;
 import net.sf.jaer2.devices.config.pots.Pot;
 import net.sf.jaer2.devices.config.pots.VPot;
 import net.sf.jaer2.eventio.translators.Translator;
@@ -58,16 +56,16 @@ public class AEREAR2 extends USBDevice {
 		addComponent(latticeMachX0);
 
 		latticeMachX0.addSetting(new ConfigBit("yBit", ".", false), 0);
-		latticeMachX0.addSetting(new ConfigByte("onchipPreampGain", ".", (byte) 3), 1, 2);
+		latticeMachX0.addSetting(new ConfigInt("onchipPreampGain", ".", (byte) 3), 1, 2);
 		latticeMachX0.addSetting(new ConfigBit("selAER", ".", true), 3);
 		latticeMachX0.addSetting(new ConfigBit("selIn", ".", false), 4);
 		latticeMachX0.addSetting(new ConfigBitTristate("preampAttackRelease", ".", Tristate.LOW), 5, 2);
 		latticeMachX0.addSetting(new ConfigBitTristate("preampGain.Left", ".", Tristate.HIZ), 7, 2);
 		latticeMachX0.addSetting(new ConfigBitTristate("preampGain.Right", ".", Tristate.HIZ), 9, 2);
-		latticeMachX0.addSetting(new ConfigShort("adcConfig", ".", (short) 4), 11, 12);
+		latticeMachX0.addSetting(new ConfigInt("adcConfig", ".", (short) 4), 11, 12);
 		latticeMachX0.addSetting(new ConfigInt("adcTrackTime", ".", 0), 23, 16);
 		latticeMachX0.addSetting(new ConfigInt("adcIdleTime", ".", 0), 39, 16);
-		latticeMachX0.addSetting(new ConfigByte("scanChannel", ".", (byte) 0), 55, 7);
+		latticeMachX0.addSetting(new ConfigInt("scanChannel", ".", (byte) 0), 55, 7);
 		latticeMachX0.addSetting(new ConfigBit("scanSel", ".", false), 62);
 		latticeMachX0.addSetting(new ConfigBit("scanContinuouslyEnabled", ".", true), 63);
 

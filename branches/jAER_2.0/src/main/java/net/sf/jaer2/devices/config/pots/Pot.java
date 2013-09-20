@@ -60,21 +60,15 @@ public abstract class Pot extends ConfigBase {
 	protected final SerializableObjectProperty<Sex> sex = new SerializableObjectProperty<>();
 
 	/** The current value of the bias in bits. */
-	protected final SerializableIntegerProperty bitValue = new SerializableIntegerProperty(0);
-
-	/**
-	 * The number of bits of resolution for this bias. This number is used to
-	 * compute the maximum bit value and also for computing the number of bits
-	 * or bytes to send to a device.
-	 */
-	private int numBits = 24;
+	protected final SerializableIntegerProperty bitValue = new SerializableIntegerProperty();
 
 	public Pot(final String name, final String description, final Type type, final Sex sex) {
-		this(name, description, type, sex, 0);
+		this(name, description, type, sex, 0, 24);
 	}
 
-	public Pot(final String name, final String description, final Type type, final Sex sex, final int defaultValue) {
-		super(name, description);
+	public Pot(final String name, final String description, final Type type, final Sex sex, final int defaultValue,
+		final int numBits) {
+		super(name, description, numBits);
 
 		setType(type);
 		setSex(sex);
@@ -109,43 +103,14 @@ public abstract class Pot extends ConfigBase {
 	protected int clip(final int in) {
 		int out = in;
 
-		if (in < Pot.getMinBitValue()) {
-			out = Pot.getMinBitValue();
+		if (in < ConfigBase.getMinBitValue()) {
+			out = (int) ConfigBase.getMinBitValue();
 		}
 		if (in > getMaxBitValue()) {
-			out = getMaxBitValue();
+			out = (int) getMaxBitValue();
 		}
 
 		return out;
-	}
-
-	/**
-	 * Return the maximum value representing all stages of current splitter
-	 * enabled.
-	 */
-	public int getMaxBitValue() {
-		return (int) ((1L << (getNumBits())) - 1);
-	}
-
-	/** Return the minimum value, no current: zero. */
-	public static int getMinBitValue() {
-		return 0;
-	}
-
-	public int getNumBits() {
-		return numBits;
-	}
-
-	protected void setNumBits(final int nBits) {
-		numBits = nBits;
-	}
-
-	public int getNumBytes() {
-		return (getNumBits() / 8) + (((getNumBits() % 8) == 0) ? (0) : (1));
-	}
-
-	protected void setNumBytes(final int nBytes) {
-		setNumBits(nBytes * 8);
 	}
 
 	/** Increment bias value by one count. */
@@ -160,7 +125,7 @@ public abstract class Pot extends ConfigBase {
 
 	/** Decrement bias value by one count. */
 	public boolean decrementBitValue() {
-		if (getBitValue() == Pot.getMinBitValue()) {
+		if (getBitValue() == ConfigBase.getMinBitValue()) {
 			return false;
 		}
 
@@ -193,43 +158,9 @@ public abstract class Pot extends ConfigBase {
 	/** Return the unit (e.g. A, mV) of the physical value for this bias. */
 	abstract public String getPhysicalValueUnits();
 
-	protected int computeBinaryRepresentation() {
+	@Override
+	protected long computeBinaryRepresentation() {
 		return getBitValue();
-	}
-
-	/**
-	 * Computes and returns a new array of bytes representing the bias to be
-	 * sent over the hardware interface to the device.
-	 *
-	 * @return array of bytes to be sent, by convention values are ordered in
-	 *         big-endian format so that byte 0 is the most significant byte and
-	 *         is sent first to the hardware.
-	 */
-	public byte[] getBinaryRepresentation() {
-		final byte[] bytes = new byte[getNumBytes()];
-
-		final int val = computeBinaryRepresentation();
-
-		int k = 0;
-		for (int i = bytes.length - 1; i >= 0; i--) {
-			bytes[k++] = (byte) (0xFF & (val >>> (i * 8)));
-		}
-
-		return bytes;
-	}
-
-	public String getBinaryRepresentationAsString() {
-		final byte[] binRep = getBinaryRepresentation();
-
-		final StringBuilder s = new StringBuilder(binRep.length * 8);
-
-		for (final byte element : binRep) {
-			s.append(Numbers.integerToString((int) element, NumberFormat.BINARY,
-				EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING)).substring(
-				24, 32));
-		}
-
-		return s.toString();
 	}
 
 	transient protected Slider mainSlider;
@@ -243,7 +174,7 @@ public abstract class Pot extends ConfigBase {
 		GUISupport.addLabel(rootConfigLayout, getSex().toString(), null, null, null);
 
 		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
-			Pot.getMinBitValue(), getMaxBitValue(), null);
+			ConfigBase.getMinBitValue(), getMaxBitValue(), null);
 		valueBits.setPrefColumnCount(getNumBits());
 
 		valueBits.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
@@ -261,7 +192,7 @@ public abstract class Pot extends ConfigBase {
 		});
 
 		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
-			Pot.getMinBitValue(), getMaxBitValue(), null);
+			ConfigBase.getMinBitValue(), getMaxBitValue(), null);
 		valueInt.setPrefColumnCount(10);
 
 		valueInt.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {

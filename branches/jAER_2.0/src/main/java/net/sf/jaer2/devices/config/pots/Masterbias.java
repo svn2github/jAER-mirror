@@ -54,7 +54,7 @@ public class Masterbias extends ConfigBase {
 	private float kPrimeNFet = 170e-6f;
 
 	public Masterbias(final String name, final String description) {
-		super(name, description);
+		super(name, description, 0);
 	}
 
 	public float getTotalResistance() {
@@ -182,6 +182,12 @@ public class Masterbias extends ConfigBase {
 	 */
 	public void setKPrimeNFet(final float kPrimeNFet) {
 		this.kPrimeNFet = kPrimeNFet;
+	}
+
+	@Override
+	protected long computeBinaryRepresentation() {
+		// No binary representation exists here.
+		return 0;
 	}
 
 	@Override

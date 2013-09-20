@@ -2,6 +2,7 @@ package net.sf.jaer2.devices.config.pots;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import net.sf.jaer2.devices.config.ConfigBase;
 
 public class IPot extends Pot {
 	private static final long serialVersionUID = 8770260772132405397L;
@@ -13,11 +14,12 @@ public class IPot extends Pot {
 	private Masterbias masterbias;
 
 	public IPot(final String name, final String description, final Type type, final Sex sex) {
-		this(name, description, type, sex, 0);
+		this(name, description, type, sex, 0, 24);
 	}
 
-	public IPot(final String name, final String description, final Type type, final Sex sex, final int defaultValue) {
-		super(name, description, type, sex, defaultValue);
+	public IPot(final String name, final String description, final Type type, final Sex sex, final int defaultValue,
+		final int numBits) {
+		super(name, description, type, sex, defaultValue, numBits);
 	}
 
 	public Masterbias getMasterbias() {
@@ -94,7 +96,7 @@ public class IPot extends Pot {
 
 	/** decrement pot value by ratio */
 	public boolean decrementCurrent() {
-		if (getBitValue() == Pot.getMinBitValue()) {
+		if (getBitValue() == ConfigBase.getMinBitValue()) {
 			return false;
 		}
 

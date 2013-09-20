@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
+import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers;
 import net.sf.jaer2.util.Numbers.NumberFormat;
@@ -96,9 +97,8 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 	public ShiftedSourceBiasCoarseFine(final String name, final String description, final Type type, final Sex sex,
 		final int defaultRefBitValue, final int defaultRegBitValue, final OperatingMode opMode,
 		final VoltageLevel vLevel) {
-		super(name, description, type, sex, 0);
-
-		setNumBits(ShiftedSourceBiasCoarseFine.numRefBiasBits + ShiftedSourceBiasCoarseFine.numRegBiasBits);
+		super(name, description, type, sex, 0, ShiftedSourceBiasCoarseFine.numRefBiasBits
+			+ ShiftedSourceBiasCoarseFine.numRegBiasBits);
 
 		setBitValueUpdateListeners();
 
@@ -301,7 +301,7 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 	 * config bits, voltage level code bits.
 	 */
 	@Override
-	protected int computeBinaryRepresentation() {
+	protected long computeBinaryRepresentation() {
 		int ret = 0;
 
 		ret |= getOperatingMode().bits();
@@ -318,7 +318,7 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 	@Override
 	protected void buildConfigGUI() {
 		// Add name label, with description as tool-tip.
-		final Label l = GUISupport.addLabel(rootConfigLayout, name, description, null, null);
+		final Label l = GUISupport.addLabel(rootConfigLayout, getName(), getDescription(), null, null);
 
 		l.setPrefWidth(80);
 		l.setAlignment(Pos.CENTER_RIGHT);
@@ -331,8 +331,24 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 			EnumSet.allOf(VoltageLevel.class), getVoltageLevel().ordinal());
 		vLevelBox.valueProperty().bindBidirectional(voltageLevel.property());
 
+		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
+			ConfigBase.getMinBitValue(), getMaxBitValue(), null);
+		valueInt.setPrefColumnCount(10);
+
+		valueInt.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
+			@Override
+			public Integer fromString(final String str) {
+				return clip(Numbers.stringToInteger(str, NumberFormat.DECIMAL, NumberOptions.UNSIGNED));
+			}
+
+			@Override
+			public String toString(final Integer i) {
+				return Numbers.integerToString(clip(i), NumberFormat.DECIMAL, NumberOptions.UNSIGNED);
+			}
+		});
+
 		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
-			Pot.getMinBitValue(), getMaxBitValue(), null);
+			ConfigBase.getMinBitValue(), getMaxBitValue(), null);
 		valueBits.setPrefColumnCount(getNumBits());
 
 		valueBits.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
@@ -346,22 +362,6 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 				return Numbers.integerToString(clip(i), NumberFormat.BINARY,
 					EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING))
 					.substring(32 - getNumBits(), 32);
-			}
-		});
-
-		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
-			Pot.getMinBitValue(), getMaxBitValue(), null);
-		valueInt.setPrefColumnCount(10);
-
-		valueInt.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
-			@Override
-			public Integer fromString(final String str) {
-				return clip(Numbers.stringToInteger(str, NumberFormat.DECIMAL, NumberOptions.UNSIGNED));
-			}
-
-			@Override
-			public String toString(final Integer i) {
-				return Numbers.integerToString(clip(i), NumberFormat.DECIMAL, NumberOptions.UNSIGNED);
 			}
 		});
 

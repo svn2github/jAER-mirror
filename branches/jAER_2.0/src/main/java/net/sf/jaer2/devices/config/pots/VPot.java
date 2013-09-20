@@ -3,6 +3,7 @@ package net.sf.jaer2.devices.config.pots;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import net.sf.jaer2.devices.components.misc.DAC;
+import net.sf.jaer2.devices.config.ConfigBase;
 
 public class VPot extends Pot {
 	private static final long serialVersionUID = 5367992495461216L;
@@ -13,11 +14,12 @@ public class VPot extends Pot {
 	private DAC dac;
 
 	public VPot(final String name, final String description, final Type type, final Sex sex) {
-		this(name, description, type, sex, 0);
+		this(name, description, type, sex, 0, 24);
 	}
 
-	public VPot(final String name, final String description, final Type type, final Sex sex, final int defaultValue) {
-		super(name, description, type, sex, defaultValue);
+	public VPot(final String name, final String description, final Type type, final Sex sex, final int defaultValue,
+		final int numBits) {
+		super(name, description, type, sex, defaultValue, numBits);
 	}
 
 	public DAC getDac() {
@@ -94,7 +96,7 @@ public class VPot extends Pot {
 
 	/** decrement pot value */
 	public boolean decrementVoltage() {
-		if (getBitValue() == Pot.getMinBitValue()) {
+		if (getBitValue() == ConfigBase.getMinBitValue()) {
 			return false;
 		}
 

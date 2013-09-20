@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
+import javafx.beans.value.WritableNumberValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -192,9 +192,9 @@ public final class GUISupport {
 		return txt;
 	}
 
-	public static TextField addTextNumberField(final Pane parentPane, final IntegerProperty backendValue,
-		final double min, final double max, final Font font) {
-		final TextField txt = new TextField(Integer.toString(backendValue.get()));
+	public static TextField addTextNumberField(final Pane parentPane, final WritableNumberValue backendValue,
+		final long min, final long max, final Font font) {
+		final TextField txt = new TextField(backendValue.getValue().toString());
 
 		if (font != null) {
 			txt.setFont(font);
@@ -210,7 +210,7 @@ public final class GUISupport {
 		txt.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(final ScrollEvent scroll) {
-				int i = backendValue.get();
+				long i = backendValue.getValue().longValue();
 
 				if (scroll.getDeltaY() > 0) {
 					i++;
@@ -221,7 +221,7 @@ public final class GUISupport {
 				}
 
 				if ((i >= min) && (i <= max)) {
-					backendValue.set(i);
+					backendValue.setValue(i);
 				}
 
 				scroll.consume();

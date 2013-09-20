@@ -1,9 +1,12 @@
 package net.sf.jaer2.devices.config;
 
+import java.util.EnumSet;
+
+import javafx.scene.control.ComboBox;
+import net.sf.jaer2.util.GUISupport;
+import net.sf.jaer2.util.serializable.SerializableObjectProperty;
+
 public class ConfigBitTristate extends ConfigBase {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -554758992623341136L;
 
 	public static enum Tristate {
@@ -47,18 +50,38 @@ public class ConfigBitTristate extends ConfigBase {
 		}
 	}
 
-	private Tristate value;
+	private final SerializableObjectProperty<Tristate> value = new SerializableObjectProperty<>();
 
 	public ConfigBitTristate(final String name, final String description, final Tristate defaultValue) {
-		super(name, description);
-		value = defaultValue;
+		super(name, description, 2);
+
+		setValue(defaultValue);
 	}
 
 	public Tristate getValue() {
-		return value;
+		return value.property().get();
 	}
 
-	public void setValue(final Tristate value) {
-		this.value = value;
+	public void setValue(final Tristate val) {
+		value.property().set(val);
+	}
+
+	@Override
+	protected long computeBinaryRepresentation() {
+		return getValue().bitValue();
+	}
+
+	@Override
+	protected void buildConfigGUI() {
+		super.buildConfigGUI();
+
+		final ComboBox<Tristate> triBox = GUISupport.addComboBox(rootConfigLayout, EnumSet.allOf(Tristate.class),
+			getValue().ordinal());
+		triBox.valueProperty().bindBidirectional(value.property());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s, value=%s", super.toString(), getValue().toString());
 	}
 }
