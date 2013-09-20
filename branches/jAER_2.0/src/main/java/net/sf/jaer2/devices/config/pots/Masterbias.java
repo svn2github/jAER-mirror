@@ -3,9 +3,6 @@ package net.sf.jaer2.devices.config.pots;
 import net.sf.jaer2.devices.config.ConfigBase;
 
 public class Masterbias extends ConfigBase {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -388498356207159346L;
 
 	/** the total multiplier for the n-type current mirror */

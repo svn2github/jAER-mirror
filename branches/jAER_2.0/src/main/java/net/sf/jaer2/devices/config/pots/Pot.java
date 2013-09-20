@@ -101,19 +101,6 @@ public abstract class Pot extends ConfigBase {
 		bitValue.property().set(clip(bitVal));
 	}
 
-	/**
-	 * Return the maximum value representing all stages of current splitter
-	 * enabled.
-	 */
-	public int getMaxBitValue() {
-		return (int) ((1L << (getNumBits())) - 1);
-	}
-
-	/** Return the minimum value, no current: zero. */
-	public static int getMinBitValue() {
-		return 0;
-	}
-
 	protected int clip(final int in) {
 		int out = in;
 
@@ -127,11 +114,24 @@ public abstract class Pot extends ConfigBase {
 		return out;
 	}
 
+	/**
+	 * Return the maximum value representing all stages of current splitter
+	 * enabled.
+	 */
+	public int getMaxBitValue() {
+		return (int) ((1L << (getNumBits())) - 1);
+	}
+
+	/** Return the minimum value, no current: zero. */
+	public static int getMinBitValue() {
+		return 0;
+	}
+
 	public int getNumBits() {
 		return numBits;
 	}
 
-	public void setNumBits(final int nBits) {
+	protected void setNumBits(final int nBits) {
 		numBits = nBits;
 	}
 
@@ -139,7 +139,7 @@ public abstract class Pot extends ConfigBase {
 		return (getNumBits() / 8) + (((getNumBits() % 8) == 0) ? (0) : (1));
 	}
 
-	public void setNumBytes(final int nBytes) {
+	protected void setNumBytes(final int nBytes) {
 		setNumBits(nBytes * 8);
 	}
 
@@ -197,6 +197,10 @@ public abstract class Pot extends ConfigBase {
 	/** Return the unit (e.g. A, mV) of the physical value for this bias. */
 	abstract public String getPhysicalValueUnits();
 
+	protected int computeBinaryRepresentation() {
+		return getBitValue();
+	}
+
 	/**
 	 * Computes and returns a new array of bytes representing the bias to be
 	 * sent over the hardware interface to the device.
@@ -208,7 +212,7 @@ public abstract class Pot extends ConfigBase {
 	public byte[] getBinaryRepresentation() {
 		final byte[] bytes = new byte[getNumBytes()];
 
-		final int val = getBitValue();
+		final int val = computeBinaryRepresentation();
 
 		int k = 0;
 		for (int i = bytes.length - 1; i >= 0; i--) {

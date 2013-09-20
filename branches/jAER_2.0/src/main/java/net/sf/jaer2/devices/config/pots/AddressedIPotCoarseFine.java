@@ -373,6 +373,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 * Computes the actual bit pattern to be sent to chip based on configuration
 	 * values
 	 */
+	@Override
 	protected int computeBinaryRepresentation() {
 		int ret = 0;
 
@@ -393,8 +394,9 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 
 		// The coarse bits are reversed (this was a mistake) so we need to
 		// mirror them here before we send them.
-		ret |= AddressedIPotCoarseFine.computeBinaryInverse(getCoarseBitValue(), AddressedIPotCoarseFine.numCoarseBits) << Integer
-			.numberOfTrailingZeros(AddressedIPotCoarseFine.bitCoarseMask);
+		final int coarseBitValueReversed = AddressedIPotCoarseFine.computeBinaryInverse(getCoarseBitValue(),
+			AddressedIPotCoarseFine.numCoarseBits);
+		ret |= coarseBitValueReversed << Integer.numberOfTrailingZeros(AddressedIPotCoarseFine.bitCoarseMask);
 
 		return ret;
 	}
@@ -409,26 +411,8 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 *            the number of bits
 	 * @return the bits mirrored
 	 */
-	protected static int computeBinaryInverse(final int value, final int length) {
+	private static int computeBinaryInverse(final int value, final int length) {
 		return Integer.reverse(value) >>> (32 - length);
-	}
-
-	/**
-	 * Computes the actual bit pattern to be sent to chip based on configuration
-	 * values
-	 */
-	@Override
-	public byte[] getBinaryRepresentation() {
-		final byte[] bytes = new byte[getNumBytes()];
-
-		final int val = computeBinaryRepresentation();
-
-		int k = 0;
-		for (int i = bytes.length - 1; i >= 0; i--) {
-			bytes[k++] = (byte) (0xFF & (val >>> (i * 8)));
-		}
-
-		return bytes;
 	}
 
 	@Override

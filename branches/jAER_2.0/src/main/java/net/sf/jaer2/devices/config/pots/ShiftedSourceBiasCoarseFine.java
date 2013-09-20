@@ -299,6 +299,7 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 	 * operating mode config bits, buffer bias current code bits, voltage level
 	 * config bits, voltage level code bits.
 	 */
+	@Override
 	protected int computeBinaryRepresentation() {
 		int ret = 0;
 
@@ -311,24 +312,6 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 		ret |= getRegBitValue() << Integer.numberOfTrailingZeros(ShiftedSourceBiasCoarseFine.regBiasMask);
 
 		return ret;
-	}
-
-	/**
-	 * Computes the actual bit pattern to be sent to chip based on configuration
-	 * values
-	 */
-	@Override
-	public byte[] getBinaryRepresentation() {
-		final byte[] bytes = new byte[getNumBytes()];
-
-		final int val = computeBinaryRepresentation();
-
-		int k = 0;
-		for (int i = bytes.length - 1; i >= 0; i--) {
-			bytes[k++] = (byte) (0xFF & (val >>> (i * 8)));
-		}
-
-		return bytes;
 	}
 
 	@Override
@@ -382,12 +365,12 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 		});
 
 		final Slider refSlider = GUISupport
-			.addSlider(rootConfigLayout, getMinRefBitValue(), getMaxRefBitValue(), 0, 10);
+			.addSlider(rootConfigLayout, ShiftedSourceBiasCoarseFine.getMinRefBitValue(), ShiftedSourceBiasCoarseFine.getMaxRefBitValue(), 0, 10);
 
 		refSlider.valueProperty().bindBidirectional(refBitValue.property());
 
 		final Slider regSlider = GUISupport
-			.addSlider(rootConfigLayout, getMinRegBitValue(), getMaxRegBitValue(), 0, 10);
+			.addSlider(rootConfigLayout, ShiftedSourceBiasCoarseFine.getMinRegBitValue(), ShiftedSourceBiasCoarseFine.getMaxRegBitValue(), 0, 10);
 
 		regSlider.valueProperty().bindBidirectional(regBitValue.property());
 	}

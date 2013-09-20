@@ -98,7 +98,7 @@ public class VPot extends Pot {
 
 	/** decrement pot value */
 	public boolean decrementVoltage() {
-		if (getBitValue() == getMinBitValue()) {
+		if (getBitValue() == Pot.getMinBitValue()) {
 			return false;
 		}
 
@@ -138,15 +138,15 @@ public class VPot extends Pot {
 	protected void buildConfigGUI() {
 		super.buildConfigGUI();
 
-		final Slider slider = GUISupport.addSlider(rootConfigLayout, 0, 4095, 0, 10);
+		final Slider slider = GUISupport.addSlider(rootConfigLayout, 0, 4095,
+			Math.round(((double) getBitValue() / getMaxBitValue()) * 4095), 10);
 		HBox.setHgrow(slider, Priority.ALWAYS);
 
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				bitValue.property().setValue(
-					(int) Math.round((newVal.doubleValue() / slider.getMax()) * getMaxBitValue()));
+				setBitValue((int) Math.round((newVal.doubleValue() / slider.getMax()) * getMaxBitValue()));
 			}
 		});
 
