@@ -1,10 +1,14 @@
 package net.sf.jaer2.devices.config.pots;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.EnumSet;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -15,7 +19,9 @@ import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers;
 import net.sf.jaer2.util.Numbers.NumberFormat;
 import net.sf.jaer2.util.Numbers.NumberOptions;
+import net.sf.jaer2.util.serializable.SerializableBooleanProperty;
 import net.sf.jaer2.util.serializable.SerializableIntegerProperty;
+import net.sf.jaer2.util.serializable.SerializableObjectProperty;
 
 public class AddressedIPotCoarseFine extends AddressedIPot {
 	private static final long serialVersionUID = -8998488876441985890L;
@@ -59,14 +65,14 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 * mode, the bias uses
 	 * shifted n or p source regulated voltages.
 	 */
-	protected CurrentLevel currentLevel = CurrentLevel.Normal;
+	protected final SerializableObjectProperty<CurrentLevel> currentLevel = new SerializableObjectProperty<>();
 
 	/**
 	 * If enabled=true the bias operates normally, if enabled=false,
 	 * then the bias is disabled by being weakly tied to the appropriate rail
 	 * (depending on bias sex, N or P).
 	 */
-	protected boolean biasEnabled = true;
+	protected final SerializableBooleanProperty biasEnabled = new SerializableBooleanProperty();
 
 	/**
 	 * Bit mask for flag bias enabled (normal operation) or disabled (tied
@@ -104,26 +110,45 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	/**
 	 * the current fine value of the ipot in bits loaded into the shift register
 	 */
-	protected SerializableIntegerProperty fineBitValue = new SerializableIntegerProperty(0);
+	protected final SerializableIntegerProperty fineBitValue = new SerializableIntegerProperty();
 
 	/**
 	 * the current coarse value of the ipot in bits loaded into the shift
 	 * register
 	 */
-	protected SerializableIntegerProperty coarseBitValue = new SerializableIntegerProperty(0);
+	protected final SerializableIntegerProperty coarseBitValue = new SerializableIntegerProperty();
 
 	public AddressedIPotCoarseFine(final String name, final String description, final Type type, final Sex sex) {
 		this(name, description, type, sex, AddressedIPotCoarseFine.maxCoarseBitValue / 2,
-			AddressedIPotCoarseFine.maxFineBitValue, false, true);
+			AddressedIPotCoarseFine.maxFineBitValue, CurrentLevel.Normal, true);
 	}
 
 	public AddressedIPotCoarseFine(final String name, final String description, final Type type, final Sex sex,
-		final int defaultCoarseValue, final int defaultFineValue, final boolean lowCurrentModeEnabled,
+		final int defaultCoarseValue, final int defaultFineValue, final CurrentLevel currLevel,
 		final boolean biasEnabled) {
 		super(name, description, type, sex, 0);
 
 		setNumBits(AddressedIPotCoarseFine.numFineBits + AddressedIPotCoarseFine.numCoarseBits);
 
+		setBitValueUpdateListeners();
+
+		setCoarseBitValue(defaultCoarseValue);
+		setFineBitValue(defaultFineValue);
+
+		// Developer check: the calculation should always be correct.
+		assert getBitValue() == ((defaultCoarseValue << AddressedIPotCoarseFine.numFineBits) + defaultFineValue);
+
+		setCurrentLevel(currLevel);
+		setBiasEnabled(biasEnabled);
+	}
+
+	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
+		in.defaultReadObject();
+
+		setBitValueUpdateListeners();
+	}
+
+	private void setBitValueUpdateListeners() {
 		// Add listeners that mediate updates between the bitValue and its
 		// coarse and fine parts automatically.
 		coarseBitValue.property().addListener(new ChangeListener<Number>() {
@@ -150,15 +175,6 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 				setFineBitValue(newVal.intValue() & AddressedIPotCoarseFine.maxFineBitValue);
 			}
 		});
-
-		setCoarseBitValue(defaultCoarseValue);
-		setFineBitValue(defaultFineValue);
-
-		// Developer check: the calculation should always be correct.
-		assert getBitValue() == ((defaultCoarseValue << AddressedIPotCoarseFine.numFineBits) + defaultFineValue);
-
-		setLowCurrentModeEnabled(lowCurrentModeEnabled);
-		setBiasEnabled(biasEnabled);
 	}
 
 	public int getFineBitValue() {
@@ -252,6 +268,36 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 		return 0;
 	}
 
+	public boolean isBiasEnabled() {
+		return biasEnabled.property().get();
+	}
+
+	public void setBiasEnabled(final boolean biasEnabled) {
+		this.biasEnabled.property().set(biasEnabled);
+	}
+
+	public CurrentLevel getCurrentLevel() {
+		return currentLevel.property().get();
+	}
+
+	public void setCurrentLevel(final CurrentLevel currentLevel) {
+		this.currentLevel.property().set(currentLevel);
+	}
+
+	public boolean isLowCurrentModeEnabled() {
+		return getCurrentLevel() == CurrentLevel.Low;
+	}
+
+	/**
+	 * Sets the enum currentLevel according to the flag lowCurrentModeEnabled.
+	 *
+	 * @param lowCurrentModeEnabled
+	 *            true to set CurrentMode.LowCurrent
+	 */
+	public void setLowCurrentModeEnabled(final boolean lowCurrentModeEnabled) {
+		setCurrentLevel(lowCurrentModeEnabled ? CurrentLevel.Low : CurrentLevel.Normal);
+	}
+
 	/**
 	 * Returns estimated coarse current based on master bias current and coarse
 	 * bit setting
@@ -323,36 +369,6 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 		return getFineCurrent();
 	}
 
-	public boolean isBiasEnabled() {
-		return biasEnabled;
-	}
-
-	public void setBiasEnabled(final boolean biasEnabled) {
-		this.biasEnabled = biasEnabled;
-	}
-
-	public boolean isLowCurrentModeEnabled() {
-		return currentLevel == CurrentLevel.Low;
-	}
-
-	/**
-	 * Sets the enum currentLevel according to the flag lowCurrentModeEnabled.
-	 *
-	 * @param lowCurrentModeEnabled
-	 *            true to set CurrentMode.LowCurrent
-	 */
-	public void setLowCurrentModeEnabled(final boolean lowCurrentModeEnabled) {
-		currentLevel = lowCurrentModeEnabled ? CurrentLevel.Low : CurrentLevel.Normal;
-	}
-
-	public CurrentLevel getCurrentLevel() {
-		return currentLevel;
-	}
-
-	public void setCurrentLevel(final CurrentLevel currentLevel) {
-		this.currentLevel = currentLevel;
-	}
-
 	/**
 	 * Computes the actual bit pattern to be sent to chip based on configuration
 	 * values
@@ -373,15 +389,12 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 			ret |= AddressedIPotCoarseFine.lowCurrentModeMask;
 		}
 
-		int shift;
+		ret |= getFineBitValue() << Integer.numberOfTrailingZeros(AddressedIPotCoarseFine.bitFineMask);
 
-		shift = Integer.numberOfTrailingZeros(AddressedIPotCoarseFine.bitFineMask);
-		ret |= getFineBitValue() << shift;
-
-		shift = Integer.numberOfTrailingZeros(AddressedIPotCoarseFine.bitCoarseMask);
 		// The coarse bits are reversed (this was a mistake) so we need to
 		// mirror them here before we send them.
-		ret |= AddressedIPotCoarseFine.computeBinaryInverse(getCoarseBitValue(), AddressedIPotCoarseFine.numCoarseBits) << shift;
+		ret |= AddressedIPotCoarseFine.computeBinaryInverse(getCoarseBitValue(), AddressedIPotCoarseFine.numCoarseBits) << Integer
+			.numberOfTrailingZeros(AddressedIPotCoarseFine.bitCoarseMask);
 
 		return ret;
 	}
@@ -426,9 +439,20 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 		l.setPrefWidth(80);
 		l.setAlignment(Pos.CENTER_RIGHT);
 
-		GUISupport.addComboBox(rootConfigLayout, EnumSet.allOf(Type.class), -1);
+		final CheckBox enableBox = GUISupport.addCheckBox(rootConfigLayout, "Enabled", isBiasEnabled());
+		enableBox.selectedProperty().bindBidirectional(biasEnabled.property());
 
-		GUISupport.addComboBox(rootConfigLayout, EnumSet.allOf(Sex.class), -1);
+		final ComboBox<CurrentLevel> currentBox = GUISupport.addComboBox(rootConfigLayout,
+			EnumSet.allOf(CurrentLevel.class), getCurrentLevel().ordinal());
+		currentBox.valueProperty().bindBidirectional(currentLevel.property());
+
+		final ComboBox<Type> typeBox = GUISupport.addComboBox(rootConfigLayout, EnumSet.allOf(Type.class), getType()
+			.ordinal());
+		typeBox.valueProperty().bindBidirectional(type.property());
+
+		final ComboBox<Sex> sexBox = GUISupport.addComboBox(rootConfigLayout, EnumSet.allOf(Sex.class), getSex()
+			.ordinal());
+		sexBox.valueProperty().bindBidirectional(sex.property());
 
 		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
 			Pot.getMinBitValue(), getMaxBitValue(), null);
@@ -467,41 +491,13 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 		final Slider coarseSlider = GUISupport.addSlider(rootConfigLayout,
 			AddressedIPotCoarseFine.getMinCoarseBitValue(), AddressedIPotCoarseFine.getMaxCoarseBitValue(), 0, 10);
 
-		coarseSlider.valueProperty().addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				setCoarseBitValue(newVal.intValue());
-			}
-		});
-
-		coarseBitValue.property().addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				coarseSlider.setValue(newVal.doubleValue());
-			}
-		});
+		coarseSlider.valueProperty().bindBidirectional(coarseBitValue.property());
 
 		final Slider fineSlider = GUISupport.addSlider(rootConfigLayout, AddressedIPotCoarseFine.getMinFineBitValue(),
 			AddressedIPotCoarseFine.getMaxFineBitValue(), 0, 10);
 		HBox.setHgrow(fineSlider, Priority.ALWAYS);
 
-		fineSlider.valueProperty().addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				setFineBitValue(newVal.intValue());
-			}
-		});
-
-		fineBitValue.property().addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				fineSlider.setValue(newVal.doubleValue());
-			}
-		});
+		fineSlider.valueProperty().bindBidirectional(fineBitValue.property());
 	}
 
 	@Override

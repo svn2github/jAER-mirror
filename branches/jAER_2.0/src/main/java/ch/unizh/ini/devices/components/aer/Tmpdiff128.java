@@ -35,18 +35,18 @@ public class Tmpdiff128 extends AERChip implements Translator {
 		// Masterbias needs to be added first!
 		addSetting(new Masterbias("Masterbias", "."), AERChip.MASTERBIAS_ADDRESS);
 
-		addSetting(new IPot("pr", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 0);
-		addSetting(new IPot("foll", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 1);
-		addSetting(new IPot("diff", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 2);
-		addSetting(new IPot("diffOn", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 3);
-		addSetting(new IPot("puY", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 4);
-		addSetting(new IPot("refr", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 5);
-		addSetting(new IPot("req", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 6);
-		addSetting(new IPot("diffOff", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 7);
-		addSetting(new IPot("puX", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 8);
-		addSetting(new IPot("reqPd", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 9);
-		addSetting(new IPot("injGnd", ".", Pot.Type.CASCODE, Pot.Sex.P, 0), 10);
-		addSetting(new IPot("cas", ".", Pot.Type.CASCODE, Pot.Sex.N, 0), 11);
+		addSetting(new IPot("pr", ".", Pot.Type.NORMAL, Pot.Sex.P), 0);
+		addSetting(new IPot("foll", ".", Pot.Type.NORMAL, Pot.Sex.P), 1);
+		addSetting(new IPot("diff", ".", Pot.Type.NORMAL, Pot.Sex.N), 2);
+		addSetting(new IPot("diffOn", ".", Pot.Type.NORMAL, Pot.Sex.N), 3);
+		addSetting(new IPot("puY", ".", Pot.Type.NORMAL, Pot.Sex.P), 4);
+		addSetting(new IPot("refr", ".", Pot.Type.NORMAL, Pot.Sex.P), 5);
+		addSetting(new IPot("req", ".", Pot.Type.NORMAL, Pot.Sex.N), 6);
+		addSetting(new IPot("diffOff", ".", Pot.Type.NORMAL, Pot.Sex.N), 7);
+		addSetting(new IPot("puX", ".", Pot.Type.NORMAL, Pot.Sex.P), 8);
+		addSetting(new IPot("reqPd", ".", Pot.Type.NORMAL, Pot.Sex.N), 9);
+		addSetting(new IPot("injGnd", ".", Pot.Type.CASCODE, Pot.Sex.P), 10);
+		addSetting(new IPot("cas", ".", Pot.Type.CASCODE, Pot.Sex.N), 11);
 	}
 
 	@Override

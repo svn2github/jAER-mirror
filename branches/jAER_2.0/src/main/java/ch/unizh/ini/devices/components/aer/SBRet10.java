@@ -61,8 +61,8 @@ public class SBRet10 extends AERChip implements Translator {
 		addSetting(new AddressedIPotCoarseFine("apsOverflowLevel", ".", Pot.Type.NORMAL, Pot.Sex.N), 18);
 		addSetting(new AddressedIPotCoarseFine("biasBuffer", ".", Pot.Type.NORMAL, Pot.Sex.N), 19);
 
-		addSetting(new ShiftedSourceBiasCoarseFine("SSP", ".", Pot.Type.NORMAL, Pot.Sex.P, 0), 20);
-		addSetting(new ShiftedSourceBiasCoarseFine("SSN", ".", Pot.Type.NORMAL, Pot.Sex.N, 0), 21);
+		addSetting(new ShiftedSourceBiasCoarseFine("SSP", ".", Pot.Type.NORMAL, Pot.Sex.P), 20);
+		addSetting(new ShiftedSourceBiasCoarseFine("SSN", ".", Pot.Type.NORMAL, Pot.Sex.N), 21);
 
 		addSetting(new ConfigBit("resetCalib", ".", true), 0);
 		addSetting(new ConfigBit("typeNCalib", ".", false), 1);

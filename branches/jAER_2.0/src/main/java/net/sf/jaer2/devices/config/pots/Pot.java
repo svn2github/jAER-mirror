@@ -64,6 +64,10 @@ public abstract class Pot extends ConfigBase {
 	 */
 	private int numBits = 24;
 
+	public Pot(final String name, final String description, final Type type, final Sex sex) {
+		this(name, description, type, sex, 0);
+	}
+
 	public Pot(final String name, final String description, final Type type, final Sex sex, final int defaultValue) {
 		super(name, description);
 

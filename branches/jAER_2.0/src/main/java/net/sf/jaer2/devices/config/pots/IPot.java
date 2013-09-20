@@ -16,6 +16,10 @@ public class IPot extends Pot {
 	/** The Masterbias supplying reference current to this bias. */
 	private Masterbias masterbias;
 
+	public IPot(final String name, final String description, final Type type, final Sex sex) {
+		this(name, description, type, sex, 0);
+	}
+
 	public IPot(final String name, final String description, final Type type, final Sex sex, final int defaultValue) {
 		super(name, description, type, sex, defaultValue);
 	}
@@ -137,7 +141,8 @@ public class IPot extends Pot {
 	protected void buildConfigGUI() {
 		super.buildConfigGUI();
 
-		final Slider slider = GUISupport.addSlider(rootConfigLayout, 0, 4095, 0, 10);
+		final Slider slider = GUISupport.addSlider(rootConfigLayout, 0, 4095,
+			Math.round(((double) getBitValue() / getMaxBitValue()) * 4095), 10);
 		HBox.setHgrow(slider, Priority.ALWAYS);
 
 		slider.valueProperty().addListener(new ChangeListener<Number>() {

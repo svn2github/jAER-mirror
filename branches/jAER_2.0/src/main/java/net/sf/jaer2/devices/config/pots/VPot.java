@@ -16,6 +16,10 @@ public class VPot extends Pot {
 
 	private DAC dac;
 
+	public VPot(final String name, final String description, final Type type, final Sex sex) {
+		this(name, description, type, sex, 0);
+	}
+
 	public VPot(final String name, final String description, final Type type, final Sex sex, final int defaultValue) {
 		super(name, description, type, sex, defaultValue);
 	}
