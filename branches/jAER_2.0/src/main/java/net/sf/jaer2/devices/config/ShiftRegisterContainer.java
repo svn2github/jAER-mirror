@@ -72,7 +72,7 @@ public final class ShiftRegisterContainer extends ConfigBase {
 	}
 
 	private void bitArrayCopy(final byte[] src, final int srcPos, final byte[] dest, final int destPos, final int length) {
-
+		// TODO: add copy functionality.
 	}
 
 	@Override

@@ -79,7 +79,7 @@ public class IPot extends Pot {
 	 * @return smallest possible current change -- in principle
 	 */
 	public float getCurrentResolution() {
-		return 1f / ((1 << getNumBits()) - 1);
+		return 1f / getMaxBitValue();
 	}
 
 	/** increment pot value by {@link #CHANGE_FRACTION} ratio */

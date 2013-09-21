@@ -74,14 +74,14 @@ public final class Numbers {
 
 		// Pad if needed to 32 characters.
 		if (opts.contains(NumberOptions.LEFT_PADDING)) {
-			int pads = 32 - s.length();
+			int pads = Integer.SIZE - s.length();
 
 			while (pads-- > 0) {
 				s.insert(0, padChar);
 			}
 		}
 		else if (opts.contains(NumberOptions.RIGHT_PADDING)) {
-			int pads = 32 - s.length();
+			int pads = Integer.SIZE - s.length();
 
 			while (pads-- > 0) {
 				s.append(padChar);
@@ -133,14 +133,14 @@ public final class Numbers {
 
 		// Pad if needed to 64 characters.
 		if (opts.contains(NumberOptions.LEFT_PADDING)) {
-			int pads = 64 - s.length();
+			int pads = Long.SIZE - s.length();
 
 			while (pads-- > 0) {
 				s.insert(0, padChar);
 			}
 		}
 		else if (opts.contains(NumberOptions.RIGHT_PADDING)) {
-			int pads = 64 - s.length();
+			int pads = Long.SIZE - s.length();
 
 			while (pads-- > 0) {
 				s.append(padChar);

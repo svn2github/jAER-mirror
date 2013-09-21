@@ -129,7 +129,8 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 		final Sex sex, final int defaultCoarseValue, final int defaultFineValue, final CurrentLevel currLevel,
 		final boolean biasEnabled) {
 		super(name, description, address, type, sex, 0, AddressedIPotCoarseFine.numCoarseBits
-			+ AddressedIPotCoarseFine.numFineBits);
+			+ AddressedIPotCoarseFine.numFineBits + 4);
+		// Add four bits for: currentLevel, type, sex and biasEnabled.
 
 		setBitValueUpdateListeners();
 
@@ -275,6 +276,11 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 
 	public static int getMinFineBitValue() {
 		return 0;
+	}
+
+	@Override
+	public int getBitValueBits() {
+		return AddressedIPotCoarseFine.numCoarseBits + AddressedIPotCoarseFine.numFineBits;
 	}
 
 	public boolean isBiasEnabled() {
@@ -475,7 +481,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 
 		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(),
 			getMinBitValue(), getMaxBitValue(), null);
-		valueBits.setPrefColumnCount(getNumBits());
+		valueBits.setPrefColumnCount(getBitValueBits());
 
 		valueBits.textProperty().bindBidirectional(getBitValueProperty().asObject(), new StringConverter<Integer>() {
 			@Override
@@ -487,7 +493,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 			public String toString(final Integer i) {
 				return Numbers.integerToString(clip(i), NumberFormat.BINARY,
 					EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING))
-					.substring(Integer.SIZE - getNumBits(), Integer.SIZE);
+					.substring(Integer.SIZE - getBitValueBits(), Integer.SIZE);
 			}
 		});
 

@@ -123,7 +123,7 @@ public abstract class ConfigBase implements Serializable {
 
 	protected void buildConfigGUI() {
 		// Add name label, with description as tool-tip.
-		final Label l = GUISupport.addLabel(rootConfigLayout, name, description, null, null);
+		final Label l = GUISupport.addLabel(rootConfigLayout, getName(), getDescription(), null, null);
 
 		l.setPrefWidth(80);
 		l.setAlignment(Pos.CENTER_RIGHT);
@@ -131,6 +131,6 @@ public abstract class ConfigBase implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("%s [len=%d] - %s", name, numBits, description);
+		return String.format("%s [len=%d] - %s", getName(), getNumBits(), getDescription());
 	}
 }

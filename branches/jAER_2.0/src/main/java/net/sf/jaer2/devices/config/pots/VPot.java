@@ -80,7 +80,7 @@ public class VPot extends Pot {
 	 * @return smallest possible voltage change -- in principle.
 	 */
 	public float getVoltageResolution() {
-		return (getDac().getRefMaxVolts() - getDac().getRefMinVolts()) / ((1 << getNumBits()) - 1);
+		return (getDac().getRefMaxVolts() - getDac().getRefMinVolts()) / getMaxBitValue();
 	}
 
 	/** increment pot value */

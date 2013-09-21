@@ -127,6 +127,15 @@ public abstract class Pot extends ConfigBase {
 		return out;
 	}
 
+	public int getBitValueBits() {
+		return getNumBits();
+	}
+
+	@Override
+	public long getMaxBitValue() {
+		return ((1L << getBitValueBits()) - 1);
+	}
+
 	/** Increment bias value by one count. */
 	public boolean incrementBitValue() {
 		if (getBitValue() == getMaxBitValue()) {
@@ -150,7 +159,7 @@ public abstract class Pot extends ConfigBase {
 	public String getBitValueAsString() {
 		return Numbers.integerToString(getBitValue(), NumberFormat.BINARY,
 			EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING)).substring(
-			Integer.SIZE - getNumBits(), Integer.SIZE);
+			Integer.SIZE - getBitValueBits(), Integer.SIZE);
 	}
 
 	/**
@@ -189,7 +198,7 @@ public abstract class Pot extends ConfigBase {
 
 		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(),
 			getMinBitValue(), getMaxBitValue(), null);
-		valueBits.setPrefColumnCount(getNumBits());
+		valueBits.setPrefColumnCount(getBitValueBits());
 
 		valueBits.textProperty().bindBidirectional(getBitValueProperty().asObject(), new StringConverter<Integer>() {
 			@Override
@@ -201,7 +210,7 @@ public abstract class Pot extends ConfigBase {
 			public String toString(final Integer i) {
 				return Numbers.integerToString(clip(i), NumberFormat.BINARY,
 					EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING))
-					.substring(Integer.SIZE - getNumBits(), Integer.SIZE);
+					.substring(Integer.SIZE - getBitValueBits(), Integer.SIZE);
 			}
 		});
 

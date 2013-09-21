@@ -102,7 +102,8 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 		final Sex sex, final int defaultRefBitValue, final int defaultRegBitValue, final OperatingMode opMode,
 		final VoltageLevel vLevel) {
 		super(name, description, address, type, sex, 0, ShiftedSourceBiasCoarseFine.numRefBiasBits
-			+ ShiftedSourceBiasCoarseFine.numRegBiasBits);
+			+ ShiftedSourceBiasCoarseFine.numRegBiasBits + 4);
+		// Add four bits for: operatingMode (2) and voltageLevel (2).
 
 		setBitValueUpdateListeners();
 
@@ -231,6 +232,11 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 
 	public static int getMinRegBitValue() {
 		return 0;
+	}
+
+	@Override
+	public int getBitValueBits() {
+		return ShiftedSourceBiasCoarseFine.numRefBiasBits + ShiftedSourceBiasCoarseFine.numRegBiasBits;
 	}
 
 	public OperatingMode getOperatingMode() {
@@ -369,7 +375,7 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 
 		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(),
 			getMinBitValue(), getMaxBitValue(), null);
-		valueBits.setPrefColumnCount(getNumBits());
+		valueBits.setPrefColumnCount(getBitValueBits());
 
 		valueBits.textProperty().bindBidirectional(getBitValueProperty().asObject(), new StringConverter<Integer>() {
 			@Override
@@ -381,7 +387,7 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 			public String toString(final Integer i) {
 				return Numbers.integerToString(clip(i), NumberFormat.BINARY,
 					EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING))
-					.substring(Integer.SIZE - getNumBits(), Integer.SIZE);
+					.substring(Integer.SIZE - getBitValueBits(), Integer.SIZE);
 			}
 		});
 
