@@ -63,16 +63,48 @@ public final class ShiftRegisterContainer extends ConfigBase {
 		int bitPosition = 0;
 
 		for (final ConfigBase cfg : settingsMap.values()) {
-			bitArrayCopy(cfg.getBinaryRepresentation(), (cfg.getNumBytes() * Byte.SIZE) - cfg.getNumBits(), bytes,
-				bitPosition, cfg.getNumBits());
+			ShiftRegisterContainer.bitArrayCopy(cfg.getBinaryRepresentation(),
+				(cfg.getNumBytes() * Byte.SIZE) - cfg.getNumBits(), bytes, bitPosition, cfg.getNumBits());
 			bitPosition += cfg.getNumBits();
 		}
 
 		return bytes;
 	}
 
-	private void bitArrayCopy(final byte[] src, final int srcPos, final byte[] dest, final int destPos, final int length) {
-		// TODO: add copy functionality.
+	/**
+	 * Copy from byte array src to byte array dest bit-wise up to length bits,
+	 * starting at the definied bit position inside each array.
+	 *
+	 * @param src
+	 *            source byte array (copy from this).
+	 * @param srcPos
+	 *            position in bits from which to start copying from.
+	 * @param dest
+	 *            destination byte array (copy to this).
+	 * @param destPos
+	 *            position in bits to which to start copying to.
+	 * @param length
+	 *            number of bits to copy.
+	 */
+	private static void bitArrayCopy(final byte[] src, final int srcPos, final byte[] dest, final int destPos,
+		final int length) {
+		int copyOffset = 0;
+
+		while (copyOffset < length) {
+			final int srcBytePos = (srcPos + copyOffset) / Byte.SIZE;
+			final int srcBitPos = (srcPos + copyOffset) % Byte.SIZE;
+
+			final boolean bitValue = ((src[srcBytePos] & ((byte) 0x80 >>> srcBitPos)) != 0);
+
+			final int destBytePos = (destPos + copyOffset) / Byte.SIZE;
+			final int destBitPos = (destPos + copyOffset) % Byte.SIZE;
+
+			if (bitValue) {
+				dest[destBytePos] |= ((byte) 0x80 >>> destBitPos);
+			}
+
+			copyOffset++;
+		}
 	}
 
 	@Override
