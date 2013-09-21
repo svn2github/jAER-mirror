@@ -119,16 +119,16 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 */
 	private final SerializableIntegerProperty coarseBitValue = new SerializableIntegerProperty();
 
-	public AddressedIPotCoarseFine(final String name, final String description, final int address, final Type type,
-		final Sex sex) {
-		this(name, description, address, type, sex, AddressedIPotCoarseFine.maxCoarseBitValue / 2,
+	public AddressedIPotCoarseFine(final String name, final String description, final int address,
+		final Masterbias masterbias, final Type type, final Sex sex) {
+		this(name, description, address, masterbias, type, sex, AddressedIPotCoarseFine.maxCoarseBitValue / 2,
 			AddressedIPotCoarseFine.maxFineBitValue, CurrentLevel.Normal, true);
 	}
 
-	public AddressedIPotCoarseFine(final String name, final String description, final int address, final Type type,
-		final Sex sex, final int defaultCoarseValue, final int defaultFineValue, final CurrentLevel currLevel,
-		final boolean biasEnabled) {
-		super(name, description, address, type, sex, 0, AddressedIPotCoarseFine.numCoarseBits
+	public AddressedIPotCoarseFine(final String name, final String description, final int address,
+		final Masterbias masterbias, final Type type, final Sex sex, final int defaultCoarseValue,
+		final int defaultFineValue, final CurrentLevel currLevel, final boolean biasEnabled) {
+		super(name, description, address, masterbias, type, sex, 0, AddressedIPotCoarseFine.numCoarseBits
 			+ AddressedIPotCoarseFine.numFineBits + 4);
 		// Add four bits for: currentLevel, type, sex and biasEnabled.
 

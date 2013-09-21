@@ -92,16 +92,16 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 	/** The bit value of the buffer bias current */
 	private final SerializableIntegerProperty regBitValue = new SerializableIntegerProperty();
 
-	public ShiftedSourceBiasCoarseFine(final String name, final String description, final int address, final Type type,
-		final Sex sex) {
-		this(name, description, address, type, sex, ShiftedSourceBiasCoarseFine.maxRefBitValue,
+	public ShiftedSourceBiasCoarseFine(final String name, final String description, final int address,
+		final Masterbias masterbias, final Type type, final Sex sex) {
+		this(name, description, address, masterbias, type, sex, ShiftedSourceBiasCoarseFine.maxRefBitValue,
 			ShiftedSourceBiasCoarseFine.maxRegBitValue, OperatingMode.ShiftedSource, VoltageLevel.SplitGate);
 	}
 
-	public ShiftedSourceBiasCoarseFine(final String name, final String description, final int address, final Type type,
-		final Sex sex, final int defaultRefBitValue, final int defaultRegBitValue, final OperatingMode opMode,
-		final VoltageLevel vLevel) {
-		super(name, description, address, type, sex, 0, ShiftedSourceBiasCoarseFine.numRefBiasBits
+	public ShiftedSourceBiasCoarseFine(final String name, final String description, final int address,
+		final Masterbias masterbias, final Type type, final Sex sex, final int defaultRefBitValue,
+		final int defaultRegBitValue, final OperatingMode opMode, final VoltageLevel vLevel) {
+		super(name, description, address, masterbias, type, sex, 0, ShiftedSourceBiasCoarseFine.numRefBiasBits
 			+ ShiftedSourceBiasCoarseFine.numRegBiasBits + 4);
 		// Add four bits for: operatingMode (2) and voltageLevel (2).
 

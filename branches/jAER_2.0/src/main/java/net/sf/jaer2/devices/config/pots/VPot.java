@@ -10,23 +10,21 @@ public class VPot extends Pot {
 	/** the delta voltage to change by in increment and decrement methods */
 	private static final float VOLTAGE_CHANGE_VALUE_VOLTS = 0.005f;
 
-	private DAC dac;
+	private final DAC dac;
 
-	public VPot(final String name, final String description, final Type type, final Sex sex) {
-		this(name, description, type, sex, 0, 24);
+	public VPot(final String name, final String description, final DAC dac, final Type type, final Sex sex) {
+		this(name, description, dac, type, sex, 0, 24);
 	}
 
-	public VPot(final String name, final String description, final Type type, final Sex sex, final int defaultValue,
-		final int numBits) {
+	public VPot(final String name, final String description, final DAC dac, final Type type, final Sex sex,
+		final int defaultValue, final int numBits) {
 		super(name, description, type, sex, defaultValue, numBits);
+
+		this.dac = dac;
 	}
 
 	public DAC getDac() {
 		return dac;
-	}
-
-	public void setDac(final DAC dac) {
-		this.dac = dac;
 	}
 
 	/**

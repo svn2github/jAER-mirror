@@ -22,42 +22,43 @@ public class CochleaAMS1c extends AERChip implements Translator {
 		super(componentName);
 
 		// Masterbias needs to be added first!
-		addSetting(new Masterbias("Masterbias", "Masterbias for on-chip bias generator."));
+		final Masterbias masterbias = new Masterbias("Masterbias", "Masterbias for on-chip bias generator.");
+		addSetting(masterbias);
 
 		// BufferBias BufferIPot ???
 
-		addSetting(new IPot("VAGC", ".", Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new IPot("Curstartbpf", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("DacBufferNb", ".", Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new IPot("Vbp", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("Ibias20OpAmp", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("Vioff", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("Vsetio", ".", Pot.Type.CASCODE, Pot.Sex.P));
-		addSetting(new IPot("Vdc1", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("NeuronRp", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("Vclbtgate", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("N.C.", ".", Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new IPot("Vbias2", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("Ibias10OpAmp", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("Vthbpf2", ".", Pot.Type.CASCODE, Pot.Sex.P));
-		addSetting(new IPot("Follbias", ".", Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new IPot("pdbiasTX", ".", Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new IPot("Vrefract", ".", Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new IPot("VbampP", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("Vcascode", ".", Pot.Type.CASCODE, Pot.Sex.N));
-		addSetting(new IPot("Vbpf2", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("Ibias10OTA", ".", Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new IPot("Vthbpf1", ".", Pot.Type.CASCODE, Pot.Sex.P));
-		addSetting(new IPot("Curstart", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("Vbias1", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("NeuronVleak", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("Vioffbpfn", ".", Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new IPot("Vcasbpf", ".", Pot.Type.CASCODE, Pot.Sex.P));
-		addSetting(new IPot("Vdc2", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("Vterm", ".", Pot.Type.CASCODE, Pot.Sex.N));
-		addSetting(new IPot("Vclbtcasc", ".", Pot.Type.CASCODE, Pot.Sex.P));
-		addSetting(new IPot("reqpuTX", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new IPot("Vbpf1", ".", Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("VAGC", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new IPot("Curstartbpf", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("DacBufferNb", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new IPot("Vbp", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("Ibias20OpAmp", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("Vioff", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("Vsetio", ".", masterbias, Pot.Type.CASCODE, Pot.Sex.P));
+		addSetting(new IPot("Vdc1", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("NeuronRp", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("Vclbtgate", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("N.C.", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new IPot("Vbias2", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("Ibias10OpAmp", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("Vthbpf2", ".", masterbias, Pot.Type.CASCODE, Pot.Sex.P));
+		addSetting(new IPot("Follbias", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new IPot("pdbiasTX", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new IPot("Vrefract", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new IPot("VbampP", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("Vcascode", ".", masterbias, Pot.Type.CASCODE, Pot.Sex.N));
+		addSetting(new IPot("Vbpf2", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("Ibias10OTA", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new IPot("Vthbpf1", ".", masterbias, Pot.Type.CASCODE, Pot.Sex.P));
+		addSetting(new IPot("Curstart", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("Vbias1", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("NeuronVleak", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("Vioffbpfn", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new IPot("Vcasbpf", ".", masterbias, Pot.Type.CASCODE, Pot.Sex.P));
+		addSetting(new IPot("Vdc2", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("Vterm", ".", masterbias, Pot.Type.CASCODE, Pot.Sex.N));
+		addSetting(new IPot("Vclbtcasc", ".", masterbias, Pot.Type.CASCODE, Pot.Sex.P));
+		addSetting(new IPot("reqpuTX", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new IPot("Vbpf1", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
 	}
 
 	@Override

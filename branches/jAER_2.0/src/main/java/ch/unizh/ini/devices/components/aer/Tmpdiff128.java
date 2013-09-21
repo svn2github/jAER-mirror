@@ -34,23 +34,24 @@ public class Tmpdiff128 extends AERChip implements Translator {
 		super(componentName);
 
 		// Masterbias needs to be added first!
-		addSetting(new Masterbias("Masterbias", "Masterbias for on-chip bias generator."));
+		final Masterbias masterbias = new Masterbias("Masterbias", "Masterbias for on-chip bias generator.");
+		addSetting(masterbias);
 
 		final ShiftRegisterContainer chipSR = new ShiftRegisterContainer("ChipSR",
 			"ShiftRegister for on-chip bias generator configuration.", 288);
 
-		chipSR.addSetting(new IPot("cas", ".", Pot.Type.CASCODE, Pot.Sex.N));
-		chipSR.addSetting(new IPot("injGnd", ".", Pot.Type.CASCODE, Pot.Sex.P));
-		chipSR.addSetting(new IPot("reqPd", ".", Pot.Type.NORMAL, Pot.Sex.N));
-		chipSR.addSetting(new IPot("puX", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		chipSR.addSetting(new IPot("diffOff", ".", Pot.Type.NORMAL, Pot.Sex.N));
-		chipSR.addSetting(new IPot("req", ".", Pot.Type.NORMAL, Pot.Sex.N));
-		chipSR.addSetting(new IPot("refr", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		chipSR.addSetting(new IPot("puY", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		chipSR.addSetting(new IPot("diffOn", ".", Pot.Type.NORMAL, Pot.Sex.N));
-		chipSR.addSetting(new IPot("diff", ".", Pot.Type.NORMAL, Pot.Sex.N));
-		chipSR.addSetting(new IPot("foll", ".", Pot.Type.NORMAL, Pot.Sex.P));
-		chipSR.addSetting(new IPot("pr", ".", Pot.Type.NORMAL, Pot.Sex.P));
+		chipSR.addSetting(new IPot("cas", ".", masterbias, Pot.Type.CASCODE, Pot.Sex.N));
+		chipSR.addSetting(new IPot("injGnd", ".", masterbias, Pot.Type.CASCODE, Pot.Sex.P));
+		chipSR.addSetting(new IPot("reqPd", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		chipSR.addSetting(new IPot("puX", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		chipSR.addSetting(new IPot("diffOff", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		chipSR.addSetting(new IPot("req", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		chipSR.addSetting(new IPot("refr", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		chipSR.addSetting(new IPot("puY", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		chipSR.addSetting(new IPot("diffOn", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		chipSR.addSetting(new IPot("diff", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		chipSR.addSetting(new IPot("foll", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		chipSR.addSetting(new IPot("pr", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
 
 		addSetting(chipSR);
 	}

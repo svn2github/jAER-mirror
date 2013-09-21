@@ -10,23 +10,21 @@ public class IPot extends Pot {
 	private static final float CHANGE_FRACTION = 0.1f;
 
 	/** The Masterbias supplying reference current to this bias. */
-	private Masterbias masterbias;
+	private final Masterbias masterbias;
 
-	public IPot(final String name, final String description, final Type type, final Sex sex) {
-		this(name, description, type, sex, 0, 24);
+	public IPot(final String name, final String description, final Masterbias masterbias, final Type type, final Sex sex) {
+		this(name, description, masterbias, type, sex, 0, 24);
 	}
 
-	public IPot(final String name, final String description, final Type type, final Sex sex, final int defaultValue,
-		final int numBits) {
+	public IPot(final String name, final String description, final Masterbias masterbias, final Type type,
+		final Sex sex, final int defaultValue, final int numBits) {
 		super(name, description, type, sex, defaultValue, numBits);
+
+		this.masterbias = masterbias;
 	}
 
 	public Masterbias getMasterbias() {
 		return masterbias;
-	}
-
-	public void setMasterbias(final Masterbias masterbias) {
-		this.masterbias = masterbias;
 	}
 
 	/**

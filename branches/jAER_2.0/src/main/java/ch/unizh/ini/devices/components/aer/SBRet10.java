@@ -42,29 +42,29 @@ public class SBRet10 extends AERChip implements Translator {
 
 		addSetting(masterbias);
 
-		addSetting(new AddressedIPotCoarseFine("DiffBn", ".", 0, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("OnBn", ".", 1, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("OffBn", ".", 2, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("ApsCasEpc", ".", 3, Pot.Type.CASCODE, Pot.Sex.P));
-		addSetting(new AddressedIPotCoarseFine("DiffCasBnc", ".", 4, Pot.Type.CASCODE, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("ApsROSFBn", ".", 5, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("LocalBufBn", ".", 6, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("PixInvBn", ".", 7, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("PrBp", ".", 8, Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new AddressedIPotCoarseFine("PrSFBp", ".", 9, Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new AddressedIPotCoarseFine("RefrBp", ".", 10, Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new AddressedIPotCoarseFine("AEPdBn", ".", 11, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("LcolTimeoutBn", ".", 12, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("AEPuXBp", ".", 13, Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new AddressedIPotCoarseFine("AEPuYBp", ".", 14, Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new AddressedIPotCoarseFine("IFThrBn", ".", 15, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("IFRefrBn", ".", 16, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("PadFollBn", ".", 17, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("apsOverflowLevel", ".", 18, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("biasBuffer", ".", 19, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("DiffBn", ".", 0, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("OnBn", ".", 1, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("OffBn", ".", 2, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("ApsCasEpc", ".", 3, masterbias, Pot.Type.CASCODE, Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("DiffCasBnc", ".", 4, masterbias, Pot.Type.CASCODE, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("ApsROSFBn", ".", 5, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("LocalBufBn", ".", 6, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("PixInvBn", ".", 7, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("PrBp", ".", 8, masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("PrSFBp", ".", 9, masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("RefrBp", ".", 10, masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("AEPdBn", ".", 11, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("LcolTimeoutBn", ".", 12, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("AEPuXBp", ".", 13, masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("AEPuYBp", ".", 14, masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("IFThrBn", ".", 15, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("IFRefrBn", ".", 16, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("PadFollBn", ".", 17, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("apsOverflowLevel", ".", 18, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("biasBuffer", ".", 19, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
 
-		addSetting(new ShiftedSourceBiasCoarseFine("SSP", ".", 20, Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new ShiftedSourceBiasCoarseFine("SSN", ".", 21, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new ShiftedSourceBiasCoarseFine("SSP", ".", 20, masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new ShiftedSourceBiasCoarseFine("SSN", ".", 21, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
 
 		final ShiftRegisterContainer chipSR = new ShiftRegisterContainer("ChipSR",
 			"ShiftRegister for on-chip configuration (muxes, settings).", 56);

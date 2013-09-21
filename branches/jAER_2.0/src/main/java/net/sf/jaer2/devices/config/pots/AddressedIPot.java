@@ -6,13 +6,14 @@ public class AddressedIPot extends IPot {
 	/** The address to send in advance of this Pot. */
 	private final int address;
 
-	public AddressedIPot(final String name, final String description, final int address, final Type type, final Sex sex) {
-		this(name, description, address, type, sex, 0, 24);
+	public AddressedIPot(final String name, final String description, final int address, final Masterbias masterbias,
+		final Type type, final Sex sex) {
+		this(name, description, address, masterbias, type, sex, 0, 24);
 	}
 
-	public AddressedIPot(final String name, final String description, final int address, final Type type,
-		final Sex sex, final int defaultValue, final int numBits) {
-		super(name, description, type, sex, defaultValue, numBits);
+	public AddressedIPot(final String name, final String description, final int address, final Masterbias masterbias,
+		final Type type, final Sex sex, final int defaultValue, final int numBits) {
+		super(name, description, masterbias, type, sex, defaultValue, numBits);
 
 		this.address = address;
 	}
