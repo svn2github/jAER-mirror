@@ -96,9 +96,10 @@ public class FX3 extends Controller {
 		// TODO Auto-generated method stub
 	}
 
+	@SuppressWarnings("unused")
 	@Override
-	public void addSetting(final ConfigBase setting, final int address) {
-		throw new UnsupportedOperationException("General address unsupported, use either Ports or Vendor Requests.");
+	public void addSetting(final ConfigBase setting) {
+		throw new UnsupportedOperationException("General order unsupported, use either Ports or Vendor Requests.");
 	}
 
 	@Override

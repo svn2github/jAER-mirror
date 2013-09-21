@@ -3,6 +3,8 @@ package net.sf.jaer2.devices.config.pots;
 import java.util.EnumSet;
 
 import javafx.beans.binding.StringBinding;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -56,11 +58,11 @@ public abstract class Pot extends ConfigBase {
 		}
 	}
 
-	protected final SerializableObjectProperty<Type> type = new SerializableObjectProperty<>();
-	protected final SerializableObjectProperty<Sex> sex = new SerializableObjectProperty<>();
+	private final SerializableObjectProperty<Type> type = new SerializableObjectProperty<>();
+	private final SerializableObjectProperty<Sex> sex = new SerializableObjectProperty<>();
 
 	/** The current value of the bias in bits. */
-	protected final SerializableIntegerProperty bitValue = new SerializableIntegerProperty();
+	private final SerializableIntegerProperty bitValue = new SerializableIntegerProperty();
 
 	public Pot(final String name, final String description, final Type type, final Sex sex) {
 		this(name, description, type, sex, 0, 24);
@@ -84,12 +86,20 @@ public abstract class Pot extends ConfigBase {
 		type.property().set(t);
 	}
 
+	public ObjectProperty<Type> getTypeProperty() {
+		return type.property();
+	}
+
 	public Sex getSex() {
 		return sex.property().get();
 	}
 
 	public void setSex(final Sex s) {
 		sex.property().set(s);
+	}
+
+	public ObjectProperty<Sex> getSexProperty() {
+		return sex.property();
 	}
 
 	public int getBitValue() {
@@ -100,11 +110,15 @@ public abstract class Pot extends ConfigBase {
 		bitValue.property().set(clip(bitVal));
 	}
 
+	public IntegerProperty getBitValueProperty() {
+		return bitValue.property();
+	}
+
 	protected int clip(final int in) {
 		int out = in;
 
-		if (in < ConfigBase.getMinBitValue()) {
-			out = (int) ConfigBase.getMinBitValue();
+		if (in < getMinBitValue()) {
+			out = (int) getMinBitValue();
 		}
 		if (in > getMaxBitValue()) {
 			out = (int) getMaxBitValue();
@@ -125,7 +139,7 @@ public abstract class Pot extends ConfigBase {
 
 	/** Decrement bias value by one count. */
 	public boolean decrementBitValue() {
-		if (getBitValue() == ConfigBase.getMinBitValue()) {
+		if (getBitValue() == getMinBitValue()) {
 			return false;
 		}
 
@@ -136,7 +150,7 @@ public abstract class Pot extends ConfigBase {
 	public String getBitValueAsString() {
 		return Numbers.integerToString(getBitValue(), NumberFormat.BINARY,
 			EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING)).substring(
-			32 - getNumBits(), 32);
+			Integer.SIZE - getNumBits(), Integer.SIZE);
 	}
 
 	/**
@@ -173,11 +187,11 @@ public abstract class Pot extends ConfigBase {
 
 		GUISupport.addLabel(rootConfigLayout, getSex().toString(), null, null, null);
 
-		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
-			ConfigBase.getMinBitValue(), getMaxBitValue(), null);
+		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(),
+			getMinBitValue(), getMaxBitValue(), null);
 		valueBits.setPrefColumnCount(getNumBits());
 
-		valueBits.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
+		valueBits.textProperty().bindBidirectional(getBitValueProperty().asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
 				return clip(Numbers.stringToInteger(str, NumberFormat.BINARY, NumberOptions.UNSIGNED));
@@ -187,15 +201,15 @@ public abstract class Pot extends ConfigBase {
 			public String toString(final Integer i) {
 				return Numbers.integerToString(clip(i), NumberFormat.BINARY,
 					EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING))
-					.substring(32 - getNumBits(), 32);
+					.substring(Integer.SIZE - getNumBits(), Integer.SIZE);
 			}
 		});
 
-		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
-			ConfigBase.getMinBitValue(), getMaxBitValue(), null);
+		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(),
+			getMinBitValue(), getMaxBitValue(), null);
 		valueInt.setPrefColumnCount(10);
 
-		valueInt.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
+		valueInt.textProperty().bindBidirectional(getBitValueProperty().asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
 				return clip(Numbers.stringToInteger(str, NumberFormat.DECIMAL, NumberOptions.UNSIGNED));
@@ -216,7 +230,7 @@ public abstract class Pot extends ConfigBase {
 
 		final StringBinding binStr = new StringBinding() {
 			{
-				super.bind(bitValue.property(), type.property(), sex.property());
+				super.bind(getBitValueProperty(), getTypeProperty(), getSexProperty());
 			}
 
 			@Override

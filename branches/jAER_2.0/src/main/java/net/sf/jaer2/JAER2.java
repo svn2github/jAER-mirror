@@ -57,7 +57,7 @@ public final class JAER2 extends Application {
 			public void handle(@SuppressWarnings("unused") final WindowEvent event) {
 				// Try to save the current network to file.
 				if (GUISupport.checkWritePermissions(savedSession)) {
-					XMLconf.toXML(dvs, null, savedSession);
+					// XMLconf.toXML(dvs, null, savedSession);
 				}
 			}
 		});

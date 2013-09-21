@@ -2,9 +2,10 @@ package ch.unizh.ini.devices.components.aer;
 
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.config.ConfigBit;
+import net.sf.jaer2.devices.config.ShiftRegisterContainer;
 import net.sf.jaer2.devices.config.muxes.AnalogMux;
-import net.sf.jaer2.devices.config.muxes.BiasMux;
 import net.sf.jaer2.devices.config.muxes.DigitalMux;
+import net.sf.jaer2.devices.config.muxes.Mux;
 import net.sf.jaer2.devices.config.pots.AddressedIPotCoarseFine;
 import net.sf.jaer2.devices.config.pots.Masterbias;
 import net.sf.jaer2.devices.config.pots.Pot;
@@ -30,8 +31,7 @@ public class SBRet10 extends AERChip implements Translator {
 		super(componentName);
 
 		// Masterbias needs to be added first!
-		final Masterbias masterbias = new Masterbias("Masterbias", ".");
-		addSetting(masterbias, AERChip.MASTERBIAS_ADDRESS);
+		final Masterbias masterbias = new Masterbias("Masterbias", "Masterbias for on-chip bias generator.");
 
 		// Estimated from tox=42A, mu_n=670 cm^2/Vs.
 		masterbias.setKPrimeNFet(55e-3f);
@@ -40,48 +40,194 @@ public class SBRet10 extends AERChip implements Translator {
 		// Masterbias has nfet with w/l=2 at output.
 		masterbias.setWOverL(4.8f / 2.4f);
 
-		addSetting(new AddressedIPotCoarseFine("DiffBn", ".", Pot.Type.NORMAL, Pot.Sex.N), 0);
-		addSetting(new AddressedIPotCoarseFine("OnBn", ".", Pot.Type.NORMAL, Pot.Sex.N), 1);
-		addSetting(new AddressedIPotCoarseFine("OffBn", ".", Pot.Type.NORMAL, Pot.Sex.N), 2);
-		addSetting(new AddressedIPotCoarseFine("ApsCasEpc", ".", Pot.Type.CASCODE, Pot.Sex.P), 3);
-		addSetting(new AddressedIPotCoarseFine("DiffCasBnc", ".", Pot.Type.CASCODE, Pot.Sex.N), 4);
-		addSetting(new AddressedIPotCoarseFine("ApsROSFBn", ".", Pot.Type.NORMAL, Pot.Sex.N), 5);
-		addSetting(new AddressedIPotCoarseFine("LocalBufBn", ".", Pot.Type.NORMAL, Pot.Sex.N), 6);
-		addSetting(new AddressedIPotCoarseFine("PixInvBn", ".", Pot.Type.NORMAL, Pot.Sex.N), 7);
-		addSetting(new AddressedIPotCoarseFine("PrBp", ".", Pot.Type.NORMAL, Pot.Sex.P), 8);
-		addSetting(new AddressedIPotCoarseFine("PrSFBp", ".", Pot.Type.NORMAL, Pot.Sex.P), 9);
-		addSetting(new AddressedIPotCoarseFine("RefrBp", ".", Pot.Type.NORMAL, Pot.Sex.P), 10);
-		addSetting(new AddressedIPotCoarseFine("AEPdBn", ".", Pot.Type.NORMAL, Pot.Sex.N), 11);
-		addSetting(new AddressedIPotCoarseFine("LcolTimeoutBn", ".", Pot.Type.NORMAL, Pot.Sex.N), 12);
-		addSetting(new AddressedIPotCoarseFine("AEPuXBp", ".", Pot.Type.NORMAL, Pot.Sex.P), 13);
-		addSetting(new AddressedIPotCoarseFine("AEPuYBp", ".", Pot.Type.NORMAL, Pot.Sex.P), 14);
-		addSetting(new AddressedIPotCoarseFine("IFThrBn", ".", Pot.Type.NORMAL, Pot.Sex.N), 15);
-		addSetting(new AddressedIPotCoarseFine("IFRefrBn", ".", Pot.Type.NORMAL, Pot.Sex.N), 16);
-		addSetting(new AddressedIPotCoarseFine("PadFollBn", ".", Pot.Type.NORMAL, Pot.Sex.N), 17);
-		addSetting(new AddressedIPotCoarseFine("apsOverflowLevel", ".", Pot.Type.NORMAL, Pot.Sex.N), 18);
-		addSetting(new AddressedIPotCoarseFine("biasBuffer", ".", Pot.Type.NORMAL, Pot.Sex.N), 19);
+		addSetting(masterbias);
 
-		addSetting(new ShiftedSourceBiasCoarseFine("SSP", ".", Pot.Type.NORMAL, Pot.Sex.P), 20);
-		addSetting(new ShiftedSourceBiasCoarseFine("SSN", ".", Pot.Type.NORMAL, Pot.Sex.N), 21);
+		addSetting(new AddressedIPotCoarseFine("DiffBn", ".", 0, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("OnBn", ".", 1, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("OffBn", ".", 2, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("ApsCasEpc", ".", 3, Pot.Type.CASCODE, Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("DiffCasBnc", ".", 4, Pot.Type.CASCODE, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("ApsROSFBn", ".", 5, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("LocalBufBn", ".", 6, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("PixInvBn", ".", 7, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("PrBp", ".", 8, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("PrSFBp", ".", 9, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("RefrBp", ".", 10, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("AEPdBn", ".", 11, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("LcolTimeoutBn", ".", 12, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("AEPuXBp", ".", 13, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("AEPuYBp", ".", 14, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("IFThrBn", ".", 15, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("IFRefrBn", ".", 16, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("PadFollBn", ".", 17, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("apsOverflowLevel", ".", 18, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("biasBuffer", ".", 19, Pot.Type.NORMAL, Pot.Sex.N));
 
-		addSetting(new ConfigBit("resetCalib", ".", true), 0);
-		addSetting(new ConfigBit("typeNCalib", ".", false), 1);
-		addSetting(new ConfigBit("resetTestpixel", ".", true), 2);
-		addSetting(new ConfigBit("hotPixelSuppression", ".", false), 3);
-		addSetting(new ConfigBit("nArow", ".", false), 4);
-		addSetting(new ConfigBit("useAout", ".", true), 5);
-		addSetting(new ConfigBit("globalShutter", ".", false), 6);
+		addSetting(new ShiftedSourceBiasCoarseFine("SSP", ".", 20, Pot.Type.NORMAL, Pot.Sex.P));
+		addSetting(new ShiftedSourceBiasCoarseFine("SSN", ".", 21, Pot.Type.NORMAL, Pot.Sex.N));
 
-		addSetting(new AnalogMux("AnaMux2", "."), 1);
-		addSetting(new AnalogMux("AnaMux1", "."), 2);
-		addSetting(new AnalogMux("AnaMux0", "."), 3);
+		final ShiftRegisterContainer chipSR = new ShiftRegisterContainer("ChipSR",
+			"ShiftRegister for on-chip configuration (muxes, settings).", 56);
 
-		addSetting(new DigitalMux("DigMux3", "."), 1);
-		addSetting(new DigitalMux("DigMux2", "."), 2);
-		addSetting(new DigitalMux("DigMux1", "."), 3);
-		addSetting(new DigitalMux("DigMux0", "."), 4);
+		final Mux digMux3 = new DigitalMux("DigMux3", ".");
 
-		addSetting(new BiasMux("BiasOutMux", "."), 0);
+		digMux3.put(0, "AY179right");
+		digMux3.put(1, "Acol");
+		digMux3.put(2, "ColArbTopA");
+		digMux3.put(3, "ColArbTopR");
+		digMux3.put(4, "FF1");
+		digMux3.put(5, "FF2");
+		digMux3.put(6, "Rcarb");
+		digMux3.put(7, "Rcol");
+		digMux3.put(8, "Rrow");
+		digMux3.put(9, "RxarbE");
+		digMux3.put(10, "nAX0");
+		digMux3.put(11, "nArowBottom");
+		digMux3.put(12, "nArowTop");
+		digMux3.put(13, "nRxOn");
+		digMux3.put(14, "nResetRxCol");
+		digMux3.put(15, "nRYtestpixel");
+
+		chipSR.addSetting(digMux3);
+
+		final Mux digMux2 = new DigitalMux("DigMux2", ".");
+
+		digMux2.put(0, "AY179right");
+		digMux2.put(1, "Acol");
+		digMux2.put(2, "ColArbTopA");
+		digMux2.put(3, "ColArbTopR");
+		digMux2.put(4, "FF1");
+		digMux2.put(5, "FF2");
+		digMux2.put(6, "Rcarb");
+		digMux2.put(7, "Rcol");
+		digMux2.put(8, "Rrow");
+		digMux2.put(9, "RxarbE");
+		digMux2.put(10, "nAX0");
+		digMux2.put(11, "nArowBottom");
+		digMux2.put(12, "nArowTop");
+		digMux2.put(13, "nRxOn");
+		digMux2.put(14, "biasCalibSpike");
+		digMux2.put(15, "nRY179right");
+
+		chipSR.addSetting(digMux2);
+
+		final Mux digMux1 = new DigitalMux("DigMux1", ".");
+
+		digMux1.put(0, "AY179right");
+		digMux1.put(1, "Acol");
+		digMux1.put(2, "ColArbTopA");
+		digMux1.put(3, "ColArbTopR");
+		digMux1.put(4, "FF1");
+		digMux1.put(5, "FF2");
+		digMux1.put(6, "Rcarb");
+		digMux1.put(7, "Rcol");
+		digMux1.put(8, "Rrow");
+		digMux1.put(9, "RxarbE");
+		digMux1.put(10, "nAX0");
+		digMux1.put(11, "nArowBottom");
+		digMux1.put(12, "nArowTop");
+		digMux1.put(13, "nRxOn");
+		digMux1.put(14, "AY179");
+		digMux1.put(15, "RY179");
+
+		chipSR.addSetting(digMux1);
+
+		final Mux digMux0 = new DigitalMux("DigMux0", ".");
+
+		digMux0.put(0, "AY179right");
+		digMux0.put(1, "Acol");
+		digMux0.put(2, "ColArbTopA");
+		digMux0.put(3, "ColArbTopR");
+		digMux0.put(4, "FF1");
+		digMux0.put(5, "FF2");
+		digMux0.put(6, "Rcarb");
+		digMux0.put(7, "Rcol");
+		digMux0.put(8, "Rrow");
+		digMux0.put(9, "RxarbE");
+		digMux0.put(10, "nAX0");
+		digMux0.put(11, "nArowBottom");
+		digMux0.put(12, "nArowTop");
+		digMux0.put(13, "nRxOn");
+		digMux0.put(14, "AY179");
+		digMux0.put(15, "RY179");
+
+		chipSR.addSetting(digMux0);
+
+		final ShiftRegisterContainer chipConfigSR = new ShiftRegisterContainer("chipConfigSR",
+			"ShiftRegister for on-chip configuration.", 24);
+
+		chipConfigSR.addSetting(new ShiftRegisterContainer.PlaceholderBits("Placeholder", 17));
+		chipConfigSR.addSetting(new ConfigBit("globalShutter", ".", false));
+		chipConfigSR.addSetting(new ConfigBit("useAout", ".", true));
+		chipConfigSR.addSetting(new ConfigBit("nArow", ".", false));
+		chipConfigSR.addSetting(new ConfigBit("hotPixelSuppression", ".", false));
+		chipConfigSR.addSetting(new ConfigBit("resetTestpixel", ".", true));
+		chipConfigSR.addSetting(new ConfigBit("typeNCalib", ".", false));
+		chipConfigSR.addSetting(new ConfigBit("resetCalib", ".", true));
+
+		chipSR.addSetting(chipConfigSR);
+
+		final Mux anaMux2 = new AnalogMux("AnaMux2", ".");
+
+		anaMux2.put(0, "on");
+		anaMux2.put(1, "off");
+		anaMux2.put(2, "vdiff");
+		anaMux2.put(3, "nResetPixel");
+		anaMux2.put(4, "pr");
+		anaMux2.put(5, "pd");
+		anaMux2.put(6, "calibNeuron");
+		anaMux2.put(7, "nTimeout_AI");
+
+		chipSR.addSetting(anaMux2);
+
+		final Mux anaMux1 = new AnalogMux("AnaMux1", ".");
+
+		anaMux1.put(0, "on");
+		anaMux1.put(1, "off");
+		anaMux1.put(2, "vdiff");
+		anaMux1.put(3, "nResetPixel");
+		anaMux1.put(4, "pr");
+		anaMux1.put(5, "pd");
+		anaMux1.put(6, "apsgate");
+		anaMux1.put(7, "apsout");
+
+		chipSR.addSetting(anaMux1);
+
+		final Mux anaMux0 = new AnalogMux("AnaMux0", ".");
+
+		anaMux0.put(0, "on");
+		anaMux0.put(1, "off");
+		anaMux0.put(2, "vdiff");
+		anaMux0.put(3, "nResetPixel");
+		anaMux0.put(4, "pr");
+		anaMux0.put(5, "pd");
+		anaMux0.put(6, "apsgate");
+		anaMux0.put(7, "apsout");
+
+		chipSR.addSetting(anaMux0);
+
+		final Mux biasOutMux = new DigitalMux("BiasOutMux", ".");
+
+		biasOutMux.put(0, "IFThrBn");
+		biasOutMux.put(1, "AEPuYBp");
+		biasOutMux.put(2, "AEPuXBp");
+		biasOutMux.put(3, "LColTimeout");
+		biasOutMux.put(4, "AEPdBn");
+		biasOutMux.put(5, "RefrBp");
+		biasOutMux.put(6, "PrSFBp");
+		biasOutMux.put(7, "PrBp");
+		biasOutMux.put(8, "PixInvBn");
+		biasOutMux.put(9, "LocalBufBn");
+		biasOutMux.put(10, "ApsROSFBn");
+		biasOutMux.put(11, "DiffCasBnc");
+		biasOutMux.put(12, "ApsCasBpc");
+		biasOutMux.put(13, "OffBn");
+		biasOutMux.put(14, "OnBn");
+		biasOutMux.put(15, "DiffBn");
+
+		chipSR.addSetting(biasOutMux);
+
+		addSetting(chipSR);
 	}
 
 	@Override

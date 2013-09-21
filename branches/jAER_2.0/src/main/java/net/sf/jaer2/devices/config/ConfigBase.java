@@ -39,20 +39,20 @@ public abstract class ConfigBase implements Serializable {
 		this.numBits = numBits;
 	}
 
-	public String getName() {
+	public final String getName() {
 		return name;
 	}
 
-	public String getDescription() {
+	public final String getDescription() {
 		return description;
 	}
 
-	public int getNumBits() {
+	public final int getNumBits() {
 		return numBits;
 	}
 
-	public int getNumBytes() {
-		return (getNumBits() / 8) + (((getNumBits() % 8) == 0) ? (0) : (1));
+	public final int getNumBytes() {
+		return (getNumBits() / Byte.SIZE) + (((getNumBits() % Byte.SIZE) == 0) ? (0) : (1));
 	}
 
 	/**
@@ -64,7 +64,8 @@ public abstract class ConfigBase implements Serializable {
 	}
 
 	/** Return the minimum value, no current: zero. */
-	public static long getMinBitValue() {
+	@SuppressWarnings("static-method")
+	public long getMinBitValue() {
 		return 0;
 	}
 
@@ -81,31 +82,36 @@ public abstract class ConfigBase implements Serializable {
 	public byte[] getBinaryRepresentation() {
 		final byte[] bytes = new byte[getNumBytes()];
 
-		final long val = computeBinaryRepresentation();
+		// Get the binary representation (can be up to 64 bits).
+		// Mask off whatever's not in the lowest getNumBits() bits, to make sure
+		// we only get the values we're interested in. This also guarantees
+		// left-padding with zeros with no additional work needed.
+		final long safetyMask = 0xFFFFFFFFFFFFFFFFL >>> (Long.SIZE - getNumBits());
+		final long val = computeBinaryRepresentation() & safetyMask;
 
 		int k = 0;
 		for (int i = bytes.length - 1; i >= 0; i--) {
-			bytes[k++] = (byte) (0xFF & (val >>> (i * 8)));
+			bytes[k++] = (byte) (0xFF & (val >>> (i * Byte.SIZE)));
 		}
 
 		return bytes;
 	}
 
-	public String getBinaryRepresentationAsString() {
+	public final String getBinaryRepresentationAsString() {
 		final byte[] binRep = getBinaryRepresentation();
 
-		final StringBuilder s = new StringBuilder(binRep.length * 8);
+		final StringBuilder s = new StringBuilder(binRep.length * Byte.SIZE);
 
 		for (final byte element : binRep) {
 			s.append(Numbers.integerToString((int) element, NumberFormat.BINARY,
 				EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING)).substring(
-				24, 32));
+				Integer.SIZE - Byte.SIZE, Integer.SIZE));
 		}
 
 		return s.toString();
 	}
 
-	synchronized public Pane getConfigGUI() {
+	synchronized public final Pane getConfigGUI() {
 		if (rootConfigLayout == null) {
 			rootConfigLayout = new HBox(10);
 
@@ -125,6 +131,6 @@ public abstract class ConfigBase implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("%s - %s", name, description);
+		return String.format("%s [len=%d] - %s", name, numBits, description);
 	}
 }

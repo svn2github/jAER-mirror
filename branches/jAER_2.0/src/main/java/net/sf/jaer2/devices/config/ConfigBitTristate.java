@@ -2,11 +2,12 @@ package net.sf.jaer2.devices.config;
 
 import java.util.EnumSet;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.ComboBox;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.serializable.SerializableObjectProperty;
 
-public class ConfigBitTristate extends ConfigBase {
+public final class ConfigBitTristate extends ConfigBase {
 	private static final long serialVersionUID = -554758992623341136L;
 
 	public static enum Tristate {
@@ -66,6 +67,15 @@ public class ConfigBitTristate extends ConfigBase {
 		value.property().set(val);
 	}
 
+	public ObjectProperty<Tristate> getValueProperty() {
+		return value.property();
+	}
+
+	@Override
+	public long getMaxBitValue() {
+		return 3;
+	}
+
 	@Override
 	protected long computeBinaryRepresentation() {
 		return getValue().bitValue();
@@ -77,7 +87,7 @@ public class ConfigBitTristate extends ConfigBase {
 
 		final ComboBox<Tristate> triBox = GUISupport.addComboBox(rootConfigLayout, EnumSet.allOf(Tristate.class),
 			getValue().ordinal());
-		triBox.valueProperty().bindBidirectional(value.property());
+		triBox.valueProperty().bindBidirectional(getValueProperty());
 	}
 
 	@Override

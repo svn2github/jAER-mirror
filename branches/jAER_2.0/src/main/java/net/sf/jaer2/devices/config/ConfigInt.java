@@ -2,6 +2,7 @@ package net.sf.jaer2.devices.config;
 
 import java.util.EnumSet;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 import net.sf.jaer2.util.GUISupport;
@@ -10,13 +11,13 @@ import net.sf.jaer2.util.Numbers.NumberFormat;
 import net.sf.jaer2.util.Numbers.NumberOptions;
 import net.sf.jaer2.util.serializable.SerializableIntegerProperty;
 
-public class ConfigInt extends ConfigBase {
+public final class ConfigInt extends ConfigBase {
 	private static final long serialVersionUID = 1886982916541742697L;
 
 	private final SerializableIntegerProperty value = new SerializableIntegerProperty();
 
 	public ConfigInt(final String name, final String description, final int defaultValue) {
-		this(name, description, defaultValue, 32);
+		this(name, description, defaultValue, Integer.SIZE);
 	}
 
 	public ConfigInt(final String name, final String description, final int defaultValue, final int numBits) {
@@ -33,6 +34,10 @@ public class ConfigInt extends ConfigBase {
 		value.property().set(val);
 	}
 
+	public IntegerProperty getValueProperty() {
+		return value.property();
+	}
+
 	@Override
 	protected long computeBinaryRepresentation() {
 		return getValue();
@@ -42,11 +47,11 @@ public class ConfigInt extends ConfigBase {
 	protected void buildConfigGUI() {
 		super.buildConfigGUI();
 
-		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, value.property(),
-			ConfigBase.getMinBitValue(), getMaxBitValue(), null);
+		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, getValueProperty(),
+			getMinBitValue(), getMaxBitValue(), null);
 		valueInt.setPrefColumnCount(10);
 
-		valueInt.textProperty().bindBidirectional(value.property().asObject(), new StringConverter<Integer>() {
+		valueInt.textProperty().bindBidirectional(getValueProperty().asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
 				return Numbers.stringToInteger(str, NumberFormat.DECIMAL, NumberOptions.UNSIGNED);
@@ -58,11 +63,11 @@ public class ConfigInt extends ConfigBase {
 			}
 		});
 
-		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, value.property(),
-			ConfigBase.getMinBitValue(), getMaxBitValue(), null);
+		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, getValueProperty(),
+			getMinBitValue(), getMaxBitValue(), null);
 		valueBits.setPrefColumnCount(getNumBits());
 
-		valueBits.textProperty().bindBidirectional(value.property().asObject(), new StringConverter<Integer>() {
+		valueBits.textProperty().bindBidirectional(getValueProperty().asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
 				return Numbers.stringToInteger(str, NumberFormat.BINARY, NumberOptions.UNSIGNED);
@@ -72,7 +77,7 @@ public class ConfigInt extends ConfigBase {
 			public String toString(final Integer i) {
 				return Numbers.integerToString(i, NumberFormat.BINARY,
 					EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING))
-					.substring(32 - getNumBits(), 32);
+					.substring(Integer.SIZE - getNumBits(), Integer.SIZE);
 			}
 		});
 	}

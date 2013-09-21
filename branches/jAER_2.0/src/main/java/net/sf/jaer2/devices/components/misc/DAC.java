@@ -1,12 +1,8 @@
 package net.sf.jaer2.devices.components.misc;
 
 import net.sf.jaer2.devices.components.Component;
-import net.sf.jaer2.devices.config.pots.VPot;
 
 public class DAC extends Component {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 419464332057192955L;
 
 	public DAC() {
@@ -30,10 +26,5 @@ public class DAC extends Component {
 	public float getRefMinVolts() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	public void addSetting(final VPot bias, final int dacChannel) {
-		bias.setDac(this);
-		super.addSetting(bias, dacChannel);
 	}
 }

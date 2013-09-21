@@ -12,6 +12,7 @@ import net.sf.jaer2.devices.components.misc.memory.Flash_SPI;
 import net.sf.jaer2.devices.components.misc.memory.Memory;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigInt;
+import net.sf.jaer2.devices.config.ShiftRegisterContainer;
 import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.SBRet10;
 
@@ -51,11 +52,16 @@ public class ApsDvs10FX3 extends USBDevice {
 		// Support flashing LatticeECP3 firmware.
 		latticeECP3.firmwareToFlash(flash);
 
-		latticeECP3.addSetting(new ConfigInt("exposure", ".", 0), 0, 16);
-		latticeECP3.addSetting(new ConfigInt("colSettle", ".", 0), 16, 16);
-		latticeECP3.addSetting(new ConfigInt("rowSettle", ".", 0), 32, 16);
-		latticeECP3.addSetting(new ConfigInt("resSettle", ".", 0), 48, 16);
-		latticeECP3.addSetting(new ConfigInt("frameDelay", ".", 0), 64, 16);
+		final ShiftRegisterContainer fpgaSR = new ShiftRegisterContainer("fpgaSR",
+			"ShiftRegister for on-FPGA configuration.", 80);
+
+		fpgaSR.addSetting(new ConfigInt("frameDelay", ".", 0, 16));
+		fpgaSR.addSetting(new ConfigInt("resSettle", ".", 0, 16));
+		fpgaSR.addSetting(new ConfigInt("rowSettle", ".", 0, 16));
+		fpgaSR.addSetting(new ConfigInt("colSettle", ".", 0, 16));
+		fpgaSR.addSetting(new ConfigInt("exposure", ".", 0, 16));
+
+		latticeECP3.addSetting(fpgaSR);
 
 		// ADC adcTHS1030 = new THS1030();
 		// Not actively configurable.

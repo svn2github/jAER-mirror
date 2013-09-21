@@ -5,6 +5,9 @@ import java.io.ObjectInputStream;
 import java.util.EnumSet;
 
 import javafx.beans.binding.StringBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -16,7 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.util.StringConverter;
-import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers;
 import net.sf.jaer2.util.Numbers.NumberFormat;
@@ -28,19 +30,16 @@ import net.sf.jaer2.util.serializable.SerializableObjectProperty;
 public class AddressedIPotCoarseFine extends AddressedIPot {
 	private static final long serialVersionUID = -8998488876441985890L;
 
-	/** The nominal (designed for) external resistor on the master bias */
-	public static final float RX = 100e3f;
-
 	/**
 	 * The nominal ratio of coarse current between each coarse bias step change.
 	 */
-	public static final float RATIO_COARSE_CURRENT_STEP = 8f;
+	private static final float RATIO_COARSE_CURRENT_STEP = 8f;
 
 	/**
 	 * Estimation of the master bias with 100kOhm external resistor (designed
 	 * value); 389nA
 	 */
-	private final double fixMasterBias = 0.000000389;
+	private static final double fixMasterBias = 0.000000389;
 
 	/**
 	 * Operating current level, defines whether to use shifted-source current
@@ -67,68 +66,69 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 * mode, the bias uses
 	 * shifted n or p source regulated voltages.
 	 */
-	protected final SerializableObjectProperty<CurrentLevel> currentLevel = new SerializableObjectProperty<>();
+	private final SerializableObjectProperty<CurrentLevel> currentLevel = new SerializableObjectProperty<>();
 
 	/**
 	 * If enabled=true the bias operates normally, if enabled=false,
 	 * then the bias is disabled by being weakly tied to the appropriate rail
 	 * (depending on bias sex, N or P).
 	 */
-	protected final SerializableBooleanProperty biasEnabled = new SerializableBooleanProperty();
+	private final SerializableBooleanProperty biasEnabled = new SerializableBooleanProperty();
 
 	/**
 	 * Bit mask for flag bias enabled (normal operation) or disabled (tied
 	 * weakly to rail)
 	 */
-	protected static final int enabledMask = 0b0001;
+	private static final int enabledMask = 0b0001;
 
 	/** Bit mask for flag for bias sex (N or P) */
-	protected static final int sexMask = 0b0010;
+	private static final int sexMask = 0b0010;
 
 	/** Bit mask for flag for bias type (normal or cascode) */
-	protected static final int typeMask = 0b0100;
+	private static final int typeMask = 0b0100;
 
 	/** Bit mask for flag low current mode enabled */
-	protected static final int lowCurrentModeMask = 0b1000;
+	private static final int lowCurrentModeMask = 0b1000;
 
 	/** Bit mask for fine bias current value bits */
-	protected static final int bitFineMask = 0x0FF0; // 8 bits
+	private static final int bitFineMask = 0x0FF0; // 8 bits
 
 	/** Bit mask for coarse bias current value bits */
-	protected static final int bitCoarseMask = 0x7000; // 3 bits
+	private static final int bitCoarseMask = 0x7000; // 3 bits
 
 	/** Number of bits used for fine bias value */
-	protected static final int numFineBits = Integer.bitCount(AddressedIPotCoarseFine.bitFineMask);
+	private static final int numFineBits = Integer.bitCount(AddressedIPotCoarseFine.bitFineMask);
 
 	/** Number of bits used for coarse bias value */
-	protected static final int numCoarseBits = Integer.bitCount(AddressedIPotCoarseFine.bitCoarseMask);
+	private static final int numCoarseBits = Integer.bitCount(AddressedIPotCoarseFine.bitCoarseMask);
 
 	/** Max fine bias bit value */
-	protected static final int maxFineBitValue = (1 << AddressedIPotCoarseFine.numFineBits) - 1;
+	private static final int maxFineBitValue = (1 << AddressedIPotCoarseFine.numFineBits) - 1;
 
 	/** Max bias bit value */
-	protected static final int maxCoarseBitValue = (1 << AddressedIPotCoarseFine.numCoarseBits) - 1;
+	private static final int maxCoarseBitValue = (1 << AddressedIPotCoarseFine.numCoarseBits) - 1;
 
 	/**
 	 * the current fine value of the ipot in bits loaded into the shift register
 	 */
-	protected final SerializableIntegerProperty fineBitValue = new SerializableIntegerProperty();
+	private final SerializableIntegerProperty fineBitValue = new SerializableIntegerProperty();
 
 	/**
 	 * the current coarse value of the ipot in bits loaded into the shift
 	 * register
 	 */
-	protected final SerializableIntegerProperty coarseBitValue = new SerializableIntegerProperty();
+	private final SerializableIntegerProperty coarseBitValue = new SerializableIntegerProperty();
 
-	public AddressedIPotCoarseFine(final String name, final String description, final Type type, final Sex sex) {
-		this(name, description, type, sex, AddressedIPotCoarseFine.maxCoarseBitValue / 2,
+	public AddressedIPotCoarseFine(final String name, final String description, final int address, final Type type,
+		final Sex sex) {
+		this(name, description, address, type, sex, AddressedIPotCoarseFine.maxCoarseBitValue / 2,
 			AddressedIPotCoarseFine.maxFineBitValue, CurrentLevel.Normal, true);
 	}
 
-	public AddressedIPotCoarseFine(final String name, final String description, final Type type, final Sex sex,
-		final int defaultCoarseValue, final int defaultFineValue, final CurrentLevel currLevel,
+	public AddressedIPotCoarseFine(final String name, final String description, final int address, final Type type,
+		final Sex sex, final int defaultCoarseValue, final int defaultFineValue, final CurrentLevel currLevel,
 		final boolean biasEnabled) {
-		super(name, description, type, sex, 0, AddressedIPotCoarseFine.numCoarseBits
+		super(name, description, address, type, sex, 0, AddressedIPotCoarseFine.numCoarseBits
 			+ AddressedIPotCoarseFine.numFineBits);
 
 		setBitValueUpdateListeners();
@@ -152,7 +152,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	private void setBitValueUpdateListeners() {
 		// Add listeners that mediate updates between the bitValue and its
 		// coarse and fine parts automatically.
-		coarseBitValue.property().addListener(new ChangeListener<Number>() {
+		getCoarseBitValueProperty().addListener(new ChangeListener<Number>() {
 			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
@@ -160,7 +160,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 			}
 		});
 
-		fineBitValue.property().addListener(new ChangeListener<Number>() {
+		getFineBitValueProperty().addListener(new ChangeListener<Number>() {
 			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
@@ -168,7 +168,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 			}
 		});
 
-		bitValue.property().addListener(new ChangeListener<Number>() {
+		getBitValueProperty().addListener(new ChangeListener<Number>() {
 			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
@@ -191,6 +191,10 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 */
 	public void setFineBitValue(final int fine) {
 		fineBitValue.property().set(AddressedIPotCoarseFine.clipFine(fine));
+	}
+
+	public IntegerProperty getFineBitValueProperty() {
+		return fineBitValue.property();
 	}
 
 	/**
@@ -230,6 +234,10 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 */
 	public void setCoarseBitValue(final int coarse) {
 		coarseBitValue.property().set(AddressedIPotCoarseFine.clipCoarse(coarse));
+	}
+
+	public IntegerProperty getCoarseBitValueProperty() {
+		return coarseBitValue.property();
 	}
 
 	/**
@@ -277,12 +285,20 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 		this.biasEnabled.property().set(biasEnabled);
 	}
 
+	public BooleanProperty getBiasEnabledProperty() {
+		return biasEnabled.property();
+	}
+
 	public CurrentLevel getCurrentLevel() {
 		return currentLevel.property().get();
 	}
 
 	public void setCurrentLevel(final CurrentLevel currentLevel) {
 		this.currentLevel.property().set(currentLevel);
+	}
+
+	public ObjectProperty<CurrentLevel> getCurrentLevelProperty() {
+		return currentLevel.property();
 	}
 
 	public boolean isLowCurrentModeEnabled() {
@@ -306,7 +322,8 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 * @return current in amperes
 	 */
 	public float getCoarseCurrent() {
-		final double im = fixMasterBias; // TODO: implement real MasterBias.
+		// TODO: implement real MasterBias.
+		final double im = AddressedIPotCoarseFine.fixMasterBias;
 		final float i = (float) (im * Math.pow(AddressedIPotCoarseFine.RATIO_COARSE_CURRENT_STEP,
 			2 - getCoarseBitValue()));
 		return i;
@@ -322,7 +339,8 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 * @return actual float value of current after resolution clipping.
 	 */
 	public float setCoarseCurrent(final float current) {
-		final double im = fixMasterBias; // TODO: implement real MasterBias.
+		// TODO: implement real MasterBias.
+		final double im = AddressedIPotCoarseFine.fixMasterBias;
 		setCoarseBitValue(7 - (int) Math.round((Math.log(current / im) / Math.log(8)) + 5));
 		return getCoarseCurrent();
 	}
@@ -413,7 +431,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 * @return the bits mirrored
 	 */
 	private static int computeBinaryInverse(final int value, final int length) {
-		return Integer.reverse(value) >>> (32 - length);
+		return Integer.reverse(value) >>> (Integer.SIZE - length);
 	}
 
 	@Override
@@ -425,25 +443,25 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 		l.setAlignment(Pos.CENTER_RIGHT);
 
 		final CheckBox enableBox = GUISupport.addCheckBox(rootConfigLayout, "Enabled", isBiasEnabled());
-		enableBox.selectedProperty().bindBidirectional(biasEnabled.property());
+		enableBox.selectedProperty().bindBidirectional(getBiasEnabledProperty());
 
 		final ComboBox<CurrentLevel> currentBox = GUISupport.addComboBox(rootConfigLayout,
 			EnumSet.allOf(CurrentLevel.class), getCurrentLevel().ordinal());
-		currentBox.valueProperty().bindBidirectional(currentLevel.property());
+		currentBox.valueProperty().bindBidirectional(getCurrentLevelProperty());
 
 		final ComboBox<Type> typeBox = GUISupport.addComboBox(rootConfigLayout, EnumSet.allOf(Type.class), getType()
 			.ordinal());
-		typeBox.valueProperty().bindBidirectional(type.property());
+		typeBox.valueProperty().bindBidirectional(getTypeProperty());
 
 		final ComboBox<Sex> sexBox = GUISupport.addComboBox(rootConfigLayout, EnumSet.allOf(Sex.class), getSex()
 			.ordinal());
-		sexBox.valueProperty().bindBidirectional(sex.property());
+		sexBox.valueProperty().bindBidirectional(getSexProperty());
 
-		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
-			ConfigBase.getMinBitValue(), getMaxBitValue(), null);
+		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(),
+			getMinBitValue(), getMaxBitValue(), null);
 		valueInt.setPrefColumnCount(10);
 
-		valueInt.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
+		valueInt.textProperty().bindBidirectional(getBitValueProperty().asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
 				return clip(Numbers.stringToInteger(str, NumberFormat.DECIMAL, NumberOptions.UNSIGNED));
@@ -455,11 +473,11 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 			}
 		});
 
-		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
-			ConfigBase.getMinBitValue(), getMaxBitValue(), null);
+		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(),
+			getMinBitValue(), getMaxBitValue(), null);
 		valueBits.setPrefColumnCount(getNumBits());
 
-		valueBits.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
+		valueBits.textProperty().bindBidirectional(getBitValueProperty().asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
 				return clip(Numbers.stringToInteger(str, NumberFormat.BINARY, NumberOptions.UNSIGNED));
@@ -469,28 +487,28 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 			public String toString(final Integer i) {
 				return Numbers.integerToString(clip(i), NumberFormat.BINARY,
 					EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING))
-					.substring(32 - getNumBits(), 32);
+					.substring(Integer.SIZE - getNumBits(), Integer.SIZE);
 			}
 		});
 
 		final Slider coarseSlider = GUISupport.addSlider(rootConfigLayout,
 			AddressedIPotCoarseFine.getMinCoarseBitValue(), AddressedIPotCoarseFine.getMaxCoarseBitValue(), 0, 10);
 
-		coarseSlider.valueProperty().bindBidirectional(coarseBitValue.property());
+		coarseSlider.valueProperty().bindBidirectional(getCoarseBitValueProperty());
 
 		final Slider fineSlider = GUISupport.addSlider(rootConfigLayout, AddressedIPotCoarseFine.getMinFineBitValue(),
 			AddressedIPotCoarseFine.getMaxFineBitValue(), 0, 10);
 		HBox.setHgrow(fineSlider, Priority.ALWAYS);
 
-		fineSlider.valueProperty().bindBidirectional(fineBitValue.property());
+		fineSlider.valueProperty().bindBidirectional(getFineBitValueProperty());
 
 		final Label binaryRep = GUISupport.addLabel(rootConfigLayout, getBinaryRepresentationAsString(),
 			"Binary data to be sent to the device.", null, null);
 
 		final StringBinding binStr = new StringBinding() {
 			{
-				super.bind(bitValue.property(), type.property(), sex.property(), biasEnabled.property(),
-					currentLevel.property());
+				super.bind(getBitValueProperty(), getTypeProperty(), getSexProperty(), getBiasEnabledProperty(),
+					getCurrentLevelProperty());
 			}
 
 			@Override

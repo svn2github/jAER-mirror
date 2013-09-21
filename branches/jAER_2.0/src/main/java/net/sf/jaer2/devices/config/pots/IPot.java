@@ -2,13 +2,12 @@ package net.sf.jaer2.devices.config.pots;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import net.sf.jaer2.devices.config.ConfigBase;
 
 public class IPot extends Pot {
 	private static final long serialVersionUID = 8770260772132405397L;
 
 	/** Fraction that bias current changes on increment or decrement. */
-	public static final float CHANGE_FRACTION = 0.1f;
+	private static final float CHANGE_FRACTION = 0.1f;
 
 	/** The Masterbias supplying reference current to this bias. */
 	private Masterbias masterbias;
@@ -96,7 +95,7 @@ public class IPot extends Pot {
 
 	/** decrement pot value by ratio */
 	public boolean decrementCurrent() {
-		if (getBitValue() == ConfigBase.getMinBitValue()) {
+		if (getBitValue() == getMinBitValue()) {
 			return false;
 		}
 
@@ -147,7 +146,7 @@ public class IPot extends Pot {
 			}
 		});
 
-		bitValue.property().addListener(new ChangeListener<Number>() {
+		getBitValueProperty().addListener(new ChangeListener<Number>() {
 			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {

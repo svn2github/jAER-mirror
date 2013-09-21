@@ -1,8 +1,8 @@
 package net.sf.jaer2.devices.components;
 
 import java.io.Serializable;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -12,7 +12,7 @@ import net.sf.jaer2.devices.config.ConfigBase;
 public abstract class Component implements Serializable {
 	private static final long serialVersionUID = 1690782428425851787L;
 
-	protected final SortedMap<Integer, ConfigBase> addressSettingMap = new TreeMap<>();
+	protected final Map<String, ConfigBase> settingsMap = new LinkedHashMap<>();
 
 	protected final String name;
 	protected Controller programmer;
@@ -35,12 +35,12 @@ public abstract class Component implements Serializable {
 		this.programmer = programmer;
 	}
 
-	public void addSetting(final ConfigBase setting, final int address) {
-		addressSettingMap.put(address, setting);
+	public void addSetting(final ConfigBase setting) {
+		settingsMap.put(setting.getName(), setting);
 	}
 
-	public ConfigBase getSetting(final int address) {
-		return addressSettingMap.get(address);
+	public ConfigBase getSetting(final String sname) {
+		return settingsMap.get(sname);
 	}
 
 	synchronized public Pane getConfigGUI() {
@@ -55,7 +55,7 @@ public abstract class Component implements Serializable {
 
 	protected void buildConfigGUI() {
 		// Fill the vertical box with the settings.
-		for (final ConfigBase cfg : addressSettingMap.values()) {
+		for (final ConfigBase cfg : settingsMap.values()) {
 			rootConfigLayout.getChildren().add(cfg.getConfigGUI());
 		}
 	}

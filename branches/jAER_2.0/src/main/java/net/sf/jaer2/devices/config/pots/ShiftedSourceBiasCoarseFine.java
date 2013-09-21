@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.util.EnumSet;
 
 import javafx.beans.binding.StringBinding;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -13,7 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
-import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers;
 import net.sf.jaer2.util.Numbers.NumberFormat;
@@ -36,7 +37,7 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 			bits = b;
 		}
 
-		public int bits() {
+		public final int bits() {
 			return bits << Integer.numberOfTrailingZeros(OperatingMode.mask);
 		}
 	}
@@ -53,51 +54,54 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 			bits = b;
 		}
 
-		public int bits() {
+		public final int bits() {
 			return bits << Integer.numberOfTrailingZeros(VoltageLevel.mask);
 		}
 	}
 
-	protected final SerializableObjectProperty<OperatingMode> operatingMode = new SerializableObjectProperty<>();
+	private final SerializableObjectProperty<OperatingMode> operatingMode = new SerializableObjectProperty<>();
 
-	protected final SerializableObjectProperty<VoltageLevel> voltageLevel = new SerializableObjectProperty<>();
+	private final SerializableObjectProperty<VoltageLevel> voltageLevel = new SerializableObjectProperty<>();
 
-	protected static final int refBiasMask = 0x03F0; // 6 bits for level of
-														// shifted source
+	// 6 bits for level of shifted source
+	/** Bit mask for bias bits */
+	private static final int refBiasMask = 0x03F0;
+
+	// 6 bits for bias current for shifted source buffer amplifier
 	/** Bit mask for buffer bias bits */
-	protected static final int regBiasMask = 0xFC00; // 6 bits for bias current
-														// for shifted source
-														// buffer amplifier
+	private static final int regBiasMask = 0xFC00;
+
 	/** Number of bits used for bias value */
-	protected static final int numRefBiasBits = Integer.bitCount(ShiftedSourceBiasCoarseFine.refBiasMask);
+	private static final int numRefBiasBits = Integer.bitCount(ShiftedSourceBiasCoarseFine.refBiasMask);
 
 	/**
 	 * The number of bits specifying buffer bias current as fraction of master
 	 * bias current
 	 */
-	protected static final int numRegBiasBits = Integer.bitCount(ShiftedSourceBiasCoarseFine.regBiasMask);
+	private static final int numRegBiasBits = Integer.bitCount(ShiftedSourceBiasCoarseFine.regBiasMask);
 
 	/** Max bias bit value */
-	protected static final int maxRefBitValue = (1 << ShiftedSourceBiasCoarseFine.numRefBiasBits) - 1;
+	private static final int maxRefBitValue = (1 << ShiftedSourceBiasCoarseFine.numRefBiasBits) - 1;
 
 	/** Maximum buffer bias value (all bits on) */
-	protected static final int maxRegBitValue = (1 << ShiftedSourceBiasCoarseFine.numRegBiasBits) - 1;
+	private static final int maxRegBitValue = (1 << ShiftedSourceBiasCoarseFine.numRegBiasBits) - 1;
 
 	/** The bit value of the buffer bias current */
-	protected final SerializableIntegerProperty refBitValue = new SerializableIntegerProperty();
+	private final SerializableIntegerProperty refBitValue = new SerializableIntegerProperty();
 
 	/** The bit value of the buffer bias current */
-	protected final SerializableIntegerProperty regBitValue = new SerializableIntegerProperty();
+	private final SerializableIntegerProperty regBitValue = new SerializableIntegerProperty();
 
-	public ShiftedSourceBiasCoarseFine(final String name, final String description, final Type type, final Sex sex) {
-		this(name, description, type, sex, ShiftedSourceBiasCoarseFine.maxRefBitValue,
+	public ShiftedSourceBiasCoarseFine(final String name, final String description, final int address, final Type type,
+		final Sex sex) {
+		this(name, description, address, type, sex, ShiftedSourceBiasCoarseFine.maxRefBitValue,
 			ShiftedSourceBiasCoarseFine.maxRegBitValue, OperatingMode.ShiftedSource, VoltageLevel.SplitGate);
 	}
 
-	public ShiftedSourceBiasCoarseFine(final String name, final String description, final Type type, final Sex sex,
-		final int defaultRefBitValue, final int defaultRegBitValue, final OperatingMode opMode,
+	public ShiftedSourceBiasCoarseFine(final String name, final String description, final int address, final Type type,
+		final Sex sex, final int defaultRefBitValue, final int defaultRegBitValue, final OperatingMode opMode,
 		final VoltageLevel vLevel) {
-		super(name, description, type, sex, 0, ShiftedSourceBiasCoarseFine.numRefBiasBits
+		super(name, description, address, type, sex, 0, ShiftedSourceBiasCoarseFine.numRefBiasBits
 			+ ShiftedSourceBiasCoarseFine.numRegBiasBits);
 
 		setBitValueUpdateListeners();
@@ -121,7 +125,7 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 	private void setBitValueUpdateListeners() {
 		// Add listeners that mediate updates between the bitValue and its
 		// ref and reg parts automatically.
-		refBitValue.property().addListener(new ChangeListener<Number>() {
+		getRefBitValueProperty().addListener(new ChangeListener<Number>() {
 			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
@@ -129,7 +133,7 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 			}
 		});
 
-		regBitValue.property().addListener(new ChangeListener<Number>() {
+		getRegBitValueProperty().addListener(new ChangeListener<Number>() {
 			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
@@ -137,7 +141,7 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 			}
 		});
 
-		bitValue.property().addListener(new ChangeListener<Number>() {
+		getBitValueProperty().addListener(new ChangeListener<Number>() {
 			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
@@ -153,6 +157,10 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 
 	public void setRefBitValue(final int ref) {
 		refBitValue.property().set(ShiftedSourceBiasCoarseFine.clipRef(ref));
+	}
+
+	public IntegerProperty getRefBitValueProperty() {
+		return refBitValue.property();
 	}
 
 	/**
@@ -182,6 +190,10 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 
 	public void setRegBitValue(final int reg) {
 		regBitValue.property().set(ShiftedSourceBiasCoarseFine.clipReg(reg));
+	}
+
+	public IntegerProperty getRegBitValueProperty() {
+		return regBitValue.property();
 	}
 
 	/**
@@ -229,12 +241,20 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 		operatingMode.property().set(opMode);
 	}
 
+	public ObjectProperty<OperatingMode> getOperatingModeProperty() {
+		return operatingMode.property();
+	}
+
 	public VoltageLevel getVoltageLevel() {
 		return voltageLevel.property().get();
 	}
 
 	public void setVoltageLevel(final VoltageLevel vLevel) {
 		voltageLevel.property().set(vLevel);
+	}
+
+	public ObjectProperty<VoltageLevel> getVoltageLevelProperty() {
+		return voltageLevel.property();
 	}
 
 	/**
@@ -325,17 +345,17 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 
 		final ComboBox<OperatingMode> opModeBox = GUISupport.addComboBox(rootConfigLayout,
 			EnumSet.allOf(OperatingMode.class), getOperatingMode().ordinal());
-		opModeBox.valueProperty().bindBidirectional(operatingMode.property());
+		opModeBox.valueProperty().bindBidirectional(getOperatingModeProperty());
 
 		final ComboBox<VoltageLevel> vLevelBox = GUISupport.addComboBox(rootConfigLayout,
 			EnumSet.allOf(VoltageLevel.class), getVoltageLevel().ordinal());
-		vLevelBox.valueProperty().bindBidirectional(voltageLevel.property());
+		vLevelBox.valueProperty().bindBidirectional(getVoltageLevelProperty());
 
-		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
-			ConfigBase.getMinBitValue(), getMaxBitValue(), null);
+		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(),
+			getMinBitValue(), getMaxBitValue(), null);
 		valueInt.setPrefColumnCount(10);
 
-		valueInt.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
+		valueInt.textProperty().bindBidirectional(getBitValueProperty().asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
 				return clip(Numbers.stringToInteger(str, NumberFormat.DECIMAL, NumberOptions.UNSIGNED));
@@ -347,11 +367,11 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 			}
 		});
 
-		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, bitValue.property(),
-			ConfigBase.getMinBitValue(), getMaxBitValue(), null);
+		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(),
+			getMinBitValue(), getMaxBitValue(), null);
 		valueBits.setPrefColumnCount(getNumBits());
 
-		valueBits.textProperty().bindBidirectional(bitValue.property().asObject(), new StringConverter<Integer>() {
+		valueBits.textProperty().bindBidirectional(getBitValueProperty().asObject(), new StringConverter<Integer>() {
 			@Override
 			public Integer fromString(final String str) {
 				return clip(Numbers.stringToInteger(str, NumberFormat.BINARY, NumberOptions.UNSIGNED));
@@ -361,27 +381,27 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 			public String toString(final Integer i) {
 				return Numbers.integerToString(clip(i), NumberFormat.BINARY,
 					EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING))
-					.substring(32 - getNumBits(), 32);
+					.substring(Integer.SIZE - getNumBits(), Integer.SIZE);
 			}
 		});
 
 		final Slider refSlider = GUISupport.addSlider(rootConfigLayout,
 			ShiftedSourceBiasCoarseFine.getMinRefBitValue(), ShiftedSourceBiasCoarseFine.getMaxRefBitValue(), 0, 10);
 
-		refSlider.valueProperty().bindBidirectional(refBitValue.property());
+		refSlider.valueProperty().bindBidirectional(getRefBitValueProperty());
 
 		final Slider regSlider = GUISupport.addSlider(rootConfigLayout,
 			ShiftedSourceBiasCoarseFine.getMinRegBitValue(), ShiftedSourceBiasCoarseFine.getMaxRegBitValue(), 0, 10);
 
-		regSlider.valueProperty().bindBidirectional(regBitValue.property());
+		regSlider.valueProperty().bindBidirectional(getRegBitValueProperty());
 
 		final Label binaryRep = GUISupport.addLabel(rootConfigLayout, getBinaryRepresentationAsString(),
 			"Binary data to be sent to the device.", null, null);
 
 		final StringBinding binStr = new StringBinding() {
 			{
-				super.bind(bitValue.property(), type.property(), sex.property(), operatingMode.property(),
-					voltageLevel.property());
+				super.bind(getBitValueProperty(), getTypeProperty(), getSexProperty(), getOperatingModeProperty(),
+					getVoltageLevelProperty());
 			}
 
 			@Override

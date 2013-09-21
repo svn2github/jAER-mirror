@@ -10,6 +10,7 @@ import net.sf.jaer2.devices.components.misc.memory.EEPROM_I2C;
 import net.sf.jaer2.devices.components.misc.memory.Memory;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigInt;
+import net.sf.jaer2.devices.config.ShiftRegisterContainer;
 import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.SBRet10;
 
@@ -50,11 +51,16 @@ public class ApsDvs10 extends USBDevice {
 		latticeMachX0.setProgrammer(fx2);
 		addComponent(latticeMachX0);
 
-		latticeMachX0.addSetting(new ConfigInt("exposure", ".", 0), 0, 16);
-		latticeMachX0.addSetting(new ConfigInt("colSettle", ".", 0), 16, 16);
-		latticeMachX0.addSetting(new ConfigInt("rowSettle", ".", 0), 32, 16);
-		latticeMachX0.addSetting(new ConfigInt("resSettle", ".", 0), 48, 16);
-		latticeMachX0.addSetting(new ConfigInt("frameDelay", ".", 0), 64, 16);
+		final ShiftRegisterContainer cpldSR = new ShiftRegisterContainer("cpldSR",
+			"ShiftRegister for on-CPLD configuration.", 80);
+
+		cpldSR.addSetting(new ConfigInt("frameDelay", ".", 0, 16));
+		cpldSR.addSetting(new ConfigInt("resSettle", ".", 0, 16));
+		cpldSR.addSetting(new ConfigInt("rowSettle", ".", 0, 16));
+		cpldSR.addSetting(new ConfigInt("colSettle", ".", 0, 16));
+		cpldSR.addSetting(new ConfigInt("exposure", ".", 0, 16));
+
+		latticeMachX0.addSetting(cpldSR);
 
 		// ADC adcTHS1030 = new THS1030();
 		// Not actively configurable.

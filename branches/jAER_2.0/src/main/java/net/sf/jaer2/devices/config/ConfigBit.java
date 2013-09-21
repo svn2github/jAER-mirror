@@ -1,10 +1,11 @@
 package net.sf.jaer2.devices.config;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.CheckBox;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.serializable.SerializableBooleanProperty;
 
-public class ConfigBit extends ConfigBase {
+public final class ConfigBit extends ConfigBase {
 	private static final long serialVersionUID = 4713262582313018900L;
 
 	private final SerializableBooleanProperty value = new SerializableBooleanProperty();
@@ -23,6 +24,10 @@ public class ConfigBit extends ConfigBase {
 		value.property().set(val);
 	}
 
+	public BooleanProperty getValueProperty() {
+		return value.property();
+	}
+
 	@Override
 	protected long computeBinaryRepresentation() {
 		return (getValue() == true) ? (1) : (0);
@@ -33,7 +38,7 @@ public class ConfigBit extends ConfigBase {
 		super.buildConfigGUI();
 
 		final CheckBox valBox = GUISupport.addCheckBox(rootConfigLayout, null, getValue());
-		valBox.selectedProperty().bindBidirectional(value.property());
+		valBox.selectedProperty().bindBidirectional(getValueProperty());
 	}
 
 	@Override
