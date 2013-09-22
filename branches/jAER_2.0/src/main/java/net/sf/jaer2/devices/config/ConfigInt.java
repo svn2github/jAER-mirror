@@ -4,10 +4,7 @@ import java.util.EnumSet;
 
 import javafx.beans.binding.LongBinding;
 import javafx.beans.property.IntegerProperty;
-import javafx.scene.control.TextField;
-import javafx.util.StringConverter;
 import net.sf.jaer2.util.GUISupport;
-import net.sf.jaer2.util.Numbers;
 import net.sf.jaer2.util.Numbers.NumberFormat;
 import net.sf.jaer2.util.Numbers.NumberOptions;
 import net.sf.jaer2.util.serializable.SerializableIntegerProperty;
@@ -72,39 +69,12 @@ public final class ConfigInt extends ConfigBase {
 	protected void buildConfigGUI() {
 		super.buildConfigGUI();
 
-		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, getValueProperty(),
-			getMinBitValue(), getMaxBitValue(), null);
-		valueInt.setPrefColumnCount(10);
+		GUISupport.addTextNumberField(rootConfigLayout, getValueProperty(), 10, (int) getMinBitValue(),
+			(int) getMaxBitValue(), NumberFormat.DECIMAL, EnumSet.of(NumberOptions.UNSIGNED), null);
 
-		valueInt.textProperty().bindBidirectional(getValueProperty().asObject(), new StringConverter<Integer>() {
-			@Override
-			public Integer fromString(final String str) {
-				return Numbers.stringToInteger(str, NumberFormat.DECIMAL, NumberOptions.UNSIGNED);
-			}
-
-			@Override
-			public String toString(final Integer i) {
-				return Numbers.integerToString(i, NumberFormat.DECIMAL, NumberOptions.UNSIGNED);
-			}
-		});
-
-		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, getValueProperty(),
-			getMinBitValue(), getMaxBitValue(), null);
-		valueBits.setPrefColumnCount(getNumBits());
-
-		valueBits.textProperty().bindBidirectional(getValueProperty().asObject(), new StringConverter<Integer>() {
-			@Override
-			public Integer fromString(final String str) {
-				return Numbers.stringToInteger(str, NumberFormat.BINARY, NumberOptions.UNSIGNED);
-			}
-
-			@Override
-			public String toString(final Integer i) {
-				return Numbers.integerToString(i, NumberFormat.BINARY,
-					EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING))
-					.substring(Integer.SIZE - getNumBits(), Integer.SIZE);
-			}
-		});
+		GUISupport.addTextNumberField(rootConfigLayout, getValueProperty(), getNumBits(), (int) getMinBitValue(),
+			(int) getMaxBitValue(), NumberFormat.BINARY,
+			EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.LEFT_PADDING, NumberOptions.ZERO_PADDING), null);
 	}
 
 	@Override

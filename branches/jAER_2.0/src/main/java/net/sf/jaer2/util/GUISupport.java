@@ -2,10 +2,14 @@ package net.sf.jaer2.util;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.List;
 
 import javafx.application.Platform;
-import javafx.beans.value.WritableNumberValue;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -31,6 +35,8 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import net.sf.jaer2.util.Numbers.NumberFormat;
+import net.sf.jaer2.util.Numbers.NumberOptions;
 
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
@@ -192,13 +198,44 @@ public final class GUISupport {
 		return txt;
 	}
 
-	public static TextField addTextNumberField(final Pane parentPane, final WritableNumberValue backendValue,
-		final long min, final long max, final Font font) {
-		final TextField txt = new TextField(backendValue.getValue().toString());
+	private static String formatIntegerStringForTextfield(final int value, final int displayLength,
+		final NumberFormat fmt, final EnumSet<NumberOptions> opts) {
+		final String str = Numbers.integerToString(value, fmt, opts);
+
+		if (opts.contains(NumberOptions.LEFT_PADDING)) {
+			return str.substring(Integer.SIZE - displayLength, Integer.SIZE);
+		}
+
+		return str;
+	}
+
+	public static TextField addTextNumberField(final Pane parentPane, final IntegerProperty backendValue,
+		final int displayLength, final int min, final int max, final NumberFormat fmt,
+		final EnumSet<NumberOptions> opts, final Font font) {
+		final TextField txt = new TextField(GUISupport.formatIntegerStringForTextfield(backendValue.get(),
+			displayLength, fmt, opts));
 
 		if (font != null) {
 			txt.setFont(font);
 		}
+
+		txt.setPrefColumnCount(displayLength);
+
+		txt.textProperty().addListener(new ChangeListener<String>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(final ObservableValue<? extends String> val, final String oldVal, final String newVal) {
+				backendValue.setValue(Numbers.stringToInteger(newVal, fmt, opts));
+			}
+		});
+
+		backendValue.addListener(new ChangeListener<Number>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
+				txt.setText(GUISupport.formatIntegerStringForTextfield(newVal.intValue(), displayLength, fmt, opts));
+			}
+		});
 
 		txt.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
@@ -210,7 +247,7 @@ public final class GUISupport {
 		txt.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(final ScrollEvent scroll) {
-				long i = backendValue.getValue().longValue();
+				int i = backendValue.get();
 
 				if (scroll.getDeltaY() > 0) {
 					i++;
@@ -221,7 +258,81 @@ public final class GUISupport {
 				}
 
 				if ((i >= min) && (i <= max)) {
-					backendValue.setValue(i);
+					backendValue.set(i);
+				}
+
+				scroll.consume();
+			}
+		});
+
+		if (parentPane != null) {
+			parentPane.getChildren().add(txt);
+		}
+
+		return txt;
+	}
+
+	private static String formatLongStringForTextfield(final long value, final int displayLength,
+		final NumberFormat fmt, final EnumSet<NumberOptions> opts) {
+		final String str = Numbers.longToString(value, fmt, opts);
+
+		if (opts.contains(NumberOptions.LEFT_PADDING)) {
+			return str.substring(Long.SIZE - displayLength, Long.SIZE);
+		}
+
+		return str;
+	}
+
+	public static TextField addTextNumberField(final Pane parentPane, final LongProperty backendValue,
+		final int displayLength, final long min, final long max, final NumberFormat fmt,
+		final EnumSet<NumberOptions> opts, final Font font) {
+		final TextField txt = new TextField(GUISupport.formatLongStringForTextfield(backendValue.get(), displayLength,
+			fmt, opts));
+
+		if (font != null) {
+			txt.setFont(font);
+		}
+
+		txt.setPrefColumnCount(displayLength);
+
+		txt.textProperty().addListener(new ChangeListener<String>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(final ObservableValue<? extends String> val, final String oldVal, final String newVal) {
+				backendValue.setValue(Numbers.stringToLong(newVal, fmt, opts));
+			}
+		});
+
+		backendValue.addListener(new ChangeListener<Number>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
+				txt.setText(GUISupport.formatLongStringForTextfield(newVal.longValue(), displayLength, fmt, opts));
+			}
+		});
+
+		txt.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
+				txt.requestFocus();
+			}
+		});
+
+		txt.setOnScroll(new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(final ScrollEvent scroll) {
+				long i = backendValue.get();
+
+				if (scroll.getDeltaY() > 0) {
+					i++;
+				}
+
+				if (scroll.getDeltaY() < 0) {
+					i--;
+				}
+
+				if ((i >= min) && (i <= max)) {
+					backendValue.set(i);
 				}
 
 				scroll.consume();

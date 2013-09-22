@@ -9,10 +9,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.util.StringConverter;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers;
@@ -212,39 +210,12 @@ public abstract class Pot extends ConfigBase {
 
 		GUISupport.addLabel(rootConfigLayout, getSex().toString(), null, null, null);
 
-		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(),
-			getMinBitValue(), getMaxBitValue(), null);
-		valueBits.setPrefColumnCount(getBitValueBits());
+		GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(), 10, (int) getMinBitValue(),
+			(int) getMaxBitValue(), NumberFormat.DECIMAL, EnumSet.of(NumberOptions.UNSIGNED), null);
 
-		valueBits.textProperty().bindBidirectional(getBitValueProperty().asObject(), new StringConverter<Integer>() {
-			@Override
-			public Integer fromString(final String str) {
-				return clip(Numbers.stringToInteger(str, NumberFormat.BINARY, NumberOptions.UNSIGNED));
-			}
-
-			@Override
-			public String toString(final Integer i) {
-				return Numbers.integerToString(clip(i), NumberFormat.BINARY,
-					EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING))
-					.substring(Integer.SIZE - getBitValueBits(), Integer.SIZE);
-			}
-		});
-
-		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(),
-			getMinBitValue(), getMaxBitValue(), null);
-		valueInt.setPrefColumnCount(10);
-
-		valueInt.textProperty().bindBidirectional(getBitValueProperty().asObject(), new StringConverter<Integer>() {
-			@Override
-			public Integer fromString(final String str) {
-				return clip(Numbers.stringToInteger(str, NumberFormat.DECIMAL, NumberOptions.UNSIGNED));
-			}
-
-			@Override
-			public String toString(final Integer i) {
-				return Numbers.integerToString(clip(i), NumberFormat.DECIMAL, NumberOptions.UNSIGNED);
-			}
-		});
+		GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(), getBitValueBits(),
+			(int) getMinBitValue(), (int) getMaxBitValue(), NumberFormat.BINARY,
+			EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.LEFT_PADDING, NumberOptions.ZERO_PADDING), null);
 
 		final long minBitValueSlider = getMinBitValue();
 		final long maxBitValueSlider = (getMaxBitValue() < 4095) ? (getMaxBitValue()) : (4095);

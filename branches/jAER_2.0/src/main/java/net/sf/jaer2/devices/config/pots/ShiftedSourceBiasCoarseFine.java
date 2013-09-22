@@ -13,10 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
-import javafx.util.StringConverter;
 import net.sf.jaer2.util.GUISupport;
-import net.sf.jaer2.util.Numbers;
 import net.sf.jaer2.util.Numbers.NumberFormat;
 import net.sf.jaer2.util.Numbers.NumberOptions;
 import net.sf.jaer2.util.serializable.SerializableIntegerProperty;
@@ -372,39 +369,12 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 			EnumSet.allOf(VoltageLevel.class), getVoltageLevel().ordinal());
 		vLevelBox.valueProperty().bindBidirectional(getVoltageLevelProperty());
 
-		final TextField valueInt = GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(),
-			getMinBitValue(), getMaxBitValue(), null);
-		valueInt.setPrefColumnCount(10);
+		GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(), 10, (int) getMinBitValue(),
+			(int) getMaxBitValue(), NumberFormat.DECIMAL, EnumSet.of(NumberOptions.UNSIGNED), null);
 
-		valueInt.textProperty().bindBidirectional(getBitValueProperty().asObject(), new StringConverter<Integer>() {
-			@Override
-			public Integer fromString(final String str) {
-				return clip(Numbers.stringToInteger(str, NumberFormat.DECIMAL, NumberOptions.UNSIGNED));
-			}
-
-			@Override
-			public String toString(final Integer i) {
-				return Numbers.integerToString(clip(i), NumberFormat.DECIMAL, NumberOptions.UNSIGNED);
-			}
-		});
-
-		final TextField valueBits = GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(),
-			getMinBitValue(), getMaxBitValue(), null);
-		valueBits.setPrefColumnCount(getBitValueBits());
-
-		valueBits.textProperty().bindBidirectional(getBitValueProperty().asObject(), new StringConverter<Integer>() {
-			@Override
-			public Integer fromString(final String str) {
-				return clip(Numbers.stringToInteger(str, NumberFormat.BINARY, NumberOptions.UNSIGNED));
-			}
-
-			@Override
-			public String toString(final Integer i) {
-				return Numbers.integerToString(clip(i), NumberFormat.BINARY,
-					EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.ZERO_PADDING, NumberOptions.LEFT_PADDING))
-					.substring(Integer.SIZE - getBitValueBits(), Integer.SIZE);
-			}
-		});
+		GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(), getBitValueBits(),
+			(int) getMinBitValue(), (int) getMaxBitValue(), NumberFormat.BINARY,
+			EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.LEFT_PADDING, NumberOptions.ZERO_PADDING), null);
 
 		final Slider refSlider = GUISupport.addSlider(rootConfigLayout,
 			ShiftedSourceBiasCoarseFine.getMinRefBitValue(), ShiftedSourceBiasCoarseFine.getMaxRefBitValue(), 0, 10);
