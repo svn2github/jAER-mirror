@@ -203,7 +203,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 *            candidate new value.
 	 * @return allowed value.
 	 */
-	protected static int clipFine(final int in) {
+	private static int clipFine(final int in) {
 		int out = in;
 
 		if (in < 0) {
@@ -246,7 +246,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 *            candidate new value.
 	 * @return allowed value.
 	 */
-	protected static int clipCoarse(final int in) {
+	private static int clipCoarse(final int in) {
 		int out = in;
 
 		if (in < 0) {

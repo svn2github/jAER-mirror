@@ -169,7 +169,7 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 	 *            candidate new value.
 	 * @return allowed value.
 	 */
-	protected static int clipRef(final int in) {
+	private static int clipRef(final int in) {
 		int out = in;
 
 		if (in < 0) {
@@ -202,7 +202,7 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 	 *            candidate new value.
 	 * @return allowed value.
 	 */
-	protected static int clipReg(final int in) {
+	private static int clipReg(final int in) {
 		int out = in;
 
 		if (in < 0) {

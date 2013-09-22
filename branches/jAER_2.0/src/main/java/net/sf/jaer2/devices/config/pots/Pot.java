@@ -114,7 +114,7 @@ public abstract class Pot extends ConfigBase {
 		return bitValue.property();
 	}
 
-	protected int clip(final int in) {
+	private int clip(final int in) {
 		int out = in;
 
 		if (in < getMinBitValue()) {
