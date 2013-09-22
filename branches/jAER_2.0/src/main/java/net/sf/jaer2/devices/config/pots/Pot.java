@@ -246,8 +246,11 @@ public abstract class Pot extends ConfigBase {
 			}
 		});
 
-		mainSlider = GUISupport.addSlider(rootConfigLayout, 0, 4095,
-			Math.round(((double) getBitValue() / getMaxBitValue()) * 4095), 10);
+		final long minBitValueSlider = getMinBitValue();
+		final long maxBitValueSlider = (getMaxBitValue() < 4095) ? (getMaxBitValue()) : (4095);
+
+		mainSlider = GUISupport.addSlider(rootConfigLayout, minBitValueSlider, maxBitValueSlider,
+			Math.round(((double) getBitValue() / getMaxBitValue()) * maxBitValueSlider), 10);
 		HBox.setHgrow(mainSlider, Priority.ALWAYS);
 
 		final Label binaryRep = GUISupport.addLabel(rootConfigLayout, getBinaryRepresentationAsString(),

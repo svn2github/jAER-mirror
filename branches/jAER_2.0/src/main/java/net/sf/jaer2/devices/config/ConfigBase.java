@@ -144,6 +144,6 @@ public abstract class ConfigBase implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("%s [len=%d]", getName(), getNumBits());
+		return String.format("%s [type=%s,len=%d]", getName(), getClass().getSimpleName(), getNumBits());
 	}
 }
