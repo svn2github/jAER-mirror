@@ -2,6 +2,7 @@ package net.sf.jaer2.devices.config;
 
 import java.util.EnumSet;
 
+import javafx.beans.binding.LongBinding;
 import javafx.beans.property.LongProperty;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
@@ -23,6 +24,16 @@ public final class ConfigLong extends ConfigBase {
 	public ConfigLong(final String name, final String description, final long defaultValue, final int numBits) {
 		super(name, description, numBits);
 
+		if (numBits < 33) {
+			throw new IllegalArgumentException(
+				"Invalid numBits value, must be at least 33. Use ConfigInt for smaller quantities.");
+		}
+
+		if (numBits > 64) {
+			throw new IllegalArgumentException(
+				"Invalid numBits value, must be at most 64. Larger quantities are not supported.");
+		}
+
 		setValue(defaultValue);
 	}
 
@@ -36,6 +47,20 @@ public final class ConfigLong extends ConfigBase {
 
 	public LongProperty getValueProperty() {
 		return value.property();
+	}
+
+	@Override
+	protected void buildChangeBinding() {
+		changeBinding = new LongBinding() {
+			{
+				super.bind(getValueProperty());
+			}
+
+			@Override
+			protected long computeValue() {
+				return System.currentTimeMillis();
+			}
+		};
 	}
 
 	@Override

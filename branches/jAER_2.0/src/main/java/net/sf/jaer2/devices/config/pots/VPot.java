@@ -152,6 +152,6 @@ public class VPot extends Pot {
 
 	@Override
 	public String toString() {
-		return String.format("VPot %s with bitValue=%d, voltage=%f", getName(), getBitValue(), getVoltage());
+		return String.format("%s, voltage=%f", super.toString(), getVoltage());
 	}
 }

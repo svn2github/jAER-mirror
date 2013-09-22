@@ -2,9 +2,11 @@ package net.sf.jaer2.devices.config.pots;
 
 import java.util.EnumSet;
 
-import javafx.beans.binding.StringBinding;
+import javafx.beans.binding.LongBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -182,6 +184,20 @@ public abstract class Pot extends ConfigBase {
 	abstract public String getPhysicalValueUnits();
 
 	@Override
+	protected void buildChangeBinding() {
+		changeBinding = new LongBinding() {
+			{
+				super.bind(getBitValueProperty(), getTypeProperty(), getSexProperty());
+			}
+
+			@Override
+			protected long computeValue() {
+				return System.currentTimeMillis();
+			}
+		};
+	}
+
+	@Override
 	protected long computeBinaryRepresentation() {
 		return getBitValue();
 	}
@@ -237,22 +253,18 @@ public abstract class Pot extends ConfigBase {
 		final Label binaryRep = GUISupport.addLabel(rootConfigLayout, getBinaryRepresentationAsString(),
 			"Binary data to be sent to the device.", null, null);
 
-		final StringBinding binStr = new StringBinding() {
-			{
-				super.bind(getBitValueProperty(), getTypeProperty(), getSexProperty());
-			}
-
+		getChangeBinding().addListener(new ChangeListener<Number>() {
+			@SuppressWarnings("unused")
 			@Override
-			protected String computeValue() {
-				return getBinaryRepresentationAsString();
+			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
+				binaryRep.setText(getBinaryRepresentationAsString());
 			}
-		};
-
-		binaryRep.textProperty().bind(binStr);
+		});
 	}
 
 	@Override
 	public String toString() {
-		return String.format("Pot %s with bitValue=%d", getName(), getBitValue());
+		return String.format("%s, Type=%s, Sex=%s, bitValue=%d", super.toString(), getType().toString(), getSex()
+			.toString(), getBitValue());
 	}
 }

@@ -3,6 +3,7 @@ package net.sf.jaer2.devices.config;
 import java.io.Serializable;
 import java.util.EnumSet;
 
+import javafx.beans.binding.LongBinding;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -30,6 +31,8 @@ public abstract class ConfigBase implements Serializable {
 	 * number of bits or bytes to send to a device.
 	 */
 	private final int numBits;
+
+	transient protected LongBinding changeBinding;
 
 	transient protected HBox rootConfigLayout;
 
@@ -68,6 +71,16 @@ public abstract class ConfigBase implements Serializable {
 	public long getMinBitValue() {
 		return 0;
 	}
+
+	synchronized public final LongBinding getChangeBinding() {
+		if (changeBinding == null) {
+			buildChangeBinding();
+		}
+
+		return changeBinding;
+	}
+
+	protected abstract void buildChangeBinding();
 
 	protected abstract long computeBinaryRepresentation();
 
@@ -131,6 +144,6 @@ public abstract class ConfigBase implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("%s [len=%d] - %s", getName(), getNumBits(), getDescription());
+		return String.format("%s [len=%d]", getName(), getNumBits());
 	}
 }

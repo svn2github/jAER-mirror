@@ -2,6 +2,7 @@ package net.sf.jaer2.devices.config;
 
 import java.util.EnumSet;
 
+import javafx.beans.binding.LongBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.ComboBox;
 import net.sf.jaer2.util.GUISupport;
@@ -69,6 +70,20 @@ public final class ConfigBitTristate extends ConfigBase {
 
 	public ObjectProperty<Tristate> getValueProperty() {
 		return value.property();
+	}
+
+	@Override
+	protected void buildChangeBinding() {
+		changeBinding = new LongBinding() {
+			{
+				super.bind(getValueProperty());
+			}
+
+			@Override
+			protected long computeValue() {
+				return System.currentTimeMillis();
+			}
+		};
 	}
 
 	@Override

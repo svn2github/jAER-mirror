@@ -7,10 +7,12 @@ import java.util.Collections;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.eventio.translators.Translator;
 import net.sf.jaer2.util.GUISupport;
@@ -90,9 +92,15 @@ public abstract class Device implements Serializable {
 		final TabPane tabLayout = new TabPane();
 
 		for (final Component c : nameComponentMap.values()) {
+			final ScrollPane p = new ScrollPane(c.getConfigGUI());
+
+			p.setFitToWidth(true);
+			p.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
+			// TODO: is there a better way to maximize the ScrollPane content?
+
 			final Tab t = new Tab(c.getName());
 
-			t.setContent(c.getConfigGUI());
+			t.setContent(p);
 			t.setClosable(false);
 
 			tabLayout.getTabs().add(t);

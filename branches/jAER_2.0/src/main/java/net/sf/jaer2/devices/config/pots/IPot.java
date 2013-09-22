@@ -155,6 +155,6 @@ public class IPot extends Pot {
 
 	@Override
 	public String toString() {
-		return String.format("IPot %s with bitValue=%d, current=%f", getName(), getBitValue(), getCurrent());
+		return String.format("%s, current=%f", super.toString(), getCurrent());
 	}
 }

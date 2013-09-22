@@ -2,6 +2,7 @@ package net.sf.jaer2.devices.config;
 
 import java.util.EnumSet;
 
+import javafx.beans.binding.LongBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
@@ -23,6 +24,16 @@ public final class ConfigInt extends ConfigBase {
 	public ConfigInt(final String name, final String description, final int defaultValue, final int numBits) {
 		super(name, description, numBits);
 
+		if (numBits < 2) {
+			throw new IllegalArgumentException(
+				"Invalid numBits value, must be at least 2. Use ConfigBit for 1 bit quantities.");
+		}
+
+		if (numBits > 32) {
+			throw new IllegalArgumentException(
+				"Invalid numBits value, must be at most 32. Use ConfigLong for larger quantities.");
+		}
+
 		setValue(defaultValue);
 	}
 
@@ -36,6 +47,20 @@ public final class ConfigInt extends ConfigBase {
 
 	public IntegerProperty getValueProperty() {
 		return value.property();
+	}
+
+	@Override
+	protected void buildChangeBinding() {
+		changeBinding = new LongBinding() {
+			{
+				super.bind(getValueProperty());
+			}
+
+			@Override
+			protected long computeValue() {
+				return System.currentTimeMillis();
+			}
+		};
 	}
 
 	@Override

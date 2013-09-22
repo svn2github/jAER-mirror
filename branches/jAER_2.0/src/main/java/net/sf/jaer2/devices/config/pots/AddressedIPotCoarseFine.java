@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.EnumSet;
 
-import javafx.beans.binding.StringBinding;
+import javafx.beans.binding.LongBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -394,6 +394,21 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 		return getFineCurrent();
 	}
 
+	@Override
+	protected void buildChangeBinding() {
+		changeBinding = new LongBinding() {
+			{
+				super.bind(getBitValueProperty(), getTypeProperty(), getSexProperty(), getBiasEnabledProperty(),
+					getCurrentLevelProperty());
+			}
+
+			@Override
+			protected long computeValue() {
+				return System.currentTimeMillis();
+			}
+		};
+	}
+
 	/**
 	 * Computes the actual bit pattern to be sent to chip based on configuration
 	 * values
@@ -511,25 +526,18 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 		final Label binaryRep = GUISupport.addLabel(rootConfigLayout, getBinaryRepresentationAsString(),
 			"Binary data to be sent to the device.", null, null);
 
-		final StringBinding binStr = new StringBinding() {
-			{
-				super.bind(getBitValueProperty(), getTypeProperty(), getSexProperty(), getBiasEnabledProperty(),
-					getCurrentLevelProperty());
-			}
-
+		getChangeBinding().addListener(new ChangeListener<Number>() {
+			@SuppressWarnings("unused")
 			@Override
-			protected String computeValue() {
-				return getBinaryRepresentationAsString();
+			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
+				binaryRep.setText(getBinaryRepresentationAsString());
 			}
-		};
-
-		binaryRep.textProperty().bind(binStr);
+		});
 	}
 
 	@Override
 	public String toString() {
-		return String.format("%s, Sex=%s, Type=%s, enabled=%d, lowCurrentMode=%d, coarseBitValue=%d, fineBitValue=%d",
-			super.toString(), getSex(), getType(), isBiasEnabled(), isLowCurrentModeEnabled(), getCoarseBitValue(),
-			getFineBitValue());
+		return String.format("%s, enabled=%b, lowCurrentMode=%b, coarseBitValue=%d, fineBitValue=%d", super.toString(),
+			isBiasEnabled(), isLowCurrentModeEnabled(), getCoarseBitValue(), getFineBitValue());
 	}
 }

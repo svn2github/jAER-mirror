@@ -1,5 +1,6 @@
 package net.sf.jaer2.devices.config;
 
+import javafx.beans.binding.LongBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.CheckBox;
 import net.sf.jaer2.util.GUISupport;
@@ -29,6 +30,20 @@ public final class ConfigBit extends ConfigBase {
 	}
 
 	@Override
+	protected void buildChangeBinding() {
+		changeBinding = new LongBinding() {
+			{
+				super.bind(getValueProperty());
+			}
+
+			@Override
+			protected long computeValue() {
+				return System.currentTimeMillis();
+			}
+		};
+	}
+
+	@Override
 	protected long computeBinaryRepresentation() {
 		return (getValue() == true) ? (1) : (0);
 	}
@@ -43,6 +58,6 @@ public final class ConfigBit extends ConfigBase {
 
 	@Override
 	public String toString() {
-		return String.format("%s, value=%d", super.toString(), getValue());
+		return String.format("%s, value=%b", super.toString(), getValue());
 	}
 }

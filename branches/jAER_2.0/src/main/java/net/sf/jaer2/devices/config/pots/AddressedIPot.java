@@ -21,4 +21,9 @@ public class AddressedIPot extends IPot {
 	public int getAddress() {
 		return address;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%s, address=%d", super.toString(), getAddress());
+	}
 }

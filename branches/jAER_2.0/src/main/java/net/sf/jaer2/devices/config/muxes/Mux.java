@@ -19,4 +19,10 @@ public class Mux extends ConfigBase {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected void buildChangeBinding() {
+		// TODO Auto-generated method stub
+
+	}
 }

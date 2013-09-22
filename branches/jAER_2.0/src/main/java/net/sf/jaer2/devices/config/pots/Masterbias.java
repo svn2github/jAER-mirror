@@ -185,6 +185,11 @@ public class Masterbias extends ConfigBase {
 	}
 
 	@Override
+	protected void buildChangeBinding() {
+		// Nothing to do here for now.
+	}
+
+	@Override
 	protected long computeBinaryRepresentation() {
 		// No binary representation exists here.
 		return 0;
