@@ -69,7 +69,7 @@ public class SBRet10 extends AERChip implements Translator {
 		final ShiftRegisterContainer chipSR = new ShiftRegisterContainer("ChipSR",
 			"ShiftRegister for on-chip configuration (muxes, settings).", 56);
 
-		final Mux digMux3 = new DigitalMux("DigMux3", ".");
+		final Mux digMux3 = new DigitalMux("DigMux3", ".", 4);
 
 		digMux3.put(0, "AY179right");
 		digMux3.put(1, "Acol");
@@ -90,7 +90,7 @@ public class SBRet10 extends AERChip implements Translator {
 
 		chipSR.addSetting(digMux3);
 
-		final Mux digMux2 = new DigitalMux("DigMux2", ".");
+		final Mux digMux2 = new DigitalMux("DigMux2", ".", 4);
 
 		digMux2.put(0, "AY179right");
 		digMux2.put(1, "Acol");
@@ -111,7 +111,7 @@ public class SBRet10 extends AERChip implements Translator {
 
 		chipSR.addSetting(digMux2);
 
-		final Mux digMux1 = new DigitalMux("DigMux1", ".");
+		final Mux digMux1 = new DigitalMux("DigMux1", ".", 4);
 
 		digMux1.put(0, "AY179right");
 		digMux1.put(1, "Acol");
@@ -132,7 +132,7 @@ public class SBRet10 extends AERChip implements Translator {
 
 		chipSR.addSetting(digMux1);
 
-		final Mux digMux0 = new DigitalMux("DigMux0", ".");
+		final Mux digMux0 = new DigitalMux("DigMux0", ".", 4);
 
 		digMux0.put(0, "AY179right");
 		digMux0.put(1, "Acol");
@@ -167,7 +167,7 @@ public class SBRet10 extends AERChip implements Translator {
 
 		chipSR.addSetting(chipConfigSR);
 
-		final Mux anaMux2 = new AnalogMux("AnaMux2", ".");
+		final Mux anaMux2 = new AnalogMux("AnaMux2", ".", 4);
 
 		anaMux2.put(0, "on");
 		anaMux2.put(1, "off");
@@ -180,7 +180,7 @@ public class SBRet10 extends AERChip implements Translator {
 
 		chipSR.addSetting(anaMux2);
 
-		final Mux anaMux1 = new AnalogMux("AnaMux1", ".");
+		final Mux anaMux1 = new AnalogMux("AnaMux1", ".", 4);
 
 		anaMux1.put(0, "on");
 		anaMux1.put(1, "off");
@@ -193,7 +193,7 @@ public class SBRet10 extends AERChip implements Translator {
 
 		chipSR.addSetting(anaMux1);
 
-		final Mux anaMux0 = new AnalogMux("AnaMux0", ".");
+		final Mux anaMux0 = new AnalogMux("AnaMux0", ".", 4);
 
 		anaMux0.put(0, "on");
 		anaMux0.put(1, "off");
@@ -206,7 +206,7 @@ public class SBRet10 extends AERChip implements Translator {
 
 		chipSR.addSetting(anaMux0);
 
-		final Mux biasOutMux = new DigitalMux("BiasOutMux", ".");
+		final Mux biasOutMux = new DigitalMux("BiasOutMux", ".", 4);
 
 		biasOutMux.put(0, "IFThrBn");
 		biasOutMux.put(1, "AEPuYBp");
