@@ -395,8 +395,8 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	protected void buildChangeBinding() {
 		changeBinding = new LongBinding() {
 			{
-				super.bind(getBitValueProperty(), getTypeProperty(), getSexProperty(), getBiasEnabledProperty(),
-					getCurrentLevelProperty());
+				super.bind(getCoarseBitValueProperty(), getFineBitValueProperty(), getTypeProperty(), getSexProperty(),
+					getBiasEnabledProperty(), getCurrentLevelProperty());
 			}
 
 			@Override

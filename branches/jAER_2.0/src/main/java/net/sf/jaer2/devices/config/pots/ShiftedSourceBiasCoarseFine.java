@@ -320,8 +320,8 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 	protected void buildChangeBinding() {
 		changeBinding = new LongBinding() {
 			{
-				super.bind(getBitValueProperty(), getTypeProperty(), getSexProperty(), getOperatingModeProperty(),
-					getVoltageLevelProperty());
+				super.bind(getRefBitValueProperty(), getRegBitValueProperty(), getTypeProperty(), getSexProperty(),
+					getOperatingModeProperty(), getVoltageLevelProperty());
 			}
 
 			@Override

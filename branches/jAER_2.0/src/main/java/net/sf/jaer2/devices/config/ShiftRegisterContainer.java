@@ -138,11 +138,11 @@ public final class ShiftRegisterContainer extends ConfigBase {
 
 			final boolean bitValue = ((src[srcBytePos] & srcBitMask) != 0);
 
-			final int destBytePos = (destPos + copyOffset) / Byte.SIZE;
-			final int destBitPos = (destPos + copyOffset) % Byte.SIZE;
-			final byte destBitMask = (byte) (0x80 >>> destBitPos);
-
 			if (bitValue) {
+				final int destBytePos = (destPos + copyOffset) / Byte.SIZE;
+				final int destBitPos = (destPos + copyOffset) % Byte.SIZE;
+				final byte destBitMask = (byte) (0x80 >>> destBitPos);
+
 				dest[destBytePos] |= destBitMask;
 			}
 
