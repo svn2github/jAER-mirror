@@ -1,56 +1,80 @@
 package net.sf.jaer2.devices.config.muxes;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.beans.binding.LongBinding;
-import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.ComboBox;
-import javafx.util.StringConverter;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.util.GUISupport;
-import net.sf.jaer2.util.serializable.SerializableIntegerProperty;
+import net.sf.jaer2.util.serializable.SerializableObjectProperty;
 
 public class Mux extends ConfigBase {
 	private static final long serialVersionUID = -9024024193567293234L;
 
-	private final Map<Integer, Integer> outputMap = new LinkedHashMap<>();
-	private final Map<Integer, String> nameMap = new LinkedHashMap<>();
+	public static final class MuxChannel {
+		private final int channel;
+		private final String name;
+		private final int code;
 
-	private final SerializableIntegerProperty channel = new SerializableIntegerProperty();
+		public MuxChannel(final int chan, final String cname, final int ccode) {
+			channel = chan;
+			name = cname;
+			code = ccode;
+		}
+
+		public int getChannel() {
+			return channel;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public int getCode() {
+			return code;
+		}
+
+		@Override
+		public String toString() {
+			return getName();
+		}
+	}
+
+	private final List<MuxChannel> channels = new ArrayList<>();
+
+	private final SerializableObjectProperty<MuxChannel> channel = new SerializableObjectProperty<>();
 
 	public Mux(final String name, final String description, final int numBits) {
 		super(name, description, numBits);
 
-		setChannel(0);
+		// By default, no channel is selected.
+		setChannel(null);
 	}
 
-	public int getChannel() {
+	public MuxChannel getChannel() {
 		return channel.property().get();
 	}
 
-	public void setChannel(final int chan) {
+	public void setChannel(final MuxChannel chan) {
 		channel.property().set(chan);
 	}
 
-	public IntegerProperty getChannelProperty() {
+	public ObjectProperty<MuxChannel> getChannelProperty() {
 		return channel.property();
 	}
 
-	public int getCode(final int chan) {
-		return outputMap.get(chan);
+	public void put(final int chan, final String name) {
+		put(chan, name, chan);
 	}
 
-	public void put(final int k, final int v, final String name) {
-		// Add both code and name.
-		outputMap.put(k, v);
-		nameMap.put(k, name);
-	}
+	public void put(final int chan, final String name, final int code) {
+		if ((code < getMinBitValue()) || (code > getMaxBitValue())) {
+			throw new IllegalArgumentException("Invalid code, either too small or too big compared to number of bits.");
+		}
 
-	public void put(final int k, final String name) {
-		// Rename only.
-		nameMap.put(k, name);
+		channels.add(new MuxChannel(chan, name, code));
 	}
 
 	@Override
@@ -69,38 +93,21 @@ public class Mux extends ConfigBase {
 
 	@Override
 	protected long computeBinaryRepresentation() {
-		return getCode(getChannel());
+		return (getChannel() != null) ? (getChannel().getCode()) : (0);
 	}
 
 	@Override
 	protected void buildConfigGUI() {
 		super.buildConfigGUI();
 
-		final ComboBox<Integer> channelBox = GUISupport.addComboBox(rootConfigLayout, nameMap.keySet(), getChannel());
+		final ComboBox<MuxChannel> channelBox = GUISupport.addComboBox(rootConfigLayout, channels, -1);
 
-		channelBox.setConverter(new StringConverter<Integer>() {
-			@Override
-			public String toString(final Integer i) {
-				return nameMap.get(i);
-			}
-
-			@Override
-			public Integer fromString(final String str) {
-				for (final Entry<Integer, String> entry : nameMap.entrySet()) {
-					if (entry.getValue().equals(str)) {
-						return entry.getKey();
-					}
-				}
-
-				return 0;
-			}
-		});
-
-		channelBox.valueProperty().bindBidirectional(getChannelProperty().asObject());
+		channelBox.valueProperty().bindBidirectional(getChannelProperty());
 	}
 
 	@Override
 	public String toString() {
-		return String.format("%s, channel=%d", super.toString(), getChannel());
+		return String.format("%s, channel=%d", super.toString(), (getChannel() != null) ? (getChannel().getChannel())
+			: (-1));
 	}
 }

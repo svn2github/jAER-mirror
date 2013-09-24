@@ -3,8 +3,6 @@ package ch.unizh.ini.devices.components.aer;
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ShiftRegisterContainer;
-import net.sf.jaer2.devices.config.muxes.AnalogMux;
-import net.sf.jaer2.devices.config.muxes.DigitalMux;
 import net.sf.jaer2.devices.config.muxes.Mux;
 import net.sf.jaer2.devices.config.pots.AddressedIPotCoarseFine;
 import net.sf.jaer2.devices.config.pots.Masterbias;
@@ -69,7 +67,7 @@ public class SBRet10 extends AERChip implements Translator {
 		final ShiftRegisterContainer chipSR = new ShiftRegisterContainer("ChipSR",
 			"ShiftRegister for on-chip configuration (muxes, settings).", 56);
 
-		final Mux digMux3 = new DigitalMux("DigMux3", ".", 4);
+		final Mux digMux3 = new Mux("DigMux3", ".", 4);
 
 		digMux3.put(0, "AY179right");
 		digMux3.put(1, "Acol");
@@ -90,7 +88,7 @@ public class SBRet10 extends AERChip implements Translator {
 
 		chipSR.addSetting(digMux3);
 
-		final Mux digMux2 = new DigitalMux("DigMux2", ".", 4);
+		final Mux digMux2 = new Mux("DigMux2", ".", 4);
 
 		digMux2.put(0, "AY179right");
 		digMux2.put(1, "Acol");
@@ -111,7 +109,7 @@ public class SBRet10 extends AERChip implements Translator {
 
 		chipSR.addSetting(digMux2);
 
-		final Mux digMux1 = new DigitalMux("DigMux1", ".", 4);
+		final Mux digMux1 = new Mux("DigMux1", ".", 4);
 
 		digMux1.put(0, "AY179right");
 		digMux1.put(1, "Acol");
@@ -132,7 +130,7 @@ public class SBRet10 extends AERChip implements Translator {
 
 		chipSR.addSetting(digMux1);
 
-		final Mux digMux0 = new DigitalMux("DigMux0", ".", 4);
+		final Mux digMux0 = new Mux("DigMux0", ".", 4);
 
 		digMux0.put(0, "AY179right");
 		digMux0.put(1, "Acol");
@@ -167,46 +165,46 @@ public class SBRet10 extends AERChip implements Translator {
 
 		chipSR.addSetting(chipConfigSR);
 
-		final Mux anaMux2 = new AnalogMux("AnaMux2", ".", 4);
+		final Mux anaMux2 = new Mux("AnaMux2", ".", 4);
 
-		anaMux2.put(0, "on");
-		anaMux2.put(1, "off");
-		anaMux2.put(2, "vdiff");
-		anaMux2.put(3, "nResetPixel");
-		anaMux2.put(4, "pr");
-		anaMux2.put(5, "pd");
-		anaMux2.put(6, "calibNeuron");
-		anaMux2.put(7, "nTimeout_AI");
+		anaMux2.put(0, "on", 1);
+		anaMux2.put(1, "off", 3);
+		anaMux2.put(2, "vdiff", 5);
+		anaMux2.put(3, "nResetPixel", 7);
+		anaMux2.put(4, "pr", 9);
+		anaMux2.put(5, "pd", 11);
+		anaMux2.put(6, "calibNeuron", 13);
+		anaMux2.put(7, "nTimeout_AI", 15);
 
 		chipSR.addSetting(anaMux2);
 
-		final Mux anaMux1 = new AnalogMux("AnaMux1", ".", 4);
+		final Mux anaMux1 = new Mux("AnaMux1", ".", 4);
 
-		anaMux1.put(0, "on");
-		anaMux1.put(1, "off");
-		anaMux1.put(2, "vdiff");
-		anaMux1.put(3, "nResetPixel");
-		anaMux1.put(4, "pr");
-		anaMux1.put(5, "pd");
-		anaMux1.put(6, "apsgate");
-		anaMux1.put(7, "apsout");
+		anaMux1.put(0, "on", 1);
+		anaMux1.put(1, "off", 3);
+		anaMux1.put(2, "vdiff", 5);
+		anaMux1.put(3, "nResetPixel", 7);
+		anaMux1.put(4, "pr", 9);
+		anaMux1.put(5, "pd", 11);
+		anaMux1.put(6, "apsgate", 13);
+		anaMux1.put(7, "apsout", 15);
 
 		chipSR.addSetting(anaMux1);
 
-		final Mux anaMux0 = new AnalogMux("AnaMux0", ".", 4);
+		final Mux anaMux0 = new Mux("AnaMux0", ".", 4);
 
-		anaMux0.put(0, "on");
-		anaMux0.put(1, "off");
-		anaMux0.put(2, "vdiff");
-		anaMux0.put(3, "nResetPixel");
-		anaMux0.put(4, "pr");
-		anaMux0.put(5, "pd");
-		anaMux0.put(6, "apsgate");
-		anaMux0.put(7, "apsout");
+		anaMux0.put(0, "on", 1);
+		anaMux0.put(1, "off", 3);
+		anaMux0.put(2, "vdiff", 5);
+		anaMux0.put(3, "nResetPixel", 7);
+		anaMux0.put(4, "pr", 9);
+		anaMux0.put(5, "pd", 11);
+		anaMux0.put(6, "apsgate", 13);
+		anaMux0.put(7, "apsout", 15);
 
 		chipSR.addSetting(anaMux0);
 
-		final Mux biasOutMux = new DigitalMux("BiasOutMux", ".", 4);
+		final Mux biasOutMux = new Mux("BiasOutMux", ".", 4);
 
 		biasOutMux.put(0, "IFThrBn");
 		biasOutMux.put(1, "AEPuYBp");
