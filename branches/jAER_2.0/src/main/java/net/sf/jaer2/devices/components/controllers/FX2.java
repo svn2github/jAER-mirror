@@ -3,9 +3,6 @@ package net.sf.jaer2.devices.components.controllers;
 import net.sf.jaer2.devices.config.ConfigBase;
 
 public class FX2 extends Controller {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -8642369183345730219L;
 
 	public static enum Ports {
@@ -48,6 +45,10 @@ public class FX2 extends Controller {
 			vr = s;
 		}
 
+		public final short getVR() {
+			return vr;
+		}
+
 		@Override
 		public final String toString() {
 			return String.format("0x%X", vr);
@@ -76,6 +77,7 @@ public class FX2 extends Controller {
 		throw new UnsupportedOperationException("General order unsupported, use either Ports or Vendor Requests.");
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void setProgrammer(final Controller programmer) {
 		throw new UnsupportedOperationException("FX2 cannot be programmed by others, as it is the initial controller.");

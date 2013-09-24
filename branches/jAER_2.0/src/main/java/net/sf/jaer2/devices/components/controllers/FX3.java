@@ -5,9 +5,6 @@ import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigInt;
 
 public class FX3 extends Controller {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 7230612434040940891L;
 
 	public static enum Ports {
@@ -41,6 +38,10 @@ public class FX3 extends Controller {
 			gpioId = id;
 		}
 
+		public final int getGpioId() {
+			return gpioId;
+		}
+
 		@Override
 		public final String toString() {
 			return String.format("GPIO %d", gpioId);
@@ -68,6 +69,10 @@ public class FX3 extends Controller {
 			vr = s;
 		}
 
+		public final short getVR() {
+			return vr;
+		}
+
 		@Override
 		public final String toString() {
 			return String.format("0x%X", vr);
@@ -81,8 +86,9 @@ public class FX3 extends Controller {
 	public FX3(final String componentName) {
 		super(componentName);
 
+		// All FX3 firmwares support these two VRs for internal configuration.
 		addSetting(new ConfigInt("LOG_LEVEL",
-			"Set the logging level, to restrict which error messages will be sent over the Status EP1.", (byte) 6),
+			"Set the logging level, to restrict which error messages will be sent over the Status EP1.", 6, 3),
 			FX3.VendorRequests.VR_LOG_LEVEL);
 		addSetting(new ConfigBit("FX3_RESET", "Hard-reset the FX3 microcontroller", false),
 			FX3.VendorRequests.VR_FX3_RESET);
@@ -102,6 +108,7 @@ public class FX3 extends Controller {
 		throw new UnsupportedOperationException("General order unsupported, use either Ports or Vendor Requests.");
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void setProgrammer(final Controller programmer) {
 		throw new UnsupportedOperationException("FX3 cannot be programmed by others, as it is the initial controller.");

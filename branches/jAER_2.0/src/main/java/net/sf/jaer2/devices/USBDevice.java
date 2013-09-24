@@ -69,6 +69,6 @@ public abstract class USBDevice extends Device {
 
 	@Override
 	public String toString() {
-		return String.format("%s [%X:%X:%X]", name, devVID, devPID, devDID);
+		return String.format("%s [%X:%X:%X]", getName(), devVID, devPID, devDID);
 	}
 }

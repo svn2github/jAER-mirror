@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -20,10 +20,10 @@ import net.sf.jaer2.util.GUISupport;
 public abstract class Device implements Serializable {
 	private static final long serialVersionUID = -4456253680300169997L;
 
-	private final SortedMap<String, Component> nameComponentMap = new TreeMap<>();
+	private final Map<String, Component> componentsMap = new LinkedHashMap<>();
 
-	protected final String name;
-	protected final String description;
+	private final String name;
+	private final String description;
 
 	transient private VBox rootConfigLayout;
 
@@ -41,17 +41,17 @@ public abstract class Device implements Serializable {
 	}
 
 	protected void addComponent(final Component c) {
-		nameComponentMap.put(c.getName(), c);
+		componentsMap.put(c.getName(), c);
 	}
 
 	public Collection<Component> getComponents() {
-		return Collections.unmodifiableCollection(nameComponentMap.values());
+		return Collections.unmodifiableCollection(componentsMap.values());
 	}
 
 	public <E extends Component> Collection<E> getComponents(final Class<E> type) {
 		final Collection<E> components = new ArrayList<>();
 
-		for (final Component c : nameComponentMap.values()) {
+		for (final Component c : componentsMap.values()) {
 			if (type.isAssignableFrom(c.getClass())) {
 				components.add(type.cast(c));
 			}
@@ -61,11 +61,11 @@ public abstract class Device implements Serializable {
 	}
 
 	public Component getComponent(final String componentName) {
-		return nameComponentMap.get(componentName);
+		return componentsMap.get(componentName);
 	}
 
 	public <E extends Component> E getComponent(final Class<E> type, final String componentName) {
-		final Component c = nameComponentMap.get(componentName);
+		final Component c = componentsMap.get(componentName);
 
 		// Found a component with specified name, now check the type.
 		if ((c != null) && type.isAssignableFrom(c.getClass())) {
@@ -87,11 +87,11 @@ public abstract class Device implements Serializable {
 
 	private void buildConfigGUI() {
 		// Add device general data, under that, one Tab for each component.
-		GUISupport.addLabel(rootConfigLayout, name, description, null, null);
+		GUISupport.addLabel(rootConfigLayout, getName(), getDescription(), null, null);
 
 		final TabPane tabLayout = new TabPane();
 
-		for (final Component c : nameComponentMap.values()) {
+		for (final Component c : componentsMap.values()) {
 			final ScrollPane p = new ScrollPane(c.getConfigGUI());
 
 			p.setFitToWidth(true);
@@ -117,6 +117,6 @@ public abstract class Device implements Serializable {
 
 	@Override
 	public String toString() {
-		return name;
+		return getName();
 	}
 }

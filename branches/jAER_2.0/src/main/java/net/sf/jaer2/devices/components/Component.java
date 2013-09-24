@@ -12,10 +12,10 @@ import net.sf.jaer2.devices.config.ConfigBase;
 public abstract class Component implements Serializable {
 	private static final long serialVersionUID = 1690782428425851787L;
 
-	protected final Map<String, ConfigBase> settingsMap = new LinkedHashMap<>();
+	private final Map<String, ConfigBase> settingsMap = new LinkedHashMap<>();
 
-	protected final String name;
-	protected Controller programmer;
+	private final String name;
+	private Controller programmer;
 
 	transient protected VBox rootConfigLayout;
 
@@ -62,6 +62,6 @@ public abstract class Component implements Serializable {
 
 	@Override
 	public String toString() {
-		return name;
+		return getName();
 	}
 }
