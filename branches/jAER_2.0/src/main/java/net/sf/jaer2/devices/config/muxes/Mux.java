@@ -102,6 +102,9 @@ public class Mux extends ConfigBase {
 
 		final ComboBox<MuxChannel> channelBox = GUISupport.addComboBox(rootConfigLayout, channels, -1);
 
+		// Show all options at once.
+		channelBox.setVisibleRowCount(channels.size());
+
 		channelBox.valueProperty().bindBidirectional(getChannelProperty());
 	}
 

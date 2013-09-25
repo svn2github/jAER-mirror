@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import net.sf.jaer2.util.GUISupport;
+import net.sf.jaer2.util.Files;
 import net.sf.jaer2.util.XMLconf;
 import ch.unizh.ini.devices.ApsDvs10FX3;
 
@@ -31,7 +31,7 @@ public final class JAER2 extends Application {
 
 		final ApsDvs10FX3 dvs;
 
-		if (GUISupport.checkReadPermissions(savedSession)) {
+		if (Files.checkReadPermissions(savedSession)) {
 			// Restore last network from saved file.
 			dvs = XMLconf.fromXML(ApsDvs10FX3.class, savedSession);
 		}
@@ -56,7 +56,7 @@ public final class JAER2 extends Application {
 			@Override
 			public void handle(@SuppressWarnings("unused") final WindowEvent event) {
 				// Try to save the current network to file.
-				if (GUISupport.checkWritePermissions(savedSession)) {
+				if (Files.checkWritePermissions(savedSession)) {
 					// XMLconf.toXML(dvs, null, savedSession);
 				}
 			}

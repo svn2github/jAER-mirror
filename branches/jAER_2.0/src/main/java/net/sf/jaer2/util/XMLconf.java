@@ -10,7 +10,8 @@ import com.thoughtworks.xstream.XStream;
 
 public final class XMLconf {
 	public static <T> void toXML(final T object, final List<PairRO<Class<?>, String>> fieldsToOmit) {
-		final File toSave = GUISupport.showDialogSaveFile(ImmutableList.of(PairRO.of("XML", "*.xml")));
+		final File toSave = GUISupport.showDialogSaveFile(ImmutableList.of(PairRO.of("XML",
+			(List<String>) ImmutableList.of("*.xml"))));
 
 		if (toSave == null) {
 			// Error in opening file, check dialog message for what went wrong.
@@ -21,7 +22,7 @@ public final class XMLconf {
 	}
 
 	public static <T> void toXML(final T object, final List<PairRO<Class<?>, String>> fieldsToOmit, final File xmlFile) {
-		if (!GUISupport.checkWritePermissions(xmlFile)) {
+		if (!Files.checkWritePermissions(xmlFile)) {
 			// Error in opening file.
 			return;
 		}
@@ -47,7 +48,8 @@ public final class XMLconf {
 	}
 
 	public static <T> T fromXML(final Class<T> clazz) {
-		final File toLoad = GUISupport.showDialogLoadFile(ImmutableList.of(PairRO.of("XML", "*.xml")));
+		final File toLoad = GUISupport.showDialogLoadFile(ImmutableList.of(PairRO.of("XML",
+			(List<String>) ImmutableList.of("*.xml"))));
 
 		if (toLoad == null) {
 			// Error in opening file, check dialog message for what went wrong.
@@ -58,7 +60,7 @@ public final class XMLconf {
 	}
 
 	public static <T> T fromXML(final Class<T> clazz, final File xmlFile) {
-		if (!GUISupport.checkReadPermissions(xmlFile)) {
+		if (!Files.checkReadPermissions(xmlFile)) {
 			// Error in opening file.
 			return null;
 		}

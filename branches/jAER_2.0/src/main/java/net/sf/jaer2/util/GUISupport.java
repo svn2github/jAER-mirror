@@ -473,13 +473,13 @@ public final class GUISupport {
 		Dialogs.create().lightweight().title("Exception detected").showException(exception);
 	}
 
-	public static File showDialogLoadFile(final List<PairRO<String, String>> allowedExtensions) {
+	public static File showDialogLoadFile(final List<PairRO<String, List<String>>> allowedExtensions) {
 		final FileChooser fileChooser = new FileChooser();
 
 		fileChooser.setTitle("Select File to load from ...");
 
 		if (allowedExtensions != null) {
-			for (final PairRO<String, String> ext : allowedExtensions) {
+			for (final PairRO<String, List<String>> ext : allowedExtensions) {
 				fileChooser.getExtensionFilters().add(new ExtensionFilter(ext.getFirst(), ext.getSecond()));
 			}
 		}
@@ -490,15 +490,15 @@ public final class GUISupport {
 			return null;
 		}
 
-		if (!GUISupport.checkReadPermissions(toLoad)) {
+		if (!Files.checkReadPermissions(toLoad)) {
 			GUISupport.showDialogError("Cannot read from file " + toLoad.getAbsolutePath());
 			return null;
 		}
 
 		// Sanity check on file name extension.
 		if (allowedExtensions != null) {
-			for (final PairRO<String, String> ext : allowedExtensions) {
-				if (toLoad.getName().endsWith(ext.getSecond().substring(ext.getSecond().indexOf('.')))) {
+			for (final PairRO<String, List<String>> exts : allowedExtensions) {
+				if (Files.checkExtensions(toLoad, exts.getSecond())) {
 					return toLoad;
 				}
 			}
@@ -510,13 +510,13 @@ public final class GUISupport {
 		return toLoad;
 	}
 
-	public static File showDialogSaveFile(final List<PairRO<String, String>> allowedExtensions) {
+	public static File showDialogSaveFile(final List<PairRO<String, List<String>>> allowedExtensions) {
 		final FileChooser fileChooser = new FileChooser();
 
 		fileChooser.setTitle("Select File to save to ...");
 
 		if (allowedExtensions != null) {
-			for (final PairRO<String, String> ext : allowedExtensions) {
+			for (final PairRO<String, List<String>> ext : allowedExtensions) {
 				fileChooser.getExtensionFilters().add(new ExtensionFilter(ext.getFirst(), ext.getSecond()));
 			}
 		}
@@ -527,15 +527,15 @@ public final class GUISupport {
 			return null;
 		}
 
-		if (!GUISupport.checkWritePermissions(toSave)) {
+		if (!Files.checkWritePermissions(toSave)) {
 			GUISupport.showDialogError("Cannot write to file " + toSave.getAbsolutePath());
 			return null;
 		}
 
 		// Sanity check on file name extension.
 		if (allowedExtensions != null) {
-			for (final PairRO<String, String> ext : allowedExtensions) {
-				if (toSave.getName().endsWith(ext.getSecond().substring(ext.getSecond().indexOf('.')))) {
+			for (final PairRO<String, List<String>> exts : allowedExtensions) {
+				if (Files.checkExtensions(toSave, exts.getSecond())) {
 					return toSave;
 				}
 			}
@@ -545,38 +545,6 @@ public final class GUISupport {
 		}
 
 		return toSave;
-	}
-
-	public static boolean checkReadPermissions(final File f) {
-		if (f == null) {
-			throw new NullPointerException();
-		}
-
-		// We want to read, so it has to exist and be readable.
-		if (f.exists() && f.canRead()) {
-			return true;
-		}
-
-		return false;
-	}
-
-	public static boolean checkWritePermissions(final File f) {
-		if (f == null) {
-			throw new NullPointerException();
-		}
-
-		if (f.exists()) {
-			if (f.canWrite()) {
-				// If it exists already, but is writable.
-				return true;
-			}
-
-			// Exists already, but is not writable.
-			return false;
-		}
-
-		// Non-existing paths can usually be written to.
-		return true;
 	}
 
 	public static HBox addArrow(final Pane parentPane, final double lineLength, final double lineWidth,
