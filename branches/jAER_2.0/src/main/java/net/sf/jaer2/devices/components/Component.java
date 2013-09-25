@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import net.sf.jaer2.devices.components.controllers.Controller;
@@ -46,6 +47,7 @@ public abstract class Component implements Serializable {
 	synchronized public Pane getConfigGUI() {
 		if (rootConfigLayout == null) {
 			rootConfigLayout = new VBox(10);
+			rootConfigLayout.setPadding(new Insets(10));
 
 			buildConfigGUI();
 		}

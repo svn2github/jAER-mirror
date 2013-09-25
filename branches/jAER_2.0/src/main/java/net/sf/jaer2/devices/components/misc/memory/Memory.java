@@ -44,7 +44,7 @@ public abstract class Memory extends Component {
 
 	@Override
 	protected void buildConfigGUI() {
-		final HBox fileBox = new HBox(5);
+		final HBox fileBox = new HBox(10);
 		rootConfigLayout.getChildren().add(fileBox);
 
 		GUISupport.addLabel(fileBox, "Select firmware file",
@@ -64,8 +64,9 @@ public abstract class Memory extends Component {
 				// field background red.
 				final File loadFirmware = new File(newVal);
 
-				if (!Files.checkReadPermissions(loadFirmware) || !Files.checkExtensions(loadFirmware, Memory.binaryExtensions)) {
-					firmwareFileField.setStyle("-fx-background-color: #FF575A");
+				if (!Files.checkReadPermissions(loadFirmware)
+					|| !Files.checkExtensions(loadFirmware, Memory.binaryExtensions)) {
+					firmwareFileField.setStyle("-fx-background-color: #FF5757");
 					return;
 				}
 
