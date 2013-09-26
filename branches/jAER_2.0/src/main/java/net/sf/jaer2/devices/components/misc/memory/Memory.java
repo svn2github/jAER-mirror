@@ -1,6 +1,12 @@
 package net.sf.jaer2.devices.components.misc.memory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileChannel.MapMode;
 import java.util.List;
 
 import javafx.beans.value.ChangeListener;
@@ -28,6 +34,7 @@ public abstract class Memory extends Component {
 		super(memName);
 
 		sizeKB = memSizeKB;
+		setFirmwareFile(null);
 	}
 
 	public int getSize() {
@@ -41,6 +48,10 @@ public abstract class Memory extends Component {
 	public void setFirmwareFile(final File firmwareFile) {
 		this.firmwareFile = firmwareFile;
 	}
+
+	public abstract void writeToMemory(int memAddress, ByteBuffer content);
+
+	public abstract ByteBuffer readFromMemory(int memAddress, int length);
 
 	@Override
 	protected void buildConfigGUI() {
@@ -99,7 +110,20 @@ public abstract class Memory extends Component {
 						return;
 					}
 
-					// TODO: add programmer upload.
+					try (final RandomAccessFile fwFile = new RandomAccessFile(getFirmwareFile(), "r");
+						final FileChannel fwInChannel = fwFile.getChannel()) {
+						final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
+						buf.load();
+
+						writeToMemory(0x00, buf);
+
+						// Cleanup ByteBuffer.
+						buf.clear();
+					}
+					catch (final IOException e) {
+						GUISupport.showDialogException(e);
+						return;
+					}
 				}
 			});
 	}

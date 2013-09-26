@@ -1,5 +1,10 @@
 package net.sf.jaer2.devices.components.misc.memory;
 
+import java.nio.ByteBuffer;
+
+import net.sf.jaer2.devices.components.controllers.Controller.Command;
+import net.sf.jaer2.util.TypedMap;
+
 public class Flash_SPI extends Memory {
 	private static final long serialVersionUID = -5149304076077627592L;
 
@@ -17,5 +22,31 @@ public class Flash_SPI extends Memory {
 
 	public int getSpiAddress() {
 		return spiAddress;
+	}
+
+	@Override
+	public void writeToMemory(final int memAddress, final ByteBuffer content) {
+		final TypedMap<String> args = new TypedMap<>();
+
+		args.put("spiAddress", Integer.class, getSpiAddress());
+		args.put("memoryAddress", Integer.class, memAddress);
+		args.put("dataOut", ByteBuffer.class, content);
+
+		getProgrammer().program(Command.WRITE_SPI, args, this);
+	}
+
+	@Override
+	public ByteBuffer readFromMemory(final int memAddress, final int length) {
+		final ByteBuffer buf = ByteBuffer.allocate(length);
+
+		final TypedMap<String> args = new TypedMap<>();
+
+		args.put("spiAddress", Integer.class, getSpiAddress());
+		args.put("memoryAddress", Integer.class, memAddress);
+		args.put("dataIn", ByteBuffer.class, buf);
+
+		getProgrammer().program(Command.READ_SPI, args, this);
+
+		return buf;
 	}
 }

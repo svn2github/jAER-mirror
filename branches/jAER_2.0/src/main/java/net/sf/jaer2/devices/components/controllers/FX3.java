@@ -1,8 +1,10 @@
 package net.sf.jaer2.devices.components.controllers;
 
+import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigInt;
+import net.sf.jaer2.util.TypedMap;
 
 public class FX3 extends Controller {
 	private static final long serialVersionUID = 7230612434040940891L;
@@ -112,5 +114,11 @@ public class FX3 extends Controller {
 	@Override
 	public void setProgrammer(final Controller programmer) {
 		throw new UnsupportedOperationException("FX3 cannot be programmed by others, as it is the initial controller.");
+	}
+
+	@Override
+	public void program(Command command, TypedMap<String> arguments, Component origin) {
+		// TODO Auto-generated method stub
+
 	}
 }
