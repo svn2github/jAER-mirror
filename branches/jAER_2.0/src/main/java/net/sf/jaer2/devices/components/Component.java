@@ -7,6 +7,7 @@ import java.util.Map;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import net.sf.jaer2.devices.Device;
 import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.config.ConfigBase;
 
@@ -17,6 +18,7 @@ public abstract class Component implements Serializable {
 
 	private final String name;
 	private Controller programmer;
+	private Device device;
 
 	transient protected VBox rootConfigLayout;
 
@@ -34,6 +36,14 @@ public abstract class Component implements Serializable {
 
 	public void setProgrammer(final Controller programmer) {
 		this.programmer = programmer;
+	}
+
+	public Device getDevice() {
+		return device;
+	}
+
+	public void setDevice(Device device) {
+		this.device = device;
 	}
 
 	public void addSetting(final ConfigBase setting) {

@@ -1,5 +1,6 @@
 package net.sf.jaer2.devices.components.controllers;
 
+import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.devices.config.ConfigBit;
@@ -104,6 +105,13 @@ public class FX3 extends Controller {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public USBDevice getDevice() {
+		// FX microcontrollers are always part of a USB device, nothing else
+		// makes even remotely sense.
+		return (USBDevice) super.getDevice();
+	}
+
 	@SuppressWarnings("unused")
 	@Override
 	public void addSetting(final ConfigBase setting) {
@@ -118,7 +126,19 @@ public class FX3 extends Controller {
 
 	@Override
 	public void program(Command command, TypedMap<String> arguments, Component origin) {
-		// TODO Auto-generated method stub
-
+		switch (command) {
+			case READ_SPI:
+				break;
+			case WRITE_BIASES:
+				break;
+			case READ_I2C:
+				break;
+			case WRITE_I2C:
+				break;
+			case WRITE_SPI:
+				break;
+			default:
+				break;
+		}
 	}
 }

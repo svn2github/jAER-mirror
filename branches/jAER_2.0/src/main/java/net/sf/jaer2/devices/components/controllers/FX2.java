@@ -1,5 +1,6 @@
 package net.sf.jaer2.devices.components.controllers;
 
+import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.util.TypedMap;
@@ -71,6 +72,13 @@ public class FX2 extends Controller {
 
 	public void addSetting(final ConfigBase setting, final VendorRequests vr) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public USBDevice getDevice() {
+		// FX microcontrollers are always part of a USB device, nothing else
+		// makes even remotely sense.
+		return (USBDevice) super.getDevice();
 	}
 
 	@SuppressWarnings("unused")

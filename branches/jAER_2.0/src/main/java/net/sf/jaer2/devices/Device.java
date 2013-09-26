@@ -42,6 +42,7 @@ public abstract class Device implements Serializable {
 
 	protected void addComponent(final Component c) {
 		componentsMap.put(c.getName(), c);
+		c.setDevice(this);
 	}
 
 	public Collection<Component> getComponents() {
