@@ -2,6 +2,7 @@ package net.sf.jaer2.devices.components.misc.memory;
 
 import java.nio.ByteBuffer;
 
+import li.longi.libusb4java.utils.BufferUtils;
 import net.sf.jaer2.devices.components.controllers.Controller.Command;
 import net.sf.jaer2.util.TypedMap;
 
@@ -32,12 +33,12 @@ public class EEPROM_I2C extends Memory {
 		args.put("memoryAddress", Integer.class, memAddress);
 		args.put("dataOut", ByteBuffer.class, content);
 
-		getProgrammer().program(Command.WRITE_I2C, args, this);
+		getProgrammer().program(Command.I2C_WRITE, args, this);
 	}
 
 	@Override
 	public ByteBuffer readFromMemory(final int memAddress, final int length) {
-		final ByteBuffer buf = ByteBuffer.allocate(length);
+		final ByteBuffer buf = BufferUtils.allocateByteBuffer(length);
 
 		final TypedMap<String> args = new TypedMap<>();
 
@@ -45,7 +46,7 @@ public class EEPROM_I2C extends Memory {
 		args.put("memoryAddress", Integer.class, memAddress);
 		args.put("dataIn", ByteBuffer.class, buf);
 
-		getProgrammer().program(Command.READ_I2C, args, this);
+		getProgrammer().program(Command.I2C_READ, args, this);
 
 		return buf;
 	}

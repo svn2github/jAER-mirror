@@ -94,7 +94,7 @@ public class FX2 extends Controller {
 	}
 
 	@Override
-	public void program(Command command, TypedMap<String> args, Component origin) {
+	synchronized public void program(Command command, TypedMap<String> args, Component origin) {
 		// TODO Auto-generated method stub
 
 	}

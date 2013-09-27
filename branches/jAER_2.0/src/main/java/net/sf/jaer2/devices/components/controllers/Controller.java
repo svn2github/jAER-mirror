@@ -28,7 +28,7 @@ public abstract class Controller extends Component {
 		 * memoryAddress - Integer
 		 * dataIn - ByteBuffer
 		 */
-		READ_I2C,
+		I2C_READ,
 		/**
 		 * Write to a generic I2C memory-like device.
 		 *
@@ -37,7 +37,7 @@ public abstract class Controller extends Component {
 		 * memoryAddress - Integer
 		 * dataOut - ByteBuffer
 		 */
-		WRITE_I2C,
+		I2C_WRITE,
 		/**
 		 * Read from a generic SPI memory-like device.
 		 *
@@ -46,7 +46,7 @@ public abstract class Controller extends Component {
 		 * memoryAddress - Integer
 		 * dataIn - ByteBuffer
 		 */
-		READ_SPI,
+		SPI_READ,
 		/**
 		 * Write to a generic SPI memory-like device.
 		 *
@@ -55,8 +55,7 @@ public abstract class Controller extends Component {
 		 * memoryAddress - Integer
 		 * dataOut - ByteBuffer
 		 */
-		WRITE_SPI,
-		WRITE_BIASES;
+		SPI_WRITE;
 	}
 
 	public Controller(final String componentName) {
@@ -71,5 +70,11 @@ public abstract class Controller extends Component {
 
 	}
 
-	public abstract void program(final Command command, final TypedMap<String> args, final Component origin);
+	synchronized public void program(final Command command, final TypedMap<String> args,
+		@SuppressWarnings("unused") final Component origin) {
+		// By default, just pass up to the next controller, which may fail if
+		// not configured by throwing a NPE or if not supported (FX controllers)
+		// by throwing an UnsupportedOperationException.
+		getProgrammer().program(command, args, this);
+	}
 }

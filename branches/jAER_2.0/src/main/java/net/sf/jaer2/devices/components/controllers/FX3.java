@@ -128,9 +128,9 @@ public class FX3 extends Controller {
 	}
 
 	@Override
-	public void program(final Command command, final TypedMap<String> args, final Component origin) {
+	synchronized public void program(final Command command, final TypedMap<String> args, final Component origin) {
 		switch (command) {
-			case READ_SPI:
+			case SPI_READ:
 				try {
 					getDevice().sendVendorRequestOut(VendorRequests.VR_SPI_CONFIG.getVR(),
 						args.get("spiAddress", Integer.class).shortValue(), (short) 0);
@@ -146,14 +146,31 @@ public class FX3 extends Controller {
 				}
 
 				break;
-			case WRITE_BIASES:
+
+			case SPI_WRITE:
+				try {
+					getDevice().sendVendorRequestOut(VendorRequests.VR_SPI_CONFIG.getVR(),
+						args.get("spiAddress", Integer.class).shortValue(), (short) 0);
+
+					final int memoryAddress = args.get("memoryAddress", Integer.class);
+					getDevice().sendVendorRequestIn(VendorRequests.VR_SPI_TRANSFER.getVR(),
+						(short) (memoryAddress >>> 16), (short) (memoryAddress & 0xFFFF),
+						args.get("dataIn", ByteBuffer.class));
+				}
+				catch (final IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 				break;
-			case READ_I2C:
+
+			case I2C_READ:
+
 				break;
-			case WRITE_I2C:
+			case I2C_WRITE:
+
 				break;
-			case WRITE_SPI:
-				break;
+
 			default:
 				break;
 		}
