@@ -40,15 +40,15 @@ public class FX2 extends Controller {
 	}
 
 	public static enum VendorRequests {
-		VR_NONE((short) 0x00);
+		VR_NONE((byte) 0x00);
 
-		private final short vr;
+		private final byte vr;
 
-		private VendorRequests(final short s) {
-			vr = s;
+		private VendorRequests(final byte b) {
+			vr = b;
 		}
 
-		public final short getVR() {
+		public final byte getVR() {
 			return vr;
 		}
 
@@ -94,7 +94,7 @@ public class FX2 extends Controller {
 	}
 
 	@Override
-	public void program(Command command, TypedMap<String> arguments, Component origin) {
+	public void program(Command command, TypedMap<String> args, Component origin) {
 		// TODO Auto-generated method stub
 
 	}

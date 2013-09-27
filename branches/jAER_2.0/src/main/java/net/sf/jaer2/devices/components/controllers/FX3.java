@@ -1,5 +1,8 @@
 package net.sf.jaer2.devices.components.controllers;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+
 import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.config.ConfigBase;
@@ -52,27 +55,27 @@ public class FX3 extends Controller {
 	}
 
 	public static enum VendorRequests {
-		VR_TEST((short) 0xB0),
-		VR_LOG_LEVEL((short) 0xB1),
-		VR_FX3_RESET((short) 0xB2),
-		VR_STATUS((short) 0xB3),
-		VR_SUPPORTED((short) 0xB4),
-		VR_GPIO_GET((short) 0xB5),
-		VR_GPIO_SET((short) 0xB6),
-		VR_I2C_CONFIG((short) 0xB7),
-		VR_I2C_TRANSFER((short) 0xB8),
-		VR_SPI_CONFIG((short) 0xB9),
-		VR_SPI_CMD((short) 0xBA),
-		VR_SPI_TRANSFER((short) 0xBB),
-		VR_SPI_ERASE((short) 0xBC);
+		VR_TEST((byte) 0xB0),
+		VR_LOG_LEVEL((byte) 0xB1),
+		VR_FX3_RESET((byte) 0xB2),
+		VR_STATUS((byte) 0xB3),
+		VR_SUPPORTED((byte) 0xB4),
+		VR_GPIO_GET((byte) 0xB5),
+		VR_GPIO_SET((byte) 0xB6),
+		VR_I2C_CONFIG((byte) 0xB7),
+		VR_I2C_TRANSFER((byte) 0xB8),
+		VR_SPI_CONFIG((byte) 0xB9),
+		VR_SPI_CMD((byte) 0xBA),
+		VR_SPI_TRANSFER((byte) 0xBB),
+		VR_SPI_ERASE((byte) 0xBC);
 
-		private final short vr;
+		private final byte vr;
 
-		private VendorRequests(final short s) {
-			vr = s;
+		private VendorRequests(final byte b) {
+			vr = b;
 		}
 
-		public final short getVR() {
+		public final byte getVR() {
 			return vr;
 		}
 
@@ -125,9 +128,23 @@ public class FX3 extends Controller {
 	}
 
 	@Override
-	public void program(Command command, TypedMap<String> arguments, Component origin) {
+	public void program(final Command command, final TypedMap<String> args, final Component origin) {
 		switch (command) {
 			case READ_SPI:
+				try {
+					getDevice().sendVendorRequestOut(VendorRequests.VR_SPI_CONFIG.getVR(),
+						args.get("spiAddress", Integer.class).shortValue(), (short) 0);
+
+					final int memoryAddress = args.get("memoryAddress", Integer.class);
+					getDevice().sendVendorRequestIn(VendorRequests.VR_SPI_TRANSFER.getVR(),
+						(short) (memoryAddress >>> 16), (short) (memoryAddress & 0xFFFF),
+						args.get("dataIn", ByteBuffer.class));
+				}
+				catch (final IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 				break;
 			case WRITE_BIASES:
 				break;

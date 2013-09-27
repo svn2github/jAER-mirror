@@ -76,53 +76,50 @@ public abstract class USBDevice extends Device {
 	}
 
 	/**
-	 * Sends a vendor request without any data packet, value and index are set
-	 * to zero. This is a blocking method.
+	 * Sends a vendor request to send (OUT direction) data. Value and Index are
+	 * set to zero, and no actual data is going to be sent. This is a blocking
+	 * method.
 	 *
 	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 * @throws IOException
 	 */
-	synchronized public void sendVendorRequest(final byte request) throws IOException {
-		sendVendorRequest(request, (short) 0, (short) 0);
+	synchronized public void sendVendorRequestOut(final byte request) throws IOException {
+		sendVendorRequestOut(request, (short) 0, (short) 0);
 	}
 
 	/**
-	 * Sends a vendor request without any data packet but with request, value
-	 * and index. This is a blocking method.
+	 * Sends a vendor request to send (OUT direction) data. No actual data is
+	 * going to be sent. This is a blocking method.
 	 *
 	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 * @param value
-	 *            the value of the request (bValue USB field)
+	 *            the value of the request (wValue USB field)
 	 * @param index
-	 *            the "index" of the request (bIndex USB field)
+	 *            the "index" of the request (wIndex USB field)
 	 * @throws IOException
 	 */
-	synchronized public void sendVendorRequest(final byte request, final short value, final short index)
+	synchronized public void sendVendorRequestOut(final byte request, final short value, final short index)
 		throws IOException {
-		sendVendorRequest(request, value, index, (ByteBuffer) null);
+		sendVendorRequestOut(request, value, index, (ByteBuffer) null);
 	}
 
 	/**
-	 * Sends a vendor request with data (including special bits). This is a
-	 * blocking method.
+	 * Sends a vendor request to send (OUT direction) data. This is a blocking
+	 * method.
 	 *
-	 * @param requestType
-	 *            the vendor requestType byte (used for special cases, usually
-	 *            0)
 	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 * @param value
-	 *            the value of the request (bValue USB field)
+	 *            the value of the request (wValue USB field)
 	 * @param index
-	 *            the "index" of the request (bIndex USB field)
+	 *            the "index" of the request (wIndex USB field)
 	 * @param buffer
-	 *            the data which is to be transmitted to the device (null means
-	 *            no data)
+	 *            the buffer where the data being sent is held
 	 * @throws IOException
 	 */
-	synchronized public void sendVendorRequest(final byte request, final short value, final short index,
+	synchronized public void sendVendorRequestOut(final byte request, final short value, final short index,
 		final ByteBuffer buffer) throws IOException {
 		if (!isOpen()) {
 			open();
@@ -151,45 +148,40 @@ public abstract class USBDevice extends Device {
 	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 * @param value
-	 *            the value of the request (bValue USB field)
+	 *            the value of the request (wValue USB field)
 	 * @param index
-	 *            the "index" of the request (bIndex USB field)
-	 * @param dataLength
-	 *            amount of data to receive, determines size of returned buffer
-	 *            (must be greater than 0)
-	 * @return a buffer containing the data requested from the device
+	 *            the "index" of the request (wIndex USB field)
+	 * @param buffer
+	 *            the buffer where the data being received is going to be held
 	 * @throws IOException
 	 */
-	synchronized public ByteBuffer sendVendorRequestIN(final byte request, final short value, final short index,
-		final int dataLength) throws IOException {
-		if (dataLength == 0) {
-			throw new IllegalArgumentException("Unable to send vendor request (direction IN) with dataLength of zero!");
+	synchronized public void sendVendorRequestIn(final byte request, final short value, final short index,
+		final ByteBuffer buffer) throws IOException {
+		if (buffer.capacity() == 0) {
+			throw new IllegalArgumentException("Unable to send vendor request (direction IN) with an empty buffer!");
 		}
 
 		if (!isOpen()) {
 			open();
 		}
 
-		final ByteBuffer dataBuffer = BufferUtils.allocateByteBuffer(dataLength);
-
 		final byte bmRequestType = (byte) (LibUsb.ENDPOINT_IN | LibUsb.REQUEST_TYPE_VENDOR | LibUsb.RECIPIENT_DEVICE);
 
-		final int status = LibUsb.controlTransfer(usbDeviceHandle, bmRequestType, request, value, index, dataBuffer, 0);
+		final int status = LibUsb.controlTransfer(usbDeviceHandle, bmRequestType, request, value, index, buffer, 0);
 		if (status < LibUsb.SUCCESS) {
 			throw new IOException("Unable to send vendor request (direction IN) " + String.format("0x%x", request)
 				+ ": " + LibUsb.errorName(status));
 		}
 
-		if (status != dataLength) {
-			throw new IOException("Wrong number of bytes transferred, wanted: " + dataLength + ", got: " + status);
+		if (status != buffer.capacity()) {
+			throw new IOException("Wrong number of bytes transferred, wanted: " + buffer.capacity() + ", got: "
+				+ status);
 		}
 
 		// Update ByteBuffer internal limit to show how much was successfully
 		// read. usb4java never touches the ByteBuffer's internals by design, so
 		// we do it here.
-		dataBuffer.limit(dataLength);
-
-		return (dataBuffer);
+		buffer.limit(buffer.capacity());
 	}
 
 	@Override
