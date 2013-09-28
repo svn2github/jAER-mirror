@@ -9,10 +9,27 @@ import net.sf.jaer2.util.serializable.SerializableBooleanProperty;
 public final class ConfigBit extends ConfigBase {
 	private static final long serialVersionUID = 4713262582313018900L;
 
+	private final int address;
+
 	private final SerializableBooleanProperty value = new SerializableBooleanProperty();
 
 	public ConfigBit(final String name, final String description, final boolean defaultValue) {
+		this(name, description, null, defaultValue);
+	}
+
+	public ConfigBit(final String name, final String description, final Address address, final boolean defaultValue) {
 		super(name, description, 1);
+
+		if (address != null) {
+			if (address.address() < 0) {
+				throw new IllegalArgumentException("Negative addresses are not allowed!");
+			}
+
+			this.address = address.address();
+		}
+		else {
+			this.address = -1;
+		}
 
 		setValue(defaultValue);
 	}
@@ -27,6 +44,15 @@ public final class ConfigBit extends ConfigBase {
 
 	public BooleanProperty getValueProperty() {
 		return value.property();
+	}
+
+	@Override
+	public int getAddress() {
+		if (address == -1) {
+			throw new UnsupportedOperationException("Addressed mode not supported.");
+		}
+
+		return address;
 	}
 
 	@Override

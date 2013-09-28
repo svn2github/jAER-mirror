@@ -35,14 +35,14 @@ public class AEREAR2 extends USBDevice {
 
 		fx2.firmwareToRam(true);
 
-		fx2.addSetting(new ConfigBit("runAERComm", ".", true), FX2.Ports.PA3);
-		fx2.addSetting(new ConfigBit("hostResetTimestamps", ".", false), FX2.Ports.PA7);
-		fx2.addSetting(new ConfigBit("runAdc", ".", true), FX2.Ports.PC0);
-		fx2.addSetting(new ConfigBit("vCtrlKill", ".", true), FX2.Ports.PD6);
-		fx2.addSetting(new ConfigBit("aerKillBit", ".", false), FX2.Ports.PD7);
-		fx2.addSetting(new ConfigBit("cochleaBitLatch", ".", true), FX2.Ports.PE1);
-		fx2.addSetting(new ConfigBit("powerDown", ".", false), FX2.Ports.PE2);
-		fx2.addSetting(new ConfigBit("cochleaReset", ".", false), FX2.Ports.PE3);
+		fx2.addSetting(new ConfigBit("runAERComm", ".", FX2.Ports.PA3, true));
+		fx2.addSetting(new ConfigBit("hostResetTimestamps", ".", FX2.Ports.PA7, false));
+		fx2.addSetting(new ConfigBit("runAdc", ".", FX2.Ports.PC0, true));
+		fx2.addSetting(new ConfigBit("vCtrlKill", ".", FX2.Ports.PD6, true));
+		fx2.addSetting(new ConfigBit("aerKillBit", ".", FX2.Ports.PD7, false));
+		fx2.addSetting(new ConfigBit("cochleaBitLatch", ".", FX2.Ports.PE1, true));
+		fx2.addSetting(new ConfigBit("powerDown", ".", FX2.Ports.PE2, false));
+		fx2.addSetting(new ConfigBit("cochleaReset", ".", FX2.Ports.PE3, false));
 
 		// Size in KB and I2C address.
 		final Memory eeprom = new EEPROM_I2C(32, 0x51);

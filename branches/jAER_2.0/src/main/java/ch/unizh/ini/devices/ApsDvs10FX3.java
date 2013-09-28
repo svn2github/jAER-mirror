@@ -29,11 +29,11 @@ public class ApsDvs10FX3 extends USBDevice {
 		final FX3 fx3 = new FX3();
 		addComponent(fx3);
 
-		fx3.addSetting(new ConfigBit("extTrigger", "External trigger.", false), FX3.Ports.GPIO40);
-		fx3.addSetting(new ConfigBit("runCpld", "Enable the CPLD.", true), FX3.Ports.GPIO41);
-		fx3.addSetting(new ConfigBit("runAdc", "Enable the ADC.", true), FX3.Ports.GPIO35);
-		fx3.addSetting(new ConfigBit("powerDown", "Power down the chip.", false), FX3.Ports.GPIO42);
-		fx3.addSetting(new ConfigBit("nChipReset", "Keeps chip out of reset.", true), FX3.Ports.GPIO43);
+		fx3.addSetting(new ConfigBit("extTrigger", "External trigger.", FX3.GPIOs.GPIO40, false));
+		fx3.addSetting(new ConfigBit("runCpld", "Enable the CPLD.", FX3.GPIOs.GPIO41, true));
+		fx3.addSetting(new ConfigBit("runAdc", "Enable the ADC.", FX3.GPIOs.GPIO35, true));
+		fx3.addSetting(new ConfigBit("powerDown", "Power down the chip.", FX3.GPIOs.GPIO42, false));
+		fx3.addSetting(new ConfigBit("nChipReset", "Keeps chip out of reset.", FX3.GPIOs.GPIO43, true));
 
 		// Size in KB and SPI address.
 		final Memory flash = new Flash_SPI(512, 0);

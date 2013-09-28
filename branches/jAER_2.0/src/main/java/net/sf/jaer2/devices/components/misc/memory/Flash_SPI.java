@@ -1,9 +1,11 @@
 package net.sf.jaer2.devices.components.misc.memory;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import li.longi.libusb4java.utils.BufferUtils;
 import net.sf.jaer2.devices.components.controllers.Controller.Command;
+import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.TypedMap;
 
 public class Flash_SPI extends Memory {
@@ -33,7 +35,13 @@ public class Flash_SPI extends Memory {
 		args.put("memoryAddress", Integer.class, memAddress);
 		args.put("dataOut", ByteBuffer.class, content);
 
-		getProgrammer().program(Command.SPI_WRITE, args, this);
+		try {
+			getProgrammer().program(Command.SPI_WRITE, args, this);
+		}
+		catch (IOException e) {
+			GUISupport.showDialogException(e);
+			return;
+		}
 	}
 
 	@Override
@@ -46,7 +54,13 @@ public class Flash_SPI extends Memory {
 		args.put("memoryAddress", Integer.class, memAddress);
 		args.put("dataIn", ByteBuffer.class, buf);
 
-		getProgrammer().program(Command.SPI_READ, args, this);
+		try {
+			getProgrammer().program(Command.SPI_READ, args, this);
+		}
+		catch (IOException e) {
+			GUISupport.showDialogException(e);
+			return null;
+		}
 
 		return buf;
 	}

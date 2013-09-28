@@ -12,13 +12,24 @@ import net.sf.jaer2.util.serializable.SerializableLongProperty;
 public final class ConfigLong extends ConfigBase {
 	private static final long serialVersionUID = -5688508941627375976L;
 
+	private final int address;
+
 	private final SerializableLongProperty value = new SerializableLongProperty();
 
 	public ConfigLong(final String name, final String description, final long defaultValue) {
-		this(name, description, defaultValue, Long.SIZE);
+		this(name, description, null, defaultValue);
+	}
+
+	public ConfigLong(final String name, final String description, final Address address, final long defaultValue) {
+		this(name, description, address, defaultValue, Long.SIZE);
 	}
 
 	public ConfigLong(final String name, final String description, final long defaultValue, final int numBits) {
+		this(name, description, null, defaultValue, numBits);
+	}
+
+	public ConfigLong(final String name, final String description, final Address address, final long defaultValue,
+		final int numBits) {
 		super(name, description, numBits);
 
 		if (numBits < 33) {
@@ -29,6 +40,17 @@ public final class ConfigLong extends ConfigBase {
 		if (numBits > 64) {
 			throw new IllegalArgumentException(
 				"Invalid numBits value, must be at most 64. Larger quantities are not supported.");
+		}
+
+		if (address != null) {
+			if (address.address() < 0) {
+				throw new IllegalArgumentException("Negative addresses are not allowed!");
+			}
+
+			this.address = address.address();
+		}
+		else {
+			this.address = -1;
 		}
 
 		setValue(defaultValue);
@@ -44,6 +66,15 @@ public final class ConfigLong extends ConfigBase {
 
 	public LongProperty getValueProperty() {
 		return value.property();
+	}
+
+	@Override
+	public int getAddress() {
+		if (address == -1) {
+			throw new UnsupportedOperationException("Addressed mode not supported.");
+		}
+
+		return address;
 	}
 
 	@Override

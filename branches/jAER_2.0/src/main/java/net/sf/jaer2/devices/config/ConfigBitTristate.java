@@ -52,10 +52,28 @@ public final class ConfigBitTristate extends ConfigBase {
 		}
 	}
 
+	private final int address;
+
 	private final SerializableObjectProperty<Tristate> value = new SerializableObjectProperty<>();
 
 	public ConfigBitTristate(final String name, final String description, final Tristate defaultValue) {
+		this(name, description, null, defaultValue);
+	}
+
+	public ConfigBitTristate(final String name, final String description, final Address address,
+		final Tristate defaultValue) {
 		super(name, description, 2);
+
+		if (address != null) {
+			if (address.address() < 0) {
+				throw new IllegalArgumentException("Negative addresses are not allowed!");
+			}
+
+			this.address = address.address();
+		}
+		else {
+			this.address = -1;
+		}
 
 		setValue(defaultValue);
 	}
@@ -70,6 +88,15 @@ public final class ConfigBitTristate extends ConfigBase {
 
 	public ObjectProperty<Tristate> getValueProperty() {
 		return value.property();
+	}
+
+	@Override
+	public int getAddress() {
+		if (address == -1) {
+			throw new UnsupportedOperationException("Addressed mode not supported.");
+		}
+
+		return address;
 	}
 
 	@Override

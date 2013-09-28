@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.config.ConfigBase;
+import net.sf.jaer2.devices.config.ConfigBase.Address;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigInt;
 import net.sf.jaer2.util.TypedMap;
@@ -13,48 +14,53 @@ import net.sf.jaer2.util.TypedMap;
 public class FX3 extends Controller {
 	private static final long serialVersionUID = 7230612434040940891L;
 
-	public static enum Ports {
-		GPIO26(26),
-		GPIO27(27),
-		GPIO33(33),
-		GPIO34(34),
-		GPIO35(35),
-		GPIO36(36),
-		GPIO37(37),
-		GPIO38(38),
-		GPIO39(39),
-		GPIO40(40),
-		GPIO41(41),
-		GPIO42(42),
-		GPIO43(43),
-		GPIO44(44),
-		GPIO45(45),
-		GPIO46(46),
-		GPIO47(47),
-		GPIO48(48),
-		GPIO49(49),
-		GPIO50(50),
-		GPIO51(51),
-		GPIO52(52),
-		GPIO57(57);
+	public static enum GPIOs implements Address {
+		GPIO26((short) 26),
+		GPIO27((short) 27),
+		GPIO33((short) 33),
+		GPIO34((short) 34),
+		GPIO35((short) 35),
+		GPIO36((short) 36),
+		GPIO37((short) 37),
+		GPIO38((short) 38),
+		GPIO39((short) 39),
+		GPIO40((short) 40),
+		GPIO41((short) 41),
+		GPIO42((short) 42),
+		GPIO43((short) 43),
+		GPIO44((short) 44),
+		GPIO45((short) 45),
+		GPIO46((short) 46),
+		GPIO47((short) 47),
+		GPIO48((short) 48),
+		GPIO49((short) 49),
+		GPIO50((short) 50),
+		GPIO51((short) 51),
+		GPIO52((short) 52),
+		GPIO57((short) 57);
 
-		private final int gpioId;
+		private final short gpioId;
 
-		private Ports(final int id) {
+		private GPIOs(final short id) {
 			gpioId = id;
 		}
 
-		public final int getGpioId() {
+		public final short getGpioId() {
 			return gpioId;
 		}
 
 		@Override
+		public final int address() {
+			return getGpioId() & 0xFFFF;
+		}
+
+		@Override
 		public final String toString() {
-			return String.format("GPIO %d", gpioId);
+			return String.format("GPIO %d", getGpioId());
 		}
 	}
 
-	public static enum VendorRequests {
+	public static enum VendorRequests implements Address {
 		VR_TEST((byte) 0xB0),
 		VR_LOG_LEVEL((byte) 0xB1),
 		VR_FX3_RESET((byte) 0xB2),
@@ -80,8 +86,13 @@ public class FX3 extends Controller {
 		}
 
 		@Override
+		public final int address() {
+			return getVR() & 0xFF;
+		}
+
+		@Override
 		public final String toString() {
-			return String.format("0x%X", vr);
+			return String.format("VendorRequest 0x%X", getVR());
 		}
 	}
 
@@ -94,18 +105,24 @@ public class FX3 extends Controller {
 
 		// All FX3 firmwares support these two VRs for internal configuration.
 		addSetting(new ConfigInt("LOG_LEVEL",
-			"Set the logging level, to restrict which error messages will be sent over the Status EP1.", 6, 3),
-			FX3.VendorRequests.VR_LOG_LEVEL);
-		addSetting(new ConfigBit("FX3_RESET", "Hard-reset the FX3 microcontroller", false),
-			FX3.VendorRequests.VR_FX3_RESET);
+			"Set the logging level, to restrict which error messages will be sent over the Status EP1.",
+			FX3.VendorRequests.VR_LOG_LEVEL, 6, 3));
+		addSetting(new ConfigBit("FX3_RESET", "Hard-reset the FX3 microcontroller", FX3.VendorRequests.VR_FX3_RESET,
+			false));
 	}
 
-	public void addSetting(final ConfigBase setting, final Ports port) {
-		// TODO Auto-generated method stub
-	}
+	@Override
+	public void addSetting(final ConfigBase setting) {
+		// Check that an address is set.
+		try {
+			setting.getAddress();
+		}
+		catch (final UnsupportedOperationException e) {
+			throw new UnsupportedOperationException(
+				"General order unsupported, use either GPIOs or VendorRequests to specify an address.");
+		}
 
-	public void addSetting(final ConfigBase setting, final VendorRequests vr) {
-		// TODO Auto-generated method stub
+		super.addSetting(setting);
 	}
 
 	@Override
@@ -115,10 +132,9 @@ public class FX3 extends Controller {
 		return (USBDevice) super.getDevice();
 	}
 
-	@SuppressWarnings("unused")
 	@Override
-	public void addSetting(final ConfigBase setting) {
-		throw new UnsupportedOperationException("General order unsupported, use either Ports or Vendor Requests.");
+	public Controller getProgrammer() {
+		throw new UnsupportedOperationException("FX3 never has any programmer, as it is the initial controller.");
 	}
 
 	@SuppressWarnings("unused")
@@ -128,51 +144,57 @@ public class FX3 extends Controller {
 	}
 
 	@Override
-	synchronized public void program(final Command command, final TypedMap<String> args, final Component origin) {
+	synchronized public void program(final Command command, final TypedMap<String> args, final Component origin)
+		throws IOException {
 		switch (command) {
-			case SPI_READ:
-				try {
-					getDevice().sendVendorRequestOut(VendorRequests.VR_SPI_CONFIG.getVR(),
-						args.get("spiAddress", Integer.class).shortValue(), (short) 0);
+			case SPI_READ: {
+				getDevice().sendVendorRequestOut(VendorRequests.VR_SPI_CONFIG.getVR(),
+					args.get("spiAddress", Integer.class).shortValue(), (short) 0);
 
-					final int memoryAddress = args.get("memoryAddress", Integer.class);
-					getDevice().sendVendorRequestIn(VendorRequests.VR_SPI_TRANSFER.getVR(),
-						(short) (memoryAddress >>> 16), (short) (memoryAddress & 0xFFFF),
-						args.get("dataIn", ByteBuffer.class));
-				}
-				catch (final IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				final int memoryAddress = args.get("memoryAddress", Integer.class);
+				getDevice().sendVendorRequestIn(VendorRequests.VR_SPI_TRANSFER.getVR(), (short) (memoryAddress >>> 16),
+					(short) (memoryAddress & 0xFFFF), args.get("dataIn", ByteBuffer.class));
 
 				break;
+			}
 
-			case SPI_WRITE:
-				try {
-					getDevice().sendVendorRequestOut(VendorRequests.VR_SPI_CONFIG.getVR(),
-						args.get("spiAddress", Integer.class).shortValue(), (short) 0);
+			case SPI_WRITE: {
+				getDevice().sendVendorRequestOut(VendorRequests.VR_SPI_CONFIG.getVR(),
+					args.get("spiAddress", Integer.class).shortValue(), (short) 0);
 
-					final int memoryAddress = args.get("memoryAddress", Integer.class);
-					getDevice().sendVendorRequestIn(VendorRequests.VR_SPI_TRANSFER.getVR(),
-						(short) (memoryAddress >>> 16), (short) (memoryAddress & 0xFFFF),
-						args.get("dataIn", ByteBuffer.class));
-				}
-				catch (final IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				final int memoryAddress = args.get("memoryAddress", Integer.class);
+				getDevice().sendVendorRequestOut(VendorRequests.VR_SPI_TRANSFER.getVR(),
+					(short) (memoryAddress >>> 16), (short) (memoryAddress & 0xFFFF),
+					args.get("dataOut", ByteBuffer.class));
 
 				break;
+			}
 
-			case I2C_READ:
+			case I2C_READ: {
+				getDevice().sendVendorRequestOut(VendorRequests.VR_I2C_CONFIG.getVR(),
+					args.get("i2cAddress", Integer.class).shortValue(), (short) 0);
+
+				final int memoryAddress = args.get("memoryAddress", Integer.class);
+				getDevice().sendVendorRequestIn(VendorRequests.VR_I2C_TRANSFER.getVR(), (short) (memoryAddress >>> 16),
+					(short) (memoryAddress & 0xFFFF), args.get("dataIn", ByteBuffer.class));
 
 				break;
-			case I2C_WRITE:
+			}
+
+			case I2C_WRITE: {
+				getDevice().sendVendorRequestOut(VendorRequests.VR_I2C_CONFIG.getVR(),
+					args.get("i2cAddress", Integer.class).shortValue(), (short) 0);
+
+				final int memoryAddress = args.get("memoryAddress", Integer.class);
+				getDevice().sendVendorRequestOut(VendorRequests.VR_I2C_TRANSFER.getVR(),
+					(short) (memoryAddress >>> 16), (short) (memoryAddress & 0xFFFF),
+					args.get("dataOut", ByteBuffer.class));
 
 				break;
+			}
 
 			default:
-				break;
+				throw new UnsupportedOperationException();
 		}
 	}
 }

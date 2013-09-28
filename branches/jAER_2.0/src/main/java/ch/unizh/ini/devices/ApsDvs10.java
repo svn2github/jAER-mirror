@@ -33,11 +33,11 @@ public class ApsDvs10 extends USBDevice {
 
 		fx2.firmwareToRam(true);
 
-		fx2.addSetting(new ConfigBit("extTrigger", "External trigger.", false), FX2.Ports.PA1);
-		fx2.addSetting(new ConfigBit("runCpld", "Enable the CPLD.", true), FX2.Ports.PA3);
-		fx2.addSetting(new ConfigBit("runAdc", "Enable the ADC.", true), FX2.Ports.PC0);
-		fx2.addSetting(new ConfigBit("powerDown", "Power down the chip.", false), FX2.Ports.PE2);
-		fx2.addSetting(new ConfigBit("nChipReset", "Keeps chip out of reset.", true), FX2.Ports.PE3);
+		fx2.addSetting(new ConfigBit("extTrigger", "External trigger.", FX2.Ports.PA1, false));
+		fx2.addSetting(new ConfigBit("runCpld", "Enable the CPLD.", FX2.Ports.PA3, true));
+		fx2.addSetting(new ConfigBit("runAdc", "Enable the ADC.", FX2.Ports.PC0, true));
+		fx2.addSetting(new ConfigBit("powerDown", "Power down the chip.", FX2.Ports.PE2, false));
+		fx2.addSetting(new ConfigBit("nChipReset", "Keeps chip out of reset.", FX2.Ports.PE3, true));
 
 		// Size in KB and I2C address.
 		final Memory eeprom = new EEPROM_I2C(32, 0x51);

@@ -26,7 +26,7 @@ public abstract class Component implements Serializable {
 		name = componentName;
 	}
 
-	public String getName() {
+	public final String getName() {
 		return name;
 	}
 

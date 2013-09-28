@@ -1,5 +1,7 @@
 package net.sf.jaer2.devices.components.controllers;
 
+import java.io.IOException;
+
 import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.components.misc.memory.Memory;
 import net.sf.jaer2.util.TypedMap;
@@ -70,11 +72,11 @@ public abstract class Controller extends Component {
 
 	}
 
-	synchronized public void program(final Command command, final TypedMap<String> args,
-		@SuppressWarnings("unused") final Component origin) {
+	synchronized public void program(final Command command, final TypedMap<String> args, final Component origin)
+		throws IOException {
 		// By default, just pass up to the next controller, which may fail if
 		// not configured by throwing a NPE or if not supported (FX controllers)
 		// by throwing an UnsupportedOperationException.
-		getProgrammer().program(command, args, this);
+		getProgrammer().program(command, args, origin);
 	}
 }

@@ -15,9 +15,14 @@ public class AddressedIPot extends IPot {
 		final Type type, final Sex sex, final int defaultValue, final int numBits) {
 		super(name, description, masterbias, type, sex, defaultValue, numBits);
 
+		if (address < 0) {
+			throw new IllegalArgumentException("Negative addresses are not allowed!");
+		}
+
 		this.address = address;
 	}
 
+	@Override
 	public int getAddress() {
 		return address;
 	}

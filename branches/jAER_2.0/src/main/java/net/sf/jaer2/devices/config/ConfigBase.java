@@ -19,6 +19,13 @@ import org.slf4j.LoggerFactory;
 public abstract class ConfigBase implements Serializable {
 	private static final long serialVersionUID = -4814139458067416419L;
 
+	public static interface Address {
+		int address();
+
+		@Override
+		String toString();
+	}
+
 	/** Local logger for log messages. */
 	protected static final Logger logger = LoggerFactory.getLogger(ConfigBase.class);
 
@@ -48,6 +55,19 @@ public abstract class ConfigBase implements Serializable {
 
 	public final String getDescription() {
 		return description;
+	}
+
+	/**
+	 * Return an additional address, where this setting needs to be sent to.
+	 * This throws an UnsupportedOperationException by default, and is only
+	 * implemented for certain setting types, where it makes sense for them to
+	 * have an address.
+	 *
+	 * @return setting address on device.
+	 */
+	@SuppressWarnings("static-method")
+	public int getAddress() {
+		throw new UnsupportedOperationException("Addressed mode not supported.");
 	}
 
 	public final int getNumBits() {
