@@ -132,11 +132,6 @@ public class FX3 extends Controller {
 		return (USBDevice) super.getDevice();
 	}
 
-	@Override
-	public Controller getProgrammer() {
-		throw new UnsupportedOperationException("FX3 never has any programmer, as it is the initial controller.");
-	}
-
 	@SuppressWarnings("unused")
 	@Override
 	public void setProgrammer(final Controller programmer) {

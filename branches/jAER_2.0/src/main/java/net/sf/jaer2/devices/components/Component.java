@@ -31,6 +31,10 @@ public abstract class Component implements Serializable {
 	}
 
 	public Controller getProgrammer() {
+		if (programmer == null) {
+			throw new UnsupportedOperationException("Programming not supported, no programmer configured.");
+		}
+
 		return programmer;
 	}
 
@@ -39,6 +43,10 @@ public abstract class Component implements Serializable {
 	}
 
 	public Device getDevice() {
+		if (device == null) {
+			throw new IllegalStateException("No device associated, device is null.");
+		}
+
 		return device;
 	}
 
