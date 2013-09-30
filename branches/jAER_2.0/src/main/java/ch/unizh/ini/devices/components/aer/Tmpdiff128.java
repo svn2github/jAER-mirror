@@ -1,5 +1,7 @@
 package ch.unizh.ini.devices.components.aer;
 
+import java.nio.ByteBuffer;
+
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.config.ShiftRegisterContainer;
 import net.sf.jaer2.devices.config.pots.IPot;
@@ -13,6 +15,7 @@ import net.sf.jaer2.eventio.events.PolarityEvent;
 import net.sf.jaer2.eventio.events.SpecialEvent;
 import net.sf.jaer2.eventio.events.SpecialEvent.Type;
 import net.sf.jaer2.eventio.events.raw.RawEvent;
+import net.sf.jaer2.eventio.translators.DeviceTranslator;
 import net.sf.jaer2.eventio.translators.Translator;
 
 import org.slf4j.Logger;
@@ -139,5 +142,83 @@ public class Tmpdiff128 extends AERChip implements Translator {
 	public void reconstructRawEventPacket(final EventPacketContainer eventPacketContainer,
 		final RawEventPacket rawEventPacket) {
 		// TODO Auto-generated method stub
+	}
+
+	public static final class Translator implements DeviceTranslator {
+		/**
+		 * SYNC events are detected when this bit mask is detected in the input
+		 * event stream.
+		 */
+		private static final int SYNC_EVENT_BITMASK = 0x8000;
+
+		private static final int TICK_US = 1;
+
+		private int printedSyncEventWarningCount = 0;
+		private int wrapAdd = 0;
+
+		@Override
+		public void extractRawEventPacket(final ByteBuffer buffer, final RawEventPacket rawEventPacket) {
+			int address = 0, timestamp = 0, shortTimestamp = 0, lastTimestamp = 0;
+			int bytesSent = buffer.limit();
+
+			if ((bytesSent % 4) != 0) {
+				Tmpdiff128.logger.warn("{} bytes sent, which is not a multiple of 4.", bytesSent);
+
+				// truncate off any extra part-event
+				bytesSent = (bytesSent / 4) * 4;
+			}
+
+			for (int i = 0; i < bytesSent; i += 4) {
+				if ((buffer.get(i + 3) & 0x80) == 0x80) {
+					// timestamp bit 15 is one -> wrap: now we need to increment
+					// the wrapAdd, uses only 14 bit timestamps
+					wrapAdd += 0x4000;
+				}
+				else if ((buffer.get(i + 3) & 0x40) == 0x40) {
+					// timestamp bit 14 is one -> wrapAdd reset: this firmware
+					// version uses reset events to reset timestamps
+					wrapAdd = 0;
+				}
+				else if (i >= rawEventPacket.capacity()) {
+					// just do nothing, throw away events
+					continue;
+				}
+				else {
+					// address is LSB MSB
+					address = (buffer.get(i) & 0xFF) | ((buffer.get(i + 1) & 0xFF) << 8);
+
+					// same for timestamp, LSB MSB
+					shortTimestamp = ((buffer.get(i + 2) & 0xFF) | ((buffer.get(i + 3) & 0xFF) << 8));
+
+					// 15 bit value of timestamp in TICK_US tick
+					timestamp = Translator.TICK_US * (shortTimestamp + wrapAdd);
+
+					// and convert to 1us tick
+					if (shortTimestamp < lastTimestamp) {
+						Tmpdiff128.logger.info("non-monotonic timestamp: lastTimestamp={}, shortTimestamp={}", lastTimestamp,
+							shortTimestamp);
+					}
+
+					lastTimestamp = shortTimestamp;
+
+					// this is USB2AERmini2 or StereoRetina board which have 1us
+					// timestamp tick
+					if ((address & Translator.SYNC_EVENT_BITMASK) != 0) {
+						if (printedSyncEventWarningCount < 10) {
+							if (printedSyncEventWarningCount < 10) {
+								Tmpdiff128.logger.info("sync event at shortTimestamp={}", shortTimestamp);
+							}
+							else {
+								Tmpdiff128.logger.warn("disabling further printing of sync events");
+							}
+
+							printedSyncEventWarningCount++;
+						}
+					}
+
+					rawEventPacket.addRawEvent(new RawEvent(timestamp, address));
+				}
+			}
+		}
 	}
 }
