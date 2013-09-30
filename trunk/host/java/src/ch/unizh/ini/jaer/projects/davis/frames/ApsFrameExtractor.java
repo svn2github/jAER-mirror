@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.unizh.ini.jaer.projects.machinevision.frames;
+package ch.unizh.ini.jaer.projects.davis.frames;
 
 import eu.seebetter.ini.chips.ApsDvsChip;
 import net.sf.jaer.event.ApsDvsEvent;
