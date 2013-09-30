@@ -94,6 +94,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
     private int autoshotThresholdEvents=getPrefs().getInt("SBRet10.autoshotThresholdEvents",0);
     private IMUSample imuSample;
     private final String CMD_EXPOSURE="exposure";
+    private final String CMD_EXPOSURE_CC="exposureCC";
 
     /**
      * Creates a new instance of cDVSTest20.
@@ -128,6 +129,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
         
        if (getRemoteControl() != null) {
             getRemoteControl().addCommandListener(this, CMD_EXPOSURE, CMD_EXPOSURE + " val - sets exposure. val in ms.");
+            getRemoteControl().addCommandListener(this, CMD_EXPOSURE_CC, CMD_EXPOSURE_CC + " val - sets exposure. val in clock cycles");
         }
     }
 
@@ -153,6 +155,8 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
         String c = command.getCmdName();
         if (c.equals(CMD_EXPOSURE)) {
             config.setExposureDelayMs((int) v);
+        } else if(c.equals(CMD_EXPOSURE_CC)) {
+            config.exposure.set((int) v);
         } else {
             return input + ": unknown command";
         }
