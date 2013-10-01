@@ -39,7 +39,7 @@ public class ApsFrameExtractor extends EventFilter2D {
     private JFrame apsFrame = null;
     public ImageDisplay apsDisplay;
     private ApsDvsChip apsChip = null;
-    private boolean newFrame, useExtRender;
+    private boolean newFrame, useExtRender=false; // useExtRender means using something like OpenCV to render the data. If false, the displayBuffer is displayed
     private float[] resetBuffer, signalBuffer;
     private float[] displayBuffer;
     private float[] apsDisplayPixmapBuffer;
@@ -47,6 +47,9 @@ public class ApsFrameExtractor extends EventFilter2D {
     public int width, height, maxADC, maxIDX;
     private float grayValue;
     public final float logSafetyOffset = 10000.0f;
+    protected boolean showAPSFrameDisplay=getBoolean("showAPSFrameDisplay", true);
+
+  
 
     public static enum Extraction {
 
@@ -70,13 +73,14 @@ public class ApsFrameExtractor extends EventFilter2D {
         apsFrame.pack();
         initFilter();
 
-        setPropertyTooltip("invertIntensity", "Should the allocation pixels be drawn");
-        setPropertyTooltip("preBufferFrame", "Only display and use complete frames");
+        setPropertyTooltip("invertIntensity", "Inverts grey scale, e.g. for raw samples of signal level");
+        setPropertyTooltip("preBufferFrame", "Only display and use complete frames; otherwise display APS samples as they arrive");
         setPropertyTooltip("logCompress", "Should the displayBuffer be log compressed");
         setPropertyTooltip("logDecompress", "Should the logComressed displayBuffer be rendered normal");
         setPropertyTooltip("displayContrast", "Gain for the rendering of the APS display");
         setPropertyTooltip("displayBrightness", "Offset for the rendering of the APS display");
         setPropertyTooltip("extractionMethod", "Method to extract a frame");
+        setPropertyTooltip("showAPSFrameDisplay", "Shows the JFrame frame display if true");
     }
 
     @Override
@@ -129,13 +133,15 @@ public class ApsFrameExtractor extends EventFilter2D {
             }
         }
 
+        if(showAPSFrameDisplay){
         apsDisplay.repaint();
+        }
         return in;
     }
 
     private void checkMaps() {
         apsDisplay.checkPixmapAllocation();
-        if (!apsFrame.isVisible()) {
+        if (showAPSFrameDisplay && !apsFrame.isVisible()) {
             apsFrame.setVisible(true);
         }
     }
@@ -198,7 +204,7 @@ public class ApsFrameExtractor extends EventFilter2D {
             grayValue = scaleGrayValue(displayBuffer[idx]);
         }
         displayFrame[idx] = (double) grayValue;
-        if (!useExtRender) {
+        if (!useExtRender & showAPSFrameDisplay) {
             if (!preBufferFrame) {
                 apsDisplay.setPixmapGray(e.x, e.y, grayValue);
             } else {
@@ -398,4 +404,29 @@ public class ApsFrameExtractor extends EventFilter2D {
         this.extractionMethod = extractionMethod;
         resetFilter();
     }
+      /**
+     * @return the showAPSFrameDisplay
+     */
+    public boolean isShowAPSFrameDisplay() {
+        return showAPSFrameDisplay;
+    }
+
+    /**
+     * @param showAPSFrameDisplay the showAPSFrameDisplay to set
+     */
+    public void setShowAPSFrameDisplay(boolean showAPSFrameDisplay) {
+        this.showAPSFrameDisplay = showAPSFrameDisplay;
+        putBoolean("showAPSFrameDisplay", showAPSFrameDisplay);
+        if(apsFrame!=null) apsFrame.setVisible(showAPSFrameDisplay);
+    }
+
+    @Override
+    public synchronized void setFilterEnabled(boolean yes) {
+        super.setFilterEnabled(yes); //To change body of generated methods, choose Tools | Templates.
+        if(!isFilterEnabled()){
+            if(apsFrame!=null)apsFrame.setVisible(false);
+        }
+    }
+    
+    
 }
