@@ -37,62 +37,41 @@ public class ApsFrameExtractor extends EventFilter2D {
     private float[] displayBuffer;
     private float[] apsDisplayPixmapBuffer;
     private double[] displayFrame;
-    private int width, height, maxADC, maxIDX;
+    public int width, height, maxADC, maxIDX;
     private float grayValue;
     
-    public static float logSafetyOffset = 10000.0f;
+    public final float logSafetyOffset = 10000.0f;
 
     public static enum Extraction {
 
         ResetFrame, SignalFrame, CDSframe
     };
     private boolean invertIntensity = getPrefs().getBoolean("ApsFrameExtractor.invertIntensity", false);
-
-    {
-        setPropertyTooltip("invertIntensity", "Should the allocation pixels be drawn");
-    }
+    {setPropertyTooltip("invertIntensity", "Should the allocation pixels be drawn");}
     
     
     private boolean preBufferFrame = getPrefs().getBoolean("ApsFrameExtractor.preBufferFrame", true);
-
-    {
-        setPropertyTooltip("preBufferFrame", "Only display and use complete frames");
-    }
+    {setPropertyTooltip("preBufferFrame", "Only display and use complete frames");}
     
     
     private boolean logCompress = getPrefs().getBoolean("ApsFrameExtractor.logCompress", false);
-
-    {
-        setPropertyTooltip("logCompress", "Should the displayBuffer be log compressed");
-    }
+    {setPropertyTooltip("logCompress", "Should the displayBuffer be log compressed");}
     
     
     private boolean logDecompress = getPrefs().getBoolean("ApsFrameExtractor.logDecompress", false);
-
-    {
-        setPropertyTooltip("logDecompress", "Should the logComressed displayBuffer be rendered normal");
-    }
+    {setPropertyTooltip("logDecompress", "Should the logComressed displayBuffer be rendered normal");}
     
     
     private float displayContrast = getPrefs().getFloat("ApsFrameExtractor.displayContrast", 1.0f);
-
-    {
-        setPropertyTooltip("displayContrast", "Gain for the rendering of the APS display");
-    }
+    {setPropertyTooltip("displayContrast", "Gain for the rendering of the APS display");}
     
     
     private float displayBrightness = getPrefs().getFloat("ApsFrameExtractor.displayBrightness", 0.0f);
-
-    {
-        setPropertyTooltip("displayBrightness", "Offset for the rendering of the APS display");
-    }
+    {setPropertyTooltip("displayBrightness", "Offset for the rendering of the APS display");}
     
     
     public Extraction extractionMethod = Extraction.valueOf(getPrefs().get("ApsFrameExtractor.extractionMethod", "CDSframe"));
-
-    {
-        setPropertyTooltip("extractionMethod", "Method to extract a frame");
-    }
+    {setPropertyTooltip("extractionMethod", "Method to extract a frame");}
     
 
     public ApsFrameExtractor(AEChip chip) {
