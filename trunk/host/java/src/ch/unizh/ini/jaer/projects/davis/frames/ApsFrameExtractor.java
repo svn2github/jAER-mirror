@@ -22,6 +22,13 @@ import net.sf.jaer.graphics.ImageDisplay;
 import net.sf.jaer.graphics.ImageDisplay.Legend;
 
 /**
+ * Extracts CIS APS frames from SBRet10/20 DAVIS sensors.
+ * Use
+ * <ul>
+<li>hasNewFrame() to check whether a new frame is available
+<li>getDisplayBuffer() to get the latest float buffer
+<li>getNewFrame() to get the latest double buffer
+</ul>
  *
  * @author Christian Brändli
  */
@@ -39,40 +46,20 @@ public class ApsFrameExtractor extends EventFilter2D {
     private double[] displayFrame;
     public int width, height, maxADC, maxIDX;
     private float grayValue;
-    
     public final float logSafetyOffset = 10000.0f;
 
     public static enum Extraction {
 
         ResetFrame, SignalFrame, CDSframe
     };
-    private boolean invertIntensity = getPrefs().getBoolean("ApsFrameExtractor.invertIntensity", false);
-    {setPropertyTooltip("invertIntensity", "Should the allocation pixels be drawn");}
-    
-    
-    private boolean preBufferFrame = getPrefs().getBoolean("ApsFrameExtractor.preBufferFrame", true);
-    {setPropertyTooltip("preBufferFrame", "Only display and use complete frames");}
-    
-    
-    private boolean logCompress = getPrefs().getBoolean("ApsFrameExtractor.logCompress", false);
-    {setPropertyTooltip("logCompress", "Should the displayBuffer be log compressed");}
-    
-    
-    private boolean logDecompress = getPrefs().getBoolean("ApsFrameExtractor.logDecompress", false);
-    {setPropertyTooltip("logDecompress", "Should the logComressed displayBuffer be rendered normal");}
-    
-    
-    private float displayContrast = getPrefs().getFloat("ApsFrameExtractor.displayContrast", 1.0f);
-    {setPropertyTooltip("displayContrast", "Gain for the rendering of the APS display");}
-    
-    
-    private float displayBrightness = getPrefs().getFloat("ApsFrameExtractor.displayBrightness", 0.0f);
-    {setPropertyTooltip("displayBrightness", "Offset for the rendering of the APS display");}
-    
-    
-    public Extraction extractionMethod = Extraction.valueOf(getPrefs().get("ApsFrameExtractor.extractionMethod", "CDSframe"));
-    {setPropertyTooltip("extractionMethod", "Method to extract a frame");}
-    
+    private boolean invertIntensity = getBoolean("invertIntensity", false);
+    private boolean preBufferFrame = getBoolean("preBufferFrame", true);
+    private boolean logCompress = getBoolean("logCompress", false);
+    private boolean logDecompress = getBoolean("logDecompress", false);
+    private float displayContrast = getFloat("displayContrast", 1.0f);
+    private float displayBrightness = getFloat("displayBrightness", 0.0f);
+    public Extraction extractionMethod = Extraction.valueOf(getString("extractionMethod", "CDSframe"));
+
 
     public ApsFrameExtractor(AEChip chip) {
         super(chip);
@@ -82,6 +69,14 @@ public class ApsFrameExtractor extends EventFilter2D {
         apsFrame.getContentPane().add(apsDisplay, BorderLayout.CENTER);
         apsFrame.pack();
         initFilter();
+
+        setPropertyTooltip("invertIntensity", "Should the allocation pixels be drawn");
+        setPropertyTooltip("preBufferFrame", "Only display and use complete frames");
+        setPropertyTooltip("logCompress", "Should the displayBuffer be log compressed");
+        setPropertyTooltip("logDecompress", "Should the logComressed displayBuffer be rendered normal");
+        setPropertyTooltip("displayContrast", "Gain for the rendering of the APS display");
+        setPropertyTooltip("displayBrightness", "Offset for the rendering of the APS display");
+        setPropertyTooltip("extractionMethod", "Method to extract a frame");
     }
 
     @Override
@@ -197,16 +192,16 @@ public class ApsFrameExtractor extends EventFilter2D {
         if (logCompress) {
             displayBuffer[idx] = (float) Math.log(displayBuffer[idx] + logSafetyOffset);
         }
-        if(logCompress && logDecompress){
-            grayValue = scaleGrayValue((float) (Math.exp(displayBuffer[idx])-logSafetyOffset));
-        }else{
+        if (logCompress && logDecompress) {
+            grayValue = scaleGrayValue((float) (Math.exp(displayBuffer[idx]) - logSafetyOffset));
+        } else {
             grayValue = scaleGrayValue(displayBuffer[idx]);
         }
         displayFrame[idx] = (double) grayValue;
         if (!useExtRender) {
             if (!preBufferFrame) {
                 apsDisplay.setPixmapGray(e.x, e.y, grayValue);
-            }else{
+            } else {
                 apsDisplayPixmapBuffer[3 * idx] = grayValue;
                 apsDisplayPixmapBuffer[3 * idx + 1] = grayValue;
                 apsDisplayPixmapBuffer[3 * idx + 2] = grayValue;
@@ -224,11 +219,11 @@ public class ApsFrameExtractor extends EventFilter2D {
         }
         return v;
     }
-    
-    public void updateDisplayValue(int xAddr, int yAddr, float value){
-        if(logCompress && logDecompress){
-            grayValue = scaleGrayValue((float) (Math.exp(value)-logSafetyOffset));
-        }else{
+
+    public void updateDisplayValue(int xAddr, int yAddr, float value) {
+        if (logCompress && logDecompress) {
+            grayValue = scaleGrayValue((float) (Math.exp(value) - logSafetyOffset));
+        } else {
             grayValue = scaleGrayValue(value);
         }
         apsDisplay.setPixmapGray(xAddr, yAddr, grayValue);
@@ -238,20 +233,35 @@ public class ApsFrameExtractor extends EventFilter2D {
         return y * width + x;
     }
 
+    /** Checks if new frame is available.
+     * 
+     * @return true if new frame is available
+     */
     public boolean hasNewFrame() {
         return newFrame;
     }
 
+    /** Returns a double[] buffer of latest frame. Frame starts at TOP RIGHT, goes down columns from top to bottom and then from right to left.
+     * 
+     * @return the double[] frame
+     */
     public double[] getNewFrame() {
         newFrame = false;
         return displayFrame;
     }
-    
+
+    /** Returns  the latest float buffer. Frame starts at TOP RIGHT, goes down columns from top to bottom and then from right to left.
+     * 
+     * @return the float[] of pixel values
+     */
     public float[] getDisplayBuffer() {
         newFrame = false;
         return displayBuffer;
     }
 
+    /** Tell chip to acquire new frame, return immediately.
+     * 
+     */
     public void acquireNewFrame() {
         apsChip.takeSnapshot();
     }
@@ -298,7 +308,7 @@ public class ApsFrameExtractor extends EventFilter2D {
      */
     public void setInvertIntensity(boolean invertIntensity) {
         this.invertIntensity = invertIntensity;
-        prefs().putBoolean("ApsFrameExtractor.invertIntensity", invertIntensity);
+        putBoolean("invertIntensity", invertIntensity);
     }
 
     /**
@@ -313,7 +323,7 @@ public class ApsFrameExtractor extends EventFilter2D {
      */
     public void setPreBufferFrame(boolean preBuffer) {
         this.preBufferFrame = preBuffer;
-        prefs().putBoolean("ApsFrameExtractor.preBufferFrame", preBufferFrame);
+        putBoolean("preBufferFrame", preBufferFrame);
     }
 
     /**
@@ -328,7 +338,7 @@ public class ApsFrameExtractor extends EventFilter2D {
      */
     public void setLogDecompress(boolean logDecompress) {
         this.logDecompress = logDecompress;
-        prefs().putBoolean("ApsFrameExtractor.logDecompress", logDecompress);
+        putBoolean("logDecompress", logDecompress);
     }
 
     /**
@@ -343,7 +353,7 @@ public class ApsFrameExtractor extends EventFilter2D {
      */
     public void setLogCompress(boolean logCompress) {
         this.logCompress = logCompress;
-        prefs().putBoolean("ApsFrameExtractor.logCompress", logCompress);
+        putBoolean("logCompress", logCompress);
     }
 
     /**
@@ -358,7 +368,7 @@ public class ApsFrameExtractor extends EventFilter2D {
      */
     public void setDisplayContrast(float displayContrast) {
         this.displayContrast = displayContrast;
-        prefs().putFloat("ApsFrameExtractor.displayContrast", displayContrast);
+        putFloat("displayContrast", displayContrast);
         resetFilter();
     }
 
@@ -374,7 +384,7 @@ public class ApsFrameExtractor extends EventFilter2D {
      */
     public void setDisplayBrightness(float displayBrightness) {
         this.displayBrightness = displayBrightness;
-        prefs().putFloat("ApsFrameExtractor.displayBrightness", displayBrightness);
+        putFloat("displayBrightness", displayBrightness);
         resetFilter();
     }
 
@@ -384,7 +394,7 @@ public class ApsFrameExtractor extends EventFilter2D {
 
     synchronized public void setExtractionMethod(Extraction extractionMethod) {
         getSupport().firePropertyChange("extractionMethod", this.extractionMethod, extractionMethod);
-        getPrefs().put("ApsFrameExtractor.edgePixelMethod", extractionMethod.toString());
+        putString("edgePixelMethod", extractionMethod.toString());
         this.extractionMethod = extractionMethod;
         resetFilter();
     }
