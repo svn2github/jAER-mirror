@@ -26,7 +26,7 @@ import net.sf.jaer.graphics.ImageDisplay.Legend;
  * Use
  * <ul>
 <li>hasNewFrame() to check whether a new frame is available
-<li>getDisplayBuffer() to get the latest float buffer
+<li>getDisplayBuffer() to get the latest float buffer displayed
 <li>getNewFrame() to get the latest double buffer
 </ul>
  *
@@ -49,6 +49,7 @@ public class ApsFrameExtractor extends EventFilter2D {
     public final float logSafetyOffset = 10000.0f;
     protected boolean showAPSFrameDisplay=getBoolean("showAPSFrameDisplay", true);
 
+ 
   
 
     public static enum Extraction {
@@ -235,7 +236,17 @@ public class ApsFrameExtractor extends EventFilter2D {
         apsDisplay.setPixmapGray(xAddr, yAddr, grayValue);
     }
 
-    private int getIndex(int x, int y) {
+    /** returns the index into pixel arrays for a given x,y location where 
+     * x is horizontal address and y is vertical and it starts at lower 
+     * left corner with x,y=0,0 and x and y increase to right and up.
+     * 
+     * @param x
+     * @param y
+     * @param idx the array index
+     * @see #getWidth() 
+     * @see #getHeight() 
+     */
+    public int getIndex(int x, int y) {
         return y * width + x;
     }
 
@@ -247,7 +258,8 @@ public class ApsFrameExtractor extends EventFilter2D {
         return newFrame;
     }
 
-    /** Returns a double[] buffer of latest frame. Frame starts at TOP RIGHT, goes down columns from top to bottom and then from right to left.
+    /** Returns a double[] buffer of latest frame. 
+     * To access a particular pixel, use getIndex()
      * 
      * @return the double[] frame
      */
@@ -256,9 +268,11 @@ public class ApsFrameExtractor extends EventFilter2D {
         return displayFrame;
     }
 
-    /** Returns  the latest float buffer. Frame starts at TOP RIGHT, goes down columns from top to bottom and then from right to left.
+    /** Returns  the latest float buffer. 
+     * To access a particular pixel, use getIndex()
      * 
      * @return the float[] of pixel values
+     * @see #getIndex(int, int) 
      */
     public float[] getDisplayBuffer() {
         newFrame = false;
@@ -428,5 +442,38 @@ public class ApsFrameExtractor extends EventFilter2D {
         }
     }
     
+    
+       /** returns frame width in pixels.
+     * @return the width
+     */
+    public int getWidth() {
+        return width;
+    }
+
+ 
+    /**
+     * returns frame height in pixels
+     * @return the height
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * returns max ADC value
+     * @return the maxADC
+     */
+    public int getMaxADC() {
+        return maxADC;
+    }
+
+    /**
+     * returns max index into frame buffer arrays
+     * @return the maxIDX
+     */
+    public int getMaxIDX() {
+        return maxIDX;
+    }
+
     
 }
