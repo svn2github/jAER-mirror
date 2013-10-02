@@ -73,73 +73,8 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
         chip.addObserver(this);
         setPropertyTooltip("scaleHistogramsIncludingOverflow", "Scales histograms to include overflows for ISIs that are outside of range");
         setPropertyTooltip("histNumBins", "number of bins in the spatial (FPN) histogram");
-    }
-
-    /**
-     * @return the temporalNoiseEnabled
-     */
-    public boolean isTemporalNoiseEnabled() {
-        return temporalNoiseEnabled;
-    }
-
-    /**
-     * @param temporalNoiseEnabled the temporalNoiseEnabled to set
-     */
-    public void setTemporalNoiseEnabled(boolean temporalNoiseEnabled) {
-        this.temporalNoiseEnabled = temporalNoiseEnabled;
-        putBoolean("temporalNoiseEnabled", temporalNoiseEnabled);
-    }
-
-    /**
-     * @return the spatialHistogramEnabled
-     */
-    public boolean isSpatialHistogramEnabled() {
-        return spatialHistogramEnabled;
-    }
-
-    /**
-     * @param spatialHistogramEnabled the spatialHistogramEnabled to set
-     */
-    public void setSpatialHistogramEnabled(boolean spatialHistogramEnabled) {
-        this.spatialHistogramEnabled = spatialHistogramEnabled;
-        putBoolean("spatialHistogramEnabled", spatialHistogramEnabled);
-    }
-
-    /**
-     * @return the scaleHistogramsIncludingOverflow
-     */
-    public boolean isScaleHistogramsIncludingOverflow() {
-        return scaleHistogramsIncludingOverflow;
-    }
-
-    /**
-     * @param scaleHistogramsIncludingOverflow the
-     * scaleHistogramsIncludingOverflow to set
-     */
-    public void setScaleHistogramsIncludingOverflow(boolean scaleHistogramsIncludingOverflow) {
-        this.scaleHistogramsIncludingOverflow = scaleHistogramsIncludingOverflow;
-        putBoolean("scaleHistogramsIncludingOverflow", scaleHistogramsIncludingOverflow);
-    }
-
-    /**
-     * @return the histNumBins
-     */
-    public int getHistNumBins() {
-        return histNumBins;
-    }
-
-    /**
-     * @param histNumBins the histNumBins to set
-     */
-    synchronized public void setHistNumBins(int histNumBins) {
-        if (histNumBins < 2) {
-            histNumBins = 2;
-        } else if (histNumBins > frameExtractor.getMaxADC()+1) {
-            histNumBins = frameExtractor.getMaxADC()+1;
-        }
-        this.histNumBins = histNumBins;
-        putInt("histNumBins", histNumBins);
-        stats.reset();
+        setPropertyTooltip("spatialHistogramEnabled", "shows the spatial (FPN) histogram for mouse-selected region");
+        setPropertyTooltip("temporalNoiseEnabled", "<html>shows the temporal noise (AC RMS) of pixels in mouse-selected region. <br> The AC RMS is computed for each pixel separately and the grand average AC RMS is displayed.");
     }
 
     @Override
@@ -367,7 +302,7 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
     /**
      * @param selectionRectangle the selectionRectangle to set
      */
-    public void setSelectionRectangle(Rectangle selectionRectangle) {
+    synchronized public void setSelectionRectangle(Rectangle selectionRectangle) {
         if (this.selectionRectangle == null || !this.selectionRectangle.equals(selectionRectangle)) {
             stats.reset();
         }
@@ -391,6 +326,19 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
         void draw(GL gl) {
             apsHist.draw(gl);
             temporalNoise.draw(gl);
+            if (currentMousePoint != null) {
+                if (currentMousePoint.y <= 0) {
+                    float sampleValue = (float) (((float) currentMousePoint.x / chip.getSizeX()) * frameExtractor.getMaxADC());
+                    gl.glColor3fv(SELECT_COLOR, 0);
+                    renderer.draw3D(String.format("%.0f", sampleValue), currentMousePoint.x, -4, 0, .5f);
+                    gl.glLineWidth(3);
+                    gl.glColor3fv(SELECT_COLOR, 0);
+                    gl.glBegin(GL.GL_LINES);
+                    gl.glVertex2f(currentMousePoint.x, 0);
+                    gl.glVertex2f(currentMousePoint.x, chip.getSizeY());
+                    gl.glEnd();
+                }
+            }
         }
 
         void reset() {
@@ -403,6 +351,7 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
                 return; // don't bother if we haven't selected a region TODO maybe do entire frame 
             }
             // itereate over pixels of selection rectangle to get pixels from frame
+            int selx = 0, sely = 0, selIdx = 0;
             for (int x = selectionRectangle.x + 1; x < selectionRectangle.x + selectionRectangle.width - 1; x++) {
                 for (int y = selectionRectangle.y + 1; y < selectionRectangle.y + selectionRectangle.height - 1; y++) {
                     int idx = frameExtractor.getIndex(x, y);
@@ -411,19 +360,74 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
                         return;
                     }
                     int sample = (int) frame[idx];
-                    apsHist.addSample(sample);
+                    if (spatialHistogramEnabled) {
+                        apsHist.addSample(sample);
+                    }
+                    if (temporalNoiseEnabled) {
+                        temporalNoise.addSample(selIdx, sample);
+                    }
+                    sely++;
+                    selIdx++;
                 }
+                selx++;
+            }
+            if (temporalNoiseEnabled) {
+                temporalNoise.compute();
             }
         }
 
         private class TemporalNoise {
 
-            private double[][] sum, sum2; // variance computation
+            private float[] sums, sum2s, means, vars; // variance computations for pixels
+            private int[] counts;
+            int n = 0;
+            float mean = 0, var = 0, rmsAC = 0;
+
+            void addSample(int idx, int sample) {
+                if (idx >= sums.length) {
+                    return; // TODO some problem with selecting rectangle which gives 1x1 rectangle sometimes
+                }
+                sums[idx] += sample;
+                sum2s[idx] += sample * sample;
+                counts[idx]++;
+            }
 
             void draw(GL gl) {
+                if (!temporalNoiseEnabled) {
+                    return;
+                }
+            }
+
+            void compute() {
+                float sumvar = 0, summean = 0;
+                for (int i = 0; i < counts.length; i++) {
+                    if (counts[i] < 2) {
+                        continue;
+                    }
+                    means[i] = sums[i] / counts[i];
+                    vars[i] = (sum2s[i] - ((sums[i] * sums[i]) / counts[i])) / (counts[i] - 1);
+                }
+                for (int i = 0; i < counts.length; i++) {
+                    sumvar += vars[i];
+                    summean += means[i];
+                }
+                float meanvar=sumvar/counts.length;
+                float meanmean=summean/counts.length;
+                rmsAC = (float) Math.sqrt(sumvar / counts.length);
+                System.out.println(String.format("meanmean=%.1f meanvar=%.1f rmsAC=%.2f", meanmean, meanvar, rmsAC));
             }
 
             void reset() {
+                if (selectionRectangle == null) {
+                    return;
+                }
+                n = 0;
+                final int length = selectionRectangle.width * selectionRectangle.height;
+                sums = new float[length];
+                sum2s = new float[length];
+                means = new float[length];
+                vars = new float[length];
+                counts = new int[length];
             }
         }
 
@@ -463,7 +467,9 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
              *
              */
             void draw(GL gl) {
-
+                if (!spatialHistogramEnabled) {
+                    return;
+                }
                 float dx = (float) (chip.getSizeX() - 2) / (histNumBins + 2);
                 float sy = (float) (chip.getSizeY() - 2) / maxCount;
 
@@ -536,13 +542,75 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
 
             private int getSampleBin(int sample) {
                 int bin = (int) Math.floor(histNumBins * ((float) sample - sampleMin) / (sampleMax - sampleMin));
-                if (bin < 0) {
-                    bin = 0;
-                } else if (bin >= histNumBins) {
-                    bin = histNumBins - 1;
-                }
                 return bin;
             }
         }
+    }
+
+    /**
+     * @return the temporalNoiseEnabled
+     */
+    public boolean isTemporalNoiseEnabled() {
+        return temporalNoiseEnabled;
+    }
+
+    /**
+     * @param temporalNoiseEnabled the temporalNoiseEnabled to set
+     */
+    public void setTemporalNoiseEnabled(boolean temporalNoiseEnabled) {
+        this.temporalNoiseEnabled = temporalNoiseEnabled;
+        putBoolean("temporalNoiseEnabled", temporalNoiseEnabled);
+    }
+
+    /**
+     * @return the spatialHistogramEnabled
+     */
+    public boolean isSpatialHistogramEnabled() {
+        return spatialHistogramEnabled;
+    }
+
+    /**
+     * @param spatialHistogramEnabled the spatialHistogramEnabled to set
+     */
+    public void setSpatialHistogramEnabled(boolean spatialHistogramEnabled) {
+        this.spatialHistogramEnabled = spatialHistogramEnabled;
+        putBoolean("spatialHistogramEnabled", spatialHistogramEnabled);
+    }
+
+    /**
+     * @return the scaleHistogramsIncludingOverflow
+     */
+    public boolean isScaleHistogramsIncludingOverflow() {
+        return scaleHistogramsIncludingOverflow;
+    }
+
+    /**
+     * @param scaleHistogramsIncludingOverflow the
+     * scaleHistogramsIncludingOverflow to set
+     */
+    public void setScaleHistogramsIncludingOverflow(boolean scaleHistogramsIncludingOverflow) {
+        this.scaleHistogramsIncludingOverflow = scaleHistogramsIncludingOverflow;
+        putBoolean("scaleHistogramsIncludingOverflow", scaleHistogramsIncludingOverflow);
+    }
+
+    /**
+     * @return the histNumBins
+     */
+    public int getHistNumBins() {
+        return histNumBins;
+    }
+
+    /**
+     * @param histNumBins the histNumBins to set
+     */
+    synchronized public void setHistNumBins(int histNumBins) {
+        if (histNumBins < 2) {
+            histNumBins = 2;
+        } else if (histNumBins > frameExtractor.getMaxADC() + 1) {
+            histNumBins = frameExtractor.getMaxADC() + 1;
+        }
+        this.histNumBins = histNumBins;
+        putInt("histNumBins", histNumBins);
+        stats.reset();
     }
 }
