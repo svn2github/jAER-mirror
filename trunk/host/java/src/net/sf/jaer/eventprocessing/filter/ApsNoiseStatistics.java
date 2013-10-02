@@ -352,8 +352,8 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
             }
             // itereate over pixels of selection rectangle to get pixels from frame
             int selx = 0, sely = 0, selIdx = 0;
-            for (int x = selectionRectangle.x + 1; x < selectionRectangle.x + selectionRectangle.width - 1; x++) {
-                for (int y = selectionRectangle.y + 1; y < selectionRectangle.y + selectionRectangle.height - 1; y++) {
+            for (int x = selectionRectangle.x; x < selectionRectangle.x + selectionRectangle.width; x++) {
+                for (int y = selectionRectangle.y; y < selectionRectangle.y + selectionRectangle.height; y++) {
                     int idx = frameExtractor.getIndex(x, y);
                     if (idx >= frame.length) {
                         log.warning(String.format("index out of range: x=%d y=%d, idx=% frame.length=%d", x, y, idx, frame.length));
@@ -382,6 +382,8 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
             private int[] counts;
             int n = 0;
             float mean = 0, var = 0, rmsAC = 0;
+            float meanvar = 0;
+            float meanmean = 0;
 
             void addSample(int idx, int sample) {
                 if (idx >= sums.length) {
@@ -393,9 +395,16 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
             }
 
             void draw(GL gl) {
-                if (!temporalNoiseEnabled) {
+                if (!temporalNoiseEnabled || selectionRectangle == null) {
                     return;
                 }
+                gl.glColor3fv(SELECT_COLOR, 0);
+                String s = String.format("Temporal noise: %.1f+/-%.2f var=%.1f COV=%.1f%%", meanmean, rmsAC, meanvar,100*rmsAC/meanmean);
+                final float textScale = .76f;
+                renderer.begin3DRendering();
+                renderer.setColor(SELECT_COLOR[0],SELECT_COLOR[1],SELECT_COLOR[2], 1f);
+                renderer.draw3D(s, 0, 0.8f*chip.getSizeY(), 0, textScale);
+                renderer.end3DRendering();
             }
 
             void compute() {
@@ -411,10 +420,9 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
                     sumvar += vars[i];
                     summean += means[i];
                 }
-                float meanvar=sumvar/counts.length;
-                float meanmean=summean/counts.length;
+                meanvar = sumvar / counts.length;
+                meanmean = summean / counts.length;
                 rmsAC = (float) Math.sqrt(sumvar / counts.length);
-                System.out.println(String.format("meanmean=%.1f meanvar=%.1f rmsAC=%.2f", meanmean, meanvar, rmsAC));
             }
 
             void reset() {
