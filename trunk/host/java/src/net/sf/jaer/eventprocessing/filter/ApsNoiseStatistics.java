@@ -318,6 +318,7 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
     synchronized public void update(Observable o, Object arg) {
         currentAddress = new int[chip.getNumCellTypes()];
         Arrays.fill(currentAddress, -1);
+        frameExtractor.resetFilter();
     }
 
     /**
@@ -393,7 +394,7 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
                 for (int y = selectionRectangle.y; y < selectionRectangle.y + selectionRectangle.height; y++) {
                     int idx = frameExtractor.getIndex(x, y);
                     if (idx >= frame.length) {
-                        log.warning(String.format("index out of range: x=%d y=%d, idx=%d frame.length=%d", x, y, idx, frame.length));
+//                        log.warning(String.format("index out of range: x=%d y=%d, idx=%d frame.length=%d", x, y, idx, frame.length));
                         return;
                     }
                     int sample = (int) Math.round(frame[idx]);
