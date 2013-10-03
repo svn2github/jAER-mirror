@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
@@ -56,13 +58,16 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
     PixelStatistics stats = new PixelStatistics();
     final private static float[] GLOBAL_HIST_COLOR = {0, 0, .8f, .5f}, INDIV_HIST_COLOR = {0, .2f, .6f, .5f}, HIST_OVERFLOW_COLOR = {.6f, .4f, .2f, .6f};
     private int frameWidth, frameHeight; // set from frame extractor filter
+//    private final Lock lock = new ReentrantLock(); // used to prevent open GL calls during mouse event handling at the same time as opengl rendering
+    final float textScale = .3f;
+    private boolean resetCalled = true;
 
     public ApsNoiseStatistics(AEChip chip) {
         super(chip);
         if (chip.getCanvas() != null && chip.getCanvas().getCanvas() != null) {
             canvas = chip.getCanvas();
             glCanvas = (GLCanvas) chip.getCanvas().getCanvas();
-            renderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 10), true, true);
+            renderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 24), true, true);
         }
         currentAddress = new int[chip.getNumCellTypes()];
         Arrays.fill(currentAddress, -1);
@@ -90,6 +95,11 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
         frameHeight = frameExtractor.getHeight();
         frameExtractor.filterPacket(in);
         if (frameExtractor.hasNewFrame()) {
+            if (resetCalled) {
+//                frameExtractor.resetFilter(); // TODO we cannot call this before getting frame, because then frame will be set to zero in the frameExtractor and we'll get zeros
+                stats.reset();
+                resetCalled = false;
+            }
             float[] frame = frameExtractor.getDisplayBuffer();
             stats.updateStatistics(frame);
         }
@@ -97,19 +107,21 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
     }
 
     public void displayStats(GLAutoDrawable drawable) {
-        if (drawable == null || getSelectionRectangle() == null || chip.getCanvas() == null) {
-            return;
+        synchronized (glCanvas) { // sync on mouse listeners that call opengl methods
+            if (drawable == null || getSelectionRectangle() == null || chip.getCanvas() == null) {
+                return;
+            }
+            canvas = chip.getCanvas();
+            glCanvas = (GLCanvas) canvas.getCanvas();
+            int sx = chip.getSizeX(), sy = chip.getSizeY();
+            Rectangle chipRect = new Rectangle(sx, sy);
+            GL gl = drawable.getGL();
+            if (!chipRect.intersects(selectionRectangle)) {
+                return;
+            }
+            drawSelectionRectangle(gl, getSelectionRectangle(), SELECT_COLOR);
+            stats.draw(gl);
         }
-        canvas = chip.getCanvas();
-        glCanvas = (GLCanvas) canvas.getCanvas();
-        int sx = chip.getSizeX(), sy = chip.getSizeY();
-        Rectangle chipRect = new Rectangle(sx, sy);
-        GL gl = drawable.getGL();
-        if (!chipRect.intersects(selectionRectangle)) {
-            return;
-        }
-        drawSelectionRectangle(gl, getSelectionRectangle(), SELECT_COLOR);
-        stats.draw(gl);
     }
 
     /**
@@ -120,7 +132,7 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
      * rectangle
      */
     private void setSelectionRectangleFromMouseEvent(MouseEvent e) {
-        Point p = canvas.getPixelFromMouseEvent(e);
+        Point p = getMousePoint(e);
         endPoint = p;
         startx = min(startPoint.x, endPoint.x);
         starty = min(startPoint.y, endPoint.y);
@@ -168,9 +180,9 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
     }
 
     @Override
-    public void resetFilter() {
-        frameExtractor.resetFilter();
-        stats.reset();
+    synchronized public void resetFilter() {
+        resetCalled = true;  // to handle reset during some point of iteration that gets partial new frame or something strange
+
     }
 
     @Override
@@ -182,6 +194,22 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
     }
 
     private int max(int a, int b) {
+        return a > b ? a : b;
+    }
+
+    private float min(float a, float b) {
+        return a < b ? a : b;
+    }
+
+    private float max(float a, float b) {
+        return a > b ? a : b;
+    }
+
+    private double min(double a, double b) {
+        return a < b ? a : b;
+    }
+
+    private double max(double a, double b) {
         return a > b ? a : b;
     }
 
@@ -206,7 +234,7 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        Point p = canvas.getPixelFromMouseEvent(e);
+        Point p = getMousePoint(e);
         startPoint = p;
         selecting = true;
     }
@@ -218,7 +246,7 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
      */
     @Override
     public void mouseMoved(MouseEvent e) {
-        currentMousePoint = canvas.getPixelFromMouseEvent(e);
+        currentMousePoint = getMousePoint(e);
         for (int k = 0; k < chip.getNumCellTypes(); k++) {
             currentAddress[k] = chip.getEventExtractor().getAddressFromCell(currentMousePoint.x, currentMousePoint.y, k);
 //            System.out.println(currentMousePoint+" gives currentAddress["+k+"]="+currentAddress[k]);
@@ -254,13 +282,13 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-        Point p = canvas.getPixelFromMouseEvent(e);
+        Point p = getMousePoint(e);
         clickedPoint = p;
     }
 
     /**
      * Overridden so that when this EventFilter2D is selected/deselected to be
-     * controlled in the FilterPanel the mouse listensers are installed/removed
+     * controlled in the FilterPanel the mouse listeners are installed/removed
      *
      * @param yes
      */
@@ -309,6 +337,12 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
         this.selectionRectangle = selectionRectangle;
     }
 
+    private Point getMousePoint(MouseEvent e) {
+        synchronized (glCanvas) { // sync here on opengl canvas because getPixelFromMouseEvent calls opengl and we don't want that during rendering
+            return canvas.getPixelFromMouseEvent(e);
+        }
+    }
+
     /**
      * Keeps track of pixel statistics
      */
@@ -324,13 +358,16 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
          * draws all statistics
          */
         void draw(GL gl) {
+
             apsHist.draw(gl);
             temporalNoise.draw(gl);
             if (currentMousePoint != null) {
                 if (currentMousePoint.y <= 0) {
                     float sampleValue = (float) (((float) currentMousePoint.x / chip.getSizeX()) * frameExtractor.getMaxADC());
                     gl.glColor3fv(SELECT_COLOR, 0);
-                    renderer.draw3D(String.format("%.0f", sampleValue), currentMousePoint.x, -4, 0, .5f);
+                    renderer.begin3DRendering();
+                    renderer.draw3D(String.format("%.0f", sampleValue), currentMousePoint.x, -4, 0, textScale);
+                    renderer.end3DRendering();
                     gl.glLineWidth(3);
                     gl.glColor3fv(SELECT_COLOR, 0);
                     gl.glBegin(GL.GL_LINES);
@@ -347,7 +384,7 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
         }
 
         void updateStatistics(float[] frame) {
-            if (selectionRectangle == null) {
+            if (selecting || selectionRectangle == null) {
                 return; // don't bother if we haven't selected a region TODO maybe do entire frame 
             }
             // itereate over pixels of selection rectangle to get pixels from frame
@@ -359,7 +396,7 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
                         log.warning(String.format("index out of range: x=%d y=%d, idx=% frame.length=%d", x, y, idx, frame.length));
                         return;
                     }
-                    int sample = (int) frame[idx];
+                    int sample = (int) Math.round(frame[idx]);
                     if (spatialHistogramEnabled) {
                         apsHist.addSample(sample);
                     }
@@ -378,64 +415,152 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
 
         private class TemporalNoise {
 
-            private float[] sums, sum2s, means, vars; // variance computations for pixels
-            private int[] counts;
-            int n = 0;
-            float mean = 0, var = 0, rmsAC = 0;
-            float meanvar = 0;
-            float meanmean = 0;
+            private double[] sums, sum2s, means, vars; // variance computations for pixels, each entry is one pixel cummulation
+            private int[] pixelSampleCounts; // how many times each pixel has been sampled (should be same for all pixels)
+            int nPixels = 0; // total number of pixels
+            double mean = 0, var = 0, rmsAC = 0;
+            double meanvar = 0;
+            double meanmean = 0;
+            double minmean, maxmean, minvar, maxvar;
 
-            void addSample(int idx, int sample) {
+            /**
+             * Adds one pixel sample to temporal noise statistics
+             *
+             * @param idx indext of pixel
+             * @param sample sample value
+             */
+            synchronized void addSample(int idx, int sample) {
                 if (idx >= sums.length) {
                     return; // TODO some problem with selecting rectangle which gives 1x1 rectangle sometimes
                 }
                 sums[idx] += sample;
                 sum2s[idx] += sample * sample;
-                counts[idx]++;
+                pixelSampleCounts[idx]++;
             }
 
-            void draw(GL gl) {
-                if (!temporalNoiseEnabled || selectionRectangle == null) {
+            /**
+             * computes temporal noise stats from collected pixel sample values
+             */
+            synchronized void compute() {
+                if (pixelSampleCounts == null) {
                     return;
                 }
-                gl.glColor3fv(SELECT_COLOR, 0);
-                String s = String.format("Temporal noise: %.1f+/-%.2f var=%.1f COV=%.1f%%", meanmean, rmsAC, meanvar,100*rmsAC/meanmean);
-                final float textScale = .76f;
-                renderer.begin3DRendering();
-                renderer.setColor(SELECT_COLOR[0],SELECT_COLOR[1],SELECT_COLOR[2], 1f);
-                renderer.draw3D(s, 0, 0.8f*chip.getSizeY(), 0, textScale);
-                renderer.end3DRendering();
-            }
-
-            void compute() {
                 float sumvar = 0, summean = 0;
-                for (int i = 0; i < counts.length; i++) {
-                    if (counts[i] < 2) {
+                minmean = Float.POSITIVE_INFINITY;
+                minvar = Float.POSITIVE_INFINITY;
+                maxmean = Float.NEGATIVE_INFINITY;
+                maxvar = Float.NEGATIVE_INFINITY;
+                // computes means and variances for each pixel over all frames
+                for (int i = 0; i < pixelSampleCounts.length; i++) {
+                    if (pixelSampleCounts[i] < 2) {
                         continue;
                     }
-                    means[i] = sums[i] / counts[i];
-                    vars[i] = (sum2s[i] - ((sums[i] * sums[i]) / counts[i])) / (counts[i] - 1);
+                    means[i] = sums[i] / pixelSampleCounts[i];
+                    vars[i] = (sum2s[i] - ((sums[i] * sums[i]) / pixelSampleCounts[i])) / (pixelSampleCounts[i] - 1);
+//                    if (vars[i] > 1000) {
+//                        log.warning("suspiciously high variance");
+//                    }
                 }
-                for (int i = 0; i < counts.length; i++) {
+                // compute grand averages
+                for (int i = 0; i < pixelSampleCounts.length; i++) {
                     sumvar += vars[i];
                     summean += means[i];
+                    minmean = min(means[i], minmean);
+                    maxmean = max(means[i], maxmean);
+                    minvar = min(vars[i], minvar);
+                    maxvar = max(vars[i], maxvar);
                 }
-                meanvar = sumvar / counts.length;
-                meanmean = summean / counts.length;
-                rmsAC = (float) Math.sqrt(sumvar / counts.length);
+                meanvar = sumvar / pixelSampleCounts.length;
+                meanmean = summean / pixelSampleCounts.length;
+                rmsAC = (float) Math.sqrt(sumvar / pixelSampleCounts.length);
+                nPixels = pixelSampleCounts.length;
             }
 
-            void reset() {
+            synchronized void reset() {
                 if (selectionRectangle == null) {
                     return;
                 }
-                n = 0;
+                nPixels = 0;
                 final int length = selectionRectangle.width * selectionRectangle.height;
-                sums = new float[length];
-                sum2s = new float[length];
-                means = new float[length];
-                vars = new float[length];
-                counts = new int[length];
+                if (sums == null || sums.length != length) {
+                    sums = new double[length];
+                    sum2s = new double[length];
+                    means = new double[length];
+                    vars = new double[length];
+                    pixelSampleCounts = new int[length];
+                } else {
+                    Arrays.fill(sums, 0);
+                    Arrays.fill(sum2s, 0);
+                    Arrays.fill(means, 0);
+                    Arrays.fill(vars, 0);
+                    Arrays.fill(pixelSampleCounts, 0);
+                }
+            }
+
+            /**
+             * Draws the temporal noise statistics, including global averages
+             * and plot of var vs mean
+             */
+            synchronized void draw(GL gl) {
+                if (!temporalNoiseEnabled || selectionRectangle == null || means == null || vars == null) {
+                    return;
+                }
+                TextRenderer renderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 24), true, true);
+                renderer.setSmoothing(true);
+                final float offset = .1f;
+                final float x0 = chip.getSizeX() * offset, y0 = chip.getSizeY() * offset, x1 = chip.getSizeX() * (1 - offset), y1 = chip.getSizeY() * (1 - offset);
+
+                // overall statistics
+                String s = String.format("Temporal noise: %.1f+/-%.2f var=%.1f COV=%.1f%% N=%d", meanmean, rmsAC, meanvar, 100 * rmsAC / meanmean, nPixels);
+                renderer.begin3DRendering();
+                renderer.setColor(GLOBAL_HIST_COLOR[0], GLOBAL_HIST_COLOR[1], GLOBAL_HIST_COLOR[2], 1f);
+                renderer.draw3D(s, 1.5f * x0, y1, 0, textScale);
+                renderer.end3DRendering();
+                // draw plot
+                gl.glLineWidth(lineWidth);
+                gl.glColor3fv(GLOBAL_HIST_COLOR, 0);
+                // axes
+                gl.glBegin(GL.GL_LINES);
+                gl.glVertex2f(x0, y0);
+                gl.glVertex2f(x1, y0);
+                gl.glVertex2f(x0, y0);
+                gl.glVertex2f(x0, y1);
+                gl.glEnd();
+                // axes labels
+                renderer.begin3DRendering();
+                renderer.setColor(GLOBAL_HIST_COLOR[0], GLOBAL_HIST_COLOR[1], GLOBAL_HIST_COLOR[2], 1f);
+                renderer.draw3D("signal", (x0 + x1) / 2, y0 / 2, 0, textScale);
+                renderer.end3DRendering();
+                gl.glMatrixMode(GL.GL_MODELVIEW);
+                gl.glPushMatrix();
+                gl.glTranslatef(x0 / 2, (y0 + y1) / 2, 0);
+//                gl.glRotatef(90,0,0, 0); // TODO doesn't work to rotate axes label
+                renderer.begin3DRendering();
+                renderer.draw3D("variance", 0, 0, 0, textScale);
+                renderer.end3DRendering();
+                gl.glPopMatrix();
+                // axes limits
+                renderer.begin3DRendering();
+                renderer.setColor(GLOBAL_HIST_COLOR[0], GLOBAL_HIST_COLOR[1], GLOBAL_HIST_COLOR[2], 1f);
+                renderer.draw3D(String.format("%.1f", minvar), x0 / 2, y0, 0, textScale);
+                renderer.draw3D(String.format("%.1f", maxvar), x0 / 2, y1, 0, textScale);
+                renderer.draw3D(String.format("%.1f", minmean), x0, y0 / 2, 0, textScale);
+                renderer.draw3D(String.format("%.1f", maxmean), x1, y0 / 2, 0, textScale);
+                renderer.end3DRendering();
+
+                // data points
+                gl.glPointSize(6);
+                gl.glBegin(GL.GL_POINTS);
+                final double meanrange = maxmean - minmean;
+                final double varrange = maxvar - minvar;
+                for (int i = 0; i < means.length; i++) {
+                    final double x = x0 + (x1 - x0) * (means[i] - minmean) / meanrange;
+                    final double y = y0 + (y1 - y0) * (vars[i] - minvar) / varrange;
+                    gl.glVertex2d(x, y);
+                }
+
+                gl.glEnd();
+                renderer.dispose();
             }
         }
 
