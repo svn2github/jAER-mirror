@@ -393,7 +393,7 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
                 for (int y = selectionRectangle.y; y < selectionRectangle.y + selectionRectangle.height; y++) {
                     int idx = frameExtractor.getIndex(x, y);
                     if (idx >= frame.length) {
-                        log.warning(String.format("index out of range: x=%d y=%d, idx=% frame.length=%d", x, y, idx, frame.length));
+                        log.warning(String.format("index out of range: x=%d y=%d, idx=%d frame.length=%d", x, y, idx, frame.length));
                         return;
                     }
                     int sample = (int) Math.round(frame[idx]);
@@ -505,7 +505,6 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
                 if (!temporalNoiseEnabled || selectionRectangle == null || means == null || vars == null) {
                     return;
                 }
-                TextRenderer renderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 24), true, true);
                 renderer.setSmoothing(true);
                 final float offset = .1f;
                 final float x0 = chip.getSizeX() * offset, y0 = chip.getSizeY() * offset, x1 = chip.getSizeX() * (1 - offset), y1 = chip.getSizeY() * (1 - offset);
@@ -560,7 +559,6 @@ public class ApsNoiseStatistics extends EventFilter2DMouseAdaptor implements Fra
                 }
 
                 gl.glEnd();
-                renderer.dispose();
             }
         }
 
