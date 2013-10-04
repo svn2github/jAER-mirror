@@ -11,6 +11,8 @@ public class IMUEvent extends Event {
 	private short gyroY;
 	private short gyroZ;
 
+	private short temp;
+
 	public IMUEvent(final int ts) {
 		super(ts);
 	}
@@ -63,6 +65,14 @@ public class IMUEvent extends Event {
 		this.gyroZ = gyroZ;
 	}
 
+	public short getTemp() {
+		return temp;
+	}
+
+	public void setTemp(short temp) {
+		this.temp = temp;
+	}
+
 	protected final void deepCopyInternal(final IMUEvent evt) {
 		super.deepCopyInternal(evt);
 
@@ -73,6 +83,8 @@ public class IMUEvent extends Event {
 		evt.gyroX = gyroX;
 		evt.gyroY = gyroY;
 		evt.gyroZ = gyroZ;
+
+		evt.temp = temp;
 	}
 
 	@Override

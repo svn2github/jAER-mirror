@@ -1,6 +1,6 @@
 package net.sf.jaer2.eventio.events;
 
-public class XYZPositionEvent extends XYPositionEvent {
+public abstract class XYZPositionEvent extends XYPositionEvent {
 	private static final long serialVersionUID = -7413859531742503973L;
 
 	private short z;
@@ -21,12 +21,5 @@ public class XYZPositionEvent extends XYPositionEvent {
 		super.deepCopyInternal(evt);
 
 		evt.z = z;
-	}
-
-	@Override
-	public XYZPositionEvent deepCopy() {
-		final XYZPositionEvent evt = new XYZPositionEvent(getTimestamp());
-		deepCopyInternal(evt);
-		return evt;
 	}
 }

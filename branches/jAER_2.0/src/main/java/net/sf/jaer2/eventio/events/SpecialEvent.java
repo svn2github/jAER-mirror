@@ -4,6 +4,7 @@ public class SpecialEvent extends XYPositionEvent {
 	private static final long serialVersionUID = -7699877440015843698L;
 
 	public static enum Type {
+		TIME_WRAP,
 		SYNC,
 		TRIGGER,
 		ROW_ONLY,
