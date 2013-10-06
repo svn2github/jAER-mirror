@@ -276,7 +276,7 @@ public class ApsFrameExtractor extends EventFilter2D {
      */
     public float[] getDisplayBuffer() {
         newFrame = false;
-        return displayBuffer;
+        return displayBuffer.clone();
     }
 
     /** Tell chip to acquire new frame, return immediately.
@@ -284,6 +284,22 @@ public class ApsFrameExtractor extends EventFilter2D {
      */
     public void acquireNewFrame() {
         apsChip.takeSnapshot();
+    }
+    
+    public float getMinBufferValue(){
+        float minBufferValue = 0.0f;
+        if (logCompress) {
+            minBufferValue = (float) Math.log(minBufferValue + logSafetyOffset);
+        }
+        return minBufferValue;
+    }
+    
+    public float getMaxBufferValue(){
+        float maxBufferValue = (float)maxADC;
+        if (logCompress) {
+            maxBufferValue = (float) Math.log(maxBufferValue + logSafetyOffset);
+        }
+        return maxBufferValue;
     }
 
     public void setExtRender(boolean setExt) {

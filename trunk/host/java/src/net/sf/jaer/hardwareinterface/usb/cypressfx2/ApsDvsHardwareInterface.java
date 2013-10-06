@@ -9,8 +9,6 @@ package net.sf.jaer.hardwareinterface.usb.cypressfx2;
 import eu.seebetter.ini.chips.*;
 import net.sf.jaer.aemonitor.AEPacketRaw;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
-import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2;
-import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2Biasgen;
 import de.thesycon.usbio.*;
 import de.thesycon.usbio.structs.*;
 import eu.seebetter.ini.chips.sbret10.IMUSample;
@@ -20,11 +18,7 @@ import javax.swing.ProgressMonitor;
 import java.io.*;
 import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2.log;
-import net.sf.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController;
-import static net.sf.jaer.hardwareinterface.usb.silabs.SiLabsC8051F320_USBIO_ServoController.SERVO_QUEUE_LENGTH;
 
 /**
  * Adds functionality of apsDVS sensors to based CypressFX2Biasgen class. The key method is translateEvents that parses the data from the sensor to construct jAER raw events.
