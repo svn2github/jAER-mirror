@@ -48,8 +48,7 @@ public class ApsFrameExtractor extends EventFilter2D {
     private float grayValue;
     public final float logSafetyOffset = 10000.0f;
     protected boolean showAPSFrameDisplay=getBoolean("showAPSFrameDisplay", true);
-
- 
+    private Legend apsDisplayLegend;
   
 
     public static enum Extraction {
@@ -72,6 +71,12 @@ public class ApsFrameExtractor extends EventFilter2D {
         apsFrame.setPreferredSize(new Dimension(width * 4, height * 4));
         apsFrame.getContentPane().add(apsDisplay, BorderLayout.CENTER);
         apsFrame.pack();
+        apsDisplayLegend = apsDisplay.addLegend("", 0 ,0);
+        float[] displayColor = new float[3];
+        displayColor[0] = 1.0f;
+        displayColor[1] = 1.0f;
+        displayColor[2] = 1.0f;
+        apsDisplayLegend.color = displayColor;
         initFilter();
 
         setPropertyTooltip("invertIntensity", "Inverts grey scale, e.g. for raw samples of signal level");
@@ -304,6 +309,10 @@ public class ApsFrameExtractor extends EventFilter2D {
 
     public void setExtRender(boolean setExt) {
         this.useExtRender = setExt;
+    }
+    
+    public void setLegend(String legend) {
+        this.apsDisplayLegend.s = legend;
     }
 
     public void setDisplayGrayFrame(double[] frame) {
