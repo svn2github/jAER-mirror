@@ -30,13 +30,21 @@ public class IMUSample {
     /** These bits contain the type of the sample. If any of these bits are set then also this AE address is an IMU sample of some type. */
     private static final int CODEBITMASK=0x0f<<CODEBITSHIFT; // 4 bits to code 7 types of samples because we cannot have a zero code, otherwise we could not detect that we have an IMU sample
 
+    /** The IMU data */
     private short[] data=new short[SIZE_EVENTS];
 
-    private int timestamp, deltaTimeUs;
+    /** Timestamp of IMUSample in us units using AER time basis  */
+    private int timestampUs;
+    /* the time in us from System.nanoTime on host since last sample */
+    private int deltaTimeUs;
 
     /** Size of IMUSample in events written or read from AEPacketRaw */
     public static final int SIZE_EVENTS=7;
 
+    /** Used to track when last sample came in via EventPacket in us timestamp units */
+    private static int lastTimestampUs=0;
+    
+    /** Used to track when last sample was acquired in host System.nanoTime units */
     private static long lastSampleTimeSystemNs=System.nanoTime();
      /**
      * values are from datasheet for reset settings
@@ -47,7 +55,18 @@ public class IMUSample {
     /** Full scale values */
     public static final float FULL_SCALE_ACCEL_G=2f, FULL_SCALE_GYRO_DEG_PER_SEC=250f;
 
+    /** Used to track sample rate */
     private static LowpassFilter sampleIntervalFilter=new LowpassFilter(1000);
+
+    /**
+     * Returns the time in us since last sample, using System.nanoTime() on host.
+     * @return the deltaTimeUs
+     */
+    public int getDeltaTimeUs() {
+        return deltaTimeUs;
+    }
+
+  
 
     public class IncompleteIMUSampleException extends Exception{
 
@@ -69,7 +88,9 @@ public class IMUSample {
 
         	data[sampleType.code] = (short) v;
         }
-        timestamp = packet.timestamps[start]; // assume all have same timestamp
+        timestampUs = packet.timestamps[start]; // assume all have same timestamp
+        deltaTimeUs=(timestampUs-lastTimestampUs);
+        lastTimestampUs=timestampUs;
     }
 
     /** Creates a new IMUSample collection from the byte buffer sent from device, assigning the given timestamp to the samples
@@ -102,7 +123,7 @@ public class IMUSample {
 //        data[IMUSampleType.gx.code] = extractS16(b, 9);
 //        data[IMUSampleType.gy.code] = extractS16(b, 11);
 //        data[IMUSampleType.gz.code] = extractS16(b, 13); // TODO remove temperature
-        this.timestamp = ts;
+        this.timestampUs = ts;
         long nowNs=System.nanoTime();
         deltaTimeUs=(int)((nowNs-lastSampleTimeSystemNs)>>10);
         sampleIntervalFilter.filter(deltaTimeUs, ts);
@@ -111,12 +132,12 @@ public class IMUSample {
     }
 
     @Override
-	public String toString() {
-        return String.format("timestamp=%-14d deltaTime=%-8d ax=%-8.3f ay=%-8.3f az=%-8.3f gx=%-8.3f gy=%-8.3f gz=%-8.3f temp=%-8.1f ax= %-8d ay= %-8d az= %-8d gx= %-8d gy= %-8d gz= %-8d temp= %-8d",
+    public String toString() {
+        return String.format("timestampUs=%-14d deltaTimeUs=%-8d ax=%-8.3f ay=%-8.3f az=%-8.3f gx=%-8.3f gy=%-8.3f gz=%-8.3f temp=%-8.1f ax= %-8d ay= %-8d az= %-8d gx= %-8d gy= %-8d gz= %-8d temp= %-8d",
                 getTimestamp(), deltaTimeUs, getAccelX(), getAccelY(), getAccelZ(), getGyroTiltX(), getGyroYawY(), getGyroRollZ(), getTemperature(),
                 getSensorRaw(IMUSampleType.ax), getSensorRaw(IMUSampleType.ay), getSensorRaw(IMUSampleType.az),
-                 getSensorRaw(IMUSampleType.gx), getSensorRaw(IMUSampleType.gy), getSensorRaw(IMUSampleType.gz),
-                  getSensorRaw(IMUSampleType.temp));
+                getSensorRaw(IMUSampleType.gx), getSensorRaw(IMUSampleType.gy), getSensorRaw(IMUSampleType.gz),
+                getSensorRaw(IMUSampleType.temp));
     }
 
     public short getSensorRaw(IMUSampleType type){
@@ -194,14 +215,14 @@ public class IMUSample {
      * @return the timestamp
      */
     final public int getTimestamp() {
-        return timestamp;
+        return timestampUs;
     }
 
     /**
      * @param timestamp the timestamp to set
      */
     public void setTimestamp(int timestamp) {
-        this.timestamp = timestamp;
+        this.timestampUs = timestamp;
     }
 
     /**
@@ -251,7 +272,7 @@ public class IMUSample {
         }
         for (IMUSampleType sampleType : IMUSampleType.values()) {
             packet.addresses[start + sampleType.code] = getAddress(sampleType);
-            packet.timestamps[start + sampleType.code] = timestamp;
+            packet.timestamps[start + sampleType.code] = timestampUs;
         }
         return SIZE_EVENTS;
     }
@@ -273,6 +294,10 @@ public class IMUSample {
 //        return true;
 //    }
 
+     /** Returns the global average sample interval in us for data acquired from USB
+      * 
+      * @return global average sample interval in us
+      */
      static public float getAverageSampleIntervalUs(){
          return sampleIntervalFilter.getValue();
      }

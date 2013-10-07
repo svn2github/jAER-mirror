@@ -461,7 +461,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                                 //   log.info("timestamp reset");
                                 break;
                         }
-                        if (eventCounter % IMU_POLLING_INTERVAL_EVENTS == 0) {                       // write IMUSample to AEPacketRaw if we have one
+                        if (eventCounter % IMU_POLLING_INTERVAL_EVENTS == 0) {  // write IMUSample to AEPacketRaw if we have one
                             IMUSample imuSample = imuSampleQueue.poll();
                             if (imuSample != null) {
                                 imuSample.setTimestamp(currentts);
