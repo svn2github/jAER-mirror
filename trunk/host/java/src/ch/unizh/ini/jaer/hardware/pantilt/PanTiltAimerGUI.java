@@ -498,22 +498,48 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements ExceptionList
         }
     }//GEN-LAST:event_relaxButActionPerformed
     
-    private void execFlatTrajectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_centerButActionPerformed
+    private void execFlatTrajectorActionPerformed(java.awt.event.ActionEvent evt) {                                          
         boolean jittering=panTilt.isJitterEnabled();
         panTilt.setJitterEnabled(false);
         
-        // Center camera to start from.
+        clearButActionPerformed(null);
+
+        Runnable move = new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 50; i++) {
+                    // Center camera to start from.
+                    setPanTilt(.5f, .5f);
+
+                    try {
+                        float from = 0.5f;
+                        float to = 0.45f;
+                        int sleepTime = 10;
+                        
+                        // Back and forth.
+                        for (float d = from; d > to; d -= 0.001f) {
+                            Thread.sleep(sleepTime);
+                            setPanTilt(d, 0.5f);
+                        }
+                        
+                        for (float d = to; d < from; d += 0.001f) {
+                            Thread.sleep(sleepTime);
+                            setPanTilt(d, 0.5f);
+                        }
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(PanTiltAimerGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        };
+
+        // Execute in thread to not block main data acquisition.
+        Thread t = new Thread(move);
+        t.start();
+
+        // Center again at end.
         setPanTilt(.5f, .5f);
-        // TODO: HERE
-        
-        trajectory.clear();
-        
-        for (int i = 0; i < w; i++) {
-        	trajectory.add(0, 0, i, 0);
-        }
-        
-        trajectory.setPlaybackEnabled(true);
-        
+
         panTilt.setJitterEnabled(jittering);
     }
     
