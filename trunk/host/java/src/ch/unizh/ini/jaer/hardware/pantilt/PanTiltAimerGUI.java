@@ -180,6 +180,7 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements ExceptionList
         loopTB = new javax.swing.JToggleButton();
         centerBut = new javax.swing.JButton();
         relaxBut = new javax.swing.JButton();
+        execFlatTrajector = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
@@ -275,6 +276,14 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements ExceptionList
                 relaxButActionPerformed(evt);
             }
         });
+        
+        execFlatTrajector.setText("Execute Flat Trajectory");
+        execFlatTrajector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	execFlatTrajectorActionPerformed(evt);
+            }
+        });
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -303,6 +312,8 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements ExceptionList
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(centerBut)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(execFlatTrajector)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(relaxBut)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
@@ -320,7 +331,8 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements ExceptionList
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(loopTB)
                             .addComponent(relaxBut)
-                            .addComponent(centerBut))
+                            .addComponent(centerBut)
+                            .addComponent(execFlatTrajector))
                         .addGap(0, 3, Short.MAX_VALUE))
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
@@ -485,6 +497,27 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements ExceptionList
             }
         }
     }//GEN-LAST:event_relaxButActionPerformed
+    
+    private void execFlatTrajectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_centerButActionPerformed
+        boolean jittering=panTilt.isJitterEnabled();
+        panTilt.setJitterEnabled(false);
+        
+        // Center camera to start from.
+        setPanTilt(.5f, .5f);
+        // TODO: HERE
+        
+        trajectory.clear();
+        
+        for (int i = 0; i < w; i++) {
+        	trajectory.add(0, 0, i, 0);
+        }
+        
+        trajectory.setPlaybackEnabled(true);
+        
+        panTilt.setJitterEnabled(jittering);
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel calibrationPanel;
     private javax.swing.JButton centerBut;
@@ -495,6 +528,7 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements ExceptionList
     private javax.swing.JCheckBox recordCB;
     private javax.swing.JButton relaxBut;
     private javax.swing.JLabel statusLabel;
+    private javax.swing.JButton execFlatTrajector;
     // End of variables declaration//GEN-END:variables
 
     public void exceptionOccurred(Exception x, Object source) {
