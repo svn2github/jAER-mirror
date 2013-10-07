@@ -270,7 +270,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
     /** This reader understands the format of raw USB data and translates to the AEPacketRaw */
     public class RetinaAEReader extends CypressFX2.AEReader implements PropertyChangeListener{
         private static final int NONMONOTONIC_WARNING_COUNT = 30; // how many warnings to print after start or timestamp reset
-        public static final int IMU_POLLING_INTERVAL_EVENTS = 1000;
+        public static final int IMU_POLLING_INTERVAL_EVENTS = 100; // tobi changed to 100 from 1000
 
         public RetinaAEReader(CypressFX2 cypress) throws HardwareInterfaceException {
             super(cypress);
