@@ -21,6 +21,9 @@ import net.sf.jaer.util.*;
 import java.beans.*;
 import java.io.*;
 import de.thesycon.usbio.*;
+import static de.thesycon.usbio.UsbIoErrorCodes.USBIO_ERR_CANCELED;
+import static de.thesycon.usbio.UsbIoErrorCodes.USBIO_ERR_DEVICE_GONE;
+import static de.thesycon.usbio.UsbIoErrorCodes.USBIO_ERR_SUCCESS;
 import de.thesycon.usbio.structs.*;
 import java.util.*;
 import java.util.logging.Logger;
@@ -981,7 +984,9 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
 //            stopAEReader(); // setting acquisition enabled=false already should stop reader thread
 //            }
             if (asyncStatusThread != null) {
-                asyncStatusThread.stopThread();
+                asyncStatusThread.shutdownThread();
+                asyncStatusThread.unbind();
+                asyncStatusThread.close();
             }
         } catch (HardwareInterfaceException e) {
             e.printStackTrace();
@@ -1144,29 +1149,17 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
      @author tobi delbruck
      * @see #getSupport() 
      */
-    protected class AsyncStatusThread extends Thread {
+    protected class AsyncStatusThread extends UsbIoReader {
 
         UsbIoPipe pipe;
         CypressFX2 monitor;
         boolean stop = false;
         byte msg;
+        public static final int STATUS_PRIORITY = Thread.MAX_PRIORITY; // Thread.NORM_PRIORITY+2
 
         AsyncStatusThread(CypressFX2 monitor) {
             this.monitor = monitor;
-        }
-
-        public void stopThread() {
-            if (pipe != null) {
-                pipe.abortPipe();
-            }
-            interrupt();
-        }
-
-        @Override
-        public void run() {
-            setName("AsyncStatusThread");
-            int status;
-            UsbIoBuf buffer = new UsbIoBuf(64); // size of EP1
+             int status;
             pipe = new UsbIoPipe();
             status = pipe.bind(monitor.getInterfaceNumber(), STATUS_ENDPOINT_ADDRESS, gDevList, GUID);
             if (status != USBIO_ERR_SUCCESS) {
@@ -1177,31 +1170,27 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
             pipeParams.Flags = UsbIoInterface.USBIO_SHORT_TRANSFER_OK;
             status = pipe.setPipeParameters(pipeParams);
             if (status != USBIO_ERR_SUCCESS) {
-                log.warning("can't set pipe parameters: " + UsbIo.errorText(status));
+                log.warning("can't set pipe parameters: " + UsbIo.errorText(status)+": AsyncStatusThread may not function properly");
             }
-            while (!stop && !isInterrupted()) {
-                buffer.NumberOfBytesToTransfer = 64;
-                status = pipe.read(buffer);
-                if (status != 0) {
-//                    if (stop) {
-                        log.info("Error submitting read on status pipe: " + UsbIo.errorText(buffer.Status));
-//                    }
-                    break;
-                }
-                status = pipe.waitForCompletion(buffer);
-                if (status != 0 && buffer.Status != UsbIoErrorCodes.USBIO_ERR_CANCELED) {
-                    if (!stop && !isInterrupted()) {
-                        log.warning("Error waiting for completion of read on status pipe: " + UsbIo.errorText(buffer.Status));
-                    }
-                    break;
-                }
-                if (buffer.BytesTransferred > 0) {
+        }
+
+        @Override
+        public void startThread(int MaxIoErrorCount) {
+            allocateBuffers(64,4);
+            super.startThread(MaxIoErrorCount);
+            T.setPriority(STATUS_PRIORITY); // very important that this thread have priority or the acquisition will stall on device side for substantial amounts of time!
+            T.setName("AsyncStatusThread");
+        }
+
+        @Override
+        public void processData(UsbIoBuf buffer) {
+               if (buffer.BytesTransferred > 0) {
                     msg = buffer.BufferMem[0];
                     switch (msg) {
                         case STATUS_MSG_TIMESTAMPS_RESET:
                             AEReader rd = getAeReader();
                             if (rd != null) {
-                                log.info("*********************************** CypressFX2.AsyncStatusThread.run(): timestamps externally reset");
+                                log.info("******** CypressFX2.AsyncStatusThread.run(): timestamps externally reset");
                                 rd.resetTimestamps();
                             } else {
                                 log.info("Received timestamp external reset message, but monitor is not running");
@@ -1212,10 +1201,40 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
                             support.firePropertyChange(PROPERTY_CHANGE_ASYNC_STATUS_MSG, null, buffer); // tobi - send message to listeners
                     }
                 } // we getString 0 byte read on stopping device
+        }
+        
+        // called before buffer is submitted to driver
+        @Override
+        public void processBuffer(UsbIoBuf Buf) {
+            Buf.NumberOfBytesToTransfer = Buf.Size;
+            Buf.BytesTransferred = 0;
+            Buf.OperationFinished = false;
+        }
+
+        @Override
+        public void bufErrorHandler(UsbIoBuf Buf) {
+            if (Buf.Status != USBIO_ERR_SUCCESS) {
+                // print error
+                // suppress CANCELED because it is caused by ABORT_PIPE
+                if (Buf.Status != USBIO_ERR_CANCELED) {
+                    log.warning("CypressFX2.AsyncStatusThread.bufErrorHandler(): USB buffer error: " + UsbIo.errorText(Buf.Status));
+                }
+                if (Buf.Status == USBIO_ERR_DEVICE_GONE) {
+                    log.warning("CypressFX2.AsyncStatusThread.bufErrorHandler(): device gone, shutting down buffer pool thread");
+                    monitor.close();
+                }
             }
-//            System.out.println("Status reader thread terminated.");
-        } // run()
-    }    //protected boolean relativeTimestampMode=false; // not used anymore //raphael: need this variable to branch in AEReader
+        }
+
+        @Override
+        public void onThreadExit() {
+            freeBuffers();
+        }
+
+    }    
+
+
+    protected boolean relativeTimestampMode=false; // not used anymore //raphael: need this variable to branch in AEReader
     volatile boolean dontwrap = false; // used for resetTimestamps
     private int aeReaderFifoSize = prefs.getInt("CypressFX2.AEReader.fifoSize", 8192);
 
@@ -1425,13 +1444,15 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
         }
         // virtual function, called in the context of worker thread
 
+        /**
+         *
+         */
+        @Override
         public void onThreadExit() {
             freeBuffers();
-            // System.out.println(this+" event capture worker-thread terminated.\n");
-            monitor.aeReaderRunning = false;
         }
-        // overridden to change priority
 
+        /** overridden to change priority and name thread*/
         @Override
         public void startThread(int MaxIoErrorCount) {
 //            log.info("CypressFX2.AEReader.startThread()");
@@ -1859,9 +1880,9 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
 //            throw new HardwareInterfaceException("CypressFX2.openUsbIo(): didn't find any pipes to bind to");
         } else {
 
-            // start the thread that listens for device status information (e.g. timestamp reset)
+            // start the thread that listens for device status information (e.g. timestamp reset, other device data)
             asyncStatusThread = new AsyncStatusThread(this);
-            asyncStatusThread.start();
+            asyncStatusThread.startThread(3); // starts reader to listen for async status messages
         }
 //        log.info("resetting 8051");
 //        set8051Reset(true);
