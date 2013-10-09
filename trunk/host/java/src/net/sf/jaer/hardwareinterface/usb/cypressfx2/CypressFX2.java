@@ -1157,9 +1157,11 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
         byte msg;
         public static final int STATUS_PRIORITY = Thread.MAX_PRIORITY; // Thread.NORM_PRIORITY+2
 
-        AsyncStatusThread(CypressFX2 monitor) {
+        public AsyncStatusThread(CypressFX2 monitor) {
+        	super();
             this.monitor = monitor;
-             int status;
+            
+            int status;
             pipe = new UsbIoPipe();
             status = pipe.bind(monitor.getInterfaceNumber(), STATUS_ENDPOINT_ADDRESS, gDevList, GUID);
             if (status != USBIO_ERR_SUCCESS) {
@@ -1186,6 +1188,7 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
         public void processData(UsbIoBuf buffer) {
                if (buffer.BytesTransferred > 0) {
                     msg = buffer.BufferMem[0];
+                    
                     switch (msg) {
                         case STATUS_MSG_TIMESTAMPS_RESET:
                             AEReader rd = getAeReader();
@@ -1196,9 +1199,17 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
                                 log.info("Received timestamp external reset message, but monitor is not running");
                             }
                             break;
+                            
                         case STATUS_MSG_OTHER:
                         default:
-                            support.firePropertyChange(PROPERTY_CHANGE_ASYNC_STATUS_MSG, null, buffer); // tobi - send message to listeners
+                        	UsbIoBuf newbuf = new UsbIoBuf(64);
+                        
+                        	// Copy data to new buffer, this one is resubmitted right away.
+                        	System.arraycopy(buffer.BufferMem, 0, newbuf.BufferMem, 0, buffer.BytesTransferred);
+                        	newbuf.BytesTransferred = buffer.BytesTransferred;
+                        	newbuf.Status = buffer.Status;
+
+                        	support.firePropertyChange(PROPERTY_CHANGE_ASYNC_STATUS_MSG, null, newbuf); // tobi - send message to listeners
                     }
                 } // we getString 0 byte read on stopping device
         }
