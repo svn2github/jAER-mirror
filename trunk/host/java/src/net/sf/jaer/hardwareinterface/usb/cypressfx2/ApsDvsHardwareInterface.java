@@ -33,14 +33,14 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
     
     private boolean translateRowOnlyEvents=prefs.getBoolean("ApsDvsHardwareInterface.translateRowOnlyEvents", false);
    
-     private volatile ArrayBlockingQueue<IMUSample> imuSampleQueue; // this queue is used for holding imu samples sent to aeReader
+     private ArrayBlockingQueue<IMUSample> imuSampleQueue; // this queue is used for holding imu samples sent to aeReader
 
     /**
      * Creates a new instance of CypressFX2Biasgen
      */
     public ApsDvsHardwareInterface(int devNumber) {
         super(devNumber);
-        imuSampleQueue = new ArrayBlockingQueue<IMUSample>(1);
+        imuSampleQueue = new ArrayBlockingQueue<IMUSample>(16);
 
     }
 
