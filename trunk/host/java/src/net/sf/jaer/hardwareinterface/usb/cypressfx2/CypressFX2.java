@@ -1158,19 +1158,18 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
         public static final int STATUS_PRIORITY = Thread.MAX_PRIORITY; // Thread.NORM_PRIORITY+2
 
         public AsyncStatusThread(CypressFX2 monitor) {
-        	super();
+            super();
             this.monitor = monitor;
             
             int status;
-            pipe = new UsbIoPipe();
-            status = pipe.bind(monitor.getInterfaceNumber(), STATUS_ENDPOINT_ADDRESS, gDevList, GUID);
+            status = bind(monitor.getInterfaceNumber(), STATUS_ENDPOINT_ADDRESS, gDevList, GUID);
             if (status != USBIO_ERR_SUCCESS) {
                 log.warning("error binding to pipe for EP1 for device status: " + UsbIo.errorText(status) + ", not starting AsyncStatusThread");
                 return;
             }
             USBIO_PIPE_PARAMETERS pipeParams = new USBIO_PIPE_PARAMETERS();
             pipeParams.Flags = UsbIoInterface.USBIO_SHORT_TRANSFER_OK;
-            status = pipe.setPipeParameters(pipeParams);
+            status = setPipeParameters(pipeParams);
             if (status != USBIO_ERR_SUCCESS) {
                 log.warning("can't set pipe parameters: " + UsbIo.errorText(status)+": AsyncStatusThread may not function properly");
             }
@@ -1202,7 +1201,7 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
                             
                         case STATUS_MSG_OTHER:
                         default:
-                        	UsbIoBuf newbuf = new UsbIoBuf(64);
+                                UsbIoBuf newbuf = new UsbIoBuf(64);
                         
                         	// Copy data to new buffer, this one is resubmitted right away.
                         	System.arraycopy(buffer.BufferMem, 0, newbuf.BufferMem, 0, buffer.BytesTransferred);
