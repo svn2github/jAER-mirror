@@ -19,6 +19,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
 import static net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2.log;
+import net.sf.jaer.util.filter.LowpassFilter;
 
 /**
  * Adds functionality of apsDVS sensors to based CypressFX2Biasgen class. The key method is translateEvents that parses the data from the sensor to construct jAER raw events.
@@ -30,17 +31,23 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
     /** The USB product ID of this device */
     static public final short PID = (short) 0x840D;
     static public final short DID = (short) 0x0002;
+    /** Number of IMU samples that we can queue up from AsyncStatusThread before being consumed here by merging with event stream */
+    public static final int IMU_SAMPLE_QUEUE_LENGTH = 16;
     
     private boolean translateRowOnlyEvents=prefs.getBoolean("ApsDvsHardwareInterface.translateRowOnlyEvents", false);
    
      private ArrayBlockingQueue<IMUSample> imuSampleQueue; // this queue is used for holding imu samples sent to aeReader
+     private long imuLastSystemTimeNano=System.nanoTime();
+     private LowpassFilter imuSampleIntervalFilterNs=new LowpassFilter(100);
+     private int imuSampleCounter=0;
+     private static final int IMU_SAMPLE_RATE_PRINT_INTERVAL=100;
 
     /**
      * Creates a new instance of CypressFX2Biasgen
      */
     public ApsDvsHardwareInterface(int devNumber) {
         super(devNumber);
-        imuSampleQueue = new ArrayBlockingQueue<IMUSample>(16);
+        imuSampleQueue = new ArrayBlockingQueue<IMUSample>(IMU_SAMPLE_QUEUE_LENGTH);
 
     }
 
@@ -466,6 +473,14 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                             if (imuSample != null) {
                                 imuSample.setTimestamp(currentts);
                                 eventCounter += imuSample.writeToPacket(buffer, eventCounter);
+                                long imuSampleTimeNs=System.nanoTime();
+                                int dt=(int)(imuSampleTimeNs-imuLastSystemTimeNano);
+                                imuLastSystemTimeNano=imuSampleTimeNs;
+                                float dtAvg=imuSampleIntervalFilterNs.filter(dt, (int)(imuSampleTimeNs/1000));
+                                imuSampleCounter++;
+                                if(imuSampleCounter%IMU_SAMPLE_RATE_PRINT_INTERVAL==0){
+                                    log.info(String.format("IMU average sample interval=%.2ms",1e-6f*imuSampleIntervalFilterNs.getValue()));
+                                }
                             }
                         }
                     } // end for
