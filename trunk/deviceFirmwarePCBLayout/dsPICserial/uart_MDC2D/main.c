@@ -221,7 +221,7 @@ void stream_loop()
 	msg_create_reset(buffer);
 	uart_dma_send_msg(buffer);
 	switch_buffers();
-	
+
 	i=0;
 	while(1)
 	{
@@ -241,6 +241,7 @@ void stream_loop()
 
 		if (cmd_state == CMD_STATE_RUNNING)
 		{
+
 			// check whether channel change occured
 			if (current_channel != cmd_channel_select)
 			{
@@ -289,6 +290,7 @@ void stream_loop()
 			// (see further down for what is acutally sent)
 			if (cmd_stream_data & (CMD_STREAM_FRAMES|CMD_STREAM_SRINIVASAN) )
 			{
+
 				m= (struct msg *) buffer;
 				m->marker= MSG_MARKER;
 				m->payload_length= sizeof(struct msg_frame_words_dxdy);
@@ -297,7 +299,8 @@ void stream_loop()
 				frame_words_dxdy = (struct msg_frame_words_dxdy *) MSG_PAYLOAD(buffer);
 				
 				// init scanner, ADC
-				mdc_adc_init();
+				if (cmd_use_onchip)
+					mdc_adc_init();
 				// don't move the scanner here because the analog values need some
 				// time to settle after mdc_goto_xy(0,0) -- that's why it's done
 				// just _after_ the frame is acquired
@@ -358,7 +361,7 @@ void stream_loop()
 				// make this frame next last frame
 				lastframe= (int *) MSG_PAYLOAD(buffer);
 				
-
+				
 				if (i%nth == 0)
 				{
 					// either stream the frame (+/- motion data) via DMA...
@@ -376,6 +379,7 @@ void stream_loop()
 						uart_write((char *) &dxdybuf,sizeof(struct msg_dxdy));
 					}
 				}
+
 				
 				// in any case, switch the buffers for motion calculation...
 				switch_buffers();
@@ -389,18 +393,20 @@ void stream_loop()
 			}
 			
 			// increase sequence number
-			i++;			
+			i++;		
+					
+
 		}
 
 		//DBG
 		//sleep(1000);
-		//LED12_TOGGLE;
 	}
 }
 
 //! main entry point : initializes modules & then calls #stream_loop
 int main()
 {
+
 	clock_init();
 	tictoc_init();
 	port_init();
