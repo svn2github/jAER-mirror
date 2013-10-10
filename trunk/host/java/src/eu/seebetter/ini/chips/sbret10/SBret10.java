@@ -496,34 +496,56 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
             gl.glTranslatef(chip.getSizeX()/2,chip.getSizeY()/2,0);
             gl.glLineWidth(3);
 
-            final float s=.8f;
+            final float vectorScale=.8f;
+            final float textScale = .2f;
+            final float trans = .7f;
+            float x,y;
             // gyro pan/tilt
             gl.glColor3f(1, 0, 0);
             gl.glBegin(GL.GL_LINES);
             gl.glVertex2f(0, 0);
-            gl.glVertex2f((s*imuSample.getGyroYawY() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC, (s*imuSample.getGyroTiltX() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC);
-            // gyro roll
-            gl.glVertex2f(0, 40);
-            gl.glVertex2f((s*imuSample.getGyroRollZ() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC, 40);
-            gl.glEnd();
-
-            //acceleration x,y
-            gl.glColor3f(0, 1, 0);
-            gl.glBegin(GL.GL_LINES);
-            gl.glVertex2f(0, 0);
-            gl.glVertex2f((s*imuSample.getAccelX() * HEIGHT) / IMUSample.FULL_SCALE_ACCEL_G, (s*imuSample.getAccelY() * HEIGHT) / IMUSample.FULL_SCALE_ACCEL_G);
+            x = (vectorScale * imuSample.getGyroYawY() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC;
+            y = (vectorScale * imuSample.getGyroTiltX() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC;
+            gl.glVertex2f(x, y);
             gl.glEnd();
 
             imuTextRenderer.begin3DRendering();
-            final float trans = .7f;
-            imuTextRenderer.setColor(1,1,0, trans);
-            imuTextRenderer.draw3D(String.format("IMU dtMs=%.1f",imuSample.getDeltaTimeUs()*.001f), -4, 0,0,.2f); // x,y,z, scale factor
-            imuTextRenderer.setColor(1,0,0, trans);
-            imuTextRenderer.draw3D("G", -6, -6,0,.2f); // x,y,z, scale factor
+            imuTextRenderer.setColor(1, 0, 0, trans);
+            imuTextRenderer.draw3D(String.format("%.2f,%.2f dps", imuSample.getGyroYawY(), imuSample.getGyroTiltX()), x, y, 0, textScale); // x,y,z, scale factor
+            imuTextRenderer.end3DRendering();
+
+            // gyro roll
+            x = (vectorScale * imuSample.getGyroRollZ() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC;
+            y = chip.getSizeY() * .25f;
+            gl.glBegin(GL.GL_LINES);
+            gl.glVertex2f(0, y);
+            gl.glVertex2f(x, y);
+            gl.glEnd();
+            imuTextRenderer.begin3DRendering();
+            imuTextRenderer.setColor(1, 0, 0, trans);
+            imuTextRenderer.draw3D(String.format("%.2f dps", imuSample.getGyroRollZ()), x, y, 0, textScale); // x,y,z, scale factor
+            imuTextRenderer.end3DRendering();
+
+            //acceleration x,y
+            x = (vectorScale * imuSample.getAccelX() * HEIGHT) / IMUSample.FULL_SCALE_ACCEL_G;
+            y = (vectorScale * imuSample.getAccelY() * HEIGHT) / IMUSample.FULL_SCALE_ACCEL_G;
+            gl.glColor3f(0, 1, 0);
+            gl.glBegin(GL.GL_LINES);
+            gl.glVertex2f(0, 0);
+            gl.glVertex2f(x, y);
+            gl.glEnd();
+            imuTextRenderer.begin3DRendering();
             imuTextRenderer.setColor(0,1,0, trans);
-            imuTextRenderer.draw3D("A", +6, -6,0,.2f); // x,y,z, scale factor
+            imuTextRenderer.draw3D(String.format("%.2f,%.2f g", imuSample.getAccelX(), imuSample.getAccelY()), x, y, 0, textScale); // x,y,z, scale factor
+            imuTextRenderer.end3DRendering();
+
+            imuTextRenderer.begin3DRendering();
+            imuTextRenderer.setColor(1,0,0, trans);
+            imuTextRenderer.draw3D("G", -6, -6,0, textScale); // x,y,z, scale factor
+            imuTextRenderer.setColor(0,1,0, trans);
+            imuTextRenderer.draw3D("A", +6, -6,0, textScale); // x,y,z, scale factor
             imuTextRenderer.setColor(1,1,1, trans);
-            imuTextRenderer.draw3D(String.format("Invtl: %-6.1fms",IMUSample.getAverageSampleIntervalUs()/1000), -6, -12,0,.2f); // x,y,z, scale factor
+            imuTextRenderer.draw3D(String.format("IMU: Avg dtMs=%.1f Invtl=%-6.1fms",imuSample.getDeltaTimeUs()*.001f, IMUSample.getAverageSampleIntervalUs()/1000), -6, -12,0, textScale); // x,y,z, scale factor
 
             imuTextRenderer.end3DRendering();
           gl.glPopMatrix();
