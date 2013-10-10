@@ -1,11 +1,17 @@
-function [allAddr,allTs]=loadaerdat(file);
-%function [allAddr,allTs]=loadaerdat(file);
+function [allAddr,allTs]=loadaerdat(file,maxevents);
+%function [allAddr,allTs]=loadaerdat(file,n);
 % loads events from a .dat file.
+%
 % allAddr are uint32 (or uint16 for legacy recordings) raw addresses.
 % allTs are uint32 timestamps (1 us tick).
-% noarg invocations open file browser dialog (in the case of no input argument) 
+%
+% noarg invocations or invocation with a single decimel integer argument
+% open file browser dialog (in the case of no input argument) 
 % and directly create vars allAddr, allTs in
 % base workspace (in the case of no output argument).
+%
+% file is the input filename including path
+% maxevents is optional argument to specify maximum number of events loaded; maxevents default to 1e6.
 %
 % Header lines starting with '#' are ignored and printed
 %
@@ -14,18 +20,29 @@ function [allAddr,allTs]=loadaerdat(file);
 % manually removed before parsing. Each header line starts with '#' and
 % ends with the hex characters 0x0D 0x0A (CRLF, windows line ending).
 
-maxEvents=30e6;
+defaultmaxevents=30000000;
+
+if nargin==2,
+       filename=file;    
+        path='';
+end
+if nargin==1,
+    if isstr(file),
+        path='';
+        filename=file;
+        maxevents=defaultmaxevents;
+    else
+        maxevents=file
+    end
+end
 
 if nargin==0,
+    maxevents=defaultmaxevents;
     [filename,path,filterindex]=uigetfile({'*.*dat','*.aedat, *.dat'},'Select recorded retina data file');
     if filename==0, return; end
 end
-if nargin==1,
-    path='';
-    filename=file;
-end
 
-fprintf('Reading at most %d events from file %s\n', maxEvents,filename);
+fprintf('Reading at most %d events from file %s\n', maxevents,filename);
 
 f=fopen([path,filename],'r');
 % skip header lines
@@ -66,9 +83,9 @@ end
         
 fseek(f,0,'eof');
 numEvents=floor((ftell(f)-bof)/numBytesPerEvent); % 6 or 8 bytes/event
-if numEvents>maxEvents, 
-    fprintf('clipping to %d events although there are %d events in file\n',maxEvents,numEvents);
-    numEvents=maxEvents;
+if numEvents>maxevents, 
+    fprintf('clipping to %d events although there are %d events in file\n',maxevents,numEvents);
+    numEvents=maxevents;
 end
 
 % read data
