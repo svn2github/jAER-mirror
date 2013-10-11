@@ -479,7 +479,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                                 float dtAvg=imuSampleIntervalFilterNs.filter(dt, (int)(imuSampleTimeNs/1000));
                                 imuSampleCounter++;
                                 if(imuSampleCounter%IMU_SAMPLE_RATE_PRINT_INTERVAL==0){
-                                    log.info(String.format("IMU sample interval last=%d us, 100ms average=%.2 ms",dt/1000, 1e-6f*imuSampleIntervalFilterNs.getValue()));
+                                    log.info(String.format("IMU sample interval last=%d us, 100ms average=%f ms",dt/1000, 1e-6f*imuSampleIntervalFilterNs.getValue()));
                                 }
                             }
                         }
