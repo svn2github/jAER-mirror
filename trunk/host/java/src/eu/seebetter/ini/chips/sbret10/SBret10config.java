@@ -59,7 +59,7 @@ public class SBret10config extends LatticeMachFX2config implements ApsDvsConfig,
     protected PortBit runCpld = new PortBit(chip, "a3", "runCpld", "(A3) Set high to run CPLD which enables event capture, low to hold logic in reset", true);
     protected PortBit extTrigger = new PortBit(chip, "a1", "extTrigger", "(A1) External trigger to debug APS statemachine", false);
     // portC
-    protected PortBit runAdc = new PortBit(chip, "c0", "runAdc", "(C0) High to run ADC", true);
+    protected PortBit runAdc = new PortBit(chip, "c0", "runAdc", "(C0) High to run ADC. Bound together with adcEnabled.", true);
     // portE
     /**
      * Bias generator power down bit
@@ -736,8 +736,8 @@ public class SBret10config extends LatticeMachFX2config implements ApsDvsConfig,
         //Config Bits
         OnchipConfigBit resetCalib = new OnchipConfigBit(chip, "resetCalib", 0, "turn the calibration neuron off", true),
                 typeNCalib = new OnchipConfigBit(chip, "typeNCalib", 1, "make the calibration neuron N type", false),
-                resetTestpixel = new OnchipConfigBit(chip, "resetTestpixel", 2, "keeps the testpixel in reset", true),
-                hotPixelSuppression = new OnchipConfigBit(chip, "hotPixelSuppression", 3, "turns on the hot pixel suppression", false),
+                resetTestpixel = new OnchipConfigBit(chip, "resetTestpixel", 2, "keeps the test pixel in reset", true),
+                hotPixelSuppression = new OnchipConfigBit(chip, "hotPixelSuppression", 3, "SBRet10: turns on the hot pixel suppression. SBRet20: enables test pixel stripes on right side of array", false),
                 nArow = new OnchipConfigBit(chip, "nArow", 4, "use nArow in the AER state machine", false),
                 useAout = new OnchipConfigBit(chip, "useAout", 5, "turn the pads for the analog MUX outputs on", true),
                 globalShutter = new OnchipConfigBit(chip, "globalShutter", 6, "use the global shutter or not", false);
