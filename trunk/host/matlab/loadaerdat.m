@@ -20,7 +20,7 @@ function [allAddr,allTs]=loadaerdat(file,maxevents);
 % manually removed before parsing. Each header line starts with '#' and
 % ends with the hex characters 0x0D 0x0A (CRLF, windows line ending).
 
-defaultmaxevents=30000000;
+defaultmaxevents=1e6;
 
 if nargin==2,
        filename=file;    
