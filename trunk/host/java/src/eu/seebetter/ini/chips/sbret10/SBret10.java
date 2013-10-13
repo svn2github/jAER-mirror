@@ -6,10 +6,6 @@
  */
 package eu.seebetter.ini.chips.sbret10;
 
-import static ch.unizh.ini.jaer.chip.retina.DVS128.CMD_TWEAK_BANDWIDTH;
-import static ch.unizh.ini.jaer.chip.retina.DVS128.CMD_TWEAK_MAX_FIRING_RATE;
-import static ch.unizh.ini.jaer.chip.retina.DVS128.CMD_TWEAK_ONOFF_BALANCE;
-import static ch.unizh.ini.jaer.chip.retina.DVS128.CMD_TWEAK_THESHOLD;
 import java.awt.Font;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -41,6 +37,9 @@ import ch.unizh.ini.jaer.projects.spatiatemporaltracking.data.histogram.Abstract
 import com.sun.opengl.util.j2d.TextRenderer;
 
 import eu.seebetter.ini.chips.ApsDvsChip;
+import java.awt.geom.Rectangle2D;
+import javax.media.opengl.glu.GLU;
+import javax.media.opengl.glu.GLUquadric;
 import net.sf.jaer.util.RemoteControlCommand;
 import net.sf.jaer.util.RemoteControlled;
 
@@ -88,8 +87,8 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
     private boolean resetOnReadout = false;
     private SBret10config config;
     JFrame controlFrame = null;
-    public static short WIDTH = 240;
-    public static short HEIGHT = 180;
+    public static final short WIDTH = 240;
+    public static final short HEIGHT = 180;
     int sx1 = getSizeX() - 1, sy1 = getSizeY() - 1;
     private int autoshotThresholdEvents=getPrefs().getInt("SBRet10.autoshotThresholdEvents",0);
     private IMUSample imuSample;
@@ -488,6 +487,8 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
         }
 
         TextRenderer imuTextRenderer=new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
+    GLU glu=null;
+    GLUquadric accelCircle=null;
 
         private void imuRender(GLAutoDrawable drawable, IMUSample imuSample) {
 //            System.out.println("on rendering: "+imuSample.toString());
@@ -539,13 +540,34 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
             imuTextRenderer.draw3D(String.format("%.2f,%.2f g", imuSample.getAccelX(), imuSample.getAccelY()), x, y, 0, textScale); // x,y,z, scale factor
             imuTextRenderer.end3DRendering();
 
+            // acceleration z, drawn as circle
+            if (glu == null) {
+                glu = new GLU();
+            }
+            if (accelCircle == null) {
+                accelCircle = glu.gluNewQuadric();
+            }
+            final float az = (vectorScale * imuSample.getAccelZ() * HEIGHT/2) / IMUSample.FULL_SCALE_ACCEL_G;
+            final float rim = .5f;
+            glu.gluQuadricDrawStyle(accelCircle, GLU.GLU_FILL);
+            glu.gluDisk(accelCircle, az - rim, az + rim, 16, 1);
             imuTextRenderer.begin3DRendering();
-            imuTextRenderer.setColor(1,0,0, trans);
-            imuTextRenderer.draw3D("G", -6, -6,0, textScale); // x,y,z, scale factor
-            imuTextRenderer.setColor(0,1,0, trans);
-            imuTextRenderer.draw3D("A", +6, -6,0, textScale); // x,y,z, scale factor
-            imuTextRenderer.setColor(1,1,1, trans);
-            imuTextRenderer.draw3D(String.format("IMU: Avg dtMs=%.1f Invtl=%-6.1fms",imuSample.getDeltaTimeUs()*.001f, IMUSample.getAverageSampleIntervalUs()/1000), -6, -12,0, textScale); // x,y,z, scale factor
+            imuTextRenderer.setColor(0, 1, 0, trans);
+            final String saz=String.format("%.2f g", imuSample.getAccelZ());
+            Rectangle2D rect=imuTextRenderer.getBounds(saz);
+            imuTextRenderer.draw3D(saz, az, -(float)rect.getHeight()*textScale*0.5f, 0, textScale); // x,y,z, scale factor
+            imuTextRenderer.end3DRendering();
+         
+            // color annotation to show what is being rendered
+            imuTextRenderer.begin3DRendering();
+//            imuTextRenderer.setColor(1,0,0, trans);
+//            imuTextRenderer.draw3D("G", -6, -6,0, textScale); // x,y,z, scale factor
+//            imuTextRenderer.setColor(0,1,0, trans);
+//            imuTextRenderer.draw3D("A", +6, -6,0, textScale); // x,y,z, scale factor
+            imuTextRenderer.setColor(1, 1, 1, trans);
+            final String ratestr = String.format("IMU: Avg dtMs=%.1f Invtl=%-6.1fms", imuSample.getDeltaTimeUs() * .001f, IMUSample.getAverageSampleIntervalUs() / 1000);
+            Rectangle2D raterect = imuTextRenderer.getBounds(ratestr);
+            imuTextRenderer.draw3D(ratestr, -(float) raterect.getWidth() * textScale * 0.5f, -12, 0, textScale); // x,y,z, scale factor
 
             imuTextRenderer.end3DRendering();
           gl.glPopMatrix();
