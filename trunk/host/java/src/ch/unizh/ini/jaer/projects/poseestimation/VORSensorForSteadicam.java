@@ -185,7 +185,7 @@ public class VORSensorForSteadicam extends EventFilter2D implements FrameAnnotat
         panTranslationFilter.reset();
         tiltTranslationFilter.reset();
         rollFilter.reset();
-         radPerPixel = (float) Math.asin(getChip().getPixelWidthUm() * 1e-3f /lensFocalLengthMm);
+        radPerPixel = (float) Math.atan(getChip().getPixelWidthUm() * 1e-3f /lensFocalLengthMm);
 
     }
 
