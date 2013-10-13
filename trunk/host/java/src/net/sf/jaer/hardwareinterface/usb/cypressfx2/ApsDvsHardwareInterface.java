@@ -33,7 +33,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
     static public final short PID = (short) 0x840D;
     static public final short DID = (short) 0x0002;
     /** Number of IMU samples that we can queue up from AsyncStatusThread before being consumed here by merging with event stream */
-    public static final int IMU_SAMPLE_QUEUE_LENGTH = 16;
+    public static final int IMU_SAMPLE_QUEUE_LENGTH = 128;
     
     private boolean translateRowOnlyEvents=prefs.getBoolean("ApsDvsHardwareInterface.translateRowOnlyEvents", false);
    
@@ -472,16 +472,16 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                         if (eventCounter % IMU_POLLING_INTERVAL_EVENTS == 0) {  // write IMUSample to AEPacketRaw if we have one
                             IMUSample imuSample = imuSampleQueue.poll();
                             if (imuSample != null) {
-                                imuSample.setTimestamp(currentts);
+//                                imuSample.setTimestampUs(currentts);
                                 eventCounter += imuSample.writeToPacket(buffer, eventCounter);
-                                long imuSampleTimeNs=System.nanoTime();
-                                int dt=(int)(imuSampleTimeNs-imuLastSystemTimeNano);
-                                imuLastSystemTimeNano=imuSampleTimeNs;
-                                float dtAvg=imuSampleIntervalFilterNs.filter(dt, (int)(imuSampleTimeNs/1000));
-                                imuSampleCounter++;
-                                if(imuSampleCounter%IMU_SAMPLE_RATE_PRINT_INTERVAL==0){
-                                    log.info(String.format("IMU sample interval last=%d us, 100ms average=%f ms",dt/1000, 1e-6f*imuSampleIntervalFilterNs.getValue()));
-                                }
+//                                long imuSampleTimeNs=System.nanoTime();
+//                                int dt=(int)(imuSampleTimeNs-imuLastSystemTimeNano);
+//                                imuLastSystemTimeNano=imuSampleTimeNs;
+//                                float dtAvg=imuSampleIntervalFilterNs.filter(dt, (int)(imuSampleTimeNs/1000));
+//                                imuSampleCounter++;
+//                                if(imuSampleCounter%IMU_SAMPLE_RATE_PRINT_INTERVAL==0){
+//                                    log.info(String.format("IMU sample interval last=%d us, 100ms average=%f ms",dt/1000, 1e-6f*imuSampleIntervalFilterNs.getValue()));
+//                                }
                             }
                         }
                     } // end for

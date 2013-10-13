@@ -8,6 +8,7 @@ import net.sf.jaer.aemonitor.AEPacketRaw;
 import net.sf.jaer.util.filter.LowpassFilter;
 import de.thesycon.usbio.UsbIoBuf;
 import eu.seebetter.ini.chips.ApsDvsChip;
+import static eu.seebetter.ini.chips.sbret10.IMUSampleType.temp;
 
 /**
  * Data sent from device Invensense Inertial Measurement Unit (IMU) MPU-6150 : acceleration x/y/z, temperature, gyro x/y/z => 7 x 2 bytes =
@@ -44,8 +45,8 @@ public class IMUSample {
     /** Used to track when last sample came in via EventPacket in us timestamp units */
     private static int lastTimestampUs=0;
     
-    /** Used to track when last sample was acquired in host System.nanoTime units */
-    private static long lastSampleTimeSystemNs=System.nanoTime();
+//    /** Used to track when last sample was acquired in host System.nanoTime units */
+//    private static long lastSampleTimeSystemNs=System.nanoTime();
      /**
      * values are from datasheet for reset settings
      */
@@ -56,7 +57,7 @@ public class IMUSample {
     public static final float FULL_SCALE_ACCEL_G=2f, FULL_SCALE_GYRO_DEG_PER_SEC=250f;
 
     /** Used to track sample rate */
-    private static LowpassFilter sampleIntervalFilter=new LowpassFilter(1000);
+    private static LowpassFilter sampleIntervalFilter=new LowpassFilter(100); // time constant in ms
 
     /**
      * Returns the time in us since last sample, using System.nanoTime() on host.
@@ -80,7 +81,7 @@ public class IMUSample {
      * @param start the starting index where the sample is
      */
     public IMUSample(AEPacketRaw packet, int start)  throws IncompleteIMUSampleException{
-        if((start+SIZE_EVENTS)>=packet.getCapacity()){
+        if((start+SIZE_EVENTS)>=packet.getNumEvents()){
             throw new IncompleteIMUSampleException("IMUSample cannot be constructed from packet "+packet+" starting from event "+start+", not enough events for a complete sample");
         }
         for (IMUSampleType sampleType : IMUSampleType.values()) {
@@ -128,17 +129,20 @@ public class IMUSample {
 //        data[IMUSampleType.gy.code] = extractS16(b, 11);
 //        data[IMUSampleType.gz.code] = extractS16(b, 13); // TODO remove temperature
 //        this.timestampUs = ts;
-        long nowNs=System.nanoTime();
-        deltaTimeUs=(int)((nowNs-lastSampleTimeSystemNs)>>10);
-        sampleIntervalFilter.filter(deltaTimeUs, ts);
-        lastSampleTimeSystemNs=nowNs;
+//        long nowNs=System.nanoTime();
+//        deltaTimeUs=(int)((nowNs-lastSampleTimeSystemNs)>>10);
+//        sampleIntervalFilter.filter(deltaTimeUs, ts);
+//        lastSampleTimeSystemNs=nowNs;
 //        System.out.println("on reception: "+this.toString()); // debug
+        deltaTimeUs=timestampUs-lastTimestampUs;
+        sampleIntervalFilter.filter(deltaTimeUs, timestampUs);
+        lastTimestampUs=timestampUs;
     }
 
     @Override
     public String toString() {
         return String.format("timestampUs=%-14d deltaTimeUs=%-8d ax=%-8.3f ay=%-8.3f az=%-8.3f gx=%-8.3f gy=%-8.3f gz=%-8.3f temp=%-8.1f ax= %-8d ay= %-8d az= %-8d gx= %-8d gy= %-8d gz= %-8d temp= %-8d",
-                getTimestamp(), deltaTimeUs, getAccelX(), getAccelY(), getAccelZ(), getGyroTiltX(), getGyroYawY(), getGyroRollZ(), getTemperature(),
+                getTimestampUs(), deltaTimeUs, getAccelX(), getAccelY(), getAccelZ(), getGyroTiltX(), getGyroYawY(), getGyroRollZ(), getTemperature(),
                 getSensorRaw(IMUSampleType.ax), getSensorRaw(IMUSampleType.ay), getSensorRaw(IMUSampleType.az),
                 getSensorRaw(IMUSampleType.gx), getSensorRaw(IMUSampleType.gy), getSensorRaw(IMUSampleType.gz),
                 getSensorRaw(IMUSampleType.temp));
@@ -219,14 +223,14 @@ public class IMUSample {
      *
      * @return the timestamp in us.
      */
-    final public int getTimestamp() {
+    final public int getTimestampUs() {
         return timestampUs;
     }
 
     /**
-     * @param timestamp the timestamp to set
+     * @param timestamp the timestamp to set, in microseconds
      */
-    public void setTimestamp(int timestamp) {
+    public void setTimestampUs(int timestamp) {
         this.timestampUs = timestamp;
     }
 
@@ -238,31 +242,31 @@ public class IMUSample {
      * @param imuSampletype the type of sensor value event address we want
      */
     final public int getAddress(IMUSampleType imuSampleType) {
-    	switch (imuSampleType) {
-			case ax:
-				return ApsDvsChip.ADDRESS_TYPE_IMU
-					| (((IMUSampleType.ax.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.ax.code]) << 12);
-			case ay:
-				return ApsDvsChip.ADDRESS_TYPE_IMU
-					| (((IMUSampleType.ay.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.ay.code]) << 12);
-			case az:
-				return ApsDvsChip.ADDRESS_TYPE_IMU
-					| (((IMUSampleType.az.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.az.code]) << 12);
-			case gx:
-				return ApsDvsChip.ADDRESS_TYPE_IMU
-					| (((IMUSampleType.gx.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.gx.code]) << 12);
-			case gy:
-				return ApsDvsChip.ADDRESS_TYPE_IMU
-					| (((IMUSampleType.gy.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.gy.code]) << 12);
-			case gz:
-				return ApsDvsChip.ADDRESS_TYPE_IMU
-					| (((IMUSampleType.gz.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.gz.code]) << 12);
-			case temp:
-				return ApsDvsChip.ADDRESS_TYPE_IMU
-					| (((IMUSampleType.temp.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.temp.code]) << 12);
-			default:
-				throw new RuntimeException("no such sample type " + imuSampleType);
-		}
+        switch (imuSampleType) {
+            case ax:
+                return ApsDvsChip.ADDRESS_TYPE_IMU
+                        | (((IMUSampleType.ax.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.ax.code]) << 12);
+            case ay:
+                return ApsDvsChip.ADDRESS_TYPE_IMU
+                        | (((IMUSampleType.ay.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.ay.code]) << 12);
+            case az:
+                return ApsDvsChip.ADDRESS_TYPE_IMU
+                        | (((IMUSampleType.az.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.az.code]) << 12);
+            case temp:
+                return ApsDvsChip.ADDRESS_TYPE_IMU
+                        | (((IMUSampleType.temp.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.temp.code]) << 12);
+            case gx:
+                return ApsDvsChip.ADDRESS_TYPE_IMU
+                        | (((IMUSampleType.gx.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.gx.code]) << 12);
+            case gy:
+                return ApsDvsChip.ADDRESS_TYPE_IMU
+                        | (((IMUSampleType.gy.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.gy.code]) << 12);
+            case gz:
+                return ApsDvsChip.ADDRESS_TYPE_IMU
+                        | (((IMUSampleType.gz.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.gz.code]) << 12);
+            default:
+                throw new RuntimeException("no such sample type " + imuSampleType);
+        }
     }
 
     /** Writes the IMUSample to the packet starting at start location. The number of events written to packet is returned and
@@ -272,8 +276,9 @@ public class IMUSample {
      * @return the number of events written
      */
     public int writeToPacket(AEPacketRaw packet, int start) {
-        if ((start + SIZE_EVENTS) >= packet.getCapacity()) {
-            packet.ensureCapacity(packet.getCapacity() + SIZE_EVENTS);
+        final int cap=packet.getCapacity();
+        if ((start + SIZE_EVENTS) >= cap) {
+            packet.ensureCapacity(cap + SIZE_EVENTS);
         }
         for (IMUSampleType sampleType : IMUSampleType.values()) {
             packet.addresses[start + sampleType.code] = getAddress(sampleType);
@@ -282,7 +287,7 @@ public class IMUSample {
         return SIZE_EVENTS;
     }
 
-     private int fillCounter=0;
+//     private int fillCounter=0;
 
 //     /** Fills in this IMUSample from the event packet, assuming that all samples are in order.
 //     * If the packet ends before this can be filled then the method returns false, but an internal counter is set
@@ -299,9 +304,9 @@ public class IMUSample {
 //        return true;
 //    }
 
-     /** Returns the global average sample interval in us for data acquired from USB
+     /** Returns the global average sample interval in us for IMU samples
       * 
-      * @return global average sample interval in us
+      * @return time average sample interval in us
       */
      static public float getAverageSampleIntervalUs(){
          return sampleIntervalFilter.getValue();

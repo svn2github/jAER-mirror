@@ -140,7 +140,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         sy2 = chip.getSizeY() / 2;
         checkOutputPacketEventType(in);
         transformList.clear(); // empty list of transforms to be applied
-        getEnclosedFilterChain().filterPacket(in); // issues callbacks to us periodically via update based on 
+        getEnclosedFilterChain().filterPacket(in); // issues callbacks to us periodically via updates 
 
         if (isElectronicStabilizationEnabled()) {
             int sizex = chip.getSizeX() - 1;

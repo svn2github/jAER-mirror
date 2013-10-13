@@ -217,6 +217,9 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
             }
         }
 
+        private static final int MISSED_IMU_EVENT_WARNING_COUNTER_INTERVAL=1000;
+        private int missedImuSampleCounter=0;
+        
         /**
          * extracts the meaning of the raw events.
          *
@@ -263,7 +266,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                         i+=IMUSample.SIZE_EVENTS;
                         continue;
                     } catch (IMUSample.IncompleteIMUSampleException ex) {
-                        log.warning(ex.toString());
+                        if(missedImuSampleCounter++%MISSED_IMU_EVENT_WARNING_COUNTER_INTERVAL==0) log.warning(ex.toString());
                     }
                 }else if((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_DVS) {
                     //DVS event
@@ -565,7 +568,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
 //            imuTextRenderer.setColor(0,1,0, trans);
 //            imuTextRenderer.draw3D("A", +6, -6,0, textScale); // x,y,z, scale factor
             imuTextRenderer.setColor(1, 1, 1, trans);
-            final String ratestr = String.format("IMU: timestamp=%.3fs avg dtMs=%.1fms last dtMs=%.1fms", 1e-6f*imuSample.getTimestamp(), imuSample.getDeltaTimeUs() * .001f, IMUSample.getAverageSampleIntervalUs() / 1000);
+            final String ratestr = String.format("IMU: timestamp=%.3fs last dtMs=%.1fms  avg dtMs=%.1fms", 1e-6f*imuSample.getTimestampUs(), imuSample.getDeltaTimeUs() * .001f, IMUSample.getAverageSampleIntervalUs() / 1000);
             Rectangle2D raterect = imuTextRenderer.getBounds(ratestr);
             imuTextRenderer.draw3D(ratestr, -(float) raterect.getWidth() * textScale * 0.5f *.7f, -12, 0, textScale*.7f); // x,y,z, scale factor
 
