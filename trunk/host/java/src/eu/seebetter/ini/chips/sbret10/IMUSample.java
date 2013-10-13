@@ -10,12 +10,12 @@ import de.thesycon.usbio.UsbIoBuf;
 import eu.seebetter.ini.chips.ApsDvsChip;
 
 /**
- * Data sent from device Invensense Inertial Measurement Unit (IMU) MPU-6150 : // accel x/y/z, temp, gyro x/y/z => 7 x 2 bytes =
+ * Data sent from device Invensense Inertial Measurement Unit (IMU) MPU-6150 : acceleration x/y/z, temperature, gyro x/y/z => 7 x 2 bytes =
  * 14 bytes
  */
 public class IMUSample {
 
-    private static Logger log=Logger.getLogger("IMUSample");
+    private final static Logger log=Logger.getLogger("IMUSample");
    /**
      * This byte value as first byte signals an IMU (gyro/accelerometer/compass) sample in the USB byte array sent from device
      */
@@ -103,7 +103,7 @@ public class IMUSample {
     }
 
     final void setFromUsbIoBuf(UsbIoBuf buf, int ts) {
-        if (buf.BytesTransferred != 15) {
+        if (buf.BytesTransferred != 19) {
             log.warning("wrong number of bytes transferred, got " + buf.BytesTransferred);
             return;
         }
@@ -112,7 +112,11 @@ public class IMUSample {
             log.warning("got IMU_Sample message with wrong first byte code. Should be " + IMU_SAMPLE_CODE + " but got " + b[0]);
             return;
         }
-        ByteBuffer.wrap(b, 1, 14).asShortBuffer().get(data, 0, 7); // from http://stackoverflow.com/questions/5625573/byte-array-to-short-array-and-back-again-in-java
+        int[] tsBuf=new int[1];
+        ByteBuffer.wrap(b, 1, 4).asIntBuffer().get(tsBuf, 0, 1); // interpret the data in buffer bytes 1-4 as timestamp 
+        timestampUs=tsBuf[0]; // timestamp on device increments every 100us
+//        System.out.println(String.format("timestamp=\t%12d",timestampUs));
+        ByteBuffer.wrap(b, 5, 14).asShortBuffer().get(data, 0, 7); // from http://stackoverflow.com/questions/5625573/byte-array-to-short-array-and-back-again-in-java
         // see page 7 of RM-MPU-6100A.pdf (register map for MPU6150 IMU)
         // data is sent big-endian (MSB first for each sample).
         // data is scaled according to product specification datasheet PS-MPU-6100A.pdf
@@ -123,7 +127,7 @@ public class IMUSample {
 //        data[IMUSampleType.gx.code] = extractS16(b, 9);
 //        data[IMUSampleType.gy.code] = extractS16(b, 11);
 //        data[IMUSampleType.gz.code] = extractS16(b, 13); // TODO remove temperature
-        this.timestampUs = ts;
+//        this.timestampUs = ts;
         long nowNs=System.nanoTime();
         deltaTimeUs=(int)((nowNs-lastSampleTimeSystemNs)>>10);
         sampleIntervalFilter.filter(deltaTimeUs, ts);
@@ -210,9 +214,10 @@ public class IMUSample {
     }
 
     /**
-     * Returns timestamp of sample based in most recent apsDVS timestamp
+     * Returns timestamp of sample, which should be on same time base as AEs from sensor.
+     * Units are microseconds.
      *
-     * @return the timestamp
+     * @return the timestamp in us.
      */
     final public int getTimestamp() {
         return timestampUs;

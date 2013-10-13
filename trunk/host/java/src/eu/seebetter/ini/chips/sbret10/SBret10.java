@@ -565,9 +565,9 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
 //            imuTextRenderer.setColor(0,1,0, trans);
 //            imuTextRenderer.draw3D("A", +6, -6,0, textScale); // x,y,z, scale factor
             imuTextRenderer.setColor(1, 1, 1, trans);
-            final String ratestr = String.format("IMU: Avg dtMs=%.1f Invtl=%-6.1fms", imuSample.getDeltaTimeUs() * .001f, IMUSample.getAverageSampleIntervalUs() / 1000);
+            final String ratestr = String.format("IMU: timestamp=%.3fs avg dtMs=%.1fms last dtMs=%.1fms", 1e-6f*imuSample.getTimestamp(), imuSample.getDeltaTimeUs() * .001f, IMUSample.getAverageSampleIntervalUs() / 1000);
             Rectangle2D raterect = imuTextRenderer.getBounds(ratestr);
-            imuTextRenderer.draw3D(ratestr, -(float) raterect.getWidth() * textScale * 0.5f, -12, 0, textScale); // x,y,z, scale factor
+            imuTextRenderer.draw3D(ratestr, -(float) raterect.getWidth() * textScale * 0.5f *.7f, -12, 0, textScale*.7f); // x,y,z, scale factor
 
             imuTextRenderer.end3DRendering();
           gl.glPopMatrix();

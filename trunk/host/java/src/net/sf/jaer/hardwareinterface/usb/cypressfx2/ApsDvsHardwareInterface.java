@@ -18,6 +18,7 @@ import javax.swing.ProgressMonitor;
 import java.io.*;
 import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
+import static net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2.PROPERTY_CHANGE_ASYNC_STATUS_MSG;
 import static net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2.log;
 import net.sf.jaer.util.filter.LowpassFilter;
 
@@ -40,7 +41,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
      private long imuLastSystemTimeNano=System.nanoTime();
      private LowpassFilter imuSampleIntervalFilterNs=new LowpassFilter(100);
      private int imuSampleCounter=0;
-     private static final int IMU_SAMPLE_RATE_PRINT_INTERVAL=100;
+     private static final int IMU_SAMPLE_RATE_PRINT_INTERVAL=5000;
 
     /**
      * Creates a new instance of CypressFX2Biasgen
@@ -512,6 +513,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
+            if(evt.getPropertyName()!=PROPERTY_CHANGE_ASYNC_STATUS_MSG) return;
             try{
                 UsbIoBuf buf=(UsbIoBuf)evt.getNewValue();
                 try {
