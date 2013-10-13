@@ -552,6 +552,7 @@ public class ParameterControlPanel extends javax.swing.JPanel implements Propert
             addTip(p,label);
 
             checkBox = new JCheckBox();
+            refresh();
             checkBox.setAlignmentX(ALIGNMENT);
             checkBox.setHorizontalAlignment(SwingConstants.LEFT);
             checkBox.setHorizontalTextPosition(SwingConstants.LEFT);
