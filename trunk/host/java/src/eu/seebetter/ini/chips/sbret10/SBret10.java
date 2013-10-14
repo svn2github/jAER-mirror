@@ -37,6 +37,7 @@ import ch.unizh.ini.jaer.projects.spatiatemporaltracking.data.histogram.Abstract
 import com.sun.opengl.util.j2d.TextRenderer;
 
 import eu.seebetter.ini.chips.ApsDvsChip;
+import eu.seebetter.ini.chips.sbret10.IMUSample.IncompleteIMUSampleException;
 import java.awt.geom.Rectangle2D;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
@@ -91,7 +92,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
     public static final short HEIGHT = 180;
     int sx1 = getSizeX() - 1, sy1 = getSizeY() - 1;
     private int autoshotThresholdEvents=getPrefs().getInt("SBRet10.autoshotThresholdEvents",0);
-    private IMUSample imuSample;
+    private IMUSample imuSample; // latest IMUSample from sensor 
     private final String CMD_EXPOSURE="exposure";
     private final String CMD_EXPOSURE_CC="exposureCC";
 
@@ -217,6 +218,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
             }
         }
 
+        private IncompleteIMUSampleException incompleteIMUSampleException=null;
         private static final int MISSED_IMU_EVENT_WARNING_COUNTER_INTERVAL=1000;
         private int missedImuSampleCounter=0;
         
@@ -259,14 +261,19 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
             for (int i = 0; i < n; i++) {  // TODO implement skipBy/subsampling, but without missing the frame start/end events and still delivering frames
                 int data = datas[i];
 
-                if((ApsDvsChip.ADDRESS_TYPE_IMU & data)==ApsDvsChip.ADDRESS_TYPE_IMU){
+                if(incompleteIMUSampleException!=null || (ApsDvsChip.ADDRESS_TYPE_IMU & data)==ApsDvsChip.ADDRESS_TYPE_IMU){
                     try {
-                        imuSample = new IMUSample(in, i);
+                        IMUSample possibleSample = IMUSample.constructFromAEPacketRaw(in, i,incompleteIMUSampleException);
     //                    System.out.println(imuSample); // debug
                         i+=IMUSample.SIZE_EVENTS;
-                        continue;
+                        incompleteIMUSampleException=null;
+                        imuSample=possibleSample;
                     } catch (IMUSample.IncompleteIMUSampleException ex) {
-                        if(missedImuSampleCounter++%MISSED_IMU_EVENT_WARNING_COUNTER_INTERVAL==0) log.warning(ex.toString());
+                        incompleteIMUSampleException=ex;
+                        if (missedImuSampleCounter++ % MISSED_IMU_EVENT_WARNING_COUNTER_INTERVAL == 0) {
+                            log.warning(String.format("%s (obtained %d partial samples so far)",ex.toString(),missedImuSampleCounter));
+                        }
+                        break; // break out of loop because this packet only contained part of an IMUSample. Next time we come back here we will complete the IMUSample
                     }
                 }else if((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_DVS) {
                     //DVS event

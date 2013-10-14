@@ -11,8 +11,9 @@ import eu.seebetter.ini.chips.ApsDvsChip;
 import static eu.seebetter.ini.chips.sbret10.IMUSampleType.temp;
 
 /**
- * Data sent from device Invensense Inertial Measurement Unit (IMU) MPU-6150 : acceleration x/y/z, temperature, gyro x/y/z => 7 x 2 bytes =
- * 14 bytes
+ * Encapsulates data sent from device Invensense Inertial Measurement Unit (IMU) MPU-6150 (acceleration x/y/z, temperature, gyro x/y/z => 7 x 2 bytes =
+ * 14 bytes) plus the sample timestamp.
+ * 
  */
 public class IMUSample {
 
@@ -44,6 +45,7 @@ public class IMUSample {
 
     /** Used to track when last sample came in via EventPacket in us timestamp units */
     private static int lastTimestampUs=0;
+    private static boolean firstSampleDone=false;
     
 //    /** Used to track when last sample was acquired in host System.nanoTime units */
 //    private static long lastSampleTimeSystemNs=System.nanoTime();
@@ -59,41 +61,81 @@ public class IMUSample {
     /** Used to track sample rate */
     private static LowpassFilter sampleIntervalFilter=new LowpassFilter(100); // time constant in ms
 
+
+//    public class IncompleteIMUSampleException extends Exception{
+//
+//        public IncompleteIMUSampleException(String message) {
+//            super(message);
+//        }
+//    }
+
+    /** Holds incomplete IMUSample and completion status
+     * 
+     */
+    public static class IncompleteIMUSampleException extends Exception {
+        IMUSample partialSample;
+        int nextCode=0;
+
+        /** Constructs new IncompleteIMUSampleException
+         * 
+         * @param partialSample the partially completed sample.
+         * @param nextCode the next sample type to be filled in.
+         */
+        public IncompleteIMUSampleException(IMUSample partialSample, int nextCode) {
+            this.partialSample=partialSample;
+            this.nextCode=nextCode;
+        }
+        
+        public String toString(){
+            return String.format("IncompleteIMUSampleException holding %s completed up to sampleType.code=%d",partialSample,nextCode);
+        }
+    }
+
     /**
-     * Returns the time in us since last sample, using System.nanoTime() on host.
-     * @return the deltaTimeUs
+     * The protected constructor for an empty IMUSample
+     *
      */
-    public int getDeltaTimeUs() {
-        return deltaTimeUs;
+    protected IMUSample() {
     }
-
-  
-
-    public class IncompleteIMUSampleException extends Exception{
-
-        public IncompleteIMUSampleException(String message) {
-            super(message);
-        }
-    }
-
-    /** Creates an new IMUSample from the AEPacketRaw
-     @param packet the packet
-     * @param start the starting index where the sample is
+    
+    /**
+     * Constructs a new IMUSample from the AEPacketRaw. This factory method deals with situation that packet does not contain an entire IMUSample.
+     *
+     * @param packet the packet.
+     * @param start the starting index where the sample starts.
+     * @param previousException null ordinarily, or a previous exception if the sample was not completed.
+     * @return the sample.
+     * @throws IncompleteIMUSampleException if the packet is too short to contain the entire sample. 
+    The returned exception contains the partially
+     * completed sample and the completion status and can be passed into a new
+     * call to constructFromAEPacketRaw to complete the sample.
      */
-    public IMUSample(AEPacketRaw packet, int start)  throws IncompleteIMUSampleException{
-        if((start+SIZE_EVENTS)>=packet.getNumEvents()){
-            throw new IncompleteIMUSampleException("IMUSample cannot be constructed from packet "+packet+" starting from event "+start+", not enough events for a complete sample");
+    public static IMUSample constructFromAEPacketRaw(AEPacketRaw packet, int start, IncompleteIMUSampleException previousException)
+            throws IncompleteIMUSampleException {
+        IMUSample sample = null;
+        int startingCode = 0;
+        if (previousException != null) {
+            sample = previousException.partialSample;
+            startingCode = previousException.nextCode;
+        } else {
+            sample = new IMUSample();
         }
-        for (IMUSampleType sampleType : IMUSampleType.values()) {
-        	final int v = (IMUSample.DATABITMASK & packet.addresses[start + sampleType.code]) >>> 12;
+        sample.timestampUs = packet.timestamps[start]; // assume all have same timestamp
+        sample.updateStatistics(sample.timestampUs);
+        int offset=0;
+        for (int code = startingCode; code < IMUSampleType.values().length; code++) {
+            if (start + offset >= packet.getNumEvents()) {
+                throw new IncompleteIMUSampleException(sample,code);
+            }
+            final int v = (IMUSample.DATABITMASK & packet.addresses[start + offset]) >>> 12;
+            offset++;
 
-        	data[sampleType.code] = (short) v;
+            sample.data[code] = (short) v;
         }
-        timestampUs = packet.timestamps[start]; // assume all have same timestamp
-        deltaTimeUs=(timestampUs-lastTimestampUs);
-        lastTimestampUs=timestampUs;
+         return sample;
     }
 
+        
     /** Creates a new IMUSample collection from the byte buffer sent from device, assigning the given timestamp to the samples
      *
      * @param buf the buffer sent on the endpoint from the device
@@ -134,9 +176,18 @@ public class IMUSample {
 //        sampleIntervalFilter.filter(deltaTimeUs, ts);
 //        lastSampleTimeSystemNs=nowNs;
 //        System.out.println("on reception: "+this.toString()); // debug
-        deltaTimeUs=timestampUs-lastTimestampUs;
-        sampleIntervalFilter.filter(deltaTimeUs, timestampUs);
-        lastTimestampUs=timestampUs;
+        updateStatistics(timestampUs);
+    }
+    
+    /** Computes deltaTimeUs and average sample rate
+     * 
+     * @param timestampUs 
+     */
+    private void updateStatistics(int timestampUs) {
+        deltaTimeUs = timestampUs - lastTimestampUs;
+        sampleIntervalFilter.filter(firstSampleDone?deltaTimeUs:0, timestampUs);
+        firstSampleDone=true;
+        lastTimestampUs = timestampUs;
     }
 
     @Override
@@ -311,4 +362,15 @@ public class IMUSample {
      static public float getAverageSampleIntervalUs(){
          return sampleIntervalFilter.getValue();
      }
+     
+    /**
+     * Returns the time in us since last sample, using System.nanoTime() on
+     * host.
+     *
+     * @return the deltaTimeUs
+     */
+    public int getDeltaTimeUs() {
+        return deltaTimeUs;
+    }
+
 }
