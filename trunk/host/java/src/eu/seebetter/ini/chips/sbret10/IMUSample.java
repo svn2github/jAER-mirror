@@ -136,16 +136,15 @@ public class IMUSample {
     }
 
         
-    /** Creates a new IMUSample collection from the byte buffer sent from device, assigning the given timestamp to the samples
+    /** Creates a new IMUSample collection from the byte buffer sent from device.
      *
      * @param buf the buffer sent on the endpoint from the device
-     * @param timestamp the timestamp in us which comes from the AE event stream thread
      */
-    public IMUSample(UsbIoBuf buf, int timestamp) {
-        setFromUsbIoBuf(buf, timestamp);
+    public IMUSample(UsbIoBuf buf) {
+        setFromUsbIoBuf(buf);
     }
 
-    final void setFromUsbIoBuf(UsbIoBuf buf, int ts) {
+    final void setFromUsbIoBuf(UsbIoBuf buf) {
         if (buf.BytesTransferred != 19) {
             log.warning("wrong number of bytes transferred, got " + buf.BytesTransferred);
             return;

@@ -34,14 +34,15 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
     static public final short DID = (short) 0x0002;
     /** Number of IMU samples that we can queue up from AsyncStatusThread before being consumed here by merging with event stream */
     public static final int IMU_SAMPLE_QUEUE_LENGTH = 128;
+
     
     private boolean translateRowOnlyEvents=prefs.getBoolean("ApsDvsHardwareInterface.translateRowOnlyEvents", false);
    
      private ArrayBlockingQueue<IMUSample> imuSampleQueue; // this queue is used for holding imu samples sent to aeReader
-     private long imuLastSystemTimeNano=System.nanoTime();
-     private LowpassFilter imuSampleIntervalFilterNs=new LowpassFilter(100);
-     private int imuSampleCounter=0;
-     private static final int IMU_SAMPLE_RATE_PRINT_INTERVAL=5000;
+//     private long imuLastSystemTimeNano=System.nanoTime();
+//     private LowpassFilter imuSampleIntervalFilterNs=new LowpassFilter(100);
+//     private int imuSampleCounter=0;
+//     private static final int IMU_SAMPLE_RATE_PRINT_INTERVAL=5000;
 
     /**
      * Creates a new instance of CypressFX2Biasgen
@@ -275,6 +276,13 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
         return translateRowOnlyEvents;
     }
     
+    @Override
+    public synchronized void resetTimestamps() {
+        super.resetTimestamps(); 
+        if(imuSampleQueue!=null) imuSampleQueue.clear();
+    }
+
+    
     /** This reader understands the format of raw USB data and translates to the AEPacketRaw */
     public class RetinaAEReader extends CypressFX2.AEReader implements PropertyChangeListener{
         private static final int NONMONOTONIC_WARNING_COUNT = 30; // how many warnings to print after start or timestamp reset
@@ -347,6 +355,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
         private int[] countX;
         private int[] countY;
         private int numReadoutTypes = 3;
+        private IMUSample imuSample=null;
         
         @Override
         protected void translateEvents(UsbIoBuf b) {
@@ -469,11 +478,20 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                                 //   log.info("timestamp reset");
                                 break;
                         }
-                        if (eventCounter % IMU_POLLING_INTERVAL_EVENTS == 0) {  // write IMUSample to AEPacketRaw if we have one
-                            IMUSample imuSample = imuSampleQueue.poll();
-                            if (imuSample != null) {
-//                                imuSample.setTimestampUs(currentts);
+                        // see if there is an existing imuSample that has not been output in this packet.
+                        // if not, try to get one from queue written from AsyncStatusThread.
+                        // one we have a sample, check that timestamp of sample is later than current AE timestamp.
+                        // if so, write out the IMU sample to this packet.
+                        // if we have to wait, then just hold onto this IMUSample.
+                        if (imuSample == null) {
+                            imuSample = imuSampleQueue.poll();
+                        }
+                        if (imuSample != null) {
+                            if (imuSample.getTimestampUs() < currentts) {
+                                imuSample = null; //discard this sample, too late to add to output
+                            } else {
                                 eventCounter += imuSample.writeToPacket(buffer, eventCounter);
+                                imuSample = null;
 //                                long imuSampleTimeNs=System.nanoTime();
 //                                int dt=(int)(imuSampleTimeNs-imuLastSystemTimeNano);
 //                                imuLastSystemTimeNano=imuSampleTimeNs;
@@ -484,7 +502,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
 //                                }
                             }
                         }
-                    } // end for
+                    } // end loop over usb data buffer
 
                     buffer.setNumEvents(eventCounter);
                     // write capture size
@@ -501,6 +519,8 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
             }
         }
         
+        
+        
         private void resetFrameAddressCounters(){
             if(countX == null || countY == null){
                 countX = new int[numReadoutTypes];
@@ -510,17 +530,23 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
             Arrays.fill(countY, 0, numReadoutTypes, (short)0);
 //            log.info("Start of new frame");
         }
+        
+        private int putImuSampleToQueueWarningCounter=0;
+        private static final int PUT_IMU_WARNING_INTERVAL=100;
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
+            // we come here because the AsyncStatusThread has generated a PropertyChangeEvent and we are subscribed to this object.
             if(evt.getPropertyName()!=PROPERTY_CHANGE_ASYNC_STATUS_MSG) return;
             try{
                 UsbIoBuf buf=(UsbIoBuf)evt.getNewValue();
                 try {
-                    IMUSample sample=new IMUSample(buf,currentts);
-                    imuSampleQueue.put(sample);
-                } catch (InterruptedException ex) {
-                    log.warning("putting IMUSample to queue was interrupted");
+                    IMUSample sample=new IMUSample(buf);
+                    imuSampleQueue.add(sample);
+                } catch (IllegalStateException ex) {
+                    if(putImuSampleToQueueWarningCounter++%PUT_IMU_WARNING_INTERVAL==0){
+                        log.warning("putting IMUSample to queue not possible because queue has"+imuSampleQueue.size()+" samples and was full");
+                    }
                 }
                 
             }catch(ClassCastException e){
