@@ -20,6 +20,7 @@ File 1,5,<C:\Keil\C51\INC\Cypress\fx2regs.h><fx2regs.h> 0x0
 File 1,1,<.\main.c><main.c> 0x0 
 File 1,5,<.\ports.h><ports.h> 0x0 
 File 1,5,<.\opcode.h><opcode.h> 0x0 
+File 1,2,<.\ISR_Timer2_JumpVector.a51><ISR_Timer2_JumpVector.a51> 0x0 
 
 
 Options 1,0,0  // Target 'Target 1'

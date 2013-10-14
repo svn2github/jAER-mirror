@@ -97,7 +97,7 @@ HighSpeedConfigDscr:
       db   02H               ;; Max packect size (MSB)
       db   00H               ;; Polling interval
 */
-;; Endpoint Descriptor - EP1 in, async status updates
+;; Endpoint Descriptor - EP1 in, async status updates, such as timestamp reset events detected by camera sync and sent to host, IMU samples
       db   DSCR_ENDPNT_LEN      ;; Descriptor length
       db   DSCR_ENDPNT         ;; Descriptor type
       db   81H               ;; Endpoint number, and direction
@@ -124,10 +124,10 @@ HighSpeedConfigDscr:
       db   02H               ;; Max packect size (MSB)
       db   00H               ;; Polling interval
 */
-;; Endpoint Descriptor
+;; Endpoint Descriptor EP6 in - - this is IN endpoint for DVS and APS data
       db   DSCR_ENDPNT_LEN      ;; Descriptor length
       db   DSCR_ENDPNT         ;; Descriptor type
-      db   86H               ;; Endpoint number, and direction
+      db   86H               ;; Endpoint number, and direction 
       db   ET_BULK            ;; Endpoint type
       db   00H;;00H               ;; Maximun packet size (LSB)
       db   02H;;02H               ;; Max packect size (MSB)

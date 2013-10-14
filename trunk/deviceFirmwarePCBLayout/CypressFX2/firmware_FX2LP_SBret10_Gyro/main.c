@@ -186,6 +186,8 @@ void TD_Init(void)              // Called once at startup
 	// set the slave FIFO interface to 30MHz, slave fifo mode
 	IFCONFIG = 0xA3; // 1010_0011
 
+	IOE &= ~CPLD_NOT_RESET; // put CPLD in reset
+
 	// disable interrupts by the input pins and by timers and serial ports:
 	IE &= 0x00; // 0000_0000 
 
@@ -286,9 +288,14 @@ void TD_Init(void)              // Called once at startup
 	EX1=0; // disable INT1#
 
 	LEDon=FALSE;
-	IOE &= ~CPLD_NOT_RESET; // put CPLD in reset
 	timer_init(); // start the timer2 to run imuTimestamp timer
    	IOE |= CPLD_NOT_RESET; // take CPLD out of reset
+
+
+	RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
+	RESET_TS=0;
+	imuTimestamp=0; // reset timestamp counter for IMU samples
+
 
 }
 
