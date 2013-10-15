@@ -380,7 +380,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                         bytesSent = (bytesSent / 2) * 2; // truncate off any extra part-event
                     }
 
-                      int[] addresses = buffer.getAddresses();
+                    int[] addresses = buffer.getAddresses();
                     int[] timestamps = buffer.getTimestamps();
                     //log.info("received " + bytesSent + " bytes");
                     // write the start of the packet
@@ -388,7 +388,14 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
 //                     tobiLogger.log("#packet");
                     
  
-                    for (int i = 0; i < bytesSent; i += 2) {
+                    // see if there are any IMU samples to add to packet
+                    // write the IMUSample to the packet unconditionally, 
+                    // even if the timestamp is on a different origin that is not related to the data on this endpoint.
+                    while ((imuSample = imuSampleQueue.poll()) != null) {
+                        eventCounter += imuSample.writeToPacket(buffer, eventCounter);
+                        imuSample = null;
+                    }
+                   for (int i = 0; i < bytesSent; i += 2) {
                         //   tobiLogger.log(String.format("%d %x %x",eventCounter,buf[i],buf[i+1])); // DEBUG
                         //   int val=(buf[i+1] << 8) + buf[i]; // 16 bit value of data
                         int dataword = (0xff & buf[i]) | (0xff00 & (buf[i + 1] << 8));  // data sent little endian
@@ -430,7 +437,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                                         eventCounter++;
 //                                              System.out.println("ADC word: " + (dataword&SeeBetter20.ADC_DATA_MASK));
                                     } else if ((buf[i + 1] & TRIGGER_BIT) == TRIGGER_BIT) { 
-                                        addresses[eventCounter] = ApsDvsChip.TRIGGERMASK;  // combine current bits with last y address bits and send
+                                        addresses[eventCounter] = ApsDvsChip.TRIGGERMASK;  
                                         timestamps[eventCounter] = currentts;
                                         eventCounter++;
                                      } else if ((buf[i + 1] & XBIT) == XBIT) {////  received an X address, write out event to addresses/timestamps output arrays
@@ -478,31 +485,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                                 //   log.info("timestamp reset");
                                 break;
                         }
-                        // see if there is an existing imuSample that has not been output in this packet.
-                        // if not, try to get one from queue written from AsyncStatusThread.
-                        // one we have a sample, check that timestamp of sample is later than current AE timestamp.
-                        // if so, write out the IMU sample to this packet.
-                        // if we have to wait, then just hold onto this IMUSample.
-                        if (imuSample == null) {
-                            imuSample = imuSampleQueue.poll();
-                        }
-                        if (imuSample != null) {
-                            if (imuSample.getTimestampUs() < currentts) {
-                                imuSample = null; //discard this sample, too late to add to output
-                            } else {
-                                eventCounter += imuSample.writeToPacket(buffer, eventCounter);
-                                imuSample = null;
-//                                long imuSampleTimeNs=System.nanoTime();
-//                                int dt=(int)(imuSampleTimeNs-imuLastSystemTimeNano);
-//                                imuLastSystemTimeNano=imuSampleTimeNs;
-//                                float dtAvg=imuSampleIntervalFilterNs.filter(dt, (int)(imuSampleTimeNs/1000));
-//                                imuSampleCounter++;
-//                                if(imuSampleCounter%IMU_SAMPLE_RATE_PRINT_INTERVAL==0){
-//                                    log.info(String.format("IMU sample interval last=%d us, 100ms average=%f ms",dt/1000, 1e-6f*imuSampleIntervalFilterNs.getValue()));
-//                                }
-                            }
-                        }
-                    } // end loop over usb data buffer
+                     } // end loop over usb data buffer
 
                     buffer.setNumEvents(eventCounter);
                     // write capture size

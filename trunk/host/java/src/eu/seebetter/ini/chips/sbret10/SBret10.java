@@ -267,13 +267,14 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
     //                    System.out.println(imuSample); // debug
                         i+=IMUSample.SIZE_EVENTS;
                         incompleteIMUSampleException=null;
-                        imuSample=possibleSample;
+                        imuSample=possibleSample;  // asking for sample from AEChip now gives this value, but no access to intermediate IMU samples
+                        outItr.writeToNextOutput(imuSample); // also write the event out to the next output event slot
                     } catch (IMUSample.IncompleteIMUSampleException ex) {
                         incompleteIMUSampleException=ex;
                         if (missedImuSampleCounter++ % MISSED_IMU_EVENT_WARNING_COUNTER_INTERVAL == 0) {
                             log.warning(String.format("%s (obtained %d partial samples so far)",ex.toString(),missedImuSampleCounter));
                         }
-                        break; // break out of loop because this packet only contained part of an IMUSample. Next time we come back here we will complete the IMUSample
+                        break; // break out of loop because this packet only contained part of an IMUSample and formed the end of the packet anyhow. Next time we come back here we will complete the IMUSample
                     }
                 }else if((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_DVS) {
                     //DVS event

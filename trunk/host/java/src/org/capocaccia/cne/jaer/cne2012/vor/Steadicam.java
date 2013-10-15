@@ -135,7 +135,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     }
 
     @Override
-    public EventPacket filterPacket(EventPacket in) {
+    public EventPacket filterPacket(EventPacket in) { // TODO completely rework this code because IMUSamples are part of the packet now!
         sx2 = chip.getSizeX() / 2;
         sy2 = chip.getSizeY() / 2;
         checkOutputPacketEventType(in);
@@ -157,6 +157,9 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
             }
             for (Object o : in) {
                 PolarityEvent ev = (PolarityEvent) o;
+                if (ev.special) {
+                    continue; // IMUSample, for example
+                }
                 if (lastTransform != null && ev.timestamp > lastTransform.timestamp) {
                     if (transformItr.hasNext()) {
                         lastTransform = transformItr.next();
@@ -269,7 +272,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
                 TransformAtTime tr=vorSensor.computeTransform(msg.timestamp);
                 evenMotion=vorSensor.getPanRate()*vorSensor.getTiltRate()>0;
 //                System.out.println("added transform "+tr);
-                transformList.add(tr);
+                if(tr!=null) transformList.add(tr);
 
         }
     }
@@ -565,7 +568,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     }
 
     @Override
-    public void update(Observable o, Object arg) { // called by enclosed tracker to update event stream on the fly, using intermediate tracking data
+    public void update(Observable o, Object arg) { // called by enclosed filter to update event stream on the fly, using intermediate data
         if (arg instanceof UpdateMessage) {
             UpdateMessage msg = (UpdateMessage) arg;
             computeTransform(msg); // gets the lastTransform from the enclosed filter

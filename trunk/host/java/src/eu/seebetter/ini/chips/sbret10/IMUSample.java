@@ -9,13 +9,14 @@ import net.sf.jaer.util.filter.LowpassFilter;
 import de.thesycon.usbio.UsbIoBuf;
 import eu.seebetter.ini.chips.ApsDvsChip;
 import static eu.seebetter.ini.chips.sbret10.IMUSampleType.temp;
+import net.sf.jaer.event.ApsDvsEvent;
 
 /**
  * Encapsulates data sent from device Invensense Inertial Measurement Unit (IMU) MPU-6150 (acceleration x/y/z, temperature, gyro x/y/z => 7 x 2 bytes =
  * 14 bytes) plus the sample timestamp.
  * 
  */
-public class IMUSample {
+public class IMUSample extends ApsDvsEvent{
 
     private final static Logger log=Logger.getLogger("IMUSample");
    /**
@@ -96,6 +97,8 @@ public class IMUSample {
      *
      */
     protected IMUSample() {
+        super();
+        special=true;
     }
     
     /**
@@ -112,7 +115,7 @@ public class IMUSample {
      */
     public static IMUSample constructFromAEPacketRaw(AEPacketRaw packet, int start, IncompleteIMUSampleException previousException)
             throws IncompleteIMUSampleException {
-        IMUSample sample = null;
+        IMUSample sample;
         int startingCode = 0;
         if (previousException != null) {
             sample = previousException.partialSample;
@@ -127,7 +130,11 @@ public class IMUSample {
             if (start + offset >= packet.getNumEvents()) {
                 throw new IncompleteIMUSampleException(sample,code);
             }
-            final int v = (IMUSample.DATABITMASK & packet.addresses[start + offset]) >>> 12;
+            int data = packet.addresses[start + offset];
+            if ((ApsDvsChip.ADDRESS_TYPE_IMU & data) != ApsDvsChip.ADDRESS_TYPE_IMU) {
+                log.warning("bad data, not an IMU data type, wrong bits are set: " + data);
+            }
+            final int v = (IMUSample.DATABITMASK & data) >>> 12;
             offset++;
 
             sample.data[code] = (short) v;
@@ -141,6 +148,7 @@ public class IMUSample {
      * @param buf the buffer sent on the endpoint from the device
      */
     public IMUSample(UsbIoBuf buf) {
+        this();
         setFromUsbIoBuf(buf);
     }
 
@@ -334,6 +342,7 @@ public class IMUSample {
             packet.addresses[start + sampleType.code] = getAddress(sampleType);
             packet.timestamps[start + sampleType.code] = timestampUs;
         }
+        packet.setNumEvents(packet.getNumEvents()+SIZE_EVENTS);
         return SIZE_EVENTS;
     }
 
