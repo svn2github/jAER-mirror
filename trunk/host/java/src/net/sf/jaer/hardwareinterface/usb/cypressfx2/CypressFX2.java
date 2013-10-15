@@ -2441,15 +2441,15 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
     /** sends a vender request without data, value and index are set to zero. 
      * This is a blocking method.
      * 
-     * The SETUPDAT array on FX2 has the following 8 elements (see FX2 TRM Section 2.3)
-     * SETUPDAT[0] VendorRequest 0x40 for OUT type, 0xC0 for IN type
-     * SETUPDAT[1] The actual vendor request (e.g. VR_ENABLE_AE_IN below)
-     * SETUPDAT[2] wValueL 16 bit value LSB
-     * 3  wValueH MSB
-     * 4  wIndexL 16 bit field, varies according to request
-     * 5  wIndexH
-     * 6  wLengthL Number of bytes to transfer if there is a data phase
-     * 7  wLengthH
+    * The SETUPDAT array on FX2 has the following 8 elements (see FX2 TRM Section 2.3)<br>
+     * SETUPDAT[0] VendorRequest 0x40 for OUT type, 0xC0 for IN type<br>
+     * SETUPDAT[1] The actual vendor request (e.g. VR_ENABLE_AE_IN below)<br>
+     * SETUPDAT[2] wValueL 16 bit value LSB<br>
+     * 3  wValueH MSB<br>
+     * 4  wIndexL 16 bit field, varies according to request<br>
+     * 5  wIndexH<br>
+     * 6  wLengthL Number of bytes to transfer if there is a data phase<br>
+     * 7  wLengthH<br>
 
     *@param request the vendor request byte, identifies the request on the device
      */
@@ -2460,15 +2460,15 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
     /** sends a vender request without any data packet but with request, value and index.
      *  This is a blocking method.
      * 
-     * The SETUPDAT array on FX2 has the following 8 elements (see FX2 TRM Section 2.3)
-     * SETUPDAT[0] VendorRequest 0x40 for OUT type, 0xC0 for IN type
-     * SETUPDAT[1] The actual vendor request (e.g. VR_ENABLE_AE_IN below)
-     * SETUPDAT[2] wValueL 16 bit value LSB
-     * 3  wValueH MSB
-     * 4  wIndexL 16 bit field, varies according to request
-     * 5  wIndexH
-     * 6  wLengthL Number of bytes to transfer if there is a data phase
-     * 7  wLengthH
+    * The SETUPDAT array on FX2 has the following 8 elements (see FX2 TRM Section 2.3)<br>
+     * SETUPDAT[0] VendorRequest 0x40 for OUT type, 0xC0 for IN type<br>
+     * SETUPDAT[1] The actual vendor request (e.g. VR_ENABLE_AE_IN below)<br>
+     * SETUPDAT[2] wValueL 16 bit value LSB<br>
+     * 3  wValueH MSB<br>
+     * 4  wIndexL 16 bit field, varies according to request<br>
+     * 5  wIndexH<br>
+     * 6  wLengthL Number of bytes to transfer if there is a data phase<br>
+     * 7  wLengthH<br>
      * 
      *@param request the vendor request byte, identifies the request on the device
      *@param value the value of the request (bValue USB field)
@@ -2490,7 +2490,18 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
     /**
      * Sends a vendor request with a given byte[].
      *  This is a blocking method.
-     *@param request the vendor request byte, identifies the request on the device
+     * 
+     * The SETUPDAT array on FX2 has the following 8 elements (see FX2 TRM Section 2.3)<br>
+     * SETUPDAT[0] VendorRequest 0x40 for OUT type, 0xC0 for IN type<br>
+     * SETUPDAT[1] The actual vendor request (e.g. VR_ENABLE_AE_IN below)<br>
+     * SETUPDAT[2] wValueL 16 bit value LSB<br>
+     * 3  wValueH MSB<br>
+     * 4  wIndexL 16 bit field, varies according to request<br>
+     * 5  wIndexH<br>
+     * 6  wLengthL Number of bytes to transfer if there is a data phase<br>
+     * 7  wLengthH<br>
+
+    *@param request the vendor request byte, identifies the request on the device
      *@param value the value of the request (bValue USB field)
      *@param index the "index" of the request (bIndex USB field)
      *@param bytes the data which is to be transmitted to the device
@@ -2504,15 +2515,15 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
     /** sends a vender request with data.
      *  This is a blocking method.
     * 
-     * The SETUPDAT array on FX2 has the following 8 elements (see FX2 TRM Section 2.3)
-     * SETUPDAT[0] VendorRequest 0x40 for OUT type, 0xC0 for IN type
-     * SETUPDAT[1] The actual vendor request (e.g. VR_ENABLE_AE_IN below)
-     * SETUPDAT[2] wValueL 16 bit value LSB
-     * 3  wValueH MSB
-     * 4  wIndexL 16 bit field, varies according to request
-     * 5  wIndexH
-     * 6  wLengthL Number of bytes to transfer if there is a data phase
-     * 7  wLengthH
+    * The SETUPDAT array on FX2 has the following 8 elements (see FX2 TRM Section 2.3)<br>
+     * SETUPDAT[0] VendorRequest 0x40 for OUT type, 0xC0 for IN type<br>
+     * SETUPDAT[1] The actual vendor request (e.g. VR_ENABLE_AE_IN below)<br>
+     * SETUPDAT[2] wValueL 16 bit value LSB<br>
+     * 3  wValueH MSB<br>
+     * 4  wIndexL 16 bit field, varies according to request<br>
+     * 5  wIndexH<br>
+     * 6  wLengthL Number of bytes to transfer if there is a data phase<br>
+     * 7  wLengthH<br>
 
     *@param request the vendor request byte, identifies the request on the device
      *@param value the value of the request (bValue USB field)
