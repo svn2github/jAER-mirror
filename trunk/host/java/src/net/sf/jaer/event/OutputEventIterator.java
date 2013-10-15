@@ -25,6 +25,10 @@ public interface OutputEventIterator<T extends BasicEvent> {
      */
     public T nextOutput();
     
+    /** Writes the event to the next output slot.
+     * 
+     * @param event the event to write.
+     */
     public void writeToNextOutput(T event);
     
 }
