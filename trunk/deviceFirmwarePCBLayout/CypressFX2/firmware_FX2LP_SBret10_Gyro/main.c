@@ -938,14 +938,22 @@ BOOL DR_VendorCmnd(void)
 					SYNCDELAY;
 					switch(SETUPDAT[2]){
 						case IMU_CMD_WRITE_REGISTER:
-
+							// writes a value to a specified IMU register address
+							EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &SETUPDAT[3]); // SETUPDAT[3] has register address, SETUPDAT[4] has the new register value
 						break;
 						case IMU_CMD_READ_REGISTER:
-
+							// Get the register value from the IMU ... write 1 byte to IMU I2C which contains the IMU register address
+							EZUSB_WriteI2C(I2C_GYRO_ADDR, 1, &SETUPDAT[3]); // SETUPDAT[3] has register address
+							// ... and now read the register value back directly into the EP0IN buffer, starting at offset 5.
+							while(EP0CS & bmEPBUSY); // wait for EP0 to be free (should be free already)
+							EZUSB_ReadI2C(I2C_GYRO_ADDR, 1, &EP0BUF[2]);
+							EP0BCH = 0;
+							EP0BCL = (BYTE)1; // Arm endpoint with # bytes to transfer
 						break;
 						default:
 							return TRUE; // error, create stall
 					 }
+					return FALSE;// return here, don't fall out where by default the sent VR is returned to host in acknowledge phase
 					break;
 				default:
 					return(TRUE);  // don't recognize command, generate stall
