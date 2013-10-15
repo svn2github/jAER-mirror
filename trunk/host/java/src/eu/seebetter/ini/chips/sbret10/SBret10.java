@@ -219,8 +219,9 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
         }
 
         private IncompleteIMUSampleException incompleteIMUSampleException=null;
-        private static final int MISSED_IMU_EVENT_WARNING_COUNTER_INTERVAL=1000;
+        private static final int IMU_WARNING_INTERVAL=1000;
         private int missedImuSampleCounter=0;
+        private int badImuDataCounter=0;
         
         /**
          * extracts the meaning of the raw events.
@@ -271,11 +272,17 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                         outItr.writeToNextOutput(imuSample); // also write the event out to the next output event slot
                     } catch (IMUSample.IncompleteIMUSampleException ex) {
                         incompleteIMUSampleException=ex;
-                        if (missedImuSampleCounter++ % MISSED_IMU_EVENT_WARNING_COUNTER_INTERVAL == 0) {
+                        if (missedImuSampleCounter++ % IMU_WARNING_INTERVAL == 0) {
                             log.warning(String.format("%s (obtained %d partial samples so far)",ex.toString(),missedImuSampleCounter));
                         }
                         break; // break out of loop because this packet only contained part of an IMUSample and formed the end of the packet anyhow. Next time we come back here we will complete the IMUSample
+                    }catch (IMUSample.BadIMUDataException ex2){
+                          if (badImuDataCounter++ % IMU_WARNING_INTERVAL == 0) {
+                            log.warning(String.format("%s (%d bad samples so far)",ex2.toString(),badImuDataCounter));
+                        }
+                        continue; // continue because there may be other data
                     }
+                    
                 }else if((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_DVS) {
                     //DVS event
                     ApsDvsEvent e = (ApsDvsEvent) outItr.nextOutput();
