@@ -263,24 +263,27 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                 int data = datas[i];
 
                 if(incompleteIMUSampleException!=null || (ApsDvsChip.ADDRESS_TYPE_IMU & data)==ApsDvsChip.ADDRESS_TYPE_IMU){
-                    try {
-                        IMUSample possibleSample = IMUSample.constructFromAEPacketRaw(in, i,incompleteIMUSampleException);
-    //                    System.out.println(imuSample); // debug
-                        i+=IMUSample.SIZE_EVENTS;
-                        incompleteIMUSampleException=null;
-                        imuSample=possibleSample;  // asking for sample from AEChip now gives this value, but no access to intermediate IMU samples
-                        outItr.writeToNextOutput(imuSample); // also write the event out to the next output event slot
-                    } catch (IMUSample.IncompleteIMUSampleException ex) {
-                        incompleteIMUSampleException=ex;
-                        if (missedImuSampleCounter++ % IMU_WARNING_INTERVAL == 0) {
-                            log.warning(String.format("%s (obtained %d partial samples so far)",ex.toString(),missedImuSampleCounter));
+                    if (IMUSample.extractSampleTypeCode(data) == 0) { /// only start getting an IMUSample at code 0, the first sample type
+                        try {
+                            IMUSample possibleSample = IMUSample.constructFromAEPacketRaw(in, i, incompleteIMUSampleException);
+                            //                    System.out.println(imuSample); // debug
+                            i += IMUSample.SIZE_EVENTS;
+                            incompleteIMUSampleException = null;
+                            imuSample = possibleSample;  // asking for sample from AEChip now gives this value, but no access to intermediate IMU samples
+                            outItr.writeToNextOutput(imuSample); // also write the event out to the next output event slot
+                        } catch (IMUSample.IncompleteIMUSampleException ex) {
+                            incompleteIMUSampleException = ex;
+                            if (missedImuSampleCounter++ % IMU_WARNING_INTERVAL == 0) {
+                                log.warning(String.format("%s (obtained %d partial samples so far)", ex.toString(), missedImuSampleCounter));
+                            }
+                            break; // break out of loop because this packet only contained part of an IMUSample and formed the end of the packet anyhow. Next time we come back here we will complete the IMUSample
+                        } catch (IMUSample.BadIMUDataException ex2) {
+                            if (badImuDataCounter++ % IMU_WARNING_INTERVAL == 0) {
+                                log.warning(String.format("%s (%d bad samples so far)", ex2.toString(), badImuDataCounter));
+                            }
+                            incompleteIMUSampleException = null;
+                            continue; // continue because there may be other data
                         }
-                        break; // break out of loop because this packet only contained part of an IMUSample and formed the end of the packet anyhow. Next time we come back here we will complete the IMUSample
-                    }catch (IMUSample.BadIMUDataException ex2){
-                          if (badImuDataCounter++ % IMU_WARNING_INTERVAL == 0) {
-                            log.warning(String.format("%s (%d bad samples so far)",ex2.toString(),badImuDataCounter));
-                        }
-                        continue; // continue because there may be other data
                     }
                     
                 }else if((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_DVS) {
@@ -583,7 +586,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
 //            imuTextRenderer.setColor(0,1,0, trans);
 //            imuTextRenderer.draw3D("A", +6, -6,0, textScale); // x,y,z, scale factor
             imuTextRenderer.setColor(1, 1, 1, trans);
-            final String ratestr = String.format("IMU: timestamp=%.3fs last dtMs=%.1fms  avg dtMs=%.1fms", 1e-6f*imuSample.getTimestampUs(), imuSample.getDeltaTimeUs() * .001f, IMUSample.getAverageSampleIntervalUs() / 1000);
+            final String ratestr = String.format("IMU: timestamp=%-+9.3fs last dtMs=%-6.1fms  avg dtMs=%-6.1fms", 1e-6f*imuSample.getTimestampUs(), imuSample.getDeltaTimeUs() * .001f, IMUSample.getAverageSampleIntervalUs() / 1000);
             Rectangle2D raterect = imuTextRenderer.getBounds(ratestr);
             imuTextRenderer.draw3D(ratestr, -(float) raterect.getWidth() * textScale * 0.5f *.7f, -12, 0, textScale*.7f); // x,y,z, scale factor
 
