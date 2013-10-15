@@ -11,7 +11,9 @@
  */
 package net.sf.jaer.graphics;
 
+import com.sun.opengl.util.j2d.TextRenderer;
 import com.sun.opengl.util.texture.TextureCoords;
+import java.awt.Font;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import javax.media.opengl.GL;
@@ -26,14 +28,14 @@ import javax.media.opengl.GLAutoDrawable;
  */
 public class ChipRendererDisplayMethodRGBA extends DisplayMethod implements DisplayMethod2D {
 
-    
-    public final float SPECIAL_BAR_LOCATION_X=-5;
-    public final float SPECIAL_BAR_LOCATION_Y=0;
+    private TextRenderer textRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
+    public final float SPECIAL_BAR_LOCATION_X = -5;
+    public final float SPECIAL_BAR_LOCATION_Y = 0;
     public final float SPECIAL_BAR_LINE_WIDTH=8;
-    
+    private boolean renderSpecialEvents=true;
     
     /**
-     * Creates a new instance of ChipRendererDisplayMethod
+     * Creates a new instance of ChipRendererDisplayMethodRGBA
      */
     public ChipRendererDisplayMethodRGBA(ChipCanvas chipCanvas) {
         super(chipCanvas);
@@ -165,7 +167,8 @@ public class ChipRendererDisplayMethodRGBA extends DisplayMethod implements Disp
         }
         getChipCanvas().checkGLError(gl, glu, "after rendering frame of chip");
         
-        if (renderer instanceof AEChipRenderer) {
+        // show special event count on left of array as white bar
+        if (renderSpecialEvents && renderer instanceof AEChipRenderer) {
             AEChipRenderer r = (AEChipRenderer) renderer;
             int n = r.getSpecialCount();
             if (n > 0) {
@@ -177,7 +180,18 @@ public class ChipRendererDisplayMethodRGBA extends DisplayMethod implements Disp
                 gl.glEnd();
                 getChipCanvas().checkGLError(gl, glu, "after rendering special events");
             }
-        }
+            gl.glMatrixMode(GL.GL_MODELVIEW);
+            gl.glPushMatrix();
+            gl.glTranslatef(SPECIAL_BAR_LOCATION_X-3, SPECIAL_BAR_LOCATION_Y, 0);
+            gl.glRotated(90, 0, 0, 1);
+            textRenderer.begin3DRendering();
+            textRenderer.setColor(1, 1, 1, 1);
+            textRenderer.draw3D(String.format("%d special events", n), 0, 0, 0, .15f); // x,y,z, scale factor
+            textRenderer.end3DRendering();
+            gl.glMatrixMode(GL.GL_MODELVIEW);
+            gl.glPopMatrix();
+
+       }
         
         
     }
@@ -199,6 +213,7 @@ public class ChipRendererDisplayMethodRGBA extends DisplayMethod implements Disp
         gl.glEnd ();
     }
     
+    /** @deprecated replaced by displayQuad */
     private void displayPixmap(GLAutoDrawable drawable) {
         Chip2DRenderer renderer = getChipCanvas().getRenderer();
         GL gl=drawable.getGL();
@@ -269,7 +284,7 @@ public class ChipRendererDisplayMethodRGBA extends DisplayMethod implements Disp
         }
         getChipCanvas().checkGLError(gl, glu, "after rendering frame of chip");
         
-        if (renderer instanceof AEChipRenderer) {
+        if (renderSpecialEvents && renderer instanceof AEChipRenderer) {
             AEChipRenderer r = (AEChipRenderer) renderer;
             int n = r.getSpecialCount();
             if (n > 0) {
@@ -283,5 +298,19 @@ public class ChipRendererDisplayMethodRGBA extends DisplayMethod implements Disp
             }
         }
         
+    }
+
+    /**
+     * @return the renderSpecialEvents
+     */
+    public boolean isRenderSpecialEvents() {
+        return renderSpecialEvents;
+    }
+
+    /**
+     * @param renderSpecialEvents the renderSpecialEvents to set
+     */
+    public void setRenderSpecialEvents(boolean renderSpecialEvents) {
+        this.renderSpecialEvents = renderSpecialEvents;
     }
 }
