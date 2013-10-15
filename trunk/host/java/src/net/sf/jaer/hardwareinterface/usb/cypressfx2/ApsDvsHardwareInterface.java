@@ -10,6 +10,7 @@ import eu.seebetter.ini.chips.*;
 import net.sf.jaer.aemonitor.AEPacketRaw;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 import de.thesycon.usbio.*;
+import static de.thesycon.usbio.UsbIoErrorCodes.USBIO_ERR_SUCCESS;
 import de.thesycon.usbio.structs.*;
 import eu.seebetter.ini.chips.sbret10.IMUSample;
 import java.beans.PropertyChangeEvent;
@@ -19,15 +20,15 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
 import static net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2.PROPERTY_CHANGE_ASYNC_STATUS_MSG;
+import static net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2.VR_DOWNLOAD_FIRMWARE;
 import static net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2.log;
-import net.sf.jaer.util.filter.LowpassFilter;
 
 /**
  * Adds functionality of apsDVS sensors to based CypressFX2Biasgen class. The key method is translateEvents that parses the data from the sensor to construct jAER raw events.
  *
  * @author Christian/Tobi
  */
-public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
+public class ApsDvsHardwareInterface extends CypressFX2Biasgen{
 
     /** The USB product ID of this device */
     static public final short PID = (short) 0x840D;
@@ -282,6 +283,48 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
         if(imuSampleQueue!=null) imuSampleQueue.clear();
     }
 
+    private static final byte VR_IMU=(byte)0xC6;
+    
+    /** Sets an IMU register value. This is a blocking method.
+     * 
+     * @param register register address on device.
+     * @param value the value to set.
+     */
+    public synchronized void writeImuRegister(byte register, byte value) throws HardwareInterfaceException{
+        sendVendorRequest(VR_IMU, (short)(0xff&register | ((0xff&value)<<8)), (short)0);
+    }
+    
+    /** Reads an IMU register value. This method blocks until value is read.
+     * 
+     * @param register the register address.
+     * @return the value of the register.
+     */
+    public synchronized byte readImuRegister(byte register) throws HardwareInterfaceException {
+        sendVendorRequest(VR_IMU, (short) (0xff & register), (short) 0);
+        // read back from control endpoint to get the register value
+        USBIO_CLASS_OR_VENDOR_REQUEST vr = new USBIO_CLASS_OR_VENDOR_REQUEST();
+        USBIO_DATA_BUFFER buf = new USBIO_DATA_BUFFER(2);
+
+        vr.Flags = UsbIoInterface.USBIO_SHORT_TRANSFER_OK;
+        vr.Type = UsbIoInterface.RequestTypeVendor;
+        vr.Recipient = UsbIoInterface.RecipientDevice;
+        vr.RequestTypeReservedBits = 0;
+        vr.Request = VR_DOWNLOAD_FIRMWARE;
+        vr.Index = 0;
+        vr.Value = 0;
+
+        buf.setNumberOfBytesToTransfer(1);
+        int status = gUsbIo.classOrVendorInRequest(buf, vr);
+
+        if (status != USBIO_ERR_SUCCESS) {
+            throw new HardwareInterfaceException("Unable to receive IMU register value: " + UsbIo.errorText(status));
+        }
+        if(buf.getBytesTransferred()!=1){
+            throw new HardwareInterfaceException("Wrong number of bytes transferred, recieved "+buf.getBytesTransferred()+" but should have recieved 1 byte");
+        }
+        byte value =buf.Buffer()[0];
+        return value;
+    }
     
     /** This reader understands the format of raw USB data and translates to the AEPacketRaw */
     public class RetinaAEReader extends CypressFX2.AEReader implements PropertyChangeListener{
@@ -344,9 +387,9 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
          *@see #translateEvents
          */
         static private final byte XBIT = (byte) 0x08;
-        static private final byte TRIGGER_BIT = (byte) 0x10;
-        public static final int TYPE_WORD_BIT = 0x2000;
-        public static final int FRAME_START_BIT = 0x1000;
+        static private final byte EXTERNAL_PIN_EVENT = (byte) 0x10; // external pin has seen falling edge
+        public static final int ADDRESS_TYPE_BIT = 0x2000; // data part of short contains according to apsDVS USB event spec 0=DVS, 1=APS
+        public static final int FRAME_START_BIT = 0x1000; // signals frame start when APS sample
         private int lasty = 0;
         private int currentts = 0;
         private int lastts = 0;
@@ -417,7 +460,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                                 if ((eventCounter >= aeBufferSize) || (buffer.overrunOccuredFlag)) {
                                     buffer.overrunOccuredFlag = true; // throw away events if we have overrun the output arrays
                                 } else {
-                                    if ((dataword & TYPE_WORD_BIT) == TYPE_WORD_BIT) {
+                                    if ((dataword & ADDRESS_TYPE_BIT) == ADDRESS_TYPE_BIT) {
                                         //APS event
                                         if((dataword & FRAME_START_BIT) == FRAME_START_BIT)resetFrameAddressCounters();
                                         int readcycle = (dataword & ApsDvsChip.ADC_READCYCLE_MASK)>>ApsDvsChip.ADC_READCYCLE_SHIFT;
@@ -436,12 +479,12 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                                         timestamps[eventCounter] = currentts;  // ADC event gets last timestamp
                                         eventCounter++;
 //                                              System.out.println("ADC word: " + (dataword&SeeBetter20.ADC_DATA_MASK));
-                                    } else if ((buf[i + 1] & TRIGGER_BIT) == TRIGGER_BIT) { 
+                                    } else if ((buf[i + 1] & EXTERNAL_PIN_EVENT) == EXTERNAL_PIN_EVENT) { 
                                         addresses[eventCounter] = ApsDvsChip.TRIGGERMASK;  
                                         timestamps[eventCounter] = currentts;
                                         eventCounter++;
                                      } else if ((buf[i + 1] & XBIT) == XBIT) {////  received an X address, write out event to addresses/timestamps output arrays
-                                        // x adddress
+                                        // x column adddress received, combine with previous row y address and commit to output packet
                                         addresses[eventCounter] = (lasty << ApsDvsChip.YSHIFT) | ((dataword & xmask)<<ApsDvsChip.POLSHIFT);  // combine current bits with last y address bits and send
                                         timestamps[eventCounter] = currentts; // add in the wrap offset and convert to 1us tick
                                         eventCounter++;
@@ -515,7 +558,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
         }
         
         private int putImuSampleToQueueWarningCounter=0;
-        private static final int PUT_IMU_WARNING_INTERVAL=100;
+        private static final int PUT_IMU_WARNING_INTERVAL=10000;
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
