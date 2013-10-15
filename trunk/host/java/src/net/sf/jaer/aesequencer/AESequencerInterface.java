@@ -15,7 +15,7 @@ import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 import net.sf.jaer.aemonitor.AEPacketRaw;
 
 /**
- *
+ * Interface for AE sequencer devices.
  * @author raphael
  */
 public interface AESequencerInterface extends HardwareInterface {
