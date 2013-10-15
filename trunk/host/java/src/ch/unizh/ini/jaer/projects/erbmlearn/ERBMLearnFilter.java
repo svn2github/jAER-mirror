@@ -58,6 +58,10 @@ public class ERBMLearnFilter extends EventFilter2D {
     private GLU glu = null;                 // OpenGL Utilities
     private JFrame weightFrame = null;      // Frame displaying neuron weight matrix
     private GLCanvas weightCanvas = null;   // Canvas on which weightFrame is drawn
+
+    boolean show_viz = false;
+    private JFrame vizFrame = null;      // Frame displaying neuron weight matrix
+    private GLCanvas vizCanvas = null;   // Canvas on which weightFrame is drawn    
     
     public ERBMLearnFilter(AEChip chip) {
         super(chip);
@@ -76,16 +80,14 @@ public class ERBMLearnFilter extends EventFilter2D {
         List<Integer> addrs = new ArrayList<Integer>();
         
         for (BasicEvent o : in) { // iterate over all events in input packet
-            if( ((PolarityEvent) o).polarity == Polarity.Off){
+            if( ((PolarityEvent) o).polarity == Polarity.On){
                 times.add((double) o.timestamp / 1e6);
                 layers.add(0);
                 addrs.add((int) Math.round((float) o.y / (chip.getSizeY()-1) * (y_size-1)) * x_size +
                             (int) Math.round((float) o.x / (chip.getSizeX()-1) * (x_size-1)));
             }
         }
-        if(erbm.pq.size() > 40000){
-            log.log(Level.WARNING, "Aw crap, priority queue exploding in size.");
-        }
+        
         if(times.size() > 0){
             erbm.processSpikesUntil(times.get(times.size() - 1));
             erbm.addSpikes(ArrayUtils.toPrimitive(times.toArray(new Double[times.size()])), 
@@ -98,6 +100,12 @@ public class ERBMLearnFilter extends EventFilter2D {
             checkWeightFrame();
             weightCanvas.repaint();
         }
+        
+        // Draw Neuron Weight Matrix
+        if(show_viz){
+            checkVizFrame();
+            vizCanvas.repaint();
+        }        
         return in; // return the output packet
     }
 
@@ -108,7 +116,7 @@ public class ERBMLearnFilter extends EventFilter2D {
     public void resetFilter() {
         erbm = new ERBM(vis_size, h_size);
         
-        erbm.eta = 0.050;
+        erbm.eta = 0.010;
         erbm.thresh_eta = 0;
         erbm.t_refrac = 0.010;
         erbm.tau = 0.1;
@@ -254,22 +262,7 @@ public class ERBMLearnFilter extends EventFilter2D {
                                    neuronPadding+x_size+(x+1)*xHScale, yThreshStart+(y+1)*yHScale);
                     } // END LOOP - Y
                 } // END LOOP - X
-
-                int xReconStart = (int) (neuronPadding+x_size+(dim_hid+1)*xHScale + neuronPadding);
-                int yReconStart = (int) yThreshStart + neuronPadding;
-                
-                // Draw reconstruction
-                float rMax = (float) erbm.v_recon.max();
-                float rMin = (float) erbm.v_recon.min();
-                for (int x=0; x < x_size; x++) {
-                    for (int y=0; y < y_size; y++) {
-                        float r = ((float) erbm.v_recon.get(y*x_size+x) - rMin) / (float) (rMax - rMin);
-                        gl.glColor3f(r/1.5f, r/1.5f, r);
-                        gl.glRectf(xReconStart+x, yReconStart+y, 
-                                   xReconStart+x+1, yReconStart+y+1);                                
-                    } // END LOOP - Y                            
-                } // END LOOP - X                
-                
+                                           
                 // Display Neuron Statistics - Mean, STD, Min, Max
                 if (displayNeuronStatistics == true) {
                     final int font = GLUT.BITMAP_HELVETICA_12;
@@ -277,8 +270,8 @@ public class ERBMLearnFilter extends EventFilter2D {
                     gl.glColor3f(1, 1, 1);
                     // Neuron info
                     gl.glRasterPos3f(0, yThreshStart + y_size + neuronPadding, 0);
-                    glut.glutBitmapString(font, String.format("thrVisMax: %.2f | thrVisMin: %2f | thrHidMax: %.2f | thrHidMin: %2f | rMax %.2f | rMin: %.2f | Spikes[0]: %,d | Spikes[1]: %,d | Spikes[2]: %,d | Spikes[3]: %,d",
-                            thrVisMax, thrVisMin, thrHidMax, thrHidMin, rMax, rMin,
+                    glut.glutBitmapString(font, String.format("thrVisMax: %.2f | thrVisMin: %2f | thrHidMax: %.2f | thrHidMin: %2f | Spikes[0]: %,d | Spikes[1]: %,d | Spikes[2]: %,d | Spikes[3]: %,d",
+                            thrVisMax, thrVisMin, thrHidMax, thrHidMin,
                             erbm.spike_count[0], erbm.spike_count[1], erbm.spike_count[2], erbm.spike_count[3]));
                 } 
                 
@@ -320,11 +313,139 @@ public class ERBMLearnFilter extends EventFilter2D {
     /**
      * Called when filter is turned off 
      * makes sure weightFrame gets turned off
-     */    
+     */ 
+    
+    void checkVizFrame() {
+        if (vizFrame == null || (vizFrame != null && !vizFrame.isVisible())) 
+            createVizFrame();
+    }
+
+    void hideVizFrame(){
+        if(vizFrame!=null) 
+            vizFrame.setVisible(false);
+    } 
+    
+    
+    void createVizFrame() {
+        // Initializes weightFrame
+        vizFrame = new JFrame("Reconstruction Visualization");
+        vizFrame.setPreferredSize(new Dimension(800, 400));
+        // Creates drawing canvas
+        vizCanvas = new GLCanvas();
+        // Adds listeners to canvas so that it will be updated as needed
+        vizCanvas.addGLEventListener(new GLEventListener() {
+            // Called by the drawable immediately after the OpenGL context is initialized
+            @Override
+            public void init(GLAutoDrawable drawable) {
+            
+            }
+
+            // Called by the drawable to initiate OpenGL rendering by the client
+            // Used to draw and update canvas
+            @Override
+            synchronized public void display(GLAutoDrawable drawable) {
+                if (erbm.recon[2] == null) 
+                    return;
+
+                // Prepare sizing
+                int neuronPadding = 5;
+                int totX = 2 * x_size + neuronPadding;
+                int totY = y_size;
+                
+                // Draw in canvas
+                GL gl = drawable.getGL();
+                // Creates and scales drawing matrix so that each integer unit represents any given pixel
+                gl.glLoadIdentity();
+                gl.glScalef(drawable.getWidth() / (float) totX, 
+                            drawable.getHeight() / (float) totY, 1);
+                // Sets the background color for when glClear is called
+                gl.glClearColor(0, 0, 0, 0);
+                gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+
+                // Draw reconstruction
+                int recon_layer = 0;
+                float rVMax = (float) erbm.recon[recon_layer].max();
+                float rVMin = (float) erbm.recon[recon_layer].min();
+                for (int x=0; x < x_size; x++) {
+                    for (int y=0; y < y_size; y++) {
+                        float r = ((float) erbm.recon[recon_layer].get(y*x_size+x) - rVMin) / (float) (rVMax - rVMin);
+                        gl.glColor3f(r/1.5f, r/1.5f, r);
+                        gl.glRectf(x, y, 
+                                   x+1, y+1);                                
+                    } // END LOOP - Y                            
+                } // END LOOP - X    
+                
+                int xReconStart = (int) x_size + neuronPadding;
+                int yReconStart = (int) 0;
+                
+                // Draw reconstruction
+                recon_layer = 2;
+                float rHMax = (float) erbm.recon[recon_layer].max();
+                float rHMin = (float) erbm.recon[recon_layer].min();
+                for (int x=0; x < x_size; x++) {
+                    for (int y=0; y < y_size; y++) {
+                        float r = ((float) erbm.recon[recon_layer].get(y*x_size+x) - rHMin) / (float) (rHMax - rHMin);
+                        gl.glColor3f(r/1.5f, r/1.5f, r);
+                        gl.glRectf(xReconStart+x, yReconStart+y, 
+                                   xReconStart+x+1, yReconStart+y+1);                                
+                    } // END LOOP - Y                            
+                } // END LOOP - X                
+                
+                
+                // Display Neuron Statistics - Mean, STD, Min, Max
+                if (displayNeuronStatistics == true) {
+                    final int font = GLUT.BITMAP_HELVETICA_12;
+                    GLUT glut = chip.getCanvas().getGlut();
+                    gl.glColor3f(1, 1, 1);
+                    // Neuron info
+                    gl.glRasterPos3f(0, 0, 0);
+                    glut.glutBitmapString(font, String.format("rVMin: %.2f | rVMax: %.2f | rHMin: %.2f | rHMax: %.2f",
+                            rVMin, rVMax, rHMin, rHMax));
+                } 
+                
+                // Log error if there is any in OpenGL
+                int error = gl.glGetError();
+                if (error != GL.GL_NO_ERROR) {
+                    if (glu == null) 
+                        glu = new GLU();
+                    log.log(Level.WARNING, "GL error number {0} {1}", new Object[]{error, glu.gluErrorString(error)});
+                } // END IF
+            } // END METHOD - Display
+
+            // Called by the drawable during the first repaint after the component has been resized 
+            // Adds a border to canvas by adding perspective to it and then flattening out image
+            @Override
+            synchronized public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+                GL gl = drawable.getGL();
+                final int border = 10;
+                gl.glMatrixMode(GL.GL_PROJECTION);
+                gl.glLoadIdentity(); 
+                gl.glOrtho(-border, drawable.getWidth() + border, -border, drawable.getHeight() + border, 10000, -10000);
+                gl.glMatrixMode(GL.GL_MODELVIEW);
+                gl.glViewport(0, 0, width, height);
+            } // END METHOD
+
+            // Called by drawable when display mode or display device has changed
+            @Override
+            public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) {
+ 
+            } // END METHOD
+        }); // END SCOPE - GLEventListener
+        
+        // Add weightCanvas to weightFrame
+        vizFrame.getContentPane().add(vizCanvas);
+        // Causes window to be sized to fit the preferred size and layout of its subcomponents
+        vizFrame.pack();
+        vizFrame.setVisible(true);
+    } // END METHOD    
+    
+    
     @Override
     public synchronized void cleanup() {
         if(weightFrame!=null) 
             weightFrame.dispose();
+        if(vizFrame!=null) 
+            vizFrame.dispose();        
     } // END METHOD
 
     /**
@@ -335,8 +456,10 @@ public class ERBMLearnFilter extends EventFilter2D {
     @Override
     public synchronized void setFilterEnabled(boolean yes) {
         super.setFilterEnabled(yes);
-        if(!isFilterEnabled())
+        if(!isFilterEnabled()){
             hideWeightFrame();
+            hideVizFrame();
+        }
     } // END METHOD
        
     
@@ -348,13 +471,24 @@ public class ERBMLearnFilter extends EventFilter2D {
     public boolean getShowWeights(){
         return this.show_weights;
     }    
-    public void setTRefrac(final double t_refrac) {
-        getPrefs().putDouble("EDBNLearn.t_refrac", t_refrac);
+    
+
+    public void setShowViz(final boolean show_viz) {
+        getPrefs().putBoolean("EDBNLearn.showViz", show_viz);
+        getSupport().firePropertyChange("show_viz", this.show_viz, show_viz);
+        this.show_viz = show_viz;
+    }    
+    public boolean getShowViz(){
+        return this.show_viz;
+    }    
+    
+    public void setTRefrac(final float t_refrac) {
+        getPrefs().putFloat("EDBNLearn.t_refrac", t_refrac);
         getSupport().firePropertyChange("t_refrac", erbm.t_refrac, t_refrac);
         erbm.t_refrac = t_refrac;
     }    
-    public double getTRefrac(){
-        return erbm.t_refrac;
+    public float getTRefrac(){
+        return (float) erbm.t_refrac;
     }    
     
     public void setVisTau(final float vis_tau) {
