@@ -91,6 +91,14 @@ public class IMUSample extends ApsDvsEvent{
             return String.format("IncompleteIMUSampleException holding %s completed up to sampleType.code=%d",partialSample,nextCode);
         }
     }
+    
+    public static class BadIMUDataException extends Exception {
+
+        public BadIMUDataException(String message) {
+            super(message);
+        }
+        
+    }
 
     /**
      * The protected constructor for an empty IMUSample
@@ -107,14 +115,14 @@ public class IMUSample extends ApsDvsEvent{
      * @param packet the packet.
      * @param start the starting index where the sample starts.
      * @param previousException null ordinarily, or a previous exception if the sample was not completed.
-     * @return the sample.
+     * @return the sample, or null if the sample is bad because bogus data was detected in it.
      * @throws IncompleteIMUSampleException if the packet is too short to contain the entire sample. 
     The returned exception contains the partially
      * completed sample and the completion status and can be passed into a new
      * call to constructFromAEPacketRaw to complete the sample.
      */
     public static IMUSample constructFromAEPacketRaw(AEPacketRaw packet, int start, IncompleteIMUSampleException previousException)
-            throws IncompleteIMUSampleException {
+            throws IncompleteIMUSampleException, BadIMUDataException {
         IMUSample sample;
         int startingCode = 0;
         if (previousException != null) {
@@ -132,7 +140,7 @@ public class IMUSample extends ApsDvsEvent{
             }
             int data = packet.addresses[start + offset];
             if ((ApsDvsChip.ADDRESS_TYPE_IMU & data) != ApsDvsChip.ADDRESS_TYPE_IMU) {
-                log.warning("bad data, not an IMU data type, wrong bits are set: " + data);
+                throw new BadIMUDataException("bad data, not an IMU data type, wrong bits are set: " + data);
             }
             final int v = (IMUSample.DATABITMASK & data) >>> 12;
             offset++;
@@ -299,11 +307,11 @@ public class IMUSample extends ApsDvsEvent{
      *
      * @param imuSampletype the type of sensor value event address we want
      */
-    final public int getAddress(IMUSampleType imuSampleType) {
+    final public int computeAddress(IMUSampleType imuSampleType) {
         switch (imuSampleType) {
             case ax:
                 return ApsDvsChip.ADDRESS_TYPE_IMU
-                        | (((IMUSampleType.ax.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.ax.code]) << 12);
+                        | (((IMUSampleType.ax.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.ax.code]) << 12); // shifted just to left of 2-bits of read type for APS data
             case ay:
                 return ApsDvsChip.ADDRESS_TYPE_IMU
                         | (((IMUSampleType.ay.code << IMUSample.CODEBITSHIFT) | data[IMUSampleType.ay.code]) << 12);
@@ -339,8 +347,9 @@ public class IMUSample extends ApsDvsEvent{
             packet.ensureCapacity(cap + SIZE_EVENTS);
         }
         for (IMUSampleType sampleType : IMUSampleType.values()) {
-            packet.addresses[start + sampleType.code] = getAddress(sampleType);
-            packet.timestamps[start + sampleType.code] = timestampUs;
+            final int idx=start + sampleType.code;
+            packet.addresses[idx] = computeAddress(sampleType);
+            packet.timestamps[idx] = timestampUs;
         }
         packet.setNumEvents(packet.getNumEvents()+SIZE_EVENTS);
         return SIZE_EVENTS;
