@@ -461,6 +461,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen{
                                     buffer.overrunOccuredFlag = true; // throw away events if we have overrun the output arrays
                                 } else {
                                     if ((dataword & ADDRESS_TYPE_BIT) == ADDRESS_TYPE_BIT) {
+                                        
                                         //APS event
                                         if((dataword & FRAME_START_BIT) == FRAME_START_BIT)resetFrameAddressCounters();
                                         int readcycle = (dataword & ApsDvsChip.ADC_READCYCLE_MASK)>>ApsDvsChip.ADC_READCYCLE_SHIFT;
@@ -483,15 +484,19 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen{
                                         addresses[eventCounter] = ApsDvsChip.TRIGGERMASK;  
                                         timestamps[eventCounter] = currentts;
                                         eventCounter++;
-                                     } else if ((buf[i + 1] & XBIT) == XBIT) {////  received an X address, write out event to addresses/timestamps output arrays
-                                        // x column adddress received, combine with previous row y address and commit to output packet
+                                     } else if ((buf[i + 1] & XBIT) == XBIT) {//  received an X address, write out event to addresses/timestamps output arrays
+                                        
+                                         // x/column part of DVS event
+                                         // x column adddress received, combine with previous row y address and commit to output packet
                                         addresses[eventCounter] = (lasty << ApsDvsChip.YSHIFT) | ((dataword & xmask)<<ApsDvsChip.POLSHIFT);  // combine current bits with last y address bits and send
                                         timestamps[eventCounter] = currentts; // add in the wrap offset and convert to 1us tick
                                         eventCounter++;
                                         //log.info("X: "+((dataword & ApsDvsChip.XMASK)>>1));
                                         gotY = false;
-                                    } else { // row address came
-                                        if (gotY) { // no col address, last one was row only event
+                                    } else { // row address came, just save it until we get a column address
+                                         
+                                         // y/row part of DVS event
+                                        if (gotY) { // no col address came after last row address, last event was row-only event
                                             if (translateRowOnlyEvents) {// make  row-only event
 
                                                 addresses[eventCounter] = (lasty << ApsDvsChip.YSHIFT);  // combine current bits with last y address bits and send
@@ -500,7 +505,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen{
                                             }
 
                                         }
-                                        // y address
+                                        // y address, save it for all the x/row addresses that should follow
                                         int ymask = (ApsDvsChip.YMASK >>> ApsDvsChip.YSHIFT);
                                         lasty = ymask & dataword; //(0xFF & buf[i]); //
                                         gotY = true;
@@ -528,6 +533,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen{
                                 //   log.info("timestamp reset");
                                 break;
                         }
+                       
                      } // end loop over usb data buffer
 
                     buffer.setNumEvents(eventCounter);
