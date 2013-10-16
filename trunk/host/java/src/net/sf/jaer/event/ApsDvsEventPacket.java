@@ -16,12 +16,12 @@ import net.sf.jaer.eventprocessing.filter.BackgroundActivityFilter;
  * you can just use the default iterator (i.e., for(BasicEvent e:inputPacket) 
  * and you will get just the DVS events. However, if you iterate over <code>ApsDvsEventPacket</code>,
  * then the APS events will be bypassed to an internal output packet of <code>ApsDvsEventPacket</code>
- * called {@link #outputPacket}. This packet is automatically initialized to contain 
+ * called {@link #outputPacket}. This packet is automatically initialized when you call checkOutputPacketEventType(in). 
  * 
  * TODO explain better.
  * 
  * Call 
- *      <pre>   
+ * <pre>   
  * checkOutputPacketEventType(in); 
  * </pre>
  * before your iterator
