@@ -12,12 +12,8 @@
 package org.capocaccia.cne.jaer.cne2012.vor;
 
 import ch.unizh.ini.jaer.hardware.pantilt.PanTilt;
-import ch.unizh.ini.jaer.projects.poseestimation.DVS128Phidget;
 import ch.unizh.ini.jaer.projects.poseestimation.TransformAtTime;
 import ch.unizh.ini.jaer.projects.poseestimation.VORSensorForSteadicam;
-import com.phidgets.Phidget;
-import eu.seebetter.ini.chips.sbret10.IMUSample;
-import eu.seebetter.ini.chips.sbret10.SBret10;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -46,13 +42,13 @@ import net.sf.jaer.util.filter.HighpassFilter;
  * (optionally) also a mechanical pantilt unit, shifting them according to
  * motion of input. Three methods can be used 1) the global translational flow
  * computed from DirectionSelectiveFilter, or 2) the optical gyro outputs from
- * OpticalGyro, or 3) (the best method) using a Phidgets gyro unit (the 9-DOF
- * unit).
+ * OpticalGyro, or 3) (the best method) using a Phidgets gyro unit (the 9-DOF unit).
  *
  * @author tobi
+ * @deprecated this class is very crufted up. Replaced by Steadicam which is simplified to use the IMU data more directly.
  */
 @Description("Compenstates global scene translation and rotation to stabilize scene like a SteadiCam.")
-public class Steadicam extends EventFilter2D implements FrameAnnotater, Application, Observer {
+public class SteadicamOld extends EventFilter2D implements FrameAnnotater, Application, Observer {
 
     /**
      * Classes that compute camera rotation estimate based on scene shift and
@@ -79,35 +75,19 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     private final int SHIFT_LIMIT = 30;
     private float cornerFreqHz = getFloat("cornerFreqHz", 0.1f);
     boolean evenMotion = true;
+    private EventPacket ffPacket = null;
     private FilterChain filterChain;
     private boolean annotateEnclosedEnabled = getBoolean("annotateEnclosedEnabled", true);
     private PanTilt panTilt = null;
     ArrayList<TransformAtTime> transformList = new ArrayList(); // holds list of transforms over update times commputed by enclosed filter update callbacks
     int sx2, sy2;
+    VORSensorForSteadicam vorSensor = null;
     TransformAtTime lastTransform = null;
-    private double[] angular, acceleration;
-    private float panRate = 0, tiltRate = 0, rollRate = 0; // in deg/sec
-    private float panOffset, tiltOffset, rollOffset;
-    private float upAccel = 0, rightAccel = 0, zAccel = 0; // in g in m/s^2
-    private float panTranslationDeg = 0;
-    private float tiltTranslationDeg = 0;
-    private float rollDeg = 0;
-    private float panDC = 0, tiltDC = 0, rollDC = 0;
-    private float lensFocalLengthMm = getFloat("lensFocalLengthMm", 8.5f);
-    HighpassFilter panTranslationFilter = new HighpassFilter();
-    HighpassFilter tiltTranslationFilter = new HighpassFilter();
-    HighpassFilter rollFilter = new HighpassFilter();
-    private float highpassTauMsTranslation = getFloat("highpassTauMsTranslation", 1000);
-    private float highpassTauMsRotation = getFloat("highpassTauMsRotation", 1000);
-    float radPerPixel;
-    private volatile boolean resetCalled = false;
-    private int lastUpdateTimestamp = 0;
-    private boolean initialized = false;
 
     /**
      * Creates a new instance of SceneStabilizer
      */
-    public Steadicam(AEChip chip) {
+    public SteadicamOld(AEChip chip) {
         super(chip);
         filterChain = new FilterChain(chip);
 
@@ -122,9 +102,11 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         opticalGyro.addObserver(this);
         filterChain.add(opticalGyro);
 
-        setEnclosedFilterChain(filterChain);
+        vorSensor = new VORSensorForSteadicam(chip);
+        vorSensor.addObserver(this);
+        filterChain.add(vorSensor);
 
-        addObserver(this); // we add ourselves as observer so that our update() can be called during packet iteration periodically according to global FilterFrame update interval settting
+        setEnclosedFilterChain(filterChain);
 
         try {
             cameraRotationEstimator = CameraRotationEstimator.valueOf(getString("positionComputer", "OpticalGyro"));
@@ -136,7 +118,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
 
         setCameraRotationEstimator(cameraRotationEstimator); // init filter enabled states
         initFilter(); // init filters for motion compensation
-        setPropertyTooltip("cameraRotationEstimator", "specifies which method is used to measure camera rotation");
+        setPropertyTooltip("cameraRotationEstimator", "specifies which method is used to measure camera rotation estimate");
         setPropertyTooltip("gainTranslation", "gain applied to measured scene translation to affect electronic or mechanical output");
         setPropertyTooltip("gainVelocity", "gain applied to measured scene velocity times the weighted-average cluster aqe to affect electronic or mechanical output");
         setPropertyTooltip("gainPanTiltServos", "gain applied to translation for pan/tilt servo values");
@@ -144,62 +126,52 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         setPropertyTooltip("panTiltEnabled", "enables use of pan/tilt servos for camera");
         setPropertyTooltip("electronicStabilizationEnabled", "stabilize by shifting events according to the PositionComputer");
         setPropertyTooltip("flipContrast", "flips contrast of output events depending on x*y sign of motion - should maintain colors of edges");
-//        setPropertyTooltip("cornerFreqHz", "sets highpass corner frequency in Hz for stabilization - frequencies smaller than this will not be stabilized and transform will return to zero on this time scale");
+        setPropertyTooltip("cornerFreqHz", "sets highpass corner frequency in Hz for stabilization - frequencies smaller than this will not be stabilized and transform will return to zero on this time scale");
         setPropertyTooltip("annotateEnclosedEnabled", "showing tracking or motion filter output annotation of output, for setting up parameters of enclosed filters");
         setPropertyTooltip("opticalGyroTauLowpassMs", "lowpass filter time constant in ms for optical gyro camera rotation measure");
         setPropertyTooltip("opticalGyroRotationEnabled", "enables rotation in transform");
         setPropertyTooltip("vestibularStabilizationEnabled", "use the gyro/accelometer to provide transform");
         setPropertyTooltip("zeroGyro", "zeros the gyro output. Sensor should be stationary for period of 1-2 seconds during zeroing");
         setPropertyTooltip("eraseGyroZero", "Erases the gyro zero values");
-
-        setPropertyTooltip("sampleIntervalMs", "sensor sample interval in ms, min 4ms, powers of two, e.g. 4,8,16,32...");
-        setPropertyTooltip("highpassTauMsTranslation", "highpass filter time constant in ms to relax transform back to zero for translation (pan, tilt) components");
-        setPropertyTooltip("highpassTauMsRotation", "highpass filter time constant in ms to relax transform back to zero for rotation (roll) component");
-        setPropertyTooltip("lensFocalLengthMm", "sets lens focal length in mm to adjust the scaling from camera rotation to pixel space");
-        setPropertyTooltip("zeroGyro", "zeros the gyro output. Sensor should be stationary for period of 1-2 seconds during zeroing");
-        setPropertyTooltip("eraseGyroZero", "Erases the gyro zero values");
-        rollFilter.setTauMs(highpassTauMsRotation);
-        panTranslationFilter.setTauMs(highpassTauMsTranslation);
-        tiltTranslationFilter.setTauMs(highpassTauMsTranslation);
     }
 
     @Override
     public EventPacket filterPacket(EventPacket in) { // TODO completely rework this code because IMUSamples are part of the packet now!
         sx2 = chip.getSizeX() / 2;
         sy2 = chip.getSizeY() / 2;
-        int sizex = chip.getSizeX() - 1;
-        int sizey = chip.getSizeY() - 1;
         checkOutputPacketEventType(in);
         transformList.clear(); // empty list of transforms to be applied
         getEnclosedFilterChain().filterPacket(in); // issues callbacks to us periodically via updates 
 
         if (isElectronicStabilizationEnabled()) {
+            int sizex = chip.getSizeX() - 1;
+            int sizey = chip.getSizeY() - 1;
             checkOutputPacketEventType(in);
+            int n = in.getSize();
+            short nx, ny;
             OutputEventIterator outItr = out.outputIterator();
             // TODO compute evenMotion boolean from opticalGyro
-            Iterator<TransformAtTime> transformItr = transformList.iterator(); // this list is filled by the enclosed filters
+            Iterator<TransformAtTime> transformItr = transformList.iterator();
+            if (transformItr.hasNext()) {
+                lastTransform = transformItr.next();
+//                System.out.println(lastTransform.toString());
+            }
             for (Object o : in) {
                 PolarityEvent ev = (PolarityEvent) o;
-                switch (cameraRotationEstimator) {
-                    case VORSensor:
-                        if (ev instanceof IMUSample) {
-                            lastTransform = computeTransform((IMUSample) ev);
-                            continue; // next event
-                        }
-                        break;
-                    default:
+                if (ev.special) {
+                    continue; // IMUSample, for example
+                }
+                if (lastTransform != null && ev.timestamp > lastTransform.timestamp) {
+                    if (transformItr.hasNext()) {
                         lastTransform = transformItr.next();
-
+//                        System.out.println(lastTransform.toString());
+                    }
                 }
-
-                if (lastTransform != null) {
-                    transformEvent(ev, lastTransform);
-                }
+                transformEvent(ev, lastTransform);
 
                 if (ev.x > sizex || ev.x < 0 || ev.y > sizey || ev.y < 0) {
-                    continue; // discard events outside chip limits for now, because we can't render them presently, although they are valid events
+                    continue;
                 }
-                // deal with flipping contrast of output event depending on direction of motion, to make things appear the same regardless of camera rotation
                 if (!flipContrast) {
                     outItr.nextOutput().copyFrom(ev);
                 } else {
@@ -217,6 +189,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
                 // mechanical pantilt
                 // assume that pan of 1 takes us 180 degrees and that the sensor has 45 deg FOV,
                 // then 1 pixel will require only 45/180/size pan
+                final float lensFocalLengthMm = 8;
                 final float factor = (float) (chip.getPixelWidthUm() / 1000 / lensFocalLengthMm / Math.PI);
                 panTilt.setPanTiltValues(.5f - translation.x * getGainPanTiltServos() * factor, .5f + translation.y * getGainPanTiltServos() * factor);
             } catch (HardwareInterfaceException ex) {
@@ -232,73 +205,11 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         }
     }
 
-    /**
-     * Called back here during packet iteration to update transform
-     *
-     * @param o
-     * @param arg
-     */
-    @Override
-    public void update(Observable o, Object arg) { // called by enclosed filter to update event stream on the fly, using intermediate data
-        if (arg instanceof UpdateMessage) {
-            computeTransform((UpdateMessage) arg); // gets the lastTransform from the enclosed filter
-        }
-    }
-
-    /**
-     * Computes transform using current gyro outputs based on timestamp supplied
-     * and returns a TransformAtTime object. Should be called by update in
-     * enclosing processor.
-     *
-     * @param timestamp the timestamp in us.
-     * @return the transform object representing the camera rotation
-     */
-    synchronized public TransformAtTime computeTransform(IMUSample imuSample) {
-        if (resetCalled) {
-            log.info("reset called, panDC" + panDC + " panTranslationFilter=" + panTranslationFilter);
-            resetCalled = false;
-        }
-        //IMUSample imuSample=((SBret10)chip).getImuSample();// TODO problem with this call is that this is the latest (last) sample of the IMU, which was set during packet extraction. So it is the last IMU sample from the EventPacket that the entire rendering cycle is processing. It's not the sample we want, which is the one at this time inside the packet. It's a problem of having the data external to the AEPacket.
-        if (imuSample == null) {
-            return null;
-        }
-        int timestamp = imuSample.getTimestampUs();
-        float dtS = (timestamp - lastUpdateTimestamp) * 1e-6f;
-        lastUpdateTimestamp = imuSample.getTimestampUs();
-        if (!initialized) {
-            initialized = true;
-            return null;
-        }
-        panRate = imuSample.getGyroYawY();
-        tiltRate = imuSample.getGyroTiltX();
-        rollRate = imuSample.getGyroRollZ();
-        zAccel = imuSample.getAccelZ();
-        upAccel = imuSample.getAccelY();
-        rightAccel = imuSample.getAccelX();
-
-        panDC += getPanRate() * dtS;
-        tiltDC += getTiltRate() * dtS;
-        rollDC += getRollRate() * dtS;
-
-        panTranslationDeg = panTranslationFilter.filter(panDC, timestamp);
-        tiltTranslationDeg = tiltTranslationFilter.filter(tiltDC, timestamp);
-        rollDeg = rollFilter.filter(rollDC, timestamp);
-
-        // computute transform in TransformAtTime units here.
-        // Use the lens focal length and camera resolution.
-
-        TransformAtTime tr = new TransformAtTime(imuSample.getTimestampUs(),
-                new Point2D.Float(
-                (float) (Math.PI / 180 * panTranslationDeg) / radPerPixel,
-                (float) (Math.PI / 180 * tiltTranslationDeg) / radPerPixel),
-                -rollDeg * (float) Math.PI / 180);
-        return tr;
-    }
-
     public void transformEvent(BasicEvent e, TransformAtTime transform) {
         if (transform == null) {
             return;
         }
+//        lastTransform.cosAngle=0; lastTransform.sinAngle=1;
         e.x -= sx2;
         e.y -= sy2;
         short newx = (short) Math.round((transform.cosAngle * e.x - transform.sinAngle * e.y + transform.translation.x));
@@ -308,23 +219,6 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         e.address = chip.getEventExtractor().getAddressFromCell(e.x, e.y, e.getType()); // so event is logged properly to disk
     }
 
-    public void doEraseGyroZero() {
-        panOffset = 0;
-        tiltOffset = 0;
-        rollOffset = 0;
-    }
-
-    public void doZeroGyro() {
-        if (chip.getClass() == DVS128Phidget.class) {
-            ((DVS128Phidget) chip).doZeroGyro();
-        } else if (chip.getClass() == SBret10.class) {
-            panOffset = panRate; // TODO offsets should really be some average over some samples
-            tiltOffset = tiltRate;
-            rollOffset = rollRate;
-        }
-
-    }
-
     /**
      * Called by update on enclosed filter updates. <p> Using
      * DirectionSelectiveFilter, the lastTransform is computed by pure
@@ -332,8 +226,8 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
      * long term DC offsets. <p> Using OpticalGyro, the lastTransform is
      * computed by the optical gyro which tracks clusters and measures scene
      * translation (and possibly rotation) from a consensus of the tracked
-     * clusters. <p> Using PhidgetsVORSensor, lastTransform is computed by
-     * PhidgetsVORSensor using rate gyro sensors.
+     * clusters. <p> Using PhidgetsVORSensor, lastTransform is computed by PhidgetsVORSensor
+     * using rate gyro sensors.
      *
      *
      * @param in the input event packet.
@@ -374,28 +268,14 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
                 }
                 transformList.add(new TransformAtTime(msg.timestamp, trans, rot)); // this list is applied during output lastTransform of the event stream
                 break;
+            case VORSensor:
+                // compute the current lastTransform based on rate gyro signals
+                TransformAtTime tr=vorSensor.computeTransform(msg.timestamp);
+                evenMotion=vorSensor.getPanRate()*vorSensor.getTiltRate()>0;
+//                System.out.println("added transform "+tr);
+                if(tr!=null) transformList.add(tr);
+
         }
-    }
-
-    /**
-     * @return the panRate
-     */
-    public float getPanRate() {
-        return panRate - panOffset;
-    }
-
-    /**
-     * @return the tiltRate
-     */
-    public float getTiltRate() {
-        return tiltRate - tiltOffset;
-    }
-
-    /**
-     * @return the rollRate
-     */
-    public float getRollRate() {
-        return rollRate - rollOffset;
     }
 
     float limit(float nsx) {
@@ -450,64 +330,57 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         }
     }
 
-//    public float getGainTranslation() {
-//        return gainTranslation;
-//    }
-//
-//    public void setGainTranslation(float gain) {
-//        if (gain < 0) {
-//            gain = 0;
-//        } else if (gain > 100) {
-//            gain = 100;
-//        }
-//        this.gainTranslation = gain;
-//        putFloat("gainTranslation", gain);
-//    }
-//    /**
-//     * @return the gainVelocity
-//     */
-//    public float getGainVelocity() {
-//        return gainVelocity;
-//    }
-//
-//    /**
-//     * @param gainVelocity the gainVelocity to set
-//     */
-//    public void setGainVelocity(float gainVelocity) {
-//        this.gainVelocity = gainVelocity;
-//        putFloat("gainVelocity", gainVelocity);
-//    }
-//    public void setCornerFreqHz(float freq) {
-//        cornerFreqHz = freq;
-//        filterX.set3dBFreqHz(freq);
-//        filterY.set3dBFreqHz(freq);
-//        filterRotation.set3dBFreqHz(freq);
-//        putFloat("cornerFreqHz", freq);
-//    }
-//
-//    public float getCornerFreqHz() {
-//        return cornerFreqHz;
-//    }
+    public float getGainTranslation() {
+        return gainTranslation;
+    }
+
+    public void setGainTranslation(float gain) {
+        if (gain < 0) {
+            gain = 0;
+        } else if (gain > 100) {
+            gain = 100;
+        }
+        this.gainTranslation = gain;
+        putFloat("gainTranslation", gain);
+    }
+
+    /**
+     * @return the gainVelocity
+     */
+    public float getGainVelocity() {
+        return gainVelocity;
+    }
+
+    /**
+     * @param gainVelocity the gainVelocity to set
+     */
+    public void setGainVelocity(float gainVelocity) {
+        this.gainVelocity = gainVelocity;
+        putFloat("gainVelocity", gainVelocity);
+    }
+
+    public void setCornerFreqHz(float freq) {
+        cornerFreqHz = freq;
+        filterX.set3dBFreqHz(freq);
+        filterY.set3dBFreqHz(freq);
+        filterRotation.set3dBFreqHz(freq);
+        putFloat("cornerFreqHz", freq);
+    }
+
+    public float getCornerFreqHz() {
+        return cornerFreqHz;
+    }
+
     public Object getFilterState() {
         return null;
     }
 
     @Override
     public void resetFilter() {
-        resetCalled = true;
-        panRate = 0;
-        tiltRate = 0;
-        rollRate = 0;
-        panDC = 0;
-        tiltDC = 0;
-        rollDC = 0;
-        rollDeg = 0;
-        panTranslationFilter.reset();
-        tiltTranslationFilter.reset();
-        rollFilter.reset();
-        radPerPixel = (float) Math.atan(getChip().getPixelWidthUm() * 1e-3f / lensFocalLengthMm);
         dirFilter.resetFilter();
         opticalGyro.resetFilter();
+        vorSensor.resetFilter();
+        setCornerFreqHz(cornerFreqHz);
         filterX.setInternalValue(0);
         filterY.setInternalValue(0);
         filterRotation.setInternalValue(0);
@@ -521,7 +394,6 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
                 panTilt.close();
             }
         }
-        initialized = false;
     }
 
     @Override
@@ -590,14 +462,17 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
             case DirectionSelectiveFilter:
                 dirFilter.setFilterEnabled(true);
                 opticalGyro.setFilterEnabled(false);
+                vorSensor.setFilterEnabled(false);
                 break;
             case OpticalGyro:
                 opticalGyro.setFilterEnabled(true);
                 dirFilter.setFilterEnabled(false);
+                vorSensor.setFilterEnabled(false);
                 break;
             case VORSensor:
                 opticalGyro.setFilterEnabled(false);
                 dirFilter.setFilterEnabled(false);
+                vorSensor.setFilterEnabled(true);
         }
     }
 
@@ -693,6 +568,14 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         putFloat("gainPanTiltServos", gainPanTiltServos);
     }
 
+    @Override
+    public void update(Observable o, Object arg) { // called by enclosed filter to update event stream on the fly, using intermediate data
+        if (arg instanceof UpdateMessage) {
+            UpdateMessage msg = (UpdateMessage) arg;
+            computeTransform(msg); // gets the lastTransform from the enclosed filter
+        }
+    }
+
     public void setOpticalGyroRotationEnabled(boolean opticalGyroRotationEnabled) {
         opticalGyro.setOpticalGyroRotationEnabled(opticalGyroRotationEnabled);
     }
@@ -709,61 +592,12 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         return opticalGyro.getOpticalGyroTauLowpassMs();
     }
 
-    /**
-     * @return the highpassTauMs
-     */
-    public float getHighpassTauMsTranslation() {
-        return highpassTauMsTranslation;
+    public void doZeroGyro() {
+        vorSensor.doZeroGyro();
     }
 
-    /**
-     * @param highpassTauMs the highpassTauMs to set
-     */
-    public void setHighpassTauMsTranslation(float highpassTauMs) {
-        this.highpassTauMsTranslation = highpassTauMs;
-        putFloat("highpassTauMsTranslation", highpassTauMs);
-        panTranslationFilter.setTauMs(highpassTauMs);
-        tiltTranslationFilter.setTauMs(highpassTauMs);
+    public void doEraseGyroZero() {
+        vorSensor.doEraseGyroZero();
     }
-
-    /**
-     * @return the highpassTauMs
-     */
-    public float getHighpassTauMsRotation() {
-        return highpassTauMsRotation;
-    }
-
-    /**
-     * @param highpassTauMs the highpassTauMs to set
-     */
-    public void setHighpassTauMsRotation(float highpassTauMs) {
-        this.highpassTauMsRotation = highpassTauMs;
-        putFloat("highpassTauMsRotation", highpassTauMs);
-        rollFilter.setTauMs(highpassTauMs);
-    }
-
-    private float clip(float f, float lim) {
-        if (f > lim) {
-            f = lim;
-        } else if (f < -lim) {
-            f = -lim;
-        }
-        return f;
-    }
-
-    /**
-     * @return the lensFocalLengthMm
-     */
-    public float getLensFocalLengthMm() {
-        return lensFocalLengthMm;
-    }
-
-    /**
-     * @param lensFocalLengthMm the lensFocalLengthMm to set
-     */
-    public void setLensFocalLengthMm(float lensFocalLengthMm) {
-        this.lensFocalLengthMm = lensFocalLengthMm;
-        putFloat("lensFocalLengthMm", lensFocalLengthMm);
-        radPerPixel = (float) Math.asin(getChip().getPixelWidthUm() * 1e-3f / lensFocalLengthMm);
-    }
+ 
 }
