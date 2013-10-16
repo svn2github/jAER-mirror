@@ -77,7 +77,6 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     private boolean flipContrast = false;
     private float rotation = 0;
     private final int SHIFT_LIMIT = 30;
-    private float cornerFreqHz = getFloat("cornerFreqHz", 0.1f);
     boolean evenMotion = true;
     private FilterChain filterChain;
     private boolean annotateEnclosedEnabled = getBoolean("annotateEnclosedEnabled", true);
@@ -85,10 +84,10 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     ArrayList<TransformAtTime> transformList = new ArrayList(); // holds list of transforms over update times commputed by enclosed filter update callbacks
     int sx2, sy2;
     TransformAtTime lastTransform = null;
-    private double[] angular, acceleration;
+//    private double[] angular, acceleration;
     private float panRate = 0, tiltRate = 0, rollRate = 0; // in deg/sec
     private float panOffset, tiltOffset, rollOffset;
-    private float upAccel = 0, rightAccel = 0, zAccel = 0; // in g in m/s^2
+//    private float upAccel = 0, rightAccel = 0, zAccel = 0; // in g in m/s^2
     private float panTranslationDeg = 0;
     private float tiltTranslationDeg = 0;
     private float rollDeg = 0;
@@ -174,18 +173,19 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         // The call to enclosed filters issues callbacks to us periodically via updates that fills transform list, in case of enclosed filters. 
         // this is not the case when using integrated IMU which generates IMUSamples in the event stream.
         getEnclosedFilterChain().filterPacket(in); 
-        
+//        System.out.println("new steadicam input packet");
         if (isElectronicStabilizationEnabled()) { // here we stabilize by using the measured camera rotation to counter-transform the events
             checkOutputPacketEventType(in);
-            OutputEventIterator outItr = out.outputIterator();// the transformed events output packet
+            OutputEventIterator outItr = getOutputPacket().outputIterator();// the transformed events output packet
             // TODO compute evenMotion boolean from opticalGyro
             Iterator<TransformAtTime> transformItr = transformList.iterator(); // this list is filled by the enclosed filters
+            int i=0;
             for (Object o : in) {
                 PolarityEvent ev = (PolarityEvent) o;
                 switch (cameraRotationEstimator) {
                     case VORSensor:
                         if (ev instanceof IMUSample ) { // TODO hack, we mark IMUSamples in EventExtractor that are actually ApsDvsEvent as non-special so we can detect them here
-//                            System.out.println(ev);
+//                            System.out.println("at position "+i+" got "+ev); i++;
                             IMUSample s=(IMUSample) ev;
                             if(s.imuSampleEvent){
                                 lastTransform = updateTransform(s);
@@ -231,7 +231,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         }
 
         if (isElectronicStabilizationEnabled()) {
-            return out;
+            return getOutputPacket();
         } else {
             return in;
         }
@@ -267,7 +267,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         if (imuSample == null) {
             return null;
         }
-        System.out.println(imuSample.toString());
+//        System.out.println(imuSample.toString());
         int timestamp = imuSample.getTimestampUs();
         float dtS = (timestamp-lastImuTimestamp) * 1e-6f;
         lastImuTimestamp = timestamp;
@@ -278,9 +278,9 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         panRate = imuSample.getGyroYawY();
         tiltRate = imuSample.getGyroTiltX();
         rollRate = imuSample.getGyroRollZ();
-        zAccel = imuSample.getAccelZ();
-        upAccel = imuSample.getAccelY();
-        rightAccel = imuSample.getAccelX();
+//        zAccel = imuSample.getAccelZ();
+//        upAccel = imuSample.getAccelY();
+//        rightAccel = imuSample.getAccelX();
 
         panDC += getPanRate() * dtS;
         tiltDC += getTiltRate() * dtS;
@@ -499,7 +499,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     }
 
     @Override
-    public void resetFilter() {
+    synchronized public void resetFilter() {
         resetCalled = true;
         panRate = 0;
         tiltRate = 0;
@@ -519,6 +519,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         filterRotation.setInternalValue(0);
         translation.x = 0;
         translation.y = 0;
+        lastTransform=null;
         if (isPanTiltEnabled()) {
             try {
                 panTilt.setPanTiltValues(.5f, .5f);

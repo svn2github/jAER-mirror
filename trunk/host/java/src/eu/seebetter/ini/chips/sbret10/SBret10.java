@@ -41,6 +41,7 @@ import eu.seebetter.ini.chips.sbret10.IMUSample.IncompleteIMUSampleException;
 import java.awt.geom.Rectangle2D;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
+import net.sf.jaer.event.BasicEvent;
 import net.sf.jaer.util.RemoteControlCommand;
 import net.sf.jaer.util.RemoteControlled;
 
@@ -251,7 +252,6 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
             int[] datas = in.getAddresses();
             int[] timestamps = in.getTimestamps();
             OutputEventIterator outItr = out.outputIterator();
-            
             // NOTE we must make sure we write ApsDvsEvents when we want them, not reuse the IMUSamples
 
             // at this point the raw data from the USB IN packet has already been digested to extract timestamps, including timestamp wrap events and timestamp resets.
@@ -260,7 +260,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
 
 
             // TODO entire rendering / processing approach is not very efficient now
-
+//            System.out.println("new packet");
             for (int i = 0; i < n; i++) {  // TODO implement skipBy/subsampling, but without missing the frame start/end events and still delivering frames
                 int data = datas[i];
 
@@ -270,10 +270,11 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                             IMUSample possibleSample = IMUSample.constructFromAEPacketRaw(in, i, incompleteIMUSampleException);
 //                            System.out.println(imuSample); // debug
                             i += IMUSample.SIZE_EVENTS;
-                            possibleSample.imuSampleEvent=true;
                             incompleteIMUSampleException = null;
                             imuSample = possibleSample;  // asking for sample from AEChip now gives this value, but no access to intermediate IMU samples
+                            imuSample.imuSampleEvent=true;
                             outItr.writeToNextOutput(imuSample); // also write the event out to the next output event slot
+                            continue;
                         } catch (IMUSample.IncompleteIMUSampleException ex) {
                             incompleteIMUSampleException = ex;
                             if (missedImuSampleCounter++ % IMU_WARNING_INTERVAL == 0) {
@@ -380,6 +381,15 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                 takeSnapshot();
                 autoshotEventsSinceLastShot=0;
             }
+//            int imuEventCount=0, realImuEventCount=0;
+//            for(Object e:out){
+//                if(e instanceof IMUSample){
+//                    imuEventCount++;
+//                    IMUSample i=(IMUSample)e;
+//                    if(i.imuSampleEvent) realImuEventCount++;
+//                }
+//            }
+//            System.out.println(String.format("packet has \ttotal %d, \timu type=%d, \treal imu data=%d events", out.getSize(), imuEventCount, realImuEventCount));
             return out;
         } // extractPacket
 
