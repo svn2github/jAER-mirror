@@ -115,7 +115,6 @@ public class VORSensorForSteadicam extends EventFilter2D implements FrameAnnotat
             resetCalled=false;
         }
         float dtS = (timestamp - lastUpdateTimestamp) * 1e-6f;
-        lastUpdateTimestamp = timestamp;
         if (chip.getClass() == DVS128Phidget.class) {
             panRate =  (float)((DVS128Phidget)chip).getGyro()[0];
             tiltRate = -(float)((DVS128Phidget)chip).getGyro()[1];
