@@ -8,6 +8,7 @@
 // authors raphael berner, patrick lichtsteiner, tobi delbruck
 // 
 // July 2013: Luca added gyro SPI interface that writes data to EP2 (the async endpoint in jAER)
+// Oct 2013: Tobi added a lot more code for IMU
 //
 //-----------------------------------------------------------------------------
 #include "lp.h"
