@@ -260,7 +260,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
 
 
             // TODO entire rendering / processing approach is not very efficient now
-//            System.out.println("new packet");
+//            System.out.println("Extracting new packet "+out);
             for (int i = 0; i < n; i++) {  // TODO implement skipBy/subsampling, but without missing the frame start/end events and still delivering frames
                 int data = datas[i];
 
@@ -268,12 +268,12 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                     if (IMUSample.extractSampleTypeCode(data) == 0) { /// only start getting an IMUSample at code 0, the first sample type
                         try {
                             IMUSample possibleSample = IMUSample.constructFromAEPacketRaw(in, i, incompleteIMUSampleException);
-//                            System.out.println(imuSample); // debug
                             i += IMUSample.SIZE_EVENTS;
                             incompleteIMUSampleException = null;
                             imuSample = possibleSample;  // asking for sample from AEChip now gives this value, but no access to intermediate IMU samples
                             imuSample.imuSampleEvent=true;
                             outItr.writeToNextOutput(imuSample); // also write the event out to the next output event slot
+//                           System.out.println("at position "+(out.size-1)+" put "+imuSample); 
                             continue;
                         } catch (IMUSample.IncompleteIMUSampleException ex) {
                             incompleteIMUSampleException = ex;
@@ -312,7 +312,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                         //System.out.println(data);
                         // autoshot triggering
                         autoshotEventsSinceLastShot++; // number DVS events captured here
-                    }
+            }
                 } else if ((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_APS) {
                     //APS event
                     ApsDvsEvent e = nextApsDvsEvent(outItr);

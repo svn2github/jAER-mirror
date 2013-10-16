@@ -117,6 +117,7 @@ public class IMUSample extends ApsDvsEvent{
         super();
         special=true;
         imuSampleEvent=true;
+        adcSample=-1; // mark it as NOT ADC sample or it won't get passed out to event filters!
     }
     
     /**
