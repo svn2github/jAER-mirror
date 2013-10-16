@@ -310,6 +310,12 @@ void IMU_init(void){
 	b[0] = 0x6b; // IMU power management register and clock selection, sec 4.36 of IMU register map PDF
 	b[1] = 0x02; // disable sleep, select x axis gyro as clock source 
 	EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &b); // select this register for writing on IMU and supply data to write to it
+	b[0] = 26; // DLPF
+	b[1] = 1; // FS=1kHz, gyro 188Hz, 1.9ms delay
+	EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &b); // select this register for writing on IMU and supply data to write to it
+	b[0] = 25; // sample rate divider
+	b[1] = 0; // sample rate divider =1, 1Khz sample rate when DLPF is enabled
+	EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &b); // select this register for writing on IMU and supply data to write to it
 	// enable data ready interrupt
 	// actually we don't enable this interrupt but just check the register flag to see if there is new data available
 	//b[0] = 0x38; // INT_ENABLE, sec 4.36 of IMU register map PDF
