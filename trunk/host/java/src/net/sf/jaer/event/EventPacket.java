@@ -454,6 +454,7 @@ public class EventPacket<E extends BasicEvent> implements /*EventPacketInterface
             {   if(size>=capacity) {
                     enlargeCapacity();
                 }
+//                System.out.println("at position "+size+" wrote event "+event);
                 elementData[size++]=event;
             }
         }

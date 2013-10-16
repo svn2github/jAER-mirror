@@ -38,17 +38,20 @@ public class IMUSample extends ApsDvsEvent{
     /** These bits contain the type of the sample, as coded in IMUSampleType.code. 
      * If any of these bits are set then also this AE address is an IMU sample of some type. */
     static final int CODEBITMASK=0x07<<CODEBITSHIFT; 
+
+    /** Size of IMUSample in events written or read from AEPacketRaw */
+    public static final int SIZE_EVENTS=7;
  
     /** The IMU data */
     private short[] data=new short[SIZE_EVENTS];
 
     /** Timestamp of IMUSample in us units using AER time basis  */
     private int timestampUs;
-    /* the time in us from System.nanoTime on host since last sample */
+    /* the time in us from since last sample. However note that if multiple threads or objects create IMUSamples, than this deltaTimeUs is meaningless. */
     private int deltaTimeUs;
 
-    /** Size of IMUSample in events written or read from AEPacketRaw */
-    public static final int SIZE_EVENTS=7;
+    /** Used to mark that this event is really an IMUSample and not a (super class) ApsDvsEvent that happens to using this IMUSample as a container */
+    public boolean imuSampleEvent=true;
 
     /** Used to track when last sample came in via EventPacket in us timestamp units */
     private static int lastTimestampUs=0;
@@ -113,6 +116,7 @@ public class IMUSample extends ApsDvsEvent{
     protected IMUSample() {
         super();
         special=true;
+        imuSampleEvent=true;
     }
     
     /**
@@ -210,7 +214,7 @@ public class IMUSample extends ApsDvsEvent{
 //        sampleIntervalFilter.filter(deltaTimeUs, ts);
 //        lastSampleTimeSystemNs=nowNs;
 //        System.out.println("on reception: "+this.toString()); // debug
-        updateStatistics(timestampUs);
+//        updateStatistics(timestampUs);
     }
     
     /** Computes deltaTimeUs and average sample rate
@@ -226,8 +230,8 @@ public class IMUSample extends ApsDvsEvent{
 
     @Override
     public String toString() {
-        return String.format("timestampUs=%d deltaTimeUs=%d ax=%.2f ay=%.2f az=%.2f gx=%.2f gy=%.2f gz=%.2f temp=%.2f ax=%d ay=%d az=%d gx=%d gy=%d gz=%d temp=%d",
-                getTimestampUs(), deltaTimeUs, getAccelX(), getAccelY(), getAccelZ(), getGyroTiltX(), getGyroYawY(), getGyroRollZ(), getTemperature(),
+        return String.format("imuSample=%s timestampUs=%d deltaTimeUs=%d (ax,ay,az)=(%.2f,%.2f,%.2f) g (gx,gy,gz)=(%.2f,%.2f,%.2f) deg/sec temp=%.2fC Samples: (ax,ay,az)=(%d,%d,%d) (gx,gy,gz)=(%d,%d,%d) temp=%d",
+                imuSampleEvent,getTimestampUs(), deltaTimeUs, getAccelX(), getAccelY(), getAccelZ(), getGyroTiltX(), getGyroYawY(), getGyroRollZ(), getTemperature(),
                 getSensorRaw(IMUSampleType.ax), getSensorRaw(IMUSampleType.ay), getSensorRaw(IMUSampleType.az),
                 getSensorRaw(IMUSampleType.gx), getSensorRaw(IMUSampleType.gy), getSensorRaw(IMUSampleType.gz),
                 getSensorRaw(IMUSampleType.temp));
@@ -378,8 +382,8 @@ public class IMUSample extends ApsDvsEvent{
      }
      
     /**
-     * Returns the time in us since last sample, using System.nanoTime() on
-     * host.
+     * Returns the time in us since last sample. Note that only a single thread/class can access IMUSample class
+     * for this number to have a meaning, because it is a static class measure.
      *
      * @return the deltaTimeUs
      */

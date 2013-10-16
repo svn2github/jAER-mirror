@@ -101,7 +101,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     private float highpassTauMsRotation = getFloat("highpassTauMsRotation", 1000);
     float radPerPixel;
     private volatile boolean resetCalled = false;
-    private int lastUpdateTimestamp = 0;
+    private int lastImuTimestamp = 0;
     private boolean initialized = false;
 
     /**
@@ -171,25 +171,30 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         int sizey = chip.getSizeY() - 1;
         checkOutputPacketEventType(in);
         transformList.clear(); // empty list of transforms to be applied
-        getEnclosedFilterChain().filterPacket(in); // issues callbacks to us periodically via updates 
-
-        if (isElectronicStabilizationEnabled()) {
+        // The call to enclosed filters issues callbacks to us periodically via updates that fills transform list, in case of enclosed filters. 
+        // this is not the case when using integrated IMU which generates IMUSamples in the event stream.
+        getEnclosedFilterChain().filterPacket(in); 
+        
+        if (isElectronicStabilizationEnabled()) { // here we stabilize by using the measured camera rotation to counter-transform the events
             checkOutputPacketEventType(in);
-            OutputEventIterator outItr = out.outputIterator();
+            OutputEventIterator outItr = out.outputIterator();// the transformed events output packet
             // TODO compute evenMotion boolean from opticalGyro
             Iterator<TransformAtTime> transformItr = transformList.iterator(); // this list is filled by the enclosed filters
             for (Object o : in) {
                 PolarityEvent ev = (PolarityEvent) o;
                 switch (cameraRotationEstimator) {
                     case VORSensor:
-                        if (ev instanceof IMUSample) {
-                            lastTransform = computeTransform((IMUSample) ev);
+                        if (ev instanceof IMUSample ) { // TODO hack, we mark IMUSamples in EventExtractor that are actually ApsDvsEvent as non-special so we can detect them here
+//                            System.out.println(ev);
+                            IMUSample s=(IMUSample) ev;
+                            if(s.imuSampleEvent){
+                                lastTransform = updateTransform(s);
+                            }
                             continue; // next event
                         }
                         break;
                     default:
                         lastTransform = transformItr.next();
-
                 }
 
                 if (lastTransform != null) {
@@ -253,7 +258,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
      * @param timestamp the timestamp in us.
      * @return the transform object representing the camera rotation
      */
-    synchronized public TransformAtTime computeTransform(IMUSample imuSample) {
+    synchronized public TransformAtTime updateTransform(IMUSample imuSample) {
         if (resetCalled) {
             log.info("reset called, panDC" + panDC + " panTranslationFilter=" + panTranslationFilter);
             resetCalled = false;
@@ -262,9 +267,10 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         if (imuSample == null) {
             return null;
         }
+        System.out.println(imuSample.toString());
         int timestamp = imuSample.getTimestampUs();
-        float dtS = (timestamp - lastUpdateTimestamp) * 1e-6f;
-        lastUpdateTimestamp = imuSample.getTimestampUs();
+        float dtS = (timestamp-lastImuTimestamp) * 1e-6f;
+        lastImuTimestamp = timestamp;
         if (!initialized) {
             initialized = true;
             return null;
@@ -287,7 +293,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         // computute transform in TransformAtTime units here.
         // Use the lens focal length and camera resolution.
 
-        TransformAtTime tr = new TransformAtTime(imuSample.getTimestampUs(),
+        TransformAtTime tr = new TransformAtTime(timestamp,
                 new Point2D.Float(
                 (float) (Math.PI / 180 * panTranslationDeg) / radPerPixel,
                 (float) (Math.PI / 180 * tiltTranslationDeg) / radPerPixel),

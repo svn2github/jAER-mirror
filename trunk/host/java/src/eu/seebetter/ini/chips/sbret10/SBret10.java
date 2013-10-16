@@ -251,6 +251,8 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
             int[] datas = in.getAddresses();
             int[] timestamps = in.getTimestamps();
             OutputEventIterator outItr = out.outputIterator();
+            
+            // NOTE we must make sure we write ApsDvsEvents when we want them, not reuse the IMUSamples
 
             // at this point the raw data from the USB IN packet has already been digested to extract timestamps, including timestamp wrap events and timestamp resets.
             // The datas array holds the data, which consists of a mixture of AEs and ADC values.
@@ -266,8 +268,9 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                     if (IMUSample.extractSampleTypeCode(data) == 0) { /// only start getting an IMUSample at code 0, the first sample type
                         try {
                             IMUSample possibleSample = IMUSample.constructFromAEPacketRaw(in, i, incompleteIMUSampleException);
-                            //                    System.out.println(imuSample); // debug
+//                            System.out.println(imuSample); // debug
                             i += IMUSample.SIZE_EVENTS;
+                            possibleSample.imuSampleEvent=true;
                             incompleteIMUSampleException = null;
                             imuSample = possibleSample;  // asking for sample from AEChip now gives this value, but no access to intermediate IMU samples
                             outItr.writeToNextOutput(imuSample); // also write the event out to the next output event slot
@@ -288,11 +291,11 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                     
                 }else if((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_DVS) {
                     //DVS event
-                    ApsDvsEvent e = (ApsDvsEvent) outItr.nextOutput();
+                    ApsDvsEvent e = nextApsDvsEvent(outItr);
                     if((data & ApsDvsChip.TRIGGERMASK) == ApsDvsChip.TRIGGERMASK){
                         e.adcSample = -1; // TODO hack to mark as not an ADC sample
                         e.startOfFrame = false;
-                        e.special = true;
+                        e.special = true; // TODO special is set here when capturing frames which will mess us up if this is an IMUSample used as a plain ApsDvsEvent
                         e.address = data;
                         e.timestamp = (timestamps[i]);
                     }else{
@@ -311,7 +314,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                     }
                 } else if ((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_APS) {
                     //APS event
-                    ApsDvsEvent e = (ApsDvsEvent) outItr.nextOutput();
+                    ApsDvsEvent e = nextApsDvsEvent(outItr);
                     e.adcSample = data & ADC_DATA_MASK;
                     int sampleType = (data & ADC_READCYCLE_MASK) >> ADC_NUMBER_OF_TRAILING_ZEROS;
                     switch (sampleType) {
@@ -358,7 +361,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                         // if we use ResetRead+SignalRead+C readout, OR, if we use ResetRead-SignalRead readout and we are at last APS pixel, then write EOF event
                         lastADCevent(); // TODO what does this do?
                         //insert a new "end of frame" event not present in original data
-                        ApsDvsEvent a = (ApsDvsEvent) outItr.nextOutput();
+                        ApsDvsEvent a =nextApsDvsEvent(outItr);
                         a.startOfFrame = false;
                         a.adcSample = 0; // set this effectively as ADC sample even though fake
                         a.timestamp = (timestamps[i]);
@@ -380,6 +383,14 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
             return out;
         } // extractPacket
 
+        // TODO hack to reuse IMUSample events as ApsDvsEvents holding only APS or DVS data by using the special flags
+        private ApsDvsEvent nextApsDvsEvent(OutputEventIterator outItr) {
+            ApsDvsEvent e = (ApsDvsEvent) outItr.nextOutput();
+            e.special = false;
+            if(e instanceof IMUSample) ((IMUSample)e).imuSampleEvent=false;
+            return e;
+        }
+        
         @Override
         public AEPacketRaw reconstructRawPacket(EventPacket packet) {
             if (raw == null) {
