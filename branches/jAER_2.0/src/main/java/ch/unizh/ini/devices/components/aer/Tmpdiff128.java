@@ -151,14 +151,12 @@ public class Tmpdiff128 extends AERChip implements Translator {
 		 */
 		private static final int SYNC_EVENT_BITMASK = 0x8000;
 
-		private static final int TICK_US = 1;
-
 		private int printedSyncEventWarningCount = 0;
 		private int wrapAdd = 0;
 
 		@Override
 		public void extractRawEventPacket(final ByteBuffer buffer, final RawEventPacket rawEventPacket) {
-			int address = 0, timestamp = 0, shortTimestamp = 0, lastTimestamp = 0;
+			int address = 0, timestamp = 0, lastTimestamp = 0;
 			int bytesSent = buffer.limit();
 
 			if ((bytesSent % 4) != 0) {
@@ -178,6 +176,7 @@ public class Tmpdiff128 extends AERChip implements Translator {
 					// timestamp bit 14 is one -> wrapAdd reset: this firmware
 					// version uses reset events to reset timestamps
 					wrapAdd = 0;
+					lastTimestamp = 0;
 				}
 				else if (i >= rawEventPacket.capacity()) {
 					// just do nothing, throw away events
@@ -188,25 +187,23 @@ public class Tmpdiff128 extends AERChip implements Translator {
 					address = (buffer.get(i) & 0xFF) | ((buffer.get(i + 1) & 0xFF) << 8);
 
 					// same for timestamp, LSB MSB
-					shortTimestamp = ((buffer.get(i + 2) & 0xFF) | ((buffer.get(i + 3) & 0xFF) << 8));
-
 					// 15 bit value of timestamp in TICK_US tick
-					timestamp = Translator.TICK_US * (shortTimestamp + wrapAdd);
+					timestamp = (((buffer.get(i + 2) & 0xFF) | ((buffer.get(i + 3) & 0xFF) << 8)) + wrapAdd);
 
 					// and convert to 1us tick
-					if (shortTimestamp < lastTimestamp) {
-						Tmpdiff128.logger.info("non-monotonic timestamp: lastTimestamp={}, shortTimestamp={}", lastTimestamp,
-							shortTimestamp);
+					if (timestamp < lastTimestamp) {
+						Tmpdiff128.logger.info("non-monotonic timestamp: lastTimestamp={}, timestamp={}",
+							lastTimestamp, timestamp);
 					}
 
-					lastTimestamp = shortTimestamp;
+					lastTimestamp = timestamp;
 
 					// this is USB2AERmini2 or StereoRetina board which have 1us
 					// timestamp tick
 					if ((address & Translator.SYNC_EVENT_BITMASK) != 0) {
 						if (printedSyncEventWarningCount < 10) {
 							if (printedSyncEventWarningCount < 10) {
-								Tmpdiff128.logger.info("sync event at shortTimestamp={}", shortTimestamp);
+								Tmpdiff128.logger.info("sync event at timestamp={}", timestamp);
 							}
 							else {
 								Tmpdiff128.logger.warn("disabling further printing of sync events");
