@@ -295,11 +295,8 @@ void TD_Init(void)              // Called once at startup
 	timer_init(); // start the timer2 to run imuTimestamp timer
    	IOE |= CPLD_NOT_RESET; // take CPLD out of reset
 	 
-	EZUSB_Delay(500);
+	EZUSB_Delay(100);
 
-	RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
-	RESET_TS=0;
-	imuTimestamp=0; // reset timestamp counter for IMU samples
 
 
 }
@@ -446,7 +443,13 @@ void latchConfigBits(void)
 
 void startMonitor(void)
 {
+
+	
  	RUN_CPLD=1;
+	RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
+	RESET_TS=0;
+	imuTimestamp=0; // reset timestamp counter for IMU samples
+
 
 	releasePowerDownBit();
 //	IOE = IOE | DVS_nReset; //start dvs statemachines
