@@ -217,7 +217,7 @@ public class AEFrameChipRenderer extends AEChipRenderer {
                 continue;
             }
             int type = e.getType();
-            boolean isAdcSampleFlag=e.isAdcSample();
+            boolean isAdcSampleFlag=e.isSampleEvent();
             if(!isAdcSampleFlag){
                 if(displayEvents){
                     if (xsel >= 0 && ysel >= 0) { // find correct mouse pixel interpretation to make sounds for large pixels
@@ -241,14 +241,15 @@ public class AEFrameChipRenderer extends AEChipRenderer {
     private void updateFrameBuffer(ApsDvsEvent e){
         float[] buf = pixBuffer.array();
         // TODO if playing backwards, then frame will come out white because B sample comes before A
-        if(e.isResetRead()){
+        if(e.isStartOfFrame()){
+            startFrame(e.timestamp);
+        }else if(e.isResetRead()){
             int index = getIndex(e);
             if(index<0 || index >= buf.length)return;
             float val = e.getAdcSample();
             buf[index] = val;
             buf[index+1] = val;
             buf[index+2] = val;
-            if(e.isStartOfFrame())startFrame(e.timestamp);
         }else if(e.isSignalRead()){
             int index = getIndex(e);
             if(index<0 || index >= buf.length)return;
@@ -267,8 +268,7 @@ public class AEFrameChipRenderer extends AEChipRenderer {
             buf[index] = fval;
             buf[index+1] = fval;
             buf[index+2] = fval;
-        }
-        if(e.isEndOfFrame()){
+        }else if(e.isEndOfFrame()){
             endFrame();
             AbstractHistogram tmp = currentHist;
             if (computeHistograms) {

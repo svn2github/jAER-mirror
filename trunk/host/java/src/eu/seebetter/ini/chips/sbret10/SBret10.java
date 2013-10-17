@@ -248,7 +248,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
             int n = in.getNumEvents(); //addresses.length;
             sx1 = chip.getSizeX() - 1;
             sy1 = chip.getSizeY() - 1;
-
+            
             int[] datas = in.getAddresses();
             int[] timestamps = in.getTimestamps();
             OutputEventIterator outItr = out.outputIterator();
@@ -263,15 +263,15 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
 //            System.out.println("Extracting new packet "+out);
             for (int i = 0; i < n; i++) {  // TODO implement skipBy/subsampling, but without missing the frame start/end events and still delivering frames
                 int data = datas[i];
-
-                if(incompleteIMUSampleException!=null || (ApsDvsChip.ADDRESS_TYPE_IMU & data)==ApsDvsChip.ADDRESS_TYPE_IMU){
+                
+                if (incompleteIMUSampleException != null || (ApsDvsChip.ADDRESS_TYPE_IMU & data) == ApsDvsChip.ADDRESS_TYPE_IMU) {
                     if (IMUSample.extractSampleTypeCode(data) == 0) { /// only start getting an IMUSample at code 0, the first sample type
                         try {
                             IMUSample possibleSample = IMUSample.constructFromAEPacketRaw(in, i, incompleteIMUSampleException);
                             i += IMUSample.SIZE_EVENTS;
                             incompleteIMUSampleException = null;
                             imuSample = possibleSample;  // asking for sample from AEChip now gives this value, but no access to intermediate IMU samples
-                            imuSample.imuSampleEvent=true;
+                            imuSample.imuSampleEvent = true;
                             outItr.writeToNextOutput(imuSample); // also write the event out to the next output event slot
 //                           System.out.println("at position "+(out.size-1)+" put "+imuSample); 
                             continue;
@@ -290,29 +290,29 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                         }
                     }
                     
-                }else if((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_DVS) {
+                } else if ((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_DVS) {
                     //DVS event
                     ApsDvsEvent e = nextApsDvsEvent(outItr);
-                    if((data & ApsDvsChip.TRIGGERMASK) == ApsDvsChip.TRIGGERMASK){
+                    if ((data & ApsDvsChip.TRIGGERMASK) == ApsDvsChip.TRIGGERMASK) {
                         e.adcSample = -1; // TODO hack to mark as not an ADC sample
-                        e.startOfFrame = false;
                         e.special = true; // TODO special is set here when capturing frames which will mess us up if this is an IMUSample used as a plain ApsDvsEvent
                         e.address = data;
                         e.timestamp = (timestamps[i]);
-                    }else{
+                        e.setIsDVS(true);
+                    } else {
                         e.adcSample = -1; // TODO hack to mark as not an ADC sample
-                        e.startOfFrame = false;
                         e.special = false;
                         e.address = data;
                         e.timestamp = (timestamps[i]);
                         e.polarity = (data & POLMASK) == POLMASK ? ApsDvsEvent.Polarity.On : ApsDvsEvent.Polarity.Off;
-                        e.type = (byte)((data & POLMASK) == POLMASK ? 1 : 0);
+                        e.type = (byte) ((data & POLMASK) == POLMASK ? 1 : 0);
                         e.x = (short) (sx1 - ((data & XMASK) >>> XSHIFT));
                         e.y = (short) ((data & YMASK) >>> YSHIFT);
+                        e.setIsDVS(true);
                         //System.out.println(data);
                         // autoshot triggering
                         autoshotEventsSinceLastShot++; // number DVS events captured here
-            }
+                    }
                 } else if ((data & ApsDvsChip.ADDRESS_TYPE_MASK) == ApsDvsChip.ADDRESS_TYPE_APS) {
                     //APS event
                     ApsDvsEvent e = nextApsDvsEvent(outItr);
@@ -340,35 +340,33 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                     e.address = data;
                     e.x = (short) (((data & XMASK) >>> XSHIFT));
                     e.y = (short) ((data & YMASK) >>> YSHIFT);
-                    e.type = (byte)(2);
+                    e.type = (byte) (2);
                     boolean pixZero = (e.x == sx1) && (e.y == sy1);//first event of frame (addresses get flipped)
-                    e.startOfFrame = (e.readoutType == ApsDvsEvent.ReadoutType.ResetRead) && pixZero;
-                    if (!config.chipConfigChain.configBits[6].isSet() && e.startOfFrame) {
-                        //rolling shutter
-                        //if(pixCnt!=129600) System.out.println("New frame, pixCnt was incorrectly "+pixCnt+" instead of 129600 but this could happen at end of file");
-                        frameTime = e.timestamp - firstFrameTs;
-                        firstFrameTs = e.timestamp;
-                    }
+                    if ((e.readoutType == ApsDvsEvent.ReadoutType.ResetRead) && pixZero) {
+                        createApsFlagEvent(outItr,ApsDvsEvent.ReadoutType.SOF,timestamps[i]);
+                        if(!config.chipConfigChain.configBits[6].isSet()){
+                            //rolling shutter start of exposure (SOE)
+                            createApsFlagEvent(outItr,ApsDvsEvent.ReadoutType.SOE,timestamps[i]);
+                            frameTime = e.timestamp - firstFrameTs;
+                            firstFrameTs = e.timestamp;
+                        }
+                    }    
                     if (config.chipConfigChain.configBits[6].isSet() && e.isResetRead() && (e.x == 0) && (e.y == sy1)) {
-                        //global shutter
+                        //global shutter start of exposure (SOE)
+                        createApsFlagEvent(outItr,ApsDvsEvent.ReadoutType.SOE,timestamps[i]);
                         frameTime = e.timestamp - firstFrameTs;
                         firstFrameTs = e.timestamp;
                     }
-                    e.isEndOfFrame();
+                    //end of exposure
                     if (pixZero && e.isSignalRead()) {
+                        createApsFlagEvent(outItr,ApsDvsEvent.ReadoutType.EOE,timestamps[i]);
                         exposure = e.timestamp - firstFrameTs;
                     }
                     if (e.isSignalRead() && (e.x == 0) && (e.y == 0)) {
                         // if we use ResetRead+SignalRead+C readout, OR, if we use ResetRead-SignalRead readout and we are at last APS pixel, then write EOF event
-                        lastADCevent(); // TODO what does this do?
+                        lastADCevent();
                         //insert a new "end of frame" event not present in original data
-                        ApsDvsEvent a =nextApsDvsEvent(outItr);
-                        a.startOfFrame = false;
-                        a.adcSample = 0; // set this effectively as ADC sample even though fake
-                        a.timestamp = (timestamps[i]);
-                        a.x = -1;
-                        a.y = -1;
-                        a.readoutType = ApsDvsEvent.ReadoutType.EOF;
+                        createApsFlagEvent(outItr,ApsDvsEvent.ReadoutType.EOF,timestamps[i]);
                         if (snapshot) {
                             snapshot = false;
                             config.apsReadoutControl.setAdcEnabled(false);
@@ -377,9 +375,9 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
                     }
                 }
             }
-            if((getAutoshotThresholdEvents()>0) && (autoshotEventsSinceLastShot>getAutoshotThresholdEvents())){
+            if ((getAutoshotThresholdEvents() > 0) && (autoshotEventsSinceLastShot > getAutoshotThresholdEvents())) {
                 takeSnapshot();
-                autoshotEventsSinceLastShot=0;
+                autoshotEventsSinceLastShot = 0;
             }
 //            int imuEventCount=0, realImuEventCount=0;
 //            for(Object e:out){
@@ -399,6 +397,16 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
             e.special = false;
             if(e instanceof IMUSample) ((IMUSample)e).imuSampleEvent=false;
             return e;
+        }
+        
+        private ApsDvsEvent createApsFlagEvent(OutputEventIterator outItr, ApsDvsEvent.ReadoutType flag, int timestamp) {
+            ApsDvsEvent a = nextApsDvsEvent(outItr);
+            a.adcSample = 0; // set this effectively as ADC sample even though fake
+            a.timestamp = timestamp;
+            a.x = -1;
+            a.y = -1;
+            a.readoutType = flag;
+            return a;
         }
         
         @Override

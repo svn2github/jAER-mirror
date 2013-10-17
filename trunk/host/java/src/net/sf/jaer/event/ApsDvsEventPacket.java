@@ -150,14 +150,14 @@ public class ApsDvsEventPacket<E extends ApsDvsEvent> extends EventPacket<E>{
             E output = (E) elementData[cursorDvs++]; // get next element of this packet (TODO guarenteed to be dvs event how?) and advance cursor
             if (outputPacket != null) {
                 OutputEventIterator outItr = outputPacket.getOutputIterator(); // and the output iterator for the "outputPacket" (without resetting it)
-                while (output.isAdcSample() && cursorDvs < size) { // while the event is an ADC sample and we are not done with packet
+                while (output.isSampleEvent() && cursorDvs < size) { // while the event is an ADC sample and we are not done with packet
                     // copy the ADC sample to outputPacket
                     E nextOut = (E) outItr.nextOutput();
                     nextOut.copyFrom(output);
                     output = (E) elementData[cursorDvs++]; // point to next event
                 }
             }
-            if(!output.isAdcSample()) { // if event is not an ADC sammple then save it for later
+            if(!output.isSampleEvent()) { // if event is not an ADC sammple then save it for later
                 lastPacketEvent=output;
             }else {
                 int lastTs=output.timestamp;

@@ -307,7 +307,6 @@ public class SBret10old extends ApsDvsChip {
                     if(!ignore){
                         ApsDvsEvent e = (ApsDvsEvent) outItr.nextOutput();
                         e.adcSample = -1; // TODO hack to mark as not an ADC sample
-                        e.startOfFrame = false;
                         e.special = false;
                         e.address = data;
                         e.timestamp = (timestamps[i]);
@@ -342,8 +341,10 @@ public class SBret10old extends ApsDvsChip {
                     e.special = false;
                     e.timestamp = (timestamps[i]);
                     e.address = data;
-                    e.startOfFrame = (data & ADC_START_BIT) == ADC_START_BIT;
-                    if(e.startOfFrame){
+                    if((data & ADC_START_BIT) == ADC_START_BIT){
+                        createApsFlagEvent(outItr, ApsDvsEvent.ReadoutType.SOF,timestamps[i]);
+                    }
+                    if(e.isStartOfFrame()){
                         //if(pixCnt!=129600) System.out.println("New frame, pixCnt was incorrectly "+pixCnt+" instead of 129600 but this could happen at end of file");
                         if(ignoreReadout){
                             ignore = true;
@@ -399,6 +400,16 @@ public class SBret10old extends ApsDvsChip {
             return out;
         } // extractPacket
     } // extractor
+    
+    private ApsDvsEvent createApsFlagEvent(OutputEventIterator outItr, ApsDvsEvent.ReadoutType flag, int timestamp) {
+        ApsDvsEvent a = (ApsDvsEvent)outItr.nextOutput();
+        a.adcSample = 0; // set this effectively as ADC sample even though fake
+        a.timestamp = timestamp;
+        a.x = -1;
+        a.y = -1;
+        a.readoutType = flag;
+        return a;
+    }
 
     /** overrides the Chip setHardware interface to construct a biasgen if one doesn't exist already.
      * Sets the hardware interface and the bias generators hardware interface
@@ -1625,7 +1636,7 @@ public class SBret10old extends ApsDvsChip {
                     //The iterator only iterates over the DVS events
                     ApsDvsEvent e = (ApsDvsEvent) allItr.next();                        
                     int type = e.getType();
-                    if(!e.isAdcSample()){
+                    if(!e.isSampleEvent()){
                         if(displayLogIntensityChangeEvents){
                             if (xsel >= 0 && ysel >= 0) { // find correct mouse pixel interpretation to make sounds for large pixels
                                 int xs = xsel, ys = ysel;
@@ -1646,7 +1657,7 @@ public class SBret10old extends ApsDvsChip {
                         if(frameData.useDVSExtrapolation){
                             frameData.putDvsEvent(e);
                         }
-                    }else if(e.isAdcSample() && e.x>=0 && e.y>=0 && displayIntensity && !getAeViewer().isPaused()){
+                    }else if(e.isSampleEvent() && e.x>=0 && e.y>=0 && displayIntensity && !getAeViewer().isPaused()){
                         frameData.putApsEvent(e);
                     }
                 }
@@ -1948,7 +1959,7 @@ public class SBret10old extends ApsDvsChip {
         }
         
         private void putApsEvent(ApsDvsEvent e){
-            if(!e.isAdcSample()) return;
+            if(!e.isSampleEvent()) return;
             if(e.isStartOfFrame())timestamp=e.timestamp;
             putNextSampleValue(e.adcSample, e.readoutType, e.x, e.y, e.timestamp);
         }
