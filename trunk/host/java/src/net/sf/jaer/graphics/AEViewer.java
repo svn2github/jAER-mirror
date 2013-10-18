@@ -4201,6 +4201,7 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
 	private void imagePanelMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_imagePanelMouseWheelMoved
 		int rotation = evt.getWheelRotation();
 		getRenderer().setColorScale(getRenderer().getColorScale() + rotation);
+                interruptViewloop();
 	}//GEN-LAST:event_imagePanelMouseWheelMoved
 
 	private void togglePlaybackDirectionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togglePlaybackDirectionMenuItemActionPerformed
