@@ -12,13 +12,12 @@
 package org.capocaccia.cne.jaer.cne2012.vor;
 
 import ch.unizh.ini.jaer.hardware.pantilt.PanTilt;
-import ch.unizh.ini.jaer.projects.poseestimation.DVS128Phidget;
 import ch.unizh.ini.jaer.projects.poseestimation.TransformAtTime;
-import ch.unizh.ini.jaer.projects.poseestimation.VORSensorForSteadicam;
-import com.phidgets.Phidget;
+import com.sun.opengl.util.j2d.TextRenderer;
 import eu.seebetter.ini.chips.sbret10.IMUSample;
-import eu.seebetter.ini.chips.sbret10.SBret10;
+import java.awt.Font;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -42,15 +41,15 @@ import net.sf.jaer.graphics.AEViewer;
 import net.sf.jaer.graphics.FrameAnnotater;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 import net.sf.jaer.util.filter.HighpassFilter;
+import net.sf.jaer.util.filter.LowpassFilter;
 
 /**
  * This "vestibular-ocular Steadicam" tries to compensate global image motion by
  * using vestibular and global motion metrics to redirect output events and
- * (optionally) also a mechanical pantilt unit, shifting them according to
+ * (optionally) also a mechanical pan-tilt unit, shifting them according to
  * motion of input. Three methods can be used 1) the global translational flow
  * computed from DirectionSelectiveFilter, or 2) the optical gyro outputs from
- * OpticalGyro, or 3) (the best method) using a Phidgets gyro unit (the 9-DOF
- * unit).
+ * OpticalGyro, or 3) the integrated IMU on the camera if available.
  *
  * @author tobi
  */
@@ -77,8 +76,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
 //    private boolean vestibularStabilizationEnabled = getBoolean("vestibularStabilizationEnabled", false);
     private Point2D.Float translation = new Point2D.Float();
     private HighpassFilter filterX = new HighpassFilter(), filterY = new HighpassFilter(), filterRotation = new HighpassFilter();
-    private boolean flipContrast = false;
-    private final int SHIFT_LIMIT = 30;
+    private boolean flipContrast = getBoolean("flipContrast", false);
     boolean evenMotion = true;
     private FilterChain filterChain;
     private boolean annotateEnclosedEnabled = getBoolean("annotateEnclosedEnabled", true);
@@ -88,7 +86,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     TransformAtTime lastTransform = null;
 //    private double[] angular, acceleration;
     private float panRate = 0, tiltRate = 0, rollRate = 0; // in deg/sec
-    private float panOffset, tiltOffset, rollOffset;
+    private float panOffset=getFloat("panOffset",0), tiltOffset=getFloat("tiltOffset",0), rollOffset=getFloat("rollOffset",0);
 //    private float upAccel = 0, rightAccel = 0, zAccel = 0; // in g in m/s^2
     private float panTranslationDeg = 0;
     private float tiltTranslationDeg = 0;
@@ -105,7 +103,14 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     private int lastImuTimestamp = 0;
     private boolean initialized = false;
     private boolean addTimeStampsResetPropertyChangeListener = false;
-    private int transformResetLimitDegrees = getInt("transformResetLimitDegrees", 180);
+    private int transformResetLimitDegrees = getInt("transformResetLimitDegrees", 45);
+    
+    // calibration
+    private boolean calibrating=false; // used to flag calibration state
+    private int calibrationSampleCount=0;
+    private int CALIBRATION_SAMPLES=800; // 400 samples /sec
+    private CalibrationFilter panCalibrator, tiltCalibrator, rollCalibrator;
+        TextRenderer imuTextRenderer=new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
 
     /**
      * Creates a new instance of SceneStabilizer
@@ -165,10 +170,13 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         rollFilter.setTauMs(highpassTauMsRotation);
         panTranslationFilter.setTauMs(highpassTauMsTranslation);
         tiltTranslationFilter.setTauMs(highpassTauMsTranslation);
+        panCalibrator = new CalibrationFilter();
+        tiltCalibrator = new CalibrationFilter();
+        rollCalibrator = new CalibrationFilter();
     }
 
     @Override
-    public EventPacket filterPacket(EventPacket in) { // TODO completely rework this code because IMUSamples are part of the packet now!
+    synchronized public EventPacket filterPacket(EventPacket in) { // TODO completely rework this code because IMUSamples are part of the packet now!
         if (!addTimeStampsResetPropertyChangeListener) {
             chip.getAeViewer().addPropertyChangeListener(AEViewer.EVENT_TIMESTAMPS_RESET, this);
             addTimeStampsResetPropertyChangeListener = true;
@@ -293,6 +301,24 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         panRate = imuSample.getGyroYawY();
         tiltRate = imuSample.getGyroTiltX();
         rollRate = imuSample.getGyroRollZ();
+        if (calibrating) {
+            calibrationSampleCount++;
+            if (calibrationSampleCount > CALIBRATION_SAMPLES) {
+                calibrating = false;
+                panOffset=panCalibrator.computeAverage();
+                tiltOffset=tiltCalibrator.computeAverage();
+                rollOffset=rollCalibrator.computeAverage();
+                putFloat("panOffset",panOffset);
+                putFloat("tiltOffset",tiltOffset);
+                putFloat("rollOffset",rollOffset);
+                log.info(String.format("calibration finished. %d samples averaged to (pan,tilt,roll)=(%.3f,%.3f,%.3f)",CALIBRATION_SAMPLES,panOffset,tiltOffset,rollOffset));
+            }else{
+                panCalibrator.addSample(panRate);
+                tiltCalibrator.addSample(tiltRate);
+                rollCalibrator.addSample(rollRate);
+            }
+            return null;
+        }
 //        zAccel = imuSample.getAccelZ();
 //        upAccel = imuSample.getAccelY();
 //        rightAccel = imuSample.getAccelX();
@@ -317,7 +343,17 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
             panTranslationFilter.reset();
             tiltTranslationFilter.reset();
             rollFilter.reset();
+            log.info("transform reset limit reached, transform reset to zero");
         }
+       
+        if (flipContrast) {
+            if (Math.abs(panRate) > Math.abs(tiltRate)) {
+                evenMotion = panRate > 0; // used to flip contrast 
+            } else {
+                evenMotion = tiltRate > 0;
+            }
+        }
+
 
         // computute transform in TransformAtTime units here.
         // Use the lens focal length and camera resolution.
@@ -343,16 +379,28 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         e.address = chip.getEventExtractor().getAddressFromCell(e.x, e.y, e.getType()); // so event is logged properly to disk
     }
 
-    public void doEraseGyroZero() {
+    synchronized public void doEraseGyroZero() {
         panOffset = 0;
         tiltOffset = 0;
         rollOffset = 0;
+        putFloat("panOffset",0);
+        putFloat("tiltOffset",0);
+        putFloat("rollOffset",0);
+        log.info("calibration erased");
     }
 
-    public void doZeroGyro() {
-        panOffset = panRate; // TODO offsets should really be some average over some samples
-        tiltOffset = tiltRate;
-        rollOffset = rollRate;
+    synchronized public void doZeroGyro() {
+        calibrating=true;
+        calibrationSampleCount=0;
+        panCalibrator.reset();
+        tiltCalibrator.reset();
+        rollCalibrator.reset();
+        log.info("calibration started");
+        
+//        panOffset = panRate; // TODO offsets should really be some average over some samples
+//        tiltOffset = tiltRate;
+//        rollOffset = rollRate;
+        
     }
 
     /**
@@ -461,6 +509,16 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
             gl.glPopMatrix();
 
         }
+        
+        if (calibrating) {
+            imuTextRenderer.begin3DRendering();
+            imuTextRenderer.setColor(1, 1, 1, 1);
+            final String saz = String.format("Don't move sensor (Calibrating %d/%d)", calibrationSampleCount, CALIBRATION_SAMPLES);
+            Rectangle2D rect = imuTextRenderer.getBounds(saz);
+            final float scale=.25f;
+            imuTextRenderer.draw3D(saz, chip.getSizeX() / 2 - (float) rect.getWidth() *scale / 2, chip.getSizeY() / 2, 0, scale); //
+            imuTextRenderer.end3DRendering();
+        }
     }
 
 //    public float getGainTranslation() {
@@ -546,6 +604,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
 
     public void setFlipContrast(boolean flipContrast) {
         this.flipContrast = flipContrast;
+        putBoolean("flipContrast", flipContrast);
     }
 
     @Override
@@ -797,5 +856,21 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     public void setTransformResetLimitDegrees(int transformResetLimitDegrees) {
         this.transformResetLimitDegrees = transformResetLimitDegrees;
         putInt("transformResetLimitDegrees", transformResetLimitDegrees);
+    }
+    
+    private class CalibrationFilter{
+        int count=0;
+        float sum=0;
+        void reset(){
+            count=0;
+            sum=0;
+        }
+        void addSample(float sample){
+            sum+=sample;
+            count++;
+        }
+        float computeAverage(){
+            return sum/count;
+        }
     }
 }
