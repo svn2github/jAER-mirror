@@ -74,14 +74,14 @@ HighSpeedConfigDscr:
       db   1      ;; Configuration number
       db   0      ;; Configuration string
       db   10000000b   ;; Attributes (b7 - buspwr, b6 - selfpwr, b5 - rwu)
-      db   150      ;; Power requirement (div 2 ma)
+      db   75      ;; Power requirement (div 2 ma)
 
 ;; Interface Descriptor
       db   DSCR_INTRFC_LEN      ;; Descriptor length
       db   DSCR_INTRFC         ;; Descriptor type
       db   0               ;; Zero-based index of this interface
       db   0               ;; Alternate setting
-      db   3               ;; Number of end points 
+      db   2               ;; Number of end points 
       db   0ffH            ;; Interface class
       db   00H               ;; Interface sub class
       db   00H               ;; Interface sub sub class
@@ -104,16 +104,16 @@ HighSpeedConfigDscr:
       db   ET_BULK            ;; Endpoint type
       db   40H               ;; Maximun packet size (LSB)
       db   00H               ;; Max packect size (MSB)
-      db   00H 			;; Polling interval
+      db   01H 			;; Polling interval
 
 ;; Endpoint Descriptor
-      db   DSCR_ENDPNT_LEN      ;; Descriptor length
-      db   DSCR_ENDPNT         ;; Descriptor type
-      db   02H               ;; Endpoint number, and direction
-      db   ET_BULK            ;; Endpoint type
-      db   00H               ;; Maximun packet size (LSB)
-      db   02H               ;; Max packect size (MSB)
-      db   00H               ;; Polling interval
+;      db   DSCR_ENDPNT_LEN      ;; Descriptor length
+;      db   DSCR_ENDPNT         ;; Descriptor type
+;      db   02H               ;; Endpoint number, and direction
+;      db   ET_BULK            ;; Endpoint type
+;      db   00H               ;; Maximun packet size (LSB)
+;      db   02H               ;; Max packect size (MSB)
+;      db   00H               ;; Polling interval
 
 /*;; Endpoint Descriptor
       db   DSCR_ENDPNT_LEN      ;; Descriptor length
@@ -151,7 +151,7 @@ FullSpeedConfigDscr:
       db   DSCR_INTRFC         ;; Descriptor type
       db   0               ;; Zero-based index of this interface
       db   0               ;; Alternate setting
-      db   3               ;; Number of end points 
+      db   2               ;; Number of end points 
       db   0ffH            ;; Interface class
       db   00H               ;; Interface sub class
       db   00H               ;; Interface sub sub class
@@ -178,13 +178,13 @@ FullSpeedConfigDscr:
       db   00H                ;; Polling interval 
 
 ;; Endpoint Descriptor
-      db   DSCR_ENDPNT_LEN      ;; Descriptor length
-      db   DSCR_ENDPNT         ;; Descriptor type
-      db   02H               ;; Endpoint number, and direction
-      db   ET_BULK            ;; Endpoint type
-      db   40H               ;; Maximun packet size (LSB)
-      db   00H               ;; Max packect size (MSB)
-      db   00H               ;; Polling interval
+;      db   DSCR_ENDPNT_LEN      ;; Descriptor length
+;      db   DSCR_ENDPNT         ;; Descriptor type
+;      db   02H               ;; Endpoint number, and direction
+;      db   ET_BULK            ;; Endpoint type
+;      db   40H               ;; Maximun packet size (LSB)
+;      db   00H               ;; Max packect size (MSB)
+;      db   00H               ;; Polling interval
 
 ;; Endpoint Descriptor
 /*      db   DSCR_ENDPNT_LEN      ;; Descriptor length
