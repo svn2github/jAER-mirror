@@ -16,7 +16,7 @@ You can choose Node locked license.
 You need to request a free license http://www.latticesemi.com/licensing/flexlmlicense.cfm?p=diamond .  To request license ou need the MAC ID "Host NIC". You can get this with "ipconfig/all" from a cmd window and look for the active ethernet adaptor.
 After license request the email comes in about 30 minutes.
 If you are already using Xilinx tools you may already have set LM_LICENSE_SERVER to a network server. In this case, use a license string like this: 
-	2100@license.ini.uzh.ch;C:\lscc\diamond\2.1_x64\license\license.dat
+	2100@license.ini.uzh.ch;C:\lscc\diamond\2.2_x64\license\license.dat
 Note the semicolon separates the two places licenses are looked for.
 
 
