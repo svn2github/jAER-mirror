@@ -236,7 +236,7 @@ void TD_Init(void)              // Called once at startup
 
 	EP1OUTCFG = 0x00;			// EP1OUT disabled
 	SYNCDELAY;
-	EP1INCFG = 0xA0;			// EP1IN enabled, bulk
+	EP1INCFG = 0xa0;			// EP1IN enabled, bulk
 	SYNCDELAY;                   
 	EP2CFG = 0x00;				// EP2 disabled
 	SYNCDELAY;                     
@@ -263,6 +263,7 @@ void TD_Init(void)              // Called once at startup
 
 	biasInit();	// init biasgen ports and pins                             
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
+	I2CTL=0x01;  // set I2C to 400kHz to speed up IMU data transfers
 	IMU_init(); // initialize IMU gyro chip
 	// initialize I2C interrupt
 	EIE|=0x02; // EI2C enable I2C interrupt I2CINT
