@@ -318,7 +318,7 @@ void IMU_init(void){
 	b[1] = 0; // sample rate divider =1, 1Khz sample rate when DLPF is enabled
 	EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &b); // select this register for writing on IMU and supply data to write to it
 	b[0] = 27; // GYRO_CONFIG register. gyro FS_SEL bits are 4:3 full scale select bits, gyro sensitivity
-	b[1] = 0x10; // set FS_SEL to 2, which is 1000 deg/s, 32.8 LSB per deg/s
+	b[1] = 0x08; // set FS_SEL to 1, which is 500 deg/s, 65.5 LSB per deg/s
 	EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &b); // select this register for writing on IMU and supply data to write to it
 	b[0] = 28; // ACCEL_CONFIG register. accel AFS_SEL bits are 4:3 full scale select bits, gyro sensitivity
 	b[1] = 0x08; // set AFS_SEL to 1, which is 4g, 8192 LSB per g

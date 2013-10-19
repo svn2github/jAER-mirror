@@ -555,18 +555,18 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
             gl.glColor3f(1, 0, 0);
             gl.glBegin(GL.GL_LINES);
             gl.glVertex2f(0, 0);
-            x = (vectorScale * imuSample.getGyroYawY() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC/2;
-            y = (vectorScale * imuSample.getGyroTiltX() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC/2+5;
+            x = (vectorScale * imuSample.getGyroYawY() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC;
+            y = (vectorScale * imuSample.getGyroTiltX() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC;
             gl.glVertex2f(x, y);
             gl.glEnd();
 
             imuTextRenderer.begin3DRendering();
             imuTextRenderer.setColor(1, 0, 0, trans);
-            imuTextRenderer.draw3D(String.format("%.2f,%.2f dps", imuSample.getGyroYawY(), imuSample.getGyroTiltX()), x, y, 0, textScale); // x,y,z, scale factor
+            imuTextRenderer.draw3D(String.format("%.2f,%.2f dps", imuSample.getGyroYawY()+5, imuSample.getGyroTiltX()), x, y, 0, textScale); // x,y,z, scale factor
             imuTextRenderer.end3DRendering();
 
             // gyro roll
-            x = (vectorScale * imuSample.getGyroRollZ() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC/2;
+            x = (vectorScale * imuSample.getGyroRollZ() * HEIGHT) / IMUSample.FULL_SCALE_GYRO_DEG_PER_SEC;
             y = chip.getSizeY() * .25f;
             gl.glBegin(GL.GL_LINES);
             gl.glVertex2f(0, y);
