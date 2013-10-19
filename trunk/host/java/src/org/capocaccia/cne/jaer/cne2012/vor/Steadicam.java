@@ -104,6 +104,9 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     private boolean initialized = false;
     private boolean addTimeStampsResetPropertyChangeListener = false;
     private int transformResetLimitDegrees = getInt("transformResetLimitDegrees", 45);
+    // deal with leftover IMU data after timestamps reset
+    private static final int FLUSH_COUNT=100;
+    private int flushCounter=0;
     
     // calibration
     private boolean calibrating=false; // used to flag calibration state
@@ -290,6 +293,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         if (imuSample == null) {
             return null;
         }
+        if(flushCounter-->=0) return null;  // flush some samples if the timestamps have been reset and we need to discard some samples here
 //        System.out.println(imuSample.toString());
         int timestamp = imuSample.getTimestampUs();
         float dtS = (timestamp - lastImuTimestamp) * 1e-6f;
@@ -614,6 +618,8 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         getEnclosedFilterChain().reset();
         if (!yes) {
             setPanTiltEnabled(false); // turn off servos, close interface
+        }else{
+            resetFilter(); // reset on enabled to prevent large timestep anomalies
         }
     }
 
@@ -840,6 +846,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName() == AEViewer.EVENT_TIMESTAMPS_RESET) {
             resetFilter();
+            flushCounter=FLUSH_COUNT;
         }
     }
 

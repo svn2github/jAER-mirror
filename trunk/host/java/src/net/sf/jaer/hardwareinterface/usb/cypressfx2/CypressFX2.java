@@ -1177,7 +1177,7 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
 
         @Override
         public void startThread(int MaxIoErrorCount) {
-            allocateBuffers(64,4);
+            allocateBuffers(256,3); // size of buffers and number of buffers on host side. Device side endpoint is 64 bytes. That means multiple device packets can be queued up on host side in these buffers.
             super.startThread(MaxIoErrorCount);
             T.setPriority(STATUS_PRIORITY); // very important that this thread have priority or the acquisition will stall on device side for substantial amounts of time!
             T.setName("AsyncStatusThread");
@@ -1201,7 +1201,7 @@ public class CypressFX2 implements UsbIoErrorCodes, PnPNotifyInterface, AEMonito
                             
                         case STATUS_MSG_OTHER:
                         default:
-                                UsbIoBuf newbuf = new UsbIoBuf(64);
+                                UsbIoBuf newbuf = new UsbIoBuf(buffer.BytesTransferred);
                         
                         	// Copy data to new buffer, this one is resubmitted right away.
                         	System.arraycopy(buffer.BufferMem, 0, newbuf.BufferMem, 0, buffer.BytesTransferred);

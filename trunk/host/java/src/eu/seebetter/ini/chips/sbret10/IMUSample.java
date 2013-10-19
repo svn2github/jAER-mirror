@@ -63,10 +63,11 @@ public class IMUSample extends ApsDvsEvent{
      * values are from datasheet for reset settings
      */
 //    final float accelScale = 2f / ((1 << 16)-1), gyroScale = 250f / ((1 << 16)-1), temperatureScale = 1f/340;
-    private static final float accelScale = 1f/16384, gyroScale = 1f/131, temperatureScale = 1f/340, temperatureOffset=35;
+    /** IMU sensitivity scaling: The IMU 16-bit values are scaled by this amount to result in either deg/s, g, or deg C */
+    public static final float accelScale = 1f/8192, gyroScale = 1f/32.8f, temperatureScale = 1f/340, temperatureOffset=35;
 
     /** Full scale values */
-    public static final float FULL_SCALE_ACCEL_G=2f, FULL_SCALE_GYRO_DEG_PER_SEC=250f;
+    public static final float FULL_SCALE_ACCEL_G=4f, FULL_SCALE_GYRO_DEG_PER_SEC=1000f;
 
     /** Used to track sample rate */
     private static LowpassFilter sampleIntervalFilter=new LowpassFilter(100); // time constant in ms
