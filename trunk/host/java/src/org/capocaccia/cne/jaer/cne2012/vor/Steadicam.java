@@ -114,6 +114,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     private int CALIBRATION_SAMPLES=800; // 400 samples /sec
     private CalibrationFilter panCalibrator, tiltCalibrator, rollCalibrator;
         TextRenderer imuTextRenderer=new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
+    private boolean showAnnotation=getBoolean("showAnnotation", true);
 
     /**
      * Creates a new instance of SceneStabilizer
@@ -170,6 +171,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         setPropertyTooltip("zeroGyro", "zeros the gyro output. Sensor should be stationary for period of 1-2 seconds during zeroing");
         setPropertyTooltip("eraseGyroZero", "Erases the gyro zero values");
         setPropertyTooltip("transformResetLimitDegrees", "If transform translations exceed this limit in degrees the transform is automatically reset to 0");
+        setPropertyTooltip("showAnnotation", "Disable to not show the red transform square and red cross hairs");
         rollFilter.setTauMs(highpassTauMsRotation);
         panTranslationFilter.setTauMs(highpassTauMsTranslation);
         tiltTranslationFilter.setTauMs(highpassTauMsTranslation);
@@ -482,6 +484,8 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
 
     @Override
     public void annotate(GLAutoDrawable drawable) {
+        if(!showAnnotation) return;
+        
         GL gl = drawable.getGL();
         if (gl == null) {
             return;
@@ -863,6 +867,21 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     public void setTransformResetLimitDegrees(int transformResetLimitDegrees) {
         this.transformResetLimitDegrees = transformResetLimitDegrees;
         putInt("transformResetLimitDegrees", transformResetLimitDegrees);
+    }
+
+    /**
+     * @return the showAnnotation
+     */
+    public boolean isShowAnnotation() {
+        return showAnnotation;
+    }
+
+    /**
+     * @param showAnnotation the showAnnotation to set
+     */
+    public void setShowAnnotation(boolean showAnnotation) {
+        this.showAnnotation = showAnnotation;
+        putBoolean("showAnnotation", showAnnotation);
     }
     
     private class CalibrationFilter{
