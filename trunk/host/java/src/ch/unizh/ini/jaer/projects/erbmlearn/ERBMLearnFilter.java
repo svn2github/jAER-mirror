@@ -13,9 +13,13 @@ import net.sf.jaer.eventprocessing.EventFilter2D;
 import ch.unizh.ini.JEvtLearn.ERBM;
 import com.sun.opengl.util.GLUT;
 import java.awt.Dimension;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
@@ -25,6 +29,7 @@ import javax.swing.JFrame;
 import net.sf.jaer.event.PolarityEvent;
 import net.sf.jaer.event.PolarityEvent.Polarity;
 import org.apache.commons.lang3.ArrayUtils;
+import org.jblas.DoubleMatrix;
 /**
  *
  * @author danny
@@ -34,7 +39,7 @@ import org.apache.commons.lang3.ArrayUtils;
 public class ERBMLearnFilter extends EventFilter2D {
 
     ERBM erbm;    
-    
+    boolean qs;
     int x_size = 28;
     int y_size = 28;
     
@@ -54,6 +59,8 @@ public class ERBMLearnFilter extends EventFilter2D {
     float thrHidMin = -2;
     float thrHidMax =  2;
     
+    float inv_decay = 0.001f / 100.0f;
+    
     // Display Variables 
     private GLU glu = null;                 // OpenGL Utilities
     private JFrame weightFrame = null;      // Frame displaying neuron weight matrix
@@ -62,10 +69,23 @@ public class ERBMLearnFilter extends EventFilter2D {
     boolean show_viz = false;
     private JFrame vizFrame = null;      // Frame displaying neuron weight matrix
     private GLCanvas vizCanvas = null;   // Canvas on which weightFrame is drawn    
+
+    boolean show_acc = false;
+    private JFrame accFrame = null;      // Frame displaying neuron weight matrix
+    private GLCanvas accCanvas = null;   // Canvas on which weightFrame is drawn    
+    
+    // Accuracy
+    int numAccPoints = 100;
+    float [] accuracy_log = new float[numAccPoints];
+    DoubleMatrix slow_recon;
+    DoubleMatrix slow_orig;
+    float acc_tau = 4;
     
     public ERBMLearnFilter(AEChip chip) {
         super(chip);
         erbm = new ERBM(vis_size, h_size);
+        slow_recon = new DoubleMatrix(vis_size);
+        slow_orig = new DoubleMatrix(vis_size);
     }
 
     /** The main filtering method. It computes the mean location using an event-driven update of location and then
@@ -105,7 +125,15 @@ public class ERBMLearnFilter extends EventFilter2D {
         if(show_viz){
             checkVizFrame();
             vizCanvas.repaint();
-        }        
+        }       
+        if(show_acc){
+            checkAccFrame();
+            accCanvas.repaint();
+        }
+        
+        // do inverse decay
+        erbm.weights.addi(inv_decay);
+        
         return in; // return the output packet
     }
 
@@ -115,12 +143,18 @@ public class ERBMLearnFilter extends EventFilter2D {
     @Override
     public void resetFilter() {
         erbm = new ERBM(vis_size, h_size);
+        slow_recon = new DoubleMatrix(vis_size);
+        slow_orig = new DoubleMatrix(vis_size);
         
-        erbm.eta = 0.010;
-        erbm.thresh_eta = 0;
-        erbm.t_refrac = 0.010;
-        erbm.tau = 0.1;
-        erbm.inp_scale = 0.05;
+        erbm.weights = DoubleMatrix.rand(vis_size, h_size).muli(0.1f);
+        //float char_tau = 0.01f;
+        
+        setSTDPWin(getSTDPWin());
+        setLearnRate(getLearnRate());
+        setThrLearnRate(getThrLearnRate());
+        setTRefrac(getTRefrac());
+        setTau(getTau());
+        setReconTau(getReconTau());
     }
 
     @Override
@@ -164,8 +198,8 @@ public class ERBMLearnFilter extends EventFilter2D {
                 int border_width  =  2;
                 int weightPadding = 20;
                 int neuronPadding = 5;
-                int neuronsPerRow = 10;
-                int neuronsPerColumn = 10;
+                int neuronsPerRow = (int) Math.floor(Math.sqrt((float) h_size));
+                int neuronsPerColumn = (int) Math.floor(Math.sqrt((float) h_size));
                 int xPixelsPerNeuron = x_size + neuronPadding;
                 int yPixelsPerNeuron = y_size + neuronPadding;
                 int xPixelsPerRow = xPixelsPerNeuron * neuronsPerRow - neuronPadding;
@@ -369,7 +403,7 @@ public class ERBMLearnFilter extends EventFilter2D {
                 for (int x=0; x < x_size; x++) {
                     for (int y=0; y < y_size; y++) {
                         float r = ((float) erbm.recon[recon_layer].get(y*x_size+x) - rVMin) / (float) (rVMax - rVMin);
-                        gl.glColor3f(r/1.5f, r/1.5f, r);
+                        gl.glColor3f(r, r/1.5f, r/1.5f);
                         gl.glRectf(x, y, 
                                    x+1, y+1);                                
                     } // END LOOP - Y                            
@@ -440,12 +474,133 @@ public class ERBMLearnFilter extends EventFilter2D {
     } // END METHOD    
     
     
+    void checkAccFrame() {
+        if (accFrame == null || (accFrame != null && !accFrame.isVisible())) 
+            createAccFrame();
+    }
+
+    void hideAccFrame(){
+        if(accFrame!=null) 
+            accFrame.setVisible(false);
+    } 
+    
+    
+    void createAccFrame() {
+        // Initializes weightFrame
+        accFrame = new JFrame("Accuracy Visualization");
+        accFrame.setPreferredSize(new Dimension(800, 400));
+        // Creates drawing canvas
+        accCanvas = new GLCanvas();
+        // Adds listeners to canvas so that it will be updated as needed
+        accCanvas.addGLEventListener(new GLEventListener() {
+            // Called by the drawable immediately after the OpenGL context is initialized
+            @Override
+            public void init(GLAutoDrawable drawable) {
+            
+            }
+
+            // Called by the drawable to initiate OpenGL rendering by the client
+            // Used to draw and update canvas
+            @Override
+            synchronized public void display(GLAutoDrawable drawable) {
+                if (erbm.recon[2] == null) 
+                    return;
+
+                // Prepare sizing
+                int totX = numAccPoints;
+                int totY = 100;
+                
+                // Update slow-pass reconstruction
+                slow_orig.muli(1-1/acc_tau).addi(erbm.recon[0].mul(1/acc_tau));
+                slow_recon.muli(1-1/acc_tau).addi(erbm.recon[2].mul(1/acc_tau));
+                
+                // Update accuracy log - TERRIBLE code                                
+                float [] new_log = new float[numAccPoints];
+                for(int i=0; i<numAccPoints-1; i++){
+                    new_log[i] = accuracy_log[i+1];
+                }
+                new_log[numAccPoints-1] = (float) slow_recon.div(slow_recon.norm2()).dot(slow_orig.div(slow_orig.norm2()));
+                accuracy_log = new_log;
+                
+                // Draw in canvas
+                GL gl = drawable.getGL();
+                // Creates and scales drawing matrix so that each integer unit represents any given pixel
+                gl.glLoadIdentity();
+                gl.glScalef(drawable.getWidth() / (float) totX, 
+                            drawable.getHeight() / (float) totY, 1);
+                // Sets the background color for when glClear is called
+                gl.glClearColor(0.2f, 0.2f, 0.2f, 0);
+                gl.glClear(GL.GL_COLOR_BUFFER_BIT);                
+                
+                gl.glLineWidth(2.5f); 
+                gl.glColor3f(1.0f, 0.0f, 0.0f);
+                for(int i=1; i<numAccPoints; i++){
+                    gl.glBegin(gl.GL_LINES);                  
+                    gl.glVertex2f(i-1, accuracy_log[i-1]*100);
+                    gl.glVertex2f(i, accuracy_log[i]*100);
+                    gl.glEnd();                    
+                }
+                
+                
+                // Display Accuracy
+                final int font = GLUT.BITMAP_HELVETICA_12;
+                GLUT glut = chip.getCanvas().getGlut();
+                gl.glColor3f(1, 1, 1);
+                // Y-Axis Labels
+                float[] labels = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};                
+                for (int i=0; i< labels.length; i++){
+                    gl.glRasterPos3f(0, labels[i], 0);
+                    glut.glutBitmapString(font, String.format("%.0f", labels[i]));                                    
+                }
+                
+                gl.glRasterPos3f(100, 50, 0);
+                glut.glutBitmapString(font, String.format("Current: %f", accuracy_log[numAccPoints-1]));   
+                
+                                               
+                // Log error if there is any in OpenGL
+                int error = gl.glGetError();
+                if (error != GL.GL_NO_ERROR) {
+                    if (glu == null) 
+                        glu = new GLU();
+                    log.log(Level.WARNING, "GL error number {0} {1}", new Object[]{error, glu.gluErrorString(error)});
+                } // END IF
+            } // END METHOD - Display
+
+            // Called by the drawable during the first repaint after the component has been resized 
+            // Adds a border to canvas by adding perspective to it and then flattening out image
+            @Override
+            synchronized public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+                GL gl = drawable.getGL();
+                final int border = 10;
+                gl.glMatrixMode(GL.GL_PROJECTION);
+                gl.glLoadIdentity(); 
+                gl.glOrtho(-border, drawable.getWidth() + border, -border, drawable.getHeight() + border, 10000, -10000);
+                gl.glMatrixMode(GL.GL_MODELVIEW);
+                gl.glViewport(0, 0, width, height);
+            } // END METHOD
+
+            // Called by drawable when display mode or display device has changed
+            @Override
+            public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) {
+ 
+            } // END METHOD
+        }); // END SCOPE - GLEventListener
+        
+        // Add weightCanvas to weightFrame
+        accFrame.getContentPane().add(accCanvas);
+        // Causes window to be sized to fit the preferred size and layout of its subcomponents
+        accFrame.pack();
+        accFrame.setVisible(true);
+    } // END METHOD     
+    
     @Override
     public synchronized void cleanup() {
         if(weightFrame!=null) 
             weightFrame.dispose();
         if(vizFrame!=null) 
             vizFrame.dispose();        
+        if(accFrame!=null) 
+            accFrame.dispose();                
     } // END METHOD
 
     /**
@@ -459,89 +614,126 @@ public class ERBMLearnFilter extends EventFilter2D {
         if(!isFilterEnabled()){
             hideWeightFrame();
             hideVizFrame();
+            hideAccFrame();
         }
     } // END METHOD
        
     
     public void setShowWeights(final boolean show_weights) {
-        getPrefs().putBoolean("EDBNLearn.showWeights", show_weights);
+        getPrefs().putBoolean("ERBMLearn.showWeights", show_weights);
         getSupport().firePropertyChange("showWeights", this.show_weights, show_weights);
         this.show_weights = show_weights;
     }    
     public boolean getShowWeights(){
-        return this.show_weights;
+        return getPrefs().getBoolean("ERBMLearn.showWeights", true);    
     }    
-    
+
+    public void setShowAcc(final boolean show_acc) {
+        getPrefs().putBoolean("ERBMLearn.showAcc", show_acc);
+        getSupport().firePropertyChange("show_acc", this.show_acc, show_acc);
+        this.show_acc = show_acc;
+    }    
+    public boolean getShowAcc(){
+        return getPrefs().getBoolean("ERBMLearn.show_acc", true);    
+    }   
 
     public void setShowViz(final boolean show_viz) {
-        getPrefs().putBoolean("EDBNLearn.showViz", show_viz);
+        getPrefs().putBoolean("ERBMLearn.showViz", show_viz);
         getSupport().firePropertyChange("show_viz", this.show_viz, show_viz);
         this.show_viz = show_viz;
     }    
     public boolean getShowViz(){
-        return this.show_viz;
+        return getPrefs().getBoolean("ERBMLearn.show_vis", true);    
     }    
     
     public void setTRefrac(final float t_refrac) {
-        getPrefs().putFloat("EDBNLearn.t_refrac", t_refrac);
+        getPrefs().putFloat("ERBMLearn.t_refrac", t_refrac);
         getSupport().firePropertyChange("t_refrac", erbm.t_refrac, t_refrac);
         erbm.t_refrac = t_refrac;
     }    
     public float getTRefrac(){
-        return (float) erbm.t_refrac;
+        return getPrefs().getFloat("ERBMLearn.t_refrac", 0.001f);    
     }    
     
     public void setVisTau(final float vis_tau) {
-        getPrefs().putFloat("EDBNLearn.vis_tau", vis_tau);
+        getPrefs().putFloat("ERBMLearn.vis_tau", vis_tau);
         getSupport().firePropertyChange("vis_tau", this.vis_tau, vis_tau);
         this.vis_tau = vis_tau;
     }    
     public float getVisTau(){
-        return this.vis_tau;
+        return getPrefs().getFloat("ERBMLearn.vis_tau", 0.1f);    
     }       
         
     public void setLearnRate(final float learn_rate) {
-        getPrefs().putFloat("EDBNLearn.learn_rate", learn_rate);
+        getPrefs().putFloat("ERBMLearn.learn_rate", learn_rate);
         getSupport().firePropertyChange("learn_rate", erbm.eta, learn_rate);
         erbm.eta = learn_rate;
     }    
     public float getLearnRate(){
-        return (float) erbm.eta;
+        return getPrefs().getFloat("ERBMLearn.learn_rate", 0.001f);    
     }
     
     public void setThrLearnRate(final float thr_learn_rate) {
-        getPrefs().putFloat("EDBNLearn.thr_learn_rate", thr_learn_rate);
+        getPrefs().putFloat("ERBMLearn.thr_learn_rate", thr_learn_rate);
         getSupport().firePropertyChange("thr_learn_rate", erbm.thresh_eta, thr_learn_rate);
         erbm.thresh_eta = thr_learn_rate;
     }    
     public float getThrLearnRate(){
-        return (float) erbm.thresh_eta;
+        return getPrefs().getFloat("ERBMLearn.thr_learn_rate", 0.0f);    
     }    
     
     public void setTau(final float tau) {
-        getPrefs().putFloat("EDBNLearn.tau", tau);
+        getPrefs().putFloat("ERBMLearn.tau", tau);
         getSupport().firePropertyChange("tau", erbm.tau, tau);
         erbm.tau = tau;
     }    
     public float getTau(){
-        return (float) erbm.tau;
+        return getPrefs().getFloat("ERBMLearn.tau", 0.100f);    
     }         
-    
     public void setReconTau(final float recon_tau) {
-        getPrefs().putFloat("EDBNLearn.recon_tau", recon_tau);
+        getPrefs().putFloat("ERBMLearn.recon_tau", recon_tau);
         getSupport().firePropertyChange("recon_tau", erbm.recon_tau, recon_tau);
         erbm.recon_tau = recon_tau;
     }    
     public float getReconTau(){
-        return (float) erbm.recon_tau;
+        return getPrefs().getFloat("ERBMLearn.recon_tau", 0.100f);
     }  
     
     public void setSTDPWin(final float stdp_win) {
-        getPrefs().putFloat("EDBNLearn.stdp_win", stdp_win);
+        getPrefs().putFloat("ERBMLearn.stdp_win", stdp_win);
         getSupport().firePropertyChange("stdp_win", erbm.stdp_lag, stdp_win);
         erbm.stdp_lag = stdp_win;
     }    
     public float getSTDPWin(){
-        return (float) erbm.stdp_lag;
+        return getPrefs().getFloat("ERBMLearn.stdp_win", 0.100f);
     }      
+    public void setInvDecay(final float inv_decay) {
+        getPrefs().putFloat("ERBMLearn.inv_decay", inv_decay);
+        getSupport().firePropertyChange("inv_decay", this.inv_decay, inv_decay);
+        this.inv_decay = inv_decay;
+    }    
+    public float getInvDecay(){
+        return getPrefs().getFloat("ERBMLearn.inv_decay", 0.001f/ 100.0f);
+    } 
+    
+    
+    /*
+    public void setQuickSave(final boolean quicksave) {
+        getPrefs().putBoolean("ERBMLearn.qs", quicksave);
+        getSupport().firePropertyChange("qs", this.qs, quicksave);
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd.HH.mm.ss");//dd/MM/yyyy
+        Date now = new Date();
+        String strDate = sdfDate.format(now);
+        try {
+            String filename = "wts-" + strDate + ".dat";
+            erbm.weights.save(filename);
+        } catch (IOException ex) {
+            Logger.getLogger(ERBMLearnFilter.class.getName()).log(Level.SEVERE, "Something happened with save", ex);
+        }
+        
+    }    
+    public boolean getQuickSave(){
+        return getPrefs().getBoolean("ERBMLearn.qs", false);
+    } 
+    */
 }
