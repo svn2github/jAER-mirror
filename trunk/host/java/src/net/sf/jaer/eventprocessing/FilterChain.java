@@ -158,6 +158,10 @@ public class FilterChain extends LinkedList<EventFilter2D> {
             }
         }
         for (EventFilter2D f : this) {
+            if (measurePerformanceEnabled && f.perf != null && !f.isFilterEnabled()) { // check to reset performance meter
+                f.perf.resetStatistics();
+                f.perf = null;
+            }
             if(!f.isFilterEnabled() || in==null) continue;  // tobi added so that each filter doesn't need to check if enabled and non-null packet
             if (measurePerformanceEnabled) {
                 if (f.perf == null) {
@@ -171,10 +175,6 @@ public class FilterChain extends LinkedList<EventFilter2D> {
                 System.out.println(f.perf);
             }
             in = out;
-            if (measurePerformanceEnabled && f.perf != null && !f.isFilterEnabled()) { // check to reset performance meter
-                f.perf.resetStatistics();
-                f.perf = null;
-            }
         }
         timedOut = EventPacket.isTimedOut();
         EventPacket.setTimeLimitEnabled(false);
