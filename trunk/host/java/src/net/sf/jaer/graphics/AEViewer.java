@@ -5676,43 +5676,58 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
 		return null;
 	}
 
-	/** Adds (or replaces existing) JMenu to AEViewer, just before the Help menu.
-	 *
-	 * @param menu the menu
-	 */
-	public void setMenu(JMenu menu) {
-		JMenuBar b = getJMenuBar();
-		int n = b.getMenuCount();
-		// check for existing and replace
-		for (int i = 0; i < n; i++) {
-			JMenu m = b.getMenu(i);
-			if ((m != null) && m.getText().equals(menu.getText())) {
-				b.remove(i);
-				b.add(menu, i);
-				return;
-			}
-		}
-		// otherwise add just before Help menu
-		boolean didit = false;
-		for (int i = 0; i < n; i++) {
-			JMenu m = b.getMenu(i);
-			if ((m != null) && m.getText().equals("Help")) {
-				b.add(menu, i);
-				didit = true;
-			}
-		}
-		if (!didit) { // if no help menu, add to end
-			b.add(menu, -1);
-		}
-	}
+    /**
+     * Adds (or replaces existing) JMenu to AEViewer, just before the Help menu.
+     *
+     * @param menu the menu
+     * @see #removeMenu(javax.swing.JMenu) 
+     */
+    public void setMenu(JMenu menu) {
+        JMenuBar b = getJMenuBar();
+        int n = b.getMenuCount();
+        // check for existing and replace
+        for (int i = 0; i < n; i++) {
+            JMenu m = b.getMenu(i);
+            if ((m != null) && m.getText().equals(menu.getText())) {
+                b.remove(i);
+                b.add(menu, i);
+                return;
+            }
+        }
+        // otherwise add just before Help menu
+        boolean didit = false;
+        for (int i = 0; i < n; i++) {
+            JMenu m = b.getMenu(i);
+            if ((m != null) && m.getText().equals("Help")) {
+                b.add(menu, i);
+                didit = true;
+            }
+        }
+        if (!didit) { // if no help menu, add to end
+            b.add(menu, -1);
+        }
+    }
+    
+    /**
+     * Removes existing JMenu in AEViewer.
+     *
+     * @param menu the menu
+     * @see #setMenu(javax.swing.JMenu) 
+     */
+    public void removeMenu(JMenu menu) {
+        JMenuBar b = getJMenuBar();
+        b.remove(menu);
+    }
 
-	/** AEViewer makes a ServerSocket that accepts incoming connections. A connecting client
-    gets served the events being rendered.
-    @return the server socket. This holds the client socket.
-	 */
-	public AEServerSocket getAeServerSocket() {
-		return aeServerSocket;
-	}
+    /**
+     * AEViewer makes a ServerSocket that accepts incoming connections. A
+     * connecting client gets served the events being rendered.
+     *
+     * @return the server socket. This holds the client socket.
+     */
+    public AEServerSocket getAeServerSocket() {
+        return aeServerSocket;
+    }
 
 	/** If we have opened a socket to a server of events, then this is it
     @return the input socket
