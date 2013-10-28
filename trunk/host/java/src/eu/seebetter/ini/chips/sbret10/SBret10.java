@@ -6,6 +6,9 @@
  */
 package eu.seebetter.ini.chips.sbret10;
 
+import static ch.unizh.ini.jaer.chip.retina.DVS128.FIRMWARE_CHANGELOG;
+import static ch.unizh.ini.jaer.chip.retina.DVS128.HELP_URL_RETINA;
+import static ch.unizh.ini.jaer.chip.retina.DVS128.USER_GUIDE_URL_RETINA;
 import java.awt.Font;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -38,12 +41,28 @@ import com.sun.opengl.util.j2d.TextRenderer;
 
 import eu.seebetter.ini.chips.ApsDvsChip;
 import eu.seebetter.ini.chips.sbret10.IMUSample.IncompleteIMUSampleException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
+import java.util.Observable;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.event.BasicEvent;
+import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2DVS128HardwareInterface;
+import net.sf.jaer.hardwareinterface.usb.cypressfx2.HasLEDControl;
+import net.sf.jaer.hardwareinterface.usb.cypressfx2.HasResettablePixelArray;
+import net.sf.jaer.hardwareinterface.usb.cypressfx2.HasSyncEventOutput;
+import net.sf.jaer.util.HexString;
 import net.sf.jaer.util.RemoteControlCommand;
 import net.sf.jaer.util.RemoteControlled;
+import net.sf.jaer.util.WarningDialogWithDontShowPreference;
 
 /**
  * Describes retina and its event extractor and bias generator. Two constructors
@@ -61,6 +80,8 @@ import net.sf.jaer.util.RemoteControlled;
 @Description("SBret version 1.0")
 public class SBret10 extends ApsDvsChip implements RemoteControlled {
 
+    private JMenu dvs128Menu = null;
+    private JMenuItem syncEnabledMenuItem = null;
     private final int ADC_NUMBER_OF_TRAILING_ZEROS = Integer.numberOfTrailingZeros(ADC_READCYCLE_MASK); // speedup in loop
     // following define bit masks for various hardware data types.
     // The hardware interface translateEvents method packs the raw device data into 32 bit 'addresses' and timestamps.
@@ -800,5 +821,107 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
     public boolean isShowIMU() {
         return showIMU;
     }
+    
+        /**
+     * Updates AEViewer specialized menu items according to capabilities of
+     * HardwareInterface.
+     *
+     * @param o the observable, i.e. this Chip.
+     * @param arg the argument (e.g. the HardwareInterface).
+     */
+    public void update(Observable o, Object arg) {
+        if (o instanceof AEChip && getHardwareInterface() == null) {
+            // if hw interface is not correct type then disable menu items
+            if (syncEnabledMenuItem != null) {
+                syncEnabledMenuItem.setEnabled(false);
+            }
+        } else {
+            if (!(getHardwareInterface() instanceof HasSyncEventOutput)) {
+                if (syncEnabledMenuItem != null) {
+                    syncEnabledMenuItem.setEnabled(false);
+                }
+            } else {
+                syncEnabledMenuItem.setEnabled(true);
+                HasSyncEventOutput hasSync = (HasSyncEventOutput) getHardwareInterface();
+                syncEnabledMenuItem.setSelected(hasSync.isSyncEventEnabled());
+                if (!hasSync.isSyncEventEnabled()) {
+                    WarningDialogWithDontShowPreference d = new WarningDialogWithDontShowPreference(null, false, "Timestamps disabled",
+                            "<html>Timestamps may not advance if you are using this camera as a standalone camera. <br>Use device menu/Timestamp master / Enable sync event output to enable them.");
+                    d.setVisible(true);
+                }
+            }
+
+        }
+    }
+
+       /**
+     * Enables or disable DVS128 menu in AEViewer
+     *
+     * @param yes true to enable it
+     */
+    private void enableChipMenu(boolean yes) {
+        if (yes) {
+            if (dvs128Menu == null) {
+                dvs128Menu = new JMenu(this.getClass().getSimpleName());
+                dvs128Menu.getPopupMenu().setLightWeightPopupEnabled(false); // to paint on GLCanvas
+                dvs128Menu.setToolTipText("Specialized menu for DVS128 chip");
+            }
+
+
+            if (syncEnabledMenuItem == null) {
+                syncEnabledMenuItem = new JCheckBoxMenuItem("Timestamp master / Enable sync event output");
+                syncEnabledMenuItem.setToolTipText("<html>Sets this device as timestamp master and enables sync event generation on external IN pin falling edges (disables slave clock input).<br>Falling edges inject special sync events with bitmask " + HexString.toString(CypressFX2DVS128HardwareInterface.SYNC_EVENT_BITMASK) + " set<br>These events are not rendered but are logged and can be used to synchronize an external signal to the recorded data.<br>If you are only using one camera, enable this option.<br>If you want to synchronize two DVS128, disable this option in one of the cameras and connect the OUT pin of the master to the IN pin of the slave and also connect the two GND pins.");
+                HasSyncEventOutput h = (HasSyncEventOutput) getHardwareInterface();
+
+                syncEnabledMenuItem.addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent evt) {
+                        HardwareInterface hw = getHardwareInterface();
+                       if(hw==null){
+                            log.warning("null hardware interface");
+                            return;
+                        }
+                        if (!(hw instanceof HasSyncEventOutput)) {
+                            log.warning("cannot change sync enabled state of " + hw + " (class " + hw.getClass() + "), interface doesn't implement HasSyncEventOutput");
+                            return;
+                        }
+                        log.info("setting sync enabled");
+                        ((HasSyncEventOutput) hw).setSyncEventEnabled(((AbstractButton) evt.getSource()).isSelected());
+                    }
+                });
+                dvs128Menu.add(syncEnabledMenuItem);
+            }
+
+            if (getAeViewer() != null) {
+                getAeViewer().setMenu(dvs128Menu);
+            }
+
+        } else { // disable menu
+            if (dvs128Menu != null) {
+                getAeViewer().removeMenu(dvs128Menu);
+            }
+        }
+    }
+
+    
+    @Override
+    public void onDeregistration() {
+        super.onDeregistration();
+        if (getAeViewer() == null) {
+            return;
+        }
+
+        enableChipMenu(false);
+    }
+
+    @Override
+    public void onRegistration() {
+        super.onRegistration();
+        if (getAeViewer() == null) {
+            return;
+        }
+        enableChipMenu(true);
+    }
+
 
 }
