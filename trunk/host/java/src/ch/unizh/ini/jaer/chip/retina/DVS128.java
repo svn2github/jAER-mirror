@@ -317,7 +317,7 @@ public class DVS128 extends AETemporalConstastRetina implements Serializable, Ob
 
     @Override
     public void onDeregistration() {
-        super.onRegistration();
+        super.onDeregistration();
         if (getAeViewer() == null) {
             return;
         }
