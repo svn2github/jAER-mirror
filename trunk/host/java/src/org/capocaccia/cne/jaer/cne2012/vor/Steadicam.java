@@ -82,11 +82,10 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     private boolean annotateEnclosedEnabled = getBoolean("annotateEnclosedEnabled", true);
     private PanTilt panTilt = null;
     ArrayList<TransformAtTime> transformList = new ArrayList(); // holds list of transforms over update times commputed by enclosed filter update callbacks
-    int sx2, sy2;
     TransformAtTime lastTransform = null;
 //    private double[] angular, acceleration;
     private float panRate = 0, tiltRate = 0, rollRate = 0; // in deg/sec
-    private float panOffset=getFloat("panOffset",0), tiltOffset=getFloat("tiltOffset",0), rollOffset=getFloat("rollOffset",0);
+    private float panOffset = getFloat("panOffset", 0), tiltOffset = getFloat("tiltOffset", 0), rollOffset = getFloat("rollOffset", 0);
 //    private float upAccel = 0, rightAccel = 0, zAccel = 0; // in g in m/s^2
     private float panTranslationDeg = 0;
     private float tiltTranslationDeg = 0;
@@ -105,16 +104,19 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     private boolean addTimeStampsResetPropertyChangeListener = false;
     private int transformResetLimitDegrees = getInt("transformResetLimitDegrees", 45);
     // deal with leftover IMU data after timestamps reset
-    private static final int FLUSH_COUNT=100;
-    private int flushCounter=0;
-    
+    private static final int FLUSH_COUNT = 100;
+    private int flushCounter = 0;
     // calibration
-    private boolean calibrating=false; // used to flag calibration state
-    private int calibrationSampleCount=0;
-    private int CALIBRATION_SAMPLES=800; // 400 samples /sec
+    private boolean calibrating = false; // used to flag calibration state
+    private int calibrationSampleCount = 0;
+    private int CALIBRATION_SAMPLES = 800; // 400 samples /sec
     private CalibrationFilter panCalibrator, tiltCalibrator, rollCalibrator;
-        TextRenderer imuTextRenderer=new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
-    private boolean showAnnotation=getBoolean("showAnnotation", true);
+    TextRenderer imuTextRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
+    private boolean showAnnotation = getBoolean("showAnnotation", true);
+    // array size vars, updated in update()
+    private int sxm1;
+    private int sym1;
+    private int sx2, sy2;
 
     /**
      * Creates a new instance of SceneStabilizer
@@ -135,7 +137,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         filterChain.add(opticalGyro);
 
         setEnclosedFilterChain(filterChain);
-
+        chip.addObserver(this); // to get pixel array size updates
         addObserver(this); // we add ourselves as observer so that our update() can be called during packet iteration periodically according to global FilterFrame update interval settting
 
         try {
@@ -186,10 +188,6 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
             chip.getAeViewer().addPropertyChangeListener(AEViewer.EVENT_TIMESTAMPS_RESET, this);
             addTimeStampsResetPropertyChangeListener = true;
         }
-        sx2 = chip.getSizeX() / 2;
-        sy2 = chip.getSizeY() / 2;
-        int sizex = chip.getSizeX() - 1;
-        int sizey = chip.getSizeY() - 1;
         checkOutputPacketEventType(in);
         transformList.clear(); // empty list of transforms to be applied
         // The call to enclosed filters issues callbacks to us periodically via updates that fills transform list, in case of enclosed filters. 
@@ -226,10 +224,14 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
                 }
 
                 if (lastTransform != null) {
-                    transformEvent(ev, lastTransform);
+                    ev.x -= sx2;
+                    ev.y -= sy2;
+                    ev.x = (short) ((lastTransform.cosAngle * ev.x - lastTransform.sinAngle * ev.y + lastTransform.translation.x) + sx2);
+                    ev.y = (short) ((lastTransform.sinAngle * ev.x + lastTransform.cosAngle * ev.y + lastTransform.translation.y) + sy2);
+                    ev.address = chip.getEventExtractor().getAddressFromCell(ev.x, ev.y, ev.getType()); // so event is logged properly to disk
                 }
 
-                if (ev.x > sizex || ev.x < 0 || ev.y > sizey || ev.y < 0) {
+                if (ev.x > sxm1 || ev.x < 0 || ev.y > sym1 || ev.y < 0) {
                     continue; // discard events outside chip limits for now, because we can't render them presently, although they are valid events
                 }
                 // deal with flipping contrast of output event depending on direction of motion, to make things appear the same regardless of camera rotation
@@ -275,6 +277,12 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     public void update(Observable o, Object arg) { // called by enclosed filter to update event stream on the fly, using intermediate data
         if (arg instanceof UpdateMessage) {
             computeTransform((UpdateMessage) arg); // gets the lastTransform from the enclosed filter
+        } else if (o instanceof AEChip) {
+            sx2 = chip.getSizeX() / 2;
+            sy2 = chip.getSizeY() / 2;
+            sxm1 = chip.getSizeX() - 1;
+            sym1 = chip.getSizeY() - 1;
+
         }
     }
 
@@ -295,8 +303,9 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         if (imuSample == null) {
             return null;
         }
-        if(flushCounter-->=0) return null;  // flush some samples if the timestamps have been reset and we need to discard some samples here
-//        System.out.println(imuSample.toString());
+        if (flushCounter-- >= 0) {
+            return null;  // flush some samples if the timestamps have been reset and we need to discard some samples here
+        }//        System.out.println(imuSample.toString());
         int timestamp = imuSample.getTimestampUs();
         float dtS = (timestamp - lastImuTimestamp) * 1e-6f;
         lastImuTimestamp = timestamp;
@@ -311,14 +320,14 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
             calibrationSampleCount++;
             if (calibrationSampleCount > CALIBRATION_SAMPLES) {
                 calibrating = false;
-                panOffset=panCalibrator.computeAverage();
-                tiltOffset=tiltCalibrator.computeAverage();
-                rollOffset=rollCalibrator.computeAverage();
-                putFloat("panOffset",panOffset);
-                putFloat("tiltOffset",tiltOffset);
-                putFloat("rollOffset",rollOffset);
-                log.info(String.format("calibration finished. %d samples averaged to (pan,tilt,roll)=(%.3f,%.3f,%.3f)",CALIBRATION_SAMPLES,panOffset,tiltOffset,rollOffset));
-            }else{
+                panOffset = panCalibrator.computeAverage();
+                tiltOffset = tiltCalibrator.computeAverage();
+                rollOffset = rollCalibrator.computeAverage();
+                putFloat("panOffset", panOffset);
+                putFloat("tiltOffset", tiltOffset);
+                putFloat("rollOffset", rollOffset);
+                log.info(String.format("calibration finished. %d samples averaged to (pan,tilt,roll)=(%.3f,%.3f,%.3f)", CALIBRATION_SAMPLES, panOffset, tiltOffset, rollOffset));
+            } else {
                 panCalibrator.addSample(panRate);
                 tiltCalibrator.addSample(tiltRate);
                 rollCalibrator.addSample(rollRate);
@@ -351,7 +360,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
             rollFilter.reset();
             log.info("transform reset limit reached, transform reset to zero");
         }
-       
+
         if (flipContrast) {
             if (Math.abs(panRate) > Math.abs(tiltRate)) {
                 evenMotion = panRate > 0; // used to flip contrast 
@@ -372,10 +381,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         return tr;
     }
 
-    public void transformEvent(BasicEvent e, TransformAtTime transform) {
-        if (transform == null) {
-            return;
-        }
+    private final void transformEvent(BasicEvent e, TransformAtTime transform) {
         e.x -= sx2;
         e.y -= sy2;
         short newx = (short) Math.round((transform.cosAngle * e.x - transform.sinAngle * e.y + transform.translation.x));
@@ -389,24 +395,24 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         panOffset = 0;
         tiltOffset = 0;
         rollOffset = 0;
-        putFloat("panOffset",0);
-        putFloat("tiltOffset",0);
-        putFloat("rollOffset",0);
+        putFloat("panOffset", 0);
+        putFloat("tiltOffset", 0);
+        putFloat("rollOffset", 0);
         log.info("calibration erased");
     }
 
     synchronized public void doZeroGyro() {
-        calibrating=true;
-        calibrationSampleCount=0;
+        calibrating = true;
+        calibrationSampleCount = 0;
         panCalibrator.reset();
         tiltCalibrator.reset();
         rollCalibrator.reset();
         log.info("calibration started");
-        
+
 //        panOffset = panRate; // TODO offsets should really be some average over some samples
 //        tiltOffset = tiltRate;
 //        rollOffset = rollRate;
-        
+
     }
 
     /**
@@ -484,8 +490,10 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
 
     @Override
     public void annotate(GLAutoDrawable drawable) {
-        if(!showAnnotation) return;
-        
+        if (!showAnnotation) {
+            return;
+        }
+
         GL gl = drawable.getGL();
         if (gl == null) {
             return;
@@ -517,14 +525,14 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
             gl.glPopMatrix();
 
         }
-        
+
         if (calibrating) {
             imuTextRenderer.begin3DRendering();
             imuTextRenderer.setColor(1, 1, 1, 1);
             final String saz = String.format("Don't move sensor (Calibrating %d/%d)", calibrationSampleCount, CALIBRATION_SAMPLES);
             Rectangle2D rect = imuTextRenderer.getBounds(saz);
-            final float scale=.25f;
-            imuTextRenderer.draw3D(saz, chip.getSizeX() / 2 - (float) rect.getWidth() *scale / 2, chip.getSizeY() / 2, 0, scale); //
+            final float scale = .25f;
+            imuTextRenderer.draw3D(saz, chip.getSizeX() / 2 - (float) rect.getWidth() * scale / 2, chip.getSizeY() / 2, 0, scale); //
             imuTextRenderer.end3DRendering();
         }
     }
@@ -622,7 +630,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         getEnclosedFilterChain().reset();
         if (!yes) {
             setPanTiltEnabled(false); // turn off servos, close interface
-        }else{
+        } else {
             resetFilter(); // reset on enabled to prevent large timestep anomalies
         }
     }
@@ -850,7 +858,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName() == AEViewer.EVENT_TIMESTAMPS_RESET) {
             resetFilter();
-            flushCounter=FLUSH_COUNT;
+            flushCounter = FLUSH_COUNT;
         }
     }
 
@@ -883,20 +891,24 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         this.showAnnotation = showAnnotation;
         putBoolean("showAnnotation", showAnnotation);
     }
-    
-    private class CalibrationFilter{
-        int count=0;
-        float sum=0;
-        void reset(){
-            count=0;
-            sum=0;
+
+    private class CalibrationFilter {
+
+        int count = 0;
+        float sum = 0;
+
+        void reset() {
+            count = 0;
+            sum = 0;
         }
-        void addSample(float sample){
-            sum+=sample;
+
+        void addSample(float sample) {
+            sum += sample;
             count++;
         }
-        float computeAverage(){
-            return sum/count;
+
+        float computeAverage() {
+            return sum / count;
         }
     }
 }
