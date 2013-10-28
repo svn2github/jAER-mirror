@@ -16,12 +16,12 @@ set_option -vlog_std v2001
 
 #map options
 set_option -frequency auto
-set_option -fanout_limit 100
-set_option -auto_constrain_io true
+set_option -maxfan 1000
+set_option -auto_constrain_io 0
 set_option -disable_io_insertion false
-set_option -retiming false; set_option -pipe false
+set_option -retiming false; set_option -pipe true
 set_option -force_gsr false
-set_option -compiler_compatible true
+set_option -compiler_compatible 0
 set_option -dup false
 
 set_option -default_enum_encoding default
@@ -30,44 +30,44 @@ set_option -default_enum_encoding default
 
 
 #timing analysis options
-set_option -num_critical_paths 3
-set_option -num_startend_points 0
+
+
 
 #automatic place and route (vendor) options
-set_option -write_apr_constraint 0
+set_option -write_apr_constraint 1
 
 #synplifyPro options
-set_option -fixgatedclocks 3
-set_option -fixgeneratedclocks 3
+set_option -fix_gated_and_generated_clocks 1
 set_option -update_models_cp 0
-set_option -resolve_multiple_driver 1
+set_option -resolve_multiple_driver 0
+
 
 #-- add_file options
-add_file -vhdl {C:/Program Files/Lattice/diamond/1.3/cae_library/synthesis/vhdl/machxo.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/wordRegister.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/AERfifo.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/clockgen.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/earlyPaketTimer.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/EventBeforeOverflow.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/eventCounter.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/fifoStatemachine.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/monitorStateMachine.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/synchronizerStateMachine.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/timestampCounter.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/USBAER_top_level.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/AERfifo.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/clockgen.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/ADCvalueReady.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/cDVSResetStateMachine.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/shiftRegister.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/ADCStateMachine_tb.vhd}
-add_file -vhdl -lib "work" {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/sourcecode/ADCStateMachine.vhd}
+add_file -vhdl {C:/lscc/diamond/2.2_x64/cae_library/synthesis/vhdl/machxo.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/wordRegister.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/AERfifo.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/clockgen.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/earlyPaketTimer.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/EventBeforeOverflow.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/eventCounter.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/fifoStatemachine.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/monitorStateMachine.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/synchronizerStateMachine.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/timestampCounter.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/USBAER_top_level.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/AERfifo.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/clockgen.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/ADCvalueReady.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/cDVSResetStateMachine.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/shiftRegister.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/ADCStateMachine_tb.vhd}
+add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/ADCStateMachine.vhd}
 
 #-- top module name
 set_option -top_module USBAER_top_level
 
 #-- set result format/file last
-project -result_file {C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/SBret10/SBret10_SBret10.edi}
+project -result_file {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/SBret10/SBret10_SBret10.edi}
 
 #-- error message log file
 project -log_file {SBret10_SBret10.srf}
@@ -77,4 +77,4 @@ project -log_file {SBret10_SBret10.srf}
 
 #-- run Synplify with 'arrange HDL file'
 project -run hdl_info_gen -fileorder
-project -run
+project -run -clean

@@ -41,8 +41,12 @@ entity USBAER_top_level is
     ResetxRBI : in std_logic;
 
     -- ports to synchronize other USBAER boards
-    Sync1xABI   : in  std_logic;        -- needs synchronization
-    SynchOutxSBO : out std_logic;
+    SyncIn1xABI   : in  std_logic;        -- needs synchronization
+	SyncIn2xABI   : in  std_logic;
+	SyncInSWxEI   : in  std_logic;
+    SyncOut1xSBO : out std_logic;
+	SyncOut2xSBO : out std_logic;
+	SyncOutSWxEI : out std_logic;
 
     -- communication with 8051   
     PC0xSIO  : inout  std_logic;
@@ -149,19 +153,23 @@ architecture Structural of USBAER_top_level is
       CDVSresetxRBO : out std_logic);
   end component;
   
-   component synchronizerStateMachine
+    component synchronizerStateMachine
      port (
        ClockxCI              : in  std_logic;
        ResetxRBI             : in  std_logic;
        RunxSI                : in  std_logic;
        ConfigxSI             : in  std_logic;
-       SyncInxABI            : in  std_logic;
-       SyncOutxSBO           : out std_logic;
+       SyncIn1xABI			 : in  std_logic;      
+--	   SyncIn2xABI 		  	: in  std_logic;
+--	   SyncInSWxEI  		: in  std_logic;
+	   SyncOut1xSBO 		: out std_logic;
+--	   SyncOut2xSBO 		: out std_logic;
+--	   SyncOutSWxEI 		: out std_logic;
        TriggerxSO            : out std_logic;
        HostResetTimestampxSI : in  std_logic;
        ResetTimestampxSBO    : out std_logic;
        IncrementCounterxSO   : out std_logic);
-   end component;                                       
+   end component;                                                     
 
   component monitorStateMachine
     port (
@@ -286,7 +294,7 @@ architecture Structural of USBAER_top_level is
   -- register write enables
   signal TimestampRegWritexE   : std_logic;
   
-  signal SyncInxAB : std_logic;
+  signal SyncIn1xAB : std_logic;
 
   signal AERREQxSB, AERReqSyncxSBN  : std_logic;
 
@@ -326,7 +334,7 @@ architecture Structural of USBAER_top_level is
   signal FifoTransactionxS : std_logic;
   signal FX2FifoWritexEB : std_logic;
   signal FX2FifoPktEndxSB     : std_logic;
-  signal SyncOutxSB        : std_logic;
+  signal SyncOut1xSB        : std_logic;
   signal HostResetTimestampxS : std_logic;
 
   signal TriggerxS : std_logic;
@@ -404,7 +412,7 @@ begin
   
   FX2FifoReadxEBO <= '1';
 
-  SyncInxAB <= Sync1xABI;
+  SyncIn1xAB <= SyncIn1xABI;
   
   shiftRegister_1: shiftRegister
     generic map (
@@ -501,8 +509,8 @@ begin
       ResetxRBI             => ResetxRB,
       RunxSI                => RunxS,
       ConfigxSI             => TimestampMasterxS,
-      SyncInxABI            => SyncInxAB,
-      SyncOutxSBO           => SyncOutxSB,
+      SyncIn1xABI            => SyncIn1xAB,
+      SyncOut1xSBO           => SyncOut1xSB,
       TriggerxSO            => TriggerxS,
       HostResetTimestampxSI => HostResetTimestampxS,
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
@@ -596,7 +604,7 @@ begin
       cDVSresetxRBI => PE3xSI,
       CDVSresetxRBO => CDVSTestPeriodicChipResetxRB);
   
-  SynchOutxSBO <= SyncOutxSB;
+  SyncOut1xSBO <= SyncOut1xSB;
   FX2FifoPktEndxSBO <= FX2FifoPktEndxSB;
   FX2FifoWritexEBO <= FX2FifoWritexEB;
   AERMonitorACKxSBO <= AERMonitorACKxSB;
