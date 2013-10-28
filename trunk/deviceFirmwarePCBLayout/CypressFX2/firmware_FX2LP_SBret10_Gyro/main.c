@@ -93,6 +93,14 @@ BOOL LEDon;
 #define VR_EEPROM		0xa2 // loads (uploads) EEPROM
 #define	VR_RAM			0xa3 // loads (uploads) external ram
 
+
+#define VR_SYNC_ENABLE 0xBe // sets whether sync events are sent on slave clock input instead of acting as slave clock.
+#define SYNC_ENABLE_MASK=0x40	   // on PE6, goes to CPLD pin 66
+#define NOT_SYNC_ENABLE_MASK=0xbf;
+#define disableSyncEvents() 	IOE=IOE&NOT_SYNC_ENABLE_MASK	
+#define enableSyncEvents()		IOE=IOE|SYNC_ENABLE_MASK
+
+
 #define EP0BUFF_SIZE	0x40
 #define NUM_CONFIG_BITS_PRECEDING_BIAS_BYTES 40 
 // 10 muxes, each with 4 bits of config info. not a multiple of 8 so needs to be handled specially for SPI interface.
@@ -298,6 +306,9 @@ void TD_Init(void)              // Called once at startup
    	IOE |= CPLD_NOT_RESET; // take CPLD out of reset
 	 
 	EZUSB_Delay(100);
+
+	// make this device timestamp master as default
+	enableSyncEvents();
 
 
 
@@ -1079,6 +1090,24 @@ BOOL DR_VendorCmnd(void)
 
 				return(FALSE);
 			}*/
+		case VR_SYNC_ENABLE: // sets sync event output or master/slave clocking, based on lsb of argument
+			{
+				if (SETUPDAT[2]&0x01)
+				{
+					enableSyncEvents(); //IOE|=arrayReset; // TODO change to SYNC_ENABLE
+				} else
+				{
+					disableSyncEvents(); 
+				}
+			
+				*EP0BUF=VR_SYNC_ENABLE;
+				SYNCDELAY;
+				EP0BCH = 0;
+				EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
+				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
+				return(FALSE); // very important, otherwise get stall
+
+			}
 		case VR_RAM:
 		case VR_EEPROM:
 		{
