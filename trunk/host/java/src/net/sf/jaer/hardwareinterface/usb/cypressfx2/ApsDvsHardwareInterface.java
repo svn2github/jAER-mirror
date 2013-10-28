@@ -34,7 +34,7 @@ import static net.sf.jaer.hardwareinterface.usb.cypressfx2libusb.CypressFX2.GUID
  *
  * @author Christian/Tobi
  */
-public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
+public class ApsDvsHardwareInterface extends CypressFX2Biasgen implements HasSyncEventOutput {
 
     /**
      * The USB product ID of this device
@@ -52,6 +52,9 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
 //     private LowpassFilter imuSampleIntervalFilterNs=new LowpassFilter(100);
 //     private int imuSampleCounter=0;
 //     private static final int IMU_SAMPLE_RATE_PRINT_INTERVAL=5000;
+    
+    private boolean syncEventEnabled = prefs.getBoolean("ApsDvsHardwareInterface.syncEventEnabled", true); // default is true so that device is the timestamp master by default, necessary after firmware rev 11
+
 
     /**
      * Creates a new instance of CypressFX2Biasgen
@@ -818,5 +821,24 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
 //            freeBuffers();
 //        }
 //
-//    }    
+//    }   
+    
+    @Override
+     public void setSyncEventEnabled(boolean yes) {
+        log.info("setting " + yes);
+
+        try {
+            this.sendVendorRequest(this.VENDOR_REQUEST_SET_SYNC_ENABLED, yes ? (byte) 1 : (byte) 0, (byte) 0);
+            syncEventEnabled = yes;
+            prefs.putBoolean("ApsDvsHardwareInterface.syncEventEnabled", yes);
+        } catch (HardwareInterfaceException e) {
+            log.warning(e.toString());
+        }
+    }
+
+    @Override
+    public boolean isSyncEventEnabled() {
+        return syncEventEnabled;
+    }
+
 }
