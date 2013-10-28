@@ -1,0 +1,445 @@
+Synopsys Lattice Technology Mapper, Version maplat, Build 118R, Built May  4 2011 10:54:50
+Copyright (C) 1994-2011, Synopsys Inc.  All Rights Reserved
+Product Version E-2011.03L
+@N: MF249 |Running in 32-bit mode.
+@N: MF257 |Gated clock conversion enabled 
+@N: MF203 |Set autoconstraint_io 
+
+@W: MO111 :|tristate driver tri0_inst on net DebugxSIO[15] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri1_inst on net DebugxSIO[14] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri2_inst on net DebugxSIO[13] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri3_inst on net DebugxSIO[12] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri4_inst on net DebugxSIO[11] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri5_inst on net DebugxSIO[10] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri6_inst on net DebugxSIO[9] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri7_inst on net DebugxSIO[8] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri8_inst on net DebugxSIO[7] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri9_inst on net DebugxSIO[6] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri10_inst on net DebugxSIO[5] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri11_inst on net DebugxSIO[4] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri12_inst on net DebugxSIO[3] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri13_inst on net DebugxSIO[2] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :|tristate driver tri14_inst on net DebugxSIO[1] has its enable tied to GND (module USBAER_top_level) 
+
+Available hyper_sources - for debug and ip models
+	None Found
+
+@N: MT206 |Autoconstrain Mode is ON
+
+Finished RTL optimizations (Time elapsed 0h:00m:00s; Memory used current: 75MB peak: 78MB)
+
+@N:"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\timestampcounter.vhd":67:4:67:5|Found counter in view:work.USBAER_top_level(structural) inst uTimestampCounter.CountxDP[14:0]
+@N:"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\earlypakettimer.vhd":57:4:57:5|Found counter in view:work.earlyPaketTimer(behavioral) inst CountxDP[20:0]
+@N:"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\eventcounter.vhd":63:4:63:5|Found counter in view:work.eventCounter(behavioral) inst CountxDP[8:0]
+Encoding state machine work.synchronizerStateMachine(behavioral)-StatexDP[0:5]
+original code -> new code
+   000001 -> 000001
+   000010 -> 000010
+   000100 -> 000100
+   001000 -> 001000
+   010000 -> 010000
+   100000 -> 100000
+@N:"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\synchronizerstatemachine.vhd":225:4:225:5|Found counter in view:work.synchronizerStateMachine(behavioral) inst CounterxDP[13:0]
+@N:"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\synchronizerstatemachine.vhd":225:4:225:5|Found counter in view:work.synchronizerStateMachine(behavioral) inst DividerxDP[6:0]
+Encoding state machine work.fifoStatemachine(behavioral)-StatexDP[0:3]
+original code -> new code
+   00 -> 00
+   01 -> 01
+   10 -> 10
+   11 -> 11
+Encoding state machine work.monitorStateMachine(behavioral)-StatexDP[0:11]
+original code -> new code
+   000000000001 -> 000000000001
+   000000000010 -> 000000000010
+   000000000100 -> 000000000100
+   000000001000 -> 000000001000
+   000000010000 -> 000000010000
+   000000100000 -> 000000100000
+   000001000000 -> 000001000000
+   000010000000 -> 000010000000
+   000100000000 -> 000100000000
+   001000000000 -> 001000000000
+   010000000000 -> 010000000000
+   100000000000 -> 100000000000
+@N:"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\monitorstatemachine.vhd":275:4:275:5|Found updn counter in view:work.monitorStateMachine(behavioral) inst TimestampOverflowxDP[15:0] 
+@N:"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\monitorstatemachine.vhd":275:4:275:5|Found counter in view:work.monitorStateMachine(behavioral) inst CountxDP[7:0]
+Encoding state machine work.ADCStateMachine(behavioral)-StateColxDP[0:11]
+original code -> new code
+   000000000001 -> 000000000001
+   000000000010 -> 000000000010
+   000000000100 -> 000000000100
+   000000001000 -> 000000001000
+   000000010000 -> 000000010000
+   000000100000 -> 000000100000
+   000001000000 -> 000001000000
+   000010000000 -> 000010000000
+   000100000000 -> 000100000000
+   001000000000 -> 001000000000
+   010000000000 -> 010000000000
+   100000000000 -> 100000000000
+Encoding state machine work.ADCStateMachine(behavioral)-StateRowxDP[0:6]
+original code -> new code
+   00000001 -> 0000001
+   00000010 -> 0000010
+   00000100 -> 0000100
+   00010000 -> 0001000
+   00100000 -> 0010000
+   01000000 -> 0100000
+   10000000 -> 1000000
+@N:"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\adcstatemachine.vhd":340:4:340:5|Found counter in view:work.ADCStateMachine(behavioral) inst DividerColxDP[32:0]
+@N:"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\adcstatemachine.vhd":340:4:340:5|Found counter in view:work.ADCStateMachine(behavioral) inst CountRowxDP[7:0]
+@N:"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\adcstatemachine.vhd":340:4:340:5|Found counter in view:work.ADCStateMachine(behavioral) inst DividerRowxDP[16:0]
+@N:"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\adcstatemachine.vhd":340:4:340:5|Found counter in view:work.ADCStateMachine(behavioral) inst CountColxDP[17:0]
+@N: MF179 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\adcstatemachine.vhd":226:15:226:39|Found 18 bit by 18 bit '==' comparator, 'p_col\.un1_countcolxdp'
+Encoding state machine work.ADCvalueReady(behavioral)-StatexDP[0:3]
+original code -> new code
+   00 -> 00
+   01 -> 01
+   10 -> 10
+   11 -> 11
+
+Finished factoring (Time elapsed 0h:00m:00s; Memory used current: 80MB peak: 81MB)
+
+
+
+#################### START OF GENERATED CLOCK OPTIMIZATION REPORT ####################[
+
+======================================================================================
+                                Instance:Pin        Generated Clock Optimization Status
+======================================================================================
+         uTimestampCounter.MSbDelayedxDP:C              Not Done
+           shiftRegister_1.DataOutxDO[5]:C              Not Done
+ ADCStateMachine_1.CDVSTestSRRowClockxSO:C              Not Done
+
+
+##################### END OF GENERATED CLOCK OPTIMIZATION REPORT #####################]
+
+
+Finished gated-clock and generated-clock conversion (Time elapsed 0h:00m:00s; Memory used current: 80MB peak: 81MB)
+
+
+
+Finished generic timing optimizations - Pass 1 (Time elapsed 0h:00m:00s; Memory used current: 80MB peak: 81MB)
+
+
+Starting Early Timing Optimization (Time elapsed 0h:00m:00s; Memory used current: 80MB peak: 81MB)
+
+
+Finished Early Timing Optimization (Time elapsed 0h:00m:01s; Memory used current: 80MB peak: 81MB)
+
+
+Finished generic timing optimizations - Pass 2 (Time elapsed 0h:00m:01s; Memory used current: 80MB peak: 81MB)
+
+
+Finished preparing to map (Time elapsed 0h:00m:01s; Memory used current: 81MB peak: 81MB)
+
+
+Finished technology mapping (Time elapsed 0h:00m:01s; Memory used current: 81MB peak: 82MB)
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+   1		0h:00m:01s		   -12.35ns		 310 /       414
+   2		0h:00m:01s		   -12.35ns		 310 /       414
+   3		0h:00m:01s		   -12.35ns		 310 /       414
+------------------------------------------------------------
+
+@N: FX271 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\shiftregister.vhd":52:4:52:5|Instance "shiftRegister_1.DataOutxDO[4]" with 5 loads has been replicated 1 time(s) to improve timing 
+Timing driven replication report
+Added 1 Registers via timing driven replication
+Added 0 LUTs via timing driven replication
+
+
+
+
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+   1		0h:00m:02s		   -11.80ns		 322 /       415
+
+   2		0h:00m:02s		   -11.80ns		 322 /       415
+   3		0h:00m:02s		   -11.80ns		 322 /       415
+   4		0h:00m:02s		   -11.80ns		 322 /       415
+------------------------------------------------------------
+
+
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+   1		0h:00m:03s		   -11.80ns		 322 /       415
+
+   2		0h:00m:03s		   -11.80ns		 322 /       415
+   3		0h:00m:03s		   -11.80ns		 322 /       415
+   4		0h:00m:03s		   -11.80ns		 322 /       415
+------------------------------------------------------------
+
+
+Finished technology timing optimizations and critical path resynthesis (Time elapsed 0h:00m:03s; Memory used current: 81MB peak: 82MB)
+
+@N: FX164 |The option to pack flops in the IOB has not been specified 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_1_.un1[0] on net DebugxSIO[1] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_2_.un1[0] on net DebugxSIO[2] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_3_.un1[0] on net DebugxSIO[3] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_4_.un1[0] on net DebugxSIO[4] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_5_.un1[0] on net DebugxSIO[5] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_6_.un1[0] on net DebugxSIO[6] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_7_.un1[0] on net DebugxSIO[7] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_8_.un1[0] on net DebugxSIO[8] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_9_.un1[0] on net DebugxSIO[9] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_10_.un1[0] on net DebugxSIO[10] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_11_.un1[0] on net DebugxSIO[11] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_12_.un1[0] on net DebugxSIO[12] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_13_.un1[0] on net DebugxSIO[13] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_14_.un1[0] on net DebugxSIO[14] has its enable tied to GND (module USBAER_top_level) 
+@W: MO111 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\usbaer_top_level.vhd":93:4:93:12|tristate driver DebugxSIO_obuft_15_.un1[0] on net DebugxSIO[15] has its enable tied to GND (module USBAER_top_level) 
+
+Finished restoring hierarchy (Time elapsed 0h:00m:03s; Memory used current: 82MB peak: 82MB)
+
+Writing Analyst data base C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\SBret10\SBret10_SBret10.srm
+
+Finished Writing Netlist Databases (Time elapsed 0h:00m:04s; Memory used current: 81MB peak: 82MB)
+
+Writing EDIF Netlist and constraint files
+E-2011.03L
+
+Finished Writing EDIF Netlist and constraint files (Time elapsed 0h:00m:04s; Memory used current: 85MB peak: 86MB)
+
+
+Starting Writing Gated Clock Conversion Report (Time elapsed 0h:00m:04s; Memory used current: 85MB peak: 86MB)
+
+@N: MF276 |Gated clock conversion enabled, but no gated clocks found in design 
+
+Finished Writing Gated Clock Conversion Report (Time elapsed 0h:00m:04s; Memory used current: 85MB peak: 86MB)
+
+
+Starting Writing Generated Clock Conversion Report (Time elapsed 0h:00m:04s; Memory used current: 85MB peak: 86MB)
+
+@N: MF333 |Generated clock conversion enabled, but no generated clocks found in design 
+
+Finished Writing Generated Clock Conversion Report (Time elapsed 0h:00m:04s; Memory used current: 85MB peak: 86MB)
+
+@W: MT246 :"c:\proj\jaer\trunk\devicefirmwarepcblayout\latticemachxo\sbret10\sourcecode\aerfifo.vhd":179:4:179:14|Blackbox FIFO8KA is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
+@W: MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 8.96ns. A user-defined clock should be declared on object "p:IfClockxCI"
+
+@W: MT420 |Found inferred clock USBAER_top_level|PC1xSIO with period 1.56ns. A user-defined clock should be declared on object "p:PC1xSIO"
+
+@W: MT420 |Found inferred clock USBAER_top_level|PC2xSIO with period 1000.00ns. A user-defined clock should be declared on object "p:PC2xSIO"
+
+@W: MT420 |Found inferred clock clockgen|CLKOP_inferred_clock with period 8.18ns. A user-defined clock should be declared on object "n:uClockGen.CLKOP"
+
+BitPort FX2FifoDataxDIO[0] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[1] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[2] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[3] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[4] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[5] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[6] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[7] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[8] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[9] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[10] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[11] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[12] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[13] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[14] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoDataxDIO[15] - has output constraint of 2.50ns w.r.t. clock System:r nBitPort FX2FifoWritexEBO - has output constraint of 1.44ns w.r.t. clock System:r nBitPort FX2FifoPktEndxSBO - has output constraint of 1.38ns w.r.t. clock System:r nBitPort ResetxRBI - has input  constraint of 2.46ns w.r.t. clock System:r nBitPort Sync1xABI - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort PC3xSIO - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort PA0xSIO - has input  constraint of 2.50ns w.r.t. clock System:r nBitPort PA1xSIO - has input  constraint of 1.63ns w.r.t. clock System:r nBitPort PE2xSI - has input  constraint of 2.50ns w.r.t. clock System:r nBitPort PE3xSI - has input  constraint of 2.50ns w.r.t. clock System:r nBitPort ADCclockxCO - has output constraint of 2.48ns w.r.t. clock System:r nBitPort ADCwordxDI[0] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort ADCwordxDI[1] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort ADCwordxDI[2] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort ADCwordxDI[3] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort ADCwordxDI[4] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort ADCwordxDI[5] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort ADCwordxDI[6] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort ADCwordxDI[7] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort ADCwordxDI[8] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort ADCwordxDI[9] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort CDVSTestSRRowClockxSO - has output constraint of 1.15ns w.r.t. clock System:r nBitPort CDVSTestSRColClockxSO - has output constraint of 1.15ns w.r.t. clock System:r nBitPort CDVSTestSRRowInxSO - has output constraint of 1.34ns w.r.t. clock System:r nBitPort CDVSTestBiasEnablexEO - has output constraint of 2.50ns w.r.t. clock System:r nBitPort CDVSTestChipResetxRBO - has output constraint of 2.50ns w.r.t. clock System:r nBitPort CDVSTestBiasDiagSelxSO - has output constraint of 2.50ns w.r.t. clock System:r nBitPort LED1xSO - has output constraint of 2.50ns w.r.t. clock System:r nBitPort LED2xSO - has output constraint of 2.50ns w.r.t. clock System:r nBitPort AERMonitorREQxABI - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[0] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[1] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[2] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[3] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[4] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[5] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[6] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[7] - has input  constraint of 0.72ns w.r.t. clock System:r nBitPort AERMonitorAddressxDI[8] - has input  constraint of 0.72ns w.r.t. clock System:r n
+
+##### START OF TIMING REPORT #####[
+# Timing Report written on Thu Jul 25 20:26:31 2013
+#
+
+
+Top view:               USBAER_top_level
+Requested Frequency:    1.0 MHz
+Wire load mode:         top
+Paths requested:        3
+Constraint File(s):    
+@N: MT320 |This timing report estimates place and route data. Please look at the place and route timing report for final timing..
+
+
+Performance Summary 
+*******************
+
+
+Worst slack in design: -10.119
+
+                                  Requested     Estimated     Requested     Estimated                 Clock        Clock                
+Starting Clock                    Frequency     Frequency     Period        Period        Slack       Type         Group                
+----------------------------------------------------------------------------------------------------------------------------------------
+USBAER_top_level|IfClockxCI       111.7 MHz     94.9 MHz      8.955         10.535        -1.580      inferred     Autoconstr_clkgroup_1
+USBAER_top_level|PC1xSIO          641.1 MHz     545.0 MHz     1.560         1.835         -0.275      inferred     Autoconstr_clkgroup_2
+USBAER_top_level|PC2xSIO          1.0 MHz       1.0 MHz       1000.000      1010.119      -10.119     inferred     Autoconstr_clkgroup_3
+clockgen|CLKOP_inferred_clock     122.3 MHz     104.0 MHz     8.177         9.620         -1.443      inferred     Autoconstr_clkgroup_0
+System                            127.6 MHz     108.5 MHz     7.836         9.219         -1.383      system       system_clkgroup      
+========================================================================================================================================
+
+
+
+
+
+Clock Relationships
+*******************
+
+Clocks                                                        |    rise  to  rise    |    fall  to  fall   |    rise  to  fall   |    fall  to  rise   
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Starting                       Ending                         |  constraint  slack   |  constraint  slack  |  constraint  slack  |  constraint  slack  
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+System                         System                         |  7.836       -1.383  |  No paths    -      |  No paths    -      |  No paths    -      
+System                         clockgen|CLKOP_inferred_clock  |  8.177       0.975   |  No paths    -      |  No paths    -      |  No paths    -      
+System                         USBAER_top_level|IfClockxCI    |  8.955       2.827   |  No paths    -      |  No paths    -      |  No paths    -      
+System                         USBAER_top_level|PC1xSIO       |  1.560       -0.953  |  No paths    -      |  No paths    -      |  No paths    -      
+clockgen|CLKOP_inferred_clock  System                         |  8.177       -1.894  |  No paths    -      |  No paths    -      |  No paths    -      
+clockgen|CLKOP_inferred_clock  clockgen|CLKOP_inferred_clock  |  8.177       -1.443  |  No paths    -      |  No paths    -      |  No paths    -      
+clockgen|CLKOP_inferred_clock  USBAER_top_level|IfClockxCI    |  Diff grp    -       |  No paths    -      |  No paths    -      |  No paths    -      
+USBAER_top_level|IfClockxCI    System                         |  8.955       -3.229  |  No paths    -      |  No paths    -      |  8.955       1.985  
+USBAER_top_level|IfClockxCI    clockgen|CLKOP_inferred_clock  |  Diff grp    -       |  No paths    -      |  No paths    -      |  No paths    -      
+USBAER_top_level|IfClockxCI    USBAER_top_level|IfClockxCI    |  8.955       -1.580  |  No paths    -      |  4.478       1.058  |  No paths    -      
+USBAER_top_level|PC1xSIO       USBAER_top_level|PC1xSIO       |  1.560       -0.275  |  No paths    -      |  No paths    -      |  No paths    -      
+USBAER_top_level|PC1xSIO       USBAER_top_level|PC2xSIO       |  No paths    -       |  No paths    -      |  Diff grp    -      |  No paths    -      
+USBAER_top_level|PC2xSIO       System                         |  No paths    -       |  No paths    -      |  No paths    -      |  1000.000    -10.119
+USBAER_top_level|PC2xSIO       clockgen|CLKOP_inferred_clock  |  No paths    -       |  No paths    -      |  No paths    -      |  Diff grp    -      
+USBAER_top_level|PC2xSIO       USBAER_top_level|IfClockxCI    |  No paths    -       |  No paths    -      |  No paths    -      |  Diff grp    -      
+=======================================================================================================================================================
+ Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
+       'Diff grp' indicates that paths exist but the starting clock and ending clock are in different clock groups.
+
+
+
+Interface Information 
+*********************
+
+
+
+Input Ports: 
+
+Port                        Starting            User           Arrival     Required          
+Name                        Reference           Constraint     Time        Time         Slack
+                            Clock                                                            
+---------------------------------------------------------------------------------------------
+ADCovrxSI                   NA                  NA             NA          NA           NA   
+ADCwordxDI[0]               System (rising)     NA             0.000       6.442             
+ADCwordxDI[1]               System (rising)     NA             0.000       6.442             
+ADCwordxDI[2]               System (rising)     NA             0.000       6.442             
+ADCwordxDI[3]               System (rising)     NA             0.000       6.442             
+ADCwordxDI[4]               System (rising)     NA             0.000       6.442             
+ADCwordxDI[5]               System (rising)     NA             0.000       6.442             
+ADCwordxDI[6]               System (rising)     NA             0.000       6.442             
+ADCwordxDI[7]               System (rising)     NA             0.000       6.442             
+ADCwordxDI[8]               System (rising)     NA             0.000       6.442             
+ADCwordxDI[9]               System (rising)     NA             0.000       6.442             
+AERMonitorAddressxDI[0]     System (rising)     NA             0.000       5.664             
+AERMonitorAddressxDI[1]     System (rising)     NA             0.000       5.664             
+AERMonitorAddressxDI[2]     System (rising)     NA             0.000       5.664             
+AERMonitorAddressxDI[3]     System (rising)     NA             0.000       5.664             
+AERMonitorAddressxDI[4]     System (rising)     NA             0.000       5.664             
+AERMonitorAddressxDI[5]     System (rising)     NA             0.000       5.664             
+AERMonitorAddressxDI[6]     System (rising)     NA             0.000       5.664             
+AERMonitorAddressxDI[7]     System (rising)     NA             0.000       5.664             
+AERMonitorAddressxDI[8]     System (rising)     NA             0.000       5.664             
+AERMonitorAddressxDI[9]     System (rising)     NA             0.000       2.686             
+AERMonitorREQxABI           System (rising)     NA             0.000       5.664             
+CDVSTestBiasBitOutxSI       NA                  NA             NA          NA           NA   
+FX2FifoInFullxSBI           System (rising)     NA             0.000       4.715             
+FXLEDxSI                    NA                  NA             NA          NA           NA   
+IfClockxCI                  System (rising)     NA             0.000       -0.482            
+PA0xSIO                     System (rising)     NA             0.000       1.103             
+PA1xSIO                     System (rising)     NA             0.000       -1.383            
+PA3xSIO                     System (rising)     NA             0.000       0.695             
+PA7xSIO                     System (rising)     NA             0.000       1.071             
+PC0xSIO                     System (rising)     NA             0.000       4.761             
+PC1xSIO                     NA                  NA             NA          NA           NA   
+PC2xSIO                     NA                  NA             NA          NA           NA   
+PC3xSIO                     System (rising)     NA             0.000       -0.953            
+PE2xSI                      System (rising)     NA             0.000       0.251             
+PE3xSI                      System (rising)     NA             0.000       0.995             
+ResetxRBI                   System (rising)     NA             0.000       4.334             
+Sync1xABI                   System (rising)     NA             0.000       -1.383            
+=============================================================================================
+
+
+Output Ports: 
+
+Port                       Starting                                   User           Arrival     Required          
+Name                       Reference                                  Constraint     Time        Time         Slack
+                           Clock                                                                                   
+-------------------------------------------------------------------------------------------------------------------
+ADCclockxCO                NA                                         NA             NA          NA           NA   
+ADCoexEBO                  NA                                         NA             NA          NA           NA   
+ADCstbyxEO                 NA                                         NA             NA          NA           NA   
+AERMonitorACKxSBO          clockgen|CLKOP_inferred_clock (rising)     NA             7.460       7.836             
+CDVSTestApsTxGatexSO       NA                                         NA             NA          NA           NA   
+CDVSTestBiasDiagSelxSO     System (rising)                            NA             6.733       7.836             
+CDVSTestBiasEnablexEO      System (rising)                            NA             7.585       7.836             
+CDVSTestChipResetxRBO      System (rising)                            NA             6.841       7.836             
+CDVSTestColMode0xSO        USBAER_top_level|IfClockxCI (rising)       NA             8.685       7.836             
+CDVSTestColMode1xSO        USBAER_top_level|PC2xSIO (falling)         NA             17.955      7.836             
+CDVSTestSRColClockxSO      USBAER_top_level|IfClockxCI (falling)      NA             5.851       7.836             
+CDVSTestSRColInxSO         USBAER_top_level|IfClockxCI (rising)       NA             7.545       7.836             
+CDVSTestSRRowClockxSO      USBAER_top_level|IfClockxCI (falling)      NA             5.851       7.836             
+CDVSTestSRRowInxSO         USBAER_top_level|IfClockxCI (rising)       NA             6.163       7.836             
+DebugxSIO[0]               USBAER_top_level|IfClockxCI (rising)       NA             7.244       7.836             
+DebugxSIO[1]               NA                                         NA             NA          NA           NA   
+DebugxSIO[2]               NA                                         NA             NA          NA           NA   
+DebugxSIO[3]               NA                                         NA             NA          NA           NA   
+DebugxSIO[4]               NA                                         NA             NA          NA           NA   
+DebugxSIO[5]               NA                                         NA             NA          NA           NA   
+DebugxSIO[6]               NA                                         NA             NA          NA           NA   
+DebugxSIO[7]               NA                                         NA             NA          NA           NA   
+DebugxSIO[8]               NA                                         NA             NA          NA           NA   
+DebugxSIO[9]               NA                                         NA             NA          NA           NA   
+DebugxSIO[10]              NA                                         NA             NA          NA           NA   
+DebugxSIO[11]              NA                                         NA             NA          NA           NA   
+DebugxSIO[12]              NA                                         NA             NA          NA           NA   
+DebugxSIO[13]              NA                                         NA             NA          NA           NA   
+DebugxSIO[14]              NA                                         NA             NA          NA           NA   
+DebugxSIO[15]              NA                                         NA             NA          NA           NA   
+FX2FifoAddressxDO[0]       NA                                         NA             NA          NA           NA   
+FX2FifoAddressxDO[1]       NA                                         NA             NA          NA           NA   
+FX2FifoDataxDIO[0]         System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[1]         System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[2]         System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[3]         System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[4]         System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[5]         System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[6]         System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[7]         System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[8]         System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[9]         System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[10]        System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[11]        System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[12]        System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[13]        System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[14]        System (rising)                            NA             4.503       7.836             
+FX2FifoDataxDIO[15]        System (rising)                            NA             4.503       7.836             
+FX2FifoPktEndxSBO          USBAER_top_level|IfClockxCI (rising)       NA             7.582       7.836             
+FX2FifoReadxEBO            NA                                         NA             NA          NA           NA   
+FX2FifoWritexEBO           USBAER_top_level|IfClockxCI (rising)       NA             7.582       7.836             
+LED1xSO                    System (rising)                            NA             6.841       7.836             
+LED2xSO                    System (rising)                            NA             7.141       7.836             
+LED3xSO                    USBAER_top_level|IfClockxCI (rising)       NA             7.244       7.836             
+SynchOutxSBO               clockgen|CLKOP_inferred_clock (rising)     NA             9.730       7.836             
+===================================================================================================================
+
+
+##### END OF TIMING REPORT #####]
+
+---------------------------------------
+Resource Usage Report
+Part: lcmxo2280c-3
+
+Register bits: 415 of 2280 (18%)
+Latch bits:      2
+PIC Latch:       0
+I/O cells:       90
+
+
+Details:
+CCU2:           184
+FD1P3DX:        173
+FD1S1D:         2
+FD1S3AX:        4
+FD1S3BX:        4
+FD1S3DX:        234
+GSR:            1
+IB:             35
+INV:            7
+OB:             40
+OBZ:            15
+ORCALUT4:       315
+PFUMX:          12
+PUR:            1
+VHI:            1
+VLO:            1
+false:          15
+true:           15
+Mapper successful!
+Process took 0h:00m:04s realtime, 0h:00m:04s cputime
+# Thu Jul 25 20:26:31 2013
+
+###########################################################]

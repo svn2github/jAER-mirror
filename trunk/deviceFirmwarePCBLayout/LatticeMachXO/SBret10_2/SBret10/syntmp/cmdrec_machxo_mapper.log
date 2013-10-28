@@ -1,0 +1,9 @@
+C:\Program Files\Lattice\diamond\1.3\synpbase\bin\m_gen_lattice.exe  -prodtype synplify_pro -encrypt  -pro  -part LCMXO2280C  -package FT256C  -grade -3   -maxfan 100     -forcenogsr -fixgatedclocks 3 -fixgeneratedclocks 3  -auto_constrain_io   -resolveMultipleDriver -top_level_module  USBAER_top_level  -flow mapping  -ta_num_paths 3  -ta_num_points 0  -oedif  C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\SBret10\SBret10_SBret10.edi  -autoconstraint  -freq 1.000  C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\SBret10\synwork\SBret10_SBret10_premapping.srd  -devicelib  "C:\Program Files\Lattice\diamond\1.3\synpbase\lib\lucent\machxo.v"  -ologparam  C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\SBret10\syntmp\SBret10_SBret10.plg  -noforwanno -osyn  C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\SBret10\SBret10_SBret10.srm  -prjdir C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\SBret10\  -log  C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\SBret10\synlog\SBret10_SBret10_MACHXO_Mapper.srr 
+rc:1 success:1
+C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\SBret10\SBret10_SBret10.edi|o|1374776790|717463
+C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\SBret10\synwork\SBret10_SBret10_premapping.srd|i|1374776785|52723
+C:\Program Files\Lattice\diamond\1.3\synpbase\lib\lucent\machxo.v|i|1304329020|41271
+C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\SBret10\syntmp\SBret10_SBret10.plg|o|1374776791|3637
+C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\SBret10\SBret10_SBret10.srm|o|1374776790|667515
+C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\SBret10\synlog\SBret10_SBret10_MACHXO_Mapper.srr|o|1374776791|36629
+C:\Program Files\Lattice\diamond\1.3\synpbase\bin\m_gen_lattice.exe|i|1304504052|18571264

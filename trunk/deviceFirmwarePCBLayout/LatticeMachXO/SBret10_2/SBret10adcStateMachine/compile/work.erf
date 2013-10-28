@@ -1,0 +1,155 @@
+WARNING DAGGEN_0523: "The source is compiled without the -dbg switch. Line breakpoints, code coverage, and assertion debug will not be available." 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\wordRegister.vhd" 
+MESSAGE "Compile Entity "wordRegister"" 
+MESSAGE "Compile Architecture "Behavioral" of Entity "wordRegister"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\AERfifo.vhd" 
+MESSAGE "Compile Entity "AERfifo"" 
+MESSAGE "Compile Architecture "Structure" of Entity "AERfifo"" 
+MESSAGE "Compile Configuration "Structure_CON"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\clockgen.vhd" 
+MESSAGE "Compile Entity "clockgen"" 
+MESSAGE "Compile Architecture "Structure" of Entity "clockgen"" 
+MESSAGE "Compile Configuration "Structure_CON"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\earlyPaketTimer.vhd" 
+MESSAGE "Compile Entity "earlyPaketTimer"" 
+MESSAGE "Compile Architecture "Behavioral" of Entity "earlyPaketTimer"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\EventBeforeOverflow.vhd" 
+MESSAGE "Compile Entity "EventBeforeOverflow"" 
+MESSAGE "Compile Architecture "Behavioral" of Entity "EventBeforeOverflow"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\eventCounter.vhd" 
+MESSAGE "Compile Entity "eventCounter"" 
+MESSAGE "Compile Architecture "Behavioral" of Entity "eventCounter"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\fifoStatemachine.vhd" 
+MESSAGE "Compile Entity "fifoStatemachine"" 
+MESSAGE "Compile Architecture "Behavioral" of Entity "fifoStatemachine"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\monitorStateMachine.vhd" 
+MESSAGE "Compile Entity "monitorStateMachine"" 
+MESSAGE "Compile Architecture "Behavioral" of Entity "monitorStateMachine"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\synchronizerStateMachine.vhd" 
+MESSAGE "Compile Entity "synchronizerStateMachine"" 
+MESSAGE "Compile Architecture "Behavioral" of Entity "synchronizerStateMachine"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\timestampCounter.vhd" 
+MESSAGE "Compile Entity "timestampCounter"" 
+MESSAGE "Compile Architecture "Behavioral" of Entity "timestampCounter"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\USBAER_top_level.vhd" 
+BEGINPROGRESS C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\USBAER_top_level.vhd
+UPDATEPROGRESS 1
+MESSAGE "Compile Entity "USBAER_top_level"" 
+UPDATEPROGRESS 12
+UPDATEPROGRESS 13
+MESSAGE "Compile Architecture "Structural" of Entity "USBAER_top_level"" 
+UPDATEPROGRESS 16
+UPDATEPROGRESS 17
+UPDATEPROGRESS 19
+UPDATEPROGRESS 20
+UPDATEPROGRESS 22
+UPDATEPROGRESS 25
+UPDATEPROGRESS 30
+UPDATEPROGRESS 31
+UPDATEPROGRESS 33
+UPDATEPROGRESS 34
+UPDATEPROGRESS 35
+UPDATEPROGRESS 37
+UPDATEPROGRESS 40
+UPDATEPROGRESS 41
+UPDATEPROGRESS 42
+UPDATEPROGRESS 43
+UPDATEPROGRESS 44
+UPDATEPROGRESS 45
+UPDATEPROGRESS 46
+UPDATEPROGRESS 47
+UPDATEPROGRESS 48
+UPDATEPROGRESS 49
+UPDATEPROGRESS 50
+UPDATEPROGRESS 51
+UPDATEPROGRESS 52
+UPDATEPROGRESS 53
+UPDATEPROGRESS 54
+UPDATEPROGRESS 55
+UPDATEPROGRESS 57
+UPDATEPROGRESS 58
+UPDATEPROGRESS 59
+UPDATEPROGRESS 60
+UPDATEPROGRESS 61
+UPDATEPROGRESS 63
+UPDATEPROGRESS 64
+UPDATEPROGRESS 65
+UPDATEPROGRESS 67
+UPDATEPROGRESS 68
+UPDATEPROGRESS 70
+UPDATEPROGRESS 71
+UPDATEPROGRESS 72
+UPDATEPROGRESS 74
+UPDATEPROGRESS 77
+UPDATEPROGRESS 80
+UPDATEPROGRESS 84
+UPDATEPROGRESS 85
+UPDATEPROGRESS 86
+UPDATEPROGRESS 87
+UPDATEPROGRESS 88
+UPDATEPROGRESS 89
+UPDATEPROGRESS 90
+UPDATEPROGRESS 91
+UPDATEPROGRESS 92
+UPDATEPROGRESS 93
+UPDATEPROGRESS 94
+UPDATEPROGRESS 95
+UPDATEPROGRESS 96
+UPDATEPROGRESS 97
+UPDATEPROGRESS 98
+UPDATEPROGRESS 99
+UPDATEPROGRESS 100
+ENDPROGRESS C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\USBAER_top_level.vhd
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCvalueReady.vhd" 
+MESSAGE "Compile Entity "ADCvalueReady"" 
+MESSAGE "Compile Architecture "Behavioral" of Entity "ADCvalueReady"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\cDVSResetStateMachine.vhd" 
+MESSAGE "Compile Entity "cDVSResetStateMachine"" 
+MESSAGE "Compile Architecture "Behavioral" of Entity "cDVSResetStateMachine"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\shiftRegister.vhd" 
+MESSAGE "Compile Entity "shiftRegister"" 
+MESSAGE "Compile Architecture "Behavioral" of Entity "shiftRegister"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\ADCStateMachine_tb.vhd" 
+MESSAGE "Compile Entity "ADCStateMachine_tb"" 
+MESSAGE "Compile Architecture "Behavioural" of Entity "ADCStateMachine_tb"" 
+MESSAGE "File: C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCStateMachine.vhd" 
+BEGINPROGRESS C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCStateMachine.vhd
+UPDATEPROGRESS 2
+MESSAGE "Compile Entity "ADCStateMachine"" 
+UPDATEPROGRESS 10
+MESSAGE "Compile Architecture "Behavioral" of Entity "ADCStateMachine"" 
+UPDATEPROGRESS 11
+UPDATEPROGRESS 12
+UPDATEPROGRESS 13
+UPDATEPROGRESS 14
+UPDATEPROGRESS 15
+UPDATEPROGRESS 16
+UPDATEPROGRESS 17
+UPDATEPROGRESS 18
+UPDATEPROGRESS 19
+UPDATEPROGRESS 20
+UPDATEPROGRESS 21
+UPDATEPROGRESS 22
+UPDATEPROGRESS 23
+UPDATEPROGRESS 24
+UPDATEPROGRESS 25
+UPDATEPROGRESS 26
+UPDATEPROGRESS 27
+UPDATEPROGRESS 28
+UPDATEPROGRESS 29
+UPDATEPROGRESS 30
+UPDATEPROGRESS 31
+UPDATEPROGRESS 32
+UPDATEPROGRESS 33
+UPDATEPROGRESS 63
+UPDATEPROGRESS 65
+UPDATEPROGRESS 66
+UPDATEPROGRESS 67
+UPDATEPROGRESS 68
+UPDATEPROGRESS 86
+UPDATEPROGRESS 92
+UPDATEPROGRESS 96
+UPDATEPROGRESS 99
+UPDATEPROGRESS 100
+ENDPROGRESS C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret10\sourcecode\ADCStateMachine.vhd
+SUCCESS "Compile success 0 Errors 0 Warnings  Analysis time :  1.0 [s]" 
