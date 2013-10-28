@@ -186,7 +186,7 @@ public class DVS128 extends AETemporalConstastRetina implements Serializable, Ob
     private void enableDVS128Menu(boolean yes) {
         if (yes) {
             if (dvs128Menu == null) {
-                dvs128Menu = new JMenu("DVS128");
+                dvs128Menu = new JMenu(this.getClass().getSimpleName());
                 dvs128Menu.getPopupMenu().setLightWeightPopupEnabled(false); // to paint on GLCanvas
                 dvs128Menu.setToolTipText("Specialized menu for DVS128 chip");
             }
