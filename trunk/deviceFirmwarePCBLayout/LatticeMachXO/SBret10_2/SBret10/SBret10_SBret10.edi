@@ -4,7 +4,7 @@
   (keywordMap (keywordLevel 0))
   (status
     (written
-      (timeStamp 2013 10 28 14 50 53)
+      (timeStamp 2013 10 28 16 7 56)
       (author "Synopsys, Inc.")
       (program "Synplify Pro" (version "G-2012.09L-SP1 , mapper maplat, Build 618R"))
      )
@@ -8056,7 +8056,7 @@
            (port ReadADCvaluexE (direction INPUT))
            (port TimestampResetxDN_a1_0 (direction INPUT))
            (port IncxS (direction OUTPUT))
-           (port SyncOut1xSBO_c (direction OUTPUT))
+           (port SyncOut1xSO_c (direction OUTPUT))
            (port ResetxRBI_c_i (direction INPUT))
            (port SyncIn1xSB (direction OUTPUT))
            (port ClockxC_c (direction INPUT))
@@ -8123,7 +8123,7 @@
           )
           (instance (rename CounterxDP_13 "CounterxDP[13]") (viewRef PRIM (cellRef FD1P3DX (libraryRef LUCENT)))
           )
-          (instance SyncOut1xSBO_0_sqmuxa_8_RNI6F0T1 (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
+          (instance SyncOut1xSO_0_sqmuxa_8_RNI4DPK1 (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
            (property lut_function (string "(!D !C+D (!C (B+A)))"))
           )
           (instance (rename StatexDP_RNO_4 "StatexDP_RNO[4]") (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
@@ -8204,7 +8204,7 @@
           (instance (rename p_memless_op_gt_op_gt_counterxdn21lto6_RNI53BN3 "p_memless.op_gt.op_gt.counterxdn21lto6_RNI53BN3") (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
            (property lut_function (string "(D (C (!B A)))"))
           )
-          (instance SyncOut1xSBO_0_sqmuxa_8 (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
+          (instance SyncOut1xSO_0_sqmuxa_8 (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
            (property lut_function (string "(D (C (B !A)))"))
           )
           (instance (rename p_memless_op_gt_op_gt_counterxdn5lto13_0 "p_memless.op_gt.op_gt.counterxdn5lto13_0") (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
@@ -8304,7 +8304,7 @@
           (instance (rename p_memless_op_gt_op_gt_counterxdn5lto13_a0 "p_memless.op_gt.op_gt.counterxdn5lto13_a0") (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
            (property lut_function (string "(!D (!C (!B !A)))"))
           )
-          (instance SyncOut1xSBO_0_sqmuxa_2 (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
+          (instance SyncOut1xSO_0_sqmuxa_2 (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
            (property lut_function (string "(!D (!C (!B+!A))+D !C)"))
           )
           (instance (rename p_memless_op_gt_op_gt_counterxdn5lto13_a1 "p_memless.op_gt.op_gt.counterxdn5lto13_a1") (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
@@ -8334,10 +8334,10 @@
           (instance (rename p_memless_op_gt_op_gt_counterxdn5lto3 "p_memless.op_gt.op_gt.counterxdn5lto3") (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
            (property lut_function (string "(D+(C+(B+A)))"))
           )
-          (instance SyncOut1xSBO_0_sqmuxa_7 (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
+          (instance SyncOut1xSO_0_sqmuxa_7 (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
            (property lut_function (string "(!D (!C (!B !A)))"))
           )
-          (instance (rename p_memless_op_lt_op_lt_syncout1xsbo4lto3 "p_memless.op_lt.op_lt.syncout1xsbo4lto3") (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
+          (instance (rename p_memless_op_lt_op_lt_syncout1xso4lto3 "p_memless.op_lt.op_lt.syncout1xso4lto3") (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
            (property lut_function (string "(!C (!B !A))"))
           )
           (instance (rename CounterxDP_RNIN1UO1_12 "CounterxDP_RNIN1UO1[12]") (viewRef PRIM (cellRef ORCALUT4 (libraryRef LUCENT)))
@@ -8675,7 +8675,7 @@
            (portRef Q (instanceRef CounterxDP_1))
            (portRef A1 (instanceRef CounterxDP_cry_0_0))
            (portRef B (instanceRef p_memless_op_gt_op_gt_counterxdn21lto6_1))
-           (portRef A (instanceRef p_memless_op_lt_op_lt_syncout1xsbo4lto3))
+           (portRef A (instanceRef p_memless_op_lt_op_lt_syncout1xso4lto3))
            (portRef B (instanceRef p_memless_op_gt_op_gt_counterxdn5lto3))
           ))
           (net (rename CounterxDP_lm_2 "CounterxDP_lm[2]") (joined
@@ -8686,7 +8686,7 @@
            (portRef Q (instanceRef CounterxDP_2))
            (portRef A0 (instanceRef CounterxDP_cry_0_2))
            (portRef C (instanceRef p_memless_op_gt_op_gt_counterxdn21lto6_1))
-           (portRef B (instanceRef p_memless_op_lt_op_lt_syncout1xsbo4lto3))
+           (portRef B (instanceRef p_memless_op_lt_op_lt_syncout1xso4lto3))
            (portRef C (instanceRef p_memless_op_gt_op_gt_counterxdn5lto3))
           ))
           (net (rename CounterxDP_lm_3 "CounterxDP_lm[3]") (joined
@@ -8697,7 +8697,7 @@
            (portRef Q (instanceRef CounterxDP_3))
            (portRef A1 (instanceRef CounterxDP_cry_0_2))
            (portRef A (instanceRef p_memless_op_gt_op_gt_counterxdn21lto6))
-           (portRef C (instanceRef p_memless_op_lt_op_lt_syncout1xsbo4lto3))
+           (portRef C (instanceRef p_memless_op_lt_op_lt_syncout1xso4lto3))
            (portRef D (instanceRef p_memless_op_gt_op_gt_counterxdn5lto3))
           ))
           (net (rename CounterxDP_lm_4 "CounterxDP_lm[4]") (joined
@@ -8709,7 +8709,7 @@
            (portRef A0 (instanceRef CounterxDP_cry_0_4))
            (portRef D (instanceRef p_memless_op_gt_op_gt_counterxdn21lto6_1))
            (portRef A (instanceRef p_memless_op_gt_op_gt_counterxdn5lto6))
-           (portRef A (instanceRef SyncOut1xSBO_0_sqmuxa_2))
+           (portRef A (instanceRef SyncOut1xSO_0_sqmuxa_2))
           ))
           (net (rename CounterxDP_lm_5 "CounterxDP_lm[5]") (joined
            (portRef Z (instanceRef CounterxDP_lm_0_5))
@@ -8720,7 +8720,7 @@
            (portRef A1 (instanceRef CounterxDP_cry_0_4))
            (portRef B (instanceRef p_memless_op_gt_op_gt_counterxdn21lto6))
            (portRef B (instanceRef p_memless_op_gt_op_gt_counterxdn5lto6))
-           (portRef B (instanceRef SyncOut1xSBO_0_sqmuxa_2))
+           (portRef B (instanceRef SyncOut1xSO_0_sqmuxa_2))
           ))
           (net (rename CounterxDP_lm_6 "CounterxDP_lm[6]") (joined
            (portRef Z (instanceRef CounterxDP_lm_0_6))
@@ -8731,7 +8731,7 @@
            (portRef A0 (instanceRef CounterxDP_cry_0_6))
            (portRef C (instanceRef p_memless_op_gt_op_gt_counterxdn21lto6))
            (portRef C (instanceRef p_memless_op_gt_op_gt_counterxdn5lto6))
-           (portRef C (instanceRef SyncOut1xSBO_0_sqmuxa_2))
+           (portRef C (instanceRef SyncOut1xSO_0_sqmuxa_2))
           ))
           (net (rename CounterxDP_lm_7 "CounterxDP_lm[7]") (joined
            (portRef Z (instanceRef CounterxDP_lm_0_7))
@@ -8765,7 +8765,7 @@
            (portRef Q (instanceRef CounterxDP_11))
            (portRef A1 (instanceRef CounterxDP_cry_0_10))
            (portRef B (instanceRef p_memless_op_gt_op_gt_counterxdn5lto13_a0))
-           (portRef A (instanceRef SyncOut1xSBO_0_sqmuxa_8_RNI6F0T1))
+           (portRef A (instanceRef SyncOut1xSO_0_sqmuxa_8_RNI4DPK1))
            (portRef CounterxDP_11)
           ))
           (net (rename CounterxDP_12 "CounterxDP[12]") (joined
@@ -8773,20 +8773,20 @@
            (portRef A0 (instanceRef CounterxDP_cry_0_12))
            (portRef D (instanceRef CounterxDP_RNIN1UO1_12))
            (portRef C (instanceRef p_memless_op_gt_op_gt_counterxdn5lto13_0))
-           (portRef B (instanceRef SyncOut1xSBO_0_sqmuxa_8_RNI6F0T1))
+           (portRef B (instanceRef SyncOut1xSO_0_sqmuxa_8_RNI4DPK1))
            (portRef CounterxDP_12)
           ))
           (net SyncIn1xABI_i_m (joined
            (portRef Z (instanceRef StatexDP_RNIEAPI_5))
-           (portRef C (instanceRef SyncOut1xSBO_0_sqmuxa_8_RNI6F0T1))
+           (portRef C (instanceRef SyncOut1xSO_0_sqmuxa_8_RNI4DPK1))
           ))
-          (net SyncOut1xSBO_0_sqmuxa_8 (joined
-           (portRef Z (instanceRef SyncOut1xSBO_0_sqmuxa_8))
-           (portRef D (instanceRef SyncOut1xSBO_0_sqmuxa_8_RNI6F0T1))
+          (net SyncOut1xSO_0_sqmuxa_8 (joined
+           (portRef Z (instanceRef SyncOut1xSO_0_sqmuxa_8))
+           (portRef D (instanceRef SyncOut1xSO_0_sqmuxa_8_RNI4DPK1))
           ))
-          (net SyncOut1xSBO_c (joined
-           (portRef Z (instanceRef SyncOut1xSBO_0_sqmuxa_8_RNI6F0T1))
-           (portRef SyncOut1xSBO_c)
+          (net SyncOut1xSO_c (joined
+           (portRef Z (instanceRef SyncOut1xSO_0_sqmuxa_8_RNI4DPK1))
+           (portRef SyncOut1xSO_c)
           ))
           (net LED2xSO_c (joined
            (portRef LED2xSO_c)
@@ -8810,7 +8810,7 @@
           (net N_195 (joined
            (portRef Z (instanceRef StatexDP_ns_i_o3_2))
            (portRef C (instanceRef StatexDP_RNO_3))
-           (portRef B (instanceRef SyncOut1xSBO_0_sqmuxa_8))
+           (portRef B (instanceRef SyncOut1xSO_0_sqmuxa_8))
            (portRef A (instanceRef StatexDP_ns_0_3))
            (portRef B (instanceRef CounterxDP_lm_0_13))
            (portRef B (instanceRef CounterxDP_lm_0_12))
@@ -8972,16 +8972,16 @@
            (portRef A1 (instanceRef CounterxDP_cry_0_12))
            (portRef C (instanceRef p_memless_op_gt_op_gt_counterxdn5lto13_a0))
            (portRef D (instanceRef p_memless_op_gt_op_gt_counterxdn5lto13_0))
-           (portRef A (instanceRef SyncOut1xSBO_0_sqmuxa_8))
+           (portRef A (instanceRef SyncOut1xSO_0_sqmuxa_8))
            (portRef CounterxDP_13)
           ))
-          (net SyncOut1xSBO_0_sqmuxa_2 (joined
-           (portRef Z (instanceRef SyncOut1xSBO_0_sqmuxa_2))
-           (portRef C (instanceRef SyncOut1xSBO_0_sqmuxa_8))
+          (net SyncOut1xSO_0_sqmuxa_2 (joined
+           (portRef Z (instanceRef SyncOut1xSO_0_sqmuxa_2))
+           (portRef C (instanceRef SyncOut1xSO_0_sqmuxa_8))
           ))
-          (net SyncOut1xSBO_0_sqmuxa_7 (joined
-           (portRef Z (instanceRef SyncOut1xSBO_0_sqmuxa_7))
-           (portRef D (instanceRef SyncOut1xSBO_0_sqmuxa_8))
+          (net SyncOut1xSO_0_sqmuxa_7 (joined
+           (portRef Z (instanceRef SyncOut1xSO_0_sqmuxa_7))
+           (portRef D (instanceRef SyncOut1xSO_0_sqmuxa_8))
           ))
           (net counterxdn5lto13_a0 (joined
            (portRef Z (instanceRef p_memless_op_gt_op_gt_counterxdn5lto13_a0))
@@ -9436,13 +9436,13 @@
            (portRef Q (instanceRef CounterxDP_7))
            (portRef A1 (instanceRef CounterxDP_cry_0_6))
            (portRef A (instanceRef CounterxDP_RNIN1UO1_12))
-           (portRef A (instanceRef SyncOut1xSBO_0_sqmuxa_7))
+           (portRef A (instanceRef SyncOut1xSO_0_sqmuxa_7))
            (portRef A (instanceRef p_memless_op_gt_op_gt_counterxdn5lto13_a0))
            (portRef CounterxDP_7)
           ))
-          (net syncout1xsbo4lt5 (joined
-           (portRef Z (instanceRef p_memless_op_lt_op_lt_syncout1xsbo4lto3))
-           (portRef D (instanceRef SyncOut1xSBO_0_sqmuxa_2))
+          (net syncout1xso4lt5 (joined
+           (portRef Z (instanceRef p_memless_op_lt_op_lt_syncout1xso4lto3))
+           (portRef D (instanceRef SyncOut1xSO_0_sqmuxa_2))
           ))
           (net TimestampResetxDN_a1_0 (joined
            (portRef TimestampResetxDN_a1_0)
@@ -9453,7 +9453,7 @@
            (portRef Q (instanceRef CounterxDP_8))
            (portRef A0 (instanceRef CounterxDP_cry_0_8))
            (portRef B (instanceRef CounterxDP_RNIN1UO1_12))
-           (portRef B (instanceRef SyncOut1xSBO_0_sqmuxa_7))
+           (portRef B (instanceRef SyncOut1xSO_0_sqmuxa_7))
            (portRef B (instanceRef p_memless_op_gt_op_gt_counterxdn5lto13_a1))
            (portRef CounterxDP_8)
           ))
@@ -9461,7 +9461,7 @@
            (portRef Q (instanceRef CounterxDP_9))
            (portRef A1 (instanceRef CounterxDP_cry_0_8))
            (portRef C (instanceRef CounterxDP_RNIN1UO1_12))
-           (portRef C (instanceRef SyncOut1xSBO_0_sqmuxa_7))
+           (portRef C (instanceRef SyncOut1xSO_0_sqmuxa_7))
            (portRef C (instanceRef p_memless_op_gt_op_gt_counterxdn5lto13_a1))
            (portRef CounterxDP_9)
           ))
@@ -9469,7 +9469,7 @@
            (portRef Q (instanceRef CounterxDP_10))
            (portRef A0 (instanceRef CounterxDP_cry_0_10))
            (portRef B (instanceRef CounterxDP_RNI7GKB1_10))
-           (portRef D (instanceRef SyncOut1xSBO_0_sqmuxa_7))
+           (portRef D (instanceRef SyncOut1xSO_0_sqmuxa_7))
            (portRef D (instanceRef p_memless_op_gt_op_gt_counterxdn5lto13_a1))
            (portRef CounterxDP_10)
           ))
@@ -13720,7 +13720,7 @@
            (port SyncIn1xABI (direction INPUT))
            (port SyncIn2xABI (direction INPUT))
            (port SyncInSWxEI (direction INPUT))
-           (port SyncOut1xSBO (direction OUTPUT))
+           (port SyncOut1xSO (direction OUTPUT))
            (port SyncOut2xSBO (direction OUTPUT))
            (port SyncOutSWxEI (direction OUTPUT))
            (port PC0xSIO (direction INPUT))
@@ -13839,7 +13839,7 @@
           (instance PC0xSIO_pad (viewRef PRIM (cellRef IB (libraryRef LUCENT)))          )
           (instance SyncOutSWxEI_pad (viewRef PRIM (cellRef OB (libraryRef LUCENT)))          )
           (instance SyncOut2xSBO_pad (viewRef PRIM (cellRef OB (libraryRef LUCENT)))          )
-          (instance SyncOut1xSBO_pad (viewRef PRIM (cellRef OB (libraryRef LUCENT)))          )
+          (instance SyncOut1xSO_pad (viewRef PRIM (cellRef OB (libraryRef LUCENT)))          )
           (instance SyncIn1xABI_pad (viewRef PRIM (cellRef IB (libraryRef LUCENT)))          )
           (instance ResetxRBI_pad (viewRef PRIM (cellRef IB (libraryRef LUCENT)))          )
           (instance IfClockxCI_pad (viewRef PRIM (cellRef IB (libraryRef LUCENT)))
@@ -14925,13 +14925,13 @@
           (net SyncInSWxEI (joined
            (portRef SyncInSWxEI)
           ))
-          (net SyncOut1xSBO_c (joined
-           (portRef SyncOut1xSBO_c (instanceRef uSynchronizerStateMachine_1))
-           (portRef I (instanceRef SyncOut1xSBO_pad))
+          (net SyncOut1xSO_c (joined
+           (portRef SyncOut1xSO_c (instanceRef uSynchronizerStateMachine_1))
+           (portRef I (instanceRef SyncOut1xSO_pad))
           ))
-          (net SyncOut1xSBO (joined
-           (portRef O (instanceRef SyncOut1xSBO_pad))
-           (portRef SyncOut1xSBO)
+          (net SyncOut1xSO (joined
+           (portRef O (instanceRef SyncOut1xSO_pad))
+           (portRef SyncOut1xSO)
           ))
           (net SyncOut2xSBO (joined
            (portRef O (instanceRef SyncOut2xSBO_pad))

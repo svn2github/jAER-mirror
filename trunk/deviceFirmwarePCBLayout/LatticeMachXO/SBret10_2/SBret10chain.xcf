@@ -19,9 +19,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/PROJ/jAER/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret10/SBret10/SBret10_SBret10.jed</File>
-			<FileTime>5/29/2013 11:32:41</FileTime>
-			<JedecChecksum>0x0085</JedecChecksum>
+			<File>C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/SBret10/SBret10_SBret10.jed</File>
+			<FileTime>10/28/13 14:51:42</FileTime>
+			<JedecChecksum>0x67E0</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>

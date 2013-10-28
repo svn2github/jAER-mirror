@@ -44,7 +44,7 @@ entity USBAER_top_level is
     SyncIn1xABI   : in  std_logic;        -- needs synchronization
 	SyncIn2xABI   : in  std_logic;
 	SyncInSWxEI   : in  std_logic;
-    SyncOut1xSBO : out std_logic;
+    SyncOut1xSO : out std_logic;
 	SyncOut2xSBO : out std_logic;
 	SyncOutSWxEI : out std_logic;
 
@@ -162,7 +162,7 @@ architecture Structural of USBAER_top_level is
        SyncIn1xABI			 : in  std_logic;      
 --	   SyncIn2xABI 		  	: in  std_logic;
 --	   SyncInSWxEI  		: in  std_logic;
-	   SyncOut1xSBO 		: out std_logic;
+	   SyncOut1xSO 		: out std_logic;
 --	   SyncOut2xSBO 		: out std_logic;
 --	   SyncOutSWxEI 		: out std_logic;
        TriggerxSO            : out std_logic;
@@ -510,7 +510,7 @@ begin
       RunxSI                => RunxS,
       ConfigxSI             => TimestampMasterxS,
       SyncIn1xABI            => SyncIn1xAB,
-      SyncOut1xSBO           => SyncOut1xSB,
+      SyncOut1xSO           => SyncOut1xSB,
       TriggerxSO            => TriggerxS,
       HostResetTimestampxSI => HostResetTimestampxS,
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
@@ -604,7 +604,7 @@ begin
       cDVSresetxRBI => PE3xSI,
       CDVSresetxRBO => CDVSTestPeriodicChipResetxRB);
   
-  SyncOut1xSBO <= SyncOut1xSB;
+  SyncOut1xSO <= SyncOut1xSB;
   FX2FifoPktEndxSBO <= FX2FifoPktEndxSB;
   FX2FifoWritexEBO <= FX2FifoWritexEB;
   AERMonitorACKxSBO <= AERMonitorACKxSB;

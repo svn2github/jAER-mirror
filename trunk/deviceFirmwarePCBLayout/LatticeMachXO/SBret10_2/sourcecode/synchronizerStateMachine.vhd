@@ -33,14 +33,14 @@ entity synchronizerStateMachine is
 	
 	-- output ports to synchronize other USBAER boards (master mode)
     --SyncOutSWxABI   : in  std_logic;    --pin A14 needs synchronization
-    --SyncOut1xSBO : out std_logic;		--pin A13
-	--SyncOut2xSBO : out std_logic;		--pin A15
+    --SyncOut1xSOSBO : out std_logic;		--pin A13
+	--SyncOut2xSO : out std_logic;		--pin A15
 	------------------------------------------------------
 	   SyncIn1xABI			 : in  std_logic;      
 --	   SyncIn2xABI 		  	: in  std_logic;
 --	   SyncInSWxEI  		: in  std_logic;
-	   SyncOut1xSBO 		: out std_logic;
---	   SyncOut2xSBO 		: out std_logic;
+	   SyncOut1xSO 		: out std_logic;
+--	   SyncOut2xSO 		: out std_logic;
 --	   SyncOutSWxEI 		: out std_logic;
     TriggerxSO: out std_logic;
     
@@ -90,7 +90,7 @@ begin  -- Behavioral
     TriggerxSO <= '0';
  
 
-    SyncOut1xSBO <= '1';
+    SyncOut1xSO <= '1';
       
     case StatexDP is
       when stIdle               =>  -- waiting for either sync in to go
@@ -99,7 +99,7 @@ begin  -- Behavioral
         DividerxDN         <= (others => '0');
         CounterxDN <= (others => '0');
  
-        SyncOut1xSBO <= SyncIn1xABI;
+        SyncOut1xSO <= SyncIn1xABI;
         
         if ConfigxSI = '0' and SyncIn1xSB ='0' then
           StatexDN         <= stRunSlave;
@@ -119,7 +119,7 @@ begin  -- Behavioral
         end if;
     
         CounterxDN <= CounterxDP+1;
-        SyncOut1xSBO   <= '1';
+        SyncOut1xSO   <= '1';
         
       when stTriggerInHigh      =>      
         DividerxDN   <= DividerxDP +1;
@@ -140,9 +140,9 @@ begin  -- Behavioral
         end if;
 
         if CounterxDP < squareWaveHighTime then
-          SyncOut1xSBO <= '0';
+          SyncOut1xSO <= '0';
         else
-          SyncOut1xSBO <= '1';
+          SyncOut1xSO <= '1';
         end if;
 
         if RunxSI = '0' or ConfigxSI='0'  then
@@ -171,9 +171,9 @@ begin  -- Behavioral
         end if;
         
         if CounterxDP < squareWaveHighTime then
-          SyncOut1xSBO <= '0';
+          SyncOut1xSO <= '0';
         else
-          SyncOut1xSBO <= '1';
+          SyncOut1xSO <= '1';
         end if;
             
         if RunxSI = '0' or ConfigxSI='0'  then
@@ -186,8 +186,8 @@ begin  -- Behavioral
         
       when stRunSlave =>
 
-        --SyncOut1xSBO <= '0';
-        SyncOut1xSBO <= SyncIn1xSB;
+        --SyncOut1xSO <= '0';
+        SyncOut1xSO <= SyncIn1xSB;
         
         DividerxDN   <= DividerxDP +1;
 
@@ -209,8 +209,8 @@ begin  -- Behavioral
 
       when stSlaveWaitEdge =>
 
-        --SyncOut1xSBO <= '1';
-        SyncOut1xSBO <= SyncIn1xSB;
+        --SyncOut1xSO <= '1';
+        SyncOut1xSO <= SyncIn1xSB;
         
         DividerxDN          <= (others => '0');
         CounterxDN <= CounterxDP + 1;
