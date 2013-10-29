@@ -1,24 +1,0 @@
-Protel Design System Design Rule Check
-PCB File : \Circuitos Protel\Tarjeta USB-AER\USB2AER3.PCB
-Date     : 12/05/2004
-Time     : 12:49:17
-
-Processing Rule : Broken-Net Constraint ( (All) )
-   Violation         Net TDI   is broken into 2 sub-nets. Routed To 50.00%
-     Subnet : MICRO-15 JTAG1-15      Subnet : U2-159   Rule Violations :1
-
-Processing Rule : Broken-Net Constraint ( (All) )
-Rule Violations :0
-
-Processing Rule : Width Constraint (Min=0.2mm) (Max=0.8mm) (Preferred=0.2032mm) (All)
-Rule Violations :0
-
-Processing Rule : Clearance Constraint (Gap=0.2032mm) (Disabled)(All),(All)
-Rule Violations :0
-
-Processing Rule : Clearance Constraint (Gap=0.2mm) (All),(All)
-Rule Violations :0
-
-
-Violations Detected : 1
-Time Elapsed        : 00:00:01
