@@ -66,6 +66,7 @@ public class SBret10config extends LatticeMachFX2config implements ApsDvsConfig,
      */
     protected PortBit powerDown = new PortBit(chip, "e2", "powerDown", "(E2) High to disable master bias and tie biases to default rails", false);
     protected PortBit nChipReset = new PortBit(chip, "e3", "nChipReset", "(E3) Low to reset AER circuits and hold pixels in reset, High to run", true); // shouldn't need to manipulate from host
+    protected PortBit syncTimestampMasterEnabled = new PortBit(chip, "a1", "syncTimestampMaster", "<html> (A1) High to make this camera timestamp master or to enable external<br>specical sync events to be injected into the event stream on detected edges on the IN sync pin", true); 
     //*********** CPLD *********************
     // CPLD shift register contents specified here by CPLDInt and CPLDBit
     protected CPLDInt exposure = new CPLDInt(chip, 15, 0, "exposure", "time between reset and readout of a pixel", 0);
@@ -98,6 +99,7 @@ public class SBret10config extends LatticeMachFX2config implements ApsDvsConfig,
         addConfigValue(runAdc);
         addConfigValue(runCpld);
         addConfigValue(extTrigger);
+        addConfigValue(syncTimestampMasterEnabled);
 
         // cpld shift register stuff
         addConfigValue(exposure);

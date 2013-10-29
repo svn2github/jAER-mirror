@@ -1346,7 +1346,7 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
 				}
 				JMenuItem item = (JMenuItem) c;
 				// set the button on for the actual interface of the chip if there is one already
-				if (item.getClientProperty(HARDWARE_INTERFACE_OBJECT_PROPERTY).equals(chip.getHardwareInterface())) {
+				if (item!=null && item.getClientProperty(HARDWARE_INTERFACE_OBJECT_PROPERTY)!=null && item.getClientProperty(HARDWARE_INTERFACE_OBJECT_PROPERTY).equals(chip.getHardwareInterface())) {
 					item.setSelected(true);
 					//                    System.out.println("selected "+item.getText());
 					choseOneButton = true;

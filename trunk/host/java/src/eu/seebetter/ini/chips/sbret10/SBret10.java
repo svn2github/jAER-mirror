@@ -45,6 +45,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.Observable;
+import java.util.Observer;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
 import javax.swing.AbstractButton;
@@ -78,9 +79,9 @@ import net.sf.jaer.util.WarningDialogWithDontShowPreference;
  * @author tobi, christian
  */
 @Description("SBret version 1.0")
-public class SBret10 extends ApsDvsChip implements RemoteControlled {
+public class SBret10 extends ApsDvsChip implements RemoteControlled, Observer {
 
-    private JMenu dvs128Menu = null;
+    private JMenu chipMenu = null;
     private JMenuItem syncEnabledMenuItem = null;
     private final int ADC_NUMBER_OF_TRAILING_ZEROS = Integer.numberOfTrailingZeros(ADC_READCYCLE_MASK); // speedup in loop
     // following define bit masks for various hardware data types.
@@ -155,6 +156,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
             getRemoteControl().addCommandListener(this, CMD_EXPOSURE_CC, CMD_EXPOSURE_CC + " val - sets exposure. val in clock cycles");
             getRemoteControl().addCommandListener(this, CMD_RS_SETTLE_CC, CMD_RS_SETTLE_CC + " val - sets reset settling time. val in clock cycles");
         }
+       addObserver(this);  // we observe ourselves so that if hardware interface for example calls notifyListeners we get informed
     }
 
     @Override
@@ -829,76 +831,53 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled {
      * @param o the observable, i.e. this Chip.
      * @param arg the argument (e.g. the HardwareInterface).
      */
+    @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof AEChip && getHardwareInterface() == null) {
-            // if hw interface is not correct type then disable menu items
+        if (o == config.syncTimestampMasterEnabled) {
             if (syncEnabledMenuItem != null) {
-                syncEnabledMenuItem.setEnabled(false);
+                syncEnabledMenuItem.setSelected(config.syncTimestampMasterEnabled.isSet());
             }
-        } else {
-            if (!(getHardwareInterface() instanceof HasSyncEventOutput)) {
-                if (syncEnabledMenuItem != null) {
-                    syncEnabledMenuItem.setEnabled(false);
-                }
-            } else {
-                syncEnabledMenuItem.setEnabled(true);
-                HasSyncEventOutput hasSync = (HasSyncEventOutput) getHardwareInterface();
-                syncEnabledMenuItem.setSelected(hasSync.isSyncEventEnabled());
-                if (!hasSync.isSyncEventEnabled()) {
-                    WarningDialogWithDontShowPreference d = new WarningDialogWithDontShowPreference(null, false, "Timestamps disabled",
-                            "<html>Timestamps may not advance if you are using this camera as a standalone camera. <br>Use device menu/Timestamp master / Enable sync event output to enable them.");
-                    d.setVisible(true);
-                }
-            }
-
         }
     }
 
-       /**
+
+    /**
      * Enables or disable DVS128 menu in AEViewer
      *
      * @param yes true to enable it
      */
     private void enableChipMenu(boolean yes) {
         if (yes) {
-            if (dvs128Menu == null) {
-                dvs128Menu = new JMenu(this.getClass().getSimpleName());
-                dvs128Menu.getPopupMenu().setLightWeightPopupEnabled(false); // to paint on GLCanvas
-                dvs128Menu.setToolTipText("Specialized menu for DVS128 chip");
+            if (chipMenu == null) {
+                chipMenu = new JMenu(this.getClass().getSimpleName());
+                chipMenu.getPopupMenu().setLightWeightPopupEnabled(false); // to paint on GLCanvas
+                chipMenu.setToolTipText("Specialized menu for chip");
             }
 
 
             if (syncEnabledMenuItem == null) {
                 syncEnabledMenuItem = new JCheckBoxMenuItem("Timestamp master / Enable sync event output");
                 syncEnabledMenuItem.setToolTipText("<html>Sets this device as timestamp master and enables sync event generation on external IN pin falling edges (disables slave clock input).<br>Falling edges inject special sync events with bitmask " + HexString.toString(CypressFX2DVS128HardwareInterface.SYNC_EVENT_BITMASK) + " set<br>These events are not rendered but are logged and can be used to synchronize an external signal to the recorded data.<br>If you are only using one camera, enable this option.<br>If you want to synchronize two DVS128, disable this option in one of the cameras and connect the OUT pin of the master to the IN pin of the slave and also connect the two GND pins.");
-                HasSyncEventOutput h = (HasSyncEventOutput) getHardwareInterface();
 
                 syncEnabledMenuItem.addActionListener(new ActionListener() {
 
                     public void actionPerformed(ActionEvent evt) {
-                        HardwareInterface hw = getHardwareInterface();
-                       if(hw==null){
-                            log.warning("null hardware interface");
-                            return;
-                        }
-                        if (!(hw instanceof HasSyncEventOutput)) {
-                            log.warning("cannot change sync enabled state of " + hw + " (class " + hw.getClass() + "), interface doesn't implement HasSyncEventOutput");
-                            return;
-                        }
-                        log.info("setting sync enabled");
-                        ((HasSyncEventOutput) hw).setSyncEventEnabled(((AbstractButton) evt.getSource()).isSelected());
+                        log.info("setting sync/timestamp master to "+syncEnabledMenuItem.isSelected());
+                        config.syncTimestampMasterEnabled.set(syncEnabledMenuItem.isSelected());
                     }
                 });
-                dvs128Menu.add(syncEnabledMenuItem);
+                syncEnabledMenuItem.setSelected(config.syncTimestampMasterEnabled.isSet());
+                chipMenu.add(syncEnabledMenuItem);
+                config.syncTimestampMasterEnabled.addObserver(this);
             }
 
             if (getAeViewer() != null) {
-                getAeViewer().setMenu(dvs128Menu);
+                getAeViewer().setMenu(chipMenu);
             }
 
         } else { // disable menu
-            if (dvs128Menu != null) {
-                getAeViewer().removeMenu(dvs128Menu);
+            if (chipMenu != null) {
+                getAeViewer().removeMenu(chipMenu);
             }
         }
     }
