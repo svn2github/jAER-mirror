@@ -6,7 +6,7 @@ Performance Grade:      3
 PACKAGE:          FTBGA256
 Package Status:                     Final          Version 1.26
 
-Mon Oct 28 16:08:23 2013
+Tue Oct 29 11:39:04 2013
 
 Pinout by Port Name:
 +-------------------------+----------+--------------+-------+-----------------------------------+
@@ -101,9 +101,9 @@ Pinout by Port Name:
 | PE3xSI                  | B2/0     | LVCMOS33_IN  | PT2C  | SLEW:FAST PULL:UP                 |
 | ResetxRBI               | G2/7     | LVCMOS33_IN  | PL7B  | SLEW:FAST PULL:DOWN               |
 | SyncIn1xABI             | T2/5     | LVCMOS33_IN  | PB3A  | SLEW:FAST PULL:UP                 |
-| SyncOut1xSO             | M7/5     | LVCMOS33_OUT | PB7C  | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
-| SyncOut2xSBO            | A12/1    | LVCMOS33_OUT | PT12B | DRIVE:8mA SLEW:FAST PULL:UP       |
-| SyncOutSWxEI            | A13/1    | LVCMOS33_OUT | PT14A | DRIVE:8mA SLEW:FAST PULL:UP       |
+| SyncOut1xSO             | H5/7     | LVCMOS33_OUT | PL9B  | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
+| SyncOut2xSBO            | E10/1    | LVCMOS33_OUT | PT15A | DRIVE:8mA SLEW:FAST PULL:UP       |
+| SyncOutSWxEI            | J3/6     | LVCMOS33_OUT | PL11C | DRIVE:8mA SLEW:FAST PULL:UP       |
 +-------------------------+----------+--------------+-------+-----------------------------------+
 
 Vccio by Bank:
@@ -139,8 +139,8 @@ Pinout by Pin Number:
 | A9/1     | IfClockxCI              | LOCATED    | LVCMOS33_IN  | PT10B | PCLKT1_1       |
 | A10/1    |     unused, PULL:UP     |            |              | PT10A |                |
 | A11/1    | CDVSTestSRColClockxSO   | LOCATED    | LVCMOS33_OUT | PT12A |                |
-| A12/1    | SyncOut2xSBO            |            | LVCMOS33_OUT | PT12B |                |
-| A13/1    | SyncOutSWxEI            |            | LVCMOS33_OUT | PT14A | D7             |
+| A12/1    |     unused, PULL:UP     |            |              | PT12B |                |
+| A13/1    |     unused, PULL:UP     |            |              | PT14A | D7             |
 | A14/1    | CDVSTestColMode0xSO     | LOCATED    | LVCMOS33_OUT | PT14B |                |
 | A15/1    | CDVSTestColMode1xSO     | LOCATED    | LVCMOS33_OUT | PT16C |                |
 | B1/7     | PE2xSI                  | LOCATED    | LVCMOS33_IN  | PL5A  |                |
@@ -200,7 +200,7 @@ Pinout by Pin Number:
 | E7/0     |     unused, PULL:UP     |            |              | PT6E  |                |
 | E8/1     |     unused, PULL:UP     |            |              | PT9C  |                |
 | E9/1     |     unused, PULL:UP     |            |              | PT9D  |                |
-| E10/1    |     unused, PULL:UP     |            |              | PT15A |                |
+| E10/1    | SyncOut2xSBO            |            | LVCMOS33_OUT | PT15A |                |
 | E11/1    |     unused, PULL:UP     |            |              | PT15B |                |
 | E12/2    |     unused, PULL:UP     |            |              | PR4B  |                |
 | E13/2    |     unused, PULL:UP     |            |              | PR4A  |                |
@@ -232,7 +232,7 @@ Pinout by Pin Number:
 | H2/6     | PA0xSIO                 | LOCATED    | LVCMOS33_IN  | PL11A |                |
 | H3/7     |     unused, PULL:UP     |            |              | PL8D  |                |
 | H4/7     |     unused, PULL:UP     |            |              | PL9A  |                |
-| H5/7     |     unused, PULL:UP     |            |              | PL9B  |                |
+| H5/7     | SyncOut1xSO             |            | LVCMOS33_OUT | PL9B  |                |
 | H12/2    |     unused, PULL:UP     |            |              | PR9C  |                |
 | H13/2    |     unused, PULL:UP     |            |              | PR9D  |                |
 | H14/2    |     unused, PULL:UP     |            |              | PR10B |                |
@@ -240,7 +240,7 @@ Pinout by Pin Number:
 | H16/3    | ADCwordxDI[6]           | LOCATED    | LVCMOS33_IN  | PR11A |                |
 | J1/6     | PC3xSIO                 | LOCATED    | LVCMOS33_IN  | PL12A |                |
 | J2/6     | PC2xSIO                 | LOCATED    | LVCMOS33_IN  | PL11B |                |
-| J3/6     |     unused, PULL:UP     |            |              | PL11C |                |
+| J3/6     | SyncOutSWxEI            |            | LVCMOS33_OUT | PL11C |                |
 | J4/6     |     unused, PULL:UP     |            |              | PL16A |                |
 | J5/6     |     unused, PULL:UP     |            |              | PL16B |                |
 | J12/3    |     unused, PULL:UP     |            |              | PR11C |                |
@@ -274,7 +274,7 @@ Pinout by Pin Number:
 | M3/6     |     unused, PULL:UP     |            |              | PL15B |                |
 | M4/6     |     unused, PULL:UP     |            |              | PL18B | LLM0_PLLC_IN_A |
 | M5/6     |     unused, PULL:UP     |            |              | PL18A | LLM0_PLLT_IN_A |
-| M7/5     | SyncOut1xSO             |            | LVCMOS33_OUT | PB7C  |                |
+| M7/5     |     unused, PULL:UP     |            |              | PB7C  |                |
 | M8/5     |     unused, PULL:UP     |            |              | PB7D  |                |
 | M9/4     |     unused, PULL:UP     |            |              | PB10B | PCLKT4_0       |
 | M10/4    |     unused, PULL:UP     |            |              | PB10A |                |
@@ -500,9 +500,9 @@ LOCATE  COMP  "PE2xSI"  SITE  "B1";
 LOCATE  COMP  "PE3xSI"  SITE  "B2";
 LOCATE  COMP  "ResetxRBI"  SITE  "G2";
 LOCATE  COMP  "SyncIn1xABI"  SITE  "T2";
-LOCATE  COMP  "SyncOut1xSO"  SITE  "M7";
-LOCATE  COMP  "SyncOut2xSBO"  SITE  "A12";
-LOCATE  COMP  "SyncOutSWxEI"  SITE  "A13";
+LOCATE  COMP  "SyncOut1xSO"  SITE  "H5";
+LOCATE  COMP  "SyncOut2xSBO"  SITE  "E10";
+LOCATE  COMP  "SyncOutSWxEI"  SITE  "J3";
 
 #PLL
 LOCATE  COMP  "uClockGen/PLLCInst_0"  SITE  "PLL3_R20C1" ;
@@ -516,5 +516,5 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
-Mon Oct 28 16:08:23 2013
+Tue Oct 29 11:39:04 2013
 

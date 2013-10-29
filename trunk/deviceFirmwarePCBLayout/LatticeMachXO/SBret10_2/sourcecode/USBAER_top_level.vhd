@@ -516,7 +516,7 @@ begin
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
       IncrementCounterxSO   => IncxS);
 
-   TimestampMasterxS <= '1';
+   TimestampMasterxS <= PA1xSIO;
      
   fifoStatemachine_1: fifoStatemachine
     port map (
@@ -643,7 +643,7 @@ begin
 
   HostResetTimestampxS <= PA7xSIO;
   RunxS <= PA3xSIO;
-  ExtTriggerxE <= PA1xSIO;
+  ExtTriggerxE <= '0';
 
   RunADCxS <= PC0xSIO;
   SRClockxC <= PC1xSIO;

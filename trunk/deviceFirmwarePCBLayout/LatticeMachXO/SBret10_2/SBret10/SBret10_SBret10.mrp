@@ -11,22 +11,22 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2280CFTBGA256
 Target Performance:   3
 Mapper:  mj5g00,  version:  Diamond (64-bit) 2.2.0.101
-Mapped on:  10/28/13  16:08:04
+Mapped on:  10/29/13  11:38:37
 
 Design Summary
 --------------
 
-   Number of PFU registers:    419
-   Number of SLICEs:           458 out of  1140 (40%)
-      SLICEs(logic/ROM):       458 out of   900 (51%)
+   Number of PFU registers:    420
+   Number of SLICEs:           465 out of  1140 (41%)
+      SLICEs(logic/ROM):       465 out of   900 (52%)
       SLICEs(logic/ROM/RAM):     0 out of   240 (0%)
           As RAM:            0
           As Logic/ROM:      0
-   Number of logic LUT4s:     328
+   Number of logic LUT4s:     342
    Number of distributed RAM:   0 (0 LUT4s)
    Number of ripple logic:    184 (368 LUT4s)
    Number of shift registers:   0
-   Total number of LUT4s:     696
+   Total number of LUT4s:     710
    Number of external PIOs: 92 out of 211 (44%)
    Number of PLLs:  1 out of 2 (50%)
    Number of block RAMs:  2 out of 3 (67%)
@@ -42,7 +42,7 @@ Design Summary
       2. Number of logic LUT4s does not include count of distributed RAM and
      ripple logic.
    Number of clocks:  6
-     Net ClockxC_c: 82 loads, 82 rising, 0 falling (Driver: uClockGen/PLLCInst_0
+     Net ClockxC_c: 81 loads, 81 rising, 0 falling (Driver: uClockGen/PLLCInst_0
      )
      Net ADCStateMachine_1/StateColxDP[11]: 1 loads, 1 rising, 0 falling
      (Driver: ADCStateMachine_1/StateColxDP[11] )
@@ -56,7 +56,7 @@ Design Summary
      Net ADCStateMachine_1/DividerRowxDPe: 9 loads, 9 LSLICEs
      Net ADCStateMachine_1/N_14_i: 17 loads, 17 LSLICEs
      Net ADCStateMachine_1/CountRowxDPe: 4 loads, 4 LSLICEs
-     Net ADCStateMachine_1/N_159_i: 9 loads, 9 LSLICEs
+     Net ADCStateMachine_1/N_158_i: 9 loads, 9 LSLICEs
      Net r_N_4_i: 1 loads, 1 LSLICEs
 
                                     Page 1
@@ -64,38 +64,38 @@ Design Summary
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Design Summary (cont)
 ---------------------
-     Net ADCStateMachine_1.N_319_i: 7 loads, 7 LSLICEs
-     Net FifoWritexE: 2 loads, 0 LSLICEs
+     Net ADCStateMachine_1.N_316_i: 7 loads, 7 LSLICEs
      Net monitorStateMachine_1.N_291_i: 7 loads, 7 LSLICEs
      Net monitorStateMachine_1.N_182_i: 5 loads, 5 LSLICEs
+     Net FifoWritexE: 2 loads, 0 LSLICEs
      Net FifoReadxE: 2 loads, 0 LSLICEs
-     Net uEarlyPaketTimer.CountxDPe: 11 loads, 11 LSLICEs
-     Net uSynchronizerStateMachine_1/CounterxDPe: 8 loads, 8 LSLICEs
-     Net IncxS: 9 loads, 9 LSLICEs
-     Net uEventCounter/CountxDPe: 5 loads, 5 LSLICEs
-   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  297
+     Net uSynchronizerStateMachine_1/CounterxDPe: 7 loads, 7 LSLICEs
+     Net N_211_i: 8 loads, 8 LSLICEs
+     Net uEventCounter/N_243_i: 5 loads, 5 LSLICEs
+     Net uEarlyPaketTimer/CountxDPe: 11 loads, 11 LSLICEs
+   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  299
    Number of LSRs:  5
-     Net ADCStateMachine_1/StateColxDN_1_sqmuxa_i_i_a3: 1 loads, 1 LSLICEs
-     Net ADCStateMachine_1/ResetxRB_i: 55 loads, 55 LSLICEs
+     Net ADCStateMachine_1/StateColxDN_1_sqmuxa_i_i_a2: 1 loads, 1 LSLICEs
+     Net N_397_i: 55 loads, 55 LSLICEs
      Net ADCStateMachine_1/StateRowxDP[2]: 1 loads, 1 LSLICEs
+     Net ResetTimestampxSBO_i_0_a2_2: 9 loads, 9 LSLICEs
      Net ResetxRBI_c: 4 loads, 0 LSLICEs
-     Net p_memless.op_gt.op_gt.counterxdn5lto13_0_RNIJKFV: 10 loads, 10 LSLICEs
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
-     Net ADCStateMachine_1/ResetxRB_i: 55 loads
-     Net fifoStatemachine_1.StatexDP[0]: 38 loads
+     Net N_397_i: 55 loads
      Net ADCStateMachine_1/StateColxDP[0]: 37 loads
-     Net FifoReadxE: 37 loads
-     Net ADCStateMachine_1/N_161_li: 35 loads
-     Net ADCStateMachine_1/N_59: 33 loads
-     Net ECResetEarlyPaketTimerxS: 32 loads
-     Net ReadADCvaluexE: 31 loads
-     Net monitorStateMachine_1/TimestampResetxDP: 29 loads
-     Net uSynchronizerStateMachine_1.StatexDP[5]: 23 loads
+     Net fifoStatemachine_1.StatexDP[0]: 37 loads
+     Net FifoReadxE: 36 loads
+     Net ADCStateMachine_1/N_158_li: 35 loads
+     Net ECResetEarlyPaketTimerxS: 34 loads
+     Net ADCStateMachine_1/N_61: 33 loads
+     Net ReadADCvaluexE: 24 loads
+     Net monitorStateMachine_1/TimestampResetxDP: 23 loads
+     Net uSynchronizerStateMachine_1/StatexDP_RNIVN2O[3]: 22 loads
 
 
 
@@ -134,7 +134,7 @@ WARNING - map: There are errors in the preference file,
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Design Errors/Warnings (cont)
 -----------------------------
@@ -200,7 +200,7 @@ IO (PIO) Attributes
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 IO (PIO) Attributes (cont)
 --------------------------
@@ -266,7 +266,7 @@ IO (PIO) Attributes (cont)
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 IO (PIO) Attributes (cont)
 --------------------------
@@ -332,7 +332,7 @@ IO (PIO) Attributes (cont)
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 IO (PIO) Attributes (cont)
 --------------------------
@@ -398,7 +398,7 @@ Signal uEarlyPaketTimer/VCC undriven or does not drive anything - clipped.
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -406,9 +406,9 @@ Signal uEventCounter/GND undriven or does not drive anything - clipped.
 Signal uEventCounter/VCC undriven or does not drive anything - clipped.
 Signal uTimestampCounter/GND undriven or does not drive anything - clipped.
 Signal uTimestampCounter/VCC undriven or does not drive anything - clipped.
-Signal uSynchronizerStateMachine_1/GND undriven or does not drive anything -
-     clipped.
 Signal uSynchronizerStateMachine_1/VCC undriven or does not drive anything -
+     clipped.
+Signal uSynchronizerStateMachine_1/GND undriven or does not drive anything -
      clipped.
 Signal monitorStateMachine_1/GND undriven or does not drive anything - clipped.
 Signal monitorStateMachine_1/VCC undriven or does not drive anything - clipped.
@@ -464,7 +464,7 @@ Signal uFifo/DO30_0 undriven or does not drive anything - clipped.
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -530,7 +530,7 @@ Signal uEventCounter/CountxDP_s_0_S1[8] undriven or does not drive anything -
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -596,7 +596,7 @@ Signal monitorStateMachine_1/CountxDP_cry[2] undriven or does not drive anything
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -662,7 +662,7 @@ Signal ADCStateMachine_1/DividerRowxDP_cry[0] undriven or does not drive
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -728,7 +728,7 @@ Signal ADCStateMachine_1/DividerColxDP_s_0_COUT1[32] undriven or does not drive
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -794,7 +794,7 @@ Signal ADCStateMachine_1/un10_nobxs_cry_8 undriven or does not drive anything -
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -860,7 +860,7 @@ Signal ADCStateMachine_1/un16_nobxs_cry_16_0_S0 undriven or does not drive
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -926,7 +926,7 @@ Signal ADCStateMachine_1/un6_nobxs_cry_16 undriven or does not drive anything -
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -992,7 +992,7 @@ Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[0] undriven or does not
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -1058,7 +1058,7 @@ Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[19] undriven or does not
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -1124,7 +1124,7 @@ Signal ADCStateMachine_1/un1_DividerColxDP_cry[10] undriven or does not drive
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -1190,7 +1190,7 @@ Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_4_0_S1 undriven or does not
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -1256,7 +1256,7 @@ Signal ADCStateMachine_1/un1_DividerRowxDP_cry_4_0_S0 undriven or does not drive
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -1322,7 +1322,7 @@ Signal ADCStateMachine_1/un1_countcolxdp_0_data_tmp[4] undriven or does not
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 Removed logic (cont)
 --------------------
@@ -1351,8 +1351,8 @@ Block uEventCounter/GND was optimized away.
 Block uEventCounter/VCC was optimized away.
 Block uTimestampCounter/GND was optimized away.
 Block uTimestampCounter/VCC was optimized away.
-Block uSynchronizerStateMachine_1/GND was optimized away.
 Block uSynchronizerStateMachine_1/VCC was optimized away.
+Block uSynchronizerStateMachine_1/GND was optimized away.
 Block monitorStateMachine_1/GND was optimized away.
 Block monitorStateMachine_1/VCC was optimized away.
 Block ADCStateMachine_1/GND was optimized away.
@@ -1387,7 +1387,7 @@ Memory Usage
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 PLL/DLL Summary
 ---------------
@@ -1457,7 +1457,7 @@ Type and number of components of the type:
 
 
 
-Design:  USBAER_top_level                              Date:  10/28/13  16:08:04
+Design:  USBAER_top_level                              Date:  10/29/13  11:38:37
 
 GSR Usage (cont)
 ----------------
@@ -1472,7 +1472,7 @@ Type and instance name of component:
 Run Time and Memory Usage
 -------------------------
 
-   Total CPU Time: 1 secs
+   Total CPU Time: 0 secs
    Total REAL Time: 0 secs
    Peak Memory Usage: 38 MB
 
