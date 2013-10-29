@@ -80,7 +80,6 @@ BOOL LEDon;
 #define VR_WRITE_CONFIG 0xB8 // write bytes out to SPI
 				// the wLengthL field of SETUPDAT specifies the number of bytes to write out (max 64 per request)
 				// the bytes are in the data packet
-//#define VR_SET_POWERDOWN 0xB9 // control powerDown. wValue controls the powerDown pin. Raise high to power off, lower to power on.
 #define VR_EEPROM_BIASGEN_BYTES 0xBa // write bytes out to EEPROM for power on default
 
 #define VR_SETARRAYRESET 0xBc // set the state of the array reset which resets communication logic, and possibly also holds pixels in reset
@@ -92,13 +91,6 @@ BOOL LEDon;
 #define VR_DOWNLOAD		0x40
 #define VR_EEPROM		0xa2 // loads (uploads) EEPROM
 #define	VR_RAM			0xa3 // loads (uploads) external ram
-
-
-#define VR_SYNC_ENABLE 0xBe // sets whether sync events are sent on slave clock input instead of acting as slave clock.
-#define SYNC_ENABLE_MASK=0x40	   // on PE6, goes to CPLD pin 66
-#define NOT_SYNC_ENABLE_MASK=0xbf;
-#define disableSyncEvents() 	IOE=IOE&NOT_SYNC_ENABLE_MASK	
-#define enableSyncEvents()		IOE=IOE|SYNC_ENABLE_MASK
 
 
 #define EP0BUFF_SIZE	0x40
@@ -308,7 +300,7 @@ void TD_Init(void)              // Called once at startup
 	EZUSB_Delay(100);
 
 	// make this device timestamp master as default
-	enableSyncEvents();
+	IOA|=1; 
 
 
 
@@ -1046,7 +1038,7 @@ BOOL DR_VendorCmnd(void)
 
 			}
 
-*/
+
 		case VR_SETARRAYRESET: // set array reset, based on lsb of argument. This also resets the AER logic.
 			{
 				if (SETUPDAT[2]&0x01)
@@ -1080,7 +1072,7 @@ BOOL DR_VendorCmnd(void)
 				IOE |= DVS_nReset;
 				break;
 			}
-	/*	case VR_IS_TS_MASTER:
+		case VR_IS_TS_MASTER:
 			{
 				EP0BUF[0] = SETUPDAT[1];
 				EP0BUF[1]= TIMESTAMP_MASTER;
@@ -1089,7 +1081,7 @@ BOOL DR_VendorCmnd(void)
 				EP0CS |= bmHSNAK;
 
 				return(FALSE);
-			}*/
+			}
 		case VR_SYNC_ENABLE: // sets sync event output or master/slave clocking, based on lsb of argument
 			{
 				if (SETUPDAT[2]&0x01)
@@ -1108,6 +1100,9 @@ BOOL DR_VendorCmnd(void)
 				return(FALSE); // very important, otherwise get stall
 
 			}
+
+// all these special VRs are done by bit control from host now
+*/
 		case VR_RAM:
 		case VR_EEPROM:
 		{
