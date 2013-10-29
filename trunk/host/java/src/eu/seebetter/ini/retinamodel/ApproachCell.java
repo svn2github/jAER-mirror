@@ -415,7 +415,8 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
             for (int x = 0; x < nx; x++) {
                 for (int y = 0; y < ny; y++) {
                     gl.glPushMatrix();
-                    gl.glTranslatef(x << subunitSubsamplingBits, y << subunitSubsamplingBits, 5);
+                    final int shift=1<<(subunitSubsamplingBits-1);
+                    gl.glTranslatef(shift+(x << subunitSubsamplingBits), shift+(y << subunitSubsamplingBits), 5);
                     gl.glColor4f(1, 0, 0, alpha);
                     glu.gluDisk(quad, 0, scaleRadius * offSubunits[x][y].computeInputToApproachCell(), 16, 1);
                     gl.glColor4f(0, 1, 0, alpha);
