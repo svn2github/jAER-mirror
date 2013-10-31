@@ -56,6 +56,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.event.BasicEvent;
+import net.sf.jaer.hardwareinterface.usb.cypressfx2.ApsDvsHardwareInterface;
 import net.sf.jaer.hardwareinterface.usb.cypressfx2.CypressFX2DVS128HardwareInterface;
 import net.sf.jaer.hardwareinterface.usb.cypressfx2.HasLEDControl;
 import net.sf.jaer.hardwareinterface.usb.cypressfx2.HasResettablePixelArray;
@@ -541,6 +542,11 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled, Observer {
                 exposureRenderer.setColor(1, 1, 1, 1);
             }
             super.display(drawable);
+            if (config.syncTimestampMasterEnabled.isSet() == false) {
+                exposureRenderer.begin3DRendering();  // TODO make string rendering more efficient here using String.format or StringBuilder
+                exposureRenderer.draw3D("Slave camera", 0, -(FONTSIZE / 2), 0, .5f); // x,y,z, scale factor
+                exposureRenderer.end3DRendering();
+            }
             if ((config.videoControl != null) && config.videoControl.displayFrames) {
                 GL gl = drawable.getGL();
                 exposureRender(gl);
@@ -857,7 +863,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled, Observer {
 
             if (syncEnabledMenuItem == null) {
                 syncEnabledMenuItem = new JCheckBoxMenuItem("Timestamp master / Enable sync event output");
-                syncEnabledMenuItem.setToolTipText("<html>Sets this device as timestamp master and enables sync event generation on external IN pin falling edges (disables slave clock input).<br>Falling edges inject special sync events with bitmask " + HexString.toString(CypressFX2DVS128HardwareInterface.SYNC_EVENT_BITMASK) + " set<br>These events are not rendered but are logged and can be used to synchronize an external signal to the recorded data.<br>If you are only using one camera, enable this option.<br>If you want to synchronize two DVS128, disable this option in one of the cameras and connect the OUT pin of the master to the IN pin of the slave and also connect the two GND pins.");
+                syncEnabledMenuItem.setToolTipText("<html>Sets this device as timestamp master and enables sync event generation on external IN pin falling edges (disables slave clock input).<br>Falling edges inject special sync events with bitmask " + HexString.toString(ApsDvsHardwareInterface.SYNC_EVENT_BITMASK) + " set<br>These events are not rendered but are logged and can be used to synchronize an external signal to the recorded data.<br>If you are only using one camera, enable this option.<br>If you want to synchronize two DVS128, disable this option in one of the cameras and connect the OUT pin of the master to the IN pin of the slave and also connect the two GND pins.");
 
                 syncEnabledMenuItem.addActionListener(new ActionListener() {
 
