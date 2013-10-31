@@ -36,16 +36,16 @@ entity synchronizerStateMachine is
     --SyncOut1xSOSBO : out std_logic;		--pin A13
 	--SyncOut2xSO : out std_logic;		--pin A15
 	------------------------------------------------------
-	   SyncIn1xABI			 : in  std_logic;      
+	   SyncIn1xABI			 : in  std_logic;      -- sychronizer input from other boards
 --	   SyncIn2xABI 		  	: in  std_logic;
 --	   SyncInSWxEI  		: in  std_logic;
-	   SyncOut1xSO 		: out std_logic;
+	   SyncOut1xSO 		: out std_logic; -- sync output to other boards
 --	   SyncOut2xSO 		: out std_logic;
 --	   SyncOutSWxEI 		: out std_logic;
-    TriggerxSO: out std_logic;
+    TriggerxSO: out std_logic; -- debugging output
     
     -- host commands to reset timestamps
-    HostResetTimestampxSI : in std_logic;
+    HostResetTimestampxSI : in std_logic;  -- input from FX2 to reset timestamps, causes extended pulse on output to slaves
 
     -- reset timestamp counter
     ResetTimestampxSBO : out std_logic;
@@ -109,7 +109,7 @@ begin  -- Behavioral
           StatexDN <= stTriggerInHigh;
           ResetTimestampxSBO <= '0';
         end if;
-     when stResetSlaves              =>  -- reset  slaves
+     when stResetSlaves              =>  -- reset  slaves by generating 200us clock on output, which slaves should detect
         DividerxDN         <= (others => '0');
 
         if CounterxDP > resetSlavesTime then         -- stay 6000 (200us) cycles in this state
