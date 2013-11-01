@@ -1,6 +1,6 @@
 package net.sf.jaer2.eventio.events;
 
-public class IMUEvent extends Event {
+public class IMU6Event extends Event {
 	private static final long serialVersionUID = 4495287162153651358L;
 
 	private short accelX;
@@ -13,7 +13,7 @@ public class IMUEvent extends Event {
 
 	private short temp;
 
-	public IMUEvent(final int ts) {
+	public IMU6Event(final int ts) {
 		super(ts);
 	}
 
@@ -69,11 +69,11 @@ public class IMUEvent extends Event {
 		return temp;
 	}
 
-	public void setTemp(short temp) {
+	public void setTemp(final short temp) {
 		this.temp = temp;
 	}
 
-	protected final void deepCopyInternal(final IMUEvent evt) {
+	protected final void deepCopyInternal(final IMU6Event evt) {
 		super.deepCopyInternal(evt);
 
 		evt.accelX = accelX;
@@ -88,8 +88,8 @@ public class IMUEvent extends Event {
 	}
 
 	@Override
-	public IMUEvent deepCopy() {
-		final IMUEvent evt = new IMUEvent(getTimestamp());
+	public IMU6Event deepCopy() {
+		final IMU6Event evt = new IMU6Event(getTimestamp());
 		deepCopyInternal(evt);
 		return evt;
 	}

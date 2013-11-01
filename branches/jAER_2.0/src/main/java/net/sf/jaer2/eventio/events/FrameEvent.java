@@ -17,7 +17,7 @@ public class FrameEvent extends Event {
 		return sizeX;
 	}
 
-	public void setSizeX(short sizeX) {
+	public void setSizeX(final short sizeX) {
 		this.sizeX = sizeX;
 	}
 
@@ -25,7 +25,7 @@ public class FrameEvent extends Event {
 		return sizeY;
 	}
 
-	public void setSizeY(short sizeY) {
+	public void setSizeY(final short sizeY) {
 		this.sizeY = sizeY;
 	}
 
@@ -33,7 +33,7 @@ public class FrameEvent extends Event {
 		return frame;
 	}
 
-	public void setFrame(int[] frame) {
+	public void setFrame(final int[] frame) {
 		this.frame = frame;
 	}
 
