@@ -2222,7 +2222,7 @@ public class CochleaAMS1c extends CochleaAMSNoBiasgen {
      * <li>
      * EAR is the binaural ear. EAR=0 is left ear, EAR=1 is right ear.
      * <li>
-     * LPFBPF is the ganglion cell type. LPFBPF=1 is a low-pass neuron, LPFBPF=1 is a bandpass neuron.
+     * LPFBPF is the ganglion cell type. LPFBPF=1 is a low-pass neuron, LPFBPF=0 is a band-pass neuron.
      * </ul>
      */
     public class Extractor extends TypedEventExtractor {
