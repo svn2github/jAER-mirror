@@ -179,6 +179,8 @@ public class SBret10config extends LatticeMachFX2config implements ApsDvsConfig,
         } catch (HardwareInterfaceException ex) {
             Logger.getLogger(SBret10.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        syncTimestampMasterEnabled.set(true); // normally set this true despite preference value because slave mode should be set by user or by plug insertion to slave input 3.5mm plug
     }
 
     /**

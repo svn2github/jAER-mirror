@@ -978,7 +978,7 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
 		MenuScroller.setScrollerFor(deviceMenu, 15, 100, 4, 2);
 	}
 
-	/** If the AEMonitor is open, tells it to resetTimestamps.
+	/** If the AEMonitor is open, tells it to resetTimestamps, and fires PropertyChange EVENT_TIMESTAMPS_RESET.
 	 * @see AEMonitorInterface#resetTimestamps()
 	 */
 	public void zeroTimestamps() {

@@ -54,6 +54,10 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
 //     private static final int IMU_SAMPLE_RATE_PRINT_INTERVAL=5000;
     
     private boolean syncEventEnabled = prefs.getBoolean("ApsDvsHardwareInterface.syncEventEnabled", true); // default is true so that device is the timestamp master by default, necessary after firmware rev 11
+    /** SYNC events are detected when this bit mask is detected in the input event stream.
+    @see HasSyncEventOutput
+     */
+    public static final int SYNC_EVENT_BITMASK = 0x8000;
 
 
     /**
@@ -553,7 +557,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                                 currentts = ((0x3f & buf[i + 1]) << 8) | (buf[i] & 0xff);
                                 currentts = (TICK_US * (currentts + wrapAdd));
                                 if (lastts > currentts && nonmonotonicTimestampWarningCount-- > 0) {
-                                    log.warning("non-monotonic timestamp: currentts=" + currentts + " lastts=" + lastts + " currentts-lastts=" + (currentts - lastts));
+                                    log.warning(this.toString()+": non-monotonic timestamp: currentts=" + currentts + " lastts=" + lastts + " currentts-lastts=" + (currentts - lastts));
                                 }
                                 //           log.info("received timestamp");
                                 break;
@@ -565,7 +569,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
                             case 3: // ts reset event
                                 nonmonotonicTimestampWarningCount = NONMONOTONIC_WARNING_COUNT;
                                 this.resetTimestamps();
-                                //   log.info("timestamp reset");
+                                   log.info("timestamp reset event received on "+super.toString());
                                 break;
                         }
 
@@ -634,12 +638,12 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
     public static final String PROPERTY_CHANGE_IMU_DATA = "IMUData";
 
     /**
-     * This threads reads IMU data from the camera on endpoint 2
+     * This threads reads IMU data from the camera on endpoint 2 - currently not used.
      *
      * @author tobi delbruck
      * @see #getSupport()
      */
-    protected class IMUDataReader extends UsbIoReader {
+    protected class IMUDataReader extends UsbIoReader { // not used yet, still reading IMU samples in AsyncStatusThread
 
         UsbIoPipe pipe;
         CypressFX2 monitor;
