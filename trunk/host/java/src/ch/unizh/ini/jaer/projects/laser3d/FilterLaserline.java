@@ -709,6 +709,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
     
     
 
+    /** Holds the determined laser line pixels */
     class LaserLine {
 
         Float[] ys; // the y positions of the line
@@ -726,15 +727,22 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
         }
 
         void draw(GL gl) {
-            gl.glLineWidth(3);
-            gl.glColor3f(1, 1, 1);
+            gl.glPushAttrib(GL.GL_ENABLE_BIT);
+            gl.glLineStipple(1,(short)0x7777);
+            gl.glLineWidth(5);
+            gl.glColor4f(1, 1, 1,.5f);
+            gl.glEnable(GL.GL_LINE_STIPPLE);
             gl.glBegin(GL.GL_LINE_STRIP);
             for (int i = 0; i < n; i++) {
                 if (!ys[i].isNaN()) { // skip over columns without valid score
                     gl.glVertex2f(i, ys[i]);
+                }else{ // interrupt lines at NaN
+//                    gl.glEnd();
+//                    gl.glBegin(GL.GL_LINE_STRIP);
                 }
             }
             gl.glEnd();
+            gl.glPopAttrib();
         }
 
         private void update() { // TODO awkward, LaserLine should be part of PxlScoreMap or both should be inner classes of FilterLaserline
