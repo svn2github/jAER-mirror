@@ -156,11 +156,11 @@ public class PxlScoreMap {
      * @param score
      */
     public void addToScore(int x, int y, float score) {
-        if (x >= 0 & x <= mapSizeX & y >= 0 & y <= mapSizeY) {
+//        if (x >= 0 & x <= mapSizeX & y >= 0 & y <= mapSizeY) {
             pxlScoreHistory[x][y][0] += score;
-        } else {
-            filter.log.warning("PxlScoreMap.addToScore(): pixel not on chip!");
-        }
+//        } else {
+//            filter.log.warning("PxlScoreMap.addToScore(): pixel not on chip!");
+//        }
     }
 
     /**

@@ -50,50 +50,49 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
     /**
      * Size of histogram history in periods
      */
-    protected int histogramHistorySize = getPrefs().getInt("FilterLaserline.histogramHistorySize", 1000);
+    protected int histogramHistorySize = getInt("histogramHistorySize", 1000);
     /**
      * Moving average window length
      */
-    protected int pxlScoreHistorySize = getPrefs().getInt("FilterLaserline.pxlScoreHistorySize", 20);
+    protected int pxlScoreHistorySize = getInt("pxlScoreHistorySize", 20);
     /**
      * binsize for histogram (in us)
      */
-    protected int binSize = getPrefs().getInt("FilterLaserline.binSize", 20);
+    protected int binSize = getInt("binSize", 20);
     /**
      * Allows to display the score of each pixel with a score not equal 0
      */
-    protected boolean showDebugPixels = getPrefs().getBoolean("FilterLaserline.showDebugPixels", false);
+    protected boolean showScoreMap = getBoolean("showScoreMap", false);
     /**
      * Use different weights for on and off events?
      */
-    protected boolean useWeightedOnOff = getPrefs().getBoolean("FilterLaserline.useWeightedOnOff", true);
+    protected boolean useWeightedOnOff = getBoolean("useWeightedOnOff", true);
     /**
      * All pixels with a score above pxlScoreThreshold are classified as laser
      * line
      */
-    protected float pxlScoreThreshold = getPrefs().getFloat("FilterLaserline.pxlScoreThreshold", .01f);
+    protected float pxlScoreThreshold = getFloat("pxlScoreThreshold", .01f);
     /**
      * Subtract average of histogram to get scoring function?
      */
-    protected boolean subtractAverage = getPrefs().getBoolean("FilterLaserline.subtractAverage", true);
+    protected boolean subtractAverage = getBoolean("subtractAverage", true);
     /**
      * Allow negative scores (only possible if average subraction is enabled)
      */
-    protected boolean allowNegativeScores = getPrefs().getBoolean("FilterLaserline.allowNegativeScores", true);
+    protected boolean allowNegativeScores = getBoolean("allowNegativeScores", true);
     /**
      * while true, coordinates and timestamp of pixels classified as laser line
      * are written to output file
      */
-    protected boolean writeLaserlineToFile = getPrefs().getBoolean("FilterLaserline.writeLaserlineToFile", false);
+    protected boolean writeLaserlineToFile = getBoolean("writeLaserlineToFile", false);
     /**
      * ALPHA status: give more weigth to most recent histogram
      */
-    protected boolean useReinforcement = getPrefs().getBoolean("FilterLaserline.useReinforcement", false);
-    
-    private boolean returnInputPacket=getBoolean("returnInputPacket",false);
-    
-    private int laserLineMedianFilterLength=getInt("laserLineMedianFilterLength",1);
-    private boolean laserLineLinearlyInterpolateAcrossNaN=getBoolean("laserLineLinearlyInterpolateAcrossNaN",false);
+    protected boolean useReinforcement = getBoolean("useReinforcement", false);
+    private boolean returnInputPacket = getBoolean("returnInputPacket", false);
+    private int laserLineMedianFilterLength = getInt("laserLineMedianFilterLength", 1);
+    private boolean laserLineLinearlyInterpolateAcrossNaN = getBoolean("laserLineLinearlyInterpolateAcrossNaN", false);
+    private boolean freezeScoreFunction = false; // don't store because score function is not saved to preferences yet
 
     /**
      * Creates new instance of FilterLaserline
@@ -105,7 +104,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      */
     public FilterLaserline(AEChip chip) {
         super(chip);
-        final String hi = "Event Histogram", sc = "Pixel Scoring", line="Laser Line", deb = "Debugging", lg = "Logging";
+        final String hi = "Event Histogram", sc = "Pixel Scoring", line = "Laser Line", deb = "Debugging", lg = "Logging";
 
         setPropertyTooltip(hi, "histogramHistorySize", "How many periods should be used for event histogram?");
         setPropertyTooltip(hi, "binSize", "Bin size of event histogram in us");
@@ -116,16 +115,17 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
         setPropertyTooltip(sc, "pxlScoreThreshold", "Minimum score of pixel to be on laserline");
         setPropertyTooltip(sc, "useReinforcement", "Use binweights of last period for new binweights");
         setPropertyTooltip(sc, "firFilterEnabled", "Use slower FIR average for score map rather than faster IIR filter");
-        setPropertyTooltip(deb, "showDebugPixels", "Display score of each pixel?");
-        setPropertyTooltip(lg, "writeLaserlineToFile", "Write laserline to file?");
+        setPropertyTooltip(deb, "showScoreMap", "Display score of each pixel");
+        setPropertyTooltip(lg, "writeLaserlineToFile", "Write laserline to file");
         setPropertyTooltip(deb, "showLaserLine", "Show the extracted laser line: peak location of score histogram for each colurm");
         setPropertyTooltip(deb, "returnInputPacket", "Return the input packet rather than the filtered laser line events to show the input packet");
         setPropertyTooltip(line, "laserLineMedianFilterLength", "<html>Median filter the laser line to remove outliers. <br>Actual median filter length is laserLineMedianFilterLength*2+1; <br>e.g. use 1 for a median filter of length 3. <br>Use 0 for no filtering. <br>NaN values anywhere in filter length are propogated out.");
         setPropertyTooltip(line, "laserLineLinearlyInterpolateAcrossNaN", "<html>Linearly interpolate laser line pixels across NaN values of score map.");
+        setPropertyTooltip(deb, "freezeScoreFunction", "Freeze the score function to see effect on performance.");
     }
 
     @Override
-    public EventPacket<?> filterPacket(EventPacket<?> in) {
+    synchronized public EventPacket<?> filterPacket(EventPacket<?> in) {
         // set class of output packets to Polarity Events
         checkOutputPacketEventType(in);
         OutputEventIterator outItr = getOutputPacket().outputIterator();
@@ -156,10 +156,12 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
                     pxlScoreMap.updatePxlScoreAverageMap();
                     laserLineNew.update();
 
-                    onHist.updateBins();
-                    offHist.updateBins();
+                    if (!freezeScoreFunction) {
+                        onHist.updateBins();
+                        offHist.updateBins();
 
-                    updateBinWeights();
+                        updateBinWeights();
+                    }
 
                     oldLaserLine = pxlScoreMap.updateLaserline(oldLaserLine);
 
@@ -167,7 +169,9 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
                     lastTriggerTimestamp = ev.timestamp;
 
                     // write laserline to out
-                    if(!returnInputPacket) writeLaserlineToOutItr(outItr);
+                    if (!returnInputPacket) {
+                        writeLaserlineToOutItr(outItr);
+                    }
 
                     if (writeLaserlineToFile) {
                         // write laserline to file
@@ -177,13 +181,14 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
                     }
                 } else {
                     // if not a special event
-                    // add to histogram
-                    if (ev.polarity == Polarity.On) {
-                        onHist.addToData((float) (ev.timestamp - lastTriggerTimestamp));
-                    } else if (ev.polarity == Polarity.Off) {
-                        offHist.addToData((float) (ev.timestamp - lastTriggerTimestamp));
+                    if (!freezeScoreFunction) {
+                        // add to histogram
+                        if (ev.polarity == Polarity.On) {
+                            onHist.addToData((float) (ev.timestamp - lastTriggerTimestamp));
+                        } else if (ev.polarity == Polarity.Off) {
+                            offHist.addToData((float) (ev.timestamp - lastTriggerTimestamp));
+                        }
                     }
-
 
                     // get score of event
                     float pxlScore = scoreEvent(ev);
@@ -192,7 +197,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
                 }
             }
         }
-        return returnInputPacket? in:getOutputPacket();
+        return returnInputPacket ? in : getOutputPacket();
     }
 
     /**
@@ -215,10 +220,12 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
             pxlScoreMap.resetMap();
             oldLaserLine.clear();
             oldLaserLine.ensureCapacity(chip.getSizeX());
-            onHist.resetHistData();
-            offHist.resetHistData();
-            Arrays.fill(curBinWeights[0], 0);
-            Arrays.fill(curBinWeights[1], 0);
+            if (!freezeScoreFunction) {
+                onHist.resetHistData();
+                offHist.resetHistData();
+                Arrays.fill(curBinWeights[0], 0);
+                Arrays.fill(curBinWeights[1], 0);
+            }
             log.info("FilterLaserline resetted");
         } else {
             // check if arrays are allocated
@@ -231,16 +238,18 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
                 oldLaserLine.ensureCapacity(chip.getSizeX());
                 log.info("Laserline array resetted");
             }
-            if (onHist != null & offHist != null) {
-                onHist.resetHistData();
-                offHist.resetHistData();
-                log.info("Histogram data resetted");
-            }
-            if (curBinWeights != null) {
-                if (curBinWeights[0] != null & curBinWeights[1] != null) {
-                    Arrays.fill(curBinWeights[0], 0);
-                    Arrays.fill(curBinWeights[1], 0);
-                    log.info("Bin weights resetted");
+            if (!freezeScoreFunction) {
+                if (onHist != null & offHist != null) {
+                    onHist.resetHistData();
+                    offHist.resetHistData();
+                    log.info("Histogram data resetted");
+                }
+                if (curBinWeights != null) {
+                    if (curBinWeights[0] != null & curBinWeights[1] != null) {
+                        Arrays.fill(curBinWeights[0], 0);
+                        Arrays.fill(curBinWeights[1], 0);
+                        log.info("Bin weights resetted");
+                    }
                 }
             }
         }
@@ -251,6 +260,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
         log.log(Level.INFO, "Initializing FilterLaserline, laserPeriod = {0}us", Integer.toString(laserPeriod));
         if (laserPeriod > 0 & binSize > 0) {
             nBins = (int) Math.ceil((float) laserPeriod / binSize);
+            log.info("Number of score function bins = "+nBins);
         } else {
             log.severe("either laserPeriod or binSize is not greater than 0");
         }
@@ -367,8 +377,8 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      * @see #getBinSize
      * @param binSize
      */
-    public void setBinSize(int binSize) {
-        getPrefs().putInt("FilterLaserline.binSize", binSize);
+    synchronized public void setBinSize(int binSize) {
+        putInt("binSize", binSize);
         getSupport().firePropertyChange("binSize", this.binSize, binSize);
         isInitialized = false;
         this.binSize = binSize;
@@ -388,7 +398,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      * @return
      */
     public int getMaxBinSize() {
-        return 1000;
+        return 50;
     }
 
     /**
@@ -406,9 +416,12 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      * @param histogramHistorySize
      * @see #getBinSize
      */
-    public void setHistogramHistorySize(int histogramHistorySize) {
-        getPrefs().putInt("FilterLaserline.histogramWindowSize", histogramHistorySize);
-        getSupport().firePropertyChange("histogramWindowSize", this.histogramHistorySize, histogramHistorySize);
+    synchronized public void setHistogramHistorySize(int histogramHistorySize) {
+        if (histogramHistorySize < 1) {
+            histogramHistorySize = 1;
+        }
+        putInt("histogramHistorySize", histogramHistorySize);
+        getSupport().firePropertyChange("histogramHistorySize", this.histogramHistorySize, histogramHistorySize);
         isInitialized = false;
         this.histogramHistorySize = histogramHistorySize;
         initFilter();
@@ -427,7 +440,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      * @return
      */
     public int getMaxHistogramHistorySize() {
-        return 10000;
+        return 1000;
     }
 
     /**
@@ -446,7 +459,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      * @param useWeightedOnOff boolean
      */
     public void setUseWeightedOnOff(boolean useWeightedOnOff) {
-        getPrefs().putBoolean("FilterLaserline.useWeightedOnOff", useWeightedOnOff);
+        putBoolean("useWeightedOnOff", useWeightedOnOff);
         getSupport().firePropertyChange("useWeightedOnOff", this.useWeightedOnOff, useWeightedOnOff);
         this.useWeightedOnOff = useWeightedOnOff;
     }
@@ -467,30 +480,29 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      * @param useReinforcement boolean
      */
     public void setUseReinforcement(boolean useReinforcement) {
-        getPrefs().putBoolean("FilterLaserline.useReinforcement", useReinforcement);
+        putBoolean("useReinforcement", useReinforcement);
         getSupport().firePropertyChange("useReinforcement", this.useReinforcement, useReinforcement);
         this.useReinforcement = useReinforcement;
     }
 
     /**
-     * gets showDebugPixels
+     * gets showScoreMap
      *
      * @return
      */
-    public boolean getShowDebugPixels() {
-        return this.showDebugPixels;
+    public boolean getShowScoreMap() {
+        return this.showScoreMap;
     }
 
     /**
-     * sets showDebugPixels
+     * sets showScoreMap
      *
-     * @see #getShowDebugPixels
-     * @param showDebugPixels boolean
+     * @see #getShowScoreMap
+     * @param showScoreMap boolean
      */
-    public void setShowDebugPixels(boolean showDebugPixels) {
-        getPrefs().putBoolean("FilterLaserline.showDebugPixels", showDebugPixels);
-        getSupport().firePropertyChange("showDebugPixels", this.showDebugPixels, showDebugPixels);
-        this.showDebugPixels = showDebugPixels;
+    public void setShowScoreMap(boolean showScoreMap) {
+        putBoolean("showScoreMap", showScoreMap);
+        this.showScoreMap = showScoreMap;
     }
 
     /**
@@ -509,7 +521,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      * @param pxlScoreThreshold
      */
     public void setPxlScoreThreshold(float pxlScoreThreshold) {
-        getPrefs().putFloat("FilterLaserline.pxlScoreThreshold", pxlScoreThreshold);
+        putFloat("pxlScoreThreshold", pxlScoreThreshold);
         getSupport().firePropertyChange("pxlScoreThreshold", this.pxlScoreThreshold, pxlScoreThreshold);
         this.pxlScoreThreshold = pxlScoreThreshold;
     }
@@ -546,7 +558,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      * @param subtractAverage boolean
      */
     public void setSubtractAverage(boolean subtractAverage) {
-        getPrefs().putBoolean("FilterLaserline.subtractAverage", subtractAverage);
+        putBoolean("subtractAverage", subtractAverage);
         getSupport().firePropertyChange("subtractAverage", this.subtractAverage, subtractAverage);
         this.subtractAverage = subtractAverage;
     }
@@ -563,11 +575,11 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
     /**
      * sets allowNegativeScores
      *
-     * @see #getShowDebugPixels
+     * @see #getShowScoreMap
      * @param allowNegativeScores boolean
      */
     public void setAllowNegativeScores(boolean allowNegativeScores) {
-        getPrefs().putBoolean("FilterLaserline.allowNegativeScores", allowNegativeScores);
+        putBoolean("allowNegativeScores", allowNegativeScores);
         getSupport().firePropertyChange("allowNegativeScores", this.allowNegativeScores, allowNegativeScores);
         this.allowNegativeScores = allowNegativeScores;
     }
@@ -587,8 +599,8 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      * @see #getPxlScoreHistorySize
      * @param pxlScoreHistorySize
      */
-    public void setPxlScoreHistorySize(int pxlScoreHistorySize) {
-        getPrefs().putInt("FilterLaserline.pxlScoreHistorySize", pxlScoreHistorySize);
+    synchronized public void setPxlScoreHistorySize(int pxlScoreHistorySize) {
+        putInt("pxlScoreHistorySize", pxlScoreHistorySize);
         getSupport().firePropertyChange("pxlScoreHistorySize", this.pxlScoreHistorySize, pxlScoreHistorySize);
         isInitialized = false;
         this.pxlScoreHistorySize = pxlScoreHistorySize;
@@ -627,7 +639,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      * @param writeLaserlineToFile boolean
      */
     public void setWriteLaserlineToFile(boolean writeLaserlineToFile) {
-        getPrefs().putBoolean("FilterLaserline.writeLaserlineToFile", writeLaserlineToFile);
+        putBoolean("writeLaserlineToFile", writeLaserlineToFile);
         getSupport().firePropertyChange("writeLaserlineToFile", this.writeLaserlineToFile, writeLaserlineToFile);
         this.writeLaserlineToFile = writeLaserlineToFile;
         if (writeLaserlineToFile) {
@@ -646,10 +658,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
         if (pxlScoreMap == null) {
             return;
         }
-        if (showLaserLine) {
-            laserLineNew.draw(gl);
-        }
-        if (showDebugPixels) {
+        if (showScoreMap) {
             pxlScoreMap.draw(gl);
 //            gl.glPointSize(4f);
 //            gl.glBegin(GL.GL_POINTS);
@@ -672,6 +681,9 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
 //            }
 //            gl.glEnd();
         }
+        if (showLaserLine) {
+            laserLineNew.draw(gl);
+        }
     }
 
     /**
@@ -686,15 +698,17 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      */
     public void setShowLaserLine(boolean showLaserLine) {
         this.showLaserLine = showLaserLine;
-        putBoolean("showLaserLine",showLaserLine);
+        putBoolean("showLaserLine", showLaserLine);
     }
 
     public boolean isFirFilterEnabled() {
-        return pxlScoreMap==null? false:pxlScoreMap.isFirFilterEnabled(); // doesn't exist until maps are allocated, so we need to check
+        return pxlScoreMap == null ? false : pxlScoreMap.isFirFilterEnabled(); // doesn't exist until maps are allocated, so we need to check
     }
 
-    public void setFirFilterEnabled(boolean firFilterEnabled) {
-        if(pxlScoreMap==null) return;
+    synchronized public void setFirFilterEnabled(boolean firFilterEnabled) {
+        if (pxlScoreMap == null) {
+            return;
+        }
         pxlScoreMap.setFirFilterEnabled(firFilterEnabled);
     }
 
@@ -723,11 +737,12 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
     /**
      * @param laserLineMedianFilterLength the laserLineMedianFilterLength to set
      */
-    public void setLaserLineMedianFilterLength(int laserLineMedianFilterLength) {
-        if(laserLineMedianFilterLength<0) laserLineMedianFilterLength=0; // at least 1
-        int old=this.laserLineMedianFilterLength;
+    synchronized public void setLaserLineMedianFilterLength(int laserLineMedianFilterLength) {
+        if (laserLineMedianFilterLength < 0) {
+            laserLineMedianFilterLength = 0; 
+        }
         this.laserLineMedianFilterLength = laserLineMedianFilterLength;
-        getSupport().firePropertyChange("laserLineMedianFilterLength",old,laserLineMedianFilterLength);
+        putInt("laserLineMedianFilterLength",laserLineMedianFilterLength);
     }
 
     /**
@@ -738,16 +753,31 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
     }
 
     /**
-     * @param laserLineLinearlyInterpolateAcrossNaN the laserLineLinearlyInterpolateAcrossNaN to set
+     * @param laserLineLinearlyInterpolateAcrossNaN the
+     * laserLineLinearlyInterpolateAcrossNaN to set
      */
-    public void setLaserLineLinearlyInterpolateAcrossNaN(boolean laserLineLinearlyInterpolateAcrossNaN) {
+    synchronized public void setLaserLineLinearlyInterpolateAcrossNaN(boolean laserLineLinearlyInterpolateAcrossNaN) {
         this.laserLineLinearlyInterpolateAcrossNaN = laserLineLinearlyInterpolateAcrossNaN;
         putBoolean("laserLineLinearlyInterpolateAcrossNaN", laserLineLinearlyInterpolateAcrossNaN);
     }
-    
-    
 
-    /** Holds the determined laser line pixels */
+    /**
+     * @return the freezeScoreFunction
+     */
+    public boolean isFreezeScoreFunction() {
+        return freezeScoreFunction;
+    }
+
+    /**
+     * @param freezeScoreFunction the freezeScoreFunction to set
+     */
+    public void setFreezeScoreFunction(boolean freezeScoreFunction) {
+        this.freezeScoreFunction = freezeScoreFunction;
+    }
+
+    /**
+     * Holds the determined laser line pixels
+     */
     class LaserLine {
 
         Float[] ys; // the y positions of the line
@@ -759,22 +789,24 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
 
         void reset() {
             n = chip.getSizeX();
-            if(ys==null) ys = new Float[n];
+            if (ys == null) {
+                ys = new Float[n];
+            }
             Arrays.fill(ys, Float.NaN); // fills ys with NaN on reset, which indicate unknown laser line position
 //            confidences = new float[n];
         }
 
         synchronized void draw(GL gl) {
             gl.glPushAttrib(GL.GL_ENABLE_BIT);
-            gl.glLineStipple(1,(short)0x7777);
+            gl.glLineStipple(1, (short) 0x7777);
             gl.glLineWidth(5);
-            gl.glColor4f(1, 1, 1,.5f);
+            gl.glColor4f(1, 1, 1, 1f);
             gl.glEnable(GL.GL_LINE_STIPPLE);
             gl.glBegin(GL.GL_LINE_STRIP);
             for (int i = 0; i < n; i++) {
                 if (!ys[i].isNaN()) { // skip over columns without valid score
                     gl.glVertex2f(i, ys[i]);
-                }else{ // interrupt lines at NaN
+                } else { // interrupt lines at NaN
                     gl.glEnd();
                     gl.glBegin(GL.GL_LINE_STRIP);
                 }
@@ -823,62 +855,77 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
 //            ys[125] = Float.NaN;
 //            ys[126] = Float.NaN;
 //            ys[127] = Float.NaN;
-            if(laserLineMedianFilterLength>0){
-                Float[] copy=new Float[n]; // copy is array of references, but no Floats are there yet
-             
+            if (laserLineMedianFilterLength > 0) {
+                Float[] copy = new Float[n]; // copy is array of references, but no Floats are there yet
+
                 // fill each element of copy with the median value of the ys around each index.
                 // if the source value is NaN then leave it NaN
                 // if idx is near the ends of the ys array, then fill with source value
-                final int k2=laserLineMedianFilterLength; // truncated to 1 for median filter length of 3
+                final int k2 = laserLineMedianFilterLength; // truncated to 1 for median filter length of 3
                 System.arraycopy(ys, 0, copy, 0, k2); // fill in the ends of the copy
-                System.arraycopy(ys, n-k2, copy, n-k2, k2); 
-                for(int x=k2;x<n-k2;x++){ // e.g. if laserLineMedianFilterLength=3, then from from 1 to n-2
-                    if(Float.isNaN(ys[x])){ // if any element is NaN, then output of filter is NaN for all values in range of filter
-                        Arrays.fill(copy,x-k2,x+k2+1,Float.NaN);
-                        x+=k2;
-                    }else{
-                        Float[] part=Arrays.copyOfRange(ys, x-k2 , x+k2+1); // copy ys around the y value
+                System.arraycopy(ys, n - k2, copy, n - k2, k2);
+                for (int x = k2; x < n - k2; x++) { // e.g. if laserLineMedianFilterLength=3, then from from 1 to n-2
+                    if (Float.isNaN(ys[x])) { // if any element is NaN, then output of filter is NaN for all values in range of filter
+                        Arrays.fill(copy, x - k2, x + k2 + 1, Float.NaN);
+                        x += k2;
+                    } else {
+                        Float[] part = Arrays.copyOfRange(ys, x - k2, x + k2 + 1); // copy ys around the y value
                         // if the copy contains Float.NaN, the result of sorting are not specified
                         Arrays.sort(part); // sort that part of the array
-                        copy[x]=part[k2]; // take middle value, this is median
+                        copy[x] = part[k2]; // take middle value, this is median
                     }
                 }
-                synchronized(this){
+                synchronized (this) {
                     System.arraycopy(copy, 0, ys, 0, n); // copy the results back, synchronized with rendering it
                 }
             }
-            if(isLaserLineLinearlyInterpolateAcrossNaN()){
+            if (isLaserLineLinearlyInterpolateAcrossNaN()) {
                 // march accross values. 
                 // if we find a NaN value, the substitute with linear interpolation across two surrounding values that are not NaN.
                 // for NaN at edges, substitute with edge value
-                float y0=Float.NaN, y1=Float.NaN;
-                for(int x=0;x<n;x++){
-                    if(!Float.isNaN(ys[x])){y0=ys[x]; break;}
+                float y0 = Float.NaN, y1 = Float.NaN;
+                for (int x = 0; x < n; x++) {
+                    if (!Float.isNaN(ys[x])) {
+                        y0 = ys[x];
+                        break;
+                    }
                 }
-                for(int x=n-1;x>=0;x--){
-                    if(!Float.isNaN(ys[x])){y1=ys[x]; break;}
+                for (int x = n - 1; x >= 0; x--) {
+                    if (!Float.isNaN(ys[x])) {
+                        y1 = ys[x];
+                        break;
+                    }
                 }
-                for(int x=0;x<n;x++){
-                    if(Float.isNaN(ys[x])){ys[x]=y0; break;}
+                for (int x = 0; x < n; x++) {
+                    if (Float.isNaN(ys[x])) {
+                        ys[x] = y0;
+                        break;
+                    }
                 }
-                for(int x=n-1;x>=0;x--){
-                    if(Float.isNaN(ys[x])){ys[x]=y1; break;}
+                for (int x = n - 1; x >= 0; x--) {
+                    if (Float.isNaN(ys[x])) {
+                        ys[x] = y1;
+                        break;
+                    }
                 }
                 // for other ys, substitute with linear interpolation across good values
-                y0=Float.NaN; y1=Float.NaN; // real valued edge values across gap
-                for(int x=0;x<n;x++){
-                    if(!Float.isNaN(ys[x])){
-                        y0=ys[x]; // if real value save it
-                    }else{ // we are a NaN 
-                        int x0=x, x1; // start and end indices of gap
+                y0 = Float.NaN;
+                y1 = Float.NaN; // real valued edge values across gap
+                for (int x = 0; x < n; x++) {
+                    if (!Float.isNaN(ys[x])) {
+                        y0 = ys[x]; // if real value save it
+                    } else { // we are a NaN 
+                        int x0 = x, x1; // start and end indices of gap
                         // find next non NaN
-                        while(++x<n && Float.isNaN(ys[x]) ); // skip gap
-                        if(x>=n) break; // break out if we are at end already
-                        x1=x; // found real value here
-                        y1=ys[x]; // save it
-                        final float d=x1-x0+1; // this is gap length, e.g. x0=0, x1=2, d=3
-                        for(int xi=x0;xi<x1;xi++){ // interpolate
-                            ys[xi]=y0+((xi-x0+1)/d)*(y1-y0); // for each of these x, compute linear interpolation from edge values
+                        while (++x < n && Float.isNaN(ys[x])); // skip gap
+                        if (x >= n) {
+                            break; // break out if we are at end already
+                        }
+                        x1 = x; // found real value here
+                        y1 = ys[x]; // save it
+                        final float d = x1 - x0 + 1; // this is gap length, e.g. x0=0, x1=2, d=3
+                        for (int xi = x0; xi < x1; xi++) { // interpolate
+                            ys[xi] = y0 + ((xi - x0 + 1) / d) * (y1 - y0); // for each of these x, compute linear interpolation from edge values
                         }
                     }
                 }

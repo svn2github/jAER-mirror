@@ -60,7 +60,7 @@ public class HistogramData {
      *
      * @return
      */
-    public final boolean  isInitialized() {
+    private final boolean  isInitialized() {
         if (dataBins != null & dataHistory != null) {
             return true;
         }
