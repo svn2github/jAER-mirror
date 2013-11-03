@@ -4,9 +4,12 @@
  */
 package ch.unizh.ini.jaer.projects.laser3d;
 
+import com.sun.opengl.util.j2d.TextRenderer;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.media.opengl.GL;
+import javax.media.opengl.GLException;
 
 /**
  * PxlScoreMap holds a score for each pixel.
@@ -14,7 +17,7 @@ import javax.media.opengl.GL;
  * @author Thomas
  */
 public class PxlScoreMap {
-    
+
     private int mapSizeX;
     private int mapSizeY;
     private float sumOfScores;
@@ -23,13 +26,14 @@ public class PxlScoreMap {
     private float[][][] pxlScoreHistory; // past score(s), 1 for IIR, historySize for FIR
     private FilterLaserline filter;
     private int historySize;
-    private boolean firFilterEnabled=false; // true to use old (inefficient) FIR box filter, false to use IIR lowpass score map
+    private boolean firFilterEnabled = false; // true to use old (inefficient) FIR box filter, false to use IIR lowpass score map
+    private TextRenderer textRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
 
     /**
      * Creates a new instance of PxlMap
      *
      * @param sx width of the map in pixels
-     * @param sy heigth of the map in pixels
+     * @param sy height of the map in pixels
      * @param filter invoking EventFilter2D for loging
      */
     public PxlScoreMap(int sx, int sy, FilterLaserline filter) {
@@ -37,6 +41,48 @@ public class PxlScoreMap {
         this.mapSizeX = sx;
         this.mapSizeY = sy;
         this.historySize = filter.getPrefs().getInt("FilterLaserline.pxlScoreHistorySize", 5);
+    }
+
+    public void draw(GL gl) {
+        if (pxlScore == null) {
+            return;
+        }
+        try {
+            gl.glEnable(GL.GL_BLEND);
+            gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+            gl.glBlendEquation(GL.GL_FUNC_ADD);
+        } catch (GLException e) {
+            e.printStackTrace();
+        }
+        float max = Float.NEGATIVE_INFINITY, min = Float.POSITIVE_INFINITY;
+        for (int x = 0; x < mapSizeX; x++) {
+            for (int y = 0; y < mapSizeY; y++) {
+                float v = pxlScore[x][y];
+                if (v > max) {
+                    max = v;
+                } else if (v < min) {
+                    min = v;
+                }
+            }
+        }
+        if (max - min <= 0) {
+            max = 1;
+            min = 0;
+        } // avoid div by zero
+        final float diff = max - min;
+        final float displayTransparency = .9f;
+        for (int x = 0; x < mapSizeX; x++) {
+            for (int y = 0; y < mapSizeY; y++) {
+                float v = (pxlScore[x][y] - min) / diff;
+                gl.glColor4f(v, v, 0, displayTransparency);
+                gl.glRectf(x, y, x + 1, y + 1);
+            }
+        }
+        final float textScale = .2f;
+        textRenderer.begin3DRendering();
+        textRenderer.setColor(1, 1, 0, 1);
+        textRenderer.draw3D(String.format("max score=%.2f, min score=%.2f", max, min), 5, 5, 0, textScale); // x,y,z, scale factor
+        textRenderer.end3DRendering();
     }
 
     /**
@@ -47,7 +93,7 @@ public class PxlScoreMap {
             for (int x = 0; x < mapSizeX; x++) {
                 Arrays.fill(pxlScore[x], 0f);
                 for (int y = 0; y < mapSizeY; y++) {
-                    Arrays.fill(pxlScoreHistory[x][y],0f);
+                    Arrays.fill(pxlScoreHistory[x][y], 0f);
                 }
             }
         }
@@ -65,12 +111,13 @@ public class PxlScoreMap {
     private void allocateMaps() {
         if (mapSizeX > 0 & mapSizeY > 0) {
             pxlScore = new float[mapSizeX][mapSizeY];
-            pxlScoreHistory = new float[mapSizeX][mapSizeY][historySize+1];
+            pxlScoreHistory = new float[mapSizeX][mapSizeY][historySize + 1];
         }
     }
-    
+
     /**
      * Get score of specific pixel
+     *
      * @param x
      * @param y
      * @return score of pixel (x,y)
@@ -86,8 +133,9 @@ public class PxlScoreMap {
 
     /**
      * set score of pixel (x,y).
-     * 
+     *
      * probably #addToSCore is better choice
+     *
      * @param x
      * @param y
      * @param score
@@ -99,9 +147,10 @@ public class PxlScoreMap {
             filter.log.warning("PxlScoreMap.setScore(): pixel not on chip!");
         }
     }
-    
+
     /**
-     * update score 
+     * update score
+     *
      * @param x
      * @param y
      * @param score
@@ -113,9 +162,9 @@ public class PxlScoreMap {
             filter.log.warning("PxlScoreMap.addToScore(): pixel not on chip!");
         }
     }
-    
+
     /**
-     *  Updates the score map average
+     * Updates the score map average
      */
     public void updatePxlScoreAverageMap() { // TODO super inefficient, can use IIR lowpass instead
         // apply moving average on score history
@@ -146,11 +195,11 @@ public class PxlScoreMap {
                 }
             }
         } else { // use IIR low pass on score map
-            float a=1f/historySize, a1=1-a;  // update constant
+            float a = 1f / historySize, a1 = 1 - a;  // update constant
             for (int x = 0; x < mapSizeX; x++) {
                 for (int y = 0; y < mapSizeY; y++) {
-                    pxlScore[x][y] = a1* pxlScore[x][y] +a* pxlScoreHistory[x][y][0]; // take (1-a) of the old score plus a times the new score, e.g. if historySize=5, then take 4/5 of the old score and 1/5 of the new one
-                    pxlScoreHistory[x][y][0]=0; // start accumulating new score here
+                    pxlScore[x][y] = a1 * pxlScore[x][y] + a * pxlScoreHistory[x][y][0]; // take (1-a) of the old score plus a times the new score, e.g. if historySize=5, then take 4/5 of the old score and 1/5 of the new one
+                    pxlScoreHistory[x][y][0] = 0; // start accumulating new score here
                 }
             }
         }
@@ -173,25 +222,25 @@ public class PxlScoreMap {
                 float[] pxl;
                 float sumScores = 0;
                 float sumWeightedCoord = 0;
-                while (pxlScore[x][y] > threshold)  {
-                    sumWeightedCoord += (y*pxlScore[x][y]);
+                while (pxlScore[x][y] > threshold) {
+                    sumWeightedCoord += (y * pxlScore[x][y]);
                     sumScores += pxlScore[x][y];
                     y++;
                     if (y >= mapSizeY) {
-                        break;  
+                        break;
                     }
                 }
                 if (sumScores > 0) {
                     pxl = new float[2];
                     pxl[0] = x;
-                    pxl[1] = sumWeightedCoord/sumScores;
+                    pxl[1] = sumWeightedCoord / sumScores;
                     laserline.add(pxl);
                 }
             }
         }
         return laserline;
     }
-    
+
     /**
      *
      * @return
@@ -207,14 +256,14 @@ public class PxlScoreMap {
     public int getMapSizeY() {
         return mapSizeY;
     }
-    
+
     /**
-     * 
+     *
      * @return
      */
     public float findThreshold() {
         float threshold = filter.getPxlScoreThreshold();
-        
+
 //        float[] allScores = new float[mapSizeX*mapSizeY];
 //        int i = 0;
 //        for (int x = 0; x < mapSizeX; x++) {
@@ -224,7 +273,7 @@ public class PxlScoreMap {
 //            }
 //        }
 //        Arrays.sort(allScores);
-        
+
         return threshold;
     }
 
@@ -248,6 +297,4 @@ public class PxlScoreMap {
     public float[][] getPxlScore() {
         return pxlScore;
     }
-
- 
 }

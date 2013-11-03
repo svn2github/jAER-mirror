@@ -54,24 +54,24 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
     /**
      * Moving average window length
      */
-    protected int pxlScoreHistorySize = getPrefs().getInt("FilterLaserline.pxlScoreHistorySize", 3);
+    protected int pxlScoreHistorySize = getPrefs().getInt("FilterLaserline.pxlScoreHistorySize", 20);
     /**
      * binsize for histogram (in us)
      */
-    protected int binSize = getPrefs().getInt("FilterLaserline.binSize", 50);
+    protected int binSize = getPrefs().getInt("FilterLaserline.binSize", 20);
     /**
      * Allows to display the score of each pixel with a score not equal 0
      */
     protected boolean showDebugPixels = getPrefs().getBoolean("FilterLaserline.showDebugPixels", false);
     /**
-     * Use different weigths for on and off events?
+     * Use different weights for on and off events?
      */
     protected boolean useWeightedOnOff = getPrefs().getBoolean("FilterLaserline.useWeightedOnOff", true);
     /**
      * All pixels with a score above pxlScoreThreshold are classified as laser
      * line
      */
-    protected float pxlScoreThreshold = getPrefs().getFloat("FilterLaserline.pxlScoreThreshold", 1.5f);
+    protected float pxlScoreThreshold = getPrefs().getFloat("FilterLaserline.pxlScoreThreshold", .01f);
     /**
      * Subtract average of histogram to get scoring function?
      */
@@ -91,6 +91,9 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
     protected boolean useReinforcement = getPrefs().getBoolean("FilterLaserline.useReinforcement", false);
     
     private boolean returnInputPacket=getBoolean("returnInputPacket",false);
+    
+    private int laserLineMedianFilterLength=getInt("laserLineMedianFilterLength",1);
+    private boolean laserLineLinearlyInterpolateAcrossNaN=getBoolean("laserLineLinearlyInterpolateAcrossNaN",false);
 
     /**
      * Creates new instance of FilterLaserline
@@ -102,7 +105,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      */
     public FilterLaserline(AEChip chip) {
         super(chip);
-        final String hi = "Event Histogram", sc = "Pixel Scoring", deb = "Debugging", lg = "Logging";
+        final String hi = "Event Histogram", sc = "Pixel Scoring", line="Laser Line", deb = "Debugging", lg = "Logging";
 
         setPropertyTooltip(hi, "histogramHistorySize", "How many periods should be used for event histogram?");
         setPropertyTooltip(hi, "binSize", "Bin size of event histogram in us");
@@ -117,6 +120,8 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
         setPropertyTooltip(lg, "writeLaserlineToFile", "Write laserline to file?");
         setPropertyTooltip(deb, "showLaserLine", "Show the extracted laser line: peak location of score histogram for each colurm");
         setPropertyTooltip(deb, "returnInputPacket", "Return the input packet rather than the filtered laser line events to show the input packet");
+        setPropertyTooltip(line, "laserLineMedianFilterLength", "<html>Median filter the laser line to remove outliers. <br>Actual median filter length is laserLineMedianFilterLength*2+1; <br>e.g. use 1 for a median filter of length 3. <br>Use 0 for no filtering. <br>NaN values anywhere in filter length are propogated out.");
+        setPropertyTooltip(line, "laserLineLinearlyInterpolateAcrossNaN", "<html>Linearly interpolate laser line pixels across NaN values of score map.");
     }
 
     @Override
@@ -645,26 +650,27 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
             laserLineNew.draw(gl);
         }
         if (showDebugPixels) {
-            gl.glPointSize(4f);
-            gl.glBegin(GL.GL_POINTS);
-            {
-                float pxlScore;
-                for (int x = 0; x < chip.getSizeX(); x++) {
-                    for (int y = 0; y < chip.getSizeY(); y++) {
-                        pxlScore = pxlScoreMap.getScore(x, y);
-
-                        if (pxlScore > 0) {
-                            gl.glColor3d(0.0, 0.0, pxlScore);
-                            gl.glVertex2f(x, y);
-                        } else if (pxlScore < 0) {
-                            gl.glColor3d(0.0, pxlScore, 0.0);
-                            gl.glVertex2f(x, y);
-                        }
-                    }
-
-                }
-            }
-            gl.glEnd();
+            pxlScoreMap.draw(gl);
+//            gl.glPointSize(4f);
+//            gl.glBegin(GL.GL_POINTS);
+//            {
+//                float pxlScore;
+//                for (int x = 0; x < chip.getSizeX(); x++) {
+//                    for (int y = 0; y < chip.getSizeY(); y++) {
+//                        pxlScore = pxlScoreMap.getScore(x, y);
+//
+//                        if (pxlScore > 0) {
+//                            gl.glColor3d(0.0, 0.0, pxlScore);
+//                            gl.glVertex2f(x, y);
+//                        } else if (pxlScore < 0) {
+//                            gl.glColor3d(0.0, pxlScore, 0.0);
+//                            gl.glVertex2f(x, y);
+//                        }
+//                    }
+//
+//                }
+//            }
+//            gl.glEnd();
         }
     }
 
@@ -706,6 +712,38 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
         this.returnInputPacket = returnInputPacket;
         putBoolean("returnInputPacket", returnInputPacket);
     }
+
+    /**
+     * @return the laserLineMedianFilterLength
+     */
+    public int getLaserLineMedianFilterLength() {
+        return laserLineMedianFilterLength;
+    }
+
+    /**
+     * @param laserLineMedianFilterLength the laserLineMedianFilterLength to set
+     */
+    public void setLaserLineMedianFilterLength(int laserLineMedianFilterLength) {
+        if(laserLineMedianFilterLength<0) laserLineMedianFilterLength=0; // at least 1
+        int old=this.laserLineMedianFilterLength;
+        this.laserLineMedianFilterLength = laserLineMedianFilterLength;
+        getSupport().firePropertyChange("laserLineMedianFilterLength",old,laserLineMedianFilterLength);
+    }
+
+    /**
+     * @return the laserLineLinearlyInterpolateAcrossNaN
+     */
+    public boolean isLaserLineLinearlyInterpolateAcrossNaN() {
+        return laserLineLinearlyInterpolateAcrossNaN;
+    }
+
+    /**
+     * @param laserLineLinearlyInterpolateAcrossNaN the laserLineLinearlyInterpolateAcrossNaN to set
+     */
+    public void setLaserLineLinearlyInterpolateAcrossNaN(boolean laserLineLinearlyInterpolateAcrossNaN) {
+        this.laserLineLinearlyInterpolateAcrossNaN = laserLineLinearlyInterpolateAcrossNaN;
+        putBoolean("laserLineLinearlyInterpolateAcrossNaN", laserLineLinearlyInterpolateAcrossNaN);
+    }
     
     
 
@@ -722,11 +760,11 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
         void reset() {
             n = chip.getSizeX();
             if(ys==null) ys = new Float[n];
-            Arrays.fill(ys, Float.NaN);
+            Arrays.fill(ys, Float.NaN); // fills ys with NaN on reset, which indicate unknown laser line position
 //            confidences = new float[n];
         }
 
-        void draw(GL gl) {
+        synchronized void draw(GL gl) {
             gl.glPushAttrib(GL.GL_ENABLE_BIT);
             gl.glLineStipple(1,(short)0x7777);
             gl.glLineWidth(5);
@@ -737,8 +775,8 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
                 if (!ys[i].isNaN()) { // skip over columns without valid score
                     gl.glVertex2f(i, ys[i]);
                 }else{ // interrupt lines at NaN
-//                    gl.glEnd();
-//                    gl.glBegin(GL.GL_LINE_STRIP);
+                    gl.glEnd();
+                    gl.glBegin(GL.GL_LINE_STRIP);
                 }
             }
             gl.glEnd();
@@ -754,19 +792,94 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
             int mapSizeX = pxlScoreMap.getMapSizeX();
             int mapSizeY = pxlScoreMap.getMapSizeY();
             for (int x = 0; x < mapSizeX; x++) {
-                for (int y = 0; y < mapSizeX; y++) {
-                    float sumScores = 0;
-                    float sumWeightedCoord = 0;
-                    while (pxlScore[x][y] > pxlScoreThreshold) {
+                float sumScores = 0;
+                float sumWeightedCoord = 0;
+                for (int y = 0; y < mapSizeY; y++) {
+                    if (pxlScore[x][y] > pxlScoreThreshold) {
                         sumWeightedCoord += (y * pxlScore[x][y]);
                         sumScores += pxlScore[x][y];
-                        y++;
-                        if (y >= mapSizeY) {
-                            break;
-                        }
+//                        y++;
+//                        if (y >= mapSizeY) {
+//                            break;
+//                        }
                     }
-                    if (sumScores > 0) {
-                        ys[x] = sumWeightedCoord / sumScores;
+                }
+                if (sumScores > 0) {
+                    ys[x] = sumWeightedCoord / sumScores;
+                }
+            }
+            // debug
+//            for(int x=0;x<n;x++){
+//                ys[x]=new Float(x);
+//            }
+////            Arrays.fill(ys, new Float(1));
+//            ys[0] = Float.NaN;
+//            ys[1] = Float.NaN;
+//            ys[2] = Float.NaN;
+//            ys[64] = Float.NaN;
+////            ys[65] = Float.NaN;
+////            ys[66] = Float.NaN;
+//            ys[67] = Float.NaN;
+//            ys[125] = Float.NaN;
+//            ys[126] = Float.NaN;
+//            ys[127] = Float.NaN;
+            if(laserLineMedianFilterLength>0){
+                Float[] copy=new Float[n]; // copy is array of references, but no Floats are there yet
+             
+                // fill each element of copy with the median value of the ys around each index.
+                // if the source value is NaN then leave it NaN
+                // if idx is near the ends of the ys array, then fill with source value
+                final int k2=laserLineMedianFilterLength; // truncated to 1 for median filter length of 3
+                System.arraycopy(ys, 0, copy, 0, k2); // fill in the ends of the copy
+                System.arraycopy(ys, n-k2, copy, n-k2, k2); 
+                for(int x=k2;x<n-k2;x++){ // e.g. if laserLineMedianFilterLength=3, then from from 1 to n-2
+                    if(Float.isNaN(ys[x])){ // if any element is NaN, then output of filter is NaN for all values in range of filter
+                        Arrays.fill(copy,x-k2,x+k2+1,Float.NaN);
+                        x+=k2;
+                    }else{
+                        Float[] part=Arrays.copyOfRange(ys, x-k2 , x+k2+1); // copy ys around the y value
+                        // if the copy contains Float.NaN, the result of sorting are not specified
+                        Arrays.sort(part); // sort that part of the array
+                        copy[x]=part[k2]; // take middle value, this is median
+                    }
+                }
+                synchronized(this){
+                    System.arraycopy(copy, 0, ys, 0, n); // copy the results back, synchronized with rendering it
+                }
+            }
+            if(isLaserLineLinearlyInterpolateAcrossNaN()){
+                // march accross values. 
+                // if we find a NaN value, the substitute with linear interpolation across two surrounding values that are not NaN.
+                // for NaN at edges, substitute with edge value
+                float y0=Float.NaN, y1=Float.NaN;
+                for(int x=0;x<n;x++){
+                    if(!Float.isNaN(ys[x])){y0=ys[x]; break;}
+                }
+                for(int x=n-1;x>=0;x--){
+                    if(!Float.isNaN(ys[x])){y1=ys[x]; break;}
+                }
+                for(int x=0;x<n;x++){
+                    if(Float.isNaN(ys[x])){ys[x]=y0; break;}
+                }
+                for(int x=n-1;x>=0;x--){
+                    if(Float.isNaN(ys[x])){ys[x]=y1; break;}
+                }
+                // for other ys, substitute with linear interpolation across good values
+                y0=Float.NaN; y1=Float.NaN; // real valued edge values across gap
+                for(int x=0;x<n;x++){
+                    if(!Float.isNaN(ys[x])){
+                        y0=ys[x]; // if real value save it
+                    }else{ // we are a NaN 
+                        int x0=x, x1; // start and end indices of gap
+                        // find next non NaN
+                        while(++x<n && Float.isNaN(ys[x]) ); // skip gap
+                        if(x>=n) break; // break out if we are at end already
+                        x1=x; // found real value here
+                        y1=ys[x]; // save it
+                        final float d=x1-x0+1; // this is gap length, e.g. x0=0, x1=2, d=3
+                        for(int xi=x0;xi<x1;xi++){ // interpolate
+                            ys[xi]=y0+((xi-x0+1)/d)*(y1-y0); // for each of these x, compute linear interpolation from edge values
+                        }
                     }
                 }
             }
