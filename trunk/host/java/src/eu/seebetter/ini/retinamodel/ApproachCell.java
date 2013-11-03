@@ -248,11 +248,12 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
         }
         gl.glPushMatrix();
         gl.glTranslatef(chip.getSizeX() / 2, chip.getSizeY() / 2, 10);
-        if (showApproachCell && approachCellModel.spikeRate > integrateAndFireThreshold) {
+        if (showApproachCell && approachCellModel.nSpikes > integrateAndFireThreshold) {
             gl.glColor4f(1, 1, 1, .2f);
             glu.gluQuadricDrawStyle(quad, GLU.GLU_FILL);
-            float radius = chip.getMaxSize() * approachCellModel.spikeRate / maxSpikeRateHz / 2;
+            float radius = chip.getMaxSize() * approachCellModel.nSpikes / maxSpikeRateHz / 2;
             glu.gluDisk(quad, 0, radius, 32, 1);
+            approachCellModel.resetSpikeCount();
         }
         gl.glPopMatrix();
 
@@ -480,11 +481,12 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
     // models soma and integration and spiking of approach cell
     private class ApproachCellModel {
 
-        float spikeRate;
         int lastTimestamp = 0;
 //        float threshold;
 //        float refracPeriodMs;
         Random r = new Random();
+        float membraneState=0;
+        int nSpikes=0; // counts spikes since last rendering cycle
 
         /**
          * Returns true if neuron spikes this time interval
@@ -492,40 +494,49 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
         synchronized private boolean update(int timestamp) {
             // compute subunit input to us
             float netSynapticInput = (subunits.computeOffExcitation() - subunits.computeOnInhibition());
-            if (poissonFiringEnabled) {
-                spikeRate = netSynapticInput;
                 int dtUs = timestamp - lastTimestamp;
+                if(dtUs<0) dtUs=0; // to handle negative dt
                 lastTimestamp = timestamp;
+            if (poissonFiringEnabled) {
+                float spikeRate = netSynapticInput;
                 if (spikeRate < 0) {
                     return false;
                 }
-                if (spikeRate > getMaxSpikeRateHz()) {
-                    spikeRate = getMaxSpikeRateHz();
+                if (spikeRate > maxSpikeRateHz) {
+                    spikeRate = maxSpikeRateHz;
                 }
                 if (r.nextFloat() < spikeRate * 1e-6f * dtUs) {
                     if (enableSpikeSound) {
                         spikeSound.play();
                     }
+                    nSpikes++;
                     return true;
                 } else {
                     return false;
                 }
             } else { // IF neuron
-                if (netSynapticInput < integrateAndFireThreshold) {
-                    spikeRate = 0;
-                } else if (netSynapticInput > maxSpikeRateHz) {
-                    spikeRate = maxSpikeRateHz;
-                }
-                if (spikeRate >= integrateAndFireThreshold) {// Overcome the threshold to fire
+                membraneState+=netSynapticInput*dtUs*1e-6f;
+                if(membraneState>integrateAndFireThreshold){
                     if (enableSpikeSound) {
                         spikeSound.play();
                     }
+                    membraneState=0;
+                    nSpikes++;
                     return true;
-                } else {
+                }else{
                     return false;
                 }
             }
         }
+        
+        void reset(){
+            membraneState=0;
+        }
+
+        private void resetSpikeCount() {
+            nSpikes=0;
+        }
+        
     }
 
     /**
