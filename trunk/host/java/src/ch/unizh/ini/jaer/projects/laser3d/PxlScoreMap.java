@@ -20,14 +20,17 @@ public class PxlScoreMap {
 
     private int mapSizeX;
     private int mapSizeY;
-    private float sumOfScores;
     // pxlScore is moving average over historySize scores
     private float[][] pxlScore;
     private float[][][] pxlScoreHistory; // past score(s), 1 for IIR, historySize for FIR
+    private float[] colSums, weightedColSums; // holds column-wise statistics
     private FilterLaserline filter;
     private int historySize;
     private boolean firFilterEnabled = false; // true to use old (inefficient) FIR box filter, false to use IIR lowpass score map
     private TextRenderer textRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
+    private boolean rollingAverageScoreMapUpdate; // true to update average score map during each event, using a rolling cursor
+    private int xCursor = 0, yCursor = 0;
+    float updateFactor, updateFactor1;  // update constant
 
     /**
      * Creates a new instance of PxlMap
@@ -40,7 +43,10 @@ public class PxlScoreMap {
         this.filter = filter;
         this.mapSizeX = sx;
         this.mapSizeY = sy;
-        this.historySize = filter.getPrefs().getInt("FilterLaserline.pxlScoreHistorySize", 5);
+        rollingAverageScoreMapUpdate = filter.getBoolean("rollingAverageScoreMapUpdate", false);
+        this.historySize = filter.getPxlScoreHistorySize();
+        updateFactor = 1f / historySize;
+        updateFactor1 = 1 - updateFactor;  // update constant
     }
 
     public void draw(GL gl) {
@@ -89,7 +95,9 @@ public class PxlScoreMap {
      * sets the score of each pixel to 0
      */
     public final void resetMap() {
-        if (pxlScore != null) {
+      if (pxlScore != null) {
+          Arrays.fill(colSums,0f);
+          Arrays.fill(weightedColSums, 0f);
             for (int x = 0; x < mapSizeX; x++) {
                 Arrays.fill(pxlScore[x], 0f);
                 for (int y = 0; y < mapSizeY; y++) {
@@ -97,7 +105,6 @@ public class PxlScoreMap {
                 }
             }
         }
-        sumOfScores = 0;
     }
 
     /**
@@ -112,6 +119,8 @@ public class PxlScoreMap {
         if (mapSizeX > 0 & mapSizeY > 0) {
             pxlScore = new float[mapSizeX][mapSizeY];
             pxlScoreHistory = new float[mapSizeX][mapSizeY][historySize + 1];
+            colSums=new float[mapSizeX];
+            weightedColSums=new float[mapSizeX];
         }
     }
 
@@ -156,20 +165,41 @@ public class PxlScoreMap {
      * @param score
      */
     public void addToScore(int x, int y, float score) {
-//        if (x >= 0 & x <= mapSizeX & y >= 0 & y <= mapSizeY) {
+        if (rollingAverageScoreMapUpdate) {
+            // here we update the target pixel of score map, and at same time we update the next cursor pixel average
+            final float oldScore=pxlScore[x][y];
+            pxlScore[x][y] = updateFactor1*oldScore+updateFactor*score; // mix old score and contribution of this score, to maintain same scaling as non-rolling approach
+            pxlScore[xCursor][yCursor] *= updateFactor1; // decay cursor pixel
+            xCursor++;
+            if (xCursor >= mapSizeX) {
+                xCursor = 0;
+                yCursor++;
+                if (yCursor >= mapSizeY) {
+                    yCursor = 0;
+                }
+            }
+            // update column statistics
+            final float diff=pxlScore[x][y]-oldScore;
+            colSums[x]+=diff;
+            weightedColSums[x]+=y*diff;
+        } else {
             pxlScoreHistory[x][y][0] += score;
-//        } else {
-//            filter.log.warning("PxlScoreMap.addToScore(): pixel not on chip!");
-//        }
+        }
     }
 
     /**
      * Updates the score map average
      */
-    public void updatePxlScoreAverageMap() { // TODO super inefficient, can use IIR lowpass instead
+    public void updatePxlScoreAverageMap() {
+        historySize = filter.getPxlScoreHistorySize();
+        updateFactor = 1f / historySize;
+        updateFactor1 = 1 - updateFactor;  // update constant, update for rolling update use
+
+        if (rollingAverageScoreMapUpdate) {
+            return; // do the update there
+        }        
         // apply moving average on score history
         if (firFilterEnabled) {
-            sumOfScores = 0;
             for (int x = 0; x < mapSizeX; x++) {
                 for (int y = 0; y < mapSizeY; y++) {
                     if (historySize > 0) {
@@ -188,17 +218,15 @@ public class PxlScoreMap {
                     }
                     /* reset pxlScore */
                     pxlScoreHistory[x][y][0] = 0;
-                    sumOfScores += pxlScore[x][y];
 //                if (Double.isNaN(pxlScore[x][y])) {
 //                    filter.log.info("NaN!");
 //                }
                 }
             }
         } else { // use IIR low pass on score map
-            float a = 1f / historySize, a1 = 1 - a;  // update constant
             for (int x = 0; x < mapSizeX; x++) {
                 for (int y = 0; y < mapSizeY; y++) {
-                    pxlScore[x][y] = a1 * pxlScore[x][y] + a * pxlScoreHistory[x][y][0]; // take (1-a) of the old score plus a times the new score, e.g. if historySize=5, then take 4/5 of the old score and 1/5 of the new one
+                    pxlScore[x][y] = updateFactor1 * pxlScore[x][y] + updateFactor * pxlScoreHistory[x][y][0]; // take (1-a) of the old score plus a times the new score, e.g. if historySize=5, then take 4/5 of the old score and 1/5 of the new one
                     pxlScoreHistory[x][y][0] = 0; // start accumulating new score here
                 }
             }
@@ -296,5 +324,35 @@ public class PxlScoreMap {
      */
     public float[][] getPxlScore() {
         return pxlScore;
+    }
+
+    /**
+     * @return the rollingAverageScoreMapUpdate
+     */
+    public boolean isRollingAverageScoreMapUpdate() {
+        return rollingAverageScoreMapUpdate;
+    }
+
+    /**
+     * @param rollingAverageScoreMapUpdate the rollingAverageScoreMapUpdate to
+     * set
+     */
+    public void setRollingAverageScoreMapUpdate(boolean rollingAverageScoreMapUpdate) {
+        this.rollingAverageScoreMapUpdate = rollingAverageScoreMapUpdate;
+        filter.putBoolean("rollingAverageScoreMapUpdate", rollingAverageScoreMapUpdate);
+    }
+
+    /**
+     * @return the colSums
+     */
+    public float[] getColSums() {
+        return colSums;
+    }
+
+    /**
+     * @return the weightedColSums
+     */
+    public float[] getWeightedColSums() {
+        return weightedColSums;
     }
 }

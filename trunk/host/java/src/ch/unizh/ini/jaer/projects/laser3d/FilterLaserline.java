@@ -114,6 +114,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
         setPropertyTooltip(sc, "allowNegativeScores", "Allow negativ scores?");
         setPropertyTooltip(sc, "pxlScoreThreshold", "Minimum score of pixel to be on laserline");
         setPropertyTooltip(sc, "useReinforcement", "Use binweights of last period for new binweights");
+        setPropertyTooltip(sc, "rollingAverageScoreMapUpdate", "Update the average score map using a rolling cursor that updates a single average map pixel for each input event");
         setPropertyTooltip(sc, "firFilterEnabled", "Use slower FIR average for score map rather than faster IIR filter");
         setPropertyTooltip(deb, "showScoreMap", "Display score of each pixel");
         setPropertyTooltip(lg, "writeLaserlineToFile", "Write laserline to file");
@@ -163,14 +164,14 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
                         updateBinWeights();
                     }
 
-                    oldLaserLine = pxlScoreMap.updateLaserline(oldLaserLine);
+                    oldLaserLine = pxlScoreMap.updateLaserline(oldLaserLine); // TODO should not be needed with new laser line object
 
                     // save timestamp as most recent TriggerTimestamp
                     lastTriggerTimestamp = ev.timestamp;
 
                     // write laserline to out
                     if (!returnInputPacket) {
-                        writeLaserlineToOutItr(outItr);
+                        writeLaserlineToOutItr(outItr); // TODO still uses old laser line object
                     }
 
                     if (writeLaserlineToFile) {
@@ -260,7 +261,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
         log.log(Level.INFO, "Initializing FilterLaserline, laserPeriod = {0}us", Integer.toString(laserPeriod));
         if (laserPeriod > 0 & binSize > 0) {
             nBins = (int) Math.ceil((float) laserPeriod / binSize);
-            log.info("Number of score function bins = "+nBins);
+            log.info("Number of score function bins = " + nBins);
         } else {
             log.severe("either laserPeriod or binSize is not greater than 0");
         }
@@ -620,7 +621,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      * @return
      */
     public int getMaxPxlScoreHistorySize() {
-        return 10;
+        return 40;
     }
 
     /**
@@ -739,10 +740,10 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      */
     synchronized public void setLaserLineMedianFilterLength(int laserLineMedianFilterLength) {
         if (laserLineMedianFilterLength < 0) {
-            laserLineMedianFilterLength = 0; 
+            laserLineMedianFilterLength = 0;
         }
         this.laserLineMedianFilterLength = laserLineMedianFilterLength;
-        putInt("laserLineMedianFilterLength",laserLineMedianFilterLength);
+        putInt("laserLineMedianFilterLength", laserLineMedianFilterLength);
     }
 
     /**
@@ -773,6 +774,14 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      */
     public void setFreezeScoreFunction(boolean freezeScoreFunction) {
         this.freezeScoreFunction = freezeScoreFunction;
+    }
+
+    public boolean isRollingAverageScoreMapUpdate() {
+        return pxlScoreMap==null? false:pxlScoreMap.isRollingAverageScoreMapUpdate();
+    }
+
+    public void setRollingAverageScoreMapUpdate(boolean rollingAverageScoreMapUpdate) {
+        pxlScoreMap.setRollingAverageScoreMapUpdate(rollingAverageScoreMapUpdate);
     }
 
     /**
@@ -823,21 +832,31 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
             float[][] pxlScore = pxlScoreMap.getPxlScore();
             int mapSizeX = pxlScoreMap.getMapSizeX();
             int mapSizeY = pxlScoreMap.getMapSizeY();
-            for (int x = 0; x < mapSizeX; x++) {
-                float sumScores = 0;
-                float sumWeightedCoord = 0;
-                for (int y = 0; y < mapSizeY; y++) {
-                    if (pxlScore[x][y] > pxlScoreThreshold) {
-                        sumWeightedCoord += (y * pxlScore[x][y]);
-                        sumScores += pxlScore[x][y];
+            if (isRollingAverageScoreMapUpdate()) { // statistics are computed during each events update, we don't need to iterate over entire image here
+                float[] colSums = pxlScoreMap.getColSums();
+                float[] weightedColSums = pxlScoreMap.getWeightedColSums();
+                for (int x = 0; x < mapSizeX; x++) {
+                    if (weightedColSums[x] > 0) {
+                        ys[x] = weightedColSums[x] / colSums[x];
+                    }
+                }
+            } else {
+                for (int x = 0; x < mapSizeX; x++) {
+                    float sumScores = 0;
+                    float sumWeightedCoord = 0;
+                    for (int y = 0; y < mapSizeY; y++) {
+                        if (pxlScore[x][y] > pxlScoreThreshold) {
+                            sumWeightedCoord += (y * pxlScore[x][y]);
+                            sumScores += pxlScore[x][y];
 //                        y++;
 //                        if (y >= mapSizeY) {
 //                            break;
 //                        }
+                        }
                     }
-                }
-                if (sumScores > 0) {
-                    ys[x] = sumWeightedCoord / sumScores;
+                    if (sumScores > 0) {
+                        ys[x] = sumWeightedCoord / sumScores;
+                    }
                 }
             }
             // debug
