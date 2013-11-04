@@ -24,6 +24,8 @@ public class PxlScoreMap {
     private float[][] pxlScore;
     private float[][][] pxlScoreHistory; // past score(s), 1 for IIR, historySize for FIR
     private float[] colSums, weightedColSums; // holds column-wise statistics
+    private int[] peakYs; // holds y value of peak in each column
+    private float[] peakVals; // holds current max value in each colum
     private FilterLaserline filter;
     private int historySize;
     private boolean firFilterEnabled = false; // true to use old (inefficient) FIR box filter, false to use IIR lowpass score map
@@ -98,6 +100,8 @@ public class PxlScoreMap {
       if (pxlScore != null) {
           Arrays.fill(colSums,0f);
           Arrays.fill(weightedColSums, 0f);
+          Arrays.fill(peakYs, 0);
+          Arrays.fill(peakVals,0);
             for (int x = 0; x < mapSizeX; x++) {
                 Arrays.fill(pxlScore[x], 0f);
                 for (int y = 0; y < mapSizeY; y++) {
@@ -121,6 +125,8 @@ public class PxlScoreMap {
             pxlScoreHistory = new float[mapSizeX][mapSizeY][historySize + 1];
             colSums=new float[mapSizeX];
             weightedColSums=new float[mapSizeX];
+            peakYs=new int[mapSizeX];
+            peakVals=new float[mapSizeX];
         }
     }
 
@@ -168,8 +174,29 @@ public class PxlScoreMap {
         if (rollingAverageScoreMapUpdate) {
             // here we update the target pixel of score map, and at same time we update the next cursor pixel average
             final float oldScore=pxlScore[x][y];
-            pxlScore[x][y] = updateFactor1*oldScore+updateFactor*score; // mix old score and contribution of this score, to maintain same scaling as non-rolling approach
-            pxlScore[xCursor][yCursor] *= updateFactor1; // decay cursor pixel
+            final float newScore= updateFactor1*oldScore+updateFactor*score; // mix old score and contribution of this score, to maintain same scaling as non-rolling approach
+            pxlScore[x][y]=newScore;
+            // update column statistics for current event
+//            if (newValAtCursor > filter.getPxlScoreThreshold()) {
+            final float scoreDiff = newScore - oldScore;
+            colSums[x] += scoreDiff;
+            weightedColSums[x] += y * scoreDiff;
+//            }
+            
+            // update pxlMap at cursor location
+            final float oldValAtCursor=pxlScore[xCursor][yCursor];
+            final float newValAtCursor = (oldValAtCursor * updateFactor1); // decay cursor pixel
+            final float cursorDiff = newValAtCursor - oldValAtCursor;
+            pxlScore[xCursor][yCursor]=newValAtCursor;
+            
+            //update col statistics for cursor position
+            colSums[xCursor] += cursorDiff;
+            weightedColSums[xCursor] += yCursor * cursorDiff;
+//            if(newValAtCursor>peakVals[xCursor]){ // TODO doesn't work, just peak detector for all time
+//                peakVals[xCursor]=newScore;
+//                peakYs[xCursor]=yCursor;
+//            }
+            // move cursor
             xCursor++;
             if (xCursor >= mapSizeX) {
                 xCursor = 0;
@@ -178,10 +205,10 @@ public class PxlScoreMap {
                     yCursor = 0;
                 }
             }
-            // update column statistics
-            final float diff=pxlScore[x][y]-oldScore;
-            colSums[x]+=diff;
-            weightedColSums[x]+=y*diff;
+//            if(newScore>peakVals[x]){ // TODO doesn't work, just forms peak detector that is only reset on complete map reset
+//                peakVals[x]=newScore;
+//                peakYs[x]=y;
+//            }
         } else {
             pxlScoreHistory[x][y][0] += score;
         }
@@ -355,4 +382,20 @@ public class PxlScoreMap {
     public float[] getWeightedColSums() {
         return weightedColSums;
     }
+
+    /**
+     * @return the peakYs
+     */
+    public int[] getPeakYs() {
+        return peakYs;
+    }
+
+    /**
+     * @return the peakVals
+     */
+    public float[] getPeakVals() {
+        return peakVals;
+    }
+    
+    
 }
