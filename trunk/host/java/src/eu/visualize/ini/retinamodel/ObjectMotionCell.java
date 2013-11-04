@@ -294,7 +294,11 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
                 for (int y = 0; y < ny; y++) {
                     gl.glPushMatrix();
                     gl.glTranslatef((x << subunitSubsamplingBits) + off, (y << subunitSubsamplingBits) + off, 5);
-                    gl.glColor4f(1, 0, 0, alpha);
+                    if ((x == nx / 2 && y == ny / 2) || (x == ((nx / 2) + 1) && y == ny / 2) || (x == ((nx / 2) + 1) && y == ((ny / 2) + 1)) || (x == nx / 2 && y == ((ny / 2) + 1))) {
+                        gl.glColor4f(0, 1, 0, alpha);
+                    } else {
+                        gl.glColor4f(1, 0, 0, alpha);
+                    }
                     glu.gluDisk(quad, 0, subunitActivityBlobRadiusScale * subunits[x][y].computeInputToCell(), 16, 1);
                     gl.glPopMatrix();
                 }
