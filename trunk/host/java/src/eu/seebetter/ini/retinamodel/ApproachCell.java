@@ -23,6 +23,7 @@ import net.sf.jaer.event.PolarityEvent;
 import net.sf.jaer.eventprocessing.EventFilter2D;
 import net.sf.jaer.graphics.FrameAnnotater;
 import net.sf.jaer.util.SpikeSound;
+import net.sf.jaer.util.filter.LowpassFilter;
 
 /**
  * Models a single PV-5 approach cell discovered by Botond Roska group in Basel.
@@ -215,6 +216,7 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
     @Override
     public void resetFilter() {
         subunits = new Subunits();
+        approachCellModel.reset();
     }
 
     @Override
@@ -251,7 +253,7 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
         if (showApproachCell && approachCellModel.nSpikes > integrateAndFireThreshold) {
             gl.glColor4f(1, 1, 1, .2f);
             glu.gluQuadricDrawStyle(quad, GLU.GLU_FILL);
-            float radius = chip.getMaxSize() * approachCellModel.nSpikes / maxSpikeRateHz / 2;
+            float radius = chip.getMaxSize() * approachCellModel.spikeRateHz / maxSpikeRateHz / 2;
             glu.gluDisk(quad, 0, radius, 32, 1);
             approachCellModel.resetSpikeCount();
         }
@@ -410,7 +412,6 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
             renderer.draw3D("Excitatory OFF subunits", chip.getSizeX() / 2, chip.getSizeY(), 0, .5f);
             renderer.end3DRendering();
 
-
         }
     }
 
@@ -485,8 +486,12 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
 //        float threshold;
 //        float refracPeriodMs;
         Random r = new Random();
-        float membraneState=0;
-        int nSpikes=0; // counts spikes since last rendering cycle
+        float membraneState = 0;
+        int nSpikes = 0; // counts spikes since last rendering cycle
+        private LowpassFilter isiFilter = new LowpassFilter(300);
+        private int lastSpikeTimestamp = 0;
+        private boolean initialized = false;
+        float spikeRateHz = 0;
 
         /**
          * Returns true if neuron spikes this time interval
@@ -494,9 +499,11 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
         synchronized private boolean update(int timestamp) {
             // compute subunit input to us
             float netSynapticInput = (subunits.computeOffExcitation() - subunits.computeOnInhibition());
-                int dtUs = timestamp - lastTimestamp;
-                if(dtUs<0) dtUs=0; // to handle negative dt
-                lastTimestamp = timestamp;
+            int dtUs = timestamp - lastTimestamp;
+            if (dtUs < 0) {
+                dtUs = 0; // to handle negative dt
+            }
+            lastTimestamp = timestamp;
             if (poissonFiringEnabled) {
                 float spikeRate = netSynapticInput;
                 if (spikeRate < 0) {
@@ -506,37 +513,51 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
                     spikeRate = maxSpikeRateHz;
                 }
                 if (r.nextFloat() < spikeRate * 1e-6f * dtUs) {
-                    if (enableSpikeSound) {
-                        spikeSound.play();
-                    }
-                    nSpikes++;
+                    spike(timestamp);
                     return true;
                 } else {
                     return false;
                 }
             } else { // IF neuron
-                membraneState+=netSynapticInput*dtUs*1e-6f;
-                if(membraneState>integrateAndFireThreshold){
-                    if (enableSpikeSound) {
-                        spikeSound.play();
-                    }
-                    membraneState=0;
-                    nSpikes++;
+                membraneState += netSynapticInput * dtUs * 1e-6f;
+                if (membraneState > integrateAndFireThreshold) {
+                    spike(timestamp);
+                    membraneState = 0;
                     return true;
-                }else{
+                } else if (membraneState < -10) {
+                    membraneState = 0;
+                    return false;
+                } else {
                     return false;
                 }
             }
         }
-        
-        void reset(){
-            membraneState=0;
+
+        void spike(int timestamp) {
+            if (enableSpikeSound) {
+                spikeSound.play();
+            }
+            nSpikes++;
+            int dtUs = timestamp - lastSpikeTimestamp;
+            if (initialized && dtUs>=0) {
+                float avgIsiUs = isiFilter.filter(dtUs, timestamp);
+                spikeRateHz = 1e6f / avgIsiUs;
+            } else {
+                initialized = true;
+            }
+            lastSpikeTimestamp = timestamp;
+        }
+
+        void reset() {
+            membraneState = 0;
+            isiFilter.reset();
+            initialized=false;
         }
 
         private void resetSpikeCount() {
-            nSpikes=0;
+            nSpikes = 0;
         }
-        
+
     }
 
     /**
