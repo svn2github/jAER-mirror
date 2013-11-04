@@ -18,8 +18,8 @@ Post processing for work.monitorstatemachine.behavioral
 @N: CD233 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\fifoStatemachine.vhd":54:13:54:14|Using sequential encoding for type state
 Post processing for work.fifostatemachine.behavioral
 @N: CD630 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd":19:7:19:30|Synthesizing work.synchronizerstatemachine.behavioral 
-@N: CD231 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd":59:13:59:14|Using onehot encoding for type state (stidle="100000")
-@W: CD604 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd":228:6:228:19|OTHERS clause is not synthesized 
+@N: CD231 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd":69:13:69:14|Using onehot encoding for type state (stidle="100000")
+@W: CD604 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd":238:6:238:19|OTHERS clause is not synthesized 
 Post processing for work.synchronizerstatemachine.behavioral
 @N: CD630 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\timestampCounter.vhd":25:7:25:22|Synthesizing work.timestampcounter.behavioral 
 Post processing for work.timestampcounter.behavioral
@@ -47,9 +47,9 @@ Post processing for work.ehxpllc.syn_black_box
 Post processing for work.clockgen.structure
 Post processing for work.usbaer_top_level.structural
 @W: CL240 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd":49:1:49:12|SyncOutSWxEI is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL240 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd":48:1:48:12|SyncOut2xSBO is not assigned a value (floating) -- simulation mismatch possible. 
+@W: CL240 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd":48:1:48:14|SyncOutSIGxSBI is not assigned a value (floating) -- simulation mismatch possible. 
 @W: CL168 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd":598:2:598:24|Pruning instance cDVSResetStateMachine_1 -- not in use ... 
-@N: CL201 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd":238:4:238:5|Trying to extract state machine for register StatexDP
+@N: CL201 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd":248:4:248:5|Trying to extract state machine for register StatexDP
 Extracted state machine for register StatexDP
 State machine has 6 reachable states with original encodings of:
    000001
@@ -121,7 +121,7 @@ State machine has 3 reachable states with original encodings of:
    01
    10
 @W: CL159 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\cDVSResetStateMachine.vhd":31:4:31:12|Input RxcolGxSI is unused
-@W: CL159 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd":45:1:45:11|Input SyncIn2xABI is unused
+@W: CL159 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd":45:1:45:13|Input SyncInSIGxSBO is unused
 @W: CL159 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd":46:1:46:11|Input SyncInSWxEI is unused
 @W: CL159 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd":66:4:66:11|Input FXLEDxSI is unused
 @W: CL159 :"C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd":88:1:88:21|Input CDVSTestBiasBitOutxSI is unused

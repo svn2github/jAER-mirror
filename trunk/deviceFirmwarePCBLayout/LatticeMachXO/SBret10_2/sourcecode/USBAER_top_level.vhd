@@ -41,12 +41,12 @@ entity USBAER_top_level is
     ResetxRBI : in std_logic;
 
     -- ports to synchronize other USBAER boards
-    SyncIn1xABI   : in  std_logic;        -- needs synchronization
-	SyncIn2xABI   : in  std_logic;
-	SyncInSWxEI   : in  std_logic;
-    SyncOut1xSO : out std_logic;
-	SyncOut2xSBO : out std_logic;
-	SyncOutSWxEI : out std_logic;
+    SyncInCLKxABI   : in  std_logic;      -- Pin T2. Input for 10kHz clock. Used when the DVS is slave
+	SyncInSIGxSBO   : in  std_logic;	-- Pin T4. Input 2. Used when the DVS is slave
+	SyncInSWxEI   : in  std_logic;		-- Pin T3. Says to the host that a cable is attached, so the DVS is a slave.
+    SyncOutCLKxCBO : out std_logic;		-- Pin T13. Generates a 10kHz clock when the DVS is Master
+	SyncOutSIGxSBI : out std_logic;		-- Pin P12. 
+	SyncOutSWxEI : out std_logic;		-- Pin P11. Says to the Host a cable is attached, so the DVS is Master
 
     -- communication with 8051   
     PC0xSIO  : inout  std_logic;
@@ -159,11 +159,11 @@ architecture Structural of USBAER_top_level is
        ResetxRBI             : in  std_logic;
        RunxSI                : in  std_logic;
        ConfigxSI             : in  std_logic;
-       SyncIn1xABI			 : in  std_logic;      
---	   SyncIn2xABI 		  	: in  std_logic;
+       SyncInCLKxABI			 : in  std_logic;      
+--	   SyncInSIGxSBO 		  	: in  std_logic;
 --	   SyncInSWxEI  		: in  std_logic;
-	   SyncOut1xSO 		: out std_logic;
---	   SyncOut2xSBO 		: out std_logic;
+	   SyncOutCLKxCBO 		: out std_logic;
+--	   SyncOutSIGxSBI 		: out std_logic;
 --	   SyncOutSWxEI 		: out std_logic;
        TriggerxSO            : out std_logic;
        HostResetTimestampxSI : in  std_logic;
@@ -412,7 +412,7 @@ begin
   
   FX2FifoReadxEBO <= '1';
 
-  SyncIn1xAB <= SyncIn1xABI;
+  SyncIn1xAB <= SyncInCLKxABI;
   
   shiftRegister_1: shiftRegister
     generic map (
@@ -509,8 +509,8 @@ begin
       ResetxRBI             => ResetxRB,
       RunxSI                => RunxS,
       ConfigxSI             => TimestampMasterxS,
-      SyncIn1xABI            => SyncIn1xAB,
-      SyncOut1xSO           => SyncOut1xSB,
+      SyncInCLKxABI            => SyncIn1xAB,
+      SyncOutCLKxCBO           => SyncOut1xSB,
       TriggerxSO            => TriggerxS,
       HostResetTimestampxSI => HostResetTimestampxS,
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
@@ -604,7 +604,7 @@ begin
       cDVSresetxRBI => PE3xSI,
       CDVSresetxRBO => CDVSTestPeriodicChipResetxRB);
   
-  SyncOut1xSO <= SyncOut1xSB;
+  SyncOutCLKxCBO <= SyncOut1xSB;
   FX2FifoPktEndxSBO <= FX2FifoPktEndxSB;
   FX2FifoWritexEBO <= FX2FifoWritexEB;
   AERMonitorACKxSBO <= AERMonitorACKxSB;

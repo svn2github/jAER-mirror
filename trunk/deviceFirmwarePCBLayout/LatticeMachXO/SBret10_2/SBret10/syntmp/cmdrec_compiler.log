@@ -1,6 +1,6 @@
 C:\lscc\diamond\2.2_x64\synpbase\bin64\c_vhdl.exe  -osyn  C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\SBret10\synwork\SBret10_SBret10_compiler.srs  -top  USBAER_top_level  -prodtype  synplify_pro  -fixsmult -infer_seqShift -nram -divnmod -encrypt  -pro  -dmgen  C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\SBret10\dm  -lite -ll 2000   -ui -fid2 -ram -sharing on  -autosm -ignore_undefined_lib  -lib work C:\lscc\diamond\2.2_x64\cae_library\synthesis\vhdl\machxo.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\wordRegister.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\earlyPaketTimer.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\EventBeforeOverflow.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\eventCounter.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\fifoStatemachine.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\monitorStateMachine.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\timestampCounter.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCvalueReady.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\cDVSResetStateMachine.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\shiftRegister.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCStateMachine.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\AERfifo.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\clockgen.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd -lib work C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\ADCStateMachine_tb.vhd -loga  C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\SBret10\SBret10_SBret10.srr 
 rc:0 success:1
-C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\SBret10\synwork\SBret10_SBret10_compiler.srs|o|1383043104|46506
+C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\SBret10\synwork\SBret10_SBret10_compiler.srs|o|1383583905|46528
 C:\lscc\diamond\2.2_x64\cae_library\synthesis\vhdl\machxo.vhd|i|1347618294|65101
 C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\wordRegister.vhd|i|1382950373|2008
 C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\earlyPaketTimer.vhd|i|1382950372|2050
@@ -8,7 +8,7 @@ C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\EventBeforeOv
 C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\eventCounter.vhd|i|1382950373|2228
 C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\fifoStatemachine.vhd|i|1382950373|4568
 C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\monitorStateMachine.vhd|i|1382950372|9902
-C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd|i|1382972846|8346
+C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd|i|1383583665|8959
 C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\timestampCounter.vhd|i|1382950372|2383
 C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCvalueReady.vhd|i|1382950372|2602
 C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\cDVSResetStateMachine.vhd|i|1382950373|3520
@@ -16,8 +16,8 @@ C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\shiftRegister
 C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCStateMachine.vhd|i|1382950373|13408
 C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\AERfifo.vhd|i|1382950372|11059
 C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\clockgen.vhd|i|1382950373|4055
-C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd|i|1383042624|23043
+C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd|i|1383583714|23376
 C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\ADCStateMachine_tb.vhd|i|1382950381|5444
-C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\SBret10\SBret10_SBret10.srr|o|1383043104|10935
+C:\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\SBret10\SBret10_SBret10.srr|o|1383583905|11111
 C:\lscc\diamond\2.2_x64\synpbase\bin64\c_vhdl.exe|i|1362993404|5354496
 C:\lscc\diamond\2.2_x64\synpbase\bin\c_vhdl.exe|i|1362993392|1897984

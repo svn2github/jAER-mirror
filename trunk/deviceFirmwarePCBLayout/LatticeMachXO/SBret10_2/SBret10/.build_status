@@ -5,42 +5,42 @@
             <Task name="IBIS" build_result="0" update_result="3" update_time="0"/>
             <Task name="TimingSimFileVlg" build_result="0" update_result="3" update_time="0"/>
             <Task name="TimingSimFileVHD" build_result="0" update_result="3" update_time="0"/>
-            <Task name="Bitgen" build_result="2" update_result="0" update_time="1383043162"/>
+            <Task name="Bitgen" build_result="2" update_result="0" update_time="1383583978"/>
         </Milestone>
-        <Milestone name="Map" build_result="2" build_time="1383043118">
-            <Task name="Map" build_result="2" update_result="0" update_time="1383043118"/>
-            <Task name="MapEqu" build_result="2" update_result="0" update_time="1383043119"/>
-            <Task name="MapTrace" build_result="2" update_result="0" update_time="1383043120"/>
-            <Task name="MapVerilogSimFile" build_result="2" update_result="0" update_time="1383043123"/>
-            <Task name="MapVHDLSimFile" build_result="2" update_result="0" update_time="1383043127"/>
+        <Milestone name="Map" build_result="2" build_time="1383583928">
+            <Task name="Map" build_result="2" update_result="0" update_time="1383583928"/>
+            <Task name="MapEqu" build_result="2" update_result="0" update_time="1383583929"/>
+            <Task name="MapTrace" build_result="2" update_result="0" update_time="1383583931"/>
+            <Task name="MapVerilogSimFile" build_result="2" update_result="0" update_time="1383583934"/>
+            <Task name="MapVHDLSimFile" build_result="2" update_result="0" update_time="1383583938"/>
         </Milestone>
-        <Milestone name="PAR" build_result="2" build_time="1383043156">
-            <Task name="PAR" build_result="2" update_result="0" update_time="1383043156"/>
-            <Task name="PARTrace" build_result="2" update_result="0" update_time="1383043157"/>
-            <Task name="IOTiming" build_result="2" update_result="0" update_time="1383043160"/>
+        <Milestone name="PAR" build_result="2" build_time="1383583971">
+            <Task name="PAR" build_result="2" update_result="0" update_time="1383583971"/>
+            <Task name="PARTrace" build_result="2" update_result="0" update_time="1383583972"/>
+            <Task name="IOTiming" build_result="2" update_result="0" update_time="1383583975"/>
         </Milestone>
-        <Milestone name="Synthesis" build_result="2" build_time="1383043116">
-            <Task name="Synplify_Synthesis" build_result="2" update_result="0" update_time="1383043116"/>
+        <Milestone name="Synthesis" build_result="2" build_time="1383583921">
+            <Task name="Synplify_Synthesis" build_result="2" update_result="0" update_time="1383583921"/>
         </Milestone>
         <Milestone name="TOOL_Report" build_result="0" build_time="0">
-            <Task name="HDLE" build_result="2" update_result="0" update_time="1383042625"/>
+            <Task name="HDLE" build_result="2" update_result="0" update_time="1383583714"/>
         </Milestone>
-        <Milestone name="Translate" build_result="2" build_time="1383043117">
-            <Task name="Translate" build_result="2" update_result="0" update_time="1383043117"/>
+        <Milestone name="Translate" build_result="2" build_time="1383583924">
+            <Task name="Translate" build_result="2" update_result="0" update_time="1383583924"/>
         </Milestone>
-        <Report name="SBret10_SBret10.bgn" last_build_time="1383043162" last_build_size="1801"/>
-        <Report name="SBret10_SBret10.edi" last_build_time="1383043112" last_build_size="810987"/>
-        <Report name="SBret10_SBret10.ior" last_build_time="1383043160" last_build_size="6356"/>
-        <Report name="SBret10_SBret10.jed" last_build_time="1383043162" last_build_size="504189"/>
-        <Report name="SBret10_SBret10.n2e" last_build_time="1383043119" last_build_size="190092"/>
-        <Report name="SBret10_SBret10.ncd" last_build_time="1383043156" last_build_size="687142"/>
-        <Report name="SBret10_SBret10.ngd" last_build_time="1383043117" last_build_size="719002"/>
-        <Report name="SBret10_SBret10.tw1" last_build_time="1383043120" last_build_size="42480"/>
-        <Report name="SBret10_SBret10.twr" last_build_time="1383043157" last_build_size="233833"/>
-        <Report name="SBret10_SBret10_map.ncd" last_build_time="1383043118" last_build_size="485473"/>
-        <Report name="SBret10_SBret10_mapvho.sdf" last_build_time="1383043127" last_build_size="633294"/>
-        <Report name="SBret10_SBret10_mapvho.vho" last_build_time="1383043127" last_build_size="4219082"/>
-        <Report name="SBret10_SBret10_mapvo.sdf" last_build_time="1383043123" last_build_size="633722"/>
-        <Report name="SBret10_SBret10_mapvo.vo" last_build_time="1383043123" last_build_size="796645"/>
+        <Report name="SBret10_SBret10.bgn" last_build_time="1383583978" last_build_size="1801"/>
+        <Report name="SBret10_SBret10.edi" last_build_time="1383583917" last_build_size="808205"/>
+        <Report name="SBret10_SBret10.ior" last_build_time="1383583975" last_build_size="6356"/>
+        <Report name="SBret10_SBret10.jed" last_build_time="1383583978" last_build_size="504199"/>
+        <Report name="SBret10_SBret10.n2e" last_build_time="1383583929" last_build_size="183062"/>
+        <Report name="SBret10_SBret10.ncd" last_build_time="1383583971" last_build_size="678805"/>
+        <Report name="SBret10_SBret10.ngd" last_build_time="1383583924" last_build_size="716184"/>
+        <Report name="SBret10_SBret10.tw1" last_build_time="1383583930" last_build_size="42410"/>
+        <Report name="SBret10_SBret10.twr" last_build_time="1383583972" last_build_size="228715"/>
+        <Report name="SBret10_SBret10_map.ncd" last_build_time="1383583927" last_build_size="479706"/>
+        <Report name="SBret10_SBret10_mapvho.sdf" last_build_time="1383583938" last_build_size="627022"/>
+        <Report name="SBret10_SBret10_mapvho.vho" last_build_time="1383583937" last_build_size="4180017"/>
+        <Report name="SBret10_SBret10_mapvo.sdf" last_build_time="1383583934" last_build_size="627510"/>
+        <Report name="SBret10_SBret10_mapvo.vo" last_build_time="1383583934" last_build_size="786945"/>
     </Strategy>
 </BuildStatus>

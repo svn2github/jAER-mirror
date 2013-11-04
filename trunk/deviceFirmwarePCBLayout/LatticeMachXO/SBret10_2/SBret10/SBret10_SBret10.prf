@@ -1,5 +1,5 @@
 SCHEMATIC START ;
-# map:  version Diamond (64-bit) 2.2.0.101 -- WARNING: Map write only section -- Tue Oct 29 11:38:38 2013
+# map:  version Diamond (64-bit) 2.2.0.101 -- WARNING: Map write only section -- Mon Nov 04 17:52:07 2013
 
 SYSCONFIG INBUF=ON CONFIG_SECURE=OFF ;
 LOCATE COMP "DebugxSIO[1]" SITE "T12" ;
@@ -68,7 +68,6 @@ LOCATE COMP "PC3xSIO" SITE "J1" ;
 LOCATE COMP "PC2xSIO" SITE "J2" ;
 LOCATE COMP "PC1xSIO" SITE "K1" ;
 LOCATE COMP "PC0xSIO" SITE "K2" ;
-LOCATE COMP "SyncIn1xABI" SITE "T2" ;
 LOCATE COMP "ResetxRBI" SITE "G2" ;
 LOCATE COMP "IfClockxCI" SITE "A9" ;
 LOCATE COMP "FX2FifoAddressxDO[1]" SITE "E2" ;

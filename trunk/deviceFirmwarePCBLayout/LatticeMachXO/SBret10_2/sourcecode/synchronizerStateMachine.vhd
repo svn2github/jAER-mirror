@@ -28,19 +28,29 @@ entity synchronizerStateMachine is
 --------------------------------------------------
     -- input ports to synchronize other USBAER boards (slave mode)
     --SyncInSWxABI   : in  std_logic;     --pin A3  needs synchronization
-    --SyncIN1xABI : in std_logic;		--pin A2
-	--SyncIN2xABI : in std_logic;		--pin A4
+    --SyncInCLKxABI : in std_logic;		--pin A2
+	--SyncInSIGxSBO : in std_logic;		--pin A4
 	
 	-- output ports to synchronize other USBAER boards (master mode)
     --SyncOutSWxABI   : in  std_logic;    --pin A14 needs synchronization
-    --SyncOut1xSOSBO : out std_logic;		--pin A13
-	--SyncOut2xSO : out std_logic;		--pin A15
+    --SyncOutCLKxCBO : out std_logic;		--pin A13
+	--SyncOutSIGxSBIxSO : out std_logic;		--pin A15
 	------------------------------------------------------
-	   SyncIn1xABI			 : in  std_logic;      -- sychronizer input from other boards
---	   SyncIn2xABI 		  	: in  std_logic;
+	
+	
+	--for the synchronizing input:
+	--SyncIn1 => SyncInCLKxCBI	--pin A2
+	--SyncInSIGxSBO => SyncInSIGxSBO	--pin A4
+
+	--for the synchronizing output:
+	--SyncOut1 => SyncOutCLKxCBO	--pin A13
+	--SyncOut2 => SyncOutSIGxSBI	--pin A4
+----------------------------------------------------------	
+	   SyncInCLKxABI		: in  std_logic;    -- sychronizer input from other boards//
+--	   SyncInSIGxSBO 		  	: in  std_logic;
 --	   SyncInSWxEI  		: in  std_logic;
-	   SyncOut1xSO 		: out std_logic; -- sync output to other boards
---	   SyncOut2xSO 		: out std_logic;
+	   SyncOutCLKxCBO 		: out std_logic; 	-- sync output to other boards
+--	   SyncOutSIGxSBI 			: out std_logic;
 --	   SyncOutSWxEI 		: out std_logic;
     TriggerxSO: out std_logic; -- debugging output
     
@@ -62,7 +72,7 @@ architecture Behavioral of synchronizerStateMachine is
   signal StatexDP, StatexDN : state;
 
   -- signals used for synchronizer
-  signal SyncIn1xSB, SyncIn1xSBN : std_logic;
+  signal SyncInCLKxCB, SyncInCLKxCBN : std_logic;
 
   -- used to produce different timestamp ticks and to remain in a certain state
   -- for a certain amount of time
@@ -72,12 +82,12 @@ architecture Behavioral of synchronizerStateMachine is
 begin  -- Behavioral
 
   -- calculate next state
-  p_memless : process (StatexDP, RunxSI, ConfigxSI, DividerxDP, CounterxDP, HostResetTimestampxSI, SyncIn1xSB, SyncIn1xABI)
+  p_memless : process (StatexDP, RunxSI, ConfigxSI, DividerxDP, CounterxDP, HostResetTimestampxSI, SyncInCLKxCB, SyncInCLKxABI)
     constant counterInc : integer := 89;  --47
     constant squareWaveHighTime : integer := 50;
     constant squareWavePeriod : integer := 100;
     constant timeout : integer := 1000;
-    constant resetSlavesTime : integer := 6000;
+    constant resetSlavesTime : integer := 18000;
   
   begin  -- process p_memless
     -- default assignements
@@ -90,7 +100,7 @@ begin  -- Behavioral
     TriggerxSO <= '0';
  
 
-    SyncOut1xSO <= '1';
+    SyncOutCLKxCBO <= '1';
       
     case StatexDP is
       when stIdle               =>  -- waiting for either sync in to go
@@ -99,9 +109,9 @@ begin  -- Behavioral
         DividerxDN         <= (others => '0');
         CounterxDN <= (others => '0');
  
-        SyncOut1xSO <= SyncIn1xABI;
+        SyncOutCLKxCBO <= SyncInCLKxABI;
         
-        if ConfigxSI = '0' and SyncIn1xSB ='0' then
+        if ConfigxSI = '0' and SyncInCLKxCB ='0' then
           StatexDN         <= stRunSlave;
           ResetTimestampxSBO <= '0';
       
@@ -112,14 +122,14 @@ begin  -- Behavioral
      when stResetSlaves              =>  -- reset  slaves by generating 200us clock on output, which slaves should detect
         DividerxDN         <= (others => '0');
 
-        if CounterxDP > resetSlavesTime then         -- stay 6000 (200us) cycles in this state
+        if CounterxDP > resetSlavesTime then         -- stay 18000 (200us) cycles in this state
           CounterxDN <= (others => '0');
           ResetTimestampxSBO <= '0';
           StatexDN <= stTriggerInHigh;
         end if;
     
         CounterxDN <= CounterxDP+1;
-        SyncOut1xSO   <= '1';
+        SyncOutCLKxCBO   <= '1';
         
       when stTriggerInHigh      =>      
         DividerxDN   <= DividerxDP +1;
@@ -134,15 +144,15 @@ begin  -- Behavioral
           end if;
         end if;
 
-        if SyncIn1xSB = '0' then
+        if SyncInCLKxCB = '0' then
             StatexDN <= stTriggerInLow;
             TriggerxSO <= '1';
         end if;
 
         if CounterxDP < squareWaveHighTime then
-          SyncOut1xSO <= '0';
+          SyncOutCLKxCBO <= '0';
         else
-          SyncOut1xSO <= '1';
+          SyncOutCLKxCBO <= '1';
         end if;
 
         if RunxSI = '0' or ConfigxSI='0'  then
@@ -166,14 +176,14 @@ begin  -- Behavioral
           end if;
         end if;
 
-        if SyncIn1xSB = '1' then
+        if SyncInCLKxCB = '1' then
             StatexDN <= stTriggerInHigh;
         end if;
         
         if CounterxDP < squareWaveHighTime then
-          SyncOut1xSO <= '0';
+          SyncOutCLKxCBO <= '0';
         else
-          SyncOut1xSO <= '1';
+          SyncOutCLKxCBO <= '1';
         end if;
             
         if RunxSI = '0' or ConfigxSI='0'  then
@@ -186,8 +196,8 @@ begin  -- Behavioral
         
       when stRunSlave =>
 
-        --SyncOut1xSO <= '0';
-        SyncOut1xSO <= SyncIn1xSB;
+        --SyncOutCLKxCBO <= '0';
+        SyncOutCLKxCBO <= SyncInCLKxCB;
         
         DividerxDN   <= DividerxDP +1;
 
@@ -209,12 +219,12 @@ begin  -- Behavioral
 
       when stSlaveWaitEdge =>
 
-        --SyncOut1xSO <= '1';
-        SyncOut1xSO <= SyncIn1xSB;
+        --SyncOutCLKxCBO <= '1';
+        SyncOutCLKxCBO <= SyncInCLKxCB;
         
         DividerxDN          <= (others => '0');
         CounterxDN <= CounterxDP + 1;
-        if SyncIn1xSB = '0' then
+        if SyncInCLKxCB = '0' then
           IncrementCounterxSO <= '1';
           StatexDN <= stRunSlave;
           CounterxDN <= (others => '0');
@@ -253,8 +263,8 @@ begin  -- Behavioral
   synchronizer : process (ClockxCI)
   begin
     if ClockxCI'event  and ClockxCI = '1' then   
-      SyncIn1xSB  <= SyncIn1xSBN;
-      SyncIn1xSBN <= SyncIn1xABI;
+      SyncInCLKxCB  <= SyncInCLKxCBN;
+      SyncInCLKxCBN <= SyncInCLKxABI;
     end if;
   end process synchronizer;
 
