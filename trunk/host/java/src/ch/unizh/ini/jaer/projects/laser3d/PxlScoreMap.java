@@ -188,10 +188,10 @@ public class PxlScoreMap {
             final float newValAtCursor = (oldValAtCursor * updateFactor1); // decay cursor pixel
             final float cursorDiff = newValAtCursor - oldValAtCursor;
             pxlScore[xCursor][yCursor]=newValAtCursor;
-            
             //update col statistics for cursor position
             colSums[xCursor] += cursorDiff;
             weightedColSums[xCursor] += yCursor * cursorDiff;
+//            peakVals[xCursor]*=(1-updateFactor/mapSizeY);  // decay the peak values as well, or peak will be peak for all time. reduce the decay to match number of pixels in column to map decay rate
 //            if(newValAtCursor>peakVals[xCursor]){ // TODO doesn't work, just peak detector for all time
 //                peakVals[xCursor]=newScore;
 //                peakYs[xCursor]=yCursor;

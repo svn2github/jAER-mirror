@@ -213,7 +213,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
     }
 
     @Override
-    public void resetFilter() {
+    synchronized public void resetFilter() { // synchronized because it can happen from GUI or processing thread
         /*
          * only reset when filter is initialized to avoid nullpointer exceptions
          */
@@ -835,6 +835,8 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
             if (isRollingAverageScoreMapUpdate()) { // statistics are computed during each events update, we don't need to iterate over entire image here
                 float[] colSums = pxlScoreMap.getColSums();
                 float[] weightedColSums = pxlScoreMap.getWeightedColSums();
+                float[] peakVals = pxlScoreMap.getPeakVals();
+                int[] peakYs=pxlScoreMap.getPeakYs();
                 final float thr=pxlScoreThreshold;
                 for (int x = 0; x < mapSizeX; x++) {
                     if (colSums[x]>thr && weightedColSums[x] > 0) {
@@ -842,7 +844,11 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
                     }else{
                         ys[x]=Float.NaN;
                     }
-//                    ys[x]=new Float(pxlScoreMap.getPeakYs()[x]); // TODO doesn't work, peak detector is never reset
+//                    if (peakVals[x] > thr) {
+//                        ys[x] = new Float(peakYs[x]); // TODO doesn't work, peak detector is never reset
+//                    } else {
+//                        ys[x] = Float.NaN;
+//                    }
                 }
             } else {
                 for (int x = 0; x < mapSizeX; x++) {
