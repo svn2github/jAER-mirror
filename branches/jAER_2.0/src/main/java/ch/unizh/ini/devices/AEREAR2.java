@@ -19,6 +19,7 @@ import net.sf.jaer2.devices.config.pots.VPot;
 import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.CochleaAMS1c;
 import ch.unizh.ini.devices.components.misc.AD5391_32chan;
+import ch.unizh.ini.eventio.translator.INIv1;
 
 public class AEREAR2 extends USBDevice {
 	private static final long serialVersionUID = 4796720824881098486L;
@@ -27,7 +28,7 @@ public class AEREAR2 extends USBDevice {
 	public static final short PID = (short) 0x8406;
 
 	public AEREAR2(final Device usbDevice) {
-		super("AER EAR 2", "USB cochlea using the CochleaAMS1c chip.", USBDevice.VID, AEREAR2.PID, USBDevice.DID,
+		super("AER EAR 2", "Cochlea using the CochleaAMS1c chip, USB 2.0.", USBDevice.VID, AEREAR2.PID, USBDevice.DID,
 			usbDevice);
 
 		final FX2 fx2 = new FX2();
@@ -122,6 +123,6 @@ public class AEREAR2 extends USBDevice {
 
 	@Override
 	public Class<? extends Translator> getPreferredTranslator() {
-		return CochleaAMS1c.class;
+		return INIv1.class;
 	}
 }

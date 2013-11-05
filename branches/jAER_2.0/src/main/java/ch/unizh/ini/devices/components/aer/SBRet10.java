@@ -1,5 +1,7 @@
 package ch.unizh.ini.devices.components.aer;
 
+import java.nio.ByteBuffer;
+
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ShiftRegisterContainer;
@@ -8,17 +10,16 @@ import net.sf.jaer2.devices.config.pots.AddressedIPotCoarseFine;
 import net.sf.jaer2.devices.config.pots.Masterbias;
 import net.sf.jaer2.devices.config.pots.Pot;
 import net.sf.jaer2.devices.config.pots.ShiftedSourceBiasCoarseFine;
-import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
 import net.sf.jaer2.eventio.eventpackets.raw.RawEventPacket;
 import net.sf.jaer2.eventio.events.Event;
+import net.sf.jaer2.eventio.events.FrameEvent;
 import net.sf.jaer2.eventio.events.PolarityEvent;
-import net.sf.jaer2.eventio.events.SampleEvent;
 import net.sf.jaer2.eventio.events.SpecialEvent;
-import net.sf.jaer2.eventio.translators.Translator;
+import net.sf.jaer2.eventio.translators.DeviceTranslator;
 
 import com.google.common.collect.ImmutableList;
 
-public class SBRet10 extends AERChip implements Translator {
+public class SBRet10 extends AERChip {
 	private static final long serialVersionUID = -4741673273319613810L;
 
 	public SBRet10() {
@@ -243,20 +244,15 @@ public class SBRet10 extends AERChip implements Translator {
 		return 3;
 	}
 
-	@Override
-	public ImmutableList<Class<? extends Event>> getEventTypes() {
-		return ImmutableList.<Class<? extends Event>> of(PolarityEvent.class, SampleEvent.class, SpecialEvent.class);
-	}
+	public static final class Translator implements DeviceTranslator {
+		@Override
+		public ImmutableList<Class<? extends Event>> getEventTypes() {
+			return ImmutableList.<Class<? extends Event>> of(PolarityEvent.class, FrameEvent.class, SpecialEvent.class);
+		}
 
-	@Override
-	public void extractEventPacketContainer(final RawEventPacket rawEventPacket,
-		final EventPacketContainer eventPacketContainer) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void reconstructRawEventPacket(final EventPacketContainer eventPacketContainer,
-		final RawEventPacket rawEventPacket) {
-		// TODO Auto-generated method stub
+		@Override
+		public void extractRawEventPacket(ByteBuffer buffer, RawEventPacket rawEventPacket) {
+			// TODO Auto-generated method stub
+		}
 	}
 }

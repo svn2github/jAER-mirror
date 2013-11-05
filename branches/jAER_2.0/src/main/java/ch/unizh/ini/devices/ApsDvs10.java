@@ -13,6 +13,7 @@ import net.sf.jaer2.devices.config.ConfigInt;
 import net.sf.jaer2.devices.config.ShiftRegisterContainer;
 import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.SBRet10;
+import ch.unizh.ini.eventio.translator.INIv1;
 
 public class ApsDvs10 extends USBDevice {
 	private static final long serialVersionUID = 8096780263631611483L;
@@ -25,7 +26,7 @@ public class ApsDvs10 extends USBDevice {
 	}
 
 	protected ApsDvs10(final Device usbDevice, final short deviceDID) {
-		super("ApsDVS 10", "USB vision sensor with active and dynamic pixels, using the SBRet10 chip.", USBDevice.VID,
+		super("ApsDVS 10", "DAVIS vision sensor with active and dynamic pixels, USB 2.0.", USBDevice.VID,
 			ApsDvs10.PID, deviceDID, usbDevice);
 
 		final FX2 fx2 = new FX2();
@@ -72,6 +73,6 @@ public class ApsDvs10 extends USBDevice {
 
 	@Override
 	public Class<? extends Translator> getPreferredTranslator() {
-		return SBRet10.class;
+		return INIv1.class;
 	}
 }

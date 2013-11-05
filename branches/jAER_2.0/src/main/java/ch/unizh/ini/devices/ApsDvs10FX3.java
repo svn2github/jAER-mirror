@@ -15,6 +15,7 @@ import net.sf.jaer2.devices.config.ConfigInt;
 import net.sf.jaer2.devices.config.ShiftRegisterContainer;
 import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.SBRet10;
+import ch.unizh.ini.eventio.translator.INIv1;
 
 public class ApsDvs10FX3 extends USBDevice {
 	private static final long serialVersionUID = -1073347395314847493L;
@@ -23,7 +24,7 @@ public class ApsDvs10FX3 extends USBDevice {
 	public static final short PID = (short) 0x841A;
 
 	public ApsDvs10FX3(final Device usbDevice) {
-		super("ApsDVS 10 FX3", "USB 3.0 vision sensor with active and dynamic pixels, using the SBRet10 chip.",
+		super("ApsDVS 10 FX3", "DAVIS vision sensor with active and dynamic pixels, 6-axis IMU, USB 3.0.",
 			USBDevice.VID, ApsDvs10FX3.PID, USBDevice.DID, usbDevice);
 
 		final FX3 fx3 = new FX3();
@@ -78,7 +79,6 @@ public class ApsDvs10FX3 extends USBDevice {
 
 	@Override
 	public Class<? extends Translator> getPreferredTranslator() {
-		// TODO: need translator with IMU here.
-		return SBRet10.class;
+		return INIv1.class;
 	}
 }

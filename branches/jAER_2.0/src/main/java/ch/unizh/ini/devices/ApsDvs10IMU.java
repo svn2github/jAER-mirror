@@ -5,7 +5,7 @@ import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.components.controllers.FX2;
 import net.sf.jaer2.devices.components.misc.InvenSense6050;
 import net.sf.jaer2.eventio.translators.Translator;
-import ch.unizh.ini.devices.components.aer.SBRet10;
+import ch.unizh.ini.eventio.translator.INIv1;
 
 public class ApsDvs10IMU extends ApsDvs10 {
 	private static final long serialVersionUID = 3287324623698834991L;
@@ -24,7 +24,6 @@ public class ApsDvs10IMU extends ApsDvs10 {
 
 	@Override
 	public Class<? extends Translator> getPreferredTranslator() {
-		// TODO: need translator with IMU here.
-		return SBRet10.class;
+		return INIv1.class;
 	}
 }
