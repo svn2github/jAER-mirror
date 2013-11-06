@@ -11,20 +11,52 @@ public class EarEvent extends Event {
 	}
 
 	private Ear ear;
-	private byte ganglion;
 	private byte filter;
+	private short ganglion;
 	private short channel;
 
 	public EarEvent(final int ts) {
 		super(ts);
 	}
 
+	public Ear getEar() {
+		return ear;
+	}
+
+	public void setEar(final Ear ear) {
+		this.ear = ear;
+	}
+
+	public byte getFilter() {
+		return filter;
+	}
+
+	public void setFilter(final byte filter) {
+		this.filter = filter;
+	}
+
+	public short getGanglion() {
+		return ganglion;
+	}
+
+	public void setGanglion(final short ganglion) {
+		this.ganglion = ganglion;
+	}
+
+	public short getChannel() {
+		return channel;
+	}
+
+	public void setChannel(final short channel) {
+		this.channel = channel;
+	}
+
 	protected final void deepCopyInternal(final EarEvent evt) {
 		super.deepCopyInternal(evt);
 
 		evt.ear = ear;
-		evt.ganglion = ganglion;
 		evt.filter = filter;
+		evt.ganglion = ganglion;
 		evt.channel = channel;
 	}
 

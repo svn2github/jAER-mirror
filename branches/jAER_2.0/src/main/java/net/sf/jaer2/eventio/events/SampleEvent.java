@@ -3,18 +3,18 @@ package net.sf.jaer2.eventio.events;
 public class SampleEvent extends Event {
 	private static final long serialVersionUID = 1922113968889799454L;
 
-	private short type;
+	private byte type;
 	private int sample;
 
 	public SampleEvent(final int ts) {
 		super(ts);
 	}
 
-	public short getType() {
+	public byte getType() {
 		return type;
 	}
 
-	public void setType(final short type) {
+	public void setType(final byte type) {
 		this.type = type;
 	}
 
