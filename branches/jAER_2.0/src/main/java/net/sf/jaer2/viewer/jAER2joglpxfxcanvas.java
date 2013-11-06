@@ -93,7 +93,7 @@ public class jAER2joglpxfxcanvas extends Application implements GLEventListener 
 		System.out.println("Expected  GL Caps: " + expCaps);
 
 		final GLOffscreenAutoDrawable glDrawBuffer = factory.createOffscreenAutoDrawable(null, caps, null,
-			jAER2joglpxfxcanvas.XLEN, jAER2joglpxfxcanvas.YLEN, null);
+			jAER2joglpxfxcanvas.XLEN, jAER2joglpxfxcanvas.YLEN);
 		glDrawBuffer.setAutoSwapBufferMode(true);
 
 		glDrawBuffer.display();

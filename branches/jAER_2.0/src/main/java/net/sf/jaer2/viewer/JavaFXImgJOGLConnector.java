@@ -57,7 +57,7 @@ public final class JavaFXImgJOGLConnector extends ImageView {
 
 		final GLDrawableFactory factory = GLDrawableFactory.getFactory(caps.getGLProfile());
 
-		glOffscreenDrawable = factory.createOffscreenAutoDrawable(null, caps, null, width, height, null);
+		glOffscreenDrawable = factory.createOffscreenAutoDrawable(null, caps, null, width, height);
 		glOffscreenDrawable.setAutoSwapBufferMode(true);
 
 		glOffscreenDrawable.display();
