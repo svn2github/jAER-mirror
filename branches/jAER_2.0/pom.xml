@@ -37,17 +37,6 @@
 			<name>JavaCV Repo</name>
 			<url>http://maven2.javacv.googlecode.com/git/</url>
 		</repository>
-		<repository>
-			<id>snapshots-repo</id>
-			<name>Sonatype Snapshots Repo</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
 	</repositories>
 
 	<dependencies>
@@ -81,17 +70,17 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>14.0.1</version>
+			<version>15.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.javacv</groupId>
 			<artifactId>javacv</artifactId>
-			<version>0.5</version>
+			<version>0.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.controlsfx</groupId>
 			<artifactId>controlsfx</artifactId>
-			<version>8.0.2-SNAPSHOT</version>
+			<version>8.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>li.longi</groupId>
@@ -106,7 +95,7 @@
 		<dependency>
 			<groupId>de.ruedigermoeller</groupId>
 			<artifactId>fst</artifactId>
-			<version>1.22</version>
+			<version>1.28</version>
 		</dependency>
 		<dependency>
 			<!-- Needed by FST. -->
@@ -117,12 +106,12 @@
 		<dependency>
 			<groupId>org.jogamp.gluegen</groupId>
 			<artifactId>gluegen-rt-main</artifactId>
-			<version>2.0.2</version>
+			<version>2.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jogamp.jogl</groupId>
 			<artifactId>jogl-all-main</artifactId>
-			<version>2.0.2</version>
+			<version>2.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.reflections</groupId>
@@ -132,7 +121,7 @@
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
-			<version>1.4.4</version>
+			<version>1.4.5</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.jcr</groupId>

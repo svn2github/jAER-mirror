@@ -18,7 +18,7 @@ public class INIv1 implements Translator {
 	/**
 	 * The first 4 bits of the address are reserved for encoding the type of
 	 * event, so as to be able to reliably distinguish between them and
-	 * reconstruct/interpret envents as needed.
+	 * reconstruct/interpret events as needed.
 	 */
 	// private static final int CODE_MASK = 0xF0000000;
 	// private static final int CODE_BITS = Integer.bitCount(CODE_MASK);
