@@ -58,7 +58,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      */
     protected int pxlScoreHistorySize = getInt("pxlScoreHistorySize", 20);
     /**
-     * binsize for histogram (in us)
+     * bin size for histogram (in us)
      */
     protected int binSize = getInt("binSize", 20);
     /**
@@ -88,14 +88,15 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
      */
     protected boolean writeLaserlineToFile = getBoolean("writeLaserlineToFile", false);
     /**
-     * ALPHA status: give more weigth to most recent histogram
+     * ALPHA status: give more weight to most recent histogram
      */
     protected boolean useReinforcement = getBoolean("useReinforcement", false);
     private boolean returnInputPacket = getBoolean("returnInputPacket", false);
     private int laserLineMedianFilterLength = getInt("laserLineMedianFilterLength", 1);
     private boolean laserLineLinearlyInterpolateAcrossNaN = getBoolean("laserLineLinearlyInterpolateAcrossNaN", false);
     private boolean freezeScoreFunction = false; // don't store because score function is not saved to preferences yet
-
+        private boolean rollingAverageScoreMapUpdate= getBoolean("rollingAverageScoreMapUpdate", false);; // true to update average score map during each event, using a rolling cursor
+ 
     private final TextRenderer textRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
     private final float textScale = .2f;
 
@@ -119,7 +120,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
         setPropertyTooltip(sc, "allowNegativeScores", "Allow negativ scores?");
         setPropertyTooltip(sc, "pxlScoreThreshold", "Minimum score of pixel to be on laserline");
         setPropertyTooltip(sc, "useReinforcement", "Use binweights of last period for new binweights");
-        setPropertyTooltip(sc, "rollingAverageScoreMapUpdate", "Update the average score map using a rolling cursor that updates a single average map pixel for each input event");
+        setPropertyTooltip(sc, "rollingAverageScoreMapUpdate", "Update the average score map and laser line on each event and laser pulse using the event and a rolling cursor that updates a single average map pixel for each input event");
         setPropertyTooltip(sc, "firFilterEnabled", "Use slower FIR average for score map rather than faster IIR filter");
         setPropertyTooltip(deb, "showScoreMap", "Display score of each pixel");
         setPropertyTooltip(lg, "writeLaserlineToFile", "Write laserline to file");
@@ -785,14 +786,22 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
         this.freezeScoreFunction = freezeScoreFunction;
     }
 
-    public boolean isRollingAverageScoreMapUpdate() {
-        return pxlScoreMap == null ? false : pxlScoreMap.isRollingAverageScoreMapUpdate();
-    }
+       /**
+         * @return the rollingAverageScoreMapUpdate
+         */
+        public boolean isRollingAverageScoreMapUpdate() {
+            return rollingAverageScoreMapUpdate;
+        }
 
-    public void setRollingAverageScoreMapUpdate(boolean rollingAverageScoreMapUpdate) {
-        pxlScoreMap.setRollingAverageScoreMapUpdate(rollingAverageScoreMapUpdate);
-    }
-
+        /**
+         * @param rollingAverageScoreMapUpdate the rollingAverageScoreMapUpdate
+         * to set
+         */
+        public void setRollingAverageScoreMapUpdate(boolean rollingAverageScoreMapUpdate) {
+            this.rollingAverageScoreMapUpdate = rollingAverageScoreMapUpdate;
+            putBoolean("rollingAverageScoreMapUpdate", rollingAverageScoreMapUpdate);
+        }
+        
     /**
      * PxlScoreMap holds a score for each pixel for how likely it is a laser
      * line pixel.
@@ -812,7 +821,6 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
         private FilterLaserline filter;
         private int historySize;
         private boolean firFilterEnabled = false; // true to use old (inefficient) FIR box filter, false to use IIR lowpass score map
-        private boolean rollingAverageScoreMapUpdate; // true to update average score map during each event, using a rolling cursor
         private int xCursor = 0, yCursor = 0;
         float updateFactor, updateFactor1;  // update constant
         LaserLine laserLineNew = new LaserLine();
@@ -828,7 +836,6 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
             this.filter = filter;
             this.mapSizeX = sx;
             this.mapSizeY = sy;
-            rollingAverageScoreMapUpdate = filter.getBoolean("rollingAverageScoreMapUpdate", false);
             this.historySize = filter.getPxlScoreHistorySize();
             updateFactor = 1f / historySize;
             updateFactor1 = 1 - updateFactor;  // update constant
@@ -1056,8 +1063,9 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
          * @param laserline
          * 
          * @return laserline
+        @deprecated - replaced by LaserLine object
          */
-        ArrayList updateLaserline(ArrayList laserline) {
+        ArrayList updateLaserline(ArrayList laserline) {  // TODO this should be replaced in code everywhere
             laserline.clear();
             float threshold = findThreshold();
             for (int x = 0; x < mapSizeX; x++) {
@@ -1140,21 +1148,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
             return pxlScore;
         }
 
-        /**
-         * @return the rollingAverageScoreMapUpdate
-         */
-        public boolean isRollingAverageScoreMapUpdate() {
-            return rollingAverageScoreMapUpdate;
-        }
-
-        /**
-         * @param rollingAverageScoreMapUpdate the rollingAverageScoreMapUpdate
-         * to set
-         */
-        public void setRollingAverageScoreMapUpdate(boolean rollingAverageScoreMapUpdate) {
-            this.rollingAverageScoreMapUpdate = rollingAverageScoreMapUpdate;
-            filter.putBoolean("rollingAverageScoreMapUpdate", rollingAverageScoreMapUpdate);
-        }
+ 
 
         /**
          * @return the colSums
@@ -1226,21 +1220,10 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater {
             }
 
             private void update() { // TODO awkward, LaserLine should be part of PxlScoreMap or both should be inner classes of FilterLaserline
-                if (pxlScoreMap == null) {
-                    return;
-                }
                 reset();
-                float[][] pxlScore = pxlScoreMap.getPxlScore();
-                int mapSizeX = pxlScoreMap.getMapSizeX();
-                int mapSizeY = pxlScoreMap.getMapSizeY();
                 if (isRollingAverageScoreMapUpdate()) { // statistics are computed during each events update, we don't need to iterate over entire image here
-                    float[] colSums = pxlScoreMap.getColSums();
-                    float[] weightedColSums = pxlScoreMap.getWeightedColSums();
-                    float[] peakVals = pxlScoreMap.getPeakVals();
-                    int[] peakYs = pxlScoreMap.getPeakYs();
-                    final float thr = pxlScoreThreshold;
                     for (int x = 0; x < mapSizeX; x++) {
-                        if (colSums[x] > thr && weightedColSums[x] > 0) {
+                        if (colSums[x] > pxlScoreThreshold && weightedColSums[x] > 0) {
                             ys[x] = weightedColSums[x] / colSums[x];
                         } else {
                             ys[x] = Float.NaN;
