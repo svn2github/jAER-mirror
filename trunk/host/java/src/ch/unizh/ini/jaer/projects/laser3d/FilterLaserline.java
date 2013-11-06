@@ -53,7 +53,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
     private float[][] curBinWeights;
     private LaserlineLogfile laserlineLogfile;
 
-    private boolean showScoreFunctionHistograms = false;
+    private boolean showScoreFunctionHistograms = getBoolean("showScoreFunctionHistograms", false);
     private PlotEvtHistogram histogramPlot = null;
 
     /**
@@ -108,7 +108,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
     ; // true to update average score map during each event, using a rolling cursor
  
     private final TextRenderer textRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
-    private final float textScale = .2f;
+    private final float textScale = .15f;
 
     /**
      * Creates mapSizeXew imapSizeXstamapSizeXce of FilterLaserlimapSizeXe
@@ -139,7 +139,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
         setPropertyTooltip(line, "laserLineMedianFilterLength", "<html>Median filter the laser line to remove outliers. <br>Actual median filter length is laserLineMedianFilterLength*2+1; <br>e.g. use 1 for a median filter of length 3. <br>Use 0 for no filtering. <br>NaN values anywhere in filter length are propogated out.");
         setPropertyTooltip(line, "laserLineLinearlyInterpolateAcrossNaN", "<html>Linearly interpolate laser line pixels across NaN values of score map.");
         setPropertyTooltip(deb, "freezeScoreFunction", "Freeze the score function to see effect on performance.");
-        setPropertyTooltip("showScoreFunctionHistograms", "Show  score function histograms.");
+        setPropertyTooltip(deb, "showScoreFunctionHistograms", "Show  score function histograms.");
 
         chip.addObserver(this);
     }
@@ -151,9 +151,6 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
         OutputEventIterator outItr = getOutputPacket().outputIterator();
         // iterate over each event in packet
         for (Object e : in) {
-            if (showScoreFunctionHistograms) {
-                histogramPlot.filterPacket(in);
-            }
             // check if filter is initialized yet
             if (!isInitialized) {
                 BasicEvent ev = (BasicEvent) e;
@@ -176,32 +173,28 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
                     /*
                      * Update pxlScoreMap, histograms, curBinWeights, laserline
                      */
-                    pxlScoreMap.updatePxlScoreAverageMap();
+                    pxlScoreMap.updatePxlScoreAverageMap(); // only does something with frame-based update
                     pxlScoreMap.updateLaserline(); // when we detect pulse, compute the laser line from the accumulated data during last pulse
-                    // write laserline to out
 
-                    if (!returnInputPacket) {
-                        writeLaserlineToOutItr(outItr); // TODO still uses old laser line object
+                    if (!returnInputPacket) {// write laserline to out
+                        pxlScoreMap.laserLine.writeLaserlineToOutItr(outItr); // TODO still uses old laser line object
                     }
 
-                    if (writeLaserlineToFile) {
-                        // write laserline to file
+                    if (writeLaserlineToFile) {// write laserline to file
                         if (laserlineLogfile != null) {
-                            laserlineLogfile.write(oldLaserLine, lastTriggerTimestamp);
+                            laserlineLogfile.write(oldLaserLine, lastTriggerTimestamp); // TODO must fix LaserlineLogfile
                         }
                     }
 
                     if (!freezeScoreFunction) {
                         onHist.updateBins();
                         offHist.updateBins();
-
                         updateBinWeights();
                     }
 
-                    // save timestamp as most recent TriggerTimestamp
-                    lastTriggerTimestamp = ev.timestamp;
+                    lastTriggerTimestamp = ev.timestamp; // save timestamp as most recent TriggerTimestamp
 
-                    pxlScoreMap.resetMap(); // for next pulse accumulation
+                    pxlScoreMap.resetScoreMap(); // for next pulse accumulation
 
                 } else {
                     // if not a special event
@@ -241,7 +234,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
          * only init when filter is initialized to avoid nullpointer exceptions
          */
         if (isInitialized) {
-            pxlScoreMap.resetMap();
+            pxlScoreMap.resetScoreMap();
             oldLaserLine.clear();
             oldLaserLine.ensureCapacity(chip.getSizeX());
             if (!freezeScoreFunction) {
@@ -254,7 +247,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
         } else {
             // check if arrays are allocated
             if (pxlScoreMap != null) {
-                pxlScoreMap.resetMap();
+                pxlScoreMap.resetScoreMap();
                 log.info("Pixelscore map resetted");
             }
             if (oldLaserLine != null) {
@@ -351,32 +344,6 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
             if (!allowNegativeScores & curBinWeights[1][i] < 0) {
                 curBinWeights[1][i] = 0;
             }
-        }
-    }
-
-    public void doShowScoreFunction() {
-        if (histogramPlot == null) {
-            histogramPlot = new PlotEvtHistogram(chip);
-            showScoreFunctionHistograms = true;
-        }
-
-    }
-
-    private void writeLaserlineToOutItr(OutputEventIterator outItr) {
-        // generate events for all pixels classified as laser line,
-        // using the last triggerTimestamp as timestamp for all created events
-        int x = 0;
-        for (Float f : pxlScoreMap.laserLine.ys) {
-            if (!f.isNaN()) {
-                PolarityEvent outEvent = (PolarityEvent) outItr.nextOutput();
-                outEvent.setTimestamp(lastTriggerTimestamp);
-                final short y = (short) Math.floor(f);
-                outEvent.setY(y);
-                outEvent.setX((short) x);
-                // really important since address is saved in logfile, not x/y coordinates
-                outEvent.setAddress(chip.getEventExtractor().getAddressFromCell(x, y, 0));
-            }
-            x++;
         }
     }
 
@@ -706,6 +673,40 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
         if (showScoreMap) {
             pxlScoreMap.draw(gl);
         }
+        if (showScoreFunctionHistograms) {
+            if (curBinWeights[0] == null) {
+                return;
+            }
+            gl.glLineWidth(2);
+//                textRenderer.begin3DRendering();
+//                textRenderer.draw3D("laser line", 5, 5, 0, textScale);
+//                textRenderer.end3DRendering();
+            {
+                gl.glColor4f(0, 1, 0, 1f);
+                gl.glBegin(GL.GL_LINE_STRIP);
+                final int n = curBinWeights[0].length, sx = chip.getSizeX(), sy = chip.getSizeY();
+
+                for (int i = 0; i < curBinWeights[0].length; i++) {
+                    final float x = (float) i * sx / n;
+                    final float y = curBinWeights[0][i] * sy*4;
+                    gl.glVertex2f(x, y);
+                }
+                gl.glEnd();
+            }
+            {
+                gl.glColor4f(1, 0, 0, 1f);
+                gl.glBegin(GL.GL_LINE_STRIP);
+                final int n = curBinWeights[1].length, sx = chip.getSizeX(), sy = chip.getSizeY();
+
+                for (int i = 0; i < curBinWeights[1].length; i++) {
+                    final float x = (float) i * sx / n;
+                    final float y = curBinWeights[1][i] * sy*4;
+                    gl.glVertex2f(x, y);
+                }
+                gl.glEnd();
+            }
+
+        }
         if (showLaserLine) {
             pxlScoreMap.laserLine.draw(gl);
         }
@@ -827,6 +828,21 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
     }
 
     /**
+     * @return the showScoreFunctionHistograms
+     */
+    public boolean isShowScoreFunctionHistograms() {
+        return showScoreFunctionHistograms;
+    }
+
+    /**
+     * @param showScoreFunctionHistograms the showScoreFunctionHistograms to set
+     */
+    public void setShowScoreFunctionHistograms(boolean showScoreFunctionHistograms) {
+        this.showScoreFunctionHistograms = showScoreFunctionHistograms;
+        putBoolean("showScoreFunctionHistograms", showScoreFunctionHistograms);
+    }
+
+    /**
      * PxlScoreMap holds a score for each pixel for how likely it is a laser
      * limapSizeXe pixel.
      *
@@ -841,7 +857,6 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
         // pxlScore is moving average over historySize scores
         private float[][] pxlScore;
         private float[][][] pxlScoreHistory; // past score(s), 1 for IIR, historySize for FIR
-        private float[] colSums, weightedColSums; // holds column-wise statistics
         private int[] peakYs; // holds y value of peak in each column
         private float[] peakVals; // holds current max value in each colum
         private FilterLaserline filter;
@@ -849,6 +864,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
 //        private int xCursor = 0, yCursor = 0;
         float updateFactor, updateFactor1;  // update constant
         LaserLine laserLine = new LaserLine();
+        private int pulseCounter = 0;
 
         /**
          * Creates a mapSizeXew imapSizeXstamapSizeXce of PxlMap
@@ -881,6 +897,9 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
             for (int x = 0; x < mapSizeX; x++) {
                 for (int y = 0; y < mapSizeY; y++) {
                     float v = pxlScore[x][y];
+                    if (Float.isNaN(v)) {
+                        continue;
+                    }
                     if (v > max) {
                         max = v;
                     } else if (v < min) {
@@ -888,20 +907,22 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
                     }
                 }
             }
-            if (max - min <= 0) {
-                max = 1;
-                min = 0;
-            } // avoid div by zero
-            float diff = max - min;
-            if (diff <= 0) {
-                diff = 1;
-            }
-            final float displayTransparency = .9f;
-            for (int x = 0; x < mapSizeX; x++) {
-                for (int y = 0; y < mapSizeY; y++) {
-                    float v = (pxlScore[x][y] - min) / diff;
-                    gl.glColor4f(v, v, 0, displayTransparency);
-                    gl.glRectf(x, y, x + 1, y + 1);
+            if (max > 0 && max - min > 0) {
+                float diff = max - min;
+                if (diff <= 0) {
+                    diff = 1;
+                }
+                final float displayTransparency = .9f;
+                for (int x = 0; x < mapSizeX; x++) {
+                    for (int y = 0; y < mapSizeY; y++) {
+                        final float s = pxlScore[x][y];
+                        if (Float.isNaN(s)) {
+                            continue;
+                        }
+                        float b = (s - min) / diff;
+                        gl.glColor4f(b, b, 0, displayTransparency);
+                        gl.glRectf(x, y, x + 1, y + 1);
+                    }
                 }
             }
             textRenderer.begin3DRendering();
@@ -914,22 +935,23 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
         /**
          * sets the score of each pixel to 0
          */
-        public final void resetMap() {
-            if (pxlScore != null) {
-                Arrays.fill(colSums, 0f);
-                Arrays.fill(weightedColSums, 0f);
-                Arrays.fill(peakYs, 0);
-                Arrays.fill(peakVals, 0);
-                for (int x = 0; x < mapSizeX; x++) {
-                    Arrays.fill(pxlScore[x], 0f);
-                    if (!eventBasedComputationEnabled) {
-                        for (int y = 0; y < mapSizeY; y++) {
-                            Arrays.fill(pxlScoreHistory[x][y], 0f);
+        public final void resetScoreMap() {
+            if (pulseCounter++ == pxlScoreHistorySize) { // accumulate pxlScoreHistorySize pulses before resetting
+                pulseCounter = 0;
+                laserLine.setupNextPulse();
+                if (pxlScore != null) {
+                    Arrays.fill(peakYs, 0);
+                    Arrays.fill(peakVals, 0);
+                    for (int x = 0; x < mapSizeX; x++) {
+                        Arrays.fill(pxlScore[x], 0f);
+                        if (!eventBasedComputationEnabled) {
+                            for (int y = 0; y < mapSizeY; y++) {
+                                Arrays.fill(pxlScoreHistory[x][y], 0f);
+                            }
                         }
                     }
                 }
             }
-            laserLine.setupNextPulse();
         }
 
         /**
@@ -937,7 +959,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
          */
         public void init() {
             allocateMaps();
-            resetMap();
+            resetScoreMap();
             laserLine.init();
         }
 
@@ -945,8 +967,6 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
             if (mapSizeX > 0 & mapSizeY > 0) {
                 pxlScore = new float[mapSizeX][mapSizeY];
                 pxlScoreHistory = new float[mapSizeX][mapSizeY][pxlScoreHistorySize + 1];
-                colSums = new float[mapSizeX];
-                weightedColSums = new float[mapSizeX];
                 peakYs = new int[mapSizeX];
                 peakVals = new float[mapSizeX];
             }
@@ -983,11 +1003,11 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
                 // Each event's score is accumulated to the map. On each accumulation, if the value is above the pxlScoreThreshold then the col
                 // TODO complete description
                 // here we update the target pixel of score map, and at same time we update the next cursor pixel average
-                final float oldScore = pxlScore[x][y];
-                final float newScore = oldScore + score; // mix old score and contribution of this score, to maintain same scaling as non-rolling approach
-                pxlScore[x][y] = newScore;
+//                final float oldScore = pxlScore[x][y];
+//                final float newScore = oldScore + score; // mix old score and contribution of this score, to maintain same scaling as non-rolling approach
+                final float newScore = (pxlScore[x][y] += score); // pxlScore starts at zero
                 // update column statistics for current event
-                if (newScore > pxlScoreThreshold && newScore >= peakVals[x]) {
+                if (newScore >= peakVals[x]) {
                     peakVals[x] = newScore;
                     peakYs[x] = y; // track peak location in this column
                 }
@@ -1082,32 +1102,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
          @deprecated - replaced by LaserLine object
          */
         void updateLaserline() {  // TODO this should be replaced in code everywhere
-            laserLine.update();
-            // below is old data structure for laser line, replaced by LaserLine
-//            laserline.clear();
-//            float threshold = findThreshold();
-//            for (int x = 0; x < mapSizeX; x++) {
-//                for (int y = 0; y < mapSizeY; y++) {
-//                    float[] pxl;
-//                    float sumScores = 0;
-//                    float sumWeightedCoord = 0;
-//                    while (pxlScore[x][y] > threshold) {
-//                        sumWeightedCoord += (y * pxlScore[x][y]);
-//                        sumScores += pxlScore[x][y];
-//                        y++;
-//                        if (y >= mapSizeY) {
-//                            break;
-//                        }
-//                    }
-//                    if (sumScores > 0) {
-//                        pxl = new float[2];
-//                        pxl[0] = x;
-//                        pxl[1] = sumWeightedCoord / sumScores;
-//                        laserline.add(pxl);
-//                    }
-//                }
-//            }
-//            return laserline;
+            laserLine.updateLine();
         }
 
         /**
@@ -1157,41 +1152,6 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
          */
         public void setFirFilterEnabled(boolean firFilterEnabled) {
             this.firFilterEnabled = firFilterEnabled;
-        }
-
-        /**
-         * @return the pxlScore
-         */
-        public float[][] getPxlScore() {
-            return pxlScore;
-        }
-
-        /**
-         * @return the colSums
-         */
-        public float[] getColSums() {
-            return colSums;
-        }
-
-        /**
-         * @return the weightedColSums
-         */
-        public float[] getWeightedColSums() {
-            return weightedColSums;
-        }
-
-        /**
-         * @return the peakYs
-         */
-        public int[] getPeakYs() {
-            return peakYs;
-        }
-
-        /**
-         * @return the peakVals
-         */
-        public float[] getPeakVals() {
-            return peakVals;
         }
 
         /**
@@ -1257,16 +1217,15 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
                 gl.glPopAttrib();
             }
 
-            private void update() {
+            private void updateLine() {
                 if (eventBasedComputationEnabled) { // statistics are computed during each events update, we don't need to iterate over entire image here
+                    if (pulseCounter < pxlScoreHistorySize) {
+                        return; // only update every this many pulses
+                    }
+                    final float thr=pxlScoreThreshold*(pxlScoreHistorySize+1);
                     for (int x = 0; x < mapSizeX; x++) {
-//                        if (colSums[x] > pxlScoreThreshold && weightedColSums[x] > 0) {
-//                            ys[x] = weightedColSums[x] / colSums[x];
-//                        } else {
-//                            ys[x] = Float.NaN;
-//                        }
-                        final int range = 3; // TODO make property
-                        if (peakVals[x] > pxlScoreThreshold) {
+                        final int range = 4; // TODO make property
+                        if (peakVals[x] > thr) {
                             // now look around nearby at values that are real and above threshold and find their mean location
                             float sum = 0, ysum = 0;
                             final int ypeak = peakYs[x];
@@ -1275,66 +1234,64 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
                             if (ystart < 0) {
                                 ystart = 0;
                             }
-                            int yend = peakYs[x] + range;
+                            int yend = peakYs[x] + range + 1;
                             if (yend > mapSizeY) {
                                 yend = mapSizeY;
                             }
-                            for (int y = ypeak; y < yend; y++) { // go up, including peak
-                                final float score = pxlScore[x][y];
-                                if (!Float.isNaN(score) && score > pxlScoreThreshold) {
-                                    sum += score;
-                                    ysum += y * score;
-                                } else {
-                                    break; // break out as soon as we hit a NaN
-                                }
+                            float score;
+                            for (int y = ypeak; y < yend && (score = pxlScore[x][y]) > thr; y++) { // go up, including peak
+                                sum += score;
+                                ysum += y * score;
                             }
-                            for (int y = ypeak - 1; y >= ystart; y--) {
-                                final float score = pxlScore[x][y];
-                                if (!Float.isNaN(score) && score > pxlScoreThreshold) {
-                                    sum += score;
-                                    ysum += y * score;
-                                } else {
-                                    break; // down until we hit NaN
-                                }
+                            for (int y = ypeak - 1; y >= ystart && (score = pxlScore[x][y]) > thr; y--) {
+                                sum += score;
+                                ysum += y * score;
                             }
-                            if (sum > 0) {
-                                ysBuffer[ysBufferPtr][x] = ysum / sum;  // compute the mean y
-                                ysScoreBuffer[ysBufferPtr][x] = sum; // and its overall score
-                            } else {
-                                ysBuffer[ysBufferPtr][x] = Float.NaN;  // compute the mean y
-                                ysScoreBuffer[ysBufferPtr][x] = Float.NaN; // and its overall score
-
-                            }
-                            // box filter average last pulses weighted by scores over last pxlScoreHistorySize pulses
-                            sum = 0;
-                            float count = 0;
-                            for (int h = 0; h < pxlScoreHistorySize; h++) {
-                                final float peakY = ysBuffer[h][x];
-                                final float score = ysScoreBuffer[h][x];
-                                if (!Float.isNaN(peakY)) {
-                                    sum += peakY * score;
-                                    count += score;
-                                }
-                            }
-                            if (count <= 0) {
-                                ys[x] = Float.NaN;
-                            } else {
-                                ys[x] = sum / count;
-                            }
+                            ys[x] = ysum / sum;
+                            
+                            // don't need tbe stuff below because we already accumulated pxlScoreHistorySize pulses
+//                            if (pxlScoreHistorySize <= 0) {
+//                                ys[x] = ysum / sum;
+//                            } else {
+//                                if (sum > 0) {
+//                                    ysBuffer[ysBufferPtr][x] = ysum / sum;  // compute the mean y
+//                                    ysScoreBuffer[ysBufferPtr][x] = sum; // and its overall score
+//                                } else {
+//                                    ysBuffer[ysBufferPtr][x] = Float.NaN;  // compute the mean y
+//                                    ysScoreBuffer[ysBufferPtr][x] = Float.NaN; // and its overall score
+//                                }
+//                                // box filter average last pulses weighted by scores over last pxlScoreHistorySize pulses
+//                                sum = 0;
+//                                float count = 0;
+//                                for (int h = 0; h < pxlScoreHistorySize; h++) {
+//                                    final float peakY = ysBuffer[h][x];
+//                                    if (!Float.isNaN(peakY)) {
+//                                        score = ysScoreBuffer[h][x];
+//                                        sum += peakY * score;
+//                                        count += score;
+//                                    }
+//                                }
+//                                if (count <= 0) {
+//                                    ys[x] = Float.NaN;
+//                                } else {
+//                                    ys[x] = sum / count;
+//                                }
+//                            }
 
                         } else {
                             ys[x] = Float.NaN;
                         }
                     }
-                } else {
+                } else { // process entire pxlScore map as image
                     init(); // init before iterating over pxlScore image
                     for (int x = 0; x < mapSizeX; x++) {
                         float sumScores = 0;
                         float sumWeightedCoord = 0;
                         for (int y = 0; y < mapSizeY; y++) {
-                            if (pxlScore[x][y] > pxlScoreThreshold) {
-                                sumWeightedCoord += (y * pxlScore[x][y]);
-                                sumScores += pxlScore[x][y];
+                            float score = pxlScore[x][y];
+                            if (score > pxlScoreThreshold) {
+                                sumWeightedCoord += (y * score);
+                                sumScores += score;
 //                        y++;
 //                        if (y >= mapSizeY) {
 //                            break;
@@ -1437,6 +1394,24 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
                     }
                 }
 
+            }
+
+            private void writeLaserlineToOutItr(OutputEventIterator outItr) {
+                // generate events for all pixels classified as laser line,
+                // using the last triggerTimestamp as timestamp for all created events
+                int x = 0;
+                for (Float f : ys) {
+                    if (!f.isNaN()) {
+                        PolarityEvent outEvent = (PolarityEvent) outItr.nextOutput();
+                        outEvent.setTimestamp(lastTriggerTimestamp);
+                        final short y = (short) Math.floor(f);
+                        outEvent.setY(y);
+                        outEvent.setX((short) x);
+                        // really important since address is saved in logfile, not x/y coordinates
+                        outEvent.setAddress(chip.getEventExtractor().getAddressFromCell(x, y, 0));
+                    }
+                    x++;
+                }
             }
         }
 

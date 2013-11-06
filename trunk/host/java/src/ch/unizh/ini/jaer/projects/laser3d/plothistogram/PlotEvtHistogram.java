@@ -19,37 +19,29 @@ import net.sf.jaer.eventprocessing.EventFilter2D;
  */
 @Description("Creates a histogram of events during several periods (distinguished with special events)")
 @DevelopmentStatus(DevelopmentStatus.Status.Experimental)
-public class PlotEvtHistogram extends EventFilter2D implements Observer {
+public class PlotEvtHistogram extends EventFilter2D {
 
     Histogram histogram;
     PlotHistogram histogramPlot;
     boolean isInitialized = false;
-        
+
     public PlotEvtHistogram(AEChip chip) {
         super(chip);
-        
-    }
-    
-    @Override
-    public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
     }
 
     @Override
     public EventPacket<?> filterPacket(EventPacket<?> in) {
-        if (!filterEnabled) {
-            return in;
-        } else {
-            for (Object e : in) {
-                if (!isInitialized) {
-                    initFilter();
-                }
-                histogram.processEvent((PolarityEvent) e);
+        checkOutputPacketEventType(in);
+        for (Object e : in) {
+            if (!isInitialized) {
+                initFilter();
             }
-            return in;
+            histogram.processEvent((PolarityEvent) e);
         }
+        return in;
     }
-//
+
     @Override
     public void resetFilter() {
         if (isFilterEnabled()) {
@@ -59,7 +51,7 @@ public class PlotEvtHistogram extends EventFilter2D implements Observer {
                 histogram.initHistogram();
             }
             if (histogramPlot != null) {
-                histogramPlot.makeHistogramFrameVisible();
+                histogramPlot.setHistogramPlotVisible(true);
             }
         }
     }
@@ -71,10 +63,11 @@ public class PlotEvtHistogram extends EventFilter2D implements Observer {
         histogramPlot.createHistogramFrame();
         isInitialized = true;
     }
+
+    public void setHistogramFrameVisible(boolean yes) {
+        if (histogramPlot != null) {
+            histogramPlot.setHistogramPlotVisible(yes);
+        }
+    }
+
 }
-
-
-
-
-
-
