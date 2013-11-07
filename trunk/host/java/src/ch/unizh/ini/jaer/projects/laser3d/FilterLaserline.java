@@ -654,7 +654,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
     }
 
     @Override
-    public void annotate(GLAutoDrawable drawable) {
+    synchronized public void annotate(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
         if (pxlScoreMap == null) {
             return;
