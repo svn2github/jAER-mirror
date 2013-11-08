@@ -1,17 +1,16 @@
 package net.sf.jaer2.eventio.translators;
 
-import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
-import net.sf.jaer2.eventio.eventpackets.raw.RawEventPacket;
 import net.sf.jaer2.eventio.events.Event;
+import net.sf.jaer2.eventio.events.raw.RawEvent;
 
 import com.google.common.collect.ImmutableList;
 
 public interface Translator {
-	public ImmutableList<Class<? extends Event>> getEventTypes();
+	public ImmutableList<Class<? extends Event>> getRawEventToEventMappings();
 
-	public void extractEventPacketContainer(final RawEventPacket rawEventPacket,
-		final EventPacketContainer eventPacketContainer);
+	public Event extractEventFromRawEvent(final RawEvent rawEvent);
 
-	public void reconstructRawEventPacket(final EventPacketContainer eventPacketContainer,
-		final RawEventPacket rawEventPacket);
+	public ImmutableList<Class<? extends Event>> getEventToRawEventMappings();
+
+	public RawEvent[] extractRawEventFromEvent(final Event event);
 }

@@ -16,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
 import net.sf.jaer2.eventio.eventpackets.raw.RawEventPacket;
 import net.sf.jaer2.eventio.events.Event;
+import net.sf.jaer2.eventio.events.raw.RawEvent;
 import net.sf.jaer2.eventio.sources.Source;
 import net.sf.jaer2.eventio.translators.Translator;
 import net.sf.jaer2.util.GUISupport;
@@ -84,7 +85,7 @@ public final class InputProcessor extends Processor {
 		final Set<Class<? extends Event>> newOutputs = new HashSet<>();
 
 		if (eventTranslator != null) {
-			newOutputs.addAll(eventTranslator.getEventTypes());
+			newOutputs.addAll(eventTranslator.getRawEventToEventMappings());
 		}
 
 		return newOutputs;
@@ -115,7 +116,9 @@ public final class InputProcessor extends Processor {
 			for (final RawEventPacket inRawEventPacket : inputToProcess) {
 				final EventPacketContainer outPacketContainer = new EventPacketContainer(this);
 
-				eventTranslator.extractEventPacketContainer(inRawEventPacket, outPacketContainer);
+				for (RawEvent rawEvent : inRawEventPacket) {
+					outPacketContainer.addEvent(eventTranslator.extractEventFromRawEvent(rawEvent));
+				}
 
 				// Send only packets with some (in)valid events on their way.
 				if (outPacketContainer.sizeFull() != 0) {
