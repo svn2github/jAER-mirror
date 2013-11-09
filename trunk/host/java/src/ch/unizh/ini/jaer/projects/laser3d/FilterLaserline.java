@@ -55,6 +55,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
 
     private boolean showScoreFunctionHistograms = getBoolean("showScoreFunctionHistograms", false);
     private PlotEvtHistogram histogramPlot = null;
+    private  volatile boolean laserLineDeteted=false; // used in rendering to show that laser pulse happened in this event packet
 
     /**
      * Size of histogram history imapSizeX periods
@@ -108,7 +109,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
     ; // true to update average score map during each event, using a rolling cursor
  
     private final TextRenderer textRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
-    private final float textScale = .15f;
+    private final float textScale = .12f;
 
     /**
      * Creates mapSizeXew imapSizeXstamapSizeXce of FilterLaserlimapSizeXe
@@ -150,6 +151,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
         checkOutputPacketEventType(in);
         OutputEventIterator outItr = getOutputPacket().outputIterator();
         // iterate over each event in packet
+        laserLineDeteted=false;
         for (Object e : in) {
             // check if filter is initialized yet
             if (!isInitialized) {
@@ -170,6 +172,7 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
             if (isInitialized) {
                 PolarityEvent ev = (PolarityEvent) e;
                 if (ev.special) { // TODO not all special events are now external input events, they could be IMU samples, frame start, etc, must have external input events
+                    laserLineDeteted=true;
                     /*
                      * Update pxlScoreMap, histograms, curBinWeights, laserline
                      */
@@ -669,6 +672,14 @@ public class FilterLaserline extends EventFilter2D implements FrameAnnotater, Ob
             textRenderer.setColor(1, 1, 1, 1);
             textRenderer.draw3D(String.format("Laser period=%dus", laserPeriod), 5, 15, 0, textScale); // x,y,z, scale factor
             textRenderer.end3DRendering();
+        }
+        if(laserLineDeteted){
+            gl.glEnable(GL.GL_POINT_SMOOTH);
+            gl.glPointSize(30);
+            gl.glColor4f(1,0,0,.75f);
+            gl.glBegin(GL.GL_POINTS);
+            gl.glVertex2f(chip.getSizeX()*.9f, chip.getSizeY()*.9f);
+            gl.glEnd();
         }
         if (showScoreMap) {
             pxlScoreMap.draw(gl);
