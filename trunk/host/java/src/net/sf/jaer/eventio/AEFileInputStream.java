@@ -588,13 +588,15 @@ public class AEFileInputStream extends DataInputStream implements AEFileInputStr
             }
             byteBuffer.position((int)(( event * eventSizeBytes ) % chunkSizeBytes));
             position = event;
+        }catch(ClosedByInterruptException e3){
+            log.info("caught interrupt, probably from single stepping this file");
         } catch ( IOException e ){
-            log.log(Level.WARNING,"caught {0}",e);
+            log.warning("caught exception "+e);
             e.printStackTrace();
         } catch ( IllegalArgumentException e2 ){
             log.warning("caught " + e2);
             e2.printStackTrace();
-        }
+        } 
     }
 
     /** gets the current position (in events) for reading forwards, i.e., readEventForwards will read this event number.
