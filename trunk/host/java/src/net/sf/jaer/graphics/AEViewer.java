@@ -1609,11 +1609,11 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
 	//    volatile private boolean paused=false; // multiple threads will access
 	boolean overrunOccurred = false;
 	int tickUs = 1;
-	public AEPlayer aePlayer = new AEPlayer(this, this);
+	public AEPlayer aePlayer = new AEPlayer(this);
 	int noEventCounter = 0;
 
 
-	/** This thread isthe main animation loop that acquires events and renders them to the canvas for active rendering. The other components render themselves
+	/** This thread is the main animation loop that acquires events and renders them to the canvas for active rendering. The other components render themselves
 	 * on the usual Swing rendering thread.
 	 */
 	class ViewLoop extends Thread {
@@ -2251,7 +2251,7 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
 					try {
 						wait(1000);
 					} catch (java.lang.InterruptedException e) {
-						log.log(Level.INFO, "viewLoop idle wait() was interrupted: {0}", e.toString());
+//						log.log(Level.INFO, "viewLoop idle wait() was interrupted: {0}", e.toString());
 					}
 				}
 			}

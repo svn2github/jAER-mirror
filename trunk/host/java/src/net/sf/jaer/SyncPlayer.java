@@ -1,5 +1,6 @@
 package net.sf.jaer;
 
+import java.awt.Cursor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
@@ -69,6 +70,11 @@ public class SyncPlayer extends AbstractAEPlayer implements PropertyChangeListen
     private ArrayList<AEViewer> playingViewers = new ArrayList<AEViewer>();
     static Preferences prefs = Preferences.userNodeForPackage(SyncPlayer.class);
 
+    /** Create new SyncPlayer
+     * 
+     * @param viewer the viewer we actually play in
+     * @param outer the JAERViewer that maintains all the AEViewers
+     */
     public SyncPlayer(AEViewer viewer, JAERViewer outer) {
         super(viewer);
         this.outer = outer;
@@ -217,6 +223,7 @@ public class SyncPlayer extends AbstractAEPlayer implements PropertyChangeListen
                     vToUse = new AEViewer(outer);
                     dontUseAgain.add(vToUse);
                     vToUse.setVisible(true);
+                    vToUse.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 }
                 map.put(file, vToUse);
                 log.info("mapped " + file + " to viewer " + vToUse);
@@ -249,6 +256,10 @@ public class SyncPlayer extends AbstractAEPlayer implements PropertyChangeListen
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            for (AEViewer v : getPlayingViewers()) {
+                v.setCursor(Cursor.getDefaultCursor());
+            }
         }
         outer.setPlayBack(true);
     }
@@ -354,7 +365,7 @@ public class SyncPlayer extends AbstractAEPlayer implements PropertyChangeListen
 //            int awaitVal = barrier.await(SYNC_PLAYER_TIMEOUT_SEC,TimeUnit.SECONDS);
             int awaitVal = barrier.await(); // SYNC_PLAYER_TIMEOUT_SEC,TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            log.warning(Thread.currentThread() + " interrupted");
+//            log.warning(Thread.currentThread() + " interrupted");
         } catch (BrokenBarrierException ignore) {
 //        } catch ( TimeoutException e ){
 //            if ( !isPaused() ){

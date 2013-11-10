@@ -221,7 +221,7 @@ public class AEFileInputStream extends DataInputStream implements AEFileInputStr
      * @throws WrappedTimeException  - the event that has wrapped will be returned on the next readEventForwards 
      */
     private EventRaw readEventForwards (int maxTimestamp) throws IOException,NonMonotonicTimeException{
-        int ts = -1;
+        int ts = firstTimestamp;
         int addr = 0;
         int lastTs=mostRecentTimestamp;
         try{

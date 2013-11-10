@@ -143,7 +143,7 @@ public abstract class AbstractAEPlayer {
     abstract public void doSingleStep();
 
     /**
-     * Returns the assocated viewer.
+     * Returns the associated viewer.
      *
      * @return the viewer
      */
@@ -576,6 +576,7 @@ public abstract class AbstractAEPlayer {
         public void actionPerformed(ActionEvent e) {
             setPlaybackDirection(PlaybackDirection.Forward);
             doSingleStep();
+            if(viewer!=null) viewer.interruptViewloop();
             putValue(Action.SELECTED_KEY, true);
         }
     }
@@ -590,6 +591,7 @@ public abstract class AbstractAEPlayer {
         public void actionPerformed(ActionEvent e) {
             setPlaybackDirection(PlaybackDirection.Backward);
             doSingleStep();
+            if(viewer!=null) viewer.interruptViewloop();
             putValue(Action.SELECTED_KEY, true);
         }
     }

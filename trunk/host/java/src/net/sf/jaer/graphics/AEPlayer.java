@@ -43,18 +43,16 @@ import net.sf.jaer.util.IndexFileFilter;
  * or to the JAERViewer AEPlayer.
  */
 public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInterface{
-    AEViewer outer;
     boolean fileInputEnabled = false;
     JFileChooser fileChooser;
 
     /** Make a new AEPlayer
      *
      * @param viewer the viewer who is using us.
-     * @param outer from refactoring, refers to the same viewer
+     * @param viewer from refactoring, refers to the same viewer
      */
-    public AEPlayer (AEViewer viewer,AEViewer outer){
+    public AEPlayer (AEViewer viewer){
         super(viewer);
-        this.outer = outer; // TODO fix this refactoring, is outer really different than viewer?
     }
 
     private boolean isSyncEnabled(){
@@ -72,7 +70,7 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
     @Override
     public void openAEInputFileDialog (){
 //        try{Thread.currentThread().sleep(200);}catch(InterruptedException e){}
-        float oldScale = outer.chipCanvas.getScale();
+        float oldScale = viewer.chipCanvas.getScale();
         fileChooser = new JFileChooser();
 //            new TypeAheadSelector(fileChooser);
         //com.sun.java.plaf.windows.WindowsFileChooserUI;
@@ -83,14 +81,14 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
 //            });
 //            System.out.println("fileChooser.getUIClassID()="+fileChooser.getUIClassID());
 //            KeyListener[] keyListeners=fileChooser.getKeyListeners();
-        ChipDataFilePreview preview = new ChipDataFilePreview(fileChooser,outer.getChip());
+        ChipDataFilePreview preview = new ChipDataFilePreview(fileChooser,viewer.getChip());
         // from book swing hacks
         new FileDeleter(fileChooser,preview);
         fileChooser.addPropertyChangeListener(preview);
         fileChooser.setAccessory(preview);
         String lastFilePath = AEViewer.prefs.get("AEViewer.lastFile","");
         // get the last folder
-        outer.lastFile = new File(lastFilePath);
+        viewer.lastFile = new File(lastFilePath);
 //            fileChooser.setFileFilter(datFileFilter);
         IndexFileFilter indexFileFilter = new IndexFileFilter();
         fileChooser.addChoosableFileFilter(indexFileFilter);
@@ -101,19 +99,19 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
         } else{
             fileChooser.setFileFilter(lastFilter);
         }
-        fileChooser.setCurrentDirectory(outer.lastFile);
+        fileChooser.setCurrentDirectory(viewer.lastFile);
         // sets the working directory of the chooser
 //            boolean wasPaused=isPaused();
         setPaused(true);
-        int retValue = fileChooser.showOpenDialog(outer);
+        int retValue = fileChooser.showOpenDialog(viewer);
         if ( retValue == JFileChooser.APPROVE_OPTION ){
             lastFilter = fileChooser.getFileFilter();
             try{
-                outer.lastFile = fileChooser.getSelectedFile();
-                if ( outer.lastFile != null ){
-                    outer.recentFiles.addFile(outer.lastFile);
+                viewer.lastFile = fileChooser.getSelectedFile();
+                if ( viewer.lastFile != null ){
+                    viewer.recentFiles.addFile(viewer.lastFile);
                 }
-                startPlayback(outer.lastFile);
+                startPlayback(viewer.lastFile);
             } catch ( IOException fnf ){
                 log.warning(fnf.toString());
             }
@@ -121,20 +119,20 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
             preview.showFile(null);
         }
         fileChooser = null;
-//        outer.chipCanvas.setScale(oldScale);
+//        viewer.chipCanvas.setScale(oldScale);
         // restore persistent scale so that we don't get tiny size on next startup
         setPaused(false);
     }
 
     @Override
     public void setDoSingleStepEnabled (boolean b){
-        outer.doSingleStepEnabled = b;
+        viewer.doSingleStepEnabled = b;
     }
 
     @Override
     public void doSingleStep (){
 //        log.info("doSingleStep");
-        outer.setDoSingleStepEnabled(true);
+        viewer.setDoSingleStepEnabled(true);
     }
 
   
@@ -234,13 +232,13 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
         // which sets playmode LIVE, ignoring open file and playback.
         String ext="."+IndexFileFilter.getExtension(file); // TODO change to use of a new static method in AEDataFile for determining file type
         if (ext.equals(AEDataFile.INDEX_FILE_EXTENSION) || ext.equals(AEDataFile.OLD_INDEX_FILE_EXTENSION) ){
-            if ( outer.getJaerViewer() != null ){
-                outer.getJaerViewer().getSyncPlayer().startPlayback(file);
+            if ( viewer.getJaerViewer() != null ){
+                viewer.getJaerViewer().getSyncPlayer().startPlayback(file);
             }
             return;
         }
 //            System.out.println("AEViewer.starting playback for DAT file "+file);
-        outer.setCurrentFile(file);
+        viewer.setCurrentFile(file);
         int tries=20;
         while(viewer.getChip()==null && tries-->0){
             log.info("null AEChip in AEViewer, waiting... "+tries);
@@ -254,12 +252,12 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
             throw new IOException("chip is not set in AEViewer so we cannot contruct the file input stream for it");
         }
         aeFileInputStream = viewer.getChip().constuctFileInputStream(file); // new AEFileInputStream(file);
-        aeFileInputStream.setNonMonotonicTimeExceptionsChecked(outer.getCheckNonMonotonicTimeExceptionsEnabledCheckBoxMenuItem().isSelected());
-        aeFileInputStream.setTimestampResetBitmask(outer.getAeFileInputStreamTimestampResetBitmask());
+        aeFileInputStream.setNonMonotonicTimeExceptionsChecked(viewer.getCheckNonMonotonicTimeExceptionsEnabledCheckBoxMenuItem().isSelected());
+        aeFileInputStream.setTimestampResetBitmask(viewer.getAeFileInputStreamTimestampResetBitmask());
         aeFileInputStream.setFile(file);
         aeFileInputStream.getSupport().addPropertyChangeListener(viewer);
         // so that users of the stream can get the file information
-        if ( outer.getJaerViewer() != null && outer.getJaerViewer().getViewers().size() == 1 ){
+        if ( viewer.getJaerViewer() != null && viewer.getJaerViewer().getViewers().size() == 1 ){
             // if there is only one viewer, start it there
             try{
                 aeFileInputStream.rewind();
@@ -268,22 +266,22 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
             }
         }
         // don't waste cycles grabbing events while playing back
-            outer.setPlayMode(AEViewer.PlayMode.PLAYBACK);
+            viewer.setPlayMode(AEViewer.PlayMode.PLAYBACK);
         // TODO ugly remove/add of new control panel to associate it with correct player
 //            playerControlPanel.remove(getPlayerControls());
 //            setPlayerControls(new AePlayerAdvancedControlsPanel(AEViewer.this));
 //            playerControlPanel.add(getPlayerControls());
-        outer.getPlayerControls().addMeToPropertyChangeListeners(aeFileInputStream);
+        viewer.getPlayerControls().addMeToPropertyChangeListeners(aeFileInputStream);
         // so that slider is updated when position changes
-        outer.setPlaybackControlsEnabledState(true);
-        outer.fixLoggingControls();
+        viewer.setPlaybackControlsEnabledState(true);
+        viewer.fixLoggingControls();
             // TODO we grab the monitor for the viewLoop here, any other thread which may change playmode should also grab it
-        if ( outer.aemon != null && outer.aemon.isOpen() ){
+        if ( viewer.aemon != null && viewer.aemon.isOpen() ){
             try{
-                if ( outer.getPlayMode().equals(outer.getPlayMode().SEQUENCING) ){
-                    outer.stopSequencing();
+                if ( viewer.getPlayMode().equals(viewer.getPlayMode().SEQUENCING) ){
+                    viewer.stopSequencing();
                 } else{
-                    outer.aemon.setEventAcquisitionEnabled(false);
+                    viewer.aemon.setEventAcquisitionEnabled(false);
                 }
             } catch ( HardwareInterfaceException e ){
                 e.printStackTrace();
@@ -299,22 +297,22 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
      */
    @Override
      public void stopPlayback (){
-        if ( outer.getPlayMode() != AEViewer.PlayMode.PLAYBACK ){
+        if ( viewer.getPlayMode() != AEViewer.PlayMode.PLAYBACK ){
             return;
         }
 
-        if ( outer.aemon != null && outer.aemon.isOpen() ){
+        if ( viewer.aemon != null && viewer.aemon.isOpen() ){
             try{
-                outer.aemon.setEventAcquisitionEnabled(true);
+                viewer.aemon.setEventAcquisitionEnabled(true);
             } catch ( HardwareInterfaceException e ){
-                outer.setPlayMode(AEViewer.PlayMode.WAITING);
+                viewer.setPlayMode(AEViewer.PlayMode.WAITING);
                 e.printStackTrace();
             }
-            outer.setPlayMode(AEViewer.PlayMode.LIVE);
+            viewer.setPlayMode(AEViewer.PlayMode.LIVE);
         } else{
-            outer.setPlayMode(AEViewer.PlayMode.WAITING);
+            viewer.setPlayMode(AEViewer.PlayMode.WAITING);
         }
-        outer.setPlaybackControlsEnabledState(false);
+        viewer.setPlaybackControlsEnabledState(false);
         try{
             if ( aeFileInputStream != null ){
                 aeFileInputStream.close();
@@ -323,7 +321,7 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
         } catch ( IOException ignore ){
             ignore.printStackTrace();
         }
-        outer.setTitleAccordingToState();
+        viewer.setTitleAccordingToState();
     }
 
     @Override
@@ -334,7 +332,7 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
 //            System.out.println(Thread.currentThread()+" AEViewer.AEPlayer.rewind() called, rewinding "+aeFileInputStream);
         try{
             aeFileInputStream.rewind();
-            outer.filterChain.reset();
+            viewer.filterChain.reset();
         } catch ( Exception e ){
             log.warning("rewind exception: " + e.getMessage());
             e.printStackTrace();
@@ -344,26 +342,26 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
     @Override
     public void pause (){
         super.pause();
-        outer.setPaused(true);
+        viewer.setPaused(true);
     }
 
     @Override
     public void resume (){
         super.resume();
-        outer.setPaused(false);
+        viewer.setPaused(false);
     }
 
     /** sets the AEViewer paused flag */
     @Override
     public void setPaused (boolean yes){
         super.setPaused(yes);
-        outer.setPaused(yes);
+        viewer.setPaused(yes);
     }
 
     /** gets the AEViewer paused flag */
     @Override
     public boolean isPaused (){
-        return outer.isPaused();
+        return viewer.isPaused();
     }
 
    @Override
@@ -378,10 +376,10 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
         }
         AEPacketRaw aeRaw = null;
         try{
-            if ( !outer.aePlayer.isFlexTimeEnabled() ){
-                aeRaw = aeFileInputStream.readPacketByTime(outer.getAePlayer().getTimesliceUs());
+            if ( !viewer.aePlayer.isFlexTimeEnabled() ){
+                aeRaw = aeFileInputStream.readPacketByTime(viewer.getAePlayer().getTimesliceUs());
             } else{
-                aeRaw = aeFileInputStream.readPacketByNumber(outer.getAePlayer().getPacketSizeEvents());
+                aeRaw = aeFileInputStream.readPacketByNumber(viewer.getAePlayer().getPacketSizeEvents());
             }
 //                if(aeRaw!=null) time=aeRaw.getLastTimestamp();
             return aeRaw;
@@ -392,7 +390,7 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
             }
             // when we get to end, we now just wraps in either direction, to make it easier to explore the ends
 //                System.out.println("***********"+this+" reached EOF, calling rewind");
-            outer.getAePlayer().rewind();
+            viewer.getAePlayer().rewind();
             // we force a rewind on all players in case we are not the only one
 //                                if(!aePlayer.isPlayingForwards())
             //getAePlayer().toggleDirection();
@@ -412,7 +410,7 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
         if ( !isRealtimeEnabled() || isPaused() ){
             return;
         }
-        float fps = outer.getFrameRater().getAverageFPS();
+        float fps = viewer.getFrameRater().getAverageFPS();
         float samplePeriodS = getTimesliceUs() * 1.0E-6F;
         float factor = fps * samplePeriodS;
 //            System.out.println("fps=" + fps + " samplePeriodS=" + samplePeriodS + " factor=" + factor);
