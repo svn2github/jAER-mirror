@@ -24,42 +24,57 @@ import net.sf.jaer.eventio.AEInputStream;
 import net.sf.jaer.graphics.AbstractAEPlayer.PlaybackMode;
 
 /**
- *  All the controls for playback are in this GUI.
- * 
+ * All the controls for playback are in this GUI.
+ *
  * @author tobi
  */
 public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements PropertyChangeListener {
 
-    static Logger log = Logger.getLogger("AEViewerPlaybackControlDialog");
+    static final Logger log = Logger.getLogger("AEViewerPlaybackControlDialog");
     private AbstractAEPlayer aePlayer;
-    private AEViewer aeViewer;
+    private final AEViewer aeViewer;
     MoreLessAction moreLessAction = new MoreLessAction();
     private volatile boolean sliderDontProcess = false; // semaphore used to prevent slider actions when slider is set programmatically
+    private final Hashtable<Integer, JLabel> markTable = new Hashtable<Integer, JLabel>(); // lookup from slider position to label, given to slider to draw labels at markers
+    private final JLabel markInLabel, markOutLabel;
+    Integer markInPosition = null, markOutPosition = null; // store keys in markTable so we can remove them
 
-    /** Creates new form AePlayerAdvancedControlsPanel.
-    @param viewer the viewer to control.
+    /**
+     * Creates new form AePlayerAdvancedControlsPanel.
+     *
+     * @param viewer the viewer to control.
      */
     public AePlayerAdvancedControlsPanel(AEViewer viewer) {
+        this.markOutLabel = new JLabel("]");
+        this.markInLabel = new JLabel("[");
+        markInLabel.setToolTipText("IN marker");
+        markOutLabel.setToolTipText("OUT marker");
         this.aeViewer = viewer;
         this.aePlayer = viewer.getAePlayer();
         initComponents();
         setAePlayer(viewer.getAePlayer()); // TODO double set needed because aePlayer is needed in initComponents and we still need to do more component binding in setAePlayer
         moreControlsPanel.setVisible(false);
+        
     }
 
-    /** Use this method to add this to the AEFileInputStream listener list for position updates.
+    /**
+     * Use this method to add this to the AEFileInputStream listener list for
+     * position updates.
      *
      * @param is the input stream.
      */
     public void addMeToPropertyChangeListeners(AEFileInputStream is) {
         is.getSupport().addPropertyChangeListener(AEInputStream.EVENT_POSITION, this);
-        is.getSupport().addPropertyChangeListener(AEInputStream.EVENT_MARKSET, this);
-        is.getSupport().addPropertyChangeListener(AEInputStream.EVENT_MARKCLEARED, this);
+        is.getSupport().addPropertyChangeListener(AEInputStream.EVENT_MARK_IN_SET, this);
+        is.getSupport().addPropertyChangeListener(AEInputStream.EVENT_MARK_OUT_SET, this);
+        is.getSupport().addPropertyChangeListener(AEInputStream.EVENT_MARKS_CLEARED, this);
     }
 
-    /** Messages come back here from e.g. programmatic state changes, like a new aePlayer file posiiton.
-     * This methods sets the GUI components to a consistent state, using a flag to tell the slider that it has not been set by
-     * a user mouse action
+    /**
+     * Messages come back here from e.g. programmatic state changes, like a new
+     * aePlayer file posiiton. This methods sets the GUI components to a
+     * consistent state, using a flag to tell the slider that it has not been
+     * set by a user mouse action
      */
     public void propertyChange(PropertyChangeEvent evt) {
         try {
@@ -73,15 +88,31 @@ public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements
                         eventField.setText(Long.toString(aeViewer.aePlayer.position()));
                         timeField.setText(Integer.toString(aeViewer.aePlayer.getTime()));
                     }
-                } else if (evt.getPropertyName().equals(AEInputStream.EVENT_MARKSET)) {
+                } else if (evt.getPropertyName().equals(AEInputStream.EVENT_MARK_IN_SET)) {
                     synchronized (aePlayer) {
-                        Hashtable<Integer, JLabel> markTable = new Hashtable<Integer, JLabel>();
-                        markTable.put(playerSlider.getValue(), new JLabel("^"));
+                        if (markInPosition != null) {
+                            markTable.remove(markInPosition);
+                        }
+                        markInPosition = playerSlider.getValue();
+                        markTable.put(markInPosition, markInLabel);
                         playerSlider.setLabelTable(markTable);
                         playerSlider.setPaintLabels(true);
                     }
-                } else if (evt.getPropertyName().equals(AEInputStream.EVENT_MARKCLEARED)) {
+                } else if (evt.getPropertyName().equals(AEInputStream.EVENT_MARK_OUT_SET)) {
+                    synchronized (aePlayer) {
+                        if (markOutPosition != null) {
+                            markTable.remove(markOutPosition);
+                        }
+                        markOutPosition = playerSlider.getValue();
+                        markTable.put(markOutPosition, markOutLabel);
+                        playerSlider.setLabelTable(markTable);
+                        playerSlider.setPaintLabels(true);
+                    }
+                } else if (evt.getPropertyName().equals(AEInputStream.EVENT_MARKS_CLEARED)) {
                     playerSlider.setPaintLabels(false);
+                    markTable.clear();
+                    markInPosition = null;
+                    markOutPosition = null;
                 }
             } else if (evt.getPropertyName().equals(AbstractAEPlayer.EVENT_TIMESLICE_US)) { // TODO replace with public static Sttring
                 timesliceSpinner.setValue(aePlayer.getTimesliceUs());
@@ -118,8 +149,9 @@ public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements
     }
 
     /**
-     * Use to set player if player changes, e.g. when SyncPlayer replaces player for player functionality.
-     * 
+     * Use to set player if player changes, e.g. when SyncPlayer replaces player
+     * for player functionality.
+     *
      * @param aePlayer the aePlayer to set
      */
     public void setAePlayer(AbstractAEPlayer aePlayer) {
@@ -150,13 +182,17 @@ public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements
         stepBackwardsButon.setAction(aePlayer.stepBackwardAction);
         stepForwardsButton.setAction(aePlayer.stepForwardAction);
         rewindButton.setAction(aePlayer.rewindAction);
-        jToggleButton1.setAction(aePlayer.markUnmarkAction);
+        clearMarksB.setAction(aePlayer.clearMarksAction);
+        setInB.setAction(aePlayer.markInAction);
+        setOutB.setAction(aePlayer.markOutAction);
 
         showMoreControlsButton.setAction(moreLessAction);
 
     }
 
-    /** The action that shows more or less controls. */
+    /**
+     * The action that shows more or less controls.
+     */
     public class MoreLessAction extends AbstractAction {
 
         public MoreLessAction() {
@@ -174,10 +210,10 @@ public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements
         }
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -199,7 +235,9 @@ public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements
         stepForwardsButton = new javax.swing.JButton();
         stepBackwardsButon = new javax.swing.JButton();
         rewindButton = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        clearMarksB = new javax.swing.JButton();
+        setInB = new javax.swing.JButton();
+        setOutB = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         playerStatusPanel = new javax.swing.JPanel();
         timeField = new javax.swing.JTextField();
@@ -332,17 +370,32 @@ public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements
         rewindButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
         playerControlPanel.add(rewindButton);
 
-        jToggleButton1.setAction(aePlayer.markUnmarkAction);
-        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jaer/graphics/icons/Mark16.gif"))); // NOI18N
-        jToggleButton1.setHideActionText(true);
-        jToggleButton1.setMargin(new java.awt.Insets(2, 5, 2, 5));
-        playerControlPanel.add(jToggleButton1);
+        clearMarksB.setAction(aePlayer.clearMarksAction);
+        clearMarksB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jaer/graphics/icons/ClearMarks16.gif"))); // NOI18N
+        clearMarksB.setHideActionText(true);
+        clearMarksB.setIconTextGap(2);
+        clearMarksB.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        playerControlPanel.add(clearMarksB);
+
+        setInB.setAction(aePlayer.markInAction);
+        setInB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jaer/graphics/icons/MarkIn16.gif"))); // NOI18N
+        setInB.setHideActionText(true);
+        setInB.setIconTextGap(2);
+        setInB.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        playerControlPanel.add(setInB);
+
+        setOutB.setAction(aePlayer.markOutAction);
+        setOutB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jaer/graphics/icons/MarkOut16.gif"))); // NOI18N
+        setOutB.setHideActionText(true);
+        setOutB.setIconTextGap(2);
+        setOutB.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        playerControlPanel.add(setOutB);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 214, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -466,7 +519,7 @@ public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements
                     .addGroup(playbackModePanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(eventsLabel)))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
         playbackModePanelLayout.setVerticalGroup(
             playbackModePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -628,6 +681,7 @@ public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_eventFieldActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton clearMarksB;
     private javax.swing.JPanel controlsPanel;
     private javax.swing.JTextField eventField;
     private javax.swing.JLabel eventFieldLabel;
@@ -636,7 +690,6 @@ public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements
     private javax.swing.JRadioButton fixedTimeSliceButton;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JPanel moreControlsPanel;
     private javax.swing.JLabel msLabel;
     private javax.swing.JSpinner packetSizeSpinner;
@@ -652,6 +705,8 @@ public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements
     private javax.swing.JRadioButton realtimeButton;
     private javax.swing.JButton reverseButton;
     private javax.swing.JButton rewindButton;
+    private javax.swing.JButton setInB;
+    private javax.swing.JButton setOutB;
     private javax.swing.JButton showMoreControlsButton;
     private javax.swing.JPanel sliderPanel;
     private javax.swing.JButton stepBackwardsButon;

@@ -23,7 +23,7 @@ import net.sf.jaer.util.IndexFileFilter;
  * events/sample or period of time in the sample, etc.
  * It handles the file input stream, opening a dialog box, etc.
  * It also handles synchronization of different AEViewers as follows
- * (this refers to multiple-AEViewer time-locked playback sychronization, not
+ * (this refers to multiple-AEViewer time-locked playback synchronization, not
  * java object locking):
  * <p>
  * If the viewer is not synchronized, then all calls from the GUI
@@ -37,7 +37,7 @@ import net.sf.jaer.util.IndexFileFilter;
  * go to next slice, change direction).
  * <p>
  * Thus whichever controls the user uses to control playback,
- * the viewers are all sychronized properly without recursively.
+ * the viewers are all synchronized properly without recursively.
  * The "master" is indicated by the GUI action,
  * which routes the request either to this instance's AEPlayer
  * or to the JAERViewer AEPlayer.
@@ -136,6 +136,9 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
 //        log.info("doSingleStep");
         outer.setDoSingleStepEnabled(true);
     }
+
+  
+    
     public class FileDeleter extends KeyAdapter implements PropertyChangeListener{
         private JFileChooser chooser;
         private ChipDataFilePreview preview;
@@ -428,11 +431,6 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
     }
 
     @Override
-    public void mark () throws IOException{
-        aeFileInputStream.mark();
-    }
-
-    @Override
     public long position (){
         return aeFileInputStream.position();
     }
@@ -457,20 +455,42 @@ public class AEPlayer extends AbstractAEPlayer implements AEFileInputStreamInter
         return aeFileInputStream.size();
     }
 
+    @Override
+    public void clearMarks() {
+        aeFileInputStream.clearMarks();
+    }
+
+    @Override
+    public long getMarkInPosition() {
+        return aeFileInputStream.getMarkInPosition();
+    }
+
+    @Override
+    public long getMarkOutPosition() {
+        return aeFileInputStream.getMarkOutPosition();
+    }
+
+    @Override
+    public boolean isMarkInSet() {
+        return aeFileInputStream.isMarkInSet();
+    }
+
+    @Override
+    public boolean isMarkOutSet() {
+        return aeFileInputStream.isMarkOutSet();
+    }
+
       @Override
-  public void unmark (){
-        aeFileInputStream.unmark();
+    public long setMarkIn() {
+        return aeFileInputStream.setMarkIn();
     }
 
-   @Override
-     public boolean isMarkSet (){
-        return aeFileInputStream.isMarkSet();
+    @Override
+    public long setMarkOut() {
+        return aeFileInputStream.setMarkOut();
     }
-
-//        public synchronized AEPacketRaw readPacketToTime(int time, boolean forwards) throws IOException {
-//            return aeFileInputStream.readPacketToTime(time,forwards);
-//        }
-//
+     
+     
     @Override
     public void setFractionalPosition (float frac){
         aeFileInputStream.setFractionalPosition(frac);

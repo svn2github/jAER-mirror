@@ -369,25 +369,11 @@ public class SyncPlayer extends AbstractAEPlayer implements PropertyChangeListen
         throw new UnsupportedOperationException();
     }
 
-    public void mark() throws IOException {
+    @Override
+    public void clearMarks() {
         for (AEViewer v : outer.getViewers()) {
-            v.aePlayer.mark();
+            v.aePlayer.clearMarks();
         }
-    }
-
-    public void unmark() {
-        for (AEViewer v : outer.getViewers()) {
-            v.aePlayer.unmark();
-        }
-    }
-
-    public boolean isMarkSet() {
-        for (AEViewer v : outer.getViewers()) {
-            if (!v.aePlayer.isMarkSet()) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public long position(AEFileInputStreamInterface stream) {
@@ -456,7 +442,7 @@ public class SyncPlayer extends AbstractAEPlayer implements PropertyChangeListen
         throw new UnsupportedOperationException();
     }
 
-    /** always returns null,  bince this is a sync player for multiple viewers */
+    /** always returns null, because this is a sync player for multiple viewers */
     public AEFileInputStream getAEInputStream() {
         return null;
     }
@@ -532,5 +518,29 @@ public class SyncPlayer extends AbstractAEPlayer implements PropertyChangeListen
 
     public static List<String> getChipClassNames() {
         return chipClassNames;
+    }
+
+    /** Sets IN marker on all viewers.
+     * 
+     * @return always 0, because every player has its own position. 
+     */
+    @Override
+    public long setMarkIn() {
+        for (AEViewer v : getPlayingViewers()) {
+            v.aePlayer.setMarkIn();
+        }
+        return 0;
+    }
+
+  /** Sets OUT marker on all viewers.
+     * 
+     * @return always 0, because every player has its own position. 
+     */
+    @Override
+    public long setMarkOut() {
+        for (AEViewer v : getPlayingViewers()) {
+            v.aePlayer.setMarkOut();
+        }
+        return 0;
     }
 }

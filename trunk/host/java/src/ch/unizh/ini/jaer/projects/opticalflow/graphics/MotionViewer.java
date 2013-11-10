@@ -796,9 +796,34 @@ public class MotionViewer extends javax.swing.JFrame implements PropertyChangeLi
         }
 
         public void mark() throws IOException {
-            motionInputStream.mark();
+            motionInputStream.setMarkIn();
         }
 
+        public long setMarkIn() {
+            return motionInputStream.setMarkIn();
+        }
+
+        public long setMarkOut() {
+            return motionInputStream.setMarkOut();
+        }
+
+        public long getMarkInPosition() {
+            return motionInputStream.getMarkInPosition();
+        }
+
+        public long getMarkOutPosition() {
+            return motionInputStream.getMarkOutPosition();
+        }
+
+        public boolean isMarkInSet() {
+            return motionInputStream.isMarkInSet();
+        }
+
+        public boolean isMarkOutSet() {
+            return motionInputStream.isMarkOutSet();
+        }
+
+        
         public long position() {
             return motionInputStream.position();
         }
@@ -811,14 +836,10 @@ public class MotionViewer extends javax.swing.JFrame implements PropertyChangeLi
             return motionInputStream.size();
         }
 
-        public void unmark() {
-            motionInputStream.unmark();
+        public void clearMarks() {
+            motionInputStream.clearMarks();
         }
 
-//        public synchronized AEPacketRaw readPacketToTime(int time, boolean forwards) throws IOException {
-//            return motionInputStream.readPacketToTime(time,forwards);
-//        }
-//
         public void setFractionalPosition(float frac) {
             motionInputStream.setFractionalPosition(frac);
         }
