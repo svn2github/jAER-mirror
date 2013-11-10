@@ -19,6 +19,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JPopupMenu;
 import net.sf.jaer.eventio.AEFileInputStream;
 import net.sf.jaer.eventio.AEInputStream;
 import net.sf.jaer.graphics.AbstractAEPlayer.PlaybackMode;
@@ -37,7 +38,8 @@ public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements
     private volatile boolean sliderDontProcess = false; // semaphore used to prevent slider actions when slider is set programmatically
     private final Hashtable<Integer, JLabel> markTable = new Hashtable<Integer, JLabel>(); // lookup from slider position to label, given to slider to draw labels at markers
     private final JLabel markInLabel, markOutLabel;
-    Integer markInPosition = null, markOutPosition = null; // store keys in markTable so we can remove them
+    private Integer markInPosition = null, markOutPosition = null; // store keys in markTable so we can remove them
+    private JPopupMenu markerPopupMenu=null;
 
     /**
      * Creates new form AePlayerAdvancedControlsPanel.
@@ -54,7 +56,11 @@ public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements
         initComponents();
         setAePlayer(viewer.getAePlayer()); // TODO double set needed because aePlayer is needed in initComponents and we still need to do more component binding in setAePlayer
         moreControlsPanel.setVisible(false);
-        
+        markerPopupMenu=new JPopupMenu("Markers");
+        markerPopupMenu.add(aePlayer.markInAction);
+        markerPopupMenu.add(aePlayer.markOutAction);
+        markerPopupMenu.add(aePlayer.clearMarksAction);
+        playerSlider.setComponentPopupMenu(markerPopupMenu);
     }
 
     /**
@@ -72,7 +78,7 @@ public class AePlayerAdvancedControlsPanel extends javax.swing.JPanel implements
 
     /**
      * Messages come back here from e.g. programmatic state changes, like a new
-     * aePlayer file posiiton. This methods sets the GUI components to a
+     * aePlayer file position. This methods sets the GUI components to a
      * consistent state, using a flag to tell the slider that it has not been
      * set by a user mouse action
      */
