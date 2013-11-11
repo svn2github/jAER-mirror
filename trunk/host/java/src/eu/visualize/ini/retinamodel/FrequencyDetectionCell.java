@@ -27,23 +27,20 @@ import net.sf.jaer.util.SpikeSound;
 import net.sf.jaer.util.filter.LowpassFilter;
 
 /**
- * Models a single object motion cell that is excited by on or off activity
- * within its classical receptive field but is inhibited by synchronous on or
- * off activity in its extended RF, such as that caused by a saccadic eye
- * movement.
+ * Models a frequency detecting cell with scanning excitation line
  *
- * @author tobi
+ * @author Diederik
  */
-@Description("Models object motion cell known mouse and salamander retina")
+@Description("Models a frequency detecting cell with scanning excitation line")
 //@DevelopmentStatus(DevelopmentStatus.Status.Experimental)
-public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, Observer {
+public class FrequencyDetectionCell extends EventFilter2D implements FrameAnnotater, Observer {
 
     private boolean showSubunits = getBoolean("showSubunits", true);
     private boolean showOutputCell = getBoolean("showOutputCell", true);
     private int subunitSubsamplingBits = getInt("subunitSubsamplingBits", 4); // each subunit is 2^n squared pixels
     private float subunitDecayTimeconstantMs = getFloat("subunitDecayTimeconstantMs", 2);
     private boolean enableSpikeSound = getBoolean("enableSpikeSound", true);
-    private ObjectMotionCellModel objectMotionCellModel = new ObjectMotionCellModel();
+    private FrequencyDetectionCellModel frequencyDetectionCellModel = new FrequencyDetectionCellModel();
     private float synapticWeight = getFloat("synapticWeight", 30);
     private float maxSpikeRateHz = getFloat("maxSpikeRateHz", 100);
     private float centerExcitionToSurroundInhibitionRatio = getFloat("centerExcitationToSurroundInhibitionRatio", 1f);
@@ -55,26 +52,28 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
     private TextRenderer renderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 10), true, true);
     private float subunitActivityBlobRadiusScale = getFloat("subunitActivityBlobRadiusScale", 2f);
     private float integrateAndFireThreshold = getFloat("integrateAndFireThreshold", 1f);
+    private float scanningFrequencyHz = getFloat("scanningFrequencyHz", 1f);
     private boolean poissonFiringEnabled = getBoolean("poissonFiringEnabled", true);
 
-    public ObjectMotionCell(AEChip chip) {
+    public FrequencyDetectionCell(AEChip chip) {
         super(chip);
         chip.addObserver(this);
         setPropertyTooltip("showSubunits", "Enables showing subunit activity annotation over retina output");
         setPropertyTooltip("showOutputCell", "Enables showing object motion cell activity annotation over retina output");
         setPropertyTooltip("subunitSubsamplingBits", "Each subunit integrates events from 2^n by 2^n pixels, where n=subunitSubsamplingBits");
-        setPropertyTooltip("synapticWeight", "Subunit activity inputs to the objectMotion neuron are weighted this much; use to adjust response magnitude");
+        setPropertyTooltip("synapticWeight", "Subunit activity inputs to the frequencyDetection neuron are weighted this much; use to adjust response magnitude");
         setPropertyTooltip("subunitDecayTimeconstantMs", "Subunit activity decays with this time constant in ms");
-        setPropertyTooltip("enableSpikeSound", "Enables audio spike output from objectMotion cell");
-        setPropertyTooltip("maxSpikeRateHz", "Maximum spike rate of objectMotion cell in Hz");
+        setPropertyTooltip("enableSpikeSound", "Enables audio spike output from frequencyDetection cell");
+        setPropertyTooltip("maxSpikeRateHz", "Maximum spike rate of frequencyDetection cell in Hz");
         setPropertyTooltip("centerExcitationToSurroundInhibitionRatio", "Inhibitory ON subunits are weighted by factor more than excitatory OFF subunit activity to the object motion cell");
         setPropertyTooltip("minUpdateIntervalUs", "subunits activities are decayed to zero at least this often in us, even if they receive no input");
         setPropertyTooltip("surroundSuppressionEnabled", "subunits are suppressed by surrounding activity of same type; reduces response to global dimming");
         setPropertyTooltip("subunitActivityBlobRadiusScale", "The blobs represeting subunit activation are scaled by this factor");
         setPropertyTooltip("integrateAndFireThreshold", "The ganglion cell will fire if the difference between excitation and inhibition overcomes this threshold");
         setPropertyTooltip("poissonFiringEnabled", "The ganglion cell fires according to Poisson rate model for net synaptic input");
+        setPropertyTooltip("scanningFrequencyHz", "The scanning frequency of the excitatory line");
     }
-    private int lastObjectMotionCellSpikeCheckTimestamp = 0;
+    private int lastFrequencyDetectionCellSpikeCheckTimestamp = 0;
 
     @Override
     public EventPacket<?> filterPacket(EventPacket<?> in) {
@@ -94,17 +93,17 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
                 continue;
             }
             subunits.update(e);
-            int dt = e.timestamp - lastObjectMotionCellSpikeCheckTimestamp;
+            int dt = e.timestamp - lastFrequencyDetectionCellSpikeCheckTimestamp;
             if (dt < 0) {
-                lastObjectMotionCellSpikeCheckTimestamp = e.timestamp;
+                lastFrequencyDetectionCellSpikeCheckTimestamp = e.timestamp;
                 return in;
             }
             if (dt > minUpdateIntervalUs) {
-                lastObjectMotionCellSpikeCheckTimestamp = e.timestamp;
-                objectMotionCellModel.update(e.timestamp);
+                lastFrequencyDetectionCellSpikeCheckTimestamp = e.timestamp;
+                frequencyDetectionCellModel.update(e.timestamp);
             }
         }
-//        System.out.println(String.format("spikeRate=%.1g \tonActivity=%.2f \toffActivity=%.1f", objectMotionCellModel.spikeRate, inhibition, offExcitation));
+//        System.out.println(String.format("spikeRate=%.1g \tonActivity=%.2f \toffActivity=%.1f", frequencyDetectionCellModel.spikeRate, inhibition, offExcitation));
         return in;
     }
 
@@ -144,12 +143,12 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
         }
         gl.glPushMatrix();
         gl.glTranslatef(chip.getSizeX() / 2, chip.getSizeY() / 2, 10);
-        if (showOutputCell && objectMotionCellModel.nSpikes > getIntegrateAndFireThreshold()) {
+        if (showOutputCell && frequencyDetectionCellModel.nSpikes > getIntegrateAndFireThreshold()) {
             gl.glColor4f(1, 1, 1, .2f);
             glu.gluQuadricDrawStyle(quad, GLU.GLU_FILL);
-            float radius = chip.getMaxSize() * objectMotionCellModel.spikeRateHz / maxSpikeRateHz / 2;
+            float radius = chip.getMaxSize() * frequencyDetectionCellModel.spikeRateHz / maxSpikeRateHz / 2;
             glu.gluDisk(quad, 0, radius, 32, 1);
-            objectMotionCellModel.resetSpikeCount();
+            frequencyDetectionCellModel.resetSpikeCount();
         }
         gl.glPopMatrix();
 
@@ -160,9 +159,9 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
             gl.glRectf(-20, 0, -15, centerExcition);
             renderer.begin3DRendering();
             renderer.setColor(0, 1, 0, .3f);
-            renderer.draw3D("sur", -10, -3, 0, .4f);
+            renderer.draw3D("ini", -10, -3, 0, .4f);
             renderer.setColor(1, 0, 0, .3f);
-            renderer.draw3D("cen", -20, -3, 0, .4f);
+            renderer.draw3D("exc", -20, -3, 0, .4f);
             renderer.end3DRendering();
             // render all the subunits now
             subunits.render(gl);
@@ -201,19 +200,13 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
         int ny;
         int ntot;
         int lastUpdateTimestamp;
+        int excitedColumnNumber = 0;
+        int inhibitedColumnNumber = 0;
 
         public Subunits() {
             reset();
         }
 
-        /*      Subunit getCenterSubunit(){
-         for (int x = nx/2; x < nx+2; x++) {
-         for (int y = nx/2; y < ny+2; y++) {
-         return subunits[x][y];
-         }
-         }
-         }*/
-        // updates appropriate subunit 
         synchronized public void update(PolarityEvent e) {
             // subsample retina address to clump retina input pixel blocks.
             int x = e.x >> subunitSubsamplingBits, y = e.y >> subunitSubsamplingBits;
@@ -241,31 +234,59 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
                 }
             }
         }
-        float totalInhibition, totalExcitation;
-
-        float computeInhibitionToOutputCell() {
-            totalInhibition = 0;
+ //       float totalInhibition, totalExcitation;
+        
+        float computeInhibitionToOutputCell(boolean changeScannedColumn) {
+//            totalInhibition = 0;
             float inhibition = 0;
-            for (int x = 0; x < nx; x++) {
-                for (int y = 0; y < ny; y++) {
-                    if ((x == nx / 2 && y == ny / 2) || (x == ((nx / 2) - 1) && y == ny / 2) || (x == ((nx / 2) - 1) && y == ((ny / 2) - 1)) || (x == nx / 2 && y == ((ny / 2) - 1))) {
-                        continue; // don't include center
-                    }
-                    inhibition += subunits[x][y].computeInputToCell();
+            if (nx == 1) {//exception if 1 column
+                for (int y = 0; y < ny; y++) {//ignore column
+                   continue;
                 }
-            }
-            inhibition /= (ntot - 4);
-            ObjectMotionCell.this.inhibition = synapticWeight * inhibition;
-            return ObjectMotionCell.this.inhibition;
+            } else {
+               if (changeScannedColumn = true) {
+                   inhibitedColumnNumber++;
+                   if (inhibitedColumnNumber == nx) {//if at the edge, return
+                      inhibitedColumnNumber = 0;
+                   }
+                   changeScannedColumn = false;
+               }
+                 for (int y = 0; y < ny; y++) {
+                    for (int x = 0; x < nx; x++) {
+                        if (x != inhibitedColumnNumber) {
+                            inhibition += subunits[x][y].computeInputToCell();
+                        } else {
+                        continue;
+                        }   
+                    }
+                 }
+            inhibition /= (ntot - nx);
+           }
+
+            FrequencyDetectionCell.this.inhibition = synapticWeight * inhibition;
+            return FrequencyDetectionCell.this.inhibition;
         }
 
-        float computeExicitionToOutputCell() {
-            if ((nx == 2) || (nx == 1) || (ny == 2) || (ny == 1)) {
-                centerExcition = centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][ny / 2].computeInputToCell();
+        float computeExicitionToOutputCell(boolean changeScannedColumn) { 
+            if (nx == 1) {//exception if 1 column
+                for (int y = 0; y < ny; y++) {//make excited column
+                centerExcition = centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[0][y].computeInputToCell();
+                }
             } else {
-                centerExcition = ((centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][ny / 2].computeInputToCell()) + (centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[(nx / 2) - 1][ny / 2].computeInputToCell()) + (centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[(nx / 2) - 1][(ny / 2) - 1].computeInputToCell()) + (centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][(ny / 2) - 1].computeInputToCell())) / 4;//average of 4 central cells
-            }
-            return centerExcition;
+               if (changeScannedColumn = true) {
+                   excitedColumnNumber++;
+                   if (excitedColumnNumber == nx) {//if at the edge, return
+                      excitedColumnNumber = 0;
+                   }
+                   changeScannedColumn = false;                   
+               }
+                 for (int y = 0; y < ny; y++) {
+                    centerExcition += centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[excitedColumnNumber][y].computeInputToCell();
+                 }
+                centerExcition /= (nx);
+           }
+            FrequencyDetectionCell.this.centerExcition = centerExcition;
+            return FrequencyDetectionCell.this.centerExcition;
         }
 
         synchronized private void reset() {
@@ -288,7 +309,8 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
             }
         }
 
-        private void render(GL gl) {
+
+        private void render(GL gl) {//fix graphic 
             final float alpha = .2f;
             glu.gluQuadricDrawStyle(quad, GLU.GLU_FILL);
             int off = (1 << (subunitSubsamplingBits)) / 2;
@@ -296,7 +318,7 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
                 for (int y = 0; y < ny; y++) {
                     gl.glPushMatrix();
                     gl.glTranslatef((x << subunitSubsamplingBits) + off, (y << subunitSubsamplingBits) + off, 5);
-                    if ((x == nx / 2 && y == ny / 2) || (x == ((nx / 2) - 1) && y == ny / 2) || (x == ((nx / 2) - 1) && y == ((ny / 2) - 1)) || (x == nx / 2 && y == ((ny / 2) - 1))) {
+                    if (x == excitedColumnNumber|| x == inhibitedColumnNumber) {
                         gl.glColor4f(1, 0, 0, alpha);
                     } else {
                         gl.glColor4f(0, 1, 0, alpha);
@@ -307,9 +329,9 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
             }
             renderer.begin3DRendering();
             renderer.setColor(0, 1, 0, 1);
-            renderer.draw3D("Center", 0, chip.getSizeY(), 0, .5f);
+            renderer.draw3D("Inhibition", 0, chip.getSizeY(), 0, .5f);
             renderer.setColor(1, 0, 0, 1);
-            renderer.draw3D("Surround", chip.getSizeX() / 2, chip.getSizeY(), 0, .5f);
+            renderer.draw3D("Active Scan", chip.getSizeX() / 2, chip.getSizeY(), 0, .5f);
             renderer.end3DRendering();
 
 
@@ -317,7 +339,7 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
     }
 
     // models one single subunit ON or OFF.
-    // polarity is ignored here and only handled on update of objectMotion cell
+    // polarity is ignored here and only handled on update of frequencyDetection cell
     private class Subunit {
 
         float vmem;
@@ -380,12 +402,10 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
         }
     }
 
-    // models soma and integration and spiking of objectMotion cell
-    private class ObjectMotionCellModel {
+    // models soma and integration and spiking of frequencyDetection cell
+    private class FrequencyDetectionCellModel {
 
         int lastTimestamp = 0;
-//        float threshold;
-//        float refracPeriodMs;
         Random r = new Random();
         float membraneState = 0;
         int nSpikes = 0; // counts spikes since last rendering cycle
@@ -393,12 +413,24 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
         private int lastSpikeTimestamp = 0;
         private boolean initialized = false;
         float spikeRateHz = 0;
+        boolean changeScannedColumn = false; //signal that tells to switch column
+        float startTime = System.currentTimeMillis();//start time
 
 
         synchronized private boolean update(int timestamp) {
             // compute subunit input to us
-            float netSynapticInput = (subunits.computeExicitionToOutputCell() - subunits.computeInhibitionToOutputCell());
-           int dtUs = timestamp - lastTimestamp;
+            float netSynapticInput = (subunits.computeExicitionToOutputCell(changeScannedColumn) - subunits.computeInhibitionToOutputCell(changeScannedColumn));
+            float currentTime = System.currentTimeMillis();//current time
+            float timeElapsed = (currentTime - startTime)*1e-3f;//time difference
+
+            if (timeElapsed > (1/getScanningFrequencyHz())) { //check if period has ended and if it is time to switch column
+                startTime = currentTime;
+                changeScannedColumn = true;//change column
+            } else  {
+                changeScannedColumn = false;//keep the same column within the period                
+            }
+                    
+            int dtUs = timestamp - lastTimestamp;
             if (dtUs < 0) {
                 dtUs = 0; // to handle negative dt
             }
@@ -431,7 +463,8 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
                 }
             }
         }
-     void spike(int timestamp) {
+
+        void spike(int timestamp) {
             if (enableSpikeSound) {
                 spikeSound.play();
             }
@@ -473,18 +506,18 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
     }
 
     /**
-     * @return the showobjectMotionCell
+     * @return the showfrequencyDetectionCell
      */
     public boolean isShowOutputCell() {
         return showOutputCell;
     }
 
     /**
-     * @param showobjectMotionCell the showobjectMotionCell to set
+     * @param showfrequencyDetectionCell the showfrequencyDetectionCell to set
      */
-    public void setShowOutputCell(boolean showObjectMotionCell) {
-        this.showOutputCell = showObjectMotionCell;
-        putBoolean("showOutputCell", showObjectMotionCell);
+    public void setShowOutputCell(boolean showFrequencyDetectionCell) {
+        this.showOutputCell = showFrequencyDetectionCell;
+        putBoolean("showOutputCell", showFrequencyDetectionCell);
     }
 
     /**
@@ -610,6 +643,21 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
     public void setMinUpdateIntervalUs(int minUpdateIntervalUs) {
         this.minUpdateIntervalUs = minUpdateIntervalUs;
         putInt("minUpdateIntervalUs", minUpdateIntervalUs);
+    }
+
+    /**
+     * @return the scanningFrequencyHz
+     */
+    public float getScanningFrequencyHz() {
+        return scanningFrequencyHz;
+    }
+
+    /**
+     * @param scanningFrequencyHz the scanningFrequencyHz to set
+     */
+    public void setScanningFrequencyHz(float scanningFrequencyHz) {
+        this.scanningFrequencyHz = scanningFrequencyHz;
+        putFloat("scanningFrequencyHz", scanningFrequencyHz);
     }
 
     /**
