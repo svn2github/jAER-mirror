@@ -32,7 +32,7 @@ import net.sf.jaer.util.filter.LowpassFilter;
  * off activity in its extended RF, such as that caused by a saccadic eye
  * movement.
  *
- * @author tobi
+ * @author tobi and diederik
  */
 @Description("Models object motion cell known mouse and salamander retina")
 //@DevelopmentStatus(DevelopmentStatus.Status.Experimental)
