@@ -251,7 +251,7 @@ public class VerticalObjectMotionCell extends EventFilter2D implements FrameAnno
                     inhibition += subunits[x][y].computeInputToCell();
                 }
             }
-            inhibition /= (ntot - ((nx+1)*2));
+            inhibition /= (ntot - (nx*2));
             VerticalObjectMotionCell.this.inhibition = synapticWeight * inhibition;
             return VerticalObjectMotionCell.this.inhibition;
         }
@@ -265,7 +265,7 @@ public class VerticalObjectMotionCell extends EventFilter2D implements FrameAnno
                     centerExcition += centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[x][y].computeInputToCell();
                 }
             }
-                centerExcition /= ((nx+1)*2);
+                centerExcition /= (nx*2);
             }
             return centerExcition;//dividi
         }
