@@ -319,7 +319,7 @@ public class FrequencyDetectionCell extends EventFilter2D implements FrameAnnota
                     gl.glPushMatrix();
                     gl.glTranslatef((x << subunitSubsamplingBits) + off, (y << subunitSubsamplingBits) + off, 5);
                     if (x == excitedColumnNumber|| x == inhibitedColumnNumber) {
-                        gl.glColor4f(1, 0, 0, alpha);
+//                        gl.glColor4f(1, 0, 0, alpha);
                     } else {
                         gl.glColor4f(0, 1, 0, alpha);
                     }
@@ -421,9 +421,9 @@ public class FrequencyDetectionCell extends EventFilter2D implements FrameAnnota
             // compute subunit input to us
             float netSynapticInput = (subunits.computeExicitionToOutputCell(changeScannedColumn) - subunits.computeInhibitionToOutputCell(changeScannedColumn));
             float currentTime = System.currentTimeMillis();//current time
-            float timeElapsed = (currentTime - startTime)*1e-3f;//time difference
+            float timeElapsedS = (currentTime - startTime)*1e3f;//time difference
 
-            if (timeElapsed > (1/getScanningFrequencyHz())) { //check if period has ended and if it is time to switch column
+            if (timeElapsedS > (1/scanningFrequencyHz)) { //check if period has ended and if it is time to switch column
                 startTime = currentTime;
                 changeScannedColumn = true;//change column
             } else  {

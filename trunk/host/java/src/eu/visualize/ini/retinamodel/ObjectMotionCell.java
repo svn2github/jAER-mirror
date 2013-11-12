@@ -34,28 +34,17 @@ import net.sf.jaer.util.filter.LowpassFilter;
  *
  * @author tobi and diederik
  */
-@Description("Models object motion cell known mouse and salamander retina")
+@Description("Models object motion cell known from mouse and salamander retina")
 //@DevelopmentStatus(DevelopmentStatus.Status.Experimental)
-public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, Observer {
-
-    private boolean showSubunits = getBoolean("showSubunits", true);
-    private boolean showOutputCell = getBoolean("showOutputCell", true);
-    private int subunitSubsamplingBits = getInt("subunitSubsamplingBits", 4); // each subunit is 2^n squared pixels
-    private float subunitDecayTimeconstantMs = getFloat("subunitDecayTimeconstantMs", 2);
-    private boolean enableSpikeSound = getBoolean("enableSpikeSound", true);
+public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAnnotater, Observer {
     private ObjectMotionCellModel objectMotionCellModel = new ObjectMotionCellModel();
     private float synapticWeight = getFloat("synapticWeight", 30);
-    private float maxSpikeRateHz = getFloat("maxSpikeRateHz", 100);
     private float centerExcitionToSurroundInhibitionRatio = getFloat("centerExcitationToSurroundInhibitionRatio", 1f);
-    private int minUpdateIntervalUs = getInt("minUpdateIntervalUs", 10000);
     private boolean surroundSuppressionEnabled = getBoolean("surroundSuppressionEnabled", false);
     private Subunits subunits;
-    private SpikeSound spikeSound = new SpikeSound();
     float inhibition = 0, centerExcition = 0; // summed subunit input to object motion cell
-    private TextRenderer renderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 10), true, true);
     private float subunitActivityBlobRadiusScale = getFloat("subunitActivityBlobRadiusScale", 2f);
     private float integrateAndFireThreshold = getFloat("integrateAndFireThreshold", 1f);
-    private boolean poissonFiringEnabled = getBoolean("poissonFiringEnabled", true);
 
     public ObjectMotionCell(AEChip chip) {
         super(chip);
@@ -107,41 +96,12 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
 //        System.out.println(String.format("spikeRate=%.1g \tonActivity=%.2f \toffActivity=%.1f", objectMotionCellModel.spikeRate, inhibition, offExcitation));
         return in;
     }
-
-    @Override
-    public void resetFilter() {
-        subunits = new Subunits();
-    }
-
-    @Override
-    public void initFilter() {
-        resetFilter();
-    }
-    GLU glu = new GLU();
-    GLUquadric quad = glu.gluNewQuadric();
-    boolean hasBlendChecked = false;
-    boolean hasBlend = false;
-
-    @Override
+    
+       @Override
     public void annotate(GLAutoDrawable drawable) {
+        super.annotate(drawable);
         GL gl = drawable.getGL();
-        if (!hasBlendChecked) {
-            hasBlendChecked = true;
-            String glExt = gl.glGetString(GL.GL_EXTENSIONS);
-            if (glExt.indexOf("GL_EXT_blend_color") != -1) {
-                hasBlend = true;
-            }
-        }
-        if (hasBlend) {
-            try {
-                gl.glEnable(GL.GL_BLEND);
-                gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-                gl.glBlendEquation(GL.GL_FUNC_ADD);
-            } catch (GLException e) {
-                e.printStackTrace();
-                hasBlend = false;
-            }
-        }
+ 
         gl.glPushMatrix();
         gl.glTranslatef(chip.getSizeX() / 2, chip.getSizeY() / 2, 10);
         if (showOutputCell && objectMotionCellModel.nSpikes > getIntegrateAndFireThreshold()) {
@@ -152,7 +112,6 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
             objectMotionCellModel.resetSpikeCount();
         }
         gl.glPopMatrix();
-
         if (showSubunits) {
             gl.glColor4f(0, 1, 0, .3f);
             gl.glRectf(-10, 0, -5, inhibition);
@@ -167,14 +126,16 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
             // render all the subunits now
             subunits.render(gl);
         }
-
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        if (arg != null && (arg == AEChip.EVENT_SIZEX || arg == AEChip.EVENT_SIZEY) && chip.getNumPixels() > 0) {
-            initFilter();
-        }
+    public void resetFilter() {
+        subunits = new Subunits();
+    }
+
+    @Override
+    public void initFilter() {
+        resetFilter();
     }
 
     /**
@@ -457,65 +418,12 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
         }
 
     }
-    /**
-     * @return the showSubunits
-     */
-    public boolean isShowSubunits() {
-        return showSubunits;
-    }
-
-    /**
-     * @param showSubunits the showSubunits to set
-     */
-    public void setShowSubunits(boolean showSubunits) {
-        this.showSubunits = showSubunits;
-        putBoolean("showSubunits", showSubunits);
-    }
-
-    /**
-     * @return the showobjectMotionCell
-     */
-    public boolean isShowOutputCell() {
-        return showOutputCell;
-    }
-
-    /**
-     * @param showobjectMotionCell the showobjectMotionCell to set
-     */
-    public void setShowOutputCell(boolean showObjectMotionCell) {
-        this.showOutputCell = showObjectMotionCell;
-        putBoolean("showOutputCell", showObjectMotionCell);
-    }
-
-    /**
-     * @return the subunitSubsamplingBits
-     */
-    public int getSubunitSubsamplingBits() {
-        return subunitSubsamplingBits;
-    }
-
-    /**
-     * @param subunitSubsamplingBits the subunitSubsamplingBits to set
-     */
-    synchronized public void setSubunitSubsamplingBits(int subunitSubsamplingBits) {
-        this.subunitSubsamplingBits = subunitSubsamplingBits;
-        putInt("subunitSubsamplingBits", subunitSubsamplingBits);
-        resetFilter();
-    }
 
     /**
      * @return the subunitDecayTimeconstantMs
      */
     public float getSubunitDecayTimeconstantMs() {
         return subunitDecayTimeconstantMs;
-    }
-
-    /**
-     * @param subunitDecayTimeconstantMs the subunitDecayTimeconstantMs to set
-     */
-    public void setSubunitDecayTimeconstantMs(float subunitDecayTimeconstantMs) {
-        this.subunitDecayTimeconstantMs = subunitDecayTimeconstantMs;
-        putFloat("subunitDecayTimeconstantMs", subunitDecayTimeconstantMs);
     }
 
     /**
@@ -538,21 +446,6 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
     }
 
     /**
-     * @return the enableSpikeSound
-     */
-    public boolean isEnableSpikeSound() {
-        return enableSpikeSound;
-    }
-
-    /**
-     * @param enableSpikeSound the enableSpikeSound to set
-     */
-    public void setEnableSpikeSound(boolean enableSpikeSound) {
-        this.enableSpikeSound = enableSpikeSound;
-        putBoolean("enableSpikeSound", enableSpikeSound);
-    }
-
-    /**
      * @return the synapticWeight
      */
     public float getSynapticWeight() {
@@ -565,21 +458,6 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
     public void setSynapticWeight(float synapticWeight) {
         this.synapticWeight = synapticWeight;
         putFloat("synapticWeight", synapticWeight);
-    }
-
-    /**
-     * @return the maxSpikeRateHz
-     */
-    public float getMaxSpikeRateHz() {
-        return maxSpikeRateHz;
-    }
-
-    /**
-     * @param maxSpikeRateHz the maxSpikeRateHz to set
-     */
-    public void setMaxSpikeRateHz(float maxSpikeRateHz) {
-        this.maxSpikeRateHz = maxSpikeRateHz;
-        putFloat("maxSpikeRateHz", maxSpikeRateHz);
     }
 
     /**
@@ -598,21 +476,6 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
     }
 
     /**
-     * @return the minUpdateIntervalUs
-     */
-    public int getMinUpdateIntervalUs() {
-        return minUpdateIntervalUs;
-    }
-
-    /**
-     * @param minUpdateIntervalUs the minUpdateIntervalUs to set
-     */
-    public void setMinUpdateIntervalUs(int minUpdateIntervalUs) {
-        this.minUpdateIntervalUs = minUpdateIntervalUs;
-        putInt("minUpdateIntervalUs", minUpdateIntervalUs);
-    }
-
-    /**
      * @return the surroundSuppressionEnabled
      */
     public boolean isSurroundSuppressionEnabled() {
@@ -625,19 +488,5 @@ public class ObjectMotionCell extends EventFilter2D implements FrameAnnotater, O
     public void setSurroundSuppressionEnabled(boolean surroundSuppressionEnabled) {
         this.surroundSuppressionEnabled = surroundSuppressionEnabled;
         putBoolean("surroundSuppressionEnabled", surroundSuppressionEnabled);
-    }
-        /**
-     * @return the poissonFiringEnabled
-     */
-    public boolean isPoissonFiringEnabled() {
-        return poissonFiringEnabled;
-    }
-
-    /**
-     * @param poissonFiringEnabled the poissonFiringEnabled to set
-     */
-    public void setPoissonFiringEnabled(boolean poissonFiringEnabled) {
-        this.poissonFiringEnabled = poissonFiringEnabled;
-        putBoolean("poissonFiringEnabled", poissonFiringEnabled);
     }
 }

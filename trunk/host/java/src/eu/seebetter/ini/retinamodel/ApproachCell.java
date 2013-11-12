@@ -5,6 +5,7 @@
 package eu.seebetter.ini.retinamodel;
 
 import com.sun.opengl.util.j2d.TextRenderer;
+import eu.visualize.ini.retinamodel.AbstractRetinaModelCell;
 import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
@@ -141,30 +142,20 @@ import net.sf.jaer.util.filter.LowpassFilter;
  */
 @Description("Models approach cell discovered by Botond Roska group")
 @DevelopmentStatus(DevelopmentStatus.Status.Experimental)
-public class ApproachCell extends EventFilter2D implements FrameAnnotater, Observer {
+public class ApproachCell extends AbstractRetinaModelCell {
 
-    private boolean showSubunits = getBoolean("showSubunits", true);
     private boolean showApproachCell = getBoolean("showApproachCell", true);
-    private int subunitSubsamplingBits = getInt("subunitSubsamplingBits", 4); // each subunit is 2^n squared pixels
-    private float subunitDecayTimeconstantMs = getFloat("subunitDecayTimeconstantMs", 60);
-    private boolean enableSpikeSound = getBoolean("enableSpikeSound", true);
     private ApproachCellModel approachCellModel = new ApproachCellModel();
     private float synapticWeight = getFloat("synapticWeight", 30);
-    private float maxSpikeRateHz = getFloat("maxSpikeRateHz", 100);
     private float onOffWeightRatio = getFloat("onOffWeightRatio", 1.2f);
-    private int minUpdateIntervalUs = getInt("minUpdateIntervalUs", 10000);
     private boolean surroundSuppressionEnabled = getBoolean("surroundSuppressionEnabled", false);
 //    private SubSampler subSampler=new SubSampler(chip);
     private Subunits subunits;
-    private SpikeSound spikeSound = new SpikeSound();
     float onInhibition = 0, offExcitation = 0; // summed subunit input to approach cell
-    private TextRenderer renderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 10), true, true);
     private float integrateAndFireThreshold = getFloat("integrateAndFireThreshold", 1f);
-    private boolean poissonFiringEnabled = getBoolean("poissonFiringEnabled", true);
 
     public ApproachCell(AEChip chip) {
         super(chip);
-        chip.addObserver(this);
         setPropertyTooltip("showSubunits", "Enables showing subunit activity annotation over retina output");
         setPropertyTooltip("showApproachCell", "Enables showing approach cell activity annotation over retina output");
         setPropertyTooltip("subunitSubsamplingBits", "Each subunit integrates events from 2^n by 2^n pixels, where n=subunitSubsamplingBits");
@@ -576,21 +567,6 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
     }
 
     /**
-     * @return the showSubunits
-     */
-    public boolean isShowSubunits() {
-        return showSubunits;
-    }
-
-    /**
-     * @param showSubunits the showSubunits to set
-     */
-    public void setShowSubunits(boolean showSubunits) {
-        this.showSubunits = showSubunits;
-        putBoolean("showSubunits", showSubunits);
-    }
-
-    /**
      * @return the showApproachCell
      */
     public boolean isShowApproachCell() {
@@ -603,22 +579,6 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
     public void setShowApproachCell(boolean showApproachCell) {
         this.showApproachCell = showApproachCell;
         putBoolean("showApproachCell", showApproachCell);
-    }
-
-    /**
-     * @return the subunitSubsamplingBits
-     */
-    public int getSubunitSubsamplingBits() {
-        return subunitSubsamplingBits;
-    }
-
-    /**
-     * @param subunitSubsamplingBits the subunitSubsamplingBits to set
-     */
-    synchronized public void setSubunitSubsamplingBits(int subunitSubsamplingBits) {
-        this.subunitSubsamplingBits = subunitSubsamplingBits;
-        putInt("subunitSubsamplingBits", subunitSubsamplingBits);
-        resetFilter();
     }
 
     /**
@@ -637,21 +597,6 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
     }
 
     /**
-     * @return the enableSpikeSound
-     */
-    public boolean isEnableSpikeSound() {
-        return enableSpikeSound;
-    }
-
-    /**
-     * @param enableSpikeSound the enableSpikeSound to set
-     */
-    public void setEnableSpikeSound(boolean enableSpikeSound) {
-        this.enableSpikeSound = enableSpikeSound;
-        putBoolean("enableSpikeSound", enableSpikeSound);
-    }
-
-    /**
      * @return the synapticWeight
      */
     public float getSynapticWeight() {
@@ -664,21 +609,6 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
     public void setSynapticWeight(float synapticWeight) {
         this.synapticWeight = synapticWeight;
         putFloat("synapticWeight", synapticWeight);
-    }
-
-    /**
-     * @return the maxSpikeRateHz
-     */
-    public float getMaxSpikeRateHz() {
-        return maxSpikeRateHz;
-    }
-
-    /**
-     * @param maxSpikeRateHz the maxSpikeRateHz to set
-     */
-    public void setMaxSpikeRateHz(float maxSpikeRateHz) {
-        this.maxSpikeRateHz = maxSpikeRateHz;
-        putFloat("maxSpikeRateHz", maxSpikeRateHz);
     }
 
     /**
@@ -696,48 +626,4 @@ public class ApproachCell extends EventFilter2D implements FrameAnnotater, Obser
         putFloat("onOffWeightRatio", onOffWeightRatio);
     }
 
-    /**
-     * @return the minUpdateIntervalUs
-     */
-    public int getMinUpdateIntervalUs() {
-        return minUpdateIntervalUs;
-    }
-
-    /**
-     * @param minUpdateIntervalUs the minUpdateIntervalUs to set
-     */
-    public void setMinUpdateIntervalUs(int minUpdateIntervalUs) {
-        this.minUpdateIntervalUs = minUpdateIntervalUs;
-        putInt("minUpdateIntervalUs", minUpdateIntervalUs);
-    }
-
-    /**
-     * @return the surroundSuppressionEnabled
-     */
-    public boolean isSurroundSuppressionEnabled() {
-        return surroundSuppressionEnabled;
-    }
-
-    /**
-     * @param surroundSuppressionEnabled the surroundSuppressionEnabled to set
-     */
-    public void setSurroundSuppressionEnabled(boolean surroundSuppressionEnabled) {
-        this.surroundSuppressionEnabled = surroundSuppressionEnabled;
-        putBoolean("surroundSuppressionEnabled", surroundSuppressionEnabled);
-    }
-
-    /**
-     * @return the poissonFiringEnabled
-     */
-    public boolean isPoissonFiringEnabled() {
-        return poissonFiringEnabled;
-    }
-
-    /**
-     * @param poissonFiringEnabled the poissonFiringEnabled to set
-     */
-    public void setPoissonFiringEnabled(boolean poissonFiringEnabled) {
-        this.poissonFiringEnabled = poissonFiringEnabled;
-        putBoolean("poissonFiringEnabled", poissonFiringEnabled);
-    }
 }
