@@ -113,6 +113,9 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     private CalibrationFilter panCalibrator, tiltCalibrator, rollCalibrator;
     TextRenderer imuTextRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
     private boolean showAnnotation = getBoolean("showAnnotation", true);
+    // transform control
+    public boolean disableTranslation=getBoolean("disableTranslation", false);
+    public boolean disableRotation=getBoolean("disableRotation", false);
     // array size vars, updated in update()
     private int sxm1;
     private int sym1;
@@ -150,12 +153,14 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
 
         setCameraRotationEstimator(cameraRotationEstimator); // init filter enabled states
         initFilter(); // init filters for motion compensation
+        String transform="Transform",pantilt="Pan-Tilt";
+        
         setPropertyTooltip("cameraRotationEstimator", "specifies which method is used to measure camera rotation");
-        setPropertyTooltip("gainTranslation", "gain applied to measured scene translation to affect electronic or mechanical output");
-        setPropertyTooltip("gainVelocity", "gain applied to measured scene velocity times the weighted-average cluster aqe to affect electronic or mechanical output");
-        setPropertyTooltip("gainPanTiltServos", "gain applied to translation for pan/tilt servo values");
+        setPropertyTooltip(pantilt,"gainTranslation", "gain applied to measured scene translation to affect electronic or mechanical output");
+        setPropertyTooltip(pantilt,"gainVelocity", "gain applied to measured scene velocity times the weighted-average cluster aqe to affect electronic or mechanical output");
+        setPropertyTooltip(pantilt,"gainPanTiltServos", "gain applied to translation for pan/tilt servo values");
         setPropertyTooltip("feedforwardEnabled", "enables motion computation on stabilized output of filter rather than input (only during use of DirectionSelectiveFilter)");
-        setPropertyTooltip("panTiltEnabled", "enables use of pan/tilt servos for camera");
+        setPropertyTooltip(pantilt,"panTiltEnabled", "enables use of pan/tilt servos for camera");
         setPropertyTooltip("electronicStabilizationEnabled", "stabilize by shifting events according to the PositionComputer");
         setPropertyTooltip("flipContrast", "flips contrast of output events depending on x*y sign of motion - should maintain colors of edges");
 //        setPropertyTooltip("cornerFreqHz", "sets highpass corner frequency in Hz for stabilization - frequencies smaller than this will not be stabilized and transform will return to zero on this time scale");
@@ -167,13 +172,16 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         setPropertyTooltip("eraseGyroZero", "Erases the gyro zero values");
 
         setPropertyTooltip("sampleIntervalMs", "sensor sample interval in ms, min 4ms, powers of two, e.g. 4,8,16,32...");
-        setPropertyTooltip("highpassTauMsTranslation", "highpass filter time constant in ms to relax transform back to zero for translation (pan, tilt) components");
-        setPropertyTooltip("highpassTauMsRotation", "highpass filter time constant in ms to relax transform back to zero for rotation (roll) component");
-        setPropertyTooltip("lensFocalLengthMm", "sets lens focal length in mm to adjust the scaling from camera rotation to pixel space");
+        setPropertyTooltip(transform,"highpassTauMsTranslation", "highpass filter time constant in ms to relax transform back to zero for translation (pan, tilt) components");
+        setPropertyTooltip(transform,"highpassTauMsRotation", "highpass filter time constant in ms to relax transform back to zero for rotation (roll) component");
+        setPropertyTooltip(transform,"lensFocalLengthMm", "sets lens focal length in mm to adjust the scaling from camera rotation to pixel space");
         setPropertyTooltip("zeroGyro", "zeros the gyro output. Sensor should be stationary for period of 1-2 seconds during zeroing");
         setPropertyTooltip("eraseGyroZero", "Erases the gyro zero values");
-        setPropertyTooltip("transformResetLimitDegrees", "If transform translations exceed this limit in degrees the transform is automatically reset to 0");
-        setPropertyTooltip("showAnnotation", "Disable to not show the red transform square and red cross hairs");
+        setPropertyTooltip(transform,"transformResetLimitDegrees", "If transform translations exceed this limit in degrees the transform is automatically reset to 0");
+        setPropertyTooltip(transform,"showAnnotation", "Disable to not show the red transform square and red cross hairs");
+        setPropertyTooltip(transform,"disableRotation","Disables rotational part of transform");
+        setPropertyTooltip(transform,"disableTranslation","Disables translations part of transform");
+        
         rollFilter.setTauMs(highpassTauMsRotation);
         panTranslationFilter.setTauMs(highpassTauMsTranslation);
         tiltTranslationFilter.setTauMs(highpassTauMsTranslation);
@@ -224,10 +232,10 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
                 }
 
                 if (lastTransform != null) {
-                    ev.x -= sx2;
-                    ev.y -= sy2;
-                    ev.x = (short) ((lastTransform.cosAngle * ev.x - lastTransform.sinAngle * ev.y + lastTransform.translation.x) + sx2);
-                    ev.y = (short) ((lastTransform.sinAngle * ev.x + lastTransform.cosAngle * ev.y + lastTransform.translation.y) + sy2);
+                    // apply transform Re+T. First center events from middle of array at 0,0, then transform, then move them back to their origin
+                    int nx = ev.x - sx2, ny = ev.y - sy2;
+                    ev.x = (short) ((lastTransform.cosAngle * nx - lastTransform.sinAngle * ny + lastTransform.translation.x) + sx2);
+                    ev.y = (short) ((lastTransform.sinAngle * nx + lastTransform.cosAngle * ny + lastTransform.translation.y) + sy2);
                     ev.address = chip.getEventExtractor().getAddressFromCell(ev.x, ev.y, ev.getType()); // so event is logged properly to disk
                 }
 
@@ -369,6 +377,13 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
             }
         }
 
+        if (disableRotation) {
+            rollDeg = 0;
+        }
+        if (disableTranslation) {
+            panTranslationDeg = 0;
+            tiltTranslationDeg = 0;
+        }
 
         // computute transform in TransformAtTime units here.
         // Use the lens focal length and camera resolution.
@@ -428,7 +443,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
      *
      * @param in the input event packet.
      */
-    private void computeTransform(UpdateMessage msg) {
+    private void computeTransform(UpdateMessage msg) { // only used in DirectionSelectiveFilter and OpticalGyro. IMU transform is applied inline in filterPacket
         float shiftx = 0, shifty = 0;
         float rot = 0;
         Point2D.Float trans = new Point2D.Float();
@@ -890,6 +905,36 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     public void setShowAnnotation(boolean showAnnotation) {
         this.showAnnotation = showAnnotation;
         putBoolean("showAnnotation", showAnnotation);
+    }
+
+    /**
+     * @return the disableTranslation
+     */
+    public boolean isDisableTranslation() {
+        return disableTranslation;
+    }
+
+    /**
+     * @param disableTranslation the disableTranslation to set
+     */
+    public void setDisableTranslation(boolean disableTranslation) {
+        this.disableTranslation = disableTranslation;
+        putBoolean("disableTranslation", disableTranslation);
+    }
+
+    /**
+     * @return the disableRotation
+     */
+    public boolean isDisableRotation() {
+        return disableRotation;
+    }
+
+    /**
+     * @param disableRotation the disableRotation to set
+     */
+    public void setDisableRotation(boolean disableRotation) {
+        this.disableRotation = disableRotation;
+        putBoolean("disableRotation",disableRotation);
     }
 
     private class CalibrationFilter {
