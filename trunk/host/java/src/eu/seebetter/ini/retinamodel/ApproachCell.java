@@ -390,9 +390,9 @@ public class ApproachCell extends AbstractRetinaModelCell {
                     final int shift = 1 << (subunitSubsamplingBits - 1);
                     gl.glTranslatef(shift + (x << subunitSubsamplingBits), shift + (y << subunitSubsamplingBits), 5);
                     gl.glColor4f(1, 0, 0, alpha);
-                    glu.gluDisk(quad, 0, scaleRadius * offSubunits[x][y].computeInputToApproachCell(), 16, 1);
+                    glu.gluDisk(quad, 0, scaleRadius *synapticWeight* offSubunits[x][y].computeInputToApproachCell(), 16, 1);
                     gl.glColor4f(0, 1, 0, alpha);
-                    glu.gluDisk(quad, 0, scaleRadius * onSubunits[x][y].computeInputToApproachCell(), 16, 1);
+                    glu.gluDisk(quad, 0, scaleRadius *synapticWeight*  onSubunits[x][y].computeInputToApproachCell(), 16, 1);
                     gl.glPopMatrix();
                 }
             }
