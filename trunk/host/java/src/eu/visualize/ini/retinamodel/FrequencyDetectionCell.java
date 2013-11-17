@@ -48,7 +48,7 @@ public class FrequencyDetectionCell extends EventFilter2D implements FrameAnnota
     private boolean surroundSuppressionEnabled = getBoolean("surroundSuppressionEnabled", false);
     private Subunits subunits;
     private SpikeSound spikeSound = new SpikeSound();
-    float inhibition = 0, centerExcition = 0; // summed subunit input to object motion cell
+    float inhibition = 0, centerExcitation = 0; // summed subunit input to object motion cell
     private TextRenderer renderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 10), true, true);
     private float subunitActivityBlobRadiusScale = getFloat("subunitActivityBlobRadiusScale", 2f);
     private float integrateAndFireThreshold = getFloat("integrateAndFireThreshold", 1f);
@@ -153,14 +153,14 @@ public class FrequencyDetectionCell extends EventFilter2D implements FrameAnnota
         gl.glPopMatrix();
 
         if (showSubunits) {
-            gl.glColor4f(0, 1, 0, .3f);
-            gl.glRectf(-10, 0, -5, inhibition);
             gl.glColor4f(1, 0, 0, .3f);
-            gl.glRectf(-20, 0, -15, centerExcition);
+            gl.glRectf(-10, 0, -5, inhibition);
+            gl.glColor4f(0, 1, 0, .3f);
+            gl.glRectf(-20, 0, -15, centerExcitation);
             renderer.begin3DRendering();
-            renderer.setColor(0, 1, 0, .3f);
-            renderer.draw3D("ini", -10, -3, 0, .4f);
             renderer.setColor(1, 0, 0, .3f);
+            renderer.draw3D("ini", -10, -3, 0, .4f);
+            renderer.setColor(0, 1, 0, .3f);
             renderer.draw3D("exc", -20, -3, 0, .4f);
             renderer.end3DRendering();
             // render all the subunits now
@@ -201,7 +201,6 @@ public class FrequencyDetectionCell extends EventFilter2D implements FrameAnnota
         int ntot;
         int lastUpdateTimestamp;
         int excitedColumnNumber = 0;
-        int inhibitedColumnNumber = 0;
 
         public Subunits() {
             reset();
@@ -236,24 +235,22 @@ public class FrequencyDetectionCell extends EventFilter2D implements FrameAnnota
         }
  //       float totalInhibition, totalExcitation;
         
-        float computeInhibitionToOutputCell(boolean changeScannedColumn) {
-//            totalInhibition = 0;
+        float computeInhibitionToOutputCell() {
             float inhibition = 0;
             if (nx == 1) {//exception if 1 column
                 for (int y = 0; y < ny; y++) {//ignore column
                    continue;
                 }
             } else {
-               if (changeScannedColumn = true) {
-                   inhibitedColumnNumber++;
-                   if (inhibitedColumnNumber == nx) {//if at the edge, return
-                      inhibitedColumnNumber = 0;
-                   }
-                   changeScannedColumn = false;
-               }
+ //              if (changeScannedColumn = true) {
+ //                  excitedColumnNumber++;
+ //                  if (excitedColumnNumber == nx) {//if at the edge, return
+ //                     excitedColumnNumber = 0;
+ //                  }
+ //              }
                  for (int y = 0; y < ny; y++) {
                     for (int x = 0; x < nx; x++) {
-                        if (x != inhibitedColumnNumber) {
+                        if (x != excitedColumnNumber) {
                             inhibition += subunits[x][y].computeInputToCell();
                         } else {
                         continue;
@@ -267,10 +264,10 @@ public class FrequencyDetectionCell extends EventFilter2D implements FrameAnnota
             return FrequencyDetectionCell.this.inhibition;
         }
 
-        float computeExicitionToOutputCell(boolean changeScannedColumn) { 
+        float computeExicitationToOutputCell(boolean changeScannedColumn) { 
             if (nx == 1) {//exception if 1 column
                 for (int y = 0; y < ny; y++) {//make excited column
-                centerExcition = centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[0][y].computeInputToCell();
+                centerExcitation = centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[0][y].computeInputToCell();
                 }
             } else {
                if (changeScannedColumn = true) {
@@ -281,17 +278,17 @@ public class FrequencyDetectionCell extends EventFilter2D implements FrameAnnota
                    changeScannedColumn = false;                   
                }
                  for (int y = 0; y < ny; y++) {
-                    centerExcition += centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[excitedColumnNumber][y].computeInputToCell();
+                    centerExcitation += centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[excitedColumnNumber][y].computeInputToCell();
                  }
-                centerExcition /= (nx);
+                centerExcitation /= (nx);
            }
-            FrequencyDetectionCell.this.centerExcition = centerExcition;
-            return FrequencyDetectionCell.this.centerExcition;
+            FrequencyDetectionCell.this.centerExcitation = centerExcitation;
+            return FrequencyDetectionCell.this.centerExcitation;
         }
 
         synchronized private void reset() {
             inhibition = 0;
-            centerExcition = 0;
+            centerExcitation = 0;
             nx = (chip.getSizeX() >> getSubunitSubsamplingBits());
             ny = (chip.getSizeY() >> getSubunitSubsamplingBits());
             if (nx < 1) {
@@ -318,12 +315,12 @@ public class FrequencyDetectionCell extends EventFilter2D implements FrameAnnota
                 for (int y = 0; y < ny; y++) {
                     gl.glPushMatrix();
                     gl.glTranslatef((x << subunitSubsamplingBits) + off, (y << subunitSubsamplingBits) + off, 5);
-                    if (x == excitedColumnNumber|| x == inhibitedColumnNumber) {
-//                        gl.glColor4f(1, 0, 0, alpha);
+                    if (x == excitedColumnNumber) {
+                       gl.glColor4f(0, 1, 0, alpha);
                     } else {
-                        gl.glColor4f(0, 1, 0, alpha);
+                       gl.glColor4f(1, 0, 0, alpha);
                     }
-                    glu.gluDisk(quad, 0, subunitActivityBlobRadiusScale * subunits[x][y].computeInputToCell(), 16, 1);
+                    glu.gluDisk(quad, 0, subunitActivityBlobRadiusScale * synapticWeight * subunits[x][y].computeInputToCell(), 16, 1);
                     gl.glPopMatrix();
                 }
             }
@@ -414,20 +411,23 @@ public class FrequencyDetectionCell extends EventFilter2D implements FrameAnnota
         private boolean initialized = false;
         float spikeRateHz = 0;
         boolean changeScannedColumn = false; //signal that tells to switch column
-        float startTime = System.currentTimeMillis();//start time
-
+        int lastScanTimestampUs = 0;
+        int timeElapsedS = 0;
 
         synchronized private boolean update(int timestamp) {
             // compute subunit input to us
-            float netSynapticInput = (subunits.computeExicitionToOutputCell(changeScannedColumn) - subunits.computeInhibitionToOutputCell(changeScannedColumn));
-            float currentTime = System.currentTimeMillis();//current time
-            float timeElapsedS = (currentTime - startTime)*1e3f;//time difference
+            float netSynapticInput = (subunits.computeExicitationToOutputCell(changeScannedColumn) - subunits.computeInhibitionToOutputCell());
+ 
+            timeElapsedS = (int) ((timestamp - lastScanTimestampUs)*1e-6);//time difference
 
             if (timeElapsedS > (1/scanningFrequencyHz)) { //check if period has ended and if it is time to switch column
-                startTime = currentTime;
+                lastScanTimestampUs = timestamp;//current time
                 changeScannedColumn = true;//change column
-            } else  {
-                changeScannedColumn = false;//keep the same column within the period                
+            } if (timeElapsedS < (1/scanningFrequencyHz) && timeElapsedS >= 0) {
+                changeScannedColumn = false;
+            } if (timeElapsedS < 0) {
+                lastScanTimestampUs = 0;
+                changeScannedColumn = true;
             }
                     
             int dtUs = timestamp - lastTimestamp;

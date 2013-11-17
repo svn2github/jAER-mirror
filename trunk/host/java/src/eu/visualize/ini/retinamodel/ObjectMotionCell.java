@@ -262,7 +262,7 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
                     } else {
                         gl.glColor4f(0, 1, 0, alpha);
                     }
-                    glu.gluDisk(quad, 0, subunitActivityBlobRadiusScale * subunits[x][y].computeInputToCell(), 16, 1);
+                    glu.gluDisk(quad, 0, subunitActivityBlobRadiusScale *synapticWeight * subunits[x][y].computeInputToCell(), 16, 1);
                     gl.glPopMatrix();
                 }
             }
