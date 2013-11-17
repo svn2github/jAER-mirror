@@ -1,9 +1,6 @@
 package net.sf.jaer2.util;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-public class TripleRO<T, U, V> {
+public final class TripleRO<T, U, V> {
 	private final T one;
 	private final U two;
 	private final V three;
@@ -27,8 +24,23 @@ public class TripleRO<T, U, V> {
 	}
 
 	@Override
+	public String toString() {
+		return String.format("First = [%s], Second = [%s], Third = [%s]", one.toString(), two.toString(),
+			three.toString());
+	}
+
+	public static <T, U, V> TripleRO<T, U, V> of(final T one, final U two, final V three) {
+		return new TripleRO<>(one, two, three);
+	}
+
+	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(one).append(two).append(three).toHashCode();
+		final int prime = 31;
+		int result = 1;
+		result = (prime * result) + ((one == null) ? 0 : one.hashCode());
+		result = (prime * result) + ((three == null) ? 0 : three.hashCode());
+		result = (prime * result) + ((two == null) ? 0 : two.hashCode());
+		return result;
 	}
 
 	@Override
@@ -39,22 +51,39 @@ public class TripleRO<T, U, V> {
 		if (obj == null) {
 			return false;
 		}
-		if (this.getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass()) {
 			return false;
 		}
 
 		final TripleRO<?, ?, ?> other = (TripleRO<?, ?, ?>) obj;
 
-		return new EqualsBuilder().append(one, other.one).append(two, other.two).append(three, other.three).isEquals();
-	}
+		if (one == null) {
+			if (other.one != null) {
+				return false;
+			}
+		}
+		else if (!one.equals(other.one)) {
+			return false;
+		}
 
-	@Override
-	public String toString() {
-		return String.format("First = [%s], Second = [%s], Third = [%s]", one.toString(), two.toString(),
-			three.toString());
-	}
+		if (three == null) {
+			if (other.three != null) {
+				return false;
+			}
+		}
+		else if (!three.equals(other.three)) {
+			return false;
+		}
 
-	public static <T, U, V> TripleRO<T, U, V> of(final T one, final U two, final V three) {
-		return new TripleRO<>(one, two, three);
+		if (two == null) {
+			if (other.two != null) {
+				return false;
+			}
+		}
+		else if (!two.equals(other.two)) {
+			return false;
+		}
+
+		return true;
 	}
 }

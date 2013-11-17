@@ -8,6 +8,10 @@ import java.util.Map;
 public final class TypedMap<K> {
 	private final Map<PairRO<K, ?>, Object> typedMap = new HashMap<>();
 
+	public boolean contains(final K key, final Class<?> valueType) {
+		return typedMap.containsKey(PairRO.of(key, valueType));
+	}
+
 	public <V> void put(final K key, final Class<V> valueType, final V value) {
 		typedMap.put(PairRO.of(key, valueType), valueType.cast(value));
 	}

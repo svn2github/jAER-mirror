@@ -1,9 +1,6 @@
 package net.sf.jaer2.util;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-public class PairRO<T, U> {
+public final class PairRO<T, U> {
 	private final T one;
 	private final U two;
 
@@ -21,8 +18,21 @@ public class PairRO<T, U> {
 	}
 
 	@Override
+	public String toString() {
+		return String.format("First = [%s], Second = [%s]", one.toString(), two.toString());
+	}
+
+	public static <T, U> PairRO<T, U> of(final T one, final U two) {
+		return new PairRO<>(one, two);
+	}
+
+	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(one).append(two).toHashCode();
+		final int prime = 31;
+		int result = 1;
+		result = (prime * result) + ((one == null) ? 0 : one.hashCode());
+		result = (prime * result) + ((two == null) ? 0 : two.hashCode());
+		return result;
 	}
 
 	@Override
@@ -39,15 +49,24 @@ public class PairRO<T, U> {
 
 		final PairRO<?, ?> other = (PairRO<?, ?>) obj;
 
-		return new EqualsBuilder().append(one, other.one).append(two, other.two).isEquals();
-	}
+		if (one == null) {
+			if (other.one != null) {
+				return false;
+			}
+		}
+		else if (!one.equals(other.one)) {
+			return false;
+		}
 
-	@Override
-	public String toString() {
-		return String.format("First = [%s], Second = [%s]", one.toString(), two.toString());
-	}
+		if (two == null) {
+			if (other.two != null) {
+				return false;
+			}
+		}
+		else if (!two.equals(other.two)) {
+			return false;
+		}
 
-	public static <T, U> PairRO<T, U> of(final T one, final U two) {
-		return new PairRO<>(one, two);
+		return true;
 	}
 }
