@@ -1,6 +1,6 @@
 package net.sf.jaer2.util;
 
-public final class TripleRO<T, U, V> {
+public class TripleRO<T, U, V> {
 	private final T one;
 	private final U two;
 	private final V three;
@@ -11,26 +11,26 @@ public final class TripleRO<T, U, V> {
 		this.three = three;
 	}
 
-	public T getFirst() {
+	public final T getFirst() {
 		return one;
 	}
 
-	public U getSecond() {
+	public final U getSecond() {
 		return two;
 	}
 
-	public V getThird() {
+	public final V getThird() {
 		return three;
+	}
+
+	public static final <T, U, V> TripleRO<T, U, V> of(final T one, final U two, final V three) {
+		return new TripleRO<>(one, two, three);
 	}
 
 	@Override
 	public String toString() {
 		return String.format("First = [%s], Second = [%s], Third = [%s]", one.toString(), two.toString(),
 			three.toString());
-	}
-
-	public static <T, U, V> TripleRO<T, U, V> of(final T one, final U two, final V three) {
-		return new TripleRO<>(one, two, three);
 	}
 
 	@Override

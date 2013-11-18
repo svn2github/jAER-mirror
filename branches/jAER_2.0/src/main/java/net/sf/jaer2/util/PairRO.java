@@ -1,6 +1,6 @@
 package net.sf.jaer2.util;
 
-public final class PairRO<T, U> {
+public class PairRO<T, U> {
 	private final T one;
 	private final U two;
 
@@ -9,21 +9,21 @@ public final class PairRO<T, U> {
 		this.two = two;
 	}
 
-	public T getFirst() {
+	public final T getFirst() {
 		return one;
 	}
 
-	public U getSecond() {
+	public final U getSecond() {
 		return two;
+	}
+
+	public static final <T, U> PairRO<T, U> of(final T one, final U two) {
+		return new PairRO<>(one, two);
 	}
 
 	@Override
 	public String toString() {
 		return String.format("First = [%s], Second = [%s]", one.toString(), two.toString());
-	}
-
-	public static <T, U> PairRO<T, U> of(final T one, final U two) {
-		return new PairRO<>(one, two);
 	}
 
 	@Override
