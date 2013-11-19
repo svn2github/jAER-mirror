@@ -1745,7 +1745,6 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
 						continue;
 					}
 					}
-					numFilteredEvents = packet.getSize();
 
 					chip.setLastData(packet);// set the rendered data for use by various methods
 
@@ -1781,8 +1780,9 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
 
 				if (skipPacketsRenderingCount-- == 0) {
 					// we only got new events if we were NOT paused. but now we can apply filters, different rendering methods, etc in 'paused' condition
-					makeStatisticsLabel(packet);
 					renderPacket(packet);
+					numFilteredEvents = packet.getSizeNotFilteredOut();
+					makeStatisticsLabel(packet);
 					skipPacketsRenderingCount = skipPacketsRenderingNumber;
 				}
 				getFrameRater().takeAfter();
@@ -2377,7 +2377,7 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
 						numEventsString = String.format("%5d/%-5devts", numEvents, numFilteredEvents);
 					}
 				} else {
-					numEventsString = String.format("%5devts", numEvents);
+					numEventsString = String.format("%5devts ", numEvents);
 				}
 
 

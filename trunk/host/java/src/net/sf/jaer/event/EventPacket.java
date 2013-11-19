@@ -56,6 +56,8 @@ The iterator is initialized by the call to outputIterator().
 The amount of time iterating over events can also be limited by using the time limiter.
 This static (class) method starts a timer when it is restarted and after timeout, no more events are returned
 from input iteration. These methods are used in FilterChain to limit processing time.
+* <p> To filter events out of a packet, the BasicEvent's filteredOut flag can be set. Then the event will simply be skipped in iterating over the packet.
+* However, the total number of events in the packet does not change by this filtering operation.
 
  * @author tobi
  */
@@ -75,6 +77,10 @@ public class EventPacket<E extends BasicEvent> implements /*EventPacketInterface
     /** The backing array of element data of type E */
     public transient E[] elementData;
     private AEPacketRaw rawPacket=null;
+
+    /** Count of events with filteredOut=true set. This count is accumulated during the InItr iteration using hasNext() */
+    protected int filteredOutCount=0;
+
     
     /** A built-in (by default uninitialized) output packet that can be used to write events to for filtering packets.
      * @see #getOutputPacket() 
@@ -187,13 +193,15 @@ public class EventPacket<E extends BasicEvent> implements /*EventPacketInterface
      * the size in events divided by the packet duration.
      * If packet duration is zero (there are no events or zero time interval between the events),
      * then rate returned is zero.
+     * The rate is measured using <code>getSizeNotFilteredOut</code>.
      @return rate of events in Hz.
+     * @see #getSizeNotFilteredOut() 
      */
     public float getEventRateHz() {
         if(getDurationUs()==0) {
             return 0;
         }
-        return (float) getSize()/((float)getDurationUs()*AEConstants.TICK_DEFAULT_US*1e-6f);
+        return (float) getSizeNotFilteredOut()/((float)getDurationUs()*AEConstants.TICK_DEFAULT_US*1e-6f);
     }
 
 //    public void copyTo(EventPacket packet) {
@@ -409,6 +417,18 @@ public class EventPacket<E extends BasicEvent> implements /*EventPacketInterface
     /** This packet's output iterator. */
     private OutItr outputIterator=null;
 
+    /**
+     * Returns the count of events with filteredOut=true in the packet. This field is accumulated during 
+     * the InItr hasNext() iteration over the packet. Therefore it is only valid after the iteration over the packet is finished.
+     * <p>
+     * This count does <b>not</b> include the events set to be filteredOut during the previous iteration, only the ones that were already filtered out
+     * and were skipped in the previous iteration.
+     * @return the filteredOutCount
+     */
+    public int getFilteredOutCount() {
+        return filteredOutCount;
+    }
+
     /** This iterator is intended for writing events to an output packet.
      * The {@link #nextOutput() } method returns the next element in the packet, enlarging the packet if necessary. 
      * The fields in the returned element are copied from an input event or generated in some other manner.
@@ -420,6 +440,7 @@ public class EventPacket<E extends BasicEvent> implements /*EventPacketInterface
 
         /** Obtains the next output event suitable for either generating a new event from scratch or copying from input event. 
          * Increments the size of the packet, enlarging it if necessary.
+         * Sets the event's <code>filteredOut</code> field to false, to ensure the event is not filtered out as an old event from the packet.
          * 
          * @return reference to next output event, which must be copied from a different event.
          * @see BasicEvent#copyFrom(net.sf.jaer.event.BasicEvent) 
@@ -430,6 +451,7 @@ public class EventPacket<E extends BasicEvent> implements /*EventPacketInterface
                 enlargeCapacity();
 //                System.out.println("enlarged "+EventPacket.this);
             }
+            elementData[size].setFilteredOut(false);
             return elementData[size++];
         }
         
@@ -445,7 +467,7 @@ public class EventPacket<E extends BasicEvent> implements /*EventPacketInterface
             return "OutputEventIterator with size/cursor="+size+" and capacity="+capacity;
         }
 
-        /** Writes event to next output.
+        /** Writes event to next output, and sets the filteredOut field to false.
          * 
          * @param event the event to write out.
          */
@@ -455,6 +477,7 @@ public class EventPacket<E extends BasicEvent> implements /*EventPacketInterface
                     enlargeCapacity();
                 }
 //                System.out.println("at position "+size+" wrote event "+event);
+                event.setFilteredOut(false);
                 elementData[size++]=event;
             }
         }
@@ -475,13 +498,16 @@ public class EventPacket<E extends BasicEvent> implements /*EventPacketInterface
         }
 
         /** Returns boolean if the packet has more input events.
+         * This method checks for the existence of an event that is not <code>filteredOut</code> in the remaining part of the packet.
          * 
          * @return true if there are more events.
+         * @see BasicEvent#filteredOut
          */
         public boolean hasNext() {
             if(usingTimeout) {
                 return cursor<size&&!timeLimitTimer.isTimedOut();
             } else {
+                while(elementData[cursor].isFilteredOut() && cursor<size) {filteredOutCount++; cursor++;}
                 return cursor<size;
             }
         }
@@ -498,6 +524,7 @@ public class EventPacket<E extends BasicEvent> implements /*EventPacketInterface
         public void reset() {
             cursor=0;
             usingTimeout=timeLimitTimer.isEnabled(); // timelimiter only used if timeLimitTimer is enabled but flag to check it it only set on packet reset
+            filteredOutCount=0;
         }
 
         /** Implements the optional remove operation to remove the last event returned by next().
@@ -714,11 +741,21 @@ public class EventPacket<E extends BasicEvent> implements /*EventPacketInterface
 //
     /** Returns the number of events in the packet.
      * If the packet has extra data not consisting of events this method could return 0 but there could still be data, e.g. sampled ADC data, image frames, etc.
+     * 
      *
      * @return size in events.
      */
     final public int getSize() {
         return size;
+    }
+    
+    /** Returns the size of the packet not counting the filteredOut events.
+     * 
+     * @return size
+     * @see #getFilteredOutCount() 
+     */
+    public int getSizeNotFilteredOut(){
+        return getSize()-getFilteredOutCount();
     }
 
     /** Reports if the packet is empty. The default implementation reports true if size in events is zero, but subclasses can override this method

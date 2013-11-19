@@ -103,8 +103,8 @@ public class AEFrameChipRenderer extends AEChipRenderer {
                     }
                 }
             }
-            grayBuffer.rewind();
         }
+            grayBuffer.rewind();
         System.arraycopy(grayBuffer.array(), 0, pixmap.array(), 0, n);
         System.arraycopy(grayBuffer.array(), 0, pixBuffer.array(), 0, n);
         pixmap.rewind();
@@ -243,12 +243,14 @@ public class AEFrameChipRenderer extends AEChipRenderer {
         // TODO if playing backwards, then frame will come out white because B sample comes before A
         if(e.isStartOfFrame()){
             startFrame(e.timestamp);
-        }else if(e.isResetRead()){
+        } else if (e.isResetRead()) {
             int index = getIndex(e);
-            if(index<0 || index >= buf.length)return;
+            if (index < 0 || index >= buf.length) {
+                return;
+            }
             float val = e.getAdcSample();
             buf[index] = val;
-            buf[index+1] = val;
+            buf[index + 1] = val;
             buf[index+2] = val;
         }else if(e.isSignalRead()){
             int index = getIndex(e);
@@ -268,6 +270,7 @@ public class AEFrameChipRenderer extends AEChipRenderer {
             buf[index] = fval;
             buf[index+1] = fval;
             buf[index+2] = fval;
+            buf[index+3] = 1;
         }else if(e.isEndOfFrame()){
             endFrame();
             AbstractHistogram tmp = currentHist;
@@ -283,10 +286,12 @@ public class AEFrameChipRenderer extends AEChipRenderer {
         timestamp=ts;
         maxValue = Float.MIN_VALUE;
         minValue = Float.MAX_VALUE;
+                System.arraycopy(grayBuffer.array(), 0, pixBuffer.array(), 0, pixBuffer.array().length);
+
     }
     
     private void endFrame(){
-        System.arraycopy(pixBuffer.array(), 0, pixmap.array(), 0, pixmap.array().length);
+        System.arraycopy(pixBuffer.array(), 0, pixmap.array(), 0, pixBuffer.array().length);
         if (minValue > 0 && maxValue > 0) { // don't adapt to first frame which is all zeros
             java.awt.geom.Point2D.Float filter2d = lowpassFilter.filter2d((float)minValue, (float)maxValue, timestamp);
             getSupport().firePropertyChange(AGC_VALUES, null, filter2d); // inform listeners (GUI) of new AGC min/max filterd log intensity values

@@ -104,9 +104,6 @@ public class XYTypeFilter extends EventFilter2D implements FrameAnnotater,Observ
      *@return the processed events, may be fewer in number. filtering may occur in place in the in packet.
      */
     synchronized public EventPacket filterPacket (EventPacket in){
-        if ( enclosedFilter != null ){
-            in = enclosedFilter.filterPacket(in);
-        }
         int i;
         if(!(typeEnabled||xEnabled||yEnabled)) return in;// optimized when filter not enabled
 

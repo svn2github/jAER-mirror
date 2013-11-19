@@ -25,9 +25,12 @@ public interface OutputEventIterator<T extends BasicEvent> {
      */
     public T nextOutput();
     
-    /** Writes the event to the next output slot.
+    /** Writes the reference to the event to the next output slot. The iterator is advanced.
+     * The reference of <code>event</code> is written the output packet.
+     * If event's fields are modified, it will be modified in the output packet as well.
      * 
      * @param event the event to write.
+     * @see net.sf.jaer.event.BasicEvent#copyFrom(net.sf.jaer.event.BasicEvent)  for copying event fields.
      */
     public void writeToNextOutput(T event);
     

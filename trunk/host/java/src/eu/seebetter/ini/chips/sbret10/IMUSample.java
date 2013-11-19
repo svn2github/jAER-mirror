@@ -10,6 +10,7 @@ import de.thesycon.usbio.UsbIoBuf;
 import eu.seebetter.ini.chips.ApsDvsChip;
 import static eu.seebetter.ini.chips.sbret10.IMUSampleType.temp;
 import net.sf.jaer.event.ApsDvsEvent;
+import net.sf.jaer.event.BasicEvent;
 
 /**
  * Encapsulates data sent from device Invensense Inertial Measurement Unit (IMU) MPU-6150.
@@ -120,6 +121,20 @@ public class IMUSample extends ApsDvsEvent{
         imuSampleEvent=true;
         adcSample=-1; // mark it as NOT ADC sample or it won't get passed out to event filters!
     }
+
+    @Override
+    public void copyFrom(BasicEvent src) {
+        IMUSample s=(IMUSample)src;
+        super.copyFrom(src); 
+        this.adcSample=s.adcSample;
+        this.address=s.address;
+        System.arraycopy(s.data, 0, this.data, 0, this.data.length);
+        this.deltaTimeUs=s.deltaTimeUs;
+        this.imuSampleEvent=s.imuSampleEvent;
+        this.timestampUs=s.timestampUs;
+    }
+    
+    
     
     /**
      * Constructs a new IMUSample from the AEPacketRaw. This factory method deals with situation that packet does not contain an entire IMUSample.
@@ -184,6 +199,8 @@ public class IMUSample extends ApsDvsEvent{
         this();
         setFromUsbIoBuf(buf);
     }
+    
+    
 
     final void setFromUsbIoBuf(UsbIoBuf buf) {
         if (buf.BytesTransferred != 19) {

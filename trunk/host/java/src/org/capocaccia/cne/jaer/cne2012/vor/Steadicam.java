@@ -112,7 +112,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     private int CALIBRATION_SAMPLES = 800; // 400 samples /sec
     private CalibrationFilter panCalibrator, tiltCalibrator, rollCalibrator;
     TextRenderer imuTextRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 36));
-    private boolean showAnnotation = getBoolean("showAnnotation", true);
+    private boolean showTransformRectangle = getBoolean("showTransformRectangle", true);
     // transform control
     public boolean disableTranslation=getBoolean("disableTranslation", false);
     public boolean disableRotation=getBoolean("disableRotation", false);
@@ -178,7 +178,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         setPropertyTooltip("zeroGyro", "zeros the gyro output. Sensor should be stationary for period of 1-2 seconds during zeroing");
         setPropertyTooltip("eraseGyroZero", "Erases the gyro zero values");
         setPropertyTooltip(transform,"transformResetLimitDegrees", "If transform translations exceed this limit in degrees the transform is automatically reset to 0");
-        setPropertyTooltip(transform,"showAnnotation", "Disable to not show the red transform square and red cross hairs");
+        setPropertyTooltip(transform,"showTransformRectangle", "Disable to not show the red transform square and red cross hairs");
         setPropertyTooltip(transform,"disableRotation","Disables rotational part of transform");
         setPropertyTooltip(transform,"disableTranslation","Disables translations part of transform");
         
@@ -202,12 +202,18 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         // this is not the case when using integrated IMU which generates IMUSamples in the event stream.
         getEnclosedFilterChain().filterPacket(in);
 //        System.out.println("new steadicam input packet "+in);
-        if (isElectronicStabilizationEnabled()) { // here we stabilize by using the measured camera rotation to counter-transform the events
-            checkOutputPacketEventType(in);
-            OutputEventIterator outItr = getOutputPacket().outputIterator();// the transformed events output packet
+        if (electronicStabilizationEnabled) { // here we stabilize by using the measured camera rotation to counter-transform the events
+            // transform events in place, no need to copy to output packet
+//            checkOutputPacketEventType(in);
+//            OutputEventIterator outItr = getOutputPacket().outputIterator();// the transformed events output packet
             // TODO compute evenMotion boolean from opticalGyro
             Iterator<TransformAtTime> transformItr = transformList.iterator(); // this list is filled by the enclosed filters
 //            int i=-1;
+            sx2 = chip.getSizeX() / 2;
+            sy2 = chip.getSizeY() / 2;
+            sxm1 = chip.getSizeX() - 1;
+            sym1 = chip.getSizeY() - 1;
+
             for (Object o : in) {
                 if (o == null) {
                     log.warning("null event passed in, returning input packet");
@@ -240,17 +246,18 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
                 }
 
                 if (ev.x > sxm1 || ev.x < 0 || ev.y > sym1 || ev.y < 0) {
+                    ev.setFilteredOut(true); // TODO this gradually fills the packet with filteredOut events, which are never seen afterwards because the iterator filters them out in the reused packet.
                     continue; // discard events outside chip limits for now, because we can't render them presently, although they are valid events
+                }else{
+                    ev.setFilteredOut(false);
                 }
                 // deal with flipping contrast of output event depending on direction of motion, to make things appear the same regardless of camera rotation
-                if (!flipContrast) {
-                    outItr.nextOutput().copyFrom(ev);
-                } else {
+                
+                if (flipContrast) {
                     if (evenMotion) {
                         ev.type = (byte) (1 - ev.type); // don't let contrast flip when direction changes, try to stabilze contrast  by flipping it as well
                         ev.polarity = ev.polarity == PolarityEvent.Polarity.On ? PolarityEvent.Polarity.Off : PolarityEvent.Polarity.On;
                     }
-                    outItr.nextOutput().copyFrom(ev);
                 }
             }
         }
@@ -267,12 +274,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
                 panTilt.close();
             }
         }
-
-        if (isElectronicStabilizationEnabled()) {
-            return getOutputPacket();
-        } else {
             return in;
-        }
     }
 
     /**
@@ -285,12 +287,6 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     public void update(Observable o, Object arg) { // called by enclosed filter to update event stream on the fly, using intermediate data
         if (arg instanceof UpdateMessage) {
             computeTransform((UpdateMessage) arg); // gets the lastTransform from the enclosed filter
-        } else if (o instanceof AEChip) {
-            sx2 = chip.getSizeX() / 2;
-            sy2 = chip.getSizeY() / 2;
-            sxm1 = chip.getSizeX() - 1;
-            sym1 = chip.getSizeY() - 1;
-
         }
     }
 
@@ -505,7 +501,7 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
 
     @Override
     public void annotate(GLAutoDrawable drawable) {
-        if (!showAnnotation) {
+        if (!showTransformRectangle) {
             return;
         }
 
@@ -893,18 +889,18 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
     }
 
     /**
-     * @return the showAnnotation
+     * @return the showTransformRectangle
      */
-    public boolean isShowAnnotation() {
-        return showAnnotation;
+    public boolean isShowTransformRectangle() {
+        return showTransformRectangle;
     }
 
     /**
-     * @param showAnnotation the showAnnotation to set
+     * @param showTransformRectangle the showTransformRectangle to set
      */
-    public void setShowAnnotation(boolean showAnnotation) {
-        this.showAnnotation = showAnnotation;
-        putBoolean("showAnnotation", showAnnotation);
+    public void setShowTransformRectangle(boolean showTransformRectangle) {
+        this.showTransformRectangle = showTransformRectangle;
+        putBoolean("showTransformRectangle", showTransformRectangle);
     }
 
     /**

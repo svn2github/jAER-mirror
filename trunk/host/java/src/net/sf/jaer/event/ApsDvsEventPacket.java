@@ -120,18 +120,23 @@ public class ApsDvsEventPacket<E extends ApsDvsEvent> extends EventPacket<E>{
      * 
      */
     public class InDvsItr extends InItr{
-        int cursorDvs;
+        int cursorDvs; // this cursor marks the next DVS event
 
         public InDvsItr() {
             reset();
             if(getOutputPacket()==null) constructNewPacket();
         }
 
+        /** Overrides the default hasNext() method to use cursorDvs.
+         * 
+         * @return true if there is a (not filteredOut) event left in the packet
+         */
         @Override
         public boolean hasNext() {
             if(usingTimeout) {
                 return cursorDvs<size&&!timeLimitTimer.isTimedOut();
             } else {
+                while(elementData[cursorDvs].isFilteredOut() && cursorDvs<size) {filteredOutCount++; cursorDvs++;}
                 return cursorDvs<size;
             }
         }
@@ -171,6 +176,7 @@ public class ApsDvsEventPacket<E extends ApsDvsEvent> extends EventPacket<E>{
         public void reset() {
             cursorDvs=0;
             usingTimeout=timeLimitTimer.isEnabled(); // timelimiter only used if timeLimitTimer is enabled but flag to check it it only set on packet reset
+            filteredOutCount=0;
         }
 
         public void remove() {

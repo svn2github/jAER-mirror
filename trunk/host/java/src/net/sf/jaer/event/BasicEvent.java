@@ -45,6 +45,13 @@ public class BasicEvent implements EventInterface<BasicEvent> {
      * of image)
      */
     public short y;
+ 
+      /**
+     * Flags this event to be ignored in iteration (skipped over). Used to filter out events in-place, without incurring the overhead of copying
+     * other events to a mostly-duplicated output packet.
+     */
+     private boolean filteredOut=false;
+    
     /**
      * Indicates that this event is a special (e.g. synchronizing) event, e.g.
      * originating from a separate hardware input pin or from a special source.
@@ -62,9 +69,10 @@ public class BasicEvent implements EventInterface<BasicEvent> {
      */
     public byte source;
     
+     
     /**
-     * Indicates that this event is a special synchronizing event, e.g.
-     * originating from a separate hardware input pin or from the a special
+     * Indicates that this event is a special event, e.g.
+     * originating from a separate hardware input pin or from a special, i.e., exceptional,
      * source.
      *
      * @return the special
@@ -111,7 +119,7 @@ public class BasicEvent implements EventInterface<BasicEvent> {
     }
 
     /**
-     * copies fields from source event src to this event
+     * copies fields from source event e to this event
      *
      * @param e the event to copy from
      */
@@ -122,6 +130,7 @@ public class BasicEvent implements EventInterface<BasicEvent> {
         this.address = e.address;
         this.special = e.special;
         this.source = e.source;
+        this.setFilteredOut(e.isFilteredOut());
         //        this.filteredAway=e.filteredAway;
     }
 
@@ -146,7 +155,7 @@ public class BasicEvent implements EventInterface<BasicEvent> {
     }
 
     public String toString() {
-        return getClass().getSimpleName() + " timestamp=" + timestamp + " address=" + address + " x=" + x + " y=" + y + " special=" + special;
+        return getClass().getSimpleName() + " timestamp=" + timestamp + " address=" + address + " x=" + x + " y=" + y + " special=" + special + " filteredOut="+filteredOut;
     }
 
     public int getNumCellTypes() {
@@ -216,4 +225,22 @@ public class BasicEvent implements EventInterface<BasicEvent> {
 //    public void setFilteredAway(boolean filteredAway) {
 //        this.filteredAway=filteredAway;
 //    }
+
+    /**
+     * Is this event to be ignored in iteration (skipped over)? Used to filter out events in-place, without incurring the overhead of copying
+     * other events to a mostly-duplicated output packet.
+     * @return the filteredOut
+     */
+    public boolean isFilteredOut() {
+        return filteredOut;
+    }
+
+    /**
+     * Flags this event to be ignored in iteration (skipped over). Used to filter out events in-place, without incurring the overhead of copying
+     * other events to a mostly-duplicated output packet.
+     * @param filteredOut the filteredOut to set
+     */
+    public void setFilteredOut(boolean filteredOut) {
+        this.filteredOut = filteredOut;
+    }
 }

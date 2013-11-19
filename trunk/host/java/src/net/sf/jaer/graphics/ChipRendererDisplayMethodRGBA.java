@@ -130,7 +130,7 @@ public class ChipRendererDisplayMethodRGBA extends DisplayMethod implements Disp
             gl.glDisable(GL.GL_TEXTURE_2D);
         }
         
-        if(offMap != null){
+        if(offMap != null && displayEvents){
             gl.glBindTexture(GL.GL_TEXTURE_2D, 1);
             gl.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1);
             gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP);

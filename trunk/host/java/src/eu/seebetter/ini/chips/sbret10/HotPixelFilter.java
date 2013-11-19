@@ -28,14 +28,15 @@ import net.sf.jaer.eventprocessing.EventFilter2D;
 import net.sf.jaer.graphics.FrameAnnotater;
 
 /**
- * Cheaply suppresses hot pixels from DVS; ie pixels that continuously fire a
- * sustained stream of events.
+ * Cheaply suppresses (filters out) hot pixels from DVS; ie pixels that continuously fire a
+ * sustained stream of events. These events are learned on command, e.g. while sensor is stationary, and then
+ * the list of hot pixels is filtered from the subsequent output.
  *
  * @author tobi
  */
-@Description("Cheaply suppresses hot pixels from DVS; ie pixels that continuously fire events when when the visual input is idle.")
+@Description("Cheaply suppresses (filters out) hot pixels from DVS; ie pixels that continuously fire events when when the visual input is idle.")
 @DevelopmentStatus(DevelopmentStatus.Status.Experimental)
-public class HotPixelSupressor extends EventFilter2D implements FrameAnnotater {
+public class HotPixelFilter extends EventFilter2D implements FrameAnnotater {
 
     private int numHotPixels = getInt("numHotPixels", 30);
     private HotPixelSet hotPixelSet = new HotPixelSet();
@@ -98,7 +99,7 @@ public class HotPixelSupressor extends EventFilter2D implements FrameAnnotater {
             oos.close();
             // Get the bytes of the serialized object
             byte[] buf=bos.toByteArray();
-            getPrefs().putByteArray("HotPixelSupressor.HotPixelSet", buf);
+            getPrefs().putByteArray("HotPixelFilter.HotPixelSet", buf);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -107,7 +108,7 @@ public class HotPixelSupressor extends EventFilter2D implements FrameAnnotater {
         
         void loadPrefs(){
            try {
-            byte[] bytes=getPrefs().getByteArray("HotPixelSupressor.HotPixelSet", null);
+            byte[] bytes=getPrefs().getByteArray("HotPixelFilter.HotPixelSet", null);
             if(bytes!=null) {
                 ObjectInputStream in=new ObjectInputStream(new ByteArrayInputStream(bytes));
                 Object obj=in.readObject();
@@ -136,7 +137,7 @@ public class HotPixelSupressor extends EventFilter2D implements FrameAnnotater {
         
     }
 
-    public HotPixelSupressor(AEChip chip) {
+    public HotPixelFilter(AEChip chip) {
         super(chip);
         setPropertyTooltip("numHotPixels", "maximum number of hot pixels");
         setPropertyTooltip("learnTimeMs", "how long to accumulate events during learning of hot pixels");
@@ -148,16 +149,19 @@ public class HotPixelSupressor extends EventFilter2D implements FrameAnnotater {
 
     @Override
     synchronized public EventPacket<?> filterPacket(EventPacket<?> in) {
-        checkOutputPacketEventType(in);
-        OutputEventIterator outItr = getOutputPacket().outputIterator();
+//        checkOutputPacketEventType(in);
+//        OutputEventIterator outItr = getOutputPacket().outputIterator();
         for (BasicEvent e : in) {
             if (learnHotPixels) {
+                if(e.special) continue; // don't learn special events
                 if (learningStarted) {
+                    // initialize collection of addresses to be filled during learning
                     learningStarted = false;
                     learningStartedTimestamp = e.timestamp;
-                    collectedAddresses = new CollectedAddresses(chip.getNumPixels()/2);
+                    collectedAddresses = new CollectedAddresses(chip.getNumPixels()/50);
 
                 } else if (e.timestamp - learningStartedTimestamp > (learnTimeMs << 10)) { // ms to us is <<10 approx
+                    // done collecting hot pixel data, now build lookup table
                     learnHotPixels = false;
                     // find largest n counts and call them hot
                     for (int i = 0; i < numHotPixels; i++) {
@@ -181,6 +185,7 @@ public class HotPixelSupressor extends EventFilter2D implements FrameAnnotater {
                     collectedAddresses = null; // free memory
                     hotPixelSet.storePrefs();
                 } else {
+                    // we're learning now by collecting addresses, store this address
                     // increment count for this address
                     HotPixel thisPixel = new HotPixel(e);
                     if (collectedAddresses.get(e.address)!=null) {
@@ -190,12 +195,25 @@ public class HotPixelSupressor extends EventFilter2D implements FrameAnnotater {
                     }
                 }
             }
-            if (!hotPixelSet.contains(e)) {
-                ApsDvsEvent a = (ApsDvsEvent) outItr.nextOutput();
-                a.copyFrom(e);
+            // process event
+            if(hotPixelSet.contains(e)){
+                e.setFilteredOut(true);
             }
+//            if (e.special || !hotPixelSet.contains(e) ) {
+//                if(e.special){
+//                    // it might be IMUSample, and we need to copy out the fields which won't happen if we treat it as ApsDvsEvent
+//                    if(e instanceof IMUSample){
+//                        IMUSample i=(IMUSample)e;
+//                        outItr.writeToNextOutput(i);
+//                    }
+//                } else {
+//                    ApsDvsEvent a = (ApsDvsEvent) outItr.nextOutput();
+//                    a.copyFrom(e);
+//                }
+//            }
         }
-        return getOutputPacket();
+        return in;
+//        return getOutputPacket();
     }
 
     @Override
@@ -246,7 +264,7 @@ public class HotPixelSupressor extends EventFilter2D implements FrameAnnotater {
             e.printStackTrace();
             showHotPixels = false;
         }
-        gl.glColor4f(.5f, .5f, .5f, .5f);
+        gl.glColor4f(.1f, .1f, 1f, .25f);
         gl.glLineWidth(1f);
         for (HotPixel p : hotPixelSet) {
             gl.glRectf(p.x - 1, p.y - 1, p.x + 2, p.y + 2);

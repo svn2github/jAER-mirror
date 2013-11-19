@@ -148,7 +148,7 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled, Observer {
         getCanvas().addDisplayMethod(sbretDisplayMethod);
         getCanvas().setDisplayMethod(sbretDisplayMethod);
         addDefaultEventFilter(ApsDvsEventFilter.class);
-        addDefaultEventFilter(HotPixelSupressor.class);
+        addDefaultEventFilter(HotPixelFilter.class);
         addDefaultEventFilter(RefractoryFilter.class);
         addDefaultEventFilter(Info.class);
         
@@ -427,6 +427,13 @@ public class SBret10 extends ApsDvsChip implements RemoteControlled, Observer {
             return e;
         }
         
+        /** creates a special ApsDvsEvent in output packet just for flagging APS frame markers such as start of frame, reset, end of frame.
+         * 
+         * @param outItr
+         * @param flag
+         * @param timestamp
+         * @return 
+         */
         private ApsDvsEvent createApsFlagEvent(OutputEventIterator outItr, ApsDvsEvent.ReadoutType flag, int timestamp) {
             ApsDvsEvent a = nextApsDvsEvent(outItr);
             a.adcSample = 0; // set this effectively as ADC sample even though fake
