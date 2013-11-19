@@ -34,8 +34,8 @@ addr = abs(addr);
 addr = addr((addr&triggerevent) ~= triggerevent);
 addr = addr(bitand(addr,typemask)==typedvs);
 
-xo=double(sizeX-bitshift(bitand(addr,xmask),-xshift));
-yo=double(bitshift(bitand(addr,ymask),-yshift)+1);
+xo=double(sizeX-1-bitshift(bitand(addr,xmask),-xshift));
+yo=double(bitshift(bitand(addr,ymask),-yshift));
 polo=1-double(bitshift(bitand(addr,polmask),-polshift));
 
 % xo = xo(xo >= x0 & xo < x1);
