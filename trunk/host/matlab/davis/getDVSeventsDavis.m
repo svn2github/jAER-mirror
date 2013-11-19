@@ -25,8 +25,8 @@ polshift=11;
 
 
 if nargin < 5
-    x0 = 1;
-    y0 = 1;
+    x0 = 0;
+    y0 = 0;
     x1 = sizeX;
     y1 = sizeY;
 end
