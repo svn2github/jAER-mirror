@@ -1,4 +1,4 @@
-function [t,ax,ay,az,temperature,gx,gy,gz,data] = getIMUSamplesSBret20(filename,maxevents)  
+function [t,ax,ay,az,temperature,gx,gy,gz,data] = getIMUSamplesDavis(filename,maxevents)  
 % function [t,ax,ay,az,gx,gy,gz,temperature,data] = getIMUSamplesSBret20(filename,maxevents)  
 % returns the IMU samples from the recorded data stream
 % t is in timestamp units (us)
