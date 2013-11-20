@@ -1,5 +1,7 @@
 package ch.unizh.ini.eventio.translator;
 
+import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
+import net.sf.jaer2.eventio.eventpackets.raw.RawEventPacketContainer;
 import net.sf.jaer2.eventio.events.EarEvent;
 import net.sf.jaer2.eventio.events.Event;
 import net.sf.jaer2.eventio.events.FrameEvent;
@@ -85,12 +87,12 @@ public class INIv1 implements Translator {
 	}
 
 	@Override
-	public Event extractEventFromRawEvent(final RawEvent rawEvent) {
-		switch ((rawEvent.getAddress() & INIv1.CODE_MASK) >>> INIv1.CODE_SHIFT) {
+	public void extractEventFromRawEvent(final RawEvent rawEventIn, final EventPacketContainer eventPacketContainerOut) {
+		switch ((rawEventIn.getAddress() & INIv1.CODE_MASK) >>> INIv1.CODE_SHIFT) {
 			case CODE_SPECIAL_EVENT:
-				final SpecialEvent special = new SpecialEvent(rawEvent.getTimestamp());
+				final SpecialEvent special = new SpecialEvent(rawEventIn.getTimestamp());
 
-				switch ((rawEvent.getAddress() & INIv1.SPECIAL_EVENT_TYPE_MASK) >>> INIv1.SPECIAL_EVENT_TYPE_SHIFT) {
+				switch ((rawEventIn.getAddress() & INIv1.SPECIAL_EVENT_TYPE_MASK) >>> INIv1.SPECIAL_EVENT_TYPE_SHIFT) {
 					case SPECIAL_EVENT_TYPE_TIMESTAMP_WRAP:
 						special.setType(SpecialEvent.Type.TIMESTAMP_WRAP);
 						break;
@@ -108,16 +110,18 @@ public class INIv1 implements Translator {
 				}
 
 				special
-					.setY((short) ((rawEvent.getAddress() & INIv1.SPECIAL_EVENT_Y_MASK) >>> INIv1.SPECIAL_EVENT_Y_SHIFT));
+					.setY((short) ((rawEventIn.getAddress() & INIv1.SPECIAL_EVENT_Y_MASK) >>> INIv1.SPECIAL_EVENT_Y_SHIFT));
 				special
-					.setX((short) ((rawEvent.getAddress() & INIv1.SPECIAL_EVENT_X_MASK) >>> INIv1.SPECIAL_EVENT_X_SHIFT));
+					.setX((short) ((rawEventIn.getAddress() & INIv1.SPECIAL_EVENT_X_MASK) >>> INIv1.SPECIAL_EVENT_X_SHIFT));
 
-				return special;
+				eventPacketContainerOut.getPacket(SpecialEvent.class, eventPacketContainerOut.getSourceId()).append(
+					special);
+				break;
 
 			case CODE_POLARITY_EVENT:
-				final PolarityEvent polarity = new PolarityEvent(rawEvent.getTimestamp());
+				final PolarityEvent polarity = new PolarityEvent(rawEventIn.getTimestamp());
 
-				if (((rawEvent.getAddress() & INIv1.POLARITY_EVENT_POL_MASK) >>> INIv1.POLARITY_EVENT_POL_SHIFT) == 0) {
+				if (((rawEventIn.getAddress() & INIv1.POLARITY_EVENT_POL_MASK) >>> INIv1.POLARITY_EVENT_POL_SHIFT) == 0) {
 					polarity.setPolarity(PolarityEvent.Polarity.OFF);
 				}
 				else {
@@ -125,26 +129,30 @@ public class INIv1 implements Translator {
 				}
 
 				polarity
-					.setY((short) ((rawEvent.getAddress() & INIv1.POLARITY_EVENT_Y_MASK) >>> INIv1.POLARITY_EVENT_Y_SHIFT));
+					.setY((short) ((rawEventIn.getAddress() & INIv1.POLARITY_EVENT_Y_MASK) >>> INIv1.POLARITY_EVENT_Y_SHIFT));
 				polarity
-					.setX((short) ((rawEvent.getAddress() & INIv1.POLARITY_EVENT_X_MASK) >>> INIv1.POLARITY_EVENT_X_SHIFT));
+					.setX((short) ((rawEventIn.getAddress() & INIv1.POLARITY_EVENT_X_MASK) >>> INIv1.POLARITY_EVENT_X_SHIFT));
 
-				return polarity;
+				eventPacketContainerOut.getPacket(PolarityEvent.class, eventPacketContainerOut.getSourceId()).append(
+					polarity);
+				break;
 
 			case CODE_SAMPLE_EVENT:
-				final SampleEvent sample = new SampleEvent(rawEvent.getTimestamp());
+				final SampleEvent sample = new SampleEvent(rawEventIn.getTimestamp());
 
 				sample
-					.setType((byte) ((rawEvent.getAddress() & INIv1.SAMPLE_EVENT_TYPE_MASK) >>> INIv1.SAMPLE_EVENT_TYPE_SHIFT));
+					.setType((byte) ((rawEventIn.getAddress() & INIv1.SAMPLE_EVENT_TYPE_MASK) >>> INIv1.SAMPLE_EVENT_TYPE_SHIFT));
 				sample
-					.setSample((rawEvent.getAddress() & INIv1.SAMPLE_EVENT_SAMPLE_MASK) >>> INIv1.SAMPLE_EVENT_SAMPLE_SHIFT);
+					.setSample((rawEventIn.getAddress() & INIv1.SAMPLE_EVENT_SAMPLE_MASK) >>> INIv1.SAMPLE_EVENT_SAMPLE_SHIFT);
 
-				return sample;
+				eventPacketContainerOut.getPacket(SampleEvent.class, eventPacketContainerOut.getSourceId()).append(
+					sample);
+				break;
 
 			case CODE_EAR_EVENT:
-				final EarEvent ear = new EarEvent(rawEvent.getTimestamp());
+				final EarEvent ear = new EarEvent(rawEventIn.getTimestamp());
 
-				switch ((rawEvent.getAddress() & INIv1.EAR_EVENT_EAR_MASK) >>> INIv1.EAR_EVENT_EAR_SHIFT) {
+				switch ((rawEventIn.getAddress() & INIv1.EAR_EVENT_EAR_MASK) >>> INIv1.EAR_EVENT_EAR_SHIFT) {
 					case 0:
 						ear.setEar(EarEvent.Ear.LEFT_FRONT);
 						break;
@@ -165,22 +173,23 @@ public class INIv1 implements Translator {
 						break;
 				}
 
-				ear.setFilter((byte) ((rawEvent.getAddress() & INIv1.EAR_EVENT_FILTER_MASK) >>> INIv1.EAR_EVENT_FILTER_SHIFT));
-				ear.setGanglion((short) ((rawEvent.getAddress() & INIv1.EAR_EVENT_GANGLION_MASK) >>> INIv1.EAR_EVENT_GANGLION_SHIFT));
-				ear.setChannel((short) ((rawEvent.getAddress() & INIv1.EAR_EVENT_CHANNEL_MASK) >>> INIv1.EAR_EVENT_CHANNEL_SHIFT));
+				ear.setFilter((byte) ((rawEventIn.getAddress() & INIv1.EAR_EVENT_FILTER_MASK) >>> INIv1.EAR_EVENT_FILTER_SHIFT));
+				ear.setGanglion((short) ((rawEventIn.getAddress() & INIv1.EAR_EVENT_GANGLION_MASK) >>> INIv1.EAR_EVENT_GANGLION_SHIFT));
+				ear.setChannel((short) ((rawEventIn.getAddress() & INIv1.EAR_EVENT_CHANNEL_MASK) >>> INIv1.EAR_EVENT_CHANNEL_SHIFT));
 
-				return ear;
+				eventPacketContainerOut.getPacket(EarEvent.class, eventPacketContainerOut.getSourceId()).append(ear);
+				break;
 
 			case CODE_BLOCK_HEADER:
 
-				return null;
+				break;
 
 			case CODE_BLOCK_CONTENT:
 
-				return null;
+				break;
 
 			default:
-				return null;
+				break;
 		}
 	}
 
@@ -191,7 +200,7 @@ public class INIv1 implements Translator {
 	}
 
 	@Override
-	public RawEvent[] extractRawEventFromEvent(final Event event) {
+	public void extractRawEventFromEvent(Event eventIn, RawEventPacketContainer rawEventPacketContainerOut) {
 		int address = 0;
 
 		if (event instanceof SpecialEvent) {
@@ -275,7 +284,7 @@ public class INIv1 implements Translator {
 			final FrameEvent frame = (FrameEvent) event;
 
 			final int compressedFrameSize = (((frame.getSizeY() * frame.getSizeX() * frame.getDepthADC()) + (60 - 1)) / 60);
-			final int numberOfBlockContents = 4 + compressedFrameSize;
+			final int numberOfBlockContents = 6 + compressedFrameSize;
 			final RawEvent[] rawEvents = new RawEvent[1 + numberOfBlockContents];
 
 			// First one is the Block Header, with the main time-stamp.
@@ -285,8 +294,35 @@ public class INIv1 implements Translator {
 
 			rawEvents[0] = new RawEvent(address, event.getTimestamp());
 
-			// The following four Block Contents contain the six time-stamps
-			// (SOE, EOE, SORR, EORR, SOSR, EOSR), Y / X / ADCDepth dimensions.
+			// The following six Block Contents contain the six time-stamps
+			// (SOE, EOE, SORR, EORR, SOSR, EOSR), as well as the Y, X and
+			// ADCDepth dimensions in the first three address parts.
+			address = (INIv1.CODE_BLOCK_CONTENT << INIv1.CODE_SHIFT);
+			address |= frame.getSizeY();
+
+			rawEvents[1] = new RawEvent(address, frame.getTsStartOfExposure());
+
+			address = (INIv1.CODE_BLOCK_CONTENT << INIv1.CODE_SHIFT);
+			address |= frame.getSizeX();
+
+			rawEvents[2] = new RawEvent(address, frame.getTsEndOfExposure());
+
+			address = (INIv1.CODE_BLOCK_CONTENT << INIv1.CODE_SHIFT);
+			address |= frame.getDepthADC();
+
+			rawEvents[3] = new RawEvent(address, frame.getTsStartOfResetRead());
+
+			address = (INIv1.CODE_BLOCK_CONTENT << INIv1.CODE_SHIFT);
+
+			rawEvents[4] = new RawEvent(address, frame.getTsEndOfResetRead());
+
+			address = (INIv1.CODE_BLOCK_CONTENT << INIv1.CODE_SHIFT);
+
+			rawEvents[5] = new RawEvent(address, frame.getTsStartOfSignalRead());
+
+			address = (INIv1.CODE_BLOCK_CONTENT << INIv1.CODE_SHIFT);
+
+			rawEvents[6] = new RawEvent(address, frame.getTsEndOfSignalRead());
 
 			return rawEvents;
 		}

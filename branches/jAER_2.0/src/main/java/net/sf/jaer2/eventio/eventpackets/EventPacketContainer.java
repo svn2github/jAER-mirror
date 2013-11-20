@@ -481,8 +481,4 @@ public final class EventPacketContainer implements Iterable<Event> {
 
 		return evtPkt.iteratorTimeOrderFull();
 	}
-
-	public void addEvent(Event extractEventFromRawEvent) {
-		// TODO Auto-generated method stub
-	}
 }

@@ -117,7 +117,7 @@ public final class InputProcessor extends Processor {
 				final EventPacketContainer outPacketContainer = new EventPacketContainer(this);
 
 				for (RawEvent rawEvent : inRawEventPacket) {
-					outPacketContainer.addEvent(eventTranslator.extractEventFromRawEvent(rawEvent));
+					eventTranslator.extractEventFromRawEvent(rawEvent, outPacketContainer);
 				}
 
 				// Send only packets with some (in)valid events on their way.
