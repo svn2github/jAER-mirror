@@ -66,7 +66,7 @@ public class SBret10config extends LatticeMachFX2config implements ApsDvsConfig,
      */
     protected PortBit powerDown = new PortBit(chip, "e2", "powerDown", "(E2) High to disable master bias and tie biases to default rails", false);
     protected PortBit nChipReset = new PortBit(chip, "e3", "nChipReset", "(E3) Low to reset AER circuits and hold pixels in reset, High to run", true); // shouldn't need to manipulate from host
-    protected PortBit syncTimestampMasterEnabled = new PortBit(chip, "a1", "syncTimestampMaster", "<html> (A1) High to make this camera timestamp master or to enable external<br>specical sync events to be injected into the event stream on detected edges on the IN sync pin", true); 
+    protected PortBit syncTimestampMasterEnabled = new PortBit(chip, "a1", "syncTimestampMaster", "<html> (A1) High to make this camera timestamp master or to enable external<br>specical external input events to be injected into the event stream on detected edges on the IN pin<p>An external input event is detected on the falling edge of the IN input pin.", true); 
     //*********** CPLD *********************
     // CPLD shift register contents specified here by CPLDInt and CPLDBit
     protected CPLDInt exposure = new CPLDInt(chip, 15, 0, "exposure", "time between reset and readout of a pixel", 0);
@@ -741,7 +741,7 @@ public class SBret10config extends LatticeMachFX2config implements ApsDvsConfig,
         OnchipConfigBit resetCalib = new OnchipConfigBit(chip, "resetCalib", 0, "turn the calibration neuron off", true),
                 typeNCalib = new OnchipConfigBit(chip, "typeNCalib", 1, "make the calibration neuron N type", false),
                 resetTestpixel = new OnchipConfigBit(chip, "resetTestpixel", 2, "keeps the test pixel in reset", true),
-                hotPixelSuppression = new OnchipConfigBit(chip, "hotPixelSuppression", 3, "SBRet10: turns on the hot pixel suppression. SBRet20: enables test pixel stripes on right side of array", false),
+                hotPixelSuppression = new OnchipConfigBit(chip, "hotPixelSuppression", 3, "<html>SBRet10: turns on the hot pixel suppression. <p>SBRet20: enables test pixel stripes on right side of array", false),
                 nArow = new OnchipConfigBit(chip, "nArow", 4, "use nArow in the AER state machine", false),
                 useAout = new OnchipConfigBit(chip, "useAout", 5, "turn the pads for the analog MUX outputs on", true),
                 globalShutter = new OnchipConfigBit(chip, "globalShutter", 6, "use the global shutter or not", false);
