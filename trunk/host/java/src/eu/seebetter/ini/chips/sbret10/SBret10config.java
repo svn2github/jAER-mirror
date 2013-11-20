@@ -69,11 +69,11 @@ public class SBret10config extends LatticeMachFX2config implements ApsDvsConfig,
     protected PortBit syncTimestampMasterEnabled = new PortBit(chip, "a1", "syncTimestampMaster", "<html> (A1) High to make this camera timestamp master or to enable external<br>specical external input events to be injected into the event stream on detected edges on the IN pin<p>An external input event is detected on the falling edge of the IN input pin.", true); 
     //*********** CPLD *********************
     // CPLD shift register contents specified here by CPLDInt and CPLDBit
-    protected CPLDInt exposure = new CPLDInt(chip, 15, 0, "exposure", "time between reset and readout of a pixel", 0);
-    protected CPLDInt colSettle = new CPLDInt(chip, 31, 16, "colSettle", "time in 30MHz clock cycles to settle after column select before readout", 0);
-    protected CPLDInt rowSettle = new CPLDInt(chip, 47, 32, "rowSettle", "time in 30MHz clock cycles to settle after row select before readout", 0);
-    protected CPLDInt resSettle = new CPLDInt(chip, 63, 48, "resSettle", "time in 30MHz clock cycles  to settle after column reset before readout", 0);
-    protected CPLDInt frameDelay = new CPLDInt(chip, 79, 64, "frameDelay", "time between two frames", 0);
+    protected CPLDInt exposure = new CPLDInt(chip, 15, 0, "exposure", "global shutter exposure time between reset and readout phases; interpretation depends on whether rolling or global shutter readout is used.", 0);
+    protected CPLDInt colSettle = new CPLDInt(chip, 31, 16, "colSettle", "time in 30MHz clock cycles to settle after column select before readout; allows all pixels in column to drive in parallel the row readout lines (like resSettle)", 0);
+    protected CPLDInt rowSettle = new CPLDInt(chip, 47, 32, "rowSettle", "time in 30MHz clock cycles for pixel source follower to settle after each pixel's row select before ADC conversion; this is the fastest process of readout", 0);
+    protected CPLDInt resSettle = new CPLDInt(chip, 63, 48, "resSettle", "time in 30MHz clock cycles  to settle after column reset before readout; allows all pixels in column to drive in parallel the row readout lines (like colSettle)", 0);
+    protected CPLDInt frameDelay = new CPLDInt(chip, 79, 64, "frameDelay", "time between two frames; scaling of this parameter depends on readout logic used", 0);
     // DVSTweaks
     private AddressedIPotCF diffOn, diffOff, refr, pr, sf, diff;
     // graphic options for rendering
