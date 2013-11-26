@@ -350,8 +350,8 @@ public class Steadicam extends EventFilter2D implements FrameAnnotater, Applicat
         tiltTranslationDeg = tiltTranslationFilter.filter(tiltDC, timestamp);
         rollDeg = rollFilter.filter(rollDC, timestamp);
 
-        // check limits
-        if (Math.abs(panTranslationDeg) > transformResetLimitDegrees || Math.abs(tiltTranslationDeg) > transformResetLimitDegrees || Math.abs(rollDeg) > transformResetLimitDegrees) {
+        // check limits, make limit for rotation a lot higher to avoid reset on big rolls, which are different than pans and tilts
+        if (Math.abs(panTranslationDeg) > transformResetLimitDegrees || Math.abs(tiltTranslationDeg) > transformResetLimitDegrees || Math.abs(rollDeg) > transformResetLimitDegrees*3) {
             panDC = 0;
             tiltDC = 0;
             rollDC = 0;
