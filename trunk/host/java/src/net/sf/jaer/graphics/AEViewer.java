@@ -1723,6 +1723,10 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
 					// if(aeRaw.getNumEvents()>0){ // we should always extract even if the packet is empty to be sure we get a valid packet!
 
 					packet = extractPacket(aeRaw);
+                                        if(packet==null) {
+                                            log.warning("packet became null");
+                                            continue;
+                                        }
 					numEvents = packet.getSize();
 
 					//  synchronized(packet.class()){}
@@ -1781,6 +1785,10 @@ public class AEViewer extends javax.swing.JFrame implements PropertyChangeListen
 				if (skipPacketsRenderingCount-- == 0) {
 					// we only got new events if we were NOT paused. but now we can apply filters, different rendering methods, etc in 'paused' condition
 					renderPacket(packet);
+                                        if(packet==null){
+                                            log.warning("packet became null");
+                                            continue;
+                                        }
 					numFilteredEvents = packet.getSizeNotFilteredOut();
 					makeStatisticsLabel(packet);
 					skipPacketsRenderingCount = skipPacketsRenderingNumber;
