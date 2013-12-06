@@ -130,7 +130,7 @@ public final class SSHSNode {
 		lock.writeLock().unlock();
 	}
 
-	public boolean exists(final String key, final Class<?> type) {
+	public boolean attrExists(final String key, final Class<?> type) {
 		lock.readLock().lock();
 		final boolean returnValue = attributes.contains(key, type);
 		lock.readLock().unlock();
@@ -160,7 +160,7 @@ public final class SSHSNode {
 		// Verify that we're getting values from a valid attribute.
 		// Valid means it already exists and has a well-defined default.
 		if (returnValue == null) {
-			throw new NoSuchElementException("Attribute not present, please initialize it first with attributePut().");
+			throw new NoSuchElementException("Attribute not present, please initialize it first.");
 		}
 
 		return returnValue;
@@ -329,7 +329,13 @@ public final class SSHSNode {
 				throw new XMLParseException("Invalid SSHS v1.0 XML content.");
 			}
 
-			final Element rootNode = SSHSNode.filterChildNodes(root, "node").get(0);
+			final List<Element> rootChildren = SSHSNode.filterChildNodes(root, "node");
+
+			if (rootChildren.size() != 1) {
+				throw new XMLParseException("Multiple or no root child nodes present.");
+			}
+
+			final Element rootNode = rootChildren.get(0);
 
 			// Strict mode: check if names match.
 			if (strict) {

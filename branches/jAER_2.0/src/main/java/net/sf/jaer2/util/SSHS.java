@@ -9,6 +9,30 @@ public final class SSHS {
 		root = new SSHSNode("", null);
 	}
 
+	public boolean nodeExists(final String nodePath) {
+		SSHS.checkNodePath(nodePath);
+
+		// First node is the root.
+		SSHSNode curr = root;
+		final String[] searchPaths = nodePath.split("/");
+
+		// Search (or create) viable node iteratively.
+		for (int i = 1; i < searchPaths.length; i++) {
+			final String nextName = searchPaths[i];
+			SSHSNode next = curr.getChild(nextName);
+
+			// If node doesn't exist, return that.
+			if (next == null) {
+				return (false);
+			}
+
+			curr = next;
+		}
+
+		// We got to the end, so the node exists.
+		return (true);
+	}
+
 	public SSHSNode getNode(final String nodePath) {
 		SSHS.checkNodePath(nodePath);
 
@@ -53,12 +77,14 @@ public final class SSHS {
 		}
 	}
 
+	private static final String nodePathRegexp = "^/([a-zA-Z\\d\\.:\\$\\(\\)\\[\\]{}]+/)*$";
+
 	private static void checkNodePath(final String nodePath) {
 		if (nodePath == null) {
 			throw new IllegalArgumentException("Node path cannot be null.");
 		}
 
-		if (!nodePath.matches("/([\\p{Print}&&[^/]]+/)*")) {
+		if (!nodePath.matches(nodePathRegexp)) {
 			throw new IllegalArgumentException("Invalid node path format.");
 		}
 	}
