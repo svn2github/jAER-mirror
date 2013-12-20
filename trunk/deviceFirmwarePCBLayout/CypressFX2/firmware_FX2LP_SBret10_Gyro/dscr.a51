@@ -48,7 +48,7 @@ DeviceDscr:
       db   64         ;; Maximum packet size
       dw   2a15H      ;; 0x152a VID for jAER from thesycon for USBIO devices
       dw   0d84H      ;; 0x840b PID in thesycon jAER range , used for SeeBetter
-      dw   0200H      ;; Product version ID, month/year 10/2008
+      dw   0201H      ;; Product version ID, FW v 2, Device Type 1 (with Gyro)
       db   1         ;; Manufacturer string index
       db   2         ;; Product string index
       db   0         ;; Serial number string index
