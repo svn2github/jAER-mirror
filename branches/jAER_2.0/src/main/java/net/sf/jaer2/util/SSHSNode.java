@@ -147,7 +147,7 @@ public final class SSHSNode {
 		lock.readLock().lock();
 		for (final SSHSListener listener : listeners) {
 			listener.attributeChanged(this, (returnValue == null) ? (AttributeEvents.ATTRIBUTE_ADDED)
-				: (AttributeEvents.ATTRIBUDE_MODIFIED), key, type, value);
+				: (AttributeEvents.ATTRIBUTE_MODIFIED), key, type, value);
 		}
 		lock.readLock().unlock();
 	}

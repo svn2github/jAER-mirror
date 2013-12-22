@@ -9,7 +9,7 @@ public interface SSHSListener {
 
 	public static enum AttributeEvents {
 		ATTRIBUTE_ADDED,
-		ATTRIBUDE_MODIFIED;
+		ATTRIBUTE_MODIFIED;
 	}
 
 	public <V> void attributeChanged(SSHSNode node, AttributeEvents event, String changeKey, Class<V> changeType,

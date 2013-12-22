@@ -5,6 +5,7 @@ public class SpecialEvent extends XYPositionEvent {
 
 	public static enum Type {
 		TIMESTAMP_WRAP,
+		TIMESTAMP_RESET,
 		EXTERNAL_TRIGGER,
 		ROW_ONLY,
 	}
