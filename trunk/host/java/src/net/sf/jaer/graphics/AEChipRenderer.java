@@ -32,7 +32,12 @@ import javax.swing.JButton;
 public class AEChipRenderer extends Chip2DRenderer {
 
      /** PropertyChange events */
-    public static final String PROPERTY_COLOR_SCALE = "colorScale", PROPERTY_COLOR_MODE = "colorMode";
+    public static final String PROPERTY_COLOR_SCALE = "colorScale",
+
+    /**
+     * PropertyChange events
+     */
+    PROPERTY_COLOR_MODE = "colorMode";
 
     /**
      * @return the specialCount
@@ -232,7 +237,7 @@ public class AEChipRenderer extends Chip2DRenderer {
 //                    float[] f = fr[e.y][e.x];
 //                    setPixmapPosition(e.x, e.y);
                     float[] c = typeColorRGBComponents[type];
-                    if (obj instanceof OrientationEvent && ((OrientationEvent) obj).hasOrientation == false) {
+                    if (obj instanceof ApsDvsOrientationEvent && ((ApsDvsOrientationEvent) obj).hasOrientation == false) {
                         // if event is orientation event but orientation was not set, just draw as gray level
                         f[ind] += step; //if(f[0]>1f) f[0]=1f;
                         f[ind + 1] += step; //if(f[1]>1f) f[1]=1f;

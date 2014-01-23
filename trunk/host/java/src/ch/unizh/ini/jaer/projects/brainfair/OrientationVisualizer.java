@@ -6,7 +6,7 @@ package ch.unizh.ini.jaer.projects.brainfair;
 
 import java.util.Observable;
 import javax.media.opengl.GL;
-import net.sf.jaer.event.OrientationEvent;
+import net.sf.jaer.event.ApsDvsOrientationEvent;
 import javax.media.opengl.GLAutoDrawable;
 import net.sf.jaer.Description;
 import net.sf.jaer.chip.AEChip;
@@ -15,7 +15,7 @@ import net.sf.jaer.event.EventPacket;
 import net.sf.jaer.event.OutputEventIterator;
 import net.sf.jaer.eventprocessing.EventFilter2D;
 import net.sf.jaer.eventprocessing.FilterChain;
-import net.sf.jaer.eventprocessing.label.SimpleOrientationFilter;
+import net.sf.jaer.eventprocessing.label.DvsOrientationFilter;
 import net.sf.jaer.graphics.FrameAnnotater;
 
 /**
@@ -35,13 +35,13 @@ public class OrientationVisualizer extends EventFilter2D implements FrameAnnotat
     private float[] normOrientHistory;
 
     private FilterChain filterChain;  // Enclosed Gaussian Tracker filter
-    private SimpleOrientationFilter orientFilter;
+    private DvsOrientationFilter orientFilter;
 
     public OrientationVisualizer(AEChip chip) {
         super(chip);
         
         // Create enclosed filter and filter chain
-        orientFilter = new SimpleOrientationFilter(chip);
+        orientFilter = new DvsOrientationFilter(chip);
         filterChain = new FilterChain(chip);
         filterChain.add(orientFilter);
         setEnclosedFilterChain(filterChain);
@@ -68,7 +68,7 @@ public class OrientationVisualizer extends EventFilter2D implements FrameAnnotat
             return null;
         }
         
-        checkOutputPacketEventType(OrientationEvent.class);
+        checkOutputPacketEventType(ApsDvsOrientationEvent.class);
 
         OutputEventIterator outItr=out.outputIterator();
         
@@ -76,8 +76,8 @@ public class OrientationVisualizer extends EventFilter2D implements FrameAnnotat
             BasicEvent o=(BasicEvent)outItr.nextOutput();
             o.copyFrom(e);
 
-            if (e instanceof OrientationEvent) {
-                OrientationEvent oe = (OrientationEvent) e;
+            if (e instanceof ApsDvsOrientationEvent) {
+                ApsDvsOrientationEvent oe = (ApsDvsOrientationEvent) e;
 
                 byte orient = oe.orientation;
                 if ((orient>=0) && (orient<8)) {
@@ -86,7 +86,7 @@ public class OrientationVisualizer extends EventFilter2D implements FrameAnnotat
                     orientHistory[orient]++;
                 }
                 
-            } // e instanceof OrientationEvent
+            } // e instanceof ApsDvsOrientationEvent
 
         } // BasicEvent e
 

@@ -19,7 +19,7 @@ import java.awt.geom.*;
  * 
  * @author tobi
  */
-public class MotionOrientationEvent extends OrientationEvent {
+public class MotionOrientationEvent extends ApsDvsOrientationEvent {
     
     /** the direciton of motion, a quantized value indexing into Dir */
     public byte direction=0;
@@ -43,7 +43,7 @@ public class MotionOrientationEvent extends OrientationEvent {
     public Point2D.Float velocity=new Point2D.Float();
     
     
-    /** Creates a new instance of MotionOrientationEvent */
+    /** Creates a new instance of MotionApsDvsOrientationEvent */
     public MotionOrientationEvent() {
     }
     
@@ -63,7 +63,7 @@ public class MotionOrientationEvent extends OrientationEvent {
      @param src the event to copy from
      */
     @Override public void copyFrom(BasicEvent src){
-        OrientationEvent e=(OrientationEvent)src;
+        ApsDvsOrientationEvent e=(ApsDvsOrientationEvent)src;
         super.copyFrom(src);
         if(e instanceof MotionOrientationEvent){
             this.direction=((MotionOrientationEvent)e).direction;

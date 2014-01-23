@@ -6,7 +6,7 @@ package ch.unizh.ini.jaer.projects.thresholdlearner;
 
 import net.sf.jaer.event.BasicEvent;
 import net.sf.jaer.event.EventPacket;
-import net.sf.jaer.event.OrientationEvent;
+import net.sf.jaer.event.ApsDvsOrientationEvent;
 import net.sf.jaer.graphics.RetinaRenderer;
 import net.sf.jaer.chip.AEChip;
 

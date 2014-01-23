@@ -241,7 +241,7 @@ public class LIFMedianFilter extends EventFilter2D implements Observer, FrameAnn
     synchronized public EventPacket filterPacket(EventPacket in) {
         if(!filterEnabled) return in;
         if(enclosedFilter!=null) in=enclosedFilter.filterPacket(in);
-        checkOutputPacketEventType(OrientationEvent.class);
+        checkOutputPacketEventType(ApsDvsOrientationEvent.class);
 
         OutputEventIterator outItr=out.outputIterator();
 
@@ -253,7 +253,7 @@ public class LIFMedianFilter extends EventFilter2D implements Observer, FrameAnn
 
         // Cycle through events
         for(Object e:in){
-           OrientationEvent i=(OrientationEvent)e;
+           ApsDvsOrientationEvent i=(ApsDvsOrientationEvent)e;
            float ts=i.timestamp;
            short x=(short)(i.x), y=(short)(i.y);
            byte orientation = i.orientation;
@@ -296,7 +296,7 @@ public class LIFMedianFilter extends EventFilter2D implements Observer, FrameAnn
                     if (h_median_spike==1) {
                         if ((lastMedianX >= 0) && (lastMedianX < dim_pixels) &&
                                 (med_y >= 0) && (med_y < dim_pixels)) {
-                            OrientationEvent testi = new OrientationEvent();
+                            ApsDvsOrientationEvent testi = new ApsDvsOrientationEvent();
                             testi.setX((short)(lastMedianX));
                             testi.setY((short)(med_y));
                             testi.setTimestamp((int)ts);
@@ -343,7 +343,7 @@ public class LIFMedianFilter extends EventFilter2D implements Observer, FrameAnn
                     if (v_median_spike==1) {
                         if ((med_x >= 0) && (med_x < dim_pixels) && (lastMedianY >= 0) &&
                              (lastMedianY < dim_pixels)) {
-                            OrientationEvent testi = new OrientationEvent();
+                            ApsDvsOrientationEvent testi = new ApsDvsOrientationEvent();
                             testi.setX((short)(med_x));
                             testi.setY((short)(lastMedianY));
                             testi.setTimestamp((int)ts);

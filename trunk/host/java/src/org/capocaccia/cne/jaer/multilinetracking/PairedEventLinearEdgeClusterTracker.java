@@ -53,7 +53,7 @@ public class PairedEventLinearEdgeClusterTracker extends EventFilter2D implement
     private float tauMs = getPrefs().getFloat("MultiLineClusterTracker.tauMs", 10);
     private int oriDiffAllowed = getPrefs().getInt("MultiLineClusterTracker.oriDiffAllowed", 1);
     private int eventBufferLength = getPrefs().getInt("MultiLineClusterTracker.eventBufferLength", 8);
-    private LIFOEventBuffer<OrientationEvent> eventBuffer;
+    private LIFOEventBuffer<ApsDvsOrientationEvent> eventBuffer;
     LineClusterCanvas lineClusterCanvas = null;
     private int chipSize = 0, sizex = 0, sizey = 0;
     private boolean showLineSegments = false;
@@ -165,7 +165,7 @@ public class PairedEventLinearEdgeClusterTracker extends EventFilter2D implement
             return in;
         }
     }
-    OrientationEvent oriEvent = new OrientationEvent();
+    ApsDvsOrientationEvent oriEvent = new ApsDvsOrientationEvent();
     // the method that actually does the tracking
 
     synchronized private void track(EventPacket<BasicEvent> packet) {
@@ -183,7 +183,7 @@ public class PairedEventLinearEdgeClusterTracker extends EventFilter2D implement
         for (BasicEvent event : packet) {
             // for each past event, possibly form a line segment
             // and use it to move clusters if the segment is valid for clustering
-            for (OrientationEvent oldEvent : eventBuffer) {
+            for (ApsDvsOrientationEvent oldEvent : eventBuffer) {
                 if (isValidSegment(oldEvent, event)) { // args are older,newer
                     if (showLineSegments) {
                         // expensive but good for debugging
@@ -473,8 +473,11 @@ public class PairedEventLinearEdgeClusterTracker extends EventFilter2D implement
      */
     private boolean isValidSegment(BasicEvent older, BasicEvent newer) {
         // if input event is orientation event, then it must be close in orientation to the buffer event
-        if (newer instanceof OrientationEvent) { // take newer because it is from the packet and not from the EventBuffer which holds PolarityEvent
-            OrientationEvent oldOri = (OrientationEvent) older, newOri = (OrientationEvent) newer;
+        if (newer instanceof ApsDvsOrientationEvent) { // take newer because it is from the packet and not from the EventBuffer which holds PolarityEvent
+            // take newer because it is from the packet and not from the EventBuffer which holds PolarityEvent
+            // take newer because it is from the packet and not from the EventBuffer which holds PolarityEvent
+            ApsDvsOrientationEvent oldOri = (ApsDvsOrientationEvent) older;
+            DvsOrientationEvent newOri = (DvsOrientationEvent) newer;
             if (Math.abs(oldOri.orientation - newOri.orientation) > oriDiffAllowed) {
                 return false;
             }
@@ -1518,9 +1521,9 @@ public class PairedEventLinearEdgeClusterTracker extends EventFilter2D implement
     }
 
     synchronized private void initBuffers() {
-        OrientationEvent[] a = new OrientationEvent[eventBufferLength];
-        Arrays.fill(a, new OrientationEvent());
-        eventBuffer = new LIFOEventBuffer<OrientationEvent>(a);
+        ApsDvsOrientationEvent[] a = new ApsDvsOrientationEvent[eventBufferLength];
+        Arrays.fill(a, new ApsDvsOrientationEvent());
+        eventBuffer = new LIFOEventBuffer<ApsDvsOrientationEvent>(a);
     }
 
     public boolean isRenderInputEvents() {

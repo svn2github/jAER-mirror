@@ -44,7 +44,7 @@ public class SlotcarFilter extends EventFilter2D implements Observer {
     synchronized public EventPacket filterPacket(EventPacket in) {
         if(!filterEnabled) return in;
         if(enclosedFilter!=null) in=enclosedFilter.filterPacket(in);
-        checkOutputPacketEventType(OrientationEvent.class);
+        checkOutputPacketEventType(ApsDvsOrientationEvent.class);
 
         OutputEventIterator outItr=out.outputIterator();
 

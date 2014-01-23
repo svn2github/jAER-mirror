@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sf.jaer.chip.*;
 import net.sf.jaer.eventprocessing.EventFilter2D;
-import net.sf.jaer.eventprocessing.label.SimpleOrientationFilter;
+import net.sf.jaer.eventprocessing.label.DvsOrientationFilter;
 import net.sf.jaer.event.*;
 
 import java.util.*;
@@ -45,7 +45,7 @@ public class DisparityFilter extends EventFilter2D implements FrameAnnotater,Obs
      */
     private int[][] prototypeNeighbors;
     /** Enclosed orientation filter */
-    private SimpleOrientationFilter oriFilter;
+    private DvsOrientationFilter oriFilter;
     // array dimensions are ordered this way because you have to iterate mainly over x coorinates
     /** Stores the timestamp of previous events at lastEvent[eye][y][x]. */
     private int[][][] lastTime;
@@ -62,7 +62,7 @@ public class DisparityFilter extends EventFilter2D implements FrameAnnotater,Obs
     /** Creates a new instance of GlobalXDisparityFilter3 */
     public DisparityFilter (AEChip chip){
         super(chip);
-        oriFilter = new SimpleOrientationFilter(chip);
+        oriFilter = new DvsOrientationFilter(chip);
 //        oriFilter.setFilterEnabled(true); // this will set orientation filtering active next time program is started, so don't set it now
         setEnclosedFilter(oriFilter);
         chip.addObserver(this);

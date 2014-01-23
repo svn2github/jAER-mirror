@@ -64,11 +64,23 @@ public class RectangularClusterTracker extends EventFilter2D implements Observer
 //    private boolean sizeClassificationEnabled=getBoolean("sizeClassificationEnabled",true);
     private int numVisibleClusters = 0;
     /** maximum and minimum allowed dynamic aspect ratio when dynamic instantaneousAngle is disabled. */
-    public static final float ASPECT_RATIO_MAX_DYNAMIC_ANGLE_DISABLED = 2.5f, ASPECT_RATIO_MIN_DYNAMIC_ANGLE_DISABLED = 0.5f;
+    public static final float ASPECT_RATIO_MAX_DYNAMIC_ANGLE_DISABLED = 2.5f,
+
+    /**
+     * maximum and minimum allowed dynamic aspect ratio when dynamic instantaneousAngle is disabled.
+     */
+    ASPECT_RATIO_MIN_DYNAMIC_ANGLE_DISABLED = 0.5f;
     /** maximum and minimum allowed dynamic aspect ratio when dynamic instantaneousAngle is enabled; then min aspect ratio is set to 1 to make instantaneousAngle
      * point along an edge in the scene.
+  
      */
-    public static final float ASPECT_RATIO_MAX_DYNAMIC_ANGLE_ENABLED = 1, ASPECT_RATIO_MIN_DYNAMIC_ANGLE_ENABLED = 0.5f;
+    public static final float ASPECT_RATIO_MAX_DYNAMIC_ANGLE_ENABLED = 1,
+
+    /**
+     * maximum and minimum allowed dynamic aspect ratio when dynamic instantaneousAngle is enabled; then min aspect ratio is set to 1 to make instantaneousAngle
+ point along an edge in the scene.
+     */
+    ASPECT_RATIO_MIN_DYNAMIC_ANGLE_ENABLED = 0.5f;
     protected float defaultClusterRadius;
     /** amount each event moves COM of cluster towards itself. */
     protected float mixingFactor = getFloat("mixingFactor", 0.05f);
@@ -953,7 +965,17 @@ public class RectangularClusterTracker extends EventFilter2D implements Observer
         protected float aspectRatio, radiusX, radiusY;
         /** Angle of cluster in radians with zero being horizontal and CCW > 0. 
          * sinAngle and cosAngle are updated when angle is updated. */
-        protected float angle = 0, cosAngle = 1, sinAngle = 0;
+        protected float angle = 0,
+
+        /**
+         * Angle of cluster in radians with zero being horizontal and CCW > 0.sinAngle and cosAngle are updated when angle is updated.
+         */
+        cosAngle = 1,
+
+        /**
+         * Angle of cluster in radians with zero being horizontal and CCW > 0.sinAngle and cosAngle are updated when angle is updated.
+         */
+        sinAngle = 0;
         protected LinkedList<ClusterPathPoint> path = new LinkedList<ClusterPathPoint>();       
 //         protected LinkedList<ClusterPathPoint> path = new ArrayList<ClusterPathPoint>(getPathLength());
         int hitEdgeTime = 0;
@@ -1293,7 +1315,15 @@ public class RectangularClusterTracker extends EventFilter2D implements Observer
          * some other timestamped update, e.g. {@link #updateClusterList(net.sf.jaer.event.EventPacket, int) }.
          * @see #isVisible()
          */
-        protected int lastEventTimestamp, firstEventTimestamp;
+        protected int lastEventTimestamp,
+
+        /**
+         * First and last timestamp of cluster.<code>firstEventTimestamp</code> is updated when cluster becomes visible.
+ <code>lastEventTimestamp</code> is the last time the cluster was touched either by an event or by
+ some other timestamped update, e.g. {@link #updateClusterList(net.sf.jaer.event.EventPacket, int)}.
+         * @see #isVisible()
+         */
+        firstEventTimestamp;
         /** The "mass" of the cluster is the weighted number of events it has collected.
          * The mass decays over time and is incremented by one by each collected event.
          * The mass decays with a first order time constant of clusterMassDecayTauUs in us.
@@ -1316,7 +1346,17 @@ public class RectangularClusterTracker extends EventFilter2D implements Observer
         /** assigned to be the absolute number of the cluster that has been created. */
         private int clusterNumber;
         /** average (mixed using mixingFactor) distance of events from cluster center, a measure of actual cluster size. */
-        private float averageEventDistance, averageEventXDistance, averageEventYDistance;
+        private float averageEventDistance,
+
+        /**
+         * average (mixed using mixingFactor) distance of events from cluster center, a measure of actual cluster size.
+         */
+        averageEventXDistance,
+
+        /**
+         * average (mixed using mixingFactor) distance of events from cluster center, a measure of actual cluster size.
+         */
+        averageEventYDistance;
         protected float distanceToLastEvent = Float.POSITIVE_INFINITY;        
         protected float xDistanceToLastEvent = Float.POSITIVE_INFINITY, yDistanceToLastEvent = Float.POSITIVE_INFINITY;
         /** Flag which is set true (forever) once a cluster has first obtained sufficient support. */
@@ -1644,11 +1684,11 @@ public class RectangularClusterTracker extends EventFilter2D implements Observer
             
             float newX,newY;
             
-            if (event instanceof OrientationEvent) {
+            if (event instanceof ApsDvsOrientationEvent) {
                 // if event is an orientation event, use the orientation to only move the cluster in a direction perpindicular to
                 // the estimated orientation
-                OrientationEvent eout = (OrientationEvent) event;
-                OrientationEvent.UnitVector d = OrientationEvent.unitVectors[(eout.orientation + 2) % 4];
+                ApsDvsOrientationEvent eout = (ApsDvsOrientationEvent) event;
+                ApsDvsOrientationEvent.UnitVector d = ApsDvsOrientationEvent.unitVectors[(eout.orientation + 2) % 4];
                 //calculate projection
                 float eventXCentered = event.x - location.x;
                 float eventYCentered = event.y - location.y;

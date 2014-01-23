@@ -84,7 +84,7 @@ public class DirectionSelectiveFilter extends EventFilter2D implements Observer,
     int PADDING=2; // padding around array that holds previous orientation event timestamps to prevent arrayoutofbounds errors and need for checking
     int P=1; // PADDING/2
     int lastNumInputCellTypes=2;
-    SimpleOrientationFilter oriFilter;
+    DvsOrientationFilter oriFilter;
     private MotionVectors motionVectors;
 //    private LowpassFilter speedFilter=new LowpassFilter();
     float avgSpeed=0;
@@ -97,7 +97,7 @@ public class DirectionSelectiveFilter extends EventFilter2D implements Observer,
         chip.addObserver(this);
         resetFilter();
         setFilterEnabled(false);
-        oriFilter=new SimpleOrientationFilter(chip);
+        oriFilter=new DvsOrientationFilter(chip);
         oriFilter.setAnnotationEnabled(false);
         setEnclosedFilter(oriFilter);
         motionVectors = new MotionVectors();
@@ -309,7 +309,7 @@ public class DirectionSelectiveFilter extends EventFilter2D implements Observer,
             OutputEventIterator outItr=dirPacket.outputIterator(); // this initializes the output iterator of dirPacket
             for(Object ein:oriPacket){ // as we iterate using the built-in next() method we will bypass APS events to the dirPacket outputPacket of oriPacket using its output iterator
 
-                OrientationEvent e=(OrientationEvent)ein;
+                ApsDvsOrientationEvent e=(ApsDvsOrientationEvent)ein;
                 int x=((e.x>>>subSampleShift)+P); // x and y are offset inside our timestamp storage array to avoid array access violations
                 int y=((e.y>>>subSampleShift)+P);
                 int polValue=((e.polarity==PolarityEvent.Polarity.On?1:2));
@@ -382,7 +382,7 @@ public class DirectionSelectiveFilter extends EventFilter2D implements Observer,
                             continue;
                         } // don't store event if speed too high compared to average
                         MotionOrientationEvent eout=(MotionOrientationEvent)outItr.nextOutput();
-                        eout.copyFrom((OrientationEvent)ein);
+                        eout.copyFrom((ApsDvsOrientationEvent)ein);
                         eout.direction=outType;
                         eout.delay=(short)dt; // this is a actually the average dt for this direction
 //                    eout.delay=(short)mindt; // this is the mindt found
@@ -447,7 +447,7 @@ public class DirectionSelectiveFilter extends EventFilter2D implements Observer,
                             continue;
                         } // don't output event if speed too high compared to average
                         MotionOrientationEvent eout=(MotionOrientationEvent)outItr.nextOutput();
-                        eout.copyFrom((OrientationEvent)ein);
+                        eout.copyFrom((ApsDvsOrientationEvent)ein);
                         eout.direction=outType;
                         eout.delay=(short)(dist*speed); 
                         eout.distance=(byte)dist;
