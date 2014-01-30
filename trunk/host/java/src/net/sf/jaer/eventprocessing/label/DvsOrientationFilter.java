@@ -29,14 +29,14 @@ import net.sf.jaer.DevelopmentStatus;
 Orientation type output takes values 0-3; 0 is a horizontal edge (0 deg),  1 is an edge tilted up and to right (rotated CCW 45 deg),
  2 is a vertical edge (rotated 90 deg), 3 is tilted up and to left (rotated 135 deg from horizontal edge).
 
- The filter takes either PolarityEvents or BinocularEvents to create ApsDvsOrientationEvents or BinocularApsDvsOrientationEvents.
+ The filter takes either PolarityEvents or BinocularEvents to create DvsOrientationEvent or BinocularEvents.
  * @author tobi/phess
  */
 @Description("Detects local orientation by spatio-temporal correlation for DVS sensors")
 @DevelopmentStatus(DevelopmentStatus.Status.Experimental)
-public class DvsOrientationFilter extends OrientationFilter{
+public class DvsOrientationFilter extends AbstractOrientationFilter{
 
-    /** Creates a new instance of SimpleOrientationFilter */
+    /** Creates a new instance of SimpleAbstractOrientationFilter */
     public DvsOrientationFilter (AEChip chip){
         super(chip);
         chip.addObserver(this);
@@ -206,7 +206,7 @@ public class DvsOrientationFilter extends OrientationFilter{
                 if ( dir == -1 ){ // didn't find a good orientation
                     if ( passAllEvents ){
                         if ( !isBinocular ){
-                            ApsDvsOrientationEvent eout = (ApsDvsOrientationEvent)outItr.nextOutput();
+                            DvsOrientationEvent eout = (DvsOrientationEvent)outItr.nextOutput();
                             eout.copyFrom(e);
                             eout.hasOrientation = false;
                         } else{
@@ -242,7 +242,7 @@ public class DvsOrientationFilter extends OrientationFilter{
                     eout.orientation = (byte)dir;
                     eout.hasOrientation = true;
                 } else{
-                    ApsDvsOrientationEvent eout = (ApsDvsOrientationEvent)outItr.nextOutput();
+                    DvsOrientationEvent eout = (DvsOrientationEvent)outItr.nextOutput();
                     eout.copyFrom(e);
                     eout.orientation = (byte)dir;
                     eout.hasOrientation = true;
@@ -260,13 +260,24 @@ public class DvsOrientationFilter extends OrientationFilter{
                             eout.orientation = (byte)k;
                             eout.hasOrientation = true;
                         } else{
-                            ApsDvsOrientationEvent eout = (ApsDvsOrientationEvent)outItr.nextOutput();
+                            DvsOrientationEvent eout = (DvsOrientationEvent)outItr.nextOutput();
                             eout.copyFrom(e);
                             eout.orientation = (byte)k;
                             eout.hasOrientation = true;
                         }
 //                        lastOutputTimesMap[e.x][e.y][k][eye]=e.timestamp;
                         oriHist.add(k);
+                    }else{
+                           if ( isBinocular ){
+                            BinocularOrientationEvent eout = (BinocularOrientationEvent)outItr.nextOutput();
+                            eout.copyFrom(e);
+                            eout.hasOrientation = false;
+                        } else{
+                            DvsOrientationEvent eout = (DvsOrientationEvent)outItr.nextOutput();
+                            eout.copyFrom(e);
+                            eout.hasOrientation = false;
+                        }
+                    
                     }
                 }
 
@@ -274,7 +285,7 @@ public class DvsOrientationFilter extends OrientationFilter{
         }
         final int ORI_SHIFT = 16; // will shift our orientation value this many bits in raw address
         for (Object o : outputPacket) {
-            ApsDvsOrientationEvent e = (ApsDvsOrientationEvent) o;
+            DvsOrientationEvent e = (DvsOrientationEvent) o;
             e.address = e.address | (e.orientation << ORI_SHIFT);
         }
         return getOutputPacket();

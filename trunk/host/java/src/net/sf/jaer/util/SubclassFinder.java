@@ -159,7 +159,7 @@ public class SubclassFinder {
      * @see #findSubclassesOf(java.lang.String) 
      */
     public static ArrayList<String> findSubclassesOf(String superClassName, final ProgressMonitor progressMonitor) { // TODO this doesn't work, monitor bar does not update and just shows blank, even if this method is executed in a SwingWorker thread
-        ArrayList<String> classes = new ArrayList<String>(100);
+        ArrayList<String> classes = new ArrayList<String>(1000);
         if (superClassName == null) {
             log.warning("tried to find subclasses of null class name, returning empty list");
             return classes;

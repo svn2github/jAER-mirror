@@ -10,7 +10,7 @@ package net.sf.jaer.event;
  * Common interface for all events signaling an orientation
  * @author tobi
  */
-public interface OrientationEventInterface {
+public interface OrientationEventInterface extends PolarityEventInterface{
     
     
     public byte getOrientation();

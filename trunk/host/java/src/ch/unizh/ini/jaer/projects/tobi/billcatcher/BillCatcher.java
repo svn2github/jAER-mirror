@@ -15,7 +15,7 @@ package ch.unizh.ini.jaer.projects.tobi.billcatcher;
 import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.event.EventPacket;
 import net.sf.jaer.eventprocessing.*;
-import net.sf.jaer.eventprocessing.label.DirectionSelectiveFilter;
+import net.sf.jaer.eventprocessing.label.AbstractDirectionSelectiveFilter;
 import net.sf.jaer.eventprocessing.tracking.*;
 import net.sf.jaer.graphics.FrameAnnotater;
 import net.sf.jaer.hardwareinterface.*;
@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import javax.media.opengl.*;
 import javax.media.opengl.GLAutoDrawable;
 import net.sf.jaer.Description;
+import net.sf.jaer.eventprocessing.label.DvsDirectionSelectiveFilter;
 
 /**
  * Catches ppper money dropped between fingers. The game is that a person holds a bill and then releases it at a random moment.
@@ -42,7 +43,7 @@ public class BillCatcher extends EventFilter2D implements FrameAnnotater {
     Logger log=Logger.getLogger("BillCatcher");
     FilterChain chain=null;
     RectangularClusterTracker tracker=null;
-    DirectionSelectiveFilter motionFilter=null;
+    AbstractDirectionSelectiveFilter motionFilter=null;
     
     private float motionThresholdPixelsPerSec=getPrefs().getFloat("BillCatcher.motionThresholdPixelsPerSec",20f);
     {setPropertyTooltip("motionThresholdPixelsPerSec","threshold in pixels/sec to initiate grab");}
@@ -67,7 +68,7 @@ public class BillCatcher extends EventFilter2D implements FrameAnnotater {
         super(chip);
         chain=new FilterChain(chip);
 //        tracker=new RectangularClusterTracker(chip);
-        motionFilter=new DirectionSelectiveFilter(chip);
+        motionFilter=new DvsDirectionSelectiveFilter(chip);
 //        chain.add(tracker);
         chain.add(motionFilter);
         setEnclosedFilterChain(chain);

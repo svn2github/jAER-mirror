@@ -22,13 +22,13 @@ import net.sf.jaer.graphics.FrameAnnotater;
 import net.sf.jaer.util.filter.LowpassFilter2d;
 
 /**
- * Computes temporally and spatially smoothed optical flow using DirectionSelectiveFilter.
+ * Computes temporally and spatially smoothed optical flow using AbstractDirectionSelectiveFilter.
  * @author tobi
  */
 @Description("Computes temporally and spatially smoothed optical flow using DirectionSelectiveFilter")
 public class SmoothOpticalFlowLabeler extends EventFilter2D implements Observer, FrameAnnotater {
 
-    private DirectionSelectiveFilter dirFilter;
+    private AbstractDirectionSelectiveFilter dirFilter;
     private int sx = 0, sy = 0;
     private LowpassFilter2d[][] vels;
     private int[][] lastSentTimestamps;
@@ -40,7 +40,7 @@ public class SmoothOpticalFlowLabeler extends EventFilter2D implements Observer,
     public SmoothOpticalFlowLabeler(AEChip chip) {
         super(chip);
         FilterChain chain = new FilterChain(chip);
-        dirFilter = new DirectionSelectiveFilter(chip);
+        dirFilter = new DvsDirectionSelectiveFilter(chip);
         dirFilter.setAnnotationEnabled(false);
         chain.add(dirFilter);
         setEnclosedFilterChain(chain);

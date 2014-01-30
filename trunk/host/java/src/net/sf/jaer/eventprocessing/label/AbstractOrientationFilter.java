@@ -34,7 +34,7 @@ Orientation type output takes values 0-3; 0 is a horizontal edge (0 deg),  1 is 
  */
 @Description("Abstract superclass for labelers that detect local orientation by spatio-temporal correlation")
 @DevelopmentStatus(DevelopmentStatus.Status.Experimental)
-abstract public class OrientationFilter extends EventFilter2D implements Observer,FrameAnnotater{
+abstract public class AbstractOrientationFilter extends EventFilter2D implements Observer,FrameAnnotater{
 
     public boolean isGeneratingFilter (){
         return true;
@@ -72,7 +72,7 @@ abstract public class OrientationFilter extends EventFilter2D implements Observe
     protected int rfSize;
 
     /** Creates a new instance of SimpleOrientationFilter */
-    public OrientationFilter (AEChip chip){
+    public AbstractOrientationFilter (AEChip chip){
         super(chip);
         chip.addObserver(this);
         // properties, tips and groups
@@ -96,6 +96,7 @@ abstract public class OrientationFilter extends EventFilter2D implements Observe
         setPropertyTooltip(tim,"oriDiffThreshold","orientation must be within this value of historical value to pass");
     }
 
+     
     public Object getFilterState (){
         return lastTimesMap;
     }
@@ -338,46 +339,49 @@ abstract public class OrientationFilter extends EventFilter2D implements Observe
         if ( isShowVectorsEnabled() && getOutputPacket()!=null ){
             // draw individual orientation vectors
             gl.glPushMatrix();
-            gl.glColor3f(1,1,1);
-            gl.glLineWidth(2f);
-            EventPacket outputPacket=getOutputPacket();
-            gl.glBegin(GL.GL_LINES);
-            for ( Object o:outputPacket ){
-                ApsDvsOrientationEvent e = (ApsDvsOrientationEvent)o;
+             EventPacket outputPacket=getOutputPacket();
+             for ( Object o:outputPacket ){
+                OrientationEventInterface e = (OrientationEventInterface)o;
                 drawOrientationVector(gl,e);
             }
-            gl.glEnd();
-            gl.glPopMatrix();
+             gl.glPopMatrix();
         }
     }
     protected Random r=new Random();
     
     // plots a single motion vector which is the number of pixels per second times scaling
-    protected void drawOrientationVector (GL gl,ApsDvsOrientationEvent e){
-        if ( !e.hasOrientation ){
+    protected void drawOrientationVector (GL gl,OrientationEventInterface e){
+        if ( !e.isHasOrientation() ){
             return;
         }
-        ApsDvsOrientationEvent.UnitVector d = ApsDvsOrientationEvent.unitVectors[e.orientation];
+        byte ori=e.getOrientation();
+        OrientationEvent.UnitVector d = OrientationEvent.unitVectors[ori];
         float jx=0, jy=0;
         if(jitterVectorLocations){
             jx=(r.nextFloat()-.5f)*jitterAmountPixels;
             jy=(r.nextFloat()-.5f)*jitterAmountPixels;
         }
-        switch (e.orientation) {
-            case 0:
-                gl.glColor3f(1, 0, 0);
-                break;
-            case 1:
-                gl.glColor3f(1, 1, 0);
-                break;
-            case 2:
-                gl.glColor3f(0, 1, 0);
-                break;
-            case 3:
-                gl.glColor3f(0, 1, 1);
-        }
-        gl.glVertex2f(e.x - d.x * length + jx, e.y - d.y * length + jy);
-        gl.glVertex2f(e.x + d.x * length + jx, e.y + d.y * length+jy);
+            gl.glLineWidth(3f);
+            float[] c=chip.getRenderer().makeTypeColors(e.getNumCellTypes())[ori];
+            gl.glColor3fv(c,0);
+//        switch (ori) {
+//            case 0:
+//                gl.glColor3fv(c,0);
+//                break;
+//            case 1:
+//                gl.glColor3f(1, 1, 0);
+//                break;
+//            case 2:
+//                gl.glColor3f(0, 1, 0);
+//                break;
+//            case 3:
+//                gl.glColor3f(0, 1, 1);
+//        }
+          gl.glBegin(GL.GL_LINES);
+          BasicEvent be=(BasicEvent)e;
+        gl.glVertex2f(be.x - d.x * length + jx, be.y - d.y * length + jy);
+        gl.glVertex2f(be.x + d.x * length + jx, be.y + d.y * length+jy);
+           gl.glEnd();
     }
 
     public boolean isShowVectorsEnabled (){

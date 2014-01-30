@@ -267,6 +267,7 @@ public class AEFrameChipRenderer extends AEChipRenderer {
                 nextHist.add(val);
             }
             float fval = normalizeFramePixel(val);
+//            fval=.5f;
             buf[index] = fval;
             buf[index+1] = fval;
             buf[index+2] = fval;

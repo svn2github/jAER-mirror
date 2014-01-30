@@ -1,5 +1,5 @@
 /*
- * DirectionSelectiveFilter.java
+ * AbstractDirectionSelectiveFilter.java
  *
  * Created on November 2, 2005, 8:24 PM
  *
@@ -41,58 +41,58 @@ import net.sf.jaer.DevelopmentStatus;
  */
 @Description("Local motion by time-of-travel of orientation events")
 @DevelopmentStatus(DevelopmentStatus.Status.Stable)
-public class DirectionSelectiveFilter extends EventFilter2D implements Observer, FrameAnnotater {
-    final int NUM_INPUT_TYPES=8; // 4 orientations * 2 polarities
-    private int sizex,sizey; // chip sizes
-    private boolean showGlobalEnabled=getBoolean("showGlobalEnabled",false);
-    private boolean showVectorsEnabled=getBoolean("showVectorsEnabled",false);
+abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D implements Observer, FrameAnnotater {
+    protected final int NUM_INPUT_TYPES=8; // 4 orientations * 2 polarities
+    protected int sizex,sizey; // chip sizes
+    protected boolean showGlobalEnabled=getBoolean("showGlobalEnabled",false);
+    protected boolean showVectorsEnabled=getBoolean("showVectorsEnabled",false);
     
     /** event must occur within this time in us to generate a motion event */
-    private int maxDtThreshold=getInt("maxDtThreshold",100000); // default 100ms
-    private int minDtThreshold=getInt("minDtThreshold",100); // min 100us to filter noise or multiple spikes 
+    protected int maxDtThreshold=getInt("maxDtThreshold",100000); // default 100ms
+    protected int minDtThreshold=getInt("minDtThreshold",100); // min 100us to filter noise or multiple spikes 
     
-    private int searchDistance=getInt("searchDistance",3);
-    private float ppsScale=getFloat("ppsScale",.05f);
+    protected int searchDistance=getInt("searchDistance",3);
+    protected float ppsScale=getFloat("ppsScale",.05f);
     
-//    private float maxSpeedPPS=prefs.getFloat("maxSpeedPPS",100);
+//    protected float maxSpeedPPS=prefs.getFloat("maxSpeedPPS",100);
     
-    private boolean speedControlEnabled=getBoolean("speedControlEnabled", true);
-    private float speedMixingFactor=getFloat("speedMixingFactor",.001f);
-    private int excessSpeedRejectFactor=getInt("excessSpeedRejectFactor",3);
+    protected boolean speedControlEnabled=getBoolean("speedControlEnabled", true);
+    protected float speedMixingFactor=getFloat("speedMixingFactor",.001f);
+    protected int excessSpeedRejectFactor=getInt("excessSpeedRejectFactor",3);
     
-    private boolean showRawInputEnabled=getBoolean("showRawInputEnabled",false);
+    protected boolean showRawInputEnabled=getBoolean("showRawInputEnabled",false);
     
-    private boolean useAvgDtEnabled=getBoolean("useAvgDtEnabled",false);
+    protected boolean useAvgDtEnabled=getBoolean("useAvgDtEnabled",false);
 
     // taulow sets time const of lowpass filter, limiting max frequency
-    private int tauLow=getInt("tauLow",100);
+    protected int tauLow=getInt("tauLow",100);
 
-    private int subSampleShift=getInt("subSampleShift",0);
+    protected int subSampleShift=getInt("subSampleShift",0);
 
-    private boolean jitterVectorLocations=getBoolean("jitterVectorLocations", true);
-    private float jitterAmountPixels=getFloat("jitterAmountPixels",.5f);
+    protected boolean jitterVectorLocations=getBoolean("jitterVectorLocations", true);
+    protected float jitterAmountPixels=getFloat("jitterAmountPixels",.5f);
  
     
-    private EventPacket oriPacket=null; // holds orientation events
-    private EventPacket dirPacket=null; // the output events, also used for rendering output events
+    protected EventPacket oriPacket=null; // holds orientation events
+    protected EventPacket dirPacket=null; // the output events, also used for rendering output events
  
     
-    int[][][] lastTimesMap; // map of input orientation event times, [x][y][type] where type is mixture of orienation and polarity
+    protected int[][][] lastTimesMap; // map of input orientation event times, [x][y][type] where type is mixture of orienation and polarity
     
     /** the number of cell output types */
 //    public final int NUM_TYPES=8;
     int PADDING=2; // padding around array that holds previous orientation event timestamps to prevent arrayoutofbounds errors and need for checking
     int P=1; // PADDING/2
     int lastNumInputCellTypes=2;
-    DvsOrientationFilter oriFilter;
-    private MotionVectors motionVectors;
-//    private LowpassFilter speedFilter=new LowpassFilter();
-    float avgSpeed=0;
+    protected AbstractOrientationFilter oriFilter;
+    protected MotionVectors motionVectors;
+//    protected LowpassFilter speedFilter=new LowpassFilter();
+    protected float avgSpeed=0;
     
     /**
      * Creates a new instance of DirectionSelectiveFilter
      */
-    public DirectionSelectiveFilter(AEChip chip) {
+    public AbstractDirectionSelectiveFilter(AEChip chip) {
         super(chip);
         chip.addObserver(this);
         resetFilter();
@@ -119,23 +119,24 @@ public class DirectionSelectiveFilter extends EventFilter2D implements Observer,
         setPropertyTooltip(disp,"jitterVectorLocations","whether to jitter vector location to see overlapping vectors more easily");
    }
     
-    public Object getFilterState() {
-        return lastTimesMap;
-    }
+    @Override
+    public abstract EventPacket filterPacket(EventPacket in);
+
     
+    @Override
     synchronized public void resetFilter() {
         setPadding(getSearchDistance()); // make sure to set padding
         sizex=chip.getSizeX();
         sizey=chip.getSizeY();
     }
     
-    void checkMap(){
+    protected void checkMap(){
         if(lastTimesMap==null || lastTimesMap.length!=chip.getSizeX()+PADDING || lastTimesMap[0].length!=chip.getSizeY()+PADDING || lastTimesMap[0][0].length!=NUM_INPUT_TYPES){
             allocateMap();
         }
     }
     
-    private void allocateMap() {
+    protected void allocateMap() {
         if(!isFilterEnabled()) return;
         lastTimesMap=new int[chip.getSizeX()+PADDING][chip.getSizeY()+PADDING][NUM_INPUT_TYPES];
         log.info(String.format("allocated int[%d][%d][%d] array for last event times",chip.getSizeX(),chip.getSizeY(),NUM_INPUT_TYPES));
@@ -232,13 +233,15 @@ public class DirectionSelectiveFilter extends EventFilter2D implements Observer,
         if(dirPacket!=null && isShowVectorsEnabled()){
             // draw individual motion vectors
             gl.glPushMatrix();
-            gl.glColor4f(1f,1f,1f,0.7f);
-            gl.glLineWidth(1f);
+//            gl.glColor4f(1f,1f,1f,0.7f);
+            float[][] c=null;
+            gl.glLineWidth(2f);
             gl.glBegin(GL.GL_LINES);
             int frameDuration=dirPacket.getDurationUs();
             for(Object o:dirPacket){
                 MotionOrientationEvent e=(MotionOrientationEvent)o;
-                drawMotionVector(gl,e,frameDuration);
+                c=chip.getRenderer().makeTypeColors(e.getNumCellTypes());
+                drawMotionVector(gl,e,frameDuration,c);
             }
             gl.glEnd();
             gl.glPopMatrix();
@@ -247,13 +250,14 @@ public class DirectionSelectiveFilter extends EventFilter2D implements Observer,
     Random r = new Random();
 
     // plots a single motion vector which is the number of pixels per second times scaling
-    void drawMotionVector(GL gl, MotionOrientationEvent e, int frameDuration) {
+    void drawMotionVector(GL gl, MotionOrientationEvent e, int frameDuration,float[][] c) {
         float jx = 0, jy = 0;
         if (jitterVectorLocations) {
             jx = (r.nextFloat() - .5f) * jitterAmountPixels;
             jy = (r.nextFloat() - .5f) * jitterAmountPixels;
         }
         float startx=e.x+jx,starty=e.y+jy;
+        gl.glColor3fv(c[e.getType()],0);
         gl.glVertex2f(startx,starty);
         MotionOrientationEvent.Dir d = MotionOrientationEvent.unitDirs[e.direction];
         float speed = e.speed * ppsScale;
@@ -279,197 +283,8 @@ public class DirectionSelectiveFilter extends EventFilter2D implements Observer,
          gl.glVertex2f((endx+ary), endy-arx);
     }
     
-    synchronized public EventPacket filterPacket(EventPacket in) {
-        // we use two additional packets: oriPacket which holds the orientation events, and dirPacket that holds the dir vector events
-        oriPacket=oriFilter.filterPacket(in);  // compute orientation events.  oriFilter automatically sends bypassed events to oriPacket
-        if(dirPacket==null) dirPacket=new ApsDvsEventPacket(MotionOrientationEvent.class);
-        oriPacket.setOutputPacket(dirPacket); // so when we iterate over oriPacket we send the bypassed APS events to dirPacket
-        checkMap();
-        // filter
-        lastNumInputCellTypes=in.getNumCellTypes();
-        
-        int n=oriPacket.getSize();
-        
-        // if the input is ON/OFF type, then motion detection doesn't make much sense because you are likely to detect
-        // the nearest event from along the same edge, not from where the edge moved from.
-        // therefore, this filter only really makes sense to use with an oriented input.
-        //
-        // when the input is oriented (e.g. the events have an orientation type) then motion estimation consists
-        // of just checking in a direction *perpindicular to the edge* for the nearest event of the same input orientation type.
-        
-        // for each event write out an event of type according to the direction of the most recent previous event in neighbors
-        // only write the event if the delta time is within two-sided threshold
-        
-//        hist.reset();
 
-
-        try{
-//            long stime=System.nanoTime();
-//            if(timeLimitEnabled) timeLimiter.start(getTimeLimitMs()); // ns from us by *1024
-            OutputEventIterator outItr=dirPacket.outputIterator(); // this initializes the output iterator of dirPacket
-            for(Object ein:oriPacket){ // as we iterate using the built-in next() method we will bypass APS events to the dirPacket outputPacket of oriPacket using its output iterator
-
-                ApsDvsOrientationEvent e=(ApsDvsOrientationEvent)ein;
-                int x=((e.x>>>subSampleShift)+P); // x and y are offset inside our timestamp storage array to avoid array access violations
-                int y=((e.y>>>subSampleShift)+P);
-                int polValue=((e.polarity==PolarityEvent.Polarity.On?1:2));
-                byte type=(byte)(e.orientation*polValue); // type information here is mixture of input orientation and polarity, in order to match both characteristics
-                int ts=e.timestamp;  // getString event x,y,type,timestamp of *this* event
-                // update the map here - this is ok because we never refer to ourselves anyhow in computing motion
-                lastTimesMap[x][y][type]=ts;
-                
-                // for each output cell type (which codes a direction of motion), find the dt
-                // between the orientation cell type perdindicular
-                // to this direction in this pixel and in the neighbor - but only find the dt in that single direction.
-                
-                // also, only find time to events of the same *polarity* and orientation. otherwise we will falsely match opposite polarity
-                // orientation events which arise from two sides of edges
-                
-                // find the time of the most recent event in a neighbor of the same type as the present input event
-                // but only in the two directions perpindiclar to this orientation. Each of these codes for motion but in opposite directions.
-                
-                // ori input has type 0 for horizontal (red), 1 for 45 deg (blue), 2 for vertical (cyan), 3 for 135 deg (green)
-                // for each input type, check in the perpindicular directions, ie, (dir+2)%numInputCellTypes and (dir+4)%numInputCellTypes
-                
-                // this computation only makes sense for ori type input
-                
-                // neighbors are of same type
-                // they are in direction given by unitDirs in lastTimesMap
-                // the input type tells us which offset to use, e.g. for type 0 (0 deg horiz ori), we offset first in neg vert direction, then in positive vert direction
-                // thus the unitDirs used here *depend* on orientation assignments in DirectionSelectiveFilter
-                
-                int dt1=0,dt2=0;
-                int mindt1=Integer.MAX_VALUE, mindt2=Integer.MAX_VALUE;
-                MotionOrientationEvent.Dir d;
-                byte outType = e.orientation; // set potential output type to be same as type to start
-                
-                d=MotionOrientationEvent.unitDirs[e.orientation];
-                
-                int dist=1, dist1=1, dist2=1, dt=0, mindt=Integer.MAX_VALUE;
-                
-                if(!useAvgDtEnabled){
-                    // now iterate over search distance to find minimum delay between this input orientation event and previous orientiation input events in
-                    // offset direction
-                    for(int s=1;s<=searchDistance;s++){
-                        dt=ts-lastTimesMap[x+s*d.x][y+s*d.y][type]; // this is time between this event and previous
-                        if(dt<mindt1){
-                            dist1=s; // dist is distance we found min dt
-                            mindt1=dt;
-                        }
-                    }
-                    d=MotionOrientationEvent.unitDirs[e.orientation+4];
-                    for(int s=1;s<=searchDistance;s++){
-                        dt=ts-lastTimesMap[x+s*d.x][y+s*d.y][type];
-                        if(dt<mindt2){
-                            dist2=s; // dist is still the distance we have the global mindt
-                            mindt2=dt;
-                        }
-                    }
-                    if(mindt1<mindt2){ // if summed dt1 < summed dt2 the average delay in this direction is smaller
-                        dt=mindt1;
-                        outType=e.orientation;
-                        dist=dist1;
-                    }else{
-                        dt=mindt2;
-                        outType=(byte)(e.orientation+4);
-                        dist=dist2;
-                    }
-                    // if the time between us and the most recent neighbor event lies within the interval, write an output event
-                    if(dt<maxDtThreshold && dt>minDtThreshold){
-                        float speed=1e6f*(float)dist/dt;
-                        avgSpeed=(1-speedMixingFactor)*avgSpeed+speedMixingFactor*speed;
-                        if(speedControlEnabled && speed>avgSpeed*excessSpeedRejectFactor) {
-                            continue;
-                        } // don't store event if speed too high compared to average
-                        MotionOrientationEvent eout=(MotionOrientationEvent)outItr.nextOutput();
-                        eout.copyFrom((ApsDvsOrientationEvent)ein);
-                        eout.direction=outType;
-                        eout.delay=(short)dt; // this is a actually the average dt for this direction
-//                    eout.delay=(short)mindt; // this is the mindt found
-                        eout.distance=(byte)dist;
-                        eout.speed=speed;
-                        eout.dir=MotionOrientationEvent.unitDirs[outType];
-                        eout.velocity.x=-speed*eout.dir.x; // these have minus sign because dir vector points towards direction that previous event occurred
-                        eout.velocity.y=-speed*eout.dir.y;
-//                    avgSpeed=speedFilter.filter(MotionOrientationEvent.computeSpeedPPS(eout),eout.timestamp);
-                        motionVectors.addEvent(eout);
-//                    hist.add(outType);
-                    }
-                }else{
-                    // use average time to previous ori events
-                    // iterate over search distance to find average delay between this input orientation event and previous orientiation input events in
-                    // offset direction. only count event if it falls in acceptable delay bounds
-                    int n1=0, n2=0; // counts of passing matches, each direction
-                    float speed1=0, speed2=0; // summed speeds
-                    for(int s=1;s<=searchDistance;s++){
-                        dt=ts-lastTimesMap[x+s*d.x][y+s*d.y][type]; // this is time between this event and previous
-                        if(pass(dt)){
-                            n1++;
-                            speed1+=(float)s/dt; // sum speed in pixels/us
-                        }
-                    }
-                    
-                    d=MotionOrientationEvent.unitDirs[e.orientation+4];
-                    for(int s=1;s<=searchDistance;s++){
-                        dt=ts-lastTimesMap[x+s*d.x][y+s*d.y][type];
-                        if(pass(dt)){
-                            n2++;
-                            speed2+=(float)s/dt;
-                        }
-                    }
-
-                    if(n1==0 && n2==0) continue; // no pass
-                    
-                    float speed=0;
-                    dist=searchDistance/2;
-                    if(n1>n2){
-                        speed=speed1/n1;
-                        outType=e.orientation;
-                    }else if(n2>n1){
-                        speed=speed2/n2;
-                        outType=(byte)(e.orientation+4);
-                    }else{
-                        if(speed1/n1<speed2/n2){
-                            speed=speed1/n1;
-                            outType=e.orientation;
-                        }else{
-                            speed=speed2/n2;
-                            outType=(byte)(e.orientation+4);
-                        }
-                    }
-//                    dt/= (searchDistance); // dt is normalized by search disance because we summed over the whole search distance
-                    
-                    // if the time between us and the most recent neighbor event lies within the interval, write an output event
-                    if(n1>0 || n2>0){
-                        speed=1e6f*speed;
-                        avgSpeed=(1-speedMixingFactor)*avgSpeed+speedMixingFactor*speed;
-                        if(speedControlEnabled && speed>avgSpeed*excessSpeedRejectFactor) {
-                            continue;
-                        } // don't output event if speed too high compared to average
-                        MotionOrientationEvent eout=(MotionOrientationEvent)outItr.nextOutput();
-                        eout.copyFrom((ApsDvsOrientationEvent)ein);
-                        eout.direction=outType;
-                        eout.delay=(short)(dist*speed); 
-                        eout.distance=(byte)dist;
-                        eout.speed=speed;
-                        eout.dir=MotionOrientationEvent.unitDirs[outType];
-                        eout.velocity.x=-speed*eout.dir.x; // these have minus sign because dir vector points towards direction that previous event occurred
-                        eout.velocity.y=-speed*eout.dir.y;
-                        motionVectors.addEvent(eout);
-                    }
-                }
-            }
-        }catch(ArrayIndexOutOfBoundsException e){
-            e.printStackTrace();
-//            System.err.println("DirectionSelectiveFilter caught exception "+e+" probably caused by change of input cell type, reallocating lastTimesMap");
-            checkMap();
-        }
-        
-        if(isShowRawInputEnabled()) return in;
-        return dirPacket; // returns the output packet containing both MotionOrientationEvent and the bypassed APS samples
-    }
-    
-    private boolean pass(int dt){
+    protected boolean pass(int dt){
         return (dt<maxDtThreshold && dt>minDtThreshold);
     }
     
@@ -503,7 +318,7 @@ public class DirectionSelectiveFilter extends EventFilter2D implements Observer,
         return searchDistance;
     }
     
-    private Point2D.Float translationVector=new Point2D.Float();
+    protected Point2D.Float translationVector=new Point2D.Float();
     
     /** Returns the 2-vector of global translational average motion.
      @return translational motion in pixels per second, as computed and filtered by Translation 
@@ -559,7 +374,7 @@ public class DirectionSelectiveFilter extends EventFilter2D implements Observer,
         putBoolean("showGlobalEnabled",showGlobalEnabled);
     }
 
-    private void setPadding (int searchDistance){
+    protected void setPadding (int searchDistance){
         PADDING = 2 * searchDistance;
         P = ( PADDING / 2 );
     }

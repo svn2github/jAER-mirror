@@ -12,7 +12,7 @@ import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.event.*;
 import net.sf.jaer.util.SpikeSound;
 import java.awt.Color;
-import java.beans.PropertyChangeSupport;
+import java.util.HashMap;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 
@@ -111,7 +111,8 @@ public class AEChipRenderer extends Chip2DRenderer {
     protected Logger log = Logger.getLogger("net.sf.jaer.graphics");
     /** The Colors that different cell types are painted. checkTypeColors should populate this array. */
     protected Color[] typeColors;
-    /** Used for rendering multiple cell types in different RGB colors. checkTypeColors should populate this array of [numTypes][3] size. */
+    /** Used for rendering multiple cell types in different RGB colors. checkTypeColors should populate this array of [numTypes][3] size. 
+     Each 3-vector are the RGB color components for that cell type.*/
     protected float[][] typeColorRGBComponents;
     protected SpikeSound spikeSound;
     protected float step;  // this is last step of RGB value used in rendering
@@ -237,7 +238,7 @@ public class AEChipRenderer extends Chip2DRenderer {
 //                    float[] f = fr[e.y][e.x];
 //                    setPixmapPosition(e.x, e.y);
                     float[] c = typeColorRGBComponents[type];
-                    if (obj instanceof ApsDvsOrientationEvent && ((ApsDvsOrientationEvent) obj).hasOrientation == false) {
+                    if (obj instanceof OrientationEventInterface && ((OrientationEventInterface) obj).isHasOrientation() == false) {
                         // if event is orientation event but orientation was not set, just draw as gray level
                         f[ind] += step; //if(f[0]>1f) f[0]=1f;
                         f[ind + 1] += step; //if(f[1]>1f) f[1]=1f;
@@ -525,6 +526,8 @@ public class AEChipRenderer extends Chip2DRenderer {
             fr[i] = m * fr[i] + b;
         }
     }
+    
+    private HashMap<Integer,float[][]> typeColorsMap=new HashMap<Integer,float[][]>();
 
     /** Creates colors for each cell type (e.g. orientation)
     so that they are spread over hue space in a manner to attempt to be maximally different in hue.
@@ -537,6 +540,7 @@ public class AEChipRenderer extends Chip2DRenderer {
      * @param numCellTypes the number of colors to generate
      * @see #typeColors
      * @see #typeColorRGBComponents
+     * @deprecated new code should use the #makeTypeColors method which caches the colors in a HashMap by numbers of cell types
      */
     protected void checkTypeColors(int numCellTypes) {
         if (typeColorRGBComponents == null || typeColorRGBComponents.length != numCellTypes) {
@@ -563,6 +567,38 @@ public class AEChipRenderer extends Chip2DRenderer {
             }
             log.info(b.toString());
         }
+    }
+
+       /** Creates colors for each cell type (e.g. orientation)
+        so that they are spread over hue space in a manner to attempt to be maximally different in hue.
+     * 
+     * <p>
+     * Subclasses can override this method to customize the colors drawn but the subclasses should check if the color have been created since checkTypeColors is called on every
+     * rendering cycle. This method should first check if typeColorRGBComponents already exists and has the correct number of elements. If not, 
+     * allocate and populate typeColorRGBComponents so that type t corresponds to typeColorRGBComponents[t][0] for red, typeColorRGBComponents[t][1] for green, and
+     * typeColorRGBComponents[t][3] for blue. It should also populate the Color[] typeColors.
+     * @param numCellTypes the number of colors to generate
+     * @return the float[][] of colors, each row of which is an RGB color triplet in float 0-1 range for a particular cell type
+     * @see #typeColors
+     * @see #typeColorRGBComponents
+     */
+    public float[][] makeTypeColors(int numCellTypes) {
+        float[][] colors=typeColorsMap.get(numCellTypes);
+        if (colors==null) {
+            colors = new float[numCellTypes][3];
+            setTypeColors(new Color[numCellTypes]);
+            for (int i = 0; i < typeColorRGBComponents.length; i++) {
+                int hueIndex = (int) Math.floor((float) i / typeColorRGBComponents.length * HUES.length);
+                float hue = (float) HUES[hueIndex] / 255f;
+                Color c = Color.getHSBColor(hue, 1, 1);
+                colors[i][0] = (float) c.getRed() / 255;
+                colors[i][1] = (float) c.getGreen() / 255;
+                colors[i][2] = (float) c.getBlue() / 255;
+            }
+            typeColorsMap.put(numCellTypes,colors);
+            return colors;
+        }
+        return typeColorsMap.get(numCellTypes);
     }
 
     /** go on to next rendering method */
@@ -665,6 +701,8 @@ public class AEChipRenderer extends Chip2DRenderer {
     }
 
     /** @see AEChipRenderer#typeColorRGBComponents
+     * @return a 2-d float array of color components. 
+     * Each row of the array is a 3-vector of RGB color components for rendering a particular cell type.
      */
     public float[][] getTypeColorRGBComponents() {
         checkTypeColors(chip.getNumCellTypes()); // should be efficient

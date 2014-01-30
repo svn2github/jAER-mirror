@@ -19,7 +19,7 @@ import javax.media.opengl.GLAutoDrawable;
  *
  * @author tobi
  */
-public class BasicEvent implements EventInterface<BasicEvent> {
+public class BasicEvent implements EventInterface<BasicEvent>, BasicEventInterface {
 
 //    public int serial=-1;
     /**
@@ -77,6 +77,7 @@ public class BasicEvent implements EventInterface<BasicEvent> {
      *
      * @return the special
      */
+    @Override
     public boolean isSpecial() {
         return special;
     }
@@ -88,6 +89,7 @@ public class BasicEvent implements EventInterface<BasicEvent> {
      *
      * @param special the special to set
      */
+    @Override
     public void setSpecial(boolean yes) {
         this.special = yes;
         if (yes) {
@@ -158,14 +160,17 @@ public class BasicEvent implements EventInterface<BasicEvent> {
         return getClass().getSimpleName() + " timestamp=" + timestamp + " address=" + address + " x=" + x + " y=" + y + " special=" + special + " filteredOut="+filteredOut;
     }
 
+    @Override
     public int getNumCellTypes() {
         return 1;
     }
 
+    @Override
     public int getType() {
         return 1;
     }
 
+    @Override
     final public int getTimestamp() {
         return timestamp;
     }
@@ -173,6 +178,7 @@ public class BasicEvent implements EventInterface<BasicEvent> {
     /**
      * @return the address
      */
+    @Override
     public int getAddress() {
         return address;
     }
@@ -180,26 +186,32 @@ public class BasicEvent implements EventInterface<BasicEvent> {
     /**
      * @param address the address to set
      */
+    @Override
     public void setAddress(int address) {
         this.address = address;
     }
 
+    @Override
     final public void setTimestamp(int timestamp) {
         this.timestamp = timestamp;
     }
 
+    @Override
     final public short getX() {
         return x;
     }
 
+    @Override
     final public void setX(short x) {
         this.x = x;
     }
 
+    @Override
     final public short getY() {
         return y;
     }
 
+    @Override
     final public void setY(short y) {
         this.y = y;
     }
@@ -231,6 +243,7 @@ public class BasicEvent implements EventInterface<BasicEvent> {
      * other events to a mostly-duplicated output packet.
      * @return the filteredOut
      */
+    @Override
     public boolean isFilteredOut() {
         return filteredOut;
     }
@@ -240,6 +253,7 @@ public class BasicEvent implements EventInterface<BasicEvent> {
      * other events to a mostly-duplicated output packet.
      * @param filteredOut the filteredOut to set
      */
+    @Override
     public void setFilteredOut(boolean filteredOut) {
         this.filteredOut = filteredOut;
     }
