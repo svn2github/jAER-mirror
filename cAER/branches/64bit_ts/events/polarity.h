@@ -65,6 +65,7 @@ static inline caerPolarityEventPacket caerPolarityEventPacketAllocate(uint32_t e
 	caerEventPacketHeaderSetEventCapacity(&packet->packetHeader, eventCapacity);
 	caerEventPacketHeaderSetEventNumber(&packet->packetHeader, 0);
 	caerEventPacketHeaderSetEventValid(&packet->packetHeader, 0);
+	caerEventPacketHeaderSetPacketTSAdd(&packet->packetHeader, 0);
 
 	return (packet);
 }
@@ -88,7 +89,13 @@ static inline caerPolarityEvent caerPolarityEventPacketGetEvent(caerPolarityEven
 	return (packet->events + n);
 }
 
-static inline uint32_t caerPolarityEventGetTimestamp(caerPolarityEvent event) {
+static inline uint64_t caerPolarityEventGetTimestamp(caerPolarityEvent event, caerPolarityEventPacket packet) {
+	uint64_t eventTS = le32toh(event->timestamp);
+	eventTS |= (((uint64_t) caerEventPacketHeaderGetPacketTSAdd(&packet->packetHeader)) << 32);
+	return (eventTS);
+}
+
+static inline uint32_t caerPolarityEventGetTimestamp32(caerPolarityEvent event) {
 	return (le32toh(event->timestamp));
 }
 

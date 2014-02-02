@@ -28,6 +28,7 @@ struct caer_event_packet_header {
 	uint32_t eventCapacity; // Maximum number of events this packet can store.
 	uint32_t eventNumber; // Total number of events present in this packet (valid + invalid).
 	uint32_t eventValid; // Total number of valid events present in this packet.
+	uint32_t packetTSAdd; //  Packet time-stamp to add to the event time-stamp, to get a 64bit one.
 }__attribute__((__packed__));
 
 typedef struct caer_event_packet_header *caerEventPacketHeader;
@@ -88,6 +89,14 @@ static inline void caerEventPacketHeaderSetEventValid(caerEventPacketHeader head
 	header->eventValid = htole32(eventsValid);
 }
 
+static inline uint32_t caerEventPacketHeaderGetPacketTSAdd(caerEventPacketHeader header) {
+	return (le32toh(header->packetTSAdd));
+}
+
+static inline void caerEventPacketHeaderSetPacketTSAdd(caerEventPacketHeader header, uint32_t packetTSAdd) {
+	header->packetTSAdd = htole32(packetTSAdd);
+}
+
 static inline void *caerGenericEventGetEvent(void *headerPtr, uint32_t n) {
 	// Check that we're not out of bounds.
 	if (n >= caerEventPacketHeaderGetEventCapacity(headerPtr)) {
@@ -108,8 +117,14 @@ static inline void *caerGenericEventGetEvent(void *headerPtr, uint32_t n) {
 		+ (sizeof(struct caer_event_packet_header) + (n * caerEventPacketHeaderGetEventSize(headerPtr))));
 }
 
-static inline uint32_t caerGenericEventGetTimestamp(void *eventPtr, void *headerPtr) {
-	return (le32toh(*((uint32_t *) (((uint8_t *) eventPtr) + caerEventPacketHeaderGetEventTSOffset(headerPtr)))));
+static inline uint64_t caerGenericEventGetTimestamp(void *eventPtr, void *headerPtr) {
+	uint64_t t = le32toh(*((uint32_t * ) (((uint8_t * ) eventPtr) + caerEventPacketHeaderGetEventTSOffset(headerPtr))));
+	t |= (((uint64_t) caerEventPacketHeaderGetPacketTSAdd(headerPtr)) << 32);
+	return (t);
+}
+
+static inline uint32_t caerGenericEventGetTimestamp32(void *eventPtr, void *headerPtr) {
+	return (le32toh(*((uint32_t * ) (((uint8_t * ) eventPtr) + caerEventPacketHeaderGetEventTSOffset(headerPtr)))));
 }
 
 static inline bool caerGenericEventIsValid(void *eventPtr) {

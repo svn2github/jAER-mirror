@@ -70,21 +70,22 @@ int main(int argc, char *argv[]) {
 		uint32_t eventCapacity = caerEventPacketHeaderGetEventCapacity(header);
 		uint32_t eventNumber = caerEventPacketHeaderGetEventNumber(header);
 		uint32_t eventValid = caerEventPacketHeaderGetEventValid(header);
+		uint32_t packetTSAdd = caerEventPacketHeaderGetPacketTSAdd(header);
 
 		printf(
-			"type = %" PRIu16 ", source = %" PRIu16 ", size = %" PRIu32 ", tsOffset = %" PRIu32 ", capacity = %" PRIu32 ", number = %" PRIu32 ", valid = %" PRIu32 ".\n",
-			eventType, eventSource, eventSize, eventTSOffset, eventCapacity, eventNumber, eventValid);
+			"type = %" PRIu16 ", source = %" PRIu16 ", size = %" PRIu32 ", tsOffset = %" PRIu32 ", capacity = %" PRIu32 ", number = %" PRIu32 ", valid = %" PRIu32 ", packetTSAdd = %" PRIu32 ".\n",
+			eventType, eventSource, eventSize, eventTSOffset, eventCapacity, eventNumber, eventValid, packetTSAdd);
 
 		if (eventValid > 0) {
 			void *firstEvent = caerGenericEventGetEvent(header, 0);
 			void *lastEvent = caerGenericEventGetEvent(header, eventValid - 1);
 
-			uint32_t firstTS = caerGenericEventGetTimestamp(firstEvent, header);
-			uint32_t lastTS = caerGenericEventGetTimestamp(lastEvent, header);
+			uint64_t firstTS = caerGenericEventGetTimestamp(firstEvent, header);
+			uint64_t lastTS = caerGenericEventGetTimestamp(lastEvent, header);
 
-			uint32_t tsDifference = lastTS - firstTS;
+			uint64_t tsDifference = lastTS - firstTS;
 
-			printf("Time difference in packet: %" PRIu32 " (first = %" PRIu32 ", last = %" PRIu32 ").\n", tsDifference,
+			printf("Time difference in packet: %" PRIu64 " (first = %" PRIu64 ", last = %" PRIu64 ").\n", tsDifference,
 				firstTS, lastTS);
 		}
 

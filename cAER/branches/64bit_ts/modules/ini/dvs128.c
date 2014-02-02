@@ -25,6 +25,7 @@ struct dvs128_state {
 	struct libusb_transfer **transfers;
 	atomic_ops_uint transfersLength;
 	uint32_t wrapAdd;
+	uint32_t wrapAddBig;
 	uint32_t lastTimestamp;
 	// Polarity Packet State
 	caerPolarityEventPacket currentPolarityPacket;
@@ -138,6 +139,7 @@ static bool caerInputDVS128Init(caerModuleData moduleData) {
 	state->currentSpecialPacketPosition = 0;
 
 	state->wrapAdd = 0;
+	state->wrapAddBig = 0;
 	state->lastTimestamp = 0;
 
 	// Store reference to parent mainloop, so that we can correctly notify
@@ -529,11 +531,9 @@ static void dvs128EventTranslator(dvs128State state, uint8_t *buffer, size_t byt
 				// start detecting overruns of the 32bit value.
 				state->lastTimestamp = 0;
 
-				caerSpecialEvent currentEvent = caerSpecialEventPacketGetEvent(state->currentSpecialPacket,
-					state->currentSpecialPacketPosition++);
-				caerSpecialEventSetTimestamp(currentEvent, UINT32_MAX);
-				caerSpecialEventSetType(currentEvent, TIMESTAMP_WRAP);
-				caerSpecialEventValidate(currentEvent, state->currentSpecialPacket);
+				// When the 32 bit timestamp overflows, increment the packet
+				// counter, so that we can then re-create a 64bit ts later.
+				state->wrapAddBig++;
 
 				// Commit packets to separate before wrap from after cleanly.
 				forcePacketCommit = true;
@@ -544,13 +544,11 @@ static void dvs128EventTranslator(dvs128State state, uint8_t *buffer, size_t byt
 			// version uses reset events to reset timestamps
 			state->wrapAdd = 0;
 			state->lastTimestamp = 0;
+			state->wrapAddBig = 0;
 
-			// Create timestamp reset event.
-			caerSpecialEvent currentEvent = caerSpecialEventPacketGetEvent(state->currentSpecialPacket,
-				state->currentSpecialPacketPosition++);
-			caerSpecialEventSetTimestamp(currentEvent, UINT32_MAX);
-			caerSpecialEventSetType(currentEvent, TIMESTAMP_RESET);
-			caerSpecialEventValidate(currentEvent, state->currentSpecialPacket);
+			// Note: resets can now be easily determined by the timestamp going
+			// back to zero, as this is the only case where that happens, given
+			// that wrap-arounds are non-existant anymore.
 
 			// Commit packets when doing a reset to clearly separate them.
 			forcePacketCommit = true;
@@ -607,9 +605,9 @@ static void dvs128EventTranslator(dvs128State state, uint8_t *buffer, size_t byt
 			|| ((state->currentPolarityPacketPosition > 1)
 				&& (caerPolarityEventGetTimestamp(
 					caerPolarityEventPacketGetEvent(state->currentPolarityPacket,
-						state->currentPolarityPacketPosition - 1))
-					- caerPolarityEventGetTimestamp(caerPolarityEventPacketGetEvent(state->currentPolarityPacket, 0))
-					>= state->maxPolarityPacketInterval))) {
+						state->currentPolarityPacketPosition - 1), state->currentPolarityPacket)
+					- caerPolarityEventGetTimestamp(caerPolarityEventPacketGetEvent(state->currentPolarityPacket, 0),
+						state->currentPolarityPacket) >= state->maxPolarityPacketInterval))) {
 			if (!ringBufferPut(state->dataExchangeBuffer, state->currentPolarityPacket)) {
 				// Failed to forward packet, drop it.
 				free(state->currentPolarityPacket);
@@ -623,6 +621,7 @@ static void dvs128EventTranslator(dvs128State state, uint8_t *buffer, size_t byt
 			state->currentPolarityPacket = caerPolarityEventPacketAllocate(state->maxPolarityPacketSize,
 				state->sourceID);
 			state->currentPolarityPacketPosition = 0;
+			caerEventPacketHeaderSetPacketTSAdd(&state->currentPolarityPacket->packetHeader, state->wrapAddBig);
 		}
 
 		if (forcePacketCommit
@@ -631,9 +630,9 @@ static void dvs128EventTranslator(dvs128State state, uint8_t *buffer, size_t byt
 			|| ((state->currentSpecialPacketPosition > 1)
 				&& (caerSpecialEventGetTimestamp(
 					caerSpecialEventPacketGetEvent(state->currentSpecialPacket,
-						state->currentSpecialPacketPosition - 1))
-					- caerSpecialEventGetTimestamp(caerSpecialEventPacketGetEvent(state->currentSpecialPacket, 0))
-					>= state->maxSpecialPacketInterval))) {
+						state->currentSpecialPacketPosition - 1), state->currentSpecialPacket)
+					- caerSpecialEventGetTimestamp(caerSpecialEventPacketGetEvent(state->currentSpecialPacket, 0),
+						state->currentSpecialPacket) >= state->maxSpecialPacketInterval))) {
 			retry_special: if (!ringBufferPut(state->dataExchangeBuffer, state->currentSpecialPacket)) {
 				// Failed to forward packet, drop it, unless it contains a timestamp
 				// related change, those are critical, so we just spin until we can
@@ -654,6 +653,7 @@ static void dvs128EventTranslator(dvs128State state, uint8_t *buffer, size_t byt
 			// Allocate new packet for next iteration.
 			state->currentSpecialPacket = caerSpecialEventPacketAllocate(state->maxSpecialPacketSize, state->sourceID);
 			state->currentSpecialPacketPosition = 0;
+			caerEventPacketHeaderSetPacketTSAdd(&state->currentSpecialPacket->packetHeader, state->wrapAddBig);
 		}
 	}
 }

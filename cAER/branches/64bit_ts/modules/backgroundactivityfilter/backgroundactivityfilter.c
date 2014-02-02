@@ -10,7 +10,7 @@
 #include "base/module.h"
 
 struct BAFilter_state {
-	uint32_t **timestampMap;
+	uint64_t **timestampMap;
 	uint32_t deltaT;
 	uint16_t sizeMaxX;
 	uint16_t sizeMaxY;
@@ -82,7 +82,7 @@ static void caerBackgroundActivityFilterRun(caerModuleData moduleData, size_t ar
 		// Only operate on valid events!
 		if (caerPolarityEventIsValid(currEvent)) {
 			// Get values on which to operate.
-			uint32_t ts = caerPolarityEventGetTimestamp(currEvent);
+			uint64_t ts = caerPolarityEventGetTimestamp(currEvent, polarity);
 			uint16_t x = caerPolarityEventGetX(currEvent);
 			uint16_t y = caerPolarityEventGetY(currEvent);
 
@@ -91,7 +91,7 @@ static void caerBackgroundActivityFilterRun(caerModuleData moduleData, size_t ar
 			y >>= state->subSampleBy;
 
 			// Get value from map.
-			uint32_t lastTS = state->timestampMap[x][y];
+			uint64_t lastTS = state->timestampMap[x][y];
 
 			if ((ts - lastTS) >= state->deltaT || lastTS == 0) {
 				// Filter out invalid.
@@ -156,12 +156,12 @@ static bool allocateTimestampMap(BAFilterState state, uint16_t sourceID) {
 
 	// Initialize double-indirection contiguous 2D array, so that array[x][y]
 	// is possible, see http://c-faq.com/aryptr/dynmuldimary.html for info.
-	state->timestampMap = calloc(sizeX, sizeof(uint32_t *));
+	state->timestampMap = calloc(sizeX, sizeof(uint64_t *));
 	if (state->timestampMap == NULL) {
 		return (false); // Failure.
 	}
 
-	state->timestampMap[0] = calloc((size_t) (sizeX * sizeY), sizeof(uint32_t));
+	state->timestampMap[0] = calloc((size_t) (sizeX * sizeY), sizeof(uint64_t));
 	if (state->timestampMap[0] == NULL) {
 		free(state->timestampMap);
 		state->timestampMap = NULL;

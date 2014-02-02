@@ -20,7 +20,7 @@
 #define DATA_MASK 0x03FFFFFF
 
 enum caer_special_event_types {
-	TIMESTAMP_WRAP = 0, TIMESTAMP_RESET = 1, EXTERNAL_TRIGGER = 2, ROW_ONLY = 3,
+	EXTERNAL_TRIGGER = 0, ROW_ONLY = 1,
 };
 
 struct caer_special_event {
@@ -67,6 +67,7 @@ static inline caerSpecialEventPacket caerSpecialEventPacketAllocate(uint32_t eve
 	caerEventPacketHeaderSetEventCapacity(&packet->packetHeader, eventCapacity);
 	caerEventPacketHeaderSetEventNumber(&packet->packetHeader, 0);
 	caerEventPacketHeaderSetEventValid(&packet->packetHeader, 0);
+	caerEventPacketHeaderSetPacketTSAdd(&packet->packetHeader, 0);
 
 	return (packet);
 }
@@ -90,7 +91,13 @@ static inline caerSpecialEvent caerSpecialEventPacketGetEvent(caerSpecialEventPa
 	return (packet->events + n);
 }
 
-static inline uint32_t caerSpecialEventGetTimestamp(caerSpecialEvent event) {
+static inline uint64_t caerSpecialEventGetTimestamp(caerSpecialEvent event, caerSpecialEventPacket packet) {
+	uint64_t eventTS = le32toh(event->timestamp);
+	eventTS |= (((uint64_t) caerEventPacketHeaderGetPacketTSAdd(&packet->packetHeader)) << 32);
+	return (eventTS);
+}
+
+static inline uint32_t caerSpecialEventGetTimestamp32(caerSpecialEvent event) {
 	return (le32toh(event->timestamp));
 }
 
