@@ -1,0 +1,2 @@
+libusb4java - 1.0.17 - https://github.com/llongi/libusb4java/
+USBTransferThread - 0.8 - https://github.com/llongi/USBTransferThread/
