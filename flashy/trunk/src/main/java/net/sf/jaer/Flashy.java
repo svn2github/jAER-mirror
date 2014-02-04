@@ -7,15 +7,21 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javafx.application.Application;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -24,16 +30,24 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import li.longi.libusb4java.Device;
 import li.longi.libusb4java.DeviceDescriptor;
 import li.longi.libusb4java.DeviceList;
 import li.longi.libusb4java.LibUsb;
-import net.sf.jaer.controllers.ApsDvsFX3;
-import net.sf.jaer.controllers.Controller;
-import net.sf.jaer.controllers.FX2;
-import net.sf.jaer.controllers.FX3;
 
 public final class Flashy extends Application {
+	private static final Map<Short, List<Short>> supportedVidPids = new HashMap<>();
+	static {
+		// Add our own VID/PID combination (jAER Project/INI).
+		final List<Short> iniPids = new ArrayList<>();
+		for (int pid = 0x8400; pid <= 0x841F; pid++) {
+			iniPids.add((short) pid);
+		}
+
+		Flashy.supportedVidPids.put((short) 0x152A, iniPids);
+	}
+
 	private static final List<String> firmwareValidExtensions = new ArrayList<>();
 	static {
 		Flashy.firmwareValidExtensions.add("*.bix");
@@ -49,6 +63,7 @@ public final class Flashy extends Application {
 
 	private File firmwareFile;
 	private File logicFile;
+	private final Property<UsbDevice> selectedUsbDevice = new SimpleObjectProperty<>();
 
 	public static void main(final String[] args) {
 		// Launch the JavaFX application: do initialization and call start()
@@ -61,6 +76,8 @@ public final class Flashy extends Application {
 		final VBox gui = new VBox(20);
 
 		gui.getChildren().add(usbDeviceSelectGUI());
+		gui.getChildren().add(usbInfoGUI());
+		gui.getChildren().add(usbCommandGUI());
 		gui.getChildren().add(firmwareFlashGUI());
 		gui.getChildren().add(logicFlashGUI());
 
@@ -80,33 +97,26 @@ public final class Flashy extends Application {
 		final VBox usbDeviceSelectGUI = new VBox(10);
 
 		// Get a list of all compatible USB devices.
-		List<Controller> usbDevices = new ArrayList<>();
+		final List<UsbDevice> usbDevices = new ArrayList<>();
 
 		LibUsb.init(null);
 
-		DeviceList list = new DeviceList();
+		final DeviceList list = new DeviceList();
 		if (LibUsb.getDeviceList(null, list) > 0) {
-			Iterator<Device> devices = list.iterator();
+			final Iterator<Device> devices = list.iterator();
 			while (devices.hasNext()) {
-				Device dev = devices.next();
-				DeviceDescriptor devDesc = new DeviceDescriptor();
+				final Device dev = devices.next();
+
+				final DeviceDescriptor devDesc = new DeviceDescriptor();
 				LibUsb.getDeviceDescriptor(dev, devDesc);
 
-				if ((devDesc.idVendor() == FX2.VID) && (devDesc.idProduct() == FX2.PID)) {
-					// Found match with FX2 blank device.
-					usbDevices.add(new FX2(LibUsb.refDevice(dev)));
-				}
-				else if ((devDesc.idVendor() == FX3.VID) && (devDesc.idProduct() == FX3.PID)) {
-					// Found match with FX3 blank device.
-					usbDevices.add(new FX3(LibUsb.refDevice(dev)));
-				}
-				else if ((devDesc.idVendor() == ApsDvsFX3.VID) && (devDesc.idProduct() == (short) 0x841F)) {
-					// TODO: revert to VID of FX3.
-					// Found match with ApsDvs (SBRet10) FX3 device.
-					usbDevices.add(new ApsDvsFX3(LibUsb.refDevice(dev)));
-				}
+				if (Flashy.supportedVidPids.containsKey(devDesc.idVendor())) {
+					final List<Short> pids = Flashy.supportedVidPids.get(devDesc.idVendor());
 
-				LibUsb.freeDeviceDescriptor(devDesc);
+					if (pids.contains(devDesc.idProduct())) {
+						usbDevices.add(new UsbDevice(dev));
+					}
+				}
 			}
 
 			LibUsb.freeDeviceList(list, true);
@@ -114,9 +124,61 @@ public final class Flashy extends Application {
 
 		GUISupport.addLabel(usbDeviceSelectGUI, "Select a device:", "Select a device on which to operate.", null, null);
 
-		GUISupport.addComboBox(usbDeviceSelectGUI, usbDevices, -1);
+		final ComboBox<UsbDevice> usbDevicesBox = GUISupport.addComboBox(usbDeviceSelectGUI, usbDevices, -1);
+
+		usbDevicesBox.valueProperty().bindBidirectional(selectedUsbDevice);
+
+		// Open the device when its selected.
+		usbDevicesBox.valueProperty().addListener(new ChangeListener<UsbDevice>() {
+			@Override
+			public void changed(final ObservableValue<? extends UsbDevice> change, final UsbDevice oldVal, final UsbDevice newVal) {
+				if (oldVal != null) {
+					oldVal.close();
+				}
+
+				if (newVal != null) {
+					try {
+						newVal.open();
+					}
+					catch (final Exception e) {
+						// Remove unopenable devices from list.
+						usbDevicesBox.getItems().remove(newVal);
+					}
+				}
+			}
+		});
 
 		return (usbDeviceSelectGUI);
+	}
+
+	private VBox usbInfoGUI() {
+		final VBox usbInfoGUI = new VBox(10);
+
+		final Label usbText = GUISupport.addLabel(usbInfoGUI, "", "USB device information.", null, null);
+
+		usbText.textProperty().bindBidirectional(selectedUsbDevice, new StringConverter<UsbDevice>() {
+			@Override
+			public UsbDevice fromString(final String str) {
+				return null;
+			}
+
+			@Override
+			public String toString(final UsbDevice usb) {
+				if (usb == null) {
+					return ("No device selected.");
+				}
+
+				return (usb.fullDescription());
+			}
+		});
+
+		return (usbInfoGUI);
+	}
+
+	private VBox usbCommandGUI() {
+		final VBox usbCommandGUI = new VBox(10);
+
+		return (usbCommandGUI);
 	}
 
 	private VBox firmwareFlashGUI() {
