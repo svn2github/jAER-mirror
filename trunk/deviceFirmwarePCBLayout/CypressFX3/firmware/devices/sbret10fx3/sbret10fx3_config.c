@@ -15,8 +15,28 @@ spiConfig_DeviceSpecific_Type spiConfig_DeviceSpecific[] = {
 const uint8_t spiConfig_DeviceSpecific_Length = (sizeof(spiConfig_DeviceSpecific) / sizeof(spiConfig_DeviceSpecific[0]));
 
 gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
-	{ 26, 'P' }, /* GPIO 26: Interrupt from Motion Tracker */
+	{ 26, 'P' }, /* GPIO 26: Interrupt from Inertial Measurement Unit */
+	// { 27, 'O' }, /* GPIO 27: Clock for Inertial Measurement Unit */
+	{ 33, 'O' }, /* GPIO 33: Reset FPGA */
 	{ 34, 'O' }, /* GPIO 34: FXLED */
+	{ 35, 'O' }, /* GPIO 35: Px0 */
+	{ 36, 'O' }, /* GPIO 36: Px1 */
+	{ 37, 'O' }, /* GPIO 37: Px2 */
+	{ 38, 'O' }, /* GPIO 38: Px3 */
+	{ 39, 'O' }, /* GPIO 39: Px4 */
+	{ 40, 'O' }, /* GPIO 40: Px5 */
+	{ 41, 'O' }, /* GPIO 41: Px6 */
+	{ 42, 'O' }, /* GPIO 42: Px7 */
+	{ 43, 'O' }, /* GPIO 43: Px8 */
+	{ 44, 'O' }, /* GPIO 44: Px9 */
+	// { 45, 'O' }, /* GPIO 45: Spare1 */
+	// { 46, 'O' }, /* GPIO 46: Spare2 */
+	// { 47, 'O' }, /* GPIO 47: Spare3 */
+	// { 48, 'O' }, /* GPIO 48: Spare4 */
+	{ 49, 'O' }, /* GPIO 49: biasAddrSelect */
+	{ 50, 'O' }, /* GPIO 50: Clock_Bias */
+	{ 51, 'O' }, /* GPIO 51: Latch_Bias */
+	{ 52, 'O' }, /* GPIO 52: BitIn_Bias */
 };
 const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecific) / sizeof(gpioConfig_DeviceSpecific[0]));
 

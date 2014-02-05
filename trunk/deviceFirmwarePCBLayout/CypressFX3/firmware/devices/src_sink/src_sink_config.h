@@ -3,6 +3,7 @@
 
 // Feature configuration
 #define PRODUCT_ID 0x1F, 0x84 // Product ID (from Thesycon reserved range)
+#define DEVICE_ID  0x00, 0x00
 
 #define STRING_PRODUCT 'F', 0x00, 'X', 0x00, '3', 0x00, ' ', 0x00, 'S', 0x00, 'R', 0x00, 'C', 0x00, '_', 0x00, 'S', 0x00, 'I', 0x00, 'N', 0x00, 'K', 0x00
 #define STRING_PRODUCT_LEN 24
