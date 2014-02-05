@@ -1,9 +1,12 @@
 package net.sf.jaer;
 
+import java.nio.ByteBuffer;
+
 import li.longi.libusb4java.Device;
 import li.longi.libusb4java.DeviceDescriptor;
 import li.longi.libusb4java.DeviceHandle;
 import li.longi.libusb4java.LibUsb;
+import li.longi.libusb4java.utils.BufferUtils;
 import li.longi.libusb4java.utils.DescriptorUtils;
 
 public class UsbDevice {
@@ -88,7 +91,7 @@ public class UsbDevice {
 		StringBuilder desc = new StringBuilder();
 
 		desc.append(toString() + "\n");
-		desc.append(String.format("Device VID: %H, PID: %H\n", devVID & 0xFFFF, devPID & 0xFFFF));
+		desc.append(String.format("Device VID: %04X, PID: %04X\n", devVID & 0xFFFF, devPID & 0xFFFF));
 		desc.append(String.format("Device Speed: %s\n", DescriptorUtils.getSpeedName(LibUsb.getDeviceSpeed(dev))));
 		desc.append(DescriptorUtils.dump(devDesc, devManufacturer, devProduct, devSerialNumber));
 
@@ -115,6 +118,96 @@ public class UsbDevice {
 	public String toString() {
 		getStringDescriptors();
 
-		return (String.format("%s %s %s [Bus: %d, Addr: %d]", devManufacturer, devProduct, devSerialNumber, busAddr, devAddr));
+		return (String.format("%s %s %s [Bus: %d, Addr: %d]", devManufacturer, devProduct, devSerialNumber, busAddr,
+			devAddr));
+	}
+
+	/**
+	 * Sends a vendor request with data (including special bits). This is a
+	 * blocking method.
+	 *
+	 * @param requestType
+	 *            the vendor requestType byte (used for special cases, usually
+	 *            0)
+	 * @param request
+	 *            the vendor request byte, identifies the request on the device
+	 * @param value
+	 *            the value of the request (bValue USB field)
+	 * @param index
+	 *            the "index" of the request (bIndex USB field)
+	 * @param dataBuffer
+	 *            the data which is to be transmitted to the device (null means
+	 *            no data)
+	 */
+	synchronized public void sendVendorRequest(final byte request, final short value, final short index,
+		ByteBuffer dataBuffer) throws Exception {
+		if (devHandle == null) {
+			open();
+		}
+
+		if (dataBuffer == null) {
+			dataBuffer = BufferUtils.allocateByteBuffer(0);
+		}
+
+		final byte bmRequestType = (byte) (LibUsb.ENDPOINT_OUT | LibUsb.REQUEST_TYPE_VENDOR | LibUsb.RECIPIENT_DEVICE);
+
+		final int status = LibUsb.controlTransfer(devHandle, bmRequestType, request, value, index, dataBuffer, 0);
+		if (status < LibUsb.SUCCESS) {
+			throw new Exception("Unable to send vendor OUT request " + String.format("0x%x", request) + ": "
+				+ LibUsb.errorName(status));
+		}
+
+		if (status != dataBuffer.capacity()) {
+			throw new Exception("Wrong number of bytes transferred, wanted: " + dataBuffer.capacity() + ", got: "
+				+ status);
+		}
+	}
+
+	/**
+	 * Sends a vendor request to receive (IN direction) data. This is a blocking
+	 * method.
+	 *
+	 * @param request
+	 *            the vendor request byte, identifies the request on the device
+	 * @param value
+	 *            the value of the request (bValue USB field)
+	 * @param index
+	 *            the "index" of the request (bIndex USB field)
+	 * @param dataLength
+	 *            amount of data to receive, determines size of returned buffer
+	 *            (must be greater than 0)
+	 * @return a buffer containing the data requested from the device
+	 */
+	synchronized public ByteBuffer sendVendorRequestIN(final byte request, final short value, final short index,
+		final int dataLength) throws Exception {
+		if (dataLength == 0) {
+			throw new Exception("Unable to send vendor IN request with dataLength of zero!");
+		}
+
+		if (devHandle == null) {
+			open();
+		}
+
+		final ByteBuffer dataBuffer = BufferUtils.allocateByteBuffer(dataLength);
+
+		final byte bmRequestType = (byte) (LibUsb.ENDPOINT_IN | LibUsb.REQUEST_TYPE_VENDOR | LibUsb.RECIPIENT_DEVICE);
+
+		final int status = LibUsb.controlTransfer(devHandle, bmRequestType, request, value, index, dataBuffer, 0);
+		if (status < LibUsb.SUCCESS) {
+			throw new Exception("Unable to send vendor IN request " + String.format("0x%x", request) + ": "
+				+ LibUsb.errorName(status));
+		}
+
+		if (status != dataLength) {
+			throw new Exception("Wrong number of bytes transferred, wanted: " + dataLength + ", got: " + status);
+		}
+
+		// Update ByteBuffer internal limit to show how much was successfully
+		// read.
+		// usb4java never touches the ByteBuffer's internals by design, so we do
+		// it here.
+		dataBuffer.limit(dataLength);
+
+		return (dataBuffer);
 	}
 }

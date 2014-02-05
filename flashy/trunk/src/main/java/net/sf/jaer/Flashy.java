@@ -1,16 +1,12 @@
 package net.sf.jaer;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileChannel.MapMode;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import javafx.application.Application;
 import javafx.beans.property.Property;
@@ -22,10 +18,10 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
@@ -35,6 +31,7 @@ import li.longi.libusb4java.Device;
 import li.longi.libusb4java.DeviceDescriptor;
 import li.longi.libusb4java.DeviceList;
 import li.longi.libusb4java.LibUsb;
+import li.longi.libusb4java.utils.BufferUtils;
 
 public final class Flashy extends Application {
 	private static final Map<Short, List<Short>> supportedVidPids = new HashMap<>();
@@ -46,23 +43,16 @@ public final class Flashy extends Application {
 		}
 
 		Flashy.supportedVidPids.put((short) 0x152A, iniPids);
+
+		// Add the Cypress blank VID/PID combinations.
+		final List<Short> cypressPids = new ArrayList<>();
+		cypressPids.add((short) 0x8613);
+		cypressPids.add((short) 0x0053);
+		cypressPids.add((short) 0x00F3);
+
+		Flashy.supportedVidPids.put((short) 0x04B4, cypressPids);
 	}
 
-	private static final List<String> firmwareValidExtensions = new ArrayList<>();
-	static {
-		Flashy.firmwareValidExtensions.add("*.bix");
-		Flashy.firmwareValidExtensions.add("*.iic");
-		Flashy.firmwareValidExtensions.add("*.hex");
-		Flashy.firmwareValidExtensions.add("*.img");
-	}
-
-	private static final List<String> logicValidExtensions = new ArrayList<>();
-	static {
-		Flashy.logicValidExtensions.add("*.jed");
-	}
-
-	private File firmwareFile;
-	private File logicFile;
 	private final Property<UsbDevice> selectedUsbDevice = new SimpleObjectProperty<>();
 
 	public static void main(final String[] args) {
@@ -78,8 +68,6 @@ public final class Flashy extends Application {
 		gui.getChildren().add(usbDeviceSelectGUI());
 		gui.getChildren().add(usbInfoGUI());
 		gui.getChildren().add(usbCommandGUI());
-		gui.getChildren().add(firmwareFlashGUI());
-		gui.getChildren().add(logicFlashGUI());
 
 		final BorderPane main = new BorderPane();
 		main.setCenter(gui);
@@ -131,7 +119,8 @@ public final class Flashy extends Application {
 		// Open the device when its selected.
 		usbDevicesBox.valueProperty().addListener(new ChangeListener<UsbDevice>() {
 			@Override
-			public void changed(final ObservableValue<? extends UsbDevice> change, final UsbDevice oldVal, final UsbDevice newVal) {
+			public void changed(final ObservableValue<? extends UsbDevice> change, final UsbDevice oldVal,
+				final UsbDevice newVal) {
 				if (oldVal != null) {
 					oldVal.close();
 				}
@@ -178,160 +167,115 @@ public final class Flashy extends Application {
 	private VBox usbCommandGUI() {
 		final VBox usbCommandGUI = new VBox(10);
 
-		return (usbCommandGUI);
-	}
+		// Select vendor request direction.
+		List<String> inOut = new ArrayList<>();
+		inOut.add("IN");
+		inOut.add("OUT");
+		final ComboBox<String> directionBox = GUISupport.addComboBox(usbCommandGUI, inOut, 1);
 
-	private VBox firmwareFlashGUI() {
-		final VBox firmwareFlashGUI = new VBox(10);
-
-		final HBox fileBox = new HBox(10);
-		firmwareFlashGUI.getChildren().add(fileBox);
-
-		GUISupport.addLabel(fileBox, "Select firmware file", "Select a compatible firmware file to upload to device.",
+		// Vendor request byte.
+		GUISupport.addLabel(usbCommandGUI, "Vendor Request:", "Insert a value for the byte Vendor Request field.",
 			null, null);
+		final TextField vendorRequestField = GUISupport.addTextField(usbCommandGUI, "00", null);
 
-		final TextField fileField = GUISupport.addTextField(fileBox, null, null);
+		// Value short.
+		GUISupport.addLabel(usbCommandGUI, "Value:", "Insert a value for the short Value field.", null, null);
+		final TextField valueField = GUISupport.addTextField(usbCommandGUI, "0000", null);
 
-		fileField.textProperty().addListener(new ChangeListener<String>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends String> val, final String oldVal, final String newVal) {
-				if (newVal == null) {
-					return;
-				}
+		// Index short.
+		GUISupport.addLabel(usbCommandGUI, "Index:", "Insert a value for the short Index field.", null, null);
+		final TextField indexField = GUISupport.addTextField(usbCommandGUI, "0000", null);
 
-				// Check that the typed in file is valid, if not, color the
-				// field background red.
-				final File loadFirmware = new File(newVal);
-
-				if (!Files.checkReadPermissions(loadFirmware)
-					|| !Files.checkExtensions(loadFirmware, Flashy.firmwareValidExtensions)) {
-					fileField.setStyle("-fx-background-color: #FF5757");
-					return;
-				}
-
-				fileField.setStyle("");
-				firmwareFile = loadFirmware;
-			}
-		});
-
-		GUISupport.addButtonWithMouseClickedHandler(fileBox, "Select file", true, null, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
-				final File loadFirmware = GUISupport.showDialogLoadFile("Binary", Flashy.firmwareValidExtensions);
-
-				if (loadFirmware == null) {
-					return;
-				}
-
-				fileField.setText(loadFirmware.getAbsolutePath());
-				firmwareFile = loadFirmware;
-			}
-		});
-
-		GUISupport.addButtonWithMouseClickedHandler(firmwareFlashGUI, "Flash!", true, null,
-			new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(@SuppressWarnings("unused") final MouseEvent arg0) {
-					if (firmwareFile == null) {
-						GUISupport.showDialogError("No file selected!");
-						return;
-					}
-
-					try (final RandomAccessFile fwFile = new RandomAccessFile(firmwareFile, "r");
-						final FileChannel fwInChannel = fwFile.getChannel()) {
-						final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
-						buf.load();
-
-						// TODO: writeToMemory(0x00, buf);
-
-						// Cleanup ByteBuffer.
-						buf.clear();
-					}
-					catch (final IOException e) {
-						GUISupport.showDialogException(e);
-						return;
-					}
-				}
-			});
-
-		return (firmwareFlashGUI);
-	}
-
-	private VBox logicFlashGUI() {
-		final VBox logicFlashGUI = new VBox(10);
-
-		final HBox fileBox = new HBox(10);
-		logicFlashGUI.getChildren().add(fileBox);
-
-		GUISupport.addLabel(fileBox, "Select logic file", "Select a compatible logic file to upload to device.", null,
+		// Bytes of data to receive.
+		GUISupport.addLabel(usbCommandGUI, "Data Length:", "Insert the amount of bytes you want to get back.", null,
 			null);
+		final TextField dataLengthField = GUISupport.addTextField(usbCommandGUI, "1", null);
 
-		final TextField fileField = GUISupport.addTextField(fileBox, null, null);
+		// Bytes of data to send.
+		GUISupport.addLabel(usbCommandGUI, "Enter the bytes you want to send out:",
+			"Enter the bytes to send to the device,  in hexadecimal form,  separated by a space.", null, null);
+		final TextArea bytesToSendTextArea = new TextArea();
+		usbCommandGUI.getChildren().add(bytesToSendTextArea);
 
-		fileField.textProperty().addListener(new ChangeListener<String>() {
-			@SuppressWarnings("unused")
+		// Hide one or the other depending on direction.
+		dataLengthField.setDisable(true);
+		bytesToSendTextArea.setDisable(false);
+
+		directionBox.valueProperty().addListener(new ChangeListener<String>() {
 			@Override
-			public void changed(final ObservableValue<? extends String> val, final String oldVal, final String newVal) {
-				if (newVal == null) {
-					return;
+			public void changed(ObservableValue<? extends String> change, String oldVal, String newVal) {
+				if (newVal.compareTo("IN") == 0) {
+					dataLengthField.setDisable(false);
+					bytesToSendTextArea.setDisable(true);
 				}
-
-				// Check that the typed in file is valid, if not, color the
-				// field background red.
-				final File loadLogic = new File(newVal);
-
-				if (!Files.checkReadPermissions(loadLogic)
-					|| !Files.checkExtensions(loadLogic, Flashy.firmwareValidExtensions)) {
-					fileField.setStyle("-fx-background-color: #FF5757");
-					return;
+				else {
+					dataLengthField.setDisable(true);
+					bytesToSendTextArea.setDisable(false);
 				}
-
-				fileField.setStyle("");
-				logicFile = loadLogic;
 			}
 		});
 
-		GUISupport.addButtonWithMouseClickedHandler(fileBox, "Select file", true, null, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
-				final File loadLogic = GUISupport.showDialogLoadFile("Binary", Flashy.firmwareValidExtensions);
+		// Display result.
+		// final Label resultLabel = GUISupport.addLabel(usbCommandGUI,
+		// "No results.", "Show results from Vendor Request.", null, null);
 
-				if (loadLogic == null) {
-					return;
-				}
-
-				fileField.setText(loadLogic.getAbsolutePath());
-				logicFile = loadLogic;
-			}
-		});
-
-		GUISupport.addButtonWithMouseClickedHandler(logicFlashGUI, "Flash!", true, null,
+		// Send button.
+		GUISupport.addButtonWithMouseClickedHandler(usbCommandGUI, "Send Request", true, null,
 			new EventHandler<MouseEvent>() {
 				@Override
-				public void handle(@SuppressWarnings("unused") final MouseEvent arg0) {
-					if (logicFile == null) {
-						GUISupport.showDialogError("No file selected!");
+				public void handle(@SuppressWarnings("unused") MouseEvent evt) {
+					if (selectedUsbDevice.getValue() == null) {
+						GUISupport.showDialogError("You must select a device first!");
 						return;
 					}
 
-					try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
-						final FileChannel fwInChannel = fwFile.getChannel()) {
-						final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
-						buf.load();
+					if (directionBox.getValue().compareTo("IN") == 0) {
+						try (Scanner vendorRequestScanner = new Scanner(vendorRequestField.getText());
+							Scanner valueScanner = new Scanner(valueField.getText());
+							Scanner indexScanner = new Scanner(indexField.getText())) {
+							byte vendorRequest = vendorRequestScanner.nextByte(16);
+							short value = valueScanner.nextShort(16);
+							short index = indexScanner.nextShort(16);
 
-						// TODO: writeToMemory(0x00, buf);
-
-						// Cleanup ByteBuffer.
-						buf.clear();
+							try {
+								selectedUsbDevice.getValue().sendVendorRequestIN(vendorRequest, value, index, 0);
+							}
+							catch (Exception e) {
+								GUISupport.showDialogException(e);
+								return;
+							}
+						}
 					}
-					catch (final IOException e) {
-						GUISupport.showDialogException(e);
-						return;
+					else {
+						try (Scanner vendorRequestScanner = new Scanner(vendorRequestField.getText());
+							Scanner valueScanner = new Scanner(valueField.getText());
+							Scanner indexScanner = new Scanner(indexField.getText());
+							Scanner bytesScan = new Scanner(bytesToSendTextArea.getText())) {
+							byte vendorRequest = (byte) vendorRequestScanner.nextShort(16);
+							short value = valueScanner.nextShort(16);
+							short index = indexScanner.nextShort(16);
+
+							// Get bytes from text area.
+							ByteBuffer dataBuffer = BufferUtils.allocateByteBuffer(bytesToSendTextArea.getLength() / 3);
+
+							bytesScan.useDelimiter(" ");
+
+							while (bytesScan.hasNextByte(16)) {
+								dataBuffer.put(bytesScan.nextByte(16));
+							}
+
+							try {
+								selectedUsbDevice.getValue().sendVendorRequest(vendorRequest, value, index, dataBuffer);
+							}
+							catch (Exception e) {
+								GUISupport.showDialogException(e);
+								return;
+							}
+						}
 					}
 				}
 			});
 
-		return (logicFlashGUI);
+		return (usbCommandGUI);
 	}
 }
