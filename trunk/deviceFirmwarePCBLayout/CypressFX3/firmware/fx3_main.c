@@ -949,6 +949,8 @@ int main(void) {
 	ioConfig.useUart = CyFalse;
 	ioConfig.useI2S = CyFalse;
 	ioConfig.lppMode = CY_U3P_IO_MATRIX_LPP_DEFAULT;
+	ioConfig.s0Mode = CY_U3P_SPORT_INACTIVE;
+	ioConfig.s1Mode = CY_U3P_SPORT_INACTIVE;
 
 	status = CyU3PDeviceConfigureIOMatrix(&ioConfig);
 	if (status != CY_U3P_SUCCESS) {

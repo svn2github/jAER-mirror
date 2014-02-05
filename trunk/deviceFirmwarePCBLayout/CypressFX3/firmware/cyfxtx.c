@@ -28,17 +28,61 @@
 #include <cyu3os.h>
 #include <cyu3error.h>
 
+#ifdef CYMEM_256K
+
 /*
-   The MEM heap is a Memory byte pool which is used to allocate OS objects
-   such as thread stacks and memory for message queues. The Cypress FX3
-   libraries require a Mem heap size of at least 32 KB.
+   A reduced memory map is used with the CYUSB3011/CYUSB3012 devices:
+
+   Descriptor area    Base: 0x40000000 Size: 12  KB
+   Code area          Base: 0x40003000 Size: 128 KB
+   Data area          Base: 0x40023000 Size: 24  KB
+   Driver heap        Base: 0x40029000 Size: 28  KB
+   Buffer area        Base: 0x40030000 Size: 32  KB
+   2-stage boot area  Base: 0x40038000 Size: 32  KB
+ */
+
+/*
+   The following definitions specify the start address and length of the Driver heap
+   area which is used by the application code as well as the drivers to allocate thread
+   stacks and other internal data structures.
+ */
+#define CY_U3P_MEM_HEAP_BASE         ((uint8_t *)0x40029000)
+#define CY_U3P_MEM_HEAP_SIZE         (0x7000)
+
+/*
+   The last 32 KB of RAM is reserved for 2-stage boot operation. This value can be
+   changed to 0x40040000 if 2-stage boot is not used by the application.
+ */
+#define CY_U3P_SYS_MEM_TOP           (0x40038000)
+
+#else /* 512 KB RAM is available. */
+
+/*
+   The default application memory map for FX3 firmware is as follows:
+
+   Descriptor area    Base: 0x40000000 Size: 12  KB
+   Code area          Base: 0x40003000 Size: 180 KB
+   Data area          Base: 0x40030000 Size: 32  KB
+   Driver heap        Base: 0x40038000 Size: 32  KB
+   Buffer area        Base: 0x40040000 Size: 224 KB
+   2-stage boot area  Base: 0x40078000 Size: 32  KB
+ */
+
+/*
+   The following definitions specify the start address and length of the Driver heap
+   area which is used by the application code as well as the drivers to allocate thread
+   stacks and other internal data structures.
  */
 #define CY_U3P_MEM_HEAP_BASE         ((uint8_t *)0x40038000)
 #define CY_U3P_MEM_HEAP_SIZE         (0x8000)
 
-/* The last 32 KB of RAM is reserved for 2-stage boot operation. This value can be changed to
-   0x40080000 if 2-stage boot is not used by the application. */
+/*
+   The last 32 KB of RAM is reserved for 2-stage boot operation. This value can be
+   changed to 0x40080000 if 2-stage boot is not used by the application.
+ */
 #define CY_U3P_SYS_MEM_TOP           (0x40078000)
+
+#endif
 
 /*
    The buffer heap is used to obtain data buffers for DMA transfers in or out of
