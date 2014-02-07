@@ -132,18 +132,26 @@ public class FX3 extends Controller {
 		// Ensure the values we read are little-endian.
 		fw.order(ByteOrder.LITTLE_ENDIAN);
 
+		// Checksum.
+		long fwChecksum = 0;
+
 		while (fwLength > 0) {
 			// Read firmware chunk information from file.
 			int chunkLength = fw.getInt(fwOffset);
 			final int chunkAddress = fw.getInt(fwOffset + 4);
-			System.out.println("Length :" + chunkLength);
-			System.out.println("Address: " + chunkAddress);
 
 			// Convert length to bytes (it's in 32bit words).
 			chunkLength *= 4;
 
 			// If chunkLength is zero, then we're done.
 			if (chunkLength == 0) {
+				// Get and verify checksum.
+				final long fwExpectedChecksum = (fw.getInt(fwOffset + 8) & 0xFFFFFFFFL);
+
+				if ((fwChecksum & 0xFFFFFFFFL) != fwExpectedChecksum) {
+					throw new Exception("Firmware checksum doesn't match expected value!");
+				}
+
 				// Transfer control to newly uploaded firmware.
 				usbDevice.sendVendorRequest((byte) 0xA0, (short) (chunkAddress & 0xFFFF),
 					(short) ((chunkAddress >>> 16) & 0xFFFF), null);
@@ -154,6 +162,14 @@ public class FX3 extends Controller {
 
 			// Get current piece of firmware to transfer.
 			final ByteBuffer chunkData = BufferUtils.slice(fw, fwOffset + 8, chunkLength);
+
+			// Ensure this is little-endian for the checksum calculation.
+			chunkData.order(ByteOrder.LITTLE_ENDIAN);
+
+			// Calculate checksum.
+			for (int i = 0; i < chunkLength; i += 4) {
+				fwChecksum += (chunkData.getInt(i) & 0xFFFFFFFFL);
+			}
 
 			// Update counters.
 			fwOffset += (8 + chunkLength);
