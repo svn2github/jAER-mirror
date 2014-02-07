@@ -32,7 +32,7 @@ import li.longi.libusb4java.DeviceDescriptor;
 import li.longi.libusb4java.DeviceList;
 import li.longi.libusb4java.LibUsb;
 import li.longi.libusb4java.utils.BufferUtils;
-import net.sf.jaer.controllers.ApsDvsFX3;
+import net.sf.jaer.controllers.DAViS_FX3;
 import net.sf.jaer.controllers.Controller;
 import net.sf.jaer.controllers.FX2;
 import net.sf.jaer.controllers.FX3;
@@ -43,7 +43,7 @@ public final class Flashy extends Application {
 		// Add our own VID/PID combination (jAER Project/INI).
 		final Map<Short, Class<? extends Controller>> iniPids = new HashMap<>();
 		for (int pid = 0x8400; pid <= 0x841F; pid++) {
-			iniPids.put((short) pid, ApsDvsFX3.class);
+			iniPids.put((short) pid, DAViS_FX3.class);
 		}
 
 		Flashy.supportedVidPids.put((short) 0x152A, iniPids);

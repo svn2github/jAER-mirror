@@ -5,8 +5,8 @@
 #define PRODUCT_ID 0x1A, 0x84 // Product ID (from Thesycon reserved range)
 #define DEVICE_ID  0x00, 0x00
 
-#define STRING_PRODUCT 'S', 0x00, 'B', 0x00, 'R', 0x00, 'E', 0x00, 'T', 0x00, '1', 0x00, '0', 0x00, 'F', 0x00, 'X', 0x00, '3', 0x00
-#define STRING_PRODUCT_LEN 20
+#define STRING_PRODUCT 'D', 0x00, 'A', 0x00, 'V', 0x00, 'i', 0x00, 'S', 0x00, ' ', 0x00, 'F', 0x00, 'X', 0x00, '3', 0x00
+#define STRING_PRODUCT_LEN 18
 
 #define FX3_LOG_LEVEL (LOG_DEBUG)
 

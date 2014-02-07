@@ -22,13 +22,18 @@ import net.sf.jaer.Files;
 import net.sf.jaer.GUISupport;
 import net.sf.jaer.UsbDevice;
 
-public class FX3 extends Controller {
+public class DAViS_FX3 extends Controller {
 	private static final List<String> firmwareValidExtensions = new ArrayList<>();
 	static {
-		FX3.firmwareValidExtensions.add("*.img");
+		DAViS_FX3.firmwareValidExtensions.add("*.img");
 	}
 
-	public FX3(final UsbDevice device) {
+	private static final List<String> logicValidExtensions = new ArrayList<>();
+	static {
+		DAViS_FX3.logicValidExtensions.add("*.bit");
+	}
+
+	public DAViS_FX3(final UsbDevice device) {
 		super(device);
 	}
 
@@ -59,7 +64,7 @@ public class FX3 extends Controller {
 				final File loadFirmware = new File(newVal);
 
 				if (!Files.checkReadPermissions(loadFirmware)
-					|| !Files.checkExtensions(loadFirmware, FX3.firmwareValidExtensions)) {
+					|| !Files.checkExtensions(loadFirmware, DAViS_FX3.firmwareValidExtensions)) {
 					fileField.setStyle("-fx-background-color: #FF5757");
 					return;
 				}
@@ -72,7 +77,7 @@ public class FX3 extends Controller {
 		GUISupport.addButtonWithMouseClickedHandler(fileBox, "Select file", true, null, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
-				final File loadFirmware = GUISupport.showDialogLoadFile("Binary", FX3.firmwareValidExtensions);
+				final File loadFirmware = GUISupport.showDialogLoadFile("Binary", DAViS_FX3.firmwareValidExtensions);
 
 				if (loadFirmware == null) {
 					return;
@@ -97,7 +102,7 @@ public class FX3 extends Controller {
 						final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
 						buf.load();
 
-						firmwareToRAM(buf);
+						firmwareToROM(buf);
 
 						// Cleanup ByteBuffer.
 						buf.clear();
@@ -114,11 +119,13 @@ public class FX3 extends Controller {
 
 	private static final int MAX_TRANSFER_SIZE = 4096;
 
-	public void firmwareToRAM(final ByteBuffer fw) throws Exception {
+	public void firmwareToROM(final ByteBuffer fw) throws Exception {
 		// Check signature.
 		if ((fw.get(0) != 'C') || (fw.get(1) != 'Y')) {
 			throw new Exception("Illegal signature for firmware file.");
 		}
+
+		// TODO: byte three, fw[2] must be equal to 0x20, all else unchanged.
 
 		// Setup counters.
 		int fwLength = fw.limit() - 4; // -2 for signature, -2 for dummy bytes
@@ -175,7 +182,7 @@ public class FX3 extends Controller {
 			int chunkOffset = 0;
 
 			while (chunkLength > 0) {
-				int localChunkLength = FX3.MAX_TRANSFER_SIZE;
+				int localChunkLength = DAViS_FX3.MAX_TRANSFER_SIZE;
 				if (localChunkLength > chunkLength) {
 					localChunkLength = chunkLength;
 				}
