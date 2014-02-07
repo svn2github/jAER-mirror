@@ -1,12 +1,16 @@
 package net.sf.jaer.controllers;
 
-import li.longi.libusb4java.Device;
+import javafx.scene.layout.VBox;
+import net.sf.jaer.UsbDevice;
 
 public class FX2 extends Controller {
-	public static final short VID = 0x04B4;
-	public static final short PID = (short) 0x8613;
+	public FX2(final UsbDevice device) {
+		super(device);
+	}
 
-	public FX2(Device d) {
-		super(d);
+	@Override
+	public VBox generateGUI() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

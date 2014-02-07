@@ -1,12 +1,16 @@
 package net.sf.jaer.controllers;
 
-import li.longi.libusb4java.Device;
+import javafx.scene.layout.VBox;
+import net.sf.jaer.UsbDevice;
 
 public class ApsDvsFX3 extends Controller {
-	public static final short VID = 0x152A;
-	public static final short PID = (short) 0x841A;
+	public ApsDvsFX3(final UsbDevice device) {
+		super(device);
+	}
 
-	public ApsDvsFX3(Device d) {
-		super(d);
+	@Override
+	public VBox generateGUI() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

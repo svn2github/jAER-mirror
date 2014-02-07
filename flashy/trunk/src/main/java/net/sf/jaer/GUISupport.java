@@ -318,7 +318,7 @@ public final class GUISupport {
 		Dialogs.create().lightweight().title("Exception detected").showException(exception);
 	}
 
-	public static File showDialogLoadFile(final String name, List<String> allowedExtensions) {
+	public static File showDialogLoadFile(final String name, final List<String> allowedExtensions) {
 		final FileChooser fileChooser = new FileChooser();
 
 		fileChooser.setTitle("Select File to load from ...");
@@ -351,7 +351,7 @@ public final class GUISupport {
 		return toLoad;
 	}
 
-	public static File showDialogSaveFile(final String name, List<String> allowedExtensions) {
+	public static File showDialogSaveFile(final String name, final List<String> allowedExtensions) {
 		final FileChooser fileChooser = new FileChooser();
 
 		fileChooser.setTitle("Select File to save to ...");

@@ -32,28 +32,33 @@ import li.longi.libusb4java.DeviceDescriptor;
 import li.longi.libusb4java.DeviceList;
 import li.longi.libusb4java.LibUsb;
 import li.longi.libusb4java.utils.BufferUtils;
+import net.sf.jaer.controllers.ApsDvsFX3;
+import net.sf.jaer.controllers.Controller;
+import net.sf.jaer.controllers.FX2;
+import net.sf.jaer.controllers.FX3;
 
 public final class Flashy extends Application {
-	private static final Map<Short, List<Short>> supportedVidPids = new HashMap<>();
+	private static final Map<Short, Map<Short, Class<? extends Controller>>> supportedVidPids = new HashMap<>();
 	static {
 		// Add our own VID/PID combination (jAER Project/INI).
-		final List<Short> iniPids = new ArrayList<>();
+		final Map<Short, Class<? extends Controller>> iniPids = new HashMap<>();
 		for (int pid = 0x8400; pid <= 0x841F; pid++) {
-			iniPids.add((short) pid);
+			iniPids.put((short) pid, ApsDvsFX3.class);
 		}
 
 		Flashy.supportedVidPids.put((short) 0x152A, iniPids);
 
 		// Add the Cypress blank VID/PID combinations.
-		final List<Short> cypressPids = new ArrayList<>();
-		cypressPids.add((short) 0x8613);
-		cypressPids.add((short) 0x0053);
-		cypressPids.add((short) 0x00F3);
+		final Map<Short, Class<? extends Controller>> cypressPids = new HashMap<>();
+		cypressPids.put((short) 0x8613, FX2.class);
+		cypressPids.put((short) 0x0053, FX3.class);
+		cypressPids.put((short) 0x00F3, FX3.class);
 
 		Flashy.supportedVidPids.put((short) 0x04B4, cypressPids);
 	}
 
 	private final Property<UsbDevice> selectedUsbDevice = new SimpleObjectProperty<>();
+	private final VBox supplementalGUI = new VBox(10);
 
 	public static void main(final String[] args) {
 		// Launch the JavaFX application: do initialization and call start()
@@ -68,6 +73,7 @@ public final class Flashy extends Application {
 		gui.getChildren().add(usbDeviceSelectGUI());
 		gui.getChildren().add(usbInfoGUI());
 		gui.getChildren().add(usbCommandGUI());
+		gui.getChildren().add(supplementalGUI);
 
 		final BorderPane main = new BorderPane();
 		main.setCenter(gui);
@@ -99,9 +105,10 @@ public final class Flashy extends Application {
 				LibUsb.getDeviceDescriptor(dev, devDesc);
 
 				if (Flashy.supportedVidPids.containsKey(devDesc.idVendor())) {
-					final List<Short> pids = Flashy.supportedVidPids.get(devDesc.idVendor());
+					final Map<Short, Class<? extends Controller>> pids = Flashy.supportedVidPids
+						.get(devDesc.idVendor());
 
-					if (pids.contains(devDesc.idProduct())) {
+					if (pids.containsKey(devDesc.idProduct())) {
 						usbDevices.add(new UsbDevice(dev));
 					}
 				}
@@ -118,11 +125,13 @@ public final class Flashy extends Application {
 
 		// Open the device when its selected.
 		usbDevicesBox.valueProperty().addListener(new ChangeListener<UsbDevice>() {
+			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends UsbDevice> change, final UsbDevice oldVal,
 				final UsbDevice newVal) {
 				if (oldVal != null) {
 					oldVal.close();
+					supplementalGUI.getChildren().clear();
 				}
 
 				if (newVal != null) {
@@ -132,6 +141,18 @@ public final class Flashy extends Application {
 					catch (final Exception e) {
 						// Remove unopenable devices from list.
 						usbDevicesBox.getItems().remove(newVal);
+					}
+
+					final Map<Short, Class<? extends Controller>> pids = Flashy.supportedVidPids.get(newVal.getDevVID());
+
+					if (pids.get(newVal.getDevPID()) != null) {
+						final Controller newController = Controller.newInstanceForClassWithArgument(
+							pids.get(newVal.getDevPID()), UsbDevice.class, newVal);
+
+						final VBox controllerGUI = newController.generateGUI();
+						if (controllerGUI != null) {
+							supplementalGUI.getChildren().add(controllerGUI);
+						}
 					}
 				}
 			}
@@ -147,7 +168,7 @@ public final class Flashy extends Application {
 
 		usbText.textProperty().bindBidirectional(selectedUsbDevice, new StringConverter<UsbDevice>() {
 			@Override
-			public UsbDevice fromString(final String str) {
+			public UsbDevice fromString(@SuppressWarnings("unused") final String str) {
 				return null;
 			}
 
@@ -168,7 +189,7 @@ public final class Flashy extends Application {
 		final VBox usbCommandGUI = new VBox(10);
 
 		// Select vendor request direction.
-		List<String> inOut = new ArrayList<>();
+		final List<String> inOut = new ArrayList<>();
 		inOut.add("IN");
 		inOut.add("OUT");
 		final ComboBox<String> directionBox = GUISupport.addComboBox(usbCommandGUI, inOut, 1);
@@ -202,8 +223,9 @@ public final class Flashy extends Application {
 		bytesToSendTextArea.setDisable(false);
 
 		directionBox.valueProperty().addListener(new ChangeListener<String>() {
+			@SuppressWarnings("unused")
 			@Override
-			public void changed(ObservableValue<? extends String> change, String oldVal, String newVal) {
+			public void changed(final ObservableValue<? extends String> change, final String oldVal, final String newVal) {
 				if (newVal.compareTo("IN") == 0) {
 					dataLengthField.setDisable(false);
 					bytesToSendTextArea.setDisable(true);
@@ -216,14 +238,14 @@ public final class Flashy extends Application {
 		});
 
 		// Display result.
-		// final Label resultLabel = GUISupport.addLabel(usbCommandGUI,
-		// "No results.", "Show results from Vendor Request.", null, null);
+		final Label resultLabel = GUISupport.addLabel(usbCommandGUI, "No results.",
+			"Show results from Vendor Request.", null, null);
 
 		// Send button.
 		GUISupport.addButtonWithMouseClickedHandler(usbCommandGUI, "Send Request", true, null,
 			new EventHandler<MouseEvent>() {
 				@Override
-				public void handle(@SuppressWarnings("unused") MouseEvent evt) {
+				public void handle(@SuppressWarnings("unused") final MouseEvent evt) {
 					if (selectedUsbDevice.getValue() == null) {
 						GUISupport.showDialogError("You must select a device first!");
 						return;
@@ -233,14 +255,22 @@ public final class Flashy extends Application {
 						try (Scanner vendorRequestScanner = new Scanner(vendorRequestField.getText());
 							Scanner valueScanner = new Scanner(valueField.getText());
 							Scanner indexScanner = new Scanner(indexField.getText())) {
-							byte vendorRequest = vendorRequestScanner.nextByte(16);
-							short value = valueScanner.nextShort(16);
-							short index = indexScanner.nextShort(16);
+							final byte vendorRequest = (byte) vendorRequestScanner.nextShort(16);
+							final short value = (short) valueScanner.nextInt(16);
+							final short index = (short) indexScanner.nextInt(16);
 
 							try {
-								selectedUsbDevice.getValue().sendVendorRequestIN(vendorRequest, value, index, 0);
+								final ByteBuffer dataBuffer = selectedUsbDevice.getValue().sendVendorRequestIN(
+									vendorRequest, value, index, Integer.parseInt(dataLengthField.getText()));
+
+								final StringBuilder res = new StringBuilder();
+								for (int i = 0; i < dataBuffer.limit(); i++) {
+									res.append(String.format("%X", dataBuffer.get() & 0xFF));
+								}
+
+								resultLabel.setText(res.toString());
 							}
-							catch (Exception e) {
+							catch (final Exception e) {
 								GUISupport.showDialogException(e);
 								return;
 							}
@@ -251,23 +281,29 @@ public final class Flashy extends Application {
 							Scanner valueScanner = new Scanner(valueField.getText());
 							Scanner indexScanner = new Scanner(indexField.getText());
 							Scanner bytesScan = new Scanner(bytesToSendTextArea.getText())) {
-							byte vendorRequest = (byte) vendorRequestScanner.nextShort(16);
-							short value = valueScanner.nextShort(16);
-							short index = indexScanner.nextShort(16);
-
-							// Get bytes from text area.
-							ByteBuffer dataBuffer = BufferUtils.allocateByteBuffer(bytesToSendTextArea.getLength() / 3);
+							final byte vendorRequest = (byte) vendorRequestScanner.nextShort(16);
+							final short value = (short) valueScanner.nextInt(16);
+							final short index = (short) indexScanner.nextInt(16);
 
 							bytesScan.useDelimiter(" ");
+							bytesScan.useRadix(16);
 
-							while (bytesScan.hasNextByte(16)) {
-								dataBuffer.put(bytesScan.nextByte(16));
+							// Get bytes from text area.
+							final byte[] buf = new byte[bytesToSendTextArea.getText().length()];
+
+							int counter = 0;
+							while (bytesScan.hasNextShort()) {
+								buf[counter] = (byte) (bytesScan.nextShort() & 0xFF);
+								counter++;
 							}
+
+							final ByteBuffer dataBuffer = BufferUtils.allocateByteBuffer(counter);
+							dataBuffer.put(buf, 0, counter);
 
 							try {
 								selectedUsbDevice.getValue().sendVendorRequest(vendorRequest, value, index, dataBuffer);
 							}
-							catch (Exception e) {
+							catch (final Exception e) {
 								GUISupport.showDialogException(e);
 								return;
 							}

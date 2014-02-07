@@ -1,6 +1,7 @@
 package net.sf.jaer;
 
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 import li.longi.libusb4java.Device;
 import li.longi.libusb4java.DeviceDescriptor;
@@ -10,19 +11,19 @@ import li.longi.libusb4java.utils.BufferUtils;
 import li.longi.libusb4java.utils.DescriptorUtils;
 
 public class UsbDevice {
-	private Device dev;
-	private DeviceDescriptor devDesc;
+	private final Device dev;
+	private final DeviceDescriptor devDesc;
 	private short devVID;
 	private short devPID;
-	private int busAddr;
-	private int devAddr;
+	private final int busAddr;
+	private final int devAddr;
 
 	private DeviceHandle devHandle;
 	private String devManufacturer;
 	private String devProduct;
 	private String devSerialNumber;
 
-	public UsbDevice(Device device) {
+	public UsbDevice(final Device device) {
 		dev = LibUsb.refDevice(device);
 
 		devDesc = new DeviceDescriptor();
@@ -36,12 +37,26 @@ public class UsbDevice {
 	}
 
 	public void open() throws Exception {
+		// Already opened.
+		if (devHandle != null) {
+			return;
+		}
+
 		devHandle = new DeviceHandle();
 		if (LibUsb.open(dev, devHandle) != LibUsb.SUCCESS) {
 			devHandle = null;
 			System.out.println("Failopen");
 			throw new Exception("Impossible to open USB device.");
 		}
+
+		final IntBuffer activeConfig = BufferUtils.allocateIntBuffer();
+		LibUsb.getConfiguration(devHandle, activeConfig);
+
+		if (activeConfig.get() != 1) {
+			LibUsb.setConfiguration(devHandle, 1);
+		}
+
+		LibUsb.claimInterface(devHandle, 0);
 	}
 
 	public void close() {
@@ -63,7 +78,7 @@ public class UsbDevice {
 			try {
 				open();
 			}
-			catch (Exception e) {
+			catch (final Exception e) {
 				// Fill with empty strings on error.
 				devManufacturer = "Impossible";
 				devProduct = "to open";
@@ -82,13 +97,13 @@ public class UsbDevice {
 		}
 
 		// Close again.
-		close();
+		// close();
 	}
 
 	public String fullDescription() {
 		getStringDescriptors();
 
-		StringBuilder desc = new StringBuilder();
+		final StringBuilder desc = new StringBuilder();
 
 		desc.append(toString() + "\n");
 		desc.append(String.format("Device VID: %04X, PID: %04X\n", devVID & 0xFFFF, devPID & 0xFFFF));
@@ -102,7 +117,7 @@ public class UsbDevice {
 		return devVID;
 	}
 
-	public void setDevVID(short devVID) {
+	public void setDevVID(final short devVID) {
 		this.devVID = devVID;
 	}
 
@@ -110,7 +125,7 @@ public class UsbDevice {
 		return devPID;
 	}
 
-	public void setDevPID(short devPID) {
+	public void setDevPID(final short devPID) {
 		this.devPID = devPID;
 	}
 
@@ -125,7 +140,7 @@ public class UsbDevice {
 	/**
 	 * Sends a vendor request with data (including special bits). This is a
 	 * blocking method.
-	 *
+	 * 
 	 * @param requestType
 	 *            the vendor requestType byte (used for special cases, usually
 	 *            0)
@@ -166,7 +181,7 @@ public class UsbDevice {
 	/**
 	 * Sends a vendor request to receive (IN direction) data. This is a blocking
 	 * method.
-	 *
+	 * 
 	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 * @param value
@@ -210,4 +225,5 @@ public class UsbDevice {
 
 		return (dataBuffer);
 	}
+
 }
