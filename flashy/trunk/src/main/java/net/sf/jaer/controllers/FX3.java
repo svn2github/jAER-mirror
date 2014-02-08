@@ -38,15 +38,15 @@ public class FX3 extends Controller {
 	public VBox generateGUI() {
 		final VBox firmwareFlashGUI = new VBox(10);
 
-		final HBox fileBox = new HBox(10);
-		firmwareFlashGUI.getChildren().add(fileBox);
+		final HBox firmwareToFlashBox = new HBox(10);
+		firmwareFlashGUI.getChildren().add(firmwareToFlashBox);
 
-		GUISupport.addLabel(fileBox, "Select firmware file", "Select a compatible firmware file to upload to device.",
-			null, null);
+		GUISupport.addLabel(firmwareToFlashBox, "Select FX3 firmware file",
+			"Select a FX3 firmware file to upload to the device.", null, null);
 
-		final TextField fileField = GUISupport.addTextField(fileBox, null, null);
+		final TextField firmwareField = GUISupport.addTextField(firmwareToFlashBox, null, null);
 
-		fileField.textProperty().addListener(new ChangeListener<String>() {
+		firmwareField.textProperty().addListener(new ChangeListener<String>() {
 			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends String> val, final String oldVal, final String newVal) {
@@ -60,35 +60,36 @@ public class FX3 extends Controller {
 
 				if (!Files.checkReadPermissions(loadFirmware)
 					|| !Files.checkExtensions(loadFirmware, FX3.firmwareValidExtensions)) {
-					fileField.setStyle("-fx-background-color: #FF5757");
+					firmwareField.setStyle("-fx-background-color: #FF5757");
 					return;
 				}
 
-				fileField.setStyle("");
+				firmwareField.setStyle("");
 				firmwareFile = loadFirmware;
 			}
 		});
 
-		GUISupport.addButtonWithMouseClickedHandler(fileBox, "Select file", true, null, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
-				final File loadFirmware = GUISupport.showDialogLoadFile("Binary", FX3.firmwareValidExtensions);
+		GUISupport.addButtonWithMouseClickedHandler(firmwareToFlashBox, "Select file", true, null,
+			new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
+					final File loadFirmware = GUISupport.showDialogLoadFile("FX3 Image", FX3.firmwareValidExtensions);
 
-				if (loadFirmware == null) {
-					return;
+					if (loadFirmware == null) {
+						return;
+					}
+
+					firmwareField.setText(loadFirmware.getAbsolutePath());
+					firmwareFile = loadFirmware;
 				}
+			});
 
-				fileField.setText(loadFirmware.getAbsolutePath());
-				firmwareFile = loadFirmware;
-			}
-		});
-
-		GUISupport.addButtonWithMouseClickedHandler(firmwareFlashGUI, "Upload to RAM!", true, null,
+		GUISupport.addButtonWithMouseClickedHandler(firmwareFlashGUI, "Upload FX3 firmware", true, null,
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent arg0) {
 					if (firmwareFile == null) {
-						GUISupport.showDialogError("No file selected!");
+						GUISupport.showDialogError("No FX3 firmware file selected!");
 						return;
 					}
 
@@ -114,7 +115,7 @@ public class FX3 extends Controller {
 
 	private static final int MAX_TRANSFER_SIZE = 4096;
 
-	public void firmwareToRAM(final ByteBuffer fw) throws Exception {
+	private void firmwareToRAM(final ByteBuffer fw) throws Exception {
 		// Check signature.
 		if ((fw.get(0) != 'C') || (fw.get(1) != 'Y')) {
 			throw new Exception("Illegal signature for firmware file.");
