@@ -241,21 +241,23 @@ public class DAViS_FX3 extends Controller {
 	}
 
 	private void logicToROM(final ByteBuffer logic) throws Exception {
-		// Generate and write preamble first.
-		final ByteBuffer preamble = BufferUtils.allocateByteBuffer(8);
-		preamble.order(ByteOrder.LITTLE_ENDIAN);
+		// Generate preamble and concatenate the bitstream after it.
+		final ByteBuffer data = BufferUtils.allocateByteBuffer(logic.limit() + 8);
+		data.order(ByteOrder.LITTLE_ENDIAN);
 
-		preamble.put(0, (byte) 'F');
-		preamble.put(1, (byte) 'P');
-		preamble.put(2, (byte) 'G');
-		preamble.put(3, (byte) 'A');
+		data.put(0, (byte) 'F');
+		data.put(1, (byte) 'P');
+		data.put(2, (byte) 'G');
+		data.put(3, (byte) 'A');
 
-		preamble.putInt(4, logic.limit());
+		data.putInt(4, logic.limit());
 
-		byteBufferToROM(preamble, DAViS_FX3.LOGIC_START_ADDRESS, DAViS_FX3.LOGIC_MAX_SIZE);
+		data.position(8); // Set position to after preamble.
+		data.put(logic); // Copy bitstream.
+		data.position(0); // Reset position to initial value.
 
-		// Write FPGA logic bitstream.
-		byteBufferToROM(logic, DAViS_FX3.LOGIC_START_ADDRESS + 8, DAViS_FX3.LOGIC_MAX_SIZE - 8);
+		// Write preamble and FPGA logic bitstream together.
+		byteBufferToROM(data, DAViS_FX3.LOGIC_START_ADDRESS, DAViS_FX3.LOGIC_MAX_SIZE);
 	}
 
 	private void byteBufferToROM(final ByteBuffer data, final int startAddress, final int maxSize) throws Exception {
@@ -266,8 +268,10 @@ public class DAViS_FX3 extends Controller {
 		}
 
 		// A Flash chip on SPI address 0 is our destination.
-		// First we need to erase the required blocks.
-		for (int i = startAddress; i < dataLength; i += 65536) {
+		usbDevice.sendVendorRequest((byte) 0xB9, (short) 0, (short) 0, null);
+
+		// First erase the required blocks on the Flash memory.
+		for (int i = startAddress; i < (startAddress + dataLength); i += 65536) {
 			usbDevice.sendVendorRequest((byte) 0xBC, (short) ((i >>> 16) & 0xFFFF), (short) (i & 0xFFFF), null);
 		}
 
