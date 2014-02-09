@@ -3,6 +3,7 @@ package net.sf.jaer.controllers;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
@@ -16,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import li.longi.libusb4java.utils.BufferUtils;
 import net.sf.jaer.Files;
 import net.sf.jaer.GUISupport;
 import net.sf.jaer.UsbDevice;
@@ -216,7 +218,14 @@ public class DAViS_FX3 extends Controller {
 		return (fx3GUI);
 	}
 
-	// private static final int MAX_TRANSFER_SIZE = 4096;
+	private static final int MAX_TRANSFER_SIZE = 4096;
+	private static final int FIRMWARE_START_ADDRESS = 0x000000;
+	private static final int FIRMWARE_MAX_SIZE = 0x030000;
+	private static final int LOGIC_START_ADDRESS = 0x030000;
+	private static final int LOGIC_MAX_SIZE = 0x090000;
+
+	// private static final int DATA_START_ADDRESS = 0x0C0000;
+	// private static final int DATA_MAX_SIZE = 0x040000;
 
 	private void firmwareToROM(final ByteBuffer fw) throws Exception {
 		// Check signature.
@@ -226,13 +235,62 @@ public class DAViS_FX3 extends Controller {
 
 		// Set third byte to 0x20, to enable 30 MHz SPI boot transfer rate.
 		fw.put(2, (byte) 0x20);
+
+		// Write FX3 firmware.
+		byteBufferToROM(fw, DAViS_FX3.FIRMWARE_START_ADDRESS, DAViS_FX3.FIRMWARE_MAX_SIZE);
 	}
 
-	private void logicToROM(final ByteBuffer fw) {
+	private void logicToROM(final ByteBuffer logic) throws Exception {
+		// Generate and write preamble first.
+		final ByteBuffer preamble = BufferUtils.allocateByteBuffer(8);
+		preamble.order(ByteOrder.LITTLE_ENDIAN);
 
+		preamble.put(0, (byte) 'F');
+		preamble.put(1, (byte) 'P');
+		preamble.put(2, (byte) 'G');
+		preamble.put(3, (byte) 'A');
+
+		preamble.putInt(4, logic.limit());
+
+		byteBufferToROM(preamble, DAViS_FX3.LOGIC_START_ADDRESS, DAViS_FX3.LOGIC_MAX_SIZE);
+
+		// Write FPGA logic bitstream.
+		byteBufferToROM(logic, DAViS_FX3.LOGIC_START_ADDRESS + 8, DAViS_FX3.LOGIC_MAX_SIZE - 8);
 	}
 
-	private void logicToRAM(final ByteBuffer fw) {
+	private void byteBufferToROM(final ByteBuffer data, final int startAddress, final int maxSize) throws Exception {
+		// Check data size.
+		int dataLength = data.limit();
+		if (dataLength > maxSize) {
+			throw new Exception("Size of data to write exceeds limits!");
+		}
 
+		// A Flash chip on SPI address 0 is our destination.
+		// First we need to erase the required blocks.
+		for (int i = startAddress; i < dataLength; i += 65536) {
+			usbDevice.sendVendorRequest((byte) 0xBC, (short) ((i >>> 16) & 0xFFFF), (short) (i & 0xFFFF), null);
+		}
+
+		// And then we send out the actual data, in 4 KB chunks.
+		int dataOffset = 0;
+
+		while (dataLength > 0) {
+			int localDataLength = DAViS_FX3.MAX_TRANSFER_SIZE;
+			if (localDataLength > dataLength) {
+				localDataLength = dataLength;
+			}
+
+			final ByteBuffer dataChunk = BufferUtils.slice(data, dataOffset, localDataLength);
+
+			usbDevice.sendVendorRequest((byte) 0xBB, (short) (((startAddress + dataOffset) >>> 16) & 0xFFFF),
+				(short) ((startAddress + dataOffset) & 0xFFFF), dataChunk);
+
+			dataLength -= localDataLength;
+			dataOffset += localDataLength;
+		}
+	}
+
+	private void logicToRAM(final ByteBuffer logic) {
+		// Configure FPGA directly (0xBE vendor request).
 	}
 }

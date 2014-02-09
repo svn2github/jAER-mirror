@@ -67,7 +67,7 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 }
 
 #define SNUM_MEMORY_ADDRESS 0x0C0000
-#define FPGA_MEMORY_ADDRESS 0x030008
+#define FPGA_MEMORY_ADDRESS 0x030000
 #define FPGA_SPI_ADDRESS 57
 
 // FPGA commands
