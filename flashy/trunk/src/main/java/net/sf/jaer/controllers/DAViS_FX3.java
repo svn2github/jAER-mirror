@@ -290,7 +290,43 @@ public class DAViS_FX3 extends Controller {
 		}
 	}
 
-	private void logicToRAM(final ByteBuffer logic) {
+	private void logicToRAM(final ByteBuffer logic) throws Exception {
 		// Configure FPGA directly (0xBE vendor request).
+		// Check data size.
+		int logicLength = logic.limit();
+		if (logicLength > DAViS_FX3.LOGIC_MAX_SIZE) {
+			throw new Exception("Size of data to send exceeds limits!");
+		}
+		if (logicLength < DAViS_FX3.MAX_TRANSFER_SIZE) {
+			throw new Exception("Size of data to send too small!");
+		}
+
+		// Initialize FPGA configuration.
+		usbDevice.sendVendorRequest((byte) 0xBE, (short) 0, (short) 0, null);
+
+		// Then send the first chunk, which also enables writing.
+		int logicOffset = 0;
+
+		ByteBuffer logicChunk = BufferUtils.slice(logic, logicOffset, DAViS_FX3.MAX_TRANSFER_SIZE);
+
+		usbDevice.sendVendorRequest((byte) 0xBE, (short) 1, (short) 0, logicChunk);
+
+		logicLength -= DAViS_FX3.MAX_TRANSFER_SIZE;
+		logicOffset += DAViS_FX3.MAX_TRANSFER_SIZE;
+
+		// And then we send out the actual data, in 4 KB chunks.
+		while (logicLength > DAViS_FX3.MAX_TRANSFER_SIZE) {
+			logicChunk = BufferUtils.slice(logic, logicOffset, DAViS_FX3.MAX_TRANSFER_SIZE);
+
+			usbDevice.sendVendorRequest((byte) 0xBE, (short) 2, (short) 0, logicChunk);
+
+			logicLength -= DAViS_FX3.MAX_TRANSFER_SIZE;
+			logicOffset += DAViS_FX3.MAX_TRANSFER_SIZE;
+		}
+
+		// Finally, we send out the last chunk of data and disable writing.
+		logicChunk = BufferUtils.slice(logic, logicOffset, logicLength);
+
+		usbDevice.sendVendorRequest((byte) 0xBE, (short) 3, (short) 0, logicChunk);
 	}
 }
