@@ -262,7 +262,7 @@ static void CyFxFIFODataInit(void) {
 
 	status = CyU3PDmaChannelCreate(&glEP2DMAChannelFX3toUSB,
 		(FX3_FIFO_DATA_PRODUCER_FX3_SOCKET == CY_U3P_CPU_SOCKET_PROD) ?
-			(CY_U3P_DMA_TYPE_MANUAL_OUT) : (CY_U3P_DMA_TYPE_MANUAL), &dmaCfg);
+		(CY_U3P_DMA_TYPE_MANUAL_OUT) : (CY_U3P_DMA_TYPE_MANUAL), &dmaCfg);
 #else
 	dmaCfg.notification = 0;
 	dmaCfg.cb = NULL;
@@ -285,7 +285,7 @@ static void CyFxFIFODataInit(void) {
 
 	status = CyU3PDmaChannelCreate(&glEP2DMAChannelUSBtoFX3,
 		(FX3_FIFO_DATA_CONSUMER_FX3_SOCKET == CY_U3P_CPU_SOCKET_CONS) ?
-			(CY_U3P_DMA_TYPE_MANUAL_IN) : (CY_U3P_DMA_TYPE_MANUAL), &dmaCfg);
+		(CY_U3P_DMA_TYPE_MANUAL_IN) : (CY_U3P_DMA_TYPE_MANUAL), &dmaCfg);
 #else
 	dmaCfg.notification = 0;
 	dmaCfg.cb = NULL;
@@ -823,7 +823,7 @@ void CyFxApplicationDefine(void) {
 	ptr = CyU3PMemAlloc(FX3_APPLICATION_THREAD_STACK);
 
 	// Create the thread for the application
-	retThrdCreate = CyU3PThreadCreate (&glApplicationThread, // Application thread structure
+	retThrdCreate = CyU3PThreadCreate(&glApplicationThread, // Application thread structure
 		(char *)"21:INI_FX3_Application",// Thread ID and name
 		&CyFxApplicationThreadEntry,// Application thread entry function
 		0,// No input parameter to thread
@@ -846,7 +846,7 @@ void CyFxApplicationDefine(void) {
 	ptr = CyU3PMemAlloc(FX3_HEARTBEAT_THREAD_STACK);
 
 	// Create the thread for the heartbeat
-	retThrdCreate = CyU3PThreadCreate (&glHeartbeatThread, // Heartbeat thread structure
+	retThrdCreate = CyU3PThreadCreate(&glHeartbeatThread, // Heartbeat thread structure
 		(char *)"22:INI_FX3_Heartbeat",// Thread ID and name
 		&CyFxHeartbeatThreadEntry,// Heartbeat thread entry function
 		0,// No input parameter to thread
