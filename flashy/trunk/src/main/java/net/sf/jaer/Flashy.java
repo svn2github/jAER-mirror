@@ -32,8 +32,8 @@ import li.longi.libusb4java.DeviceDescriptor;
 import li.longi.libusb4java.DeviceList;
 import li.longi.libusb4java.LibUsb;
 import li.longi.libusb4java.utils.BufferUtils;
-import net.sf.jaer.controllers.DAViS_FX3;
 import net.sf.jaer.controllers.Controller;
+import net.sf.jaer.controllers.DAViS_FX3;
 import net.sf.jaer.controllers.FX2;
 import net.sf.jaer.controllers.FX3;
 
@@ -265,7 +265,7 @@ public final class Flashy extends Application {
 
 								final StringBuilder res = new StringBuilder();
 								for (int i = 0; i < dataBuffer.limit(); i++) {
-									res.append(String.format("%X", dataBuffer.get() & 0xFF));
+									res.append(String.format("%X ", dataBuffer.get() & 0xFF));
 								}
 
 								resultLabel.setText(res.toString());

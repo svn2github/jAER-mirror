@@ -13,10 +13,12 @@ import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import li.longi.libusb4java.LibUsb;
 import li.longi.libusb4java.utils.BufferUtils;
 import net.sf.jaer.Files;
 import net.sf.jaer.GUISupport;
@@ -215,6 +217,8 @@ public class DAViS_FX3 extends Controller {
 				}
 			});
 
+		fx3GUI.getChildren().add(usbEPListenGUI());
+
 		return (fx3GUI);
 	}
 
@@ -233,11 +237,18 @@ public class DAViS_FX3 extends Controller {
 			throw new Exception("Illegal signature for firmware file.");
 		}
 
+		// Make a copy so we can manipulate it.
+		final ByteBuffer data = BufferUtils.allocateByteBuffer(fw.limit());
+		data.order(ByteOrder.LITTLE_ENDIAN);
+
+		data.put(fw);
+		data.position(0); // Reset position to initial value.
+
 		// Set third byte to 0x20, to enable 30 MHz SPI boot transfer rate.
-		fw.put(2, (byte) 0x20);
+		data.put(2, (byte) 0x20);
 
 		// Write FX3 firmware.
-		byteBufferToROM(fw, DAViS_FX3.FIRMWARE_START_ADDRESS, DAViS_FX3.FIRMWARE_MAX_SIZE);
+		byteBufferToROM(data, DAViS_FX3.FIRMWARE_START_ADDRESS, DAViS_FX3.FIRMWARE_MAX_SIZE);
 	}
 
 	private void logicToROM(final ByteBuffer logic) throws Exception {
@@ -332,5 +343,18 @@ public class DAViS_FX3 extends Controller {
 		logicChunk = BufferUtils.slice(logic, logicOffset, logicLength);
 
 		usbDevice.sendVendorRequest((byte) 0xBE, (short) 3, (short) 0, logicChunk);
+	}
+
+	private VBox usbEPListenGUI() {
+		final VBox usbEPListenGUI = new VBox(10);
+
+		GUISupport.addLabel(usbEPListenGUI, "USB endpoint 1 stream", "USB endpoint data.", null, null);
+
+		final TextArea usbEPOutputArea = new TextArea();
+		usbEPListenGUI.getChildren().add(usbEPOutputArea);
+
+		usbDevice.listenToEP((byte) 0x81, LibUsb.TRANSFER_TYPE_INTERRUPT, 4, 64, usbEPOutputArea);
+
+		return (usbEPListenGUI);
 	}
 }

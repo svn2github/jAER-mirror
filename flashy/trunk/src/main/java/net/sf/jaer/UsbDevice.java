@@ -2,7 +2,12 @@ package net.sf.jaer;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.nio.charset.StandardCharsets;
 
+import javafx.scene.control.TextArea;
+import li.longi.USBTransferThread.RestrictedTransfer;
+import li.longi.USBTransferThread.RestrictedTransferCallback;
+import li.longi.USBTransferThread.USBTransferThread;
 import li.longi.libusb4java.Device;
 import li.longi.libusb4java.DeviceDescriptor;
 import li.longi.libusb4java.DeviceHandle;
@@ -140,7 +145,7 @@ public class UsbDevice {
 	/**
 	 * Sends a vendor request with data (including special bits). This is a
 	 * blocking method.
-	 * 
+	 *
 	 * @param requestType
 	 *            the vendor requestType byte (used for special cases, usually
 	 *            0)
@@ -181,7 +186,7 @@ public class UsbDevice {
 	/**
 	 * Sends a vendor request to receive (IN direction) data. This is a blocking
 	 * method.
-	 * 
+	 *
 	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 * @param value
@@ -226,4 +231,46 @@ public class UsbDevice {
 		return (dataBuffer);
 	}
 
+	synchronized public void listenToEP(final byte endpoint, final byte type, final int bufNum, final int bufSize,
+		final TextArea outputArea) {
+		final USBTransferThread usbTT = new USBTransferThread(devHandle, endpoint, type,
+			new RestrictedTransferCallback() {
+				@Override
+				public void processTransfer(final RestrictedTransfer t) {
+					// If successful transfer, append its data to the output
+					// text area.
+					if (t.status() == LibUsb.TRANSFER_COMPLETED) {
+						// Print error messages.
+						if (t.buffer().get(0) == 0x00) {
+							final int errorCode = t.buffer().get(1) & 0xFF;
+
+							final int timeStamp = t.buffer().getInt(2);
+
+							final byte[] errorMsgBytes = new byte[t.buffer().limit() - 6];
+							t.buffer().position(6);
+							t.buffer().get(errorMsgBytes, 0, errorMsgBytes.length);
+							t.buffer().position(0);
+							final String errorMsg = new String(errorMsgBytes, StandardCharsets.UTF_8);
+
+							final String output = String.format("%s - Error: %d, Time: %d\n", errorMsg, errorCode,
+								timeStamp);
+
+							GUISupport.runOnJavaFXThread(new Runnable() {
+								@Override
+								public void run() {
+									outputArea.appendText(output);
+								}
+							});
+						}
+					}
+				}
+
+				@Override
+				public void prepareTransfer(@SuppressWarnings("unused") final RestrictedTransfer t) {
+					// Nothing to do here.
+				}
+			}, bufNum, bufSize);
+
+		usbTT.start();
+	}
 }
