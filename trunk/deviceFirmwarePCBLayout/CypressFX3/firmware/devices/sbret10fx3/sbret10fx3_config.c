@@ -185,21 +185,26 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					break;
 
 				case FPGA_CONFIG_PHASE_DATA_LAST:
-					// Read last bitstream chunk from USB
-					status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
-					if (status != CY_U3P_SUCCESS) {
-						CyFxSpiSSLineDeassert(0); // Ensure reset to default state on error.
-						CyFxSpiSSLineDeassert(FPGA_SPI_ADDRESS); // Ensure reset to default state on error for FPGA.
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG: CyU3PUsbGetEP0Data failed", status);
-						break;
+					// Read last bitstream chunk from USB. Might be zero if exact multiple of 4KB.
+					if (wLength != 0) {
+						status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
+						if (status != CY_U3P_SUCCESS) {
+							CyFxSpiSSLineDeassert(0); // Ensure reset to default state on error.
+							CyFxSpiSSLineDeassert(FPGA_SPI_ADDRESS); // Ensure reset to default state on error for FPGA.
+							CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG: CyU3PUsbGetEP0Data failed", status);
+							break;
+						}
+					}
+					else {
+						CyU3PUsbAckSetup();
 					}
 
 					// Turn off SPI Flash SlaveSelect line, which also turns off the HOLD pin on the FPGA
 					CyFxSpiSSLineDeassert(0);
 
 					// Write last bitstream chunk to FPGA and deassert SlaveSelect line
-					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, NULL, 0, glEP0Buffer, wLength, SPI_WRITE,
-						SPI_NO_ASSERT | SPI_DEASSERT);
+					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, NULL, 0, (wLength == 0) ? (NULL) : (glEP0Buffer), wLength,
+						SPI_WRITE, SPI_NO_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
 						// CyFxSpiCommand() takes care to deassert the SS line on failure.
 						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG: writing last data chunk failed", status);
@@ -273,8 +278,13 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void) {
 
 	if (!memcmp(serialNumberHeader, "SNUM", 4)) {
 		// Found valid Serial Number identifier!
-		uint8_t serialNumber[8];
 		uint32_t serialNumberLength = serialNumberHeader[1];
+
+		if (serialNumberLength == 0) {
+			return (status);
+		}
+
+		uint8_t serialNumber[8];
 
 		if (serialNumberLength > 8) {
 			serialNumberLength = 8; // Maximum length is 8!
@@ -322,6 +332,11 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 	if (!memcmp(fpgaBitstreamHeader, "FPGA", 4)) {
 		// Found valid FPGA bitstream identifier!
 		uint32_t fpgaBitstreamLength = fpgaBitstreamHeader[1];
+
+		if (fpgaBitstreamLength < FX3_MAX_TRANSFER_SIZE_CONTROL) {
+			return (status);
+		}
+
 		uint8_t cmd[4] = { 0 };
 
 		// Delay for 50ms according to documentation to ensure FPGA initialization.
@@ -394,14 +409,16 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 		}
 
 		// Read last bitstream chunk from SPI Flash
-		status = CyFxSpiTransfer(0, memAddress, glEP0Buffer, (uint16_t) fpgaBitstreamLength, SPI_READ);
-		if (status != CY_U3P_SUCCESS) {
-			return (status);
+		if (fpgaBitstreamLength != 0) {
+			status = CyFxSpiTransfer(0, memAddress, glEP0Buffer, (uint16_t) fpgaBitstreamLength, SPI_READ);
+			if (status != CY_U3P_SUCCESS) {
+				return (status);
+			}
 		}
 
 		// Write last bitstream chunk to FPGA and deassert SlaveSelect line
-		status = CyFxSpiCommand(FPGA_SPI_ADDRESS, NULL, 0, glEP0Buffer, (uint16_t) fpgaBitstreamLength, SPI_WRITE,
-			SPI_NO_ASSERT | SPI_DEASSERT);
+		status = CyFxSpiCommand(FPGA_SPI_ADDRESS, NULL, 0, (fpgaBitstreamLength == 0) ? (NULL) : (glEP0Buffer),
+			(uint16_t) fpgaBitstreamLength, SPI_WRITE, SPI_NO_ASSERT | SPI_DEASSERT);
 		if (status != CY_U3P_SUCCESS) {
 			return (status);
 		}

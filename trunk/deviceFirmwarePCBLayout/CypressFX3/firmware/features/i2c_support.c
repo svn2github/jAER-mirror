@@ -134,6 +134,8 @@ static CyU3PReturnStatus_t CyFxI2cTransferConfig(uint8_t deviceAddress, uint8_t 
 	return (CY_U3P_SUCCESS);
 }
 
+// 'data' must be defined, and 'dataLenght' cannot be zero! Calling this without the
+// intention of doing a transfer makes no sense.
 CyU3PReturnStatus_t CyFxI2cTransfer(uint8_t deviceAddress, uint32_t address, uint8_t *data, uint16_t dataLength,
 	CyBool_t isRead) {
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
@@ -313,6 +315,12 @@ CyBool_t CyFxHandleCustomVR_I2C(uint8_t bDirection, uint8_t bRequest, uint16_t w
 			break;
 
 		case FX3_REQ_DIR(VR_I2C_TRANSFER, FX3_USB_DIRECTION_OUT):
+			if (wLength == 0) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_I2C_TRANSFER READ: zero byte transfer invalid", status);
+				break;
+			}
+
 			status = CyFxI2cTransfer(currentI2cDeviceAddress, (((uint32_t) wValue << 16) | wIndex), glEP0Buffer,
 				wLength, I2C_READ);
 			if (status != CY_U3P_SUCCESS) {
@@ -329,6 +337,12 @@ CyBool_t CyFxHandleCustomVR_I2C(uint8_t bDirection, uint8_t bRequest, uint16_t w
 			break;
 
 		case FX3_REQ_DIR(VR_I2C_TRANSFER, FX3_USB_DIRECTION_IN):
+			if (wLength == 0) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_I2C_TRANSFER WRITE: zero byte transfer invalid", status);
+				break;
+			}
+
 			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
 			if (status != CY_U3P_SUCCESS) {
 				CyFxErrorHandler(LOG_ERROR, "VR_I2C_TRANSFER WRITE: CyU3PUsbGetEP0Data failed", status);

@@ -75,10 +75,15 @@ CyBool_t CyFxHandleCustomVR_Common(uint8_t bDirection, uint8_t bRequest, uint16_
 
 		case FX3_REQ_DIR(VR_TEST, FX3_USB_DIRECTION_IN):
 			// Get data from host
-			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
-			if (status != CY_U3P_SUCCESS) {
-				CyFxErrorHandler(LOG_ERROR, "VR_TEST: CyU3PUsbGetEP0Data failed", status);
-				break;
+			if (wLength != 0) {
+				status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
+				if (status != CY_U3P_SUCCESS) {
+					CyFxErrorHandler(LOG_ERROR, "VR_TEST: CyU3PUsbGetEP0Data failed", status);
+					break;
+				}
+			}
+			else {
+				CyU3PUsbAckSetup();
 			}
 
 			// Limit read length to MAX_TRANSFER_SIZE_STATUS

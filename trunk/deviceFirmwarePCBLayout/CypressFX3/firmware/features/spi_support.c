@@ -21,7 +21,7 @@ static uint32_t currentSpiFrequency = SPI_MAX_CLOCK;
 static uint8_t currentSpiDeviceAddress = 0; // Device 0, the default device, always exists.
 
 // Currently saved command from USB requests.
-static uint8_t currentSpiCommand[256] = { 0 };
+static uint8_t currentSpiCommand[255] = { 0 };
 static uint8_t currentSpiCommandLength = 0;
 
 static int CyFxSpiConfigComparator_SPICONFIG_DEVICESPECIFIC_TYPE(const void *a, const void *b) {
@@ -185,7 +185,7 @@ static CyU3PReturnStatus_t CyFxSpiTransferConfig(uint8_t deviceAddress, uint8_t 
 	// Check for invalid input values.
 	if ((deviceAddress >= GPIO_MAX_IDENTIFIER) || (spiIdConfigMap[deviceAddress] == NULL) || (addressLength > 4)
 		|| (pageSize > FX3_MAX_TRANSFER_SIZE_CONTROL) || ((pageSize != 0) && (pageSize & (pageSize - 1)))
-		|| (cmd == NULL)) {
+		|| ((cmdLength == 0) && (cmd != NULL)) || ((cmdLength != 0) && (cmd == NULL))) {
 		return (CY_U3P_ERROR_BAD_ARGUMENT);
 	}
 
@@ -202,7 +202,9 @@ static CyU3PReturnStatus_t CyFxSpiTransferConfig(uint8_t deviceAddress, uint8_t 
 	currentSpiDeviceAddress = deviceAddress;
 
 	// Update command to execute for subsequent USB command requests.
-	memcpy(currentSpiCommand, cmd, cmdLength);
+	if (cmd != NULL) {
+		memcpy(currentSpiCommand, cmd, cmdLength);
+	}
 	currentSpiCommandLength = cmdLength;
 
 	return (CY_U3P_SUCCESS);
@@ -242,7 +244,8 @@ CyU3PReturnStatus_t CyFxSpiCommand(uint8_t deviceAddress, const uint8_t *cmd, ui
 	}
 
 	// Check for invalid input values
-	if (((cmdLength == 0) && (cmd != NULL)) || ((dataLength == 0) && (data != NULL))
+	if (((cmdLength == 0) && (cmd != NULL)) || ((cmdLength != 0) && (cmd == NULL))
+		|| ((dataLength == 0) && (data != NULL)) || ((dataLength != 0) && (data == NULL))
 		|| ((cmd == NULL) && (data == NULL)) || ((isRead == SPI_READ) && (data == NULL))) {
 		return (CY_U3P_ERROR_BAD_ARGUMENT);
 	}
@@ -280,6 +283,8 @@ CyU3PReturnStatus_t CyFxSpiCommand(uint8_t deviceAddress, const uint8_t *cmd, ui
 	return (status);
 }
 
+// 'data' must be defined, and 'dataLenght' cannot be zero! Calling this without the
+// intention of doing a transfer makes no sense.
 CyU3PReturnStatus_t CyFxSpiTransfer(uint8_t deviceAddress, uint32_t address, uint8_t *data, uint16_t dataLength,
 	CyBool_t isRead) {
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
@@ -514,14 +519,26 @@ CyBool_t CyFxHandleCustomVR_SPI(uint8_t bDirection, uint8_t bRequest, uint16_t w
 
 	switch (FX3_REQ_DIR(bRequest, bDirection)) {
 		case FX3_REQ_DIR(VR_SPI_CONFIG, FX3_USB_DIRECTION_IN):
-			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
-			if (status != CY_U3P_SUCCESS) {
-				CyFxErrorHandler(LOG_ERROR, "VR_SPI_CONFIG: CyU3PUsbGetEP0Data failed", status);
+			// Check maximum length first.
+			if (wLength > 255) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_SPI_CONFIG: maximum command length exceeded", status);
 				break;
 			}
 
+			if (wLength != 0) {
+				status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
+				if (status != CY_U3P_SUCCESS) {
+					CyFxErrorHandler(LOG_ERROR, "VR_SPI_CONFIG: CyU3PUsbGetEP0Data failed", status);
+					break;
+				}
+			}
+			else {
+				CyU3PUsbAckSetup();
+			}
+
 			status = CyFxSpiTransferConfig((uint8_t) (wValue & 0xFF), (uint8_t) ((wValue >> 8) & 0xFF), wIndex,
-				glEP0Buffer, (uint8_t) wLength);
+				(wLength == 0) ? (NULL) : (glEP0Buffer), (uint8_t) wLength);
 			if (status != CY_U3P_SUCCESS) {
 				CyFxErrorHandler(LOG_ERROR, "VR_SPI_CONFIG: configuration error", status);
 				break;
@@ -532,30 +549,42 @@ CyBool_t CyFxHandleCustomVR_SPI(uint8_t bDirection, uint8_t bRequest, uint16_t w
 		case FX3_REQ_DIR(VR_SPI_CMD, FX3_USB_DIRECTION_OUT):
 			status = CyFxSpiCommand(currentSpiDeviceAddress,
 				((wIndex == 1) || (currentSpiCommandLength == 0)) ? (NULL) : (currentSpiCommand),
-				currentSpiCommandLength, (wLength == 0) ? (NULL) : (glEP0Buffer), wLength, SPI_READ, (uint8_t) wValue);
+				(uint8_t) ((wIndex == 1) ? (0) : (currentSpiCommandLength)), (wLength == 0) ? (NULL) : (glEP0Buffer),
+				wLength, SPI_READ, (uint8_t) wValue);
 			if (status != CY_U3P_SUCCESS) {
 				CyFxErrorHandler(LOG_ERROR, "VR_SPI_CMD READ: transfer error", status);
 				break;
 			}
 
-			status = CyU3PUsbSendEP0Data(wLength, glEP0Buffer);
-			if (status != CY_U3P_SUCCESS) {
-				CyFxErrorHandler(LOG_ERROR, "VR_SPI_CMD READ: CyU3PUsbSendEP0Data failed", status);
-				break;
+			if (wLength != 0) {
+				status = CyU3PUsbSendEP0Data(wLength, glEP0Buffer);
+				if (status != CY_U3P_SUCCESS) {
+					CyFxErrorHandler(LOG_ERROR, "VR_SPI_CMD READ: CyU3PUsbSendEP0Data failed", status);
+					break;
+				}
+			}
+			else {
+				CyU3PUsbAckSetup();
 			}
 
 			break;
 
 		case FX3_REQ_DIR(VR_SPI_CMD, FX3_USB_DIRECTION_IN):
-			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
-			if (status != CY_U3P_SUCCESS) {
-				CyFxErrorHandler(LOG_ERROR, "VR_SPI_CMD WRITE: CyU3PUsbGetEP0Data failed", status);
-				break;
+			if (wLength != 0) {
+				status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
+				if (status != CY_U3P_SUCCESS) {
+					CyFxErrorHandler(LOG_ERROR, "VR_SPI_CMD WRITE: CyU3PUsbGetEP0Data failed", status);
+					break;
+				}
+			}
+			else {
+				CyU3PUsbAckSetup();
 			}
 
 			status = CyFxSpiCommand(currentSpiDeviceAddress,
 				((wIndex == 1) || (currentSpiCommandLength == 0)) ? (NULL) : (currentSpiCommand),
-				currentSpiCommandLength, (wLength == 0) ? (NULL) : (glEP0Buffer), wLength, SPI_WRITE, (uint8_t) wValue);
+				(uint8_t) ((wIndex == 1) ? (0) : (currentSpiCommandLength)), (wLength == 0) ? (NULL) : (glEP0Buffer),
+				wLength, SPI_WRITE, (uint8_t) wValue);
 			if (status != CY_U3P_SUCCESS) {
 				CyFxErrorHandler(LOG_ERROR, "VR_SPI_CMD WRITE: transfer error", status);
 				break;
@@ -564,6 +593,12 @@ CyBool_t CyFxHandleCustomVR_SPI(uint8_t bDirection, uint8_t bRequest, uint16_t w
 			break;
 
 		case FX3_REQ_DIR(VR_SPI_TRANSFER, FX3_USB_DIRECTION_OUT):
+			if (wLength == 0) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_SPI_TRANSFER READ: zero byte transfer invalid", status);
+				break;
+			}
+
 			status = CyFxSpiTransfer(currentSpiDeviceAddress, (((uint32_t) wValue << 16) | wIndex), glEP0Buffer,
 				wLength, SPI_READ);
 			if (status != CY_U3P_SUCCESS) {
@@ -580,6 +615,12 @@ CyBool_t CyFxHandleCustomVR_SPI(uint8_t bDirection, uint8_t bRequest, uint16_t w
 			break;
 
 		case FX3_REQ_DIR(VR_SPI_TRANSFER, FX3_USB_DIRECTION_IN):
+			if (wLength == 0) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_SPI_TRANSFER WRITE: zero byte transfer invalid", status);
+				break;
+			}
+
 			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
 			if (status != CY_U3P_SUCCESS) {
 				CyFxErrorHandler(LOG_ERROR, "VR_SPI_TRANSFER WRITE: CyU3PUsbGetEP0Data failed", status);
