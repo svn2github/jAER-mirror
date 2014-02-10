@@ -361,6 +361,11 @@ CyBool_t CyFxHandleCustomVR_GPIO(uint8_t bDirection, uint8_t bRequest, uint16_t 
 	switch (FX3_REQ_DIR(bRequest, bDirection)) {
 		case FX3_REQ_DIR(VR_GPIO_GET, FX3_USB_DIRECTION_OUT): {
 			// Format: wValue: gpioId, wIndex: unused
+			if (wLength != 1) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_GPIO_GET: invalid transfer length (!= 1)", status);
+				break;
+			}
 
 			// Verify gpioId validity
 			if (wValue >= GPIO_MAX_IDENTIFIER || gpioIdTypeMap[wValue] == 0xFF) {
@@ -406,6 +411,12 @@ CyBool_t CyFxHandleCustomVR_GPIO(uint8_t bDirection, uint8_t bRequest, uint16_t 
 			// The gpioId is valid, so let's see what we have to do ...
 			switch (wIndex) {
 				case OFF:
+					if (wLength != 0) {
+						status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+						CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET OFF: no payload allowed", status);
+						break;
+					}
+
 					CyFxGpioTurnOff((uint8_t) wValue);
 
 					CyU3PUsbAckSetup();
@@ -413,6 +424,12 @@ CyBool_t CyFxHandleCustomVR_GPIO(uint8_t bDirection, uint8_t bRequest, uint16_t 
 					break;
 
 				case ON:
+					if (wLength != 0) {
+						status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+						CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET ON: no payload allowed", status);
+						break;
+					}
+
 					CyFxGpioTurnOn((uint8_t) wValue);
 
 					CyU3PUsbAckSetup();
@@ -420,6 +437,12 @@ CyBool_t CyFxHandleCustomVR_GPIO(uint8_t bDirection, uint8_t bRequest, uint16_t 
 					break;
 
 				case TOGGLE:
+					if (wLength != 0) {
+						status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+						CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET TOGGLE: no payload allowed", status);
+						break;
+					}
+
 					CyFxGpioTurnOn((uint8_t) wValue);
 					CyFxGpioTurnOff((uint8_t) wValue);
 
@@ -431,7 +454,7 @@ CyBool_t CyFxHandleCustomVR_GPIO(uint8_t bDirection, uint8_t bRequest, uint16_t 
 					// Get time from request data (first two bytes, in network order)
 					if (wLength != 2) {
 						status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-						CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET TIMED: wrong number of bytes", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET TIMED: invalid transfer length (!= 2)", status);
 						break;
 					}
 
@@ -454,7 +477,7 @@ CyBool_t CyFxHandleCustomVR_GPIO(uint8_t bDirection, uint8_t bRequest, uint16_t 
 					// Get time from request data (first two bytes, in network order)
 					if (wLength != 2) {
 						status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-						CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET RECURRING: wrong number of bytes", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET RECURRING: invalid transfer length (!= 2)", status);
 						break;
 					}
 
@@ -485,7 +508,7 @@ CyBool_t CyFxHandleCustomVR_GPIO(uint8_t bDirection, uint8_t bRequest, uint16_t 
 				default:
 					// If it's not one of the above cases, the given operation has to be invalid, return error.
 					status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-					CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET: invalid GPIO operation given", status);
+					CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET: invalid GPIO operation", status);
 
 					break;
 			}

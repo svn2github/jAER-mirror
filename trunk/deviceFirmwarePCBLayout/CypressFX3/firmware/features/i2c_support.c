@@ -304,6 +304,12 @@ CyBool_t CyFxHandleCustomVR_I2C(uint8_t bDirection, uint8_t bRequest, uint16_t w
 
 	switch (FX3_REQ_DIR(bRequest, bDirection)) {
 		case FX3_REQ_DIR(VR_I2C_CONFIG, FX3_USB_DIRECTION_IN):
+			if (wLength != 0) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_I2C_CONFIG: no payload allowed", status);
+				break;
+			}
+
 			status = CyFxI2cTransferConfig((uint8_t) (wValue & 0xFF), (uint8_t) ((wValue >> 8) & 0xFF), wIndex);
 			if (status != CY_U3P_SUCCESS) {
 				CyFxErrorHandler(LOG_ERROR, "VR_I2C_CONFIG: configuration error", status);

@@ -95,11 +95,17 @@ CyBool_t CyFxHandleCustomVR_Common(uint8_t bDirection, uint8_t bRequest, uint16_
 			glEP0Buffer[wLength] = 0x00;
 
 			// Send string back using default, already present ErrorHandler
-			CyFxErrorHandler(LOG_EMERGENCY, (const char *) glEP0Buffer, CY_U3P_SUCCESS);
+			CyFxErrorHandler(LOG_EMERGENCY, (const char *) glEP0Buffer, status);
 
 			break;
 
 		case FX3_REQ_DIR(VR_LOG_LEVEL, FX3_USB_DIRECTION_IN):
+			if (wLength != 0) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_LOG_LEVEL: no payload allowed", status);
+				break;
+			}
+
 			// Reject invalid log-levels
 			if (wValue > LOG_DEBUG) {
 				CyFxErrorHandler(LOG_ERROR, "VR_LOG_LEVEL: invalid log-level given", status);
@@ -127,14 +133,26 @@ CyBool_t CyFxHandleCustomVR_Common(uint8_t bDirection, uint8_t bRequest, uint16_
 			break;
 
 		case FX3_REQ_DIR(VR_FX3_RESET, FX3_USB_DIRECTION_IN):
+			if (wLength != 0) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_FX3_RESET: no payload allowed", status);
+				break;
+			}
+
+			CyU3PUsbAckSetup(); // Close request before resetting!
+
 			// Hard-reset the Cypress FX3 device
 			CyU3PDeviceReset(CyFalse);
-
-			CyU3PUsbAckSetup(); // Will never trigger in theory, but is good form!
 
 			break;
 
 		case FX3_REQ_DIR(VR_STATUS, FX3_USB_DIRECTION_OUT): {
+			if (wLength != 8) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_STATUS: invalid transfer length (!= 8)", status);
+				break;
+			}
+
 			// Send status back to the control endpoint (0-3: timestamp, 4: AppRunning, 5: LogLevel, 6: LogFailedAmount, 7: USB connection speed)
 			uint32_t time = CyU3PGetTime();
 			memcpy(glEP0Buffer, &time, sizeof(time));
@@ -158,6 +176,12 @@ CyBool_t CyFxHandleCustomVR_Common(uint8_t bDirection, uint8_t bRequest, uint16_
 		}
 
 		case FX3_REQ_DIR(VR_SUPPORTED, FX3_USB_DIRECTION_OUT):
+			if (wLength != 7) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_SUPPORTED: invalid transfer length (!= 7)", status);
+				break;
+			}
+
 			// Get information about compile-time support of features
 			glEP0Buffer[0] = GPIF_32BIT_SUPPORT_ENABLED;
 			glEP0Buffer[1] = I2C_SUPPORT_ENABLED;

@@ -522,7 +522,7 @@ CyBool_t CyFxHandleCustomVR_SPI(uint8_t bDirection, uint8_t bRequest, uint16_t w
 			// Check maximum length first.
 			if (wLength > 255) {
 				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-				CyFxErrorHandler(LOG_ERROR, "VR_SPI_CONFIG: maximum command length exceeded", status);
+				CyFxErrorHandler(LOG_ERROR, "VR_SPI_CONFIG: maximum command length (255) exceeded", status);
 				break;
 			}
 
@@ -637,6 +637,12 @@ CyBool_t CyFxHandleCustomVR_SPI(uint8_t bDirection, uint8_t bRequest, uint16_t w
 			break;
 
 		case FX3_REQ_DIR(VR_SPI_ERASE, FX3_USB_DIRECTION_IN):
+			if (wLength != 0) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_SPI_ERASE: no payload allowed", status);
+				break;
+			}
+
 			status = CyFxSpiEraseBlock(currentSpiDeviceAddress, (((uint32_t) wValue << 16) | wIndex));
 			if (status != CY_U3P_SUCCESS) {
 				CyFxErrorHandler(LOG_ERROR, "VR_SPI_ERASE: failed to erase block", status);
