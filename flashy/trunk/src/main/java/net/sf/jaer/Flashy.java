@@ -26,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 import li.longi.libusb4java.Device;
 import li.longi.libusb4java.DeviceDescriptor;
@@ -83,6 +84,15 @@ public final class Flashy extends Application {
 
 		primaryStage.setTitle("Firmware Flash Utility");
 		primaryStage.setScene(rootScene);
+
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(@SuppressWarnings("unused") WindowEvent evt) {
+				if (selectedUsbDevice.getValue() != null) {
+					selectedUsbDevice.getValue().close();
+				}
+			}
+		});
 
 		primaryStage.show();
 	}

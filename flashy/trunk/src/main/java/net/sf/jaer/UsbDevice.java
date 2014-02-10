@@ -66,6 +66,7 @@ public class UsbDevice {
 
 	public void close() {
 		if (devHandle != null) {
+			LibUsb.releaseInterface(devHandle, 0);
 			LibUsb.close(devHandle);
 			devHandle = null;
 		}
@@ -233,6 +234,16 @@ public class UsbDevice {
 
 	synchronized public void listenToEP(final byte endpoint, final byte type, final int bufNum, final int bufSize,
 		final TextArea outputArea) {
+		if (devHandle == null) {
+			try {
+				open();
+			}
+			catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 		final USBTransferThread usbTT = new USBTransferThread(devHandle, endpoint, type,
 			new RestrictedTransferCallback() {
 				@Override
