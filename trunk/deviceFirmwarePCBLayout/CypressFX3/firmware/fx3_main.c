@@ -52,9 +52,7 @@ void CyFxErrorHandler(uint8_t log_level, const char *debug_message, CyU3PReturnS
 #if GPIO_DEBUG_LED_ENABLED == 1
 		// Quickly blink the Debug LED twice to indicate an error has happened and a message was dispatched.
 		CyFxGpioTurnOn(GPIO_DEBUG_LED_NUMBER);
-		CyFxGpioTurnOff(GPIO_DEBUG_LED_NUMBER);
-
-		CyFxGpioTurnOn(GPIO_DEBUG_LED_NUMBER);
+		CyU3PThreadSleep(5);
 		CyFxGpioTurnOff(GPIO_DEBUG_LED_NUMBER);
 #endif
 
