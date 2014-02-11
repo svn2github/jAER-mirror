@@ -18,10 +18,14 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
@@ -67,14 +71,35 @@ public final class Flashy extends Application {
 		Application.launch(args);
 	}
 
+	private static void addToTab(TabPane tabPane, Pane content, String name) {
+		final ScrollPane p = new ScrollPane(content);
+
+		p.setFitToWidth(true);
+		p.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight());
+		// TODO: is there a better way to maximize the ScrollPane content?
+
+		final Tab t = new Tab(name);
+
+		t.setContent(p);
+		t.setClosable(false);
+
+		tabPane.getTabs().add(t);
+	}
+
 	@Override
 	public void start(final Stage primaryStage) {
 		final VBox gui = new VBox(20);
 
 		gui.getChildren().add(usbDeviceSelectGUI());
-		gui.getChildren().add(usbInfoGUI());
-		gui.getChildren().add(usbCommandGUI());
-		gui.getChildren().add(supplementalGUI);
+
+		final TabPane tabLayout = new TabPane();
+		gui.getChildren().add(tabLayout);
+
+		addToTab(tabLayout, usbInfoGUI(), "Info");
+
+		addToTab(tabLayout, usbCommandGUI(), "Vendor Requests");
+
+		addToTab(tabLayout, supplementalGUI, "Device Specific");
 
 		final BorderPane main = new BorderPane();
 		main.setCenter(gui);
