@@ -74,16 +74,15 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 #define FPGA_CMD_READ_ID 0x07
 #define FPGA_CMD_READ_STATUS 0x09
 #define FPGA_CMD_REFRESH 0x71
+#define FPGA_CMD_WRITE_INC 0x41
 #define FPGA_CMD_WRITE_EN 0x4A
 #define FPGA_CMD_WRITE_DIS 0x4F
-#define FPGA_CMD_WRITE_INC 0x41
 
 // USB FPGA configuration phases
 #define FPGA_CONFIG_PHASE_INIT 0 /* Check FPGA model, do refresh, clear memory */
 #define FPGA_CONFIG_PHASE_DATA_FIRST 1 /* Enable configuration and send first chunk */
 #define FPGA_CONFIG_PHASE_DATA 2 /* Send extra chunks */
 #define FPGA_CONFIG_PHASE_DATA_LAST 3 /* Send last chunk and disable configuration */
-#define FPGA_CONFIG_PHASE_STATUS 4 /* Check status */
 
 // Device-specific vendor requests
 #define VR_FPGA_CONFIG 0xBE
@@ -106,6 +105,16 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 						break;
 					}
 
+					// Clock in REFRESH command to reset FPGA and wait 50 ms as per documentation.
+					cmd[0] = FPGA_CMD_REFRESH;
+					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, NULL, 0, SPI_WRITE, SPI_ASSERT | SPI_DEASSERT);
+					if (status != CY_U3P_SUCCESS) {
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG INIT: failed to reset FPGA", status);
+						break;
+					}
+
+					CyU3PThreadSleep(50);
+
 					// Clock in READ ID command
 					cmd[0] = FPGA_CMD_READ_ID;
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, glEP0Buffer, 4, SPI_READ,
@@ -115,9 +124,10 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 						break;
 					}
 
-					// Verify that returned ID matches the expected one. The Lattice ECP3-17 FPGA has a JTAG IDCODE of 0x01011043.
-					// It is returned bit-inverted, so it becomes 0xC2088080 for comparison.
-					if ((*(uint32_t *) glEP0Buffer) != 0xC2088080) {
+					// Verify that returned ID matches the expected one. The Lattice ECP3-17EA FPGA has a JTAG IDCODE
+					// of 0x01010043. It is returned bit-inverted, so it becomes 0xC2008080 for comparison. Further
+					// the FX3 is a little-endian system, so we have to reverse the bytes: 0x808000C2.
+					if ((*(uint32_t *) glEP0Buffer) != 0x808000C2) {
 						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG INIT: unsupported FPGA ID", status);
 						break;
 					}
@@ -126,7 +136,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					cmd[0] = FPGA_CMD_REFRESH;
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, NULL, 0, SPI_WRITE, SPI_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG INIT: failed to reset FPGA", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG INIT: failed to refresh FPGA", status);
 						break;
 					}
 
@@ -145,7 +155,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					cmd[0] = FPGA_CMD_WRITE_EN;
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, NULL, 0, SPI_WRITE, SPI_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG FIRST: failed to enable config", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG FIRST: failed to enable writing", status);
 						break;
 					}
 
@@ -231,39 +241,32 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 						break;
 					}
 
-					// Clock in WRITE DISABLE command
-					cmd[0] = FPGA_CMD_WRITE_DIS;
-					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, NULL, 0, SPI_WRITE, SPI_ASSERT | SPI_DEASSERT);
-					if (status != CY_U3P_SUCCESS) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG LAST: failed to disable config", status);
-						break;
-					}
-
-					break;
-
-				case FPGA_CONFIG_PHASE_STATUS:
-					if (wLength != 0) {
-						status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG STATUS: no payload allowed", status);
-						break;
-					}
-
 					// Clock in READ STATUS command
 					cmd[0] = FPGA_CMD_READ_STATUS;
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, glEP0Buffer, 4, SPI_READ,
 						SPI_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG STATUS: failed to read FPGA status", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG LAST: failed to read FPGA status", status);
 						break;
 					}
 
-					// Verify status (must be DONE). The DONE bit is number 17, and again bit-reversed, so: 0x00004000.
-					if (!((*(uint32_t *) glEP0Buffer) & 0x00004000)) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG STATUS: status not DONE", status);
+					// Verify status: valid bitstream, no encryption, standard preamble, memory cleared, device
+					// not secured and DONE. That's a value of 0x00814000. We also need to first make sure only
+					// the values we're interested in are considered, not also the ones reserved by Lattice.
+					// That means applying a mask of 0xAF81C000 to the value, in FX3 little-endian: 0x00C081AF.
+					// And the status value to compare to becomse 0x00408100 in FX3 little-endian.
+					if (((*(uint32_t *) glEP0Buffer) & 0x00C081AF) != 0x00408100) {
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG LAST: status not DONE", status);
 						break;
 					}
 
-					CyU3PUsbAckSetup();
+					// Clock in WRITE DISABLE command
+					cmd[0] = FPGA_CMD_WRITE_DIS;
+					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, NULL, 0, SPI_WRITE, SPI_ASSERT | SPI_DEASSERT);
+					if (status != CY_U3P_SUCCESS) {
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG LAST: failed to disable writing", status);
+						break;
+					}
 
 					break;
 
@@ -367,7 +370,7 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 
 		uint8_t cmd[4] = { 0 };
 
-		// Delay for 50ms according to documentation to ensure FPGA initialization.
+		// Delay for 50 ms according to documentation to ensure FPGA initialization.
 		CyU3PThreadSleep(50);
 
 		// Clock in READ ID command
@@ -377,9 +380,10 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 			return (status);
 		}
 
-		// Verify that returned ID matches the expected one. The Lattice ECP3-17 FPGA has a JTAG IDCODE of 0x01011043.
-		// It is returned bit-inverted, so it becomes 0xC2088080 for comparison.
-		if ((*(uint32_t *) glEP0Buffer) != 0xC2088080) {
+		// Verify that returned ID matches the expected one. The Lattice ECP3-17EA FPGA has a JTAG IDCODE
+		// of 0x01010043. It is returned bit-inverted, so it becomes 0xC2008080 for comparison. Further
+		// the FX3 is a little-endian system, so we have to reverse the bytes: 0x808000C2.
+		if ((*(uint32_t *) glEP0Buffer) != 0x808000C2) {
 			return (CY_U3P_ERROR_NOT_SUPPORTED);
 		}
 
@@ -451,13 +455,6 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 			return (status);
 		}
 
-		// Clock in WRITE DISABLE command
-		cmd[0] = FPGA_CMD_WRITE_DIS;
-		status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, NULL, 0, SPI_WRITE, SPI_ASSERT | SPI_DEASSERT);
-		if (status != CY_U3P_SUCCESS) {
-			return (status);
-		}
-
 		// Clock in READ STATUS command
 		cmd[0] = FPGA_CMD_READ_STATUS;
 		status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, glEP0Buffer, 4, SPI_READ, SPI_ASSERT | SPI_DEASSERT);
@@ -465,9 +462,20 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 			return (status);
 		}
 
-		// Verify status (must be DONE). The DONE bit is number 17, and again bit-reversed, so: 0x00004000.
-		if (!((*(uint32_t *) glEP0Buffer) & 0x00004000)) {
+		// Verify status: valid bitstream, no encryption, standard preamble, memory cleared, device
+		// not secured and DONE. That's a value of 0x00814000. We also need to first make sure only
+		// the values we're interested in are considered, not also the ones reserved by Lattice.
+		// That means applying a mask of 0xAF81C000 to the value, in FX3 little-endian: 0x00C081AF.
+		// And the status value to compare to becomse 0x00408100 in FX3 little-endian.
+		if (((*(uint32_t *) glEP0Buffer) & 0x00C081AF) != 0x00408100) {
 			return (CY_U3P_ERROR_NOT_STARTED);
+		}
+
+		// Clock in WRITE DISABLE command
+		cmd[0] = FPGA_CMD_WRITE_DIS;
+		status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, NULL, 0, SPI_WRITE, SPI_ASSERT | SPI_DEASSERT);
+		if (status != CY_U3P_SUCCESS) {
+			return (status);
 		}
 	}
 
