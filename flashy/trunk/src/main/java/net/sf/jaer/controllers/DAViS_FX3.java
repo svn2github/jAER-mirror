@@ -215,7 +215,7 @@ public class DAViS_FX3 extends Controller {
 						return;
 					}
 
-					Task<Integer> worker = new Task<Integer>() {
+					final Task<Integer> worker = new Task<Integer>() {
 						@Override
 						protected Integer call() throws Exception {
 							try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
@@ -242,7 +242,7 @@ public class DAViS_FX3 extends Controller {
 
 					GUISupport.showDialogProgress(worker);
 
-					Thread t = new Thread(worker);
+					final Thread t = new Thread(worker);
 					t.start();
 				}
 			});

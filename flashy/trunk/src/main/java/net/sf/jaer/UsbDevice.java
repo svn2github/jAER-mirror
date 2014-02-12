@@ -282,6 +282,7 @@ public class UsbDevice {
 				}
 			}, bufNum, bufSize);
 
+		usbTT.setDaemon(true);
 		usbTT.start();
 	}
 }
