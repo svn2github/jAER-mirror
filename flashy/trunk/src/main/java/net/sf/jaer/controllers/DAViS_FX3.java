@@ -12,6 +12,7 @@ import java.util.List;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -119,6 +120,20 @@ public class DAViS_FX3 extends Controller {
 				}
 			});
 
+		GUISupport.addButtonWithMouseClickedHandler(firmwareToFlashBox, "Erase Flash", true, null,
+			new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(@SuppressWarnings("unused") final MouseEvent arg0) {
+					try {
+						eraseROM();
+					}
+					catch (final Exception e) {
+						GUISupport.showDialogException(e);
+						return;
+					}
+				}
+			});
+
 		final HBox logicToFlashBox = new HBox(10);
 		fx3GUI.getChildren().add(logicToFlashBox);
 
@@ -200,20 +215,35 @@ public class DAViS_FX3 extends Controller {
 						return;
 					}
 
-					try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
-						final FileChannel fwInChannel = fwFile.getChannel()) {
-						final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
-						buf.load();
+					Task<Integer> worker = new Task<Integer>() {
+						@Override
+						protected Integer call() throws Exception {
+							try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
+								final FileChannel fwInChannel = fwFile.getChannel()) {
+								final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
+								buf.load();
 
-						logicToRAM(buf);
+								updateProgress(10, 100);
 
-						// Cleanup ByteBuffer.
-						buf.clear();
-					}
-					catch (final Exception e) {
-						GUISupport.showDialogException(e);
-						return;
-					}
+								// Load file to RAM.
+								logicToRAM(buf);
+
+								updateProgress(95, 100);
+
+								// Cleanup ByteBuffer.
+								buf.clear();
+
+								updateProgress(100, 100);
+							}
+
+							return 0;
+						}
+					};
+
+					GUISupport.showDialogProgress(worker);
+
+					Thread t = new Thread(worker);
+					t.start();
 				}
 			});
 
@@ -343,6 +373,16 @@ public class DAViS_FX3 extends Controller {
 		logicChunk = BufferUtils.slice(logic, logicOffset, logicLength);
 
 		usbDevice.sendVendorRequest((byte) 0xBE, (short) 3, (short) 0, logicChunk);
+	}
+
+	private void eraseROM() throws Exception {
+		// A Flash chip on SPI address 0 is our destination.
+		usbDevice.sendVendorRequest((byte) 0xB9, (short) 0, (short) 0, null);
+
+		// First erase the required blocks on the Flash memory.
+		for (int i = 0; i < 0x100000; i += 65536) {
+			usbDevice.sendVendorRequest((byte) 0xBC, (short) ((i >>> 16) & 0xFFFF), (short) (i & 0xFFFF), null);
+		}
 	}
 
 	private VBox usbEPListenGUI() {

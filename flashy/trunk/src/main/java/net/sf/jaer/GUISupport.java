@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javafx.application.Platform;
+import javafx.concurrent.Worker;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -316,6 +317,10 @@ public final class GUISupport {
 
 	public static void showDialogException(final Throwable exception) {
 		Dialogs.create().lightweight().title("Exception detected").showException(exception);
+	}
+
+	public static void showDialogProgress(final Worker<?> worker) {
+		Dialogs.create().lightweight().title("Progress ...").showWorkerProgress(worker);
 	}
 
 	public static File showDialogLoadFile(final String name, final List<String> allowedExtensions) {

@@ -263,7 +263,7 @@ public class UsbDevice {
 							t.buffer().position(0);
 							final String errorMsg = new String(errorMsgBytes, StandardCharsets.UTF_8);
 
-							final String output = String.format("%s - Error: %d, Time: %d\n", errorMsg, errorCode,
+							final String output = String.format("%s - Error: %X, Time: %d\n", errorMsg, errorCode,
 								timeStamp);
 
 							GUISupport.runOnJavaFXThread(new Runnable() {
