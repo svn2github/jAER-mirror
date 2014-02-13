@@ -71,7 +71,7 @@ public final class Flashy extends Application {
 		Application.launch(args);
 	}
 
-	private static void addToTab(TabPane tabPane, Pane content, String name) {
+	private static void addToTab(final TabPane tabPane, final Pane content, final String name) {
 		final ScrollPane p = new ScrollPane(content);
 
 		p.setFitToWidth(true);
@@ -95,11 +95,11 @@ public final class Flashy extends Application {
 		final TabPane tabLayout = new TabPane();
 		gui.getChildren().add(tabLayout);
 
-		addToTab(tabLayout, usbInfoGUI(), "Info");
+		Flashy.addToTab(tabLayout, usbInfoGUI(), "Info");
 
-		addToTab(tabLayout, usbCommandGUI(), "Vendor Requests");
+		Flashy.addToTab(tabLayout, usbCommandGUI(), "Vendor Requests");
 
-		addToTab(tabLayout, supplementalGUI, "Device Specific");
+		Flashy.addToTab(tabLayout, supplementalGUI, "Device Specific");
 
 		final BorderPane main = new BorderPane();
 		main.setCenter(gui);
@@ -112,7 +112,7 @@ public final class Flashy extends Application {
 
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
-			public void handle(@SuppressWarnings("unused") WindowEvent evt) {
+			public void handle(@SuppressWarnings("unused") final WindowEvent evt) {
 				if (selectedUsbDevice.getValue() != null) {
 					selectedUsbDevice.getValue().close();
 				}
@@ -299,8 +299,12 @@ public final class Flashy extends Application {
 									vendorRequest, value, index, Integer.parseInt(dataLengthField.getText()));
 
 								final StringBuilder res = new StringBuilder();
+
 								for (int i = 0; i < dataBuffer.limit(); i++) {
-									res.append(String.format("%X ", dataBuffer.get() & 0xFF));
+									if ((i % 64) == 0) {
+										res.append("\n");
+									}
+									res.append(String.format("%02X ", dataBuffer.get() & 0xFF));
 								}
 
 								resultLabel.setText(res.toString());

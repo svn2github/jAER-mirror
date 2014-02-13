@@ -146,7 +146,7 @@ public class UsbDevice {
 	/**
 	 * Sends a vendor request with data (including special bits). This is a
 	 * blocking method.
-	 *
+	 * 
 	 * @param requestType
 	 *            the vendor requestType byte (used for special cases, usually
 	 *            0)
@@ -187,7 +187,7 @@ public class UsbDevice {
 	/**
 	 * Sends a vendor request to receive (IN direction) data. This is a blocking
 	 * method.
-	 *
+	 * 
 	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 * @param value
@@ -238,7 +238,7 @@ public class UsbDevice {
 			try {
 				open();
 			}
-			catch (Exception e) {
+			catch (final Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -263,7 +263,7 @@ public class UsbDevice {
 							t.buffer().position(0);
 							final String errorMsg = new String(errorMsgBytes, StandardCharsets.UTF_8);
 
-							final String output = String.format("%s - Error: %X, Time: %d\n", errorMsg, errorCode,
+							final String output = String.format("%s - Error: 0x%02X, Time: %d\n", errorMsg, errorCode,
 								timeStamp);
 
 							GUISupport.runOnJavaFXThread(new Runnable() {
