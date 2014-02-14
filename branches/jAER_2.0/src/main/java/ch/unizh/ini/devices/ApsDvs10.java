@@ -13,7 +13,6 @@ import net.sf.jaer2.devices.config.ConfigInt;
 import net.sf.jaer2.devices.config.ShiftRegisterContainer;
 import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.SBRet10;
-import ch.unizh.ini.eventio.translator.INIv1;
 
 public class ApsDvs10 extends USBDevice {
 	private static final long serialVersionUID = 8096780263631611483L;
@@ -73,6 +72,6 @@ public class ApsDvs10 extends USBDevice {
 
 	@Override
 	public Class<? extends Translator> getPreferredTranslator() {
-		return INIv1.class;
+		return null;
 	}
 }

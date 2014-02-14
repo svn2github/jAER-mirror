@@ -9,7 +9,6 @@ import net.sf.jaer2.devices.components.misc.memory.EEPROM_I2C;
 import net.sf.jaer2.devices.components.misc.memory.Memory;
 import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.Tmpdiff128;
-import ch.unizh.ini.eventio.translator.INIv1;
 
 public class DVS128 extends USBDevice {
 	private static final long serialVersionUID = 8948891814252920904L;
@@ -41,6 +40,6 @@ public class DVS128 extends USBDevice {
 
 	@Override
 	public Class<? extends Translator> getPreferredTranslator() {
-		return INIv1.class;
+		return null;
 	}
 }

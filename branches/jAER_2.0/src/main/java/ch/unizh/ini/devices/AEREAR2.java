@@ -19,7 +19,6 @@ import net.sf.jaer2.devices.config.pots.VPot;
 import net.sf.jaer2.eventio.translators.Translator;
 import ch.unizh.ini.devices.components.aer.CochleaAMS1c;
 import ch.unizh.ini.devices.components.misc.AD5391_32chan;
-import ch.unizh.ini.eventio.translator.INIv1;
 
 public class AEREAR2 extends USBDevice {
 	private static final long serialVersionUID = 4796720824881098486L;
@@ -123,6 +122,6 @@ public class AEREAR2 extends USBDevice {
 
 	@Override
 	public Class<? extends Translator> getPreferredTranslator() {
-		return INIv1.class;
+		return null;
 	}
 }
