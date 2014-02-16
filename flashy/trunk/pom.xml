@@ -44,18 +44,18 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.5</version>
+			<version>1.7.6</version>
 		</dependency>
 		<dependency>
 			<!-- Specifies the logging back-end (java.util.logging). -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-jdk14</artifactId>
-			<version>1.7.5</version>
+			<version>1.7.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.1</version>
+			<version>3.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.controlsfx</groupId>
@@ -63,14 +63,14 @@
 			<version>8.0.4</version>
 		</dependency>
 		<dependency>
-			<groupId>li.longi</groupId>
-			<artifactId>libusb4java</artifactId>
-			<version>1.0.17</version>
+			<groupId>org.usb4java</groupId>
+			<artifactId>usb4java</artifactId>
+			<version>1.2.0-SNAPSHOT-libusb</version>
 		</dependency>
 		<dependency>
 			<groupId>li.longi</groupId>
 			<artifactId>USBTransferThread</artifactId>
-			<version>0.8</version>
+			<version>0.8.5</version>
 		</dependency>
 	</dependencies>
 

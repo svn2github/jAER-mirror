@@ -8,12 +8,12 @@ import javafx.scene.control.TextArea;
 import li.longi.USBTransferThread.RestrictedTransfer;
 import li.longi.USBTransferThread.RestrictedTransferCallback;
 import li.longi.USBTransferThread.USBTransferThread;
-import li.longi.libusb4java.Device;
-import li.longi.libusb4java.DeviceDescriptor;
-import li.longi.libusb4java.DeviceHandle;
-import li.longi.libusb4java.LibUsb;
-import li.longi.libusb4java.utils.BufferUtils;
-import li.longi.libusb4java.utils.DescriptorUtils;
+import org.libusb4java.Device;
+import org.libusb4java.DeviceDescriptor;
+import org.libusb4java.DeviceHandle;
+import org.libusb4java.LibUsb;
+import org.libusb4java.utils.BufferUtils;
+import org.libusb4java.utils.DescriptorUtils;
 
 public class UsbDevice {
 	private final Device dev;
