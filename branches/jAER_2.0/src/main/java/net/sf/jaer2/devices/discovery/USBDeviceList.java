@@ -6,12 +6,12 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import li.longi.libusb4java.Context;
-import li.longi.libusb4java.Device;
-import li.longi.libusb4java.DeviceList;
-import li.longi.libusb4java.HotplugCallback;
-import li.longi.libusb4java.HotplugCallbackHandle;
-import li.longi.libusb4java.LibUsb;
+import org.libusb4java.Context;
+import org.libusb4java.Device;
+import org.libusb4java.DeviceList;
+import org.libusb4java.HotplugCallback;
+import org.libusb4java.HotplugCallbackHandle;
+import org.libusb4java.LibUsb;
 
 import com.google.common.collect.Lists;
 

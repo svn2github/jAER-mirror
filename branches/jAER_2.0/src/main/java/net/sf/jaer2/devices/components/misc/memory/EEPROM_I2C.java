@@ -3,7 +3,7 @@ package net.sf.jaer2.devices.components.misc.memory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import li.longi.libusb4java.utils.BufferUtils;
+import org.libusb4java.utils.BufferUtils;
 import net.sf.jaer2.devices.components.controllers.Controller.Command;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.TypedMap;

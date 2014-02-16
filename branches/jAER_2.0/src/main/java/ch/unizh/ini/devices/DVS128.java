@@ -1,6 +1,6 @@
 package ch.unizh.ini.devices;
 
-import li.longi.libusb4java.Device;
+import org.libusb4java.Device;
 import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.components.controllers.Controller;

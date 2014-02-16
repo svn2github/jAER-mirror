@@ -8,12 +8,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import javafx.collections.ListChangeListener;
-import li.longi.libusb4java.Device;
-import li.longi.libusb4java.DeviceDescriptor;
-import li.longi.libusb4java.LibUsb;
 import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.util.Reflections;
 import net.sf.jaer2.util.TripleRO;
+
+import org.libusb4java.Device;
+import org.libusb4java.DeviceDescriptor;
+import org.libusb4java.LibUsb;
 
 public class USBDiscovery {
 	private static final Map<TripleRO<Short, Short, Short>, Class<? extends USBDevice>> compatibleUSBDevices = new HashMap<>();
@@ -103,8 +104,6 @@ public class USBDiscovery {
 						final Class<? extends USBDevice> deviceClass = USBDiscovery.compatibleUSBDevices
 							.get(new TripleRO<>(devDesc.idVendor(), devDesc.idProduct(),
 								(short) (devDesc.bcdDevice() & 0xFF00)));
-
-						LibUsb.freeDeviceDescriptor(devDesc);
 
 						// Unknown device, skip.
 						if (deviceClass == null) {
