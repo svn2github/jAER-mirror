@@ -15,6 +15,7 @@ CyU3PReturnStatus_t CyFxGpioInit(void);
 void CyFxGpioEventHandlerLoop(void);
 void CyFxGpioTurnOff(uint8_t gpioId);
 void CyFxGpioTurnOn(uint8_t gpioId);
+CyBool_t CyFxGpioGet(uint8_t gpioId);
 CyBool_t CyFxHandleCustomVR_GPIO(uint8_t bDirection, uint8_t bRequest, uint16_t wValue, uint16_t wIndex,
 	uint16_t wLength);
 

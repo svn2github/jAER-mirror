@@ -354,6 +354,26 @@ void CyFxGpioTurnOn(uint8_t gpioId) {
 	}
 }
 
+CyBool_t CyFxGpioGet(uint8_t gpioId) {
+	// Verify gpioId validity
+	if (gpioId >= GPIO_MAX_IDENTIFIER || gpioIdTypeMap[gpioId] == 0xFF) {
+		return (CyFalse);
+	}
+
+	// Get current gpioId value
+	CyBool_t gpioIsHigh = CyFalse;
+
+	CyU3PGpioSimpleGetValue(gpioId, &gpioIsHigh);
+
+	// Take active-high/active-low into account for conversion (none needed for active-high!)
+	if (gpioIdTypeMap[gpioId] > 96) {
+		// Invert for active-low
+		gpioIsHigh = !gpioIsHigh;
+	}
+
+	return (gpioIsHigh);
+}
+
 CyBool_t CyFxHandleCustomVR_GPIO(uint8_t bDirection, uint8_t bRequest, uint16_t wValue, uint16_t wIndex,
 	uint16_t wLength) {
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
@@ -375,22 +395,10 @@ CyBool_t CyFxHandleCustomVR_GPIO(uint8_t bDirection, uint8_t bRequest, uint16_t 
 			}
 
 			// Get current gpioId value
-			CyBool_t gpioIsHigh = CyFalse;
-
-			status = CyU3PGpioSimpleGetValue((uint8_t) wValue, &gpioIsHigh);
-			if (status != CY_U3P_SUCCESS) {
-				CyFxErrorHandler(LOG_ERROR, "VR_GPIO_GET: CyU3PGpioSimpleGetValue failed", status);
-				break;
-			}
-
-			// Take active-high/active-low into account for conversion (none needed for active-high!)
-			if (gpioIdTypeMap[wValue] > 96) {
-				// Invert for active-low
-				gpioIsHigh = !gpioIsHigh;
-			}
+			CyBool_t gpioStatus = CyFxGpioGet((uint8_t) wValue);
 
 			// Send it back to the control endpoint
-			status = CyU3PUsbSendEP0Data(1, (uint8_t *) &gpioIsHigh);
+			status = CyU3PUsbSendEP0Data(1, (uint8_t *) &gpioStatus);
 			if (status != CY_U3P_SUCCESS) {
 				CyFxErrorHandler(LOG_ERROR, "VR_GPIO_GET: CyU3PUsbSendEP0Data failed", status);
 				break;

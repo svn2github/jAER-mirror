@@ -1,4 +1,5 @@
 #include "fx3.h"
+#include "features/gpio_support.h"
 #include "features/spi_support.h"
 
 #if SBRET10FX3 == 1
@@ -17,34 +18,52 @@ const uint8_t spiConfig_DeviceSpecific_Length = (sizeof(spiConfig_DeviceSpecific
 gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
 	{ 26, 'P' }, /* GPIO 26: Interrupt from Inertial Measurement Unit */
 	// { 27, 'O' }, /* GPIO 27: Clock for Inertial Measurement Unit */
-	{ 33, 'O' }, /* GPIO 33: Reset FPGA */
-	{ 34, 'O' }, /* GPIO 34: FXLED */
-	{ 35, 'O' }, /* GPIO 35: Px0 */
-	{ 36, 'O' }, /* GPIO 36: Px1 */
-	{ 37, 'O' }, /* GPIO 37: Px2 */
-	{ 38, 'O' }, /* GPIO 38: Px3 */
-	{ 39, 'O' }, /* GPIO 39: Px4 */
-	{ 40, 'O' }, /* GPIO 40: Px5 */
-	{ 41, 'O' }, /* GPIO 41: Px6 */
-	{ 42, 'O' }, /* GPIO 42: Px7 */
-	{ 43, 'O' }, /* GPIO 43: Px8 */
-	{ 44, 'O' }, /* GPIO 44: Px9 */
+	{ 33, 'o' }, /* GPIO 33: FPGA_Reset (active-low) */
+	{ 34, 'O' }, /* GPIO 34: FX3_LED */
+	{ 35, 'o' }, /* GPIO 35: DVS_Reset (active-low) */
+	{ 36, 'O' }, /* GPIO 36: FPGA_Run */
+	{ 37, 'O' }, /* GPIO 37: ADC_Run */
+	{ 38, 'O' }, /* GPIO 38: PowerDown */
+	{ 39, 'O' }, /* GPIO 39: FPGA_ShiftReg_Clock */
+	{ 40, 'O' }, /* GPIO 40: FPGA_ShiftReg_Latch (maybe ??? active-low) */
+	{ 41, 'O' }, /* GPIO 41: FPGA_ShiftReg_Bit */
+	{ 42, 'O' }, /* GPIO 42: Timestamp_Reset */
+	{ 43, 'O' }, /* GPIO 43: Timestamp_Master */
+	{ 44, 'O' }, /* GPIO 44: Bias_Diag_Select */
 	// { 45, 'O' }, /* GPIO 45: Spare1 */
 	// { 46, 'O' }, /* GPIO 46: Spare2 */
 	// { 47, 'O' }, /* GPIO 47: Spare3 */
 	// { 48, 'O' }, /* GPIO 48: Spare4 */
-	{ 49, 'O' }, /* GPIO 49: biasAddrSelect */
-	{ 50, 'O' }, /* GPIO 50: Clock_Bias */
-	{ 51, 'O' }, /* GPIO 51: Latch_Bias */
-	{ 52, 'O' }, /* GPIO 52: BitIn_Bias */
+	{ 49, 'o' }, /* GPIO 49: Bias_Addr_Select (active-low) */
+	{ 50, 'O' }, /* GPIO 50: Bias_Clock */
+	{ 51, 'o' }, /* GPIO 51: Bias_Latch (active-low) */
+	{ 52, 'O' }, /* GPIO 52: Bias_Bit */
 };
 const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecific) / sizeof(gpioConfig_DeviceSpecific[0]));
+
+// Define GPIO to function mappings.
+#define FPGA_RESET 33
+#define DVS_RESET 35
+#define FPGA_RUN 36
+#define ADC_RUN 37
+#define POWER_DOWN 38
+#define FPGA_SHIFTREG_CLOCK 39
+#define FPGA_SHIFTREG_LATCH 40
+#define FPGA_SHIFTREG_BIT 41
+#define TIMESTAMP_RESET 42
+#define TIMESTAMP_MASTER 43
+#define BIAS_DIAG_SELECT 44
+#define BIAS_ADDR_SELECT 49
+#define BIAS_CLOCK 50
+#define BIAS_LATCH 51
+#define BIAS_BIT 52
 
 void CyFxHandleCustomGPIO_DeviceSpecific(uint8_t gpioId) {
 	CyFxErrorHandler(LOG_DEBUG, "GPIO was toggled.", gpioId);
 }
 
 extern uint8_t CyFxUSBSerialNumberDscr[];
+static inline void CyFxWriteByteToShiftReg(uint8_t byte, uint8_t clockID, uint8_t bitID);
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void);
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void);
 
@@ -62,6 +81,29 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
+
+	// Put FPGA in reset.
+	CyFxGpioTurnOn(FPGA_RESET);
+
+	// Set Bias Clock high.
+	CyFxGpioTurnOn(BIAS_CLOCK);
+
+	// Tie biases to rail. ???
+	CyFxGpioTurnOn(POWER_DOWN);
+
+	// Initialize biases. ???
+	CyFxGpioTurnOn(BIAS_CLOCK);
+	CyFxGpioTurnOff(BIAS_BIT);
+	CyFxGpioTurnOn(BIAS_LATCH);
+
+	// Keep pixels from spiking, reset all of them. ??? This is never taken away, only in the host?
+	CyFxGpioTurnOn(DVS_RESET);
+
+	// Take FPGA out of reset. Why here ???
+	CyFxGpioTurnOff(FPGA_RESET);
+
+	// Make this device a Timestamp Master by default.
+	CyFxGpioTurnOn(TIMESTAMP_MASTER);
 
 	return (status);
 }
@@ -86,6 +128,10 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 
 // Device-specific vendor requests
 #define VR_FPGA_CONFIG 0xBE
+#define VR_DATA_ENABLE 0xBF
+#define VR_CHIP_BIAS 0xC0
+#define VR_CHIP_DIAG 0xC1
+#define VR_FPGA_SREG 0xC2
 
 CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest, uint16_t wValue, uint16_t wIndex,
 	uint16_t wLength) {
@@ -280,6 +326,140 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			break;
 		}
 
+		case FX3_REQ_DIR(VR_DATA_ENABLE, FX3_USB_DIRECTION_IN):
+			if (wValue == 0) {
+				// Disable data output.
+				CyFxGpioTurnOff(FPGA_RUN);
+
+				// Reset fifos. ???
+			}
+			else {
+				// Enable data output.
+				CyFxGpioTurnOn(FPGA_RUN);
+
+				// Reset timestamps (toggle pin).
+				CyFxGpioTurnOn(TIMESTAMP_RESET);
+				CyFxGpioTurnOff(TIMESTAMP_RESET);
+
+				// Release power down bit. ???
+				CyFxGpioTurnOff(POWER_DOWN);
+			}
+
+			break;
+
+		case FX3_REQ_DIR(VR_CHIP_BIAS, FX3_USB_DIRECTION_IN):
+			if (wLength == 0) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_BIAS: zero byte transfer invalid", status);
+				break;
+			}
+
+			// Get data from USB control endpoint.
+			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
+			if (status != CY_U3P_SUCCESS) {
+				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_BIAS: CyU3PUsbGetEP0Data failed", status);
+				break;
+			}
+
+			// Ensure we're not accessing the chip diagnostic shift register.
+			CyFxGpioTurnOff(BIAS_DIAG_SELECT);
+
+			// Select addressed bias mode.
+			CyFxGpioTurnOn(BIAS_ADDR_SELECT);
+
+			// Write a byte, containing the bias address (from wValue).
+			CyFxWriteByteToShiftReg((uint8_t) wValue, BIAS_CLOCK, BIAS_BIT);
+
+			// Latch bias.
+			CyFxGpioTurnOn(BIAS_LATCH);
+			CyU3PThreadSleep(1); // Wait for ???
+			CyFxGpioTurnOff(BIAS_LATCH);
+
+			// Release address selection.
+			CyFxGpioTurnOff(BIAS_ADDR_SELECT);
+
+			// Write out all the data bytes for this bias.
+			for (size_t i = 0; i < wLength; i++) {
+				CyFxWriteByteToShiftReg(glEP0Buffer[i], BIAS_CLOCK, BIAS_BIT);
+			}
+
+			// Latch bias.
+			CyFxGpioTurnOn(BIAS_LATCH);
+			CyU3PThreadSleep(1); // Wait for ???
+			CyFxGpioTurnOff(BIAS_LATCH);
+
+			break;
+
+		case FX3_REQ_DIR(VR_CHIP_DIAG, FX3_USB_DIRECTION_IN):
+			if (wLength == 0) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_DIAG: zero byte transfer invalid", status);
+				break;
+			}
+
+			// Get data from USB control endpoint.
+			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
+			if (status != CY_U3P_SUCCESS) {
+				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_DIAG: CyU3PUsbGetEP0Data failed", status);
+				break;
+			}
+
+			// Ensure we are accessing the chip diagnostic shift register.
+			CyFxGpioTurnOn(BIAS_DIAG_SELECT);
+
+			// Write out all configuration bytes to the shift register.
+			for (size_t i = 0; i < wLength; i++) {
+				CyFxWriteByteToShiftReg(glEP0Buffer[i], BIAS_CLOCK, BIAS_BIT);
+			}
+
+			// Latch configuration.
+			CyFxGpioTurnOn(BIAS_LATCH);
+			CyU3PThreadSleep(5); // Wait for ??? Longer ???
+			CyFxGpioTurnOff(BIAS_LATCH);
+
+			// We're done and can deselect the chip diagnostic SR.
+			CyFxGpioTurnOff(BIAS_DIAG_SELECT);
+
+			break;
+
+		case FX3_REQ_DIR(VR_FPGA_SREG, FX3_USB_DIRECTION_IN): {
+			if (wLength == 0) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_SREG: zero byte transfer invalid", status);
+				break;
+			}
+
+			// Get data from USB control endpoint.
+			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
+			if (status != CY_U3P_SUCCESS) {
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_SREG: CyU3PUsbGetEP0Data failed", status);
+				break;
+			}
+
+			// Get the current status of the ADC pin.
+			CyBool_t adcStatus = CyFxGpioGet(ADC_RUN);
+
+			// Disable the ADC.
+			CyFxGpioTurnOff(ADC_RUN);
+
+			// Write out all configuration bytes to the FPGA shift register.
+			for (size_t i = 0; i < wLength; i++) {
+				CyFxWriteByteToShiftReg(glEP0Buffer[i], FPGA_SHIFTREG_CLOCK, FPGA_SHIFTREG_BIT);
+			}
+
+			// Latch FPGA configuration.
+			CyFxGpioTurnOn(FPGA_SHIFTREG_LATCH);
+			CyFxGpioTurnOff(FPGA_SHIFTREG_LATCH);
+
+			// Re-enable the ADC if it was running before.
+			if (adcStatus) {
+				// Enable the ADC.
+				CyFxGpioTurnOn(ADC_RUN);
+			}
+
+			break;
+		}
+
 		default:
 			// Not handled in this module
 			return (CyFalse);
@@ -295,6 +475,30 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 	// In any case, we handled the request!
 	return (CyTrue);
+}
+
+static inline void CyFxWriteByteToShiftReg(uint8_t byte, uint8_t clockID, uint8_t bitID) {
+	// Disable clock.
+	CyFxGpioTurnOff(clockID);
+
+	// Step through the eight bits of the given byte, starting at the highest
+	// (MSB) and going down to the lowest (LSB).
+	for (size_t i = 0; i < 8; i++) {
+		// Set the current bit value, based on the highest bit.
+		if (byte & 0x80) {
+			CyFxGpioTurnOn(bitID);
+		}
+		else {
+			CyFxGpioTurnOff(bitID);
+		}
+
+		// Pulse clock to signal value is ready to be read.
+		CyFxGpioTurnOn(clockID);
+		CyFxGpioTurnOff(clockID);
+
+		// Shift left by one, making the second highest bit the highest.
+		byte = (uint8_t) (byte << 1);
+	}
 }
 
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void) {
