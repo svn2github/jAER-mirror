@@ -85,21 +85,13 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 	// Put FPGA in reset.
 	CyFxGpioTurnOn(FPGA_RESET);
 
-	// Set Bias Clock high.
-	CyFxGpioTurnOn(BIAS_CLOCK);
-
-	// Tie biases to rail. ???
+	// Shut off biasgen, and thus the whole chip.
 	CyFxGpioTurnOn(POWER_DOWN);
 
-	// Initialize biases. ???
-	CyFxGpioTurnOn(BIAS_CLOCK);
-	CyFxGpioTurnOff(BIAS_BIT);
-	CyFxGpioTurnOn(BIAS_LATCH);
-
-	// Keep pixels from spiking, reset all of them. ??? This is never taken away, only in the host?
+	// Keep pixels from spiking, reset all of them.
 	CyFxGpioTurnOn(DVS_RESET);
 
-	// Take FPGA out of reset. Why here ???
+	// Take FPGA out of reset, so it can be configured.
 	CyFxGpioTurnOff(FPGA_RESET);
 
 	// Make this device a Timestamp Master by default.
@@ -337,6 +329,12 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 				// Disable data output.
 				CyFxGpioTurnOff(FPGA_RUN);
 
+				// Shut off biasgen, and thus the whole chip.
+				CyFxGpioTurnOn(POWER_DOWN);
+
+				// Keep pixels from spiking, reset all of them.
+				CyFxGpioTurnOn(DVS_RESET);
+
 				// Reset fifos. ???
 			}
 			else {
@@ -347,8 +345,11 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 				CyFxGpioTurnOn(TIMESTAMP_RESET);
 				CyFxGpioTurnOff(TIMESTAMP_RESET);
 
-				// Release power down bit. ???
+				// Release power down (power to chip biasgen).
 				CyFxGpioTurnOff(POWER_DOWN);
+
+				// Don't keep pixels in reset.
+				CyFxGpioTurnOff(DVS_RESET);
 			}
 
 			CyU3PUsbAckSetup();
@@ -380,7 +381,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 			// Latch bias.
 			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PThreadSleep(1); // Wait for ???
+			CyU3PThreadSleep(1); // Wait for 1 ms
 			CyFxGpioTurnOff(BIAS_LATCH);
 
 			// Release address selection.
@@ -393,7 +394,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 			// Latch bias.
 			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PThreadSleep(1); // Wait for ???
+			CyU3PThreadSleep(1); // Wait for 1 ms
 			CyFxGpioTurnOff(BIAS_LATCH);
 
 			break;
@@ -422,7 +423,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 			// Latch configuration.
 			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PThreadSleep(5); // Wait for ??? Longer ???
+			CyU3PThreadSleep(2); // Wait for 2 ms
 			CyFxGpioTurnOff(BIAS_LATCH);
 
 			// We're done and can deselect the chip diagnostic SR.
