@@ -20,16 +20,16 @@ gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
 	// { 27, 'O' }, /* GPIO 27: Clock for Inertial Measurement Unit */
 	{ 33, 'o' }, /* GPIO 33: FPGA_Reset (active-low) */
 	{ 34, 'O' }, /* GPIO 34: FX3_LED */
-	{ 35, 'o' }, /* GPIO 35: DVS_Reset (active-low) */
-	{ 36, 'O' }, /* GPIO 36: FPGA_Run */
-	{ 37, 'O' }, /* GPIO 37: ADC_Run */
-	{ 38, 'O' }, /* GPIO 38: PowerDown */
-	{ 39, 'O' }, /* GPIO 39: FPGA_ShiftReg_Clock */
-	{ 40, 'O' }, /* GPIO 40: FPGA_ShiftReg_Latch (maybe ??? active-low) */
-	{ 41, 'O' }, /* GPIO 41: FPGA_ShiftReg_Bit */
-	{ 42, 'O' }, /* GPIO 42: Timestamp_Reset */
-	{ 43, 'O' }, /* GPIO 43: Timestamp_Master */
-	{ 44, 'O' }, /* GPIO 44: Bias_Diag_Select */
+	{ 35, 'o' }, /* GPIO 35 (Px0): DVS_Reset (active-low) */
+	{ 36, 'O' }, /* GPIO 36 (Px1): FPGA_Run */
+	{ 37, 'O' }, /* GPIO 37 (Px2): ADC_Run */
+	{ 38, 'O' }, /* GPIO 38 (Px3): PowerDown */
+	{ 39, 'O' }, /* GPIO 39 (Px4): FPGA_ShiftReg_Clock */
+	{ 40, 'o' }, /* GPIO 40 (Px5): FPGA_ShiftReg_Latch (active-low) */
+	{ 41, 'O' }, /* GPIO 41 (Px6): FPGA_ShiftReg_Bit */
+	{ 42, 'O' }, /* GPIO 42 (Px7): Timestamp_Reset */
+	{ 43, 'O' }, /* GPIO 43 (Px8): Timestamp_Master */
+	{ 44, 'O' }, /* GPIO 44 (Px9): Bias_Diag_Select */
 	// { 45, 'O' }, /* GPIO 45: Spare1 */
 	// { 46, 'O' }, /* GPIO 46: Spare2 */
 	// { 47, 'O' }, /* GPIO 47: Spare3 */
@@ -327,6 +327,12 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 		}
 
 		case FX3_REQ_DIR(VR_DATA_ENABLE, FX3_USB_DIRECTION_IN):
+			if (wLength != 0) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_DATA_ENABLE: no payload allowed", status);
+				break;
+			}
+
 			if (wValue == 0) {
 				// Disable data output.
 				CyFxGpioTurnOff(FPGA_RUN);
@@ -344,6 +350,8 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 				// Release power down bit. ???
 				CyFxGpioTurnOff(POWER_DOWN);
 			}
+
+			CyU3PUsbAckSetup();
 
 			break;
 
