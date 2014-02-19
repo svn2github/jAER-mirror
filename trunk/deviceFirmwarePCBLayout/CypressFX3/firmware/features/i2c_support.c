@@ -283,9 +283,6 @@ CyU3PReturnStatus_t CyFxI2cTransfer(uint8_t deviceAddress, uint32_t address, uin
 			preamble.length = (uint8_t) (i2cIdConfigMap[deviceAddress]->addressLength + 1); // Reset to original value for writes
 		}
 
-		// An additional delay seems to be required, after receiving an ACK
-		CyU3PThreadSleep(1); // TODO: test this!
-
 		// Update the counters
 		address += commandDataLength;
 		data += commandDataLength;

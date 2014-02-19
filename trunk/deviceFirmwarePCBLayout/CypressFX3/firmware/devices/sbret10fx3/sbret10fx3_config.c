@@ -381,7 +381,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 			// Latch bias.
 			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PThreadSleep(1); // Wait for 1 ms
+			CyU3PBusyWait(2); // Wait for ~2 us
 			CyFxGpioTurnOff(BIAS_LATCH);
 
 			// Release address selection.
@@ -394,7 +394,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 			// Latch bias.
 			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PThreadSleep(1); // Wait for 1 ms
+			CyU3PBusyWait(2); // Wait for ~2 us
 			CyFxGpioTurnOff(BIAS_LATCH);
 
 			break;
@@ -423,7 +423,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 			// Latch configuration.
 			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PThreadSleep(2); // Wait for 2 ms
+			CyU3PBusyWait(10); // Wait for ~10 us
 			CyFxGpioTurnOff(BIAS_LATCH);
 
 			// We're done and can deselect the chip diagnostic SR.

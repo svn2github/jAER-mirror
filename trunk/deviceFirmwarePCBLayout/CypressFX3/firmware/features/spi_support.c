@@ -417,9 +417,6 @@ CyU3PReturnStatus_t CyFxSpiTransfer(uint8_t deviceAddress, uint32_t address, uin
 			while (buf & 0x01); // Wait until BUSY bit is false.
 		}
 
-		// An additional delay seems to be required
-		CyU3PThreadSleep(10); // TODO: test this!
-
 		// Update the counters
 		address += commandDataLength;
 		data += commandDataLength;
