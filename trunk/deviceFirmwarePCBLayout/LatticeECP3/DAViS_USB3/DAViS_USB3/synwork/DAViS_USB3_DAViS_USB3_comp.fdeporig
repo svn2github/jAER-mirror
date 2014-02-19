@@ -1,0 +1,108 @@
+%%% protect protected_file
+#defaultlanguage:vhdl
+#OPTIONS:"|-top|EventBeforeOverflow|-prodtype|synplify_pro|-dspmac|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ll|2000|-ui|-fid2|-ram|-sharing|on|-autosm|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work"
+#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\bin64\\c_vhdl.exe":1372666570
+#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\location.map":1369998690
+#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\std.vhd":1372666236
+#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1372666236
+#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\std1164.vhd":1372666236
+#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\numeric.vhd":1372666236
+#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\umr_capim.vhd":1372666460
+#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\arith.vhd":1372666236
+#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\unsigned.vhd":1372666236
+#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\cae_library\\synthesis\\vhdl\\ecp3.vhd":1376992926
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\synchronizerStateMachine.vhd":1389371778
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\cDVSResetStateMachine.vhd":1382950373
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\earlyPaketTimer.vhd":1382950372
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\eventCounter.vhd":1382950373
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\fifoStatemachine.vhd":1382950373
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\monitorStateMachine.vhd":1382950372
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\timestampCounter.vhd":1382950372
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\EventBeforeOverflow.vhd":1382950374
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\ADCvalueReady.vhd":1382950372
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\shiftRegister.vhd":1382950373
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\wordRegister.vhd":1382950373
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\AERfifo.vhd":1382950372
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\clockgen.vhd":1382950373
+#CUR:"C:\\INIlabs\\VHDL\\DAViS_USB3\\DAViS_USB3\\source\\USBAER_top_level.vhd":1392733716
+0 "C:\Lattice\Diamond3\diamond\3.0_x64\cae_library\synthesis\vhdl\ecp3.vhd" vhdl
+1 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd" vhdl
+2 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\cDVSResetStateMachine.vhd" vhdl
+3 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\earlyPaketTimer.vhd" vhdl
+4 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\eventCounter.vhd" vhdl
+5 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\fifoStatemachine.vhd" vhdl
+6 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\monitorStateMachine.vhd" vhdl
+7 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\timestampCounter.vhd" vhdl
+8 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd" vhdl
+9 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\ADCvalueReady.vhd" vhdl
+10 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\shiftRegister.vhd" vhdl
+11 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\wordRegister.vhd" vhdl
+12 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\AERfifo.vhd" vhdl
+13 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\clockgen.vhd" vhdl
+14 "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd" vhdl
+
+# Dependency Lists (Uses list)
+0 -1
+1 -1
+2 -1
+3 -1
+4 -1
+5 -1
+6 -1
+7 -1
+8 -1
+9 -1
+10 -1
+11 -1
+12 0 
+13 0 
+14 13 10 12 11 3 4 7 1 5 6 9 2 
+
+# Dependency Lists (Users Of)
+0 13 12 
+1 14 
+2 14 
+3 14 
+4 14 
+5 14 
+6 14 
+7 14 
+8 -1
+9 14 
+10 14 
+11 14 
+12 14 
+13 14 
+14 -1
+
+# Design Unit to File Association
+arch work synchronizerstatemachine behavioral 1
+module work synchronizerstatemachine 1
+arch work cdvsresetstatemachine behavioral 2
+module work cdvsresetstatemachine 2
+arch work earlypakettimer behavioral 3
+module work earlypakettimer 3
+arch work eventcounter behavioral 4
+module work eventcounter 4
+arch work fifostatemachine behavioral 5
+module work fifostatemachine 5
+arch work monitorstatemachine behavioral 6
+module work monitorstatemachine 6
+arch work timestampcounter behavioral 7
+module work timestampcounter 7
+arch work eventbeforeoverflow behavioral 8
+module work eventbeforeoverflow 8
+arch work adcvalueready behavioral 9
+module work adcvalueready 9
+arch work shiftregister behavioral 10
+module work shiftregister 10
+arch work wordregister behavioral 11
+module work wordregister 11
+config work structure_con 12
+arch work aerfifo structure 12
+module work aerfifo 12
+config work structure_con 13
+arch work clockgen structure 13
+module work clockgen 13
+arch work usbaer_top_level structural 14
+module work usbaer_top_level 14

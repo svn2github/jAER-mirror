@@ -1,0 +1,19 @@
+----------------------------------------------------------------------
+Report for cell EventBeforeOverflow.behavioral
+
+Register bits: 2 of 17280 (0%)
+PIC Latch:       0
+I/O cells:       5
+                                          Cell usage:
+                               cell       count    Res Usage(%)
+                            FD1S3DX        2       100.0
+                                GSR        1       100.0
+                                 IB        4       100.0
+                                INV        1       100.0
+                                 OB        1       100.0
+                           ORCALUT4        2       100.0
+                                PUR        1       100.0
+                                VHI        1       100.0
+                                VLO        1       100.0
+                            
+                         TOTAL            14           

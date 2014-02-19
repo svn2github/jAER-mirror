@@ -1,0 +1,11 @@
+C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\bin64\m_gen_lattice.exe  -prodtype synplify_pro -encrypt  -pro  -rundir  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3  -part LFE3_17EA  -package FTN256I  -grade -7   -maxfan 1000    -pipe -forcenogsr -fixgatedclocks 1 -fixgeneratedclocks 1 -RWCheckOnRam 1  -use_rename_in_edif 1     -summaryfile C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synlog\report\DAViS_USB3_DAViS_USB3_fpga_mapper.xml -top_level_module  EventBeforeOverflow  -flow mapping  -oedif  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.edi  -autoconstraint  -freq 1.000  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_prem.srd  -devicelib  C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\lib\lucent\ecp3.v  -devicelib  C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\lib\lucent\pmi_def.v  -ologparam  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\syntmp\DAViS_USB3_DAViS_USB3.plg  -osyn  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srm  -prjdir  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\  -prjname  proj_1  -log  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synlog\DAViS_USB3_DAViS_USB3_fpga_mapper.srr 
+rc:1 success:1
+C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.edi|o|1392733733|6925
+C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_prem.srd|i|1392733733|2749
+C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\lib\lucent\ecp3.v|i|1377090762|113596
+C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\lib\lucent\pmi_def.v|i|1372668026|40586
+C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\syntmp\DAViS_USB3_DAViS_USB3.plg|o|1392733734|816
+C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srm|o|1392733733|5724
+C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synlog\DAViS_USB3_DAViS_USB3_fpga_mapper.srr|o|1392733734|17045
+C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\bin64\m_gen_lattice.exe|i|1372929042|23386624
+C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\bin\m_gen_lattice.exe|i|1372926914|20041216

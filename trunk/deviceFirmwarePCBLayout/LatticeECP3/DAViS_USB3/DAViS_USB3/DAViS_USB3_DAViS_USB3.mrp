@@ -1,0 +1,1485 @@
+     Lattice Mapping Report File for Design Module 'EventBeforeOverflow'
+
+Design Information
+------------------
+
+Command line:   map -a LatticeECP3 -p LFE3-17EA -t FTBGA256 -s 7 -oc Industrial
+     DAViS_USB3_DAViS_USB3.ngd -o DAViS_USB3_DAViS_USB3_map.ncd -pr
+     DAViS_USB3_DAViS_USB3.prf -mp DAViS_USB3_DAViS_USB3.mrp
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf -gui
+Target Vendor:  LATTICE
+Target Device:  LFE3-17EAFTBGA256
+Target Performance:   7
+Mapper:  ep5c00,  version:  Diamond (64-bit) 3.0.0.97
+Mapped on:  02/18/14  18:06:22
+
+Design Summary
+--------------
+
+   Number of registers:    2
+      PFU registers:    2
+      PIO registers:    0
+   Number of SLICEs:             1 out of  8640 (0%)
+      SLICEs(logic/ROM):         1 out of  6948 (0%)
+      SLICEs(logic/ROM/RAM):     0 out of  1692 (0%)
+          As RAM:            0 out of  1692 (0%)
+          As Logic/ROM:      0 out of  1692 (0%)
+   Number of logic LUT4s:       2
+   Number of distributed RAM:   0 (0 LUT4s)
+   Number of ripple logic:      0 (0 LUT4s)
+   Number of shift registers:   0
+   Total number of LUT4s:       2
+   Number of PIO sites used: 5 out of 133 (4%)
+   Number of PIO FIXEDDELAY:    0
+   Number of PCS (SerDes):  0 out of 1 (0%) with bonded PIO sites
+   Number of DQSDLLs:  0 out of 2 (0%)
+   Number of PLLs:  0 out of 2 (0%)
+   Number of DLLs:  0 out of 2 (0%)
+   Number of block RAMs:  0 out of 38 (0%)
+   Number of CLKDIVs:  0 out of 2 (0%)
+   Number of GSRs:  1 out of 1 (100%)
+   JTAG used :      No
+   Readback used :  No
+   Oscillator used :  No
+   Startup used :   No
+   Notes:-
+      1. Total number of LUT4s = (Number of logic LUT4s) + 2*(Number of
+     distributed RAMs) + 2*(Number of ripple logic)
+      2. Number of logic LUT4s does not include count of distributed RAM and
+     ripple logic.
+
+   Number Of Mapped DSP Components:
+   --------------------------------
+   MULT18X18C          0
+   MULT9X9C            0
+   ALU54A              0
+   ALU24A              0
+   --------------------------------
+   Number of Used DSP MULT Sites:  0 out of 48 (0 %)
+   Number of Used DSP ALU Sites:  0 out of 24 (0 %)
+   Number of clocks:  1
+     Net ClockxCI_c: 1 loads, 1 rising, 0 falling (Driver: PIO ClockxCI )
+
+                                    Page 1
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Summary (cont)
+---------------------
+   Number of Clock Enables:  0
+   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  2
+   Number of LSRs:  0
+   Number of nets driven by tri-state buffers:  0
+   Top 10 highest fanout non-clock nets:
+     Net StatexDP[1]: 3 loads
+     Net EventxDI_c: 2 loads
+     Net OverflowxDI_c: 2 loads
+     Net StatexDP[0]: 2 loads
+     Net N_25_i: 1 loads
+     Net N_7: 1 loads
+     Net ResetxRBI_c: 1 loads
+
+
+
+
+   Number of warnings:  248
+   Number of errors:    0
+
+Design Errors/Warnings
+----------------------
+
+WARNING - map: C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(3):
+     Semantic error in "FREQUENCY NET "ClockxC_c" 90.000000 MHz ;": ClockxC_c
+     matches no clock nets in the design.  Disable this preference.
+WARNING - map: C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(4):
+     Semantic error in "USE PRIMARY NET "IfClockxCI_c" ;": IfClockxCI_c matches
+     no nets in the design. Disable this preference.
+WARNING - map: C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(5):
+     Semantic error in "USE PRIMARY NET "ClockxC_c" ;": ClockxC_c matches no
+     nets in the design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(24): Semantic
+     error in "DEFINE PORT GROUP "FX3FifoData" "FX3FifoDataxDIO_15"
+     "FX3FifoDataxDIO_14" 
+"FX3FifoDataxDIO_13" 
+"FX3FifoDataxDIO_12"
+     "FX3FifoDataxDIO_11" 
+"FX3FifoDataxDIO_10" 
+"FX3FifoDataxDIO_9"
+     "FX3FifoDataxDIO_8" 
+"FX3FifoDataxDIO_7" 
+"FX3FifoDataxDIO_6"
+     "FX3FifoDataxDIO_5" 
+"FX3FifoDataxDIO_4" 
+"FX3FifoDataxDIO_3"
+     "FX3FifoDataxDIO_2" 
+"FX3FifoDataxDIO_1" 
+"FX3FifoDataxDIO_0" ;":
+     "FX3FifoDataxDIO_15" matches no ports in the design. "FX3FifoDataxDIO_14"
+     matches no ports in the design. "FX3FifoDataxDIO_13" matches no ports in
+     the design. "FX3FifoDataxDIO_12" matches no ports in the design.
+     "FX3FifoDataxDIO_11" matches no ports in the design. "FX3FifoDataxDIO_10"
+     matches no ports in the design. "FX3Fif   ....    design.
+     "FX3FifoDataxDIO_2" matches no ports in the design. "FX3FifoDataxDIO_1"
+     matches no ports in the design. "FX3FifoDataxDIO_0" matches no ports in the
+     design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(45): Semantic
+     error in "DEFINE PORT GROUP "TNxfifox" "TNxfifoxDIO_18" 
+"TNxfifoxDIO_17"
+     "TNxfifoxDIO_16" 
+"TNxfifoxDIO_15" 
+"TNxfifoxDIO_14" 
+"TNxfifoxDIO_13"
+     "TNxfifoxDIO_12" 
+"TNxfifoxDIO_11" 
+"TNxfifoxDIO_10" 
+"TNxfifoxDIO_9"
+     "TNxfifoxDIO_8" 
+"TNxfifoxDIO_7" 
+"TNxfifoxDIO_6" 
+"TNxfifoxDIO_5"
+     "TNxfifoxDIO_4" 
+"TNxfifoxDIO_3" 
+"TNxfifoxDIO_2" 
+"TNxfifoxDIO_1"
+     "TNxfifoxDIO_0" ;": "TNxfifoxDIO_18" matches no ports in the design.
+     "TNxfifoxDIO_17" matches no ports in the design. "TNxfifoxDIO_16" matches
+
+                                    Page 2
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     no ports in the design. "TNxfifoxDIO_15" matches no ports in the design.
+     "TNxfifoxDIO_14" matches no ports in the design. "TNxfifoxDIO_13" matches
+     no ports in the design. "TNxfifoxDIO_12" matches no por   ....   ports in
+     the design. "TNxfifoxDIO_2" matches no ports in the design. "TNxfifoxDIO_1"
+     matches no ports in the design. "TNxfifoxDIO_0" matches no ports in the
+     design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(244):
+     Semantic error in "CLOCK_TO_OUT GROUP "FX3FifoData" 20.000000 ns MIN
+     0.000000 ns CLKPORT "IfClockxCI" ;": group "FX3FifoData" doesn't find a
+     match in design. "IfClockxCI" matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(245):
+     Semantic error in "CLOCK_TO_OUT PORT "FX3FifoWritexEBO" 12.000000 ns MIN
+     0.000000 ns CLKPORT "IfClockxCI" ;": FX3FifoWritexEBO matches no ports in
+     the design. "IfClockxCI" matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(246):
+     Semantic error in "CLOCK_TO_OUT PORT "FX3FifoPktEndxSBO" 15.000000 ns MIN
+     0.000000 ns CLKPORT "IfClockxCI" ;": FX3FifoPktEndxSBO matches no ports in
+     the design. "IfClockxCI" matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(247):
+     Semantic error in "INPUT_SETUP PORT "FX3FifoInFullxSBI" 20.000000 ns HOLD
+     0.000000 ns CLKPORT "IfClockxCI" ;": FX3FifoInFullxSBI matches no ports in
+     the design. "IfClockxCI" matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(252):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_15" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_15 matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(253):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_14" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_14 matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(254):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_13" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_13 matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(255):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_12" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_12 matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(256):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_11" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_11 matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+
+                                    Page 3
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(257):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_10" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_10 matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(258):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_9" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_9 matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(259):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_8" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_8 matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(260):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_7" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_7 matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(261):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_6" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_6 matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(262):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_5" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_5 matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(263):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_4" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_4 matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(264):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_3" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_3 matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(265):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_2" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_2 matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(266):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_1" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_1 matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(267):
+     Semantic error in "OUTPUT PORT "FX3FifoDataxDIO_0" LOAD 1.000000 pF ;":
+     FX3FifoDataxDIO_0 matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(268):
+     Semantic error in "OUTPUT PORT "FX3FifoWritexEBO" LOAD 1.000000 pF ;":
+     FX3FifoWritexEBO matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(269):
+     Semantic error in "OUTPUT PORT "FX3FifoReadxEBO" LOAD 1.000000 pF ;":
+     FX3FifoReadxEBO matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(270):
+     Semantic error in "OUTPUT PORT "FX3FifoPktEndxSBO" LOAD 1.000000 pF ;":
+     FX3FifoPktEndxSBO matches no ports in the design.  Disable this preference.
+
+                                    Page 4
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(271):
+     Semantic error in "OUTPUT PORT "FX3FifoAddressxDO_1" LOAD 1.000000 pF ;":
+     FX3FifoAddressxDO_1 matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(272):
+     Semantic error in "OUTPUT PORT "FX3FifoAddressxDO_0" LOAD 1.000000 pF ;":
+     FX3FifoAddressxDO_0 matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(275):
+     Semantic error in "OUTPUT PORT "ADCclockxCO" LOAD 1.000000 pF ;":
+     ADCclockxCO matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(276):
+     Semantic error in "OUTPUT PORT "ADCoexEBO" LOAD 1.000000 pF ;": ADCoexEBO
+     matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(277):
+     Semantic error in "OUTPUT PORT "ADCstbyxEO" LOAD 1.000000 pF ;": ADCstbyxEO
+     matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(278):
+     Semantic error in "OUTPUT PORT "CDVSTestSRRowClockxSO" LOAD 1.000000 pF ;":
+     CDVSTestSRRowClockxSO matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(279):
+     Semantic error in "OUTPUT PORT "CDVSTestSRColClockxSO" LOAD 1.000000 pF ;":
+     CDVSTestSRColClockxSO matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(280):
+     Semantic error in "OUTPUT PORT "CDVSTestSRRowInxSO" LOAD 1.000000 pF ;":
+     CDVSTestSRRowInxSO matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(281):
+     Semantic error in "OUTPUT PORT "CDVSTestSRColInxSO" LOAD 1.000000 pF ;":
+     CDVSTestSRColInxSO matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(282):
+     Semantic error in "OUTPUT PORT "CDVSTestBiasEnablexEO" LOAD 1.000000 pF ;":
+     CDVSTestBiasEnablexEO matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(283):
+     Semantic error in "OUTPUT PORT "CDVSTestChipResetxRBO" LOAD 1.000000 pF ;":
+     CDVSTestChipResetxRBO matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(284):
+     Semantic error in "OUTPUT PORT "CDVSTestColMode0xSO" LOAD 1.000000 pF ;":
+     CDVSTestColMode0xSO matches no ports in the design.  Disable this
+
+                                    Page 5
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(285):
+     Semantic error in "OUTPUT PORT "CDVSTestColMode1xSO" LOAD 1.000000 pF ;":
+     CDVSTestColMode1xSO matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(286):
+     Semantic error in "OUTPUT PORT "CDVSTestBiasDiagSelxSO" LOAD 1.000000 pF
+     ;": CDVSTestBiasDiagSelxSO matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(287):
+     Semantic error in "OUTPUT PORT "CDVSTestApsTxGatexSO" LOAD 1.000000 pF ;":
+     CDVSTestApsTxGatexSO matches no ports in the design.  Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(289):
+     Semantic error in "OUTPUT PORT "LED1xSO" LOAD 1.000000 pF ;": LED1xSO
+     matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(290):
+     Semantic error in "OUTPUT PORT "LED2xSO" LOAD 1.000000 pF ;": LED2xSO
+     matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(291):
+     Semantic error in "OUTPUT PORT "LED3xSO" LOAD 1.000000 pF ;": LED3xSO
+     matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(292):
+     Semantic error in "OUTPUT PORT "LED4xSO" LOAD 1.000000 pF ;": LED4xSO
+     matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(293):
+     Semantic error in "OUTPUT PORT "LED5xSO" LOAD 1.000000 pF ;": LED5xSO
+     matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(295):
+     Semantic error in "OUTPUT PORT "AERMonitorACKxSBO" LOAD 1.000000 pF ;":
+     AERMonitorACKxSBO matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(296):
+     Semantic error in "OUTPUT PORT "Vref2_2xDIO" LOAD 1.000000 pF ;":
+     Vref2_2xDIO matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(297):
+     Semantic error in "OUTPUT PORT "Vref1_2xDIO" LOAD 1.000000 pF ;":
+     Vref1_2xDIO matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(298):
+     Semantic error in "OUTPUT PORT "CLKC1_DIO" LOAD 1.000000 pF ;": CLKC1_DIO
+     matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(299):
+     Semantic error in "OUTPUT PORT "CLKT1_DIO" LOAD 1.000000 pF ;": CLKT1_DIO
+     matches no ports in the design.  Disable this preference.
+
+                                    Page 6
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(306):
+     Semantic error in "OUTPUT PORT "SDO_TN" LOAD 1.000000 pF ;": SDO_TN matches
+     no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(307):
+     Semantic error in "OUTPUT PORT "SCK_TN" LOAD 1.000000 pF ;": SCK_TN matches
+     no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(309):
+     Semantic error in "OUTPUT PORT "TN_Req_out" LOAD 1.000000 pF ;": TN_Req_out
+     matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(310):
+     Semantic error in "OUTPUT PORT "TN_Ack_out" LOAD 1.000000 pF ;": TN_Ack_out
+     matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(335):
+     Semantic error in "IOBUF PORT "AERMonitorACKxSBO" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=14 ;": Key DRIVE=14 is not supported for this device.
+     Default value NA will be used. 
+ Disabled this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(346):
+     Semantic error in "OUTPUT PORT "SyncOut1xSBO" LOAD 1.000000 pF ;":
+     SyncOut1xSBO matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(347):
+     Semantic error in "OUTPUT PORT "SyncOut2xSBO" LOAD 1.000000 pF ;":
+     SyncOut2xSBO matches no ports in the design.  Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(49): Semantic
+     error in "LOCATE COMP "SyncInSWxEI" SITE "A3" ;": COMP "SyncInSWxEI" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(51): Semantic
+     error in "LOCATE COMP "SyncInCLKxCB" SITE "A2" ;": COMP "SyncInCLKxCB" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(53): Semantic
+     error in "LOCATE COMP "SyncOutSWxEI" SITE "A14" ;": COMP "SyncOutSWxEI" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(55): Semantic
+     error in "LOCATE COMP "SyncOut1xSBO" SITE "A13" ;": COMP "SyncOut1xSBO" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(57): Semantic
+     error in "LOCATE COMP "PE3xSI" SITE "T11" ;": COMP "PE3xSI" not found in
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(58): Semantic
+     error in "LOCATE COMP "PA3xSI" SITE "T12" ;": COMP "PA3xSI" not found in
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(59): Semantic
+     error in "LOCATE COMP "PC0xSI" SITE "P12" ;": COMP "PC0xSI" not found in
+
+                                    Page 7
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(60): Semantic
+     error in "LOCATE COMP "PE2xSI" SITE "R14" ;": COMP "PE2xSI" not found in
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(61): Semantic
+     error in "LOCATE COMP "PC1xSI" SITE "P14" ;": COMP "PC1xSI" not found in
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(62): Semantic
+     error in "LOCATE COMP "PC2xSI" SITE "P16" ;": COMP "PC2xSI" not found in
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(63): Semantic
+     error in "LOCATE COMP "PC3xSI" SITE "P15" ;": COMP "PC3xSI" not found in
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(64): Semantic
+     error in "LOCATE COMP "PA7xSI" SITE "R16" ;": COMP "PA7xSI" not found in
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(65): Semantic
+     error in "LOCATE COMP "PA1xSI" SITE "T14" ;": COMP "PA1xSI" not found in
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(66): Semantic
+     error in "LOCATE COMP "PA0xSI" SITE "R15" ;": COMP "PA0xSI" not found in
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(68): Semantic
+     error in "LOCATE COMP "FXLEDxSI" SITE "A2" ;": COMP "FXLEDxSI" not found in
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(69): Semantic
+     error in "LOCATE COMP "AERMonitorREQxABI" SITE "B9" ;": COMP
+     "AERMonitorREQxABI" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(70): Semantic
+     error in "LOCATE COMP "AERMonitorACKxSBO" SITE "C8" ;": COMP
+     "AERMonitorACKxSBO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(71): Semantic
+     error in "LOCATE COMP "AERMonitorAddressxDI_9" SITE "F3" ;": COMP
+     "AERMonitorAddressxDI_9" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(72): Semantic
+     error in "LOCATE COMP "AERMonitorAddressxDI_8" SITE "G3" ;": COMP
+     "AERMonitorAddressxDI_8" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(73): Semantic
+     error in "LOCATE COMP "AERMonitorAddressxDI_7" SITE "F2" ;": COMP
+     "AERMonitorAddressxDI_7" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(74): Semantic
+     error in "LOCATE COMP "AERMonitorAddressxDI_6" SITE "F1" ;": COMP
+
+                                    Page 8
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     "AERMonitorAddressxDI_6" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(75): Semantic
+     error in "LOCATE COMP "AERMonitorAddressxDI_5" SITE "G4" ;": COMP
+     "AERMonitorAddressxDI_5" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(76): Semantic
+     error in "LOCATE COMP "AERMonitorAddressxDI_4" SITE "H4" ;": COMP
+     "AERMonitorAddressxDI_4" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(77): Semantic
+     error in "LOCATE COMP "AERMonitorAddressxDI_3" SITE "H3" ;": COMP
+     "AERMonitorAddressxDI_3" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(78): Semantic
+     error in "LOCATE COMP "AERMonitorAddressxDI_2" SITE "J3" ;": COMP
+     "AERMonitorAddressxDI_2" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(79): Semantic
+     error in "LOCATE COMP "AERMonitorAddressxDI_1" SITE "G2" ;": COMP
+     "AERMonitorAddressxDI_1" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(80): Semantic
+     error in "LOCATE COMP "AERMonitorAddressxDI_0" SITE "H2" ;": COMP
+     "AERMonitorAddressxDI_0" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(82): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_15" SITE "M1" ;": COMP
+     "FX3FifoDataxDIO_15" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(83): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_14" SITE "P6" ;": COMP
+     "FX3FifoDataxDIO_14" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(84): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_13" SITE "P3" ;": COMP
+     "FX3FifoDataxDIO_13" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(85): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_12" SITE "P5" ;": COMP
+     "FX3FifoDataxDIO_12" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(86): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_11" SITE "T7" ;": COMP
+     "FX3FifoDataxDIO_11" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(87): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_10" SITE "R1" ;": COMP
+     "FX3FifoDataxDIO_10" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(88): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_9" SITE "K1" ;": COMP
+     "FX3FifoDataxDIO_9" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(89): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_8" SITE "N1" ;": COMP
+
+                                    Page 9
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     "FX3FifoDataxDIO_8" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(90): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_7" SITE "P2" ;": COMP
+     "FX3FifoDataxDIO_7" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(91): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_6" SITE "P1" ;": COMP
+     "FX3FifoDataxDIO_6" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(92): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_5" SITE "R3" ;": COMP
+     "FX3FifoDataxDIO_5" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(93): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_4" SITE "R2" ;": COMP
+     "FX3FifoDataxDIO_4" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(94): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_3" SITE "T5" ;": COMP
+     "FX3FifoDataxDIO_3" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(95): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_2" SITE "T6" ;": COMP
+     "FX3FifoDataxDIO_2" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(96): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_1" SITE "T3" ;": COMP
+     "FX3FifoDataxDIO_1" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(97): Semantic
+     error in "LOCATE COMP "FX3FifoDataxDIO_0" SITE "T2" ;": COMP
+     "FX3FifoDataxDIO_0" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(98): Semantic
+     error in "LOCATE COMP "FX3FifoWritexEBO" SITE "T8" ;": COMP
+     "FX3FifoWritexEBO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(99): Semantic
+     error in "LOCATE COMP "FX3FifoReadxEBO" SITE "T9" ;": COMP
+     "FX3FifoReadxEBO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(100):
+     Semantic error in "LOCATE COMP "FX3FifoPktEndxSBO" SITE "T10" ;": COMP
+     "FX3FifoPktEndxSBO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(101):
+     Semantic error in "LOCATE COMP "FX3FifoAddressxDO_0" SITE "P10" ;": COMP
+     "FX3FifoAddressxDO_0" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(102):
+     Semantic error in "LOCATE COMP "FX3FifoAddressxDO_1" SITE "P11" ;": COMP
+     "FX3FifoAddressxDO_1" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(103):
+     Semantic error in "LOCATE COMP "FX3FifoInFullxSBI" SITE "P9" ;": COMP
+
+                                   Page 10
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     "FX3FifoInFullxSBI" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(104):
+     Semantic error in "LOCATE COMP "FX3FifoInAlmFullxSBI" SITE "K4" ;": COMP
+     "FX3FifoInAlmFullxSBI" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(105):
+     Semantic error in "LOCATE COMP "FX3FifoInEmptyxSBI" SITE "P8" ;": COMP
+     "FX3FifoInEmptyxSBI" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(106):
+     Semantic error in "LOCATE COMP "FX3FifoInAlmEmptyxSBI" SITE "L3" ;": COMP
+     "FX3FifoInAlmEmptyxSBI" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(107):
+     Semantic error in "LOCATE COMP "FX3FifoSLCSxEBO" SITE "P7" ;": COMP
+     "FX3FifoSLCSxEBO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(110):
+     Semantic error in "LOCATE COMP "IfClockxCI" SITE "K3" ;": COMP "IfClockxCI"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(111):
+     Semantic error in "LOCATE COMP "CDVSTestSRRowClockxSO" SITE "D9" ;": COMP
+     "CDVSTestSRRowClockxSO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(112):
+     Semantic error in "LOCATE COMP "CDVSTestSRColClockxSO" SITE "D11" ;": COMP
+     "CDVSTestSRColClockxSO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(113):
+     Semantic error in "LOCATE COMP "CDVSTestSRRowInxSO" SITE "C9" ;": COMP
+     "CDVSTestSRRowInxSO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(114):
+     Semantic error in "LOCATE COMP "CDVSTestSRColInxSO" SITE "D12" ;": COMP
+     "CDVSTestSRColInxSO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(115):
+     Semantic error in "LOCATE COMP "CDVSTestBiasEnablexEO" SITE "D8" ;": COMP
+     "CDVSTestBiasEnablexEO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(116):
+     Semantic error in "LOCATE COMP "CDVSTestChipResetxRBO" SITE "E11" ;": COMP
+     "CDVSTestChipResetxRBO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(117):
+     Semantic error in "LOCATE COMP "CDVSTestColMode0xSO" SITE "B11" ;": COMP
+     "CDVSTestColMode0xSO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(118):
+     Semantic error in "LOCATE COMP "CDVSTestColMode1xSO" SITE "C11" ;": COMP
+     "CDVSTestColMode1xSO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(119):
+     Semantic error in "LOCATE COMP "CDVSTestBiasDiagSelxSO" SITE "D7" ;": COMP
+
+                                   Page 11
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     "CDVSTestBiasDiagSelxSO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(120):
+     Semantic error in "LOCATE COMP "CDVSTestBiasBitOutxSI" SITE "A8" ;": COMP
+     "CDVSTestBiasBitOutxSI" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(121):
+     Semantic error in "LOCATE COMP "CDVSTestApsTxGatexSO" SITE "A9" ;": COMP
+     "CDVSTestApsTxGatexSO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(122):
+     Semantic error in "LOCATE COMP "LED1xSO" SITE "C3" ;": COMP "LED1xSO" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(123):
+     Semantic error in "LOCATE COMP "LED2xSO" SITE "A12" ;": COMP "LED2xSO" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(124):
+     Semantic error in "LOCATE COMP "LED3xSO" SITE "B3" ;": COMP "LED3xSO" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(125):
+     Semantic error in "LOCATE COMP "LED4xSO" SITE "C8" ;": COMP "LED4xSO" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(126):
+     Semantic error in "LOCATE COMP "LED5xSO" SITE "B9" ;": COMP "LED5xSO" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(127):
+     Semantic error in "LOCATE COMP "ADCclockxCO" SITE "B10" ;": COMP
+     "ADCclockxCO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(128):
+     Semantic error in "LOCATE COMP "ADCoexEBO" SITE "C10" ;": COMP "ADCoexEBO"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(129):
+     Semantic error in "LOCATE COMP "ADCstbyxEO" SITE "D10" ;": COMP
+     "ADCstbyxEO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(130):
+     Semantic error in "LOCATE COMP "ADCovrxSI" SITE "A10" ;": COMP "ADCovrxSI"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(131):
+     Semantic error in "LOCATE COMP "ADCwordxDI_9" SITE "J15" ;": COMP
+     "ADCwordxDI_9" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(132):
+     Semantic error in "LOCATE COMP "ADCwordxDI_8" SITE "H16" ;": COMP
+     "ADCwordxDI_8" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(133):
+     Semantic error in "LOCATE COMP "ADCwordxDI_7" SITE "G15" ;": COMP
+
+                                   Page 12
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     "ADCwordxDI_7" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(134):
+     Semantic error in "LOCATE COMP "ADCwordxDI_6" SITE "G16" ;": COMP
+     "ADCwordxDI_6" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(135):
+     Semantic error in "LOCATE COMP "ADCwordxDI_5" SITE "F15" ;": COMP
+     "ADCwordxDI_5" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(136):
+     Semantic error in "LOCATE COMP "ADCwordxDI_4" SITE "F16" ;": COMP
+     "ADCwordxDI_4" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(137):
+     Semantic error in "LOCATE COMP "ADCwordxDI_3" SITE "E15" ;": COMP
+     "ADCwordxDI_3" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(138):
+     Semantic error in "LOCATE COMP "ADCwordxDI_2" SITE "E16" ;": COMP
+     "ADCwordxDI_2" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(139):
+     Semantic error in "LOCATE COMP "ADCwordxDI_1" SITE "D16" ;": COMP
+     "ADCwordxDI_1" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(140):
+     Semantic error in "LOCATE COMP "ADCwordxDI_0" SITE "C16" ;": COMP
+     "ADCwordxDI_0" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(141):
+     Semantic error in "LOCATE COMP "SSN" SITE "E13" ;": COMP "SSN" not found in
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(142):
+     Semantic error in "LOCATE COMP "SSN_FPGA" SITE "F13" ;": COMP "SSN_FPGA"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(143):
+     Semantic error in "LOCATE COMP "MOSI" SITE "G14" ;": COMP "MOSI" not found
+     in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(144):
+     Semantic error in "LOCATE COMP "MISO" SITE "G13" ;": COMP "MISO" not found
+     in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(145):
+     Semantic error in "LOCATE COMP "SCK" SITE "D13" ;": COMP "SCK" not found in
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(149):
+     Semantic error in "LOCATE COMP "TN_clkC0" SITE "E9" ;": COMP "TN_clkC0" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(150):
+     Semantic error in "LOCATE COMP "TN_reset" SITE "A6" ;": COMP "TN_reset" not
+
+                                   Page 13
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(151):
+     Semantic error in "LOCATE COMP "TN_int" SITE "B6" ;": COMP "TN_int" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(153):
+     Semantic error in "LOCATE COMP "SDI_TN" SITE "C7" ;": COMP "SDI_TN" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(154):
+     Semantic error in "LOCATE COMP "SDO_TN" SITE "C6" ;": COMP "SDO_TN" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(155):
+     Semantic error in "LOCATE COMP "SCK_TN" SITE "J4" ;": COMP "SCK_TN" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(157):
+     Semantic error in "LOCATE COMP "TN_Req_out" SITE "A5" ;": COMP "TN_Req_out"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(158):
+     Semantic error in "LOCATE COMP "TN_Ack_out" SITE "D6" ;": COMP "TN_Ack_out"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(159):
+     Semantic error in "LOCATE COMP "TN_Req_in" SITE "B9" ;": COMP "TN_Req_in"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(160):
+     Semantic error in "LOCATE COMP "TN_Ack_in" SITE "C8" ;": COMP "TN_Ack_in"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(205):
+     Semantic error in "LOCATE COMP "sigBUS4xDIO" SITE "K4" ;": COMP
+     "sigBUS4xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(206):
+     Semantic error in "LOCATE COMP "sigBUS5xDIO" SITE "L3" ;": COMP
+     "sigBUS5xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(207):
+     Semantic error in "LOCATE COMP "sigBUS6xDIO" SITE "T10" ;": COMP
+     "sigBUS6xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(208):
+     Semantic error in "LOCATE COMP "sigBUS7xDIO" SITE "T9" ;": COMP
+     "sigBUS7xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(209):
+     Semantic error in "LOCATE COMP "sigBUS8xDIO" SITE "T8" ;": COMP
+     "sigBUS8xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(210):
+     Semantic error in "LOCATE COMP "sigBUS9xDIO" SITE "P11" ;": COMP
+
+                                   Page 14
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     "sigBUS9xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(211):
+     Semantic error in "LOCATE COMP "sigBUS10xDIO" SITE "P9" ;": COMP
+     "sigBUS10xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(212):
+     Semantic error in "LOCATE COMP "sigBUS11xDIO" SITE "P10" ;": COMP
+     "sigBUS11xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(213):
+     Semantic error in "LOCATE COMP "sigBUS12xDIO" SITE "P8" ;": COMP
+     "sigBUS12xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(214):
+     Semantic error in "LOCATE COMP "sigBUS13xDIO" SITE "P7" ;": COMP
+     "sigBUS13xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(215):
+     Semantic error in "LOCATE COMP "sigBUS14xDIO" SITE "C13" ;": COMP
+     "sigBUS14xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(216):
+     Semantic error in "LOCATE COMP "biasAddrSel" SITE "C12" ;": COMP
+     "biasAddrSel" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(219):
+     Semantic error in "LOCATE COMP "Dx1N_DIO" SITE "H13" ;": COMP "Dx1N_DIO"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(220):
+     Semantic error in "LOCATE COMP "Dx1P_DIO" SITE "H14" ;": COMP "Dx1P_DIO"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(221):
+     Semantic error in "LOCATE COMP "Dx2N_DIO" SITE "E15" ;": COMP "Dx2N_DIO"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(222):
+     Semantic error in "LOCATE COMP "Dx2P_DIO" SITE "E16" ;": COMP "Dx2P_DIO"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(223):
+     Semantic error in "LOCATE COMP "Dx3N_DIO" SITE "F14" ;": COMP "Dx3N_DIO"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(224):
+     Semantic error in "LOCATE COMP "Dx3P_DIO" SITE "E14" ;": COMP "Dx3P_DIO"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(225):
+     Semantic error in "LOCATE COMP "Dx4N_DIO" SITE "K16" ;": COMP "Dx4N_DIO"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(226):
+     Semantic error in "LOCATE COMP "Dx4P_DIO" SITE "J16" ;": COMP "Dx4P_DIO"
+
+                                   Page 15
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(227):
+     Semantic error in "LOCATE COMP "Dx5N_DIO" SITE "B14" ;": COMP "Dx5N_DIO"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(228):
+     Semantic error in "LOCATE COMP "Dx5P_DIO" SITE "B13" ;": COMP "Dx5P_DIO"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(229):
+     Semantic error in "LOCATE COMP "Dx6_DIO" SITE "A11" ;": COMP "Dx6_DIO" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(230):
+     Semantic error in "LOCATE COMP "Dx7_DIO" SITE "T15" ;": COMP "Dx7_DIO" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(231):
+     Semantic error in "LOCATE COMP "Dx8N_DIO" SITE "L5" ;": COMP "Dx8N_DIO" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(232):
+     Semantic error in "LOCATE COMP "Dx8P_DIO" SITE "L4" ;": COMP "Dx8P_DIO" not
+     found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(234):
+     Semantic error in "LOCATE COMP "Vref2_2xDIO" SITE "J14" ;": COMP
+     "Vref2_2xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(235):
+     Semantic error in "LOCATE COMP "Vref1_2xDIO" SITE "J13" ;": COMP
+     "Vref1_2xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(236):
+     Semantic error in "LOCATE COMP "FSYNCxDI" SITE "L13" ;": COMP "FSYNCxDI"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(237):
+     Semantic error in "LOCATE COMP "CLKT1_DIO" SITE "K13" ;": COMP "CLKT1_DIO"
+     not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(238):
+     Semantic error in "LOCATE COMP "Vref1_6xDIO" SITE "M3" ;": COMP
+     "Vref1_6xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(239):
+     Semantic error in "LOCATE COMP "Vref2_6xDIO" SITE "N3" ;": COMP
+     "Vref2_6xDIO" not found in design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(250):
+     Semantic error in "IOBUF PORT "AERMonitorREQxABI" IO_TYPE=LVCMOS33
+     PULLMODE=UP ;": Port "AERMonitorREQxABI" does not exist in the design.
+     Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(301):
+
+                                   Page 16
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     Semantic error in "IOBUF PORT "TN_clkC0" IO_TYPE=LVCMOS33 PULLMODE=KEEPER
+     DRIVE=8 ;": Port "TN_clkC0" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(302):
+     Semantic error in "IOBUF PORT "TN_reset" IO_TYPE=LVCMOS33 PULLMODE=KEEPER
+     DRIVE=8 ;": Port "TN_reset" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(303):
+     Semantic error in "IOBUF PORT "TN_int" IO_TYPE=LVCMOS33 PULLMODE=KEEPER
+     DRIVE=8 ;": Port "TN_int" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(305):
+     Semantic error in "IOBUF PORT "SDI_TN" IO_TYPE=LVCMOS33 PULLMODE=KEEPER
+     DRIVE=8 ;": Port "SDI_TN" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(311):
+     Semantic error in "IOBUF PORT "TN_Req_in" IO_TYPE=LVCMOS33 PULLMODE=KEEPER
+     DRIVE=8 ;": Port "TN_Req_in" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(312):
+     Semantic error in "IOBUF PORT "TN_Ack_in" IO_TYPE=LVCMOS33 PULLMODE=KEEPER
+     DRIVE=8 ;": Port "TN_Ack_in" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(314):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_15" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_15" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(315):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_14" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_14" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(316):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_13" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_13" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(317):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_12" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_12" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(318):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_11" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_11" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(319):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_10" IO_TYPE=LVCMOS33
+
+                                   Page 17
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_10" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(320):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_9" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_9" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(321):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_8" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_8" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(322):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_7" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_7" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(323):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_6" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_6" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(324):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_5" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_5" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(325):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_4" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_4" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(326):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_3" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_3" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(327):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_2" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_2" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(328):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_1" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_1" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(329):
+     Semantic error in "IOBUF PORT "FX3FifoDataxDIO_0" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "FX3FifoDataxDIO_0" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(330):
+     Semantic error in "IOBUF PORT "FX3FifoWritexEBO" IO_TYPE=LVCMOS33
+     PULLMODE=UP DRIVE=8 ;": Port "FX3FifoWritexEBO" does not exist in the
+
+                                   Page 18
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(331):
+     Semantic error in "IOBUF PORT "FX3FifoReadxEBO" IO_TYPE=LVCMOS33
+     PULLMODE=UP DRIVE=8 ;": Port "FX3FifoReadxEBO" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(332):
+     Semantic error in "IOBUF PORT "FX3FifoPktEndxSBO" IO_TYPE=LVCMOS33
+     PULLMODE=UP DRIVE=8 ;": Port "FX3FifoPktEndxSBO" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(333):
+     Semantic error in "IOBUF PORT "FX3FifoAddressxDO_1" IO_TYPE=LVCMOS33
+     PULLMODE=UP DRIVE=8 ;": Port "FX3FifoAddressxDO_1" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(334):
+     Semantic error in "IOBUF PORT "FX3FifoAddressxDO_0" IO_TYPE=LVCMOS33
+     PULLMODE=DOWN DRIVE=8 ;": Port "FX3FifoAddressxDO_0" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(336):
+     Semantic error in "IOBUF PORT "Vref2_2xDIO" IO_TYPE=LVCMOS33 PULLMODE=DOWN
+     ;": Port "Vref2_2xDIO" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(337):
+     Semantic error in "IOBUF PORT "Vref1_2xDIO" IO_TYPE=LVCMOS33 PULLMODE=DOWN
+     ;": Port "Vref1_2xDIO" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(338):
+     Semantic error in "IOBUF PORT "CLKC1_DIO" IO_TYPE=LVCMOS33 PULLMODE=DOWN
+     ;": Port "CLKC1_DIO" does not exist in the design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(339):
+     Semantic error in "IOBUF PORT "CLKT1_DIO" IO_TYPE=LVCMOS33 PULLMODE=DOWN
+     ;": Port "CLKT1_DIO" does not exist in the design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(342):
+     Semantic error in "IOBUF PORT "SyncInSWxEI" IO_TYPE=LVCMOS33 PULLMODE=UP
+     ;": Port "SyncInSWxEI" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(343):
+     Semantic error in "IOBUF PORT "SyncIN1xABI" IO_TYPE=LVCMOS33 PULLMODE=UP
+     ;": Port "SyncIN1xABI" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(344):
+     Semantic error in "IOBUF PORT "SyncIN2xABI" IO_TYPE=LVCMOS33 PULLMODE=UP
+     ;": Port "SyncIN2xABI" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(345):
+
+                                   Page 19
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     Semantic error in "IOBUF PORT "SyncOutSWxEI" IO_TYPE=LVCMOS33 PULLMODE=UP
+     ;": Port "SyncOutSWxEI" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(349):
+     Semantic error in "IOBUF PORT "ADCclockxCO" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "ADCclockxCO" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(350):
+     Semantic error in "IOBUF PORT "ADCoexEBO" IO_TYPE=LVCMOS33 PULLMODE=KEEPER
+     DRIVE=8 ;": Port "ADCoexEBO" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(351):
+     Semantic error in "IOBUF PORT "ADCstbyxEO" IO_TYPE=LVCMOS33 PULLMODE=KEEPER
+     DRIVE=8 ;": Port "ADCstbyxEO" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(352):
+     Semantic error in "IOBUF PORT "CDVSTestSRRowClockxSO" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "CDVSTestSRRowClockxSO" does not exist in
+     the design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(353):
+     Semantic error in "IOBUF PORT "CDVSTestSRColClockxSO" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "CDVSTestSRColClockxSO" does not exist in
+     the design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(354):
+     Semantic error in "IOBUF PORT "CDVSTestSRRowInxSO" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "CDVSTestSRRowInxSO" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(355):
+     Semantic error in "IOBUF PORT "CDVSTestSRColInxSO" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "CDVSTestSRColInxSO" does not exist in the
+     design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(356):
+     Semantic error in "IOBUF PORT "CDVSTestBiasEnablexEO" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "CDVSTestBiasEnablexEO" does not exist in
+     the design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(357):
+     Semantic error in "IOBUF PORT "CDVSTestChipResetxRBO" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "CDVSTestChipResetxRBO" does not exist in
+     the design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(358):
+     Semantic error in "IOBUF PORT "CDVSTestColMode0xSO" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "CDVSTestColMode0xSO" does not exist in
+     the design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(359):
+     Semantic error in "IOBUF PORT "CDVSTestColMode1xSO" IO_TYPE=LVCMOS33
+
+                                   Page 20
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+Design Errors/Warnings (cont)
+-----------------------------
+     PULLMODE=KEEPER DRIVE=8 ;": Port "CDVSTestColMode1xSO" does not exist in
+     the design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(360):
+     Semantic error in "IOBUF PORT "CDVSTestBiasDiagSelxSO" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "CDVSTestBiasDiagSelxSO" does not exist in
+     the design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(361):
+     Semantic error in "IOBUF PORT "CDVSTestApsTxGatexSO" IO_TYPE=LVCMOS33
+     PULLMODE=KEEPER DRIVE=8 ;": Port "CDVSTestApsTxGatexSO" does not exist in
+     the design. Disable this preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(364):
+     Semantic error in "IOBUF PORT "LED1xSO" IO_TYPE=LVCMOS33 PULLMODE=KEEPER
+     DRIVE=8 ;": Port "LED1xSO" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(365):
+     Semantic error in "IOBUF PORT "LED2xSO" IO_TYPE=LVCMOS33 PULLMODE=KEEPER
+     DRIVE=8 ;": Port "LED2xSO" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(366):
+     Semantic error in "IOBUF PORT "LED3xSO" IO_TYPE=LVCMOS33 PULLMODE=KEEPER
+     DRIVE=8 ;": Port "LED3xSO" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(367):
+     Semantic error in "IOBUF PORT "LED4xSO" IO_TYPE=LVCMOS33 PULLMODE=KEEPER
+     DRIVE=8 ;": Port "LED4xSO" does not exist in the design. Disable this
+     preference.
+WARNING - map:
+     C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(368):
+     Semantic error in "IOBUF PORT "LED5xSO" IO_TYPE=LVCMOS33 PULLMODE=KEEPER
+     DRIVE=8 ;": Port "LED5xSO" does not exist in the design. Disable this
+     preference.
+WARNING - map: Preference parsing results:  245 syntax errors detected
+WARNING - map: There are errors in the preference file,
+     "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf".
+WARNING - map: Using local reset signal 'ResetxRBI_c' to infer global GSR net.
+
+IO (PIO) Attributes
+-------------------
+
++---------------------+-----------+-----------+------------+------------+
+| IO Name             | Direction | Levelmode | IO         | FIXEDDELAY |
+|                     |           |  IO_TYPE  | Register   |            |
++---------------------+-----------+-----------+------------+------------+
+| EventBeforeOverflowxDO| OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| ClockxCI            | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| EventxDI            | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| OverflowxDI         | INPUT     | LVCMOS33  |            |            |
+
+                                   Page 21
+
+
+
+
+Design:  EventBeforeOverflow                           Date:  02/18/14  18:06:22
+
+IO (PIO) Attributes (cont)
+--------------------------
++---------------------+-----------+-----------+------------+------------+
+| ResetxRBI           | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+
+Removed logic
+-------------
+
+Block VCC undriven or does not drive anything - clipped.
+Block GND undriven or does not drive anything - clipped.
+Signal ResetxRBI_c_i was merged into signal ResetxRBI_c
+Signal VCC undriven or does not drive anything - clipped.
+Block ResetxRBI_pad_RNIC1VE was optimized away.
+
+GSR Usage
+---------
+
+GSR Component:
+   The local reset signal 'ResetxRBI_c' of the design has been inferred as
+        Global Set Reset (GSR). The reset signal used for GSR control is
+        'ResetxRBI_c'.
+
+GSR Property:
+   The design components with GSR property set to ENABLED will respond to global
+        set reset while the components with GSR property set to DISABLED will
+        not.
+
+Run Time and Memory Usage
+-------------------------
+
+   Total CPU Time: 0 secs
+   Total REAL Time: 0 secs
+   Peak Memory Usage: 103 MB
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   Page 22
+
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995
+     AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent
+     Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems
+     All rights reserved.
+Copyright (c) 2002-2013 Lattice Semiconductor
+     Corporation,  All rights reserved.

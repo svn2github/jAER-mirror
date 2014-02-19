@@ -1,0 +1,353 @@
+Synopsys Lattice Technology Mapper, Version maplat, Build 700R, Built Jul  4 2013 11:05:39
+Copyright (C) 1994-2013, Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
+Product Version H-2013.03L 
+
+Mapper Startup Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 99MB)
+
+@N: MF248 |Running in 64-bit mode.
+@N: MF666 |Clock conversion enabled 
+
+Design Input Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 98MB peak: 100MB)
+
+
+Mapper Initialization Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 100MB)
+
+
+Start loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 114MB peak: 114MB)
+
+
+Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 114MB peak: 116MB)
+
+
+
+Starting Optimization and Mapping (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 139MB peak: 142MB)
+
+
+Available hyper_sources - for debug and ip models
+	None Found
+
+@N: MT206 |Auto Constrain mode is enabled
+
+Finished RTL optimizations (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 139MB peak: 142MB)
+
+Encoding state machine StatexDP[0:2] (view:work.EventBeforeOverflow(behavioral))
+original code -> new code
+   00 -> 00
+   01 -> 01
+   10 -> 10
+
+Finished factoring (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 140MB peak: 142MB)
+
+
+Finished gated-clock and generated-clock conversion (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 139MB peak: 142MB)
+
+
+
+Finished generic timing optimizations - Pass 1 (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 140MB peak: 142MB)
+
+
+Starting Early Timing Optimization (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 140MB peak: 142MB)
+
+
+Finished Early Timing Optimization (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 140MB peak: 142MB)
+
+
+Finished generic timing optimizations - Pass 2 (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 140MB peak: 142MB)
+
+
+Finished preparing to map (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 140MB peak: 142MB)
+
+
+Finished technology mapping (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 140MB peak: 142MB)
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+------------------------------------------------------------
+
+
+
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+------------------------------------------------------------
+
+
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+------------------------------------------------------------
+
+
+Finished technology timing optimizations and critical path resynthesis (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 140MB peak: 142MB)
+
+@N: FX164 |The option to pack flops in the IOB has not been specified 
+
+Finished restoring hierarchy (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 140MB peak: 142MB)
+
+
+
+#### START OF CLOCK OPTIMIZATION REPORT #####[
+
+1 non-gated/non-generated clock tree(s) driving 2 clock pin(s) of sequential element(s)
+0 gated/generated clock tree(s) driving 0 clock pin(s) of sequential element(s)
+0 instances converted, 0 sequential instances remain driven by gated/generated clocks
+
+=========================== Non-Gated/Non-Generated Clocks ============================
+Clock Tree ID     Driving Element     Drive Element Type     Fanout     Sample Instance
+---------------------------------------------------------------------------------------
+@K:CKID0001       ClockxCI            port                   2          StatexDP[0]    
+=======================================================================================
+===== Gated/Generated Clocks =====
+************** None **************
+----------------------------------
+==================================
+
+
+##### END OF CLOCK OPTIMIZATION REPORT ######]
+
+Writing Analyst data base C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srm
+
+Finished Writing Netlist Databases (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 139MB peak: 142MB)
+
+Writing EDIF Netlist and constraint files
+H-2013.03L 
+@N: BW106 |Synplicity Constraint File capacitance units using default value of 1pF 
+
+Finished Writing EDIF Netlist and constraint files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 143MB peak: 145MB)
+
+@W: MT420 |Found inferred clock EventBeforeOverflow|ClockxCI with period 1.05ns. Please declare a user-defined clock on object "p:ClockxCI"
+
+
+
+##### START OF TIMING REPORT #####[
+# Timing Report written on Tue Feb 18 15:28:54 2014
+#
+
+
+Top view:               EventBeforeOverflow
+Requested Frequency:    949.4 MHz
+Wire load mode:         top
+Paths requested:        5
+Constraint File(s):    
+@N: MT320 |Timing report estimates place and route data. Please look at the place and route timing report for final timing.
+
+@N: MT322 |Clock constraints cover only FF-to-FF paths associated with the clock.
+
+
+
+Performance Summary 
+*******************
+
+
+Worst slack in design: -0.186
+
+                                 Requested     Estimated     Requested     Estimated                Clock        Clock                
+Starting Clock                   Frequency     Frequency     Period        Period        Slack      Type         Group                
+--------------------------------------------------------------------------------------------------------------------------------------
+EventBeforeOverflow|ClockxCI     949.4 MHz     806.9 MHz     1.053         1.239         -0.186     inferred     Autoconstr_clkgroup_0
+======================================================================================================================================
+
+
+
+
+
+Clock Relationships
+*******************
+
+Clocks                                                      |    rise  to  rise    |    fall  to  fall   |    rise  to  fall   |    fall  to  rise 
+---------------------------------------------------------------------------------------------------------------------------------------------------
+Starting                      Ending                        |  constraint  slack   |  constraint  slack  |  constraint  slack  |  constraint  slack
+---------------------------------------------------------------------------------------------------------------------------------------------------
+EventBeforeOverflow|ClockxCI  EventBeforeOverflow|ClockxCI  |  1.053       -0.186  |  No paths    -      |  No paths    -      |  No paths    -    
+===================================================================================================================================================
+ Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
+       'Diff grp' indicates that paths exist but the starting clock and ending clock are in different clock groups.
+
+
+
+Interface Information 
+*********************
+
+No IO constraint found
+
+
+
+====================================
+Detailed Report for Clock: EventBeforeOverflow|ClockxCI
+====================================
+
+
+
+Starting Points with Worst Slack
+********************************
+
+                Starting                                                             Arrival           
+Instance        Reference                        Type        Pin     Net             Time        Slack 
+                Clock                                                                                  
+-------------------------------------------------------------------------------------------------------
+StatexDP[1]     EventBeforeOverflow|ClockxCI     FD1S3DX     Q       StatexDP[1]     0.813       -0.186
+StatexDP[0]     EventBeforeOverflow|ClockxCI     FD1S3DX     Q       StatexDP[0]     0.770       -0.143
+=======================================================================================================
+
+
+Ending Points with Worst Slack
+******************************
+
+                Starting                                                        Required           
+Instance        Reference                        Type        Pin     Net        Time         Slack 
+                Clock                                                                              
+---------------------------------------------------------------------------------------------------
+StatexDP[0]     EventBeforeOverflow|ClockxCI     FD1S3DX     D       N_7        1.002        -0.186
+StatexDP[1]     EventBeforeOverflow|ClockxCI     FD1S3DX     D       N_25_i     1.002        -0.186
+===================================================================================================
+
+
+
+Worst Path Information
+***********************
+
+
+Path information for path number 1: 
+      Requested Period:                      1.053
+    - Setup time:                            0.052
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         1.002
+
+    - Propagation time:                      1.188
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -0.186
+
+    Number of logic level(s):                1
+    Starting point:                          StatexDP[1] / Q
+    Ending point:                            StatexDP[1] / D
+    The start point is clocked by            EventBeforeOverflow|ClockxCI [rising] on pin CK
+    The end   point is clocked by            EventBeforeOverflow|ClockxCI [rising] on pin CK
+
+Instance / Net                   Pin      Pin               Arrival     No. of    
+Name                Type         Name     Dir     Delay     Time        Fan Out(s)
+----------------------------------------------------------------------------------
+StatexDP[1]         FD1S3DX      Q        Out     0.813     0.813       -         
+StatexDP[1]         Net          -        -       -         -           3         
+StatexDP_RNO[1]     ORCALUT4     D        In      0.000     0.813       -         
+StatexDP_RNO[1]     ORCALUT4     Z        Out     0.374     1.188       -         
+N_25_i              Net          -        -       -         -           1         
+StatexDP[1]         FD1S3DX      D        In      0.000     1.188       -         
+==================================================================================
+
+
+Path information for path number 2: 
+      Requested Period:                      1.053
+    - Setup time:                            0.052
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         1.002
+
+    - Propagation time:                      1.188
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -0.186
+
+    Number of logic level(s):                1
+    Starting point:                          StatexDP[1] / Q
+    Ending point:                            StatexDP[0] / D
+    The start point is clocked by            EventBeforeOverflow|ClockxCI [rising] on pin CK
+    The end   point is clocked by            EventBeforeOverflow|ClockxCI [rising] on pin CK
+
+Instance / Net                         Pin      Pin               Arrival     No. of    
+Name                      Type         Name     Dir     Delay     Time        Fan Out(s)
+----------------------------------------------------------------------------------------
+StatexDP[1]               FD1S3DX      Q        Out     0.813     0.813       -         
+StatexDP[1]               Net          -        -       -         -           3         
+StatexDP_ns_i_i_a2[0]     ORCALUT4     D        In      0.000     0.813       -         
+StatexDP_ns_i_i_a2[0]     ORCALUT4     Z        Out     0.374     1.188       -         
+N_7                       Net          -        -       -         -           1         
+StatexDP[0]               FD1S3DX      D        In      0.000     1.188       -         
+========================================================================================
+
+
+Path information for path number 3: 
+      Requested Period:                      1.053
+    - Setup time:                            0.052
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         1.002
+
+    - Propagation time:                      1.144
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (non-critical) :                 -0.143
+
+    Number of logic level(s):                1
+    Starting point:                          StatexDP[0] / Q
+    Ending point:                            StatexDP[1] / D
+    The start point is clocked by            EventBeforeOverflow|ClockxCI [rising] on pin CK
+    The end   point is clocked by            EventBeforeOverflow|ClockxCI [rising] on pin CK
+
+Instance / Net                   Pin      Pin               Arrival     No. of    
+Name                Type         Name     Dir     Delay     Time        Fan Out(s)
+----------------------------------------------------------------------------------
+StatexDP[0]         FD1S3DX      Q        Out     0.770     0.770       -         
+StatexDP[0]         Net          -        -       -         -           2         
+StatexDP_RNO[1]     ORCALUT4     C        In      0.000     0.770       -         
+StatexDP_RNO[1]     ORCALUT4     Z        Out     0.374     1.144       -         
+N_25_i              Net          -        -       -         -           1         
+StatexDP[1]         FD1S3DX      D        In      0.000     1.144       -         
+==================================================================================
+
+
+Path information for path number 4: 
+      Requested Period:                      1.053
+    - Setup time:                            0.052
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         1.002
+
+    - Propagation time:                      1.144
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (non-critical) :                 -0.143
+
+    Number of logic level(s):                1
+    Starting point:                          StatexDP[0] / Q
+    Ending point:                            StatexDP[0] / D
+    The start point is clocked by            EventBeforeOverflow|ClockxCI [rising] on pin CK
+    The end   point is clocked by            EventBeforeOverflow|ClockxCI [rising] on pin CK
+
+Instance / Net                         Pin      Pin               Arrival     No. of    
+Name                      Type         Name     Dir     Delay     Time        Fan Out(s)
+----------------------------------------------------------------------------------------
+StatexDP[0]               FD1S3DX      Q        Out     0.770     0.770       -         
+StatexDP[0]               Net          -        -       -         -           2         
+StatexDP_ns_i_i_a2[0]     ORCALUT4     C        In      0.000     0.770       -         
+StatexDP_ns_i_i_a2[0]     ORCALUT4     Z        Out     0.374     1.144       -         
+N_7                       Net          -        -       -         -           1         
+StatexDP[0]               FD1S3DX      D        In      0.000     1.144       -         
+========================================================================================
+
+
+
+##### END OF TIMING REPORT #####]
+
+---------------------------------------
+Resource Usage Report
+Part: lfe3_17ea-7
+
+Register bits: 2 of 17280 (0%)
+PIC Latch:       0
+I/O cells:       5
+
+
+Details:
+FD1S3DX:        2
+GSR:            1
+IB:             4
+INV:            1
+OB:             1
+ORCALUT4:       2
+PUR:            1
+VHI:            1
+VLO:            1
+Mapper successful!
+
+At Mapper Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 52MB peak: 145MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Feb 18 15:28:54 2014
+
+###########################################################]

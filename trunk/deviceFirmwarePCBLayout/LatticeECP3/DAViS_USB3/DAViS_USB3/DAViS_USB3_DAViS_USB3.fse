@@ -1,0 +1,10 @@
+
+fsm_encoding {15764761} sequential
+
+fsm_state_encoding {15764761} stidle {00}
+
+fsm_state_encoding {15764761} stevent {01}
+
+fsm_state_encoding {15764761} stoverflow {10}
+
+fsm_registers {15764761} {StatexDP[1]}  {StatexDP[0]} 

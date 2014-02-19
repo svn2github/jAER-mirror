@@ -1,0 +1,4 @@
+@E: CD242 :"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd":103:9:103:10|Expecting ;
+@E: CD204 :"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd":103:9:103:10|Expecting sequential statement
+@E|Parse errors encountered - exiting
+

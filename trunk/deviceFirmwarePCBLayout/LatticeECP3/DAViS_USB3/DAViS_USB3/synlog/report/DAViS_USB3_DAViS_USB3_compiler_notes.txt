@@ -1,0 +1,7 @@
+@N|Running in 64-bit mode
+@N: CD720 :"C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd":30:7:30:25|Top entity is set to EventBeforeOverflow.
+@N: CD630 :"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd":30:7:30:25|Synthesizing work.eventbeforeoverflow.behavioral 
+@N: CD233 :"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd":40:13:40:14|Using sequential encoding for type state
+@N: CL201 :"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd":76:4:76:5|Trying to extract state machine for register StatexDP
+

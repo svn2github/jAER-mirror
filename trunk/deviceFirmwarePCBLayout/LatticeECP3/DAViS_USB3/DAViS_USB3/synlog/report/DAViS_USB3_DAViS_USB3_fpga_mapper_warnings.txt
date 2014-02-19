@@ -1,0 +1,1 @@
+@W: MT420 |Found inferred clock EventBeforeOverflow|ClockxCI with period 1.05ns. Please declare a user-defined clock on object "p:ClockxCI"

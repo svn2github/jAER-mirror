@@ -1,0 +1,241 @@
+PAR: Place And Route Diamond (64-bit) 3.0.0.97.
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
+Tue Feb 18 18:06:23 2014
+
+C:/Lattice/Diamond3/diamond/3.0_x64/ispfpga\bin\nt64\par -f
+DAViS_USB3_DAViS_USB3.p2t DAViS_USB3_DAViS_USB3_map.ncd
+DAViS_USB3_DAViS_USB3.dir DAViS_USB3_DAViS_USB3.prf -gui
+
+
+Preference file: DAViS_USB3_DAViS_USB3.prf.
+
+Level/      Number      Worst       Timing      Worst       Timing      Run         NCD
+Cost [ncd]  Unrouted    Slack       Score       Slack(hold) Score(hold) Time        Status
+----------  --------    -----       ------      ----------- ----------- -----       ------
+5_1   *     0           10.029      0           0.200       0           10          Complete        
+
+
+* : Design saved.
+
+Total (real) run time for 1-seed: 10 secs 
+
+par done!
+
+Lattice Place and Route Report for Design "DAViS_USB3_DAViS_USB3_map.ncd"
+Tue Feb 18 18:06:23 2014
+
+PAR: Place And Route Diamond (64-bit) 3.0.0.97.
+Command Line: par -w -l 5 -i 6 -t 1 -c 0 -e 0 -gui -exp parUseNBR=1:parCDP=auto:parCDR=1:parPathBased=OFF DAViS_USB3_DAViS_USB3_map.ncd DAViS_USB3_DAViS_USB3.dir/5_1.ncd DAViS_USB3_DAViS_USB3.prf
+Preference file: DAViS_USB3_DAViS_USB3.prf.
+Placement level-cost: 5-1.
+Routing Iterations: 6
+
+Loading design for application par from file DAViS_USB3_DAViS_USB3_map.ncd.
+Design name: EventBeforeOverflow
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LFE3-17EA
+Package:     FTBGA256
+Performance: 7
+Loading device for application par from file 'ec5a53x56.nph' in environment: C:/Lattice/Diamond3/diamond/3.0_x64/ispfpga.
+Package Status:                     Final          Version 1.39
+Performance Hardware Data Status:   Final          Version 35.22
+License checked out.
+
+
+Ignore Preference Error(s):  True
+Device utilization summary:
+
+   PIO (prelim)       5/228           2% used
+                      5/133           3% bonded
+
+   SLICE              1/8640         <1% used
+
+   GSR                1/1           100% used
+
+
+Set delay estimator push_ratio: 95
+Number of Signals: 8
+Number of Connections: 13
+
+Pin Constraint Summary:
+   1 out of 1 pins locked (100% locked).
+
+No signal is selected as primary clock.
+
+
+No signal is selected as secondary clock.
+
+Signal ResetxRBI_c is selected as Global Set/Reset.
+.
+Starting Placer Phase 0.
+.......
+Finished Placer Phase 0.  REAL time: 0 secs 
+
+Starting Placer Phase 1.
+................
+Placer score = 1366.
+Finished Placer Phase 1.  REAL time: 6 secs 
+
+Starting Placer Phase 2.
+.
+. ...
+
+Placer score =  1366
+Finished Placer Phase 2.  REAL time: 6 secs 
+
+
+------------------ Clock Report ------------------
+
+Global Clock Resources:
+  CLK_PIN    : 0 out of 6 (0%)
+  PLL        : 0 out of 2 (0%)
+  DCS        : 0 out of 8 (0%)
+
+Quadrants All (TL, TR, BL, BR) - Global Clocks:
+
+  PRIMARY  : 0 out of 8 (0%)
+     DCS   : 0 out of 2 (0%)
+     DCC   : 0 out of 6 (0%)
+  SECONDARY: 0 out of 8 (0%)
+
+Edge Clocks:
+  No edge clock selected.
+
+Regional Secondary Clocks:
+  No regional secondary clock selected.
+
+--------------- End of Clock Report ---------------
+
+
+I/O Usage Summary (final):
+   5 out of 228 (2.2%) PIO sites used.
+   5 out of 133 (3.8%) bonded PIO sites used.
+   Number of PIO comps: 5; differential: 0
+   Number of Vref pins used: 0
+
+I/O Bank Usage Summary:
+----------+------------------+-------+-----------------+----------------
+ I/O Bank | Usage            | Vccio |  Vref1 / Vref2  |  Vtt
+----------+------------------+-------+-----------------+----------------
+    0     |   0 / 26  (  0%) |  OFF  |    OFF / OFF    |               
+    1     |   0 / 14  (  0%) |  OFF  |    OFF / OFF    |               
+    2     |   0 / 8   (  0%) |  OFF  |    OFF / OFF    |               
+    3     |   4 / 18  ( 22%) | 3.3V  |    OFF / OFF    |               
+    6     |   0 / 20  (  0%) |  OFF  |    OFF / OFF    |               
+    7     |   0 / 23  (  0%) |  OFF  |    OFF / OFF    |               
+    8     |   1 / 24  (  4%) | 3.3V  |    OFF / OFF    |               
+----------+------------------+-------+-----------------+----------------
+
+---------------------------------- DSP Report ----------------------------------
+
+DSP Slice #:           1  2  3  4  5  6  7  8  9 10 11 12
+# of MULT9X9C                                            
+# of MULT18X18C                                          
+# of ALU24A                                              
+# of ALU54A                                              
+
+------------------------------ End of DSP Report -------------------------------
+Total placer CPU time: 6 secs 
+
+Dumping design to file DAViS_USB3_DAViS_USB3.dir/5_1.ncd.
+
+0 connections routed; 13 unrouted.
+Starting router resource preassignment
+
+WARNING - par: The following clock signals will be routed by using generic routing resource and may suffer from excessive delay and/or skew.
+   Signal=ClockxCI_c loads=1 clock_loads=1
+
+Completed router resource preassignment. Real time: 9 secs 
+
+Start NBR router at 18:06:32 02/18/14
+
+*****************************************************************
+Info: NBR allows conflicts(one node used by more than one signal)
+      in the earlier iterations. In each iteration, it tries to  
+      solve the conflicts while keeping the critical connections 
+      routed as short as possible. The routing process is said to
+      be completed when no conflicts exist and all connections   
+      are routed.                                                
+Note: NBR uses a different method to calculate timing slacks. The
+      worst slack and total negative slack may not be the same as
+      that in TRCE report. You should always run TRCE to verify  
+      your design. Thanks.                                       
+*****************************************************************
+
+Start NBR special constraint process at 18:06:32 02/18/14
+
+Start NBR section for initial routing
+Level 4, iteration 1
+0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 10.029ns/0.000ns; real time: 9 secs 
+
+Info: Initial congestion level at 75% usage is 0
+Info: Initial congestion area  at 75% usage is 0 (0.00%)
+
+Start NBR section for normal routing
+Level 4, iteration 1
+0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 10.029ns/0.000ns; real time: 9 secs 
+
+Start NBR section for re-routing
+Level 4, iteration 1
+0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 10.029ns/0.000ns; real time: 9 secs 
+
+Start NBR section for post-routing
+
+End NBR router with 0 unrouted connection
+
+NBR Summary
+-----------
+  Number of unrouted connections : 0 (0.00%)
+  Number of connections with timing violations : 0 (0.00%)
+  Estimated worst slack : 10.029ns
+  Timing score : 0
+-----------
+Notes: The timing info is calculated for SETUP only and all PAR_ADJs are ignored.
+
+
+
+Hold time optimization iteration 0:
+All hold time violations have been successfully corrected in speed grade M
+
+Total CPU time 9 secs 
+Total REAL time: 10 secs 
+Completely routed.
+End of route.  13 routed (100.00%); 0 unrouted.
+Checking DRC ... 
+No errors found.
+
+Hold time timing score: 0, hold timing errors: 0
+
+Timing score: 0 
+
+Dumping design to file DAViS_USB3_DAViS_USB3.dir/5_1.ncd.
+
+
+All signals are completely routed.
+
+
+PAR_SUMMARY::Run status = completed
+PAR_SUMMARY::Number of unrouted conns = 0
+PAR_SUMMARY::Worst  slack<setup/<ns>> = 10.029
+PAR_SUMMARY::Timing score<setup/<ns>> = 0.000
+PAR_SUMMARY::Worst  slack<hold /<ns>> = 0.200
+PAR_SUMMARY::Timing score<hold /<ns>> = 0.000
+
+Total CPU  time to completion: 9 secs 
+Total REAL time to completion: 10 secs 
+
+par done!
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.

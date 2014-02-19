@@ -1,0 +1,650 @@
+
+map -a "LatticeECP3" -p LFE3-17EA -t FTBGA256 -s 7 -oc Industrial   "DAViS_USB3_DAViS_USB3.ngd" -o "DAViS_USB3_DAViS_USB3_map.ncd" -pr "DAViS_USB3_DAViS_USB3.prf" -mp "DAViS_USB3_DAViS_USB3.mrp" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf"             
+map:  version Diamond (64-bit) 3.0.0.97
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
+   Process the file: DAViS_USB3_DAViS_USB3.ngd
+   Picdevice="LFE3-17EA"
+
+   Pictype="FTBGA256"
+
+   Picspeed=7
+
+   Remove unused logic
+
+   Do not produce over sized NCDs.
+
+Part used: LFE3-17EAFTBGA256, Performance used: 7.
+
+    <postMsg mid="1100523" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(3): Semantic error in &quot;FREQUENCY NET &quot;ClockxC_c&quot; 90.000000 MHz ;&quot;: " arg1="ClockxC_c matches no clock nets in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="3"  />
+    <postMsg mid="1101650" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(4): Semantic error in &quot;USE PRIMARY NET &quot;IfClockxCI_c&quot; ;&quot;: " arg1="IfClockxCI_c" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="4"  />
+    <postMsg mid="1101650" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(5): Semantic error in &quot;USE PRIMARY NET &quot;ClockxC_c&quot; ;&quot;: " arg1="ClockxC_c" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="5"  />
+    <postMsg mid="1100300" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(24): Semantic error in &quot;DEFINE PORT GROUP &quot;FX3FifoData&quot; &quot;FX3FifoDataxDIO_15&quot; &#xA;&quot;FX3FifoDataxDIO_14&quot; &#xA;&quot;FX3FifoDataxDIO_13&quot; &#xA;&quot;FX3FifoDataxDIO_12&quot; &#xA;&quot;FX3FifoDataxDIO_11&quot; &#xA;&quot;FX3FifoDataxDIO_10&quot; &#xA;&quot;FX3FifoDataxDIO_9&quot; &#xA;&quot;FX3FifoDataxDIO_8&quot; &#xA;&quot;FX3FifoDataxDIO_7&quot; &#xA;&quot;FX3FifoDataxDIO_6&quot; &#xA;&quot;FX3FifoDataxDIO_5&quot; &#xA;&quot;FX3FifoDataxDIO_4&quot; &#xA;&quot;FX3FifoDataxDIO_3&quot; &#xA;&quot;FX3FifoDataxDIO_2&quot; &#xA;&quot;FX3FifoDataxDIO_1&quot; &#xA;&quot;FX3FifoDataxDIO_0&quot; ;&quot;: " arg1="&quot;FX3FifoDataxDIO_15&quot; matches no ports in the design. &quot;FX3FifoDataxDIO_14&quot; matches no ports in the design. &quot;FX3FifoDataxDIO_13&quot; matches no ports in the design. &quot;FX3FifoDataxDIO_12&quot; matches no ports in the design. &quot;FX3FifoDataxDIO_11&quot; matches no ports in the design. &quot;FX3FifoDataxDIO_10&quot; matches no ports in the design. &quot;FX3Fif   ....    design. &quot;FX3FifoDataxDIO_2&quot; matches no ports in the design. &quot;FX3FifoDataxDIO_1&quot; matches no ports in the design. &quot;FX3FifoDataxDIO_0&quot; matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="24"  />
+    <postMsg mid="1100300" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(45): Semantic error in &quot;DEFINE PORT GROUP &quot;TNxfifox&quot; &quot;TNxfifoxDIO_18&quot; &#xA;&quot;TNxfifoxDIO_17&quot; &#xA;&quot;TNxfifoxDIO_16&quot; &#xA;&quot;TNxfifoxDIO_15&quot; &#xA;&quot;TNxfifoxDIO_14&quot; &#xA;&quot;TNxfifoxDIO_13&quot; &#xA;&quot;TNxfifoxDIO_12&quot; &#xA;&quot;TNxfifoxDIO_11&quot; &#xA;&quot;TNxfifoxDIO_10&quot; &#xA;&quot;TNxfifoxDIO_9&quot; &#xA;&quot;TNxfifoxDIO_8&quot; &#xA;&quot;TNxfifoxDIO_7&quot; &#xA;&quot;TNxfifoxDIO_6&quot; &#xA;&quot;TNxfifoxDIO_5&quot; &#xA;&quot;TNxfifoxDIO_4&quot; &#xA;&quot;TNxfifoxDIO_3&quot; &#xA;&quot;TNxfifoxDIO_2&quot; &#xA;&quot;TNxfifoxDIO_1&quot; &#xA;&quot;TNxfifoxDIO_0&quot; ;&quot;: " arg1="&quot;TNxfifoxDIO_18&quot; matches no ports in the design. &quot;TNxfifoxDIO_17&quot; matches no ports in the design. &quot;TNxfifoxDIO_16&quot; matches no ports in the design. &quot;TNxfifoxDIO_15&quot; matches no ports in the design. &quot;TNxfifoxDIO_14&quot; matches no ports in the design. &quot;TNxfifoxDIO_13&quot; matches no ports in the design. &quot;TNxfifoxDIO_12&quot; matches no por   ....   ports in the design. &quot;TNxfifoxDIO_2&quot; matches no ports in the design. &quot;TNxfifoxDIO_1&quot; matches no ports in the design. &quot;TNxfifoxDIO_0&quot; matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="45"  />
+    <postMsg mid="1101121" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(244): Semantic error in &quot;CLOCK_TO_OUT GROUP &quot;FX3FifoData&quot; 20.000000 ns MIN 0.000000 ns CLKPORT &quot;IfClockxCI&quot; ;&quot;: " arg1="group &quot;FX3FifoData&quot; doesn&apos;t find a match in design. &quot;IfClockxCI&quot; matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="244"  />
+    <postMsg mid="1101121" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(245): Semantic error in &quot;CLOCK_TO_OUT PORT &quot;FX3FifoWritexEBO&quot; 12.000000 ns MIN 0.000000 ns CLKPORT &quot;IfClockxCI&quot; ;&quot;: " arg1="FX3FifoWritexEBO matches no ports in the design. &quot;IfClockxCI&quot; matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="245"  />
+    <postMsg mid="1101121" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(246): Semantic error in &quot;CLOCK_TO_OUT PORT &quot;FX3FifoPktEndxSBO&quot; 15.000000 ns MIN 0.000000 ns CLKPORT &quot;IfClockxCI&quot; ;&quot;: " arg1="FX3FifoPktEndxSBO matches no ports in the design. &quot;IfClockxCI&quot; matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="246"  />
+    <postMsg mid="1101121" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(247): Semantic error in &quot;INPUT_SETUP PORT &quot;FX3FifoInFullxSBI&quot; 20.000000 ns HOLD 0.000000 ns CLKPORT &quot;IfClockxCI&quot; ;&quot;: " arg1="FX3FifoInFullxSBI matches no ports in the design. &quot;IfClockxCI&quot; matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="247"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(252): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_15&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_15 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="252"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(253): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_14&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_14 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="253"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(254): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_13&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_13 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="254"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(255): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_12&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_12 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="255"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(256): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_11&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_11 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="256"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(257): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_10&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_10 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="257"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(258): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_9&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_9 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="258"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(259): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_8&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_8 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="259"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(260): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_7&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_7 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="260"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(261): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_6&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_6 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="261"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(262): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_5&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_5 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="262"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(263): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_4&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_4 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="263"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(264): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_3&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_3 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="264"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(265): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_2&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_2 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="265"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(266): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_1&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_1 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="266"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(267): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoDataxDIO_0&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoDataxDIO_0 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="267"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(268): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoWritexEBO&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoWritexEBO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="268"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(269): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoReadxEBO&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoReadxEBO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="269"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(270): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoPktEndxSBO&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoPktEndxSBO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="270"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(271): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoAddressxDO_1&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoAddressxDO_1 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="271"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(272): Semantic error in &quot;OUTPUT PORT &quot;FX3FifoAddressxDO_0&quot; LOAD 1.000000 pF ;&quot;: " arg1="FX3FifoAddressxDO_0 matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="272"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(275): Semantic error in &quot;OUTPUT PORT &quot;ADCclockxCO&quot; LOAD 1.000000 pF ;&quot;: " arg1="ADCclockxCO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="275"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(276): Semantic error in &quot;OUTPUT PORT &quot;ADCoexEBO&quot; LOAD 1.000000 pF ;&quot;: " arg1="ADCoexEBO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="276"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(277): Semantic error in &quot;OUTPUT PORT &quot;ADCstbyxEO&quot; LOAD 1.000000 pF ;&quot;: " arg1="ADCstbyxEO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="277"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(278): Semantic error in &quot;OUTPUT PORT &quot;CDVSTestSRRowClockxSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="CDVSTestSRRowClockxSO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="278"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(279): Semantic error in &quot;OUTPUT PORT &quot;CDVSTestSRColClockxSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="CDVSTestSRColClockxSO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="279"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(280): Semantic error in &quot;OUTPUT PORT &quot;CDVSTestSRRowInxSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="CDVSTestSRRowInxSO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="280"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(281): Semantic error in &quot;OUTPUT PORT &quot;CDVSTestSRColInxSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="CDVSTestSRColInxSO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="281"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(282): Semantic error in &quot;OUTPUT PORT &quot;CDVSTestBiasEnablexEO&quot; LOAD 1.000000 pF ;&quot;: " arg1="CDVSTestBiasEnablexEO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="282"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(283): Semantic error in &quot;OUTPUT PORT &quot;CDVSTestChipResetxRBO&quot; LOAD 1.000000 pF ;&quot;: " arg1="CDVSTestChipResetxRBO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="283"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(284): Semantic error in &quot;OUTPUT PORT &quot;CDVSTestColMode0xSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="CDVSTestColMode0xSO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="284"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(285): Semantic error in &quot;OUTPUT PORT &quot;CDVSTestColMode1xSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="CDVSTestColMode1xSO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="285"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(286): Semantic error in &quot;OUTPUT PORT &quot;CDVSTestBiasDiagSelxSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="CDVSTestBiasDiagSelxSO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="286"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(287): Semantic error in &quot;OUTPUT PORT &quot;CDVSTestApsTxGatexSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="CDVSTestApsTxGatexSO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="287"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(289): Semantic error in &quot;OUTPUT PORT &quot;LED1xSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="LED1xSO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="289"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(290): Semantic error in &quot;OUTPUT PORT &quot;LED2xSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="LED2xSO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="290"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(291): Semantic error in &quot;OUTPUT PORT &quot;LED3xSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="LED3xSO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="291"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(292): Semantic error in &quot;OUTPUT PORT &quot;LED4xSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="LED4xSO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="292"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(293): Semantic error in &quot;OUTPUT PORT &quot;LED5xSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="LED5xSO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="293"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(295): Semantic error in &quot;OUTPUT PORT &quot;AERMonitorACKxSBO&quot; LOAD 1.000000 pF ;&quot;: " arg1="AERMonitorACKxSBO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="295"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(296): Semantic error in &quot;OUTPUT PORT &quot;Vref2_2xDIO&quot; LOAD 1.000000 pF ;&quot;: " arg1="Vref2_2xDIO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="296"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(297): Semantic error in &quot;OUTPUT PORT &quot;Vref1_2xDIO&quot; LOAD 1.000000 pF ;&quot;: " arg1="Vref1_2xDIO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="297"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(298): Semantic error in &quot;OUTPUT PORT &quot;CLKC1_DIO&quot; LOAD 1.000000 pF ;&quot;: " arg1="CLKC1_DIO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="298"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(299): Semantic error in &quot;OUTPUT PORT &quot;CLKT1_DIO&quot; LOAD 1.000000 pF ;&quot;: " arg1="CLKT1_DIO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="299"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(306): Semantic error in &quot;OUTPUT PORT &quot;SDO_TN&quot; LOAD 1.000000 pF ;&quot;: " arg1="SDO_TN matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="306"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(307): Semantic error in &quot;OUTPUT PORT &quot;SCK_TN&quot; LOAD 1.000000 pF ;&quot;: " arg1="SCK_TN matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="307"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(309): Semantic error in &quot;OUTPUT PORT &quot;TN_Req_out&quot; LOAD 1.000000 pF ;&quot;: " arg1="TN_Req_out matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="309"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(310): Semantic error in &quot;OUTPUT PORT &quot;TN_Ack_out&quot; LOAD 1.000000 pF ;&quot;: " arg1="TN_Ack_out matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="310"  />
+    <postMsg mid="1100641" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(335): Semantic error in &quot;IOBUF PORT &quot;AERMonitorACKxSBO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=14 ;&quot;: " arg1="Key DRIVE=14 is not supported for this device. Default value NA will be used. &#xA;" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="335"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(346): Semantic error in &quot;OUTPUT PORT &quot;SyncOut1xSBO&quot; LOAD 1.000000 pF ;&quot;: " arg1="SyncOut1xSBO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="346"  />
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(347): Semantic error in &quot;OUTPUT PORT &quot;SyncOut2xSBO&quot; LOAD 1.000000 pF ;&quot;: " arg1="SyncOut2xSBO matches no ports in the design. " arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="347"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(49): Semantic error in &quot;LOCATE COMP &quot;SyncInSWxEI&quot; SITE &quot;A3&quot; ;&quot;: " arg1="SyncInSWxEI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="49"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(51): Semantic error in &quot;LOCATE COMP &quot;SyncInCLKxCB&quot; SITE &quot;A2&quot; ;&quot;: " arg1="SyncInCLKxCB" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="51"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(53): Semantic error in &quot;LOCATE COMP &quot;SyncOutSWxEI&quot; SITE &quot;A14&quot; ;&quot;: " arg1="SyncOutSWxEI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="53"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(55): Semantic error in &quot;LOCATE COMP &quot;SyncOut1xSBO&quot; SITE &quot;A13&quot; ;&quot;: " arg1="SyncOut1xSBO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="55"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(57): Semantic error in &quot;LOCATE COMP &quot;PE3xSI&quot; SITE &quot;T11&quot; ;&quot;: " arg1="PE3xSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="57"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(58): Semantic error in &quot;LOCATE COMP &quot;PA3xSI&quot; SITE &quot;T12&quot; ;&quot;: " arg1="PA3xSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="58"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(59): Semantic error in &quot;LOCATE COMP &quot;PC0xSI&quot; SITE &quot;P12&quot; ;&quot;: " arg1="PC0xSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="59"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(60): Semantic error in &quot;LOCATE COMP &quot;PE2xSI&quot; SITE &quot;R14&quot; ;&quot;: " arg1="PE2xSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="60"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(61): Semantic error in &quot;LOCATE COMP &quot;PC1xSI&quot; SITE &quot;P14&quot; ;&quot;: " arg1="PC1xSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="61"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(62): Semantic error in &quot;LOCATE COMP &quot;PC2xSI&quot; SITE &quot;P16&quot; ;&quot;: " arg1="PC2xSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="62"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(63): Semantic error in &quot;LOCATE COMP &quot;PC3xSI&quot; SITE &quot;P15&quot; ;&quot;: " arg1="PC3xSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="63"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(64): Semantic error in &quot;LOCATE COMP &quot;PA7xSI&quot; SITE &quot;R16&quot; ;&quot;: " arg1="PA7xSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="64"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(65): Semantic error in &quot;LOCATE COMP &quot;PA1xSI&quot; SITE &quot;T14&quot; ;&quot;: " arg1="PA1xSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="65"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(66): Semantic error in &quot;LOCATE COMP &quot;PA0xSI&quot; SITE &quot;R15&quot; ;&quot;: " arg1="PA0xSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="66"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(68): Semantic error in &quot;LOCATE COMP &quot;FXLEDxSI&quot; SITE &quot;A2&quot; ;&quot;: " arg1="FXLEDxSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="68"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(69): Semantic error in &quot;LOCATE COMP &quot;AERMonitorREQxABI&quot; SITE &quot;B9&quot; ;&quot;: " arg1="AERMonitorREQxABI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="69"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(70): Semantic error in &quot;LOCATE COMP &quot;AERMonitorACKxSBO&quot; SITE &quot;C8&quot; ;&quot;: " arg1="AERMonitorACKxSBO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="70"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(71): Semantic error in &quot;LOCATE COMP &quot;AERMonitorAddressxDI_9&quot; SITE &quot;F3&quot; ;&quot;: " arg1="AERMonitorAddressxDI_9" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="71"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(72): Semantic error in &quot;LOCATE COMP &quot;AERMonitorAddressxDI_8&quot; SITE &quot;G3&quot; ;&quot;: " arg1="AERMonitorAddressxDI_8" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="72"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(73): Semantic error in &quot;LOCATE COMP &quot;AERMonitorAddressxDI_7&quot; SITE &quot;F2&quot; ;&quot;: " arg1="AERMonitorAddressxDI_7" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="73"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(74): Semantic error in &quot;LOCATE COMP &quot;AERMonitorAddressxDI_6&quot; SITE &quot;F1&quot; ;&quot;: " arg1="AERMonitorAddressxDI_6" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="74"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(75): Semantic error in &quot;LOCATE COMP &quot;AERMonitorAddressxDI_5&quot; SITE &quot;G4&quot; ;&quot;: " arg1="AERMonitorAddressxDI_5" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="75"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(76): Semantic error in &quot;LOCATE COMP &quot;AERMonitorAddressxDI_4&quot; SITE &quot;H4&quot; ;&quot;: " arg1="AERMonitorAddressxDI_4" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="76"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(77): Semantic error in &quot;LOCATE COMP &quot;AERMonitorAddressxDI_3&quot; SITE &quot;H3&quot; ;&quot;: " arg1="AERMonitorAddressxDI_3" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="77"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(78): Semantic error in &quot;LOCATE COMP &quot;AERMonitorAddressxDI_2&quot; SITE &quot;J3&quot; ;&quot;: " arg1="AERMonitorAddressxDI_2" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="78"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(79): Semantic error in &quot;LOCATE COMP &quot;AERMonitorAddressxDI_1&quot; SITE &quot;G2&quot; ;&quot;: " arg1="AERMonitorAddressxDI_1" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="79"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(80): Semantic error in &quot;LOCATE COMP &quot;AERMonitorAddressxDI_0&quot; SITE &quot;H2&quot; ;&quot;: " arg1="AERMonitorAddressxDI_0" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="80"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(82): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_15&quot; SITE &quot;M1&quot; ;&quot;: " arg1="FX3FifoDataxDIO_15" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="82"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(83): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_14&quot; SITE &quot;P6&quot; ;&quot;: " arg1="FX3FifoDataxDIO_14" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="83"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(84): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_13&quot; SITE &quot;P3&quot; ;&quot;: " arg1="FX3FifoDataxDIO_13" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="84"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(85): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_12&quot; SITE &quot;P5&quot; ;&quot;: " arg1="FX3FifoDataxDIO_12" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="85"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(86): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_11&quot; SITE &quot;T7&quot; ;&quot;: " arg1="FX3FifoDataxDIO_11" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="86"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(87): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_10&quot; SITE &quot;R1&quot; ;&quot;: " arg1="FX3FifoDataxDIO_10" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="87"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(88): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_9&quot; SITE &quot;K1&quot; ;&quot;: " arg1="FX3FifoDataxDIO_9" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="88"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(89): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_8&quot; SITE &quot;N1&quot; ;&quot;: " arg1="FX3FifoDataxDIO_8" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="89"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(90): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_7&quot; SITE &quot;P2&quot; ;&quot;: " arg1="FX3FifoDataxDIO_7" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="90"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(91): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_6&quot; SITE &quot;P1&quot; ;&quot;: " arg1="FX3FifoDataxDIO_6" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="91"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(92): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_5&quot; SITE &quot;R3&quot; ;&quot;: " arg1="FX3FifoDataxDIO_5" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="92"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(93): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_4&quot; SITE &quot;R2&quot; ;&quot;: " arg1="FX3FifoDataxDIO_4" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="93"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(94): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_3&quot; SITE &quot;T5&quot; ;&quot;: " arg1="FX3FifoDataxDIO_3" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="94"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(95): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_2&quot; SITE &quot;T6&quot; ;&quot;: " arg1="FX3FifoDataxDIO_2" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="95"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(96): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_1&quot; SITE &quot;T3&quot; ;&quot;: " arg1="FX3FifoDataxDIO_1" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="96"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(97): Semantic error in &quot;LOCATE COMP &quot;FX3FifoDataxDIO_0&quot; SITE &quot;T2&quot; ;&quot;: " arg1="FX3FifoDataxDIO_0" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="97"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(98): Semantic error in &quot;LOCATE COMP &quot;FX3FifoWritexEBO&quot; SITE &quot;T8&quot; ;&quot;: " arg1="FX3FifoWritexEBO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="98"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(99): Semantic error in &quot;LOCATE COMP &quot;FX3FifoReadxEBO&quot; SITE &quot;T9&quot; ;&quot;: " arg1="FX3FifoReadxEBO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="99"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(100): Semantic error in &quot;LOCATE COMP &quot;FX3FifoPktEndxSBO&quot; SITE &quot;T10&quot; ;&quot;: " arg1="FX3FifoPktEndxSBO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="100"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(101): Semantic error in &quot;LOCATE COMP &quot;FX3FifoAddressxDO_0&quot; SITE &quot;P10&quot; ;&quot;: " arg1="FX3FifoAddressxDO_0" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="101"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(102): Semantic error in &quot;LOCATE COMP &quot;FX3FifoAddressxDO_1&quot; SITE &quot;P11&quot; ;&quot;: " arg1="FX3FifoAddressxDO_1" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="102"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(103): Semantic error in &quot;LOCATE COMP &quot;FX3FifoInFullxSBI&quot; SITE &quot;P9&quot; ;&quot;: " arg1="FX3FifoInFullxSBI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="103"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(104): Semantic error in &quot;LOCATE COMP &quot;FX3FifoInAlmFullxSBI&quot; SITE &quot;K4&quot; ;&quot;: " arg1="FX3FifoInAlmFullxSBI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="104"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(105): Semantic error in &quot;LOCATE COMP &quot;FX3FifoInEmptyxSBI&quot; SITE &quot;P8&quot; ;&quot;: " arg1="FX3FifoInEmptyxSBI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="105"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(106): Semantic error in &quot;LOCATE COMP &quot;FX3FifoInAlmEmptyxSBI&quot; SITE &quot;L3&quot; ;&quot;: " arg1="FX3FifoInAlmEmptyxSBI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="106"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(107): Semantic error in &quot;LOCATE COMP &quot;FX3FifoSLCSxEBO&quot; SITE &quot;P7&quot; ;&quot;: " arg1="FX3FifoSLCSxEBO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="107"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(110): Semantic error in &quot;LOCATE COMP &quot;IfClockxCI&quot; SITE &quot;K3&quot; ;&quot;: " arg1="IfClockxCI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="110"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(111): Semantic error in &quot;LOCATE COMP &quot;CDVSTestSRRowClockxSO&quot; SITE &quot;D9&quot; ;&quot;: " arg1="CDVSTestSRRowClockxSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="111"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(112): Semantic error in &quot;LOCATE COMP &quot;CDVSTestSRColClockxSO&quot; SITE &quot;D11&quot; ;&quot;: " arg1="CDVSTestSRColClockxSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="112"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(113): Semantic error in &quot;LOCATE COMP &quot;CDVSTestSRRowInxSO&quot; SITE &quot;C9&quot; ;&quot;: " arg1="CDVSTestSRRowInxSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="113"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(114): Semantic error in &quot;LOCATE COMP &quot;CDVSTestSRColInxSO&quot; SITE &quot;D12&quot; ;&quot;: " arg1="CDVSTestSRColInxSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="114"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(115): Semantic error in &quot;LOCATE COMP &quot;CDVSTestBiasEnablexEO&quot; SITE &quot;D8&quot; ;&quot;: " arg1="CDVSTestBiasEnablexEO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="115"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(116): Semantic error in &quot;LOCATE COMP &quot;CDVSTestChipResetxRBO&quot; SITE &quot;E11&quot; ;&quot;: " arg1="CDVSTestChipResetxRBO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="116"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(117): Semantic error in &quot;LOCATE COMP &quot;CDVSTestColMode0xSO&quot; SITE &quot;B11&quot; ;&quot;: " arg1="CDVSTestColMode0xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="117"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(118): Semantic error in &quot;LOCATE COMP &quot;CDVSTestColMode1xSO&quot; SITE &quot;C11&quot; ;&quot;: " arg1="CDVSTestColMode1xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="118"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(119): Semantic error in &quot;LOCATE COMP &quot;CDVSTestBiasDiagSelxSO&quot; SITE &quot;D7&quot; ;&quot;: " arg1="CDVSTestBiasDiagSelxSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="119"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(120): Semantic error in &quot;LOCATE COMP &quot;CDVSTestBiasBitOutxSI&quot; SITE &quot;A8&quot; ;&quot;: " arg1="CDVSTestBiasBitOutxSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="120"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(121): Semantic error in &quot;LOCATE COMP &quot;CDVSTestApsTxGatexSO&quot; SITE &quot;A9&quot; ;&quot;: " arg1="CDVSTestApsTxGatexSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="121"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(122): Semantic error in &quot;LOCATE COMP &quot;LED1xSO&quot; SITE &quot;C3&quot; ;&quot;: " arg1="LED1xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="122"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(123): Semantic error in &quot;LOCATE COMP &quot;LED2xSO&quot; SITE &quot;A12&quot; ;&quot;: " arg1="LED2xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="123"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(124): Semantic error in &quot;LOCATE COMP &quot;LED3xSO&quot; SITE &quot;B3&quot; ;&quot;: " arg1="LED3xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="124"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(125): Semantic error in &quot;LOCATE COMP &quot;LED4xSO&quot; SITE &quot;C8&quot; ;&quot;: " arg1="LED4xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="125"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(126): Semantic error in &quot;LOCATE COMP &quot;LED5xSO&quot; SITE &quot;B9&quot; ;&quot;: " arg1="LED5xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="126"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(127): Semantic error in &quot;LOCATE COMP &quot;ADCclockxCO&quot; SITE &quot;B10&quot; ;&quot;: " arg1="ADCclockxCO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="127"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(128): Semantic error in &quot;LOCATE COMP &quot;ADCoexEBO&quot; SITE &quot;C10&quot; ;&quot;: " arg1="ADCoexEBO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="128"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(129): Semantic error in &quot;LOCATE COMP &quot;ADCstbyxEO&quot; SITE &quot;D10&quot; ;&quot;: " arg1="ADCstbyxEO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="129"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(130): Semantic error in &quot;LOCATE COMP &quot;ADCovrxSI&quot; SITE &quot;A10&quot; ;&quot;: " arg1="ADCovrxSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="130"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(131): Semantic error in &quot;LOCATE COMP &quot;ADCwordxDI_9&quot; SITE &quot;J15&quot; ;&quot;: " arg1="ADCwordxDI_9" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="131"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(132): Semantic error in &quot;LOCATE COMP &quot;ADCwordxDI_8&quot; SITE &quot;H16&quot; ;&quot;: " arg1="ADCwordxDI_8" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="132"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(133): Semantic error in &quot;LOCATE COMP &quot;ADCwordxDI_7&quot; SITE &quot;G15&quot; ;&quot;: " arg1="ADCwordxDI_7" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="133"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(134): Semantic error in &quot;LOCATE COMP &quot;ADCwordxDI_6&quot; SITE &quot;G16&quot; ;&quot;: " arg1="ADCwordxDI_6" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="134"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(135): Semantic error in &quot;LOCATE COMP &quot;ADCwordxDI_5&quot; SITE &quot;F15&quot; ;&quot;: " arg1="ADCwordxDI_5" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="135"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(136): Semantic error in &quot;LOCATE COMP &quot;ADCwordxDI_4&quot; SITE &quot;F16&quot; ;&quot;: " arg1="ADCwordxDI_4" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="136"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(137): Semantic error in &quot;LOCATE COMP &quot;ADCwordxDI_3&quot; SITE &quot;E15&quot; ;&quot;: " arg1="ADCwordxDI_3" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="137"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(138): Semantic error in &quot;LOCATE COMP &quot;ADCwordxDI_2&quot; SITE &quot;E16&quot; ;&quot;: " arg1="ADCwordxDI_2" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="138"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(139): Semantic error in &quot;LOCATE COMP &quot;ADCwordxDI_1&quot; SITE &quot;D16&quot; ;&quot;: " arg1="ADCwordxDI_1" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="139"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(140): Semantic error in &quot;LOCATE COMP &quot;ADCwordxDI_0&quot; SITE &quot;C16&quot; ;&quot;: " arg1="ADCwordxDI_0" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="140"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(141): Semantic error in &quot;LOCATE COMP &quot;SSN&quot; SITE &quot;E13&quot; ;&quot;: " arg1="SSN" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="141"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(142): Semantic error in &quot;LOCATE COMP &quot;SSN_FPGA&quot; SITE &quot;F13&quot; ;&quot;: " arg1="SSN_FPGA" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="142"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(143): Semantic error in &quot;LOCATE COMP &quot;MOSI&quot; SITE &quot;G14&quot; ;&quot;: " arg1="MOSI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="143"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(144): Semantic error in &quot;LOCATE COMP &quot;MISO&quot; SITE &quot;G13&quot; ;&quot;: " arg1="MISO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="144"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(145): Semantic error in &quot;LOCATE COMP &quot;SCK&quot; SITE &quot;D13&quot; ;&quot;: " arg1="SCK" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="145"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(149): Semantic error in &quot;LOCATE COMP &quot;TN_clkC0&quot; SITE &quot;E9&quot; ;&quot;: " arg1="TN_clkC0" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="149"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(150): Semantic error in &quot;LOCATE COMP &quot;TN_reset&quot; SITE &quot;A6&quot; ;&quot;: " arg1="TN_reset" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="150"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(151): Semantic error in &quot;LOCATE COMP &quot;TN_int&quot; SITE &quot;B6&quot; ;&quot;: " arg1="TN_int" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="151"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(153): Semantic error in &quot;LOCATE COMP &quot;SDI_TN&quot; SITE &quot;C7&quot; ;&quot;: " arg1="SDI_TN" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="153"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(154): Semantic error in &quot;LOCATE COMP &quot;SDO_TN&quot; SITE &quot;C6&quot; ;&quot;: " arg1="SDO_TN" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="154"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(155): Semantic error in &quot;LOCATE COMP &quot;SCK_TN&quot; SITE &quot;J4&quot; ;&quot;: " arg1="SCK_TN" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="155"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(157): Semantic error in &quot;LOCATE COMP &quot;TN_Req_out&quot; SITE &quot;A5&quot; ;&quot;: " arg1="TN_Req_out" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="157"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(158): Semantic error in &quot;LOCATE COMP &quot;TN_Ack_out&quot; SITE &quot;D6&quot; ;&quot;: " arg1="TN_Ack_out" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="158"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(159): Semantic error in &quot;LOCATE COMP &quot;TN_Req_in&quot; SITE &quot;B9&quot; ;&quot;: " arg1="TN_Req_in" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="159"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(160): Semantic error in &quot;LOCATE COMP &quot;TN_Ack_in&quot; SITE &quot;C8&quot; ;&quot;: " arg1="TN_Ack_in" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="160"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(205): Semantic error in &quot;LOCATE COMP &quot;sigBUS4xDIO&quot; SITE &quot;K4&quot; ;&quot;: " arg1="sigBUS4xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="205"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(206): Semantic error in &quot;LOCATE COMP &quot;sigBUS5xDIO&quot; SITE &quot;L3&quot; ;&quot;: " arg1="sigBUS5xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="206"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(207): Semantic error in &quot;LOCATE COMP &quot;sigBUS6xDIO&quot; SITE &quot;T10&quot; ;&quot;: " arg1="sigBUS6xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="207"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(208): Semantic error in &quot;LOCATE COMP &quot;sigBUS7xDIO&quot; SITE &quot;T9&quot; ;&quot;: " arg1="sigBUS7xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="208"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(209): Semantic error in &quot;LOCATE COMP &quot;sigBUS8xDIO&quot; SITE &quot;T8&quot; ;&quot;: " arg1="sigBUS8xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="209"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(210): Semantic error in &quot;LOCATE COMP &quot;sigBUS9xDIO&quot; SITE &quot;P11&quot; ;&quot;: " arg1="sigBUS9xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="210"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(211): Semantic error in &quot;LOCATE COMP &quot;sigBUS10xDIO&quot; SITE &quot;P9&quot; ;&quot;: " arg1="sigBUS10xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="211"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(212): Semantic error in &quot;LOCATE COMP &quot;sigBUS11xDIO&quot; SITE &quot;P10&quot; ;&quot;: " arg1="sigBUS11xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="212"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(213): Semantic error in &quot;LOCATE COMP &quot;sigBUS12xDIO&quot; SITE &quot;P8&quot; ;&quot;: " arg1="sigBUS12xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="213"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(214): Semantic error in &quot;LOCATE COMP &quot;sigBUS13xDIO&quot; SITE &quot;P7&quot; ;&quot;: " arg1="sigBUS13xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="214"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(215): Semantic error in &quot;LOCATE COMP &quot;sigBUS14xDIO&quot; SITE &quot;C13&quot; ;&quot;: " arg1="sigBUS14xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="215"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(216): Semantic error in &quot;LOCATE COMP &quot;biasAddrSel&quot; SITE &quot;C12&quot; ;&quot;: " arg1="biasAddrSel" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="216"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(219): Semantic error in &quot;LOCATE COMP &quot;Dx1N_DIO&quot; SITE &quot;H13&quot; ;&quot;: " arg1="Dx1N_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="219"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(220): Semantic error in &quot;LOCATE COMP &quot;Dx1P_DIO&quot; SITE &quot;H14&quot; ;&quot;: " arg1="Dx1P_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="220"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(221): Semantic error in &quot;LOCATE COMP &quot;Dx2N_DIO&quot; SITE &quot;E15&quot; ;&quot;: " arg1="Dx2N_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="221"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(222): Semantic error in &quot;LOCATE COMP &quot;Dx2P_DIO&quot; SITE &quot;E16&quot; ;&quot;: " arg1="Dx2P_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="222"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(223): Semantic error in &quot;LOCATE COMP &quot;Dx3N_DIO&quot; SITE &quot;F14&quot; ;&quot;: " arg1="Dx3N_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="223"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(224): Semantic error in &quot;LOCATE COMP &quot;Dx3P_DIO&quot; SITE &quot;E14&quot; ;&quot;: " arg1="Dx3P_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="224"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(225): Semantic error in &quot;LOCATE COMP &quot;Dx4N_DIO&quot; SITE &quot;K16&quot; ;&quot;: " arg1="Dx4N_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="225"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(226): Semantic error in &quot;LOCATE COMP &quot;Dx4P_DIO&quot; SITE &quot;J16&quot; ;&quot;: " arg1="Dx4P_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="226"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(227): Semantic error in &quot;LOCATE COMP &quot;Dx5N_DIO&quot; SITE &quot;B14&quot; ;&quot;: " arg1="Dx5N_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="227"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(228): Semantic error in &quot;LOCATE COMP &quot;Dx5P_DIO&quot; SITE &quot;B13&quot; ;&quot;: " arg1="Dx5P_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="228"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(229): Semantic error in &quot;LOCATE COMP &quot;Dx6_DIO&quot; SITE &quot;A11&quot; ;&quot;: " arg1="Dx6_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="229"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(230): Semantic error in &quot;LOCATE COMP &quot;Dx7_DIO&quot; SITE &quot;T15&quot; ;&quot;: " arg1="Dx7_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="230"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(231): Semantic error in &quot;LOCATE COMP &quot;Dx8N_DIO&quot; SITE &quot;L5&quot; ;&quot;: " arg1="Dx8N_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="231"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(232): Semantic error in &quot;LOCATE COMP &quot;Dx8P_DIO&quot; SITE &quot;L4&quot; ;&quot;: " arg1="Dx8P_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="232"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(234): Semantic error in &quot;LOCATE COMP &quot;Vref2_2xDIO&quot; SITE &quot;J14&quot; ;&quot;: " arg1="Vref2_2xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="234"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(235): Semantic error in &quot;LOCATE COMP &quot;Vref1_2xDIO&quot; SITE &quot;J13&quot; ;&quot;: " arg1="Vref1_2xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="235"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(236): Semantic error in &quot;LOCATE COMP &quot;FSYNCxDI&quot; SITE &quot;L13&quot; ;&quot;: " arg1="FSYNCxDI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="236"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(237): Semantic error in &quot;LOCATE COMP &quot;CLKT1_DIO&quot; SITE &quot;K13&quot; ;&quot;: " arg1="CLKT1_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="237"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(238): Semantic error in &quot;LOCATE COMP &quot;Vref1_6xDIO&quot; SITE &quot;M3&quot; ;&quot;: " arg1="Vref1_6xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="238"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(239): Semantic error in &quot;LOCATE COMP &quot;Vref2_6xDIO&quot; SITE &quot;N3&quot; ;&quot;: " arg1="Vref2_6xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="239"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(250): Semantic error in &quot;IOBUF PORT &quot;AERMonitorREQxABI&quot; IO_TYPE=LVCMOS33 PULLMODE=UP ;&quot;: " arg1="AERMonitorREQxABI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="250"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(301): Semantic error in &quot;IOBUF PORT &quot;TN_clkC0&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="TN_clkC0" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="301"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(302): Semantic error in &quot;IOBUF PORT &quot;TN_reset&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="TN_reset" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="302"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(303): Semantic error in &quot;IOBUF PORT &quot;TN_int&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="TN_int" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="303"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(305): Semantic error in &quot;IOBUF PORT &quot;SDI_TN&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="SDI_TN" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="305"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(311): Semantic error in &quot;IOBUF PORT &quot;TN_Req_in&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="TN_Req_in" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="311"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(312): Semantic error in &quot;IOBUF PORT &quot;TN_Ack_in&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="TN_Ack_in" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="312"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(314): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_15&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_15" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="314"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(315): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_14&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_14" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="315"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(316): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_13&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_13" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="316"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(317): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_12&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_12" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="317"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(318): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_11&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_11" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="318"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(319): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_10&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_10" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="319"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(320): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_9&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_9" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="320"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(321): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_8&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_8" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="321"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(322): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_7&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_7" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="322"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(323): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_6&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_6" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="323"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(324): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_5&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_5" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="324"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(325): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_4&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_4" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="325"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(326): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_3&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_3" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="326"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(327): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_2&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_2" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="327"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(328): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_1&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_1" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="328"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(329): Semantic error in &quot;IOBUF PORT &quot;FX3FifoDataxDIO_0&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="FX3FifoDataxDIO_0" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="329"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(330): Semantic error in &quot;IOBUF PORT &quot;FX3FifoWritexEBO&quot; IO_TYPE=LVCMOS33 PULLMODE=UP DRIVE=8 ;&quot;: " arg1="FX3FifoWritexEBO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="330"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(331): Semantic error in &quot;IOBUF PORT &quot;FX3FifoReadxEBO&quot; IO_TYPE=LVCMOS33 PULLMODE=UP DRIVE=8 ;&quot;: " arg1="FX3FifoReadxEBO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="331"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(332): Semantic error in &quot;IOBUF PORT &quot;FX3FifoPktEndxSBO&quot; IO_TYPE=LVCMOS33 PULLMODE=UP DRIVE=8 ;&quot;: " arg1="FX3FifoPktEndxSBO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="332"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(333): Semantic error in &quot;IOBUF PORT &quot;FX3FifoAddressxDO_1&quot; IO_TYPE=LVCMOS33 PULLMODE=UP DRIVE=8 ;&quot;: " arg1="FX3FifoAddressxDO_1" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="333"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(334): Semantic error in &quot;IOBUF PORT &quot;FX3FifoAddressxDO_0&quot; IO_TYPE=LVCMOS33 PULLMODE=DOWN DRIVE=8 ;&quot;: " arg1="FX3FifoAddressxDO_0" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="334"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(336): Semantic error in &quot;IOBUF PORT &quot;Vref2_2xDIO&quot; IO_TYPE=LVCMOS33 PULLMODE=DOWN ;&quot;: " arg1="Vref2_2xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="336"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(337): Semantic error in &quot;IOBUF PORT &quot;Vref1_2xDIO&quot; IO_TYPE=LVCMOS33 PULLMODE=DOWN ;&quot;: " arg1="Vref1_2xDIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="337"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(338): Semantic error in &quot;IOBUF PORT &quot;CLKC1_DIO&quot; IO_TYPE=LVCMOS33 PULLMODE=DOWN ;&quot;: " arg1="CLKC1_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="338"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(339): Semantic error in &quot;IOBUF PORT &quot;CLKT1_DIO&quot; IO_TYPE=LVCMOS33 PULLMODE=DOWN ;&quot;: " arg1="CLKT1_DIO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="339"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(342): Semantic error in &quot;IOBUF PORT &quot;SyncInSWxEI&quot; IO_TYPE=LVCMOS33 PULLMODE=UP ;&quot;: " arg1="SyncInSWxEI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="342"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(343): Semantic error in &quot;IOBUF PORT &quot;SyncIN1xABI&quot; IO_TYPE=LVCMOS33 PULLMODE=UP ;&quot;: " arg1="SyncIN1xABI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="343"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(344): Semantic error in &quot;IOBUF PORT &quot;SyncIN2xABI&quot; IO_TYPE=LVCMOS33 PULLMODE=UP ;&quot;: " arg1="SyncIN2xABI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="344"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(345): Semantic error in &quot;IOBUF PORT &quot;SyncOutSWxEI&quot; IO_TYPE=LVCMOS33 PULLMODE=UP ;&quot;: " arg1="SyncOutSWxEI" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="345"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(349): Semantic error in &quot;IOBUF PORT &quot;ADCclockxCO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="ADCclockxCO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="349"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(350): Semantic error in &quot;IOBUF PORT &quot;ADCoexEBO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="ADCoexEBO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="350"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(351): Semantic error in &quot;IOBUF PORT &quot;ADCstbyxEO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="ADCstbyxEO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="351"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(352): Semantic error in &quot;IOBUF PORT &quot;CDVSTestSRRowClockxSO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="CDVSTestSRRowClockxSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="352"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(353): Semantic error in &quot;IOBUF PORT &quot;CDVSTestSRColClockxSO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="CDVSTestSRColClockxSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="353"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(354): Semantic error in &quot;IOBUF PORT &quot;CDVSTestSRRowInxSO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="CDVSTestSRRowInxSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="354"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(355): Semantic error in &quot;IOBUF PORT &quot;CDVSTestSRColInxSO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="CDVSTestSRColInxSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="355"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(356): Semantic error in &quot;IOBUF PORT &quot;CDVSTestBiasEnablexEO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="CDVSTestBiasEnablexEO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="356"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(357): Semantic error in &quot;IOBUF PORT &quot;CDVSTestChipResetxRBO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="CDVSTestChipResetxRBO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="357"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(358): Semantic error in &quot;IOBUF PORT &quot;CDVSTestColMode0xSO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="CDVSTestColMode0xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="358"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(359): Semantic error in &quot;IOBUF PORT &quot;CDVSTestColMode1xSO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="CDVSTestColMode1xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="359"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(360): Semantic error in &quot;IOBUF PORT &quot;CDVSTestBiasDiagSelxSO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="CDVSTestBiasDiagSelxSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="360"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(361): Semantic error in &quot;IOBUF PORT &quot;CDVSTestApsTxGatexSO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="CDVSTestApsTxGatexSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="361"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(364): Semantic error in &quot;IOBUF PORT &quot;LED1xSO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="LED1xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="364"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(365): Semantic error in &quot;IOBUF PORT &quot;LED2xSO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="LED2xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="365"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(366): Semantic error in &quot;IOBUF PORT &quot;LED3xSO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="LED3xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="366"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(367): Semantic error in &quot;IOBUF PORT &quot;LED4xSO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="LED4xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="367"  />
+    <postMsg mid="1100644" type="Warning" dynamic="2" navigation="2" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf(368): Semantic error in &quot;IOBUF PORT &quot;LED5xSO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=8 ;&quot;: " arg1="LED5xSO" arg2="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf" arg3="368"  />
+    <postMsg mid="1104062" type="Warning" dynamic="3" navigation="0" arg0="" arg1="245" arg2="s"  />
+    <postMsg mid="51001149" type="Warning" dynamic="1" navigation="0" arg0="C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf"  />
+Loading device for application map from file 'ec5a53x56.nph' in environment: C:/Lattice/Diamond3/diamond/3.0_x64/ispfpga.
+Package Status:                     Final          Version 1.39
+Running general design DRC...
+
+Removing unused logic...
+
+Optimizing...
+
+    <postMsg mid="51001030" type="Warning" dynamic="1" navigation="0" arg0="ResetxRBI_c"  />
+
+
+
+Design Summary:
+   Number of registers:    2
+      PFU registers:    2
+      PIO registers:    0
+   Number of SLICEs:             1 out of  8640 (0%)
+      SLICEs(logic/ROM):         1 out of  6948 (0%)
+      SLICEs(logic/ROM/RAM):     0 out of  1692 (0%)
+          As RAM:            0 out of  1692 (0%)
+          As Logic/ROM:      0 out of  1692 (0%)
+   Number of logic LUT4s:       2
+   Number of distributed RAM:   0 (0 LUT4s)
+   Number of ripple logic:      0 (0 LUT4s)
+   Number of shift registers:   0
+   Total number of LUT4s:       2
+   Number of PIO sites used: 5 out of 133 (4%)
+   Number of PIO FIXEDDELAY:    0
+   Number of PCS (SerDes):  0 out of 1 (0%) with bonded PIO sites
+   Number of DQSDLLs:  0 out of 2 (0%)
+   Number of PLLs:  0 out of 2 (0%)
+   Number of DLLs:  0 out of 2 (0%)
+   Number of block RAMs:  0 out of 38 (0%)
+   Number of CLKDIVs:  0 out of 2 (0%)
+   Number of GSRs:  1 out of 1 (100%)
+   JTAG used :      No
+   Readback used :  No
+   Oscillator used :  No
+   Startup used :   No
+   Notes:-
+      1. Total number of LUT4s = (Number of logic LUT4s) + 2*(Number of distributed RAMs) + 2*(Number of ripple logic)
+      2. Number of logic LUT4s does not include count of distributed RAM and ripple logic.
+
+   Number Of Mapped DSP Components:
+   --------------------------------
+   MULT18X18C          0
+   MULT9X9C            0
+   ALU54A              0
+   ALU24A              0
+   --------------------------------
+   Number of Used DSP MULT Sites:  0 out of 48 (0 %)
+   Number of Used DSP ALU Sites:  0 out of 24 (0 %)
+   Number of clocks:  1
+     Net ClockxCI_c: 1 loads, 1 rising, 0 falling (Driver: PIO ClockxCI )
+   Number of Clock Enables:  0
+   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  2
+   Number of LSRs:  0
+   Number of nets driven by tri-state buffers:  0
+   Top 10 highest fanout non-clock nets:
+     Net StatexDP[1]: 3 loads
+     Net EventxDI_c: 2 loads
+     Net OverflowxDI_c: 2 loads
+     Net StatexDP[0]: 2 loads
+     Net N_25_i: 1 loads
+     Net N_7: 1 loads
+     Net ResetxRBI_c: 1 loads
+ 
+
+   Number of warnings:  248
+   Number of errors:    0
+
+
+
+Total CPU Time: 0 secs  
+Total REAL Time: 0 secs  
+Peak Memory Usage: 103 MB
+
+Dumping design to file DAViS_USB3_DAViS_USB3_map.ncd.
+
+mpartrce -p "DAViS_USB3_DAViS_USB3.p2t" -f "DAViS_USB3_DAViS_USB3.p3t" -tf "DAViS_USB3_DAViS_USB3.pt" "DAViS_USB3_DAViS_USB3_map.ncd" "DAViS_USB3_DAViS_USB3.ncd"
+
+---- MParTrce Tool ----
+Removing old design directory at request of -rem command line option to this program.
+Running par. Please wait . . .
+
+Lattice Place and Route Report for Design "DAViS_USB3_DAViS_USB3_map.ncd"
+Tue Feb 18 18:06:23 2014
+
+PAR: Place And Route Diamond (64-bit) 3.0.0.97.
+Command Line: par -w -l 5 -i 6 -t 1 -c 0 -e 0 -gui -exp parUseNBR=1:parCDP=auto:parCDR=1:parPathBased=OFF DAViS_USB3_DAViS_USB3_map.ncd DAViS_USB3_DAViS_USB3.dir/5_1.ncd DAViS_USB3_DAViS_USB3.prf
+Preference file: DAViS_USB3_DAViS_USB3.prf.
+Placement level-cost: 5-1.
+Routing Iterations: 6
+
+Loading design for application par from file DAViS_USB3_DAViS_USB3_map.ncd.
+Design name: EventBeforeOverflow
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LFE3-17EA
+Package:     FTBGA256
+Performance: 7
+Loading device for application par from file 'ec5a53x56.nph' in environment: C:/Lattice/Diamond3/diamond/3.0_x64/ispfpga.
+Package Status:                     Final          Version 1.39
+Performance Hardware Data Status:   Final          Version 35.22
+License checked out.
+
+
+Ignore Preference Error(s):  True
+Device utilization summary:
+
+   PIO (prelim)       5/228           2% used
+                      5/133           3% bonded
+
+   SLICE              1/8640         <1% used
+
+   GSR                1/1           100% used
+
+
+Set delay estimator push_ratio: 95
+Number of Signals: 8
+Number of Connections: 13
+
+Pin Constraint Summary:
+   1 out of 1 pins locked (100% locked).
+
+No signal is selected as primary clock.
+
+
+No signal is selected as secondary clock.
+
+Signal ResetxRBI_c is selected as Global Set/Reset.
+.
+Starting Placer Phase 0.
+.......
+Finished Placer Phase 0.  REAL time: 0 secs 
+
+Starting Placer Phase 1.
+................
+Placer score = 1366.
+Finished Placer Phase 1.  REAL time: 6 secs 
+
+Starting Placer Phase 2.
+.
+. ...
+
+Placer score =  1366
+Finished Placer Phase 2.  REAL time: 6 secs 
+
+
+------------------ Clock Report ------------------
+
+Global Clock Resources:
+  CLK_PIN    : 0 out of 6 (0%)
+  PLL        : 0 out of 2 (0%)
+  DCS        : 0 out of 8 (0%)
+
+Quadrants All (TL, TR, BL, BR) - Global Clocks:
+
+  PRIMARY  : 0 out of 8 (0%)
+     DCS   : 0 out of 2 (0%)
+     DCC   : 0 out of 6 (0%)
+  SECONDARY: 0 out of 8 (0%)
+
+Edge Clocks:
+  No edge clock selected.
+
+Regional Secondary Clocks:
+  No regional secondary clock selected.
+
+--------------- End of Clock Report ---------------
+
+
+I/O Usage Summary (final):
+   5 out of 228 (2.2%) PIO sites used.
+   5 out of 133 (3.8%) bonded PIO sites used.
+   Number of PIO comps: 5; differential: 0
+   Number of Vref pins used: 0
+
+I/O Bank Usage Summary:
+----------+------------------+-------+-----------------+----------------
+ I/O Bank | Usage            | Vccio |  Vref1 / Vref2  |  Vtt
+----------+------------------+-------+-----------------+----------------
+    0     |   0 / 26  (  0%) |  OFF  |    OFF / OFF    |               
+    1     |   0 / 14  (  0%) |  OFF  |    OFF / OFF    |               
+    2     |   0 / 8   (  0%) |  OFF  |    OFF / OFF    |               
+    3     |   4 / 18  ( 22%) | 3.3V  |    OFF / OFF    |               
+    6     |   0 / 20  (  0%) |  OFF  |    OFF / OFF    |               
+    7     |   0 / 23  (  0%) |  OFF  |    OFF / OFF    |               
+    8     |   1 / 24  (  4%) | 3.3V  |    OFF / OFF    |               
+----------+------------------+-------+-----------------+----------------
+
+---------------------------------- DSP Report ----------------------------------
+
+DSP Slice #:           1  2  3  4  5  6  7  8  9 10 11 12
+# of MULT9X9C                                            
+# of MULT18X18C                                          
+# of ALU24A                                              
+# of ALU54A                                              
+
+------------------------------ End of DSP Report -------------------------------
+Total placer CPU time: 6 secs 
+
+Dumping design to file DAViS_USB3_DAViS_USB3.dir/5_1.ncd.
+
+0 connections routed; 13 unrouted.
+Starting router resource preassignment
+
+    <postMsg mid="66011008" type="Warning" dynamic="0" navigation="0"  />
+   Signal=ClockxCI_c loads=1 clock_loads=1
+
+Completed router resource preassignment. Real time: 9 secs 
+
+Start NBR router at 18:06:32 02/18/14
+
+*****************************************************************
+Info: NBR allows conflicts(one node used by more than one signal)
+      in the earlier iterations. In each iteration, it tries to  
+      solve the conflicts while keeping the critical connections 
+      routed as short as possible. The routing process is said to
+      be completed when no conflicts exist and all connections   
+      are routed.                                                
+Note: NBR uses a different method to calculate timing slacks. The
+      worst slack and total negative slack may not be the same as
+      that in TRCE report. You should always run TRCE to verify  
+      your design. Thanks.                                       
+*****************************************************************
+
+Start NBR special constraint process at 18:06:32 02/18/14
+
+Start NBR section for initial routing
+Level 4, iteration 1
+0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 10.029ns/0.000ns; real time: 9 secs 
+
+Info: Initial congestion level at 75% usage is 0
+Info: Initial congestion area  at 75% usage is 0 (0.00%)
+
+Start NBR section for normal routing
+Level 4, iteration 1
+0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 10.029ns/0.000ns; real time: 9 secs 
+
+Start NBR section for re-routing
+Level 4, iteration 1
+0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack: 10.029ns/0.000ns; real time: 9 secs 
+
+Start NBR section for post-routing
+
+End NBR router with 0 unrouted connection
+
+NBR Summary
+-----------
+  Number of unrouted connections : 0 (0.00%)
+  Number of connections with timing violations : 0 (0.00%)
+  Estimated worst slack : 10.029ns
+  Timing score : 0
+-----------
+Notes: The timing info is calculated for SETUP only and all PAR_ADJs are ignored.
+
+
+
+Hold time optimization iteration 0:
+All hold time violations have been successfully corrected in speed grade M
+
+Total CPU time 9 secs 
+Total REAL time: 10 secs 
+Completely routed.
+End of route.  13 routed (100.00%); 0 unrouted.
+Checking DRC ... 
+No errors found.
+
+Hold time timing score: 0, hold timing errors: 0
+
+Timing score: 0 
+
+Dumping design to file DAViS_USB3_DAViS_USB3.dir/5_1.ncd.
+
+
+PAR_SUMMARY::Run status = completed
+PAR_SUMMARY::Number of unrouted conns = 0
+PAR_SUMMARY::Worst  slack<setup/<ns>> = 10.029
+PAR_SUMMARY::Timing score<setup/<ns>> = 0.000
+PAR_SUMMARY::Worst  slack<hold /<ns>> = 0.200
+PAR_SUMMARY::Timing score<hold /<ns>> = 0.000
+
+Total CPU  time to completion: 9 secs 
+Total REAL time to completion: 10 secs 
+
+par done!
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
+Exiting par with exit code 0
+Exiting mpartrce with exit code 0
+
+ltxt2ptxt  -path "C:/INIlabs/VHDL/DAViS_USB3" "DAViS_USB3_DAViS_USB3.ncd"
+
+Loading design for application ltxt2ptxt from file davis_usb3_davis_usb3.ncd.
+Design name: EventBeforeOverflow
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LFE3-17EA
+Package:     FTBGA256
+Performance: 7
+Loading device for application ltxt2ptxt from file 'ec5a53x56.nph' in environment: C:/Lattice/Diamond3/diamond/3.0_x64/ispfpga.
+Package Status:                     Final          Version 1.39
+Performance Hardware Data Status:   Final          Version 35.22
+
+bitgen -w "DAViS_USB3_DAViS_USB3.ncd" -f "DAViS_USB3_DAViS_USB3.t2b" -e -s "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3.sec" -k "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3.bek" "DAViS_USB3_DAViS_USB3.prf"
+
+
+BITGEN: Bitstream Generator Diamond (64-bit) 3.0.0.97
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
+
+
+Loading design for application Bitgen from file DAViS_USB3_DAViS_USB3.ncd.
+Design name: EventBeforeOverflow
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LFE3-17EA
+Package:     FTBGA256
+Performance: 7
+Loading device for application Bitgen from file 'ec5a53x56.nph' in environment: C:/Lattice/Diamond3/diamond/3.0_x64/ispfpga.
+Package Status:                     Final          Version 1.39
+Performance Hardware Data Status:   Final          Version 35.22
+
+Running DRC.
+DRC detected 0 errors and 0 warnings.
+Reading Preference File from DAViS_USB3_DAViS_USB3.prf...
+
+Preference Summary:
++---------------------------------+---------------------------------+
+|  Preference                     |  Current Setting                |
++---------------------------------+---------------------------------+
+|                         RamCfg  |                        Reset**  |
++---------------------------------+---------------------------------+
+|                        CfgMode  |                      Disable**  |
++---------------------------------+---------------------------------+
+|                        DONE_EX  |                          OFF**  |
++---------------------------------+---------------------------------+
+|                        DONE_OD  |                           ON**  |
++---------------------------------+---------------------------------+
+|                     MCCLK_FREQ  |                          2.5**  |
++---------------------------------+---------------------------------+
+|                  CONFIG_SECURE  |                          OFF**  |
++---------------------------------+---------------------------------+
+|                    CONFIG_MODE  |                          SPI**  |
++---------------------------------+---------------------------------+
+|                        WAKE_UP  |                           21**  |
++---------------------------------+---------------------------------+
+|                     PERSISTENT  |                           SSPI  |
++---------------------------------+---------------------------------+
+|                   WAKE_ON_LOCK  |                          OFF**  |
++---------------------------------+---------------------------------+
+|                             ES  |                           No**  |
++---------------------------------+---------------------------------+
+|                COMPRESS_CONFIG  |                          OFF**  |
++---------------------------------+---------------------------------+
+|                     ENABLE_NDR  |                          OFF**  |
++---------------------------------+---------------------------------+
+|               CONFIG_IOVOLTAGE  |                          2.5**  |
++---------------------------------+---------------------------------+
+|                         STRTUP  |                     EXTERNAL**  |
++---------------------------------+---------------------------------+
+ *  Default setting.
+ ** The specified setting matches the default setting.
+
+
+Creating bit map...
+ 
+Bitstream Status:   Final           Version 1.38
+ 
+Saving bit stream in "DAViS_USB3_DAViS_USB3.bit".

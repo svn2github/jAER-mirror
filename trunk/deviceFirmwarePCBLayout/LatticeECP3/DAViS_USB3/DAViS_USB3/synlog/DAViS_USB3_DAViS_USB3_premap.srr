@@ -1,0 +1,44 @@
+Synopsys Lattice Technology Pre-mapping, Version maplat, Build 700R, Built Jul  4 2013 11:05:39
+Copyright (C) 1994-2013, Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
+Product Version H-2013.03L 
+
+Mapper Startup Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 99MB)
+
+@L: C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3_scck.rpt 
+Printing clock  summary report in "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3_scck.rpt" file 
+@N: MF248 |Running in 64-bit mode.
+@N: MF666 |Clock conversion enabled 
+
+Design Input Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 101MB)
+
+
+Mapper Initialization Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 101MB)
+
+
+Start loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 113MB peak: 114MB)
+
+
+Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 113MB peak: 116MB)
+
+syn_allowed_resources : blockrams=38  set on top level netlist EventBeforeOverflow
+
+
+Clock Summary
+**************
+
+Start                            Requested     Requested     Clock        Clock                
+Clock                            Frequency     Period        Type         Group                
+-----------------------------------------------------------------------------------------------
+EventBeforeOverflow|ClockxCI     1.0 MHz       1000.000      inferred     Autoconstr_clkgroup_0
+===============================================================================================
+
+@W: MT529 :"c:\inilabs\vhdl\davis_usb3\davis_usb3\source\eventbeforeoverflow.vhd":76:4:76:5|Found inferred clock EventBeforeOverflow|ClockxCI which controls 3 sequential elements including StatexDP[0:2]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+
+Pre-mapping successful!
+
+At Mapper Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 77MB peak: 142MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Feb 18 15:28:53 2014
+
+###########################################################]

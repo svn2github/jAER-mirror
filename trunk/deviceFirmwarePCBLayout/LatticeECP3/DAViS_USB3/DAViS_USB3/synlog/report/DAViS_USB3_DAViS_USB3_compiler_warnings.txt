@@ -1,0 +1,3 @@
+@W: CD266 :"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd":102:23:102:34|syncoutswxei is not readable.  This may cause a simulation mismatch.
+@W: CD266 :"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd":102:40:102:53|syncoutclkxcbo is not readable.  This may cause a simulation mismatch.
+

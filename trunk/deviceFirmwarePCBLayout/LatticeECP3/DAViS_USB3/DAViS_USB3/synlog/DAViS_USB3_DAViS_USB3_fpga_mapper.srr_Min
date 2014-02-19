@@ -1,0 +1,117 @@
+
+
+##### START OF TIMING REPORT #####[
+# Timing Report written on Tue Feb 18 15:28:54 2014
+#
+
+
+Top view:               EventBeforeOverflow
+Requested Frequency:    949.4 MHz
+Wire load mode:         top
+Paths requested:        5
+Constraint File(s):    
+@N: MT320 |Timing report estimates place and route data. Please look at the place and route timing report for final timing.
+
+@N: MT322 |Clock constraints cover only FF-to-FF paths associated with the clock.
+
+
+
+Performance Summary 
+*******************
+
+
+Worst slack in design: 0.765
+
+                                 Requested     Estimated     Requested     Estimated                Clock        Clock                
+Starting Clock                   Frequency     Frequency     Period        Period        Slack      Type         Group                
+--------------------------------------------------------------------------------------------------------------------------------------
+EventBeforeOverflow|ClockxCI     949.4 MHz     806.9 MHz     1.053         1.239         -0.186     inferred     Autoconstr_clkgroup_0
+======================================================================================================================================
+
+
+
+Clock Relationships
+*******************
+
+Clocks                                                      |    rise  to  rise   |    fall  to  fall   |    rise  to  fall   |    fall  to  rise 
+--------------------------------------------------------------------------------------------------------------------------------------------------
+Starting                      Ending                        |  constraint  slack  |  constraint  slack  |  constraint  slack  |  constraint  slack
+--------------------------------------------------------------------------------------------------------------------------------------------------
+EventBeforeOverflow|ClockxCI  EventBeforeOverflow|ClockxCI  |  0.000       0.765  |  No paths    -      |  No paths    -      |  No paths    -    
+==================================================================================================================================================
+ Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
+       'Diff grp' indicates that paths exist but the starting clock and ending clock are in different clock groups.
+
+
+
+Interface Information 
+*********************
+
+No IO constraint found
+
+
+
+====================================
+Detailed Report for Clock: EventBeforeOverflow|ClockxCI
+====================================
+
+
+
+Starting Points with Worst Slack
+********************************
+
+                Starting                                                             Arrival          
+Instance        Reference                        Type        Pin     Net             Time        Slack
+                Clock                                                                                 
+------------------------------------------------------------------------------------------------------
+StatexDP[0]     EventBeforeOverflow|ClockxCI     FD1S3DX     Q       StatexDP[0]     0.539       0.765
+StatexDP[1]     EventBeforeOverflow|ClockxCI     FD1S3DX     Q       StatexDP[1]     0.569       0.795
+======================================================================================================
+
+
+Ending Points with Worst Slack
+******************************
+
+                Starting                                                        Required          
+Instance        Reference                        Type        Pin     Net        Time         Slack
+                Clock                                                                             
+--------------------------------------------------------------------------------------------------
+StatexDP[0]     EventBeforeOverflow|ClockxCI     FD1S3DX     D       N_7        0.036        0.765
+StatexDP[1]     EventBeforeOverflow|ClockxCI     FD1S3DX     D       N_25_i     0.036        0.765
+==================================================================================================
+
+
+
+Worst Path Information
+***********************
+
+
+Path information for path number 1: 
+    Propagation time:                        0.801
+    + Clock delay at starting point:         0.000 (ideal)
+    - Requested Period:                      0.000
+    - Hold time:                             0.036
+    - Clock delay at ending point:           0.000 (ideal)
+    = Slack (critical) :                     0.765
+
+    Number of logic level(s):                1
+    Starting point:                          StatexDP[0] / Q
+    Ending point:                            StatexDP[1] / D
+    The start point is clocked by            EventBeforeOverflow|ClockxCI [rising] on pin CK
+    The end   point is clocked by            EventBeforeOverflow|ClockxCI [rising] on pin CK
+
+Instance / Net                   Pin      Pin               Arrival     No. of    
+Name                Type         Name     Dir     Delay     Time        Fan Out(s)
+----------------------------------------------------------------------------------
+StatexDP[0]         FD1S3DX      Q        Out     0.539     0.539       -         
+StatexDP[0]         Net          -        -       -         -           2         
+StatexDP_RNO[1]     ORCALUT4     C        In      0.000     0.539       -         
+StatexDP_RNO[1]     ORCALUT4     Z        Out     0.262     0.801       -         
+N_25_i              Net          -        -       -         -           1         
+StatexDP[1]         FD1S3DX      D        In      0.000     0.801       -         
+==================================================================================
+
+
+
+##### END OF TIMING REPORT #####]
+

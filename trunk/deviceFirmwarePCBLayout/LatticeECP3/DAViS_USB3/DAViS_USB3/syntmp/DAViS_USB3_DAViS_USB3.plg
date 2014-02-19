@@ -1,0 +1,14 @@
+@P:  Worst Slack : -0.186
+@P:  EventBeforeOverflow|ClockxCI - Estimated Frequency : 806.9 MHz
+@P:  EventBeforeOverflow|ClockxCI - Requested Frequency : 949.4 MHz
+@P:  EventBeforeOverflow|ClockxCI - Estimated Period : 1.239
+@P:  EventBeforeOverflow|ClockxCI - Requested Period : 1.053
+@P:  EventBeforeOverflow|ClockxCI - Slack : -0.186
+@P:  Worst Slack(min analysis) : 0.765
+@P:  EventBeforeOverflow|ClockxCI - Estimated Frequency(min analysis) : 806.9 MHz
+@P:  EventBeforeOverflow|ClockxCI - Requested Frequency(min analysis) : 949.4 MHz
+@P:  EventBeforeOverflow|ClockxCI - Estimated Period(min analysis) : 1.239
+@P:  EventBeforeOverflow|ClockxCI - Requested Period(min analysis) : 1.053
+@P:  EventBeforeOverflow|ClockxCI - Slack(min analysis) : -0.186
+@P:  Total Area : 3.0
+@P:  CPU Time : 0h:00m:00s
