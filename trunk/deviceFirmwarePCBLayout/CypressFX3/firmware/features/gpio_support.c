@@ -1,7 +1,6 @@
 #include "cyu3gpio.h"
 #include "fx3.h"
 #include "gpio_support.h"
-#include "heartbeat.h"
 
 // Supported operations on GPIOs
 enum gpioOperations {
@@ -34,6 +33,14 @@ static const uint8_t gpioValidTypes[] = { 'O', 'I', 'P', 'N', 'B', 'L', 'H' }; /
 static uint8_t gpioInterruptSlotIdMap[GPIO_MAX_INTERRUPT_SLOTS] = { 0xFF }; // 0xFF is never used as valid GPIO ID, as the maximum is 60
 static uint8_t gpioInterruptIdSlotMap[GPIO_MAX_IDENTIFIER] = { 0xFF }; // // 0xFF is never used as valid slot number, as the maximum is 16
 static uint8_t gpioIdTypeMap[GPIO_MAX_IDENTIFIER] = { 0xFF }; // 0xFF is never used as valid GPIO Type, as they are all ASCII letters
+
+// Periodic GPIO switching support.
+#define GPIO_MAX_RECURRING 8
+
+static struct {
+	uint8_t gpioId;
+	CyU3PTimer timer;
+} gpioRecurringTimers[GPIO_MAX_RECURRING];
 
 // General event flag for GPIO Interrupt Handling
 static CyU3PEvent glEventFlagGPIO;
@@ -233,6 +240,11 @@ CyU3PReturnStatus_t CyFxGpioInit(void) {
 	status = CyU3PEventCreate(&glEventFlagGPIO);
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
+	}
+
+	// Initialize the timers for recurring GPIOs.
+	for (size_t i = 0; i < GPIO_MAX_RECURRING; i++) {
+		gpioRecurringTimers[i].gpioId = 0xFF;
 	}
 
 	// Configure each simple GPIO as specified
@@ -495,19 +507,96 @@ CyBool_t CyFxHandleCustomVR_GPIO(uint8_t bDirection, uint8_t bRequest, uint16_t 
 						break;
 					}
 
-					uint16_t time = (uint16_t) ((glEP0Buffer[0] << 8) | glEP0Buffer[1]);
+					int16_t foundSlot = -1;
 
-					if (time == 0) {
-						// Turn off any existing recurring switch for this gpioId
-						CyFxHeartbeatFunctionRemove(&CyFxGpioPeriodicSwitch, wValue);
-						break;
+					// Check if a timer slot is already present for this GPIO.
+					for (size_t i = 0; i < GPIO_MAX_RECURRING; i++) {
+						if (gpioRecurringTimers[i].gpioId == wValue) {
+							// Found an already active timer for this gpioId.
+							foundSlot = (int16_t) i;
+							break;
+						}
 					}
 
-					// Set a new Heartbeat on this gpioId (or update an existing one)
-					status = CyFxHeartbeatFunctionAdd(&CyFxGpioPeriodicSwitch, wValue, time);
-					if (status != CY_U3P_SUCCESS) {
-						CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET RECURRING: CyFxHeartbeatFunctionAdd failed", status);
-						break;
+					uint16_t time = (uint16_t) ((glEP0Buffer[0] << 8) | glEP0Buffer[1]);
+
+					if (time != 0) {
+						// If not found, search for a free slot to use.
+						if (foundSlot == -1) {
+							for (size_t i = 0; i < GPIO_MAX_RECURRING; i++) {
+								if (gpioRecurringTimers[i].gpioId == 0xFF) {
+									// Found an inactive slot.
+									foundSlot = (int16_t) i;
+									break;
+								}
+							}
+						}
+
+						// If not found yet, we're full, error out.
+						if (foundSlot == -1) {
+							status = CY_U3P_ERROR_QUEUE_FULL; // Set to something known!
+							CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET RECURRING: recurring GPIO slots full", status);
+							break;
+						}
+
+						// Set a new recurring timer on this gpioId (or update an existing one)
+						if (gpioRecurringTimers[foundSlot].gpioId != 0xFF) {
+							// Already present, update it!
+							// Stop, destroy, create, start again.
+							status = CyU3PTimerStop(&gpioRecurringTimers[foundSlot].timer);
+							if (status != CY_U3P_SUCCESS) {
+								CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET RECURRING: CyU3PTimerStop failed", status);
+								break;
+							}
+
+							status = CyU3PTimerDestroy(&gpioRecurringTimers[foundSlot].timer);
+							if (status != CY_U3P_SUCCESS) {
+								CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET RECURRING: CyU3PTimerDestroy failed", status);
+								break;
+							}
+						}
+
+						// Start a new timer.
+						status =
+							CyU3PTimerCreate(&gpioRecurringTimers[foundSlot].timer, &CyFxGpioPeriodicSwitch, wValue, time, time, CYU3P_NO_ACTIVATE);
+						if (status != CY_U3P_SUCCESS) {
+							CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET RECURRING: CyU3PTimerCreate failed", status);
+							break;
+						}
+
+						status = CyU3PTimerStart(&gpioRecurringTimers[foundSlot].timer);
+						if (status != CY_U3P_SUCCESS) {
+							CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET RECURRING: CyU3PTimerStart failed", status);
+							break;
+						}
+
+						gpioRecurringTimers[foundSlot].gpioId = (uint8_t) wValue;
+					}
+					else {
+						// Check that we actually already set a recurring timer.
+						if (foundSlot == -1) {
+							status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+							CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET RECURRING: no recurring GPIO slot found", status);
+							break;
+						}
+
+						// Turn off any existing recurring switch for this gpioId
+						status = CyU3PTimerStop(&gpioRecurringTimers[foundSlot].timer);
+						if (status != CY_U3P_SUCCESS) {
+							CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET RECURRING: CyU3PTimerStop failed", status);
+							break;
+						}
+
+						status = CyU3PTimerDestroy(&gpioRecurringTimers[foundSlot].timer);
+						if (status != CY_U3P_SUCCESS) {
+							CyFxErrorHandler(LOG_ERROR, "VR_GPIO_SET RECURRING: CyU3PTimerDestroy failed", status);
+							break;
+						}
+
+						// Set GPIO back to OFF.
+						CyFxGpioTurnOff(gpioRecurringTimers[foundSlot].gpioId);
+
+						gpioRecurringTimers[foundSlot].gpioId = 0xFF;
 					}
 
 					break;

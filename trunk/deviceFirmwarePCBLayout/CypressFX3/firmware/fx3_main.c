@@ -6,7 +6,6 @@
 // Feature specific configuration inclusion
 #include "fx3_usbdescr.h"
 #include "features/common_vendor_requests.h"
-#include "features/heartbeat.h"
 #if GPIO_SUPPORT_ENABLED == 1
 #include "features/gpio_support.h"
 #endif
@@ -27,10 +26,10 @@
 
 // Global variables declarations
 static CyU3PThread glApplicationThread; // Application thread structure
-static CyU3PThread glHeartbeatThread; // Heartbeat thread structure
 CyBool_t glAppRunning = CyFalse; // Whether the application is active or not
 uint8_t glLogLevel = FX3_LOG_LEVEL; // Default log level
 uint8_t glLogFailedAmount = 0; // Number of failed log calls made
+CyU3PTimer glSystemAliveTimer;
 
 static CyU3PDmaChannel glEP1DMAChannelCPUtoUSB; // DMA Channel handle for CPU2U transfer
 static CyU3PDmaChannel glEP2DMAChannelUSBtoFX3; // DMA Channel handle for U2FX transfer
@@ -50,7 +49,7 @@ void CyFxErrorHandler(uint8_t log_level, const char *debug_message, CyU3PReturnS
 	// Only send log messages that are of equal or higher priority than the global setting
 	if (log_level <= glLogLevel) {
 #if GPIO_DEBUG_LED_ENABLED == 1
-		// Quickly blink the Debug LED twice to indicate an error has happened and a message was dispatched.
+		// Quickly blink the Debug LED (10 ms) to indicate an error has happened and a message was dispatched.
 		CyFxGpioTurnOn(GPIO_DEBUG_LED_NUMBER);
 		CyU3PThreadSleep(10);
 		CyFxGpioTurnOff(GPIO_DEBUG_LED_NUMBER);
@@ -94,6 +93,21 @@ void CyFxErrorHandler(uint8_t log_level, const char *debug_message, CyU3PReturnS
 			return;
 		}
 	}
+}
+
+/**
+ * Blink the debug LED every 5 seconds to show the system is still alive.
+ */
+static void CyFxSystemAliveMessage(uint32_t input) {
+	(void) input; // UNUSED
+
+#if GPIO_DEBUG_LED_ENABLED == 1
+	// Blink the debug LED for ~5 ms. Need to busy-wait, normal thread sleeping
+	// seems to not work when called from inside an OS timer. DMA neither.
+	CyFxGpioTurnOn(GPIO_DEBUG_LED_NUMBER);
+	CyU3PBusyWait(5000);
+	CyFxGpioTurnOff(GPIO_DEBUG_LED_NUMBER);
+#endif
 }
 
 /**
@@ -681,6 +695,20 @@ static void CyFxAppInit(void) {
 	}
 #endif
 
+	// Setup the system alive timer (global).
+	status = CyU3PTimerCreate(&glSystemAliveTimer, &CyFxSystemAliveMessage, 0, 5000, 5000, CYU3P_NO_ACTIVATE);
+	if (status != CY_U3P_SUCCESS) {
+		goto handle_error;
+	}
+
+	if (glLogLevel == LOG_DEBUG) {
+		// Start system alive timer automatically if log-level is DEBUG.
+		status = CyU3PTimerStart(&glSystemAliveTimer);
+		if (status != CY_U3P_SUCCESS) {
+			goto handle_error;
+		}
+	}
+
 	// Start the USB functionality.
 	status = CyU3PUsbStart();
 	if (status != CY_U3P_SUCCESS) {
@@ -797,19 +825,6 @@ static void CyFxApplicationThreadEntry(uint32_t input) {
 }
 
 /**
- * Entry function for the Heartbeat Thread.
- */
-static void CyFxHeartbeatThreadEntry(uint32_t input) {
-	(void) input; // UNUSED
-
-	// Initialize the Heartbeat system.
-	if (CyFxHeartbeatInit() == CY_U3P_SUCCESS) {
-		// Run the Heartbeat system itself.
-		CyFxHeartbeatFunctionsExecuteLoop();
-	}
-}
-
-/**
  * Application define function which creates the threads.
  * DO NOT CHANGE THE FUNCTION SIGNATURE!!!
  */
@@ -829,29 +844,6 @@ void CyFxApplicationDefine(void) {
 		FX3_APPLICATION_THREAD_STACK,// Application Thread stack size
 		FX3_APPLICATION_THREAD_PRIORITY,// Application Thread priority
 		FX3_APPLICATION_THREAD_PRIORITY,// Application Thread preemption threshold
-		CYU3P_NO_TIME_SLICE,// No time slice
-		CYU3P_AUTO_START// Start the thread immediately
-	);
-
-	// Check the return code
-	if (retThrdCreate != 0) {
-		// Thread Creation failed with the error code retThrdCreate
-		// Application cannot continue, full reset
-		CyU3PDeviceReset(CyFalse);
-	}
-
-	// Allocate the memory for the thread
-	ptr = CyU3PMemAlloc(FX3_HEARTBEAT_THREAD_STACK);
-
-	// Create the thread for the heartbeat
-	retThrdCreate = CyU3PThreadCreate(&glHeartbeatThread, // Heartbeat thread structure
-		(char *)"22:INI_FX3_Heartbeat",// Thread ID and name
-		&CyFxHeartbeatThreadEntry,// Heartbeat thread entry function
-		0,// No input parameter to thread
-		ptr,// Pointer to the allocated thread stack
-		FX3_HEARTBEAT_THREAD_STACK,// Heartbeat Thread stack size
-		FX3_HEARTBEAT_THREAD_PRIORITY,// Heartbeat Thread priority
-		FX3_HEARTBEAT_THREAD_PRIORITY,// Heartbeat Thread preemption threshold
 		CYU3P_NO_TIME_SLICE,// No time slice
 		CYU3P_AUTO_START// Start the thread immediately
 	);

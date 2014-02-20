@@ -5,6 +5,7 @@
 #include "cyu3system.h"
 #include "cyu3os.h"
 #include "cyu3error.h"
+#include "cyu3utils.h"
 #include "cyu3usbconst.h"
 #include "cyu3usb.h"
 
@@ -18,8 +19,6 @@
 // Thread settings
 #define FX3_APPLICATION_THREAD_STACK    (0x0400) /* Main application thread stack size */
 #define FX3_APPLICATION_THREAD_PRIORITY (8)      /* Main application thread priority */
-#define FX3_HEARTBEAT_THREAD_STACK      (0x0200) /* Heart-beat thread stack size */
-#define FX3_HEARTBEAT_THREAD_PRIORITY   (10)     /* Heart-beat thread priority */
 
 // End-point maximum transfer sizes
 #define FX3_MAX_TRANSFER_SIZE_CONTROL (4 * KILOBYTE) /* 4KB is the default size for control transfers */
@@ -83,6 +82,7 @@ extern CyBool_t glAppRunning;
 extern uint8_t glLogLevel;
 extern uint8_t glLogFailedAmount;
 extern uint8_t glEP0Buffer[];
+extern CyU3PTimer glSystemAliveTimer;
 
 #include "devices/fx3_select.h"
 

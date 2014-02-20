@@ -1,6 +1,5 @@
 #include "fx3.h"
 #include "common_vendor_requests.h"
-#include "heartbeat.h"
 
 CyBool_t CyFxHandleCustomVR_Common(uint8_t bDirection, uint8_t bRequest, uint16_t wValue, uint16_t wIndex,
 	uint16_t wLength) {
@@ -108,21 +107,25 @@ CyBool_t CyFxHandleCustomVR_Common(uint8_t bDirection, uint8_t bRequest, uint16_
 
 			// Reject invalid log-levels
 			if (wValue > LOG_DEBUG) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
 				CyFxErrorHandler(LOG_ERROR, "VR_LOG_LEVEL: invalid log-level given", status);
 				break;
 			}
 
 			// If LOG_DEBUG, also enable the system alive message, else make sure to remove it
-			if (wValue == LOG_DEBUG) {
-				status = CyFxHeartbeatFunctionAdd(&CyFxHeartbeatSystemAliveMessage, 0,
-					HEARTBEAT_TICKS_DEFAULT * HEARTBEAT_TICKS_PRECISION);
+			if (wValue == LOG_DEBUG && glLogLevel != LOG_DEBUG) {
+				status = CyU3PTimerStart(&glSystemAliveTimer);
 				if (status != CY_U3P_SUCCESS) {
-					CyFxErrorHandler(LOG_ERROR, "VR_LOG_LEVEL: CyFxHeartbeatFunctionAdd failed", status);
+					CyFxErrorHandler(LOG_ERROR, "VR_LOG_LEVEL: CyU3PTimerStart failed", status);
 					break;
 				}
 			}
-			else {
-				CyFxHeartbeatFunctionRemove(&CyFxHeartbeatSystemAliveMessage, 0);
+			else if (wValue != LOG_DEBUG && glLogLevel == LOG_DEBUG) {
+				status = CyU3PTimerStop(&glSystemAliveTimer);
+				if (status != CY_U3P_SUCCESS) {
+					CyFxErrorHandler(LOG_ERROR, "VR_LOG_LEVEL: CyU3PTimerStop failed", status);
+					break;
+				}
 			}
 
 			// Set log-level to given value, enabling or disabling certain log messages
