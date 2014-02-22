@@ -1,6 +1,5 @@
 package ch.unizh.ini.devices;
 
-import org.libusb4java.Device;
 import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.components.controllers.Controller;
@@ -8,6 +7,9 @@ import net.sf.jaer2.devices.components.controllers.FX2;
 import net.sf.jaer2.devices.components.misc.memory.EEPROM_I2C;
 import net.sf.jaer2.devices.components.misc.memory.Memory;
 import net.sf.jaer2.eventio.translators.Translator;
+
+import org.usb4java.Device;
+
 import ch.unizh.ini.devices.components.aer.Tmpdiff128;
 
 public class DVS128 extends USBDevice {

@@ -17,10 +17,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.libusb4java.utils.BufferUtils;
 import net.sf.jaer.Files;
 import net.sf.jaer.GUISupport;
 import net.sf.jaer.UsbDevice;
+
+import org.usb4java.utils.BufferUtils;
 
 public class FX3 extends Controller {
 	private static final List<String> firmwareValidExtensions = new ArrayList<>();

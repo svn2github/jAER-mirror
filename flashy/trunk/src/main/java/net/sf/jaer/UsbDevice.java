@@ -8,12 +8,13 @@ import javafx.scene.control.TextArea;
 import li.longi.USBTransferThread.RestrictedTransfer;
 import li.longi.USBTransferThread.RestrictedTransferCallback;
 import li.longi.USBTransferThread.USBTransferThread;
-import org.libusb4java.Device;
-import org.libusb4java.DeviceDescriptor;
-import org.libusb4java.DeviceHandle;
-import org.libusb4java.LibUsb;
-import org.libusb4java.utils.BufferUtils;
-import org.libusb4java.utils.DescriptorUtils;
+
+import org.usb4java.Device;
+import org.usb4java.DeviceDescriptor;
+import org.usb4java.DeviceHandle;
+import org.usb4java.LibUsb;
+import org.usb4java.utils.BufferUtils;
+import org.usb4java.utils.DescriptorUtils;
 
 public class UsbDevice {
 	private final Device dev;
@@ -146,7 +147,7 @@ public class UsbDevice {
 	/**
 	 * Sends a vendor request with data (including special bits). This is a
 	 * blocking method.
-	 * 
+	 *
 	 * @param requestType
 	 *            the vendor requestType byte (used for special cases, usually
 	 *            0)
@@ -187,7 +188,7 @@ public class UsbDevice {
 	/**
 	 * Sends a vendor request to receive (IN direction) data. This is a blocking
 	 * method.
-	 * 
+	 *
 	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 * @param value

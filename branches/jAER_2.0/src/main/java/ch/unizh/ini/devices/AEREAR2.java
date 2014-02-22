@@ -1,6 +1,5 @@
 package ch.unizh.ini.devices;
 
-import org.libusb4java.Device;
 import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.aer.AERChip;
 import net.sf.jaer2.devices.components.controllers.FX2;
@@ -17,6 +16,9 @@ import net.sf.jaer2.devices.config.ShiftRegisterContainer;
 import net.sf.jaer2.devices.config.pots.Pot;
 import net.sf.jaer2.devices.config.pots.VPot;
 import net.sf.jaer2.eventio.translators.Translator;
+
+import org.usb4java.Device;
+
 import ch.unizh.ini.devices.components.aer.CochleaAMS1c;
 import ch.unizh.ini.devices.components.misc.AD5391_32chan;
 

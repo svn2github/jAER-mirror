@@ -1,10 +1,11 @@
 package ch.unizh.ini.devices;
 
-import org.libusb4java.Device;
 import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.components.controllers.FX2;
 import net.sf.jaer2.devices.components.misc.InvenSense6050;
 import net.sf.jaer2.eventio.translators.Translator;
+
+import org.usb4java.Device;
 
 public class ApsDvs10IMU extends ApsDvs10 {
 	private static final long serialVersionUID = 3287324623698834991L;

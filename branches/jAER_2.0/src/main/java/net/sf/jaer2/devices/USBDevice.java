@@ -3,9 +3,9 @@ package net.sf.jaer2.devices;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import org.libusb4java.DeviceHandle;
-import org.libusb4java.LibUsb;
-import org.libusb4java.utils.BufferUtils;
+import org.usb4java.DeviceHandle;
+import org.usb4java.LibUsb;
+import org.usb4java.utils.BufferUtils;
 
 public abstract class USBDevice extends Device {
 	private static final long serialVersionUID = -1443942547496897821L;
@@ -19,12 +19,12 @@ public abstract class USBDevice extends Device {
 	protected final short devPID;
 	protected final short devDID;
 
-	transient protected final org.libusb4java.Device usbDevice;
+	transient protected final org.usb4java.Device usbDevice;
 	transient protected final DeviceHandle usbDeviceHandle;
 	transient private boolean isOpen = false;
 
 	public USBDevice(final String deviceName, final String deviceDescription, final short deviceVID,
-		final short devicePID, final short deviceDID, final org.libusb4java.Device device) {
+		final short devicePID, final short deviceDID, final org.usb4java.Device device) {
 		super(deviceName, deviceDescription);
 
 		devVID = deviceVID;

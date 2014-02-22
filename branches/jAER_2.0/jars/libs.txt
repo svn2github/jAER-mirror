@@ -1,2 +1,1 @@
-usb4java - 1.2.0-SNAPSHOT-libusb - https://github.com/usb4java/usb4java/
-USBTransferThread - 0.8.5 - https://github.com/llongi/USBTransferThread/
+USBTransferThread - 0.8.6 - https://github.com/llongi/USBTransferThread/

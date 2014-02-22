@@ -1,11 +1,12 @@
 package net.sf.jaer2.devices;
 
-import org.libusb4java.Device;
 import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.components.controllers.FX3;
 import net.sf.jaer2.devices.components.misc.memory.Flash_SPI;
 import net.sf.jaer2.devices.components.misc.memory.Memory;
 import net.sf.jaer2.eventio.translators.Translator;
+
+import org.usb4java.Device;
 
 public class FX3Blank extends USBDevice {
 	private static final long serialVersionUID = 2548240400991911365L;

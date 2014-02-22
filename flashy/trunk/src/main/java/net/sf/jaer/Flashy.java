@@ -32,15 +32,16 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
-import org.libusb4java.Device;
-import org.libusb4java.DeviceDescriptor;
-import org.libusb4java.DeviceList;
-import org.libusb4java.LibUsb;
-import org.libusb4java.utils.BufferUtils;
 import net.sf.jaer.controllers.Controller;
 import net.sf.jaer.controllers.DAViS_FX3;
 import net.sf.jaer.controllers.FX2;
 import net.sf.jaer.controllers.FX3;
+
+import org.usb4java.Device;
+import org.usb4java.DeviceDescriptor;
+import org.usb4java.DeviceList;
+import org.usb4java.LibUsb;
+import org.usb4java.utils.BufferUtils;
 
 public final class Flashy extends Application {
 	private static final Map<Short, Map<Short, Class<? extends Controller>>> supportedVidPids = new HashMap<>();

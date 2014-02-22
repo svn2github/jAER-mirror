@@ -28,14 +28,19 @@
 
 	<repositories>
 		<repository>
-			<id>in-project-repo</id>
-			<name>Internal Project Repo</name>
-			<url>file://${project.basedir}/jars/</url>
+			<id>ailis</id>
+			<name>Ailis Maven Releases</name>
+			<url>http://nexus.ailis.de/content/groups/public/</url>
 		</repository>
 		<repository>
 			<id>javacv-repo</id>
 			<name>JavaCV Repo</name>
 			<url>http://maven2.javacv.googlecode.com/git/</url>
+		</repository>
+		<repository>
+			<id>in-project-repo</id>
+			<name>Internal Project Repo</name>
+			<url>file://${project.basedir}/jars/</url>
 		</repository>
 	</repositories>
 
@@ -85,12 +90,17 @@
 		<dependency>
 			<groupId>org.usb4java</groupId>
 			<artifactId>usb4java</artifactId>
-			<version>1.2.0-SNAPSHOT-libusb</version>
+			<version>1.2.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.usb4java</groupId>
+			<artifactId>libusb4java</artifactId>
+			<version>1.2.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>li.longi</groupId>
 			<artifactId>USBTransferThread</artifactId>
-			<version>0.8.5</version>
+			<version>0.8.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jogamp.gluegen</groupId>

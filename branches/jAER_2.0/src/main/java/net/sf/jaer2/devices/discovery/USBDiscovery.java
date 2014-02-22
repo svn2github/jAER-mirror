@@ -12,9 +12,9 @@ import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.util.Reflections;
 import net.sf.jaer2.util.TripleRO;
 
-import org.libusb4java.Device;
-import org.libusb4java.DeviceDescriptor;
-import org.libusb4java.LibUsb;
+import org.usb4java.Device;
+import org.usb4java.DeviceDescriptor;
+import org.usb4java.LibUsb;
 
 public class USBDiscovery {
 	private static final Map<TripleRO<Short, Short, Short>, Class<? extends USBDevice>> compatibleUSBDevices = new HashMap<>();
