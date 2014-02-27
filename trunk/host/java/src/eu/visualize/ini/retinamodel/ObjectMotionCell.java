@@ -39,10 +39,10 @@ import net.sf.jaer.util.filter.LowpassFilter;
 public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAnnotater, Observer {
     private ObjectMotionCellModel objectMotionCellModel = new ObjectMotionCellModel();
     private float synapticWeight = getFloat("synapticWeight", 30);
-    private float centerExcitionToSurroundInhibitionRatio = getFloat("centerExcitationToSurroundInhibitionRatio", 1f);
+    private float centerExcitationToSurroundInhibitionRatio = getFloat("centerExcitationToSurroundInhibitionRatio", 1f);
     private boolean surroundSuppressionEnabled = getBoolean("surroundSuppressionEnabled", false);
     private Subunits subunits;
-    float inhibition = 0, centerExcition = 0; // summed subunit input to object motion cell
+    float inhibition = 0, centerExcitation = 0; // summed subunit input to object motion cell
     private float subunitActivityBlobRadiusScale = getFloat("subunitActivityBlobRadiusScale", 2f);
     private float integrateAndFireThreshold = getFloat("integrateAndFireThreshold", 1f);
 
@@ -116,7 +116,7 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
             gl.glColor4f(0, 1, 0, .3f);
             gl.glRectf(-10, 0, -5, inhibition);
             gl.glColor4f(1, 0, 0, .3f);
-            gl.glRectf(-20, 0, -15, centerExcition);
+            gl.glRectf(-20, 0, -15, centerExcitation);
             renderer.begin3DRendering();
             renderer.setColor(0, 1, 0, .3f);
             renderer.draw3D("sur", -10, -3, 0, .4f);
@@ -212,7 +212,7 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
                     if ((x == nx / 2 && y == ny / 2) || (x == ((nx / 2) - 1) && y == ny / 2) || (x == ((nx / 2) - 1) && y == ((ny / 2) - 1)) || (x == nx / 2 && y == ((ny / 2) - 1))) {
                         continue; // don't include center
                     }
-                    inhibition += subunits[x][y].computeInputToCell();
+                    inhibition += Math.pow(subunits[x][y].computeInputToCell(),2);
                 }
             }
             inhibition /= (ntot - 4);
@@ -220,18 +220,19 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
             return ObjectMotionCell.this.inhibition;
         }
 
-        float computeExicitionToOutputCell() {
+        float computeExcitationToOutputCell() {
+            float centerExcitation = 0;
             if ((nx == 2) || (nx == 1) || (ny == 2) || (ny == 1)) {
-                centerExcition = centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][ny / 2].computeInputToCell();
+                centerExcitation = centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][ny / 2].computeInputToCell();
             } else {
-                centerExcition = ((centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][ny / 2].computeInputToCell()) + (centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[(nx / 2) - 1][ny / 2].computeInputToCell()) + (centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[(nx / 2) - 1][(ny / 2) - 1].computeInputToCell()) + (centerExcitionToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][(ny / 2) - 1].computeInputToCell())) / 4;//average of 4 central cells
+                centerExcitation = (float)(Math.pow((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][ny / 2].computeInputToCell()),2) + Math.pow((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[(nx / 2) - 1][ny / 2].computeInputToCell()),2) + Math.pow((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[(nx / 2) - 1][(ny / 2) - 1].computeInputToCell()),2) + Math.pow((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][(ny / 2) - 1].computeInputToCell()),2)) / 4;//average of 4 central cells
             }
-            return centerExcition;
+            return centerExcitation;
         }
 
         synchronized private void reset() {
             inhibition = 0;
-            centerExcition = 0;
+            centerExcitation = 0;
             nx = (chip.getSizeX() >> getSubunitSubsamplingBits());
             ny = (chip.getSizeY() >> getSubunitSubsamplingBits());
             if (nx < 1) {
@@ -337,7 +338,6 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
                     return result; // half rectify result
                 }
             }
-//            return (float) Math.exp(vmem / synapticWeight / (1 << subunitSubsamplingBits));
         }
     }
 
@@ -358,7 +358,7 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
 
         synchronized private boolean update(int timestamp) {
             // compute subunit input to us
-            float netSynapticInput = (subunits.computeExicitionToOutputCell() - subunits.computeInhibitionToOutputCell());
+            float netSynapticInput = (subunits.computeExcitationToOutputCell() - subunits.computeInhibitionToOutputCell());
            int dtUs = timestamp - lastTimestamp;
             if (dtUs < 0) {
                 dtUs = 0; // to handle negative dt
@@ -464,14 +464,14 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
      * @return the onOffWeightRatio
      */
     public float getCenterExcitationToSurroundInhibitionRatio() {
-        return centerExcitionToSurroundInhibitionRatio;
+        return centerExcitationToSurroundInhibitionRatio;
     }
 
     /**
      * @param onOffWeightRatio the onOffWeightRatio to set
      */
     public void setCenterExcitationToSurroundInhibitionRatio(float onOffWeightRatio) {
-        this.centerExcitionToSurroundInhibitionRatio = onOffWeightRatio;
+        this.centerExcitationToSurroundInhibitionRatio = onOffWeightRatio;
         putFloat("centerExcitationToSurroundInhibitionRatio", onOffWeightRatio);
     }
 
