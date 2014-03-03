@@ -9,6 +9,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -45,7 +46,10 @@ public class FX3 extends Controller {
 		GUISupport.addLabel(firmwareToFlashBox, "Select FX3 firmware file",
 			"Select a FX3 firmware file to upload to the device.", null, null);
 
-		final TextField firmwareField = GUISupport.addTextField(firmwareToFlashBox, null, null);
+		final Preferences defaultFolderNode = Preferences.userRoot().node("/defaultFolders");
+
+		final TextField firmwareField = GUISupport.addTextField(firmwareToFlashBox,
+			defaultFolderNode.get("fx3Firmware", ""), null);
 
 		firmwareField.textProperty().addListener(new ChangeListener<String>() {
 			@SuppressWarnings("unused")
@@ -67,6 +71,7 @@ public class FX3 extends Controller {
 
 				firmwareField.setStyle("");
 				firmwareFile = loadFirmware;
+				defaultFolderNode.put("fx3Firmware", loadFirmware.getAbsolutePath());
 			}
 		});
 
@@ -82,6 +87,7 @@ public class FX3 extends Controller {
 
 					firmwareField.setText(loadFirmware.getAbsolutePath());
 					firmwareFile = loadFirmware;
+					defaultFolderNode.put("fx3Firmware", loadFirmware.getAbsolutePath());
 				}
 			});
 

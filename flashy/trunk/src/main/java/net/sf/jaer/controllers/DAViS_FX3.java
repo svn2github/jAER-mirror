@@ -9,6 +9,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -54,7 +55,10 @@ public class DAViS_FX3 extends Controller {
 		GUISupport.addLabel(firmwareToFlashBox, "Select FX3 firmware file",
 			"Select a FX3 firmware file to upload to the device.", null, null);
 
-		final TextField firmwareField = GUISupport.addTextField(firmwareToFlashBox, null, null);
+		final Preferences defaultFolderNode = Preferences.userRoot().node("/defaultFolders");
+
+		final TextField firmwareField = GUISupport.addTextField(firmwareToFlashBox,
+			defaultFolderNode.get("fx3Firmware", ""), null);
 
 		firmwareField.textProperty().addListener(new ChangeListener<String>() {
 			@SuppressWarnings("unused")
@@ -76,6 +80,7 @@ public class DAViS_FX3 extends Controller {
 
 				firmwareField.setStyle("");
 				firmwareFile = loadFirmware;
+				defaultFolderNode.put("fx3Firmware", loadFirmware.getAbsolutePath());
 			}
 		});
 
@@ -92,6 +97,7 @@ public class DAViS_FX3 extends Controller {
 
 					firmwareField.setText(loadFirmware.getAbsolutePath());
 					firmwareFile = loadFirmware;
+					defaultFolderNode.put("fx3Firmware", loadFirmware.getAbsolutePath());
 				}
 			});
 
@@ -141,7 +147,8 @@ public class DAViS_FX3 extends Controller {
 		GUISupport.addLabel(logicToFlashBox, "Select FPGA logic file",
 			"Select a FPGA logic file to upload to the device.", null, null);
 
-		final TextField logicField = GUISupport.addTextField(logicToFlashBox, null, null);
+		final TextField logicField = GUISupport.addTextField(logicToFlashBox, defaultFolderNode.get("fx3Logic", ""),
+			null);
 
 		logicField.textProperty().addListener(new ChangeListener<String>() {
 			@SuppressWarnings("unused")
@@ -163,6 +170,7 @@ public class DAViS_FX3 extends Controller {
 
 				logicField.setStyle("");
 				logicFile = loadLogic;
+				defaultFolderNode.put("fx3Logic", loadLogic.getAbsolutePath());
 			}
 		});
 
@@ -178,6 +186,7 @@ public class DAViS_FX3 extends Controller {
 
 					logicField.setText(loadLogic.getAbsolutePath());
 					logicFile = loadLogic;
+					defaultFolderNode.put("fx3Logic", loadLogic.getAbsolutePath());
 				}
 			});
 
