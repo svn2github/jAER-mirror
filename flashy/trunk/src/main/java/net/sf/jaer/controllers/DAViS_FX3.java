@@ -89,7 +89,7 @@ public class DAViS_FX3 extends Controller {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
 					final File loadFirmware = GUISupport.showDialogLoadFile("FX3 Image",
-						DAViS_FX3.firmwareValidExtensions);
+						DAViS_FX3.firmwareValidExtensions, defaultFolderNode.get("fx3Firmware", ""));
 
 					if (loadFirmware == null) {
 						return;
@@ -178,7 +178,8 @@ public class DAViS_FX3 extends Controller {
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
-					final File loadLogic = GUISupport.showDialogLoadFile("Bitstream", DAViS_FX3.logicValidExtensions);
+					final File loadLogic = GUISupport.showDialogLoadFile("Bitstream", DAViS_FX3.logicValidExtensions,
+						defaultFolderNode.get("fx3Logic", ""));
 
 					if (loadLogic == null) {
 						return;

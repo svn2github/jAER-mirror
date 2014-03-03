@@ -323,13 +323,27 @@ public final class GUISupport {
 		Dialogs.create().lightweight().title("Progress ...").showWorkerProgress(worker);
 	}
 
-	public static File showDialogLoadFile(final String name, final List<String> allowedExtensions) {
+	public static File showDialogLoadFile(final String name, final List<String> allowedExtensions,
+		final String initialFolderPath) {
 		final FileChooser fileChooser = new FileChooser();
 
 		fileChooser.setTitle("Select File to load from ...");
 
 		if (allowedExtensions != null) {
 			fileChooser.getExtensionFilters().add(new ExtensionFilter(name, allowedExtensions));
+		}
+
+		if (initialFolderPath != null) {
+			final File initialFolder = new File(initialFolderPath);
+
+			if (initialFolder.exists()) {
+				if (initialFolder.isDirectory()) {
+					fileChooser.setInitialDirectory(initialFolder);
+				}
+				else if (initialFolder.isFile()) {
+					fileChooser.setInitialDirectory(initialFolder.getParentFile());
+				}
+			}
 		}
 
 		final File toLoad = fileChooser.showOpenDialog(null);

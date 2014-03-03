@@ -79,7 +79,8 @@ public class FX3 extends Controller {
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
-					final File loadFirmware = GUISupport.showDialogLoadFile("FX3 Image", FX3.firmwareValidExtensions);
+					final File loadFirmware = GUISupport.showDialogLoadFile("FX3 Image", FX3.firmwareValidExtensions,
+						defaultFolderNode.get("fx3Firmware", ""));
 
 					if (loadFirmware == null) {
 						return;
