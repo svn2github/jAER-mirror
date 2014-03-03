@@ -9,12 +9,12 @@ import li.longi.USBTransferThread.RestrictedTransfer;
 import li.longi.USBTransferThread.RestrictedTransferCallback;
 import li.longi.USBTransferThread.USBTransferThread;
 
+import org.usb4java.BufferUtils;
+import org.usb4java.DescriptorUtils;
 import org.usb4java.Device;
 import org.usb4java.DeviceDescriptor;
 import org.usb4java.DeviceHandle;
 import org.usb4java.LibUsb;
-import org.usb4java.utils.BufferUtils;
-import org.usb4java.utils.DescriptorUtils;
 
 public class UsbDevice {
 	private final Device dev;

@@ -23,8 +23,8 @@ import net.sf.jaer.Files;
 import net.sf.jaer.GUISupport;
 import net.sf.jaer.UsbDevice;
 
+import org.usb4java.BufferUtils;
 import org.usb4java.LibUsb;
-import org.usb4java.utils.BufferUtils;
 
 public class DAViS_FX3 extends Controller {
 	private static final List<String> firmwareValidExtensions = new ArrayList<>();

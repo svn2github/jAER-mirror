@@ -37,11 +37,11 @@ import net.sf.jaer.controllers.DAViS_FX3;
 import net.sf.jaer.controllers.FX2;
 import net.sf.jaer.controllers.FX3;
 
+import org.usb4java.BufferUtils;
 import org.usb4java.Device;
 import org.usb4java.DeviceDescriptor;
 import org.usb4java.DeviceList;
 import org.usb4java.LibUsb;
-import org.usb4java.utils.BufferUtils;
 
 public final class Flashy extends Application {
 	private static final Map<Short, Map<Short, Class<? extends Controller>>> supportedVidPids = new HashMap<>();
