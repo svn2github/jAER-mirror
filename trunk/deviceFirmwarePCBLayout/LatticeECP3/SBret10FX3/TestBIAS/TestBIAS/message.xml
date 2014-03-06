@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<BaliMessageLog>
+    <Milestone name="Synthesis">
+        <Task name="Synplify_Synthesis">
+            <Engine name="gen_synplify_tcl"/>
+            <Engine name="synpwrap"/>
+        </Task>
+    </Milestone>
+</BaliMessageLog>
