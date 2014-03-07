@@ -3,9 +3,9 @@ package net.sf.jaer2.devices;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import org.usb4java.BufferUtils;
 import org.usb4java.DeviceHandle;
 import org.usb4java.LibUsb;
-import org.usb4java.utils.BufferUtils;
 
 public abstract class USBDevice extends Device {
 	private static final long serialVersionUID = -1443942547496897821L;

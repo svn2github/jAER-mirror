@@ -7,7 +7,7 @@ import net.sf.jaer2.devices.components.controllers.Controller.Command;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.TypedMap;
 
-import org.usb4java.utils.BufferUtils;
+import org.usb4java.BufferUtils;
 
 public class EEPROM_I2C extends Memory {
 	private static final long serialVersionUID = 6483810761979125129L;
