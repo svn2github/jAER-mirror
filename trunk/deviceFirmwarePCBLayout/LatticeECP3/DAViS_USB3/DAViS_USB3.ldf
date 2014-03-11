@@ -7,7 +7,7 @@
             <Options/>
         </Source>
         <Source name="DAViS_USB3/source/USBAER_top_level.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
+            <Options top_module="USBAER_top_level"/>
         </Source>
         <Source name="DAViS_USB3/source/ADCStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
