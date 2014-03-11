@@ -6,34 +6,6 @@
             <Engine name="bitgen"/>
         </Task>
     </Milestone>
-    <Milestone name="Synthesis">
-        <Task name="Synplify_Synthesis">
-            <Engine name="gen_synplify_tcl"/>
-            <Engine name="synpwrap">
-                <Message>
-                    <ID>2019991</ID>
-                    <Severity>Warning</Severity>
-                    <Text>WARNING - MT529 :"c:\inilabs\vhdl\davis_usb3\davis_usb3\source\eventbeforeoverflow.vhd":76:4:76:5|Found inferred clock EventBeforeOverflow|ClockxCI which controls 3 sequential elements including StatexDP[0:2]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance.</Text>
-                    <Dynamic>MT529 :"c:\inilabs\vhdl\davis_usb3\davis_usb3\source\eventbeforeoverflow.vhd":76:4:76:5|Found inferred clock EventBeforeOverflow|ClockxCI which controls 3 sequential elements including StatexDP[0:2]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance.</Dynamic>
-                    <Navigation>MT529</Navigation>
-                    <Navigation>c:\inilabs\vhdl\davis_usb3\davis_usb3\source\eventbeforeoverflow.vhd</Navigation>
-                    <Navigation>76</Navigation>
-                    <Navigation>4</Navigation>
-                    <Navigation>76</Navigation>
-                    <Navigation>5</Navigation>
-                    <Navigation>Found inferred clock EventBeforeOverflow|ClockxCI which controls 3 sequential elements including StatexDP[0:2]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. </Navigation>
-                </Message>
-                <Message>
-                    <ID>2019993</ID>
-                    <Severity>Warning</Severity>
-                    <Text>WARNING - MT420 |Found inferred clock EventBeforeOverflow|ClockxCI with period 1.05ns. Please declare a user-defined clock on object "p:ClockxCI"</Text>
-                    <Dynamic>MT420 |Found inferred clock EventBeforeOverflow|ClockxCI with period 1.05ns. Please declare a user-defined clock on object "p:ClockxCI"</Dynamic>
-                    <Navigation>MT420</Navigation>
-                    <Navigation>Found inferred clock EventBeforeOverflow|ClockxCI with period 1.05ns. Please declare a user-defined clock on object "p:ClockxCI"</Navigation>
-                </Message>
-            </Engine>
-        </Task>
-    </Milestone>
     <Milestone name="Translate">
         <Task name="Translate">
             <Engine name="edif2ngd"/>
@@ -2320,7 +2292,7 @@
                     <ID>1104062</ID>
                     <Severity>Warning</Severity>
                     <Text>WARNING - Preference parsing results:  245 syntax errors detected</Text>
-                    <Dynamic></Dynamic>
+                    <Dynamic/>
                     <Dynamic>245</Dynamic>
                     <Dynamic>s</Dynamic>
                 </Message>
@@ -2346,6 +2318,34 @@
                     <ID>66011008</ID>
                     <Severity>Warning</Severity>
                     <Text>WARNING - The following clock signals will be routed by using generic routing resource and may suffer from excessive delay and/or skew.</Text>
+                </Message>
+            </Engine>
+        </Task>
+    </Milestone>
+    <Milestone name="Synthesis">
+        <Task name="Synplify_Synthesis">
+            <Engine name="gen_synplify_tcl"/>
+            <Engine name="synpwrap">
+                <Message>
+                    <ID>2019990</ID>
+                    <Severity>Error</Severity>
+                    <Text>ERROR - CD213 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":607:2:607:15|Undefined identifier</Text>
+                    <Dynamic>CD213 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":607:2:607:15|Undefined identifier</Dynamic>
+                    <Navigation>CD213</Navigation>
+                    <Navigation>C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd</Navigation>
+                    <Navigation>607</Navigation>
+                    <Navigation>2</Navigation>
+                    <Navigation>607</Navigation>
+                    <Navigation>15</Navigation>
+                    <Navigation>Undefined identifier</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019992</ID>
+                    <Severity>Error</Severity>
+                    <Text>ERROR - @E|Parse errors encountered - exiting</Text>
+                    <Dynamic>@E|Parse errors encountered - exiting</Dynamic>
+                    <Navigation></Navigation>
+                    <Navigation>Parse errors encountered - exiting</Navigation>
                 </Message>
             </Engine>
         </Task>

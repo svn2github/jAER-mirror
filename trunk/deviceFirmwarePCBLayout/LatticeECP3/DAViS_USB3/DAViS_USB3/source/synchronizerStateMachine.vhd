@@ -27,8 +27,8 @@ entity synchronizerStateMachine is
     ConfigxSI : in std_logic;
 
     --
-    SyncInxABI : in std_logic;
-    SyncOutxSBO : out std_logic;
+    SyncIn2xABI : in std_logic;
+    SyncOut1xSBO : out std_logic;
     TriggerxSO: out std_logic;
     
     -- host commands to reset timestamps
@@ -49,7 +49,7 @@ architecture Behavioral of synchronizerStateMachine is
   signal StatexDP, StatexDN : state;
 
   -- signals used for synchronizer
-  signal SyncInxSB, SyncInxSBN : std_logic;
+  signal SyncIn2xSB, SyncIn2xSBN : std_logic;
 
   -- used to produce different timestamp ticks and to remain in a certain state
   -- for a certain amount of time
@@ -59,7 +59,7 @@ architecture Behavioral of synchronizerStateMachine is
 begin  -- Behavioral
 
   -- calculate next state
-  p_memless : process (StatexDP, RunxSI, ConfigxSI, DividerxDP, CounterxDP, HostResetTimestampxSI, SyncInxSB, SyncInxABI)
+  p_memless : process (StatexDP, RunxSI, ConfigxSI, DividerxDP, CounterxDP, HostResetTimestampxSI, SyncIN2xSB, SyncIN2xABI)
     constant counterInc : integer := 89;  --47
     constant squareWaveHighTime : integer := 50;
     constant squareWavePeriod : integer := 100;
@@ -77,7 +77,7 @@ begin  -- Behavioral
     TriggerxSO <= '0';
  
 
-    SyncOutxSBO <= '1';
+    SyncOut1xSBO <= '1';
       
     case StatexDP is
       when stIdle               =>  -- waiting for either sync in to go
@@ -86,9 +86,9 @@ begin  -- Behavioral
         DividerxDN         <= (others => '0');
         CounterxDN <= (others => '0');
  
-        SyncOutxSBO <= SyncInxABI;
+        SyncOut1xSBO <= SyncIN2xABI;
         
-        if ConfigxSI = '0' and SyncInxSB ='0' then
+        if ConfigxSI = '0' and SyncIN2xSB ='0' then
           StatexDN         <= stRunSlave;
           ResetTimestampxSBO <= '0';
       
@@ -106,7 +106,7 @@ begin  -- Behavioral
         end if;
     
         CounterxDN <= CounterxDP+1;
-        SyncOutxSBO   <= '1';
+        SyncOut1xSBO   <= '1';
         
       when stTriggerInHigh      =>      
         DividerxDN   <= DividerxDP +1;
@@ -121,15 +121,15 @@ begin  -- Behavioral
           end if;
         end if;
 
-        if SyncInxSB = '0' then
+        if SyncIN2xSB = '0' then
             StatexDN <= stTriggerInLow;
             TriggerxSO <= '1';
         end if;
 
         if CounterxDP < squareWaveHighTime then
-          SyncOutxSBO <= '0';
+          SyncOut1xSBO <= '0';
         else
-          SyncOutxSBO <= '1';
+          SyncOut1xSBO <= '1';
         end if;
 
         if RunxSI = '0' or ConfigxSI='0'  then
@@ -153,14 +153,14 @@ begin  -- Behavioral
           end if;
         end if;
 
-        if SyncInxSB = '1' then
+        if SyncIN2xSB = '1' then
             StatexDN <= stTriggerInHigh;
         end if;
         
         if CounterxDP < squareWaveHighTime then
-          SyncOutxSBO <= '0';
+          SyncOut1xSBO <= '0';
         else
-          SyncOutxSBO <= '1';
+          SyncOut1xSBO <= '1';
         end if;
             
         if RunxSI = '0' or ConfigxSI='0'  then
@@ -173,8 +173,8 @@ begin  -- Behavioral
         
       when stRunSlave =>
 
-        --SyncOutxSBO <= '0';
-        SyncOutxSBO <= SyncInxSB;
+        --SyncOut1xSBO <= '0';
+        SyncOut1xSBO <= SyncIN2xSB;
         
         DividerxDN   <= DividerxDP +1;
 
@@ -196,12 +196,12 @@ begin  -- Behavioral
 
       when stSlaveWaitEdge =>
 
-        --SyncOutxSBO <= '1';
-        SyncOutxSBO <= SyncInxSB;
+        --SyncOut1xSBO <= '1';
+        SyncOut1xSBO <= SyncIN2xSB;
         
         DividerxDN          <= (others => '0');
         CounterxDN <= CounterxDP + 1;
-        if SyncInxSB = '0' then
+        if SyncIN2xSB = '0' then
           IncrementCounterxSO <= '1';
           StatexDN <= stRunSlave;
           CounterxDN <= (others => '0');
@@ -240,8 +240,8 @@ begin  -- Behavioral
   synchronizer : process (ClockxCI)
   begin
     if ClockxCI'event  and ClockxCI = '1' then   
-      SyncInxSB  <= SyncInxSBN;
-      SyncInxSBN <= SyncInxABI;
+      SyncIN2xSB  <= SyncIN2xSBN;
+      SyncIN2xSBN <= SyncIN2xABI;
     end if;
   end process synchronizer;
 

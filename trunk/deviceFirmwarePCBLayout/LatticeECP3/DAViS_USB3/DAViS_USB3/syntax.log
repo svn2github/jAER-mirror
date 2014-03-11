@@ -4,18 +4,19 @@
 #Hostname: SENSORS-VICENTE
 
 $ Start of Compile
-#Tue Feb 18 15:28:50 2014
+#Tue Mar 11 17:51:59 2014
 
 Synopsys VHDL Compiler, version comp201303rcp1, Build 182R, built Jul  1 2013
 @N|Running in 64-bit mode
 Copyright (C) 1994-2013 Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
 
 @N: CD720 :"C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
-@N:"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd":30:7:30:25|Top entity is set to EventBeforeOverflow.
-
-At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 72MB peak: 73MB)
-
+@N:"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\timestampCounter.vhd":25:7:25:22|Top entity is set to timestampCounter.
+@E: CD213 :"C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/USBAER_top_level.vhd":607:2:607:15|Undefined identifier
+1 error parsing file C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/USBAER_top_level.vhd
+@END
+@E|Parse errors encountered - exiting
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Tue Feb 18 15:28:51 2014
+# Tue Mar 11 17:52:00 2014
 
 ###########################################################]

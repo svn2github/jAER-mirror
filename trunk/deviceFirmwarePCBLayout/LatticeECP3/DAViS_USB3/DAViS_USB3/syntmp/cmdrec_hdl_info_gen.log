@@ -1,21 +1,18 @@
-C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\bin64\c_vhdl.exe  -osyn  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_hdl_.srs  -top  EventBeforeOverflow  -prodtype  synplify_pro  -dspmac -fixsmult -infer_seqShift -nram -divnmod -encrypt  -pro  -dmgen  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\dm  -lite -ll 2000   -ui -fid2 -ram -sharing on  -autosm -ignore_undefined_lib  -lib work C:\Lattice\Diamond3\diamond\3.0_x64\cae_library\synthesis\vhdl\ecp3.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\AERfifo.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\cDVSResetStateMachine.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\clockgen.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\earlyPaketTimer.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\eventCounter.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\fifoStatemachine.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\monitorStateMachine.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\timestampCounter.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\ADCvalueReady.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\shiftRegister.vhd -lib work C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\wordRegister.vhd -loga  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\syntax.log  -fileorder  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\syntmp\hdlorder.tcl 
-rc:0 success:1
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_hdl_.srs|o|0|0
+C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\bin64\c_vhdl.exe  -osyn  C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_hdl_.srs  -top  timestampCounter  -prodtype  synplify_pro  -dspmac -fixsmult -infer_seqShift -nram -divnmod -encrypt  -pro  -dmgen  C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\dm  -lite -ll 2000   -ui -fid2 -ram -sharing on  -autosm -ignore_undefined_lib  -lib work C:\Lattice\Diamond3\diamond\3.0_x64\cae_library\synthesis\vhdl\ecp3.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERfifo.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\cDVSResetStateMachine.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\clockgen.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\earlyPaketTimer.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\eventCounter.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\fifoStatemachine.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\monitorStateMachine.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\timestampCounter.vhd -loga  C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\syntax.log  -fileorder  C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\syntmp\hdlorder.tcl 
+rc:2 success:0
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_hdl_.srs|o|0|0
 C:\Lattice\Diamond3\diamond\3.0_x64\cae_library\synthesis\vhdl\ecp3.vhd|i|1376992926|196741
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd|i|1389371778|7609
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd|i|1392733716|23398
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\AERfifo.vhd|i|1382950372|11059
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\cDVSResetStateMachine.vhd|i|1382950373|3520
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\clockgen.vhd|i|1382950373|4055
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\earlyPaketTimer.vhd|i|1382950372|2050
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\eventCounter.vhd|i|1382950373|2228
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\fifoStatemachine.vhd|i|1382950373|4568
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\monitorStateMachine.vhd|i|1382950372|9902
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\timestampCounter.vhd|i|1382950372|2383
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd|i|1382950374|2315
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\ADCvalueReady.vhd|i|1382950372|2602
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\shiftRegister.vhd|i|1382950373|2011
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\wordRegister.vhd|i|1382950373|2008
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\syntax.log|o|1392733731|1151
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd|i|1394549165|7637
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd|i|1394556714|23390
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd|i|1382950373|13408
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERfifo.vhd|i|1382950372|11059
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\cDVSResetStateMachine.vhd|i|1382950373|3520
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\clockgen.vhd|i|1394547070|4051
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\earlyPaketTimer.vhd|i|1382950372|2050
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\eventCounter.vhd|i|1382950373|2228
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\fifoStatemachine.vhd|i|1382950373|4568
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\monitorStateMachine.vhd|i|1382950372|9902
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\timestampCounter.vhd|i|1382950372|2383
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\syntax.log|o|1394556719|165
 C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\bin64\c_vhdl.exe|i|1372666570|5421568
 C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\bin\c_vhdl.exe|i|1372666392|1946112

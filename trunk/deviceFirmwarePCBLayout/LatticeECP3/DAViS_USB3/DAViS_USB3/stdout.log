@@ -3,7 +3,7 @@ Running in Lattice mode
 
 Starting:    C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\win64\mbin\synbatch.exe
 Install:     C:\Lattice\Diamond3\diamond\3.0_x64\synpbase
-Date:        Tue Feb 18 15:28:50 2014
+Date:        Tue Mar 11 17:51:59 2014
 Version:     H-2013.03L 
 
 Arguments:   -product synplify_pro  -batch DAViS_USB3_DAViS_USB3_synplify.tcl
@@ -14,11 +14,7 @@ ProductType: synplify_pro
 
 
 
-Warning: File already exists in project: "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\AERfifo.vhd"
-
-Warning: File already exists in project: "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\clockgen.vhd"
-
-log file: "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srr"
+log file: "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srr"
 
 
 
@@ -26,14 +22,15 @@ log file: "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srr"
 
 Generating HDL info...
 
-hdl_info_gen Completed
-Return Code: 0
+Job: "hdl_info_gen" terminated with error status: 2.
+See log file: "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\syntax.log"
+Return Code: 2
 Run Time:0h:00m:01s
 
 
-Copied C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srr to C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srf
+Copied C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srr to C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srf
 
-log file: "C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srr"
+log file: "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srr"
 
 
 
@@ -50,54 +47,28 @@ Running: Compile Process on proj_1|DAViS_USB3
 
 Running: Compile Input on proj_1|DAViS_USB3
 
-Copied C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_comp.srs to C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srs
+compiler exited with errors
 
-compiler Completed
-Return Code: 0
-Run Time:0h:00m:01s
+Job: "compiler" terminated with error status: 2.
+See log file: "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srr"
+Return Code: 2
+Run Time:0h:00m:00s
 
 
-Copied C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srr to C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srf
+Copied C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srr to C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srf
 
 Complete: Compile Process on proj_1|DAViS_USB3
 
-
-Running: Premap on proj_1|DAViS_USB3
-
-premap Completed with warnings
-Return Code: 1
-Run Time:0h:00m:01s
-
-
-Complete: Compile on proj_1|DAViS_USB3
-
-
-Running: Map on proj_1|DAViS_USB3
-
-
-Running: Map & Optimize on proj_1|DAViS_USB3
-
-fpga_mapper Completed with warnings
-Return Code: 1
-Run Time:0h:00m:01s
-
-
-Complete: Map on proj_1|DAViS_USB3
-
-Copied C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srr to C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srf
-
-Complete: Logic Synthesis on proj_1|DAViS_USB3
-
 TCL script complete: "DAViS_USB3_DAViS_USB3_synplify.tcl"
 
-exit status=0
+exit status=2
 
 
-exit status=0
+exit status=2
 
 
 Save changes for project:
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\proj_1.prj
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\proj_1.prj
 
 batch mode default:no
 

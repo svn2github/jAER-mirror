@@ -1,23 +1,20 @@
 #--  Synopsys, Inc.
 #--  Version H-2013.03L 
-#--  Project file C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\run_options.txt
+#--  Project file C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\run_options.txt
 
 #project files
 add_file -vhdl -lib work "C:/Lattice/Diamond3/diamond/3.0_x64/cae_library/synthesis/vhdl/ecp3.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/synchronizerStateMachine.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/cDVSResetStateMachine.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/earlyPaketTimer.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/eventCounter.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/fifoStatemachine.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/monitorStateMachine.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/timestampCounter.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/EventBeforeOverflow.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/ADCvalueReady.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/shiftRegister.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/wordRegister.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/AERfifo.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/clockgen.vhd"
-add_file -vhdl -lib work "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/USBAER_top_level.vhd"
+add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/synchronizerStateMachine.vhd"
+add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/USBAER_top_level.vhd"
+add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/ADCStateMachine.vhd"
+add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/AERfifo.vhd"
+add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/cDVSResetStateMachine.vhd"
+add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/clockgen.vhd"
+add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/earlyPaketTimer.vhd"
+add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/eventCounter.vhd"
+add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/fifoStatemachine.vhd"
+add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/monitorStateMachine.vhd"
+add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/timestampCounter.vhd"
 
 
 #implementation: "DAViS_USB3"
@@ -37,7 +34,7 @@ set_option -speed_grade -7
 set_option -part_companion ""
 
 #compilation/mapping options
-set_option -top_module "EventBeforeOverflow"
+set_option -top_module "timestampCounter"
 
 # mapper_options
 set_option -frequency auto
@@ -71,5 +68,5 @@ set_option -write_apr_constraint 1
 project -result_file "./DAViS_USB3_DAViS_USB3.edi"
 
 #set log file 
-set_option log_file "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/DAViS_USB3_DAViS_USB3.srf" 
+set_option log_file "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/DAViS_USB3_DAViS_USB3.srf" 
 impl -active "DAViS_USB3"

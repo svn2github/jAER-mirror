@@ -7,8 +7,8 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 -- synopsys translate_off
-library MACHXO;
-use MACHXO.components.all;
+library ECP3;
+use ECP3.components.all;
 -- synopsys translate_on
 
 entity clockgen is

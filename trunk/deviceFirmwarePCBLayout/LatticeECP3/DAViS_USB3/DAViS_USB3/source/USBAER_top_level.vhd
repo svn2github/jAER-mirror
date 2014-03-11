@@ -41,12 +41,12 @@ entity USBAER_top_level is
     ResetxRBI : in std_logic;
 
     -- ports to synchronize other USBAER boards
-    SyncInCLKxABI   : in  std_logic;    -- Pin T2. Input for 10kHz clock. Used when the DVS is slave
-	SyncInSIGxSBO   : in  std_logic;	-- Pin T4. Sends an acknowledge signal to the Master
-	SyncInSWxEI   : in  std_logic;		-- Pin T3. Says to the host that a cable is attached, so the DVS is a slave.
-    SyncOutCLKxCBO : out std_logic;		-- Pin T13. Generates a 10kHz clock when the DVS is Master
-	SyncOutSIGxSBI : out std_logic;		-- Pin P12. Receives and acknowledge signal from the Slave
-	SyncOutSWxEI : out std_logic;		-- Pin P11. Says to the Host a cable is attached, so the DVS is Master
+    SyncIn2xABI   : in  std_logic;    -- Pin T2. Input for 10kHz clock. Used when the DVS is slave
+--	SyncInSIGxSBO   : in  std_logic;	-- Pin T4. Sends an acknowledge signal to the Master
+--	SyncInSWxEI   : in  std_logic;		-- Pin T3. Says to the host that a cable is attached, so the DVS is a slave.
+    SyncOut1xSBO : out std_logic;		-- Pin T13. Generates a 10kHz clock when the DVS is Master
+--	SyncOutSIGxSBI : out std_logic;		-- Pin P12. Receives and acknowledge signal from the Slave
+--	SyncOutSWxEI : out std_logic;		-- Pin P11. Says to the Host a cable is attached, so the DVS is Master
 
     -- communication with 8051   
     PC0xSIO  : in  std_logic;
@@ -159,10 +159,10 @@ architecture Structural of USBAER_top_level is
        ResetxRBI             : in  std_logic;
        RunxSI                : in  std_logic;
        ConfigxSI             : in  std_logic;
-       SyncInCLKxABI			 : in  std_logic;      
---	   SyncInSIGxSBO 		  	: in  std_logic;
+--      SyncInCLKxCB			 : in  std_logic;      
+	   SyncIN2xABI 		  	: in  std_logic;
 --	   SyncInSWxEI  		: in  std_logic;
-	   SyncOutCLKxCBO 		: out std_logic;
+	   SyncOut1xSBO 		: out std_logic;
 --	   SyncOutSIGxSBI 		: out std_logic;
 --	   SyncOutSWxEI 		: out std_logic;
        TriggerxSO            : out std_logic;
@@ -294,7 +294,7 @@ architecture Structural of USBAER_top_level is
   -- register write enables
   signal TimestampRegWritexE   : std_logic;
   
-  signal SyncIn1xAB : std_logic;
+  signal SyncIn2xAB : std_logic;
 
   signal AERREQxSB, AERReqSyncxSBN  : std_logic;
 
@@ -412,7 +412,7 @@ begin
   
   FX2FifoReadxEBO <= '1';
 
-  SyncIn1xAB <= SyncInCLKxABI;
+  SyncIn2xAB <= SyncIn2xABI;
   
   shiftRegister_1: shiftRegister
     generic map (
@@ -509,8 +509,8 @@ begin
       ResetxRBI             => ResetxRB,
       RunxSI                => RunxS,
       ConfigxSI             => TimestampMasterxS,
-      SyncInCLKxABI            => SyncIn1xAB,
-      SyncOutCLKxCBO           => SyncOut1xSB,
+      SyncIN2xABI            => SyncIN2xAB,
+      SyncOut1xSBO           => SyncOut1xSB,
       TriggerxSO            => TriggerxS,
       HostResetTimestampxSI => HostResetTimestampxS,
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
@@ -604,7 +604,7 @@ begin
       cDVSresetxRBI => PE3xSI,
       CDVSresetxRBO => CDVSTestPeriodicChipResetxRB);
   
-  SyncOutCLKxCBO <= SyncOut1xSB;
+  SyncOut1xSBO <= SyncOut1xSB;
   FX2FifoPktEndxSBO <= FX2FifoPktEndxSB;
   FX2FifoWritexEBO <= FX2FifoWritexEB;
   AERMonitorACKxSBO <= AERMonitorACKxSB;
