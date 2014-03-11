@@ -440,7 +440,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 
 	/**
 	 * The coarse bits are reversed (this was a mistake) so we need to mirror
-	 * them here before we sent them.
+	 * them here before we send them.
 	 *
 	 * @param value
 	 *            the bits in
