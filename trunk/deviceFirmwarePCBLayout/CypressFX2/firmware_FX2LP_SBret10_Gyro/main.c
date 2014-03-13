@@ -384,15 +384,10 @@ void TD_Poll(void) // Called repeatedly while the device is idle
 		// Put 0xFF at offset 0 to distinguish this message as being gyro data on the host.
 		EP1INBUF[0] = 0xFF;
 		SYNCDELAY;
-		EP1INBC = 1 + I2C_GYRO_DATA_LEN +4; // send 19 bytes in total, 1 header + 4 timestamp + 14 IMU sample 
+		EP1INBC = 1 + I2C_GYRO_DATA_LEN + 4; // send 19 bytes in total, 1 header + 4 timestamp + 14 IMU sample
 		SYNCDELAY;
 		toggleLED(); // toggle LED to show rate of capturing IMU samples using scope
 	}
-
-	// Every 100000 cycles toggle the LED to get a slow heartbeat, to show the firmware is running.
-//	if (cycleCounter++ >= 100000) {
-//		cycleCounter = 1;
-//	}
 }
 
 
@@ -402,13 +397,13 @@ BOOL checkImuDataReady(void)
 {
 	BYTE xdata status;
 	BYTE xdata dataAddr;
-	dataAddr=56; // INT_STATUS register address
+	dataAddr=58; // INT_STATUS register address
 	// write the address of the INT_STATUS register to the IMU 
 	EZUSB_WriteI2C(I2C_GYRO_ADDR, 1, &dataAddr);
 	// ... and now read the data back directly into status.
 	EZUSB_ReadI2C(I2C_GYRO_ADDR, 1, &status);
 	// bit 0 is DATA_RDY_INT
-	if(status&1==0)
+	if ((status & 0x01) == 0)
 		return FALSE;
 	else
 		return TRUE;
