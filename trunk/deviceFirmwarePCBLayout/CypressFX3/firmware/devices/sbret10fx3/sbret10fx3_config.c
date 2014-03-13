@@ -1,6 +1,7 @@
 #include "fx3.h"
 #include "features/gpio_support.h"
 #include "features/spi_support.h"
+#include "features/i2c_support.h"
 
 #if SBRET10FX3 == 1
 
@@ -58,13 +59,54 @@ const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecif
 #define BIAS_LATCH 51
 #define BIAS_BIT 52
 
+// Memory and device addresses.
+#define SNUM_MEMORY_ADDRESS 0x0C0000
+#define FPGA_MEMORY_ADDRESS 0x030000
+#define FPGA_SPI_ADDRESS 57
+#define IMU_I2C_ADDRESS 0x68 // Address is: 0110_1000
+#define IMU_DATA_ADDRESS 0x3B
+#define IMU_DATA_LENGTH 14
+
 void CyFxHandleCustomGPIO_DeviceSpecific(uint8_t gpioId) {
-	CyFxErrorHandler(LOG_DEBUG, "GPIO was toggled.", gpioId);
+	if (gpioId == 26) {
+		// Interrupt from I2C IMU (InvenSense 6050), get data.
+		// Get DMA buffer for the status channel, but only if the channel actually exists.
+		if (glEP1DMAChannelCPUtoUSBPointer != NULL) {
+			CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+			CyU3PDmaBuffer_t buffer;
+
+			status = CyU3PDmaChannelGetBuffer(glEP1DMAChannelCPUtoUSBPointer, &buffer,
+				FX3_STATUS_DMA_CPUTOUSB_BUF_TIMEOUT);
+			if (status != CY_U3P_SUCCESS) {
+				return;
+			}
+
+			// Set msgType value to 0x01 to signal this is an IMU sample.
+			buffer.buffer[0] = 0x01;
+			buffer.count = 1 + IMU_DATA_LENGTH;
+
+			// Read data from IMU via I2C protocol.
+			status = CyFxI2cTransfer(IMU_I2C_ADDRESS, IMU_DATA_ADDRESS, &buffer.buffer[1], IMU_DATA_LENGTH, CyTrue);
+			if (status != CY_U3P_SUCCESS) {
+				return;
+			}
+
+			// Send the message to the host.
+			status = CyU3PDmaChannelCommitBuffer(glEP1DMAChannelCPUtoUSBPointer, buffer.count, 0);
+			if (status != CY_U3P_SUCCESS) {
+				return;
+			}
+		}
+	}
+	else {
+		CyFxErrorHandler(LOG_DEBUG, "GPIO was toggled.", gpioId);
+	}
 }
 
 extern uint8_t CyFxUSBSerialNumberDscr[];
 static inline void CyFxWriteByteToShiftReg(uint8_t byte, uint8_t clockID, uint8_t bitID);
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void);
+static inline CyU3PReturnStatus_t CyFxCustomInit_InitializeIMU(void);
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void);
 
 CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
@@ -72,6 +114,12 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 
 	// Set Serial Number to vale read from SPI Flash.
 	status = CyFxCustomInit_LoadSerialNumber();
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	// Initialize IMU via I2C (at least until done via FPGA).
+	status = CyFxCustomInit_InitializeIMU();
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
@@ -99,10 +147,6 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 
 	return (status);
 }
-
-#define SNUM_MEMORY_ADDRESS 0x0C0000
-#define FPGA_MEMORY_ADDRESS 0x030000
-#define FPGA_SPI_ADDRESS 57
 
 // FPGA commands
 #define FPGA_CMD_READ_ID 0x07
@@ -558,6 +602,57 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void) {
 			CyFxUSBSerialNumberDscr[pos++] = serialNumber[i];
 			CyFxUSBSerialNumberDscr[pos++] = 0x00;
 		}
+	}
+
+	return (status);
+}
+
+static inline CyU3PReturnStatus_t CyFxCustomInit_InitializeIMU(void) {
+	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+
+	// Set up Inertial Measurement Unit (IMU): InvenSense 6050.
+	uint8_t b[2];
+
+	b[0] = 107; // Power management register and clock selection, sec 4.28 of IMU register map PDF
+	b[1] = 0x01; // disable sleep, select x axis gyro as clock source
+	status = CyFxI2cTransfer(IMU_I2C_ADDRESS, b[0], &b[1], 1, CyFalse);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	b[0] = 26; // DLPF (Digital Low Pass Filter) configuration, sec 4.3 of IMU register map PDF
+	b[1] = 0x01; // FS=1kHz, gyro 188Hz, 1.9ms delay
+	status = CyFxI2cTransfer(IMU_I2C_ADDRESS, b[0], &b[1], 1, CyFalse);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	b[0] = 25; // Sample rate divider configuration, sec 4.2 of IMU register map PDF
+	b[1] = 0x00; // sample rate divider =1, 1kHz sample rate when DLPF is enabled
+	status = CyFxI2cTransfer(IMU_I2C_ADDRESS, b[0], &b[1], 1, CyFalse);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	b[0] = 27; // Gyroscope configuration register, sec 4.4 of IMU register map PDF
+	b[1] = 0x08; // set FS_SEL to 1, which is 500 deg/s, 65.5 LSB per deg/s
+	status = CyFxI2cTransfer(IMU_I2C_ADDRESS, b[0], &b[1], 1, CyFalse);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	b[0] = 28; // Accelerometer configuration register, sec 4.5 of IMU register map PDF
+	b[1] = 0x08; // set AFS_SEL to 1, which is 4g, 8192 LSB per g
+	status = CyFxI2cTransfer(IMU_I2C_ADDRESS, b[0], &b[1], 1, CyFalse);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
+	}
+
+	b[0] = 56; // Interrupt enable register, sec 4.15 of IMU register map PDF
+	b[1] = 0x01; // DATA_RDY_EN interrupt enabled
+	status = CyFxI2cTransfer(IMU_I2C_ADDRESS, b[0], &b[1], 1, CyFalse);
+	if (status != CY_U3P_SUCCESS) {
+		return (status);
 	}
 
 	return (status);

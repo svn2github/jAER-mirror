@@ -29,13 +29,16 @@ static CyU3PThread glApplicationThread; // Application thread structure
 CyBool_t glAppRunning = CyFalse; // Whether the application is active or not
 uint8_t glLogLevel = FX3_LOG_LEVEL; // Default log level
 uint8_t glLogFailedAmount = 0; // Number of failed log calls made
-CyU3PTimer glSystemAliveTimer;
 
 static CyU3PDmaChannel glEP1DMAChannelCPUtoUSB; // DMA Channel handle for CPU2U transfer
 static CyU3PDmaChannel glEP2DMAChannelUSBtoFX3; // DMA Channel handle for U2FX transfer
 static CyU3PDmaChannel glEP2DMAChannelFX3toUSB; // DMA Channel handle for FX2U transfer
 
 uint8_t glEP0Buffer[FX3_MAX_TRANSFER_SIZE_CONTROL] __attribute__ ((aligned (32))) = { 0 };
+
+CyU3PDmaChannel *glEP1DMAChannelCPUtoUSBPointer = NULL; // Pointer to the DMA Channel handle for CPU2U transfer
+
+CyU3PTimer glSystemAliveTimer;
 
 /**
  * Application Error Handler.
@@ -55,42 +58,45 @@ void CyFxErrorHandler(uint8_t log_level, const char *debug_message, CyU3PReturnS
 		CyFxGpioTurnOff(GPIO_DEBUG_LED_NUMBER);
 #endif
 
-		// Get DMA buffer for the status channel
-		CyU3PReturnStatus_t status;
-		CyU3PDmaBuffer_t buffer;
+		// Get DMA buffer for the status channel, but only if the channel actually exists.
+		if (glEP1DMAChannelCPUtoUSBPointer != NULL) {
+			CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+			CyU3PDmaBuffer_t buffer;
 
-		status = CyU3PDmaChannelGetBuffer(&glEP1DMAChannelCPUtoUSB, &buffer, FX3_STATUS_DMA_CPUTOUSB_BUF_TIMEOUT);
-		if (status != CY_U3P_SUCCESS) {
-			glLogFailedAmount++;
-			return;
-		}
+			status = CyU3PDmaChannelGetBuffer(glEP1DMAChannelCPUtoUSBPointer, &buffer,
+				FX3_STATUS_DMA_CPUTOUSB_BUF_TIMEOUT);
+			if (status != CY_U3P_SUCCESS) {
+				glLogFailedAmount++;
+				return;
+			}
 
-		// Set msgType value to 0x00 to signal this is a standard debug message
-		buffer.buffer[0] = 0x00;
-		buffer.buffer[1] = (uint8_t) error_code;
-		buffer.count = 2;
+			// Set msgType value to 0x00 to signal this is a standard debug message
+			buffer.buffer[0] = 0x00;
+			buffer.buffer[1] = (uint8_t) error_code;
+			buffer.count = 2;
 
-		// Add FX3 internal timestamp
-		uint32_t time = CyU3PGetTime();
-		memcpy(buffer.buffer + buffer.count, &time, sizeof(time));
-		buffer.count = (uint16_t) (buffer.count + sizeof(time));
+			// Add FX3 internal timestamp
+			uint32_t time = CyU3PGetTime();
+			memcpy(buffer.buffer + buffer.count, &time, sizeof(time));
+			buffer.count = (uint16_t) (buffer.count + sizeof(time));
 
-		// Take the input
-		size_t str_len = strlen(debug_message);
+			// Take the input
+			size_t str_len = strlen(debug_message);
 
-		// Cut down on excessive length
-		if (str_len > ((size_t) FX3_MAX_TRANSFER_SIZE_STATUS - buffer.count)) {
-			str_len = ((size_t) FX3_MAX_TRANSFER_SIZE_STATUS - buffer.count);
-		}
+			// Cut down on excessive length
+			if (str_len > ((size_t) FX3_MAX_TRANSFER_SIZE_STATUS - buffer.count)) {
+				str_len = ((size_t) FX3_MAX_TRANSFER_SIZE_STATUS - buffer.count);
+			}
 
-		memcpy(buffer.buffer + buffer.count, debug_message, str_len);
-		buffer.count = (uint16_t) (buffer.count + str_len);
+			memcpy(buffer.buffer + buffer.count, debug_message, str_len);
+			buffer.count = (uint16_t) (buffer.count + str_len);
 
-		// Send the message to the host
-		status = CyU3PDmaChannelCommitBuffer(&glEP1DMAChannelCPUtoUSB, buffer.count, 0);
-		if (status != CY_U3P_SUCCESS) {
-			glLogFailedAmount++;
-			return;
+			// Send the message to the host
+			status = CyU3PDmaChannelCommitBuffer(glEP1DMAChannelCPUtoUSBPointer, buffer.count, 0);
+			if (status != CY_U3P_SUCCESS) {
+				glLogFailedAmount++;
+				return;
+			}
 		}
 	}
 }
@@ -169,10 +175,17 @@ static void CyFxStatusInit(void) {
 
 	// Ready for logging now, ignore failed calls before this
 	glLogFailedAmount = 0;
+
+	// Set the pointer to the actual address of the structure, so that other parts of
+	// the code may know that it's ready now.
+	glEP1DMAChannelCPUtoUSBPointer = &glEP1DMAChannelCPUtoUSB;
 }
 
 static void CyFxStatusDestroy(void) {
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+
+	// Reset pointer to NULL to signal unavailability.
+	glEP1DMAChannelCPUtoUSBPointer = NULL;
 
 	// Flush the endpoint memory
 	CyU3PUsbFlushEp(FX3_STATUS_EP_ADDR_OUT);
