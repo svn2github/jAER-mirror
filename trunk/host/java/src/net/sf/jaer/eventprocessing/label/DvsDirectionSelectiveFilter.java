@@ -5,6 +5,8 @@
  */
 package net.sf.jaer.eventprocessing.label;
 
+import net.sf.jaer.Description;
+import net.sf.jaer.DevelopmentStatus;
 import net.sf.jaer.chip.AEChip;
 import net.sf.jaer.event.DvsOrientationEvent;
 import net.sf.jaer.event.EventPacket;
@@ -17,12 +19,15 @@ import net.sf.jaer.event.PolarityEvent;
  * Outputs local motion events derived from time of flight of orientation events from DVS sensors. 
  * @author tobi
  */
+@Description("Local motion by time-of-travel of orientation events for DVS sensor")
+@DevelopmentStatus(DevelopmentStatus.Status.Experimental)
 public class DvsDirectionSelectiveFilter extends AbstractDirectionSelectiveFilter {
 
     public DvsDirectionSelectiveFilter(AEChip chip) {
         super(chip);
     }
 
+    @Override
     synchronized public EventPacket filterPacket(EventPacket in) {
         // we use two additional packets: oriPacket which holds the orientation events, and dirPacket that holds the dir vector events
         oriPacket = oriFilter.filterPacket(in);  // compute orientation events.  oriFilter automatically sends bypassed events to oriPacket
@@ -208,5 +213,4 @@ public class DvsDirectionSelectiveFilter extends AbstractDirectionSelectiveFilte
         }
         return dirPacket; // returns the output packet containing both MotionOrientationEvent and the bypassed APS samples
     }
-
 }

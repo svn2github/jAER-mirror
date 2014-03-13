@@ -15,11 +15,7 @@ import net.sf.jaer.event.*;
 import net.sf.jaer.eventprocessing.EventFilter2D;
 import net.sf.jaer.graphics.FrameAnnotater;
 import net.sf.jaer.util.filter.*;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.geom.*;
-import java.awt.geom.AffineTransform;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -27,101 +23,88 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLException;
 import javax.media.opengl.glu.*;
-import net.sf.jaer.Description;
-import net.sf.jaer.DevelopmentStatus;
 
-/**
- * Computes motion based nearest event (in past time) in neighboring pixels.
- *<p>
- *Output cells type has values 0-7,
+/** Computes motion based nearest event (in past time) in neighboring pixels. <p>
+ * Output cells type has values 0-7,
  * 0 being upward motion, increasing by 45 deg CCW to 7 being motion up and to right.
- *
- *
- * @author tobi
- */
-@Description("Local motion by time-of-travel of orientation events")
-@DevelopmentStatus(DevelopmentStatus.Status.Stable)
+ * @author tobi */
+// Not need to have @Description and @DevelopmentStatus here, as the abstract 
+// class needs to be implemented, which is where the desc. and status. are used.
 abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D implements Observer, FrameAnnotater {
-    protected final int NUM_INPUT_TYPES=8; // 4 orientations * 2 polarities
+    protected final int NUM_INPUT_TYPES = 8; // 4 orientations * 2 polarities
+    public static final int MAX_SEARCH_DISTANCE = 12;
     protected int sizex,sizey; // chip sizes
-    protected boolean showGlobalEnabled=getBoolean("showGlobalEnabled",false);
-    protected boolean showVectorsEnabled=getBoolean("showVectorsEnabled",false);
+    
+    protected boolean showGlobalEnabled   = getBoolean("showGlobalEnabled",false);
+    protected boolean showVectorsEnabled  = getBoolean("showVectorsEnabled",false);
+    protected boolean showRawInputEnabled = getBoolean("showRawInputEnabled",false);
     
     /** event must occur within this time in us to generate a motion event */
-    protected int maxDtThreshold=getInt("maxDtThreshold",100000); // default 100ms
-    protected int minDtThreshold=getInt("minDtThreshold",100); // min 100us to filter noise or multiple spikes 
+    protected int maxDtThreshold = getInt("maxDtThreshold",100000); // default 100ms
+    protected int minDtThreshold = getInt("minDtThreshold",100); // min 100us to filter noise or multiple spikes 
     
-    protected int searchDistance=getInt("searchDistance",3);
-    protected float ppsScale=getFloat("ppsScale",.05f);
+    protected int searchDistance = getInt("searchDistance",3);
+    protected float ppsScale     = getFloat("ppsScale",.05f);
     
-//    protected float maxSpeedPPS=prefs.getFloat("maxSpeedPPS",100);
-    
-    protected boolean speedControlEnabled=getBoolean("speedControlEnabled", true);
-    protected float speedMixingFactor=getFloat("speedMixingFactor",.001f);
-    protected int excessSpeedRejectFactor=getInt("excessSpeedRejectFactor",3);
-    
-    protected boolean showRawInputEnabled=getBoolean("showRawInputEnabled",false);
-    
-    protected boolean useAvgDtEnabled=getBoolean("useAvgDtEnabled",false);
+    protected boolean speedControlEnabled = getBoolean("speedControlEnabled", true);
+    protected float speedMixingFactor     = getFloat("speedMixingFactor",.001f);
+    protected int excessSpeedRejectFactor = getInt("excessSpeedRejectFactor",3);
+
+    protected boolean useAvgDtEnabled = getBoolean("useAvgDtEnabled",false);
 
     // taulow sets time const of lowpass filter, limiting max frequency
-    protected int tauLow=getInt("tauLow",100);
+    protected int tauLow = getInt("tauLow",100);
 
-    protected int subSampleShift=getInt("subSampleShift",0);
+    protected int subSampleShift = getInt("subSampleShift",0);
 
-    protected boolean jitterVectorLocations=getBoolean("jitterVectorLocations", true);
-    protected float jitterAmountPixels=getFloat("jitterAmountPixels",.5f);
+    protected boolean jitterVectorLocations = getBoolean("jitterVectorLocations", true);
+    protected float jitterAmountPixels      = getFloat("jitterAmountPixels",.5f);
+     
+    protected EventPacket oriPacket = null; // holds orientation events
+    protected EventPacket dirPacket = null; // the output events, also used for rendering output events
  
-    
-    protected EventPacket oriPacket=null; // holds orientation events
-    protected EventPacket dirPacket=null; // the output events, also used for rendering output events
- 
-    
     protected int[][][] lastTimesMap; // map of input orientation event times, [x][y][type] where type is mixture of orienation and polarity
     
-    /** the number of cell output types */
-//    public final int NUM_TYPES=8;
-    int PADDING=2; // padding around array that holds previous orientation event timestamps to prevent arrayoutofbounds errors and need for checking
+    int PADDING = 2; // padding around array that holds previous orientation event timestamps to prevent arrayoutofbounds errors and need for checking
     int P=1; // PADDING/2
     int lastNumInputCellTypes=2;
+    
     protected AbstractOrientationFilter oriFilter;
     protected MotionVectors motionVectors;
-//    protected LowpassFilter speedFilter=new LowpassFilter();
     protected float avgSpeed=0;
     
-    /**
-     * Creates a new instance of DirectionSelectiveFilter
-     */
+    /** Creates a new instance of DirectionSelectiveFilter */
     public AbstractDirectionSelectiveFilter(AEChip chip) {
         super(chip);
         chip.addObserver(this);
         resetFilter();
         setFilterEnabled(false);
-        oriFilter=new DvsOrientationFilter(chip);
+        
+        oriFilter = new DvsOrientationFilter(chip);
         oriFilter.setAnnotationEnabled(false);
         setEnclosedFilter(oriFilter);
+        
         motionVectors = new MotionVectors();
         final String disp="Display";
         setPropertyTooltip(disp,"ppsScale", "scale of pixels per second to draw local and global motion vectors");
+        setPropertyTooltip(disp,"showVectorsEnabled", "shows local motion vectors");
+        setPropertyTooltip(disp,"showGlobalEnabled", "shows global tranlational, rotational, and expansive motion");
+        setPropertyTooltip(disp,"jitterAmountPixels", "how much to jitter vector origins by in pixels");
+        setPropertyTooltip(disp,"jitterVectorLocations","whether to jitter vector location to see overlapping vectors more easily");
+        setPropertyTooltip(disp,"showRawInputEnabled", "shows the input events, instead of the motion types");
         setPropertyTooltip("subSampleShift", "Shift subsampled timestamp map stores by this many bits");
         setPropertyTooltip("tauLow", "time constant in ms of lowpass filters for global motion signals");
         setPropertyTooltip("useAvgDtEnabled", "uses average delta time over search instead of minimum");
-        setPropertyTooltip(disp,"showRawInputEnabled", "shows the input events, instead of the motion types");
         setPropertyTooltip("excessSpeedRejectFactor", "local speeds this factor higher than average are rejected as non-physical");
         setPropertyTooltip("speedMixingFactor", "speeds computed are mixed with old values with this factor");
         setPropertyTooltip("speedControlEnabled", "enables filtering of excess speeds");
         setPropertyTooltip("searchDistance", "search distance perpindicular to orientation, 1 means search 1 to each side");
         setPropertyTooltip("minDtThreshold", "min delta time (us) for past events allowed for selecting a particular direction");
         setPropertyTooltip("maxDtThreshold", "max delta time (us) that is considered");
-        setPropertyTooltip(disp,"showVectorsEnabled", "shows local motion vectors");
-        setPropertyTooltip(disp,"showGlobalEnabled", "shows global tranlational, rotational, and expansive motion");
-        setPropertyTooltip(disp, "jitterAmountPixels", "how much to jitter vector origins by in pixels");
-        setPropertyTooltip(disp,"jitterVectorLocations","whether to jitter vector location to see overlapping vectors more easily");
    }
     
     @Override
     public abstract EventPacket filterPacket(EventPacket in);
-
     
     @Override
     synchronized public void resetFilter() {
@@ -149,13 +132,11 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
 
     @Override
     public void annotate(GLAutoDrawable drawable) {
-        if (!isFilterEnabled()) {
-            return;
-        }
+        if (!isFilterEnabled()) return; 
+        
         GL gl = drawable.getGL();
-        if (gl == null) {
-            return;
-        }
+        if (gl == null) return;
+        
         if (!hasBlendChecked) {
             hasBlendChecked = true;
             String glExt = gl.glGetString(GL.GL_EXTENSIONS);
@@ -175,7 +156,7 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         }
 
         if (isShowGlobalEnabled()) {
-            // draw global translation vector
+            // <editor-fold defaultstate="collapsed" desc="-- draw global translation vector --">
             gl.glPushMatrix();
             gl.glColor3f(1, 1, 1);
             gl.glTranslatef(chip.getSizeX()/2,chip.getSizeY()/2,0);
@@ -187,8 +168,9 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
             gl.glVertex2f(t.xFilter.getValue()*ppsScale*mult,t.yFilter.getValue()*ppsScale*mult);
             gl.glEnd();
             gl.glPopMatrix();
+            // </editor-fold>
             
-            // draw global rotation vector as line left/right
+            // <editor-fold defaultstate="collapsed" desc="-- draw global rotation vector as line left/right --">
             gl.glPushMatrix();
             gl.glTranslatef(chip.getSizeX()/2, (chip.getSizeY()*3)/4,0);
             gl.glLineWidth(6f);
@@ -199,8 +181,9 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
             gl.glVertex2f(-rot.filter.getValue()*multr*ppsScale,0);
             gl.glEnd();
             gl.glPopMatrix();
+            // </editor-fold>
             
-            // draw global expansion as circle with radius proportional to expansion metric, smaller for contraction, larger for expansion
+            // <editor-fold defaultstate="collapsed" desc="-- draw global expansion as circle with radius proportional to expansion metric, smaller for contraction, larger for expansion --">
             if(glu==null) glu=new GLU();
             if(expansionQuad==null) expansionQuad = glu.gluNewQuadric();
             gl.glPushMatrix();
@@ -212,7 +195,8 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
             double rad=(1+e.filter.getValue())*ppsScale*multe;
             glu.gluDisk(expansionQuad,rad,rad+1,16,1);
             gl.glPopMatrix();
-            
+            // </editor-fold>
+
 //            // draw expansion compass vectors as arrows pointing in.getOutputPacket() from origin
 //            gl.glPushMatrix();
 //            gl.glTranslatef(chip.getSizeX()/2, (chip.getSizeY())/2,0);
@@ -231,7 +215,7 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         }
         
         if(dirPacket!=null && isShowVectorsEnabled()){
-            // draw individual motion vectors
+            // <editor-fold defaultstate="collapsed" desc="-- draw individual motion vectors --">
             gl.glPushMatrix();
 //            gl.glColor4f(1f,1f,1f,0.7f);
             float[][] c=null;
@@ -245,6 +229,7 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
             }
             gl.glEnd();
             gl.glPopMatrix();
+            // </editor-fold>
         }
     }
     Random r = new Random();
@@ -279,8 +264,8 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         gl.glVertex2f(endx,endy);
         gl.glVertex2f(endx+arx, endy+ary);
         // other half, 90 degrees
-         gl.glVertex2f(endx,endy);
-         gl.glVertex2f((endx+ary), endy-arx);
+        gl.glVertex2f(endx,endy);
+        gl.glVertex2f((endx+ary), endy-arx);
     }
     
 
@@ -288,6 +273,7 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         return (dt<maxDtThreshold && dt>minDtThreshold);
     }
     
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --MaxDtTreshold--">
     public int getMaxDtThreshold() {
         return this.maxDtThreshold;
     }
@@ -296,7 +282,9 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         this.maxDtThreshold = maxDtThreshold;
         putInt("maxDtThreshold",maxDtThreshold);
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --MinDtThreshold--">
     public int getMinDtThreshold() {
         return this.minDtThreshold;
     }
@@ -305,11 +293,14 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         this.minDtThreshold = minDtThreshold;
         putInt("minDtThreshold", minDtThreshold);
     }
+    // </editor-fold>
     
+    @Override
     public void initFilter() {
         resetFilter();
     }
     
+    @Override
     public void update(Observable o, Object arg) {
         initFilter();
     }
@@ -321,40 +312,39 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
     protected Point2D.Float translationVector=new Point2D.Float();
     
     /** Returns the 2-vector of global translational average motion.
-     @return translational motion in pixels per second, as computed and filtered by Translation 
-     */
+     * @return translational motion in pixels per second, 
+     * as computed and filtered by Translation */
     public Point2D.Float getTranslationVector(){
         translationVector.x=motionVectors.translation.xFilter.getValue();
         translationVector.y=motionVectors.translation.yFilter.getValue();
         return translationVector;
     }
     
-    
-    /** @return rotational motion of image around center of chip in rad/sec as computed from the global motion vector integration */
+    /** @return rotational motion of image around center of chip in rad/sec 
+     * as computed from the global motion vector integration */
     public float getRotationRadPerSec(){
         float rot=motionVectors.rotation.filter.getValue();
         return rot;
     }
-    
-    public static final int MAX_SEARCH_DISTANCE=12;
-    
+      
     synchronized public void setSearchDistance(int searchDistance) {
-        if(searchDistance>MAX_SEARCH_DISTANCE) searchDistance=MAX_SEARCH_DISTANCE; else if(searchDistance<1) searchDistance=1; // limit size
+        if(searchDistance > MAX_SEARCH_DISTANCE) {
+            searchDistance = MAX_SEARCH_DISTANCE;
+        } else if(searchDistance<1) {
+            searchDistance = 1;
+        } // limit size
         this.searchDistance = searchDistance;
         setPadding(searchDistance);
         allocateMap();
         putInt("searchDistance",searchDistance);
-    }
-    
-//    public VectorHistogram getHist() {
-//        return hist;
-//    }
+    }   
     
     /** The motion vectors are the global motion components */
     public MotionVectors getMotionVectors() {
         return motionVectors;
     }
     
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --SpeedControlEnabled--">
     public boolean isSpeedControlEnabled() {
         return speedControlEnabled;
     }
@@ -363,8 +353,9 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         this.speedControlEnabled = speedControlEnabled;
         putBoolean("speedControlEnabled",speedControlEnabled);
     }
+    // </editor-fold>
     
-    
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --ShowGlobalEnabled--">
     public boolean isShowGlobalEnabled() {
         return showGlobalEnabled;
     }
@@ -373,12 +364,13 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         this.showGlobalEnabled = showGlobalEnabled;
         putBoolean("showGlobalEnabled",showGlobalEnabled);
     }
+    // </editor-fold>
 
     protected void setPadding (int searchDistance){
         PADDING = 2 * searchDistance;
         P = ( PADDING / 2 );
     }
-    
+        
     
     /** global translatory motion, pixels per second */
     public class Translation{
@@ -395,8 +387,7 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
     }
     
     /** rotation around center, positive is CCW, radians per second 
-     @see MotionVectors
-     */
+     * @see MotionVectors */
     public class Rotation{
         LowpassFilter filter=new LowpassFilter();
         Rotation(){
@@ -420,7 +411,6 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
             int t=e.timestamp;
             filter.filter(dphi,t);
         }
-        
     }
     
     /** @see MotionVectors */
@@ -459,9 +449,8 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
     
     /** represents the global motion metrics from statistics of dir selective and simple cell events.
      The Translation is the global translational average motion vector (2 components). 
-     Rotation is the global rotation scalar around the center of the
-     sensor. Expansion is the expansion or contraction scalar around center.
-     */
+     Rotation is the global rotation scalar around the center of the sensor. 
+     Expansion is the expansion or contraction scalar around center. */
     public class MotionVectors{
         
         public Translation translation=new Translation();
@@ -475,6 +464,7 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         }
     }
     
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --ShowVectorsEnabled--">
     public boolean isShowVectorsEnabled() {
         return showVectorsEnabled;
     }
@@ -483,7 +473,9 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         this.showVectorsEnabled = showVectorsEnabled;
         putBoolean("showVectorsEnabled",showVectorsEnabled);
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --PpsScale--">
     public float getPpsScale() {
         return ppsScale;
     }
@@ -493,21 +485,25 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         this.ppsScale = ppsScale;
         putFloat("ppsScale",ppsScale);
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --SpeedMixingFactor--">
     public float getSpeedMixingFactor() {
         return speedMixingFactor;
     }
     
     public void setSpeedMixingFactor(float speedMixingFactor) {
-        if(speedMixingFactor>1)
+        if(speedMixingFactor > 1) {
             speedMixingFactor=1;
-        else if(speedMixingFactor<Float.MIN_VALUE)
-            speedMixingFactor=Float.MIN_VALUE;
+        } else if(speedMixingFactor < Float.MIN_VALUE) {
+            speedMixingFactor = Float.MIN_VALUE;
+        }
         this.speedMixingFactor = speedMixingFactor;
         putFloat("speedMixingFactor",speedMixingFactor);
-        
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --ExcessSpeedRejectFactor--">
     public int getExcessSpeedRejectFactor() {
         return excessSpeedRejectFactor;
     }
@@ -516,20 +512,24 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         this.excessSpeedRejectFactor = excessSpeedRejectFactor;
         putInt("excessSpeedRejectFactor",excessSpeedRejectFactor);
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --TauLow--">
     public int getTauLow() {
         return tauLow;
     }
     
     public void setTauLow(int tauLow) {
-        this.tauLow = tauLow;
-        putInt("tauLow",tauLow);
         motionVectors.translation.xFilter.setTauMs(tauLow);
         motionVectors.translation.yFilter.setTauMs(tauLow);
         motionVectors.rotation.filter.setTauMs(tauLow);
         motionVectors.expansion.filter.setTauMs(tauLow);
+        this.tauLow = tauLow;
+        putInt("tauLow",tauLow);
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --ShowRawInputEnable--">
     public boolean isShowRawInputEnabled() {
         return showRawInputEnabled;
     }
@@ -538,7 +538,9 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         this.showRawInputEnabled = showRawInputEnabled;
         putBoolean("showRawInputEnabled",showRawInputEnabled);
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --UseAvgDtEnabled--">
     public boolean isUseAvgDtEnabled() {
         return useAvgDtEnabled;
     }
@@ -547,55 +549,58 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         this.useAvgDtEnabled = useAvgDtEnabled;
         putBoolean("useAvgDtEnabled",useAvgDtEnabled);
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --SubSampleShift--">
     public int getSubSampleShift() {
         return subSampleShift;
     }
     
-    /** Sets the number of spatial bits to subsample events times by. Setting this equal to 1, for example,
-     subsamples into an event time map with halved spatial resolution, aggreating over more space at coarser resolution
-     but increasing the search range by a factor of two at no additional cost
-     @param subSampleShift the number of bits, 0 means no subsampling
-     */
+    /** Sets the number of spatial bits to subsample events times by. 
+     * Setting this equal to 1, for example, subsamples into an event time map 
+     * with halved spatial resolution, aggregating over more space at coarser 
+     * resolution but increasing the search range by a factor of two at no additional cost
+     * @param subSampleShift the number of bits, 0 means no subsampling */
     synchronized public void setSubSampleShift(int subSampleShift) {
-        if(subSampleShift<0) subSampleShift=0; else if(subSampleShift>4) subSampleShift=4;
+        if(subSampleShift < 0) {
+            subSampleShift = 0;
+        } else if(subSampleShift > 4) {
+            subSampleShift = 4;
+        }
         this.subSampleShift = subSampleShift;
         putInt("subSampleShift",subSampleShift);
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --JitterVectorLocations--">
     /**
-     * @return the jitterVectorLocations
-     */
+     * @return the jitterVectorLocations */
     public boolean isJitterVectorLocations() {
         return jitterVectorLocations;
     }
 
-
     /**
-     * @param jitterVectorLocations the jitterVectorLocations to set
-     */
+     * @param jitterVectorLocations the jitterVectorLocations to set */
     public void setJitterVectorLocations(boolean jitterVectorLocations) {
         this.jitterVectorLocations = jitterVectorLocations;
         putBoolean("jitterVectorLocations", jitterVectorLocations);
         getChip().getAeViewer().interruptViewloop();
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --JitterAmountPixels--">
     /**
-     * @return the jitterAmountPixels
-     */
+     * @return the jitterAmountPixels */
     public float getJitterAmountPixels() {
         return jitterAmountPixels;
     }
 
     /**
-     * @param jitterAmountPixels the jitterAmountPixels to set
-     */
+     * @param jitterAmountPixels the jitterAmountPixels to set */
     public void setJitterAmountPixels(float jitterAmountPixels) {
         this.jitterAmountPixels = jitterAmountPixels;
         putFloat("jitterAmountPixels",jitterAmountPixels);
         getChip().getAeViewer().interruptViewloop();
     }
-
-   
-    
+    // </editor-fold>
 }
