@@ -5,37 +5,37 @@
             <Task name="IBIS" build_result="0" update_result="3" update_time="0"/>
             <Task name="TimingSimFileVlg" build_result="0" update_result="3" update_time="0"/>
             <Task name="TimingSimFileVHD" build_result="0" update_result="3" update_time="0"/>
-            <Task name="Bitgen" build_result="0" update_result="2" update_time="1392743199"/>
+            <Task name="Bitgen" build_result="0" update_result="2" update_time="1394729325"/>
             <Task name="Promgen" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="Map" build_result="0" build_time="1392743183">
-            <Task name="Map" build_result="0" update_result="2" update_time="1392743183"/>
+        <Milestone name="Map" build_result="0" build_time="1394729308">
+            <Task name="Map" build_result="0" update_result="2" update_time="1394729308"/>
             <Task name="MapTrace" build_result="0" update_result="3" update_time="0"/>
             <Task name="MapVerilogSimFile" build_result="0" update_result="3" update_time="0"/>
             <Task name="MapVHDLSimFile" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="PAR" build_result="0" build_time="1392743193">
-            <Task name="PAR" build_result="0" update_result="2" update_time="1392743193"/>
+        <Milestone name="PAR" build_result="0" build_time="1394729319">
+            <Task name="PAR" build_result="0" update_result="2" update_time="1394729319"/>
             <Task name="PARTrace" build_result="0" update_result="3" update_time="0"/>
             <Task name="IOTiming" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="Synthesis" build_result="1" build_time="1394556721">
-            <Task name="Synplify_Synthesis" build_result="1" update_result="2" update_time="1394556721"/>
+        <Milestone name="Synthesis" build_result="1" build_time="1394797099">
+            <Task name="Synplify_Synthesis" build_result="1" update_result="2" update_time="1394797099"/>
         </Milestone>
         <Milestone name="TOOL_Report" build_result="0" build_time="0">
-            <Task name="HDLE" build_result="2" update_result="0" update_time="1394556714"/>
+            <Task name="HDLE" build_result="2" update_result="0" update_time="1394796715"/>
             <Task name="BKM" build_result="0" update_result="2" update_time="0"/>
-            <Task name="SSO" build_result="0" update_result="2" update_time="0"/>
-            <Task name="PIODRC" build_result="0" update_result="2" update_time="0"/>
+            <Task name="SSO" build_result="0" update_result="2" update_time="1394722563"/>
+            <Task name="PIODRC" build_result="0" update_result="2" update_time="1394722569"/>
         </Milestone>
-        <Milestone name="Translate" build_result="0" build_time="1392733736">
-            <Task name="Translate" build_result="0" update_result="2" update_time="1392733736"/>
+        <Milestone name="Translate" build_result="0" build_time="1394729004">
+            <Task name="Translate" build_result="0" update_result="2" update_time="1394729004"/>
         </Milestone>
-        <Report name="DAViS_USB3_DAViS_USB3.bgn" last_build_time="1392743199" last_build_size="3847"/>
-        <Report name="DAViS_USB3_DAViS_USB3.bit" last_build_time="1392743199" last_build_size="508083"/>
-        <Report name="DAViS_USB3_DAViS_USB3.edi" last_build_time="1392733733" last_build_size="6925"/>
-        <Report name="DAViS_USB3_DAViS_USB3.ncd" last_build_time="1392743193" last_build_size="4805"/>
-        <Report name="DAViS_USB3_DAViS_USB3.ngd" last_build_time="1392733736" last_build_size="5935"/>
-        <Report name="DAViS_USB3_DAViS_USB3_map.ncd" last_build_time="1392743183" last_build_size="3663"/>
+        <Report name="DAViS_USB3_DAViS_USB3.bgn" last_build_time="1394729325" last_build_size="3951"/>
+        <Report name="DAViS_USB3_DAViS_USB3.bit" last_build_time="1394729325" last_build_size="508084"/>
+        <Report name="DAViS_USB3_DAViS_USB3.edi" last_build_time="1394729001" last_build_size="6925"/>
+        <Report name="DAViS_USB3_DAViS_USB3.ncd" last_build_time="1394729319" last_build_size="4764"/>
+        <Report name="DAViS_USB3_DAViS_USB3.ngd" last_build_time="1394729004" last_build_size="5935"/>
+        <Report name="DAViS_USB3_DAViS_USB3_map.ncd" last_build_time="1394729308" last_build_size="3663"/>
     </Strategy>
 </BuildStatus>

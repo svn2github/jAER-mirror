@@ -1,13 +1,13 @@
-C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\bin64\m_gen_lattice.exe  -prodtype synplify_pro -encrypt  -pro  -rundir  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3  -part LFE3_17EA  -package FTN256I  -grade -7   -maxfan 1000    -pipe -forcenogsr -fixgatedclocks 1 -fixgeneratedclocks 1 -RWCheckOnRam 1  -use_rename_in_edif 1     -summaryfile C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synlog\report\DAViS_USB3_DAViS_USB3_premap.xml -top_level_module  EventBeforeOverflow  -oedif  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.edi  -conchk_prepass  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3_cck_prepass.rpt  -autoconstraint  -freq 1.000  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_comp.srs  -flow prepass  -gcc_prepass  -osrd  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_prem.srd  -devicelib  C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\lib\lucent\ecp3.v  -devicelib  C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\lib\lucent\pmi_def.v  -ologparam  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\syntmp\DAViS_USB3_DAViS_USB3.plg  -osyn  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_prem.srd  -prjdir  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\  -prjname  proj_1  -log  C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synlog\DAViS_USB3_DAViS_USB3_premap.srr 
+C:\lscc\diamond\3.1_x64\synpbase\bin64\m_gen_lattice.exe  -prodtype synplify_pro -encrypt  -pro  -rundir  C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3  -part LFE3_17EA  -package FTN256I  -grade -7   -maxfan 1000    -pipe -forcenogsr -fixgatedclocks 1 -fixgeneratedclocks 1 -RWCheckOnRam 1  -use_rename_in_edif 1     -summaryfile C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\synlog\report\DAViS_USB3_DAViS_USB3_premap.xml -top_level_module  EventBeforeOverflow  -oedif  C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.edi  -conchk_prepass  C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3_cck_prepass.rpt  -autoconstraint  -freq 1.000  C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_comp.srs  -flow prepass  -gcc_prepass  -osrd  C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_prem.srd  -devicelib  C:\lscc\diamond\3.1_x64\synpbase\lib\lucent\ecp3.v  -devicelib  C:\lscc\diamond\3.1_x64\synpbase\lib\lucent\pmi_def.v  -ologparam  C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\syntmp\DAViS_USB3_DAViS_USB3.plg  -osyn  C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_prem.srd  -prjdir  C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\  -prjname  proj_1  -log  C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\synlog\DAViS_USB3_DAViS_USB3_premap.srr 
 rc:1 success:1
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.edi|o|1392728767|6923
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3_cck_prepass.rpt|o|0|0
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_comp.srs|i|1392733731|2700
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_prem.srd|o|1392733733|2749
-C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\lib\lucent\ecp3.v|i|1377090762|113596
-C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\lib\lucent\pmi_def.v|i|1372668026|40586
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\syntmp\DAViS_USB3_DAViS_USB3.plg|o|1392733732|0
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_prem.srd|o|1392733733|2749
-C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synlog\DAViS_USB3_DAViS_USB3_premap.srr|o|1392733733|2616
-C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\bin64\m_gen_lattice.exe|i|1372929042|23386624
-C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\bin\m_gen_lattice.exe|i|1372926914|20041216
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.edi|o|1394645210|24861
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3_cck_prepass.rpt|o|0|0
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_comp.srs|i|1394728999|2882
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_prem.srd|o|1394729000|2944
+C:\lscc\diamond\3.1_x64\synpbase\lib\lucent\ecp3.v|i|1384764868|117673
+C:\lscc\diamond\3.1_x64\synpbase\lib\lucent\pmi_def.v|i|1389790098|39417
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\syntmp\DAViS_USB3_DAViS_USB3.plg|o|1394729000|0
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\synwork\DAViS_USB3_DAViS_USB3_prem.srd|o|1394729000|2944
+C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\synlog\DAViS_USB3_DAViS_USB3_premap.srr|o|1394729000|2704
+C:\lscc\diamond\3.1_x64\synpbase\bin64\m_gen_lattice.exe|i|1384769014|24035840
+C:\lscc\diamond\3.1_x64\synpbase\bin\m_gen_lattice.exe|i|1384766282|20549632

@@ -1,7 +1,7 @@
-@N: CD630 :"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd":30:7:30:25|Synthesizing work.eventbeforeoverflow.behavioral 
-@N: CD233 :"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd":40:13:40:14|Using sequential encoding for type state
+@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd":30:7:30:25|Synthesizing work.eventbeforeoverflow.behavioral 
+@N: CD233 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd":40:13:40:14|Using sequential encoding for type state
 Post processing for work.eventbeforeoverflow.behavioral
-@N: CL201 :"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd":76:4:76:5|Trying to extract state machine for register StatexDP
+@N: CL201 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd":76:4:76:5|Trying to extract state machine for register StatexDP
 Extracted state machine for register StatexDP
 State machine has 3 reachable states with original encodings of:
    00

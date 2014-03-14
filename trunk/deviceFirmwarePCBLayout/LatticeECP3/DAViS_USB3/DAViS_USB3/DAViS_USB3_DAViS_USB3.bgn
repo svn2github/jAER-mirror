@@ -1,11 +1,11 @@
-BITGEN: Bitstream Generator Diamond (64-bit) 3.0.0.97
+BITGEN: Bitstream Generator Diamond (64-bit) 3.1.0.96
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
 Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
-Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
+Copyright (c) 2002-2014 Lattice Semiconductor Corporation,  All rights reserved.
 
-Command: bitgen -w -g CfgMode:Disable -g RamCfg:Reset -path C:/INIlabs/VHDL/DAViS_USB3 -path C:/INIlabs/VHDL/DAViS_USB3 -g ES:No -e -s C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3.sec -k C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3.bek -gui DAViS_USB3_DAViS_USB3.ncd DAViS_USB3_DAViS_USB3.bit DAViS_USB3_DAViS_USB3.prf 
+Command: bitgen -w -g CfgMode:Disable -g RamCfg:Reset -path C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3 -path C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3 -g ES:No -e -s C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3.sec -k C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3.bek -gui DAViS_USB3_DAViS_USB3.ncd DAViS_USB3_DAViS_USB3.bit DAViS_USB3_DAViS_USB3.prf 
 
 Loading design for application Bitgen from file DAViS_USB3_DAViS_USB3.ncd.
 Design name: EventBeforeOverflow
@@ -14,7 +14,7 @@ Vendor:      LATTICE
 Device:      LFE3-17EA
 Package:     FTBGA256
 Performance: 7
-Loading device for application Bitgen from file 'ec5a53x56.nph' in environment: C:/Lattice/Diamond3/diamond/3.0_x64/ispfpga.
+Loading device for application Bitgen from file 'ec5a53x56.nph' in environment: C:/lscc/diamond/3.1_x64/ispfpga.
 Package Status:                     Final          Version 1.39
 Performance Hardware Data Status:   Final          Version 35.22
 
@@ -42,7 +42,7 @@ Preference Summary:
 +---------------------------------+---------------------------------+
 |                        WAKE_UP  |                           21**  |
 +---------------------------------+---------------------------------+
-|                     PERSISTENT  |                           SSPI  |
+|                     PERSISTENT  |                          OFF**  |
 +---------------------------------+---------------------------------+
 |                   WAKE_ON_LOCK  |                          OFF**  |
 +---------------------------------+---------------------------------+
@@ -62,6 +62,6 @@ Preference Summary:
 
 Creating bit map...
  
-Bitstream Status:   Final           Version 1.38
+Bitstream Status:   Final           Version 1.39
  
 Saving bit stream in "DAViS_USB3_DAViS_USB3.bit".

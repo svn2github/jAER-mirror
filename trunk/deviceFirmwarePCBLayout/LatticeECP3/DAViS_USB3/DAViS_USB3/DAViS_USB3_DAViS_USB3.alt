@@ -1,13 +1,13 @@
 NOTE Copyright (C), 1992-2010, Lattice Semiconductor Corporation *
 NOTE All Rights Reserved *
-NOTE DATE CREATED: Tue Feb 18 18:06:39 2014 *
+NOTE DATE CREATED: Thu Mar 13 17:48:45 2014 *
 NOTE DESIGN NAME: EventBeforeOverflow *
 NOTE DEVICE NAME: LFE3-17EA-7FTBGA256 *
 NOTE PIN ASSIGNMENTS *
-NOTE PINS EventBeforeOverflowxDO : P16 : out *
-NOTE PINS ClockxCI : R16 : in *
-NOTE PINS EventxDI : P15 : in *
-NOTE PINS OverflowxDI : R15 : in *
+NOTE PINS EventBeforeOverflowxDO : L2 : out *
+NOTE PINS ClockxCI : K1 : in *
+NOTE PINS EventxDI : M2 : in *
+NOTE PINS OverflowxDI : L1 : in *
 NOTE PINS ResetxRBI : C13 : in *
 NOTE CONFIGURATION MODE: SPI *
 NOTE COMPRESSION: off *

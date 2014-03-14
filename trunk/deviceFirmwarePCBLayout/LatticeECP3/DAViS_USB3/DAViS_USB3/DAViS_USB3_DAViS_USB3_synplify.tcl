@@ -43,7 +43,7 @@ set_option -resolve_multiple_driver 0
 
 
 #-- add_file options
-add_file -vhdl {C:/Lattice/Diamond3/diamond/3.0_x64/cae_library/synthesis/vhdl/ecp3.vhd}
+add_file -vhdl {C:/lscc/diamond/3.1_x64/cae_library/synthesis/vhdl/ecp3.vhd}
 add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/synchronizerStateMachine.vhd}
 add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/USBAER_top_level.vhd}
 add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/ADCStateMachine.vhd}
@@ -55,9 +55,24 @@ add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_U
 add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/fifoStatemachine.vhd}
 add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/monitorStateMachine.vhd}
 add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/timestampCounter.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/ADCvalueReady.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/AERfifo.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/AERfifo.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/clockgen.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/clockgen.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/EventBeforeOverflow.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/shiftRegister.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/wordRegister.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/FIFO.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/fifo_tb.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/TN_interface.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/BadCore_TN.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/AERFiFo_TN.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/AERFiFo_TN_tmpl.vhd}
+add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/tb_AERFiFo_TN_tmpl.vhd}
 
 #-- top module name
-set_option -top_module timestampCounter
+set_option -top_module tb
 
 #-- set result format/file last
 project -result_file {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/DAViS_USB3_DAViS_USB3.edi}

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <!-- 
   Synopsys, Inc.
-  Version H-2013.03L 
+  Version I-2013.09L 
   Project file C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\syntmp\run_option.xml
 
 --> 
 <project_attribute_list name="Project Settings"> 
      <option name="project_name" display_name="Project Name">proj_1</option>
      <option name="impl_name" display_name="Implementation Name">DAViS_USB3</option>
-     <option name="top_module" display_name="Top Module">timestampCounter</option>
+     <option name="top_module" display_name="Top Module">tb</option>
      <option name="pipe" display_name="Pipelining">1</option>
      <option name="retiming" display_name="Retiming">0</option>
      <option name="resource_sharing" display_name="Resource Sharing">1</option>

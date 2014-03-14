@@ -1,20 +1,19 @@
-%%% protect protected_file
 #defaultlanguage:vhdl
-#OPTIONS:"|-top|timestampCounter|-prodtype|synplify_pro|-dspmac|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ll|2000|-ui|-fid2|-ram|-sharing|on|-autosm|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-fileorder|C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\syntmp\\hdlorder.tcl"
-#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\bin64\\c_vhdl.exe":1372666570
-#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\location.map":1369998690
-#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\std.vhd":1372666236
-#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1372666236
-#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\std1164.vhd":1372666236
-#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\numeric.vhd":1372666236
-#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\umr_capim.vhd":1372666460
-#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\arith.vhd":1372666236
-#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\unsigned.vhd":1372666236
-#CUR:"C:\\Lattice\\Diamond3\\diamond\\3.0_x64\\cae_library\\synthesis\\vhdl\\ecp3.vhd":1376992926
+#OPTIONS:"|-top|tb|-prodtype|synplify_pro|-dspmac|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ui|-fid2|-ram|-sharing|on|-ll|2000|-autosm|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-fileorder|C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\syntmp\\hdlorder.tcl"
+#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\bin64\\c_vhdl.exe":1384762852
+#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\location.map":1384779750
+#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\std.vhd":1384762480
+#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1384762480
+#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\std1164.vhd":1384762480
+#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\numeric.vhd":1384762480
+#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\umr_capim.vhd":1384762728
+#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\arith.vhd":1384762480
+#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\unsigned.vhd":1384762480
+#CUR:"C:\\lscc\\diamond\\3.1_x64\\cae_library\\synthesis\\vhdl\\ecp3.vhd":1376992926
 #CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\synchronizerStateMachine.vhd":1394549165
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\USBAER_top_level.vhd":1394556714
+#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\USBAER_top_level.vhd":1394556742
 #CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\ADCStateMachine.vhd":1382950373
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\AERfifo.vhd":1382950372
+#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\AERfifo.vhd":1394796617
 #CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\cDVSResetStateMachine.vhd":1382950373
 #CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\clockgen.vhd":1394547070
 #CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\earlyPaketTimer.vhd":1382950372
@@ -22,7 +21,18 @@
 #CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\fifoStatemachine.vhd":1382950373
 #CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\monitorStateMachine.vhd":1382950372
 #CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\timestampCounter.vhd":1382950372
-0 "C:\Lattice\Diamond3\diamond\3.0_x64\cae_library\synthesis\vhdl\ecp3.vhd" vhdl
+#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\ADCvalueReady.vhd":1382950372
+#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\EventBeforeOverflow.vhd":1382950374
+#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\shiftRegister.vhd":1382950373
+#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\wordRegister.vhd":1382950373
+#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\FIFO.vhd":1378105260
+#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\fifo_tb.vhd":1378105273
+#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\TN_interface.vhd":1380795700
+#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\BadCore_TN.vhd":1380795716
+#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\AERFiFo_TN.vhd":1380802086
+#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\AERFiFo_TN_tmpl.vhd":1394796715
+#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\tb_AERFiFo_TN_tmpl.vhd":1380802086
+0 "C:\lscc\diamond\3.1_x64\cae_library\synthesis\vhdl\ecp3.vhd" vhdl
 1 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd" vhdl
 2 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd" vhdl
 3 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd" vhdl
@@ -34,11 +44,22 @@
 9 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\fifoStatemachine.vhd" vhdl
 10 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\monitorStateMachine.vhd" vhdl
 11 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\timestampCounter.vhd" vhdl
+12 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCvalueReady.vhd" vhdl
+13 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd" vhdl
+14 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\shiftRegister.vhd" vhdl
+15 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\wordRegister.vhd" vhdl
+16 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\FIFO.vhd" vhdl
+17 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\fifo_tb.vhd" vhdl
+18 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\TN_interface.vhd" vhdl
+19 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\BadCore_TN.vhd" vhdl
+20 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN.vhd" vhdl
+21 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN_tmpl.vhd" vhdl
+22 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\tb_AERFiFo_TN_tmpl.vhd" vhdl
 
 # Dependency Lists (Uses list)
 0 -1
 1 -1
-2 6 4 7 8 11 1 9 10 3 5 
+2 6 14 4 15 7 8 11 1 9 10 3 12 5 
 3 -1
 4 0 
 5 -1
@@ -48,9 +69,20 @@
 9 -1
 10 -1
 11 -1
+12 -1
+13 -1
+14 -1
+15 -1
+16 -1
+17 16 
+18 -1
+19 -1
+20 0 
+21 0 
+22 20 
 
 # Dependency Lists (Users Of)
-0 6 4 
+0 21 20 6 4 
 1 2 
 2 -1
 3 2 
@@ -62,6 +94,17 @@
 9 2 
 10 2 
 11 2 
+12 2 
+13 -1
+14 2 
+15 2 
+16 17 
+17 -1
+18 -1
+19 -1
+20 22 
+21 -1
+22 -1
 
 # Design Unit to File Association
 arch work synchronizerstatemachine behavioral 1
@@ -88,3 +131,22 @@ arch work monitorstatemachine behavioral 10
 module work monitorstatemachine 10
 arch work timestampcounter behavioral 11
 module work timestampcounter 11
+arch work adcvalueready behavioral 12
+module work adcvalueready 12
+arch work eventbeforeoverflow behavioral 13
+module work eventbeforeoverflow 13
+arch work shiftregister behavioral 14
+module work shiftregister 14
+arch work wordregister behavioral 15
+module work wordregister 15
+arch work fifo arch 16
+module work fifo 16
+arch work testbench behavior 17
+arch work tn_interface structure 18
+module work tn_interface 18
+arch work badcore_tn structure 19
+module work badcore_tn 19
+config work structure_con 20
+arch work aerfifo_tn structure 20
+module work aerfifo_tn 20
+arch work tb test 22

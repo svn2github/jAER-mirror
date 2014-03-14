@@ -1,3 +1,13 @@
-@E: CD213 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":607:2:607:15|Undefined identifier
-@E|Parse errors encountered - exiting
+@E: CD430 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN_tmpl.vhd":11:0:11:8|Expecting library unit
+@E: CD492 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN_tmpl.vhd":20:0:20:0|character '_' is not allowed as the first character
+@E: CD492 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN_tmpl.vhd":20:1:20:1|character '_' is not allowed as the first character
+@E: CD492 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN_tmpl.vhd":21:34:21:34|character '_' is not allowed as the first character
+@E: CD492 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN_tmpl.vhd":21:35:21:35|character '_' is not allowed as the first character
+@E: CD492 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN_tmpl.vhd":21:45:21:45|character '_' is not allowed as the first character
+@E: CD492 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN_tmpl.vhd":21:46:21:46|character '_' is not allowed as the first character
+@E: CD492 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN_tmpl.vhd":21:55:21:55|character '_' is not allowed as the first character
+@E: CD492 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN_tmpl.vhd":21:56:21:56|character '_' is not allowed as the first character
+@E: CD492 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN_tmpl.vhd":21:65:21:65|character '_' is not allowed as the first character
+@E: CD492 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN_tmpl.vhd":21:66:21:66|character '_' is not allowed as the first character
+@E: CD492 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERFiFo_TN_tmpl.vhd":21:66:21:66|Too many errors - aborting.
 

@@ -14,16 +14,16 @@ Performance Grade:      7
 PACKAGE:          FTBGA256
 Package Status:                     Final          Version 1.39
 
-Tue Feb 18 18:06:30 2014
+Thu Mar 13 17:48:35 2014
 
 Pinout by Port Name:
 +------------------------+----------+--------------+-------+---------------------------------------------------------------------+
 | Port Name              | Pin/Bank | Buffer Type  | Site  | Properties                                                          |
 +------------------------+----------+--------------+-------+---------------------------------------------------------------------+
-| ClockxCI               | R16/3    | LVCMOS33_IN  | PR36A | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA    |
-| EventBeforeOverflowxDO | P16/3    | LVCMOS33_OUT | PR35A | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| EventxDI               | P15/3    | LVCMOS33_IN  | PR35B | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA    |
-| OverflowxDI            | R15/3    | LVCMOS33_IN  | PR36B | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA    |
+| ClockxCI               | K1/6     | LVCMOS33_IN  | PL29A | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA    |
+| EventBeforeOverflowxDO | L2/6     | LVCMOS33_OUT | PL30A | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
+| EventxDI               | M2/6     | LVCMOS33_IN  | PL30B | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA    |
+| OverflowxDI            | L1/6     | LVCMOS33_IN  | PL29B | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA    |
 | ResetxRBI              | C13/8    | LVCMOS33_IN  | PT52B | SLEW:FAST PULL:DOWN PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA  |
 +------------------------+----------+--------------+-------+---------------------------------------------------------------------+
 
@@ -31,7 +31,7 @@ Vccio by Bank:
 +------+-------+
 | Bank | Vccio |
 +------+-------+
-| 3    | 3.3V  |
+| 6    | 3.3V  |
 | 8    | 3.3V  |
 +------+-------+
 
@@ -46,7 +46,7 @@ Vtt by Bank:
 +------+-----+
 | Bank | Vtt |
 +------+-----+
-| 3    |     |
+| 6    |     |
 | 8    |     |
 +------+-----+
 
@@ -114,7 +114,7 @@ Vtt by Bank:
 | E8/0      |     unused, PULL:UP    |            |              | PT28A        | PCLKT0_0/TDQ25        |
 | E9/0      |     unused, PULL:UP    |            |              | PT28B        | PCLKC0_0/TDQ25        |
 | E11/1     |     unused, PULL:UP    |            |              | PT32B        | TDQ34                 |
-| E13/8     |     unused, PULL:UP    | PROHIBITED |              | PR8A         | CS1N/HOLDN/CONT2N/RDY |
+| E13/8     |     unused, PULL:UP    |            |              | PR8A         | CS1N/HOLDN/CONT2N/RDY |
 | E14/8     |     unused, PULL:UP    |            |              | PR11A        | WRITEN                |
 | E15/8     |     unused, PULL:UP    |            |              | PR9B         | MCLK                  |
 | E16/8     |     unused, PULL:UP    |            |              | PR9A         | DOUT/CSON/CSSPI1N     |
@@ -122,7 +122,7 @@ Vtt by Bank:
 | F2/7      |     unused, PULL:UP    |            |              | PL20A        | LUM0_GDLLT_IN_A/LDQ23 |
 | F3/7      |     unused, PULL:UP    |            |              | PL18A        | LDQ23                 |
 | F4/7      |     unused, PULL:UP    |            |              | PL17B        | VREF2_7/LDQ14         |
-| F13/8     |     unused, PULL:UP    | PROHIBITED |              | PR8B         | CSN/SN/CONT1N/OEN     |
+| F13/8     |     unused, PULL:UP    |            |              | PR8B         | CSN/SN/CONT1N/OEN     |
 | F14/8     |     unused, PULL:UP    |            |              | PR11B        | D0/SPIFASTN           |
 | F15/8     |     unused, PULL:UP    |            |              | PR12B        | D2                    |
 | F16/8     |     unused, PULL:UP    |            |              | PR12A        | D1                    |
@@ -130,8 +130,8 @@ Vtt by Bank:
 | G2/7      |     unused, PULL:UP    |            |              | PL24A        | LDQ23                 |
 | G3/7      |     unused, PULL:UP    |            |              | PL18B        | LDQ23                 |
 | G4/7      |     unused, PULL:UP    |            |              | PL21A        | LUM0_GDLLT_FB_A/LDQ23 |
-| G13/8     |     unused, PULL:UP    | PROHIBITED |              | PR14B        | D4/SO                 |
-| G14/8     |     unused, PULL:UP    | PROHIBITED |              | PR14A        | D3/SI                 |
+| G13/8     |     unused, PULL:UP    |            |              | PR14B        | D4/SO                 |
+| G14/8     |     unused, PULL:UP    |            |              | PR14A        | D3/SI                 |
 | G15/8     |     unused, PULL:UP    |            |              | PR15B        | D6/SPID1              |
 | G16/8     |     unused, PULL:UP    |            |              | PR15A        | D5                    |
 | H1/7      |     unused, PULL:UP    |            |              | PL26B        | PCLKC7_0/LDQ23        |
@@ -148,7 +148,7 @@ Vtt by Bank:
 | J14/2     |     unused, PULL:UP    |            |              | PR18B        | VREF2_2/RDQ23         |
 | J15/2     |     unused, PULL:UP    |            |              | PR20B        | RUM0_GDLLT_IN_B/RDQ23 |
 | J16/3     |     unused, PULL:UP    |            |              | PR27A        | RDQ32                 |
-| K1/6      |     unused, PULL:UP    |            |              | PL29A        | PCLKT6_0/LDQ32        |
+| K1/6      | ClockxCI               |            | LVCMOS33_IN  | PL29A        | PCLKT6_0/LDQ32        |
 | K2/6      |     unused, PULL:UP    |            |              | PL27B        | LDQ32                 |
 | K3/7      |     unused, PULL:UP    |            |              | PL26E_C      | LUM0_GPLLT_IN_A/LDQ23 |
 | K4/7      |     unused, PULL:UP    |            |              | PL26E_B      | LUM0_GPLLT_FB_B/LDQ23 |
@@ -156,8 +156,8 @@ Vtt by Bank:
 | K14/2     |     unused, PULL:UP    |            |              | PR26E_C      | RUM0_GPLLT_IN_A/RDQ23 |
 | K15/3     |     unused, PULL:UP    |            |              | PR29A        | PCLKT3_0/RDQ32        |
 | K16/3     |     unused, PULL:UP    |            |              | PR27B        | RDQ32                 |
-| L1/6      |     unused, PULL:UP    |            |              | PL29B        | PCLKC6_0/LDQ32        |
-| L2/6      |     unused, PULL:UP    |            |              | PL30A        | LDQ32                 |
+| L1/6      | OverflowxDI            |            | LVCMOS33_IN  | PL29B        | PCLKC6_0/LDQ32        |
+| L2/6      | EventBeforeOverflowxDO |            | LVCMOS33_OUT | PL30A        | LDQ32                 |
 | L3/7      |     unused, PULL:UP    |            |              | PL26E_D      | LUM0_GPLLT_IN_B/LDQ23 |
 | L4/6      |     unused, PULL:UP    |            |              | PL32A        | LDQS32                |
 | L5/6      |     unused, PULL:UP    |            |              | PL32B        | LDQ32                 |
@@ -166,7 +166,7 @@ Vtt by Bank:
 | L15/3     |     unused, PULL:UP    |            |              | PR29B        | PCLKC3_0/RDQ32        |
 | L16/3     |     unused, PULL:UP    |            |              | PR30A        | RDQ32                 |
 | M1/6      |     unused, PULL:UP    |            |              | PL33A        | LDQ32                 |
-| M2/6      |     unused, PULL:UP    |            |              | PL30B        | LDQ32                 |
+| M2/6      | EventxDI               |            | LVCMOS33_IN  | PL30B        | LDQ32                 |
 | M3/6      |     unused, PULL:UP    |            |              | PL35A        | VREF1_6/LDQ32         |
 | M8/50     |                        |            |              | PCSA_REFCLKN |                       |
 | M9/50     |                        |            |              | PCSA_REFCLKP |                       |
@@ -189,8 +189,8 @@ Vtt by Bank:
 | P11/50    |                        |            |              | PCSA_HDINN0  |                       |
 | P12/50    |                        |            |              | PCSA_HDINP0  |                       |
 | P14/3     |     unused, PULL:UP    |            |              | PR53B        | RDQ50                 |
-| P15/3     | EventxDI               |            | LVCMOS33_IN  | PR35B        | VREF2_3/RDQ32         |
-| P16/3     | EventBeforeOverflowxDO |            | LVCMOS33_OUT | PR35A        | VREF1_3/RDQ32         |
+| P15/3     |     unused, PULL:UP    |            |              | PR35B        | VREF2_3/RDQ32         |
+| P16/3     |     unused, PULL:UP    |            |              | PR35A        | VREF1_3/RDQ32         |
 | PB2A/6    |     unused, PULL:UP    |            |              | PB2A         |                       |
 | PB2B/6    |     unused, PULL:UP    |            |              | PB2B         |                       |
 | PB4A/6    |     unused, PULL:UP    |            |              | PB4A         |                       |
@@ -286,8 +286,8 @@ Vtt by Bank:
 | R2/6      |     unused, PULL:UP    |            |              | PL53A        | LDQ50                 |
 | R3/6      |     unused, PULL:UP    |            |              | PL53B        | LDQ50                 |
 | R14/3     |     unused, PULL:UP    |            |              | PR53A        | RDQ50                 |
-| R15/3     | OverflowxDI            |            | LVCMOS33_IN  | PR36B        | RDQ41                 |
-| R16/3     | ClockxCI               |            | LVCMOS33_IN  | PR36A        | RDQ41                 |
+| R15/3     |     unused, PULL:UP    |            |              | PR36B        | RDQ41                 |
+| R16/3     |     unused, PULL:UP    |            |              | PR36A        | RDQ41                 |
 | T2/6      |     unused, PULL:UP    |            |              | PL51A        | LDQ50                 |
 | T3/6      |     unused, PULL:UP    |            |              | PL51B        | LDQ50                 |
 | T5/50     |                        |            |              | PCSA_HDOUTP3 |                       |
@@ -304,7 +304,7 @@ Vtt by Bank:
 
 sysCONFIG Pins:
     - Config_Mode: SPI
-    - Persistent : SSPI
+    - Persistent : OFF
 +----------+-----------------------+----------+-------------+
 | Pad Name | sysCONFIG Pin Name    | Pin/Bank | Buffer Type |
 +----------+-----------------------+----------+-------------+
@@ -316,30 +316,28 @@ sysCONFIG Pins:
 | PR8B     | CSN/SN/CONT1N/OEN     | F13/8    |             |
 | PR6B     | DI/CSSPI0N/CEN/CSSPIN | D16/8    |             |
 | PR8A     | CS1N/HOLDN/CONT2N/RDY | E13/8    |             |
-| PR14A    | D3/SI                 | G14/8    |             |
-| PR14B    | D4/SO                 | G13/8    |             |
 +----------+-----------------------+----------+-------------+
 
 
 Locate Preferences for each Pin: 
 
-LOCATE  COMP  "ClockxCI"  SITE  "R16";
-LOCATE  COMP  "EventBeforeOverflowxDO"  SITE  "P16";
-LOCATE  COMP  "EventxDI"  SITE  "P15";
-LOCATE  COMP  "OverflowxDI"  SITE  "R15";
+LOCATE  COMP  "ClockxCI"  SITE  "K1";
+LOCATE  COMP  "EventBeforeOverflowxDO"  SITE  "L2";
+LOCATE  COMP  "EventxDI"  SITE  "M2";
+LOCATE  COMP  "OverflowxDI"  SITE  "L1";
 LOCATE  COMP  "ResetxRBI"  SITE  "C13";
 
 
 
 
 
-PAR: Place And Route Diamond (64-bit) 3.0.0.97.
+PAR: Place And Route Diamond (64-bit) 3.1.0.96.
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
 Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
-Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
-Tue Feb 18 18:06:30 2014
+Copyright (c) 2002-2014 Lattice Semiconductor Corporation,  All rights reserved.
+Thu Mar 13 17:48:35 2014
 
 
 

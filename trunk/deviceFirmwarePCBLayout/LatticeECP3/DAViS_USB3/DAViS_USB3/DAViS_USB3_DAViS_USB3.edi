@@ -4,9 +4,9 @@
   (keywordMap (keywordLevel 0))
   (status
     (written
-      (timeStamp 2014 2 18 15 28 53)
+      (timeStamp 2014 3 13 17 43 21)
       (author "Synopsys, Inc.")
-      (program "Synplify Pro" (version "H-2013.03L , mapper maplat, Build 700R"))
+      (program "Synplify Pro" (version "I-2013.09L , mapper maplat, Build 800R"))
      )
    )
   (library LUCENT

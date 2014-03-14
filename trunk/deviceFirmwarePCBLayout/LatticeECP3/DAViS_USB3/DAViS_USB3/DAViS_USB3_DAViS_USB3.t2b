@@ -4,6 +4,6 @@ DAViS_USB3_DAViS_USB3.bit
 
 -g CfgMode:Disable
 -g RamCfg:Reset
--path "C:/INIlabs/VHDL/DAViS_USB3" 
--path "C:/INIlabs/VHDL/DAViS_USB3"
+-path "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3" 
+-path "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3"
 -g ES:No

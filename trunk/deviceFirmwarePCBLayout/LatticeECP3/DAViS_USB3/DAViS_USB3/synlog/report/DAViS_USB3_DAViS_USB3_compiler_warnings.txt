@@ -1,3 +1,6 @@
-@W: CD266 :"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd":102:23:102:34|syncoutswxei is not readable.  This may cause a simulation mismatch.
-@W: CD266 :"C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd":102:40:102:53|syncoutclkxcbo is not readable.  This may cause a simulation mismatch.
+@W: CD434 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\Initialitation.vhd":136:18:136:18|Signal x in the sensitivity list is not used in the process
+@W: CL240 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\Initialitation.vhd":28:0:28:16|AERMonitorACKxSBO is not assigned a value (floating) -- simulation mismatch possible. 
+@W: CL240 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\Initialitation.vhd":27:0:27:16|AERMonitorREQxABI is not assigned a value (floating) -- simulation mismatch possible. 
+@W: CL159 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\Initialitation.vhd":24:1:24:10|Input IfClockxCI is unused
+@W: CL158 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\Initialitation.vhd":25:1:25:1|Inout X is unused
 

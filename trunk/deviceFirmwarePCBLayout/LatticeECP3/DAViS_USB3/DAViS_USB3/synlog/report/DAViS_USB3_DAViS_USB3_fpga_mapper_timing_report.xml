@@ -5,14 +5,14 @@ Max Top 5 critical clocks will be reported. For rest user needs to refer to Deta
 *******************************************************************************************-->
 <report_table display_priority="2" name="Timing Summary">
 <report_link name="Detailed report">
-<data>C:\INIlabs\VHDL\DAViS_USB3\DAViS_USB3\synlog\DAViS_USB3_DAViS_USB3_fpga_mapper.srr</data>
-<title>##### START OF TIMING REPORT #####[</title>
+<data>C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\synlog\DAViS_USB3_DAViS_USB3_fpga_mapper.srr</data>
+<title>START OF TIMING REPORT</title>
 </report_link>
 <row>
-<data>Clock Name</data>
-<data>Req Freq</data>
-<data>Est Freq</data>
-<data>Slack</data>
+<data tcl_name="clock_name">Clock Name</data>
+<data tcl_name="req_freq">Req Freq</data>
+<data tcl_name="est_freq">Est Freq</data>
+<data tcl_name="slack">Slack</data>
 </row>
 <row>
 <data>EventBeforeOverflow|ClockxCI</data>

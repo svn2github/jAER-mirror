@@ -1,10 +1,10 @@
 Running in Lattice mode
 
 
-Starting:    C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\win64\mbin\synbatch.exe
-Install:     C:\Lattice\Diamond3\diamond\3.0_x64\synpbase
-Date:        Tue Mar 11 17:51:59 2014
-Version:     H-2013.03L 
+Starting:    C:\lscc\diamond\3.1_x64\synpbase\win64\mbin\synbatch.exe
+Install:     C:\lscc\diamond\3.1_x64\synpbase
+Date:        Fri Mar 14 12:38:17 2014
+Version:     I-2013.09L 
 
 Arguments:   -product synplify_pro  -batch DAViS_USB3_DAViS_USB3_synplify.tcl
 ProductType: synplify_pro
@@ -13,6 +13,14 @@ ProductType: synplify_pro
 
 
 
+
+Warning: File already exists in project: "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERfifo.vhd"
+
+Warning: File already exists in project: "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERfifo.vhd"
+
+Warning: File already exists in project: "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\clockgen.vhd"
+
+Warning: File already exists in project: "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\clockgen.vhd"
 
 log file: "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\DAViS_USB3_DAViS_USB3.srr"
 
