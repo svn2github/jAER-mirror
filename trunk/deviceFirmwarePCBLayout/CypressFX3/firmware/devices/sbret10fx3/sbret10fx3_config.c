@@ -17,7 +17,7 @@ spiConfig_DeviceSpecific_Type spiConfig_DeviceSpecific[] = {
 const uint8_t spiConfig_DeviceSpecific_Length = (sizeof(spiConfig_DeviceSpecific) / sizeof(spiConfig_DeviceSpecific[0]));
 
 gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
-	//{ 26, 'P' }, /* GPIO 26: Interrupt from Inertial Measurement Unit */
+	{ 26, 'P' }, /* GPIO 26: Interrupt from Inertial Measurement Unit */
 	// { 27, 'O' }, /* GPIO 27: Clock for Inertial Measurement Unit */
 	{ 33, 'o' }, /* GPIO 33: FPGA_Reset (active-low) */
 	{ 34, 'O' }, /* GPIO 34: FX3_LED */
@@ -71,7 +71,7 @@ void CyFxHandleCustomGPIO_DeviceSpecific(uint8_t gpioId) {
 	if (gpioId == 26) {
 		// Interrupt from I2C IMU (InvenSense 6050), get data.
 		// Get DMA buffer for the status channel, but only if the channel actually exists.
-		/*if (glEP1DMAChannelCPUtoUSBPointer != NULL) {
+		if (glEP1DMAChannelCPUtoUSBPointer != NULL) {
 			CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
 			CyU3PDmaBuffer_t buffer;
 
@@ -96,7 +96,7 @@ void CyFxHandleCustomGPIO_DeviceSpecific(uint8_t gpioId) {
 			if (status != CY_U3P_SUCCESS) {
 				return;
 			}
-		}*/
+		}
 	}
 	else {
 		CyFxErrorHandler(LOG_DEBUG, "GPIO was toggled.", gpioId);
@@ -649,7 +649,7 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_InitializeIMU(void) {
 	}
 
 	b[0] = 55; // Interrupt configuration register, sec 4.14 of IMU register map PDF
-	b[1] = 0x10; // latch interrupts until cleared, and clear on any read operation
+	b[1] = 0x10; // clear on any read operation
 	status = CyFxI2cTransfer(IMU_I2C_ADDRESS, b[0], &b[1], 1, CyFalse);
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
