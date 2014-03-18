@@ -36,7 +36,7 @@ static CyU3PDmaChannel glEP2DMAChannelFX3toUSB; // DMA Channel handle for FX2U t
 
 uint8_t glEP0Buffer[FX3_MAX_TRANSFER_SIZE_CONTROL] __attribute__ ((aligned (32))) = { 0 };
 
-CyU3PDmaChannel *glEP1DMAChannelCPUtoUSBPointer = NULL; // Pointer to the DMA Channel handle for CPU2U transfer
+volatile CyU3PDmaChannel *glEP1DMAChannelCPUtoUSBPointer = NULL; // Pointer to the DMA Channel handle for CPU2U transfer
 
 CyU3PTimer glSystemAliveTimer;
 
@@ -830,6 +830,8 @@ static void CyFxApplicationThreadEntry(uint32_t input) {
 
 	// Initialize the main application.
 	CyFxAppInit();
+
+	CyFxErrorHandler(LOG_DEBUG, "System started.", CY_U3P_SUCCESS);
 
 #if GPIO_SUPPORT_ENABLED == 1
 	// Run the GPIO event handling loop.

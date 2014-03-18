@@ -82,7 +82,7 @@ extern CyBool_t glAppRunning;
 extern uint8_t glLogLevel;
 extern uint8_t glLogFailedAmount;
 extern uint8_t glEP0Buffer[];
-extern CyU3PDmaChannel *glEP1DMAChannelCPUtoUSBPointer;
+extern volatile CyU3PDmaChannel *glEP1DMAChannelCPUtoUSBPointer;
 extern CyU3PTimer glSystemAliveTimer;
 
 #include "devices/fx3_select.h"
