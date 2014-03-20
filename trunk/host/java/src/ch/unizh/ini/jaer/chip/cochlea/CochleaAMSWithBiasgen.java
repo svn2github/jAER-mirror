@@ -23,6 +23,7 @@ import net.sf.jaer.hardwareinterface.*;
  * @author tobi
  * @deprecated replaced by CochleaAMS1b which has a totally new Biasgen for controlling all the digital features of CochleaAMS1b
  */
+@Deprecated
 public class CochleaAMSWithBiasgen extends CochleaAMSNoBiasgen {
     
     /** Creates a new instance of CochleaAMSWithBiasgen */

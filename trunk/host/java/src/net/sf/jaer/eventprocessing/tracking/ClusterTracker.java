@@ -47,6 +47,7 @@ import javax.media.opengl.GLAutoDrawable;
  * @author tobi
  @deprecated This class is no longer maintained. Use RectanglularClusterTracker instead.
  */
+@Deprecated
 public class ClusterTracker extends EventFilter2D implements FrameAnnotater, Observer, PreferenceChangeListener {
     
     

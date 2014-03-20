@@ -61,6 +61,7 @@ import java.lang.reflect.Method;
  * @version 1.4b1 (Released June 20, 2001)
  * @deprecated using Desktop.browse now (Oct 2011)
  */
+@Deprecated
 public class BrowserLauncher {
     
     /**
