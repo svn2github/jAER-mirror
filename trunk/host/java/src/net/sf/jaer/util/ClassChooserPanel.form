@@ -26,19 +26,27 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="descPanel" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="availClassPanel" pref="236" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      <Component id="availClassPanel" pref="224" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="defaultsButton" linkSize="3" min="-2" pref="61" max="-2" attributes="1"/>
-                          <Component id="removeClassButton" linkSize="3" max="32767" attributes="1"/>
-                          <Component id="removeAllButton" linkSize="3" max="32767" attributes="1"/>
-                          <Component id="moveUpButton" linkSize="3" alignment="0" min="-2" pref="61" max="-2" attributes="1"/>
-                          <Component id="revertButton" linkSize="3" min="-2" pref="61" max="-2" attributes="1"/>
-                          <Component id="moveDownButton" linkSize="3" min="-2" pref="71" max="-2" attributes="1"/>
-                          <Component id="addClassButton" linkSize="3" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="defaultsButton" linkSize="3" min="-2" pref="61" max="-2" attributes="1"/>
+                                  <Component id="removeClassButton" linkSize="3" max="32767" attributes="1"/>
+                                  <Component id="removeAllButton" linkSize="3" max="32767" attributes="1"/>
+                                  <Component id="moveUpButton" linkSize="3" alignment="0" min="-2" pref="61" max="-2" attributes="1"/>
+                                  <Component id="revertButton" linkSize="3" min="-2" pref="61" max="-2" attributes="1"/>
+                                  <Component id="moveDownButton" linkSize="3" min="-2" pref="71" max="-2" attributes="1"/>
+                                  <Component id="addClassButton" linkSize="3" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                              <Component id="showDepCB" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                      <Component id="chosenClassPanel" pref="234" max="32767" attributes="0"/>
+                      <Component id="chosenClassPanel" pref="221" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -64,9 +72,12 @@
                       <Component id="revertButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="defaultsButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="showDepCB" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="165" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="availClassPanel" pref="371" max="32767" attributes="0"/>
-                  <Component id="chosenClassPanel" pref="371" max="32767" attributes="0"/>
+                  <Component id="availClassPanel" pref="508" max="32767" attributes="0"/>
+                  <Component id="chosenClassPanel" pref="508" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="descPanel" min="-2" max="-2" attributes="0"/>
@@ -131,10 +142,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="clearFilterBut" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="filterTypeOptionsPanel" max="32767" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="filterTypeOptionsPanel" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -461,6 +469,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="defaultsButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="showDepCB">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Show depricated"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showDepCBActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
