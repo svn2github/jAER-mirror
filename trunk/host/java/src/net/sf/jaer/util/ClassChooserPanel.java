@@ -39,30 +39,29 @@ import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
 import net.sf.jaer.DevelopmentStatus;
 
-/**A panel that finds subclasses of a class, displays them in a left list,
+/**
+ * A panel that finds subclasses of a class, displays them in a left list,
  * displays another list given as a parameter in the right panel, and accepts a
  * list of default class names. The user can choose which classes and these are
  * returned by a call to getList. The list of available classes is built in the background.
  *
- * @author tobi */
+ * @author tobi
+ */
 public class ClassChooserPanel extends javax.swing.JPanel {
 
-    static final Logger log = Logger.getLogger("net.sf.jaer.util");
+    Logger log = Logger.getLogger("net.sf.jaer.util");
     FilterableListModel chosenClassesListModel, availClassesListModel;
     ArrayList<String> revertCopy, defaultClassNames, availAllList, availFiltList;
 //    MyBoundedJLabel myDescLabel=null;
-    private final String MISSING_DESCRIPTION_MESSAGE = "<html>No description available - provide one using @Description annotation, "
-            + "as in <pre>@Description(\"Example class\") \n public class MyClass</pre></html>";
+    private String MISSING_DESCRIPTION_MESSAGE = "<html>No description available - provide one using @Description annotation, as in <pre>@Description(\"Example class\") \n public class MyClass</pre></html>";
 
     private class ClassDescription {
         String description = null;
         DevelopmentStatus.Status developmentStatus = null;
-        Boolean deprecated = false;
 
-        public ClassDescription(String description, DevelopmentStatus.Status developmentStatus, Boolean deprecated) {
+        public ClassDescription(String description, DevelopmentStatus.Status developmentStatus) {
             this.description = description;
             this.developmentStatus = developmentStatus;
-            this.deprecated = deprecated;
         }
     }
 
@@ -101,12 +100,8 @@ public class ClassChooserPanel extends javax.swing.JPanel {
                     DevelopmentStatus des = (DevelopmentStatus) c.getAnnotation(DevelopmentStatus.class);
                     devStatus = des.value();
                 }
-                Boolean deprecated = false;
-                if (c.isAnnotationPresent(Deprecated.class)) { 
-                    deprecated = true;
-                }
 
-                ClassDescription des = new ClassDescription(descriptionString, devStatus, deprecated);
+                ClassDescription des = new ClassDescription(descriptionString, devStatus);
                 put(name, des);
             } catch (Exception e) {
                 log.warning("trying to put class named " + name + " caught " + e.toString());
@@ -147,7 +142,6 @@ public class ClassChooserPanel extends javax.swing.JPanel {
                             log.warning("got empty list of classes - something wrong here, aborting dialog");
                             return;
                         }
-// HIER WIRD SORTIERT. DA KOENNEN WIR NEUEN COMPARATOR BAUEN DER ANDERS SORTIERT                        
                         Collections.sort(availAllList, new ClassNameSorter());
                         availClassesListModel = new FilterableListModel(availAllList);
                         availClassJList.setModel(availClassesListModel);
@@ -171,7 +165,6 @@ public class ClassChooserPanel extends javax.swing.JPanel {
                             String s = availFilterTextField.getText();
                             availClassesListModel.filter(s);
                         }
-                        availClassesListModel.filterDep(showDepCB.isSelected());
                     } catch (Exception ex) {
                         Logger.getLogger(ClassChooserPanel.class.getName()).log(Level.SEVERE, null, ex);
                     } finally {
@@ -217,7 +210,7 @@ public class ClassChooserPanel extends javax.swing.JPanel {
         chosenClassesListModel = new FilterableListModel(classNames);
         classJList.setModel(chosenClassesListModel);
         classJList.setCellRenderer(new MyCellRenderer());
-//        descPanel.add((myDescLabel=new MyBoundedJLabel()),BorderLayout.CENTER);    
+//        descPanel.add((myDescLabel=new MyBoundedJLabel()),BorderLayout.CENTER);
     }
 
     public JPanel getFilterTypeOptionsPanel() {
@@ -226,7 +219,6 @@ public class ClassChooserPanel extends javax.swing.JPanel {
 
     private class ClassNameSorter implements Comparator {
 
-        @Override
         public int compare(Object o1, Object o2) {
             if (o1 instanceof String && o2 instanceof String) {
                 return shortName((String) o1).compareTo(shortName((String) o2));
@@ -314,27 +306,20 @@ public class ClassChooserPanel extends javax.swing.JPanel {
         }
         return des.description;
     }
-    
-    private Boolean getClassDeprication(String className) {
-        ClassDescription des = descriptionMap.get(className);
-        if (des == null) return null;
-        return des.deprecated;
-    }
 
     private class MyCellRenderer extends JLabel implements ListCellRenderer {
         // This is the only method defined by ListCellRenderer.
         // We just reconfigure the JLabel each time we're called.
 
-        @Override
         public Component getListCellRendererComponent(
-                JList list,           // the list
-                Object obj,           // value to display
-                int index,            // cell index
-                boolean isSelected,   // is the cell selected
+                JList list, // the list
+                Object obj, // value to display
+                int index, // cell index
+                boolean isSelected, // is the cell selected
                 boolean cellHasFocus) // does the cell have focus
         {
             String fullclassname = obj.toString();
-            String shortname     = fullclassname.substring(fullclassname.lastIndexOf('.') + 1);
+            String shortname = fullclassname.substring(fullclassname.lastIndexOf('.') + 1);
 //            String s = value.toString(); // full class name
             setText(shortname);
             Color foreground, background;
@@ -389,8 +374,8 @@ public class ClassChooserPanel extends javax.swing.JPanel {
         }
         return s.substring(i + 1);
     }
-    
     // extends DefaultListModel to add a text filter
+
     class FilterableListModel extends DefaultListModel {
 
         Vector origList = new Vector();
@@ -424,6 +409,7 @@ public class ClassChooserPanel extends javax.swing.JPanel {
             }
             Vector v = new Vector();  // list to prune out
             // must build a list of stuff to prune, then prune
+
             Enumeration en = elements();
             while (en.hasMoreElements()) {
                 Object o = en.nextElement();
@@ -431,26 +417,6 @@ public class ClassChooserPanel extends javax.swing.JPanel {
                 int ind = st.indexOf(filterString);
                 if (ind == -1) {
                     v.add(o);
-                }
-            }
-            // prune list
-            for (Object o : v) {
-                removeElement(o);
-            }
-        }
-        
-        synchronized void filterDep(Boolean showDep) {
-            if(showDep) resetList();
-            
-            Vector v = new Vector();  // list to prune out
-            // must build a list of stuff to prune, then prune
-            
-            Enumeration en = elements();
-            while(en.hasMoreElements()) {
-                Object o = en.nextElement();
-                String st = (String) o;
-                if(getClassDeprication(st)) {
-                    if(!showDep) v.add(o);
                 }
             }
             // prune list
@@ -495,7 +461,6 @@ public class ClassChooserPanel extends javax.swing.JPanel {
         revertButton = new javax.swing.JButton();
         moveDownButton = new javax.swing.JButton();
         defaultsButton = new javax.swing.JButton();
-        showDepCB = new javax.swing.JCheckBox();
 
         setPreferredSize(new java.awt.Dimension(580, 686));
 
@@ -539,7 +504,9 @@ public class ClassChooserPanel extends javax.swing.JPanel {
                         .addComponent(availFilterTextField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(clearFilterBut))
-                    .addComponent(filterTypeOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(filterPanelLayout.createSequentialGroup()
+                        .addComponent(filterTypeOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, 0))))
         );
         filterPanelLayout.setVerticalGroup(
             filterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -733,13 +700,6 @@ public class ClassChooserPanel extends javax.swing.JPanel {
             }
         });
 
-        showDepCB.setText("Show depricated");
-        showDepCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showDepCBActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -749,23 +709,18 @@ public class ClassChooserPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(descPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(availClassPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(defaultsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(removeClassButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(removeAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(moveUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(moveDownButton, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addClassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(showDepCB)))
+                        .addComponent(availClassPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
                         .addGap(10, 10, 10)
-                        .addComponent(chosenClassPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(defaultsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeClassButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(removeAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(moveUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(moveDownButton, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addClassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addComponent(chosenClassPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {addClassButton, defaultsButton, moveDownButton, moveUpButton, removeAllButton, removeClassButton, revertButton});
@@ -789,12 +744,9 @@ public class ClassChooserPanel extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(defaultsButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(showDepCB)
-                        .addGap(0, 165, Short.MAX_VALUE))
-                    .addComponent(availClassPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
-                    .addComponent(chosenClassPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE))
+                        .addComponent(defaultsButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(availClassPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                    .addComponent(chosenClassPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(descPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -907,10 +859,6 @@ private void classJListValueChanged(javax.swing.event.ListSelectionEvent evt) {/
         availClassesListModel.filter(s);
     }//GEN-LAST:event_availFilterTextFieldActionPerformed
 
-    private void showDepCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDepCBActionPerformed
-        availClassesListModel.filterDep(showDepCB.isSelected());
-    }//GEN-LAST:event_showDepCBActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addClassButton;
     private javax.swing.JScrollPane availClassDesciptionPanel;
@@ -935,7 +883,6 @@ private void classJListValueChanged(javax.swing.event.ListSelectionEvent evt) {/
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeClassButton;
     private javax.swing.JButton revertButton;
-    private javax.swing.JCheckBox showDepCB;
     // End of variables declaration//GEN-END:variables
     // from http://forum.java.sun.com/thread.jspa?forumID=57&threadID=626866
     private static final KeyStroke ENTER = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
