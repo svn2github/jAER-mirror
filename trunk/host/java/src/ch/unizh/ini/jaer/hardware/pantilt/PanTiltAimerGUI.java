@@ -13,18 +13,29 @@ import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
 import net.sf.jaer.util.ExceptionListener;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.BasicStroke;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.beans.*;
 import java.util.logging.Logger;
 
-/** Tests pantilt by mimicing mouse movements. Also can serve as calibration
- * source via PropertyChangeSupport.
+/**Tests pan-tilt by mimicking mouse movements. Also can serve as calibration
+ * source (for fixed DVS+Laser-pointer) via PropertyChangeSupport.
+ * 
+ * The GUI allows to record a path with the mouse that can then be looped by
+ * the pan-tilt. The current target for the saccadic targeting can be displayed
+ * as well as the jittered target. The path of the pan-tilt can be displayed 
+ * for the resent past as well.
+ * A dashed box is shown that indicates the LimitOfPan and LimitOfTilt as set 
+ * by the hardware.
  * @author tobi */
 public class PanTiltAimerGUI extends javax.swing.JFrame implements PropertyChangeListener, ExceptionListener {
 
-    static final Logger log = Logger.getLogger("PanTiltGUI");
+    static  final Logger log = Logger.getLogger("PanTiltGUI");
+    static  final float dash1[] = {10.0f};
+    static  final BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT,BasicStroke.JOIN_MITER,10.0f, dash1, 0.0f);
     private final PropertyChangeSupport supportPTAimerGUI = new PropertyChangeSupport(this);
     private final PanTilt panTilt;
     private final Trajectory trajectory = new Trajectory();
@@ -180,7 +191,8 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements PropertyChang
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-
+        
+        paintLimitBox(calibrationPanel); //paints a dashed box indicating the user defined pan and tilt limits
         trajectory.paintPath(Color.black,1000);
         if(showPosCB.isSelected()) panTiltTrajectory.paintPath(Color.red,1000);
         if(showTargetCB.isSelected()) targetTrajectory.paintCrossHair(Color.blue);
@@ -193,7 +205,6 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements PropertyChang
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
         statusLabel = new javax.swing.JLabel();
         calibrationPanel = new javax.swing.JPanel();
         InfoLabel = new javax.swing.JLabel();
@@ -209,12 +220,11 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements PropertyChang
         showPosCB = new javax.swing.JCheckBox();
         showTargetCB = new javax.swing.JCheckBox();
 
-        jButton1.setText("jButton1");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("PanTiltAimer");
         setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
-        setPreferredSize(new java.awt.Dimension(482, 491));
+        setMinimumSize(new java.awt.Dimension(700, 535));
+        setPreferredSize(new java.awt.Dimension(600, 600));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -265,10 +275,10 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements PropertyChang
         );
         calibrationPanelLayout.setVerticalGroup(
             calibrationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 386, Short.MAX_VALUE)
+            .addGap(0, 484, Short.MAX_VALUE)
         );
 
-        InfoLabel.setText("<html>Drag or click  mouse to aim pan tilt. Use <b>r</b> to toggle recording a trajectory.</html>");
+        InfoLabel.setText("<html>Drag or click  mouse to aim pan tilt. Use <b>r</b> to toggle recording a trajectory. Dashed lines show limits of pantilt.</html>");
 
         recordCB.setText("Record path");
         recordCB.setToolTipText("Draw a fixed path with the mouse");
@@ -358,8 +368,8 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements PropertyChang
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(InfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addComponent(InfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(showPosCB)
@@ -392,7 +402,7 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements PropertyChang
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -410,11 +420,12 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements PropertyChang
                             .addComponent(clearBut)
                             .addComponent(relaxBut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(showTargetCB)))
-                    .addComponent(InfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(InfoLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(calibrationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(statusLabel))
+                .addGap(5, 5, 5)
+                .addComponent(statusLabel)
+                .addGap(10, 10, 10))
         );
 
         pack();
@@ -473,7 +484,24 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements PropertyChang
         this.recordingEnabled = recordingEnabled;
         recordCB.setSelected(recordingEnabled);
         supportPTAimerGUI.firePropertyChange(Message.SetRecordingEnabled.name(), old, recordingEnabled);
-    }   
+    }  
+    
+    private void paintLimitBox(javax.swing.JPanel printPanel) {
+        w = printPanel.getWidth();
+        h = printPanel.getHeight();
+        Graphics2D calibrationGraph = (Graphics2D) printPanel.getGraphics();//Need Graphics2D for dashed stroke
+        int P1 = (int)(w/2-w*panTilt.getLimitOfPan());
+        int P2 = (int)(w/2+w*panTilt.getLimitOfPan());
+        int T1 = (int)(h/2-h*panTilt.getLimitOfTilt());
+        int T2 = (int)(h/2+h*panTilt.getLimitOfTilt());
+        
+        calibrationGraph.setStroke(dashed);
+        calibrationGraph.drawLine(P1,T1, P2, T1);//Tilt Limiting Lines
+        calibrationGraph.drawLine(P1,T2, P2, T2);
+        
+        calibrationGraph.drawLine(P1,T1,P1,T2);//Pan Limiting Lines
+        calibrationGraph.drawLine(P2,T1,P2,T2);    
+    }
 
     private void calibrationPanelComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_calibrationPanelComponentResized
         w = calibrationPanel.getWidth();
@@ -526,6 +554,7 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements PropertyChang
     private void calibrationPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_calibrationPanelMouseEntered
         setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
         calibrationPanel.requestFocus();
+        repaint();//So that the limiterBox is updated when the user adjustet values
     }//GEN-LAST:event_calibrationPanelMouseEntered
 
     private void calibrationPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_calibrationPanelMouseExited
@@ -589,7 +618,6 @@ public class PanTiltAimerGUI extends javax.swing.JFrame implements PropertyChang
     private javax.swing.JPanel calibrationPanel;
     private javax.swing.JButton centerBut;
     private javax.swing.JButton clearBut;
-    private javax.swing.JButton jButton1;
     private javax.swing.JToggleButton loopBut;
     private javax.swing.JCheckBox recordCB;
     private javax.swing.JButton relaxBut;
