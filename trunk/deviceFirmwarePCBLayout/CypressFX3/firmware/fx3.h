@@ -17,7 +17,7 @@
 #define FX3_LOG_LEVEL (LOG_INFO)
 
 // Thread settings
-#define FX3_APPLICATION_THREAD_STACK    (0x0400) /* Main application thread stack size */
+#define FX3_APPLICATION_THREAD_STACK    (0x0800) /* Main application thread stack size */
 #define FX3_APPLICATION_THREAD_PRIORITY (8)      /* Main application thread priority */
 
 // End-point maximum transfer sizes

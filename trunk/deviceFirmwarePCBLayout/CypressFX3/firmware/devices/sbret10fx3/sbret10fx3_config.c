@@ -67,14 +67,21 @@ const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecif
 #define IMU_DATA_ADDRESS 0x3B
 #define IMU_DATA_LENGTH 14
 
+static uint8_t imuDataBuffer[IMU_DATA_LENGTH];
+static CyU3PDmaBuffer_t buffer;
+
 void CyFxHandleCustomGPIO_DeviceSpecific(uint8_t gpioId) {
 	if (gpioId == 26) {
-		// Interrupt from I2C IMU (InvenSense 6050), get data.
+		CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+
+		// Interrupt from I2C IMU (InvenSense 6050), get data from IMU via I2C protocol.
+		status = CyFxI2cTransfer(IMU_I2C_ADDRESS, IMU_DATA_ADDRESS, imuDataBuffer, IMU_DATA_LENGTH, CyTrue);
+		if (status != CY_U3P_SUCCESS) {
+			return;
+		}
+
 		// Get DMA buffer for the status channel, but only if the channel actually exists.
 		if (glEP1DMAChannelCPUtoUSBPointer != NULL) {
-			CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
-			CyU3PDmaBuffer_t buffer;
-
 			status = CyU3PDmaChannelGetBuffer(glEP1DMAChannelCPUtoUSBPointer, &buffer,
 				FX3_STATUS_DMA_CPUTOUSB_BUF_TIMEOUT);
 			if (status != CY_U3P_SUCCESS) {
@@ -83,13 +90,8 @@ void CyFxHandleCustomGPIO_DeviceSpecific(uint8_t gpioId) {
 
 			// Set msgType value to 0x01 to signal this is an IMU sample.
 			buffer.buffer[0] = 0x01;
+			memcpy(&buffer.buffer[1], imuDataBuffer, IMU_DATA_LENGTH);
 			buffer.count = 1 + IMU_DATA_LENGTH;
-
-			// Read data from IMU via I2C protocol.
-			status = CyFxI2cTransfer(IMU_I2C_ADDRESS, IMU_DATA_ADDRESS, &buffer.buffer[1], IMU_DATA_LENGTH, CyTrue);
-			if (status != CY_U3P_SUCCESS) {
-				return;
-			}
 
 			// Send the message to the host.
 			status = CyU3PDmaChannelCommitBuffer(glEP1DMAChannelCPUtoUSBPointer, buffer.count, 0);
@@ -649,12 +651,11 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_InitializeIMU(void) {
 	}
 
 	b[0] = 55; // Interrupt configuration register, sec 4.14 of IMU register map PDF
-	b[1] = 0x10; // clear on any read operation
+	b[1] = 0x30; // latch interrupt until cleared, clear on any read operation
 	status = CyFxI2cTransfer(IMU_I2C_ADDRESS, b[0], &b[1], 1, CyFalse);
 	if (status != CY_U3P_SUCCESS) {
 		return (status);
 	}
-
 
 	b[0] = 56; // Interrupt enable register, sec 4.15 of IMU register map PDF
 	b[1] = 0x01; // DATA_RDY_EN interrupt enabled
