@@ -233,6 +233,8 @@ public class UsbDevice {
 		return (dataBuffer);
 	}
 
+	private long imuCount = 0;
+
 	synchronized public void listenToEP(final byte endpoint, final byte type, final int bufNum, final int bufSize,
 		final TextArea outputArea) {
 		if (devHandle == null) {
@@ -273,6 +275,20 @@ public class UsbDevice {
 									outputArea.appendText(output);
 								}
 							});
+						}
+						else if (t.buffer().get(0) == 0x01) {
+							// This is an IMU sample. Just count it.
+							imuCount = imuCount + 1;
+
+							if ((imuCount & 0x03FF) == 0) {
+								GUISupport.runOnJavaFXThread(new Runnable() {
+									@Override
+									public void run() {
+										outputArea.appendText(String.format("%d: Got 1024 IMU events.\n",
+											imuCount >>> 10));
+									}
+								});
+							}
 						}
 					}
 				}
