@@ -831,6 +831,13 @@ static void CyFxApplicationThreadEntry(uint32_t input) {
 	// Initialize the main application.
 	CyFxAppInit();
 
+#if GPIO_DEBUG_LED_ENABLED == 1
+	// Signal complete initialization with the LED (one 2s pulse).
+	CyFxGpioTurnOn(GPIO_DEBUG_LED_NUMBER);
+	CyU3PThreadSleep(2000);
+	CyFxGpioTurnOff(GPIO_DEBUG_LED_NUMBER);
+#endif
+
 	CyFxErrorHandler(LOG_DEBUG, "System started.", CY_U3P_SUCCESS);
 
 #if GPIO_SUPPORT_ENABLED == 1
