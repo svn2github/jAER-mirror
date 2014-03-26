@@ -833,6 +833,7 @@ static void CyFxApplicationThreadEntry(uint32_t input) {
 
 #if GPIO_DEBUG_LED_ENABLED == 1
 	// Signal complete initialization with the LED (one 2s pulse).
+	CyU3PThreadSleep(200); // Wait for system-alive tick to pass.
 	CyFxGpioTurnOn(GPIO_DEBUG_LED_NUMBER);
 	CyU3PThreadSleep(2000);
 	CyFxGpioTurnOff(GPIO_DEBUG_LED_NUMBER);
