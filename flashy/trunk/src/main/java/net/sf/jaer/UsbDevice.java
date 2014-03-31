@@ -256,7 +256,7 @@ public class UsbDevice {
 					// text area.
 					if (t.status() == LibUsb.TRANSFER_COMPLETED) {
 						// Print error messages.
-						if (t.buffer().get(0) == 0x00) {
+						if ((t.buffer().get(0) == 0x00) && (t.buffer().limit() <= 64)) {
 							final int errorCode = t.buffer().get(1) & 0xFF;
 
 							final int timeStamp = t.buffer().getInt(2);
@@ -277,7 +277,7 @@ public class UsbDevice {
 								}
 							});
 						}
-						else if (t.buffer().get(0) == 0x01) {
+						else if ((t.buffer().get(0) == 0x01) && (t.buffer().limit() == 15)) {
 							// This is an IMU sample. Just count it.
 							imuCount = imuCount + 1;
 
