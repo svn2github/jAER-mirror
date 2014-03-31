@@ -1,0 +1,11 @@
+#Start recording tcl command: 3/29/2014 19:47:23
+#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20; Project name: SBret20
+prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.ldf"
+prj_run Translate -impl SBret20
+prj_run Translate -impl SBret20
+prj_src remove "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/AERfifo.ipx" "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/clockgen.ipx"
+prj_src remove "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/ADCStateMachine_tb.vhd"
+prj_run Translate -impl SBret20
+prj_project save
+prj_project close
+#Stop recording: 3/29/2014 20:12:20

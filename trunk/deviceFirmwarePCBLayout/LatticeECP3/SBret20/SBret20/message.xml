@@ -1,0 +1,1860 @@
+<?xml version='1.0' encoding='utf-8'?>
+<BaliMessageLog>
+    <Milestone name="Synthesis">
+        <Task name="Synplify_Synthesis">
+            <Engine name="gen_synplify_tcl"/>
+            <Engine name="synpwrap">
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CD434 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":129:47:129:57|Signal exposurexdi in the sensitivity list is not used in the process</Text>
+                    <Dynamic>CD434 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":129:47:129:57|Signal exposurexdi in the sensitivity list is not used in the process</Dynamic>
+                    <Navigation>CD434</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd</Navigation>
+                    <Navigation>129</Navigation>
+                    <Navigation>47</Navigation>
+                    <Navigation>129</Navigation>
+                    <Navigation>57</Navigation>
+                    <Navigation>Signal exposurexdi in the sensitivity list is not used in the process</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CD434 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":129:125:129:136|Signal rowsettlexdi in the sensitivity list is not used in the process</Text>
+                    <Dynamic>CD434 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":129:125:129:136|Signal rowsettlexdi in the sensitivity list is not used in the process</Dynamic>
+                    <Navigation>CD434</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd</Navigation>
+                    <Navigation>129</Navigation>
+                    <Navigation>125</Navigation>
+                    <Navigation>129</Navigation>
+                    <Navigation>136</Navigation>
+                    <Navigation>Signal rowsettlexdi in the sensitivity list is not used in the process</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CD434 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":129:139:129:150|Signal colsettlexdi in the sensitivity list is not used in the process</Text>
+                    <Dynamic>CD434 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":129:139:129:150|Signal colsettlexdi in the sensitivity list is not used in the process</Dynamic>
+                    <Navigation>CD434</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd</Navigation>
+                    <Navigation>129</Navigation>
+                    <Navigation>139</Navigation>
+                    <Navigation>129</Navigation>
+                    <Navigation>150</Navigation>
+                    <Navigation>Signal colsettlexdi in the sensitivity list is not used in the process</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CD434 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":129:153:129:163|Signal exposuretxd in the sensitivity list is not used in the process</Text>
+                    <Dynamic>CD434 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":129:153:129:163|Signal exposuretxd in the sensitivity list is not used in the process</Dynamic>
+                    <Navigation>CD434</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd</Navigation>
+                    <Navigation>129</Navigation>
+                    <Navigation>153</Navigation>
+                    <Navigation>129</Navigation>
+                    <Navigation>163</Navigation>
+                    <Navigation>Signal exposuretxd in the sensitivity list is not used in the process</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CG296 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":129:10:129:16|Incomplete sensitivity list - assuming completeness</Text>
+                    <Dynamic>CG296 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":129:10:129:16|Incomplete sensitivity list - assuming completeness</Dynamic>
+                    <Navigation>CG296</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd</Navigation>
+                    <Navigation>129</Navigation>
+                    <Navigation>10</Navigation>
+                    <Navigation>129</Navigation>
+                    <Navigation>16</Navigation>
+                    <Navigation>Incomplete sensitivity list - assuming completeness</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CG290 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":209:22:209:31|Referenced variable exposurexd is not in sensitivity list</Text>
+                    <Dynamic>CG290 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":209:22:209:31|Referenced variable exposurexd is not in sensitivity list</Dynamic>
+                    <Navigation>CG290</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd</Navigation>
+                    <Navigation>209</Navigation>
+                    <Navigation>22</Navigation>
+                    <Navigation>209</Navigation>
+                    <Navigation>31</Navigation>
+                    <Navigation>Referenced variable exposurexd is not in sensitivity list</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CG296 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":275:10:275:16|Incomplete sensitivity list - assuming completeness</Text>
+                    <Dynamic>CG296 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":275:10:275:16|Incomplete sensitivity list - assuming completeness</Dynamic>
+                    <Navigation>CG296</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd</Navigation>
+                    <Navigation>275</Navigation>
+                    <Navigation>10</Navigation>
+                    <Navigation>275</Navigation>
+                    <Navigation>16</Navigation>
+                    <Navigation>Incomplete sensitivity list - assuming completeness</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CG290 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":326:5:326:15|Referenced variable countcolxdp is not in sensitivity list</Text>
+                    <Dynamic>CG290 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":326:5:326:15|Referenced variable countcolxdp is not in sensitivity list</Dynamic>
+                    <Navigation>CG290</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd</Navigation>
+                    <Navigation>326</Navigation>
+                    <Navigation>5</Navigation>
+                    <Navigation>326</Navigation>
+                    <Navigation>15</Navigation>
+                    <Navigation>Referenced variable countcolxdp is not in sensitivity list</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CG290 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":312:5:312:15|Referenced variable startrowxsp is not in sensitivity list</Text>
+                    <Dynamic>CG290 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":312:5:312:15|Referenced variable startrowxsp is not in sensitivity list</Dynamic>
+                    <Navigation>CG290</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd</Navigation>
+                    <Navigation>312</Navigation>
+                    <Navigation>5</Navigation>
+                    <Navigation>312</Navigation>
+                    <Navigation>15</Navigation>
+                    <Navigation>Referenced variable startrowxsp is not in sensitivity list</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CD604 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\synchronizerStateMachine.vhd":215:6:215:19|OTHERS clause is not synthesized</Text>
+                    <Dynamic>CD604 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\synchronizerStateMachine.vhd":215:6:215:19|OTHERS clause is not synthesized</Dynamic>
+                    <Navigation>CD604</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\synchronizerStateMachine.vhd</Navigation>
+                    <Navigation>215</Navigation>
+                    <Navigation>6</Navigation>
+                    <Navigation>215</Navigation>
+                    <Navigation>19</Navigation>
+                    <Navigation>OTHERS clause is not synthesized </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CD280 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\AERfifo.vhd":31:11:31:21|Unbound component pmi_fifo_dc mapped to black box</Text>
+                    <Dynamic>CD280 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\AERfifo.vhd":31:11:31:21|Unbound component pmi_fifo_dc mapped to black box</Dynamic>
+                    <Navigation>CD280</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\AERfifo.vhd</Navigation>
+                    <Navigation>31</Navigation>
+                    <Navigation>11</Navigation>
+                    <Navigation>31</Navigation>
+                    <Navigation>21</Navigation>
+                    <Navigation>Unbound component pmi_fifo_dc mapped to black box</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CD280 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\clockgen.vhd":25:11:25:17|Unbound component pmi_pll mapped to black box</Text>
+                    <Dynamic>CD280 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\clockgen.vhd":25:11:25:17|Unbound component pmi_pll mapped to black box</Dynamic>
+                    <Navigation>CD280</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\clockgen.vhd</Navigation>
+                    <Navigation>25</Navigation>
+                    <Navigation>11</Navigation>
+                    <Navigation>25</Navigation>
+                    <Navigation>17</Navigation>
+                    <Navigation>Unbound component pmi_pll mapped to black box</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CL168 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\USBAER_top_level.vhd":594:2:594:24|Pruning instance cDVSResetStateMachine_1 -- not in use ...</Text>
+                    <Dynamic>CL168 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\USBAER_top_level.vhd":594:2:594:24|Pruning instance cDVSResetStateMachine_1 -- not in use ...</Dynamic>
+                    <Navigation>CL168</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\USBAER_top_level.vhd</Navigation>
+                    <Navigation>594</Navigation>
+                    <Navigation>2</Navigation>
+                    <Navigation>594</Navigation>
+                    <Navigation>24</Navigation>
+                    <Navigation>Pruning instance cDVSResetStateMachine_1 -- not in use ... </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CL159 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":35:1:35:9|Input ADCovrxSI is unused</Text>
+                    <Dynamic>CL159 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":35:1:35:9|Input ADCovrxSI is unused</Dynamic>
+                    <Navigation>CL159</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd</Navigation>
+                    <Navigation>35</Navigation>
+                    <Navigation>1</Navigation>
+                    <Navigation>35</Navigation>
+                    <Navigation>9</Navigation>
+                    <Navigation>Input ADCovrxSI is unused</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CL159 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":37:4:37:13|Input SRLatchxEI is unused</Text>
+                    <Dynamic>CL159 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":37:4:37:13|Input SRLatchxEI is unused</Dynamic>
+                    <Navigation>CL159</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd</Navigation>
+                    <Navigation>37</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>37</Navigation>
+                    <Navigation>13</Navigation>
+                    <Navigation>Input SRLatchxEI is unused</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CL159 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\cDVSResetStateMachine.vhd":31:4:31:12|Input RxcolGxSI is unused</Text>
+                    <Dynamic>CL159 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\cDVSResetStateMachine.vhd":31:4:31:12|Input RxcolGxSI is unused</Dynamic>
+                    <Navigation>CL159</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\cDVSResetStateMachine.vhd</Navigation>
+                    <Navigation>31</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>31</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Input RxcolGxSI is unused</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - CL159 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\USBAER_top_level.vhd":63:4:63:11|Input FXLEDxSI is unused</Text>
+                    <Dynamic>CL159 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\USBAER_top_level.vhd":63:4:63:11|Input FXLEDxSI is unused</Dynamic>
+                    <Navigation>CL159</Navigation>
+                    <Navigation>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\USBAER_top_level.vhd</Navigation>
+                    <Navigation>63</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>63</Navigation>
+                    <Navigation>11</Navigation>
+                    <Navigation>Input FXLEDxSI is unused</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MT531 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":680:4:680:5|Found signal identified as System clock which controls 2 sequential elements including AERReqSyncxSBN.  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance.</Text>
+                    <Dynamic>MT531 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":680:4:680:5|Found signal identified as System clock which controls 2 sequential elements including AERReqSyncxSBN.  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance.</Dynamic>
+                    <Navigation>MT531</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>680</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>680</Navigation>
+                    <Navigation>5</Navigation>
+                    <Navigation>Found signal identified as System clock which controls 2 sequential elements including AERReqSyncxSBN.  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance. </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO129 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\synchronizerstatemachine.vhd":174:6:174:23|Sequential instance uSynchronizerStateMachine_1.StatexDP[1] reduced to a combinational gate by constant propagation</Text>
+                    <Dynamic>MO129 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\synchronizerstatemachine.vhd":174:6:174:23|Sequential instance uSynchronizerStateMachine_1.StatexDP[1] reduced to a combinational gate by constant propagation</Dynamic>
+                    <Navigation>MO129</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\synchronizerstatemachine.vhd</Navigation>
+                    <Navigation>174</Navigation>
+                    <Navigation>6</Navigation>
+                    <Navigation>174</Navigation>
+                    <Navigation>23</Navigation>
+                    <Navigation>Sequential instance uSynchronizerStateMachine_1.StatexDP[1] reduced to a combinational gate by constant propagation</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO129 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\synchronizerstatemachine.vhd":197:6:197:28|Sequential instance uSynchronizerStateMachine_1.StatexDP[0] reduced to a combinational gate by constant propagation</Text>
+                    <Dynamic>MO129 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\synchronizerstatemachine.vhd":197:6:197:28|Sequential instance uSynchronizerStateMachine_1.StatexDP[0] reduced to a combinational gate by constant propagation</Dynamic>
+                    <Navigation>MO129</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\synchronizerstatemachine.vhd</Navigation>
+                    <Navigation>197</Navigation>
+                    <Navigation>6</Navigation>
+                    <Navigation>197</Navigation>
+                    <Navigation>28</Navigation>
+                    <Navigation>Sequential instance uSynchronizerStateMachine_1.StatexDP[0] reduced to a combinational gate by constant propagation</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_1_.un1[0] on net DebugxSIO[1] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_1_.un1[0] on net DebugxSIO[1] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_1_.un1[0] on net DebugxSIO[1] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_2_.un1[0] on net DebugxSIO[2] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_2_.un1[0] on net DebugxSIO[2] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_2_.un1[0] on net DebugxSIO[2] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_3_.un1[0] on net DebugxSIO[3] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_3_.un1[0] on net DebugxSIO[3] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_3_.un1[0] on net DebugxSIO[3] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_4_.un1[0] on net DebugxSIO[4] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_4_.un1[0] on net DebugxSIO[4] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_4_.un1[0] on net DebugxSIO[4] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_5_.un1[0] on net DebugxSIO[5] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_5_.un1[0] on net DebugxSIO[5] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_5_.un1[0] on net DebugxSIO[5] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_6_.un1[0] on net DebugxSIO[6] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_6_.un1[0] on net DebugxSIO[6] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_6_.un1[0] on net DebugxSIO[6] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_7_.un1[0] on net DebugxSIO[7] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_7_.un1[0] on net DebugxSIO[7] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_7_.un1[0] on net DebugxSIO[7] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_8_.un1[0] on net DebugxSIO[8] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_8_.un1[0] on net DebugxSIO[8] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_8_.un1[0] on net DebugxSIO[8] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_9_.un1[0] on net DebugxSIO[9] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_9_.un1[0] on net DebugxSIO[9] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_9_.un1[0] on net DebugxSIO[9] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_10_.un1[0] on net DebugxSIO[10] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_10_.un1[0] on net DebugxSIO[10] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_10_.un1[0] on net DebugxSIO[10] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_11_.un1[0] on net DebugxSIO[11] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_11_.un1[0] on net DebugxSIO[11] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_11_.un1[0] on net DebugxSIO[11] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_12_.un1[0] on net DebugxSIO[12] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_12_.un1[0] on net DebugxSIO[12] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_12_.un1[0] on net DebugxSIO[12] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_13_.un1[0] on net DebugxSIO[13] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_13_.un1[0] on net DebugxSIO[13] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_13_.un1[0] on net DebugxSIO[13] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_14_.un1[0] on net DebugxSIO[14] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_14_.un1[0] on net DebugxSIO[14] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_14_.un1[0] on net DebugxSIO[14] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_15_.un1[0] on net DebugxSIO[15] has its enable tied to GND (module USBAER_top_level)</Text>
+                    <Dynamic>MO111 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd":94:4:94:12|Tristate driver DebugxSIO_obuft_15_.un1[0] on net DebugxSIO[15] has its enable tied to GND (module USBAER_top_level)</Dynamic>
+                    <Navigation>MO111</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\usbaer_top_level.vhd</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>4</Navigation>
+                    <Navigation>94</Navigation>
+                    <Navigation>12</Navigation>
+                    <Navigation>Tristate driver DebugxSIO_obuft_15_.un1[0] on net DebugxSIO[15] has its enable tied to GND (module USBAER_top_level) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019993</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - @W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC2xSIO" not forward annotated in -lpf file.</Text>
+                    <Dynamic>@W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC2xSIO" not forward annotated in -lpf file.</Dynamic>
+                    <Navigation/>
+                    <Navigation>Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC2xSIO" not forward annotated in -lpf file. </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019993</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - @W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC1xSIO" not forward annotated in -lpf file.</Text>
+                    <Dynamic>@W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC1xSIO" not forward annotated in -lpf file.</Dynamic>
+                    <Navigation/>
+                    <Navigation>Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC1xSIO" not forward annotated in -lpf file. </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019993</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - @W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|IfClockxCI" not forward annotated in -lpf file.</Text>
+                    <Dynamic>@W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|IfClockxCI" not forward annotated in -lpf file.</Dynamic>
+                    <Navigation/>
+                    <Navigation>Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|IfClockxCI" not forward annotated in -lpf file. </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019993</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - @W|Block-path constraint from PORT "USBAER_top_level|PC2xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file.</Text>
+                    <Dynamic>@W|Block-path constraint from PORT "USBAER_top_level|PC2xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file.</Dynamic>
+                    <Navigation/>
+                    <Navigation>Block-path constraint from PORT "USBAER_top_level|PC2xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file. </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019993</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - @W|Block-path constraint from PORT "USBAER_top_level|PC1xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file.</Text>
+                    <Dynamic>@W|Block-path constraint from PORT "USBAER_top_level|PC1xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file.</Dynamic>
+                    <Navigation/>
+                    <Navigation>Block-path constraint from PORT "USBAER_top_level|PC1xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file. </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019993</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - @W|Block-path constraint from PORT "USBAER_top_level|IfClockxCI" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file.</Text>
+                    <Dynamic>@W|Block-path constraint from PORT "USBAER_top_level|IfClockxCI" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file.</Dynamic>
+                    <Navigation/>
+                    <Navigation>Block-path constraint from PORT "USBAER_top_level|IfClockxCI" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file. </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MT246 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\aerfifo.vhd":65:1:65:11|Blackbox pmi_fifo_dc_work_usbaer_top_level_structural_0 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results)</Text>
+                    <Dynamic>MT246 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\aerfifo.vhd":65:1:65:11|Blackbox pmi_fifo_dc_work_usbaer_top_level_structural_0 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results)</Dynamic>
+                    <Navigation>MT246</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\aerfifo.vhd</Navigation>
+                    <Navigation>65</Navigation>
+                    <Navigation>1</Navigation>
+                    <Navigation>65</Navigation>
+                    <Navigation>11</Navigation>
+                    <Navigation>Blackbox pmi_fifo_dc_work_usbaer_top_level_structural_0 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019991</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MT246 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\clockgen.vhd":54:1:54:10|Blackbox pmi_pll is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results)</Text>
+                    <Dynamic>MT246 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\clockgen.vhd":54:1:54:10|Blackbox pmi_pll is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results)</Dynamic>
+                    <Navigation>MT246</Navigation>
+                    <Navigation>e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\clockgen.vhd</Navigation>
+                    <Navigation>54</Navigation>
+                    <Navigation>1</Navigation>
+                    <Navigation>54</Navigation>
+                    <Navigation>10</Navigation>
+                    <Navigation>Blackbox pmi_pll is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) </Navigation>
+                </Message>
+                <Message>
+                    <ID>2019993</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 4.85ns. Please declare a user-defined clock on object "p:IfClockxCI"</Text>
+                    <Dynamic>MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 4.85ns. Please declare a user-defined clock on object "p:IfClockxCI"</Dynamic>
+                    <Navigation>MT420</Navigation>
+                    <Navigation>Found inferred clock USBAER_top_level|IfClockxCI with period 4.85ns. Please declare a user-defined clock on object "p:IfClockxCI"</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019993</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MT420 |Found inferred clock USBAER_top_level|PC1xSIO with period 1.00ns. Please declare a user-defined clock on object "p:PC1xSIO"</Text>
+                    <Dynamic>MT420 |Found inferred clock USBAER_top_level|PC1xSIO with period 1.00ns. Please declare a user-defined clock on object "p:PC1xSIO"</Dynamic>
+                    <Navigation>MT420</Navigation>
+                    <Navigation>Found inferred clock USBAER_top_level|PC1xSIO with period 1.00ns. Please declare a user-defined clock on object "p:PC1xSIO"</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019993</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MT420 |Found inferred clock USBAER_top_level|PC2xSIO with period 1000.00ns. Please declare a user-defined clock on object "p:PC2xSIO"</Text>
+                    <Dynamic>MT420 |Found inferred clock USBAER_top_level|PC2xSIO with period 1000.00ns. Please declare a user-defined clock on object "p:PC2xSIO"</Dynamic>
+                    <Navigation>MT420</Navigation>
+                    <Navigation>Found inferred clock USBAER_top_level|PC2xSIO with period 1000.00ns. Please declare a user-defined clock on object "p:PC2xSIO"</Navigation>
+                </Message>
+                <Message>
+                    <ID>2019993</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - MT420 |Found inferred clock clockgen|CLKOP_inferred_clock with period 3.71ns. Please declare a user-defined clock on object "n:uClockGen.CLKOP"</Text>
+                    <Dynamic>MT420 |Found inferred clock clockgen|CLKOP_inferred_clock with period 3.71ns. Please declare a user-defined clock on object "n:uClockGen.CLKOP"</Dynamic>
+                    <Navigation>MT420</Navigation>
+                    <Navigation>Found inferred clock clockgen|CLKOP_inferred_clock with period 3.71ns. Please declare a user-defined clock on object "n:uClockGen.CLKOP"</Navigation>
+                </Message>
+            </Engine>
+        </Task>
+    </Milestone>
+    <Milestone name="Translate">
+        <Task name="Translate">
+            <Engine name="edif2ngd"/>
+            <Engine name="ngdbuild">
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/CountColxDP_cry_0_S0[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/CountColxDP_cry_0_S0[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/CountColxDP_s_0_COUT[17]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/CountColxDP_s_0_COUT[17]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/CountColxDP_s_0_S1[17]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/CountColxDP_s_0_S1[17]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/CountRowxDP_cry_0_S0[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/CountRowxDP_cry_0_S0[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/CountRowxDP_s_0_COUT[7]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/CountRowxDP_s_0_COUT[7]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/CountRowxDP_s_0_S1[7]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/CountRowxDP_s_0_S1[7]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/DividerRowxDP_cry_0_S0[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/DividerRowxDP_cry_0_S0[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/DividerRowxDP_cry_0_COUT[15]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/DividerRowxDP_cry_0_COUT[15]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/DividerColxDP_cry_0_S0[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/DividerColxDP_cry_0_S0[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/DividerColxDP_cry_0_COUT[31]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/DividerColxDP_cry_0_COUT[31]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_0_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_0_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_0_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_0_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_1_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_1_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_1_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_1_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_3_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_3_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_3_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_3_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_5_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_5_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_5_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_5_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_7_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_7_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_7_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_7_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_9_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_9_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_9_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_9_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_11_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_11_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_11_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_11_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_13_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_13_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_13_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_13_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_15_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_15_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_15_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_15_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_16_0_COUT' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_16_0_COUT</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_1_cry_16_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_1_cry_16_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_0_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_0_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_0_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_0_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_1_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_1_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_1_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_1_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_3_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_3_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_3_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_3_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_5_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_5_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_5_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_5_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_7_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_7_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_7_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_7_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_9_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_9_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_9_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_9_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_11_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_11_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_11_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_11_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_13_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_13_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_13_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_13_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_15_0_S0' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_15_0_S0</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_15_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_15_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_16_0_COUT' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_16_0_COUT</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerRowxDP_cry_16_0_S1' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerRowxDP_cry_16_0_S1</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[1]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[1]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[1]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[1]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[3]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[3]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[3]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[3]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[5]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[5]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[5]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[5]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[7]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[7]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[7]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[7]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[9]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[9]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[9]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[9]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[11]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[11]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[11]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[11]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[13]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[13]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[13]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[13]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[15]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[15]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[15]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[15]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[17]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[17]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[17]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[17]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[21]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[21]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[21]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[21]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[25]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[25]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[25]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[25]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[29]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[29]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[29]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[29]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_COUT[31]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_COUT[31]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[31]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[31]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[3]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[3]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[3]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[3]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[4]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[4]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[4]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[4]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[6]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[6]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[6]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[6]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[8]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[8]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[8]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[8]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[10]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[10]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[10]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[10]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[12]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[12]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[12]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[12]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[14]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[14]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[14]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[14]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[16]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[16]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[16]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[16]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[19]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[19]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[19]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[19]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[23]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[23]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[23]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[23]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[27]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[27]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[27]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[27]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_COUT[31]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_COUT[31]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[31]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[31]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[1]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[1]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[1]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[1]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[3]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[3]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[3]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[3]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[5]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[5]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[5]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[5]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[7]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[7]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[7]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[7]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[9]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[9]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[9]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[9]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[11]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[11]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[11]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[11]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[13]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[13]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[13]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[13]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[15]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[15]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[15]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[15]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[17]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[17]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[17]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[17]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[21]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[21]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[21]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[21]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[25]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[25]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[25]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[25]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[29]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[29]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[29]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[29]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_COUT[31]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_COUT[31]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[31]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[31]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'monitorStateMachine_1/CountxDP_cry_0_S0_1[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>monitorStateMachine_1/CountxDP_cry_0_S0_1[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'monitorStateMachine_1/CountxDP_s_0_COUT[7]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>monitorStateMachine_1/CountxDP_s_0_COUT[7]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'monitorStateMachine_1/CountxDP_s_0_S1[7]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>monitorStateMachine_1/CountxDP_s_0_S1[7]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'monitorStateMachine_1/TimestampOverflowxDP_cry_0_S0[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>monitorStateMachine_1/TimestampOverflowxDP_cry_0_S0[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'monitorStateMachine_1/TimestampOverflowxDP_s_0_COUT[15]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>monitorStateMachine_1/TimestampOverflowxDP_s_0_COUT[15]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'monitorStateMachine_1/TimestampOverflowxDP_s_0_S1[15]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>monitorStateMachine_1/TimestampOverflowxDP_s_0_S1[15]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uSynchronizerStateMachine_1/DividerxDP_cry_0_S0[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uSynchronizerStateMachine_1/DividerxDP_cry_0_S0[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uSynchronizerStateMachine_1/DividerxDP_cry_0_COUT[5]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uSynchronizerStateMachine_1/DividerxDP_cry_0_COUT[5]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uSynchronizerStateMachine_1/CounterxDP_cry_0_S0[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uSynchronizerStateMachine_1/CounterxDP_cry_0_S0[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uSynchronizerStateMachine_1/CounterxDP_s_0_COUT[13]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uSynchronizerStateMachine_1/CounterxDP_s_0_COUT[13]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uSynchronizerStateMachine_1/CounterxDP_s_0_S1[13]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uSynchronizerStateMachine_1/CounterxDP_s_0_S1[13]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uTimestampCounter/CountxDP_cry_s1_0_S0[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uTimestampCounter/CountxDP_cry_s1_0_S0[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uTimestampCounter/CountxDP_cry_s1_0_COUT[13]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uTimestampCounter/CountxDP_cry_s1_0_COUT[13]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uEventCounter/CountxDP_cry_0_S0_0[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uEventCounter/CountxDP_cry_0_S0_0[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uEventCounter/CountxDP_cry_0_COUT[7]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uEventCounter/CountxDP_cry_0_COUT[7]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uEarlyPaketTimer/CountxDP_cry_0_S0[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uEarlyPaketTimer/CountxDP_cry_0_S0[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uEarlyPaketTimer/CountxDP_cry_0_COUT[19]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uEarlyPaketTimer/CountxDP_cry_0_COUT[19]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uFifo/AlmostEmpty' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uFifo/AlmostEmpty</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uFifo/AlmostFull' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uFifo/AlmostFull</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uClockGen/CLKOS' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uClockGen/CLKOS</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uClockGen/CLKOK' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uClockGen/CLKOK</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uClockGen/CLKOK2' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uClockGen/CLKOK2</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'uClockGen/LOCK' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>uClockGen/LOCK</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'FXLEDxSI' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>FXLEDxSI</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCovrxSI' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCovrxSI</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1163101</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - DRC complete with 155 warnings</Text>
+                    <Dynamic>155</Dynamic>
+                </Message>
+            </Engine>
+        </Task>
+    </Milestone>
+    <Milestone name="Map">
+        <Task name="Map">
+            <Engine name="map">
+                <Message>
+                    <ID>1101161</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf(139): Semantic error in "OUTPUT PORT "SynchOutxSO" LOAD 1.000000 pF ;": SynchOutxSO matches no ports in the design.  Disable this preference.</Text>
+                    <Dynamic>E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf(139): Semantic error in "OUTPUT PORT "SynchOutxSO" LOAD 1.000000 pF ;": </Dynamic>
+                    <Dynamic>SynchOutxSO matches no ports in the design. </Dynamic>
+                    <Navigation>E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf</Navigation>
+                    <Navigation>139</Navigation>
+                </Message>
+                <Message>
+                    <ID>1100641</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf(176): Semantic error in "IOBUF PORT "AERMonitorACKxSBO" IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=14 ;": Key DRIVE=14 is not supported for this device. Default value NA will be used. 
+ Disabled this preference.</Text>
+                    <Dynamic>E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf(176): Semantic error in "IOBUF PORT "AERMonitorACKxSBO" IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=14 ;": </Dynamic>
+                    <Dynamic>Key DRIVE=14 is not supported for this device. Default value NA will be used. 
+</Dynamic>
+                    <Navigation>E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf</Navigation>
+                    <Navigation>176</Navigation>
+                </Message>
+                <Message>
+                    <ID>1100679</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf(76): Semantic error in "LOCATE COMP "FX2FifoInEmptyxSBI" SITE "B13" ;": COMP "FX2FifoInEmptyxSBI" not found in design. Disable this preference.</Text>
+                    <Dynamic>E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf(76): Semantic error in "LOCATE COMP "FX2FifoInEmptyxSBI" SITE "B13" ;": </Dynamic>
+                    <Dynamic>FX2FifoInEmptyxSBI</Dynamic>
+                    <Navigation>E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf</Navigation>
+                    <Navigation>76</Navigation>
+                </Message>
+                <Message>
+                    <ID>1104062</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - Preference parsing results:  3 syntax errors detected</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>3</Dynamic>
+                    <Dynamic>s</Dynamic>
+                </Message>
+                <Message>
+                    <ID>51001149</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - There are errors in the preference file, "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf".</Text>
+                    <Dynamic>E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf</Dynamic>
+                </Message>
+                <Message>
+                    <ID>51001030</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - Using local reset signal 'ResetxRBI_c' to infer global GSR net.</Text>
+                    <Dynamic>ResetxRBI_c</Dynamic>
+                </Message>
+                <Message>
+                    <ID>51001046</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - IO buffer missing for top level port FXLEDxSI...logic will be discarded.</Text>
+                    <Dynamic>FXLEDxSI</Dynamic>
+                </Message>
+                <Message>
+                    <ID>51001046</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - IO buffer missing for top level port ADCovrxSI...logic will be discarded.</Text>
+                    <Dynamic>ADCovrxSI</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "ADCwordxDI[3]" has been assigned to PIN "E15", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>ADCwordxDI[3]</Dynamic>
+                    <Dynamic>E15</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "ADCwordxDI[2]" has been assigned to PIN "E16", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>ADCwordxDI[2]</Dynamic>
+                    <Dynamic>E16</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "ADCwordxDI[1]" has been assigned to PIN "D16", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>ADCwordxDI[1]</Dynamic>
+                    <Dynamic>D16</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "FX2FifoAddressxDO[1]" has been assigned to PIN "H14", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>FX2FifoAddressxDO[1]</Dynamic>
+                    <Dynamic>H14</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "FX2FifoAddressxDO[0]" has been assigned to PIN "F14", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>FX2FifoAddressxDO[0]</Dynamic>
+                    <Dynamic>F14</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "FX2FifoWritexEBO" has been assigned to PIN "H13", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>FX2FifoWritexEBO</Dynamic>
+                    <Dynamic>H13</Dynamic>
+                </Message>
+            </Engine>
+        </Task>
+    </Milestone>
+    <Milestone name="PAR">
+        <Task name="PAR">
+            <Engine name="mpartrce">
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "ADCwordxDI[3]" has been assigned to PIN "E15", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>ADCwordxDI[3]</Dynamic>
+                    <Dynamic>E15</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "ADCwordxDI[2]" has been assigned to PIN "E16", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>ADCwordxDI[2]</Dynamic>
+                    <Dynamic>E16</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "ADCwordxDI[1]" has been assigned to PIN "D16", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>ADCwordxDI[1]</Dynamic>
+                    <Dynamic>D16</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "FX2FifoAddressxDO[1]" has been assigned to PIN "H14", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>FX2FifoAddressxDO[1]</Dynamic>
+                    <Dynamic>H14</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "FX2FifoAddressxDO[0]" has been assigned to PIN "F14", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>FX2FifoAddressxDO[0]</Dynamic>
+                    <Dynamic>F14</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "FX2FifoWritexEBO" has been assigned to PIN "H13", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>FX2FifoWritexEBO</Dynamic>
+                    <Dynamic>H13</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1104062</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - Preference parsing results:  6 syntax errors detected</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>6</Dynamic>
+                    <Dynamic>s</Dynamic>
+                </Message>
+                <Message>
+                    <ID>71141105</ID>
+                    <Severity>Error</Severity>
+                    <Text>ERROR - chipcheck: output PIO comp FX2FifoPktEndxSBO is placed on an input only site L14.</Text>
+                    <Dynamic>FX2FifoPktEndxSBO</Dynamic>
+                    <Dynamic>L14</Dynamic>
+                </Message>
+                <Message>
+                    <ID>71141105</ID>
+                    <Severity>Error</Severity>
+                    <Text>ERROR - chipcheck: output PIO comp FX2FifoReadxEBO is placed on an input only site K14.</Text>
+                    <Dynamic>FX2FifoReadxEBO</Dynamic>
+                    <Dynamic>K14</Dynamic>
+                </Message>
+            </Engine>
+        </Task>
+    </Milestone>
+</BaliMessageLog>

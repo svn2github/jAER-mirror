@@ -1,0 +1,4 @@
+CKID0001:@|S:uClockGen.PLLCInst_0@|E:AERREQxSB@|F:@syn_sample_clock_path==CKID0001@|M:ClockId0001
+CKID0002:@|S:IfClockxCI@|E:uADCRegister_StatexDPio[0]@|F:@syn_sample_clock_path==CKID0002@|M:ClockId0002
+CKID0003:@|S:PC2xSIO@|E:shiftRegister_1.DataOutxDO[0]@|F:@syn_sample_clock_path==CKID0003@|M:ClockId0003
+CKID0004:@|S:PC1xSIO@|E:shiftRegister_1_StatexDio[0]@|F:@syn_sample_clock_path==CKID0004@|M:ClockId0004

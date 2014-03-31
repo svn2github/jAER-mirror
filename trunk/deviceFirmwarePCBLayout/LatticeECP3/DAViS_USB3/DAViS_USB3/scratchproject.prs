@@ -1,43 +1,31 @@
 #--  Synopsys, Inc.
-#--  Version I-2013.09L 
-#--  Project file C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\scratchproject.prs
+#--  Version H-2013.03L 
+#--  Project file E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\scratchproject.prs
 
 #project files
-add_file -vhdl -lib work "C:/lscc/diamond/3.1_x64/cae_library/synthesis/vhdl/ecp3.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/synchronizerStateMachine.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/USBAER_top_level.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/ADCStateMachine.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/AERfifo.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/cDVSResetStateMachine.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/clockgen.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/earlyPaketTimer.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/eventCounter.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/fifoStatemachine.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/monitorStateMachine.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/timestampCounter.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/ADCvalueReady.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/EventBeforeOverflow.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/shiftRegister.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/wordRegister.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/FIFO.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/fifo_tb.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/TN_interface.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/BadCore_TN.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/AERFiFo_TN.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/AERFiFo_TN_tmpl.vhd"
-add_file -vhdl -lib work "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/tb_AERFiFo_TN_tmpl.vhd"
-
+add_file -vhdl -lib work "C:/lscc/diamond/3.0_x64/cae_library/synthesis/vhdl/ecp3.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/synchronizerStateMachine.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/ADCStateMachine.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/cDVSResetStateMachine.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/earlyPaketTimer.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/eventCounter.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/fifoStatemachine.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/monitorStateMachine.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/timestampCounter.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/AERfifo.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/clockgen.vhd"
+add_file -vhdl -lib work "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/source/USBAER_top_level.vhd"
 
 
 #implementation: "DAViS_USB3"
-impl -add C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3 -type fpga
+impl -add E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3 -type fpga
 
 #
 #implementation attributes
 
 set_option -vlog_std v2001
 set_option -project_relative_includes 1
-set_option -include_path {C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/}
+set_option -include_path {E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/}
 
 #device options
 set_option -technology LATTICE-ECP3
@@ -47,7 +35,7 @@ set_option -speed_grade -7
 set_option -part_companion ""
 
 #compilation/mapping options
-set_option -top_module "tb"
+set_option -top_module "USBAER_top_level"
 
 # mapper_options
 set_option -frequency auto
@@ -78,8 +66,8 @@ set_option -multi_file_compilation_unit 1
 set_option -write_apr_constraint 1
 
 #set result format/file last
-project -result_file "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/DAViS_USB3_DAViS_USB3.edi"
+project -result_file "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/DAViS_USB3_DAViS_USB3.edi"
 
 #set log file 
-set_option log_file "C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/DAViS_USB3_DAViS_USB3.srf" 
+set_option log_file "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/DAViS_USB3_DAViS_USB3.srf" 
 impl -active "DAViS_USB3"

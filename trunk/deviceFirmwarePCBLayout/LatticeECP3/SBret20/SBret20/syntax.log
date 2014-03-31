@@ -1,0 +1,21 @@
+#Build: Synplify Pro H-2013.03L , Build 003R, Jul  1 2013
+#install: C:\lscc\diamond\3.0_x64\synpbase
+#OS: Windows 7 6.1
+#Hostname: LATTICED-PC
+
+$ Start of Compile
+#Mon Mar 31 12:35:28 2014
+
+Synopsys VHDL Compiler, version comp201303rcp1, Build 182R, built Jul  1 2013
+@N|Running in 64-bit mode
+Copyright (C) 1994-2013 Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
+
+@N: CD720 :"C:\lscc\diamond\3.0_x64\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+
+At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 73MB peak: 74MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Mar 31 12:35:28 2014
+
+###########################################################]

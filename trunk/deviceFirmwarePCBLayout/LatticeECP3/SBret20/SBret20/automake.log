@@ -1,0 +1,224 @@
+
+map -a "LatticeECP3" -p LFE3-17EA -t FTBGA256 -s 7 -oc Industrial   "SBret20_SBret20.ngd" -o "SBret20_SBret20_map.ncd" -pr "SBret20_SBret20.prf" -mp "SBret20_SBret20.mrp" "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf"             
+map:  version Diamond (64-bit) 3.0.0.97
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
+   Process the file: SBret20_SBret20.ngd
+   Picdevice="LFE3-17EA"
+
+   Pictype="FTBGA256"
+
+   Picspeed=7
+
+   Remove unused logic
+
+   Do not produce over sized NCDs.
+
+Part used: LFE3-17EAFTBGA256, Performance used: 7.
+
+    <postMsg mid="1101161" type="Warning" dynamic="2" navigation="2" arg0="E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf(139): Semantic error in &quot;OUTPUT PORT &quot;SynchOutxSO&quot; LOAD 1.000000 pF ;&quot;: " arg1="SynchOutxSO matches no ports in the design. " arg2="E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf" arg3="139"  />
+    <postMsg mid="1100641" type="Warning" dynamic="2" navigation="2" arg0="E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf(176): Semantic error in &quot;IOBUF PORT &quot;AERMonitorACKxSBO&quot; IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=14 ;&quot;: " arg1="Key DRIVE=14 is not supported for this device. Default value NA will be used. &#xA;" arg2="E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf" arg3="176"  />
+    <postMsg mid="1100679" type="Warning" dynamic="2" navigation="2" arg0="E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf(76): Semantic error in &quot;LOCATE COMP &quot;FX2FifoInEmptyxSBI&quot; SITE &quot;B13&quot; ;&quot;: " arg1="FX2FifoInEmptyxSBI" arg2="E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf" arg3="76"  />
+    <postMsg mid="1104062" type="Warning" dynamic="3" navigation="0" arg0="" arg1="3" arg2="s"  />
+    <postMsg mid="51001149" type="Warning" dynamic="1" navigation="0" arg0="E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf"  />
+Loading device for application map from file 'ec5a53x56.nph' in environment: C:/lscc/diamond/3.0_x64/ispfpga.
+Package Status:                     Final          Version 1.39
+Running general design DRC...
+
+Removing unused logic...
+
+Optimizing...
+
+550 CCU2 constant inputs absorbed.
+
+logic VCC cell ADCStateMachine_1/VCC is replaced by device VCC cell VCC_INST
+
+logic VCC cell monitorStateMachine_1/VCC is replaced by device VCC cell VCC_INST
+
+logic VCC cell uSynchronizerStateMachine_1/VCC is replaced by device VCC cell VCC_INST
+
+logic VCC cell uTimestampCounter/VCC is replaced by device VCC cell VCC_INST
+
+logic VCC cell uEventCounter/VCC is replaced by device VCC cell VCC_INST
+
+logic VCC cell uEarlyPaketTimer/VCC is replaced by device VCC cell VCC_INST
+
+logic VCC cell VCC is replaced by device VCC cell VCC_INST
+
+    <postMsg mid="51001030" type="Warning" dynamic="1" navigation="0" arg0="ResetxRBI_c"  />
+    <postMsg mid="51001046" type="Warning" dynamic="1" navigation="0" arg0="FXLEDxSI"  />
+    <postMsg mid="51001046" type="Warning" dynamic="1" navigation="0" arg0="ADCovrxSI"  />
+
+
+
+Design Summary:
+   Number of registers:    491
+      PFU registers:    466
+      PIO registers:    25
+   Number of SLICEs:           524 out of  8640 (6%)
+      SLICEs(logic/ROM):       500 out of  6948 (7%)
+      SLICEs(logic/ROM/RAM):    24 out of  1692 (1%)
+          As RAM:           24 out of  1692 (1%)
+          As Logic/ROM:      0 out of  1692 (0%)
+   Number of logic LUT4s:     409
+   Number of distributed RAM:  24 (48 LUT4s)
+   Number of ripple logic:    169 (338 LUT4s)
+   Number of shift registers:   0
+   Total number of LUT4s:     795
+   Number of PIO sites used: 92 out of 133 (69%)
+   Number of PIO FIXEDDELAY:    0
+   Number of PCS (SerDes):  0 out of 1 (0%) with bonded PIO sites
+   Number of DQSDLLs:  0 out of 2 (0%)
+   Number of PLLs:  1 out of 2 (50%)
+   Number of DLLs:  0 out of 2 (0%)
+   Number of block RAMs:  0 out of 38 (0%)
+   Number of CLKDIVs:  0 out of 2 (0%)
+   Number of GSRs:  1 out of 1 (100%)
+   JTAG used :      No
+   Readback used :  No
+   Oscillator used :  No
+   Startup used :   No
+   Notes:-
+      1. Total number of LUT4s = (Number of logic LUT4s) + 2*(Number of distributed RAMs) + 2*(Number of ripple logic)
+      2. Number of logic LUT4s does not include count of distributed RAM and ripple logic.
+
+   Number Of Mapped DSP Components:
+   --------------------------------
+   MULT18X18C          0
+   MULT9X9C            0
+   ALU54A              0
+   ALU24A              0
+   --------------------------------
+   Number of Used DSP MULT Sites:  0 out of 48 (0 %)
+   Number of Used DSP ALU Sites:  0 out of 24 (0 %)
+   Number of clocks:  4
+     Net ClockxC_c: 108 loads, 108 rising, 0 falling (Driver: uClockGen/PLLCInst_0/PLLInst_0 )
+     Net IfClockxCI_c: 96 loads, 94 rising, 2 falling (Driver: PIO IfClockxCI )
+     Net PC1xSIO_c: 41 loads, 41 rising, 0 falling (Driver: PIO PC1xSIO )
+     Net PC2xSIO_c: 40 loads, 0 rising, 40 falling (Driver: PIO PC2xSIO )
+   Number of Clock Enables:  14
+     Net ADCStateMachine_1/N_145_i: 10 loads, 10 LSLICEs
+     Net ADCStateMachine_1/un1_StateRowxDP_3_0_a2_0_a2: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_1/DividerRowxDPe: 9 loads, 9 LSLICEs
+     Net ADCStateMachine_1/DividerColxDPe: 4 loads, 4 LSLICEs
+     Net ADCStateMachine_1/CountRowxDPe: 5 loads, 5 LSLICEs
+     Net N_152_i: 12 loads, 2 LSLICEs
+     Net monitorStateMachine_1.N_288_i: 7 loads, 7 LSLICEs
+     Net AddressRegWritexEO_i_i_a2: 10 loads, 0 LSLICEs
+     Net uEarlyPaketTimer.CountxDPe: 11 loads, 11 LSLICEs
+     Net uSynchronizerStateMachine_1/CounterxDPe: 7 loads, 7 LSLICEs
+     Net uTimestampCounter/CountxDPce[0]: 8 loads, 8 LSLICEs
+     Net uEventCounter/CountxDPe: 5 loads, 5 LSLICEs
+     Net uFifo/AERfifo_0_1/wren_i: 9 loads, 9 LSLICEs
+     Net uFifo/AERfifo_0_1/rden_i: 17 loads, 17 LSLICEs
+   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  373
+   Number of LSRs:  4
+     Net ADCStateMachine_1.ResetxRB_i: 56 loads, 54 LSLICEs
+     Net StatexDP_ns_i_o3_d_d_0_RNIHJH93[1]: 9 loads, 9 LSLICEs
+     Net uFifo/AERfifo_0_1/dec1_wre7: 4 loads, 4 LSLICEs
+     Net uFifo/AERfifo_0_1/dec0_wre3: 4 loads, 4 LSLICEs
+   Number of nets driven by tri-state buffers:  0
+   Top 10 highest fanout non-clock nets:
+     Net ADCStateMachine_1/VCC: 236 loads
+     Net ADCStateMachine_1.ResetxRB_i: 56 loads
+     Net ADCStateMachine_1/N_129: 35 loads
+     Net ADCStateMachine_1/N_59: 35 loads
+     Net ADCStateMachine_1/N_207: 34 loads
+     Net uEventCounter.p_memoryless.op_eq.countxdn15_5: 32 loads
+     Net uEventCounter.p_memoryless.op_eq.countxdn15_6: 32 loads
+     Net uFifo/AERfifo_0_1/rptr_0: 32 loads
+     Net uFifo/AERfifo_0_1/rptr_1: 32 loads
+     Net uFifo/AERfifo_0_1/rptr_2: 32 loads
+    <postMsg mid="1103808" type="Warning" dynamic="3" navigation="0" arg0="" arg1="ADCwordxDI[3]" arg2="E15"  />
+    <postMsg mid="1103808" type="Warning" dynamic="3" navigation="0" arg0="" arg1="ADCwordxDI[2]" arg2="E16"  />
+    <postMsg mid="1103808" type="Warning" dynamic="3" navigation="0" arg0="" arg1="ADCwordxDI[1]" arg2="D16"  />
+    <postMsg mid="1103808" type="Warning" dynamic="3" navigation="0" arg0="" arg1="FX2FifoAddressxDO[1]" arg2="H14"  />
+    <postMsg mid="1103808" type="Warning" dynamic="3" navigation="0" arg0="" arg1="FX2FifoAddressxDO[0]" arg2="F14"  />
+    <postMsg mid="1103808" type="Warning" dynamic="3" navigation="0" arg0="" arg1="FX2FifoWritexEBO" arg2="H13"  />
+ 
+
+   Number of warnings:  14
+   Number of errors:    0
+
+
+
+Total CPU Time: 0 secs  
+Total REAL Time: 0 secs  
+Peak Memory Usage: 109 MB
+
+Dumping design to file SBret20_SBret20_map.ncd.
+
+mpartrce -p "SBret20_SBret20.p2t" -f "SBret20_SBret20.p3t" -tf "SBret20_SBret20.pt" "SBret20_SBret20_map.ncd" "SBret20_SBret20.ncd"
+
+---- MParTrce Tool ----
+Removing old design directory at request of -rem command line option to this program.
+Running par. Please wait . . .
+
+Lattice Place and Route Report for Design "SBret20_SBret20_map.ncd"
+Mon Mar 31 12:35:47 2014
+
+PAR: Place And Route Diamond (64-bit) 3.0.0.97.
+Command Line: par -w -l 5 -i 6 -t 1 -c 0 -e 0 -gui -exp parUseNBR=1:parCDP=auto:parCDR=1:parPathBased=OFF SBret20_SBret20_map.ncd SBret20_SBret20.dir/5_1.ncd SBret20_SBret20.prf
+Preference file: SBret20_SBret20.prf.
+Placement level-cost: 5-1.
+Routing Iterations: 6
+
+Loading design for application par from file SBret20_SBret20_map.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LFE3-17EA
+Package:     FTBGA256
+Performance: 7
+Loading device for application par from file 'ec5a53x56.nph' in environment: C:/lscc/diamond/3.0_x64/ispfpga.
+Package Status:                     Final          Version 1.39
+Performance Hardware Data Status:   Final          Version 35.22
+License checked out.
+
+
+Ignore Preference Error(s):  True
+    <postMsg mid="1103808" type="Warning" dynamic="3" navigation="0" arg0="" arg1="ADCwordxDI[3]" arg2="E15"  />
+    <postMsg mid="1103808" type="Warning" dynamic="3" navigation="0" arg0="" arg1="ADCwordxDI[2]" arg2="E16"  />
+    <postMsg mid="1103808" type="Warning" dynamic="3" navigation="0" arg0="" arg1="ADCwordxDI[1]" arg2="D16"  />
+    <postMsg mid="1103808" type="Warning" dynamic="3" navigation="0" arg0="" arg1="FX2FifoAddressxDO[1]" arg2="H14"  />
+    <postMsg mid="1103808" type="Warning" dynamic="3" navigation="0" arg0="" arg1="FX2FifoAddressxDO[0]" arg2="F14"  />
+    <postMsg mid="1103808" type="Warning" dynamic="3" navigation="0" arg0="" arg1="FX2FifoWritexEBO" arg2="H13"  />
+    <postMsg mid="1104062" type="Warning" dynamic="3" navigation="0" arg0="" arg1="6" arg2="s"  />
+Device utilization summary:
+
+   PIO (prelim)      92/228          40% used
+                     92/133          69% bonded
+   IOLOGIC           25/224          11% used
+
+   SLICE            524/8640          6% used
+
+   GSR                1/1           100% used
+   PLL                1/2            50% used
+
+
+    <postMsg mid="71141105" type="Error"   dynamic="2" navigation="0" arg0="FX2FifoPktEndxSBO" arg1="L14"  />
+    <postMsg mid="71141105" type="Error"   dynamic="2" navigation="0" arg0="FX2FifoReadxEBO" arg1="K14"  />
+PAR will exit now due to DRC error(s) detected.
+PAR_SUMMARY::Run status = unknown
+PAR_SUMMARY::Number of unrouted conns = <n/a>
+PAR_SUMMARY::Worst  slack<setup/<ns>> = <n/a>
+PAR_SUMMARY::Timing score<setup/<ns>> = <n/a>
+PAR_SUMMARY::Worst  slack<hold /<ns>> = <n/a>
+PAR_SUMMARY::Timing score<hold /<ns>> = <n/a>
+
+Total CPU  time to completion: 1 secs 
+Total REAL time to completion: 2 secs 
+
+par done!
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
+Exiting par with exit code 1
+Exiting mpartrce with exit code 1

@@ -1,3 +1,36 @@
 @N|Running in 64-bit mode
-@N: CD720 :"C:\lscc\diamond\3.1_x64\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N: CD720 :"C:\lscc\diamond\3.0_x64\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":26:7:26:22|Synthesizing work.usbaer_top_level.structural 
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":126:12:126:24|Synthesizing work.shiftRegister_work_usbaer_top_level_structural_0.syn_black_box 
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":234:12:234:23|Synthesizing work.wordRegister_work_usbaer_top_level_structural_0.syn_black_box 
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":234:12:234:23|Synthesizing work.wordRegister_work_usbaer_top_level_structural_1.syn_black_box 
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":234:12:234:23|Synthesizing work.wordRegister_work_usbaer_top_level_structural_2.syn_black_box 
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\cDVSResetStateMachine.vhd":25:7:25:27|Synthesizing work.cdvsresetstatemachine.behavioral 
+@N: CD233 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\cDVSResetStateMachine.vhd":38:13:38:14|Using sequential encoding for type state
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":225:12:225:24|Synthesizing work.adcvalueready.syn_black_box 
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd":25:7:25:21|Synthesizing work.adcstatemachine.behavioral 
+@N: CD231 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd":56:16:56:17|Using onehot encoding for type colstate (stidle="100000000000")
+@N: CD231 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd":57:16:57:17|Using onehot encoding for type rowstate (stidle="10000000")
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\monitorStateMachine.vhd":25:7:25:25|Synthesizing work.monitorstatemachine.behavioral 
+@N: CD231 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\monitorStateMachine.vhd":69:13:69:14|Using onehot encoding for type state (stidle="100000000000")
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\fifoStatemachine.vhd":25:7:25:22|Synthesizing work.fifostatemachine.behavioral 
+@N: CD233 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\fifoStatemachine.vhd":54:13:54:14|Using sequential encoding for type state
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd":19:7:19:30|Synthesizing work.synchronizerstatemachine.behavioral 
+@N: CD231 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd":46:13:46:14|Using onehot encoding for type state (stidle="100000")
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\timestampCounter.vhd":25:7:25:22|Synthesizing work.timestampcounter.behavioral 
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\eventCounter.vhd":26:7:26:18|Synthesizing work.eventcounter.behavioral 
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\earlyPaketTimer.vhd":25:7:25:21|Synthesizing work.earlypakettimer.behavioral 
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERfifo.vhd":14:7:14:13|Synthesizing work.aerfifo.structure 
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERfifo.vhd":45:14:45:20|Synthesizing work.fifo8ka.syn_black_box 
+@N: CD630 :"C:\lscc\diamond\3.0_x64\cae_library\synthesis\vhdl\ecp3.vhd":1368:10:1368:12|Synthesizing work.vlo.syn_black_box 
+@N: CD630 :"C:\lscc\diamond\3.0_x64\cae_library\synthesis\vhdl\ecp3.vhd":1361:10:1361:12|Synthesizing work.vhi.syn_black_box 
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\clockgen.vhd":14:7:14:14|Synthesizing work.clockgen.structure 
+@N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\clockgen.vhd":34:14:34:20|Synthesizing work.ehxpllc.syn_black_box 
+@N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd":225:4:225:5|Trying to extract state machine for register StatexDP
+@N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\fifoStatemachine.vhd":129:4:129:5|Trying to extract state machine for register StatexDP
+@N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\monitorStateMachine.vhd":275:4:275:5|Trying to extract state machine for register StatexDP
+@N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd":340:4:340:5|Trying to extract state machine for register StateRowxDP
+@N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd":340:4:340:5|Trying to extract state machine for register StateColxDP
+@N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\cDVSResetStateMachine.vhd":107:4:107:5|Trying to extract state machine for register StatexDP
 

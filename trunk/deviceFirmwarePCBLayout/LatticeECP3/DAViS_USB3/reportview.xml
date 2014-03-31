@@ -2,7 +2,7 @@
 <!DOCTYPE Report>
 <ReportView version="2.0">
     <Implement name="DAViS_USB3">
-        <ToolReport id="toolhle_genhierarchy" path="C:/3jAER/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/hdla_gen_hierarchy.html" status="1"/>
+        <ToolReport id="toolhle_genhierarchy" path="E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3/hdla_gen_hierarchy.html" status="1"/>
         <ToolReport id="toolhle_runbkm" path="" status="0"/>
         <ToolReport id="toolpio" path="" status="0"/>
         <ToolReport id="toolsso" path="" status="0"/>

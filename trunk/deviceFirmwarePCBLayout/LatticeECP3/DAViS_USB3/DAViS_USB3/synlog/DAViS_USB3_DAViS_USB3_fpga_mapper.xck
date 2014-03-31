@@ -1,1 +1,2 @@
-CKID0001:@|S:ClockxCI@|E:StatexDP[0]@|F:@syn_sample_clock_path==CKID0001@|M:ClockId0001 
+CKID0001:@|S:uClockGen.PLLCInst_0@|E:AERREQxSB@|F:@syn_sample_clock_path==CKID0001@|M:ClockId0001
+CKID0002:@|S:IfClockxCI@|E:ADCStateMachine_1_CDVSTestSRColClockxSOio@|F:@syn_sample_clock_path==CKID0002@|M:ClockId0002

@@ -1,0 +1,32 @@
+# Synospys Constraint Checker(syntax only), version maplat, Build 700R, built Jul  4 2013
+# Copyright (C) 1994-2013, Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
+
+# Written on Mon Mar 31 12:35:31 2014
+
+
+##### DESIGN INFO #######################################################
+
+Top View:                "USBAER_top_level"
+Constraint File(s):      (none)
+
+#Run constraint checker to find more issues with constraints.
+#########################################################################
+
+
+
+No issues found in constraint syntax.
+
+
+
+Clock Summary
+**************
+
+Start                             Requested      Requested     Clock        Clock                
+Clock                             Frequency      Period        Type         Group                
+-------------------------------------------------------------------------------------------------
+System                            1.0 MHz        1000.000      system       system_clkgroup      
+clockgen|CLKOP_inferred_clock     338.5 MHz      2.954         inferred     Autoconstr_clkgroup_0
+USBAER_top_level|IfClockxCI       4.2 MHz        240.766       inferred     Autoconstr_clkgroup_1
+USBAER_top_level|PC1xSIO          1000.0 MHz     1.000         inferred     Autoconstr_clkgroup_2
+USBAER_top_level|PC2xSIO          1.0 MHz        1000.000      inferred     Autoconstr_clkgroup_3
+=================================================================================================

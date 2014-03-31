@@ -1,0 +1,14 @@
+
+
+#################### START OF GENERATED CLOCK OPTIMIZATION REPORT ####################[
+
+======================================================================================
+                                Instance:Pin        Generated Clock Optimization Status
+======================================================================================
+         uTimestampCounter.MSbDelayedxDP:C              Not Done
+           shiftRegister_1.DataOutxDO[5]:C              Not Done
+ ADCStateMachine_1.CDVSTestSRRowClockxSO:C              Not Done
+
+
+##################### END OF GENERATED CLOCK OPTIMIZATION REPORT #####################]
+

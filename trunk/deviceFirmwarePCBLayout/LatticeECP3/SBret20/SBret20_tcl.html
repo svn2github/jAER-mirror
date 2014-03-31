@@ -1,0 +1,170 @@
+<HTML>
+<HEAD><TITLE>Lattice TCL Log</TITLE>
+<STYLE TYPE="text/css">
+<!--
+ body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
+-->
+</STYLE>
+</HEAD>
+<PRE><A name="pn140329193851"></A><B><U><big>pn140329193851</big></U></B>
+#Start recording tcl command: 3/29/2014 19:31:51
+#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20; Project name: SBret20
+prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.ldf"
+prj_dev set -part LFE3-17EA-7FTN256I
+prj_run Export -impl SBret20 -task Bitgen
+prj_project save
+prj_project close
+#Stop recording: 3/29/2014 19:38:51
+
+
+
+<A name="pn140329194104"></A><B><U><big>pn140329194104</big></U></B>
+#Start recording tcl command: 3/29/2014 19:40:00
+#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20; Project name: SBret20
+prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.ldf"
+prj_project save
+prj_project close
+#Stop recording: 3/29/2014 19:41:04
+
+
+
+<A name="pn140329194258"></A><B><U><big>pn140329194258</big></U></B>
+#Start recording tcl command: 3/29/2014 19:41:51
+#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20; Project name: SBret20
+prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.ldf"
+pgr_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20chain.xcf"
+pgr_project close
+prj_project close
+#Stop recording: 3/29/2014 19:42:58
+
+
+
+<A name="pn140329194601"></A><B><U><big>pn140329194601</big></U></B>
+#Start recording tcl command: 3/29/2014 19:43:30
+#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20; Project name: SBret20
+prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.ldf"
+prj_run Translate -impl SBret20
+prj_project close
+#Stop recording: 3/29/2014 19:46:01
+
+
+
+<A name="pn140329201220"></A><B><U><big>pn140329201220</big></U></B>
+#Start recording tcl command: 3/29/2014 19:47:23
+#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20; Project name: SBret20
+prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.ldf"
+prj_run Translate -impl SBret20
+prj_run Translate -impl SBret20
+prj_src remove "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/AERfifo.ipx" "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/clockgen.ipx"
+prj_src remove "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/ADCStateMachine_tb.vhd"
+prj_run Translate -impl SBret20
+prj_project save
+prj_project close
+#Stop recording: 3/29/2014 20:12:20
+
+
+
+<A name="pn140329211842"></A><B><U><big>pn140329211842</big></U></B>
+#Start recording tcl command: 3/29/2014 20:13:36
+#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20; Project name: SBret20
+prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.ldf"
+prj_src add "C:/lscc/diamond/3.0_x64/cae_library/synthesis/vhdl/pmi_def.vhd"
+prj_run Translate -impl SBret20
+prj_run Translate -impl SBret20
+prj_run Translate -impl SBret20
+prj_run Translate -impl SBret20
+prj_run Translate -impl SBret20
+prj_project save
+prj_project close
+#Stop recording: 3/29/2014 21:18:42
+
+
+
+<A name="pn140331115129"></A><B><U><big>pn140331115129</big></U></B>
+#Start recording tcl command: 3/29/2014 21:19:37
+#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20; Project name: SBret20
+prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.ldf"
+prj_run Translate -impl SBret20
+prj_run Translate -impl SBret20
+prj_run Translate -impl SBret20
+prj_run Translate -impl SBret20
+prj_project save
+prj_project close
+#Stop recording: 3/31/2014 11:51:29
+
+
+
+<A name="pn140331115423"></A><B><U><big>pn140331115423</big></U></B>
+#Start recording tcl command: 3/31/2014 11:52:05
+#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20; Project name: SBret20
+prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.ldf"
+prj_run Translate -impl SBret20
+prj_run Translate -impl SBret20 -forceOne
+prj_run Translate -impl SBret20 -forceAll
+prj_project close
+#Stop recording: 3/31/2014 11:54:23
+
+
+
+<A name="pn140331122408"></A><B><U><big>pn140331122408</big></U></B>
+#Start recording tcl command: 3/31/2014 11:54:58
+#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20; Project name: SBret20
+prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.ldf"
+prj_project close
+#Stop recording: 3/31/2014 12:24:08
+
+
+
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</PRE></FONT>
+</BODY>
+</HTML>

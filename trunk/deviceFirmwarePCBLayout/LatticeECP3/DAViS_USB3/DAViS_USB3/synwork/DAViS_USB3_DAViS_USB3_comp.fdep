@@ -1,46 +1,39 @@
+%%% protect protected_file
 #defaultlanguage:vhdl
-#OPTIONS:"|-top|EventBeforeOverflow|-prodtype|synplify_pro|-dspmac|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ui|-fid2|-ram|-sharing|on|-ll|2000|-autosm|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work"
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\bin64\\c_vhdl.exe":1384762852
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\location.map":1384779750
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\std.vhd":1384762480
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1384762480
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\std1164.vhd":1384762480
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\numeric.vhd":1384762480
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\umr_capim.vhd":1384762728
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\arith.vhd":1384762480
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\unsigned.vhd":1384762480
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\cae_library\\synthesis\\vhdl\\ecp3.vhd":1376992926
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\synchronizerStateMachine.vhd":1394549165
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\ADCStateMachine.vhd":1382950373
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\cDVSResetStateMachine.vhd":1382950373
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\earlyPaketTimer.vhd":1382950372
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\eventCounter.vhd":1382950373
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\fifoStatemachine.vhd":1382950373
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\monitorStateMachine.vhd":1382950372
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\timestampCounter.vhd":1382950372
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\ADCvalueReady.vhd":1382950372
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\EventBeforeOverflow.vhd":1382950374
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\shiftRegister.vhd":1382950373
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\wordRegister.vhd":1382950373
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\AERfifo.vhd":1382950372
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\clockgen.vhd":1394547070
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\USBAER_top_level.vhd":1394556742
-0 "C:\lscc\diamond\3.1_x64\cae_library\synthesis\vhdl\ecp3.vhd" vhdl
-1 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd" vhdl
-2 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd" vhdl
-3 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\cDVSResetStateMachine.vhd" vhdl
-4 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\earlyPaketTimer.vhd" vhdl
-5 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\eventCounter.vhd" vhdl
-6 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\fifoStatemachine.vhd" vhdl
-7 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\monitorStateMachine.vhd" vhdl
-8 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\timestampCounter.vhd" vhdl
-9 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCvalueReady.vhd" vhdl
-10 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\EventBeforeOverflow.vhd" vhdl
-11 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\shiftRegister.vhd" vhdl
-12 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\wordRegister.vhd" vhdl
-13 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERfifo.vhd" vhdl
-14 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\clockgen.vhd" vhdl
-15 "C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd" vhdl
+#OPTIONS:"|-top|USBAER_top_level|-prodtype|synplify_pro|-dspmac|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ll|2000|-ui|-fid2|-ram|-sharing|on|-autosm|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work"
+#CUR:"C:\\lscc\\diamond\\3.0_x64\\synpbase\\bin64\\c_vhdl.exe":1372666570
+#CUR:"C:\\lscc\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\location.map":1369998690
+#CUR:"C:\\lscc\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\std.vhd":1372666236
+#CUR:"C:\\lscc\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1372666236
+#CUR:"C:\\lscc\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\std1164.vhd":1372666236
+#CUR:"C:\\lscc\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\numeric.vhd":1372666236
+#CUR:"C:\\lscc\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\umr_capim.vhd":1372666460
+#CUR:"C:\\lscc\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\arith.vhd":1372666236
+#CUR:"C:\\lscc\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\unsigned.vhd":1372666236
+#CUR:"C:\\lscc\\diamond\\3.0_x64\\cae_library\\synthesis\\vhdl\\ecp3.vhd":1376992926
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\synchronizerStateMachine.vhd":1396107518
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\ADCStateMachine.vhd":1396107518
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\cDVSResetStateMachine.vhd":1396107518
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\earlyPaketTimer.vhd":1396107518
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\eventCounter.vhd":1396107518
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\fifoStatemachine.vhd":1396107518
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\monitorStateMachine.vhd":1396107518
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\timestampCounter.vhd":1396107518
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\AERfifo.vhd":1396107518
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\clockgen.vhd":1396107518
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\DAViS_USB3\\DAViS_USB3\\source\\USBAER_top_level.vhd":1396107518
+0 "C:\lscc\diamond\3.0_x64\cae_library\synthesis\vhdl\ecp3.vhd" vhdl
+1 "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd" vhdl
+2 "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd" vhdl
+3 "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\cDVSResetStateMachine.vhd" vhdl
+4 "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\earlyPaketTimer.vhd" vhdl
+5 "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\eventCounter.vhd" vhdl
+6 "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\fifoStatemachine.vhd" vhdl
+7 "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\monitorStateMachine.vhd" vhdl
+8 "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\timestampCounter.vhd" vhdl
+9 "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERfifo.vhd" vhdl
+10 "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\clockgen.vhd" vhdl
+11 "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd" vhdl
 
 # Dependency Lists (Uses list)
 0 -1
@@ -52,31 +45,23 @@
 6 -1
 7 -1
 8 -1
-9 -1
-10 -1
-11 -1
-12 -1
-13 0 
-14 0 
-15 14 11 13 12 4 5 8 1 6 7 2 9 3 
+9 0 
+10 0 
+11 10 9 4 5 8 1 6 7 2 3 
 
 # Dependency Lists (Users Of)
-0 14 13 
-1 15 
-2 15 
-3 15 
-4 15 
-5 15 
-6 15 
-7 15 
-8 15 
-9 15 
-10 -1
-11 15 
-12 15 
-13 15 
-14 15 
-15 -1
+0 10 9 
+1 11 
+2 11 
+3 11 
+4 11 
+5 11 
+6 11 
+7 11 
+8 11 
+9 11 
+10 11 
+11 -1
 
 # Design Unit to File Association
 arch work synchronizerstatemachine behavioral 1
@@ -95,22 +80,14 @@ arch work monitorstatemachine behavioral 7
 module work monitorstatemachine 7
 arch work timestampcounter behavioral 8
 module work timestampcounter 8
-arch work adcvalueready behavioral 9
-module work adcvalueready 9
-arch work eventbeforeoverflow behavioral 10
-module work eventbeforeoverflow 10
-arch work shiftregister behavioral 11
-module work shiftregister 11
-arch work wordregister behavioral 12
-module work wordregister 12
-config work structure_con 13
-arch work aerfifo structure 13
-module work aerfifo 13
-config work structure_con 14
-arch work clockgen structure 14
-module work clockgen 14
-arch work usbaer_top_level structural 15
-module work usbaer_top_level 15
+config work structure_con 9
+arch work aerfifo structure 9
+module work aerfifo 9
+config work structure_con 10
+arch work clockgen structure 10
+module work clockgen 10
+arch work usbaer_top_level structural 11
+module work usbaer_top_level 11
 
 
 # Configuration files used

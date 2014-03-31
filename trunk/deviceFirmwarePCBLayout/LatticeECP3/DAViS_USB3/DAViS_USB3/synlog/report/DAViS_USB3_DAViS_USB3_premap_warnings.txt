@@ -1,1 +1,16 @@
-@W: MT529 :"c:\3jaer\devicefirmwarepcblayout\latticeecp3\davis_usb3\davis_usb3\source\eventbeforeoverflow.vhd":76:4:76:5|Found inferred clock EventBeforeOverflow|ClockxCI which controls 3 sequential elements including StatexDP[0:2]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+@W: FX469 :|Found undriven nets DebugxSIO[15] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[14] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[13] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[12] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[11] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[10] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[9] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[8] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[7] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[6] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[5] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[4] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[3] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[2] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[1] to be optimized by the mapper. 
+@W: MT531 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\davis_usb3\davis_usb3\source\usbaer_top_level.vhd":682:4:682:5|Found signal identified as System clock which controls 2 sequential elements including AERReqSyncxSBN.  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance. 

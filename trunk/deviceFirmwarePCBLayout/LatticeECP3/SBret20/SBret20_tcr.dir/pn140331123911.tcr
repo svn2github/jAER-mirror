@@ -1,0 +1,8 @@
+#Start recording tcl command: 3/31/2014 12:24:49
+#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20; Project name: SBret20
+prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.ldf"
+prj_run Export -impl SBret20 -task Bitgen
+prj_run Export -impl SBret20 -task Bitgen
+prj_run Translate -impl SBret20
+prj_run Export -impl SBret20 -task Bitgen
+#Stop recording: 3/31/2014 12:39:11

@@ -1,6 +1,17 @@
-@W: CD434 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\Initialitation.vhd":136:18:136:18|Signal x in the sensitivity list is not used in the process
-@W: CL240 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\Initialitation.vhd":28:0:28:16|AERMonitorACKxSBO is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL240 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\Initialitation.vhd":27:0:27:16|AERMonitorREQxABI is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL159 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\Initialitation.vhd":24:1:24:10|Input IfClockxCI is unused
-@W: CL158 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\Initialitation.vhd":25:1:25:1|Inout X is unused
+@W: CD280 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":126:12:126:24|Unbound component shiftRegister mapped to black box
+@W: CD280 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":234:12:234:23|Unbound component wordRegister mapped to black box
+@W: CD280 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":234:12:234:23|Unbound component wordRegister mapped to black box
+@W: CD280 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":234:12:234:23|Unbound component wordRegister mapped to black box
+@W: CD280 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":225:12:225:24|Unbound component ADCvalueReady mapped to black box
+@W: CL117 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd":140:4:140:7|Latch generated from process for signal NoBxS; possible missing assignment in an if or case statement.
+@W: CL117 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd":268:4:268:7|Latch generated from process for signal StartRowxSN; possible missing assignment in an if or case statement.
+@W: CD604 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\synchronizerStateMachine.vhd":215:6:215:19|OTHERS clause is not synthesized 
+@W: CD280 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\AERfifo.vhd":45:14:45:20|Unbound component FIFO8KA mapped to black box
+@W: CD280 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\clockgen.vhd":34:14:34:20|Unbound component EHXPLLC mapped to black box
+@W: CL168 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":598:2:598:24|Pruning instance cDVSResetStateMachine_1 -- not in use ... 
+@W: CL159 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd":35:1:35:9|Input ADCovrxSI is unused
+@W: CL159 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\ADCStateMachine.vhd":37:4:37:13|Input SRLatchxEI is unused
+@W: CL159 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\cDVSResetStateMachine.vhd":31:4:31:12|Input RxcolGxSI is unused
+@W: CL159 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":66:4:66:11|Input FXLEDxSI is unused
+@W: CL159 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\DAViS_USB3\DAViS_USB3\source\USBAER_top_level.vhd":88:1:88:21|Input CDVSTestBiasBitOutxSI is unused
 

@@ -1,0 +1,99 @@
+Running in Lattice mode
+
+
+Starting:    C:\lscc\diamond\3.0_x64\synpbase\win64\mbin\synbatch.exe
+Install:     C:\lscc\diamond\3.0_x64\synpbase
+Date:        Mon Mar 31 12:35:28 2014
+Version:     H-2013.03L 
+
+Arguments:   -product synplify_pro  -batch SBret20_SBret20_synplify.tcl
+ProductType: synplify_pro
+
+
+
+
+
+
+log file: "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\SBret20\SBret20_SBret20.srr"
+
+
+
+
+
+Generating HDL info...
+
+hdl_info_gen Completed
+Return Code: 0
+Run Time:0h:00m:01s
+
+
+Copied E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\SBret20\SBret20_SBret20.srr to E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\SBret20\SBret20_SBret20.srf
+
+log file: "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\SBret20\SBret20_SBret20.srr"
+
+
+
+
+
+Running proj_1|SBret20
+
+
+Running: Compile on proj_1|SBret20
+
+
+Running: Compile Process on proj_1|SBret20
+
+
+Running: Compile Input on proj_1|SBret20
+
+Copied E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\SBret20\synwork\SBret20_SBret20_comp.srs to E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\SBret20\SBret20_SBret20.srs
+
+compiler Completed
+Return Code: 0
+Run Time:0h:00m:02s
+
+
+Copied E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\SBret20\SBret20_SBret20.srr to E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\SBret20\SBret20_SBret20.srf
+
+Complete: Compile Process on proj_1|SBret20
+
+
+Running: Premap on proj_1|SBret20
+
+premap Completed with warnings
+Return Code: 1
+Run Time:0h:00m:01s
+
+
+Complete: Compile on proj_1|SBret20
+
+
+Running: Map on proj_1|SBret20
+
+
+Running: Map & Optimize on proj_1|SBret20
+
+fpga_mapper Completed with warnings
+Return Code: 1
+Run Time:0h:00m:04s
+
+
+Complete: Map on proj_1|SBret20
+
+Copied E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\SBret20\SBret20_SBret20.srr to E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\SBret20\SBret20_SBret20.srf
+
+Complete: Logic Synthesis on proj_1|SBret20
+
+TCL script complete: "SBret20_SBret20_synplify.tcl"
+
+exit status=0
+
+
+exit status=0
+
+
+Save changes for project:
+E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\SBret20\proj_1.prj
+
+batch mode default:no
+

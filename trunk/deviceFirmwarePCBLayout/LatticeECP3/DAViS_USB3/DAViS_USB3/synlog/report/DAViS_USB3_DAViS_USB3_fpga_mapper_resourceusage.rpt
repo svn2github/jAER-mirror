@@ -1,17 +1,24 @@
 Resource Usage Report
 Part: lfe3_17ea-7
 
-Register bits: 2 of 17280 (0%)
+Register bits: 216 of 17280 (1%)
 PIC Latch:       0
-I/O cells:       5
+I/O cells:       90
 
 Details:
-FD1S3DX:        2
+CCU2C:          199
+FD1P3DX:        136
+FD1S3AX:        2
+FD1S3BX:        4
+FD1S3DX:        70
 GSR:            1
-IB:             4
-INV:            1
-OB:             1
-ORCALUT4:       2
+IB:             35
+IFS1P3DX:       2
+INV:            4
+OB:             40
+OBZ:            15
+OFS1P3DX:       2
+ORCALUT4:       383
 PUR:            1
-VHI:            1
-VLO:            1
+VHI:            9
+VLO:            10

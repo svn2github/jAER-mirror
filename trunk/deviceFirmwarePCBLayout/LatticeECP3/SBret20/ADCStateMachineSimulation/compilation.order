@@ -1,0 +1,16 @@
+.\..\sourcecode\EventBeforeOverflow.vhd
+.\..\sourcecode\synchronizerStateMachine.vhd
+.\..\sourcecode\wordRegister.vhd
+.\..\sourcecode\timestampCounter.vhd
+.\..\sourcecode\fifoStatemachine.vhd
+.\..\sourcecode\monitorStateMachine.vhd
+.\..\sourcecode\shiftRegister.vhd
+.\..\sourcecode\eventCounter.vhd
+.\..\sourcecode\AERfifo.vhd
+.\..\sourcecode\clockgen.vhd
+.\..\sourcecode\earlyPaketTimer.vhd
+.\..\sourcecode\cDVSResetStateMachine.vhd
+.\..\sourcecode\ADCStateMachine.vhd
+.\..\sourcecode\ADCvalueReady.vhd
+.\..\sourcecode\USBAER_top_level.vhd
+.\..\ADCStateMachine_tb.vhd
