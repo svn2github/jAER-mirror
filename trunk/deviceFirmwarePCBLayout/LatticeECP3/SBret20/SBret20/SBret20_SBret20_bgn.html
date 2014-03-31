@@ -6,29 +6,35 @@
 -->
 </STYLE>
 </HEAD>
-<PRE><A name="Bgn"></A>BITGEN: Bitstream Generator Diamond_1.3_Production (92)
+<PRE><A name="Bgn"></A>BITGEN: Bitstream Generator Diamond (64-bit) 3.0.0.97
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
 Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
-Copyright (c) 2002-2011 Lattice Semiconductor Corporation,  All rights reserved.
+Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
 
-Command: bitgen -w -g ES:No SBret20_SBret20.ncd SBret20_SBret20.prf 
+Command: bitgen -w -g CfgMode:Disable -g RamCfg:Reset -path E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20 -path E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20 -g ES:No -e -s E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.sec -k E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.bek -gui SBret20_SBret20.ncd SBret20_SBret20.bit SBret20_SBret20.prf 
 
 Loading design for application Bitgen from file SBret20_SBret20.ncd.
 Design name: USBAER_top_level
 NCD version: 3.2
 Vendor:      LATTICE
-Device:      LCMXO2280C
+Device:      LFE3-17EA
 Package:     FTBGA256
-Speed:       3
-Loading device for application Bitgen from file 'mj5g21x17.nph' in environment C:/Program Files/Lattice/diamond/1.3/ispfpga.
-Package Status:               Final          Version 1.26
-Speed Hardware Data Status: Version 1.69
+Performance: 7
+Loading device for application Bitgen from file 'ec5a53x56.nph' in environment: C:/lscc/diamond/3.0_x64/ispfpga.
+Package Status:                     Final          Version 1.39
+Performance Hardware Data Status:   Final          Version 35.22
 
 Running DRC.
 DRC detected 0 errors and 0 warnings.
-Reading Preference File from SBret20_SBret20.prf...
+WARNING - The signal "ADCwordxDI[3]" has been assigned to PIN "E15", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.
+WARNING - The signal "ADCwordxDI[2]" has been assigned to PIN "E16", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.
+WARNING - The signal "ADCwordxDI[1]" has been assigned to PIN "D16", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.
+WARNING - The signal "FX2FifoAddressxDO[1]" has been assigned to PIN "H14", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.
+WARNING - The signal "FX2FifoAddressxDO[0]" has been assigned to PIN "F14", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.
+WARNING - The signal "FX2FifoWritexEBO" has been assigned to PIN "H13", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.
+WARNING - Preference parsing results:  6 syntax errors detected
 
 <A name="bgn_ps"></A>
 <B><U><big>Preference Summary:</big></U></B>
@@ -36,17 +42,44 @@ Reading Preference File from SBret20_SBret20.prf...
 +---------------------------------+---------------------------------+
 |  Preference                     |  Current Setting                |
 +---------------------------------+---------------------------------+
+|                         RamCfg  |                        Reset**  |
++---------------------------------+---------------------------------+
+|                        CfgMode  |                      Disable**  |
++---------------------------------+---------------------------------+
+|                        DONE_EX  |                          OFF**  |
++---------------------------------+---------------------------------+
+|                        DONE_OD  |                           ON**  |
++---------------------------------+---------------------------------+
+|                     MCCLK_FREQ  |                          2.5**  |
++---------------------------------+---------------------------------+
 |                  CONFIG_SECURE  |                          OFF**  |
 +---------------------------------+---------------------------------+
-|                          INBUF  |                           ON**  |
+|                    CONFIG_MODE  |                          SPI**  |
++---------------------------------+---------------------------------+
+|                        WAKE_UP  |                           21**  |
++---------------------------------+---------------------------------+
+|                     PERSISTENT  |                          OFF**  |
++---------------------------------+---------------------------------+
+|                   WAKE_ON_LOCK  |                          OFF**  |
 +---------------------------------+---------------------------------+
 |                             ES  |                           No**  |
++---------------------------------+---------------------------------+
+|                COMPRESS_CONFIG  |                          OFF**  |
++---------------------------------+---------------------------------+
+|                     ENABLE_NDR  |                          OFF**  |
++---------------------------------+---------------------------------+
+|               CONFIG_IOVOLTAGE  |                          2.5**  |
++---------------------------------+---------------------------------+
+|                         STRTUP  |                     EXTERNAL**  |
 +---------------------------------+---------------------------------+
  *  Default setting.
  ** The specified setting matches the default setting.
 
 
 Creating bit map...
+ 
+Bitstream Status:   Final           Version 1.38
+ 
 Saving bit stream in "SBret20_SBret20.bit".
 
 

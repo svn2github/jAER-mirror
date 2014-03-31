@@ -12,24 +12,24 @@ Target Vendor:  LATTICE
 Target Device:  LFE3-17EAFTBGA256
 Target Performance:   7
 Mapper:  ep5c00,  version:  Diamond (64-bit) 3.0.0.97
-Mapped on:  03/31/14  12:35:46
+Mapped on:  03/31/14  19:08:06
 
 Design Summary
 --------------
 
-   Number of registers:    491
-      PFU registers:    466
+   Number of registers:    478
+      PFU registers:    453
       PIO registers:    25
-   Number of SLICEs:           524 out of  8640 (6%)
-      SLICEs(logic/ROM):       500 out of  6948 (7%)
-      SLICEs(logic/ROM/RAM):    24 out of  1692 (1%)
-          As RAM:           24 out of  1692 (1%)
+   Number of SLICEs:           494 out of  8640 (6%)
+      SLICEs(logic/ROM):       482 out of  6948 (7%)
+      SLICEs(logic/ROM/RAM):    12 out of  1692 (1%)
+          As RAM:           12 out of  1692 (1%)
           As Logic/ROM:      0 out of  1692 (0%)
-   Number of logic LUT4s:     409
-   Number of distributed RAM:  24 (48 LUT4s)
-   Number of ripple logic:    169 (338 LUT4s)
+   Number of logic LUT4s:     398
+   Number of distributed RAM:  12 (24 LUT4s)
+   Number of ripple logic:    165 (330 LUT4s)
    Number of shift registers:   0
-   Total number of LUT4s:     795
+   Total number of LUT4s:     752
    Number of PIO sites used: 92 out of 133 (69%)
    Number of PIO FIXEDDELAY:    0
    Number of PCS (SerDes):  0 out of 1 (0%) with bonded PIO sites
@@ -65,53 +65,52 @@ Design Summary
 
 
 
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
 
 Design Summary (cont)
 ---------------------
-     Net ClockxC_c: 108 loads, 108 rising, 0 falling (Driver:
+     Net ClockxC_c: 99 loads, 99 rising, 0 falling (Driver:
      uClockGen/PLLCInst_0/PLLInst_0 )
-     Net IfClockxCI_c: 96 loads, 94 rising, 2 falling (Driver: PIO IfClockxCI )
+     Net IfClockxCI_c: 94 loads, 92 rising, 2 falling (Driver: PIO IfClockxCI )
      Net PC1xSIO_c: 41 loads, 41 rising, 0 falling (Driver: PIO PC1xSIO )
      Net PC2xSIO_c: 40 loads, 0 rising, 40 falling (Driver: PIO PC2xSIO )
    Number of Clock Enables:  14
-     Net ADCStateMachine_1/N_145_i: 10 loads, 10 LSLICEs
-     Net ADCStateMachine_1/un1_StateRowxDP_3_0_a2_0_a2: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_1/un1_StateRowxDP_3_0_a2_0_a4: 1 loads, 1 LSLICEs
      Net ADCStateMachine_1/DividerRowxDPe: 9 loads, 9 LSLICEs
      Net ADCStateMachine_1/DividerColxDPe: 4 loads, 4 LSLICEs
      Net ADCStateMachine_1/CountRowxDPe: 5 loads, 5 LSLICEs
-     Net N_152_i: 12 loads, 2 LSLICEs
+     Net ADCStateMachine_1/N_138_i: 9 loads, 9 LSLICEs
+     Net N_150_i: 12 loads, 2 LSLICEs
      Net monitorStateMachine_1.N_288_i: 7 loads, 7 LSLICEs
-     Net AddressRegWritexEO_i_i_a2: 10 loads, 0 LSLICEs
+     Net monitorStateMachine_1.N_179_i: 10 loads, 0 LSLICEs
      Net uEarlyPaketTimer.CountxDPe: 11 loads, 11 LSLICEs
      Net uSynchronizerStateMachine_1/CounterxDPe: 7 loads, 7 LSLICEs
      Net uTimestampCounter/CountxDPce[0]: 8 loads, 8 LSLICEs
      Net uEventCounter/CountxDPe: 5 loads, 5 LSLICEs
-     Net uFifo/AERfifo_0_1/wren_i: 9 loads, 9 LSLICEs
-     Net uFifo/AERfifo_0_1/rden_i: 17 loads, 17 LSLICEs
-   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  373
-   Number of LSRs:  4
-     Net ADCStateMachine_1.ResetxRB_i: 56 loads, 54 LSLICEs
-     Net StatexDP_ns_i_o3_d_d_0_RNIHJH93[1]: 9 loads, 9 LSLICEs
-     Net uFifo/AERfifo_0_1/dec1_wre7: 4 loads, 4 LSLICEs
-     Net uFifo/AERfifo_0_1/dec0_wre3: 4 loads, 4 LSLICEs
+     Net uFifo/AERfifo_0_1/wren_i: 6 loads, 6 LSLICEs
+     Net uFifo/AERfifo_0_1/rden_i: 14 loads, 14 LSLICEs
+   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  360
+   Number of LSRs:  3
+     Net ADCStateMachine_1.ResetxRB_i: 55 loads, 53 LSLICEs
+     Net p_memless.op_gt.op_gt.counterxdn5lto11_d_RNIBK272: 9 loads, 9 LSLICEs
+     Net uFifo/AERfifo_0_1/wren_i: 4 loads, 4 LSLICEs
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
-     Net ADCStateMachine_1/VCC: 236 loads
-     Net ADCStateMachine_1.ResetxRB_i: 56 loads
-     Net ADCStateMachine_1/N_129: 35 loads
-     Net ADCStateMachine_1/N_59: 35 loads
-     Net ADCStateMachine_1/N_207: 34 loads
+     Net ADCStateMachine_1/VCC: 233 loads
+     Net ADCStateMachine_1.ResetxRB_i: 55 loads
+     Net ADCStateMachine_1/N_129: 34 loads
+     Net ADCStateMachine_1/N_186: 34 loads
+     Net ADCStateMachine_1/N_60: 34 loads
+     Net ResetEventCounterxS: 34 loads
      Net uEventCounter.p_memoryless.op_eq.countxdn15_5: 32 loads
      Net uEventCounter.p_memoryless.op_eq.countxdn15_6: 32 loads
-     Net uFifo/AERfifo_0_1/rptr_0: 32 loads
-     Net uFifo/AERfifo_0_1/rptr_1: 32 loads
-     Net uFifo/AERfifo_0_1/rptr_2: 32 loads
+     Net ADCStateMachine_1/DividerColxDPe: 30 loads
+     Net ADCStateMachine_1/StateColxDP[5]: 27 loads
 
 
 
 
-   Number of warnings:  14
+   Number of warnings:  13
    Number of errors:    0
 
 Design Errors/Warnings
@@ -126,21 +125,17 @@ WARNING - map: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBr
      IO_TYPE=LVCMOS33 PULLMODE=KEEPER DRIVE=14 ;": Key DRIVE=14 is not supported
      for this device. Default value NA will be used. 
  Disabled this preference.
+WARNING - map: Preference parsing results:  2 syntax errors detected
 
                                     Page 2
 
 
 
 
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
 
 Design Errors/Warnings (cont)
 -----------------------------
-WARNING - map: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBr
-     et20.lpf(76): Semantic error in "LOCATE COMP "FX2FifoInEmptyxSBI" SITE
-     "B13" ;": COMP "FX2FifoInEmptyxSBI" not found in design. Disable this
-     preference.
-WARNING - map: Preference parsing results:  3 syntax errors detected
 WARNING - map: There are errors in the preference file, "E:/JAER_SVN/trunk/devic
      eFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf".
 WARNING - map: Using local reset signal 'ResetxRBI_c' to infer global GSR net.
@@ -192,21 +187,21 @@ IO (PIO) Attributes
 | AERMonitorAddressxDI[9]| INPUT     | LVCMOS33  | IN         |            |
 +---------------------+-----------+-----------+------------+------------+
 | AERMonitorAddressxDI[8]| INPUT     | LVCMOS33  | IN         |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorAddressxDI[7]| INPUT     | LVCMOS33  | IN         |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorAddressxDI[6]| INPUT     | LVCMOS33  | IN         |            |
++---------------------+-----------+-----------+------------+------------+
 
                                     Page 3
 
 
 
 
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
 
 IO (PIO) Attributes (cont)
 --------------------------
-+---------------------+-----------+-----------+------------+------------+
-| AERMonitorAddressxDI[7]| INPUT     | LVCMOS33  | IN         |            |
-+---------------------+-----------+-----------+------------+------------+
-| AERMonitorAddressxDI[6]| INPUT     | LVCMOS33  | IN         |            |
-+---------------------+-----------+-----------+------------+------------+
 | AERMonitorAddressxDI[5]| INPUT     | LVCMOS33  | IN         |            |
 +---------------------+-----------+-----------+------------+------------+
 | AERMonitorAddressxDI[4]| INPUT     | LVCMOS33  | IN         |            |
@@ -258,21 +253,21 @@ IO (PIO) Attributes (cont)
 | LED2xSO             | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | LED1xSO             | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| CDVSTestApsTxGatexSO| OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| CDVSTestBiasBitOutxSI| INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
 
                                     Page 4
 
 
 
 
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
 
 IO (PIO) Attributes (cont)
 --------------------------
-+---------------------+-----------+-----------+------------+------------+
-| CDVSTestApsTxGatexSO| OUTPUT    | LVCMOS33  |            |            |
-+---------------------+-----------+-----------+------------+------------+
-| CDVSTestBiasBitOutxSI| INPUT     | LVCMOS33  |            |            |
-+---------------------+-----------+-----------+------------+------------+
 | CDVSTestBiasDiagSelxSO| OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | CDVSTestColMode1xSO | OUTPUT    | LVCMOS33  |            |            |
@@ -324,21 +319,21 @@ IO (PIO) Attributes (cont)
 | PA7xSIO             | INPUT     | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | PA3xSIO             | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PA1xSIO             | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PA0xSIO             | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
 
                                     Page 5
 
 
 
 
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
 
 IO (PIO) Attributes (cont)
 --------------------------
-+---------------------+-----------+-----------+------------+------------+
-| PA1xSIO             | INPUT     | LVCMOS33  |            |            |
-+---------------------+-----------+-----------+------------+------------+
-| PA0xSIO             | INPUT     | LVCMOS33  |            |            |
-+---------------------+-----------+-----------+------------+------------+
 | PC3xSIO             | INPUT     | LVCMOS33  | IN         |            |
 +---------------------+-----------+-----------+------------+------------+
 | PC2xSIO             | INPUT     | LVCMOS33  |            |            |
@@ -390,21 +385,21 @@ IO (PIO) Attributes (cont)
 | FX2FifoDataxDIO[5]  | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | FX2FifoDataxDIO[4]  | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO[3]  | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| FX2FifoDataxDIO[2]  | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
 
                                     Page 6
 
 
 
 
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
 
 IO (PIO) Attributes (cont)
 --------------------------
-+---------------------+-----------+-----------+------------+------------+
-| FX2FifoDataxDIO[3]  | OUTPUT    | LVCMOS33  |            |            |
-+---------------------+-----------+-----------+------------+------------+
-| FX2FifoDataxDIO[2]  | OUTPUT    | LVCMOS33  |            |            |
-+---------------------+-----------+-----------+------------+------------+
 | FX2FifoDataxDIO[1]  | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 
@@ -412,28 +407,20 @@ Removed logic
 -------------
 
 Block shiftRegister_1/VCC undriven or does not drive anything - clipped.
-Block uFifo/AERfifo_0_1/af_set_cmp_1 undriven or does not drive anything -
-     clipped.
 Block uFifo/AERfifo_0_1/af_set_cmp_0 undriven or does not drive anything -
      clipped.
 Block uFifo/AERfifo_0_1/af_set_cmp_ci_a undriven or does not drive anything -
-     clipped.
-Block uFifo/AERfifo_0_1/af_set_ctr_1 undriven or does not drive anything -
      clipped.
 Block uFifo/AERfifo_0_1/af_set_ctr_0 undriven or does not drive anything -
      clipped.
 Block uFifo/AERfifo_0_1/af_set_ctr_cia undriven or does not drive anything -
      clipped.
 Block uFifo/AERfifo_0_1/a2 undriven or does not drive anything - clipped.
-Block uFifo/AERfifo_0_1/ae_set_cmp_2 undriven or does not drive anything -
-     clipped.
 Block uFifo/AERfifo_0_1/ae_set_cmp_1 undriven or does not drive anything -
      clipped.
 Block uFifo/AERfifo_0_1/ae_set_cmp_0 undriven or does not drive anything -
      clipped.
 Block uFifo/AERfifo_0_1/ae_set_cmp_ci_a undriven or does not drive anything -
-     clipped.
-Block uFifo/AERfifo_0_1/ae_set_ctr_2 undriven or does not drive anything -
      clipped.
 Block uFifo/AERfifo_0_1/ae_set_ctr_1 undriven or does not drive anything -
      clipped.
@@ -441,66 +428,60 @@ Block uFifo/AERfifo_0_1/ae_set_ctr_0 undriven or does not drive anything -
      clipped.
 Block uFifo/AERfifo_0_1/ae_set_ctr_cia undriven or does not drive anything -
      clipped.
-Block uFifo/AERfifo_0_1/FF_3 undriven or does not drive anything - clipped.
+Block uFifo/AERfifo_0_1/FF_2 undriven or does not drive anything - clipped.
 Block uFifo/AERfifo_0_1/FF_4 undriven or does not drive anything - clipped.
-Block uFifo/AERfifo_0_1/FF_5 undriven or does not drive anything - clipped.
 Block uFifo/AERfifo_0_1/FF_6 undriven or does not drive anything - clipped.
+Block uFifo/AERfifo_0_1/FF_7 undriven or does not drive anything - clipped.
 Block uFifo/AERfifo_0_1/FF_8 undriven or does not drive anything - clipped.
 Block uFifo/AERfifo_0_1/FF_9 undriven or does not drive anything - clipped.
-Block uFifo/AERfifo_0_1/FF_10 undriven or does not drive anything - clipped.
-Block uFifo/AERfifo_0_1/FF_11 undriven or does not drive anything - clipped.
-Block uFifo/AERfifo_0_1/FF_12 undriven or does not drive anything - clipped.
-Block uFifo/AERfifo_0_1/FF_13 undriven or does not drive anything - clipped.
 Block uFifo/AERfifo_0_1/LUT4_1 undriven or does not drive anything - clipped.
 Block uFifo/AERfifo_0_1/LUT4_2 undriven or does not drive anything - clipped.
 Block uFifo/AERfifo_0_1/LUT4_3 undriven or does not drive anything - clipped.
 Block uFifo/AERfifo_0_1/LUT4_0 undriven or does not drive anything - clipped.
 Block uFifo/AERfifo_0_1/FF_0 undriven or does not drive anything - clipped.
+Block uFifo/AERfifo_0_1/FF_5 undriven or does not drive anything - clipped.
+Block uFifo/AERfifo_0_1/FF_1 undriven or does not drive anything - clipped.
+Block uFifo/AERfifo_0_1/FF_3 undriven or does not drive anything - clipped.
+Block uFifo/AERfifo_0_1/a3 undriven or does not drive anything - clipped.
+Block uFifo/AERfifo_0_1/af_set_ctr_1 undriven or does not drive anything -
+     clipped.
+Block uFifo/AERfifo_0_1/af_set_cmp_1 undriven or does not drive anything -
+     clipped.
+Block uMonitorTimestampRegister/VCC undriven or does not drive anything -
+     clipped.
+Block uADCRegister/VCC undriven or does not drive anything - clipped.
+Block uADCRegister/GND undriven or does not drive anything - clipped.
+Block fifoStatemachine_1/GND undriven or does not drive anything - clipped.
+Block fifoStatemachine_1/VCC undriven or does not drive anything - clipped.
+Block ADCvalueReady_1/VCC undriven or does not drive anything - clipped.
+Signal ResetxRBI_c_i was merged into signal ResetxRBI_c
+Signal shiftRegister_1/CN was merged into signal PC2xSIO_c
 
                                     Page 7
 
 
 
 
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
 
 Removed logic (cont)
 --------------------
-Block uFifo/AERfifo_0_1/FF_7 undriven or does not drive anything - clipped.
-Block uFifo/AERfifo_0_1/FF_1 undriven or does not drive anything - clipped.
-Block uFifo/AERfifo_0_1/FF_2 undriven or does not drive anything - clipped.
-Block uFifo/AERfifo_0_1/a3 undriven or does not drive anything - clipped.
-Block uFifo/AERfifo_0_1/af_set_ctr_2 undriven or does not drive anything -
-     clipped.
-Block uFifo/AERfifo_0_1/af_set_cmp_2 undriven or does not drive anything -
-     clipped.
-Block uMonitorTimestampRegister/VCC undriven or does not drive anything -
-     clipped.
-Block uADCRegister/VCC undriven or does not drive anything - clipped.
-Block uADCRegister/GND undriven or does not drive anything - clipped.
-Block fifoStatemachine_1/VCC undriven or does not drive anything - clipped.
-Block fifoStatemachine_1/GND undriven or does not drive anything - clipped.
-Block ADCvalueReady_1/VCC undriven or does not drive anything - clipped.
-Signal ResetxRBI_c_i was merged into signal ResetxRBI_c
-Signal shiftRegister_1/CN was merged into signal PC2xSIO_c
-Signal uFifo/AERfifo_0_1/invout_0 was merged into signal FifoEmptyxS
 Signal uFifo/AERfifo_0_1/invout_1 was merged into signal FifoFullxS
 Signal uFifo/AERfifo_0_1/rRst was merged into signal ResetxRBI_c_i
-Signal uFifo/AERfifo_0_1/scuba_vlo undriven or does not drive anything -
-     clipped.
+Signal uFifo/AERfifo_0_1/invout_0 was merged into signal FifoEmptyxS
+Signal uFifo/AERfifo_0_1/dec0_wre3 was merged into signal
+     uFifo/AERfifo_0_1/wren_i
 Signal uFifo/AERfifo_0_1/scuba_vhi undriven or does not drive anything -
      clipped.
 Signal uClockGen/LOCK undriven or does not drive anything - clipped.
 Signal uClockGen/CLKOK2 undriven or does not drive anything - clipped.
 Signal uClockGen/CLKOK undriven or does not drive anything - clipped.
 Signal uClockGen/CLKOS undriven or does not drive anything - clipped.
-Signal uFifo/AERfifo_0_1/co0_7 undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/af_set_cmp_ci_a/S1 undriven or does not drive anything
      - clipped.
 Signal uFifo/AERfifo_0_1/af_set_cmp_ci_a/S0 undriven or does not drive anything
      - clipped.
 Signal uFifo/AERfifo_0_1/cmp_ci_3 undriven or does not drive anything - clipped.
-Signal uFifo/AERfifo_0_1/co0_6 undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/af_set_ctr_cia/S1 undriven or does not drive anything -
      clipped.
 Signal uFifo/AERfifo_0_1/af_set_ctr_cia/S0 undriven or does not drive anything -
@@ -511,27 +492,15 @@ Signal uFifo/AERfifo_0_1/a2/S1 undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/a2/COUT undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/ae_set_d_c undriven or does not drive anything -
      clipped.
-Signal uFifo/AERfifo_0_1/co1_5 undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/co0_5 undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/ae_set_cmp_ci_a/S1 undriven or does not drive anything
      - clipped.
 Signal uFifo/AERfifo_0_1/ae_set_cmp_ci_a/S0 undriven or does not drive anything
      - clipped.
 Signal uFifo/AERfifo_0_1/cmp_ci_2 undriven or does not drive anything - clipped.
-Signal uFifo/AERfifo_0_1/co2_2 undriven or does not drive anything - clipped.
-Signal uFifo/AERfifo_0_1/co1_4 undriven or does not drive anything - clipped.
+Signal uFifo/AERfifo_0_1/co1_2 undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/co0_4 undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/ae_set_ctr_cia/S1 undriven or does not drive anything -
-
-                                    Page 8
-
-
-
-
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
-
-Removed logic (cont)
---------------------
      clipped.
 Signal uFifo/AERfifo_0_1/ae_set_ctr_cia/S0 undriven or does not drive anything -
      clipped.
@@ -549,55 +518,35 @@ Signal uFifo/AERfifo_0_1/empty_cmp_ci_a/S1 undriven or does not drive anything -
      clipped.
 Signal uFifo/AERfifo_0_1/empty_cmp_ci_a/S0 undriven or does not drive anything -
      clipped.
-Signal uFifo/AERfifo_0_1/co2_1 undriven or does not drive anything - clipped.
+Signal uFifo/AERfifo_0_1/co1_1 undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/r_gctr_cia/S1 undriven or does not drive anything -
      clipped.
 Signal uFifo/AERfifo_0_1/r_gctr_cia/S0 undriven or does not drive anything -
+
+                                    Page 8
+
+
+
+
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
+
+Removed logic (cont)
+--------------------
      clipped.
-Signal uFifo/AERfifo_0_1/co2 undriven or does not drive anything - clipped.
+Signal uFifo/AERfifo_0_1/co1 undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/w_gctr_cia/S1 undriven or does not drive anything -
      clipped.
 Signal uFifo/AERfifo_0_1/w_gctr_cia/S0 undriven or does not drive anything -
      clipped.
-Signal uFifo/AERfifo_0_1/af_setcount_3 undriven or does not drive anything -
-     clipped.
-Signal uFifo/AERfifo_0_1/iaf_setcount_3 undriven or does not drive anything -
-     clipped.
-Signal uFifo/AERfifo_0_1/af_setcount_2 undriven or does not drive anything -
-     clipped.
-Signal uFifo/AERfifo_0_1/iaf_setcount_2 undriven or does not drive anything -
-     clipped.
-Signal uFifo/AERfifo_0_1/af_setcount_1 undriven or does not drive anything -
-     clipped.
-Signal uFifo/AERfifo_0_1/iaf_setcount_1 undriven or does not drive anything -
-     clipped.
 Signal uFifo/AERfifo_0_1/af_setcount_0 undriven or does not drive anything -
      clipped.
 Signal uFifo/AERfifo_0_1/iaf_setcount_0 undriven or does not drive anything -
-     clipped.
-Signal uFifo/AERfifo_0_1/iae_setcount_5 undriven or does not drive anything -
-     clipped.
-Signal uFifo/AERfifo_0_1/ae_setcount_4 undriven or does not drive anything -
-     clipped.
-Signal uFifo/AERfifo_0_1/iae_setcount_4 undriven or does not drive anything -
-     clipped.
-Signal uFifo/AERfifo_0_1/ae_setcount_3 undriven or does not drive anything -
      clipped.
 Signal uFifo/AERfifo_0_1/iae_setcount_3 undriven or does not drive anything -
      clipped.
 Signal uFifo/AERfifo_0_1/ae_setcount_2 undriven or does not drive anything -
      clipped.
 Signal uFifo/AERfifo_0_1/iae_setcount_2 undriven or does not drive anything -
-
-                                    Page 9
-
-
-
-
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
-
-Removed logic (cont)
---------------------
      clipped.
 Signal uFifo/AERfifo_0_1/ae_setcount_1 undriven or does not drive anything -
      clipped.
@@ -611,30 +560,44 @@ Signal uFifo/AERfifo_0_1/ae_set_cmp_clr undriven or does not drive anything -
      clipped.
 Signal uFifo/AERfifo_0_1/ae_set_cmp_set undriven or does not drive anything -
      clipped.
-Signal uFifo/AERfifo_0_1/ae_setcount_5 undriven or does not drive anything -
+Signal uFifo/AERfifo_0_1/ae_setcount_3 undriven or does not drive anything -
      clipped.
 Signal uFifo/AlmostFull undriven or does not drive anything - clipped.
 Signal uFifo/AlmostEmpty undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/ae_set_d undriven or does not drive anything - clipped.
+Signal uFifo/AERfifo_0_1/af_setcount_1 undriven or does not drive anything -
+     clipped.
+Signal uFifo/AERfifo_0_1/iaf_setcount_1 undriven or does not drive anything -
+     clipped.
 Signal uFifo/AERfifo_0_1/a3/S1 undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/af_set undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/a3/COUT undriven or does not drive anything - clipped.
-Signal uFifo/AERfifo_0_1/iaf_setcount_5 undriven or does not drive anything -
+Signal uFifo/AERfifo_0_1/iaf_setcount_3 undriven or does not drive anything -
      clipped.
-Signal uFifo/AERfifo_0_1/iaf_setcount_4 undriven or does not drive anything -
+Signal uFifo/AERfifo_0_1/iaf_setcount_2 undriven or does not drive anything -
      clipped.
-Signal uFifo/AERfifo_0_1/co2_3 undriven or does not drive anything - clipped.
-Signal uFifo/AERfifo_0_1/co1_6 undriven or does not drive anything - clipped.
-Signal uFifo/AERfifo_0_1/af_setcount_5 undriven or does not drive anything -
+Signal uFifo/AERfifo_0_1/co1_3 undriven or does not drive anything - clipped.
+Signal uFifo/AERfifo_0_1/co0_6 undriven or does not drive anything - clipped.
+Signal uFifo/AERfifo_0_1/af_setcount_3 undriven or does not drive anything -
      clipped.
 Signal uFifo/AERfifo_0_1/af_set_c undriven or does not drive anything - clipped.
-Signal uFifo/AERfifo_0_1/co1_7 undriven or does not drive anything - clipped.
+Signal uFifo/AERfifo_0_1/co0_7 undriven or does not drive anything - clipped.
 Signal uFifo/AERfifo_0_1/af_set_cmp_clr undriven or does not drive anything -
      clipped.
 Signal uFifo/AERfifo_0_1/af_set_cmp_set undriven or does not drive anything -
      clipped.
-Signal uFifo/AERfifo_0_1/af_setcount_4 undriven or does not drive anything -
+Signal uFifo/AERfifo_0_1/af_setcount_2 undriven or does not drive anything -
      clipped.
+
+                                    Page 9
+
+
+
+
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
+
+Removed logic (cont)
+--------------------
 Signal uEarlyPaketTimer/CountxDP_cry_0_S0[0] undriven or does not drive anything
      - clipped.
 Signal uEarlyPaketTimer/N_1 undriven or does not drive anything - clipped.
@@ -654,16 +617,6 @@ Signal uSynchronizerStateMachine_1/CounterxDP_s_0_S1[13] undriven or does not
      drive anything - clipped.
 Signal uSynchronizerStateMachine_1/CounterxDP_s_0_COUT[13] undriven or does not
      drive anything - clipped.
-
-                                   Page 10
-
-
-
-
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
-
-Removed logic (cont)
---------------------
 Signal uSynchronizerStateMachine_1/CounterxDP_cry_0_S0[0] undriven or does not
      drive anything - clipped.
 Signal uSynchronizerStateMachine_1/N_1 undriven or does not drive anything -
@@ -701,6 +654,16 @@ Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[25] undriven or does not
 Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[25] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[21] undriven or does not
+
+                                   Page 10
+
+
+
+
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
+
+Removed logic (cont)
+--------------------
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[21] undriven or does not
      drive anything - clipped.
@@ -720,16 +683,6 @@ Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[11] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[11] undriven or does not
      drive anything - clipped.
-
-                                   Page 11
-
-
-
-
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
-
-Removed logic (cont)
---------------------
 Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[9] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[9] undriven or does not
@@ -767,6 +720,16 @@ Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[23] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[23] undriven or does not
      drive anything - clipped.
+
+                                   Page 11
+
+
+
+
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
+
+Removed logic (cont)
+--------------------
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[19] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[19] undriven or does not
@@ -786,16 +749,6 @@ Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[12] undriven or does not
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[10] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[10] undriven or does not
-
-                                   Page 12
-
-
-
-
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
-
-Removed logic (cont)
---------------------
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[8] undriven or does not
      drive anything - clipped.
@@ -833,6 +786,16 @@ Signal ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[21] undriven or does not
 Signal ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[17] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[17] undriven or does not
+
+                                   Page 12
+
+
+
+
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
+
+Removed logic (cont)
+--------------------
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[15] undriven or does not
      drive anything - clipped.
@@ -852,16 +815,6 @@ Signal ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[9] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[7] undriven or does not
      drive anything - clipped.
-
-                                   Page 13
-
-
-
-
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
-
-Removed logic (cont)
---------------------
 Signal ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[7] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[5] undriven or does not
@@ -899,6 +852,16 @@ Signal ADCStateMachine_1/un1_DividerRowxDP_cry_11_0_S0 undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerRowxDP_cry_9_0_S1 undriven or does not drive
      anything - clipped.
+
+                                   Page 13
+
+
+
+
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
+
+Removed logic (cont)
+--------------------
 Signal ADCStateMachine_1/un1_DividerRowxDP_cry_9_0_S0 undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/un1_DividerRowxDP_cry_7_0_S1 undriven or does not drive
@@ -918,16 +881,6 @@ Signal ADCStateMachine_1/un1_DividerRowxDP_cry_1_0_S1 undriven or does not drive
 Signal ADCStateMachine_1/un1_DividerRowxDP_cry_1_0_S0 undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/un1_DividerRowxDP_cry_0_0_S1 undriven or does not drive
-
-                                   Page 14
-
-
-
-
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
-
-Removed logic (cont)
---------------------
      anything - clipped.
 Signal ADCStateMachine_1/un1_DividerRowxDP_cry_0_0_S0 undriven or does not drive
      anything - clipped.
@@ -965,6 +918,16 @@ Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_3_0_S1 undriven or does not
 Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_3_0_S0 undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_1_0_S1 undriven or does not
+
+                                   Page 14
+
+
+
+
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
+
+Removed logic (cont)
+--------------------
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_1_0_S0 undriven or does not
      drive anything - clipped.
@@ -983,36 +946,26 @@ Signal ADCStateMachine_1/DividerRowxDP_cry_0_COUT[15] undriven or does not drive
 Signal ADCStateMachine_1/DividerRowxDP_cry_0_S0[0] undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/N_7 undriven or does not drive anything - clipped.
-Signal ADCStateMachine_1/CountRowxDP_s_0_S1[7] undriven or does not drive
-
-                                   Page 15
-
-
-
-
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
-
-Removed logic (cont)
---------------------
-     anything - clipped.
-Signal ADCStateMachine_1/CountRowxDP_s_0_COUT[7] undriven or does not drive
-     anything - clipped.
-Signal ADCStateMachine_1/CountRowxDP_cry_0_S0[0] undriven or does not drive
-     anything - clipped.
-Signal ADCStateMachine_1/N_8 undriven or does not drive anything - clipped.
 Signal ADCStateMachine_1/CountColxDP_s_0_S1[17] undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/CountColxDP_s_0_COUT[17] undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/CountColxDP_cry_0_S0[0] undriven or does not drive
      anything - clipped.
+Signal ADCStateMachine_1/N_8 undriven or does not drive anything - clipped.
+Signal ADCStateMachine_1/CountRowxDP_s_0_S1[7] undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/CountRowxDP_s_0_COUT[7] undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/CountRowxDP_cry_0_S0[0] undriven or does not drive
+     anything - clipped.
 Signal ADCStateMachine_1/N_9 undriven or does not drive anything - clipped.
 Block ResetxRBI_pad_RNIC1VE was optimized away.
 Block shiftRegister_1/DataOutxDO_67_.CN was optimized away.
 Block uFifo/AERfifo_0_1/INV_1 was optimized away.
-Block uFifo/AERfifo_0_1/INV_2 was optimized away.
-Block uFifo/AERfifo_0_1/OR2_t10 was optimized away.
-Block uFifo/AERfifo_0_1/scuba_vlo_inst was optimized away.
+Block uFifo/AERfifo_0_1/OR2_t6 was optimized away.
+Block uFifo/AERfifo_0_1/INV_0 was optimized away.
+Block uFifo/AERfifo_0_1/LUT4_14 was optimized away.
 Block uFifo/AERfifo_0_1/scuba_vhi_inst was optimized away.
 
 Memory Usage
@@ -1020,9 +973,9 @@ Memory Usage
 
 /uFifo/AERfifo_0_1:
     EBRs: 0
-    RAM SLICEs: 24
-    Logic SLICEs: 59
-    PFU Registers: 78
+    RAM SLICEs: 12
+    Logic SLICEs: 37
+    PFU Registers: 58
 
 PLL/DLL Summary
 ---------------
@@ -1031,6 +984,16 @@ PLL 1:                                     Pin/Node Value
   PLL Instance Name:
        uClockGen/PLLCInst_0/PLLInst_0
   PLL Type:                                         EHXPLLF
+
+                                   Page 15
+
+
+
+
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
+
+PLL/DLL Summary (cont)
+----------------------
   Input Clock:                             PIN      IfClockxCI_c
   Output Clock(P):                         NODE     ClockxC_c
   Output Clock(K2):                                 NONE
@@ -1050,16 +1013,6 @@ PLL 1:                                     Pin/Node Value
        uClockGen/PLLCInst_0/scuba_vlo
   Dynamic Duty Adjust Input 0:             NODE
        uClockGen/PLLCInst_0/scuba_vlo
-
-                                   Page 16
-
-
-
-
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
-
-PLL/DLL Summary (cont)
-----------------------
   Dynamic Duty Adjust Input 1:             NODE
        uClockGen/PLLCInst_0/scuba_vlo
   Dynamic Duty Adjust Input 2:             NODE
@@ -1097,6 +1050,16 @@ PLL/DLL Summary (cont)
   CLKOS Delay Adjust:                               NONE
   CLKOS Delay Adjust Power Down:                    DISABLED
   CLKOS Delay Adjust Static Delay (ps):             0
+
+                                   Page 16
+
+
+
+
+Design:  USBAER_top_level                              Date:  03/31/14  19:08:06
+
+PLL/DLL Summary (cont)
+----------------------
   CLKOP Duty Trim Polarity:                         RISING
   CLKOP Duty Trim Polarity Delay (ps):              0
   CLKOS Duty Trim Polarity:                         RISING
@@ -1117,16 +1080,6 @@ GSR Component:
         'ResetxRBI_c'.
 
 GSR Property:
-
-                                   Page 17
-
-
-
-
-Design:  USBAER_top_level                              Date:  03/31/14  12:35:46
-
-GSR Usage (cont)
-----------------
    The design components with GSR property set to ENABLED will respond to global
         set reset while the components with GSR property set to DISABLED will
         not.
@@ -1134,7 +1087,7 @@ GSR Usage (cont)
 Run Time and Memory Usage
 -------------------------
 
-   Total CPU Time: 0 secs
+   Total CPU Time: 1 secs
    Total REAL Time: 0 secs
    Peak Memory Usage: 109 MB
 
@@ -1165,26 +1118,7 @@ Run Time and Memory Usage
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                   Page 18
+                                   Page 17
 
 
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.

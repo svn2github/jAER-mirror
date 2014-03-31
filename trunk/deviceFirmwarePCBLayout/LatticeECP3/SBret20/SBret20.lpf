@@ -68,12 +68,12 @@ LOCATE COMP "FX2FifoDataxDIO_1" SITE "T3" ;
 LOCATE COMP "FX2FifoDataxDIO_0" SITE "T2" ;
 LOCATE COMP "FX2FifoChipSelectxEBO" SITE "B14" ; // SLCS
 LOCATE COMP "FX2FifoWritexEBO" SITE "H13" ; // SLWR
-LOCATE COMP "FX2FifoReadxEBO" SITE "K14" ; // SLOESLRD
-LOCATE COMP "FX2FifoPktEndxSBO" SITE "L14" ; // PktEnd
+LOCATE COMP "FX2FifoReadxEBO" SITE "N15" ; // SLOESLRD (through Spare2)
+LOCATE COMP "FX2FifoPktEndxSBO" SITE "N16" ; // PktEnd (through Spare1)
 LOCATE COMP "FX2FifoAddressxDO_0" SITE "F14" ; // FifoAddr0
 LOCATE COMP "FX2FifoAddressxDO_1" SITE "H14" ; // FifoAddr1
 LOCATE COMP "FX2FifoInFullxSBI" SITE "E14" ; // FULL
-//LOCATE COMP "FX2FifoInEmptyxSBI" SITE "B13" ; // EMPTY
+//LOCATE COMP "FX2FifoInAlmostFullxSBI" SITE "L3" ; // ALMOST_FULL
 LOCATE COMP "IfClockxCI" SITE "K3" ; // IFClock (from FX3)
 LOCATE COMP "CDVSTestSRRowClockxSO" SITE "D9" ; // RowSRclock
 LOCATE COMP "CDVSTestSRColClockxSO" SITE "D11" ; // ColSRclock

@@ -11,22 +11,22 @@
 #CUR:"C:\\lscc\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\arith.vhd":1372669836
 #CUR:"C:\\lscc\\diamond\\3.0_x64\\synpbase\\lib\\vhd\\unsigned.vhd":1372669836
 #CUR:"C:\\lscc\\diamond\\3.0_x64\\cae_library\\synthesis\\vhdl\\ecp3.vhd":1376996526
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\wordRegister.vhd":1396111127
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\AERfifo.vhd":1396128034
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\clockgen.vhd":1396261614
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\earlyPaketTimer.vhd":1396111127
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\EventBeforeOverflow.vhd":1396111127
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\eventCounter.vhd":1396111127
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\fifoStatemachine.vhd":1396262118
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\monitorStateMachine.vhd":1396111127
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\synchronizerStateMachine.vhd":1396111127
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\timestampCounter.vhd":1396111127
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\ADCvalueReady.vhd":1396111127
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\cDVSResetStateMachine.vhd":1396111127
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\shiftRegister.vhd":1396111127
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\ADCStateMachine.vhd":1396111127
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\wordRegister.vhd":1396271434
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\AERfifo.vhd":1396282774
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\clockgen.vhd":1396278972
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\earlyPaketTimer.vhd":1396271434
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\EventBeforeOverflow.vhd":1396271434
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\eventCounter.vhd":1396281232
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\fifoStatemachine.vhd":1396285662
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\monitorStateMachine.vhd":1396271434
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\synchronizerStateMachine.vhd":1396271434
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\timestampCounter.vhd":1396271434
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\ADCvalueReady.vhd":1396271434
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\cDVSResetStateMachine.vhd":1396271434
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\shiftRegister.vhd":1396271434
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\ADCStateMachine.vhd":1396271434
 #CUR:"C:\\lscc\\diamond\\3.0_x64\\cae_library\\synthesis\\vhdl\\pmi_def.vhd":1378231952
-#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\USBAER_top_level.vhd":1396262019
+#CUR:"E:\\JAER_SVN\\trunk\\deviceFirmwarePCBLayout\\LatticeECP3\\SBret20\\sourcecode\\USBAER_top_level.vhd":1396271434
 0 "C:\lscc\diamond\3.0_x64\cae_library\synthesis\vhdl\ecp3.vhd" vhdl
 1 "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\wordRegister.vhd" vhdl
 2 "E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\AERfifo.vhd" vhdl

@@ -38,7 +38,7 @@
 @W|Block-path constraint from PORT "USBAER_top_level|IfClockxCI" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file. 
 @W: MT246 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\aerfifo.vhd":65:1:65:11|Blackbox pmi_fifo_dc_work_usbaer_top_level_structural_0 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
 @W: MT246 :"e:\jaer_svn\trunk\devicefirmwarepcblayout\latticeecp3\sbret20\sourcecode\clockgen.vhd":54:1:54:10|Blackbox pmi_pll is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
-@W: MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 4.85ns. Please declare a user-defined clock on object "p:IfClockxCI"
+@W: MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 4.89ns. Please declare a user-defined clock on object "p:IfClockxCI"
 @W: MT420 |Found inferred clock USBAER_top_level|PC1xSIO with period 1.00ns. Please declare a user-defined clock on object "p:PC1xSIO"
 @W: MT420 |Found inferred clock USBAER_top_level|PC2xSIO with period 1000.00ns. Please declare a user-defined clock on object "p:PC2xSIO"
 @W: MT420 |Found inferred clock clockgen|CLKOP_inferred_clock with period 3.71ns. Please declare a user-defined clock on object "n:uClockGen.CLKOP"

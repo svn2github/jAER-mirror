@@ -22,7 +22,7 @@ Post processing for work.adcstatemachine.behavioral
 @N: CD231 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\monitorStateMachine.vhd":69:13:69:14|Using onehot encoding for type state (stidle="100000000000")
 Post processing for work.monitorstatemachine.behavioral
 @N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\fifoStatemachine.vhd":25:7:25:22|Synthesizing work.fifostatemachine.behavioral 
-@N: CD233 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\fifoStatemachine.vhd":55:13:55:14|Using sequential encoding for type state
+@N: CD231 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\fifoStatemachine.vhd":55:13:55:14|Using onehot encoding for type state (stidle="10000")
 Post processing for work.fifostatemachine.behavioral
 @N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\synchronizerStateMachine.vhd":19:7:19:30|Synthesizing work.synchronizerstatemachine.behavioral 
 @N: CD231 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\synchronizerStateMachine.vhd":46:13:46:14|Using onehot encoding for type state (stidle="100000")
@@ -61,13 +61,14 @@ State machine has 6 reachable states with original encodings of:
    001000
    010000
    100000
-@N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\fifoStatemachine.vhd":131:4:131:5|Trying to extract state machine for register StatexDP
+@N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\fifoStatemachine.vhd":145:4:145:5|Trying to extract state machine for register StatexDP
 Extracted state machine for register StatexDP
-State machine has 4 reachable states with original encodings of:
-   00
-   01
-   10
-   11
+State machine has 5 reachable states with original encodings of:
+   00001
+   00010
+   00100
+   01000
+   10000
 @N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\monitorStateMachine.vhd":275:4:275:5|Trying to extract state machine for register StatexDP
 Extracted state machine for register StatexDP
 State machine has 12 reachable states with original encodings of:

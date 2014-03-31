@@ -8,7 +8,7 @@ The file contains the area information from mapper to be displayed as part of th
 <data>E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\SBret20\synlog\report\SBret20_SBret20_fpga_mapper_resourceusage.rpt</data>
 </report_link>
 <parameter tooltip="Total Register bits used" name="Register bits">
-<data>413</data>
+<data>420</data>
 </parameter>
 <parameter tooltip="Total I/O cells used" name="I/O cells">
 <data>92</data>
@@ -20,6 +20,6 @@ The file contains the area information from mapper to be displayed as part of th
 <data>0</data>
 </parameter>
 <parameter tooltip="Total ORCA LUTs used" name="ORCA LUTs">
-<data>360</data>
+<data>373</data>
 </parameter>
 </report_table>

@@ -1,5 +1,68 @@
 <?xml version='1.0' encoding='utf-8'?>
 <BaliMessageLog>
+    <Milestone name="Export">
+        <Task name="Bitgen">
+            <Engine name="ltxt2ptxt"/>
+            <Engine name="bitgen">
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "ADCwordxDI[3]" has been assigned to PIN "E15", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>ADCwordxDI[3]</Dynamic>
+                    <Dynamic>E15</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "ADCwordxDI[2]" has been assigned to PIN "E16", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>ADCwordxDI[2]</Dynamic>
+                    <Dynamic>E16</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "ADCwordxDI[1]" has been assigned to PIN "D16", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>ADCwordxDI[1]</Dynamic>
+                    <Dynamic>D16</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "FX2FifoAddressxDO[1]" has been assigned to PIN "H14", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>FX2FifoAddressxDO[1]</Dynamic>
+                    <Dynamic>H14</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "FX2FifoAddressxDO[0]" has been assigned to PIN "F14", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>FX2FifoAddressxDO[0]</Dynamic>
+                    <Dynamic>F14</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1103808</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The signal "FX2FifoWritexEBO" has been assigned to PIN "H13", which is a dual function pin. This pin will be used during the configuration of the device. The pin can be used for logic after configuration. External logic may be needed to avoid contention on this pin.</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>FX2FifoWritexEBO</Dynamic>
+                    <Dynamic>H13</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1104062</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - Preference parsing results:  6 syntax errors detected</Text>
+                    <Dynamic></Dynamic>
+                    <Dynamic>6</Dynamic>
+                    <Dynamic>s</Dynamic>
+                </Message>
+            </Engine>
+        </Task>
+    </Milestone>
     <Milestone name="Synthesis">
         <Task name="Synplify_Synthesis">
             <Engine name="gen_synplify_tcl"/>
@@ -464,7 +527,7 @@
                     <Severity>Warning</Severity>
                     <Text>WARNING - @W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC2xSIO" not forward annotated in -lpf file.</Text>
                     <Dynamic>@W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC2xSIO" not forward annotated in -lpf file.</Dynamic>
-                    <Navigation/>
+                    <Navigation></Navigation>
                     <Navigation>Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC2xSIO" not forward annotated in -lpf file. </Navigation>
                 </Message>
                 <Message>
@@ -472,7 +535,7 @@
                     <Severity>Warning</Severity>
                     <Text>WARNING - @W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC1xSIO" not forward annotated in -lpf file.</Text>
                     <Dynamic>@W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC1xSIO" not forward annotated in -lpf file.</Dynamic>
-                    <Navigation/>
+                    <Navigation></Navigation>
                     <Navigation>Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC1xSIO" not forward annotated in -lpf file. </Navigation>
                 </Message>
                 <Message>
@@ -480,7 +543,7 @@
                     <Severity>Warning</Severity>
                     <Text>WARNING - @W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|IfClockxCI" not forward annotated in -lpf file.</Text>
                     <Dynamic>@W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|IfClockxCI" not forward annotated in -lpf file.</Dynamic>
-                    <Navigation/>
+                    <Navigation></Navigation>
                     <Navigation>Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|IfClockxCI" not forward annotated in -lpf file. </Navigation>
                 </Message>
                 <Message>
@@ -488,7 +551,7 @@
                     <Severity>Warning</Severity>
                     <Text>WARNING - @W|Block-path constraint from PORT "USBAER_top_level|PC2xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file.</Text>
                     <Dynamic>@W|Block-path constraint from PORT "USBAER_top_level|PC2xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file.</Dynamic>
-                    <Navigation/>
+                    <Navigation></Navigation>
                     <Navigation>Block-path constraint from PORT "USBAER_top_level|PC2xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file. </Navigation>
                 </Message>
                 <Message>
@@ -496,7 +559,7 @@
                     <Severity>Warning</Severity>
                     <Text>WARNING - @W|Block-path constraint from PORT "USBAER_top_level|PC1xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file.</Text>
                     <Dynamic>@W|Block-path constraint from PORT "USBAER_top_level|PC1xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file.</Dynamic>
-                    <Navigation/>
+                    <Navigation></Navigation>
                     <Navigation>Block-path constraint from PORT "USBAER_top_level|PC1xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file. </Navigation>
                 </Message>
                 <Message>
@@ -504,7 +567,7 @@
                     <Severity>Warning</Severity>
                     <Text>WARNING - @W|Block-path constraint from PORT "USBAER_top_level|IfClockxCI" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file.</Text>
                     <Dynamic>@W|Block-path constraint from PORT "USBAER_top_level|IfClockxCI" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file.</Dynamic>
-                    <Navigation/>
+                    <Navigation></Navigation>
                     <Navigation>Block-path constraint from PORT "USBAER_top_level|IfClockxCI" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file. </Navigation>
                 </Message>
                 <Message>
@@ -536,10 +599,10 @@
                 <Message>
                     <ID>2019993</ID>
                     <Severity>Warning</Severity>
-                    <Text>WARNING - MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 4.85ns. Please declare a user-defined clock on object "p:IfClockxCI"</Text>
-                    <Dynamic>MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 4.85ns. Please declare a user-defined clock on object "p:IfClockxCI"</Dynamic>
+                    <Text>WARNING - MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 4.89ns. Please declare a user-defined clock on object "p:IfClockxCI"</Text>
+                    <Dynamic>MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 4.89ns. Please declare a user-defined clock on object "p:IfClockxCI"</Dynamic>
                     <Navigation>MT420</Navigation>
-                    <Navigation>Found inferred clock USBAER_top_level|IfClockxCI with period 4.85ns. Please declare a user-defined clock on object "p:IfClockxCI"</Navigation>
+                    <Navigation>Found inferred clock USBAER_top_level|IfClockxCI with period 4.89ns. Please declare a user-defined clock on object "p:IfClockxCI"</Navigation>
                 </Message>
                 <Message>
                     <ID>2019993</ID>
@@ -575,27 +638,6 @@
                 <Message>
                     <ID>1166052</ID>
                     <Severity>Warning</Severity>
-                    <Text>WARNING - logical net 'ADCStateMachine_1/CountColxDP_cry_0_S0[0]' has no load</Text>
-                    <Dynamic>logical</Dynamic>
-                    <Dynamic>ADCStateMachine_1/CountColxDP_cry_0_S0[0]</Dynamic>
-                </Message>
-                <Message>
-                    <ID>1166052</ID>
-                    <Severity>Warning</Severity>
-                    <Text>WARNING - logical net 'ADCStateMachine_1/CountColxDP_s_0_COUT[17]' has no load</Text>
-                    <Dynamic>logical</Dynamic>
-                    <Dynamic>ADCStateMachine_1/CountColxDP_s_0_COUT[17]</Dynamic>
-                </Message>
-                <Message>
-                    <ID>1166052</ID>
-                    <Severity>Warning</Severity>
-                    <Text>WARNING - logical net 'ADCStateMachine_1/CountColxDP_s_0_S1[17]' has no load</Text>
-                    <Dynamic>logical</Dynamic>
-                    <Dynamic>ADCStateMachine_1/CountColxDP_s_0_S1[17]</Dynamic>
-                </Message>
-                <Message>
-                    <ID>1166052</ID>
-                    <Severity>Warning</Severity>
                     <Text>WARNING - logical net 'ADCStateMachine_1/CountRowxDP_cry_0_S0[0]' has no load</Text>
                     <Dynamic>logical</Dynamic>
                     <Dynamic>ADCStateMachine_1/CountRowxDP_cry_0_S0[0]</Dynamic>
@@ -613,6 +655,27 @@
                     <Text>WARNING - logical net 'ADCStateMachine_1/CountRowxDP_s_0_S1[7]' has no load</Text>
                     <Dynamic>logical</Dynamic>
                     <Dynamic>ADCStateMachine_1/CountRowxDP_s_0_S1[7]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/CountColxDP_cry_0_S0[0]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/CountColxDP_cry_0_S0[0]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/CountColxDP_s_0_COUT[17]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/CountColxDP_s_0_COUT[17]</Dynamic>
+                </Message>
+                <Message>
+                    <ID>1166052</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - logical net 'ADCStateMachine_1/CountColxDP_s_0_S1[17]' has no load</Text>
+                    <Dynamic>logical</Dynamic>
+                    <Dynamic>ADCStateMachine_1/CountColxDP_s_0_S1[17]</Dynamic>
                 </Message>
                 <Message>
                     <ID>1166052</ID>
@@ -1690,20 +1753,11 @@
                     <Navigation>176</Navigation>
                 </Message>
                 <Message>
-                    <ID>1100679</ID>
-                    <Severity>Warning</Severity>
-                    <Text>WARNING - E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf(76): Semantic error in "LOCATE COMP "FX2FifoInEmptyxSBI" SITE "B13" ;": COMP "FX2FifoInEmptyxSBI" not found in design. Disable this preference.</Text>
-                    <Dynamic>E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf(76): Semantic error in "LOCATE COMP "FX2FifoInEmptyxSBI" SITE "B13" ;": </Dynamic>
-                    <Dynamic>FX2FifoInEmptyxSBI</Dynamic>
-                    <Navigation>E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20/SBret20.lpf</Navigation>
-                    <Navigation>76</Navigation>
-                </Message>
-                <Message>
                     <ID>1104062</ID>
                     <Severity>Warning</Severity>
-                    <Text>WARNING - Preference parsing results:  3 syntax errors detected</Text>
+                    <Text>WARNING - Preference parsing results:  2 syntax errors detected</Text>
                     <Dynamic></Dynamic>
-                    <Dynamic>3</Dynamic>
+                    <Dynamic>2</Dynamic>
                     <Dynamic>s</Dynamic>
                 </Message>
                 <Message>
@@ -1841,18 +1895,22 @@
                     <Dynamic>s</Dynamic>
                 </Message>
                 <Message>
-                    <ID>71141105</ID>
-                    <Severity>Error</Severity>
-                    <Text>ERROR - chipcheck: output PIO comp FX2FifoPktEndxSBO is placed on an input only site L14.</Text>
-                    <Dynamic>FX2FifoPktEndxSBO</Dynamic>
-                    <Dynamic>L14</Dynamic>
+                    <ID>62131008</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The driver of primary clock net IfClockxCI_c is not placed on one of the dedicated sites for primary clocks. This primary clock will be routed to a H-spine through general routing resource or will be routed as a secondary clock and may suffer from excessive delay or skew.</Text>
+                    <Dynamic>IfClockxCI_c</Dynamic>
                 </Message>
                 <Message>
-                    <ID>71141105</ID>
-                    <Severity>Error</Severity>
-                    <Text>ERROR - chipcheck: output PIO comp FX2FifoReadxEBO is placed on an input only site K14.</Text>
-                    <Dynamic>FX2FifoReadxEBO</Dynamic>
-                    <Dynamic>K14</Dynamic>
+                    <ID>62131008</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The driver of primary clock net PC1xSIO_c is not placed on one of the dedicated sites for primary clocks. This primary clock will be routed to a H-spine through general routing resource or will be routed as a secondary clock and may suffer from excessive delay or skew.</Text>
+                    <Dynamic>PC1xSIO_c</Dynamic>
+                </Message>
+                <Message>
+                    <ID>62131008</ID>
+                    <Severity>Warning</Severity>
+                    <Text>WARNING - The driver of primary clock net PC2xSIO_c is not placed on one of the dedicated sites for primary clocks. This primary clock will be routed to a H-spine through general routing resource or will be routed as a secondary clock and may suffer from excessive delay or skew.</Text>
+                    <Dynamic>PC2xSIO_c</Dynamic>
                 </Message>
             </Engine>
         </Task>

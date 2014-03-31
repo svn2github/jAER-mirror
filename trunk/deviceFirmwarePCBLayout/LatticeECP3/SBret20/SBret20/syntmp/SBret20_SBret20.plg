@@ -1,9 +1,9 @@
-@P:  Worst Slack : -0.857
-@P:  USBAER_top_level|IfClockxCI - Estimated Frequency : 175.2 MHz
-@P:  USBAER_top_level|IfClockxCI - Requested Frequency : 206.1 MHz
-@P:  USBAER_top_level|IfClockxCI - Estimated Period : 5.709
-@P:  USBAER_top_level|IfClockxCI - Requested Period : 4.853
-@P:  USBAER_top_level|IfClockxCI - Slack : -0.857
+@P:  Worst Slack : -0.863
+@P:  USBAER_top_level|IfClockxCI - Estimated Frequency : 173.9 MHz
+@P:  USBAER_top_level|IfClockxCI - Requested Frequency : 204.6 MHz
+@P:  USBAER_top_level|IfClockxCI - Estimated Period : 5.751
+@P:  USBAER_top_level|IfClockxCI - Requested Period : 4.888
+@P:  USBAER_top_level|IfClockxCI - Slack : -0.863
 @P:  USBAER_top_level|PC1xSIO - Estimated Frequency : 1156.1 MHz
 @P:  USBAER_top_level|PC1xSIO - Requested Frequency : 1000.0 MHz
 @P:  USBAER_top_level|PC1xSIO - Estimated Period : 0.865
@@ -21,15 +21,15 @@
 @P:  clockgen|CLKOP_inferred_clock - Slack : -0.655
 @P:  System - Estimated Frequency : 1.0 MHz
 @P:  System - Requested Frequency : 1.0 MHz
-@P:  System - Estimated Period : 998.297
+@P:  System - Estimated Period : 998.415
 @P:  System - Requested Period : 1000.000
-@P:  System - Slack : 1.703
+@P:  System - Slack : 1.585
 @P:  Worst Slack(min analysis) : 0.226
-@P:  USBAER_top_level|IfClockxCI - Estimated Frequency(min analysis) : 175.2 MHz
-@P:  USBAER_top_level|IfClockxCI - Requested Frequency(min analysis) : 206.1 MHz
-@P:  USBAER_top_level|IfClockxCI - Estimated Period(min analysis) : 5.709
-@P:  USBAER_top_level|IfClockxCI - Requested Period(min analysis) : 4.853
-@P:  USBAER_top_level|IfClockxCI - Slack(min analysis) : -0.857
+@P:  USBAER_top_level|IfClockxCI - Estimated Frequency(min analysis) : 173.9 MHz
+@P:  USBAER_top_level|IfClockxCI - Requested Frequency(min analysis) : 204.6 MHz
+@P:  USBAER_top_level|IfClockxCI - Estimated Period(min analysis) : 5.751
+@P:  USBAER_top_level|IfClockxCI - Requested Period(min analysis) : 4.888
+@P:  USBAER_top_level|IfClockxCI - Slack(min analysis) : -0.863
 @P:  USBAER_top_level|PC1xSIO - Estimated Frequency(min analysis) : 1156.1 MHz
 @P:  USBAER_top_level|PC1xSIO - Requested Frequency(min analysis) : 1000.0 MHz
 @P:  USBAER_top_level|PC1xSIO - Estimated Period(min analysis) : 0.865
@@ -50,7 +50,7 @@
 @P:  System - Estimated Period(min analysis) : 999.774
 @P:  System - Requested Period(min analysis) : 1000.000
 @P:  System - Slack(min analysis) : 0.226
-@P:  Total Area : 365.0
+@P:  Total Area : 380.0
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
@@ -64,4 +64,4 @@
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
-@P:  CPU Time : 0h:00m:02s
+@P:  CPU Time : 0h:00m:03s

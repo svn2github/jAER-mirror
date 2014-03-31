@@ -12,7 +12,7 @@
 @N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\monitorStateMachine.vhd":25:7:25:25|Synthesizing work.monitorstatemachine.behavioral 
 @N: CD231 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\monitorStateMachine.vhd":69:13:69:14|Using onehot encoding for type state (stidle="100000000000")
 @N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\fifoStatemachine.vhd":25:7:25:22|Synthesizing work.fifostatemachine.behavioral 
-@N: CD233 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\fifoStatemachine.vhd":55:13:55:14|Using sequential encoding for type state
+@N: CD231 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\fifoStatemachine.vhd":55:13:55:14|Using onehot encoding for type state (stidle="10000")
 @N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\synchronizerStateMachine.vhd":19:7:19:30|Synthesizing work.synchronizerstatemachine.behavioral 
 @N: CD231 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\synchronizerStateMachine.vhd":46:13:46:14|Using onehot encoding for type state (stidle="100000")
 @N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\timestampCounter.vhd":25:7:25:22|Synthesizing work.timestampcounter.behavioral 
@@ -26,7 +26,7 @@
 @N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\clockgen.vhd":10:7:10:14|Synthesizing work.clockgen.structure 
 @N: CD630 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\clockgen.vhd":25:11:25:17|Synthesizing work.pmi_pll.syn_black_box 
 @N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\synchronizerStateMachine.vhd":225:4:225:5|Trying to extract state machine for register StatexDP
-@N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\fifoStatemachine.vhd":131:4:131:5|Trying to extract state machine for register StatexDP
+@N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\fifoStatemachine.vhd":145:4:145:5|Trying to extract state machine for register StatexDP
 @N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\monitorStateMachine.vhd":275:4:275:5|Trying to extract state machine for register StatexDP
 @N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":358:4:358:5|Trying to extract state machine for register StateRowxDP
 @N: CL201 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeECP3\SBret20\sourcecode\ADCStateMachine.vhd":358:4:358:5|Trying to extract state machine for register StateColxDP

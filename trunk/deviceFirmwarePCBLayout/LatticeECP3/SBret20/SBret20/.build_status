@@ -5,35 +5,34 @@
             <Task name="IBIS" build_result="0" update_result="3" update_time="0"/>
             <Task name="TimingSimFileVlg" build_result="0" update_result="3" update_time="0"/>
             <Task name="TimingSimFileVHD" build_result="0" update_result="3" update_time="0"/>
-            <Task name="Bitgen" build_result="0" update_result="3" update_time="0"/>
+            <Task name="Bitgen" build_result="2" update_result="0" update_time="1396285724"/>
             <Task name="Promgen" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="Map" build_result="0" build_time="1396262147">
-            <Task name="Map" build_result="0" update_result="2" update_time="1396262147"/>
+        <Milestone name="Map" build_result="2" build_time="1396285687">
+            <Task name="Map" build_result="2" update_result="0" update_time="1396285687"/>
             <Task name="MapTrace" build_result="0" update_result="3" update_time="0"/>
             <Task name="MapVerilogSimFile" build_result="0" update_result="3" update_time="0"/>
             <Task name="MapVHDLSimFile" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="PAR" build_result="1" build_time="1396262149">
-            <Task name="PAR" build_result="1" update_result="2" update_time="1396262149"/>
+        <Milestone name="PAR" build_result="2" build_time="1396285716">
+            <Task name="PAR" build_result="2" update_result="0" update_time="1396285716"/>
             <Task name="PARTrace" build_result="0" update_result="3" update_time="0"/>
             <Task name="IOTiming" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="Synthesis" build_result="2" build_time="1396262139">
-            <Task name="Synplify_Synthesis" build_result="2" update_result="0" update_time="1396262139"/>
+        <Milestone name="Synthesis" build_result="2" build_time="1396285685">
+            <Task name="Synplify_Synthesis" build_result="2" update_result="0" update_time="1396285685"/>
         </Milestone>
         <Milestone name="TOOL_Report" build_result="0" build_time="0">
-            <Task name="HDLE" build_result="2" update_result="0" update_time="1396262119"/>
-            <Task name="BKM" build_result="0" update_result="2" update_time="0"/>
-            <Task name="SSO" build_result="0" update_result="2" update_time="0"/>
-            <Task name="PIODRC" build_result="0" update_result="2" update_time="0"/>
+            <Task name="HDLE" build_result="2" update_result="0" update_time="1396285662"/>
         </Milestone>
-        <Milestone name="Translate" build_result="2" build_time="1396262141">
-            <Task name="Translate" build_result="2" update_result="0" update_time="1396262141"/>
+        <Milestone name="Translate" build_result="2" build_time="1396285686">
+            <Task name="Translate" build_result="2" update_result="0" update_time="1396285686"/>
         </Milestone>
-        <Report name="SBret20_SBret20.edi" last_build_time="1396262135" last_build_size="750592"/>
-        <Report name="SBret20_SBret20.ncd" last_build_time="1396111126" last_build_size="645079"/>
-        <Report name="SBret20_SBret20.ngd" last_build_time="1396262140" last_build_size="779070"/>
-        <Report name="SBret20_SBret20_map.ncd" last_build_time="1396262147" last_build_size="523880"/>
+        <Report name="SBret20_SBret20.bgn" last_build_time="1396285723" last_build_size="5609"/>
+        <Report name="SBret20_SBret20.bit" last_build_time="1396285723" last_build_size="508078"/>
+        <Report name="SBret20_SBret20.edi" last_build_time="1396285681" last_build_size="751869"/>
+        <Report name="SBret20_SBret20.ncd" last_build_time="1396285715" last_build_size="736558"/>
+        <Report name="SBret20_SBret20.ngd" last_build_time="1396285686" last_build_size="748642"/>
+        <Report name="SBret20_SBret20_map.ncd" last_build_time="1396285687" last_build_size="491871"/>
     </Strategy>
 </BuildStatus>

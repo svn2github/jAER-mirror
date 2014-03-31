@@ -2,14 +2,14 @@
 
 #### START OF CLOCK OPTIMIZATION REPORT #####[
 
-3 non-gated/non-generated clock tree(s) driving 274 clock pin(s) of sequential element(s)
+3 non-gated/non-generated clock tree(s) driving 281 clock pin(s) of sequential element(s)
 1 gated/generated clock tree(s) driving 139 clock pin(s) of sequential element(s)
 0 instances converted, 139 sequential instances remain driven by gated/generated clocks
 
 ================================== Non-Gated/Non-Generated Clocks ===================================
 Clock Tree ID     Driving Element     Drive Element Type     Fanout     Sample Instance              
 -----------------------------------------------------------------------------------------------------
-@K:CKID0002       IfClockxCI          port                   114        uADCRegister_StatexDPio[0]   
+@K:CKID0002       IfClockxCI          port                   121        uADCRegister_StatexDPio[0]   
 @K:CKID0003       PC2xSIO             port                   80         shiftRegister_1.DataOutxDO[0]
 @K:CKID0004       PC1xSIO             port                   80         shiftRegister_1_StatexDio[0] 
 =====================================================================================================

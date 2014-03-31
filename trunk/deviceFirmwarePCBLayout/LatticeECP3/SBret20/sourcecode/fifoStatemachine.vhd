@@ -52,33 +52,35 @@ entity fifoStatemachine is
 end fifoStatemachine;
 
 architecture Behavioral of fifoStatemachine is
-  type state is (stIdle, stEarlyPaket1, stSetupWrite1, stWrite);
+  type state is (stIdle, stEarlyPaket1, stSetupWrite1, stSetupWrite2, stWrite);
 
   -- present and next state
   signal StatexDP, StatexDN : state;
 
 
   -- fifo addresses
-  constant EP2             : std_logic_vector := "00";
-  constant EP6             : std_logic_vector := "10";
+  constant EP_FIFO : std_logic_vector := "00";
 
-
+   -- counter for FULL flag delay
+   signal FullCountxDP, FullCountxDN : std_logic_vector(3 downto 0);  
 begin
 
 -- calculate next state and outputs
-  p_memless : process (StatexDP, FX2FifoInFullxSBI,  EarlyPaketTimerOverflowxSI, FifoEmptyxSI, RunxSI)
+  p_memless : process (StatexDP, FullCountxDP, FX2FifoInFullxSBI,  EarlyPaketTimerOverflowxSI, FifoEmptyxSI, RunxSI)
   begin  -- process p_memless
     -- default assignements: stay in present state, don't change address in
     -- FifoAddress register, no Fifo transaction, write registers, don't reset the counters
-    StatexDN                  <= StatexDP;
-	FX2FifoChipSelectxEBO        <= '1'; -- Always keep chip selected.
+    StatexDN                     <= StatexDP;
+	FullCountxDN                 <= (others => '0');
+
+	FX2FifoChipSelectxEBO        <= '0'; -- Always keep chip selected (active-low).
     FX2FifoWritexEBO             <= '1';
     FX2FifoPktEndxSBO            <= '1';
 
     IncEventCounterxSO        <= '0';
     ResetEventCounterxSO      <= '0';
     ResetEarlyPaketTimerxSO   <= '0';
-    FX2FifoAddressxDO            <= EP6;
+    FX2FifoAddressxDO         <= EP_FIFO;
 
     FifoReadxEO <= '0';
     
@@ -86,41 +88,53 @@ begin
 
     case StatexDP is
       when stIdle =>
-
         if EarlyPaketTimerOverflowxSI = '1' and FX2FifoInFullxSBI = '1' and RunxSI = '1' then
-                       -- we haven't commited a paket for a long time
+          -- we haven't commited a paket for a long time
           StatexDN <= stEarlyPaket1;
-       
         elsif FifoEmptyxSI = '0' and FX2FifoInFullxSBI = '1' and RunxSI = '1' then
           StatexDN <= stSetupWrite1;
         end if;
 
         FifoTransactionxSO        <= '0';  -- no fifo transaction running
-      when stEarlyPaket1  =>             -- ordering the FX2 to send a paket
-                                        -- even if it's not full, need two
-                                        -- states to ensure setup time of
-                                        -- fifoaddress 
+     
+	 when stEarlyPaket1 =>
+	   -- ordering the FX2 to send a paket
+       -- even if it's not full, need two
+       -- states to ensure setup time of
+       -- fifoaddress 
         StatexDN                  <= stIdle;
         ResetEarlyPaketTimerxSO   <= '1';
         ResetEventCounterxSO      <= '1';
-        FX2FifoPktEndxSBO            <= '0';
-   
+        FX2FifoPktEndxSBO         <= '0';
 
       when stSetupWrite1 =>
-        StatexDN <= stWrite;
-        FifoReadxEO <= '1';
-    --  when stSetupWrite2 =>
-    --    StatexDN <= stWrite;
-    --    FifoReadxEO <= '1';
-      when stWrite   =>             -- write the address to the fifo
+	    -- Check that we can really write because the FX3 FIFO is not full.
+	    -- There is a 3 cycle latency on the flag upating!
+		if FullCountxDP = 4 then
+		  FullCountxDN <= (others => '0');
+		  StatexDN <= stSetupWrite2;
+		else
+		  FullCountxDN <= FullCountxDP + 1;
+		end if;
+
+	  when stSetupWrite2 =>
+	    -- Check now, after delaying, that the FIFO is still free.
+	    if FX2FifoInFullxSBI = '1' then
+          StatexDN <= stWrite;
+          FifoReadxEO <= '1';
+		else
+		  StatexDN <= stIdle;
+		end if;
+      
+	  when stWrite =>             -- write the address to the fifo
         if  FifoEmptyxSI = '1' then
-          StatexDN                 <= stIdle;
+          StatexDN <= stIdle;
         end if;
-        FX2FifoWritexEBO             <= '0';
+        FX2FifoWritexEBO <= '0';
         FifoReadxEO <= '1';
         IncEventCounterxSO <= '1';
             
-      when others      => null;
+      when others => null;
     end case;
 
   end process p_memless;
@@ -130,8 +144,10 @@ begin
   begin  -- process p_memoryzing
     if ResetxRBI = '0' then             -- asynchronous reset (active low)
       StatexDP <= stIdle;
+	  FullCountxDP <= (others => '0');
     elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
       StatexDP <= StatexDN;
+	  FullCountxDP <= FullCountxDN;
     end if;
   end process p_memoryzing;
   

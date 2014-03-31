@@ -4,7 +4,7 @@
   (keywordMap (keywordLevel 0))
   (status
     (written
-      (timestamp 2014 3 31 12 35 40)
+      (timestamp 2014 3 31 19 8 5)
       (program "SCUBA" (version "Diamond_3.0_Production (94)"))))
       (comment "C:/lscc/diamond/3.0_x64/ispfpga/bin/nt64/scuba -w -arch ep5c00 -n pmi_pll10010010010050E050o0pe5b66d1 -bb -bus_exp 7 -type pll -fin 30 -fclkop 90 -fclkok 50 -fb_mode CLKOP -phaseadj 0 -duty 4.00000 -pmi ")
   (library ORCLIB

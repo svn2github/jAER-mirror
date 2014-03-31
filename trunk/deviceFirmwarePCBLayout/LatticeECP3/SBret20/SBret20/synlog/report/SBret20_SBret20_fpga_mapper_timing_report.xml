@@ -16,9 +16,9 @@ Max Top 5 critical clocks will be reported. For rest user needs to refer to Deta
 </row>
 <row>
 <data>USBAER_top_level|IfClockxCI</data>
-<data>206.1 MHz</data>
-<data>175.2 MHz</data>
-<data>-0.857</data>
+<data>204.6 MHz</data>
+<data>173.9 MHz</data>
+<data>-0.863</data>
 </row>
 <row>
 <data>USBAER_top_level|PC1xSIO</data>
@@ -42,6 +42,6 @@ Max Top 5 critical clocks will be reported. For rest user needs to refer to Deta
 <data>System</data>
 <data>1.0 MHz</data>
 <data>1.0 MHz</data>
-<data>1.703</data>
+<data>1.585</data>
 </row>
 </report_table>
