@@ -290,7 +290,7 @@ public final class SSHSNode {
 
 			attr.setAttribute("key", entry.getKey().getFirst());
 			attr.setAttribute("type", SSHSNode.typeToXMLNameMap.get(entry.getKey().getSecond()));
-			attr.setTextContent(entry.getValue().toString());
+			attr.setNodeValue(entry.getValue().toString());
 		}
 
 		// And lastly recurse down to the children.
@@ -361,7 +361,7 @@ public final class SSHSNode {
 			// Get the needed values.
 			final String key = attr.getAttribute("key");
 			final String type = attr.getAttribute("type");
-			final String value = attr.getTextContent();
+			final String value = attr.getNodeValue();
 
 			xmlToNodeConverter(key, type, value);
 		}

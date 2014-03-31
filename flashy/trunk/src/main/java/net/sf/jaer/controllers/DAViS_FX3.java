@@ -399,12 +399,19 @@ public class DAViS_FX3 extends Controller {
 	private VBox usbEPListenGUI() {
 		final VBox usbEPListenGUI = new VBox(10);
 
-		GUISupport.addLabel(usbEPListenGUI, "USB endpoint 1 stream", "USB endpoint data.", null, null);
+		GUISupport.addLabel(usbEPListenGUI, "USB endpoint 1 stream", "USB endpoint 1 data.", null, null);
 
-		final TextArea usbEPOutputArea = new TextArea();
-		usbEPListenGUI.getChildren().add(usbEPOutputArea);
+		final TextArea usbEP1OutputArea = new TextArea();
+		usbEPListenGUI.getChildren().add(usbEP1OutputArea);
 
-		usbDevice.listenToEP((byte) 0x81, LibUsb.TRANSFER_TYPE_INTERRUPT, 4, 64, usbEPOutputArea);
+		usbDevice.listenToEP((byte) 0x81, LibUsb.TRANSFER_TYPE_INTERRUPT, 4, 64, usbEP1OutputArea);
+
+		GUISupport.addLabel(usbEPListenGUI, "USB endpoint 2 stream", "USB endpoint 2 data.", null, null);
+
+		final TextArea usbEP2OutputArea = new TextArea();
+		usbEPListenGUI.getChildren().add(usbEP2OutputArea);
+
+		usbDevice.listenToEP((byte) 0x82, LibUsb.TRANSFER_TYPE_BULK, 8, 4096, usbEP2OutputArea);
 
 		return (usbEPListenGUI);
 	}
