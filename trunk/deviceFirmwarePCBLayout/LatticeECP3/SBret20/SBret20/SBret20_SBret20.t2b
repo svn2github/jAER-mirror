@@ -1,9 +1,0 @@
-
-
-SBret20_SBret20.bit
-
--g CfgMode:Disable
--g RamCfg:Reset
--path "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20" 
--path "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/SBret20"
--g ES:No

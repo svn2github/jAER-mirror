@@ -1,583 +1,0 @@
-<HTML>
-<HEAD><TITLE>PAD Specification File</TITLE>
-<STYLE TYPE="text/css">
-<!--
- body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
--->
-</STYLE>
-</HEAD>
-<PRE><A name="Pad"></A>PAD Specification File
-***************************
-
-PART TYPE:        LFE3-17EA
-Performance Grade:      7
-PACKAGE:          FTBGA256
-Package Status:                     Final          Version 1.39
-
-Mon Mar 31 19:08:18 2014
-
-Pinout by Port Name:
-+-------------------------+----------+--------------+---------+------------------------------------------------------------------------+
-| Port Name               | Pin/Bank | Buffer Type  | Site    | Properties                                                             |
-+-------------------------+----------+--------------+---------+------------------------------------------------------------------------+
-| ADCclockxCO             | B10/1    | LVCMOS33_OUT | PT34B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| ADCoexEBO               | D10/1    | LVCMOS33_OUT | PT32A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| ADCstbyxEO              | C10/1    | LVCMOS33_OUT | PT34A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| ADCwordxDI[0]           | C16/8    | LVCMOS33_IN  | PR6A    | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| ADCwordxDI[1]           | D16/8    | LVCMOS33_IN  | PR6B    | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| ADCwordxDI[2]           | E16/8    | LVCMOS33_IN  | PR9A    | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| ADCwordxDI[3]           | E15/8    | LVCMOS33_IN  | PR9B    | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| ADCwordxDI[4]           | F16/8    | LVCMOS33_IN  | PR12A   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| ADCwordxDI[5]           | F15/8    | LVCMOS33_IN  | PR12B   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| ADCwordxDI[6]           | G16/8    | LVCMOS33_IN  | PR15A   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| ADCwordxDI[7]           | G15/8    | LVCMOS33_IN  | PR15B   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| ADCwordxDI[8]           | H16/2    | LVCMOS33_IN  | PR20A   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| ADCwordxDI[9]           | J15/2    | LVCMOS33_IN  | PR20B   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| AERMonitorACKxSBO       | C8/1     | LVCMOS33_OUT | PT29A   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| AERMonitorAddressxDI[0] | H1/7     | LVCMOS33_IN  | PL26B   | SLEW:FAST PULL:DOWN PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA     |
-| AERMonitorAddressxDI[1] | H2/7     | LVCMOS33_IN  | PL24B   | SLEW:FAST PULL:DOWN PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA     |
-| AERMonitorAddressxDI[2] | G1/7     | LVCMOS33_IN  | PL26A   | SLEW:FAST PULL:DOWN PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA     |
-| AERMonitorAddressxDI[3] | G2/7     | LVCMOS33_IN  | PL24A   | SLEW:FAST PULL:DOWN PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA     |
-| AERMonitorAddressxDI[4] | F1/7     | LVCMOS33_IN  | PL20B   | SLEW:FAST PULL:DOWN PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA     |
-| AERMonitorAddressxDI[5] | F2/7     | LVCMOS33_IN  | PL20A   | SLEW:FAST PULL:DOWN PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA     |
-| AERMonitorAddressxDI[6] | F3/7     | LVCMOS33_IN  | PL18A   | SLEW:FAST PULL:DOWN PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA     |
-| AERMonitorAddressxDI[7] | G3/7     | LVCMOS33_IN  | PL18B   | SLEW:FAST PULL:DOWN PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA     |
-| AERMonitorAddressxDI[8] | J3/7     | LVCMOS33_IN  | PL23B   | SLEW:FAST PULL:DOWN PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA     |
-| AERMonitorAddressxDI[9] | H3/7     | LVCMOS33_IN  | PL23A   | SLEW:FAST PULL:DOWN PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA     |
-| AERMonitorREQxABI       | B9/1     | LVCMOS33_IN  | PT29B   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| CDVSTestApsTxGatexSO    | A9/0     | LVCMOS33_OUT | PT26B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| CDVSTestBiasBitOutxSI   | A8/0     | LVCMOS33_IN  | PT26A   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| CDVSTestBiasDiagSelxSO  | D7/0     | LVCMOS33_OUT | PT25A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| CDVSTestBiasEnablexEO   | D8/0     | LVCMOS33_OUT | PT25B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| CDVSTestChipResetxRBO   | E11/1    | LVCMOS33_OUT | PT32B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| CDVSTestColMode0xSO     | B11/1    | LVCMOS33_OUT | PT37B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| CDVSTestColMode1xSO     | C11/1    | LVCMOS33_OUT | PT37A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| CDVSTestSRColClockxSO   | D11/1    | LVCMOS33_OUT | PT46A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| CDVSTestSRColInxSO      | D12/1    | LVCMOS33_OUT | PT46B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| CDVSTestSRRowClockxSO   | D9/1     | LVCMOS33_OUT | PT31A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| CDVSTestSRRowInxSO      | C9/1     | LVCMOS33_OUT | PT31B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| DebugxSIO[0]            | E9/0     | LVCMOS33_OUT | PT28B   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[10]           | B7/0     | LVCMOS33_OUT | PT23A   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[11]           | A11/1    | LVCMOS33_OUT | PT35B   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[12]           | G13/8    | LVCMOS33_OUT | PR14B   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[13]           | A7/0     | LVCMOS33_OUT | PT23B   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[14]           | C6/0     | LVCMOS33_OUT | PT20A   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[15]           | C12/8    | LVCMOS33_OUT | PT52A   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[1]            | J14/2    | LVCMOS33_OUT | PR18B   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[2]            | G14/8    | LVCMOS33_OUT | PR14A   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[3]            | A10/1    | LVCMOS33_OUT | PT35A   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[4]            | C7/0     | LVCMOS33_OUT | PT20B   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[5]            | A14/8    | LVCMOS33_OUT | PT53A   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[6]            | J13/2    | LVCMOS33_OUT | PR18A   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[7]            | B6/0     | LVCMOS33_OUT | PT22A   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[8]            | B13/8    | LVCMOS33_OUT | PT55A   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| DebugxSIO[9]            | E8/0     | LVCMOS33_OUT | PT28A   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| FX2FifoAddressxDO[0]    | F14/8    | LVCMOS33_OUT | PR11B   | DRIVE:4mA SLEW:SLOW PULL:DOWN PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA    |
-| FX2FifoAddressxDO[1]    | H14/8    | LVCMOS33_OUT | PR17B   | DRIVE:4mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA      |
-| FX2FifoChipSelectxEBO   | B14/8    | LVCMOS33_OUT | PT55B   | DRIVE:12mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA     |
-| FX2FifoDataxDIO[0]      | T2/6     | LVCMOS33_OUT | PL51A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[10]     | R1/6     | LVCMOS33_OUT | PL36B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[11]     | K2/6     | LVCMOS33_OUT | PL27B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[12]     | L4/6     | LVCMOS33_OUT | PL32A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[13]     | P3/6     | LVCMOS33_OUT | PL44B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[14]     | L5/6     | LVCMOS33_OUT | PL32B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[15]     | M1/6     | LVCMOS33_OUT | PL33A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[1]      | T3/6     | LVCMOS33_OUT | PL51B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[2]      | L2/6     | LVCMOS33_OUT | PL30A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[3]      | M2/6     | LVCMOS33_OUT | PL30B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[4]      | R2/6     | LVCMOS33_OUT | PL53A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[5]      | R3/6     | LVCMOS33_OUT | PL53B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[6]      | P1/6     | LVCMOS33_OUT | PL36A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[7]      | P2/6     | LVCMOS33_OUT | PL44A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[8]      | N1/6     | LVCMOS33_OUT | PL33B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoDataxDIO[9]      | K1/6     | LVCMOS33_OUT | PL29A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| FX2FifoInFullxSBI       | E14/8    | LVCMOS33_IN  | PR11A   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| FX2FifoPktEndxSBO       | N16/3    | LVCMOS33_OUT | PR32A   | DRIVE:4mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA      |
-| FX2FifoReadxEBO         | N15/3    | LVCMOS33_OUT | PR32B   | DRIVE:4mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA      |
-| FX2FifoWritexEBO        | H13/8    | LVCMOS33_OUT | PR17A   | DRIVE:4mA SLEW:SLOW PULL:UP PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA      |
-| IfClockxCI              | K3/7     | LVCMOS33_IN  | PL26E_C | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| LED1xSO                 | C3/0     | LVCMOS33_OUT | PT4A    | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| LED2xSO                 | A12/8    | LVCMOS33_OUT | PT50A   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| LED3xSO                 | B3/0     | LVCMOS33_OUT | PT4B    | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-| PA0xSIO                 | R15/3    | LVCMOS33_IN  | PR36B   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| PA1xSIO                 | T14/3    | LVCMOS33_IN  | PR44B   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| PA3xSIO                 | K16/3    | LVCMOS33_IN  | PR27B   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| PA7xSIO                 | R16/3    | LVCMOS33_IN  | PR36A   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| PC0xSIO                 | T15/3    | LVCMOS33_IN  | PR44A   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| PC1xSIO                 | P14/3    | LVCMOS33_IN  | PR53B   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| PC2xSIO                 | P16/3    | LVCMOS33_IN  | PR35A   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| PC3xSIO                 | P15/3    | LVCMOS33_IN  | PR35B   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| PE2xSI                  | R14/3    | LVCMOS33_IN  | PR53A   | SLEW:FAST PULL:KEEPER PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA   |
-| PE3xSI                  | J16/3    | LVCMOS33_IN  | PR27A   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| ResetxRBI               | C13/8    | LVCMOS33_IN  | PT52B   | SLEW:FAST PULL:DOWN PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA     |
-| Sync1xABI               | A13/8    | LVCMOS33_IN  | PT50B   | SLEW:FAST PULL:UP PCICLAMP:ON EQ_CAL:0 DIFFDRIVE:NA MULTDRIVE:NA       |
-| SynchOutxSBO            | A15/8    | LVCMOS33_OUT | PT53B   | DRIVE:4mA SLEW:SLOW PULL:KEEPER PCICLAMP:ON DIFFDRIVE:NA MULTDRIVE:NA  |
-+-------------------------+----------+--------------+---------+------------------------------------------------------------------------+
-
-Vccio by Bank:
-+------+-------+
-| Bank | Vccio |
-+------+-------+
-| 0    | 3.3V  |
-| 1    | 3.3V  |
-| 2    | 3.3V  |
-| 3    | 3.3V  |
-| 6    | 3.3V  |
-| 7    | 3.3V  |
-| 8    | 3.3V  |
-+------+-------+
-
-
-<A name="pad_vref"></A><B><U><big>Vref by Bank:</big></U></B>
-+------+-----+-----------------+---------+
-| Vref | Pin | Bank # / Vref # | Load(s) |
-+------+-----+-----------------+---------+
-+------+-----+-----------------+---------+
-
-Vtt by Bank:
-+------+-----+
-| Bank | Vtt |
-+------+-----+
-| 0    |     |
-| 1    |     |
-| 2    |     |
-| 3    |     |
-| 6    |     |
-| 7    |     |
-| 8    |     |
-+------+-----+
-
-<A name="pad_pin"></A><B><U><big>Pinout by Pin Number:</big></U></B>
-+-----------+-------------------------+------------+--------------+--------------+-----------------------+
-| Pin/Bank  | Pin Info                | Preference | Buffer Type  | Site         | Dual Function         |
-+-----------+-------------------------+------------+--------------+--------------+-----------------------+
-| A2/0      |     unused, PULL:UP     |            |              | PT5A         | TDQ7                  |
-| A3/0      |     unused, PULL:UP     |            |              | PT5B         | TDQ7                  |
-| A4/0      |     unused, PULL:UP     |            |              | PT8A         | TDQ7                  |
-| A5/0      |     unused, PULL:UP     |            |              | PT8B         | TDQ7                  |
-| A6/0      |     unused, PULL:UP     |            |              | PT22B        | TDQ25                 |
-| A7/0      | DebugxSIO[13]           |            | LVCMOS33_OUT | PT23B        | TDQ25                 |
-| A8/0      | CDVSTestBiasBitOutxSI   | LOCATED    | LVCMOS33_IN  | PT26A        | TDQ25                 |
-| A9/0      | CDVSTestApsTxGatexSO    | LOCATED    | LVCMOS33_OUT | PT26B        | TDQ25                 |
-| A10/1     | DebugxSIO[3]            |            | LVCMOS33_OUT | PT35A        | TDQ34                 |
-| A11/1     | DebugxSIO[11]           |            | LVCMOS33_OUT | PT35B        | TDQ34                 |
-| A12/8     | LED2xSO                 | LOCATED    | LVCMOS33_OUT | PT50A        |                       |
-| A13/8     | Sync1xABI               | LOCATED    | LVCMOS33_IN  | PT50B        |                       |
-| A14/8     | DebugxSIO[5]            |            | LVCMOS33_OUT | PT53A        |                       |
-| A15/8     | SynchOutxSBO            | LOCATED    | LVCMOS33_OUT | PT53B        |                       |
-| B1/40     |                         |            |              | TCK          |                       |
-| B2/40     |                         |            |              | TMS          |                       |
-| B3/0      | LED3xSO                 | LOCATED    | LVCMOS33_OUT | PT4B         | VREF2_0/TDQ7          |
-| B5/0      |     unused, PULL:UP     |            |              | PT10B        | TDQ7                  |
-| B6/0      | DebugxSIO[7]            |            | LVCMOS33_OUT | PT22A        | TDQ25                 |
-| B7/0      | DebugxSIO[10]           |            | LVCMOS33_OUT | PT23A        | TDQ25                 |
-| B9/1      | AERMonitorREQxABI       | LOCATED    | LVCMOS33_IN  | PT29B        | TDQ34                 |
-| B10/1     | ADCclockxCO             | LOCATED    | LVCMOS33_OUT | PT34B        | TDQ34                 |
-| B11/1     | CDVSTestColMode0xSO     | LOCATED    | LVCMOS33_OUT | PT37B        | TDQ34                 |
-| B13/8     | DebugxSIO[8]            |            | LVCMOS33_OUT | PT55A        |                       |
-| B14/8     | FX2FifoChipSelectxEBO   | LOCATED    | LVCMOS33_OUT | PT55B        |                       |
-| C1/40     |                         |            |              | TDI          |                       |
-| C2/40     |                         |            |              | TDO          |                       |
-| C3/0      | LED1xSO                 | LOCATED    | LVCMOS33_OUT | PT4A         | VREF1_0/TDQ7          |
-| C4/0      |     unused, PULL:UP     |            |              | PT2B         | TDQ7                  |
-| C5/0      |     unused, PULL:UP     |            |              | PT10A        | TDQ7                  |
-| C6/0      | DebugxSIO[14]           |            | LVCMOS33_OUT | PT20A        | TDQ25                 |
-| C7/0      | DebugxSIO[4]            |            | LVCMOS33_OUT | PT20B        | TDQ25                 |
-| C8/1      | AERMonitorACKxSBO       | LOCATED    | LVCMOS33_OUT | PT29A        | TDQ34                 |
-| C9/1      | CDVSTestSRRowInxSO      | LOCATED    | LVCMOS33_OUT | PT31B        | PCLKC1_0/TDQ34        |
-| C10/1     | ADCstbyxEO              | LOCATED    | LVCMOS33_OUT | PT34A        | TDQS34                |
-| C11/1     | CDVSTestColMode1xSO     | LOCATED    | LVCMOS33_OUT | PT37A        | TDQ34                 |
-| C12/8     | DebugxSIO[15]           |            | LVCMOS33_OUT | PT52A        |                       |
-| C13/8     | ResetxRBI               | LOCATED    | LVCMOS33_IN  | PT52B        |                       |
-| C16/8     | ADCwordxDI[0]           | LOCATED    | LVCMOS33_IN  | PR6A         |                       |
-| D1/7      |     unused, PULL:UP     |            |              | PL11A        | LDQ14                 |
-| D2/7      |     unused, PULL:UP     |            |              | PL9B         | LDQ14                 |
-| D3/7      |     unused, PULL:UP     |            |              | PL9A         | LDQ14                 |
-| D4/0      |     unused, PULL:UP     |            |              | PT2A         | TDQ7                  |
-| D5/0      |     unused, PULL:UP     |            |              | PT7A         | TDQS7                 |
-| D6/0      |     unused, PULL:UP     |            |              | PT19B        | TDQ16                 |
-| D7/0      | CDVSTestBiasDiagSelxSO  | LOCATED    | LVCMOS33_OUT | PT25A        | TDQS25                |
-| D8/0      | CDVSTestBiasEnablexEO   | LOCATED    | LVCMOS33_OUT | PT25B        | TDQ25                 |
-| D9/1      | CDVSTestSRRowClockxSO   | LOCATED    | LVCMOS33_OUT | PT31A        | PCLKT1_0/TDQ34        |
-| D10/1     | ADCoexEBO               | LOCATED    | LVCMOS33_OUT | PT32A        | TDQ34                 |
-| D11/1     | CDVSTestSRColClockxSO   | LOCATED    | LVCMOS33_OUT | PT46A        | VREF1_1/TDQ43         |
-| D12/1     | CDVSTestSRColInxSO      | LOCATED    | LVCMOS33_OUT | PT46B        | VREF2_1/TDQ43         |
-| D16/8     | ADCwordxDI[1]           | LOCATED    | LVCMOS33_IN  | PR6B         | DI/CSSPI0N/CEN/CSSPIN |
-| E1/7      |     unused, PULL:UP     |            |              | PL11B        | LDQ14                 |
-| E3/7      |     unused, PULL:UP     |            |              | PL12A        | LDQ14                 |
-| E4/7      |     unused, PULL:UP     |            |              | PL17A        | VREF1_7/LDQ14         |
-| E5/0      |     unused, PULL:UP     |            |              | PT7B         | TDQ7                  |
-| E6/0      |     unused, PULL:UP     |            |              | PT19A        | TDQ16                 |
-| E8/0      | DebugxSIO[9]            |            | LVCMOS33_OUT | PT28A        | PCLKT0_0/TDQ25        |
-| E9/0      | DebugxSIO[0]            |            | LVCMOS33_OUT | PT28B        | PCLKC0_0/TDQ25        |
-| E11/1     | CDVSTestChipResetxRBO   | LOCATED    | LVCMOS33_OUT | PT32B        | TDQ34                 |
-| E13/8     |     unused, PULL:UP     |            |              | PR8A         | CS1N/HOLDN/CONT2N/RDY |
-| E14/8     | FX2FifoInFullxSBI       | LOCATED    | LVCMOS33_IN  | PR11A        | WRITEN                |
-| E15/8     | ADCwordxDI[3]           | LOCATED    | LVCMOS33_IN  | PR9B         | MCLK                  |
-| E16/8     | ADCwordxDI[2]           | LOCATED    | LVCMOS33_IN  | PR9A         | DOUT/CSON/CSSPI1N     |
-| F1/7      | AERMonitorAddressxDI[4] | LOCATED    | LVCMOS33_IN  | PL20B        | LUM0_GDLLT_IN_B/LDQ23 |
-| F2/7      | AERMonitorAddressxDI[5] | LOCATED    | LVCMOS33_IN  | PL20A        | LUM0_GDLLT_IN_A/LDQ23 |
-| F3/7      | AERMonitorAddressxDI[6] | LOCATED    | LVCMOS33_IN  | PL18A        | LDQ23                 |
-| F4/7      |     unused, PULL:UP     |            |              | PL17B        | VREF2_7/LDQ14         |
-| F13/8     |     unused, PULL:UP     |            |              | PR8B         | CSN/SN/CONT1N/OEN     |
-| F14/8     | FX2FifoAddressxDO[0]    | LOCATED    | LVCMOS33_OUT | PR11B        | D0/SPIFASTN           |
-| F15/8     | ADCwordxDI[5]           | LOCATED    | LVCMOS33_IN  | PR12B        | D2                    |
-| F16/8     | ADCwordxDI[4]           | LOCATED    | LVCMOS33_IN  | PR12A        | D1                    |
-| G1/7      | AERMonitorAddressxDI[2] | LOCATED    | LVCMOS33_IN  | PL26A        | PCLKT7_0/LDQ23        |
-| G2/7      | AERMonitorAddressxDI[3] | LOCATED    | LVCMOS33_IN  | PL24A        | LDQ23                 |
-| G3/7      | AERMonitorAddressxDI[7] | LOCATED    | LVCMOS33_IN  | PL18B        | LDQ23                 |
-| G4/7      |     unused, PULL:UP     |            |              | PL21A        | LUM0_GDLLT_FB_A/LDQ23 |
-| G13/8     | DebugxSIO[12]           |            | LVCMOS33_OUT | PR14B        | D4/SO                 |
-| G14/8     | DebugxSIO[2]            |            | LVCMOS33_OUT | PR14A        | D3/SI                 |
-| G15/8     | ADCwordxDI[7]           | LOCATED    | LVCMOS33_IN  | PR15B        | D6/SPID1              |
-| G16/8     | ADCwordxDI[6]           | LOCATED    | LVCMOS33_IN  | PR15A        | D5                    |
-| H1/7      | AERMonitorAddressxDI[0] | LOCATED    | LVCMOS33_IN  | PL26B        | PCLKC7_0/LDQ23        |
-| H2/7      | AERMonitorAddressxDI[1] | LOCATED    | LVCMOS33_IN  | PL24B        | LDQ23                 |
-| H3/7      | AERMonitorAddressxDI[9] | LOCATED    | LVCMOS33_IN  | PL23A        | LDQS23                |
-| H4/7      |     unused, PULL:UP     |            |              | PL21B        | LUM0_GDLLT_FB_B/LDQ23 |
-| H13/8     | FX2FifoWritexEBO        | LOCATED    | LVCMOS33_OUT | PR17A        | D7/SPID0              |
-| H14/8     | FX2FifoAddressxDO[1]    | LOCATED    | LVCMOS33_OUT | PR17B        | BUSY/SISPI/AVDN       |
-| H16/2     | ADCwordxDI[8]           | LOCATED    | LVCMOS33_IN  | PR20A        | RUM0_GDLLT_IN_A/RDQ23 |
-| J1/6      |     unused, PULL:UP     |            |              | PL27A        | LDQ32                 |
-| J3/7      | AERMonitorAddressxDI[8] | LOCATED    | LVCMOS33_IN  | PL23B        | LDQ23                 |
-| J4/7      |     unused, PULL:UP     |            |              | PL26E_A      | LUM0_GPLLT_FB_A/LDQ23 |
-| J13/2     | DebugxSIO[6]            |            | LVCMOS33_OUT | PR18A        | VREF1_2/RDQ23         |
-| J14/2     | DebugxSIO[1]            |            | LVCMOS33_OUT | PR18B        | VREF2_2/RDQ23         |
-| J15/2     | ADCwordxDI[9]           | LOCATED    | LVCMOS33_IN  | PR20B        | RUM0_GDLLT_IN_B/RDQ23 |
-| J16/3     | PE3xSI                  | LOCATED    | LVCMOS33_IN  | PR27A        | RDQ32                 |
-| K1/6      | FX2FifoDataxDIO[9]      | LOCATED    | LVCMOS33_OUT | PL29A        | PCLKT6_0/LDQ32        |
-| K2/6      | FX2FifoDataxDIO[11]     | LOCATED    | LVCMOS33_OUT | PL27B        | LDQ32                 |
-| K3/7      | IfClockxCI              | LOCATED    | LVCMOS33_IN  | PL26E_C      | LUM0_GPLLT_IN_A/LDQ23 |
-| K4/7      |     unused, PULL:UP     |            |              | PL26E_B      | LUM0_GPLLT_FB_B/LDQ23 |
-| K13/2     |     unused, PULL:UP     |            |              | PR26A        | PCLKT2_0/RDQ23        |
-| K14/2     |     unused, PULL:UP     |            |              | PR26E_C      | RUM0_GPLLT_IN_A/RDQ23 |
-| K15/3     |     unused, PULL:UP     |            |              | PR29A        | PCLKT3_0/RDQ32        |
-| K16/3     | PA3xSIO                 | LOCATED    | LVCMOS33_IN  | PR27B        | RDQ32                 |
-| L1/6      |     unused, PULL:UP     |            |              | PL29B        | PCLKC6_0/LDQ32        |
-| L2/6      | FX2FifoDataxDIO[2]      | LOCATED    | LVCMOS33_OUT | PL30A        | LDQ32                 |
-| L3/7      |     unused, PULL:UP     |            |              | PL26E_D      | LUM0_GPLLT_IN_B/LDQ23 |
-| L4/6      | FX2FifoDataxDIO[12]     | LOCATED    | LVCMOS33_OUT | PL32A        | LDQS32                |
-| L5/6      | FX2FifoDataxDIO[14]     | LOCATED    | LVCMOS33_OUT | PL32B        | LDQ32                 |
-| L13/2     |     unused, PULL:UP     |            |              | PR26B        | PCLKC2_0/RDQ23        |
-| L14/2     |     unused, PULL:UP     |            |              | PR26E_D      | RUM0_GPLLT_IN_B/RDQ23 |
-| L15/3     |     unused, PULL:UP     |            |              | PR29B        | PCLKC3_0/RDQ32        |
-| L16/3     |     unused, PULL:UP     |            |              | PR30A        | RDQ32                 |
-| M1/6      | FX2FifoDataxDIO[15]     | LOCATED    | LVCMOS33_OUT | PL33A        | LDQ32                 |
-| M2/6      | FX2FifoDataxDIO[3]      | LOCATED    | LVCMOS33_OUT | PL30B        | LDQ32                 |
-| M3/6      |     unused, PULL:UP     |            |              | PL35A        | VREF1_6/LDQ32         |
-| M8/50     |                         |            |              | PCSA_REFCLKN |                       |
-| M9/50     |                         |            |              | PCSA_REFCLKP |                       |
-| M14/3     |     unused, PULL:UP     |            |              | PR33B        | RDQ32                 |
-| M16/3     |     unused, PULL:UP     |            |              | PR30B        | RDQ32                 |
-| N1/6      | FX2FifoDataxDIO[8]      | LOCATED    | LVCMOS33_OUT | PL33B        | LDQ32                 |
-| N3/6      |     unused, PULL:UP     |            |              | PL35B        | VREF2_6/LDQ32         |
-| N14/3     |     unused, PULL:UP     |            |              | PR33A        | RDQ32                 |
-| N15/3     | FX2FifoReadxEBO         | LOCATED    | LVCMOS33_OUT | PR32B        | RDQ32                 |
-| N16/3     | FX2FifoPktEndxSBO       | LOCATED    | LVCMOS33_OUT | PR32A        | RDQS32                |
-| P1/6      | FX2FifoDataxDIO[6]      | LOCATED    | LVCMOS33_OUT | PL36A        | LDQ41                 |
-| P2/6      | FX2FifoDataxDIO[7]      | LOCATED    | LVCMOS33_OUT | PL44A        | LDQ41                 |
-| P3/6      | FX2FifoDataxDIO[13]     | LOCATED    | LVCMOS33_OUT | PL44B        | LDQ41                 |
-| P5/50     |                         |            |              | PCSA_HDINP3  |                       |
-| P6/50     |                         |            |              | PCSA_HDINN3  |                       |
-| P7/50     |                         |            |              | PCSA_HDINN2  |                       |
-| P8/50     |                         |            |              | PCSA_HDINP2  |                       |
-| P9/50     |                         |            |              | PCSA_HDINP1  |                       |
-| P10/50    |                         |            |              | PCSA_HDINN1  |                       |
-| P11/50    |                         |            |              | PCSA_HDINN0  |                       |
-| P12/50    |                         |            |              | PCSA_HDINP0  |                       |
-| P14/3     | PC1xSIO                 | LOCATED    | LVCMOS33_IN  | PR53B        | RDQ50                 |
-| P15/3     | PC3xSIO                 | LOCATED    | LVCMOS33_IN  | PR35B        | VREF2_3/RDQ32         |
-| P16/3     | PC2xSIO                 | LOCATED    | LVCMOS33_IN  | PR35A        | VREF1_3/RDQ32         |
-| PB2A/6    |     unused, PULL:UP     |            |              | PB2A         |                       |
-| PB2B/6    |     unused, PULL:UP     |            |              | PB2B         |                       |
-| PB4A/6    |     unused, PULL:UP     |            |              | PB4A         |                       |
-| PB4B/6    |     unused, PULL:UP     |            |              | PB4B         |                       |
-| PB5A/6    |     unused, PULL:UP     |            |              | PB5A         |                       |
-| PB5B/6    |     unused, PULL:UP     |            |              | PB5B         |                       |
-| PB7A/6    |     unused, PULL:UP     |            |              | PB7A         |                       |
-| PB7B/6    |     unused, PULL:UP     |            |              | PB7B         |                       |
-| PB50A/3   |     unused, PULL:UP     |            |              | PB50A        |                       |
-| PB50B/3   |     unused, PULL:UP     |            |              | PB50B        |                       |
-| PB52A/3   |     unused, PULL:UP     |            |              | PB52A        |                       |
-| PB52B/3   |     unused, PULL:UP     |            |              | PB52B        |                       |
-| PB53A/3   |     unused, PULL:UP     |            |              | PB53A        |                       |
-| PB53B/3   |     unused, PULL:UP     |            |              | PB53B        |                       |
-| PB55A/3   |     unused, PULL:UP     |            |              | PB55A        |                       |
-| PB55B/3   |     unused, PULL:UP     |            |              | PB55B        |                       |
-| PL3A/7    |     unused, PULL:UP     |            |              | PL3A         |                       |
-| PL3B/7    |     unused, PULL:UP     |            |              | PL3B         |                       |
-| PL5A/7    |     unused, PULL:UP     |            |              | PL5A         |                       |
-| PL5B/7    |     unused, PULL:UP     |            |              | PL5B         |                       |
-| PL6A/7    |     unused, PULL:UP     |            |              | PL6A         |                       |
-| PL6B/7    |     unused, PULL:UP     |            |              | PL6B         |                       |
-| PL8A/7    |     unused, PULL:UP     |            |              | PL8A         |                       |
-| PL8B/7    |     unused, PULL:UP     |            |              | PL8B         |                       |
-| PL12B/7   |     unused, PULL:UP     |            |              | PL12B        | LDQ14                 |
-| PL14A/7   |     unused, PULL:UP     |            |              | PL14A        | LDQS14                |
-| PL14B/7   |     unused, PULL:UP     |            |              | PL14B        | LDQ14                 |
-| PL15A/7   |     unused, PULL:UP     |            |              | PL15A        | LDQ14                 |
-| PL15B/7   |     unused, PULL:UP     |            |              | PL15B        | LDQ14                 |
-| PL38A/6   |     unused, PULL:UP     |            |              | PL38A        | LDQ41                 |
-| PL38B/6   |     unused, PULL:UP     |            |              | PL38B        | LDQ41                 |
-| PL39A/6   |     unused, PULL:UP     |            |              | PL39A        | LDQ41                 |
-| PL39B/6   |     unused, PULL:UP     |            |              | PL39B        | LDQ41                 |
-| PL41A/6   |     unused, PULL:UP     |            |              | PL41A        | LDQS41                |
-| PL41B/6   |     unused, PULL:UP     |            |              | PL41B        | LDQ41                 |
-| PL42A/6   |     unused, PULL:UP     |            |              | PL42A        | LDQ41                 |
-| PL42B/6   |     unused, PULL:UP     |            |              | PL42B        | LDQ41                 |
-| PL45A/6   |     unused, PULL:UP     |            |              | PL45A        | LDQ50                 |
-| PL45B/6   |     unused, PULL:UP     |            |              | PL45B        | LDQ50                 |
-| PL47A/6   |     unused, PULL:UP     |            |              | PL47A        | LDQ50                 |
-| PL47B/6   |     unused, PULL:UP     |            |              | PL47B        | LDQ50                 |
-| PL48A/6   |     unused, PULL:UP     |            |              | PL48A        | LDQ50                 |
-| PL48B/6   |     unused, PULL:UP     |            |              | PL48B        | LDQ50                 |
-| PL50A/6   |     unused, PULL:UP     |            |              | PL50A        | LDQS50                |
-| PL50B/6   |     unused, PULL:UP     |            |              | PL50B        | LDQ50                 |
-| PR21A/2   |     unused, PULL:UP     |            |              | PR21A        | RUM0_GDLLT_FB_A/RDQ23 |
-| PR21B/2   |     unused, PULL:UP     |            |              | PR21B        | RUM0_GDLLT_FB_B/RDQ23 |
-| PR23A/2   |     unused, PULL:UP     |            |              | PR23A        | RDQS23                |
-| PR23B/2   |     unused, PULL:UP     |            |              | PR23B        | RDQ23                 |
-| PR24A/2   |     unused, PULL:UP     |            |              | PR24A        | RDQ23                 |
-| PR24B/2   |     unused, PULL:UP     |            |              | PR24B        | RDQ23                 |
-| PR26E_A/2 |     unused, PULL:UP     |            |              | PR26E_A      | RUM0_GPLLT_FB_A/RDQ23 |
-| PR26E_B/2 |     unused, PULL:UP     |            |              | PR26E_B      | RUM0_GPLLT_FB_B/RDQ23 |
-| PR38A/3   |     unused, PULL:UP     |            |              | PR38A        | RDQ41                 |
-| PR38B/3   |     unused, PULL:UP     |            |              | PR38B        | RDQ41                 |
-| PR39A/3   |     unused, PULL:UP     |            |              | PR39A        | RDQ41                 |
-| PR39B/3   |     unused, PULL:UP     |            |              | PR39B        | RDQ41                 |
-| PR41A/3   |     unused, PULL:UP     |            |              | PR41A        | RDQS41                |
-| PR41B/3   |     unused, PULL:UP     |            |              | PR41B        | RDQ41                 |
-| PR42A/3   |     unused, PULL:UP     |            |              | PR42A        | RDQ41                 |
-| PR42B/3   |     unused, PULL:UP     |            |              | PR42B        | RDQ41                 |
-| PR45A/3   |     unused, PULL:UP     |            |              | PR45A        | RDQ50                 |
-| PR45B/3   |     unused, PULL:UP     |            |              | PR45B        | RDQ50                 |
-| PR47A/3   |     unused, PULL:UP     |            |              | PR47A        | RDQ50                 |
-| PR47B/3   |     unused, PULL:UP     |            |              | PR47B        | RDQ50                 |
-| PR48A/3   |     unused, PULL:UP     |            |              | PR48A        | RDQ50                 |
-| PR48B/3   |     unused, PULL:UP     |            |              | PR48B        | RDQ50                 |
-| PR50A/3   |     unused, PULL:UP     |            |              | PR50A        | RDQS50                |
-| PR50B/3   |     unused, PULL:UP     |            |              | PR50B        | RDQ50                 |
-| PR51A/3   |     unused, PULL:UP     |            |              | PR51A        | RDQ50                 |
-| PR51B/3   |     unused, PULL:UP     |            |              | PR51B        | RDQ50                 |
-| PT11A/0   |     unused, PULL:UP     |            |              | PT11A        | TDQ16                 |
-| PT11B/0   |     unused, PULL:UP     |            |              | PT11B        | TDQ16                 |
-| PT13A/0   |     unused, PULL:UP     |            |              | PT13A        | TDQ16                 |
-| PT13B/0   |     unused, PULL:UP     |            |              | PT13B        | TDQ16                 |
-| PT14A/0   |     unused, PULL:UP     |            |              | PT14A        | TDQ16                 |
-| PT14B/0   |     unused, PULL:UP     |            |              | PT14B        | TDQ16                 |
-| PT16A/0   |     unused, PULL:UP     |            |              | PT16A        | TDQS16                |
-| PT16B/0   |     unused, PULL:UP     |            |              | PT16B        | TDQ16                 |
-| PT17A/0   |     unused, PULL:UP     |            |              | PT17A        | TDQ16                 |
-| PT17B/0   |     unused, PULL:UP     |            |              | PT17B        | TDQ16                 |
-| PT38A/1   |     unused, PULL:UP     |            |              | PT38A        | TDQ43                 |
-| PT38B/1   |     unused, PULL:UP     |            |              | PT38B        | TDQ43                 |
-| PT40A/1   |     unused, PULL:UP     |            |              | PT40A        | TDQ43                 |
-| PT40B/1   |     unused, PULL:UP     |            |              | PT40B        | TDQ43                 |
-| PT41A/1   |     unused, PULL:UP     |            |              | PT41A        | TDQ43                 |
-| PT41B/1   |     unused, PULL:UP     |            |              | PT41B        | TDQ43                 |
-| PT43A/1   |     unused, PULL:UP     |            |              | PT43A        | TDQS43                |
-| PT43B/1   |     unused, PULL:UP     |            |              | PT43B        | TDQ43                 |
-| PT44A/1   |     unused, PULL:UP     |            |              | PT44A        | TDQ43                 |
-| PT44B/1   |     unused, PULL:UP     |            |              | PT44B        | TDQ43                 |
-| R1/6      | FX2FifoDataxDIO[10]     | LOCATED    | LVCMOS33_OUT | PL36B        | LDQ41                 |
-| R2/6      | FX2FifoDataxDIO[4]      | LOCATED    | LVCMOS33_OUT | PL53A        | LDQ50                 |
-| R3/6      | FX2FifoDataxDIO[5]      | LOCATED    | LVCMOS33_OUT | PL53B        | LDQ50                 |
-| R14/3     | PE2xSI                  | LOCATED    | LVCMOS33_IN  | PR53A        | RDQ50                 |
-| R15/3     | PA0xSIO                 | LOCATED    | LVCMOS33_IN  | PR36B        | RDQ41                 |
-| R16/3     | PA7xSIO                 | LOCATED    | LVCMOS33_IN  | PR36A        | RDQ41                 |
-| T2/6      | FX2FifoDataxDIO[0]      | LOCATED    | LVCMOS33_OUT | PL51A        | LDQ50                 |
-| T3/6      | FX2FifoDataxDIO[1]      | LOCATED    | LVCMOS33_OUT | PL51B        | LDQ50                 |
-| T5/50     |                         |            |              | PCSA_HDOUTP3 |                       |
-| T6/50     |                         |            |              | PCSA_HDOUTN3 |                       |
-| T7/50     |                         |            |              | PCSA_HDOUTN2 |                       |
-| T8/50     |                         |            |              | PCSA_HDOUTP2 |                       |
-| T9/50     |                         |            |              | PCSA_HDOUTP1 |                       |
-| T10/50    |                         |            |              | PCSA_HDOUTN1 |                       |
-| T11/50    |                         |            |              | PCSA_HDOUTN0 |                       |
-| T12/50    |                         |            |              | PCSA_HDOUTP0 |                       |
-| T14/3     | PA1xSIO                 | LOCATED    | LVCMOS33_IN  | PR44B        | RDQ41                 |
-| T15/3     | PC0xSIO                 | LOCATED    | LVCMOS33_IN  | PR44A        | RDQ41                 |
-+-----------+-------------------------+------------+--------------+--------------+-----------------------+
-
-sysCONFIG Pins:
-    - Config_Mode: SPI
-    - Persistent : OFF
-+----------+-----------------------+----------+--------------+
-| Pad Name | sysCONFIG Pin Name    | Pin/Bank | Buffer Type  |
-+----------+-----------------------+----------+--------------+
-| PR17B    | BUSY/SISPI/AVDN       | H14/8    | LVCMOS33_OUT |
-| PR17A    | D7/SPID0              | H13/8    | LVCMOS33_OUT |
-| PR11B    | D0/SPIFASTN           | F14/8    | LVCMOS33_OUT |
-| PR9B     | MCLK                  | E15/8    | LVCMOS33_IN  |
-| PR9A     | DOUT/CSON/CSSPI1N     | E16/8    | LVCMOS33_IN  |
-| PR8B     | CSN/SN/CONT1N/OEN     | F13/8    |              |
-| PR6B     | DI/CSSPI0N/CEN/CSSPIN | D16/8    | LVCMOS33_IN  |
-| PR8A     | CS1N/HOLDN/CONT2N/RDY | E13/8    |              |
-+----------+-----------------------+----------+--------------+
-
-
-Locate Preferences for each Pin: 
-
-LOCATE  COMP  "ADCclockxCO"  SITE  "B10";
-LOCATE  COMP  "ADCoexEBO"  SITE  "D10";
-LOCATE  COMP  "ADCstbyxEO"  SITE  "C10";
-LOCATE  COMP  "ADCwordxDI[0]"  SITE  "C16";
-LOCATE  COMP  "ADCwordxDI[1]"  SITE  "D16";
-LOCATE  COMP  "ADCwordxDI[2]"  SITE  "E16";
-LOCATE  COMP  "ADCwordxDI[3]"  SITE  "E15";
-LOCATE  COMP  "ADCwordxDI[4]"  SITE  "F16";
-LOCATE  COMP  "ADCwordxDI[5]"  SITE  "F15";
-LOCATE  COMP  "ADCwordxDI[6]"  SITE  "G16";
-LOCATE  COMP  "ADCwordxDI[7]"  SITE  "G15";
-LOCATE  COMP  "ADCwordxDI[8]"  SITE  "H16";
-LOCATE  COMP  "ADCwordxDI[9]"  SITE  "J15";
-LOCATE  COMP  "AERMonitorACKxSBO"  SITE  "C8";
-LOCATE  COMP  "AERMonitorAddressxDI[0]"  SITE  "H1";
-LOCATE  COMP  "AERMonitorAddressxDI[1]"  SITE  "H2";
-LOCATE  COMP  "AERMonitorAddressxDI[2]"  SITE  "G1";
-LOCATE  COMP  "AERMonitorAddressxDI[3]"  SITE  "G2";
-LOCATE  COMP  "AERMonitorAddressxDI[4]"  SITE  "F1";
-LOCATE  COMP  "AERMonitorAddressxDI[5]"  SITE  "F2";
-LOCATE  COMP  "AERMonitorAddressxDI[6]"  SITE  "F3";
-LOCATE  COMP  "AERMonitorAddressxDI[7]"  SITE  "G3";
-LOCATE  COMP  "AERMonitorAddressxDI[8]"  SITE  "J3";
-LOCATE  COMP  "AERMonitorAddressxDI[9]"  SITE  "H3";
-LOCATE  COMP  "AERMonitorREQxABI"  SITE  "B9";
-LOCATE  COMP  "CDVSTestApsTxGatexSO"  SITE  "A9";
-LOCATE  COMP  "CDVSTestBiasBitOutxSI"  SITE  "A8";
-LOCATE  COMP  "CDVSTestBiasDiagSelxSO"  SITE  "D7";
-LOCATE  COMP  "CDVSTestBiasEnablexEO"  SITE  "D8";
-LOCATE  COMP  "CDVSTestChipResetxRBO"  SITE  "E11";
-LOCATE  COMP  "CDVSTestColMode0xSO"  SITE  "B11";
-LOCATE  COMP  "CDVSTestColMode1xSO"  SITE  "C11";
-LOCATE  COMP  "CDVSTestSRColClockxSO"  SITE  "D11";
-LOCATE  COMP  "CDVSTestSRColInxSO"  SITE  "D12";
-LOCATE  COMP  "CDVSTestSRRowClockxSO"  SITE  "D9";
-LOCATE  COMP  "CDVSTestSRRowInxSO"  SITE  "C9";
-LOCATE  COMP  "DebugxSIO[0]"  SITE  "E9";
-LOCATE  COMP  "DebugxSIO[10]"  SITE  "B7";
-LOCATE  COMP  "DebugxSIO[11]"  SITE  "A11";
-LOCATE  COMP  "DebugxSIO[12]"  SITE  "G13";
-LOCATE  COMP  "DebugxSIO[13]"  SITE  "A7";
-LOCATE  COMP  "DebugxSIO[14]"  SITE  "C6";
-LOCATE  COMP  "DebugxSIO[15]"  SITE  "C12";
-LOCATE  COMP  "DebugxSIO[1]"  SITE  "J14";
-LOCATE  COMP  "DebugxSIO[2]"  SITE  "G14";
-LOCATE  COMP  "DebugxSIO[3]"  SITE  "A10";
-LOCATE  COMP  "DebugxSIO[4]"  SITE  "C7";
-LOCATE  COMP  "DebugxSIO[5]"  SITE  "A14";
-LOCATE  COMP  "DebugxSIO[6]"  SITE  "J13";
-LOCATE  COMP  "DebugxSIO[7]"  SITE  "B6";
-LOCATE  COMP  "DebugxSIO[8]"  SITE  "B13";
-LOCATE  COMP  "DebugxSIO[9]"  SITE  "E8";
-LOCATE  COMP  "FX2FifoAddressxDO[0]"  SITE  "F14";
-LOCATE  COMP  "FX2FifoAddressxDO[1]"  SITE  "H14";
-LOCATE  COMP  "FX2FifoChipSelectxEBO"  SITE  "B14";
-LOCATE  COMP  "FX2FifoDataxDIO[0]"  SITE  "T2";
-LOCATE  COMP  "FX2FifoDataxDIO[10]"  SITE  "R1";
-LOCATE  COMP  "FX2FifoDataxDIO[11]"  SITE  "K2";
-LOCATE  COMP  "FX2FifoDataxDIO[12]"  SITE  "L4";
-LOCATE  COMP  "FX2FifoDataxDIO[13]"  SITE  "P3";
-LOCATE  COMP  "FX2FifoDataxDIO[14]"  SITE  "L5";
-LOCATE  COMP  "FX2FifoDataxDIO[15]"  SITE  "M1";
-LOCATE  COMP  "FX2FifoDataxDIO[1]"  SITE  "T3";
-LOCATE  COMP  "FX2FifoDataxDIO[2]"  SITE  "L2";
-LOCATE  COMP  "FX2FifoDataxDIO[3]"  SITE  "M2";
-LOCATE  COMP  "FX2FifoDataxDIO[4]"  SITE  "R2";
-LOCATE  COMP  "FX2FifoDataxDIO[5]"  SITE  "R3";
-LOCATE  COMP  "FX2FifoDataxDIO[6]"  SITE  "P1";
-LOCATE  COMP  "FX2FifoDataxDIO[7]"  SITE  "P2";
-LOCATE  COMP  "FX2FifoDataxDIO[8]"  SITE  "N1";
-LOCATE  COMP  "FX2FifoDataxDIO[9]"  SITE  "K1";
-LOCATE  COMP  "FX2FifoInFullxSBI"  SITE  "E14";
-LOCATE  COMP  "FX2FifoPktEndxSBO"  SITE  "N16";
-LOCATE  COMP  "FX2FifoReadxEBO"  SITE  "N15";
-LOCATE  COMP  "FX2FifoWritexEBO"  SITE  "H13";
-LOCATE  COMP  "IfClockxCI"  SITE  "K3";
-LOCATE  COMP  "LED1xSO"  SITE  "C3";
-LOCATE  COMP  "LED2xSO"  SITE  "A12";
-LOCATE  COMP  "LED3xSO"  SITE  "B3";
-LOCATE  COMP  "PA0xSIO"  SITE  "R15";
-LOCATE  COMP  "PA1xSIO"  SITE  "T14";
-LOCATE  COMP  "PA3xSIO"  SITE  "K16";
-LOCATE  COMP  "PA7xSIO"  SITE  "R16";
-LOCATE  COMP  "PC0xSIO"  SITE  "T15";
-LOCATE  COMP  "PC1xSIO"  SITE  "P14";
-LOCATE  COMP  "PC2xSIO"  SITE  "P16";
-LOCATE  COMP  "PC3xSIO"  SITE  "P15";
-LOCATE  COMP  "PE2xSI"  SITE  "R14";
-LOCATE  COMP  "PE3xSI"  SITE  "J16";
-LOCATE  COMP  "ResetxRBI"  SITE  "C13";
-LOCATE  COMP  "Sync1xABI"  SITE  "A13";
-LOCATE  COMP  "SynchOutxSBO"  SITE  "A15";
-
-#PLL
-LOCATE  COMP  "uClockGen/PLLCInst_0/PLLInst_0"  SITE  "PLL_R26C5" ;
-
-
-
-
-PAR: Place And Route Diamond (64-bit) 3.0.0.97.
-Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
-Copyright (c) 1995 AT&T Corp.   All rights reserved.
-Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
-Copyright (c) 2001 Agere Systems   All rights reserved.
-Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
-Mon Mar 31 19:08:18 2014
-
-
-
-
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-</PRE></FONT>
-</BODY>
-</HTML>

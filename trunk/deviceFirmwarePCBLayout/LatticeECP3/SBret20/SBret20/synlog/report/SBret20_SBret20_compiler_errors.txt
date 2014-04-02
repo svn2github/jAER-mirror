@@ -1,4 +1,0 @@
-@E: CD393 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\clockgen.vhd":56:24:56:27|String doesn't match type integer
-@E: CD393 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\clockgen.vhd":56:24:56:27|String doesn't match type integer
-@E: CD351 :"E:\JAER_SVN\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\clockgen.vhd":56:24:56:27|Can't implement expression type string yet
-

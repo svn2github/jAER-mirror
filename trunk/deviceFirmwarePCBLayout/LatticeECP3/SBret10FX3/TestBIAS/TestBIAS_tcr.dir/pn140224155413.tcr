@@ -1,6 +1,0 @@
-#Start recording tcl command: 2/24/2014 15:17:23
-#Project Location: C:/INIlabs/VHDL/Test/TestBIAS; Project name: TestBIAS
-prj_project new -name "TestBIAS" -impl "TestBIAS" -dev LFE3-17EA-7FTN256I -synthesis "synplify"
-prj_project save
-prj_src add "C:/INIlabs/VHDL/Test/TestBIAS/TestBIAS_V1.vhd"
-#Stop recording: 2/24/2014 15:54:13

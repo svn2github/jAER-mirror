@@ -1,8 +1,0 @@
-C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\bin64\c_vhdl.exe  -osyn  C:\INIlabs\VHDL\Test\TestBIAS\TestBIAS\synwork\TestBIAS_TestBIAS_hdl_.srs  -prodtype  synplify_pro  -dspmac -fixsmult -infer_seqShift -nram -divnmod -encrypt  -pro  -dmgen  C:\INIlabs\VHDL\Test\TestBIAS\TestBIAS\dm  -lite -ll 2000   -ui -fid2 -ram -sharing on  -autosm -ignore_undefined_lib  -lib work C:\Lattice\Diamond3\diamond\3.0_x64\cae_library\synthesis\vhdl\ecp3.vhd -lib work C:\INIlabs\VHDL\Test\TestBIAS\TestBIAS_V1.vhd -loga  C:\INIlabs\VHDL\Test\TestBIAS\TestBIAS\syntax.log  -fileorder  C:\INIlabs\VHDL\Test\TestBIAS\TestBIAS\syntmp\hdlorder.tcl 
-rc:0 success:0
-C:\INIlabs\VHDL\Test\TestBIAS\TestBIAS\synwork\TestBIAS_TestBIAS_hdl_.srs|o|0|0
-C:\Lattice\Diamond3\diamond\3.0_x64\cae_library\synthesis\vhdl\ecp3.vhd|i|1376992926|196741
-C:\INIlabs\VHDL\Test\TestBIAS\TestBIAS_V1.vhd|i|1393252918|764
-C:\INIlabs\VHDL\Test\TestBIAS\TestBIAS\syntax.log|o|1393862304|165
-C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\bin64\c_vhdl.exe|i|1372666570|5421568
-C:\Lattice\Diamond3\diamond\3.0_x64\synpbase\bin\c_vhdl.exe|i|1372666392|1946112

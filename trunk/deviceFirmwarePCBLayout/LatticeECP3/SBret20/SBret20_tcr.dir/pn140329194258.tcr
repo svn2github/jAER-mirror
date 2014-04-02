@@ -1,7 +1,0 @@
-#Start recording tcl command: 3/29/2014 19:41:51
-#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20; Project name: SBret20
-prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.ldf"
-pgr_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20chain.xcf"
-pgr_project close
-prj_project close
-#Stop recording: 3/29/2014 19:42:58

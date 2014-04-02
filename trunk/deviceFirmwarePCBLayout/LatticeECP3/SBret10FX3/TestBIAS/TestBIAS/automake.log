@@ -1,2 +1,0 @@
-
-synpwrap -prj "TestBIAS_TestBIAS_synplify.tcl" -log "TestBIAS_TestBIAS.srf"
