@@ -411,7 +411,7 @@ public class DAViS_FX3 extends Controller {
 		final TextArea usbEP2OutputArea = new TextArea();
 		usbEPListenGUI.getChildren().add(usbEP2OutputArea);
 
-		usbDevice.listenToEP((byte) 0x82, LibUsb.TRANSFER_TYPE_BULK, 8, 4096, usbEP2OutputArea);
+		usbDevice.listenToEP((byte) 0x82, LibUsb.TRANSFER_TYPE_BULK, 8, 8192, usbEP2OutputArea);
 
 		return (usbEPListenGUI);
 	}
