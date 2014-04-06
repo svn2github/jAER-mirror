@@ -36,7 +36,7 @@ gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
 	// { 47, 'O' }, /* GPIO 47: Spare3 */
 	// { 48, 'O' }, /* GPIO 48: Spare4 */
 	{ 49, 'o' }, /* GPIO 49: Bias_Addr_Select (active-low) */
-	{ 50, 'O' }, /* GPIO 50: Bias_Clock */
+	{ 50, 'o' }, /* GPIO 50: Bias_Clock (active-low) */
 	{ 51, 'o' }, /* GPIO 51: Bias_Latch (active-low) */
 	{ 52, 'O' }, /* GPIO 52: Bias_Bit */
 };
@@ -372,6 +372,8 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			}
 
 			if (wValue == 0) {
+				CyFxGpioTurnOff(ADC_RUN);
+
 				// Disable data output.
 				CyFxGpioTurnOff(FPGA_RUN);
 
@@ -386,6 +388,8 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			else {
 				// Enable data output.
 				CyFxGpioTurnOn(FPGA_RUN);
+
+				CyFxGpioTurnOn(ADC_RUN);
 
 				// Reset timestamps (toggle pin).
 				CyFxGpioTurnOn(TIMESTAMP_RESET);
@@ -427,7 +431,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 			// Latch bias.
 			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PBusyWait(2); // Wait for ~2 us
+			CyU3PBusyWait(10);
 			CyFxGpioTurnOff(BIAS_LATCH);
 
 			// Release address selection.
@@ -440,7 +444,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 			// Latch bias.
 			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PBusyWait(2); // Wait for ~2 us
+			CyU3PBusyWait(10);
 			CyFxGpioTurnOff(BIAS_LATCH);
 
 			break;
@@ -469,7 +473,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 			// Latch configuration.
 			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PBusyWait(10); // Wait for ~10 us
+			CyU3PBusyWait(10);
 			CyFxGpioTurnOff(BIAS_LATCH);
 
 			// We're done and can deselect the chip diagnostic SR.
@@ -504,6 +508,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 			// Latch FPGA configuration.
 			CyFxGpioTurnOn(FPGA_SHIFTREG_LATCH);
+			CyU3PBusyWait(2);
 			CyFxGpioTurnOff(FPGA_SHIFTREG_LATCH);
 
 			// Re-enable the ADC if it was running before.
