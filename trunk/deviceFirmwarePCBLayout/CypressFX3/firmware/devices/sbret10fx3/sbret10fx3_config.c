@@ -144,8 +144,8 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 	// Take FPGA out of reset, so it can be configured.
 	CyFxGpioTurnOff(FPGA_RESET);
 
-	// Make this device a Timestamp Master by default.
-	CyFxGpioTurnOn(TIMESTAMP_MASTER);
+	// Turn off TS-Master sync for ADC operation.
+	CyFxGpioTurnOff(TIMESTAMP_MASTER);
 
 	return (status);
 }
