@@ -65,12 +65,12 @@ begin
 	AERfifo_0_1: pmi_fifo_dc
     generic map (
        pmi_data_width_w => 16,
-       pmi_data_depth_w => 8,
+       pmi_data_depth_w => 32,
 	   pmi_data_width_r => 16,
-       pmi_data_depth_r => 8,
-       pmi_full_flag => 8,
+       pmi_data_depth_r => 32,
+       pmi_full_flag => 32,
        pmi_empty_flag => 0,
-       pmi_almost_full_flag => 6,
+       pmi_almost_full_flag => 30,
        pmi_almost_empty_flag => 2,
        pmi_regmode => "noreg",
 	   pmi_resetmode => "async",
