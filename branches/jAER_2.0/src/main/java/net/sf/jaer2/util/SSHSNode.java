@@ -6,9 +6,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,8 +25,8 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import net.sf.jaer2.util.SSHSListener.AttributeEvents;
-import net.sf.jaer2.util.SSHSListener.NodeEvents;
+import net.sf.jaer2.util.SSHSNode.SSHSAttrListener.AttributeEvents;
+import net.sf.jaer2.util.SSHSNode.SSHSNodeListener.NodeEvents;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,19 +34,39 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public final class SSHSNode {
+	public interface SSHSNodeListener {
+		public static enum NodeEvents {
+			CHILD_NODE_ADDED;
+		}
+
+		public void nodeChanged(SSHSNode node, Object userData, NodeEvents event, SSHSNode changeNode);
+	}
+
+	public interface SSHSAttrListener {
+		public static enum AttributeEvents {
+			ATTRIBUTE_ADDED,
+			ATTRIBUTE_MODIFIED;
+		}
+
+		public <V> void attributeChanged(SSHSNode node, Object userData, AttributeEvents event, String changeKey,
+			Class<V> changeType, V changeValue);
+	}
+
 	private final String name;
 	private final String path;
 	private final ConcurrentMap<String, SSHSNode> children;
 	private final TypedMap<String> attributes;
-	private final List<SSHSListener> listeners;
-	private final ReadWriteLock lock;
+	private final List<PairRO<SSHSNodeListener, Object>> nodeListeners;
+	private final List<PairRO<SSHSAttrListener, Object>> attrListeners;
+	private final ReadWriteLock nodeLock;
 
 	SSHSNode(final String nodeName, final SSHSNode parent) {
 		name = nodeName;
 		children = new ConcurrentHashMap<>();
 		attributes = new TypedMap<>();
-		listeners = new ArrayList<>();
-		lock = new ReentrantReadWriteLock();
+		nodeListeners = new ArrayList<>();
+		attrListeners = new ArrayList<>();
+		nodeLock = new ReentrantReadWriteLock();
 
 		// Path is based on parent.
 		if (parent != null) {
@@ -80,11 +98,11 @@ public final class SSHSNode {
 		// thus the new node 'child' is the node that's now in the map.
 		if (returnValue == null) {
 			// Listener support (only on new addition!).
-			lock.readLock().lock();
-			for (final SSHSListener listener : listeners) {
-				listener.nodeChanged(this, NodeEvents.CHILD_NODE_ADDED, child);
+			nodeLock.readLock().lock();
+			for (final PairRO<SSHSNodeListener, Object> listener : nodeListeners) {
+				listener.getFirst().nodeChanged(this, listener.getSecond(), NodeEvents.CHILD_NODE_ADDED, child);
 			}
-			lock.readLock().unlock();
+			nodeLock.readLock().unlock();
 
 			return child;
 		}
@@ -110,66 +128,116 @@ public final class SSHSNode {
 		return returnValue;
 	}
 
-	public void addListener(final SSHSListener l) {
-		lock.writeLock().lock();
-		listeners.add(l);
-		lock.writeLock().unlock();
+	public void addNodeListener(final SSHSNodeListener l, Object userData) {
+		nodeLock.writeLock().lock();
+		// Avoid duplicates by disallowing the addition of them.
+		if (!nodeListeners.contains(PairRO.of(l, userData))) {
+			nodeListeners.add(PairRO.of(l, userData));
+		}
+		nodeLock.writeLock().unlock();
 	}
 
-	public void removeListener(final SSHSListener l) {
-		lock.writeLock().lock();
-		listeners.remove(l);
-		lock.writeLock().unlock();
+	public void removeNodeListener(final SSHSNodeListener l, Object userData) {
+		nodeLock.writeLock().lock();
+		nodeListeners.remove(PairRO.of(l, userData));
+		nodeLock.writeLock().unlock();
+	}
+
+	public void addAttrListener(final SSHSAttrListener l, Object userData) {
+		nodeLock.writeLock().lock();
+		// Avoid duplicates by disallowing the addition of them.
+		if (!attrListeners.contains(PairRO.of(l, userData))) {
+			attrListeners.add(PairRO.of(l, userData));
+		}
+		nodeLock.writeLock().unlock();
+	}
+
+	public void removeAttrListener(final SSHSAttrListener l, Object userData) {
+		nodeLock.writeLock().lock();
+		attrListeners.remove(PairRO.of(l, userData));
+		nodeLock.writeLock().unlock();
 	}
 
 	void transactionLock() {
-		lock.writeLock().lock();
+		nodeLock.writeLock().lock();
 	}
 
 	void transactionUnlock() {
-		lock.writeLock().unlock();
+		nodeLock.writeLock().unlock();
 	}
 
 	public boolean attrExists(final String key, final Class<?> type) {
-		lock.readLock().lock();
+		nodeLock.readLock().lock();
 		final boolean returnValue = attributes.contains(key, type);
-		lock.readLock().unlock();
+		nodeLock.readLock().unlock();
 
 		return returnValue;
 	}
 
-	private <V> void putAttribute(final String key, final Class<V> type, final V value) {
-		lock.writeLock().lock();
-		final V returnValue = attributes.put(key, type, value);
-		lock.writeLock().unlock();
+	private <V> boolean putAttributeIfAbsent(final String key, final Class<V> type, final V value) {
+		nodeLock.writeLock().lock();
+		final V returnValue = attributes.putIfAbsent(key, type, value);
+		nodeLock.writeLock().unlock();
 
 		// Listener support.
-		lock.readLock().lock();
-		for (final SSHSListener listener : listeners) {
-			listener.attributeChanged(this, (returnValue == null) ? (AttributeEvents.ATTRIBUTE_ADDED)
-				: (AttributeEvents.ATTRIBUTE_MODIFIED), key, type, value);
+		nodeLock.readLock().lock();
+		if (returnValue == null) {
+			for (final PairRO<SSHSAttrListener, Object> listener : attrListeners) {
+				listener.getFirst().attributeChanged(this, listener.getSecond(), AttributeEvents.ATTRIBUTE_ADDED, key,
+					type, value);
+			}
 		}
-		lock.readLock().unlock();
+		nodeLock.readLock().unlock();
+
+		return (returnValue == null);
+	}
+
+	private <V> void putAttribute(final String key, final Class<V> type, final V value) {
+		nodeLock.writeLock().lock();
+		final V returnValue = attributes.put(key, type, value);
+		nodeLock.writeLock().unlock();
+
+		// Listener support.
+		nodeLock.readLock().lock();
+		if (returnValue == null) {
+			for (final PairRO<SSHSAttrListener, Object> listener : attrListeners) {
+				listener.getFirst().attributeChanged(this, listener.getSecond(), AttributeEvents.ATTRIBUTE_ADDED, key,
+					type, value);
+			}
+		}
+		else {
+			// Verify that the value really changed before notifying the change
+			// to the listeners. It might be that we're putting the same value
+			// in again!
+			if (!returnValue.equals(value)) {
+				for (final PairRO<SSHSAttrListener, Object> listener : attrListeners) {
+					listener.getFirst().attributeChanged(this, listener.getSecond(),
+						AttributeEvents.ATTRIBUTE_MODIFIED, key, type, value);
+				}
+			}
+		}
+		nodeLock.readLock().unlock();
 	}
 
 	private <V> V getAttribute(final String key, final Class<V> type) {
-		lock.readLock().lock();
+		nodeLock.readLock().lock();
 		final V returnValue = attributes.get(key, type);
-		lock.readLock().unlock();
+		nodeLock.readLock().unlock();
 
 		// Verify that we're getting values from a valid attribute.
 		// Valid means it already exists and has a well-defined default.
 		if (returnValue == null) {
-			throw new NoSuchElementException("Attribute not present, please initialize it first.");
+			throw new NoSuchElementException(String.format(
+				"Attribute %s of type %s not present, please initialize it first.", key, type.getCanonicalName()));
 		}
 
 		return returnValue;
 	}
 
 	private List<Entry<PairRO<String, ?>, Object>> getAttributes() {
-		lock.readLock().lock();
+		nodeLock.readLock().lock();
 		final List<Entry<PairRO<String, ?>, Object>> returnValue = new ArrayList<>(attributes.entrySet());
-		lock.readLock().unlock();
+		nodeLock.readLock().unlock();
 
 		Collections.sort(returnValue, new Comparator<Entry<PairRO<String, ?>, Object>>() {
 			@Override
@@ -181,12 +249,20 @@ public final class SSHSNode {
 		return returnValue;
 	}
 
+	public boolean putBoolIfAbsent(final String key, final boolean value) {
+		return putAttributeIfAbsent(key, Boolean.class, value);
+	}
+
 	public void putBool(final String key, final boolean value) {
 		putAttribute(key, Boolean.class, value);
 	}
 
 	public boolean getBool(final String key) {
 		return getAttribute(key, Boolean.class);
+	}
+
+	public boolean putBytelIfAbsent(final String key, final byte value) {
+		return putAttributeIfAbsent(key, Byte.class, value);
 	}
 
 	public void putByte(final String key, final byte value) {
@@ -197,12 +273,20 @@ public final class SSHSNode {
 		return getAttribute(key, Byte.class);
 	}
 
+	public boolean putShortIfAbsent(final String key, final short value) {
+		return putAttributeIfAbsent(key, Short.class, value);
+	}
+
 	public void putShort(final String key, final short value) {
 		putAttribute(key, Short.class, value);
 	}
 
 	public short getShort(final String key) {
 		return getAttribute(key, Short.class);
+	}
+
+	public boolean putIntIfAbsent(final String key, final int value) {
+		return putAttributeIfAbsent(key, Integer.class, value);
 	}
 
 	public void putInt(final String key, final int value) {
@@ -213,12 +297,20 @@ public final class SSHSNode {
 		return getAttribute(key, Integer.class);
 	}
 
+	public boolean putLongIfAbsent(final String key, final long value) {
+		return putAttributeIfAbsent(key, Long.class, value);
+	}
+
 	public void putLong(final String key, final long value) {
 		putAttribute(key, Long.class, value);
 	}
 
 	public long getLong(final String key) {
 		return getAttribute(key, Long.class);
+	}
+
+	public boolean putFloatIfAbsent(final String key, final float value) {
+		return putAttributeIfAbsent(key, Float.class, value);
 	}
 
 	public void putFloat(final String key, final float value) {
@@ -229,12 +321,20 @@ public final class SSHSNode {
 		return getAttribute(key, Float.class);
 	}
 
+	public boolean putDoubleIfAbsent(final String key, final double value) {
+		return putAttributeIfAbsent(key, Double.class, value);
+	}
+
 	public void putDouble(final String key, final double value) {
 		putAttribute(key, Double.class, value);
 	}
 
 	public double getDouble(final String key) {
 		return getAttribute(key, Double.class);
+	}
+
+	public boolean putStringIfAbsent(final String key, final String value) {
+		return putAttributeIfAbsent(key, String.class, value);
 	}
 
 	public void putString(final String key, final String value) {
@@ -289,8 +389,8 @@ public final class SSHSNode {
 			node.appendChild(attr);
 
 			attr.setAttribute("key", entry.getKey().getFirst());
-			attr.setAttribute("type", SSHSNode.typeToXMLNameMap.get(entry.getKey().getSecond()));
-			attr.setNodeValue(entry.getValue().toString());
+			attr.setAttribute("type", SSHSHelper.typeToStringConverter((Class<?>) entry.getKey().getSecond()));
+			attr.setNodeValue(SSHSHelper.valueToStringConverter((Class<?>) entry.getKey().getSecond(), entry.getValue()));
 		}
 
 		// And lastly recurse down to the children.
@@ -317,6 +417,19 @@ public final class SSHSNode {
 		fromXML(is, true, strict);
 	}
 
+	private static List<Element> filterChildNodes(final Element node, final String childName) {
+		final NodeList nodes = node.getChildNodes();
+		final List<Element> results = new ArrayList<>();
+
+		for (int i = 0; i < nodes.getLength(); i++) {
+			if (nodes.item(i).getNodeName().equals(childName)) {
+				results.add((Element) nodes.item(i));
+			}
+		}
+
+		return results;
+	}
+
 	private void fromXML(final InputStream is, final boolean recursive, final boolean strict) throws SAXException,
 		IOException, XMLParseException {
 		try {
@@ -325,7 +438,7 @@ public final class SSHSNode {
 			final Element root = dom.getDocumentElement();
 
 			// Check name and version for compliance.
-			if ((root.getNodeName().compareTo("sshs") != 0) || (root.getAttribute("version").compareTo("1.0") != 0)) {
+			if (!root.getNodeName().equals("sshs") || !root.getAttribute("version").equals("1.0")) {
 				throw new XMLParseException("Invalid SSHS v1.0 XML content.");
 			}
 
@@ -339,7 +452,7 @@ public final class SSHSNode {
 
 			// Strict mode: check if names match.
 			if (strict) {
-				if (!rootNode.hasAttribute("name") || (rootNode.getAttribute("name").compareTo(getName()) != 0)) {
+				if (!rootNode.hasAttribute("name") || !rootNode.getAttribute("name").equals(getName())) {
 					throw new XMLParseException("Names don't match (required in 'strict' mode).");
 				}
 			}
@@ -363,7 +476,7 @@ public final class SSHSNode {
 			final String type = attr.getAttribute("type");
 			final String value = attr.getNodeValue();
 
-			xmlToNodeConverter(key, type, value);
+			stringToNodeConverter(key, type, value);
 		}
 
 		if (recursive) {
@@ -388,68 +501,40 @@ public final class SSHSNode {
 		}
 	}
 
-	private static List<Element> filterChildNodes(final Element node, final String childName) {
-		final NodeList nodes = node.getChildNodes();
-		final List<Element> results = new ArrayList<>();
+	boolean stringToNodeConverter(String key, String typeStr, String valueStr) {
+		// Parse the values according to type and put them in the node.
+		Class<?> type = SSHSHelper.stringToTypeConverter(typeStr);
 
-		for (int i = 0; i < nodes.getLength(); i++) {
-			if (nodes.item(i).getNodeName().compareTo(childName) == 0) {
-				results.add((Element) nodes.item(i));
+		putAttribute(key, type, type.cast(SSHSHelper.stringToValueConverter(type, valueStr)));
+
+		return true;
+	}
+
+	public List<String> getChildNames() {
+		List<String> childNames = new ArrayList<>(children.keySet());
+
+		return (childNames);
+	}
+
+	List<String> getAttributeKeys() {
+		List<String> attributeKeys = new ArrayList<>(attributes.size());
+
+		for (PairRO<String, ?> attribute : attributes.keySet()) {
+			attributeKeys.add(attribute.getFirst());
+		}
+
+		return (attributeKeys);
+	}
+
+	List<Class<?>> getAttributeTypes(String key) {
+		List<Class<?>> attributeTypes = new ArrayList<>();
+
+		for (PairRO<String, ?> attribute : attributes.keySet()) {
+			if (attribute.getFirst().equals(key)) {
+				attributeTypes.add((Class<?>) attribute.getSecond());
 			}
 		}
 
-		return results;
-	}
-
-	private static final Map<Class<?>, String> typeToXMLNameMap = new HashMap<>();
-	static {
-		SSHSNode.typeToXMLNameMap.put(Boolean.class, "bool");
-		SSHSNode.typeToXMLNameMap.put(Byte.class, "byte");
-		SSHSNode.typeToXMLNameMap.put(Short.class, "short");
-		SSHSNode.typeToXMLNameMap.put(Integer.class, "int");
-		SSHSNode.typeToXMLNameMap.put(Long.class, "long");
-		SSHSNode.typeToXMLNameMap.put(Float.class, "float");
-		SSHSNode.typeToXMLNameMap.put(Double.class, "double");
-		SSHSNode.typeToXMLNameMap.put(String.class, "string");
-	}
-
-	private void xmlToNodeConverter(final String key, final String type, final String value) {
-		// Parse the values according to type and put them in the node.
-		switch (type) {
-			case "bool":
-				putBool(key, Boolean.parseBoolean(value));
-				break;
-
-			case "byte":
-				putByte(key, Byte.parseByte(value));
-				break;
-
-			case "short":
-				putShort(key, Short.parseShort(value));
-				break;
-
-			case "int":
-				putInt(key, Integer.parseInt(value));
-				break;
-
-			case "long":
-				putLong(key, Long.parseLong(value));
-				break;
-
-			case "float":
-				putFloat(key, Float.parseFloat(value));
-				break;
-
-			case "double":
-				putDouble(key, Double.parseDouble(value));
-				break;
-
-			case "string":
-				putString(key, value);
-				break;
-
-			default:
-				break;
-		}
+		return (attributeTypes);
 	}
 }

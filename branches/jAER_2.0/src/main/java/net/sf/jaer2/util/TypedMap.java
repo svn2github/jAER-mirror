@@ -30,6 +30,10 @@ public final class TypedMap<K> {
 		return valueType.cast(typedMap.put(PairRO.of(key, valueType), valueType.cast(value)));
 	}
 
+	public <V> V putIfAbsent(final K key, final Class<V> valueType, final V value) {
+		return valueType.cast(typedMap.putIfAbsent(PairRO.of(key, valueType), valueType.cast(value)));
+	}
+
 	public <V> V get(final K key, final Class<V> valueType) {
 		return valueType.cast(typedMap.get(PairRO.of(key, valueType)));
 	}
