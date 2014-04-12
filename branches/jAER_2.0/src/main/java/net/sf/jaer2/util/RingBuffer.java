@@ -27,7 +27,7 @@ public final class RingBuffer<E> {
 	public boolean put(final E elem) {
 		if (elem == null) {
 			// NULL elements are disallowed (used as place-holders).
-			// Critical error, throw exception!
+			// Critical error, should never happen -> throw exception!
 			throw new IllegalArgumentException("Element cannot be null.");
 		}
 

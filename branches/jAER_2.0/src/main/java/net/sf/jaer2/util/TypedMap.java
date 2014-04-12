@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 public final class TypedMap<K> {
-	private final Map<PairRO<K, ?>, Object> typedMap = new HashMap<>();
+	private final Map<PairRO<K, Class<?>>, Object> typedMap = new HashMap<>();
 
 	public boolean isEmpty() {
 		return typedMap.isEmpty();
@@ -38,11 +38,11 @@ public final class TypedMap<K> {
 		return valueType.cast(typedMap.get(PairRO.of(key, valueType)));
 	}
 
-	public Set<Entry<PairRO<K, ?>, Object>> entrySet() {
+	public Set<Entry<PairRO<K, Class<?>>, Object>> entrySet() {
 		return typedMap.entrySet();
 	}
 
-	public Set<PairRO<K, ?>> keySet() {
+	public Set<PairRO<K, Class<?>>> keySet() {
 		return typedMap.keySet();
 	}
 
@@ -59,7 +59,8 @@ public final class TypedMap<K> {
 				valueCollection.add(value);
 			}
 			catch (final ClassCastException e) {
-				// Ignore this one, it's expected.
+				// Ignore this one, it's expected for the values that are not
+				// the ones corresponding to valueType's type.
 			}
 		}
 

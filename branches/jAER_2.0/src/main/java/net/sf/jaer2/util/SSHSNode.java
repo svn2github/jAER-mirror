@@ -128,7 +128,7 @@ public final class SSHSNode {
 		return returnValue;
 	}
 
-	public void addNodeListener(final SSHSNodeListener l, Object userData) {
+	public void addNodeListener(final SSHSNodeListener l, final Object userData) {
 		nodeLock.writeLock().lock();
 		// Avoid duplicates by disallowing the addition of them.
 		if (!nodeListeners.contains(PairRO.of(l, userData))) {
@@ -137,13 +137,13 @@ public final class SSHSNode {
 		nodeLock.writeLock().unlock();
 	}
 
-	public void removeNodeListener(final SSHSNodeListener l, Object userData) {
+	public void removeNodeListener(final SSHSNodeListener l, final Object userData) {
 		nodeLock.writeLock().lock();
 		nodeListeners.remove(PairRO.of(l, userData));
 		nodeLock.writeLock().unlock();
 	}
 
-	public void addAttrListener(final SSHSAttrListener l, Object userData) {
+	public void addAttrListener(final SSHSAttrListener l, final Object userData) {
 		nodeLock.writeLock().lock();
 		// Avoid duplicates by disallowing the addition of them.
 		if (!attrListeners.contains(PairRO.of(l, userData))) {
@@ -152,7 +152,7 @@ public final class SSHSNode {
 		nodeLock.writeLock().unlock();
 	}
 
-	public void removeAttrListener(final SSHSAttrListener l, Object userData) {
+	public void removeAttrListener(final SSHSAttrListener l, final Object userData) {
 		nodeLock.writeLock().lock();
 		attrListeners.remove(PairRO.of(l, userData));
 		nodeLock.writeLock().unlock();
@@ -219,7 +219,7 @@ public final class SSHSNode {
 		nodeLock.readLock().unlock();
 	}
 
-	private <V> V getAttribute(final String key, final Class<V> type) {
+	public <V> V getAttribute(final String key, final Class<V> type) {
 		nodeLock.readLock().lock();
 		final V returnValue = attributes.get(key, type);
 		nodeLock.readLock().unlock();
@@ -234,14 +234,15 @@ public final class SSHSNode {
 		return returnValue;
 	}
 
-	private List<Entry<PairRO<String, ?>, Object>> getAttributes() {
+	private List<Entry<PairRO<String, Class<?>>, Object>> getAttributes() {
 		nodeLock.readLock().lock();
-		final List<Entry<PairRO<String, ?>, Object>> returnValue = new ArrayList<>(attributes.entrySet());
+		final List<Entry<PairRO<String, Class<?>>, Object>> returnValue = new ArrayList<>(attributes.entrySet());
 		nodeLock.readLock().unlock();
 
-		Collections.sort(returnValue, new Comparator<Entry<PairRO<String, ?>, Object>>() {
+		Collections.sort(returnValue, new Comparator<Entry<PairRO<String, Class<?>>, Object>>() {
 			@Override
-			public int compare(final Entry<PairRO<String, ?>, Object> o1, final Entry<PairRO<String, ?>, Object> o2) {
+			public int compare(final Entry<PairRO<String, Class<?>>, Object> o1,
+				final Entry<PairRO<String, Class<?>>, Object> o2) {
 				return o1.getKey().getFirst().compareTo(o2.getKey().getFirst());
 			}
 		});
@@ -384,13 +385,13 @@ public final class SSHSNode {
 		node.setAttribute("path", getPath());
 
 		// Then it's attributes (key:value pairs).
-		for (final Entry<PairRO<String, ?>, Object> entry : getAttributes()) {
+		for (final Entry<PairRO<String, Class<?>>, Object> entry : getAttributes()) {
 			final Element attr = dom.createElement("attr");
 			node.appendChild(attr);
 
 			attr.setAttribute("key", entry.getKey().getFirst());
-			attr.setAttribute("type", SSHSHelper.typeToStringConverter((Class<?>) entry.getKey().getSecond()));
-			attr.setNodeValue(SSHSHelper.valueToStringConverter((Class<?>) entry.getKey().getSecond(), entry.getValue()));
+			attr.setAttribute("type", SSHSHelper.typeToStringConverter(entry.getKey().getSecond()));
+			attr.setNodeValue(SSHSHelper.valueToStringConverter(entry.getKey().getSecond(), entry.getValue()));
 		}
 
 		// And lastly recurse down to the children.
@@ -464,7 +465,7 @@ public final class SSHSNode {
 		}
 	}
 
-	private void consumeXML(final Element content, final boolean recursive) {
+	private void consumeXML(final Element content, final boolean recursive) throws XMLParseException {
 		for (final Element attr : SSHSNode.filterChildNodes(content, "attr")) {
 			// Check that the proper attributes exist.
 			if (!attr.hasAttribute("key") || !attr.hasAttribute("type")) {
@@ -476,7 +477,10 @@ public final class SSHSNode {
 			final String type = attr.getAttribute("type");
 			final String value = attr.getNodeValue();
 
-			stringToNodeConverter(key, type, value);
+			if (!stringToNodeConverter(key, type, value)) {
+				throw new XMLParseException(String.format("Failed to convert attribute %s of type %s with value %s.",
+					key, type, value));
+			}
 		}
 
 		if (recursive) {
@@ -501,35 +505,61 @@ public final class SSHSNode {
 		}
 	}
 
-	boolean stringToNodeConverter(String key, String typeStr, String valueStr) {
+	public boolean stringToNodeConverter(final String key, final String typeStr, final String valueStr) {
 		// Parse the values according to type and put them in the node.
-		Class<?> type = SSHSHelper.stringToTypeConverter(typeStr);
+		final Class<?> type = SSHSHelper.stringToTypeConverter(typeStr);
 
-		putAttribute(key, type, type.cast(SSHSHelper.stringToValueConverter(type, valueStr)));
+		if (type == Boolean.class) {
+			putBool(key, SSHSHelper.stringToValueConverter(Boolean.class, valueStr));
+		}
+		else if (type == Byte.class) {
+			putByte(key, SSHSHelper.stringToValueConverter(Byte.class, valueStr));
+		}
+		else if (type == Short.class) {
+			putShort(key, SSHSHelper.stringToValueConverter(Short.class, valueStr));
+		}
+		else if (type == Integer.class) {
+			putInt(key, SSHSHelper.stringToValueConverter(Integer.class, valueStr));
+		}
+		else if (type == Long.class) {
+			putLong(key, SSHSHelper.stringToValueConverter(Long.class, valueStr));
+		}
+		else if (type == Float.class) {
+			putFloat(key, SSHSHelper.stringToValueConverter(Float.class, valueStr));
+		}
+		else if (type == Double.class) {
+			putDouble(key, SSHSHelper.stringToValueConverter(Double.class, valueStr));
+		}
+		else if (type == String.class) {
+			putString(key, SSHSHelper.stringToValueConverter(String.class, valueStr));
+		}
+		else {
+			return false; // UNKNOWN TYPE.
+		}
 
 		return true;
 	}
 
 	public List<String> getChildNames() {
-		List<String> childNames = new ArrayList<>(children.keySet());
+		final List<String> childNames = new ArrayList<>(children.keySet());
 
 		return (childNames);
 	}
 
-	List<String> getAttributeKeys() {
-		List<String> attributeKeys = new ArrayList<>(attributes.size());
+	public List<String> getAttributeKeys() {
+		final List<String> attributeKeys = new ArrayList<>(attributes.size());
 
-		for (PairRO<String, ?> attribute : attributes.keySet()) {
+		for (final PairRO<String, ?> attribute : attributes.keySet()) {
 			attributeKeys.add(attribute.getFirst());
 		}
 
 		return (attributeKeys);
 	}
 
-	List<Class<?>> getAttributeTypes(String key) {
-		List<Class<?>> attributeTypes = new ArrayList<>();
+	public List<Class<?>> getAttributeTypes(final String key) {
+		final List<Class<?>> attributeTypes = new ArrayList<>();
 
-		for (PairRO<String, ?> attribute : attributes.keySet()) {
+		for (final PairRO<String, ?> attribute : attributes.keySet()) {
 			if (attribute.getFirst().equals(key)) {
 				attributeTypes.add((Class<?>) attribute.getSecond());
 			}
