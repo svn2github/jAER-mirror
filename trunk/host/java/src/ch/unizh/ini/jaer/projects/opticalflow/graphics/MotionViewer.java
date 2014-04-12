@@ -115,11 +115,7 @@ public class MotionViewer extends javax.swing.JFrame implements PropertyChangeLi
      */
     public MotionViewer(Chip2DMotion chip) {
         motionData = chip.getEmptyMotionData();
-        try {
-            UIManager.setLookAndFeel(new WindowsLookAndFeel());
-        } catch (Exception e) {
-            log.warning(e.getMessage());
-        }
+
         setName("MotionViewer");
         log.setLevel(Level.INFO);
         initComponents();

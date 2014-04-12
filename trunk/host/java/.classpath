@@ -11,7 +11,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="dist/jAER.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="jars/javacv/javacpp.jar"/>
 	<classpathentry kind="lib" path="jars/javacv/javacv-windows-x86.jar"/>
 	<classpathentry kind="lib" path="jars/javacv/javacv.jar"/>
@@ -44,5 +43,6 @@
 	<classpathentry kind="lib" path="jars/jblas-1.2.3.jar"/>
 	<classpathentry kind="lib" path="jars/JEvtLearn.jar"/>
 	<classpathentry kind="lib" path="jars/uncommons-maths-1.2.3.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
