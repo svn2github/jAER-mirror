@@ -1,24 +1,22 @@
 package net.sf.jaer2.devices.config;
 
-import javafx.beans.binding.LongBinding;
-import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
 import net.sf.jaer2.util.GUISupport;
-import net.sf.jaer2.util.serializable.SerializableBooleanProperty;
+import net.sf.jaer2.util.SSHSNode;
+import net.sf.jaer2.util.SSHSNode.SSHSAttrListener;
 
 public final class ConfigBit extends ConfigBase {
-	private static final long serialVersionUID = 4713262582313018900L;
-
 	private final int address;
 
-	private final SerializableBooleanProperty value = new SerializableBooleanProperty();
-
-	public ConfigBit(final String name, final String description, final boolean defaultValue) {
-		this(name, description, null, defaultValue);
+	public ConfigBit(final String name, final String description, final SSHSNode configNode, final boolean defaultValue) {
+		this(name, description, configNode, null, defaultValue);
 	}
 
-	public ConfigBit(final String name, final String description, final Address address, final boolean defaultValue) {
-		super(name, description, 1);
+	public ConfigBit(final String name, final String description, final SSHSNode configNode, final Address address,
+		final boolean defaultValue) {
+		super(name, description, configNode, 1);
 
 		if (address != null) {
 			if (address.address() < 0) {
@@ -35,15 +33,11 @@ public final class ConfigBit extends ConfigBase {
 	}
 
 	public boolean getValue() {
-		return value.property().get();
+		return configNode.getBool(getName());
 	}
 
 	public void setValue(final boolean val) {
-		value.property().set(val);
-	}
-
-	public BooleanProperty getValueProperty() {
-		return value.property();
+		configNode.putBool(getName(), val);
 	}
 
 	@Override
@@ -56,20 +50,6 @@ public final class ConfigBit extends ConfigBase {
 	}
 
 	@Override
-	protected void buildChangeBinding() {
-		changeBinding = new LongBinding() {
-			{
-				super.bind(getValueProperty());
-			}
-
-			@Override
-			protected long computeValue() {
-				return System.currentTimeMillis();
-			}
-		};
-	}
-
-	@Override
 	protected long computeBinaryRepresentation() {
 		return (getValue() == true) ? (1) : (0);
 	}
@@ -79,7 +59,25 @@ public final class ConfigBit extends ConfigBase {
 		super.buildConfigGUI();
 
 		final CheckBox valBox = GUISupport.addCheckBox(rootConfigLayout, null, getValue());
-		valBox.selectedProperty().bindBidirectional(getValueProperty());
+
+		valBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(final ObservableValue<? extends Boolean> changed, final Boolean oldVal,
+				final Boolean newVal) {
+				setValue(newVal);
+			}
+		});
+
+		configNode.addAttrListener(new SSHSAttrListener() {
+			@Override
+			public <V> void attributeChanged(final SSHSNode node, final Object userData, final AttributeEvents event,
+				final String changeKey, final Class<V> changeType, final V changeValue) {
+				if ((event == AttributeEvents.ATTRIBUTE_MODIFIED) && changeKey.equals(getName())
+					&& (changeType == Boolean.class)) {
+					valBox.selectedProperty().setValue((Boolean) changeValue);
+				}
+			}
+		}, null);
 	}
 
 	@Override

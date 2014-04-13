@@ -1,9 +1,7 @@
 package net.sf.jaer2.devices.config;
 
-import java.io.Serializable;
 import java.util.EnumSet;
 
-import javafx.beans.binding.LongBinding;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -12,13 +10,12 @@ import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers;
 import net.sf.jaer2.util.Numbers.NumberFormat;
 import net.sf.jaer2.util.Numbers.NumberOptions;
+import net.sf.jaer2.util.SSHSNode;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class ConfigBase implements Serializable {
-	private static final long serialVersionUID = -4814139458067416419L;
-
+public abstract class ConfigBase {
 	public static interface Address {
 		int address();
 
@@ -32,20 +29,22 @@ public abstract class ConfigBase implements Serializable {
 	private final String name;
 	private final String description;
 
+	/** Central configuration holding node. */
+	protected final SSHSNode configNode;
+
 	/**
-	 * The number of bits of resolution for this setting. This number is used to
+	 * The number of bits for this setting. This number is used to
 	 * compute the limits of the value (min and max) and also for computing the
 	 * number of bits or bytes to send to a device.
 	 */
 	private final int numBits;
 
-	transient protected LongBinding changeBinding;
+	protected HBox rootConfigLayout;
 
-	transient protected HBox rootConfigLayout;
-
-	public ConfigBase(final String name, final String description, final int numBits) {
+	public ConfigBase(final String name, final String description, final SSHSNode configNode, final int numBits) {
 		this.name = name;
 		this.description = description;
+		this.configNode = configNode;
 		this.numBits = numBits;
 	}
 
@@ -61,7 +60,7 @@ public abstract class ConfigBase implements Serializable {
 	 * Return an additional address, where this setting needs to be sent to.
 	 * This throws an UnsupportedOperationException by default, and is only
 	 * implemented for certain setting types, where it makes sense for them to
-	 * have an address.
+	 * have an address and thus be addressable.
 	 *
 	 * @return setting address on device.
 	 */
@@ -70,42 +69,44 @@ public abstract class ConfigBase implements Serializable {
 		throw new UnsupportedOperationException("Addressed mode not supported.");
 	}
 
+	/**
+	 * Return the number of bits needed for this setting.
+	 *
+	 * @return number of bits for setting.
+	 */
 	public final int getNumBits() {
 		return numBits;
 	}
 
+	/**
+	 * Return the number of bytes needed to fully hold this setting,
+	 * based on the number of required bits, rounded up if needed.
+	 *
+	 * @return number of bytes for setting.
+	 */
 	public final int getNumBytes() {
 		return (getNumBits() / Byte.SIZE) + (((getNumBits() % Byte.SIZE) == 0) ? (0) : (1));
 	}
 
 	/**
-	 * Return the maximum value representing all stages of current splitter
-	 * enabled.
+	 * Return the maximum possible value.
 	 */
 	public long getMaxBitValue() {
 		return ((1L << (getNumBits())) - 1);
 	}
 
-	/** Return the minimum value, no current: zero. */
+	/**
+	 * Return the minimum value: zero.
+	 */
 	@SuppressWarnings("static-method")
 	public long getMinBitValue() {
 		return 0;
 	}
 
-	synchronized public final LongBinding getChangeBinding() {
-		if (changeBinding == null) {
-			buildChangeBinding();
-		}
-
-		return changeBinding;
-	}
-
-	protected abstract void buildChangeBinding();
-
 	protected abstract long computeBinaryRepresentation();
 
 	/**
-	 * Computes and returns a new array of bytes representing the bias to be
+	 * Computes and returns a new array of bytes representing the setting to be
 	 * sent over the hardware interface to the device.
 	 *
 	 * @return array of bytes to be sent, by convention values are ordered in

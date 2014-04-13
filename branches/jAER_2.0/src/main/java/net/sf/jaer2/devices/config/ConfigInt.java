@@ -2,35 +2,29 @@ package net.sf.jaer2.devices.config;
 
 import java.util.EnumSet;
 
-import javafx.beans.binding.LongBinding;
-import javafx.beans.property.IntegerProperty;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers.NumberFormat;
 import net.sf.jaer2.util.Numbers.NumberOptions;
-import net.sf.jaer2.util.serializable.SerializableIntegerProperty;
+import net.sf.jaer2.util.SSHSNode;
 
 public final class ConfigInt extends ConfigBase {
-	private static final long serialVersionUID = 1886982916541742697L;
-
 	private final int address;
 
-	private final SerializableIntegerProperty value = new SerializableIntegerProperty();
-
-	public ConfigInt(final String name, final String description, final int defaultValue) {
-		this(name, description, null, defaultValue);
+	public ConfigInt(final String name, final String description, final SSHSNode configNode,final int defaultValue) {
+		this(name, description, configNode,null, defaultValue);
 	}
 
-	public ConfigInt(final String name, final String description, final Address address, final int defaultValue) {
-		this(name, description, address, defaultValue, Integer.SIZE);
+	public ConfigInt(final String name, final String description, final SSHSNode configNode,final Address address, final int defaultValue) {
+		this(name, description, configNode,address, defaultValue, Integer.SIZE);
 	}
 
-	public ConfigInt(final String name, final String description, final int defaultValue, final int numBits) {
-		this(name, description, null, defaultValue, numBits);
+	public ConfigInt(final String name, final String description, final SSHSNode configNode,final int defaultValue, final int numBits) {
+		this(name, description, configNode,null, defaultValue, numBits);
 	}
 
-	public ConfigInt(final String name, final String description, final Address address, final int defaultValue,
+	public ConfigInt(final String name, final String description, final SSHSNode configNode,final Address address, final int defaultValue,
 		final int numBits) {
-		super(name, description, numBits);
+		super(name, description,configNode, numBits);
 
 		if (numBits < 2) {
 			throw new IllegalArgumentException(
@@ -57,15 +51,11 @@ public final class ConfigInt extends ConfigBase {
 	}
 
 	public int getValue() {
-		return value.property().get();
+		return configNode.getInt(getName());
 	}
 
 	public void setValue(final int val) {
-		value.property().set(val);
-	}
-
-	public IntegerProperty getValueProperty() {
-		return value.property();
+		configNode.putInt(getName(), val);
 	}
 
 	@Override
@@ -75,20 +65,6 @@ public final class ConfigInt extends ConfigBase {
 		}
 
 		return address;
-	}
-
-	@Override
-	protected void buildChangeBinding() {
-		changeBinding = new LongBinding() {
-			{
-				super.bind(getValueProperty());
-			}
-
-			@Override
-			protected long computeValue() {
-				return System.currentTimeMillis();
-			}
-		};
 	}
 
 	@Override

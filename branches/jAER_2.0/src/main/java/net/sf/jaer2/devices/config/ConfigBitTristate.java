@@ -2,15 +2,14 @@ package net.sf.jaer2.devices.config;
 
 import java.util.EnumSet;
 
-import javafx.beans.binding.LongBinding;
-import javafx.beans.property.ObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
 import net.sf.jaer2.util.GUISupport;
-import net.sf.jaer2.util.serializable.SerializableObjectProperty;
+import net.sf.jaer2.util.SSHSNode;
+import net.sf.jaer2.util.SSHSNode.SSHSAttrListener;
 
 public final class ConfigBitTristate extends ConfigBase {
-	private static final long serialVersionUID = -554758992623341136L;
-
 	public static enum Tristate {
 		LOW(0),
 		HIGH(1),
@@ -54,15 +53,14 @@ public final class ConfigBitTristate extends ConfigBase {
 
 	private final int address;
 
-	private final SerializableObjectProperty<Tristate> value = new SerializableObjectProperty<>();
-
-	public ConfigBitTristate(final String name, final String description, final Tristate defaultValue) {
-		this(name, description, null, defaultValue);
+	public ConfigBitTristate(final String name, final String description, final SSHSNode configNode,
+		final Tristate defaultValue) {
+		this(name, description, configNode, null, defaultValue);
 	}
 
-	public ConfigBitTristate(final String name, final String description, final Address address,
-		final Tristate defaultValue) {
-		super(name, description, 2);
+	public ConfigBitTristate(final String name, final String description, final SSHSNode configNode,
+		final Address address, final Tristate defaultValue) {
+		super(name, description, configNode, 2);
 
 		if (address != null) {
 			if (address.address() < 0) {
@@ -79,15 +77,19 @@ public final class ConfigBitTristate extends ConfigBase {
 	}
 
 	public Tristate getValue() {
-		return value.property().get();
+		if (configNode.getByte(getName()) == 0) {
+			return Tristate.LOW;
+		}
+		else if (configNode.getByte(getName()) == 1) {
+			return Tristate.HIGH;
+		}
+		else {
+			return Tristate.HIZ;
+		}
 	}
 
 	public void setValue(final Tristate val) {
-		value.property().set(val);
-	}
-
-	public ObjectProperty<Tristate> getValueProperty() {
-		return value.property();
+		configNode.putByte(getName(), (byte) val.bitValue());
 	}
 
 	@Override
@@ -100,22 +102,8 @@ public final class ConfigBitTristate extends ConfigBase {
 	}
 
 	@Override
-	protected void buildChangeBinding() {
-		changeBinding = new LongBinding() {
-			{
-				super.bind(getValueProperty());
-			}
-
-			@Override
-			protected long computeValue() {
-				return System.currentTimeMillis();
-			}
-		};
-	}
-
-	@Override
 	public long getMaxBitValue() {
-		return 3;
+		return 2;
 	}
 
 	@Override
@@ -129,7 +117,33 @@ public final class ConfigBitTristate extends ConfigBase {
 
 		final ComboBox<Tristate> triBox = GUISupport.addComboBox(rootConfigLayout, EnumSet.allOf(Tristate.class),
 			getValue().ordinal());
-		triBox.valueProperty().bindBidirectional(getValueProperty());
+
+		triBox.valueProperty().addListener(new ChangeListener<Tristate>() {
+			@Override
+			public void changed(final ObservableValue<? extends Tristate> changed, final Tristate oldVal,
+				final Tristate newVal) {
+				setValue(newVal);
+			}
+		});
+
+		configNode.addAttrListener(new SSHSAttrListener() {
+			@Override
+			public <V> void attributeChanged(final SSHSNode node, final Object userData, final AttributeEvents event,
+				final String changeKey, final Class<V> changeType, final V changeValue) {
+				if ((event == AttributeEvents.ATTRIBUTE_MODIFIED) && changeKey.equals(getName())
+					&& (changeType == Byte.class)) {
+					if ((Byte) changeValue == 0) {
+						triBox.valueProperty().setValue(Tristate.LOW);
+					}
+					else if ((Byte) changeValue == 1) {
+						triBox.valueProperty().setValue(Tristate.HIGH);
+					}
+					else {
+						triBox.valueProperty().setValue(Tristate.HIZ);
+					}
+				}
+			}
+		}, null);
 	}
 
 	@Override
