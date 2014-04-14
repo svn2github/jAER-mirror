@@ -6,9 +6,10 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
-import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -25,7 +26,6 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import net.sf.jaer2.util.SSHSNode.SSHSAttrListener.AttributeEvents;
 import net.sf.jaer2.util.SSHSNode.SSHSNodeListener.NodeEvents;
 
 import org.w3c.dom.Document;
@@ -36,36 +36,28 @@ import org.xml.sax.SAXException;
 public final class SSHSNode {
 	public interface SSHSNodeListener {
 		public static enum NodeEvents {
+			ATTRIBUTE_ADDED,
 			CHILD_NODE_ADDED;
 		}
 
 		public void nodeChanged(SSHSNode node, Object userData, NodeEvents event, SSHSNode changeNode);
-	}
 
-	public interface SSHSAttrListener {
-		public static enum AttributeEvents {
-			ATTRIBUTE_ADDED,
-			ATTRIBUTE_MODIFIED;
-		}
-
-		public <V> void attributeChanged(SSHSNode node, Object userData, AttributeEvents event, String changeKey,
+		public <V> void attributeChanged(SSHSNode node, Object userData, NodeEvents event, String changeKey,
 			Class<V> changeType, V changeValue);
 	}
 
 	private final String name;
 	private final String path;
 	private final ConcurrentMap<String, SSHSNode> children;
-	private final TypedMap<String> attributes;
+	private final Map<PairRO<String, Class<?>>, SSHSAttribute<?>> attributes;
 	private final List<PairRO<SSHSNodeListener, Object>> nodeListeners;
-	private final List<PairRO<SSHSAttrListener, Object>> attrListeners;
 	private final ReadWriteLock nodeLock;
 
 	SSHSNode(final String nodeName, final SSHSNode parent) {
 		name = nodeName;
 		children = new ConcurrentHashMap<>();
-		attributes = new TypedMap<>();
+		attributes = new HashMap<>();
 		nodeListeners = new ArrayList<>();
-		attrListeners = new ArrayList<>();
 		nodeLock = new ReentrantReadWriteLock();
 
 		// Path is based on parent.
@@ -143,21 +135,6 @@ public final class SSHSNode {
 		nodeLock.writeLock().unlock();
 	}
 
-	public void addAttrListener(final SSHSAttrListener l, final Object userData) {
-		nodeLock.writeLock().lock();
-		// Avoid duplicates by disallowing the addition of them.
-		if (!attrListeners.contains(PairRO.of(l, userData))) {
-			attrListeners.add(PairRO.of(l, userData));
-		}
-		nodeLock.writeLock().unlock();
-	}
-
-	public void removeAttrListener(final SSHSAttrListener l, final Object userData) {
-		nodeLock.writeLock().lock();
-		attrListeners.remove(PairRO.of(l, userData));
-		nodeLock.writeLock().unlock();
-	}
-
 	void transactionLock() {
 		nodeLock.writeLock().lock();
 	}
@@ -166,184 +143,59 @@ public final class SSHSNode {
 		nodeLock.writeLock().unlock();
 	}
 
-	public boolean attrExists(final String key, final Class<?> type) {
+	public boolean attributeExists(final String key, final Class<?> type) {
 		nodeLock.readLock().lock();
-		final boolean returnValue = attributes.contains(key, type);
+		final boolean returnValue = attributes.containsKey(PairRO.of(key, type));
 		nodeLock.readLock().unlock();
 
 		return returnValue;
 	}
 
-	private <V> boolean putAttributeIfAbsent(final String key, final Class<V> type, final V value) {
-		nodeLock.writeLock().lock();
-		final V returnValue = attributes.putIfAbsent(key, type, value);
-		nodeLock.writeLock().unlock();
-
-		// Listener support.
+	public <V> SSHSAttribute<V> getAttribute(final String key, final Class<V> type) {
 		nodeLock.readLock().lock();
-		if (returnValue == null) {
-			for (final PairRO<SSHSAttrListener, Object> listener : attrListeners) {
-				listener.getFirst().attributeChanged(this, listener.getSecond(), AttributeEvents.ATTRIBUTE_ADDED, key,
-					type, value);
-			}
-		}
+		@SuppressWarnings("unchecked")
+		SSHSAttribute<V> returnValue = (SSHSAttribute<V>) attributes.get(PairRO.of(key, type));
 		nodeLock.readLock().unlock();
 
-		return (returnValue == null);
-	}
-
-	private <V> void putAttribute(final String key, final Class<V> type, final V value) {
-		nodeLock.writeLock().lock();
-		final V returnValue = attributes.put(key, type, value);
-		nodeLock.writeLock().unlock();
-
-		// Listener support.
-		nodeLock.readLock().lock();
+		// Verify that the attribute exists, if not, take the slow path and
+		// create it.
 		if (returnValue == null) {
-			for (final PairRO<SSHSAttrListener, Object> listener : attrListeners) {
-				listener.getFirst().attributeChanged(this, listener.getSecond(), AttributeEvents.ATTRIBUTE_ADDED, key,
-					type, value);
-			}
-		}
-		else {
-			// Verify that the value really changed before notifying the change
-			// to the listeners. It might be that we're putting the same value
-			// in again!
-			if (!returnValue.equals(value)) {
-				for (final PairRO<SSHSAttrListener, Object> listener : attrListeners) {
-					listener.getFirst().attributeChanged(this, listener.getSecond(),
-						AttributeEvents.ATTRIBUTE_MODIFIED, key, type, value);
-				}
-			}
-		}
-		nodeLock.readLock().unlock();
-	}
-
-	public <V> V getAttribute(final String key, final Class<V> type) {
-		nodeLock.readLock().lock();
-		final V returnValue = attributes.get(key, type);
-		nodeLock.readLock().unlock();
-
-		// Verify that we're getting values from a valid attribute.
-		// Valid means it already exists and has a well-defined default.
-		if (returnValue == null) {
-			throw new NoSuchElementException(String.format(
-				"Attribute %s of type %s not present, please initialize it first.", key, type.getCanonicalName()));
+			returnValue = initAttribute(key, type);
 		}
 
 		return returnValue;
 	}
 
-	private List<Entry<PairRO<String, Class<?>>, Object>> getAttributes() {
+	@SuppressWarnings("unchecked")
+	private <V> SSHSAttribute<V> initAttribute(final String key, final Class<V> type) {
+		nodeLock.writeLock().lock();
+
+		SSHSAttribute<V> returnValue = (SSHSAttribute<V>) attributes.get(PairRO.of(key, type));
+
+		if (returnValue == null) {
+			returnValue = (SSHSAttribute<V>) attributes.put(PairRO.of(key, type), new SSHSAttribute<>(key, this));
+		}
+
+		nodeLock.writeLock().unlock();
+
+		return returnValue;
+	}
+
+	private List<Entry<PairRO<String, Class<?>>, SSHSAttribute<?>>> getAttributes() {
 		nodeLock.readLock().lock();
-		final List<Entry<PairRO<String, Class<?>>, Object>> returnValue = new ArrayList<>(attributes.entrySet());
+		final List<Entry<PairRO<String, Class<?>>, SSHSAttribute<?>>> returnValue = new ArrayList<>(
+			attributes.entrySet());
 		nodeLock.readLock().unlock();
 
-		Collections.sort(returnValue, new Comparator<Entry<PairRO<String, Class<?>>, Object>>() {
+		Collections.sort(returnValue, new Comparator<Entry<PairRO<String, Class<?>>, SSHSAttribute<?>>>() {
 			@Override
-			public int compare(final Entry<PairRO<String, Class<?>>, Object> o1,
-				final Entry<PairRO<String, Class<?>>, Object> o2) {
+			public int compare(final Entry<PairRO<String, Class<?>>, SSHSAttribute<?>> o1,
+				final Entry<PairRO<String, Class<?>>, SSHSAttribute<?>> o2) {
 				return o1.getKey().getFirst().compareTo(o2.getKey().getFirst());
 			}
 		});
 
 		return returnValue;
-	}
-
-	public boolean putBoolIfAbsent(final String key, final boolean value) {
-		return putAttributeIfAbsent(key, Boolean.class, value);
-	}
-
-	public void putBool(final String key, final boolean value) {
-		putAttribute(key, Boolean.class, value);
-	}
-
-	public boolean getBool(final String key) {
-		return getAttribute(key, Boolean.class);
-	}
-
-	public boolean putBytelIfAbsent(final String key, final byte value) {
-		return putAttributeIfAbsent(key, Byte.class, value);
-	}
-
-	public void putByte(final String key, final byte value) {
-		putAttribute(key, Byte.class, value);
-	}
-
-	public byte getByte(final String key) {
-		return getAttribute(key, Byte.class);
-	}
-
-	public boolean putShortIfAbsent(final String key, final short value) {
-		return putAttributeIfAbsent(key, Short.class, value);
-	}
-
-	public void putShort(final String key, final short value) {
-		putAttribute(key, Short.class, value);
-	}
-
-	public short getShort(final String key) {
-		return getAttribute(key, Short.class);
-	}
-
-	public boolean putIntIfAbsent(final String key, final int value) {
-		return putAttributeIfAbsent(key, Integer.class, value);
-	}
-
-	public void putInt(final String key, final int value) {
-		putAttribute(key, Integer.class, value);
-	}
-
-	public int getInt(final String key) {
-		return getAttribute(key, Integer.class);
-	}
-
-	public boolean putLongIfAbsent(final String key, final long value) {
-		return putAttributeIfAbsent(key, Long.class, value);
-	}
-
-	public void putLong(final String key, final long value) {
-		putAttribute(key, Long.class, value);
-	}
-
-	public long getLong(final String key) {
-		return getAttribute(key, Long.class);
-	}
-
-	public boolean putFloatIfAbsent(final String key, final float value) {
-		return putAttributeIfAbsent(key, Float.class, value);
-	}
-
-	public void putFloat(final String key, final float value) {
-		putAttribute(key, Float.class, value);
-	}
-
-	public float getFloat(final String key) {
-		return getAttribute(key, Float.class);
-	}
-
-	public boolean putDoubleIfAbsent(final String key, final double value) {
-		return putAttributeIfAbsent(key, Double.class, value);
-	}
-
-	public void putDouble(final String key, final double value) {
-		putAttribute(key, Double.class, value);
-	}
-
-	public double getDouble(final String key) {
-		return getAttribute(key, Double.class);
-	}
-
-	public boolean putStringIfAbsent(final String key, final String value) {
-		return putAttributeIfAbsent(key, String.class, value);
-	}
-
-	public void putString(final String key, final String value) {
-		putAttribute(key, String.class, value);
-	}
-
-	public String getString(final String key) {
-		return getAttribute(key, String.class);
 	}
 
 	public void exportNodeToXML(final OutputStream os) {
@@ -385,13 +237,14 @@ public final class SSHSNode {
 		node.setAttribute("path", getPath());
 
 		// Then it's attributes (key:value pairs).
-		for (final Entry<PairRO<String, Class<?>>, Object> entry : getAttributes()) {
+		for (final Entry<PairRO<String, Class<?>>, SSHSAttribute<?>> entry : getAttributes()) {
 			final Element attr = dom.createElement("attr");
 			node.appendChild(attr);
 
 			attr.setAttribute("key", entry.getKey().getFirst());
 			attr.setAttribute("type", SSHSHelper.typeToStringConverter(entry.getKey().getSecond()));
-			attr.setNodeValue(SSHSHelper.valueToStringConverter(entry.getKey().getSecond(), entry.getValue()));
+			attr.setNodeValue(SSHSHelper
+				.valueToStringConverter(entry.getKey().getSecond(), entry.getValue().getValue()));
 		}
 
 		// And lastly recurse down to the children.
@@ -510,28 +363,28 @@ public final class SSHSNode {
 		final Class<?> type = SSHSHelper.stringToTypeConverter(typeStr);
 
 		if (type == Boolean.class) {
-			putBool(key, SSHSHelper.stringToValueConverter(Boolean.class, valueStr));
+			getAttribute(key, Boolean.class).setValue(SSHSHelper.stringToValueConverter(Boolean.class, valueStr));
 		}
 		else if (type == Byte.class) {
-			putByte(key, SSHSHelper.stringToValueConverter(Byte.class, valueStr));
+			getAttribute(key, Byte.class).setValue(SSHSHelper.stringToValueConverter(Byte.class, valueStr));
 		}
 		else if (type == Short.class) {
-			putShort(key, SSHSHelper.stringToValueConverter(Short.class, valueStr));
+			getAttribute(key, Short.class).setValue(SSHSHelper.stringToValueConverter(Short.class, valueStr));
 		}
 		else if (type == Integer.class) {
-			putInt(key, SSHSHelper.stringToValueConverter(Integer.class, valueStr));
+			getAttribute(key, Integer.class).setValue(SSHSHelper.stringToValueConverter(Integer.class, valueStr));
 		}
 		else if (type == Long.class) {
-			putLong(key, SSHSHelper.stringToValueConverter(Long.class, valueStr));
+			getAttribute(key, Long.class).setValue(SSHSHelper.stringToValueConverter(Long.class, valueStr));
 		}
 		else if (type == Float.class) {
-			putFloat(key, SSHSHelper.stringToValueConverter(Float.class, valueStr));
+			getAttribute(key, Float.class).setValue(SSHSHelper.stringToValueConverter(Float.class, valueStr));
 		}
 		else if (type == Double.class) {
-			putDouble(key, SSHSHelper.stringToValueConverter(Double.class, valueStr));
+			getAttribute(key, Double.class).setValue(SSHSHelper.stringToValueConverter(Double.class, valueStr));
 		}
 		else if (type == String.class) {
-			putString(key, SSHSHelper.stringToValueConverter(String.class, valueStr));
+			getAttribute(key, String.class).setValue(SSHSHelper.stringToValueConverter(String.class, valueStr));
 		}
 		else {
 			return false; // UNKNOWN TYPE.

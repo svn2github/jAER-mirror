@@ -4,11 +4,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
 import net.sf.jaer2.util.GUISupport;
+import net.sf.jaer2.util.SSHSAttribute;
+import net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener;
 import net.sf.jaer2.util.SSHSNode;
-import net.sf.jaer2.util.SSHSNode.SSHSAttrListener;
 
 public final class ConfigBit extends ConfigBase {
 	private final int address;
+	private final SSHSAttribute<Boolean> configAttr;
 
 	public ConfigBit(final String name, final String description, final SSHSNode configNode, final boolean defaultValue) {
 		this(name, description, configNode, null, defaultValue);
@@ -29,15 +31,16 @@ public final class ConfigBit extends ConfigBase {
 			this.address = -1;
 		}
 
+		configAttr = configNode.getAttribute(name, Boolean.class);
 		setValue(defaultValue);
 	}
 
 	public boolean getValue() {
-		return configNode.getBool(getName());
+		return configAttr.getValue();
 	}
 
 	public void setValue(final boolean val) {
-		configNode.putBool(getName(), val);
+		configAttr.setValue(val);
 	}
 
 	@Override
@@ -68,14 +71,12 @@ public final class ConfigBit extends ConfigBase {
 			}
 		});
 
-		configNode.addAttrListener(new SSHSAttrListener() {
+		configAttr.addListener(new SSHSAttrListener<Boolean>() {
 			@Override
-			public <V> void attributeChanged(final SSHSNode node, final Object userData, final AttributeEvents event,
-				final String changeKey, final Class<V> changeType, final V changeValue) {
-				if ((event == AttributeEvents.ATTRIBUTE_MODIFIED) && changeKey.equals(getName())
-					&& (changeType == Boolean.class)) {
-					valBox.selectedProperty().setValue((Boolean) changeValue);
-				}
+			public void attributeChanged(SSHSNode node, Object userData,
+				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Boolean oldValue,
+				Boolean newValue) {
+				valBox.selectedProperty().setValue(newValue);
 			}
 		}, null);
 	}

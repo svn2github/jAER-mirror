@@ -1,18 +1,14 @@
 package net.sf.jaer2.devices.config;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
-import javafx.beans.binding.LongBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import net.sf.jaer2.util.GUISupport;
+import net.sf.jaer2.util.SSHSNode;
 
 /**
  * This configuration component is just a container for other settings.
@@ -25,14 +21,13 @@ import net.sf.jaer2.util.GUISupport;
  * @author llongi
  */
 public final class ShiftRegisterContainer extends ConfigBase {
-	private static final long serialVersionUID = 3690235063194244838L;
-
 	private final Map<String, ConfigBase> settingsMap = new LinkedHashMap<>();
 
 	private int currentNumBitsUsed = 0;
 
-	public ShiftRegisterContainer(final String name, final String description, final int numBits) {
-		super(name, description, numBits);
+	public ShiftRegisterContainer(final String name, final String description, final SSHSNode configNode,
+		final int numBits) {
+		super(name, description, configNode, numBits);
 
 		if ((numBits % Byte.SIZE) != 0) {
 			throw new IllegalArgumentException("Invalid numBits value, must be a multiple of 8 for byte alignment.");
@@ -51,38 +46,6 @@ public final class ShiftRegisterContainer extends ConfigBase {
 
 	public ConfigBase getSetting(final String sname) {
 		return settingsMap.get(sname);
-	}
-
-	@Override
-	protected void buildChangeBinding() {
-		changeBinding = new LongBinding() {
-			final List<LongBinding> bindings = new ArrayList<>();
-
-			{
-				for (final ConfigBase cfg : settingsMap.values()) {
-					if (cfg.getChangeBinding() != null) {
-						bindings.add(cfg.getChangeBinding());
-					}
-				}
-
-				super.bind(bindings.toArray(new LongBinding[bindings.size()]));
-			}
-
-			@Override
-			public ObservableList<LongBinding> getDependencies() {
-				return FXCollections.observableList(bindings);
-			}
-
-			@Override
-			protected long computeValue() {
-				// Get all bound values to ensure they become valid again.
-				for (final LongBinding elem : bindings) {
-					elem.get();
-				}
-
-				return System.currentTimeMillis();
-			}
-		};
 	}
 
 	@Override
@@ -180,20 +143,15 @@ public final class ShiftRegisterContainer extends ConfigBase {
 	}
 
 	public static final class PlaceholderBits extends ConfigBase {
-		private static final long serialVersionUID = 797523306123062939L;
-
 		public PlaceholderBits(final String name, final int numBits) {
-			super(name, "Placeholder bits, all zero.", numBits);
+			// Placeholder bits don't get exported to the configuration, so the
+			// reference to the config node is kept null.
+			super(name, "Placeholder bits, all zero.", null, numBits);
 		}
 
 		@Override
 		public long getMaxBitValue() {
 			return 0;
-		}
-
-		@Override
-		protected void buildChangeBinding() {
-			// Nothing changes here.
 		}
 
 		@Override

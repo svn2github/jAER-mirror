@@ -6,8 +6,6 @@ import java.util.EnumSet;
 import java.util.List;
 
 import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.LongProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -37,6 +35,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import net.sf.jaer2.util.Numbers.NumberFormat;
 import net.sf.jaer2.util.Numbers.NumberOptions;
+import net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener;
 
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
@@ -209,10 +208,10 @@ public final class GUISupport {
 		return str;
 	}
 
-	public static TextField addTextNumberField(final Pane parentPane, final IntegerProperty backendValue,
+	public static TextField addTextNumberField(final Pane parentPane, final SSHSAttribute<Integer> backendValue,
 		final int displayLength, final int min, final int max, final NumberFormat fmt,
 		final EnumSet<NumberOptions> opts, final Font font) {
-		final TextField txt = new TextField(GUISupport.formatIntegerStringForTextfield(backendValue.get(),
+		final TextField txt = new TextField(GUISupport.formatIntegerStringForTextfield(backendValue.getValue(),
 			displayLength, fmt, opts));
 
 		if (font != null) {
@@ -229,13 +228,14 @@ public final class GUISupport {
 			}
 		});
 
-		backendValue.addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
+		backendValue.addListener(new SSHSAttrListener<Integer>() {
 			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				txt.setText(GUISupport.formatIntegerStringForTextfield(newVal.intValue(), displayLength, fmt, opts));
+			public void attributeChanged(SSHSNode node, Object userData,
+				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Integer oldValue,
+				Integer newValue) {
+				txt.setText(GUISupport.formatIntegerStringForTextfield(newValue, displayLength, fmt, opts));
 			}
-		});
+		}, null);
 
 		txt.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
@@ -247,7 +247,7 @@ public final class GUISupport {
 		txt.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(final ScrollEvent scroll) {
-				int i = backendValue.get();
+				int i = backendValue.getValue();
 
 				if (scroll.getDeltaY() > 0) {
 					i++;
@@ -258,7 +258,7 @@ public final class GUISupport {
 				}
 
 				if ((i >= min) && (i <= max)) {
-					backendValue.set(i);
+					backendValue.setValue(i);
 				}
 
 				scroll.consume();
@@ -283,11 +283,11 @@ public final class GUISupport {
 		return str;
 	}
 
-	public static TextField addTextNumberField(final Pane parentPane, final LongProperty backendValue,
+	public static TextField addTextNumberField(final Pane parentPane, final SSHSAttribute<Long> backendValue,
 		final int displayLength, final long min, final long max, final NumberFormat fmt,
 		final EnumSet<NumberOptions> opts, final Font font) {
-		final TextField txt = new TextField(GUISupport.formatLongStringForTextfield(backendValue.get(), displayLength,
-			fmt, opts));
+		final TextField txt = new TextField(GUISupport.formatLongStringForTextfield(backendValue.getValue(),
+			displayLength, fmt, opts));
 
 		if (font != null) {
 			txt.setFont(font);
@@ -303,13 +303,13 @@ public final class GUISupport {
 			}
 		});
 
-		backendValue.addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
+		backendValue.addListener(new SSHSAttrListener<Long>() {
 			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				txt.setText(GUISupport.formatLongStringForTextfield(newVal.longValue(), displayLength, fmt, opts));
+			public void attributeChanged(SSHSNode node, Object userData,
+				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Long oldValue, Long newValue) {
+				txt.setText(GUISupport.formatLongStringForTextfield(newValue, displayLength, fmt, opts));
 			}
-		});
+		}, null);
 
 		txt.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
@@ -321,7 +321,7 @@ public final class GUISupport {
 		txt.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(final ScrollEvent scroll) {
-				long i = backendValue.get();
+				long i = backendValue.getValue();
 
 				if (scroll.getDeltaY() > 0) {
 					i++;
@@ -332,7 +332,7 @@ public final class GUISupport {
 				}
 
 				if ((i >= min) && (i <= max)) {
-					backendValue.set(i);
+					backendValue.setValue(i);
 				}
 
 				scroll.consume();

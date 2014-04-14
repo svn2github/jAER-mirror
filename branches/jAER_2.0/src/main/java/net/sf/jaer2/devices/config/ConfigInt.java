@@ -5,10 +5,12 @@ import java.util.EnumSet;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers.NumberFormat;
 import net.sf.jaer2.util.Numbers.NumberOptions;
+import net.sf.jaer2.util.SSHSAttribute;
 import net.sf.jaer2.util.SSHSNode;
 
 public final class ConfigInt extends ConfigBase {
 	private final int address;
+	private final SSHSAttribute<Integer> configAttr;
 
 	public ConfigInt(final String name, final String description, final SSHSNode configNode,final int defaultValue) {
 		this(name, description, configNode,null, defaultValue);
@@ -47,15 +49,16 @@ public final class ConfigInt extends ConfigBase {
 			this.address = -1;
 		}
 
+		configAttr = configNode.getAttribute(name, Integer.class);
 		setValue(defaultValue);
 	}
 
 	public int getValue() {
-		return configNode.getInt(getName());
+		return configAttr.getValue();
 	}
 
 	public void setValue(final int val) {
-		configNode.putInt(getName(), val);
+		configAttr.setValue(val);
 	}
 
 	@Override
@@ -76,10 +79,10 @@ public final class ConfigInt extends ConfigBase {
 	protected void buildConfigGUI() {
 		super.buildConfigGUI();
 
-		GUISupport.addTextNumberField(rootConfigLayout, getValueProperty(), 10, (int) getMinBitValue(),
+		GUISupport.addTextNumberField(rootConfigLayout, configAttr, 10, (int) getMinBitValue(),
 			(int) getMaxBitValue(), NumberFormat.DECIMAL, EnumSet.of(NumberOptions.UNSIGNED), null);
 
-		GUISupport.addTextNumberField(rootConfigLayout, getValueProperty(), getNumBits(), (int) getMinBitValue(),
+		GUISupport.addTextNumberField(rootConfigLayout, configAttr, getNumBits(), (int) getMinBitValue(),
 			(int) getMaxBitValue(), NumberFormat.BINARY,
 			EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.LEFT_PADDING, NumberOptions.ZERO_PADDING), null);
 	}

@@ -2,35 +2,33 @@ package net.sf.jaer2.devices.config;
 
 import java.util.EnumSet;
 
-import javafx.beans.binding.LongBinding;
-import javafx.beans.property.LongProperty;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers.NumberFormat;
 import net.sf.jaer2.util.Numbers.NumberOptions;
-import net.sf.jaer2.util.serializable.SerializableLongProperty;
+import net.sf.jaer2.util.SSHSAttribute;
+import net.sf.jaer2.util.SSHSNode;
 
 public final class ConfigLong extends ConfigBase {
-	private static final long serialVersionUID = -5688508941627375976L;
-
 	private final int address;
+	private final SSHSAttribute<Long> configAttr;
 
-	private final SerializableLongProperty value = new SerializableLongProperty();
-
-	public ConfigLong(final String name, final String description, final long defaultValue) {
-		this(name, description, null, defaultValue);
+	public ConfigLong(final String name, final String description, final SSHSNode configNode, final long defaultValue) {
+		this(name, description, configNode, null, defaultValue);
 	}
 
-	public ConfigLong(final String name, final String description, final Address address, final long defaultValue) {
-		this(name, description, address, defaultValue, Long.SIZE);
+	public ConfigLong(final String name, final String description, final SSHSNode configNode, final Address address,
+		final long defaultValue) {
+		this(name, description, configNode, address, defaultValue, Long.SIZE);
 	}
 
-	public ConfigLong(final String name, final String description, final long defaultValue, final int numBits) {
-		this(name, description, null, defaultValue, numBits);
-	}
-
-	public ConfigLong(final String name, final String description, final Address address, final long defaultValue,
+	public ConfigLong(final String name, final String description, final SSHSNode configNode, final long defaultValue,
 		final int numBits) {
-		super(name, description, numBits);
+		this(name, description, configNode, null, defaultValue, numBits);
+	}
+
+	public ConfigLong(final String name, final String description, final SSHSNode configNode, final Address address,
+		final long defaultValue, final int numBits) {
+		super(name, description, configNode, numBits);
 
 		if (numBits < 33) {
 			throw new IllegalArgumentException(
@@ -53,19 +51,16 @@ public final class ConfigLong extends ConfigBase {
 			this.address = -1;
 		}
 
+		configAttr = configNode.getAttribute(name, Long.class);
 		setValue(defaultValue);
 	}
 
 	public long getValue() {
-		return value.property().get();
+		return configAttr.getValue();
 	}
 
 	public void setValue(final long val) {
-		value.property().set(val);
-	}
-
-	public LongProperty getValueProperty() {
-		return value.property();
+		configAttr.setValue(val);
 	}
 
 	@Override
@@ -78,20 +73,6 @@ public final class ConfigLong extends ConfigBase {
 	}
 
 	@Override
-	protected void buildChangeBinding() {
-		changeBinding = new LongBinding() {
-			{
-				super.bind(getValueProperty());
-			}
-
-			@Override
-			protected long computeValue() {
-				return System.currentTimeMillis();
-			}
-		};
-	}
-
-	@Override
 	protected long computeBinaryRepresentation() {
 		return getValue();
 	}
@@ -100,11 +81,11 @@ public final class ConfigLong extends ConfigBase {
 	protected void buildConfigGUI() {
 		super.buildConfigGUI();
 
-		GUISupport.addTextNumberField(rootConfigLayout, getValueProperty(), 19, getMinBitValue(), getMaxBitValue(),
+		GUISupport.addTextNumberField(rootConfigLayout, configAttr, 19, getMinBitValue(), getMaxBitValue(),
 			NumberFormat.DECIMAL, EnumSet.of(NumberOptions.UNSIGNED), null);
 
-		GUISupport.addTextNumberField(rootConfigLayout, getValueProperty(), getNumBits(), getMinBitValue(),
-			getMaxBitValue(), NumberFormat.BINARY,
+		GUISupport.addTextNumberField(rootConfigLayout, configAttr, getNumBits(), getMinBitValue(), getMaxBitValue(),
+			NumberFormat.BINARY,
 			EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.LEFT_PADDING, NumberOptions.ZERO_PADDING), null);
 	}
 
