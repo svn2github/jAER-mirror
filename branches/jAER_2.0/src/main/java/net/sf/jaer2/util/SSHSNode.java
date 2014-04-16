@@ -41,8 +41,7 @@ public final class SSHSNode {
 			CHILD_NODE_ADDED;
 		}
 
-		public <V> void changed(SSHSNode node, Object userData, NodeEvents event, String key, Class<V> type,
-			V oldValue, V newValue);
+		public void changed(SSHSNode node, Object userData, NodeEvents event, String key);
 	}
 
 	private final String name;
@@ -91,8 +90,7 @@ public final class SSHSNode {
 			// Listener support (only on new addition!).
 			nodeLock.readLock().lock();
 			for (final PairRO<SSHSNodeListener, Object> listener : nodeListeners) {
-				listener.getFirst().changed(this, listener.getSecond(), NodeEvents.CHILD_NODE_ADDED, childName,
-					SSHSNode.class, null, child);
+				listener.getFirst().changed(this, listener.getSecond(), NodeEvents.CHILD_NODE_ADDED, childName);
 			}
 			nodeLock.readLock().unlock();
 
@@ -156,8 +154,7 @@ public final class SSHSNode {
 
 			nodeLock.readLock().lock();
 			for (final PairRO<SSHSNodeListener, Object> listener : nodeListeners) {
-				listener.getFirst().changed(this, listener.getSecond(), NodeEvents.ATTRIBUTE_ADDED, key, type, null,
-					returnValue.getValue());
+				listener.getFirst().changed(this, listener.getSecond(), NodeEvents.ATTRIBUTE_ADDED, key);
 			}
 			nodeLock.readLock().unlock();
 		}
@@ -165,11 +162,10 @@ public final class SSHSNode {
 		return returnValue;
 	}
 
-	<V> void attributeModifiedNotification(final String key, final Class<V> type, V oldValue, V newValue) {
+	<V> void attributeModifiedNotification(final String key) {
 		nodeLock.readLock().lock();
 		for (final PairRO<SSHSNodeListener, Object> listener : nodeListeners) {
-			listener.getFirst().changed(this, listener.getSecond(), NodeEvents.ATTRIBUTE_MODIFIED, key, type, oldValue,
-				newValue);
+			listener.getFirst().changed(this, listener.getSecond(), NodeEvents.ATTRIBUTE_MODIFIED, key);
 		}
 		nodeLock.readLock().unlock();
 	}

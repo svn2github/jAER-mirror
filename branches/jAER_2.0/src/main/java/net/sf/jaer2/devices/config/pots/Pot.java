@@ -14,7 +14,7 @@ import net.sf.jaer2.util.Numbers.NumberOptions;
 import net.sf.jaer2.util.SSHS;
 import net.sf.jaer2.util.SSHSAttribute;
 import net.sf.jaer2.util.SSHSNode;
-import net.sf.jaer2.util.SSHSNode.SSHSNodeListener;
+import net.sf.jaer2.util.SSHSNode.SSHSNodeListener.NodeEvents;
 
 public abstract class Pot extends ConfigBase {
 	/** Type of bias, NORMAL, CASCODE or REFERENCE. */
@@ -77,7 +77,7 @@ public abstract class Pot extends ConfigBase {
 		this.sex = this.configNode.getAttribute("sex", Sex.class);
 		setSex(sex);
 
-		this.bitValue = this.configNode.getAttribute("bitValue", Integer.class);
+		bitValue = this.configNode.getAttribute("bitValue", Integer.class);
 		setBitValue(defaultValue);
 	}
 
@@ -207,19 +207,13 @@ public abstract class Pot extends ConfigBase {
 		// Add listener directly to the node, so that any change to a
 		// subordinate setting results in the update of the shift register
 		// display value.
-		configNode.addNodeListener(new SSHSNodeListener() {
-			@SuppressWarnings("unused")
-			@Override
-			public <V> void changed(SSHSNode node, Object userData, NodeEvents event, String key, Class<V> type,
-				V oldValue, V newValue) {
-				if (event == NodeEvents.ATTRIBUTE_MODIFIED) {
-					// On any subordinate attribute update, refresh the
-					// displayed value.
-					binaryRep.setText(getBinaryRepresentationAsString());
-				}
-
-			}
-		}, null);
+		configNode.addNodeListener((node, userData, event, key) -> {
+			if (event == NodeEvents.ATTRIBUTE_MODIFIED) {
+				// On any subordinate attribute update, refresh the
+				// displayed value.
+			binaryRep.setText(getBinaryRepresentationAsString());
+		}
+	}, null);
 	}
 
 	@Override

@@ -2,8 +2,6 @@ package net.sf.jaer2.devices.config.pots;
 
 import java.util.EnumSet;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -15,9 +13,8 @@ import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers.NumberFormat;
 import net.sf.jaer2.util.Numbers.NumberOptions;
 import net.sf.jaer2.util.SSHSAttribute;
-import net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener;
 import net.sf.jaer2.util.SSHSNode;
-import net.sf.jaer2.util.SSHSNode.SSHSNodeListener;
+import net.sf.jaer2.util.SSHSNode.SSHSNodeListener.NodeEvents;
 
 public class AddressedIPotCoarseFine extends AddressedIPot {
 	/**
@@ -101,7 +98,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	/**
 	 * the current fine value of the ipot in bits loaded into the shift register
 	 */
-	private final SSHSAttribute<Byte> fineBitValue;
+	private final SSHSAttribute<Short> fineBitValue;
 
 	/**
 	 * the current coarse value of the ipot in bits loaded into the shift
@@ -123,56 +120,49 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 			+ AddressedIPotCoarseFine.numFineBits + 4);
 		// Add four bits for: currentLevel, type, sex and biasEnabled.
 
-		this.coarseBitValue = this.configNode.getAttribute("coarseValue", Byte.class);
+		coarseBitValue = this.configNode.getAttribute("coarseValue", Byte.class);
 		setCoarseBitValue(defaultCoarseValue);
 
-		this.fineBitValue = this.configNode.getAttribute("fineValue", Byte.class);
+		fineBitValue = this.configNode.getAttribute("fineValue", Short.class);
 		setFineBitValue(defaultFineValue);
+
+		setBitValueUpdateListeners();
 
 		// Developer check: the calculation should always be correct.
 		assert getBitValue() == ((defaultCoarseValue << AddressedIPotCoarseFine.numFineBits) + defaultFineValue);
 
-		this.currentLevel = this.configNode.getAttribute("currentLevel", CurrentLevel.class);
+		currentLevel = this.configNode.getAttribute("currentLevel", CurrentLevel.class);
 		setCurrentLevel(currLevel);
 
 		this.biasEnabled = this.configNode.getAttribute("enabled", Boolean.class);
 		setBiasEnabled(biasEnabled);
-
-		setBitValueUpdateListeners();
 	}
 
 	private void setBitValueUpdateListeners() {
 		// Add listeners that mediate updates between the bitValue and its
 		// coarse and fine parts automatically.
-		coarseBitValue.addListener(new SSHSAttrListener<Byte>() {
-			@Override
-			public void changed(SSHSNode node, Object userData,
-				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Byte oldValue, Byte newValue) {
-				setBitValue((newValue.intValue() << AddressedIPotCoarseFine.numFineBits) + getFineBitValue());
-			}
+		coarseBitValue
+			.addListener(
+				(node, userData, event, oldValue, newValue) -> setBitValue((newValue.intValue() << AddressedIPotCoarseFine.numFineBits)
+					+ getFineBitValue()), null);
+
+		fineBitValue
+			.addListener(
+				(node, userData, event, oldValue, newValue) -> setBitValue((getCoarseBitValue() << AddressedIPotCoarseFine.numFineBits)
+					+ newValue.intValue()), null);
+
+		bitValue.addListener((node, userData, event, oldValue, newValue) -> {
+			setCoarseBitValue(newValue.intValue() >>> AddressedIPotCoarseFine.numFineBits);
+			setFineBitValue(newValue.intValue() & AddressedIPotCoarseFine.maxFineBitValue);
 		}, null);
 
-		fineBitValue.addListener(new SSHSAttrListener<Byte>() {
-			@Override
-			public void changed(SSHSNode node, Object userData,
-				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Byte oldValue, Byte newValue) {
-				setBitValue((getCoarseBitValue() << AddressedIPotCoarseFine.numFineBits) + newValue.intValue());
-			}
-		}, null);
-
-		bitValue.addListener(new SSHSAttrListener<Integer>() {
-			@Override
-			public void changed(SSHSNode node, Object userData,
-				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Integer oldValue,
-				Integer newValue) {
-				setCoarseBitValue(newValue.intValue() >>> AddressedIPotCoarseFine.numFineBits);
-				setFineBitValue(newValue.intValue() & AddressedIPotCoarseFine.maxFineBitValue);
-			}
-		}, null);
+		// Set the bitValue once manually to ensure previous settings of the
+		// coarse/fine values are respected and propagated.
+		setBitValue((getCoarseBitValue() << AddressedIPotCoarseFine.numFineBits) + getFineBitValue());
 	}
 
 	public int getFineBitValue() {
-		return fineBitValue.getValue();
+		return fineBitValue.getValue() & 0xFFFF;
 	}
 
 	/**
@@ -183,7 +173,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 *            fraction of master bias
 	 */
 	public void setFineBitValue(final int fine) {
-		fineBitValue.setValue((byte) AddressedIPotCoarseFine.clipFine(fine));
+		fineBitValue.setValue((short) AddressedIPotCoarseFine.clipFine(fine));
 	}
 
 	/**
@@ -208,7 +198,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	}
 
 	public int getCoarseBitValue() {
-		return coarseBitValue.getValue();
+		return coarseBitValue.getValue() & 0xFF;
 	}
 
 	/**
@@ -426,86 +416,33 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 
 		final CheckBox enableBox = GUISupport.addCheckBox(rootConfigLayout, "Enabled", isBiasEnabled());
 
-		enableBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends Boolean> changed, final Boolean oldVal,
-				final Boolean newVal) {
-				setBiasEnabled(newVal);
-			}
-		});
+		enableBox.selectedProperty().addListener((valueRef, oldValue, newValue) -> setBiasEnabled(newValue));
 
-		biasEnabled.addListener(new SSHSAttrListener<Boolean>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(SSHSNode node, Object userData,
-				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Boolean oldValue,
-				Boolean newValue) {
-				enableBox.selectedProperty().setValue(newValue);
-			}
-		}, null);
+		biasEnabled.addListener(
+			(node, userData, event, oldValue, newValue) -> enableBox.selectedProperty().setValue(newValue), null);
 
 		final ComboBox<CurrentLevel> currentBox = GUISupport.addComboBox(rootConfigLayout,
 			EnumSet.allOf(CurrentLevel.class), getCurrentLevel().ordinal());
 
-		currentBox.valueProperty().addListener(new ChangeListener<CurrentLevel>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends CurrentLevel> changed, final CurrentLevel oldVal,
-				final CurrentLevel newVal) {
-				setCurrentLevel(newVal);
-			}
-		});
+		currentBox.valueProperty().addListener((valueRef, oldValue, newValue) -> setCurrentLevel(newValue));
 
-		currentLevel.addListener(new SSHSAttrListener<CurrentLevel>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(SSHSNode node, Object userData,
-				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, CurrentLevel oldValue,
-				CurrentLevel newValue) {
-				currentBox.valueProperty().setValue(newValue);
-			}
-		}, null);
+		currentLevel.addListener(
+			(node, userData, event, oldValue, newValue) -> currentBox.valueProperty().setValue(newValue), null);
 
 		final ComboBox<Type> typeBox = GUISupport.addComboBox(rootConfigLayout, EnumSet.allOf(Type.class), getType()
 			.ordinal());
 
-		typeBox.valueProperty().addListener(new ChangeListener<Type>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends Type> changed, final Type oldVal, final Type newVal) {
-				setType(newVal);
-			}
-		});
+		typeBox.valueProperty().addListener((valueRef, oldValue, newValue) -> setType(newValue));
 
-		type.addListener(new SSHSAttrListener<Type>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(SSHSNode node, Object userData,
-				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Type oldValue, Type newValue) {
-				typeBox.valueProperty().setValue(newValue);
-			}
-		}, null);
+		type.addListener((node, userData, event, oldValue, newValue) -> typeBox.valueProperty().setValue(newValue),
+			null);
 
 		final ComboBox<Sex> sexBox = GUISupport.addComboBox(rootConfigLayout, EnumSet.allOf(Sex.class), getSex()
 			.ordinal());
 
-		sexBox.valueProperty().addListener(new ChangeListener<Sex>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends Sex> changed, final Sex oldVal, final Sex newVal) {
-				setSex(newVal);
-			}
-		});
+		sexBox.valueProperty().addListener((valueRef, oldValue, newValue) -> setSex(newValue));
 
-		sex.addListener(new SSHSAttrListener<Sex>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(SSHSNode node, Object userData,
-				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Sex oldValue, Sex newValue) {
-				sexBox.valueProperty().setValue(newValue);
-			}
-		}, null);
+		sex.addListener((node, userData, event, oldValue, newValue) -> sexBox.valueProperty().setValue(newValue), null);
 
 		GUISupport.addTextNumberField(rootConfigLayout, bitValue, 10, (int) getMinBitValue(), (int) getMaxBitValue(),
 			NumberFormat.DECIMAL, EnumSet.of(NumberOptions.UNSIGNED), null);
@@ -515,43 +452,23 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 			EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.LEFT_PADDING, NumberOptions.ZERO_PADDING), null);
 
 		final Slider coarseSlider = GUISupport.addSlider(rootConfigLayout,
-			AddressedIPotCoarseFine.getMinCoarseBitValue(), AddressedIPotCoarseFine.getMaxCoarseBitValue(), 0, 10);
+			AddressedIPotCoarseFine.getMinCoarseBitValue(), AddressedIPotCoarseFine.getMaxCoarseBitValue(),
+			getCoarseBitValue(), 10);
 
-		coarseSlider.valueProperty().addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				setCoarseBitValue(newVal.intValue());
-			}
-		});
+		coarseSlider.valueProperty().addListener(
+			(valueRef, oldValue, newValue) -> setCoarseBitValue(newValue.intValue()));
 
-		coarseBitValue.addListener(new SSHSAttrListener<Byte>() {
-			@Override
-			public void changed(SSHSNode node, Object userData,
-				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Byte oldValue, Byte newValue) {
-				coarseSlider.setValue(newValue.doubleValue());
-			}
-		}, null);
+		coarseBitValue.addListener(
+			(node, userData, event, oldValue, newValue) -> coarseSlider.setValue(newValue.doubleValue()), null);
 
 		final Slider fineSlider = GUISupport.addSlider(rootConfigLayout, AddressedIPotCoarseFine.getMinFineBitValue(),
-			AddressedIPotCoarseFine.getMaxFineBitValue(), 0, 10);
+			AddressedIPotCoarseFine.getMaxFineBitValue(), getFineBitValue(), 10);
 		HBox.setHgrow(fineSlider, Priority.ALWAYS);
 
-		fineSlider.valueProperty().addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				setFineBitValue(newVal.intValue());
-			}
-		});
+		fineSlider.valueProperty().addListener((valueRef, oldValue, newValue) -> setFineBitValue(newValue.intValue()));
 
-		fineBitValue.addListener(new SSHSAttrListener<Byte>() {
-			@Override
-			public void changed(SSHSNode node, Object userData,
-				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Byte oldValue, Byte newValue) {
-				fineSlider.setValue(newValue.doubleValue());
-			}
-		}, null);
+		fineBitValue.addListener(
+			(node, userData, event, oldValue, newValue) -> fineSlider.setValue(newValue.doubleValue()), null);
 
 		final Label binaryRep = GUISupport.addLabel(rootConfigLayout, getBinaryRepresentationAsString(),
 			"Binary data to be sent to the device.", null, null);
@@ -559,18 +476,13 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 		// Add listener directly to the node, so that any change to a
 		// subordinate setting results in the update of the shift register
 		// display value.
-		configNode.addNodeListener(new SSHSNodeListener() {
-			@SuppressWarnings("unused")
-			@Override
-			public <V> void changed(SSHSNode node, Object userData, NodeEvents event, String key, Class<V> type,
-				V oldValue, V newValue) {
-				if (event == NodeEvents.ATTRIBUTE_MODIFIED) {
-					// On any subordinate attribute update, refresh the
-					// displayed value.
-					binaryRep.setText(getBinaryRepresentationAsString());
-				}
-			}
-		}, null);
+		configNode.addNodeListener((node, userData, event, key) -> {
+			if (event == NodeEvents.ATTRIBUTE_MODIFIED) {
+				// On any subordinate attribute update, refresh the
+				// displayed value.
+			binaryRep.setText(getBinaryRepresentationAsString());
+		}
+	}, null);
 	}
 
 	@Override

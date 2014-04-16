@@ -67,8 +67,7 @@ public class SSHSAttribute<V> {
 			lock.writeLock().unlock();
 
 			// Notify upwards at the node level.
-			// TODO: fix class information passing.
-			parentNode.attributeModifiedNotification(key, null, oldValue, val);
+			parentNode.attributeModifiedNotification(key);
 
 		}
 		else {

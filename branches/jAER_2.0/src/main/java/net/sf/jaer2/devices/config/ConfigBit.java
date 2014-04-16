@@ -1,11 +1,8 @@
 package net.sf.jaer2.devices.config;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.SSHSAttribute;
-import net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener;
 import net.sf.jaer2.util.SSHSNode;
 
 public final class ConfigBit extends ConfigBase {
@@ -63,24 +60,10 @@ public final class ConfigBit extends ConfigBase {
 
 		final CheckBox valBox = GUISupport.addCheckBox(rootConfigLayout, null, getValue());
 
-		valBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends Boolean> changed, final Boolean oldVal,
-				final Boolean newVal) {
-				setValue(newVal);
-			}
-		});
+		valBox.selectedProperty().addListener((valueRef, oldValue, newValue) -> setValue(newValue));
 
-		configAttr.addListener(new SSHSAttrListener<Boolean>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(SSHSNode node, Object userData,
-				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Boolean oldValue,
-				Boolean newValue) {
-				valBox.selectedProperty().setValue(newValue);
-			}
-		}, null);
+		configAttr.addListener(
+			(node, userData, event, oldValue, newValue) -> valBox.selectedProperty().setValue(newValue), null);
 	}
 
 	@Override

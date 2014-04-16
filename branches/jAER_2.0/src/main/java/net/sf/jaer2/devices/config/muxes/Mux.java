@@ -3,13 +3,10 @@ package net.sf.jaer2.devices.config.muxes;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.SSHSAttribute;
-import net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener;
 import net.sf.jaer2.util.SSHSNode;
 
 public class Mux extends ConfigBase {
@@ -88,24 +85,10 @@ public class Mux extends ConfigBase {
 		// Show all options at once.
 		channelBox.setVisibleRowCount(channels.size());
 
-		channelBox.valueProperty().addListener(new ChangeListener<MuxChannel>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends MuxChannel> changed, final MuxChannel oldVal,
-				final MuxChannel newVal) {
-				setChannel(newVal);
-			}
-		});
+		channelBox.valueProperty().addListener((valueRef, oldValue, newValue) -> setChannel(newValue));
 
-		configAttr.addListener(new SSHSAttrListener<MuxChannel>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(SSHSNode node, Object userData,
-				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, MuxChannel oldValue,
-				MuxChannel newValue) {
-				channelBox.valueProperty().setValue(newValue);
-			}
-		}, null);
+		configAttr.addListener(
+			(node, userData, event, oldValue, newValue) -> channelBox.valueProperty().setValue(newValue), null);
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.SSHS;
 import net.sf.jaer2.util.SSHSNode;
-import net.sf.jaer2.util.SSHSNode.SSHSNodeListener;
+import net.sf.jaer2.util.SSHSNode.SSHSNodeListener.NodeEvents;
 
 /**
  * This configuration component is just a container for other settings.
@@ -130,19 +130,13 @@ public final class ShiftRegisterContainer extends ConfigBase {
 		// Add listener directly to the node, so that any change to a
 		// subordinate setting results in the update of the shift register
 		// display value.
-		configNode.addNodeListener(new SSHSNodeListener() {
-			@SuppressWarnings("unused")
-			@Override
-			public <V> void changed(SSHSNode node, Object userData, NodeEvents event, String key, Class<V> type,
-				V oldValue, V newValue) {
-				if (event == NodeEvents.ATTRIBUTE_MODIFIED) {
-					// On any subordinate attribute update, refresh the
-					// displayed value.
-					binaryRep.setText(getBinaryRepresentationAsString());
-				}
-
-			}
-		}, null);
+		configNode.addNodeListener((node, userData, event, key) -> {
+			if (event == NodeEvents.ATTRIBUTE_MODIFIED) {
+				// On any subordinate attribute update, refresh the
+				// displayed value.
+			binaryRep.setText(getBinaryRepresentationAsString());
+		}
+	}, null);
 
 		// Fill the vertical box with the settings.
 		for (final ConfigBase cfg : settingsMap.values()) {

@@ -1,8 +1,5 @@
 package net.sf.jaer2.devices.config.pots;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener;
 import net.sf.jaer2.util.SSHSNode;
 
 public class IPot extends Pot {
@@ -137,22 +134,12 @@ public class IPot extends Pot {
 	protected void buildConfigGUI() {
 		super.buildConfigGUI();
 
-		mainSlider.valueProperty().addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
-			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				setBitValue((int) Math.round((newVal.doubleValue() / mainSlider.getMax()) * getMaxBitValue()));
-			}
-		});
+		mainSlider.valueProperty().addListener(
+			(valueRef, oldValue, newValue) -> setBitValue((int) Math.round((newValue.doubleValue() / mainSlider
+				.getMax()) * getMaxBitValue())));
 
-		bitValue.addListener(new SSHSAttrListener<Integer>() {
-			@Override
-			public void changed(SSHSNode node, Object userData,
-				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Integer oldValue,
-				Integer newValue) {
-				mainSlider.setValue((int) Math.round((newValue.doubleValue() / getMaxBitValue()) * mainSlider.getMax()));
-			}
-		}, null);
+		bitValue.addListener((node, userData, event, oldValue, newValue) -> mainSlider.setValue((int) Math
+			.round((newValue.doubleValue() / getMaxBitValue()) * mainSlider.getMax())), null);
 	}
 
 	@Override

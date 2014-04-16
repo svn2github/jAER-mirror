@@ -2,12 +2,9 @@ package net.sf.jaer2.devices.config;
 
 import java.util.EnumSet;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.SSHSAttribute;
-import net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener;
 import net.sf.jaer2.util.SSHSNode;
 
 public final class ConfigBitTristate extends ConfigBase {
@@ -113,21 +110,10 @@ public final class ConfigBitTristate extends ConfigBase {
 		final ComboBox<Tristate> triBox = GUISupport.addComboBox(rootConfigLayout, EnumSet.allOf(Tristate.class),
 			getValue().ordinal());
 
-		triBox.valueProperty().addListener(new ChangeListener<Tristate>() {
-			@Override
-			public void changed(final ObservableValue<? extends Tristate> changed, final Tristate oldVal,
-				final Tristate newVal) {
-				setValue(newVal);
-			}
-		});
+		triBox.valueProperty().addListener((valueRef, oldValue, newValue) -> setValue(newValue));
 
-		configAttr.addListener(new SSHSAttrListener<Tristate>() {
-			@Override
-			public void changed(final SSHSNode node, final Object userData, final AttributeEvents event,
-				final Tristate oldValue, final Tristate newValue) {
-				triBox.valueProperty().setValue(newValue);
-			}
-		}, null);
+		configAttr.addListener(
+			(node, userData, event, oldValue, newValue) -> triBox.valueProperty().setValue(newValue), null);
 	}
 
 	@Override
