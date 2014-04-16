@@ -9,11 +9,10 @@ import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.devices.config.ConfigBase.Address;
 import net.sf.jaer2.devices.config.ConfigBit;
 import net.sf.jaer2.devices.config.ConfigInt;
+import net.sf.jaer2.util.SSHSNode;
 import net.sf.jaer2.util.TypedMap;
 
 public class FX3 extends Controller {
-	private static final long serialVersionUID = 7230612434040940891L;
-
 	public static enum GPIOs implements Address {
 		GPIO26((short) 26),
 		GPIO27((short) 27),
@@ -96,19 +95,19 @@ public class FX3 extends Controller {
 		}
 	}
 
-	public FX3() {
-		this("FX3");
+	public FX3(final SSHSNode componentConfigNode) {
+		this("FX3", componentConfigNode);
 	}
 
-	public FX3(final String componentName) {
-		super(componentName);
+	public FX3(final String componentName, final SSHSNode componentConfigNode) {
+		super(componentName, componentConfigNode);
 
 		// All FX3 firmwares support these two VRs for internal configuration.
 		addSetting(new ConfigInt("LOG_LEVEL",
 			"Set the logging level, to restrict which error messages will be sent over the Status EP1.",
-			FX3.VendorRequests.VR_LOG_LEVEL, 6, 3));
-		addSetting(new ConfigBit("FX3_RESET", "Hard-reset the FX3 microcontroller", FX3.VendorRequests.VR_FX3_RESET,
-			false));
+			componentConfigNode, FX3.VendorRequests.VR_LOG_LEVEL, 6, 3));
+		addSetting(new ConfigBit("FX3_RESET", "Hard-reset the FX3 microcontroller", componentConfigNode,
+			FX3.VendorRequests.VR_FX3_RESET, false));
 	}
 
 	@Override

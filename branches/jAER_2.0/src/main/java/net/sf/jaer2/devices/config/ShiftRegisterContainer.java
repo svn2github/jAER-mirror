@@ -3,12 +3,12 @@ package net.sf.jaer2.devices.config;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import net.sf.jaer2.util.GUISupport;
+import net.sf.jaer2.util.SSHS;
 import net.sf.jaer2.util.SSHSNode;
+import net.sf.jaer2.util.SSHSNode.SSHSNodeListener;
 
 /**
  * This configuration component is just a container for other settings.
@@ -28,6 +28,12 @@ public final class ShiftRegisterContainer extends ConfigBase {
 	public ShiftRegisterContainer(final String name, final String description, final SSHSNode configNode,
 		final int numBits) {
 		super(name, description, configNode, numBits);
+
+		// Reset config node to be one level deeper that what is passed in, so
+		// that each shift register appears isolated inside their own node.
+		this.configNode = SSHS.getRelativeNode(this.configNode, name + "/");
+		// TODO: fix SR inside SR, no update notification because listeners
+		// don't get notified levels up.
 
 		if ((numBits % Byte.SIZE) != 0) {
 			throw new IllegalArgumentException("Invalid numBits value, must be a multiple of 8 for byte alignment.");
@@ -121,13 +127,22 @@ public final class ShiftRegisterContainer extends ConfigBase {
 		final Label binaryRep = GUISupport.addLabel(vSettings, getBinaryRepresentationAsString(),
 			"Binary data to be sent to the device.", null, null);
 
-		getChangeBinding().addListener(new ChangeListener<Number>() {
+		// Add listener directly to the node, so that any change to a
+		// subordinate setting results in the update of the shift register
+		// display value.
+		configNode.addNodeListener(new SSHSNodeListener() {
 			@SuppressWarnings("unused")
 			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				binaryRep.setText(getBinaryRepresentationAsString());
+			public <V> void changed(SSHSNode node, Object userData, NodeEvents event, String key, Class<V> type,
+				V oldValue, V newValue) {
+				if (event == NodeEvents.ATTRIBUTE_MODIFIED) {
+					// On any subordinate attribute update, refresh the
+					// displayed value.
+					binaryRep.setText(getBinaryRepresentationAsString());
+				}
+
 			}
-		});
+		}, null);
 
 		// Fill the vertical box with the settings.
 		for (final ConfigBase cfg : settingsMap.values()) {

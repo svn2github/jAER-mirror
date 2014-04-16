@@ -79,8 +79,7 @@ public final class SSHS {
 		final String[] searchPaths = nodePath.split("/");
 
 		// Search (or create) viable node iteratively.
-		for (int i = 1; i < searchPaths.length; i++) {
-			final String nextName = searchPaths[i];
+		for (final String nextName : searchPaths) {
 			final SSHSNode next = curr.getChild(nextName);
 
 			// If node doesn't exist, return that.
@@ -103,8 +102,7 @@ public final class SSHS {
 		final String[] searchPaths = nodePath.split("/");
 
 		// Search (or create) viable node iteratively.
-		for (int i = 1; i < searchPaths.length; i++) {
-			final String nextName = searchPaths[i];
+		for (final String nextName : searchPaths) {
 			SSHSNode next = curr.getChild(nextName);
 
 			// Create next node in path if not existing.
@@ -117,26 +115,6 @@ public final class SSHS {
 
 		// 'curr' now contains the specified node.
 		return curr;
-	}
-
-	public void beginTransaction(final String... nodePaths) {
-		for (final String nodePath : nodePaths) {
-			SSHS.checkAbsoluteNodePath(nodePath);
-		}
-
-		for (final String nodePath : nodePaths) {
-			getNode(nodePath).transactionLock();
-		}
-	}
-
-	public void endTransaction(final String... nodePaths) {
-		for (final String nodePath : nodePaths) {
-			SSHS.checkAbsoluteNodePath(nodePath);
-		}
-
-		for (final String nodePath : nodePaths) {
-			getNode(nodePath).transactionUnlock();
-		}
 	}
 
 	private static final String absoluteNodePathRegexp = "^/([a-zA-Z-_\\d\\.:\\(\\)\\[\\]{}]+/)*$";

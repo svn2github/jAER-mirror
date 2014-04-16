@@ -229,8 +229,9 @@ public final class GUISupport {
 		});
 
 		backendValue.addListener(new SSHSAttrListener<Integer>() {
+			@SuppressWarnings("unused")
 			@Override
-			public void attributeChanged(SSHSNode node, Object userData,
+			public void changed(SSHSNode node, Object userData,
 				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Integer oldValue,
 				Integer newValue) {
 				txt.setText(GUISupport.formatIntegerStringForTextfield(newValue, displayLength, fmt, opts));
@@ -304,8 +305,9 @@ public final class GUISupport {
 		});
 
 		backendValue.addListener(new SSHSAttrListener<Long>() {
+			@SuppressWarnings("unused")
 			@Override
-			public void attributeChanged(SSHSNode node, Object userData,
+			public void changed(SSHSNode node, Object userData,
 				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Long oldValue, Long newValue) {
 				txt.setText(GUISupport.formatLongStringForTextfield(newValue, displayLength, fmt, opts));
 			}

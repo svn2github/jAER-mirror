@@ -12,21 +12,23 @@ public final class ConfigInt extends ConfigBase {
 	private final int address;
 	private final SSHSAttribute<Integer> configAttr;
 
-	public ConfigInt(final String name, final String description, final SSHSNode configNode,final int defaultValue) {
-		this(name, description, configNode,null, defaultValue);
+	public ConfigInt(final String name, final String description, final SSHSNode configNode, final int defaultValue) {
+		this(name, description, configNode, null, defaultValue);
 	}
 
-	public ConfigInt(final String name, final String description, final SSHSNode configNode,final Address address, final int defaultValue) {
-		this(name, description, configNode,address, defaultValue, Integer.SIZE);
+	public ConfigInt(final String name, final String description, final SSHSNode configNode, final Address address,
+		final int defaultValue) {
+		this(name, description, configNode, address, defaultValue, Integer.SIZE);
 	}
 
-	public ConfigInt(final String name, final String description, final SSHSNode configNode,final int defaultValue, final int numBits) {
-		this(name, description, configNode,null, defaultValue, numBits);
-	}
-
-	public ConfigInt(final String name, final String description, final SSHSNode configNode,final Address address, final int defaultValue,
+	public ConfigInt(final String name, final String description, final SSHSNode configNode, final int defaultValue,
 		final int numBits) {
-		super(name, description,configNode, numBits);
+		this(name, description, configNode, null, defaultValue, numBits);
+	}
+
+	public ConfigInt(final String name, final String description, final SSHSNode configNode, final Address address,
+		final int defaultValue, final int numBits) {
+		super(name, description, configNode, numBits);
 
 		if (numBits < 2) {
 			throw new IllegalArgumentException(
@@ -79,8 +81,8 @@ public final class ConfigInt extends ConfigBase {
 	protected void buildConfigGUI() {
 		super.buildConfigGUI();
 
-		GUISupport.addTextNumberField(rootConfigLayout, configAttr, 10, (int) getMinBitValue(),
-			(int) getMaxBitValue(), NumberFormat.DECIMAL, EnumSet.of(NumberOptions.UNSIGNED), null);
+		GUISupport.addTextNumberField(rootConfigLayout, configAttr, 10, (int) getMinBitValue(), (int) getMaxBitValue(),
+			NumberFormat.DECIMAL, EnumSet.of(NumberOptions.UNSIGNED), null);
 
 		GUISupport.addTextNumberField(rootConfigLayout, configAttr, getNumBits(), (int) getMinBitValue(),
 			(int) getMaxBitValue(), NumberFormat.BINARY,

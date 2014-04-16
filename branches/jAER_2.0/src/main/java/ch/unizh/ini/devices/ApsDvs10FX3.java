@@ -19,33 +19,31 @@ import org.usb4java.Device;
 import ch.unizh.ini.devices.components.aer.SBRet10;
 
 public class ApsDvs10FX3 extends USBDevice {
-	private static final long serialVersionUID = -1073347395314847493L;
-
 	@SuppressWarnings("hiding")
 	public static final short PID = (short) 0x841A;
 
 	public ApsDvs10FX3(final Device usbDevice) {
-		super("ApsDVS 10 FX3", "DAVIS vision sensor with active and dynamic pixels, 6-axis IMU, USB 3.0.",
+		super("DAViS_FX3", "DAVIS vision sensor with active and dynamic pixels, 6-axis IMU, USB 3.0.",
 			USBDevice.VID, ApsDvs10FX3.PID, USBDevice.DID, usbDevice);
 
-		final FX3 fx3 = new FX3();
+		final FX3 fx3 = new FX3(getConfigNode());
 		addComponent(fx3);
 
-		fx3.addSetting(new ConfigBit("extTrigger", "External trigger.", FX3.GPIOs.GPIO40, false));
-		fx3.addSetting(new ConfigBit("runCpld", "Enable the CPLD.", FX3.GPIOs.GPIO41, true));
-		fx3.addSetting(new ConfigBit("runAdc", "Enable the ADC.", FX3.GPIOs.GPIO35, true));
-		fx3.addSetting(new ConfigBit("powerDown", "Power down the chip.", FX3.GPIOs.GPIO42, false));
-		fx3.addSetting(new ConfigBit("nChipReset", "Keeps chip out of reset.", FX3.GPIOs.GPIO43, true));
+		fx3.addSetting(new ConfigBit("extTrigger", "External trigger.", getConfigNode(), FX3.GPIOs.GPIO40, false));
+		fx3.addSetting(new ConfigBit("runCpld", "Enable the CPLD.", getConfigNode(), FX3.GPIOs.GPIO41, true));
+		fx3.addSetting(new ConfigBit("runAdc", "Enable the ADC.", getConfigNode(), FX3.GPIOs.GPIO35, true));
+		fx3.addSetting(new ConfigBit("powerDown", "Power down the chip.", getConfigNode(), FX3.GPIOs.GPIO42, false));
+		fx3.addSetting(new ConfigBit("nChipReset", "Keeps chip out of reset.", getConfigNode(), FX3.GPIOs.GPIO43, true));
 
 		// Size in KB and SPI address.
-		final Memory flash = new Flash_SPI(512, 0);
+		final Memory flash = new Flash_SPI(getConfigNode(), 512, 0);
 		flash.setProgrammer(fx3);
 		addComponent(flash);
 
 		// Support flashing FX3 firmware.
 		fx3.firmwareToFlash(flash);
 
-		final Logic latticeECP3 = new LatticeECP3();
+		final Logic latticeECP3 = new LatticeECP3(getConfigNode());
 		latticeECP3.setProgrammer(fx3);
 		addComponent(latticeECP3);
 
@@ -55,25 +53,25 @@ public class ApsDvs10FX3 extends USBDevice {
 		latticeECP3.firmwareToFlash(flash);
 
 		final ShiftRegisterContainer fpgaSR = new ShiftRegisterContainer("fpgaSR",
-			"ShiftRegister for on-FPGA configuration.", 80);
+			"ShiftRegister for on-FPGA configuration.", getConfigNode(), 80);
 
-		fpgaSR.addSetting(new ConfigInt("frameDelay", ".", 0, 16));
-		fpgaSR.addSetting(new ConfigInt("resSettle", ".", 0, 16));
-		fpgaSR.addSetting(new ConfigInt("rowSettle", ".", 0, 16));
-		fpgaSR.addSetting(new ConfigInt("colSettle", ".", 0, 16));
-		fpgaSR.addSetting(new ConfigInt("exposure", ".", 0, 16));
+		fpgaSR.addSetting(new ConfigInt("frameDelay", ".", fpgaSR.getConfigNode(), 0, 16));
+		fpgaSR.addSetting(new ConfigInt("resSettle", ".", fpgaSR.getConfigNode(), 0, 16));
+		fpgaSR.addSetting(new ConfigInt("rowSettle", ".", fpgaSR.getConfigNode(), 0, 16));
+		fpgaSR.addSetting(new ConfigInt("colSettle", ".", fpgaSR.getConfigNode(), 0, 16));
+		fpgaSR.addSetting(new ConfigInt("exposure", ".", fpgaSR.getConfigNode(), 0, 16));
 
 		latticeECP3.addSetting(fpgaSR);
 
 		// ADC adcTHS1030 = new THS1030();
 		// Not actively configurable.
 
-		final AERChip sbret10 = new SBRet10();
+		final AERChip sbret10 = new SBRet10(getConfigNode());
 		sbret10.setProgrammer(fx3);
 		addComponent(sbret10);
 
 		// Add inertial measurement unit.
-		final Component invenSenseIMU = new InvenSense6050(0x68);
+		final Component invenSenseIMU = new InvenSense6050(getConfigNode(), 0x68);
 		invenSenseIMU.setProgrammer(fx3);
 		addComponent(invenSenseIMU);
 	}

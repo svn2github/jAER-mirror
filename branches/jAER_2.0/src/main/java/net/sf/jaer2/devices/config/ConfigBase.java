@@ -30,7 +30,7 @@ public abstract class ConfigBase {
 	private final String description;
 
 	/** Central configuration holding node. */
-	protected final SSHSNode configNode;
+	protected SSHSNode configNode;
 
 	/**
 	 * The number of bits for this setting. This number is used to
@@ -54,6 +54,10 @@ public abstract class ConfigBase {
 
 	public final String getDescription() {
 		return description;
+	}
+
+	public final SSHSNode getConfigNode() {
+		return configNode;
 	}
 
 	/**

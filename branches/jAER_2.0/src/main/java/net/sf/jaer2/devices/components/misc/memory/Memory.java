@@ -19,19 +19,18 @@ import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.util.Files;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.PairRO;
+import net.sf.jaer2.util.SSHSNode;
 
 import com.google.common.collect.ImmutableList;
 
 public abstract class Memory extends Component {
-	private static final long serialVersionUID = 1918978964879724132L;
-
 	private static final List<String> binaryExtensions = ImmutableList.of("*.bix", "*.iic", "*.hex", "*.img");
 
 	private final int sizeKB;
 	private File firmwareFile;
 
-	public Memory(final String memName, final int memSizeKB) {
-		super(memName);
+	public Memory(final String memName, final SSHSNode componentConfigNode, final int memSizeKB) {
+		super(memName, componentConfigNode);
 
 		sizeKB = memSizeKB;
 		setFirmwareFile(null);

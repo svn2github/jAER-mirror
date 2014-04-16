@@ -37,13 +37,12 @@ public final class SSHSNode {
 	public interface SSHSNodeListener {
 		public static enum NodeEvents {
 			ATTRIBUTE_ADDED,
+			ATTRIBUTE_MODIFIED,
 			CHILD_NODE_ADDED;
 		}
 
-		public void nodeChanged(SSHSNode node, Object userData, NodeEvents event, SSHSNode changeNode);
-
-		public <V> void attributeChanged(SSHSNode node, Object userData, NodeEvents event, String changeKey,
-			Class<V> changeType, V changeValue);
+		public <V> void changed(SSHSNode node, Object userData, NodeEvents event, String key, Class<V> type,
+			V oldValue, V newValue);
 	}
 
 	private final String name;
@@ -92,7 +91,8 @@ public final class SSHSNode {
 			// Listener support (only on new addition!).
 			nodeLock.readLock().lock();
 			for (final PairRO<SSHSNodeListener, Object> listener : nodeListeners) {
-				listener.getFirst().nodeChanged(this, listener.getSecond(), NodeEvents.CHILD_NODE_ADDED, child);
+				listener.getFirst().changed(this, listener.getSecond(), NodeEvents.CHILD_NODE_ADDED, childName,
+					SSHSNode.class, null, child);
 			}
 			nodeLock.readLock().unlock();
 
@@ -135,14 +135,6 @@ public final class SSHSNode {
 		nodeLock.writeLock().unlock();
 	}
 
-	void transactionLock() {
-		nodeLock.writeLock().lock();
-	}
-
-	void transactionUnlock() {
-		nodeLock.writeLock().unlock();
-	}
-
 	public boolean attributeExists(final String key, final Class<?> type) {
 		nodeLock.readLock().lock();
 		final boolean returnValue = attributes.containsKey(PairRO.of(key, type));
@@ -161,9 +153,25 @@ public final class SSHSNode {
 		// create it.
 		if (returnValue == null) {
 			returnValue = initAttribute(key, type);
+
+			nodeLock.readLock().lock();
+			for (final PairRO<SSHSNodeListener, Object> listener : nodeListeners) {
+				listener.getFirst().changed(this, listener.getSecond(), NodeEvents.ATTRIBUTE_ADDED, key, type, null,
+					returnValue.getValue());
+			}
+			nodeLock.readLock().unlock();
 		}
 
 		return returnValue;
+	}
+
+	<V> void attributeModifiedNotification(final String key, final Class<V> type, V oldValue, V newValue) {
+		nodeLock.readLock().lock();
+		for (final PairRO<SSHSNodeListener, Object> listener : nodeListeners) {
+			listener.getFirst().changed(this, listener.getSecond(), NodeEvents.ATTRIBUTE_MODIFIED, key, type, oldValue,
+				newValue);
+		}
+		nodeLock.readLock().unlock();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -173,7 +181,8 @@ public final class SSHSNode {
 		SSHSAttribute<V> returnValue = (SSHSAttribute<V>) attributes.get(PairRO.of(key, type));
 
 		if (returnValue == null) {
-			returnValue = (SSHSAttribute<V>) attributes.put(PairRO.of(key, type), new SSHSAttribute<>(key, this));
+			returnValue = new SSHSAttribute<>(key, this);
+			attributes.put(PairRO.of(key, type), returnValue);
 		}
 
 		nodeLock.writeLock().unlock();

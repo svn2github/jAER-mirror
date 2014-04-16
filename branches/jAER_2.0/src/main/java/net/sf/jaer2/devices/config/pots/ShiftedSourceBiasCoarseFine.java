@@ -1,12 +1,7 @@
 package net.sf.jaer2.devices.config.pots;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.EnumSet;
 
-import javafx.beans.binding.LongBinding;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -16,12 +11,12 @@ import javafx.scene.control.Slider;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers.NumberFormat;
 import net.sf.jaer2.util.Numbers.NumberOptions;
-import net.sf.jaer2.util.serializable.SerializableIntegerProperty;
-import net.sf.jaer2.util.serializable.SerializableObjectProperty;
+import net.sf.jaer2.util.SSHSAttribute;
+import net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener;
+import net.sf.jaer2.util.SSHSNode;
+import net.sf.jaer2.util.SSHSNode.SSHSNodeListener;
 
 public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
-	private static final long serialVersionUID = -4838678921924901764L;
-
 	public static enum OperatingMode {
 		ShiftedSource(0),
 		HiZ(1),
@@ -56,9 +51,9 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 		}
 	}
 
-	private final SerializableObjectProperty<OperatingMode> operatingMode = new SerializableObjectProperty<>();
+	private final SSHSAttribute<OperatingMode> operatingMode;
 
-	private final SerializableObjectProperty<VoltageLevel> voltageLevel = new SerializableObjectProperty<>();
+	private final SSHSAttribute<VoltageLevel> voltageLevel;
 
 	// 6 bits for level of shifted source
 	/** Bit mask for bias bits */
@@ -84,38 +79,38 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 	private static final int maxRegBitValue = (1 << ShiftedSourceBiasCoarseFine.numRegBiasBits) - 1;
 
 	/** The bit value of the buffer bias current */
-	private final SerializableIntegerProperty refBitValue = new SerializableIntegerProperty();
+	private final SSHSAttribute<Byte> refBitValue;
 
 	/** The bit value of the buffer bias current */
-	private final SerializableIntegerProperty regBitValue = new SerializableIntegerProperty();
+	private final SSHSAttribute<Byte> regBitValue;
 
-	public ShiftedSourceBiasCoarseFine(final String name, final String description, final int address,
-		final Masterbias masterbias, final Type type, final Sex sex) {
-		this(name, description, address, masterbias, type, sex, ShiftedSourceBiasCoarseFine.maxRefBitValue,
+	public ShiftedSourceBiasCoarseFine(final String name, final String description, final SSHSNode configNode,
+		final int address, final Masterbias masterbias, final Type type, final Sex sex) {
+		this(name, description, configNode, address, masterbias, type, sex, ShiftedSourceBiasCoarseFine.maxRefBitValue,
 			ShiftedSourceBiasCoarseFine.maxRegBitValue, OperatingMode.ShiftedSource, VoltageLevel.SplitGate);
 	}
 
-	public ShiftedSourceBiasCoarseFine(final String name, final String description, final int address,
-		final Masterbias masterbias, final Type type, final Sex sex, final int defaultRefBitValue,
+	public ShiftedSourceBiasCoarseFine(final String name, final String description, final SSHSNode configNode,
+		final int address, final Masterbias masterbias, final Type type, final Sex sex, final int defaultRefBitValue,
 		final int defaultRegBitValue, final OperatingMode opMode, final VoltageLevel vLevel) {
-		super(name, description, address, masterbias, type, sex, 0, ShiftedSourceBiasCoarseFine.numRefBiasBits
-			+ ShiftedSourceBiasCoarseFine.numRegBiasBits + 4);
+		super(name, description, configNode, address, masterbias, type, sex, 0,
+			ShiftedSourceBiasCoarseFine.numRefBiasBits + ShiftedSourceBiasCoarseFine.numRegBiasBits + 4);
 		// Add four bits for: operatingMode (2) and voltageLevel (2).
 
-		setBitValueUpdateListeners();
-
+		this.refBitValue = this.configNode.getAttribute("refValue", Byte.class);
 		setRefBitValue(defaultRefBitValue);
+
+		this.regBitValue = this.configNode.getAttribute("regValue", Byte.class);
 		setRegBitValue(defaultRegBitValue);
 
 		// Developer check: the calculation should always be correct.
 		assert getBitValue() == ((defaultRegBitValue << ShiftedSourceBiasCoarseFine.numRefBiasBits) + defaultRefBitValue);
 
+		this.operatingMode = this.configNode.getAttribute("operatingMode", OperatingMode.class);
 		setOperatingMode(opMode);
-		setVoltageLevel(vLevel);
-	}
 
-	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
-		in.defaultReadObject();
+		this.voltageLevel = this.configNode.getAttribute("voltageLevel", VoltageLevel.class);
+		setVoltageLevel(vLevel);
 
 		setBitValueUpdateListeners();
 	}
@@ -123,42 +118,39 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 	private void setBitValueUpdateListeners() {
 		// Add listeners that mediate updates between the bitValue and its
 		// ref and reg parts automatically.
-		getRefBitValueProperty().addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
+		refBitValue.addListener(new SSHSAttrListener<Byte>() {
 			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				setBitValue((getRegBitValue() << ShiftedSourceBiasCoarseFine.numRefBiasBits) + newVal.intValue());
+			public void changed(SSHSNode node, Object userData,
+				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Byte oldValue, Byte newValue) {
+				setBitValue((getRegBitValue() << ShiftedSourceBiasCoarseFine.numRefBiasBits) + newValue.intValue());
 			}
-		});
+		}, null);
 
-		getRegBitValueProperty().addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
+		regBitValue.addListener(new SSHSAttrListener<Byte>() {
 			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				setBitValue((newVal.intValue() << ShiftedSourceBiasCoarseFine.numRefBiasBits) + getRefBitValue());
+			public void changed(SSHSNode node, Object userData,
+				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Byte oldValue, Byte newValue) {
+				setBitValue((newValue.intValue() << ShiftedSourceBiasCoarseFine.numRefBiasBits) + getRefBitValue());
 			}
-		});
+		}, null);
 
-		getBitValueProperty().addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
+		bitValue.addListener(new SSHSAttrListener<Integer>() {
 			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				setRefBitValue(newVal.intValue() & ShiftedSourceBiasCoarseFine.maxRefBitValue);
-				setRegBitValue(newVal.intValue() >>> ShiftedSourceBiasCoarseFine.numRefBiasBits);
+			public void changed(SSHSNode node, Object userData,
+				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Integer oldValue,
+				Integer newValue) {
+				setRefBitValue(newValue.intValue() & ShiftedSourceBiasCoarseFine.maxRefBitValue);
+				setRegBitValue(newValue.intValue() >>> ShiftedSourceBiasCoarseFine.numRefBiasBits);
 			}
-		});
+		}, null);
 	}
 
 	public int getRefBitValue() {
-		return refBitValue.property().get();
+		return refBitValue.getValue();
 	}
 
 	public void setRefBitValue(final int ref) {
-		refBitValue.property().set(ShiftedSourceBiasCoarseFine.clipRef(ref));
-	}
-
-	public IntegerProperty getRefBitValueProperty() {
-		return refBitValue.property();
+		refBitValue.setValue((byte) ShiftedSourceBiasCoarseFine.clipRef(ref));
 	}
 
 	/**
@@ -183,15 +175,11 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 	}
 
 	public int getRegBitValue() {
-		return regBitValue.property().get();
+		return regBitValue.getValue();
 	}
 
 	public void setRegBitValue(final int reg) {
-		regBitValue.property().set(ShiftedSourceBiasCoarseFine.clipReg(reg));
-	}
-
-	public IntegerProperty getRegBitValueProperty() {
-		return regBitValue.property();
+		regBitValue.setValue((byte) ShiftedSourceBiasCoarseFine.clipReg(reg));
 	}
 
 	/**
@@ -237,27 +225,19 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 	}
 
 	public OperatingMode getOperatingMode() {
-		return operatingMode.property().get();
+		return operatingMode.getValue();
 	}
 
 	public void setOperatingMode(final OperatingMode opMode) {
-		operatingMode.property().set(opMode);
-	}
-
-	public ObjectProperty<OperatingMode> getOperatingModeProperty() {
-		return operatingMode.property();
+		operatingMode.setValue(opMode);
 	}
 
 	public VoltageLevel getVoltageLevel() {
-		return voltageLevel.property().get();
+		return voltageLevel.getValue();
 	}
 
 	public void setVoltageLevel(final VoltageLevel vLevel) {
-		voltageLevel.property().set(vLevel);
-	}
-
-	public ObjectProperty<VoltageLevel> getVoltageLevelProperty() {
-		return voltageLevel.property();
+		voltageLevel.setValue(vLevel);
 	}
 
 	/**
@@ -316,21 +296,6 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 		return i;
 	}
 
-	@Override
-	protected void buildChangeBinding() {
-		changeBinding = new LongBinding() {
-			{
-				super.bind(getRefBitValueProperty(), getRegBitValueProperty(), getTypeProperty(), getSexProperty(),
-					getOperatingModeProperty(), getVoltageLevelProperty());
-			}
-
-			@Override
-			protected long computeValue() {
-				return System.currentTimeMillis();
-			}
-		};
-	}
-
 	/**
 	 * Computes the actual bit pattern to be sent to chip based on configuration
 	 * values.
@@ -363,39 +328,112 @@ public class ShiftedSourceBiasCoarseFine extends AddressedIPot {
 
 		final ComboBox<OperatingMode> opModeBox = GUISupport.addComboBox(rootConfigLayout,
 			EnumSet.allOf(OperatingMode.class), getOperatingMode().ordinal());
-		opModeBox.valueProperty().bindBidirectional(getOperatingModeProperty());
+
+		opModeBox.valueProperty().addListener(new ChangeListener<OperatingMode>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(final ObservableValue<? extends OperatingMode> changed, final OperatingMode oldVal,
+				final OperatingMode newVal) {
+				setOperatingMode(newVal);
+			}
+		});
+
+		operatingMode.addListener(new SSHSAttrListener<OperatingMode>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(SSHSNode node, Object userData,
+				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, OperatingMode oldValue,
+				OperatingMode newValue) {
+				opModeBox.valueProperty().setValue(newValue);
+			}
+		}, null);
 
 		final ComboBox<VoltageLevel> vLevelBox = GUISupport.addComboBox(rootConfigLayout,
 			EnumSet.allOf(VoltageLevel.class), getVoltageLevel().ordinal());
-		vLevelBox.valueProperty().bindBidirectional(getVoltageLevelProperty());
 
-		GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(), 10, (int) getMinBitValue(),
-			(int) getMaxBitValue(), NumberFormat.DECIMAL, EnumSet.of(NumberOptions.UNSIGNED), null);
+		vLevelBox.valueProperty().addListener(new ChangeListener<VoltageLevel>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(final ObservableValue<? extends VoltageLevel> changed, final VoltageLevel oldVal,
+				final VoltageLevel newVal) {
+				setVoltageLevel(newVal);
+			}
+		});
 
-		GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(), getBitValueBits(),
-			(int) getMinBitValue(), (int) getMaxBitValue(), NumberFormat.BINARY,
+		voltageLevel.addListener(new SSHSAttrListener<VoltageLevel>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(SSHSNode node, Object userData,
+				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, VoltageLevel oldValue,
+				VoltageLevel newValue) {
+				vLevelBox.valueProperty().setValue(newValue);
+			}
+		}, null);
+
+		GUISupport.addTextNumberField(rootConfigLayout, bitValue, 10, (int) getMinBitValue(), (int) getMaxBitValue(),
+			NumberFormat.DECIMAL, EnumSet.of(NumberOptions.UNSIGNED), null);
+
+		GUISupport.addTextNumberField(rootConfigLayout, bitValue, getBitValueBits(), (int) getMinBitValue(),
+			(int) getMaxBitValue(), NumberFormat.BINARY,
 			EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.LEFT_PADDING, NumberOptions.ZERO_PADDING), null);
 
 		final Slider refSlider = GUISupport.addSlider(rootConfigLayout,
 			ShiftedSourceBiasCoarseFine.getMinRefBitValue(), ShiftedSourceBiasCoarseFine.getMaxRefBitValue(), 0, 10);
 
-		refSlider.valueProperty().bindBidirectional(getRefBitValueProperty());
+		refSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
+				setRefBitValue(newVal.intValue());
+			}
+		});
+
+		refBitValue.addListener(new SSHSAttrListener<Byte>() {
+			@Override
+			public void changed(SSHSNode node, Object userData,
+				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Byte oldValue, Byte newValue) {
+				refSlider.setValue(newValue.doubleValue());
+			}
+		}, null);
 
 		final Slider regSlider = GUISupport.addSlider(rootConfigLayout,
 			ShiftedSourceBiasCoarseFine.getMinRegBitValue(), ShiftedSourceBiasCoarseFine.getMaxRegBitValue(), 0, 10);
 
-		regSlider.valueProperty().bindBidirectional(getRegBitValueProperty());
+		regSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
+				setRegBitValue(newVal.intValue());
+			}
+		});
+
+		regBitValue.addListener(new SSHSAttrListener<Byte>() {
+			@Override
+			public void changed(SSHSNode node, Object userData,
+				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Byte oldValue, Byte newValue) {
+				regSlider.setValue(newValue.doubleValue());
+			}
+		}, null);
 
 		final Label binaryRep = GUISupport.addLabel(rootConfigLayout, getBinaryRepresentationAsString(),
 			"Binary data to be sent to the device.", null, null);
 
-		getChangeBinding().addListener(new ChangeListener<Number>() {
+		// Add listener directly to the node, so that any change to a
+		// subordinate setting results in the update of the shift register
+		// display value.
+		configNode.addNodeListener(new SSHSNodeListener() {
 			@SuppressWarnings("unused")
 			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				binaryRep.setText(getBinaryRepresentationAsString());
+			public <V> void changed(SSHSNode node, Object userData, NodeEvents event, String key, Class<V> type,
+				V oldValue, V newValue) {
+				if (event == NodeEvents.ATTRIBUTE_MODIFIED) {
+					// On any subordinate attribute update, refresh the
+					// displayed value.
+					binaryRep.setText(getBinaryRepresentationAsString());
+				}
+
 			}
-		});
+		}, null);
 	}
 
 	@Override

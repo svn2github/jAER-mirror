@@ -9,8 +9,6 @@ import net.sf.jaer2.eventio.translators.Translator;
 import org.usb4java.Device;
 
 public class FX2Blank extends USBDevice {
-	private static final long serialVersionUID = -8046080586966523028L;
-
 	@SuppressWarnings("hiding")
 	public static final short VID = 0x04B4;
 	@SuppressWarnings("hiding")
@@ -20,13 +18,13 @@ public class FX2Blank extends USBDevice {
 		super("FX2 Blank", "Blank FX2 device, needs to have firmware loaded onto it.", FX2Blank.VID, FX2Blank.PID,
 			USBDevice.DID, usbDevice);
 
-		final Controller fx2 = new FX2();
+		final Controller fx2 = new FX2(getConfigNode());
 		addComponent(fx2);
 
 		fx2.firmwareToRam(true);
 
 		// Size in KB and I2C address.
-		final Memory eeprom = new EEPROM_I2C(32, 0x51);
+		final Memory eeprom = new EEPROM_I2C(getConfigNode(), 32, 0x51);
 		eeprom.setProgrammer(fx2);
 		addComponent(eeprom);
 

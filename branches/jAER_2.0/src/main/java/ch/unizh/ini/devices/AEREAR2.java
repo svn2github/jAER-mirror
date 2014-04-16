@@ -23,8 +23,6 @@ import ch.unizh.ini.devices.components.aer.CochleaAMS1c;
 import ch.unizh.ini.devices.components.misc.AD5391_32chan;
 
 public class AEREAR2 extends USBDevice {
-	private static final long serialVersionUID = 4796720824881098486L;
-
 	@SuppressWarnings("hiding")
 	public static final short PID = (short) 0x8406;
 
@@ -32,59 +30,59 @@ public class AEREAR2 extends USBDevice {
 		super("AER EAR 2", "Cochlea using the CochleaAMS1c chip, USB 2.0.", USBDevice.VID, AEREAR2.PID, USBDevice.DID,
 			usbDevice);
 
-		final FX2 fx2 = new FX2();
+		final FX2 fx2 = new FX2(getConfigNode());
 		addComponent(fx2);
 
 		fx2.firmwareToRam(true);
 
-		fx2.addSetting(new ConfigBit("runAERComm", ".", FX2.Ports.PA3, true));
-		fx2.addSetting(new ConfigBit("hostResetTimestamps", ".", FX2.Ports.PA7, false));
-		fx2.addSetting(new ConfigBit("runAdc", ".", FX2.Ports.PC0, true));
-		fx2.addSetting(new ConfigBit("vCtrlKill", ".", FX2.Ports.PD6, true));
-		fx2.addSetting(new ConfigBit("aerKillBit", ".", FX2.Ports.PD7, false));
-		fx2.addSetting(new ConfigBit("cochleaBitLatch", ".", FX2.Ports.PE1, true));
-		fx2.addSetting(new ConfigBit("powerDown", ".", FX2.Ports.PE2, false));
-		fx2.addSetting(new ConfigBit("cochleaReset", ".", FX2.Ports.PE3, false));
+		fx2.addSetting(new ConfigBit("runAERComm", ".", getConfigNode(), FX2.Ports.PA3, true));
+		fx2.addSetting(new ConfigBit("hostResetTimestamps", ".", getConfigNode(), FX2.Ports.PA7, false));
+		fx2.addSetting(new ConfigBit("runAdc", ".", getConfigNode(), FX2.Ports.PC0, true));
+		fx2.addSetting(new ConfigBit("vCtrlKill", ".", getConfigNode(), FX2.Ports.PD6, true));
+		fx2.addSetting(new ConfigBit("aerKillBit", ".", getConfigNode(), FX2.Ports.PD7, false));
+		fx2.addSetting(new ConfigBit("cochleaBitLatch", ".", getConfigNode(), FX2.Ports.PE1, true));
+		fx2.addSetting(new ConfigBit("powerDown", ".", getConfigNode(), FX2.Ports.PE2, false));
+		fx2.addSetting(new ConfigBit("cochleaReset", ".", getConfigNode(), FX2.Ports.PE3, false));
 
 		// Size in KB and I2C address.
-		final Memory eeprom = new EEPROM_I2C(32, 0x51);
+		final Memory eeprom = new EEPROM_I2C(getConfigNode(), 32, 0x51);
 		eeprom.setProgrammer(fx2);
 		addComponent(eeprom);
 
 		// Support flashing FX2 firmware.
 		fx2.firmwareToFlash(eeprom);
 
-		final Logic latticeMachX0 = new LatticeMachX0();
+		final Logic latticeMachX0 = new LatticeMachX0(getConfigNode());
 		latticeMachX0.setProgrammer(fx2);
 		addComponent(latticeMachX0);
 
 		final ShiftRegisterContainer cpldSR = new ShiftRegisterContainer("cpldSR",
-			"ShiftRegister for on-CPLD configuration.", 80);
+			"ShiftRegister for on-CPLD configuration.", getConfigNode(), 80);
 
-		cpldSR.addSetting(new ConfigBit("yBit", ".", false));
-		cpldSR.addSetting(new ConfigInt("onchipPreampGain", ".", (byte) 3, 2));
-		cpldSR.addSetting(new ConfigBit("selAER", ".", true));
-		cpldSR.addSetting(new ConfigBit("selIn", ".", false));
-		cpldSR.addSetting(new ConfigBitTristate("preampAttackRelease", ".", Tristate.LOW));
-		cpldSR.addSetting(new ConfigBitTristate("preampGain.Left", ".", Tristate.HIZ));
-		cpldSR.addSetting(new ConfigBitTristate("preampGain.Right", ".", Tristate.HIZ));
-		cpldSR.addSetting(new ConfigInt("adcConfig", ".", (short) 4, 12));
-		cpldSR.addSetting(new ConfigInt("adcTrackTime", ".", 0, 16));
-		cpldSR.addSetting(new ConfigInt("adcIdleTime", ".", 0, 16));
-		cpldSR.addSetting(new ConfigInt("scanChannel", ".", (byte) 0, 7));
-		cpldSR.addSetting(new ConfigBit("scanSel", ".", false));
-		cpldSR.addSetting(new ConfigBit("scanContinuouslyEnabled", ".", true));
+		cpldSR.addSetting(new ConfigBit("yBit", ".", cpldSR.getConfigNode(), false));
+		cpldSR.addSetting(new ConfigInt("onchipPreampGain", ".", cpldSR.getConfigNode(), (byte) 3, 2));
+		cpldSR.addSetting(new ConfigBit("selAER", ".", cpldSR.getConfigNode(), true));
+		cpldSR.addSetting(new ConfigBit("selIn", ".", cpldSR.getConfigNode(), false));
+		cpldSR.addSetting(new ConfigBitTristate("preampAttackRelease", ".", cpldSR.getConfigNode(), Tristate.LOW));
+		cpldSR.addSetting(new ConfigBitTristate("preampGain.Left", ".", cpldSR.getConfigNode(), Tristate.HIZ));
+		cpldSR.addSetting(new ConfigBitTristate("preampGain.Right", ".", cpldSR.getConfigNode(), Tristate.HIZ));
+		cpldSR.addSetting(new ConfigInt("adcConfig", ".", cpldSR.getConfigNode(), (short) 4, 12));
+		cpldSR.addSetting(new ConfigInt("adcTrackTime", ".", cpldSR.getConfigNode(), 0, 16));
+		cpldSR.addSetting(new ConfigInt("adcIdleTime", ".", cpldSR.getConfigNode(), 0, 16));
+		cpldSR.addSetting(new ConfigInt("scanChannel", ".", cpldSR.getConfigNode(), (byte) 0, 7));
+		cpldSR.addSetting(new ConfigBit("scanSel", ".", cpldSR.getConfigNode(), false));
+		cpldSR.addSetting(new ConfigBit("scanContinuouslyEnabled", ".", cpldSR.getConfigNode(), true));
 
 		latticeMachX0.addSetting(cpldSR);
 
 		// ADC adcAD7933 = new AD7933();
 		// Not actively configurable.
 
-		final AERChip cochlea = new CochleaAMS1c();
+		final AERChip cochlea = new CochleaAMS1c(getConfigNode());
 		cochlea.setProgrammer(fx2);
 		addComponent(cochlea);
 
-		final DAC dacAD5391 = new AD5391_32chan();
+		final DAC dacAD5391 = new AD5391_32chan(getConfigNode());
 		dacAD5391.setProgrammer(latticeMachX0);
 		addComponent(dacAD5391);
 

@@ -64,6 +64,7 @@ public final class ConfigBit extends ConfigBase {
 		final CheckBox valBox = GUISupport.addCheckBox(rootConfigLayout, null, getValue());
 
 		valBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			@SuppressWarnings("unused")
 			@Override
 			public void changed(final ObservableValue<? extends Boolean> changed, final Boolean oldVal,
 				final Boolean newVal) {
@@ -72,8 +73,9 @@ public final class ConfigBit extends ConfigBase {
 		});
 
 		configAttr.addListener(new SSHSAttrListener<Boolean>() {
+			@SuppressWarnings("unused")
 			@Override
-			public void attributeChanged(SSHSNode node, Object userData,
+			public void changed(SSHSNode node, Object userData,
 				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Boolean oldValue,
 				Boolean newValue) {
 				valBox.selectedProperty().setValue(newValue);

@@ -13,6 +13,7 @@ import net.sf.jaer2.eventio.events.PolarityEvent;
 import net.sf.jaer2.eventio.events.SpecialEvent;
 import net.sf.jaer2.eventio.events.raw.RawEvent;
 import net.sf.jaer2.eventio.translators.DeviceTranslator;
+import net.sf.jaer2.util.SSHSNode;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,37 +21,36 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.ImmutableList;
 
 public class Tmpdiff128 extends AERChip {
-	private static final long serialVersionUID = -7614038645899184474L;
-
 	/** Local logger for log messages. */
 	private final static Logger logger = LoggerFactory.getLogger(Tmpdiff128.class);
 
-	public Tmpdiff128() {
-		this("Tmpdiff128");
+	public Tmpdiff128(final SSHSNode componentConfigNode) {
+		this("Tmpdiff128", componentConfigNode);
 	}
 
-	public Tmpdiff128(final String componentName) {
-		super(componentName);
+	public Tmpdiff128(final String componentName, final SSHSNode componentConfigNode) {
+		super(componentName, componentConfigNode);
 
 		// Masterbias needs to be added first!
-		final Masterbias masterbias = new Masterbias("Masterbias", "Masterbias for on-chip bias generator.");
+		final Masterbias masterbias = new Masterbias("Masterbias", "Masterbias for on-chip bias generator.",
+			componentConfigNode);
 		addSetting(masterbias);
 
 		final ShiftRegisterContainer chipSR = new ShiftRegisterContainer("ChipSR",
-			"ShiftRegister for on-chip bias generator configuration.", 288);
+			"ShiftRegister for on-chip bias generator configuration.", componentConfigNode, 288);
 
-		chipSR.addSetting(new IPot("cas", ".", masterbias, Pot.Type.CASCODE, Pot.Sex.N));
-		chipSR.addSetting(new IPot("injGnd", ".", masterbias, Pot.Type.CASCODE, Pot.Sex.P));
-		chipSR.addSetting(new IPot("reqPd", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		chipSR.addSetting(new IPot("puX", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
-		chipSR.addSetting(new IPot("diffOff", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		chipSR.addSetting(new IPot("req", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		chipSR.addSetting(new IPot("refr", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
-		chipSR.addSetting(new IPot("puY", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
-		chipSR.addSetting(new IPot("diffOn", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		chipSR.addSetting(new IPot("diff", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		chipSR.addSetting(new IPot("foll", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
-		chipSR.addSetting(new IPot("pr", ".", masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		chipSR.addSetting(new IPot("cas", ".", chipSR.getConfigNode(), masterbias, Pot.Type.CASCODE, Pot.Sex.N));
+		chipSR.addSetting(new IPot("injGnd", ".", chipSR.getConfigNode(), masterbias, Pot.Type.CASCODE, Pot.Sex.P));
+		chipSR.addSetting(new IPot("reqPd", ".", chipSR.getConfigNode(), masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		chipSR.addSetting(new IPot("puX", ".", chipSR.getConfigNode(), masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		chipSR.addSetting(new IPot("diffOff", ".", chipSR.getConfigNode(), masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		chipSR.addSetting(new IPot("req", ".", chipSR.getConfigNode(), masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		chipSR.addSetting(new IPot("refr", ".", chipSR.getConfigNode(), masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		chipSR.addSetting(new IPot("puY", ".", chipSR.getConfigNode(), masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		chipSR.addSetting(new IPot("diffOn", ".", chipSR.getConfigNode(), masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		chipSR.addSetting(new IPot("diff", ".", chipSR.getConfigNode(), masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		chipSR.addSetting(new IPot("foll", ".", chipSR.getConfigNode(), masterbias, Pot.Type.NORMAL, Pot.Sex.P));
+		chipSR.addSetting(new IPot("pr", ".", chipSR.getConfigNode(), masterbias, Pot.Type.NORMAL, Pot.Sex.P));
 
 		addSetting(chipSR);
 	}

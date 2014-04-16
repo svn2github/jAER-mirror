@@ -5,21 +5,20 @@ import java.nio.ByteBuffer;
 
 import net.sf.jaer2.devices.components.controllers.Controller.Command;
 import net.sf.jaer2.util.GUISupport;
+import net.sf.jaer2.util.SSHSNode;
 import net.sf.jaer2.util.TypedMap;
 
 import org.usb4java.BufferUtils;
 
 public class EEPROM_I2C extends Memory {
-	private static final long serialVersionUID = 6483810761979125129L;
-
 	private final int i2cAddress;
 
-	public EEPROM_I2C(final int size, final int i2cAddress) {
-		this("EEPROM", size, i2cAddress);
+	public EEPROM_I2C(final SSHSNode componentConfigNode, final int size, final int i2cAddress) {
+		this("EEPROM", componentConfigNode, size, i2cAddress);
 	}
 
-	public EEPROM_I2C(final String componentName, final int size, final int i2cAddress) {
-		super(componentName, size);
+	public EEPROM_I2C(final String componentName, final SSHSNode componentConfigNode, final int size, final int i2cAddress) {
+		super(componentName, componentConfigNode, size);
 
 		this.i2cAddress = i2cAddress;
 	}

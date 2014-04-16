@@ -4,11 +4,10 @@ import java.io.IOException;
 
 import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.components.misc.memory.Memory;
+import net.sf.jaer2.util.SSHSNode;
 import net.sf.jaer2.util.TypedMap;
 
 public abstract class Controller extends Component {
-	private static final long serialVersionUID = -8449535038409300001L;
-
 	/**
 	 * The Command enumeration holds all possible commands that a component can
 	 * send to its controller/programmer to be executed. This allows components
@@ -60,8 +59,8 @@ public abstract class Controller extends Component {
 		SPI_WRITE;
 	}
 
-	public Controller(final String componentName) {
-		super(componentName);
+	public Controller(final String componentName, final SSHSNode componentConfigNode) {
+		super(componentName, componentConfigNode);
 	}
 
 	public void firmwareToRam(final boolean fwRAM) {

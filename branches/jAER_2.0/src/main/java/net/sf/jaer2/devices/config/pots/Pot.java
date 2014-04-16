@@ -2,11 +2,6 @@ package net.sf.jaer2.devices.config.pots;
 
 import java.util.EnumSet;
 
-import javafx.beans.binding.LongBinding;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
@@ -16,12 +11,12 @@ import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Numbers;
 import net.sf.jaer2.util.Numbers.NumberFormat;
 import net.sf.jaer2.util.Numbers.NumberOptions;
-import net.sf.jaer2.util.serializable.SerializableIntegerProperty;
-import net.sf.jaer2.util.serializable.SerializableObjectProperty;
+import net.sf.jaer2.util.SSHS;
+import net.sf.jaer2.util.SSHSAttribute;
+import net.sf.jaer2.util.SSHSNode;
+import net.sf.jaer2.util.SSHSNode.SSHSNodeListener;
 
 public abstract class Pot extends ConfigBase {
-	private static final long serialVersionUID = -4040508924962174123L;
-
 	/** Type of bias, NORMAL, CASCODE or REFERENCE. */
 	public static enum Type {
 		NORMAL("Normal"),
@@ -58,60 +53,56 @@ public abstract class Pot extends ConfigBase {
 		}
 	}
 
-	private final SerializableObjectProperty<Type> type = new SerializableObjectProperty<>();
-	private final SerializableObjectProperty<Sex> sex = new SerializableObjectProperty<>();
+	protected final SSHSAttribute<Type> type;
+	protected final SSHSAttribute<Sex> sex;
 
 	/** The current value of the bias in bits. */
-	private final SerializableIntegerProperty bitValue = new SerializableIntegerProperty();
+	protected final SSHSAttribute<Integer> bitValue;
 
-	public Pot(final String name, final String description, final Type type, final Sex sex) {
-		this(name, description, type, sex, 0, 24);
+	public Pot(final String name, final String description, final SSHSNode configNode, final Type type, final Sex sex) {
+		this(name, description, configNode, type, sex, 0, 24);
 	}
 
-	public Pot(final String name, final String description, final Type type, final Sex sex, final int defaultValue,
-		final int numBits) {
-		super(name, description, numBits);
+	public Pot(final String name, final String description, final SSHSNode configNode, final Type type, final Sex sex,
+		final int defaultValue, final int numBits) {
+		super(name, description, configNode, numBits);
 
+		// Reset config node to be one level deeper that what is passed in, so
+		// that each bias appears isolated inside their own node.
+		this.configNode = SSHS.getRelativeNode(this.configNode, name + "/");
+
+		this.type = this.configNode.getAttribute("type", Type.class);
 		setType(type);
+
+		this.sex = this.configNode.getAttribute("sex", Sex.class);
 		setSex(sex);
 
+		this.bitValue = this.configNode.getAttribute("bitValue", Integer.class);
 		setBitValue(defaultValue);
 	}
 
 	public Type getType() {
-		return type.property().get();
+		return type.getValue();
 	}
 
 	public void setType(final Type t) {
-		type.property().set(t);
-	}
-
-	public ObjectProperty<Type> getTypeProperty() {
-		return type.property();
+		type.setValue(t);
 	}
 
 	public Sex getSex() {
-		return sex.property().get();
+		return sex.getValue();
 	}
 
 	public void setSex(final Sex s) {
-		sex.property().set(s);
-	}
-
-	public ObjectProperty<Sex> getSexProperty() {
-		return sex.property();
+		sex.setValue(s);
 	}
 
 	public int getBitValue() {
-		return bitValue.property().get();
+		return bitValue.getValue();
 	}
 
 	public void setBitValue(final int bitVal) {
-		bitValue.property().set(clip(bitVal));
-	}
-
-	public IntegerProperty getBitValueProperty() {
-		return bitValue.property();
+		bitValue.setValue(clip(bitVal));
 	}
 
 	private int clip(final int in) {
@@ -182,20 +173,6 @@ public abstract class Pot extends ConfigBase {
 	abstract public String getPhysicalValueUnits();
 
 	@Override
-	protected void buildChangeBinding() {
-		changeBinding = new LongBinding() {
-			{
-				super.bind(getBitValueProperty(), getTypeProperty(), getSexProperty());
-			}
-
-			@Override
-			protected long computeValue() {
-				return System.currentTimeMillis();
-			}
-		};
-	}
-
-	@Override
 	protected long computeBinaryRepresentation() {
 		return getBitValue();
 	}
@@ -210,11 +187,11 @@ public abstract class Pot extends ConfigBase {
 
 		GUISupport.addLabel(rootConfigLayout, getSex().toString(), null, null, null);
 
-		GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(), 10, (int) getMinBitValue(),
-			(int) getMaxBitValue(), NumberFormat.DECIMAL, EnumSet.of(NumberOptions.UNSIGNED), null);
+		GUISupport.addTextNumberField(rootConfigLayout, bitValue, 10, (int) getMinBitValue(), (int) getMaxBitValue(),
+			NumberFormat.DECIMAL, EnumSet.of(NumberOptions.UNSIGNED), null);
 
-		GUISupport.addTextNumberField(rootConfigLayout, getBitValueProperty(), getBitValueBits(),
-			(int) getMinBitValue(), (int) getMaxBitValue(), NumberFormat.BINARY,
+		GUISupport.addTextNumberField(rootConfigLayout, bitValue, getBitValueBits(), (int) getMinBitValue(),
+			(int) getMaxBitValue(), NumberFormat.BINARY,
 			EnumSet.of(NumberOptions.UNSIGNED, NumberOptions.LEFT_PADDING, NumberOptions.ZERO_PADDING), null);
 
 		final long minBitValueSlider = getMinBitValue();
@@ -227,13 +204,22 @@ public abstract class Pot extends ConfigBase {
 		final Label binaryRep = GUISupport.addLabel(rootConfigLayout, getBinaryRepresentationAsString(),
 			"Binary data to be sent to the device.", null, null);
 
-		getChangeBinding().addListener(new ChangeListener<Number>() {
+		// Add listener directly to the node, so that any change to a
+		// subordinate setting results in the update of the shift register
+		// display value.
+		configNode.addNodeListener(new SSHSNodeListener() {
 			@SuppressWarnings("unused")
 			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				binaryRep.setText(getBinaryRepresentationAsString());
+			public <V> void changed(SSHSNode node, Object userData, NodeEvents event, String key, Class<V> type,
+				V oldValue, V newValue) {
+				if (event == NodeEvents.ATTRIBUTE_MODIFIED) {
+					// On any subordinate attribute update, refresh the
+					// displayed value.
+					binaryRep.setText(getBinaryRepresentationAsString());
+				}
+
 			}
-		});
+		}, null);
 	}
 
 	@Override

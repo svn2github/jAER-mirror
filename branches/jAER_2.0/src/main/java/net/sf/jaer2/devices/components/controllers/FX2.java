@@ -4,11 +4,10 @@ import net.sf.jaer2.devices.USBDevice;
 import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.devices.config.ConfigBase.Address;
+import net.sf.jaer2.util.SSHSNode;
 import net.sf.jaer2.util.TypedMap;
 
 public class FX2 extends Controller {
-	private static final long serialVersionUID = -8642369183345730219L;
-
 	public static enum Ports implements Address {
 		PA0((short) ((0 << 8) + (1 << 0))),
 		PA1((short) ((0 << 8) + (1 << 1))),
@@ -84,12 +83,12 @@ public class FX2 extends Controller {
 		}
 	}
 
-	public FX2() {
-		this("FX2");
+	public FX2(final SSHSNode componentConfigNode) {
+		this("FX2", componentConfigNode);
 	}
 
-	public FX2(final String componentName) {
-		super(componentName);
+	public FX2(final String componentName, final SSHSNode componentConfigNode) {
+		super(componentName, componentConfigNode);
 	}
 
 	@Override

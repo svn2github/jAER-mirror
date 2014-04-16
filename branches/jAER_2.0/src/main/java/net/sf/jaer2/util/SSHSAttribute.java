@@ -13,7 +13,7 @@ public class SSHSAttribute<V> {
 			ATTRIBUTE_MODIFIED;
 		}
 
-		public void attributeChanged(SSHSNode node, Object userData, AttributeEvents event, V oldValue, V newValue);
+		public void changed(SSHSNode node, Object userData, AttributeEvents event, V oldValue, V newValue);
 	}
 
 	private final String key;
@@ -50,16 +50,30 @@ public class SSHSAttribute<V> {
 		lock.writeLock().lock();
 
 		// Update value and call listeners only if there really was a change.
-		if (!value.equals(val)) {
+		if (((value == null) && (val != null)) || ((value != null) && (val == null))
+			|| ((value != null) && (val != null) && !value.equals(val))) {
+			// Save old value for notifications.
+			V oldValue = value;
+
+			// Update the value here.
+			value = val;
+
+			// Notify all local listeners.
 			for (final PairRO<SSHSAttrListener<V>, Object> listener : listeners) {
-				listener.getFirst().attributeChanged(parentNode, listener.getSecond(),
-					AttributeEvents.ATTRIBUTE_MODIFIED, value, val);
+				listener.getFirst().changed(parentNode, listener.getSecond(), AttributeEvents.ATTRIBUTE_MODIFIED,
+					oldValue, val);
 			}
 
-			value = val;
-		}
+			lock.writeLock().unlock();
 
-		lock.writeLock().unlock();
+			// Notify upwards at the node level.
+			// TODO: fix class information passing.
+			parentNode.attributeModifiedNotification(key, null, oldValue, val);
+
+		}
+		else {
+			lock.writeLock().unlock();
+		}
 	}
 
 	public void addListener(final SSHSAttrListener<V> l, final Object userData) {

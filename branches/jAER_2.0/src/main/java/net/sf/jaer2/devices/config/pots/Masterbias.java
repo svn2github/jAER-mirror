@@ -4,10 +4,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.util.GUISupport;
+import net.sf.jaer2.util.SSHSNode;
 
 public class Masterbias extends ConfigBase {
-	private static final long serialVersionUID = -388498356207159346L;
-
 	/** the total multiplier for the n-type current mirror */
 	private float multiplier = (9f * 24f) / 4.8f;
 
@@ -53,8 +52,8 @@ public class Masterbias extends ConfigBase {
 	 */
 	private float kPrimeNFet = 170e-6f;
 
-	public Masterbias(final String name, final String description) {
-		super(name, description, 0);
+	public Masterbias(final String name, final String description, final SSHSNode configNode) {
+		super(name, description, configNode, 0);
 	}
 
 	public float getTotalResistance() {
@@ -182,11 +181,6 @@ public class Masterbias extends ConfigBase {
 	 */
 	public void setKPrimeNFet(final float kPrimeNFet) {
 		this.kPrimeNFet = kPrimeNFet;
-	}
-
-	@Override
-	protected void buildChangeBinding() {
-		// Nothing to do here for now.
 	}
 
 	@Override

@@ -8,8 +8,6 @@ import net.sf.jaer2.eventio.translators.Translator;
 import org.usb4java.Device;
 
 public class ApsDvs10IMU extends ApsDvs10 {
-	private static final long serialVersionUID = 3287324623698834991L;
-
 	@SuppressWarnings("hiding")
 	public static final short DID = 0x0100;
 
@@ -17,7 +15,7 @@ public class ApsDvs10IMU extends ApsDvs10 {
 		super(usbDevice, ApsDvs10IMU.DID);
 
 		// Add inertial measurement unit.
-		final Component invenSenseIMU = new InvenSense6050(0x68);
+		final Component invenSenseIMU = new InvenSense6050(getConfigNode(), 0x68);
 		invenSenseIMU.setProgrammer(getComponent(FX2.class, "FX2"));
 		addComponent(invenSenseIMU);
 	}

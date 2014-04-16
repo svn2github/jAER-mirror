@@ -1,12 +1,11 @@
 package net.sf.jaer2.devices.components.aer;
 
 import net.sf.jaer2.devices.components.Component;
+import net.sf.jaer2.util.SSHSNode;
 
 public abstract class AERChip extends Component {
-	private static final long serialVersionUID = 3997803229199934198L;
-
-	public AERChip(final String componentName) {
-		super(componentName);
+	public AERChip(final String componentName, final SSHSNode componentConfigNode) {
+		super(componentName, componentConfigNode);
 	}
 
 	public abstract int getSizeX();

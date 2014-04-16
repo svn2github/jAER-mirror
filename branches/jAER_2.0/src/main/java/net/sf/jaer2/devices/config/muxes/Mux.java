@@ -3,16 +3,16 @@ package net.sf.jaer2.devices.config.muxes;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.binding.LongBinding;
-import javafx.beans.property.ObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
 import net.sf.jaer2.devices.config.ConfigBase;
 import net.sf.jaer2.util.GUISupport;
-import net.sf.jaer2.util.serializable.SerializableObjectProperty;
+import net.sf.jaer2.util.SSHSAttribute;
+import net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener;
+import net.sf.jaer2.util.SSHSNode;
 
 public class Mux extends ConfigBase {
-	private static final long serialVersionUID = -9024024193567293234L;
-
 	public static final class MuxChannel {
 		private final int channel;
 		private final String name;
@@ -43,26 +43,23 @@ public class Mux extends ConfigBase {
 	}
 
 	private final List<MuxChannel> channels = new ArrayList<>();
+	private final SSHSAttribute<MuxChannel> configAttr;
 
-	private final SerializableObjectProperty<MuxChannel> channel = new SerializableObjectProperty<>();
+	public Mux(final String name, final String description, final SSHSNode configNode, final int numBits) {
+		super(name, description, configNode, numBits);
 
-	public Mux(final String name, final String description, final int numBits) {
-		super(name, description, numBits);
+		configAttr = configNode.getAttribute(name, MuxChannel.class);
 
 		// By default, no channel is selected.
 		setChannel(null);
 	}
 
 	public MuxChannel getChannel() {
-		return channel.property().get();
+		return configAttr.getValue();
 	}
 
 	public void setChannel(final MuxChannel chan) {
-		channel.property().set(chan);
-	}
-
-	public ObjectProperty<MuxChannel> getChannelProperty() {
-		return channel.property();
+		configAttr.setValue(chan);
 	}
 
 	public void put(final int chan, final String name) {
@@ -75,20 +72,6 @@ public class Mux extends ConfigBase {
 		}
 
 		channels.add(new MuxChannel(chan, name, code));
-	}
-
-	@Override
-	protected void buildChangeBinding() {
-		changeBinding = new LongBinding() {
-			{
-				super.bind(getChannelProperty());
-			}
-
-			@Override
-			protected long computeValue() {
-				return System.currentTimeMillis();
-			}
-		};
 	}
 
 	@Override
@@ -105,7 +88,24 @@ public class Mux extends ConfigBase {
 		// Show all options at once.
 		channelBox.setVisibleRowCount(channels.size());
 
-		channelBox.valueProperty().bindBidirectional(getChannelProperty());
+		channelBox.valueProperty().addListener(new ChangeListener<MuxChannel>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(final ObservableValue<? extends MuxChannel> changed, final MuxChannel oldVal,
+				final MuxChannel newVal) {
+				setChannel(newVal);
+			}
+		});
+
+		configAttr.addListener(new SSHSAttrListener<MuxChannel>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(SSHSNode node, Object userData,
+				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, MuxChannel oldValue,
+				MuxChannel newValue) {
+				channelBox.valueProperty().setValue(newValue);
+			}
+		}, null);
 	}
 
 	@Override

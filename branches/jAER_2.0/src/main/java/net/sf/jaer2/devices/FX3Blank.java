@@ -9,8 +9,6 @@ import net.sf.jaer2.eventio.translators.Translator;
 import org.usb4java.Device;
 
 public class FX3Blank extends USBDevice {
-	private static final long serialVersionUID = 2548240400991911365L;
-
 	@SuppressWarnings("hiding")
 	public static final short VID = 0x04B4;
 	@SuppressWarnings("hiding")
@@ -20,13 +18,13 @@ public class FX3Blank extends USBDevice {
 		super("FX3 Blank", "Blank FX3 device, needs to have firmware loaded onto it.", FX3Blank.VID, FX3Blank.PID,
 			USBDevice.DID, usbDevice);
 
-		final Controller fx3 = new FX3();
+		final Controller fx3 = new FX3(getConfigNode());
 		addComponent(fx3);
 
 		fx3.firmwareToRam(true);
 
 		// Size in KB and SPI address.
-		final Memory flash = new Flash_SPI(512, 0);
+		final Memory flash = new Flash_SPI(getConfigNode(),512, 0);
 		flash.setProgrammer(fx3);
 		addComponent(flash);
 

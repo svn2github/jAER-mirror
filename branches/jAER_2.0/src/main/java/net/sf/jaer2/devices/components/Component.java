@@ -1,6 +1,5 @@
 package net.sf.jaer2.devices.components;
 
-import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -10,20 +9,23 @@ import javafx.scene.layout.VBox;
 import net.sf.jaer2.devices.Device;
 import net.sf.jaer2.devices.components.controllers.Controller;
 import net.sf.jaer2.devices.config.ConfigBase;
+import net.sf.jaer2.util.SSHSNode;
 
-public abstract class Component implements Serializable {
-	private static final long serialVersionUID = 1690782428425851787L;
-
+public abstract class Component {
 	private final Map<String, ConfigBase> settingsMap = new LinkedHashMap<>();
 
 	private final String name;
 	private Controller programmer;
 	private Device device;
 
-	transient protected VBox rootConfigLayout;
+	/** Central configuration holding node. */
+	protected final SSHSNode configNode;
 
-	public Component(final String componentName) {
+	protected VBox rootConfigLayout;
+
+	public Component(final String componentName, final SSHSNode componentConfigNode) {
 		name = componentName;
+		configNode = componentConfigNode;
 	}
 
 	public final String getName() {

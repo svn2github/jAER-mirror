@@ -1,14 +1,14 @@
 package net.sf.jaer2.devices.components.controllers.logic;
 
+import net.sf.jaer2.util.SSHSNode;
+
 
 public class LatticeECP3 extends Logic {
-	private static final long serialVersionUID = 4245851377878757216L;
-
-	public LatticeECP3() {
-		this("LatticeECP3");
+	public LatticeECP3(final SSHSNode componentConfigNode) {
+		this("LatticeECP3", componentConfigNode);
 	}
 
-	public LatticeECP3(final String componentName) {
-		super(componentName);
+	public LatticeECP3(final String componentName, final SSHSNode componentConfigNode) {
+		super(componentName, componentConfigNode);
 	}
 }

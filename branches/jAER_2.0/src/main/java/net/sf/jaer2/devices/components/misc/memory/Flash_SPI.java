@@ -5,21 +5,21 @@ import java.nio.ByteBuffer;
 
 import net.sf.jaer2.devices.components.controllers.Controller.Command;
 import net.sf.jaer2.util.GUISupport;
+import net.sf.jaer2.util.SSHSNode;
 import net.sf.jaer2.util.TypedMap;
 
 import org.usb4java.BufferUtils;
 
 public class Flash_SPI extends Memory {
-	private static final long serialVersionUID = -5149304076077627592L;
-
 	private final int spiAddress;
 
-	public Flash_SPI(final int size, final int spiAddress) {
-		this("Flash", size, spiAddress);
+	public Flash_SPI(final SSHSNode componentConfigNode, int size, final int spiAddress) {
+		this("Flash", componentConfigNode, size, spiAddress);
 	}
 
-	public Flash_SPI(final String componentName, final int size, final int spiAddress) {
-		super(componentName, size);
+	public Flash_SPI(final String componentName, final SSHSNode componentConfigNode, final int size,
+		final int spiAddress) {
+		super(componentName, componentConfigNode, size);
 
 		this.spiAddress = spiAddress;
 	}

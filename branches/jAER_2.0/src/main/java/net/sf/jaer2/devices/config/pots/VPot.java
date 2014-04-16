@@ -3,22 +3,23 @@ package net.sf.jaer2.devices.config.pots;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import net.sf.jaer2.devices.components.misc.DAC;
+import net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener;
+import net.sf.jaer2.util.SSHSNode;
 
 public class VPot extends Pot {
-	private static final long serialVersionUID = 5367992495461216L;
-
 	/** the delta voltage to change by in increment and decrement methods */
 	private static final float VOLTAGE_CHANGE_VALUE_VOLTS = 0.005f;
 
 	private final DAC dac;
 
-	public VPot(final String name, final String description, final DAC dac, final Type type, final Sex sex) {
-		this(name, description, dac, type, sex, 0, 24);
+	public VPot(final String name, final String description, final SSHSNode configNode, final DAC dac, final Type type,
+		final Sex sex) {
+		this(name, description, configNode, dac, type, sex, 0, 24);
 	}
 
-	public VPot(final String name, final String description, final DAC dac, final Type type, final Sex sex,
-		final int defaultValue, final int numBits) {
-		super(name, description, type, sex, defaultValue, numBits);
+	public VPot(final String name, final String description, final SSHSNode configNode, final DAC dac, final Type type,
+		final Sex sex, final int defaultValue, final int numBits) {
+		super(name, description, configNode, type, sex, defaultValue, numBits);
 
 		this.dac = dac;
 	}
@@ -141,13 +142,14 @@ public class VPot extends Pot {
 			}
 		});
 
-		getBitValueProperty().addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
+		bitValue.addListener(new SSHSAttrListener<Integer>() {
 			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				mainSlider.setValue((int) Math.round((newVal.doubleValue() / getMaxBitValue()) * mainSlider.getMax()));
+			public void changed(SSHSNode node, Object userData,
+				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Integer oldValue,
+				Integer newValue) {
+				mainSlider.setValue((int) Math.round((newValue.doubleValue() / getMaxBitValue()) * mainSlider.getMax()));
 			}
-		});
+		}, null);
 	}
 
 	@Override

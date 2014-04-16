@@ -123,7 +123,7 @@ public final class ConfigBitTristate extends ConfigBase {
 
 		configAttr.addListener(new SSHSAttrListener<Tristate>() {
 			@Override
-			public void attributeChanged(final SSHSNode node, final Object userData, final AttributeEvents event,
+			public void changed(final SSHSNode node, final Object userData, final AttributeEvents event,
 				final Tristate oldValue, final Tristate newValue) {
 				triBox.valueProperty().setValue(newValue);
 			}

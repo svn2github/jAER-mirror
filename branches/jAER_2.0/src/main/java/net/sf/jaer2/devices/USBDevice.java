@@ -8,8 +8,6 @@ import org.usb4java.DeviceHandle;
 import org.usb4java.LibUsb;
 
 public abstract class USBDevice extends Device {
-	private static final long serialVersionUID = -1443942547496897821L;
-
 	// Default VID/PID/DID from Thesycon.
 	public static final short VID = 0x152A;
 	public static final short PID = (short) 0x8400;

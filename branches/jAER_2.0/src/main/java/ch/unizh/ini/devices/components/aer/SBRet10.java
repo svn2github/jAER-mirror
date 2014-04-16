@@ -16,21 +16,21 @@ import net.sf.jaer2.eventio.events.FrameEvent;
 import net.sf.jaer2.eventio.events.PolarityEvent;
 import net.sf.jaer2.eventio.events.SpecialEvent;
 import net.sf.jaer2.eventio.translators.DeviceTranslator;
+import net.sf.jaer2.util.SSHSNode;
 
 import com.google.common.collect.ImmutableList;
 
 public class SBRet10 extends AERChip {
-	private static final long serialVersionUID = -4741673273319613810L;
-
-	public SBRet10() {
-		this("SBRet10");
+	public SBRet10(final SSHSNode componentConfigNode) {
+		this("SBRet10", componentConfigNode);
 	}
 
-	public SBRet10(final String componentName) {
-		super(componentName);
+	public SBRet10(final String componentName, final SSHSNode componentConfigNode) {
+		super(componentName, componentConfigNode);
 
 		// Masterbias needs to be added first!
-		final Masterbias masterbias = new Masterbias("Masterbias", "Masterbias for on-chip bias generator.");
+		final Masterbias masterbias = new Masterbias("Masterbias", "Masterbias for on-chip bias generator.",
+			componentConfigNode);
 
 		// Estimated from tox=42A, mu_n=670 cm^2/Vs.
 		masterbias.setKPrimeNFet(55e-3f);
@@ -41,34 +41,56 @@ public class SBRet10 extends AERChip {
 
 		addSetting(masterbias);
 
-		addSetting(new AddressedIPotCoarseFine("DiffBn", ".", 0, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("OnBn", ".", 1, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("OffBn", ".", 2, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("ApsCasEpc", ".", 3, masterbias, Pot.Type.CASCODE, Pot.Sex.P));
-		addSetting(new AddressedIPotCoarseFine("DiffCasBnc", ".", 4, masterbias, Pot.Type.CASCODE, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("ApsROSFBn", ".", 5, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("LocalBufBn", ".", 6, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("PixInvBn", ".", 7, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("PrBp", ".", 8, masterbias, Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new AddressedIPotCoarseFine("PrSFBp", ".", 9, masterbias, Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new AddressedIPotCoarseFine("RefrBp", ".", 10, masterbias, Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new AddressedIPotCoarseFine("AEPdBn", ".", 11, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("LcolTimeoutBn", ".", 12, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("AEPuXBp", ".", 13, masterbias, Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new AddressedIPotCoarseFine("AEPuYBp", ".", 14, masterbias, Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new AddressedIPotCoarseFine("IFThrBn", ".", 15, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("IFRefrBn", ".", 16, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("PadFollBn", ".", 17, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("apsOverflowLevel", ".", 18, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
-		addSetting(new AddressedIPotCoarseFine("biasBuffer", ".", 19, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("DiffBn", ".", componentConfigNode, 0, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("OnBn", ".", componentConfigNode, 1, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("OffBn", ".", componentConfigNode, 2, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("ApsCasEpc", ".", componentConfigNode, 3, masterbias, Pot.Type.CASCODE,
+			Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("DiffCasBnc", ".", componentConfigNode, 4, masterbias, Pot.Type.CASCODE,
+			Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("ApsROSFBn", ".", componentConfigNode, 5, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("LocalBufBn", ".", componentConfigNode, 6, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("PixInvBn", ".", componentConfigNode, 7, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("PrBp", ".", componentConfigNode, 8, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("PrSFBp", ".", componentConfigNode, 9, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("RefrBp", ".", componentConfigNode, 10, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("AEPdBn", ".", componentConfigNode, 11, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("LcolTimeoutBn", ".", componentConfigNode, 12, masterbias,
+			Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("AEPuXBp", ".", componentConfigNode, 13, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("AEPuYBp", ".", componentConfigNode, 14, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.P));
+		addSetting(new AddressedIPotCoarseFine("IFThrBn", ".", componentConfigNode, 15, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("IFRefrBn", ".", componentConfigNode, 16, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("PadFollBn", ".", componentConfigNode, 17, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("apsOverflowLevel", ".", componentConfigNode, 18, masterbias,
+			Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new AddressedIPotCoarseFine("biasBuffer", ".", componentConfigNode, 19, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.N));
 
-		addSetting(new ShiftedSourceBiasCoarseFine("SSP", ".", 20, masterbias, Pot.Type.NORMAL, Pot.Sex.P));
-		addSetting(new ShiftedSourceBiasCoarseFine("SSN", ".", 21, masterbias, Pot.Type.NORMAL, Pot.Sex.N));
+		addSetting(new ShiftedSourceBiasCoarseFine("SSP", ".", componentConfigNode, 20, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.P));
+		addSetting(new ShiftedSourceBiasCoarseFine("SSN", ".", componentConfigNode, 21, masterbias, Pot.Type.NORMAL,
+			Pot.Sex.N));
 
 		final ShiftRegisterContainer chipSR = new ShiftRegisterContainer("ChipSR",
-			"ShiftRegister for on-chip configuration (muxes, settings).", 56);
+			"ShiftRegister for on-chip configuration (muxes, settings).", componentConfigNode, 56);
 
-		final Mux digMux3 = new Mux("DigMux3", ".", 4);
+		final Mux digMux3 = new Mux("DigMux3", ".", chipSR.getConfigNode(), 4);
 
 		digMux3.put(0, "AY179right");
 		digMux3.put(1, "Acol");
@@ -89,7 +111,7 @@ public class SBRet10 extends AERChip {
 
 		chipSR.addSetting(digMux3);
 
-		final Mux digMux2 = new Mux("DigMux2", ".", 4);
+		final Mux digMux2 = new Mux("DigMux2", ".", chipSR.getConfigNode(), 4);
 
 		digMux2.put(0, "AY179right");
 		digMux2.put(1, "Acol");
@@ -110,7 +132,7 @@ public class SBRet10 extends AERChip {
 
 		chipSR.addSetting(digMux2);
 
-		final Mux digMux1 = new Mux("DigMux1", ".", 4);
+		final Mux digMux1 = new Mux("DigMux1", ".", chipSR.getConfigNode(), 4);
 
 		digMux1.put(0, "AY179right");
 		digMux1.put(1, "Acol");
@@ -131,7 +153,7 @@ public class SBRet10 extends AERChip {
 
 		chipSR.addSetting(digMux1);
 
-		final Mux digMux0 = new Mux("DigMux0", ".", 4);
+		final Mux digMux0 = new Mux("DigMux0", ".", chipSR.getConfigNode(), 4);
 
 		digMux0.put(0, "AY179right");
 		digMux0.put(1, "Acol");
@@ -153,20 +175,20 @@ public class SBRet10 extends AERChip {
 		chipSR.addSetting(digMux0);
 
 		final ShiftRegisterContainer chipConfigSR = new ShiftRegisterContainer("chipConfigSR",
-			"ShiftRegister for on-chip configuration.", 24);
+			"ShiftRegister for on-chip configuration.", chipSR.getConfigNode(), 24);
 
 		chipConfigSR.addSetting(new ShiftRegisterContainer.PlaceholderBits("Placeholder", 17));
-		chipConfigSR.addSetting(new ConfigBit("globalShutter", ".", false));
-		chipConfigSR.addSetting(new ConfigBit("useAout", ".", true));
-		chipConfigSR.addSetting(new ConfigBit("nArow", ".", false));
-		chipConfigSR.addSetting(new ConfigBit("hotPixelSuppression", ".", false));
-		chipConfigSR.addSetting(new ConfigBit("resetTestpixel", ".", true));
-		chipConfigSR.addSetting(new ConfigBit("typeNCalib", ".", false));
-		chipConfigSR.addSetting(new ConfigBit("resetCalib", ".", true));
+		chipConfigSR.addSetting(new ConfigBit("globalShutter", ".", chipConfigSR.getConfigNode(), false));
+		chipConfigSR.addSetting(new ConfigBit("useAout", ".", chipConfigSR.getConfigNode(), true));
+		chipConfigSR.addSetting(new ConfigBit("nArow", ".", chipConfigSR.getConfigNode(), false));
+		chipConfigSR.addSetting(new ConfigBit("hotPixelSuppression", ".", chipConfigSR.getConfigNode(), false));
+		chipConfigSR.addSetting(new ConfigBit("resetTestpixel", ".", chipConfigSR.getConfigNode(), true));
+		chipConfigSR.addSetting(new ConfigBit("typeNCalib", ".", chipConfigSR.getConfigNode(), false));
+		chipConfigSR.addSetting(new ConfigBit("resetCalib", ".", chipConfigSR.getConfigNode(), true));
 
 		chipSR.addSetting(chipConfigSR);
 
-		final Mux anaMux2 = new Mux("AnaMux2", ".", 4);
+		final Mux anaMux2 = new Mux("AnaMux2", ".", chipSR.getConfigNode(), 4);
 
 		anaMux2.put(0, "on", 1);
 		anaMux2.put(1, "off", 3);
@@ -179,7 +201,7 @@ public class SBRet10 extends AERChip {
 
 		chipSR.addSetting(anaMux2);
 
-		final Mux anaMux1 = new Mux("AnaMux1", ".", 4);
+		final Mux anaMux1 = new Mux("AnaMux1", ".", chipSR.getConfigNode(), 4);
 
 		anaMux1.put(0, "on", 1);
 		anaMux1.put(1, "off", 3);
@@ -192,7 +214,7 @@ public class SBRet10 extends AERChip {
 
 		chipSR.addSetting(anaMux1);
 
-		final Mux anaMux0 = new Mux("AnaMux0", ".", 4);
+		final Mux anaMux0 = new Mux("AnaMux0", ".", chipSR.getConfigNode(), 4);
 
 		anaMux0.put(0, "on", 1);
 		anaMux0.put(1, "off", 3);
@@ -205,7 +227,7 @@ public class SBRet10 extends AERChip {
 
 		chipSR.addSetting(anaMux0);
 
-		final Mux biasOutMux = new Mux("BiasOutMux", ".", 4);
+		final Mux biasOutMux = new Mux("BiasOutMux", ".", chipSR.getConfigNode(), 4);
 
 		biasOutMux.put(0, "IFThrBn");
 		biasOutMux.put(1, "AEPuYBp");

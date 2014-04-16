@@ -1,6 +1,5 @@
 package net.sf.jaer2.devices;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,20 +15,22 @@ import javafx.stage.Screen;
 import net.sf.jaer2.devices.components.Component;
 import net.sf.jaer2.eventio.translators.Translator;
 import net.sf.jaer2.util.GUISupport;
+import net.sf.jaer2.util.SSHS;
+import net.sf.jaer2.util.SSHSNode;
 
-public abstract class Device implements Serializable {
-	private static final long serialVersionUID = -4456253680300169997L;
-
+public abstract class Device {
 	private final Map<String, Component> componentsMap = new LinkedHashMap<>();
 
 	private final String name;
 	private final String description;
+	private final SSHSNode configNode;
 
 	transient private VBox rootConfigLayout;
 
 	public Device(final String deviceName, final String deviceDescription) {
 		name = deviceName;
 		description = deviceDescription;
+		configNode = SSHS.GLOBAL.getNode(String.format("/devices/%s/", deviceName));
 	}
 
 	public String getName() {
@@ -38,6 +39,10 @@ public abstract class Device implements Serializable {
 
 	public String getDescription() {
 		return description;
+	}
+
+	public SSHSNode getConfigNode() {
+		return configNode;
 	}
 
 	protected void addComponent(final Component c) {

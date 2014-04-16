@@ -1,23 +1,18 @@
 package net.sf.jaer2.devices.components.misc;
 
 import net.sf.jaer2.devices.components.Component;
+import net.sf.jaer2.util.SSHSNode;
 
 public class DAC extends Component {
-	private static final long serialVersionUID = 419464332057192955L;
-
 	private final int numChannels;
 	private final int resolutionBits;
 	private final float refMinVolts;
 	private final float refMaxVolts;
 	private final float vdd;
 
-	public DAC(int numChannels, int resolutionBits, float refMinVolts, float refMaxVolts, float vdd) {
-		this("DAC", numChannels, resolutionBits, refMinVolts, refMaxVolts, vdd);
-	}
-
-	public DAC(final String componentName, int numChannels, int resolutionBits, float refMinVolts, float refMaxVolts,
-		float vdd) {
-		super(componentName);
+	public DAC(final String componentName, final SSHSNode componentConfigNode, int numChannels, int resolutionBits,
+		float refMinVolts, float refMaxVolts, float vdd) {
+		super(componentName, componentConfigNode);
 
 		this.numChannels = numChannels;
 		this.resolutionBits = resolutionBits;

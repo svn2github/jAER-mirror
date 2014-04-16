@@ -2,23 +2,24 @@ package net.sf.jaer2.devices.config.pots;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener;
+import net.sf.jaer2.util.SSHSNode;
 
 public class IPot extends Pot {
-	private static final long serialVersionUID = 8770260772132405397L;
-
 	/** Fraction that bias current changes on increment or decrement. */
 	private static final float CHANGE_FRACTION = 0.1f;
 
 	/** The Masterbias supplying reference current to this bias. */
 	private final Masterbias masterbias;
 
-	public IPot(final String name, final String description, final Masterbias masterbias, final Type type, final Sex sex) {
-		this(name, description, masterbias, type, sex, 0, 24);
+	public IPot(final String name, final String description, final SSHSNode configNode, final Masterbias masterbias,
+		final Type type, final Sex sex) {
+		this(name, description, configNode, masterbias, type, sex, 0, 24);
 	}
 
-	public IPot(final String name, final String description, final Masterbias masterbias, final Type type,
-		final Sex sex, final int defaultValue, final int numBits) {
-		super(name, description, type, sex, defaultValue, numBits);
+	public IPot(final String name, final String description, final SSHSNode configNode, final Masterbias masterbias,
+		final Type type, final Sex sex, final int defaultValue, final int numBits) {
+		super(name, description, configNode, type, sex, defaultValue, numBits);
 
 		this.masterbias = masterbias;
 	}
@@ -144,13 +145,14 @@ public class IPot extends Pot {
 			}
 		});
 
-		getBitValueProperty().addListener(new ChangeListener<Number>() {
-			@SuppressWarnings("unused")
+		bitValue.addListener(new SSHSAttrListener<Integer>() {
 			@Override
-			public void changed(final ObservableValue<? extends Number> val, final Number oldVal, final Number newVal) {
-				mainSlider.setValue((int) Math.round((newVal.doubleValue() / getMaxBitValue()) * mainSlider.getMax()));
+			public void changed(SSHSNode node, Object userData,
+				net.sf.jaer2.util.SSHSAttribute.SSHSAttrListener.AttributeEvents event, Integer oldValue,
+				Integer newValue) {
+				mainSlider.setValue((int) Math.round((newValue.doubleValue() / getMaxBitValue()) * mainSlider.getMax()));
 			}
-		});
+		}, null);
 	}
 
 	@Override

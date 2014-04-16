@@ -1,15 +1,10 @@
 package net.sf.jaer2.devices.components.misc;
 
 import net.sf.jaer2.devices.components.Component;
+import net.sf.jaer2.util.SSHSNode;
 
 public class ADC extends Component {
-	private static final long serialVersionUID = -401169611135640256L;
-
-	public ADC() {
-		this("ADC");
-	}
-
-	public ADC(final String componentName) {
-		super(componentName);
+	public ADC(final String componentName, final SSHSNode componentConfigNode) {
+		super(componentName, componentConfigNode);
 	}
 }
