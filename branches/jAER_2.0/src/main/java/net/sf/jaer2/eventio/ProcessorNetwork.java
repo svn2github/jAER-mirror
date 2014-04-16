@@ -11,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import net.sf.jaer2.util.GUISupport;
-import net.sf.jaer2.util.XMLconf;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -135,7 +134,7 @@ public final class ProcessorNetwork implements Serializable {
 			"/images/icons/Import Document.png", new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent event) {
-					addChain(XMLconf.fromXML(ProcessorChain.class));
+					// TODO: SSHS import.
 				}
 			});
 

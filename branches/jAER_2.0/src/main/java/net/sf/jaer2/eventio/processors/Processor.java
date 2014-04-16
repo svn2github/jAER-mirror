@@ -30,12 +30,9 @@ import net.sf.jaer2.util.CollectionsUpdate;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.PairRO;
 import net.sf.jaer2.util.Reflections;
-import net.sf.jaer2.util.XMLconf;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.ImmutableList;
 
 public abstract class Processor implements Runnable, Serializable {
 	private static final long serialVersionUID = -4105000625025892690L;
@@ -472,16 +469,7 @@ public abstract class Processor implements Runnable, Serializable {
 			"/images/icons/Export To Document.png", new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent event) {
-					XMLconf.toXML(
-						Processor.this,
-						ImmutableList.of(PairRO.<Class<?>, String> of(Processor.class, "prevProcessor"),
-							PairRO.<Class<?>, String> of(Processor.class, "nextProcessor"),
-							PairRO.<Class<?>, String> of(Processor.class, "processorId"),
-							PairRO.<Class<?>, String> of(Processor.class, "compatibleInputTypes"),
-							PairRO.<Class<?>, String> of(Processor.class, "additionalOutputTypes"),
-							PairRO.<Class<?>, String> of(Processor.class, "inputStreams"),
-							PairRO.<Class<?>, String> of(Processor.class, "selectedInputStreams"),
-							PairRO.<Class<?>, String> of(Processor.class, "outputStreams")));
+					// TODO: SSHS export.
 				}
 			});
 

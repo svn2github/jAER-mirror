@@ -30,7 +30,6 @@ import net.sf.jaer2.eventio.processors.Processor.ProcessorTypes;
 import net.sf.jaer2.eventio.translators.Translator;
 import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Reflections;
-import net.sf.jaer2.util.XMLconf;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -197,7 +196,7 @@ public final class ProcessorChain implements Serializable {
 			"/images/icons/Export To Document.png", new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent event) {
-					XMLconf.toXML(ProcessorChain.this, null);
+					// TODO: SSHS export.
 				}
 			});
 
@@ -243,13 +242,13 @@ public final class ProcessorChain implements Serializable {
 					positionChooserDialogOK.add(new Runnable() {
 						@Override
 						public void run() {
-							int position = 0;
+							/*int position = 0;
 
 							if (!processorPositionAtBeginning.isSelected()) {
 								position = processors.indexOf(processorPositionChooser.getValue()) + 1;
-							}
+							}*/
 
-							addProcessor(XMLconf.fromXML(Processor.class), position);
+							// TODO: SSHS import.
 						}
 					});
 

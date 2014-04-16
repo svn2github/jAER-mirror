@@ -162,7 +162,7 @@ public final class SSHSNode {
 		return returnValue;
 	}
 
-	<V> void attributeModifiedNotification(final String key) {
+	void attributeModifiedNotification(final String key) {
 		nodeLock.readLock().lock();
 		for (final PairRO<SSHSNodeListener, Object> listener : nodeListeners) {
 			listener.getFirst().changed(this, listener.getSecond(), NodeEvents.ATTRIBUTE_MODIFIED, key);
@@ -248,8 +248,8 @@ public final class SSHSNode {
 
 			attr.setAttribute("key", entry.getKey().getFirst());
 			attr.setAttribute("type", SSHSHelper.typeToStringConverter(entry.getKey().getSecond()));
-			attr.setNodeValue(SSHSHelper
-				.valueToStringConverter(entry.getKey().getSecond(), entry.getValue().getValue()));
+			attr.setTextContent(SSHSHelper.valueToStringConverter(entry.getKey().getSecond(), entry.getValue()
+				.getValue()));
 		}
 
 		// And lastly recurse down to the children.
@@ -333,7 +333,7 @@ public final class SSHSNode {
 			// Get the needed values.
 			final String key = attr.getAttribute("key");
 			final String type = attr.getAttribute("type");
-			final String value = attr.getNodeValue();
+			final String value = attr.getTextContent();
 
 			if (!stringToNodeConverter(key, type, value)) {
 				throw new XMLParseException(String.format("Failed to convert attribute %s of type %s with value %s.",
