@@ -3,8 +3,6 @@ package net.sf.jaer2.eventio.events;
 import java.util.Arrays;
 
 public class FrameEvent extends Event {
-	private static final long serialVersionUID = 615761097757470341L;
-
 	// Timestamps
 	private int tsStartOfExposure;
 	private int tsEndOfExposure;

@@ -1,15 +1,12 @@
 package net.sf.jaer2.eventio.eventpackets.raw;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import net.sf.jaer2.eventio.events.raw.RawEvent;
 
-public final class RawEventPacket implements Iterable<RawEvent>, Serializable {
-	private static final long serialVersionUID = -1911622471708161982L;
-
+public final class RawEventPacket implements Iterable<RawEvent> {
 	private static final int DEFAULT_EVENT_CAPACITY = 2048;
 
 	// RawEvents array and index into it for adding new elements.

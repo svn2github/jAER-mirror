@@ -17,9 +17,9 @@ public abstract class USBDevice extends Device {
 	protected final short devPID;
 	protected final short devDID;
 
-	transient protected final org.usb4java.Device usbDevice;
-	transient protected final DeviceHandle usbDeviceHandle;
-	transient private boolean isOpen = false;
+	protected final org.usb4java.Device usbDevice;
+	protected final DeviceHandle usbDeviceHandle;
+	private boolean isOpen = false;
 
 	public USBDevice(final String deviceName, final String deviceDescription, final short deviceVID,
 		final short devicePID, final short deviceDID, final org.usb4java.Device device) {

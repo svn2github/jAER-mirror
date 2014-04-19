@@ -1,69 +1,43 @@
 package net.sf.jaer2.eventio.sinks;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import net.sf.jaer2.util.GUISupport;
-import net.sf.jaer2.util.Reflections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class Sink implements Serializable {
-	private static final long serialVersionUID = 9065706462825717879L;
-
+public abstract class Sink {
 	/** Local logger for log messages. */
 	protected static final Logger logger = LoggerFactory.getLogger(Sink.class);
 
 	/** Main GUI layout - Vertical Box. */
-	transient private final VBox rootLayout = new VBox(0);
+	private final VBox rootLayout = new VBox(0);
 	/** Main GUI layout for Sub-Classes - Vertical Box. */
-	transient protected final VBox rootLayoutChildren = new VBox(0);
+	protected final VBox rootLayoutChildren = new VBox(0);
 
 	/** Main GUI GUI: tasks to execute when related data changes. */
-	transient protected final List<Runnable> rootTasksUIRefresh = new ArrayList<>(8);
+	protected final List<Runnable> rootTasksUIRefresh = new ArrayList<>(8);
 
 	/** Configuration GUI layout - Vertical Box. */
-	transient private final VBox rootConfigLayout = new VBox(0);
+	private final VBox rootConfigLayout = new VBox(0);
 	/** Configuration GUI layout for Sub-Classes - Vertical Box. */
-	transient protected final VBox rootConfigLayoutChildren = new VBox(0);
+	protected final VBox rootConfigLayoutChildren = new VBox(0);
 
 	/** Configuration GUI: tasks to execute before showing the dialog. */
-	transient protected final List<Runnable> rootConfigTasksDialogRefresh = new ArrayList<>(8);
+	protected final List<Runnable> rootConfigTasksDialogRefresh = new ArrayList<>(8);
 	/** Configuration GUI: tasks to execute on clicking OK. */
-	transient protected final List<Runnable> rootConfigTasksDialogOK = new ArrayList<>(8);
+	protected final List<Runnable> rootConfigTasksDialogOK = new ArrayList<>(8);
 
 	public Sink() {
-		CommonConstructor();
-	}
-
-	private void CommonConstructor() {
 		// Build GUIs for this processor, always in this order!
 		buildConfigGUI();
 		buildGUI();
 
 		Sink.logger.debug("Created Sink {}.", this);
-	}
-
-	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
-		in.defaultReadObject();
-
-		// Restore transient fields.
-		Reflections.setFinalField(this, "rootLayout", new VBox(0));
-		Reflections.setFinalField(this, "rootLayoutChildren", new VBox(0));
-		Reflections.setFinalField(this, "rootTasksUIRefresh", new ArrayList<Runnable>(8));
-		Reflections.setFinalField(this, "rootConfigLayout", new VBox(0));
-		Reflections.setFinalField(this, "rootConfigLayoutChildren", new VBox(0));
-		Reflections.setFinalField(this, "rootConfigTasksDialogRefresh", new ArrayList<Runnable>(8));
-		Reflections.setFinalField(this, "rootConfigTasksDialogOK", new ArrayList<Runnable>(8));
-
-		// Do construction.
-		CommonConstructor();
 	}
 
 	/**

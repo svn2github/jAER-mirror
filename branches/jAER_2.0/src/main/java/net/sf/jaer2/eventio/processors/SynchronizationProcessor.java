@@ -1,7 +1,5 @@
 package net.sf.jaer2.eventio.processors;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,15 +7,9 @@ import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
 import net.sf.jaer2.eventio.events.Event;
 
 public final class SynchronizationProcessor extends EventProcessor {
-	private static final long serialVersionUID = -5426769954051929383L;
-
 	public SynchronizationProcessor() {
 		super();
 
-		CommonConstructor();
-	}
-
-	private void CommonConstructor() {
 		// Setup a change listener on the selected input streams for this
 		// Processor. If they change, the change shall be reflected in the types
 		// this Processor can output, since synchronization is solved for the
@@ -29,13 +21,6 @@ public final class SynchronizationProcessor extends EventProcessor {
 				rebuildStreamSets();
 			}
 		});
-	}
-
-	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
-		in.defaultReadObject();
-
-		// Do construction.
-		CommonConstructor();
 	}
 
 	@Override

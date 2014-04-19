@@ -25,7 +25,7 @@ public abstract class Device {
 	private final String description;
 	private final SSHSNode configNode;
 
-	transient private VBox rootConfigLayout;
+	private VBox rootConfigLayout;
 
 	public Device(final String deviceName, final String deviceDescription) {
 		name = deviceName;

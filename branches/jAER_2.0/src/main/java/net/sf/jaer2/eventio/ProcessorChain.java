@@ -1,8 +1,5 @@
 package net.sf.jaer2.eventio;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -34,19 +31,17 @@ import net.sf.jaer2.util.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class ProcessorChain implements Serializable {
-	private static final long serialVersionUID = -3333908358242929812L;
-
+public final class ProcessorChain  {
 	/** Local logger for log messages. */
 	private static final Logger logger = LoggerFactory.getLogger(ProcessorChain.class);
 
 	/** Chain identification ID. */
-	transient private final int chainId;
+	private final int chainId;
 	/** Chain identification Name. */
 	private final String chainName;
 
 	/** Network this chain belongs to. */
-	transient private ProcessorNetwork parentNetwork;
+	private ProcessorNetwork parentNetwork;
 
 	/** List of all processors in this chain. */
 	private final List<Processor> processors = new ArrayList<>();
@@ -58,51 +53,24 @@ public final class ProcessorChain implements Serializable {
 	private final ConcurrentMap<Integer, Processor> idToProcessorMap = new ConcurrentHashMap<>();
 
 	/** Commit Change Signal. */
-	transient private final BooleanProperty changesToCommit = new SimpleBooleanProperty(false);
+	private final BooleanProperty changesToCommit = new SimpleBooleanProperty(false);
 
 	/** Main GUI layout - Horizontal Box. */
-	transient private HBox rootLayout;
+	private HBox rootLayout;
 
 	/** Configuration GUI layout - Vertical Box. */
-	transient private VBox rootConfigLayout;
+	private VBox rootConfigLayout;
 
 	/** Configuration GUI: tasks to execute before showing the dialog. */
-	transient private final List<Runnable> rootConfigTasksDialogRefresh = new ArrayList<>();
+	private final List<Runnable> rootConfigTasksDialogRefresh = new ArrayList<>();
 	/** Configuration GUI: tasks to execute on clicking OK. */
-	transient private final List<Runnable> rootConfigTasksDialogOK = new ArrayList<>();
+	private final List<Runnable> rootConfigTasksDialogOK = new ArrayList<>();
 
 	public ProcessorChain() {
 		chainId = ProcessorNetwork.getNextAvailableChainID();
 		chainName = getClass().getSimpleName();
 
-		CommonConstructor();
-	}
-
-	private void CommonConstructor() {
 		ProcessorChain.logger.debug("Created ProcessorChain {}.", this);
-	}
-
-	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
-		in.defaultReadObject();
-
-		// Restore transient fields.
-		Reflections.setFinalField(this, "chainId", ProcessorNetwork.getNextAvailableChainID());
-		Reflections.setFinalField(this, "changesToCommit", new SimpleBooleanProperty(false));
-		Reflections.setFinalField(this, "rootConfigTasksDialogRefresh", new ArrayList<Runnable>());
-		Reflections.setFinalField(this, "rootConfigTasksDialogOK", new ArrayList<Runnable>());
-
-		// Update processors to set parent chain to this current instance.
-		for (final Processor proc : processors) {
-			proc.setParentChain(this);
-		}
-
-		// Ensure the full stream sets are rebuilt and displayed.
-		if (!processors.isEmpty()) {
-			processors.get(0).rebuildStreamSets();
-		}
-
-		// Do construction.
-		CommonConstructor();
 	}
 
 	/**

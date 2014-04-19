@@ -1,11 +1,8 @@
 package net.sf.jaer2.eventio.events;
 
-import java.io.Serializable;
 
-public abstract class Event implements Serializable, Comparable<Event> {
-	private static final long serialVersionUID = 6776816266258337111L;
-
-	transient private short sourceID = 0;
+public abstract class Event implements Comparable<Event> {
+	private short sourceID = 0;
 	private boolean valid = true;
 
 	private final int timestamp;

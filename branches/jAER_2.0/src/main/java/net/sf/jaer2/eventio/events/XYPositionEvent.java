@@ -1,8 +1,6 @@
 package net.sf.jaer2.eventio.events;
 
 public abstract class XYPositionEvent extends Event {
-	private static final long serialVersionUID = 5576838970200124104L;
-
 	private short x;
 	private short y;
 

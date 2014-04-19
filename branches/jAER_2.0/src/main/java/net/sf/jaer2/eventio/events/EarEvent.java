@@ -1,8 +1,6 @@
 package net.sf.jaer2.eventio.events;
 
 public class EarEvent extends Event {
-	private static final long serialVersionUID = 3374862098656713211L;
-
 	public static enum Ear {
 		LEFT_FRONT,
 		RIGHT_FRONT,

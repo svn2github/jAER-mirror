@@ -1,8 +1,5 @@
 package net.sf.jaer2.eventio.processors;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -34,9 +31,7 @@ import net.sf.jaer2.util.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class Processor implements Runnable, Serializable {
-	private static final long serialVersionUID = -4105000625025892690L;
-
+public abstract class Processor implements Runnable {
 	/**
 	 * Enumeration containing the available processor types and their string
 	 * representations for printing.
@@ -67,7 +62,7 @@ public abstract class Processor implements Runnable, Serializable {
 	protected final String processorName;
 
 	/** Chain this processor belongs to. */
-	transient protected ProcessorChain parentChain;
+	protected ProcessorChain parentChain;
 	/** Previous processor in the ordered chain. */
 	private Processor prevProcessor;
 	/** Next processor in the ordered chain. */
@@ -107,43 +102,39 @@ public abstract class Processor implements Runnable, Serializable {
 	 * selectedInputStreams, for use inside processors, and as such limited to
 	 * read-only operations.
 	 */
-	transient protected final List<Stream> selectedInputStreamsReadOnly = Collections
+	protected final List<Stream> selectedInputStreamsReadOnly = Collections
 		.unmodifiableList(selectedInputStreams);
 
 	/** Queue containing all containers to process. */
-	transient protected final BlockingQueue<EventPacketContainer> workQueue = new ArrayBlockingQueue<>(16);
+	protected final BlockingQueue<EventPacketContainer> workQueue = new ArrayBlockingQueue<>(16);
 	/**
 	 * List containing all containers that are currently being worked on (inside
 	 * the Processor, not thread-safe!). Never bigger than {@link #workQueue}.
 	 */
-	transient protected final List<EventPacketContainer> workToProcess = new ArrayList<>(16);
+	protected final List<EventPacketContainer> workToProcess = new ArrayList<>(16);
 
 	/** Main GUI layout - Horizontal Box. */
-	transient private HBox rootLayout;
+	private HBox rootLayout;
 	/** Main GUI layout for Sub-Classes - Vertical Box. */
-	transient protected VBox rootLayoutChildren;
+	protected VBox rootLayoutChildren;
 
 	/** Main GUI GUI: tasks to execute when related data changes. */
-	transient protected final List<Runnable> rootTasksUIRefresh = new ArrayList<>();
+	protected final List<Runnable> rootTasksUIRefresh = new ArrayList<>();
 
 	/** Configuration GUI layout - Vertical Box. */
-	transient private VBox rootConfigLayout;
+	private VBox rootConfigLayout;
 	/** Configuration GUI layout for Sub-Classes - Vertical Box. */
-	transient protected VBox rootConfigLayoutChildren;
+	protected VBox rootConfigLayoutChildren;
 
 	/** Configuration GUI: tasks to execute before showing the dialog. */
-	transient protected final List<Runnable> rootConfigTasksDialogRefresh = new ArrayList<>();
+	protected final List<Runnable> rootConfigTasksDialogRefresh = new ArrayList<>();
 	/** Configuration GUI: tasks to execute on clicking OK. */
-	transient protected final List<Runnable> rootConfigTasksDialogOK = new ArrayList<>();
+	protected final List<Runnable> rootConfigTasksDialogOK = new ArrayList<>();
 
 	public Processor() {
 		processorId = 0;
 		processorName = getClass().getSimpleName();
 
-		CommonConstructor();
-	}
-
-	private void CommonConstructor() {
 		// Fill in the type information from the extending sub-classes.
 		final Set<Class<? extends Event>> loadedCompatibleInputTypes = new HashSet<>();
 		setCompatibleInputTypes(loadedCompatibleInputTypes);
@@ -168,39 +159,6 @@ public abstract class Processor implements Runnable, Serializable {
 		CollectionsUpdate.replaceNonDestructive(additionalOutputTypes, loadedAdditionalOutputTypes);
 
 		Processor.logger.debug("Created Processor {}.", this);
-	}
-
-	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
-		in.defaultReadObject();
-
-		// Restore omitted field on single processor save.
-		if (compatibleInputTypes == null) {
-			Reflections.setFinalField(this, "compatibleInputTypes", new HashSet<Class<? extends Event>>());
-		}
-		if (additionalOutputTypes == null) {
-			Reflections.setFinalField(this, "additionalOutputTypes", new HashSet<Class<? extends Event>>());
-		}
-		if (inputStreams == null) {
-			Reflections.setFinalField(this, "inputStreams", new ArrayList<Stream>());
-		}
-		if (selectedInputStreams == null) {
-			Reflections.setFinalField(this, "selectedInputStreams", new CopyOnWriteArrayList<Stream>());
-		}
-		if (outputStreams == null) {
-			Reflections.setFinalField(this, "outputStreams", new ArrayList<Stream>());
-		}
-
-		// Restore transient fields.
-		Reflections.setFinalField(this, "selectedInputStreamsReadOnly",
-			Collections.unmodifiableList(selectedInputStreams));
-		Reflections.setFinalField(this, "workQueue", new ArrayBlockingQueue<EventPacketContainer>(16));
-		Reflections.setFinalField(this, "workToProcess", new ArrayList<EventPacketContainer>(16));
-		Reflections.setFinalField(this, "rootTasksUIRefresh", new ArrayList<Runnable>());
-		Reflections.setFinalField(this, "rootConfigTasksDialogRefresh", new ArrayList<Runnable>());
-		Reflections.setFinalField(this, "rootConfigTasksDialogOK", new ArrayList<Runnable>());
-
-		// Do construction.
-		CommonConstructor();
 	}
 
 	/**

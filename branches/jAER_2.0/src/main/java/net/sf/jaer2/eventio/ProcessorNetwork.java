@@ -1,8 +1,5 @@
 package net.sf.jaer2.eventio;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +12,7 @@ import net.sf.jaer2.util.GUISupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class ProcessorNetwork implements Serializable {
-	private static final long serialVersionUID = 5207051699167107128L;
-
+public final class ProcessorNetwork {
 	/** Local logger for log messages. */
 	private static final Logger logger = LoggerFactory.getLogger(ProcessorNetwork.class);
 
@@ -28,26 +23,10 @@ public final class ProcessorNetwork implements Serializable {
 	private final List<ProcessorChain> processorChains = new ArrayList<>();
 
 	/** Main GUI layout - Vertical Box. */
-	transient private VBox rootLayout;
+	private VBox rootLayout;
 
 	public ProcessorNetwork() {
-		CommonConstructor();
-	}
-
-	private void CommonConstructor() {
 		ProcessorNetwork.logger.debug("Created ProcessorNetwork {}.", this);
-	}
-
-	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
-		in.defaultReadObject();
-
-		// Update chains to set parent network to this current instance.
-		for (final ProcessorChain chain : processorChains) {
-			chain.setParentNetwork(this);
-		}
-
-		// Do construction.
-		CommonConstructor();
 	}
 
 	/**

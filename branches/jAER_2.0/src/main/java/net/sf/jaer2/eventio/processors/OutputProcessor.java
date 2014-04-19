@@ -1,7 +1,5 @@
 package net.sf.jaer2.eventio.processors;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -17,24 +15,15 @@ import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Reflections;
 
 public final class OutputProcessor extends Processor {
-	private static final long serialVersionUID = -1037683376951856401L;
-
-	transient private final BlockingQueue<EventPacketContainer> outputQueue = new ArrayBlockingQueue<>(32);
+	private final BlockingQueue<EventPacketContainer> outputQueue = new ArrayBlockingQueue<>(32);
 
 	private Sink connectedSink;
 
 	/** For displaying and maintaining a link to the current config GUI. */
-	transient private Sink currentSinkConfig;
+	private Sink currentSinkConfig;
 
 	public OutputProcessor() {
 		super();
-	}
-
-	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
-		in.defaultReadObject();
-
-		// Restore transient fields.
-		Reflections.setFinalField(this, "outputQueue", new ArrayBlockingQueue<EventPacketContainer>(32));
 	}
 
 	public Sink getConnectedSink() {

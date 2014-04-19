@@ -1,8 +1,6 @@
 package net.sf.jaer2.eventio.events;
 
 public class PolarityEvent extends XYPositionEvent {
-	private static final long serialVersionUID = -7577307756995975930L;
-
 	public static enum Polarity {
 		ON,
 		OFF,

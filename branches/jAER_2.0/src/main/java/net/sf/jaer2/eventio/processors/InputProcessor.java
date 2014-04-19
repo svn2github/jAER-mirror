@@ -1,7 +1,5 @@
 package net.sf.jaer2.eventio.processors;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -23,27 +21,17 @@ import net.sf.jaer2.util.GUISupport;
 import net.sf.jaer2.util.Reflections;
 
 public final class InputProcessor extends Processor {
-	private static final long serialVersionUID = 8497760950881048850L;
-
-	transient private final BlockingQueue<RawEventPacket> inputQueue = new ArrayBlockingQueue<>(32);
-	transient private final List<RawEventPacket> inputToProcess = new ArrayList<>(32);
+	private final BlockingQueue<RawEventPacket> inputQueue = new ArrayBlockingQueue<>(32);
+	private final List<RawEventPacket> inputToProcess = new ArrayList<>(32);
 
 	private Source connectedSource;
 	private Translator eventTranslator;
 
 	/** For displaying and maintaining a link to the current config GUI. */
-	transient private Source currentSourceConfig;
+	private Source currentSourceConfig;
 
 	public InputProcessor() {
 		super();
-	}
-
-	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
-		in.defaultReadObject();
-
-		// Restore transient fields.
-		Reflections.setFinalField(this, "inputQueue", new ArrayBlockingQueue<RawEventPacket>(32));
-		Reflections.setFinalField(this, "inputToProcess", new ArrayList<RawEventPacket>(32));
 	}
 
 	public Source getConnectedSource() {

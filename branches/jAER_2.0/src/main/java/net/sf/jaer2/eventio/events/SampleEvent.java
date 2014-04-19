@@ -1,8 +1,6 @@
 package net.sf.jaer2.eventio.events;
 
 public class SampleEvent extends Event {
-	private static final long serialVersionUID = 1922113968889799454L;
-
 	private byte type;
 	private int sample;
 

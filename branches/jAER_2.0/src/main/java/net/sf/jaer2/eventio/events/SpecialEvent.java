@@ -1,8 +1,6 @@
 package net.sf.jaer2.eventio.events;
 
 public class SpecialEvent extends XYPositionEvent {
-	private static final long serialVersionUID = -7699877440015843698L;
-
 	public static enum Type {
 		TIMESTAMP_WRAP,
 		TIMESTAMP_RESET,

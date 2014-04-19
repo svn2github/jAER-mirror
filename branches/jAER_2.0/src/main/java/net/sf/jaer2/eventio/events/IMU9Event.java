@@ -1,8 +1,6 @@
 package net.sf.jaer2.eventio.events;
 
 public class IMU9Event extends IMU6Event {
-	private static final long serialVersionUID = -1989259523571395978L;
-
 	private short compX;
 	private short compY;
 	private short compZ;

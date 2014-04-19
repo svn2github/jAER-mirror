@@ -3,8 +3,6 @@ package net.sf.jaer2.eventio.processors;
 import net.sf.jaer2.eventio.eventpackets.EventPacketContainer;
 
 public abstract class EventProcessor extends Processor {
-	private static final long serialVersionUID = 3796706196373847072L;
-
 	public EventProcessor() {
 		super();
 	}

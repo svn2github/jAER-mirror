@@ -56,6 +56,10 @@ public abstract class Component {
 		this.device = device;
 	}
 
+	public SSHSNode getConfigNode() {
+		return configNode;
+	}
+
 	public void addSetting(final ConfigBase setting) {
 		settingsMap.put(setting.getName(), setting);
 	}

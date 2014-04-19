@@ -177,7 +177,7 @@ public abstract class Pot extends ConfigBase {
 		return getBitValue();
 	}
 
-	transient protected Slider mainSlider;
+	protected Slider mainSlider;
 
 	@Override
 	protected void buildConfigGUI() {

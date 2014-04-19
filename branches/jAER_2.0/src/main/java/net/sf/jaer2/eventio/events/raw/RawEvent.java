@@ -1,6 +1,5 @@
 package net.sf.jaer2.eventio.events.raw;
 
-import java.io.Serializable;
 
 /**
  * A read-only raw event, having an int (32 bit) address and int (32 bit)
@@ -8,9 +7,7 @@ import java.io.Serializable;
  *
  * @author llongi
  */
-public final class RawEvent implements Serializable {
-	private static final long serialVersionUID = 808179108331580491L;
-
+public final class RawEvent {
 	// 32 bit address and time-stamp
 	private final int address;
 	private final int timestamp;

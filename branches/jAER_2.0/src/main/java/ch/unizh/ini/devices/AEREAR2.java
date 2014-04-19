@@ -86,38 +86,53 @@ public class AEREAR2 extends USBDevice {
 		dacAD5391.setProgrammer(latticeMachX0);
 		addComponent(dacAD5391);
 
-		dacAD5391.addSetting(new VPot("Vterm", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
-		dacAD5391.addSetting(new VPot("Vrefhres", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
-		dacAD5391.addSetting(new VPot("VthAGC", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vrefreadout", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
-		dacAD5391.addSetting(new VPot("BiasDACBufferNBias", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
-		dacAD5391.addSetting(new VPot("Vrefract", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
-		dacAD5391.addSetting(new VPot("PreampAGCThreshold", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vrefpreamp", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("NeuronRp", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vthbpf1x", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vioffbpfn", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
-		dacAD5391.addSetting(new VPot("NeuronVleak", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("DCOutputLevel", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vthbpf2x", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("DACSpOut2", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("DACSpOut1", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vth4", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vcas2x", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
-		dacAD5391.addSetting(new VPot("Vrefo", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vrefn2", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vq", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vpf", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
-		dacAD5391.addSetting(new VPot("Vgain", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vrefn", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("VAI0", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vdd1", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vth1", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vref", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("Vtau", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
-		dacAD5391.addSetting(new VPot("VcondVt", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
-		dacAD5391.addSetting(new VPot("Vpm", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
-		dacAD5391.addSetting(new VPot("Vhm", ".", dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
+		dacAD5391.addSetting(new VPot("Vterm", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
+		dacAD5391
+			.addSetting(new VPot("Vrefhres", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
+		dacAD5391.addSetting(new VPot("VthAGC", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("Vrefreadout", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL,
+			Pot.Sex.N));
+		dacAD5391.addSetting(new VPot("BiasDACBufferNBias", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL,
+			Pot.Sex.N));
+		dacAD5391
+			.addSetting(new VPot("Vrefract", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
+		dacAD5391.addSetting(new VPot("PreampAGCThreshold", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL,
+			Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("Vrefpreamp", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL,
+			Pot.Sex.P));
+		dacAD5391
+			.addSetting(new VPot("NeuronRp", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391
+			.addSetting(new VPot("Vthbpf1x", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("Vioffbpfn", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL,
+			Pot.Sex.N));
+		dacAD5391.addSetting(new VPot("NeuronVleak", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL,
+			Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("DCOutputLevel", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL,
+			Pot.Sex.P));
+		dacAD5391
+			.addSetting(new VPot("Vthbpf2x", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("DACSpOut2", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL,
+			Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("DACSpOut1", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL,
+			Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("Vth4", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("Vcas2x", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
+		dacAD5391.addSetting(new VPot("Vrefo", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("Vrefn2", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("Vq", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("Vpf", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
+		dacAD5391.addSetting(new VPot("Vgain", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("Vrefn", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("VAI0", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("Vdd1", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("Vth1", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("Vref", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391.addSetting(new VPot("Vtau", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.P));
+		dacAD5391
+			.addSetting(new VPot("VcondVt", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
+		dacAD5391.addSetting(new VPot("Vpm", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
+		dacAD5391.addSetting(new VPot("Vhm", ".", dacAD5391.getConfigNode(), dacAD5391, Pot.Type.NORMAL, Pot.Sex.N));
 	}
 
 	@Override
