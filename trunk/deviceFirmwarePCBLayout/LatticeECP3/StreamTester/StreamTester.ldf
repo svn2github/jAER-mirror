@@ -3,17 +3,17 @@
     <Options/>
     <Implementation title="StreamTester" dir="StreamTester" description="StreamTester" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="topLevel"/>
-        <Source name="StreamTester/source/continuousCounter.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="StreamTester/source/AERfifo.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="StreamTester/source/fifoStatemachine.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="StreamTester/source/topLevel.vhd" type="VHDL" type_short="VHDL">
+        <Source name="sourcecode/topLevel.vhd" type="VHDL" type_short="VHDL">
             <Options top_module="topLevel"/>
+        </Source>
+        <Source name="sourcecode/fifoStatemachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/AERfifo.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/continuousCounter.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
         </Source>
         <Source name="C:/lscc/diamond/3.0_x64/cae_library/synthesis/vhdl/pmi_def.vhd" type="VHDL" type_short="VHDL">
             <Options/>
