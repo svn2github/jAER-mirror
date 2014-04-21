@@ -5,25 +5,27 @@ use IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity fifoStatemachine is
 port (
-	Clock_CI               : in  std_logic;
-	Reset_RBI              : in  std_logic;
-	Run_SI              : in  std_logic;
+	Clock_CI               : in std_logic;
+	Reset_RBI              : in std_logic;
+	Run_SI                 : in std_logic;
 	
 	-- USB FIFO flags
-	USBFifoFull_SBI         : in  std_logic;
-	USBFifoAlmostFull_SBI   : in std_logic;
+	USBFifoThread0Full_SI : in  std_logic;
+	USBFifoThread0AlmostFull_SI : in std_logic;
+	USBFifoThread1Full_SI : in  std_logic;
+	USBFifoThread1AlmostFull_SI : in std_logic;
 	
 	-- Input FIFO flags
-	InFifoEmpty_SI              : in std_logic;
+	InFifoEmpty_SI         : in std_logic;
 
 	-- Input FIFO control lines
 	InFifoRead_SO : out std_logic;
 	
 	-- USB FIFO control lines
-	USBFifoChipSelect_SBO     : out std_logic;
-	USBFifoWrite_SBO          : out std_logic;
-	USBFifoPktEnd_SBO         : out std_logic;
-	USBFifoAddress_DO         : out std_logic_vector(1 downto 0));
+	USBFifoChipSelect_SO     : out std_logic;
+	USBFifoWrite_SO          : out std_logic;
+	USBFifoPktEnd_SO         : out std_logic;
+	USBFifoAddress_DO        : out std_logic_vector(1 downto 0));
 end fifoStatemachine;
 
 architecture Behavioral of fifoStatemachine is
@@ -31,28 +33,26 @@ architecture Behavioral of fifoStatemachine is
   -- present and next state
   signal State_DP, State_DN : state;
 
-  -- FIFO addresse: always write to socket 0, which is the output socket for FPGA->FX3 USB.
+  -- FIFO addresse: always write to thread 0, which is the output socket for FPGA->FX3 USB.
   constant EP_FIFO : std_logic_vector := "00";
-  
 	begin
-
 	-- calculate next state and outputs
-	  p_memless : process (State_DP, USBFifoFull_SBI, USBFifoAlmostFull_SBI, InFifoEmpty_SI, Run_SI)
+	  p_memless : process (State_DP, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoEmpty_SI, Run_SI)
 	  begin  -- process p_memless
 		-- default assignements: stay in present state, don't change address in
 		-- FifoAddress register, write registers for transfers
 		State_DN                     <= State_DP;
 
-		USBFifoChipSelect_SBO        <= '0'; -- Always keep chip selected (active-low).
-		USBFifoWrite_SBO             <= '1';
-		USBFifoPktEnd_SBO            <= '1';
-		USBFifoAddress_DO            <= EP_FIFO;
+		USBFifoChipSelect_SO        <= '1'; -- Always keep chip selected.
+		USBFifoWrite_SO             <= '0';
+		USBFifoPktEnd_SO            <= '0';
+		USBFifoAddress_DO           <= EP_FIFO;
 
 		InFifoRead_SO <= '0'; -- Don't read from input FIFO until we know we can write.
 	
 		case State_DP is
 		  when stIdle =>
-			if InFifoEmpty_SI = '0' and USBFifoFull_SBI = '1' and Run_SI = '1' then
+			if InFifoEmpty_SI = '0' and USBFifoThread0Full_SI = '0' and Run_SI = '1' then
 			  State_DN <= stSetupDelay1;
 			end if;
 		 
@@ -68,7 +68,7 @@ architecture Behavioral of fifoStatemachine is
 
 		  when stSetupWrite =>
 			-- Check now, after delaying, that the FIFO is still free.
-			if USBFifoFull_SBI = '1' then
+			if USBFifoThread0Full_SI = '0' then
 			  State_DN <= stWrite;
 			  InFifoRead_SO <= '1';
 			else
@@ -86,12 +86,12 @@ architecture Behavioral of fifoStatemachine is
 			-- Check that we're reaching the end of the FIFO using the watermark flag (almost full).
 			-- This way we know exactly how much space is left and can start to limit the number of
 			-- writes, without having to check the FULL flag, which has a 3-cycle delay.
-			if USBFifoAlmostFull_SBI = '0' then
+			if USBFifoThread0AlmostFull_SI = '1' then
 				State_DN <= stIdle; -- Single cycle access mode.
 			end if;
 
 			-- Execute write and continue to read next data chunk.
-			USBFifoWrite_SBO <= '0';
+			USBFifoWrite_SO <= '1';
 			InFifoRead_SO <= '1';
 				
 		  when others => null;

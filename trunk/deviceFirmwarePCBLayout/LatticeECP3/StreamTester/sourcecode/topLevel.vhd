@@ -11,13 +11,15 @@ entity topLevel is
 	FPGARun_SI : in std_logic;
 	
 	USBFifoData_DO : out std_logic_vector(15 downto 0);
-	USBFifoChipSelect_SBO : out std_logic;
-	USBFifoWrite_SBO : out std_logic;
-	USBFifoRead_SBO : out std_logic;
-	USBFifoPktEnd_SBO : out std_logic;
+	USBFifoChipSelect_SO : out std_logic;
+	USBFifoWrite_SO : out std_logic;
+	USBFifoRead_SO : out std_logic;
+	USBFifoPktEnd_SO : out std_logic;
 	USBFifoAddress_DO : out std_logic_vector(1 downto 0);
-	USBFifoFull_SBI : in std_logic;
-	USBFifoAlmostFull_SBI : in std_logic;
+	USBFifoThr0Ready_SI : in std_logic;
+	USBFifoThr0Watermark_SI : in std_logic;
+	USBFifoThr1Ready_SI : in std_logic;
+	USBFifoThr1Watermark_SI : in std_logic;
 	
 	LED1_SO : out std_logic;
 	LED2_SO : out std_logic);
@@ -29,13 +31,15 @@ architecture Structural of topLevel is
     Clock_CI : in  std_logic;
 	Reset_RBI : in  std_logic;
 	Run_SI : in  std_logic;
-	USBFifoFull_SBI : in  std_logic;
-	USBFifoAlmostFull_SBI : in std_logic;
+	USBFifoThread0Full_SI : in  std_logic;
+	USBFifoThread0AlmostFull_SI : in std_logic;
+	USBFifoThread1Full_SI : in  std_logic;
+	USBFifoThread1AlmostFull_SI : in std_logic;
 	InFifoEmpty_SI : in std_logic;
     InFifoRead_SO : out std_logic;
-	USBFifoChipSelect_SBO : out std_logic;
-	USBFifoWrite_SBO : out std_logic;
-	USBFifoPktEnd_SBO : out std_logic;
+	USBFifoChipSelect_SO : out std_logic;
+	USBFifoWrite_SO : out std_logic;
+	USBFifoPktEnd_SO : out std_logic;
 	USBFifoAddress_DO : out std_logic_vector(1 downto 0));
   end component;
 
@@ -69,7 +73,7 @@ architecture Structural of topLevel is
 begin
   Reset_RI <= not Reset_RBI;
   AERFifoWrite_S <= '1';
-  USBFifoRead_SBO <= '1';
+  USBFifoRead_SO <= '0';
   LED1_SO <= FPGARun_SI;
   LED2_SO <= '0';
 
@@ -78,13 +82,15 @@ uFifoStatemachine: fifoStatemachine
     Clock_CI => USBClock_CI,
 	Reset_RBI => Reset_RBI,
 	Run_SI => FPGARun_SI,
-	USBFifoFull_SBI => USBFifoFull_SBI,
-	USBFifoAlmostFull_SBI => USBFifoAlmostFull_SBI,
+	USBFifoThread0Full_SI => USBFifoThr0Ready_SI,
+	USBFifoThread0AlmostFull_SI => USBFifoThr0Watermark_SI,
+	USBFifoThread1Full_SI => USBFifoThr1Ready_SI,
+	USBFifoThread1AlmostFull_SI => USBFifoThr1Watermark_SI,
 	InFifoEmpty_SI => AERFifoEmpty_S,
     InFifoRead_SO => AERFifoRead_S,
-	USBFifoChipSelect_SBO => USBFifoChipSelect_SBO,
-	USBFifoWrite_SBO => USBFifoWrite_SBO,
-	USBFifoPktEnd_SBO => USBFifoPktEnd_SBO,
+	USBFifoChipSelect_SO => USBFifoChipSelect_SO,
+	USBFifoWrite_SO => USBFifoWrite_SO,
+	USBFifoPktEnd_SO => USBFifoPktEnd_SO,
 	USBFifoAddress_DO => USBFifoAddress_DO);
 	  
   uFifo : AERfifo
