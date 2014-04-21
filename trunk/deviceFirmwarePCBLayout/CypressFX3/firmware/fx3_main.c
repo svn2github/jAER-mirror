@@ -31,8 +31,36 @@ uint8_t glLogLevel = FX3_LOG_LEVEL; // Default log level
 uint8_t glLogFailedAmount = 0; // Number of failed log calls made
 
 static CyU3PDmaChannel glEP1DMAChannelCPUtoUSB; // DMA Channel handle for CPU2U transfer
+
+// Prevent exclusive options from being erroneously selected.
+#if DMA_FX3TOUSB_ONLY == 1 && DMA_USBTOFX3_ONLY == 1
+#error "Cannot select both DMA_FX3TOUSB_ONLY and DMA_USBTOFX3_ONLY at the same time."
+#endif
+
+#if DMA_USE_MULTICHANNEL == 1
+#if DMA_FX3TOUSB_ONLY == 0 && DMA_USBTOFX3_ONLY == 0
+#error "Cannot select both data-flow directions when DMA_USE_MULTICHANNEL is enabled."
+#endif
+#if DMA_FX3TOUSB_CALLBACK == 1 || DMA_USBTOFX3_CALLBACK == 1
+#error "DMA callbacks are currently not supported when DMA_USE_MULTICHANNEL is enabled."
+#endif
+#endif
+
+#if DMA_USE_MULTICHANNEL == 0
+#if DMA_FX3TOUSB_ONLY == 0
 static CyU3PDmaChannel glEP2DMAChannelUSBtoFX3; // DMA Channel handle for U2FX transfer
+#endif
+#if DMA_USBTOFX3_ONLY == 0
 static CyU3PDmaChannel glEP2DMAChannelFX3toUSB; // DMA Channel handle for FX2U transfer
+#endif
+#else
+#if DMA_FX3TOUSB_ONLY == 0
+static CyU3PDmaMultiChannel glEP2DMAMultiChannelUSBtoFX3; // DMA Channel handle for U2FX transfer
+#endif
+#if DMA_USBTOFX3_ONLY == 0
+static CyU3PDmaMultiChannel glEP2DMAMultiChannelFX3toUSB; // DMA Channel handle for FX2U transfer
+#endif
+#endif
 
 uint8_t glEP0Buffer[FX3_MAX_TRANSFER_SIZE_CONTROL] __attribute__ ((aligned (32))) = { 0 };
 
@@ -249,6 +277,7 @@ static void CyFxFIFODataInit(void) {
 	epCfg.isoPkts = 0;
 	epCfg.pcktSize = size;
 
+#if DMA_USBTOFX3_ONLY == 0
 	// EP2 FX3toUSB end-point configuration.
 	epCfg.burstLen = burst_len_fx3tousb;
 
@@ -256,7 +285,9 @@ static void CyFxFIFODataInit(void) {
 	if (status != CY_U3P_SUCCESS) {
 		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PSetEpConfig(FX3toUSB) failed", status);
 	}
+#endif
 
+#if DMA_FX3TOUSB_ONLY == 0
 	// EP2 USBtoFX3 end-point configuration.
 	epCfg.burstLen = burst_len_usbtofx3;
 
@@ -264,7 +295,9 @@ static void CyFxFIFODataInit(void) {
 	if (status != CY_U3P_SUCCESS) {
 		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PSetEpConfig(USBtoFX3) failed", status);
 	}
+#endif
 
+#if DMA_USE_MULTICHANNEL == 0
 	// FIFO_DATA end-point (EP2) DMA channels configuration.
 	// DMA size is based on the detected USB speed and the burst length.
 	CyU3PDmaChannelConfig_t dmaCfg;
@@ -275,6 +308,7 @@ static void CyFxFIFODataInit(void) {
 	dmaCfg.consHeader = 0;
 	dmaCfg.prodAvailCount = 0;
 
+#if DMA_USBTOFX3_ONLY == 0
 	// EP2 FX3toUSB end-point DMA channel configuration.
 	dmaCfg.size = (uint16_t) (size * burst_len_fx3tousb);
 	dmaCfg.count = FX3_FIFO_DATA_DMA_FX3TOUSB_BUF_COUNT;
@@ -298,6 +332,22 @@ static void CyFxFIFODataInit(void) {
 		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaChannelCreate(FX3toUSB) failed", status);
 	}
 
+	// Flush the end-point memory.
+	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_OUT);
+
+	// Set DMA channel transfer size to infinite.
+	status = CyU3PDmaChannelSetXfer(&glEP2DMAChannelFX3toUSB, 0);
+	if (status != CY_U3P_SUCCESS) {
+		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaChannelSetXfer(FX3toUSB) failed", status);
+	}
+
+#if DMA_FX3TOUSB_CALLBACK == 1
+	// Call additional DMA management functions.
+	CyFxDmaFX3toUSBCallbackInit(&glEP2DMAChannelFX3toUSB);
+#endif
+#endif
+
+#if DMA_FX3TOUSB_ONLY == 0
 	// EP2 USBtoFX3 end-point DMA channel configuration.
 	dmaCfg.size = (uint16_t) (size * burst_len_usbtofx3);
 	dmaCfg.count = FX3_FIFO_DATA_DMA_USBTOFX3_BUF_COUNT;
@@ -322,26 +372,80 @@ static void CyFxFIFODataInit(void) {
 	}
 
 	// Flush the end-point memory.
-	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_OUT);
 	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_IN);
 
 	// Set DMA channel transfer size to infinite.
-	status = CyU3PDmaChannelSetXfer(&glEP2DMAChannelFX3toUSB, 0);
-	if (status != CY_U3P_SUCCESS) {
-		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaChannelSetXfer(FX3toUSB) failed", status);
-	}
-
 	status = CyU3PDmaChannelSetXfer(&glEP2DMAChannelUSBtoFX3, 0);
 	if (status != CY_U3P_SUCCESS) {
 		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaChannelSetXfer(USBtoFX3) failed", status);
 	}
 
-	// Call additional DMA management functions.
-#if DMA_FX3TOUSB_CALLBACK == 1
-	CyFxDmaFX3toUSBCallbackInit(&glEP2DMAChannelFX3toUSB);
-#endif
 #if DMA_USBTOFX3_CALLBACK == 1
+	// Call additional DMA management functions.
 	CyFxDmaUSBtoFX3CallbackInit(&glEP2DMAChannelUSBtoFX3);
+#endif
+#endif
+
+#else /* DMA_USE_MULTICHANNEL */
+
+	// FIFO_DATA end-point (EP2) DMA multiple channels configuration.
+	// DMA size is based on the detected USB speed and the burst length.
+	CyU3PDmaMultiChannelConfig_t dmaMultiCfg;
+
+	dmaMultiCfg.dmaMode = CY_U3P_DMA_MODE_BYTE;
+	dmaMultiCfg.prodHeader = 0;
+	dmaMultiCfg.prodFooter = 0;
+	dmaMultiCfg.consHeader = 0;
+	dmaMultiCfg.prodAvailCount = 0;
+	dmaMultiCfg.notification = 0;
+	dmaMultiCfg.cb = NULL;
+	dmaMultiCfg.validSckCount = 2; // Always two sockets!
+
+#if DMA_USBTOFX3_ONLY == 0
+	// EP2 FX3toUSB end-point DMA channel configuration.
+	dmaMultiCfg.size = (uint16_t) (size * burst_len_fx3tousb);
+	dmaMultiCfg.count = FX3_FIFO_DATA_DMA_FX3TOUSB_BUF_COUNT;
+	dmaMultiCfg.prodSckId[0] = CY_U3P_PIB_SOCKET_0;
+	dmaMultiCfg.prodSckId[1] = CY_U3P_PIB_SOCKET_1;
+	dmaMultiCfg.consSckId[0] = FX3_FIFO_DATA_CONSUMER_USB_SOCKET;
+
+	status = CyU3PDmaMultiChannelCreate(&glEP2DMAMultiChannelFX3toUSB, CY_U3P_DMA_TYPE_AUTO_MANY_TO_ONE, &dmaMultiCfg);
+	if (status != CY_U3P_SUCCESS) {
+		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaMultiChannelCreate(FX3toUSB) failed", status);
+	}
+
+	// Flush the end-point memory.
+	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_OUT);
+
+	// Set DMA channel transfer size to infinite.
+	status = CyU3PDmaMultiChannelSetXfer(&glEP2DMAMultiChannelFX3toUSB, 0, 0);
+	if (status != CY_U3P_SUCCESS) {
+		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaMultiChannelSetXfer(FX3toUSB) failed", status);
+	}
+#endif
+
+#if DMA_FX3TOUSB_ONLY == 0
+	// EP2 USBtoFX3 end-point DMA channel configuration.
+	dmaMultiCfg.size = (uint16_t) (size * burst_len_usbtofx3);
+	dmaMultiCfg.count = FX3_FIFO_DATA_DMA_USBTOFX3_BUF_COUNT;
+	dmaMultiCfg.prodSckId[0] = FX3_FIFO_DATA_PRODUCER_USB_SOCKET;
+	dmaMultiCfg.consSckId[0] = CY_U3P_PIB_SOCKET_0;
+	dmaMultiCfg.consSckId[1] = CY_U3P_PIB_SOCKET_1;
+
+	status = CyU3PDmaMultiChannelCreate(&glEP2DMAMultiChannelUSBtoFX3, CY_U3P_DMA_TYPE_AUTO_ONE_TO_MANY, &dmaMultiCfg);
+	if (status != CY_U3P_SUCCESS) {
+		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaMultiChannelCreate(USBtoFX3) failed", status);
+	}
+
+	// Flush the end-point memory.
+	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_IN);
+
+	// Set DMA channel transfer size to infinite.
+	status = CyU3PDmaMultiChannelSetXfer(&glEP2DMAMultiChannelUSBtoFX3, 0, 0);
+	if (status != CY_U3P_SUCCESS) {
+		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataInit: CyU3PDmaMultiChannelSetXfer(USBtoFX3) failed", status);
+	}
+#endif
 #endif
 
 	// Update the status flag.
@@ -358,38 +462,72 @@ static void CyFxFIFODataDestroy(void) {
 	// Update the status flag.
 	glAppRunning = CyFalse;
 
-	// Call additional DMA management functions.
+#if DMA_USE_MULTICHANNEL == 0
+#if DMA_FX3TOUSB_ONLY == 0
 #if DMA_USBTOFX3_CALLBACK == 1
+	// Call additional DMA management functions.
 	CyFxDmaUSBtoFX3CallbackDestroy(&glEP2DMAChannelUSBtoFX3);
-#endif
-#if DMA_FX3TOUSB_CALLBACK == 1
-	CyFxDmaFX3toUSBCallbackDestroy(&glEP2DMAChannelFX3toUSB);
 #endif
 
 	// Flush the end-point memory.
 	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_IN);
-	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_OUT);
 
 	// Destroy the DMA channels.
 	CyU3PDmaChannelDestroy(&glEP2DMAChannelUSBtoFX3);
+#endif
+
+#if DMA_USBTOFX3_ONLY == 0
+#if DMA_FX3TOUSB_CALLBACK == 1
+	// Call additional DMA management functions.
+	CyFxDmaFX3toUSBCallbackDestroy(&glEP2DMAChannelFX3toUSB);
+#endif
+
+	// Flush the end-point memory.
+	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_OUT);
+
+	// Destroy the DMA channels.
 	CyU3PDmaChannelDestroy(&glEP2DMAChannelFX3toUSB);
+#endif
+
+#else /* DMA_USE_MULTICHANNEL */
+
+#if DMA_FX3TOUSB_ONLY == 0
+	// Flush the end-point memory.
+	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_IN);
+
+	// Destroy the DMA channels.
+	CyU3PDmaMultiChannelDestroy(&glEP2DMAMultiChannelUSBtoFX3);
+#endif
+
+#if DMA_USBTOFX3_ONLY == 0
+	// Flush the end-point memory.
+	CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_OUT);
+
+	// Destroy the DMA channels.
+	CyU3PDmaMultiChannelDestroy(&glEP2DMAMultiChannelFX3toUSB);
+#endif
+#endif
 
 	// Disable end-points.
 	CyU3PEpConfig_t epCfg;
 	memset(&epCfg, 0, sizeof(epCfg));
 	epCfg.enable = CyFalse;
 
+#if DMA_FX3TOUSB_ONLY == 0
 	// EP2 USBtoFX3 end-point configuration.
 	status = CyU3PSetEpConfig(FX3_FIFO_DATA_EP_ADDR_IN, &epCfg);
 	if (status != CY_U3P_SUCCESS) {
 		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataDestroy: CyU3PSetEpConfig(USBtoFX3) failed", status);
 	}
+#endif
 
+#if DMA_USBTOFX3_ONLY == 0
 	// EP2 FX3toUSB end-point configuration.
 	status = CyU3PSetEpConfig(FX3_FIFO_DATA_EP_ADDR_OUT, &epCfg);
 	if (status != CY_U3P_SUCCESS) {
 		CyFxErrorHandler(LOG_ERROR, "CyFxFIFODataDestroy: CyU3PSetEpConfig(FX3toUSB) failed", status);
 	}
+#endif
 }
 
 /**
@@ -512,20 +650,43 @@ static CyBool_t CyFxUSBSetupRequestsCB(uint32_t setupdat0, uint32_t setupdat1) {
 					CyU3PDmaChannelSetXfer(&glEP1DMAChannelCPUtoUSB, 0);
 				}
 
+#if DMA_USE_MULTICHANNEL == 0
+#if DMA_USBTOFX3_ONLY == 0
 				if (wIndex == FX3_FIFO_DATA_EP_ADDR_OUT) {
 					CyU3PDmaChannelReset(&glEP2DMAChannelFX3toUSB);
 					CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_OUT);
 					CyU3PUsbResetEp(FX3_FIFO_DATA_EP_ADDR_OUT);
 					CyU3PDmaChannelSetXfer(&glEP2DMAChannelFX3toUSB, 0);
 				}
+#endif
 
+#if DMA_FX3TOUSB_ONLY == 0
 				if (wIndex == FX3_FIFO_DATA_EP_ADDR_IN) {
 					CyU3PDmaChannelReset(&glEP2DMAChannelUSBtoFX3);
 					CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_IN);
 					CyU3PUsbResetEp(FX3_FIFO_DATA_EP_ADDR_IN);
 					CyU3PDmaChannelSetXfer(&glEP2DMAChannelUSBtoFX3, 0);
 				}
+#endif
+#else
+#if DMA_USBTOFX3_ONLY == 0
+				if (wIndex == FX3_FIFO_DATA_EP_ADDR_OUT) {
+					CyU3PDmaMultiChannelReset(&glEP2DMAMultiChannelFX3toUSB);
+					CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_OUT);
+					CyU3PUsbResetEp(FX3_FIFO_DATA_EP_ADDR_OUT);
+					CyU3PDmaMultiChannelSetXfer(&glEP2DMAMultiChannelFX3toUSB, 0, 0);
+				}
+#endif
 
+#if DMA_FX3TOUSB_ONLY == 0
+				if (wIndex == FX3_FIFO_DATA_EP_ADDR_IN) {
+					CyU3PDmaMultiChannelReset(&glEP2DMAMultiChannelUSBtoFX3);
+					CyU3PUsbFlushEp(FX3_FIFO_DATA_EP_ADDR_IN);
+					CyU3PUsbResetEp(FX3_FIFO_DATA_EP_ADDR_IN);
+					CyU3PDmaMultiChannelSetXfer(&glEP2DMAMultiChannelUSBtoFX3, 0, 0);
+				}
+#endif
+#endif
 				CyU3PUsbStall((uint8_t) wIndex, CyFalse, CyTrue);
 
 				reqHandled = CyTrue;

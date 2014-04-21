@@ -94,6 +94,13 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
  * ********************************************************************************************************************
  */
 
+// Select DMA channels. Default is both directions available, input or output only can be selected.
+#define DMA_USBTOFX3_ONLY (0)
+#define DMA_FX3TOUSB_ONLY (0)
+
+// Use multichannel DMA to configure both available sockets for data transfer in one direction.
+#define DMA_USE_MULTICHANNEL (0)
+
 // You can process packets as they pass through the FX3, in either direction. Only enable this if really needed,
 // and remember that you then will have to explicitly commit each and every buffer! Be wary of performance!
 #define DMA_USBTOFX3_CALLBACK (0)

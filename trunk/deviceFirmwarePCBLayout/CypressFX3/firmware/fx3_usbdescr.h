@@ -87,19 +87,27 @@ const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) = {
 /* Configuration descriptor */
 0x09, /* Descriptor size */
 CY_U3P_USB_CONFIG_DESCR, /* Configuration descriptor type */
+#if DMA_FX3TOUSB_ONLY == 1 || DMA_USBTOFX3_ONLY == 1
+0x2C, 0x00, /* Length of this descriptor and all sub descriptors */
+#else
 0x39, 0x00, /* Length of this descriptor and all sub descriptors */
+#endif
 0x01, /* Number of interfaces */
 0x01, /* Configuration number */
 0x00, /* Configuration string index */
 0x80, /* Config characteristics - Bus powered */
-0x32, /* Max power consumption of device (in 8mA unit) : 400mA */
+0x32, /* Max power consumption of device (in 8mA units, 50 of them) : 400mA */
 
 /* Interface descriptor */
 0x09, /* Descriptor size */
 CY_U3P_USB_INTRFC_DESCR, /* Interface Descriptor type */
 0x00, /* Interface number */
 0x00, /* Alternate setting number */
-0x03, /* Number of end points */
+#if DMA_FX3TOUSB_ONLY == 1 || DMA_USBTOFX3_ONLY == 1
+0x02, /* Number of end points (status + 1 data) */
+#else
+0x03, /* Number of end points (status + 2 data) */
+#endif
 0xFF, /* Interface class */
 0x00, /* Interface sub class */
 0x00, /* Interface protocol code */
@@ -120,6 +128,7 @@ CY_U3P_SS_EP_COMPN_DESCR, /* SS endpoint companion descriptor type */
 0x00, /* Max streams for bulk EP = 0 (No streams) */
 0x40, 0x00, /* Bytes per interval: 64 bytes */
 
+#if DMA_FX3TOUSB_ONLY == 0
 /* Endpoint descriptor for producer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
@@ -134,7 +143,9 @@ CY_U3P_SS_EP_COMPN_DESCR, /* SS endpoint companion descriptor type */
 FX3_FIFO_DATA_DMA_USBTOFX3_BURST_LEN - 1, /* Max no. of packets in a burst : 0: burst 1 packet at a time */
 0x00, /* Max streams for bulk EP = 0 (No streams) */
 0x00, 0x00, /* Service interval for the EP : 0 for bulk */
+#endif
 
+#if DMA_USBTOFX3_ONLY == 0
 /* Endpoint descriptor for consumer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
@@ -149,6 +160,7 @@ CY_U3P_SS_EP_COMPN_DESCR, /* SS endpoint companion descriptor type */
 FX3_FIFO_DATA_DMA_FX3TOUSB_BURST_LEN - 1, /* Max no. of packets in a burst : 0: burst 1 packet at a time */
 0x00, /* Max streams for bulk EP = 0 (No streams) */
 0x00, 0x00 /* Service interval for the EP : 0 for bulk */
+#endif
 };
 
 /* Standard high speed configuration descriptor */
@@ -156,19 +168,27 @@ const uint8_t CyFxUSBHSConfigDscr[] __attribute__ ((aligned (32))) = {
 /* Configuration descriptor */
 0x09, /* Descriptor size */
 CY_U3P_USB_CONFIG_DESCR, /* Configuration descriptor type */
+#if DMA_FX3TOUSB_ONLY == 1 || DMA_USBTOFX3_ONLY == 1
+0x20, 0x00, /* Length of this descriptor and all sub descriptors */
+#else
 0x27, 0x00, /* Length of this descriptor and all sub descriptors */
+#endif
 0x01, /* Number of interfaces */
 0x01, /* Configuration number */
 0x00, /* Configuration string index */
 0x80, /* Config characteristics - bus powered */
-0x32, /* Max power consumption of device (in 2mA unit) : 100mA */
+0xC8, /* Max power consumption of device (in 2mA units, 200 of them) : 400mA */
 
 /* Interface descriptor */
 0x09, /* Descriptor size */
 CY_U3P_USB_INTRFC_DESCR, /* Interface Descriptor type */
 0x00, /* Interface number */
 0x00, /* Alternate setting number */
+#if DMA_FX3TOUSB_ONLY == 1 || DMA_USBTOFX3_ONLY == 1
+0x02, /* Number of endpoints */
+#else
 0x03, /* Number of endpoints */
+#endif
 0xFF, /* Interface class */
 0x00, /* Interface sub class */
 0x00, /* Interface protocol code */
@@ -182,6 +202,7 @@ CY_U3P_USB_EP_INTR, /* Interrupt endpoint type */
 0x40, 0x00, /* Max packet size = 64 bytes */
 0x04, /* Servicing interval for data transfers : 0.5ms (125us frames) */
 
+#if DMA_FX3TOUSB_ONLY == 0
 /* Endpoint descriptor for producer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
@@ -189,7 +210,9 @@ FX3_FIFO_DATA_EP_ADDR_IN, /* Endpoint address and description */
 CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 0x00, 0x02, /* Max packet size = 512 bytes */
 0x00, /* Servicing interval for data transfers : 0 for bulk */
+#endif
 
+#if DMA_USBTOFX3_ONLY == 0
 /* Endpoint descriptor for consumer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
@@ -197,6 +220,7 @@ FX3_FIFO_DATA_EP_ADDR_OUT, /* Endpoint address and description */
 CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 0x00, 0x02, /* Max packet size = 512 bytes */
 0x00 /* Servicing interval for data transfers : 0 for bulk */
+#endif
 };
 
 /* Standard full speed configuration descriptor */
@@ -204,19 +228,27 @@ const uint8_t CyFxUSBFSConfigDscr[] __attribute__ ((aligned (32))) = {
 /* Configuration descriptor */
 0x09, /* Descriptor size */
 CY_U3P_USB_CONFIG_DESCR, /* Configuration descriptor type */
+#if DMA_FX3TOUSB_ONLY == 1 || DMA_USBTOFX3_ONLY == 1
+0x20, 0x00, /* Length of this descriptor and all sub descriptors */
+#else
 0x27, 0x00, /* Length of this descriptor and all sub descriptors */
+#endif
 0x01, /* Number of interfaces */
 0x01, /* Configuration number */
 0x00, /* Configuration string index */
 0x80, /* Config characteristics - bus powered */
-0x32, /* Max power consumption of device (in 2mA unit) : 100mA */
+0xC8, /* Max power consumption of device (in 2mA units, 200 of them) : 400mA */
 
 /* Interface descriptor */
 0x09, /* Descriptor size */
 CY_U3P_USB_INTRFC_DESCR, /* Interface descriptor type */
 0x00, /* Interface number */
 0x00, /* Alternate setting number */
+#if DMA_FX3TOUSB_ONLY == 1 || DMA_USBTOFX3_ONLY == 1
+0x02, /* Number of endpoints */
+#else
 0x03, /* Number of endpoints */
+#endif
 0xFF, /* Interface class */
 0x00, /* Interface sub class */
 0x00, /* Interface protocol code */
@@ -230,6 +262,7 @@ CY_U3P_USB_EP_INTR, /* Interrupt endpoint type */
 0x40, 0x00, /* Max packet size = 64 bytes */
 0x01, /* Servicing interval for data transfers : 1ms (1ms frames) */
 
+#if DMA_FX3TOUSB_ONLY == 0
 /* Endpoint descriptor for producer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
@@ -237,7 +270,9 @@ FX3_FIFO_DATA_EP_ADDR_IN, /* Endpoint address and description */
 CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 0x40, 0x00, /* Max packet size = 64 bytes */
 0x00, /* Servicing interval for data transfers : 0 for bulk */
+#endif
 
+#if DMA_USBTOFX3_ONLY == 0
 /* Endpoint descriptor for consumer EP */
 0x07, /* Descriptor size */
 CY_U3P_USB_ENDPNT_DESCR, /* Endpoint descriptor type */
@@ -245,6 +280,7 @@ FX3_FIFO_DATA_EP_ADDR_OUT, /* Endpoint address and description */
 CY_U3P_USB_EP_BULK, /* Bulk endpoint type */
 0x40, 0x00, /* Max packet size = 64 bytes */
 0x00 /* Servicing interval for data transfers : 0 for bulk */
+#endif
 };
 
 /* Standard language ID string descriptor */
