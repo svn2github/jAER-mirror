@@ -20,54 +20,54 @@
     <Signal ElementId="INPUT0" SignalType="Input" SpecialFunction="OE">
       <DisplayName>SLOE</DisplayName>
       <GPIOPinNumber>GPIO_19</GPIOPinNumber>
-      <Polarity>ActiveLow</Polarity>
+      <Polarity>ActiveHigh</Polarity>
     </Signal>
     <Signal ElementId="INPUT1" SignalType="Input" SpecialFunction="None">
       <DisplayName>SLCS</DisplayName>
       <GPIOPinNumber>GPIO_17</GPIOPinNumber>
-      <Polarity>ActiveLow</Polarity>
+      <Polarity>ActiveHigh</Polarity>
     </Signal>
     <Signal ElementId="INPUT2" SignalType="Input" SpecialFunction="None">
       <DisplayName>SLWR</DisplayName>
       <GPIOPinNumber>GPIO_18</GPIOPinNumber>
-      <Polarity>ActiveLow</Polarity>
+      <Polarity>ActiveHigh</Polarity>
     </Signal>
     <Signal ElementId="INPUT3" SignalType="Input" SpecialFunction="None">
       <DisplayName>SLRD</DisplayName>
       <GPIOPinNumber>GPIO_20</GPIOPinNumber>
-      <Polarity>ActiveLow</Polarity>
+      <Polarity>ActiveHigh</Polarity>
     </Signal>
     <Signal ElementId="INPUT4" SignalType="Input" SpecialFunction="None">
       <DisplayName>PKEND</DisplayName>
       <GPIOPinNumber>GPIO_24</GPIOPinNumber>
-      <Polarity>ActiveLow</Polarity>
+      <Polarity>ActiveHigh</Polarity>
     </Signal>
     <Signal ElementId="FLAG0" SignalType="Flags" SpecialFunction="None">
-      <DisplayName>SOCK_0_FULL</DisplayName>
+      <DisplayName>THR0_READY</DisplayName>
       <GPIOPinNumber>GPIO_21</GPIOPinNumber>
       <IntialValue>Low</IntialValue>
-      <Polarity>ActiveLow</Polarity>
+      <Polarity>ActiveHigh</Polarity>
       <Flags>Thread_0_DMA_Ready</Flags>
     </Signal>
     <Signal ElementId="FLAG1" SignalType="Flags" SpecialFunction="None">
-      <DisplayName>SOCK_0_PARTFULL</DisplayName>
+      <DisplayName>THR0_WATERMARK</DisplayName>
       <GPIOPinNumber>GPIO_22</GPIOPinNumber>
       <IntialValue>Low</IntialValue>
-      <Polarity>ActiveLow</Polarity>
+      <Polarity>ActiveHigh</Polarity>
       <Flags>Thread_0_DMA_WaterMark</Flags>
     </Signal>
     <Signal ElementId="FLAG2" SignalType="Flags" SpecialFunction="None">
-      <DisplayName>SOCK_1_EMPTY</DisplayName>
+      <DisplayName>THR1_READY</DisplayName>
       <GPIOPinNumber>GPIO_23</GPIOPinNumber>
       <IntialValue>Low</IntialValue>
-      <Polarity>ActiveLow</Polarity>
+      <Polarity>ActiveHigh</Polarity>
       <Flags>Thread_1_DMA_Ready</Flags>
     </Signal>
     <Signal ElementId="FLAG3" SignalType="Flags" SpecialFunction="None">
-      <DisplayName>SOCK_1_PARTEMPTY</DisplayName>
+      <DisplayName>THR1_WATERMARK</DisplayName>
       <GPIOPinNumber>GPIO_25</GPIOPinNumber>
       <IntialValue>Low</IntialValue>
-      <Polarity>ActiveLow</Polarity>
+      <Polarity>ActiveHigh</Polarity>
       <Flags>Thread_1_DMA_WaterMark</Flags>
     </Signal>
   </Signals>
