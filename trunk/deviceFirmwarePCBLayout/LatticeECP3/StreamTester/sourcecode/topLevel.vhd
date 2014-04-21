@@ -11,10 +11,10 @@ entity topLevel is
 	FPGARun_SI : in std_logic;
 	
 	USBFifoData_DO : out std_logic_vector(15 downto 0);
-	USBFifoChipSelect_SO : out std_logic;
-	USBFifoWrite_SO : out std_logic;
-	USBFifoRead_SO : out std_logic;
-	USBFifoPktEnd_SO : out std_logic;
+	USBFifoChipSelect_SBO : out std_logic;
+	USBFifoWrite_SBO : out std_logic;
+	USBFifoRead_SBO : out std_logic;
+	USBFifoPktEnd_SBO : out std_logic;
 	USBFifoAddress_DO : out std_logic_vector(1 downto 0);
 	USBFifoThr0Ready_SI : in std_logic;
 	USBFifoThr0Watermark_SI : in std_logic;
@@ -37,9 +37,9 @@ architecture Structural of topLevel is
 	USBFifoThread1AlmostFull_SI : in std_logic;
 	InFifoEmpty_SI : in std_logic;
     InFifoRead_SO : out std_logic;
-	USBFifoChipSelect_SO : out std_logic;
-	USBFifoWrite_SO : out std_logic;
-	USBFifoPktEnd_SO : out std_logic;
+	USBFifoChipSelect_SBO : out std_logic;
+	USBFifoWrite_SBO : out std_logic;
+	USBFifoPktEnd_SBO : out std_logic;
 	USBFifoAddress_DO : out std_logic_vector(1 downto 0));
   end component;
 
@@ -73,7 +73,7 @@ architecture Structural of topLevel is
 begin
   Reset_RI <= not Reset_RBI;
   AERFifoWrite_S <= '1';
-  USBFifoRead_SO <= '0';
+  USBFifoRead_SBO <= '1';
   LED1_SO <= FPGARun_SI;
   LED2_SO <= '0';
 
@@ -88,9 +88,9 @@ uFifoStatemachine: fifoStatemachine
 	USBFifoThread1AlmostFull_SI => USBFifoThr1Watermark_SI,
 	InFifoEmpty_SI => AERFifoEmpty_S,
     InFifoRead_SO => AERFifoRead_S,
-	USBFifoChipSelect_SO => USBFifoChipSelect_SO,
-	USBFifoWrite_SO => USBFifoWrite_SO,
-	USBFifoPktEnd_SO => USBFifoPktEnd_SO,
+	USBFifoChipSelect_SBO => USBFifoChipSelect_SBO,
+	USBFifoWrite_SBO => USBFifoWrite_SBO,
+	USBFifoPktEnd_SBO => USBFifoPktEnd_SBO,
 	USBFifoAddress_DO => USBFifoAddress_DO);
 	  
   uFifo : AERfifo

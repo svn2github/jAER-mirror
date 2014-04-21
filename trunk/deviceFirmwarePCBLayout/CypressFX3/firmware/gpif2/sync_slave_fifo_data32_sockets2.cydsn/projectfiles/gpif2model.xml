@@ -20,27 +20,27 @@
     <Signal ElementId="INPUT0" SignalType="Input" SpecialFunction="OE">
       <DisplayName>SLOE</DisplayName>
       <GPIOPinNumber>GPIO_19</GPIOPinNumber>
-      <Polarity>ActiveHigh</Polarity>
+      <Polarity>ActiveLow</Polarity>
     </Signal>
     <Signal ElementId="INPUT1" SignalType="Input" SpecialFunction="None">
       <DisplayName>SLCS</DisplayName>
       <GPIOPinNumber>GPIO_17</GPIOPinNumber>
-      <Polarity>ActiveHigh</Polarity>
+      <Polarity>ActiveLow</Polarity>
     </Signal>
     <Signal ElementId="INPUT2" SignalType="Input" SpecialFunction="None">
       <DisplayName>SLWR</DisplayName>
       <GPIOPinNumber>GPIO_18</GPIOPinNumber>
-      <Polarity>ActiveHigh</Polarity>
+      <Polarity>ActiveLow</Polarity>
     </Signal>
     <Signal ElementId="INPUT3" SignalType="Input" SpecialFunction="None">
       <DisplayName>SLRD</DisplayName>
       <GPIOPinNumber>GPIO_20</GPIOPinNumber>
-      <Polarity>ActiveHigh</Polarity>
+      <Polarity>ActiveLow</Polarity>
     </Signal>
     <Signal ElementId="INPUT4" SignalType="Input" SpecialFunction="None">
       <DisplayName>PKEND</DisplayName>
       <GPIOPinNumber>GPIO_24</GPIOPinNumber>
-      <Polarity>ActiveHigh</Polarity>
+      <Polarity>ActiveLow</Polarity>
     </Signal>
     <Signal ElementId="FLAG0" SignalType="Flags" SpecialFunction="None">
       <DisplayName>THR0_READY</DisplayName>

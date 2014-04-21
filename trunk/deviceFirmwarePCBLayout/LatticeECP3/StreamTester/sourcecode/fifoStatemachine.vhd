@@ -22,9 +22,9 @@ port (
 	InFifoRead_SO : out std_logic;
 	
 	-- USB FIFO control lines
-	USBFifoChipSelect_SO     : out std_logic;
-	USBFifoWrite_SO          : out std_logic;
-	USBFifoPktEnd_SO         : out std_logic;
+	USBFifoChipSelect_SBO     : out std_logic;
+	USBFifoWrite_SBO          : out std_logic;
+	USBFifoPktEnd_SBO         : out std_logic;
 	USBFifoAddress_DO        : out std_logic_vector(1 downto 0));
 end fifoStatemachine;
 
@@ -43,9 +43,9 @@ architecture Behavioral of fifoStatemachine is
 		-- FifoAddress register, write registers for transfers
 		State_DN                     <= State_DP;
 
-		USBFifoChipSelect_SO        <= '1'; -- Always keep chip selected.
-		USBFifoWrite_SO             <= '0';
-		USBFifoPktEnd_SO            <= '0';
+		USBFifoChipSelect_SBO        <= '0'; -- Always keep chip selected (active-low).
+		USBFifoWrite_SBO             <= '1';
+		USBFifoPktEnd_SBO            <= '1';
 		USBFifoAddress_DO           <= EP_FIFO;
 
 		InFifoRead_SO <= '0'; -- Don't read from input FIFO until we know we can write.
@@ -91,7 +91,7 @@ architecture Behavioral of fifoStatemachine is
 			end if;
 
 			-- Execute write and continue to read next data chunk.
-			USBFifoWrite_SO <= '1';
+			USBFifoWrite_SBO <= '0';
 			InFifoRead_SO <= '1';
 				
 		  when others => null;
