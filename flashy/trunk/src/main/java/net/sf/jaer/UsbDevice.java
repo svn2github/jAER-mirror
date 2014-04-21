@@ -2,10 +2,7 @@ package net.sf.jaer;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.nio.charset.StandardCharsets;
 
-import javafx.scene.control.TextArea;
-import li.longi.USBTransferThread.RestrictedTransfer;
 import li.longi.USBTransferThread.RestrictedTransferCallback;
 import li.longi.USBTransferThread.USBTransferThread;
 
@@ -233,11 +230,8 @@ public class UsbDevice {
 		return (dataBuffer);
 	}
 
-	private long imuCount = 0;
-	private long dataCount = 0;
-
 	synchronized public void listenToEP(final byte endpoint, final byte type, final int bufNum, final int bufSize,
-		final TextArea outputArea) {
+		final RestrictedTransferCallback rtcUSB) {
 		if (devHandle == null) {
 			try {
 				open();
@@ -248,70 +242,7 @@ public class UsbDevice {
 			}
 		}
 
-		final USBTransferThread usbTT = new USBTransferThread(devHandle, endpoint, type,
-			new RestrictedTransferCallback() {
-				@Override
-				public void processTransfer(final RestrictedTransfer t) {
-					// If successful transfer, append its data to the output
-					// text area.
-					if (t.status() == LibUsb.TRANSFER_COMPLETED) {
-						// Print error messages.
-						if ((t.buffer().get(0) == 0x00) && (t.buffer().limit() <= 64)) {
-							final int errorCode = t.buffer().get(1) & 0xFF;
-
-							final int timeStamp = t.buffer().getInt(2);
-
-							final byte[] errorMsgBytes = new byte[t.buffer().limit() - 6];
-							t.buffer().position(6);
-							t.buffer().get(errorMsgBytes, 0, errorMsgBytes.length);
-							t.buffer().position(0);
-							final String errorMsg = new String(errorMsgBytes, StandardCharsets.UTF_8);
-
-							final String output = String.format("%s - Error: 0x%02X, Time: %d\n", errorMsg, errorCode,
-								timeStamp);
-
-							GUISupport.runOnJavaFXThread(new Runnable() {
-								@Override
-								public void run() {
-									outputArea.appendText(output);
-								}
-							});
-						}
-						else if ((t.buffer().get(0) == 0x01) && (t.buffer().limit() == 15)) {
-							// This is an IMU sample. Just count it.
-							imuCount = imuCount + 1;
-
-							if ((imuCount & 0x03FF) == 0) {
-								GUISupport.runOnJavaFXThread(new Runnable() {
-									@Override
-									public void run() {
-										outputArea.appendText(String.format("%d: Got 1024 IMU events.\n",
-											imuCount >>> 10));
-									}
-								});
-							}
-						}
-						else {
-							dataCount = dataCount + 1;
-
-							if ((dataCount & 0x03FF) == 0) {
-								GUISupport.runOnJavaFXThread(new Runnable() {
-									@Override
-									public void run() {
-										outputArea.appendText(String.format("%d: Got 1024 pieces of data.\n",
-											dataCount >>> 10));
-									}
-								});
-							}
-						}
-					}
-				}
-
-				@Override
-				public void prepareTransfer(@SuppressWarnings("unused") final RestrictedTransfer t) {
-					// Nothing to do here.
-				}
-			}, bufNum, bufSize);
+		final USBTransferThread usbTT = new USBTransferThread(devHandle, endpoint, type, rtcUSB, bufNum, bufSize);
 
 		usbTT.setDaemon(true);
 		usbTT.start();

@@ -5,8 +5,10 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
+import java.nio.ShortBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
@@ -20,6 +22,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import li.longi.USBTransferThread.RestrictedTransfer;
+import li.longi.USBTransferThread.RestrictedTransferCallback;
 import net.sf.jaer.Files;
 import net.sf.jaer.GUISupport;
 import net.sf.jaer.UsbDevice;
@@ -396,6 +400,10 @@ public class DAViS_FX3 extends Controller {
 		}
 	}
 
+	private int expData = -1;
+	private long imuCount = 0;
+	private long dataCount = 0;
+
 	private VBox usbEPListenGUI() {
 		final VBox usbEPListenGUI = new VBox(10);
 
@@ -404,14 +412,86 @@ public class DAViS_FX3 extends Controller {
 		final TextArea usbEP1OutputArea = new TextArea();
 		usbEPListenGUI.getChildren().add(usbEP1OutputArea);
 
-		usbDevice.listenToEP((byte) 0x81, LibUsb.TRANSFER_TYPE_INTERRUPT, 4, 64, usbEP1OutputArea);
+		usbDevice.listenToEP((byte) 0x81, LibUsb.TRANSFER_TYPE_INTERRUPT, 4, 64, new RestrictedTransferCallback() {
+			@Override
+			public void processTransfer(final RestrictedTransfer t) {
+				if (t.status() == LibUsb.TRANSFER_COMPLETED) {
+					// Print error messages.
+					if ((t.buffer().get(0) == 0x00) && (t.buffer().limit() <= 64)) {
+						final int errorCode = t.buffer().get(1) & 0xFF;
+
+						final int timeStamp = t.buffer().getInt(2);
+
+						final byte[] errorMsgBytes = new byte[t.buffer().limit() - 6];
+						t.buffer().position(6);
+						t.buffer().get(errorMsgBytes, 0, errorMsgBytes.length);
+						t.buffer().position(0);
+						final String errorMsg = new String(errorMsgBytes, StandardCharsets.UTF_8);
+
+						final String output = String.format("%s - Error: 0x%02X, Time: %d\n", errorMsg, errorCode,
+							timeStamp);
+
+						GUISupport.runOnJavaFXThread(() -> usbEP1OutputArea.appendText(output));
+					}
+					else if ((t.buffer().get(0) == 0x01) && (t.buffer().limit() == 15)) {
+						// This is an IMU sample. Just count it.
+						imuCount = imuCount + 1;
+
+						if ((imuCount & 0x03FF) == 0) {
+							GUISupport.runOnJavaFXThread(() -> usbEP1OutputArea.appendText(String.format(
+								"%d: Got 1024 IMU events.\n", imuCount >>> 10)));
+						}
+					}
+				}
+			}
+
+			@Override
+			public void prepareTransfer(@SuppressWarnings("unused") final RestrictedTransfer t) {
+				// Nothing to do here.
+			}
+		});
 
 		GUISupport.addLabel(usbEPListenGUI, "USB endpoint 2 stream", "USB endpoint 2 data.", null, null);
 
 		final TextArea usbEP2OutputArea = new TextArea();
 		usbEPListenGUI.getChildren().add(usbEP2OutputArea);
 
-		usbDevice.listenToEP((byte) 0x82, LibUsb.TRANSFER_TYPE_BULK, 8, 8192, usbEP2OutputArea);
+		usbDevice.listenToEP((byte) 0x82, LibUsb.TRANSFER_TYPE_BULK, 8, 8192, new RestrictedTransferCallback() {
+			@Override
+			public void processTransfer(final RestrictedTransfer t) {
+				if (t.status() == LibUsb.TRANSFER_COMPLETED) {
+					dataCount++;
+
+					int bufferSize = t.buffer().limit();
+					System.out.println(String.format("\nNew buffer received (%d), with length: %d", dataCount,
+						bufferSize));
+
+					final ShortBuffer sBuf = t.buffer().order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
+					System.out.println(String.format("First element: %d, last element: %d", sBuf.get(0) & 0xFFFF,
+						sBuf.get(sBuf.limit() - 1) & 0xFFFF));
+
+					for (int pos = 0; pos < sBuf.limit(); pos++) {
+						int usbData = (sBuf.get(pos) & 0xFFFF);
+
+						if (usbData != expData) {
+							System.out.println(String.format("Mismatch detected: %d, exp: %d", usbData, expData));
+							expData = usbData;
+						}
+
+						expData++;
+
+						if (expData == 65536) {
+							expData = 0;
+						}
+					}
+				}
+			}
+
+			@Override
+			public void prepareTransfer(@SuppressWarnings("unused") final RestrictedTransfer t) {
+				// Nothing to do here.
+			}
+		});
 
 		return (usbEPListenGUI);
 	}
