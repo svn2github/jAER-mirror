@@ -2,7 +2,7 @@
 <BaliProject version="3.0" title="DAViS_USB3" device="LFE3-17EA-7FTN256I" default_implementation="DAViS_USB3">
     <Options/>
     <Implementation title="DAViS_USB3" dir="DAViS_USB3" description="DAViS_USB3" synthesis="synplify" default_strategy="Strategy1">
-        <Options def_top="USBAER_top_level"/>
+        <Options/>
         <Source name="DAViS_USB3/source/synchronizerStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
@@ -34,6 +34,60 @@
             <Options/>
         </Source>
         <Source name="DAViS_USB3/source/timestampCounter.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="DAViS_USB3/source/ADCvalueReady.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="DAViS_USB3/source/AERfifo.ipx" type="IPX_Module" type_short="IPX">
+            <Options/>
+        </Source>
+        <Source name="DAViS_USB3/source/AERfifo.lpc" type="LPC_Module" type_short="LPC">
+            <Options/>
+        </Source>
+        <Source name="DAViS_USB3/source/clockgen.ipx" type="IPX_Module" type_short="IPX">
+            <Options/>
+        </Source>
+        <Source name="DAViS_USB3/source/clockgen.lpc" type="LPC_Module" type_short="LPC">
+            <Options/>
+        </Source>
+        <Source name="DAViS_USB3/source/EventBeforeOverflow.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="EventBeforeOverflow"/>
+        </Source>
+        <Source name="DAViS_USB3/source/shiftRegister.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="DAViS_USB3/source/wordRegister.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="DAViS_USB3/source/FIFO.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="DAViS_USB3/source/fifo_tb.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="testbench"/>
+        </Source>
+        <Source name="DAViS_USB3/source/TN_interface.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="TN_interface"/>
+        </Source>
+        <Source name="DAViS_USB3/source/BadCore_TN.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="DAViS_USB3/source/AERFiFo_TN.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="DAViS_USB3/source/AERFiFo_TN_tmpl.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="DAViS_USB3/source/tb_AERFiFo_TN_tmpl.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="tb"/>
+        </Source>
+        <Source name="Intermediate_TN.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="Intermediate_type1.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="TN_Output.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="DAViS_USB3/source/DevBoardUSB3.lpf" type="Logic Preference" type_short="LPF">
