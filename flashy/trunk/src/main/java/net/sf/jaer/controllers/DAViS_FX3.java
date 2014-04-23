@@ -435,7 +435,7 @@ public class DAViS_FX3 extends Controller {
 					}
 					else if ((t.buffer().get(0) == 0x01) && (t.buffer().limit() == 15)) {
 						// This is an IMU sample. Just count it.
-						imuCount = imuCount + 1;
+						imuCount++;
 
 						if ((imuCount & 0x03FF) == 0) {
 							GUISupport.runOnJavaFXThread(() -> usbEP1OutputArea.appendText(String.format(
@@ -462,19 +462,19 @@ public class DAViS_FX3 extends Controller {
 				if (t.status() == LibUsb.TRANSFER_COMPLETED) {
 					dataCount++;
 
-					int bufferSize = t.buffer().limit();
-					System.out.println(String.format("\nNew buffer received (%d), with length: %d", dataCount,
-						bufferSize));
+					if ((dataCount & 0x0FFF) == 0) {
+						GUISupport.runOnJavaFXThread(() -> usbEP2OutputArea.appendText(String.format(
+							"%d: Got 4096 data buffers.\n", dataCount >>> 12)));
+					}
 
 					final ShortBuffer sBuf = t.buffer().order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
-					System.out.println(String.format("First element: %d, last element: %d", sBuf.get(0) & 0xFFFF,
-						sBuf.get(sBuf.limit() - 1) & 0xFFFF));
 
 					for (int pos = 0; pos < sBuf.limit(); pos++) {
-						int usbData = (sBuf.get(pos) & 0xFFFF);
+						final int usbData = (sBuf.get(pos) & 0xFFFF);
 
 						if (usbData != expData) {
-							System.out.println(String.format("Mismatch detected: %d, exp: %d", usbData, expData));
+							GUISupport.runOnJavaFXThread(() -> usbEP2OutputArea.appendText(String.format(
+								"Mismatch detected, got: %d, expected: %d\n", usbData, expData)));
 							expData = usbData;
 						}
 

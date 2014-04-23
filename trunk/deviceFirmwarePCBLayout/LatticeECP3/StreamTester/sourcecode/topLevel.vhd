@@ -28,19 +28,19 @@ end topLevel;
 architecture Structural of topLevel is
   component fifoStatemachine
     port (
-    Clock_CI : in  std_logic;
-	Reset_RBI : in  std_logic;
-	Run_SI : in  std_logic;
-	USBFifoThread0Full_SI : in  std_logic;
+    Clock_CI : in std_logic;
+	Reset_RBI : in std_logic;
+	Run_SI : in std_logic;
+	USBFifoThread0Full_SI : in std_logic;
 	USBFifoThread0AlmostFull_SI : in std_logic;
-	USBFifoThread1Full_SI : in  std_logic;
+	USBFifoThread1Full_SI : in std_logic;
 	USBFifoThread1AlmostFull_SI : in std_logic;
-	InFifoEmpty_SI : in std_logic;
-    InFifoRead_SO : out std_logic;
 	USBFifoChipSelect_SBO : out std_logic;
 	USBFifoWrite_SBO : out std_logic;
 	USBFifoPktEnd_SBO : out std_logic;
-	USBFifoAddress_DO : out std_logic_vector(1 downto 0));
+	USBFifoAddress_DO : out std_logic_vector(1 downto 0);
+	InFifoEmpty_SI : in std_logic;
+    InFifoRead_SO : out std_logic);
   end component;
 
   component AERfifo
@@ -72,10 +72,10 @@ architecture Structural of topLevel is
   signal AERFifoEmpty_S, AERFifoFull_S : std_logic;
 begin
   Reset_RI <= not Reset_RBI;
-  AERFifoWrite_S <= '1';
+  AERFifoWrite_S <= FPGARun_SI;
   USBFifoRead_SBO <= '1';
   LED1_SO <= FPGARun_SI;
-  LED2_SO <= '0';
+  LED2_SO <= AERFifoFull_S;
 
 uFifoStatemachine: fifoStatemachine
     port map (
@@ -86,12 +86,12 @@ uFifoStatemachine: fifoStatemachine
 	USBFifoThread0AlmostFull_SI => USBFifoThr0Watermark_SI,
 	USBFifoThread1Full_SI => USBFifoThr1Ready_SI,
 	USBFifoThread1AlmostFull_SI => USBFifoThr1Watermark_SI,
-	InFifoEmpty_SI => AERFifoEmpty_S,
-    InFifoRead_SO => AERFifoRead_S,
 	USBFifoChipSelect_SBO => USBFifoChipSelect_SBO,
 	USBFifoWrite_SBO => USBFifoWrite_SBO,
 	USBFifoPktEnd_SBO => USBFifoPktEnd_SBO,
-	USBFifoAddress_DO => USBFifoAddress_DO);
+	USBFifoAddress_DO => USBFifoAddress_DO,
+	InFifoEmpty_SI => AERFifoEmpty_S,
+    InFifoRead_SO => AERFifoRead_S);
 	  
   uFifo : AERfifo
     port map (
