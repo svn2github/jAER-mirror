@@ -46,7 +46,7 @@
 #define FX3_FIFO_DATA_DMA_USBTOFX3_CB_EVENT (CY_U3P_DMA_CB_PROD_EVENT)
 
 // Divider on SYS_CLK (400 MHz) to determine FX3 FIFO frequency output (default 100 MHz).
-#define FX3_FIFO_FREQUENCY_DIVIDER 4
+#define FX3_FIFO_FREQUENCY_DIVIDER (4)
 
 // Water-mark levels for almost full/empty flags
 #define FX3_SOCKET_0_WATERMARK (6)

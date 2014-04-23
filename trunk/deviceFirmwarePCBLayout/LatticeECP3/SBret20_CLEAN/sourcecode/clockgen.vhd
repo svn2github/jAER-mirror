@@ -53,7 +53,7 @@ begin
     -- component instantiation statements
 	PLLCInst_0: pmi_pll
     generic map(
-       pmi_freq_clki => 30,
+       pmi_freq_clki => 25,
        pmi_freq_clkfb => 90,
        pmi_freq_clkop => 90,
        pmi_freq_clkos => 90,

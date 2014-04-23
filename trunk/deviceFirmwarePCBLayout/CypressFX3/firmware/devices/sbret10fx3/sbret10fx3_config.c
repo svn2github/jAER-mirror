@@ -372,34 +372,32 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			}
 
 			if (wValue == 0) {
-				CyFxGpioTurnOff(ADC_RUN);
-
 				// Disable data output.
 				CyFxGpioTurnOff(FPGA_RUN);
+
+				CyFxGpioTurnOff(ADC_RUN);
 
 				// Shut off biasgen, and thus the whole chip.
 				CyFxGpioTurnOn(POWER_DOWN);
 
 				// Keep pixels from spiking, reset all of them.
 				CyFxGpioTurnOn(DVS_RESET);
-
-				// Reset fifos. ???
 			}
 			else {
-				// Enable data output.
-				CyFxGpioTurnOn(FPGA_RUN);
-
-				CyFxGpioTurnOn(ADC_RUN);
-
-				// Reset timestamps (toggle pin).
-				CyFxGpioTurnOn(TIMESTAMP_RESET);
-				CyFxGpioTurnOff(TIMESTAMP_RESET);
+				// Don't keep pixels in reset.
+				CyFxGpioTurnOff(DVS_RESET);
 
 				// Release power down (power to chip biasgen).
 				CyFxGpioTurnOff(POWER_DOWN);
 
-				// Don't keep pixels in reset.
-				CyFxGpioTurnOff(DVS_RESET);
+				CyFxGpioTurnOn(ADC_RUN);
+
+				// Enable data output.
+				CyFxGpioTurnOn(FPGA_RUN);
+
+				// Reset timestamps (toggle pin).
+				CyFxGpioTurnOn(TIMESTAMP_RESET);
+				CyFxGpioTurnOff(TIMESTAMP_RESET);
 			}
 
 			CyU3PUsbAckSetup();
