@@ -26,21 +26,20 @@ use IEEE.STD_LOGIC_UNSIGNED."+";
 entity USBAER_top_level is
   port (
     -- communication ports to FX2 Fifos
-    FX2FifoDataxDIO         : out std_logic_vector(15 downto 0);
-    FX2FifoInFullxSBI       : in    std_logic;
-	FX2FifoInAlmostFullxSBI : in    std_logic;
-	FX2FifoChipSelectxEBO   : out   std_logic;
-    FX2FifoWritexEBO        : out   std_logic;
-    FX2FifoReadxEBO         : out   std_logic;
-  
-    FX2FifoPktEndxSBO       : out   std_logic;
-    FX2FifoAddressxDO       : out   std_logic_vector(1 downto 0);
+    USBFifoData_DO : out std_logic_vector(15 downto 0);
+	USBFifoChipSelect_SBO : out std_logic;
+	USBFifoWrite_SBO : out std_logic;
+	USBFifoRead_SBO : out std_logic;
+	USBFifoPktEnd_SBO : out std_logic;
+	USBFifoAddress_DO : out std_logic_vector(1 downto 0);
+	USBFifoThr0Ready_SI : in std_logic;
+	USBFifoThr0Watermark_SI : in std_logic;
+	USBFifoThr1Ready_SI : in std_logic;
+	USBFifoThr1Watermark_SI : in std_logic;
 
     -- clock and reset inputs
-    -- ClockxCI  : in std_logic;
-    --IfClockxCO : out std_logic;
-    IfClockxCI : in std_logic;
-    ResetxRBI : in std_logic;
+	USBClock_CI : in std_logic;
+    Reset_RBI : in std_logic;
 
     -- ports to synchronize other USBAER boards
     Sync1xABI   : in  std_logic;        -- needs synchronization
@@ -55,7 +54,7 @@ entity USBAER_top_level is
 --    PA0xSIO : inout std_logic;
     PA0xSIO : inout std_logic;
     PA1xSIO : inout std_logic;
-    PA3xSIO : inout std_logic;
+    FPGARun_SI : in std_logic;
     PA7xSIO : inout std_logic;
 
     PE2xSI : in std_logic;
@@ -105,22 +104,24 @@ architecture Structural of USBAER_top_level is
   
   component fifoStatemachine
     port (
-      ClockxCI                   : in  std_logic;
-      ResetxRBI                  : in  std_logic;
-	  RunxSI                     : in  std_logic;
-      FifoTransactionxSO         : out std_logic;
-      FX2FifoInFullxSBI          : in  std_logic;
-	  FX2FifoInAlmostFullxSBI    : in  std_logic;
-      FifoEmptyxSI               : in  std_logic;
-      FifoReadxEO                : out std_logic;
-	  FX2FifoChipSelectxEBO      : out std_logic;
-      FX2FifoWritexEBO           : out std_logic;
-      FX2FifoPktEndxSBO          : out std_logic;
-      FX2FifoAddressxDO          : out std_logic_vector(1 downto 0);
-      IncEventCounterxSO         : out std_logic;
-      ResetEventCounterxSO       : out std_logic;
-      ResetEarlyPaketTimerxSO    : out std_logic;
-      EarlyPaketTimerOverflowxSI : in  std_logic);
+      Clock_CI : in std_logic;
+	  Reset_RBI : in std_logic;
+	  Run_SI : in std_logic;
+	  USBFifoThread0Full_SI : in std_logic;
+	  USBFifoThread0AlmostFull_SI : in std_logic;
+	  USBFifoThread1Full_SI : in std_logic;
+	  USBFifoThread1AlmostFull_SI : in std_logic;
+	  USBFifoChipSelect_SBO : out std_logic;
+	  USBFifoWrite_SBO : out std_logic;
+	  USBFifoPktEnd_SBO : out std_logic;
+	  USBFifoAddress_DO : out std_logic_vector(1 downto 0);
+	  InFifoEmpty_SI : in std_logic;
+      InFifoRead_SO : out std_logic;
+      FifoTransaction_SO : out std_logic;
+      IncEventCounter_SO : out std_logic;
+      ResetEventCounter_SO : out std_logic;
+      ResetEarlyPaketTimer_SO : out std_logic;
+      EarlyPaketTimerOverflow_SI : in  std_logic);
   end component;
 
   component shiftRegister
@@ -328,8 +329,6 @@ architecture Structural of USBAER_top_level is
 
   -- various
   signal FifoTransactionxS : std_logic;
-  signal FX2FifoWritexEB : std_logic;
-  signal FX2FifoPktEndxSB     : std_logic;
   signal SyncOutxSB        : std_logic;
   signal HostResetTimestampxS : std_logic;
 
@@ -375,7 +374,7 @@ architecture Structural of USBAER_top_level is
   signal LockxS : std_logic;
 
   -- fifo signals
-  signal FifoDataInxD, FifoDataOutxD : std_logic_vector(15 downto 0);
+  signal FifoDataInxD : std_logic_vector(15 downto 0);
   signal FifoWritexE, FifoReadxE : std_logic;
   signal FifoEmptyxS, FifoAlmostEmptyxS, FifoFullxS, FifoAlmostFullxS : std_logic;
   
@@ -386,28 +385,26 @@ architecture Structural of USBAER_top_level is
   constant selecttrigger : std_logic_vector(1 downto 0) := "10";
   
 begin
-  IfClockxC <= IfClockxCI;
+  IfClockxC <= USBClock_CI;
   ADCclockxCO <= ADCclockxC;
   
   uClockGen : clockgen
     port map (
-      CLK  =>  IFClockxCI,
+      CLK  =>  USBClock_CI,
       RESET=> ResetxR,
       CLKOP=> ClockxC,
       LOCK=>  LockxS);
-
-  --ClockxC <= IFClockxCI;
   
   -- routing
   
   CDVSTestBiasDiagSelxSO <= PA0xSIO; 
   
   -- run the state machines either when reset is high or when in slave mode
-  ResetxRB <= ResetxRBI;
-  ResetxR <= not ResetxRBI;
+  ResetxRB <= Reset_RBI;
+  ResetxR <= not Reset_RBI;
   CounterResetxRB <= SynchronizerResetTimestampxSB;
   
-  FX2FifoReadxEBO <= '1';
+  USBFifoRead_SBO <= '1';
 
   SyncInxAB <= Sync1xABI;
   
@@ -430,20 +427,18 @@ begin
   
   uFifo : AERfifo
     port map (
-      Data(15 downto 0)=> FifoDataInxD,
+      Data(15 downto 0) => FifoDataInxD,
       WrClock => ClockxC,
       RdClock => IfClockxC,
       WrEn=> FifoWritexE, 
       RdEn=> FifoReadxE,
       Reset => ResetxR,
       RPReset=> ResetxR,
-      Q(15 downto 0)=>  FifoDataOutxD,
+      Q => USBFifoData_DO,
       Empty=> FifoEmptyxS, 
       Full=> FifoFullxS,
       AlmostEmpty=> FifoAlmostEmptyxS,
       AlmostFull=> FifoAlmostFullxS);
-
-  FX2FifoDataxDIO <= FifoDataOutxD;
 
   uMonitorAddressRegister : wordRegister
     generic map (
@@ -517,22 +512,24 @@ begin
      
   fifoStatemachine_1: fifoStatemachine
     port map (
-      ClockxCI                   => IfClockxC,
-      ResetxRBI                  => ResetxRB,
-	  RunxSI					 => RunxS,
-      FifoTransactionxSO         => FifoTransactionxS,
-      FX2FifoInFullxSBI          => FX2FifoInFullxSBI,
-	  FX2FifoInAlmostFullxSBI    => FX2FifoInAlmostFullxSBI,
-      FifoEmptyxSI               => FifoEmptyxS,
-      FifoReadxEO                => FifoReadxE,
-	  FX2FifoChipSelectxEBO      => FX2FifoChipSelectxEBO,
-      FX2FifoWritexEBO           => FX2FifoWritexEB,
-      FX2FifoPktEndxSBO          => FX2FifoPktEndxSB,
-      FX2FifoAddressxDO          => FX2FifoAddressxDO,
-      IncEventCounterxSO         => IncEventCounterxS,
-      ResetEventCounterxSO       => ResetEventCounterxS,
-      ResetEarlyPaketTimerxSO    => SMResetEarlyPaketTimerxS,
-      EarlyPaketTimerOverflowxSI => EarlyPaketTimerOverflowxS);
+	  Clock_CI => USBClock_CI,
+	  Reset_RBI => Reset_RBI,
+	  Run_SI => FPGARun_SI,
+	  USBFifoThread0Full_SI => USBFifoThr0Ready_SI,
+	  USBFifoThread0AlmostFull_SI => USBFifoThr0Watermark_SI,
+	  USBFifoThread1Full_SI => USBFifoThr1Ready_SI,
+	  USBFifoThread1AlmostFull_SI => USBFifoThr1Watermark_SI,
+	  USBFifoChipSelect_SBO => USBFifoChipSelect_SBO,
+	  USBFifoWrite_SBO => USBFifoWrite_SBO,
+	  USBFifoPktEnd_SBO => USBFifoPktEnd_SBO,
+	  USBFifoAddress_DO => USBFifoAddress_DO,
+	  InFifoEmpty_SI => FifoEmptyxS,
+      InFifoRead_SO => FifoReadxE,
+      FifoTransaction_SO => FifoTransactionxS,
+      IncEventCounter_SO => IncEventCounterxS,
+      ResetEventCounter_SO => ResetEventCounterxS,
+      ResetEarlyPaketTimer_SO => SMResetEarlyPaketTimerxS,
+      EarlyPaketTimerOverflow_SI => EarlyPaketTimerOverflowxS);
 
   monitorStateMachine_1: monitorStateMachine
     port map (
@@ -604,8 +601,6 @@ begin
       CDVSresetxRBO => CDVSTestPeriodicChipResetxRB);
   
   SynchOutxSBO <= SyncOutxSB;
-  FX2FifoPktEndxSBO <= FX2FifoPktEndxSB;
-  FX2FifoWritexEBO <= FX2FifoWritexEB;
   AERMonitorACKxSBO <= AERMonitorACKxSB;
 
   -- reset early paket timer whenever a paket is sent (short or normal)
@@ -641,7 +636,7 @@ begin
   CDVSTestBiasEnablexEO <= not PE2xSI;
 
   HostResetTimestampxS <= PA7xSIO;
-  RunxS <= PA3xSIO;
+  RunxS <= FPGARun_SI;
   ExtTriggerxE <= PA1xSIO;
 
   RunADCxS <= PC0xSIO;
