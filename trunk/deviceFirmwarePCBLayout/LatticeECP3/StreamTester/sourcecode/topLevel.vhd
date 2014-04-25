@@ -1,8 +1,5 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
-use IEEE.STD_LOGIC_ARITH.all;
-use IEEE.numeric_std.all;
-use IEEE.STD_LOGIC_UNSIGNED."+";
 
 entity topLevel is
   port (
@@ -40,6 +37,7 @@ architecture Structural of topLevel is
 	USBFifoPktEnd_SBO : out std_logic;
 	USBFifoAddress_DO : out std_logic_vector(1 downto 0);
 	InFifoEmpty_SI : in std_logic;
+	InFifoAlmostEmpty_SI : in std_logic;
     InFifoRead_SO : out std_logic);
   end component;
 
@@ -66,15 +64,43 @@ architecture Structural of topLevel is
     Data_DO : out std_logic_vector(15 downto 0));
   end component;
   
+  component pmi_pll is
+     generic (
+       pmi_freq_clki : integer := 100; 
+       pmi_freq_clkfb : integer := 100; 
+       pmi_freq_clkop : integer := 100; 
+       pmi_freq_clkos : integer := 100; 
+       pmi_freq_clkok : integer := 50; 
+       pmi_family : string := "EC"; 
+       pmi_phase_adj : integer := 0; 
+       pmi_duty_cycle : integer := 50; 
+       pmi_clkfb_source : string := "CLKOP"; 
+       pmi_fdel : string := "off"; 
+       pmi_fdel_val : integer := 0; 
+       module_type : string := "pmi_pll" 
+    );
+    port (
+     CLKI: in std_logic;
+     CLKFB: in std_logic;
+     RESET: in std_logic;
+     CLKOP: out std_logic;
+     CLKOS: out std_logic;
+     CLKOK: out std_logic;
+     CLKOK2: out std_logic;
+     LOCK: out std_logic
+   );
+  end component pmi_pll;
+  
   signal Reset_RI: std_logic;
   signal AERFifoDataIn_D : std_logic_vector(15 downto 0);
   signal AERFifoWrite_S, AERFifoRead_S : std_logic;
-  signal AERFifoEmpty_S, AERFifoFull_S : std_logic;
+  signal AERFifoEmpty_S, AERFifoFull_S, AERFifoAlmostEmpty_S : std_logic;
+  signal SlowClock_C : std_logic;
 begin
   Reset_RI <= not Reset_RBI;
-  AERFifoWrite_S <= FPGARun_SI;
+  AERFifoWrite_S <= FPGARun_SI and (not AERFifoFull_S);
   USBFifoRead_SBO <= '1';
-  LED1_SO <= FPGARun_SI;
+  LED1_SO <= AERFifoEmpty_S;
   LED2_SO <= AERFifoFull_S;
 
 uFifoStatemachine: fifoStatemachine
@@ -91,12 +117,13 @@ uFifoStatemachine: fifoStatemachine
 	USBFifoPktEnd_SBO => USBFifoPktEnd_SBO,
 	USBFifoAddress_DO => USBFifoAddress_DO,
 	InFifoEmpty_SI => AERFifoEmpty_S,
+	InFifoAlmostEmpty_SI => AERFifoAlmostEmpty_S,
     InFifoRead_SO => AERFifoRead_S);
 	  
   uFifo : AERfifo
     port map (
       Data => AERFifoDataIn_D,
-      WrClock => USBClock_CI,
+      WrClock => SlowClock_C,
       RdClock => USBClock_CI,
       WrEn => AERFifoWrite_S, 
       RdEn => AERFifoRead_S,
@@ -105,12 +132,37 @@ uFifoStatemachine: fifoStatemachine
       Q =>  USBFifoData_DO,
       Empty => AERFifoEmpty_S, 
       Full => AERFifoFull_S,
-      AlmostEmpty => open,
+      AlmostEmpty => AERFifoAlmostEmpty_S,
       AlmostFull => open);
+	  
+  uPLLSlowDown: pmi_pll
+    generic map(
+       pmi_freq_clki => 80,
+       pmi_freq_clkfb => 50,
+       pmi_freq_clkop => 50,
+       pmi_freq_clkos => 50,
+       pmi_freq_clkok => 50,
+       pmi_family => "ECP3",
+       pmi_phase_adj => 0,
+       pmi_duty_cycle => 25,
+       pmi_clkfb_source => "CLKOP",
+       pmi_fdel => "off",
+       pmi_fdel_val => 0
+    )
+    port map (
+     CLKI => USBClock_CI,
+     CLKFB => SlowClock_C,
+     RESET => Reset_RI,
+     CLKOP => SlowClock_C,
+     CLKOS => open,
+     CLKOK => open,
+     CLKOK2 => open,
+     LOCK => open
+   );
 
   uContinuousCounter : continuousCounter
     port map (
-    Clock_CI => USBClock_CI,
+    Clock_CI => SlowClock_C,
     Reset_RBI => Reset_RBI,
     Data_DO => AERFifoDataIn_D);
 

@@ -22,7 +22,7 @@ begin
   -- 16bit counter, calculation of next state
   p_memless : process (Count_DP)
   begin -- process p_memless
-    Count_DN <= Count_DP +1;
+    Count_DN <= Count_DP + 1;
   end process p_memless;
 
   -- Change state on clock edge (synchronous).

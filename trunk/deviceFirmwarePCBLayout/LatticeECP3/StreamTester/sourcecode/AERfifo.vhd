@@ -1,5 +1,5 @@
 library IEEE;
-use IEEE.std_logic_1164.all;
+use IEEE.STD_LOGIC_1164.all;
 
 entity AERfifo is
     port (
@@ -59,13 +59,13 @@ begin
 	AERfifo_0: pmi_fifo_dc
     generic map (
        pmi_data_width_w => 16,
-       pmi_data_depth_w => 32,
+       pmi_data_depth_w => 64,
 	   pmi_data_width_r => 16,
-       pmi_data_depth_r => 32,
-       pmi_full_flag => 32,
+       pmi_data_depth_r => 64,
+       pmi_full_flag => 64,
        pmi_empty_flag => 0,
-       pmi_almost_full_flag => 30,
-       pmi_almost_empty_flag => 2,
+       pmi_almost_full_flag => 60,
+       pmi_almost_empty_flag => 4,
        pmi_regmode => "noreg",
 	   pmi_resetmode => "async",
        pmi_family => "ECP3",

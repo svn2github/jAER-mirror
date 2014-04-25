@@ -1,7 +1,5 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
-use IEEE.STD_LOGIC_ARITH.all;
-use IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity fifoStatemachine is
 port (
@@ -23,6 +21,7 @@ port (
 
 	-- Input FIFO flags
 	InFifoEmpty_SI : in std_logic;
+	InFifoAlmostEmpty_SI : in std_logic;
 
 	-- Input FIFO control lines
 	InFifoRead_SO : out std_logic);
@@ -36,7 +35,7 @@ architecture Behavioral of fifoStatemachine is
 
 	begin
 	-- calculate next state and outputs
-	  p_memless : process (State_DP, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoEmpty_SI, Run_SI)
+	  p_memless : process (State_DP, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoEmpty_SI, InFifoAlmostEmpty_SI, Run_SI)
 	  begin  -- process p_memless
 		-- default assignements: stay in present state
 		State_DN <= State_DP;
@@ -59,27 +58,30 @@ architecture Behavioral of fifoStatemachine is
 			InFifoRead_SO <= '1'; -- Signal we want to read from the FIFO on next cycle.
 		 
 		  when stWrite0 =>
-			-- Check that there still is data to send.
-			if InFifoEmpty_SI = '1' then
-			  State_DN <= stIdle0;
-			end if;
-			
 			-- Check that we're reaching the end of the FIFO using the watermark flag (almost full).
-			-- This way we know exactly how much space is left (4 cycles) and can enter the right path
+			-- This way we know exactly how much space is left (2 cycles) and can enter the right path
 			-- to switch to the next thread.
 			if USBFifoThread0AlmostFull_SI = '1' then
 				State_DN <= stSwitch0_Select;
+				USBFifoWrite_SBO <= '0';
+				InFifoRead_SO <= '1';
+			-- Check that there still is data to send.
+			elsif InFifoEmpty_SI = '1' then
+			  State_DN <= stIdle0;
+			  -- Last piece of data is sampled when the empty flag goes high.
+			  -- So we still write it out here.
+			  USBFifoWrite_SBO <= '0';
+			else
+				-- Execute write and continue to read from FIFO on next cycle.
+				USBFifoWrite_SBO <= '0';
+				InFifoRead_SO <= '1';
 			end if;
 
-			-- Execute write and continue to read from FIFO on next cycle.
-			USBFifoWrite_SBO <= '0';
-			InFifoRead_SO <= '1';
-
 		  when stSwitch0_Select =>
-				State_DN <= stSwitch0_toWrite;
-				
 				if USBFifoThread1Full_SI = '1' then
 					State_DN <= stSwitch0_toIdle;
+				else
+					State_DN <= stSwitch0_toWrite;
 				end if;
 				
 				USBFifoWrite_SBO <= '0';
@@ -112,28 +114,31 @@ architecture Behavioral of fifoStatemachine is
 		  when stWrite1 =>
 			USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
-			-- Check that there still is data to send.
-			if InFifoEmpty_SI = '1' then
-			  State_DN <= stIdle1;
-			end if;
-			
 			-- Check that we're reaching the end of the FIFO using the watermark flag (almost full).
-			-- This way we know exactly how much space is left (4 cycles) and can enter the right path
+			-- This way we know exactly how much space is left (2 cycles) and can enter the right path
 			-- to switch to the next thread.
 			if USBFifoThread1AlmostFull_SI = '1' then
 				State_DN <= stSwitch1_Select;
+				USBFifoWrite_SBO <= '0';
+				InFifoRead_SO <= '1';
+			elsif InFifoEmpty_SI = '1' then
+			  State_DN <= stIdle1;
+			  -- Last piece of data is sampled when the empty flag goes high.
+			  -- So we still write it out here.
+			  USBFifoWrite_SBO <= '0';
+			else
+				-- Execute write and continue to read from FIFO on next cycle.
+				USBFifoWrite_SBO <= '0';
+				InFifoRead_SO <= '1';
 			end if;
-
-			-- Execute write and continue to read from FIFO on next cycle.
-			USBFifoWrite_SBO <= '0';
-			InFifoRead_SO <= '1';
 
 		  when stSwitch1_Select =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
-				State_DN <= stSwitch1_toWrite;
-				
+
 				if USBFifoThread0Full_SI = '1' then
 					State_DN <= stSwitch1_toIdle;
+				else
+					State_DN <= stSwitch1_toWrite;
 				end if;
 				
 				USBFifoWrite_SBO <= '0';
