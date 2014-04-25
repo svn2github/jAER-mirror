@@ -1,6 +1,6 @@
 /*
  * CypressFX2Biasgen.java
- * 
+ *
  * Created on 23 Jan 2008
  */
 package net.sf.jaer.hardwareinterface.usb.cypressfx2libusb;
@@ -15,13 +15,15 @@ import javax.swing.ProgressMonitor;
 
 import net.sf.jaer.aemonitor.AEPacketRaw;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
-import de.ailis.usb4java.libusb.Device;
+
+import org.usb4java.Device;
+
 import eu.seebetter.ini.chips.ApsDvsChip;
 
 /**
  * Adds functionality of apsDVS sensors to based CypressFX2Biasgen class. The key method is translateEvents that parses
  * the data from the sensor to construct jAER raw events.
- * 
+ *
  * @author Christian/Tobi
  */
 public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
@@ -43,7 +45,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
 
 	/**
 	 * Overridden to use PortBit powerDown in biasgen
-	 * 
+	 *
 	 * @param powerDown
 	 *            true to power off masterbias
 	 * @throws HardwareInterfaceException
@@ -191,7 +193,7 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
 
 	/**
 	 * If set, then row-only events are transmitted to raw packets from USB interface
-	 * 
+	 *
 	 * @param translateRowOnlyEvents
 	 *            true to translate these parasitic events.
 	 */
@@ -230,18 +232,18 @@ public class ApsDvsHardwareInterface extends CypressFX2Biasgen {
 		 * follows <literal> Address bit Address bit pattern 0 LSB Y or Polarity ON=1 1 Y1 or LSB X 2 Y2 or X1 3 Y3 or
 		 * X2 4 Y4 or X3 5 Y5 or X4 6 Y6 or X5 7 Y7 (MSBY) or X6 8 intensity or X7. This bit is set for a Y address if
 		 * the intensity neuron has spiked. This bit is also X7 for X addreses. 9 X8 (MSBX) 10 Y=0, X=1 </literal>
-		 * 
+		 *
 		 * The two msbs of the raw 16 bit data are used to tag the type of data, e.g. address, timestamp, or special
 		 * events wrap or reset host timestamps. <literal> Address Name 00xx xxxx xxxx xxxx pixel address 01xx xxxx xxxx
 		 * xxxx timestamp 10xx xxxx xxxx xxxx wrap 11xx xxxx xxxx xxxx timestamp reset </literal>
-		 * 
+		 *
 		 * The msb of the 16 bit timestamp is used to signal a wrap (the actual timestamp is only 15 bits). The wrapAdd
 		 * is incremented when an empty event is received which has the timestamp bit 15 set to one.
 		 * <p>
 		 * Therefore for a valid event only 15 bits of the 16 transmitted timestamp bits are valid, bit 15 is the status
 		 * bit. overflow happens every 32 ms. This way, no roll overs go by undetected, and the problem of invalid wraps
 		 * doesn't arise.
-		 * 
+		 *
 		 * @param minusEventEffect
 		 *            the data buffer
 		 * @see #translateEvents

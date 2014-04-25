@@ -1,8 +1,8 @@
 /*
  * CypressFX2Biasgen.java
- * 
+ *
  * Created on December 1, 2005, 2:00 PM
- * 
+ *
  * To change this template, choose Tools | Options and locate the template under
  * the Source Creation and Management node. Right-click the template and choose
  * Open. You can then make changes to the template in the Source Editor.
@@ -13,11 +13,12 @@ import java.nio.ByteBuffer;
 
 import net.sf.jaer.aemonitor.AEPacketRaw;
 import net.sf.jaer.hardwareinterface.HardwareInterfaceException;
-import de.ailis.usb4java.libusb.Device;
+
+import org.usb4java.Device;
 
 /**
  * The hardware interface for the Tmpdiff128 (original) retina boards.
- * 
+ *
  * @author tobi/rapha
  */
 public class CypressFX2TmpdiffRetinaHardwareInterface extends CypressFX2Biasgen implements HasResettablePixelArray {
@@ -66,7 +67,7 @@ public class CypressFX2TmpdiffRetinaHardwareInterface extends CypressFX2Biasgen 
 
 		/**
 		 * Does the translation, timestamp unwrapping and reset
-		 * 
+		 *
 		 * @param b
 		 *            the raw buffer
 		 */
@@ -238,7 +239,7 @@ public class CypressFX2TmpdiffRetinaHardwareInterface extends CypressFX2Biasgen 
 
 	/**
 	 * set the pixel array reset.
-	 * 
+	 *
 	 * @param value
 	 *            true to reset the pixels (hold them from spiking), false to let them run normally.
 	 */

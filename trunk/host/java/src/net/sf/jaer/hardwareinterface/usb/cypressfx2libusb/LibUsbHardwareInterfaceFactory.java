@@ -12,12 +12,11 @@ import net.sf.jaer.hardwareinterface.HardwareInterfaceFactoryInterface;
 import net.sf.jaer.hardwareinterface.usb.USBInterface;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
-
-import de.ailis.usb4java.libusb.Device;
-import de.ailis.usb4java.libusb.DeviceDescriptor;
-import de.ailis.usb4java.libusb.DeviceHandle;
-import de.ailis.usb4java.libusb.DeviceList;
-import de.ailis.usb4java.libusb.LibUsb;
+import org.usb4java.Device;
+import org.usb4java.DeviceDescriptor;
+import org.usb4java.DeviceHandle;
+import org.usb4java.DeviceList;
+import org.usb4java.LibUsb;
 
 public class LibUsbHardwareInterfaceFactory implements HardwareInterfaceFactoryInterface {
 	private final static Logger log = Logger.getLogger("LibUsbHardwareInterfaceFactory");
@@ -76,8 +75,6 @@ public class LibUsbHardwareInterfaceFactory implements HardwareInterfaceFactoryI
 			final ImmutablePair<Short, Short> vidPid = new ImmutablePair<Short, Short>(devDesc.idVendor(),
 				devDesc.idProduct());
 
-			LibUsb.freeDeviceDescriptor(devDesc);
-
 			// Check that the device is not already bound to any other driver.
 			final DeviceHandle devHandle = new DeviceHandle();
 			int status = LibUsb.open(dev, devHandle);
@@ -102,7 +99,7 @@ public class LibUsbHardwareInterfaceFactory implements HardwareInterfaceFactoryI
 
 	/**
 	 * returns the first interface in the list
-	 * 
+	 *
 	 * @return reference to the first interface in the list
 	 */
 	@Override
@@ -118,7 +115,7 @@ public class LibUsbHardwareInterfaceFactory implements HardwareInterfaceFactoryI
 	 * will be correctly constructed here.
 	 * <p>
 	 * This method hard-codes the mapping from VID/PID and the HardwareInterface object that is constructed for it.
-	 * 
+	 *
 	 * @param n
 	 *            the number to instantiate (0 based)
 	 */
@@ -149,8 +146,6 @@ public class LibUsbHardwareInterfaceFactory implements HardwareInterfaceFactoryI
 
 		final ImmutablePair<Short, Short> vidPid = new ImmutablePair<Short, Short>(devDesc.idVendor(),
 			devDesc.idProduct());
-
-		LibUsb.freeDeviceDescriptor(devDesc);
 
 		final Class<?> cls = vidPidToClassMap.get(vidPid);
 

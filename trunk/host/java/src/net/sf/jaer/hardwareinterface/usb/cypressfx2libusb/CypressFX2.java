@@ -1,6 +1,6 @@
 /*
  * USBAEMon.java
- * 
+ *
  * Created on February 17, 2005, 7:54 AM
  */
 package net.sf.jaer.hardwareinterface.usb.cypressfx2libusb;
@@ -44,11 +44,12 @@ import net.sf.jaer.hardwareinterface.usb.USBInterface;
 import net.sf.jaer.stereopsis.StereoPairHardwareInterface;
 import net.sf.jaer.util.HexFileParser;
 import net.sf.jaer.util.HexString;
-import de.ailis.usb4java.libusb.Device;
-import de.ailis.usb4java.libusb.DeviceDescriptor;
-import de.ailis.usb4java.libusb.DeviceHandle;
-import de.ailis.usb4java.libusb.LibUsb;
-import de.ailis.usb4java.utils.BufferUtils;
+
+import org.usb4java.BufferUtils;
+import org.usb4java.Device;
+import org.usb4java.DeviceDescriptor;
+import org.usb4java.DeviceHandle;
+import org.usb4java.LibUsb;
 
 /**
  * Devices that use the CypressFX2 and the USBIO driver, e.g. the DVS retinas, the USBAERmini2. This class should not
@@ -73,8 +74,8 @@ import de.ailis.usb4java.utils.BufferUtils;
  * <li>NEW_EVENTS_PROPERTY_CHANGE - on new events from driver
  * <li>"readerStarted" - when the reader thread is started
  * </ul>
- * 
- * 
+ *
+ *
  * @author tobi delbruck/raphael berner
  */
 public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBInterface {
@@ -211,7 +212,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * default size of AE buffer for user processes. This is the buffer that is written by the hardware capture thread
 	 * that holds events
 	 * that have not yet been transferred via {@link #acquireAvailableEventsFromDriver} to another thread
-	 * 
+	 *
 	 * @see #acquireAvailableEventsFromDriver
 	 * @see AEReader
 	 * @see #setAEBufferSize
@@ -232,7 +233,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Populates the device descriptor and the string descriptors and builds the String for toString().
-	 * 
+	 *
 	 * @param gUsbIo
 	 *            the handle to the UsbIo object.
 	 */
@@ -306,7 +307,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * This constructor is protected because these instances should be constructed by the CypressFX2Factory.
 	 * Creates a new instance of USBAEMonitor. Note that it is possible to construct several instances
 	 * and use each of them to open and read from the same device.
-	 * 
+	 *
 	 * @param devNumber
 	 *            the desired device number, in range returned by CypressFX2Factory.getNumInterfacesAvailable
 	 */
@@ -347,7 +348,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * Returns string description of device including the
 	 * USB vendor/project IDs. If the device has not been
 	 * opened then it is minimally opened to populate the deviceDescriptor and then closed.
-	 * 
+	 *
 	 * @return the string description of the device.
 	 */
 	@Override
@@ -364,7 +365,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Writes the serial number string to the device EEPROM
-	 * 
+	 *
 	 * @param name
 	 *            the string. This string has very limited length, e.g. 4 bytes.
 	 * @throws net.sf.jaer.hardwareinterface.HardwareInterfaceException
@@ -402,7 +403,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Returns a new ProgressMonitor with the AEViewer of this chip as the parent component.
-	 * 
+	 *
 	 * @param message
 	 *            message at top of monitor
 	 * @param start
@@ -424,7 +425,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * This is a BLOCKING write call to write the Cypress EEPROM.
 	 * Max number of bytes is defined by {@link #EEPROM_SIZE}.
 	 * Thread-safe.
-	 * 
+	 *
 	 * @param addr
 	 *            the starting address
 	 * @param bytes
@@ -481,7 +482,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Read the EEPROM contents.
-	 * 
+	 *
 	 * @param addr
 	 *            the starting address
 	 * @param length
@@ -508,7 +509,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	/**
 	 * writes the Cypress "C0" load to the EEPROM that makes the Cypress FX2 have a Vender, Product, and Device ID on
 	 * powerup.
-	 * 
+	 *
 	 * @param VID
 	 *            vendor ID
 	 * @param PID
@@ -543,7 +544,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * writes the Cypress "C2" load to the EEPROM that makes the Cypress have full EEPROM firmware, including VID, PID,
 	 * DID.
 	 * On reset the Cypress will load its RAM from the EEPROM.
-	 * 
+	 *
 	 * @param firmwareFilename
 	 *            a File containing the binary format .iic file
 	 *            firmware as output from hex2bix. This is a flat firmware format that starts at address 0.
@@ -597,7 +598,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * writes the Cypress "C2" load to the EEPROM that makes the Cypress have EEPROM firmware, including VID, PID, DID.
-	 * 
+	 *
 	 * @param VID
 	 * @param PID
 	 * @param DID
@@ -688,7 +689,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * downloads firmware to the FX2 RAM from a hex file.
-	 * 
+	 *
 	 * @param hexFileResourcePath
 	 *            a full path pointing to a resource containing the firmware as output from compiler in Intel hex
 	 *            format. This resource is a file that is somewhere in the classpath, i.e. it is a file
@@ -746,7 +747,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * Actually gets called whenever someone looks for new events and there are some using
 	 * acquireAvailableEventsFromDriver, not when data is actually captured by AEReader.
 	 * Thus it will be limited to the users sampling rate, e.g. the game loop rendering rate.
-	 * 
+	 *
 	 * @param listener
 	 *            the listener. It is called with a PropertyChangeEvent when new events
 	 *            are received by a call to {@link #acquireAvailableEventsFromDriver}.
@@ -781,14 +782,14 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * {@link #overrunOccurred} will be reset after this call.
 	 * <p>
 	 * This method also starts event acquisition if it is not running already.
-	 * 
+	 *
 	 * Not thread safe but does use the thread-safe swap() method of AEPacketRawPool to swap data with the acquisition
 	 * thread.
-	 * 
-	 * @return packet of events acquired. 
+	 *
+	 * @return packet of events acquired.
 	 * @throws HardwareInterfaceException
 	 * @see #setEventAcquisitionEnabled
-	 * 
+	 *
 	 *      .
 	 */
 	@Override
@@ -860,7 +861,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * @return event rate in events/sec as computed from last acquisition.
-	 * 
+	 *
 	 */
 	@Override
 	public int getEstimatedEventRate() {
@@ -882,7 +883,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Returns the number of events acquired by the last call to {@link #acquireAvailableEventsFromDriver }
-	 * 
+	 *
 	 * @return number of events acquired
 	 */
 	@Override
@@ -944,7 +945,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * set the board LED state. Useful for debugging. Not available for CypressFX2MonitorSequencer
-	 * 
+	 *
 	 * @param value
 	 *            true to turn it on, false to turn it off.
 	 */
@@ -970,7 +971,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * <p>
 	 * If there is an overrun, the events grabbed are the most ancient; events after the overrun are discarded. The
 	 * timestamps continue on but will probably be lagged behind what they should be.
-	 * 
+	 *
 	 * @return true if there was an overrun.
 	 */
 	@Override
@@ -1002,8 +1003,6 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 		LibUsb.close(deviceHandle);
 
 		deviceHandle = null;
-
-		LibUsb.freeDeviceDescriptor(deviceDescriptor);
 
 		deviceDescriptor = null;
 
@@ -1050,7 +1049,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * sends a vendor request to enable or disable in transfers of AEs
-	 * 
+	 *
 	 * @param inEndpointEnabled
 	 *            true to send vendor request to enable, false to send request to disable
 	 */
@@ -1280,7 +1279,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 		/**
 		 * Subclasses must override this method to process the raw data to write to the raw event packet buffers.
-		 * 
+		 *
 		 * @param buf
 		 *            the raw byte buffers
 		 */
@@ -1316,7 +1315,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 			/**
 			 * Called on completion of read on a data buffer is received from USBIO driver.
-			 * 
+			 *
 			 * @param Buf
 			 *            the data buffer with raw data
 			 */
@@ -1416,7 +1415,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 		 * TODO: at present this processing is redundant in that the most recently captured events are copied to a
 		 * different AEPacketRaw, extracted to an EventPacket, and then processed. This effort is duplicated later in
 		 * rendering. This should be fixed somehow.
-		 * 
+		 *
 		 * @param addresses
 		 *            the raw input addresses; these are filtered in place
 		 * @param timestamps
@@ -1533,7 +1532,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * have overruns because your host processing (e.g. rendering) is taking too long.
 	 * <p>
 	 * This call discards collected events.
-	 * 
+	 *
 	 * @param size
 	 *            of buffer in events
 	 */
@@ -1553,7 +1552,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * start or stops the event acquisition. sends appropriate vendor request to
 	 * device and starts or stops the AEReader.
 	 * Thread-safe on hardware interface.
-	 * 
+	 *
 	 * @param enable
 	 *            boolean to enable or disable event acquisition
 	 */
@@ -1600,7 +1599,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * returns number of string descriptors
-	 * 
+	 *
 	 * @return number of string descriptors: 2 for TmpDiff128, 3 for MonitorSequencer
 	 */
 	public int getNumberOfStringDescriptors() {
@@ -1612,7 +1611,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * checks if device has a string identifier that is a non-empty string
-	 * 
+	 *
 	 * @return false if not, true if there is one
 	 */
 	private boolean hasStringIdentifier() {
@@ -1631,7 +1630,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Constructs a new USB connection and opens it. Does NOT start event acquisition.
-	 * 
+	 *
 	 * @see #setEventAcquisitionEnabled
 	 * @throws HardwareInterfaceException
 	 *             if there is an error opening device
@@ -1743,7 +1742,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * device RAM and this is done automatically. The device is <strong>not configured by this method. Vendor requests
 	 * and
 	 * probably other functionality will not be available.</strong>. The device is left open this method returns.
-	 * 
+	 *
 	 * @throws net.sf.jaer.hardwareinterface.HardwareInterfaceException
 	 * @see #open()
 	 */
@@ -1827,14 +1826,12 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 		deviceHandle = null;
 
-		LibUsb.freeDeviceDescriptor(deviceDescriptor);
-
 		deviceDescriptor = null;
 	}
 
 	/**
 	 * return the string USB descriptors for the device
-	 * 
+	 *
 	 * @return String[] of length 2 or 3 of USB descriptor strings.
 	 */
 	@Override
@@ -1864,7 +1861,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * return the USB VID/PID of the interface
-	 * 
+	 *
 	 * @return int[] of length 2 containing the Vendor ID (VID) and Product ID (PID) of the device. First element is
 	 *         VID, second element is PID.
 	 */
@@ -1907,7 +1904,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * reports if interface is {@link #open}.
-	 * 
+	 *
 	 * @return true if already open
 	 */
 	@Override
@@ -1919,7 +1916,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * Loads a binary firmware file into memory.
 	 * The filename is used to search the resource path (i.e. the jar archives on the classpath).
 	 * If the file is not found in the resources (jars or classes on classpath) then the file system is checked.
-	 * 
+	 *
 	 * @param firmwareFilename
 	 *            the resource path
 	 **/
@@ -1968,7 +1965,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Loads a binary firmware file into memory from a file system path (as opposed to resource path).
-	 * 
+	 *
 	 * @param firmwareFilename
 	 *            the file path
 	 **/
@@ -2005,8 +2002,8 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * In addition, there is a problem if firmware is downloaded more than once to an FX2LP device between hard resets.
 	 * Therefore if this method detects that the device has string identitifers, it assumes the firmware has already
 	 * been downloaded.
-	 * 
-	 * 
+	 *
+	 *
 	 * Firmware file is loaded as a resource from the jar archive.
 	 */
 	synchronized public void downloadFirmwareBinary(final String firmwareFilename) throws HardwareInterfaceException {
@@ -2038,10 +2035,10 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	 * In addition, there is a problem if firmware is downloaded more than once to an FX2LP device between hard resets.
 	 * Therefore if this method detects that the device has string identifiers, it assumes the firmware has already been
 	 * downloaded.
-	 * 
+	 *
 	 * <p>
 	 * Firmware file is loaded either from the file system or as a resource from the jar archive.
-	 * 
+	 *
 	 * @throws BlankDeviceException
 	 *             if device is blank or firmware file is not found.
 	 * @throws HardwareInterfaceException
@@ -2081,7 +2078,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	/**
 	 * Returns the firmware filenmae corresponding to a VID/PID pair.
 	 * This filename is a full path to a resource on the classpath which is in the project jar jAER.jar.
-	 * 
+	 *
 	 * @deprecated not used anymore - user chooses firmware file via AEViewer/CypressFX2 menu item
 	 */
 	@Deprecated
@@ -2109,7 +2106,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Shows a dialog to let user choose a firmware file for download to the device
-	 * 
+	 *
 	 * @return full path to chosen file
 	 */
 	public String showFirmwareFilenameDialog() {
@@ -2167,7 +2164,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	/**
 	 * Downloads to RAM on FX2 using built-in vendor request to CPUCS.
 	 * Remember to set8051Reset() before and after calling this method.
-	 * 
+	 *
 	 * @param address
 	 *            the starting address in the 8051 RAM
 	 * @param FWBuffer
@@ -2178,7 +2175,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 		CypressFX2.log.info("downloading " + FWBuffer.length + " bytes to CypressFX2 RAM starting at " + address);
 		/*
 		 * From Fx2 tech ref guide, chapter 2 "endpoint 0"
-		 * 
+		 *
 		 * The USB endpoint-zero protocol provides a mechanism for mixing
 		 * vendor-specific requests with standard device requests. Bits 6:5 of the bmRequestType
 		 * field are set to 00 for a standard device request and to 10 for a vendor request.
@@ -2225,7 +2222,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * sends vendor request to CPUCS register to set 8051 in CPU reset (or not)
-	 * 
+	 *
 	 * @param value
 	 *            true to reset, false to run
 	 * @see #download8051RAM
@@ -2248,7 +2245,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * returns last events from {@link #acquireAvailableEventsFromDriver}
-	 * 
+	 *
 	 * @return the event packet
 	 */
 	@Override
@@ -2258,7 +2255,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Sends a vendor request without any data packet, value and index are set to zero. This is a blocking method.
-	 * 
+	 *
 	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 */
@@ -2268,7 +2265,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Sends a vendor request without any data packet but with request, value and index. This is a blocking method.
-	 * 
+	 *
 	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 * @param value
@@ -2283,7 +2280,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Sends a vendor request with a given byte[] as data. This is a blocking method.
-	 * 
+	 *
 	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 * @param value
@@ -2300,7 +2297,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Sends a vendor request with a given byte[] as data. This is a blocking method.
-	 * 
+	 *
 	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 * @param value
@@ -2325,7 +2322,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Sends a vendor request with data (including special bits). This is a blocking method.
-	 * 
+	 *
 	 * @param requestType
 	 *            the vendor requestType byte (used for special cases, usually 0)
 	 * @param request
@@ -2363,7 +2360,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Sends a vendor request to receive (IN direction) data. This is a blocking method.
-	 * 
+	 *
 	 * @param request
 	 *            the vendor request byte, identifies the request on the device
 	 * @param value
@@ -2437,7 +2434,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 
 	/**
 	 * Writes the CPLD configuration from an SVF file. Thread-safe.
-	 * 
+	 *
 	 * @param svfFile
 	 * @throws net.sf.jaer.hardwareinterface.HardwareInterfaceException
 	 */
@@ -2656,7 +2653,7 @@ public class CypressFX2 implements AEMonitorInterface, ReaderBufferControl, USBI
 	/**
 	 * Checks for blank cypress VID/PID.
 	 * Device deviceDescriptor must be populated before calling this method.
-	 * 
+	 *
 	 * @return true if blank
 	 */
 	protected boolean isBlankDevice() {
