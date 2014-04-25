@@ -569,14 +569,18 @@ public class AEChipRenderer extends Chip2DRenderer {
         }
     }
 
-       /** Creates colors for each cell type (e.g. orientation)
-        so that they are spread over hue space in a manner to attempt to be maximally different in hue.
-     * 
+    /** Creates colors for each cell type (e.g. orientation) so that they are 
+     * spread over hue space in a manner to attempt to be maximally different in hue.
      * <p>
-     * Subclasses can override this method to customize the colors drawn but the subclasses should check if the color have been created since checkTypeColors is called on every
-     * rendering cycle. This method should first check if typeColorRGBComponents already exists and has the correct number of elements. If not, 
-     * allocate and populate typeColorRGBComponents so that type t corresponds to typeColorRGBComponents[t][0] for red, typeColorRGBComponents[t][1] for green, and
-     * typeColorRGBComponents[t][3] for blue. It should also populate the Color[] typeColors.
+     * Subclasses can override this method to customize the colors drawn but the 
+     * subclasses should check if the color have been created since 
+     * checkTypeColors is called on every rendering cycle. 
+     * This method should first check if typeColorRGBComponents already exists 
+     * and has the correct number of elements. If not, allocate and populate 
+     * typeColorRGBComponents so that type t corresponds to 
+     * typeColorRGBComponents[t][0] for red, typeColorRGBComponents[t][1] for green, 
+     * and typeColorRGBComponents[t][3] for blue. 
+     * It should also populate the Color[] typeColors.
      * @param numCellTypes the number of colors to generate
      * @return the float[][] of colors, each row of which is an RGB color triplet in float 0-1 range for a particular cell type
      * @see #typeColors
@@ -587,8 +591,8 @@ public class AEChipRenderer extends Chip2DRenderer {
         if (colors==null) {
             colors = new float[numCellTypes][3];
             setTypeColors(new Color[numCellTypes]);
-            for (int i = 0; i < typeColorRGBComponents.length; i++) {
-                int hueIndex = (int) Math.floor((float) i / typeColorRGBComponents.length * HUES.length);
+            for (int i = 0; i < numCellTypes; i++) {
+                int hueIndex = (int) Math.floor((float) i / numCellTypes * HUES.length);
                 float hue = (float) HUES[hueIndex] / 255f;
                 Color c = Color.getHSBColor(hue, 1, 1);
                 colors[i][0] = (float) c.getRed() / 255;
