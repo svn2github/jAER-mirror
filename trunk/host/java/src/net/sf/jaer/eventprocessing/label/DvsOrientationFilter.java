@@ -14,8 +14,8 @@ import net.sf.jaer.Description;
 import net.sf.jaer.DevelopmentStatus;
 
 /** Computes simple-type orientation-tuned cells.
- * A switch allows WTA mode (only max 1 event generated) or 
- * many event (any orientation that passes coincidence threshold.
+ * A switch allows WTA mode (only max 1 event generated) or many event 
+ * (any orientation that passes coincidence threshold).
  * Another switch allows contour enhancement by using previous output 
  * orientation events to make it easier to make events along the same orientation.
  * Another switch decides whether to use max delay or average delay as the coincidence measure.
@@ -32,31 +32,15 @@ import net.sf.jaer.DevelopmentStatus;
 @Description("Detects local orientation by spatio-temporal correlation for DVS sensors")
 @DevelopmentStatus(DevelopmentStatus.Status.Experimental)
 public class DvsOrientationFilter extends AbstractOrientationFilter{
-    /** Creates a new instance of SimpleAbstractOrientationFilter */
+    private boolean isBinocular;
+    /** Creates a new instance of SimpleAbstractOrientationFilter
+     * @param chip */
     public DvsOrientationFilter (AEChip chip){
         super(chip);
         chip.addObserver(this);
         
-        // properties, tips and groups
-        final String size = "Size", tim = "Timing", disp = "Display";
-        setPropertyTooltip(disp,"showGlobalEnabled","shows line of average orientation");
-        setPropertyTooltip(tim,"minDtThreshold","Coincidence time, events that pass this coincidence test are considerd for orientation output");
-        setPropertyTooltip(tim,"dtRejectMultiplier","<html>reject delta times more than this factor times <em>minDtThreshold</em> to reduce noise");
-        setPropertyTooltip(tim,"dtRejectThreshold","reject delta times more than this time in us to reduce effect of very old events");
-        setPropertyTooltip("multiOriOutputEnabled","Enables multiple event output for all events that pass test");
-        setPropertyTooltip(tim,"useAverageDtEnabled","Use averarge delta time instead of minimum");
-        setPropertyTooltip(disp,"passAllEvents","Passes all events, even those that do not get labled with orientation");
-        setPropertyTooltip(size,"subSampleShift","Shift subsampled timestamp map stores by this many bits");
-        setPropertyTooltip(size,"width","width of RF, total is 2*width+1");
-        setPropertyTooltip(size,"length","length of half of RF, total length is length*2+1");
-        setPropertyTooltip(tim,"oriHistoryEnabled","enable use of prior orientation values to filter out events not consistent with history");
-        setPropertyTooltip(disp,"showVectorsEnabled","shows local orientation segments");
-        setPropertyTooltip(disp,"jitterAmountPixels","how much to jitter vector origins by in pixels");
-        setPropertyTooltip(disp,"jitterVectorLocations","whether to jitter vector location to see overlapping vectors more easily");
-        setPropertyTooltip(tim,"oriHistoryMixingFactor","mixing factor for history of local orientation, increase to learn new orientations more quickly");
-        setPropertyTooltip(tim,"oriDiffThreshold","orientation must be within this value of historical value to pass");
+        //Tooltips and Properties are defined in the AbstractOrientationFilter.
     }
-
 
     /** filters in to getOutputPacket(). 
      * if filtering is enabled, the number of getOutputPacket() may be less
@@ -66,26 +50,22 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
     @Override
     synchronized public EventPacket<?> filterPacket (EventPacket<?> in){
         if ( enclosedFilter != null ) in = enclosedFilter.filterPacket(in);
-        if ( in.getSize() == 0 )      return in;
+        if ( in.getSize() == 0 ) return in;
 
         Class inputClass = in.getEventClass();
-        if ( !( inputClass == PolarityEvent.class || inputClass == BinocularEvent.class ) ){
-            log.warning("wrong input event class "+in.getEventClass()+" in the input packet" + in + ", disabling filter");
+        if ( inputClass == PolarityEvent.class) {
+            isBinocular = false;
+            checkOutputPacketEventType(DvsOrientationEvent.class);
+        } else if( inputClass == BinocularEvent.class ) {
+            isBinocular = true;
+            checkOutputPacketEventType(BinocularOrientationEvent.class);
+        } else { //Neither Polarity nor Binocular Event --> Wrong class used!
+            log.warning("wrong input event class "+inputClass+" in the input packet" + in + ", disabling filter");
             setFilterEnabled(false);
             return in;
         }
 
-        //check for binocular input
-        boolean isBinocular;
-        if ( in.getEventClass() == BinocularEvent.class ){
-            isBinocular = true;
-            checkOutputPacketEventType(BinocularOrientationEvent.class);
-        } else{
-            isBinocular = false;
-            checkOutputPacketEventType(DvsOrientationEvent.class);
-        }
-
-        EventPacket outputPacket=getOutputPacket();
+        EventPacket outputPacket = getOutputPacket();
         OutputEventIterator outItr = outputPacket.outputIterator();
 
         int sizex = chip.getSizeX() - 1;
@@ -108,8 +88,7 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
 
             /* (Peter Hess) monocular events use eye = 0 as standard. therefore some arrays will waste memory, because eye will never be 1 for monocular events
              * in terms of performance this may not be optimal. but as long as this filter is not final, it makes rewriting code much easier, because
-             * monocular and binocular events may be handled the same way.
-             */
+             * monocular and binocular events may be handled the same way. */
             int eye = 0;
             if ( isBinocular ){
                 if ( ( (BinocularEvent)ein ).eye == BinocularEvent.Eye.RIGHT ){
@@ -119,11 +98,8 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
             if ( eye == 1 ){
                 type = type << 1;
             }
-//            try{
-              lastTimesMap[x][y][type] = e.timestamp;
-//            }catch(ArrayIndexOutOfBoundsException ex){
-//                System.out.println(e.toString());
-//            }
+            lastTimesMap[x][y][type] = e.timestamp;
+
             // getString times to neighbors in all directions
             // check if search distance has been changed before iterating - for some reason the synchronized doesn't work
             int xx, yy;
@@ -274,6 +250,11 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
         for (Object o : outputPacket) {
             DvsOrientationEvent e = (DvsOrientationEvent) o;
             e.address = e.address | (e.orientation << ORI_SHIFT);
+        }
+        
+        //Show the events instead of the directions
+        if(showRawInputEnabled) {
+            return in;
         }
         return getOutputPacket();
     }
