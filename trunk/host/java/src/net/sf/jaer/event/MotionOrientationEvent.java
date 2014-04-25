@@ -63,11 +63,10 @@ public class MotionOrientationEvent extends OrientationEvent {
      @param src the event to copy from
      */
     @Override public void copyFrom(BasicEvent src){
-        OrientationEventInterface e=(OrientationEventInterface)src;
         super.copyFrom(src);
-        if(e instanceof MotionOrientationEvent){
-            this.direction=((MotionOrientationEvent)e).direction;
-            this.delay=((MotionOrientationEvent)e).delay;
+        if(src instanceof MotionOrientationEvent){
+            this.direction=((MotionOrientationEvent)src).direction;
+            this.delay=((MotionOrientationEvent)src).delay;
         }
     }
     
