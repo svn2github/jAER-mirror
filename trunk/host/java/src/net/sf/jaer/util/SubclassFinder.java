@@ -37,7 +37,7 @@ public class SubclassFinder {
                     c = Class.forName(name);
                     map.put(name, c);
                 } catch (ClassNotFoundException e) {
-                    log.log(Level.WARNING, "caught {0} when trying to get class named {1}", new Object[]{e, name});
+                    log.warning("caught "+e+" when trying to get class named "+name);
                 }
             }
             return c;
@@ -75,7 +75,7 @@ public class SubclassFinder {
             int n = ".class".length();
             Class c = null;
             if (allClasses.isEmpty()) {
-                log.log(Level.WARNING, "List of subclasses of {0} is empty, is there something wrong with your classpath. Do you have \"compile on save\" turned on? (This option can break the SubclassFinder).", superClassName);
+                log.warning("List of subclasses of "+superClassName+" is empty, is there something wrong with your classpath. Do you have \"compile on save\" turned on? (This option can break the SubclassFinder).");
             }
             int i = 0;
             int nclasses = allClasses.size();
@@ -107,11 +107,11 @@ public class SubclassFinder {
                     }
                 // TODO: Better way of handling Errors is needed. Most of them arent a problem, as they dont belong to jAER anyway. If that is the case we should ignore, not log...    
                 } catch (ExceptionInInitializerError t) {
-                    log.log(Level.WARNING, "{0} while seeing if {1} isAssignableFrom {2}", new Object[]{t, superClass, c});
+                    log.warning(t+" while seeing if "+superClass+" isAssignableFrom "+c);
                 } catch (NoClassDefFoundError t) {
-                    log.log(Level.WARNING, "{0} while seeing if {1} isAssignableFrom {2}", new Object[]{t, superClass, c});
+                    log.warning(t+" while seeing if "+superClass+" isAssignableFrom "+c);
                 } catch (UnsatisfiedLinkError t) {
-                    log.log(Level.WARNING, "{0} while seeing if {1} isAssignableFrom {2}", new Object[]{t, superClass, c});
+                    log.warning(t+" while seeing if "+superClass+" isAssignableFrom "+c);
                 }
             }
             return classes;
@@ -154,7 +154,7 @@ public class SubclassFinder {
         int n = ".class".length();
         Class c = null;
         if (allClasses.isEmpty()) {
-            log.log(Level.WARNING, "List of subclasses of {0} is empty, is there something wrong with your classpath. Do you have \"compile on save\" turned on? (This option can break the SubclassFinder).", superClassName);
+            log.warning("List of subclasses of "+superClassName+" is empty, is there something wrong with your classpath. Do you have \"compile on save\" turned on? (This option can break the SubclassFinder).");
         }
         int i = 0;
         if (progressMonitor != null) {
@@ -190,11 +190,11 @@ public class SubclassFinder {
                 }
             // TODO: Better way of handling Errors is needed. Most of them arent a problem, as they dont belong to jAER anyway. If that is the case we should ignore, not log...    
             } catch (ExceptionInInitializerError t) {
-                log.log(Level.WARNING, "{0} while seeing if {1} isAssignableFrom {2}", new Object[]{t, superClass, c});
+                log.warning(t+" while seeing if "+superClass+" isAssignableFrom "+c);
             } catch (NoClassDefFoundError t) {
-                log.log(Level.WARNING, "{0} while seeing if {1} isAssignableFrom {2}", new Object[]{t, superClass, c});
+                log.warning(t+" while seeing if "+superClass+" isAssignableFrom "+c);
             } catch (UnsatisfiedLinkError t) {
-                log.log(Level.WARNING, "{0} while seeing if {1} isAssignableFrom {2}", new Object[]{t, superClass, c});
+                log.warning(t+" while seeing if "+superClass+" isAssignableFrom "+c);
             }
         }
         return classes;
