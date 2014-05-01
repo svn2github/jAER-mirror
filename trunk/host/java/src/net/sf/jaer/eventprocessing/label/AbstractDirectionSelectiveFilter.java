@@ -1,13 +1,6 @@
-/*
- * AbstractDirectionSelectiveFilter.java
+/* AbstractDirectionSelectiveFilter.java
  *
- * Created on November 2, 2005, 8:24 PM
- *
- * To change this template, choose Tools | Options and locate the template under
- * the Source Creation and Management node. Right-click the template and choose
- * Open. You can then make changes to the template in the Source Editor.
- */
-
+ * Created on November 2, 2005, 8:24 PM */
 package net.sf.jaer.eventprocessing.label;
 
 import net.sf.jaer.chip.*;
@@ -28,12 +21,11 @@ import javax.media.opengl.glu.*;
  * Output cells type has values 0-7,
  * 0 being upward motion, increasing by 45 deg CCW to 7 being motion up and to right.
  * @author tobi */
-// Not need to have @Description and @DevelopmentStatus here, as the abstract 
+// No need to have @Description and @DevelopmentStatus here, as the abstract 
 // class needs to be implemented, which is where the desc. and status. are used.
 abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D implements Observer, FrameAnnotater {
     protected final int NUM_INPUT_TYPES = 8; // 4 orientations * 2 polarities
-    public static final int MAX_SEARCH_DISTANCE = 12;
-    protected int sizex,sizey; // chip sizes
+    public static final int MAX_SEARCH_DISTANCE = 12;   
     
     protected boolean showGlobalEnabled   = getBoolean("showGlobalEnabled",false);
     protected boolean showVectorsEnabled  = getBoolean("showVectorsEnabled",false);
@@ -52,7 +44,7 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
 
     protected boolean useAvgDtEnabled = getBoolean("useAvgDtEnabled",false);
 
-    // taulow sets time const of lowpass filter, limiting max frequency
+    /** taulow sets time const of lowpass filter, limiting max frequency */
     protected int tauLow = getInt("tauLow",100);
 
     protected int subSampleShift = getInt("subSampleShift",0);
@@ -67,16 +59,18 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
     
     int PADDING = 2; // padding around array that holds previous orientation event timestamps to prevent arrayoutofbounds errors and need for checking
     int P=1; // PADDING/2
-    int lastNumInputCellTypes=2;
+    protected int sizex,sizey; // chip sizes
     
     protected AbstractOrientationFilter oriFilter;
     protected MotionVectors motionVectors;
-    protected float avgSpeed=0;
+    protected float avgSpeed = 0;
     
-    /** Creates a new instance of DirectionSelectiveFilter */
+    
+    /** Creates a new instance of DirectionSelectiveFilter
+     * @param chip */
     public AbstractDirectionSelectiveFilter(AEChip chip) {
         super(chip);
-        chip.addObserver(this);
+        
         resetFilter();
         setFilterEnabled(false);
         
@@ -85,6 +79,8 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         setEnclosedFilter(oriFilter);
         
         motionVectors = new MotionVectors();
+        
+        chip.addObserver(this);
         final String disp="Display";
         setPropertyTooltip(disp,"ppsScale", "scale of pixels per second to draw local and global motion vectors");
         setPropertyTooltip(disp,"showVectorsEnabled", "shows local motion vectors");
@@ -101,21 +97,26 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         setPropertyTooltip("searchDistance", "search distance perpindicular to orientation, 1 means search 1 to each side");
         setPropertyTooltip("minDtThreshold", "min delta time (us) for past events allowed for selecting a particular direction");
         setPropertyTooltip("maxDtThreshold", "max delta time (us) that is considered");
-   }
+    }
     
+    // The Method that needs to be implemented.
+    // This will be different for DVS and DAVIS, hence the abstract filter
     @Override
     public abstract EventPacket filterPacket(EventPacket in);
     
     @Override
-    synchronized public void resetFilter() {
+    public synchronized final void resetFilter() {
         setPadding(getSearchDistance()); // make sure to set padding
         sizex=chip.getSizeX();
         sizey=chip.getSizeY();
     }
     
     protected void checkMap(){
-        if(lastTimesMap==null || lastTimesMap.length!=chip.getSizeX()+PADDING || lastTimesMap[0].length!=chip.getSizeY()+PADDING || lastTimesMap[0][0].length!=NUM_INPUT_TYPES){
-            allocateMap();
+        if(lastTimesMap==null || 
+           lastTimesMap.length      !=chip.getSizeX()+PADDING || 
+           lastTimesMap[0].length   !=chip.getSizeY()+PADDING || 
+           lastTimesMap[0][0].length!=NUM_INPUT_TYPES){
+                allocateMap();
         }
     }
     
@@ -129,6 +130,7 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
     GLUquadric expansionQuad;
     boolean hasBlendChecked = false;
     boolean hasBlend = false;
+    Random r = new Random();
 
     @Override
     public void annotate(GLAutoDrawable drawable) {
@@ -197,7 +199,7 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
             gl.glPopMatrix();
             // </editor-fold>
 
-//            // draw expansion compass vectors as arrows pointing in.getOutputPacket() from origin
+            // <editor-fold defaultstate="collapsed" desc="-- draw expansion compass vectors as arrows pointing in.getOutputPacket() from origin --">
 //            gl.glPushMatrix();
 //            gl.glTranslatef(chip.getSizeX()/2, (chip.getSizeY())/2,0);
 //            gl.glLineWidth(6f);
@@ -212,6 +214,7 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
 //            gl.glVertex2f((1+e.east.getValue())*multe*ppsScale,0);
 //            gl.glEnd();
 //            gl.glPopMatrix();
+            // </editor-fold>
         }
         
         if(dirPacket!=null && isShowVectorsEnabled()){
@@ -232,34 +235,31 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
             // </editor-fold>
         }
     }
-    Random r = new Random();
+    
 
     // plots a single motion vector which is the number of pixels per second times scaling
     void drawMotionVector(GL gl, MotionOrientationEvent e, int frameDuration,float[][] c) {
         float jx = 0, jy = 0;
+        MotionOrientationEvent.Dir d = MotionOrientationEvent.unitDirs[e.direction];
+        
         if (jitterVectorLocations) {
             jx = (r.nextFloat() - .5f) * jitterAmountPixels;
             jy = (r.nextFloat() - .5f) * jitterAmountPixels;
         }
-        float startx=e.x+jx,starty=e.y+jy;
+        float speed  = e.speed * ppsScale;
+        // motion vector points in direction of motion, *from* dir value (minus sign) which points in direction from prevous event
+        float startx = e.x+jx,           starty = e.y+jy;
+        float endx   = e.x-d.x*speed+jx, endy   = e.y-d.y*speed+jy;
         gl.glColor3fv(c[e.getType()],0);
         gl.glVertex2f(startx,starty);
-        MotionOrientationEvent.Dir d = MotionOrientationEvent.unitDirs[e.direction];
-        float speed = e.speed * ppsScale;
-//        Point2D.Float vector=MotionOrientationEvent.computeMotionVector(e);
-//        float xcomp=(float)(vector.getX()*ppsScale);
-//        float ycomp=(float)(vector.getY()*ppsScale);
-//        gl.glVertex2d(e.x+xcomp, e.y+ycomp);
-        // motion vector points in direction of motion, *from* dir value (minus sign) which points in direction from prevous event
-        float endx=e.x-d.x*speed+jx, endy=e.y-d.y*speed+jy;
         gl.glVertex2f(endx,endy);
         // compute arrowhead
         final float headlength=1;
-        float vecx=endx-startx, vecy=endy-starty; // orig vec
-        float vx2=vecy, vy2=-vecx; // right angles +90 CW
-        float arx=-vecx+vx2, ary=-vecy+vy2; // halfway between pointing back to origin
-        float l=(float)Math.sqrt(arx*arx+ary*ary); // length
-        arx=arx/l*headlength; ary=ary/l*headlength; // normalize to headlength
+        float vecx = endx-startx, vecy = endy-starty; // orig vec
+        float vx2  = vecy,        vy2  = -vecx; // right angles +90 CW
+        float arx  = -vecx+vx2,   ary  = -vecy+vy2; // halfway between pointing back to origin
+        float l = (float)Math.sqrt(arx*arx+ary*ary); // length
+        arx = arx/l*headlength;   ary  = ary/l*headlength; // normalize to headlength
         // draw arrow (half)
         gl.glVertex2f(endx,endy);
         gl.glVertex2f(endx+arx, endy+ary);
@@ -267,33 +267,6 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         gl.glVertex2f(endx,endy);
         gl.glVertex2f((endx+ary), endy-arx);
     }
-    
-
-    protected boolean pass(int dt){
-        return (dt<maxDtThreshold && dt>minDtThreshold);
-    }
-    
-    // <editor-fold defaultstate="collapsed" desc="getter/setter for --MaxDtTreshold--">
-    public int getMaxDtThreshold() {
-        return this.maxDtThreshold;
-    }
-    
-    public void setMaxDtThreshold(final int maxDtThreshold) {
-        this.maxDtThreshold = maxDtThreshold;
-        putInt("maxDtThreshold",maxDtThreshold);
-    }
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="getter/setter for --MinDtThreshold--">
-    public int getMinDtThreshold() {
-        return this.minDtThreshold;
-    }
-    
-    public void setMinDtThreshold(final int minDtThreshold) {
-        this.minDtThreshold = minDtThreshold;
-        putInt("minDtThreshold", minDtThreshold);
-    }
-    // </editor-fold>
     
     @Override
     public void initFilter() {
@@ -305,16 +278,11 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         initFilter();
     }
     
-    public int getSearchDistance() {
-        return searchDistance;
-    }
-    
-    protected Point2D.Float translationVector=new Point2D.Float();
-    
     /** Returns the 2-vector of global translational average motion.
      * @return translational motion in pixels per second, 
      * as computed and filtered by Translation */
     public Point2D.Float getTranslationVector(){
+        Point2D.Float translationVector=new Point2D.Float();
         translationVector.x=motionVectors.translation.xFilter.getValue();
         translationVector.y=motionVectors.translation.yFilter.getValue();
         return translationVector;
@@ -326,52 +294,18 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         float rot=motionVectors.rotation.filter.getValue();
         return rot;
     }
-      
-    synchronized public void setSearchDistance(int searchDistance) {
-        if(searchDistance > MAX_SEARCH_DISTANCE) {
-            searchDistance = MAX_SEARCH_DISTANCE;
-        } else if(searchDistance<1) {
-            searchDistance = 1;
-        } // limit size
-        this.searchDistance = searchDistance;
-        setPadding(searchDistance);
-        allocateMap();
-        putInt("searchDistance",searchDistance);
-    }   
-    
-    /** The motion vectors are the global motion components */
+   
+    /** The motion vectors are the global motion components
+     * @return  */
     public MotionVectors getMotionVectors() {
         return motionVectors;
     }
-    
-    // <editor-fold defaultstate="collapsed" desc="getter/setter for --SpeedControlEnabled--">
-    public boolean isSpeedControlEnabled() {
-        return speedControlEnabled;
-    }
-    
-    public void setSpeedControlEnabled(boolean speedControlEnabled) {
-        this.speedControlEnabled = speedControlEnabled;
-        putBoolean("speedControlEnabled",speedControlEnabled);
-    }
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="getter/setter for --ShowGlobalEnabled--">
-    public boolean isShowGlobalEnabled() {
-        return showGlobalEnabled;
-    }
-    
-    public void setShowGlobalEnabled(boolean showGlobalEnabled) {
-        this.showGlobalEnabled = showGlobalEnabled;
-        putBoolean("showGlobalEnabled",showGlobalEnabled);
-    }
-    // </editor-fold>
 
     protected void setPadding (int searchDistance){
         PADDING = 2 * searchDistance;
         P = ( PADDING / 2 );
     }
-        
-    
+ 
     /** global translatory motion, pixels per second */
     public class Translation{
         LowpassFilter xFilter=new LowpassFilter(), yFilter=new LowpassFilter();
@@ -394,18 +328,20 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
             filter.setTauMs(tauLow);
         }
         void addEvent(MotionOrientationEvent e){
-            // each event implies a certain rotational motion. the larger the radius, the smaller the effect of a given local motion vector on rotation.
-            // the contribution to rotational motion is computed by dot product between tangential vector (which is closely related to radial vector)
-            // and local motion vector.
-            // if vx,vy is the local motion vector, rx,ry the radial vector (from center of rotation), and tx,ty the tangential
-            // *unit* vector, then the tagential velocity is comnputed as v.t=rx*tx+ry*ty.
-            // the tangential vector is given by dual of radial vector: tx=-ry/r, ty=rx/r, where r is length of radial vector
+            // each event implies a certain rotational motion. The larger the 
+            // radius, the smaller the effect of a given local motion vector on 
+            // rotation. The contribution to rotational motion is computed by 
+            // dot product between tangential vector (which is closely related 
+            // to radial vector) and local motion vector.
+            // If (vx,vy) is the local motion vector, (rx,ry) the radial vector 
+            // (from center of rotation), and (tx,ty) the tangential *unit* 
+            // vector, then the tagential velocity is comnputed as v.t=rx*tx+ry*ty.
+            // the tangential vector is given by dual of radial vector: 
+            // tx=-ry/r, ty=rx/r, where r is length of radial vector
             // thus tangential comtribution is given by v.t/r=(-vx*ry+vy*rx)/r^2.
             
             int rx=e.x-sizex/2, ry=e.y-sizey/2;
             if(rx==0 && ry==0) return; // don't add singular event at origin
-//            float phi=(float)Math.atan2(ry,rx); // angle of event in rad relative to center, 0 is rightwards
-//            float r=(float)Math.sqrt(rx*rx+ry*ry); // radius of event from center
             float r2=(float)(rx*rx+ry*ry); // radius of event from center
             float dphi=( -e.velocity.x*ry + e.velocity.y*rx )/r2;
             int t=e.timestamp;
@@ -423,18 +359,20 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
             filter.setTauMs(tauLow);
         }
         void addEvent(MotionOrientationEvent e){
-            // each event implies a certain expansion contribution. Velocity components in the radial direction are weighted
-            // by radius; events that are close to the origin contribute more to expansion metric than events that are near periphery.
-            // the contribution to expansion is computed by dot product between radial vector
+            // each event implies a certain expansion contribution. 
+            // Velocity components in the radial direction are weighted by radius; 
+            // events that are close to the origin contribute more to expansion 
+            // metric than events that are near periphery. The contribution to 
+            // expansion is computed by dot product between radial vector
             // and local motion vector.
-            // if vx,vy is the local motion vector, rx,ry the radial vector (from center of rotation)
-            // then the radial velocity is comnputed as v.r/r.r=(vx*rx+vy*ry)/(rx*rx+ry*ry), where r is radial vector.
+            // if vx,vy is the local motion vector, rx,ry the radial vector 
+            // (from center of rotation) then the radial velocity is comnputed 
+            // as v.r/r.r=(vx*rx+vy*ry)/(rx*rx+ry*ry), where r is radial vector.
             // thus in scalar units, each motion event contributes v/r to the metric.
             // this metric is exactly 1/Tcoll with Tcoll=time to collision.
             
             int rx=e.x-sizex/2, ry=e.y-sizey/2;
             final int f=2; // singular region
-//            if(rx==0 && ry==0) return; // don't add singular event at origin
             if((rx>-f && rx<f) && (ry>-f && ry<f)) return; // don't add singular event at origin
             float r2=(float)(rx*rx+ry*ry); // radius of event from center
             float dradial=( e.velocity.x*rx + e.velocity.y*ry )/r2;
@@ -448,9 +386,9 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
     }
     
     /** represents the global motion metrics from statistics of dir selective and simple cell events.
-     The Translation is the global translational average motion vector (2 components). 
-     Rotation is the global rotation scalar around the center of the sensor. 
-     Expansion is the expansion or contraction scalar around center. */
+     * The Translation is the global translational average motion vector (2 components). 
+     * Rotation is the global rotation scalar around the center of the sensor. 
+     * Expansion is the expansion or contraction scalar around center. */
     public class MotionVectors{
         
         public Translation translation=new Translation();
@@ -463,6 +401,68 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
             expansion.addEvent(e);
         }
     }
+       
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --SearchDistance--">
+    public int getSearchDistance() {
+        return searchDistance;
+    }
+          
+    synchronized public void setSearchDistance(int searchDistance) {
+        if(searchDistance > MAX_SEARCH_DISTANCE) {
+            searchDistance = MAX_SEARCH_DISTANCE;
+        } else if(searchDistance<1) {
+            searchDistance = 1;
+        } // limit size
+        this.searchDistance = searchDistance;
+        setPadding(searchDistance);
+        allocateMap();
+        putInt("searchDistance",searchDistance);
+    }
+    // </editor-fold>
+        
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --SpeedControlEnabled--">
+    public boolean isSpeedControlEnabled() {
+        return speedControlEnabled;
+    }
+    
+    public void setSpeedControlEnabled(boolean speedControlEnabled) {
+        this.speedControlEnabled = speedControlEnabled;
+        putBoolean("speedControlEnabled",speedControlEnabled);
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --ShowGlobalEnabled--">
+    public boolean isShowGlobalEnabled() {
+        return showGlobalEnabled;
+    }
+    
+    public void setShowGlobalEnabled(boolean showGlobalEnabled) {
+        this.showGlobalEnabled = showGlobalEnabled;
+        putBoolean("showGlobalEnabled",showGlobalEnabled);
+    }
+    // </editor-fold>
+        
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --MaxDtTreshold--">
+    public int getMaxDtThreshold() {
+        return this.maxDtThreshold;
+    }
+    
+    public void setMaxDtThreshold(final int maxDtThreshold) {
+        this.maxDtThreshold = maxDtThreshold;
+        putInt("maxDtThreshold",maxDtThreshold);
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --MinDtThreshold--">
+    public int getMinDtThreshold() {
+        return this.minDtThreshold;
+    }
+    
+    public void setMinDtThreshold(final int minDtThreshold) {
+        this.minDtThreshold = minDtThreshold;
+        putInt("minDtThreshold", minDtThreshold);
+    }
+    // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="getter/setter for --ShowVectorsEnabled--">
     public boolean isShowVectorsEnabled() {
