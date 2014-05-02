@@ -1,0 +1,34 @@
+<BaliSimProject version="1.3" path="." stage="0" language="-1" name="test_tb" simType="Active-HDL">
+    <Source worklib="work" path="sourcecode/EventBeforeOverflow.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/cDVSResetStateMachine.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/ADCvalueReady.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/ADCStateMachine.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/monitorStateMachine.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/fifoStatemachine.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/synchronizerStateMachine.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/timestampCounter.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/eventCounter.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/earlyPaketTimer.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/wordRegister.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/AERfifo.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/shiftRegister.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/clockgen.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="sourcecode/USBAER_top_level.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="ADCStateMachine_tb.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_delay.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_SS_Blk.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_INT_Blk.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Arb_Blk.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Cnt_Blk.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Clk_Blk.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Synch_Blk.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Main_Blk.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Mpu_Blk.vhd" type="VHDL" include="none"/>
+    <Source worklib="work" path="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Top.vhd" type="VHDL" include="none"/>
+    <Source worklib="" path="sourcecode/AERfifo.vhd" type="VHDL" include="none"/>
+    <Source worklib="" path="sourcecode/clockgen.vhd" type="VHDL" include="none"/>
+    <SimLib value="pmi_work ovi_machxo"/>
+    <GlbInc value=""/>
+    <Macro value=""/>
+    <TopModule instance="" language="VHDL" name="USBAER_top_level"/>
+</BaliSimProject>

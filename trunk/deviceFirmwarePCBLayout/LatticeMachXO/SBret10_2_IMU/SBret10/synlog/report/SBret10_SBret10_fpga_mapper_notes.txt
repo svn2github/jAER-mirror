@@ -1,0 +1,15 @@
+@N: MF248 |Running in 64-bit mode.
+@N: MF666 |Clock conversion enabled 
+@N: MT206 |Auto Constrain mode is enabled
+@N: MF179 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2\sourcecode\adcstatemachine.vhd":226:15:226:39|Found 18 bit by 18 bit '==' comparator, 'p_col\.un1_countcolxdp'
+@N: FX271 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2\sourcecode\monitorstatemachine.vhd":174:6:174:29|Instance "monitorStateMachine_1.StatexDP[6]" with 20 loads replicated 1 times to improve timing 
+@N: FX271 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2\sourcecode\monitorstatemachine.vhd":161:6:161:23|Instance "monitorStateMachine_1.StatexDP[7]" with 18 loads replicated 1 times to improve timing 
+@N: FX271 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2\sourcecode\timestampcounter.vhd":67:4:67:5|Instance "uTimestampCounter.CountxDP[14]" with 4 loads replicated 1 times to improve timing 
+@N: FX164 |The option to pack flops in the IOB has not been specified 
+@N: BW106 |Synplicity Constraint File capacitance units using default value of 1pF 
+@N: MT320 |Timing report estimates place and route data. Please look at the place and route timing report for final timing.
+@N: MT322 |Clock constraints cover only FF-to-FF paths associated with the clock.
+@N: MT286 |System clock period 0.000 stretches to negative invalid value -- ignoring stretching.
+@N: MT320 |Timing report estimates place and route data. Please look at the place and route timing report for final timing.
+@N: MT322 |Clock constraints cover only FF-to-FF paths associated with the clock.
+@N: MT286 |System clock period 0.000 stretches to negative invalid value -- ignoring stretching.

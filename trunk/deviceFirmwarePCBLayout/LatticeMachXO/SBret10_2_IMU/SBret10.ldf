@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="2.0" title="SBret10" device="LCMXO2280C-3FT256C" synthesis="synplify" default_implementation="SBret10">
+    <Options/>
+    <Implementation title="SBret10" dir="SBret10" description="SBret10" default_strategy="Timing">
+        <Options def_top="top_test_bench" top="USBAER_top_level"/>
+        <Source name="sourcecode/wordRegister.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/AERfifo.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/clockgen.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/earlyPaketTimer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/EventBeforeOverflow.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/eventCounter.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/fifoStatemachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/monitorStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/synchronizerStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/timestampCounter.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/USBAER_top_level.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="USBAER_top_level"/>
+        </Source>
+        <Source name="sourcecode/AERfifo.ipx" type="IPX_Module" type_short="IPX">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/clockgen.ipx" type="IPX_Module" type_short="IPX">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/ADCvalueReady.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/cDVSResetStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/shiftRegister.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="ADCStateMachine_tb.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/ADCStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/I2C_Arb_Blk.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/I2C_Clk_Blk.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/I2C_Cnt_Blk.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/I2C_delay.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/I2C_INT_Blk.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/I2C_Main_Blk.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/I2C_Mpu_Blk.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/I2C_SS_Blk.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/I2C_Synch_Blk.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/I2C_Top.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/IMUvalueReady.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/IMUStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="Test.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/top_test_bench.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/up_model.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/ack_gen.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="SBret10.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+        <Source name="SBret10/SBret10.spf" type="Simulation Project File" type_short="SPF">
+            <Options/>
+        </Source>
+        <Source name="SBret10chain.xcf" type="Programming Project File" type_short="Programming">
+            <Options/>
+        </Source>
+    </Implementation>
+</BaliProject>

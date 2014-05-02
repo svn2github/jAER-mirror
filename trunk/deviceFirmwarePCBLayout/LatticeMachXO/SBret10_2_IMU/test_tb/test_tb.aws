@@ -1,0 +1,14 @@
+[Version]
+Version=9.2
+[Designs]
+test_tb=test_tb.adf
+[Settings]
+Active=test_tb
+[Expand]
+test_tb=1
+[Browser]
+sort=order
+mode=none
+[Order]
+order=1
+macro=

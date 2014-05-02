@@ -1,0 +1,327 @@
+# Design Explorer: Shortcut to "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\test_tb\test_tb.aws" design added.
+designverincludedir -clear
+designverlibrarysim -PL -clear
+designverlibrarysim -L -clear
+designverlibrarysim -PL pmi_work
+designverlibrarysim ovi_machxo
+designverdefinemacro -clear
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/EventBeforeOverflow.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\EventBeforeOverflow.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/cDVSResetStateMachine.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\cDVSResetStateMachine.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/ADCvalueReady.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCvalueReady.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/ADCStateMachine.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCStateMachine.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/monitorStateMachine.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\monitorStateMachine.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/fifoStatemachine.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\fifoStatemachine.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/synchronizerStateMachine.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/timestampCounter.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\timestampCounter.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/eventCounter.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\eventCounter.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/earlyPaketTimer.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\earlyPaketTimer.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/wordRegister.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\wordRegister.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/AERfifo.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\AERfifo.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/shiftRegister.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\shiftRegister.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/clockgen.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\clockgen.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/USBAER_top_level.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/ADCStateMachine_tb.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\ADCStateMachine_tb.vhd ... Done
+addfile {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_delay.vhd}
+# Design: Error: File "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_delay.vhd" does not exist or does not have READ permission
+# Error: Cannot add file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_delay.vhd to current design
+addfile {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_SS_Blk.vhd}
+# Design: Error: File "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_SS_Blk.vhd" does not exist or does not have READ permission
+# Error: Cannot add file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_SS_Blk.vhd to current design
+addfile {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_INT_Blk.vhd}
+# Design: Error: File "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_INT_Blk.vhd" does not exist or does not have READ permission
+# Error: Cannot add file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_INT_Blk.vhd to current design
+addfile {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Arb_Blk.vhd}
+# Design: Error: File "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Arb_Blk.vhd" does not exist or does not have READ permission
+# Error: Cannot add file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Arb_Blk.vhd to current design
+addfile {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Cnt_Blk.vhd}
+# Design: Error: File "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Cnt_Blk.vhd" does not exist or does not have READ permission
+# Error: Cannot add file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Cnt_Blk.vhd to current design
+addfile {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Clk_Blk.vhd}
+# Design: Error: File "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Clk_Blk.vhd" does not exist or does not have READ permission
+# Error: Cannot add file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Clk_Blk.vhd to current design
+addfile {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Synch_Blk.vhd}
+# Design: Error: File "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Synch_Blk.vhd" does not exist or does not have READ permission
+# Error: Cannot add file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Synch_Blk.vhd to current design
+addfile {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Main_Blk.vhd}
+# Design: Error: File "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Main_Blk.vhd" does not exist or does not have READ permission
+# Error: Cannot add file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Main_Blk.vhd to current design
+addfile {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Mpu_Blk.vhd}
+# Design: Error: File "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Mpu_Blk.vhd" does not exist or does not have READ permission
+# Error: Cannot add file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Mpu_Blk.vhd to current design
+addfile {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Top.vhd}
+# Design: Error: File "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Top.vhd" does not exist or does not have READ permission
+# Error: Cannot add file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Top.vhd to current design
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/AERfifo.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\AERfifo.vhd ... Done
+addfile C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/clockgen.vhd
+# Adding file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\clockgen.vhd ... Done
+vlib C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/test_tb/work
+# Adding library O.K.
+adel -all
+# Library contents cleared.
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/EventBeforeOverflow.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\EventBeforeOverflow.vhd
+# Compile Entity "EventBeforeOverflow"
+# Compile Architecture "Behavioral" of Entity "EventBeforeOverflow"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/cDVSResetStateMachine.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\cDVSResetStateMachine.vhd
+# Compile Entity "cDVSResetStateMachine"
+# Compile Architecture "Behavioral" of Entity "cDVSResetStateMachine"
+# Compile success 0 Errors 0 Warnings  Analysis time :  47.0 [ms]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/ADCvalueReady.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCvalueReady.vhd
+# Compile Entity "ADCvalueReady"
+# Compile Architecture "Behavioral" of Entity "ADCvalueReady"
+# Compile success 0 Errors 0 Warnings  Analysis time :  47.0 [ms]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/ADCStateMachine.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCStateMachine.vhd
+# Compile Entity "ADCStateMachine"
+# Compile Architecture "Behavioral" of Entity "ADCStateMachine"
+# Compile success 0 Errors 0 Warnings  Analysis time :  93.0 [ms]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/monitorStateMachine.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\monitorStateMachine.vhd
+# Compile Entity "monitorStateMachine"
+# Compile Architecture "Behavioral" of Entity "monitorStateMachine"
+# Compile success 0 Errors 0 Warnings  Analysis time :  62.0 [ms]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/fifoStatemachine.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\fifoStatemachine.vhd
+# Compile Entity "fifoStatemachine"
+# Compile Architecture "Behavioral" of Entity "fifoStatemachine"
+# Compile success 0 Errors 0 Warnings  Analysis time :  62.0 [ms]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/synchronizerStateMachine.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd
+# Compile Entity "synchronizerStateMachine"
+# Compile Architecture "Behavioral" of Entity "synchronizerStateMachine"
+# Compile success 0 Errors 0 Warnings  Analysis time :  46.0 [ms]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/timestampCounter.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\timestampCounter.vhd
+# Compile Entity "timestampCounter"
+# Compile Architecture "Behavioral" of Entity "timestampCounter"
+# Compile success 0 Errors 0 Warnings  Analysis time :  47.0 [ms]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/eventCounter.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\eventCounter.vhd
+# Compile Entity "eventCounter"
+# Compile Architecture "Behavioral" of Entity "eventCounter"
+# Compile success 0 Errors 0 Warnings  Analysis time :  46.0 [ms]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/earlyPaketTimer.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\earlyPaketTimer.vhd
+# Compile Entity "earlyPaketTimer"
+# Compile Architecture "Behavioral" of Entity "earlyPaketTimer"
+# Compile success 0 Errors 0 Warnings  Analysis time :  62.0 [ms]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/wordRegister.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\wordRegister.vhd
+# Compile Entity "wordRegister"
+# Compile Architecture "Behavioral" of Entity "wordRegister"
+# Compile success 0 Errors 0 Warnings  Analysis time :  63.0 [ms]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/AERfifo.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\AERfifo.vhd
+# Compile Entity "AERfifo"
+# Compile Architecture "Structure" of Entity "AERfifo"
+# Compile Configuration "Structure_CON"
+# Compile success 0 Errors 0 Warnings  Analysis time :  94.0 [ms]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/shiftRegister.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\shiftRegister.vhd
+# Compile Entity "shiftRegister"
+# Compile Architecture "Behavioral" of Entity "shiftRegister"
+# Compile success 0 Errors 0 Warnings  Analysis time :  78.0 [ms]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/clockgen.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\clockgen.vhd
+# Compile Entity "clockgen"
+# Compile Architecture "Structure" of Entity "clockgen"
+# Compile Configuration "Structure_CON"
+# Compile success 0 Errors 0 Warnings  Analysis time :  62.0 [ms]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/USBAER_top_level.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd
+# Compile Entity "USBAER_top_level"
+# Compile Architecture "Structural" of Entity "USBAER_top_level"
+# Compile success 0 Errors 0 Warnings  Analysis time :  0.1 [s]
+vcom -dbg -work work C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/ADCStateMachine_tb.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\ADCStateMachine_tb.vhd
+# Compile Entity "ADCStateMachine_tb"
+# Compile Architecture "Behavioural" of Entity "ADCStateMachine_tb"
+# Compile success 0 Errors 0 Warnings  Analysis time :  62.0 [ms]
+vcom -dbg -work work {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_delay.vhd}
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_delay.vhd
+# Error: COMP96_0001: Cannot find source file "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_delay.vhd".
+# Compile failure 1 Errors 0 Warnings  Analysis time :  0.0 [ms]
+vcom -dbg -work work {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_SS_Blk.vhd}
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_SS_Blk.vhd
+# Error: COMP96_0001: Cannot find source file "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_SS_Blk.vhd".
+# Compile failure 1 Errors 0 Warnings  Analysis time :  0.0 [ms]
+vcom -dbg -work work {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_INT_Blk.vhd}
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_INT_Blk.vhd
+# Error: COMP96_0001: Cannot find source file "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_INT_Blk.vhd".
+# Compile failure 1 Errors 0 Warnings  Analysis time :  0.0 [ms]
+vcom -dbg -work work {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Arb_Blk.vhd}
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Arb_Blk.vhd
+# Error: COMP96_0001: Cannot find source file "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Arb_Blk.vhd".
+# Compile failure 1 Errors 0 Warnings  Analysis time :  0.0 [ms]
+vcom -dbg -work work {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Cnt_Blk.vhd}
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Cnt_Blk.vhd
+# Error: COMP96_0001: Cannot find source file "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Cnt_Blk.vhd".
+# Compile failure 1 Errors 0 Warnings  Analysis time :  16.0 [ms]
+vcom -dbg -work work {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Clk_Blk.vhd}
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Clk_Blk.vhd
+# Error: COMP96_0001: Cannot find source file "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Clk_Blk.vhd".
+# Compile failure 1 Errors 0 Warnings  Analysis time :  0.0 [ms]
+vcom -dbg -work work {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Synch_Blk.vhd}
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Synch_Blk.vhd
+# Error: COMP96_0001: Cannot find source file "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Synch_Blk.vhd".
+# Compile failure 1 Errors 0 Warnings  Analysis time :  0.0 [ms]
+vcom -dbg -work work {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Main_Blk.vhd}
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Main_Blk.vhd
+# Error: COMP96_0001: Cannot find source file "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Main_Blk.vhd".
+# Compile failure 1 Errors 0 Warnings  Analysis time :  0.0 [ms]
+vcom -dbg -work work {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Mpu_Blk.vhd}
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Mpu_Blk.vhd
+# Error: COMP96_0001: Cannot find source file "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Mpu_Blk.vhd".
+# Compile failure 1 Errors 0 Warnings  Analysis time :  0.0 [ms]
+vcom -dbg -work work {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Top.vhd}
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Top.vhd
+# Error: COMP96_0001: Cannot find source file "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Top.vhd".
+# Compile failure 1 Errors 0 Warnings  Analysis time :  0.0 [ms]
+vcom -dbg C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/AERfifo.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\AERfifo.vhd
+# Compile Entity "AERfifo"
+# Compile Architecture "Structure" of Entity "AERfifo"
+# Compile Configuration "Structure_CON"
+# Compile success 0 Errors 0 Warnings  Analysis time :  62.0 [ms]
+vcom -dbg C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/clockgen.vhd
+# Compile...
+# File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\clockgen.vhd
+# Compile Entity "clockgen"
+# Compile Architecture "Structure" of Entity "clockgen"
+# Compile Configuration "Structure_CON"
+# Compile success 0 Errors 0 Warnings  Analysis time :  47.0 [ms]
+entity USBAER_top_level
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+vsim +access +r USBAER_top_level -PL pmi_work -L ovi_machxo
+# ELBREAD: Elaboration process.
+# ELBREAD: Elaboration time 0.0 [s].
+# vsim: Stack memory: 32MB
+# vsim: Retval memory: 32MB
+# 
+# KERNEL: Main thread initiated.
+# KERNEL: Kernel process initialization phase.
+# KERNEL: Time resolution set to 1ps.
+# ELAB2: Elaboration final pass...
+# ELAB2: Create instances ...
+# ELAB2: Create instances complete.
+# SLP: Started
+# SLP: Elaboration phase ...
+# SLP: Elaboration phase ... skipped, nothing to simulate in SLP mode : 0.0 [s]
+# SLP: Finished : 0.0 [s]
+# ELAB2: Elaboration final pass complete - time: 0.1 [s].
+# KERNEL: Warning: You are using the Active-HDL Lattice Edition. The performance of simulation is running at a reduced rate.
+# KERNEL: Warning: Contact Aldec for available upgrade options - sales@aldec.com.
+# KERNEL: Kernel process initialization done.
+# Allocation: Simulator allocated 6798 kB (elbread=1024 elab2=5636 kernel=138 sdf=0)
+# KERNEL: ASDB file was created in location C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\test_tb\src\wave.asdb
+#  12:26 PM, Monday, March 17, 2014
+#  Simulation has been initialized
+#  Selected Top-Level: USBAER_top_level (Structural)
+add wave *
+# 126 signal(s) traced.
+run 1000ns
+# Waveform file 'untitled.awc' connected to 'C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/test_tb/src/wave.asdb'.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 0,  Instance: /USBAER_top_level/uEventCounter,  Process: p_memoryless.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 0,  Instance: /USBAER_top_level/monitorStateMachine_1,  Process: p_memless.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 0,  Instance: /USBAER_top_level/cDVSResetStateMachine_1,  Process: p_memless.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 0,  Instance: /USBAER_top_level/cDVSResetStateMachine_1,  Process: p_memless.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/monitorStateMachine_1,  Process: p_memless.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uEventCounter,  Process: p_memoryless.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_1_0,  Process: P2.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_1_0,  Process: P2.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_1_0,  Process: P2.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_1_0,  Process: P2.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_1_0,  Process: P1.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_1_0,  Process: P1.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_1_0,  Process: P1.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_1_0,  Process: P1.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_0_1,  Process: P2.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_0_1,  Process: P2.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_0_1,  Process: P2.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_0_1,  Process: P2.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_0_1,  Process: P1.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_0_1,  Process: P1.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_0_1,  Process: P1.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 1,  Instance: /USBAER_top_level/uFifo/AERfifo_0_1,  Process: P1.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 2,  Instance: /USBAER_top_level/monitorStateMachine_1,  Process: p_memless.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 0 ps,  Iteration: 4,  Instance: /USBAER_top_level/monitorStateMachine_1,  Process: p_memless.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 5 ns,  Iteration: 3,  Instance: /USBAER_top_level/cDVSResetStateMachine_1,  Process: p_memless.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 5 ns,  Iteration: 3,  Instance: /USBAER_top_level/cDVSResetStateMachine_1,  Process: p_memless.
+# KERNEL: WARNING: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+# KERNEL: Time: 5 ns,  Iteration: 3,  Instance: /USBAER_top_level/monitorStateMachine_1,  Process: p_memless.
+# KERNEL: stopped at time: 1 us
+#  Simulation has been stopped

@@ -1,0 +1,40 @@
+BITGEN: Bitstream Generator Diamond (64-bit) 2.2.0.101
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
+
+Command: bitgen -w -g ES:No SBret10_SBret10.ncd SBret10_SBret10.prf 
+
+Loading design for application Bitgen from file SBret10_SBret10.ncd.
+Design name: USBAER_top_level
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LCMXO2280C
+Package:     FTBGA256
+Performance: 3
+Loading device for application Bitgen from file 'mj5g21x17.nph' in environment: D:/lscc/diamond/2.2_x64/ispfpga.
+Package Status:                     Final          Version 1.26
+Performance Hardware Data Status: Version 1.84
+
+Running DRC.
+DRC detected 0 errors and 0 warnings.
+Reading Preference File from SBret10_SBret10.prf...
+
+Preference Summary:
++---------------------------------+---------------------------------+
+|  Preference                     |  Current Setting                |
++---------------------------------+---------------------------------+
+|                  CONFIG_SECURE  |                          OFF**  |
++---------------------------------+---------------------------------+
+|                          INBUF  |                           ON**  |
++---------------------------------+---------------------------------+
+|                             ES  |                           No**  |
++---------------------------------+---------------------------------+
+ *  Default setting.
+ ** The specified setting matches the default setting.
+
+
+Creating bit map...
+Saving bit stream in "SBret10_SBret10.bit".

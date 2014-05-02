@@ -1,0 +1,5 @@
+MESSAGE "File: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\clockgen.vhd" 
+MESSAGE "Compile Entity "clockgen"" 
+MESSAGE "Compile Architecture "Structure" of Entity "clockgen"" 
+MESSAGE "Compile Configuration "Structure_CON"" 
+SUCCESS "Compile success 0 Errors 0 Warnings  Analysis time :  47.0 [ms]" 

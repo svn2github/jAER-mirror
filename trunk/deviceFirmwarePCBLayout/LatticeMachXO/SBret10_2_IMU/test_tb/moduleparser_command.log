@@ -1,0 +1,1 @@
+D:/lscc/diamond/2.2_x64/bin/nt64/moduleparser.exe -PROJ test_tb -pf D:/lscc/diamond/2.2_x64/cae_library/synthesis/vhdl/machxo.vhd -pkg D:/lscc/diamond/2.2_x64/cae_library/vhdl_packages/vdbs -lst C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/test_tb/source_files.lst

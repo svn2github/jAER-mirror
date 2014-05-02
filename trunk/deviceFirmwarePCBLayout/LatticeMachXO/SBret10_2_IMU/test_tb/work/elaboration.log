@@ -1,0 +1,59 @@
+Active-HDL 9.2.2499.sp1.36.4586  2014-03-17 12:26:14
+
+Elaboration top modules:
+Architecture                  Structural(USBAER_top_level)
+
+
+-----------------------------------------------------------------------------------------------------------------
+Entity                   | Architecture | Library | Info | Compiler Version                | Compilation Options
+-----------------------------------------------------------------------------------------------------------------
+USBAER_top_level         | Structural   | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+clockgen                 | structure    | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+shiftRegister            | behavioral   | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+AERfifo                  | structure    | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+wordRegister             | behavioral   | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+earlyPaketTimer          | behavioral   | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+eventCounter             | behavioral   | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+timestampCounter         | behavioral   | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+synchronizerStateMachine | behavioral   | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+fifoStatemachine         | behavioral   | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+monitorStateMachine      | behavioral   | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+ADCStateMachine          | behavioral   | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+ADCvalueReady            | behavioral   | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+cDVSResetStateMachine    | behavioral   | work    |      | 9.2.2499.sp1.36.4586  (Windows) | -dbg
+vlo                      | v            | machxo  |      | 9.2.2499.sp1.36.4586  (Windows) | -vendor lattice
+ehxpllc                  | v            | machxo  |      | 9.2.2499.sp1.36.4586  (Windows) | -vendor lattice
+fifo8ka                  | v            | machxo  |      | 9.2.2499.sp1.36.4586  (Windows) | -vendor lattice
+vhi                      | v            | machxo  |      | 9.2.2499.sp1.36.4586  (Windows) | -vendor lattice
+-----------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------
+VHDL Package                            | Library | Info | Compiler Version                | Compilation Options
+-----------------------------------------------------------------------------------------------------------------
+standard                                | std     |      |                                 | <unavailable>
+TEXTIO                                  | std     |      | 9.2.2499.4581  (Windows)        |  -2008
+std_logic_1164                          | ieee    |      | 9.2.2499.sp1.36.4586  (Windows) |  -2008
+NUMERIC_STD                             | ieee    |      | 9.2.2499.sp1.36.4586  (Windows) |  -2008
+std_logic_arith                         | ieee    |      | 9.2.2499.sp1.36.4586  (Windows) | 
+components                              | machxo  |      | 9.2.2499.sp1.36.4586  (Windows) | -vendor lattice
+VITAL_Timing                            | ieee    |      | 9.2.2499.sp1.36.4586  (Windows) | 
+VITAL_Primitives                        | ieee    |      | 9.2.2499.sp1.36.4586  (Windows) | 
+global                                  | machxo  |      | 9.2.2499.sp1.36.4586  (Windows) | -vendor lattice
+mem3                                    | machxo  |      | 9.2.2499.sp1.36.4586  (Windows) | -vendor lattice
+STD_LOGIC_UNSIGNED                      | ieee    |      | 9.2.2499.sp1.36.4586  (Windows) | 
+-----------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------
+Library                                 | Comment
+-----------------------------------------------------------------------------------------------------------------
+ieee                                    | Standard IEEE packages library
+machxo                                  | LATTICE Diamond 2.2, MACHXO VHDL LIBRARY
+std                                     | Standard VHDL library
+work                                    | None
+-----------------------------------------------------------------------------------------------------------------
+
+
+Simulation Options: vsim +access +r USBAER_top_level -PL pmi_work -L ovi_machxo
+
+
+The performance of simulation is reduced. Version Lattice Edition

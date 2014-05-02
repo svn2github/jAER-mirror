@@ -1,0 +1,74 @@
+Running in Lattice mode
+
+Starting:    D:\lscc\diamond\2.2_x64\synpbase\win64\mbin\synplify.exe
+Install:     D:\lscc\diamond\2.2_x64\synpbase
+Date:        Mon Mar 17 14:06:03 2014
+Version:     G-2012.09L-SP1 
+
+Arguments:   -product synplify_pro  -tcl C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/SBret10/launch_synplify.tcl
+ProductType: synplify_pro
+
+
+
+
+
+No project opened.
+Removed file: D:\lscc\diamond\2.2_x64\cae_library\synthesis\vhdl\machxo.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\wordRegister.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\AERfifo.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\clockgen.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\earlyPaketTimer.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\EventBeforeOverflow.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\eventCounter.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\fifoStatemachine.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\monitorStateMachine.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\timestampCounter.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCvalueReady.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\cDVSResetStateMachine.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\shiftRegister.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\ADCStateMachine_tb.vhd
+
+Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCStateMachine.vhd
+
+Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Arb_Blk.vhd
+
+Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Clk_Blk.vhd
+
+Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Cnt_Blk.vhd
+
+Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_delay.vhd
+
+Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_INT_Blk.vhd
+
+Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Main_Blk.vhd
+
+Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Mpu_Blk.vhd
+
+Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_SS_Blk.vhd
+
+Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Synch_Blk.vhd
+
+Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Top.vhd
+
+Warning: File already exists in project: "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\AERfifo.vhd"
+Warning: File already exists in project: "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\clockgen.vhd"
+TCL script complete: "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/SBret10/launch_synplify.tcl"
+exit status=0
+
