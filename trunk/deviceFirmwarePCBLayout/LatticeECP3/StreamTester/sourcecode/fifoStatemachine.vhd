@@ -50,7 +50,7 @@ architecture Behavioral of fifoStatemachine is
 
 			case State_DP is
 			when stIdle0 =>
-				if Run_SI = '1' and InFifoAlmostEmpty_SI = '0' and USBFifoThread0Full_SI = '0' then
+				if Run_SI = '1' and InFifoEmpty_SI = '0' and USBFifoThread0Full_SI = '0' then
 					State_DP <= stPrepareWrite0;
 				end if;
 
@@ -67,7 +67,7 @@ architecture Behavioral of fifoStatemachine is
 					USBFifoWrite_SBO <= '0';
 					InFifoRead_SO <= '1';
 				-- Check that there still is data to send.
-				elsif InFifoAlmostEmpty_SI = '1' then
+				elsif InFifoEmpty_SI = '1' then
 					State_DP <= stIdle0;
 					-- Last piece of data is sampled when the empty flag goes high.
 					-- So we still write it out here.
@@ -91,7 +91,7 @@ architecture Behavioral of fifoStatemachine is
 			when stIdle1 =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
-				if Run_SI = '1' and InFifoAlmostEmpty_SI = '0' and USBFifoThread1Full_SI = '0' then
+				if Run_SI = '1' and InFifoEmpty_SI = '0' and USBFifoThread1Full_SI = '0' then
 					State_DP <= stPrepareWrite1;
 				end if;
 
@@ -112,7 +112,7 @@ architecture Behavioral of fifoStatemachine is
 					USBFifoWrite_SBO <= '0';
 					InFifoRead_SO <= '1';
 				-- Check that there still is data to send.
-				elsif InFifoAlmostEmpty_SI = '1' then
+				elsif InFifoEmpty_SI = '1' then
 					State_DP <= stIdle1;
 					-- Last piece of data is sampled when the empty flag goes high.
 					-- So we still write it out here.

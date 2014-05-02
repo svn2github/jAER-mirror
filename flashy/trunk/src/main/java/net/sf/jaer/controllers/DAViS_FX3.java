@@ -5,7 +5,6 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
-import java.nio.ShortBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.StandardCharsets;
@@ -60,6 +59,15 @@ public class DAViS_FX3 extends Controller {
 			"Select a FX3 firmware file to upload to the device.", null, null);
 
 		final Preferences defaultFolderNode = Preferences.userRoot().node("/defaultFolders");
+
+		// Load default path, if exists.
+		String savedPath = defaultFolderNode.get("fx3Firmware", "");
+		if (!savedPath.isEmpty()) {
+			File savedFile = new File(savedPath);
+			if (savedFile.exists() && Files.checkReadPermissions(savedFile)) {
+				firmwareFile = savedFile;
+			}
+		}
 
 		final TextField firmwareField = GUISupport.addTextField(firmwareToFlashBox,
 			defaultFolderNode.get("fx3Firmware", ""), null);
@@ -150,6 +158,15 @@ public class DAViS_FX3 extends Controller {
 
 		GUISupport.addLabel(logicToFlashBox, "Select FPGA logic file",
 			"Select a FPGA logic file to upload to the device.", null, null);
+
+		// Load default path, if exists.
+		savedPath = defaultFolderNode.get("fx3Logic", "");
+		if (!savedPath.isEmpty()) {
+			File savedFile = new File(savedPath);
+			if (savedFile.exists() && Files.checkReadPermissions(savedFile)) {
+				logicFile = savedFile;
+			}
+		}
 
 		final TextField logicField = GUISupport.addTextField(logicToFlashBox, defaultFolderNode.get("fx3Logic", ""),
 			null);
@@ -400,7 +417,7 @@ public class DAViS_FX3 extends Controller {
 		}
 	}
 
-	private int expData = -1;
+	//private int expData = -1;
 	private long imuCount = 0;
 	private long dataCount = 0;
 
@@ -467,14 +484,14 @@ public class DAViS_FX3 extends Controller {
 							"%d: Got 4096 data buffers.\n", dataCount >>> 12)));
 					}
 
-					final ShortBuffer sBuf = t.buffer().order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
+					/*final ShortBuffer sBuf = t.buffer().order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
 
 					for (int pos = 0; pos < sBuf.limit(); pos++) {
 						final int usbData = (sBuf.get(pos) & 0xFFFF);
 
 						if (usbData != expData) {
-							GUISupport.runOnJavaFXThread(() -> usbEP2OutputArea.appendText(String.format(
-								"Mismatch detected, got: %d, expected: %d\n", usbData, expData)));
+							System.out.println(String.format("Mismatch detected, got: %d, expected: %d\n", usbData,
+								expData));
 							expData = usbData;
 						}
 
@@ -483,7 +500,7 @@ public class DAViS_FX3 extends Controller {
 						if (expData == 65536) {
 							expData = 0;
 						}
-					}
+					}*/
 				}
 			}
 

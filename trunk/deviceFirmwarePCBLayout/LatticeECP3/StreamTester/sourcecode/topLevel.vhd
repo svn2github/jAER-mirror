@@ -137,11 +137,11 @@ uFifoStatemachine: fifoStatemachine
 	  
   uPLLSlowDown: pmi_pll
     generic map(
-       pmi_freq_clki => 10,
-       pmi_freq_clkfb => 5,
-       pmi_freq_clkop => 5,
-       pmi_freq_clkos => 5,
-       pmi_freq_clkok => 5,
+       pmi_freq_clki => 25,
+       pmi_freq_clkfb => 10,
+       pmi_freq_clkop => 10,
+       pmi_freq_clkos => 10,
+       pmi_freq_clkok => 10,
        pmi_family => "ECP3",
        pmi_phase_adj => 0,
        pmi_duty_cycle => 25,
