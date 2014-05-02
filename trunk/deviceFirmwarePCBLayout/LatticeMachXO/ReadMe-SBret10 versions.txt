@@ -8,3 +8,5 @@ SBret10_2: this experimental logic belongs to SBret10_2 small boards with two sy
 SBret10s: this patch logic is only used by one small camera with a problem in nAck and reset signals (it's wired), so in the firmware that signals are interchanged
 
 SBRet20: this is the global shutter logic for SBret20 chips for the test and small boards
+
+SBRet10_2_IMU: Same as SBret10_2 but with experimental IMU and AER data integration into output FIFO.
