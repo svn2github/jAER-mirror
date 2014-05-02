@@ -482,8 +482,9 @@ architecture Structural of USBAER_top_level is
   constant selectIMU : std_logic_vector(2 downto 0) := "100";
   --H 
   
-  --H
-  constant externaleventIMU : std_logic_vector(13 downto 0) := "00100000000000";
+  --H 
+  --H External event indicator is the 12th bit (if 13th bit is 0), use other bits to specify type
+  constant externaleventIMU : std_logic_vector(13 downto 0) := "0100000000001";
   constant externaleventOthers : std_logic_vector(13 downto 0) := "01000000000000";   
   --H 
 
@@ -758,24 +759,22 @@ begin
 	AddressRegOutxD(8) when '1',
 	'0' when others;
 	
-  --H Sets trigger event type.
-  --H TODO: MAKE SURE THIS IS WORKING CORRECTLY AND IS ASSERTED AS LONG AS NEEDED  
-  with IMUEventxSO select
+  --H Sets trigger event type to be written to fifo
+  with IMUEventxSI select
     externaleventtype <= 
 		externaleventIMU when '1',
 		externaleventOthers when others;
   --H
 	
 
-  --H Modify this MUX to include IMU Type for FIFO data input
   -- mux to select how to drive datalines
   with AddressTimestampSelectxS select
     FifoDataInxD <=
     AddressMSBxD & "00" & AddressRegOutxD(9) & "00" & AddressRegOut8xD & AddressRegOutxD(7 downto 0) when selectaddress, -- hack to put the xbit at bit position 11 (which allows addresses up to 10 bits)
     AddressMSBxD & MonitorTimestampxD when selecttimestamp,
-    AddressMSBxD & externaleventtype when selecttrigger,                                    
+    AddressMSBxD & externaleventtype when selecttrigger, --H used to write IMU event indicator                                     
 	AddressMSBxD & ADCregOutxD when selectADC;
-	IMUregOutxD when selectIMU;
+	IMUregOutxD when selectIMU; --H writes IMU measurements
 
   LED1xSO <= CDVSTestChipResetxRB;
   LED2xSO <= RunxS;
