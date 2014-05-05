@@ -13,7 +13,7 @@ package ch.unizh.ini.jaer.projects.virtualslotcar;
 <a href="http://jaerproject.net/">jaerproject.net</a>,
 licensed under the LGPL (<a href="http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License">http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License</a>.
  */
-public interface CarTracker{
+public interface CarTrackerInterface{
 
     /** Finds and then Returns the putative car cluster. This method may be expensive.
      *
