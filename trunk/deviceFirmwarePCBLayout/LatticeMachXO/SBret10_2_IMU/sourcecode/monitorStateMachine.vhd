@@ -296,7 +296,7 @@ begin
 		DatatypeSelectxSO <= selecttrigger;
         AddressMSBxDO <= address; -- Don't think I actually need this
 		-- Set count variable to 0
-	--H 
+	  --H 
 
 	  --H Write IMU events to FIFO
 	  when stIMUEvent =>             -- write the address to the fifo

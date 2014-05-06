@@ -75,7 +75,7 @@ entity USBAER_top_level is
    
 	--H IMU I2C Signals
 	IMUSDAxSIO : inout std_logic; -- Pin T5. IMU I2C Serial Data Address, used to send configuration bits and recieve IMU data
-	IMUSCLxSO  : out std_logic;   -- Pin T6. IMU I2C Serial Clock, *add details*
+	IMUSCLxSO  : out std_logic;   -- Pin T6. IMU I2C Serial Clock, 400 kbits/sec (CHECK!)
 	--H 
 	
 	CDVSTestSRRowClockxSO: out std_logic;
@@ -245,35 +245,12 @@ architecture Structural of USBAER_top_level is
   component IMUStateMachine
     port (
 		-- Change signals
-        ClockxCI              : in    std_logic;
-		ADCclockxCO           : out   std_logic;
-		ResetxRBI             : in    std_logic;
-		ADCwordxDI            : in    std_logic_vector(9 downto 0);
-		ADCoutxDO             : out   std_logic_vector(13 downto 0);
-		ADCoexEBO	          : out   std_logic;
-		ADCstbyxEO            : out   std_logic;
-		ADCovrxSI			  : in	  std_logic;
-		RegisterWritexEO      : out   std_logic;
-		SRLatchxEI            : in    std_logic;
-		RunADCxSI             : in    std_logic;
-		ExposurexDI          : in    std_logic_vector(15 downto 0);
-		ColSettlexDI          : in    std_logic_vector(15 downto 0);
-		RowSettlexDI          : in    std_logic_vector(15 downto 0);
-		ResSettlexDI          : in    std_logic_vector(15 downto 0);
-		FramePeriodxDI		  : in    std_logic_vector(15 downto 0);
-		ExtTriggerxEI		  : in    std_logic;
-		CDVSTestSRRowInxSO    : out   std_logic;
-		CDVSTestSRRowClockxSO : out   std_logic;
-		CDVSTestSRColInxSO    : out   std_logic;
-		CDVSTestSRColClockxSO : out   std_logic;
-		CDVSTestColMode0xSO   : out   std_logic;
-		CDVSTestColMode1xSO   : out   std_logic;
-		CDVSTestApsTxGatexSO  : out   std_logic;
-		ADCStateOutputLEDxSO  : out	  std_logic);
+	    -- ADD SIGNALS 	
   end component;
   --H
   
   --H IMU Value Ready Indicator
+  -- FIGURE OUT BEST WAY TO DO THIS ... DO I REALLY NEED ANOTHER STATE MACHINE FOR THIS?!
   component IMUvalueReady
     port (
 	  -- Change signals
@@ -290,7 +267,7 @@ architecture Structural of USBAER_top_level is
     port (
 	  SDA        : inout std_logic;              -- Serial Data Line of the I2C bus
       SCL        : inout std_logic;              -- Serial Clock Line of the I2C bus
-      Clock      : in std_logic;                 -- MP Clock 
+      Clock      : in std_logic;                 -- Main Clock (different from SDA) 
       Reset_L    : in std_logic;                 -- Reset, active low
       CS_L       : in std_logic;                 -- Chip select, active low
       A0         : in std_logic;                 -- Address bits for register selection
@@ -421,22 +398,20 @@ architecture Structural of USBAER_top_level is
   signal IncxS : std_logic;
 
   --H IMU Register control and data signals
-  signal ReadIMUValuexE, IMUvalueReadyxS : std_logic;
-  signal IMUregInxD : std_logic_vector(15 downto 0);
+  signal IMUValueReqxE, IMUValueAckxE : std_logic; -- 4 phase handshaking signals to signal when data is available and when it's been recorded
+  signal IMUregInxD : std_logic_vector(15 downto 0); -- Input data to register
   signal IMUregOutxD : std_logic_vector(15 downto 0);
   signal IMUregWritexE : std_logic;
-  signal IMUdataxD : std_logic_Vector(15 downto 0);
+  signal IMUdataxD : std_logic_vector(15 downto 0);
+  --signal IMUAccelXxD : std_logic_vector(15 downto 0);
+  --signal IMUAccelYxD : std_logic_vector(15 downto 0);
+  --signal IMUAccelZxD : std_logic_vector(15 downto 0);
+  --signal IMUTempxD : std_logic_vector(15 downto 0);
+  --signal IMUGyroXxD : std_logic_vector(15 downto 0);
+  --signal IMUGyroYxD : std_logic_vector(15 downto 0);
+  --signal IMUGyroZxD : std_logic_vector(15 downto 0);
   --H 
   
-  --H  
-  --signal IMUsmRstxE           : std_logic;
-  --signal IMUclockxC           : std_logic;
-  --signal IMUoexEB	          : std_logic;
-  --signal IMUstbyxE            : std_logic;
-  --signal IMUovrxS			  : std_logic;
-  --signal IMUConfigurationxD : std_logic_vector(15 downto 0);
-  --H
-
   -- ADC related signals
   signal ReadADCvaluexE, ADCvalueReadyxS : std_logic;
   signal ADCregInxD : std_logic_vector(13 downto 0);

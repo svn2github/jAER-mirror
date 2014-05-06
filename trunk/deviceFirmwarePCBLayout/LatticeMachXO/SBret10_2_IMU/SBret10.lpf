@@ -51,8 +51,12 @@ LOCATE COMP "AERMonitorREQxABI" SITE "M16" ;
 LOCATE COMP "AERMonitorACKxSBO" SITE "L15" ;
 LOCATE COMP "AERMonitorAddressxDI_9" SITE "R15" ;
 LOCATE COMP "AERMonitorAddressxDI_8" SITE "R14" ;
-LOCATE COMP "AERMonitorAddressxDI_7" SITE "T14" ;
-LOCATE COMP "AERMonitorAddressxDI_6" SITE "T15" ;
+#--H 
+#LOCATE COMP "AERMonitorAddressxDI_7" SITE "T14" ;
+#LOCATE COMP "AERMonitorAddressxDI_6" SITE "T15" ;
+LOCATE COMP "AERMonitorAddressxDI_7" SITE "T15" ;
+LOCATE COMP "AERMonitorAddressxDI_6" SITE "T14" ;
+#--H
 LOCATE COMP "AERMonitorAddressxDI_5" SITE "R16" ;
 LOCATE COMP "AERMonitorAddressxDI_4" SITE "P15" ;
 LOCATE COMP "AERMonitorAddressxDI_3" SITE "P16" ;

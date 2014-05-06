@@ -48,6 +48,7 @@ begin
         if RegisterWritexEI = '1' then
           StatexDN <= stIMUvalueReady;
         end if;
+		
 	  -- Indicate that IMU value is already in register
       when stIMUvalueReady =>
         ValueReadyxSO <= '1';
@@ -57,18 +58,21 @@ begin
         elsif RegisterWritexEI = '0' then
           StatexDN <= stIMUvalueReady2;
         end if;
-      -- Wait for IMU Register write to be disabled to go back to idle state
+
+	  -- Wait for IMU Register write to be disabled to go back to idle state
 	  when stRead =>
         if RegisterWritexEI ='0' then
           StatexDN <= stIdle;
         end if;
+	
 	  -- What exactly does this extra state do?! Avoid Metastability??
       when stIMUvalueReady2 =>
         ValueReadyxSO <= '1';
         if ReadValuexEI ='1' then
           StatexDN <= stIdle;
         end if;
-      when others      => null;
+      
+	  when others      => null;
     end case;
 
   end process p_memless;
