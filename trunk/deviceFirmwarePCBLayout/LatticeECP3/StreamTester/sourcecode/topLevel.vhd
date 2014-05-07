@@ -19,7 +19,9 @@ entity topLevel is
 	USBFifoThr1Watermark_SI : in std_logic;
 	
 	LED1_SO : out std_logic;
-	LED2_SO : out std_logic);
+	LED2_SO : out std_logic;
+	LED3_SO : out std_logic;
+	LED4_SO : out std_logic);
 end topLevel;
 
 architecture Structural of topLevel is
@@ -102,6 +104,8 @@ begin
   USBFifoRead_SBO <= '1';
   LED1_SO <= AERFifoEmpty_S;
   LED2_SO <= AERFifoFull_S;
+  LED3_SO <= '0';
+  LED4_SO <= '0';
 
 uFifoStatemachine: fifoStatemachine
     port map (
