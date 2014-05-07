@@ -1,12 +1,6 @@
-/*
- * DvsOrientationFilter.java
+/* DvsOrientationFilter.java
  *
- * Created on November 2, 2005, 8:24 PM
- *
- * To change this template, choose Tools | Options and locate the template under
- * the Source Creation and Management node. Right-click the template and choose
- * Open. You can then make changes to the template in the Source Editor.
- */
+ * Created on November 2, 2005, 8:24 PM */
 package net.sf.jaer.eventprocessing.label;
 import net.sf.jaer.chip.*;
 import net.sf.jaer.event.*;
@@ -21,65 +15,66 @@ import net.sf.jaer.Description;
 import net.sf.jaer.DevelopmentStatus;
 
 
-/**Computes simple-type orientation-tuned cells.
- *A switch allows WTA mode (only max 1 event generated) or many event (any orientation that passes coincidence threshold.
- *Another switch allows contour enhancement by using previous output orientation events to make it easier to make events along the same orientation.
- *Another switch decides whether to use max delay or average delay as the coincidence measure.
+/** Computes simple-type orientation-tuned cells.                           <br>
+ * multiOriOutputEnabled - boolean switch:
+ *      WTA mode {false} only max 1 orientation per event
+ *      or many event {true} any orientation that passes coincidence threshold.
+ * Another switch allows contour enhancement by using previous output 
+ * orientation events to make it easier to make events along the same orientation.
+ * Another switch decides whether to use max delay or average delay as the coincidence measure.
  * <p>
- * Orientation type output takes values 0-3; 0 is a horizontal edge (0 deg),  1 is an edge tilted up and to right (rotated CCW 45 deg),
- * 2 is a vertical edge (rotated 90 deg), 3 is tilted up and to left (rotated 135 deg from horizontal edge).
- *
- * The filter takes either PolarityEvents or BinocularEvents to create ApsDvsOrientationEvents or BinocularApsDvsOrientationEvents.
+ * Orientation type output takes values 0-3;                    <br>
+ * 0 is a horizontal edge (0 deg),                              <br>
+ * 1 is an edge tilted up and to right (rotated CCW 45 deg),    <br>
+ * 2 is a vertical edge (rotated 90 deg),                       <br>
+ * 3 is tilted up and to left (rotated 135 deg from horizontal edge).
+ * <p>
+ * The filter takes either PolarityEvents or BinocularEvents to create 
+ * DvsOrientationEvent or BinocularEvents.
  * @author tobi/phess */
 @Description("Abstract superclass for labelers that detect local orientation by spatio-temporal correlation")
 @DevelopmentStatus(DevelopmentStatus.Status.Experimental)
 abstract public class AbstractOrientationFilter extends EventFilter2D implements Observer , FrameAnnotater{
-
-    public boolean isGeneratingFilter (){
-        return true;
-    }
-    protected boolean showGlobalEnabled = getPrefs().getBoolean("showGlobalEnabled",false);
-    /** events must occur within this time along orientation in us to generate an event */
-    protected int minDtThreshold = getInt("minDtThreshold",100000);
-    /** We reject delta times that are larger than minDtThreshold by this factor, to rule out very old events */
-    protected int dtRejectMultiplier = getInt("dtRejectMultiplier",16);
-    protected int dtRejectThreshold = minDtThreshold * dtRejectMultiplier;
-    protected boolean multiOriOutputEnabled = getBoolean("multiOriOutputEnabled",false);
-    /** set true to use min of average time to neighbors. Set false to use max time to neighbors (reduces # events) */
-    protected boolean useAverageDtEnabled = getBoolean("useAverageDtEnabled",true);
-    protected boolean contouringEnabled = getBoolean("contouringEnabled",false);
-    protected boolean passAllEvents = getBoolean("passAllEvents",false);
-    protected int subSampleShift = getInt("subSampleShift",0);
-    protected final int SUBSAMPLING_SHIFT = 1;
-    protected int length = getInt("searchDistance",3);
-    protected int width = getInt("width",0);
-    protected boolean oriHistoryEnabled = getBoolean("oriHistoryEnabled",false);
-    protected boolean showVectorsEnabled = getBoolean("showVectorsEnabled",false);
-    protected boolean showRawInputEnabled = getBoolean("showRawInputEnabled",false);
-    protected float oriHistoryMixingFactor = getFloat("oriHistoryMixingFactor",0.1f);
-    protected float oriDiffThreshold = getFloat("oriDiffThreshold",0.5f);
-    protected boolean jitterVectorLocations=getBoolean("jitterVectorLocations", true);
-    protected float jitterAmountPixels=getFloat("jitterAmountPixels",.5f);
     
     public static final int MAX_LENGTH = 6;
     /** the number of cell output types */
     public final int NUM_TYPES = 4;
     
+    protected boolean showGlobalEnabled       = getBoolean("showGlobalEnabled",false);
+    protected boolean showVectorsEnabled      = getBoolean("showVectorsEnabled",false);
+    protected boolean showRawInputEnabled     = getBoolean("showRawInputEnabled",false);
+    protected boolean multiOriOutputEnabled   = getBoolean("multiOriOutputEnabled",false);
+    protected boolean jitterVectorLocations   = getBoolean("jitterVectorLocations", true);
+    protected boolean passAllEvents           = getBoolean("passAllEvents",false);
+    protected float   jitterAmountPixels      = getFloat("jitterAmountPixels",.5f);
+    protected boolean oriHistoryEnabled       = getBoolean("oriHistoryEnabled",false);
+    protected float   oriHistoryMixingFactor  = getFloat("oriHistoryMixingFactor",0.1f);
+    protected float   oriHistoryDiffThreshold = getFloat("oriHistoryDiffThreshold",0.5f);
+    protected int     subSampleShift          = getInt("subSampleShift",0);
+    protected int     length                  = getInt("length",3);
+    protected int     width                   = getInt("width",0);
+    /** events must occur within this time along orientation in us to generate an event */
+    protected int     minDtThreshold          = getInt("minDtThreshold",100000);
+    /** We reject delta times that are larger than minDtThreshold by this factor, to rule out very old events */
+    protected int     dtRejectMultiplier      = getInt("dtRejectMultiplier",5);
+    /** set true to use min of average time to neighbors. Set false to use max time to neighbors (reduces # events) */
+    protected boolean useAverageDtEnabled     = getBoolean("useAverageDtEnabled",true);
+    protected int     dtRejectThreshold       = minDtThreshold * dtRejectMultiplier;
+    protected int     rfSize;
+    protected Random  r;
+    
     /** Times of most recent input events: [x][y][polarity] */
     protected int[][][] lastTimesMap; // x,y,polarity
     /** Scalar map of past orientation values: [x][y] */
     protected float[][] oriHistoryMap;  // scalar orientation value x,y
-//    /** holds the times of the last output orientation events that have been generated */
-//    int[][][][] lastOutputTimesMap;
-    
-    protected int rfSize;
-    
+    /** Delta times to neighbors in each direction. */
+    protected int[][]   dts = null; // new int[NUM_TYPES][length*2+1]; // delta times to neighbors in each direction
+    /** Max times to neighbors in each dir. */
+    protected int[]     oridts = new int[ NUM_TYPES ]; // max times to neighbors in each dir
+    protected int[]     oriDecideHelper = new int[ NUM_TYPES ];
     /** Historical orientation values. */
     protected VectorHistogram oriHist = new VectorHistogram(NUM_TYPES);
-    /** Delta times to neighbors in each direction. */
-    protected int[][] dts = null; // new int[NUM_TYPES][length*2+1]; // delta times to neighbors in each direction
-    /** Max times to neighbors in each dir. */
-    protected int[] maxdts = new int[ NUM_TYPES ]; // max times to neighbors in each dir
+    
     // takes about 350ns/event on tobi's t43p laptop at max performance (2.1GHz Pentium M, 1GB RAM)
     /** A vector direction object used for iterating over neighborhood. */
     protected final class Dir{
@@ -103,18 +98,19 @@ abstract public class AbstractOrientationFilter extends EventFilter2D implements
     /** The basic offsets for each orientation.
      * You getString the perpendicular orientation to i by indexing (i+2)%NUM_TYPES. */
     protected final Dir[] baseOffsets = {
-        new Dir(1,0), // right
-        new Dir(1,1), // 45 up right
-        new Dir(0,1), // up
+        new Dir( 1,0), // right
+        new Dir( 1,1), // 45 up right
+        new Dir( 0,1), // up
         new Dir(-1,1), // up left
     };
 
-    /** Creates a new instance of SimpleOrientationFilter */
+    /** Creates a new instance of SimpleOrientationFilter
+     * @param chip */
     public AbstractOrientationFilter (AEChip chip){
         super(chip);
         chip.addObserver(this);
         // properties, tips and groups
-        final String size = "Size", tim = "Timing", disp = "Display";
+        final String size = "Size", tim = "Timing", disp = "Display", hist = "ori history";
 
         setPropertyTooltip(disp,"showGlobalEnabled","shows line of average orientation");
         setPropertyTooltip(disp,"showVectorsEnabled","shows local orientation segments");
@@ -129,21 +125,24 @@ abstract public class AbstractOrientationFilter extends EventFilter2D implements
         setPropertyTooltip(tim,"dtRejectMultiplier","<html>reject delta times more than this factor times <em>minDtThreshold</em> to reduce noise");
         setPropertyTooltip(tim,"dtRejectThreshold","reject delta times more than this time in us to reduce effect of very old events");
         setPropertyTooltip(tim,"useAverageDtEnabled","Use averarge delta time instead of minimum");
-        setPropertyTooltip(tim,"oriHistoryEnabled","enable use of prior orientation values to filter out events not consistent with history");
-        setPropertyTooltip(tim,"oriHistoryMixingFactor","mixing factor for history of local orientation, increase to learn new orientations more quickly");
-        setPropertyTooltip(tim,"oriDiffThreshold","orientation must be within this value of historical value to pass");
-        setPropertyTooltip("multiOriOutputEnabled","Enables multiple event output for all events that pass test");
+        setPropertyTooltip(tim,"multiOriOutputEnabled","Enables multiple event output for all events that pass test");
+        setPropertyTooltip(hist,"oriHistoryEnabled","enable use of prior orientation values to filter out events not consistent with history");
+        setPropertyTooltip(hist,"oriHistoryMixingFactor","mixing factor for history of local orientation, increase to learn new orientations more quickly");
+        setPropertyTooltip(hist,"oriHistoryDiffThreshold","detected orientation must be within this value of historical value to pass. Value of 0.5 corresponds to 45degree with 4 directions."); 
     }
      
     public Object getFilterState (){
         return lastTimesMap;
     }
+    
+    public boolean isGeneratingFilter (){
+        return true;
+    }
 
     @Override
     synchronized public void resetFilter (){
-        if ( !isFilterEnabled() ){
-            return;
-        }
+        if ( !isFilterEnabled() ) return;
+        
 //        allocateMaps(); // will allocate even if filter is enclosed and enclosing is not enabled
         oriHist.reset();
         if ( lastTimesMap != null ){
@@ -155,7 +154,7 @@ abstract public class AbstractOrientationFilter extends EventFilter2D implements
         }
         if ( oriHistoryMap != null ){
             for ( int i = 0 ; i < oriHistoryMap.length ; i++ ){
-                Arrays.fill(oriHistoryMap[i],0f);
+                Arrays.fill(oriHistoryMap[i],-1f);
             }
         }
     }
@@ -167,28 +166,29 @@ abstract public class AbstractOrientationFilter extends EventFilter2D implements
         if ( yes ){
             resetFilter();
         } else{
-            lastTimesMap = null;
-            oriHistoryMap=null;
-//            lastOutputTimesMap=null;
+            lastTimesMap  = null;
+            oriHistoryMap = null;
         }
     }
 
     protected void checkMaps (EventPacket packet){
-        if ( lastTimesMap == null || lastTimesMap.length != chip.getSizeX() || lastTimesMap[0].length != chip.getSizeY() || lastTimesMap[0][0].length != 2 ){ // changed to 2 for PolarityEvents
+        if ( lastTimesMap == null 
+                || lastTimesMap.length != chip.getSizeX() 
+                || lastTimesMap[0].length != chip.getSizeY() 
+                || lastTimesMap[0][0].length != 2 ){ // changed to 2 for PolarityEvents
             allocateMaps();
         }
     }
 
     synchronized protected void allocateMaps (){
-        if ( !isFilterEnabled() ){
-            return;
-        }
+        if ( !isFilterEnabled() ) return;
         if ( chip != null ){
             lastTimesMap = new int[ chip.getSizeX() ][ chip.getSizeY() ][ 2 ]; // fixed to 2 for PolarityEvents
             oriHistoryMap = new float[ chip.getSizeX() ][ chip.getSizeY() ];
-            //lastOutputTimesMap=new int[chip.getSizeX()][chip.getSizeY()][NUM_TYPES][2];
+            for ( int i = 0 ; i < oriHistoryMap.length ; i++ ){
+                Arrays.fill(oriHistoryMap[i],-1f);
+            }
             log.info(String.format("allocated int[%d][%d][%d] array for last event times and float[%d][%d] array for orientation history",chip.getSizeX(),chip.getSizeY(),2,chip.getSizeX(),chip.getSizeY()));
-
         }
         computeRFOffsets();
     }
@@ -221,16 +221,16 @@ abstract public class AbstractOrientationFilter extends EventFilter2D implements
         rfSize = 2 * length * ( 2 * width + 1 );
         offsets = new Dir[ NUM_TYPES ][ rfSize ];
         for ( int ori = 0 ; ori < NUM_TYPES ; ori++ ){
-            Dir d = baseOffsets[ori];
+            Dir  d = baseOffsets[ori];
+            Dir pd = baseOffsets[( ori + 2 ) % NUM_TYPES]; // this is offset in perpindicular direction
             int ind = 0;
             for ( int s = -length ; s <= length ; s++ ){
-                if ( s == 0 ){
-                    continue;
-                }
-                Dir pd = baseOffsets[( ori + 2 ) % NUM_TYPES]; // this is offset in perpindicular direction
+                if ( s == 0 ) continue;
+
                 for ( int w = -width ; w <= width ; w++ ){
                     // for each line of RF
-                    offsets[ori][ind++] = new Dir(s * d.x + w * pd.x,s * d.y + w * pd.y);
+                    offsets[ori][ind] = new Dir(s * d.x + w * pd.x,s * d.y + w * pd.y);
+                    ind++;
                 }
             }
         }
@@ -251,16 +251,14 @@ abstract public class AbstractOrientationFilter extends EventFilter2D implements
         return length;
     }
 
-    /** @param searchDistance the length of the RF, actual length is twice this because we search on each side of pixel by length*/
-    synchronized public void setLength (int searchDistance){
-        if ( searchDistance > MAX_LENGTH ){
-            searchDistance = MAX_LENGTH;
-        } else if ( searchDistance < 1 ){
-            searchDistance = 1; // limit size
-        }
-        this.length = searchDistance;
+    /** @param lengthToSet the length of the RF, actual length is twice this because we search on each side of pixel by length*/
+    synchronized public void setLength (int lengthToSet){
+        int setValue = (lengthToSet < 1) ? 1 : lengthToSet;
+            setValue = (lengthToSet > MAX_LENGTH) ? MAX_LENGTH : setValue;
+
+        this.length = setValue;
         allocateMaps();
-        putInt("searchDistance",searchDistance);
+        putInt("length",setValue);
     }
 
     public int getWidth (){
@@ -268,29 +266,24 @@ abstract public class AbstractOrientationFilter extends EventFilter2D implements
     }
 
     /** @param width the width of the RF, 0 for a single line of pixels, 1 for 3 lines, etc */
-    synchronized public void setWidth (int width){
-        if ( width < 0 ){
-            width = 0;
-        }
-        if ( width > length - 1 ){
-            width = length - 1;
-        }
-        this.width = width;
+    synchronized public void setWidth (final int width){
+        int setValue = (width < 0) ? 0 : width;
+            setValue = (width > length -1) ? length -1 : setValue;
+        
+        this.width = setValue;
         allocateMaps();
-        putInt("width",width);
+        putInt("width",setValue);
     }
 
     @Override
     public void annotate (GLAutoDrawable drawable){
-        if ( !isAnnotationEnabled() ){
-            return;
-        }
+        if ( !isAnnotationEnabled() ) return;
+
         GL gl = drawable.getGL();
 
         if ( isShowGlobalEnabled() ){
-            if ( gl == null ){
-                return;
-            }
+            if ( gl == null ) return;
+
             gl.glPushMatrix();
             gl.glTranslatef(chip.getSizeX() / 2,chip.getSizeY() / 2,0);
             gl.glLineWidth(6f);
@@ -305,49 +298,36 @@ abstract public class AbstractOrientationFilter extends EventFilter2D implements
         if ( isShowVectorsEnabled() && getOutputPacket()!=null ){
             // draw individual orientation vectors
             gl.glPushMatrix();
-             EventPacket outputPacket=getOutputPacket();
-             for ( Object o:outputPacket ){
+            EventPacket outputPacket=getOutputPacket();
+            for ( Object o:outputPacket ){
                 OrientationEventInterface e = (OrientationEventInterface)o;
                 drawOrientationVector(gl,e);
             }
-             gl.glPopMatrix();
+            gl.glPopMatrix();
         }
     }
-    protected Random r=new Random();
+    
     
     // plots a single motion vector which is the number of pixels per second times scaling
     protected void drawOrientationVector (GL gl,OrientationEventInterface e){
-        if ( !e.isHasOrientation() ){
-            return;
-        }
+        if ( !e.isHasOrientation() ) return;
+
         byte ori=e.getOrientation();
         OrientationEvent.UnitVector d = OrientationEvent.unitVectors[ori];
         float jx=0, jy=0;
         if(jitterVectorLocations){
+            r = new Random();
             jx=(r.nextFloat()-.5f)*jitterAmountPixels;
             jy=(r.nextFloat()-.5f)*jitterAmountPixels;
         }
-            gl.glLineWidth(3f);
-            float[] c=chip.getRenderer().makeTypeColors(e.getNumCellTypes())[ori];
-            gl.glColor3fv(c,0);
-//        switch (ori) {
-//            case 0:
-//                gl.glColor3fv(c,0);
-//                break;
-//            case 1:
-//                gl.glColor3f(1, 1, 0);
-//                break;
-//            case 2:
-//                gl.glColor3f(0, 1, 0);
-//                break;
-//            case 3:
-//                gl.glColor3f(0, 1, 1);
-//        }
-          gl.glBegin(GL.GL_LINES);
-          BasicEvent be=(BasicEvent)e;
+        gl.glLineWidth(3f);
+        float[] c=chip.getRenderer().makeTypeColors(e.getNumCellTypes())[ori];
+        gl.glColor3fv(c,0);
+        gl.glBegin(GL.GL_LINES);
+        BasicEvent be=(BasicEvent)e;
         gl.glVertex2f(be.x - d.x * length + jx, be.y - d.y * length + jy);
         gl.glVertex2f(be.x + d.x * length + jx, be.y + d.y * length+jy);
-           gl.glEnd();
+        gl.glEnd();
     }
 
     /**Abstract method that filters in to out packet. 
@@ -480,17 +460,17 @@ abstract public class AbstractOrientationFilter extends EventFilter2D implements
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="getter/setter for --OriDiffThreshold--">
-    public float getOriDiffThreshold (){
-        return oriDiffThreshold;
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --OriHistoryDiffThreshold--">
+    public float getOriHistoryDiffThreshold (){
+        return oriHistoryDiffThreshold;
     }
 
-    public void setOriDiffThreshold (float oriDiffThreshold){
-        if ( oriDiffThreshold > NUM_TYPES ){
-            oriDiffThreshold = NUM_TYPES;
+    public void setOriHistoryDiffThreshold (float oriHistoryDiffThreshold){
+        if ( oriHistoryDiffThreshold > NUM_TYPES ){
+            oriHistoryDiffThreshold = NUM_TYPES;
         }
-        this.oriDiffThreshold = oriDiffThreshold;
-        putFloat("oriDiffThreshold",oriDiffThreshold);
+        this.oriHistoryDiffThreshold = oriHistoryDiffThreshold;
+        putFloat("oriHistoryDiffThreshold",oriHistoryDiffThreshold);
     }
     // </editor-fold>
     

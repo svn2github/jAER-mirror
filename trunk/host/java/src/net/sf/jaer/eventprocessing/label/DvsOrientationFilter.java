@@ -1,29 +1,27 @@
 /*
  * DvsOrientationFilter.java
  *
- * Created on November 2, 2005, 8:24 PM
- *
- * To change this template, choose Tools | Options and locate the template under
- * the Source Creation and Management node. Right-click the template and choose
- * Open. You can then make changes to the template in the Source Editor.
- */
+ * Created on November 2, 2005, 8:24 PM */
 package net.sf.jaer.eventprocessing.label;
+
+import java.util.logging.Level;
 import net.sf.jaer.chip.*;
 import net.sf.jaer.event.*;
 import net.sf.jaer.Description;
 import net.sf.jaer.DevelopmentStatus;
 
-/** Computes simple-type orientation-tuned cells.
- * A switch allows WTA mode (only max 1 event generated) or many event 
- * (any orientation that passes coincidence threshold).
+/** Computes simple-type orientation-tuned cells.                           <br>
+ * multiOriOutputEnabled - boolean switch:
+ *      WTA mode {false} only max 1 orientation per event
+ *      or many event {true} any orientation that passes coincidence threshold.
  * Another switch allows contour enhancement by using previous output 
  * orientation events to make it easier to make events along the same orientation.
  * Another switch decides whether to use max delay or average delay as the coincidence measure.
  * <p>
- * Orientation type output takes values 0-3; 
- * 0 is a horizontal edge (0 deg),  
- * 1 is an edge tilted up and to right (rotated CCW 45 deg),
- * 2 is a vertical edge (rotated 90 deg), 
+ * Orientation type output takes values 0-3;                    <br>
+ * 0 is a horizontal edge (0 deg),                              <br>
+ * 1 is an edge tilted up and to right (rotated CCW 45 deg),    <br>
+ * 2 is a vertical edge (rotated 90 deg),                       <br>
  * 3 is tilted up and to left (rotated 135 deg from horizontal edge).
  * <p>
  * The filter takes either PolarityEvents or BinocularEvents to create 
@@ -32,8 +30,23 @@ import net.sf.jaer.DevelopmentStatus;
 @Description("Detects local orientation by spatio-temporal correlation for DVS sensors")
 @DevelopmentStatus(DevelopmentStatus.Status.Experimental)
 public class DvsOrientationFilter extends AbstractOrientationFilter{
+    //TODO: The oriHistoryMap is still not completely bias-free.
+    //      The values for orientation range from 0-3 and each time we update
+    //      the oriHistory map we adjust the value of the history slightly towards 
+    //      the currently detected orientation. However, as the directions are
+    //      represented by numbers 0 to 3 we are not implementing periodic
+    //      boundary conditions. In fact if the oriHistoryMap has a value of 3
+    //      for a given pixel and we constantly see values of 0 the HistoryMap
+    //      will update from the direction 'up-left' towards 'horizontal' not
+    //      directly, but by taking the path 'up-left'-->'vertical'-->'up-right'-->'horizontal'
+    //      although the best path would be 'up-left'-->'horizontal' ...
+    //      This fact gives a bias towards orientations 1 and 2 and yields 
+    //      fewer outputs of orientations 0 and 3...
+    
+    final int ORI_SHIFT = 16; // will shift our orientation value this many bits in raw address
     private boolean isBinocular;
-    /** Creates a new instance of SimpleAbstractOrientationFilter
+    
+    /** Creates a new instance of DvsOrientationFilter
      * @param chip */
     public DvsOrientationFilter (AEChip chip){
         super(chip);
@@ -60,7 +73,7 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
             isBinocular = true;
             checkOutputPacketEventType(BinocularOrientationEvent.class);
         } else { //Neither Polarity nor Binocular Event --> Wrong class used!
-            log.warning("wrong input event class "+inputClass+" in the input packet" + in + ", disabling filter");
+            log.log(Level.WARNING, "wrong input event class {0} in the input packet {1}, disabling filter", new Object[]{inputClass, in});
             setFilterEnabled(false);
             return in;
         }
@@ -79,12 +92,13 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
         // type's orientation of the same retina polarity
         for ( Object ein:in ){
             PolarityEvent e = (PolarityEvent)ein;
+            
+            int    x = e.x >>> subSampleShift;
+            int    y = e.y >>> subSampleShift;
             int type = e.getType();
-            if (type >= NUM_TYPES || e.x<0||e.y<0) {
+            if (type >= NUM_TYPES || e.x < 0||e.y < 0) {
                 continue;  // tobi - some special type like IMU sample
             }
-            int x = e.x >>> subSampleShift;
-            int y = e.y >>> subSampleShift;
 
             /* (Peter Hess) monocular events use eye = 0 as standard. therefore some arrays will waste memory, because eye will never be 1 for monocular events
              * in terms of performance this may not be optimal. but as long as this filter is not final, it makes rewriting code much easier, because
@@ -100,72 +114,118 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
             }
             lastTimesMap[x][y][type] = e.timestamp;
 
-            // getString times to neighbors in all directions
-            // check if search distance has been changed before iterating - for some reason the synchronized doesn't work
+            // For each orientation and position in the receptive field compute
+            // the time to last event of the same type.
+            // TODO: Currently this is wrong as soon as subsampling is enabled.
+            //       The offset is not subsampled, so when subsampling, the 
+            //       offsets are still computed in the 'unsampled' space.
             int xx, yy;
             for ( int ori = 0 ; ori < NUM_TYPES ; ori++ ){
-                // for each orienation, compute the dts to each previous event in RF of this cell
-                int[] dtsThisOri = dts[ori]; // this is ref to array of delta times
-                Dir[] d = offsets[ori]; // this is vector of spatial offsets for this orientation from lookup table
-                for ( int i = 0 ; i < d.length ; i++ ){ //=-length;s<=length;s++){ // now we march along both sides of this pixel
+                // 'd' is vector of spatial offsets for this orientation. It is
+                // precomputed for performance. Each element of 'd' is a offset
+                // direction to an element of the RF.
+                Dir[] d = offsets[ori]; 
+                for ( int i = 0 ; i < d.length ; i++ ){ 
                     xx = x + d[i].x;
-                    if ( xx < 0 || xx > sizex ){
-                        continue;
-                    }
                     yy = y + d[i].y;
-                    if ( yy < 0 || yy > sizey ){
-                        continue; // indexing out of array
-                    }
-                    dtsThisOri[i] = e.timestamp - lastTimesMap[xx][yy][type]; // the offsets are multiplied by the search distance
-                    // x and y are already offset so that the index into the padded map, avoding ArrayAccessViolations
+                    
+                    if ( xx < 0 || xx > sizex ) continue;
+                    if ( yy < 0 || yy > sizey ) continue; // indexing out of array
+                    
+                    dts[ori][i] = e.timestamp - lastTimesMap[xx][yy][type];
                 }
             }
-
+            
+            //Compute the average or maximum time to last event within RF
             if ( useAverageDtEnabled ){
-                // now getString sum of dts to neighbors in each direction
-                for ( int j = 0 ; j < NUM_TYPES ; j++ ){
-                    maxdts[j] = 0; // this is sum here despite name maxdts
-                    int m = dts[j].length;
+                // <editor-fold defaultstate="collapsed" desc="--compute the average dt's in each direction--">
+                for ( int ori = 0 ; ori < NUM_TYPES ; ori++ ){
+                    oridts[ori] = 0; 
+                    oriDecideHelper[ori] = 0;
+                    
                     int count = 0;
-                    for ( int k = 0 ; k < m ; k++ ){
-                        int dt = dts[j][k];
+                    int[] dtList = new int[rfSize];
+                    for ( int k = 0 ; k < rfSize ; k++ ){
+                        int dt = dts[ori][k];
                         if ( dt > dtRejectThreshold ){
                             continue; // we're averaging delta times; this rejects outliers
                         }
-                        maxdts[j] += dt; // average dt
+                        oridts[ori] += dt; // average dt
+                        dtList[k] = dt;
                         count++;
                     }
                     if ( count > 0 ){
-                        maxdts[j] /= count; // normalize by RF size
-                    }
-                    if ( count == 0 ){
+                        oridts[ori] /= count; // normalize by RF size
+                        for(int k =0;k<rfSize;k++) {
+                            if(dtList[k]>0) dtList[k] -= oridts[ori];
+                            oriDecideHelper[ori] += (dtList[k]*dtList[k]);
+                        }
+                        if(oriDecideHelper[ori]<0)oriDecideHelper[ori] = Integer.MAX_VALUE; //Happens when dtList[k]^2 is larger than maxint or the sum exceeds maxint.
+                        oriDecideHelper[ori] /= count; //biased estimator of variance
+                        
+                    } else {
                         // no samples, all outside outlier rejection threshold
-                        maxdts[j] = Integer.MAX_VALUE;
+                        oridts[ori] = Integer.MAX_VALUE;
+                        oriDecideHelper[ori] = Integer.MAX_VALUE;
                     }
                 }
-            } else{ // use max dt
-                // now get maxdt to neighbors in each direction
-                for ( int j = 0 ; j < NUM_TYPES ; j++ ){
-                    maxdts[j] = Integer.MIN_VALUE;
-                    int m = dts[j].length;
-                    for ( int k = 0 ; k < m ; k++ ){  
+                // </editor-fold>
+            } else { // use max dt
+                // <editor-fold defaultstate="collapsed" desc="--compute the max dt in each direction--">
+                for ( int ori = 0 ; ori < NUM_TYPES ; ori++ ){
+                    oridts[ori] = Integer.MIN_VALUE;
+                    oriDecideHelper[ori] = Integer.MIN_VALUE;
+
+                    for ( int k = 0 ; k < rfSize ; k++ ){  
                         // iterate over RF and find maxdt to previous events, final orientation will be that orientation that has minimum maxdt
                         // this has problem that pixels that do NOT fire an event still contribute a large dt from previous edges
-                        maxdts[j] = dts[j][k] > maxdts[j] ? dts[j][k] : maxdts[j]; // max dt to neighbor
+                        if ( dts[ori][k] > dtRejectThreshold ){
+                            continue; // reject old timestamps to better detect edges
+                        }
+                        if(dts[ori][k] > oridts[ori]){
+                            oriDecideHelper[ori] = oridts[ori];// we need this if two oridts are equal
+                            oridts[ori] = dts[ori][k];
+                        }
+                        //readability^^
+                        //maxdts[ori] = dts[ori][k] > oridts[ori] ? dts[ori][k] : oridts[ori]; // max dt to neighbor
                     }
                 }
+                // </editor-fold>
             }
 
             if ( !multiOriOutputEnabled ){
+                // <editor-fold defaultstate="collapsed" desc="--WTA to find the one best orientation per event--">
                 // here we do a WTA, only 1 event max gets generated in optimal 
                 // orienation IFF is also satisfies coincidence timing requirement
 
                 // now find min of these, this is most likely orientation, iff this time is also less than minDtThreshold
-                int mindt = minDtThreshold, dir = -1;
-                for ( int k = 0 ; k < NUM_TYPES ; k++ ){
-                    if ( maxdts[k] < mindt ){
-                        mindt = maxdts[k];
-                        dir = k;
+                int mindt = minDtThreshold, decideHelper = 0, dir = -1;
+                for ( int ori = 0 ; ori < NUM_TYPES ; ori++ ){
+                    if ( oridts[ori] < mindt ){
+                        mindt = oridts[ori];
+                        decideHelper = oriDecideHelper[ori];
+                        dir = ori;
+                    } else if(oridts[ori] == mindt){
+                        // <editor-fold defaultstate="collapsed" desc="--COMMENT--">
+                        //Before only the check above ( oridts[ori] < mindt )
+                        // was performed. This however was biased towards 
+                        // horizontal directions, as if the oridts[ori] of 
+                        // 'later' orientations was equal to an earlier one
+                        // then the final orientation would still be the first 
+                        // to accour. As we always loop from horizontal to
+                        // up-left the up-left orientation had a dissadvantage.
+                        // The oriDecideHelper is either the second largest time
+                        // if the MAXdt method is used, or the estimator of the
+                        // standard deviation if the average method is used.
+                        //  This still has a very small bias, as if the second
+                        //  decicion is also equal (oriDecideHelper == decideHelper)
+                        //  we chose the new orientation over the old one.
+                        //  THis is much more unlikely though.
+                        // </editor-fold>
+                        if(oriDecideHelper[ori] <= decideHelper){
+                            mindt = oridts[ori];
+                            dir = ori;
+                        }
                     }
                 }
 
@@ -184,24 +244,41 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
                     // no dt was < threshold
                     continue;
                 }
+                
                 if ( oriHistoryEnabled ){
                     // update lowpass orientation map
                     float f = oriHistoryMap[x][y];
+                    if(f == -1f) {
+                        //If we initialize to 0 we have a big bias towards 
+                        // horizontal direction. Hence, we initialize the 
+                        // array to '-1' and check for this. If we find a '-1'
+                        // this means this location has never had a orientation
+                        // and we initialize it with the found location.
+                        // This should guarantee handling the orientations in a 
+                        // unbiased fashion.
+                        f = dir;
+                    } 
                     f = ( 1 - oriHistoryMixingFactor ) * f + oriHistoryMixingFactor * dir;
                     oriHistoryMap[x][y] = f;
 
+                    //fd is the distance between the orientation in the HistoryMap
+                    // and the currently detected orientation.
                     float fd = f - dir;
                     final int halfTypes = NUM_TYPES / 2;
+                    //The distance between orientation 0 (horizontal) and ori 3
+                    // (up-left) is not equal to 0-3=3 but infact is just 1.
+                    // There is one orientation between 0 and 3, hence we need
+                    // to adjust here.
                     if ( fd > halfTypes ){
                         fd = fd - NUM_TYPES;
                     } else if ( fd < -halfTypes ){
                         fd = fd + NUM_TYPES;
                     }
-                    if ( Math.abs(fd) > oriDiffThreshold ){
+                    if ( Math.abs(fd) > oriHistoryDiffThreshold ){
                         continue;
                     }
                 }
-                // now write output cell iff all events along dir occur within minDtThreshold
+                
                 if ( isBinocular ){
                     BinocularOrientationEvent eout = (BinocularOrientationEvent)outItr.nextOutput();
                     eout.copyFrom(e);
@@ -213,12 +290,14 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
                     eout.orientation = (byte)dir;
                     eout.hasOrientation = true;
                 }
-//                lastOutputTimesMap[e.x][e.y][dir][eye]=e.timestamp;
                 oriHist.add(dir);
-            } else{
+                // </editor-fold>
+            } else {
+                // <editor-fold defaultstate="collapsed" desc="--allow multiple orientations per event--">
                 // here events are generated in oris that satisfy timing; there is no WTA
+                // now write output cell iff all events along dir occur within minDtThreshold
                 for ( int k = 0 ; k < NUM_TYPES ; k++ ){
-                    if ( maxdts[k] < minDtThreshold ){
+                    if ( oridts[k] < minDtThreshold ){
                         if ( isBinocular ){
                             BinocularOrientationEvent eout = (BinocularOrientationEvent)outItr.nextOutput();
                             eout.copyFrom(e);
@@ -230,7 +309,6 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
                             eout.orientation = (byte)k;
                             eout.hasOrientation = true;
                         }
-//                        lastOutputTimesMap[e.x][e.y][k][eye]=e.timestamp;
                         oriHist.add(k);
                     } else {
                         if ( isBinocular ){
@@ -244,18 +322,16 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
                         }
                     }
                 }
+                // </editor-fold>
             }
         }
-        final int ORI_SHIFT = 16; // will shift our orientation value this many bits in raw address
+        
+        
         for (Object o : outputPacket) {
             DvsOrientationEvent e = (DvsOrientationEvent) o;
             e.address = e.address | (e.orientation << ORI_SHIFT);
         }
-        
-        //Show the events instead of the directions
-        if(showRawInputEnabled) {
-            return in;
-        }
-        return getOutputPacket();
+
+        return showRawInputEnabled ? in : getOutputPacket();
     }
 }
