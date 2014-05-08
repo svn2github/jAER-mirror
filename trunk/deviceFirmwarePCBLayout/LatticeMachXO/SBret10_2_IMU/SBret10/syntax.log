@@ -4,15 +4,76 @@
 #Hostname: ZECHARIAH
 
 $ Start of Compile
-#Tue Mar 11 13:48:11 2014
+#Thu May 08 23:12:21 2014
 
 Synopsys VHDL Compiler, version comp201209rcp1, Build 271R, built Mar 11 2013
 @N|Running in 64-bit mode
 Copyright (C) 1994-2012 Synopsys, Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
 
 @N: CD720 :"D:\lscc\diamond\2.2_x64\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
-@N:"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
-Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Tue Mar 11 13:48:11 2014
+@N:"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@E: CD255 :"C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/monitorStateMachine.vhd":131:223:131:223|No identifier "imudatareadyreqxe" in scope
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/monitorStateMachine.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/synchronizerStateMachine.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/timestampCounter.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/ADCvalueReady.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/cDVSResetStateMachine.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/shiftRegister.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/ADCStateMachine.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Arb_Blk.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Clk_Blk.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Cnt_Blk.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_delay.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_INT_Blk.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Main_Blk.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Mpu_Blk.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_SS_Blk.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Synch_Blk.vhd
+@END
+1 error parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/IMUvalueReady.vhd
+@END
+@E: CD255 :"C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/IMUStateMachine.vhd":249:71:249:71|No identifier "imudatawordcountxdp" in scope
+2 errors parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/IMUStateMachine.vhd
+@END
+2 errors parsing file D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/up_model.vhd
+@END
+2 errors parsing file D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/ack_gen.vhd
+@END
+@W: CD433 :"C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/IMUStateMachine_BCK.vhd":788:7:788:7|No design units in file
+2 errors parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/IMUStateMachine_BCK.vhd
+@END
+2 errors parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/AERfifo.vhd
+@END
+2 errors parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/clockgen.vhd
+@END
+@E: CD242 :"C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/USBAER_top_level.vhd":299:2:299:10|Expecting ;
+@E: CD536 :"C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/USBAER_top_level.vhd":464:33:464:36|Type must be an unconstrained array
+@E: CD255 :"C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/USBAER_top_level.vhd":640:45:640:45|No identifier "fifocountxd" in scope
+5 errors parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/USBAER_top_level.vhd
+@END
+5 errors parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/ADCStateMachine_tb.vhd
+@END
+5 errors parsing file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Top.vhd
+@END
+5 errors parsing file D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/top_test_bench.vhd
+@END
+@E|Parse errors encountered - exiting
+Process took 0h:00m:08s realtime, 0h:00m:01s cputime
+# Thu May 08 23:12:29 2014
 
 ###########################################################]

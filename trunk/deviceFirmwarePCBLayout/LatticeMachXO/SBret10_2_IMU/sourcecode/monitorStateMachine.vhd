@@ -39,15 +39,14 @@ entity monitorStateMachine is
 
     -- fifo control lines
     FifoWritexEO          : out std_logic;
+	FifoCountxDI : out std_logic_vector(10 downto 0); --H Number of words (16 bits) currently in the CPLD FIFO
 
     -- register write enable
     TimestampRegWritexEO     : out std_logic;
     AddressRegWritexEO       : out std_logic;
 	
-	--H IMU Register Write Enable signal
-	IMURegWritexEO : out std_logic; 
-	--H 
-
+	IMURegWritexEO : out std_logic; --H IMU Register Write Enable signal
+	
     -- mux control	
     --H Change variable name and size
 	--AddressTimestampSelectxSO  : out std_logic_vector(1 downto 0);
@@ -59,9 +58,12 @@ entity monitorStateMachine is
     ADCvalueReadyxSI : in std_logic;
     ReadADCvaluexEO : out std_logic;
     
-    --H IMU interface
-    IMUvalueReadyxSI : in std_logic; -- Signals that IMU value is ready to be written into IMU Register
-    ReadIMUvaluexEO : out std_logic; -- Enables IMU Register 
+    --H
+	IMUDataReadyReqxEI : in std_logic; -- 
+	IMUDataReadyAckxEO : in std_logic; -- 
+    IMUDataReadReqxEO  : out std_logic; -- 
+    IMUDataReadAckxEI  : out std_logic; -- 
+	IMUEventxEO 	   : out std_logic;
 	--H 
 
 	-- timestamp overflow, send wrap event
@@ -72,23 +74,15 @@ entity monitorStateMachine is
     
     -- valid event or wrap event
     AddressMSBxDO : out std_logic_vector(1 downto 0);
-	--H
-	-- Use this signal to indicate that we have an IMU event using the selecttrigger signal
-	-- This will indicate that the following FIFO outputs will be 16 bit IMU sensor data
-	--H
-	
-	--H Is used to indicate that selecttrigger in AddressMSBxDO represents an IMUEvent and not any other external type of event
-	IMUEventxSO : out std_logic;
-	--H 
-	
-    -- reset timestamp
+
+	-- reset timestamp
     ResetTimestampxSBI : in std_logic
     );
 end monitorStateMachine;
 
 architecture Behavioral of monitorStateMachine is
-  --H Added states for IMU: stIMUTime, stIMUSignal, stIMUEvent
-  type state is (stIdle, stWraddress, stWrTime ,stWait,stOverflow,stResetTimestamp, stFifoFull, stReqRelease, stADC,stADCTime, stIMUTime, stIMUSignal, stIMUEvent, stWrTriggerTime, stWrTrigger);
+  --H Added states for IMU: stIMUTime, stIMUEvent, stIMUData
+  type state is (stIdle, stWraddress, stWrTime ,stWait,stOverflow,stResetTimestamp, stFifoFull, stReqRelease, stADC,stADCTime, stIMUTime, stIMUEvent, stIMUData, stWrTriggerTime, stWrTrigger);
   --H 
 
   -- for synchronizing AER Req
@@ -99,18 +93,26 @@ architecture Behavioral of monitorStateMachine is
   signal CountxDP, CountxDN : std_logic_vector(7 downto 0);
   signal TriggerxDP, TriggerxDN : std_logic;
   
+  --H
+  -- Counter for keeping track number of data words (16 bits) in FIFO 
+  signal FifoCountxDN, FifoCountxDP : std_logic_vector(10 downto 0);
+  constant FifoDepthxS : std_logic_vector(10 downto 0) := "10000000000"; -- FIFO has depth of 1024 words
+  constant IMUFIFOWriteSpacexS : std_logic_vector(10 downto 0) := "00000001010"; -- Number of free space (in words) in FIFO before IMU data can be written
+  --H 
+  
   -- timestamp overflow register
   signal TimestampOverflowxDN, TimestampOverflowxDP : std_logic_vector(15 downto 0);
 
   -- timestamp reset register
   signal TimestampResetxDP, TimestampResetxDN : std_logic;
 
+  
   -- constants for mux
   --H Increased vector length and added another signal 
   constant selectADC : std_logic_vector(2 downto 0) := "011";
   constant selectaddress   : std_logic_vector(2 downto 0) := "001";
   constant selecttimestamp : std_logic_vector(2 downto 0) := "000";
-  constant selecttrigger : std_logic_vector(2 downto 0) := "010"; -- Signals external input events, including IMU events
+  constant selecttrigger : std_logic_vector(2 downto 0) := "010"; -- Signals external / special input events, including IMU events
   constant selectIMU : std_logic_vector(2 downto 0) := "100"; -- Signals IMU events
   --H
   
@@ -124,9 +126,10 @@ architecture Behavioral of monitorStateMachine is
 begin
   AERREQxSB <= AERREQxSBI;
 
--- calculate next state and outputs
-	--H FIX THIS! Change what it depends on!!! FIGURE OUT IMU SIDE FIRST
-  p_memless : process (StatexDP, FifoFullxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, AERREQxSB, XxDI, ADCvalueReadyxSI,CountxDP,UseLongAckxSI,TriggerxSI,TriggerxDP)
+  -- calculate next state and outputs
+  --H Added Sensititivy (is that the correct word?) to IMU Hand shaking signals
+  p_memless : process (StatexDP, FifoFullxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, AERREQxSB, XxDI, ADCvalueReadyxSI,CountxDP,UseLongAckxSI,TriggerxSI,TriggerxDP, IMUDataReadyReqxE, IMUDataWriteAckxE)
+  --H 
   begin  -- process p_memless
     -- default assignements: stay in present state, don't change address in
     -- FifoAddress register, no Fifo transaction, 
@@ -136,6 +139,7 @@ begin
   
     TimestampRegWritexEO        <= '1';
     --H Change variable name and size
+	-- ADD PREVIOUS LINE
 	DatatypeSelectxSO <= selectaddress;
     --H
     
@@ -158,9 +162,10 @@ begin
 
     ReadADCvaluexEO <= '0';
 	
-	--H Don't read IMU values into IMU word register by default 
-	ReadIMUValuexEO <= '0';
-	IMUEventxSO <= '0';
+	--H HANDSHAKING DEFAULT SIGNALS
+	IMUDataReadyAckxE <= '0';
+	IMUEventxEO <= '0';
+	--IMUDataWriteReqxE <= '0';
 	--H 
 	
     case StatexDP is
@@ -181,9 +186,15 @@ begin
           StatexDN <= stADCTime;
 		
 		--H Once IMU values become available send appropriate signals to write it to FIFO
-	    elsif IMUvalueReadyxSI = '1' then
-		  -- First record AER timestamp at which IMU event is collected
-		  StatexDN <= stIMUTime;
+	    elsif IMUDataReadyReqxE = '1' then
+		  if (FifoDepthxS - FifoCountxDP <= IMUFifoWriteSpacexS) then 
+			-- First record AER timestamp at which IMU event is collected
+			StatexDN <= stIMUTime;
+		  else
+		    -- Pretend that we got the data... Or Make a new signal? (Would probably be better..)
+			-- Drop data
+		    IMUDataReadyAckxE <= '1';
+		  end if;
 		--H 
         
 		elsif AERREQxSB = '0' then
@@ -238,7 +249,7 @@ begin
 	  when stIMUTime      =>             
 
 		-- Update Next State
-		StatexDN <= stIMU;
+		StatexDN <= stIMUEvent;
     
 		-- Hold current Timestamp value in register and Enable writing timestamp to the FIFO
         FifoWritexEO <= '1';
@@ -247,6 +258,9 @@ begin
 		-- Indicate that we're writing a timestamp and get Timestamp value from register
 		DatatypeSelectxSO <= selecttimestamp;
         AddressMSBxDO <= timestamp;
+	  
+		-- Hand shaking signal
+		IMUDataReadyAckxE <= '1';
 	  --H
 	  
 	  when stWrTrigger   =>             -- write the address to the fifo
@@ -282,33 +296,33 @@ begin
         AddressMSBxDO <= address;
 
 	  --H Send External Event Signal to FIFO indicating that next data word is an IMU event
-	  when stIMUSignal =>             
+	  when stIMUEvent =>             
         
 		-- Update Next State
 		StatexDN <= stIMUEvent;
        
-   		-- Enable writing to the FIFO
+   		IMUDataWriteReq <= '1';
+		
+		-- Enable writing to the FIFO
         FifoWritexEO <= '1';
         
 		-- Indicate that we're writing an external event (trigger), indicate that external event is an IMU event
-		-- Set MSB of data 
-		IMUEventxSO <= '1';
+		IMUEventxEO <= '1';
 		DatatypeSelectxSO <= selecttrigger;
-        AddressMSBxDO <= address; -- Don't think I actually need this
+        AddressMSBxDO <= address; 
 		-- Set count variable to 0
 	  --H 
 
 	  --H Write IMU events to FIFO
-	  when stIMUEvent =>             -- write the address to the fifo
+	  when stIMUData =>             -- write the address to the fifo
         
-		--TODO
-		-- Start counting up. If Count reaches 9? 12? Then go back to idle. 
-        StatexDN <= stIdle;
-        
+		-- Wait for Acknowledge signal signifying that all data has been written
+		if IMUDataWriteAck = '1' then
+			StatexDN <= stIdle;
+        end if;
 		
         FifoWritexEO <= '1';
 		DatatypeSelectxSO <= selectIMU;
-        ReadIMUvaluexEO <= '1';
         AddressMSBxDO <= address;
 	  --H 
 
@@ -379,6 +393,9 @@ begin
     if ResetxRBI = '0' then             -- asynchronous reset (active low)
       StatexDP <= stIdle;
       CountxDP <= (others => '0');
+	  --H 
+	  FifoCountxDP <= (others => '0');
+	  --H 
       TimestampOverflowxDP <= (others => '0');
       TimestampResetxDP <= '0';
       TriggerxDP <= '0';
@@ -387,7 +404,10 @@ begin
       TimestampOverflowxDP <= TimestampOverflowxDN;
       TimestampResetxDP <= TimestampResetxDN;
       CountxDP <= CountxDN;
-      TriggerxDP <= TriggerxDN;
+      --H 
+	  FifoCountxDP <= FifoCountxDN;
+	  --H
+	  TriggerxDP <= TriggerxDN;
     end if;
   end process p_memoryzing;
   

@@ -1,74 +1,65 @@
 Running in Lattice mode
 
-Starting:    D:\lscc\diamond\2.2_x64\synpbase\win64\mbin\synplify.exe
+
+Starting:    D:\lscc\diamond\2.2_x64\synpbase\win64\mbin\synbatch.exe
 Install:     D:\lscc\diamond\2.2_x64\synpbase
-Date:        Mon Mar 17 14:06:03 2014
+Date:        Thu May 08 23:12:21 2014
 Version:     G-2012.09L-SP1 
 
-Arguments:   -product synplify_pro  -tcl C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/SBret10/launch_synplify.tcl
+Arguments:   -product synplify_pro  -batch SBret10_SBret10_synplify.tcl
 ProductType: synplify_pro
 
 
 
 
 
-No project opened.
-Removed file: D:\lscc\diamond\2.2_x64\cae_library\synthesis\vhdl\machxo.vhd
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\wordRegister.vhd
+Warning: File already exists in project: "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\AERfifo.vhd"
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\AERfifo.vhd
+Warning: File already exists in project: "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\clockgen.vhd"
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\clockgen.vhd
+log file: "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\SBret10_SBret10.srr"
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\earlyPaketTimer.vhd
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\EventBeforeOverflow.vhd
+Generating HDL info...
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\eventCounter.vhd
+Job: "hdl_info_gen" terminated with error status: 2.
+See log file: "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\syntax.log"
+Return Code: 2
+Run Time:0h:00m:09s
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\fifoStatemachine.vhd
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\monitorStateMachine.vhd
+Copied C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\SBret10_SBret10.srr to C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\SBret10_SBret10.srf
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd
+log file: "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\SBret10_SBret10.srr"
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\timestampCounter.vhd
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd
+Running proj_1|SBret10
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCvalueReady.vhd
+Running Compile on proj_1|SBret10
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\cDVSResetStateMachine.vhd
+Running Compile Process on proj_1|SBret10
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\shiftRegister.vhd
+Running Compile Input on proj_1|SBret10
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\ADCStateMachine_tb.vhd
+compiler exited with errors
 
-Removed file: C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCStateMachine.vhd
+Job: "compiler" terminated with error status: 2.
+See log file: "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\SBret10_SBret10.srr"
+Return Code: 2
+Run Time:0h:00m:00s
 
-Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Arb_Blk.vhd
 
-Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Clk_Blk.vhd
+Job Compile Process completed on proj_1|SBret10
 
-Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Cnt_Blk.vhd
+Job Compile completed on proj_1|SBret10
 
-Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_delay.vhd
+Copied C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\SBret10_SBret10.srr to C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\SBret10_SBret10.srf
 
-Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_INT_Blk.vhd
+Job Logic Synthesis completed on proj_1|SBret10
 
-Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Main_Blk.vhd
+TCL script complete: "SBret10_SBret10_synplify.tcl"
 
-Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Mpu_Blk.vhd
+exit status=2
 
-Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_SS_Blk.vhd
-
-Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Synch_Blk.vhd
-
-Removed file: D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\Source\I2C_Top.vhd
-
-Warning: File already exists in project: "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\AERfifo.vhd"
-Warning: File already exists in project: "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\clockgen.vhd"
-TCL script complete: "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/SBret10/launch_synplify.tcl"
-exit status=0
 

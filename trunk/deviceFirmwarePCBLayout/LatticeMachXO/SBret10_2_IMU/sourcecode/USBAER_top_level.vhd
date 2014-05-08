@@ -17,7 +17,7 @@ use IEEE.STD_LOGIC_1164.all;
 use IEEE.STD_LOGIC_ARITH.all;
 use IEEE.numeric_std.all;
 use IEEE.STD_LOGIC_UNSIGNED."+";
-
+ 
 ---- Uncomment the following library declaration if instantiating
 ---- any Xilinx primitives in this code.
 --library UNISIM;
@@ -73,9 +73,10 @@ entity USBAER_top_level is
     ADCstbyxEO : out std_logic;	
 	ADCovrxSI : in std_logic;
    
-	--H IMU I2C Signals
+	--H 
+	-- IMU I2C Signals
 	IMUSDAxSIO : inout std_logic; -- Pin T5. IMU I2C Serial Data Address, used to send configuration bits and recieve IMU data
-	IMUSCLxSO  : out std_logic;   -- Pin T6. IMU I2C Serial Clock, 400 kbits/sec (CHECK!)
+	IMUSCLxSO  : out std_logic;   -- Pin T6. IMU I2C Serial Clock, 400 kbits/sec
 	--H 
 	
 	CDVSTestSRRowClockxSO: out std_logic;
@@ -118,7 +119,11 @@ architecture Structural of USBAER_top_level is
       FifoTransactionxSO         : out std_logic;
       FX2FifoInFullxSBI          : in  std_logic;
       FifoEmptyxSI               : in  std_logic;
-      FifoReadxEO                : out std_logic;
+	  FifoReadxEO                : out std_logic;
+	  --H
+	  FifoWritexEI				 : in std_logic;
+	  FifoCountxDO				 : out std_logic_vector(10 downto 0);
+	  --H
       FX2FifoWritexEBO           : out std_logic;
       FX2FifoPktEndxSBO          : out std_logic;
       FX2FifoAddressxDO          : out std_logic_vector(1 downto 0);
@@ -158,49 +163,61 @@ architecture Structural of USBAER_top_level is
       CDVSresetxRBO : out std_logic);
   end component;
   
-    component synchronizerStateMachine
-     port (
-       ClockxCI              : in  std_logic;
-       ResetxRBI             : in  std_logic;
-       RunxSI                : in  std_logic;
-       ConfigxSI             : in  std_logic;
-       SyncInCLKxABI			 : in  std_logic;      
---	   SyncInSIGxSBO 		  	: in  std_logic;
---	   SyncInSWxEI  		: in  std_logic;
-	   SyncOutCLKxCBO 		: out std_logic;
---	   SyncOutSIGxSBI 		: out std_logic;
---	   SyncOutSWxEI 		: out std_logic;
-       TriggerxSO            : out std_logic;
-       HostResetTimestampxSI : in  std_logic;
-       ResetTimestampxSBO    : out std_logic;
-       IncrementCounterxSO   : out std_logic);
-   end component;                                                     
+  component synchronizerStateMachine
+   port (
+      ClockxCI              : in  std_logic;
+      ResetxRBI             : in  std_logic;
+      RunxSI                : in  std_logic;
+      ConfigxSI             : in  std_logic;
+      SyncInCLKxABI			 : in  std_logic;      
+--	  SyncInSIGxSBO 		  	: in  std_logic;
+--	  SyncInSWxEI  		: in  std_logic;
+	  SyncOutCLKxCBO 		: out std_logic;
+--	  SyncOutSIGxSBI 		: out std_logic;
+--	  SyncOutSWxEI 		: out std_logic;
+      TriggerxSO            : out std_logic;
+      HostResetTimestampxSI : in  std_logic;
+      ResetTimestampxSBO    : out std_logic;
+      IncrementCounterxSO   : out std_logic);
+  end component;                                                     
 
   component monitorStateMachine
     port (
-    ClockxCI               : in  std_logic;
-    ResetxRBI              : in  std_logic;
-    AERREQxSBI     : in  std_logic;
-    AERACKxSBO     : out std_logic;
-    XxDI        : in std_logic;
-    UseLongAckxSI        : in std_logic;
-    FifoFullxSI         : in  std_logic;
-    FifoWritexEO          : out std_logic;
-    TimestampRegWritexEO     : out std_logic;
-    AddressRegWritexEO       : out std_logic;
+      ClockxCI               : in  std_logic;
+      ResetxRBI              : in  std_logic;
+      AERREQxSBI     : in  std_logic;
+      AERACKxSBO     : out std_logic;
+      XxDI        : in std_logic;
+      UseLongAckxSI        : in std_logic;
+      FifoFullxSI         : in  std_logic;
+      FifoWritexEO          : out std_logic;
+	  
+	  --H
+	  FifoCountxDI : in std_logic_vector(10 downto 0);
+	  --H
+	  
+	  TimestampRegWritexEO     : out std_logic;
+      AddressRegWritexEO       : out std_logic;
+	  
+	  --H
+	  IMURegWritexEO     : out std_logic;
+	  IMUDataReadyReqxEI : in std_logic;
+	  IMUDataReadyAckxEO : in std_logic; 
+      IMUDataReadReqxEO  : out std_logic;
+      IMUDataReadAckxEI  : out std_logic;
+	  --H 
+	  
+	  --H Change variable name and size
+      --AddressTimestampSelectxSO  : out std_logic_vector(1 downto 0);
+	  DatatypeSelectxSO : out std_logic_vector(2 downto 0); -- Selects type of data being written to the FIFO
+	  --H 
 	
-	--H Change variable name and size
-    --AddressTimestampSelectxSO  : out std_logic_vector(1 downto 0);
-	DatatypeSelectxSO : out std_logic_vector(2 downto 0); -- Selects type of data being written to the FIFO
-	--H 
-	
-	ADCvalueReadyxSI : in std_logic;
-    ReadADCvaluexEO : out std_logic;
-    TimestampOverflowxSI : in std_logic;
-    TriggerxSI : in std_logic;
-    AddressMSBxDO : out std_logic_vector(1 downto 0);
-    ResetTimestampxSBI : in std_logic
-    );
+	  ADCvalueReadyxSI : in std_logic;
+      ReadADCvaluexEO : out std_logic;
+      TimestampOverflowxSI : in std_logic;
+      TriggerxSI : in std_logic;
+      AddressMSBxDO : out std_logic_vector(1 downto 0);
+      ResetTimestampxSBI : in std_logic);
   end component;
 
   component ADCStateMachine
@@ -244,23 +261,23 @@ architecture Structural of USBAER_top_level is
   --H Interface between IMU and I2C Controller
   component IMUStateMachine
     port (
-		-- Change signals
-	    -- ADD SIGNALS 	
+		ClockxCI    		: in std_logic;
+		ResetxRBI   		: in std_logic;
+		I2CAckxSBI  		: in std_logic; 
+		I2CINTxSBI  		: in std_logic; 
+		I2CRWxSBO   		: out std_logic; 
+		I2CCSxSBO   		: out std_logic; 
+		I2CAddrxDO  		: out std_logic_vector(2 downto 0); 
+		I2CDataxDIO 		: inout std_logic_vector(7 downto 0); 
+		IMURunxEI           : in  std_logic; 
+		IMUDataReadyReqxEO 	: out std_logic; 
+		IMUDataReadyAckxEI 	: in std_logic; 
+		IMUDataReadReqxEI 	: in std_logic; 
+		IMUDataReadAckxEO 	: out std_logic; 
+		IMURegisterWritexEO : out std_logic; 
+		IMUDataxDO          : out std_logic_vector(15 downto 0)); 
   end component;
   --H
-  
-  --H IMU Value Ready Indicator
-  -- FIGURE OUT BEST WAY TO DO THIS ... DO I REALLY NEED ANOTHER STATE MACHINE FOR THIS?!
-  component IMUvalueReady
-    port (
-	  -- Change signals
-      ClockxCI         : in  std_logic;
-      ResetxRBI        : in  std_logic;
-      RegisterWritexEI : in  std_logic;
-      ReadValuexEI     : in  std_logic;
-      ValueReadyxSO    : out std_logic);
-  end component;
-  --H 
   
   --H I2C Controller used for to read and write data from the IMU
   component I2C_Top
@@ -276,7 +293,7 @@ architecture Structural of USBAER_top_level is
       RW_L       : in std_logic;                 -- Read/Write, write active low
       INTR_L     : out std_logic;                -- Interupt Request, active low
       DATA       : inout std_logic_vector(7 downto 0)); -- data bus to/from attached device(NOTE: Data(7) is MSB)                         
-  end component  
+  end component;  
   --H
   
   component wordRegister
@@ -398,18 +415,14 @@ architecture Structural of USBAER_top_level is
   signal IncxS : std_logic;
 
   --H IMU Register control and data signals
-  signal IMUValueReqxE, IMUValueAckxE : std_logic; -- 4 phase handshaking signals to signal when data is available and when it's been recorded
-  signal IMUregInxD : std_logic_vector(15 downto 0); -- Input data to register
-  signal IMUregOutxD : std_logic_vector(15 downto 0);
-  signal IMUregWritexE : std_logic;
-  signal IMUdataxD : std_logic_vector(15 downto 0);
-  --signal IMUAccelXxD : std_logic_vector(15 downto 0);
-  --signal IMUAccelYxD : std_logic_vector(15 downto 0);
-  --signal IMUAccelZxD : std_logic_vector(15 downto 0);
-  --signal IMUTempxD : std_logic_vector(15 downto 0);
-  --signal IMUGyroXxD : std_logic_vector(15 downto 0);
-  --signal IMUGyroYxD : std_logic_vector(15 downto 0);
-  --signal IMUGyroZxD : std_logic_vector(15 downto 0);
+  -- ADD MISSING / ADDITIONAL SIGNALS
+  signal IMURunxE : std_logic;
+  signal IMUDataReadyReqxE, IMUDataReadyAckxE : std_logic;
+  signal IMUDataWriteReqxE, IMUDataWriteAckxE : std_logic;
+  signal IMURegInxD : std_logic_vector(15 downto 0);
+  signal IMURegOutxD : std_logic_vector(15 downto 0);
+  signal IMURegWritexE : std_logic;
+  signal IMUDataxD : std_logic_vector(15 downto 0);
   --H 
   
   -- ADC related signals
@@ -447,6 +460,9 @@ architecture Structural of USBAER_top_level is
   signal FifoDataInxD, FifoDataOutxD : std_logic_vector(15 downto 0);
   signal FifoWritexE, FifoReadxE : std_logic;
   signal FifoEmptyxS, FifoAlmostEmptyxS, FifoFullxS, FifoAlmostFullxS : std_logic;
+  --H 
+  signal FifoCountxD : std_logic(10 downto 0);
+  --H
   
   -- constants used for mux
   constant selectADC : std_logic_vector(2 downto 0) := "011";
@@ -458,7 +474,8 @@ architecture Structural of USBAER_top_level is
   --H 
   
   --H 
-  --H External event indicator is the 12th bit (if 13th bit is 0), use other bits to specify type
+  -- External event indicator is the 12th bit (if 13th bit is 0), use other bits to specify type
+  -- DON'T HARDCODE? DOESN'T REALLY MATTER THOUGH..
   constant externaleventIMU : std_logic_vector(13 downto 0) := "0100000000001";
   constant externaleventOthers : std_logic_vector(13 downto 0) := "01000000000000";   
   --H 
@@ -488,8 +505,6 @@ begin
   FX2FifoReadxEBO <= '1';
 
   SyncIn1xAB <= SyncInCLKxABI;
-  
-  --H FIGURE OUT WHAT TO DO HERE ABOUT IMU CONFIG BITS
   
   shiftRegister_1: shiftRegister
     generic map (
@@ -524,7 +539,8 @@ begin
       AlmostFull=> FifoAlmostFullxS);
 
   FX2FifoDataxDIO <= FifoDataOutxD;
-
+  
+  
   uMonitorAddressRegister : wordRegister
     generic map (
       width          => 10)
@@ -562,13 +578,13 @@ begin
     generic map (
       width          => 16)
     port map (
-      ClockxCI       => IfClockxC, -- Check which clock I need to use? What was IfClock again?
+      ClockxCI       => IfClockxC, -- CHECK CLOCK
       ResetxRBI      => ResetxRB,
-      WriteEnablexEI => IMUregWritexE,
-      DataInxDI      => IMUregInxD,
-      DataOutxDO     => IMUregOutxD);
+      WriteEnablexEI => IMURegWritexE,
+      DataInxDI      => IMURegInxD,
+      DataOutxDO     => IMURegOutxD);
 
-  IMUregInxD <= IMUdataxD;
+  IMUregInxD <= IMUDataxD;
   --H
   
   uEarlyPaketTimer : earlyPaketTimer
@@ -618,7 +634,13 @@ begin
       FX2FifoInFullxSBI          => FX2FifoInFullxSBI,
       FifoEmptyxSI               => FifoEmptyxS,
       FifoReadxEO                => FifoReadxE,
-      FX2FifoWritexEBO           => FX2FifoWritexEB,
+	  
+	  --H
+	  FifoWritexEI                => FifoWritexE,
+	  FifoCountxDO                => FifoCountxD,
+	  --H
+      
+	  FX2FifoWritexEBO           => FX2FifoWritexEB,
       FX2FifoPktEndxSBO          => FX2FifoPktEndxSB,
       FX2FifoAddressxDO          => FX2FifoAddressxDO,
       IncEventCounterxSO         => IncEventCounterxS,
@@ -636,9 +658,22 @@ begin
       UseLongAckxSI             => UseLongAckxS,
       FifoFullxSI               => FifoFullxS,
       FifoWritexEO              => FifoWritexE,
-      TimestampRegWritexEO      => TimestampRegWritexE,
+      
+	  --H
+	  FifoCountxDI 				=> FifoCountxD;
+	  --H
+	  
+	  TimestampRegWritexEO      => TimestampRegWritexE,
       AddressRegWritexEO => AddressRegWritexE,
       
+	  --H
+	  IMURegWritexEO     => IMURegWritexE;
+	  IMUDataReadyReqxEI => IMUDataReadyReqxE;
+	  IMUDataReadyAckxEO => IMUDataReadyAckxE;
+      IMUDataReadReqxEO  => IMUDataReadReqxE;
+      IMUDataReadAckxEI  => IMUDataReadAckxE;
+	  --H 
+
 	  --H Change variable name and size
 	  --AddressTimestampSelectxSO => AddressTimestampSelectxS,
 	  DatatypeSelectxSO         ==> DatatypeSelectxSO,
@@ -691,24 +726,31 @@ begin
       ReadValuexEI     => ReadADCvaluexE,
       ValueReadyxSO    => ADCvalueReadyxS);
 
-  --H Instantiations of IMU Modules
+  --H 
+  -- Instantiation of IMU Module
   IMUStateMachine_1: IMUStateMachine
     port map (
-	--H Fill in later
-  );
+		ClockxCI    		=> IfClockxC,
+		ResetxRBI   		=> ResetxRB,
+		I2CAckxSBI  		=> I2CAckxSB,
+		I2CINTxSBI  		=> I2CINTxSB,
+		I2CRWxSBO   		=> I2CRWxSB,
+		I2CCSxSBO   		=> I2CCSxSB,
+		I2CAddrxDO  		=> I2CAddrxD,
+		I2CDataxDIO 		=> I2CDataxD,
+		IMURunxEI           => IMURunxE,
+		IMUDataReadyReqxEO 	=> IMUDataReadyReqxE,
+		IMUDataReadyAckxEI 	=> IMUDataReadyAckxE,
+		IMUDataReadReqxEI 	=> IMUDataReadReqxE,
+		IMUDataReadAckxEO 	=> IMUDataReadAckxE,
+		IMURegisterWritexEO => IMURegisterWritexE,
+		IMUDataxDO          => IMUDataxD);
   
-  --H Control signals?
+  -- Always have IMU Running
+  -- FIGURE OUT BEST WAY TO DO THIS
+  IMURunxE <= '1';
+  --H
   
-  --H Instantiations of IMU Modules
-  IMUvalueReady_1: IMUvalueReady
-    port map (
-      ClockxCI         => ClockxC,
-      ResetxRBI        => ResetxRB,
-      RegisterWritexEI => IMUregWritexE,
-      ReadValuexEI     => ReadIMUvaluexE,
-      ValueReadyxSO    => IMUvalueReadyxS);
-  --H 
-	  
   cDVSResetStateMachine_1: cDVSResetStateMachine
     port map (
       ClockxCI      => ClockxC,
@@ -735,22 +777,28 @@ begin
 	'0' when others;
 	
   --H Sets trigger event type to be written to fifo
-  with IMUEventxSI select
+  with IMUEventxE select
     externaleventtype <= 
-		externaleventIMU when '1',
+		externaleventIMU    when '1',
 		externaleventOthers when others;
   --H
 	
-
   -- mux to select how to drive datalines
-  with AddressTimestampSelectxS select
+  --H Change variable name
+  -- with AddressTimestampSelectxS select
+  with DatatypeSelectxSO select
+  --H 
     FifoDataInxD <=
     AddressMSBxD & "00" & AddressRegOutxD(9) & "00" & AddressRegOut8xD & AddressRegOutxD(7 downto 0) when selectaddress, -- hack to put the xbit at bit position 11 (which allows addresses up to 10 bits)
     AddressMSBxD & MonitorTimestampxD when selecttimestamp,
-    AddressMSBxD & externaleventtype when selecttrigger, --H used to write IMU event indicator                                     
-	AddressMSBxD & ADCregOutxD when selectADC;
-	IMUregOutxD when selectIMU; --H writes IMU measurements
-
+    --H Writes special event as indicated by externaleventtype                                     
+	AddressMSBxD & externaleventtype when selecttrigger,
+	--H
+	AddressMSBxD & ADCregOutxD when selectADC,
+	--H Writes IMU measurements
+	IMUregOutxD when selectIMU; 
+	--H 
+	
   LED1xSO <= CDVSTestChipResetxRB;
   LED2xSO <= RunxS;
   LED3xSO <= ADCStateOutputLEDxS;

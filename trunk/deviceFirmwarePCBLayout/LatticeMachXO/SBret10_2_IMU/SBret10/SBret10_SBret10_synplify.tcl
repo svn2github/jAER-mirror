@@ -44,30 +44,46 @@ set_option -resolve_multiple_driver 0
 
 #-- add_file options
 add_file -vhdl {D:/lscc/diamond/2.2_x64/cae_library/synthesis/vhdl/machxo.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/wordRegister.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/AERfifo.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/clockgen.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/earlyPaketTimer.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/EventBeforeOverflow.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/eventCounter.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/fifoStatemachine.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/monitorStateMachine.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/synchronizerStateMachine.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/timestampCounter.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/USBAER_top_level.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/AERfifo.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/clockgen.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/ADCvalueReady.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/cDVSResetStateMachine.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/shiftRegister.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/ADCStateMachine_tb.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/ADCStateMachine.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/wordRegister.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/AERfifo.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/clockgen.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/earlyPaketTimer.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/EventBeforeOverflow.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/eventCounter.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/fifoStatemachine.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/monitorStateMachine.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/synchronizerStateMachine.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/timestampCounter.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/USBAER_top_level.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/AERfifo.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/clockgen.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/ADCvalueReady.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/cDVSResetStateMachine.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/shiftRegister.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/ADCStateMachine_tb.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/ADCStateMachine.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Arb_Blk.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Clk_Blk.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Cnt_Blk.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_delay.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_INT_Blk.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Main_Blk.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Mpu_Blk.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_SS_Blk.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Synch_Blk.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Top.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/IMUvalueReady.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/IMUStateMachine.vhd}
+add_file -vhdl -lib "work" {D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/top_test_bench.vhd}
+add_file -vhdl -lib "work" {D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/up_model.vhd}
+add_file -vhdl -lib "work" {D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/ack_gen.vhd}
+add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/IMUStateMachine_BCK.vhd}
 
 #-- top module name
 set_option -top_module USBAER_top_level
 
 #-- set result format/file last
-project -result_file {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/SBret10/SBret10_SBret10.edi}
+project -result_file {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/SBret10/SBret10_SBret10.edi}
 
 #-- error message log file
 project -log_file {SBret10_SBret10.srf}

@@ -1,49 +1,81 @@
 %%% protect protected_file
 #defaultlanguage:vhdl
-#OPTIONS:"|-top|USBAER_top_level|-prodtype|synplify_pro|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ll|2000|-ui|-fid2|-ram|-sharing|on|-autosm|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-fileorder|C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\SBret10\\syntmp\\hdlorder.tcl"
-#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\bin64\\c_vhdl.exe":1362997004
-#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\location.map":1362998848
-#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\std.vhd":1362997382
-#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1362997382
-#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\std1164.vhd":1362997382
-#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\numeric.vhd":1362997382
-#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\umr_capim.vhd":1362997382
-#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\arith.vhd":1362997382
-#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\unsigned.vhd":1362997382
-#CUR:"D:\\lscc\\diamond\\2.2_x64\\cae_library\\synthesis\\vhdl\\machxo.vhd":1347621894
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\wordRegister.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\AERfifo.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\clockgen.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\earlyPaketTimer.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\EventBeforeOverflow.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\eventCounter.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\fifoStatemachine.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\monitorStateMachine.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\synchronizerStateMachine.vhd":1393491264
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\timestampCounter.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\USBAER_top_level.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\ADCvalueReady.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\cDVSResetStateMachine.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\shiftRegister.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\ADCStateMachine_tb.vhd":1389091348
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2\\sourcecode\\ADCStateMachine.vhd":1389091348
+#OPTIONS:"|-top|USBAER_top_level|-prodtype|synplify_pro|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ll|2000|-ui|-fid2|-ram|-sharing|on|-autosm|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-fileorder|C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\SBret10\\syntmp\\hdlorder.tcl"
+#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\bin64\\c_vhdl.exe":1363000604
+#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\location.map":1363002448
+#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\std.vhd":1363000982
+#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1363000982
+#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\std1164.vhd":1363000982
+#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\numeric.vhd":1363000982
+#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\umr_capim.vhd":1363000982
+#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\arith.vhd":1363000982
+#CUR:"D:\\lscc\\diamond\\2.2_x64\\synpbase\\lib\\vhd\\unsigned.vhd":1363000982
+#CUR:"D:\\lscc\\diamond\\2.2_x64\\cae_library\\synthesis\\vhdl\\machxo.vhd":1347625494
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\wordRegister.vhd":1389094948
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\AERfifo.vhd":1389094948
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\clockgen.vhd":1389094948
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\earlyPaketTimer.vhd":1389094948
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\EventBeforeOverflow.vhd":1389094948
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\eventCounter.vhd":1389094948
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\fifoStatemachine.vhd":1399548726
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\monitorStateMachine.vhd":1399547378
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\synchronizerStateMachine.vhd":1398872984
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\timestampCounter.vhd":1389094948
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\USBAER_top_level.vhd":1399577400
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\ADCvalueReady.vhd":1389094948
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\cDVSResetStateMachine.vhd":1389094948
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\shiftRegister.vhd":1389094948
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\ADCStateMachine_tb.vhd":1389094948
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\ADCStateMachine.vhd":1398151318
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_Arb_Blk.vhd":1080235264
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_Clk_Blk.vhd":1080235264
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_Cnt_Blk.vhd":1080235264
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_delay.vhd":1080235266
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_INT_Blk.vhd":1080235266
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_Main_Blk.vhd":1088582868
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_Mpu_Blk.vhd":1080235266
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_SS_Blk.vhd":1080235266
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_Synch_Blk.vhd":1080235266
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_Top.vhd":1080235266
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\IMUvalueReady.vhd":1399223049
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\IMUStateMachine.vhd":1399583534
+#CUR:"D:\\Dropbox\\IMU\\I2C Bus Master - Downloads\\i2cmastercontrollersourcecodeformachxo\\I2C_xo\\I2C_xo\\I2C_Master\\testbench\\top_test_bench.vhd":1080235268
+#CUR:"D:\\Dropbox\\IMU\\I2C Bus Master - Downloads\\i2cmastercontrollersourcecodeformachxo\\I2C_xo\\I2C_xo\\I2C_Master\\testbench\\up_model.vhd":1087921932
+#CUR:"D:\\Dropbox\\IMU\\I2C Bus Master - Downloads\\i2cmastercontrollersourcecodeformachxo\\I2C_xo\\I2C_xo\\I2C_Master\\testbench\\ack_gen.vhd":1080235268
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\IMUStateMachine_BCK.vhd":1399553160
 0 "D:\lscc\diamond\2.2_x64\cae_library\synthesis\vhdl\machxo.vhd" vhdl
-1 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\wordRegister.vhd" vhdl
-2 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\AERfifo.vhd" vhdl
-3 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\clockgen.vhd" vhdl
-4 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\earlyPaketTimer.vhd" vhdl
-5 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\EventBeforeOverflow.vhd" vhdl
-6 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\eventCounter.vhd" vhdl
-7 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\fifoStatemachine.vhd" vhdl
-8 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\monitorStateMachine.vhd" vhdl
-9 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\synchronizerStateMachine.vhd" vhdl
-10 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\timestampCounter.vhd" vhdl
-11 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\USBAER_top_level.vhd" vhdl
-12 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCvalueReady.vhd" vhdl
-13 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\cDVSResetStateMachine.vhd" vhdl
-14 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\shiftRegister.vhd" vhdl
-15 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\ADCStateMachine_tb.vhd" vhdl
-16 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\sourcecode\ADCStateMachine.vhd" vhdl
+1 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\wordRegister.vhd" vhdl
+2 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\AERfifo.vhd" vhdl
+3 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\clockgen.vhd" vhdl
+4 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\earlyPaketTimer.vhd" vhdl
+5 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\EventBeforeOverflow.vhd" vhdl
+6 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\eventCounter.vhd" vhdl
+7 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd" vhdl
+8 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd" vhdl
+9 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\synchronizerStateMachine.vhd" vhdl
+10 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\timestampCounter.vhd" vhdl
+11 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd" vhdl
+12 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCvalueReady.vhd" vhdl
+13 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\cDVSResetStateMachine.vhd" vhdl
+14 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\shiftRegister.vhd" vhdl
+15 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\ADCStateMachine_tb.vhd" vhdl
+16 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCStateMachine.vhd" vhdl
+17 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Arb_Blk.vhd" vhdl
+18 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Clk_Blk.vhd" vhdl
+19 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Cnt_Blk.vhd" vhdl
+20 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_delay.vhd" vhdl
+21 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_INT_Blk.vhd" vhdl
+22 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Main_Blk.vhd" vhdl
+23 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Mpu_Blk.vhd" vhdl
+24 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_SS_Blk.vhd" vhdl
+25 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Synch_Blk.vhd" vhdl
+26 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Top.vhd" vhdl
+27 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUvalueReady.vhd" vhdl
+28 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd" vhdl
+29 "D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\testbench\top_test_bench.vhd" vhdl
+30 "D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\testbench\up_model.vhd" vhdl
+31 "D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\testbench\ack_gen.vhd" vhdl
+32 "C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\IMUStateMachine_BCK.vhd" vhdl
 
 # Dependency Lists (Uses list)
 0 -1
@@ -57,12 +89,28 @@
 8 -1
 9 -1
 10 -1
-11 3 14 2 1 4 6 10 9 7 8 16 12 13 
+11 3 14 2 1 4 6 10 9 7 8 16 12 28 13 
 12 -1
 13 -1
 14 -1
 15 16 
 16 -1
+17 -1
+18 -1
+19 -1
+20 -1
+21 -1
+22 -1
+23 -1
+24 -1
+25 -1
+26 23 22 25 18 19 17 21 24 20 
+27 -1
+28 -1
+29 30 31 26 
+30 -1
+31 -1
+32 -1
 
 # Dependency Lists (Users Of)
 0 3 2 
@@ -82,6 +130,22 @@
 14 11 
 15 -1
 16 15 11 
+17 26 
+18 26 
+19 26 
+20 26 
+21 26 
+22 26 
+23 26 
+24 26 
+25 26 
+26 29 
+27 -1
+28 11 
+29 -1
+30 29 
+31 29 
+32 -1
 
 # Design Unit to File Association
 arch work wordregister behavioral 1
@@ -117,3 +181,38 @@ module work shiftregister 14
 arch work adcstatemachine_tb behavioural 15
 arch work adcstatemachine behavioral 16
 module work adcstatemachine 16
+arch work arbitrator arch_behave 17
+module work arbitrator 17
+arch work i2c_clock_generator clk_gen_behave 18
+module work i2c_clock_generator 18
+arch work counter_block count_behave 19
+module work counter_block 19
+arch work delay_sda delay_behave 20
+module work delay_sda 20
+arch work int_ctrl_block int_behave 21
+module work int_ctrl_block 21
+arch work i2c_main i2c_main_behave 22
+module work i2c_main 22
+arch work mpu_to_i2c mpu_to_i2c_behave 23
+module work mpu_to_i2c 23
+arch work stop_detect stop_det_behave 24
+module work stop_detect 24
+arch work stop_generator stop_behave 24
+module work stop_generator 24
+arch work start_detect start_det_behave 24
+module work start_detect 24
+arch work start_generator start_behave 24
+module work start_generator 24
+arch work synch_block synch_behave 25
+module work synch_block 25
+arch work i2c_top behave 26
+module work i2c_top 26
+arch work imuvalueready behavioral 27
+module work imuvalueready 27
+arch work imustatemachine behavioral 28
+module work imustatemachine 28
+arch work top_test_bench behave 29
+arch work up_model behave 30
+module work up_model 30
+arch work ack_gen behave 31
+module work ack_gen 31

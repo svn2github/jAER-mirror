@@ -37,6 +37,11 @@ entity fifoStatemachine is
 
     -- fifo control lines
     FifoReadxEO : out std_logic;
+	--H
+	FifoWritexEI : in std_logic;
+	FifoCountxDO : out std_logic_vector(10 downto 0); 
+	--H
+	
     FX2FifoWritexEBO          : out std_logic;
     FX2FifoPktEndxSBO         : out std_logic;
     FX2FifoAddressxDO         : out std_logic_vector(1 downto 0);
@@ -55,6 +60,11 @@ architecture Behavioral of fifoStatemachine is
 
   -- present and next state
   signal StatexDP, StatexDN : state;
+  --H
+  signal FifoCountxDN, FifoCountxDP : std_logic_vector(10 downto 0);
+  constant FifoDepthxS : std_logic_vector(10 downto 0) := "10000000000";
+  --H 
+
 
 
   -- fifo addresses
@@ -81,6 +91,17 @@ begin
     FifoReadxEO <= '0';
     
     FifoTransactionxSO <= '1';          -- is zero only in idle state
+
+    --H
+	if FifoCountxDP = FifoDepthxS or FifoCountxDP = 0 then
+		FifoCountxDN <= FifoCountxDP;
+    elsif FifoWritexEI = '1' then
+		FifoCountxDN <= FifoCountxDP+1;  
+    elsif FifoWritexEI = '1' then
+		FifoCountxDN <= FifoCountxDP-1; 
+    end if;
+    --H	
+
 
     case StatexDP is
       when stIdle =>
@@ -128,8 +149,10 @@ begin
   begin  -- process p_memoryzing
     if ResetxRBI = '0' then             -- asynchronous reset (active low)
       StatexDP <= stIdle;
-    elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
+	  FifoCountxDP <= (others => '0');
+	elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
       StatexDP <= StatexDN;
+	  FifoCountxDP <= FifoCountxDN;
     end if;
   end process p_memoryzing;
   
