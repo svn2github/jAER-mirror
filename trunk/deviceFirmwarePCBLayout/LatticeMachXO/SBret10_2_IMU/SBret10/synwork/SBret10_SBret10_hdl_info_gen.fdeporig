@@ -17,11 +17,11 @@
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\earlyPaketTimer.vhd":1389094948
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\EventBeforeOverflow.vhd":1389094948
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\eventCounter.vhd":1389094948
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\fifoStatemachine.vhd":1399548726
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\monitorStateMachine.vhd":1399547378
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\fifoStatemachine.vhd":1399585611
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\monitorStateMachine.vhd":1399648770
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\synchronizerStateMachine.vhd":1398872984
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\timestampCounter.vhd":1389094948
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\USBAER_top_level.vhd":1399577400
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\USBAER_top_level.vhd":1399650321
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\ADCvalueReady.vhd":1389094948
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\cDVSResetStateMachine.vhd":1389094948
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\shiftRegister.vhd":1389094948
@@ -38,7 +38,7 @@
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_Synch_Blk.vhd":1080235266
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_Top.vhd":1080235266
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\IMUvalueReady.vhd":1399223049
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\IMUStateMachine.vhd":1399583534
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\IMUStateMachine.vhd":1399587181
 #CUR:"D:\\Dropbox\\IMU\\I2C Bus Master - Downloads\\i2cmastercontrollersourcecodeformachxo\\I2C_xo\\I2C_xo\\I2C_Master\\testbench\\top_test_bench.vhd":1080235268
 #CUR:"D:\\Dropbox\\IMU\\I2C Bus Master - Downloads\\i2cmastercontrollersourcecodeformachxo\\I2C_xo\\I2C_xo\\I2C_Master\\testbench\\up_model.vhd":1087921932
 #CUR:"D:\\Dropbox\\IMU\\I2C Bus Master - Downloads\\i2cmastercontrollersourcecodeformachxo\\I2C_xo\\I2C_xo\\I2C_Master\\testbench\\ack_gen.vhd":1080235268
@@ -89,7 +89,7 @@
 8 -1
 9 -1
 10 -1
-11 3 14 2 1 4 6 10 9 7 8 16 12 28 13 
+11 3 14 2 1 4 6 10 9 7 8 16 12 28 26 13 
 12 -1
 13 -1
 14 -1
@@ -139,7 +139,7 @@
 23 26 
 24 26 
 25 26 
-26 29 
+26 29 11 
 27 -1
 28 11 
 29 -1

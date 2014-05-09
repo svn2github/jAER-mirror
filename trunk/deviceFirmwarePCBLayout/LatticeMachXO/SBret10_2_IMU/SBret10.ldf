@@ -93,9 +93,6 @@
         <Source name="sourcecode/IMUStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="Test.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
         <Source name="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/top_test_bench.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
@@ -103,6 +100,9 @@
             <Options/>
         </Source>
         <Source name="D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/ack_gen.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="IMUStateMachine_BCK.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="SBret10.lpf" type="Logic Preference" type_short="LPF">

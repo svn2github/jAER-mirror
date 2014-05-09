@@ -60,9 +60,9 @@ entity monitorStateMachine is
     
     --H
 	IMUDataReadyReqxEI : in std_logic; -- 
-	IMUDataReadyAckxEO : in std_logic; -- 
-    IMUDataReadReqxEO  : out std_logic; -- 
-    IMUDataReadAckxEI  : out std_logic; -- 
+	IMUDataReadyAckxEO : out std_logic; -- 
+    IMUDataWriteReqxEO  : out std_logic; -- 
+    IMUDataWriteAckxEI  : in std_logic; -- 
 	IMUEventxEO 	   : out std_logic;
 	--H 
 
@@ -128,7 +128,7 @@ begin
 
   -- calculate next state and outputs
   --H Added Sensititivy (is that the correct word?) to IMU Hand shaking signals
-  p_memless : process (StatexDP, FifoFullxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, AERREQxSB, XxDI, ADCvalueReadyxSI,CountxDP,UseLongAckxSI,TriggerxSI,TriggerxDP, IMUDataReadyReqxE, IMUDataWriteAckxE)
+  p_memless : process (StatexDP, FifoFullxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, AERREQxSB, XxDI, ADCvalueReadyxSI,CountxDP,UseLongAckxSI,TriggerxSI,TriggerxDP, IMUDataReadyReqxEI, IMUDataWriteAckxEI)
   --H 
   begin  -- process p_memless
     -- default assignements: stay in present state, don't change address in
@@ -163,7 +163,7 @@ begin
     ReadADCvaluexEO <= '0';
 	
 	--H HANDSHAKING DEFAULT SIGNALS
-	IMUDataReadyAckxE <= '0';
+	IMUDataReadyAckxEO <= '0';
 	IMUEventxEO <= '0';
 	--IMUDataWriteReqxE <= '0';
 	--H 
@@ -186,14 +186,14 @@ begin
           StatexDN <= stADCTime;
 		
 		--H Once IMU values become available send appropriate signals to write it to FIFO
-	    elsif IMUDataReadyReqxE = '1' then
+	    elsif IMUDataReadyReqxEI = '1' then
 		  if (FifoDepthxS - FifoCountxDP <= IMUFifoWriteSpacexS) then 
 			-- First record AER timestamp at which IMU event is collected
 			StatexDN <= stIMUTime;
 		  else
 		    -- Pretend that we got the data... Or Make a new signal? (Would probably be better..)
 			-- Drop data
-		    IMUDataReadyAckxE <= '1';
+		    IMUDataReadyAckxEO <= '1';
 		  end if;
 		--H 
         
@@ -260,7 +260,7 @@ begin
         AddressMSBxDO <= timestamp;
 	  
 		-- Hand shaking signal
-		IMUDataReadyAckxE <= '1';
+		IMUDataReadyAckxEO <= '1';
 	  --H
 	  
 	  when stWrTrigger   =>             -- write the address to the fifo
@@ -301,7 +301,7 @@ begin
 		-- Update Next State
 		StatexDN <= stIMUEvent;
        
-   		IMUDataWriteReq <= '1';
+   		IMUDataWriteReqxEO <= '1';
 		
 		-- Enable writing to the FIFO
         FifoWritexEO <= '1';
@@ -317,7 +317,7 @@ begin
 	  when stIMUData =>             -- write the address to the fifo
         
 		-- Wait for Acknowledge signal signifying that all data has been written
-		if IMUDataWriteAck = '1' then
+		if IMUDataWriteAckxEI = '1' then
 			StatexDN <= stIdle;
         end if;
 		

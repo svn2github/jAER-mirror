@@ -76,7 +76,7 @@ entity USBAER_top_level is
 	--H 
 	-- IMU I2C Signals
 	IMUSDAxSIO : inout std_logic; -- Pin T5. IMU I2C Serial Data Address, used to send configuration bits and recieve IMU data
-	IMUSCLxSO  : out std_logic;   -- Pin T6. IMU I2C Serial Clock, 400 kbits/sec
+	IMUSCLxCIO  : inout std_logic;   -- Pin T6. IMU I2C Serial Clock, 400 kbits/sec
 	--H 
 	
 	CDVSTestSRRowClockxSO: out std_logic;
@@ -203,8 +203,9 @@ architecture Structural of USBAER_top_level is
 	  IMURegWritexEO     : out std_logic;
 	  IMUDataReadyReqxEI : in std_logic;
 	  IMUDataReadyAckxEO : in std_logic; 
-      IMUDataReadReqxEO  : out std_logic;
-      IMUDataReadAckxEI  : out std_logic;
+      IMUDataWriteReqxEO  : out std_logic;
+      IMUDataWriteAckxEI  : out std_logic;
+	  IMUEventxEO		  : out std_logic;
 	  --H 
 	  
 	  --H Change variable name and size
@@ -272,8 +273,8 @@ architecture Structural of USBAER_top_level is
 		IMURunxEI           : in  std_logic; 
 		IMUDataReadyReqxEO 	: out std_logic; 
 		IMUDataReadyAckxEI 	: in std_logic; 
-		IMUDataReadReqxEI 	: in std_logic; 
-		IMUDataReadAckxEO 	: out std_logic; 
+		IMUDataWriteReqxEI 	: in std_logic; 
+		IMUDataWriteAckxEO 	: out std_logic; 
 		IMURegisterWritexEO : out std_logic; 
 		IMUDataxDO          : out std_logic_vector(15 downto 0)); 
   end component;
@@ -423,7 +424,22 @@ architecture Structural of USBAER_top_level is
   signal IMURegOutxD : std_logic_vector(15 downto 0);
   signal IMURegWritexE : std_logic;
   signal IMUDataxD : std_logic_vector(15 downto 0);
+  signal IMUEventxE : std_logic;
   --H 
+  
+  --H I2C Control signals
+  signal I2CAckxSB : std_logic;
+  signal I2CCSxSB : std_logic; 
+  signal I2CAddrxD : std_logic_vector(2 downto 0);
+  signal I2CRWxSB : std_logic;
+  signal I2CINTxSB : std_logic; 
+  signal I2CDataxD : std_logic_vector(7 downto 0);
+  
+  --H
+
+
+  
+  
   
   -- ADC related signals
   signal ReadADCvaluexE, ADCvalueReadyxS : std_logic;
@@ -461,7 +477,7 @@ architecture Structural of USBAER_top_level is
   signal FifoWritexE, FifoReadxE : std_logic;
   signal FifoEmptyxS, FifoAlmostEmptyxS, FifoFullxS, FifoAlmostFullxS : std_logic;
   --H 
-  signal FifoCountxD : std_logic(10 downto 0);
+  signal FifoCountxD : std_logic_vector(10 downto 0);
   --H
   
   -- constants used for mux
@@ -476,8 +492,9 @@ architecture Structural of USBAER_top_level is
   --H 
   -- External event indicator is the 12th bit (if 13th bit is 0), use other bits to specify type
   -- DON'T HARDCODE? DOESN'T REALLY MATTER THOUGH..
-  constant externaleventIMU : std_logic_vector(13 downto 0) := "0100000000001";
+  constant externaleventIMU : std_logic_vector(13 downto 0) := "01000000000001";
   constant externaleventOthers : std_logic_vector(13 downto 0) := "01000000000000";   
+  signal externaleventtype : std_logic_vector(13 downto 0); 
   --H 
 
 begin
@@ -660,23 +677,24 @@ begin
       FifoWritexEO              => FifoWritexE,
       
 	  --H
-	  FifoCountxDI 				=> FifoCountxD;
+	  FifoCountxDI 				=> FifoCountxD,
 	  --H
 	  
 	  TimestampRegWritexEO      => TimestampRegWritexE,
       AddressRegWritexEO => AddressRegWritexE,
       
 	  --H
-	  IMURegWritexEO     => IMURegWritexE;
-	  IMUDataReadyReqxEI => IMUDataReadyReqxE;
-	  IMUDataReadyAckxEO => IMUDataReadyAckxE;
-      IMUDataReadReqxEO  => IMUDataReadReqxE;
-      IMUDataReadAckxEI  => IMUDataReadAckxE;
+	  IMURegWritexEO     => IMURegWritexE,
+	  IMUDataReadyReqxEI => IMUDataReadyReqxE,
+	  IMUDataReadyAckxEO => IMUDataReadyAckxE,
+      IMUDataWriteReqxEO => IMUDataWriteReqxE,
+      IMUDataWriteAckxEI => IMUDataWriteAckxE,
+	  IMUEventxEO => IMUEventxE,
 	  --H 
 
 	  --H Change variable name and size
 	  --AddressTimestampSelectxSO => AddressTimestampSelectxS,
-	  DatatypeSelectxSO         ==> DatatypeSelectxSO,
+	  DatatypeSelectxSO         => DatatypeSelectxS,
 	  --H 
 	  
 	  ADCvalueReadyxSI => ADCvalueReadyxS,
@@ -741,9 +759,9 @@ begin
 		IMURunxEI           => IMURunxE,
 		IMUDataReadyReqxEO 	=> IMUDataReadyReqxE,
 		IMUDataReadyAckxEI 	=> IMUDataReadyAckxE,
-		IMUDataReadReqxEI 	=> IMUDataReadReqxE,
-		IMUDataReadAckxEO 	=> IMUDataReadAckxE,
-		IMURegisterWritexEO => IMURegisterWritexE,
+		IMUDataWriteReqxEI 	=> IMUDataWriteReqxE,
+		IMUDataWriteAckxEO 	=> IMUDataWriteAckxE,
+		IMURegisterWritexEO => IMURegWritexE,
 		IMUDataxDO          => IMUDataxD);
   
   -- Always have IMU Running
@@ -751,6 +769,22 @@ begin
   IMURunxE <= '1';
   --H
   
+  --H I2C Controller Instantiation
+  I2C_Top_1: I2C_Top 
+	port map (
+	  SDA 		=> IMUSDAxSIO,
+      SCL       => IMUSCLxCIO,
+      Clock     => IfClockxC, 
+      Reset_L   => ResetxRB, 
+      CS_L      => I2CCSxSB, 
+      A0        => I2CAddrxD(0), 
+      A1        => I2CAddrxD(1), 
+      A2        => I2CAddrxD(2), 
+      RW_L      => I2CRWxSB,
+      INTR_L    => I2CINTxSB,
+      DATA      => I2CDataxD); 
+  --H
+
   cDVSResetStateMachine_1: cDVSResetStateMachine
     port map (
       ClockxCI      => ClockxC,
@@ -786,7 +820,7 @@ begin
   -- mux to select how to drive datalines
   --H Change variable name
   -- with AddressTimestampSelectxS select
-  with DatatypeSelectxSO select
+  with DatatypeSelectxS select
   --H 
     FifoDataInxD <=
     AddressMSBxD & "00" & AddressRegOutxD(9) & "00" & AddressRegOut8xD & AddressRegOutxD(7 downto 0) when selectaddress, -- hack to put the xbit at bit position 11 (which allows addresses up to 10 bits)
