@@ -26,7 +26,7 @@ end topLevel;
 
 architecture Structural of topLevel is
 	constant FAST_CLOCK_FREQ : integer := 80;
-	constant SLOW_CLOCK_FREQ : integer := 40;
+	constant SLOW_CLOCK_FREQ : integer := 80;
 
 	component fifoStatemachine
 	port (
@@ -141,7 +141,7 @@ begin
 		AlmostFull => open);
 
 	uPLLSlowDown: pmi_pll
-	generic map(
+	generic map (
 		pmi_freq_clki => FAST_CLOCK_FREQ,
 		pmi_freq_clkfb => SLOW_CLOCK_FREQ,
 		pmi_freq_clkop => SLOW_CLOCK_FREQ,

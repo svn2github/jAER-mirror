@@ -14,7 +14,7 @@ end continuousCounter;
 
 architecture Behavioral of continuousCounter is
 	-- present and next state
-	signal Count_DP, Count_DN           : std_logic_vector(15 downto 0);
+	signal Count_DP, Count_DN : std_logic_vector(15 downto 0);
 begin
 	-- Output present count.
 	Data_DO <= Count_DP;

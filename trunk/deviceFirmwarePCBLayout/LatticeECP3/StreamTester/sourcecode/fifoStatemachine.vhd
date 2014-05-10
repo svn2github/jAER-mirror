@@ -31,10 +31,13 @@ architecture Behavioral of fifoStatemachine is
 	type state is (stIdle0, stPrepareWrite0, stWriteFirst0, stWriteSecond0, stSwitch0,
 	               stIdle1, stPrepareWrite1, stWriteFirst1, stWriteSecond1, stSwitch1);
 
+	attribute syn_enum_encoding : string;
+	attribute syn_enum_encoding of state : type is "onehot";
+
 	-- present and next state
 	signal State_DP, State_DN: state;
 begin
-	p_memoryless : process (State_DP, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoEmpty_SI, Run_SI)
+	p_memoryless : process (State_DP, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, Run_SI)
 	begin
 		State_DN <= State_DP; -- Keep current state by default.
 
@@ -47,7 +50,7 @@ begin
 
 		case State_DP is
 			when stIdle0 =>
-				if Run_SI = '1' and InFifoEmpty_SI = '0' and USBFifoThread0Full_SI = '0' then
+				if Run_SI = '1' and InFifoAlmostEmpty_SI = '0' and USBFifoThread0Full_SI = '0' then
 					State_DN <= stPrepareWrite0;
 				end if;
 
@@ -66,7 +69,7 @@ begin
 				USBFifoWrite_SBO <= '0';
 
 			when stWriteSecond0 =>
-				if InFifoEmpty_SI = '1' then
+				if InFifoAlmostEmpty_SI = '1' then
 					State_DN <= stIdle0;
 				else
 					State_DN <= stWriteFirst0;
@@ -76,7 +79,7 @@ begin
 				USBFifoWrite_SBO <= '0';
 
 			when stSwitch0 =>
-				if InFifoEmpty_SI = '1' or USBFifoThread1Full_SI = '1' then
+				if InFifoAlmostEmpty_SI = '1' or USBFifoThread1Full_SI = '1' then
 					State_DN <= stIdle1;
 				else
 					State_DN <= stWriteFirst1;
@@ -88,7 +91,7 @@ begin
 			when stIdle1 =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
-				if Run_SI = '1' and InFifoEmpty_SI = '0' and USBFifoThread1Full_SI = '0' then
+				if Run_SI = '1' and InFifoAlmostEmpty_SI = '0' and USBFifoThread1Full_SI = '0' then
 					State_DN <= stPrepareWrite1;
 				end if;
 
@@ -113,7 +116,7 @@ begin
 			when stWriteSecond1 =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
-				if InFifoEmpty_SI = '1' then
+				if InFifoAlmostEmpty_SI = '1' then
 					State_DN <= stIdle1;
 				else
 					State_DN <= stWriteFirst1;
@@ -125,7 +128,7 @@ begin
 			when stSwitch1 =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
-				if InFifoEmpty_SI = '1' or USBFifoThread0Full_SI = '1' then
+				if InFifoAlmostEmpty_SI = '1' or USBFifoThread0Full_SI = '1' then
 					State_DN <= stIdle0;
 				else
 					State_DN <= stWriteFirst0;
