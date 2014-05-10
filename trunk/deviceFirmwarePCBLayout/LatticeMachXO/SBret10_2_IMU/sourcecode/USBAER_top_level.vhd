@@ -832,6 +832,7 @@ begin
 	--H Writes IMU measurements
 	IMUregOutxD when selectIMU; 
 	--H 
+	-- OTHERS
 	
   LED1xSO <= CDVSTestChipResetxRB;
   LED2xSO <= RunxS;
