@@ -58,6 +58,7 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
     private boolean startLogging = getBoolean("startLogging", false);
     private boolean deleteLogging = getBoolean("deleteLogging", false);
     private float barsHeight = getFloat("barsHeight", 0.000020f);
+    private int excludedEdgeSubunits = getInt("excludedEdgeSubunits", 1);
     
     public ObjectMotionCell(AEChip chip) {
         super(chip);
@@ -79,6 +80,7 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
         setPropertyTooltip("startLogging", "Start logging inhibition and excitation");
         setPropertyTooltip("deleteLogging", "Delete the logging of inhibition and excitation");
         setPropertyTooltip("barsHeight", "set the magnitute of cen and sur if the inhibition and excitation are out of range");
+        setPropertyTooltip("excludedEdgeSubunits", "Set the number of subunits excluded from computation at the edge");
     }
     private int lastObjectMotionCellSpikeCheckTimestamp = 0;
         
@@ -225,8 +227,8 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
         float computeInhibitionToOutputCell() {
             totalInhibition = 0;
 //            float inhibition = 0;
-            for (int x = 1; x < (nx-1); x++) {
-                for (int y = 1; y < (ny-1); y++) {
+            for (int x = excludedEdgeSubunits; x < (nx-excludedEdgeSubunits); x++) {
+                for (int y = excludedEdgeSubunits; y < (ny-excludedEdgeSubunits); y++) {
                     if ((x == nx / 2 && y == ny / 2) || (x == ((nx / 2) - 1) && y == ny / 2) || (x == ((nx / 2) - 1) && y == ((ny / 2) - 1)) || (x == nx / 2 && y == ((ny / 2) - 1))) {
                         continue; // don't include center
                     }
@@ -297,7 +299,7 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
             if (ny < 1) {
                 ny = 1; // always at least one subunit
             }
-            ntot = (nx-1) * (ny-1);
+            ntot = (nx-excludedEdgeSubunits) * (ny-excludedEdgeSubunits);
             subunits = new Subunit[nx][ny];
             for (int x = 0; x < nx; x++) {
                 for (int y = 0; y < ny; y++) {
@@ -310,8 +312,8 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
             final float alpha = .2f;
             glu.gluQuadricDrawStyle(quad, GLU.GLU_FILL);
             int off = (1 << (subunitSubsamplingBits)) / 2;
-            for (int x = 0; x < nx; x++) {
-                for (int y = 0; y < ny; y++) {
+            for (int x = excludedEdgeSubunits; x < nx-excludedEdgeSubunits; x++) {
+                for (int y = excludedEdgeSubunits; y < ny-excludedEdgeSubunits; y++) {
                     gl.glPushMatrix();
                     gl.glTranslatef((x << subunitSubsamplingBits) + off, (y << subunitSubsamplingBits) + off, 5);
                     if ((x == nx / 2 && y == ny / 2) || (x == ((nx / 2) - 1) && y == ny / 2) || (x == ((nx / 2) - 1) && y == ((ny / 2) - 1)) || (x == nx / 2 && y == ((ny / 2) - 1))) {
@@ -550,6 +552,22 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
         this.barsHeight = barsHeight;
         putFloat("barsHeight", barsHeight);
     }
+    
+    /**
+     * @return the excludedEdgeSubunits
+     */
+    public int getExcludedEdgeSubunits() {
+        return excludedEdgeSubunits;
+    }
+
+    /**
+     * @param excludedEdgeSubunits the excludedEdgeSubunits to set
+     */
+    public void setExcludedEdgeSubunits(int excludedEdgeSubunits) {
+        this.excludedEdgeSubunits = excludedEdgeSubunits;
+        putFloat("excludedEdgeSubunits", excludedEdgeSubunits);
+    }            
+            
     
     /**
      * @return the onOffWeightRatio
