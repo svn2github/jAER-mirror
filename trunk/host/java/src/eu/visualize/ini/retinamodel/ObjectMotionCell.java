@@ -30,6 +30,8 @@ import net.sf.jaer.event.BasicEvent;
 import net.sf.jaer.event.EventPacket;
 import net.sf.jaer.event.OutputEventIterator;
 import net.sf.jaer.event.PolarityEvent;
+import static net.sf.jaer.event.PolarityEvent.Polarity.Off;
+import static net.sf.jaer.event.PolarityEvent.Polarity.On;
 import net.sf.jaer.eventprocessing.EventFilter2D;
 import net.sf.jaer.graphics.FrameAnnotater;
 import net.sf.jaer.util.SpikeSound;
@@ -59,8 +61,10 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
     private boolean deleteLogging = getBoolean("deleteLogging", false);
     private float barsHeight = getFloat("barsHeight", 0.000020f);
     private int excludedEdgeSubunits = getInt("excludedEdgeSubunits", 1);
-    
-    public ObjectMotionCell(AEChip chip) {
+    private int tanhSaturation = getInt("tanhSaturation", 1);
+    private boolean exponentialToTanh = getBoolean("exponentialToTanh", false);
+
+        public ObjectMotionCell(AEChip chip) {
         super(chip);
         chip.addObserver(this);
         setPropertyTooltip("showSubunits", "Enables showing subunit activity annotation over retina output");
@@ -81,6 +85,8 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
         setPropertyTooltip("deleteLogging", "Delete the logging of inhibition and excitation");
         setPropertyTooltip("barsHeight", "set the magnitute of cen and sur if the inhibition and excitation are out of range");
         setPropertyTooltip("excludedEdgeSubunits", "Set the number of subunits excluded from computation at the edge");
+        setPropertyTooltip("tanhSaturation", "Set the maximum contribution of a single subunit, where it saturates");
+        setPropertyTooltip("exponentialToTanh", "Switch from exponential non-linearity to exponential tangent");
     }
     private int lastObjectMotionCellSpikeCheckTimestamp = 0;
         
@@ -232,7 +238,11 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
                     if ((x == nx / 2 && y == ny / 2) || (x == ((nx / 2) - 1) && y == ny / 2) || (x == ((nx / 2) - 1) && y == ((ny / 2) - 1)) || (x == nx / 2 && y == ((ny / 2) - 1))) {
                         continue; // don't include center
                     }
-                    inhibition += (float) Math.pow(subunits[x][y].computeInputToCell(),nonLinearityOrder);                
+                    if(exponentialToTanh == false){
+                        inhibition += (float) Math.pow(subunits[x][y].computeInputToCell(),nonLinearityOrder);   
+                    }else{
+                        inhibition += (float) tanhSaturation*Math.tanh(subunits[x][y].computeInputToCell());
+                    }
             }}
             inhibition /= (ntot - 4);
             inhibition = synapticWeight * inhibition;
@@ -262,7 +272,12 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
             if ((nx == 2) || (nx == 1) || (ny == 2) || (ny == 1)) {
                 centerExcitation = centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][ny / 2].computeInputToCell();
             } else {
-                centerExcitation = (float)(Math.pow((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][ny / 2].computeInputToCell()),nonLinearityOrder) + Math.pow((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[(nx / 2) - 1][ny / 2].computeInputToCell()),nonLinearityOrder) + Math.pow((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[(nx / 2) - 1][(ny / 2) - 1].computeInputToCell()),nonLinearityOrder) + Math.pow((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][(ny / 2) - 1].computeInputToCell()),nonLinearityOrder)) / 4;//average of 4 central cells
+                if(exponentialToTanh == false){
+                   centerExcitation = (float)(Math.pow((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][ny / 2].computeInputToCell()),nonLinearityOrder) + Math.pow((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[(nx / 2) - 1][ny / 2].computeInputToCell()),nonLinearityOrder) + Math.pow((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[(nx / 2) - 1][(ny / 2) - 1].computeInputToCell()),nonLinearityOrder) + Math.pow((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][(ny / 2) - 1].computeInputToCell()),nonLinearityOrder)) / 4;//average of 4 central cells
+                }else{
+                   centerExcitation = (float)(tanhSaturation*Math.tanh((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][ny / 2].computeInputToCell())) + tanhSaturation*Math.tanh((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[(nx / 2) - 1][ny / 2].computeInputToCell())) + tanhSaturation*Math.tanh((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[(nx / 2) - 1][(ny / 2) - 1].computeInputToCell())) + tanhSaturation*Math.tanh((centerExcitationToSurroundInhibitionRatio * synapticWeight * subunits[nx / 2][(ny / 2) - 1].computeInputToCell()))) / 4;//average of 4 central cells                
+                }
+                
             }
             if (startLogging == true){  
                 try {
@@ -584,7 +599,22 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
         putFloat("centerExcitationToSurroundInhibitionRatio", onOffWeightRatio);
     }
     
+    /**
+     * @return the tanhSaturation
+     */
+    public int getTanhSaturation() {
+        return tanhSaturation;
+    }
 
+    /**
+     * @param tanhSaturation the tanhSaturation to set
+     */
+    public void setTanhSaturation(int tanhSaturation) {
+        this.tanhSaturation = tanhSaturation;
+        putInt("tanhSaturation", tanhSaturation);
+    }
+    
+    
         /**
      * @return the deleteLogging
      */
@@ -600,6 +630,22 @@ public class ObjectMotionCell extends AbstractRetinaModelCell implements FrameAn
         putBoolean("deleteLogging", deleteLogging);
     }
 
+            /**
+     * @return the exponentialToTanh
+     */
+    public boolean isExponentialToTanh() {
+        return exponentialToTanh;
+    }
+
+    /**
+     * @param exponentialToTanh the exponentialToTanh to set
+     */
+    public void setExponentialToTanh(boolean exponentialToTanh) {
+        this.exponentialToTanh = exponentialToTanh;
+        putBoolean("exponentialToTanh", exponentialToTanh);
+    }
+
+    
         /**
      * @return the startLogging
      */
