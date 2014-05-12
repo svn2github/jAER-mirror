@@ -9,6 +9,7 @@ entity continuousCounter is
 	port (
 		Clock_CI : in std_logic;
 		Reset_RBI : in std_logic;
+		CountEnable_SI : in std_logic;
 		Data_DO : out std_logic_vector(15 downto 0));
 end continuousCounter;
 
@@ -20,9 +21,13 @@ begin
 	Data_DO <= Count_DP;
 
 	-- 16bit counter, calculation of next state
-	p_memoryless : process (Count_DP)
+	p_memoryless : process (Count_DP, CountEnable_SI)
 	begin -- process p_memoryless
-		Count_DN <= Count_DP + 1;
+		if CountEnable_SI = '1' then
+			Count_DN <= Count_DP + 1;
+		else
+			Count_DN <= Count_DP;
+		end if;
 	end process p_memoryless;
 
 	-- Change state on clock edge (synchronous).

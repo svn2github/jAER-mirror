@@ -5,6 +5,7 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
+import java.nio.ShortBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.StandardCharsets;
@@ -417,7 +418,7 @@ public class DAViS_FX3 extends Controller {
 		}
 	}
 
-	//private int expData = -1;
+	private int expData = 0;
 	private long imuCount = 0;
 	private long dataCount = 0;
 
@@ -484,14 +485,19 @@ public class DAViS_FX3 extends Controller {
 							"%d: Got 4096 data buffers.\n", dataCount >>> 12)));
 					}
 
-					/*final ShortBuffer sBuf = t.buffer().order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
+					final ShortBuffer sBuf = t.buffer().order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
 
 					for (int pos = 0; pos < sBuf.limit(); pos++) {
 						final int usbData = (sBuf.get(pos) & 0xFFFF);
 
 						if (usbData != expData) {
-							System.out.println(String.format("Mismatch detected, got: %d, expected: %d\n", usbData,
+							System.out.println(String.format("Mismatch detected, got: %d, expected: %d", usbData,
 								expData));
+							System.out.println(String.format(
+								"First: %d, last-4: %d, last-3: %d, last-2: %d, last-1: %d, last: %d\n",
+								(sBuf.get(0) & 0xFFFF), (sBuf.get(sBuf.limit() - 5) & 0xFFFF),
+								(sBuf.get(sBuf.limit() - 4) & 0xFFFF), (sBuf.get(sBuf.limit() - 3) & 0xFFFF),
+								(sBuf.get(sBuf.limit() - 2) & 0xFFFF), (sBuf.get(sBuf.limit() - 1) & 0xFFFF)));
 							expData = usbData;
 						}
 
@@ -500,7 +506,7 @@ public class DAViS_FX3 extends Controller {
 						if (expData == 65536) {
 							expData = 0;
 						}
-					}*/
+					}
 				}
 			}
 

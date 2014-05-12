@@ -25,8 +25,8 @@ entity topLevel is
 end topLevel;
 
 architecture Structural of topLevel is
-	constant FAST_CLOCK_FREQ : integer := 80;
-	constant SLOW_CLOCK_FREQ : integer := 80;
+	constant FAST_CLOCK_FREQ : integer := 50;
+	constant SLOW_CLOCK_FREQ : integer := 50;
 
 	component fifoStatemachine
 	port (
@@ -66,6 +66,7 @@ architecture Structural of topLevel is
 	port (
 		Clock_CI : in  std_logic;
 		Reset_RBI : in  std_logic;
+		CountEnable_SI : in std_logic;
 		Data_DO : out std_logic_vector(15 downto 0));
 	end component;
   
@@ -167,6 +168,7 @@ begin
 	port map (
 		Clock_CI => SlowClock_C,
 		Reset_RBI => Reset_RBI,
+		CountEnable_SI => AERFifoWrite_S,
 		Data_DO => AERFifoDataIn_D);
 
 end Structural;
