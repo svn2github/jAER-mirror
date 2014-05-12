@@ -235,9 +235,6 @@ begin  -- Behavioral
           StatexDN   <= stIdle;
         end if;
         
-      when others =>
-        StatexDN            <= stIdle;
-    
     end case;
 
   end process p_memless;

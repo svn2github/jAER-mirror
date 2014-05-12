@@ -74,10 +74,6 @@ add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout
 add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Top.vhd}
 add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/IMUvalueReady.vhd}
 add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/IMUStateMachine.vhd}
-add_file -vhdl -lib "work" {D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/top_test_bench.vhd}
-add_file -vhdl -lib "work" {D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/up_model.vhd}
-add_file -vhdl -lib "work" {D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/testbench/ack_gen.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/IMUStateMachine_BCK.vhd}
 
 #-- top module name
 set_option -top_module USBAER_top_level

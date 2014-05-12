@@ -12,7 +12,7 @@ Lattice Diamond Version 2.2.0.101
 #Implementation: SBret10
 
 $ Start of Compile
-#Sat May 10 14:29:09 2014
+#Tue May 13 01:06:26 2014
 
 Synopsys VHDL Compiler, version comp201209rcp1, Build 271R, built Mar 11 2013
 @N|Running in 64-bit mode
@@ -20,27 +20,15 @@ Copyright (C) 1994-2012 Synopsys, Inc. This software the associated documentatio
 
 @N: CD720 :"D:\lscc\diamond\2.2_x64\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
 @N:"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
-File D:\lscc\diamond\2.2_x64\synpbase\lib\vhd\std_logic_textio.vhd changed - recompiling
-File D:\lscc\diamond\2.2_x64\synpbase\lib\vhd\std_textio.vhd changed - recompiling
-File D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\testbench\ack_gen.vhd changed - recompiling
-File C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\IMUStateMachine_BCK.vhd changed - recompiling
-File C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\AERfifo.vhd changed - recompiling
-File C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\clockgen.vhd changed - recompiling
-File C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Top.vhd changed - recompiling
+File C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\synchronizerStateMachine.vhd changed - recompiling
+File C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd changed - recompiling
 File C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd changed - recompiling
-File C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\ADCStateMachine_tb.vhd changed - recompiling
-File D:\Dropbox\IMU\I2C Bus Master - Downloads\i2cmastercontrollersourcecodeformachxo\I2C_xo\I2C_xo\I2C_Master\testbench\top_test_bench.vhd changed - recompiling
-@W: CD433 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\IMUStateMachine_BCK.vhd":788:7:788:7|No design units in file
 VHDL syntax check successful!
-
-Compiler output is up to date.  No re-compile necessary
-
-@N: CD231 :"D:\lscc\diamond\2.2_x64\synpbase\lib\vhd\std_logic_textio.vhd":79:15:79:16|Using onehot encoding for type mvl9plus ('U'="1000000000")
+File C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\synchronizerStateMachine.vhd changed - recompiling
+File C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd changed - recompiling
+File C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd changed - recompiling
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":26:7:26:22|Synthesizing work.usbaer_top_level.structural 
-@W: CD277 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":196:3:196:14|Port direction mismatch between component and entity
-@W: CD277 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":205:3:205:20|Port direction mismatch between component and entity
-@W: CD277 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":207:6:207:23|Port direction mismatch between component and entity
-@W: CD638 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":431:9:431:17|Signal i2cackxsb is undriven 
+@W: CD638 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":420:8:420:16|Signal i2cackxsb is undriven 
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\cDVSResetStateMachine.vhd":25:7:25:27|Synthesizing work.cdvsresetstatemachine.behavioral 
 @N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\cDVSResetStateMachine.vhd":38:13:38:14|Using sequential encoding for type state
 Post processing for work.cdvsresetstatemachine.behavioral
@@ -109,83 +97,50 @@ Post processing for work.i2c_top.behave
 @W: CL168 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Top.vhd":479:0:479:6|Pruning instance delay_2 -- not in use ... 
 @W: CL168 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Top.vhd":473:0:473:6|Pruning instance delay_1 -- not in use ... 
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":22:7:22:21|Synthesizing work.imustatemachine.behavioral 
-@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":54:14:54:15|Using onehot encoding for type staterw (stidle="1000000000")
-@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":64:15:64:16|Using onehot encoding for type stateimu (stidle="1000000000000000000000000000000000000")
-@N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":85:20:85:21|Using sequential encoding for type stateimuwrite
-@W: CG296 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":171:20:171:26|Incomplete sensitivity list - assuming completeness
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":190:19:190:27|Referenced variable i2cdataxd is not in sensitivity list
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":191:18:191:26|Referenced variable i2caddrxd is not in sensitivity list
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":197:7:197:16|Referenced variable i2cackxsbi is not in sensitivity list
-@W: CD274 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":703:5:703:8|Incomplete case statement - add more cases or a when others
-@W: CD604 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":762:3:762:16|OTHERS clause is not synthesized 
-@W: CG296 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":250:9:250:15|Incomplete sensitivity list - assuming completeness
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":754:9:754:26|Referenced variable imudatareadyackxei is not in sensitivity list
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":330:18:330:28|Referenced variable i2cdataxdio is not in sensitivity list
-@W: CG296 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":773:15:773:21|Incomplete sensitivity list - assuming completeness
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":798:10:798:28|Referenced variable imudatawordcountxdp is not in sensitivity list
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":805:35:805:44|Referenced variable imugyrozxd is not in sensitivity list
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":804:35:804:44|Referenced variable imugyroyxd is not in sensitivity list
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":803:35:803:44|Referenced variable imugyroxxd is not in sensitivity list
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":802:35:802:43|Referenced variable imutempxd is not in sensitivity list
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":801:35:801:45|Referenced variable imuaccelzxd is not in sensitivity list
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":800:35:800:45|Referenced variable imuaccelyxd is not in sensitivity list
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":799:35:799:45|Referenced variable imuaccelxxd is not in sensitivity list
-@W: CD434 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":831:25:831:32|Signal clockxci in the sensitivity list is not used in the process
-@W: CD434 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":831:35:831:43|Signal resetxrbi in the sensitivity list is not used in the process
-@W: CG296 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":831:16:831:22|Incomplete sensitivity list - assuming completeness
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":842:8:842:14|Referenced variable clockxc is not in sensitivity list
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":833:5:833:12|Referenced variable resetxrb is not in sensitivity list
-@W: CD638 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":157:8:157:10|Signal rwl is undriven 
+@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":55:14:55:15|Using onehot encoding for type staterw (stidle="1000000000")
+@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":65:15:65:16|Using onehot encoding for type stateimu (stidle="1000000000000000000000000000000000000")
+@N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":86:20:86:21|Using sequential encoding for type stateimuwrite
+@W: CG296 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":174:20:174:26|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":196:19:196:27|Referenced variable i2cdataxd is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":197:18:197:26|Referenced variable i2caddrxd is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":203:7:203:16|Referenced variable i2cackxsbi is not in sensitivity list
+@W: CG296 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":733:15:733:21|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":738:25:738:43|Referenced variable imudatawordcountxdp is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":764:34:764:43|Referenced variable imugyrozxd is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":763:34:763:43|Referenced variable imugyroyxd is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":762:34:762:43|Referenced variable imugyroxxd is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":761:34:761:42|Referenced variable imutempxd is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":760:34:760:44|Referenced variable imuaccelzxd is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":759:34:759:44|Referenced variable imuaccelyxd is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":758:34:758:44|Referenced variable imuaccelxxd is not in sensitivity list
 Post processing for work.imustatemachine.behavioral
-@A: CL109 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Too many clocks (> 8) for set/reset analysis of I2CDataxD, try moving enabling expressions outside process
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch generated from process for signal I2CDataxD(7 downto 0); possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":780:2:780:5|Latch generated from process for signal IMUDataWordCountxDN(3 downto 0); possible missing assignment in an if or case statement.
-@A: CL109 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Too many clocks (> 8) for set/reset analysis of WriteReqxE, try moving enabling expressions outside process
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch generated from process for signal WriteReqxE; possible missing assignment in an if or case statement.
-@A: CL109 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Too many clocks (> 8) for set/reset analysis of ReadReqxE, try moving enabling expressions outside process
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch generated from process for signal ReadReqxE; possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch generated from process for signal IMUTempxD(15 downto 0); possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch generated from process for signal IMUGyroZxD(15 downto 0); possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch generated from process for signal IMUGyroYxD(15 downto 0); possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch generated from process for signal IMUGyroXxD(15 downto 0); possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch generated from process for signal IMUAccelZxD(15 downto 0); possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch generated from process for signal IMUAccelYxD(15 downto 0); possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch generated from process for signal IMUAccelXxD(15 downto 0); possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":177:2:177:5|Latch generated from process for signal I2CAddrxDO(2 downto 0); possible missing assignment in an if or case statement.
-@A: CL109 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Too many clocks (> 8) for set/reset analysis of I2CAddrxD, try moving enabling expressions outside process
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|All reachable assignments to I2CAddrxD(1) assign '0'; register removed by optimization
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch generated from process for signal I2CAddrxD(2 downto 0); possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch generated from process for signal IMUDataReadyReqxEO; possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":780:2:780:5|Latch generated from process for signal IMUDataxDO(15 downto 0); possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":177:2:177:5|Latch generated from process for signal ReadAckxE; possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":177:2:177:5|Latch generated from process for signal I2CRWxSBO; possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":177:2:177:5|Latch generated from process for signal I2CCSxSBO; possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":780:2:780:5|Latch generated from process for signal IMUDataWriteAckxEO; possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":177:2:177:5|Latch generated from process for signal WriteAckxE; possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":177:2:177:5|Latch generated from process for signal I2CDataxD(7 downto 0); possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":177:2:177:5|Latch generated from process for signal I2CDataxDIO(7 downto 0); possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":780:2:780:5|Latch generated from process for signal IMUDataReadyReqxEO; possible missing assignment in an if or case statement.
-@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch generated from process for signal IMUNewMeasReadyxE; possible missing assignment in an if or case statement.
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":833:2:833:3|All reachable assignments to StateIMUWritexDP(stidle) assign '0'; register removed by optimization
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":833:2:833:3|All reachable assignments to StateIMUWritexDP(stdatawritereq) assign '0'; register removed by optimization
-@W: CL239 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":780:2:780:5|Latch IMUDataReadyReqxEO enable evaluates to constant 1, optimized
-@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":780:2:780:5|Latch IMUDataxDO(15 downto 0) enable evaluates to constant 0, optimized
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUAccelXxD(7 downto 0)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUAccelYxD(7 downto 0)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUAccelZxD(7 downto 0)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUGyroXxD(7 downto 0)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUGyroYxD(7 downto 0)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUTempxD(7 downto 0)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":780:2:780:5|Pruning register IMUDataWordCountxDN(3 downto 0)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUGyroZxD(7 downto 0)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUAccelXxD(15 downto 8)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUAccelYxD(15 downto 8)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUAccelZxD(15 downto 8)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUGyroXxD(15 downto 8)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUGyroYxD(15 downto 8)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUGyroZxD(15 downto 8)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Pruning register IMUTempxD(15 downto 8)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":833:2:833:3|Pruning register IMUDataWordCountxDP(3 downto 0)  
+@A: CL109 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Too many clocks (> 8) for set/reset analysis of I2CDataxD, try moving enabling expressions outside process
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch generated from process for signal I2CDataxD(7 downto 0); possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch generated from process for signal IMUDataReadyReqxEO; possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch generated from process for signal IMUTempxD(15 downto 0); possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch generated from process for signal IMUGyroZxD(15 downto 0); possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch generated from process for signal IMUGyroYxD(15 downto 0); possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch generated from process for signal IMUGyroXxD(15 downto 0); possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch generated from process for signal IMUAccelZxD(15 downto 0); possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch generated from process for signal IMUAccelYxD(15 downto 0); possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch generated from process for signal IMUAccelXxD(15 downto 0); possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":181:2:181:5|Latch generated from process for signal I2CAddrxDO(2 downto 0); possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":181:2:181:5|Latch generated from process for signal ReadAckxE; possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":741:2:741:5|Latch generated from process for signal IMUDataxDO(15 downto 0); possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":181:2:181:5|Latch generated from process for signal I2CDataxD(7 downto 0); possible missing assignment in an if or case statement.
+@A: CL109 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":269:2:269:5|Too many clocks (> 8) for set/reset analysis of I2CAddrxD, try moving enabling expressions outside process
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":269:2:269:5|Latch generated from process for signal I2CAddrxD(2 downto 0); possible missing assignment in an if or case statement.
+@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":741:2:741:5|All reachable assignments to IMUDataWriteAckxEO assign '1'; register removed by optimization
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":181:2:181:5|Latch generated from process for signal WriteAckxE; possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":181:2:181:5|Latch generated from process for signal I2CDataxDIO(7 downto 0); possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch generated from process for signal IMUNewMeasxE; possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":181:2:181:5|Latch generated from process for signal I2CRWxSBO; possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":181:2:181:5|Latch generated from process for signal I2CCSxSBO; possible missing assignment in an if or case statement.
+@A: CL109 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Too many clocks (> 8) for set/reset analysis of WriteReqxE, try moving enabling expressions outside process
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch generated from process for signal WriteReqxE; possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":741:2:741:5|Latch generated from process for signal IMUDataReadyReqxEO; possible missing assignment in an if or case statement.
+@A: CL109 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Too many clocks (> 8) for set/reset analysis of ReadReqxE, try moving enabling expressions outside process
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch generated from process for signal ReadReqxE; possible missing assignment in an if or case statement.
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCvalueReady.vhd":25:7:25:19|Synthesizing work.adcvalueready.behavioral 
 @N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCvalueReady.vhd":37:13:37:14|Using sequential encoding for type state
 Post processing for work.adcvalueready.behavioral
@@ -196,47 +151,18 @@ Post processing for work.adcstatemachine.behavioral
 @W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCStateMachine.vhd":140:4:140:7|Latch generated from process for signal NoBxS; possible missing assignment in an if or case statement.
 @W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCStateMachine.vhd":268:4:268:7|Latch generated from process for signal StartRowxSN; possible missing assignment in an if or case statement.
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":25:7:25:25|Synthesizing work.monitorstatemachine.behavioral 
-@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":85:13:85:14|Using onehot encoding for type state (stidle="100000000000000")
-@W: CG296 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":131:14:131:20|Incomplete sensitivity list - assuming completeness
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":190:22:190:33|Referenced variable fifocountxdp is not in sensitivity list
-@W: CD638 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":98:9:98:20|Signal fifocountxdn is undriven 
+@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":82:12:82:13|Using onehot encoding for type state (stidle="100000000000000")
 Post processing for work.monitorstatemachine.behavioral
-@W: CL252 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":98:9:98:20|Bit 0 of signal FifoCountxDN is floating -- simulation mismatch possible.
-@W: CL252 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":98:9:98:20|Bit 1 of signal FifoCountxDN is floating -- simulation mismatch possible.
-@W: CL252 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":98:9:98:20|Bit 2 of signal FifoCountxDN is floating -- simulation mismatch possible.
-@W: CL252 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":98:9:98:20|Bit 3 of signal FifoCountxDN is floating -- simulation mismatch possible.
-@W: CL252 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":98:9:98:20|Bit 4 of signal FifoCountxDN is floating -- simulation mismatch possible.
-@W: CL252 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":98:9:98:20|Bit 5 of signal FifoCountxDN is floating -- simulation mismatch possible.
-@W: CL252 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":98:9:98:20|Bit 6 of signal FifoCountxDN is floating -- simulation mismatch possible.
-@W: CL252 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":98:9:98:20|Bit 7 of signal FifoCountxDN is floating -- simulation mismatch possible.
-@W: CL252 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":98:9:98:20|Bit 8 of signal FifoCountxDN is floating -- simulation mismatch possible.
-@W: CL252 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":98:9:98:20|Bit 9 of signal FifoCountxDN is floating -- simulation mismatch possible.
-@W: CL252 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":98:9:98:20|Bit 10 of signal FifoCountxDN is floating -- simulation mismatch possible.
-@W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":48:1:48:14|IMURegWritexEO is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":42:1:42:12|FifoCountxDI is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":171:4:171:7|All reachable assignments to IMUDataWriteReqxEO assign '1'; register removed by optimization
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":393:4:393:5|All reachable assignments to FifoCountxDP(0) assign '0'; register removed by optimization
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":393:4:393:5|All reachable assignments to FifoCountxDP(1) assign '0'; register removed by optimization
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":393:4:393:5|All reachable assignments to FifoCountxDP(2) assign '0'; register removed by optimization
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":393:4:393:5|All reachable assignments to FifoCountxDP(3) assign '0'; register removed by optimization
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":393:4:393:5|All reachable assignments to FifoCountxDP(4) assign '0'; register removed by optimization
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":393:4:393:5|All reachable assignments to FifoCountxDP(5) assign '0'; register removed by optimization
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":393:4:393:5|All reachable assignments to FifoCountxDP(6) assign '0'; register removed by optimization
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":393:4:393:5|All reachable assignments to FifoCountxDP(7) assign '0'; register removed by optimization
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":393:4:393:5|All reachable assignments to FifoCountxDP(8) assign '0'; register removed by optimization
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":393:4:393:5|All reachable assignments to FifoCountxDP(9) assign '0'; register removed by optimization
-@W: CL111 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":393:4:393:5|All reachable assignments to FifoCountxDP(10) assign '0'; register removed by optimization
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":162:2:162:5|Latch generated from process for signal IMUDataWriteReqxEO; possible missing assignment in an if or case statement.
+@W: CL117 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":162:2:162:5|Latch generated from process for signal IMUDataReadyAckxEO; possible missing assignment in an if or case statement.
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":25:7:25:22|Synthesizing work.fifostatemachine.behavioral 
-@N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":59:13:59:14|Using sequential encoding for type state
-@W: CG296 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":78:14:78:20|Incomplete sensitivity list - assuming completeness
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":98:10:98:21|Referenced variable fifowritexei is not in sensitivity list
-@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":96:4:96:15|Referenced variable fifocountxdp is not in sensitivity list
+@N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":60:12:60:13|Using sequential encoding for type state
+@W: CG296 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":76:13:76:19|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":100:5:100:16|Referenced variable fifowritexei is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":96:18:96:29|Referenced variable fifocountxdp is not in sensitivity list
 Post processing for work.fifostatemachine.behavioral
-@W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":42:1:42:12|FifoCountxDO is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":150:4:150:5|Pruning register FifoCountxDP(10 downto 0)  
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\synchronizerStateMachine.vhd":19:7:19:30|Synthesizing work.synchronizerstatemachine.behavioral 
 @N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\synchronizerStateMachine.vhd":69:13:69:14|Using onehot encoding for type state (stidle="100000")
-@W: CD604 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\synchronizerStateMachine.vhd":238:6:238:19|OTHERS clause is not synthesized 
 Post processing for work.synchronizerstatemachine.behavioral
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\timestampCounter.vhd":25:7:25:22|Synthesizing work.timestampcounter.behavioral 
 Post processing for work.timestampcounter.behavioral
@@ -265,12 +191,12 @@ Post processing for work.shiftregister.behavioral
 Post processing for work.ehxpllc.syn_black_box
 Post processing for work.clockgen.structure
 Post processing for work.usbaer_top_level.structural
-@W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":431:9:431:17|I2CAckxSB is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":49:1:49:12|SyncOutSWxEI is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":48:1:48:14|SyncOutSIGxSBI is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL168 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":788:2:788:24|Pruning instance cDVSResetStateMachine_1 -- not in use ... 
-@W: CL167 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":749:2:749:18|Input i2cackxsbi of instance IMUStateMachine_1 is floating
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\synchronizerStateMachine.vhd":248:4:248:5|Trying to extract state machine for register StatexDP
+@W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":420:8:420:16|I2CAckxSB is not assigned a value (floating) -- simulation mismatch possible. 
+@W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":49:2:49:13|SyncOutSWxEI is not assigned a value (floating) -- simulation mismatch possible. 
+@W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":48:2:48:15|SyncOutSIGxSBI is not assigned a value (floating) -- simulation mismatch possible. 
+@W: CL168 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":753:1:753:23|Pruning instance cDVSResetStateMachine_1 -- not in use ... 
+@W: CL167 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":712:1:712:17|Input i2cackxsbi of instance IMUStateMachine_1 is floating
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\synchronizerStateMachine.vhd":245:4:245:5|Trying to extract state machine for register StatexDP
 Extracted state machine for register StatexDP
 State machine has 6 reachable states with original encodings of:
    000001
@@ -279,17 +205,16 @@ State machine has 6 reachable states with original encodings of:
    001000
    010000
    100000
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":150:4:150:5|Trying to extract state machine for register StatexDP
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":158:2:158:3|Trying to extract state machine for register StatexDP
 Extracted state machine for register StatexDP
 State machine has 4 reachable states with original encodings of:
    00
    01
    10
    11
-@W: CL159 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":41:1:41:12|Input FifoWritexEI is unused
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":393:4:393:5|Trying to extract state machine for register StatexDP
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":374:2:374:3|Trying to extract state machine for register StatexDP
 Extracted state machine for register StatexDP
-State machine has 12 reachable states with original encodings of:
+State machine has 14 reachable states with original encodings of:
    000000000000001
    000000000000010
    000000000000100
@@ -300,6 +225,8 @@ State machine has 12 reachable states with original encodings of:
    000000010000000
    000000100000000
    000001000000000
+   000010000000000
+   000100000000000
    010000000000000
    100000000000000
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCStateMachine.vhd":340:4:340:5|Trying to extract state machine for register StateRowxDP
@@ -336,8 +263,13 @@ State machine has 4 reachable states with original encodings of:
    01
    10
    11
-@W: FX105 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":786:4:786:5|Found combinational loop at IMUDataReadyReqxEO
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":833:2:833:3|Trying to extract state machine for register StateRWxDP
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":796:2:796:3|Trying to extract state machine for register StateIMUWritexDP
+Extracted state machine for register StateIMUWritexDP
+State machine has 3 reachable states with original encodings of:
+   00
+   01
+   10
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":796:2:796:3|Trying to extract state machine for register StateRWxDP
 Extracted state machine for register StateRWxDP
 State machine has 10 reachable states with original encodings of:
    0000000001
@@ -350,7 +282,7 @@ State machine has 10 reachable states with original encodings of:
    0010000000
    0100000000
    1000000000
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":833:2:833:3|Trying to extract state machine for register StateIMUxDP
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":796:2:796:3|Trying to extract state machine for register StateIMUxDP
 Extracted state machine for register StateIMUxDP
 State machine has 21 reachable states with original encodings of:
    0000000000000000000000000000000000001
@@ -374,17 +306,37 @@ State machine has 21 reachable states with original encodings of:
    0000000000000000001000000000000000000
    0000000000000000010000000000000000000
    0000000000000000100000000000000000000
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":833:2:833:3|Optimizing register bit IMUMeasByteCountxDP(0) to a constant 0
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":833:2:833:3|Optimizing register bit IMUMeasByteCountxDP(1) to a constant 0
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":833:2:833:3|Optimizing register bit IMUMeasByteCountxDP(2) to a constant 0
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":833:2:833:3|Optimizing register bit IMUMeasByteCountxDP(3) to a constant 0
-@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":261:2:261:5|Latch IMUDataReadyReqxEO enable evaluates to constant 0, optimized
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":833:2:833:3|Pruning register IMUMeasByteCountxDP(3 downto 0)  
-@E: CL219 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":33:2:33:10|Multiple non-tristate drivers for net I2CRWxSBO in IMUStateMachine
-@E: CL219 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":36:2:36:12|Multiple non-tristate drivers for net I2CDataxDIO(7 downto 0) in IMUStateMachine
-@E: CL219 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":114:8:114:16|Multiple non-tristate drivers for net I2CDataxD(7 downto 0) in IMUStateMachine
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUGyroZxD(7 downto 0) enable evaluates to constant 0, optimized
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUAccelXxD(15 downto 8) enable evaluates to constant 0, optimized
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUAccelYxD(15 downto 8) enable evaluates to constant 0, optimized
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUAccelZxD(15 downto 8) enable evaluates to constant 0, optimized
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUGyroXxD(15 downto 8) enable evaluates to constant 0, optimized
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUGyroYxD(15 downto 8) enable evaluates to constant 0, optimized
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUGyroZxD(15 downto 8) enable evaluates to constant 0, optimized
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUTempxD(15 downto 8) enable evaluates to constant 0, optimized
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUAccelXxD(7 downto 0) enable evaluates to constant 0, optimized
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUAccelYxD(7 downto 0) enable evaluates to constant 0, optimized
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUAccelZxD(7 downto 0) enable evaluates to constant 0, optimized
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUGyroXxD(7 downto 0) enable evaluates to constant 0, optimized
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUGyroYxD(7 downto 0) enable evaluates to constant 0, optimized
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUTempxD(7 downto 0) enable evaluates to constant 0, optimized
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":796:2:796:3|Optimizing register bit IMUMeasByteCountxDP(0) to a constant 0
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":796:2:796:3|Optimizing register bit IMUMeasByteCountxDP(1) to a constant 0
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":796:2:796:3|Optimizing register bit IMUMeasByteCountxDP(2) to a constant 0
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":796:2:796:3|Optimizing register bit IMUMeasByteCountxDP(3) to a constant 0
+@W: CL238 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":91:57:91:61|Latch IMUDataReadyReqxEO enable evaluates to constant 0, optimized
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":796:2:796:3|Pruning register IMUMeasByteCountxDP(3 downto 0)  
+@W: CL279 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":741:2:741:5|Pruning register bits 15 to 1 of IMUDataxDO(15 downto 0)  
+@E: CL219 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Multiple non-tristate drivers for net I2CDataxD(7) in IMUStateMachine
+@E: CL219 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Multiple non-tristate drivers for net I2CDataxD(6) in IMUStateMachine
+@E: CL219 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Multiple non-tristate drivers for net I2CDataxD(5) in IMUStateMachine
+@E: CL219 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Multiple non-tristate drivers for net I2CDataxD(4) in IMUStateMachine
+@E: CL219 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Multiple non-tristate drivers for net I2CDataxD(3) in IMUStateMachine
+@E: CL219 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Multiple non-tristate drivers for net I2CDataxD(2) in IMUStateMachine
+@E: CL219 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Multiple non-tristate drivers for net I2CDataxD(1) in IMUStateMachine
+@E: CL219 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Multiple non-tristate drivers for net I2CDataxD(0) in IMUStateMachine
 @W: CL159 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":32:2:32:11|Input I2CINTxSBI is unused
-@W: CL159 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":42:2:42:19|Input IMUDataWriteReqxEI is unused
+@W: CL159 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":44:2:44:15|Input IMUDataDropxEI is unused
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Mpu_Blk.vhd":167:3:167:4|Trying to extract state machine for register ns
 Extracted state machine for register ns
 State machine has 3 reachable states with original encodings of:
@@ -456,16 +408,21 @@ State machine has 3 reachable states with original encodings of:
    01
    10
 @W: CL159 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\cDVSResetStateMachine.vhd":31:4:31:12|Input RxcolGxSI is unused
-@W: CL159 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":45:1:45:13|Input SyncInSIGxSBO is unused
-@W: CL159 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":46:1:46:11|Input SyncInSWxEI is unused
-@W: CL159 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":66:4:66:11|Input FXLEDxSI is unused
-@W: CL159 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":94:1:94:21|Input CDVSTestBiasBitOutxSI is unused
-@E: CL229 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":36:2:36:12|Unresolved tristate drivers for net I2CDataxDIO(7 downto 0) in IMUStateMachine
-@E: CL229 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":114:8:114:16|Unresolved tristate drivers for net I2CDataxD(7 downto 0) in IMUStateMachine
-@E: CL229 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":33:2:33:10|Unresolved tristate drivers for net I2CRWxSBO in IMUStateMachine
+@W: CL159 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":45:2:45:14|Input SyncInSIGxSBO is unused
+@W: CL159 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":46:2:46:12|Input SyncInSWxEI is unused
+@W: CL159 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":66:2:66:9|Input FXLEDxSI is unused
+@W: CL159 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":93:2:93:22|Input CDVSTestBiasBitOutxSI is unused
+@E: CL229 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Unresolved tristate drivers for net I2CDataxD(0) in IMUStateMachine
+@E: CL229 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Unresolved tristate drivers for net I2CDataxD(1) in IMUStateMachine
+@E: CL229 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Unresolved tristate drivers for net I2CDataxD(2) in IMUStateMachine
+@E: CL229 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Unresolved tristate drivers for net I2CDataxD(3) in IMUStateMachine
+@E: CL229 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Unresolved tristate drivers for net I2CDataxD(4) in IMUStateMachine
+@E: CL229 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Unresolved tristate drivers for net I2CDataxD(5) in IMUStateMachine
+@E: CL229 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Unresolved tristate drivers for net I2CDataxD(6) in IMUStateMachine
+@E: CL229 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":115:8:115:16|Unresolved tristate drivers for net I2CDataxD(7) in IMUStateMachine
 @END
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Sat May 10 14:29:10 2014
+# Tue May 13 01:06:28 2014
 
 ###########################################################]
 
