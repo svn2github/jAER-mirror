@@ -26,7 +26,7 @@ end topLevel;
 
 architecture Structural of topLevel is
 	constant FAST_CLOCK_FREQ : integer := 50;
-	constant SLOW_CLOCK_FREQ : integer := 50;
+	constant SLOW_CLOCK_FREQ : integer := 25;
 
 	component fifoStatemachine
 	port (
@@ -150,7 +150,7 @@ begin
 		pmi_freq_clkok => SLOW_CLOCK_FREQ,
 		pmi_family => "ECP3",
 		pmi_phase_adj => 0,
-		pmi_duty_cycle => 25,
+		pmi_duty_cycle => 50,
 		pmi_clkfb_source => "CLKOP",
 		pmi_fdel => "off",
 		pmi_fdel_val => 0)
