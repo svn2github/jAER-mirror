@@ -10,8 +10,8 @@ entity clockgen is
 end clockgen;
 
 architecture Structural of clockgen is
-	constant FAST_CLOCK_FREQ : integer := 100;
-	constant SLOW_CLOCK_FREQ : integer := 90;
+	constant INPUT_CLOCK_FREQ : integer := 34;
+	constant OUTPUT_CLOCK_FREQ : integer := 90;
 
 	component pmi_pll is
 	generic (
@@ -42,11 +42,11 @@ architecture Structural of clockgen is
 begin
 	uPLLSlowDown: pmi_pll
 	generic map (
-		pmi_freq_clki => FAST_CLOCK_FREQ,
-		pmi_freq_clkfb => SLOW_CLOCK_FREQ,
-		pmi_freq_clkop => SLOW_CLOCK_FREQ,
-		pmi_freq_clkos => SLOW_CLOCK_FREQ,
-		pmi_freq_clkok => SLOW_CLOCK_FREQ,
+		pmi_freq_clki => INPUT_CLOCK_FREQ,
+		pmi_freq_clkfb => OUTPUT_CLOCK_FREQ,
+		pmi_freq_clkop => OUTPUT_CLOCK_FREQ,
+		pmi_freq_clkos => OUTPUT_CLOCK_FREQ,
+		pmi_freq_clkok => OUTPUT_CLOCK_FREQ,
 		pmi_family => "ECP3",
 		pmi_phase_adj => 0,
 		pmi_duty_cycle => 50,
