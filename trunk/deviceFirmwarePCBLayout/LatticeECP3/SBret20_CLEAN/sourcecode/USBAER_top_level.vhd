@@ -116,6 +116,7 @@ architecture Structural of USBAER_top_level is
 	  USBFifoPktEnd_SBO : out std_logic;
 	  USBFifoAddress_DO : out std_logic_vector(1 downto 0);
 	  InFifoEmpty_SI : in std_logic;
+	  InFifoAlmostEmpty_SI : in std_logic;
       InFifoRead_SO : out std_logic;
       FifoTransaction_SO : out std_logic;
       IncEventCounter_SO : out std_logic;
@@ -524,6 +525,7 @@ begin
 	  USBFifoPktEnd_SBO => USBFifoPktEnd_SBO,
 	  USBFifoAddress_DO => USBFifoAddress_DO,
 	  InFifoEmpty_SI => FifoEmptyxS,
+	  InFifoAlmostEmpty_SI=> FifoAlmostEmptyxS,
       InFifoRead_SO => FifoReadxE,
       FifoTransaction_SO => FifoTransactionxS,
       IncEventCounter_SO => IncEventCounterxS,
@@ -675,8 +677,8 @@ begin
   -- outputs: 
   synchronizer : process (ClockxC)
   begin
-    if ClockxC'event and ClockxC = '1' then 
-      AERREQxSB         <= AERReqSyncxSBN;
+    if rising_edge(ClockxC) then 
+      AERREQxSB <= AERReqSyncxSBN;
       AERReqSyncxSBN <= AERMonitorREQxABI;
     end if;
   end process synchronizer;
