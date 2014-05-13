@@ -1,5 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
+use IEEE.STD_LOGIC_ARITH.all;
+use IEEE.STD_LOGIC_UNSIGNED.all;
 
 entity fifoStatemachine is
 	port (
@@ -28,18 +30,24 @@ entity fifoStatemachine is
 end fifoStatemachine;
 
 architecture Behavioral of fifoStatemachine is
-	type state is (stIdle0, stPrepareWrite0, stWriteFirst0, stWriteSecond0, stSwitch0,
-	               stIdle1, stPrepareWrite1, stWriteFirst1, stWriteSecond1, stSwitch1);
+	type state is (stIdle0, stPrepareWrite0, stWriteFirst0, stWriteMiddle0, stWriteLast0, stPrepareSwitch0, stSwitch0,
+	               stIdle1, stPrepareWrite1, stWriteFirst1, stWriteMiddle1, stWriteLast1, stPrepareSwitch1, stSwitch1);
 
 	attribute syn_enum_encoding : string;
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
-	signal State_DP, State_DN: state;
+	signal State_DP, State_DN : state;
+	
+	-- write burst counter
+	signal WriteCycle_DP, WriteCycle_DN : std_logic_vector(2 downto 0);
+	
+	constant WRITE_CYCLES : integer := 5;
 begin
-	p_memoryless : process (State_DP, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, Run_SI)
+	p_memoryless : process (State_DP, WriteCycle_DP, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, Run_SI)
 	begin
 		State_DN <= State_DP; -- Keep current state by default.
+		WriteCycle_DN <= WriteCycle_DP;
 
 		USBFifoChipSelect_SBO <= '0'; -- Always keep chip selected (active-low).
 		USBFifoWrite_SBO <= '1';
@@ -60,15 +68,26 @@ begin
 
 			when stWriteFirst0 =>
 				if USBFifoThread0AlmostFull_SI = '1' then
-					State_DN <= stSwitch0;
+					State_DN <= stPrepareSwitch0;
 				else
-					State_DN <= stWriteSecond0;
+					State_DN <= stWriteMiddle0;
 				end if;
 
 				InFifoRead_SO <= '1';
 				USBFifoWrite_SBO <= '0';
 
-			when stWriteSecond0 =>
+			when stWriteMiddle0 =>
+				if WriteCycle_DP = WRITE_CYCLES then
+					WriteCycle_DN <= (others => '0');
+					State_DN <= stWriteLast0;
+				else
+					WriteCycle_DN <= WriteCycle_DP + 1;
+				end if;
+
+				InFifoRead_SO <= '1';
+				USBFifoWrite_SBO <= '0';
+
+			when stWriteLast0 =>
 				if InFifoAlmostEmpty_SI = '1' then
 					State_DN <= stIdle0;
 				else
@@ -76,6 +95,17 @@ begin
 					InFifoRead_SO <= '1';
 				end if;
 
+				USBFifoWrite_SBO <= '0';
+
+			when stPrepareSwitch0 =>
+				if WriteCycle_DP = WRITE_CYCLES then
+					WriteCycle_DN <= (others => '0');
+					State_DN <= stSwitch0;
+				else
+					WriteCycle_DN <= WriteCycle_DP + 1;
+				end if;
+
+				InFifoRead_SO <= '1';
 				USBFifoWrite_SBO <= '0';
 
 			when stSwitch0 =>
@@ -105,15 +135,28 @@ begin
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
 				if USBFifoThread1AlmostFull_SI = '1' then
-					State_DN <= stSwitch1;
+					State_DN <= stPrepareSwitch1;
 				else
-					State_DN <= stWriteSecond1;
+					State_DN <= stWriteMiddle1;
 				end if;
 
 				InFifoRead_SO <= '1';
 				USBFifoWrite_SBO <= '0';
 
-			when stWriteSecond1 =>
+			when stWriteMiddle1 =>
+				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
+
+				if WriteCycle_DP = WRITE_CYCLES then
+					WriteCycle_DN <= (others => '0');
+					State_DN <= stWriteLast1;
+				else
+					WriteCycle_DN <= WriteCycle_DP + 1;
+				end if;
+
+				InFifoRead_SO <= '1';
+				USBFifoWrite_SBO <= '0';
+
+			when stWriteLast1 =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
 				if InFifoAlmostEmpty_SI = '1' then
@@ -123,6 +166,19 @@ begin
 					InFifoRead_SO <= '1';
 				end if;
 
+				USBFifoWrite_SBO <= '0';
+
+			when stPrepareSwitch1 =>
+				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
+
+				if WriteCycle_DP = WRITE_CYCLES then
+					WriteCycle_DN <= (others => '0');
+					State_DN <= stSwitch1;
+				else
+					WriteCycle_DN <= WriteCycle_DP + 1;
+				end if;
+
+				InFifoRead_SO <= '1';
 				USBFifoWrite_SBO <= '0';
 
 			when stSwitch1 =>
@@ -146,8 +202,10 @@ begin
 	begin
 		if Reset_RBI = '0' then -- asynchronous reset (active-low)
 			State_DP <= stIdle0;
+			WriteCycle_DP <= (others => '0');
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
+			WriteCycle_DP <= WriteCycle_DN;
 		end if;
 	end process p_memoryzing;
 end Behavioral;

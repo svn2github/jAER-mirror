@@ -418,7 +418,8 @@ public class DAViS_FX3 extends Controller {
 		}
 	}
 
-	//private int expData = 0;
+	private int expData = 0;
+	private boolean fullDebug = false;
 	private long imuCount = 0;
 	private long dataCount = 0;
 
@@ -487,23 +488,23 @@ public class DAViS_FX3 extends Controller {
 
 					final ShortBuffer sBuf = t.buffer().order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
 
-					System.out.println(String.format(
-						"First: %d, last-4: %d, last-3: %d, last-2: %d, last-1: %d, last: %d\n",
-						(sBuf.get(0) & 0xFFFF), (sBuf.get(sBuf.limit() - 5) & 0xFFFF),
-						(sBuf.get(sBuf.limit() - 4) & 0xFFFF), (sBuf.get(sBuf.limit() - 3) & 0xFFFF),
-						(sBuf.get(sBuf.limit() - 2) & 0xFFFF), (sBuf.get(sBuf.limit() - 1) & 0xFFFF)));
+					if (fullDebug) {
+						System.out.println(String
+							.format(
+								"First: %d, first+1: %d\nLast-7: %d, last-6: %d, last-5: %d, last-4: %d, last-3: %d, last-2: %d, last-1: %d, last: %d\n",
+								(sBuf.get(0) & 0xFFFF), (sBuf.get(1) & 0xFFFF), (sBuf.get(sBuf.limit() - 8) & 0xFFFF),
+								(sBuf.get(sBuf.limit() - 7) & 0xFFFF), (sBuf.get(sBuf.limit() - 6) & 0xFFFF),
+								(sBuf.get(sBuf.limit() - 5) & 0xFFFF), (sBuf.get(sBuf.limit() - 4) & 0xFFFF),
+								(sBuf.get(sBuf.limit() - 3) & 0xFFFF), (sBuf.get(sBuf.limit() - 2) & 0xFFFF),
+								(sBuf.get(sBuf.limit() - 1) & 0xFFFF)));
+					}
 
-					/*for (int pos = 0; pos < sBuf.limit(); pos++) {
+					for (int pos = 0; pos < sBuf.limit(); pos++) {
 						final int usbData = (sBuf.get(pos) & 0xFFFF);
 
 						if (usbData != expData) {
-							System.out.println(String.format("Mismatch detected, got: %d, expected: %d", usbData,
-								expData));
-							System.out.println(String.format(
-								"First: %d, last-4: %d, last-3: %d, last-2: %d, last-1: %d, last: %d\n",
-								(sBuf.get(0) & 0xFFFF), (sBuf.get(sBuf.limit() - 5) & 0xFFFF),
-								(sBuf.get(sBuf.limit() - 4) & 0xFFFF), (sBuf.get(sBuf.limit() - 3) & 0xFFFF),
-								(sBuf.get(sBuf.limit() - 2) & 0xFFFF), (sBuf.get(sBuf.limit() - 1) & 0xFFFF)));
+							GUISupport.runOnJavaFXThread(() -> usbEP2OutputArea.appendText(String.format(
+								"Mismatch detected, got: %d, expected: %d\n", usbData, expData)));
 							expData = usbData;
 						}
 
@@ -512,7 +513,7 @@ public class DAViS_FX3 extends Controller {
 						if (expData == 65536) {
 							expData = 0;
 						}
-					}*/
+					}
 				}
 			}
 
