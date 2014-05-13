@@ -1,16 +1,17 @@
 NOTE Copyright (C), 1992-2010, Lattice Semiconductor Corporation *
 NOTE All Rights Reserved *
-NOTE DATE CREATED: Tue Mar 11 13:48:39 2014 *
+NOTE DATE CREATED: Tue May 13 21:55:10 2014 *
 NOTE DESIGN NAME: USBAER_top_level *
 NOTE DEVICE NAME: LCMXO2280C-3FTBGA256 *
 NOTE PIN ASSIGNMENTS *
+NOTE PINS IMUSDAxSIO : T5 : inout *
 NOTE PINS DebugxSIO[1] : T12 : out *
 NOTE PINS FX2FifoDataxDIO[0] : R2 : out *
 NOTE PINS FX2FifoInFullxSBI : L1 : in *
 NOTE PINS AERMonitorAddressxDI[9] : R15 : in *
 NOTE PINS AERMonitorAddressxDI[8] : R14 : in *
-NOTE PINS AERMonitorAddressxDI[7] : T14 : in *
-NOTE PINS AERMonitorAddressxDI[6] : T15 : in *
+NOTE PINS AERMonitorAddressxDI[7] : T15 : in *
+NOTE PINS AERMonitorAddressxDI[6] : T14 : in *
 NOTE PINS AERMonitorAddressxDI[5] : R16 : in *
 NOTE PINS AERMonitorAddressxDI[4] : P15 : in *
 NOTE PINS AERMonitorAddressxDI[3] : P16 : in *
@@ -21,14 +22,14 @@ NOTE PINS AERMonitorACKxSBO : L15 : out *
 NOTE PINS AERMonitorREQxABI : M16 : in *
 NOTE PINS DebugxSIO[15] : T4 : out *
 NOTE PINS DebugxSIO[14] : R5 : out *
-NOTE PINS DebugxSIO[13] : T6 : out *
+NOTE PINS DebugxSIO[13] : P8 : out *
 NOTE PINS DebugxSIO[12] : R7 : out *
 NOTE PINS DebugxSIO[11] : R9 : out *
 NOTE PINS DebugxSIO[10] : R10 : out *
 NOTE PINS DebugxSIO[9] : R11 : out *
 NOTE PINS DebugxSIO[8] : R12 : out *
 NOTE PINS DebugxSIO[7] : R4 : out *
-NOTE PINS DebugxSIO[6] : T5 : out *
+NOTE PINS DebugxSIO[6] : D4 : out *
 NOTE PINS DebugxSIO[5] : R6 : out *
 NOTE PINS DebugxSIO[4] : T7 : out *
 NOTE PINS DebugxSIO[3] : T8 : out *
@@ -47,6 +48,7 @@ NOTE PINS CDVSTestSRColInxSO : B14 : out *
 NOTE PINS CDVSTestSRRowInxSO : C16 : out *
 NOTE PINS CDVSTestSRColClockxSO : A11 : out *
 NOTE PINS CDVSTestSRRowClockxSO : B16 : out *
+NOTE PINS IMUSCLxCIO : T6 : inout *
 NOTE PINS ADCstbyxEO : D15 : out *
 NOTE PINS ADCoexEBO : E16 : out *
 NOTE PINS ADCwordxDI[9] : F15 : in *
@@ -70,10 +72,10 @@ NOTE PINS PC3xSIO : J1 : in *
 NOTE PINS PC2xSIO : J2 : in *
 NOTE PINS PC1xSIO : K1 : in *
 NOTE PINS PC0xSIO : K2 : in *
-NOTE PINS SyncOutSWxEI : K14 : out *
-NOTE PINS SyncOutSIGxSBI : F14 : out *
-NOTE PINS SyncOutCLKxCBO : C11 : out *
-NOTE PINS SyncInCLKxABI : A12 : in *
+NOTE PINS SyncOutSWxEI : D9 : out *
+NOTE PINS SyncOutSIGxSBI : G5 : out *
+NOTE PINS SyncOutCLKxCBO : M4 : out *
+NOTE PINS SyncInCLKxABI : N6 : in *
 NOTE PINS ResetxRBI : G2 : in *
 NOTE PINS IfClockxCI : A9 : in *
 NOTE PINS FX2FifoAddressxDO[1] : E2 : out *

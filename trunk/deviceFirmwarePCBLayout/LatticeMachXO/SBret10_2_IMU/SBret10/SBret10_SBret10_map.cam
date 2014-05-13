@@ -1,4 +1,9 @@
 [ START MERGED ]
+I2C_Top_1/Counter_Blk_1/Byte_Cmpr_i_i I2C_Top_1/Counter_Blk_1/Byte_Cmpr_i
+I2C_Top_1/Counter_Blk_1/Current_Byte_State_i I2C_Top_1/Counter_Blk_1/Current_Byte_State
+I2C_Top_1/SCL_synch_i I2C_Top_1/SCL_synch
+IMUStateMachine_1/WriteAckxE_i IMUStateMachine_1/WriteAckxE
+IMUStateMachine_1/GN IMUStateMachine_1/N_430_iso
 ADCStateMachine_1.StateColxDP_i[5] ADCStateMachine_1.StateColxDP[5]
 shiftRegister_1/CN PC2xSIO_c
 [ END MERGED ]
@@ -13,11 +18,14 @@ uEventCounter/GND
 uEventCounter/VCC
 uTimestampCounter/GND
 uTimestampCounter/VCC
-uSynchronizerStateMachine_1/GND
 uSynchronizerStateMachine_1/VCC
+uSynchronizerStateMachine_1/GND
 monitorStateMachine_1/VCC
 monitorStateMachine_1/GND
 ADCStateMachine_1/GND
+I2C_Top_1/I2C_Clock_Gen_1/GND
+I2C_Top_1/I2C_Clock_Gen_1/VCC
+I2C_Top_1/Counter_Blk_1/GND
 uClockGen/CLKINTFB
 uClockGen/LockxS
 uClockGen/CLKOK
@@ -444,19 +452,43 @@ ADCStateMachine_1/un1_countcolxdp_0_data_tmp[6]
 ADCStateMachine_1/un1_countcolxdp_0_I_51_0_S1
 ADCStateMachine_1/un1_countcolxdp_0_I_51_0_S0
 ADCStateMachine_1/un1_countcolxdp_0_I_51_0_COUT1
+IMUStateMachine_1/I2CWaitCountxDP_cry[0]
+IMUStateMachine_1/I2CWaitCountxDP_cry[2]
+IMUStateMachine_1/I2CWaitCountxDP_cry[4]
+IMUStateMachine_1/I2CWaitCountxDP_cry_0_COUT1[6]
+IMUStateMachine_1/I2CWaitCountxDP_cry[6]
+I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_0_0_S0
+I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_0
+I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_2
+I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_4
+I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_6
+I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_8_0_COUT1
+I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_8
+I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[0]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[2]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[4]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_cry_0_COUT1[6]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[6]
+I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_I_1_0_S1
+I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_N_17
+I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_data_tmp[0]
+I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_I_15_0_S1
+I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_I_15_0_S0
+I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_data_tmp[2]
 [ END CLIPPED ]
 [ START DESIGN PREFS ]
 SCHEMATIC START ;
-# map:  version Diamond (64-bit) 2.2.0.101 -- WARNING: Map write only section -- Tue Mar 11 13:48:23 2014
+# map:  version Diamond (64-bit) 2.2.0.101 -- WARNING: Map write only section -- Tue May 13 21:54:46 2014
 
 SYSCONFIG INBUF=ON CONFIG_SECURE=OFF ;
+LOCATE COMP "IMUSDAxSIO" SITE "T5" ;
 LOCATE COMP "DebugxSIO[1]" SITE "T12" ;
 LOCATE COMP "FX2FifoDataxDIO[0]" SITE "R2" ;
 LOCATE COMP "FX2FifoInFullxSBI" SITE "L1" ;
 LOCATE COMP "AERMonitorAddressxDI[9]" SITE "R15" ;
 LOCATE COMP "AERMonitorAddressxDI[8]" SITE "R14" ;
-LOCATE COMP "AERMonitorAddressxDI[7]" SITE "T14" ;
-LOCATE COMP "AERMonitorAddressxDI[6]" SITE "T15" ;
+LOCATE COMP "AERMonitorAddressxDI[7]" SITE "T15" ;
+LOCATE COMP "AERMonitorAddressxDI[6]" SITE "T14" ;
 LOCATE COMP "AERMonitorAddressxDI[5]" SITE "R16" ;
 LOCATE COMP "AERMonitorAddressxDI[4]" SITE "P15" ;
 LOCATE COMP "AERMonitorAddressxDI[3]" SITE "P16" ;
@@ -467,14 +499,12 @@ LOCATE COMP "AERMonitorACKxSBO" SITE "L15" ;
 LOCATE COMP "AERMonitorREQxABI" SITE "M16" ;
 LOCATE COMP "DebugxSIO[15]" SITE "T4" ;
 LOCATE COMP "DebugxSIO[14]" SITE "R5" ;
-LOCATE COMP "DebugxSIO[13]" SITE "T6" ;
 LOCATE COMP "DebugxSIO[12]" SITE "R7" ;
 LOCATE COMP "DebugxSIO[11]" SITE "R9" ;
 LOCATE COMP "DebugxSIO[10]" SITE "R10" ;
 LOCATE COMP "DebugxSIO[9]" SITE "R11" ;
 LOCATE COMP "DebugxSIO[8]" SITE "R12" ;
 LOCATE COMP "DebugxSIO[7]" SITE "R4" ;
-LOCATE COMP "DebugxSIO[6]" SITE "T5" ;
 LOCATE COMP "DebugxSIO[5]" SITE "R6" ;
 LOCATE COMP "DebugxSIO[4]" SITE "T7" ;
 LOCATE COMP "DebugxSIO[3]" SITE "T8" ;
@@ -493,6 +523,7 @@ LOCATE COMP "CDVSTestSRColInxSO" SITE "B14" ;
 LOCATE COMP "CDVSTestSRRowInxSO" SITE "C16" ;
 LOCATE COMP "CDVSTestSRColClockxSO" SITE "A11" ;
 LOCATE COMP "CDVSTestSRRowClockxSO" SITE "B16" ;
+LOCATE COMP "IMUSCLxCIO" SITE "T6" ;
 LOCATE COMP "ADCstbyxEO" SITE "D15" ;
 LOCATE COMP "ADCoexEBO" SITE "E16" ;
 LOCATE COMP "ADCwordxDI[9]" SITE "F15" ;

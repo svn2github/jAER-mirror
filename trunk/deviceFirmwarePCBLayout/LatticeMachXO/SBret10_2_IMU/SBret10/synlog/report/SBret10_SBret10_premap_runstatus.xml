@@ -5,7 +5,7 @@ The file contains the job information from mapper to be displayed as part of the
 *******************************************************************************************-->
 <job_run_status name="Mapper">
 <report_link name="Detailed report">
-<data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\SBret10\synlog\SBret10_SBret10_premap.srr</data>
+<data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\synlog\SBret10_SBret10_premap.srr</data>
 </report_link>
 <job_status>
 <data>Completed</data>
@@ -14,19 +14,19 @@ The file contains the job information from mapper to be displayed as part of the
 <info name="Notes">
 <data>2</data>
 <report_link name="more">
-<data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\SBret10\synlog\report\SBret10_SBret10_premap_notes.txt</data>
+<data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\synlog\report\SBret10_SBret10_premap_notes.txt</data>
 </report_link>
 </info>
 <info name="Warnings">
-<data>19</data>
+<data>32</data>
 <report_link name="more">
-<data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\SBret10\synlog\report\SBret10_SBret10_premap_warnings.txt</data>
+<data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\synlog\report\SBret10_SBret10_premap_warnings.txt</data>
 </report_link>
 </info>
 <info name="Errors">
 <data>0</data>
 <report_link name="more">
-<data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\SBret10\synlog\report\SBret10_SBret10_premap_errors.txt</data>
+<data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\synlog\report\SBret10_SBret10_premap_errors.txt</data>
 </report_link>
 </info>
 <info name="CPU Time">
@@ -39,7 +39,7 @@ The file contains the job information from mapper to be displayed as part of the
 <data>135MB</data>
 </info>
 <info name="Date &amp; Time">
-<data type="timestamp">1394542094</data>
+<data type="timestamp">1400010874</data>
 </info>
 </job_info>
 </job_run_status>

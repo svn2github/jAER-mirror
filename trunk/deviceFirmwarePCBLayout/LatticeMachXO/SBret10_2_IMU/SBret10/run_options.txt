@@ -25,7 +25,6 @@ add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/L
 add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Mpu_Blk.vhd"
 add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_SS_Blk.vhd"
 add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Synch_Blk.vhd"
-add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/IMUvalueReady.vhd"
 add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/IMUStateMachine.vhd"
 add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/AERfifo.vhd"
 add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/clockgen.vhd"

@@ -1,7 +1,7 @@
 # Synospys Constraint Checker(syntax only), version maplat, Build 618R, built Mar 14 2013
 # Copyright (C) 1994-2012, Synopsys Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
 
-# Written on Tue Mar 11 13:48:14 2014
+# Written on Tue May 13 21:54:34 2014
 
 
 ##### DESIGN INFO #######################################################
@@ -21,13 +21,17 @@ No issues found in constraint syntax.
 Clock Summary
 **************
 
-Start                                             Requested      Requested     Clock                                          Clock                
-Clock                                             Frequency      Period        Type                                           Group                
----------------------------------------------------------------------------------------------------------------------------------------------------
-clockgen|CLKOP_inferred_clock                     153.1 MHz      6.533         inferred                                       Autoconstr_clkgroup_0
-USBAER_top_level|IfClockxCI                       4.1 MHz        241.465       inferred                                       Autoconstr_clkgroup_1
-USBAER_top_level|PC1xSIO                          1000.0 MHz     1.000         inferred                                       Autoconstr_clkgroup_2
-USBAER_top_level|PC2xSIO                          1.0 MHz        1000.000      inferred                                       Autoconstr_clkgroup_3
-ADCStateMachine|StateColxDP_derived_clock[11]     4.1 MHz        241.465       derived (from USBAER_top_level|IfClockxCI)     Autoconstr_clkgroup_1
-ADCStateMachine|StateRowxDP_derived_clock[5]      4.1 MHz        241.465       derived (from USBAER_top_level|IfClockxCI)     Autoconstr_clkgroup_1
-===================================================================================================================================================
+Start                                                 Requested      Requested     Clock                                            Clock                
+Clock                                                 Frequency      Period        Type                                             Group                
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+clockgen|CLKOP_inferred_clock                         140.7 MHz      7.108         inferred                                         Autoconstr_clkgroup_0
+USBAER_top_level|IfClockxCI                           1.0 MHz        1000.000      inferred                                         Autoconstr_clkgroup_1
+USBAER_top_level|PC1xSIO                              1000.0 MHz     1.000         inferred                                         Autoconstr_clkgroup_2
+USBAER_top_level|PC2xSIO                              1.0 MHz        1000.000      inferred                                         Autoconstr_clkgroup_3
+IMUStateMachine|StateIMUWritexDP_derived_clock[2]     1.0 MHz        1000.000      derived (from USBAER_top_level|IfClockxCI)       Autoconstr_clkgroup_1
+IMUStateMachine|StateRWxDP_derived_clock[8]           1.0 MHz        1000.000      derived (from USBAER_top_level|IfClockxCI)       Autoconstr_clkgroup_1
+IMUStateMachine|StateRWxDP_derived_clock[5]           1.0 MHz        1000.000      derived (from USBAER_top_level|IfClockxCI)       Autoconstr_clkgroup_1
+ADCStateMachine|StateColxDP_derived_clock[11]         1.0 MHz        1000.000      derived (from USBAER_top_level|IfClockxCI)       Autoconstr_clkgroup_1
+ADCStateMachine|StateRowxDP_derived_clock[5]          1.0 MHz        1000.000      derived (from USBAER_top_level|IfClockxCI)       Autoconstr_clkgroup_1
+monitorStateMachine|StatexDP_derived_clock[3]         140.7 MHz      7.108         derived (from clockgen|CLKOP_inferred_clock)     Autoconstr_clkgroup_0
+=========================================================================================================================================================

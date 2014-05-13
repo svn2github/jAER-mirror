@@ -1,7 +1,7 @@
 #--  Synopsys, Inc.
 #--  Version G-2012.09L-SP1 
-#--  Project file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2\SBret10\SBret10_syn.prj
-#--  Written on Mon Mar 17 14:06:17 2014
+#--  Project file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\SBret10_syn.prj
+#--  Written on Tue May 13 18:46:57 2014
 
 
 #project files
@@ -20,18 +20,19 @@ add_file -vhdl -lib work "../sourcecode/USBAER_top_level.vhd"
 add_file -vhdl -lib work "../sourcecode/ADCvalueReady.vhd"
 add_file -vhdl -lib work "../sourcecode/cDVSResetStateMachine.vhd"
 add_file -vhdl -lib work "../sourcecode/shiftRegister.vhd"
-add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/ADCStateMachine_tb.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/ADCStateMachine_tb.vhd"
 add_file -vhdl -lib work "../sourcecode/ADCStateMachine.vhd"
-add_file -vhdl -lib work "D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Arb_Blk.vhd"
-add_file -vhdl -lib work "D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Clk_Blk.vhd"
-add_file -vhdl -lib work "D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Cnt_Blk.vhd"
-add_file -vhdl -lib work "D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_delay.vhd"
-add_file -vhdl -lib work "D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_INT_Blk.vhd"
-add_file -vhdl -lib work "D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Main_Blk.vhd"
-add_file -vhdl -lib work "D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Mpu_Blk.vhd"
-add_file -vhdl -lib work "D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_SS_Blk.vhd"
-add_file -vhdl -lib work "D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Synch_Blk.vhd"
-add_file -vhdl -lib work "D:/Dropbox/IMU/I2C Bus Master - Downloads/i2cmastercontrollersourcecodeformachxo/I2C_xo/I2C_xo/I2C_Master/Source/I2C_Top.vhd"
+add_file -vhdl -lib work "../sourcecode/I2C_Arb_Blk.vhd"
+add_file -vhdl -lib work "../sourcecode/I2C_Clk_Blk.vhd"
+add_file -vhdl -lib work "../sourcecode/I2C_Cnt_Blk.vhd"
+add_file -vhdl -lib work "../sourcecode/I2C_delay.vhd"
+add_file -vhdl -lib work "../sourcecode/I2C_INT_Blk.vhd"
+add_file -vhdl -lib work "../sourcecode/I2C_Main_Blk.vhd"
+add_file -vhdl -lib work "../sourcecode/I2C_Mpu_Blk.vhd"
+add_file -vhdl -lib work "../sourcecode/I2C_SS_Blk.vhd"
+add_file -vhdl -lib work "../sourcecode/I2C_Synch_Blk.vhd"
+add_file -vhdl -lib work "../sourcecode/I2C_Top.vhd"
+add_file -vhdl -lib work "../sourcecode/IMUStateMachine.vhd"
 
 
 #implementation: "SBret10"

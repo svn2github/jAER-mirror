@@ -251,9 +251,8 @@ architecture Structural of USBAER_top_level is
 		port (
 			ClockxCI    		: in std_logic;
 			ResetxRBI   		: in std_logic;
-			I2CAckxSBI  		: in std_logic; 
 			I2CINTxSBI  		: in std_logic; 
-			I2CRWxSBO   		: inout std_logic; --HACK
+			I2CRWxSBO   		: out std_logic; 
 			I2CCSxSBO   		: out std_logic; 
 			I2CAddrxDO  		: out std_logic_vector(2 downto 0); 
 			I2CDataxDIO 		: inout std_logic_vector(7 downto 0); 
@@ -417,7 +416,6 @@ architecture Structural of USBAER_top_level is
 	--H 
 
 	--H I2C Control signals
-	signal I2CAckxSB : std_logic;
 	signal I2CINTxSB : std_logic; 
 	signal I2CRWxSB : std_logic;
 	signal I2CCSxSB : std_logic; 
@@ -713,7 +711,6 @@ begin
 		port map (
 			ClockxCI    		=> IfClockxC,
 			ResetxRBI   		=> ResetxRB,
-			I2CAckxSBI  		=> I2CAckxSB,
 			I2CINTxSBI  		=> I2CINTxSB,
 			I2CRWxSBO   		=> I2CRWxSB,
 			I2CCSxSBO   		=> I2CCSxSB,

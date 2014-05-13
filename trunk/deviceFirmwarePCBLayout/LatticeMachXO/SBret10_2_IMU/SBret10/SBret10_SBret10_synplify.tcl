@@ -72,7 +72,6 @@ add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout
 add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_SS_Blk.vhd}
 add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Synch_Blk.vhd}
 add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/I2C_Top.vhd}
-add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/IMUvalueReady.vhd}
 add_file -vhdl -lib "work" {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/sourcecode/IMUStateMachine.vhd}
 
 #-- top module name
@@ -89,4 +88,4 @@ project -log_file {SBret10_SBret10.srf}
 
 #-- run Synplify with 'arrange HDL file'
 project -run hdl_info_gen -fileorder
-project -run
+project -run -clean

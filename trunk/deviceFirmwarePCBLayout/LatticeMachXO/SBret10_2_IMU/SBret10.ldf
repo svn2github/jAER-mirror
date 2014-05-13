@@ -2,7 +2,7 @@
 <BaliProject version="2.0" title="SBret10" device="LCMXO2280C-3FT256C" synthesis="synplify" default_implementation="SBret10">
     <Options/>
     <Implementation title="SBret10" dir="SBret10" description="SBret10" default_strategy="Timing">
-        <Options def_top="IMUvalueReady" top="USBAER_top_level"/>
+        <Options def_top="ADCStateMachine_tb" top="USBAER_top_level"/>
         <Source name="sourcecode/wordRegister.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
@@ -85,9 +85,6 @@
             <Options/>
         </Source>
         <Source name="sourcecode/I2C_Top.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="sourcecode/IMUvalueReady.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="sourcecode/IMUStateMachine.vhd" type="VHDL" type_short="VHDL">
