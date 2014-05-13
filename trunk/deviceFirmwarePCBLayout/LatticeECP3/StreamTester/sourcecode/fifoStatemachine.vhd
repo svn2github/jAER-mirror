@@ -42,6 +42,7 @@ architecture Behavioral of fifoStatemachine is
 	-- write burst counter
 	signal WriteCycle_DP, WriteCycle_DN : std_logic_vector(2 downto 0);
 	
+	-- number of intermediate writes to perform (including zero, so a value of 5 means 6 write cycles)
 	constant WRITE_CYCLES : integer := 5;
 begin
 	p_memoryless : process (State_DP, WriteCycle_DP, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, Run_SI)

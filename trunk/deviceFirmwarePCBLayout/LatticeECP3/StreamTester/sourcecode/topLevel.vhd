@@ -170,5 +170,4 @@ begin
 		Reset_RBI => Reset_RBI,
 		CountEnable_SI => AERFifoWrite_S,
 		Data_DO => AERFifoDataIn_D);
-
 end Structural;
