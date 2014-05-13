@@ -418,7 +418,7 @@ public class DAViS_FX3 extends Controller {
 		}
 	}
 
-	private int expData = 0;
+	//private int expData = 0;
 	private long imuCount = 0;
 	private long dataCount = 0;
 
@@ -487,7 +487,13 @@ public class DAViS_FX3 extends Controller {
 
 					final ShortBuffer sBuf = t.buffer().order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
 
-					for (int pos = 0; pos < sBuf.limit(); pos++) {
+					System.out.println(String.format(
+						"First: %d, last-4: %d, last-3: %d, last-2: %d, last-1: %d, last: %d\n",
+						(sBuf.get(0) & 0xFFFF), (sBuf.get(sBuf.limit() - 5) & 0xFFFF),
+						(sBuf.get(sBuf.limit() - 4) & 0xFFFF), (sBuf.get(sBuf.limit() - 3) & 0xFFFF),
+						(sBuf.get(sBuf.limit() - 2) & 0xFFFF), (sBuf.get(sBuf.limit() - 1) & 0xFFFF)));
+
+					/*for (int pos = 0; pos < sBuf.limit(); pos++) {
 						final int usbData = (sBuf.get(pos) & 0xFFFF);
 
 						if (usbData != expData) {
@@ -506,7 +512,7 @@ public class DAViS_FX3 extends Controller {
 						if (expData == 65536) {
 							expData = 0;
 						}
-					}
+					}*/
 				}
 			}
 
