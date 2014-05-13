@@ -64,7 +64,7 @@ public class DAViS_FX3 extends Controller {
 		// Load default path, if exists.
 		String savedPath = defaultFolderNode.get("fx3Firmware", "");
 		if (!savedPath.isEmpty()) {
-			File savedFile = new File(savedPath);
+			final File savedFile = new File(savedPath);
 			if (savedFile.exists() && Files.checkReadPermissions(savedFile)) {
 				firmwareFile = savedFile;
 			}
@@ -163,7 +163,7 @@ public class DAViS_FX3 extends Controller {
 		// Load default path, if exists.
 		savedPath = defaultFolderNode.get("fx3Logic", "");
 		if (!savedPath.isEmpty()) {
-			File savedFile = new File(savedPath);
+			final File savedFile = new File(savedPath);
 			if (savedFile.exists() && Files.checkReadPermissions(savedFile)) {
 				logicFile = savedFile;
 			}
@@ -419,7 +419,7 @@ public class DAViS_FX3 extends Controller {
 	}
 
 	private int expData = 0;
-	private boolean fullDebug = false;
+	private final boolean fullDebug = false;
 	private long imuCount = 0;
 	private long dataCount = 0;
 

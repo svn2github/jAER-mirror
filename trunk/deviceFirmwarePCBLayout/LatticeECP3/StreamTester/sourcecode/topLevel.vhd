@@ -25,7 +25,7 @@ entity topLevel is
 end topLevel;
 
 architecture Structural of topLevel is
-	constant FAST_CLOCK_FREQ : integer := 50;
+	constant FAST_CLOCK_FREQ : integer := 100;
 	constant SLOW_CLOCK_FREQ : integer := 25;
 
 	component fifoStatemachine
