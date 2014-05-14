@@ -93,9 +93,13 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
         for ( Object ein:in ){
             PolarityEvent e = (PolarityEvent)ein;
             
+            if(e.isSpecial())continue;
+            
             int    x = e.x >>> subSampleShift;
             int    y = e.y >>> subSampleShift;
             int type = e.getType();
+            
+            //TODO: Is this check really necessary? Should those special events being marked 'special'? (They would have already being catched above)
             if (type >= NUM_TYPES || e.x < 0||e.y < 0) {
                 continue;  // tobi - some special type like IMU sample
             }
@@ -230,22 +234,16 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
                 }
 
                 if ( dir == -1 ){ // didn't find a good orientation
-                    if ( passAllEvents ){
-                        if ( !isBinocular ){
-                            DvsOrientationEvent eout = (DvsOrientationEvent)outItr.nextOutput();
-                            eout.copyFrom(e);
-                            eout.hasOrientation = false;
-                        } else{
-                            BinocularOrientationEvent eout = (BinocularOrientationEvent)outItr.nextOutput();
-                            eout.copyFrom(e);
-                            eout.hasOrientation = false;
-                        }
-                    }
-                    // no dt was < threshold
+                    if ( passAllEvents ) writeOutput(outItr , e , false , (byte)0);
                     continue;
                 }
                 
                 if ( oriHistoryEnabled ){
+                    //We only let the orientation pass if it is within some
+                    // agreement with the past orientations we found at this 
+                    // particular spot. If it is too different, we ignore it
+                    // and dont count it as a valid orientation.
+                    
                     // update lowpass orientation map
                     float f = oriHistoryMap[x][y];
                     if(f == -1f) {
@@ -275,21 +273,12 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
                         fd = fd + NUM_TYPES;
                     }
                     if ( Math.abs(fd) > oriHistoryDiffThreshold ){
+                        if ( passAllEvents ) writeOutput(outItr , e , false , (byte)0);
                         continue;
                     }
                 }
                 
-                if ( isBinocular ){
-                    BinocularOrientationEvent eout = (BinocularOrientationEvent)outItr.nextOutput();
-                    eout.copyFrom(e);
-                    eout.orientation = (byte)dir;
-                    eout.hasOrientation = true;
-                } else{
-                    DvsOrientationEvent eout = (DvsOrientationEvent)outItr.nextOutput();
-                    eout.copyFrom(e);
-                    eout.orientation = (byte)dir;
-                    eout.hasOrientation = true;
-                }
+                writeOutput(outItr , e , true , (byte)dir);
                 oriHist.add(dir);
                 // </editor-fold>
             } else {
@@ -298,29 +287,9 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
                 // now write output cell iff all events along dir occur within minDtThreshold
                 for ( int k = 0 ; k < NUM_TYPES ; k++ ){
                     if ( oridts[k] < minDtThreshold ){
-                        if ( isBinocular ){
-                            BinocularOrientationEvent eout = (BinocularOrientationEvent)outItr.nextOutput();
-                            eout.copyFrom(e);
-                            eout.orientation = (byte)k;
-                            eout.hasOrientation = true;
-                        } else {
-                            DvsOrientationEvent eout = (DvsOrientationEvent)outItr.nextOutput();
-                            eout.copyFrom(e);
-                            eout.orientation = (byte)k;
-                            eout.hasOrientation = true;
-                        }
+                        writeOutput(outItr , e , true , (byte)k);
                         oriHist.add(k);
-                    } else {
-                        if ( isBinocular ){
-                            BinocularOrientationEvent eout = (BinocularOrientationEvent)outItr.nextOutput();
-                            eout.copyFrom(e);
-                            eout.hasOrientation = false;
-                        } else {
-                            DvsOrientationEvent eout = (DvsOrientationEvent)outItr.nextOutput();
-                            eout.copyFrom(e);
-                            eout.hasOrientation = false;
-                        }
-                    }
+                    } else writeOutput(outItr , e , false , (byte)0);
                 }
                 // </editor-fold>
             }
@@ -329,9 +298,28 @@ public class DvsOrientationFilter extends AbstractOrientationFilter{
         
         for (Object o : outputPacket) {
             DvsOrientationEvent e = (DvsOrientationEvent) o;
+            //bbeyer: What is the use of this inclusive or?
+            // If the orientation is 0 than the address stays the same.
+            // If the orientation is 1 the 16th bit is always 1 ...
+            // I dont see what this is trying to achieve.
             e.address = e.address | (e.orientation << ORI_SHIFT);
         }
 
         return showRawInputEnabled ? in : getOutputPacket();
     }
+    
+    private void writeOutput(OutputEventIterator outItr, PolarityEvent e, boolean hasOrientation, byte orientation){
+        if ( !isBinocular ){
+            DvsOrientationEvent eout = (DvsOrientationEvent)outItr.nextOutput();
+            eout.copyFrom(e);
+            eout.hasOrientation = hasOrientation;
+            eout.orientation = orientation;
+        } else {
+            BinocularOrientationEvent eout = (BinocularOrientationEvent)outItr.nextOutput();
+            eout.copyFrom(e);
+            eout.hasOrientation = hasOrientation;
+            eout.orientation = orientation;
+        }
+    }
+    
 }
