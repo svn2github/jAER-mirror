@@ -8,8 +8,8 @@
 -- Project Name:   USBAERmini2
 -- Target Device:  
 -- Tool versions:  
--- Description:  used to count the monitored events. if the counter reaches 128
--- (512 bytes), it resets the earlypaketcounter
+-- Description:  used to count the monitored events. if the counter reaches 4096
+-- (8192 bytes), it resets the earlypaketcounter
 --
 -- 
 --------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ begin
       CountxDN <= CountxDP +1;
     end if;
 
-    if CountxDP = 256 then            -- 512 bytes have been sent to the host,
+    if CountxDP = 4096 then            -- 8192 bytes have been sent to the host,
                                         -- so clear earlypakettimer 
       CountxDN <= (others => '0');
       OverflowxSO <= '1';
