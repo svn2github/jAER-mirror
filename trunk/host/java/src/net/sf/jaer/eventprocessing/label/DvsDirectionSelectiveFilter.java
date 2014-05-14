@@ -48,6 +48,15 @@ public class DvsDirectionSelectiveFilter extends AbstractDirectionSelectiveFilte
         for (Object ein : oriPacket) {
             OrientationEventInterface e = (OrientationEventInterface) ein;
 
+            if(!e.isHasOrientation()){
+                if(passAllEvents){
+                    MotionOrientationEvent eout = (MotionOrientationEvent) outItr.nextOutput();
+                    eout.copyFrom((DvsOrientationEvent) ein);
+                    eout.hasDirection = false;
+                }
+                continue;
+            }
+            
             int  x        = ((e.getX() >>> subSampleShift) + P); // x and y are offset inside our timestamp storage array to avoid array access violations
             int  y        = ((e.getY() >>> subSampleShift) + P); // without the 'P' we could be at x==0 and search for orientations at x==-1, hence we need offset
             int  polValue = ((e.getPolarity() == PolarityEvent.Polarity.On) ? 0 : 4);
@@ -60,12 +69,12 @@ public class DvsDirectionSelectiveFilter extends AbstractDirectionSelectiveFilte
 
             // for each output cell type (which codes a direction of motion), 
             // find the dt between the orientation cell type perdindicular
-            // to this direction in this pixel and in the neighbor - but 
+            // to this direction in this pixel and in the neighborhood - but 
             // only find the dt in that single direction.
             // Also, only find time to events of the same *polarity* and 
             // *orientation*. Otherwise we will falsely match opposite polarity
             // orientation events which arise from two sides of edges.
-            // Find the time of the most recent event in a neighbor of the 
+            // Find the time of the most recent event in a neighborhood of the 
             // same type as the present input event but only in the two 
             // directions perpindiclar to this orientation. Each of these 
             // codes for motion but in opposite directions. 
@@ -136,6 +145,11 @@ public class DvsDirectionSelectiveFilter extends AbstractDirectionSelectiveFilte
                 // if the time between this event and the most recent neighbor 
                 // event lies not within the interval, dont write an output event
                 if (!(dt < maxDtThreshold && dt > minDtThreshold)) {
+                    if(passAllEvents) {
+                        MotionOrientationEvent eout = (MotionOrientationEvent) outItr.nextOutput();
+                        eout.copyFrom((DvsOrientationEvent) ein);
+                        eout.hasDirection = false;
+                    }
                     continue;
                 }
 
@@ -147,6 +161,11 @@ public class DvsDirectionSelectiveFilter extends AbstractDirectionSelectiveFilte
                 avgSpeed = (1 - speedMixingFactor) * avgSpeed + speedMixingFactor * speed;
 
                 if (speedControlEnabled && speed > avgSpeed * excessSpeedRejectFactor) {
+                    if(passAllEvents) {
+                        MotionOrientationEvent eout = (MotionOrientationEvent) outItr.nextOutput();
+                        eout.copyFrom((DvsOrientationEvent) ein);
+                        eout.hasDirection = false;
+                    }
                     continue;
                 } // don't store event if speed too high compared to average
 
@@ -161,7 +180,6 @@ public class DvsDirectionSelectiveFilter extends AbstractDirectionSelectiveFilte
                 // orientation event and previous orientiation input events 
                 // in offset direction. Only count event if it falls in 
                 // acceptable delay bounds
-
 
                 for (int s = 1; s <= searchDistance; s++) {
                     d = MotionOrientationEvent.unitDirs[ori];
@@ -180,6 +198,11 @@ public class DvsDirectionSelectiveFilter extends AbstractDirectionSelectiveFilte
                 }
 
                 if (n1 == 0 && n2 == 0) {
+                    if(passAllEvents) {
+                        MotionOrientationEvent eout = (MotionOrientationEvent) outItr.nextOutput();
+                        eout.copyFrom((DvsOrientationEvent) ein);
+                        eout.hasDirection = false;
+                    }
                     continue; // no pass, i.e. no event to write
                 }
 
@@ -203,23 +226,29 @@ public class DvsDirectionSelectiveFilter extends AbstractDirectionSelectiveFilte
 
                 avgSpeed = (1 - speedMixingFactor) * avgSpeed + speedMixingFactor * speed;
                 if (speedControlEnabled && speed > avgSpeed * excessSpeedRejectFactor) {
+                    if(passAllEvents) {
+                        MotionOrientationEvent eout = (MotionOrientationEvent) outItr.nextOutput();
+                        eout.copyFrom((DvsOrientationEvent) ein);
+                        eout.hasDirection = false;
+                    }
                     continue;
                 } // don't output event if speed too high compared to average
 
                 // </editor-fold>
             }
 
-            //Not the event has passed all tests and properties are computed.
+            //Now the event has passed all tests and properties are computed.
             // write the event to the OutputStream.
             MotionOrientationEvent eout = (MotionOrientationEvent) outItr.nextOutput();
             eout.copyFrom((DvsOrientationEvent) ein);
-            eout.direction  = motionDir;
-            eout.delay      = delay; 
-            eout.distance   = (byte) dist; // the pixel distance to the temporally closest event of the same type
-            eout.speed      = speed;
-            eout.dir        = MotionOrientationEvent.unitDirs[motionDir];
-            eout.velocity.x = -speed * eout.dir.x; // these have minus sign because dir vector points towards direction that previous event occurred
-            eout.velocity.y = -speed * eout.dir.y;
+            eout.direction    = motionDir;
+            eout.hasDirection = true;
+            eout.delay        = delay; 
+            eout.distance     = (byte) dist; // the pixel distance to the temporally closest event of the same type
+            eout.speed        = speed;
+            eout.dir          = MotionOrientationEvent.unitDirs[motionDir];
+            eout.velocity.x   = -speed * eout.dir.x; // these have minus sign because dir vector points towards direction that previous event occurred
+            eout.velocity.y   = -speed * eout.dir.y;
             motionVectors.addEvent(eout);
         }
         return isShowRawInputEnabled() ? in : dirPacket; 

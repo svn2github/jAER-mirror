@@ -30,6 +30,7 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
     protected boolean showGlobalEnabled   = getBoolean("showGlobalEnabled",false);
     protected boolean showVectorsEnabled  = getBoolean("showVectorsEnabled",false);
     protected boolean showRawInputEnabled = getBoolean("showRawInputEnabled",false);
+    protected boolean passAllEvents       = getBoolean("passAllEvents",false);
     
     /** event must occur within this time in us to generate a motion event */
     protected int maxDtThreshold = getInt("maxDtThreshold",100000); // default 100ms
@@ -88,6 +89,7 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
         setPropertyTooltip(disp,"jitterAmountPixels", "how much to jitter vector origins by in pixels");
         setPropertyTooltip(disp,"jitterVectorLocations","whether to jitter vector location to see overlapping vectors more easily");
         setPropertyTooltip(disp,"showRawInputEnabled", "shows the input events, instead of the motion types");
+        setPropertyTooltip(disp,"passAllEvents","Passes all events, even those that do not get labled with direction");
         setPropertyTooltip("subSampleShift", "Shift subsampled timestamp map stores by this many bits");
         setPropertyTooltip("tauLow", "time constant in ms of lowpass filters for global motion signals");
         setPropertyTooltip("useAvgDtEnabled", "uses average delta time over search instead of minimum");
@@ -228,7 +230,7 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
             for(Object o:dirPacket){
                 MotionOrientationEvent e=(MotionOrientationEvent)o;
                 c=chip.getRenderer().makeTypeColors(e.getNumCellTypes());
-                drawMotionVector(gl,e,frameDuration,c);
+                if(e.hasDirection) drawMotionVector(gl,e,frameDuration,c); //If we passAllEvents then the check is needed to not annotate the events without a real direction
             }
             gl.glEnd();
             gl.glPopMatrix();
@@ -439,6 +441,18 @@ abstract public class AbstractDirectionSelectiveFilter extends EventFilter2D imp
     public void setShowGlobalEnabled(boolean showGlobalEnabled) {
         this.showGlobalEnabled = showGlobalEnabled;
         putBoolean("showGlobalEnabled",showGlobalEnabled);
+    }
+
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="getter/setter for --passAllEvents--">
+    public boolean isPassAllEvents() {
+        return passAllEvents;
+    }
+
+    public void setPassAllEvents(boolean passAllEvents) {
+        this.passAllEvents = passAllEvents;
+        putBoolean("passAllEvents",passAllEvents);
     }
     // </editor-fold>
         
