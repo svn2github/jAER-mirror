@@ -20,6 +20,6 @@ The file contains the area information from mapper to be displayed as part of th
 <data>0</data>
 </parameter>
 <parameter tooltip="Total ORCA LUTs used" name="ORCA LUTs">
-<data>599</data>
+<data>592</data>
 </parameter>
 </report_table>

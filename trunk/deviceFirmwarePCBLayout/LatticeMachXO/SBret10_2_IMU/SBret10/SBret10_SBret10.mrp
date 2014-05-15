@@ -11,22 +11,22 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2280CFTBGA256
 Target Performance:   3
 Mapper:  mj5g00,  version:  Diamond (64-bit) 2.2.0.101
-Mapped on:  05/13/14  21:54:45
+Mapped on:  05/14/14  16:14:55
 
 Design Summary
 --------------
 
-   Number of PFU registers:    638
-   Number of SLICEs:           651 out of  1140 (57%)
-      SLICEs(logic/ROM):       651 out of   900 (72%)
+   Number of PFU registers:    639
+   Number of SLICEs:           650 out of  1140 (57%)
+      SLICEs(logic/ROM):       650 out of   900 (72%)
       SLICEs(logic/ROM/RAM):     0 out of   240 (0%)
           As RAM:            0
           As Logic/ROM:      0
-   Number of logic LUT4s:     612
+   Number of logic LUT4s:     603
    Number of distributed RAM:   0 (0 LUT4s)
    Number of ripple logic:    199 (398 LUT4s)
    Number of shift registers:   0
-   Total number of LUT4s:     1010
+   Total number of LUT4s:     1001
    Number of external PIOs: 94 out of 211 (45%)
    Number of PLLs:  1 out of 2 (50%)
    Number of block RAMs:  2 out of 3 (67%)
@@ -42,131 +42,128 @@ Design Summary
       2. Number of logic LUT4s does not include count of distributed RAM and
      ripple logic.
    Number of clocks:  19
-     Net ClockxC_c: 85 loads, 85 rising, 0 falling (Driver: uClockGen/PLLCInst_0
+     Net ClockxC_c: 84 loads, 84 rising, 0 falling (Driver: uClockGen/PLLCInst_0
      )
      Net IfClockxCI_c: 184 loads, 182 rising, 2 falling (Driver: PIO IfClockxCI
      )
-     Net IMUStateMachine_1/res_reg_0_RNO: 1 loads, 1 rising, 0 falling (Driver:
+     Net IMUStateMachine_1/N_572_i: 1 loads, 1 rising, 0 falling (Driver:
      IMUStateMachine_1/I2CCSxSBO.res_reg_0_RNO )
-     Net IMUStateMachine_1/un1_StateRWxDP_1_1: 1 loads, 1 rising, 0 falling
-     (Driver: IMUStateMachine_1/un1_StateRWxDP_1_0_1 )
-     Net IMUStateMachine_1/un1_StateRWxDP_or: 1 loads, 1 rising, 0 falling
-     (Driver: IMUStateMachine_1/StateRWxDP_RNIJCMN[4] )
+     Net IMUStateMachine_1/un1_StateRWxDP_5_0: 1 loads, 1 rising, 0 falling
+     (Driver: IMUStateMachine_1/un1_StateRWxDP_5_0 )
+     Net IMUStateMachine_1/N_573_i: 2 loads, 2 rising, 0 falling (Driver:
+     IMUStateMachine_1/StateRWxDP_RNI3PEJ[2] )
      Net IMUStateMachine_1/N_362_clk: 1 loads, 1 rising, 0 falling (Driver:
-     IMUStateMachine_1/un1_StateIMUxDP_1_i_a4_0_a3 )
-     Net IMUStateMachine_1/N_363_i: 5 loads, 5 rising, 0 falling (Driver:
-     IMUStateMachine_1/StateIMUxDP_RNIOVTK1[11] )
-     Net IMUStateMachine_1/StateRWxDP[5]: 1 loads, 1 rising, 0 falling (Driver:
-     IMUStateMachine_1/StateRWxDP[5] )
+     IMUStateMachine_1/un1_StateIMUxDP_2_i_a4_0_a3 )
+     Net IMUStateMachine_1/N_361_i: 1 loads, 1 rising, 0 falling (Driver:
+     IMUStateMachine_1/ReadReqxE_RNO )
+     Net IMUStateMachine_1/un1_StateIMUxDP_5_0_a4_0_a3: 1 loads, 1 rising, 0
+     falling (Driver: IMUStateMachine_1/un1_StateIMUxDP_5_0_a4_0_a3 )
 
                                     Page 1
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Design Summary (cont)
 ---------------------
-     Net IMUStateMachine_1/N_549_i: 2 loads, 2 rising, 0 falling (Driver:
-     IMUStateMachine_1/StateRWxDP_RNIT6NC[2] )
+     Net IMUStateMachine_1/StateRWxDP[5]: 1 loads, 1 rising, 0 falling (Driver:
+     IMUStateMachine_1/StateRWxDP[5] )
+     Net IMUStateMachine_1/StateRWxDP[0]: 1 loads, 1 rising, 0 falling (Driver:
+     IMUStateMachine_1/StateRWxDP[0] )
+     Net IMUStateMachine_1/StateRWxDP_ns[8]: 2 loads, 2 rising, 0 falling
+     (Driver: IMUStateMachine_1/StateRWxDP_ns_a3[8] )
      Net IMUStateMachine_1/StateRWxDP[8]: 5 loads, 5 rising, 0 falling (Driver:
      IMUStateMachine_1/StateRWxDP[8] )
-     Net IMUStateMachine_1/un1_StateRWxDP_8_0_a2: 1 loads, 1 rising, 0 falling
-     (Driver: IMUStateMachine_1/un1_StateRWxDP_8_0_a2 )
-     Net IMUStateMachine_1/un1_ReadReqxE_1_0_a2: 1 loads, 1 rising, 0 falling
-     (Driver: IMUStateMachine_1/un1_ReadReqxE_1_0_a2 )
-     Net IMUStateMachine_1/N_556_i: 1 loads, 1 rising, 0 falling (Driver:
-     IMUStateMachine_1/I2CReqxE_RNO_0 )
-     Net IMUStateMachine_1/un1_StateRWxDP_3_or: 2 loads, 2 rising, 0 falling
+     Net IMUStateMachine_1/un1_StateRWxDP_or: 2 loads, 2 rising, 0 falling
      (Driver: IMUStateMachine_1/StateRWxDP_derived_clock_RNIEID11[5] )
-     Net IMUStateMachine_1/N_430_iso: 1 loads, 0 rising, 1 falling (Driver:
-     IMUStateMachine_1/un1_StateIMUxDP_i_a2_0_a2 )
+     Net IMUStateMachine_1/N_363_i: 4 loads, 4 rising, 0 falling (Driver:
+     IMUStateMachine_1/un1_StateIMUxDP_4_i_a4_0_a3_1_RNIKD851 )
+     Net IMUStateMachine_1/un1_StateRWxDP_2_or: 1 loads, 1 rising, 0 falling
+     (Driver: IMUStateMachine_1/StateRWxDP_RNIJCMN[4] )
      Net ADCStateMachine_1/StateColxDP[11]: 1 loads, 1 rising, 0 falling
      (Driver: ADCStateMachine_1/StateColxDP[11] )
      Net CDVSTestSRRowInxSO_c: 1 loads, 1 rising, 0 falling (Driver:
      ADCStateMachine_1/StateRowxDP[5] )
      Net PC1xSIO_c: 40 loads, 40 rising, 0 falling (Driver: PIO PC1xSIO )
      Net PC2xSIO_c: 40 loads, 0 rising, 40 falling (Driver: PIO PC2xSIO )
-   Number of Clock Enables:  39
+   Number of Clock Enables:  38
      Net I2C_Top_1/SCL_synch: 4 loads, 4 LSLICEs
      Net I2C_Top_1/Stop_Gen_1/Current_Stop_Gen_State[0]: 1 loads, 1 LSLICEs
      Net I2C_Top_1/Arb_1/Current_State_16_d: 1 loads, 1 LSLICEs
      Net I2C_Top_1/rcsack: 4 loads, 4 LSLICEs
      Net I2C_Top_1/Counter_Blk_1/Current_Byte_State: 1 loads, 1 LSLICEs
      Net I2C_Top_1/I2C_Clock_Gen_1/un33_mode: 1 loads, 1 LSLICEs
-     Net I2C_Top_1/I2C_Main_1/N_44_i: 1 loads, 1 LSLICEs
-     Net I2C_Top_1/I2C_Main_1/N_306_i: 1 loads, 1 LSLICEs
+     Net I2C_Top_1/I2C_Main_1/N_553_i: 1 loads, 1 LSLICEs
+     Net I2C_Top_1/I2C_Main_1/N_643_i: 1 loads, 1 LSLICEs
      Net I2C_Top_1/I2C_Main_1/un1_load_1_i: 5 loads, 5 LSLICEs
      Net I2C_Top_1/I2C_Main_1/N_212_i: 1 loads, 1 LSLICEs
-     Net I2C_Top_1/I2C_Main_1/N_46_i: 5 loads, 5 LSLICEs
-     Net I2C_Top_1/I2C_Main_1/I2C_Bus_Busy_1_sqmuxa_i: 1 loads, 1 LSLICEs
+     Net I2C_Top_1/I2C_Main_1/N_151_i: 5 loads, 5 LSLICEs
+     Net I2C_Top_1/I2C_Main_1/I2C_Bus_Busy_1_sqmuxa_i_0: 1 loads, 1 LSLICEs
      Net I2C_Top_1/I2C_Main_1/un36_mcs: 1 loads, 1 LSLICEs
      Net I2C_Top_1/MPU_to_I2C_1/transb_0_sqmuxa: 4 loads, 4 LSLICEs
      Net I2C_Top_1/MPU_to_I2C_1/un1_tbe_set: 1 loads, 1 LSLICEs
      Net I2C_Top_1/MPU_to_I2C_1/un1_rbf_set: 1 loads, 1 LSLICEs
      Net I2C_Top_1/MPU_to_I2C_1/laddr_1_sqmuxa: 4 loads, 4 LSLICEs
-     Net I2C_Top_1/MPU_to_I2C_1/write_pulse_RNI8HJ8: 1 loads, 1 LSLICEs
-     Net I2C_Top_1/MPU_to_I2C_1/N_14: 1 loads, 1 LSLICEs
+     Net I2C_Top_1/MPU_to_I2C_1/cmdce[4]: 1 loads, 1 LSLICEs
+     Net I2C_Top_1/MPU_to_I2C_1/un1_transb6_i_0: 1 loads, 1 LSLICEs
      Net I2C_Top_1/MPU_to_I2C_1/bcnt_1_sqmuxa: 4 loads, 4 LSLICEs
      Net IMUStateMachine_1/WriteAckxE: 4 loads, 4 LSLICEs
      Net IMUStateMachine_1/IMUInitByteCountxDPe: 2 loads, 2 LSLICEs
      Net IMUStateMachine_1/N_362_iso_i: 4 loads, 4 LSLICEs
-     Net ADCStateMachine_1/N_55: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_1/N_47: 1 loads, 1 LSLICEs
      Net ADCStateMachine_1/DividerRowxDPe: 9 loads, 9 LSLICEs
-     Net ADCStateMachine_1/N_235_i: 17 loads, 17 LSLICEs
+     Net ADCStateMachine_1/N_14_i: 17 loads, 17 LSLICEs
      Net ADCStateMachine_1/CountRowxDPe: 4 loads, 4 LSLICEs
-     Net ADCStateMachine_1/N_92_i: 9 loads, 9 LSLICEs
+     Net ADCStateMachine_1/N_246_i: 9 loads, 9 LSLICEs
      Net ADCStateMachine_1.N_316_i: 7 loads, 7 LSLICEs
-     Net monitorStateMachine_1.N_346_i: 7 loads, 7 LSLICEs
-     Net N_1_2_i: 1 loads, 1 LSLICEs
-     Net N_419_i: 5 loads, 5 LSLICEs
-     Net fifoStatemachine_1.N_47_1_i: 2 loads, 0 LSLICEs
+     Net fifoStatemachine_1.FifoCountxDN_0_sqmuxa_1_i_0_1_i: 2 loads, 0 LSLICEs
+     Net monitorStateMachine_1.N_334_i: 7 loads, 7 LSLICEs
+     Net monitorStateMachine_1.N_235_4_i: 5 loads, 5 LSLICEs
      Net FifoReadxE: 2 loads, 0 LSLICEs
      Net uEarlyPaketTimer.CountxDPe: 11 loads, 11 LSLICEs
+     Net uSynchronizerStateMachine_1/CounterxDPe: 7 loads, 7 LSLICEs
 
                                     Page 2
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Design Summary (cont)
 ---------------------
-     Net uSynchronizerStateMachine_1/CounterxDPe: 7 loads, 7 LSLICEs
-     Net N_484_i: 9 loads, 9 LSLICEs
+     Net N_396_i: 9 loads, 9 LSLICEs
      Net uEventCounter/CountxDPe: 5 loads, 5 LSLICEs
      Net uADCRegister/r_N_4_i: 1 loads, 1 LSLICEs
    Number of local set/reset loads for net ResetxRBI_c merged into GSR:  394
-   Number of LSRs:  15
-     Net I2C_Top_1/Counter_Blk_1/un3_reset: 11 loads, 11 LSLICEs
+   Number of LSRs:  13
+     Net I2C_Top_1/Counter_Blk_1/N_677_i: 11 loads, 11 LSLICEs
      Net ResetxRBI_c: 4 loads, 0 LSLICEs
-     Net I2C_Top_1/un2_reset: 50 loads, 50 LSLICEs
-     Net IMUStateMachine_1/un1_StateRWxDP_1_1: 1 loads, 1 LSLICEs
-     Net IMUStateMachine_1/StateRWxDP[9]: 1 loads, 1 LSLICEs
-     Net IMUStateMachine_1/N_549_i: 5 loads, 5 LSLICEs
+     Net I2C_Top_1/N_476_i: 50 loads, 50 LSLICEs
+     Net IMUStateMachine_1/un1_StateRWxDP_5_0: 1 loads, 1 LSLICEs
+     Net IMUStateMachine_1/StateRWxDP[9]: 2 loads, 2 LSLICEs
+     Net IMUStateMachine_1/StateRWxDP_ns[8]: 5 loads, 5 LSLICEs
      Net IMUStateMachine_1/StateRWxDP[8]: 1 loads, 1 LSLICEs
-     Net IMUStateMachine_1/un1_ReadReqxE_1_0_a2: 1 loads, 1 LSLICEs
-     Net IMUStateMachine_1/un1_StateRWxDP_6_0: 1 loads, 1 LSLICEs
-     Net IMUStateMachine_1/un1_StateRWxDP_3_or: 1 loads, 1 LSLICEs
-     Net IMUStateMachine_1/N_557_i: 1 loads, 1 LSLICEs
-     Net ADCStateMachine_1/StateColxDN_1_sqmuxa_i_i_a2: 1 loads, 1 LSLICEs
+     Net IMUStateMachine_1/un1_StateRWxDP_or: 1 loads, 1 LSLICEs
+     Net IMUStateMachine_1/N_574_i: 1 loads, 1 LSLICEs
+     Net ADCStateMachine_1/N_55: 1 loads, 1 LSLICEs
      Net ADCsmRstxE_i: 55 loads, 55 LSLICEs
      Net ADCStateMachine_1/StateRowxDP[2]: 1 loads, 1 LSLICEs
-     Net N_447_i: 10 loads, 10 LSLICEs
+     Net SynchronizerResetTimestampxSB_i: 10 loads, 10 LSLICEs
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
      Net ADCsmRstxE_i: 55 loads
-     Net I2C_Top_1/un2_reset: 50 loads
+     Net I2C_Top_1/N_476_i: 50 loads
      Net ADCStateMachine_1/StateColxDP[0]: 37 loads
      Net FifoReadxE: 37 loads
      Net fifoStatemachine_1.StatexDP[0]: 37 loads
      Net ADCStateMachine_1/N_158_li: 35 loads
-     Net ADCStateMachine_1/un1_DividerColxDP_cry_0_RNI9IE7[31]: 33 loads
-     Net ECResetEarlyPaketTimerxS: 32 loads
+     Net ADCStateMachine_1/N_239: 33 loads
+     Net N_908: 32 loads
+     Net monitorStateMachine_1/N_342: 25 loads
      Net monitorStateMachine_1/TimestampResetxDP: 24 loads
-     Net I2C_Top_1/SCL_synch: 23 loads
 
 
 
@@ -194,20 +191,20 @@ WARNING - map: C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachX
      "T13" ;
 : COMP "SyncOut1xSO" not found in design. Disbale this preference.
 WARNING - map: C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachX
+     O/SBret10_2_IMU/SBret10.lpf (144): Error in IOBUF PORT "SyncIn1xABI"
+     IO_TYPE=LVCMOS33 PULLMODE=UP ;
+: Port "SyncIn1xABI" does not exist in the
+     design. Disbale this preference.
 
                                     Page 3
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Design Errors/Warnings (cont)
 -----------------------------
-     O/SBret10_2_IMU/SBret10.lpf (144): Error in IOBUF PORT "SyncIn1xABI"
-     IO_TYPE=LVCMOS33 PULLMODE=UP ;
-: Port "SyncIn1xABI" does not exist in the
-     design. Disbale this preference.
 WARNING - map: C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachX
      O/SBret10_2_IMU/SBret10.lpf (145): Error in IOBUF PORT "SyncIn2xABI"
      IO_TYPE=LVCMOS33 PULLMODE=UP ;
@@ -264,19 +261,19 @@ IO (PIO) Attributes
 | AERMonitorAddressxDI[5]| INPUT     | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | AERMonitorAddressxDI[4]| INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AERMonitorAddressxDI[3]| INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
 
                                     Page 4
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 IO (PIO) Attributes (cont)
 --------------------------
-+---------------------+-----------+-----------+------------+------------+
-| AERMonitorAddressxDI[3]| INPUT     | LVCMOS33  |            |            |
-+---------------------+-----------+-----------+------------+------------+
 | AERMonitorAddressxDI[2]| INPUT     | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | AERMonitorAddressxDI[1]| INPUT     | LVCMOS33  |            |            |
@@ -330,19 +327,19 @@ IO (PIO) Attributes (cont)
 | CDVSTestColMode1xSO | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | CDVSTestColMode0xSO | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| CDVSTestChipResetxRBO| OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
 
                                     Page 5
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 IO (PIO) Attributes (cont)
 --------------------------
-+---------------------+-----------+-----------+------------+------------+
-| CDVSTestChipResetxRBO| OUTPUT    | LVCMOS33  |            |            |
-+---------------------+-----------+-----------+------------+------------+
 | CDVSTestBiasEnablexEO| OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | CDVSTestSRColInxSO  | OUTPUT    | LVCMOS33  |            |            |
@@ -396,19 +393,19 @@ IO (PIO) Attributes (cont)
 | PC3xSIO             | INPUT     | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | PC2xSIO             | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PC1xSIO             | INPUT     | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
 
                                     Page 6
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 IO (PIO) Attributes (cont)
 --------------------------
-+---------------------+-----------+-----------+------------+------------+
-| PC1xSIO             | INPUT     | LVCMOS33  |            |            |
-+---------------------+-----------+-----------+------------+------------+
 | PC0xSIO             | INPUT     | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | SyncOutSWxEI        | OUTPUT    | LVCMOS33  |            |            |
@@ -462,30 +459,27 @@ IO (PIO) Attributes (cont)
 | FX2FifoDataxDIO[2]  | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | FX2FifoDataxDIO[1]  | OUTPUT    | LVCMOS33  |            |            |
++---------------------+-----------+-----------+------------+------------+
+
+
 
                                     Page 7
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
-
-IO (PIO) Attributes (cont)
---------------------------
-+---------------------+-----------+-----------+------------+------------+
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic
 -------------
 
 Block shiftRegister_1/VCC undriven or does not drive anything - clipped.
 Block uMonitorAddressRegister/VCC undriven or does not drive anything - clipped.
-Block uMonitorTimestampRegister/GND undriven or does not drive anything -
-     clipped.
 Block uMonitorTimestampRegister/VCC undriven or does not drive anything -
      clipped.
 Block uADCRegister/VCC undriven or does not drive anything - clipped.
-Block fifoStatemachine_1/VCC undriven or does not drive anything - clipped.
 Block fifoStatemachine_1/GND undriven or does not drive anything - clipped.
+Block fifoStatemachine_1/VCC undriven or does not drive anything - clipped.
 Block ADCvalueReady_1/VCC undriven or does not drive anything - clipped.
 Block I2C_Top_1/MPU_to_I2C_1/VCC undriven or does not drive anything - clipped.
 Block I2C_Top_1/MPU_to_I2C_1/GND undriven or does not drive anything - clipped.
@@ -501,19 +495,20 @@ Block I2C_Top_1/Start_Det_1/VCC undriven or does not drive anything - clipped.
 Block I2C_Top_1/Start_Det_1/GND undriven or does not drive anything - clipped.
 Block I2C_Top_1/Stop_Gen_1/GND undriven or does not drive anything - clipped.
 Block I2C_Top_1/Stop_Gen_1/VCC undriven or does not drive anything - clipped.
-Block I2C_Top_1/Stop_Det_1/VCC undriven or does not drive anything - clipped.
 Block I2C_Top_1/Stop_Det_1/GND undriven or does not drive anything - clipped.
+Block I2C_Top_1/Stop_Det_1/VCC undriven or does not drive anything - clipped.
 Signal shiftRegister_1/CN was merged into signal PC2xSIO_c
 Signal ADCStateMachine_1.StateColxDP_i[5] was merged into signal
      ADCStateMachine_1.StateColxDP[5]
-Signal IMUStateMachine_1/GN was merged into signal IMUStateMachine_1/N_430_iso
-Signal IMUStateMachine_1/WriteAckxE_i was merged into signal
-     IMUStateMachine_1/WriteAckxE
 Signal I2C_Top_1/SCL_synch_i was merged into signal I2C_Top_1/SCL_synch
 Signal I2C_Top_1/Counter_Blk_1/Byte_Cmpr_i_i was merged into signal
      I2C_Top_1/Counter_Blk_1/Byte_Cmpr_i
 Signal I2C_Top_1/Counter_Blk_1/Current_Byte_State_i was merged into signal
      I2C_Top_1/Counter_Blk_1/Current_Byte_State
+Signal monitorStateMachine_1/StatexDP_N_5_0 undriven or does not drive anything
+     - clipped.
+Signal monitorStateMachine_1/StatexDP_m4_0_a3_0_1 undriven or does not drive
+     anything - clipped.
 Signal GND undriven or does not drive anything - clipped.
 Signal uClockGen/GND undriven or does not drive anything - clipped.
 Signal uFifo/VCC undriven or does not drive anything - clipped.
@@ -524,9 +519,14 @@ Signal uEventCounter/GND undriven or does not drive anything - clipped.
 Signal uEventCounter/VCC undriven or does not drive anything - clipped.
 Signal uTimestampCounter/GND undriven or does not drive anything - clipped.
 Signal uTimestampCounter/VCC undriven or does not drive anything - clipped.
+Signal uSynchronizerStateMachine_1/GND undriven or does not drive anything -
+     clipped.
 Signal uSynchronizerStateMachine_1/VCC undriven or does not drive anything -
      clipped.
-Signal uSynchronizerStateMachine_1/GND undriven or does not drive anything -
+Signal monitorStateMachine_1/VCC undriven or does not drive anything - clipped.
+Signal monitorStateMachine_1/GND undriven or does not drive anything - clipped.
+Signal ADCStateMachine_1/GND undriven or does not drive anything - clipped.
+Signal I2C_Top_1/I2C_Clock_Gen_1/GND undriven or does not drive anything -
      clipped.
 
                                     Page 8
@@ -534,15 +534,10 @@ Signal uSynchronizerStateMachine_1/GND undriven or does not drive anything -
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-Signal monitorStateMachine_1/VCC undriven or does not drive anything - clipped.
-Signal monitorStateMachine_1/GND undriven or does not drive anything - clipped.
-Signal ADCStateMachine_1/GND undriven or does not drive anything - clipped.
-Signal I2C_Top_1/I2C_Clock_Gen_1/GND undriven or does not drive anything -
-     clipped.
 Signal I2C_Top_1/I2C_Clock_Gen_1/VCC undriven or does not drive anything -
      clipped.
 Signal I2C_Top_1/Counter_Blk_1/GND undriven or does not drive anything -
@@ -594,21 +589,21 @@ Signal uFifo/DO31_0 undriven or does not drive anything - clipped.
 Signal uFifo/DO30_0 undriven or does not drive anything - clipped.
 Signal uFifo/DO29_0 undriven or does not drive anything - clipped.
 Signal uFifo/DO28_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO27_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO26_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO25_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO24_0 undriven or does not drive anything - clipped.
+Signal uFifo/DO23_0 undriven or does not drive anything - clipped.
 
                                     Page 9
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-Signal uFifo/DO27_0 undriven or does not drive anything - clipped.
-Signal uFifo/DO26_0 undriven or does not drive anything - clipped.
-Signal uFifo/DO25_0 undriven or does not drive anything - clipped.
-Signal uFifo/DO24_0 undriven or does not drive anything - clipped.
-Signal uFifo/DO23_0 undriven or does not drive anything - clipped.
 Signal uFifo/DO22_0 undriven or does not drive anything - clipped.
 Signal uFifo/DO21_0 undriven or does not drive anything - clipped.
 Signal uFifo/DO20_0 undriven or does not drive anything - clipped.
@@ -660,21 +655,21 @@ Signal uEventCounter/CountxDP_cry[6] undriven or does not drive anything -
 Signal uEventCounter/CountxDP_s_0_S1[8] undriven or does not drive anything -
      clipped.
 Signal uEventCounter/CountxDP_s_0_COUT1[8] undriven or does not drive anything -
+     clipped.
+Signal uEventCounter/CountxDP_s_0_COUT0[8] undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry[0] undriven or does not drive anything -
+     clipped.
 
                                    Page 10
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     clipped.
-Signal uEventCounter/CountxDP_s_0_COUT0[8] undriven or does not drive anything -
-     clipped.
-Signal uTimestampCounter/CountxDP_cry[0] undriven or does not drive anything -
-     clipped.
 Signal uTimestampCounter/CountxDP_cry[2] undriven or does not drive anything -
      clipped.
 Signal uTimestampCounter/CountxDP_cry[4] undriven or does not drive anything -
@@ -726,21 +721,21 @@ Signal monitorStateMachine_1/CountxDP_cry[0] undriven or does not drive anything
 Signal monitorStateMachine_1/CountxDP_cry[2] undriven or does not drive anything
      - clipped.
 Signal monitorStateMachine_1/CountxDP_cry[4] undriven or does not drive anything
+     - clipped.
+Signal monitorStateMachine_1/CountxDP_cry_0_COUT1[6] undriven or does not drive
+     anything - clipped.
+Signal monitorStateMachine_1/CountxDP_cry[6] undriven or does not drive anything
+     - clipped.
 
                                    Page 11
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     - clipped.
-Signal monitorStateMachine_1/CountxDP_cry_0_COUT1[6] undriven or does not drive
-     anything - clipped.
-Signal monitorStateMachine_1/CountxDP_cry[6] undriven or does not drive anything
-     - clipped.
 Signal monitorStateMachine_1/TimestampOverflowxDP_cry[0] undriven or does not
      drive anything - clipped.
 Signal monitorStateMachine_1/TimestampOverflowxDP_cry[2] undriven or does not
@@ -792,21 +787,21 @@ Signal ADCStateMachine_1/CountRowxDP_cry[6] undriven or does not drive anything
 Signal ADCStateMachine_1/DividerRowxDP_cry[0] undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/DividerRowxDP_cry[2] undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/DividerRowxDP_cry[4] undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/DividerRowxDP_cry[6] undriven or does not drive
+     anything - clipped.
 
                                    Page 12
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     anything - clipped.
-Signal ADCStateMachine_1/DividerRowxDP_cry[4] undriven or does not drive
-     anything - clipped.
-Signal ADCStateMachine_1/DividerRowxDP_cry[6] undriven or does not drive
-     anything - clipped.
 Signal ADCStateMachine_1/DividerRowxDP_cry[8] undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/DividerRowxDP_cry[10] undriven or does not drive
@@ -858,21 +853,21 @@ Signal ADCStateMachine_1/DividerColxDP_s_0_S1[32] undriven or does not drive
 Signal ADCStateMachine_1/DividerColxDP_s_0_COUT1[32] undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/DividerColxDP_s_0_COUT0[32] undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/un13_nobxs_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/un13_nobxs_cry_0 undriven or does not drive anything -
+     clipped.
 
                                    Page 13
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     anything - clipped.
-Signal ADCStateMachine_1/un13_nobxs_cry_0_0_S0 undriven or does not drive
-     anything - clipped.
-Signal ADCStateMachine_1/un13_nobxs_cry_0 undriven or does not drive anything -
-     clipped.
 Signal ADCStateMachine_1/un13_nobxs_cry_2 undriven or does not drive anything -
      clipped.
 Signal ADCStateMachine_1/un13_nobxs_cry_4 undriven or does not drive anything -
@@ -924,21 +919,21 @@ Signal ADCStateMachine_1/un10_nobxs_cry_6 undriven or does not drive anything -
 Signal ADCStateMachine_1/un10_nobxs_cry_8 undriven or does not drive anything -
      clipped.
 Signal ADCStateMachine_1/un10_nobxs_cry_10_0_COUT1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/un10_nobxs_cry_10 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_1/un16_nobxs_cry_0_0_S1 undriven or does not drive
+     anything - clipped.
 
                                    Page 14
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     anything - clipped.
-Signal ADCStateMachine_1/un10_nobxs_cry_10 undriven or does not drive anything -
-     clipped.
-Signal ADCStateMachine_1/un16_nobxs_cry_0_0_S1 undriven or does not drive
-     anything - clipped.
 Signal ADCStateMachine_1/un16_nobxs_cry_0_0_S0 undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/un16_nobxs_cry_0 undriven or does not drive anything -
@@ -990,21 +985,21 @@ Signal ADCStateMachine_1/un16_nobxs_cry_16_0_S1 undriven or does not drive
 Signal ADCStateMachine_1/un16_nobxs_cry_16_0_S0 undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/un16_nobxs_cry_16 undriven or does not drive anything -
+     clipped.
+Signal ADCStateMachine_1/un6_nobxs_cry_0_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/un6_nobxs_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
 
                                    Page 15
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     clipped.
-Signal ADCStateMachine_1/un6_nobxs_cry_0_0_S1 undriven or does not drive
-     anything - clipped.
-Signal ADCStateMachine_1/un6_nobxs_cry_0_0_S0 undriven or does not drive
-     anything - clipped.
 Signal ADCStateMachine_1/un6_nobxs_cry_0 undriven or does not drive anything -
      clipped.
 Signal ADCStateMachine_1/un6_nobxs_cry_2_0_S1 undriven or does not drive
@@ -1056,21 +1051,21 @@ Signal ADCStateMachine_1/un6_nobxs_cry_16_0_S0 undriven or does not drive
 Signal ADCStateMachine_1/un6_nobxs_cry_16 undriven or does not drive anything -
      clipped.
 Signal ADCStateMachine_1/statecolxdn30_cry_0_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/statecolxdn30_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/statecolxdn30_cry_0 undriven or does not drive anything
+     - clipped.
 
                                    Page 16
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     anything - clipped.
-Signal ADCStateMachine_1/statecolxdn30_cry_0_0_S0 undriven or does not drive
-     anything - clipped.
-Signal ADCStateMachine_1/statecolxdn30_cry_0 undriven or does not drive anything
-     - clipped.
 Signal ADCStateMachine_1/statecolxdn30_cry_2_0_S1 undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/statecolxdn30_cry_2_0_S0 undriven or does not drive
@@ -1122,21 +1117,21 @@ Signal ADCStateMachine_1/statecolxdn30_cry_16 undriven or does not drive
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[0] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[0] undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_1/un1_DividerColxDP_1_cry[0] undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[2] undriven or does not
+     drive anything - clipped.
 
                                    Page 17
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     drive anything - clipped.
-Signal ADCStateMachine_1/un1_DividerColxDP_1_cry[0] undriven or does not drive
-     anything - clipped.
-Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[2] undriven or does not
-     drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[2] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry[2] undriven or does not drive
@@ -1188,21 +1183,21 @@ Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[19] undriven or does not
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[19] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry[19] undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[23] undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[23] undriven or does not
+     drive anything - clipped.
 
                                    Page 18
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     anything - clipped.
-Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[23] undriven or does not
-     drive anything - clipped.
-Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[23] undriven or does not
-     drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry[23] undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[27] undriven or does not
@@ -1254,21 +1249,21 @@ Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[10] undriven or does not
 Signal ADCStateMachine_1/un1_DividerColxDP_cry[10] undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[12] undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[12] undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_1/un1_DividerColxDP_cry[12] undriven or does not drive
+     anything - clipped.
 
                                    Page 19
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     drive anything - clipped.
-Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[12] undriven or does not
-     drive anything - clipped.
-Signal ADCStateMachine_1/un1_DividerColxDP_cry[12] undriven or does not drive
-     anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[14] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[14] undriven or does not
@@ -1320,21 +1315,21 @@ Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_2 undriven or does not drive
 Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_4_0_S1 undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_4_0_S0 undriven or does not
+     drive anything - clipped.
+Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_6_0_S1 undriven or does not
+     drive anything - clipped.
 
                                    Page 20
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     drive anything - clipped.
-Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_4 undriven or does not drive
-     anything - clipped.
-Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_6_0_S1 undriven or does not
-     drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_6_0_S0 undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_DividerRowxDP_1_cry_6 undriven or does not drive
@@ -1386,21 +1381,21 @@ Signal ADCStateMachine_1/un1_DividerRowxDP_cry_4_0_S1 undriven or does not drive
 Signal ADCStateMachine_1/un1_DividerRowxDP_cry_4_0_S0 undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/un1_DividerRowxDP_cry_4 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/un1_DividerRowxDP_cry_6_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/un1_DividerRowxDP_cry_6_0_S0 undriven or does not drive
+     anything - clipped.
 
                                    Page 21
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     anything - clipped.
-Signal ADCStateMachine_1/un1_DividerRowxDP_cry_6_0_S1 undriven or does not drive
-     anything - clipped.
-Signal ADCStateMachine_1/un1_DividerRowxDP_cry_6_0_S0 undriven or does not drive
-     anything - clipped.
 Signal ADCStateMachine_1/un1_DividerRowxDP_cry_6 undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/un1_DividerRowxDP_cry_8_0_S1 undriven or does not drive
@@ -1452,21 +1447,21 @@ Signal ADCStateMachine_1/un1_countcolxdp_0_I_27_0_S0 undriven or does not drive
 Signal ADCStateMachine_1/un1_countcolxdp_0_data_tmp[4] undriven or does not
      drive anything - clipped.
 Signal ADCStateMachine_1/un1_countcolxdp_0_I_39_0_S1 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/un1_countcolxdp_0_I_39_0_S0 undriven or does not drive
+     anything - clipped.
+Signal ADCStateMachine_1/un1_countcolxdp_0_data_tmp[6] undriven or does not
+     drive anything - clipped.
 
                                    Page 22
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     anything - clipped.
-Signal ADCStateMachine_1/un1_countcolxdp_0_I_39_0_S0 undriven or does not drive
-     anything - clipped.
-Signal ADCStateMachine_1/un1_countcolxdp_0_data_tmp[6] undriven or does not
-     drive anything - clipped.
 Signal ADCStateMachine_1/un1_countcolxdp_0_I_51_0_S1 undriven or does not drive
      anything - clipped.
 Signal ADCStateMachine_1/un1_countcolxdp_0_I_51_0_S0 undriven or does not drive
@@ -1518,24 +1513,24 @@ Signal I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_I_15_0_S1 undriven or does
 Signal I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_I_15_0_S0 undriven or does
      not drive anything - clipped.
 Signal I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_data_tmp[2] undriven or does
+     not drive anything - clipped.
+Block shiftRegister_1/DataOutxDO_72_.CN was optimized away.
+Block ADCStateMachine_1/StateColxDP_RNIK0G5[5] was optimized away.
+Block I2C_Top_1/Synch_1/SCL_synch_RNINR16 was optimized away.
+Block I2C_Top_1/Counter_Blk_1/Byte_Cnt_Flag_RNO was optimized away.
 
                                    Page 23
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Removed logic (cont)
 --------------------
-     not drive anything - clipped.
-Block shiftRegister_1/DataOutxDO_72_.CN was optimized away.
-Block ADCStateMachine_1/StateColxDP_RNIK0G5[5] was optimized away.
-Block IMUStateMachine_1/ReadReqxE.GN was optimized away.
-Block IMUStateMachine_1/WriteReqxE_RNO was optimized away.
-Block I2C_Top_1/Synch_1/SCL_synch_RNINR16 was optimized away.
-Block I2C_Top_1/Counter_Blk_1/Byte_Cnt_Flag_RNO was optimized away.
 Block I2C_Top_1/Counter_Blk_1/Byte_Cnt_Flag_RNO_0 was optimized away.
+Block monitorStateMachine_1/StatexDP_m4_0_a3_0 was optimized away.
+Block monitorStateMachine_1/StatexDP_m4_0_a3_0_1 was optimized away.
 Block GND was optimized away.
 Block uClockGen/GND was optimized away.
 Block uFifo/VCC was optimized away.
@@ -1546,8 +1541,8 @@ Block uEventCounter/GND was optimized away.
 Block uEventCounter/VCC was optimized away.
 Block uTimestampCounter/GND was optimized away.
 Block uTimestampCounter/VCC was optimized away.
-Block uSynchronizerStateMachine_1/VCC was optimized away.
 Block uSynchronizerStateMachine_1/GND was optimized away.
+Block uSynchronizerStateMachine_1/VCC was optimized away.
 Block monitorStateMachine_1/VCC was optimized away.
 Block monitorStateMachine_1/GND was optimized away.
 Block ADCStateMachine_1/GND was optimized away.
@@ -1583,21 +1578,21 @@ PLL 1:                                     Pin/Node Value
   PLL Instance Name:                                uClockGen/PLLCInst_0
   PLL Type:                                         EHXPLLC
   Input Clock:                             PIN      IfClockxCI_c
+  Output Clock(P):                         NODE     ClockxC_c
+  Output Clock(S):                                  NONE
+  Output Clock(K):                                  NONE
+  PLL FeedbackSignal:                      NODE     ClockxC_c
+  PLLResetSignal:                          NODE     ResetxRBI_c_i
 
                                    Page 24
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 PLL/DLL Summary (cont)
 ----------------------
-  Output Clock(P):                         NODE     ClockxC_c
-  Output Clock(S):                                  NONE
-  Output Clock(K):                                  NONE
-  PLL FeedbackSignal:                      NODE     ClockxC_c
-  PLLResetSignal:                          NODE     ResetxRBI_c_i
   PLLLOCKSignal:                                    NONE
   DynamicDelayModeSignal:                           NONE
   DynamicDelayZeroSignal:                           NONE
@@ -1654,17 +1649,18 @@ Type and instance name of component:
    FIFO8KA : uFifo/AERfifo_0_1
    FIFO8KA : uFifo/AERfifo_0_1
    FIFO8KA : uFifo/AERfifo_1_0
+   FIFO8KA : uFifo/AERfifo_1_0
+
+
+
+
 
                                    Page 25
 
 
 
 
-Design:  USBAER_top_level                              Date:  05/13/14  21:54:45
-
-GSR Usage (cont)
-----------------
-   FIFO8KA : uFifo/AERfifo_1_0
+Design:  USBAER_top_level                              Date:  05/14/14  16:14:55
 
 Run Time and Memory Usage
 -------------------------
@@ -1672,6 +1668,10 @@ Run Time and Memory Usage
    Total CPU Time: 1 secs
    Total REAL Time: 0 secs
    Peak Memory Usage: 45 MB
+
+
+
+
 
 
 

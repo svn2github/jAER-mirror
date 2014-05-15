@@ -27,10 +27,16 @@ Max Top 5 critical clocks will be reported. For rest user needs to refer to Deta
 <data>6.340</data>
 </row>
 <row>
+<data>IMUStateMachine|StateRWxDP_derived_clock[0]</data>
+<data>0.1 MHz</data>
+<data>0.1 MHz</data>
+<data>3.290</data>
+</row>
+<row>
 <data>IMUStateMachine|StateRWxDP_derived_clock[5]</data>
 <data>0.1 MHz</data>
 <data>0.1 MHz</data>
-<data>3.176</data>
+<data>3.080</data>
 </row>
 <row>
 <data>IMUStateMachine|StateRWxDP_derived_clock[8]</data>
@@ -58,9 +64,9 @@ Max Top 5 critical clocks will be reported. For rest user needs to refer to Deta
 </row>
 <row>
 <data>clockgen|CLKOP_inferred_clock</data>
-<data>128.4 MHz</data>
-<data>109.2 MHz</data>
-<data>-1.374</data>
+<data>128.7 MHz</data>
+<data>109.4 MHz</data>
+<data>-1.371</data>
 </row>
 <row>
 <data>System</data>

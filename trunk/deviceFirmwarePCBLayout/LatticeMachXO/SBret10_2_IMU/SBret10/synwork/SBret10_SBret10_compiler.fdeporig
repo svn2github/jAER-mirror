@@ -15,7 +15,7 @@
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\earlyPaketTimer.vhd":1399976174
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\EventBeforeOverflow.vhd":1389094948
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\eventCounter.vhd":1389094948
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\fifoStatemachine.vhd":1399934484
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\fifoStatemachine.vhd":1400062828
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\monitorStateMachine.vhd":1399934343
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\synchronizerStateMachine.vhd":1399935985
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\timestampCounter.vhd":1389094948
@@ -32,7 +32,7 @@
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_Mpu_Blk.vhd":1080235266
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_SS_Blk.vhd":1080235266
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_Synch_Blk.vhd":1080235266
-#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\IMUStateMachine.vhd":1400010862
+#CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\IMUStateMachine.vhd":1400120416
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\AERfifo.vhd":1389094948
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\clockgen.vhd":1389094948
 #CUR:"C:\\Users\\Haza\\Documents\\jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret10_2_IMU\\sourcecode\\I2C_Top.vhd":1080235266

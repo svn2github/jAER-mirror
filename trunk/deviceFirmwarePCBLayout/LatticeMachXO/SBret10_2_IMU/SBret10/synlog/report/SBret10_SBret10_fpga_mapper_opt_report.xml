@@ -5,7 +5,7 @@ The file contains the optimization information from mapper to be displayed as pa
 *******************************************************************************************-->
 <report_table display_priority="3" name="Optimizations Summary">
 <parameter tooltip="Non-gated/non-generated clock trees / Gated/generated clock trees" name="Combined Clock Conversion">
-<data>3 / 15</data>
+<data>3 / 16</data>
 <report_link name="more">
 <data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\synlog\report\SBret10_SBret10_fpga_mapper_combined_clk.rpt</data>
 </report_link>

@@ -4,11 +4,12 @@
 
 # Period Constraints 
 FREQUENCY PORT "PC1xSIO" 676.5 MHz;
-FREQUENCY NET "uClockGen/ClockxC_c" 128.4 MHz;
+FREQUENCY NET "uClockGen/ClockxC_c" 128.7 MHz;
 FREQUENCY PORT "IfClockxCI" 125.4 MHz;
 FREQUENCY PORT "PC2xSIO" 1.0 MHz;
 FREQUENCY NET "IMUStateMachine_1/StateRWxDP[8]" 0.1 MHz;
 FREQUENCY NET "IMUStateMachine_1/StateRWxDP[5]" 0.1 MHz;
+FREQUENCY NET "IMUStateMachine_1/StateRWxDP[0]" 0.1 MHz;
 FREQUENCY NET "ADCStateMachine_1/StateColxDP[11]" 0.1 MHz;
 FREQUENCY NET "ADCStateMachine_1/CDVSTestSRRowInxSO_c" 0.1 MHz;
 FREQUENCY NET "monitorStateMachine_1/StatexDP[3]" 0.1 MHz;

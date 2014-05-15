@@ -2,12 +2,12 @@
 I2C_Top_1/Counter_Blk_1/Byte_Cmpr_i_i I2C_Top_1/Counter_Blk_1/Byte_Cmpr_i
 I2C_Top_1/Counter_Blk_1/Current_Byte_State_i I2C_Top_1/Counter_Blk_1/Current_Byte_State
 I2C_Top_1/SCL_synch_i I2C_Top_1/SCL_synch
-IMUStateMachine_1/WriteAckxE_i IMUStateMachine_1/WriteAckxE
-IMUStateMachine_1/GN IMUStateMachine_1/N_430_iso
 ADCStateMachine_1.StateColxDP_i[5] ADCStateMachine_1.StateColxDP[5]
 shiftRegister_1/CN PC2xSIO_c
 [ END MERGED ]
 [ START CLIPPED ]
+monitorStateMachine_1/StatexDP_N_5_0
+monitorStateMachine_1/StatexDP_m4_0_a3_0_1
 GND
 uClockGen/GND
 uFifo/VCC
@@ -18,8 +18,8 @@ uEventCounter/GND
 uEventCounter/VCC
 uTimestampCounter/GND
 uTimestampCounter/VCC
-uSynchronizerStateMachine_1/VCC
 uSynchronizerStateMachine_1/GND
+uSynchronizerStateMachine_1/VCC
 monitorStateMachine_1/VCC
 monitorStateMachine_1/GND
 ADCStateMachine_1/GND
@@ -478,7 +478,7 @@ I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_data_tmp[2]
 [ END CLIPPED ]
 [ START DESIGN PREFS ]
 SCHEMATIC START ;
-# map:  version Diamond (64-bit) 2.2.0.101 -- WARNING: Map write only section -- Tue May 13 21:54:46 2014
+# map:  version Diamond (64-bit) 2.2.0.101 -- WARNING: Map write only section -- Wed May 14 16:14:56 2014
 
 SYSCONFIG INBUF=ON CONFIG_SECURE=OFF ;
 LOCATE COMP "IMUSDAxSIO" SITE "T5" ;

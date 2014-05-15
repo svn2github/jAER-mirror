@@ -36,17 +36,17 @@ Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h
 @W: FX469 :|Found undriven nets DebugxSIO[3] to be optimized by the mapper. 
 @W: FX469 :|Found undriven nets DebugxSIO[2] to be optimized by the mapper. 
 @W: FX469 :|Found undriven nets DebugxSIO[1] to be optimized by the mapper. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":182:2:182:5|Net IMUStateMachine_1.un1_StateRWxDP_3 appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":182:2:182:5|Net IMUStateMachine_1.un1_StateRWxDP appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":762:7:762:30|Net IMUStateMachine_1.IMURegisterWritexEO_0_sqmuxa appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":90:57:90:61|Net IMUStateMachine_1.un1_StateIMUxDP appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":182:2:182:5|Net IMUStateMachine_1.un1_StateRWxDP_1 appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":90:57:90:61|Net IMUStateMachine_1.un1_StateIMUxDP_4 appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":182:2:182:5|Net IMUStateMachine_1.un1_StateRWxDP_2 appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":825:2:825:3|Net IMUStateMachine_1.StateIMUxDN_0_sqmuxa_1 appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":182:2:182:5|Net IMUStateMachine_1.un1_StateRWxDP_8 appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":825:2:825:3|Net IMUStateMachine_1.StateRWxDN_0_sqmuxa_1 appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":276:2:276:5|Net IMUStateMachine_1.un1_StateIMUxDP_1 appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":176:2:176:5|Net IMUStateMachine_1.un1_StateRWxDP appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":769:7:769:30|Net IMUStateMachine_1.IMURegisterWritexEO_0_sqmuxa appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":176:2:176:5|Net IMUStateMachine_1.un1_StateRWxDP_1 appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":273:2:273:5|Net IMUStateMachine_1.un1_StateIMUxDP appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":809:2:809:3|Net IMUStateMachine_1.StateIMUxDN_0_sqmuxa_1 appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":273:2:273:5|Net IMUStateMachine_1.un1_StateIMUxDP_5 appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":176:2:176:5|Net IMUStateMachine_1.un1_StateRWxDP_3 appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":176:2:176:5|Net IMUStateMachine_1.un1_StateRWxDP_2 appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":273:2:273:5|Net IMUStateMachine_1.un1_StateIMUxDP_4 appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":809:2:809:3|Net IMUStateMachine_1.StateRWxDN_0_sqmuxa appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":273:2:273:5|Net IMUStateMachine_1.un1_StateIMUxDP_2 appears to be an unidentified clock source. Assuming default frequency. 
 
 
 Clock Summary
@@ -60,14 +60,16 @@ USBAER_top_level|IfClockxCI                           1.0 MHz        1000.000   
 USBAER_top_level|PC1xSIO                              1000.0 MHz     1.000         inferred                                         Autoconstr_clkgroup_2
 USBAER_top_level|PC2xSIO                              1.0 MHz        1000.000      inferred                                         Autoconstr_clkgroup_3
 IMUStateMachine|StateIMUWritexDP_derived_clock[2]     1.0 MHz        1000.000      derived (from USBAER_top_level|IfClockxCI)       Autoconstr_clkgroup_1
+IMUStateMachine|StateIMUWritexDP_derived_clock[0]     1.0 MHz        1000.000      derived (from USBAER_top_level|IfClockxCI)       Autoconstr_clkgroup_1
 IMUStateMachine|StateRWxDP_derived_clock[8]           1.0 MHz        1000.000      derived (from USBAER_top_level|IfClockxCI)       Autoconstr_clkgroup_1
 IMUStateMachine|StateRWxDP_derived_clock[5]           1.0 MHz        1000.000      derived (from USBAER_top_level|IfClockxCI)       Autoconstr_clkgroup_1
+IMUStateMachine|StateRWxDP_derived_clock[0]           1.0 MHz        1000.000      derived (from USBAER_top_level|IfClockxCI)       Autoconstr_clkgroup_1
 ADCStateMachine|StateColxDP_derived_clock[11]         1.0 MHz        1000.000      derived (from USBAER_top_level|IfClockxCI)       Autoconstr_clkgroup_1
 ADCStateMachine|StateRowxDP_derived_clock[5]          1.0 MHz        1000.000      derived (from USBAER_top_level|IfClockxCI)       Autoconstr_clkgroup_1
 monitorStateMachine|StatexDP_derived_clock[3]         140.7 MHz      7.108         derived (from clockgen|CLKOP_inferred_clock)     Autoconstr_clkgroup_0
 =========================================================================================================================================================
 
-@W: MT531 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":182:2:182:5|Found signal identified as System clock which controls 21 sequential elements including IMUStateMachine_1.I2CDataReadxD[3].  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance. 
+@W: MT531 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":176:2:176:5|Found signal identified as System clock which controls 22 sequential elements including IMUStateMachine_1.I2CDataReadxD[3].  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance. 
 @W: MT529 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\wordregister.vhd":63:4:63:5|Found inferred clock clockgen|CLKOP_inferred_clock which controls 145 sequential elements including uMonitorAddressRegister.StatexDP[9:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
 @W: MT529 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\wordregister.vhd":63:4:63:5|Found inferred clock USBAER_top_level|IfClockxCI which controls 351 sequential elements including uADCRegister.StatexDP[13:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
 @W: MT529 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\shiftregister.vhd":65:4:65:5|Found inferred clock USBAER_top_level|PC1xSIO which controls 80 sequential elements including shiftRegister_1.StatexD[79:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
@@ -79,6 +81,6 @@ Finished Pre Mapping Phase.Pre-mapping successful!
 At Mapper Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 71MB peak: 135MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Tue May 13 21:54:34 2014
+# Wed May 14 16:14:44 2014
 
 ###########################################################]
