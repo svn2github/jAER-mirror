@@ -126,6 +126,9 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 		return (status);
 	}
 
+	// Force one I2C IMU data read, to clear the interrupt-latch on FX3 resets.
+	CyFxHandleCustomGPIO_DeviceSpecific(26);
+
 	// Load bitstream from SPI Flash to FPGA in 4KB chunks.
 	status = CyFxCustomInit_LoadFPGABitstream();
 	if (status != CY_U3P_SUCCESS) {
