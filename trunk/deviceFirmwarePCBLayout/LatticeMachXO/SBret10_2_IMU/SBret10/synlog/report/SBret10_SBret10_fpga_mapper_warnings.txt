@@ -1,5 +1,3 @@
-@W: MO171 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":750:2:750:5|Sequential instance IMUStateMachine_1.IMUDataxDO_1[0] reduced to a combinational gate by constant propagation 
-@W: MO171 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":273:2:273:5|Sequential instance IMUStateMachine_1.I2CAddrxD[1] reduced to a combinational gate by constant propagation 
 @W: MO111 :|Tristate driver tri0_inst on net DebugxSIO[15] has its enable tied to GND (module USBAER_top_level) 
 @W: MO111 :|Tristate driver tri1_inst on net DebugxSIO[14] has its enable tied to GND (module USBAER_top_level) 
 @W: MO111 :|Tristate driver tri2_inst on net DebugxSIO[13] has its enable tied to GND (module USBAER_top_level) 
@@ -15,18 +13,7 @@
 @W: MO111 :|Tristate driver tri12_inst on net DebugxSIO[3] has its enable tied to GND (module USBAER_top_level) 
 @W: MO111 :|Tristate driver tri13_inst on net DebugxSIO[2] has its enable tied to GND (module USBAER_top_level) 
 @W: MO111 :|Tristate driver tri14_inst on net DebugxSIO[1] has its enable tied to GND (module USBAER_top_level) 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":176:2:176:5|Net IMUStateMachine_1.un1_StateRWxDP_1 appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":273:2:273:5|Net IMUStateMachine_1.un1_StateIMUxDP appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":809:2:809:3|Net IMUStateMachine_1.StateIMUxDN_0_sqmuxa_1 appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":273:2:273:5|Net IMUStateMachine_1.un1_StateIMUxDP_5 appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":176:2:176:5|Net IMUStateMachine_1.un1_StateRWxDP_3 appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":273:2:273:5|Net IMUStateMachine_1.un1_StateIMUxDP_4 appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":809:2:809:3|Net IMUStateMachine_1.StateRWxDN_0_sqmuxa appears to be an unidentified clock source. Assuming default frequency. 
-@W: MT462 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":273:2:273:5|Net IMUStateMachine_1.un1_StateIMUxDP_2 appears to be an unidentified clock source. Assuming default frequency. 
-@W: MO129 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":176:2:176:5|Sequential instance IMUStateMachine_1.I2CAddrxDO[1] reduced to a combinational gate by constant propagation
 @W: BN132 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_main_blk.vhd":298:3:298:4|Removing instance I2C_Top_1.I2C_Main_1.I2C_Load_SR_Process.Trans_Buffer_SR[0],  because it is equivalent to instance I2C_Top_1.I2C_Main_1.Value
-@W: BN132 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Removing instance I2C_Top_1.MPU_to_I2C_1.upaddr[2],  because it is equivalent to instance I2C_Top_1.MPU_to_I2C_1.upaddr[1]
-@W: BN132 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Removing instance I2C_Top_1.MPU_to_I2C_1.upaddr[1],  because it is equivalent to instance I2C_Top_1.MPU_to_I2C_1.upaddr[0]
 @W: MO111 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\usbaer_top_level.vhd":102:2:102:10|Tristate driver DebugxSIO_obuft_1_.un1[0] on net DebugxSIO[1] has its enable tied to GND (module USBAER_top_level) 
 @W: MO111 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\usbaer_top_level.vhd":102:2:102:10|Tristate driver DebugxSIO_obuft_2_.un1[0] on net DebugxSIO[2] has its enable tied to GND (module USBAER_top_level) 
 @W: MO111 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\usbaer_top_level.vhd":102:2:102:10|Tristate driver DebugxSIO_obuft_3_.un1[0] on net DebugxSIO[3] has its enable tied to GND (module USBAER_top_level) 
@@ -42,16 +29,8 @@
 @W: MO111 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\usbaer_top_level.vhd":102:2:102:10|Tristate driver DebugxSIO_obuft_13_.un1[0] on net DebugxSIO[13] has its enable tied to GND (module USBAER_top_level) 
 @W: MO111 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\usbaer_top_level.vhd":102:2:102:10|Tristate driver DebugxSIO_obuft_14_.un1[0] on net DebugxSIO[14] has its enable tied to GND (module USBAER_top_level) 
 @W: MO111 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\usbaer_top_level.vhd":102:2:102:10|Tristate driver DebugxSIO_obuft_15_.un1[0] on net DebugxSIO[15] has its enable tied to GND (module USBAER_top_level) 
-@W: MO129 :|Sequential instance IMUStateMachine_1.I2CCSxSBO.res_reg reduced to a combinational gate by constant propagation
-@W: MO129 :|Sequential instance IMUStateMachine_1.I2CRWxSBO.res_reg reduced to a combinational gate by constant propagation
-@W: MT453 |clock period is too long for clock IMUStateMachine|StateIMUWritexDP_derived_clock[2], changing period from 10000000.0 to 20000.0 ns, rise from 0.0 ns to 0.0 ns, and fall from 5000000.0 ns to 10000.0 ns. 
-@W: MT453 |clock period is too long for clock IMUStateMachine|StateIMUWritexDP_derived_clock[0], changing period from 10000000.0 to 20000.0 ns, rise from 0.0 ns to 0.0 ns, and fall from 5000000.0 ns to 10000.0 ns. 
-@W: MT453 |clock period is too long for clock IMUStateMachine|StateRWxDP_derived_clock[8], changing period from 10000000.0 to 20000.0 ns, rise from 0.0 ns to 0.0 ns, and fall from 5000000.0 ns to 10000.0 ns. 
-@W: MT453 |clock period is too long for clock IMUStateMachine|StateRWxDP_derived_clock[5], changing period from 10000000.0 to 20000.0 ns, rise from 0.0 ns to 0.0 ns, and fall from 5000000.0 ns to 10000.0 ns. 
-@W: MT453 |clock period is too long for clock IMUStateMachine|StateRWxDP_derived_clock[0], changing period from 10000000.0 to 20000.0 ns, rise from 0.0 ns to 0.0 ns, and fall from 5000000.0 ns to 10000.0 ns. 
 @W: MT453 |clock period is too long for clock ADCStateMachine|StateColxDP_derived_clock[11], changing period from 10000000.0 to 20000.0 ns, rise from 0.0 ns to 0.0 ns, and fall from 5000000.0 ns to 10000.0 ns. 
 @W: MT453 |clock period is too long for clock ADCStateMachine|StateRowxDP_derived_clock[5], changing period from 10000000.0 to 20000.0 ns, rise from 0.0 ns to 0.0 ns, and fall from 5000000.0 ns to 10000.0 ns. 
-@W: MT453 |clock period is too long for clock monitorStateMachine|StatexDP_derived_clock[3], changing period from 10000000.0 to 20000.0 ns, rise from 0.0 ns to 0.0 ns, and fall from 5000000.0 ns to 10000.0 ns. 
 @W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC2xSIO" not forward annotated in -lpf file. 
 @W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|PC1xSIO" not forward annotated in -lpf file. 
 @W|Block-path constraint from CLKNET "clockgen|CLKOP_inferred_clock" to PORT "USBAER_top_level|IfClockxCI" not forward annotated in -lpf file. 
@@ -59,7 +38,7 @@
 @W|Block-path constraint from PORT "USBAER_top_level|PC1xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file. 
 @W|Block-path constraint from PORT "USBAER_top_level|IfClockxCI" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file. 
 @W: MT246 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\aerfifo.vhd":179:4:179:14|Blackbox FIFO8KA is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
-@W: MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 7.97ns. Please declare a user-defined clock on object "p:IfClockxCI"
+@W: MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 807.76ns. Please declare a user-defined clock on object "p:IfClockxCI"
 @W: MT420 |Found inferred clock USBAER_top_level|PC1xSIO with period 1.48ns. Please declare a user-defined clock on object "p:PC1xSIO"
 @W: MT420 |Found inferred clock USBAER_top_level|PC2xSIO with period 1000.00ns. Please declare a user-defined clock on object "p:PC2xSIO"
 @W: MT420 |Found inferred clock clockgen|CLKOP_inferred_clock with period 7.77ns. Please declare a user-defined clock on object "n:uClockGen.CLKOP"

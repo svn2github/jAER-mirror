@@ -9,10 +9,10 @@ C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU
 C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\EventBeforeOverflow.vhd|i|1389094948|2315
 C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\eventCounter.vhd|i|1389094948|2228
 C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd|i|1400062828|5155
-C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd|i|1399934343|13340
+C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd|i|1400676841|13351
 C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\synchronizerStateMachine.vhd|i|1399935985|8891
 C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\timestampCounter.vhd|i|1389094948|2383
-C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd|i|1400010086|28771
+C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd|i|1400668404|28696
 C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCvalueReady.vhd|i|1389094948|2602
 C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\cDVSResetStateMachine.vhd|i|1389094948|3520
 C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\shiftRegister.vhd|i|1389094948|2011
@@ -28,7 +28,7 @@ C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU
 C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_SS_Blk.vhd|i|1080235266|12467
 C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Synch_Blk.vhd|i|1080235266|3339
 C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Top.vhd|i|1080235266|25291
-C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd|i|1400120416|37676
-C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\syntax.log|o|1400120493|1020
+C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd|i|1400685022|38802
+C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\syntax.log|o|1400685226|1020
 D:\lscc\diamond\2.2_x64\synpbase\bin64\c_vhdl.exe|i|1363000604|5354496
 D:\lscc\diamond\2.2_x64\synpbase\bin\c_vhdl.exe|i|1363000592|1897984

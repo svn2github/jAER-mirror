@@ -2,12 +2,10 @@
 I2C_Top_1/Counter_Blk_1/Byte_Cmpr_i_i I2C_Top_1/Counter_Blk_1/Byte_Cmpr_i
 I2C_Top_1/Counter_Blk_1/Current_Byte_State_i I2C_Top_1/Counter_Blk_1/Current_Byte_State
 I2C_Top_1/SCL_synch_i I2C_Top_1/SCL_synch
-ADCStateMachine_1.StateColxDP_i[5] ADCStateMachine_1.StateColxDP[5]
+ADCStateMachine_1.StateColxDP_i[5] ADCStateMachine_1/StateColxDP[5]
 shiftRegister_1/CN PC2xSIO_c
 [ END MERGED ]
 [ START CLIPPED ]
-monitorStateMachine_1/StatexDP_N_5_0
-monitorStateMachine_1/StatexDP_m4_0_a3_0_1
 GND
 uClockGen/GND
 uFifo/VCC
@@ -20,9 +18,12 @@ uTimestampCounter/GND
 uTimestampCounter/VCC
 uSynchronizerStateMachine_1/GND
 uSynchronizerStateMachine_1/VCC
-monitorStateMachine_1/VCC
+fifoStatemachine_1/GND
 monitorStateMachine_1/GND
+monitorStateMachine_1/VCC
 ADCStateMachine_1/GND
+IMUStateMachine_1/VCC
+IMUStateMachine_1/GND
 I2C_Top_1/I2C_Clock_Gen_1/GND
 I2C_Top_1/I2C_Clock_Gen_1/VCC
 I2C_Top_1/Counter_Blk_1/GND
@@ -136,6 +137,12 @@ uSynchronizerStateMachine_1/CounterxDP_cry[8]
 uSynchronizerStateMachine_1/CounterxDP_cry[10]
 uSynchronizerStateMachine_1/CounterxDP_cry_0_COUT1[12]
 uSynchronizerStateMachine_1/CounterxDP_cry[12]
+fifoStatemachine_1/FifoCountxDP_cry[0]
+fifoStatemachine_1/FifoCountxDP_cry[2]
+fifoStatemachine_1/FifoCountxDP_cry[4]
+fifoStatemachine_1/FifoCountxDP_cry[6]
+fifoStatemachine_1/FifoCountxDP_cry_0_COUT1[8]
+fifoStatemachine_1/FifoCountxDP_cry[8]
 monitorStateMachine_1/CountxDP_cry[0]
 monitorStateMachine_1/CountxDP_cry[2]
 monitorStateMachine_1/CountxDP_cry[4]
@@ -464,11 +471,14 @@ I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_4
 I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_6
 I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_8_0_COUT1
 I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_8
-I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[0]
-I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[2]
-I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[4]
-I2C_Top_1/Counter_Blk_1/Byte_Counter_cry_0_COUT1[6]
-I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[6]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_lcry_0_S0
+I2C_Top_1/Counter_Blk_1/Byte_Counter
+I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[1]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[3]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[5]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_s_0_S1[7]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_s_0_COUT1[7]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_s_0_COUT0[7]
 I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_I_1_0_S1
 I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_N_17
 I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_data_tmp[0]
@@ -478,7 +488,7 @@ I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_data_tmp[2]
 [ END CLIPPED ]
 [ START DESIGN PREFS ]
 SCHEMATIC START ;
-# map:  version Diamond (64-bit) 2.2.0.101 -- WARNING: Map write only section -- Wed May 14 16:14:56 2014
+# map:  version Diamond (64-bit) 2.2.0.101 -- WARNING: Map write only section -- Wed May 21 17:14:04 2014
 
 SYSCONFIG INBUF=ON CONFIG_SECURE=OFF ;
 LOCATE COMP "IMUSDAxSIO" SITE "T5" ;

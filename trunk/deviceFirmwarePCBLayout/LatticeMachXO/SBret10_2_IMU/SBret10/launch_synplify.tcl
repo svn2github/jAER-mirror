@@ -1,6 +1,6 @@
 #-- Lattice Semiconductor Corporation Ltd.
 #-- Synplify OEM project file C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/SBret10/launch_synplify.tcl
-#-- Written on Tue May 13 18:46:47 2014
+#-- Written on Fri May 16 10:59:10 2014
 
 project -close
 set filename "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/SBret10/SBret10_syn.prj"

@@ -10,32 +10,32 @@ The file contains the job information from compiler to be displayed as part of t
     <title>$ Start of Compile</title>
   </report_link> 
   <job_status>
-    <data>Failed    </data>
+    <data>Completed    </data>
   </job_status>
 <job_info> 
 			<info name="Notes">
-  <data>75</data>
+  <data>82</data>
   <report_link name="more"><data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\synlog\report\SBret10_SBret10_compiler_notes.txt</data></report_link>
   </info>
 			<info name="Warnings">
-  <data>87</data>
+  <data>36</data>
   <report_link name="more"><data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\synlog\report\SBret10_SBret10_compiler_warnings.txt</data></report_link>
   </info>
 			<info name="Errors">
-  <data>1</data>
+  <data>0</data>
   <report_link name="more"><data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\synlog\report\SBret10_SBret10_compiler_errors.txt</data></report_link>
   </info>
 			<info name="CPU Time">
   <data>-</data>
   </info>
 			<info name="Real Time">
-  <data>0h:00m:01s</data>
+  <data>0h:00m:02s</data>
   </info>
 			<info name="Peak Memory">
   <data>-</data>
   </info>
 			<info name="Date &amp;Time">
-  <data type="timestamp">1400120495</data>
+  <data type="timestamp">1400685228</data>
   </info>
 			</job_info>
 </job_run_status>

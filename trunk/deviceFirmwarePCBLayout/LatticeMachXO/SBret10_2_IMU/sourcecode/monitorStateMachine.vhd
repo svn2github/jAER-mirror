@@ -60,7 +60,7 @@ entity monitorStateMachine is
 		IMUDataWriteReqxEO  : out std_logic; -- Start writing the data!
 		IMUDataWriteAckxEI  : in std_logic;  -- Done!
 		IMUEventxEO 	   	: out std_logic; -- Indicates IMU Event data type, used to set triggereventtype (CHECK COMMENT!)
-		IMUDataDropxEO		: out std_logic; -- Indicates that we are dropping a particular IMU Event and not reading it
+		IMUDataDropxEO		: out std_logic; -- Indicates that we are dropping a particular IMU Event and not reading it because another read is in progress (CHECK!)
 		--H 
 
 		-- timestamp overflow, send wrap event
@@ -155,6 +155,8 @@ begin
 		ReadADCvaluexEO <= '0';
 
 		--H IMU Default signals
+		IMUDataReadyAckxEO <= '0';
+		IMUDataWriteReqxEO <= '0';
 		IMUEventxEO <= '0';
 		IMUDataDropxEO <= '0';
 		--H 
@@ -189,7 +191,7 @@ begin
 						StatexDN <= stIMUTime;
 					-- Otherwise, indicate that we are dropping IMU data
 					else
-						IMUDataReadyAckxEO <= '1';
+						IMUDataReadyAckxEO <= '1'; -- CHECK IF THIS CREATES COMBINATIONAL LOOP.. PROBABLY
 						IMUDataDropxEO <= '1';
 					end if;
 				--H 
@@ -283,7 +285,7 @@ begin
 			--H Send External Event Signal to FIFO indicating that next data word is an IMU event
 			when stIMUEvent =>             
 				-- Update Next State
-				StatexDN <= stIMUEvent;
+				StatexDN <= stIMUData;
 				
 				-- Indicate that we're writing an external event (trigger) and indicate that this external event is an IMU event
 				AddressMSBxDO <= address; 
@@ -295,13 +297,12 @@ begin
 				
 				-- Request to start writing IMU Measurement Data
 				IMUDataWriteReqxEO <= '1';
-				-- IMUDATAWRITEREQ ENABLES STDATAWRITEREQ WHICH IMMIATELY UPDATES IMU REGISTER TEMPORARY VALUES
-				-- ON NEXT CLOCK CYCLE, THE DATA IS VALID TO WRITE, THEREFORE THIS CODE IS CORRECT
 			--H 
 
 			--H Write IMU Measurement Data to FIFO
 			when stIMUData => 
 				-- Stay in current state until all IMU Measurement Data are written to IMU Register
+				IMUDataWriteReqxEO <= '1'; -- CHECK!
 				if IMUDataWriteAckxEI = '1' then
 					IMUDataWriteReqxEO <= '0';
 					StatexDN <= stIdle;

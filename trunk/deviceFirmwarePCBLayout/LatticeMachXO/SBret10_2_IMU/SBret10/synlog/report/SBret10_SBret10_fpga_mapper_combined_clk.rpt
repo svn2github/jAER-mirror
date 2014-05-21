@@ -2,37 +2,24 @@
 
 #### START OF CLOCK OPTIMIZATION REPORT #####[
 
-3 non-gated/non-generated clock tree(s) driving 456 clock pin(s) of sequential element(s)
-16 gated/generated clock tree(s) driving 183 clock pin(s) of sequential element(s)
-0 instances converted, 183 sequential instances remain driven by gated/generated clocks
+3 non-gated/non-generated clock tree(s) driving 730 clock pin(s) of sequential element(s)
+3 gated/generated clock tree(s) driving 149 clock pin(s) of sequential element(s)
+0 instances converted, 149 sequential instances remain driven by gated/generated clocks
 
 =================================== Non-Gated/Non-Generated Clocks ====================================
 Clock Tree ID     Driving Element     Drive Element Type     Fanout     Sample Instance                
 -------------------------------------------------------------------------------------------------------
-@K:CKID0017       IfClockxCI          port                   296        IMUStateMachine_1.StateRWxDP[9]
-@K:CKID0018       PC1xSIO             port                   80         shiftRegister_1.StatexD[79]    
-@K:CKID0019       PC2xSIO             port                   80         shiftRegister_1.DataOutxDO[0]  
+@K:CKID0004       IfClockxCI          port                   570        IMUStateMachine_1.StateRWxDP[8]
+@K:CKID0005       PC1xSIO             port                   80         shiftRegister_1.StatexD[79]    
+@K:CKID0006       PC2xSIO             port                   80         shiftRegister_1.DataOutxDO[0]  
 =======================================================================================================
-================================================================================================================================ Gated/Generated Clocks =================================================================================================================================
-Clock Tree ID     Driving Element                                              Drive Element Type     Fanout     Sample Instance                           Explanation                                                                                                                   
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-@K:CKID0001       uClockGen.PLLCInst_0                                         EHXPLLC                146        AERREQxSB                                 Gating structure creates improper gating logic. See the Gated Clocks description in the user guide for conversion requirements
-@K:CKID0002       IMUStateMachine_1.un1_StateIMUxDP_4_i_a4_0_a3_1_RNIKD851     ORCALUT4               8          IMUStateMachine_1.I2CDataWritexD[0]       No clocks found on inputs                                                                                                     
-@K:CKID0003       IMUStateMachine_1.StateRWxDP_RNI3PEJ[2]                      ORCALUT4               3          IMUStateMachine_1.I2CAckCountxDN[0]       No clocks found on inputs                                                                                                     
-@K:CKID0004       IMUStateMachine_1.StateRWxDP_ns_a3[8]                        ORCALUT4               3          IMUStateMachine_1.I2CDataReadxD[0]        No clocks found on inputs                                                                                                     
-@K:CKID0005       IMUStateMachine_1.un1_StateIMUxDP_2_i_a4_0_a3                ORCALUT4               2          IMUStateMachine_1.I2CAddrxD[0]            No clocks found on inputs                                                                                                     
-@K:CKID0006       IMUStateMachine_1.un1_StateRWxDP_5_0                         ORCALUT4               1          IMUStateMachine_1.I2CCSxSBO.res_lat       No clocks found on inputs                                                                                                     
-@K:CKID0007       IMUStateMachine_1.I2CCSxSBO.res_reg_0_RNO                    ORCALUT4               1          IMUStateMachine_1.I2CCSxSBO.res_reg_0     No clocks found on inputs                                                                                                     
-@K:CKID0008       IMUStateMachine_1.un1_StateIMUxDP_5_0_a4_0_a3                ORCALUT4               1          IMUStateMachine_1.WriteReqxE              No clocks found on inputs                                                                                                     
-@K:CKID0009       IMUStateMachine_1.ReadReqxE_RNO                              ORCALUT4               1          IMUStateMachine_1.ReadReqxE               No clocks found on inputs                                                                                                     
-@K:CKID0010       IMUStateMachine_1.StateRWxDP[8]                              FD1S3DX                9          IMUStateMachine_1.I2CDataxDIO_1[0]        Inferred clock from port                                                                                                      
-@K:CKID0011       ADCStateMachine_1.StateRowxDP[5]                             FD1S3DX                1          ADCStateMachine_1.StartRowxSN             Inferred clock from port                                                                                                      
-@K:CKID0012       ADCStateMachine_1.StateColxDP[11]                            FD1S3BX                1          ADCStateMachine_1.NoBxS                   Inferred clock from port                                                                                                      
-@K:CKID0013       IMUStateMachine_1.StateRWxDP[0]                              FD1S3DX                1          IMUStateMachine_1.ReadAckxE               Inferred clock from port                                                                                                      
-@K:CKID0014       IMUStateMachine_1.StateRWxDP[5]                              FD1S3DX                1          IMUStateMachine_1.WriteAckxE              Inferred clock from port                                                                                                      
-@K:CKID0015       IMUStateMachine_1.StateRWxDP_RNIJCMN[4]                      ORCALUT4               2          IMUStateMachine_1.I2CAddrxDO[0]           Inferred clock from port                                                                                                      
-@K:CKID0016       IMUStateMachine_1.StateRWxDP_derived_clock_RNIEID11[5]       ORCALUT4               2          IMUStateMachine_1.I2CRWxSBO.res_lat       Inferred clock from port                                                                                                      
-=========================================================================================================================================================================================================================================================================================
+================================================================================================================= Gated/Generated Clocks =================================================================================================================
+Clock Tree ID     Driving Element                       Drive Element Type     Fanout     Sample Instance                   Explanation                                                                                                                   
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+@K:CKID0001       uClockGen.PLLCInst_0                  EHXPLLC                147        AERREQxSB                         Gating structure creates improper gating logic. See the Gated Clocks description in the user guide for conversion requirements
+@K:CKID0002       ADCStateMachine_1.StateRowxDP[5]      FD1S3DX                1          ADCStateMachine_1.StartRowxSN     Inferred clock from port                                                                                                      
+@K:CKID0003       ADCStateMachine_1.StateColxDP[11]     FD1S3BX                1          ADCStateMachine_1.NoBxS           Inferred clock from port                                                                                                      
+==========================================================================================================================================================================================================================================================
 
 
 ##### END OF CLOCK OPTIMIZATION REPORT ######]

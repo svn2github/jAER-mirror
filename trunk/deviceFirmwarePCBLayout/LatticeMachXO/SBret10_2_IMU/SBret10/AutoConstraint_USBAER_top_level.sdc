@@ -4,7 +4,7 @@ define_clock -name {clockgen|CLKOP_inferred_clock} {n:clockgen|CLKOP_inferred_cl
 #End clock constraint
 
 #Begin clock constraint
-define_clock -name {USBAER_top_level|IfClockxCI} {p:USBAER_top_level|IfClockxCI} -period 7.972 -clockgroup Autoconstr_clkgroup_1 -rise 0.000 -fall 3.986 -route 0.000 
+define_clock -name {USBAER_top_level|IfClockxCI} {p:USBAER_top_level|IfClockxCI} -period 807.760 -clockgroup Autoconstr_clkgroup_1 -rise 0.000 -fall 403.880 -route 0.000 
 #End clock constraint
 
 #Begin clock constraint
@@ -16,25 +16,9 @@ define_clock -name {USBAER_top_level|PC2xSIO} {p:USBAER_top_level|PC2xSIO} -peri
 #End clock constraint
 
 #Begin clock constraint
-define_clock -name {IMUStateMachine|StateRWxDP_derived_clock[8]} {n:IMUStateMachine|StateRWxDP_derived_clock[8]} -period 25814.896 -clockgroup Autoconstr_clkgroup_1 -rise 0.000 -fall 12907.448 -route 0.000 
+define_clock -name {ADCStateMachine|StateColxDP_derived_clock[11]} {n:ADCStateMachine|StateColxDP_derived_clock[11]} -period 16155.199 -clockgroup Autoconstr_clkgroup_1 -rise 0.000 -fall 8077.599 -route 0.000 
 #End clock constraint
 
 #Begin clock constraint
-define_clock -name {IMUStateMachine|StateRWxDP_derived_clock[5]} {n:IMUStateMachine|StateRWxDP_derived_clock[5]} -period 25814.896 -clockgroup Autoconstr_clkgroup_1 -rise 0.000 -fall 12907.448 -route 0.000 
-#End clock constraint
-
-#Begin clock constraint
-define_clock -name {IMUStateMachine|StateRWxDP_derived_clock[0]} {n:IMUStateMachine|StateRWxDP_derived_clock[0]} -period 25814.896 -clockgroup Autoconstr_clkgroup_1 -rise 0.000 -fall 12907.448 -route 0.000 
-#End clock constraint
-
-#Begin clock constraint
-define_clock -name {ADCStateMachine|StateColxDP_derived_clock[11]} {n:ADCStateMachine|StateColxDP_derived_clock[11]} -period 25814.896 -clockgroup Autoconstr_clkgroup_1 -rise 0.000 -fall 12907.448 -route 0.000 
-#End clock constraint
-
-#Begin clock constraint
-define_clock -name {ADCStateMachine|StateRowxDP_derived_clock[5]} {n:ADCStateMachine|StateRowxDP_derived_clock[5]} -period 25814.896 -clockgroup Autoconstr_clkgroup_1 -rise 0.000 -fall 12907.448 -route 0.000 
-#End clock constraint
-
-#Begin clock constraint
-define_clock -name {monitorStateMachine|StatexDP_derived_clock[3]} {n:monitorStateMachine|StatexDP_derived_clock[3]} -period 25168.313 -clockgroup Autoconstr_clkgroup_0 -rise 0.000 -fall 12584.156 -route 0.000 
+define_clock -name {ADCStateMachine|StateRowxDP_derived_clock[5]} {n:ADCStateMachine|StateRowxDP_derived_clock[5]} -period 16155.199 -clockgroup Autoconstr_clkgroup_1 -rise 0.000 -fall 8077.599 -route 0.000 
 #End clock constraint

@@ -27,7 +27,6 @@ entity IMUStateMachine is
 		ResetxRBI   : in std_logic;
 		
 		-- Signals interfacing with I2C Controller 
-		I2CINTxSBI  : in std_logic; -- I2C Interrupt
 		I2CRWxSBO   : out std_logic; -- I2C Read/Write 
 		I2CCSxSBO   : out std_logic; -- I2C Chip Select 
 		I2CAddrxDO  : out std_logic_vector(2 downto 0); -- I2C Address for register selection
@@ -42,6 +41,7 @@ entity IMUStateMachine is
 		IMUDataDropxEI		: in std_logic;  -- Indicates that DataReadyReq was acknowledged but data don't be written to FIFO
 		IMURegisterWritexEO : out std_logic; -- Enable IMU Data to be written to IMU Register for FIFO
 		IMUDataxDO          : out std_logic_vector(15 downto 0) -- IMU Data to be written to IMU Register for FIFO
+	
 	);
 	
 end IMUStateMachine;
@@ -54,9 +54,9 @@ architecture Behavioral of IMUStateMachine is
 			-- Idle
 			stIdle,
 			-- Write to I2C Register
-			stWriteRegister1, stWriteRegister2, stWriteRegister3,  
+			stWriteRegister1, stWriteRegister2, stWriteRegister3, stWriteRegister4,  
 			-- Read from I2C Register
-			stReadRegister1, stReadRegister2, stReadRegister3);
+			stReadRegister1, stReadRegister2, stReadRegister3, stReadRegister4);
 	signal StateRWxDP, StateRWxDN : stateRW;
 
 	-- States used to initialize IMU and collect data
@@ -96,8 +96,8 @@ architecture Behavioral of IMUStateMachine is
 	
 	-- I2C Controller Register addresses and values
 	constant I2C_IMU_ADDR 					: std_logic_vector(6 downto 0) :=  "1101000"; -- IMU I2C Address
-	constant I2C_IMU_WRITE						: std_logic := '0';
-	constant I2C_IMU_READ						: std_logic := '1';
+	constant I2C_IMU_WRITE					: std_logic := '0'; -- Write bit appended to end of IMU I2C Address
+	constant I2C_IMU_READ					: std_logic := '1'; -- Read bit appended to end of IMU I2C Address
 	constant I2C_IMU_ACCEL_XOUT_H_ADDR 		: std_logic_vector(7 downto 0) := "00111011"; -- First IMU Data Register containing 8 MSB bits from x axis of accelerometer
 	constant I2C_IMU_WRITE_BYTE_COUNT 		: std_logic_vector(7 downto 0) := "00001010"; -- Number of configuration bytes to write to IMU, 5 addresses, 5 data
 	constant I2C_IMU_INT_READ_BYTE_COUNT	: std_logic_vector(7 downto 0) := "00000001"; -- Number of bytes to write to select IMU Interrupt Register
@@ -143,20 +143,20 @@ architecture Behavioral of IMUStateMachine is
 	signal IMUMeasByteCountxDN, IMUMeasByteCountxDP : std_logic_vector(3 downto 0); -- IMU Measurement Byte counter (1 word is 2 bytes or 16 bits)
 	constant imu_meas_byte_length : std_logic_vector(3 downto 0) := "1101"; -- Maximum valid value for IMUMeasByteCount: 13
 	-- IMU Byte Data (Read from I2C)
-	signal IMUAccelXMSBxDN, IMUAccelXMSBxDP : std_logic_vector(7 downto 0); -- X Accelerometer Measurement
-	signal IMUAccelXLSBxDN, IMUAccelXLSBxDP : std_logic_vector(7 downto 0); -- X Accelerometer Measurement
-	signal IMUAccelYMSBxDN, IMUAccelYMSBxDP : std_logic_vector(7 downto 0); -- Y Accelerometer Measurement
-	signal IMUAccelYLSBxDN, IMUAccelYLSBxDP : std_logic_vector(7 downto 0); -- Y Accelerometer Measurement
-	signal IMUAccelZMSBxDN, IMUAccelZMSBxDP : std_logic_vector(7 downto 0); -- Z Accelerometer Measurement
-	signal IMUAccelZLSBxDN, IMUAccelZLSBxDP : std_logic_vector(7 downto 0); -- Z Accelerometer Measurement
-	signal IMUTempMSBxDN, IMUTempMSBxDP : std_logic_vector(7 downto 0); -- Temperature Measurement
-	signal IMUTempLSBxDN, IMUTempLSBxDP : std_logic_vector(7 downto 0); -- Temperature Measurement
-	signal IMUGyroXMSBxDN, IMUGyroXMSBxDP : std_logic_vector(7 downto 0); -- X Gyroscope Measurement
-	signal IMUGyroXLSBxDN, IMUGyroXLSBxDP : std_logic_vector(7 downto 0); -- X Gyroscope Measurement
-	signal IMUGyroYMSBxDN, IMUGyroYMSBxDP : std_logic_vector(7 downto 0); -- Y Gyroscope Measurement
-	signal IMUGyroYLSBxDN, IMUGyroYLSBxDP : std_logic_vector(7 downto 0); -- Y Gyroscope Measurement
-	signal IMUGyroZMSBxDN, IMUGyroZMSBxDP : std_logic_vector(7 downto 0); -- Z Gyroscope Measurement
-	signal IMUGyroZLSBxDN, IMUGyroZLSBxDP : std_logic_vector(7 downto 0); -- Z Gyroscope Measurement
+	signal IMUAccelXMSBxDN, IMUAccelXMSBxDP : std_logic_vector(7 downto 0); -- X Accelerometer Measurement (15 downto 8)
+	signal IMUAccelXLSBxDN, IMUAccelXLSBxDP : std_logic_vector(7 downto 0); -- X Accelerometer Measurement (7 downto 0)
+	signal IMUAccelYMSBxDN, IMUAccelYMSBxDP : std_logic_vector(7 downto 0); -- Y Accelerometer Measurement (15 downto 8)
+	signal IMUAccelYLSBxDN, IMUAccelYLSBxDP : std_logic_vector(7 downto 0); -- Y Accelerometer Measurement (7 downto 0)
+	signal IMUAccelZMSBxDN, IMUAccelZMSBxDP : std_logic_vector(7 downto 0); -- Z Accelerometer Measurement (15 downto 8)
+	signal IMUAccelZLSBxDN, IMUAccelZLSBxDP : std_logic_vector(7 downto 0); -- Z Accelerometer Measurement (7 downto 0)
+	signal IMUTempMSBxDN, IMUTempMSBxDP : std_logic_vector(7 downto 0); -- Temperature Measurement (15 downto 8)
+	signal IMUTempLSBxDN, IMUTempLSBxDP : std_logic_vector(7 downto 0); -- Temperature Measurement (7 downto 0)
+	signal IMUGyroXMSBxDN, IMUGyroXMSBxDP : std_logic_vector(7 downto 0); -- X Gyroscope Measurement (15 downto 8)
+	signal IMUGyroXLSBxDN, IMUGyroXLSBxDP : std_logic_vector(7 downto 0); -- X Gyroscope Measurement (7 downto 0)
+	signal IMUGyroYMSBxDN, IMUGyroYMSBxDP : std_logic_vector(7 downto 0); -- Y Gyroscope Measurement (15 downto 8)
+	signal IMUGyroYLSBxDN, IMUGyroYLSBxDP : std_logic_vector(7 downto 0); -- Y Gyroscope Measurement (7 downto 0)
+	signal IMUGyroZMSBxDN, IMUGyroZMSBxDP : std_logic_vector(7 downto 0); -- Z Gyroscope Measurement (15 downto 8)
+	signal IMUGyroZLSBxDN, IMUGyroZLSBxDP : std_logic_vector(7 downto 0); -- Z Gyroscope Measurement (7 downto 0)
 	-- IMU Word Data (Written to FIFO)
 	signal IMUAccelXxDN, IMUAccelXxDP : std_logic_vector(15 downto 0); -- X Accelerometer Measurement
 	signal IMUAccelYxDN, IMUAccelYxDP : std_logic_vector(15 downto 0); -- Y Accelerometer Measurement
@@ -165,7 +165,6 @@ architecture Behavioral of IMUStateMachine is
 	signal IMUGyroXxDN, IMUGyroXxDP : std_logic_vector(15 downto 0); -- X Gyroscope Measurement
 	signal IMUGyroYxDN, IMUGyroYxDP : std_logic_vector(15 downto 0); -- Y Gyroscope Measurement
 	signal IMUGyroZxDN, IMUGyroZxDP : std_logic_vector(15 downto 0); -- Z Gyroscope Measurement
-	signal IMUNewMeasxE : std_logic; -- When polling for data, indicates that a new value is ready to be read
 	
 	-- IMU Write Signals (interfaces with Monitor State Machine)
 	constant imu_data_word_length : std_logic_vector(2 downto 0) := "110"; -- Maximum valid value for IMUDataWordCount: 6 (7 16-bit words)
@@ -197,14 +196,13 @@ begin
 		WriteAckxE <= '0'; 
 		ReadAckxE <= '0'; 
 		I2CDataReadxD <= (others => '0');
-		IMUDataReadyxE <= '0';
 		
 		-- START CASE StateRWxDP
 		case StateRWxDP is
 			
 			when stIdle =>
-				I2CAddrxDO <= I2CAddrxD;
 				I2CDataxDIO <= (others => 'Z'); 
+				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '1';
 				I2CCSxSBO <= '1';
 				
@@ -238,7 +236,7 @@ begin
 					I2CAckCountxDN <= I2CAckCountxDP + 1;
 				end if; 
 				
-			when stWriteRegister3 => -- Acknowledge
+			when stWriteRegister3 => -- Write
 				I2CDataxDIO <= I2CDataWritexD;  
 				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '0';
@@ -247,22 +245,33 @@ begin
 				-- Handshaking
 				WriteAckxE <= '1';
 				if WriteReqxE = '0' then
-					WriteAckxE <= '0';
-					StateRWxDN <= stIdle;
+					StateRWxDN <= stWriteRegister4;
 				end if;
+			
+			when stWriteRegister4 => -- Acknowledge
+				I2CDataxDIO <= (others => 'Z'); 
+				I2CAddrxDO <= I2CAddrxD;
+				I2CRWxSBO <= '1';
+				I2CCSxSBO <= '1';
+
+				-- Handshaking
+				WriteAckxE <= '0';
+				
+				StateRWxDN <= stIdle;
+
 			-- END I2C Write
 			
 			-- START I2C Read
 			when stReadRegister1 => -- Set 
-				I2CAddrxDO <= I2CAddrxD;
 				I2CDataxDIO <= (others => 'Z'); 
+				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '1';
 				I2CCSxSBO <= '1';
 
 				StateRWxDN <= stReadRegister2;
 
 			when stReadRegister2 => -- Wait to latch
-				I2CDataReadxD <= I2CDataxDIO;  
+				I2CDataxDIO <= (others => 'Z');
 				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '1';
 				I2CCSxSBO <= '0';
@@ -277,6 +286,7 @@ begin
 			
 			when stReadRegister3 => -- Read
 				I2CDataReadxD <= I2CDataxDIO;  
+				I2CDataxDIO <= (others => 'Z'); -- After reading, set signal back to 'Z' to ensure inout can be written to 
 				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '1';
 				I2CCSxSBO <= '0';
@@ -284,9 +294,20 @@ begin
 				-- Handshaking
 				ReadAckxE <= '1';
 				if ReadReqxE = '0' then
-					ReadAckxE <= '0';
-					StateRWxDN <= stIdle;
+					StateRWxDN <= stReadRegister4;
 				end if;
+				
+			when stReadRegister4 => -- Acknowledge
+				I2CDataxDIO <= (others => 'Z'); 
+				I2CAddrxDO <= I2CAddrxD;
+				I2CRWxSBO <= '1';
+				I2CCSxSBO <= '1'; 
+
+				-- Handshaking
+				ReadAckxE <= '0';
+				
+				StateRWxDN <= stIdle;
+				
 			-- END I2C Read
 
 		end case; 
@@ -297,34 +318,37 @@ begin
 	
 	-- Calculate next state and outputs for I2C Controller and IMU transaction
 	p_imu : process (StateIMUxDP, IMUInitByteCountxDP, IMUMeasByteCountxDP, I2CWaitCountxDP, 
+			IMUAccelXMSBxDP, IMUAccelXLSBxDP, IMUAccelYMSBxDP, IMUAccelYLSBxDP, IMUAccelZMSBxDP, IMUAccelZLSBxDP,
+			IMUTempMSBxDP, IMUTempLSBxDP, IMUGyroXMSBxDP, IMUGyroXLSBxDP, IMUGyroYMSBxDP, IMUGyroYLSBxDP, IMUGyroZMSBxDP, IMUGyroZLSBxDP,   
 			IMURunxEI, WriteAckxE, ReadAckxE, I2CDataReadxD) 
 	begin 
   
 		-- Default assignemnts
 		-- Registers
-		StateIMUxDN <= StateIMUxDP;
+		StateIMUxDN 		<= StateIMUxDP;
 		IMUInitByteCountxDN	<= IMUInitByteCountxDP;	
 		IMUMeasByteCountxDN	<= IMUMeasByteCountxDP;	
-		I2CWaitCountxDN <= I2CWaitCountxDP;
+		I2CWaitCountxDN 	<= I2CWaitCountxDP;
+		IMUAccelXMSBxDN 	<= IMUAccelXMSBxDP;
+		IMUAccelXLSBxDN 	<= IMUAccelXLSBxDP;
+		IMUAccelYMSBxDN 	<= IMUAccelYMSBxDP;
+		IMUAccelYLSBxDN 	<= IMUAccelYLSBxDP;
+		IMUAccelZMSBxDN 	<= IMUAccelZMSBxDP;
+		IMUAccelZLSBxDN 	<= IMUAccelZLSBxDP;
+		IMUTempMSBxDN 		<= IMUTempMSBxDP;
+		IMUTempLSBxDN 		<= IMUTempLSBxDP;
+		IMUGyroXMSBxDN 		<= IMUGyroXMSBxDP;
+		IMUGyroXLSBxDN 		<= IMUGyroXLSBxDP;
+		IMUGyroYMSBxDN 		<= IMUGyroYMSBxDP;
+		IMUGyroYLSBxDN 		<= IMUGyroYLSBxDP;
+		IMUGyroZMSBxDN 		<= IMUGyroZMSBxDP;
+		IMUGyroZLSBxDN 		<= IMUGyroZLSBxDP;
 		-- Output Signals
 		WriteReqxE <= '0'; 
 		ReadReqxE <= '0'; 
 		I2CAddrxD <= (others => '0');
 		I2CDataWritexD <= (others => '0');
-		IMUAccelXMSBxDN <= IMUAccelXMSBxDP;
-		IMUAccelXLSBxDN <= IMUAccelXLSBxDP;
-		IMUAccelYMSBxDN <= IMUAccelYMSBxDP;
-		IMUAccelYLSBxDN <= IMUAccelYLSBxDP;
-		IMUAccelZMSBxDN <= IMUAccelZMSBxDP;
-		IMUAccelZLSBxDN <= IMUAccelZLSBxDP;
-		IMUTempMSBxDN <= IMUTempMSBxDP;
-		IMUTempLSBxDN <= IMUTempLSBxDP;
-		IMUGyroXMSBxDN <= IMUGyroXMSBxDP;
-		IMUGyroXLSBxDN <= IMUGyroXLSBxDP;
-		IMUGyroYMSBxDN <= IMUGyroYMSBxDP;
-		IMUGyroYLSBxDN <= IMUGyroYLSBxDP;
-		IMUGyroZMSBxDN <= IMUGyroZMSBxDP;
-		IMUGyroZLSBxDN <= IMUGyroZLSBxDP;
+		IMUDataReadyxE <= '0';
 		
 		-- START CASE StateIMUxDP
 		case StateIMUxDP is
@@ -701,10 +725,12 @@ begin
 				ReadReqxE <= '1';
 				if ReadAckxE = '1' then
 					ReadReqxE <= '0';
+					
 					-- Transaction Done
 					if I2CDataReadxD(3) = '1' then 
-						StateIMUxDN <= stRdWriteAddressRegister;
+						StateIMUxDN <= stRdWriteAddressRegister1;
 					end if;
+					
 				end if;
 			
 			-- Now that the appropriate data register to read from is set, we start process all over again
@@ -771,13 +797,12 @@ begin
 			-- We read 1 byte at a time iterating from MSB of Accel X to LSB of Gyro Z
 			when stRdReadDataBufferRegister =>
 				I2CAddrxD <= data_buf;
-				
+
 				ReadReqxE <= '1';
 				if ReadAckxE = '1' then
 					ReadReqxE <= '0';
 					
-					-- Write data to correct measurement register
-					-- POTENTIALLY DANGEROUS!
+					--Write data to correct measurement register
 					case IMUMeasByteCountxDP is
 						when "0000" =>	IMUAccelXMSBxDN	<= I2CDataReadxD;
 						when "0001" =>	IMUAccelXLSBxDN	<= I2CDataReadxD;
@@ -829,8 +854,6 @@ begin
 					if I2CDataReadxD(3) = '1' then 
 						-- Indicate that Data is ready to be Written to the FIFO 
 						-- Handshaking with monitor state machine handled by p_imu_write process 
-						-- ADD CONTROL SIGNAL FOR WHEN TO DO THIS! OR WHEN TO 'IGNORE' IT
-						-- FIGURE OUT LATER
 						IMUDataReadyxE <= '1'; 
 						StateIMUxDN <= stRdWriteAddressRegister;
 					end if;
@@ -848,7 +871,9 @@ begin
 	-- We handshake 2 different sets of signals. We wait for Monitor state machine to be ready to write IMU data (IMUDataReadyX)
 	-- and then we write the data (IMUDataWriteX)
 	p_imu_write : process (StateIMUWritexDP, IMUDataWordCountxDP, IMUDataReadyAckxEI, IMUDataWriteReqxEI,
-			IMUAccelXxDP, IMUAccelYxDP, IMUAccelZxDP, IMUTempxDP, IMUGyroXxDP, IMUGyroYxDP, IMUGyroZxDP, IMUDataDropxEI)
+			IMUAccelXMSBxDP, IMUAccelXLSBxDP, IMUAccelYMSBxDP, IMUAccelYLSBxDP, IMUAccelZMSBxDP, IMUAccelZLSBxDP,
+			IMUTempMSBxDP, IMUTempLSBxDP, IMUGyroXMSBxDP, IMUGyroXLSBxDP, IMUGyroYMSBxDP, IMUGyroYLSBxDP, IMUGyroZMSBxDP, IMUGyroZLSBxDP, 
+			IMUAccelXxDP, IMUAccelYxDP, IMUAccelZxDP, IMUTempxDP, IMUGyroXxDP, IMUGyroYxDP, IMUGyroZxDP, IMUDataDropxEI, IMUDataReadyxE)
 	begin 
   
 		-- Default Assignments
@@ -862,14 +887,8 @@ begin
 		IMUGyroYxDN <= IMUGyroYxDP;
 		IMUGyroZxDN <= IMUGyroZxDP;
 
-		--IMUDataxDO <= (others => '0');
-		
-		
-		--IMURegisterWritexEO <= '0';
-		--IMUDataReadyReqxEO <= '0';
-		--I2CDataWritexD(7 downto 0) <= (others => '0');
-		
-		
+		IMUDataxDO <= (others => '0');
+				
 		IMUDataReadyReqxEO <= '0';
 		IMUDataWriteAckxEO <= '0'; 
 		IMURegisterWritexEO <= '0';
@@ -889,14 +908,19 @@ begin
 					IMUGyroXxDN <= IMUGyroXMSBxDP & IMUGyroXLSBxDP;
 					IMUGyroYxDN <= IMUGyroYMSBxDP & IMUGyroYLSBxDP;
 					IMUGyroZxDN <= IMUGyroZMSBxDP & IMUGyroZLSBxDP;
+					
 					StateIMUWritexDN <= stDataReadyReq;
 				end if;
 
 			when stDataReadyReq =>
+				-- VERIFY HANDHSAKING HERE FOR COMBINATIONAL LOOPS!!!
+				-- WOULDN'T THE SYNTHETIZER COMPLAIN ALREADY ABOUT IT?!
+				
 				-- Indicate that data is ready and wait for permission from Monitor State Machine to write data
 				IMUDataReadyReqxEO <= '1';
 				if IMUDataReadyAckxEI = '1' then
 					IMUDataReadyReqxEO <= '0';
+					
 					-- If we don't drop the data, then get ready to write
 					if IMUDataDropxEI = '0' then
 						StateIMUWritexDN <= stDataWriteReq;
@@ -974,7 +998,6 @@ begin
 			IMUGyroXxDP <= (others => '0');
 			IMUGyroYxDP <= (others => '0');
 			IMUGyroZxDP <= (others => '0');
-
 
 		elsif ClockxC'event and ClockxC = '1' then  -- On rising clock edge   
 			StateRWxDP <= StateRWxDN;

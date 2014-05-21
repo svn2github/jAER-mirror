@@ -251,7 +251,6 @@ architecture Structural of USBAER_top_level is
 		port (
 			ClockxCI    		: in std_logic;
 			ResetxRBI   		: in std_logic;
-			I2CINTxSBI  		: in std_logic; 
 			I2CRWxSBO   		: out std_logic; 
 			I2CCSxSBO   		: out std_logic; 
 			I2CAddrxDO  		: out std_logic_vector(2 downto 0); 
@@ -279,7 +278,7 @@ architecture Structural of USBAER_top_level is
 			A1         : in std_logic;                 -- Address bits for register selection
 			A2         : in std_logic;                 -- Address bits for register selection
 			RW_L       : in std_logic;                 -- Read/Write, write active low
-			INTR_L     : out std_logic;                -- Interupt Request, active low
+			--INTR_L     : out std_logic;                -- Interupt Request, active low
 			DATA       : inout std_logic_vector(7 downto 0)); -- data bus to/from attached device(NOTE: Data(7) is MSB)                         
 	end component;  
 	--H
@@ -416,7 +415,6 @@ architecture Structural of USBAER_top_level is
 	--H 
 
 	--H I2C Control signals
-	signal I2CINTxSB : std_logic; 
 	signal I2CRWxSB : std_logic;
 	signal I2CCSxSB : std_logic; 
 	signal I2CAddrxD : std_logic_vector(2 downto 0);
@@ -711,7 +709,6 @@ begin
 		port map (
 			ClockxCI    		=> IfClockxC,
 			ResetxRBI   		=> ResetxRB,
-			I2CINTxSBI  		=> I2CINTxSB,
 			I2CRWxSBO   		=> I2CRWxSB,
 			I2CCSxSBO   		=> I2CCSxSB,
 			I2CAddrxDO  		=> I2CAddrxD,
@@ -743,7 +740,7 @@ begin
 			A1 		=> I2CAddrxD(1), 
 			A2		=> I2CAddrxD(2), 
 			RW_L	=> I2CRWxSB,
-			INTR_L	=> I2CINTxSB,
+			--INTR_L	=> I2CINTxSB, -- Signal not used
 			DATA	=> I2CDataxD); 
 	--H
 
@@ -785,7 +782,7 @@ begin
 			AddressMSBxD & MonitorTimestampxD	when selecttimestamp,
 			AddressMSBxD & externaleventtype 	when selecttrigger, --H Writes special event as indicated by externaleventtype                                     
 			AddressMSBxD & ADCregOutxD 			when selectADC,
-			IMUregOutxD 						when selectIMU, --H Writes IMU measurements
+			IMURegOutxD 						when selectIMU, --H Writes IMU measurements
 			(others => '0') 					when others; --H
 	
 	LED1xSO <= CDVSTestChipResetxRB;
