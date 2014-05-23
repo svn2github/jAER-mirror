@@ -793,6 +793,27 @@ BOOL DR_VendorCmnd(void)
 
 				break;
 			}
+		case VR_IMU: // setup1: control the IMU
+					SYNCDELAY;
+					switch(SETUPDAT[2]){  // setupdat[2] is LSB of value
+						case IMU_CMD_WRITE_REGISTER:
+							// writes a value to a specified IMU register address
+							EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &SETUPDAT[4]); // SETUPDAT[3] has register address, SETUPDAT[4] has the new register value
+						break;
+						case IMU_CMD_READ_REGISTER:
+							// Get the register value from the IMU ... write 1 byte to IMU I2C which contains the IMU register address
+							EZUSB_WriteI2C(I2C_GYRO_ADDR, 1, &SETUPDAT[3]); // SETUPDAT[3] has register address
+							// ... and now read the register value back directly into the EP0IN buffer, starting at offset 5.
+							while(EP0CS & bmEPBUSY); // wait for EP0 to be free (should be free already)
+							EZUSB_ReadI2C(I2C_GYRO_ADDR, 1, &EP0BUF[2]);
+							EP0BCH = 0;
+							EP0BCL = (BYTE)1; // Arm endpoint with # bytes to transfer
+						break;
+						default:
+							return TRUE; // error, create stall
+					 }
+			return FALSE;// return here, don't fall out where by default the sent VR is returned to host in acknowledge phase
+			break;
 		case VR_WRITE_CONFIG: // write bytes to SPI interface and also handles other configuration of board like CPLD and port bits on FX2
 		case VR_EEPROM_BIASGEN_BYTES: // falls through and actual command is tested below
 			{
@@ -948,28 +969,7 @@ BOOL DR_VendorCmnd(void)
 					RUN_ADC=oldbit;
 	
 						break; // very important, otherwise get stall
-				case VR_IMU: // control the IMU
-				// TODO add code to write register and to read it and send it back to host
-					SYNCDELAY;
-					switch(SETUPDAT[2]){
-						case IMU_CMD_WRITE_REGISTER:
-							// writes a value to a specified IMU register address
-							EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &SETUPDAT[3]); // SETUPDAT[3] has register address, SETUPDAT[4] has the new register value
-						break;
-						case IMU_CMD_READ_REGISTER:
-							// Get the register value from the IMU ... write 1 byte to IMU I2C which contains the IMU register address
-							EZUSB_WriteI2C(I2C_GYRO_ADDR, 1, &SETUPDAT[3]); // SETUPDAT[3] has register address
-							// ... and now read the register value back directly into the EP0IN buffer, starting at offset 5.
-							while(EP0CS & bmEPBUSY); // wait for EP0 to be free (should be free already)
-							EZUSB_ReadI2C(I2C_GYRO_ADDR, 1, &EP0BUF[2]);
-							EP0BCH = 0;
-							EP0BCL = (BYTE)1; // Arm endpoint with # bytes to transfer
-						break;
-						default:
-							return TRUE; // error, create stall
-					 }
-					return FALSE;// return here, don't fall out where by default the sent VR is returned to host in acknowledge phase
-					break;
+
 				default:
 					return(TRUE);  // don't recognize command, generate stall
 				} // end of subcmd switch
@@ -977,7 +977,7 @@ BOOL DR_VendorCmnd(void)
 				EP0BCH = 0;
 				EP0BCL = 0;                   // Arm endpoint with 0 byte to transfer
 				toggleLED();
-				return(FALSE); // very important, otherwise get stall
+				return(FALSE); // very important, otherwise get stall								default:
 			} // end of subcmds to config cmds
 /* commented out because these VR's are replaced by direct bit control from host side via general interface to ports
 	case VR_WRITE_CPLD_SR: // write bytes to SPI interface
