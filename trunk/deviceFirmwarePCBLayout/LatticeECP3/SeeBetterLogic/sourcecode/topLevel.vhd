@@ -1,5 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
+use IEEE.NUMERIC_STD.all;
 use work.settings.all;
 
 entity topLevel is
@@ -8,7 +9,7 @@ entity topLevel is
 		Reset_RBI : in std_logic;
 		FPGARun_SI : in std_logic;
 
-		USBFifoData_DO : out std_logic_vector(15 downto 0);
+		USBFifoData_DO : out std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
 		USBFifoChipSelect_SBO : out std_logic;
 		USBFifoWrite_SBO : out std_logic;
 		USBFifoRead_SBO : out std_logic;
@@ -87,11 +88,15 @@ architecture Structural of topLevel is
 	end component pmi_fifo_dc;
 
 	component continuousCounter
+	generic (
+		COUNTER_WIDTH : integer := 16);
 	port (
-		Clock_CI : in  std_logic;
-		Reset_RBI : in  std_logic;
-		CountEnable_SI : in std_logic;
-		Data_DO : out std_logic_vector(15 downto 0));
+		Clock_CI : in std_logic;
+		Reset_RBI : in std_logic;
+		Enable_SI : in std_logic;
+		DataLimit_DI : in unsigned(COUNTER_WIDTH-1 downto 0);
+		Overflow_SO : out std_logic;
+		Data_DO : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component;
   
 	component pmi_pll is
@@ -118,25 +123,25 @@ architecture Structural of topLevel is
 		CLKOK2: out std_logic;
 		LOCK: out std_logic);
 	end component pmi_pll;
-  
+
+	signal LogicClock_C : std_logic;
 	signal Reset_RI: std_logic;
-	signal AERFifoDataIn_D : std_logic_vector(15 downto 0);
-	signal AERFifoWrite_S, AERFifoRead_S : std_logic;
-	signal AERFifoEmpty_S, AERFifoFull_S, AERFifoAlmostEmpty_S : std_logic;
-	signal SlowClock_C : std_logic;
+	signal USBFifoDataIn_D : std_logic_vector(USB_FIFO_WIDTH-1 downto 0); -- 16-bit wide USB data path.
+	signal USBFifoWrite_S, USBFifoRead_S : std_logic;
+	signal USBFifoEmpty_S, USBFifoAlmostEmpty_S, USBFifoFull_S, USBFifoAlmostFull_S : std_logic;
 	signal USBFifoThr0ReadySync_S, USBFifoThr0WatermarkSync_S, USBFifoThr1ReadySync_S, USBFifoThr1WatermarkSync_S : std_logic;
 begin
 	Reset_RI <= not Reset_RBI;
-	AERFifoWrite_S <= FPGARun_SI and (not AERFifoFull_S);
-	USBFifoRead_SBO <= '1';
-	LED1_SO <= AERFifoEmpty_S;
-	LED2_SO <= AERFifoFull_S;
-	LED3_SO <= '0';
-	LED4_SO <= '0';
+	USBFifoWrite_S <= FPGARun_SI and (not USBFifoFull_S);
+	USBFifoRead_SBO <= '1'; -- We never, ever read from the USB data path.
+	LED1_SO <= USBFifoEmpty_S;
+	LED2_SO <= USBFifoFull_S;
+	LED3_SO <= USBFifoAlmostEmpty_S;
+	LED4_SO <= USBFifoAlmostFull_S;
 
-	slowClockPLL : pmi_pll
+	logicClockPLL : pmi_pll
 	generic map (
-		pmi_freq_clki => FX3_CLOCK_FREQ,
+		pmi_freq_clki => USB_CLOCK_FREQ,
 		pmi_freq_clkfb => LOGIC_CLOCK_FREQ,
 		pmi_freq_clkop => LOGIC_CLOCK_FREQ,
 		pmi_freq_clkos => LOGIC_CLOCK_FREQ,
@@ -149,9 +154,9 @@ begin
 		pmi_fdel_val => 0)
 	port map (
 		CLKI => USBClock_CI,
-		CLKFB => SlowClock_C,
+		CLKFB => LogicClock_C,
 		RESET => Reset_RI,
-		CLKOP => SlowClock_C,
+		CLKOP => LogicClock_C,
 		CLKOS => open,
 		CLKOK => open,
 		CLKOK2 => open,
@@ -199,45 +204,47 @@ begin
 		USBFifoWrite_SBO => USBFifoWrite_SBO,
 		USBFifoPktEnd_SBO => USBFifoPktEnd_SBO,
 		USBFifoAddress_DO => USBFifoAddress_DO,
-		InFifoEmpty_SI => AERFifoEmpty_S,
-		InFifoAlmostEmpty_SI => AERFifoAlmostEmpty_S,
-		InFifoRead_SO => AERFifoRead_S);
+		InFifoEmpty_SI => USBFifoEmpty_S,
+		InFifoAlmostEmpty_SI => USBFifoAlmostEmpty_S,
+		InFifoRead_SO => USBFifoRead_S);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
 	usbFifo: pmi_fifo_dc
 	generic map (
-		pmi_data_width_w => 16,
-		pmi_data_depth_w => 64,
-		pmi_data_width_r => 16,
-		pmi_data_depth_r => 64,
-		pmi_full_flag => 64,
+		pmi_data_width_w => USB_FIFO_WIDTH,
+		pmi_data_depth_w => USB_FIFO_SIZE,
+		pmi_data_width_r => USB_FIFO_WIDTH,
+		pmi_data_depth_r => USB_FIFO_SIZE,
+		pmi_full_flag => USB_FIFO_SIZE,
 		pmi_empty_flag => 0,
-		pmi_almost_full_flag => 56,
-		pmi_almost_empty_flag => 8,
+		pmi_almost_full_flag => USB_FIFO_SIZE - USB_BURST_WRITE_LENGTH,
+		pmi_almost_empty_flag => USB_BURST_WRITE_LENGTH,
 		pmi_regmode => "noreg",
 		pmi_resetmode => "async",
 		pmi_family => "ECP3",
-		pmi_implementation => "LUT"
-	)
+		pmi_implementation => "LUT")
 	port map (
-		Data => AERFifoDataIn_D,
-		WrClock => SlowClock_C,
+		Data => USBFifoDataIn_D,
+		WrClock => LogicClock_C,
 		RdClock => USBClock_CI,
-		WrEn => AERFifoWrite_S, 
-		RdEn => AERFifoRead_S,
+		WrEn => USBFifoWrite_S, 
+		RdEn => USBFifoRead_S,
 		Reset => Reset_RI,
 		RPReset => Reset_RI,
 		Q =>  USBFifoData_DO,
-		Empty => AERFifoEmpty_S, 
-		Full => AERFifoFull_S,
-		AlmostEmpty => AERFifoAlmostEmpty_S,
-		AlmostFull => open
-	);
+		Empty => USBFifoEmpty_S, 
+		Full => USBFifoFull_S,
+		AlmostEmpty => USBFifoAlmostEmpty_S,
+		AlmostFull => USBFifoAlmostFull_S);
 
 	numberGenerator : continuousCounter
+	generic map (
+		COUNTER_WIDTH => USB_FIFO_WIDTH)
 	port map (
-		Clock_CI => SlowClock_C,
+		Clock_CI => LogicClock_C,
 		Reset_RBI => Reset_RBI,
-		CountEnable_SI => AERFifoWrite_S,
-		Data_DO => AERFifoDataIn_D);
+		Enable_SI => USBFifoWrite_S,
+		DataLimit_DI => (others => '1'),
+		Overflow_SO => open,
+		std_logic_vector(Data_DO) => USBFifoDataIn_D);
 end Structural;

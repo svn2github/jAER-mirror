@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
-use IEEE.STD_LOGIC_ARITH.all;
-use IEEE.STD_LOGIC_UNSIGNED.all;
+use IEEE.NUMERIC_STD.all;
+use work.settings.all;
 
 entity FX3Statemachine is
 	port (
@@ -30,6 +30,18 @@ entity FX3Statemachine is
 end FX3Statemachine;
 
 architecture Behavioral of FX3Statemachine is
+	component continuousCounter
+	generic (
+		COUNTER_WIDTH : integer := 16);
+	port (
+		Clock_CI : in std_logic;
+		Reset_RBI : in std_logic;
+		Enable_SI : in std_logic;
+		DataLimit_DI : in unsigned(COUNTER_WIDTH-1 downto 0);
+		Overflow_SO : out std_logic;
+		Data_DO : out unsigned(COUNTER_WIDTH-1 downto 0));
+	end component;
+
 	type state is (stIdle0, stPrepareWrite0, stWriteFirst0, stWriteMiddle0, stWriteLast0, stPrepareSwitch0, stSwitch0,
 	               stIdle1, stPrepareWrite1, stWriteFirst1, stWriteMiddle1, stWriteLast1, stPrepareSwitch1, stSwitch1);
 
@@ -40,15 +52,38 @@ architecture Behavioral of FX3Statemachine is
 	signal State_DP, State_DN : state;
 	
 	-- write burst counter
-	signal WriteCycle_DP, WriteCycle_DN : std_logic_vector(2 downto 0);
+	signal CyclesCount_S, CyclesNotify_S : std_logic;
 	
-	-- number of intermediate writes to perform (including zero, so a value of 5 means 6 write cycles)
-	constant WRITE_CYCLES : integer := 5;
+	-- early packet counter, to keep a certain flow of USB traffic going even in the case of low event rates
+	signal EarlyPacketCount_S, EarlyPacketNotify_S : std_logic;
 begin
-	p_memoryless : process (State_DP, WriteCycle_DP, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, Run_SI)
+	writeCyclesCounter : continuousCounter
+	generic map (
+		COUNTER_WIDTH => USB_BURST_WRITE_WIDTH)
+	port map (
+		Clock_CI => Clock_CI,
+		Reset_RBI => Reset_RBI,
+		Enable_SI => CyclesCount_S,
+		DataLimit_DI => to_unsigned(USB_BURST_WRITE_CYCLES, USB_BURST_WRITE_WIDTH),
+		Overflow_SO => CyclesNotify_S,
+		Data_DO => open);
+
+	earlyPacketCounter : continuousCounter
+	generic map (
+		COUNTER_WIDTH => USB_EARLY_PACKET_WIDTH)
+	port map (
+		Clock_CI => Clock_CI,
+		Reset_RBI => Reset_RBI,
+		Enable_SI => EarlyPacketCount_S,
+		DataLimit_DI => to_unsigned(USB_EARLY_PACKET_CYCLES, USB_EARLY_PACKET_WIDTH),
+		Overflow_SO => EarlyPacketNotify_S,
+		Data_DO => open);
+
+	p_memoryless : process (State_DP, CyclesCount_S, CyclesNotify_S, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, Run_SI)
 	begin
 		State_DN <= State_DP; -- Keep current state by default.
-		WriteCycle_DN <= WriteCycle_DP; -- Do not change counter by default.
+
+		CyclesCount_S <= '0'; -- Do not count up in the write-cycles counter.
 
 		USBFifoChipSelect_SBO <= '0'; -- Always keep chip selected (active-low).
 		USBFifoWrite_SBO <= '1';
@@ -78,11 +113,10 @@ begin
 				USBFifoWrite_SBO <= '0';
 
 			when stWriteMiddle0 =>
-				if WriteCycle_DP = WRITE_CYCLES then
-					WriteCycle_DN <= (others => '0');
+				if CyclesNotify_S = '1' then
 					State_DN <= stWriteLast0;
 				else
-					WriteCycle_DN <= WriteCycle_DP + 1;
+					CyclesCount_S <= '1';
 				end if;
 
 				InFifoRead_SO <= '1';
@@ -99,11 +133,10 @@ begin
 				USBFifoWrite_SBO <= '0';
 
 			when stPrepareSwitch0 =>
-				if WriteCycle_DP = WRITE_CYCLES then
-					WriteCycle_DN <= (others => '0');
+				if CyclesNotify_S = '1' then
 					State_DN <= stSwitch0;
 				else
-					WriteCycle_DN <= WriteCycle_DP + 1;
+					CyclesCount_S <= '1';
 				end if;
 
 				InFifoRead_SO <= '1';
@@ -147,11 +180,10 @@ begin
 			when stWriteMiddle1 =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
-				if WriteCycle_DP = WRITE_CYCLES then
-					WriteCycle_DN <= (others => '0');
+				if CyclesNotify_S = '1' then
 					State_DN <= stWriteLast1;
 				else
-					WriteCycle_DN <= WriteCycle_DP + 1;
+					CyclesCount_S <= '1';
 				end if;
 
 				InFifoRead_SO <= '1';
@@ -172,11 +204,10 @@ begin
 			when stPrepareSwitch1 =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
-				if WriteCycle_DP = WRITE_CYCLES then
-					WriteCycle_DN <= (others => '0');
+				if CyclesNotify_S = '1' then
 					State_DN <= stSwitch1;
 				else
-					WriteCycle_DN <= WriteCycle_DP + 1;
+					CyclesCount_S <= '1';
 				end if;
 
 				InFifoRead_SO <= '1';
@@ -203,10 +234,8 @@ begin
 	begin
 		if Reset_RBI = '0' then -- asynchronous reset (active-low)
 			State_DP <= stIdle0;
-			WriteCycle_DP <= (others => '0');
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
-			WriteCycle_DP <= WriteCycle_DN;
 		end if;
 	end process p_memoryzing;
 end Behavioral;
