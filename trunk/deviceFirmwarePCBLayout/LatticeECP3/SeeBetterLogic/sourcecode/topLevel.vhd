@@ -1,5 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
+use work.settings.all;
 
 entity topLevel is
 	port (
@@ -25,9 +26,6 @@ entity topLevel is
 end topLevel;
 
 architecture Structural of topLevel is
-	constant FAST_CLOCK_FREQ : integer := 100;
-	constant SLOW_CLOCK_FREQ : integer := 25;
-
 	component DFFSynchronizer
 	port (
 		SyncClock_CI : in std_logic;
@@ -138,11 +136,11 @@ begin
 
 	slowClockPLL : pmi_pll
 	generic map (
-		pmi_freq_clki => FAST_CLOCK_FREQ,
-		pmi_freq_clkfb => SLOW_CLOCK_FREQ,
-		pmi_freq_clkop => SLOW_CLOCK_FREQ,
-		pmi_freq_clkos => SLOW_CLOCK_FREQ,
-		pmi_freq_clkok => SLOW_CLOCK_FREQ,
+		pmi_freq_clki => FX3_CLOCK_FREQ,
+		pmi_freq_clkfb => LOGIC_CLOCK_FREQ,
+		pmi_freq_clkop => LOGIC_CLOCK_FREQ,
+		pmi_freq_clkos => LOGIC_CLOCK_FREQ,
+		pmi_freq_clkok => LOGIC_CLOCK_FREQ,
 		pmi_family => "ECP3",
 		pmi_phase_adj => 0,
 		pmi_duty_cycle => 50,
