@@ -1,14 +1,11 @@
 #pragma NOIV               // Do not generate interrupt vectors
 //-----------------------------------------------------------------------------
 //   File:      main.c
-//   Description: FX2LP firmware for the SBRet10 retina chip   
+//   Description: FX2LP firmware for the TCVS320/DVS320 retina chip   
 //
 // created: 1/2008, cloned from tmpdiff128 stereo board firmware
 // Revision: 0.01 
 // authors raphael berner, patrick lichtsteiner, tobi delbruck
-// 
-// July 2013: Luca added gyro SPI interface that writes data to EP2 (the async endpoint in jAER)
-// Oct 2013: Tobi added a lot more code for IMU
 //
 //-----------------------------------------------------------------------------
 #include "lp.h"
@@ -80,6 +77,7 @@ BOOL LEDon;
 #define VR_WRITE_CONFIG 0xB8 // write bytes out to SPI
 				// the wLengthL field of SETUPDAT specifies the number of bytes to write out (max 64 per request)
 				// the bytes are in the data packet
+//#define VR_SET_POWERDOWN 0xB9 // control powerDown. wValue controls the powerDown pin. Raise high to power off, lower to power on.
 #define VR_EEPROM_BIASGEN_BYTES 0xBa // write bytes out to EEPROM for power on default
 
 #define VR_SETARRAYRESET 0xBc // set the state of the array reset which resets communication logic, and possibly also holds pixels in reset
@@ -91,7 +89,6 @@ BOOL LEDon;
 #define VR_DOWNLOAD		0x40
 #define VR_EEPROM		0xa2 // loads (uploads) EEPROM
 #define	VR_RAM			0xa3 // loads (uploads) external ram
-
 
 #define EP0BUFF_SIZE	0x40
 #define NUM_CONFIG_BITS_PRECEDING_BIAS_BYTES 40 
@@ -137,9 +134,10 @@ xdata unsigned char biasBytes[]={0x00,					// Vdac readout reference
 								 0x00,0x00}; // SSP
 									 
 
-long cycleCounter; // counts main loop cycles
-unsigned long imuTimestamp; // IMU imuTimestamp register
+long cycleCounter;
 int i;
+
+#define	I2C_Addr 0x51 //adress is 0101_0001
 
 
 
@@ -156,26 +154,6 @@ void downloadSerialNumberFromEEPROM(void);
 
 void latchConfigBits(void);
 
-#define	I2C_EEPROM_Addr 0x51 //adress is 0101_0001 of the external serial EEPROM that holds FX2 program and static data
-
-// IMU
-#define I2C_GYRO_ADDR 0x68 // Address is: 0110_1000
-#define VR_IMU 0xC6 // this VR is for dealing with IMU
-#define IMU_CMD_WRITE_REGISTER 1 // arguments are 8-bit bit register address and 8-bit value to write
-#define IMU_CMD_READ_REGISTER 2 // argument is 9-bit register address to read
-
-void IMU_init(void);
-void timer_init(void); // 1MHz counter for timestamping IMU samples
-void ISR_Timer2(void);
-#define I2C_GYRO_DATA_ADDR 0x3B // Address to query on the gyro for data
-#define I2C_GYRO_DATA_LEN 14 // accel x/y/z, temp, gyro x/y/z => 7 x 2 bytes = 14 bytes 
-BOOL imuDataReady; // bit to signal IMU data ready to read, set by I2C ISR
-BOOL checkImuDataReady();
-
-// see page 7 of RM-MPU-6100A.pdf (register map for MPU6150 IMU)
-// data is sent big-endian (MSB first for each sample, in twos-complement 16 bit form).
-// data is scaled according to product specification datasheet PS-MPU-6100A.pdf
-
 //-----------------------------------------------------------------------------
 // Task Dispatcher hooks
 //   The following hooks are called by the task dispatcher.
@@ -183,15 +161,12 @@ BOOL checkImuDataReady();
 
 void TD_Init(void)              // Called once at startup
 {  
-
-	// set the CPU clock to 48MHz. CLKOUT is at 48MHz
+	// set the CPU clock to 48MHz
 	CPUCS = ((CPUCS & ~bmCLKSPD) | bmCLKSPD1) ;
 	CPUCS = CPUCS & 0xFD ; // 1111_1101
 
 	// set the slave FIFO interface to 30MHz, slave fifo mode
 	IFCONFIG = 0xA3; // 1010_0011
-
-	IOE &= ~CPLD_NOT_RESET; // put CPLD in reset
 
 	// disable interrupts by the input pins and by timers and serial ports:
 	IE &= 0x00; // 0000_0000 
@@ -199,8 +174,6 @@ void TD_Init(void)              // Called once at startup
 	// disable interrupt pins 4, 5 and 6
 	EIE &= 0xE3; // 1110_0011;
 
-	
-	
 	// Registers which require a synchronization delay, see section 15.14
 	// FIFORESET        FIFOPINPOLAR
 	// INPKTEND         OUTPKTEND
@@ -236,7 +209,7 @@ void TD_Init(void)              // Called once at startup
 
 	EP1OUTCFG = 0x00;			// EP1OUT disabled
 	SYNCDELAY;
-	EP1INCFG = 0xb0;			// EP1IN enabled, bulk 0xb0 is interrupt, 0xa0 is bulk
+	EP1INCFG = 0xA0;			// EP1IN enabled, bulk
 	SYNCDELAY;                   
 	EP2CFG = 0x00;				// EP2 disabled
 	SYNCDELAY;                     
@@ -263,11 +236,6 @@ void TD_Init(void)              // Called once at startup
 
 	biasInit();	// init biasgen ports and pins                             
 	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
-	I2CTL=0x01;  // set I2C to 400kHz to speed up IMU data transfers
-	IMU_init(); // initialize IMU gyro chip
-	// initialize I2C interrupt
-	EIE|=0x02; // EI2C enable I2C interrupt I2CINT
-
 
 	setArrayReset(); // keep pixels from spiking, reset all of them
 	// pump powerdown to make sure masterbias is really started up
@@ -294,120 +262,20 @@ void TD_Init(void)              // Called once at startup
 	EX1=0; // disable INT1#
 
 	LEDon=FALSE;
-	timer_init(); // start the timer2 to run imuTimestamp timer
-   	IOE |= CPLD_NOT_RESET; // take CPLD out of reset
-	 
-	EZUSB_Delay(100);
-
-	// make this device timestamp master as default
-	IOA|=1; 
-
+   IOE |= CPLD_NOT_RESET; // take CPLD out of reset
 
 
 }
 
-// initializes IMU
-// IMU starts in sleep mode. We need to disable sleep and select gyro clock as the clock source for better stability
-void IMU_init(void){
-   	BYTE xdata b[2]; // to talk to FX2 I2C we use this byte array
-	// set up IMU
-	b[0] = 0x6b; // IMU power management register and clock selection, sec 4.36 of IMU register map PDF
-	b[1] = 0x02; // disable sleep, select x axis gyro as clock source 
-	EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &b); // select this register for writing on IMU and supply data to write to it
-	b[0] = 26; // DLPF
-	b[1] = 1; // FS=1kHz, gyro 188Hz, 1.9ms delay
-	EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &b); // select this register for writing on IMU and supply data to write to it
-	b[0] = 25; // sample rate divider
-	b[1] = 0; // sample rate divider =1, 1Khz sample rate when DLPF is enabled
-	EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &b); // select this register for writing on IMU and supply data to write to it
-	b[0] = 27; // GYRO_CONFIG register. gyro FS_SEL bits are 4:3 full scale select bits, gyro sensitivity
-	b[1] = 0x08; // set FS_SEL to 1, which is 500 deg/s, 65.5 LSB per deg/s
-	EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &b); // select this register for writing on IMU and supply data to write to it
-	b[0] = 28; // ACCEL_CONFIG register. accel AFS_SEL bits are 4:3 full scale select bits, gyro sensitivity
-	b[1] = 0x08; // set AFS_SEL to 1, which is 4g, 8192 LSB per g
-	EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &b); // select this register for writing on IMU and supply data to write to it
-	// enable data ready interrupt
-	// actually we don't enable this interrupt but just check the register flag to see if there is new data available
-	//b[0] = 0x38; // INT_ENABLE, sec 4.36 of IMU register map PDF
-	//b[1] = 0x01; // DATA_RDY_EN interrupt enabled
-	//EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &b); // select this register for writing on IMU and supply data to write to it
+void TD_Poll(void)              // Called repeatedly while the device is idle
+{ 	
+
+	if(cycleCounter++>=100000){
+
+		toggleLED();
+		cycleCounter=0; // this makes a slow heartbeat on the LED to show firmware is running
+	}		
 }
-
-// initializes Timer2 to be timestamp counter for timestamping IMU data
-// Timer2 is clocked at 12MHz, and therefore clocks 12 times per microsecond.
-// We use it to make a timer interrupt every 100us (which is 1200 counts at 12MHz) that increments the 32-bit timestamp value sent to host over EP1 along with the IMU sample.
-void timer_init(void){
-// registers T2CON (SFR 0xC8), TL2 (SFR 0xCC), TH2 (SFR 0xCD), RCAP2L (SFR 0xCA), RCAP2H (SFR 0xCB), CKCON (SFR 0x8E)
-	CKCON=0; 	// timers clock with CLKOUT/12=4MHz.
-	T2CON=0x04; // Timer2 is 16-bit counter with auto-reload. When timer increaments from 0xFFFF the reload value is loaded.
-	RCAP2H=0xfe;
-	RCAP2L=0x70;// reload register is set to overflow every 100us which is 400 counts which is 0xFFFF-400=65536-400=0xfe70
-	// Timer2 interrupt
-	// IE.5 ET2 - Enable Timer2 interrupt. ET2 = 0 disables Timer2 interrupt (TF2). ET2=1 enables interrupts generated by the TF2 or EXF2 flag.
-	IE |= 0x20;  // sets IE.5 which enables timer2 interrupt
-	//IP |= 0x20; 	// sets IE.5 which sets timer2 interrupt to high priority.
-	TL2=0;
-    TH2=0; // reset timer2 timestamper
-	imuTimestamp=0;
-	
-	
-}
-
-
-void TD_Poll(void) // Called repeatedly while the device is idle
-{
-	// Try to get and send data from the IMU gyro/accelerometer every so many cycles, and check EP1IN's BUSY flag:
-	// if still set, the last data from the gyro wasn't yet read, so we can't add any new data.
-	imuDataReady=checkImuDataReady();
-
-	if (imuDataReady && (EP1INCS != 0x02)) { // if we have data and EP1 is ready to write to
-		// Set the address of where the data is located on the gyro.
-		BYTE xdata dataAddr;
-		
-		// write the current imuTimestamp to the buffer
-		while(EA==0); // wait for interrupts to be enabled, since we disable them in the ISR for timer2
-		ET2=0; // disable timer2 interrupt is ISR_Timer2
-		EP1INBUF[1]=imuTimestamp>>24;
-		EP1INBUF[2]=imuTimestamp>>16;
-		EP1INBUF[3]=imuTimestamp>>8;
-		EP1INBUF[4]=imuTimestamp;
-		ET2=1; // enable timer2 interrupt
-
-		dataAddr = I2C_GYRO_DATA_ADDR;
-		// TODO check that VR_IMU doesn't do things the same time as we are transmitting data here
-		// Get the data from the gyro ... write 1 byte to IMU I2C from dataAddr which contains the IMU data register address
-		EZUSB_WriteI2C(I2C_GYRO_ADDR, 1, &dataAddr);
-
-		// ... and now read the data back directly into the EP1IN buffer, starting at offset 5.
-		EZUSB_ReadI2C(I2C_GYRO_ADDR, I2C_GYRO_DATA_LEN, &EP1INBUF[5]);
-
-		// Put 0xFF at offset 0 to distinguish this message as being gyro data on the host.
-		EP1INBUF[0] = 0xFF;
-		SYNCDELAY;
-		EP1INBC = 1 + I2C_GYRO_DATA_LEN + 4; // send 19 bytes in total, 1 header + 4 timestamp + 14 IMU sample
-		SYNCDELAY;
-		toggleLED(); // toggle LED to show rate of capturing IMU samples using scope
-	}
-}
-
-
-// reads the IMU INT_STATUS register via I2C and returns true if
-// the DATA_RDY_INT is set
-BOOL checkImuDataReady(void)
-{
-	BYTE xdata status;
-	BYTE xdata dataAddr;
-	dataAddr=58; // INT_STATUS register address
-	// write the address of the INT_STATUS register to the IMU 
-	EZUSB_WriteI2C(I2C_GYRO_ADDR, 1, &dataAddr);
-	// ... and now read the data back directly into status.
-	EZUSB_ReadI2C(I2C_GYRO_ADDR, 1, &status);
-	// bit 0 is DATA_RDY_INT
-	if ((status & 0x01) == 0)
-		return FALSE;
-	else
-		return TRUE;
- }
 
 void toggleLED(void)
 {
@@ -455,13 +323,7 @@ void latchConfigBits(void)
 
 void startMonitor(void)
 {
-
-	
  	RUN_CPLD=1;
-	RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
-	RESET_TS=0;
-	imuTimestamp=0; // reset timestamp counter for IMU samples
-
 
 	releasePowerDownBit();
 //	IOE = IOE | DVS_nReset; //start dvs statemachines
@@ -525,10 +387,10 @@ void EEPROMWriteByte(WORD addr, BYTE value)
 	ee_str[i++] = value;
 
 	IOE |= LEDmask;
-	EZUSB_WriteI2C(I2C_EEPROM_Addr, i, ee_str);
+	EZUSB_WriteI2C(I2C_Addr, i, ee_str);
 	IOE &= ~LEDmask;
 	LEDon=FALSE;
-    EZUSB_WaitForEEPROMWrite(I2C_EEPROM_Addr);
+    EZUSB_WaitForEEPROMWrite(I2C_Addr);
 }
 
 void EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf)
@@ -549,12 +411,12 @@ void EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf)
 
 	ee_str[i++] = LSB(addr);
 
-	EZUSB_WriteI2C(I2C_EEPROM_Addr, i, ee_str);
+	EZUSB_WriteI2C(I2C_Addr, i, ee_str);
 
 	for(j=0; j < length; j++)
 		*(buf+j) = 0xcd;
 
-	EZUSB_ReadI2C(I2C_EEPROM_Addr, length, buf);
+	EZUSB_ReadI2C(I2C_Addr, length, buf);
 }
 
 
@@ -572,9 +434,6 @@ BOOL TD_Resume(void)          // Called after the device resumes
 
    IOE |= CPLD_NOT_RESET;
    IOE |= DVS_nReset;
-	TL2=0;
-    TH2=0; // reset timer2 timestamper
-	imuTimestamp=0;
 
    return(TRUE);
 }
@@ -782,7 +641,6 @@ BOOL DR_VendorCmnd(void)
 			{
 				RESET_TS=1; // assert RESET_TS pin for one instruction cycle (four clock cycles)
 				RESET_TS=0;
-				imuTimestamp=0; // reset timestamp counter for IMU samples
 
 				// reset dvs statemachines
 //				IOE= IOE & ~DVS_nReset;
@@ -948,28 +806,6 @@ BOOL DR_VendorCmnd(void)
 					RUN_ADC=oldbit;
 	
 						break; // very important, otherwise get stall
-				case VR_IMU: // control the IMU
-				// TODO add code to write register and to read it and send it back to host
-					SYNCDELAY;
-					switch(SETUPDAT[2]){
-						case IMU_CMD_WRITE_REGISTER:
-							// writes a value to a specified IMU register address
-							EZUSB_WriteI2C(I2C_GYRO_ADDR, 2, &SETUPDAT[3]); // SETUPDAT[3] has register address, SETUPDAT[4] has the new register value
-						break;
-						case IMU_CMD_READ_REGISTER:
-							// Get the register value from the IMU ... write 1 byte to IMU I2C which contains the IMU register address
-							EZUSB_WriteI2C(I2C_GYRO_ADDR, 1, &SETUPDAT[3]); // SETUPDAT[3] has register address
-							// ... and now read the register value back directly into the EP0IN buffer, starting at offset 5.
-							while(EP0CS & bmEPBUSY); // wait for EP0 to be free (should be free already)
-							EZUSB_ReadI2C(I2C_GYRO_ADDR, 1, &EP0BUF[2]);
-							EP0BCH = 0;
-							EP0BCL = (BYTE)1; // Arm endpoint with # bytes to transfer
-						break;
-						default:
-							return TRUE; // error, create stall
-					 }
-					return FALSE;// return here, don't fall out where by default the sent VR is returned to host in acknowledge phase
-					break;
 				default:
 					return(TRUE);  // don't recognize command, generate stall
 				} // end of subcmd switch
@@ -1033,7 +869,7 @@ BOOL DR_VendorCmnd(void)
 
 			}
 
-
+*/
 		case VR_SETARRAYRESET: // set array reset, based on lsb of argument. This also resets the AER logic.
 			{
 				if (SETUPDAT[2]&0x01)
@@ -1067,7 +903,7 @@ BOOL DR_VendorCmnd(void)
 				IOE |= DVS_nReset;
 				break;
 			}
-		case VR_IS_TS_MASTER:
+	/*	case VR_IS_TS_MASTER:
 			{
 				EP0BUF[0] = SETUPDAT[1];
 				EP0BUF[1]= TIMESTAMP_MASTER;
@@ -1076,28 +912,7 @@ BOOL DR_VendorCmnd(void)
 				EP0CS |= bmHSNAK;
 
 				return(FALSE);
-			}
-		case VR_SYNC_ENABLE: // sets sync event output or master/slave clocking, based on lsb of argument
-			{
-				if (SETUPDAT[2]&0x01)
-				{
-					enableSyncEvents(); //IOE|=arrayReset; // TODO change to SYNC_ENABLE
-				} else
-				{
-					disableSyncEvents(); 
-				}
-			
-				*EP0BUF=VR_SYNC_ENABLE;
-				SYNCDELAY;
-				EP0BCH = 0;
-				EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
-				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
-				return(FALSE); // very important, otherwise get stall
-
-			}
-
-// all these special VRs are done by bit control from host now
-*/
+			}*/
 		case VR_RAM:
 		case VR_EEPROM:
 		{
@@ -1210,29 +1025,6 @@ BOOL DR_VendorCmnd(void)
 }
 
 */
-
-// Timer2 interrupt handler
-// TF2 or EXF2 Timer 2 interrupt T2CON.7 (TF2)
-// T2CON.6 (EXF2)
-// IE.5 IP.5 6 0x002B
-void ISR_Timer2(void) interrupt 5 // http://www.keil.com/support/man/docs/c51/c51_le_interruptfuncs.htm
-// for vector address 0x002b
-{
-	// comes here every 100us to increment 32-bit timestamp
-	EA=0; // disable interrupts
-	imuTimestamp+=100;
-	TF2=0; // clear timer2 overflow flag
-	EA=1; // enable interrupts
-}
-
-// below is dumb idea, but left for reference in case we ever need I2C interrupt
-// I2C interrupt, set up to signal interrupt on IMU data reaady
-// I2CINT I2C Bus 0x004B
-//void ISR_I2C(void) interrupt 9
-//{
-//	imuDataReady=1;	
-//	EXIF&=~0x40; // EXIF.5=I2CINT, clear this flag
-//}
 
 //-----------------------------------------------------------------------------
 // USB Interrupt Handlers

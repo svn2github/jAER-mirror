@@ -48,7 +48,7 @@ DeviceDscr:
       db   64         ;; Maximum packet size
       dw   2a15H      ;; 0x152a VID for jAER from thesycon for USBIO devices
       dw   0d84H      ;; 0x840b PID in thesycon jAER range , used for SeeBetter
-      dw   0201H      ;; Product version ID, FW v 2, Device Type 1 (with Gyro)
+      dw   0200H      ;; Product version ID, month/year 10/2008
       db   1         ;; Manufacturer string index
       db   2         ;; Product string index
       db   0         ;; Serial number string index
@@ -74,14 +74,14 @@ HighSpeedConfigDscr:
       db   1      ;; Configuration number
       db   0      ;; Configuration string
       db   10000000b   ;; Attributes (b7 - buspwr, b6 - selfpwr, b5 - rwu)
-      db   75      ;; Power requirement (div 2 ma)
+      db   150      ;; Power requirement (div 2 ma)
 
 ;; Interface Descriptor
       db   DSCR_INTRFC_LEN      ;; Descriptor length
       db   DSCR_INTRFC         ;; Descriptor type
       db   0               ;; Zero-based index of this interface
       db   0               ;; Alternate setting
-      db   2               ;; Number of end points 
+      db   3               ;; Number of end points 
       db   0ffH            ;; Interface class
       db   00H               ;; Interface sub class
       db   00H               ;; Interface sub sub class
@@ -97,23 +97,23 @@ HighSpeedConfigDscr:
       db   02H               ;; Max packect size (MSB)
       db   00H               ;; Polling interval
 */
-;; Endpoint Descriptor - EP1 in, async status updates, such as timestamp reset events detected by camera sync and sent to host, IMU samples
+;; Endpoint Descriptor
       db   DSCR_ENDPNT_LEN      ;; Descriptor length
       db   DSCR_ENDPNT         ;; Descriptor type
       db   81H               ;; Endpoint number, and direction
       db   ET_BULK            ;; Endpoint type
       db   40H               ;; Maximun packet size (LSB)
       db   00H               ;; Max packect size (MSB)
-      db   01H 			;; Polling interval
+      db   00H 
 
 ;; Endpoint Descriptor
-;      db   DSCR_ENDPNT_LEN      ;; Descriptor length
-;      db   DSCR_ENDPNT         ;; Descriptor type
-;      db   02H               ;; Endpoint number, and direction
-;      db   ET_BULK            ;; Endpoint type
-;      db   00H               ;; Maximun packet size (LSB)
-;      db   02H               ;; Max packect size (MSB)
-;      db   00H               ;; Polling interval
+      db   DSCR_ENDPNT_LEN      ;; Descriptor length
+      db   DSCR_ENDPNT         ;; Descriptor type
+      db   02H               ;; Endpoint number, and direction
+      db   ET_BULK            ;; Endpoint type
+      db   00H               ;; Maximun packet size (LSB)
+      db   02H               ;; Max packect size (MSB)
+      db   00H               ;; Polling interval
 
 /*;; Endpoint Descriptor
       db   DSCR_ENDPNT_LEN      ;; Descriptor length
@@ -124,10 +124,10 @@ HighSpeedConfigDscr:
       db   02H               ;; Max packect size (MSB)
       db   00H               ;; Polling interval
 */
-;; Endpoint Descriptor EP6 in - - this is IN endpoint for DVS and APS data
+;; Endpoint Descriptor
       db   DSCR_ENDPNT_LEN      ;; Descriptor length
       db   DSCR_ENDPNT         ;; Descriptor type
-      db   86H               ;; Endpoint number, and direction 
+      db   86H               ;; Endpoint number, and direction
       db   ET_BULK            ;; Endpoint type
       db   00H;;00H               ;; Maximun packet size (LSB)
       db   02H;;02H               ;; Max packect size (MSB)
@@ -151,7 +151,7 @@ FullSpeedConfigDscr:
       db   DSCR_INTRFC         ;; Descriptor type
       db   0               ;; Zero-based index of this interface
       db   0               ;; Alternate setting
-      db   2               ;; Number of end points 
+      db   3               ;; Number of end points 
       db   0ffH            ;; Interface class
       db   00H               ;; Interface sub class
       db   00H               ;; Interface sub sub class
@@ -178,13 +178,13 @@ FullSpeedConfigDscr:
       db   00H                ;; Polling interval 
 
 ;; Endpoint Descriptor
-;      db   DSCR_ENDPNT_LEN      ;; Descriptor length
-;      db   DSCR_ENDPNT         ;; Descriptor type
-;      db   02H               ;; Endpoint number, and direction
-;      db   ET_BULK            ;; Endpoint type
-;      db   40H               ;; Maximun packet size (LSB)
-;      db   00H               ;; Max packect size (MSB)
-;      db   00H               ;; Polling interval
+      db   DSCR_ENDPNT_LEN      ;; Descriptor length
+      db   DSCR_ENDPNT         ;; Descriptor type
+      db   02H               ;; Endpoint number, and direction
+      db   ET_BULK            ;; Endpoint type
+      db   40H               ;; Maximun packet size (LSB)
+      db   00H               ;; Max packect size (MSB)
+      db   00H               ;; Polling interval
 
 ;; Endpoint Descriptor
 /*      db   DSCR_ENDPNT_LEN      ;; Descriptor length
