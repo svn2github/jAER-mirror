@@ -89,10 +89,12 @@ architecture Structural of topLevel is
 
 	component continuousCounter
 	generic (
-		COUNTER_WIDTH : integer := 16);
+		COUNTER_WIDTH : integer := 16;
+		RESET_ON_OVERFLOW : boolean := true);
 	port (
 		Clock_CI : in std_logic;
 		Reset_RBI : in std_logic;
+		Clear_SI : in std_logic;
 		Enable_SI : in std_logic;
 		DataLimit_DI : in unsigned(COUNTER_WIDTH-1 downto 0);
 		Overflow_SO : out std_logic;
@@ -243,6 +245,7 @@ begin
 	port map (
 		Clock_CI => LogicClock_C,
 		Reset_RBI => Reset_RBI,
+		Clear_SI => '0',
 		Enable_SI => USBFifoWrite_S,
 		DataLimit_DI => (others => '1'),
 		Overflow_SO => open,

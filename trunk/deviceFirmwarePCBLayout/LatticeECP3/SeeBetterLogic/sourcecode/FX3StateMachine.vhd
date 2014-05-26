@@ -32,18 +32,20 @@ end FX3Statemachine;
 architecture Behavioral of FX3Statemachine is
 	component continuousCounter
 	generic (
-		COUNTER_WIDTH : integer := 16);
+		COUNTER_WIDTH : integer := 16;
+		RESET_ON_OVERFLOW : boolean := true);
 	port (
 		Clock_CI : in std_logic;
 		Reset_RBI : in std_logic;
+		Clear_SI : in std_logic;
 		Enable_SI : in std_logic;
 		DataLimit_DI : in unsigned(COUNTER_WIDTH-1 downto 0);
 		Overflow_SO : out std_logic;
 		Data_DO : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component;
 
-	type state is (stIdle0, stPrepareWrite0, stWriteFirst0, stWriteMiddle0, stWriteLast0, stPrepareSwitch0, stSwitch0,
-	               stIdle1, stPrepareWrite1, stWriteFirst1, stWriteMiddle1, stWriteLast1, stPrepareSwitch1, stSwitch1);
+	type state is (stIdle0, stEarlyPacket0, stPrepareWrite0, stWriteFirst0, stWriteMiddle0, stWriteLast0, stPrepareSwitch0, stSwitch0,
+	               stIdle1, stEarlyPacket1, stPrepareWrite1, stWriteFirst1, stWriteMiddle1, stWriteLast1, stPrepareSwitch1, stSwitch1);
 
 	attribute syn_enum_encoding : string;
 	attribute syn_enum_encoding of state : type is "onehot";
@@ -55,7 +57,7 @@ architecture Behavioral of FX3Statemachine is
 	signal CyclesCount_S, CyclesNotify_S : std_logic;
 	
 	-- early packet counter, to keep a certain flow of USB traffic going even in the case of low event rates
-	signal EarlyPacketCount_S, EarlyPacketNotify_S : std_logic;
+	signal EarlyPacketCount_S, EarlyPacketNotify_S, EarlyPacketClear_S : std_logic;
 begin
 	writeCyclesCounter : continuousCounter
 	generic map (
@@ -63,6 +65,7 @@ begin
 	port map (
 		Clock_CI => Clock_CI,
 		Reset_RBI => Reset_RBI,
+		Clear_SI => '0',
 		Enable_SI => CyclesCount_S,
 		DataLimit_DI => to_unsigned(USB_BURST_WRITE_CYCLES, USB_BURST_WRITE_WIDTH),
 		Overflow_SO => CyclesNotify_S,
@@ -70,33 +73,49 @@ begin
 
 	earlyPacketCounter : continuousCounter
 	generic map (
-		COUNTER_WIDTH => USB_EARLY_PACKET_WIDTH)
+		COUNTER_WIDTH => USB_EARLY_PACKET_WIDTH,
+		RESET_ON_OVERFLOW => false)
 	port map (
 		Clock_CI => Clock_CI,
 		Reset_RBI => Reset_RBI,
+		Clear_SI => EarlyPacketClear_S,
 		Enable_SI => EarlyPacketCount_S,
 		DataLimit_DI => to_unsigned(USB_EARLY_PACKET_CYCLES, USB_EARLY_PACKET_WIDTH),
 		Overflow_SO => EarlyPacketNotify_S,
 		Data_DO => open);
 
-	p_memoryless : process (State_DP, CyclesCount_S, CyclesNotify_S, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, Run_SI)
+	p_memoryless : process (State_DP, CyclesNotify_S, EarlyPacketNotify_S, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, Run_SI)
 	begin
 		State_DN <= State_DP; -- Keep current state by default.
 
 		CyclesCount_S <= '0'; -- Do not count up in the write-cycles counter.
+
+		EarlyPacketCount_S <= '1'; -- The early packet counter always counts.
+		EarlyPacketClear_S <= '0'; -- Do not clear the early packet counter.
 
 		USBFifoChipSelect_SBO <= '0'; -- Always keep chip selected (active-low).
 		USBFifoWrite_SBO <= '1';
 		USBFifoPktEnd_SBO <= '1';
 		USBFifoAddress_DO(1) <= '0';
 		USBFifoAddress_DO(0) <= '0';
+
 		InFifoRead_SO <= '0'; -- Don't read from input FIFO until we know we can write.
 
 		case State_DP is
 			when stIdle0 =>
-				if Run_SI = '1' and InFifoAlmostEmpty_SI = '0' and USBFifoThread0Full_SI = '0' then
-					State_DN <= stPrepareWrite0;
+				if Run_SI = '1' and USBFifoThread0Full_SI = '0' then
+					if EarlyPacketNotify_S = '1' then
+						State_DN <= stEarlyPacket0;
+					elsif InFifoAlmostEmpty_SI = '0' then
+						State_DN <= stPrepareWrite0;
+					end if;
 				end if;
+
+			when stEarlyPacket0 =>
+				State_DN <= stIdle1;
+				-- USBFifoWrite_SBO <= '0';
+				USBFifoPktEnd_SBO <= '0';
+				EarlyPacketClear_S <= '1';
 
 			when stPrepareWrite0 =>
 				State_DN <= stWriteFirst0;
@@ -151,13 +170,26 @@ begin
 				end if;
 
 				USBFifoWrite_SBO <= '0';
+				EarlyPacketClear_S <= '1';
 
 			when stIdle1 =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
-				if Run_SI = '1' and InFifoAlmostEmpty_SI = '0' and USBFifoThread1Full_SI = '0' then
-					State_DN <= stPrepareWrite1;
+				if Run_SI = '1' and USBFifoThread1Full_SI = '0' then
+					if EarlyPacketNotify_S = '1' then
+						State_DN <= stEarlyPacket1;
+					elsif InFifoAlmostEmpty_SI = '0' then
+						State_DN <= stPrepareWrite1;
+					end if;
 				end if;
+
+			when stEarlyPacket1 =>
+				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
+
+				State_DN <= stIdle0;
+				-- USBFifoWrite_SBO <= '0';
+				USBFifoPktEnd_SBO <= '0';
+				EarlyPacketClear_S <= '1';
 
 			when stPrepareWrite1 =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
@@ -224,6 +256,7 @@ begin
 				end if;
 
 				USBFifoWrite_SBO <= '0';
+				EarlyPacketClear_S <= '1';
 
 			when others => null;
 		end case;

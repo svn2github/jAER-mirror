@@ -7,10 +7,12 @@ use IEEE.NUMERIC_STD.all;
 -- DataLimit_DI input, if not needed, just keep it at all ones.
 entity continuousCounter is
 	generic (
-		COUNTER_WIDTH : integer := 16);
+		COUNTER_WIDTH : integer := 16;
+		RESET_ON_OVERFLOW : boolean := true);
 	port (
 		Clock_CI : in std_logic;
 		Reset_RBI : in std_logic;
+		Clear_SI : in std_logic;
 		Enable_SI : in std_logic;
 		DataLimit_DI : in unsigned(COUNTER_WIDTH-1 downto 0);
 		Overflow_SO : out std_logic;
@@ -25,19 +27,22 @@ begin
 	Data_DO <= Count_DP;
 
 	-- Variable width counter, calculation of next state
-	p_memoryless : process (Count_DP, Enable_SI, DataLimit_DI)
+	p_memoryless : process (Count_DP, Clear_SI, Enable_SI, DataLimit_DI)
 	begin -- process p_memoryless
-		-- No overflow by default.
-		Overflow_SO <= '0';
-	
-		if Count_DP = DataLimit_DI then
-			-- Reset to zero and signal overflow when reaching limit.
+		Count_DN <= Count_DP; -- Keep value by default.
+
+		Overflow_SO <= '0'; -- No overflow, only on equality.
+
+		if Clear_SI = '1' then
 			Count_DN <= (others => '0');
+		elsif Count_DP = DataLimit_DI then
 			Overflow_SO <= '1';
+
+			if RESET_ON_OVERFLOW = true then
+				Count_DN <= (others => '0');
+			end if;
 		elsif Enable_SI = '1' then
 			Count_DN <= Count_DP + 1;
-		else
-			Count_DN <= Count_DP;
 		end if;
 	end process p_memoryless;
 
