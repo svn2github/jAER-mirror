@@ -1,0 +1,17 @@
+@W: CD434 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":129:47:129:57|Signal exposurexdi in the sensitivity list is not used in the process
+@W: CD434 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":129:125:129:136|Signal rowsettlexdi in the sensitivity list is not used in the process
+@W: CD434 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":129:139:129:150|Signal colsettlexdi in the sensitivity list is not used in the process
+@W: CD434 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":129:153:129:163|Signal exposuretxd in the sensitivity list is not used in the process
+@W: CG296 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":129:10:129:16|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":209:22:209:31|Referenced variable exposurexd is not in sensitivity list
+@W: CG296 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":275:10:275:16|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":326:5:326:15|Referenced variable countcolxdp is not in sensitivity list
+@W: CG290 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":312:5:312:15|Referenced variable startrowxsp is not in sensitivity list
+@W: CD604 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\synchronizerStateMachine.vhd":215:6:215:19|OTHERS clause is not synthesized 
+@W: CL168 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\USBAER_top_level.vhd":591:2:591:24|Pruning instance cDVSResetStateMachine_1 -- not in use ... 
+@W: CL159 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":35:1:35:9|Input ADCovrxSI is unused
+@W: CL159 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":37:4:37:13|Input SRLatchxEI is unused
+@W: CL159 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\cDVSResetStateMachine.vhd":31:4:31:12|Input RxcolGxSI is unused
+@W: CL158 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\USBAER_top_level.vhd":55:4:55:10|Inout PA1xSIO is unused
+@W: CL159 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\USBAER_top_level.vhd":62:4:62:11|Input FXLEDxSI is unused
+

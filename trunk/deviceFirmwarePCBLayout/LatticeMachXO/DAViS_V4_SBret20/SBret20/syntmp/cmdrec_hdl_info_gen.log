@@ -1,0 +1,23 @@
+C:\lscc\diamond\3.1_x64\synpbase\bin64\c_vhdl.exe  -osyn  C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synwork\SBret20_SBret20_hdl_.srs  -top  USBAER_top_level  -prodtype  synplify_pro  -fixsmult -infer_seqShift -nram -divnmod -encrypt  -pro  -dmgen  C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\dm  -lite   -ui -fid2 -ram -sharing on  -ll 2000 -autosm -ignore_undefined_lib  -lib work C:\lscc\diamond\3.1_x64\cae_library\synthesis\vhdl\machxo.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\wordRegister.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\AERfifo.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\clockgen.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\earlyPaketTimer.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\EventBeforeOverflow.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\eventCounter.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\fifoStatemachine.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\monitorStateMachine.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\synchronizerStateMachine.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\timestampCounter.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\USBAER_top_level.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCvalueReady.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\cDVSResetStateMachine.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\shiftRegister.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\ADCStateMachine_tb.vhd -lib work C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd -loga  C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\syntax.log  -fileorder  C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\syntmp\hdlorder.tcl 
+rc:0 success:1
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synwork\SBret20_SBret20_hdl_.srs|o|0|0
+C:\lscc\diamond\3.1_x64\cae_library\synthesis\vhdl\machxo.vhd|i|1376996408|63290
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\wordRegister.vhd|i|1399553750|2008
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\AERfifo.vhd|i|1399553750|11059
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\clockgen.vhd|i|1399553750|4055
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\earlyPaketTimer.vhd|i|1399553750|2050
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\EventBeforeOverflow.vhd|i|1399553750|2315
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\eventCounter.vhd|i|1399553750|2228
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\fifoStatemachine.vhd|i|1399553750|4568
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\monitorStateMachine.vhd|i|1399553750|9902
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\synchronizerStateMachine.vhd|i|1399553750|7609
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\timestampCounter.vhd|i|1399553750|2383
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\USBAER_top_level.vhd|i|1401186933|22999
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCvalueReady.vhd|i|1399553750|2602
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\cDVSResetStateMachine.vhd|i|1399553750|3520
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\shiftRegister.vhd|i|1399553750|2011
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\ADCStateMachine_tb.vhd|i|1399553750|5719
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd|i|1399553750|13876
+C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\syntax.log|o|1401186941|1140
+C:\lscc\diamond\3.1_x64\synpbase\bin64\c_vhdl.exe|i|1384766452|5457920
+C:\lscc\diamond\3.1_x64\synpbase\bin\c_vhdl.exe|i|1384766254|1978368

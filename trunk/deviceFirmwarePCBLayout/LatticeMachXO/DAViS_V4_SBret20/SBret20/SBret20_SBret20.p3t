@@ -1,0 +1,5 @@
+-rem
+-distrce
+-log "SBret20_SBret20.log"
+-o "SBret20_SBret20.csv"
+-pr "SBret20_SBret20.prf"

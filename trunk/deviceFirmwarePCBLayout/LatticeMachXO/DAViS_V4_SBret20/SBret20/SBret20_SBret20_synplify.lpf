@@ -1,0 +1,30 @@
+#
+# Logical Preferences generated for Lattice by Synplify maplat, Build 800R.
+#
+
+# Period Constraints 
+FREQUENCY PORT "PC1xSIO" 676.5 MHz;
+FREQUENCY NET "uClockGen/ClockxC_c" 127.3 MHz;
+FREQUENCY PORT "IfClockxCI" 121.0 MHz;
+FREQUENCY PORT "PC2xSIO" 1.0 MHz;
+
+
+# Output Constraints 
+
+# Input Constraints 
+
+# Point-to-point Delay Constraints 
+
+
+
+# Block Path Constraints 
+BLOCK PATH FROM PORT "PC2xSIO" TO PORT "PC1xSIO";
+BLOCK PATH FROM PORT "PC2xSIO" TO PORT "IfClockxCI";
+BLOCK PATH FROM PORT "PC1xSIO" TO PORT "PC2xSIO";
+BLOCK PATH FROM PORT "PC1xSIO" TO PORT "IfClockxCI";
+BLOCK PATH FROM PORT "IfClockxCI" TO PORT "PC2xSIO";
+BLOCK PATH FROM PORT "IfClockxCI" TO PORT "PC1xSIO";
+
+BLOCK ASYNCPATHS;
+
+# End of generated Logical Preferences.

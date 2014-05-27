@@ -1,0 +1,66 @@
+Synopsys Lattice Technology Pre-mapping, Version maplat, Build 800R, Built Nov 18 2013 10:58:25
+Copyright (C) 1994-2013, Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
+Product Version I-2013.09L 
+
+Mapper Startup Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 99MB)
+
+@L: C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20_scck.rpt 
+Printing clock  summary report in "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20_scck.rpt" file 
+@N: MF248 |Running in 64-bit mode.
+@N: MF666 |Clock conversion enabled 
+
+Design Input Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 100MB peak: 102MB)
+
+
+Mapper Initialization Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 100MB peak: 102MB)
+
+
+Start loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 115MB peak: 115MB)
+
+
+Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 115MB peak: 117MB)
+
+@W: FX469 :|Found undriven nets DebugxSIO[15] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[14] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[13] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[12] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[11] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[10] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[9] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[8] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[7] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[6] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[5] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[4] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[3] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[2] to be optimized by the mapper. 
+@W: FX469 :|Found undriven nets DebugxSIO[1] to be optimized by the mapper. 
+syn_allowed_resources : blockrams=3  set on top level netlist USBAER_top_level
+
+
+Clock Summary
+**************
+
+Start                             Requested      Requested     Clock        Clock                
+Clock                             Frequency      Period        Type         Group                
+-------------------------------------------------------------------------------------------------
+System                            1.0 MHz        1000.000      system       system_clkgroup      
+USBAER_top_level|IfClockxCI       4.1 MHz        241.479       inferred     Autoconstr_clkgroup_1
+USBAER_top_level|PC1xSIO          1000.0 MHz     1.000         inferred     Autoconstr_clkgroup_2
+USBAER_top_level|PC2xSIO          1.0 MHz        1000.000      inferred     Autoconstr_clkgroup_3
+clockgen|CLKOP_inferred_clock     153.1 MHz      6.533         inferred     Autoconstr_clkgroup_0
+=================================================================================================
+
+@W: MT529 :"c:\3jaer\devicefirmwarepcblayout\latticemachxo\sbret20\sourcecode\wordregister.vhd":63:4:63:5|Found inferred clock clockgen|CLKOP_inferred_clock which controls 143 sequential elements including uMonitorAddressRegister.StatexDP[9:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+@W: MT529 :"c:\3jaer\devicefirmwarepcblayout\latticemachxo\sbret20\sourcecode\wordregister.vhd":63:4:63:5|Found inferred clock USBAER_top_level|IfClockxCI which controls 116 sequential elements including uADCRegister.StatexDP[13:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+@W: MT529 :"c:\3jaer\devicefirmwarepcblayout\latticemachxo\sbret20\sourcecode\shiftregister.vhd":65:4:65:5|Found inferred clock USBAER_top_level|PC1xSIO which controls 80 sequential elements including shiftRegister_1.StatexD[79:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+@W: MT529 :"c:\3jaer\devicefirmwarepcblayout\latticemachxo\sbret20\sourcecode\shiftregister.vhd":52:4:52:5|Found inferred clock USBAER_top_level|PC2xSIO which controls 80 sequential elements including shiftRegister_1.DataOutxDO[79:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+
+Pre-mapping successful!
+
+At Mapper Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 79MB peak: 143MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue May 27 12:35:43 2014
+
+###########################################################]

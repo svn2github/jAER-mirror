@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- *************************************************************************************
+FILE DESCRIPTION
+Max Top 5 critical clocks will be reported. For rest user needs to refer to Detailed report
+*******************************************************************************************-->
+<report_table display_priority="2" name="Timing Summary">
+<report_link name="Detailed report">
+<data>C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synlog\SBret20_SBret20_fpga_mapper.srr</data>
+<title>START OF TIMING REPORT</title>
+</report_link>
+<row>
+<data tcl_name="clock_name">Clock Name</data>
+<data tcl_name="req_freq">Req Freq</data>
+<data tcl_name="est_freq">Est Freq</data>
+<data tcl_name="slack">Slack</data>
+</row>
+<row>
+<data>USBAER_top_level|IfClockxCI</data>
+<data>121.0 MHz</data>
+<data>102.8 MHz</data>
+<data>-1.458</data>
+</row>
+<row>
+<data>USBAER_top_level|PC1xSIO</data>
+<data>676.5 MHz</data>
+<data>575.0 MHz</data>
+<data>-0.261</data>
+</row>
+<row>
+<data>USBAER_top_level|PC2xSIO</data>
+<data>1.0 MHz</data>
+<data>NA</data>
+<data>NA</data>
+</row>
+<row>
+<data>clockgen|CLKOP_inferred_clock</data>
+<data>127.3 MHz</data>
+<data>108.2 MHz</data>
+<data>-1.386</data>
+</row>
+<row>
+<data>System</data>
+<data>1.0 MHz</data>
+<data>1.0 MHz</data>
+<data>3.200</data>
+</row>
+</report_table>
