@@ -524,10 +524,11 @@ public class DAViS_FX3 extends Controller {
 						final int usbData = (sBuf.get(pos) & 0xFFFF);
 
 						if (usbData != expData) {
-							final String output = String.format(
-								"Length: %d\nFirst: %d, last: %d\nMismatch detected, got: %d, expected: %d\n",
-								(sBuf.limit()), (sBuf.get(0) & 0xFFFF), (sBuf.get(sBuf.limit() - 1) & 0xFFFF), usbData,
-								expData);
+							final String output = String
+								.format(
+									"Length: %d\nFirst: %d, last: %d\nMismatch detected, got: %d, expected: %d (difference: %d)\n",
+									(sBuf.limit()), (sBuf.get(0) & 0xFFFF), (sBuf.get(sBuf.limit() - 1) & 0xFFFF),
+									usbData, expData, usbData - expData);
 
 							if (printOutput) {
 								System.out.println(output);
