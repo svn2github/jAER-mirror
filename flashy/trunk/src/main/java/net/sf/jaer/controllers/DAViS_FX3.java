@@ -420,6 +420,7 @@ public class DAViS_FX3 extends Controller {
 
 	private int expData = 0;
 	private final boolean fullDebug = false;
+	private final boolean printOutput = true;
 	private long imuCount = 0;
 	private long dataCount = 0;
 
@@ -450,7 +451,12 @@ public class DAViS_FX3 extends Controller {
 						final String output = String.format("%s - Error: 0x%02X, Time: %d\n", errorMsg, errorCode,
 							timeStamp);
 
-						GUISupport.runOnJavaFXThread(() -> usbEP1OutputArea.appendText(output));
+						if (printOutput) {
+							System.out.println(output);
+						}
+						else {
+							GUISupport.runOnJavaFXThread(() -> usbEP1OutputArea.appendText(output));
+						}
 					}
 					else if ((t.buffer().get(0) == 0x01) && (t.buffer().limit() == 15)) {
 						// This is an IMU sample. Just count it.
@@ -478,6 +484,14 @@ public class DAViS_FX3 extends Controller {
 		usbDevice.listenToEP((byte) 0x82, LibUsb.TRANSFER_TYPE_BULK, 8, 8192, new RestrictedTransferCallback() {
 			@Override
 			public void processTransfer(final RestrictedTransfer t) {
+				if (t.buffer().limit() == 0) {
+					if (fullDebug) {
+						System.out.println("Zero Length Packet detected.\n");
+					}
+
+					return;
+				}
+
 				if (t.status() == LibUsb.TRANSFER_COMPLETED) {
 					dataCount++;
 
@@ -489,22 +503,39 @@ public class DAViS_FX3 extends Controller {
 					final ShortBuffer sBuf = t.buffer().order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
 
 					if (fullDebug) {
-						System.out.println(String
-							.format(
-								"First: %d, first+1: %d\nLast-7: %d, last-6: %d, last-5: %d, last-4: %d, last-3: %d, last-2: %d, last-1: %d, last: %d\n",
-								(sBuf.get(0) & 0xFFFF), (sBuf.get(1) & 0xFFFF), (sBuf.get(sBuf.limit() - 8) & 0xFFFF),
-								(sBuf.get(sBuf.limit() - 7) & 0xFFFF), (sBuf.get(sBuf.limit() - 6) & 0xFFFF),
-								(sBuf.get(sBuf.limit() - 5) & 0xFFFF), (sBuf.get(sBuf.limit() - 4) & 0xFFFF),
-								(sBuf.get(sBuf.limit() - 3) & 0xFFFF), (sBuf.get(sBuf.limit() - 2) & 0xFFFF),
-								(sBuf.get(sBuf.limit() - 1) & 0xFFFF)));
+						if (sBuf.limit() >= 8) {
+							System.out.println(String
+								.format(
+									"Length: %d\nFirst: %d, first+1: %d\nLast-7: %d, last-6: %d, last-5: %d, last-4: %d, last-3: %d, last-2: %d, last-1: %d, last: %d\n",
+									(sBuf.limit()), (sBuf.get(0) & 0xFFFF), (sBuf.get(1) & 0xFFFF),
+									(sBuf.get(sBuf.limit() - 8) & 0xFFFF), (sBuf.get(sBuf.limit() - 7) & 0xFFFF),
+									(sBuf.get(sBuf.limit() - 6) & 0xFFFF), (sBuf.get(sBuf.limit() - 5) & 0xFFFF),
+									(sBuf.get(sBuf.limit() - 4) & 0xFFFF), (sBuf.get(sBuf.limit() - 3) & 0xFFFF),
+									(sBuf.get(sBuf.limit() - 2) & 0xFFFF), (sBuf.get(sBuf.limit() - 1) & 0xFFFF)));
+						}
+						else {
+							System.out.println(String.format(
+								"Small packet detected.\nLength: %d\nFirst: %d, last: %d\n", (sBuf.limit()),
+								(sBuf.get(0) & 0xFFFF), (sBuf.get(sBuf.limit() - 1) & 0xFFFF)));
+						}
 					}
 
 					for (int pos = 0; pos < sBuf.limit(); pos++) {
 						final int usbData = (sBuf.get(pos) & 0xFFFF);
 
 						if (usbData != expData) {
-							GUISupport.runOnJavaFXThread(() -> usbEP2OutputArea.appendText(String.format(
-								"Mismatch detected, got: %d, expected: %d\n", usbData, expData)));
+							final String output = String.format(
+								"Length: %d\nFirst: %d, last: %d\nMismatch detected, got: %d, expected: %d\n",
+								(sBuf.limit()), (sBuf.get(0) & 0xFFFF), (sBuf.get(sBuf.limit() - 1) & 0xFFFF), usbData,
+								expData);
+
+							if (printOutput) {
+								System.out.println(output);
+							}
+							else {
+								GUISupport.runOnJavaFXThread(() -> usbEP2OutputArea.appendText(output));
+							}
+
 							expData = usbData;
 						}
 
