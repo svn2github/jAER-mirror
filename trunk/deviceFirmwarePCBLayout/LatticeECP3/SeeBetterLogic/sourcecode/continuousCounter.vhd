@@ -38,7 +38,7 @@ begin
 		elsif Count_DP = DataLimit_DI then
 			Overflow_SO <= '1';
 
-			if RESET_ON_OVERFLOW = true then
+			if RESET_ON_OVERFLOW then
 				Count_DN <= (others => '0');
 			end if;
 		elsif Enable_SI = '1' then

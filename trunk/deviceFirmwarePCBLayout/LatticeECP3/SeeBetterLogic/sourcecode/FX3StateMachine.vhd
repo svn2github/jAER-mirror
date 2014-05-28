@@ -44,8 +44,8 @@ architecture Behavioral of FX3Statemachine is
 		Data_DO : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component;
 
-	type state is (stIdle0, stEarlyPacket0, stPrepareWrite0, stWriteFirst0, stWriteMiddle0, stWriteLast0, stPrepareSwitch0, stSwitch0,
-	               stIdle1, stEarlyPacket1, stPrepareWrite1, stWriteFirst1, stWriteMiddle1, stWriteLast1, stPrepareSwitch1, stSwitch1);
+	type state is (stIdle0, stPrepareEarlyPacket0, stEarlyPacket0, stPrepareWrite0, stWriteFirst0, stWriteMiddle0, stWriteLast0, stPrepareSwitch0, stSwitch0,
+	               stIdle1, stPrepareEarlyPacket1, stEarlyPacket1, stPrepareWrite1, stWriteFirst1, stWriteMiddle1, stWriteLast1, stPrepareSwitch1, stSwitch1);
 
 	attribute syn_enum_encoding : string;
 	attribute syn_enum_encoding of state : type is "onehot";
@@ -105,16 +105,20 @@ begin
 			when stIdle0 =>
 				if Run_SI = '1' and USBFifoThread0Full_SI = '0' then
 					if EarlyPacketNotify_S = '1' then
-						State_DN <= stEarlyPacket0;
+						State_DN <= stPrepareEarlyPacket0;
 					elsif InFifoAlmostEmpty_SI = '0' then
 						State_DN <= stPrepareWrite0;
 					end if;
 				end if;
 
+			when stPrepareEarlyPacket0 =>
+				State_DN <= stEarlyPacket0;
+				USBFifoPktEnd_SBO <= '0';
+				EarlyPacketClear_S <= '1';
+
 			when stEarlyPacket0 =>
 				State_DN <= stIdle1;
-				-- USBFifoWrite_SBO <= '0';
-				USBFifoPktEnd_SBO <= '0';
+				--USBFifoPktEnd_SBO <= '0';
 				EarlyPacketClear_S <= '1';
 
 			when stPrepareWrite0 =>
@@ -154,6 +158,7 @@ begin
 			when stPrepareSwitch0 =>
 				if CyclesNotify_S = '1' then
 					State_DN <= stSwitch0;
+					EarlyPacketClear_S <= '1';
 				else
 					CyclesCount_S <= '1';
 				end if;
@@ -177,18 +182,24 @@ begin
 
 				if Run_SI = '1' and USBFifoThread1Full_SI = '0' then
 					if EarlyPacketNotify_S = '1' then
-						State_DN <= stEarlyPacket1;
+						State_DN <= stPrepareEarlyPacket1;
 					elsif InFifoAlmostEmpty_SI = '0' then
 						State_DN <= stPrepareWrite1;
 					end if;
 				end if;
 
+			when stPrepareEarlyPacket1 =>
+				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
+
+				State_DN <= stEarlyPacket1;
+				USBFifoPktEnd_SBO <= '0';
+				EarlyPacketClear_S <= '1';
+
 			when stEarlyPacket1 =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
 				State_DN <= stIdle0;
-				-- USBFifoWrite_SBO <= '0';
-				USBFifoPktEnd_SBO <= '0';
+				--USBFifoPktEnd_SBO <= '0';
 				EarlyPacketClear_S <= '1';
 
 			when stPrepareWrite1 =>
@@ -238,6 +249,7 @@ begin
 
 				if CyclesNotify_S = '1' then
 					State_DN <= stSwitch1;
+					EarlyPacketClear_S <= '1';
 				else
 					CyclesCount_S <= '1';
 				end if;
