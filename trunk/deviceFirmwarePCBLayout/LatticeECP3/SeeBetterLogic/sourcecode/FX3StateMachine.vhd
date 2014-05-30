@@ -84,7 +84,7 @@ begin
 		Overflow_SO => EarlyPacketNotify_S,
 		Data_DO => open);
 
-	p_memoryless : process (State_DP, CyclesNotify_S, EarlyPacketNotify_S, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, Run_SI)
+	p_memoryless : process (State_DP, CyclesNotify_S, EarlyPacketNotify_S, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, InFifoEmpty_SI, Run_SI)
 	begin
 		State_DN <= State_DP; -- Keep current state by default.
 
@@ -112,13 +112,15 @@ begin
 				end if;
 
 			when stPrepareEarlyPacket0 =>
-				State_DN <= stEarlyPacket0;
-				USBFifoPktEnd_SBO <= '0';
-				EarlyPacketClear_S <= '1';
+				if InFifoEmpty_SI = '0' then
+					State_DN <= stEarlyPacket0;
+					InFifoRead_SO <= '1';
+				end if;
 
 			when stEarlyPacket0 =>
 				State_DN <= stIdle1;
-				--USBFifoPktEnd_SBO <= '0';
+				USBFifoWrite_SBO <= '0';
+				USBFifoPktEnd_SBO <= '0';
 				EarlyPacketClear_S <= '1';
 
 			when stPrepareWrite0 =>
@@ -158,7 +160,6 @@ begin
 			when stPrepareSwitch0 =>
 				if CyclesNotify_S = '1' then
 					State_DN <= stSwitch0;
-					EarlyPacketClear_S <= '1';
 				else
 					CyclesCount_S <= '1';
 				end if;
@@ -191,15 +192,17 @@ begin
 			when stPrepareEarlyPacket1 =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
-				State_DN <= stEarlyPacket1;
-				USBFifoPktEnd_SBO <= '0';
-				EarlyPacketClear_S <= '1';
+				if InFifoEmpty_SI = '0' then
+					State_DN <= stEarlyPacket1;
+					InFifoRead_SO <= '1';
+				end if;
 
 			when stEarlyPacket1 =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
 				State_DN <= stIdle0;
-				--USBFifoPktEnd_SBO <= '0';
+				USBFifoWrite_SBO <= '0';
+				USBFifoPktEnd_SBO <= '0';
 				EarlyPacketClear_S <= '1';
 
 			when stPrepareWrite1 =>
@@ -249,7 +252,6 @@ begin
 
 				if CyclesNotify_S = '1' then
 					State_DN <= stSwitch1;
-					EarlyPacketClear_S <= '1';
 				else
 					CyclesCount_S <= '1';
 				end if;
