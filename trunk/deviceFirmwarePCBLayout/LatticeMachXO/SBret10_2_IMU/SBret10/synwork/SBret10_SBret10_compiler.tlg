@@ -1,7 +1,7 @@
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":26:7:26:22|Synthesizing work.usbaer_top_level.structural 
 @W: CD276 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Top.vhd":59:7:59:12|Map for port intr_l of component i2c_top not found
-@W: CD730 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":732:1:732:9|Component declaration has 10 ports but entity declares 11 ports
-@W: CD326 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":732:1:732:9|Port intr_l of entity work.i2c_top is unconnected
+@W: CD730 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":737:1:737:9|Component declaration has 10 ports but entity declares 11 ports
+@W: CD326 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":737:1:737:9|Port intr_l of entity work.i2c_top is unconnected
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\cDVSResetStateMachine.vhd":25:7:25:27|Synthesizing work.cdvsresetstatemachine.behavioral 
 @N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\cDVSResetStateMachine.vhd":38:13:38:14|Using sequential encoding for type state
 Post processing for work.cdvsresetstatemachine.behavioral
@@ -70,9 +70,10 @@ Post processing for work.i2c_top.behave
 @W: CL168 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Top.vhd":479:0:479:6|Pruning instance delay_2 -- not in use ... 
 @W: CL168 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Top.vhd":473:0:473:6|Pruning instance delay_1 -- not in use ... 
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":21:7:21:21|Synthesizing work.imustatemachine.behavioral 
-@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":53:14:53:15|Using onehot encoding for type staterw (stidle="100000000")
-@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":63:15:63:16|Using onehot encoding for type stateimu (stidle="1000000000000000000000000000000000000")
-@N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":84:20:84:21|Using sequential encoding for type stateimuwrite
+@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":54:14:54:15|Using onehot encoding for type staterw (stidle="100000000")
+@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":64:15:64:16|Using onehot encoding for type stateimu (stidle="100000000000000000000000000000000000000")
+@N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":87:20:87:21|Using sequential encoding for type stateimuwrite
+@W: CD274 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":369:2:369:5|Incomplete case statement - add more cases or a when others
 Post processing for work.imustatemachine.behavioral
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCvalueReady.vhd":25:7:25:19|Synthesizing work.adcvalueready.behavioral 
 @N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCvalueReady.vhd":37:13:37:14|Using sequential encoding for type state
@@ -121,7 +122,7 @@ Post processing for work.clockgen.structure
 Post processing for work.usbaer_top_level.structural
 @W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":49:2:49:13|SyncOutSWxEI is not assigned a value (floating) -- simulation mismatch possible. 
 @W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":48:2:48:15|SyncOutSIGxSBI is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL168 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":747:1:747:23|Pruning instance cDVSResetStateMachine_1 -- not in use ... 
+@W: CL168 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":752:1:752:23|Pruning instance cDVSResetStateMachine_1 -- not in use ... 
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\synchronizerStateMachine.vhd":245:4:245:5|Trying to extract state machine for register StatexDP
 Extracted state machine for register StatexDP
 State machine has 6 reachable states with original encodings of:
@@ -190,14 +191,14 @@ State machine has 4 reachable states with original encodings of:
    01
    10
    11
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":972:2:972:3|Trying to extract state machine for register StateIMUWritexDP
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1043:2:1043:3|Trying to extract state machine for register StateIMUWritexDP
 Extracted state machine for register StateIMUWritexDP
 State machine has 4 reachable states with original encodings of:
    00
    01
    10
    11
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":972:2:972:3|Trying to extract state machine for register StateRWxDP
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1043:2:1043:3|Trying to extract state machine for register StateRWxDP
 Extracted state machine for register StateRWxDP
 State machine has 9 reachable states with original encodings of:
    000000001
@@ -209,46 +210,47 @@ State machine has 9 reachable states with original encodings of:
    001000000
    010000000
    100000000
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":972:2:972:3|Trying to extract state machine for register StateIMUxDP
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1043:2:1043:3|Trying to extract state machine for register StateIMUxDP
 Extracted state machine for register StateIMUxDP
-State machine has 37 reachable states with original encodings of:
-   0000000000000000000000000000000000001
-   0000000000000000000000000000000000010
-   0000000000000000000000000000000000100
-   0000000000000000000000000000000001000
-   0000000000000000000000000000000010000
-   0000000000000000000000000000000100000
-   0000000000000000000000000000001000000
-   0000000000000000000000000000010000000
-   0000000000000000000000000000100000000
-   0000000000000000000000000001000000000
-   0000000000000000000000000010000000000
-   0000000000000000000000000100000000000
-   0000000000000000000000001000000000000
-   0000000000000000000000010000000000000
-   0000000000000000000000100000000000000
-   0000000000000000000001000000000000000
-   0000000000000000000010000000000000000
-   0000000000000000000100000000000000000
-   0000000000000000001000000000000000000
-   0000000000000000010000000000000000000
-   0000000000000000100000000000000000000
-   0000000000000001000000000000000000000
-   0000000000000010000000000000000000000
-   0000000000000100000000000000000000000
-   0000000000001000000000000000000000000
-   0000000000010000000000000000000000000
-   0000000000100000000000000000000000000
-   0000000001000000000000000000000000000
-   0000000010000000000000000000000000000
-   0000000100000000000000000000000000000
-   0000001000000000000000000000000000000
-   0000010000000000000000000000000000000
-   0000100000000000000000000000000000000
-   0001000000000000000000000000000000000
-   0010000000000000000000000000000000000
-   0100000000000000000000000000000000000
-   1000000000000000000000000000000000000
+State machine has 38 reachable states with original encodings of:
+   000000000000000000000000000000000000001
+   000000000000000000000000000000000000010
+   000000000000000000000000000000000000100
+   000000000000000000000000000000000001000
+   000000000000000000000000000000000010000
+   000000000000000000000000000000000100000
+   000000000000000000000000000000001000000
+   000000000000000000000000000000010000000
+   000000000000000000000000000000100000000
+   000000000000000000000000000001000000000
+   000000000000000000000000000010000000000
+   000000000000000000000000000100000000000
+   000000000000000000000000001000000000000
+   000000000000000000000000010000000000000
+   000000000000000000000000100000000000000
+   000000000000000000000001000000000000000
+   000000000000000000000100000000000000000
+   000000000000000000001000000000000000000
+   000000000000000000010000000000000000000
+   000000000000000000100000000000000000000
+   000000000000000001000000000000000000000
+   000000000000000010000000000000000000000
+   000000000000000100000000000000000000000
+   000000000000001000000000000000000000000
+   000000000000010000000000000000000000000
+   000000000000100000000000000000000000000
+   000000000001000000000000000000000000000
+   000000000010000000000000000000000000000
+   000000000100000000000000000000000000000
+   000000001000000000000000000000000000000
+   000000010000000000000000000000000000000
+   000000100000000000000000000000000000000
+   000001000000000000000000000000000000000
+   000010000000000000000000000000000000000
+   000100000000000000000000000000000000000
+   001000000000000000000000000000000000000
+   010000000000000000000000000000000000000
+   100000000000000000000000000000000000000
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Mpu_Blk.vhd":167:3:167:4|Trying to extract state machine for register ns
 Extracted state machine for register ns
 State machine has 3 reachable states with original encodings of:

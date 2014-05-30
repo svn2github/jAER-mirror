@@ -14,7 +14,7 @@ Performance Grade:      3
 PACKAGE:          FTBGA256
 Package Status:                     Final          Version 1.26
 
-Wed May 21 17:14:19 2014
+Fri May 30 18:50:28 2014
 
 Pinout by Port Name:
 +-------------------------+----------+---------------+-------+-----------------------------------+
@@ -59,7 +59,7 @@ Pinout by Port Name:
 | DebugxSIO[10]           | R10/4    | LVCMOS33_OUT  | PB11D | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
 | DebugxSIO[11]           | R9/4     | LVCMOS33_OUT  | PB11C | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
 | DebugxSIO[12]           | R7/5     | LVCMOS33_OUT  | PB8C  | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
-| DebugxSIO[13]           | H5/7     | LVCMOS33_OUT  | PL9B  | DRIVE:8mA SLEW:FAST PULL:UP       |
+| DebugxSIO[13]           | P14/4    | LVCMOS33_OUT  | PB15D | DRIVE:8mA SLEW:FAST PULL:UP       |
 | DebugxSIO[14]           | R5/5     | LVCMOS33_OUT  | PB3D  | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
 | DebugxSIO[15]           | T4/5     | LVCMOS33_OUT  | PB4D  | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
 | DebugxSIO[1]            | T12/4    | LVCMOS33_OUT  | PB14B | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
@@ -67,7 +67,7 @@ Pinout by Port Name:
 | DebugxSIO[3]            | T8/5     | LVCMOS33_OUT  | PB6A  | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
 | DebugxSIO[4]            | T7/5     | LVCMOS33_OUT  | PB6B  | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
 | DebugxSIO[5]            | R6/5     | LVCMOS33_OUT  | PB5A  | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
-| DebugxSIO[6]            | P8/4     | LVCMOS33_OUT  | PB9B  | DRIVE:8mA SLEW:FAST PULL:UP       |
+| DebugxSIO[6]            | H12/2    | LVCMOS33_OUT  | PR9C  | DRIVE:8mA SLEW:FAST PULL:UP       |
 | DebugxSIO[7]            | R4/5     | LVCMOS33_OUT  | PB3C  | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
 | DebugxSIO[8]            | R12/4    | LVCMOS33_OUT  | PB13B | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
 | DebugxSIO[9]            | R11/4    | LVCMOS33_OUT  | PB13A | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
@@ -97,8 +97,8 @@ Pinout by Port Name:
 | IMUSDAxSIO              | T5/5     | LVCMOS33_BIDI | PB4C  | DRIVE:4mA SLEW:FAST PULL:UP       |
 | IfClockxCI              | A9/1     | LVCMOS33_IN   | PT10B | SLEW:FAST PULL:UP                 |
 | LED1xSO                 | R8/5     | LVCMOS33_OUT  | PB8D  | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
-| LED2xSO                 | T11/4    | LVCMOS33_OUT  | PB12B | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
-| LED3xSO                 | R13/4    | LVCMOS33_OUT  | PB14C | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
+| LED2xSO_0               | T11/4    | LVCMOS33_OUT  | PB12B | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
+| LED3xSO_0               | R13/4    | LVCMOS33_OUT  | PB14C | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
 | PA0xSIO                 | H2/6     | LVCMOS33_IN   | PL11A | SLEW:FAST PULL:UP                 |
 | PA1xSIO                 | H1/7     | LVCMOS33_IN   | PL10D | SLEW:FAST PULL:UP                 |
 | PA3xSIO                 | F2/7     | LVCMOS33_IN   | PL7A  | SLEW:FAST PULL:UP                 |
@@ -110,10 +110,10 @@ Pinout by Port Name:
 | PE2xSI                  | B1/7     | LVCMOS33_IN   | PL5A  | SLEW:FAST PULL:KEEPER             |
 | PE3xSI                  | B2/0     | LVCMOS33_IN   | PT2C  | SLEW:FAST PULL:UP                 |
 | ResetxRBI               | G2/7     | LVCMOS33_IN   | PL7B  | SLEW:FAST PULL:DOWN               |
-| SyncInCLKxABI           | M5/6     | LVCMOS33_IN   | PL18A | SLEW:FAST PULL:UP                 |
-| SyncOutCLKxCBO          | L4/6     | LVCMOS33_OUT  | PL17D | DRIVE:8mA SLEW:FAST PULL:UP       |
-| SyncOutSIGxSBI          | F6/7     | LVCMOS33_OUT  | PL3B  | DRIVE:8mA SLEW:FAST PULL:UP       |
-| SyncOutSWxEI            | C14/1    | LVCMOS33_OUT  | PT16B | DRIVE:8mA SLEW:FAST PULL:UP       |
+| SyncInCLKxABI           | P8/4     | LVCMOS33_IN   | PB9B  | SLEW:FAST PULL:UP                 |
+| SyncOutCLKxCBO          | P7/4     | LVCMOS33_OUT  | PB9A  | DRIVE:8mA SLEW:FAST PULL:UP       |
+| SyncOutSIGxSBI          | T2/5     | LVCMOS33_OUT  | PB3A  | DRIVE:8mA SLEW:FAST PULL:UP       |
+| SyncOutSWxEI            | N11/4    | LVCMOS33_OUT  | PB12D | DRIVE:8mA SLEW:FAST PULL:UP       |
 +-------------------------+----------+---------------+-------+-----------------------------------+
 
 Vccio by Bank:
@@ -183,7 +183,7 @@ Vccio by Bank:
 | C11/1    |     unused, PULL:UP     |            |               | PT13C |                |
 | C12/1    |     unused, PULL:UP     |            |               | PT13D |                |
 | C13/1    |     unused, PULL:UP     |            |               | PT15D |                |
-| C14/1    | SyncOutSWxEI            |            | LVCMOS33_OUT  | PT16B |                |
+| C14/1    |     unused, PULL:UP     |            |               | PT16B |                |
 | C15/2    |     unused, PULL:UP     |            |               | PR6A  |                |
 | C16/2    | CDVSTestSRRowInxSO      | LOCATED    | LVCMOS33_OUT  | PR5D  |                |
 | D1/7     | FX2FifoDataxDIO[8]      | LOCATED    | LVCMOS33_OUT  | PL6D  |                |
@@ -223,7 +223,7 @@ Vccio by Bank:
 | F3/7     |     unused, PULL:UP     |            |               | PL3C  | LUM0_PLLT_IN_A |
 | F4/7     |     unused, PULL:UP     |            |               | PL3D  | LUM0_PLLC_IN_A |
 | F5/7     |     unused, PULL:UP     |            |               | PL3A  |                |
-| F6/7     | SyncOutSIGxSBI          |            | LVCMOS33_OUT  | PL3B  |                |
+| F6/7     |     unused, PULL:UP     |            |               | PL3B  |                |
 | F12/2    |     unused, PULL:UP     |            |               | PR4D  |                |
 | F13/2    |     unused, PULL:UP     |            |               | PR4C  |                |
 | F14/2    |     unused, PULL:UP     |            |               | PR5B  |                |
@@ -243,8 +243,8 @@ Vccio by Bank:
 | H2/6     | PA0xSIO                 | LOCATED    | LVCMOS33_IN   | PL11A |                |
 | H3/7     |     unused, PULL:UP     |            |               | PL8D  |                |
 | H4/7     |     unused, PULL:UP     |            |               | PL9A  |                |
-| H5/7     | DebugxSIO[13]           |            | LVCMOS33_OUT  | PL9B  |                |
-| H12/2    |     unused, PULL:UP     |            |               | PR9C  |                |
+| H5/7     |     unused, PULL:UP     |            |               | PL9B  |                |
+| H12/2    | DebugxSIO[6]            |            | LVCMOS33_OUT  | PR9C  |                |
 | H13/2    |     unused, PULL:UP     |            |               | PR9D  |                |
 | H14/2    |     unused, PULL:UP     |            |               | PR10B |                |
 | H15/2    | ADCwordxDI[5]           | LOCATED    | LVCMOS33_IN   | PR10D |                |
@@ -272,7 +272,7 @@ Vccio by Bank:
 | L1/6     | FX2FifoInFullxSBI       | LOCATED    | LVCMOS33_IN   | PL13A |                |
 | L2/6     |     unused, PULL:UP     |            |               | PL12D |                |
 | L3/6     |     unused, PULL:UP     |            |               | PL15A |                |
-| L4/6     | SyncOutCLKxCBO          |            | LVCMOS33_OUT  | PL17D |                |
+| L4/6     |     unused, PULL:UP     |            |               | PL17D |                |
 | L5/6     |     unused, PULL:UP     |            |               | PL17C |                |
 | L11/3    |     unused, PULL:UP     |            |               | PR20A |                |
 | L12/3    |     unused, PULL:UP     |            |               | PR16C |                |
@@ -284,7 +284,7 @@ Vccio by Bank:
 | M2/6     | FX2FifoDataxDIO[6]      | LOCATED    | LVCMOS33_OUT  | PL15C |                |
 | M3/6     |     unused, PULL:UP     |            |               | PL15B |                |
 | M4/6     |     unused, PULL:UP     |            |               | PL18B | LLM0_PLLC_IN_A |
-| M5/6     | SyncInCLKxABI           |            | LVCMOS33_IN   | PL18A | LLM0_PLLT_IN_A |
+| M5/6     |     unused, PULL:UP     |            |               | PL18A | LLM0_PLLT_IN_A |
 | M7/5     |     unused, PULL:UP     |            |               | PB7C  |                |
 | M8/5     |     unused, PULL:UP     |            |               | PB7D  |                |
 | M9/4     |     unused, PULL:UP     |            |               | PB10B | PCLKT4_0       |
@@ -304,7 +304,7 @@ Vccio by Bank:
 | N8/4     |     unused, PULL:UP     |            |               | PB10E |                |
 | N9/4     |     unused, PULL:UP     |            |               | PB10F | PCLKT4_1       |
 | N10/4    |     unused, PULL:UP     |            |               | PB12C |                |
-| N11/4    |     unused, PULL:UP     |            |               | PB12D |                |
+| N11/4    | SyncOutSWxEI            |            | LVCMOS33_OUT  | PB12D |                |
 | N12/3    |     unused, PULL:UP     |            |               | PR18B |                |
 | N13/3    |     unused, PULL:UP     |            |               | PR18A |                |
 | N14/3    |     unused, PULL:UP     |            |               | PR17B |                |
@@ -315,13 +315,13 @@ Vccio by Bank:
 | P3/5     |     unused, PULL:UP     |            |               | PB2B  |                |
 | P5/5     |     unused, PULL:UP     |            |               | PB4A  |                |
 | P6/5     |     unused, PULL:UP     |            |               | PB4B  |                |
-| P7/4     |     unused, PULL:UP     |            |               | PB9A  |                |
-| P8/4     | DebugxSIO[6]            |            | LVCMOS33_OUT  | PB9B  |                |
+| P7/4     | SyncOutCLKxCBO          |            | LVCMOS33_OUT  | PB9A  |                |
+| P8/4     | SyncInCLKxABI           |            | LVCMOS33_IN   | PB9B  |                |
 | P9/4     |     unused, PULL:UP     |            |               | PB10C |                |
 | P10/4    |     unused, PULL:UP     |            |               | PB10D |                |
 | P11/4    |     unused, PULL:UP     |            |               | PB13C |                |
 | P12/4    |     unused, PULL:UP     |            |               | PB13D |                |
-| P14/4    |     unused, PULL:UP     |            |               | PB15D |                |
+| P14/4    | DebugxSIO[13]           |            | LVCMOS33_OUT  | PB15D |                |
 | P15/4    | AERMonitorAddressxDI[4] | LOCATED    | LVCMOS33_IN   | PB16C |                |
 | P16/4    | AERMonitorAddressxDI[3] | LOCATED    | LVCMOS33_IN   | PB16D |                |
 | PB5C/5   |     unused, PULL:UP     |            |               | PB5C  |                |
@@ -396,11 +396,11 @@ Vccio by Bank:
 | R10/4    | DebugxSIO[10]           | LOCATED    | LVCMOS33_OUT  | PB11D |                |
 | R11/4    | DebugxSIO[9]            | LOCATED    | LVCMOS33_OUT  | PB13A |                |
 | R12/4    | DebugxSIO[8]            | LOCATED    | LVCMOS33_OUT  | PB13B |                |
-| R13/4    | LED3xSO                 | LOCATED    | LVCMOS33_OUT  | PB14C |                |
+| R13/4    | LED3xSO_0               | LOCATED    | LVCMOS33_OUT  | PB14C |                |
 | R14/4    | AERMonitorAddressxDI[8] | LOCATED    | LVCMOS33_IN   | PB14D |                |
 | R15/4    | AERMonitorAddressxDI[9] | LOCATED    | LVCMOS33_IN   | PB16A |                |
 | R16/4    | AERMonitorAddressxDI[5] | LOCATED    | LVCMOS33_IN   | PB16B |                |
-| T2/5     |     unused, PULL:UP     |            |               | PB3A  |                |
+| T2/5     | SyncOutSIGxSBI          |            | LVCMOS33_OUT  | PB3A  |                |
 | T3/5     |     unused, PULL:UP     |            |               | PB3B  |                |
 | T4/5     | DebugxSIO[15]           | LOCATED    | LVCMOS33_OUT  | PB4D  |                |
 | T5/5     | IMUSDAxSIO              | LOCATED    | LVCMOS33_BIDI | PB4C  |                |
@@ -408,7 +408,7 @@ Vccio by Bank:
 | T7/5     | DebugxSIO[4]            | LOCATED    | LVCMOS33_OUT  | PB6B  |                |
 | T8/5     | DebugxSIO[3]            | LOCATED    | LVCMOS33_OUT  | PB6A  |                |
 | T10/4    | DebugxSIO[2]            | LOCATED    | LVCMOS33_OUT  | PB12A |                |
-| T11/4    | LED2xSO                 | LOCATED    | LVCMOS33_OUT  | PB12B |                |
+| T11/4    | LED2xSO_0               | LOCATED    | LVCMOS33_OUT  | PB12B |                |
 | T12/4    | DebugxSIO[1]            | LOCATED    | LVCMOS33_OUT  | PB14B |                |
 | T13/4    | DebugxSIO[0]            | LOCATED    | LVCMOS33_OUT  | PB14A |                |
 | T14/4    | AERMonitorAddressxDI[6] | LOCATED    | LVCMOS33_IN   | PB15A |                |
@@ -461,7 +461,7 @@ LOCATE  COMP  "DebugxSIO[0]"  SITE  "T13";
 LOCATE  COMP  "DebugxSIO[10]"  SITE  "R10";
 LOCATE  COMP  "DebugxSIO[11]"  SITE  "R9";
 LOCATE  COMP  "DebugxSIO[12]"  SITE  "R7";
-LOCATE  COMP  "DebugxSIO[13]"  SITE  "H5";
+LOCATE  COMP  "DebugxSIO[13]"  SITE  "P14";
 LOCATE  COMP  "DebugxSIO[14]"  SITE  "R5";
 LOCATE  COMP  "DebugxSIO[15]"  SITE  "T4";
 LOCATE  COMP  "DebugxSIO[1]"  SITE  "T12";
@@ -469,7 +469,7 @@ LOCATE  COMP  "DebugxSIO[2]"  SITE  "T10";
 LOCATE  COMP  "DebugxSIO[3]"  SITE  "T8";
 LOCATE  COMP  "DebugxSIO[4]"  SITE  "T7";
 LOCATE  COMP  "DebugxSIO[5]"  SITE  "R6";
-LOCATE  COMP  "DebugxSIO[6]"  SITE  "P8";
+LOCATE  COMP  "DebugxSIO[6]"  SITE  "H12";
 LOCATE  COMP  "DebugxSIO[7]"  SITE  "R4";
 LOCATE  COMP  "DebugxSIO[8]"  SITE  "R12";
 LOCATE  COMP  "DebugxSIO[9]"  SITE  "R11";
@@ -499,8 +499,8 @@ LOCATE  COMP  "IMUSCLxCIO"  SITE  "T6";
 LOCATE  COMP  "IMUSDAxSIO"  SITE  "T5";
 LOCATE  COMP  "IfClockxCI"  SITE  "A9";
 LOCATE  COMP  "LED1xSO"  SITE  "R8";
-LOCATE  COMP  "LED2xSO"  SITE  "T11";
-LOCATE  COMP  "LED3xSO"  SITE  "R13";
+LOCATE  COMP  "LED2xSO_0"  SITE  "T11";
+LOCATE  COMP  "LED3xSO_0"  SITE  "R13";
 LOCATE  COMP  "PA0xSIO"  SITE  "H2";
 LOCATE  COMP  "PA1xSIO"  SITE  "H1";
 LOCATE  COMP  "PA3xSIO"  SITE  "F2";
@@ -512,10 +512,10 @@ LOCATE  COMP  "PC3xSIO"  SITE  "J1";
 LOCATE  COMP  "PE2xSI"  SITE  "B1";
 LOCATE  COMP  "PE3xSI"  SITE  "B2";
 LOCATE  COMP  "ResetxRBI"  SITE  "G2";
-LOCATE  COMP  "SyncInCLKxABI"  SITE  "M5";
-LOCATE  COMP  "SyncOutCLKxCBO"  SITE  "L4";
-LOCATE  COMP  "SyncOutSIGxSBI"  SITE  "F6";
-LOCATE  COMP  "SyncOutSWxEI"  SITE  "C14";
+LOCATE  COMP  "SyncInCLKxABI"  SITE  "P8";
+LOCATE  COMP  "SyncOutCLKxCBO"  SITE  "P7";
+LOCATE  COMP  "SyncOutSIGxSBI"  SITE  "T2";
+LOCATE  COMP  "SyncOutSWxEI"  SITE  "N11";
 
 #PLL
 LOCATE  COMP  "uClockGen/PLLCInst_0"  SITE  "PLL3_R20C1" ;
@@ -529,7 +529,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
-Wed May 21 17:14:19 2014
+Fri May 30 18:50:28 2014
 
 
 

@@ -2,17 +2,17 @@
 
 #### START OF CLOCK OPTIMIZATION REPORT #####[
 
-3 non-gated/non-generated clock tree(s) driving 730 clock pin(s) of sequential element(s)
+3 non-gated/non-generated clock tree(s) driving 743 clock pin(s) of sequential element(s)
 3 gated/generated clock tree(s) driving 149 clock pin(s) of sequential element(s)
 0 instances converted, 149 sequential instances remain driven by gated/generated clocks
 
-=================================== Non-Gated/Non-Generated Clocks ====================================
-Clock Tree ID     Driving Element     Drive Element Type     Fanout     Sample Instance                
--------------------------------------------------------------------------------------------------------
-@K:CKID0004       IfClockxCI          port                   570        IMUStateMachine_1.StateRWxDP[8]
-@K:CKID0005       PC1xSIO             port                   80         shiftRegister_1.StatexD[79]    
-@K:CKID0006       PC2xSIO             port                   80         shiftRegister_1.DataOutxDO[0]  
-=======================================================================================================
+====================================== Non-Gated/Non-Generated Clocks ======================================
+Clock Tree ID     Driving Element     Drive Element Type     Fanout     Sample Instance                     
+------------------------------------------------------------------------------------------------------------
+@K:CKID0004       IfClockxCI          port                   583        IMUStateMachine_1.StateRWxDP_fast[7]
+@K:CKID0005       PC1xSIO             port                   80         shiftRegister_1.StatexD[79]         
+@K:CKID0006       PC2xSIO             port                   80         shiftRegister_1.DataOutxDO[0]       
+============================================================================================================
 ================================================================================================================= Gated/Generated Clocks =================================================================================================================
 Clock Tree ID     Driving Element                       Drive Element Type     Fanout     Sample Instance                   Explanation                                                                                                                   
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -18,7 +18,7 @@ The file contains the job information from compiler to be displayed as part of t
   <report_link name="more"><data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\synlog\report\SBret10_SBret10_compiler_notes.txt</data></report_link>
   </info>
 			<info name="Warnings">
-  <data>36</data>
+  <data>37</data>
   <report_link name="more"><data>C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\synlog\report\SBret10_SBret10_compiler_warnings.txt</data></report_link>
   </info>
 			<info name="Errors">
@@ -35,7 +35,7 @@ The file contains the job information from compiler to be displayed as part of t
   <data>-</data>
   </info>
 			<info name="Date &amp;Time">
-  <data type="timestamp">1400685228</data>
+  <data type="timestamp">1401468597</data>
   </info>
 			</job_info>
 </job_run_status>

@@ -3,7 +3,7 @@ Running in Lattice mode
 
 Starting:    D:\lscc\diamond\2.2_x64\synpbase\win64\mbin\synbatch.exe
 Install:     D:\lscc\diamond\2.2_x64\synpbase
-Date:        Wed May 21 17:13:46 2014
+Date:        Fri May 30 18:49:54 2014
 Version:     G-2012.09L-SP1 
 
 Arguments:   -product synplify_pro  -batch SBret10_SBret10_synplify.tcl

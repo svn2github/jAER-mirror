@@ -19,21 +19,21 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2280CFTBGA256
 Target Performance:   3
 Mapper:  mj5g00,  version:  Diamond (64-bit) 2.2.0.101
-Mapped on:  05/21/14  17:14:02
+Mapped on:  05/30/14  18:50:10
 
 
 <A name="mrp_ds"></A><B><U><big>Design Summary</big></U></B>
-   Number of PFU registers:    879
-   Number of SLICEs:           854 out of  1140 (75%)
-      SLICEs(logic/ROM):       854 out of   900 (95%)
+   Number of PFU registers:    892
+   Number of SLICEs:           856 out of  1140 (75%)
+      SLICEs(logic/ROM):       856 out of   900 (95%)
       SLICEs(logic/ROM/RAM):     0 out of   240 (0%)
           As RAM:            0
           As Logic/ROM:      0
    Number of logic LUT4s:     800
    Number of distributed RAM:   0 (0 LUT4s)
-   Number of ripple logic:    205 (410 LUT4s)
+   Number of ripple logic:    209 (418 LUT4s)
    Number of shift registers:   0
-   Total number of LUT4s:     1210
+   Total number of LUT4s:     1218
    Number of external PIOs: 94 out of 211 (45%)
    Number of PLLs:  1 out of 2 (50%)
    Number of block RAMs:  2 out of 3 (67%)
@@ -51,7 +51,7 @@ Mapped on:  05/21/14  17:14:02
    Number of clocks:  6
      Net ClockxC_c: 85 loads, 85 rising, 0 falling (Driver: uClockGen/PLLCInst_0
      )
-     Net IfClockxCI_c: 333 loads, 331 rising, 2 falling (Driver: PIO IfClockxCI
+     Net IfClockxCI_c: 338 loads, 336 rising, 2 falling (Driver: PIO IfClockxCI
      )
      Net ADCStateMachine_1/StateColxDP[11]: 1 loads, 1 rising, 0 falling
      (Driver: ADCStateMachine_1/StateColxDP[11] )
@@ -59,38 +59,39 @@ Mapped on:  05/21/14  17:14:02
      ADCStateMachine_1/StateRowxDP[5] )
      Net PC1xSIO_c: 40 loads, 40 rising, 0 falling (Driver: PIO PC1xSIO )
      Net PC2xSIO_c: 40 loads, 0 rising, 40 falling (Driver: PIO PC2xSIO )
-   Number of Clock Enables:  54
+   Number of Clock Enables:  55
      Net I2C_Top_1/SCL_synch: 5 loads, 5 LSLICEs
-     Net I2C_Top_1/Stop_Gen_1/Current_Stop_Gen_State[0]: 1 loads, 1 LSLICEs
+     Net I2C_Top_1/Current_Stop_Gen_State[0]: 1 loads, 1 LSLICEs
      Net I2C_Top_1/Arb_1/Current_State_16_d: 1 loads, 1 LSLICEs
-     Net I2C_Top_1/rcsack: 5 loads, 5 LSLICEs
+     Net I2C_Top_1/rcsack: 4 loads, 4 LSLICEs
      Net I2C_Top_1/Counter_Blk_1/Current_Byte_State: 1 loads, 1 LSLICEs
 
      Net I2C_Top_1/I2C_Clock_Gen_1/un33_mode: 1 loads, 1 LSLICEs
-     Net I2C_Top_1/I2C_Main_1/N_918_i: 1 loads, 1 LSLICEs
-     Net I2C_Top_1/I2C_Main_1/N_685_i: 1 loads, 1 LSLICEs
+     Net I2C_Top_1/I2C_Main_1/un81_mcs: 1 loads, 1 LSLICEs
+     Net I2C_Top_1/I2C_Main_1/un9_mcs: 1 loads, 1 LSLICEs
      Net I2C_Top_1/I2C_Main_1/un1_load_1_i: 5 loads, 5 LSLICEs
      Net I2C_Top_1/I2C_Main_1/N_212_i: 1 loads, 1 LSLICEs
-     Net I2C_Top_1/I2C_Main_1/N_911_i: 5 loads, 5 LSLICEs
-     Net I2C_Top_1/I2C_Main_1/I2C_Bus_Busy_1_sqmuxa_i_0: 1 loads, 1 LSLICEs
+     Net I2C_Top_1/I2C_Main_1/N_756_i: 5 loads, 5 LSLICEs
+     Net I2C_Top_1/I2C_Main_1/I2C_Bus_Busy_1_sqmuxa_i: 1 loads, 1 LSLICEs
      Net I2C_Top_1/I2C_Main_1/un36_mcs: 1 loads, 1 LSLICEs
-     Net I2C_Top_1/MPU_to_I2C_1/un1_transb6_0_a2_0_RNID4P42: 1 loads, 1 LSLICEs
      Net I2C_Top_1/MPU_to_I2C_1/transb_0_sqmuxa: 4 loads, 4 LSLICEs
-     Net I2C_Top_1/MPU_to_I2C_1/N_313: 1 loads, 1 LSLICEs
+     Net I2C_Top_1/MPU_to_I2C_1/un1_tbe_set: 1 loads, 1 LSLICEs
      Net I2C_Top_1/MPU_to_I2C_1/un1_rbf_set: 1 loads, 1 LSLICEs
      Net I2C_Top_1/MPU_to_I2C_1/laddr_1_sqmuxa: 4 loads, 4 LSLICEs
+     Net I2C_Top_1/MPU_to_I2C_1/cmdce[4]: 1 loads, 1 LSLICEs
      Net I2C_Top_1/MPU_to_I2C_1/un1_transb6_i: 1 loads, 1 LSLICEs
-     Net I2C_Top_1/MPU_to_I2C_1/N_906_i: 5 loads, 5 LSLICEs
+     Net I2C_Top_1/MPU_to_I2C_1/N_230_i: 4 loads, 4 LSLICEs
      Net IMUStateMachine_1.IMUAccelXxDN_0_sqmuxa: 56 loads, 56 LSLICEs
-     Net IMUStateMachine_1/IMUInitByteCountxDPe: 2 loads, 2 LSLICEs
      Net IMUStateMachine_1/IMUMeasByteCountxDPe: 2 loads, 2 LSLICEs
-     Net IMUStateMachine_1/IMUAccelYLSBxDN_1_sqmuxa: 4 loads, 4 LSLICEs
      Net IMUStateMachine_1/IMUGyroYLSBxDN_1_sqmuxa: 4 loads, 4 LSLICEs
-     Net IMUStateMachine_1/StateIMUxDN_0_sqmuxa_2: 4 loads, 4 LSLICEs
+     Net IMUStateMachine_1/IMUAccelYLSBxDN_1_sqmuxa: 4 loads, 4 LSLICEs
      Net IMUStateMachine_1/IMUGyroXLSBxDN_1_sqmuxa: 4 loads, 4 LSLICEs
+     Net IMUStateMachine_1/StateRWxDP[5]: 2 loads, 2 LSLICEs
      Net IMUStateMachine_1/IMUTempMSBxDN_1_sqmuxa: 4 loads, 4 LSLICEs
      Net IMUStateMachine_1/IMUTempLSBxDN_1_sqmuxa: 4 loads, 4 LSLICEs
+     Net IMUStateMachine_1/IMUInitByteCountxDPe: 2 loads, 2 LSLICEs
      Net IMUStateMachine_1/IMUGyroZMSBxDN_1_sqmuxa: 4 loads, 4 LSLICEs
+     Net IMUStateMachine_1/StateIMUxDN_0_sqmuxa_3: 4 loads, 4 LSLICEs
      Net IMUStateMachine_1/IMUGyroYMSBxDN_1_sqmuxa: 4 loads, 4 LSLICEs
      Net IMUStateMachine_1/IMUGyroXMSBxDN_1_sqmuxa: 4 loads, 4 LSLICEs
      Net IMUStateMachine_1/IMUAccelZMSBxDN_1_sqmuxa: 4 loads, 4 LSLICEs
@@ -98,45 +99,45 @@ Mapped on:  05/21/14  17:14:02
      Net IMUStateMachine_1/IMUAccelYMSBxDN_1_sqmuxa: 4 loads, 4 LSLICEs
      Net IMUStateMachine_1/IMUAccelXMSBxDN_0_sqmuxa: 4 loads, 4 LSLICEs
      Net IMUStateMachine_1/IMUAccelXLSBxDN_1_sqmuxa: 4 loads, 4 LSLICEs
-     Net IMUStateMachine_1/N_479_i: 4 loads, 4 LSLICEs
-     Net IMUStateMachine_1/N_303: 1 loads, 1 LSLICEs
-     Net IMUStateMachine_1.N_183_i: 16 loads, 16 LSLICEs
+     Net IMUStateMachine_1/N_320: 8 loads, 8 LSLICEs
+     Net IMUStateMachine_1/N_1296_i: 1 loads, 1 LSLICEs
+     Net IMUStateMachine_1.N_197_i: 16 loads, 16 LSLICEs
+     Net ADCStateMachine_1.N_316_i: 7 loads, 7 LSLICEs
      Net ADCStateMachine_1/un1_StateColxDP_2_0_m2: 1 loads, 1 LSLICEs
      Net ADCStateMachine_1/DividerRowxDPe: 9 loads, 9 LSLICEs
      Net ADCStateMachine_1/N_14_i: 17 loads, 17 LSLICEs
      Net ADCStateMachine_1/CountRowxDPe: 4 loads, 4 LSLICEs
-     Net ADCStateMachine_1/N_378_i: 9 loads, 9 LSLICEs
-     Net ADCStateMachine_1.N_316_i: 7 loads, 7 LSLICEs
-     Net monitorStateMachine_1.N_366_i: 7 loads, 7 LSLICEs
+     Net ADCStateMachine_1/N_421_i: 9 loads, 9 LSLICEs
+     Net TimestampRegWritexEO_i_a2_i_3: 7 loads, 7 LSLICEs
      Net monitorStateMachine_1.N_237_i: 5 loads, 5 LSLICEs
      Net FifoWritexE: 2 loads, 0 LSLICEs
      Net FifoReadxE: 2 loads, 0 LSLICEs
      Net uEarlyPaketTimer.CountxDPe: 11 loads, 11 LSLICEs
      Net uSynchronizerStateMachine_1/CounterxDPe: 7 loads, 7 LSLICEs
-     Net N_16_i: 9 loads, 9 LSLICEs
+     Net N_542_i: 9 loads, 9 LSLICEs
      Net uEventCounter/CountxDPe: 5 loads, 5 LSLICEs
-   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  669
+   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  682
    Number of LSRs:  7
-     Net I2C_Top_1/Counter_Blk_1/N_723_i: 12 loads, 12 LSLICEs
+     Net I2C_Top_1/Counter_Blk_1/N_507_i: 12 loads, 12 LSLICEs
      Net ResetxRBI_c: 4 loads, 0 LSLICEs
-     Net I2C_Top_1/N_897_i: 51 loads, 51 LSLICEs
+     Net I2C_Top_1/N_653_i: 50 loads, 50 LSLICEs
      Net ADCStateMachine_1/StateColxDN_1_sqmuxa_i_i_a2: 1 loads, 1 LSLICEs
-     Net ADCsmRstxE_i: 54 loads, 54 LSLICEs
 
+     Net N_602_i: 54 loads, 54 LSLICEs
      Net ADCStateMachine_1/StateRowxDP[2]: 1 loads, 1 LSLICEs
      Net SynchronizerResetTimestampxSB_i: 10 loads, 10 LSLICEs
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
      Net IMUStateMachine_1.IMUAccelXxDN_0_sqmuxa: 56 loads
-     Net ADCsmRstxE_i: 54 loads
-     Net I2C_Top_1/N_897_i: 51 loads
-     Net IMUStateMachine_1/IMUDataWordCountxDP[2]: 51 loads
+     Net N_602_i: 54 loads
+     Net I2C_Top_1/N_653_i: 50 loads
+     Net IMUStateMachine_1/IMUDataWordCountxDP[2]: 50 loads
+     Net IMUStateMachine_1/IMUDataWordCountxDP[1]: 39 loads
      Net FifoReadxE: 38 loads
-     Net IMUStateMachine_1/IMUDataWordCountxDP[1]: 38 loads
      Net fifoStatemachine_1.StatexDP[0]: 37 loads
      Net ADCStateMachine_1/N_376: 33 loads
      Net ECResetEarlyPaketTimerxS: 32 loads
-     Net IMUStateMachine_1.StateRWxDP[5]: 30 loads
+     Net I2C_Top_1/SCL_synch: 26 loads
 
 
 
@@ -187,8 +188,8 @@ WARNING - map: Using local reset signal 'ResetxRBI_c' to infer global GSR net.
 WARNING - map: IO buffer missing for top level port SyncInSIGxSBO...logic will
      be discarded.
 WARNING - map: IO buffer missing for top level port SyncInSWxEI...logic will be
-     discarded.
 
+     discarded.
 WARNING - map: IO buffer missing for top level port FXLEDxSI...logic will be
      discarded.
 WARNING - map: IO buffer missing for top level port ADCovrxSI...logic will be
@@ -245,8 +246,8 @@ WARNING - map: IO buffer missing for top level port
 | DebugxSIO[12]       | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | DebugxSIO[11]       | OUTPUT    | LVCMOS33  |            |            |
-+---------------------+-----------+-----------+------------+------------+
 
++---------------------+-----------+-----------+------------+------------+
 | DebugxSIO[10]       | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | DebugxSIO[9]        | OUTPUT    | LVCMOS33  |            |            |
@@ -267,9 +268,9 @@ WARNING - map: IO buffer missing for top level port
 +---------------------+-----------+-----------+------------+------------+
 | DebugxSIO[0]        | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
-| LED3xSO             | OUTPUT    | LVCMOS33  |            |            |
+| LED3xSO_0           | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
-| LED2xSO             | OUTPUT    | LVCMOS33  |            |            |
+| LED2xSO_0           | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | LED1xSO             | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
@@ -302,8 +303,8 @@ WARNING - map: IO buffer missing for top level port
 | ADCwordxDI[9]       | INPUT     | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | ADCwordxDI[8]       | INPUT     | LVCMOS33  |            |            |
-+---------------------+-----------+-----------+------------+------------+
 
++---------------------+-----------+-----------+------------+------------+
 | ADCwordxDI[7]       | INPUT     | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | ADCwordxDI[6]       | INPUT     | LVCMOS33  |            |            |
@@ -359,8 +360,8 @@ WARNING - map: IO buffer missing for top level port
 | FX2FifoAddressxDO[0]| OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | FX2FifoPktEndxSBO   | OUTPUT    | LVCMOS33  |            |            |
-+---------------------+-----------+-----------+------------+------------+
 
++---------------------+-----------+-----------+------------+------------+
 | FX2FifoReadxEBO     | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | FX2FifoWritexEBO    | OUTPUT    | LVCMOS33  |            |            |
@@ -417,11 +418,10 @@ Block I2C_Top_1/Synch_1/VCC undriven or does not drive anything - clipped.
 Block I2C_Top_1/Counter_Blk_1/VCC undriven or does not drive anything - clipped.
 Block I2C_Top_1/Arb_1/GND undriven or does not drive anything - clipped.
 Block I2C_Top_1/Arb_1/VCC undriven or does not drive anything - clipped.
-Block I2C_Top_1/Start_Gen_1/VCC undriven or does not drive anything - clipped.
 
+Block I2C_Top_1/Start_Gen_1/VCC undriven or does not drive anything - clipped.
 Block I2C_Top_1/Start_Det_1/VCC undriven or does not drive anything - clipped.
 Block I2C_Top_1/Start_Det_1/GND undriven or does not drive anything - clipped.
-Block I2C_Top_1/Stop_Gen_1/GND undriven or does not drive anything - clipped.
 Block I2C_Top_1/Stop_Gen_1/VCC undriven or does not drive anything - clipped.
 Block I2C_Top_1/Stop_Det_1/GND undriven or does not drive anything - clipped.
 Block I2C_Top_1/Stop_Det_1/VCC undriven or does not drive anything - clipped.
@@ -443,13 +443,13 @@ Signal uEventCounter/GND undriven or does not drive anything - clipped.
 Signal uEventCounter/VCC undriven or does not drive anything - clipped.
 Signal uTimestampCounter/GND undriven or does not drive anything - clipped.
 Signal uTimestampCounter/VCC undriven or does not drive anything - clipped.
-Signal uSynchronizerStateMachine_1/GND undriven or does not drive anything -
-     clipped.
 Signal uSynchronizerStateMachine_1/VCC undriven or does not drive anything -
      clipped.
+Signal uSynchronizerStateMachine_1/GND undriven or does not drive anything -
+     clipped.
 Signal fifoStatemachine_1/GND undriven or does not drive anything - clipped.
-Signal monitorStateMachine_1/GND undriven or does not drive anything - clipped.
 Signal monitorStateMachine_1/VCC undriven or does not drive anything - clipped.
+Signal monitorStateMachine_1/GND undriven or does not drive anything - clipped.
 Signal ADCStateMachine_1/GND undriven or does not drive anything - clipped.
 Signal IMUStateMachine_1/VCC undriven or does not drive anything - clipped.
 Signal IMUStateMachine_1/GND undriven or does not drive anything - clipped.
@@ -1278,9 +1278,17 @@ Signal IMUStateMachine_1/I2CWaitCountxDP_cry[2] undriven or does not drive
      anything - clipped.
 Signal IMUStateMachine_1/I2CWaitCountxDP_cry[4] undriven or does not drive
      anything - clipped.
-Signal IMUStateMachine_1/I2CWaitCountxDP_cry_0_COUT1[6] undriven or does not
-     drive anything - clipped.
 Signal IMUStateMachine_1/I2CWaitCountxDP_cry[6] undriven or does not drive
+     anything - clipped.
+Signal IMUStateMachine_1/I2CWaitCountxDP_cry[8] undriven or does not drive
+     anything - clipped.
+Signal IMUStateMachine_1/I2CWaitCountxDP_cry[10] undriven or does not drive
+     anything - clipped.
+Signal IMUStateMachine_1/I2CWaitCountxDP_cry[12] undriven or does not drive
+     anything - clipped.
+Signal IMUStateMachine_1/I2CWaitCountxDP_cry_0_COUT1[14] undriven or does not
+     drive anything - clipped.
+Signal IMUStateMachine_1/I2CWaitCountxDP_cry[14] undriven or does not drive
      anything - clipped.
 Signal I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_0_0_S0 undriven or does not drive
      anything - clipped.
@@ -1322,6 +1330,7 @@ Signal I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_I_15_0_S1 undriven or does
      not drive anything - clipped.
 Signal I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_I_15_0_S0 undriven or does
      not drive anything - clipped.
+
 Signal I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_data_tmp[2] undriven or does
      not drive anything - clipped.
 Block shiftRegister_1/DataOutxDO_75_.CN was optimized away.
@@ -1330,7 +1339,6 @@ Block I2C_Top_1/Synch_1/SCL_synch_RNINR16 was optimized away.
 Block I2C_Top_1/Counter_Blk_1/Byte_Cnt_Flag_RNO was optimized away.
 Block I2C_Top_1/Counter_Blk_1/Byte_Cnt_Flag_RNO_0 was optimized away.
 Block GND was optimized away.
-
 Block uClockGen/GND was optimized away.
 Block uFifo/VCC was optimized away.
 Block uFifo/GND was optimized away.
@@ -1340,11 +1348,11 @@ Block uEventCounter/GND was optimized away.
 Block uEventCounter/VCC was optimized away.
 Block uTimestampCounter/GND was optimized away.
 Block uTimestampCounter/VCC was optimized away.
-Block uSynchronizerStateMachine_1/GND was optimized away.
 Block uSynchronizerStateMachine_1/VCC was optimized away.
+Block uSynchronizerStateMachine_1/GND was optimized away.
 Block fifoStatemachine_1/GND was optimized away.
-Block monitorStateMachine_1/GND was optimized away.
 Block monitorStateMachine_1/VCC was optimized away.
+Block monitorStateMachine_1/GND was optimized away.
 Block ADCStateMachine_1/GND was optimized away.
 Block IMUStateMachine_1/VCC was optimized away.
 Block IMUStateMachine_1/GND was optimized away.
@@ -1381,6 +1389,7 @@ Block I2C_Top_1/Counter_Blk_1/GND was optimized away.
 
 PLL 1:                                     Pin/Node Value
   PLL Instance Name:                                uClockGen/PLLCInst_0
+
   PLL Type:                                         EHXPLLC
   Input Clock:                             PIN      IfClockxCI_c
   Output Clock(P):                         NODE     ClockxC_c
@@ -1389,7 +1398,6 @@ PLL 1:                                     Pin/Node Value
   PLL FeedbackSignal:                      NODE     ClockxC_c
   PLLResetSignal:                          NODE     ResetxRBI_c_i
   PLLLOCKSignal:                                    NONE
-
   DynamicDelayModeSignal:                           NONE
   DynamicDelayZeroSignal:                           NONE
   DynamicDelayLag/LeadSelect:                       NONE
@@ -1447,6 +1455,7 @@ Type and number of components of the type:
 
 Type and instance name of component:
    FIFO8KA : uFifo/AERfifo_0_1
+
    FIFO8KA : uFifo/AERfifo_0_1
    FIFO8KA : uFifo/AERfifo_1_0
    FIFO8KA : uFifo/AERfifo_1_0
@@ -1457,17 +1466,8 @@ Type and instance name of component:
 -------------------------
 
    Total CPU Time: 1 secs
-
    Total REAL Time: 2 secs
-   Peak Memory Usage: 46 MB
-
-
-
-
-
-
-
-
+   Peak Memory Usage: 48 MB
 
 
 

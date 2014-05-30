@@ -262,7 +262,8 @@ architecture Structural of USBAER_top_level is
 			IMUDataWriteAckxEO 	: out std_logic;
 			IMUDataDropxEI		: in std_logic;
 			IMURegisterWritexEO : out std_logic; 
-			IMUDataxDO          : out std_logic_vector(15 downto 0)); 
+			IMUDataxDO          : out std_logic_vector(15 downto 0);
+			DebugLEDxEO			: out std_logic); 
 	end component;
 	--H
   
@@ -473,6 +474,9 @@ architecture Structural of USBAER_top_level is
 	signal externaleventtype : std_logic_vector(13 downto 0); -- mux output selecting external event type
 	--H 
 
+	--H 
+	signal DebugLEDxE : std_logic;
+	--H
 begin
 	IfClockxC <= IfClockxCI;
 	ADCclockxCO <= ADCclockxC;
@@ -720,7 +724,8 @@ begin
 			IMUDataWriteAckxEO 	=> IMUDataWriteAckxE,
 			IMUDataDropxEI		=> IMUDataDropxE,
 			IMURegisterWritexEO => IMURegWritexE,
-			IMUDataxDO          => IMUDataxD);
+			IMUDataxDO          => IMUDataxD,
+			DebugLEDxEO			=> DebugLEDxE);
   
 	-- Always have IMU Running
 	-- FIGURE OUT BEST WAY TO DO THIS
@@ -785,10 +790,14 @@ begin
 			IMURegOutxD 						when selectIMU, --H Writes IMU measurements
 			(others => '0') 					when others; --H
 	
-	LED1xSO <= CDVSTestChipResetxRB;
-	LED2xSO <= RunxS;
-	LED3xSO <= ADCStateOutputLEDxS;
+	LED1xSO <= DebugLEDxE; --H 
+	LED2xSO <= IMUSCLxCIO; --H
+	LED3xSO <= IMUSDAxSIO; --H
+	--H LED1xSO <= CDVSTestChipResetxRB;
+	--H LED2xSO <= RunxS;
+	--H LED3xSO <= ADCStateOutputLEDxS;
 	--LED3xSO <= ExtTriggerxE;
+
 
 	CDVSTestChipResetxRBO <= CDVSTestChipResetxRB;
 	CDVSTestChipResetxRB <= PE3xSI;

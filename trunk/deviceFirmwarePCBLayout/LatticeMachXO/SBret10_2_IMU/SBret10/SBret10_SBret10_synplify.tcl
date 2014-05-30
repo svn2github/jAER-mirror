@@ -88,4 +88,4 @@ project -log_file {SBret10_SBret10.srf}
 
 #-- run Synplify with 'arrange HDL file'
 project -run hdl_info_gen -fileorder
-project -run -clean
+project -run
