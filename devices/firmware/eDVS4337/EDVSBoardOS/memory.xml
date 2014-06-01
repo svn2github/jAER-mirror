@@ -1,0 +1,18 @@
+<info flash_driver='LPC18x7_43x7_2x512_BootA.cfx'>
+ <chip>
+  <memory id='Flash' type='Flash' is_ro='true' can_program='true'></memory>
+  <memory id='RAM' type='RAM'></memory>
+   <memoryInstance id='MFlashA512' derived_from='Flash' location='0x1a000000' size='0x40000'  edited='true'/>
+   <memoryInstance id='MFlashA512_256' derived_from='Flash' location='0x1a040000' size='0x40000'  edited='true'/>
+   <memoryInstance id='MFlashB512' derived_from='Flash' location='0x1b000000' size='0x80000'  edited='true'/>
+   <memoryInstance id='RamLoc40' derived_from='RAM' location='0x10088410' size='0x1BF0'  />
+   <memoryInstance id='M0CodeRam' derived_from='RAM' location='0x1008800c' size='0x400'  edited='true'/>
+   <memoryInstance id='RamLoc32' derived_from='RAM' location='0x10002014' size='0x5FEC'  edited='true'/>
+   <memoryInstance id='EventsBuffer32' derived_from='RAM' location='0x10080000' size='0x800c'  edited='true'/>
+   <memoryInstance id='UartBuffer' derived_from='RAM' location='0x10000000' size='0x2014'  edited='true'/>
+   <memoryInstance id='M0Start' derived_from='RAM' location='0x1008840c' size='0x4'  edited='true'/>
+   <memoryInstance id='RamAHB32' derived_from='RAM' location='0x20000000' size='0x8000'  />
+   <memoryInstance id='RamAHB16' derived_from='RAM' location='0x20008000' size='0x4000'  />
+   <memoryInstance id='RamAHB_ETB16' derived_from='RAM' location='0x2000c000' size='0x4000'  />
+ </chip>
+</info>
