@@ -1,145 +1,0 @@
-<HTML>
-<HEAD><TITLE>Lattice TCL Log</TITLE>
-<STYLE TYPE="text/css">
-<!--
- body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
--->
-</STYLE>
-</HEAD>
-<PRE><A name="pn140217191044"></A><B><U><big>pn140217191044</big></U></B>
-#Start recording tcl command: 2/17/2014 18:19:14
-#Project Location: C:/INIlabs/VHDL/DAViS_USB3; Project name: DAViS_USB3
-prj_project new -name "DAViS_USB3" -impl "DAViS_USB3" -dev LFE3-17EA-7FTN256I -synthesis "synplify" -lpf "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/DevBoardUSB3.lpf"
-file copy -force -- "C:/INIlabs/VHDL/DevBoardUSB3.lpf" "C:/INIlabs/VHDL/SBret10_2/sourcecode/synchronizerStateMachine.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/USBAER_top_level.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/ADCStateMachine.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/AERfifo.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source"
-file copy -force -- "C:/INIlabs/VHDL/SBret10_2/sourcecode/cDVSResetStateMachine.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/clockgen.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/earlyPaketTimer.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/eventCounter.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/fifoStatemachine.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source"
-file copy -force -- "C:/INIlabs/VHDL/SBret10_2/sourcecode/monitorStateMachine.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/timestampCounter.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source"
-prj_src add "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/synchronizerStateMachine.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/USBAER_top_level.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/ADCStateMachine.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/AERfifo.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/cDVSResetStateMachine.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/clockgen.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/earlyPaketTimer.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/eventCounter.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/fifoStatemachine.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/monitorStateMachine.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/timestampCounter.vhd"
-prj_project save
-file copy -force -- "C:/INIlabs/VHDL/SBret10_2/sourcecode/wordRegister.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/AERfifo.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/EventBeforeOverflow.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/synchronizerStateMachine.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/AERfifo.ipx" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source"
-file copy -force -- "C:/INIlabs/VHDL/SBret10_2/sourcecode/AERfifo.lpc" "C:/INIlabs/VHDL/SBret10_2/sourcecode/AERfifo.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/AERfifo_tmpl.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/tb_AERfifo_tmpl.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/clockgen.ipx" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source"
-file copy -force -- "C:/INIlabs/VHDL/SBret10_2/sourcecode/clockgen.lpc" "C:/INIlabs/VHDL/SBret10_2/sourcecode/clockgen.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/clockgen_tmpl.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/ADCvalueReady.vhd" "C:/INIlabs/VHDL/SBret10_2/sourcecode/shiftRegister.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source"
-prj_src add "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/wordRegister.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/AERfifo.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/EventBeforeOverflow.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/synchronizerStateMachine.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/AERfifo.ipx" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/clockgen.ipx" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/ADCvalueReady.vhd" "C:/INIlabs/VHDL/DAViS_USB3/DAViS_USB3/source/shiftRegister.vhd"
-prj_run Export -impl DAViS_USB3 -task Bitgen
-prj_run Export -impl DAViS_USB3 -task Bitgen
-prj_run Export -impl DAViS_USB3 -task Bitgen
-#Stop recording: 2/17/2014 19:10:44
-
-
-
-<A name="pn140329193147"></A><B><U><big>pn140329193147</big></U></B>
-#Start recording tcl command: 3/29/2014 17:20:19
-#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3; Project name: DAViS_USB3
-prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3.ldf"
-prj_project close
-#Stop recording: 3/29/2014 19:31:47
-
-
-
-<A name="pn140329194000"></A><B><U><big>pn140329194000</big></U></B>
-#Start recording tcl command: 3/29/2014 19:38:51
-#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3; Project name: DAViS_USB3
-prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3.ldf"
-prj_project close
-#Stop recording: 3/29/2014 19:40:00
-
-
-
-<A name="pn140329194151"></A><B><U><big>pn140329194151</big></U></B>
-#Start recording tcl command: 3/29/2014 19:41:04
-#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3; Project name: DAViS_USB3
-prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3.ldf"
-prj_project close
-#Stop recording: 3/29/2014 19:41:51
-
-
-
-<A name="pn140329194314"></A><B><U><big>pn140329194314</big></U></B>
-#Start recording tcl command: 3/29/2014 19:42:58
-#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3; Project name: DAViS_USB3
-prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3.ldf"
-prj_project close
-#Stop recording: 3/29/2014 19:43:14
-
-
-
-<A name="pn140329194723"></A><B><U><big>pn140329194723</big></U></B>
-#Start recording tcl command: 3/29/2014 19:46:02
-#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3; Project name: DAViS_USB3
-prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3.ldf"
-prj_run Translate -impl DAViS_USB3
-prj_project close
-#Stop recording: 3/29/2014 19:47:23
-
-
-
-<A name="pn140329211937"></A><B><U><big>pn140329211937</big></U></B>
-#Start recording tcl command: 3/29/2014 21:18:42
-#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3; Project name: DAViS_USB3
-prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3.ldf"
-prj_project close
-#Stop recording: 3/29/2014 21:19:37
-
-
-
-<A name="pn140331115457"></A><B><U><big>pn140331115457</big></U></B>
-#Start recording tcl command: 3/31/2014 11:54:24
-#Project Location: E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3; Project name: DAViS_USB3
-prj_project open "E:/JAER_SVN/trunk/deviceFirmwarePCBLayout/LatticeECP3/DAViS_USB3/DAViS_USB3.ldf"
-prj_project close
-#Stop recording: 3/31/2014 11:54:57
-
-
-
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-</PRE></FONT>
-</BODY>
-</HTML>
