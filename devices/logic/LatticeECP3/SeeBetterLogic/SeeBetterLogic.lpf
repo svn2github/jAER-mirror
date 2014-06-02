@@ -3,33 +3,17 @@ SYSCONFIG PERSISTENT=SSPI CONFIG_MODE=SSPI ;
 BLOCK RESETPATHS ;
 BLOCK ASYNCPATHS ;
 
+// Main clock (input from FX3)
+LOCATE COMP "USBClock_CI" SITE "K3" ;// IFClock (from FX3)
+//LOCATE COMP "USBClock_CI" SITE "K15" ;// IFClock (from FX3, special clock pin)
+
+// Clock settings
 FREQUENCY PORT "USBClock_CI" 80.0 MHz ;
 FREQUENCY NET "USBClock_CI_c" 80.0 MHz ;
 //USE PRIMARY NET "USBClock_CI_c" ;
 USE SECONDARY NET "USBClock_CI_c" ;
 FREQUENCY NET "LogicClock_C" 240.0 MHz ;
 USE PRIMARY NET "LogicClock_C" ;
-
-DEFINE PORT GROUP "USBFifoData_DO"
-"USBFifoData_DO[15]" 
-"USBFifoData_DO[14]" 
-"USBFifoData_DO[13]" 
-"USBFifoData_DO[12]" 
-"USBFifoData_DO[11]" 
-"USBFifoData_DO[10]" 
-"USBFifoData_DO[9]" 
-"USBFifoData_DO[8]" 
-"USBFifoData_DO[7]" 
-"USBFifoData_DO[6]" 
-"USBFifoData_DO[5]" 
-"USBFifoData_DO[4]" 
-"USBFifoData_DO[3]" 
-"USBFifoData_DO[2]" 
-"USBFifoData_DO[1]" 
-"USBFifoData_DO[0]" ;
-
-IOBUF ALLPORTS IO_TYPE=LVCMOS33 PULLMODE=UP ;
-IOBUF PORT "Reset_RBI" IO_TYPE=LVCMOS33 PULLMODE=DOWN ;
 
 // FX3 controls
 LOCATE COMP "Reset_RBI" SITE "C13" ;// FPGA Reset
@@ -66,16 +50,34 @@ LOCATE COMP "USBFifoChipSelect_SBO" SITE "B14" ;// SLCS
 LOCATE COMP "USBFifoWrite_SBO" SITE "H13" ;// SLWR
 LOCATE COMP "USBFifoRead_SBO" SITE "N15" ;// SLOESLRD (through Spare2)
 LOCATE COMP "USBFifoPktEnd_SBO" SITE "H14" ;// PktEnd (through Spare1) (TEMPORARY: exchange with FifoAddr1)
-LOCATE COMP "USBFifoAddress_DO[0]" SITE "F14" ;// FifoAddr0
 LOCATE COMP "USBFifoAddress_DO[1]" SITE "N16" ;// FifoAddr1 (TEMPORARY: exchange with PktEnd)
+LOCATE COMP "USBFifoAddress_DO[0]" SITE "F14" ;// FifoAddr0
 LOCATE COMP "USBFifoThr0Ready_SI" SITE "E14" ;// THR0_READY
 LOCATE COMP "USBFifoThr0Watermark_SI" SITE "L3" ;// THR0_WATERMARK
 LOCATE COMP "USBFifoThr1Ready_SI" SITE "B13" ;// THR1_READY
 LOCATE COMP "USBFifoThr1Watermark_SI" SITE "K4" ;// THR1_WATERMARK
 
-// Main clock (input from FX3)
-LOCATE COMP "USBClock_CI" SITE "K3" ;// IFClock (from FX3)
-//LOCATE COMP "USBClock_CI" SITE "K15" ;// IFClock (from FX3, special clock pin)
+DEFINE PORT GROUP "USBFifoData_DO"
+"USBFifoData_DO[15]" 
+"USBFifoData_DO[14]" 
+"USBFifoData_DO[13]" 
+"USBFifoData_DO[12]" 
+"USBFifoData_DO[11]" 
+"USBFifoData_DO[10]" 
+"USBFifoData_DO[9]" 
+"USBFifoData_DO[8]" 
+"USBFifoData_DO[7]" 
+"USBFifoData_DO[6]" 
+"USBFifoData_DO[5]" 
+"USBFifoData_DO[4]" 
+"USBFifoData_DO[3]" 
+"USBFifoData_DO[2]" 
+"USBFifoData_DO[1]" 
+"USBFifoData_DO[0]" ;
+
+DEFINE PORT GROUP "USBFifoAddress_DO"
+"USBFifoAddress_DO[1]" 
+"USBFifoAddress_DO[0]" ;
 
 // FPGA controlled LEDs
 LOCATE COMP "LED1_SO" SITE "C3" ;// SP_LED1
@@ -83,17 +85,17 @@ LOCATE COMP "LED2_SO" SITE "A12" ;// SP_LED2
 LOCATE COMP "LED3_SO" SITE "B3" ;// SP_LED3
 LOCATE COMP "LED4_SO" SITE "A11" ;// SP_LED4
 
+// Chip control
+LOCATE COMP "ChipReset_SBO" SITE "E11" ;
+
 // Bias configuration
 LOCATE COMP "ChipBiasEnable_SO" SITE "D8" ;
 LOCATE COMP "ChipBiasDiagSel_SO" SITE "D7" ;
 LOCATE COMP "ChipBiasAddrSel_SO" SITE "C12" ;
 //LOCATE COMP "ChipBiasClock_SO" SITE "" ;
-//LOCATE COMP "ChipBiasBitIn_DO" SITE "" ; // to chip
-LOCATE COMP "ChipBiasBitOut_DI" SITE "A8" ; // from chip
+//LOCATE COMP "ChipBiasBitIn_DO" SITE "" ;// to chip
 //LOCATE COMP "ChipBiasLatch_SO" SITE "" ;
-
-// Chip control
-LOCATE COMP "ChipReset_SBO" SITE "E11" ;
+LOCATE COMP "ChipBiasBitOut_DI" SITE "A8" ;// from chip (debug)
 
 // DVS data (AER bus)
 LOCATE COMP "DVSAERData_DI[9]" SITE "H3" ;
@@ -108,6 +110,18 @@ LOCATE COMP "DVSAERData_DI[1]" SITE "H2" ;
 LOCATE COMP "DVSAERData_DI[0]" SITE "H1" ;
 LOCATE COMP "DVSAERReq_SBI" SITE "B9" ;
 LOCATE COMP "DVSAERAck_SBO" SITE "C8" ;
+
+DEFINE PORT GROUP "DVSAERData_DI"
+"DVSAERData_DI[9]" 
+"DVSAERData_DI[8]" 
+"DVSAERData_DI[7]" 
+"DVSAERData_DI[6]" 
+"DVSAERData_DI[5]" 
+"DVSAERData_DI[4]" 
+"DVSAERData_DI[3]" 
+"DVSAERData_DI[2]" 
+"DVSAERData_DI[1]" 
+"DVSAERData_DI[0]" ;
 
 // APS data (chip)
 LOCATE COMP "APSChipRowSRClock_SO" SITE "D9" ;
@@ -134,6 +148,18 @@ LOCATE COMP "APSADCClock_CO" SITE "B10" ;
 LOCATE COMP "APSADCWrite_SO" SITE "C10" ;
 LOCATE COMP "APSADCRead_SO" SITE "D10" ;
 
+DEFINE PORT GROUP "APSADCData_DI"
+"APSADCData_DI[9]" 
+"APSADCData_DI[8]" 
+"APSADCData_DI[7]" 
+"APSADCData_DI[6]" 
+"APSADCData_DI[5]" 
+"APSADCData_DI[4]" 
+"APSADCData_DI[3]" 
+"APSADCData_DI[2]" 
+"APSADCData_DI[1]" 
+"APSADCData_DI[0]" ;
+
 // IMU (InvenSense MPU 6X50)
 LOCATE COMP "IMUClock_CO" SITE "L16" ;
 LOCATE COMP "IMUData_DIO" SITE "M16" ;
@@ -149,40 +175,18 @@ LOCATE COMP "SyncInSignal_SI" SITE "A4" ;
 
 // Setup & Hold time specifications
 CLOCK_TO_OUT GROUP "USBFifoData_DO" OUTPUT_DELAY 2.0 ns MIN 0.5 ns CLKNET "USBClock_CI_c" ;
+CLOCK_TO_OUT GROUP "USBFifoAddress_DO" OUTPUT_DELAY 2.0 ns MIN 0.5 ns CLKNET "USBClock_CI_c" ;
 CLOCK_TO_OUT PORT "USBFifoChipSelect_SBO" OUTPUT_DELAY 2.0 ns MIN 0.5 ns CLKNET "USBClock_CI_c" ;
 CLOCK_TO_OUT PORT "USBFifoWrite_SBO" OUTPUT_DELAY 2.0 ns MIN 0.5 ns CLKNET "USBClock_CI_c" ;
 CLOCK_TO_OUT PORT "USBFifoRead_SBO" OUTPUT_DELAY 2.0 ns MIN 0.5 ns CLKNET "USBClock_CI_c" ;
 CLOCK_TO_OUT PORT "USBFifoPktEnd_SBO" OUTPUT_DELAY 2.0 ns MIN 0.5 ns CLKNET "USBClock_CI_c" ;
-CLOCK_TO_OUT PORT "USBFifoAddress_DO[0]" OUTPUT_DELAY 2.0 ns MIN 0.5 ns CLKNET "USBClock_CI_c" ;
-CLOCK_TO_OUT PORT "USBFifoAddress_DO[1]" OUTPUT_DELAY 2.0 ns MIN 0.5 ns CLKNET "USBClock_CI_c" ;
 INPUT_SETUP PORT "USBFifoThr0Ready_SI" INPUT_DELAY 8.0 ns HOLD 0.0 ns CLKNET "USBClock_CI_c" ;
 INPUT_SETUP PORT "USBFifoThr0Watermark_SI" INPUT_DELAY 8.0 ns HOLD 0.0 ns CLKNET "USBClock_CI_c" ;
 INPUT_SETUP PORT "USBFifoThr1Ready_SI" INPUT_DELAY 8.0 ns HOLD 0.0 ns CLKNET "USBClock_CI_c" ;
 INPUT_SETUP PORT "USBFifoThr1Watermark_SI" INPUT_DELAY 8.0 ns HOLD 0.0 ns CLKNET "USBClock_CI_c" ;
 
-OUTPUT PORT "USBFifoData_DO[15]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[14]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[13]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[12]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[11]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[10]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[9]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[8]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[7]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[6]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[5]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[4]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[3]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[2]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[1]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoData_DO[0]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoChipSelect_SBO" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoWrite_SBO" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoRead_SBO" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoPktEnd_SBO" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoAddress_DO[0]" LOAD 1.0 pF ;
-OUTPUT PORT "USBFifoAddress_DO[1]" LOAD 1.0 pF ;
-OUTPUT PORT "LED1_SO" LOAD 1.0 pF ;
-OUTPUT PORT "LED2_SO" LOAD 1.0 pF ;
-OUTPUT PORT "LED3_SO" LOAD 1.0 pF ;
-OUTPUT PORT "LED4_SO" LOAD 1.0 pF ;
+// Port configuration specifications
+IOBUF ALLPORTS IO_TYPE=LVCMOS33 PULLMODE=UP ;
+IOBUF PORT "Reset_RBI" IO_TYPE=LVCMOS33 PULLMODE=DOWN ;
+
+OUTPUT ALLPORTS LOAD 1.0 pF ;

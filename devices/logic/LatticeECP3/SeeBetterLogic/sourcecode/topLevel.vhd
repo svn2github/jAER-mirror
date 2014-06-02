@@ -7,7 +7,17 @@ entity topLevel is
 	port (
 		USBClock_CI : in std_logic;
 		Reset_RBI : in std_logic;
+
+		DVSReset_SBI : in std_logic;
 		FPGARun_SI : in std_logic;
+		ADCRun_SI : in std_logic;
+		BiasEnable_SI : in std_logic;
+		FPGAShiftRegClock_CI : in std_logic;
+		FPGAShiftRegLatch_SI : in std_logic;
+		FPGAShiftRegBitIn_DI : in std_logic;
+		FPGATimestampReset_SI : in std_logic;
+		FPGATimestampMaster_SI : in std_logic;
+		BiasDiagSel_SI : in std_logic;
 
 		USBFifoData_DO : out std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
 		USBFifoChipSelect_SBO : out std_logic;
@@ -19,11 +29,50 @@ entity topLevel is
 		USBFifoThr0Watermark_SI : in std_logic;
 		USBFifoThr1Ready_SI : in std_logic;
 		USBFifoThr1Watermark_SI : in std_logic;
-	
+
 		LED1_SO : out std_logic;
 		LED2_SO : out std_logic;
 		LED3_SO : out std_logic;
-		LED4_SO : out std_logic);
+		LED4_SO : out std_logic;
+
+		ChipReset_SBO : out std_logic;
+
+		ChipBiasEnable_SO : out std_logic;
+		ChipBiasDiagSel_SO : out std_logic;
+		ChipBiasAddrSel_SO : out std_logic;
+		--ChipBiasClock_SO : out std_logic;
+		--ChipBiasBitIn_DO : out std_logic;
+		--ChipBiasLatch_SO : out std_logic;
+		ChipBiasBitOut_DI : in std_logic;
+
+		DVSAERData_DI : in std_logic_vector(AER_BUS_WIDTH-1 downto 0);
+		DVSAERReq_SBI : in std_logic;
+		DVSAERAck_SBO : out std_logic;
+
+		APSChipRowSRClock_SO : out std_logic;
+		APSChipRowSRIn_SO : out std_logic;
+		APSChipColSRClock_SO : out std_logic;
+		APSChipColSRIn_SO : out std_logic;
+		APSChipColState0_SO : out std_logic;
+		APSChipColState1_SO : out std_logic;
+		APSChipTXGate_SO : out std_logic;
+
+		APSADCData_DI : in std_logic_vector(ADC_BUS_WIDTH-1 downto 0);
+		APSADCOverflow_SI : in std_logic;
+		APSADCClock_CO : out std_logic;
+		APSADCWrite_SO : out std_logic;
+		APSADCRead_SO : out std_logic;
+
+		IMUClock_CO : inout std_logic; -- this is inout because it must be tristateable
+		IMUData_DIO : inout std_logic;
+		IMUInterrupt_SI : in std_logic;
+
+		SyncOutClock_CO : out std_logic;
+		SyncOutSwitch_SI : in std_logic;
+		SyncOutSignal_SO : out std_logic;
+		SyncInClock_CI : in std_logic;
+		SyncInSwitch_SI : in std_logic;
+		SyncInSignal_SI : in std_logic);
 end topLevel;
 
 architecture Structural of topLevel is
