@@ -9,16 +9,16 @@ Printing clock  summary report in "C:\Users\Haza\Documents\jAER\deviceFirmwarePC
 @N: MF248 |Running in 64-bit mode.
 @N: MF666 |Clock conversion enabled 
 
-Design Input Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 94MB peak: 94MB)
+Design Input Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 94MB peak: 95MB)
 
 
-Mapper Initialization Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 94MB peak: 94MB)
+Mapper Initialization Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 94MB peak: 95MB)
 
 
-Start loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 108MB peak: 109MB)
+Start loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 109MB peak: 109MB)
 
 
-Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 108MB peak: 111MB)
+Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 109MB peak: 111MB)
 
 @W: FX469 :|Found undriven nets DebugxSIO[15] to be optimized by the mapper. 
 @W: FX469 :|Found undriven nets DebugxSIO[14] to be optimized by the mapper. 
@@ -52,7 +52,7 @@ ADCStateMachine|StateRowxDP_derived_clock[5]      4.1 MHz        241.465       d
 ===================================================================================================================================================
 
 @W: MT529 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\wordregister.vhd":63:4:63:5|Found inferred clock clockgen|CLKOP_inferred_clock which controls 146 sequential elements including uMonitorAddressRegister.StatexDP[9:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
-@W: MT529 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\wordregister.vhd":63:4:63:5|Found inferred clock USBAER_top_level|IfClockxCI which controls 604 sequential elements including uADCRegister.StatexDP[13:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+@W: MT529 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\wordregister.vhd":63:4:63:5|Found inferred clock USBAER_top_level|IfClockxCI which controls 606 sequential elements including uADCRegister.StatexDP[13:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
 @W: MT529 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\shiftregister.vhd":65:4:65:5|Found inferred clock USBAER_top_level|PC1xSIO which controls 80 sequential elements including shiftRegister_1.StatexD[79:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
 @W: MT529 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\shiftregister.vhd":52:4:52:5|Found inferred clock USBAER_top_level|PC2xSIO which controls 80 sequential elements including shiftRegister_1.DataOutxDO[79:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
 
@@ -62,6 +62,6 @@ Finished Pre Mapping Phase.Pre-mapping successful!
 At Mapper Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 71MB peak: 136MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Fri May 30 18:49:59 2014
+# Mon Jun 02 20:59:04 2014
 
 ###########################################################]

@@ -73,7 +73,10 @@ entity monitorStateMachine is
 		AddressMSBxDO : out std_logic_vector(1 downto 0);
 
 		-- reset timestamp
-		ResetTimestampxSBI : in std_logic
+		ResetTimestampxSBI : in std_logic;
+		
+		DebugLEDxEO : out std_logic
+		
 	);
 end monitorStateMachine;
 
@@ -140,6 +143,8 @@ begin
 		AddressRegWritexEO 		<= '1';
 		AERACKxSBO 				<= '1';
 
+		DebugLEDxEO <= '0'; --H
+
 		if TimestampResetxDP = '1' then -- as long as there is a timestamp reset pending, do not send wrap events
 		  TimestampOverflowxDN <= (others => '0');
 		elsif TimestampOverflowxSI = '1' then
@@ -185,14 +190,18 @@ begin
 				--H Once IMU values become available and Monitor State Machine captures, them
 				--  begin handshaking to write it to FIFO
 				elsif IMUDataReadyReqxEI = '1' then
+					
 					-- If there is enough space to write 9 data words (1 Timestamp word, 1 IMU Event word, 7 IMU Measurement Words)
 					if (fifo_depth - FifoCountxDI <= imu_fifo_write_space) then 
 						-- First record AER timestamp at which IMU event is collected
 						StatexDN <= stIMUTime;
+					
 					-- Otherwise, indicate that we are dropping IMU data
 					else
+						-- DOESNT SEEM TO EVER GET HERE!! IS THAT GOOD OR BAD?!
 						IMUDataReadyAckxEO <= '1'; -- CHECK IF THIS CREATES COMBINATIONAL LOOP.. PROBABLY
 						IMUDataDropxEO <= '1';
+					
 					end if;
 				--H 
 				
@@ -240,23 +249,6 @@ begin
 				DatatypeSelectxSO <= selecttimestamp; --H AddressTimestampSelectxSO <= selecttimestamp;
 				AddressMSBxDO <= timestamp;
 
-			--H Write AER Timestamp corresponding to IMU event
-			when stIMUTime =>             
-				-- Update Next State
-				StatexDN <= stIMUEvent;
-
-				-- Indicate that we're writing a timestamp and select timestamp value from mux register
-				AddressMSBxDO <= timestamp;
-				DatatypeSelectxSO <= selecttimestamp;
-
-				-- Hold current Timestamp value in register and Enable writing timestamp to the FIFO
-				FifoWritexEO <= '1';
-				TimestampRegWritexEO <= '0'; 
-
-				-- Acknowledge that we have recieved the IMU Event
-				IMUDataReadyAckxEO <= '1';
-			--H
-		  
 			when stWrTrigger => -- write the address to the fifo
 				StatexDN <= stIdle;
 
@@ -282,7 +274,25 @@ begin
 				ReadADCvaluexEO <= '1';
 				AddressMSBxDO <= address;
 
-			--H Send External Event Signal to FIFO indicating that next data word is an IMU event
+			--H Write AER Timestamp corresponding to IMU event
+			when stIMUTime =>             
+				-- Update Next State
+				StatexDN <= stIMUEvent;
+
+				-- Indicate that we're writing a timestamp and select timestamp value from mux register
+				AddressMSBxDO <= timestamp;
+				DatatypeSelectxSO <= selecttimestamp;
+
+				-- Hold current Timestamp value in register and Enable writing timestamp to the FIFO
+				FifoWritexEO <= '1';
+				TimestampRegWritexEO <= '0'; 
+
+				-- Acknowledge that we have recieved the IMU Event
+				-- THIS DOESN'T SEEM TO DO ANYTHING ... WHY?!
+				--IMUDataReadyAckxEO <= '1';
+			--H
+		  
+		  --H Send External Event Signal to FIFO indicating that next data word is an IMU event
 			when stIMUEvent =>             
 				-- Update Next State
 				StatexDN <= stIMUData;
@@ -297,10 +307,18 @@ begin
 				
 				-- Request to start writing IMU Measurement Data
 				IMUDataWriteReqxEO <= '1';
+				
+				IMUDataReadyAckxEO <= '1'; --NEW
 			--H 
 
 			--H Write IMU Measurement Data to FIFO
 			when stIMUData => 
+				
+				-- STUCK HERE!!! NOT ANYMORE! ADDED READYACK IN PREVIOUS STATE.. WHY THOUGH?!
+				DebugLEDxEO <= '1'; --H
+				
+				IMUDataReadyAckxEO <= '1';
+				
 				-- Stay in current state until all IMU Measurement Data are written to IMU Register
 				IMUDataWriteReqxEO <= '1'; -- CHECK!
 				if IMUDataWriteAckxEI = '1' then

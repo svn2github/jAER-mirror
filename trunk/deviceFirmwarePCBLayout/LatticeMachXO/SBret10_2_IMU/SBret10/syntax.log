@@ -4,7 +4,7 @@
 #Hostname: ZECHARIAH
 
 $ Start of Compile
-#Fri May 30 18:49:54 2014
+#Mon Jun 02 20:58:54 2014
 
 Synopsys VHDL Compiler, version comp201209rcp1, Build 271R, built Mar 11 2013
 @N|Running in 64-bit mode
@@ -13,6 +13,6 @@ Copyright (C) 1994-2012 Synopsys, Inc. This software the associated documentatio
 @N: CD720 :"D:\lscc\diamond\2.2_x64\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
 @N:"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Fri May 30 18:49:54 2014
+# Mon Jun 02 20:58:54 2014
 
 ###########################################################]

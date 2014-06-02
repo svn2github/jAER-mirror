@@ -77,7 +77,7 @@ architecture Behavioral of IMUStateMachine is
 			stWrDataWriteAddressRegister, stWrDataWriteAddrByteCountRegister, stWrDataWriteDataBufferRegister,
 			stWrDataWriteCommandRegister, stWrDataWaitI2C, stWrDataCheckDone, 
 			-- Read Data Registers
-			stRdDataWriteAddressRegister, stRdDataWriteByteCountRegister, stRdDataWriteCommandRegister, stRdDataWaitI2C1, stRdDataWaitI2C2
+			stRdDataWriteAddressRegister, stRdDataWriteByteCountRegister, stRdDataWriteCommandRegister, stRdDataWaitI2C1, stRdDataWaitI2C2,
 			stRdDataReadStatusRegister, stRdDataReadDataBufferRegister, stRdDataWaitI2C3, stRdDataCheckDone);
 	signal StateIMUxDP, StateIMUxDN : stateIMU;
 
@@ -115,7 +115,7 @@ architecture Behavioral of IMUStateMachine is
 	signal I2CWaitCountxDN, I2CWaitCountxDP : std_logic_vector(12 downto 0); -- Counter for data to be latched from I2C Controller to IMU Register
     constant i2c_wait_time_short : std_logic_vector(12 downto 0) := "0101110111000"; -- Clock cycles to wait: 3000 clock cycles at 30 MHz: 100000ns
     constant i2c_wait_time_long	 : std_logic_vector(12 downto 0) := "1011101110000"; -- Clock cycles to wait: 6000 clock cycles at 30 MHz: 200000ns
-	
+	constant i2c_wait_time_very_short : std_logic_vector(12 downto 0) := "0000000000010"; -- Clock cycles to wait: 2 clock cycles at 30 MHz: X ns
 	-- I2C mux outputs
 	signal I2CAddrxD : std_logic_vector(2 downto 0); -- I2C Controller Address register
 	signal I2CDataWritexD : std_logic_vector(7 downto 0); -- I2C Controller Data Write register driving I2CDataxDIO
@@ -130,7 +130,7 @@ architecture Behavioral of IMUStateMachine is
 
 	-- IMU Signals used for iterating through Configuration Registers
 	signal IMUInitByteCountxDN, IMUInitByteCountxDP : std_logic_vector(3 downto 0); -- Counts 10 bytes: 5 addresses, 5 data bytes
-	constant imu_init_byte_length : std_logic_vector(3 downto 0) := "1001"; -- Maximum valid value for IMUInitByteCount: 9
+	constant imu_init_byte_length : std_logic_vector(3 downto 0) := "1000"; -- Maximum valid value for IMUInitByteCount: 8
 	constant IMUInitByte01 : std_logic_vector(7 downto 0) := "01101011"; -- ADDR: (0x6b) IMU power management register and clock selection
 	constant IMUInitByte02 : std_logic_vector(7 downto 0) := "00000010"; -- DATA: (0x02) Disable sleep, select x axis gyro as clock source 
 	constant IMUInitByte03 : std_logic_vector(7 downto 0) := "00011010"; -- ADDR: (0x1A) DLPF
@@ -179,20 +179,21 @@ architecture Behavioral of IMUStateMachine is
 begin
   
 	-- Calculate next state and outputs for I2C Read and Write operations
-	p_i2c_read_write : process (StateRWxDP, WriteReqxE, ReadReqxE, I2CDataWritexD, I2CAddrxD, I2CDataWritexD, I2CAddrxD, I2CAckCountxDP)
+	p_i2c_read_write : process (StateRWxDP, WriteReqxE, ReadReqxE, I2CDataWritexD, I2CAddrxD, I2CDataWritexD, I2CAddrxD, I2CCountxDP)
 	begin 
   
+		-- Test Signal
+		--DebugLEDxEO <= '0';
+		
 		-- Default assignments 
-		-- Registers
+		-- Registers 
 		StateRWxDN <= StateRWxDP; 
-		I2CAckCountxDN <= I2CAckCountxDP;
+		I2CCountxDN <= I2CCountxDP;
 		-- Output Signals
 		WriteAckxE <= '0'; 
 		ReadAckxE <= '0'; 
 		I2CDataReadxD <= (others => 'Z');
-		
-		--DebugLEDxEO <= '0';
-		
+				
 		-- START CASE StateRWxDP
 		case StateRWxDP is
 			
@@ -201,7 +202,9 @@ begin
 				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '1';
 				I2CCSxSBO <= '1';
-
+				
+				I2CCountxDN <= (others => '0');
+				
 				-- Write and Read I2C Register Request signals
 				if WriteReqxE = '1' then
 					StateRWxDN <= stWriteRegister1;
@@ -209,46 +212,47 @@ begin
 					StateRWxDN <= stReadRegister1;
 				end if;
 				
+				--DebugLEDxEO <= '1';
+				
 				
 			-- START I2C Write 
-			when stWriteRegister1 => -- Set 
+			when stWriteRegister1 => -- Kill Time
 				I2CDataxDIO <= (others => 'Z'); 
 				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '1';
 				I2CCSxSBO <= '1';
 
 				-- Wait in this state for i2c_kill_time clock cycles
-				if I2CAckCountxDP = i2c_kill_time then
-					I2CAckCountxDN <= (others => '0');
+				if I2CCountxDP = i2c_kill_time then
+					I2CCountxDN <= (others => '0');
 					StateRWxDN <= stWriteRegister2;
 				else 
-					I2CAckCountxDN <= I2CAckCountxDP + 1;
+					I2CCountxDN <= I2CCountxDP + 1;
 				end if; 
 
-
-			when stWriteRegister1 => -- Set 
+			when stWriteRegister2 => -- Set 
 				I2CDataxDIO <= I2CDataWritexD;  
 				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '0';
 				I2CCSxSBO <= '1';
 
-				StateRWxDN <= stWriteRegister2;
+				StateRWxDN <= stWriteRegister3;
 
-			when stWriteRegister2 => -- Wait to latch
+			when stWriteRegister3 => -- Run and wait to latch
 				I2CDataxDIO <= I2CDataWritexD;  
 				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '0';
 				I2CCSxSBO <= '0';
 
 				-- Wait in this state for i2c_ack_length clock cycles
-				if I2CAckCountxDP = i2c_ack_length then
-					I2CAckCountxDN <= (others => '0');
-					StateRWxDN <= stWriteRegister3;
+				if I2CCountxDP = i2c_ack_length then
+					I2CCountxDN <= (others => '0');
+					StateRWxDN <= stWriteRegister4;
 				else 
-					I2CAckCountxDN <= I2CAckCountxDP + 1;
+					I2CCountxDN <= I2CCountxDP + 1;
 				end if; 
 				
-			when stWriteRegister3 => -- Write
+			when stWriteRegister4 => -- Write
 				I2CDataxDIO <= I2CDataWritexD;  
 				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '0';
@@ -257,10 +261,10 @@ begin
 				-- Handshaking
 				WriteAckxE <= '1';
 				if WriteReqxE = '0' then
-					StateRWxDN <= stWriteRegister4;
+					StateRWxDN <= stWriteRegister5;
 				end if;
 			
-			when stWriteRegister4 => -- Acknowledge
+			when stWriteRegister5 => -- Acknowledge
 				I2CDataxDIO <= (others => 'Z'); 
 				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '1';
@@ -270,11 +274,10 @@ begin
 				WriteAckxE <= '0';
 				
 				StateRWxDN <= stIdle;
-
 			-- END I2C Write
 			
 			-- START I2C Read
-			when stReadRegister1 => -- Set 
+			when stReadRegister1 => -- Kill time
 				I2CDataxDIO <= (others => 'Z'); 
 				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '1';
@@ -282,21 +285,36 @@ begin
 
 				StateRWxDN <= stReadRegister2;
 
-			when stReadRegister2 => -- Wait to latch
+				if I2CCountxDP = i2c_kill_time then
+					I2CCountxDN <= (others => '0');
+					StateRWxDN <= stReadRegister2;
+				else 
+					I2CCountxDN <= I2CCountxDP + 1;
+				end if; 
+				
+			when stReadRegister2 => -- Set 
+				I2CDataxDIO <= (others => 'Z'); 
+				I2CAddrxDO <= I2CAddrxD;
+				I2CRWxSBO <= '1';
+				I2CCSxSBO <= '1';
+
+				StateRWxDN <= stReadRegister3;
+
+			when stReadRegister3 => -- Run and wait to latch
 				I2CDataxDIO <= (others => 'Z');
 				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '1';
 				I2CCSxSBO <= '0';
 
 				-- Wait in this state for i2c_ack_length clock cycles
-				if I2CAckCountxDP = i2c_ack_length then
-					I2CAckCountxDN <= (others => '0');
-					StateRWxDN <= stReadRegister3;
+				if I2CCountxDP = i2c_ack_length then
+					I2CCountxDN <= (others => '0');
+					StateRWxDN <= stReadRegister4;
 				else 
-					I2CAckCountxDN <= I2CAckCountxDP + 1;
+					I2CCountxDN <= I2CCountxDP + 1;
 				end if; 
 			
-			when stReadRegister3 => -- Read
+			when stReadRegister4 => -- Read
 				I2CDataReadxD <= I2CDataxDIO;  
 				I2CDataxDIO <= (others => 'Z'); -- After reading, set signal back to 'Z' to ensure inout can be written to 
 				I2CAddrxDO <= I2CAddrxD;
@@ -306,10 +324,10 @@ begin
 				-- Handshaking
 				ReadAckxE <= '1';
 				if ReadReqxE = '0' then
-					StateRWxDN <= stReadRegister4;
+					StateRWxDN <= stReadRegister5;
 				end if;
 				
-			when stReadRegister4 => -- Acknowledge
+			when stReadRegister5 => -- Acknowledge
 				I2CDataxDIO <= (others => 'Z'); 
 				I2CAddrxDO <= I2CAddrxD;
 				I2CRWxSBO <= '1';
@@ -335,6 +353,9 @@ begin
 			IMURunxEI, WriteAckxE, ReadAckxE, I2CDataReadxD) 
 	begin 
   
+		-- Test Signal
+		--DebugLEDxEO <= '0';
+		
 		-- Default assignments
 		-- Registers
 		StateIMUxDN 		<= StateIMUxDP;
@@ -358,12 +379,10 @@ begin
 		-- Output Signals
 		WriteReqxE <= '0'; 
 		ReadReqxE <= '0'; 
-		I2CAddrxD <= (others => '0');
+		I2CAddrxD <= (others => 'Z');
 		I2CDataWritexD <= (others => '0');
 		IMUDataReadyxE <= '0';
 		
-		DebugLEDxEO <= '0';
-
 		-- START CASE StateIMUxDP
 		case StateIMUxDP is
 			
@@ -375,12 +394,12 @@ begin
 
 				-- When we get a run signal start writing IMU configuration bits
 				if IMURunxEI = '1' then
-				  StateIMUxDN <= stWrWriteAddressRegister;
+				  StateIMUxDN <= stWrInitWriteAddressRegister;
 				end if;
 						
 			-- START Write Configuration Registers to IMU (stWrX)
 			-- Write IMU Device Address
-			when stWrWriteAddressRegister =>
+			when stWrInitWriteAddressRegister =>
 				-- Set registers and write to them using 4 phase handshaking 
 				-- (REQ=1 Write this!; ACK=1 Done!; REQ=0 Thanks!; ACK=0 Anything else, bro?)
 				I2CAddrxD <= low_addr;
@@ -389,73 +408,78 @@ begin
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stWrWriteByteCountRegister;
+					StateIMUxDN <= stWrInitWriteByteCountRegister;
 				end if;
 				
 			-- Write number of bytes to be written: 10
 			-- 5 Address Bytes and 5 Data Bytes  to initialize 5 IMU registers
-			when stWrWriteByteCountRegister =>
+			when stWrInitWriteByteCountRegister =>
 				I2CAddrxD <= byte_count;
 				I2CDataWritexD <= I2C_IMU_WRITE_BYTE_COUNT;  
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stWrWriteFirstByte;
+					StateIMUxDN <= stWrInitWriteInitialDataBufferRegister;
 				end if;
 							
-							
-			-- TEST STATE .. DO I NEED TO WRITE A DATA BEFORE ISSUEING A GO COMMAND?!
-			-- DO I NEED TO WRITE FIRST BYTE HERE?!
-			-- YES I DO!
-			when stWrWriteFirstByte =>
+			-- Write initial data byte before issuing go command in status register
+			-- Rest of data byte are written later
+			when stWrInitWriteInitialDataBufferRegister =>
 				I2CAddrxD <= data_buf;
 				I2CDataWritexD <= IMUInitByte01; 
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					IMUInitByteCountxDN <= IMUInitByteCountxDP + 1;
-					StateIMUxDN <= stWrWriteCommandRegister;
+					StateIMUxDN <= stWrInitWriteCommandRegister;
 				end if;
 			
 			-- Issue Go command to start data transactions in polling mode
-			when stWrWriteCommandRegister =>
+			when stWrInitWriteCommandRegister =>
 				I2CAddrxD <= comm_stat;
 				I2CDataWritexD <= I2C_IMU_COMMAND; 
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stWrWaitI2CStart;
+					StateIMUxDN <= stWrInitWaitI2C1;
 				end if;
 					
-
 			-- Wait for I2C Controller to... (?)
-			-- CHECK
-			when stWrWaitI2CStart =>
-				if I2CWaitCountxDP = i2c_wait_time then
+			when stWrInitWaitI2C1 =>
+				if I2CWaitCountxDP = i2c_wait_time_long then
 					I2CWaitCountxDN <= (others => '0');
-					StateIMUxDN <= stWrReadStatusRegister;
+					StateIMUxDN <= stWrInitWaitI2C2;
 				else 
 					I2CWaitCountxDN <= I2CWaitCountxDP + 1;
 				end if; 
-				
+			
+			-- Wait for I2C Controller to... (?)
+			-- Come to this state between data write operations
+			when stWrInitWaitI2C2 =>
+				if I2CWaitCountxDP = i2c_wait_time_very_short then
+					I2CWaitCountxDN <= (others => '0');
+					StateIMUxDN <= stWrInitReadStatusRegister;
+				else 
+					I2CWaitCountxDN <= I2CWaitCountxDP + 1;
+				end if; 
+			
 			-- Read Status register: wait for buffer empty flag to make sure data words	are written
-			when stWrReadStatusRegister =>
+			when stWrInitReadStatusRegister =>
 				-- Choose register to read from and get data using 4 phase handshaking 
 				-- (REQ=1 Read from this address!; ACK=1 Data ready!; REQ=0 Got it!; ACK=0 Anything else, bro?)
 				I2CAddrxD <= comm_stat;
+				
+				--DebugLEDxEO <= '1';
 				
 				ReadReqxE <= '1';
 				if ReadAckxE = '1' then
 					ReadReqxE <= '0';
 					
-					--DebugLEDxEO <= '1';
-					
-					-- Check Empty Flag REWORK COMMENT (Wait?)
+					-- Check Empty Flag 
 					if I2CDataReadxD(1) = '1' then 
-						StateIMUxDN <= stWrWriteDataBufferRegister;
+						StateIMUxDN <= stWrInitWriteDataBufferRegister;
 					end if;
 					-- If buffer is not empty, then when ReadAck = 0 we will read again from this register
 
@@ -464,20 +488,20 @@ begin
 			-- Write next data byte, which initialize the IMU registers
 			-- Use counter as a select signal to iterate over the different data bytes
 			-- Data iterates between address byte and word byte 
-			when stWrWriteDataBufferRegister =>
+			when stWrInitWriteDataBufferRegister =>
 				I2CAddrxD <= data_buf;
 				-- Select correct initialization byte to write
+				-- Write bytes 2 to 10
 				case IMUInitByteCountxDP is 
-					when "0000" => I2CDataWritexD <= IMUInitByte01; 
-					when "0001" => I2CDataWritexD <= IMUInitByte02; 
-					when "0010" => I2CDataWritexD <= IMUInitByte03; 
-					when "0011" => I2CDataWritexD <= IMUInitByte04; 
-					when "0100" => I2CDataWritexD <= IMUInitByte05; 
-					when "0101" => I2CDataWritexD <= IMUInitByte06; 
-					when "0110" => I2CDataWritexD <= IMUInitByte07; 
-					when "0111" => I2CDataWritexD <= IMUInitByte08; 
-					when "1000" => I2CDataWritexD <= IMUInitByte09; 
-					when "1001" => I2CDataWritexD <= IMUInitByte10; 
+					when "0000" => I2CDataWritexD <= IMUInitByte02; 
+					when "0001" => I2CDataWritexD <= IMUInitByte03; 
+					when "0010" => I2CDataWritexD <= IMUInitByte04; 
+					when "0011" => I2CDataWritexD <= IMUInitByte05; 
+					when "0100" => I2CDataWritexD <= IMUInitByte06; 
+					when "0101" => I2CDataWritexD <= IMUInitByte07; 
+					when "0110" => I2CDataWritexD <= IMUInitByte08; 
+					when "0111" => I2CDataWritexD <= IMUInitByte09; 
+					when "1000" => I2CDataWritexD <= IMUInitByte10; 
 					when others => I2CDataWritexD <= (others => '0');
 				end case;
 				
@@ -485,36 +509,29 @@ begin
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
 
-					-- Iterate over all initialization bytes REWORK COMMENT
+					-- Iterate over initialization bytes 
 					if IMUInitByteCountxDP = imu_init_byte_length then
 						IMUInitByteCountxDN <= (others => '0');
-						StateIMUxDN <= stWrWaitI2CEnd;
+						StateIMUxDN <= stWrInitWaitI2C3;
 					else
 						IMUInitByteCountxDN <= IMUInitByteCountxDP + 1;
-						--StateIMUxDN <= stWrReadStatusRegister;
-						StateIMUxDN <= stWrWaitI2CStart;
-						
+						StateIMUxDN <= stWrInitWaitI2C2;
 					end if;
 
 				end if;
 				
-
-
 			-- Wait for I2C Controller to... (?)
-			-- COMES BACK HERE AFTER INTERRUPT CHECK
-			when stWrWaitI2CEnd =>
-				
-				
-				if I2CWaitCountxDP = i2c_wait_time then
-				--DebugLEDxEO <= '1';
+			-- Come to this state between interrupt operations
+			when stWrInitWaitI2C3 =>
+				if I2CWaitCountxDP = i2c_wait_time_long then
 					I2CWaitCountxDN <= (others => '0');
-					StateIMUxDN <= stWrCheckDone;
+					StateIMUxDN <= stWrInitCheckDone;
 				else
 					I2CWaitCountxDN <= I2CWaitCountxDP + 1;
 				end if; 
 
 			-- Read Status register and wait for transaction done bit
-			when stWrCheckDone => 
+			when stWrInitCheckDone => 
 				I2CAddrxD <= comm_stat;
 				
 				ReadReqxE <= '1';
@@ -523,43 +540,100 @@ begin
 					
 					-- Transaction Done Flag
 					if I2CDataReadxD(3) = '1' then 
-						StateIMUxDN <= stRdIntWriteAddressRegister;
-						--StateIMUxDN <= stWrWriteAddressRegister; --TEST - SEEMS TO WORK!
+						StateIMUxDN <= stWrIntWriteAddressRegister;
 					end if;
 					
 				end if;
 			-- END Write Configuration Registers to IMU (stWrX)
 
 
-			-- START Read Interrupt to check when new data is available (stRdIntX)
+			-- START Read Interrupt to check when new data is available (stWrIntX & stRdIntX)
 			-- Write IMU Device Address
-			when stRdIntWriteAddressRegister =>
+			when stWrIntWriteAddressRegister =>
 				I2CAddrxD <= low_addr;
 				I2CDataWritexD <= I2C_IMU_ADDR & I2C_IMU_WRITE;
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stRdIntWriteAddrByteCountRegister;
+					StateIMUxDN <= stWrIntWriteAddrByteCountRegister;
 				end if;
 
 			-- Write number of bytes to be Read: 1
 			-- Write byte corresponding to address of IMU Interrupt Status
-			when stRdIntWriteAddrByteCountRegister =>
+			when stWrIntWriteAddrByteCountRegister =>
 				I2CAddrxD <= byte_count;
 				I2CDataWritexD <= I2C_IMU_INT_READ_BYTE_COUNT;  
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stRdIntWriteDataBufferRegister;
+					StateIMUxDN <= stWrIntWriteDataBufferRegister;
 				end if;
 
-			-- Write address for first data register in IMU that will be read: ACCEL_XOUT_H
-			-- As this value becomes read, the IMU will internally increment the register to point to the next data register
-			when stRdIntWriteDataBufferRegister =>
+			-- Write address for interrupt status register in IMU that will be 1 when new data is available 
+			when stWrIntWriteDataBufferRegister =>
 				I2CAddrxD <= data_buf;
 				I2CDataWritexD <= I2C_IMU_INT_STATUS;  
+				
+				WriteReqxE <= '1';
+				if WriteAckxE = '1' then
+					WriteReqxE <= '0';
+					StateIMUxDN <= stWrIntWriteCommandRegister;
+				end if;
+
+			-- Issue Go command to start data transactions in polling mode
+			when stWrIntWriteCommandRegister =>
+				I2CAddrxD <= comm_stat;
+				I2CDataWritexD <= I2C_IMU_COMMAND; 
+				
+				WriteReqxE <= '1';
+				if WriteAckxE = '1' then
+					WriteReqxE <= '0';
+					StateIMUxDN <= stWrIntWaitI2C;
+				end if;
+					
+			-- Wait for I2C Controller to... (?)
+			when stWrIntWaitI2C =>
+				if I2CWaitCountxDP = i2c_wait_time_long then
+					I2CWaitCountxDN <= (others => '0');
+					StateIMUxDN <= stWrIntCheckDone;
+				else
+					I2CWaitCountxDN <= I2CWaitCountxDP + 1;
+				end if; 
+				
+			-- Read Status register and wait for transaction done bit
+			when stWrIntCheckDone =>				
+				I2CAddrxD <= comm_stat;
+				
+				ReadReqxE <= '1';
+				if ReadAckxE = '1' then
+					ReadReqxE <= '0';
+					
+					-- Transaction Done flag
+					if I2CDataReadxD(3) = '1' then 
+						StateIMUxDN <= stRdIntWriteAddressRegister;
+					end if;
+					
+				end if;
+			
+			-- Now that the appropriate data register to read from is set, we start process all over again
+			-- Write IMU Device Address
+			when stRdIntWriteAddressRegister =>
+				I2CAddrxD <= low_addr;
+				I2CDataWritexD <= I2C_IMU_ADDR & I2C_IMU_READ;
+				
+				WriteReqxE <= '1';
+				if WriteAckxE = '1' then
+					WriteReqxE <= '0';
+					StateIMUxDN <= stRdIntWriteByteCountRegister;
+				end if;
+
+			-- Write number of bytes to be Read: 1
+			-- Read Interrupt Status Register
+			when stRdIntWriteByteCountRegister =>
+				I2CAddrxD <= byte_count;
+				I2CDataWritexD <= I2C_IMU_INT_READ_BYTE_COUNT;  
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
@@ -570,79 +644,28 @@ begin
 			-- Issue Go command to start data transactions in polling mode
 			when stRdIntWriteCommandRegister =>
 				I2CAddrxD <= comm_stat;
-				I2CDataWritexD <= I2C_IMU_COMMAND; 
-				
-				WriteReqxE <= '1';
-				if WriteAckxE = '1' then
-					WriteReqxE <= '0';
-					StateIMUxDN <= stRdIntWaitI2CStart;
-				end if;
-					
-			-- Wait for I2C Controller to... (?)
-			when stRdIntWaitI2CStart =>
-				
-				--DebugLEDxEO <= '1';
-
-				if I2CWaitCountxDP = i2c_wait_time then
-					I2CWaitCountxDN <= (others => '0');
-					StateIMUxDN <= stRdIntCheckDone;
-				else
-					I2CWaitCountxDN <= I2CWaitCountxDP + 1;
-				end if; 
-				
-			-- Read Status register and wait for transaction done bit
-			when stRdIntCheckDone =>				
-				I2CAddrxD <= comm_stat;
-				
-				ReadReqxE <= '1';
-				if ReadAckxE = '1' then
-					ReadReqxE <= '0';
-					
-					-- Transaction Done flag
-					if I2CDataReadxD(3) = '1' then 
-						StateIMUxDN <= stRdIntWriteAddressRegister1;
-					end if;
-					
-				end if;
-			
-			-- Now that the appropriate data register to read from is set, we start process all over again
-			-- Write IMU Device Address
-			when stRdIntWriteAddressRegister1 =>
-				I2CAddrxD <= low_addr;
-				I2CDataWritexD <= I2C_IMU_ADDR & I2C_IMU_READ;
-				
-				WriteReqxE <= '1';
-				if WriteAckxE = '1' then
-					WriteReqxE <= '0';
-					StateIMUxDN <= stRdIntWriteByteCountRegister1;
-				end if;
-
-			-- Write number of bytes to be Read: 1
-			-- Read Interrupt Status Register
-			when stRdIntWriteByteCountRegister1 =>
-				I2CAddrxD <= byte_count;
-				I2CDataWritexD <= I2C_IMU_INT_READ_BYTE_COUNT;  
-				
-				WriteReqxE <= '1';
-				if WriteAckxE = '1' then
-					WriteReqxE <= '0';
-					StateIMUxDN <= stRdIntWriteCommandRegister1;
-				end if;
-
-			-- Issue Go command to start data transactions in polling mode
-			when stRdIntWriteCommandRegister1 =>
-				I2CAddrxD <= comm_stat;
 				I2CDataWritexD <= I2C_IMU_COMMAND;
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stRdIntWaitI2CStart1;
+					StateIMUxDN <= stRdIntWaitI2C1;
 				end if;
 
 			-- Wait for I2C Controller to... (?)
-			when stRdIntWaitI2CStart1 =>
-				if I2CWaitCountxDP = i2c_wait_time then
+			when stRdIntWaitI2C1 =>
+				if I2CWaitCountxDP = i2c_wait_time_short then
+					I2CWaitCountxDN <= (others => '0');
+					StateIMUxDN <= stRdIntWaitI2C2;
+				else
+					I2CWaitCountxDN <= I2CWaitCountxDP + 1;
+				end if;
+				
+			-- Wait for I2C Controller to... (?)
+			-- Come to this state between interrupt operations
+			-- CHECK
+			when stRdIntWaitI2C2 =>
+				if I2CWaitCountxDP = i2c_wait_time_short then
 					I2CWaitCountxDN <= (others => '0');
 					StateIMUxDN <= stRdIntReadStatusRegister;
 				else
@@ -652,10 +675,6 @@ begin
 			-- Read Status register and wait for full buffer before reading data word	
 			when stRdIntReadStatusRegister =>
 				I2CAddrxD <= comm_stat;
-				
-				-- STUCK IN THIS STATE
-				-- NOT ANYOMORE! All I did was increase the wait time in previous state.......
-				--DebugLEDxEO <= '1';
 				
 				ReadReqxE <= '1';
 				if ReadAckxE = '1' then
@@ -672,38 +691,35 @@ begin
 			when stRdIntReadDataBufferRegister =>
 				I2CAddrxD <= data_buf;
 				
-				--DebugLEDxEO <= '1';
-				
 				ReadReqxE <= '1';
 				if ReadAckxE = '1' then
 					ReadReqxE <= '0';
 
 					-- New data is available to read
 					if I2CDataReadxD(0) = '1' then 
-						StateIMUxDN <= stRdIntWaitI2CEnd1;
+						StateIMUxDN <= stRdIntWaitI2C3;
 						
 					-- Start over, keep on polling
+					-- NOT CLEAN CODE! NAME NOT INTUITIVE 
+					-- SHOULD I START ALL OVER OR JUST FROM READ PART?!
 					else
-						StateIMUxDN <= stWrWaitI2CEnd;
+						StateIMUxDN <= stRdIntWaitI2C3;
 					end if;
 
 				end if;
 			
 			-- Wait for I2C Controller to... (?)
-			when stRdIntWaitI2CEnd1 =>
-
---DebugLEDxEO <= '1';
-
-				if I2CWaitCountxDP = i2c_wait_time then
+			when stRdIntWaitI2C3 =>
+				if I2CWaitCountxDP = i2c_wait_time_long then
 					I2CWaitCountxDN <= (others => '0');
-					StateIMUxDN <= stRdIntCheckDone1;
+					StateIMUxDN <= stRdIntCheckDone;
 				else 
 					I2CWaitCountxDN <= I2CWaitCountxDP + 1;
 				end if; 
 				
 			-- Read Status register and wait for transaction done bit
 			-- If there is new data available then start reading it, otherwise wait for new data to be available
-			when stRdIntCheckDone1 =>				
+			when stRdIntCheckDone =>				
 				I2CAddrxD <= comm_stat;
 				
 				ReadReqxE <= '1';
@@ -712,7 +728,7 @@ begin
 					
 					-- Transaction Done
 					if I2CDataReadxD(3) = '1' then 
-						StateIMUxDN <= stRdWriteAddressRegister;
+						StateIMUxDN <= stWrDataWriteAddressRegister;
 					end if;
 					
 				end if;
@@ -720,65 +736,62 @@ begin
 
 			-- START Read Data Registers from IMU (stRdX)
 			-- Write IMU Device Address
-			when stRdWriteAddressRegister =>
+			when stWrDataWriteAddressRegister =>
 				I2CAddrxD <= low_addr;
 				I2CDataWritexD <= I2C_IMU_ADDR & I2C_IMU_WRITE;
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stRdWriteAddrByteCountRegister;
+					StateIMUxDN <= stWrDataWriteAddrByteCountRegister;
 				end if;
 
 			-- Write number of bytes to be Read: 1
 			-- Only need to write byte corresponding to address of first IMU data register
-			when stRdWriteAddrByteCountRegister =>
+			when stWrDataWriteAddrByteCountRegister =>
 				I2CAddrxD <= byte_count;
 				I2CDataWritexD <= I2C_IMU_ADDR_READ_BYTE_COUNT;
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stRdWriteDataBufferRegister;
+					StateIMUxDN <= stWrDataWriteDataBufferRegister;
 				end if;
 
 			-- Write address for first data register in IMU that will be read: ACCEL_XOUT_H
 			-- As this value becomes read, the IMU will internally increment the register to point to the next data register
-			when stRdWriteDataBufferRegister =>
+			when stWrDataWriteDataBufferRegister =>
 				I2CAddrxD <= data_buf;
 				I2CDataWritexD <= I2C_IMU_ACCEL_XOUT_H_ADDR;  
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stRdWriteCommandRegister;
+					StateIMUxDN <= stWrDataWriteCommandRegister;
 				end if;
 
 			-- Issue Go command to start data transactions in polling mode
-			when stRdWriteCommandRegister =>
+			when stWrDataWriteCommandRegister =>
 				I2CAddrxD <= comm_stat;
 				I2CDataWritexD <= I2C_IMU_COMMAND; 
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stRdWaitI2CStart;
+					StateIMUxDN <= stWrDataWaitI2C;
 				end if;
 					
 			-- Wait for I2C Controller to... (?)
-			when stRdWaitI2CStart =>
-			
-			--DebugLEDxEO <= '1';
-
-				if I2CWaitCountxDP = i2c_wait_time then
+			when stWrDataWaitI2C =>
+				if I2CWaitCountxDP = i2c_wait_time_long then
 					I2CWaitCountxDN <= (others => '0');
-					StateIMUxDN <= stRdCheckDone;
+					StateIMUxDN <= stWrDataCheckDone;
 				else
 					I2CWaitCountxDN <= I2CWaitCountxDP + 1;
 				end if; 
 				
 			-- Read Status register and wait for transaction done bit
-			when stRdCheckDone =>				I2CAddrxD <= comm_stat;
+			when stWrDataCheckDone =>				I2CAddrxD <= comm_stat;
 				
 				ReadReqxE <= '1';
 				if ReadAckxE = '1' then
@@ -786,72 +799,76 @@ begin
 					
 					-- Transaction Done
 					if I2CDataReadxD(3) = '1' then 
-						StateIMUxDN <= stRdWriteAddressRegister1;
+						StateIMUxDN <= stRdDataWriteAddressRegister;
 					end if;
 					
 				end if;
 			
 			-- Now that the appropriate data register to read from is set, we start process all over again
 			-- Write IMU Device Address
-			when stRdWriteAddressRegister1 =>
+			when stRdDataWriteAddressRegister =>
 				I2CAddrxD <= low_addr;
 				I2CDataWritexD <= I2C_IMU_ADDR & I2C_IMU_READ;
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stRdWriteByteCountRegister1;
+					StateIMUxDN <= stRdDataWriteByteCountRegister;
 				end if;
 
 			-- Write number of bytes to be Read: 14
 			-- 2 Bytes per measurement, 3 Measurements for Accel (3 axis), 1 Measurement for Temp, 3 Measurements for Gyro (3 axis)
-			when stRdWriteByteCountRegister1 =>
+			when stRdDataWriteByteCountRegister =>
 				I2CAddrxD <= byte_count;
 				I2CDataWritexD <= I2C_IMU_DATA_READ_BYTE_COUNT;  
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stRdWriteCommandRegister1;
+					StateIMUxDN <= stRdDataWriteCommandRegister;
 				end if;
 
 			-- Issue Go command to start data transactions in polling mode
-			when stRdWriteCommandRegister1 =>
+			when stRdDataWriteCommandRegister =>
 				I2CAddrxD <= comm_stat;
 				I2CDataWritexD <= I2C_IMU_COMMAND;
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stRdWaitI2CStart1;
+					StateIMUxDN <= stRdDataWaitI2C1;
 				end if;
 					
 			-- Wait for I2C Controller to... (?)
-			when stRdWaitI2CStart1 =>
-								
---				if I2CWaitCountxDP = i2c_wait_time then
-				if I2CWaitCountxDP = "0001011101110000" then
+			when stRdDataWaitI2C1 =>
+				if I2CWaitCountxDP = i2c_wait_time_short then 
 					I2CWaitCountxDN <= (others => '0');
-					StateIMUxDN <= stRdReadStatusRegister;
+					StateIMUxDN <= stRdDataWaitI2C2;
+				else
+					I2CWaitCountxDN <= I2CWaitCountxDP + 1;
+				end if;
+				
+			-- Wait for I2C Controller to... (?)
+			-- Come to this state between read operations
+			when stRdDataWaitI2C2 =>
+				if I2CWaitCountxDP = i2c_wait_time_short then
+					I2CWaitCountxDN <= (others => '0');
+					StateIMUxDN <= stRdDataReadStatusRegister;
 				else
 					I2CWaitCountxDN <= I2CWaitCountxDP + 1;
 				end if;
 				
 			-- Read Status register and wait for full buffer before reading data word	
-			when stRdReadStatusRegister =>
+			when stRdDataReadStatusRegister =>
 				I2CAddrxD <= comm_stat;
 				
 				ReadReqxE <= '1';
 				if ReadAckxE = '1' then
 					ReadReqxE <= '0';
 					
-					-- STUCK HERE!!!!!!! FIX THIS!
-					-- INCREASE WAIT TIME! CALCULATE WHAT IT SHOULD BE!
-					DebugLEDxEO <= '1';
-					
 					-- Receive Buffer Full
 					if I2CDataReadxD(0) = '1' then 
-						StateIMUxDN <= stRdReadDataBufferRegister;
+						StateIMUxDN <= stRdDataReadDataBufferRegister;
 					end if;
 					
 				end if;
@@ -859,14 +876,14 @@ begin
 			-- Read data byte, which are sensor measurements from the IMU
 			-- Use counter to know measurement we are currently reading
 			-- We read 1 byte at a time iterating from MSB of Accel X to LSB of Gyro Z
-			when stRdReadDataBufferRegister =>
+			when stRdDataReadDataBufferRegister =>
 				I2CAddrxD <= data_buf;
 
 				ReadReqxE <= '1';
 				if ReadAckxE = '1' then
 					ReadReqxE <= '0';
-					--DebugLEDxEO <= '1';
-					--Write data to correct measurement register
+
+					-- Write data to correct measurement register
 					case IMUMeasByteCountxDP is
 						when "0000" =>	IMUAccelXMSBxDN	<= I2CDataReadxD;
 						when "0001" =>	IMUAccelXLSBxDN	<= I2CDataReadxD;
@@ -888,33 +905,27 @@ begin
 					-- Iterate over all measurement bytes
 					if IMUMeasByteCountxDP = imu_meas_byte_length then
 						IMUMeasByteCountxDN <= (others => '0');
-						StateIMUxDN <= stRdWaitI2CEnd1;
+						StateIMUxDN <= stRdDataWaitI2C3;
 					else
 						IMUMeasByteCountxDN <= IMUMeasByteCountxDP + 1;
-						--StateIMUxDN <= stRdReadStatusRegister;
-						StateIMUxDN <= stRdWaitI2CStart1;
+						StateIMUxDN <= stRdDataWaitI2C2;
 					end if;
 					
 				end if;
 			
 			-- Wait for I2C Controller to... (?)
-			when stRdWaitI2CEnd1 =>
-
-
-				if I2CWaitCountxDP = i2c_wait_time then
-					--DebugLEDxEO <= '1';
+			when stRdDataWaitI2C3 =>
+				if I2CWaitCountxDP = i2c_wait_time_long then
 					I2CWaitCountxDN <= (others => '0');
-					StateIMUxDN <= stRdCheckDone1;
+					StateIMUxDN <= stRdDataCheckDone;
 				else
 					I2CWaitCountxDN <= I2CWaitCountxDP + 1;
 				end if; 
 				
 			-- Read Status register and wait for transaction done bit
 			-- Once all 14 bytes have been read, then go back to set the first data measurement register and reread
-			when stRdCheckDone1 =>
+			when stRdDataCheckDone =>
 				I2CAddrxD <= comm_stat;
-				
-				--DebugLEDxEO <= '1';
 				
 				ReadReqxE <= '1';
 				if ReadAckxE = '1' then
@@ -925,7 +936,8 @@ begin
 						-- Indicate that Data is ready to be Written to the FIFO 
 						-- Handshaking with monitor state machine handled by p_imu_write process 
 						IMUDataReadyxE <= '1'; 
-						StateIMUxDN <= stRdWriteAddressRegister;
+						
+						StateIMUxDN <= stWrIntWriteAddressRegister;
 					end if;
 					
 				end if;
@@ -946,6 +958,8 @@ begin
 			IMUAccelXxDP, IMUAccelYxDP, IMUAccelZxDP, IMUTempxDP, IMUGyroXxDP, IMUGyroYxDP, IMUGyroZxDP, IMUDataDropxEI, IMUDataReadyxE)
 	begin 
   
+		--DebugLEDxEO <= '0';
+		
 		-- Default Assignments
 		StateIMUWritexDN <= StateIMUWritexDP;
 		IMUDataWordCountxDN	<= IMUDataWordCountxDP;	
@@ -969,6 +983,8 @@ begin
 				-- Default Assignments
 				IMUDataWordCountxDN <= (others => '0');
 
+				--DebugLEDxEO <= '1';
+
 				if IMUDataReadyxE = '1' then 
 					-- Latch Data to be written
 					IMUAccelXxDN <= IMUAccelXMSBxDP & IMUAccelXLSBxDP;
@@ -986,15 +1002,22 @@ begin
 				-- VERIFY HANDHSAKING HERE FOR COMBINATIONAL LOOPS!!!
 				-- WOULDN'T THE SYNTHETIZER COMPLAIN ALREADY ABOUT IT?!
 				
+				-- STUCK HERE! PROBLEM IS HANDSHAKING 
+				--DebugLEDxEO <= '1';
+								
 				-- Indicate that data is ready and wait for permission from Monitor State Machine to write data
 				IMUDataReadyReqxEO <= '1';
 				if IMUDataReadyAckxEI = '1' then
 					IMUDataReadyReqxEO <= '0';
+									
+					--DebugLEDxEO <= '1';
 					
 					-- If we don't drop the data, then get ready to write
+					-- VERIFY THIS!
 					if IMUDataDropxEI = '0' then
 						StateIMUWritexDN <= stDataWriteReq;
 					end if;
+					-- WHAT SHOULD WE DO IF WE DO DROP DATA
 				end if;
 				
 			-- Send IMU Data one at a time
@@ -1046,7 +1069,7 @@ begin
 			IMUMeasByteCountxDP <= (others => '0');
 			IMUDataWordCountxDP	<= (others => '0');
 			I2CWaitCountxDP <= (others => '0');
-			I2CAckCountxDP	<= (others => '0');
+			I2CCountxDP	<= (others => '0');
 			IMUAccelXMSBxDP <= (others => '0');
 			IMUAccelYMSBxDP <= (others => '0');
 			IMUAccelZMSBxDP <= (others => '0');
@@ -1077,7 +1100,7 @@ begin
 			IMUMeasByteCountxDP <= IMUMeasByteCountxDN;
 			IMUDataWordCountxDP <= IMUDataWordCountxDN;
 			I2CWaitCountxDP <= I2CWaitCountxDN;
-			I2CAckCountxDP <= I2CAckCountxDN;
+			I2CCountxDP <= I2CCountxDN;
 			IMUAccelXMSBxDP <= IMUAccelXMSBxDN;
 			IMUAccelYMSBxDP <= IMUAccelYMSBxDN;
 			IMUAccelZMSBxDP <= IMUAccelZMSBxDN;

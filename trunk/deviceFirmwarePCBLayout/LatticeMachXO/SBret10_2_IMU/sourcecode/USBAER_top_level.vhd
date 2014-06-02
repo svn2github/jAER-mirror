@@ -205,7 +205,8 @@ architecture Structural of USBAER_top_level is
 			TimestampOverflowxSI : in std_logic;
 			TriggerxSI : in std_logic;
 			AddressMSBxDO : out std_logic_vector(1 downto 0);
-			ResetTimestampxSBI : in std_logic);
+			ResetTimestampxSBI : in std_logic;
+			DebugLEDxEO	: out std_logic); --H
 	end component;
 
 	component ADCStateMachine
@@ -667,7 +668,8 @@ begin
 			TimestampOverflowxSI      => TimestampOverflowxS,
 			TriggerxSI 			 	  => TriggerxS,
 			AddressMSBxDO             => AddressMSBxD,
-			ResetTimestampxSBI        => SynchronizerResetTimestampxSB);
+			ResetTimestampxSBI        => SynchronizerResetTimestampxSB,
+			DebugLEDxEO				  => DebugLEDxE); --H
   
 	ADCStateMachine_1: ADCStateMachine
 		port map (
@@ -698,7 +700,7 @@ begin
 		  ADCStateOutputLEDxSO  => ADCStateOutputLEDxS);
   
 	ADCovrxS <= ADCovrxSI;
-	ADCsmRstxE <= ResetxRB and RunxS;
+	ADCsmRstxE <= ResetxRB and RunxS; 
 
 	ADCvalueReady_1: ADCvalueReady
 		port map (
@@ -725,7 +727,7 @@ begin
 			IMUDataDropxEI		=> IMUDataDropxE,
 			IMURegisterWritexEO => IMURegWritexE,
 			IMUDataxDO          => IMUDataxD,
-			DebugLEDxEO			=> DebugLEDxE);
+			DebugLEDxEO			=> open);
   
 	-- Always have IMU Running
 	-- FIGURE OUT BEST WAY TO DO THIS
@@ -790,9 +792,13 @@ begin
 			IMURegOutxD 						when selectIMU, --H Writes IMU measurements
 			(others => '0') 					when others; --H
 	
-	LED1xSO <= DebugLEDxE; --H 
-	LED2xSO <= IMUSCLxCIO; --H
-	LED3xSO <= IMUSDAxSIO; --H
+	--LED1xSO <= IMUDataReadyReqxE; --H 
+	LED1xSO <= IfClockxC and ClockxC;
+	LED2xSO <= IfClockxC; --H
+	LED3xSO <= ClockxC; --H
+	--LED1xSO <= DebugLEDxE; --H 
+	--LED2xSO <= IMUSCLxCIO; --H
+	--LED3xSO <= IMUSDAxSIO; --H
 	--H LED1xSO <= CDVSTestChipResetxRB;
 	--H LED2xSO <= RunxS;
 	--H LED3xSO <= ADCStateOutputLEDxS;

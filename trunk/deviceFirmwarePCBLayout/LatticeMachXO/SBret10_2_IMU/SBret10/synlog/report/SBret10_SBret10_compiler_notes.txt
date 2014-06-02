@@ -33,16 +33,16 @@
 @N: CD364 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Mpu_Blk.vhd":151:11:151:13|Removed redundant assignment
 @N: CD364 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Mpu_Blk.vhd":152:11:152:14|Removed redundant assignment
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":21:7:21:21|Synthesizing work.imustatemachine.behavioral 
-@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":54:14:54:15|Using onehot encoding for type staterw (stidle="100000000")
-@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":64:15:64:16|Using onehot encoding for type stateimu (stidle="100000000000000000000000000000000000000")
-@N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":87:20:87:21|Using sequential encoding for type stateimuwrite
+@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":54:14:54:15|Using onehot encoding for type staterw (stidle="10000000000")
+@N: CD232 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":64:15:64:16|Using gray code encoding for type stateimu
+@N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":85:20:85:21|Using sequential encoding for type stateimuwrite
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCvalueReady.vhd":25:7:25:19|Synthesizing work.adcvalueready.behavioral 
 @N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCvalueReady.vhd":37:13:37:14|Using sequential encoding for type state
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCStateMachine.vhd":25:7:25:21|Synthesizing work.adcstatemachine.behavioral 
 @N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCStateMachine.vhd":56:16:56:17|Using onehot encoding for type colstate (stidle="100000000000")
 @N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCStateMachine.vhd":57:16:57:17|Using onehot encoding for type rowstate (stidle="10000000")
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":25:7:25:25|Synthesizing work.monitorstatemachine.behavioral 
-@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":82:12:82:13|Using onehot encoding for type state (stidle="100000000000000")
+@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":85:12:85:13|Using onehot encoding for type state (stidle="100000000000000")
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":25:7:25:22|Synthesizing work.fifostatemachine.behavioral 
 @N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":60:12:60:13|Using sequential encoding for type state
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\synchronizerStateMachine.vhd":19:7:19:30|Synthesizing work.synchronizerstatemachine.behavioral 
@@ -62,13 +62,13 @@
 @N: CD630 :"D:\lscc\diamond\2.2_x64\cae_library\synthesis\vhdl\machxo.vhd":1630:10:1630:16|Synthesizing work.ehxpllc.syn_black_box 
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\synchronizerStateMachine.vhd":245:4:245:5|Trying to extract state machine for register StatexDP
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\fifoStatemachine.vhd":158:2:158:3|Trying to extract state machine for register StatexDP
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":375:2:375:3|Trying to extract state machine for register StatexDP
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\monitorStateMachine.vhd":393:2:393:3|Trying to extract state machine for register StatexDP
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCStateMachine.vhd":340:4:340:5|Trying to extract state machine for register StateRowxDP
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCStateMachine.vhd":340:4:340:5|Trying to extract state machine for register StateColxDP
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCvalueReady.vhd":80:4:80:5|Trying to extract state machine for register StatexDP
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1043:2:1043:3|Trying to extract state machine for register StateIMUWritexDP
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1043:2:1043:3|Trying to extract state machine for register StateRWxDP
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1043:2:1043:3|Trying to extract state machine for register StateIMUxDP
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1065:2:1065:3|Trying to extract state machine for register StateIMUxDP
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1065:2:1065:3|Trying to extract state machine for register StateIMUWritexDP
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1065:2:1065:3|Trying to extract state machine for register StateRWxDP
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Mpu_Blk.vhd":167:3:167:4|Trying to extract state machine for register ns
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Main_Blk.vhd":535:3:535:4|Trying to extract state machine for register MCS
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Main_Blk.vhd":464:3:464:4|Trying to extract state machine for register RCS
