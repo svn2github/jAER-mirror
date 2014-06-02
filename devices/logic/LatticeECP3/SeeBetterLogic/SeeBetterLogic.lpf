@@ -91,11 +91,7 @@ LOCATE COMP "ChipReset_SBO" SITE "E11" ;
 // Bias configuration
 LOCATE COMP "ChipBiasEnable_SO" SITE "D8" ;
 LOCATE COMP "ChipBiasDiagSel_SO" SITE "D7" ;
-LOCATE COMP "ChipBiasAddrSel_SO" SITE "C12" ;
-//LOCATE COMP "ChipBiasClock_SO" SITE "" ;
-//LOCATE COMP "ChipBiasBitIn_DO" SITE "" ;// to chip
-//LOCATE COMP "ChipBiasLatch_SO" SITE "" ;
-LOCATE COMP "ChipBiasBitOut_DI" SITE "A8" ;// from chip (debug)
+//LOCATE COMP "ChipBiasBitOut_DI" SITE "A8" ;// from chip (debug)
 
 // DVS data (AER bus)
 LOCATE COMP "DVSAERData_DI[9]" SITE "H3" ;
