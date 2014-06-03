@@ -10,7 +10,7 @@ entity clockgen is
 end clockgen;
 
 architecture Structural of clockgen is
-	constant INPUT_CLOCK_FREQ : integer := 34;
+	constant INPUT_CLOCK_FREQ : integer := 30;
 	constant OUTPUT_CLOCK_FREQ : integer := 90;
 
 	component pmi_pll is

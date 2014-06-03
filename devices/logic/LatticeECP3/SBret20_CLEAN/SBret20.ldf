@@ -48,7 +48,7 @@
         <Source name="sourcecode/ADCStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="C:/lscc/diamond/3.0_x64/cae_library/synthesis/vhdl/pmi_def.vhd" type="VHDL" type_short="VHDL">
+        <Source name="C:/lscc/diamond/3.1_x64/cae_library/synthesis/vhdl/pmi_def.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="SBret20.lpf" type="Logic Preference" type_short="LPF">
