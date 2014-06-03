@@ -8,7 +8,8 @@
 // 16-bit Slave FIFO; I2C, SPI and GPIO disabled; support for common vendor requests only
 #define EXAMPLE 0
 #define SRC_SINK 0
-#define SBRET10FX3 1
+#define SBRET10FX3 0
+#define DAVISFX3 1
 
 // Device specific configuration inclusion
 #if EXAMPLE == 1
@@ -21,6 +22,10 @@
 
 #if SBRET10FX3 == 1
 #include "devices/sbret10fx3/sbret10fx3_config.h"
+#endif
+
+#if DAVISFX3 == 1
+#include "devices/davisfx3/davisfx3_config.h"
 #endif
 
 #endif /* _INCLUDED_FX3_SELECT_H_ */
