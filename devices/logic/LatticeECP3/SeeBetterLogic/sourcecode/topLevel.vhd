@@ -145,14 +145,14 @@ architecture Structural of topLevel is
 		Overflow_SO : out std_logic;
 		Data_DO : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component;
-	
-	component clockedPulse
-	generic (
-		PULSE_EVERY_CYCLES : integer := 100);
+
+	component TimestampGenerator
 	port (
 		Clock_CI : in std_logic;
 		Reset_RBI : in std_logic;
-		PulseOut_SO : out std_logic);
+		FPGATimestampReset_SI : in std_logic;
+		TimestampOverflow_SO : out std_logic;
+		Timestamp_DO : out std_logic_vector(TIMESTAMP_WIDTH-1 downto 0));
 	end component;
 
 	component pmi_pll is
@@ -183,24 +183,17 @@ architecture Structural of topLevel is
 	signal LogicClock_C : std_logic;
 	signal Reset_RI: std_logic;
 
-	-- http://stackoverflow.com/questions/15244992 explains a better way to slow down a process
-	-- using a clock enable instead of creating gated clocks with a clock divider, which avoids
-	-- any issues of clock domain crossing and resource utilization.
-	-- The continuousCounter already has an enable signal, which we can use in this fashion directly.
-	signal TimestampEnable1MHz_S : std_logic;
 	signal TimestampOverflow_S : std_logic;
-	signal TimestampData_D : std_logic_vector(TIMESTAMP_WIDTH downto 0);
-	-- One more to plug into timestampGenerator correctly, which is TIMESTAMP_WIDTH+1 wide.
-	-- The highest bit will be dropped when input into the MultiplexerSM.
+	signal Timestamp_D : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
 
 	signal USBFifoDataIn_D : std_logic_vector(USB_FIFO_WIDTH-1 downto 0); -- 16-bit wide USB data path.
 	signal USBFifoWrite_S, USBFifoRead_S : std_logic;
 	signal USBFifoEmpty_S, USBFifoAlmostEmpty_S, USBFifoFull_S, USBFifoAlmostFull_S : std_logic;
 	signal USBFifoThr0ReadySync_S, USBFifoThr0WatermarkSync_S, USBFifoThr1ReadySync_S, USBFifoThr1WatermarkSync_S : std_logic;
 begin
-	Reset_RI <= not Reset_RBI;
-	USBFifoWrite_S <= FPGARun_SI and (not USBFifoFull_S);
+	Reset_RI <= not Reset_RBI; -- Generate active-high reset.
 	USBFifoRead_SBO <= '1'; -- We never, ever read from the USB data path.
+
 	LED1_SO <= USBFifoEmpty_S;
 	LED2_SO <= USBFifoFull_S;
 	LED3_SO <= USBFifoAlmostEmpty_S;
@@ -304,29 +297,11 @@ begin
 		AlmostEmpty => USBFifoAlmostEmpty_S,
 		AlmostFull => USBFifoAlmostFull_S);
 
-	timestampEnable : clockedPulse
-	generic map (
-		PULSE_EVERY_CYCLES => LOGIC_CLOCK_FREQ)
+	tsGenerator : TimestampGenerator
 	port map (
 		Clock_CI => LogicClock_C,
 		Reset_RBI => Reset_RBI,
-		PulseOut_SO => TimestampEnable1MHz_S);
-USBFifoDataIn_D <= TimestampData_D;
-	timestampGenerator : continuousCounter
-	generic map (
-		-- Enlarge by one so that the limit at which the counter resets to zero can be one higher than
-		-- all TIMESTAMP_WIDTH bits set to 1. This ensure correct passage of time with the clocked enable
-		-- signal happening only every LOGIC_CLOCK_FREQ ticks, so that when all-bits-one is reached, another
-		-- set of ticks has to pass before switching back to 0, instead of it happening immediately. The
-		-- bigger by one value will only be visible for one tick, in which the MultiplexerSM will anyway
-		-- send out a timestamp-wrap event, and thus this value will never be seen by other logic.
-		COUNTER_WIDTH => TIMESTAMP_WIDTH+1)
-	port map (
-		Clock_CI => LogicClock_C,
-		Reset_RBI => Reset_RBI,
-		Clear_SI => FPGATimestampReset_SI,
-		Enable_SI => TimestampEnable1MHz_S,
-		DataLimit_DI => ('1', others => '0'),
-		Overflow_SO => TimestampOverflow_S,
-		std_logic_vector(Data_DO) => TimestampData_D);
+		FPGATimestampReset_SI => FPGATimestampReset_SI,
+		TimestampOverflow_SO => TimestampOverflow_S,
+		Timestamp_DO => Timestamp_D);
 end Structural;
