@@ -5,7 +5,7 @@ use IEEE.NUMERIC_STD.all;
 -- Variable width counter that just cycles thorugh all binary values,
 -- until it hits a configurable limit. This limit is provided by the
 -- DataLimit_DI input, if not needed, just keep it at all ones.
-entity continuousCounter is
+entity ContinuousCounter is
 	generic (
 		COUNTER_WIDTH : integer := 16;
 		RESET_ON_OVERFLOW : boolean := true);
@@ -17,9 +17,9 @@ entity continuousCounter is
 		DataLimit_DI : in unsigned(COUNTER_WIDTH-1 downto 0);
 		Overflow_SO : out std_logic;
 		Data_DO : out unsigned(COUNTER_WIDTH-1 downto 0));
-end continuousCounter;
+end ContinuousCounter;
 
-architecture Behavioral of continuousCounter is
+architecture Behavioral of ContinuousCounter is
 	-- present and next state
 	signal Count_DP, Count_DN : unsigned(COUNTER_WIDTH-1 downto 0);
 begin

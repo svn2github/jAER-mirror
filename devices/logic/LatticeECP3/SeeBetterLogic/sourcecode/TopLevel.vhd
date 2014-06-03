@@ -1,9 +1,9 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.NUMERIC_STD.all;
-use work.settings.all;
+use work.Settings.all;
 
-entity topLevel is
+entity TopLevel is
 	port (
 		USBClock_CI : in std_logic;
 		Reset_RBI : in std_logic;
@@ -69,9 +69,9 @@ entity topLevel is
 		SyncInClock_CI : in std_logic;
 		SyncInSwitch_SI : in std_logic;
 		SyncInSignal_SI : in std_logic);
-end topLevel;
+end TopLevel;
 
-architecture Structural of topLevel is
+architecture Structural of TopLevel is
 	component DFFSynchronizer
 	port (
 		SyncClock_CI : in std_logic;
@@ -131,20 +131,6 @@ architecture Structural of topLevel is
 		AlmostEmpty: out std_logic;
 		AlmostFull: out std_logic);
 	end component pmi_fifo_dc;
-
-	component continuousCounter
-	generic (
-		COUNTER_WIDTH : integer := 16;
-		RESET_ON_OVERFLOW : boolean := true);
-	port (
-		Clock_CI : in std_logic;
-		Reset_RBI : in std_logic;
-		Clear_SI : in std_logic;
-		Enable_SI : in std_logic;
-		DataLimit_DI : in unsigned(COUNTER_WIDTH-1 downto 0);
-		Overflow_SO : out std_logic;
-		Data_DO : out unsigned(COUNTER_WIDTH-1 downto 0));
-	end component;
 
 	component TimestampGenerator
 	port (

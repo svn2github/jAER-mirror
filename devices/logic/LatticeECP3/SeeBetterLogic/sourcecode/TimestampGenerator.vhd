@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.NUMERIC_STD.all;
-use work.settings.all;
+use work.Settings.all;
 
 entity TimestampGenerator is
 	port (
@@ -13,7 +13,7 @@ entity TimestampGenerator is
 end TimestampGenerator;
 
 architecture Structural of TimestampGenerator is
-	component continuousCounter
+	component ContinuousCounter
 	generic (
 		COUNTER_WIDTH : integer := 16;
 		RESET_ON_OVERFLOW : boolean := true);
@@ -27,7 +27,7 @@ architecture Structural of TimestampGenerator is
 		Data_DO : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component;
 	
-	component clockedPulse
+	component ClockedPulse
 	generic (
 		PULSE_EVERY_CYCLES : integer := 100);
 	port (
@@ -39,14 +39,14 @@ architecture Structural of TimestampGenerator is
 	-- http://stackoverflow.com/questions/15244992 explains a better way to slow down a process
 	-- using a clock enable instead of creating gated clocks with a clock divider, which avoids
 	-- any issues of clock domain crossing and resource utilization.
-	-- The continuousCounter already has an enable signal, which we can use in this fashion directly.
+	-- The ContinuousCounter already has an enable signal, which we can use in this fashion directly.
 	signal TimestampEnable1MHz_S : std_logic;
 	
 	-- One more to plug into timestampGenerator correctly, which is TIMESTAMP_WIDTH+1 wide.
 	-- The highest bit is dropped at the output port here.
 	signal Timestamp_D : std_logic_vector(TIMESTAMP_WIDTH downto 0);
 begin
-	timestampEnable : clockedPulse
+	timestampEnable : ClockedPulse
 	generic map (
 		PULSE_EVERY_CYCLES => LOGIC_CLOCK_FREQ)
 	port map (
@@ -54,7 +54,7 @@ begin
 		Reset_RBI => Reset_RBI,
 		PulseOut_SO => TimestampEnable1MHz_S);
 
-	timestampGenerator : continuousCounter
+	timestampGenerator : ContinuousCounter
 	generic map (
 		-- Enlarge by one so that the limit at which the counter resets to zero can be one higher than
 		-- all TIMESTAMP_WIDTH bits set to 1. This ensure correct passage of time with the clocked enable

@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.NUMERIC_STD.all;
-use work.settings.all;
+use work.Settings.all;
 
 entity FX3Statemachine is
 	port (
@@ -30,7 +30,7 @@ entity FX3Statemachine is
 end FX3Statemachine;
 
 architecture Behavioral of FX3Statemachine is
-	component continuousCounter
+	component ContinuousCounter
 	generic (
 		COUNTER_WIDTH : integer := 16;
 		RESET_ON_OVERFLOW : boolean := true);
@@ -59,7 +59,7 @@ architecture Behavioral of FX3Statemachine is
 	-- early packet counter, to keep a certain flow of USB traffic going even in the case of low event rates
 	signal EarlyPacketCount_S, EarlyPacketNotify_S, EarlyPacketClear_S : std_logic;
 begin
-	writeCyclesCounter : continuousCounter
+	writeCyclesCounter : ContinuousCounter
 	generic map (
 		COUNTER_WIDTH => USB_BURST_WRITE_WIDTH)
 	port map (
@@ -71,7 +71,7 @@ begin
 		Overflow_SO => CyclesNotify_S,
 		Data_DO => open);
 
-	earlyPacketCounter : continuousCounter
+	earlyPacketCounter : ContinuousCounter
 	generic map (
 		COUNTER_WIDTH => USB_EARLY_PACKET_WIDTH,
 		RESET_ON_OVERFLOW => false)
