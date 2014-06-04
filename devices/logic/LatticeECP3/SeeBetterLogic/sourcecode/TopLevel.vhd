@@ -259,6 +259,8 @@ architecture Structural of TopLevel is
 	signal USBFifoThr0ReadySync_S, USBFifoThr0WatermarkSync_S, USBFifoThr1ReadySync_S, USBFifoThr1WatermarkSync_S : std_logic;
 	signal FPGARunSync_S, DVSRunSync_S, ADCRunSync_S, IMURunSync_S, FPGATimestampResetSync_S, DVSAERReqSync_SB, IMUInterruptSync_S : std_logic;
 
+	signal DVSRun_S, ADCRun_S, IMURun_S : std_logic;
+
 	signal USBFifoFPGAData_D : std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
 	signal USBFifoFPGAWrite_S, USBFifoFPGARead_S : std_logic;
 	signal USBFifoFPGAEmpty_S, USBFifoFPGAAlmostEmpty_S, USBFifoFPGAFull_S, USBFifoFPGAAlmostFull_S : std_logic;
@@ -314,6 +316,11 @@ begin
 	LED2_SO <= USBFifoFPGAFull_S;
 	LED3_SO <= USBFifoFPGAAlmostEmpty_S;
 	LED4_SO <= USBFifoFPGAAlmostFull_S;
+	
+	-- Generate signals to enable running of certain data producer blocks.
+	DVSRun_S <= DVSRunSync_S and FPGARunSync_S; -- Only run if the whole FPGA also runs.
+	ADCRun_S <= ADCRunSync_S and FPGARunSync_S; -- Only run if the whole FPGA also runs.
+	IMURun_S <= IMURunSync_S and FPGARunSync_S; -- Only run if the whole FPGA also runs.
 
 	-- Generate logic clock using a PLL.
 	logicClockPLL : pmi_pll
@@ -436,7 +443,7 @@ begin
 	port map (
 		Clock_CI => LogicClock_C,
 		Reset_RI => LogicReset_R,
-		DVSRun_SI => DVSRunSync_S,
+		DVSRun_SI => DVSRun_S,
 		OutFifoFull_SI => DVSAERFifoFull_S,
 		OutFifoAlmostFull_SI => DVSAERFifoAlmostFull_S,
 		OutFifoWrite_SO => DVSAERFifoWrite_S,
