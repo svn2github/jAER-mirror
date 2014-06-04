@@ -8,7 +8,8 @@ entity TimestampGenerator is
 		Clock_CI : in std_logic;
 		Reset_RI : in std_logic;
 		FPGARun_SI : in std_logic;
-		TimestampReset_SI : in std_logic;
+		FPGATimestampReset_SI : in std_logic;
+		TimestampReset_SO : out std_logic;
 		TimestampOverflow_SO : out std_logic;
 		Timestamp_DO : out std_logic_vector(TIMESTAMP_WIDTH-1 downto 0));
 end TimestampGenerator;
@@ -36,6 +37,10 @@ architecture Structural of TimestampGenerator is
 		Reset_RI : in std_logic;
 		PulseOut_SO : out std_logic);
 	end component;
+	
+	-- Detect resets from the host and pulse this once to reset the Timestamp Generator and anybody
+	-- outside listening to the TimestampReset_SO output.
+	signal TimestampReset_S : std_logic;
 
 	-- http://stackoverflow.com/questions/15244992 explains a better way to slow down a process
 	-- using a clock enable instead of creating gated clocks with a clock divider, which avoids
@@ -61,6 +66,10 @@ begin
 
 	TimestampEnable_S <= TimestampEnable1MHz_S and FPGARun_SI;
 
+	-- TODO: need to detect FPGATimestampReset_SI pulse from host and then generate just one
+	-- quick reset pulse to the counter and pulse generator.
+	TimestampReset_S <= FPGATimestampReset_SI;
+
 	timestampGenerator : ContinuousCounter
 	generic map (
 		-- Enlarge by one so that the limit at which the counter resets to zero can be one higher than
@@ -73,11 +82,14 @@ begin
 	port map (
 		Clock_CI => Clock_CI,
 		Reset_RI => Reset_RI,
-		Clear_SI => TimestampReset_SI,
+		Clear_SI => TimestampReset_S,
 		Enable_SI => TimestampEnable_S,
 		DataLimit_DI => ('1', others => '0'),
 		Overflow_SO => TimestampOverflow_SO,
 		std_logic_vector(Data_DO) => Timestamp_D);
+
+	-- Notify outside world about timestamp reset.
+	TimestampReset_SO <= TimestampReset_S;
 
 	-- Drop highest bit at output (overflow bit).
 	Timestamp_DO <= Timestamp_D(TIMESTAMP_WIDTH-1 downto 0);

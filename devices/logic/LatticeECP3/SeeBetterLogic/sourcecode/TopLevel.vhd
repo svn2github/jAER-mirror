@@ -145,7 +145,8 @@ architecture Structural of TopLevel is
 		Clock_CI : in std_logic;
 		Reset_RI : in std_logic;
 		FPGARun_SI : in std_logic;
-		TimestampReset_SI : in std_logic;
+		FPGATimestampReset_SI : in std_logic;
+		TimestampReset_SO : out std_logic;
 		TimestampOverflow_SO : out std_logic;
 		Timestamp_DO : out std_logic_vector(TIMESTAMP_WIDTH-1 downto 0));
 	end component;
@@ -253,6 +254,7 @@ architecture Structural of TopLevel is
 	signal LogicClock_C : std_logic;
 	signal LogicReset_R : std_logic;
 
+	signal TimestampReset_S : std_logic;
 	signal TimestampOverflow_S : std_logic;
 	signal Timestamp_D : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
 
@@ -395,7 +397,7 @@ begin
 		Clock_CI => LogicClock_C,
 		Reset_RI => LogicReset_R,
 		FPGARun_SI => FPGARunSync_S,
-		TimestampReset_SI => FPGATimestampResetSync_S,
+		TimestampReset_SI => TimestampReset_S,
 		TimestampOverflow_SI => TimestampOverflow_S,
 		Timestamp_DI => Timestamp_D,
 		OutFifoFull_SI => USBFifoFPGAFull_S,
@@ -412,7 +414,8 @@ begin
 		Clock_CI => LogicClock_C,
 		Reset_RI => LogicReset_R,
 		FPGARun_SI => FPGARunSync_S,
-		TimestampReset_SI => FPGATimestampResetSync_S,
+		FPGATimestampReset_SI => FPGATimestampResetSync_S,
+		TimestampReset_SO => TimestampReset_S,
 		TimestampOverflow_SO => TimestampOverflow_S,
 		Timestamp_DO => Timestamp_D);
 
