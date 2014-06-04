@@ -262,6 +262,7 @@ architecture Structural of TopLevel is
 	signal FPGARunSync_S, DVSRunSync_S, ADCRunSync_S, IMURunSync_S, FPGATimestampResetSync_S, DVSAERReqSync_SB, IMUInterruptSync_S : std_logic;
 
 	signal DVSRun_S, ADCRun_S, IMURun_S : std_logic;
+	signal DVSFifoReset_S, ADCFifoReset_S, IMUFifoReset_S : std_logic;
 
 	signal USBFifoFPGAData_D : std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
 	signal USBFifoFPGAWrite_S, USBFifoFPGARead_S : std_logic;
@@ -318,11 +319,17 @@ begin
 	LED2_SO <= USBFifoFPGAFull_S;
 	LED3_SO <= USBFifoFPGAAlmostEmpty_S;
 	LED4_SO <= USBFifoFPGAAlmostFull_S;
-	
-	-- Generate signals to enable running of certain data producer blocks.
-	DVSRun_S <= DVSRunSync_S and FPGARunSync_S; -- Only run if the whole FPGA also runs.
-	ADCRun_S <= ADCRunSync_S and FPGARunSync_S; -- Only run if the whole FPGA also runs.
-	IMURun_S <= IMURunSync_S and FPGARunSync_S; -- Only run if the whole FPGA also runs.
+
+	-- Only run data producers if the whole FPGA also is running.
+	DVSRun_S <= DVSRunSync_S and FPGARunSync_S;
+	ADCRun_S <= ADCRunSync_S and FPGARunSync_S;
+	IMURun_S <= IMURunSync_S and FPGARunSync_S;
+
+	-- Keep data transmission FIFOs in reset if FPGA is not running, so
+	-- that they will be empty when resuming operation (no stale data).
+	DVSFifoReset_S <= LogicReset_R or (not FPGARunSync_S);
+	ADCFifoReset_S <= LogicReset_R or (not FPGARunSync_S);
+	IMUFifoReset_S <= LogicReset_R or (not FPGARunSync_S);
 
 	-- Generate logic clock using a PLL.
 	logicClockPLL : pmi_pll
@@ -435,7 +442,7 @@ begin
 		Clock => LogicClock_C,
 		WrEn => DVSAERFifoWrite_S,
 		RdEn => DVSAERFifoRead_S,
-		Reset => LogicReset_R,
+		Reset => DVSFifoReset_S,
 		Q => DVSAERFifoDataRead_D,
 		Empty => DVSAERFifoEmpty_S,
 		Full => DVSAERFifoFull_S,

@@ -31,10 +31,12 @@ architecture Structural of TimestampGenerator is
 	
 	component PulseGenerator
 	generic (
-		PULSE_EVERY_CYCLES : integer := 100);
+		PULSE_EVERY_CYCLES : integer := 100;
+		PULSE_POLARITY : std_logic := '1');
 	port (
 		Clock_CI : in std_logic;
 		Reset_RI : in std_logic;
+		Clear_SI : in std_logic;
 		PulseOut_SO : out std_logic);
 	end component;
 	
@@ -62,6 +64,7 @@ begin
 	port map (
 		Clock_CI => Clock_CI,
 		Reset_RI => Reset_RI,
+		Clear_SI => TimestampReset_S,
 		PulseOut_SO => TimestampEnable1MHz_S);
 
 	TimestampEnable_S <= TimestampEnable1MHz_S and FPGARun_SI;
