@@ -29,7 +29,7 @@ architecture Structural of TimestampGenerator is
 		Data_DO : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component;
 	
-	component ClockedPulse
+	component PulseGenerator
 	generic (
 		PULSE_EVERY_CYCLES : integer := 100);
 	port (
@@ -56,7 +56,7 @@ architecture Structural of TimestampGenerator is
 	-- The highest bit is dropped at the output port here.
 	signal Timestamp_D : std_logic_vector(TIMESTAMP_WIDTH downto 0);
 begin
-	timestampEnable : ClockedPulse
+	timestampEnable : PulseGenerator
 	generic map (
 		PULSE_EVERY_CYCLES => LOGIC_CLOCK_FREQ)
 	port map (

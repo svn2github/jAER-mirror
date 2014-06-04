@@ -4,16 +4,16 @@ use IEEE.MATH_REAL."log2";
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.NUMERIC_STD.all;
 
-entity ClockedPulse is
+entity PulseGenerator is
 	generic (
 		PULSE_EVERY_CYCLES : integer := 100);
 	port (
 		Clock_CI : in std_logic;
 		Reset_RI : in std_logic;
 		PulseOut_SO : out std_logic);
-end ClockedPulse;
+end PulseGenerator;
 
-architecture Behavioral of ClockedPulse is
+architecture Behavioral of PulseGenerator is
 	constant COUNTER_WIDTH : integer := integer(ceil(log2(real(PULSE_EVERY_CYCLES))));
 	
 	-- present and next state

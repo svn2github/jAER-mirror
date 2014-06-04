@@ -30,7 +30,7 @@
         <Source name="sourcecode/ContinuousCounter.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="sourcecode/ClockedPulse.vhd" type="VHDL" type_short="VHDL">
+        <Source name="sourcecode/PulseGenerator.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="sourcecode/FX3StateMachine.vhd" type="VHDL" type_short="VHDL">

@@ -27,7 +27,42 @@ entity MultiplexerStateMachine is
 end MultiplexerStateMachine;
 
 architecture Behavioral of MultiplexerStateMachine is
-	
+	type state is (stIdle, stTimestampReset, stTimestampWrap, stTimestamp, stDVSAER);
+
+	attribute syn_enum_encoding : string;
+	attribute syn_enum_encoding of state : type is "onehot";
+
+	-- present and next state
+	signal State_DP, State_DN : state;
 begin
+	p_memoryless : process (State_DP, FPGARun_SI, TimestampReset_SI, TimestampOverflow_SI, OutFifoFull_SI, OutFifoAlmostFull_SI, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI)
+	begin
+		State_DN <= State_DP; -- Keep current state by default.
+
+		OutFifoWrite_SO <= '0';
+		OutFifoData_DO <= (others => '0');
+
+		DVSAERFifoRead_SO <= '0';
+
+		case State_DP is
+			when stIdle =>
+				-- Only exit idle state if FPGA is running.
+				if FPGARun_SI = '1' then
+					-- Now check various flags and see what data to send.
+					
+				end if;
+
+			when others => null;
+		end case;
+	end process p_memoryless;
 	
+	-- Change state on clock edge (synchronous).
+	p_memoryzing : process (Clock_CI, Reset_RI)
+	begin
+		if Reset_RI = '1' then -- asynchronous reset (active-high for FPGAs)
+			State_DP <= stIdle;
+		elsif rising_edge(Clock_CI) then
+			State_DP <= State_DN;
+		end if;
+	end process p_memoryzing;
 end Behavioral;
