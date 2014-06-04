@@ -6,8 +6,9 @@ use work.Settings.all;
 entity TimestampGenerator is
 	port (
 		Clock_CI : in std_logic;
-		Reset_RBI : in std_logic;
-		FPGATimestampReset_SI : in std_logic;
+		Reset_RI : in std_logic;
+		FPGARun_SI : in std_logic;
+		TimestampReset_SI : in std_logic;
 		TimestampOverflow_SO : out std_logic;
 		Timestamp_DO : out std_logic_vector(TIMESTAMP_WIDTH-1 downto 0));
 end TimestampGenerator;
@@ -19,7 +20,7 @@ architecture Structural of TimestampGenerator is
 		RESET_ON_OVERFLOW : boolean := true);
 	port (
 		Clock_CI : in std_logic;
-		Reset_RBI : in std_logic;
+		Reset_RI : in std_logic;
 		Clear_SI : in std_logic;
 		Enable_SI : in std_logic;
 		DataLimit_DI : in unsigned(COUNTER_WIDTH-1 downto 0);
@@ -32,7 +33,7 @@ architecture Structural of TimestampGenerator is
 		PULSE_EVERY_CYCLES : integer := 100);
 	port (
 		Clock_CI : in std_logic;
-		Reset_RBI : in std_logic;
+		Reset_RI : in std_logic;
 		PulseOut_SO : out std_logic);
 	end component;
 
@@ -41,7 +42,11 @@ architecture Structural of TimestampGenerator is
 	-- any issues of clock domain crossing and resource utilization.
 	-- The ContinuousCounter already has an enable signal, which we can use in this fashion directly.
 	signal TimestampEnable1MHz_S : std_logic;
-	
+
+	-- Wire the enable signal together with the FPGARun signal, so that when we stop the FPGA,
+	-- the timestamp counter will not increase anymore.
+	signal TimestampEnable_S : std_logic;
+
 	-- One more to plug into timestampGenerator correctly, which is TIMESTAMP_WIDTH+1 wide.
 	-- The highest bit is dropped at the output port here.
 	signal Timestamp_D : std_logic_vector(TIMESTAMP_WIDTH downto 0);
@@ -51,8 +56,10 @@ begin
 		PULSE_EVERY_CYCLES => LOGIC_CLOCK_FREQ)
 	port map (
 		Clock_CI => Clock_CI,
-		Reset_RBI => Reset_RBI,
+		Reset_RI => Reset_RI,
 		PulseOut_SO => TimestampEnable1MHz_S);
+
+	TimestampEnable_S <= TimestampEnable1MHz_S and FPGARun_SI;
 
 	timestampGenerator : ContinuousCounter
 	generic map (
@@ -65,9 +72,9 @@ begin
 		COUNTER_WIDTH => TIMESTAMP_WIDTH+1)
 	port map (
 		Clock_CI => Clock_CI,
-		Reset_RBI => Reset_RBI,
-		Clear_SI => FPGATimestampReset_SI,
-		Enable_SI => TimestampEnable1MHz_S,
+		Reset_RI => Reset_RI,
+		Clear_SI => TimestampReset_SI,
+		Enable_SI => TimestampEnable_S,
 		DataLimit_DI => ('1', others => '0'),
 		Overflow_SO => TimestampOverflow_SO,
 		std_logic_vector(Data_DO) => Timestamp_D);

@@ -9,7 +9,7 @@ entity ClockedPulse is
 		PULSE_EVERY_CYCLES : integer := 100);
 	port (
 		Clock_CI : in std_logic;
-		Reset_RBI : in std_logic;
+		Reset_RI : in std_logic;
 		PulseOut_SO : out std_logic);
 end ClockedPulse;
 
@@ -32,9 +32,9 @@ begin
 	end process p_memoryless;
 
 	-- Change state on clock edge (synchronous).
-	p_memoryzing : process (Clock_CI, Reset_RBI)
+	p_memoryzing : process (Clock_CI, Reset_RI)
 	begin  -- process p_memoryzing
-		if Reset_RBI = '0' then -- asynchronous reset (active low)
+		if Reset_RI = '1' then -- asynchronous reset (active-high for FPGAs)
 			Count_DP <= (others => '0');
 		elsif rising_edge(Clock_CI) then
 			Count_DP <= Count_DN;

@@ -4,7 +4,7 @@ use IEEE.STD_LOGIC_1164.all;
 entity DFFSynchronizer is
 	port (
 		SyncClock_CI : in std_logic;
-		Reset_RBI : in std_logic;
+		Reset_RI : in std_logic;
 		
 		-- Signal to synchronize in and out.
 		SignalToSync_SI : in std_logic;
@@ -18,9 +18,9 @@ begin
 	SyncedSignal_SO <= SyncSignalSyncFF_S;
 
 	-- Change state on clock edge (synchronous).
-	p_synchronizing : process (SyncClock_CI, Reset_RBI)
+	p_synchronizing : process (SyncClock_CI, Reset_RI)
 	begin
-		if Reset_RBI = '0' then -- asynchronous reset (active-low)
+		if Reset_RI = '1' then -- asynchronous reset (active-high for FPGAs)
 			SyncSignalSyncFF_S <= '0';
 			SyncSignalDemetFF_S <= '0';
 		elsif rising_edge(SyncClock_CI) then

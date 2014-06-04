@@ -16,18 +16,18 @@ FREQUENCY NET "LogicClock_C" 240.0 MHz ;
 USE PRIMARY NET "LogicClock_C" ;
 
 // FX3 controls
-LOCATE COMP "Reset_RBI" SITE "C13" ;// FPGA Reset
+LOCATE COMP "Reset_RI" SITE "C13" ;// FPGA Reset
 
-LOCATE COMP "DVSReset_SBI" SITE "J16" ;// Px0 DVS Reset
-LOCATE COMP "FPGARun_SI" SITE "K16" ;// Px1 FPGA Run
+LOCATE COMP "FPGARun_SI" SITE "J16" ;// Px0 FPGA Run
+LOCATE COMP "DVSRun_SI" SITE "K16" ;// Px1 DVS Run
 LOCATE COMP "ADCRun_SI" SITE "T15" ;// Px2 ADC Run
-LOCATE COMP "BiasEnable_SI" SITE "R14" ;// Px3 PowerDown (BiasEnable)
+LOCATE COMP "IMURun_SI" SITE "R14" ;// Px3 IMU Run
 LOCATE COMP "FPGAShiftRegClock_CI" SITE "P14" ;// Px4 FPGA ShiftRegister Clock
 LOCATE COMP "FPGAShiftRegLatch_SI" SITE "P16" ;// Px5 FPGA ShiftRegister Latch
 LOCATE COMP "FPGAShiftRegBitIn_DI" SITE "P15" ;// Px6 FPGA ShiftRegister BitIn
 LOCATE COMP "FPGATimestampReset_SI" SITE "R16" ;// Px7 Timestamp Reset
-LOCATE COMP "FPGATimestampMaster_SI" SITE "T14" ;// Px8 Timestamp Master
-LOCATE COMP "BiasDiagSel_SI" SITE "R15" ;// Px9 BiasDiagSel
+LOCATE COMP "BiasEnable_SI" SITE "T14" ;// Px8 BiasEnable
+LOCATE COMP "BiasDiagSelect_SI" SITE "R15" ;// Px9 BiasDiagSelect
 
 // FX3 USB FIFO (data transmission)
 LOCATE COMP "USBFifoData_DO[15]" SITE "M1" ;
@@ -85,12 +85,9 @@ LOCATE COMP "LED2_SO" SITE "A12" ;// SP_LED2
 LOCATE COMP "LED3_SO" SITE "B3" ;// SP_LED3
 LOCATE COMP "LED4_SO" SITE "A11" ;// SP_LED4
 
-// Chip control
-LOCATE COMP "ChipReset_SBO" SITE "E11" ;
-
 // Bias configuration
 LOCATE COMP "ChipBiasEnable_SO" SITE "D8" ;
-LOCATE COMP "ChipBiasDiagSel_SO" SITE "D7" ;
+LOCATE COMP "ChipBiasDiagSelect_SO" SITE "D7" ;
 //LOCATE COMP "ChipBiasBitOut_DI" SITE "A8" ;// from chip (debug)
 
 // DVS data (AER bus)
@@ -106,6 +103,7 @@ LOCATE COMP "DVSAERData_DI[1]" SITE "H2" ;
 LOCATE COMP "DVSAERData_DI[0]" SITE "H1" ;
 LOCATE COMP "DVSAERReq_SBI" SITE "B9" ;
 LOCATE COMP "DVSAERAck_SBO" SITE "C8" ;
+LOCATE COMP "DVSAERReset_SBO" SITE "E11" ;// nReset on chip
 
 DEFINE PORT GROUP "DVSAERData_DI"
 "DVSAERData_DI[9]" 
@@ -141,8 +139,8 @@ LOCATE COMP "APSADCData_DI[1]" SITE "D16" ;
 LOCATE COMP "APSADCData_DI[0]" SITE "C16" ;
 LOCATE COMP "APSADCOverflow_SI" SITE "A10" ;
 LOCATE COMP "APSADCClock_CO" SITE "B10" ;
-LOCATE COMP "APSADCWrite_SO" SITE "C10" ;
-LOCATE COMP "APSADCRead_SO" SITE "D10" ;
+LOCATE COMP "APSADCOutputEnable_SBO" SITE "C10" ;
+LOCATE COMP "APSADCStandby_SO" SITE "D10" ;
 
 DEFINE PORT GROUP "APSADCData_DI"
 "APSADCData_DI[9]" 
@@ -183,6 +181,5 @@ INPUT_SETUP PORT "USBFifoThr1Watermark_SI" INPUT_DELAY 8.0 ns HOLD 0.0 ns CLKNET
 
 // Port configuration specifications
 IOBUF ALLPORTS IO_TYPE=LVCMOS33 PULLMODE=UP ;
-IOBUF PORT "Reset_RBI" IO_TYPE=LVCMOS33 PULLMODE=DOWN ;
 
 OUTPUT ALLPORTS LOAD 1.0 pF ;

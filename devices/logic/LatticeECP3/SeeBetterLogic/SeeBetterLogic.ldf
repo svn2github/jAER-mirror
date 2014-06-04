@@ -9,25 +9,40 @@
         <Source name="sourcecode/ext/i2c_master.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="sourcecode/Settings.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="sourcecode/TopLevel.vhd" type="VHDL" type_short="VHDL">
             <Options top_module="TopLevel"/>
         </Source>
+        <Source name="sourcecode/USBClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/LogicClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="sourcecode/DFFSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/ResetSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="sourcecode/ContinuousCounter.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="sourcecode/FX3StateMachine.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="sourcecode/Settings.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
         <Source name="sourcecode/ClockedPulse.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="sourcecode/FX3StateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/MultiplexerStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="sourcecode/TimestampGenerator.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/DVSAERStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="SeeBetterLogic.lpf" type="Logic Preference" type_short="LPF">

@@ -11,7 +11,7 @@ entity ContinuousCounter is
 		RESET_ON_OVERFLOW : boolean := true);
 	port (
 		Clock_CI : in std_logic;
-		Reset_RBI : in std_logic;
+		Reset_RI : in std_logic;
 		Clear_SI : in std_logic;
 		Enable_SI : in std_logic;
 		DataLimit_DI : in unsigned(COUNTER_WIDTH-1 downto 0);
@@ -47,9 +47,9 @@ begin
 	end process p_memoryless;
 
 	-- Change state on clock edge (synchronous).
-	p_memoryzing : process (Clock_CI, Reset_RBI)
+	p_memoryzing : process (Clock_CI, Reset_RI)
 	begin  -- process p_memoryzing
-		if Reset_RBI = '0' then -- asynchronous reset (active low)
+		if Reset_RI = '1' then -- asynchronous reset (active-high for FPGAs)
 			Count_DP <= (others => '0');
 		elsif rising_edge(Clock_CI) then
 			Count_DP <= Count_DN;

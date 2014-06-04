@@ -6,8 +6,7 @@ use work.Settings.all;
 entity FX3Statemachine is
 	port (
 		Clock_CI : in std_logic;
-		Reset_RBI : in std_logic;
-		Run_SI : in std_logic;
+		Reset_RI : in std_logic;
 
 		-- USB FIFO flags
 		USBFifoThread0Full_SI : in std_logic;
@@ -16,7 +15,6 @@ entity FX3Statemachine is
 		USBFifoThread1AlmostFull_SI : in std_logic;
 
 		-- USB FIFO control lines
-		USBFifoChipSelect_SBO : out std_logic;
 		USBFifoWrite_SBO : out std_logic;
 		USBFifoPktEnd_SBO : out std_logic;
 		USBFifoAddress_DO : out std_logic_vector(1 downto 0);
@@ -36,7 +34,7 @@ architecture Behavioral of FX3Statemachine is
 		RESET_ON_OVERFLOW : boolean := true);
 	port (
 		Clock_CI : in std_logic;
-		Reset_RBI : in std_logic;
+		Reset_RI : in std_logic;
 		Clear_SI : in std_logic;
 		Enable_SI : in std_logic;
 		DataLimit_DI : in unsigned(COUNTER_WIDTH-1 downto 0);
@@ -64,7 +62,7 @@ begin
 		COUNTER_WIDTH => USB_BURST_WRITE_WIDTH)
 	port map (
 		Clock_CI => Clock_CI,
-		Reset_RBI => Reset_RBI,
+		Reset_RI => Reset_RI,
 		Clear_SI => '0',
 		Enable_SI => CyclesCount_S,
 		DataLimit_DI => to_unsigned(USB_BURST_WRITE_CYCLES, USB_BURST_WRITE_WIDTH),
@@ -77,14 +75,14 @@ begin
 		RESET_ON_OVERFLOW => false)
 	port map (
 		Clock_CI => Clock_CI,
-		Reset_RBI => Reset_RBI,
+		Reset_RI => Reset_RI,
 		Clear_SI => EarlyPacketClear_S,
 		Enable_SI => EarlyPacketCount_S,
 		DataLimit_DI => to_unsigned(USB_EARLY_PACKET_CYCLES, USB_EARLY_PACKET_WIDTH),
 		Overflow_SO => EarlyPacketNotify_S,
 		Data_DO => open);
 
-	p_memoryless : process (State_DP, CyclesNotify_S, EarlyPacketNotify_S, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, InFifoEmpty_SI, Run_SI)
+	p_memoryless : process (State_DP, CyclesNotify_S, EarlyPacketNotify_S, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, InFifoEmpty_SI)
 	begin
 		State_DN <= State_DP; -- Keep current state by default.
 
@@ -93,7 +91,6 @@ begin
 		EarlyPacketCount_S <= '1'; -- The early packet counter always counts.
 		EarlyPacketClear_S <= '0'; -- Do not clear the early packet counter.
 
-		USBFifoChipSelect_SBO <= '0'; -- Always keep chip selected (active-low).
 		USBFifoWrite_SBO <= '1';
 		USBFifoPktEnd_SBO <= '1';
 		USBFifoAddress_DO(1) <= '0';
@@ -103,7 +100,7 @@ begin
 
 		case State_DP is
 			when stIdle0 =>
-				if Run_SI = '1' and USBFifoThread0Full_SI = '0' then
+				if USBFifoThread0Full_SI = '0' then
 					if EarlyPacketNotify_S = '1' then
 						State_DN <= stPrepareEarlyPacket0;
 					elsif InFifoAlmostEmpty_SI = '0' then
@@ -181,7 +178,7 @@ begin
 			when stIdle1 =>
 				USBFifoAddress_DO(0) <= '1'; -- Access Thread 1.
 
-				if Run_SI = '1' and USBFifoThread1Full_SI = '0' then
+				if USBFifoThread1Full_SI = '0' then
 					if EarlyPacketNotify_S = '1' then
 						State_DN <= stPrepareEarlyPacket1;
 					elsif InFifoAlmostEmpty_SI = '0' then
@@ -277,9 +274,9 @@ begin
 	end process p_memoryless;
 	
 	-- Change state on clock edge (synchronous).
-	p_memoryzing : process (Clock_CI, Reset_RBI)
+	p_memoryzing : process (Clock_CI, Reset_RI)
 	begin
-		if Reset_RBI = '0' then -- asynchronous reset (active-low)
+		if Reset_RI = '1' then -- asynchronous reset (active-high for FPGAs)
 			State_DP <= stIdle0;
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;

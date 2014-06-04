@@ -1,23 +1,22 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
-use IEEE.NUMERIC_STD.all;
 use work.Settings.all;
 
 entity TopLevel is
 	port (
 		USBClock_CI : in std_logic;
-		Reset_RBI : in std_logic;
+		Reset_RI : in std_logic;
 
-		DVSReset_SBI : in std_logic;
 		FPGARun_SI : in std_logic;
+		DVSRun_SI : in std_logic;
 		ADCRun_SI : in std_logic;
-		BiasEnable_SI : in std_logic;
+		IMURun_SI : in std_logic;
 		FPGAShiftRegClock_CI : in std_logic;
 		FPGAShiftRegLatch_SI : in std_logic;
 		FPGAShiftRegBitIn_DI : in std_logic;
 		FPGATimestampReset_SI : in std_logic;
-		FPGATimestampMaster_SI : in std_logic;
-		BiasDiagSel_SI : in std_logic;
+		BiasEnable_SI : in std_logic;
+		BiasDiagSelect_SI : in std_logic;
 
 		USBFifoData_DO : out std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
 		USBFifoChipSelect_SBO : out std_logic;
@@ -35,15 +34,14 @@ entity TopLevel is
 		LED3_SO : out std_logic;
 		LED4_SO : out std_logic;
 
-		ChipReset_SBO : out std_logic;
-
 		ChipBiasEnable_SO : out std_logic;
-		ChipBiasDiagSel_SO : out std_logic;
+		ChipBiasDiagSelect_SO : out std_logic;
 		--ChipBiasBitOut_DI : in std_logic;
 
 		DVSAERData_DI : in std_logic_vector(AER_BUS_WIDTH-1 downto 0);
 		DVSAERReq_SBI : in std_logic;
 		DVSAERAck_SBO : out std_logic;
+		DVSAERReset_SBO : out std_logic;
 
 		APSChipRowSRClock_SO : out std_logic;
 		APSChipRowSRIn_SO : out std_logic;
@@ -56,8 +54,8 @@ entity TopLevel is
 		APSADCData_DI : in std_logic_vector(ADC_BUS_WIDTH-1 downto 0);
 		APSADCOverflow_SI : in std_logic;
 		APSADCClock_CO : out std_logic;
-		APSADCWrite_SO : out std_logic;
-		APSADCRead_SO : out std_logic;
+		APSADCOutputEnable_SBO : out std_logic;
+		APSADCStandby_SO : out std_logic;
 
 		IMUClock_CO : inout std_logic; -- this is inout because it must be tristateable
 		IMUData_DIO : inout std_logic;
@@ -72,30 +70,99 @@ entity TopLevel is
 end TopLevel;
 
 architecture Structural of TopLevel is
-	component DFFSynchronizer
+	component USBClockSynchronizer
 	port (
-		SyncClock_CI : in std_logic;
-		Reset_RBI : in std_logic;
-		SignalToSync_SI : in std_logic;
-		SyncedSignal_SO : out std_logic);
+		USBClock_CI : in std_logic;
+		Reset_RI : in std_logic;
+		ResetSync_RO : out std_logic;
+		USBFifoThr0Ready_SI : in std_logic;
+		USBFifoThr0ReadySync_SO : out std_logic;
+		USBFifoThr0Watermark_SI : in std_logic;
+		USBFifoThr0WatermarkSync_SO : out std_logic;
+		USBFifoThr1Ready_SI : in std_logic;
+		USBFifoThr1ReadySync_SO : out std_logic;
+		USBFifoThr1Watermark_SI : in std_logic;
+		USBFifoThr1WatermarkSync_SO : out std_logic);
+	end component;
+
+	component LogicClockSynchronizer
+	port (
+		LogicClock_CI : in std_logic;
+		Reset_RI : in std_logic;
+		ResetSync_RO : out std_logic;
+		FPGARun_SI : in std_logic;
+		FPGARunSync_SO : out std_logic;
+		DVSRun_SI : in std_logic;
+		DVSRunSync_SO : out std_logic;
+		ADCRun_SI : in std_logic;
+		ADCRunSync_SO : out std_logic;
+		IMURun_SI : in std_logic;
+		IMURunSync_SO : out std_logic;
+		FPGATimestampReset_SI : in std_logic;
+		FPGATimestampResetSync_SO : out std_logic;
+		DVSAERReq_SBI : in std_logic;
+		DVSAERReqSync_SBO : out std_logic;
+		IMUInterrupt_SI : in std_logic;
+		IMUInterruptSync_SO : out std_logic);
 	end component;
 
 	component FX3Statemachine
 	port (
 		Clock_CI : in std_logic;
-		Reset_RBI : in std_logic;
-		Run_SI : in std_logic;
+		Reset_RI : in std_logic;
 		USBFifoThread0Full_SI : in std_logic;
 		USBFifoThread0AlmostFull_SI : in std_logic;
 		USBFifoThread1Full_SI : in std_logic;
 		USBFifoThread1AlmostFull_SI : in std_logic;
-		USBFifoChipSelect_SBO : out std_logic;
 		USBFifoWrite_SBO : out std_logic;
 		USBFifoPktEnd_SBO : out std_logic;
 		USBFifoAddress_DO : out std_logic_vector(1 downto 0);
 		InFifoEmpty_SI : in std_logic;
 		InFifoAlmostEmpty_SI : in std_logic;
 		InFifoRead_SO : out std_logic);
+	end component;
+
+	component MultiplexerStateMachine
+	port (
+		Clock_CI : in std_logic;
+		Reset_RI : in std_logic;
+		FPGARun_SI : in std_logic;
+		TimestampReset_SI : in std_logic;
+		TimestampOverflow_SI : in std_logic;
+		Timestamp_DI : in std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
+		OutFifoFull_SI : in std_logic;
+		OutFifoAlmostFull_SI : in std_logic;
+		OutFifoWrite_SO : out std_logic;
+		OutFifoData_DO : out std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
+		DVSAERFifoEmpty_SI : in std_logic;
+		DVSAERFifoAlmostEmpty_SI : in std_logic;
+		DVSAERFifoRead_SO : out std_logic;
+		DVSAERFifoData_DI : in std_logic_vector(EVENT_WIDTH-1 downto 0));
+	end component;
+
+	component TimestampGenerator
+	port (
+		Clock_CI : in std_logic;
+		Reset_RI : in std_logic;
+		FPGARun_SI : in std_logic;
+		TimestampReset_SI : in std_logic;
+		TimestampOverflow_SO : out std_logic;
+		Timestamp_DO : out std_logic_vector(TIMESTAMP_WIDTH-1 downto 0));
+	end component;
+
+	component DVSAERStateMachine
+	port (
+		Clock_CI : in std_logic;
+		Reset_RI : in std_logic;
+		DVSRun_SI : in std_logic;
+		OutFifoFull_SI : in std_logic;
+		OutFifoAlmostFull_SI : in std_logic;
+		OutFifoWrite_SO : out std_logic;
+		OutFifoData_DO : out std_logic_vector(EVENT_WIDTH-1 downto 0);
+		DVSAERData_DI : in std_logic_vector(AER_BUS_WIDTH-1 downto 0);
+		DVSAERReq_SBI : in std_logic;
+		DVSAERAck_SBO : out std_logic;
+		DVSAERReset_SBO : out std_logic);
 	end component;
 
 	-- Use double-clock FIFO from the Lattice Portable Module Interfaces.
@@ -132,14 +199,30 @@ architecture Structural of TopLevel is
 		AlmostFull: out std_logic);
 	end component pmi_fifo_dc;
 
-	component TimestampGenerator
+	component pmi_fifo is
+	generic (
+		pmi_data_width : integer := 8; 
+		pmi_data_depth : integer := 256; 
+		pmi_full_flag : integer := 256; 
+		pmi_empty_flag : integer := 0; 
+		pmi_almost_full_flag : integer := 252; 
+		pmi_almost_empty_flag : integer := 4; 
+		pmi_regmode : string := "reg"; 
+		pmi_family : string := "EC" ; 
+		module_type : string := "pmi_fifo"; 
+		pmi_implementation : string := "EBR");
 	port (
-		Clock_CI : in std_logic;
-		Reset_RBI : in std_logic;
-		FPGATimestampReset_SI : in std_logic;
-		TimestampOverflow_SO : out std_logic;
-		Timestamp_DO : out std_logic_vector(TIMESTAMP_WIDTH-1 downto 0));
-	end component;
+		Data : in std_logic_vector(pmi_data_width-1 downto 0);
+		Clock: in std_logic;
+		WrEn: in std_logic;
+		RdEn: in std_logic;
+		Reset: in std_logic;
+		Q : out std_logic_vector(pmi_data_width-1 downto 0);
+		Empty: out std_logic;
+		Full: out std_logic;
+		AlmostEmpty: out std_logic;
+		AlmostFull: out std_logic);
+	end component pmi_fifo;
 
 	component pmi_pll is
 	generic (
@@ -166,25 +249,73 @@ architecture Structural of TopLevel is
 		LOCK: out std_logic);
 	end component pmi_pll;
 
+	signal USBReset_R : std_logic;
 	signal LogicClock_C : std_logic;
-	signal Reset_RI: std_logic;
+	signal LogicReset_R : std_logic;
 
 	signal TimestampOverflow_S : std_logic;
 	signal Timestamp_D : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
 
-	signal USBFifoDataIn_D : std_logic_vector(USB_FIFO_WIDTH-1 downto 0); -- 16-bit wide USB data path.
-	signal USBFifoWrite_S, USBFifoRead_S : std_logic;
-	signal USBFifoEmpty_S, USBFifoAlmostEmpty_S, USBFifoFull_S, USBFifoAlmostFull_S : std_logic;
 	signal USBFifoThr0ReadySync_S, USBFifoThr0WatermarkSync_S, USBFifoThr1ReadySync_S, USBFifoThr1WatermarkSync_S : std_logic;
+	signal FPGARunSync_S, DVSRunSync_S, ADCRunSync_S, IMURunSync_S, FPGATimestampResetSync_S, DVSAERReqSync_SB, IMUInterruptSync_S : std_logic;
+
+	signal USBFifoFPGAData_D : std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
+	signal USBFifoFPGAWrite_S, USBFifoFPGARead_S : std_logic;
+	signal USBFifoFPGAEmpty_S, USBFifoFPGAAlmostEmpty_S, USBFifoFPGAFull_S, USBFifoFPGAAlmostFull_S : std_logic;
+
+	signal DVSAERFifoDataWrite_D, DVSAERFifoDataRead_D : std_logic_vector(EVENT_WIDTH-1 downto 0);
+	signal DVSAERFifoWrite_S, DVSAERFifoRead_S : std_logic;
+	signal DVSAERFifoEmpty_S, DVSAERFifoAlmostEmpty_S, DVSAERFifoFull_S, DVSAERFifoAlmostFull_S : std_logic;
 begin
-	Reset_RI <= not Reset_RBI; -- Generate active-high reset.
-	USBFifoRead_SBO <= '1'; -- We never, ever read from the USB data path.
+	-- First: synchronize all USB-related inputs to the USB clock.
+	syncInputsToUSBClock : USBClockSynchronizer
+	port map (
+		USBClock_CI => USBClock_CI,
+		Reset_RI => Reset_RI,
+		ResetSync_RO => USBReset_R,
+		USBFifoThr0Ready_SI => USBFifoThr0Ready_SI,
+		USBFifoThr0ReadySync_SO => USBFifoThr0ReadySync_S,
+		USBFifoThr0Watermark_SI => USBFifoThr0Watermark_SI,
+		USBFifoThr0WatermarkSync_SO => USBFifoThr0WatermarkSync_S,
+		USBFifoThr1Ready_SI => USBFifoThr1Ready_SI,
+		USBFifoThr1ReadySync_SO => USBFifoThr1ReadySync_S,
+		USBFifoThr1Watermark_SI => USBFifoThr1Watermark_SI,
+		USBFifoThr1WatermarkSync_SO => USBFifoThr1WatermarkSync_S);
 
-	LED1_SO <= USBFifoEmpty_S;
-	LED2_SO <= USBFifoFull_S;
-	LED3_SO <= USBFifoAlmostEmpty_S;
-	LED4_SO <= USBFifoAlmostFull_S;
+	-- Second: synchronize all logic-related inputs to the logic clock.
+	syncInputsToLogicClock : LogicClockSynchronizer
+	port map (
+		LogicClock_CI => LogicClock_C,
+		Reset_RI => Reset_RI,
+		ResetSync_RO => LogicReset_R,
+		FPGARun_SI => FPGARun_SI,
+		FPGARunSync_SO => FPGARunSync_S,
+		DVSRun_SI => DVSRun_SI,
+		DVSRunSync_SO => DVSRunSync_S,
+		ADCRun_SI => ADCRun_SI,
+		ADCRunSync_SO => ADCRunSync_S,
+		IMURun_SI => IMURun_SI,
+		IMURunSync_SO => IMURunSync_S,
+		FPGATimestampReset_SI => FPGATimestampReset_SI,
+		FPGATimestampResetSync_SO => FPGATimestampResetSync_S,
+		DVSAERReq_SBI => DVSAERReq_SBI,
+		DVSAERReqSync_SBO => DVSAERReqSync_SB,
+		IMUInterrupt_SI => IMUInterrupt_SI,
+		IMUInterruptSync_SO => IMUInterruptSync_S);
 
+	-- Third: set all constant outputs.
+	USBFifoChipSelect_SBO <= '0'; -- Always keep USB chip selected (active-low).
+	USBFifoRead_SBO <= '1'; -- We never read from the USB data path (active-low).
+	ChipBiasEnable_SO <= BiasEnable_SI; -- Direct bypass.
+	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI; -- Direct bypass.
+
+	-- Wire all LEDs.
+	LED1_SO <= USBFifoFPGAEmpty_S;
+	LED2_SO <= USBFifoFPGAFull_S;
+	LED3_SO <= USBFifoFPGAAlmostEmpty_S;
+	LED4_SO <= USBFifoFPGAAlmostFull_S;
+
+	-- Generate logic clock using a PLL.
 	logicClockPLL : pmi_pll
 	generic map (
 		pmi_freq_clki => USB_CLOCK_FREQ,
@@ -192,7 +323,7 @@ begin
 		pmi_freq_clkop => LOGIC_CLOCK_FREQ,
 		pmi_freq_clkos => LOGIC_CLOCK_FREQ,
 		pmi_freq_clkok => LOGIC_CLOCK_FREQ,
-		pmi_family => "ECP3",
+		pmi_family => DEVICE_FAMILY,
 		pmi_phase_adj => 0,
 		pmi_duty_cycle => 50,
 		pmi_clkfb_source => "CLKOP",
@@ -201,93 +332,117 @@ begin
 	port map (
 		CLKI => USBClock_CI,
 		CLKFB => LogicClock_C,
-		RESET => Reset_RI,
+		RESET => USBReset_R,
 		CLKOP => LogicClock_C,
 		CLKOS => open,
 		CLKOK => open,
 		CLKOK2 => open,
 		LOCK => open);
 
-	-- Ensure synchronization of FX3 inputs related to GPIF FIFO.
-	syncUSBFifoThr0Ready : DFFSynchronizer
-	port map (
-		SyncClock_CI => USBClock_CI,
-		Reset_RBI => Reset_RBI,
-		SignalToSync_SI => USBFifoThr0Ready_SI,
-		SyncedSignal_SO => USBFifoThr0ReadySync_S);
-
-	syncUSBFifoThr0Watermark : DFFSynchronizer
-	port map (
-		SyncClock_CI => USBClock_CI,
-		Reset_RBI => Reset_RBI,
-		SignalToSync_SI => USBFifoThr0Watermark_SI,
-		SyncedSignal_SO => USBFifoThr0WatermarkSync_S);
-
-	syncUSBFifoThr1Ready : DFFSynchronizer
-	port map (
-		SyncClock_CI => USBClock_CI,
-		Reset_RBI => Reset_RBI,
-		SignalToSync_SI => USBFifoThr1Ready_SI,
-		SyncedSignal_SO => USBFifoThr1ReadySync_S);
-
-	syncUSBFifoThr1Watermark : DFFSynchronizer
-	port map (
-		SyncClock_CI => USBClock_CI,
-		Reset_RBI => Reset_RBI,
-		SignalToSync_SI => USBFifoThr1Watermark_SI,
-		SyncedSignal_SO => USBFifoThr1WatermarkSync_S);
-
-	usbFX3Statemachine: FX3Statemachine
+	usbFX3SM : FX3Statemachine
 	port map (
 		Clock_CI => USBClock_CI,
-		Reset_RBI => Reset_RBI,
-		Run_SI => FPGARun_SI,
+		Reset_RI => USBReset_R,
 		USBFifoThread0Full_SI => USBFifoThr0ReadySync_S,
 		USBFifoThread0AlmostFull_SI => USBFifoThr0WatermarkSync_S,
 		USBFifoThread1Full_SI => USBFifoThr1ReadySync_S,
 		USBFifoThread1AlmostFull_SI => USBFifoThr1WatermarkSync_S,
-		USBFifoChipSelect_SBO => USBFifoChipSelect_SBO,
 		USBFifoWrite_SBO => USBFifoWrite_SBO,
 		USBFifoPktEnd_SBO => USBFifoPktEnd_SBO,
 		USBFifoAddress_DO => USBFifoAddress_DO,
-		InFifoEmpty_SI => USBFifoEmpty_S,
-		InFifoAlmostEmpty_SI => USBFifoAlmostEmpty_S,
-		InFifoRead_SO => USBFifoRead_S);
+		InFifoEmpty_SI => USBFifoFPGAEmpty_S,
+		InFifoAlmostEmpty_SI => USBFifoFPGAAlmostEmpty_S,
+		InFifoRead_SO => USBFifoFPGARead_S);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
-	usbFifo: pmi_fifo_dc
+	usbFifoFPGA : pmi_fifo_dc
 	generic map (
 		pmi_data_width_w => USB_FIFO_WIDTH,
-		pmi_data_depth_w => USB_FIFO_SIZE,
+		pmi_data_depth_w => USBFPGA_FIFO_SIZE,
 		pmi_data_width_r => USB_FIFO_WIDTH,
-		pmi_data_depth_r => USB_FIFO_SIZE,
-		pmi_full_flag => USB_FIFO_SIZE,
+		pmi_data_depth_r => USBFPGA_FIFO_SIZE,
+		pmi_full_flag => USBFPGA_FIFO_SIZE,
 		pmi_empty_flag => 0,
-		pmi_almost_full_flag => USB_FIFO_SIZE - USB_BURST_WRITE_LENGTH,
-		pmi_almost_empty_flag => USB_BURST_WRITE_LENGTH,
+		pmi_almost_full_flag => USBFPGA_FIFO_SIZE - USBFPGA_FIFO_ALMOST_SIZE,
+		pmi_almost_empty_flag => USBFPGA_FIFO_ALMOST_SIZE,
 		pmi_regmode => "noreg",
 		pmi_resetmode => "async",
-		pmi_family => "ECP3",
+		pmi_family => DEVICE_FAMILY,
 		pmi_implementation => "LUT")
 	port map (
-		Data => USBFifoDataIn_D,
+		Data => USBFifoFPGAData_D,
 		WrClock => LogicClock_C,
 		RdClock => USBClock_CI,
-		WrEn => USBFifoWrite_S, 
-		RdEn => USBFifoRead_S,
-		Reset => Reset_RI,
-		RPReset => Reset_RI,
+		WrEn => USBFifoFPGAWrite_S, 
+		RdEn => USBFifoFPGARead_S,
+		Reset => LogicReset_R,
+		RPReset => LogicReset_R,
 		Q =>  USBFifoData_DO,
-		Empty => USBFifoEmpty_S, 
-		Full => USBFifoFull_S,
-		AlmostEmpty => USBFifoAlmostEmpty_S,
-		AlmostFull => USBFifoAlmostFull_S);
+		Empty => USBFifoFPGAEmpty_S, 
+		Full => USBFifoFPGAFull_S,
+		AlmostEmpty => USBFifoFPGAAlmostEmpty_S,
+		AlmostFull => USBFifoFPGAAlmostFull_S);
+
+	multiplexerSM : MultiplexerStateMachine
+	port map (
+		Clock_CI => LogicClock_C,
+		Reset_RI => LogicReset_R,
+		FPGARun_SI => FPGARunSync_S,
+		TimestampReset_SI => FPGATimestampResetSync_S,
+		TimestampOverflow_SI => TimestampOverflow_S,
+		Timestamp_DI => Timestamp_D,
+		OutFifoFull_SI => USBFifoFPGAFull_S,
+		OutFifoAlmostFull_SI => USBFifoFPGAAlmostFull_S,
+		OutFifoWrite_SO => USBFifoFPGAWrite_S,
+		OutFifoData_DO => USBFifoFPGAData_D,
+		DVSAERFifoEmpty_SI => DVSAERFifoEmpty_S,
+		DVSAERFifoAlmostEmpty_SI => DVSAERFifoAlmostEmpty_S,
+		DVSAERFifoRead_SO => DVSAERFifoRead_S,
+		DVSAERFifoData_DI => DVSAERFifoDataRead_D);
 
 	tsGenerator : TimestampGenerator
 	port map (
 		Clock_CI => LogicClock_C,
-		Reset_RBI => Reset_RBI,
-		FPGATimestampReset_SI => FPGATimestampReset_SI,
+		Reset_RI => LogicReset_R,
+		FPGARun_SI => FPGARunSync_S,
+		TimestampReset_SI => FPGATimestampResetSync_S,
 		TimestampOverflow_SO => TimestampOverflow_S,
 		Timestamp_DO => Timestamp_D);
+
+	dvsaerFifo : pmi_fifo
+	generic map (
+		pmi_data_width => EVENT_WIDTH,
+		pmi_data_depth => DVSAER_FIFO_SIZE,
+		pmi_full_flag => DVSAER_FIFO_SIZE,
+		pmi_empty_flag => 0,
+		pmi_almost_full_flag => DVSAER_FIFO_SIZE - DVSAER_FIFO_ALMOST_SIZE,
+		pmi_almost_empty_flag => DVSAER_FIFO_ALMOST_SIZE,
+		pmi_regmode => "noreg",
+		pmi_family => DEVICE_FAMILY,
+		pmi_implementation => "LUT")
+	port map (
+		Data => DVSAERFifoDataWrite_D,
+		Clock => LogicClock_C,
+		WrEn => DVSAERFifoWrite_S,
+		RdEn => DVSAERFifoRead_S,
+		Reset => LogicReset_R,
+		Q => DVSAERFifoDataRead_D,
+		Empty => DVSAERFifoEmpty_S,
+		Full => DVSAERFifoFull_S,
+		AlmostEmpty => DVSAERFifoAlmostEmpty_S,
+		AlmostFull => DVSAERFifoAlmostFull_S);
+
+	dvsaerSM : DVSAERStateMachine
+	port map (
+		Clock_CI => LogicClock_C,
+		Reset_RI => LogicReset_R,
+		DVSRun_SI => DVSRunSync_S,
+		OutFifoFull_SI => DVSAERFifoFull_S,
+		OutFifoAlmostFull_SI => DVSAERFifoAlmostFull_S,
+		OutFifoWrite_SO => DVSAERFifoWrite_S,
+		OutFifoData_DO => DVSAERFifoDataWrite_D,
+		DVSAERData_DI => DVSAERData_DI,
+		DVSAERReq_SBI => DVSAERReqSync_SB,
+		DVSAERAck_SBO => DVSAERAck_SBO,
+		DVSAERReset_SBO => DVSAERReset_SBO);
 end Structural;
