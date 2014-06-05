@@ -39,7 +39,7 @@ architecture Structural of LogicClockSynchronizer is
 		SignalToSync_SI : in std_logic;
 		SyncedSignal_SO : out std_logic);
 	end component;
-	
+
 	signal ResetSync_R : std_logic;
 begin
 	-- Synchronize the reset signal to the logic clock for that clock domain.
