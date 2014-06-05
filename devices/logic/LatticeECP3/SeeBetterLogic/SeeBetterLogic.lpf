@@ -18,14 +18,14 @@ USE PRIMARY NET "LogicClock_C" ;
 // FX3 controls
 LOCATE COMP "Reset_RI" SITE "C13" ;// FPGA Reset
 
-LOCATE COMP "FPGARun_SI" SITE "J16" ;// Px0 FPGA Run
-LOCATE COMP "DVSRun_SI" SITE "K16" ;// Px1 DVS Run
-LOCATE COMP "ADCRun_SI" SITE "T15" ;// Px2 ADC Run
-LOCATE COMP "IMURun_SI" SITE "R14" ;// Px3 IMU Run
+LOCATE COMP "FPGARun_AI" SITE "J16" ;// Px0 FPGA Run
+LOCATE COMP "DVSRun_AI" SITE "K16" ;// Px1 DVS Run
+LOCATE COMP "ADCRun_AI" SITE "T15" ;// Px2 ADC Run
+LOCATE COMP "IMURun_AI" SITE "R14" ;// Px3 IMU Run
 LOCATE COMP "FPGAShiftRegClock_CI" SITE "P14" ;// Px4 FPGA ShiftRegister Clock
 LOCATE COMP "FPGAShiftRegLatch_SI" SITE "P16" ;// Px5 FPGA ShiftRegister Latch
 LOCATE COMP "FPGAShiftRegBitIn_DI" SITE "P15" ;// Px6 FPGA ShiftRegister BitIn
-LOCATE COMP "FPGATimestampReset_SI" SITE "R16" ;// Px7 Timestamp Reset
+LOCATE COMP "FPGATimestampReset_AI" SITE "R16" ;// Px7 Timestamp Reset
 LOCATE COMP "BiasEnable_SI" SITE "T14" ;// Px8 BiasEnable
 LOCATE COMP "BiasDiagSelect_SI" SITE "R15" ;// Px9 BiasDiagSelect
 
@@ -101,7 +101,7 @@ LOCATE COMP "DVSAERData_DI[3]" SITE "G2" ;
 LOCATE COMP "DVSAERData_DI[2]" SITE "G1" ;
 LOCATE COMP "DVSAERData_DI[1]" SITE "H2" ;
 LOCATE COMP "DVSAERData_DI[0]" SITE "H1" ;
-LOCATE COMP "DVSAERReq_SBI" SITE "B9" ;
+LOCATE COMP "DVSAERReq_ABI" SITE "B9" ;
 LOCATE COMP "DVSAERAck_SBO" SITE "C8" ;
 LOCATE COMP "DVSAERReset_SBO" SITE "E11" ;// nReset on chip
 
@@ -155,16 +155,16 @@ DEFINE PORT GROUP "APSADCData_DI"
 "APSADCData_DI[0]" ;
 
 // IMU (InvenSense MPU 6X50)
-LOCATE COMP "IMUClock_CO" SITE "L16" ;
-LOCATE COMP "IMUData_DIO" SITE "M16" ;
-LOCATE COMP "IMUInterrupt_SI" SITE "L15" ;
+LOCATE COMP "IMUClock_ZO" SITE "L16" ;
+LOCATE COMP "IMUData_ZIO" SITE "M16" ;
+LOCATE COMP "IMUInterrupt_AI" SITE "L15" ;
 
 // Multi-camera time synchronization
 LOCATE COMP "SyncOutClock_CO" SITE "A13" ;
-LOCATE COMP "SyncOutSwitch_SI" SITE "A14" ;
+LOCATE COMP "SyncOutSwitch_AI" SITE "A14" ;
 LOCATE COMP "SyncOutSignal_SO" SITE "A15" ;
 LOCATE COMP "SyncInClock_CI" SITE "A2" ;
-LOCATE COMP "SyncInSwitch_SI" SITE "A3" ;
+LOCATE COMP "SyncInSwitch_AI" SITE "A3" ;
 LOCATE COMP "SyncInSignal_SI" SITE "A4" ;
 
 // Setup & Hold time specifications

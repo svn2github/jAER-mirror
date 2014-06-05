@@ -7,14 +7,14 @@ entity TopLevel is
 		USBClock_CI : in std_logic;
 		Reset_RI	: in std_logic;
 
-		FPGARun_SI			  : in std_logic;
-		DVSRun_SI			  : in std_logic;
-		ADCRun_SI			  : in std_logic;
-		IMURun_SI			  : in std_logic;
+		FPGARun_AI			  : in std_logic;
+		DVSRun_AI			  : in std_logic;
+		ADCRun_AI			  : in std_logic;
+		IMURun_AI			  : in std_logic;
 		FPGAShiftRegClock_CI  : in std_logic;
 		FPGAShiftRegLatch_SI  : in std_logic;
 		FPGAShiftRegBitIn_DI  : in std_logic;
-		FPGATimestampReset_SI : in std_logic;
+		FPGATimestampReset_AI : in std_logic;
 		BiasEnable_SI		  : in std_logic;
 		BiasDiagSelect_SI	  : in std_logic;
 
@@ -39,7 +39,7 @@ entity TopLevel is
 		--ChipBiasBitOut_DI : in std_logic;
 
 		DVSAERData_DI	: in  std_logic_vector(AER_BUS_WIDTH-1 downto 0);
-		DVSAERReq_SBI	: in  std_logic;
+		DVSAERReq_ABI	: in  std_logic;
 		DVSAERAck_SBO	: out std_logic;
 		DVSAERReset_SBO : out std_logic;
 
@@ -57,15 +57,15 @@ entity TopLevel is
 		APSADCOutputEnable_SBO : out std_logic;
 		APSADCStandby_SO	   : out std_logic;
 
-		IMUClock_CO		: inout std_logic;	-- this is inout because it must be tristateable
-		IMUData_DIO		: inout std_logic;
-		IMUInterrupt_SI : in	std_logic;
+		IMUClock_ZO		: inout std_logic;	-- this is inout because it must be tristateable
+		IMUData_ZIO		: inout std_logic;
+		IMUInterrupt_AI : in	std_logic;
 
 		SyncOutClock_CO	 : out std_logic;
-		SyncOutSwitch_SI : in  std_logic;
+		SyncOutSwitch_AI : in  std_logic;
 		SyncOutSignal_SO : out std_logic;
 		SyncInClock_CI	 : in  std_logic;
-		SyncInSwitch_SI	 : in  std_logic;
+		SyncInSwitch_AI	 : in  std_logic;
 		SyncInSignal_SI	 : in  std_logic);
 end TopLevel;
 
@@ -293,19 +293,19 @@ begin
 			LogicClock_CI			  => LogicClock_C,
 			Reset_RI				  => Reset_RI,
 			ResetSync_RO			  => LogicReset_R,
-			FPGARun_SI				  => FPGARun_SI,
+			FPGARun_SI				  => FPGARun_AI,
 			FPGARunSync_SO			  => FPGARunSync_S,
-			DVSRun_SI				  => DVSRun_SI,
+			DVSRun_SI				  => DVSRun_AI,
 			DVSRunSync_SO			  => DVSRunSync_S,
-			ADCRun_SI				  => ADCRun_SI,
+			ADCRun_SI				  => ADCRun_AI,
 			ADCRunSync_SO			  => ADCRunSync_S,
-			IMURun_SI				  => IMURun_SI,
+			IMURun_SI				  => IMURun_AI,
 			IMURunSync_SO			  => IMURunSync_S,
-			FPGATimestampReset_SI	  => FPGATimestampReset_SI,
+			FPGATimestampReset_SI	  => FPGATimestampReset_AI,
 			FPGATimestampResetSync_SO => FPGATimestampResetSync_S,
-			DVSAERReq_SBI			  => DVSAERReq_SBI,
+			DVSAERReq_SBI			  => DVSAERReq_ABI,
 			DVSAERReqSync_SBO		  => DVSAERReqSync_SB,
-			IMUInterrupt_SI			  => IMUInterrupt_SI,
+			IMUInterrupt_SI			  => IMUInterrupt_AI,
 			IMUInterruptSync_SO		  => IMUInterruptSync_S);
 
 	-- Third: set all constant outputs.
