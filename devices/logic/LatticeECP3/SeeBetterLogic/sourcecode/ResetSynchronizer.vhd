@@ -8,8 +8,8 @@ use IEEE.STD_LOGIC_1164.all;
 -- and synchronization: http://www.eetimes.com/document.asp?doc_id=1278998
 entity ResetSynchronizer is
 	port (
-		ExtClock_CI : in std_logic;
-		ExtReset_RI : in std_logic;
+		ExtClock_CI	 : in  std_logic;
+		ExtReset_RI	 : in  std_logic;
 		SyncReset_RO : out std_logic);
 end ResetSynchronizer;
 
@@ -22,11 +22,11 @@ begin
 	-- Change state on clock edge (synchronous).
 	p_synchronizing : process (ExtClock_CI, ExtReset_RI)
 	begin
-		if ExtReset_RI = '1' then -- asynchronous set (active-high for FPGAs)
-			SyncSignalSyncFF_S <= '1';
+		if ExtReset_RI = '1' then  -- asynchronous set (active-high for FPGAs)
+			SyncSignalSyncFF_S	<= '1';
 			SyncSignalDemetFF_S <= '1';
 		elsif rising_edge(ExtClock_CI) then
-			SyncSignalSyncFF_S <= SyncSignalDemetFF_S;
+			SyncSignalSyncFF_S	<= SyncSignalDemetFF_S;
 			SyncSignalDemetFF_S <= '0';
 		end if;
 	end process p_synchronizing;

@@ -7,16 +7,16 @@ use IEEE.NUMERIC_STD.all;
 -- DataLimit_DI input, if not needed, just keep it at all ones.
 entity ContinuousCounter is
 	generic (
-		COUNTER_WIDTH : integer := 16;
+		COUNTER_WIDTH	  : integer := 16;
 		RESET_ON_OVERFLOW : boolean := true);
 	port (
-		Clock_CI : in std_logic;
-		Reset_RI : in std_logic;
-		Clear_SI : in std_logic;
-		Enable_SI : in std_logic;
-		DataLimit_DI : in unsigned(COUNTER_WIDTH-1 downto 0);
-		Overflow_SO : out std_logic;
-		Data_DO : out unsigned(COUNTER_WIDTH-1 downto 0));
+		Clock_CI	 : in  std_logic;
+		Reset_RI	 : in  std_logic;
+		Clear_SI	 : in  std_logic;
+		Enable_SI	 : in  std_logic;
+		DataLimit_DI : in  unsigned(COUNTER_WIDTH-1 downto 0);
+		Overflow_SO	 : out std_logic;
+		Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
 end ContinuousCounter;
 
 architecture Behavioral of ContinuousCounter is
@@ -28,10 +28,10 @@ begin
 
 	-- Variable width counter, calculation of next state
 	p_memoryless : process (Count_DP, Clear_SI, Enable_SI, DataLimit_DI)
-	begin -- process p_memoryless
-		Count_DN <= Count_DP; -- Keep value by default.
+	begin  -- process p_memoryless
+		Count_DN <= Count_DP;			-- Keep value by default.
 
-		Overflow_SO <= '0'; -- No overflow, only on equality.
+		Overflow_SO <= '0';				-- No overflow, only on equality.
 
 		if Clear_SI = '1' then
 			Count_DN <= (others => '0');
@@ -49,7 +49,7 @@ begin
 	-- Change state on clock edge (synchronous).
 	p_memoryzing : process (Clock_CI, Reset_RI)
 	begin  -- process p_memoryzing
-		if Reset_RI = '1' then -- asynchronous reset (active-high for FPGAs)
+		if Reset_RI = '1' then	-- asynchronous reset (active-high for FPGAs)
 			Count_DP <= (others => '0');
 		elsif rising_edge(Clock_CI) then
 			Count_DP <= Count_DN;
