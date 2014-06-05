@@ -23,18 +23,17 @@ architecture Behavioral of PulseDetector is
 
 	-- present and next state
 	signal State_DP, State_DN : state;
-	
+
 	constant COUNTER_WIDTH : integer := integer(ceil(log2(real(PULSE_MINIMAL_LENGTH_CYCLES))));
-	
+
 	-- present and next state
 	signal Count_DP, Count_DN : unsigned(COUNTER_WIDTH-1 downto 0);
 begin
 	-- Variable width counter, calculation of next state
 	p_memoryless : process (State_DP, Count_DP, InputSignal_SI)
 	begin -- process p_memoryless
-		-- Keep current values by default.
-		State_DN <= State_DP;
-		Count_DN <= Count_DP;
+		State_DN <= State_DP; -- Keep current state by default.
+		Count_DN <= (others => '0'); -- Keep at zero by default.
 
 		PulseDetected_SO <= '0';
 
@@ -46,20 +45,16 @@ begin
 				end if;
 
 			when stPulseDetected =>
-				-- Verify length of detected pulse.
-				if Count_DP = PULSE_MINIMAL_LENGTH_CYCLES then
-					-- Pulse hit expected length, send signal.
-					PulseDetected_SO <= '1';
-					
-					-- Check if pulse is persisting.
-					if InputSignal_SI = PULSE_POLARITY then
-						State_DN <= stPulseOverflow;
-					else
-						State_DN <= stWaitForPulse;
-					end if;
-				elsif InputSignal_SI = PULSE_POLARITY then
+				if InputSignal_SI = PULSE_POLARITY then
 					-- Pulse continues, keep increasing count.
 					Count_DN <= Count_DP + 1;
+
+					-- Verify length of detected pulse.
+					if Count_DP = (PULSE_MINIMAL_LENGTH_CYCLES - 1) then
+						-- Pulse hit expected length, send signal.
+						PulseDetected_SO <= '1';
+						State_DN <= stPulseOverflow;
+					end if;
 				else
 					-- Pulse disappeared before reaching minimun lenght.
 					State_DN <= stWaitForPulse;

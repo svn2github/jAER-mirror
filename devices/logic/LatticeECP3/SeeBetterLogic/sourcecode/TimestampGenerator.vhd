@@ -28,7 +28,7 @@ architecture Structural of TimestampGenerator is
 		Overflow_SO : out std_logic;
 		Data_DO : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component;
-	
+
 	component PulseGenerator
 	generic (
 		PULSE_EVERY_CYCLES : integer := 100;
@@ -39,7 +39,18 @@ architecture Structural of TimestampGenerator is
 		Clear_SI : in std_logic;
 		PulseOut_SO : out std_logic);
 	end component;
-	
+
+	component PulseDetector
+	generic (
+		PULSE_MINIMAL_LENGTH_CYCLES : integer := 50;
+		PULSE_POLARITY : std_logic := '1');
+	port (
+		Clock_CI : in std_logic;
+		Reset_RI : in std_logic;
+		InputSignal_SI : in std_logic;
+		PulseDetected_SO : out std_logic);
+	end component;
+
 	-- Detect resets from the host and pulse this once to reset the Timestamp Generator and anybody
 	-- outside listening to the TimestampReset_SO output.
 	signal TimestampReset_S : std_logic;
@@ -58,7 +69,7 @@ architecture Structural of TimestampGenerator is
 	-- The highest bit is dropped at the output port here.
 	signal Timestamp_D : std_logic_vector(TIMESTAMP_WIDTH downto 0);
 begin
-	timestampEnable : PulseGenerator
+	timestampEnableGenerate : PulseGenerator
 	generic map (
 		PULSE_EVERY_CYCLES => LOGIC_CLOCK_FREQ)
 	port map (
@@ -69,9 +80,16 @@ begin
 
 	TimestampEnable_S <= TimestampEnable1MHz_S and FPGARun_SI;
 
-	-- TODO: need to detect FPGATimestampReset_SI pulse from host and then generate just one
+	-- Detect FPGATimestampReset_SI pulse from host and then generate just one
 	-- quick reset pulse to the counter and pulse generator.
-	TimestampReset_S <= FPGATimestampReset_SI;
+	timestampResetDetect : PulseDetector
+	generic map (
+		PULSE_MINIMAL_LENGTH_CYCLES => 100)
+	port map (
+		Clock_CI => Clock_CI,
+		Reset_RI => Reset_RI,
+		InputSignal_SI => FPGATimestampReset_SI,
+		PulseDetected_SO => TimestampReset_S);
 
 	timestampGenerator : ContinuousCounter
 	generic map (

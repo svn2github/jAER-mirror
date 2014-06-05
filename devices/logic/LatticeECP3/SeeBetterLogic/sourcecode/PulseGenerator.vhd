@@ -17,7 +17,7 @@ end PulseGenerator;
 
 architecture Behavioral of PulseGenerator is
 	constant COUNTER_WIDTH : integer := integer(ceil(log2(real(PULSE_EVERY_CYCLES))));
-	
+
 	-- present and next state
 	signal Count_DP, Count_DN : unsigned(COUNTER_WIDTH-1 downto 0);
 begin
@@ -28,7 +28,7 @@ begin
 
 		if Clear_SI = '1' then
 			Count_DN <= (others => '0');
-		elsif Count_DP = PULSE_EVERY_CYCLES then
+		elsif Count_DP = (PULSE_EVERY_CYCLES - 1) then
 			Count_DN <= (others => '0');
 			PulseOut_SO <= PULSE_POLARITY;
 		else
