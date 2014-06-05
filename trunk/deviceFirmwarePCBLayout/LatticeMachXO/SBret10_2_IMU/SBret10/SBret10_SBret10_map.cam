@@ -1,9 +1,8 @@
 [ START MERGED ]
-I2C_Top_1/Counter_Blk_1/Current_Byte_State_i I2C_Top_1/Counter_Blk_1/Current_Byte_State
 I2C_Top_1/Counter_Blk_1/Byte_Cmpr_i_i I2C_Top_1/Counter_Blk_1/Byte_Cmpr_i
+I2C_Top_1/Counter_Blk_1/Current_Byte_State_i I2C_Top_1/Counter_Blk_1/Current_Byte_State
 I2C_Top_1/SCL_synch_i I2C_Top_1/SCL_synch
-IMUStateMachine_1/m94_mb_bm IMUStateMachine_1/N_33
-ADCStateMachine_1.StateColxDP_i[5] ADCStateMachine_1/StateColxDP[5]
+ADCStateMachine_1.StateColxDP_i[5] ADCStateMachine_1.StateColxDP[5]
 shiftRegister_1/CN PC2xSIO_c
 [ END MERGED ]
 [ START CLIPPED ]
@@ -14,13 +13,11 @@ uFifo/GND
 uEarlyPaketTimer/GND
 uEarlyPaketTimer/VCC
 uEventCounter/GND
-uEventCounter/VCC
 uTimestampCounter/GND
 uTimestampCounter/VCC
-uSynchronizerStateMachine_1/VCC
 uSynchronizerStateMachine_1/GND
+uSynchronizerStateMachine_1/VCC
 fifoStatemachine_1/GND
-monitorStateMachine_1/VCC
 monitorStateMachine_1/GND
 ADCStateMachine_1/GND
 IMUStateMachine_1/VCC
@@ -149,15 +146,18 @@ monitorStateMachine_1/CountxDP_cry[2]
 monitorStateMachine_1/CountxDP_cry[4]
 monitorStateMachine_1/CountxDP_cry_0_COUT1[6]
 monitorStateMachine_1/CountxDP_cry[6]
-monitorStateMachine_1/TimestampOverflowxDP_cry[0]
-monitorStateMachine_1/TimestampOverflowxDP_cry[2]
-monitorStateMachine_1/TimestampOverflowxDP_cry[4]
-monitorStateMachine_1/TimestampOverflowxDP_cry[6]
-monitorStateMachine_1/TimestampOverflowxDP_cry[8]
-monitorStateMachine_1/TimestampOverflowxDP_cry[10]
-monitorStateMachine_1/TimestampOverflowxDP_cry[12]
-monitorStateMachine_1/TimestampOverflowxDP_cry_0_COUT1[14]
-monitorStateMachine_1/TimestampOverflowxDP_cry[14]
+monitorStateMachine_1/TimestampOverflowxDP_lcry_0_S0
+monitorStateMachine_1/TimestampOverflowxDP
+monitorStateMachine_1/TimestampOverflowxDP_cry[1]
+monitorStateMachine_1/TimestampOverflowxDP_cry[3]
+monitorStateMachine_1/TimestampOverflowxDP_cry[5]
+monitorStateMachine_1/TimestampOverflowxDP_cry[7]
+monitorStateMachine_1/TimestampOverflowxDP_cry[9]
+monitorStateMachine_1/TimestampOverflowxDP_cry[11]
+monitorStateMachine_1/TimestampOverflowxDP_cry[13]
+monitorStateMachine_1/TimestampOverflowxDP_s_0_S1[15]
+monitorStateMachine_1/TimestampOverflowxDP_s_0_COUT1[15]
+monitorStateMachine_1/TimestampOverflowxDP_s_0_COUT0[15]
 ADCStateMachine_1/CountColxDP_cry[0]
 ADCStateMachine_1/CountColxDP_cry[2]
 ADCStateMachine_1/CountColxDP_cry[4]
@@ -466,9 +466,10 @@ IMUStateMachine_1/I2CWaitCountxDP_cry[4]
 IMUStateMachine_1/I2CWaitCountxDP_cry[6]
 IMUStateMachine_1/I2CWaitCountxDP_cry[8]
 IMUStateMachine_1/I2CWaitCountxDP_cry[10]
-IMUStateMachine_1/I2CWaitCountxDP_s_0_S1[12]
-IMUStateMachine_1/I2CWaitCountxDP_s_0_COUT1[12]
-IMUStateMachine_1/I2CWaitCountxDP_s_0_COUT0[12]
+IMUStateMachine_1/I2CWaitCountxDP_cry[12]
+IMUStateMachine_1/I2CWaitCountxDP_s_0_S1[14]
+IMUStateMachine_1/I2CWaitCountxDP_s_0_COUT1[14]
+IMUStateMachine_1/I2CWaitCountxDP_s_0_COUT0[14]
 I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_0_0_S0
 I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_0
 I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_2
@@ -476,14 +477,11 @@ I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_4
 I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_6
 I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_8_0_COUT1
 I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_8
-I2C_Top_1/Counter_Blk_1/Byte_Counter_lcry_0_S0
-I2C_Top_1/Counter_Blk_1/Byte_Counter
-I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[1]
-I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[3]
-I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[5]
-I2C_Top_1/Counter_Blk_1/Byte_Counter_s_0_S1[7]
-I2C_Top_1/Counter_Blk_1/Byte_Counter_s_0_COUT1[7]
-I2C_Top_1/Counter_Blk_1/Byte_Counter_s_0_COUT0[7]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[0]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[2]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[4]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_cry_0_COUT1[6]
+I2C_Top_1/Counter_Blk_1/Byte_Counter_cry[6]
 I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_I_1_0_S1
 I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_N_17
 I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_data_tmp[0]
@@ -493,7 +491,7 @@ I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_data_tmp[2]
 [ END CLIPPED ]
 [ START DESIGN PREFS ]
 SCHEMATIC START ;
-# map:  version Diamond (64-bit) 2.2.0.101 -- WARNING: Map write only section -- Mon Jun 02 20:59:19 2014
+# map:  version Diamond (64-bit) 2.2.0.101 -- WARNING: Map write only section -- Thu Jun 05 11:19:01 2014
 
 SYSCONFIG INBUF=ON CONFIG_SECURE=OFF ;
 LOCATE COMP "IMUSDAxSIO" SITE "T5" ;
@@ -525,8 +523,8 @@ LOCATE COMP "DebugxSIO[4]" SITE "T7" ;
 LOCATE COMP "DebugxSIO[3]" SITE "T8" ;
 LOCATE COMP "DebugxSIO[2]" SITE "T10" ;
 LOCATE COMP "DebugxSIO[0]" SITE "T13" ;
-LOCATE COMP "LED3xSO" SITE "R13" ;
-LOCATE COMP "LED2xSO" SITE "T11" ;
+LOCATE COMP "LED3xSO_0" SITE "R13" ;
+LOCATE COMP "LED2xSO_0" SITE "T11" ;
 LOCATE COMP "LED1xSO" SITE "R8" ;
 LOCATE COMP "CDVSTestApsTxGatexSO" SITE "B13" ;
 LOCATE COMP "CDVSTestBiasDiagSelxSO" SITE "A6" ;
@@ -584,7 +582,9 @@ LOCATE COMP "FX2FifoDataxDIO[4]" SITE "N2" ;
 LOCATE COMP "FX2FifoDataxDIO[3]" SITE "P1" ;
 LOCATE COMP "FX2FifoDataxDIO[2]" SITE "P2" ;
 LOCATE COMP "FX2FifoDataxDIO[1]" SITE "R1" ;
-FREQUENCY NET "LED3xSO_c_c" 90.000000 MHz ;
-FREQUENCY NET "LED2xSO_c" 30.000000 MHz ;
+FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;
+USE PRIMARY NET "ClockxC_c" ;
+FREQUENCY NET "ClockxC_c" 90.000000 MHz ;
+USE PRIMARY NET "IfClockxCI_c" ;
 SCHEMATIC END ;
 [ END DESIGN PREFS ]

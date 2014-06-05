@@ -1,7 +1,7 @@
 
 
 ##### START OF TIMING REPORT #####[
-# Timing Report written on Mon Jun 02 20:59:12 2014
+# Timing Report written on Thu Jun 05 11:18:54 2014
 #
 
 
@@ -26,12 +26,12 @@ Worst slack in design: -0.172
                                                   Requested     Estimated     Requested     Estimated                 Clock                                          Clock                
 Starting Clock                                    Frequency     Frequency     Period        Period        Slack       Type                                           Group                
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-ADCStateMachine|StateColxDP_derived_clock[11]     0.1 MHz       10.3 MHz      16155.209     97.000        802.910     derived (from USBAER_top_level|IfClockxCI)     Autoconstr_clkgroup_1
-ADCStateMachine|StateRowxDP_derived_clock[5]      0.1 MHz       24.4 MHz      16155.209     41.020        806.129     derived (from USBAER_top_level|IfClockxCI)     Autoconstr_clkgroup_1
-USBAER_top_level|IfClockxCI                       1.2 MHz       74.3 MHz      807.760       13.451        400.460     inferred                                       Autoconstr_clkgroup_1
+ADCStateMachine|StateColxDP_derived_clock[11]     0.1 MHz       14.8 MHz      16152.902     67.440        804.273     derived (from USBAER_top_level|IfClockxCI)     Autoconstr_clkgroup_1
+ADCStateMachine|StateRowxDP_derived_clock[5]      0.1 MHz       24.1 MHz      16152.902     41.500        806.014     derived (from USBAER_top_level|IfClockxCI)     Autoconstr_clkgroup_1
+USBAER_top_level|IfClockxCI                       1.2 MHz       106.6 MHz     807.645       9.378         400.402     inferred                                       Autoconstr_clkgroup_1
 USBAER_top_level|PC1xSIO                          676.5 MHz     575.0 MHz     1.478         1.739         -0.261      inferred                                       Autoconstr_clkgroup_2
 USBAER_top_level|PC2xSIO                          1.0 MHz       NA            1000.000      NA            NA          inferred                                       Autoconstr_clkgroup_3
-clockgen|CLKOP_inferred_clock                     128.7 MHz     109.4 MHz     7.772         9.143         -1.371      inferred                                       Autoconstr_clkgroup_0
+clockgen|CLKOP_inferred_clock                     89.1 MHz      82.1 MHz      11.219        12.184        -0.965      inferred                                       Autoconstr_clkgroup_0
 System                                            1.0 MHz       1.0 MHz       1000.000      1000.172      -0.172      system                                         system_clkgroup      
 ==========================================================================================================================================================================================
 
@@ -46,20 +46,20 @@ Starting                                       Ending                           
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 System                                         System                                        |  0.000       0.000   |  No paths    -      |  No paths    -        |  No paths    -    
 System                                         clockgen|CLKOP_inferred_clock                 |  0.000       -0.172  |  No paths    -      |  No paths    -        |  No paths    -    
-System                                         USBAER_top_level|IfClockxCI                   |  0.000       -0.172  |  No paths    -      |  No paths    -        |  No paths    -    
-clockgen|CLKOP_inferred_clock                  System                                        |  0.000       1.406   |  No paths    -      |  No paths    -        |  No paths    -    
-clockgen|CLKOP_inferred_clock                  clockgen|CLKOP_inferred_clock                 |  0.000       0.746   |  No paths    -      |  No paths    -        |  No paths    -    
+System                                         USBAER_top_level|IfClockxCI                   |  0.000       0.660   |  No paths    -      |  No paths    -        |  No paths    -    
+clockgen|CLKOP_inferred_clock                  System                                        |  0.000       1.180   |  No paths    -      |  No paths    -        |  No paths    -    
+clockgen|CLKOP_inferred_clock                  clockgen|CLKOP_inferred_clock                 |  0.000       0.696   |  No paths    -      |  No paths    -        |  No paths    -    
 clockgen|CLKOP_inferred_clock                  USBAER_top_level|IfClockxCI                   |  Diff grp    -       |  No paths    -      |  No paths    -        |  No paths    -    
 USBAER_top_level|IfClockxCI                    System                                        |  0.000       1.180   |  No paths    -      |  No paths    -        |  No paths    -    
 USBAER_top_level|IfClockxCI                    clockgen|CLKOP_inferred_clock                 |  Diff grp    -       |  No paths    -      |  No paths    -        |  No paths    -    
-USBAER_top_level|IfClockxCI                    USBAER_top_level|IfClockxCI                   |  0.000       0.704   |  No paths    -      |  403.880     404.794  |  No paths    -    
-USBAER_top_level|IfClockxCI                    ADCStateMachine|StateRowxDP_derived_clock[5]  |  0.000       1.040   |  No paths    -      |  No paths    -        |  No paths    -    
+USBAER_top_level|IfClockxCI                    USBAER_top_level|IfClockxCI                   |  0.000       0.746   |  No paths    -      |  403.823     404.737  |  No paths    -    
+USBAER_top_level|IfClockxCI                    ADCStateMachine|StateRowxDP_derived_clock[5]  |  0.000       1.056   |  No paths    -      |  No paths    -        |  No paths    -    
 USBAER_top_level|PC1xSIO                       USBAER_top_level|PC1xSIO                      |  0.000       0.821   |  No paths    -      |  No paths    -        |  No paths    -    
 USBAER_top_level|PC1xSIO                       USBAER_top_level|PC2xSIO                      |  No paths    -       |  No paths    -      |  Diff grp    -        |  No paths    -    
 USBAER_top_level|PC2xSIO                       clockgen|CLKOP_inferred_clock                 |  No paths    -       |  No paths    -      |  No paths    -        |  Diff grp    -    
 USBAER_top_level|PC2xSIO                       USBAER_top_level|IfClockxCI                   |  No paths    -       |  No paths    -      |  No paths    -        |  Diff grp    -    
 ADCStateMachine|StateColxDP_derived_clock[11]  clockgen|CLKOP_inferred_clock                 |  Diff grp    -       |  No paths    -      |  No paths    -        |  No paths    -    
-ADCStateMachine|StateColxDP_derived_clock[11]  USBAER_top_level|IfClockxCI                   |  0.000       1.991   |  No paths    -      |  No paths    -        |  No paths    -    
+ADCStateMachine|StateColxDP_derived_clock[11]  USBAER_top_level|IfClockxCI                   |  0.000       0.956   |  No paths    -      |  No paths    -        |  No paths    -    
 ADCStateMachine|StateRowxDP_derived_clock[5]   USBAER_top_level|IfClockxCI                   |  0.000       0.746   |  No paths    -      |  No paths    -        |  No paths    -    
 ======================================================================================================================================================================================
  Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
@@ -87,28 +87,28 @@ Starting Points with Worst Slack
 Instance                    Reference                                         Type       Pin     Net       Time        Slack
                             Clock                                                                                           
 ----------------------------------------------------------------------------------------------------------------------------
-ADCStateMachine_1.NoBxS     ADCStateMachine|StateColxDP_derived_clock[11]     FD1S1D     Q       NoBxS     1.019       1.991
+ADCStateMachine_1.NoBxS     ADCStateMachine|StateColxDP_derived_clock[11]     FD1S1D     Q       NoBxS     1.128       0.956
 ============================================================================================================================
 
 
 Ending Points with Worst Slack
 ******************************
 
-                              Starting                                                                           Required          
-Instance                      Reference                                         Type        Pin     Net          Time         Slack
-                              Clock                                                                                                
------------------------------------------------------------------------------------------------------------------------------------
-uADCRegister.StatexDP[13]     ADCStateMachine|StateColxDP_derived_clock[11]     FD1S3DX     D       N_7641_0     0.702        1.991
-uADCRegister.StatexDP[0]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      0.136        2.027
-uADCRegister.StatexDP[1]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      0.136        2.027
-uADCRegister.StatexDP[2]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      0.136        2.027
-uADCRegister.StatexDP[3]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      0.136        2.027
-uADCRegister.StatexDP[4]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      0.136        2.027
-uADCRegister.StatexDP[5]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      0.136        2.027
-uADCRegister.StatexDP[6]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      0.136        2.027
-uADCRegister.StatexDP[7]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      0.136        2.027
-uADCRegister.StatexDP[8]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      0.136        2.027
-===================================================================================================================================
+                              Starting                                                                                    Required          
+Instance                      Reference                                         Type        Pin     Net                   Time         Slack
+                              Clock                                                                                                         
+--------------------------------------------------------------------------------------------------------------------------------------------
+uADCRegister.StatexDP[13]     ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     D       StatexDP_ldmx[13]     0.702        0.956
+uADCRegister.StatexDP[0]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               0.136        1.229
+uADCRegister.StatexDP[1]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               0.136        1.229
+uADCRegister.StatexDP[2]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               0.136        1.229
+uADCRegister.StatexDP[3]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               0.136        1.229
+uADCRegister.StatexDP[4]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               0.136        1.229
+uADCRegister.StatexDP[5]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               0.136        1.229
+uADCRegister.StatexDP[6]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               0.136        1.229
+uADCRegister.StatexDP[7]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               0.136        1.229
+uADCRegister.StatexDP[8]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               0.136        1.229
+============================================================================================================================================
 
 
 
@@ -117,35 +117,29 @@ Worst Path Information
 
 
 Path information for path number 1: 
-    Propagation time:                        2.693
+    Propagation time:                        1.658
     + Clock delay at starting point:         0.000 (ideal)
     - Requested Period:                      0.000
     - Hold time:                             0.702
     - Clock delay at ending point:           0.000 (ideal)
-    = Slack (non-critical) :                 1.991
+    = Slack (non-critical) :                 0.956
 
-    Number of logic level(s):                3
+    Number of logic level(s):                1
     Starting point:                          ADCStateMachine_1.NoBxS / Q
     Ending point:                            uADCRegister.StatexDP[13] / D
     The start point is clocked by            ADCStateMachine|StateColxDP_derived_clock[11] [rising] on pin CK
     The end   point is clocked by            USBAER_top_level|IfClockxCI [rising] on pin CK
 
-Instance / Net                                                     Pin      Pin               Arrival     No. of    
-Name                                                  Type         Name     Dir     Delay     Time        Fan Out(s)
---------------------------------------------------------------------------------------------------------------------
-ADCStateMachine_1.NoBxS                               FD1S1D       Q        Out     1.019     1.019       -         
-NoBxS                                                 Net          -        -       -         -           2         
-ADCStateMachine_1.RegisterWritexEO_i_0_a0             ORCALUT4     A        In      0.000     1.019       -         
-ADCStateMachine_1.RegisterWritexEO_i_0_a0             ORCALUT4     Z        Out     0.908     1.927       -         
-RegisterWritexEO_i_0_a0                               Net          -        -       -         -           2         
-ADCStateMachine_1.RegisterWritexEO_i_0_a0_RNINT7Q     ORCALUT4     D        In      0.000     1.927       -         
-ADCStateMachine_1.RegisterWritexEO_i_0_a0_RNINT7Q     ORCALUT4     Z        Out     0.236     2.163       -         
-N_316_i                                               Net          -        -       -         -           14        
-uADCRegister.StatexDP_0[13]                           ORCALUT4     A        In      0.000     2.163       -         
-uADCRegister.StatexDP_0[13]                           ORCALUT4     Z        Out     0.530     2.693       -         
-N_7641_0                                              Net          -        -       -         -           1         
-uADCRegister.StatexDP[13]                             FD1S3DX      D        In      0.000     2.693       -         
-====================================================================================================================
+Instance / Net                                  Pin      Pin               Arrival     No. of    
+Name                               Type         Name     Dir     Delay     Time        Fan Out(s)
+-------------------------------------------------------------------------------------------------
+ADCStateMachine_1.NoBxS            FD1S1D       Q        Out     1.128     1.128       -         
+NoBxS                              Net          -        -       -         -           4         
+uADCRegister.StatexDP_ldmx[13]     ORCALUT4     A        In      0.000     1.128       -         
+uADCRegister.StatexDP_ldmx[13]     ORCALUT4     Z        Out     0.530     1.658       -         
+StatexDP_ldmx[13]                  Net          -        -       -         -           1         
+uADCRegister.StatexDP[13]          FD1P3DX      D        In      0.000     1.658       -         
+=================================================================================================
 
 
 
@@ -217,41 +211,41 @@ Detailed Report for Clock: USBAER_top_level|IfClockxCI
 Starting Points with Worst Slack
 ********************************
 
-                                             Starting                                                                       Arrival          
-Instance                                     Reference                       Type        Pin     Net                        Time        Slack
-                                             Clock                                                                                           
----------------------------------------------------------------------------------------------------------------------------------------------
-IMUStateMachine_1.IMUDataWordCountxDP[0]     USBAER_top_level|IfClockxCI     FD1S3DX     Q       IMUDataWordCountxDP[0]     1.170       0.704
-ADCStateMachine_1.StateColxDP[3]             USBAER_top_level|IfClockxCI     FD1S3DX     Q       StateColxDP[3]             1.204       0.738
-IMUStateMachine_1.IMUAccelXLSBxDP[0]         USBAER_top_level|IfClockxCI     FD1P3DX     Q       IMUAccelXLSBxDP[0]         0.944       0.746
-IMUStateMachine_1.IMUAccelXLSBxDP[1]         USBAER_top_level|IfClockxCI     FD1P3DX     Q       IMUAccelXLSBxDP[1]         0.944       0.746
-IMUStateMachine_1.IMUAccelXLSBxDP[2]         USBAER_top_level|IfClockxCI     FD1P3DX     Q       IMUAccelXLSBxDP[2]         0.944       0.746
-IMUStateMachine_1.IMUAccelXLSBxDP[3]         USBAER_top_level|IfClockxCI     FD1P3DX     Q       IMUAccelXLSBxDP[3]         0.944       0.746
-IMUStateMachine_1.IMUAccelXLSBxDP[4]         USBAER_top_level|IfClockxCI     FD1P3DX     Q       IMUAccelXLSBxDP[4]         0.944       0.746
-IMUStateMachine_1.IMUAccelXLSBxDP[5]         USBAER_top_level|IfClockxCI     FD1P3DX     Q       IMUAccelXLSBxDP[5]         0.944       0.746
-IMUStateMachine_1.IMUAccelXLSBxDP[6]         USBAER_top_level|IfClockxCI     FD1P3DX     Q       IMUAccelXLSBxDP[6]         0.944       0.746
-IMUStateMachine_1.IMUAccelXLSBxDP[7]         USBAER_top_level|IfClockxCI     FD1P3DX     Q       IMUAccelXLSBxDP[7]         0.944       0.746
-=============================================================================================================================================
+                                                                 Starting                                                                           Arrival          
+Instance                                                         Reference                       Type        Pin     Net                            Time        Slack
+                                                                 Clock                                                                                               
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+I2C_Top_1.I2C_Main_1.Read_SR[7]                                  USBAER_top_level|IfClockxCI     FD1P3DX     Q       Read_SR[7]                     0.944       0.746
+I2C_Top_1.Synch_1.t1                                             USBAER_top_level|IfClockxCI     FD1S3DX     Q       t1                             0.944       0.746
+I2C_Top_1.Synch_1.t2                                             USBAER_top_level|IfClockxCI     FD1S3DX     Q       t2                             0.944       0.746
+ADCStateMachine_1.StateColxDP[3]                                 USBAER_top_level|IfClockxCI     FD1S3DX     Q       StateColxDP[3]                 1.217       0.750
+I2C_Top_1.Start_Det_1.Current_Start_Det_State[0]                 USBAER_top_level|IfClockxCI     FD1S3DX     Q       Current_Start_Det_State[0]     0.944       0.771
+I2C_Top_1.Stop_Det_1.Current_Stop_Det_State[0]                   USBAER_top_level|IfClockxCI     FD1S3DX     Q       Current_Stop_Det_State[0]      0.944       0.771
+I2C_Top_1.I2C_Main_1.I2C_Load_SR_Process\.Trans_Buffer_SR[1]     USBAER_top_level|IfClockxCI     FD1P3DX     Q       Trans_Buffer_SR[1]             0.944       0.771
+I2C_Top_1.I2C_Main_1.I2C_Load_SR_Process\.Trans_Buffer_SR[2]     USBAER_top_level|IfClockxCI     FD1P3DX     Q       Trans_Buffer_SR[2]             0.944       0.771
+I2C_Top_1.I2C_Main_1.I2C_Load_SR_Process\.Trans_Buffer_SR[3]     USBAER_top_level|IfClockxCI     FD1P3DX     Q       Trans_Buffer_SR[3]             0.944       0.771
+I2C_Top_1.I2C_Main_1.I2C_Load_SR_Process\.Trans_Buffer_SR[4]     USBAER_top_level|IfClockxCI     FD1P3DX     Q       Trans_Buffer_SR[4]             0.944       0.771
+=====================================================================================================================================================================
 
 
 Ending Points with Worst Slack
 ******************************
 
-                                      Starting                                                                   Required          
-Instance                              Reference                       Type        Pin     Net                    Time         Slack
-                                      Clock                                                                                        
------------------------------------------------------------------------------------------------------------------------------------
-uIMURegister.StatexDP[6]              USBAER_top_level|IfClockxCI     FD1P3DX     D       IMUDataxD[6]           0.702        0.704
-uADCRegister.StatexDP[11]             USBAER_top_level|IfClockxCI     FD1P3DX     D       N_285_i                0.702        0.738
-IMUStateMachine_1.IMUAccelXxDP[0]     USBAER_top_level|IfClockxCI     FD1P3DX     D       IMUAccelXLSBxDP[0]     0.198        0.746
-IMUStateMachine_1.IMUAccelXxDP[1]     USBAER_top_level|IfClockxCI     FD1P3DX     D       IMUAccelXLSBxDP[1]     0.198        0.746
-IMUStateMachine_1.IMUAccelXxDP[2]     USBAER_top_level|IfClockxCI     FD1P3DX     D       IMUAccelXLSBxDP[2]     0.198        0.746
-IMUStateMachine_1.IMUAccelXxDP[3]     USBAER_top_level|IfClockxCI     FD1P3DX     D       IMUAccelXLSBxDP[3]     0.198        0.746
-IMUStateMachine_1.IMUAccelXxDP[4]     USBAER_top_level|IfClockxCI     FD1P3DX     D       IMUAccelXLSBxDP[4]     0.198        0.746
-IMUStateMachine_1.IMUAccelXxDP[5]     USBAER_top_level|IfClockxCI     FD1P3DX     D       IMUAccelXLSBxDP[5]     0.198        0.746
-IMUStateMachine_1.IMUAccelXxDP[6]     USBAER_top_level|IfClockxCI     FD1P3DX     D       IMUAccelXLSBxDP[6]     0.198        0.746
-IMUStateMachine_1.IMUAccelXxDP[7]     USBAER_top_level|IfClockxCI     FD1P3DX     D       IMUAccelXLSBxDP[7]     0.198        0.746
-===================================================================================================================================
+                                                                 Starting                                                                          Required          
+Instance                                                         Reference                       Type        Pin     Net                           Time         Slack
+                                                                 Clock                                                                                               
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+I2C_Top_1.I2C_Main_1.Read_Buffer[7]                              USBAER_top_level|IfClockxCI     FD1P3DX     D       Read_SR[7]                    0.198        0.746
+I2C_Top_1.Synch_1.SCL_synch                                      USBAER_top_level|IfClockxCI     FD1S3DX     D       t1                            0.198        0.746
+I2C_Top_1.Synch_1.SDA_synch                                      USBAER_top_level|IfClockxCI     FD1S3DX     D       t2                            0.198        0.746
+uADCRegister.StatexDP[11]                                        USBAER_top_level|IfClockxCI     FD1P3DX     D       N_285_i                       0.702        0.750
+I2C_Top_1.Start_Gen_1.Current_Start_Gen_State[0]                 USBAER_top_level|IfClockxCI     FD1S3DX     D       N_41                          0.702        0.771
+I2C_Top_1.I2C_Main_1.I2C_Load_SR_Process\.Trans_Buffer_SR[2]     USBAER_top_level|IfClockxCI     FD1P3DX     D       Trans_Buffer_SR_6_i_m2[2]     0.702        0.771
+I2C_Top_1.I2C_Main_1.I2C_Load_SR_Process\.Trans_Buffer_SR[3]     USBAER_top_level|IfClockxCI     FD1P3DX     D       N_77                          0.702        0.771
+I2C_Top_1.I2C_Main_1.I2C_Load_SR_Process\.Trans_Buffer_SR[4]     USBAER_top_level|IfClockxCI     FD1P3DX     D       N_78                          0.702        0.771
+I2C_Top_1.I2C_Main_1.I2C_Load_SR_Process\.Trans_Buffer_SR[5]     USBAER_top_level|IfClockxCI     FD1P3DX     D       N_79                          0.702        0.771
+I2C_Top_1.I2C_Main_1.I2C_Load_SR_Process\.Trans_Buffer_SR[6]     USBAER_top_level|IfClockxCI     FD1P3DX     D       N_80                          0.702        0.771
+=====================================================================================================================================================================
 
 
 
@@ -260,29 +254,26 @@ Worst Path Information
 
 
 Path information for path number 1: 
-    Propagation time:                        1.406
+    Propagation time:                        0.944
     + Clock delay at starting point:         0.000 (ideal)
     - Requested Period:                      0.000
-    - Hold time:                             0.702
+    - Hold time:                             0.198
     - Clock delay at ending point:           0.000 (ideal)
-    = Slack (non-critical) :                 0.704
+    = Slack (non-critical) :                 0.746
 
-    Number of logic level(s):                1
-    Starting point:                          IMUStateMachine_1.IMUDataWordCountxDP[0] / Q
-    Ending point:                            uIMURegister.StatexDP[6] / D
+    Number of logic level(s):                0
+    Starting point:                          I2C_Top_1.I2C_Main_1.Read_SR[7] / Q
+    Ending point:                            I2C_Top_1.I2C_Main_1.Read_Buffer[7] / D
     The start point is clocked by            USBAER_top_level|IfClockxCI [rising] on pin CK
     The end   point is clocked by            USBAER_top_level|IfClockxCI [rising] on pin CK
 
-Instance / Net                                            Pin      Pin               Arrival     No. of    
-Name                                         Type         Name     Dir     Delay     Time        Fan Out(s)
------------------------------------------------------------------------------------------------------------
-IMUStateMachine_1.IMUDataWordCountxDP[0]     FD1S3DX      Q        Out     1.170     1.170       -         
-IMUDataWordCountxDP[0]                       Net          -        -       -         -           6         
-IMUStateMachine_1.IMUDataxDO_1_u[6]          ORCALUT4     A        In      0.000     1.170       -         
-IMUStateMachine_1.IMUDataxDO_1_u[6]          ORCALUT4     Z        Out     0.236     1.406       -         
-IMUDataxD[6]                                 Net          -        -       -         -           1         
-uIMURegister.StatexDP[6]                     FD1P3DX      D        In      0.000     1.406       -         
-===========================================================================================================
+Instance / Net                                      Pin      Pin               Arrival     No. of    
+Name                                    Type        Name     Dir     Delay     Time        Fan Out(s)
+-----------------------------------------------------------------------------------------------------
+I2C_Top_1.I2C_Main_1.Read_SR[7]         FD1P3DX     Q        Out     0.944     0.944       -         
+Read_SR[7]                              Net         -        -       -         -           1         
+I2C_Top_1.I2C_Main_1.Read_Buffer[7]     FD1P3DX     D        In      0.000     0.944       -         
+=====================================================================================================
 
 
 
@@ -372,41 +363,41 @@ Detailed Report for Clock: clockgen|CLKOP_inferred_clock
 Starting Points with Worst Slack
 ********************************
 
-                                              Starting                                                                       Arrival          
-Instance                                      Reference                         Type        Pin     Net                      Time        Slack
-                                              Clock                                                                                           
-----------------------------------------------------------------------------------------------------------------------------------------------
-AERReqSyncxSBN                                clockgen|CLKOP_inferred_clock     FD1S3AX     Q       AERReqSyncxSBN           0.944       0.746
-uSynchronizerStateMachine_1.SyncInCLKxCBN     clockgen|CLKOP_inferred_clock     FD1S3AX     Q       SyncInCLKxCBN            0.944       0.746
-uTimestampCounter.CountxDP[0]                 clockgen|CLKOP_inferred_clock     FD1P3DX     Q       ActualTimestampxD[0]     1.019       0.821
-uTimestampCounter.CountxDP[1]                 clockgen|CLKOP_inferred_clock     FD1P3DX     Q       ActualTimestampxD[1]     1.019       0.821
-uTimestampCounter.CountxDP[2]                 clockgen|CLKOP_inferred_clock     FD1P3DX     Q       ActualTimestampxD[2]     1.019       0.821
-uTimestampCounter.CountxDP[3]                 clockgen|CLKOP_inferred_clock     FD1P3DX     Q       ActualTimestampxD[3]     1.019       0.821
-uTimestampCounter.CountxDP[4]                 clockgen|CLKOP_inferred_clock     FD1P3DX     Q       ActualTimestampxD[4]     1.019       0.821
-uTimestampCounter.CountxDP[5]                 clockgen|CLKOP_inferred_clock     FD1P3DX     Q       ActualTimestampxD[5]     1.019       0.821
-uTimestampCounter.CountxDP[6]                 clockgen|CLKOP_inferred_clock     FD1P3DX     Q       ActualTimestampxD[6]     1.019       0.821
-uTimestampCounter.CountxDP[7]                 clockgen|CLKOP_inferred_clock     FD1P3DX     Q       ActualTimestampxD[7]     1.019       0.821
-==============================================================================================================================================
+                                             Starting                                                                         Arrival          
+Instance                                     Reference                         Type        Pin     Net                        Time        Slack
+                                             Clock                                                                                             
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IMUStateMachine_1.IMUDataWordCountxDP[0]     clockgen|CLKOP_inferred_clock     FD1S3DX     Q       IMUDataWordCountxDP[0]     1.162       0.696
+AERReqSyncxSBN                               clockgen|CLKOP_inferred_clock     FD1S3AX     Q       AERReqSyncxSBN             0.944       0.746
+IMUStateMachine_1.IMUAccelXLSBxDP[0]         clockgen|CLKOP_inferred_clock     FD1P3DX     Q       IMUAccelXLSBxDP[0]         0.944       0.746
+IMUStateMachine_1.IMUAccelXLSBxDP[1]         clockgen|CLKOP_inferred_clock     FD1P3DX     Q       IMUAccelXLSBxDP[1]         0.944       0.746
+IMUStateMachine_1.IMUAccelXLSBxDP[2]         clockgen|CLKOP_inferred_clock     FD1P3DX     Q       IMUAccelXLSBxDP[2]         0.944       0.746
+IMUStateMachine_1.IMUAccelXLSBxDP[3]         clockgen|CLKOP_inferred_clock     FD1P3DX     Q       IMUAccelXLSBxDP[3]         0.944       0.746
+IMUStateMachine_1.IMUAccelXLSBxDP[4]         clockgen|CLKOP_inferred_clock     FD1P3DX     Q       IMUAccelXLSBxDP[4]         0.944       0.746
+IMUStateMachine_1.IMUAccelXLSBxDP[5]         clockgen|CLKOP_inferred_clock     FD1P3DX     Q       IMUAccelXLSBxDP[5]         0.944       0.746
+IMUStateMachine_1.IMUAccelXLSBxDP[6]         clockgen|CLKOP_inferred_clock     FD1P3DX     Q       IMUAccelXLSBxDP[6]         0.944       0.746
+IMUStateMachine_1.IMUAccelXLSBxDP[7]         clockgen|CLKOP_inferred_clock     FD1P3DX     Q       IMUAccelXLSBxDP[7]         0.944       0.746
+===============================================================================================================================================
 
 
 Ending Points with Worst Slack
 ******************************
 
-                                             Starting                                                                       Required          
-Instance                                     Reference                         Type        Pin     Net                      Time         Slack
-                                             Clock                                                                                            
-----------------------------------------------------------------------------------------------------------------------------------------------
-AERREQxSB                                    clockgen|CLKOP_inferred_clock     FD1S3AX     D       AERReqSyncxSBN           0.198        0.746
-uSynchronizerStateMachine_1.SyncInCLKxCB     clockgen|CLKOP_inferred_clock     FD1S3AX     D       SyncInCLKxCBN            0.198        0.746
-monitorStateMachine_1.StatexDP[0]            clockgen|CLKOP_inferred_clock     FD1S3DX     D       StatexDP[1]              0.198        0.821
-uMonitorTimestampRegister.StatexDP[0]        clockgen|CLKOP_inferred_clock     FD1P3DX     D       ActualTimestampxD[0]     0.198        0.821
-uMonitorTimestampRegister.StatexDP[1]        clockgen|CLKOP_inferred_clock     FD1P3DX     D       ActualTimestampxD[1]     0.198        0.821
-uMonitorTimestampRegister.StatexDP[2]        clockgen|CLKOP_inferred_clock     FD1P3DX     D       ActualTimestampxD[2]     0.198        0.821
-monitorStateMachine_1.StatexDP[3]            clockgen|CLKOP_inferred_clock     FD1S3DX     D       StatexDP[4]              0.198        0.821
-uMonitorTimestampRegister.StatexDP[3]        clockgen|CLKOP_inferred_clock     FD1P3DX     D       ActualTimestampxD[3]     0.198        0.821
-uMonitorTimestampRegister.StatexDP[4]        clockgen|CLKOP_inferred_clock     FD1P3DX     D       ActualTimestampxD[4]     0.198        0.821
-uMonitorTimestampRegister.StatexDP[5]        clockgen|CLKOP_inferred_clock     FD1P3DX     D       ActualTimestampxD[5]     0.198        0.821
-==============================================================================================================================================
+                                      Starting                                                                     Required          
+Instance                              Reference                         Type        Pin     Net                    Time         Slack
+                                      Clock                                                                                          
+-------------------------------------------------------------------------------------------------------------------------------------
+uIMURegister.StatexDP[12]             clockgen|CLKOP_inferred_clock     FD1P3DX     D       IMUDataxD[12]          0.702        0.696
+AERREQxSB                             clockgen|CLKOP_inferred_clock     FD1S3AX     D       AERReqSyncxSBN         0.198        0.746
+IMUStateMachine_1.IMUAccelXxDP[0]     clockgen|CLKOP_inferred_clock     FD1P3DX     D       IMUAccelXLSBxDP[0]     0.198        0.746
+IMUStateMachine_1.IMUAccelXxDP[1]     clockgen|CLKOP_inferred_clock     FD1P3DX     D       IMUAccelXLSBxDP[1]     0.198        0.746
+IMUStateMachine_1.IMUAccelXxDP[2]     clockgen|CLKOP_inferred_clock     FD1P3DX     D       IMUAccelXLSBxDP[2]     0.198        0.746
+IMUStateMachine_1.IMUAccelXxDP[3]     clockgen|CLKOP_inferred_clock     FD1P3DX     D       IMUAccelXLSBxDP[3]     0.198        0.746
+IMUStateMachine_1.IMUAccelXxDP[4]     clockgen|CLKOP_inferred_clock     FD1P3DX     D       IMUAccelXLSBxDP[4]     0.198        0.746
+IMUStateMachine_1.IMUAccelXxDP[5]     clockgen|CLKOP_inferred_clock     FD1P3DX     D       IMUAccelXLSBxDP[5]     0.198        0.746
+IMUStateMachine_1.IMUAccelXxDP[6]     clockgen|CLKOP_inferred_clock     FD1P3DX     D       IMUAccelXLSBxDP[6]     0.198        0.746
+IMUStateMachine_1.IMUAccelXxDP[7]     clockgen|CLKOP_inferred_clock     FD1P3DX     D       IMUAccelXLSBxDP[7]     0.198        0.746
+=====================================================================================================================================
 
 
 
@@ -415,26 +406,29 @@ Worst Path Information
 
 
 Path information for path number 1: 
-    Propagation time:                        0.944
+    Propagation time:                        1.398
     + Clock delay at starting point:         0.000 (ideal)
     - Requested Period:                      0.000
-    - Hold time:                             0.198
+    - Hold time:                             0.702
     - Clock delay at ending point:           0.000 (ideal)
-    = Slack (non-critical) :                 0.746
+    = Slack (non-critical) :                 0.696
 
-    Number of logic level(s):                0
-    Starting point:                          AERReqSyncxSBN / Q
-    Ending point:                            AERREQxSB / D
+    Number of logic level(s):                1
+    Starting point:                          IMUStateMachine_1.IMUDataWordCountxDP[0] / Q
+    Ending point:                            uIMURegister.StatexDP[12] / D
     The start point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
     The end   point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
 
-Instance / Net                 Pin      Pin               Arrival     No. of    
-Name               Type        Name     Dir     Delay     Time        Fan Out(s)
---------------------------------------------------------------------------------
-AERReqSyncxSBN     FD1S3AX     Q        Out     0.944     0.944       -         
-AERReqSyncxSBN     Net         -        -       -         -           1         
-AERREQxSB          FD1S3AX     D        In      0.000     0.944       -         
-================================================================================
+Instance / Net                                            Pin      Pin               Arrival     No. of    
+Name                                         Type         Name     Dir     Delay     Time        Fan Out(s)
+-----------------------------------------------------------------------------------------------------------
+IMUStateMachine_1.IMUDataWordCountxDP[0]     FD1S3DX      Q        Out     1.162     1.162       -         
+IMUDataWordCountxDP[0]                       Net          -        -       -         -           5         
+IMUStateMachine_1.IMUDataxDO_1_u[12]         ORCALUT4     A        In      0.000     1.162       -         
+IMUStateMachine_1.IMUDataxDO_1_u[12]         ORCALUT4     Z        Out     0.236     1.398       -         
+IMUDataxD[12]                                Net          -        -       -         -           1         
+uIMURegister.StatexDP[12]                    FD1P3DX      D        In      0.000     1.398       -         
+===========================================================================================================
 
 
 
@@ -452,29 +446,29 @@ Starting Points with Worst Slack
 Instance              Reference     Type        Pin     Net             Time        Slack 
                       Clock                                                               
 ------------------------------------------------------------------------------------------
-uFifo.AERfifo_0_1     System        FIFO8KA     EF      FifoEmptyxS     0.000       -0.172
 uFifo.AERfifo_0_1     System        FIFO8KA     FF      FifoFullxS      0.000       -0.172
+uFifo.AERfifo_0_1     System        FIFO8KA     EF      FifoEmptyxS     0.000       0.000 
 ==========================================================================================
 
 
 Ending Points with Worst Slack
 ******************************
 
-                                            Starting                                                     Required           
-Instance                                    Reference     Type        Pin        Net                     Time         Slack 
-                                            Clock                                                                           
-----------------------------------------------------------------------------------------------------------------------------
-fifoStatemachine_1.StatexDP[1]              System        FD1S3DX     D          StatexDP_ns[1]          0.702        -0.172
-monitorStateMachine_1.StatexDP[8]           System        FD1S3DX     D          StatexDP_ns[6]          0.702        -0.172
-monitorStateMachine_1.StatexDP[9]           System        FD1S3DX     D          StatexDP_ns[5]          0.702        -0.172
-monitorStateMachine_1.StatexDP[10]          System        FD1S3DX     D          N_257_i                 0.702        -0.172
-monitorStateMachine_1.StatexDP_fast[9]      System        FD1S3DX     D          StatexDP_ns_fast[5]     0.702        -0.172
-monitorStateMachine_1.StatexDP_fast[10]     System        FD1S3DX     D          N_257_i_fast            0.702        -0.172
-uFifo.AERfifo_0_1                           System        FIFO8KA     EMPTYI     FifoEmptyxS             0.000        0.000 
-uFifo.AERfifo_0_1                           System        FIFO8KA     FULLI      FifoFullxS              0.000        0.000 
-uFifo.AERfifo_1_0                           System        FIFO8KA     EMPTYI     FifoEmptyxS             0.000        0.000 
-uFifo.AERfifo_1_0                           System        FIFO8KA     FULLI      FifoFullxS              0.000        0.000 
-============================================================================================================================
+                                       Starting                                                 Required           
+Instance                               Reference     Type        Pin        Net                 Time         Slack 
+                                       Clock                                                                       
+-------------------------------------------------------------------------------------------------------------------
+monitorStateMachine_1.StatexDP[8]      System        FD1S3DX     D          StatexDP_ns[6]      0.702        -0.172
+monitorStateMachine_1.StatexDP[9]      System        FD1S3DX     D          StatexDP_ns[5]      0.702        -0.172
+monitorStateMachine_1.StatexDP[10]     System        FD1S3DX     D          N_255_i             0.702        -0.172
+uFifo.AERfifo_0_1                      System        FIFO8KA     EMPTYI     FifoEmptyxS         0.000        0.000 
+uFifo.AERfifo_0_1                      System        FIFO8KA     FULLI      FifoFullxS          0.000        0.000 
+uFifo.AERfifo_1_0                      System        FIFO8KA     EMPTYI     FifoEmptyxS         0.000        0.000 
+uFifo.AERfifo_1_0                      System        FIFO8KA     FULLI      FifoFullxS          0.000        0.000 
+fifoStatemachine_1.StatexDP[1]         System        FD1S3DX     D          StatexDP_ns[1]      0.702        0.660 
+fifoStatemachine_1.StatexDP[0]         System        FD1S3DX     D          StatexDP_ns[0]      0.702        0.736 
+monitorStateMachine_1.StatexDP[1]      System        FD1S3DX     D          StatexDP_ns[13]     0.702        0.845 
+===================================================================================================================
 
 
 
@@ -492,78 +486,24 @@ Path information for path number 1:
     = Slack (critical) :                     -0.172
 
     Number of logic level(s):                1
-    Starting point:                          uFifo.AERfifo_0_1 / EF
-    Ending point:                            fifoStatemachine_1.StatexDP[1] / D
+    Starting point:                          uFifo.AERfifo_0_1 / FF
+    Ending point:                            monitorStateMachine_1.StatexDP[8] / D
     The start point is clocked by            System [rising]
-    The end   point is clocked by            USBAER_top_level|IfClockxCI [rising] on pin CK
+    The end   point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
 
-Instance / Net                                          Pin      Pin               Arrival     No. of    
-Name                                       Type         Name     Dir     Delay     Time        Fan Out(s)
----------------------------------------------------------------------------------------------------------
-uFifo.AERfifo_0_1                          FIFO8KA      EF       Out     0.000     0.000       -         
-FifoEmptyxS                                Net          -        -       -         -           5         
-fifoStatemachine_1.StatexDP_ns_1_0_.m8     ORCALUT4     A        In      0.000     0.000       -         
-fifoStatemachine_1.StatexDP_ns_1_0_.m8     ORCALUT4     Z        Out     0.530     0.530       -         
-StatexDP_ns[1]                             Net          -        -       -         -           1         
-fifoStatemachine_1.StatexDP[1]             FD1S3DX      D        In      0.000     0.530       -         
-=========================================================================================================
+Instance / Net                                         Pin      Pin               Arrival     No. of    
+Name                                      Type         Name     Dir     Delay     Time        Fan Out(s)
+--------------------------------------------------------------------------------------------------------
+uFifo.AERfifo_0_1                         FIFO8KA      FF       Out     0.000     0.000       -         
+FifoFullxS                                Net          -        -       -         -           8         
+monitorStateMachine_1.StatexDP_RNO[8]     ORCALUT4     D        In      0.000     0.000       -         
+monitorStateMachine_1.StatexDP_RNO[8]     ORCALUT4     Z        Out     0.530     0.530       -         
+StatexDP_ns[6]                            Net          -        -       -         -           1         
+monitorStateMachine_1.StatexDP[8]         FD1S3DX      D        In      0.000     0.530       -         
+========================================================================================================
 
 
 Path information for path number 2: 
-    Propagation time:                        0.530
-    + Clock delay at starting point:         0.000 (ideal)
--0.000
-    - Requested Period:                      0.000
-    - Hold time:                             0.702
-    - Clock delay at ending point:           0.000 (ideal)
-    = Slack (critical) :                     -0.172
-
-    Number of logic level(s):                1
-    Starting point:                          uFifo.AERfifo_0_1 / FF
-    Ending point:                            monitorStateMachine_1.StatexDP[10] / D
-    The start point is clocked by            System [rising]
-    The end   point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
-
-Instance / Net                                          Pin      Pin               Arrival     No. of    
-Name                                       Type         Name     Dir     Delay     Time        Fan Out(s)
----------------------------------------------------------------------------------------------------------
-uFifo.AERfifo_0_1                          FIFO8KA      FF       Out     0.000     0.000       -         
-FifoFullxS                                 Net          -        -       -         -           11        
-monitorStateMachine_1.StatexDP_RNO[10]     ORCALUT4     D        In      0.000     0.000       -         
-monitorStateMachine_1.StatexDP_RNO[10]     ORCALUT4     Z        Out     0.530     0.530       -         
-N_257_i                                    Net          -        -       -         -           1         
-monitorStateMachine_1.StatexDP[10]         FD1S3DX      D        In      0.000     0.530       -         
-=========================================================================================================
-
-
-Path information for path number 3: 
-    Propagation time:                        0.530
-    + Clock delay at starting point:         0.000 (ideal)
--0.000
-    - Requested Period:                      0.000
-    - Hold time:                             0.702
-    - Clock delay at ending point:           0.000 (ideal)
-    = Slack (critical) :                     -0.172
-
-    Number of logic level(s):                1
-    Starting point:                          uFifo.AERfifo_0_1 / FF
-    Ending point:                            monitorStateMachine_1.StatexDP_fast[9] / D
-    The start point is clocked by            System [rising]
-    The end   point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
-
-Instance / Net                                                                 Pin      Pin               Arrival     No. of    
-Name                                                              Type         Name     Dir     Delay     Time        Fan Out(s)
---------------------------------------------------------------------------------------------------------------------------------
-uFifo.AERfifo_0_1                                                 FIFO8KA      FF       Out     0.000     0.000       -         
-FifoFullxS                                                        Net          -        -       -         -           11        
-monitorStateMachine_1.TimestampRegWritexEO_1_sqmuxa_0_a3_fast     ORCALUT4     A        In      0.000     0.000       -         
-monitorStateMachine_1.TimestampRegWritexEO_1_sqmuxa_0_a3_fast     ORCALUT4     Z        Out     0.530     0.530       -         
-StatexDP_ns_fast[5]                                               Net          -        -       -         -           1         
-monitorStateMachine_1.StatexDP_fast[9]                            FD1S3DX      D        In      0.000     0.530       -         
-================================================================================================================================
-
-
-Path information for path number 4: 
     Propagation time:                        0.530
     + Clock delay at starting point:         0.000 (ideal)
 -0.000
@@ -582,7 +522,7 @@ Instance / Net                                                            Pin   
 Name                                                         Type         Name     Dir     Delay     Time        Fan Out(s)
 ---------------------------------------------------------------------------------------------------------------------------
 uFifo.AERfifo_0_1                                            FIFO8KA      FF       Out     0.000     0.000       -         
-FifoFullxS                                                   Net          -        -       -         -           11        
+FifoFullxS                                                   Net          -        -       -         -           8         
 monitorStateMachine_1.TimestampRegWritexEO_1_sqmuxa_0_a3     ORCALUT4     A        In      0.000     0.000       -         
 monitorStateMachine_1.TimestampRegWritexEO_1_sqmuxa_0_a3     ORCALUT4     Z        Out     0.530     0.530       -         
 StatexDP_ns[5]                                               Net          -        -       -         -           1         
@@ -590,7 +530,7 @@ monitorStateMachine_1.StatexDP[9]                            FD1S3DX      D     
 ===========================================================================================================================
 
 
-Path information for path number 5: 
+Path information for path number 3: 
     Propagation time:                        0.530
     + Clock delay at starting point:         0.000 (ideal)
 -0.000
@@ -601,20 +541,70 @@ Path information for path number 5:
 
     Number of logic level(s):                1
     Starting point:                          uFifo.AERfifo_0_1 / FF
-    Ending point:                            monitorStateMachine_1.StatexDP[8] / D
+    Ending point:                            monitorStateMachine_1.StatexDP[10] / D
     The start point is clocked by            System [rising]
     The end   point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
 
-Instance / Net                                        Pin      Pin               Arrival     No. of    
-Name                                     Type         Name     Dir     Delay     Time        Fan Out(s)
--------------------------------------------------------------------------------------------------------
-uFifo.AERfifo_0_1                        FIFO8KA      FF       Out     0.000     0.000       -         
-FifoFullxS                               Net          -        -       -         -           11        
-monitorStateMachine_1.StatexDP_ns[6]     ORCALUT4     B        In      0.000     0.000       -         
-monitorStateMachine_1.StatexDP_ns[6]     ORCALUT4     Z        Out     0.530     0.530       -         
-StatexDP_ns[6]                           Net          -        -       -         -           1         
-monitorStateMachine_1.StatexDP[8]        FD1S3DX      D        In      0.000     0.530       -         
-=======================================================================================================
+Instance / Net                                          Pin      Pin               Arrival     No. of    
+Name                                       Type         Name     Dir     Delay     Time        Fan Out(s)
+---------------------------------------------------------------------------------------------------------
+uFifo.AERfifo_0_1                          FIFO8KA      FF       Out     0.000     0.000       -         
+FifoFullxS                                 Net          -        -       -         -           8         
+monitorStateMachine_1.StatexDP_RNO[10]     ORCALUT4     D        In      0.000     0.000       -         
+monitorStateMachine_1.StatexDP_RNO[10]     ORCALUT4     Z        Out     0.530     0.530       -         
+N_255_i                                    Net          -        -       -         -           1         
+monitorStateMachine_1.StatexDP[10]         FD1S3DX      D        In      0.000     0.530       -         
+=========================================================================================================
+
+
+Path information for path number 4: 
+    Propagation time:                        0.000
+    + Clock delay at starting point:         0.000 (ideal)
+-0.000
+    - Requested Period:                      0.000
+    - Hold time:                             0.000
+    - Clock delay at ending point:           0.000 (ideal)
+0.000
+    = Slack (non-critical) :                 0.000
+
+    Number of logic level(s):                0
+    Starting point:                          uFifo.AERfifo_0_1 / EF
+    Ending point:                            uFifo.AERfifo_0_1 / EMPTYI
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            System [rising]
+
+Instance / Net                    Pin        Pin               Arrival     No. of    
+Name                  Type        Name       Dir     Delay     Time        Fan Out(s)
+-------------------------------------------------------------------------------------
+uFifo.AERfifo_0_1     FIFO8KA     EF         Out     0.000     0.000       -         
+FifoEmptyxS           Net         -          -       -         -           4         
+uFifo.AERfifo_0_1     FIFO8KA     EMPTYI     In      0.000     0.000       -         
+=====================================================================================
+
+
+Path information for path number 5: 
+    Propagation time:                        0.000
+    + Clock delay at starting point:         0.000 (ideal)
+-0.000
+    - Requested Period:                      0.000
+    - Hold time:                             0.000
+    - Clock delay at ending point:           0.000 (ideal)
+0.000
+    = Slack (non-critical) :                 0.000
+
+    Number of logic level(s):                0
+    Starting point:                          uFifo.AERfifo_0_1 / FF
+    Ending point:                            uFifo.AERfifo_0_1 / FULLI
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            System [rising]
+
+Instance / Net                    Pin       Pin               Arrival     No. of    
+Name                  Type        Name      Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------
+uFifo.AERfifo_0_1     FIFO8KA     FF        Out     0.000     0.000       -         
+FifoFullxS            Net         -         -       -         -           8         
+uFifo.AERfifo_0_1     FIFO8KA     FULLI     In      0.000     0.000       -         
+====================================================================================
 
 
 

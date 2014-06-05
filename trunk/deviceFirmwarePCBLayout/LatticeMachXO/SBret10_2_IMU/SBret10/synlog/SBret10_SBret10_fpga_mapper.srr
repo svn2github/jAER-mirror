@@ -82,8 +82,8 @@ original code -> new code
    001000000000000 -> 001000000000000
    010000000000000 -> 010000000000000
    100000000000000 -> 100000000000000
-@N:"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\monitorstatemachine.vhd":393:2:393:3|Found updn counter in view:work.monitorStateMachine(behavioral) inst TimestampOverflowxDP[15:0] 
-@N:"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\monitorstatemachine.vhd":393:2:393:3|Found counter in view:work.monitorStateMachine(behavioral) inst CountxDP[7:0]
+@N:"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\monitorstatemachine.vhd":394:2:394:3|Found updn counter in view:work.monitorStateMachine(behavioral) inst TimestampOverflowxDP[15:0] 
+@N:"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\monitorstatemachine.vhd":394:2:394:3|Found counter in view:work.monitorStateMachine(behavioral) inst CountxDP[7:0]
 Encoding state machine StateColxDP[0:11] (view:work.ADCStateMachine(behavioral))
 original code -> new code
    000000000001 -> 000000000001
@@ -167,9 +167,9 @@ original code -> new code
    01 -> 01
    10 -> 10
    11 -> 11
-@N:"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":1065:2:1065:3|Found counter in view:work.IMUStateMachine(behavioral) inst I2CWaitCountxDP[12:0]
-@N:"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":1065:2:1065:3|Found counter in view:work.IMUStateMachine(behavioral) inst IMUInitByteCountxDP[3:0]
-@N:"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":1065:2:1065:3|Found counter in view:work.IMUStateMachine(behavioral) inst IMUMeasByteCountxDP[3:0]
+@N:"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":1064:2:1064:3|Found counter in view:work.IMUStateMachine(behavioral) inst I2CWaitCountxDP[14:0]
+@N:"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":1064:2:1064:3|Found counter in view:work.IMUStateMachine(behavioral) inst IMUInitByteCountxDP[3:0]
+@N:"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":1064:2:1064:3|Found counter in view:work.IMUStateMachine(behavioral) inst IMUMeasByteCountxDP[3:0]
 Encoding state machine ns[0:2] (view:work.MPU_to_I2C(mpu_to_i2c_behave))
 original code -> new code
    00 -> 00
@@ -229,79 +229,81 @@ original code -> new code
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_int_blk.vhd":71:4:71:5|Removing sequential instance I2C_Top_1.Int_Ctrl_1.Iack_Clear in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_int_blk.vhd":71:4:71:5|Removing sequential instance I2C_Top_1.Int_Ctrl_1.INTR_L in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Removing sequential instance I2C_Top_1.MPU_to_I2C_1.upaddr[2] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@A: BN291 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Boundary register I2C_Top_1.MPU_to_I2C_1.upaddr[2] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Removing sequential instance I2C_Top_1.MPU_to_I2C_1.upaddr[1] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@A: BN291 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Boundary register I2C_Top_1.MPU_to_I2C_1.upaddr[1] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Removing sequential instance I2C_Top_1.MPU_to_I2C_1.upaddr[0] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@A: BN291 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Boundary register I2C_Top_1.MPU_to_I2C_1.upaddr[0] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":202:2:202:3|Removing sequential instance I2C_Top_1.MPU_to_I2C_1.Iack in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@A: BN291 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":202:2:202:3|Boundary register I2C_Top_1.MPU_to_I2C_1.Iack packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Removing sequential instance I2C_Top_1.MPU_to_I2C_1.cmd[5] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@A: BN291 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Boundary register I2C_Top_1.MPU_to_I2C_1.cmd[5] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Removing sequential instance I2C_Top_1.MPU_to_I2C_1.cmd[3] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@A: BN291 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Boundary register I2C_Top_1.MPU_to_I2C_1.cmd[3] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Removing sequential instance I2C_Top_1.MPU_to_I2C_1.cmd[2] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@A: BN291 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Boundary register I2C_Top_1.MPU_to_I2C_1.cmd[2] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Removing sequential instance I2C_Top_1.MPU_to_I2C_1.cmd[1] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@A: BN291 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Boundary register I2C_Top_1.MPU_to_I2C_1.cmd[1] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Removing sequential instance I2C_Top_1.MPU_to_I2C_1.cmd[0] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
+@A: BN291 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Boundary register I2C_Top_1.MPU_to_I2C_1.cmd[0] packed into a complex cell. To disable register packing, set syn_keep=1 on net between register and complex cell. 
 
-Finished factoring (Real Time elapsed 0h:00m:01s; CPU Time elapsed 0h:00m:01s; Memory used current: 159MB peak: 160MB)
-
-
-Finished gated-clock and generated-clock conversion (Real Time elapsed 0h:00m:01s; CPU Time elapsed 0h:00m:01s; Memory used current: 146MB peak: 161MB)
+Finished factoring (Real Time elapsed 0h:00m:01s; CPU Time elapsed 0h:00m:01s; Memory used current: 154MB peak: 155MB)
 
 
-
-Finished generic timing optimizations - Pass 1 (Real Time elapsed 0h:00m:02s; CPU Time elapsed 0h:00m:02s; Memory used current: 143MB peak: 161MB)
-
-
-Starting Early Timing Optimization (Real Time elapsed 0h:00m:02s; CPU Time elapsed 0h:00m:02s; Memory used current: 143MB peak: 161MB)
+Finished gated-clock and generated-clock conversion (Real Time elapsed 0h:00m:01s; CPU Time elapsed 0h:00m:01s; Memory used current: 145MB peak: 155MB)
 
 
-Finished Early Timing Optimization (Real Time elapsed 0h:00m:03s; CPU Time elapsed 0h:00m:03s; Memory used current: 146MB peak: 161MB)
+
+Finished generic timing optimizations - Pass 1 (Real Time elapsed 0h:00m:02s; CPU Time elapsed 0h:00m:01s; Memory used current: 142MB peak: 155MB)
 
 
-Finished generic timing optimizations - Pass 2 (Real Time elapsed 0h:00m:03s; CPU Time elapsed 0h:00m:03s; Memory used current: 146MB peak: 161MB)
+Starting Early Timing Optimization (Real Time elapsed 0h:00m:02s; CPU Time elapsed 0h:00m:02s; Memory used current: 143MB peak: 155MB)
+
+
+Finished Early Timing Optimization (Real Time elapsed 0h:00m:02s; CPU Time elapsed 0h:00m:02s; Memory used current: 145MB peak: 155MB)
+
+
+Finished generic timing optimizations - Pass 2 (Real Time elapsed 0h:00m:02s; CPU Time elapsed 0h:00m:02s; Memory used current: 145MB peak: 155MB)
 
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_cnt_blk.vhd":176:3:176:4|Removing sequential instance I2C_Top_1.Counter_Blk_1.Byte_Cmpr in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
 
-Finished preparing to map (Real Time elapsed 0h:00m:03s; CPU Time elapsed 0h:00m:03s; Memory used current: 146MB peak: 161MB)
+Finished preparing to map (Real Time elapsed 0h:00m:03s; CPU Time elapsed 0h:00m:03s; Memory used current: 145MB peak: 155MB)
 
 
-Finished technology mapping (Real Time elapsed 0h:00m:04s; CPU Time elapsed 0h:00m:04s; Memory used current: 186MB peak: 189MB)
+Finished technology mapping (Real Time elapsed 0h:00m:03s; CPU Time elapsed 0h:00m:03s; Memory used current: 194MB peak: 197MB)
 
 Pass		 CPU time		Worst Slack		Luts / Registers
 ------------------------------------------------------------
 Pass		 CPU time		Worst Slack		Luts / Registers
 ------------------------------------------------------------
-   1		0h:00m:04s		    -5.10ns		 895 /       850
-   2		0h:00m:04s		    -4.79ns		 897 /       850
-   3		0h:00m:04s		    -4.32ns		 899 /       850
-   4		0h:00m:04s		    -4.32ns		 899 /       850
+   1		0h:00m:03s		    -4.92ns		 855 /       852
+   2		0h:00m:03s		    -3.97ns		 857 /       852
+   3		0h:00m:03s		    -3.57ns		 857 /       852
 ------------------------------------------------------------
 
-@N: FX271 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":1065:2:1065:3|Instance "IMUStateMachine_1.StateIMUxDP[1]" with 59 loads replicated 3 times to improve timing 
-Timing driven replication report
+
+
+@N: FX271 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":1064:2:1064:3|Instance "IMUStateMachine_1.StateIMUxDP[3]" with 65 loads replicated 3 times to improve timing 
 Added 3 Registers via timing driven replication
-Added 0 LUTs via timing driven replication
-
-@N: FX271 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\monitorstatemachine.vhd":235:3:235:26|Instance "monitorStateMachine_1.StatexDP[9]" with 22 loads replicated 1 times to improve timing 
-@N: FX271 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\monitorstatemachine.vhd":222:3:222:20|Instance "monitorStateMachine_1.StatexDP[10]" with 20 loads replicated 1 times to improve timing 
-@N: FX271 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\timestampcounter.vhd":67:4:67:5|Instance "uTimestampCounter.CountxDP[14]" with 4 loads replicated 1 times to improve timing 
-Added 3 Registers via timing driven replication
-Added 2 LUTs via timing driven replication
-
+Added 3 LUTs via timing driven replication
 
 Pass		 CPU time		Worst Slack		Luts / Registers
 ------------------------------------------------------------
-   1		0h:00m:05s		    -2.74ns		 921 /       856
-   2		0h:00m:05s		    -2.74ns		 922 /       856
-   3		0h:00m:05s		    -2.74ns		 923 /       856
+   1		0h:00m:05s		    -3.30ns		 906 /       855
+   2		0h:00m:05s		    -3.30ns		 906 /       855
+   3		0h:00m:05s		    -3.30ns		 906 /       855
 ------------------------------------------------------------
 
 
 
 Pass		 CPU time		Worst Slack		Luts / Registers
 ------------------------------------------------------------
-   1		0h:00m:05s		    -2.74ns		 933 /       856
-   2		0h:00m:05s		    -2.74ns		 933 /       856
+   1		0h:00m:05s		    -3.30ns		 906 /       855
+   2		0h:00m:05s		    -3.30ns		 906 /       855
 ------------------------------------------------------------
 
 
-Finished technology timing optimizations and critical path resynthesis (Real Time elapsed 0h:00m:05s; CPU Time elapsed 0h:00m:05s; Memory used current: 153MB peak: 189MB)
+Finished technology timing optimizations and critical path resynthesis (Real Time elapsed 0h:00m:05s; CPU Time elapsed 0h:00m:05s; Memory used current: 154MB peak: 197MB)
 
 @N: FX164 |The option to pack flops in the IOB has not been specified 
 @W: MO111 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\usbaer_top_level.vhd":102:2:102:10|Tristate driver DebugxSIO_obuft_1_.un1[0] on net DebugxSIO[1] has its enable tied to GND (module USBAER_top_level) 
@@ -322,27 +324,27 @@ Finished technology timing optimizations and critical path resynthesis (Real Tim
 @W: MT453 |clock period is too long for clock ADCStateMachine|StateColxDP_derived_clock[11], changing period from 10000000.0 to 20000.0 ns, rise from 0.0 ns to 0.0 ns, and fall from 5000000.0 ns to 10000.0 ns. 
 @W: MT453 |clock period is too long for clock ADCStateMachine|StateRowxDP_derived_clock[5], changing period from 10000000.0 to 20000.0 ns, rise from 0.0 ns to 0.0 ns, and fall from 5000000.0 ns to 10000.0 ns. 
 
-Finished restoring hierarchy (Real Time elapsed 0h:00m:06s; CPU Time elapsed 0h:00m:06s; Memory used current: 154MB peak: 189MB)
+Finished restoring hierarchy (Real Time elapsed 0h:00m:06s; CPU Time elapsed 0h:00m:06s; Memory used current: 155MB peak: 197MB)
 
 
 
 #### START OF CLOCK OPTIMIZATION REPORT #####[
 
-3 non-gated/non-generated clock tree(s) driving 709 clock pin(s) of sequential element(s)
-3 gated/generated clock tree(s) driving 149 clock pin(s) of sequential element(s)
-0 instances converted, 149 sequential instances remain driven by gated/generated clocks
+3 non-gated/non-generated clock tree(s) driving 420 clock pin(s) of sequential element(s)
+3 gated/generated clock tree(s) driving 437 clock pin(s) of sequential element(s)
+0 instances converted, 437 sequential instances remain driven by gated/generated clocks
 
 ==================================== Non-Gated/Non-Generated Clocks ====================================
 Clock Tree ID     Driving Element     Drive Element Type     Fanout     Sample Instance                 
 --------------------------------------------------------------------------------------------------------
-@K:CKID0004       IfClockxCI          port                   549        IMUStateMachine_1.StateRWxDP[10]
+@K:CKID0004       IfClockxCI          port                   260        ADCStateMachine_1.StateRowxDP[6]
 @K:CKID0005       PC1xSIO             port                   80         shiftRegister_1.StatexD[79]     
 @K:CKID0006       PC2xSIO             port                   80         shiftRegister_1.DataOutxDO[0]   
 ========================================================================================================
 ================================================================================================================= Gated/Generated Clocks =================================================================================================================
 Clock Tree ID     Driving Element                       Drive Element Type     Fanout     Sample Instance                   Explanation                                                                                                                   
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-@K:CKID0001       uClockGen.PLLCInst_0                  EHXPLLC                147        AERREQxSB                         Gating structure creates improper gating logic. See the Gated Clocks description in the user guide for conversion requirements
+@K:CKID0001       uClockGen.PLLCInst_0                  EHXPLLC                435        AERREQxSB                         Gating structure creates improper gating logic. See the Gated Clocks description in the user guide for conversion requirements
 @K:CKID0002       ADCStateMachine_1.StateRowxDP[5]      FD1S3DX                1          ADCStateMachine_1.StartRowxSN     Inferred clock from port                                                                                                      
 @K:CKID0003       ADCStateMachine_1.StateColxDP[11]     FD1S3BX                1          ADCStateMachine_1.NoBxS           Inferred clock from port                                                                                                      
 ==========================================================================================================================================================================================================================================================
@@ -352,7 +354,7 @@ Clock Tree ID     Driving Element                       Drive Element Type     F
 
 Writing Analyst data base C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\SBret10\SBret10_SBret10.srm
 
-Finished Writing Netlist Databases (Real Time elapsed 0h:00m:06s; CPU Time elapsed 0h:00m:06s; Memory used current: 154MB peak: 189MB)
+Finished Writing Netlist Databases (Real Time elapsed 0h:00m:06s; CPU Time elapsed 0h:00m:06s; Memory used current: 156MB peak: 197MB)
 
 Writing EDIF Netlist and constraint files
 G-2012.09L-SP1 
@@ -364,23 +366,23 @@ G-2012.09L-SP1
 @W|Block-path constraint from PORT "USBAER_top_level|PC1xSIO" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file. 
 @W|Block-path constraint from PORT "USBAER_top_level|IfClockxCI" to CLKNET "clockgen|CLKOP_inferred_clock" not forward annotated in -lpf file. 
 
-Finished Writing EDIF Netlist and constraint files (Real Time elapsed 0h:00m:07s; CPU Time elapsed 0h:00m:07s; Memory used current: 159MB peak: 189MB)
+Finished Writing EDIF Netlist and constraint files (Real Time elapsed 0h:00m:07s; CPU Time elapsed 0h:00m:07s; Memory used current: 160MB peak: 197MB)
 
 @W: MT246 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\aerfifo.vhd":179:4:179:14|Blackbox FIFO8KA is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
-@W: MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 807.76ns. Please declare a user-defined clock on object "p:IfClockxCI"
+@W: MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 807.65ns. Please declare a user-defined clock on object "p:IfClockxCI"
 
 @W: MT420 |Found inferred clock USBAER_top_level|PC1xSIO with period 1.48ns. Please declare a user-defined clock on object "p:PC1xSIO"
 
 @W: MT420 |Found inferred clock USBAER_top_level|PC2xSIO with period 1000.00ns. Please declare a user-defined clock on object "p:PC2xSIO"
 
-Found clock ADCStateMachine|StateRowxDP_derived_clock[5] with period 16155.21ns 
-Found clock ADCStateMachine|StateColxDP_derived_clock[11] with period 16155.21ns 
-@W: MT420 |Found inferred clock clockgen|CLKOP_inferred_clock with period 7.77ns. Please declare a user-defined clock on object "n:uClockGen.CLKOP"
+Found clock ADCStateMachine|StateRowxDP_derived_clock[5] with period 16152.90ns 
+Found clock ADCStateMachine|StateColxDP_derived_clock[11] with period 16152.90ns 
+@W: MT420 |Found inferred clock clockgen|CLKOP_inferred_clock with period 11.22ns. Please declare a user-defined clock on object "n:uClockGen.CLKOP"
 
 
 
 ##### START OF TIMING REPORT #####[
-# Timing Report written on Mon Jun 02 20:59:12 2014
+# Timing Report written on Thu Jun 05 11:18:54 2014
 #
 
 
@@ -399,19 +401,19 @@ Performance Summary
 *******************
 
 
-Worst slack in design: -1.371
+Worst slack in design: -0.965
 
 @N: MT286 |System clock period 0.000 stretches to negative invalid value -- ignoring stretching.
                                                   Requested     Estimated     Requested     Estimated                 Clock                                          Clock                
 Starting Clock                                    Frequency     Frequency     Period        Period        Slack       Type                                           Group                
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-ADCStateMachine|StateColxDP_derived_clock[11]     0.1 MHz       10.3 MHz      16155.209     97.000        802.910     derived (from USBAER_top_level|IfClockxCI)     Autoconstr_clkgroup_1
-ADCStateMachine|StateRowxDP_derived_clock[5]      0.1 MHz       24.4 MHz      16155.209     41.020        806.129     derived (from USBAER_top_level|IfClockxCI)     Autoconstr_clkgroup_1
-USBAER_top_level|IfClockxCI                       1.2 MHz       74.3 MHz      807.760       13.451        400.460     inferred                                       Autoconstr_clkgroup_1
+ADCStateMachine|StateColxDP_derived_clock[11]     0.1 MHz       14.8 MHz      16152.902     67.440        804.273     derived (from USBAER_top_level|IfClockxCI)     Autoconstr_clkgroup_1
+ADCStateMachine|StateRowxDP_derived_clock[5]      0.1 MHz       24.1 MHz      16152.902     41.500        806.014     derived (from USBAER_top_level|IfClockxCI)     Autoconstr_clkgroup_1
+USBAER_top_level|IfClockxCI                       1.2 MHz       106.6 MHz     807.645       9.378         400.402     inferred                                       Autoconstr_clkgroup_1
 USBAER_top_level|PC1xSIO                          676.5 MHz     575.0 MHz     1.478         1.739         -0.261      inferred                                       Autoconstr_clkgroup_2
 USBAER_top_level|PC2xSIO                          1.0 MHz       NA            1000.000      NA            NA          inferred                                       Autoconstr_clkgroup_3
-clockgen|CLKOP_inferred_clock                     128.7 MHz     109.4 MHz     7.772         9.143         -1.371      inferred                                       Autoconstr_clkgroup_0
-System                                            1.0 MHz       1.0 MHz       1000.000      996.630       3.370       system                                         system_clkgroup      
+clockgen|CLKOP_inferred_clock                     89.1 MHz      82.1 MHz      11.219        12.184        -0.965      inferred                                       Autoconstr_clkgroup_0
+System                                            1.0 MHz       1.0 MHz       1000.000      994.108       5.892       system                                         system_clkgroup      
 ==========================================================================================================================================================================================
 
 
@@ -426,22 +428,22 @@ Clocks                                                                          
 Starting                                       Ending                                        |  constraint  slack     |  constraint  slack  |  constraint  slack    |  constraint  slack
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 System                                         System                                        |  1000.000    1000.000  |  No paths    -      |  No paths    -        |  No paths    -    
-System                                         clockgen|CLKOP_inferred_clock                 |  7.772       3.370     |  No paths    -      |  No paths    -        |  No paths    -    
-System                                         USBAER_top_level|IfClockxCI                   |  807.760     804.811   |  No paths    -      |  No paths    -        |  No paths    -    
-clockgen|CLKOP_inferred_clock                  System                                        |  7.772       1.260     |  No paths    -      |  No paths    -        |  No paths    -    
-clockgen|CLKOP_inferred_clock                  clockgen|CLKOP_inferred_clock                 |  7.772       -1.372    |  No paths    -      |  No paths    -        |  No paths    -    
+System                                         clockgen|CLKOP_inferred_clock                 |  11.219      5.892     |  No paths    -      |  No paths    -        |  No paths    -    
+System                                         USBAER_top_level|IfClockxCI                   |  807.645     804.588   |  No paths    -      |  No paths    -        |  No paths    -    
+clockgen|CLKOP_inferred_clock                  System                                        |  11.219      3.728     |  No paths    -      |  No paths    -        |  No paths    -    
+clockgen|CLKOP_inferred_clock                  clockgen|CLKOP_inferred_clock                 |  11.219      -0.965    |  No paths    -      |  No paths    -        |  No paths    -    
 clockgen|CLKOP_inferred_clock                  USBAER_top_level|IfClockxCI                   |  Diff grp    -         |  No paths    -      |  No paths    -        |  No paths    -    
-USBAER_top_level|IfClockxCI                    System                                        |  807.760     803.697   |  No paths    -      |  No paths    -        |  No paths    -    
+USBAER_top_level|IfClockxCI                    System                                        |  807.645     804.771   |  No paths    -      |  No paths    -        |  No paths    -    
 USBAER_top_level|IfClockxCI                    clockgen|CLKOP_inferred_clock                 |  Diff grp    -         |  No paths    -      |  No paths    -        |  No paths    -    
-USBAER_top_level|IfClockxCI                    USBAER_top_level|IfClockxCI                   |  807.760     794.309   |  No paths    -      |  403.880     400.460  |  No paths    -    
-USBAER_top_level|IfClockxCI                    ADCStateMachine|StateRowxDP_derived_clock[5]  |  807.760     805.709   |  No paths    -      |  No paths    -        |  No paths    -    
+USBAER_top_level|IfClockxCI                    USBAER_top_level|IfClockxCI                   |  807.645     798.267   |  No paths    -      |  403.823     400.403  |  No paths    -    
+USBAER_top_level|IfClockxCI                    ADCStateMachine|StateRowxDP_derived_clock[5]  |  807.645     805.570   |  No paths    -      |  No paths    -        |  No paths    -    
 USBAER_top_level|PC1xSIO                       USBAER_top_level|PC1xSIO                      |  1.478       -0.261    |  No paths    -      |  No paths    -        |  No paths    -    
 USBAER_top_level|PC1xSIO                       USBAER_top_level|PC2xSIO                      |  No paths    -         |  No paths    -      |  Diff grp    -        |  No paths    -    
 USBAER_top_level|PC2xSIO                       clockgen|CLKOP_inferred_clock                 |  No paths    -         |  No paths    -      |  No paths    -        |  Diff grp    -    
 USBAER_top_level|PC2xSIO                       USBAER_top_level|IfClockxCI                   |  No paths    -         |  No paths    -      |  No paths    -        |  Diff grp    -    
 ADCStateMachine|StateColxDP_derived_clock[11]  clockgen|CLKOP_inferred_clock                 |  Diff grp    -         |  No paths    -      |  No paths    -        |  No paths    -    
-ADCStateMachine|StateColxDP_derived_clock[11]  USBAER_top_level|IfClockxCI                   |  807.760     802.910   |  No paths    -      |  No paths    -        |  No paths    -    
-ADCStateMachine|StateRowxDP_derived_clock[5]   USBAER_top_level|IfClockxCI                   |  807.760     806.129   |  No paths    -      |  No paths    -        |  No paths    -    
+ADCStateMachine|StateColxDP_derived_clock[11]  USBAER_top_level|IfClockxCI                   |  807.645     804.273   |  No paths    -      |  No paths    -        |  No paths    -    
+ADCStateMachine|StateRowxDP_derived_clock[5]   USBAER_top_level|IfClockxCI                   |  807.645     806.014   |  No paths    -      |  No paths    -        |  No paths    -    
 ========================================================================================================================================================================================
  Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
        'Diff grp' indicates that paths exist but the starting clock and ending clock are in different clock groups.
@@ -468,28 +470,28 @@ Starting Points with Worst Slack
 Instance                    Reference                                         Type       Pin     Net       Time        Slack  
                             Clock                                                                                             
 ------------------------------------------------------------------------------------------------------------------------------
-ADCStateMachine_1.NoBxS     ADCStateMachine|StateColxDP_derived_clock[11]     FD1S1D     Q       NoBxS     1.456       802.910
+ADCStateMachine_1.NoBxS     ADCStateMachine|StateColxDP_derived_clock[11]     FD1S1D     Q       NoBxS     1.612       804.273
 ==============================================================================================================================
 
 
 Ending Points with Worst Slack
 ******************************
 
-                              Starting                                                                           Required            
-Instance                      Reference                                         Type        Pin     Net          Time         Slack  
-                              Clock                                                                                                  
--------------------------------------------------------------------------------------------------------------------------------------
-uADCRegister.StatexDP[13]     ADCStateMachine|StateColxDP_derived_clock[11]     FD1S3DX     D       N_7641_0     806.757      802.910
-uADCRegister.StatexDP[0]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      807.567      804.477
-uADCRegister.StatexDP[1]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      807.567      804.477
-uADCRegister.StatexDP[2]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      807.567      804.477
-uADCRegister.StatexDP[3]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      807.567      804.477
-uADCRegister.StatexDP[4]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      807.567      804.477
-uADCRegister.StatexDP[5]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      807.567      804.477
-uADCRegister.StatexDP[6]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      807.567      804.477
-uADCRegister.StatexDP[7]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      807.567      804.477
-uADCRegister.StatexDP[8]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i      807.567      804.477
-=====================================================================================================================================
+                              Starting                                                                                    Required            
+Instance                      Reference                                         Type        Pin     Net                   Time         Slack  
+                              Clock                                                                                                           
+----------------------------------------------------------------------------------------------------------------------------------------------
+uADCRegister.StatexDP[13]     ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     D       StatexDP_ldmx[13]     806.642      804.273
+uADCRegister.StatexDP[0]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               807.452      805.503
+uADCRegister.StatexDP[1]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               807.452      805.503
+uADCRegister.StatexDP[2]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               807.452      805.503
+uADCRegister.StatexDP[3]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               807.452      805.503
+uADCRegister.StatexDP[4]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               807.452      805.503
+uADCRegister.StatexDP[5]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               807.452      805.503
+uADCRegister.StatexDP[6]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               807.452      805.503
+uADCRegister.StatexDP[7]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               807.452      805.503
+uADCRegister.StatexDP[8]      ADCStateMachine|StateColxDP_derived_clock[11]     FD1P3DX     SP      N_316_i               807.452      805.503
+==============================================================================================================================================
 
 
 
@@ -498,37 +500,31 @@ Worst Path Information
 
 
 Path information for path number 1: 
-      Requested Period:                      807.760
+      Requested Period:                      807.645
     - Setup time:                            1.003
     + Clock delay at ending point:           0.000 (ideal)
-    = Required time:                         806.757
+    = Required time:                         806.642
 
-    - Propagation time:                      3.847
+    - Propagation time:                      2.369
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (non-critical) :                 802.910
+    = Slack (non-critical) :                 804.273
 
-    Number of logic level(s):                3
+    Number of logic level(s):                1
     Starting point:                          ADCStateMachine_1.NoBxS / Q
     Ending point:                            uADCRegister.StatexDP[13] / D
     The start point is clocked by            ADCStateMachine|StateColxDP_derived_clock[11] [rising] on pin CK
     The end   point is clocked by            USBAER_top_level|IfClockxCI [rising] on pin CK
 
-Instance / Net                                                     Pin      Pin               Arrival     No. of    
-Name                                                  Type         Name     Dir     Delay     Time        Fan Out(s)
---------------------------------------------------------------------------------------------------------------------
-ADCStateMachine_1.NoBxS                               FD1S1D       Q        Out     1.456     1.456       -         
-NoBxS                                                 Net          -        -       -         -           2         
-ADCStateMachine_1.RegisterWritexEO_i_0_a0             ORCALUT4     A        In      0.000     1.456       -         
-ADCStateMachine_1.RegisterWritexEO_i_0_a0             ORCALUT4     Z        Out     1.297     2.753       -         
-RegisterWritexEO_i_0_a0                               Net          -        -       -         -           2         
-ADCStateMachine_1.RegisterWritexEO_i_0_a0_RNINT7Q     ORCALUT4     D        In      0.000     2.753       -         
-ADCStateMachine_1.RegisterWritexEO_i_0_a0_RNINT7Q     ORCALUT4     Z        Out     0.337     3.090       -         
-N_316_i                                               Net          -        -       -         -           14        
-uADCRegister.StatexDP_0[13]                           ORCALUT4     A        In      0.000     3.090       -         
-uADCRegister.StatexDP_0[13]                           ORCALUT4     Z        Out     0.757     3.847       -         
-N_7641_0                                              Net          -        -       -         -           1         
-uADCRegister.StatexDP[13]                             FD1S3DX      D        In      0.000     3.847       -         
-====================================================================================================================
+Instance / Net                                  Pin      Pin               Arrival     No. of    
+Name                               Type         Name     Dir     Delay     Time        Fan Out(s)
+-------------------------------------------------------------------------------------------------
+ADCStateMachine_1.NoBxS            FD1S1D       Q        Out     1.612     1.612       -         
+NoBxS                              Net          -        -       -         -           4         
+uADCRegister.StatexDP_ldmx[13]     ORCALUT4     A        In      0.000     1.612       -         
+uADCRegister.StatexDP_ldmx[13]     ORCALUT4     Z        Out     0.757     2.369       -         
+StatexDP_ldmx[13]                  Net          -        -       -         -           1         
+uADCRegister.StatexDP[13]          FD1P3DX      D        In      0.000     2.369       -         
+=================================================================================================
 
 
 
@@ -546,7 +542,7 @@ Starting Points with Worst Slack
 Instance                          Reference                                        Type       Pin     Net             Time        Slack  
                                   Clock                                                                                                  
 -----------------------------------------------------------------------------------------------------------------------------------------
-ADCStateMachine_1.StartRowxSN     ADCStateMachine|StateRowxDP_derived_clock[5]     FD1S1D     Q       StartRowxSN     1.348       806.129
+ADCStateMachine_1.StartRowxSN     ADCStateMachine|StateRowxDP_derived_clock[5]     FD1S1D     Q       StartRowxSN     1.348       806.014
 =========================================================================================================================================
 
 
@@ -557,7 +553,7 @@ Ending Points with Worst Slack
 Instance                          Reference                                        Type        Pin     Net             Time         Slack  
                                   Clock                                                                                                    
 -------------------------------------------------------------------------------------------------------------------------------------------
-ADCStateMachine_1.StartRowxSP     ADCStateMachine|StateRowxDP_derived_clock[5]     FD1S3DX     D       StartRowxSN     807.477      806.129
+ADCStateMachine_1.StartRowxSP     ADCStateMachine|StateRowxDP_derived_clock[5]     FD1S3DX     D       StartRowxSN     807.362      806.014
 ===========================================================================================================================================
 
 
@@ -567,14 +563,14 @@ Worst Path Information
 
 
 Path information for path number 1: 
-      Requested Period:                      807.760
+      Requested Period:                      807.645
     - Setup time:                            0.283
     + Clock delay at ending point:           0.000 (ideal)
-    = Required time:                         807.477
+    = Required time:                         807.362
 
     - Propagation time:                      1.348
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (non-critical) :                 806.129
+    = Slack (non-critical) :                 806.014
 
     Number of logic level(s):                0
     Starting point:                          ADCStateMachine_1.StartRowxSN / Q
@@ -602,41 +598,41 @@ Detailed Report for Clock: USBAER_top_level|IfClockxCI
 Starting Points with Worst Slack
 ********************************
 
-                                             Starting                                                                       Arrival            
-Instance                                     Reference                       Type        Pin     Net                        Time        Slack  
-                                             Clock                                                                                             
------------------------------------------------------------------------------------------------------------------------------------------------
-ADCStateMachine_1.StateRowxDP[2]             USBAER_top_level|IfClockxCI     FD1S3DX     Q       StateRowxDP[2]             1.660       400.460
-ADCStateMachine_1.StateRowxDP[5]             USBAER_top_level|IfClockxCI     FD1S3DX     Q       StateRowxDP_i[5]           1.660       400.460
-ADCStateMachine_1.StateColxDP[8]             USBAER_top_level|IfClockxCI     FD1S3DX     Q       StateColxDP[8]             1.612       400.508
-ADCStateMachine_1.StateColxDP[10]            USBAER_top_level|IfClockxCI     FD1S3DX     Q       StateColxDP[10]            1.612       400.508
-ADCStateMachine_1.StateColxDP[1]             USBAER_top_level|IfClockxCI     FD1S3DX     Q       StateColxDP[1]             1.552       400.568
-IMUStateMachine_1.IMUInitByteCountxDP[0]     USBAER_top_level|IfClockxCI     FD1P3DX     Q       IMUInitByteCountxDP[0]     1.738       794.309
-IMUStateMachine_1.IMUInitByteCountxDP[1]     USBAER_top_level|IfClockxCI     FD1P3DX     Q       IMUInitByteCountxDP[1]     1.732       794.315
-IMUStateMachine_1.IMUInitByteCountxDP[2]     USBAER_top_level|IfClockxCI     FD1P3DX     Q       IMUInitByteCountxDP[2]     1.732       794.315
-IMUStateMachine_1.IMUInitByteCountxDP[3]     USBAER_top_level|IfClockxCI     FD1P3DX     Q       IMUInitByteCountxDP[3]     1.672       794.375
-IMUStateMachine_1.I2CWaitCountxDP[3]         USBAER_top_level|IfClockxCI     FD1P3DX     Q       I2CWaitCountxDP[3]         1.672       794.519
-===============================================================================================================================================
+                                       Starting                                                                 Arrival            
+Instance                               Reference                       Type        Pin     Net                  Time        Slack  
+                                       Clock                                                                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ADCStateMachine_1.StateRowxDP[5]       USBAER_top_level|IfClockxCI     FD1S3DX     Q       StateRowxDP_i[5]     1.660       400.402
+ADCStateMachine_1.StateColxDP[8]       USBAER_top_level|IfClockxCI     FD1S3DX     Q       StateColxDP[8]       1.612       400.450
+ADCStateMachine_1.StateColxDP[10]      USBAER_top_level|IfClockxCI     FD1S3DX     Q       StateColxDP[10]      1.612       400.450
+ADCStateMachine_1.StateRowxDP[2]       USBAER_top_level|IfClockxCI     FD1S3DX     Q       StateRowxDP[2]       1.612       400.450
+ADCStateMachine_1.StateColxDP[1]       USBAER_top_level|IfClockxCI     FD1S3DX     Q       StateColxDP[1]       1.552       400.510
+ADCStateMachine_1.DividerColxDP[0]     USBAER_top_level|IfClockxCI     FD1P3DX     Q       DividerColxDP[0]     1.552       798.267
+ADCStateMachine_1.DividerColxDP[1]     USBAER_top_level|IfClockxCI     FD1P3DX     Q       DividerColxDP[1]     1.552       798.267
+ADCStateMachine_1.DividerColxDP[2]     USBAER_top_level|IfClockxCI     FD1P3DX     Q       DividerColxDP[2]     1.552       798.395
+ADCStateMachine_1.DividerColxDP[3]     USBAER_top_level|IfClockxCI     FD1P3DX     Q       DividerColxDP[3]     1.552       798.395
+ADCStateMachine_1.DividerColxDP[4]     USBAER_top_level|IfClockxCI     FD1P3DX     Q       DividerColxDP[4]     1.552       798.523
+===================================================================================================================================
 
 
 Ending Points with Worst Slack
 ******************************
 
-                                            Starting                                                                       Required            
-Instance                                    Reference                       Type        Pin     Net                        Time         Slack  
-                                            Clock                                                                                              
------------------------------------------------------------------------------------------------------------------------------------------------
-ADCStateMachine_1.CDVSTestSRColClockxSO     USBAER_top_level|IfClockxCI     FD1S3DX     D       N_335_i                    402.877      400.508
-IMUStateMachine_1.StateIMUxDP[2]            USBAER_top_level|IfClockxCI     FD1S3DX     D       StateIMUxDP_ns[2]          806.757      794.309
-IMUStateMachine_1.StateIMUxDP[0]            USBAER_top_level|IfClockxCI     FD1S3DX     D       N_89_i                     808.329      794.782
-IMUStateMachine_1.StateIMUWritexDP[0]       USBAER_top_level|IfClockxCI     FD1S3DX     D       StateIMUWritexDP_ns[0]     806.757      796.020
-IMUStateMachine_1.StateIMUxDP[1]            USBAER_top_level|IfClockxCI     FD1S3DX     D       StateIMUxDP_ns[1]          807.477      796.044
-IMUStateMachine_1.StateIMUxDP_1_rep1        USBAER_top_level|IfClockxCI     FD1S3DX     D       StateIMUxDP_ns[1]          807.477      796.044
-IMUStateMachine_1.StateIMUxDP_1_rep2        USBAER_top_level|IfClockxCI     FD1S3DX     D       StateIMUxDP_ns[1]          807.477      796.044
-IMUStateMachine_1.StateIMUxDP_fast[1]       USBAER_top_level|IfClockxCI     FD1S3DX     D       StateIMUxDP_ns[1]          807.477      796.044
-IMUStateMachine_1.StateIMUxDP[3]            USBAER_top_level|IfClockxCI     FD1S3DX     D       N_146_i                    806.757      796.113
-IMUStateMachine_1.StateIMUxDP[4]            USBAER_top_level|IfClockxCI     FD1P3DX     D       N_150                      806.757      796.113
-===============================================================================================================================================
+                                            Starting                                                                    Required            
+Instance                                    Reference                       Type        Pin     Net                     Time         Slack  
+                                            Clock                                                                                           
+--------------------------------------------------------------------------------------------------------------------------------------------
+ADCStateMachine_1.CDVSTestSRColClockxSO     USBAER_top_level|IfClockxCI     FD1S3DX     D       N_335_i                 402.820      400.450
+ADCStateMachine_1.DividerColxDP[0]          USBAER_top_level|IfClockxCI     FD1P3DX     D       DividerColxDP_lm[0]     806.642      798.267
+ADCStateMachine_1.DividerColxDP[1]          USBAER_top_level|IfClockxCI     FD1P3DX     D       DividerColxDP_lm[1]     806.642      798.267
+ADCStateMachine_1.DividerColxDP[2]          USBAER_top_level|IfClockxCI     FD1P3DX     D       DividerColxDP_lm[2]     806.642      798.267
+ADCStateMachine_1.DividerColxDP[3]          USBAER_top_level|IfClockxCI     FD1P3DX     D       DividerColxDP_lm[3]     806.642      798.267
+ADCStateMachine_1.DividerColxDP[4]          USBAER_top_level|IfClockxCI     FD1P3DX     D       DividerColxDP_lm[4]     806.642      798.267
+ADCStateMachine_1.DividerColxDP[5]          USBAER_top_level|IfClockxCI     FD1P3DX     D       DividerColxDP_lm[5]     806.642      798.267
+ADCStateMachine_1.DividerColxDP[6]          USBAER_top_level|IfClockxCI     FD1P3DX     D       DividerColxDP_lm[6]     806.642      798.267
+ADCStateMachine_1.DividerColxDP[7]          USBAER_top_level|IfClockxCI     FD1P3DX     D       DividerColxDP_lm[7]     806.642      798.267
+ADCStateMachine_1.DividerColxDP[8]          USBAER_top_level|IfClockxCI     FD1P3DX     D       DividerColxDP_lm[8]     806.642      798.267
+============================================================================================================================================
 
 
 
@@ -645,17 +641,17 @@ Worst Path Information
 
 
 Path information for path number 1: 
-      Requested Period:                      403.880
+      Requested Period:                      403.822
     - Setup time:                            1.003
     + Clock delay at ending point:           0.000 (ideal)
-    = Required time:                         402.877
+    = Required time:                         402.820
 
     - Propagation time:                      2.417
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (non-critical) :                 400.460
+    = Slack (non-critical) :                 400.403
 
     Number of logic level(s):                1
-    Starting point:                          ADCStateMachine_1.StateRowxDP[2] / Q
+    Starting point:                          ADCStateMachine_1.StateRowxDP[5] / Q
     Ending point:                            ADCStateMachine_1.CDVSTestSRRowClockxSO / D
     The start point is clocked by            USBAER_top_level|IfClockxCI [rising] on pin CK
     The end   point is clocked by            USBAER_top_level|IfClockxCI [falling] on pin CK
@@ -663,9 +659,9 @@ Path information for path number 1:
 Instance / Net                                               Pin      Pin               Arrival     No. of    
 Name                                            Type         Name     Dir     Delay     Time        Fan Out(s)
 --------------------------------------------------------------------------------------------------------------
-ADCStateMachine_1.StateRowxDP[2]                FD1S3DX      Q        Out     1.660     1.660       -         
-StateRowxDP[2]                                  Net          -        -       -         -           5         
-ADCStateMachine_1.CDVSTestSRRowClockxSO_RNO     ORCALUT4     A        In      0.000     1.660       -         
+ADCStateMachine_1.StateRowxDP[5]                FD1S3DX      Q        Out     1.660     1.660       -         
+StateRowxDP_i[5]                                Net          -        -       -         -           5         
+ADCStateMachine_1.CDVSTestSRRowClockxSO_RNO     ORCALUT4     B        In      0.000     1.660       -         
 ADCStateMachine_1.CDVSTestSRRowClockxSO_RNO     ORCALUT4     Z        Out     0.757     2.417       -         
 N_327_i                                         Net          -        -       -         -           1         
 ADCStateMachine_1.CDVSTestSRRowClockxSO         FD1S3DX      D        In      0.000     2.417       -         
@@ -861,41 +857,41 @@ Detailed Report for Clock: clockgen|CLKOP_inferred_clock
 Starting Points with Worst Slack
 ********************************
 
-                                               Starting                                                                    Arrival           
-Instance                                       Reference                         Type        Pin     Net                   Time        Slack 
-                                               Clock                                                                                         
----------------------------------------------------------------------------------------------------------------------------------------------
-monitorStateMachine_1.StatexDP_fast[9]         clockgen|CLKOP_inferred_clock     FD1S3DX     Q       StatexDP_fast[9]      1.456       -1.371
-monitorStateMachine_1.StatexDP_fast[10]        clockgen|CLKOP_inferred_clock     FD1S3DX     Q       StatexDP_fast[10]     1.456       -1.371
-uSynchronizerStateMachine_1.CounterxDP[10]     clockgen|CLKOP_inferred_clock     FD1P3DX     Q       CounterxDP[10]        1.456       -0.776
-uSynchronizerStateMachine_1.CounterxDP[11]     clockgen|CLKOP_inferred_clock     FD1P3DX     Q       CounterxDP[11]        1.456       -0.776
-uSynchronizerStateMachine_1.CounterxDP[12]     clockgen|CLKOP_inferred_clock     FD1P3DX     Q       CounterxDP[12]        1.456       -0.776
-uSynchronizerStateMachine_1.CounterxDP[13]     clockgen|CLKOP_inferred_clock     FD1P3DX     Q       CounterxDP[13]        1.456       -0.776
-uSynchronizerStateMachine_1.CounterxDP[3]      clockgen|CLKOP_inferred_clock     FD1P3DX     Q       CounterxDP[3]         1.660       -0.620
-uSynchronizerStateMachine_1.CounterxDP[2]      clockgen|CLKOP_inferred_clock     FD1P3DX     Q       CounterxDP[2]         1.552       -0.512
-uTimestampCounter.MSbDelayedxDP                clockgen|CLKOP_inferred_clock     FD1S3DX     Q       MSbDelayedxDP         1.456       -0.075
-uEarlyPaketTimer.CountxDP[0]                   clockgen|CLKOP_inferred_clock     FD1P3DX     Q       CountxDP[0]           1.348       -0.015
-=============================================================================================================================================
+                                          Starting                                                                      Arrival           
+Instance                                  Reference                         Type        Pin     Net                     Time        Slack 
+                                          Clock                                                                                           
+------------------------------------------------------------------------------------------------------------------------------------------
+IMUStateMachine_1.StateIMUxDP[2]          clockgen|CLKOP_inferred_clock     FD1S3DX     Q       StateIMUxDP[2]          2.014       -0.965
+IMUStateMachine_1.StateIMUxDP[0]          clockgen|CLKOP_inferred_clock     FD1S3DX     Q       StateIMUxDP[0]          1.961       -0.913
+IMUStateMachine_1.StateIMUxDP[1]          clockgen|CLKOP_inferred_clock     FD1S3DX     Q       StateIMUxDP[1]          1.971       -0.565
+IMUStateMachine_1.I2CWaitCountxDP[0]      clockgen|CLKOP_inferred_clock     FD1P3DX     Q       I2CWaitCountxDP[0]      1.456       -0.134
+IMUStateMachine_1.I2CWaitCountxDP[12]     clockgen|CLKOP_inferred_clock     FD1P3DX     Q       I2CWaitCountxDP[12]     1.456       -0.134
+IMUStateMachine_1.I2CWaitCountxDP[1]      clockgen|CLKOP_inferred_clock     FD1P3DX     Q       I2CWaitCountxDP[1]      1.720       0.029 
+IMUStateMachine_1.I2CWaitCountxDP[9]      clockgen|CLKOP_inferred_clock     FD1P3DX     Q       I2CWaitCountxDP[9]      1.720       0.029 
+IMUStateMachine_1.I2CWaitCountxDP[4]      clockgen|CLKOP_inferred_clock     FD1P3DX     Q       I2CWaitCountxDP[4]      1.660       0.089 
+IMUStateMachine_1.I2CWaitCountxDP[6]      clockgen|CLKOP_inferred_clock     FD1P3DX     Q       I2CWaitCountxDP[6]      1.660       0.089 
+IMUStateMachine_1.I2CWaitCountxDP[10]     clockgen|CLKOP_inferred_clock     FD1P3DX     Q       I2CWaitCountxDP[10]     1.660       0.089 
+==========================================================================================================================================
 
 
 Ending Points with Worst Slack
 ******************************
 
-                                                   Starting                                                                              Required           
-Instance                                           Reference                         Type        Pin     Net                             Time         Slack 
-                                                   Clock                                                                                                    
-------------------------------------------------------------------------------------------------------------------------------------------------------------
-monitorStateMachine_1.TimestampOverflowxDP[14]     clockgen|CLKOP_inferred_clock     FD1S3DX     D       TimestampOverflowxDP_lm[14]     6.769        -1.371
-monitorStateMachine_1.TimestampOverflowxDP[15]     clockgen|CLKOP_inferred_clock     FD1S3DX     D       TimestampOverflowxDP_lm[15]     6.769        -1.371
-monitorStateMachine_1.TimestampOverflowxDP[12]     clockgen|CLKOP_inferred_clock     FD1S3DX     D       TimestampOverflowxDP_lm[12]     6.769        -1.244
-monitorStateMachine_1.TimestampOverflowxDP[13]     clockgen|CLKOP_inferred_clock     FD1S3DX     D       TimestampOverflowxDP_lm[13]     6.769        -1.244
-monitorStateMachine_1.TimestampOverflowxDP[10]     clockgen|CLKOP_inferred_clock     FD1S3DX     D       TimestampOverflowxDP_lm[10]     6.769        -1.115
-monitorStateMachine_1.TimestampOverflowxDP[11]     clockgen|CLKOP_inferred_clock     FD1S3DX     D       TimestampOverflowxDP_lm[11]     6.769        -1.115
-monitorStateMachine_1.TimestampOverflowxDP[8]      clockgen|CLKOP_inferred_clock     FD1S3DX     D       TimestampOverflowxDP_lm[8]      6.769        -0.988
-monitorStateMachine_1.TimestampOverflowxDP[9]      clockgen|CLKOP_inferred_clock     FD1S3DX     D       TimestampOverflowxDP_lm[9]      6.769        -0.988
-monitorStateMachine_1.TimestampOverflowxDP[6]      clockgen|CLKOP_inferred_clock     FD1S3DX     D       TimestampOverflowxDP_lm[6]      6.769        -0.860
-monitorStateMachine_1.TimestampOverflowxDP[7]      clockgen|CLKOP_inferred_clock     FD1S3DX     D       TimestampOverflowxDP_lm[7]      6.769        -0.860
-============================================================================================================================================================
+                                          Starting                                                                         Required           
+Instance                                  Reference                         Type        Pin     Net                        Time         Slack 
+                                          Clock                                                                                               
+----------------------------------------------------------------------------------------------------------------------------------------------
+IMUStateMachine_1.StateIMUxDP[0]          clockgen|CLKOP_inferred_clock     FD1S3DX     D       StateIMUxDP_ns[0]          11.788       -0.965
+IMUStateMachine_1.StateIMUxDP[3]          clockgen|CLKOP_inferred_clock     FD1S3DX     D       N_144_i                    10.216       0.029 
+IMUStateMachine_1.StateIMUxDP_3_rep1      clockgen|CLKOP_inferred_clock     FD1S3DX     D       N_144_i_rep1               10.216       0.029 
+IMUStateMachine_1.StateIMUxDP_3_rep2      clockgen|CLKOP_inferred_clock     FD1S3DX     D       N_144_i_rep2               10.216       0.029 
+IMUStateMachine_1.StateIMUxDP_fast[3]     clockgen|CLKOP_inferred_clock     FD1S3DX     D       N_144_i_fast               10.216       0.029 
+IMUStateMachine_1.StateIMUWritexDP[0]     clockgen|CLKOP_inferred_clock     FD1S3DX     D       StateIMUWritexDP_ns[0]     10.216       0.111 
+IMUStateMachine_1.StateIMUxDP[2]          clockgen|CLKOP_inferred_clock     FD1S3DX     D       N_131_i                    11.788       0.224 
+IMUStateMachine_1.StateIMUxDP[4]          clockgen|CLKOP_inferred_clock     FD1S3DX     D       N_151_i                    10.216       0.363 
+IMUStateMachine_1.StateIMUxDP[5]          clockgen|CLKOP_inferred_clock     FD1S3DX     D       N_156_i                    10.216       0.363 
+IMUStateMachine_1.IMUAccelXLSBxDP[6]      clockgen|CLKOP_inferred_clock     FD1P3DX     D       I2CDataxD[6]               10.936       0.825 
+==============================================================================================================================================
 
 
 
@@ -904,278 +900,290 @@ Worst Path Information
 
 
 Path information for path number 1: 
-      Requested Period:                      7.772
-    - Setup time:                            1.003
+      Requested Period:                      11.219
+    - Setup time:                            -0.569
     + Clock delay at ending point:           0.000 (ideal)
-    = Required time:                         6.769
+    = Required time:                         11.788
 
-    - Propagation time:                      8.140
+    - Propagation time:                      12.753
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (critical) :                     -1.371
+    = Slack (critical) :                     -0.965
 
-    Number of logic level(s):                10
-    Starting point:                          monitorStateMachine_1.StatexDP_fast[9] / Q
-    Ending point:                            monitorStateMachine_1.TimestampOverflowxDP[15] / D
+    Number of logic level(s):                11
+    Starting point:                          IMUStateMachine_1.StateIMUxDP[2] / Q
+    Ending point:                            IMUStateMachine_1.StateIMUxDP[0] / D
     The start point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
     The end   point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
 
-Instance / Net                                                        Pin       Pin               Arrival     No. of    
-Name                                                     Type         Name      Dir     Delay     Time        Fan Out(s)
-------------------------------------------------------------------------------------------------------------------------
-monitorStateMachine_1.StatexDP_fast[9]                   FD1S3DX      Q         Out     1.456     1.456       -         
-StatexDP_fast[9]                                         Net          -         -       -         -           2         
-monitorStateMachine_1.un1_StatexDP_3_i_a3                ORCALUT4     A         In      0.000     1.456       -         
-monitorStateMachine_1.un1_StatexDP_3_i_a3                ORCALUT4     Z         Out     1.633     3.089       -         
-N_314                                                    Net          -         -       -         -           16        
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[0]      CCU2         B0        In      0.000     3.089       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[0]      CCU2         COUT1     Out     1.761     4.850       -         
-TimestampOverflowxDP_cry[1]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[2]      CCU2         CIN       In      0.000     4.850       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[2]      CCU2         COUT1     Out     0.128     4.978       -         
-TimestampOverflowxDP_cry[3]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[4]      CCU2         CIN       In      0.000     4.978       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[4]      CCU2         COUT1     Out     0.128     5.106       -         
-TimestampOverflowxDP_cry[5]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[6]      CCU2         CIN       In      0.000     5.106       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[6]      CCU2         COUT1     Out     0.128     5.234       -         
-TimestampOverflowxDP_cry[7]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[8]      CCU2         CIN       In      0.000     5.234       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[8]      CCU2         COUT1     Out     0.128     5.362       -         
-TimestampOverflowxDP_cry[9]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[10]     CCU2         CIN       In      0.000     5.362       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[10]     CCU2         COUT1     Out     0.128     5.490       -         
-TimestampOverflowxDP_cry[11]                             Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[12]     CCU2         CIN       In      0.000     5.490       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[12]     CCU2         COUT1     Out     0.128     5.618       -         
-TimestampOverflowxDP_cry[13]                             Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[14]     CCU2         CIN       In      0.000     5.618       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[14]     CCU2         S1        Out     1.766     7.383       -         
-TimestampOverflowxDP_s[15]                               Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_lm_0[15]      ORCALUT4     C         In      0.000     7.383       -         
-monitorStateMachine_1.TimestampOverflowxDP_lm_0[15]      ORCALUT4     Z         Out     0.757     8.140       -         
-TimestampOverflowxDP_lm[15]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP[15]           FD1S3DX      D         In      0.000     8.140       -         
-========================================================================================================================
+Instance / Net                                                              Pin      Pin               Arrival     No. of    
+Name                                                           Type         Name     Dir     Delay     Time        Fan Out(s)
+-----------------------------------------------------------------------------------------------------------------------------
+IMUStateMachine_1.StateIMUxDP[2]                               FD1S3DX      Q        Out     2.014     2.014       -         
+StateIMUxDP[2]                                                 Net          -        -       -         -           89        
+IMUStateMachine_1.un1_imuinitbytecountxdn17_i_a2_2_0_a2[2]     ORCALUT4     B        In      0.000     2.014       -         
+IMUStateMachine_1.un1_imuinitbytecountxdn17_i_a2_2_0_a2[2]     ORCALUT4     Z        Out     1.657     3.671       -         
+N_777                                                          Net          -        -       -         -           21        
+IMUStateMachine_1.IMUInitByteCountxDP_RNI640C[2]               ORCALUT4     D        In      0.000     3.671       -         
+IMUStateMachine_1.IMUInitByteCountxDP_RNI640C[2]               ORCALUT4     Z        Out     1.189     4.860       -         
+g3_2                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.IMUInitByteCountxDP_RNISMU42[3]              ORCALUT4     B        In      0.000     4.860       -         
+IMUStateMachine_1.IMUInitByteCountxDP_RNISMU42[3]              ORCALUT4     Z        Out     1.189     6.049       -         
+IMUInitByteCountxDP_RNISMU42[3]                                Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_RNI7G1M5[4]                      PFUMX        BLUT     In      0.000     6.049       -         
+IMUStateMachine_1.StateIMUxDP_RNI7G1M5[4]                      PFUMX        Z        Out     0.093     6.142       -         
+g2_0_3                                                         Net          -        -       -         -           1         
+IMUStateMachine_1.I2CRWxSBO_1_RNI772RB                         ORCALUT4     D        In      0.000     6.142       -         
+IMUStateMachine_1.I2CRWxSBO_1_RNI772RB                         ORCALUT4     Z        Out     1.561     7.703       -         
+I2CDataWritexD_m[3]                                            Net          -        -       -         -           8         
+IMUStateMachine_1.StateRWxDP_RNI75DLQ[1]                       ORCALUT4     B        In      0.000     7.703       -         
+IMUStateMachine_1.StateRWxDP_RNI75DLQ[1]                       ORCALUT4     Z        Out     1.297     9.000       -         
+N_56                                                           Net          -        -       -         -           2         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m57                      ORCALUT4     C        In      0.000     9.000       -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m57                      ORCALUT4     Z        Out     1.189     10.189      -         
+N_58                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m64                      PFUMX        BLUT     In      0.000     10.189      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m64                      PFUMX        Z        Out     0.093     10.282      -         
+N_65                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65_sx                   ORCALUT4     D        In      0.000     10.282      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65_sx                   ORCALUT4     Z        Out     1.189     11.471      -         
+m65_sx                                                         Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65                      ORCALUT4     D        In      0.000     11.471      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65                      ORCALUT4     Z        Out     1.189     12.660      -         
+N_66                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m85                      PFUMX        BLUT     In      0.000     12.660      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m85                      PFUMX        Z        Out     0.093     12.753      -         
+StateIMUxDP_ns[0]                                              Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP[0]                               FD1S3DX      D        In      0.000     12.753      -         
+=============================================================================================================================
 
 
 Path information for path number 2: 
-      Requested Period:                      7.772
-    - Setup time:                            1.003
+      Requested Period:                      11.219
+    - Setup time:                            -0.569
     + Clock delay at ending point:           0.000 (ideal)
-    = Required time:                         6.769
+    = Required time:                         11.788
 
-    - Propagation time:                      8.140
+    - Propagation time:                      12.753
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (critical) :                     -1.371
+    = Slack (critical) :                     -0.965
 
-    Number of logic level(s):                10
-    Starting point:                          monitorStateMachine_1.StatexDP_fast[10] / Q
-    Ending point:                            monitorStateMachine_1.TimestampOverflowxDP[15] / D
+    Number of logic level(s):                11
+    Starting point:                          IMUStateMachine_1.StateIMUxDP[2] / Q
+    Ending point:                            IMUStateMachine_1.StateIMUxDP[0] / D
     The start point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
     The end   point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
 
-Instance / Net                                                        Pin       Pin               Arrival     No. of    
-Name                                                     Type         Name      Dir     Delay     Time        Fan Out(s)
-------------------------------------------------------------------------------------------------------------------------
-monitorStateMachine_1.StatexDP_fast[10]                  FD1S3DX      Q         Out     1.456     1.456       -         
-StatexDP_fast[10]                                        Net          -         -       -         -           2         
-monitorStateMachine_1.un1_StatexDP_3_i_a3                ORCALUT4     B         In      0.000     1.456       -         
-monitorStateMachine_1.un1_StatexDP_3_i_a3                ORCALUT4     Z         Out     1.633     3.089       -         
-N_314                                                    Net          -         -       -         -           16        
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[0]      CCU2         B0        In      0.000     3.089       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[0]      CCU2         COUT1     Out     1.761     4.850       -         
-TimestampOverflowxDP_cry[1]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[2]      CCU2         CIN       In      0.000     4.850       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[2]      CCU2         COUT1     Out     0.128     4.978       -         
-TimestampOverflowxDP_cry[3]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[4]      CCU2         CIN       In      0.000     4.978       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[4]      CCU2         COUT1     Out     0.128     5.106       -         
-TimestampOverflowxDP_cry[5]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[6]      CCU2         CIN       In      0.000     5.106       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[6]      CCU2         COUT1     Out     0.128     5.234       -         
-TimestampOverflowxDP_cry[7]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[8]      CCU2         CIN       In      0.000     5.234       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[8]      CCU2         COUT1     Out     0.128     5.362       -         
-TimestampOverflowxDP_cry[9]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[10]     CCU2         CIN       In      0.000     5.362       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[10]     CCU2         COUT1     Out     0.128     5.490       -         
-TimestampOverflowxDP_cry[11]                             Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[12]     CCU2         CIN       In      0.000     5.490       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[12]     CCU2         COUT1     Out     0.128     5.618       -         
-TimestampOverflowxDP_cry[13]                             Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[14]     CCU2         CIN       In      0.000     5.618       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[14]     CCU2         S1        Out     1.766     7.383       -         
-TimestampOverflowxDP_s[15]                               Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_lm_0[15]      ORCALUT4     C         In      0.000     7.383       -         
-monitorStateMachine_1.TimestampOverflowxDP_lm_0[15]      ORCALUT4     Z         Out     0.757     8.140       -         
-TimestampOverflowxDP_lm[15]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP[15]           FD1S3DX      D         In      0.000     8.140       -         
-========================================================================================================================
+Instance / Net                                                              Pin      Pin               Arrival     No. of    
+Name                                                           Type         Name     Dir     Delay     Time        Fan Out(s)
+-----------------------------------------------------------------------------------------------------------------------------
+IMUStateMachine_1.StateIMUxDP[2]                               FD1S3DX      Q        Out     2.014     2.014       -         
+StateIMUxDP[2]                                                 Net          -        -       -         -           89        
+IMUStateMachine_1.un1_imuinitbytecountxdn17_i_a2_2_0_a2[2]     ORCALUT4     B        In      0.000     2.014       -         
+IMUStateMachine_1.un1_imuinitbytecountxdn17_i_a2_2_0_a2[2]     ORCALUT4     Z        Out     1.657     3.671       -         
+N_777                                                          Net          -        -       -         -           21        
+IMUStateMachine_1.IMUInitByteCountxDP_RNI640C[2]               ORCALUT4     D        In      0.000     3.671       -         
+IMUStateMachine_1.IMUInitByteCountxDP_RNI640C[2]               ORCALUT4     Z        Out     1.189     4.860       -         
+g3_2                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.IMUInitByteCountxDP_RNISMU42[3]              ORCALUT4     B        In      0.000     4.860       -         
+IMUStateMachine_1.IMUInitByteCountxDP_RNISMU42[3]              ORCALUT4     Z        Out     1.189     6.049       -         
+IMUInitByteCountxDP_RNISMU42[3]                                Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_RNI7G1M5[4]                      PFUMX        BLUT     In      0.000     6.049       -         
+IMUStateMachine_1.StateIMUxDP_RNI7G1M5[4]                      PFUMX        Z        Out     0.093     6.142       -         
+g2_0_3                                                         Net          -        -       -         -           1         
+IMUStateMachine_1.I2CRWxSBO_1_RNI772RB                         ORCALUT4     D        In      0.000     6.142       -         
+IMUStateMachine_1.I2CRWxSBO_1_RNI772RB                         ORCALUT4     Z        Out     1.561     7.703       -         
+I2CDataWritexD_m[3]                                            Net          -        -       -         -           8         
+IMUStateMachine_1.StateRWxDP_RNI75DLQ[1]                       ORCALUT4     B        In      0.000     7.703       -         
+IMUStateMachine_1.StateRWxDP_RNI75DLQ[1]                       ORCALUT4     Z        Out     1.297     9.000       -         
+N_56                                                           Net          -        -       -         -           2         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m63                      ORCALUT4     C        In      0.000     9.000       -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m63                      ORCALUT4     Z        Out     1.189     10.189      -         
+N_64                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m64                      PFUMX        ALUT     In      0.000     10.189      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m64                      PFUMX        Z        Out     0.093     10.282      -         
+N_65                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65_sx                   ORCALUT4     D        In      0.000     10.282      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65_sx                   ORCALUT4     Z        Out     1.189     11.471      -         
+m65_sx                                                         Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65                      ORCALUT4     D        In      0.000     11.471      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65                      ORCALUT4     Z        Out     1.189     12.660      -         
+N_66                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m85                      PFUMX        BLUT     In      0.000     12.660      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m85                      PFUMX        Z        Out     0.093     12.753      -         
+StateIMUxDP_ns[0]                                              Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP[0]                               FD1S3DX      D        In      0.000     12.753      -         
+=============================================================================================================================
 
 
 Path information for path number 3: 
-      Requested Period:                      7.772
-    - Setup time:                            1.003
+      Requested Period:                      11.219
+    - Setup time:                            -0.569
     + Clock delay at ending point:           0.000 (ideal)
-    = Required time:                         6.769
+    = Required time:                         11.788
 
-    - Propagation time:                      8.140
+    - Propagation time:                      12.700
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (critical) :                     -1.371
+    = Slack (non-critical) :                 -0.913
 
-    Number of logic level(s):                10
-    Starting point:                          monitorStateMachine_1.StatexDP_fast[9] / Q
-    Ending point:                            monitorStateMachine_1.TimestampOverflowxDP[15] / D
+    Number of logic level(s):                11
+    Starting point:                          IMUStateMachine_1.StateIMUxDP[0] / Q
+    Ending point:                            IMUStateMachine_1.StateIMUxDP[0] / D
     The start point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
     The end   point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
 
-Instance / Net                                                        Pin       Pin               Arrival     No. of    
-Name                                                     Type         Name      Dir     Delay     Time        Fan Out(s)
-------------------------------------------------------------------------------------------------------------------------
-monitorStateMachine_1.StatexDP_fast[9]                   FD1S3DX      Q         Out     1.456     1.456       -         
-StatexDP_fast[9]                                         Net          -         -       -         -           2         
-monitorStateMachine_1.un1_StatexDP_3_i_a3                ORCALUT4     A         In      0.000     1.456       -         
-monitorStateMachine_1.un1_StatexDP_3_i_a3                ORCALUT4     Z         Out     1.633     3.089       -         
-N_314                                                    Net          -         -       -         -           16        
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[0]      CCU2         B1        In      0.000     3.089       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[0]      CCU2         COUT1     Out     1.761     4.850       -         
-TimestampOverflowxDP_cry[1]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[2]      CCU2         CIN       In      0.000     4.850       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[2]      CCU2         COUT1     Out     0.128     4.978       -         
-TimestampOverflowxDP_cry[3]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[4]      CCU2         CIN       In      0.000     4.978       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[4]      CCU2         COUT1     Out     0.128     5.106       -         
-TimestampOverflowxDP_cry[5]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[6]      CCU2         CIN       In      0.000     5.106       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[6]      CCU2         COUT1     Out     0.128     5.234       -         
-TimestampOverflowxDP_cry[7]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[8]      CCU2         CIN       In      0.000     5.234       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[8]      CCU2         COUT1     Out     0.128     5.362       -         
-TimestampOverflowxDP_cry[9]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[10]     CCU2         CIN       In      0.000     5.362       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[10]     CCU2         COUT1     Out     0.128     5.490       -         
-TimestampOverflowxDP_cry[11]                             Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[12]     CCU2         CIN       In      0.000     5.490       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[12]     CCU2         COUT1     Out     0.128     5.618       -         
-TimestampOverflowxDP_cry[13]                             Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[14]     CCU2         CIN       In      0.000     5.618       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[14]     CCU2         S1        Out     1.766     7.383       -         
-TimestampOverflowxDP_s[15]                               Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_lm_0[15]      ORCALUT4     C         In      0.000     7.383       -         
-monitorStateMachine_1.TimestampOverflowxDP_lm_0[15]      ORCALUT4     Z         Out     0.757     8.140       -         
-TimestampOverflowxDP_lm[15]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP[15]           FD1S3DX      D         In      0.000     8.140       -         
-========================================================================================================================
+Instance / Net                                                              Pin      Pin               Arrival     No. of    
+Name                                                           Type         Name     Dir     Delay     Time        Fan Out(s)
+-----------------------------------------------------------------------------------------------------------------------------
+IMUStateMachine_1.StateIMUxDP[0]                               FD1S3DX      Q        Out     1.961     1.961       -         
+StateIMUxDP[0]                                                 Net          -        -       -         -           67        
+IMUStateMachine_1.un1_imuinitbytecountxdn17_i_a2_2_0_a2[2]     ORCALUT4     A        In      0.000     1.961       -         
+IMUStateMachine_1.un1_imuinitbytecountxdn17_i_a2_2_0_a2[2]     ORCALUT4     Z        Out     1.657     3.618       -         
+N_777                                                          Net          -        -       -         -           21        
+IMUStateMachine_1.IMUInitByteCountxDP_RNI640C[2]               ORCALUT4     D        In      0.000     3.618       -         
+IMUStateMachine_1.IMUInitByteCountxDP_RNI640C[2]               ORCALUT4     Z        Out     1.189     4.807       -         
+g3_2                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.IMUInitByteCountxDP_RNISMU42[3]              ORCALUT4     B        In      0.000     4.807       -         
+IMUStateMachine_1.IMUInitByteCountxDP_RNISMU42[3]              ORCALUT4     Z        Out     1.189     5.996       -         
+IMUInitByteCountxDP_RNISMU42[3]                                Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_RNI7G1M5[4]                      PFUMX        BLUT     In      0.000     5.996       -         
+IMUStateMachine_1.StateIMUxDP_RNI7G1M5[4]                      PFUMX        Z        Out     0.093     6.089       -         
+g2_0_3                                                         Net          -        -       -         -           1         
+IMUStateMachine_1.I2CRWxSBO_1_RNI772RB                         ORCALUT4     D        In      0.000     6.089       -         
+IMUStateMachine_1.I2CRWxSBO_1_RNI772RB                         ORCALUT4     Z        Out     1.561     7.650       -         
+I2CDataWritexD_m[3]                                            Net          -        -       -         -           8         
+IMUStateMachine_1.StateRWxDP_RNI75DLQ[1]                       ORCALUT4     B        In      0.000     7.650       -         
+IMUStateMachine_1.StateRWxDP_RNI75DLQ[1]                       ORCALUT4     Z        Out     1.297     8.947       -         
+N_56                                                           Net          -        -       -         -           2         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m57                      ORCALUT4     C        In      0.000     8.947       -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m57                      ORCALUT4     Z        Out     1.189     10.136      -         
+N_58                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m64                      PFUMX        BLUT     In      0.000     10.136      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m64                      PFUMX        Z        Out     0.093     10.229      -         
+N_65                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65_sx                   ORCALUT4     D        In      0.000     10.229      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65_sx                   ORCALUT4     Z        Out     1.189     11.418      -         
+m65_sx                                                         Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65                      ORCALUT4     D        In      0.000     11.418      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65                      ORCALUT4     Z        Out     1.189     12.607      -         
+N_66                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m85                      PFUMX        BLUT     In      0.000     12.607      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m85                      PFUMX        Z        Out     0.093     12.700      -         
+StateIMUxDP_ns[0]                                              Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP[0]                               FD1S3DX      D        In      0.000     12.700      -         
+=============================================================================================================================
 
 
 Path information for path number 4: 
-      Requested Period:                      7.772
-    - Setup time:                            1.003
+      Requested Period:                      11.219
+    - Setup time:                            -0.569
     + Clock delay at ending point:           0.000 (ideal)
-    = Required time:                         6.769
+    = Required time:                         11.788
 
-    - Propagation time:                      8.140
+    - Propagation time:                      12.700
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (critical) :                     -1.371
+    = Slack (non-critical) :                 -0.913
 
-    Number of logic level(s):                10
-    Starting point:                          monitorStateMachine_1.StatexDP_fast[9] / Q
-    Ending point:                            monitorStateMachine_1.TimestampOverflowxDP[14] / D
+    Number of logic level(s):                11
+    Starting point:                          IMUStateMachine_1.StateIMUxDP[0] / Q
+    Ending point:                            IMUStateMachine_1.StateIMUxDP[0] / D
     The start point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
     The end   point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
 
-Instance / Net                                                        Pin       Pin               Arrival     No. of    
-Name                                                     Type         Name      Dir     Delay     Time        Fan Out(s)
-------------------------------------------------------------------------------------------------------------------------
-monitorStateMachine_1.StatexDP_fast[9]                   FD1S3DX      Q         Out     1.456     1.456       -         
-StatexDP_fast[9]                                         Net          -         -       -         -           2         
-monitorStateMachine_1.un1_StatexDP_3_i_a3                ORCALUT4     A         In      0.000     1.456       -         
-monitorStateMachine_1.un1_StatexDP_3_i_a3                ORCALUT4     Z         Out     1.633     3.089       -         
-N_314                                                    Net          -         -       -         -           16        
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[0]      CCU2         B0        In      0.000     3.089       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[0]      CCU2         COUT1     Out     1.761     4.850       -         
-TimestampOverflowxDP_cry[1]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[2]      CCU2         CIN       In      0.000     4.850       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[2]      CCU2         COUT1     Out     0.128     4.978       -         
-TimestampOverflowxDP_cry[3]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[4]      CCU2         CIN       In      0.000     4.978       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[4]      CCU2         COUT1     Out     0.128     5.106       -         
-TimestampOverflowxDP_cry[5]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[6]      CCU2         CIN       In      0.000     5.106       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[6]      CCU2         COUT1     Out     0.128     5.234       -         
-TimestampOverflowxDP_cry[7]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[8]      CCU2         CIN       In      0.000     5.234       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[8]      CCU2         COUT1     Out     0.128     5.362       -         
-TimestampOverflowxDP_cry[9]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[10]     CCU2         CIN       In      0.000     5.362       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[10]     CCU2         COUT1     Out     0.128     5.490       -         
-TimestampOverflowxDP_cry[11]                             Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[12]     CCU2         CIN       In      0.000     5.490       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[12]     CCU2         COUT1     Out     0.128     5.618       -         
-TimestampOverflowxDP_cry[13]                             Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[14]     CCU2         CIN       In      0.000     5.618       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[14]     CCU2         S0        Out     1.766     7.383       -         
-TimestampOverflowxDP_s[14]                               Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_lm_0[14]      ORCALUT4     C         In      0.000     7.383       -         
-monitorStateMachine_1.TimestampOverflowxDP_lm_0[14]      ORCALUT4     Z         Out     0.757     8.140       -         
-TimestampOverflowxDP_lm[14]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP[14]           FD1S3DX      D         In      0.000     8.140       -         
-========================================================================================================================
+Instance / Net                                                              Pin      Pin               Arrival     No. of    
+Name                                                           Type         Name     Dir     Delay     Time        Fan Out(s)
+-----------------------------------------------------------------------------------------------------------------------------
+IMUStateMachine_1.StateIMUxDP[0]                               FD1S3DX      Q        Out     1.961     1.961       -         
+StateIMUxDP[0]                                                 Net          -        -       -         -           67        
+IMUStateMachine_1.un1_imuinitbytecountxdn17_i_a2_2_0_a2[2]     ORCALUT4     A        In      0.000     1.961       -         
+IMUStateMachine_1.un1_imuinitbytecountxdn17_i_a2_2_0_a2[2]     ORCALUT4     Z        Out     1.657     3.618       -         
+N_777                                                          Net          -        -       -         -           21        
+IMUStateMachine_1.IMUInitByteCountxDP_RNI640C[2]               ORCALUT4     D        In      0.000     3.618       -         
+IMUStateMachine_1.IMUInitByteCountxDP_RNI640C[2]               ORCALUT4     Z        Out     1.189     4.807       -         
+g3_2                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.IMUInitByteCountxDP_RNISMU42[3]              ORCALUT4     B        In      0.000     4.807       -         
+IMUStateMachine_1.IMUInitByteCountxDP_RNISMU42[3]              ORCALUT4     Z        Out     1.189     5.996       -         
+IMUInitByteCountxDP_RNISMU42[3]                                Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_RNI7G1M5[4]                      PFUMX        BLUT     In      0.000     5.996       -         
+IMUStateMachine_1.StateIMUxDP_RNI7G1M5[4]                      PFUMX        Z        Out     0.093     6.089       -         
+g2_0_3                                                         Net          -        -       -         -           1         
+IMUStateMachine_1.I2CRWxSBO_1_RNI772RB                         ORCALUT4     D        In      0.000     6.089       -         
+IMUStateMachine_1.I2CRWxSBO_1_RNI772RB                         ORCALUT4     Z        Out     1.561     7.650       -         
+I2CDataWritexD_m[3]                                            Net          -        -       -         -           8         
+IMUStateMachine_1.StateRWxDP_RNI75DLQ[1]                       ORCALUT4     B        In      0.000     7.650       -         
+IMUStateMachine_1.StateRWxDP_RNI75DLQ[1]                       ORCALUT4     Z        Out     1.297     8.947       -         
+N_56                                                           Net          -        -       -         -           2         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m63                      ORCALUT4     C        In      0.000     8.947       -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m63                      ORCALUT4     Z        Out     1.189     10.136      -         
+N_64                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m64                      PFUMX        ALUT     In      0.000     10.136      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m64                      PFUMX        Z        Out     0.093     10.229      -         
+N_65                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65_sx                   ORCALUT4     D        In      0.000     10.229      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65_sx                   ORCALUT4     Z        Out     1.189     11.418      -         
+m65_sx                                                         Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65                      ORCALUT4     D        In      0.000     11.418      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65                      ORCALUT4     Z        Out     1.189     12.607      -         
+N_66                                                           Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m85                      PFUMX        BLUT     In      0.000     12.607      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m85                      PFUMX        Z        Out     0.093     12.700      -         
+StateIMUxDP_ns[0]                                              Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP[0]                               FD1S3DX      D        In      0.000     12.700      -         
+=============================================================================================================================
 
 
 Path information for path number 5: 
-      Requested Period:                      7.772
-    - Setup time:                            1.003
+      Requested Period:                      11.219
+    - Setup time:                            -0.569
     + Clock delay at ending point:           0.000 (ideal)
-    = Required time:                         6.769
+    = Required time:                         11.788
 
-    - Propagation time:                      8.140
+    - Propagation time:                      12.396
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (critical) :                     -1.371
+    = Slack (non-critical) :                 -0.608
 
     Number of logic level(s):                10
-    Starting point:                          monitorStateMachine_1.StatexDP_fast[10] / Q
-    Ending point:                            monitorStateMachine_1.TimestampOverflowxDP[15] / D
+    Starting point:                          IMUStateMachine_1.StateIMUxDP[2] / Q
+    Ending point:                            IMUStateMachine_1.StateIMUxDP[0] / D
     The start point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
     The end   point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
 
-Instance / Net                                                        Pin       Pin               Arrival     No. of    
-Name                                                     Type         Name      Dir     Delay     Time        Fan Out(s)
-------------------------------------------------------------------------------------------------------------------------
-monitorStateMachine_1.StatexDP_fast[10]                  FD1S3DX      Q         Out     1.456     1.456       -         
-StatexDP_fast[10]                                        Net          -         -       -         -           2         
-monitorStateMachine_1.un1_StatexDP_3_i_a3                ORCALUT4     B         In      0.000     1.456       -         
-monitorStateMachine_1.un1_StatexDP_3_i_a3                ORCALUT4     Z         Out     1.633     3.089       -         
-N_314                                                    Net          -         -       -         -           16        
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[0]      CCU2         B1        In      0.000     3.089       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[0]      CCU2         COUT1     Out     1.761     4.850       -         
-TimestampOverflowxDP_cry[1]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[2]      CCU2         CIN       In      0.000     4.850       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[2]      CCU2         COUT1     Out     0.128     4.978       -         
-TimestampOverflowxDP_cry[3]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[4]      CCU2         CIN       In      0.000     4.978       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[4]      CCU2         COUT1     Out     0.128     5.106       -         
-TimestampOverflowxDP_cry[5]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[6]      CCU2         CIN       In      0.000     5.106       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[6]      CCU2         COUT1     Out     0.128     5.234       -         
-TimestampOverflowxDP_cry[7]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[8]      CCU2         CIN       In      0.000     5.234       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[8]      CCU2         COUT1     Out     0.128     5.362       -         
-TimestampOverflowxDP_cry[9]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[10]     CCU2         CIN       In      0.000     5.362       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[10]     CCU2         COUT1     Out     0.128     5.490       -         
-TimestampOverflowxDP_cry[11]                             Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[12]     CCU2         CIN       In      0.000     5.490       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[12]     CCU2         COUT1     Out     0.128     5.618       -         
-TimestampOverflowxDP_cry[13]                             Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[14]     CCU2         CIN       In      0.000     5.618       -         
-monitorStateMachine_1.TimestampOverflowxDP_cry_0[14]     CCU2         S1        Out     1.766     7.383       -         
-TimestampOverflowxDP_s[15]                               Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP_lm_0[15]      ORCALUT4     C         In      0.000     7.383       -         
-monitorStateMachine_1.TimestampOverflowxDP_lm_0[15]      ORCALUT4     Z         Out     0.757     8.140       -         
-TimestampOverflowxDP_lm[15]                              Net          -         -       -         -           1         
-monitorStateMachine_1.TimestampOverflowxDP[15]           FD1S3DX      D         In      0.000     8.140       -         
-========================================================================================================================
+Instance / Net                                                 Pin      Pin               Arrival     No. of    
+Name                                              Type         Name     Dir     Delay     Time        Fan Out(s)
+----------------------------------------------------------------------------------------------------------------
+IMUStateMachine_1.StateIMUxDP[2]                  FD1S3DX      Q        Out     2.014     2.014       -         
+StateIMUxDP[2]                                    Net          -        -       -         -           89        
+IMUStateMachine_1.StateIMUxDP_RNI19KM[1]          ORCALUT4     B        In      0.000     2.014       -         
+IMUStateMachine_1.StateIMUxDP_RNI19KM[1]          ORCALUT4     Z        Out     1.189     3.203       -         
+g0_7_1                                            Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_3_rep1_RNI3TFO1     ORCALUT4     D        In      0.000     3.203       -         
+IMUStateMachine_1.StateIMUxDP_3_rep1_RNI3TFO1     ORCALUT4     Z        Out     1.393     4.596       -         
+N_762                                             Net          -        -       -         -           3         
+IMUStateMachine_1.StateIMUxDP_RNI7U9S3[1]         ORCALUT4     A        In      0.000     4.596       -         
+IMUStateMachine_1.StateIMUxDP_RNI7U9S3[1]         ORCALUT4     Z        Out     1.189     5.785       -         
+g2_0_2                                            Net          -        -       -         -           1         
+IMUStateMachine_1.I2CRWxSBO_1_RNI772RB            ORCALUT4     C        In      0.000     5.785       -         
+IMUStateMachine_1.I2CRWxSBO_1_RNI772RB            ORCALUT4     Z        Out     1.561     7.346       -         
+I2CDataWritexD_m[3]                               Net          -        -       -         -           8         
+IMUStateMachine_1.StateRWxDP_RNI75DLQ[1]          ORCALUT4     B        In      0.000     7.346       -         
+IMUStateMachine_1.StateRWxDP_RNI75DLQ[1]          ORCALUT4     Z        Out     1.297     8.643       -         
+N_56                                              Net          -        -       -         -           2         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m57         ORCALUT4     C        In      0.000     8.643       -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m57         ORCALUT4     Z        Out     1.189     9.832       -         
+N_58                                              Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m64         PFUMX        BLUT     In      0.000     9.832       -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m64         PFUMX        Z        Out     0.093     9.925       -         
+N_65                                              Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65_sx      ORCALUT4     D        In      0.000     9.925       -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65_sx      ORCALUT4     Z        Out     1.189     11.114      -         
+m65_sx                                            Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65         ORCALUT4     D        In      0.000     11.114      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m65         ORCALUT4     Z        Out     1.189     12.303      -         
+N_66                                              Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m85         PFUMX        BLUT     In      0.000     12.303      -         
+IMUStateMachine_1.StateIMUxDP_ns_5_0_.m85         PFUMX        Z        Out     0.093     12.396      -         
+StateIMUxDP_ns[0]                                 Net          -        -       -         -           1         
+IMUStateMachine_1.StateIMUxDP[0]                  FD1S3DX      D        In      0.000     12.396      -         
+================================================================================================================
 
 
 
@@ -1193,29 +1201,29 @@ Starting Points with Worst Slack
 Instance              Reference     Type        Pin     Net             Time        Slack  
                       Clock                                                                
 -------------------------------------------------------------------------------------------
-uFifo.AERfifo_0_1     System        FIFO8KA     FF      FifoFullxS      0.000       3.370  
-uFifo.AERfifo_0_1     System        FIFO8KA     EF      FifoEmptyxS     0.000       804.811
+uFifo.AERfifo_0_1     System        FIFO8KA     FF      FifoFullxS      0.000       5.892  
+uFifo.AERfifo_0_1     System        FIFO8KA     EF      FifoEmptyxS     0.000       804.588
 ===========================================================================================
 
 
 Ending Points with Worst Slack
 ******************************
 
-                                          Starting                                                 Required          
-Instance                                  Reference     Type        Pin     Net                    Time         Slack
-                                          Clock                                                                      
----------------------------------------------------------------------------------------------------------------------
-monitorStateMachine_1.StatexDP[12]        System        FD1S3DX     D       StatexDP_ns[2]         6.769        3.370
-monitorStateMachine_1.StatexDP[13]        System        FD1S3DX     D       StatexDP_N_7_mux_i     6.769        3.370
-monitorStateMachine_1.StatexDP[1]         System        FD1S3DX     D       StatexDP_ns[13]        6.769        4.559
-monitorStateMachine_1.StatexDP[5]         System        FD1S3DX     D       StatexDP_ns[9]         6.769        4.559
-monitorStateMachine_1.StatexDP[4]         System        FD1S3DX     D       StatexDP_ns[10]        6.769        4.823
-monitorStateMachine_1.StatexDP[14]        System        FD1S3BX     D       N_252_i                6.769        4.823
-uMonitorTimestampRegister.StatexDP[0]     System        FD1P3DX     SP      N_368_i                7.579        4.864
-uMonitorTimestampRegister.StatexDP[1]     System        FD1P3DX     SP      N_368_i                7.579        4.864
-uMonitorTimestampRegister.StatexDP[2]     System        FD1P3DX     SP      N_368_i                7.579        4.864
-uMonitorTimestampRegister.StatexDP[3]     System        FD1P3DX     SP      N_368_i                7.579        4.864
-=====================================================================================================================
+                                          Starting                                             Required          
+Instance                                  Reference     Type        Pin     Net                Time         Slack
+                                          Clock                                                                  
+-----------------------------------------------------------------------------------------------------------------
+monitorStateMachine_1.StatexDP[14]        System        FD1S3BX     D       N_250_i            10.216       5.892
+monitorStateMachine_1.StatexDP[12]        System        FD1S3DX     D       StatexDP_ns[2]     10.216       6.709
+monitorStateMachine_1.StatexDP[13]        System        FD1S3DX     D       StatexDP_ns[1]     10.216       6.709
+uMonitorTimestampRegister.StatexDP[0]     System        FD1P3DX     SP      N_366_i            11.025       7.121
+uMonitorTimestampRegister.StatexDP[1]     System        FD1P3DX     SP      N_366_i            11.025       7.121
+uMonitorTimestampRegister.StatexDP[2]     System        FD1P3DX     SP      N_366_i            11.025       7.121
+uMonitorTimestampRegister.StatexDP[3]     System        FD1P3DX     SP      N_366_i            11.025       7.121
+uMonitorTimestampRegister.StatexDP[4]     System        FD1P3DX     SP      N_366_i            11.025       7.121
+uMonitorTimestampRegister.StatexDP[5]     System        FD1P3DX     SP      N_366_i            11.025       7.121
+uMonitorTimestampRegister.StatexDP[6]     System        FD1P3DX     SP      N_366_i            11.025       7.121
+=================================================================================================================
 
 
 
@@ -1224,19 +1232,19 @@ Worst Path Information
 
 
 Path information for path number 1: 
-      Requested Period:                      7.772
+      Requested Period:                      11.219
     - Setup time:                            1.003
     + Clock delay at ending point:           0.000 (ideal)
-    = Required time:                         6.769
+    = Required time:                         10.216
 
-    - Propagation time:                      3.399
+    - Propagation time:                      4.324
     - Clock delay at starting point:         0.000 (ideal)
     - Estimated clock delay at start point:  -0.000
-    = Slack (non-critical) :                 3.370
+    = Slack (non-critical) :                 5.892
 
-    Number of logic level(s):                3
+    Number of logic level(s):                4
     Starting point:                          uFifo.AERfifo_0_1 / FF
-    Ending point:                            monitorStateMachine_1.StatexDP[12] / D
+    Ending point:                            monitorStateMachine_1.StatexDP[14] / D
     The start point is clocked by            System [rising]
     The end   point is clocked by            clockgen|CLKOP_inferred_clock [rising] on pin CK
 
@@ -1244,17 +1252,20 @@ Instance / Net                                             Pin      Pin         
 Name                                          Type         Name     Dir     Delay     Time        Fan Out(s)
 ------------------------------------------------------------------------------------------------------------
 uFifo.AERfifo_0_1                             FIFO8KA      FF       Out     0.000     0.000       -         
-FifoFullxS                                    Net          -        -       -         -           11        
-monitorStateMachine_1.StatexDP_ns_i_o3[4]     ORCALUT4     A        In      0.000     0.000       -         
-monitorStateMachine_1.StatexDP_ns_i_o3[4]     ORCALUT4     Z        Out     1.453     1.453       -         
-N_294                                         Net          -        -       -         -           4         
-monitorStateMachine_1.StatexDP_m2_e_0_2       ORCALUT4     C        In      0.000     1.453       -         
-monitorStateMachine_1.StatexDP_m2_e_0_2       ORCALUT4     Z        Out     1.189     2.642       -         
-StatexDP_m2_e_0_2                             Net          -        -       -         -           1         
-monitorStateMachine_1.StatexDP_m2_e_0         ORCALUT4     C        In      0.000     2.642       -         
-monitorStateMachine_1.StatexDP_m2_e_0         ORCALUT4     Z        Out     0.757     3.399       -         
-StatexDP_ns[2]                                Net          -        -       -         -           1         
-monitorStateMachine_1.StatexDP[12]            FD1S3DX      D        In      0.000     3.399       -         
+FifoFullxS                                    Net          -        -       -         -           8         
+monitorStateMachine_1.StatexDP_ns_i_a3[0]     ORCALUT4     A        In      0.000     0.000       -         
+monitorStateMachine_1.StatexDP_ns_i_a3[0]     ORCALUT4     Z        Out     1.189     1.189       -         
+N_315_0                                       Net          -        -       -         -           1         
+monitorStateMachine_1.StatexDP_ns_i_2[0]      ORCALUT4     B        In      0.000     1.189       -         
+monitorStateMachine_1.StatexDP_ns_i_2[0]      ORCALUT4     Z        Out     1.189     2.378       -         
+StatexDP_ns_i_2[0]                            Net          -        -       -         -           1         
+monitorStateMachine_1.StatexDP_ns_i_5[0]      ORCALUT4     D        In      0.000     2.378       -         
+monitorStateMachine_1.StatexDP_ns_i_5[0]      ORCALUT4     Z        Out     1.189     3.567       -         
+StatexDP_ns_i_5[0]                            Net          -        -       -         -           1         
+monitorStateMachine_1.StatexDP_RNO[14]        ORCALUT4     C        In      0.000     3.567       -         
+monitorStateMachine_1.StatexDP_RNO[14]        ORCALUT4     Z        Out     0.757     4.324       -         
+N_250_i                                       Net          -        -       -         -           1         
+monitorStateMachine_1.StatexDP[14]            FD1S3BX      D        In      0.000     4.324       -         
 ============================================================================================================
 
 
@@ -1265,7 +1276,7 @@ monitorStateMachine_1.StatexDP[12]            FD1S3DX      D        In      0.00
 Resource Usage Report
 Part: lcmxo2280c-3
 
-Register bits: 856 of 2280 (38%)
+Register bits: 855 of 2280 (38%)
 Latch bits:      2
 PIC Latch:       0
 I/O cells:       94
@@ -1273,29 +1284,29 @@ I/O cells:       94
 
 Details:
 BB:             2
-CCU2:           208
+CCU2:           209
 FD1P3BX:        4
-FD1P3DX:        507
+FD1P3DX:        508
 FD1S1D:         2
 FD1S3AX:        4
 FD1S3BX:        8
-FD1S3DX:        333
+FD1S3DX:        331
 GSR:            1
 IB:             35
-INV:            13
-L6MUX21:        2
+INV:            10
+L6MUX21:        4
 OB:             42
 OBZ:            15
-ORCALUT4:       918
-PFUMX:          44
+ORCALUT4:       886
+PFUMX:          39
 PUR:            1
 VHI:            26
-VLO:            20
+VLO:            19
 Mapper successful!
 
-At Mapper Exit (Real Time elapsed 0h:00m:07s; CPU Time elapsed 0h:00m:07s; Memory used current: 44MB peak: 189MB)
+At Mapper Exit (Real Time elapsed 0h:00m:07s; CPU Time elapsed 0h:00m:07s; Memory used current: 44MB peak: 197MB)
 
 Process took 0h:00m:07s realtime, 0h:00m:07s cputime
-# Mon Jun 02 20:59:12 2014
+# Thu Jun 05 11:18:54 2014
 
 ###########################################################]

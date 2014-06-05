@@ -1,6 +1,6 @@
 NOTE Copyright (C), 1992-2010, Lattice Semiconductor Corporation *
 NOTE All Rights Reserved *
-NOTE DATE CREATED: Mon Jun 02 20:59:52 2014 *
+NOTE DATE CREATED: Thu Jun 05 11:19:40 2014 *
 NOTE DESIGN NAME: USBAER_top_level *
 NOTE DEVICE NAME: LCMXO2280C-3FTBGA256 *
 NOTE PIN ASSIGNMENTS *
@@ -22,21 +22,21 @@ NOTE PINS AERMonitorACKxSBO : L15 : out *
 NOTE PINS AERMonitorREQxABI : M16 : in *
 NOTE PINS DebugxSIO[15] : T4 : out *
 NOTE PINS DebugxSIO[14] : R5 : out *
-NOTE PINS DebugxSIO[13] : G13 : out *
+NOTE PINS DebugxSIO[13] : C14 : out *
 NOTE PINS DebugxSIO[12] : R7 : out *
 NOTE PINS DebugxSIO[11] : R9 : out *
 NOTE PINS DebugxSIO[10] : R10 : out *
 NOTE PINS DebugxSIO[9] : R11 : out *
 NOTE PINS DebugxSIO[8] : R12 : out *
 NOTE PINS DebugxSIO[7] : R4 : out *
-NOTE PINS DebugxSIO[6] : C11 : out *
+NOTE PINS DebugxSIO[6] : F3 : out *
 NOTE PINS DebugxSIO[5] : R6 : out *
 NOTE PINS DebugxSIO[4] : T7 : out *
 NOTE PINS DebugxSIO[3] : T8 : out *
 NOTE PINS DebugxSIO[2] : T10 : out *
 NOTE PINS DebugxSIO[0] : T13 : out *
-NOTE PINS LED3xSO : R13 : out *
-NOTE PINS LED2xSO : T11 : out *
+NOTE PINS LED3xSO_0 : R13 : out *
+NOTE PINS LED2xSO_0 : T11 : out *
 NOTE PINS LED1xSO : R8 : out *
 NOTE PINS CDVSTestApsTxGatexSO : B13 : out *
 NOTE PINS CDVSTestBiasDiagSelxSO : A6 : out *
@@ -72,10 +72,10 @@ NOTE PINS PC3xSIO : J1 : in *
 NOTE PINS PC2xSIO : J2 : in *
 NOTE PINS PC1xSIO : K1 : in *
 NOTE PINS PC0xSIO : K2 : in *
-NOTE PINS SyncOutSWxEI : M5 : out *
-NOTE PINS SyncOutSIGxSBI : E9 : out *
-NOTE PINS SyncOutCLKxCBO : H3 : out *
-NOTE PINS SyncInCLKxABI : G3 : in *
+NOTE PINS SyncOutSWxEI : L11 : out *
+NOTE PINS SyncOutSIGxSBI : F16 : out *
+NOTE PINS SyncOutCLKxCBO : D6 : out *
+NOTE PINS SyncInCLKxABI : D5 : in *
 NOTE PINS ResetxRBI : G2 : in *
 NOTE PINS IfClockxCI : A9 : in *
 NOTE PINS FX2FifoAddressxDO[1] : E2 : out *

@@ -575,7 +575,7 @@ begin
     generic map (
 		width          => 16)
 	port map (
-		ClockxCI       => IfClockxC, -- CHECK CLOCK
+		ClockxCI       => ClockxC, 
 		ResetxRBI      => ResetxRB,
 		WriteEnablexEI => IMURegWritexE,
 		DataInxDI      => IMURegInxD,
@@ -669,7 +669,7 @@ begin
 			TriggerxSI 			 	  => TriggerxS,
 			AddressMSBxDO             => AddressMSBxD,
 			ResetTimestampxSBI        => SynchronizerResetTimestampxSB,
-			DebugLEDxEO				  => DebugLEDxE); --H
+			DebugLEDxEO				  => open); --H
   
 	ADCStateMachine_1: ADCStateMachine
 		port map (
@@ -713,7 +713,7 @@ begin
 	--H Instantiation of IMU Module
 	IMUStateMachine_1: IMUStateMachine
 		port map (
-			ClockxCI    		=> IfClockxC,
+			ClockxCI    		=> ClockxC,
 			ResetxRBI   		=> ResetxRB,
 			I2CRWxSBO   		=> I2CRWxSB,
 			I2CCSxSBO   		=> I2CCSxSB,
@@ -727,7 +727,7 @@ begin
 			IMUDataDropxEI		=> IMUDataDropxE,
 			IMURegisterWritexEO => IMURegWritexE,
 			IMUDataxDO          => IMUDataxD,
-			DebugLEDxEO			=> open);
+			DebugLEDxEO			=> DebugLEDxE);
   
 	-- Always have IMU Running
 	-- FIGURE OUT BEST WAY TO DO THIS
@@ -793,12 +793,12 @@ begin
 			(others => '0') 					when others; --H
 	
 	--LED1xSO <= IMUDataReadyReqxE; --H 
-	LED1xSO <= IfClockxC and ClockxC;
-	LED2xSO <= IfClockxC; --H
-	LED3xSO <= ClockxC; --H
-	--LED1xSO <= DebugLEDxE; --H 
-	--LED2xSO <= IMUSCLxCIO; --H
-	--LED3xSO <= IMUSDAxSIO; --H
+	--LED1xSO <= IfClockxC and ClockxC;
+	--LED2xSO <= IfClockxC; --H
+	--LED3xSO <= ClockxC; --H
+	LED1xSO <= DebugLEDxE; --H 
+	LED2xSO <= IMUSCLxCIO; --H
+	LED3xSO <= IMUSDAxSIO; --H
 	--H LED1xSO <= CDVSTestChipResetxRB;
 	--H LED2xSO <= RunxS;
 	--H LED3xSO <= ADCStateOutputLEDxS;

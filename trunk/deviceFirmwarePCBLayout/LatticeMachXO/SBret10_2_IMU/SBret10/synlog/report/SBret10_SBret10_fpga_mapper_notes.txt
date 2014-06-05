@@ -15,10 +15,7 @@
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Removing sequential instance I2C_Top_1.MPU_to_I2C_1.cmd[1] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_mpu_blk.vhd":121:3:121:4|Removing sequential instance I2C_Top_1.MPU_to_I2C_1.cmd[0] in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
 @N: BN362 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\i2c_cnt_blk.vhd":176:3:176:4|Removing sequential instance I2C_Top_1.Counter_Blk_1.Byte_Cmpr in hierarchy view:work.USBAER_top_level(structural) because there are no references to its outputs 
-@N: FX271 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":1065:2:1065:3|Instance "IMUStateMachine_1.StateIMUxDP[1]" with 59 loads replicated 3 times to improve timing 
-@N: FX271 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\monitorstatemachine.vhd":235:3:235:26|Instance "monitorStateMachine_1.StatexDP[9]" with 22 loads replicated 1 times to improve timing 
-@N: FX271 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\monitorstatemachine.vhd":222:3:222:20|Instance "monitorStateMachine_1.StatexDP[10]" with 20 loads replicated 1 times to improve timing 
-@N: FX271 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\timestampcounter.vhd":67:4:67:5|Instance "uTimestampCounter.CountxDP[14]" with 4 loads replicated 1 times to improve timing 
+@N: FX271 :"c:\users\haza\documents\jaer\devicefirmwarepcblayout\latticemachxo\sbret10_2_imu\sourcecode\imustatemachine.vhd":1064:2:1064:3|Instance "IMUStateMachine_1.StateIMUxDP[3]" with 65 loads replicated 3 times to improve timing 
 @N: FX164 |The option to pack flops in the IOB has not been specified 
 @N: BW106 |Synplicity Constraint File capacitance units using default value of 1pF 
 @N: MT320 |Timing report estimates place and route data. Please look at the place and route timing report for final timing.

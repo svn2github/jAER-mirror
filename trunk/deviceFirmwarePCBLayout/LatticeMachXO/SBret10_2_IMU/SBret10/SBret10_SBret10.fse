@@ -27,39 +27,39 @@ fsm_state_encoding {1215821582} stwrite {11}
 
 fsm_registers {1215821582} {StatexDP[1]}  {StatexDP[0]} 
 
-fsm_encoding {1339323933} onehot
+fsm_encoding {1339423943} onehot
 
-fsm_state_encoding {1339323933} stidle {000000000000001}
+fsm_state_encoding {1339423943} stidle {000000000000001}
 
-fsm_state_encoding {1339323933} stwraddress {000000000000010}
+fsm_state_encoding {1339423943} stwraddress {000000000000010}
 
-fsm_state_encoding {1339323933} stwrtime {000000000000100}
+fsm_state_encoding {1339423943} stwrtime {000000000000100}
 
-fsm_state_encoding {1339323933} stwait {000000000001000}
+fsm_state_encoding {1339423943} stwait {000000000001000}
 
-fsm_state_encoding {1339323933} stoverflow {000000000010000}
+fsm_state_encoding {1339423943} stoverflow {000000000010000}
 
-fsm_state_encoding {1339323933} stresettimestamp {000000000100000}
+fsm_state_encoding {1339423943} stresettimestamp {000000000100000}
 
-fsm_state_encoding {1339323933} stfifofull {000000001000000}
+fsm_state_encoding {1339423943} stfifofull {000000001000000}
 
-fsm_state_encoding {1339323933} streqrelease {000000010000000}
+fsm_state_encoding {1339423943} streqrelease {000000010000000}
 
-fsm_state_encoding {1339323933} stadc {000000100000000}
+fsm_state_encoding {1339423943} stadc {000000100000000}
 
-fsm_state_encoding {1339323933} stadctime {000001000000000}
+fsm_state_encoding {1339423943} stadctime {000001000000000}
 
-fsm_state_encoding {1339323933} stimutime {000010000000000}
+fsm_state_encoding {1339423943} stimutime {000010000000000}
 
-fsm_state_encoding {1339323933} stimuevent {000100000000000}
+fsm_state_encoding {1339423943} stimuevent {000100000000000}
 
-fsm_state_encoding {1339323933} stimudata {001000000000000}
+fsm_state_encoding {1339423943} stimudata {001000000000000}
 
-fsm_state_encoding {1339323933} stwrtriggertime {010000000000000}
+fsm_state_encoding {1339423943} stwrtriggertime {010000000000000}
 
-fsm_state_encoding {1339323933} stwrtrigger {100000000000000}
+fsm_state_encoding {1339423943} stwrtrigger {100000000000000}
 
-fsm_registers {1339323933} {StatexDP[0]}  {StatexDP[1]}  {StatexDP[2]}  {StatexDP[3]}  {StatexDP[4]}  {StatexDP[5]}  {StatexDP[6]}  {StatexDP[7]}  {StatexDP[8]}  {StatexDP[9]}  {StatexDP[10]}  {StatexDP[11]}  {StatexDP[12]}  {StatexDP[13]}  {StatexDP[14]} 
+fsm_registers {1339423943} {StatexDP[0]}  {StatexDP[1]}  {StatexDP[2]}  {StatexDP[3]}  {StatexDP[4]}  {StatexDP[5]}  {StatexDP[6]}  {StatexDP[7]}  {StatexDP[8]}  {StatexDP[9]}  {StatexDP[10]}  {StatexDP[11]}  {StatexDP[12]}  {StatexDP[13]}  {StatexDP[14]} 
 
 fsm_encoding {1934043405} onehot
 
@@ -119,103 +119,103 @@ fsm_state_encoding {16804806} stadcvalueready2 {11}
 
 fsm_registers {16804806} {StatexDP[1]}  {StatexDP[0]} 
 
-fsm_encoding {291065210657} gray
+fsm_encoding {291064210647} gray
 
-fsm_state_encoding {291065210657} stidle {000000}
+fsm_state_encoding {291064210647} stidle {000000}
 
-fsm_state_encoding {291065210657} stwrinitwriteaddressregister {000001}
+fsm_state_encoding {291064210647} stwrinitwriteaddressregister {000001}
 
-fsm_state_encoding {291065210657} stwrinitwriteinitialdatabufferregister {000011}
+fsm_state_encoding {291064210647} stwrinitwriteinitialdatabufferregister {000011}
 
-fsm_state_encoding {291065210657} stwrinitwritebytecountregister {000010}
+fsm_state_encoding {291064210647} stwrinitwritebytecountregister {000010}
 
-fsm_state_encoding {291065210657} stwrinitreadstatusregister {000110}
+fsm_state_encoding {291064210647} stwrinitreadstatusregister {000110}
 
-fsm_state_encoding {291065210657} stwrinitwaiti2c2 {000111}
+fsm_state_encoding {291064210647} stwrinitwaiti2c2 {000111}
 
-fsm_state_encoding {291065210657} stwrinitwritecommandregister {000101}
+fsm_state_encoding {291064210647} stwrinitwritecommandregister {000101}
 
-fsm_state_encoding {291065210657} stwrinitwaiti2c1 {000100}
+fsm_state_encoding {291064210647} stwrinitwaiti2c1 {000100}
 
-fsm_state_encoding {291065210657} stwrintwaiti2c {001100}
+fsm_state_encoding {291064210647} stwrintwaiti2c {001100}
 
-fsm_state_encoding {291065210657} stwrintwritecommandregister {001101}
+fsm_state_encoding {291064210647} stwrintwritecommandregister {001101}
 
-fsm_state_encoding {291065210657} stwrintwriteaddrbytecountregister {001111}
+fsm_state_encoding {291064210647} stwrintwriteaddrbytecountregister {001111}
 
-fsm_state_encoding {291065210657} stwrintwritedatabufferregister {001110}
+fsm_state_encoding {291064210647} stwrintwritedatabufferregister {001110}
 
-fsm_state_encoding {291065210657} stwrinitwritedatabufferregister {001010}
+fsm_state_encoding {291064210647} stwrinitwritedatabufferregister {001010}
 
-fsm_state_encoding {291065210657} stwrinitwaiti2c3 {001011}
+fsm_state_encoding {291064210647} stwrinitwaiti2c3 {001011}
 
-fsm_state_encoding {291065210657} stwrintwriteaddressregister {001001}
+fsm_state_encoding {291064210647} stwrintwriteaddressregister {001001}
 
-fsm_state_encoding {291065210657} stwrinitcheckdone {001000}
+fsm_state_encoding {291064210647} stwrinitcheckdone {001000}
 
-fsm_state_encoding {291065210657} stwrdatacheckdone {011000}
+fsm_state_encoding {291064210647} stwrdatacheckdone {011000}
 
-fsm_state_encoding {291065210657} stwrdatawaiti2c {011001}
+fsm_state_encoding {291064210647} stwrdatawaiti2c {011001}
 
-fsm_state_encoding {291065210657} stwrdatawritedatabufferregister {011011}
+fsm_state_encoding {291064210647} stwrdatawritedatabufferregister {011011}
 
-fsm_state_encoding {291065210657} stwrdatawritecommandregister {011010}
+fsm_state_encoding {291064210647} stwrdatawritecommandregister {011010}
 
-fsm_state_encoding {291065210657} strdintwaiti2c3 {011110}
+fsm_state_encoding {291064210647} strdintwaiti2c3 {011110}
 
-fsm_state_encoding {291065210657} strdintcheckdone {011111}
+fsm_state_encoding {291064210647} strdintcheckdone {011111}
 
-fsm_state_encoding {291065210657} stwrdatawriteaddrbytecountregister {011101}
+fsm_state_encoding {291064210647} stwrdatawriteaddrbytecountregister {011101}
 
-fsm_state_encoding {291065210657} stwrdatawriteaddressregister {011100}
+fsm_state_encoding {291064210647} stwrdatawriteaddressregister {011100}
 
-fsm_state_encoding {291065210657} stwrintcheckdone {010100}
+fsm_state_encoding {291064210647} stwrintcheckdone {010100}
 
-fsm_state_encoding {291065210657} strdintwriteaddressregister {010101}
+fsm_state_encoding {291064210647} strdintwriteaddressregister {010101}
 
-fsm_state_encoding {291065210657} strdintwritecommandregister {010111}
+fsm_state_encoding {291064210647} strdintwritecommandregister {010111}
 
-fsm_state_encoding {291065210657} strdintwritebytecountregister {010110}
+fsm_state_encoding {291064210647} strdintwritebytecountregister {010110}
 
-fsm_state_encoding {291065210657} strdintreaddatabufferregister {010010}
+fsm_state_encoding {291064210647} strdintreaddatabufferregister {010010}
 
-fsm_state_encoding {291065210657} strdintreadstatusregister {010011}
+fsm_state_encoding {291064210647} strdintreadstatusregister {010011}
 
-fsm_state_encoding {291065210657} strdintwaiti2c1 {010001}
+fsm_state_encoding {291064210647} strdintwaiti2c1 {010001}
 
-fsm_state_encoding {291065210657} strdintwaiti2c2 {010000}
+fsm_state_encoding {291064210647} strdintwaiti2c2 {010000}
 
-fsm_state_encoding {291065210657} strddatawriteaddressregister {110000}
+fsm_state_encoding {291064210647} strddatawriteaddressregister {110000}
 
-fsm_state_encoding {291065210657} strddatawritebytecountregister {110001}
+fsm_state_encoding {291064210647} strddatawritebytecountregister {110001}
 
-fsm_state_encoding {291065210657} strddatawaiti2c1 {110011}
+fsm_state_encoding {291064210647} strddatawaiti2c1 {110011}
 
-fsm_state_encoding {291065210657} strddatawritecommandregister {110010}
+fsm_state_encoding {291064210647} strddatawritecommandregister {110010}
 
-fsm_state_encoding {291065210657} strddatawaiti2c3 {110110}
+fsm_state_encoding {291064210647} strddatawaiti2c3 {110110}
 
-fsm_state_encoding {291065210657} strddatareaddatabufferregister {110111}
+fsm_state_encoding {291064210647} strddatareaddatabufferregister {110111}
 
-fsm_state_encoding {291065210657} strddatawaiti2c2 {110101}
+fsm_state_encoding {291064210647} strddatawaiti2c2 {110101}
 
-fsm_state_encoding {291065210657} strddatareadstatusregister {110100}
+fsm_state_encoding {291064210647} strddatareadstatusregister {110100}
 
-fsm_state_encoding {291065210657} strddatacheckdone {111100}
+fsm_state_encoding {291064210647} strddatacheckdone {111100}
 
-fsm_registers {291065210657} {StateIMUxDP[5]}  {StateIMUxDP[4]}  {StateIMUxDP[3]}  {StateIMUxDP[2]}  {StateIMUxDP[1]}  {StateIMUxDP[0]} 
+fsm_registers {291064210647} {StateIMUxDP[5]}  {StateIMUxDP[4]}  {StateIMUxDP[3]}  {StateIMUxDP[2]}  {StateIMUxDP[1]}  {StateIMUxDP[0]} 
 
-fsm_encoding {291065210658} sequential
+fsm_encoding {291064210648} sequential
 
-fsm_state_encoding {291065210658} stidle {00}
+fsm_state_encoding {291064210648} stidle {00}
 
-fsm_state_encoding {291065210658} stdatareadyreq {01}
+fsm_state_encoding {291064210648} stdatareadyreq {01}
 
-fsm_state_encoding {291065210658} stdatawritereq {10}
+fsm_state_encoding {291064210648} stdatawritereq {10}
 
-fsm_state_encoding {291065210658} stdatawriteack {11}
+fsm_state_encoding {291064210648} stdatawriteack {11}
 
-fsm_registers {291065210658} {StateIMUWritexDP[1]}  {StateIMUWritexDP[0]} 
+fsm_registers {291064210648} {StateIMUWritexDP[1]}  {StateIMUWritexDP[0]} 
 
 fsm_encoding {2616731679} sequential
 

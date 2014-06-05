@@ -109,13 +109,12 @@ architecture Behavioral of IMUStateMachine is
 	
 	-- I2C signals
 	signal I2CCountxDN, I2CCountxDP : std_logic_vector(2 downto 0); -- Counter for data to be latched into I2C Controller Register
-	constant i2c_ack_length : std_logic_vector(2 downto 0) := "101"; -- Maximum valid value for I2C Acknowledge: 5 (6 clock cycles)
+	constant i2c_ack_length : std_logic_vector(2 downto 0) := "111"; -- Maximum valid value for I2C Acknowledge: 7 (8 clock cycles)
 	constant i2c_kill_time : std_logic_vector(2 downto 0) := "100"; -- Maximum valid value for I2C Kill Time: 4 (5 clock cycles)
-	
-	signal I2CWaitCountxDN, I2CWaitCountxDP : std_logic_vector(12 downto 0); -- Counter for data to be latched from I2C Controller to IMU Register
-    constant i2c_wait_time_short : std_logic_vector(12 downto 0) := "0101110111000"; -- Clock cycles to wait: 3000 clock cycles at 30 MHz: 100000ns
-    constant i2c_wait_time_long	 : std_logic_vector(12 downto 0) := "1011101110000"; -- Clock cycles to wait: 6000 clock cycles at 30 MHz: 200000ns
-	constant i2c_wait_time_very_short : std_logic_vector(12 downto 0) := "0000000000010"; -- Clock cycles to wait: 2 clock cycles at 30 MHz: X ns
+	signal I2CWaitCountxDN, I2CWaitCountxDP : std_logic_vector(14 downto 0); -- Counter for data to be latched from I2C Controller to IMU Register
+    constant i2c_wait_time_short : std_logic_vector(14 downto 0) := "010001100101000"; -- Clock cycles to wait: 3000 clock cycles at 90 MHz: 100000ns
+    constant i2c_wait_time_long	 : std_logic_vector(14 downto 0) := "100011001010000"; -- Clock cycles to wait: 6000 clock cycles at 90 MHz: 200000ns
+	constant i2c_wait_time_very_short : std_logic_vector(14 downto 0) := "000000000000010"; -- Clock cycles to wait: 2 
 	-- I2C mux outputs
 	signal I2CAddrxD : std_logic_vector(2 downto 0); -- I2C Controller Address register
 	signal I2CDataWritexD : std_logic_vector(7 downto 0); -- I2C Controller Data Write register driving I2CDataxDIO
@@ -691,6 +690,8 @@ begin
 			when stRdIntReadDataBufferRegister =>
 				I2CAddrxD <= data_buf;
 				
+				--DebugLEDxEO <= '1';
+
 				ReadReqxE <= '1';
 				if ReadAckxE = '1' then
 					ReadReqxE <= '0';
@@ -937,6 +938,8 @@ begin
 						-- Handshaking with monitor state machine handled by p_imu_write process 
 						IMUDataReadyxE <= '1'; 
 						
+						--DebugLEDxEO <= '1';
+						
 						StateIMUxDN <= stWrIntWriteAddressRegister;
 					end if;
 					
@@ -979,11 +982,10 @@ begin
 		
 		case StateIMUWritexDP is
 			
+			-- Wait for Data to be ready 
 			when stIdle =>
 				-- Default Assignments
 				IMUDataWordCountxDN <= (others => '0');
-
-				--DebugLEDxEO <= '1';
 
 				if IMUDataReadyxE = '1' then 
 					-- Latch Data to be written
@@ -998,13 +1000,9 @@ begin
 					StateIMUWritexDN <= stDataReadyReq;
 				end if;
 
+			-- Once data is ready then send a request signal to monitor state machine telling that data is ready to be written
 			when stDataReadyReq =>
-				-- VERIFY HANDHSAKING HERE FOR COMBINATIONAL LOOPS!!!
-				-- WOULDN'T THE SYNTHETIZER COMPLAIN ALREADY ABOUT IT?!
-				
-				-- STUCK HERE! PROBLEM IS HANDSHAKING 
-				--DebugLEDxEO <= '1';
-								
+				-- VERIFY THIS LOGIC!!!!
 				-- Indicate that data is ready and wait for permission from Monitor State Machine to write data
 				IMUDataReadyReqxEO <= '1';
 				if IMUDataReadyAckxEI = '1' then
@@ -1018,6 +1016,7 @@ begin
 						StateIMUWritexDN <= stDataWriteReq;
 					end if;
 					-- WHAT SHOULD WE DO IF WE DO DROP DATA
+					-- IF WE DROP DATA WE SHOULD JUST GO BACK TO IDLE STATE AND WAIT FOR NEW DATA
 				end if;
 				
 			-- Send IMU Data one at a time

@@ -289,7 +289,8 @@ begin
 
 				-- Acknowledge that we have recieved the IMU Event
 				-- THIS DOESN'T SEEM TO DO ANYTHING ... WHY?!
-				--IMUDataReadyAckxEO <= '1';
+				-- IS THIS OK BECAUSE OF SYNCHRONIZATION?
+				IMUDataReadyAckxEO <= '1';
 			--H
 		  
 		  --H Send External Event Signal to FIFO indicating that next data word is an IMU event
@@ -308,7 +309,7 @@ begin
 				-- Request to start writing IMU Measurement Data
 				IMUDataWriteReqxEO <= '1';
 				
-				IMUDataReadyAckxEO <= '1'; --NEW
+				--IMUDataReadyAckxEO <= '1'; --NEW
 			--H 
 
 			--H Write IMU Measurement Data to FIFO
@@ -317,7 +318,7 @@ begin
 				-- STUCK HERE!!! NOT ANYMORE! ADDED READYACK IN PREVIOUS STATE.. WHY THOUGH?!
 				DebugLEDxEO <= '1'; --H
 				
-				IMUDataReadyAckxEO <= '1';
+				--IMUDataReadyAckxEO <= '1';
 				
 				-- Stay in current state until all IMU Measurement Data are written to IMU Register
 				IMUDataWriteReqxEO <= '1'; -- CHECK!
