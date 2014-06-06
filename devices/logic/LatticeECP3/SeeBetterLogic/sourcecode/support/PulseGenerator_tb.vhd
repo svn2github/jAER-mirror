@@ -9,10 +9,9 @@ end entity PulseGenerator_tb;
 
 -------------------------------------------------------------------------------
 
-architecture Test of PulseGenerator_tb is
-
+architecture Testbench of PulseGenerator_tb is
 	-- component generics
-	constant PULSE_EVERY_CYCLES : integer	:= 100;
+	constant PULSE_EVERY_CYCLES : integer	:= 20;
 	constant PULSE_POLARITY		: std_logic := '1';
 
 	-- component ports
@@ -23,11 +22,10 @@ architecture Test of PulseGenerator_tb is
 
 	-- clock
 	signal Clk : std_logic := '1';
-
 begin  -- architecture Test
 
 	-- component instantiation
-	DUT: entity work.PulseGenerator
+	DUT : entity work.PulseGenerator
 		generic map (
 			PULSE_EVERY_CYCLES => PULSE_EVERY_CYCLES,
 			PULSE_POLARITY	   => PULSE_POLARITY)
@@ -38,28 +36,26 @@ begin  -- architecture Test
 			PulseOut_SO => PulseOut_S);
 
 	-- clock generation
-	Clk <= not Clk after 10 ns;
+	Clk		<= not Clk after 0.5 ns;
+	Clock_C <= Clk;
 
 	-- waveform generation
-	WaveGen_Proc: process
+	WaveGen_Proc : process
 	begin
-		Clock_C <= Clk;
 		Reset_R <= '0';
 		Clear_S <= '0';
-		PulseOut_S <= '0';
 
-		wait until Clk = '1';
+		-- pulse reset
+		wait for 2 ns;
+		Reset_R <= '1';
+		wait for 3 ns;
+		Reset_R <= '0';
+
+		wait for 150 ns;
+		Clear_S <= '1';
+		wait for 1 ns;
+		Clear_S <= '0';
+
+		wait;
 	end process WaveGen_Proc;
-
-
-
-end architecture Test;
-
--------------------------------------------------------------------------------
-
-configuration PulseGenerator_tb_Test_cfg of PulseGenerator_tb is
-	for Test
-	end for;
-end PulseGenerator_tb_Test_cfg;
-
--------------------------------------------------------------------------------
+end architecture Testbench;

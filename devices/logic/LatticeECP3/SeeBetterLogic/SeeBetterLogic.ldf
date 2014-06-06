@@ -21,7 +21,7 @@
         <Source name="sourcecode/support/PulseGenerator.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="sourcecode/support/tb/PulseGenerator_tb.vhd" type="VHDL" type_short="VHDL">
+        <Source name="sourcecode/support/PulseGenerator_tb.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="sourcecode/support/PulseDetector.vhd" type="VHDL" type_short="VHDL">
