@@ -45,19 +45,26 @@ begin
 				end if;
 
 			when stPulseDetected =>
-				if InputSignal_SI = PULSE_POLARITY then
-					-- Pulse continues, keep increasing count.
-					Count_DN <= Count_DP + 1;
+				-- Verify length of detected pulse.
+				if Count_DP = (PULSE_MINIMAL_LENGTH_CYCLES - 1) then
+					-- Pulse hit expected length, send signal.
+					PulseDetected_SO <= '1';
 
-					-- Verify length of detected pulse.
-					if Count_DP = (PULSE_MINIMAL_LENGTH_CYCLES - 1) then
-						-- Pulse hit expected length, send signal.
-						PulseDetected_SO <= '1';
-						State_DN		 <= stPulseOverflow;
+					if InputSignal_SI = PULSE_POLARITY then
+						-- Pulse continues existing, go to wait it out.
+						State_DN <= stPulseOverflow;
+					else
+						-- Pulse disappeared right after reaching goal.
+						State_DN <= stWaitForPulse;
 					end if;
 				else
-					-- Pulse disappeared before reaching minimun lenght.
-					State_DN <= stWaitForPulse;
+					if InputSignal_SI = PULSE_POLARITY then
+						-- Pulse continues, keep increasing count.
+						Count_DN <= Count_DP + 1;
+					else
+						-- Pulse disappeared before reaching minimun length.
+						State_DN <= stWaitForPulse;
+					end if;
 				end if;
 
 			when stPulseOverflow =>
