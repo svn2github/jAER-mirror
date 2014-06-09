@@ -15,6 +15,9 @@
         <Source name="sourcecode/support/ResetSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="sourcecode/support/BufferClear.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="sourcecode/support/ContinuousCounter.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
