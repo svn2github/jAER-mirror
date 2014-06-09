@@ -25,20 +25,20 @@ entity LogicClockSynchronizer is
 end LogicClockSynchronizer;
 
 architecture Structural of LogicClockSynchronizer is
-	component ResetSynchronizer
+	component ResetSynchronizer is
 		port (
 			ExtClock_CI	 : in  std_logic;
 			ExtReset_RI	 : in  std_logic;
 			SyncReset_RO : out std_logic);
-	end component;
+	end component ResetSynchronizer;
 
-	component DFFSynchronizer
+	component DFFSynchronizer is
 		port (
 			SyncClock_CI	: in  std_logic;
 			Reset_RI		: in  std_logic;
 			SignalToSync_SI : in  std_logic;
 			SyncedSignal_SO : out std_logic);
-	end component;
+	end component DFFSynchronizer;
 
 	signal ResetSync_R : std_logic;
 begin

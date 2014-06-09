@@ -70,7 +70,7 @@ entity TopLevel is
 end TopLevel;
 
 architecture Structural of TopLevel is
-	component USBClockSynchronizer
+	component USBClockSynchronizer is
 		port (
 			USBClock_CI					: in  std_logic;
 			Reset_RI					: in  std_logic;
@@ -83,9 +83,9 @@ architecture Structural of TopLevel is
 			USBFifoThr1ReadySync_SO		: out std_logic;
 			USBFifoThr1Watermark_SI		: in  std_logic;
 			USBFifoThr1WatermarkSync_SO : out std_logic);
-	end component;
+	end component USBClockSynchronizer;
 
-	component LogicClockSynchronizer
+	component LogicClockSynchronizer is
 		port (
 			LogicClock_CI			  : in	std_logic;
 			Reset_RI				  : in	std_logic;
@@ -104,9 +104,9 @@ architecture Structural of TopLevel is
 			DVSAERReqSync_SBO		  : out std_logic;
 			IMUInterrupt_SI			  : in	std_logic;
 			IMUInterruptSync_SO		  : out std_logic);
-	end component;
+	end component LogicClockSynchronizer;
 
-	component FX3Statemachine
+	component FX3Statemachine is
 		port (
 			Clock_CI					: in  std_logic;
 			Reset_RI					: in  std_logic;
@@ -120,9 +120,9 @@ architecture Structural of TopLevel is
 			InFifoEmpty_SI				: in  std_logic;
 			InFifoAlmostEmpty_SI		: in  std_logic;
 			InFifoRead_SO				: out std_logic);
-	end component;
+	end component FX3Statemachine;
 
-	component MultiplexerStateMachine
+	component MultiplexerStateMachine is
 		port (
 			Clock_CI				 : in  std_logic;
 			Reset_RI				 : in  std_logic;
@@ -138,9 +138,9 @@ architecture Structural of TopLevel is
 			DVSAERFifoAlmostEmpty_SI : in  std_logic;
 			DVSAERFifoRead_SO		 : out std_logic;
 			DVSAERFifoData_DI		 : in  std_logic_vector(EVENT_WIDTH-1 downto 0));
-	end component;
+	end component MultiplexerStateMachine;
 
-	component TimestampGenerator
+	component TimestampGenerator is
 		port (
 			Clock_CI			  : in	std_logic;
 			Reset_RI			  : in	std_logic;
@@ -149,9 +149,9 @@ architecture Structural of TopLevel is
 			TimestampReset_SO	  : out std_logic;
 			TimestampOverflow_SO  : out std_logic;
 			Timestamp_DO		  : out std_logic_vector(TIMESTAMP_WIDTH-1 downto 0));
-	end component;
+	end component TimestampGenerator;
 
-	component DVSAERStateMachine
+	component DVSAERStateMachine is
 		port (
 			Clock_CI			 : in  std_logic;
 			Reset_RI			 : in  std_logic;
@@ -164,7 +164,7 @@ architecture Structural of TopLevel is
 			DVSAERReq_SBI		 : in  std_logic;
 			DVSAERAck_SBO		 : out std_logic;
 			DVSAERReset_SBO		 : out std_logic);
-	end component;
+	end component DVSAERStateMachine;
 
 	-- Use double-clock FIFO from the Lattice Portable Module Interfaces.
 	-- This is a more portable variation than what you'd get with the other tools,

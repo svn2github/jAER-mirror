@@ -28,7 +28,7 @@ entity FX3Statemachine is
 end FX3Statemachine;
 
 architecture Behavioral of FX3Statemachine is
-	component ContinuousCounter
+	component ContinuousCounter is
 		generic (
 			COUNTER_WIDTH	  : integer := 16;
 			RESET_ON_OVERFLOW : boolean := true);
@@ -40,7 +40,7 @@ architecture Behavioral of FX3Statemachine is
 			DataLimit_DI : in  unsigned(COUNTER_WIDTH-1 downto 0);
 			Overflow_SO	 : out std_logic;
 			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
-	end component;
+	end component ContinuousCounter;
 
 	type state is (stIdle0, stPrepareEarlyPacket0, stEarlyPacket0, stPrepareWrite0, stWriteFirst0, stWriteMiddle0, stWriteLast0, stPrepareSwitch0, stSwitch0,
 				   stIdle1, stPrepareEarlyPacket1, stEarlyPacket1, stPrepareWrite1, stWriteFirst1, stWriteMiddle1, stWriteLast1, stPrepareSwitch1, stSwitch1);

@@ -15,7 +15,7 @@ entity TimestampGenerator is
 end TimestampGenerator;
 
 architecture Structural of TimestampGenerator is
-	component ContinuousCounter
+	component ContinuousCounter is
 		generic (
 			COUNTER_WIDTH	  : integer := 16;
 			RESET_ON_OVERFLOW : boolean := true);
@@ -27,9 +27,9 @@ architecture Structural of TimestampGenerator is
 			DataLimit_DI : in  unsigned(COUNTER_WIDTH-1 downto 0);
 			Overflow_SO	 : out std_logic;
 			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
-	end component;
+	end component ContinuousCounter;
 
-	component PulseGenerator
+	component PulseGenerator is
 		generic (
 			PULSE_EVERY_CYCLES : integer   := 100;
 			PULSE_POLARITY	   : std_logic := '1');
@@ -38,9 +38,9 @@ architecture Structural of TimestampGenerator is
 			Reset_RI	: in  std_logic;
 			Clear_SI	: in  std_logic;
 			PulseOut_SO : out std_logic);
-	end component;
+	end component PulseGenerator;
 
-	component PulseDetector
+	component PulseDetector is
 		generic (
 			PULSE_MINIMAL_LENGTH_CYCLES : integer	:= 50;
 			PULSE_POLARITY				: std_logic := '1');
@@ -49,7 +49,7 @@ architecture Structural of TimestampGenerator is
 			Reset_RI		 : in  std_logic;
 			InputSignal_SI	 : in  std_logic;
 			PulseDetected_SO : out std_logic);
-	end component;
+	end component PulseDetector;
 
 	-- Detect resets from the host and pulse this once to reset the Timestamp Generator and anybody
 	-- outside listening to the TimestampReset_SO output.
