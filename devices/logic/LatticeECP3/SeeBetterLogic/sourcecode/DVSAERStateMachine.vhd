@@ -28,8 +28,13 @@ architecture Behavioral of DVSAERStateMachine is
 
 	-- present and next state
 	signal State_DP, State_DN : state;
+
+	constant CODE_Y_ADDR : std_logic_vector(2 downto 0) := "001";
+	-- The third bit of X address is the polarity. It gets encoded later on
+	-- directly from the AER bus input.
+	constant CODE_X_ADDR : std_logic_vector(1 downto 0) := "01";
 begin
-	p_memoryless : process (State_DP, DVSRun_SI, OutFifoFull_SI, OutFifoAlmostFull_SI, DVSAERReq_SBI)
+	p_memoryless : process (State_DP, DVSRun_SI, OutFifoFull_SI, DVSAERReq_SBI, DVSAERData_DI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
@@ -45,8 +50,9 @@ begin
 				if DVSRun_SI = '1' then
 					DVSAERReset_SBO <= '1';	 -- Keep DVS out of reset.
 
-					if DVSAERReq_SBI = '0' then
+					if DVSAERReq_SBI = '0' and OutFifoFull_SI = '0' then
 						-- Got a request on the AER bus, let's get the data.
+						-- If output fifo full, just wait for it to be empty.
 						State_DN <= stWriteAddr;
 					end if;
 				end if;
@@ -54,24 +60,17 @@ begin
 			when stWriteAddr =>
 				DVSAERReset_SBO <= '1';	 -- Keep DVS out of reset.
 
-				-- Get data and format it.
+				-- Get data and format it. AER(9) holds the axis.
 				if DVSAERData_DI(9) = '0' then
 					-- This is an Y address.
-					OutFifoData_DO <= "0010000" & DVSAERData_DI(7 downto 0);
+					OutFifoData_DO <= CODE_Y_ADDR & "0000" & DVSAERData_DI(7 downto 0);
 				else
 					-- This is an X address. AER(8) holds the polarity.
-					if DVSAERData_DI(8) = '1' then
-						-- ON polarity.
-						OutFifoData_DO <= "0110000" & DVSAERData_DI(7 downto 0);
-					else
-						-- OFF polarity.
-						OutFifoData_DO <= "0100000" & DVSAERData_DI(7 downto 0);
-					end if;
+					OutFifoData_DO <= CODE_X_ADDR & DVSAERData_DI(8) & "0000" & DVSAERData_DI(7 downto 0);
 				end if;
 
 				OutFifoWrite_SO <= '1';
-
-				State_DN <= stAck;
+				State_DN		<= stAck;
 
 			when stAck =>
 				DVSAERReset_SBO <= '1';	 -- Keep DVS out of reset.
