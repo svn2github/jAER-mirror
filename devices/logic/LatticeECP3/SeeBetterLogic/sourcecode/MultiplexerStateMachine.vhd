@@ -70,6 +70,10 @@ architecture Behavioral of MultiplexerStateMachine is
 	signal TimestampOverflowBuffer_D	  : unsigned(OVERFLOW_WIDTH-1 downto 0);
 
 	constant CODE_Y_ADDR : std_logic_vector(2 downto 0) := "001";
+
+	-- Buffer timestamp here so it's always in sync with the Overflow and Reset
+	-- buffers, meaning exactly one cycle behind.
+	signal TimestampBuffer_D : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
 begin
 	resetBuffer : BufferClear
 		port map (
@@ -91,7 +95,7 @@ begin
 			Overflow_SO	 => open,
 			Data_DO		 => TimestampOverflowBuffer_D);
 
-	p_memoryless : process (State_DP, FPGARun_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, Timestamp_DI, OutFifoFull_SI, OutFifoAlmostFull_SI, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI, DVSAERFifoData_DI)
+	p_memoryless : process (State_DP, FPGARun_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoFull_SI, OutFifoAlmostFull_SI, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI, DVSAERFifoData_DI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
@@ -127,14 +131,33 @@ begin
 			when stTimestampReset =>
 
 			when stTimestampWrap =>
+				-- Send the timestamp after the corresponding event.
+				-- This way the state machine can jump from any event-passing
+				-- state to this one, and then back to stIdle. The other way
+				-- around requires either more memory to remember what kind of
+				-- data we wanted to forward, or one state for each event
+				-- needing a timestamp (like old code did).
+
+
 
 			when stTimestamp =>
 				-- Write a timestamp AFTER the event it refers to. This permits
 				-- all timestamps to be served by just one state, in the same
 				-- way for all event types, heavily reducing complexity
-				State_DN		<= stIdle;
-				OutFifoData_DO	<= "1" & Timestamp_DI;
+				if TimestampOverflowBuffer_D > 1 then
+					-- The timestamp wrapped around! This means the current
+					-- Timestamp_DI is zero. But since we're here, we didn't
+					-- yet have time to handle this and send a TS_WRAP event.
+					-- So we use a hard-coded timestamp of all ones, the
+					-- biggest possible one before a TS_WRAP event happens.
+					OutFifoData_DO <= (others => '1');
+				else
+					-- Use current timestamp.
+					OutFifoData_DO <= "1" & TimestampBuffer_DI;
+				end if;
+
 				OutFifoWrite_SO <= '1';
+				State_DN		<= stIdle;
 
 			when stDVSAER =>
 				-- The next event on the DVS AER fifo has just been read and
@@ -170,9 +193,11 @@ begin
 	p_memoryzing : process (Clock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then	-- asynchronous reset (active-high for FPGAs)
-			State_DP <= stIdle;
+			State_DP		  <= stIdle;
+			TimestampBuffer_D <= (others => '0');
 		elsif rising_edge(Clock_CI) then
-			State_DP <= State_DN;
+			State_DP		  <= State_DN;
+			TimestampBuffer_D <= Timestamp_DI;
 		end if;
 	end process p_memoryzing;
 end Behavioral;
