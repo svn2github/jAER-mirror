@@ -20,17 +20,25 @@ architecture Behavioral of PulseGenerator is
 
 	-- present and next state
 	signal Count_DP, Count_DN : unsigned(COUNTER_WIDTH-1 downto 0);
+
+	signal PulseOut_S		: std_logic;
+	signal PulseOutBuffer_S : std_logic;
 begin
 	-- Variable width counter, calculation of next state
 	p_memoryless : process (Count_DP, Clear_SI)
 	begin  -- process p_memoryless
-		PulseOut_SO <= not PULSE_POLARITY;
+		PulseOut_S <= not PULSE_POLARITY;
 
 		if Clear_SI = '1' then
-			Count_DN <= (others => '0');
+			-- Reset to one instead of zero, because we want PULSE_EVERY_CYCLES
+			-- cycles to pass between the assertion of Clear_SI and the next
+			-- pulse. This is the case without buffering the output, but with
+			-- buffering, there is a one cycle delay, so we need to start with
+			-- one increment already done to get the same output.
+			Count_DN <= to_unsigned(1, Count_DN'length);
 		elsif Count_DP = (PULSE_EVERY_CYCLES - 1) then
-			Count_DN	<= (others => '0');
-			PulseOut_SO <= PULSE_POLARITY;
+			Count_DN   <= (others => '0');
+			PulseOut_S <= PULSE_POLARITY;
 		else
 			Count_DN <= Count_DP + 1;
 		end if;
@@ -40,9 +48,13 @@ begin
 	p_memoryzing : process (Clock_CI, Reset_RI)
 	begin  -- process p_memoryzing
 		if Reset_RI = '1' then	-- asynchronous reset (active-high for FPGAs)
-			Count_DP <= (others => '0');
+			Count_DP		 <= (others => '0');
+			PulseOutBuffer_S <= '0';
 		elsif rising_edge(Clock_CI) then
-			Count_DP <= Count_DN;
+			Count_DP		 <= Count_DN;
+			PulseOutBuffer_S <= PulseOut_S;
 		end if;
 	end process p_memoryzing;
+
+	PulseOut_SO <= PulseOutBuffer_S;
 end Behavioral;

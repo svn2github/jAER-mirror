@@ -30,6 +30,9 @@
         <Source name="sourcecode/support/ContinuousCounter.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="sourcecode/support/ContinuousCounter_tb.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="sourcecode/support/PulseGenerator.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>

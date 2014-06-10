@@ -1,8 +1,8 @@
-library IEEE;
-use IEEE.MATH_REAL."ceil";
-use IEEE.MATH_REAL."log2";
-use IEEE.STD_LOGIC_1164.all;
-use IEEE.NUMERIC_STD.all;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use ieee.math_real."ceil";
+use ieee.math_real."log2";
 
 entity PulseDetector is
 	generic (
@@ -12,6 +12,7 @@ entity PulseDetector is
 		Clock_CI		 : in  std_logic;
 		Reset_RI		 : in  std_logic;
 		InputSignal_SI	 : in  std_logic;
+		-- Pulse will follow one cycle after the minimal length has been reached.
 		PulseDetected_SO : out std_logic);
 end PulseDetector;
 
@@ -28,6 +29,9 @@ architecture Behavioral of PulseDetector is
 
 	-- present and next state
 	signal Count_DP, Count_DN : unsigned(COUNTER_WIDTH-1 downto 0);
+
+	signal PulseDetected_S		 : std_logic;
+	signal PulseDetectedBuffer_S : std_logic;
 begin
 	-- Variable width counter, calculation of next state
 	p_memoryless : process (State_DP, Count_DP, InputSignal_SI)
@@ -35,7 +39,7 @@ begin
 		State_DN <= State_DP;			-- Keep current state by default.
 		Count_DN <= (others => '0');	-- Keep at zero by default.
 
-		PulseDetected_SO <= '0';
+		PulseDetected_S <= '0';
 
 		case State_DP is
 			when stWaitForPulse =>
@@ -48,7 +52,7 @@ begin
 				-- Verify length of detected pulse.
 				if Count_DP = (PULSE_MINIMAL_LENGTH_CYCLES - 1) then
 					-- Pulse hit expected length, send signal.
-					PulseDetected_SO <= '1';
+					PulseDetected_S <= '1';
 
 					if InputSignal_SI = PULSE_POLARITY then
 						-- Pulse continues existing, go to wait it out.
@@ -81,11 +85,15 @@ begin
 	p_memoryzing : process (Clock_CI, Reset_RI)
 	begin  -- process p_memoryzing
 		if Reset_RI = '1' then	-- asynchronous reset (active-high for FPGAs)
-			State_DP <= stWaitForPulse;
-			Count_DP <= (others => '0');
+			State_DP			  <= stWaitForPulse;
+			Count_DP			  <= (others => '0');
+			PulseDetectedBuffer_S <= '0';
 		elsif rising_edge(Clock_CI) then
-			State_DP <= State_DN;
-			Count_DP <= Count_DN;
+			State_DP			  <= State_DN;
+			Count_DP			  <= Count_DN;
+			PulseDetectedBuffer_S <= PulseDetected_S;
 		end if;
 	end process p_memoryzing;
+
+	PulseDetected_SO <= PulseDetectedBuffer_S;
 end Behavioral;

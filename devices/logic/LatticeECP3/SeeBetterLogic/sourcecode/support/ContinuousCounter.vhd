@@ -22,6 +22,9 @@ end ContinuousCounter;
 architecture Behavioral of ContinuousCounter is
 	-- present and next state
 	signal Count_DP, Count_DN : unsigned(COUNTER_WIDTH-1 downto 0);
+
+	signal Overflow_S		: std_logic;
+	signal OverflowBuffer_S : std_logic;
 begin
 	-- Output present count.
 	Data_DO <= Count_DP;
@@ -31,18 +34,25 @@ begin
 	begin  -- process p_memoryless
 		Count_DN <= Count_DP;			-- Keep value by default.
 
-		Overflow_SO <= '0';				-- No overflow, only on equality.
-
 		if Clear_SI = '1' then
 			Count_DN <= (others => '0');
 		elsif Count_DP = DataLimit_DI then
-			Overflow_SO <= '1';
-
 			if RESET_ON_OVERFLOW then
 				Count_DN <= (others => '0');
 			end if;
 		elsif Enable_SI = '1' then
 			Count_DN <= Count_DP + 1;
+		end if;
+
+		-- Determine overflow flag one cycle in advance, so that registering it
+		-- at the output doesn't add more latency, since we want it to be
+		-- asserted the cycle _before_ the buffer switches back to zero.
+		if Count_DP = (DataLimit_DI - 1) and Enable_SI = '1' then
+			Overflow_S <= '1';
+		elsif Count_DP = DataLimit_DI and Clear_SI = '0' and not RESET_ON_OVERFLOW then
+			Overflow_S <= '1';
+		else
+			Overflow_S <= '0';
 		end if;
 	end process p_memoryless;
 
@@ -50,9 +60,13 @@ begin
 	p_memoryzing : process (Clock_CI, Reset_RI)
 	begin  -- process p_memoryzing
 		if Reset_RI = '1' then	-- asynchronous reset (active-high for FPGAs)
-			Count_DP <= (others => '0');
+			Count_DP		 <= (others => '0');
+			OverflowBuffer_S <= '0';
 		elsif rising_edge(Clock_CI) then
-			Count_DP <= Count_DN;
+			Count_DP		 <= Count_DN;
+			OverflowBuffer_S <= Overflow_S;
 		end if;
 	end process p_memoryzing;
+
+	Overflow_SO <= OverflowBuffer_S;
 end Behavioral;
