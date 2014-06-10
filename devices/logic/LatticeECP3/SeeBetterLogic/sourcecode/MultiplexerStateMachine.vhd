@@ -129,21 +129,18 @@ begin
 				end if;
 
 			when stTimestampReset =>
+				-- Send timestamp reset (back to zero) event to host.
 
 			when stTimestampWrap =>
-				-- Send the timestamp after the corresponding event.
+				-- Send timestamp wrap (add 15 bits) event to host.
+
+			when stTimestamp =>
+				-- Write a timestamp AFTER the event it refers to.
 				-- This way the state machine can jump from any event-passing
 				-- state to this one, and then back to stIdle. The other way
 				-- around requires either more memory to remember what kind of
 				-- data we wanted to forward, or one state for each event
 				-- needing a timestamp (like old code did).
-
-
-
-			when stTimestamp =>
-				-- Write a timestamp AFTER the event it refers to. This permits
-				-- all timestamps to be served by just one state, in the same
-				-- way for all event types, heavily reducing complexity
 				if TimestampOverflowBuffer_D > 1 then
 					-- The timestamp wrapped around! This means the current
 					-- Timestamp_DI is zero. But since we're here, we didn't
@@ -153,7 +150,7 @@ begin
 					OutFifoData_DO <= (others => '1');
 				else
 					-- Use current timestamp.
-					OutFifoData_DO <= "1" & TimestampBuffer_DI;
+					OutFifoData_DO <= "1" & TimestampBuffer_D;
 				end if;
 
 				OutFifoWrite_SO <= '1';
