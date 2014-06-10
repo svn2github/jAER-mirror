@@ -6,6 +6,15 @@
         <Source name="C:/lscc/diamond/3.1_x64/cae_library/synthesis/vhdl/pmi_def.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="sourcecode/ext/FIFODualClock.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/ext/FIFO.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/ext/PLL.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="sourcecode/ext/i2c_master.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>

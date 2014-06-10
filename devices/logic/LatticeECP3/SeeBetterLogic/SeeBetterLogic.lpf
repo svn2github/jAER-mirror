@@ -12,8 +12,8 @@ FREQUENCY PORT "USBClock_CI" 80.0 MHz ;
 FREQUENCY NET "USBClock_CI_c" 80.0 MHz ;
 //USE PRIMARY NET "USBClock_CI_c" ;
 USE SECONDARY NET "USBClock_CI_c" ;
-FREQUENCY NET "LogicClock_C" 240.0 MHz ;
-USE PRIMARY NET "LogicClock_C" ;
+FREQUENCY NET "LogicClock_C_c" 240.0 MHz ;
+USE PRIMARY NET "LogicClock_C_c" ;
 
 // FX3 controls
 LOCATE COMP "Reset_RI" SITE "C13" ;// FPGA Reset

@@ -166,89 +166,58 @@ architecture Structural of TopLevel is
 			DVSAERReset_SBO		 : out std_logic);
 	end component DVSAERStateMachine;
 
-	-- Use double-clock FIFO from the Lattice Portable Module Interfaces.
-	-- This is a more portable variation than what you'd get with the other tools,
-	-- but slightly less configurable. It has everything we need though, and allows
-	-- for easy switching between underlying hardware implementations and tuning.
-	component pmi_fifo_dc is
+	component FIFODualClock is
 		generic (
-			pmi_data_width_w	  : integer := 18;
-			pmi_data_width_r	  : integer := 18;
-			pmi_data_depth_w	  : integer := 256;
-			pmi_data_depth_r	  : integer := 256;
-			pmi_full_flag		  : integer := 256;
-			pmi_empty_flag		  : integer := 0;
-			pmi_almost_full_flag  : integer := 252;
-			pmi_almost_empty_flag : integer := 4;
-			pmi_regmode			  : string	:= "reg";
-			pmi_resetmode		  : string	:= "async";
-			pmi_family			  : string	:= "EC";
-			module_type			  : string	:= "pmi_fifo_dc";
-			pmi_implementation	  : string	:= "EBR");
+			DATA_WIDTH		  : integer;
+			DATA_DEPTH		  : integer;
+			EMPTY_FLAG		  : integer;
+			ALMOST_EMPTY_FLAG : integer;
+			FULL_FLAG		  : integer;
+			ALMOST_FULL_FLAG  : integer);
 		port (
-			Data		: in  std_logic_vector(pmi_data_width_w-1 downto 0);
-			WrClock		: in  std_logic;
-			RdClock		: in  std_logic;
-			WrEn		: in  std_logic;
-			RdEn		: in  std_logic;
-			Reset		: in  std_logic;
-			RPReset		: in  std_logic;
-			Q			: out std_logic_vector(pmi_data_width_r-1 downto 0);
-			Empty		: out std_logic;
-			Full		: out std_logic;
-			AlmostEmpty : out std_logic;
-			AlmostFull	: out std_logic);
-	end component pmi_fifo_dc;
+			Reset_RI	   : in	 std_logic;
+			DataIn_DI	   : in	 std_logic_vector(DATA_WIDTH-1 downto 0);
+			WrClock_CI	   : in	 std_logic;
+			WrEnable_SI	   : in	 std_logic;
+			DataOut_DO	   : out std_logic_vector(DATA_WIDTH-1 downto 0);
+			RdClock_CI	   : in	 std_logic;
+			RdEnable_SI	   : in	 std_logic;
+			Empty_SO	   : out std_logic;
+			AlmostEmpty_SO : out std_logic;
+			Full_SO		   : out std_logic;
+			AlmostFull_SO  : out std_logic);
+	end component FIFODualClock;
 
-	component pmi_fifo is
+	component FIFO is
 		generic (
-			pmi_data_width		  : integer := 8;
-			pmi_data_depth		  : integer := 256;
-			pmi_full_flag		  : integer := 256;
-			pmi_empty_flag		  : integer := 0;
-			pmi_almost_full_flag  : integer := 252;
-			pmi_almost_empty_flag : integer := 4;
-			pmi_regmode			  : string	:= "reg";
-			pmi_family			  : string	:= "EC";
-			module_type			  : string	:= "pmi_fifo";
-			pmi_implementation	  : string	:= "EBR");
+			DATA_WIDTH		  : integer;
+			DATA_DEPTH		  : integer;
+			EMPTY_FLAG		  : integer;
+			ALMOST_EMPTY_FLAG : integer;
+			FULL_FLAG		  : integer;
+			ALMOST_FULL_FLAG  : integer);
 		port (
-			Data		: in  std_logic_vector(pmi_data_width-1 downto 0);
-			Clock		: in  std_logic;
-			WrEn		: in  std_logic;
-			RdEn		: in  std_logic;
-			Reset		: in  std_logic;
-			Q			: out std_logic_vector(pmi_data_width-1 downto 0);
-			Empty		: out std_logic;
-			Full		: out std_logic;
-			AlmostEmpty : out std_logic;
-			AlmostFull	: out std_logic);
-	end component pmi_fifo;
+			Clock_CI	   : in	 std_logic;
+			Reset_RI	   : in	 std_logic;
+			DataIn_DI	   : in	 std_logic_vector(DATA_WIDTH-1 downto 0);
+			WrEnable_SI	   : in	 std_logic;
+			DataOut_DO	   : out std_logic_vector(DATA_WIDTH-1 downto 0);
+			RdEnable_SI	   : in	 std_logic;
+			Empty_SO	   : out std_logic;
+			AlmostEmpty_SO : out std_logic;
+			Full_SO		   : out std_logic;
+			AlmostFull_SO  : out std_logic);
+	end component FIFO;
 
-	component pmi_pll is
+	component PLL is
 		generic (
-			pmi_freq_clki	 : integer := 100;
-			pmi_freq_clkfb	 : integer := 100;
-			pmi_freq_clkop	 : integer := 100;
-			pmi_freq_clkos	 : integer := 100;
-			pmi_freq_clkok	 : integer := 50;
-			pmi_family		 : string  := "EC";
-			pmi_phase_adj	 : integer := 0;
-			pmi_duty_cycle	 : integer := 50;
-			pmi_clkfb_source : string  := "CLKOP";
-			pmi_fdel		 : string  := "off";
-			pmi_fdel_val	 : integer := 0;
-			module_type		 : string  := "pmi_pll");
+			CLOCK_FREQ	   : integer;
+			OUT_CLOCK_FREQ : integer);
 		port (
-			CLKI   : in	 std_logic;
-			CLKFB  : in	 std_logic;
-			RESET  : in	 std_logic;
-			CLKOP  : out std_logic;
-			CLKOS  : out std_logic;
-			CLKOK  : out std_logic;
-			CLKOK2 : out std_logic;
-			LOCK   : out std_logic);
-	end component pmi_pll;
+			Clock_CI	: in  std_logic;
+			Reset_RI	: in  std_logic;
+			OutClock_CO : out std_logic);
+	end component PLL;
 
 	signal USBReset_R	: std_logic;
 	signal LogicClock_C : std_logic;
@@ -262,7 +231,7 @@ architecture Structural of TopLevel is
 	signal FPGARunSync_S, DVSRunSync_S, ADCRunSync_S, IMURunSync_S, FPGATimestampResetSync_S, DVSAERReqSync_SB, IMUInterruptSync_S : std_logic;
 
 	signal DVSRun_S, ADCRun_S, IMURun_S					  : std_logic;
-	signal DVSFifoReset_S, ADCFifoReset_S, IMUFifoReset_S : std_logic;
+	signal DVSFifoReset_R, ADCFifoReset_R, IMUFifoReset_R : std_logic;
 
 	signal USBFifoFPGAData_D																		: std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
 	signal USBFifoFPGAWrite_S, USBFifoFPGARead_S													: std_logic;
@@ -327,33 +296,19 @@ begin
 
 	-- Keep data transmission FIFOs in reset if FPGA is not running, so
 	-- that they will be empty when resuming operation (no stale data).
-	DVSFifoReset_S <= LogicReset_R or (not FPGARunSync_S);
-	ADCFifoReset_S <= LogicReset_R or (not FPGARunSync_S);
-	IMUFifoReset_S <= LogicReset_R or (not FPGARunSync_S);
+	DVSFifoReset_R <= LogicReset_R or (not FPGARunSync_S);
+	ADCFifoReset_R <= LogicReset_R or (not FPGARunSync_S);
+	IMUFifoReset_R <= LogicReset_R or (not FPGARunSync_S);
 
 	-- Generate logic clock using a PLL.
-	logicClockPLL : pmi_pll
+	logicClockPLL : PLL
 		generic map (
-			pmi_freq_clki	 => USB_CLOCK_FREQ,
-			pmi_freq_clkfb	 => LOGIC_CLOCK_FREQ,
-			pmi_freq_clkop	 => LOGIC_CLOCK_FREQ,
-			pmi_freq_clkos	 => LOGIC_CLOCK_FREQ,
-			pmi_freq_clkok	 => LOGIC_CLOCK_FREQ,
-			pmi_family		 => DEVICE_FAMILY,
-			pmi_phase_adj	 => 0,
-			pmi_duty_cycle	 => 50,
-			pmi_clkfb_source => "CLKOP",
-			pmi_fdel		 => "off",
-			pmi_fdel_val	 => 0)
+			CLOCK_FREQ	   => USB_CLOCK_FREQ,
+			OUT_CLOCK_FREQ => LOGIC_CLOCK_FREQ)
 		port map (
-			CLKI   => USBClock_CI,
-			CLKFB  => LogicClock_C,
-			RESET  => USBReset_R,
-			CLKOP  => LogicClock_C,
-			CLKOS  => open,
-			CLKOK  => open,
-			CLKOK2 => open,
-			LOCK   => open);
+			Clock_CI	=> USBClock_CI,
+			Reset_RI	=> USBReset_R,
+			OutClock_CO => LogicClock_C);
 
 	usbFX3SM : FX3Statemachine
 		port map (
@@ -371,33 +326,26 @@ begin
 			InFifoRead_SO				=> USBFifoFPGARead_S);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
-	usbFifoFPGA : pmi_fifo_dc
+	usbFifoFPGA : FIFODualClock
 		generic map (
-			pmi_data_width_w	  => USB_FIFO_WIDTH,
-			pmi_data_depth_w	  => USBFPGA_FIFO_SIZE,
-			pmi_data_width_r	  => USB_FIFO_WIDTH,
-			pmi_data_depth_r	  => USBFPGA_FIFO_SIZE,
-			pmi_full_flag		  => USBFPGA_FIFO_SIZE,
-			pmi_empty_flag		  => 0,
-			pmi_almost_full_flag  => USBFPGA_FIFO_SIZE - USBFPGA_FIFO_ALMOST_SIZE,
-			pmi_almost_empty_flag => USBFPGA_FIFO_ALMOST_SIZE,
-			pmi_regmode			  => "noreg",
-			pmi_resetmode		  => "async",
-			pmi_family			  => DEVICE_FAMILY,
-			pmi_implementation	  => "LUT")
+			DATA_WIDTH		  => USB_FIFO_WIDTH,
+			DATA_DEPTH		  => USBFPGA_FIFO_SIZE,
+			EMPTY_FLAG		  => 0,
+			ALMOST_EMPTY_FLAG => USBFPGA_FIFO_ALMOST_SIZE,
+			FULL_FLAG		  => USBFPGA_FIFO_SIZE,
+			ALMOST_FULL_FLAG  => USBFPGA_FIFO_SIZE - USBFPGA_FIFO_ALMOST_SIZE)
 		port map (
-			Data		=> USBFifoFPGAData_D,
-			WrClock		=> LogicClock_C,
-			RdClock		=> USBClock_CI,
-			WrEn		=> USBFifoFPGAWrite_S,
-			RdEn		=> USBFifoFPGARead_S,
-			Reset		=> LogicReset_R,
-			RPReset		=> LogicReset_R,
-			Q			=> USBFifoData_DO,
-			Empty		=> USBFifoFPGAEmpty_S,
-			Full		=> USBFifoFPGAFull_S,
-			AlmostEmpty => USBFifoFPGAAlmostEmpty_S,
-			AlmostFull	=> USBFifoFPGAAlmostFull_S);
+			Reset_RI	   => LogicReset_R,
+			DataIn_DI	   => USBFifoFPGAData_D,
+			WrClock_CI	   => LogicClock_C,
+			WrEnable_SI	   => USBFifoFPGAWrite_S,
+			DataOut_DO	   => USBFifoData_DO,
+			RdClock_CI	   => USBClock_CI,
+			RdEnable_SI	   => USBFifoFPGARead_S,
+			Empty_SO	   => USBFifoFPGAEmpty_S,
+			AlmostEmpty_SO => USBFifoFPGAAlmostEmpty_S,
+			Full_SO		   => USBFifoFPGAFull_S,
+			AlmostFull_SO  => USBFifoFPGAAlmostFull_S);
 
 	multiplexerSM : MultiplexerStateMachine
 		port map (
@@ -426,28 +374,25 @@ begin
 			TimestampOverflow_SO  => TimestampOverflow_S,
 			Timestamp_DO		  => Timestamp_D);
 
-	dvsaerFifo : pmi_fifo
+	dvsaerFifo : FIFO
 		generic map (
-			pmi_data_width		  => EVENT_WIDTH,
-			pmi_data_depth		  => DVSAER_FIFO_SIZE,
-			pmi_full_flag		  => DVSAER_FIFO_SIZE,
-			pmi_empty_flag		  => 0,
-			pmi_almost_full_flag  => DVSAER_FIFO_SIZE - DVSAER_FIFO_ALMOST_SIZE,
-			pmi_almost_empty_flag => DVSAER_FIFO_ALMOST_SIZE,
-			pmi_regmode			  => "noreg",
-			pmi_family			  => DEVICE_FAMILY,
-			pmi_implementation	  => "LUT")
+			DATA_WIDTH		  => EVENT_WIDTH,
+			DATA_DEPTH		  => DVSAER_FIFO_SIZE,
+			EMPTY_FLAG		  => 0,
+			ALMOST_EMPTY_FLAG => DVSAER_FIFO_ALMOST_SIZE,
+			FULL_FLAG		  => DVSAER_FIFO_SIZE,
+			ALMOST_FULL_FLAG  => DVSAER_FIFO_SIZE - DVSAER_FIFO_ALMOST_SIZE)
 		port map (
-			Data		=> DVSAERFifoDataWrite_D,
-			Clock		=> LogicClock_C,
-			WrEn		=> DVSAERFifoWrite_S,
-			RdEn		=> DVSAERFifoRead_S,
-			Reset		=> DVSFifoReset_S,
-			Q			=> DVSAERFifoDataRead_D,
-			Empty		=> DVSAERFifoEmpty_S,
-			Full		=> DVSAERFifoFull_S,
-			AlmostEmpty => DVSAERFifoAlmostEmpty_S,
-			AlmostFull	=> DVSAERFifoAlmostFull_S);
+			Clock_CI	   => LogicClock_C,
+			Reset_RI	   => DVSFifoReset_R,
+			DataIn_DI	   => DVSAERFifoDataWrite_D,
+			WrEnable_SI	   => DVSAERFifoWrite_S,
+			DataOut_DO	   => DVSAERFifoDataRead_D,
+			RdEnable_SI	   => DVSAERFifoRead_S,
+			Empty_SO	   => DVSAERFifoEmpty_S,
+			AlmostEmpty_SO => DVSAERFifoAlmostEmpty_S,
+			Full_SO		   => DVSAERFifoFull_S,
+			AlmostFull_SO  => DVSAERFifoAlmostFull_S);
 
 	dvsaerSM : DVSAERStateMachine
 		port map (
