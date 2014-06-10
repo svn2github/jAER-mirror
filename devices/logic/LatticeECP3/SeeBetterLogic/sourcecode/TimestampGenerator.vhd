@@ -1,6 +1,6 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.all;
-use IEEE.NUMERIC_STD.all;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 use work.Settings.all;
 
 entity TimestampGenerator is
@@ -84,7 +84,7 @@ begin
 	-- quick reset pulse to the counter and pulse generator.
 	timestampResetDetect : PulseDetector
 		generic map (
-			PULSE_MINIMAL_LENGTH_CYCLES => 100)
+			PULSE_MINIMAL_LENGTH_CYCLES => 120)
 		port map (
 			Clock_CI		 => Clock_CI,
 			Reset_RI		 => Reset_RI,

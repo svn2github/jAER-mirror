@@ -28,11 +28,6 @@ architecture Behavioral of DVSAERStateMachine is
 
 	-- present and next state
 	signal State_DP, State_DN : state;
-
-	constant CODE_Y_ADDR : std_logic_vector(2 downto 0) := "001";
-	-- The third bit of X address is the polarity. It gets encoded later on
-	-- directly from the AER bus input.
-	constant CODE_X_ADDR : std_logic_vector(1 downto 0) := "01";
 begin
 	p_memoryless : process (State_DP, DVSRun_SI, OutFifoFull_SI, DVSAERReq_SBI, DVSAERData_DI)
 	begin
@@ -63,10 +58,10 @@ begin
 				-- Get data and format it. AER(9) holds the axis.
 				if DVSAERData_DI(9) = '0' then
 					-- This is an Y address.
-					OutFifoData_DO <= CODE_Y_ADDR & "0000" & DVSAERData_DI(7 downto 0);
+					OutFifoData_DO <= EVENT_CODE_Y_ADDR & "0000" & DVSAERData_DI(7 downto 0);
 				else
 					-- This is an X address. AER(8) holds the polarity.
-					OutFifoData_DO <= CODE_X_ADDR & DVSAERData_DI(8) & "0000" & DVSAERData_DI(7 downto 0);
+					OutFifoData_DO <= EVENT_CODE_X_ADDR & DVSAERData_DI(8) & "0000" & DVSAERData_DI(7 downto 0);
 				end if;
 
 				OutFifoWrite_SO <= '1';

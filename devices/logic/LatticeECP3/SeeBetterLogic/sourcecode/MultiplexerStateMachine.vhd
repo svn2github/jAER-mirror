@@ -64,12 +64,8 @@ architecture Behavioral of MultiplexerStateMachine is
 	signal TimestampResetBufferClear_S : std_logic;
 	signal TimestampResetBuffer_S	   : std_logic;
 
-	constant OVERFLOW_WIDTH : integer := 12;
-
 	signal TimestampOverflowBufferClear_S : std_logic;
 	signal TimestampOverflowBuffer_D	  : unsigned(OVERFLOW_WIDTH-1 downto 0);
-
-	constant CODE_Y_ADDR : std_logic_vector(2 downto 0) := "001";
 
 	-- Buffer timestamp here so it's always in sync with the Overflow and Reset
 	-- buffers, meaning exactly one cycle behind.
@@ -141,16 +137,16 @@ begin
 				-- around requires either more memory to remember what kind of
 				-- data we wanted to forward, or one state for each event
 				-- needing a timestamp (like old code did).
-				if TimestampOverflowBuffer_D > 1 then
+				if TimestampOverflowBuffer_D > 0 then
 					-- The timestamp wrapped around! This means the current
 					-- Timestamp_DI is zero. But since we're here, we didn't
 					-- yet have time to handle this and send a TS_WRAP event.
 					-- So we use a hard-coded timestamp of all ones, the
 					-- biggest possible one before a TS_WRAP event happens.
-					OutFifoData_DO <= (others => '1');
+					OutFifoData_DO <= (EVENT_CODE_TIMESTAMP, others => '1');
 				else
 					-- Use current timestamp.
-					OutFifoData_DO <= "1" & TimestampBuffer_D;
+					OutFifoData_DO <= EVENT_CODE_TIMESTAMP & TimestampBuffer_D;
 				end if;
 
 				OutFifoWrite_SO <= '1';
@@ -161,14 +157,14 @@ begin
 				-- the data is available on the output bus. First, let's
 				-- examine it and see if we need to inject a timestamp,
 				-- if it's an Y (row) address.
-				if DVSAERFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-3) = CODE_Y_ADDR then
+				if DVSAERFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-4) = EVENT_CODE_Y_ADDR then
 					State_DN <= stTimestamp;
 				else
 					State_DN <= stIdle;
 				end if;
 
-				--
-				OutFifoData_DO	<= "0" & DVSAERFifoData_DI;
+				-- Write out current event.
+				OutFifoData_DO	<= DVSAERFifoData_DI;
 				OutFifoWrite_SO <= '1';
 
 			when stAPSADC =>
