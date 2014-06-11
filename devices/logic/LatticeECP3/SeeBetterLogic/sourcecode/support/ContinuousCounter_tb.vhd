@@ -87,6 +87,15 @@ begin  -- architecture Testbench
 		wait for 14 ns;
 		Enable_S <= '0';
 
+		-- now count up to 14 again, but with an intermittent enable, and then
+		-- four more, up to 3
+		delayedEnableLoop : for i in 1 to 18 loop
+			wait for 5 ns;
+			Enable_S <= '1';
+			wait for 1 ns;
+			Enable_S <= '0';
+		end loop;  -- i
+
 		-- just count up and up
 		wait for 5 ns;
 		Enable_S <= '1';

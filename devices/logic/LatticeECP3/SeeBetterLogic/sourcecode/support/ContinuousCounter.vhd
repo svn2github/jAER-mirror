@@ -47,12 +47,12 @@ begin
 		-- Determine overflow flag one cycle in advance, so that registering it
 		-- at the output doesn't add more latency, since we want it to be
 		-- asserted the cycle _before_ the buffer switches back to zero.
+		Overflow_S <= '0';
+
 		if Count_DP = (DataLimit_DI - 1) and Enable_SI = '1' then
 			Overflow_S <= '1';
 		elsif Count_DP = DataLimit_DI and Clear_SI = '0' and not RESET_ON_OVERFLOW then
 			Overflow_S <= '1';
-		else
-			Overflow_S <= '0';
 		end if;
 	end process p_memoryless;
 
