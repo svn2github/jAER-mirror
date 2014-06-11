@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_proj.xsd">
 
-  <SchemaVersion>1.0</SchemaVersion>
+  <SchemaVersion>1.1</SchemaVersion>
 
   <Header>### uVision Project, (C) Keil Software</Header>
 
@@ -29,11 +29,12 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
+          <SFDFile></SFDFile>
           <UseEnv>1</UseEnv>
           <BinPath>C:\Keil\C51\BIN\</BinPath>
           <IncludePath>C:\Cypress\USB\Target\Inc;C:\Keil\C51\INC\</IncludePath>
           <LibPath>C:\Keil\C51\LIB\</LibPath>
-          <RegisterFilePath>.\Inc;C:\Keil\C51\INC\Cypress\</RegisterFilePath>
+          <RegisterFilePath>.\Cypress\</RegisterFilePath>
           <DBRegisterFilePath>Cypress\</DBRegisterFilePath>
           <TargetStatus>
             <Error>0</Error>
@@ -60,6 +61,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopU1X>0</nStopU1X>
+            <nStopU2X>0</nStopU2X>
           </BeforeCompile>
           <BeforeMake>
             <RunUserProg1>0</RunUserProg1>
@@ -134,6 +137,7 @@
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
+            <RestoreTracepoints>0</RestoreTracepoints>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
           <TargetSelection>0</TargetSelection>
@@ -162,8 +166,9 @@
             <Capability>0</Capability>
             <DriverSelection>0</DriverSelection>
           </Flash1>
+          <bUseTDR>0</bUseTDR>
           <Flash2></Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
         </Utilities>
         <Target51>
@@ -420,11 +425,6 @@
               <FileName>opcode.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\opcode.h</FilePath>
-            </File>
-            <File>
-              <FileName>ISR_Timer2_JumpVector.a51</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\ISR_Timer2_JumpVector.a51</FilePath>
             </File>
           </Files>
         </Group>
