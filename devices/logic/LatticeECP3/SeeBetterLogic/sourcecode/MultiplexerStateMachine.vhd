@@ -61,11 +61,14 @@ architecture Behavioral of MultiplexerStateMachine is
 	-- present and next state
 	signal State_DP, State_DN : state;
 
+	signal TimestampReset_S : std_logic;
+
 	signal TimestampResetBufferClear_S : std_logic;
 	signal TimestampResetBuffer_S	   : std_logic;
 
-	signal TimestampOverflowBufferClear_S : std_logic;
-	signal TimestampOverflowBuffer_D	  : unsigned(OVERFLOW_WIDTH-1 downto 0);
+	signal TimestampOverflowBufferClear_S	 : std_logic;
+	signal TimestampOverflowBufferOverflow_S : std_logic;
+	signal TimestampOverflowBuffer_D		 : unsigned(OVERFLOW_WIDTH-1 downto 0);
 
 	-- Buffer timestamp here so it's always in sync with the Overflow and Reset
 	-- buffers, meaning exactly one cycle behind.
@@ -76,9 +79,26 @@ begin
 			Clock_CI		=> Clock_CI,
 			Reset_RI		=> Reset_RI,
 			Clear_SI		=> TimestampResetBufferClear_S,
-			InputSignal_SI	=> TimestampReset_SI,
+			InputSignal_SI	=> TimestampReset_S,
 			OutputSignal_SO => TimestampResetBuffer_S);
 
+	TimestampReset_S <= TimestampReset_SI or TimestampOverflowBufferOverflow_S;
+
+	-- The overflow counter keeps track of wrap events. While there usually
+	-- will only be one which will be then sent out right away via USB, it is
+	-- theoretically possible for USB to stall and thus for the OutFifo to not
+	-- be able to accept new events anymore. In that case we start dropping
+	-- data events, but we can't drop wrap events, or the time on the device
+	-- will then drift significantly from the time on the host when USB
+	-- communication resumes. To avoid this, we keep a count of wrap events and
+	-- ensure the wrap event, with it's count, is the first thing sent over
+	-- when USB communication resumes (only a timestamp reset event has higher
+	-- priority). If communication is down for a very long period of time, we
+	-- reach the limit of this counter, and it overflows, at which point it
+	-- becomes impossible to maintain any kind of meaningful correspondence
+	-- between the device and host time. The only correct solution at this
+	-- point is to force a timestamp reset event to be sent, so that both
+	-- device and host re-synchronize on zero.
 	overflowBuffer : ContinuousCounter
 		generic map (
 			COUNTER_WIDTH => OVERFLOW_WIDTH)
@@ -88,7 +108,7 @@ begin
 			Clear_SI	 => TimestampOverflowBufferClear_S,
 			Enable_SI	 => TimestampOverflow_SI,
 			DataLimit_DI => (others => '1'),
-			Overflow_SO	 => open,		-- TODO: wire this to force a reset.
+			Overflow_SO	 => TimestampOverflowBufferOverflow_S,
 			Data_DO		 => TimestampOverflowBuffer_D);
 
 	p_memoryless : process (State_DP, FPGARun_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoFull_SI, OutFifoAlmostFull_SI, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI, DVSAERFifoData_DI)
@@ -124,13 +144,20 @@ begin
 
 			when stTimestampReset =>
 				-- Send timestamp reset (back to zero) event to host.
-				OutFifoData_DO	<= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_TIMESTAMP_RESET;
+				OutFifoData_DO				   <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_TIMESTAMP_RESET;
+				TimestampResetBufferClear_S	   <= '1';
+				-- Also clean overflow counter, since a timestamp reset event
+				-- has higher priority and invalidates all previous time information.
+				TimestampOverflowBufferClear_S <= '1';
+
 				OutFifoWrite_SO <= '1';
 				State_DN		<= stIdle;
 
 			when stTimestampWrap =>
 				-- Send timestamp wrap (add 15 bits) event to host.
-				OutFifoData_DO	<= EVENT_CODE_TIMESTAMP_WRAP & std_logic_vector(TimestampOverflowBuffer_D);
+				OutFifoData_DO				   <= EVENT_CODE_TIMESTAMP_WRAP & std_logic_vector(TimestampOverflowBuffer_D);
+				TimestampOverflowBufferClear_S <= '1';
+
 				OutFifoWrite_SO <= '1';
 				State_DN		<= stIdle;
 
