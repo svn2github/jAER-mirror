@@ -29,17 +29,18 @@ package Settings is
 	constant IMU_FIFO_ALMOST_SIZE	  : integer := 7;	-- one sample (1x7)
 
 	-- event codes
-	constant EVENT_CODE_TIMESTAMP	   : std_logic					  := '1';
-	constant EVENT_CODE_SPECIAL		   : std_logic_vector(3 downto 0) := "0000";
-	constant EVENT_CODE_Y_ADDR		   : std_logic_vector(3 downto 0) := "0001";
+	constant EVENT_CODE_TIMESTAMP				: std_logic						:= '1';
+	constant EVENT_CODE_SPECIAL					: std_logic_vector(3 downto 0)	:= "0000";
+	constant EVENT_CODE_SPECIAL_TIMESTAMP_RESET : std_logic_vector(11 downto 0) := "000000000001";
+	constant EVENT_CODE_Y_ADDR					: std_logic_vector(3 downto 0)	:= "0001";
 	-- The fourth bit of an X address is the polarity. It usually gets encoded directly from the AER bus input.
-	constant EVENT_CODE_X_ADDR		   : std_logic_vector(2 downto 0) := "001";
-	constant EVENT_CODE_X_ADDR_POL_OFF : std_logic_vector(3 downto 0) := "0010";
-	constant EVENT_CODE_X_ADDR_POL_ON  : std_logic_vector(3 downto 0) := "0011";
-	constant EVENT_CODE_ADC_SAMPLE	   : std_logic_vector(3 downto 0) := "0100";
+	constant EVENT_CODE_X_ADDR					: std_logic_vector(2 downto 0)	:= "001";
+	constant EVENT_CODE_X_ADDR_POL_OFF			: std_logic_vector(3 downto 0)	:= "0010";
+	constant EVENT_CODE_X_ADDR_POL_ON			: std_logic_vector(3 downto 0)	:= "0011";
+	constant EVENT_CODE_ADC_SAMPLE				: std_logic_vector(3 downto 0)	:= "0100";
 	--constant EVENT_CODE_UNUSED		   : std_logic_vector(3 downto 0) := "0101";
 	--constant EVENT_CODE_UNUSED		   : std_logic_vector(3 downto 0) := "0110";
-	constant EVENT_CODE_TIMESTAMP_WRAP : std_logic_vector(3 downto 0) := "0111";
+	constant EVENT_CODE_TIMESTAMP_WRAP			: std_logic_vector(3 downto 0)	:= "0111";
 
 	constant OVERFLOW_WIDTH : integer := 12;
 

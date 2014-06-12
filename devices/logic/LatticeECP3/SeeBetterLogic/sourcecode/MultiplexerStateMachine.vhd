@@ -53,7 +53,7 @@ architecture Behavioral of MultiplexerStateMachine is
 			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component ContinuousCounter;
 
-	type state is (stIdle, stTimestampReset, stTimestampWrap, stTimestamp, stDVSAER, stAPSADC, stIMU, stDrop);
+	type state is (stIdle, stTimestampReset, stTimestampWrap, stTimestamp, stPrepareDVSAER, stDVSAER, stPrepareAPSADC, stAPSADC, stPrepareIMU, stIMU, stDrop);
 
 	attribute syn_enum_encoding			 : string;
 	attribute syn_enum_encoding of state : type is "onehot";
@@ -88,7 +88,7 @@ begin
 			Clear_SI	 => TimestampOverflowBufferClear_S,
 			Enable_SI	 => TimestampOverflow_SI,
 			DataLimit_DI => (others => '1'),
-			Overflow_SO	 => open,
+			Overflow_SO	 => open,		-- TODO: wire this to force a reset.
 			Data_DO		 => TimestampOverflowBuffer_D);
 
 	p_memoryless : process (State_DP, FPGARun_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoFull_SI, OutFifoAlmostFull_SI, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI, DVSAERFifoData_DI)
@@ -116,19 +116,23 @@ begin
 					elsif TimestampOverflowBuffer_D > 0 then
 						State_DN <= stTimestampWrap;
 					elsif DVSAERFifoAlmostEmpty_SI = '0' then
-						State_DN		  <= stDVSAER;
-						DVSAERFifoRead_SO <= '1';
+						State_DN <= stPrepareDVSAER;
 					elsif DVSAERFifoEmpty_SI = '0' then
-						State_DN		  <= stDVSAER;
-						DVSAERFifoRead_SO <= '1';
+						State_DN <= stPrepareDVSAER;
 					end if;
 				end if;
 
 			when stTimestampReset =>
 				-- Send timestamp reset (back to zero) event to host.
+				OutFifoData_DO	<= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_TIMESTAMP_RESET;
+				OutFifoWrite_SO <= '1';
+				State_DN		<= stIdle;
 
 			when stTimestampWrap =>
 				-- Send timestamp wrap (add 15 bits) event to host.
+				OutFifoData_DO	<= EVENT_CODE_TIMESTAMP_WRAP & std_logic_vector(TimestampOverflowBuffer_D);
+				OutFifoWrite_SO <= '1';
+				State_DN		<= stIdle;
 
 			when stTimestamp =>
 				-- Write a timestamp AFTER the event it refers to.
@@ -137,12 +141,13 @@ begin
 				-- around requires either more memory to remember what kind of
 				-- data we wanted to forward, or one state for each event
 				-- needing a timestamp (like old code did).
-				if TimestampOverflowBuffer_D > 0 then
+				if TimestampResetBuffer_S = '1' or TimestampOverflowBuffer_D > 0 then
 					-- The timestamp wrapped around! This means the current
 					-- Timestamp_DI is zero. But since we're here, we didn't
 					-- yet have time to handle this and send a TS_WRAP event.
 					-- So we use a hard-coded timestamp of all ones, the
 					-- biggest possible one before a TS_WRAP event happens.
+					-- The same thing happens for resetting the timestamp.
 					OutFifoData_DO <= (EVENT_CODE_TIMESTAMP, others => '1');
 				else
 					-- Use current timestamp.
@@ -152,7 +157,15 @@ begin
 				OutFifoWrite_SO <= '1';
 				State_DN		<= stIdle;
 
+			when stPrepareDVSAER =>
+				DVSAERFifoRead_SO <= '1';
+				State_DN		  <= stDVSAER;
+
 			when stDVSAER =>
+				-- Write out current event.
+				OutFifoData_DO	<= DVSAERFifoData_DI;
+				OutFifoWrite_SO <= '1';
+
 				-- The next event on the DVS AER fifo has just been read and
 				-- the data is available on the output bus. First, let's
 				-- examine it and see if we need to inject a timestamp,
@@ -163,11 +176,11 @@ begin
 					State_DN <= stIdle;
 				end if;
 
-				-- Write out current event.
-				OutFifoData_DO	<= DVSAERFifoData_DI;
-				OutFifoWrite_SO <= '1';
+			when stPrepareAPSADC =>
 
 			when stAPSADC =>
+
+			when stPrepareIMU =>
 
 			when stIMU =>
 
@@ -176,7 +189,7 @@ begin
 				-- a continuous flow of events from the data producers and
 				-- disallows a backlog of old events to remain around, which
 				-- would be timestamped incorrectly after long delays.
-
+				State_DN <= stIdle;
 
 			when others => null;
 		end case;
