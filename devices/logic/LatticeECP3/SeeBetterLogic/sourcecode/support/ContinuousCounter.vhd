@@ -26,22 +26,27 @@ architecture Behavioral of ContinuousCounter is
 	signal Overflow_S		: std_logic;
 	signal OverflowBuffer_S : std_logic;
 begin
-	-- Output present count.
-	Data_DO <= Count_DP;
-
 	-- Variable width counter, calculation of next state
 	p_memoryless : process (Count_DP, Clear_SI, Enable_SI, DataLimit_DI)
 	begin  -- process p_memoryless
 		Count_DN <= Count_DP;			-- Keep value by default.
 
-		if Clear_SI = '1' then
+		if Clear_SI = '1' and Enable_SI = '0' then
 			Count_DN <= (others => '0');
-		elsif Count_DP = DataLimit_DI then
-			if RESET_ON_OVERFLOW then
-				Count_DN <= (others => '0');
-			end if;
-		elsif Enable_SI = '1' then
+		elsif Clear_SI = '0' and Enable_SI = '1' then
 			Count_DN <= Count_DP + 1;
+
+			if Count_DP = DataLimit_DI then
+				if RESET_ON_OVERFLOW then
+					Count_DN <= (others => '0');
+				else
+					Count_DN <= Count_DP;
+				end if;
+			end if;
+		elsif Clear_SI = '1' and Enable_SI = '1' then
+			-- Forget your count and reset to zero, as well as increment your
+			-- count by one: end result is next count of one.
+			Count_DN <= to_unsigned(1, COUNTER_WIDTH);
 		end if;
 
 		-- Determine overflow flag one cycle in advance, so that registering it
@@ -49,9 +54,9 @@ begin
 		-- asserted the cycle _before_ the buffer switches back to zero.
 		Overflow_S <= '0';
 
-		if Count_DP = (DataLimit_DI - 1) and Enable_SI = '1' then
+		if Count_DP = (DataLimit_DI - 1) and Clear_SI = '0' and Enable_SI = '1' then
 			Overflow_S <= '1';
-		elsif Count_DP = DataLimit_DI and Clear_SI = '0' and not RESET_ON_OVERFLOW then
+		elsif Count_DP = DataLimit_DI and not RESET_ON_OVERFLOW then
 			Overflow_S <= '1';
 		end if;
 	end process p_memoryless;
@@ -68,5 +73,9 @@ begin
 		end if;
 	end process p_memoryzing;
 
+	-- Output present count (from register).
+	Data_DO <= Count_DP;
+
+	-- Output overflow (from register).
 	Overflow_SO <= OverflowBuffer_S;
 end Behavioral;
