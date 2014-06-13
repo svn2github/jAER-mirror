@@ -14,6 +14,8 @@ architecture Testbench of ContinuousCounter_tb is
 	-- component generics
 	constant COUNTER_WIDTH	   : integer := 4;
 	constant RESET_ON_OVERFLOW : boolean := true;
+	constant SHORT_OVERFLOW	   : boolean := false;
+	constant OVERFLOW_AT_ZERO  : boolean := false;
 
 	-- component ports
 	signal Clock_C	   : std_logic;
@@ -31,7 +33,9 @@ begin  -- architecture Testbench
 	DUT : entity work.ContinuousCounter
 		generic map (
 			COUNTER_WIDTH	  => COUNTER_WIDTH,
-			RESET_ON_OVERFLOW => RESET_ON_OVERFLOW)
+			RESET_ON_OVERFLOW => RESET_ON_OVERFLOW,
+			SHORT_OVERFLOW	  => SHORT_OVERFLOW,
+			OVERFLOW_AT_ZERO  => OVERFLOW_AT_ZERO)
 		port map (
 			Clock_CI	 => Clock_C,
 			Reset_RI	 => Reset_R,

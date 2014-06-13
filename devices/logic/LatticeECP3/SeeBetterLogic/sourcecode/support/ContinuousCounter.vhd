@@ -75,11 +75,11 @@ begin
 		else
 			if Count_DP = DataLimit_DI and Clear_SI = '0' and Enable_SI = '1' then
 				Overflow_S <= '1';
-			elsif not SHORT_OVERFLOW and Count_DP = 0 then
-				if Clear_SI = '0' and Enable_SI = '0' then
-					Overflow_S <= '1';
-				end if;
 			end if;
+		-- Disabling SHORT_OVERFLOW is not supported in OVERFLOW_AT_ZERO mode.
+		-- Doing so reliably would increase complexity and resource
+		-- consumption to keep and check additional state, and no user of this
+		-- module needs this functionality currently.
 		end if;
 	end process p_memoryless;
 
