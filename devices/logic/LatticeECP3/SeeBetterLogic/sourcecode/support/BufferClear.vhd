@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 
 entity BufferClear is
 	generic (
-		SIGNAL_POLARITY : std_logic := '1');
+		INPUT_SIGNAL_POLARITY : std_logic := '1');
 	port (
 		Clock_CI		: in  std_logic;
 		Reset_RI		: in  std_logic;
@@ -19,14 +19,14 @@ begin
 	p_memoryzing : process (Clock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then	-- asynchronous reset (active-high for FPGAs)
-			MemoryFF_S <= not SIGNAL_POLARITY;
+			MemoryFF_S <= '0';
 		elsif rising_edge(Clock_CI) then
-			if InputSignal_SI = SIGNAL_POLARITY then
-				MemoryFF_S <= SIGNAL_POLARITY;
+			if Clear_SI = '1' then
+				MemoryFF_S <= '0';
 			end if;
 
-			if Clear_SI = '1' then
-				MemoryFF_S <= not SIGNAL_POLARITY;
+			if InputSignal_SI = INPUT_SIGNAL_POLARITY then
+				MemoryFF_S <= '1';
 			end if;
 		end if;
 	end process p_memoryzing;

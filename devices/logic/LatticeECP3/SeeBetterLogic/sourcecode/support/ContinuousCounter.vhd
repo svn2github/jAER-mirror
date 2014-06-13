@@ -56,8 +56,18 @@ begin
 
 		if Count_DP = (DataLimit_DI - 1) and Clear_SI = '0' and Enable_SI = '1' then
 			Overflow_S <= '1';
-		elsif Count_DP = DataLimit_DI and not RESET_ON_OVERFLOW then
-			Overflow_S <= '1';
+		elsif Count_DP = DataLimit_DI then
+			if Clear_SI = '0' and Enable_SI = '0' then
+				Overflow_S <= '1';
+			elsif Clear_SI = '0' and Enable_SI = '1' and not RESET_ON_OVERFLOW then
+				Overflow_S <= '1';
+			elsif Clear_SI = '1' and Enable_SI = '1' and DataLimit_DI = 1 then
+				-- In this case, the next number is one, not zero. Since the
+				-- minimum DataLimit_DI is one, it could be we're resetting
+				-- directly into a value that produces the overflow flag, so we
+				-- need to keep that in mind and check for it.
+				Overflow_S <= '1';
+			end if;
 		end if;
 	end process p_memoryless;
 

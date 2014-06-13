@@ -34,7 +34,7 @@ begin
 			-- cycles to pass between the assertion of Clear_SI and the next
 			-- pulse. This is the case without buffering the output, but with
 			-- buffering, there is a one cycle delay, so we need to start with
-			-- one increment already done to get the same output.
+			-- one increment already done to get the same behavior.
 			Count_DN <= to_unsigned(1, Count_DN'length);
 		elsif Count_DP = (PULSE_EVERY_CYCLES - 1) then
 			Count_DN   <= (others => '0');
