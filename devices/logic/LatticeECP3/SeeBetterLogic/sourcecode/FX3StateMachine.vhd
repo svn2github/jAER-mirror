@@ -31,7 +31,9 @@ architecture Behavioral of FX3Statemachine is
 	component ContinuousCounter is
 		generic (
 			COUNTER_WIDTH	  : integer := 16;
-			RESET_ON_OVERFLOW : boolean := true);
+			RESET_ON_OVERFLOW : boolean := true;
+			SHORT_OVERFLOW	  : boolean := false;
+			OVERFLOW_AT_ZERO  : boolean := false);
 		port (
 			Clock_CI	 : in  std_logic;
 			Reset_RI	 : in  std_logic;
@@ -55,7 +57,7 @@ architecture Behavioral of FX3Statemachine is
 	signal CyclesCount_S, CyclesNotify_S : std_logic;
 
 	-- early packet counter, to keep a certain flow of USB traffic going even in the case of low event rates
-	signal EarlyPacketCount_S, EarlyPacketNotify_S, EarlyPacketClear_S : std_logic;
+	signal EarlyPacketClear_S, EarlyPacketNotify_S : std_logic;
 begin
 	writeCyclesCounter : ContinuousCounter
 		generic map (
@@ -77,7 +79,7 @@ begin
 			Clock_CI	 => Clock_CI,
 			Reset_RI	 => Reset_RI,
 			Clear_SI	 => EarlyPacketClear_S,
-			Enable_SI	 => EarlyPacketCount_S,
+			Enable_SI	 => '1',
 			DataLimit_DI => to_unsigned(USB_EARLY_PACKET_CYCLES, USB_EARLY_PACKET_WIDTH),
 			Overflow_SO	 => EarlyPacketNotify_S,
 			Data_DO		 => open);
@@ -88,7 +90,6 @@ begin
 
 		CyclesCount_S <= '0';  -- Do not count up in the write-cycles counter.
 
-		EarlyPacketCount_S <= '1';	-- The early packet counter always counts.
 		EarlyPacketClear_S <= '0';	-- Do not clear the early packet counter.
 
 		USBFifoWrite_SBO	 <= '1';
@@ -137,9 +138,9 @@ begin
 			when stWriteMiddle0 =>
 				if CyclesNotify_S = '1' then
 					State_DN <= stWriteLast0;
-				else
-					CyclesCount_S <= '1';
 				end if;
+
+				CyclesCount_S <= '1';
 
 				InFifoRead_SO	 <= '1';
 				USBFifoWrite_SBO <= '0';
@@ -157,9 +158,9 @@ begin
 			when stPrepareSwitch0 =>
 				if CyclesNotify_S = '1' then
 					State_DN <= stSwitch0;
-				else
-					CyclesCount_S <= '1';
 				end if;
+
+				CyclesCount_S <= '1';
 
 				InFifoRead_SO	 <= '1';
 				USBFifoWrite_SBO <= '0';
@@ -225,9 +226,9 @@ begin
 
 				if CyclesNotify_S = '1' then
 					State_DN <= stWriteLast1;
-				else
-					CyclesCount_S <= '1';
 				end if;
+
+				CyclesCount_S <= '1';
 
 				InFifoRead_SO	 <= '1';
 				USBFifoWrite_SBO <= '0';
@@ -249,9 +250,9 @@ begin
 
 				if CyclesNotify_S = '1' then
 					State_DN <= stSwitch1;
-				else
-					CyclesCount_S <= '1';
 				end if;
+
+				CyclesCount_S <= '1';
 
 				InFifoRead_SO	 <= '1';
 				USBFifoWrite_SBO <= '0';

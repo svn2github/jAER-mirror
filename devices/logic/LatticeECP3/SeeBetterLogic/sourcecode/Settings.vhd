@@ -22,7 +22,7 @@ package Settings is
 	constant USBFPGA_FIFO_SIZE		  : integer := 64;
 	constant USBFPGA_FIFO_ALMOST_SIZE : integer := USB_BURST_WRITE_LENGTH;
 	constant DVSAER_FIFO_SIZE		  : integer := 16;
-	constant DVSAER_FIFO_ALMOST_SIZE  : integer := 4;
+	constant DVSAER_FIFO_ALMOST_SIZE  : integer := 2;
 	constant APSADC_FIFO_SIZE		  : integer := 128;
 	constant APSADC_FIFO_ALMOST_SIZE  : integer := 8;
 	constant IMU_FIFO_SIZE			  : integer := 14;	-- two samples (2x7)

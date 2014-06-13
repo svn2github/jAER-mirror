@@ -30,7 +30,7 @@ end MultiplexerStateMachine;
 architecture Behavioral of MultiplexerStateMachine is
 	component BufferClear is
 		generic (
-			SIGNAL_POLARITY : std_logic := '1');
+			INPUT_SIGNAL_POLARITY : std_logic := '1');
 		port (
 			Clock_CI		: in  std_logic;
 			Reset_RI		: in  std_logic;
@@ -42,7 +42,9 @@ architecture Behavioral of MultiplexerStateMachine is
 	component ContinuousCounter is
 		generic (
 			COUNTER_WIDTH	  : integer := 16;
-			RESET_ON_OVERFLOW : boolean := true);
+			RESET_ON_OVERFLOW : boolean := true;
+			SHORT_OVERFLOW	  : boolean := false;
+			OVERFLOW_AT_ZERO  : boolean := false);
 		port (
 			Clock_CI	 : in  std_logic;
 			Reset_RI	 : in  std_logic;

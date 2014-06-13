@@ -18,7 +18,9 @@ architecture Structural of TimestampGenerator is
 	component ContinuousCounter is
 		generic (
 			COUNTER_WIDTH	  : integer := 16;
-			RESET_ON_OVERFLOW : boolean := true);
+			RESET_ON_OVERFLOW : boolean := true;
+			SHORT_OVERFLOW	  : boolean := false;
+			OVERFLOW_AT_ZERO  : boolean := false);
 		port (
 			Clock_CI	 : in  std_logic;
 			Reset_RI	 : in  std_logic;
@@ -64,10 +66,6 @@ architecture Structural of TimestampGenerator is
 	-- Wire the enable signal together with the FPGARun signal, so that when we stop the FPGA,
 	-- the timestamp counter will not increase anymore.
 	signal TimestampEnable_S : std_logic;
-
-	-- One more to plug into timestampGenerator correctly, which is TIMESTAMP_WIDTH+1 wide.
-	-- The highest bit is dropped at the output port here.
-	signal Timestamp_D : std_logic_vector(TIMESTAMP_WIDTH downto 0);
 begin
 	timestampEnableGenerate : PulseGenerator
 		generic map (
@@ -93,25 +91,18 @@ begin
 
 	timestampGenerator : ContinuousCounter
 		generic map (
-			-- Enlarge by one so that the limit at which the counter resets to zero can be one higher than
-			-- all TIMESTAMP_WIDTH bits set to 1. This ensure correct passage of time with the clocked enable
-			-- signal happening only every LOGIC_CLOCK_FREQ ticks, so that when all-bits-one is reached, another
-			-- set of ticks has to pass before switching back to 0, instead of it happening immediately. The
-			-- bigger by one value will only exist for one tick, and not be visible to anybody outside the
-			-- TimestampGenerator module, since the highest bit is truncated, resulting in a zero output.
-			COUNTER_WIDTH => TIMESTAMP_WIDTH+1)
+			COUNTER_WIDTH	 => TIMESTAMP_WIDTH,
+			SHORT_OVERFLOW	 => true,
+			OVERFLOW_AT_ZERO => true)
 		port map (
 			Clock_CI				  => Clock_CI,
 			Reset_RI				  => Reset_RI,
 			Clear_SI				  => TimestampReset_S,
 			Enable_SI				  => TimestampEnable_S,
-			DataLimit_DI			  => ('1', others => '0'),
+			DataLimit_DI			  => (others => '1'),
 			Overflow_SO				  => TimestampOverflow_SO,
-			std_logic_vector(Data_DO) => Timestamp_D);
+			std_logic_vector(Data_DO) => Timestamp_DO);
 
 	-- Notify outside world about timestamp reset.
 	TimestampReset_SO <= TimestampReset_S;
-
-	-- Drop highest bit at output (overflow bit).
-	Timestamp_DO <= Timestamp_D(TIMESTAMP_WIDTH-1 downto 0);
 end Structural;

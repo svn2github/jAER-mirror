@@ -8,7 +8,9 @@ use IEEE.NUMERIC_STD.all;
 entity ContinuousCounter is
 	generic (
 		COUNTER_WIDTH	  : integer := 16;
-		RESET_ON_OVERFLOW : boolean := true);
+		RESET_ON_OVERFLOW : boolean := true;
+		SHORT_OVERFLOW	  : boolean := false;
+		OVERFLOW_AT_ZERO  : boolean := false);
 	port (
 		Clock_CI	 : in  std_logic;
 		Reset_RI	 : in  std_logic;
@@ -54,19 +56,29 @@ begin
 		-- asserted the cycle _before_ the buffer switches back to zero.
 		Overflow_S <= '0';
 
-		if Count_DP = (DataLimit_DI - 1) and Clear_SI = '0' and Enable_SI = '1' then
-			Overflow_S <= '1';
-		elsif Count_DP = DataLimit_DI then
-			if Clear_SI = '0' and Enable_SI = '0' then
+		if not OVERFLOW_AT_ZERO then
+			if Count_DP = (DataLimit_DI - 1) and Clear_SI = '0' and Enable_SI = '1' then
 				Overflow_S <= '1';
-			elsif Clear_SI = '0' and Enable_SI = '1' and not RESET_ON_OVERFLOW then
+			elsif not SHORT_OVERFLOW and Count_DP = DataLimit_DI then
+				if Clear_SI = '0' and Enable_SI = '0' then
+					Overflow_S <= '1';
+				elsif Clear_SI = '0' and Enable_SI = '1' and not RESET_ON_OVERFLOW then
+					Overflow_S <= '1';
+				elsif Clear_SI = '1' and Enable_SI = '1' and DataLimit_DI = 1 then
+					-- In this case, the next number is one, not zero. Since the
+					-- minimum DataLimit_DI is one, it could be we're resetting
+					-- directly into a value that produces the overflow flag, so we
+					-- need to keep that in mind and check for it.
+					Overflow_S <= '1';
+				end if;
+			end if;
+		else
+			if Count_DP = DataLimit_DI and Clear_SI = '0' and Enable_SI = '1' then
 				Overflow_S <= '1';
-			elsif Clear_SI = '1' and Enable_SI = '1' and DataLimit_DI = 1 then
-				-- In this case, the next number is one, not zero. Since the
-				-- minimum DataLimit_DI is one, it could be we're resetting
-				-- directly into a value that produces the overflow flag, so we
-				-- need to keep that in mind and check for it.
-				Overflow_S <= '1';
+			elsif not SHORT_OVERFLOW and Count_DP = 0 then
+				if Clear_SI = '0' and Enable_SI = '0' then
+					Overflow_S <= '1';
+				end if;
 			end if;
 		end if;
 	end process p_memoryless;
