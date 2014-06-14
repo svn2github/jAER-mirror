@@ -127,9 +127,7 @@ architecture Structural of TopLevel is
 			Clock_CI				 : in  std_logic;
 			Reset_RI				 : in  std_logic;
 			FPGARun_SI				 : in  std_logic;
-			TimestampReset_SI		 : in  std_logic;
-			TimestampOverflow_SI	 : in  std_logic;
-			Timestamp_DI			 : in  std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
+			FPGATimestampReset_SI	 : in  std_logic;
 			OutFifoFull_SI			 : in  std_logic;
 			OutFifoAlmostFull_SI	 : in  std_logic;
 			OutFifoWrite_SO			 : out std_logic;
@@ -139,17 +137,6 @@ architecture Structural of TopLevel is
 			DVSAERFifoRead_SO		 : out std_logic;
 			DVSAERFifoData_DI		 : in  std_logic_vector(EVENT_WIDTH-1 downto 0));
 	end component MultiplexerStateMachine;
-
-	component TimestampGenerator is
-		port (
-			Clock_CI			  : in	std_logic;
-			Reset_RI			  : in	std_logic;
-			FPGARun_SI			  : in	std_logic;
-			FPGATimestampReset_SI : in	std_logic;
-			TimestampReset_SO	  : out std_logic;
-			TimestampOverflow_SO  : out std_logic;
-			Timestamp_DO		  : out std_logic_vector(TIMESTAMP_WIDTH-1 downto 0));
-	end component TimestampGenerator;
 
 	component DVSAERStateMachine is
 		port (
@@ -165,6 +152,17 @@ architecture Structural of TopLevel is
 			DVSAERAck_SBO		 : out std_logic;
 			DVSAERReset_SBO		 : out std_logic);
 	end component DVSAERStateMachine;
+
+	component PulseDetector is
+		generic (
+			PULSE_MINIMAL_LENGTH_CYCLES : integer	:= 50;
+			PULSE_POLARITY				: std_logic := '1');
+		port (
+			Clock_CI		 : in  std_logic;
+			Reset_RI		 : in  std_logic;
+			InputSignal_SI	 : in  std_logic;
+			PulseDetected_SO : out std_logic);
+	end component PulseDetector;
 
 	component FIFODualClock is
 		generic (
@@ -223,9 +221,7 @@ architecture Structural of TopLevel is
 	signal LogicClock_C : std_logic;
 	signal LogicReset_R : std_logic;
 
-	signal TimestampReset_S	   : std_logic;
-	signal TimestampOverflow_S : std_logic;
-	signal Timestamp_D		   : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
+	signal FPGATimestampResetDetect_S : std_logic;
 
 	signal USBFifoThr0ReadySync_S, USBFifoThr0WatermarkSync_S, USBFifoThr1ReadySync_S, USBFifoThr1WatermarkSync_S				   : std_logic;
 	signal FPGARunSync_S, DVSRunSync_S, ADCRunSync_S, IMURunSync_S, FPGATimestampResetSync_S, DVSAERReqSync_SB, IMUInterruptSync_S : std_logic;
@@ -331,9 +327,9 @@ begin
 			DATA_WIDTH		  => USB_FIFO_WIDTH,
 			DATA_DEPTH		  => USBFPGA_FIFO_SIZE,
 			EMPTY_FLAG		  => 0,
-			ALMOST_EMPTY_FLAG => USBFPGA_FIFO_ALMOST_SIZE,
+			ALMOST_EMPTY_FLAG => USBFPGA_FIFO_ALMOST_EMPTY_SIZE,
 			FULL_FLAG		  => USBFPGA_FIFO_SIZE,
-			ALMOST_FULL_FLAG  => USBFPGA_FIFO_SIZE - USBFPGA_FIFO_ALMOST_SIZE)
+			ALMOST_FULL_FLAG  => USBFPGA_FIFO_SIZE - USBFPGA_FIFO_ALMOST_FULL_SIZE)
 		port map (
 			Reset_RI	   => LogicReset_R,
 			DataIn_DI	   => USBFifoFPGAData_D,
@@ -352,9 +348,7 @@ begin
 			Clock_CI				 => LogicClock_C,
 			Reset_RI				 => LogicReset_R,
 			FPGARun_SI				 => FPGARunSync_S,
-			TimestampReset_SI		 => TimestampReset_S,
-			TimestampOverflow_SI	 => TimestampOverflow_S,
-			Timestamp_DI			 => Timestamp_D,
+			FPGATimestampReset_SI	 => FPGATimestampResetDetect_S,
 			OutFifoFull_SI			 => USBFifoFPGAFull_S,
 			OutFifoAlmostFull_SI	 => USBFifoFPGAAlmostFull_S,
 			OutFifoWrite_SO			 => USBFifoFPGAWrite_S,
@@ -364,24 +358,14 @@ begin
 			DVSAERFifoRead_SO		 => DVSAERFifoRead_S,
 			DVSAERFifoData_DI		 => DVSAERFifoDataRead_D);
 
-	tsGenerator : TimestampGenerator
-		port map (
-			Clock_CI			  => LogicClock_C,
-			Reset_RI			  => LogicReset_R,
-			FPGARun_SI			  => FPGARunSync_S,
-			FPGATimestampReset_SI => FPGATimestampResetSync_S,
-			TimestampReset_SO	  => TimestampReset_S,
-			TimestampOverflow_SO  => TimestampOverflow_S,
-			Timestamp_DO		  => Timestamp_D);
-
 	dvsaerFifo : FIFO
 		generic map (
 			DATA_WIDTH		  => EVENT_WIDTH,
 			DATA_DEPTH		  => DVSAER_FIFO_SIZE,
 			EMPTY_FLAG		  => 0,
-			ALMOST_EMPTY_FLAG => DVSAER_FIFO_ALMOST_SIZE,
+			ALMOST_EMPTY_FLAG => DVSAER_FIFO_ALMOST_EMPTY_SIZE,
 			FULL_FLAG		  => DVSAER_FIFO_SIZE,
-			ALMOST_FULL_FLAG  => DVSAER_FIFO_SIZE - DVSAER_FIFO_ALMOST_SIZE)
+			ALMOST_FULL_FLAG  => DVSAER_FIFO_SIZE - DVSAER_FIFO_ALMOST_FULL_SIZE)
 		port map (
 			Clock_CI	   => LogicClock_C,
 			Reset_RI	   => DVSFifoReset_R,
@@ -407,4 +391,15 @@ begin
 			DVSAERReq_SBI		 => DVSAERReqSync_SB,
 			DVSAERAck_SBO		 => DVSAERAck_SBO,
 			DVSAERReset_SBO		 => DVSAERReset_SBO);
+
+	-- Detect FPGATimestampReset_SI pulse from host and then generate just one
+	-- quick reset pulse for FPGA consumption.
+	timestampResetDetect : PulseDetector
+		generic map (
+			PULSE_MINIMAL_LENGTH_CYCLES => LOGIC_CLOCK_FREQ / 2)
+		port map (
+			Clock_CI		 => LogicClock_C,
+			Reset_RI		 => LogicReset_R,
+			InputSignal_SI	 => FPGATimestampResetSync_S,
+			PulseDetected_SO => FPGATimestampResetDetect_S);
 end Structural;

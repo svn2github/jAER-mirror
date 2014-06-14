@@ -19,14 +19,18 @@ package Settings is
 	constant TIMESTAMP_WIDTH : integer := 15;
 	constant EVENT_WIDTH	 : integer := 16;
 
-	constant USBFPGA_FIFO_SIZE		  : integer := 64;
-	constant USBFPGA_FIFO_ALMOST_SIZE : integer := USB_BURST_WRITE_LENGTH;
-	constant DVSAER_FIFO_SIZE		  : integer := 16;
-	constant DVSAER_FIFO_ALMOST_SIZE  : integer := 2;
-	constant APSADC_FIFO_SIZE		  : integer := 128;
-	constant APSADC_FIFO_ALMOST_SIZE  : integer := 8;
-	constant IMU_FIFO_SIZE			  : integer := 14;	-- two samples (2x7)
-	constant IMU_FIFO_ALMOST_SIZE	  : integer := 7;	-- one sample (1x7)
+	constant USBFPGA_FIFO_SIZE				: integer := 64;
+	constant USBFPGA_FIFO_ALMOST_EMPTY_SIZE : integer := USB_BURST_WRITE_LENGTH;
+	constant USBFPGA_FIFO_ALMOST_FULL_SIZE	: integer := 2;
+	constant DVSAER_FIFO_SIZE				: integer := 16;
+	constant DVSAER_FIFO_ALMOST_EMPTY_SIZE	: integer := 4;
+	constant DVSAER_FIFO_ALMOST_FULL_SIZE	: integer := 2;
+	constant APSADC_FIFO_SIZE				: integer := 128;
+	constant APSADC_FIFO_ALMOST_EMPTY_SIZE	: integer := 8;
+	constant APSADC_FIFO_ALMOST_FULL_SIZE	: integer := 8;
+	constant IMU_FIFO_SIZE					: integer := 14;  -- two samples (2x7)
+	constant IMU_FIFO_ALMOST_EMPTY_SIZE		: integer := 7;	 -- one sample (1x7)
+	constant IMU_FIFO_ALMOST_FULL_SIZE		: integer := 7;	 -- one sample (1x7)
 
 	-- event codes
 	constant EVENT_CODE_TIMESTAMP				: std_logic						:= '1';

@@ -5,14 +5,10 @@ use work.Settings.all;
 
 entity MultiplexerStateMachine is
 	port (
-		Clock_CI   : in std_logic;
-		Reset_RI   : in std_logic;
-		FPGARun_SI : in std_logic;
-
-		-- Timestamp related inputs.
-		TimestampReset_SI	 : in std_logic;
-		TimestampOverflow_SI : in std_logic;
-		Timestamp_DI		 : in std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
+		Clock_CI			  : in std_logic;
+		Reset_RI			  : in std_logic;
+		FPGARun_SI			  : in std_logic;
+		FPGATimestampReset_SI : in std_logic;
 
 		-- Fifo output (to USB)
 		OutFifoFull_SI		 : in  std_logic;
@@ -28,6 +24,16 @@ entity MultiplexerStateMachine is
 end MultiplexerStateMachine;
 
 architecture Behavioral of MultiplexerStateMachine is
+	component TimestampGenerator is
+		port (
+			Clock_CI			 : in  std_logic;
+			Reset_RI			 : in  std_logic;
+			TimestampRun_SI		 : in  std_logic;
+			TimestampReset_SI	 : in  std_logic;
+			TimestampOverflow_SO : out std_logic;
+			Timestamp_DO		 : out std_logic_vector(TIMESTAMP_WIDTH-1 downto 0));
+	end component TimestampGenerator;
+
 	component BufferClear is
 		generic (
 			INPUT_SIGNAL_POLARITY : std_logic := '1');
@@ -63,12 +69,17 @@ architecture Behavioral of MultiplexerStateMachine is
 	-- present and next state
 	signal State_DP, State_DN : state;
 
-	signal TimestampReset_S : std_logic;
+	signal TimestampRun_S	   : std_logic;
+	signal TimestampReset_S	   : std_logic;
+	signal TimestampOverflow_S : std_logic;
+	signal Timestamp_D		   : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
 
 	signal TimestampResetBufferClear_S : std_logic;
+	signal TimestampResetBufferInput_S : std_logic;
 	signal TimestampResetBuffer_S	   : std_logic;
 
 	signal TimestampOverflowBufferClear_S	 : std_logic;
+	signal TimestampOverflowBufferEnable_S	 : std_logic;
 	signal TimestampOverflowBufferOverflow_S : std_logic;
 	signal TimestampOverflowBuffer_D		 : unsigned(OVERFLOW_WIDTH-1 downto 0);
 
@@ -76,15 +87,27 @@ architecture Behavioral of MultiplexerStateMachine is
 	-- buffers, meaning exactly one cycle behind.
 	signal TimestampBuffer_D : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
 begin
+	TimestampResetBufferInput_S		<= FPGATimestampReset_SI or TimestampOverflowBufferOverflow_S;
+	TimestampReset_S				<= TimestampResetBufferClear_S;
+	TimestampOverflowBufferEnable_S <= TimestampOverflow_S;
+	TimestampRun_S					<= FPGARun_SI;
+
+	tsGenerator : TimestampGenerator
+		port map (
+			Clock_CI			 => Clock_CI,
+			Reset_RI			 => Reset_RI,
+			TimestampRun_SI		 => TimestampRun_S,
+			TimestampReset_SI	 => TimestampReset_S,
+			TimestampOverflow_SO => TimestampOverflow_S,
+			Timestamp_DO		 => Timestamp_D);
+
 	resetBuffer : BufferClear
 		port map (
 			Clock_CI		=> Clock_CI,
 			Reset_RI		=> Reset_RI,
 			Clear_SI		=> TimestampResetBufferClear_S,
-			InputSignal_SI	=> TimestampReset_S,
+			InputSignal_SI	=> TimestampResetBufferInput_S,
 			OutputSignal_SO => TimestampResetBuffer_S);
-
-	TimestampReset_S <= TimestampReset_SI or TimestampOverflowBufferOverflow_S;
 
 	-- The overflow counter keeps track of wrap events. While there usually
 	-- will only be one which will be then sent out right away via USB, it is
@@ -103,17 +126,19 @@ begin
 	-- device and host re-synchronize on zero.
 	overflowBuffer : ContinuousCounter
 		generic map (
-			COUNTER_WIDTH => OVERFLOW_WIDTH)
+			COUNTER_WIDTH	 => OVERFLOW_WIDTH,
+			SHORT_OVERFLOW	 => true,
+			OVERFLOW_AT_ZERO => true)
 		port map (
 			Clock_CI	 => Clock_CI,
 			Reset_RI	 => Reset_RI,
 			Clear_SI	 => TimestampOverflowBufferClear_S,
-			Enable_SI	 => TimestampOverflow_SI,
+			Enable_SI	 => TimestampOverflowBufferEnable_S,
 			DataLimit_DI => (others => '1'),
 			Overflow_SO	 => TimestampOverflowBufferOverflow_S,
 			Data_DO		 => TimestampOverflowBuffer_D);
 
-	p_memoryless : process (State_DP, FPGARun_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoFull_SI, OutFifoAlmostFull_SI, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI, DVSAERFifoData_DI)
+	p_memoryless : process (State_DP, FPGARun_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoAlmostFull_SI, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI, DVSAERFifoData_DI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
@@ -131,7 +156,8 @@ begin
 				if FPGARun_SI = '1' then
 					-- Now check various flags and see what data to forward.
 					-- Timestamp-related flags have priority over data.
-					if OutFifoFull_SI = '1' then
+					if OutFifoAlmostFull_SI = '1' then
+						-- No space for an event and its timestamp, drop it.
 						State_DN <= stDrop;
 					elsif TimestampResetBuffer_S = '1' then
 						State_DN <= stTimestampReset;
@@ -149,7 +175,8 @@ begin
 				OutFifoData_DO				   <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_TIMESTAMP_RESET;
 				TimestampResetBufferClear_S	   <= '1';
 				-- Also clean overflow counter, since a timestamp reset event
-				-- has higher priority and invalidates all previous time information.
+				-- has higher priority and invalidates all previous time
+				-- information by restarting from zero at this point.
 				TimestampOverflowBufferClear_S <= '1';
 
 				OutFifoWrite_SO <= '1';
@@ -170,16 +197,19 @@ begin
 				-- around requires either more memory to remember what kind of
 				-- data we wanted to forward, or one state for each event
 				-- needing a timestamp (like old code did).
-				if TimestampResetBuffer_S = '1' or TimestampOverflowBuffer_D > 0 then
+				if TimestampOverflowBuffer_D > 0 then
 					-- The timestamp wrapped around! This means the current
-					-- Timestamp_DI is zero. But since we're here, we didn't
+					-- Timestamp_D is zero. But since we're here, we didn't
 					-- yet have time to handle this and send a TS_WRAP event.
 					-- So we use a hard-coded timestamp of all ones, the
-					-- biggest possible one before a TS_WRAP event happens.
-					-- The same thing happens for resetting the timestamp.
+					-- biggest possible timestamp, right before a TS_WRAP
+					-- event actually happens.
 					OutFifoData_DO <= (EVENT_CODE_TIMESTAMP, others => '1');
 				else
 					-- Use current timestamp.
+					-- This is also fine if a timestamp reset is pending, since
+					-- in that case timestamps are still valid until the reset
+					-- itself happens.
 					OutFifoData_DO <= EVENT_CODE_TIMESTAMP & TimestampBuffer_D;
 				end if;
 
@@ -232,7 +262,7 @@ begin
 			TimestampBuffer_D <= (others => '0');
 		elsif rising_edge(Clock_CI) then
 			State_DP		  <= State_DN;
-			TimestampBuffer_D <= Timestamp_DI;
+			TimestampBuffer_D <= Timestamp_D;
 		end if;
 	end process p_memoryzing;
 end Behavioral;
