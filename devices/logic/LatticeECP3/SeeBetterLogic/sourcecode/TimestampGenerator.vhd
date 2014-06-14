@@ -82,7 +82,7 @@ begin
 	-- quick reset pulse to the counter and pulse generator.
 	timestampResetDetect : PulseDetector
 		generic map (
-			PULSE_MINIMAL_LENGTH_CYCLES => 120)
+			PULSE_MINIMAL_LENGTH_CYCLES => LOGIC_CLOCK_FREQ / 2)
 		port map (
 			Clock_CI		 => Clock_CI,
 			Reset_RI		 => Reset_RI,
