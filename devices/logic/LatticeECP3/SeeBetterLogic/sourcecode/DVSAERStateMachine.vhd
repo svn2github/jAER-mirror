@@ -21,7 +21,7 @@ entity DVSAERStateMachine is
 end DVSAERStateMachine;
 
 architecture Behavioral of DVSAERStateMachine is
-	type state is (stIdle, stWriteAddr, stAck);
+	type state is (stIdle, stWriteEvent, stAck);
 
 	attribute syn_enum_encoding			 : string;
 	attribute syn_enum_encoding of state : type is "onehot";
@@ -48,11 +48,11 @@ begin
 					if DVSAERReq_SBI = '0' and OutFifoFull_SI = '0' then
 						-- Got a request on the AER bus, let's get the data.
 						-- If output fifo full, just wait for it to be empty.
-						State_DN <= stWriteAddr;
+						State_DN <= stWriteEvent;
 					end if;
 				end if;
 
-			when stWriteAddr =>
+			when stWriteEvent =>
 				DVSAERReset_SBO <= '1';	 -- Keep DVS out of reset.
 
 				-- Get data and format it. AER(9) holds the axis.

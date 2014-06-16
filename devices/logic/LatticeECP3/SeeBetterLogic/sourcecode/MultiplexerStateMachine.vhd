@@ -20,7 +20,25 @@ entity MultiplexerStateMachine is
 		DVSAERFifoEmpty_SI		 : in  std_logic;
 		DVSAERFifoAlmostEmpty_SI : in  std_logic;
 		DVSAERFifoRead_SO		 : out std_logic;
-		DVSAERFifoData_DI		 : in  std_logic_vector(EVENT_WIDTH-1 downto 0));
+		DVSAERFifoData_DI		 : in  std_logic_vector(EVENT_WIDTH-1 downto 0);
+
+		-- Fifo input (from APS ADC)
+		APSADCFifoEmpty_SI		 : in  std_logic;
+		APSADCFifoAlmostEmpty_SI : in  std_logic;
+		APSADCFifoRead_SO		 : out std_logic;
+		APSADCFifoData_DI		 : in  std_logic_vector(EVENT_WIDTH-1 downto 0);
+
+		-- Fifo input (from IMU)
+		IMUFifoEmpty_SI		  : in	std_logic;
+		IMUFifoAlmostEmpty_SI : in	std_logic;
+		IMUFifoRead_SO		  : out std_logic;
+		IMUFifoData_DI		  : in	std_logic_vector(EVENT_WIDTH-1 downto 0);
+
+		-- Fifo input (from External Trigger)
+		ExtTriggerFifoEmpty_SI		 : in  std_logic;
+		ExtTriggerFifoAlmostEmpty_SI : in  std_logic;
+		ExtTriggerFifoRead_SO		 : out std_logic;
+		ExtTriggerFifoData_DI		 : in  std_logic_vector(EVENT_WIDTH-1 downto 0));
 end MultiplexerStateMachine;
 
 architecture Behavioral of MultiplexerStateMachine is
@@ -61,7 +79,18 @@ architecture Behavioral of MultiplexerStateMachine is
 			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component ContinuousCounter;
 
-	type state is (stIdle, stTimestampReset, stTimestampWrap, stTimestamp, stPrepareDVSAER, stDVSAER, stPrepareAPSADC, stAPSADC, stPrepareIMU, stIMU, stDrop);
+	component PulseDetector is
+		generic (
+			PULSE_MINIMAL_LENGTH_CYCLES : integer	:= 50;
+			PULSE_POLARITY				: std_logic := '1');
+		port (
+			Clock_CI		 : in  std_logic;
+			Reset_RI		 : in  std_logic;
+			InputSignal_SI	 : in  std_logic;
+			PulseDetected_SO : out std_logic);
+	end component PulseDetector;
+
+	type state is (stIdle, stTimestampReset, stTimestampWrap, stTimestamp, stPrepareDVSAER, stDVSAER, stPrepareAPSADC, stAPSADC, stPrepareIMU, stIMU, stPrepareExtTrigger, stExtTrigger, stDropData);
 
 	attribute syn_enum_encoding			 : string;
 	attribute syn_enum_encoding of state : type is "onehot";
@@ -69,8 +98,8 @@ architecture Behavioral of MultiplexerStateMachine is
 	-- present and next state
 	signal State_DP, State_DN : state;
 
-	signal TimestampRun_S	   : std_logic;
-	signal TimestampReset_S	   : std_logic;
+	signal FPGATimestampResetDetect_S : std_logic;
+
 	signal TimestampOverflow_S : std_logic;
 	signal Timestamp_D		   : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
 
@@ -79,7 +108,6 @@ architecture Behavioral of MultiplexerStateMachine is
 	signal TimestampResetBuffer_S	   : std_logic;
 
 	signal TimestampOverflowBufferClear_S	 : std_logic;
-	signal TimestampOverflowBufferEnable_S	 : std_logic;
 	signal TimestampOverflowBufferOverflow_S : std_logic;
 	signal TimestampOverflowBuffer_D		 : unsigned(OVERFLOW_WIDTH-1 downto 0);
 
@@ -87,19 +115,27 @@ architecture Behavioral of MultiplexerStateMachine is
 	-- buffers, meaning exactly one cycle behind.
 	signal TimestampBuffer_D : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
 begin
-	TimestampResetBufferInput_S		<= FPGATimestampReset_SI or TimestampOverflowBufferOverflow_S;
-	TimestampReset_S				<= TimestampResetBufferClear_S;
-	TimestampOverflowBufferEnable_S <= TimestampOverflow_S;
-	TimestampRun_S					<= FPGARun_SI;
+	-- Detect FPGATimestampReset_SI pulse from host and then generate just one
+	-- quick reset pulse for FPGA consumption.
+	timestampResetDetect : PulseDetector
+		generic map (
+			PULSE_MINIMAL_LENGTH_CYCLES => LOGIC_CLOCK_FREQ / 2)
+		port map (
+			Clock_CI		 => Clock_CI,
+			Reset_RI		 => Reset_RI,
+			InputSignal_SI	 => FPGATimestampReset_SI,
+			PulseDetected_SO => FPGATimestampResetDetect_S);
 
 	tsGenerator : TimestampGenerator
 		port map (
 			Clock_CI			 => Clock_CI,
 			Reset_RI			 => Reset_RI,
-			TimestampRun_SI		 => TimestampRun_S,
-			TimestampReset_SI	 => TimestampReset_S,
+			TimestampRun_SI		 => FPGARun_SI,
+			TimestampReset_SI	 => TimestampResetBufferClear_S,
 			TimestampOverflow_SO => TimestampOverflow_S,
 			Timestamp_DO		 => Timestamp_D);
+
+	TimestampResetBufferInput_S <= FPGATimestampResetDetect_S or TimestampOverflowBufferOverflow_S;
 
 	resetBuffer : BufferClear
 		port map (
@@ -133,12 +169,13 @@ begin
 			Clock_CI	 => Clock_CI,
 			Reset_RI	 => Reset_RI,
 			Clear_SI	 => TimestampOverflowBufferClear_S,
-			Enable_SI	 => TimestampOverflowBufferEnable_S,
+			Enable_SI	 => TimestampOverflow_S,
 			DataLimit_DI => (others => '1'),
 			Overflow_SO	 => TimestampOverflowBufferOverflow_S,
 			Data_DO		 => TimestampOverflowBuffer_D);
 
-	p_memoryless : process (State_DP, FPGARun_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoAlmostFull_SI, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI, DVSAERFifoData_DI)
+	p_memoryless : process (State_DP, FPGARun_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoFull_SI, OutFifoAlmostFull_SI, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI, DVSAERFifoData_DI,
+							APSADCFifoEmpty_SI, APSADCFifoAlmostEmpty_SI, APSADCFifoData_DI, IMUFifoEmpty_SI, IMUFifoAlmostEmpty_SI, IMUFifoData_DI, ExtTriggerFifoEmpty_SI, ExtTriggerFifoAlmostEmpty_SI, ExtTriggerFifoData_DI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
@@ -148,7 +185,10 @@ begin
 		OutFifoWrite_SO <= '0';
 		OutFifoData_DO	<= (others => '0');
 
-		DVSAERFifoRead_SO <= '0';
+		DVSAERFifoRead_SO	  <= '0';
+		APSADCFifoRead_SO	  <= '0';
+		IMUFifoRead_SO		  <= '0';
+		ExtTriggerFifoRead_SO <= '0';
 
 		case State_DP is
 			when stIdle =>
@@ -156,17 +196,28 @@ begin
 				if FPGARun_SI = '1' then
 					-- Now check various flags and see what data to forward.
 					-- Timestamp-related flags have priority over data.
-					if OutFifoAlmostFull_SI = '1' then
-						-- No space for an event and its timestamp, drop it.
-						State_DN <= stDrop;
-					elsif TimestampResetBuffer_S = '1' then
-						State_DN <= stTimestampReset;
-					elsif TimestampOverflowBuffer_D > 0 then
-						State_DN <= stTimestampWrap;
-					elsif DVSAERFifoAlmostEmpty_SI = '0' then
-						State_DN <= stPrepareDVSAER;
-					elsif DVSAERFifoEmpty_SI = '0' then
-						State_DN <= stPrepareDVSAER;
+					if OutFifoFull_SI = '0' then
+						if TimestampResetBuffer_S = '1' then
+							State_DN <= stTimestampReset;
+						elsif TimestampOverflowBuffer_D > 0 then
+							State_DN <= stTimestampWrap;
+						elsif OutFifoAlmostFull_SI = '0' then
+							-- Use the AlmostEmpty flags as markers to see if
+							-- there is lots of data in the FIFOs and
+							-- prioritize those over the others.
+							if DVSAERFifoAlmostEmpty_SI = '0' then
+								State_DN <= stPrepareDVSAER;
+							elsif DVSAERFifoEmpty_SI = '0' then
+								State_DN <= stPrepareDVSAER;
+							end if;
+						else
+							-- No space for an event and its timestamp, drop it.
+							State_DN <= stDropData;
+						end if;
+					else
+						-- No space for even timestamp flags, drop data to
+						-- ensure flow continues.
+						State_DN <= stDropData;
 					end if;
 				end if;
 
@@ -236,14 +287,24 @@ begin
 				end if;
 
 			when stPrepareAPSADC =>
+				APSADCFifoRead_SO <= '1';
+				State_DN		  <= stAPSADC;
 
 			when stAPSADC =>
 
 			when stPrepareIMU =>
+				IMUFifoRead_SO <= '1';
+				State_DN	   <= stIMU;
 
 			when stIMU =>
 
-			when stDrop =>
+			when stPrepareExtTrigger =>
+				ExtTriggerFifoRead_SO <= '1';
+				State_DN			  <= stExtTrigger;
+
+			when stExtTrigger =>
+
+			when stDropData =>
 				-- Drop events while the output fifo is full. This guarantees
 				-- a continuous flow of events from the data producers and
 				-- disallows a backlog of old events to remain around, which

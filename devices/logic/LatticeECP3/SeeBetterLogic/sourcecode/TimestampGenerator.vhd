@@ -47,7 +47,7 @@ architecture Structural of TimestampGenerator is
 	-- The ContinuousCounter already has an enable signal, which we can use in this fashion directly.
 	signal TimestampEnable1MHz_S : std_logic;
 
-	-- Wire the enable signal together with the FPGARun signal, so that when we stop the FPGA,
+	-- Wire the enable signal together with the TimestampRun signal, so that when we stop the FPGA,
 	-- the timestamp counter will not increase anymore.
 	signal TimestampEnable_S : std_logic;
 begin

@@ -20,11 +20,11 @@ LOCATE COMP "Reset_RI" SITE "C13" ;// FPGA Reset
 
 LOCATE COMP "FPGARun_AI" SITE "J16" ;// Px0 FPGA Run
 LOCATE COMP "DVSRun_AI" SITE "K16" ;// Px1 DVS Run
-LOCATE COMP "ADCRun_AI" SITE "T15" ;// Px2 ADC Run
+LOCATE COMP "APSRun_AI" SITE "T15" ;// Px2 APS Run
 LOCATE COMP "IMURun_AI" SITE "R14" ;// Px3 IMU Run
-LOCATE COMP "FPGAShiftRegClock_CI" SITE "P14" ;// Px4 FPGA ShiftRegister Clock
-LOCATE COMP "FPGAShiftRegLatch_SI" SITE "P16" ;// Px5 FPGA ShiftRegister Latch
-LOCATE COMP "FPGAShiftRegBitIn_DI" SITE "P15" ;// Px6 FPGA ShiftRegister BitIn
+LOCATE COMP "FPGAShiftRegClock_AI" SITE "P14" ;// Px4 FPGA ShiftRegister Clock
+LOCATE COMP "FPGAShiftRegLatch_AI" SITE "P16" ;// Px5 FPGA ShiftRegister Latch
+LOCATE COMP "FPGAShiftRegBitIn_AI" SITE "P15" ;// Px6 FPGA ShiftRegister BitIn
 LOCATE COMP "FPGATimestampReset_AI" SITE "R16" ;// Px7 Timestamp Reset
 LOCATE COMP "BiasEnable_SI" SITE "T14" ;// Px8 BiasEnable
 LOCATE COMP "BiasDiagSelect_SI" SITE "R15" ;// Px9 BiasDiagSelect
@@ -122,9 +122,13 @@ LOCATE COMP "APSChipRowSRClock_SO" SITE "D9" ;
 LOCATE COMP "APSChipRowSRIn_SO" SITE "C9" ;
 LOCATE COMP "APSChipColSRClock_SO" SITE "D11" ;
 LOCATE COMP "APSChipColSRIn_SO" SITE "D12" ;
-LOCATE COMP "APSChipColState0_SO" SITE "B11" ;
-LOCATE COMP "APSChipColState1_SO" SITE "C11" ;
+LOCATE COMP "APSChipColMode_DO[1]" SITE "C11" ;
+LOCATE COMP "APSChipColMode_DO[0]" SITE "B11" ;
 LOCATE COMP "APSChipTXGate_SO" SITE "A9" ;
+
+DEFINE PORT GROUP "APSChipColMode_DO"
+"APSChipColMode_DO[1]" 
+"APSChipColMode_DO[0]" ;
 
 // APS data (external ADC)
 LOCATE COMP "APSADCData_DI[9]" SITE "J15" ;
@@ -163,9 +167,9 @@ LOCATE COMP "IMUInterrupt_AI" SITE "L15" ;
 LOCATE COMP "SyncOutClock_CO" SITE "A13" ;
 LOCATE COMP "SyncOutSwitch_AI" SITE "A14" ;
 LOCATE COMP "SyncOutSignal_SO" SITE "A15" ;
-LOCATE COMP "SyncInClock_CI" SITE "A2" ;
+LOCATE COMP "SyncInClock_AI" SITE "A2" ;
 LOCATE COMP "SyncInSwitch_AI" SITE "A3" ;
-LOCATE COMP "SyncInSignal_SI" SITE "A4" ;
+LOCATE COMP "SyncInSignal_AI" SITE "A4" ;
 
 // Setup & Hold time specifications
 CLOCK_TO_OUT GROUP "USBFifoData_DO" OUTPUT_DELAY 2.0 ns MIN 0.5 ns CLKNET "USBClock_CI_c" ;
