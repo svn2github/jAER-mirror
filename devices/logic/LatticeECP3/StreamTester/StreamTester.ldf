@@ -2,17 +2,35 @@
 <BaliProject version="3.0" title="StreamTester" device="LFE3-17EA-7FTN256I" default_implementation="StreamTester">
     <Options/>
     <Implementation title="StreamTester" dir="StreamTester" description="StreamTester" synthesis="synplify" default_strategy="Strategy1">
-        <Options def_top="topLevel"/>
+        <Options def_top="TopLevel" top="TopLevel"/>
         <Source name="C:/lscc/diamond/3.1_x64/cae_library/synthesis/vhdl/pmi_def.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="sourcecode/topLevel.vhd" type="VHDL" type_short="VHDL">
-            <Options top_module="topLevel"/>
-        </Source>
-        <Source name="sourcecode/DFFSynchronizer.vhd" type="VHDL" type_short="VHDL">
+        <Source name="sourcecode/ext/FIFODualClock.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="sourcecode/continuousCounter.vhd" type="VHDL" type_short="VHDL">
+        <Source name="sourcecode/ext/PLL.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/support/DFFSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/support/ResetSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/support/ContinuousCounter.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/TopLevel.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="TopLevel"/>
+        </Source>
+        <Source name="sourcecode/Settings.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/USBClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/LogicClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="sourcecode/FX3StateMachine.vhd" type="VHDL" type_short="VHDL">
@@ -22,5 +40,5 @@
             <Options/>
         </Source>
     </Implementation>
-    <Strategy name="Strategy1" file="StreamTester1.sty"/>
+    <Strategy name="Strategy1" file="StreamTester.sty"/>
 </BaliProject>
