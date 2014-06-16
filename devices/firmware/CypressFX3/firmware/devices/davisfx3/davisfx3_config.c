@@ -18,7 +18,7 @@ gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
 	{ 34, 'O' }, /* GPIO 34: FX3_LED */
 	{ 35, 'O' }, /* GPIO 35 (Px0): FPGA_Run */
 	{ 36, 'O' }, /* GPIO 36 (Px1): DVS_Run */
-	{ 37, 'O' }, /* GPIO 37 (Px2): ADC_Run */
+	{ 37, 'O' }, /* GPIO 37 (Px2): APS_Run */
 	{ 38, 'O' }, /* GPIO 38 (Px3): IMU_Run */
 	{ 39, 'O' }, /* GPIO 39 (Px4): FPGA_ShiftReg_Clock */
 	{ 40, 'O' }, /* GPIO 40 (Px5): FPGA_ShiftReg_Latch */
@@ -41,7 +41,7 @@ const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecif
 #define FPGA_RESET 33
 #define FPGA_RUN 35
 #define DVS_RUN 36
-#define ADC_RUN 37
+#define APS_RUN 37
 #define IMU_RUN 38
 #define FPGA_SHIFTREG_CLOCK 39
 #define FPGA_SHIFTREG_LATCH 40
@@ -317,7 +317,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 				CyFxGpioTurnOff(FPGA_RUN);
 
 				CyFxGpioTurnOff(DVS_RUN);
-				CyFxGpioTurnOff(ADC_RUN);
+				CyFxGpioTurnOff(APS_RUN);
 				CyFxGpioTurnOff(IMU_RUN);
 
 				// Shut off bias generator, and thus the whole chip.
@@ -329,7 +329,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 				// Enable all data producers.
 				CyFxGpioTurnOn(DVS_RUN);
-				CyFxGpioTurnOn(ADC_RUN);
+				CyFxGpioTurnOn(APS_RUN);
 				CyFxGpioTurnOn(IMU_RUN);
 
 				// Enable data output on FPGA.
