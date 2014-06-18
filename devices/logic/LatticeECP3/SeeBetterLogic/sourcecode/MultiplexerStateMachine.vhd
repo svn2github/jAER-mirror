@@ -291,18 +291,52 @@ begin
 				State_DN		  <= stAPSADC;
 
 			when stAPSADC =>
+				-- Write out current event.
+				OutFifoData_DO	<= APSADCFifoData_DI;
+				OutFifoWrite_SO <= '1';
+
+				-- The next event on the APS ADC fifo has just been read and
+				-- the data is available on the output bus. First, let's
+				-- examine it and see if we need to inject a timestamp,
+				-- if it's one of the special events (SOE, EOE, SOSRR, ...).
+				if APSADCFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-4) = EVENT_CODE_SPECIAL then
+					State_DN <= stTimestamp;
+				else
+					State_DN <= stIdle;
+				end if;
 
 			when stPrepareIMU =>
 				IMUFifoRead_SO <= '1';
 				State_DN	   <= stIMU;
 
 			when stIMU =>
+				-- Write out current event.
+				OutFifoData_DO	<= IMUFifoData_DI;
+				OutFifoWrite_SO <= '1';
+
+				-- The next event on the IMU fifo has just been read and
+				-- the data is available on the output bus. First, let's
+				-- examine it and see if we need to inject a timestamp,
+				-- if it's one of the special events (Gyro axes, Accel axes, ...).
+				if IMUFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-4) = EVENT_CODE_SPECIAL then
+					State_DN <= stTimestamp;
+				else
+					State_DN <= stIdle;
+				end if;
 
 			when stPrepareExtTrigger =>
 				ExtTriggerFifoRead_SO <= '1';
 				State_DN			  <= stExtTrigger;
 
 			when stExtTrigger =>
+				-- Write out current event.
+				OutFifoData_DO	<= ExtTriggerFifoData_DI;
+				OutFifoWrite_SO <= '1';
+
+				-- The next event on the APS ADC fifo has just been read and
+				-- the data is available on the output bus. All external
+				-- trigger events have to be timestamped.
+				State_DN <= stTimestamp;
 
 			when stDropData =>
 				-- Drop events while the output fifo is full. This guarantees
