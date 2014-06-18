@@ -372,8 +372,8 @@ begin
 	-- Wire all LEDs.
 	LED1_SO <= FPGARunSync_S;
 	LED2_SO <= USBFifoFPGAEmpty_S;
-	LED3_SO <= USBFifoFPGAFull_S;
-	LED4_SO <= '0';
+	LED3_SO <= LogicReset_R;
+	LED4_SO <= USBFifoFPGAFull_S;
 
 	-- Only run data producers if the whole FPGA also is running.
 	DVSRun_S		<= DVSRunSync_S and FPGARunSync_S;

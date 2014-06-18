@@ -48,6 +48,22 @@ architecture Structural of FIFO is
 			AlmostEmpty : out std_logic;
 			AlmostFull	: out std_logic);
 	end component pmi_fifo;
+
+	type state is (stInit, stGetData, stWaitRead);
+
+	attribute syn_enum_encoding			 : string;
+	attribute syn_enum_encoding of state : type is "onehot";
+
+	-- present and next state
+	signal State_DP, State_DN : state;
+
+	signal DataInReg_D		 : std_logic_vector(DATA_WIDTH-1 downto 0);
+	signal DataInRegEnable_S : std_logic;
+
+	signal EmptyReg_S		: std_logic;
+	signal AlmostEmptyReg_S : std_logic;
+
+	signal FIFOEmpty_S, FIFOAlmostEmpty_S, FIFORead_S : std_logic;
 begin  -- architecture Structural
 	fifo : pmi_fifo
 		generic map (
@@ -64,11 +80,87 @@ begin  -- architecture Structural
 			Data		=> DataIn_DI,
 			Clock		=> Clock_CI,
 			WrEn		=> WrEnable_SI,
-			RdEn		=> RdEnable_SI,
+			RdEn		=> FIFORead_S,
 			Reset		=> Reset_RI,
-			Q			=> DataOut_DO,
-			Empty		=> Empty_SO,
+			Q			=> DataInReg_D,
+			Empty		=> FIFOEmpty_S,
 			Full		=> Full_SO,
-			AlmostEmpty => AlmostEmpty_SO,
+			AlmostEmpty => FIFOAlmostEmpty_S,
 			AlmostFull	=> AlmostFull_SO);
+
+	p_comb : process (State_DP, FIFOEmpty_S, FIFOAlmostEmpty_S, RdEnable_SI)
+	begin
+		State_DN <= State_DP;
+
+		EmptyReg_S		 <= '1';
+		AlmostEmptyReg_S <= '1';
+
+		DataInRegEnable_S <= '0';
+		FIFORead_S		  <= '0';
+
+		case State_DP is
+			when stInit =>
+				if FIFOEmpty_S = '0' then
+					FIFORead_S		 <= '1';
+					EmptyReg_S		 <= '0';
+					AlmostEmptyReg_S <= FIFOAlmostEmpty_S;
+					State_DN		 <= stGetData;
+				end if;
+
+			when stGetData =>
+				DataInRegEnable_S <= '1';
+
+				if RdEnable_SI = '1' then
+					if FIFOEmpty_S = '0' then
+						FIFORead_S		 <= '1';
+						EmptyReg_S		 <= '0';
+						AlmostEmptyReg_S <= FIFOAlmostEmpty_S;
+					else
+						State_DN <= stInit;
+					end if;
+				else
+					EmptyReg_S		 <= '0';
+					AlmostEmptyReg_S <= FIFOAlmostEmpty_S;
+					State_DN		 <= stWaitRead;
+				end if;
+
+			when stWaitRead =>
+				if RdEnable_SI = '1' then
+					if FIFOEmpty_S = '0' then
+						FIFORead_S		 <= '1';
+						EmptyReg_S		 <= '0';
+						AlmostEmptyReg_S <= FIFOAlmostEmpty_S;
+						State_DN		 <= stGetData;
+					else
+						State_DN <= stInit;
+					end if;
+				else
+					EmptyReg_S		 <= '0';
+					AlmostEmptyReg_S <= FIFOAlmostEmpty_S;
+				end if;
+
+			when others => null;
+		end case;
+	end process p_comb;
+
+	p_reg : process (Clock_CI, Reset_RI) is
+	begin
+		if Reset_RI = '1' then			-- asynchronous reset (active high)
+			State_DP <= stInit;
+
+			Empty_SO	   <= '1';
+			AlmostEmpty_SO <= '1';
+
+			DataOut_DO <= (others => '0');
+		elsif rising_edge(Clock_CI) then  -- rising clock edge
+			State_DP <= State_DN;
+
+			Empty_SO	   <= EmptyReg_S;
+			AlmostEmpty_SO <= AlmostEmptyReg_S;
+
+			if DataInRegEnable_S = '1' then
+				DataOut_DO <= DataInReg_D;
+			end if;
+		end if;
+	end process p_reg;
 end architecture Structural;
