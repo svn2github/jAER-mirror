@@ -2037,7 +2037,7 @@ static int gyro_self_test(int32_t *bias_regular, int32_t *bias_st)
     return result;
 }
 
-#endif 
+#endif
 #ifdef AK89xx_SECONDARY
 static int compass_self_test(void)
 {
@@ -2084,13 +2084,13 @@ static int compass_self_test(void)
         result |= 0x04;
 #elif defined MPU9250
     data = (int16_t)(tmp[1] << 8) | tmp[0];
-    if ((data > 200) || (data < -200))  
+    if ((data > 200) || (data < -200))
         result |= 0x01;
     data = (int16_t)(tmp[3] << 8) | tmp[2];
-    if ((data > 200) || (data < -200))  
+    if ((data > 200) || (data < -200))
         result |= 0x02;
     data = (int16_t)(tmp[5] << 8) | tmp[4];
-    if ((data > -800) || (data < -3200))  
+    if ((data > -800) || (data < -3200))
         result |= 0x04;
 #endif
 AKM_restore:
@@ -2718,8 +2718,8 @@ int mpu_run_self_test(int32_t *gyro, int32_t *accel)
     int ii;
 #endif
     int result;
-    uint8_t accel_fsr, fifo_sensors, sensors_on;
-    uint16_t gyro_fsr, sample_rate, lpf;
+    uint8_t accel_fsr = 0, fifo_sensors = 0, sensors_on = 0;
+    uint16_t gyro_fsr = 0, sample_rate = 0, lpf;
     uint8_t dmp_was_on;
 
     if (st.chip_cfg.dmp_on) {

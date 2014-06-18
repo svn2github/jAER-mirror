@@ -45,6 +45,11 @@
  * Public functions
  ****************************************************************************/
 #include "chip.h"
+const uint32_t OscRateIn = 12000000;
+const uint32_t RTCOscRateIn = 32768;
+const uint32_t ExtRateIn = 0;
+#define CLOCK_FREQ (192000000)
+
 /* Set up and initialize hardware prior to call to main */
 void SystemInit(void) {
 #if defined(CORE_M3) || defined(CORE_M4)
@@ -67,9 +72,8 @@ void SystemInit(void) {
 #if defined(__FPU_PRESENT) && __FPU_PRESENT == 1
 	fpuInit();
 #endif
-
 	/* Chip specific SystemInit */
-	Chip_SystemInit();
+	Chip_SetupCoreClock(CLKIN_IRC, CLOCK_FREQ, true);
 	SystemCoreClockUpdate();
 	Chip_OTP_Init();
 #endif /* defined(CORE_M3) || defined(CORE_M4) */

@@ -40,6 +40,8 @@ struct int_param_s {
     uint32_t pin;
     void (*cb)(volatile void*);
     void *arg;
+#elif defined LPC4337
+    void * dummy;
 #endif
 };
 

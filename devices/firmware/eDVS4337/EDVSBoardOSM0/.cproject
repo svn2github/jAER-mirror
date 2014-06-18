@@ -66,9 +66,9 @@
 								<option id="gnu.c.link.option.libs.560217025" name="Libraries (-l)" superClass="gnu.c.link.option.libs"/>
 								<option id="gnu.c.link.option.paths.1680177011" name="Library search path (-L)" superClass="gnu.c.link.option.paths"/>
 								<option id="com.crt.advproject.link.crpenable.775916892" name="Enable Code Read Protect" superClass="com.crt.advproject.link.crpenable" value="true" valueType="boolean"/>
-								<option id="com.crt.advproject.link.gcc.multicore.slave.1185876396" name="Multicore slave" superClass="com.crt.advproject.link.gcc.multicore.slave" value="M0APP" valueType="string"/>
-								<option id="com.crt.advproject.link.gcc.multicore.master.205417719" name="Multicore" superClass="com.crt.advproject.link.gcc.multicore.master"/>
-								<option id="com.crt.advproject.link.gcc.multicore.master.userobjs.30438874" superClass="com.crt.advproject.link.gcc.multicore.master.userobjs" valueType="userObjs"/>
+								<option id="com.crt.advproject.link.gcc.multicore.slave.1185876396" name="Multicore configuration" superClass="com.crt.advproject.link.gcc.multicore.slave" value="M0APP" valueType="string"/>
+								<option id="com.crt.advproject.link.gcc.multicore.master.205417719" name="Multicore master" superClass="com.crt.advproject.link.gcc.multicore.master"/>
+								<option id="com.crt.advproject.link.gcc.multicore.master.userobjs.30438874" name="Slave Objects (not visible)" superClass="com.crt.advproject.link.gcc.multicore.master.userobjs" valueType="userObjs"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.822130613" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -149,9 +149,9 @@
 								<option id="gnu.c.link.option.libs.1911752281" name="Libraries (-l)" superClass="gnu.c.link.option.libs"/>
 								<option id="gnu.c.link.option.paths.260831957" name="Library search path (-L)" superClass="gnu.c.link.option.paths"/>
 								<option id="com.crt.advproject.link.crpenable.430949232" name="Enable Code Read Protect" superClass="com.crt.advproject.link.crpenable" value="true" valueType="boolean"/>
-								<option id="com.crt.advproject.link.gcc.multicore.slave.1182004706" name="Multicore slave" superClass="com.crt.advproject.link.gcc.multicore.slave" value="M0APP" valueType="string"/>
-								<option id="com.crt.advproject.link.gcc.multicore.master.1729363155" name="Multicore" superClass="com.crt.advproject.link.gcc.multicore.master"/>
-								<option id="com.crt.advproject.link.gcc.multicore.master.userobjs.349760511" superClass="com.crt.advproject.link.gcc.multicore.master.userobjs" valueType="userObjs"/>
+								<option id="com.crt.advproject.link.gcc.multicore.slave.1182004706" name="Multicore configuration" superClass="com.crt.advproject.link.gcc.multicore.slave" value="M0APP" valueType="string"/>
+								<option id="com.crt.advproject.link.gcc.multicore.master.1729363155" name="Multicore master" superClass="com.crt.advproject.link.gcc.multicore.master"/>
+								<option id="com.crt.advproject.link.gcc.multicore.master.userobjs.349760511" name="Slave Objects (not visible)" superClass="com.crt.advproject.link.gcc.multicore.master.userobjs" valueType="userObjs"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.716609790" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -189,13 +189,14 @@
 &lt;memoryInstance derived_from="Flash" edited="true" id="MFlashA512_256" location="0x1a040000" size="0x40000"/&gt;
 &lt;memoryInstance derived_from="Flash" edited="true" id="MFlashA512" location="0x1a000000" size="0x40000"/&gt;
 &lt;memoryInstance derived_from="Flash" edited="true" id="MFlashB512" location="0x1b000000" size="0x80000"/&gt;
-&lt;memoryInstance derived_from="RAM" edited="true" id="M0CodeRam" location="0x1008800c" size="0x400"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="M0CodeRam" location="0x10088010" size="0x3fc"/&gt;
 &lt;memoryInstance derived_from="RAM" edited="true" id="RamLoc40" location="0x10088410" size="0x1bf0"/&gt;
 &lt;memoryInstance derived_from="RAM" edited="true" id="RamLoc32" location="0x10002014" size="0x5fec"/&gt;
-&lt;memoryInstance derived_from="RAM" edited="true" id="EventsBuffer32" location="0x10080000" size="0x800c"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="EventsBuffer32" location="0x10080000" size="0x8010"/&gt;
 &lt;memoryInstance derived_from="RAM" edited="true" id="UartBuffer" location="0x10000000" size="0x2014"/&gt;
 &lt;memoryInstance derived_from="RAM" edited="true" id="M0Start" location="0x1008840c" size="0x4"/&gt;
-&lt;memoryInstance derived_from="RAM" edited="true" id="RamAHB32" location="0x20000000" size="0x8000"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="Mutex" location="0x20000000" size="0x40"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="RamAHB32" location="0x20000040" size="0x7fc0"/&gt;
 &lt;memoryInstance derived_from="RAM" edited="true" id="RamAHB16" location="0x20008000" size="0x4000"/&gt;
 &lt;memoryInstance derived_from="RAM" edited="true" id="RamAHB_ETB16" location="0x2000c000" size="0x4000"/&gt;
 &lt;prog_flash blocksz="0x2000" location="0x1a000000" maxprgbuff="0x400" progwithcode="TRUE" size="0x10000"/&gt;

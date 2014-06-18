@@ -11,17 +11,19 @@
 #include <stdint.h>
 #include "config.h"
 
-#define DIRECT_MODE 		0
-#define VELOCITY_MODE 		1
+#define DIRECT_MODE 				(1<<0)
+#define VELOCITY_MODE 				(1<<1)
+#define DECAY_MODE 					(1<<2)
 
-#define Kp					(80)
+#define Kp							(80)
 
 #define MOTOR0						(0)
 #define MOTOR1						(1)
 
 struct motor_status {
 	int32_t currentDutycycle; /* Last dutycycle applied to the motor*/
-	int32_t requestedDutycycle; /* Decaying dutycyle */
+	int32_t requestedWidth; /* Decaying dutycyle */
+	uint32_t decayCounter; /* Decaying dutycyle */
 	uint32_t controlMode; /* It sets which control mode is applied*/
 #if USE_MINIROB
 	int32_t requestedVelocity; /* the requested velocity, ie, position increment*/
@@ -42,8 +44,7 @@ extern void initMotors(void);
  * @param motor Motor ID selected, it should between 0 and 1
  * @param frequency New frequency to be applied
  * @return 0 if there are no errors
- */extern uint32_t updateMotorPWMFrequency(uint32_t motor, uint32_t frequency);
-
+ */extern uint32_t updateMotorPWMPeriod(uint32_t motor, uint32_t frequency);
 
 #if USE_MINIROB
 /**
@@ -61,6 +62,8 @@ extern uint32_t updateMotorVelocity(uint32_t motor, int32_t speed);
  * @return 0 if there are no errors
  */
 extern uint32_t updateMotorController(uint32_t motor);
+
+extern uint32_t updateMotorVelocityDecay(uint32_t motor, int32_t speed);
 #endif
 
 /**
@@ -71,6 +74,15 @@ extern uint32_t updateMotorController(uint32_t motor);
  * @return 0 if there are no errors
  */
 extern uint32_t updateMotorDutyCycleDecay(uint32_t motor, int32_t speed);
+
+/**
+ * Updates the motor duty cycle, the selected duty cycle will decay to 0 with in a second.
+ * This sets the motor control mode to DIRECT_MODE.
+ * @param motor Motor ID selected, it should between 0 and 1
+ * @param speed the decaying duty cycle applied to the motor, it should be between -100 and 100.
+ * @return 0 if there are no errors
+ */
+extern uint32_t updateMotorWidthDecay(uint32_t motor, int32_t width);
 
 /**
  * Change the motor control mode.

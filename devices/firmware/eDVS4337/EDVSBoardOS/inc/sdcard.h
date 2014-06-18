@@ -15,9 +15,9 @@
 #define SD_ERROR 		1
 
 #if EXTENDED_TIMESTAMP
-#define FILE_BUFFER_SIZE		_MAX_SS *4
+#define FILE_BUFFER_SIZE		_MAX_SS *32
 #else
-#define FILE_BUFFER_SIZE		_MAX_SS *3
+#define FILE_BUFFER_SIZE		_MAX_SS *24 //0.75 of the extended size
 #endif
 
 struct sdcard {

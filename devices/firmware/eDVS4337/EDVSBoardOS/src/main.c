@@ -14,6 +14,7 @@
 #include "minirob.h"
 #include "utils.h"
 #include "cr_start_m0.h"
+#include "build_defs.h"
 //Uncomment the line below to activate test mode.
 //#include "test.h"
 
@@ -24,16 +25,23 @@
 // See crp.h header for more information
 __CRP const unsigned int CRP_WORD = CRP_NO_CRP;
 
+
+RTC_TIME_T buildTime;//Holds the build time to set the RTC after enabling it
+
 int main(void) {
 #if EXTENDED_TIMESTAMP && USE_SDCARD
 	uint16_t DVSEventTimeHigh;
 #endif
+	uint32_t DVSEventPointer;
 	uint32_t DVSEventTimeLow;
 	uint16_t DVSEvent;
 	uint32_t timeStampMemory = 0;
 	uint32_t timeStampDelta = 0;
 	ExtraPinsInit();
 	disablePeripherals();
+	Chip_RIT_Init(LPC_RITIMER);
+	RTC_TIME_T build = { .time = { BUILD_SEC_INT, BUILD_MIN_INT, BUILD_HOUR_INT, BUILD_DAY_INT, 0, 1, BUILD_MONTH_INT, BUILD_YEAR_INT } };
+	buildTime = build;
 #if USE_IMU_DATA
 	MPU9105Init();
 #endif
@@ -112,49 +120,39 @@ int main(void) {
 		if (events.eventBufferWritePointer == events.eventBufferReadPointer) {		// more events in buffer to process?
 			continue;
 		}
-
+		events.ringBufferLock = true;
 		events.eventBufferReadPointer = ((events.eventBufferReadPointer + 1) & DVS_EVENTBUFFER_MASK);// increase read pointer
-		DVSEvent = events.eventBufferA[events.eventBufferReadPointer];		 // fetch event from buffer
-		DVSEventTimeLow = events.eventBufferTimeLow[events.eventBufferReadPointer];	// fetch event from buffer
+		DVSEventPointer = events.eventBufferReadPointer;  // cache the value to be faster
+		DVSEvent = events.eventBufferA[DVSEventPointer];		 // fetch event from buffer
+		DVSEventTimeLow = events.eventBufferTimeLow[DVSEventPointer];	// fetch event from buffer
 #if EXTENDED_TIMESTAMP && USE_SDCARD
-		DVSEventTimeHigh = events.eventBufferTimeHigh[events.eventBufferReadPointer];
+		DVSEventTimeHigh = events.eventBufferTimeHigh[DVSEventPointer];
 #endif
+		events.ringBufferLock = false;
 		if (enableEventSending) {
 			if (eDVSDataFormat == EDVS_DATA_FORMAT_BIN) {
-				pushByteToTransmission(&uart, ((DVSEvent >> 8) & 0x7F) | 0x80); // 1st byte to send (Y-address)
+				pushByteToTransmission(&uart, (DVSEvent >> 8) | 0x80); // 1st byte to send (Y-address)
 				pushByteToTransmission(&uart, DVSEvent & 0xFF);	// 2nd byte to send (X-address)
-			} else if (eDVSDataFormat == EDVS_DATA_FORMAT_BIN_TS2B) {
-				pushByteToTransmission(&uart, ((DVSEvent >> 8) & 0x7F) | 0x80); // 1st byte to send (Y-address)
-				pushByteToTransmission(&uart, DVSEvent & 0xFF);	// 2nd byte to send (X-address)
-				pushByteToTransmission(&uart, (DVSEventTimeLow >> 8) & 0xFF);// 3rd byte to send (time stamp high byte)
-				pushByteToTransmission(&uart, DVSEventTimeLow & 0xFF);	// 4th byte to send (time stamp low byte)
-			} else if (eDVSDataFormat == EDVS_DATA_FORMAT_BIN_TS3B) {
-				pushByteToTransmission(&uart, ((DVSEvent >> 8) & 0x7F) | 0x80); // 1st byte to send (Y-address)
-				pushByteToTransmission(&uart, DVSEvent & 0xFF);	// 2nd byte to send (X-address)
-				pushByteToTransmission(&uart, (DVSEventTimeLow >> 16) & 0xFF);// 3rd byte to send (time stamp high byte)
-				pushByteToTransmission(&uart, (DVSEventTimeLow >> 8) & 0xFF);	// 4th byte to send (time stamp)
-				pushByteToTransmission(&uart, DVSEventTimeLow & 0xFF);	// 5th byte to send (time stamp low byte)
-			} else {
-				//if (eDVSDataFormat == EDVS_DATA_FORMAT_BIN_TS7B) {
+			} else if (eDVSDataFormat == EDVS_DATA_FORMAT_BIN_TSVB) {
 				// Calculate delta...
 				timeStampDelta = DVSEventTimeLow - timeStampMemory;
 
 				// check whether to send one, two or three bytes...
-				if (timeStampDelta < 128) {
+				if (timeStampDelta < 0x7F) {
 					// Only 7 TS bits need to be sent
-					pushByteToTransmission(&uart, ((DVSEvent >> 8) & 0x7F) | 0x80);      // 1st byte to send (Y-address)
+					pushByteToTransmission(&uart, (DVSEvent >> 8) | 0x80);      // 1st byte to send (Y-address)
 					pushByteToTransmission(&uart, DVSEvent & 0xFF);                      // 2nd byte to send (X-address)
 					pushByteToTransmission(&uart, ((timeStampDelta) & 0x7F) | 0x80); // 3rd byte to send (7bit Delta TS, MSBit set to 1)
 				} else {
-					if (timeStampDelta < 16384) {
+					if (timeStampDelta < 0x3FFF) {
 						// Only 14 TS bits need to be sent
-						pushByteToTransmission(&uart, ((DVSEvent >> 8) & 0x7F) | 0x80);  // 1st byte to send (Y-address)
+						pushByteToTransmission(&uart, (DVSEvent >> 8) | 0x80);  // 1st byte to send (Y-address)
 						pushByteToTransmission(&uart, (DVSEvent) & 0xFF);                // 2nd byte to send (X-address)
 						pushByteToTransmission(&uart, (timeStampDelta >> 7) & 0x7F); // 3rd byte to send (upper 7bit Delta TS, MSBit set to 0)
 						pushByteToTransmission(&uart, ((timeStampDelta) & 0x7F) | 0x80); // 4th byte to send (lower 7bit Delta TS, MSBit set to 1)
 					} else {
 						// 21 TS bits need to be sent
-						pushByteToTransmission(&uart, ((DVSEvent >> 8) & 0x7F) | 0x80);  // 1st byte to send (Y-address)
+						pushByteToTransmission(&uart, (DVSEvent >> 8) | 0x80);  // 1st byte to send (Y-address)
 						pushByteToTransmission(&uart, (DVSEvent) & 0xFF);                // 2nd byte to send (X-address)
 						pushByteToTransmission(&uart, (timeStampDelta >> 14) & 0x7F); // 3rd byte to send (upper 7bit Delta TS, MSBit set to 0)
 						pushByteToTransmission(&uart, (timeStampDelta >> 7) & 0x7F); // 4th byte to send (middle 7bit Delta TS, MSBit set to 0)
@@ -162,6 +160,24 @@ int main(void) {
 					}
 				}
 				timeStampMemory = DVSEventTimeLow;              // Save the current TS in delta
+			} else if (eDVSDataFormat == EDVS_DATA_FORMAT_BIN_TS2B) {
+				pushByteToTransmission(&uart, (DVSEvent >> 8) | 0x80); // 1st byte to send (Y-address)
+				pushByteToTransmission(&uart, DVSEvent & 0xFF);	// 2nd byte to send (X-address)
+				pushByteToTransmission(&uart, (DVSEventTimeLow >> 8) & 0xFF);// 3rd byte to send (time stamp high byte)
+				pushByteToTransmission(&uart, DVSEventTimeLow & 0xFF);	// 4th byte to send (time stamp low byte)
+			} else if (eDVSDataFormat == EDVS_DATA_FORMAT_BIN_TS3B) {
+				pushByteToTransmission(&uart, (DVSEvent >> 8) | 0x80); // 1st byte to send (Y-address)
+				pushByteToTransmission(&uart, DVSEvent & 0xFF);	// 2nd byte to send (X-address)
+				pushByteToTransmission(&uart, (DVSEventTimeLow >> 16) & 0xFF);// 3rd byte to send (time stamp high byte)
+				pushByteToTransmission(&uart, (DVSEventTimeLow >> 8) & 0xFF);	// 4th byte to send (time stamp)
+				pushByteToTransmission(&uart, DVSEventTimeLow & 0xFF);	// 5th byte to send (time stamp low byte)
+			} else {
+				pushByteToTransmission(&uart, (DVSEvent >> 8) | 0x80); // 1st byte to send (Y-address)
+				pushByteToTransmission(&uart, DVSEvent & 0xFF);	// 2nd byte to send (X-address)
+				pushByteToTransmission(&uart, (DVSEventTimeLow >> 24) & 0xFF);// 3rd byte to send (time stamp high byte)
+				pushByteToTransmission(&uart, (DVSEventTimeLow >> 16) & 0xFF);// 4th byte to send (time stamp high byte)
+				pushByteToTransmission(&uart, (DVSEventTimeLow >> 8) & 0xFF);	// 5th byte to send (time stamp)
+				pushByteToTransmission(&uart, DVSEventTimeLow & 0xFF);	// 6th byte to send (time stamp low byte)
 			}
 		}
 #if USE_SDCARD

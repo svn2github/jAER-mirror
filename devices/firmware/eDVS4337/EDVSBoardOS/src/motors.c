@@ -1,5 +1,7 @@
 #include "motors.h"
 #include "chip.h"
+#include "extra_pins.h"
+
 //192Mhz / 7680 = 25kHz
 #define BASE_PWM_DIVIDER				(7680)
 
@@ -135,17 +137,18 @@ volatile struct motor_status motor1;
 
 static uint32_t motorDriverEnabled;
 
-uint32_t updateMotorPWMFrequency(uint32_t motor, uint32_t frequency) {
-	if (frequency == 0) {
+uint32_t updateMotorPWMPeriod(uint32_t motor, uint32_t period) {
+	if (period == 0) {
 		return 1;
 	}
-	if (frequency > 10000000) {
-		frequency = 10000000;
+	uint64_t calculatedLimit = (((uint64_t) period * (uint64_t) Chip_Clock_GetRate(CLK_APB1_MOTOCON)) / (1000000UL));
+	if (calculatedLimit & 0xFFFFFFFF) { //Check for overflow
+		return 1;
 	}
 	if (motor == MOTOR0) {
-		LPC_MCPWM->LIM[MOTOR0_PWM_CHANNEL] = Chip_Clock_GetRate(CLK_APB1_MOTOCON) / frequency;
+		LPC_MCPWM->LIM[MOTOR0_PWM_CHANNEL] = (uint32_t) calculatedLimit;
 	} else if (motor == MOTOR1) {
-		LPC_MCPWM->LIM[MOTOR1_PWM_CHANNEL] = Chip_Clock_GetRate(CLK_APB1_MOTOCON) / frequency;
+		LPC_MCPWM->LIM[MOTOR1_PWM_CHANNEL] = (uint32_t) calculatedLimit;
 	} else {
 		return 1;
 	}
@@ -167,12 +170,13 @@ uint32_t updateMotorMode(uint32_t motor, uint32_t mode) {
 
 #define CONTROL_LOOP_FREQ				(1000)
 #define MAX_SPEED						(92)
+
 uint32_t updateMotorVelocity(uint32_t motor, int32_t speed) {
 	if (motor == MOTOR0) {
 		motor0.requestedVelocity = speed;
 		//leftWheel.wheelStatus = 0;
-		if (motor0.controlMode == DIRECT_MODE) {
-			motor0.requestedPosition = 0;
+		if (motor0.controlMode & DIRECT_MODE) {
+			motor0.requestedPosition = leftWheel.wheelStatus*20;
 		} else {
 			//Restrict the error for new reference points
 			//motor0.requestedPosition = speed*CONTROL_LOOP_FREQ>>2;
@@ -181,8 +185,8 @@ uint32_t updateMotorVelocity(uint32_t motor, int32_t speed) {
 	} else if (motor == MOTOR1) {
 		motor1.requestedVelocity = speed;
 		//rightWheel.wheelStatus = 0;
-		if (motor1.controlMode == DIRECT_MODE) {
-			motor1.requestedPosition = 0;
+		if (motor1.controlMode & DIRECT_MODE) {
+			motor1.requestedPosition = rightWheel.wheelStatus*20;
 		} else {
 			//Restrict the error for new reference points
 			//motor1.requestedPosition = speed*CONTROL_LOOP_FREQ>>2;
@@ -209,24 +213,63 @@ uint32_t updateMotorController(uint32_t motor) {
 	return 0;
 }
 
-#endif
-
-uint32_t updateMotorDutyCycleDecay(uint32_t motor, int32_t speed) {
-	if (speed > MAX_SPEED) {
-		speed = MAX_SPEED;
-	} else if (speed < -MAX_SPEED) {
-		speed = -MAX_SPEED;
+uint32_t updateMotorVelocityDecay(uint32_t motor, int32_t speed) {
+	if (updateMotorVelocity(motor, speed)) {
+		return 1;
 	}
 	if (motor == MOTOR0) {
-		motor0.controlMode = DIRECT_MODE;
-		motor0.requestedDutycycle = speed;
+		motor0.decayCounter = 10;
+	} else {
+		motor1.decayCounter = 10;
+	}
+	return updateMotorMode(motor, DECAY_MODE | VELOCITY_MODE);
+}
+
+#endif
+
+uint32_t updateMotorDutyCycleDecay(uint32_t motor, int32_t duty_cycle) {
+	if (duty_cycle > 100) {
+		duty_cycle = 100;
+	} else if (duty_cycle < -100) {
+		duty_cycle = -100;
+	}
+//This cast from uint32_t to int32_t is safe
+	if (motor == MOTOR0) {
+		int32_t lim = (int32_t) LPC_MCPWM->LIM[MOTOR0_PWM_CHANNEL];
+		return updateMotorWidthDecay(MOTOR0, ((duty_cycle * lim) / 100));
 	} else if (motor == MOTOR1) {
-		motor1.controlMode = DIRECT_MODE;
-		motor1.requestedDutycycle = speed;
+		int32_t lim = (int32_t) LPC_MCPWM->LIM[MOTOR1_PWM_CHANNEL];
+		return updateMotorWidthDecay(MOTOR1, ((duty_cycle * lim) / 100));
+	}
+	return 1;
+}
+
+uint32_t updateMotorWidthDecay(uint32_t motor, int32_t width) {
+	int32_t lim = 0;
+	if (motor == MOTOR0) {
+		lim = (int32_t) LPC_MCPWM->LIM[MOTOR0_PWM_CHANNEL];
+	} else {
+		lim = (int32_t) LPC_MCPWM->LIM[MOTOR1_PWM_CHANNEL];
+	}
+
+	if (width > lim) {
+		width = lim;
+	} else if (width < -lim) {
+		width = -lim;
+	}
+	if (motor == MOTOR0) {
+		motor0.decayCounter = 10;
+		motor0.requestedWidth = width;
+	} else if (motor == MOTOR1) {
+		motor1.decayCounter = 10;
+		motor1.requestedWidth = width;
 	} else {
 		return 1;
 	}
-	return updateMotorDutyCycle(motor, speed);
+	if (updateMotorWidth(motor, width)) {
+		return 1;
+	}
+	return updateMotorMode(motor, DECAY_MODE | DIRECT_MODE);
 }
 
 uint32_t updateMotorDutyCycle(uint32_t motor, int32_t duty_cycle) {
@@ -235,7 +278,7 @@ uint32_t updateMotorDutyCycle(uint32_t motor, int32_t duty_cycle) {
 	} else if (duty_cycle < -100) {
 		duty_cycle = -100;
 	}
-	//This cast from uint32_t to int32_t is safe
+//This cast from uint32_t to int32_t is safe
 	if (motor == MOTOR0) {
 		int32_t lim = (int32_t) LPC_MCPWM->LIM[MOTOR0_PWM_CHANNEL];
 		return updateMotorWidth(MOTOR0, ((duty_cycle * lim) / 100));
@@ -379,11 +422,11 @@ void initMotors(void) {
 //Initialize the control structure
 	motor0.currentDutycycle = 0;
 	motor0.controlMode = DIRECT_MODE;
-	motor0.requestedDutycycle = 0;
+	motor0.requestedWidth = 0;
 
 	motor1.currentDutycycle = 0;
 	motor1.controlMode = DIRECT_MODE;
-	motor1.requestedDutycycle = 0;
+	motor1.requestedWidth = 0;
 #if USE_MINIROB
 	motor0.requestedVelocity = 0;
 	motor0.requestedPosition = 0;

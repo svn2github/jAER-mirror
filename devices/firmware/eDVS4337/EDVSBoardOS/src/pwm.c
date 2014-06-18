@@ -5,6 +5,7 @@
  *      Author: raraujo
  */
 #include "pwm.h"
+#include "EDVS128_LPC43xx.h"
 #include "chip.h"
 
 #define MAX_OUTPUTS 2
@@ -79,8 +80,8 @@ void PWMInit(void) {
 	halTimers[CHANNEL_A_TIMER_INDEX].period = 0;
 	Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, CHANNEL_A_0_PORT_GPIO, CHANNEL_A_0_PIN_GPIO);
 	Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, CHANNEL_A_1_PORT_GPIO, CHANNEL_A_1_PIN_GPIO);
-	Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, CHANNEL_A_0_PORT_GPIO, CHANNEL_A_0_PIN_GPIO);
-	Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, CHANNEL_A_1_PORT_GPIO, CHANNEL_A_1_PIN_GPIO);
+	Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, CHANNEL_A_0_PORT_GPIO, CHANNEL_A_0_PIN_GPIO);
+	Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, CHANNEL_A_1_PORT_GPIO, CHANNEL_A_1_PIN_GPIO);
 	Chip_SCU_PinMuxSet(CHANNEL_A_0_PORT, CHANNEL_A_0_PIN, halTimers[CHANNEL_A_TIMER_INDEX].gpioMode[0]);
 	Chip_SCU_PinMuxSet(CHANNEL_A_1_PORT, CHANNEL_A_1_PIN, halTimers[CHANNEL_A_TIMER_INDEX].gpioMode[1]);
 
@@ -106,8 +107,8 @@ void PWMInit(void) {
 	halTimers[CHANNEL_B_TIMER_INDEX].period = 0;
 	Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, CHANNEL_B_0_PORT_GPIO, CHANNEL_B_0_PIN_GPIO);
 	Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, CHANNEL_B_1_PORT_GPIO, CHANNEL_B_1_PIN_GPIO);
-	Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, CHANNEL_B_0_PORT_GPIO, CHANNEL_B_0_PIN_GPIO);
-	Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, CHANNEL_B_1_PORT_GPIO, CHANNEL_B_1_PIN_GPIO);
+	Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, CHANNEL_B_0_PORT_GPIO, CHANNEL_B_0_PIN_GPIO);
+	Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, CHANNEL_B_1_PORT_GPIO, CHANNEL_B_1_PIN_GPIO);
 	Chip_SCU_PinMuxSet(CHANNEL_B_0_PORT, CHANNEL_B_0_PIN, halTimers[CHANNEL_B_TIMER_INDEX].gpioMode[0]);
 	Chip_SCU_PinMuxSet(CHANNEL_B_1_PORT, CHANNEL_B_1_PIN, halTimers[CHANNEL_B_TIMER_INDEX].gpioMode[1]);
 
@@ -133,16 +134,27 @@ void PWMInit(void) {
 	halTimers[CHANNEL_C_TIMER_INDEX].period = 0;
 	Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, CHANNEL_C_0_PORT_GPIO, CHANNEL_C_0_PIN_GPIO);
 	Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, CHANNEL_C_1_PORT_GPIO, CHANNEL_C_1_PIN_GPIO);
-	Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, CHANNEL_C_0_PORT_GPIO, CHANNEL_C_0_PIN_GPIO);
-	Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, CHANNEL_C_1_PORT_GPIO, CHANNEL_C_1_PIN_GPIO);
+	Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, CHANNEL_C_0_PORT_GPIO, CHANNEL_C_0_PIN_GPIO);
+	Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, CHANNEL_C_1_PORT_GPIO, CHANNEL_C_1_PIN_GPIO);
 	Chip_SCU_PinMuxSet(CHANNEL_C_0_PORT, CHANNEL_C_0_PIN, halTimers[CHANNEL_C_TIMER_INDEX].gpioMode[0]);
 	Chip_SCU_PinMuxSet(CHANNEL_C_1_PORT, CHANNEL_C_1_PIN, halTimers[CHANNEL_C_TIMER_INDEX].gpioMode[1]);
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 2; ++j) {
+			Chip_TIMER_ResetOnMatchDisable(halTimers[i].timer, halTimers[i].timerChannel[j]);
+			Chip_TIMER_StopOnMatchDisable(halTimers[i].timer, halTimers[i].timerChannel[j]);
+			Chip_TIMER_MatchDisableInt(halTimers[i].timer, halTimers[i].timerChannel[j]);
+			Chip_TIMER_ExtMatchControlSet(halTimers[i].timer, 1, TIMER_EXTMATCH_CLEAR, halTimers[i].timerChannel[j]);
+		}
+	}
 
 }
 
 uint32_t PWMSetPeriod(uint8_t channel, uint32_t period) {
 	if (channel > CHANNEL_C_TIMER_INDEX) {
 		return 1;
+	}
+	if (eDVSMode != EDVS_MODE_INTERNAL && channel == 0) {
+		return 1; // channel 0 taken for master/slave mode
 	}
 	LPC_TIMER_T * timer = halTimers[channel].timer;
 	halTimers[channel].period = period;
@@ -154,6 +166,8 @@ uint32_t PWMSetPeriod(uint8_t channel, uint32_t period) {
 		Chip_TIMER_SetMatch(timer, 2, 0);
 		halTimers[channel].enabled[0] = DISABLE;
 		halTimers[channel].enabled[1] = DISABLE;
+		Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, halTimers[channel].portGpio[0], halTimers[channel].pinGpio[0]);
+		Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, halTimers[channel].portGpio[1], halTimers[channel].pinGpio[1]);
 		Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, halTimers[channel].portGpio[0], halTimers[channel].pinGpio[0]);
 		Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, halTimers[channel].portGpio[1], halTimers[channel].pinGpio[1]);
 		Chip_SCU_PinMuxSet(halTimers[channel].port[0], halTimers[channel].pin[0], halTimers[channel].gpioMode[0]);
@@ -196,14 +210,21 @@ uint32_t PWMSetDutyCycle(uint8_t channel, uint8_t output, uint32_t dutycycle) {
 	if (output >= MAX_OUTPUTS || channel > CHANNEL_C_TIMER_INDEX) {
 		return 1;
 	}
+	if (eDVSMode != EDVS_MODE_INTERNAL && channel == 0) {
+		return 1; // channel 0 taken for master/slave mode
+	}
 	if (dutycycle > 100) {
 		dutycycle = 100;
 	}
 	return PWMSetWidth(channel, output, (dutycycle * halTimers[channel].period) / 100);
 }
+
 uint32_t PWMSetWidth(uint8_t channel, uint8_t output, uint32_t width) {
 	if (output >= MAX_OUTPUTS || channel > CHANNEL_C_TIMER_INDEX) {
 		return 1;
+	}
+	if (eDVSMode != EDVS_MODE_INTERNAL && channel == 0) {
+		return 1; // channel 0 taken for master/slave mode
 	}
 	LPC_TIMER_T * timer = halTimers[channel].timer;
 	halTimers[channel].witdh[output] = width;
@@ -214,19 +235,21 @@ uint32_t PWMSetWidth(uint8_t channel, uint8_t output, uint32_t width) {
 	 * the output is set as GPIO and driven accordingly.
 	 */
 	if (width == 0) { //Set GPIO Low
+		Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, halTimers[channel].portGpio[output],
+				halTimers[channel].pinGpio[output]);
 		Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, halTimers[channel].portGpio[output], halTimers[channel].pinGpio[output]);
-		Chip_SCU_PinMuxSet(halTimers[channel].port[output], halTimers[channel].pin[output], halTimers[channel].gpioMode[output]);
-		return 0;
+		Chip_SCU_PinMuxSet(halTimers[channel].port[output], halTimers[channel].pin[output],
+				halTimers[channel].gpioMode[output]);
 	} else if (width >= timer->MR[2]) { //Set GPIO High
+		Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, halTimers[channel].portGpio[output],
+				halTimers[channel].pinGpio[output]);
 		Chip_GPIO_SetPinOutHigh(LPC_GPIO_PORT, halTimers[channel].portGpio[output], halTimers[channel].pinGpio[output]);
-		Chip_SCU_PinMuxSet(halTimers[channel].port[output], halTimers[channel].pin[output], halTimers[channel].gpioMode[output]);
-		return 0;
+		Chip_SCU_PinMuxSet(halTimers[channel].port[output], halTimers[channel].pin[output],
+				halTimers[channel].gpioMode[output]);
+	} else {
+		Chip_TIMER_SetMatch(timer, halTimers[channel].timerChannel[output], width);
+		Chip_SCU_PinMuxSet(halTimers[channel].port[output], halTimers[channel].pin[output],
+				halTimers[channel].timerMode[output]);
 	}
-	Chip_TIMER_ResetOnMatchDisable(timer, halTimers[channel].timerChannel[output]);
-	Chip_TIMER_StopOnMatchDisable(timer, halTimers[channel].timerChannel[output]);
-	Chip_TIMER_MatchDisableInt(timer, halTimers[channel].timerChannel[output]);
-	Chip_TIMER_SetMatch(timer, halTimers[channel].timerChannel[output], width);
-	Chip_TIMER_ExtMatchControlSet(timer, 1, TIMER_EXTMATCH_CLEAR, halTimers[channel].timerChannel[output]);
-	Chip_SCU_PinMuxSet(halTimers[channel].port[output], halTimers[channel].pin[output], halTimers[channel].timerMode[output]);
 	return 0;
 }

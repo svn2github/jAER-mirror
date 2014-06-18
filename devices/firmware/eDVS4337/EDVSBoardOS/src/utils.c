@@ -9,38 +9,40 @@
 #include "utils.h"
 #include "uart.h"
 #include "cr_start_m0.h"
-
-const uint32_t OscRateIn = 0;
-const uint32_t ExtRateIn = 0;
+#include "build_defs.h"
 
 void timerDelayUs(uint32_t timeUs) {
 	/* In an RTOS, the thread would sleep allowing other threads to run.
-	   For standalone operation, we just spin on RI timer */
+	 For standalone operation, we just spin on RI timer */
 	int32_t curr = (int32_t) Chip_RIT_GetCounter(LPC_RITIMER);
 	int32_t final = curr + ((SystemCoreClock / 1000000) * timeUs);
 
-	if (final == curr) return;
+	if (final == curr)
+		return;
 
 	if ((final < 0) && (curr > 0)) {
-		while (Chip_RIT_GetCounter(LPC_RITIMER) < (uint32_t) final) {}
-	}
-	else {
-		while ((int32_t) Chip_RIT_GetCounter(LPC_RITIMER) < final) {}
+		while (Chip_RIT_GetCounter(LPC_RITIMER) < (uint32_t) final) {
+		}
+	} else {
+		while ((int32_t) Chip_RIT_GetCounter(LPC_RITIMER) < final) {
+		}
 	}
 }
 void timerDelayMs(uint32_t timems) {
 	/* In an RTOS, the thread would sleep allowing other threads to run.
-	   For standalone operation, we just spin on RI timer */
+	 For standalone operation, we just spin on RI timer */
 	int32_t curr = (int32_t) Chip_RIT_GetCounter(LPC_RITIMER);
 	int32_t final = curr + ((SystemCoreClock / 1000) * timems);
 
-	if (final == curr) return;
+	if (final == curr)
+		return;
 
 	if ((final < 0) && (curr > 0)) {
-		while (Chip_RIT_GetCounter(LPC_RITIMER) < (uint32_t) final) {}
-	}
-	else {
-		while ((int32_t) Chip_RIT_GetCounter(LPC_RITIMER) < final) {}
+		while (Chip_RIT_GetCounter(LPC_RITIMER) < (uint32_t) final) {
+		}
+	} else {
+		while ((int32_t) Chip_RIT_GetCounter(LPC_RITIMER) < final) {
+		}
 	}
 
 	return;
@@ -55,8 +57,8 @@ void resetDevice() {
 	 * Using the Reset generation unit, activate the signal that the reset button does
 	 * which means the consequences of physical and software reset should be the same.
 	 */
-	LPC_RGU->RESET_CTRL0 = _BIT(RGU_CORE_RST);
-	LPC_RGU->RESET_CTRL0 = 0;
+	Chip_RGU_TriggerReset(RGU_CORE_RST);
+	Chip_RGU_ClearReset(RGU_CORE_RST);
 }
 
 #define REPROGRAMMING_UART_BAUD		115200

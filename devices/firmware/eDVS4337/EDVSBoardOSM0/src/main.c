@@ -29,6 +29,7 @@ __RAMFUNC(RAM) int main(void) {
 	uart.rxBufferWritePointer = 0;
 	uart.txBufferWritePointer = 0;
 	__core_m0_has_started__ = 1;
+	uint32_t DVSEventPointer;
 	uint32_t DVSEventTime, DVSEventTimeOld;
 	uint16_t DVSEvent;
 #if EXTENDED_TIMESTAMP
@@ -44,15 +45,17 @@ __RAMFUNC(RAM) int main(void) {
 		 */
 		DVSEventTime = Chip_TIMER_ReadCapture(LPC_TIMER1, TIMER_CAPTURE_CHANNEL);
 		if (DVSEventTime != DVSEventTimeOld) {
-			DVSEvent = Chip_GPIO_GetPortValue(LPC_GPIO_PORT,
-			EVENT_PORT) & PIN_ALL_ADDR;
+			DVSEvent = Chip_GPIO_GetPortValue(LPC_GPIO_PORT, EVENT_PORT) & PIN_ALL_ADDR;
 			events.currentEventRate++;
-			events.eventBufferWritePointer = ((events.eventBufferWritePointer + 1) & DVS_EVENTBUFFER_MASK);
-			if (events.eventBufferWritePointer == events.eventBufferReadPointer) {
+			DVSEventPointer = ((events.eventBufferWritePointer + 1) & DVS_EVENTBUFFER_MASK);
+			if (DVSEventPointer == events.eventBufferReadPointer) {
+				while (events.ringBufferLock) {
+					__NOP(); //Wait for the M4 to finish with the queue
+				}
 				events.eventBufferReadPointer = ((events.eventBufferReadPointer + 1) & DVS_EVENTBUFFER_MASK);
 			}
-			events.eventBufferA[events.eventBufferWritePointer] = DVSEvent; // store event
-			events.eventBufferTimeLow[events.eventBufferWritePointer] = DVSEventTime; // store event time
+			events.eventBufferA[DVSEventPointer] = DVSEvent; // store event
+			events.eventBufferTimeLow[DVSEventPointer] = DVSEventTime; // store event time
 			//With the extended timestamp the timestamp overflows every 70 minutes.
 #if EXTENDED_TIMESTAMP
 			/**
@@ -62,8 +65,9 @@ __RAMFUNC(RAM) int main(void) {
 			if (DVSEventTime < DVSEventTimeOld) {
 				DVSEventTimeHigh++;
 			}
-			events.eventBufferTimeHigh[events.eventBufferWritePointer] = DVSEventTimeHigh; // store event time
+			events.eventBufferTimeHigh[DVSEventPointer] = DVSEventTimeHigh; // store event time
 #endif
+			events.eventBufferWritePointer = DVSEventPointer; // Only update the write pointer after being finished with the write operation
 			DVSEventTimeOld = DVSEventTime;
 		}
 		/*

@@ -331,22 +331,46 @@ void SysTick_Handler(void) {
 	static uint16_t second_timer = 0;
 	if (++decay_motor_velocity >= 100) {
 		decay_motor_velocity = 0;
-		if (motor0.requestedDutycycle != 0 && (motor0.controlMode == DIRECT_MODE)) {
-			motor0.requestedDutycycle = (motor0.requestedDutycycle * 90) / 100;
-			updateMotorDutyCycle(0, motor0.requestedDutycycle);
+		if (motor0.controlMode & DECAY_MODE) {
+			if (motor0.decayCounter == 0) {
+				if (motor0.controlMode & DIRECT_MODE) {
+					if (motor0.requestedWidth != 0) {
+						motor0.requestedWidth = (motor0.requestedWidth * 90) / 100;
+						updateMotorWidth(0, motor0.requestedWidth);
+					}
+				} else {
+					if (motor0.requestedVelocity != 0) {
+						motor0.requestedVelocity--;
+					}
+				}
+			} else {
+				motor0.decayCounter--;
+			}
 		}
-		if (motor1.requestedDutycycle != 0 && (motor1.controlMode == DIRECT_MODE)) {
-			motor1.requestedDutycycle = (motor1.requestedDutycycle * 90) / 100;
-			updateMotorDutyCycle(1, motor1.requestedDutycycle);
+		if (motor1.controlMode & (DECAY_MODE)) {
+			if (motor1.decayCounter == 0) {
+				if (motor1.controlMode & DIRECT_MODE) {
+					if (motor1.requestedWidth != 0) {
+						motor1.requestedWidth = (motor1.requestedWidth * 90) / 100;
+						updateMotorWidth(1, motor1.requestedWidth);
+					}
+				} else {
+					if (motor1.requestedVelocity != 0) {
+						motor1.requestedVelocity--;
+					}
+				}
+			}else{
+				motor1.decayCounter--;
+			}
 		}
 	}
 #if USE_MINIROB
 	//if (++motor_velocity >= 5) {
 	//motor_velocity = 0;
-	if (motor0.controlMode == VELOCITY_MODE) {
+	if (motor0.controlMode & VELOCITY_MODE) {
 		motor0.updateRequired = 1;
 	}
-	if (motor1.controlMode == VELOCITY_MODE) {
+	if (motor1.controlMode & VELOCITY_MODE) {
 		motor1.updateRequired = 1;
 	}
 	//}

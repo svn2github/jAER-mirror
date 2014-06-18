@@ -9,6 +9,10 @@
 #define UTILS_H_
 #include "chip.h"
 #include <stdint.h>
+
+extern RTC_TIME_T buildTime;
+
+
 /**
  * Busy looping using the RI timer in the LPC4337
  * @param[in] us microseconds for the delay

@@ -27,7 +27,7 @@ __NOINIT(RAM5) volatile struct uart_hal uart;
 
 unsigned char commandLine[UART_COMMAND_LINE_MAX_LENGTH];
 uint32_t commandLinePointer;
-uint32_t enableUARTecho;	 										// 0-no cmd echo, 1-only cmd reply, 2-all visible
+uint32_t enableUARTecho;	 // 0-no cmd echo, 1-only cmd reply, 2-all visible
 
 // *****************************************************************************
 #define UARTReturn()	   xputc('\n')
@@ -87,7 +87,8 @@ void UARTInit(LPC_USART_T* UARTx, uint32_t baudrate) {
 		Chip_SCU_PinMuxSet(1, 14, MD_BUK | MD_EZI | FUNC1);
 		Chip_SCU_PinMuxSet(5, 2, MD_PLN_FAST | FUNC4);
 		Chip_SCU_PinMuxSet(5, 4, MD_BUK | MD_EZI | FUNC4);
-		Chip_UART_SetModemControl(LPC_UART1, UART_MCR_AUTO_RTS_EN | UART_MCR_AUTO_CTS_EN);
+		Chip_UART_SetModemControl(LPC_UART1,
+		UART_MCR_AUTO_RTS_EN | UART_MCR_AUTO_CTS_EN);
 	}
 	Chip_UART_Init(UARTx);
 	Chip_UART_SetBaudFDR(UARTx, baudrate);
@@ -100,24 +101,23 @@ void UARTInit(LPC_USART_T* UARTx, uint32_t baudrate) {
 void UARTShowVersion(void) {
 	xputs("\nEDVS-4337, V" SOFTWARE_VERSION);
 #if USE_IMU_DATA
-	xputs("_IMU");
+	xputs(" IMU");
 #endif
 #if USE_MINIROB
-	xputs("_MROB");
+	xputs(" MROB");
 #endif
 #if USE_SDCARD
-	xputs("_SD");
+	xputs(" SD");
 #endif
 #if LOW_POWER_MODE
-	xputs("_LP");
+	xputs(" LP");
 #endif
 #if EXTENDED_TIMESTAMP
-	xputs("_ET");
+	xputs(" ET");
 #endif
+	xputs(" " __DATE__ ", " __TIME__ "\n");
 
-	xputs("\n" __DATE__ ", " __TIME__ "\n");
-	xprintf("\nSystem Clock: %2dMHz / 192 -> %dns event time resolution\n", SystemCoreClock / MHZ,
-			(1000 / (SystemCoreClock / (192 * MHZ))));
+	xprintf("System Clock: %3dMHz; 1us event time resolution\n", SystemCoreClock / MHZ);
 }
 
 // *****************************************************************************
@@ -129,71 +129,85 @@ static void UARTShowUsage(void) {
 	xputs("Supported Commands:\n");
 	UARTReturn();
 
-	xputs(" E+/-                       - enable/disable event sending\n");
+	xputs(" E+/-                  - enable/disable event sending\n");
 #if USE_SDCARD
-	xputs(" !ER+/-                       - enable/disable event recording in the SD card\n");
+	xputs(" !ER+/-                - enable/disable event recording (SD card)\n");
 #endif
-	xputs(" !ETx                       - set the timestamp counter to x (default: 0)\n");
-	xputs(" !Ex                        - specify event data format, ??E to list options\n");
+	xputs(" !Ex                   - specify event data format, ??E to show options\n");
+	xputs(" !ETx                  - set current timestamp to x (default: 0)\n");
+	xputs(" !ETM+                 - synch timestamp, master mode, output active\n");
+	xputs(" !ETM0                 - synch timestamp, master mode, output stopped\n");
+	xputs(" !ETS                  - synch timestamp, slave mode\n");
+	xputs(" !ETI                  - single retina, no external synch mode\n");
 	UARTReturn();
 
-	xputs(" !A=[0-1023]                - set analog output");
+	xputs(" !B[0-11]=x            - set bias register to value\n"); // please check, I have removed leading "0x" --- can we change this to decimal reception?
+	xputs(" !BF                   - send bias settings to DVS (flush)\n");
+	xputs(" !BDx                  - select and flush predefined bias set x\n");
+	xputs(" ?Bx                   - get bias register x current value\n");
 	UARTReturn();
 
-	xputs(" !B[0-11]=[0-0xFFFFFF]      - set bias register to the value \n");
-	xputs(" !BF                        - send bias settings to DVS\n");
-	xputs(" !BDx                       - select and flush default bias set (def: set 5)\n");
-	xputs(" ?Bx                        - get bias register x current value\n");
+//     xputs(" ?Ax                   - get analog input");   // TODO
+//     xputs(" !D=x                  - set digital output");  // TODO
+//     xputs(" ?Dx                   - get digital input");// TODO
+//     UARTReturn();
+
+	xputs(" !L[0,1,2]             - LED off/on/blinking\n");
+	xputs(" !U=x                  - set baud rate to x\n");
+	xputs(" !U[0,1,2]             - UART echo mode (none, cmd-reply, all)\n");
 	UARTReturn();
 
-	xputs(" 0,1,2                      - LED off/on/blinking\n");
-	xputs(" !U=x                       - set baud rate to x\n");
-	xputs(" !U[0,1,2]                  - UART echo mode (none, cmd-reply, all)\n");
+	xputs(" !S[+/-],b,p           - enable/disable sensors streaming, ??S to show options\n");
+	xputs(" ?Sb                   - get sensor readouts according to bitmap b\n");
+	xputs(" ??S                   - bitmap b options\n");
 	UARTReturn();
 
-	xputs(" !Sn,b,p                    - enable/disable sensors streaming\n");
-	xputs(" ?Sb                        - get sensor readouts according to the bitmap b\n");
-	xputs(" ??S                        - Bitmap b options\n");
+//     xputs(" !A=[0-1023]           - set (internal) analog output");  // TODO (only useful with sleep mode) --- in fact not useful, please remove
+//     xputs(" S[=x]                 - enter sleep mode (with wake-up threshold specified by x [0-1023]\n");    // TODO
+	xputs(" R                     - reset board\n");
+	xputs(" P                     - enter reprogramming mode\n");
 	UARTReturn();
 
-	xputs(" R                          - reset board\n");
-	//TODO:xputs(" S                          - enter sleep mode\n");
-	xputs(" P                          - enter reprogramming mode\n");
-	UARTReturn();
-
-	xputs(" !M+/-                      - enable/disable motor driver\n");
-	xputs(" !M[0,1]=[0-100]            - set motor duty cycle \n");
-	xputs(" !MP[0,1]=[1-10000000]      - set motor PWM frequency in Hz\n");
-	xputs(" !MD[0,1]=[0-100]           - set motor duty cycle, it decays within 1 sec\n");
+	xputs(" !M+/-                 - enable/disable motor driver\n");
+	xputs(" !MP[0,1]=x            - set motor PWM period in microseconds\n");
+	xputs(" !M[0,1]=[%]x          - set motor duty width in microseconds [% 0..100]\n");
 #if USE_MINIROB
-	xputs(" !MV[0,1]=[0-100]           - set motor velocity\n");
+	xputs(" !MV[0,1]=[0-100]      - set motor velocity (internal P-controller for PushBot)\n");
+#endif
+	xputs(" !MD[0,1]=[%]          - set motor duty width, slow decay [% 0..100]\n");
+#if USE_MINIROB
+	xputs(" !MVD[0,1]=x           - set motor duty velocity, slow decay\n");
 #endif
 	UARTReturn();
 
-	xputs(" !P[A,B,C]=[0-10000000]     - set Timer base period in microseconds\n");
-	xputs(" !P[A,B,C][0,1]=[0-1000000] - set Timer channel width in microseconds\n");
-	xputs(" !P[A,B,C][0,1]=%%y          - set Timer channel  with duty cycle [0-100]\n");
+	xputs(" !P[A,B,C]=x           - set timer base period in microseconds\n");
+	xputs(" !P[A,B,C][0,1]=[%]x   - set timer channel width in microseconds [% 0..100]\n");
 	UARTReturn();
 
-	xputs(" !T+/-                      - enable/disable RTC\n");
-	xputs(" !Tyyyy-mm-dd hh:mm:ss      - set RTC time\n");
-	xputs(" ?T                         - get RTC time\n");
+	xputs(" !T+/-                 - enable/disable Real Time Clock (RTC)\n");
+	xputs(" !Tyyyy-mm-dd hh:mm:ss - set RTC time\n");
+	xputs(" ?T                    - get RTC time\n");
 	UARTReturn();
 
-	xputs(" ??                         - display help\n");
+	xputs(" ??                    - display (this) help\n");
 	UARTReturn();
 }
 
 static inline void UARTShowEventDataOptions(void) {
-	xputs(" !E0   - 2 bytes per event binary 1yyyyyyy.pxxxxxxx (default)\n");
-	xputs(" !E1   - 4 bytes per event (as above followed by 16bit timestamp 1us res)\n");
-	xputs(" !E2   - 5 bytes per event (as above followed by 24bit timestamp 1us res)\n");
-	xputs(" !E3   - 1..3 bytes timestamp (7bits each), time difference (1us resolution)\n");
+	xputs("List of available event data formats:\n");
+	xputs(" !E0   - 2 bytes per event, binary: 1yyyyyyy.pxxxxxxx (default)\n");
+	xputs(" !E1   - 3..5 bytes per event, 1..3 bytes delta-timestamp (7bits each)\n");
+	xputs(" !E2   - 4 bytes per event (as !E0 followed by 16bit timestamp)\n");
+	xputs(" !E3   - 5 bytes per event (as !E0 followed by 24bit timestamp)\n");
+	xputs(" !E4   - 6 bytes per event (as !E0 followed by 32bit timestamp)\n");
+	UARTReturn();
+	xputs(" Every timestamp has 1us resolution\n");
 	UARTReturn();
 }
 
 static inline void UARTShowSensorOptions(void) {
-	xputs(" Bit Name     # Values	 Description\n");
+	xputs("Bitlist for available sensors:\n");
+	xputs(" Bit Name     # Values  Description\n");
 	xputs(" 0   BATTERY         1  raw battery voltage level\n");
 	xputs(" 1   ADC_CHANNEL0    1  raw ADC reading from pin 2\n");
 	xputs(" 2   ADC_CHANNEL1    1  raw ADC reading from pin 3\n");
@@ -202,7 +216,7 @@ static inline void UARTShowSensorOptions(void) {
 	xputs(" 5   ADC_CHANNEL4    1  raw ADC reading from pin 6\n");
 	xputs(" 6   ADC_CHANNEL5    1  raw ADC reading from pin 7\n");
 #if USE_IMU_DATA
-	xputs(" 7   GYROMETER       3  raw gyrometer data for 3 axis\n");
+	xputs(" 7   GYROMETER       3  raw gyroscope data for 3 axis\n");
 	xputs(" 8   ACCELEROMETER   3  raw accelerometer data for 3 axis\n");
 	xputs(" 9   COMPASS         3  raw magnetic values for 3 axis\n");
 	xputs(" 10  TEMPERATURE     1  computed values from the temperature sensor\n");
@@ -253,7 +267,7 @@ static void UARTParseGetCommand(void) {
 		unsigned char *c;
 		int32_t biasID;
 
-		c = commandLine + 2;					// send bias value as decimal value
+		c = commandLine + 2;				// send bias value as decimal value
 		if ((*c == 'A') || (*c == 'a')) {
 			for (biasID = 0; biasID < 12; biasID++) {
 				xprintf("-B%d=%d\n", biasID, DVS128BiasGet(biasID));
@@ -326,7 +340,7 @@ static void UARTParseSetCommand(void) {
 		unsigned char *c;
 		long biasID, biasValue;
 
-		if ((commandLine[2] == 'F') || (commandLine[2] == 'f')) {	   	// flush bias values to DVS chip
+		if ((commandLine[2] == 'F') || (commandLine[2] == 'f')) {				// flush bias values to DVS chip
 			if ((enableEventSending == 0) && (enableUARTecho > 1)) {
 				xputs("-BF\n");
 			}
@@ -334,7 +348,7 @@ static void UARTParseSetCommand(void) {
 			break;
 		}
 
-		if ((commandLine[2] == 'D') || (commandLine[2] == 'd')) {	   	// load and flush default bias set
+		if ((commandLine[2] == 'D') || (commandLine[2] == 'd')) {				// load and flush default bias set
 			if ((commandLine[3] >= '0') && (commandLine[3] <= '5')) {
 				if ((enableEventSending == 0) && (enableUARTecho > 1)) {
 					xprintf("-BD%c\n", commandLine[3]);
@@ -360,14 +374,80 @@ static void UARTParseSetCommand(void) {
 
 	case 'E':
 	case 'e': {
-
 		unsigned char *c = commandLine + 2;
-		if ((*c >= '0') && (*c <= '3')) {
-			eDVSDataFormat = ((*c) - '0');
-			if ((enableEventSending == 0) && (enableUARTecho > 1)) {
-				xprintf("-E%d\n", eDVSDataFormat);
+		if ((*c == 't') || (*c == 'T')) { // set new event time
+			c++;
+			if ((*c == 's') || (*c == 'S')) { // set to clk-slave (use external pin CAP1 instead of internal clock)
+				eDVSMode = EDVS_MODE_SLAVE;
+				Chip_TIMER_Disable(LPC_TIMER1); //   disable Timer/Counter 1
+				timerDelayUs(10); //Wait for any events that are being placed in the buffer
+				events.eventBufferReadPointer = events.eventBufferWritePointer; //clearing the buffer
+				Chip_TIMER_PrescaleSet(LPC_TIMER1, 0);	// prescaler: run at 192Mhz to check for input
+				Chip_SCU_PinMuxSet(SYNCHRONIZATION_PORT, SYNCHRONIZATION_PIN, SCU_PINIO_FAST | FUNC3);
+				//Select the capture input pin in the Global Input Multiplexer Array
+				LPC_GIMA->CAP0_IN[1][0] = (uint32_t) (0x0 << 4);
+
+				Chip_TIMER_CaptureRisingEdgeEnable(LPC_TIMER1, SYNCHRONIZATION_CHANNEL);
+				Chip_TIMER_CaptureFallingEdgeEnable(LPC_TIMER1, SYNCHRONIZATION_CHANNEL);
+				Chip_TIMER_CaptureDisableInt(LPC_TIMER1, SYNCHRONIZATION_CHANNEL);
+				Chip_TIMER_TIMER_SetCountClockSrc(LPC_TIMER1, TIMER_CAPSRC_BOTH_CAPN, SYNCHRONIZATION_CHANNEL);
+				Chip_TIMER_Reset(LPC_TIMER1);
+				Chip_TIMER_Enable(LPC_TIMER1);
+				xputs("-ETS\n");
+				break;
+			} else if ((*c == 'm') || (*c == 'M')) { // enable PWM2 (P0.7) to serve as clock for others
+				c++;
+				if (*c == '0') {
+					eDVSMode = EDVS_MODE_MASTER_ARMED;
+					Chip_TIMER_Init(LPC_TIMER3);
+					Chip_TIMER_PrescaleSet(LPC_TIMER3, 95); //192/(95+1)=2 Mhz
+					Chip_TIMER_ResetOnMatchEnable(LPC_TIMER3, 1);
+					Chip_TIMER_StopOnMatchDisable(LPC_TIMER3, 1);
+					Chip_TIMER_MatchDisableInt(LPC_TIMER3, 1);
+					Chip_TIMER_SetMatch(LPC_TIMER3, 1, 1); // enable this output channel
+					Chip_TIMER_ExtMatchControlSet(LPC_TIMER3, 0, TIMER_EXTMATCH_CLEAR, 1);
+					Chip_SCU_PinMuxSet(SYNCHRONIZATION_PORT, SYNCHRONIZATION_PIN, SCU_PINIO_FAST | FUNC6);
+					Chip_TIMER_Enable(LPC_TIMER3);
+					Chip_TIMER_Enable(LPC_TIMER1); // Restart capturing
+					xputs("-ETM0\n");
+				} else {
+					eDVSMode = EDVS_MODE_MASTER_RUNNING;
+					Chip_TIMER_Disable(LPC_TIMER3);
+					Chip_TIMER_ExtMatchControlSet(LPC_TIMER3, 0, TIMER_EXTMATCH_TOGGLE, 1);
+					Chip_SCU_PinMuxSet(SYNCHRONIZATION_PORT, SYNCHRONIZATION_PIN, SCU_PINIO_FAST | FUNC6);
+					Chip_TIMER_Disable(LPC_TIMER1); //   disable Timer/Counter 1
+					timerDelayUs(10); //Wait for any events that are being placed in the buffer
+					events.eventBufferReadPointer = events.eventBufferWritePointer;
+					Chip_TIMER_Reset(LPC_TIMER1);
+					Chip_TIMER_Enable(LPC_TIMER3); //Starts the clock out
+					Chip_TIMER_Enable(LPC_TIMER1); // Restart capturing
+					xputs("-ETM+\n");
+				}
+				break;
+			} else if ((*c == 'i') || (*c == 'I')) {
+				//Returning to retina mode.
+				switch (eDVSMode) {
+				case EDVS_MODE_SLAVE:
+					Chip_RGU_TriggerReset(RGU_TIMER1_RST); // reset timer 1
+					Chip_TIMER_DeInit(LPC_TIMER1);
+					DVS128InitTimer();
+					/* Fall-through*/
+				case EDVS_MODE_MASTER_ARMED:
+				case EDVS_MODE_MASTER_RUNNING:
+					eDVSMode = EDVS_MODE_INTERNAL;
+					PWMSetPeriod(0, 0); //calling this function will reset Timer3 normal operation
+					break;
+				case EDVS_MODE_INTERNAL: //do nothing
+				default:
+					break;
+				}
+				xputs("-ETI\n");
+				break;
+			} else {
+				c++;
+				LPC_TIMER1->TC = parseUInt32(&c);
+				break;
 			}
-			break;
 		}
 #if USE_SDCARD
 		if ((*c == 'R') || (*c == 'r')) {
@@ -381,9 +461,31 @@ static void UARTParseSetCommand(void) {
 			}
 		}
 #endif
-		if ((*c == 'T') || (*c == 't')) {
-			c++;
-			LPC_TIMER1->TC = parseUInt32(&c);
+		if ((*c >= '0') && (*c <= '4')) {
+			eDVSDataFormat = ((*c) - '0');
+			if ((enableEventSending == 0) && (enableUARTecho > 1)) {
+				xprintf("-E%d\n", eDVSDataFormat);
+			}
+			break;
+		}
+
+		xputs("Set: parsing error\n");
+		break;
+	}
+
+	case 'L':
+	case 'l': {
+		unsigned char *c = commandLine + 2;
+		if (*c == '0') {
+			LED0SetBlinking(DISABLE);
+			LED0SetOff();
+			break;
+		} else if (*c == '1') {
+			LED0SetBlinking(DISABLE);
+			LED0SetOn();
+			break;
+		} else if (*c == '2') {
+			LED0SetBlinking(ENABLE);
 			break;
 		}
 		xputs("Set: parsing error\n");
@@ -405,15 +507,33 @@ static void UARTParseSetCommand(void) {
 			c++;
 			motorId = parseUInt32(&c);
 			c++;
-			if (updateMotorDutyCycleDecay(motorId, parseInt32(&c))) {
-				xputs("Error setting motor speed\n");
-				break;
+			if (*c == '%') {
+				c++;
+				if (updateMotorDutyCycleDecay(motorId, parseInt32(&c))) {
+					xputs("Error setting motor speed\n");
+					break;
+				}
+			} else {
+				if (updateMotorWidthDecay(motorId, parseInt32(&c))) {
+					xputs("Error setting motor speed\n");
+					break;
+				}
+
 			}
 			break;
 		}
 #if USE_MINIROB
 		if ((*c == 'V') || (*c == 'v')) {
 			c++;
+			if ((*c == 'D') || (*c == 'd')) {
+				c++;
+				motorId = parseUInt32(&c);
+				c++;
+				if (updateMotorVelocityDecay(motorId, parseInt32(&c))) {
+					xputs("Error setting motor speed\n");
+					break;
+				}
+			}
 			motorId = parseUInt32(&c);
 			c++;
 			if (updateMotorVelocity(motorId, parseInt32(&c))) {
@@ -426,7 +546,7 @@ static void UARTParseSetCommand(void) {
 			c++;
 			motorId = parseUInt32(&c);
 			c++;
-			if (updateMotorPWMFrequency(motorId, parseUInt32(&c))) {
+			if (updateMotorPWMPeriod(motorId, parseUInt32(&c))) {
 				xputs("Error setting motor PWM\n");
 			}
 			break;
@@ -437,9 +557,18 @@ static void UARTParseSetCommand(void) {
 			xputs("Error setting motor mode\n");
 			break;
 		}
-		if (updateMotorDutyCycle(motorId, parseInt32(&c))) {
-			xputs("Error setting motor PWM dutycycle\n");
+		if (*c == '%') {
+			c++;
+			if (updateMotorDutyCycle(motorId, parseInt32(&c))) {
+				xputs("Error setting motor speed\n");
+				break;
+			}
+		} else {
+			if (updateMotorWidth(motorId, parseInt32(&c))) {
+				xputs("Error setting motor width\n");
+			}
 		}
+
 		break;
 	}
 
@@ -496,6 +625,7 @@ static void UARTParseSetCommand(void) {
 		if (*c == '+') {
 			Chip_RTC_Init(LPC_RTC);
 			Chip_RTC_Enable(LPC_RTC, ENABLE);
+			Chip_RTC_SetFullTime(LPC_RTC, &buildTime);
 			xputs("-T+\n");
 			break;
 		} else if (*c == '-') {
@@ -512,17 +642,21 @@ static void UARTParseSetCommand(void) {
 			xputs("RTC not enabled\n");
 			break;
 		}
-		Chip_RTC_SetTime(LPC_RTC, RTC_TIMETYPE_YEAR, parseUInt32(&c));
+		RTC_TIME_T time;
+		time.time[RTC_TIMETYPE_DAYOFWEEK] = 0;
+		time.time[RTC_TIMETYPE_DAYOFYEAR] = 1;
+		time.time[RTC_TIMETYPE_YEAR] = parseUInt32(&c);
 		c++;
-		Chip_RTC_SetTime(LPC_RTC, RTC_TIMETYPE_MONTH, parseUInt32(&c));
+		time.time[RTC_TIMETYPE_MONTH] = parseUInt32(&c);
 		c++;
-		Chip_RTC_SetTime(LPC_RTC, RTC_TIMETYPE_DAYOFMONTH, parseUInt32(&c));
+		time.time[RTC_TIMETYPE_DAYOFMONTH] = parseUInt32(&c);
 		c++;
-		Chip_RTC_SetTime(LPC_RTC, RTC_TIMETYPE_HOUR, parseUInt32(&c));
+		time.time[RTC_TIMETYPE_HOUR] = parseUInt32(&c);
 		c++;
-		Chip_RTC_SetTime(LPC_RTC, RTC_TIMETYPE_MINUTE, parseUInt32(&c));
+		time.time[RTC_TIMETYPE_MINUTE] = parseUInt32(&c);
 		c++;
-		Chip_RTC_SetTime(LPC_RTC, RTC_TIMETYPE_SECOND, parseUInt32(&c));
+		time.time[RTC_TIMETYPE_SECOND] = parseUInt32(&c);
+		Chip_RTC_SetFullTime(LPC_RTC, &time);
 		break;
 	}
 
@@ -578,19 +712,6 @@ static void parseRS232CommandLine(void) {
 	case 'r':
 		resetDevice();
 		break;
-
-	case '0':
-		LED0SetBlinking(DISABLE);
-		LED0SetOff();
-		break;
-	case '1':
-		LED0SetBlinking(DISABLE);
-		LED0SetOn();
-		break;
-	case '2':
-		LED0SetBlinking(ENABLE);
-		break;
-
 	case 'E':
 	case 'e':
 		if (commandLine[1] == '+') {

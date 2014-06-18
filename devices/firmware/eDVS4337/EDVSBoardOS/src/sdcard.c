@@ -31,8 +31,10 @@
 /* Disk Status */
 static volatile DSTATUS Stat = STA_NOINIT;
 
-__NOINIT(RAM) struct sdcard sdcard;
+__NOINIT(RAM3) struct sdcard sdcard;
 static mci_card_struct sdcardinfo;
+
+
 
 void setSDCardRecord(uint32_t flag) {
 	sdcard.shouldRecord = flag ? 1 : 0;
@@ -40,30 +42,37 @@ void setSDCardRecord(uint32_t flag) {
 		f_mount(&sdcard.fs, "", 0); //always ok, doesn't actually talks to card
 		if (f_opendir(&sdcard.dir, "/") == FR_OK) {
 			getFilename(sdcard.filename);
-			if (f_open(&sdcard.outputFile, sdcard.filename, FA_WRITE | FA_CREATE_NEW | FA_OPEN_ALWAYS) == FR_OK) {
+			if (f_open(&sdcard.outputFile, sdcard.filename,
+			FA_WRITE | FA_CREATE_NEW | FA_OPEN_ALWAYS) == FR_OK) {
 				xputs("-ER+\n");
 				sdcard.isRecording = 1;
 				sdcard.fileBufferIndex = 0;
 			} else {
 				xputs("-ER-\n");
-				f_mount(NULL, "", 0); //unmounting the card
+				f_mount(NULL, "", 1); //unmounting the card
+				Chip_SDIF_DeInit(LPC_SDMMC);
 			}
 		} else {
 			xputs("-ER-\n");
-			f_mount(NULL, "", 0); //unmounting the card
+			f_mount(NULL, "", 1); //unmounting the card
+			Chip_SDIF_DeInit(LPC_SDMMC);
 		}
 	} else {
+		/* Reset */
+		Stat = STA_NOINIT;
 		if (sdcard.isRecording) {
 			xputs("-ER-\n");
 			sdcard.isRecording = 0;
 			if (sdcard.fileBufferIndex != 0) {
-				f_write(&sdcard.outputFile, sdcard.fileBuffer, sdcard.fileBufferIndex, &sdcard.bytesWritten); //write data
+				f_write(&sdcard.outputFile, sdcard.fileBuffer,
+						sdcard.fileBufferIndex, &sdcard.bytesWritten); //write data
 				sdcard.bytesWrittenPerSecond += sdcard.bytesWritten;
 				sdcard.fileBufferIndex = 0;
 			}
 			f_close(&sdcard.outputFile);
 		}
-		f_mount(NULL, "", 0); //unmounting the card}
+		f_mount(NULL, "", 1); //unmounting the card
+		Chip_SDIF_DeInit(LPC_SDMMC);
 	}
 }
 
@@ -120,13 +129,15 @@ void SDIO_IRQHandler(void) {
 }
 
 void SDCardInit(void) {
-
+	/* Reset */
+	Stat = STA_NOINIT;
 	Chip_SCU_PinMuxSet(SD_CMD_PORT, SD_CMD_PIN, MD_PLN_FAST | FUNC7);
 	Chip_SCU_PinMuxSet(SD_DAT0_PORT, SD_DAT0_PIN, MD_PLN_FAST | FUNC7);
 	Chip_SCU_PinMuxSet(SD_DAT1_PORT, SD_DAT1_PIN, MD_PLN_FAST | FUNC7);
 	Chip_SCU_PinMuxSet(SD_DAT2_PORT, SD_DAT2_PIN, MD_PLN_FAST | FUNC7);
 	Chip_SCU_PinMuxSet(SD_DAT3_PORT, SD_DAT3_PIN, MD_PLN_FAST | FUNC7);
-	Chip_SCU_PinMuxSet(SD_CS_PORT, SD_CS_PIN, SCU_MODE_REPEATER | MD_EZI | MD_ZI | FUNC7);
+	Chip_SCU_PinMuxSet(SD_CS_PORT, SD_CS_PIN,
+	SCU_MODE_REPEATER | MD_EZI | MD_ZI | FUNC7);
 	Chip_SCU_ClockPinMuxSet(SD_CLK, MD_PLN_FAST | FUNC4);
 	memset(&sdcard, 0, sizeof(struct sdcard));
 	memset(&sdcardinfo, 0, sizeof(sdcardinfo));
@@ -145,12 +156,13 @@ void SDCardInit(void) {
  */
 DWORD get_fattime() {
 	if (!Chip_RTC_Clock_Running()) {
-		return ((DWORD) (2014 - 1980) << 25) /* Year = 2014 */
-		| ((DWORD) 1 << 21) /* Month = 1 */
-		| ((DWORD) 1 << 16) /* Day_m = 1*/
-		| ((DWORD) 0 << 11) /* Hour = 0 */
-		| ((DWORD) 0 << 5) /* Min = 0 */
-		| ((DWORD) 0 >> 1); /* Sec = 0 */
+		//With the RTC clock it will use the build time
+		return ((DWORD) (buildTime.time[RTC_TIMETYPE_YEAR] - 1980) << 25) /* Year = 2014 */
+		| ((DWORD) buildTime.time[RTC_TIMETYPE_MONTH] << 21) /* Month = 1 */
+		| ((DWORD) buildTime.time[RTC_TIMETYPE_DAYOFMONTH] << 16) /* Day_m = 1*/
+		| ((DWORD) buildTime.time[RTC_TIMETYPE_HOUR] << 11) /* Hour = 0 */
+		| ((DWORD) buildTime.time[RTC_TIMETYPE_MINUTE] << 5) /* Min = 0 */
+		| ((DWORD) buildTime.time[RTC_TIMETYPE_SECOND] >> 1); /* Sec = 0 */
 
 	}
 	/* Pack date and time into a DWORD variable */
@@ -233,7 +245,8 @@ UINT count) /* Sector count (1..128) */
 
 	if (count == 0)
 		return RES_PARERR;
-	bytes_transferred = Chip_SDMMC_WriteBlocks(LPC_SDMMC, (BYTE *) buf, sector, count);
+	bytes_transferred = Chip_SDMMC_WriteBlocks(LPC_SDMMC, (BYTE *) buf, sector,
+			count);
 	if (bytes_transferred != count * MMC_SECTOR_SIZE)
 		return RES_ERROR;
 	return RES_OK;
@@ -241,31 +254,58 @@ UINT count) /* Sector count (1..128) */
 
 DRESULT disk_ioctl(BYTE drv, /* Physical drive nmuber (0) */
 BYTE ctrl, /* Control code */
-void *buf) /* Buffer to send/receive control data */
+void *buff) /* Buffer to send/receive control data */
 {
-	int stat = disk_status(drv);
-	int size;
 
-	if (stat != STA_OK && stat != STA_PROTECT)
-		return RES_ERROR;
+	if (drv) {
+		return RES_PARERR;
+	}
+	if (Stat & STA_NOINIT) {
+		return RES_NOTRDY;
+	}
 
 	switch (ctrl) {
 	case CTRL_SYNC:
 		return RES_OK;
 
 	case GET_SECTOR_COUNT:
-		size = Chip_SDMMC_GetDeviceSize(LPC_SDMMC);
-		*(DWORD *) buf = size / MMC_SECTOR_SIZE;
+		*(DWORD *) buff = Chip_SDMMC_GetDeviceBlocks(LPC_SDMMC);
 		return RES_OK;
 
 	case GET_SECTOR_SIZE:
-		*(DWORD *) buf = MMC_SECTOR_SIZE;
+		*(DWORD *) buff = sdcardinfo.card_info.block_len;
 		return RES_OK;
 
 	case GET_BLOCK_SIZE:
-		*(DWORD *) buf = 1;
+		*(DWORD *) buff = (4UL * 1024);	//Fixed to 4K
 		return RES_OK;
 
+	case MMC_GET_TYPE: /* Get card type flags (1 byte) */
+		*(BYTE *) buff = sdcardinfo.card_info.card_type;
+		return RES_OK;
+
+	case MMC_GET_CSD: /* Receive CSD as a data block (16 bytes) */
+		*((uint32_t *) buff + 0) = sdcardinfo.card_info.csd[0];
+		*((uint32_t *) buff + 1) = sdcardinfo.card_info.csd[1];
+		*((uint32_t *) buff + 2) = sdcardinfo.card_info.csd[2];
+		*((uint32_t *) buff + 3) = sdcardinfo.card_info.csd[3];
+		return RES_OK;
+
+	case MMC_GET_CID: /* Receive CID as a data block (16 bytes) */
+		*((uint32_t *) buff + 0) = sdcardinfo.card_info.cid[0];
+		*((uint32_t *) buff + 1) = sdcardinfo.card_info.cid[1];
+		*((uint32_t *) buff + 2) = sdcardinfo.card_info.cid[2];
+		*((uint32_t *) buff + 3) = sdcardinfo.card_info.cid[3];
+		return RES_OK;
+
+	case MMC_GET_SDSTAT: {/* Receive SD status as a data block (64 bytes) */
+		int32_t state = Chip_SDMMC_GetState(LPC_SDMMC);
+		if (state == -1) {
+			return RES_PARERR;
+		}
+		memcpy((uint8_t *) buff, &state, sizeof(int32_t));
+		return RES_OK;
+	}
 	default:
 		return RES_PARERR;
 	}
