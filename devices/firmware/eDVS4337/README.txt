@@ -2,6 +2,7 @@ This document aims to describe the general setup of the projects needed to compi
 
 Basic steps to get the project compiling:
 1. Download the LPCXpresso IDE from http://www.lpcware.com/lpcxpresso/download and install it. After the installation is completed, open the LPCXpresso IDE and select an empty workspace. If LPCXpresso was already installed beforehand, please switch to a new empty workspace using the option in the File menu to avoid conflicts with the peripherals drivers' library.
+1a. You need to register the LPCXpresso IDE for it to work and activate, at least, the free edition.
 2. Download the latest eDVS firmware code from https://svn.code.sf.net/p/jaer/code/devices/firmware/eDVS4337/ using Subversion.
 3. Open LPCXpresso and go to File -> Import. In the new window, select the option "Existing Projects into Workspace", and go to the next step. Depending on whether you're using a zip archive or the latest SVN version, select the archive file or the root directory. There should be four projects which can be imported: 
 	a. EDVSBoardOS - The M4 codebase
