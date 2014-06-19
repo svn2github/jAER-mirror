@@ -372,7 +372,7 @@ begin
 	-- Wire all LEDs.
 	LED1_SO <= FPGARunSync_S;
 	LED2_SO <= USBFifoFPGAEmpty_S;
-	LED3_SO <= LogicReset_R;
+	LED3_SO <= USBReset_R;
 	LED4_SO <= USBFifoFPGAFull_S;
 
 	-- Only run data producers if the whole FPGA also is running.
@@ -423,7 +423,7 @@ begin
 			FULL_FLAG		  => USBFPGA_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => USBFPGA_FIFO_SIZE - USBFPGA_FIFO_ALMOST_FULL_SIZE)
 		port map (
-			Reset_RI	   => LogicReset_R,
+			Reset_RI	   => USBReset_R,
 			DataIn_DI	   => USBFifoFPGAData_D,
 			WrClock_CI	   => LogicClock_C,
 			WrEnable_SI	   => USBFifoFPGAWrite_S,
