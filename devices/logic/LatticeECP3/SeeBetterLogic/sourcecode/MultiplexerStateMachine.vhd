@@ -223,7 +223,7 @@ begin
 
 			when stTimestampReset =>
 				-- Send timestamp reset (back to zero) event to host.
-				OutFifoData_DO				   <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_TIMESTAMP_RESET;
+				OutFifoData_DO				   <= EVENT_CODE_EVENT & EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_TIMESTAMP_RESET;
 				TimestampResetBufferClear_S	   <= '1';
 				-- Also clean overflow counter, since a timestamp reset event
 				-- has higher priority and invalidates all previous time
@@ -235,7 +235,7 @@ begin
 
 			when stTimestampWrap =>
 				-- Send timestamp wrap (add 15 bits) event to host.
-				OutFifoData_DO				   <= EVENT_CODE_TIMESTAMP_WRAP & std_logic_vector(TimestampOverflowBuffer_D);
+				OutFifoData_DO				   <= EVENT_CODE_EVENT & EVENT_CODE_TIMESTAMP_WRAP & std_logic_vector(TimestampOverflowBuffer_D);
 				TimestampOverflowBufferClear_S <= '1';
 
 				OutFifoWrite_SO <= '1';
@@ -273,14 +273,14 @@ begin
 
 			when stDVSAER =>
 				-- Write out current event.
-				OutFifoData_DO	<= DVSAERFifoData_DI;
+				OutFifoData_DO	<= EVENT_CODE_EVENT & DVSAERFifoData_DI;
 				OutFifoWrite_SO <= '1';
 
 				-- The next event on the DVS AER fifo has just been read and
 				-- the data is available on the output bus. First, let's
 				-- examine it and see if we need to inject a timestamp,
 				-- if it's an Y (row) address.
-				if DVSAERFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-4) = EVENT_CODE_Y_ADDR then
+				if DVSAERFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-3) = EVENT_CODE_Y_ADDR then
 					State_DN <= stTimestamp;
 				else
 					State_DN <= stIdle;
@@ -292,14 +292,14 @@ begin
 
 			when stAPSADC =>
 				-- Write out current event.
-				OutFifoData_DO	<= APSADCFifoData_DI;
+				OutFifoData_DO	<= EVENT_CODE_EVENT & APSADCFifoData_DI;
 				OutFifoWrite_SO <= '1';
 
 				-- The next event on the APS ADC fifo has just been read and
 				-- the data is available on the output bus. First, let's
 				-- examine it and see if we need to inject a timestamp,
 				-- if it's one of the special events (SOE, EOE, SOSRR, ...).
-				if APSADCFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-4) = EVENT_CODE_SPECIAL then
+				if APSADCFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-3) = EVENT_CODE_SPECIAL then
 					State_DN <= stTimestamp;
 				else
 					State_DN <= stIdle;
@@ -311,14 +311,14 @@ begin
 
 			when stIMU =>
 				-- Write out current event.
-				OutFifoData_DO	<= IMUFifoData_DI;
+				OutFifoData_DO	<= EVENT_CODE_EVENT & IMUFifoData_DI;
 				OutFifoWrite_SO <= '1';
 
 				-- The next event on the IMU fifo has just been read and
 				-- the data is available on the output bus. First, let's
 				-- examine it and see if we need to inject a timestamp,
 				-- if it's one of the special events (Gyro axes, Accel axes, ...).
-				if IMUFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-4) = EVENT_CODE_SPECIAL then
+				if IMUFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-3) = EVENT_CODE_SPECIAL then
 					State_DN <= stTimestamp;
 				else
 					State_DN <= stIdle;
@@ -330,7 +330,7 @@ begin
 
 			when stExtTrigger =>
 				-- Write out current event.
-				OutFifoData_DO	<= ExtTriggerFifoData_DI;
+				OutFifoData_DO	<= EVENT_CODE_EVENT & ExtTriggerFifoData_DI;
 				OutFifoWrite_SO <= '1';
 
 				-- The next event on the APS ADC fifo has just been read and

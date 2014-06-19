@@ -65,7 +65,7 @@ architecture Structural of FIFO is
 
 	signal FIFOEmpty_S, FIFOAlmostEmpty_S, FIFORead_S : std_logic;
 begin  -- architecture Structural
-	fifo : pmi_fifo
+	fifo_1 : pmi_fifo
 		generic map (
 			pmi_data_width		  => DATA_WIDTH,
 			pmi_data_depth		  => DATA_DEPTH,

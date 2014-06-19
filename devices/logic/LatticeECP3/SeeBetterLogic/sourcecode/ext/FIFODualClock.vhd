@@ -75,7 +75,7 @@ architecture Structural of FIFODualClock is
 
 	signal FIFOEmpty_S, FIFOAlmostEmpty_S, FIFORead_S : std_logic;
 begin  -- architecture Structural
-	fifoDualClock : pmi_fifo_dc
+	fifoDualClock_1 : pmi_fifo_dc
 		generic map (
 			pmi_data_width_w	  => DATA_WIDTH,
 			pmi_data_width_r	  => DATA_WIDTH,
@@ -102,7 +102,6 @@ begin  -- architecture Structural
 			Full		=> Full_SO,
 			AlmostEmpty => FIFOAlmostEmpty_S,
 			AlmostFull	=> AlmostFull_SO);
-
 
 	p_comb : process (State_DP, FIFOEmpty_S, FIFOAlmostEmpty_S, RdEnable_SI)
 	begin
