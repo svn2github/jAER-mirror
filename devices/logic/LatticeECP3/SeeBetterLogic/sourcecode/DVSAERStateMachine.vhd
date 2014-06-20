@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 use work.Settings.all;
 
 entity DVSAERStateMachine is
@@ -21,17 +22,50 @@ entity DVSAERStateMachine is
 end DVSAERStateMachine;
 
 architecture Behavioral of DVSAERStateMachine is
-	type state is (stIdle, stWriteEvent, stAck);
+	component ContinuousCounter is
+		generic (
+			COUNTER_WIDTH	  : integer := 16;
+			RESET_ON_OVERFLOW : boolean := true;
+			SHORT_OVERFLOW	  : boolean := false;
+			OVERFLOW_AT_ZERO  : boolean := false);
+		port (
+			Clock_CI	 : in  std_logic;
+			Reset_RI	 : in  std_logic;
+			Clear_SI	 : in  std_logic;
+			Enable_SI	 : in  std_logic;
+			DataLimit_DI : in  unsigned(COUNTER_WIDTH-1 downto 0);
+			Overflow_SO	 : out std_logic;
+			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
+	end component ContinuousCounter;
+
+	type state is (stIdle, stDelayBeforeWrite, stWriteEvent, stDelayAfterWrite, stAck, stDelayAfterAck);
 
 	attribute syn_enum_encoding			 : string;
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
 	signal State_DP, State_DN : state;
+
+	-- AER delay counter
+	signal CyclesCount_S, CyclesNotify_S : std_logic;
 begin
-	p_memoryless : process (State_DP, DVSRun_SI, OutFifoFull_SI, DVSAERReq_SBI, DVSAERData_DI)
+	writeCyclesCounter : ContinuousCounter
+		generic map (
+			COUNTER_WIDTH => 3)
+		port map (
+			Clock_CI	 => Clock_CI,
+			Reset_RI	 => Reset_RI,
+			Clear_SI	 => '0',
+			Enable_SI	 => CyclesCount_S,
+			DataLimit_DI => to_unsigned(3, 3),
+			Overflow_SO	 => CyclesNotify_S,
+			Data_DO		 => open);
+
+	p_memoryless : process (State_DP, CyclesNotify_S, DVSRun_SI, OutFifoFull_SI, DVSAERReq_SBI, DVSAERData_DI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
+
+		CyclesCount_S <= '0';  -- Do not count up in the write-cycles counter.
 
 		OutFifoWrite_SO <= '0';
 		OutFifoData_DO	<= (others => '0');
@@ -48,9 +82,18 @@ begin
 					if DVSAERReq_SBI = '0' and OutFifoFull_SI = '0' then
 						-- Got a request on the AER bus, let's get the data.
 						-- If output fifo full, just wait for it to be empty.
-						State_DN <= stWriteEvent;
+						State_DN <= stDelayBeforeWrite;
 					end if;
 				end if;
+
+			when stDelayBeforeWrite =>
+				DVSAERReset_SBO <= '1';	 -- Keep DVS out of reset.
+
+				if CyclesNotify_S = '1' then
+					State_DN <= stWriteEvent;
+				end if;
+
+				CyclesCount_S <= '1';
 
 			when stWriteEvent =>
 				DVSAERReset_SBO <= '1';	 -- Keep DVS out of reset.
@@ -65,7 +108,16 @@ begin
 				end if;
 
 				OutFifoWrite_SO <= '1';
-				State_DN		<= stAck;
+				State_DN		<= stDelayAfterWrite;
+
+			when stDelayAfterWrite =>
+				DVSAERReset_SBO <= '1';	 -- Keep DVS out of reset.
+
+				if CyclesNotify_S = '1' then
+					State_DN <= stAck;
+				end if;
+
+				CyclesCount_S <= '1';
 
 			when stAck =>
 				DVSAERReset_SBO <= '1';	 -- Keep DVS out of reset.
@@ -73,8 +125,17 @@ begin
 				DVSAERAck_SBO <= '0';
 
 				if DVSAERReq_SBI = '1' then
+					State_DN <= stDelayAfterAck;
+				end if;
+
+			when stDelayAfterAck =>
+				DVSAERReset_SBO <= '1';	 -- Keep DVS out of reset.
+
+				if CyclesNotify_S = '1' then
 					State_DN <= stIdle;
 				end if;
+
+				CyclesCount_S <= '1';
 
 			when others => null;
 		end case;
