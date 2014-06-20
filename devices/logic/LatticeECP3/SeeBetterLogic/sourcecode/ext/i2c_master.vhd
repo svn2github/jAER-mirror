@@ -17,7 +17,7 @@
 --	 Version History
 --	 Version 1.0 11/1/2012 Scott Larson
 --	   Initial Public Release
---	 Version 1.1 15/06/204 Luca Longinotti
+--	 Version 1.1 15/06/2014 Luca Longinotti
 --	   Changed active-low reset_n to active-high reset for modern FPGAs.
 --	   Changed clk'EVENT to rising/falling_edge() functions.
 --	   Ran Emacs VHDL-mode beautifier over the whole code.
