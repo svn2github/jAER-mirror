@@ -371,11 +371,11 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 		if (isBiasEnabled()) {
 			ret |= AddressedIPotCoarseFine.enabledMask;
 		}
-		if (getType() == Pot.Type.NORMAL) {
-			ret |= AddressedIPotCoarseFine.typeMask;
-		}
 		if (getSex() == Pot.Sex.N) {
 			ret |= AddressedIPotCoarseFine.sexMask;
+		}
+		if (getType() == Pot.Type.NORMAL) {
+			ret |= AddressedIPotCoarseFine.typeMask;
 		}
 		if (!isLowCurrentModeEnabled()) {
 			ret |= AddressedIPotCoarseFine.lowCurrentModeMask;
