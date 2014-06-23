@@ -51,13 +51,13 @@ architecture Behavioral of DVSAERStateMachine is
 begin
 	writeCyclesCounter : ContinuousCounter
 		generic map (
-			COUNTER_WIDTH => 3)
+			COUNTER_WIDTH => 4)
 		port map (
 			Clock_CI	 => Clock_CI,
 			Reset_RI	 => Reset_RI,
 			Clear_SI	 => '0',
 			Enable_SI	 => CyclesCount_S,
-			DataLimit_DI => to_unsigned(3, 3),
+			DataLimit_DI => to_unsigned(12, 4),
 			Overflow_SO	 => CyclesNotify_S,
 			Data_DO		 => open);
 
