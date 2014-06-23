@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 use work.Settings.all;
 
 entity DVSAERStateMachine is
@@ -21,15 +22,46 @@ entity DVSAERStateMachine is
 end DVSAERStateMachine;
 
 architecture Behavioral of DVSAERStateMachine is
-	type state is (stIdle, stWriteEvent, stAck);
+	component ContinuousCounter is
+		generic (
+			COUNTER_WIDTH	  : integer := 16;
+			RESET_ON_OVERFLOW : boolean := true;
+			SHORT_OVERFLOW	  : boolean := false;
+			OVERFLOW_AT_ZERO  : boolean := false);
+		port (
+			Clock_CI	 : in  std_logic;
+			Reset_RI	 : in  std_logic;
+			Clear_SI	 : in  std_logic;
+			Enable_SI	 : in  std_logic;
+			DataLimit_DI : in  unsigned(COUNTER_WIDTH-1 downto 0);
+			Overflow_SO	 : out std_logic;
+			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
+	end component ContinuousCounter;
+
+	type state is (stIdle, stWriteEvent, stDelayAck, stAck);
 
 	attribute syn_enum_encoding			 : string;
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
 	signal State_DP, State_DN : state;
+
+	-- ACK delay counter
+	signal CyclesCount_S, CyclesNotify_S : std_logic;
 begin
-	p_memoryless : process (State_DP, DVSRun_SI, OutFifoFull_SI, DVSAERReq_SBI, DVSAERData_DI)
+	ackDelayCounter : ContinuousCounter
+		generic map (
+			COUNTER_WIDTH => 4)
+		port map (
+			Clock_CI	 => Clock_CI,
+			Reset_RI	 => Reset_RI,
+			Clear_SI	 => '0',
+			Enable_SI	 => CyclesCount_S,
+			DataLimit_DI => to_unsigned(8, 4),
+			Overflow_SO	 => CyclesNotify_S,
+			Data_DO		 => open);
+
+	p_memoryless : process (State_DP, CyclesNotify_S, DVSRun_SI, OutFifoFull_SI, DVSAERReq_SBI, DVSAERData_DI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
@@ -38,6 +70,8 @@ begin
 
 		DVSAERAck_SBO	<= '1';			-- No acknowledge by default.
 		DVSAERReset_SBO <= '0';			-- Keep DVS in reset by default.
+
+		CyclesCount_S <= '0';  -- Do not count up in the ACK-delay counter by default.
 
 		case State_DP is
 			when stIdle =>
@@ -59,13 +93,28 @@ begin
 				if DVSAERData_DI(9) = '0' then
 					-- This is an Y address.
 					OutFifoData_DO <= EVENT_CODE_Y_ADDR & "0000" & DVSAERData_DI(7 downto 0);
+
+					-- Prolong time before ACK.
+					State_DN <= stDelayAck;
 				else
 					-- This is an X address. AER(8) holds the polarity.
 					OutFifoData_DO <= EVENT_CODE_X_ADDR & DVSAERData_DI(0) & "0000" & DVSAERData_DI(8 downto 1);
+
+					-- ACK right away.
+					State_DN <= stAck;
 				end if;
 
 				OutFifoWrite_SO <= '1';
-				State_DN		<= stAck;
+				--State_DN		<= stAck;
+
+			when stDelayAck =>
+				DVSAERReset_SBO <= '1';	 -- Keep DVS out of reset.
+
+				if CyclesNotify_S = '1' then
+					State_DN <= stAck;
+				end if;
+
+				CyclesCount_S <= '1';
 
 			when stAck =>
 				DVSAERReset_SBO <= '1';	 -- Keep DVS out of reset.
