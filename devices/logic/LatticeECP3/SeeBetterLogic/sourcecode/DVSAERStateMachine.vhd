@@ -104,7 +104,7 @@ begin
 					OutFifoData_DO <= EVENT_CODE_Y_ADDR & "0000" & DVSAERData_DI(7 downto 0);
 				else
 					-- This is an X address. AER(8) holds the polarity.
-					OutFifoData_DO <= EVENT_CODE_X_ADDR & DVSAERData_DI(8) & "0000" & DVSAERData_DI(7 downto 0);
+					OutFifoData_DO <= EVENT_CODE_X_ADDR & DVSAERData_DI(0) & "0000" & DVSAERData_DI(8 downto 1);
 				end if;
 
 				OutFifoWrite_SO <= '1';
