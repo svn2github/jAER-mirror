@@ -21,6 +21,9 @@
         <Source name="sourcecode/support/DFFSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="sourcecode/support/DFFBusSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="sourcecode/support/ResetSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
