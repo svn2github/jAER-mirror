@@ -14,41 +14,18 @@
 #include "lpregs.h"
 #include "syncdly.h"            // SYNCDELAY macro#include "biasgen.h"
 #include "portsFX2.h"
-//#include "ports.h"
-//#include "micro.h"
-//#include "opcode.h"
 
-extern BOOL GotSUD;             // Received setup data flag
-//extern BOOL Sleep;
+extern BOOL GotSUD;
 extern BOOL Rwuen;
 extern BOOL Selfpwr;
+#define CPLD_RUN PA7#define DVS_RUN PA3#define APS_RUN PA1#define IMU_RUN PA0#define CPLD_TDI PC7#define CPLD_TDO PC6#define CPLD_TCK PC5#define CPLD_TMS PC4#define TIMESTAMP_RESET PC3#define CPLD_SPI_SSN PC2#define CPLD_SPI_CLOCK PC1#define CPLD_SPI_MOSI PC0// No SPI_MISO, slave doesn't talk back.#define CPLD_RESET PE7#define FXLED PE6#define BIAS_CLOCK PE5#define BIAS_BITIN PE4#define BIAS_ENABLE PE3#define BIAS_DIAG_SEL PE2#define BIAS_LATCH PE1#define BIAS_ADDR_SEL PE0
 
-//BYTE Configuration;             // Current configuration
-//BYTE AlternateSetting;          // Alternate settings
 
-//WORD packetSize;
-
-// port E, not bit addressable - more bits are in biasgen.h
-#define CPLD_NOT_RESET 			0x80  // PE7 called nCPLDReset on host #define DVS_nReset 				0x08  // PE3 called nChipReset on host, resets DVS array and AER logic#define BIAS_ADDR_SEL			0x01  // PE0 called biasAddrSel selects the address shift register
-#define setArrayReset() 	IOE=IOE&~DVS_nReset;	
-#define releaseArrayReset()	IOE=IOE|DVS_nReset;
-
-#define releaseAddrSR()		IOE=IOE|BIAS_ADDR_SEL;
-#define selectAddrSR()		IOE=IOE&~BIAS_ADDR_SEL;	
-
-#define BIAS_DIAG_SEL			PA0
-#define RESET_TS				PA7
-#define TIMESTAMP_MASTER 		PA1
-#define RUN_CPLD				PA3  // called runCpld on host
-#define RUN_ADC 		PC0  // called runAdc on host#define CPLD_SR_CLOCK	PC1
-#define CPLD_SR_LATCH	PC2
-#define CPLD_SR_BIT		PC3
+#define releaseAddrSR() IOE |= BIAS_ADDR_SEL;
+#define selectAddrSR() IOE &= ~BIAS_ADDR_SEL;
 
 #define DB_Addr 1 // zero if only one byte address is needed for EEPROM, one if two byte address
-#define LEDmask 	0x40  // PE6BOOL LEDon;
-
-//#define MAX_NAME_LENGTH 8
-//#define STRING_ADDRESS (EEPROM_SIZE - MAX_NAME_LENGTH)
+#define LEDmask FXLEDBOOL LEDon;
 
 #define MSG_TS_RESET 1
 
@@ -84,40 +61,6 @@ extern int g_iMovingDataIndex;
 
 BOOL JTAGinit;
 
-#define NUM_BIAS_BYTES 97 // 22 biases a 4 bytes, 1 Vdac a one byte plus 4 shifted source a 2 bytes // (remember there are also 10 muxes a 4 bits, so the total bitstream is 102 bytes)
-// cDVSTest10 does not have the Vdac and the first four biases, but it does not matter if we shift in too many bits
-xdata unsigned char biasBytes[] = { 0x00,			// Vdac readout reference
-		0x00, 0x00, 0x00, 0x00,	// RObuffer
-		0x00, 0x00, 0x00, 0x00,	// refcurrent
-		0x00, 0x00, 0x00, 0x00,   // ROcas
-		0x00, 0x00, 0x00, 0x00,   // ROgate
-		0x00, 0x00, 0x00, 0x00,	// follPad
-		0x00, 0x00, 0x00, 0x00,	// if_refr
-		0x00, 0x00, 0x00, 0x00,	// if_threshol
-		0x00, 0x00, 0x00, 0x00,	// AEpuY
-		0x00, 0x00, 0x00, 0x00,	// AEpuX
-		0x00, 0x00, 0x00, 0x00,	// AEReqEndPd
-		0x00, 0x00, 0x00, 0x00,	// AEReqPD
-		0x00, 0x00, 0x00, 0x00,	// refr
-		0x00, 0x00, 0x00, 0x00,	// fb
-		0x00, 0x00, 0x00, 0x00,	// pr
-		0x00, 0x00, 0x00, 0x00,	//pixInv
-		0x00, 0x00, 0x00, 0x00,	// pcas
-		0x00, 0x00, 0x00, 0x00,	// amp
-		0x00, 0x00, 0x00, 0x00,	// blue
-		0x00, 0x00, 0x00, 0x00,	// red
-		0x00, 0x00, 0x00, 0x00,	// off
-		0x00, 0x00, 0x00, 0x00,	// On
-		0x00, 0x00, 0x00, 0x00,	// diff
-		0x00, 0x00,		// SSNmid
-		0x00, 0x00,		// SSN
-		0x00, 0x00,  // SSPmid
-		0x00, 0x00 }; // SSP
-
-long cycleCounter; // counts main loop cycles
-unsigned long imuTimestamp; // IMU imuTimestamp register
-int i;
-
 void startMonitor(void);
 void stopMonitor(void);
 void configTimestampCounter(void);
@@ -144,10 +87,9 @@ void latchConfigBits(void);
 void TD_Init(void) // Called once at startup
 {
 	// set the CPU clock to 48MHz. CLKOUT is normal polarity, disabled.
-	CPUCS = 0x10; // 0001_0000;
-
+	CPUCS = 0x10; // 0001_0000;
 	// set the slave FIFO interface to 48MHz, slave fifo mode
-	IFCONFIG = 0xE3; // 1110_0011
+	IFCONFIG = 0xE3; // 1110_0011	SYNCDELAY;	REVCTL = 0x03; // As recommended by Cypress.
 
 	// Registers which require a synchronization delay, see section 15.14
 	// FIFORESET        FIFOPINPOLAR
@@ -164,12 +106,12 @@ void TD_Init(void) // Called once at startup
 	// GPIFTRIG
 
 	SYNCDELAY;
-	FIFOPINPOLAR = 0x03; // 0000_0011
+	FIFOPINPOLAR = 0x03; // 0000_0011, keep full/empty flags active-high! Programmable is active-low still.
 
 	// FIFO flag configuration: FlagA: EP6 programmable, FlagB: EP6 full, FlagC and FlagD unused.
 	SYNCDELAY;
 	PINFLAGSAB = 0xE6; // 1110_01100
-
+	SYNCDELAY;
 	EP1OUTCFG = 0x00;			// EP1OUT disabled
 	SYNCDELAY;
 	EP1INCFG = 0xB0;			// EP1IN enabled, interrupt -> 1011_0000
@@ -194,81 +136,30 @@ void TD_Init(void) // Called once at startup
 	// FlagA triggers when the content of the current, not yet committed packet	// is at or greater than 498 bytes (of 512 per packet) and three packets are	// already full, so 14 bytes before all buffers would be full.
 	EP6FIFOPFH = 0x99; // 1001_1001	EP6FIFOPFL = 0xF2; // 1111_0010
 
-	//enable Port C and port E
+	// Enable Ports A, C and E	SYNCDELAY;	PORTACFG = 0x00; // do not use INT 0 and 1, disable SLCS (use PA7 normally)
 	SYNCDELAY;
 	PORTCCFG = 0x00;
-	SYNCDELAY;
-	PORTACFG = 0x00; // do not use interrupts 0 and 1
+
 	SYNCDELAY;
 	PORTECFG = 0x00;
-
+	OEA = 0x89;  // 1000_1001 PA1: timestampMaster
 	OEC = 0x0F; // 0000_1111 // JTAG, shift register stuff
 	OEE = 0xFF; // 1111_1111 
-	OEA = 0x89;  // 1000_1001 PA1: timestampMaster
-
-	// 
+	IOA = 0x00;
 	IOC = 0x00;
-	IOA = 0x00;
-	IOE = 0x20;          //set BiasClock high
-	setPowerDownBit();	// tie biases to rail
+	IOE = 0x20;
+	// disable interrupts by the input pins and by timers and serial ports
+	IE = 0x00; // 0000_0000
 
-	SYNCDELAY;
-	REVCTL = 0x03;
-
-
-
-	IOE &= ~CPLD_NOT_RESET; // put CPLD in reset
-
-	// disable interrupts by the input pins and by timers and serial ports:
-	IE &= 0x00; // 0000_0000
-
-	// disable interrupt pins 4, 5 and 6
-	EIE &= 0xE3; // 1110_0011;
-
-	cycleCounter = 0;
-
-	biasInit();	// init biasgen ports and pins                             
-	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
-	I2CTL = 0x01;  // set I2C to 400kHz to speed up IMU data transfers
-	IMU_init(); // initialize IMU gyro chip
-	// initialize I2C interrupt
-	EIE |= 0x02; // EI2C enable I2C interrupt I2CINT
-
-	setArrayReset()
-	; // keep pixels from spiking, reset all of them
-	// pump powerdown to make sure masterbias is really started up
-	/*	for(i=0;i<20;i++)
-	 {
-	 setPowerDownBit();
-	 //EZUSB_Delay1ms();
-	 releasePowerDownBit();
-	 //EZUSB_Delay1ms();
-	 }
-	 EZUSB_Delay(10); // ms delay after masterbias (re)startup
-	 for (i=0;i<NUM_BIAS_BYTES;i++)
-	 {
-	 spiwritebyte(biasBytes[i]); // load hardcoded biases
-	 }
-	 latchNewBiases();	*/
-
-	IT0 = 1;		// make INT0# edge-sensitive
-	EX0 = 0;// disable INT0# (this interrupt was used to signal to the host to reset WrapAdd)
-
-	IT1 = 1; // INT1# edge-sensitve
-	EX1 = 0; // disable INT1#
+	// disable interrupt pins 4, 5 and 6, keep I2C/USB enabled
+	EIE = 0xE3; // 1110_0011
+	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
+	I2CTL = 0x01;  // set I2C to 400kHz to speed up data transfers
+	setPowerDownBit();	IOE &= ~CPLD_NOT_RESET; // put CPLD in reset	biasInit();	// init biasgen ports and pins
+	setArrayReset(); // keep pixels from spiking, reset all of them
 
 	LEDon = FALSE;
-	timer_init(); // start the timer2 to run imuTimestamp timer
 	IOE |= CPLD_NOT_RESET; // take CPLD out of reset
-
-	i2cLock = FALSE;
-	imuEnabled = FALSE;
-
-	EZUSB_Delay(100);
-
-	// make this device timestamp master as default
-	IOA |= 1;
-
 }
 
 void TD_Poll(void) // Called repeatedly while the device is idle
