@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BaliProject version="3.0" title="SeeBetterLogic_FX2" device="LCMXO2280C-4FT256I" default_implementation="SeeBetterLogic_FX2">
+<BaliProject version="3.0" title="SeeBetterLogic_FX2" device="LCMXO2280C-3FT256C" default_implementation="SeeBetterLogic_FX2">
     <Options/>
     <Implementation title="SeeBetterLogic_FX2" dir="SeeBetterLogic_FX2" description="SeeBetterLogic_FX2" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="TopLevel" top="TopLevel"/>
