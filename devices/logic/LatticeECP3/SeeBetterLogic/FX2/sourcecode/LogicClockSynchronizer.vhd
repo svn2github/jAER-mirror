@@ -57,7 +57,7 @@ begin
 			ExtReset_RI	 => Reset_RI,
 			SyncReset_RO => ResetSync_R);
 
-	-- Ensure synchronization of FX3 inputs related to logic control.
+	-- Ensure synchronization of FX2 inputs related to logic control.
 	syncLogicRun : DFFSynchronizer
 		port map (
 			SyncClock_CI	=> LogicClock_CI,

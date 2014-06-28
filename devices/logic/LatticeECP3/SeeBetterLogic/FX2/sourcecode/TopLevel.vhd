@@ -273,9 +273,9 @@ architecture Structural of TopLevel is
 	signal DVSRun_S, APSRun_S, IMURun_S, ExtTriggerRun_S						 : std_logic;
 	signal DVSFifoReset_R, APSFifoReset_R, IMUFifoReset_R, ExtTriggerFifoReset_R : std_logic;
 
-	signal USBFifoFPGAData_D																		: std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
-	signal USBFifoFPGAWrite_S, USBFifoFPGARead_S													: std_logic;
-	signal USBFifoFPGAEmpty_S, USBFifoFPGAAlmostEmpty_S, USBFifoFPGAFull_S, USBFifoFPGAAlmostFull_S : std_logic;
+	signal USBFifoLogicData_D																			: std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
+	signal USBFifoLogicWrite_S, USBFifoLogicRead_S														: std_logic;
+	signal USBFifoLogicEmpty_S, USBFifoLogicAlmostEmpty_S, USBFifoLogicFull_S, USBFifoLogicAlmostFull_S : std_logic;
 
 	signal DVSAERFifoDataWrite_D, DVSAERFifoDataRead_D											: std_logic_vector(EVENT_WIDTH-1 downto 0);
 	signal DVSAERFifoWrite_S, DVSAERFifoRead_S													: std_logic;
@@ -339,8 +339,8 @@ begin
 
 	-- Wire all LEDs.
 	LED1_SO <= LogicRunSync_S;
-	LED2_SO <= USBFifoFPGAEmpty_S;
-	LED3_SO <= USBFifoFPGAFull_S;
+	LED2_SO <= USBFifoLogicEmpty_S;
+	LED3_SO <= USBFifoLogicFull_S;
 
 	-- Only run data producers if the whole logic also is running.
 	DVSRun_S		<= DVSRunSync_S and LogicRunSync_S;
@@ -348,7 +348,7 @@ begin
 	IMURun_S		<= IMURunSync_S and LogicRunSync_S;
 	ExtTriggerRun_S <= LogicRunSync_S;
 
-	-- Keep data transmission FIFOs in reset if FPGA is not running, so
+	-- Keep data transmission FIFOs in reset if logic is not running, so
 	-- that they will be empty when resuming operation (no stale data).
 	DVSFifoReset_R		  <= LogicReset_R or (not LogicRunSync_S);
 	APSFifoReset_R		  <= LogicReset_R or (not LogicRunSync_S);
@@ -373,31 +373,31 @@ begin
 			USBFifoEP6AlmostFull_SI => USBFifoProgrammableFlagSync_S,
 			USBFifoWrite_SBO		=> USBFifoWrite_SBO,
 			USBFifoPktEnd_SBO		=> USBFifoPktEnd_SBO,
-			InFifoEmpty_SI			=> USBFifoFPGAEmpty_S,
-			InFifoAlmostEmpty_SI	=> USBFifoFPGAAlmostEmpty_S,
-			InFifoRead_SO			=> USBFifoFPGARead_S);
+			InFifoEmpty_SI			=> USBFifoLogicEmpty_S,
+			InFifoAlmostEmpty_SI	=> USBFifoLogicAlmostEmpty_S,
+			InFifoRead_SO			=> USBFifoLogicRead_S);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
-	usbFifoFPGA : FIFODualClock
+	usbFifoLogic : FIFODualClock
 		generic map (
 			DATA_WIDTH		  => USB_FIFO_WIDTH,
-			DATA_DEPTH		  => USBFPGA_FIFO_SIZE,
+			DATA_DEPTH		  => USBLOGIC_FIFO_SIZE,
 			EMPTY_FLAG		  => 0,
-			ALMOST_EMPTY_FLAG => USBFPGA_FIFO_ALMOST_EMPTY_SIZE,
-			FULL_FLAG		  => USBFPGA_FIFO_SIZE,
-			ALMOST_FULL_FLAG  => USBFPGA_FIFO_SIZE - USBFPGA_FIFO_ALMOST_FULL_SIZE)
+			ALMOST_EMPTY_FLAG => USBLOGIC_FIFO_ALMOST_EMPTY_SIZE,
+			FULL_FLAG		  => USBLOGIC_FIFO_SIZE,
+			ALMOST_FULL_FLAG  => USBLOGIC_FIFO_SIZE - USBLOGIC_FIFO_ALMOST_FULL_SIZE)
 		port map (
 			Reset_RI	   => USBReset_R,
-			DataIn_DI	   => USBFifoFPGAData_D,
+			DataIn_DI	   => USBFifoLogicData_D,
 			WrClock_CI	   => LogicClock_C,
-			WrEnable_SI	   => USBFifoFPGAWrite_S,
+			WrEnable_SI	   => USBFifoLogicWrite_S,
 			DataOut_DO	   => USBFifoData_DO,
 			RdClock_CI	   => USBClock_CI,
-			RdEnable_SI	   => USBFifoFPGARead_S,
-			Empty_SO	   => USBFifoFPGAEmpty_S,
-			AlmostEmpty_SO => USBFifoFPGAAlmostEmpty_S,
-			Full_SO		   => USBFifoFPGAFull_S,
-			AlmostFull_SO  => USBFifoFPGAAlmostFull_S);
+			RdEnable_SI	   => USBFifoLogicRead_S,
+			Empty_SO	   => USBFifoLogicEmpty_S,
+			AlmostEmpty_SO => USBFifoLogicAlmostEmpty_S,
+			Full_SO		   => USBFifoLogicFull_S,
+			AlmostFull_SO  => USBFifoLogicAlmostFull_S);
 
 	multiplexerSM : MultiplexerStateMachine
 		port map (
@@ -405,10 +405,10 @@ begin
 			Reset_RI					 => LogicReset_R,
 			Run_SI						 => LogicRunSync_S,
 			TimestampReset_SI			 => '0',
-			OutFifoFull_SI				 => USBFifoFPGAFull_S,
-			OutFifoAlmostFull_SI		 => USBFifoFPGAAlmostFull_S,
-			OutFifoWrite_SO				 => USBFifoFPGAWrite_S,
-			OutFifoData_DO				 => USBFifoFPGAData_D,
+			OutFifoFull_SI				 => USBFifoLogicFull_S,
+			OutFifoAlmostFull_SI		 => USBFifoLogicAlmostFull_S,
+			OutFifoWrite_SO				 => USBFifoLogicWrite_S,
+			OutFifoData_DO				 => USBFifoLogicData_D,
 			DVSAERFifoEmpty_SI			 => DVSAERFifoEmpty_S,
 			DVSAERFifoAlmostEmpty_SI	 => DVSAERFifoAlmostEmpty_S,
 			DVSAERFifoRead_SO			 => DVSAERFifoRead_S,
