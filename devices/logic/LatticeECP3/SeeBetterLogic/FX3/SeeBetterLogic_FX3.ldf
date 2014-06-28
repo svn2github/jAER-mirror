@@ -54,10 +54,10 @@
         <Source name="sourcecode/Settings.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../sourcecode/USBClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
+        <Source name="sourcecode/USBClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../sourcecode/LogicClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
+        <Source name="sourcecode/LogicClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="sourcecode/FX3StateMachine.vhd" type="VHDL" type_short="VHDL">
