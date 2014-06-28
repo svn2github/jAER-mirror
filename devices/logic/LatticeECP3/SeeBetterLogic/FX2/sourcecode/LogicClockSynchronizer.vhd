@@ -8,34 +8,26 @@ entity LogicClockSynchronizer is
 		ResetSync_RO  : out std_logic;
 
 		-- Signals to synchronize and their synchronized counterparts.
-		FPGARun_SI				  : in	std_logic;
-		FPGARunSync_SO			  : out std_logic;
-		DVSRun_SI				  : in	std_logic;
-		DVSRunSync_SO			  : out std_logic;
-		APSRun_SI				  : in	std_logic;
-		APSRunSync_SO			  : out std_logic;
-		IMURun_SI				  : in	std_logic;
-		IMURunSync_SO			  : out std_logic;
-		FPGAShiftRegClock_CI	  : in	std_logic;
-		FPGAShiftRegClockSync_CO  : out std_logic;
-		FPGAShiftRegLatch_SI	  : in	std_logic;
-		FPGAShiftRegLatchSync_SO  : out std_logic;
-		FPGAShiftRegBitIn_DI	  : in	std_logic;
-		FPGAShiftRegBitInSync_DO  : out std_logic;
-		FPGATimestampReset_SI	  : in	std_logic;
-		FPGATimestampResetSync_SO : out std_logic;
-		DVSAERReq_SBI			  : in	std_logic;
-		DVSAERReqSync_SBO		  : out std_logic;
-		IMUInterrupt_SI			  : in	std_logic;
-		IMUInterruptSync_SO		  : out std_logic;
-		SyncOutSwitch_SI		  : in	std_logic;
-		SyncOutSwitchSync_SO	  : out std_logic;
-		SyncInClock_CI			  : in	std_logic;
-		SyncInClockSync_CO		  : out std_logic;
-		SyncInSwitch_SI			  : in	std_logic;
-		SyncInSwitchSync_SO		  : out std_logic;
-		SyncInSignal_SI			  : in	std_logic;
-		SyncInSignalSync_SO		  : out std_logic);
+		LogicRun_SI			 : in  std_logic;
+		LogicRunSync_SO		 : out std_logic;
+		DVSRun_SI			 : in  std_logic;
+		DVSRunSync_SO		 : out std_logic;
+		APSRun_SI			 : in  std_logic;
+		APSRunSync_SO		 : out std_logic;
+		IMURun_SI			 : in  std_logic;
+		IMURunSync_SO		 : out std_logic;
+		DVSAERReq_SBI		 : in  std_logic;
+		DVSAERReqSync_SBO	 : out std_logic;
+		IMUInterrupt_SI		 : in  std_logic;
+		IMUInterruptSync_SO	 : out std_logic;
+		SyncOutSwitch_SI	 : in  std_logic;
+		SyncOutSwitchSync_SO : out std_logic;
+		SyncInClock_CI		 : in  std_logic;
+		SyncInClockSync_CO	 : out std_logic;
+		SyncInSwitch_SI		 : in  std_logic;
+		SyncInSwitchSync_SO	 : out std_logic;
+		SyncInSignal_SI		 : in  std_logic;
+		SyncInSignalSync_SO	 : out std_logic);
 end LogicClockSynchronizer;
 
 architecture Structural of LogicClockSynchronizer is
@@ -66,12 +58,12 @@ begin
 			SyncReset_RO => ResetSync_R);
 
 	-- Ensure synchronization of FX3 inputs related to logic control.
-	syncFPGARun : DFFSynchronizer
+	syncLogicRun : DFFSynchronizer
 		port map (
 			SyncClock_CI	=> LogicClock_CI,
 			Reset_RI		=> ResetSync_R,
-			SignalToSync_SI => FPGARun_SI,
-			SyncedSignal_SO => FPGARunSync_SO);
+			SignalToSync_SI => LogicRun_SI,
+			SyncedSignal_SO => LogicRunSync_SO);
 
 	syncDVSRun : DFFSynchronizer
 		port map (
@@ -93,34 +85,6 @@ begin
 			Reset_RI		=> ResetSync_R,
 			SignalToSync_SI => IMURun_SI,
 			SyncedSignal_SO => IMURunSync_SO);
-
-	syncFPGAShiftRegClock : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
-			SignalToSync_SI => FPGAShiftRegClock_CI,
-			SyncedSignal_SO => FPGAShiftRegClockSync_CO);
-
-	syncFPGAShiftRegLatch : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
-			SignalToSync_SI => FPGAShiftRegLatch_SI,
-			SyncedSignal_SO => FPGAShiftRegLatchSync_SO);
-
-	syncFPGAShiftRegBitIn : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
-			SignalToSync_SI => FPGAShiftRegBitIn_DI,
-			SyncedSignal_SO => FPGAShiftRegBitInSync_DO);
-
-	syncFPGATimestampReset : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
-			SignalToSync_SI => FPGATimestampReset_SI,
-			SyncedSignal_SO => FPGATimestampResetSync_SO);
 
 	syncDVSAERReq : DFFSynchronizer
 		port map (

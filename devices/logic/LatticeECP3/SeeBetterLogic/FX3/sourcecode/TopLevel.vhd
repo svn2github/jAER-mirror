@@ -139,8 +139,8 @@ architecture Structural of TopLevel is
 		port (
 			Clock_CI					 : in  std_logic;
 			Reset_RI					 : in  std_logic;
-			FPGARun_SI					 : in  std_logic;
-			FPGATimestampReset_SI		 : in  std_logic;
+			Run_SI						 : in  std_logic;
+			TimestampReset_SI			 : in  std_logic;
 			OutFifoFull_SI				 : in  std_logic;
 			OutFifoAlmostFull_SI		 : in  std_logic;
 			OutFifoWrite_SO				 : out std_logic;
@@ -439,8 +439,8 @@ begin
 		port map (
 			Clock_CI					 => LogicClock_C,
 			Reset_RI					 => LogicReset_R,
-			FPGARun_SI					 => FPGARunSync_S,
-			FPGATimestampReset_SI		 => FPGATimestampResetSync_S,
+			Run_SI						 => FPGARunSync_S,
+			TimestampReset_SI			 => FPGATimestampResetSync_S,
 			OutFifoFull_SI				 => USBFifoFPGAFull_S,
 			OutFifoAlmostFull_SI		 => USBFifoFPGAAlmostFull_S,
 			OutFifoWrite_SO				 => USBFifoFPGAWrite_S,

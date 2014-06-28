@@ -3,21 +3,18 @@ use IEEE.STD_LOGIC_1164.all;
 use IEEE.NUMERIC_STD.all;
 use work.Settings.all;
 
-entity FX3Statemachine is
+entity FX2Statemachine is
 	port (
 		Clock_CI : in std_logic;
 		Reset_RI : in std_logic;
 
 		-- USB FIFO flags
-		USBFifoThread0Full_SI		: in std_logic;
-		USBFifoThread0AlmostFull_SI : in std_logic;
-		USBFifoThread1Full_SI		: in std_logic;
-		USBFifoThread1AlmostFull_SI : in std_logic;
+		USBFifoEP6Full_SI		: in std_logic;
+		USBFifoEP6AlmostFull_SI : in std_logic;
 
 		-- USB FIFO control lines
 		USBFifoWrite_SBO  : out std_logic;
 		USBFifoPktEnd_SBO : out std_logic;
-		USBFifoAddress_DO : out std_logic_vector(1 downto 0);
 
 		-- Input FIFO flags
 		InFifoEmpty_SI		 : in std_logic;
@@ -25,9 +22,9 @@ entity FX3Statemachine is
 
 		-- Input FIFO control lines
 		InFifoRead_SO : out std_logic);
-end FX3Statemachine;
+end FX2Statemachine;
 
-architecture Behavioral of FX3Statemachine is
+architecture Behavioral of FX2Statemachine is
 	component ContinuousCounter is
 		generic (
 			COUNTER_WIDTH	  : integer := 16;
@@ -44,8 +41,7 @@ architecture Behavioral of FX3Statemachine is
 			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component ContinuousCounter;
 
-	type state is (stIdle0, stPrepareEarlyPacket0, stEarlyPacket0, stPrepareWrite0, stWriteFirst0, stWriteMiddle0, stWriteLast0, stPrepareSwitch0, stSwitch0,
-				   stIdle1, stPrepareEarlyPacket1, stEarlyPacket1, stPrepareWrite1, stWriteFirst1, stWriteMiddle1, stWriteLast1, stPrepareSwitch1, stSwitch1);
+	type state is (stFullFlagWait1, stFullFlagWait2, stIdle, stPrepareEarlyPacket, stEarlyPacket, stPrepareWrite, stWriteFirst, stWriteMiddle, stWriteLast, stPrepareSwitch, stSwitch);
 
 	attribute syn_enum_encoding			 : string;
 	attribute syn_enum_encoding of state : type is "onehot";
@@ -61,7 +57,6 @@ architecture Behavioral of FX3Statemachine is
 
 	-- register outputs for better behavior
 	signal USBFifoWriteReg_SB, USBFifoPktEndReg_SB : std_logic;
-	signal USBFifoAddressReg_D					   : std_logic_vector(1 downto 0);
 begin
 	writeCyclesCounter : ContinuousCounter
 		generic map (
@@ -88,7 +83,7 @@ begin
 			Overflow_SO	 => EarlyPacketNotify_S,
 			Data_DO		 => open);
 
-	p_memoryless : process (State_DP, CyclesNotify_S, EarlyPacketNotify_S, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, InFifoEmpty_SI)
+	p_memoryless : process (State_DP, CyclesNotify_S, EarlyPacketNotify_S, USBFifoEP6Full_SI, USBFifoEP6AlmostFull_SI, InFifoAlmostEmpty_SI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
@@ -98,52 +93,59 @@ begin
 
 		USBFifoWriteReg_SB	<= '1';
 		USBFifoPktEndReg_SB <= '1';
-		USBFifoAddressReg_D <= "00";
 
 		InFifoRead_SO <= '0';  -- Don't read from input FIFO until we know we can write.
 
 		case State_DP is
-			when stIdle0 =>
-				if USBFifoThread0Full_SI = '0' then
+			-- We wait for two clock cycles here, to leave time for the EP6Full
+			-- Flag to clear the USB Synchronizer (which adds a two-cycle delay).
+			-- The Synchronizer is needed for safety and to meet the extremely
+			-- short timing constraints of the flags. The FX3 doesn't need
+			-- those supplementary states, since by switching between two
+			-- threads, there is no case in which it fills a buffer and queries
+			-- its state within the problematic time-frame, which on the other
+			-- hand is the case for the FX2, as it does no switching.
+			when stFullFlagWait1 =>
+				State_DN <= stFullFlagWait2;
+
+			when stFullFlagWait2 =>
+				State_DN <= stIdle;
+
+			when stIdle =>
+				if USBFifoEP6Full_SI = '0' then
 					if EarlyPacketNotify_S = '1' then
-						State_DN <= stPrepareEarlyPacket0;
+						State_DN <= stPrepareEarlyPacket;
 					elsif InFifoAlmostEmpty_SI = '0' then
-						State_DN <= stPrepareWrite0;
+						State_DN <= stPrepareWrite;
 					end if;
 				end if;
 
-			when stPrepareEarlyPacket0 =>
-				if InFifoEmpty_SI = '0' then
-					State_DN			<= stEarlyPacket0;
-					InFifoRead_SO		<= '1';
-					USBFifoWriteReg_SB	<= '0';
-					USBFifoPktEndReg_SB <= '0';
-				end if;
+			when stPrepareEarlyPacket =>
+				State_DN			<= stEarlyPacket;
+				USBFifoPktEndReg_SB <= '0';
 
-			when stEarlyPacket0 =>
-				USBFifoAddressReg_D(0) <= '1';	-- Access Thread 1.
-
-				State_DN		   <= stIdle1;
+			when stEarlyPacket =>
+				State_DN		   <= stFullFlagWait1;
 				EarlyPacketClear_S <= '1';
 
-			when stPrepareWrite0 =>
-				State_DN		   <= stWriteFirst0;
+			when stPrepareWrite =>
+				State_DN		   <= stWriteFirst;
 				InFifoRead_SO	   <= '1';
 				USBFifoWriteReg_SB <= '0';
 
-			when stWriteFirst0 =>
-				if USBFifoThread0AlmostFull_SI = '1' then
-					State_DN <= stPrepareSwitch0;
+			when stWriteFirst =>
+				if USBFifoEP6AlmostFull_SI = '1' then
+					State_DN <= stPrepareSwitch;
 				else
-					State_DN <= stWriteMiddle0;
+					State_DN <= stWriteMiddle;
 				end if;
 
 				InFifoRead_SO	   <= '1';
 				USBFifoWriteReg_SB <= '0';
 
-			when stWriteMiddle0 =>
+			when stWriteMiddle =>
 				if CyclesNotify_S = '1' then
-					State_DN <= stWriteLast0;
+					State_DN <= stWriteLast;
 				end if;
 
 				CyclesCount_S <= '1';
@@ -151,18 +153,18 @@ begin
 				InFifoRead_SO	   <= '1';
 				USBFifoWriteReg_SB <= '0';
 
-			when stWriteLast0 =>
+			when stWriteLast =>
 				if InFifoAlmostEmpty_SI = '1' then
-					State_DN <= stIdle0;
+					State_DN <= stIdle;
 				else
-					State_DN		   <= stWriteFirst0;
+					State_DN		   <= stWriteFirst;
 					InFifoRead_SO	   <= '1';
 					USBFifoWriteReg_SB <= '0';
 				end if;
 
-			when stPrepareSwitch0 =>
+			when stPrepareSwitch =>
 				if CyclesNotify_S = '1' then
-					State_DN <= stSwitch0;
+					State_DN <= stSwitch;
 				end if;
 
 				CyclesCount_S <= '1';
@@ -170,107 +172,8 @@ begin
 				InFifoRead_SO	   <= '1';
 				USBFifoWriteReg_SB <= '0';
 
-			when stSwitch0 =>
-				USBFifoAddressReg_D(0) <= '1';	-- Access Thread 1.
-
-				if InFifoAlmostEmpty_SI = '1' or USBFifoThread1Full_SI = '1' then
-					State_DN <= stIdle1;
-				else
-					State_DN		   <= stWriteFirst1;
-					InFifoRead_SO	   <= '1';
-					USBFifoWriteReg_SB <= '0';
-				end if;
-
-				EarlyPacketClear_S <= '1';
-
-			when stIdle1 =>
-				USBFifoAddressReg_D(0) <= '1';	-- Access Thread 1.
-
-				if USBFifoThread1Full_SI = '0' then
-					if EarlyPacketNotify_S = '1' then
-						State_DN <= stPrepareEarlyPacket1;
-					elsif InFifoAlmostEmpty_SI = '0' then
-						State_DN <= stPrepareWrite1;
-					end if;
-				end if;
-
-			when stPrepareEarlyPacket1 =>
-				USBFifoAddressReg_D(0) <= '1';	-- Access Thread 1.
-
-				if InFifoEmpty_SI = '0' then
-					State_DN			<= stEarlyPacket1;
-					InFifoRead_SO		<= '1';
-					USBFifoWriteReg_SB	<= '0';
-					USBFifoPktEndReg_SB <= '0';
-				end if;
-
-			when stEarlyPacket1 =>
-				State_DN		   <= stIdle0;
-				EarlyPacketClear_S <= '1';
-
-			when stPrepareWrite1 =>
-				USBFifoAddressReg_D(0) <= '1';	-- Access Thread 1.
-
-				State_DN		   <= stWriteFirst1;
-				InFifoRead_SO	   <= '1';
-				USBFifoWriteReg_SB <= '0';
-
-			when stWriteFirst1 =>
-				USBFifoAddressReg_D(0) <= '1';	-- Access Thread 1.
-
-				if USBFifoThread1AlmostFull_SI = '1' then
-					State_DN <= stPrepareSwitch1;
-				else
-					State_DN <= stWriteMiddle1;
-				end if;
-
-				InFifoRead_SO	   <= '1';
-				USBFifoWriteReg_SB <= '0';
-
-			when stWriteMiddle1 =>
-				USBFifoAddressReg_D(0) <= '1';	-- Access Thread 1.
-
-				if CyclesNotify_S = '1' then
-					State_DN <= stWriteLast1;
-				end if;
-
-				CyclesCount_S <= '1';
-
-				InFifoRead_SO	   <= '1';
-				USBFifoWriteReg_SB <= '0';
-
-			when stWriteLast1 =>
-				USBFifoAddressReg_D(0) <= '1';	-- Access Thread 1.
-
-				if InFifoAlmostEmpty_SI = '1' then
-					State_DN <= stIdle1;
-				else
-					State_DN		   <= stWriteFirst1;
-					InFifoRead_SO	   <= '1';
-					USBFifoWriteReg_SB <= '0';
-				end if;
-
-			when stPrepareSwitch1 =>
-				USBFifoAddressReg_D(0) <= '1';	-- Access Thread 1.
-
-				if CyclesNotify_S = '1' then
-					State_DN <= stSwitch1;
-				end if;
-
-				CyclesCount_S <= '1';
-
-				InFifoRead_SO	   <= '1';
-				USBFifoWriteReg_SB <= '0';
-
-			when stSwitch1 =>
-				if InFifoAlmostEmpty_SI = '1' or USBFifoThread0Full_SI = '1' then
-					State_DN <= stIdle0;
-				else
-					State_DN		   <= stWriteFirst0;
-					InFifoRead_SO	   <= '1';
-					USBFifoWriteReg_SB <= '0';
-				end if;
-
+			when stSwitch =>
+				State_DN		   <= stFullFlagWait1;
 				EarlyPacketClear_S <= '1';
 
 			when others => null;
@@ -281,15 +184,13 @@ begin
 	p_memoryzing : process (Clock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then	-- asynchronous reset (active-high for FPGAs)
-			State_DP		  <= stIdle0;
+			State_DP		  <= stIdle;
 			USBFifoWrite_SBO  <= '1';
 			USBFifoPktEnd_SBO <= '1';
-			USBFifoAddress_DO <= "00";
 		elsif rising_edge(Clock_CI) then
 			State_DP		  <= State_DN;
 			USBFifoWrite_SBO  <= USBFifoWriteReg_SB;
 			USBFifoPktEnd_SBO <= USBFifoPktEndReg_SB;
-			USBFifoAddress_DO <= USBFifoAddressReg_D;
 		end if;
 	end process p_memoryzing;
 end Behavioral;

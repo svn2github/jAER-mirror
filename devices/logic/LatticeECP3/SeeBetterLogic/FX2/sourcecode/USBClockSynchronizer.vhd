@@ -8,14 +8,10 @@ entity USBClockSynchronizer is
 		ResetSync_RO : out std_logic;
 
 		-- Signals to synchronize and their synchronized counterparts.
-		USBFifoThr0Ready_SI			: in  std_logic;
-		USBFifoThr0ReadySync_SO		: out std_logic;
-		USBFifoThr0Watermark_SI		: in  std_logic;
-		USBFifoThr0WatermarkSync_SO : out std_logic;
-		USBFifoThr1Ready_SI			: in  std_logic;
-		USBFifoThr1ReadySync_SO		: out std_logic;
-		USBFifoThr1Watermark_SI		: in  std_logic;
-		USBFifoThr1WatermarkSync_SO : out std_logic);
+		USBFifoFullFlag_SI			   : in	 std_logic;
+		USBFifoFullFlagSync_SO		   : out std_logic;
+		USBFifoProgrammableFlag_SI	   : in	 std_logic;
+		USBFifoProgrammableFlagSync_SO : out std_logic);
 end USBClockSynchronizer;
 
 architecture Structural of USBClockSynchronizer is
@@ -45,32 +41,18 @@ begin
 			ExtReset_RI	 => Reset_RI,
 			SyncReset_RO => ResetSync_R);
 
-	-- Ensure synchronization of FX3 inputs related to GPIF FIFO.
-	syncUSBFifoThr0Ready : DFFSynchronizer
+	-- Ensure synchronization of FX2 inputs related to GPIF FIFO.
+	syncUSBFifoFullFlag : DFFSynchronizer
 		port map (
 			SyncClock_CI	=> USBClock_CI,
 			Reset_RI		=> ResetSync_R,
-			SignalToSync_SI => USBFifoThr0Ready_SI,
-			SyncedSignal_SO => USBFifoThr0ReadySync_SO);
+			SignalToSync_SI => USBFifoFullFlag_SI,
+			SyncedSignal_SO => USBFifoFullFlagSync_SO);
 
-	syncUSBFifoThr0Watermark : DFFSynchronizer
+	syncUSBFifoProgrammableFlag : DFFSynchronizer
 		port map (
 			SyncClock_CI	=> USBClock_CI,
 			Reset_RI		=> ResetSync_R,
-			SignalToSync_SI => USBFifoThr0Watermark_SI,
-			SyncedSignal_SO => USBFifoThr0WatermarkSync_SO);
-
-	syncUSBFifoThr1Ready : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> USBClock_CI,
-			Reset_RI		=> ResetSync_R,
-			SignalToSync_SI => USBFifoThr1Ready_SI,
-			SyncedSignal_SO => USBFifoThr1ReadySync_SO);
-
-	syncUSBFifoThr1Watermark : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> USBClock_CI,
-			Reset_RI		=> ResetSync_R,
-			SignalToSync_SI => USBFifoThr1Watermark_SI,
-			SyncedSignal_SO => USBFifoThr1WatermarkSync_SO);
+			SignalToSync_SI => USBFifoProgrammableFlag_SI,
+			SyncedSignal_SO => USBFifoProgrammableFlagSync_SO);
 end Structural;

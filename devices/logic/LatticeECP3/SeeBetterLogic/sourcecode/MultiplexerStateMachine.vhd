@@ -5,10 +5,10 @@ use work.Settings.all;
 
 entity MultiplexerStateMachine is
 	port (
-		Clock_CI			  : in std_logic;
-		Reset_RI			  : in std_logic;
-		FPGARun_SI			  : in std_logic;
-		FPGATimestampReset_SI : in std_logic;
+		Clock_CI		  : in std_logic;
+		Reset_RI		  : in std_logic;
+		Run_SI			  : in std_logic;
+		TimestampReset_SI : in std_logic;
 
 		-- Fifo output (to USB)
 		OutFifoFull_SI		 : in  std_logic;
@@ -98,8 +98,6 @@ architecture Behavioral of MultiplexerStateMachine is
 	-- present and next state
 	signal State_DP, State_DN : state;
 
-	signal FPGATimestampResetDetect_S : std_logic;
-
 	signal TimestampOverflow_S : std_logic;
 	signal Timestamp_D		   : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
 
@@ -115,27 +113,16 @@ architecture Behavioral of MultiplexerStateMachine is
 	-- buffers, meaning exactly one cycle behind.
 	signal TimestampBuffer_D : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
 begin
-	-- Detect FPGATimestampReset_SI pulse from host and then generate just one
-	-- quick reset pulse for FPGA consumption.
-	timestampResetDetect : PulseDetector
-		generic map (
-			PULSE_MINIMAL_LENGTH_CYCLES => LOGIC_CLOCK_FREQ / 2)
-		port map (
-			Clock_CI		 => Clock_CI,
-			Reset_RI		 => Reset_RI,
-			InputSignal_SI	 => FPGATimestampReset_SI,
-			PulseDetected_SO => FPGATimestampResetDetect_S);
-
 	tsGenerator : TimestampGenerator
 		port map (
 			Clock_CI			 => Clock_CI,
 			Reset_RI			 => Reset_RI,
-			TimestampRun_SI		 => FPGARun_SI,
+			TimestampRun_SI		 => Run_SI,
 			TimestampReset_SI	 => TimestampResetBufferClear_S,
 			TimestampOverflow_SO => TimestampOverflow_S,
 			Timestamp_DO		 => Timestamp_D);
 
-	TimestampResetBufferInput_S <= FPGATimestampResetDetect_S or TimestampOverflowBufferOverflow_S;
+	TimestampResetBufferInput_S <= TimestampReset_SI or TimestampOverflowBufferOverflow_S;
 
 	resetBuffer : BufferClear
 		port map (
@@ -174,7 +161,7 @@ begin
 			Overflow_SO	 => TimestampOverflowBufferOverflow_S,
 			Data_DO		 => TimestampOverflowBuffer_D);
 
-	p_memoryless : process (State_DP, FPGARun_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoFull_SI, OutFifoAlmostFull_SI, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI, DVSAERFifoData_DI,
+	p_memoryless : process (State_DP, Run_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoFull_SI, OutFifoAlmostFull_SI, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI, DVSAERFifoData_DI,
 							APSADCFifoEmpty_SI, APSADCFifoAlmostEmpty_SI, APSADCFifoData_DI, IMUFifoEmpty_SI, IMUFifoAlmostEmpty_SI, IMUFifoData_DI, ExtTriggerFifoEmpty_SI, ExtTriggerFifoAlmostEmpty_SI, ExtTriggerFifoData_DI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
@@ -192,8 +179,8 @@ begin
 
 		case State_DP is
 			when stIdle =>
-				-- Only exit idle state if FPGA is running.
-				if FPGARun_SI = '1' then
+				-- Only exit idle state if logic is running.
+				if Run_SI = '1' then
 					-- Now check various flags and see what data to forward.
 					-- Timestamp-related flags have priority over data.
 					if OutFifoFull_SI = '0' then
