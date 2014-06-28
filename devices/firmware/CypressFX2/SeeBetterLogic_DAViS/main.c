@@ -1,36 +1,65 @@
-#pragma NOIV               // Do not generate interrupt vectors//-----------------------------------------------------------------------------
+#pragma NOIV               // Do not generate interrupt vectors
+//-----------------------------------------------------------------------------
 //   File:      main.c
 //   Description: FX2LP firmware for the SBRet10 retina chip   
 //
 // created: 1/2008, cloned from tmpdiff128 stereo board firmware
 // Revision: 0.01 
 // authors raphael berner, patrick lichtsteiner, tobi delbruck
-// 
+//  
 // July 2013: Luca added gyro SPI interface that writes data to EP2 (the async endpoint in jAER)
 // Oct 2013: Tobi added a lot more code for IMU
 //
 //-----------------------------------------------------------------------------
 #include "lp.h"
 #include "lpregs.h"
-#include "syncdly.h"            // SYNCDELAY macro#include "biasgen.h"
+#include "syncdly.h"            // SYNCDELAY macro
+#include "biasgen.h"
 #include "portsFX2.h"
 
 extern BOOL GotSUD;
 extern BOOL Rwuen;
 extern BOOL Selfpwr;
-#define CPLD_RUN PA7#define DVS_RUN PA3#define APS_RUN PA1#define IMU_RUN PA0#define CPLD_TDI PC7#define CPLD_TDO PC6#define CPLD_TCK PC5#define CPLD_TMS PC4#define TIMESTAMP_RESET PC3#define CPLD_SPI_SSN PC2#define CPLD_SPI_CLOCK PC1#define CPLD_SPI_MOSI PC0// No SPI_MISO, slave doesn't talk back.#define CPLD_RESET PE7#define FXLED PE6#define BIAS_CLOCK PE5#define BIAS_BITIN PE4#define BIAS_ENABLE PE3#define BIAS_DIAG_SEL PE2#define BIAS_LATCH PE1#define BIAS_ADDR_SEL PE0
+
+
+#define CPLD_RUN PA7
+#define DVS_RUN PA3
+#define APS_RUN PA1
+#define IMU_RUN PA0
+
+#define CPLD_TDI PC7
+#define CPLD_TDO PC6
+#define CPLD_TCK PC5
+#define CPLD_TMS PC4
+#define CPLD_SPI_SSN PC3
+#define CPLD_SPI_CLOCK PC2
+#define CPLD_SPI_MOSI PC1
+#define CPLD_SPI_MISO PC0
+
+#define CPLD_RESET PE7
+#define FXLED PE6
+#define BIAS_CLOCK PE5
+#define BIAS_BITIN PE4
+#define BIAS_ENABLE PE3
+#define BIAS_DIAG_SEL PE2
+#define BIAS_LATCH PE1
+#define BIAS_ADDR_SEL PE0
 
 
 #define releaseAddrSR() IOE |= BIAS_ADDR_SEL;
 #define selectAddrSR() IOE &= ~BIAS_ADDR_SEL;
 
 #define DB_Addr 1 // zero if only one byte address is needed for EEPROM, one if two byte address
-#define LEDmask FXLEDBOOL LEDon;
+#define LEDmask FXLED
+BOOL LEDon;
 
 #define MSG_TS_RESET 1
 
 // vendor requests
-#define VR_ENABLE_AE_IN 0xB3 // enable IN transfers#define VR_DISABLE_AE_IN 0xB4 // disable IN transfers#define VR_TRIGGER_ADVANCE_TRANSFER 0xB7 // trigger in packet commit (for host requests for early access to AE data) NOT IMPLEMENTED#define VR_RESETTIMESTAMPS 0xBb
+#define VR_ENABLE_AE_IN 0xB3 // enable IN transfers
+#define VR_DISABLE_AE_IN 0xB4 // disable IN transfers
+#define VR_TRIGGER_ADVANCE_TRANSFER 0xB7 // trigger in packet commit (for host requests for early access to AE data) NOT IMPLEMENTED
+#define VR_RESETTIMESTAMPS 0xBb
 //#define VR_SET_DEVICE_NAME 0xC2
 //#define VR_TIMESTAMP_TICK 0xC3
 #define VR_RESET_FIFOS 0xC4
@@ -41,14 +70,17 @@ extern BOOL Selfpwr;
 #define VR_WRITE_CPLD_SR 0xCF
 //#define VR_RUN_ADC		0xCE
 
-#define VR_WRITE_CONFIG 0xB8 // write bytes out to SPI// the wLengthL field of SETUPDAT specifies the number of bytes to write out (max 64 per request)
+#define VR_WRITE_CONFIG 0xB8 // write bytes out to SPI
+// the wLengthL field of SETUPDAT specifies the number of bytes to write out (max 64 per request)
 // the bytes are in the data packet
 #define VR_EEPROM_BIASGEN_BYTES 0xBa // write bytes out to EEPROM for power on default
-#define VR_SETARRAYRESET 0xBc // set the state of the array reset which resets communication logic, and possibly also holds pixels in reset#define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels and communication logic
+#define VR_SETARRAYRESET 0xBc // set the state of the array reset which resets communication logic, and possibly also holds pixels in reset
+#define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels and communication logic
 #define BIAS_FLASH_START 9 // start of bias value (this is where number of bytes is stored
 #define	VR_UPLOAD		0xc0
 #define VR_DOWNLOAD		0x40
-#define VR_EEPROM		0xa2 // loads (uploads) EEPROM#define	VR_RAM			0xa3 // loads (uploads) external ram
+#define VR_EEPROM		0xa2 // loads (uploads) EEPROM
+#define	VR_RAM			0xa3 // loads (uploads) external ram
 #define EP0BUFF_SIZE	0x40
 #define NUM_CONFIG_BITS_PRECEDING_BIAS_BYTES 40 
 // 10 muxes, each with 4 bits of config info. not a multiple of 8 so needs to be handled specially for SPI interface.
@@ -87,9 +119,12 @@ void latchConfigBits(void);
 void TD_Init(void) // Called once at startup
 {
 	// set the CPU clock to 48MHz. CLKOUT is normal polarity, disabled.
-	CPUCS = 0x10; // 0001_0000;
+	CPUCS = 0x10; // 0001_0000;
 	// set the slave FIFO interface to 48MHz, slave fifo mode
-	IFCONFIG = 0xE3; // 1110_0011	SYNCDELAY;	REVCTL = 0x03; // As recommended by Cypress.
+	IFCONFIG = 0xE3; // 1110_0011
+
+	SYNCDELAY;
+	REVCTL = 0x03; // As recommended by Cypress.
 
 	// Registers which require a synchronization delay, see section 15.14
 	// FIFORESET        FIFOPINPOLAR
@@ -111,7 +146,8 @@ void TD_Init(void) // Called once at startup
 	// FIFO flag configuration: FlagA: EP6 programmable, FlagB: EP6 full, FlagC and FlagD unused.
 	SYNCDELAY;
 	PINFLAGSAB = 0xE6; // 1110_01100
-	SYNCDELAY;
+
+	SYNCDELAY;
 	EP1OUTCFG = 0x00;			// EP1OUT disabled
 	SYNCDELAY;
 	EP1INCFG = 0xB0;			// EP1IN enabled, interrupt -> 1011_0000
@@ -130,32 +166,49 @@ void TD_Init(void) // Called once at startup
 
 	SYNCDELAY;
 	EP6FIFOCFG = 0x09; // 0000_1001
-	// FIFO commits after 512 bytes.
+
+	// FIFO commits after 512 bytes.
 	EP6AUTOINLENH = 0x02;
 	EP6AUTOINLENL = 0x00;
-	// FlagA triggers when the content of the current, not yet committed packet	// is at or greater than 498 bytes (of 512 per packet) and three packets are	// already full, so 14 bytes before all buffers would be full.
-	EP6FIFOPFH = 0x99; // 1001_1001	EP6FIFOPFL = 0xF2; // 1111_0010
 
-	// Enable Ports A, C and E	SYNCDELAY;	PORTACFG = 0x00; // do not use INT 0 and 1, disable SLCS (use PA7 normally)
+	// FlagA triggers when the content of the current, not yet committed packet
+	// is at or greater than 498 bytes (of 512 per packet) and three packets are
+	// already full, so 14 bytes before all buffers would be full.
+	EP6FIFOPFH = 0x99; // 1001_1001
+	EP6FIFOPFL = 0xF2; // 1111_0010
+
+	// Enable Ports A, C and E
+	SYNCDELAY;
+	PORTACFG = 0x00; // do not use INT 0 and 1, disable SLCS (use PA7 normally)
 	SYNCDELAY;
 	PORTCCFG = 0x00;
 
 	SYNCDELAY;
 	PORTECFG = 0x00;
-	OEA = 0x89;  // 1000_1001 PA1: timestampMaster
+
+	OEA = 0x89;  // 1000_1001 PA1: timestampMaster
 	OEC = 0x0F; // 0000_1111 // JTAG, shift register stuff
 	OEE = 0xFF; // 1111_1111 
-	IOA = 0x00;
+
+	IOA = 0x00;
 	IOC = 0x00;
-	IOE = 0x20;
+	IOE = 0x20;
 	// disable interrupts by the input pins and by timers and serial ports
 	IE = 0x00; // 0000_0000
 
 	// disable interrupt pins 4, 5 and 6, keep I2C/USB enabled
 	EIE = 0xE3; // 1110_0011
-	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
+
+	EZUSB_InitI2C(); // init I2C to enable EEPROM read and write
 	I2CTL = 0x01;  // set I2C to 400kHz to speed up data transfers
-	setPowerDownBit();	IOE &= ~CPLD_NOT_RESET; // put CPLD in reset	biasInit();	// init biasgen ports and pins
+
+
+
+	setPowerDownBit();
+
+	IOE &= ~CPLD_NOT_RESET; // put CPLD in reset
+
+	biasInit();	// init biasgen ports and pins
 	setArrayReset(); // keep pixels from spiking, reset all of them
 
 	LEDon = FALSE;

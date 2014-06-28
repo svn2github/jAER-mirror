@@ -20,16 +20,16 @@ gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
 	{ 36, 'O' }, /* GPIO 36 (Px1): DVS_Run */
 	{ 37, 'O' }, /* GPIO 37 (Px2): APS_Run */
 	{ 38, 'O' }, /* GPIO 38 (Px3): IMU_Run */
-	{ 39, 'O' }, /* GPIO 39 (Px4): FPGA_ShiftReg_Clock */
-	{ 40, 'O' }, /* GPIO 40 (Px5): FPGA_ShiftReg_Latch */
-	{ 41, 'O' }, /* GPIO 41 (Px6): FPGA_ShiftReg_Bit */
-	{ 42, 'O' }, /* GPIO 42 (Px7): Timestamp_Reset */
-	{ 43, 'O' }, /* GPIO 43 (Px8): Bias_Enable */
-	{ 44, 'O' }, /* GPIO 44 (Px9): Bias_Diag_Select */
-	// { 45, 'O' }, /* GPIO 45: Spare1 */
-	// { 46, 'O' }, /* GPIO 46: Spare2 */
-	// { 47, 'O' }, /* GPIO 47: Spare3 */
-	// { 48, 'O' }, /* GPIO 48: Spare4 */
+	{ 39, 'o' }, /* GPIO 39 (Px4): FPGA_SPI_SSN (active-low) */
+	{ 40, 'O' }, /* GPIO 40 (Px5): FPGA_SPI_Clock */
+	{ 41, 'O' }, /* GPIO 41 (Px6): FPGA_SPI_MOSI */
+	{ 42, 'O' }, /* GPIO 42 (Px7): FPGA_SPI_MISO */
+	// { 43, 'O' }, /* GPIO 43 (Px8): */
+	// { 44, 'O' }, /* GPIO 44 (Px9): */
+	// { 45, 'O' }, /* GPIO 45: */
+	// { 46, 'O' }, /* GPIO 46: */
+	{ 47, 'O' }, /* GPIO 47: Bias_Enable */
+	{ 48, 'O' }, /* GPIO 48: Bias_Diag_Select */
 	{ 49, 'o' }, /* GPIO 49: Bias_Addr_Select (active-low) */
 	{ 50, 'o' }, /* GPIO 50: Bias_Clock (active-low) */
 	{ 51, 'o' }, /* GPIO 51: Bias_Latch (active-low) */
@@ -43,12 +43,12 @@ const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecif
 #define DVS_RUN 36
 #define APS_RUN 37
 #define IMU_RUN 38
-#define FPGA_SHIFTREG_CLOCK 39
-#define FPGA_SHIFTREG_LATCH 40
-#define FPGA_SHIFTREG_BIT 41
-#define TIMESTAMP_RESET 42
-#define BIAS_ENABLE 43
-#define BIAS_DIAG_SELECT 44
+#define FPGA_SPI_SSN 39
+#define FPGA_SPI_CLOCK 40
+#define FPGA_SPI_MOSI 41
+#define FPGA_SPI_MISO 42
+#define BIAS_ENABLE 47
+#define BIAS_DIAG_SELECT 48
 #define BIAS_ADDR_SELECT 49
 #define BIAS_CLOCK 50
 #define BIAS_LATCH 51
@@ -110,7 +110,7 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 #define VR_DATA_ENABLE 0xBF
 #define VR_CHIP_BIAS 0xC0
 #define VR_CHIP_DIAG 0xC1
-#define VR_FPGA_SREG 0xC2
+#define VR_FPGA_CONFIG 0xC2
 
 CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest, uint16_t wValue, uint16_t wIndex,
 	uint16_t wLength) {
@@ -415,29 +415,30 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 			break;
 
-		case FX3_REQ_DIR(VR_FPGA_SREG, FX3_USB_DIRECTION_IN): {
+		case FX3_REQ_DIR(VR_FPGA_CONFIG, FX3_USB_DIRECTION_IN): {
 			if (wLength == 0) {
 				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_SREG: zero byte transfer invalid", status);
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG: zero byte transfer invalid", status);
 				break;
 			}
 
 			// Get data from USB control endpoint.
 			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
 			if (status != CY_U3P_SUCCESS) {
-				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_SREG: CyU3PUsbGetEP0Data failed", status);
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG: CyU3PUsbGetEP0Data failed", status);
 				break;
 			}
 
-			// Write out all configuration bytes to the FPGA shift register.
+			// Write out all configuration bytes to the FPGA, using its SPI bus.
+			// Only writing is supported for now via bit-banging the SPI interface.
+			// Newer boards will migrate this to the embedded SPI controller for full-duplex.
+			CyFxGpioTurnOn(FPGA_SPI_SSN);
+
 			for (size_t i = 0; i < wLength; i++) {
-				CyFxWriteByteToShiftReg(glEP0Buffer[i], FPGA_SHIFTREG_CLOCK, FPGA_SHIFTREG_BIT);
+				CyFxWriteByteToShiftReg(glEP0Buffer[i], FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
 			}
 
-			// Latch FPGA configuration.
-			CyFxGpioTurnOn(FPGA_SHIFTREG_LATCH);
-			CyU3PBusyWait(1);
-			CyFxGpioTurnOff(FPGA_SHIFTREG_LATCH);
+			CyFxGpioTurnOff(FPGA_SPI_SSN);
 
 			break;
 		}
