@@ -20,16 +20,16 @@ gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
 	{ 36, 'O' }, /* GPIO 36 (Px1): DVS_Run */
 	{ 37, 'O' }, /* GPIO 37 (Px2): APS_Run */
 	{ 38, 'O' }, /* GPIO 38 (Px3): IMU_Run */
-	{ 39, 'o' }, /* GPIO 39 (Px4): FPGA_SPI_SSN (active-low) */
+	{ 39, 'o' }, /* GPIO 39 (Px4): FPGA_SPI_SS (active-low) */
 	{ 40, 'O' }, /* GPIO 40 (Px5): FPGA_SPI_Clock */
 	{ 41, 'O' }, /* GPIO 41 (Px6): FPGA_SPI_MOSI */
 	{ 42, 'O' }, /* GPIO 42 (Px7): FPGA_SPI_MISO */
 	// { 43, 'O' }, /* GPIO 43 (Px8): */
 	// { 44, 'O' }, /* GPIO 44 (Px9): */
-	// { 45, 'O' }, /* GPIO 45: */
-	// { 46, 'O' }, /* GPIO 46: */
-	{ 47, 'O' }, /* GPIO 47: Bias_Enable */
-	{ 48, 'O' }, /* GPIO 48: Bias_Diag_Select */
+	// { 45, 'O' }, /* GPIO 45 (Spare1): */
+	// { 46, 'O' }, /* GPIO 46 (Spare2): */
+	{ 47, 'O' }, /* GPIO 47 (Spare3): Bias_Enable */
+	{ 48, 'O' }, /* GPIO 48 (Spare4): Bias_Diag_Select */
 	{ 49, 'o' }, /* GPIO 49: Bias_Addr_Select (active-low) */
 	{ 50, 'o' }, /* GPIO 50: Bias_Clock (active-low) */
 	{ 51, 'o' }, /* GPIO 51: Bias_Latch (active-low) */
@@ -43,7 +43,7 @@ const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecif
 #define DVS_RUN 36
 #define APS_RUN 37
 #define IMU_RUN 38
-#define FPGA_SPI_SSN 39
+#define FPGA_SPI_SS 39
 #define FPGA_SPI_CLOCK 40
 #define FPGA_SPI_MOSI 41
 #define FPGA_SPI_MISO 42
@@ -432,13 +432,13 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			// Write out all configuration bytes to the FPGA, using its SPI bus.
 			// Only writing is supported for now via bit-banging the SPI interface.
 			// Newer boards will migrate this to the embedded SPI controller for full-duplex.
-			CyFxGpioTurnOn(FPGA_SPI_SSN);
+			CyFxGpioTurnOn(FPGA_SPI_SS);
 
 			for (size_t i = 0; i < wLength; i++) {
 				CyFxWriteByteToShiftReg(glEP0Buffer[i], FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
 			}
 
-			CyFxGpioTurnOff(FPGA_SPI_SSN);
+			CyFxGpioTurnOff(FPGA_SPI_SS);
 
 			break;
 		}

@@ -22,9 +22,9 @@ package Settings is
 	constant EVENT_DATA_WIDTH_MAX : integer := 12;
 	constant OVERFLOW_WIDTH		  : integer := EVENT_DATA_WIDTH_MAX;
 
-	constant USBFPGA_FIFO_SIZE					: integer := 64;
-	constant USBFPGA_FIFO_ALMOST_EMPTY_SIZE		: integer := USB_BURST_WRITE_LENGTH;
-	constant USBFPGA_FIFO_ALMOST_FULL_SIZE		: integer := 2;
+	constant USBLOGIC_FIFO_SIZE					: integer := 64;
+	constant USBLOGIC_FIFO_ALMOST_EMPTY_SIZE	: integer := USB_BURST_WRITE_LENGTH;
+	constant USBLOGIC_FIFO_ALMOST_FULL_SIZE		: integer := 2;
 	constant DVSAER_FIFO_SIZE					: integer := 16;
 	constant DVSAER_FIFO_ALMOST_EMPTY_SIZE		: integer := 4;
 	constant DVSAER_FIFO_ALMOST_FULL_SIZE		: integer := 2;

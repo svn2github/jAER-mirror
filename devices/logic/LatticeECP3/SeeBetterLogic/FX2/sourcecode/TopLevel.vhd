@@ -7,16 +7,16 @@ entity TopLevel is
 		USBClock_CI : in std_logic;
 		Reset_RI	: in std_logic;
 
-		LogicRun_AI		  : in	std_logic;
-		DVSRun_AI		  : in	std_logic;
-		APSRun_AI		  : in	std_logic;
-		IMURun_AI		  : in	std_logic;
-		SPI_SSN_ABI		  : in	std_logic;
-		SPI_Clock_AI	  : in	std_logic;
-		SPI_MOSI_AI		  : in	std_logic;
-		SPI_MISO_DO		  : out std_logic;
-		BiasEnable_SI	  : in	std_logic;
-		BiasDiagSelect_SI : in	std_logic;
+		LogicRun_AI			: in  std_logic;
+		DVSRun_AI			: in  std_logic;
+		APSRun_AI			: in  std_logic;
+		IMURun_AI			: in  std_logic;
+		SPI_SlaveSelect_ABI : in  std_logic;
+		SPI_Clock_AI		: in  std_logic;
+		SPI_MOSI_AI			: in  std_logic;
+		SPI_MISO_DO			: out std_logic;
+		BiasEnable_SI		: in  std_logic;
+		BiasDiagSelect_SI	: in  std_logic;
 
 		USBFifoData_DO				: out std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
 		USBFifoWrite_SBO			: out std_logic;
