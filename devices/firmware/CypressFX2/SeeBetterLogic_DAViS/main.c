@@ -172,9 +172,8 @@ void TD_Init(void) // Called once at startup
 	EP6AUTOINLENL = 0x00;
 
 	// FlagA triggers when the content of the current, not yet committed packet
-	// is at or greater than 498 bytes (of 512 per packet) and three packets are
-	// already full, so 14 bytes before all buffers would be full.
-	EP6FIFOPFH = 0x99; // 1001_1001
+	// is at or greater than 498 bytes (of 512 per packet).
+	EP6FIFOPFH = 0xC1; // 1100_0001
 	EP6FIFOPFL = 0xF2; // 1111_0010
 
 	// Enable Ports A, C and E
