@@ -8,8 +8,8 @@ LOCATE COMP "USBClock_CI" SITE "A9" ;// IFClock (from FX2)
 FREQUENCY PORT "USBClock_CI" 48.0 MHz ;
 FREQUENCY NET "USBClock_CI_c" 48.0 MHz ;
 USE PRIMARY NET "USBClock_CI_c" ;
-FREQUENCY NET "LogicClock_C_c" 96.0 MHz ;
-USE PRIMARY NET "LogicClock_C_c" ;
+FREQUENCY NET "LogicClock_C" 96.0 MHz ;
+USE PRIMARY NET "LogicClock_C" ;
 
 // FX2 controls
 LOCATE COMP "Reset_RI" SITE "G2" ;// PE7 CPLD Reset
