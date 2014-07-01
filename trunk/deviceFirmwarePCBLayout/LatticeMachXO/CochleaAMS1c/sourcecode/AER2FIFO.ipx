@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DiamondModule name="AER2FIFO" module="FIFO_DC" VendorName="Lattice Semiconductor Corporation" generator="IPexpress" date="2014 06 30 15:42:58.550" version="5.5" type="Module" synthesis="synplify" source_format="VHDL">
+  <Package>
+		<File name="AER2FIFO.lpc" type="lpc" modified="2014 06 30 15:42:53.906"/>
+		<File name="AER2FIFO.vhd" type="top_level_vhdl" modified="2014 06 30 15:42:53.977"/>
+		<File name="AER2FIFO_tmpl.vhd" type="template_vhdl" modified="2014 06 30 15:42:53.978"/>
+		<File name="tb_AER2FIFO_tmpl.vhd" type="testbench_vhdl" modified="2014 06 30 15:42:53.980"/>
+  </Package>
+</DiamondModule>
