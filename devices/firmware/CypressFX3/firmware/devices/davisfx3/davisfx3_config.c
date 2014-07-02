@@ -106,7 +106,7 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 #define FPGA_CONFIG_PHASE_DATA_LAST 3 /* Send last chunk and disable configuration */
 
 // Device-specific vendor requests
-#define VR_FPGA_CONFIG 0xBE
+#define VR_FPGA_UPLOAD 0xBE
 #define VR_DATA_ENABLE 0xBF
 #define VR_CHIP_BIAS 0xC0
 #define VR_CHIP_DIAG 0xC1
@@ -119,14 +119,14 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 	CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
 
 	switch (FX3_REQ_DIR(bRequest, bDirection)) {
-		case FX3_REQ_DIR(VR_FPGA_CONFIG, FX3_USB_DIRECTION_IN): {
+		case FX3_REQ_DIR(VR_FPGA_UPLOAD, FX3_USB_DIRECTION_IN): {
 			uint8_t cmd[4] = { 0 };
 
 			switch (wValue) {
 				case FPGA_CONFIG_PHASE_INIT:
 					if (wLength != 0) {
 						status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG INIT: no payload allowed", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD INIT: no payload allowed", status);
 						break;
 					}
 
@@ -134,7 +134,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					cmd[0] = FPGA_CMD_REFRESH;
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, NULL, 0, SPI_WRITE, SPI_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG INIT: failed to reset FPGA", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD INIT: failed to reset FPGA", status);
 						break;
 					}
 
@@ -145,7 +145,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, glEP0Buffer, 4, SPI_READ,
 						SPI_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG INIT: failed to read FPGA ID", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD INIT: failed to read FPGA ID", status);
 						break;
 					}
 
@@ -153,7 +153,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					// of 0x01010043. It is returned bit-inverted, so it becomes 0xC2008080 for comparison. Further
 					// the FX3 is a little-endian system, so we have to reverse the bytes: 0x808000C2.
 					if ((*(uint32_t *) glEP0Buffer) != 0x808000C2) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG INIT: unsupported FPGA ID", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD INIT: unsupported FPGA ID", status);
 						break;
 					}
 
@@ -161,7 +161,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					cmd[0] = FPGA_CMD_REFRESH;
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, NULL, 0, SPI_WRITE, SPI_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG INIT: failed to refresh FPGA", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD INIT: failed to refresh FPGA", status);
 						break;
 					}
 
@@ -172,7 +172,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 				case FPGA_CONFIG_PHASE_DATA_FIRST:
 					if (wLength == 0) {
 						status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG FIRST: zero byte transfer invalid", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD FIRST: zero byte transfer invalid", status);
 						break;
 					}
 
@@ -180,14 +180,14 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					cmd[0] = FPGA_CMD_WRITE_EN;
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, NULL, 0, SPI_WRITE, SPI_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG FIRST: failed to enable writing", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD FIRST: failed to enable writing", status);
 						break;
 					}
 
 					// Read first bitstream chunk from USB
 					status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
 					if (status != CY_U3P_SUCCESS) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG FIRST: CyU3PUsbGetEP0Data failed", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD FIRST: CyU3PUsbGetEP0Data failed", status);
 						break;
 					}
 
@@ -197,7 +197,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 						SPI_ASSERT | SPI_NO_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
 						// CyFxSpiCommand() takes care to deassert the SS line on failure.
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG FIRST: writing first data chunk failed", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD FIRST: writing first data chunk failed", status);
 						break;
 					}
 
@@ -209,7 +209,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 				case FPGA_CONFIG_PHASE_DATA:
 					if (wLength == 0) {
 						status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG DATA: zero byte transfer invalid", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD DATA: zero byte transfer invalid", status);
 						break;
 					}
 
@@ -218,7 +218,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					if (status != CY_U3P_SUCCESS) {
 						CyFxSpiSSLineDeassert(0); // Ensure reset to default state on error.
 						CyFxSpiSSLineDeassert(FPGA_SPI_ADDRESS); // Ensure reset to default state on error for FPGA.
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG DATA: CyU3PUsbGetEP0Data failed", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD DATA: CyU3PUsbGetEP0Data failed", status);
 						break;
 					}
 
@@ -230,7 +230,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 						SPI_NO_ASSERT | SPI_NO_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
 						// CyFxSpiCommand() takes care to deassert the SS line on failure.
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG DATA: writing data chunk failed", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD DATA: writing data chunk failed", status);
 						break;
 					}
 
@@ -246,7 +246,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 						if (status != CY_U3P_SUCCESS) {
 							CyFxSpiSSLineDeassert(0); // Ensure reset to default state on error.
 							CyFxSpiSSLineDeassert(FPGA_SPI_ADDRESS); // Ensure reset to default state on error for FPGA.
-							CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG LAST: CyU3PUsbGetEP0Data failed", status);
+							CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD LAST: CyU3PUsbGetEP0Data failed", status);
 							break;
 						}
 					}
@@ -262,7 +262,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 						SPI_WRITE, SPI_NO_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
 						// CyFxSpiCommand() takes care to deassert the SS line on failure.
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG LAST: writing last data chunk failed", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD LAST: writing last data chunk failed", status);
 						break;
 					}
 
@@ -271,7 +271,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, glEP0Buffer, 4, SPI_READ,
 						SPI_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG LAST: failed to read FPGA status", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD LAST: failed to read FPGA status", status);
 						break;
 					}
 
@@ -281,7 +281,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					// That means applying a mask of 0xAF81C000 to the value, in FX3 little-endian: 0x00C081AF.
 					// And the status value to compare to becomse 0x00408100 in FX3 little-endian.
 					if (((*(uint32_t *) glEP0Buffer) & 0x00C081AF) != 0x00408100) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG LAST: status not DONE", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD LAST: status not DONE", status);
 						break;
 					}
 
@@ -289,7 +289,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 					cmd[0] = FPGA_CMD_WRITE_DIS;
 					status = CyFxSpiCommand(FPGA_SPI_ADDRESS, cmd, 4, NULL, 0, SPI_WRITE, SPI_ASSERT | SPI_DEASSERT);
 					if (status != CY_U3P_SUCCESS) {
-						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG LAST: failed to disable writing", status);
+						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD LAST: failed to disable writing", status);
 						break;
 					}
 
@@ -297,7 +297,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 				default:
 					status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-					CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG: invalid config phase", status);
+					CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD: invalid config phase", status);
 
 					break;
 			}
