@@ -26,9 +26,6 @@ architecture Behavioral of FifoSplitter is
 
 	signal WriteDelayReg_S : std_logic;
 
-	signal WriteFifoOut1Reg_S : std_logic;
-	signal WriteFifoOut2Reg_S : std_logic;
-
 	signal DataFifoOutReg_D : std_logic_vector(FIFO_WIDTH-1 downto 0);
 begin
 	FifoInNotEmpty_S <= not FifoInEmpty_SI;
@@ -37,14 +34,14 @@ begin
 	regUpdate : process (Clock_CI, Reset_RI) is
 	begin  -- process regUpdate
 		if Reset_RI = '1' then			  -- asynchronous reset (active high)
-			WriteDelayReg_S	 <= '0';
 			FifoOut1Write_SO <= '0';
 			FifoOut2Write_SO <= '0';
+			WriteDelayReg_S	 <= '0';
 			DataFifoOutReg_D <= (others => '0');
 		elsif rising_edge(Clock_CI) then  -- rising clock edge
-			WriteDelayReg_S	 <= FifoInNotEmpty_S;
 			FifoOut1Write_SO <= WriteDelayReg_S and not FifoOut1Full_SI;
 			FifoOut2Write_SO <= WriteDelayReg_S and not FifoOut2Full_SI;
+			WriteDelayReg_S	 <= FifoInNotEmpty_S;
 			DataFifoOutReg_D <= FifoInData_DI;
 		end if;
 	end process regUpdate;
