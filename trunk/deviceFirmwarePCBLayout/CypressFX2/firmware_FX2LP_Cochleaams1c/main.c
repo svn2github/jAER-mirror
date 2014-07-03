@@ -62,6 +62,7 @@ extern BOOL Selfpwr;
 #define VR_RESETTIMESTAMPS 0xBb 
 #define VR_SETARRAYRESET 0xBc // set the state of the array reset
 #define VR_DOARRAYRESET 0xBd // toggle the array reset low long enough to reset all pixels. TCVS320 doesn't have this.
+// defined below VR_SYNC_ENABLE 0xBe // sets whether sync events are sent on slave clock input instead of acting as slave clock.
 #define VR_SET_DEVICE_NAME 0xC2
 #define VR_TIMESTAMP_TICK 0xC3
 #define VR_RESET_FIFOS 0xC4
@@ -233,7 +234,10 @@ sbit aerKillBit=IOD^7;  // yBit is inside CPLD SR now
 #define ledOff() IOE&=~FXLEDMask
 #define ledToggle() IOE^=FXLEDMask // check this one, is xor correct?
 
-
+// sync event enable
+#define VR_SYNC_ENABLE 0xBe // sets whether sync events are sent on slave clock input instead of acting as slave clock.
+#define disableSyncEvents() 	TIMESTAMP_MASTER=0	
+#define enableSyncEvents()		TIMESTAMP_MASTER=1 // enabling sync events automatically means we are also master clock source. if sync events are disabled, then we are a slave clock device for timestamps.
 
 #define selectLPFKill yBit=0
 #define selectBPFKill yBit=1
@@ -868,6 +872,24 @@ BOOL DR_VendorCmnd(void)
 				EP6FIFOCFG = 0x08 ; //0000_1000 reenable auto-in
 				break;
 			}
+		case VR_SYNC_ENABLE: // sets sync event output or master/slave clocking, based on lsb of argument
+			{
+				if (SETUPDAT[2]&0x01)
+				{
+					enableSyncEvents(); // become master, also generate sync events from IN clock pin
+				} else
+				{
+					disableSyncEvents(); 
+				}
+			
+				*EP0BUF=VR_SYNC_ENABLE;
+				SYNCDELAY;
+				EP0BCH = 0;
+				EP0BCL = 1;                   // Arm endpoint with 1 byte to transfer
+				EP0CS |= bmHSNAK;             // Acknowledge handshake phase of device request
+				return(FALSE); // very important, otherwise get stall
+
+			}
 		case VR_DOWNLOAD_CPLD_CODE:
 			{
 			if (SETUPDAT[0]==VR_DOWNLOAD) {
@@ -1355,16 +1377,6 @@ in big endian format.
 				}
 				return(FALSE);
 			}*/
-		case VR_IS_TS_MASTER:
-			{
-				EP0BUF[0] = SETUPDAT[1];
-				EP0BUF[1]= TIMESTAMP_MASTER;
-				EP0BCH = 0;
-				EP0BCL = 2;
-				EP0CS |= bmHSNAK;
-
-				return(FALSE);
-			}
 	/*	case VR_MISSED_EVENTS:
 			{
 				EX1=0;
