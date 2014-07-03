@@ -2,6 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Settings.all;
+use work.FIFORecords.all;
 
 entity MultiplexerStateMachine is
 	port (
@@ -11,10 +12,8 @@ entity MultiplexerStateMachine is
 		TimestampReset_SI : in std_logic;
 
 		-- Fifo output (to USB)
-		OutFifoFull_SI		 : in  std_logic;
-		OutFifoAlmostFull_SI : in  std_logic;
-		OutFifoWrite_SO		 : out std_logic;
-		OutFifoData_DO		 : out std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
+		OutFifo_I : in	tFromFifoWriteSide;
+		OutFifo_O : out tToFifoWriteSide;
 
 		-- Fifo input (from DVS AER)
 		DVSAERFifoEmpty_SI		 : in  std_logic;
@@ -161,7 +160,7 @@ begin
 			Overflow_SO	 => TimestampOverflowBufferOverflow_S,
 			Data_DO		 => TimestampOverflowBuffer_D);
 
-	p_memoryless : process (State_DP, Run_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoFull_SI, OutFifoAlmostFull_SI, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI, DVSAERFifoData_DI,
+	p_memoryless : process (State_DP, Run_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifo_I, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI, DVSAERFifoData_DI,
 							APSADCFifoEmpty_SI, APSADCFifoAlmostEmpty_SI, APSADCFifoData_DI, IMUFifoEmpty_SI, IMUFifoAlmostEmpty_SI, IMUFifoData_DI, ExtTriggerFifoEmpty_SI, ExtTriggerFifoAlmostEmpty_SI, ExtTriggerFifoData_DI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
@@ -169,8 +168,8 @@ begin
 		TimestampResetBufferClear_S	   <= '0';
 		TimestampOverflowBufferClear_S <= '0';
 
-		OutFifoWrite_SO <= '0';
-		OutFifoData_DO	<= (others => '0');
+		OutFifo_O.Write_S <= '0';
+		OutFifo_O.Data_D  <= (others => '0');
 
 		DVSAERFifoRead_SO	  <= '0';
 		APSADCFifoRead_SO	  <= '0';
@@ -183,12 +182,12 @@ begin
 				if Run_SI = '1' then
 					-- Now check various flags and see what data to forward.
 					-- Timestamp-related flags have priority over data.
-					if OutFifoFull_SI = '0' then
+					if OutFifo_I.Full_S = '0' then
 						if TimestampResetBuffer_S = '1' then
 							State_DN <= stTimestampReset;
 						elsif TimestampOverflowBuffer_D > 0 then
 							State_DN <= stTimestampWrap;
-						elsif OutFifoAlmostFull_SI = '0' then
+						elsif OutFifo_I.AlmostFull_S = '0' then
 							-- Use the AlmostEmpty flags as markers to see if
 							-- there is lots of data in the FIFOs and
 							-- prioritize those over the others.
@@ -210,23 +209,23 @@ begin
 
 			when stTimestampReset =>
 				-- Send timestamp reset (back to zero) event to host.
-				OutFifoData_DO				   <= EVENT_CODE_EVENT & EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_TIMESTAMP_RESET;
+				OutFifo_O.Data_D			   <= EVENT_CODE_EVENT & EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_TIMESTAMP_RESET;
 				TimestampResetBufferClear_S	   <= '1';
 				-- Also clean overflow counter, since a timestamp reset event
 				-- has higher priority and invalidates all previous time
 				-- information by restarting from zero at this point.
 				TimestampOverflowBufferClear_S <= '1';
 
-				OutFifoWrite_SO <= '1';
-				State_DN		<= stIdle;
+				OutFifo_O.Write_S <= '1';
+				State_DN		  <= stIdle;
 
 			when stTimestampWrap =>
 				-- Send timestamp wrap (add 15 bits) event to host.
-				OutFifoData_DO				   <= EVENT_CODE_EVENT & EVENT_CODE_TIMESTAMP_WRAP & std_logic_vector(TimestampOverflowBuffer_D);
+				OutFifo_O.Data_D			   <= EVENT_CODE_EVENT & EVENT_CODE_TIMESTAMP_WRAP & std_logic_vector(TimestampOverflowBuffer_D);
 				TimestampOverflowBufferClear_S <= '1';
 
-				OutFifoWrite_SO <= '1';
-				State_DN		<= stIdle;
+				OutFifo_O.Write_S <= '1';
+				State_DN		  <= stIdle;
 
 			when stTimestamp =>
 				-- Write a timestamp AFTER the event it refers to.
@@ -242,17 +241,17 @@ begin
 					-- So we use a hard-coded timestamp of all ones, the
 					-- biggest possible timestamp, right before a TS_WRAP
 					-- event actually happens.
-					OutFifoData_DO <= (EVENT_CODE_TIMESTAMP, others => '1');
+					OutFifo_O.Data_D <= (EVENT_CODE_TIMESTAMP, others => '1');
 				else
 					-- Use current timestamp.
 					-- This is also fine if a timestamp reset is pending, since
 					-- in that case timestamps are still valid until the reset
 					-- itself happens.
-					OutFifoData_DO <= EVENT_CODE_TIMESTAMP & TimestampBuffer_D;
+					OutFifo_O.Data_D <= EVENT_CODE_TIMESTAMP & TimestampBuffer_D;
 				end if;
 
-				OutFifoWrite_SO <= '1';
-				State_DN		<= stIdle;
+				OutFifo_O.Write_S <= '1';
+				State_DN		  <= stIdle;
 
 			when stPrepareDVSAER =>
 				DVSAERFifoRead_SO <= '1';
@@ -260,8 +259,8 @@ begin
 
 			when stDVSAER =>
 				-- Write out current event.
-				OutFifoData_DO	<= EVENT_CODE_EVENT & DVSAERFifoData_DI;
-				OutFifoWrite_SO <= '1';
+				OutFifo_O.Data_D  <= EVENT_CODE_EVENT & DVSAERFifoData_DI;
+				OutFifo_O.Write_S <= '1';
 
 				-- The next event on the DVS AER fifo has just been read and
 				-- the data is available on the output bus. First, let's
@@ -279,8 +278,8 @@ begin
 
 			when stAPSADC =>
 				-- Write out current event.
-				OutFifoData_DO	<= EVENT_CODE_EVENT & APSADCFifoData_DI;
-				OutFifoWrite_SO <= '1';
+				OutFifo_O.Data_D  <= EVENT_CODE_EVENT & APSADCFifoData_DI;
+				OutFifo_O.Write_S <= '1';
 
 				-- The next event on the APS ADC fifo has just been read and
 				-- the data is available on the output bus. First, let's
@@ -298,8 +297,8 @@ begin
 
 			when stIMU =>
 				-- Write out current event.
-				OutFifoData_DO	<= EVENT_CODE_EVENT & IMUFifoData_DI;
-				OutFifoWrite_SO <= '1';
+				OutFifo_O.Data_D  <= EVENT_CODE_EVENT & IMUFifoData_DI;
+				OutFifo_O.Write_S <= '1';
 
 				-- The next event on the IMU fifo has just been read and
 				-- the data is available on the output bus. First, let's
@@ -317,8 +316,8 @@ begin
 
 			when stExtTrigger =>
 				-- Write out current event.
-				OutFifoData_DO	<= EVENT_CODE_EVENT & ExtTriggerFifoData_DI;
-				OutFifoWrite_SO <= '1';
+				OutFifo_O.Data_D  <= EVENT_CODE_EVENT & ExtTriggerFifoData_DI;
+				OutFifo_O.Write_S <= '1';
 
 				-- The next event on the APS ADC fifo has just been read and
 				-- the data is available on the output bus. All external

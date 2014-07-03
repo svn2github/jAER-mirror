@@ -1,6 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use work.Settings.all;
+use work.FIFORecords.all;
 
 entity TopLevel is
 	port (
@@ -122,9 +123,8 @@ architecture Structural of TopLevel is
 			USBFifoWrite_SBO			: out std_logic;
 			USBFifoPktEnd_SBO			: out std_logic;
 			USBFifoAddress_DO			: out std_logic_vector(1 downto 0);
-			InFifoEmpty_SI				: in  std_logic;
-			InFifoAlmostEmpty_SI		: in  std_logic;
-			InFifoRead_SO				: out std_logic);
+			InFifo_I					: in  tFromFifoReadSide;
+			InFifo_O					: out tToFifoReadSide);
 	end component FX3Statemachine;
 
 	component MultiplexerStateMachine is
@@ -133,10 +133,8 @@ architecture Structural of TopLevel is
 			Reset_RI					 : in  std_logic;
 			Run_SI						 : in  std_logic;
 			TimestampReset_SI			 : in  std_logic;
-			OutFifoFull_SI				 : in  std_logic;
-			OutFifoAlmostFull_SI		 : in  std_logic;
-			OutFifoWrite_SO				 : out std_logic;
-			OutFifoData_DO				 : out std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
+			OutFifo_I					 : in  tFromFifoWriteSide;
+			OutFifo_O					 : out tToFifoWriteSide;
 			DVSAERFifoEmpty_SI			 : in  std_logic;
 			DVSAERFifoAlmostEmpty_SI	 : in  std_logic;
 			DVSAERFifoRead_SO			 : out std_logic;
@@ -228,17 +226,11 @@ architecture Structural of TopLevel is
 			FULL_FLAG		  : integer;
 			ALMOST_FULL_FLAG  : integer);
 		port (
-			Reset_RI	   : in	 std_logic;
-			DataIn_DI	   : in	 std_logic_vector(DATA_WIDTH-1 downto 0);
-			WrClock_CI	   : in	 std_logic;
-			WrEnable_SI	   : in	 std_logic;
-			DataOut_DO	   : out std_logic_vector(DATA_WIDTH-1 downto 0);
-			RdClock_CI	   : in	 std_logic;
-			RdEnable_SI	   : in	 std_logic;
-			Empty_SO	   : out std_logic;
-			AlmostEmpty_SO : out std_logic;
-			Full_SO		   : out std_logic;
-			AlmostFull_SO  : out std_logic);
+			Reset_RI   : in	 std_logic;
+			WrClock_CI : in	 std_logic;
+			RdClock_CI : in	 std_logic;
+			Fifo_I	   : in	 tToFifo(WriteSide(Data_D(DATA_WIDTH-1 downto 0)));
+			Fifo_O	   : out tFromFifo(ReadSide(Data_D(DATA_WIDTH-1 downto 0))));
 	end component FIFODualClock;
 
 	component FIFO is
@@ -284,9 +276,8 @@ architecture Structural of TopLevel is
 	signal DVSRun_S, APSRun_S, IMURun_S, ExtTriggerRun_S						 : std_logic;
 	signal DVSFifoReset_R, APSFifoReset_R, IMUFifoReset_R, ExtTriggerFifoReset_R : std_logic;
 
-	signal USBFifoLogicData_D																			: std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
-	signal USBFifoLogicWrite_S, USBFifoLogicRead_S														: std_logic;
-	signal USBFifoLogicEmpty_S, USBFifoLogicAlmostEmpty_S, USBFifoLogicFull_S, USBFifoLogicAlmostFull_S : std_logic;
+	signal USBFifoLogic_I : tToFifo(WriteSide(Data_D(USB_FIFO_WIDTH-1 downto 0)));
+	signal USBFifoLogic_O : tFromFifo(ReadSide(Data_D(USB_FIFO_WIDTH-1 downto 0)));
 
 	signal DVSAERFifoDataWrite_D, DVSAERFifoDataRead_D											: std_logic_vector(EVENT_WIDTH-1 downto 0);
 	signal DVSAERFifoWrite_S, DVSAERFifoRead_S													: std_logic;
@@ -349,14 +340,15 @@ begin
 	-- Third: set all constant outputs.
 	USBFifoChipSelect_SBO <= '0';  -- Always keep USB chip selected (active-low).
 	USBFifoRead_SBO		  <= '1';  -- We never read from the USB data path (active-low).
+	USBFifoData_DO		  <= USBFifoLogic_O.ReadSide.Data_D;
 	ChipBiasEnable_SO	  <= BiasEnable_SI;		 -- Direct bypass.
 	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI;	 -- Direct bypass.
 
 	-- Wire all LEDs.
 	LED1_SO <= LogicRunSync_S;
-	LED2_SO <= USBFifoLogicEmpty_S;
+	LED2_SO <= USBFifoLogic_O.ReadSide.Empty_S;
 	LED3_SO <= '0';
-	LED4_SO <= USBFifoLogicFull_S;
+	LED4_SO <= USBFifoLogic_O.WriteSide.Full_S;
 
 	-- Only run data producers if the whole logic also is running.
 	DVSRun_S		<= DVSRunSync_S and LogicRunSync_S;
@@ -392,9 +384,8 @@ begin
 			USBFifoWrite_SBO			=> USBFifoWrite_SBO,
 			USBFifoPktEnd_SBO			=> USBFifoPktEnd_SBO,
 			USBFifoAddress_DO			=> USBFifoAddress_DO,
-			InFifoEmpty_SI				=> USBFifoLogicEmpty_S,
-			InFifoAlmostEmpty_SI		=> USBFifoLogicAlmostEmpty_S,
-			InFifoRead_SO				=> USBFifoLogicRead_S);
+			InFifo_I					=> USBFifoLogic_O.ReadSide,
+			InFifo_O					=> USBFifoLogic_I.ReadSide);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
 	usbFifoLogic : FIFODualClock
@@ -406,17 +397,11 @@ begin
 			FULL_FLAG		  => USBLOGIC_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => USBLOGIC_FIFO_SIZE - USBLOGIC_FIFO_ALMOST_FULL_SIZE)
 		port map (
-			Reset_RI	   => USBReset_R,
-			DataIn_DI	   => USBFifoLogicData_D,
-			WrClock_CI	   => LogicClock_C,
-			WrEnable_SI	   => USBFifoLogicWrite_S,
-			DataOut_DO	   => USBFifoData_DO,
-			RdClock_CI	   => USBClock_CI,
-			RdEnable_SI	   => USBFifoLogicRead_S,
-			Empty_SO	   => USBFifoLogicEmpty_S,
-			AlmostEmpty_SO => USBFifoLogicAlmostEmpty_S,
-			Full_SO		   => USBFifoLogicFull_S,
-			AlmostFull_SO  => USBFifoLogicAlmostFull_S);
+			Reset_RI   => USBReset_R,
+			WrClock_CI => LogicClock_C,
+			RdClock_CI => USBClock_CI,
+			Fifo_I	   => USBFifoLogic_I,
+			Fifo_O	   => USBFifoLogic_O);
 
 	multiplexerSM : MultiplexerStateMachine
 		port map (
@@ -424,10 +409,8 @@ begin
 			Reset_RI					 => LogicReset_R,
 			Run_SI						 => LogicRunSync_S,
 			TimestampReset_SI			 => '0',
-			OutFifoFull_SI				 => USBFifoLogicFull_S,
-			OutFifoAlmostFull_SI		 => USBFifoLogicAlmostFull_S,
-			OutFifoWrite_SO				 => USBFifoLogicWrite_S,
-			OutFifoData_DO				 => USBFifoLogicData_D,
+			OutFifo_I					 => USBFifoLogic_O.WriteSide,
+			OutFifo_O					 => USBFifoLogic_I.WriteSide,
 			DVSAERFifoEmpty_SI			 => DVSAERFifoEmpty_S,
 			DVSAERFifoAlmostEmpty_SI	 => DVSAERFifoAlmostEmpty_S,
 			DVSAERFifoRead_SO			 => DVSAERFifoRead_S,

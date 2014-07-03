@@ -1,6 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use work.Settings.all;
+use work.FIFORecords.all;
 
 entity FIFODualClock is
 	generic (
@@ -11,17 +12,11 @@ entity FIFODualClock is
 		FULL_FLAG		  : integer := 64;
 		ALMOST_FULL_FLAG  : integer := 60);
 	port (
-		Reset_RI	   : in	 std_logic;
-		DataIn_DI	   : in	 std_logic_vector(DATA_WIDTH-1 downto 0);
-		WrClock_CI	   : in	 std_logic;
-		WrEnable_SI	   : in	 std_logic;
-		DataOut_DO	   : out std_logic_vector(DATA_WIDTH-1 downto 0);
-		RdClock_CI	   : in	 std_logic;
-		RdEnable_SI	   : in	 std_logic;
-		Empty_SO	   : out std_logic;
-		AlmostEmpty_SO : out std_logic;
-		Full_SO		   : out std_logic;
-		AlmostFull_SO  : out std_logic);
+		Reset_RI   : in	 std_logic;
+		WrClock_CI : in	 std_logic;
+		RdClock_CI : in	 std_logic;
+		Fifo_I	   : in	 tToFifo(WriteSide(Data_D(DATA_WIDTH-1 downto 0)));
+		Fifo_O	   : out tFromFifo(ReadSide(Data_D(DATA_WIDTH-1 downto 0))));
 end entity FIFODualClock;
 
 architecture Structural of FIFODualClock is
@@ -90,20 +85,20 @@ begin  -- architecture Structural
 			pmi_family			  => DEVICE_FAMILY,
 			pmi_implementation	  => "LUT")
 		port map (
-			Data		=> DataIn_DI,
+			Data		=> Fifo_I.WriteSide.Data_D,
 			WrClock		=> WrClock_CI,
 			RdClock		=> RdClock_CI,
-			WrEn		=> WrEnable_SI,
+			WrEn		=> Fifo_I.WriteSide.Write_S,
 			RdEn		=> FIFORead_S,
 			Reset		=> Reset_RI,
 			RPReset		=> Reset_RI,
 			Q			=> DataInReg_D,
 			Empty		=> FIFOEmpty_S,
-			Full		=> Full_SO,
+			Full		=> Fifo_O.WriteSide.Full_S,
 			AlmostEmpty => FIFOAlmostEmpty_S,
-			AlmostFull	=> AlmostFull_SO);
+			AlmostFull	=> Fifo_O.WriteSide.AlmostFull_S);
 
-	p_comb : process (State_DP, FIFOEmpty_S, FIFOAlmostEmpty_S, RdEnable_SI)
+	p_comb : process (State_DP, FIFOEmpty_S, FIFOAlmostEmpty_S, Fifo_I)
 	begin
 		State_DN <= State_DP;
 
@@ -125,7 +120,7 @@ begin  -- architecture Structural
 			when stGetData =>
 				DataInRegEnable_S <= '1';
 
-				if RdEnable_SI = '1' then
+				if Fifo_I.ReadSide.Read_S = '1' then
 					if FIFOEmpty_S = '0' then
 						FIFORead_S		 <= '1';
 						EmptyReg_S		 <= '0';
@@ -140,7 +135,7 @@ begin  -- architecture Structural
 				end if;
 
 			when stWaitRead =>
-				if RdEnable_SI = '1' then
+				if Fifo_I.ReadSide.Read_S = '1' then
 					if FIFOEmpty_S = '0' then
 						FIFORead_S		 <= '1';
 						EmptyReg_S		 <= '0';
@@ -163,18 +158,18 @@ begin  -- architecture Structural
 		if Reset_RI = '1' then			-- asynchronous reset (active high)
 			State_DP <= stInit;
 
-			Empty_SO	   <= '1';
-			AlmostEmpty_SO <= '1';
+			Fifo_O.ReadSide.Empty_S		  <= '1';
+			Fifo_O.ReadSide.AlmostEmpty_S <= '1';
 
-			DataOut_DO <= (others => '0');
+			Fifo_O.ReadSide.Data_D <= (others => '0');
 		elsif rising_edge(RdClock_CI) then	-- rising clock edge
 			State_DP <= State_DN;
 
-			Empty_SO	   <= EmptyReg_S;
-			AlmostEmpty_SO <= AlmostEmptyReg_S;
+			Fifo_O.ReadSide.Empty_S		  <= EmptyReg_S;
+			Fifo_O.ReadSide.AlmostEmpty_S <= AlmostEmptyReg_S;
 
 			if DataInRegEnable_S = '1' then
-				DataOut_DO <= DataInReg_D;
+				Fifo_O.ReadSide.Data_D <= DataInReg_D;
 			end if;
 		end if;
 	end process p_reg;

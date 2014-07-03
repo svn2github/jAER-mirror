@@ -2,6 +2,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.NUMERIC_STD.all;
 use work.Settings.all;
+use work.FIFORecords.all;
 
 entity FX3Statemachine is
 	port (
@@ -19,12 +20,9 @@ entity FX3Statemachine is
 		USBFifoPktEnd_SBO : out std_logic;
 		USBFifoAddress_DO : out std_logic_vector(1 downto 0);
 
-		-- Input FIFO flags
-		InFifoEmpty_SI		 : in std_logic;
-		InFifoAlmostEmpty_SI : in std_logic;
-
-		-- Input FIFO control lines
-		InFifoRead_SO : out std_logic);
+		-- Input FIFO (from Multiplexer)
+		InFifo_I : in  tFromFifoReadSide;
+		InFifo_O : out tToFifoReadSide);
 end FX3Statemachine;
 
 architecture Behavioral of FX3Statemachine is
@@ -88,7 +86,7 @@ begin
 			Overflow_SO	 => EarlyPacketNotify_S,
 			Data_DO		 => open);
 
-	p_memoryless : process (State_DP, CyclesNotify_S, EarlyPacketNotify_S, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifoAlmostEmpty_SI, InFifoEmpty_SI)
+	p_memoryless : process (State_DP, CyclesNotify_S, EarlyPacketNotify_S, USBFifoThread0Full_SI, USBFifoThread0AlmostFull_SI, USBFifoThread1Full_SI, USBFifoThread1AlmostFull_SI, InFifo_I)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
@@ -100,22 +98,22 @@ begin
 		USBFifoPktEndReg_SB <= '1';
 		USBFifoAddressReg_D <= "00";
 
-		InFifoRead_SO <= '0';  -- Don't read from input FIFO until we know we can write.
+		InFifo_O.Read_S <= '0';	 -- Don't read from input FIFO until we know we can write.
 
 		case State_DP is
 			when stIdle0 =>
 				if USBFifoThread0Full_SI = '0' then
 					if EarlyPacketNotify_S = '1' then
 						State_DN <= stPrepareEarlyPacket0;
-					elsif InFifoAlmostEmpty_SI = '0' then
+					elsif InFifo_I.AlmostEmpty_S = '0' then
 						State_DN <= stPrepareWrite0;
 					end if;
 				end if;
 
 			when stPrepareEarlyPacket0 =>
-				if InFifoEmpty_SI = '0' then
+				if InFifo_I.Empty_S = '0' then
 					State_DN			<= stEarlyPacket0;
-					InFifoRead_SO		<= '1';
+					InFifo_O.Read_S		<= '1';
 					USBFifoWriteReg_SB	<= '0';
 					USBFifoPktEndReg_SB <= '0';
 				end if;
@@ -128,7 +126,7 @@ begin
 
 			when stPrepareWrite0 =>
 				State_DN		   <= stWriteFirst0;
-				InFifoRead_SO	   <= '1';
+				InFifo_O.Read_S	   <= '1';
 				USBFifoWriteReg_SB <= '0';
 
 			when stWriteFirst0 =>
@@ -138,7 +136,7 @@ begin
 					State_DN <= stWriteMiddle0;
 				end if;
 
-				InFifoRead_SO	   <= '1';
+				InFifo_O.Read_S	   <= '1';
 				USBFifoWriteReg_SB <= '0';
 
 			when stWriteMiddle0 =>
@@ -148,15 +146,15 @@ begin
 
 				CyclesCount_S <= '1';
 
-				InFifoRead_SO	   <= '1';
+				InFifo_O.Read_S	   <= '1';
 				USBFifoWriteReg_SB <= '0';
 
 			when stWriteLast0 =>
-				if InFifoAlmostEmpty_SI = '1' then
+				if InFifo_I.AlmostEmpty_S = '1' then
 					State_DN <= stIdle0;
 				else
 					State_DN		   <= stWriteFirst0;
-					InFifoRead_SO	   <= '1';
+					InFifo_O.Read_S	   <= '1';
 					USBFifoWriteReg_SB <= '0';
 				end if;
 
@@ -167,17 +165,17 @@ begin
 
 				CyclesCount_S <= '1';
 
-				InFifoRead_SO	   <= '1';
+				InFifo_O.Read_S	   <= '1';
 				USBFifoWriteReg_SB <= '0';
 
 			when stSwitch0 =>
 				USBFifoAddressReg_D(0) <= '1';	-- Access Thread 1.
 
-				if InFifoAlmostEmpty_SI = '1' or USBFifoThread1Full_SI = '1' then
+				if InFifo_I.AlmostEmpty_S = '1' or USBFifoThread1Full_SI = '1' then
 					State_DN <= stIdle1;
 				else
 					State_DN		   <= stWriteFirst1;
-					InFifoRead_SO	   <= '1';
+					InFifo_O.Read_S	   <= '1';
 					USBFifoWriteReg_SB <= '0';
 				end if;
 
@@ -189,7 +187,7 @@ begin
 				if USBFifoThread1Full_SI = '0' then
 					if EarlyPacketNotify_S = '1' then
 						State_DN <= stPrepareEarlyPacket1;
-					elsif InFifoAlmostEmpty_SI = '0' then
+					elsif InFifo_I.AlmostEmpty_S = '0' then
 						State_DN <= stPrepareWrite1;
 					end if;
 				end if;
@@ -197,9 +195,9 @@ begin
 			when stPrepareEarlyPacket1 =>
 				USBFifoAddressReg_D(0) <= '1';	-- Access Thread 1.
 
-				if InFifoEmpty_SI = '0' then
+				if InFifo_I.Empty_S = '0' then
 					State_DN			<= stEarlyPacket1;
-					InFifoRead_SO		<= '1';
+					InFifo_O.Read_S		<= '1';
 					USBFifoWriteReg_SB	<= '0';
 					USBFifoPktEndReg_SB <= '0';
 				end if;
@@ -212,7 +210,7 @@ begin
 				USBFifoAddressReg_D(0) <= '1';	-- Access Thread 1.
 
 				State_DN		   <= stWriteFirst1;
-				InFifoRead_SO	   <= '1';
+				InFifo_O.Read_S	   <= '1';
 				USBFifoWriteReg_SB <= '0';
 
 			when stWriteFirst1 =>
@@ -224,7 +222,7 @@ begin
 					State_DN <= stWriteMiddle1;
 				end if;
 
-				InFifoRead_SO	   <= '1';
+				InFifo_O.Read_S	   <= '1';
 				USBFifoWriteReg_SB <= '0';
 
 			when stWriteMiddle1 =>
@@ -236,17 +234,17 @@ begin
 
 				CyclesCount_S <= '1';
 
-				InFifoRead_SO	   <= '1';
+				InFifo_O.Read_S	   <= '1';
 				USBFifoWriteReg_SB <= '0';
 
 			when stWriteLast1 =>
 				USBFifoAddressReg_D(0) <= '1';	-- Access Thread 1.
 
-				if InFifoAlmostEmpty_SI = '1' then
+				if InFifo_I.AlmostEmpty_S = '1' then
 					State_DN <= stIdle1;
 				else
 					State_DN		   <= stWriteFirst1;
-					InFifoRead_SO	   <= '1';
+					InFifo_O.Read_S	   <= '1';
 					USBFifoWriteReg_SB <= '0';
 				end if;
 
@@ -259,15 +257,15 @@ begin
 
 				CyclesCount_S <= '1';
 
-				InFifoRead_SO	   <= '1';
+				InFifo_O.Read_S	   <= '1';
 				USBFifoWriteReg_SB <= '0';
 
 			when stSwitch1 =>
-				if InFifoAlmostEmpty_SI = '1' or USBFifoThread0Full_SI = '1' then
+				if InFifo_I.AlmostEmpty_S = '1' or USBFifoThread0Full_SI = '1' then
 					State_DN <= stIdle0;
 				else
 					State_DN		   <= stWriteFirst0;
-					InFifoRead_SO	   <= '1';
+					InFifo_O.Read_S	   <= '1';
 					USBFifoWriteReg_SB <= '0';
 				end if;
 
