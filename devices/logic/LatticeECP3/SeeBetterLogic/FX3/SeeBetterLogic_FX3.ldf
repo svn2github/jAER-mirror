@@ -15,6 +15,9 @@
         <Source name="../sourcecode/ext/Lattice/PLL.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../sourcecode/ext/FIFORecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../sourcecode/ext/i2c_master.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
