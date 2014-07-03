@@ -38,6 +38,9 @@ architecture Behavioral of DVSAERStateMachine is
 			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component ContinuousCounter;
 
+	constant ACK_DELAY	   : integer := 2;
+	constant ACK_EXTENSION : integer := 1;
+
 	type state is (stIdle, stDifferentiateYX, stHandleY, stAckY, stHandleX, stAckX);
 
 	attribute syn_enum_encoding			 : string;
@@ -51,6 +54,10 @@ architecture Behavioral of DVSAERStateMachine is
 
 	-- ACK extension counter (prolongs dAckDOWN)
 	signal ackExtensionCount_S, ackExtensionNotify_S : std_logic;
+
+	-- Register outputs to FIFO.
+	signal OutFifoWriteReg_S : std_logic;
+	signal OutFifoDataReg_D	 : std_logic_vector(EVENT_WIDTH-1 downto 0);
 begin
 	ackDelayCounter : ContinuousCounter
 		generic map (
@@ -60,7 +67,7 @@ begin
 			Reset_RI	 => Reset_RI,
 			Clear_SI	 => '0',
 			Enable_SI	 => ackDelayCount_S,
-			DataLimit_DI => to_unsigned(1, 5),
+			DataLimit_DI => to_unsigned(ACK_DELAY, 5),
 			Overflow_SO	 => ackDelayNotify_S,
 			Data_DO		 => open);
 
@@ -72,7 +79,7 @@ begin
 			Reset_RI	 => Reset_RI,
 			Clear_SI	 => '0',
 			Enable_SI	 => ackExtensionCount_S,
-			DataLimit_DI => to_unsigned(1, 5),
+			DataLimit_DI => to_unsigned(ACK_EXTENSION, 5),
 			Overflow_SO	 => ackExtensionNotify_S,
 			Data_DO		 => open);
 
@@ -80,8 +87,8 @@ begin
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
-		OutFifoWrite_SO <= '0';
-		OutFifoData_DO	<= (others => '0');
+		OutFifoWriteReg_S <= '0';
+		OutFifoDataReg_D  <= (others => '0');
 
 		DVSAERAck_SBO	<= '1';			-- No AER ACK by default.
 		DVSAERReset_SBO <= '1';			-- Keep DVS out of reset by default.
@@ -119,8 +126,8 @@ begin
 			when stHandleY =>
 				-- We might need to delay the ACK.
 				if ackDelayNotify_S = '1' then
-					OutFifoData_DO	<= EVENT_CODE_Y_ADDR & "0000" & DVSAERData_DI(7 downto 0);
-					OutFifoWrite_SO <= '1';
+					OutFifoDataReg_D  <= EVENT_CODE_Y_ADDR & "0000" & DVSAERData_DI(7 downto 0);
+					OutFifoWriteReg_S <= '1';
 
 					State_DN			<= stAckY;
 					ackExtensionCount_S <= '1';
@@ -143,8 +150,8 @@ begin
 			when stHandleX =>
 				-- This is an X address. AER(0) holds the polarity. The
 				-- address is shifted by one to AER(8 downto 1).
-				OutFifoData_DO	<= EVENT_CODE_X_ADDR & DVSAERData_DI(0) & "0000" & DVSAERData_DI(8 downto 1);
-				OutFifoWrite_SO <= '1';
+				OutFifoDataReg_D  <= EVENT_CODE_X_ADDR & DVSAERData_DI(0) & "0000" & DVSAERData_DI(8 downto 1);
+				OutFifoWriteReg_S <= '1';
 
 				State_DN <= stAckX;
 
@@ -164,8 +171,14 @@ begin
 	begin
 		if Reset_RI = '1' then	-- asynchronous reset (active-high for FPGAs)
 			State_DP <= stIdle;
+
+			OutFifoWrite_SO <= '0';
+			OutFifoData_DO	<= (others => '0');
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
+
+			OutFifoWrite_SO <= OutFifoWriteReg_S;
+			OutFifoData_DO	<= OutFifoDataReg_D;
 		end if;
 	end process p_memoryzing;
 end Behavioral;
