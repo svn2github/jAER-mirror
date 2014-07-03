@@ -56,8 +56,9 @@ architecture Behavioral of DVSAERStateMachine is
 	signal ackExtensionCount_S, ackExtensionNotify_S : std_logic;
 
 	-- Register outputs to FIFO.
-	signal OutFifoWriteReg_S : std_logic;
-	signal OutFifoDataReg_D	 : std_logic_vector(EVENT_WIDTH-1 downto 0);
+	signal OutFifoWriteReg_S	  : std_logic;
+	signal OutFifoDataRegEnable_S : std_logic;
+	signal OutFifoDataReg_D		  : std_logic_vector(EVENT_WIDTH-1 downto 0);
 begin
 	ackDelayCounter : ContinuousCounter
 		generic map (
@@ -87,8 +88,9 @@ begin
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
-		OutFifoWriteReg_S <= '0';
-		OutFifoDataReg_D  <= (others => '0');
+		OutFifoWriteReg_S	   <= '0';
+		OutFifoDataRegEnable_S <= '0';
+		OutFifoDataReg_D	   <= (others => '0');
 
 		DVSAERAck_SBO	<= '1';			-- No AER ACK by default.
 		DVSAERReset_SBO <= '1';			-- Keep DVS out of reset by default.
@@ -126,8 +128,9 @@ begin
 			when stHandleY =>
 				-- We might need to delay the ACK.
 				if ackDelayNotify_S = '1' then
-					OutFifoDataReg_D  <= EVENT_CODE_Y_ADDR & "0000" & DVSAERData_DI(7 downto 0);
-					OutFifoWriteReg_S <= '1';
+					OutFifoDataReg_D	   <= EVENT_CODE_Y_ADDR & "0000" & DVSAERData_DI(7 downto 0);
+					OutFifoDataRegEnable_S <= '1';
+					OutFifoWriteReg_S	   <= '1';
 
 					State_DN			<= stAckY;
 					ackExtensionCount_S <= '1';
@@ -150,8 +153,9 @@ begin
 			when stHandleX =>
 				-- This is an X address. AER(0) holds the polarity. The
 				-- address is shifted by one to AER(8 downto 1).
-				OutFifoDataReg_D  <= EVENT_CODE_X_ADDR & DVSAERData_DI(0) & "0000" & DVSAERData_DI(8 downto 1);
-				OutFifoWriteReg_S <= '1';
+				OutFifoDataReg_D	   <= EVENT_CODE_X_ADDR & DVSAERData_DI(0) & "0000" & DVSAERData_DI(8 downto 1);
+				OutFifoDataRegEnable_S <= '1';
+				OutFifoWriteReg_S	   <= '1';
 
 				State_DN <= stAckX;
 
@@ -178,7 +182,9 @@ begin
 			State_DP <= State_DN;
 
 			OutFifoWrite_SO <= OutFifoWriteReg_S;
-			OutFifoData_DO	<= OutFifoDataReg_D;
+			if OutFifoDataRegEnable_S = '1' then
+				OutFifoData_DO <= OutFifoDataReg_D;
+			end if;
 		end if;
 	end process p_memoryzing;
 end Behavioral;
