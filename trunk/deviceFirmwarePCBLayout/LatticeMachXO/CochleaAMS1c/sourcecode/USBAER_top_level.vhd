@@ -155,19 +155,20 @@ architecture Structural of USBAER_top_level is
 			LOCK  : out std_logic);
 	end component;
 
-	component synchronizerStateMachine
-		port (
-			ClockxCI			  : in	std_logic;
-			ResetxRBI			  : in	std_logic;
-			RunxSI				  : in	std_logic;
-			HostResetTimestampxSI : in	std_logic;
-			SyncInxAI			  : in	std_logic;
-			SyncOutxSO			  : out std_logic;
-			MasterxSO			  : out std_logic;
-			ResetTimestampxSBO	  : out std_logic;
-			IncrementCounterxSO	  : out std_logic);
+  component synchronizerStateMachine
+    port (
+      ClockxCI              : in  std_logic;
+      ResetxRBI             : in  std_logic;
+      RunxSI                : in  std_logic;
+      HostResetTimestampxSI : in  std_logic;
+      SyncInxABI            : in  std_logic;
+      SyncOutxSBO           : out std_logic;
+      ConfigxSI 			: in std_logic;
+      --TriggerxSO            : out std_logic;
+      ResetTimestampxSBO    : out std_logic;
+      IncrementCounterxSO   : out std_logic);
 	end component;
-
+  
 	component monitorStateMachine
 		port (
 			ClockxCI				  : in	std_logic;
@@ -533,17 +534,17 @@ begin
 			OverflowxSO	 => TimestampOverflowxS,
 			DataxDO		 => ActualTimestampxD);
 
-	uSyncStateMachine : synchronizerStateMachine
-		port map (
-			ClockxCI			  => ClockxC,
-			ResetxRBI			  => ResetxRB,
-			RunxSI				  => RunxS,
-			HostResetTimestampxSI => HostResetTimestampxS,
-			SyncInxAI			  => SyncInxA,
-			SyncOutxSO			  => SynchOutxS,
-			MasterxSO			  => TimestampMasterxS,
-			ResetTimestampxSBO	  => SynchronizerResetTimestampxSB,
-			IncrementCounterxSO	  => IncxS);
+  uSyncStateMachine : synchronizerStateMachine
+    port map (
+      ClockxCI              => ClockxC,
+      ResetxRBI             => ResetxRB,
+      RunxSI                => RunxS,
+      HostResetTimestampxSI => HostResetTimestampxS,
+      SyncInxABI            =>  SyncInxA, -- CHECK IF SHOULD BE ACTIVE HIGH OR LOW
+      SyncOutxSBO            => SynchOutxS, -- CHECK IF SHOULD BE ACTIVE HIGH OR LOW
+	  ConfigxSI				=> TimestampMasterxS,
+	  ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
+      IncrementCounterxSO   => IncxS);
 
 	fifoStatemachine_1 : fifoStatemachine
 		port map (

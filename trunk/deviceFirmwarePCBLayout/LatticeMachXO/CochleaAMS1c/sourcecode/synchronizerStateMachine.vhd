@@ -21,19 +21,18 @@ entity synchronizerStateMachine is
   port (
     ClockxCI  : in std_logic;
     ResetxRBI : in std_logic;
-
-    -- enable
     RunxSI : in std_logic;
 
+    -- if config==1 trigger event master mode, config==0 slave mode
+    ConfigxSI : in std_logic;
+
+    --
+    SyncInxABI : in std_logic;
+    SyncOutxSBO : out std_logic;
+    TriggerxSO: out std_logic;
+    
     -- host commands to reset timestamps
     HostResetTimestampxSI : in std_logic;
-
-    -- synchronisation in- and output
-    SyncInxAI  : in  std_logic;
-    SyncOutxSO : out std_logic;
-
-    -- are we master
-    MasterxSO : out std_logic;
 
     -- reset timestamp counter
     ResetTimestampxSBO : out std_logic;
@@ -44,144 +43,193 @@ entity synchronizerStateMachine is
 end synchronizerStateMachine;
 
 architecture Behavioral of synchronizerStateMachine is
-  type state is (stMasterIdle, stResetSlaves, stSlaveIdle, stResetTS, stRunMaster, stSyncInLow, stSInc);
+  type state is (stIdle, stTriggerInHigh, stTriggerInLow, stResetSlaves, stRunSlave, stSlaveWaitEdge);
 
   -- present and next state
   signal StatexDP, StatexDN : state;
 
   -- signals used for synchronizer
-  signal SyncInxS, SyncInxSN : std_logic;
+  signal SyncInxSB, SyncInxSBN : std_logic;
 
   -- used to produce different timestamp ticks and to remain in a certain state
   -- for a certain amount of time
-  signal DividerxDN, DividerxDP : std_logic_vector(7 downto 0);
+  signal DividerxDN, DividerxDP : std_logic_vector(4 downto 0);
+  signal CounterxDN, CounterxDP : std_logic_vector(13 downto 0);
 
 begin  -- Behavioral
 
   -- calculate next state
-  p_memless : process (StatexDP, SyncInxS, SyncInxAI, DividerxDP, HostResetTimestampxSI, RunxSI)
-    constant counterInc : integer := 89;
-    constant syncOutLow1 : integer := 25;
-    constant syncOutLow2 : integer := 26;
+  p_memless : process (StatexDP, ConfigxSI, DividerxDP, CounterxDP, HostResetTimestampxSI, SyncInxSB, SyncInxABI)
+    constant counterInc : integer := 29;  --47
+    constant squareWaveHighTime : integer := 50;
+    constant squareWavePeriod : integer := 100;
+    constant timeout : integer := 500;
+    constant resetSlavesTime : integer := 6000;
+  
   begin  -- process p_memless
     -- default assignements
     StatexDN             <= StatexDP;
     DividerxDN           <= DividerxDP;
+    CounterxDN <= CounterxDP;
     ResetTimestampxSBO   <= '1';        -- active low!!
-    SyncOutxSO           <= '1';        -- we are master
     IncrementCounterxSO  <= '0';
-    MasterxSO            <= '1';        -- we are master
-    
+
+    TriggerxSO <= '0';
+ 
+
+    SyncOutxSBO <= '1';
+      
     case StatexDP is
-      when stMasterIdle               =>  -- waiting for either sync in to go
-                                          -- high or reset to go high
-        ResetTimestampxSBO <= '0';
+      when stIdle               =>  -- waiting for either sync in to go
+                                          -- high or run to go high
+        ResetTimestampxSBO <= '1';
         DividerxDN         <= (others => '0');
-        MasterxSO          <= '1';
-        SyncOutxSO         <= SyncInxAI;
-        if SyncInxS = '1' then
-          StatexDN         <= stSlaveIdle;
-        elsif RunxSI = '1' then
-            StatexDN       <= stRunMaster;
-        end if;
-      when stResetSlaves              =>  -- reset potential slave usbaermini2
-                                          -- devices
-        DividerxDN         <= DividerxDP+1;
-
-        if DividerxDP >= 3 then         -- stay four cycles in this state
-          DividerxDN <= (others => '0');
-          ResetTimestampxSBO <= '0';
-          StatexDN <= stRunMaster;
-        end if;
-        if SyncInxS = '1' then
-          StatexDN   <= stResetTS;
-          DividerxDN <= (others => '0');
-        end if;
-
-        SyncOutxSO         <= '0';
-        --ResetTimestampxSBO <= '0'; assign this for only one cycle
-
-        MasterxSO <= '1';               -- we are master
-
-      when stResetTS =>                 -- reset local timestamp and wrap-add
-        SyncOutxSO           <= SyncInxAI;
-        ResetTimestampxSBO   <= '0';
-
-        MasterxSO <= '0';               -- we are not master
-    
-        DividerxDN <= (others => '0');
-        if SyncInxS = '1' then
-          StatexDN <= stSlaveIdle;
-        else
-          StatexDN <= stMasterIdle;
-        end if;
+        CounterxDN <= (others => '0');
+ 
+        SyncOutxSBO <= SyncInxABI;
         
-      when stRunMaster                =>      -- 1us timestamp tick mode
-        DividerxDN   <= DividerxDP +1;
+        if ConfigxSI = '0' and SyncInxSB ='0' then
+          StatexDN         <= stRunSlave;
+          ResetTimestampxSBO <= '0';
+      
+        elsif ConfigxSI='1' then --and RunxSI='1' then
+          StatexDN <= stTriggerInHigh;
+          ResetTimestampxSBO <= '0';
+        end if;
+     when stResetSlaves              =>  -- reset  slaves
+        DividerxDN         <= (others => '0');
 
-        if DividerxDP = syncOutLow2 or DividerxDP = syncOutLow1 then  -- hold SyncOutxSO low for
-                                        -- two clockcycles to tell
-                                        -- other boards to
-                                        -- increment their timestamps
-          SyncOutxSO          <= '0';
-        elsif DividerxDP >= counterInc then     -- increment local timestamp
+        if CounterxDP > resetSlavesTime then         -- stay 6000 (200us) cycles in this state
+          CounterxDN <= (others => '0');
+          ResetTimestampxSBO <= '0';
+          StatexDN <= stTriggerInHigh;
+        end if;
+    
+        CounterxDN <= CounterxDP+1;
+        SyncOutxSBO   <= '1';
+        
+      when stTriggerInHigh      =>      
+        DividerxDN   <= DividerxDP +1;
+    
+        if DividerxDP > counterInc -1 then     -- increment local timestamp
           DividerxDN          <= (others => '0');
           IncrementCounterxSO <= '1';
+          CounterxDN <= CounterxDP+1;
+          if CounterxDP > squareWavePeriod - 2 then
+            CounterxDN <= (others => '0');
+            --TriggerxSO <= '1';  --------------------------- debug
+          end if;
         end if;
 
-        if SyncInxS = '1' then
-          StatexDN   <= stResetTS;
-          DividerxDN <= (others => '0');
-        elsif RunxSI = '0' then
-          StatexDN   <= stMasterIdle;
+        if SyncInxSB = '0' then
+            StatexDN <= stTriggerInLow;
+            TriggerxSO <= '1';
+        end if;
+
+        if CounterxDP < squareWaveHighTime then
+          SyncOutxSBO <= '0';
+        else
+          SyncOutxSBO <= '1';
+        end if;
+
+        if ConfigxSI='0'  then          -- or RunxSI ='0'
+          StatexDN   <= stIdle;
         elsif HostResetTimestampxSI = '1' then
           StatexDN   <= stResetSlaves;
           DividerxDN <= (others => '0');
+          CounterxDN <= (others => '0');
         end if;
 
-      when stSlaveIdle        =>        -- wait for sync in to go low
-        SyncOutxSO <= SyncInxAI;
-        DividerxDN <= (others => '0');
-        if SyncInxS = '0' then
-          StatexDN <= stSyncInLow;
+        
+      when stTriggerInLow   =>      
+        DividerxDN   <= DividerxDP +1;
+    
+        if DividerxDP > counterInc -1 then     -- increment local timestamp
+          DividerxDN          <= (others => '0');
+          IncrementCounterxSO <= '1';
+          CounterxDN <= CounterxDP+1;
+          if CounterxDP > squareWavePeriod - 2 then
+            CounterxDN <= (others => '0');
+          end if;
         end if;
-        MasterxSO  <= '0';              -- we are not master
-      when stSyncInLow        =>        -- wait for sync in to go high again,
-                                        -- if this not happens after three
-                                        -- cycles, change to master mode  
-        SyncOutxSO <= SyncInxAI;
-        MasterxSO  <= '0';
-        DividerxDN <= DividerxDP +1;
 
-        if SyncInxS = '1' then
-          StatexDN <= stSInc;
-        elsif DividerxDP >= 2 then
-          StatexDN   <= stResetTS;
+        if SyncInxSB = '1' then
+            StatexDN <= stTriggerInHigh;
+        end if;
+        
+        if CounterxDP < squareWaveHighTime then
+          SyncOutxSBO <= '0';
+        else
+          SyncOutxSBO <= '1';
+        end if;
+            
+        if ConfigxSI='0'  then -- or RunxSI = '0' 
+          StatexDN   <= stIdle;
+        elsif HostResetTimestampxSI = '1' then
+          StatexDN   <= stResetSlaves;
           DividerxDN <= (others => '0');
+          CounterxDN <= (others => '0');
+        end if;
+        
+      when stRunSlave =>
+
+        --SyncOutxSBO <= '0';
+        SyncOutxSBO <= SyncInxSB;
+        
+        DividerxDN   <= DividerxDP +1;
+
+        if DividerxDP > counterInc -1 then     -- increment local timestamp
+          DividerxDN          <= (others => '0');
+          IncrementCounterxSO <= '1';
+          CounterxDN <= CounterxDP+1;
         end if;
 
-      when stSInc      =>               -- increment counter
-        SyncOutxSO          <= SyncInxAI;
-        IncrementCounterxSO <= '1';
-        StatexDN            <= stSlaveIdle;
-        MasterxSO           <= '0';     -- we are not master
+        
+        if CounterxDP > squareWavePeriod - 2 then
+          StatexDN <= stSlaveWaitEdge;
+        end if;
+        
+        if ConfigxSI='1'  then
+          StatexDN   <= stIdle;
+          CounterxDN <= (others => '0');
+        end if;
 
-      when others =>    null;
+      when stSlaveWaitEdge =>
+
+        --SyncOutxSBO <= '1';
+        SyncOutxSBO <= SyncInxSB;
+        
+        DividerxDN          <= (others => '0');
+        CounterxDN <= CounterxDP + 1;
+        if SyncInxSB = '0' then
+          IncrementCounterxSO <= '1';
+          StatexDN <= stRunSlave;
+          CounterxDN <= (others => '0');
+          --TriggerxSO <= '1'; --------------------------- debug
+        end if;
+
+        if ConfigxSI='1' or CounterxDP > timeout then
+          StatexDN   <= stIdle;
+        end if;
+        
+      when others =>
+        StatexDN            <= stIdle;
+    
     end case;
 
   end process p_memless;
 
- -- SyncInxS <= '1';                      -- ignore sync input
-  
   -- change state on clock edge
   p_mem : process (ClockxCI,ResetxRBI)
   begin  -- process p_mem
     if ResetxRBI = '0' then
-      StatexDP <= stMasterIdle;
+      StatexDP <= stIdle;
       DividerxDP <= (others => '0');
+      CounterxDP <= (others => '0');
     elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
       StatexDP   <= StatexDN;
       DividerxDP <= DividerxDN;
+      CounterxDP <= CounterxDN;
     end if;
   end process p_mem;
 
@@ -191,9 +239,9 @@ begin  -- Behavioral
   -- outputs: 
   synchronizer : process (ClockxCI)
   begin
-    if ClockxCI'event and ClockxCI = '1' then        
-      SyncInxS  <= SyncInxSN;
-      SyncInxSN <= SyncInxAI;
+    if ClockxCI'event and ClockxCI = '1' then              -- using double edge flipflops for synchronizing 
+      SyncInxSB  <= SyncInxSBN;
+      SyncInxSBN <= SyncInxABI;
     end if;
   end process synchronizer;
 
