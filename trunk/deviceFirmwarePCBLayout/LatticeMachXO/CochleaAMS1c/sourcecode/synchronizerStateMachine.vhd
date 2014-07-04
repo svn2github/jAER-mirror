@@ -53,17 +53,17 @@ architecture Behavioral of synchronizerStateMachine is
 
   -- used to produce different timestamp ticks and to remain in a certain state
   -- for a certain amount of time
-  signal DividerxDN, DividerxDP : std_logic_vector(4 downto 0);
+  signal DividerxDN, DividerxDP : std_logic_vector(6 downto 0);
   signal CounterxDN, CounterxDP : std_logic_vector(13 downto 0);
 
 begin  -- Behavioral
 
   -- calculate next state
-  p_memless : process (StatexDP, ConfigxSI, DividerxDP, CounterxDP, HostResetTimestampxSI, SyncInxSB, SyncInxABI)
-    constant counterInc : integer := 29;  --47
+  p_memless : process (StatexDP, RunxSI, ConfigxSI, DividerxDP, CounterxDP, HostResetTimestampxSI, SyncInxSB, SyncInxABI)
+    constant counterInc : integer := 89;  --47
     constant squareWaveHighTime : integer := 50;
     constant squareWavePeriod : integer := 100;
-    constant timeout : integer := 500;
+    constant timeout : integer := 1000;
     constant resetSlavesTime : integer := 6000;
   
   begin  -- process p_memless
@@ -92,7 +92,7 @@ begin  -- Behavioral
           StatexDN         <= stRunSlave;
           ResetTimestampxSBO <= '0';
       
-        elsif ConfigxSI='1' then --and RunxSI='1' then
+        elsif ConfigxSI='1' and RunxSI='1' then
           StatexDN <= stTriggerInHigh;
           ResetTimestampxSBO <= '0';
         end if;
@@ -132,7 +132,7 @@ begin  -- Behavioral
           SyncOutxSBO <= '1';
         end if;
 
-        if ConfigxSI='0'  then          -- or RunxSI ='0'
+        if RunxSI = '0' or ConfigxSI='0'  then
           StatexDN   <= stIdle;
         elsif HostResetTimestampxSI = '1' then
           StatexDN   <= stResetSlaves;
@@ -163,7 +163,7 @@ begin  -- Behavioral
           SyncOutxSBO <= '1';
         end if;
             
-        if ConfigxSI='0'  then -- or RunxSI = '0' 
+        if RunxSI = '0' or ConfigxSI='0'  then
           StatexDN   <= stIdle;
         elsif HostResetTimestampxSI = '1' then
           StatexDN   <= stResetSlaves;
@@ -239,7 +239,7 @@ begin  -- Behavioral
   -- outputs: 
   synchronizer : process (ClockxCI)
   begin
-    if ClockxCI'event and ClockxCI = '1' then              -- using double edge flipflops for synchronizing 
+    if ClockxCI'event  and ClockxCI = '1' then   
       SyncInxSB  <= SyncInxSBN;
       SyncInxSBN <= SyncInxABI;
     end if;
