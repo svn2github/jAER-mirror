@@ -257,6 +257,7 @@ architecture Structural of USBAER_top_level is
 			I2CAddrxDO  		: out std_logic_vector(2 downto 0); 
 			I2CDataxDIO 		: inout std_logic_vector(7 downto 0); 
 			IMURunxEI           : in  std_logic; 
+			IMUInitDataxDI		: in std_logic_vector(39 downto 0);
 			IMUDataReadyReqxEO 	: out std_logic; 
 			IMUDataReadyAckxEI 	: in std_logic; 
 			IMUDataWriteReqxEI 	: in std_logic; 
@@ -332,7 +333,7 @@ architecture Structural of USBAER_top_level is
 			Reset: in  std_logic; 
 			RPReset: in  std_logic;
 			Q: out  std_logic_vector(15 downto 0); 
-			Empty: out  std_logic;
+			Empty: out  std_logic; 
 			Full: out  std_logic; 
 			AlmostEmpty: out  std_logic;
 			AlmostFull: out  std_logic);
@@ -402,7 +403,10 @@ architecture Structural of USBAER_top_level is
 	signal IncxS : std_logic;
 
 	--H IMU Register control and data signals
-	signal IMURunxE 	: std_logic;
+	signal IMUConfigxD  : std_logic_vector(47 downto 0); -- Holds configuration bits for IMU: Run bit and Init registers data
+	signal IMURunxE 	: std_logic; -- Run signal to enable IMU state machine
+	signal IMUInitDataxD : std_logic_vector(39 downto 0); -- Contains 8 bit words used to configure IMU 
+
 	signal IMUEventxE 	: std_logic;
 	
 	signal IMUDataReadyReqxE, IMUDataReadyAckxE : std_logic;
@@ -441,7 +445,7 @@ architecture Structural of USBAER_top_level is
 	signal CDVSTestApsTxGatexS : std_logic;
 	signal ExtTriggerxE		: std_logic;
 
-	signal SRDataOutxD : std_logic_vector(79 downto 0);
+	signal SRDataOutxD : std_logic_vector(127 downto 0);
 
 	signal ExposurexD, ColSettlexD, RowSettlexD, ResSettlexD : std_logic_vector(15 downto 0); 
 	signal FramePeriodxD : std_logic_vector(15 downto 0);
@@ -504,9 +508,10 @@ begin
 
 	SyncIn1xAB <= SyncInCLKxABI;
   
+	--H Shift register has ADC Config bits and IMU Congif bits
 	shiftRegister_1: shiftRegister
 		generic map (
-			width => 80)
+			width => 128) --H
 		port map (
 			ClockxCI   => SRClockxC,
 			ResetxRBI  => ResetxRB,
@@ -521,6 +526,10 @@ begin
 	ResSettlexD <= SRDataOutxD(63 downto 48);
 	FramePeriodxD <= SRDataOutxD(79 downto 64);
   
+	--H IMU 
+	IMUConfigxD <= SRDataOutxD(127 downto 80);
+	--H
+
 	uFifo : AERfifo
 		port map (
 			Data(15 downto 0)=> FifoDataInxD,
@@ -720,6 +729,7 @@ begin
 			I2CAddrxDO  		=> I2CAddrxD,
 			I2CDataxDIO 		=> I2CDataxD,
 			IMURunxEI           => IMURunxE,
+			IMUInitDataxDI		=> IMUInitDataxD,		
 			IMUDataReadyReqxEO 	=> IMUDataReadyReqxE,
 			IMUDataReadyAckxEI 	=> IMUDataReadyAckxE,
 			IMUDataWriteReqxEI 	=> IMUDataWriteReqxE,
@@ -729,12 +739,9 @@ begin
 			IMUDataxDO          => IMUDataxD,
 			DebugLEDxEO			=> DebugLEDxE);
   
-	-- Always have IMU Running
-	-- FIGURE OUT BEST WAY TO DO THIS
-	-- IMURunxE <= '1';
-	IMURunxE <= RunxS;
-	--H
-  
+	IMURunxE <= IMUConfigxD(0);
+	IMUInitDataxD <= IMUConfigxD(47 downto 8);
+
 	--H I2C Controller Instantiation
 	I2C_Top_1: I2C_Top 
 		port map (
@@ -793,15 +800,9 @@ begin
 			(others => '0') 					when others; --H
 	
 	--LED1xSO <= IMUDataReadyReqxE; --H 
-	--LED1xSO <= IfClockxC and ClockxC;
-	--LED2xSO <= IfClockxC; --H
-	--LED3xSO <= ClockxC; --H
-	LED1xSO <= DebugLEDxE; --H 
+	LED1xSO <= IMUDataDropxE; --H 
 	LED2xSO <= IMUSCLxCIO; --H
 	LED3xSO <= IMUSDAxSIO; --H
-	--H LED1xSO <= CDVSTestChipResetxRB;
-	--H LED2xSO <= RunxS;
-	--H LED3xSO <= ADCStateOutputLEDxS;
 	--LED3xSO <= ExtTriggerxE;
 
 

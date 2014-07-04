@@ -1,7 +1,7 @@
 # Synospys Constraint Checker(syntax only), version maplat, Build 618R, built Mar 14 2013
 # Copyright (C) 1994-2012, Synopsys Inc. This software the associated documentation are confidential and proprietary to Synopsys, Inc. Your use or disclosure of this software subject to the terms and conditions of a written license agreement between you, or your company, and Synopsys, Inc.
 
-# Written on Thu Jun 05 11:18:45 2014
+# Written on Thu Jun 26 17:07:49 2014
 
 
 ##### DESIGN INFO #######################################################
@@ -24,7 +24,7 @@ Clock Summary
 Start                                             Requested      Requested     Clock                                          Clock                
 Clock                                             Frequency      Period        Type                                           Group                
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-clockgen|CLKOP_inferred_clock                     132.5 MHz      7.547         inferred                                       Autoconstr_clkgroup_0
+clockgen|CLKOP_inferred_clock                     113.7 MHz      8.793         inferred                                       Autoconstr_clkgroup_0
 USBAER_top_level|IfClockxCI                       4.1 MHz        241.465       inferred                                       Autoconstr_clkgroup_1
 USBAER_top_level|PC1xSIO                          1000.0 MHz     1.000         inferred                                       Autoconstr_clkgroup_2
 USBAER_top_level|PC2xSIO                          1.0 MHz        1000.000      inferred                                       Autoconstr_clkgroup_3

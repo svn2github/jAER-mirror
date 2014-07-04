@@ -1,7 +1,7 @@
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":26:7:26:22|Synthesizing work.usbaer_top_level.structural 
 @W: CD276 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Top.vhd":59:7:59:12|Map for port intr_l of component i2c_top not found
-@W: CD730 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":739:1:739:9|Component declaration has 10 ports but entity declares 11 ports
-@W: CD326 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":739:1:739:9|Port intr_l of entity work.i2c_top is unconnected
+@W: CD730 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":746:1:746:9|Component declaration has 10 ports but entity declares 11 ports
+@W: CD326 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":746:1:746:9|Port intr_l of entity work.i2c_top is unconnected
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\cDVSResetStateMachine.vhd":25:7:25:27|Synthesizing work.cdvsresetstatemachine.behavioral 
 @N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\cDVSResetStateMachine.vhd":38:13:38:14|Using sequential encoding for type state
 Post processing for work.cdvsresetstatemachine.behavioral
@@ -69,138 +69,148 @@ Post processing for work.i2c_top.behave
 @W: CL168 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Top.vhd":485:0:485:6|Pruning instance delay_3 -- not in use ... 
 @W: CL168 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Top.vhd":479:0:479:6|Pruning instance delay_2 -- not in use ... 
 @W: CL168 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Top.vhd":473:0:473:6|Pruning instance delay_1 -- not in use ... 
-@N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":21:7:21:21|Synthesizing work.imustatemachine.behavioral 
-@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":54:14:54:15|Using onehot encoding for type staterw (stidle="10000000000")
-@N: CD232 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":64:15:64:16|Using gray code encoding for type stateimu
-@N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":85:20:85:21|Using sequential encoding for type stateimuwrite
+@N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":22:7:22:21|Synthesizing work.imustatemachine.behavioral 
+@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":58:14:58:15|Using onehot encoding for type staterw (stidle="10000000000")
+@N: CD231 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":68:15:68:16|Using onehot encoding for type stateimu (stidle="1000000000000000000000000000000000000000")
+@N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":89:20:89:21|Using sequential encoding for type stateimuwrite
+@W: CD274 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":449:4:449:7|Incomplete case statement - add more cases or a when others
+@W: CD274 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":510:4:510:7|Incomplete case statement - add more cases or a when others
+@W: CG296 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":369:9:369:15|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":511:38:511:49|Referenced variable imuinitdata0 is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":515:38:515:49|Referenced variable imuinitdata4 is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":514:38:514:49|Referenced variable imuinitdata3 is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":513:38:513:49|Referenced variable imuinitdata2 is not in sensitivity list
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":512:38:512:49|Referenced variable imuinitdata1 is not in sensitivity list
+@W: CG296 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1083:16:1083:22|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:24:1085:32|Referenced variable imurunxei is not in sensitivity list
 Post processing for work.imustatemachine.behavioral
-@W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":45:2:45:12|DebugLEDxEO is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUGyroZMSBxDP_cl(7) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUGyroYMSBxDP_cl(7) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUGyroXMSBxDP_cl(7) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUTempMSBxDP_cl(7) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUAccelZMSBxDP_cl(7) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUAccelYMSBxDP_cl(7) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUAccelXMSBxDP_cl(7) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUGyroZLSBxDP_cl(7) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUGyroYLSBxDP_cl(7) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUGyroXLSBxDP_cl(7) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUTempLSBxDP_cl(7) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUAccelZLSBxDP_cl(7) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUAccelYLSBxDP_cl(7) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUAccelXLSBxDP_cl(7) to a constant 1
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempLSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempMSBxDP_cl(7)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempMSBxDP_cl(7)  
+@W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":49:2:49:12|DebugLEDxEO is not assigned a value (floating) -- simulation mismatch possible. 
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUGyroZMSBxDP_cl(7) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUGyroYMSBxDP_cl(7) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUGyroXMSBxDP_cl(7) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUTempMSBxDP_cl(7) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUAccelZMSBxDP_cl(7) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUAccelYMSBxDP_cl(7) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUAccelXMSBxDP_cl(7) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUGyroZLSBxDP_cl(7) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUGyroYLSBxDP_cl(7) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUGyroXLSBxDP_cl(7) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUTempLSBxDP_cl(7) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUAccelZLSBxDP_cl(7) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUAccelYLSBxDP_cl(7) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUAccelXLSBxDP_cl(7) to a constant 1
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempLSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempMSBxDP_cl(7)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempMSBxDP_cl(7)  
 @N: CD630 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCvalueReady.vhd":25:7:25:19|Synthesizing work.adcvalueready.behavioral 
 @N: CD233 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\ADCvalueReady.vhd":37:13:37:14|Using sequential encoding for type state
 Post processing for work.adcvalueready.behavioral
@@ -248,7 +258,7 @@ Post processing for work.clockgen.structure
 Post processing for work.usbaer_top_level.structural
 @W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":49:2:49:13|SyncOutSWxEI is not assigned a value (floating) -- simulation mismatch possible. 
 @W: CL240 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":48:2:48:15|SyncOutSIGxSBI is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL168 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":754:1:754:23|Pruning instance cDVSResetStateMachine_1 -- not in use ... 
+@W: CL168 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\USBAER_top_level.vhd":761:1:761:23|Pruning instance cDVSResetStateMachine_1 -- not in use ... 
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\synchronizerStateMachine.vhd":245:4:245:5|Trying to extract state machine for register StatexDP
 Extracted state machine for register StatexDP
 State machine has 6 reachable states with original encodings of:
@@ -317,177 +327,147 @@ State machine has 4 reachable states with original encodings of:
    01
    10
    11
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUAccelXxDP_cl(15) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUAccelYxDP_cl(15) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUAccelZxDP_cl(15) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUGyroXxDP_cl(15) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUGyroYxDP_cl(15) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUGyroZxDP_cl(15) to a constant 1
-@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Optimizing register bit IMUTempxDP_cl(15) to a constant 1
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUTempxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUGyroXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelZxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelYxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Pruning register IMUAccelXxDP_cl(15)  
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Trying to extract state machine for register StateIMUxDP
-Extracted state machine for register StateIMUxDP
-State machine has 41 reachable states with original encodings of:
-   000000
-   000001
-   000010
-   000011
-   000100
-   000101
-   000110
-   000111
-   001000
-   001001
-   001010
-   001011
-   001100
-   001101
-   001110
-   001111
-   010000
-   010001
-   010010
-   010011
-   010100
-   010101
-   010110
-   010111
-   011000
-   011001
-   011010
-   011011
-   011100
-   011101
-   011110
-   011111
-   110000
-   110001
-   110010
-   110011
-   110100
-   110101
-   110110
-   110111
-   111100
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Trying to extract state machine for register StateIMUWritexDP
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUAccelXxDP_cl(15) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUAccelYxDP_cl(15) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUAccelZxDP_cl(15) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUGyroXxDP_cl(15) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUGyroYxDP_cl(15) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUGyroZxDP_cl(15) to a constant 1
+@W: CL190 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Optimizing register bit IMUTempxDP_cl(15) to a constant 1
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUTempxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUGyroXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelZxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelYxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@W: CL169 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Pruning register IMUAccelXxDP_cl(15)  
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Trying to extract state machine for register StateIMUWritexDP
 Extracted state machine for register StateIMUWritexDP
 State machine has 4 reachable states with original encodings of:
    00
    01
    10
    11
-@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1064:2:1064:3|Trying to extract state machine for register StateRWxDP
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Trying to extract state machine for register StateRWxDP
+Extracted state machine for register StateRWxDP
+State machine has 11 reachable states with original encodings of:
+   00000000001
+   00000000010
+   00000000100
+   00000001000
+   00000010000
+   00000100000
+   00001000000
+   00010000000
+   00100000000
+   01000000000
+   10000000000
+@N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\IMUStateMachine.vhd":1085:2:1085:3|Trying to extract state machine for register StateIMUxDP
 @N: CL201 :"C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret10_2_IMU\sourcecode\I2C_Mpu_Blk.vhd":167:3:167:4|Trying to extract state machine for register ns
 Extracted state machine for register ns
 State machine has 3 reachable states with original encodings of:

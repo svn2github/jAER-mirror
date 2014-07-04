@@ -15,13 +15,11 @@ uEarlyPaketTimer/VCC
 uEventCounter/GND
 uTimestampCounter/GND
 uTimestampCounter/VCC
-uSynchronizerStateMachine_1/GND
 uSynchronizerStateMachine_1/VCC
+uSynchronizerStateMachine_1/GND
 fifoStatemachine_1/GND
 monitorStateMachine_1/GND
 ADCStateMachine_1/GND
-IMUStateMachine_1/VCC
-IMUStateMachine_1/GND
 I2C_Top_1/I2C_Clock_Gen_1/GND
 I2C_Top_1/I2C_Clock_Gen_1/VCC
 I2C_Top_1/Counter_Blk_1/GND
@@ -460,16 +458,16 @@ ADCStateMachine_1/un1_countcolxdp_0_data_tmp[6]
 ADCStateMachine_1/un1_countcolxdp_0_I_51_0_S1
 ADCStateMachine_1/un1_countcolxdp_0_I_51_0_S0
 ADCStateMachine_1/un1_countcolxdp_0_I_51_0_COUT1
-IMUStateMachine_1/I2CWaitCountxDP_cry[0]
-IMUStateMachine_1/I2CWaitCountxDP_cry[2]
-IMUStateMachine_1/I2CWaitCountxDP_cry[4]
-IMUStateMachine_1/I2CWaitCountxDP_cry[6]
-IMUStateMachine_1/I2CWaitCountxDP_cry[8]
-IMUStateMachine_1/I2CWaitCountxDP_cry[10]
-IMUStateMachine_1/I2CWaitCountxDP_cry[12]
-IMUStateMachine_1/I2CWaitCountxDP_s_0_S1[14]
-IMUStateMachine_1/I2CWaitCountxDP_s_0_COUT1[14]
-IMUStateMachine_1/I2CWaitCountxDP_s_0_COUT0[14]
+IMUStateMachine_1/un1_I2CWaitCountxDP_1_cry_0
+IMUStateMachine_1/un1_I2CWaitCountxDP_1_cry_2
+IMUStateMachine_1/un1_I2CWaitCountxDP_1_cry_4
+IMUStateMachine_1/un1_I2CWaitCountxDP_1_cry_6
+IMUStateMachine_1/un1_I2CWaitCountxDP_1_cry_8
+IMUStateMachine_1/un1_I2CWaitCountxDP_1_cry_10
+IMUStateMachine_1/un1_I2CWaitCountxDP_1_cry_12
+IMUStateMachine_1/un1_I2CWaitCountxDP_1_s_14_0_S1
+IMUStateMachine_1/un1_I2CWaitCountxDP_1_s_14_0_COUT1
+IMUStateMachine_1/un1_I2CWaitCountxDP_1_s_14_0_COUT0
 I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_0_0_S0
 I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_0
 I2C_Top_1/I2C_Clock_Gen_1/un6_count_cry_2
@@ -491,7 +489,7 @@ I2C_Top_1/Counter_Blk_1/un22_byte_counter_0_data_tmp[2]
 [ END CLIPPED ]
 [ START DESIGN PREFS ]
 SCHEMATIC START ;
-# map:  version Diamond (64-bit) 2.2.0.101 -- WARNING: Map write only section -- Thu Jun 05 11:19:01 2014
+# map:  version Diamond (64-bit) 2.2.0.101 -- WARNING: Map write only section -- Thu Jun 26 17:08:04 2014
 
 SYSCONFIG INBUF=ON CONFIG_SECURE=OFF ;
 LOCATE COMP "IMUSDAxSIO" SITE "T5" ;

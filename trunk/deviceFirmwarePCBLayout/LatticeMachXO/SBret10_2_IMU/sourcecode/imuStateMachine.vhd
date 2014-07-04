@@ -12,6 +12,7 @@
 --
 -- 
 --------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.STD_LOGIC_ARITH.all;
@@ -32,8 +33,11 @@ entity IMUStateMachine is
 		I2CAddrxDO  : out std_logic_vector(2 downto 0); -- I2C Address for register selection
 		I2CDataxDIO : inout std_logic_vector(7 downto 0); --I2C Data Read or Write
 
-		-- Signals interfacing with monitorStateMachine
+		-- Global (?) Signals
 		IMURunxEI           : in  std_logic; -- Start IMU State Machine
+		IMUInitDataxDI		: in std_logic_vector(39 downto 0); -- 
+	
+		-- Signals interfacing with monitorStateMachine
 		IMUDataReadyReqxEO  : out std_logic; -- Request Monitor State Machine to write data by signaling that data is ready
 		IMUDataReadyAckxEI  : in std_logic;  -- Recieve Acknowledge from Monitor State Machine indicating that we should start writing data
 		IMUDataWriteReqxEI  : in std_logic;  -- Recieve Request to start writing IMU Measurement Data
@@ -65,8 +69,8 @@ architecture Behavioral of IMUStateMachine is
 			-- Idle
 			stIdle, 
 			-- Write Configuration Bits 
-			stWrInitWriteAddressRegister, stWrInitWriteByteCountRegister, stWrInitWriteInitialDataBufferRegister, stWrInitWriteCommandRegister,	
-			stWrInitWaitI2C1, stWrInitWaitI2C2, stWrInitReadStatusRegister, stWrInitWriteDataBufferRegister, stWrInitWaitI2C3, stWrInitCheckDone,
+			stWrInitWriteAddressRegister, stWrInitWriteByteCountRegister, stWrInitWriteAddrDataBufferRegister, stWrInitWriteCommandRegister,	
+			stWrInitWaitI2C1, stWrInitReadStatusRegister, stWrInitWriteDataBufferRegister, stWrInitWaitI2C2, stWrInitCheckDone,
 			-- Select Interrupt Data Register
 			stWrIntWriteAddressRegister, stWrIntWriteAddrByteCountRegister, stWrIntWriteDataBufferRegister,
 			stWrIntWriteCommandRegister, stWrIntWaitI2C, stWrIntCheckDone, 
@@ -100,7 +104,7 @@ architecture Behavioral of IMUStateMachine is
 	constant I2C_IMU_WRITE					: std_logic := '0'; -- Write bit appended to end of IMU I2C Address
 	constant I2C_IMU_READ					: std_logic := '1'; -- Read bit appended to end of IMU I2C Address
 	constant I2C_IMU_COMMAND 				: std_logic_vector(7 downto 0) := "10001000"; -- Continuously poll data at 400 kbits/sec
-	constant I2C_IMU_WRITE_BYTE_COUNT 		: std_logic_vector(7 downto 0) := "00001010"; -- Number of configuration bytes to write to IMU, 5 addresses, 5 data
+	constant I2C_IMU_WRITE_BYTE_COUNT 		: std_logic_vector(7 downto 0) := "00000010"; -- Number of configuration bytes to write to IMU at a time: 1 address, 1 word
 	constant I2C_IMU_INT_READ_BYTE_COUNT	: std_logic_vector(7 downto 0) := "00000001"; -- Number of bytes to write to select IMU Interrupt Register
 	constant I2C_IMU_INT_STATUS				: std_logic_vector(7 downto 0) := "00111010"; -- Interrupt Status register, which indicates when new data is available
 	constant I2C_IMU_ADDR_READ_BYTE_COUNT 	: std_logic_vector(7 downto 0) := "00000001"; -- Only write to first IMU Data Register, this register gets incremented internally
@@ -112,9 +116,9 @@ architecture Behavioral of IMUStateMachine is
 	constant i2c_ack_length : std_logic_vector(2 downto 0) := "111"; -- Maximum valid value for I2C Acknowledge: 7 (8 clock cycles)
 	constant i2c_kill_time : std_logic_vector(2 downto 0) := "100"; -- Maximum valid value for I2C Kill Time: 4 (5 clock cycles)
 	signal I2CWaitCountxDN, I2CWaitCountxDP : std_logic_vector(14 downto 0); -- Counter for data to be latched from I2C Controller to IMU Register
-    constant i2c_wait_time_short : std_logic_vector(14 downto 0) := "010001100101000"; -- Clock cycles to wait: 3000 clock cycles at 90 MHz: 100000ns
-    constant i2c_wait_time_long	 : std_logic_vector(14 downto 0) := "100011001010000"; -- Clock cycles to wait: 6000 clock cycles at 90 MHz: 200000ns
-	constant i2c_wait_time_very_short : std_logic_vector(14 downto 0) := "000000000000010"; -- Clock cycles to wait: 2 
+    constant i2c_wait_time_short : std_logic_vector(14 downto 0) := "010001100101000"; -- Clock cycles to wait: 3000 clock cycles at 90 MHz: 100000ns   010001100101000
+    constant i2c_wait_time_long	 : std_logic_vector(14 downto 0) := "100011001010000"; -- Clock cycles to wait: 6000 clock cycles at 90 MHz: 200000ns   100011001010000
+	constant i2c_wait_time_very_short : std_logic_vector(14 downto 0) := "000000000000010"; -- Clock cycles to wait: 2 - 000000000000010
 	-- I2C mux outputs
 	signal I2CAddrxD : std_logic_vector(2 downto 0); -- I2C Controller Address register
 	signal I2CDataWritexD : std_logic_vector(7 downto 0); -- I2C Controller Data Write register driving I2CDataxDIO
@@ -128,18 +132,28 @@ architecture Behavioral of IMUStateMachine is
 
 
 	-- IMU Signals used for iterating through Configuration Registers
-	signal IMUInitByteCountxDN, IMUInitByteCountxDP : std_logic_vector(3 downto 0); -- Counts 10 bytes: 5 addresses, 5 data bytes
-	constant imu_init_byte_length : std_logic_vector(3 downto 0) := "1000"; -- Maximum valid value for IMUInitByteCount: 8
-	constant IMUInitByte01 : std_logic_vector(7 downto 0) := "01101011"; -- ADDR: (0x6b) IMU power management register and clock selection
-	constant IMUInitByte02 : std_logic_vector(7 downto 0) := "00000010"; -- DATA: (0x02) Disable sleep, select x axis gyro as clock source 
-	constant IMUInitByte03 : std_logic_vector(7 downto 0) := "00011010"; -- ADDR: (0x1A) DLPF
-	constant IMUInitByte04 : std_logic_vector(7 downto 0) := "00000001"; -- DATA: (0x01) FS=1kHz, Gyro 188Hz, 1.9ms delay
-	constant IMUInitByte05 : std_logic_vector(7 downto 0) := "00011001"; -- ADDR: (0x19) Sample rate divider
-	constant IMUInitByte06 : std_logic_vector(7 downto 0) := "00000000"; -- DATA: (0x00) 1 Khz sample rate when DLPF is enabled
-	constant IMUInitByte07 : std_logic_vector(7 downto 0) := "00011011"; -- ADDR: (0x1B) Gyro Configuration: Full Scale Range / Sensitivity
-	constant IMUInitByte08 : std_logic_vector(7 downto 0) := "00001000"; -- DATA: (0x08) 500 deg/s, 65.5 LSB per deg/s
-	constant IMUInitByte09 : std_logic_vector(7 downto 0) := "00011100"; -- ADDR: (0x1C) Accel Configuration: Full Scale Range / Sensitivity
-	constant IMUInitByte10 : std_logic_vector(7 downto 0) := "00001000"; -- DATA: (0x08) 4g, 8192 LSB per g
+	signal IMUInitByteCountxDN, IMUInitByteCountxDP : std_logic_vector(3 downto 0); -- Counts 10 bytes: 5 addresses, 5 data bytes - REWORK COMMENT
+	constant imu_init_byte_length : std_logic_vector(3 downto 0) := "1010"; -- Maximum valid value for IMUInitByteCount: 9
+	--constant IMUInitAddr0 : std_logic_vector(7 downto 0) := "01101011"; -- ADDR: (0x6b) IMU power management register and clock selection
+	--constant IMUInitData0 : std_logic_vector(7 downto 0) := "00000001"; -- DATA: (0x02) Disable sleep, select x axis gyro as clock source  
+	--constant IMUInitAddr1 : std_logic_vector(7 downto 0) := "00011010"; -- ADDR: (0x1A) DLPF
+	--constant IMUInitData1 : std_logic_vector(7 downto 0) := "00000001"; -- DATA: (0x01) FS=1kHz, Gyro 188Hz, 1.9ms delay
+	--constant IMUInitAddr2 : std_logic_vector(7 downto 0) := "00011001"; -- ADDR: (0x19) Sample rate divider
+	--constant IMUInitData2 : std_logic_vector(7 downto 0) := "00000000"; -- DATA: (0x00) 1 Khz sample rate when DLPF is enabled
+	--constant IMUInitAddr3 : std_logic_vector(7 downto 0) := "00011011"; -- ADDR: (0x1B) Gyro Configuration: Full Scale Range / Sensitivity
+	--constant IMUInitData3 : std_logic_vector(7 downto 0) := "00001000"; -- DATA: (0x08) 500 deg/s, 65.5 LSB per deg/s 
+	--constant IMUInitAddr4 : std_logic_vector(7 downto 0) := "00011100"; -- ADDR: (0x1C) Accel Configuration: Full Scale Range / Sensitivity
+	--constant IMUInitData4 : std_logic_vector(7 downto 0) := "00001000"; -- DATA: (0x08) 4g, 8192 LSB per g 
+	constant IMUInitAddr0 : std_logic_vector(7 downto 0) := "01101011"; -- ADDR: (0x6b) IMU power management register and clock selection
+	constant IMUInitAddr1 : std_logic_vector(7 downto 0) := "00011010"; -- ADDR: (0x1A) DLPF
+	constant IMUInitAddr2 : std_logic_vector(7 downto 0) := "00011001"; -- ADDR: (0x19) Sample rate divider
+	constant IMUInitAddr3 : std_logic_vector(7 downto 0) := "00011011"; -- ADDR: (0x1B) Gyro Configuration: Full Scale Range / Sensitivity
+	constant IMUInitAddr4 : std_logic_vector(7 downto 0) := "00011100"; -- ADDR: (0x1C) Accel Configuration: Full Scale Range / Sensitivity
+	signal IMUInitData0 : std_logic_vector(7 downto 0); 
+	signal IMUInitData1 : std_logic_vector(7 downto 0); 
+	signal IMUInitData2 : std_logic_vector(7 downto 0); 
+	signal IMUInitData3 : std_logic_vector(7 downto 0); 
+	signal IMUInitData4 : std_logic_vector(7 downto 0); 
 	
 	-- IMU Signals used for iterating through Measurement Registers
 	signal IMUMeasByteCountxDN, IMUMeasByteCountxDP : std_logic_vector(3 downto 0); -- IMU Measurement Byte counter (1 word is 2 bytes or 16 bits)
@@ -177,6 +191,12 @@ architecture Behavioral of IMUStateMachine is
 	
 begin
   
+	IMUInitData0 <= IMUInitDataxDI(7 downto 0);
+	IMUInitData1 <= IMUInitDataxDI(15 downto 8);
+	IMUInitData2 <= IMUInitDataxDI(23 downto 16);
+	IMUInitData3 <= IMUInitDataxDI(31 downto 24);
+	IMUInitData4 <= IMUInitDataxDI(39 downto 32);
+	
 	-- Calculate next state and outputs for I2C Read and Write operations
 	p_i2c_read_write : process (StateRWxDP, WriteReqxE, ReadReqxE, I2CDataWritexD, I2CAddrxD, I2CDataWritexD, I2CAddrxD, I2CCountxDP)
 	begin 
@@ -419,18 +439,27 @@ begin
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
-					StateIMUxDN <= stWrInitWriteInitialDataBufferRegister;
+					StateIMUxDN <= stWrInitWriteAddrDataBufferRegister;
 				end if;
 							
-			-- Write initial data byte before issuing go command in status register
-			-- Rest of data byte are written later
-			when stWrInitWriteInitialDataBufferRegister =>
+			-- Write address data byte to select IMU register to be written to
+			when stWrInitWriteAddrDataBufferRegister =>
 				I2CAddrxD <= data_buf;
-				I2CDataWritexD <= IMUInitByte01; 
+				-- Write current address byte
+				case IMUInitByteCountxDP is 
+					when "0000" => I2CDataWritexD <= IMUInitAddr0; 
+					when "0010" => I2CDataWritexD <= IMUInitAddr1; 
+					when "0100" => I2CDataWritexD <= IMUInitAddr2; 
+					when "0110" => I2CDataWritexD <= IMUInitAddr3; 
+					when "1000" => I2CDataWritexD <= IMUInitAddr4;
+					--when others => I2CDataWritexD <= (others => '0');
+				end case;
 				
 				WriteReqxE <= '1';
 				if WriteAckxE = '1' then
 					WriteReqxE <= '0';
+
+					IMUInitByteCountxDN <= IMUInitByteCountxDP + 1;
 					StateIMUxDN <= stWrInitWriteCommandRegister;
 				end if;
 			
@@ -448,16 +477,6 @@ begin
 			-- Wait for I2C Controller to... (?)
 			when stWrInitWaitI2C1 =>
 				if I2CWaitCountxDP = i2c_wait_time_long then
-					I2CWaitCountxDN <= (others => '0');
-					StateIMUxDN <= stWrInitWaitI2C2;
-				else 
-					I2CWaitCountxDN <= I2CWaitCountxDP + 1;
-				end if; 
-			
-			-- Wait for I2C Controller to... (?)
-			-- Come to this state between data write operations
-			when stWrInitWaitI2C2 =>
-				if I2CWaitCountxDP = i2c_wait_time_very_short then
 					I2CWaitCountxDN <= (others => '0');
 					StateIMUxDN <= stWrInitReadStatusRegister;
 				else 
@@ -484,24 +503,17 @@ begin
 
 				end if;
 				
-			-- Write next data byte, which initialize the IMU registers
-			-- Use counter as a select signal to iterate over the different data bytes
-			-- Data iterates between address byte and word byte 
+			-- Write data byte, which initializes the currently selected IMU register
 			when stWrInitWriteDataBufferRegister =>
 				I2CAddrxD <= data_buf;
 				-- Select correct initialization byte to write
-				-- Write bytes 2 to 10
 				case IMUInitByteCountxDP is 
-					when "0000" => I2CDataWritexD <= IMUInitByte02; 
-					when "0001" => I2CDataWritexD <= IMUInitByte03; 
-					when "0010" => I2CDataWritexD <= IMUInitByte04; 
-					when "0011" => I2CDataWritexD <= IMUInitByte05; 
-					when "0100" => I2CDataWritexD <= IMUInitByte06; 
-					when "0101" => I2CDataWritexD <= IMUInitByte07; 
-					when "0110" => I2CDataWritexD <= IMUInitByte08; 
-					when "0111" => I2CDataWritexD <= IMUInitByte09; 
-					when "1000" => I2CDataWritexD <= IMUInitByte10; 
-					when others => I2CDataWritexD <= (others => '0');
+					when "0001" => I2CDataWritexD <= IMUInitData0; 
+					when "0011" => I2CDataWritexD <= IMUInitData1; 
+					when "0101" => I2CDataWritexD <= IMUInitData2; 
+					when "0111" => I2CDataWritexD <= IMUInitData3; 
+					when "1001" => I2CDataWritexD <= IMUInitData4;
+					--when others => I2CDataWritexD <= (others => '0');
 				end case;
 				
 				WriteReqxE <= '1';
@@ -509,19 +521,13 @@ begin
 					WriteReqxE <= '0';
 
 					-- Iterate over initialization bytes 
-					if IMUInitByteCountxDP = imu_init_byte_length then
-						IMUInitByteCountxDN <= (others => '0');
-						StateIMUxDN <= stWrInitWaitI2C3;
-					else
-						IMUInitByteCountxDN <= IMUInitByteCountxDP + 1;
-						StateIMUxDN <= stWrInitWaitI2C2;
-					end if;
-
+					IMUInitByteCountxDN <= IMUInitByteCountxDP + 1;
+					StateIMUxDN <= stWrInitWaitI2C2;
 				end if;
 				
 			-- Wait for I2C Controller to... (?)
 			-- Come to this state between interrupt operations
-			when stWrInitWaitI2C3 =>
+			when stWrInitWaitI2C2 =>
 				if I2CWaitCountxDP = i2c_wait_time_long then
 					I2CWaitCountxDN <= (others => '0');
 					StateIMUxDN <= stWrInitCheckDone;
@@ -539,7 +545,13 @@ begin
 					
 					-- Transaction Done Flag
 					if I2CDataReadxD(3) = '1' then 
-						StateIMUxDN <= stWrIntWriteAddressRegister;
+						-- COMMMENT
+						if IMUInitByteCountxDP = imu_init_byte_length then
+							IMUInitByteCountxDN <= (others => '0');
+							StateIMUxDN <= stWrIntWriteAddressRegister;
+						else
+							StateIMUxDN <= stWrInitWriteAddressRegister;
+						end if;
 					end if;
 					
 				end if;
@@ -853,6 +865,7 @@ begin
 			-- Come to this state between read operations
 			when stRdDataWaitI2C2 =>
 				if I2CWaitCountxDP = i2c_wait_time_short then
+				--if I2CWaitCountxDP = i2c_wait_time_very_short then
 					I2CWaitCountxDN <= (others => '0');
 					StateIMUxDN <= stRdDataReadStatusRegister;
 				else
@@ -1033,6 +1046,14 @@ begin
 						when "101" => IMUDataxDO <= IMUGyroYxDP; 
 						when "110" => IMUDataxDO <= IMUGyroZxDP; 
 						when others => IMUDataxDO <= (others => '0');
+						--when "000" => IMUDataxDO <= IMUAccelZxDP; 
+						--when "001" => IMUDataxDO <= IMUAccelZxDP; 
+						--when "010" => IMUDataxDO <= IMUAccelZxDP; 
+						--when "011" => IMUDataxDO <= IMUAccelZxDP; 
+						--when "100" => IMUDataxDO <= IMUAccelZxDP; 
+						--when "101" => IMUDataxDO <= IMUAccelZxDP; 
+						--when "110" => IMUDataxDO <= IMUAccelZxDP; 
+						--when others => IMUDataxDO <= (others => '0');
 					end case;
 					-- Update IMU Register with correct word
 					IMURegisterWritexEO <= '1';
@@ -1060,7 +1081,7 @@ begin
 	-- Change states and increase counters on rising clock edge
 	p_memorizing : process (ClockxCI, ResetxRBI)
 	begin  
-		if ResetxRBI = '0' then -- Asynchronous reset
+		if ResetxRBI = '0' or IMURunxEI = '0' then -- Asynchronous reset
 			StateRWxDP <= stIdle;
 			StateIMUxDP <= stIdle;
 			StateIMUWritexDP <= stIdle;

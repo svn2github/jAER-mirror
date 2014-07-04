@@ -41,4 +41,4 @@
 @W: MT420 |Found inferred clock USBAER_top_level|IfClockxCI with period 807.65ns. Please declare a user-defined clock on object "p:IfClockxCI"
 @W: MT420 |Found inferred clock USBAER_top_level|PC1xSIO with period 1.48ns. Please declare a user-defined clock on object "p:PC1xSIO"
 @W: MT420 |Found inferred clock USBAER_top_level|PC2xSIO with period 1000.00ns. Please declare a user-defined clock on object "p:PC2xSIO"
-@W: MT420 |Found inferred clock clockgen|CLKOP_inferred_clock with period 11.22ns. Please declare a user-defined clock on object "n:uClockGen.CLKOP"
+@W: MT420 |Found inferred clock clockgen|CLKOP_inferred_clock with period 11.80ns. Please declare a user-defined clock on object "n:uClockGen.CLKOP"

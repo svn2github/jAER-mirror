@@ -1,4 +1,4 @@
-@P:  Worst Slack : -0.965
+@P:  Worst Slack : -2.083
 @P:  ADCStateMachine|StateColxDP_derived_clock[11] - Estimated Frequency : 14.8 MHz
 @P:  ADCStateMachine|StateColxDP_derived_clock[11] - Requested Frequency : 0.1 MHz
 @P:  ADCStateMachine|StateColxDP_derived_clock[11] - Estimated Period : 67.440
@@ -24,16 +24,16 @@
 @P:  USBAER_top_level|PC2xSIO - Estimated Period : NA
 @P:  USBAER_top_level|PC2xSIO - Requested Period : 1000.000
 @P:  USBAER_top_level|PC2xSIO - Slack : NA
-@P:  clockgen|CLKOP_inferred_clock - Estimated Frequency : 82.1 MHz
-@P:  clockgen|CLKOP_inferred_clock - Requested Frequency : 89.1 MHz
-@P:  clockgen|CLKOP_inferred_clock - Estimated Period : 12.184
-@P:  clockgen|CLKOP_inferred_clock - Requested Period : 11.219
-@P:  clockgen|CLKOP_inferred_clock - Slack : -0.965
+@P:  clockgen|CLKOP_inferred_clock - Estimated Frequency : 72.0 MHz
+@P:  clockgen|CLKOP_inferred_clock - Requested Frequency : 84.7 MHz
+@P:  clockgen|CLKOP_inferred_clock - Estimated Period : 13.886
+@P:  clockgen|CLKOP_inferred_clock - Requested Period : 11.803
+@P:  clockgen|CLKOP_inferred_clock - Slack : -2.083
 @P:  System - Estimated Frequency : 1.0 MHz
 @P:  System - Requested Frequency : 1.0 MHz
-@P:  System - Estimated Period : 994.108
+@P:  System - Estimated Period : 992.647
 @P:  System - Requested Period : 1000.000
-@P:  System - Slack : 5.892
+@P:  System - Slack : 7.353
 @P:  Worst Slack(min analysis) : -0.172
 @P:  ADCStateMachine|StateColxDP_derived_clock[11] - Estimated Frequency(min analysis) : 14.8 MHz
 @P:  ADCStateMachine|StateColxDP_derived_clock[11] - Requested Frequency(min analysis) : 0.1 MHz
@@ -60,17 +60,17 @@
 @P:  USBAER_top_level|PC2xSIO - Estimated Period(min analysis) : NA
 @P:  USBAER_top_level|PC2xSIO - Requested Period(min analysis) : 1000.000
 @P:  USBAER_top_level|PC2xSIO - Slack(min analysis) : NA
-@P:  clockgen|CLKOP_inferred_clock - Estimated Frequency(min analysis) : 82.1 MHz
-@P:  clockgen|CLKOP_inferred_clock - Requested Frequency(min analysis) : 89.1 MHz
-@P:  clockgen|CLKOP_inferred_clock - Estimated Period(min analysis) : 12.184
-@P:  clockgen|CLKOP_inferred_clock - Requested Period(min analysis) : 11.219
-@P:  clockgen|CLKOP_inferred_clock - Slack(min analysis) : -0.965
+@P:  clockgen|CLKOP_inferred_clock - Estimated Frequency(min analysis) : 72.0 MHz
+@P:  clockgen|CLKOP_inferred_clock - Requested Frequency(min analysis) : 84.7 MHz
+@P:  clockgen|CLKOP_inferred_clock - Estimated Period(min analysis) : 13.886
+@P:  clockgen|CLKOP_inferred_clock - Requested Period(min analysis) : 11.803
+@P:  clockgen|CLKOP_inferred_clock - Slack(min analysis) : -2.083
 @P:  System - Estimated Frequency(min analysis) : 1.0 MHz
 @P:  System - Requested Frequency(min analysis) : 1.0 MHz
 @P:  System - Estimated Period(min analysis) : 1000.172
 @P:  System - Requested Period(min analysis) : 1000.000
 @P:  System - Slack(min analysis) : -0.172
-@P:  Total Area : 896.0
+@P:  Total Area : 890.0
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
@@ -98,4 +98,4 @@
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
-@P:  CPU Time : 0h:00m:07s
+@P:  CPU Time : 0h:00m:06s

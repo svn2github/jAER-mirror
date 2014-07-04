@@ -46,14 +46,14 @@ Max Top 5 critical clocks will be reported. For rest user needs to refer to Deta
 </row>
 <row>
 <data>clockgen|CLKOP_inferred_clock</data>
-<data>89.1 MHz</data>
-<data>82.1 MHz</data>
-<data>-0.965</data>
+<data>84.7 MHz</data>
+<data>72.0 MHz</data>
+<data>-2.083</data>
 </row>
 <row>
 <data>System</data>
 <data>1.0 MHz</data>
 <data>1.0 MHz</data>
-<data>5.892</data>
+<data>7.353</data>
 </row>
 </report_table>

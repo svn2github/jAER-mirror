@@ -4,7 +4,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2013 Lattice Semiconductor Corporation,  All rights reserved.
-Thu Jun 05 11:19:07 2014
+Thu Jun 26 17:08:10 2014
 
 D:/lscc/diamond/2.2_x64/ispfpga\bin\nt64\par -f SBret10_SBret10.p2t
 SBret10_SBret10_map.ncd SBret10_SBret10.dir SBret10_SBret10.prf
@@ -15,11 +15,11 @@ Preference file: SBret10_SBret10.prf.
 Level/      Number      Worst       Timing      Run         NCD
 Cost [ncd]  Unrouted    Slack       Score       Time        Status
 ----------  --------    -----       --------    -----       ------
-5_1   *     0           -2.472      841630      28          Complete        
+5_1   *     0           -3.960      7624383     36          Complete        
 
 
 * : Design saved.
 
-Total (real) run time for 1-seed: 28 secs 
+Total (real) run time for 1-seed: 36 secs 
 
 par done!

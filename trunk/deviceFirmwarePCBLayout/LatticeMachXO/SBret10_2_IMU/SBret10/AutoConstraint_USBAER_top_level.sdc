@@ -1,6 +1,6 @@
 
 #Begin clock constraint
-define_clock -name {clockgen|CLKOP_inferred_clock} {n:clockgen|CLKOP_inferred_clock} -period 11.219 -clockgroup Autoconstr_clkgroup_0 -rise 0.000 -fall 5.609 -route 0.000 
+define_clock -name {clockgen|CLKOP_inferred_clock} {n:clockgen|CLKOP_inferred_clock} -period 11.803 -clockgroup Autoconstr_clkgroup_0 -rise 0.000 -fall 5.902 -route 0.000 
 #End clock constraint
 
 #Begin clock constraint
