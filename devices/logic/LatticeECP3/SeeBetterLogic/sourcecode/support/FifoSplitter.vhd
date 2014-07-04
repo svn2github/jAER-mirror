@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use work.FIFORecords.all;
 
 entity FifoSplitter is
 	generic (
@@ -8,17 +9,14 @@ entity FifoSplitter is
 		Clock_CI : in std_logic;
 		Reset_RI : in std_logic;
 
-		FifoInEmpty_SI : in	 std_logic;
-		FifoInRead_SO  : out std_logic;
-		FifoInData_DI  : in	 std_logic_vector(FIFO_WIDTH-1 downto 0);
+		FifoIn_I : in  tFromFifoReadSide(Data_D(FIFO_WIDTH-1 downto 0));
+		FifoIn_O : out tToFifoReadSide;
 
-		FifoOut1Full_SI	 : in  std_logic;
-		FifoOut1Write_SO : out std_logic;
-		FifoOut1Data_DO	 : out std_logic_vector(FIFO_WIDTH-1 downto 0);
+		FifoOut1_I : in	 tFromFifoWriteSide;
+		FifoOut1_O : out tToFifoWriteSide(Data_D(FIFO_WIDTH-1 downto 0));
 
-		FifoOut2Full_SI	 : in  std_logic;
-		FifoOut2Write_SO : out std_logic;
-		FifoOut2Data_DO	 : out std_logic_vector(FIFO_WIDTH-1 downto 0));
+		FifoOut2_I : in	 tFromFifoWriteSide;
+		FifoOut2_O : out tToFifoWriteSide(Data_D(FIFO_WIDTH-1 downto 0)));
 end entity FifoSplitter;
 
 architecture Behavioral of FifoSplitter is
@@ -28,24 +26,24 @@ architecture Behavioral of FifoSplitter is
 
 	signal DataFifoOutReg_D : std_logic_vector(FIFO_WIDTH-1 downto 0);
 begin
-	FifoInNotEmpty_S <= not FifoInEmpty_SI;
-	FifoInRead_SO	 <= FifoInNotEmpty_S;
+	FifoInNotEmpty_S <= not FifoIn_I.Empty_S;
+	FifoIn_O.Read_S	 <= FifoInNotEmpty_S;
 
 	regUpdate : process (Clock_CI, Reset_RI) is
 	begin  -- process regUpdate
 		if Reset_RI = '1' then			  -- asynchronous reset (active high)
-			FifoOut1Write_SO <= '0';
-			FifoOut2Write_SO <= '0';
-			WriteDelayReg_S	 <= '0';
-			DataFifoOutReg_D <= (others => '0');
+			FifoOut1_O.Write_S <= '0';
+			FifoOut2_O.Write_S <= '0';
+			WriteDelayReg_S	   <= '0';
+			DataFifoOutReg_D   <= (others => '0');
 		elsif rising_edge(Clock_CI) then  -- rising clock edge
-			FifoOut1Write_SO <= WriteDelayReg_S and not FifoOut1Full_SI;
-			FifoOut2Write_SO <= WriteDelayReg_S and not FifoOut2Full_SI;
-			WriteDelayReg_S	 <= FifoInNotEmpty_S;
-			DataFifoOutReg_D <= FifoInData_DI;
+			FifoOut1_O.Write_S <= WriteDelayReg_S and not FifoOut1_I.Full_S;
+			FifoOut2_O.Write_S <= WriteDelayReg_S and not FifoOut2_I.Full_S;
+			WriteDelayReg_S	   <= FifoInNotEmpty_S;
+			DataFifoOutReg_D   <= FifoIn_I.Data_D;
 		end if;
 	end process regUpdate;
 
-	FifoOut1Data_DO <= DataFifoOutReg_D;
-	FifoOut2Data_DO <= DataFifoOutReg_D;
+	FifoOut1_O.Data_D <= DataFifoOutReg_D;
+	FifoOut2_O.Data_D <= DataFifoOutReg_D;
 end architecture Behavioral;
