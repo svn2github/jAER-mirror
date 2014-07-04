@@ -396,8 +396,9 @@ begin
 
 	HostResetTimestampxS <= PA7xSIO;
 	RunxS				 <= PA3xSIO or not TimestampMasterxS;
-	PA1xSIO				 <= TimestampMasterxS;
-
+	--PA1xSIO				 <= TimestampMasterxS;
+	TimestampMasterxS <= PA1xSIO;
+	
 	RunADCxS  <= PC0xSIO;
 	SRClockxC <= PC1xSIO;
 	SRLatchxE <= PC2xSIO;
@@ -613,7 +614,7 @@ begin
 			ValueReadyxSO	 => ADCvalueReadyxS);
 
 
-	SynchOutxSO		  <= SynchOutxS;
+	SynchOutxSO		  <= not SynchOutxS;
 	FX2FifoPktEndxSBO <= FX2FifoPktEndxSB;
 	FX2FifoWritexEBO  <= FX2FifoWritexEB;
 	AERMonitorACKxSBO <= AERMonitorACKxSB;
