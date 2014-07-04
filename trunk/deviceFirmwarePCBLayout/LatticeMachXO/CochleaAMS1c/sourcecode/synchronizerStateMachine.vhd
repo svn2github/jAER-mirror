@@ -201,7 +201,7 @@ begin  -- Behavioral
         
         DividerxDN          <= (others => '0');
         CounterxDN <= CounterxDP + 1;
-        if SyncInxSB = '0' then
+        if SyncInxSB = '1' then
           IncrementCounterxSO <= '1';
           StatexDN <= stRunSlave;
           CounterxDN <= (others => '0');
