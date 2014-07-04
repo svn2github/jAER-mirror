@@ -2,6 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Settings.all;
+use work.FIFORecords.all;
 
 entity DVSAERStateMachine is
 	port (
@@ -10,10 +11,8 @@ entity DVSAERStateMachine is
 		DVSRun_SI : in std_logic;
 
 		-- Fifo output (to Multiplexer)
-		OutFifoFull_SI		 : in  std_logic;
-		OutFifoAlmostFull_SI : in  std_logic;
-		OutFifoWrite_SO		 : out std_logic;
-		OutFifoData_DO		 : out std_logic_vector(EVENT_WIDTH-1 downto 0);
+		OutFifo_I : in	tFromFifoWriteSide;
+		OutFifo_O : out tToFifoWriteSide;
 
 		DVSAERData_DI	: in  std_logic_vector(AER_BUS_WIDTH-1 downto 0);
 		DVSAERReq_SBI	: in  std_logic;
@@ -84,7 +83,7 @@ begin
 			Overflow_SO	 => ackExtensionNotify_S,
 			Data_DO		 => open);
 
-	p_memoryless : process (State_DP, DVSRun_SI, OutFifoFull_SI, DVSAERReq_SBI, DVSAERData_DI, ackDelayNotify_S, ackExtensionNotify_S)
+	p_memoryless : process (State_DP, DVSRun_SI, OutFifo_I, DVSAERReq_SBI, DVSAERData_DI, ackDelayNotify_S, ackExtensionNotify_S)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
@@ -102,7 +101,7 @@ begin
 			when stIdle =>
 				-- Only exit idle state if DVS data producer is active.
 				if DVSRun_SI = '1' then
-					if DVSAERReq_SBI = '0' and OutFifoFull_SI = '0' then
+					if DVSAERReq_SBI = '0' and OutFifo_I.Full_S = '0' then
 						-- Got a request on the AER bus, let's get the data.
 						-- If output fifo full, just wait for it to be empty.
 						State_DN <= stDifferentiateYX;
@@ -176,14 +175,14 @@ begin
 		if Reset_RI = '1' then	-- asynchronous reset (active-high for FPGAs)
 			State_DP <= stIdle;
 
-			OutFifoWrite_SO <= '0';
-			OutFifoData_DO	<= (others => '0');
+			OutFifo_O.Write_S <= '0';
+			OutFifo_O.Data_D  <= (others => '0');
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
 
-			OutFifoWrite_SO <= OutFifoWriteReg_S;
+			OutFifo_O.Write_S <= OutFifoWriteReg_S;
 			if OutFifoDataRegEnable_S = '1' then
-				OutFifoData_DO <= OutFifoDataReg_D;
+				OutFifo_O.Data_D <= OutFifoDataReg_D;
 			end if;
 		end if;
 	end process p_memoryzing;

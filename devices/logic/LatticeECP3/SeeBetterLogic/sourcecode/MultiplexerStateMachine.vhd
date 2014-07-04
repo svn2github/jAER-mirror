@@ -16,28 +16,20 @@ entity MultiplexerStateMachine is
 		OutFifo_O : out tToFifoWriteSide;
 
 		-- Fifo input (from DVS AER)
-		DVSAERFifoEmpty_SI		 : in  std_logic;
-		DVSAERFifoAlmostEmpty_SI : in  std_logic;
-		DVSAERFifoRead_SO		 : out std_logic;
-		DVSAERFifoData_DI		 : in  std_logic_vector(EVENT_WIDTH-1 downto 0);
+		DVSAERFifo_I : in  tFromFifoReadSide;
+		DVSAERFifo_O : out tToFifoReadSide;
 
 		-- Fifo input (from APS ADC)
-		APSADCFifoEmpty_SI		 : in  std_logic;
-		APSADCFifoAlmostEmpty_SI : in  std_logic;
-		APSADCFifoRead_SO		 : out std_logic;
-		APSADCFifoData_DI		 : in  std_logic_vector(EVENT_WIDTH-1 downto 0);
+		APSADCFifo_I : in  tFromFifoReadSide;
+		APSADCFifo_O : out tToFifoReadSide;
 
 		-- Fifo input (from IMU)
-		IMUFifoEmpty_SI		  : in	std_logic;
-		IMUFifoAlmostEmpty_SI : in	std_logic;
-		IMUFifoRead_SO		  : out std_logic;
-		IMUFifoData_DI		  : in	std_logic_vector(EVENT_WIDTH-1 downto 0);
+		IMUFifo_I : in	tFromFifoReadSide;
+		IMUFifo_O : out tToFifoReadSide;
 
 		-- Fifo input (from External Trigger)
-		ExtTriggerFifoEmpty_SI		 : in  std_logic;
-		ExtTriggerFifoAlmostEmpty_SI : in  std_logic;
-		ExtTriggerFifoRead_SO		 : out std_logic;
-		ExtTriggerFifoData_DI		 : in  std_logic_vector(EVENT_WIDTH-1 downto 0));
+		ExtTriggerFifo_I : in  tFromFifoReadSide;
+		ExtTriggerFifo_O : out tToFifoReadSide);
 end MultiplexerStateMachine;
 
 architecture Behavioral of MultiplexerStateMachine is
@@ -160,8 +152,7 @@ begin
 			Overflow_SO	 => TimestampOverflowBufferOverflow_S,
 			Data_DO		 => TimestampOverflowBuffer_D);
 
-	p_memoryless : process (State_DP, Run_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifo_I, DVSAERFifoEmpty_SI, DVSAERFifoAlmostEmpty_SI, DVSAERFifoData_DI,
-							APSADCFifoEmpty_SI, APSADCFifoAlmostEmpty_SI, APSADCFifoData_DI, IMUFifoEmpty_SI, IMUFifoAlmostEmpty_SI, IMUFifoData_DI, ExtTriggerFifoEmpty_SI, ExtTriggerFifoAlmostEmpty_SI, ExtTriggerFifoData_DI)
+	p_memoryless : process (State_DP, Run_SI, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifo_I, DVSAERFifo_I, APSADCFifo_I, IMUFifo_I, ExtTriggerFifo_I)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
@@ -171,10 +162,10 @@ begin
 		OutFifo_O.Write_S <= '0';
 		OutFifo_O.Data_D  <= (others => '0');
 
-		DVSAERFifoRead_SO	  <= '0';
-		APSADCFifoRead_SO	  <= '0';
-		IMUFifoRead_SO		  <= '0';
-		ExtTriggerFifoRead_SO <= '0';
+		DVSAERFifo_O.Read_S		<= '0';
+		APSADCFifo_O.Read_S		<= '0';
+		IMUFifo_O.Read_S		<= '0';
+		ExtTriggerFifo_O.Read_S <= '0';
 
 		case State_DP is
 			when stIdle =>
@@ -191,9 +182,9 @@ begin
 							-- Use the AlmostEmpty flags as markers to see if
 							-- there is lots of data in the FIFOs and
 							-- prioritize those over the others.
-							if DVSAERFifoAlmostEmpty_SI = '0' then
+							if DVSAERFifo_I.AlmostEmpty_S = '0' then
 								State_DN <= stPrepareDVSAER;
-							elsif DVSAERFifoEmpty_SI = '0' then
+							elsif DVSAERFifo_I.Empty_S = '0' then
 								State_DN <= stPrepareDVSAER;
 							end if;
 						else
@@ -254,69 +245,69 @@ begin
 				State_DN		  <= stIdle;
 
 			when stPrepareDVSAER =>
-				DVSAERFifoRead_SO <= '1';
-				State_DN		  <= stDVSAER;
+				DVSAERFifo_O.Read_S <= '1';
+				State_DN			<= stDVSAER;
 
 			when stDVSAER =>
 				-- Write out current event.
-				OutFifo_O.Data_D  <= EVENT_CODE_EVENT & DVSAERFifoData_DI;
+				OutFifo_O.Data_D  <= EVENT_CODE_EVENT & DVSAERFifo_I.Data_D;
 				OutFifo_O.Write_S <= '1';
 
 				-- The next event on the DVS AER fifo has just been read and
 				-- the data is available on the output bus. First, let's
 				-- examine it and see if we need to inject a timestamp,
 				-- if it's an Y (row) address.
-				if DVSAERFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-3) = EVENT_CODE_Y_ADDR then
+				if DVSAERFifo_I.Data_D(EVENT_WIDTH-1 downto EVENT_WIDTH-3) = EVENT_CODE_Y_ADDR then
 					State_DN <= stTimestamp;
 				else
 					State_DN <= stIdle;
 				end if;
 
 			when stPrepareAPSADC =>
-				APSADCFifoRead_SO <= '1';
-				State_DN		  <= stAPSADC;
+				APSADCFifo_O.Read_S <= '1';
+				State_DN			<= stAPSADC;
 
 			when stAPSADC =>
 				-- Write out current event.
-				OutFifo_O.Data_D  <= EVENT_CODE_EVENT & APSADCFifoData_DI;
+				OutFifo_O.Data_D  <= EVENT_CODE_EVENT & APSADCFifo_I.Data_D;
 				OutFifo_O.Write_S <= '1';
 
 				-- The next event on the APS ADC fifo has just been read and
 				-- the data is available on the output bus. First, let's
 				-- examine it and see if we need to inject a timestamp,
 				-- if it's one of the special events (SOE, EOE, SOSRR, ...).
-				if APSADCFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-3) = EVENT_CODE_SPECIAL then
+				if APSADCFifo_I.Data_D(EVENT_WIDTH-1 downto EVENT_WIDTH-3) = EVENT_CODE_SPECIAL then
 					State_DN <= stTimestamp;
 				else
 					State_DN <= stIdle;
 				end if;
 
 			when stPrepareIMU =>
-				IMUFifoRead_SO <= '1';
-				State_DN	   <= stIMU;
+				IMUFifo_O.Read_S <= '1';
+				State_DN		 <= stIMU;
 
 			when stIMU =>
 				-- Write out current event.
-				OutFifo_O.Data_D  <= EVENT_CODE_EVENT & IMUFifoData_DI;
+				OutFifo_O.Data_D  <= EVENT_CODE_EVENT & IMUFifo_I.Data_D;
 				OutFifo_O.Write_S <= '1';
 
 				-- The next event on the IMU fifo has just been read and
 				-- the data is available on the output bus. First, let's
 				-- examine it and see if we need to inject a timestamp,
 				-- if it's one of the special events (Gyro axes, Accel axes, ...).
-				if IMUFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-3) = EVENT_CODE_SPECIAL then
+				if IMUFifo_I.Data_D(EVENT_WIDTH-1 downto EVENT_WIDTH-3) = EVENT_CODE_SPECIAL then
 					State_DN <= stTimestamp;
 				else
 					State_DN <= stIdle;
 				end if;
 
 			when stPrepareExtTrigger =>
-				ExtTriggerFifoRead_SO <= '1';
-				State_DN			  <= stExtTrigger;
+				ExtTriggerFifo_O.Read_S <= '1';
+				State_DN				<= stExtTrigger;
 
 			when stExtTrigger =>
 				-- Write out current event.
-				OutFifo_O.Data_D  <= EVENT_CODE_EVENT & ExtTriggerFifoData_DI;
+				OutFifo_O.Data_D  <= EVENT_CODE_EVENT & ExtTriggerFifo_I.Data_D;
 				OutFifo_O.Write_S <= '1';
 
 				-- The next event on the APS ADC fifo has just been read and

@@ -129,57 +129,45 @@ architecture Structural of TopLevel is
 
 	component MultiplexerStateMachine is
 		port (
-			Clock_CI					 : in  std_logic;
-			Reset_RI					 : in  std_logic;
-			Run_SI						 : in  std_logic;
-			TimestampReset_SI			 : in  std_logic;
-			OutFifo_I					 : in  tFromFifoWriteSide;
-			OutFifo_O					 : out tToFifoWriteSide;
-			DVSAERFifoEmpty_SI			 : in  std_logic;
-			DVSAERFifoAlmostEmpty_SI	 : in  std_logic;
-			DVSAERFifoRead_SO			 : out std_logic;
-			DVSAERFifoData_DI			 : in  std_logic_vector(EVENT_WIDTH-1 downto 0);
-			APSADCFifoEmpty_SI			 : in  std_logic;
-			APSADCFifoAlmostEmpty_SI	 : in  std_logic;
-			APSADCFifoRead_SO			 : out std_logic;
-			APSADCFifoData_DI			 : in  std_logic_vector(EVENT_WIDTH-1 downto 0);
-			IMUFifoEmpty_SI				 : in  std_logic;
-			IMUFifoAlmostEmpty_SI		 : in  std_logic;
-			IMUFifoRead_SO				 : out std_logic;
-			IMUFifoData_DI				 : in  std_logic_vector(EVENT_WIDTH-1 downto 0);
-			ExtTriggerFifoEmpty_SI		 : in  std_logic;
-			ExtTriggerFifoAlmostEmpty_SI : in  std_logic;
-			ExtTriggerFifoRead_SO		 : out std_logic;
-			ExtTriggerFifoData_DI		 : in  std_logic_vector(EVENT_WIDTH-1 downto 0));
+			Clock_CI		  : in	std_logic;
+			Reset_RI		  : in	std_logic;
+			Run_SI			  : in	std_logic;
+			TimestampReset_SI : in	std_logic;
+			OutFifo_I		  : in	tFromFifoWriteSide;
+			OutFifo_O		  : out tToFifoWriteSide;
+			DVSAERFifo_I	  : in	tFromFifoReadSide;
+			DVSAERFifo_O	  : out tToFifoReadSide;
+			APSADCFifo_I	  : in	tFromFifoReadSide;
+			APSADCFifo_O	  : out tToFifoReadSide;
+			IMUFifo_I		  : in	tFromFifoReadSide;
+			IMUFifo_O		  : out tToFifoReadSide;
+			ExtTriggerFifo_I  : in	tFromFifoReadSide;
+			ExtTriggerFifo_O  : out tToFifoReadSide);
 	end component MultiplexerStateMachine;
 
 	component DVSAERStateMachine is
 		port (
-			Clock_CI			 : in  std_logic;
-			Reset_RI			 : in  std_logic;
-			DVSRun_SI			 : in  std_logic;
-			OutFifoFull_SI		 : in  std_logic;
-			OutFifoAlmostFull_SI : in  std_logic;
-			OutFifoWrite_SO		 : out std_logic;
-			OutFifoData_DO		 : out std_logic_vector(EVENT_WIDTH-1 downto 0);
-			DVSAERData_DI		 : in  std_logic_vector(AER_BUS_WIDTH-1 downto 0);
-			DVSAERReq_SBI		 : in  std_logic;
-			DVSAERAck_SBO		 : out std_logic;
-			DVSAERReset_SBO		 : out std_logic);
+			Clock_CI		: in  std_logic;
+			Reset_RI		: in  std_logic;
+			DVSRun_SI		: in  std_logic;
+			OutFifo_I		: in  tFromFifoWriteSide;
+			OutFifo_O		: out tToFifoWriteSide;
+			DVSAERData_DI	: in  std_logic_vector(AER_BUS_WIDTH-1 downto 0);
+			DVSAERReq_SBI	: in  std_logic;
+			DVSAERAck_SBO	: out std_logic;
+			DVSAERReset_SBO : out std_logic);
 	end component DVSAERStateMachine;
 
 	component IMUStateMachine is
 		port (
-			Clock_CI			 : in	 std_logic;
-			Reset_RI			 : in	 std_logic;
-			IMURun_SI			 : in	 std_logic;
-			OutFifoFull_SI		 : in	 std_logic;
-			OutFifoAlmostFull_SI : in	 std_logic;
-			OutFifoWrite_SO		 : out	 std_logic;
-			OutFifoData_DO		 : out	 std_logic_vector(EVENT_WIDTH-1 downto 0);
-			IMUClock_ZO			 : inout std_logic;
-			IMUData_ZIO			 : inout std_logic;
-			IMUInterrupt_SI		 : in	 std_logic);
+			Clock_CI		: in	std_logic;
+			Reset_RI		: in	std_logic;
+			IMURun_SI		: in	std_logic;
+			OutFifo_I		: in	tFromFifoWriteSide;
+			OutFifo_O		: out	tToFifoWriteSide;
+			IMUClock_ZO		: inout std_logic;
+			IMUData_ZIO		: inout std_logic;
+			IMUInterrupt_SI : in	std_logic);
 	end component IMUStateMachine;
 
 	component APSADCStateMachine is
@@ -187,10 +175,8 @@ architecture Structural of TopLevel is
 			Clock_CI			   : in	 std_logic;
 			Reset_RI			   : in	 std_logic;
 			APSRun_SI			   : in	 std_logic;
-			OutFifoFull_SI		   : in	 std_logic;
-			OutFifoAlmostFull_SI   : in	 std_logic;
-			OutFifoWrite_SO		   : out std_logic;
-			OutFifoData_DO		   : out std_logic_vector(EVENT_WIDTH-1 downto 0);
+			OutFifo_I			   : in	 tFromFifoWriteSide;
+			OutFifo_O			   : out tToFifoWriteSide;
 			APSChipRowSRClock_SO   : out std_logic;
 			APSChipRowSRIn_SO	   : out std_logic;
 			APSChipColSRClock_SO   : out std_logic;
@@ -206,15 +192,13 @@ architecture Structural of TopLevel is
 
 	component ExtTriggerStateMachine is
 		port (
-			Clock_CI			 : in  std_logic;
-			Reset_RI			 : in  std_logic;
-			ExtTriggerRun_SI	 : in  std_logic;
-			OutFifoFull_SI		 : in  std_logic;
-			OutFifoAlmostFull_SI : in  std_logic;
-			OutFifoWrite_SO		 : out std_logic;
-			OutFifoData_DO		 : out std_logic_vector(EVENT_WIDTH-1 downto 0);
-			ExtTriggerSwitch_SI	 : in  std_logic;
-			ExtTriggerSignal_SI	 : in  std_logic);
+			Clock_CI			: in  std_logic;
+			Reset_RI			: in  std_logic;
+			ExtTriggerRun_SI	: in  std_logic;
+			OutFifo_I			: in  tFromFifoWriteSide;
+			OutFifo_O			: out tToFifoWriteSide;
+			ExtTriggerSwitch_SI : in  std_logic;
+			ExtTriggerSignal_SI : in  std_logic);
 	end component ExtTriggerStateMachine;
 
 	component FIFODualClock is
@@ -242,16 +226,10 @@ architecture Structural of TopLevel is
 			FULL_FLAG		  : integer;
 			ALMOST_FULL_FLAG  : integer);
 		port (
-			Clock_CI	   : in	 std_logic;
-			Reset_RI	   : in	 std_logic;
-			DataIn_DI	   : in	 std_logic_vector(DATA_WIDTH-1 downto 0);
-			WrEnable_SI	   : in	 std_logic;
-			DataOut_DO	   : out std_logic_vector(DATA_WIDTH-1 downto 0);
-			RdEnable_SI	   : in	 std_logic;
-			Empty_SO	   : out std_logic;
-			AlmostEmpty_SO : out std_logic;
-			Full_SO		   : out std_logic;
-			AlmostFull_SO  : out std_logic);
+			Clock_CI : in  std_logic;
+			Reset_RI : in  std_logic;
+			Fifo_I	 : in  tToFifo(WriteSide(Data_D(DATA_WIDTH-1 downto 0)));
+			Fifo_O	 : out tFromFifo(ReadSide(Data_D(DATA_WIDTH-1 downto 0))));
 	end component FIFO;
 
 	component PLL is
@@ -276,24 +254,20 @@ architecture Structural of TopLevel is
 	signal DVSRun_S, APSRun_S, IMURun_S, ExtTriggerRun_S						 : std_logic;
 	signal DVSFifoReset_R, APSFifoReset_R, IMUFifoReset_R, ExtTriggerFifoReset_R : std_logic;
 
-	signal USBFifoLogic_I : tToFifo(WriteSide(Data_D(USB_FIFO_WIDTH-1 downto 0)));
-	signal USBFifoLogic_O : tFromFifo(ReadSide(Data_D(USB_FIFO_WIDTH-1 downto 0)));
+	signal LogicUSBFifo_I : tToFifo(WriteSide(Data_D(USB_FIFO_WIDTH-1 downto 0)));
+	signal LogicUSBFifo_O : tFromFifo(ReadSide(Data_D(USB_FIFO_WIDTH-1 downto 0)));
 
-	signal DVSAERFifoDataWrite_D, DVSAERFifoDataRead_D											: std_logic_vector(EVENT_WIDTH-1 downto 0);
-	signal DVSAERFifoWrite_S, DVSAERFifoRead_S													: std_logic;
-	signal DVSAERFifoEmpty_S, DVSAERFifoAlmostEmpty_S, DVSAERFifoFull_S, DVSAERFifoAlmostFull_S : std_logic;
+	signal DVSAERFifo_I : tToFifo(WriteSide(Data_D(EVENT_WIDTH-1 downto 0)));
+	signal DVSAERFifo_O : tFromFifo(ReadSide(Data_D(EVENT_WIDTH-1 downto 0)));
 
-	signal APSADCFifoDataWrite_D, APSADCFifoDataRead_D											: std_logic_vector(EVENT_WIDTH-1 downto 0);
-	signal APSADCFifoWrite_S, APSADCFifoRead_S													: std_logic;
-	signal APSADCFifoEmpty_S, APSADCFifoAlmostEmpty_S, APSADCFifoFull_S, APSADCFifoAlmostFull_S : std_logic;
+	signal APSADCFifo_I : tToFifo(WriteSide(Data_D(EVENT_WIDTH-1 downto 0)));
+	signal APSADCFifo_O : tFromFifo(ReadSide(Data_D(EVENT_WIDTH-1 downto 0)));
 
-	signal IMUFifoDataWrite_D, IMUFifoDataRead_D									: std_logic_vector(EVENT_WIDTH-1 downto 0);
-	signal IMUFifoWrite_S, IMUFifoRead_S											: std_logic;
-	signal IMUFifoEmpty_S, IMUFifoAlmostEmpty_S, IMUFifoFull_S, IMUFifoAlmostFull_S : std_logic;
+	signal IMUFifo_I : tToFifo(WriteSide(Data_D(EVENT_WIDTH-1 downto 0)));
+	signal IMUFifo_O : tFromFifo(ReadSide(Data_D(EVENT_WIDTH-1 downto 0)));
 
-	signal ExtTriggerFifoDataWrite_D, ExtTriggerFifoDataRead_D													: std_logic_vector(EVENT_WIDTH-1 downto 0);
-	signal ExtTriggerFifoWrite_S, ExtTriggerFifoRead_S															: std_logic;
-	signal ExtTriggerFifoEmpty_S, ExtTriggerFifoAlmostEmpty_S, ExtTriggerFifoFull_S, ExtTriggerFifoAlmostFull_S : std_logic;
+	signal ExtTriggerFifo_I : tToFifo(WriteSide(Data_D(EVENT_WIDTH-1 downto 0)));
+	signal ExtTriggerFifo_O : tFromFifo(ReadSide(Data_D(EVENT_WIDTH-1 downto 0)));
 begin
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : USBClockSynchronizer
@@ -340,15 +314,15 @@ begin
 	-- Third: set all constant outputs.
 	USBFifoChipSelect_SBO <= '0';  -- Always keep USB chip selected (active-low).
 	USBFifoRead_SBO		  <= '1';  -- We never read from the USB data path (active-low).
-	USBFifoData_DO		  <= USBFifoLogic_O.ReadSide.Data_D;
+	USBFifoData_DO		  <= LogicUSBFifo_O.ReadSide.Data_D;
 	ChipBiasEnable_SO	  <= BiasEnable_SI;		 -- Direct bypass.
 	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI;	 -- Direct bypass.
 
 	-- Wire all LEDs.
 	LED1_SO <= LogicRunSync_S;
-	LED2_SO <= USBFifoLogic_O.ReadSide.Empty_S;
+	LED2_SO <= LogicUSBFifo_O.ReadSide.Empty_S;
 	LED3_SO <= '0';
-	LED4_SO <= USBFifoLogic_O.WriteSide.Full_S;
+	LED4_SO <= LogicUSBFifo_O.WriteSide.Full_S;
 
 	-- Only run data producers if the whole logic also is running.
 	DVSRun_S		<= DVSRunSync_S and LogicRunSync_S;
@@ -384,8 +358,8 @@ begin
 			USBFifoWrite_SBO			=> USBFifoWrite_SBO,
 			USBFifoPktEnd_SBO			=> USBFifoPktEnd_SBO,
 			USBFifoAddress_DO			=> USBFifoAddress_DO,
-			InFifo_I					=> USBFifoLogic_O.ReadSide,
-			InFifo_O					=> USBFifoLogic_I.ReadSide);
+			InFifo_I					=> LogicUSBFifo_O.ReadSide,
+			InFifo_O					=> LogicUSBFifo_I.ReadSide);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
 	usbFifoLogic : FIFODualClock
@@ -400,33 +374,25 @@ begin
 			Reset_RI   => USBReset_R,
 			WrClock_CI => LogicClock_C,
 			RdClock_CI => USBClock_CI,
-			Fifo_I	   => USBFifoLogic_I,
-			Fifo_O	   => USBFifoLogic_O);
+			Fifo_I	   => LogicUSBFifo_I,
+			Fifo_O	   => LogicUSBFifo_O);
 
 	multiplexerSM : MultiplexerStateMachine
 		port map (
-			Clock_CI					 => LogicClock_C,
-			Reset_RI					 => LogicReset_R,
-			Run_SI						 => LogicRunSync_S,
-			TimestampReset_SI			 => '0',
-			OutFifo_I					 => USBFifoLogic_O.WriteSide,
-			OutFifo_O					 => USBFifoLogic_I.WriteSide,
-			DVSAERFifoEmpty_SI			 => DVSAERFifoEmpty_S,
-			DVSAERFifoAlmostEmpty_SI	 => DVSAERFifoAlmostEmpty_S,
-			DVSAERFifoRead_SO			 => DVSAERFifoRead_S,
-			DVSAERFifoData_DI			 => DVSAERFifoDataRead_D,
-			APSADCFifoEmpty_SI			 => APSADCFifoEmpty_S,
-			APSADCFifoAlmostEmpty_SI	 => APSADCFifoAlmostEmpty_S,
-			APSADCFifoRead_SO			 => APSADCFifoRead_S,
-			APSADCFifoData_DI			 => APSADCFifoDataRead_D,
-			IMUFifoEmpty_SI				 => IMUFifoEmpty_S,
-			IMUFifoAlmostEmpty_SI		 => IMUFifoAlmostEmpty_S,
-			IMUFifoRead_SO				 => IMUFifoRead_S,
-			IMUFifoData_DI				 => IMUFifoDataRead_D,
-			ExtTriggerFifoEmpty_SI		 => ExtTriggerFifoEmpty_S,
-			ExtTriggerFifoAlmostEmpty_SI => ExtTriggerFifoAlmostEmpty_S,
-			ExtTriggerFifoRead_SO		 => ExtTriggerFifoRead_S,
-			ExtTriggerFifoData_DI		 => ExtTriggerFifoDataRead_D);
+			Clock_CI		  => LogicClock_C,
+			Reset_RI		  => LogicReset_R,
+			Run_SI			  => LogicRunSync_S,
+			TimestampReset_SI => '0',
+			OutFifo_I		  => LogicUSBFifo_O.WriteSide,
+			OutFifo_O		  => LogicUSBFifo_I.WriteSide,
+			DVSAERFifo_I	  => DVSAERFifo_O.ReadSide,
+			DVSAERFifo_O	  => DVSAERFifo_I.ReadSide,
+			APSADCFifo_I	  => APSADCFifo_O.ReadSide,
+			APSADCFifo_O	  => APSADCFifo_I.ReadSide,
+			IMUFifo_I		  => IMUFifo_O.ReadSide,
+			IMUFifo_O		  => IMUFifo_I.ReadSide,
+			ExtTriggerFifo_I  => ExtTriggerFifo_O.ReadSide,
+			ExtTriggerFifo_O  => ExtTriggerFifo_I.ReadSide);
 
 	dvsAerFifo : FIFO
 		generic map (
@@ -437,30 +403,22 @@ begin
 			FULL_FLAG		  => DVSAER_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => DVSAER_FIFO_SIZE - DVSAER_FIFO_ALMOST_FULL_SIZE)
 		port map (
-			Clock_CI	   => LogicClock_C,
-			Reset_RI	   => DVSFifoReset_R,
-			DataIn_DI	   => DVSAERFifoDataWrite_D,
-			WrEnable_SI	   => DVSAERFifoWrite_S,
-			DataOut_DO	   => DVSAERFifoDataRead_D,
-			RdEnable_SI	   => DVSAERFifoRead_S,
-			Empty_SO	   => DVSAERFifoEmpty_S,
-			AlmostEmpty_SO => DVSAERFifoAlmostEmpty_S,
-			Full_SO		   => DVSAERFifoFull_S,
-			AlmostFull_SO  => DVSAERFifoAlmostFull_S);
+			Clock_CI => LogicClock_C,
+			Reset_RI => DVSFifoReset_R,
+			Fifo_I	 => DVSAERFifo_I,
+			Fifo_O	 => DVSAERFifo_O);
 
 	dvsAerSM : DVSAERStateMachine
 		port map (
-			Clock_CI			 => LogicClock_C,
-			Reset_RI			 => LogicReset_R,
-			DVSRun_SI			 => DVSRun_S,
-			OutFifoFull_SI		 => DVSAERFifoFull_S,
-			OutFifoAlmostFull_SI => DVSAERFifoAlmostFull_S,
-			OutFifoWrite_SO		 => DVSAERFifoWrite_S,
-			OutFifoData_DO		 => DVSAERFifoDataWrite_D,
-			DVSAERData_DI		 => DVSAERData_DI,
-			DVSAERReq_SBI		 => DVSAERReqSync_SB,
-			DVSAERAck_SBO		 => DVSAERAck_SBO,
-			DVSAERReset_SBO		 => DVSAERReset_SBO);
+			Clock_CI		=> LogicClock_C,
+			Reset_RI		=> LogicReset_R,
+			DVSRun_SI		=> DVSRun_S,
+			OutFifo_I		=> DVSAERFifo_O.WriteSide,
+			OutFifo_O		=> DVSAERFifo_I.WriteSide,
+			DVSAERData_DI	=> DVSAERData_DI,
+			DVSAERReq_SBI	=> DVSAERReqSync_SB,
+			DVSAERAck_SBO	=> DVSAERAck_SBO,
+			DVSAERReset_SBO => DVSAERReset_SBO);
 
 	apsAdcFifo : FIFO
 		generic map (
@@ -471,26 +429,18 @@ begin
 			FULL_FLAG		  => APSADC_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => APSADC_FIFO_SIZE - APSADC_FIFO_ALMOST_FULL_SIZE)
 		port map (
-			Clock_CI	   => LogicClock_C,
-			Reset_RI	   => APSFifoReset_R,
-			DataIn_DI	   => APSADCFifoDataWrite_D,
-			WrEnable_SI	   => APSADCFifoWrite_S,
-			DataOut_DO	   => APSADCFifoDataRead_D,
-			RdEnable_SI	   => APSADCFifoRead_S,
-			Empty_SO	   => APSADCFifoEmpty_S,
-			AlmostEmpty_SO => APSADCFifoAlmostEmpty_S,
-			Full_SO		   => APSADCFifoFull_S,
-			AlmostFull_SO  => APSADCFifoAlmostFull_S);
+			Clock_CI => LogicClock_C,
+			Reset_RI => APSFifoReset_R,
+			Fifo_I	 => APSADCFifo_I,
+			Fifo_O	 => APSADCFifo_O);
 
 	apsAdcSM : APSADCStateMachine
 		port map (
 			Clock_CI			   => LogicClock_C,
 			Reset_RI			   => LogicReset_R,
 			APSRun_SI			   => APSRun_S,
-			OutFifoFull_SI		   => APSADCFifoFull_S,
-			OutFifoAlmostFull_SI   => APSADCFifoAlmostFull_S,
-			OutFifoWrite_SO		   => APSADCFifoWrite_S,
-			OutFifoData_DO		   => APSADCFifoDataWrite_D,
+			OutFifo_I			   => APSADCFifo_O.WriteSide,
+			OutFifo_O			   => APSADCFifo_I.WriteSide,
 			APSChipRowSRClock_SO   => APSChipRowSRClock_SO,
 			APSChipRowSRIn_SO	   => APSChipRowSRIn_SO,
 			APSChipColSRClock_SO   => APSChipColSRClock_SO,
@@ -512,29 +462,21 @@ begin
 			FULL_FLAG		  => IMU_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => IMU_FIFO_SIZE - IMU_FIFO_ALMOST_FULL_SIZE)
 		port map (
-			Clock_CI	   => LogicClock_C,
-			Reset_RI	   => IMUFifoReset_R,
-			DataIn_DI	   => IMUFifoDataWrite_D,
-			WrEnable_SI	   => IMUFifoWrite_S,
-			DataOut_DO	   => IMUFifoDataRead_D,
-			RdEnable_SI	   => IMUFifoRead_S,
-			Empty_SO	   => IMUFifoEmpty_S,
-			AlmostEmpty_SO => IMUFifoAlmostEmpty_S,
-			Full_SO		   => IMUFifoFull_S,
-			AlmostFull_SO  => IMUFifoAlmostFull_S);
+			Clock_CI => LogicClock_C,
+			Reset_RI => IMUFifoReset_R,
+			Fifo_I	 => IMUFifo_I,
+			Fifo_O	 => IMUFifo_O);
 
 	imuSM : IMUStateMachine
 		port map (
-			Clock_CI			 => LogicClock_C,
-			Reset_RI			 => LogicReset_R,
-			IMURun_SI			 => IMURun_S,
-			OutFifoFull_SI		 => IMUFifoFull_S,
-			OutFifoAlmostFull_SI => IMUFifoAlmostFull_S,
-			OutFifoWrite_SO		 => IMUFifoWrite_S,
-			OutFifoData_DO		 => IMUFifoDataWrite_D,
-			IMUClock_ZO			 => IMUClock_ZO,
-			IMUData_ZIO			 => IMUData_ZIO,
-			IMUInterrupt_SI		 => IMUInterruptSync_S);
+			Clock_CI		=> LogicClock_C,
+			Reset_RI		=> LogicReset_R,
+			IMURun_SI		=> IMURun_S,
+			OutFifo_I		=> IMUFifo_O.WriteSide,
+			OutFifo_O		=> IMUFifo_I.WriteSide,
+			IMUClock_ZO		=> IMUClock_ZO,
+			IMUData_ZIO		=> IMUData_ZIO,
+			IMUInterrupt_SI => IMUInterruptSync_S);
 
 	extTriggerFifo : FIFO
 		generic map (
@@ -545,26 +487,18 @@ begin
 			FULL_FLAG		  => EXT_TRIGGER_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => EXT_TRIGGER_FIFO_SIZE - EXT_TRIGGER_FIFO_ALMOST_FULL_SIZE)
 		port map (
-			Clock_CI	   => LogicClock_C,
-			Reset_RI	   => ExtTriggerFifoReset_R,
-			DataIn_DI	   => ExtTriggerFifoDataWrite_D,
-			WrEnable_SI	   => ExtTriggerFifoWrite_S,
-			DataOut_DO	   => ExtTriggerFifoDataRead_D,
-			RdEnable_SI	   => ExtTriggerFifoRead_S,
-			Empty_SO	   => ExtTriggerFifoEmpty_S,
-			AlmostEmpty_SO => ExtTriggerFifoAlmostEmpty_S,
-			Full_SO		   => ExtTriggerFifoFull_S,
-			AlmostFull_SO  => ExtTriggerFifoAlmostFull_S);
+			Clock_CI => LogicClock_C,
+			Reset_RI => ExtTriggerFifoReset_R,
+			Fifo_I	 => ExtTriggerFifo_I,
+			Fifo_O	 => ExtTriggerFifo_O);
 
 	extTriggerSM : ExtTriggerStateMachine
 		port map (
-			Clock_CI			 => LogicClock_C,
-			Reset_RI			 => LogicReset_R,
-			ExtTriggerRun_SI	 => ExtTriggerRun_S,
-			OutFifoFull_SI		 => ExtTriggerFifoFull_S,
-			OutFifoAlmostFull_SI => ExtTriggerFifoAlmostFull_S,
-			OutFifoWrite_SO		 => ExtTriggerFifoWrite_S,
-			OutFifoData_DO		 => ExtTriggerFifoDataWrite_D,
-			ExtTriggerSwitch_SI	 => SyncInSwitchSync_S,
-			ExtTriggerSignal_SI	 => SyncInSignalSync_S);
+			Clock_CI			=> LogicClock_C,
+			Reset_RI			=> LogicReset_R,
+			ExtTriggerRun_SI	=> ExtTriggerRun_S,
+			OutFifo_I			=> ExtTriggerFifo_O.WriteSide,
+			OutFifo_O			=> ExtTriggerFifo_I.WriteSide,
+			ExtTriggerSwitch_SI => SyncInSwitchSync_S,
+			ExtTriggerSignal_SI => SyncInSignalSync_S);
 end Structural;
