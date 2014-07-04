@@ -537,7 +537,7 @@ begin
 
   uSyncStateMachine : synchronizerStateMachine
     port map (
-      ClockxCI              => IfClockxC,
+      ClockxCI              => ClockxC,
       ResetxRBI             => ResetxRB,
       RunxSI                => RunxS,
       HostResetTimestampxSI => HostResetTimestampxS,
