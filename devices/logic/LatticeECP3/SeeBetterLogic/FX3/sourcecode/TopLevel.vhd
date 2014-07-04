@@ -362,7 +362,7 @@ begin
 			InFifo_O					=> LogicUSBFifo_I.ReadSide);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
-	usbFifoLogic : FIFODualClock
+	logicUSBFifo : FIFODualClock
 		generic map (
 			DATA_WIDTH		  => USB_FIFO_WIDTH,
 			DATA_DEPTH		  => USBLOGIC_FIFO_SIZE,
