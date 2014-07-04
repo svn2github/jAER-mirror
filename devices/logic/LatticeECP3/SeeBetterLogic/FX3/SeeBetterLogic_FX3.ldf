@@ -75,6 +75,9 @@
         <Source name="../sourcecode/DVSAERStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../sourcecode/DVSAERConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../sourcecode/APSADCStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>

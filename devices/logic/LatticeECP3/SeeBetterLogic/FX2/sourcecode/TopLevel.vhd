@@ -2,6 +2,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use work.Settings.all;
 use work.FIFORecords.all;
+use work.DVSAERConfigRecords.all;
 
 entity TopLevel is
 	port (
@@ -144,7 +145,8 @@ architecture Structural of TopLevel is
 			DVSAERData_DI	: in  std_logic_vector(AER_BUS_WIDTH-1 downto 0);
 			DVSAERReq_SBI	: in  std_logic;
 			DVSAERAck_SBO	: out std_logic;
-			DVSAERReset_SBO : out std_logic);
+			DVSAERReset_SBO : out std_logic;
+			DVSAERConfig_DI : in  tDVSAERConfig);
 	end component DVSAERStateMachine;
 
 	component IMUStateMachine is
@@ -399,7 +401,8 @@ begin
 			DVSAERData_DI	=> DVSAERData_DI,
 			DVSAERReq_SBI	=> DVSAERReqSync_SB,
 			DVSAERAck_SBO	=> DVSAERAck_SBO,
-			DVSAERReset_SBO => DVSAERReset_SBO);
+			DVSAERReset_SBO => DVSAERReset_SBO,
+			DVSAERConfig_DI => tDVSAERConfigDefault);
 
 	apsAdcFifo : FIFO
 		generic map (

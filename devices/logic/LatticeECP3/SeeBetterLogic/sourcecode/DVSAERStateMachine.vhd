@@ -3,6 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Settings.all;
 use work.FIFORecords.all;
+use work.DVSAERConfigRecords.all;
 
 entity DVSAERStateMachine is
 	port (
@@ -17,7 +18,10 @@ entity DVSAERStateMachine is
 		DVSAERData_DI	: in  std_logic_vector(AER_BUS_WIDTH-1 downto 0);
 		DVSAERReq_SBI	: in  std_logic;
 		DVSAERAck_SBO	: out std_logic;
-		DVSAERReset_SBO : out std_logic);
+		DVSAERReset_SBO : out std_logic;
+
+		-- Configuration input
+		DVSAERConfig_DI : in tDVSAERConfig);
 end DVSAERStateMachine;
 
 architecture Behavioral of DVSAERStateMachine is
@@ -36,9 +40,6 @@ architecture Behavioral of DVSAERStateMachine is
 			Overflow_SO	 : out std_logic;
 			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component ContinuousCounter;
-
-	constant ACK_DELAY	   : integer := 2;
-	constant ACK_EXTENSION : integer := 1;
 
 	type state is (stIdle, stDifferentiateYX, stHandleY, stAckY, stHandleX, stAckX);
 
@@ -67,7 +68,7 @@ begin
 			Reset_RI	 => Reset_RI,
 			Clear_SI	 => '0',
 			Enable_SI	 => ackDelayCount_S,
-			DataLimit_DI => to_unsigned(ACK_DELAY, 5),
+			DataLimit_DI => DVSAERConfig_DI.ackDelay,
 			Overflow_SO	 => ackDelayNotify_S,
 			Data_DO		 => open);
 
@@ -79,7 +80,7 @@ begin
 			Reset_RI	 => Reset_RI,
 			Clear_SI	 => '0',
 			Enable_SI	 => ackExtensionCount_S,
-			DataLimit_DI => to_unsigned(ACK_EXTENSION, 5),
+			DataLimit_DI => DVSAERConfig_DI.ackExtension,
 			Overflow_SO	 => ackExtensionNotify_S,
 			Data_DO		 => open);
 
