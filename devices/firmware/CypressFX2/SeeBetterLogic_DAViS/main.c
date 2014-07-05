@@ -46,6 +46,16 @@ extern BOOL Selfpwr;
 #define BIAS_ADDR_SEL PE0
 
 
+#define biasClock   0x20
+#define biasBit     0x10
+#define biasLatch   0x02
+#define powerDown   0x04
+
+#define latchNewBiases() IOE&=~biasLatch; _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); _nop_();  _nop_();  _nop_(); IOE|=biasLatch;
+#define setPowerDownBit() IOE|=powerDown;
+#define releasePowerDownBit() IOE&=~powerDown;
+#define biasInit(); IOE|=biasClock; IOE&=~biasBit; IOE|=biasLatch;
+
 #define releaseAddrSR() IOE |= BIAS_ADDR_SEL;
 #define selectAddrSR() IOE &= ~BIAS_ADDR_SEL;
 
