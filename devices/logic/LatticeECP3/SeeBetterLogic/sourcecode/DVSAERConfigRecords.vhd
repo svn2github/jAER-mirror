@@ -3,6 +3,17 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 package DVSAERConfigRecords is
+	constant DVSAERCONFIG_MODULE_ADDRESS : unsigned(6 downto 0) := to_unsigned(1, 7);
+
+	type tDVSAERConfigParamAddresses is record
+		ackDelay	 : unsigned(7 downto 0);
+		ackExtension : unsigned(7 downto 0);
+	end record tDVSAERConfigParamAddresses;
+
+	constant DVSAERCONFIG_PARAM_ADDRESSES : tDVSAERConfigParamAddresses := (
+		ackDelay	 => to_unsigned(0, 8),
+		ackExtension => to_unsigned(1, 8));
+
 	type tDVSAERConfig is record
 		ackDelay	 : unsigned(4 downto 0);
 		ackExtension : unsigned(4 downto 0);
