@@ -16,11 +16,11 @@ gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
 	// { 27, 'O' }, /* GPIO 27: Clock for Inertial Measurement Unit */
 	{ 33, 'O' }, /* GPIO 33: FPGA_Reset */
 	{ 34, 'O' }, /* GPIO 34: FX3_LED */
-	{ 35, 'O' }, /* GPIO 35 (Px0): FPGA_Run */
-	{ 36, 'O' }, /* GPIO 36 (Px1): DVS_Run */
-	{ 37, 'O' }, /* GPIO 37 (Px2): APS_Run */
-	{ 38, 'O' }, /* GPIO 38 (Px3): IMU_Run */
-	{ 39, 'o' }, /* GPIO 39 (Px4): FPGA_SPI_SS (active-low) */
+	//{ 35, 'O' }, /* GPIO 35 (Px0): FPGA_Run */
+	//{ 36, 'O' }, /* GPIO 36 (Px1): DVS_Run */
+	//{ 37, 'O' }, /* GPIO 37 (Px2): APS_Run */
+	//{ 38, 'O' }, /* GPIO 38 (Px3): IMU_Run */
+	{ 39, 'o' }, /* GPIO 39 (Px4): FPGA_SPI_SSN (active-low) */
 	{ 40, 'O' }, /* GPIO 40 (Px5): FPGA_SPI_Clock */
 	{ 41, 'O' }, /* GPIO 41 (Px6): FPGA_SPI_MOSI */
 	{ 42, 'O' }, /* GPIO 42 (Px7): FPGA_SPI_MISO */
@@ -39,11 +39,7 @@ const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecif
 
 // Define GPIO to function mappings.
 #define FPGA_RESET 33
-#define FPGA_RUN 35
-#define DVS_RUN 36
-#define APS_RUN 37
-#define IMU_RUN 38
-#define FPGA_SPI_SS 39
+#define FPGA_SPI_SSN 39
 #define FPGA_SPI_CLOCK 40
 #define FPGA_SPI_MOSI 41
 #define FPGA_SPI_MISO 42
@@ -313,12 +309,15 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			}
 
 			if (wValue == 0) {
-				// Disable data output.
-				CyFxGpioTurnOff(FPGA_RUN);
-
-				CyFxGpioTurnOff(DVS_RUN);
-				CyFxGpioTurnOff(APS_RUN);
-				CyFxGpioTurnOff(IMU_RUN);
+				// Disable data producers.
+				CyFxGpioTurnOn(FPGA_SPI_SSN);
+				CyFxWriteByteToShiftReg(0x02, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxWriteByteToShiftReg(0x01, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxGpioTurnOff(FPGA_SPI_SSN);
 
 				// Shut off bias generator, and thus the whole chip.
 				CyFxGpioTurnOff(BIAS_ENABLE);
@@ -327,13 +326,15 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 				// Enable bias generator (power to chip).
 				CyFxGpioTurnOn(BIAS_ENABLE);
 
-				// Enable all data producers.
-				CyFxGpioTurnOn(DVS_RUN);
-				CyFxGpioTurnOn(APS_RUN);
-				CyFxGpioTurnOn(IMU_RUN);
-
-				// Enable data output on FPGA.
-				CyFxGpioTurnOn(FPGA_RUN);
+				// Enable data producers.
+				CyFxGpioTurnOn(FPGA_SPI_SSN);
+				CyFxWriteByteToShiftReg(0x02, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxWriteByteToShiftReg(0x01, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxWriteByteToShiftReg(0x01, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxGpioTurnOff(FPGA_SPI_SSN);
 			}
 
 			CyU3PUsbAckSetup();
@@ -432,13 +433,13 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			// Write out all configuration bytes to the FPGA, using its SPI bus.
 			// Only writing is supported for now via bit-banging the SPI interface.
 			// Newer boards will migrate this to the embedded SPI controller for full-duplex.
-			CyFxGpioTurnOn(FPGA_SPI_SS);
+			CyFxGpioTurnOn(FPGA_SPI_SSN);
 
 			for (size_t i = 0; i < wLength; i++) {
 				CyFxWriteByteToShiftReg(glEP0Buffer[i], FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
 			}
 
-			CyFxGpioTurnOff(FPGA_SPI_SS);
+			CyFxGpioTurnOff(FPGA_SPI_SSN);
 
 			break;
 		}
