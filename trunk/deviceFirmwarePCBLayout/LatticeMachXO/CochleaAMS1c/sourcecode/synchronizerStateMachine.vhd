@@ -189,7 +189,7 @@ begin  -- Behavioral
           StatexDN <= stSlaveWaitEdge;
         end if;
         
-        if ConfigxSI='1'  then
+        if ConfigxSI='1' or CounterxDP > timeout then
           StatexDN   <= stIdle;
           CounterxDN <= (others => '0');
         end if;
@@ -201,7 +201,7 @@ begin  -- Behavioral
         
         DividerxDN          <= (others => '0');
         CounterxDN <= CounterxDP + 1;
-        if SyncInxSB = '1' then
+        if SyncInxSB = '0' then
           IncrementCounterxSO <= '1';
           StatexDN <= stRunSlave;
           CounterxDN <= (others => '0');
