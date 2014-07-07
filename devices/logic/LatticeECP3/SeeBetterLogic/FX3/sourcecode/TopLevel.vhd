@@ -9,10 +9,6 @@ entity TopLevel is
 		USBClock_CI : in std_logic;
 		Reset_RI	: in std_logic;
 
-		LogicRun_AI		   : in	   std_logic;
-		DVSRun_AI		   : in	   std_logic;
-		APSRun_AI		   : in	   std_logic;
-		IMURun_AI		   : in	   std_logic;
 		SPISlaveSelect_ABI : in	   std_logic;
 		SPIClock_AI		   : in	   std_logic;
 		SPIMOSI_AI		   : in	   std_logic;
@@ -91,14 +87,6 @@ architecture Structural of TopLevel is
 			LogicClock_CI		   : in	 std_logic;
 			Reset_RI			   : in	 std_logic;
 			ResetSync_RO		   : out std_logic;
-			LogicRun_SI			   : in	 std_logic;
-			LogicRunSync_SO		   : out std_logic;
-			DVSRun_SI			   : in	 std_logic;
-			DVSRunSync_SO		   : out std_logic;
-			APSRun_SI			   : in	 std_logic;
-			APSRunSync_SO		   : out std_logic;
-			IMURun_SI			   : in	 std_logic;
-			IMURunSync_SO		   : out std_logic;
 			SPISlaveSelect_SBI	   : in	 std_logic;
 			SPISlaveSelectSync_SBO : out std_logic;
 			SPIClock_CI			   : in	 std_logic;
@@ -138,7 +126,6 @@ architecture Structural of TopLevel is
 		port (
 			Clock_CI		  : in	std_logic;
 			Reset_RI		  : in	std_logic;
-			Run_SI			  : in	std_logic;
 			TimestampReset_SI : in	std_logic;
 			OutFifo_I		  : in	tFromFifoWriteSide;
 			OutFifo_O		  : out tToFifoWriteSide;
@@ -156,7 +143,6 @@ architecture Structural of TopLevel is
 		port (
 			Clock_CI		: in  std_logic;
 			Reset_RI		: in  std_logic;
-			DVSRun_SI		: in  std_logic;
 			OutFifo_I		: in  tFromFifoWriteSide;
 			OutFifo_O		: out tToFifoWriteSide;
 			DVSAERData_DI	: in  std_logic_vector(AER_BUS_WIDTH-1 downto 0);
@@ -170,7 +156,6 @@ architecture Structural of TopLevel is
 		port (
 			Clock_CI		: in	std_logic;
 			Reset_RI		: in	std_logic;
-			IMURun_SI		: in	std_logic;
 			OutFifo_I		: in	tFromFifoWriteSide;
 			OutFifo_O		: out	tToFifoWriteSide;
 			IMUClock_ZO		: inout std_logic;
@@ -182,7 +167,6 @@ architecture Structural of TopLevel is
 		port (
 			Clock_CI			   : in	 std_logic;
 			Reset_RI			   : in	 std_logic;
-			APSRun_SI			   : in	 std_logic;
 			OutFifo_I			   : in	 tFromFifoWriteSide;
 			OutFifo_O			   : out tToFifoWriteSide;
 			APSChipRowSRClock_SO   : out std_logic;
@@ -202,7 +186,6 @@ architecture Structural of TopLevel is
 		port (
 			Clock_CI			: in  std_logic;
 			Reset_RI			: in  std_logic;
-			ExtTriggerRun_SI	: in  std_logic;
 			OutFifo_I			: in  tFromFifoWriteSide;
 			OutFifo_O			: out tToFifoWriteSide;
 			ExtTriggerSwitch_SI : in  std_logic;
@@ -266,13 +249,9 @@ architecture Structural of TopLevel is
 	signal LogicReset_R : std_logic;
 
 	signal USBFifoThr0ReadySync_S, USBFifoThr0WatermarkSync_S, USBFifoThr1ReadySync_S, USBFifoThr1WatermarkSync_S : std_logic;
-	signal LogicRunSync_S, DVSRunSync_S, APSRunSync_S, IMURunSync_S												  : std_logic;
 	signal DVSAERReqSync_SB, IMUInterruptSync_S																	  : std_logic;
 	signal SyncOutSwitchSync_S, SyncInClockSync_C, SyncInSwitchSync_S, SyncInSignalSync_S						  : std_logic;
 	signal SPISlaveSelectSync_SB, SPIClockSync_C, SPIMOSISync_D													  : std_logic;
-
-	signal DVSRun_S, APSRun_S, IMURun_S, ExtTriggerRun_S						 : std_logic;
-	signal DVSFifoReset_R, APSFifoReset_R, IMUFifoReset_R, ExtTriggerFifoReset_R : std_logic;
 
 	signal LogicUSBFifo_I : tToFifo(WriteSide(Data_D(USB_FIFO_WIDTH-1 downto 0)));
 	signal LogicUSBFifo_O : tFromFifo(ReadSide(Data_D(USB_FIFO_WIDTH-1 downto 0)));
@@ -310,16 +289,8 @@ begin
 	syncInputsToLogicClock : LogicClockSynchronizer
 		port map (
 			LogicClock_CI		   => LogicClock_C,
-			Reset_RI			   => Reset_RI,
+			Reset_RI			   => USBReset_R,
 			ResetSync_RO		   => LogicReset_R,
-			LogicRun_SI			   => LogicRun_AI,
-			LogicRunSync_SO		   => LogicRunSync_S,
-			DVSRun_SI			   => DVSRun_AI,
-			DVSRunSync_SO		   => DVSRunSync_S,
-			APSRun_SI			   => APSRun_AI,
-			APSRunSync_SO		   => APSRunSync_S,
-			IMURun_SI			   => IMURun_AI,
-			IMURunSync_SO		   => IMURunSync_S,
 			SPISlaveSelect_SBI	   => SPISlaveSelect_ABI,
 			SPISlaveSelectSync_SBO => SPISlaveSelectSync_SB,
 			SPIClock_CI			   => SPIClock_AI,
@@ -347,23 +318,10 @@ begin
 	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI;	 -- Direct bypass.
 
 	-- Wire all LEDs.
-	LED1_SO <= LogicRunSync_S;
+	LED1_SO <= '1';
 	LED2_SO <= LogicUSBFifo_O.ReadSide.Empty_S;
 	LED3_SO <= not SPISlaveSelectSync_SB;
 	LED4_SO <= LogicUSBFifo_O.WriteSide.Full_S;
-
-	-- Only run data producers if the whole logic also is running.
-	DVSRun_S		<= DVSRunSync_S and LogicRunSync_S;
-	APSRun_S		<= APSRunSync_S and LogicRunSync_S;
-	IMURun_S		<= IMURunSync_S and LogicRunSync_S;
-	ExtTriggerRun_S <= LogicRunSync_S;
-
-	-- Keep data transmission FIFOs in reset if logic is not running, so
-	-- that they will be empty when resuming operation (no stale data).
-	DVSFifoReset_R		  <= LogicReset_R or (not LogicRunSync_S);
-	APSFifoReset_R		  <= LogicReset_R or (not LogicRunSync_S);
-	IMUFifoReset_R		  <= LogicReset_R or (not LogicRunSync_S);
-	ExtTriggerFifoReset_R <= LogicReset_R or (not LogicRunSync_S);
 
 	-- Generate logic clock using a PLL.
 	logicClockPLL : PLL
@@ -409,7 +367,6 @@ begin
 		port map (
 			Clock_CI		  => LogicClock_C,
 			Reset_RI		  => LogicReset_R,
-			Run_SI			  => LogicRunSync_S,
 			TimestampReset_SI => '0',
 			OutFifo_I		  => LogicUSBFifo_O.WriteSide,
 			OutFifo_O		  => LogicUSBFifo_I.WriteSide,
@@ -432,7 +389,7 @@ begin
 			ALMOST_FULL_FLAG  => DVSAER_FIFO_SIZE - DVSAER_FIFO_ALMOST_FULL_SIZE)
 		port map (
 			Clock_CI => LogicClock_C,
-			Reset_RI => DVSFifoReset_R,
+			Reset_RI => LogicReset_R,
 			Fifo_I	 => DVSAERFifo_I,
 			Fifo_O	 => DVSAERFifo_O);
 
@@ -440,7 +397,6 @@ begin
 		port map (
 			Clock_CI		=> LogicClock_C,
 			Reset_RI		=> LogicReset_R,
-			DVSRun_SI		=> DVSRun_S,
 			OutFifo_I		=> DVSAERFifo_O.WriteSide,
 			OutFifo_O		=> DVSAERFifo_I.WriteSide,
 			DVSAERData_DI	=> DVSAERData_DI,
@@ -459,7 +415,7 @@ begin
 			ALMOST_FULL_FLAG  => APSADC_FIFO_SIZE - APSADC_FIFO_ALMOST_FULL_SIZE)
 		port map (
 			Clock_CI => LogicClock_C,
-			Reset_RI => APSFifoReset_R,
+			Reset_RI => LogicReset_R,
 			Fifo_I	 => APSADCFifo_I,
 			Fifo_O	 => APSADCFifo_O);
 
@@ -467,7 +423,6 @@ begin
 		port map (
 			Clock_CI			   => LogicClock_C,
 			Reset_RI			   => LogicReset_R,
-			APSRun_SI			   => APSRun_S,
 			OutFifo_I			   => APSADCFifo_O.WriteSide,
 			OutFifo_O			   => APSADCFifo_I.WriteSide,
 			APSChipRowSRClock_SO   => APSChipRowSRClock_SO,
@@ -492,7 +447,7 @@ begin
 			ALMOST_FULL_FLAG  => IMU_FIFO_SIZE - IMU_FIFO_ALMOST_FULL_SIZE)
 		port map (
 			Clock_CI => LogicClock_C,
-			Reset_RI => IMUFifoReset_R,
+			Reset_RI => LogicReset_R,
 			Fifo_I	 => IMUFifo_I,
 			Fifo_O	 => IMUFifo_O);
 
@@ -500,7 +455,6 @@ begin
 		port map (
 			Clock_CI		=> LogicClock_C,
 			Reset_RI		=> LogicReset_R,
-			IMURun_SI		=> IMURun_S,
 			OutFifo_I		=> IMUFifo_O.WriteSide,
 			OutFifo_O		=> IMUFifo_I.WriteSide,
 			IMUClock_ZO		=> IMUClock_ZO,
@@ -517,7 +471,7 @@ begin
 			ALMOST_FULL_FLAG  => EXT_TRIGGER_FIFO_SIZE - EXT_TRIGGER_FIFO_ALMOST_FULL_SIZE)
 		port map (
 			Clock_CI => LogicClock_C,
-			Reset_RI => ExtTriggerFifoReset_R,
+			Reset_RI => LogicReset_R,
 			Fifo_I	 => ExtTriggerFifo_I,
 			Fifo_O	 => ExtTriggerFifo_O);
 
@@ -525,7 +479,6 @@ begin
 		port map (
 			Clock_CI			=> LogicClock_C,
 			Reset_RI			=> LogicReset_R,
-			ExtTriggerRun_SI	=> ExtTriggerRun_S,
 			OutFifo_I			=> ExtTriggerFifo_O.WriteSide,
 			OutFifo_O			=> ExtTriggerFifo_I.WriteSide,
 			ExtTriggerSwitch_SI => SyncInSwitchSync_S,

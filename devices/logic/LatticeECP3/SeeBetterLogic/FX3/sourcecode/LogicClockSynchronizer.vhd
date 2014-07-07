@@ -8,14 +8,6 @@ entity LogicClockSynchronizer is
 		ResetSync_RO  : out std_logic;
 
 		-- Signals to synchronize and their synchronized counterparts.
-		LogicRun_SI			   : in	 std_logic;
-		LogicRunSync_SO		   : out std_logic;
-		DVSRun_SI			   : in	 std_logic;
-		DVSRunSync_SO		   : out std_logic;
-		APSRun_SI			   : in	 std_logic;
-		APSRunSync_SO		   : out std_logic;
-		IMURun_SI			   : in	 std_logic;
-		IMURunSync_SO		   : out std_logic;
 		SPISlaveSelect_SBI	   : in	 std_logic;
 		SPISlaveSelectSync_SBO : out std_logic;
 		SPIClock_CI			   : in	 std_logic;
@@ -64,34 +56,6 @@ begin
 			SyncReset_RO => ResetSync_R);
 
 	-- Ensure synchronization of FX3 inputs related to logic control.
-	syncLogicRun : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
-			SignalToSync_SI => LogicRun_SI,
-			SyncedSignal_SO => LogicRunSync_SO);
-
-	syncDVSRun : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
-			SignalToSync_SI => DVSRun_SI,
-			SyncedSignal_SO => DVSRunSync_SO);
-
-	syncAPSRun : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
-			SignalToSync_SI => APSRun_SI,
-			SyncedSignal_SO => APSRunSync_SO);
-
-	syncIMURun : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
-			SignalToSync_SI => IMURun_SI,
-			SyncedSignal_SO => IMURunSync_SO);
-
 	syncSPISlaveSelect : DFFSynchronizer
 		port map (
 			SyncClock_CI	=> LogicClock_CI,

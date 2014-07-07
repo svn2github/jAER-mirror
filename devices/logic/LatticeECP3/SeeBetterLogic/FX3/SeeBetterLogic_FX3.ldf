@@ -39,6 +39,12 @@
         <Source name="../sourcecode/support/ContinuousCounter.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../sourcecode/support/ShiftRegister.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../sourcecode/support/ShiftRegisterModes.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../sourcecode/support/EdgeDetector.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>

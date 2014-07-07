@@ -7,9 +7,8 @@ use work.DVSAERConfigRecords.all;
 
 entity DVSAERStateMachine is
 	port (
-		Clock_CI  : in std_logic;
-		Reset_RI  : in std_logic;
-		DVSRun_SI : in std_logic;
+		Clock_CI : in std_logic;
+		Reset_RI : in std_logic;
 
 		-- Fifo output (to Multiplexer)
 		OutFifo_I : in	tFromFifoWriteSide;
@@ -68,7 +67,7 @@ begin
 			Reset_RI	 => Reset_RI,
 			Clear_SI	 => '0',
 			Enable_SI	 => ackDelayCount_S,
-			DataLimit_DI => DVSAERConfig_DI.ackDelay,
+			DataLimit_DI => DVSAERConfig_DI.AckDelay_D,
 			Overflow_SO	 => ackDelayNotify_S,
 			Data_DO		 => open);
 
@@ -80,11 +79,11 @@ begin
 			Reset_RI	 => Reset_RI,
 			Clear_SI	 => '0',
 			Enable_SI	 => ackExtensionCount_S,
-			DataLimit_DI => DVSAERConfig_DI.ackExtension,
+			DataLimit_DI => DVSAERConfig_DI.AckExtension_D,
 			Overflow_SO	 => ackExtensionNotify_S,
 			Data_DO		 => open);
 
-	p_memoryless : process (State_DP, DVSRun_SI, OutFifo_I, DVSAERReq_SBI, DVSAERData_DI, ackDelayNotify_S, ackExtensionNotify_S)
+	p_memoryless : process (State_DP, OutFifo_I, DVSAERReq_SBI, DVSAERData_DI, ackDelayNotify_S, ackExtensionNotify_S, DVSAERConfig_DI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
@@ -101,7 +100,7 @@ begin
 		case State_DP is
 			when stIdle =>
 				-- Only exit idle state if DVS data producer is active.
-				if DVSRun_SI = '1' then
+				if DVSAERConfig_DI.Run_S = '1' then
 					if DVSAERReq_SBI = '0' and OutFifo_I.Full_S = '0' then
 						-- Got a request on the AER bus, let's get the data.
 						-- If output fifo full, just wait for it to be empty.

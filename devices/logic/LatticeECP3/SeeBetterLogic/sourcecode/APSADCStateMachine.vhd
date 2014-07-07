@@ -6,9 +6,8 @@ use work.FIFORecords.all;
 
 entity APSADCStateMachine is
 	port (
-		Clock_CI  : in std_logic;
-		Reset_RI  : in std_logic;
-		APSRun_SI : in std_logic;
+		Clock_CI : in std_logic;
+		Reset_RI : in std_logic;
 
 		-- Fifo output (to Multiplexer)
 		OutFifo_I : in	tFromFifoWriteSide;
@@ -37,7 +36,7 @@ architecture Behavioral of APSADCStateMachine is
 	-- present and next state
 	signal State_DP, State_DN : state;
 begin
-	p_memoryless : process (State_DP, APSRun_SI, OutFifo_I)
+	p_memoryless : process (State_DP, OutFifo_I)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
@@ -47,12 +46,12 @@ begin
 		case State_DP is
 			when stIdle =>
 				-- Only exit idle state if APS data producer is active.
-				if APSRun_SI = '1' then
-					if OutFifo_I.Full_S = '0' then
-						-- If output fifo full, just wait for it to be empty.
-						State_DN <= stWriteEvent;
-					end if;
-				end if;
+				--if APSRun_SI = '1' then
+				--if OutFifo_I.Full_S = '0' then
+				-- If output fifo full, just wait for it to be empty.
+				--State_DN <= stWriteEvent;
+				--end if;
+				--end if;
 
 			when stWriteEvent =>
 				OutFifo_O.Data_D  <= (others => '0');

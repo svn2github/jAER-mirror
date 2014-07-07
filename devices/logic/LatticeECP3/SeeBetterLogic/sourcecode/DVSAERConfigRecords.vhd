@@ -6,23 +6,24 @@ package DVSAERConfigRecords is
 	constant DVSAERCONFIG_MODULE_ADDRESS : unsigned(6 downto 0) := to_unsigned(2, 7);
 
 	type tDVSAERConfigParamAddresses is record
-		ackDelay	 : unsigned(7 downto 0);
-		ackExtension : unsigned(7 downto 0);
+		Run_S		   : unsigned(7 downto 0);
+		AckDelay_D	   : unsigned(7 downto 0);
+		AckExtension_D : unsigned(7 downto 0);
 	end record tDVSAERConfigParamAddresses;
 
 	constant DVSAERCONFIG_PARAM_ADDRESSES : tDVSAERConfigParamAddresses := (
-		ackDelay	 => to_unsigned(1, 8),
-		ackExtension => to_unsigned(2, 8));
+		Run_S		   => to_unsigned(1, 8),
+		AckDelay_D	   => to_unsigned(2, 8),
+		AckExtension_D => to_unsigned(3, 8));
 
 	type tDVSAERConfig is record
-		ackDelay	 : unsigned(4 downto 0);
-		ackExtension : unsigned(4 downto 0);
+		Run_S		   : std_logic;
+		AckDelay_D	   : unsigned(4 downto 0);
+		AckExtension_D : unsigned(4 downto 0);
 	end record tDVSAERConfig;
 
-	constant DVSAERCONFIG_MAX_PARAM_LENGTH : integer := 5;
-	constant DVSAERCONFIG_TOTAL_LENGTH	   : integer := tDVSAERConfig.ackDelay'length + tDVSAERConfig.ackExtension'length;
-
 	constant tDVSAERConfigDefault : tDVSAERConfig := (
-		ackDelay	 => to_unsigned(2, tDVSAERConfig.ackDelay'length),
-		ackExtension => to_unsigned(1, tDVSAERConfig.ackExtension'length));
+		Run_S		   => '0',
+		AckDelay_D	   => to_unsigned(2, tDVSAERConfig.AckDelay_D'length),
+		AckExtension_D => to_unsigned(1, tDVSAERConfig.AckExtension_D'length));
 end package DVSAERConfigRecords;
