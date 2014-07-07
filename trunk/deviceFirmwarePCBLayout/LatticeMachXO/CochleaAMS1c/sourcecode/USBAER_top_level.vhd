@@ -395,9 +395,10 @@ begin
 
 
 	HostResetTimestampxS <= PA7xSIO;
-	RunxS				 <= PA3xSIO or not TimestampMasterxS;
-	--PA1xSIO				 <= TimestampMasterxS;
-	TimestampMasterxS <= PA1xSIO;
+	--H RunxS				 <= PA3xSIO or not TimestampMasterxS;
+	RunxS				 <= PA3xSIO;
+	--H PA1xSIO				 <= TimestampMasterxS;
+	TimestampMasterxS 	<= PA1xSIO;
 	
 	RunADCxS  <= PC0xSIO;
 	SRClockxC <= PC1xSIO;
@@ -420,9 +421,8 @@ begin
 
 	FX2FifoReadxEBO <= '1';
 
-	--SyncInxA <= not SyncInxAI;
+	--H SyncInxA <= not SyncInxAI;
 	SyncInxA <= SyncInxAI;
-
 
 	shiftRegister_1 : shiftRegister
 		generic map (
@@ -543,8 +543,8 @@ begin
       ResetxRBI             => ResetxRB,
       RunxSI                => RunxS,
       HostResetTimestampxSI => HostResetTimestampxS,
-      SyncInxABI            =>  SyncInxA, -- CHECK IF SHOULD BE ACTIVE HIGH OR LOW
-      SyncOutxSBO            => SynchOutxS, -- CHECK IF SHOULD BE ACTIVE HIGH OR LOW
+      SyncInxABI            =>  SyncInxA, 
+      SyncOutxSBO            => SynchOutxS, 
 	  ConfigxSI				=> TimestampMasterxS,
 	  ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
       IncrementCounterxSO   => IncxS);
@@ -616,7 +616,7 @@ begin
 			ValueReadyxSO	 => ADCvalueReadyxS);
 
 
-	SynchOutxSO		  <= not SynchOutxS;
+	SynchOutxSO		  <= SynchOutxS;
 	FX2FifoPktEndxSBO <= FX2FifoPktEndxSB;
 	FX2FifoWritexEBO  <= FX2FifoWritexEB;
 	AERMonitorACKxSBO <= AERMonitorACKxSB;
