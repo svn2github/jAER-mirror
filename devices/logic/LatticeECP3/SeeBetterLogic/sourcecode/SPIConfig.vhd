@@ -2,6 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.ShiftRegisterModes.all;
+use work.MultiplexerConfigRecords.all;
 use work.DVSAERConfigRecords.all;
 
 entity SPIConfig is
@@ -16,7 +17,8 @@ entity SPIConfig is
 		SPIMISO_ZO		   : inout std_logic;
 
 		-- Configuration modules outputs
-		DVSAERConfig_DO : out tDVSAERConfig);
+		MultiplexerConfig_DO : out tMultiplexerConfig;
+		DVSAERConfig_DO		 : out tDVSAERConfig);
 end entity SPIConfig;
 
 architecture Behavioral of SPIConfig is
@@ -82,7 +84,8 @@ architecture Behavioral of SPIConfig is
 	signal TransferDoneReg_SP, TransferDoneReg_SN	: std_logic;
 
 	-- Configuration modules registers
-	signal DVSAERConfigReg_DP, DVSAERConfigReg_DN : tDVSAERConfig;
+	signal MultiplexerConfigReg_DP, MultiplexerConfigReg_DN : tMultiplexerConfig;
+	signal DVSAERConfigReg_DP, DVSAERConfigReg_DN			: tDVSAERConfig;
 begin  -- architecture Behavioral
 	-- The SPI input lines have already been synchronized to the logic clock at
 	-- this point, so we can use and sample them directly.
@@ -160,6 +163,11 @@ begin  -- architecture Behavioral
 				-- concrete to output. We're reading input right now.
 				SPIMISO_ZO <= '0';
 
+				-- Detect SPI slave selection failure.
+				if SPISlaveSelect_SBI = '1' then
+					State_DN <= stIdle;
+				end if;
+
 				if SPIReadMOSI_S = '1' then
 					SPIInputSRegMode_S	  <= SHIFTREGISTER_MODE_SHIFT_LEFT;
 					SPIInputCountEnable_S <= '1';
@@ -178,11 +186,26 @@ begin  -- architecture Behavioral
 		end case;
 	end process spiCommunication;
 
-	configUpdate : process (ModuleAddressReg_DP, ParamAddressReg_DP, ParamContent_DP, DVSAERConfigReg_DP)
+	configUpdate : process (ModuleAddressReg_DP, ParamAddressReg_DP, ParamContent_DP, MultiplexerConfigReg_DP, DVSAERConfigReg_DP)
 	begin
-		DVSAERConfigReg_DN <= DVSAERConfigReg_DP;
+		MultiplexerConfigReg_DN <= MultiplexerConfigReg_DP;
+		DVSAERConfigReg_DN		<= DVSAERConfigReg_DP;
 
 		case ModuleAddressReg_DP is
+			when MULTIPLEXERCONFIG_MODULE_ADDRESS =>
+				case ParamAddressReg_DP is
+					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.Run_S =>
+						MultiplexerConfigReg_DN.Run_S <= ParamContent_DP(0);
+
+					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.TimestampRun_S =>
+						MultiplexerConfigReg_DN.TimestampRun_S <= ParamContent_DP(0);
+
+					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.TimestampReset_S =>
+						MultiplexerConfigReg_DN.TimestampReset_S <= ParamContent_DP(0);
+
+					when others => null;
+				end case;
+
 			when DVSAERCONFIG_MODULE_ADDRESS =>
 				case ParamAddressReg_DP is
 					when DVSAERCONFIG_PARAM_ADDRESSES.Run_S =>
@@ -212,7 +235,8 @@ begin  -- architecture Behavioral
 			ParamContent_DP		<= (others => '0');
 			TransferDoneReg_SP	<= '0';
 
-			DVSAERConfigReg_DP <= tDVSAERConfigDefault;
+			MultiplexerConfigReg_DP <= tMultiplexerConfigDefault;
+			DVSAERConfigReg_DP		<= tDVSAERConfigDefault;
 		elsif rising_edge(Clock_CI) then  -- rising clock edge
 			State_DP <= State_DN;
 
@@ -223,11 +247,13 @@ begin  -- architecture Behavioral
 			TransferDoneReg_SP	<= TransferDoneReg_SN;
 
 			if TransferDoneReg_SP = '1' then
-				DVSAERConfigReg_DP <= DVSAERConfigReg_DN;
+				MultiplexerConfigReg_DP <= MultiplexerConfigReg_DN;
+				DVSAERConfigReg_DP		<= DVSAERConfigReg_DN;
 			end if;
 		end if;
 	end process regUpdate;
 
 	-- Connect configuration modules outputs
-	DVSAERConfig_DO <= DVSAERConfigReg_DP;
+	MultiplexerConfig_DO <= MultiplexerConfigReg_DP;
+	DVSAERConfig_DO		 <= DVSAERConfigReg_DP;
 end architecture Behavioral;

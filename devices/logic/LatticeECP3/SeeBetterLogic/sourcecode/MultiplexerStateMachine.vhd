@@ -3,12 +3,12 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Settings.all;
 use work.FIFORecords.all;
+use work.MultiplexerConfigRecords.all;
 
 entity MultiplexerStateMachine is
 	port (
-		Clock_CI		  : in std_logic;
-		Reset_RI		  : in std_logic;
-		TimestampReset_SI : in std_logic;
+		Clock_CI : in std_logic;
+		Reset_RI : in std_logic;
 
 		-- Fifo output (to USB)
 		OutFifo_I : in	tFromFifoWriteSide;
@@ -28,7 +28,10 @@ entity MultiplexerStateMachine is
 
 		-- Fifo input (from External Trigger)
 		ExtTriggerFifo_I : in  tFromFifoReadSide;
-		ExtTriggerFifo_O : out tToFifoReadSide);
+		ExtTriggerFifo_O : out tToFifoReadSide;
+
+		-- Configuration input
+		MultiplexerConfig_DI : in tMultiplexerConfig);
 end MultiplexerStateMachine;
 
 architecture Behavioral of MultiplexerStateMachine is
@@ -107,12 +110,12 @@ begin
 		port map (
 			Clock_CI			 => Clock_CI,
 			Reset_RI			 => Reset_RI,
-			TimestampRun_SI		 => '1',
+			TimestampRun_SI		 => MultiplexerConfig_DI.TimestampRun_S,
 			TimestampReset_SI	 => TimestampResetBufferClear_S,
 			TimestampOverflow_SO => TimestampOverflow_S,
 			Timestamp_DO		 => Timestamp_D);
 
-	TimestampResetBufferInput_S <= TimestampReset_SI or TimestampOverflowBufferOverflow_S;
+	TimestampResetBufferInput_S <= MultiplexerConfig_DI.TimestampReset_S or TimestampOverflowBufferOverflow_S;
 
 	resetBuffer : BufferClear
 		port map (
@@ -151,7 +154,7 @@ begin
 			Overflow_SO	 => TimestampOverflowBufferOverflow_S,
 			Data_DO		 => TimestampOverflowBuffer_D);
 
-	p_memoryless : process (State_DP, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifo_I, DVSAERFifo_I, APSADCFifo_I, IMUFifo_I, ExtTriggerFifo_I)
+	p_memoryless : process (State_DP, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifo_I, DVSAERFifo_I, APSADCFifo_I, IMUFifo_I, ExtTriggerFifo_I, MultiplexerConfig_DI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
@@ -168,30 +171,33 @@ begin
 
 		case State_DP is
 			when stIdle =>
-				-- Now check various flags and see what data to forward.
-				-- Timestamp-related flags have priority over data.
-				if OutFifo_I.Full_S = '0' then
-					if TimestampResetBuffer_S = '1' then
-						State_DN <= stTimestampReset;
-					elsif TimestampOverflowBuffer_D > 0 then
-						State_DN <= stTimestampWrap;
-					elsif OutFifo_I.AlmostFull_S = '0' then
-						-- Use the AlmostEmpty flags as markers to see if
-						-- there is lots of data in the FIFOs and
-						-- prioritize those over the others.
-						if DVSAERFifo_I.AlmostEmpty_S = '0' then
-							State_DN <= stPrepareDVSAER;
-						elsif DVSAERFifo_I.Empty_S = '0' then
-							State_DN <= stPrepareDVSAER;
+				-- Only exit idle state if logic is running.
+				if MultiplexerConfig_DI.Run_S = '1' then
+					-- Now check various flags and see what data to forward.
+					-- Timestamp-related flags have priority over data.
+					if OutFifo_I.Full_S = '0' then
+						if TimestampResetBuffer_S = '1' then
+							State_DN <= stTimestampReset;
+						elsif TimestampOverflowBuffer_D > 0 then
+							State_DN <= stTimestampWrap;
+						elsif OutFifo_I.AlmostFull_S = '0' then
+							-- Use the AlmostEmpty flags as markers to see if
+							-- there is lots of data in the FIFOs and
+							-- prioritize those over the others.
+							if DVSAERFifo_I.AlmostEmpty_S = '0' then
+								State_DN <= stPrepareDVSAER;
+							elsif DVSAERFifo_I.Empty_S = '0' then
+								State_DN <= stPrepareDVSAER;
+							end if;
+						else
+							-- No space for an event and its timestamp, drop it.
+							State_DN <= stDropData;
 						end if;
 					else
-						-- No space for an event and its timestamp, drop it.
+						-- No space for even timestamp flags, drop data to
+						-- ensure flow continues.
 						State_DN <= stDropData;
 					end if;
-				else
-					-- No space for even timestamp flags, drop data to
-					-- ensure flow continues.
-					State_DN <= stDropData;
 				end if;
 
 			when stTimestampReset =>

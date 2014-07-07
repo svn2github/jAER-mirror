@@ -2,6 +2,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use work.Settings.all;
 use work.FIFORecords.all;
+use work.MultiplexerConfigRecords.all;
 use work.DVSAERConfigRecords.all;
 
 entity TopLevel is
@@ -124,19 +125,19 @@ architecture Structural of TopLevel is
 
 	component MultiplexerStateMachine is
 		port (
-			Clock_CI		  : in	std_logic;
-			Reset_RI		  : in	std_logic;
-			TimestampReset_SI : in	std_logic;
-			OutFifo_I		  : in	tFromFifoWriteSide;
-			OutFifo_O		  : out tToFifoWriteSide;
-			DVSAERFifo_I	  : in	tFromFifoReadSide;
-			DVSAERFifo_O	  : out tToFifoReadSide;
-			APSADCFifo_I	  : in	tFromFifoReadSide;
-			APSADCFifo_O	  : out tToFifoReadSide;
-			IMUFifo_I		  : in	tFromFifoReadSide;
-			IMUFifo_O		  : out tToFifoReadSide;
-			ExtTriggerFifo_I  : in	tFromFifoReadSide;
-			ExtTriggerFifo_O  : out tToFifoReadSide);
+			Clock_CI			 : in  std_logic;
+			Reset_RI			 : in  std_logic;
+			OutFifo_I			 : in  tFromFifoWriteSide;
+			OutFifo_O			 : out tToFifoWriteSide;
+			DVSAERFifo_I		 : in  tFromFifoReadSide;
+			DVSAERFifo_O		 : out tToFifoReadSide;
+			APSADCFifo_I		 : in  tFromFifoReadSide;
+			APSADCFifo_O		 : out tToFifoReadSide;
+			IMUFifo_I			 : in  tFromFifoReadSide;
+			IMUFifo_O			 : out tToFifoReadSide;
+			ExtTriggerFifo_I	 : in  tFromFifoReadSide;
+			ExtTriggerFifo_O	 : out tToFifoReadSide;
+			MultiplexerConfig_DI : in  tMultiplexerConfig);
 	end component MultiplexerStateMachine;
 
 	component DVSAERStateMachine is
@@ -194,13 +195,14 @@ architecture Structural of TopLevel is
 
 	component SPIConfig is
 		port (
-			Clock_CI		   : in	   std_logic;
-			Reset_RI		   : in	   std_logic;
-			SPISlaveSelect_SBI : in	   std_logic;
-			SPIClock_CI		   : in	   std_logic;
-			SPIMOSI_DI		   : in	   std_logic;
-			SPIMISO_ZO		   : inout std_logic;
-			DVSAERConfig_DO	   : out   tDVSAERConfig);
+			Clock_CI			 : in	 std_logic;
+			Reset_RI			 : in	 std_logic;
+			SPISlaveSelect_SBI	 : in	 std_logic;
+			SPIClock_CI			 : in	 std_logic;
+			SPIMOSI_DI			 : in	 std_logic;
+			SPIMISO_ZO			 : inout std_logic;
+			MultiplexerConfig_DO : out	 tMultiplexerConfig;
+			DVSAERConfig_DO		 : out	 tDVSAERConfig);
 	end component SPIConfig;
 
 	component FIFODualClock is
@@ -268,7 +270,8 @@ architecture Structural of TopLevel is
 	signal ExtTriggerFifo_I : tToFifo(WriteSide(Data_D(EVENT_WIDTH-1 downto 0)));
 	signal ExtTriggerFifo_O : tFromFifo(ReadSide(Data_D(EVENT_WIDTH-1 downto 0)));
 
-	signal DVSAERConfig_D : tDVSAERConfig;
+	signal MultiplexerConfig_D : tMultiplexerConfig;
+	signal DVSAERConfig_D	   : tDVSAERConfig;
 begin
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : USBClockSynchronizer
@@ -289,7 +292,7 @@ begin
 	syncInputsToLogicClock : LogicClockSynchronizer
 		port map (
 			LogicClock_CI		   => LogicClock_C,
-			Reset_RI			   => USBReset_R,
+			Reset_RI			   => Reset_RI,
 			ResetSync_RO		   => LogicReset_R,
 			SPISlaveSelect_SBI	   => SPISlaveSelect_ABI,
 			SPISlaveSelectSync_SBO => SPISlaveSelectSync_SB,
@@ -365,19 +368,19 @@ begin
 
 	multiplexerSM : MultiplexerStateMachine
 		port map (
-			Clock_CI		  => LogicClock_C,
-			Reset_RI		  => LogicReset_R,
-			TimestampReset_SI => '0',
-			OutFifo_I		  => LogicUSBFifo_O.WriteSide,
-			OutFifo_O		  => LogicUSBFifo_I.WriteSide,
-			DVSAERFifo_I	  => DVSAERFifo_O.ReadSide,
-			DVSAERFifo_O	  => DVSAERFifo_I.ReadSide,
-			APSADCFifo_I	  => APSADCFifo_O.ReadSide,
-			APSADCFifo_O	  => APSADCFifo_I.ReadSide,
-			IMUFifo_I		  => IMUFifo_O.ReadSide,
-			IMUFifo_O		  => IMUFifo_I.ReadSide,
-			ExtTriggerFifo_I  => ExtTriggerFifo_O.ReadSide,
-			ExtTriggerFifo_O  => ExtTriggerFifo_I.ReadSide);
+			Clock_CI			 => LogicClock_C,
+			Reset_RI			 => LogicReset_R,
+			OutFifo_I			 => LogicUSBFifo_O.WriteSide,
+			OutFifo_O			 => LogicUSBFifo_I.WriteSide,
+			DVSAERFifo_I		 => DVSAERFifo_O.ReadSide,
+			DVSAERFifo_O		 => DVSAERFifo_I.ReadSide,
+			APSADCFifo_I		 => APSADCFifo_O.ReadSide,
+			APSADCFifo_O		 => APSADCFifo_I.ReadSide,
+			IMUFifo_I			 => IMUFifo_O.ReadSide,
+			IMUFifo_O			 => IMUFifo_I.ReadSide,
+			ExtTriggerFifo_I	 => ExtTriggerFifo_O.ReadSide,
+			ExtTriggerFifo_O	 => ExtTriggerFifo_I.ReadSide,
+			MultiplexerConfig_DI => MultiplexerConfig_D);
 
 	dvsAerFifo : FIFO
 		generic map (
@@ -486,11 +489,12 @@ begin
 
 	spiConfiguration : SPIConfig
 		port map (
-			Clock_CI		   => LogicClock_C,
-			Reset_RI		   => LogicReset_R,
-			SPISlaveSelect_SBI => SPISlaveSelectSync_SB,
-			SPIClock_CI		   => SPIClockSync_C,
-			SPIMOSI_DI		   => SPIMOSISync_D,
-			SPIMISO_ZO		   => SPIMISO_ZO,
-			DVSAERConfig_DO	   => DVSAERConfig_D);
+			Clock_CI			 => LogicClock_C,
+			Reset_RI			 => LogicReset_R,
+			SPISlaveSelect_SBI	 => SPISlaveSelectSync_SB,
+			SPIClock_CI			 => SPIClockSync_C,
+			SPIMOSI_DI			 => SPIMOSISync_D,
+			SPIMISO_ZO			 => SPIMISO_ZO,
+			MultiplexerConfig_DO => MultiplexerConfig_D,
+			DVSAERConfig_DO		 => DVSAERConfig_D);
 end Structural;

@@ -168,7 +168,8 @@ LOCATE COMP "SyncInSwitch_AI" SITE "A3" ;
 LOCATE COMP "SyncInSignal_AI" SITE "A4" ;
 
 // Setup & Hold time specifications
-INPUT_SETUP PORT "Reset_RI" INPUT_DELAY 2.0 ns HOLD 2.0 ns CLKNET "USBClock_CI_c" ;
+INPUT_SETUP PORT "Reset_RI" INPUT_DELAY 1.0 ns HOLD 1.0 ns CLKNET "USBClock_CI_c" ;
+INPUT_SETUP PORT "Reset_RI" INPUT_DELAY 1.0 ns HOLD 1.0 ns CLKNET "LogicClock_C" ;
 
 CLOCK_TO_OUT GROUP "USBFifoData_DO" OUTPUT_DELAY 2.0 ns MIN 0.5 ns CLKNET "USBClock_CI_c" ;
 CLOCK_TO_OUT GROUP "USBFifoAddress_DO" OUTPUT_DELAY 2.0 ns MIN 0.5 ns CLKNET "USBClock_CI_c" ;

@@ -72,6 +72,9 @@
         <Source name="../sourcecode/MultiplexerStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../sourcecode/MultiplexerConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../sourcecode/TimestampGenerator.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
