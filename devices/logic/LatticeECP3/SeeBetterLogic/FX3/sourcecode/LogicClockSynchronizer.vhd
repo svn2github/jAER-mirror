@@ -8,26 +8,32 @@ entity LogicClockSynchronizer is
 		ResetSync_RO  : out std_logic;
 
 		-- Signals to synchronize and their synchronized counterparts.
-		LogicRun_SI			 : in  std_logic;
-		LogicRunSync_SO		 : out std_logic;
-		DVSRun_SI			 : in  std_logic;
-		DVSRunSync_SO		 : out std_logic;
-		APSRun_SI			 : in  std_logic;
-		APSRunSync_SO		 : out std_logic;
-		IMURun_SI			 : in  std_logic;
-		IMURunSync_SO		 : out std_logic;
-		DVSAERReq_SBI		 : in  std_logic;
-		DVSAERReqSync_SBO	 : out std_logic;
-		IMUInterrupt_SI		 : in  std_logic;
-		IMUInterruptSync_SO	 : out std_logic;
-		SyncOutSwitch_SI	 : in  std_logic;
-		SyncOutSwitchSync_SO : out std_logic;
-		SyncInClock_CI		 : in  std_logic;
-		SyncInClockSync_CO	 : out std_logic;
-		SyncInSwitch_SI		 : in  std_logic;
-		SyncInSwitchSync_SO	 : out std_logic;
-		SyncInSignal_SI		 : in  std_logic;
-		SyncInSignalSync_SO	 : out std_logic);
+		LogicRun_SI			   : in	 std_logic;
+		LogicRunSync_SO		   : out std_logic;
+		DVSRun_SI			   : in	 std_logic;
+		DVSRunSync_SO		   : out std_logic;
+		APSRun_SI			   : in	 std_logic;
+		APSRunSync_SO		   : out std_logic;
+		IMURun_SI			   : in	 std_logic;
+		IMURunSync_SO		   : out std_logic;
+		SPISlaveSelect_SBI	   : in	 std_logic;
+		SPISlaveSelectSync_SBO : out std_logic;
+		SPIClock_CI			   : in	 std_logic;
+		SPIClockSync_CO		   : out std_logic;
+		SPIMOSI_DI			   : in	 std_logic;
+		SPIMOSISync_DO		   : out std_logic;
+		DVSAERReq_SBI		   : in	 std_logic;
+		DVSAERReqSync_SBO	   : out std_logic;
+		IMUInterrupt_SI		   : in	 std_logic;
+		IMUInterruptSync_SO	   : out std_logic;
+		SyncOutSwitch_SI	   : in	 std_logic;
+		SyncOutSwitchSync_SO   : out std_logic;
+		SyncInClock_CI		   : in	 std_logic;
+		SyncInClockSync_CO	   : out std_logic;
+		SyncInSwitch_SI		   : in	 std_logic;
+		SyncInSwitchSync_SO	   : out std_logic;
+		SyncInSignal_SI		   : in	 std_logic;
+		SyncInSignalSync_SO	   : out std_logic);
 end LogicClockSynchronizer;
 
 architecture Structural of LogicClockSynchronizer is
@@ -85,6 +91,27 @@ begin
 			Reset_RI		=> ResetSync_R,
 			SignalToSync_SI => IMURun_SI,
 			SyncedSignal_SO => IMURunSync_SO);
+
+	syncSPISlaveSelect : DFFSynchronizer
+		port map (
+			SyncClock_CI	=> LogicClock_CI,
+			Reset_RI		=> ResetSync_R,
+			SignalToSync_SI => SPISlaveSelect_SBI,
+			SyncedSignal_SO => SPISlaveSelectSync_SBO);
+
+	syncSPIClock : DFFSynchronizer
+		port map (
+			SyncClock_CI	=> LogicClock_CI,
+			Reset_RI		=> ResetSync_R,
+			SignalToSync_SI => SPIClock_CI,
+			SyncedSignal_SO => SPIClockSync_CO);
+
+	syncSPIMOSI : DFFSynchronizer
+		port map (
+			SyncClock_CI	=> LogicClock_CI,
+			Reset_RI		=> ResetSync_R,
+			SignalToSync_SI => SPIMOSI_DI,
+			SyncedSignal_SO => SPIMOSISync_DO);
 
 	syncDVSAERReq : DFFSynchronizer
 		port map (

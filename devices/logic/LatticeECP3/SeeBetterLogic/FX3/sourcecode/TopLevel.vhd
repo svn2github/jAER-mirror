@@ -9,16 +9,16 @@ entity TopLevel is
 		USBClock_CI : in std_logic;
 		Reset_RI	: in std_logic;
 
-		LogicRun_AI			: in  std_logic;
-		DVSRun_AI			: in  std_logic;
-		APSRun_AI			: in  std_logic;
-		IMURun_AI			: in  std_logic;
-		SPI_SlaveSelect_ABI : in  std_logic;
-		SPI_Clock_AI		: in  std_logic;
-		SPI_MOSI_AI			: in  std_logic;
-		SPI_MISO_DO			: out std_logic;
-		BiasEnable_SI		: in  std_logic;
-		BiasDiagSelect_SI	: in  std_logic;
+		LogicRun_AI		   : in	   std_logic;
+		DVSRun_AI		   : in	   std_logic;
+		APSRun_AI		   : in	   std_logic;
+		IMURun_AI		   : in	   std_logic;
+		SPISlaveSelect_ABI : in	   std_logic;
+		SPIClock_AI		   : in	   std_logic;
+		SPIMOSI_AI		   : in	   std_logic;
+		SPIMISO_ZO		   : inout std_logic;  -- this is inout because it must be tristateable
+		BiasEnable_SI	   : in	   std_logic;
+		BiasDiagSelect_SI  : in	   std_logic;
 
 		USBFifoData_DO			: out std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
 		USBFifoChipSelect_SBO	: out std_logic;
@@ -88,29 +88,35 @@ architecture Structural of TopLevel is
 
 	component LogicClockSynchronizer is
 		port (
-			LogicClock_CI		 : in  std_logic;
-			Reset_RI			 : in  std_logic;
-			ResetSync_RO		 : out std_logic;
-			LogicRun_SI			 : in  std_logic;
-			LogicRunSync_SO		 : out std_logic;
-			DVSRun_SI			 : in  std_logic;
-			DVSRunSync_SO		 : out std_logic;
-			APSRun_SI			 : in  std_logic;
-			APSRunSync_SO		 : out std_logic;
-			IMURun_SI			 : in  std_logic;
-			IMURunSync_SO		 : out std_logic;
-			DVSAERReq_SBI		 : in  std_logic;
-			DVSAERReqSync_SBO	 : out std_logic;
-			IMUInterrupt_SI		 : in  std_logic;
-			IMUInterruptSync_SO	 : out std_logic;
-			SyncOutSwitch_SI	 : in  std_logic;
-			SyncOutSwitchSync_SO : out std_logic;
-			SyncInClock_CI		 : in  std_logic;
-			SyncInClockSync_CO	 : out std_logic;
-			SyncInSwitch_SI		 : in  std_logic;
-			SyncInSwitchSync_SO	 : out std_logic;
-			SyncInSignal_SI		 : in  std_logic;
-			SyncInSignalSync_SO	 : out std_logic);
+			LogicClock_CI		   : in	 std_logic;
+			Reset_RI			   : in	 std_logic;
+			ResetSync_RO		   : out std_logic;
+			LogicRun_SI			   : in	 std_logic;
+			LogicRunSync_SO		   : out std_logic;
+			DVSRun_SI			   : in	 std_logic;
+			DVSRunSync_SO		   : out std_logic;
+			APSRun_SI			   : in	 std_logic;
+			APSRunSync_SO		   : out std_logic;
+			IMURun_SI			   : in	 std_logic;
+			IMURunSync_SO		   : out std_logic;
+			SPISlaveSelect_SBI	   : in	 std_logic;
+			SPISlaveSelectSync_SBO : out std_logic;
+			SPIClock_CI			   : in	 std_logic;
+			SPIClockSync_CO		   : out std_logic;
+			SPIMOSI_DI			   : in	 std_logic;
+			SPIMOSISync_DO		   : out std_logic;
+			DVSAERReq_SBI		   : in	 std_logic;
+			DVSAERReqSync_SBO	   : out std_logic;
+			IMUInterrupt_SI		   : in	 std_logic;
+			IMUInterruptSync_SO	   : out std_logic;
+			SyncOutSwitch_SI	   : in	 std_logic;
+			SyncOutSwitchSync_SO   : out std_logic;
+			SyncInClock_CI		   : in	 std_logic;
+			SyncInClockSync_CO	   : out std_logic;
+			SyncInSwitch_SI		   : in	 std_logic;
+			SyncInSwitchSync_SO	   : out std_logic;
+			SyncInSignal_SI		   : in	 std_logic;
+			SyncInSignalSync_SO	   : out std_logic);
 	end component LogicClockSynchronizer;
 
 	component FX3Statemachine is
@@ -203,6 +209,17 @@ architecture Structural of TopLevel is
 			ExtTriggerSignal_SI : in  std_logic);
 	end component ExtTriggerStateMachine;
 
+	component SPIConfig is
+		port (
+			Clock_CI		   : in	   std_logic;
+			Reset_RI		   : in	   std_logic;
+			SPISlaveSelect_SBI : in	   std_logic;
+			SPIClock_CI		   : in	   std_logic;
+			SPIMOSI_DI		   : in	   std_logic;
+			SPIMISO_ZO		   : inout std_logic;
+			DVSAERConfig_DO	   : out   tDVSAERConfig);
+	end component SPIConfig;
+
 	component FIFODualClock is
 		generic (
 			DATA_WIDTH		  : integer;
@@ -252,6 +269,7 @@ architecture Structural of TopLevel is
 	signal LogicRunSync_S, DVSRunSync_S, APSRunSync_S, IMURunSync_S												  : std_logic;
 	signal DVSAERReqSync_SB, IMUInterruptSync_S																	  : std_logic;
 	signal SyncOutSwitchSync_S, SyncInClockSync_C, SyncInSwitchSync_S, SyncInSignalSync_S						  : std_logic;
+	signal SPISlaveSelectSync_SB, SPIClockSync_C, SPIMOSISync_D													  : std_logic;
 
 	signal DVSRun_S, APSRun_S, IMURun_S, ExtTriggerRun_S						 : std_logic;
 	signal DVSFifoReset_R, APSFifoReset_R, IMUFifoReset_R, ExtTriggerFifoReset_R : std_logic;
@@ -270,6 +288,8 @@ architecture Structural of TopLevel is
 
 	signal ExtTriggerFifo_I : tToFifo(WriteSide(Data_D(EVENT_WIDTH-1 downto 0)));
 	signal ExtTriggerFifo_O : tFromFifo(ReadSide(Data_D(EVENT_WIDTH-1 downto 0)));
+
+	signal DVSAERConfig_D : tDVSAERConfig;
 begin
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : USBClockSynchronizer
@@ -289,29 +309,35 @@ begin
 	-- Second: synchronize all logic-related inputs to the logic clock.
 	syncInputsToLogicClock : LogicClockSynchronizer
 		port map (
-			LogicClock_CI		 => LogicClock_C,
-			Reset_RI			 => Reset_RI,
-			ResetSync_RO		 => LogicReset_R,
-			LogicRun_SI			 => LogicRun_AI,
-			LogicRunSync_SO		 => LogicRunSync_S,
-			DVSRun_SI			 => DVSRun_AI,
-			DVSRunSync_SO		 => DVSRunSync_S,
-			APSRun_SI			 => APSRun_AI,
-			APSRunSync_SO		 => APSRunSync_S,
-			IMURun_SI			 => IMURun_AI,
-			IMURunSync_SO		 => IMURunSync_S,
-			DVSAERReq_SBI		 => DVSAERReq_ABI,
-			DVSAERReqSync_SBO	 => DVSAERReqSync_SB,
-			IMUInterrupt_SI		 => IMUInterrupt_AI,
-			IMUInterruptSync_SO	 => IMUInterruptSync_S,
-			SyncOutSwitch_SI	 => SyncOutSwitch_AI,
-			SyncOutSwitchSync_SO => SyncOutSwitchSync_S,
-			SyncInClock_CI		 => SyncInClock_AI,
-			SyncInClockSync_CO	 => SyncInClockSync_C,
-			SyncInSwitch_SI		 => SyncInSwitch_AI,
-			SyncInSwitchSync_SO	 => SyncInSwitchSync_S,
-			SyncInSignal_SI		 => SyncInSignal_AI,
-			SyncInSignalSync_SO	 => SyncInSignalSync_S);
+			LogicClock_CI		   => LogicClock_C,
+			Reset_RI			   => Reset_RI,
+			ResetSync_RO		   => LogicReset_R,
+			LogicRun_SI			   => LogicRun_AI,
+			LogicRunSync_SO		   => LogicRunSync_S,
+			DVSRun_SI			   => DVSRun_AI,
+			DVSRunSync_SO		   => DVSRunSync_S,
+			APSRun_SI			   => APSRun_AI,
+			APSRunSync_SO		   => APSRunSync_S,
+			IMURun_SI			   => IMURun_AI,
+			IMURunSync_SO		   => IMURunSync_S,
+			SPISlaveSelect_SBI	   => SPISlaveSelect_ABI,
+			SPISlaveSelectSync_SBO => SPISlaveSelectSync_SB,
+			SPIClock_CI			   => SPIClock_AI,
+			SPIClockSync_CO		   => SPIClockSync_C,
+			SPIMOSI_DI			   => SPIMOSI_AI,
+			SPIMOSISync_DO		   => SPIMOSISync_D,
+			DVSAERReq_SBI		   => DVSAERReq_ABI,
+			DVSAERReqSync_SBO	   => DVSAERReqSync_SB,
+			IMUInterrupt_SI		   => IMUInterrupt_AI,
+			IMUInterruptSync_SO	   => IMUInterruptSync_S,
+			SyncOutSwitch_SI	   => SyncOutSwitch_AI,
+			SyncOutSwitchSync_SO   => SyncOutSwitchSync_S,
+			SyncInClock_CI		   => SyncInClock_AI,
+			SyncInClockSync_CO	   => SyncInClockSync_C,
+			SyncInSwitch_SI		   => SyncInSwitch_AI,
+			SyncInSwitchSync_SO	   => SyncInSwitchSync_S,
+			SyncInSignal_SI		   => SyncInSignal_AI,
+			SyncInSignalSync_SO	   => SyncInSignalSync_S);
 
 	-- Third: set all constant outputs.
 	USBFifoChipSelect_SBO <= '0';  -- Always keep USB chip selected (active-low).
@@ -323,7 +349,7 @@ begin
 	-- Wire all LEDs.
 	LED1_SO <= LogicRunSync_S;
 	LED2_SO <= LogicUSBFifo_O.ReadSide.Empty_S;
-	LED3_SO <= '0';
+	LED3_SO <= not SPISlaveSelectSync_SB;
 	LED4_SO <= LogicUSBFifo_O.WriteSide.Full_S;
 
 	-- Only run data producers if the whole logic also is running.
@@ -421,7 +447,7 @@ begin
 			DVSAERReq_SBI	=> DVSAERReqSync_SB,
 			DVSAERAck_SBO	=> DVSAERAck_SBO,
 			DVSAERReset_SBO => DVSAERReset_SBO,
-			DVSAERConfig_DI => tDVSAERConfigDefault);
+			DVSAERConfig_DI => DVSAERConfig_D);
 
 	apsAdcFifo : FIFO
 		generic map (
@@ -504,4 +530,14 @@ begin
 			OutFifo_O			=> ExtTriggerFifo_I.WriteSide,
 			ExtTriggerSwitch_SI => SyncInSwitchSync_S,
 			ExtTriggerSignal_SI => SyncInSignalSync_S);
+
+	spiConfiguration : SPIConfig
+		port map (
+			Clock_CI		   => LogicClock_C,
+			Reset_RI		   => LogicReset_R,
+			SPISlaveSelect_SBI => SPISlaveSelectSync_SB,
+			SPIClock_CI		   => SPIClockSync_C,
+			SPIMOSI_DI		   => SPIMOSISync_D,
+			SPIMISO_ZO		   => SPIMISO_ZO,
+			DVSAERConfig_DO	   => DVSAERConfig_D);
 end Structural;
