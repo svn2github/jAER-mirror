@@ -420,7 +420,9 @@ begin
 
 	FX2FifoReadxEBO <= '1';
 
-	SyncInxA <= not SyncInxAI;
+	--SyncInxA <= not SyncInxAI;
+	SyncInxA <= SyncInxAI;
+
 
 	shiftRegister_1 : shiftRegister
 		generic map (
