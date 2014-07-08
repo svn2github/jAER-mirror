@@ -23,7 +23,7 @@ gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
 	{ 39, 'o' }, /* GPIO 39 (Px4): FPGA_SPI_SSN (active-low) */
 	{ 40, 'O' }, /* GPIO 40 (Px5): FPGA_SPI_Clock */
 	{ 41, 'O' }, /* GPIO 41 (Px6): FPGA_SPI_MOSI */
-	{ 42, 'O' }, /* GPIO 42 (Px7): FPGA_SPI_MISO */
+	{ 42, 'I' }, /* GPIO 42 (Px7): FPGA_SPI_MISO */
 	// { 43, 'O' }, /* GPIO 43 (Px8): */
 	// { 44, 'O' }, /* GPIO 44 (Px9): */
 	// { 45, 'O' }, /* GPIO 45 (Spare1): */
@@ -309,32 +309,12 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			}
 
 			if (wValue == 0) {
-				// Disable data producers.
-				CyFxGpioTurnOn(FPGA_SPI_SSN);
-				CyFxWriteByteToShiftReg(0x02, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg(0x01, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxGpioTurnOff(FPGA_SPI_SSN);
-
 				// Shut off bias generator, and thus the whole chip.
 				CyFxGpioTurnOff(BIAS_ENABLE);
 			}
 			else {
 				// Enable bias generator (power to chip).
 				CyFxGpioTurnOn(BIAS_ENABLE);
-
-				// Enable data producers.
-				CyFxGpioTurnOn(FPGA_SPI_SSN);
-				CyFxWriteByteToShiftReg(0x02, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg(0x01, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg(0x00, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg(0x01, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxGpioTurnOff(FPGA_SPI_SSN);
 			}
 
 			CyU3PUsbAckSetup();
