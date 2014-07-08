@@ -58,6 +58,10 @@ architecture Behavioral of DVSAERStateMachine is
 	signal OutFifoWriteReg_S	  : std_logic;
 	signal OutFifoDataRegEnable_S : std_logic;
 	signal OutFifoDataReg_D		  : std_logic_vector(EVENT_WIDTH-1 downto 0);
+
+	-- Register outputs to DVS.
+	signal DVSAERAckReg_SB	 : std_logic;
+	signal DVSAERResetReg_SB : std_logic;
 begin
 	ackDelayCounter : ContinuousCounter
 		generic map (
@@ -91,8 +95,8 @@ begin
 		OutFifoDataRegEnable_S <= '0';
 		OutFifoDataReg_D	   <= (others => '0');
 
-		DVSAERAck_SBO	<= '1';			-- No AER ACK by default.
-		DVSAERReset_SBO <= '1';			-- Keep DVS out of reset by default.
+		DVSAERAckReg_SB	  <= '1';		-- No AER ACK by default.
+		DVSAERResetReg_SB <= '1';		-- Keep DVS out of reset by default.
 
 		ackDelayCount_S		<= '0';
 		ackExtensionCount_S <= '0';
@@ -108,7 +112,7 @@ begin
 					end if;
 				else
 					-- Keep the DVS in reset if data producer turned off.
-					DVSAERReset_SBO <= '0';
+					DVSAERResetReg_SB <= '0';
 				end if;
 
 			when stDifferentiateYX =>
@@ -131,6 +135,7 @@ begin
 					OutFifoDataRegEnable_S <= '1';
 					OutFifoWriteReg_S	   <= '1';
 
+					DVSAERAckReg_SB		<= '0';
 					State_DN			<= stAckY;
 					ackExtensionCount_S <= '1';
 				end if;
@@ -138,12 +143,13 @@ begin
 				ackDelayCount_S <= '1';
 
 			when stAckY =>
-				DVSAERAck_SBO <= '0';
+				DVSAERAckReg_SB <= '0';
 
 				if DVSAERReq_SBI = '1' then
 					-- We might need to extend the ACK period.
 					if ackExtensionNotify_S = '1' then
-						State_DN <= stIdle;
+						DVSAERAckReg_SB <= '1';
+						State_DN		<= stIdle;
 					end if;
 
 					ackExtensionCount_S <= '1';
@@ -156,13 +162,15 @@ begin
 				OutFifoDataRegEnable_S <= '1';
 				OutFifoWriteReg_S	   <= '1';
 
-				State_DN <= stAckX;
+				DVSAERAckReg_SB <= '0';
+				State_DN		<= stAckX;
 
 			when stAckX =>
-				DVSAERAck_SBO <= '0';
+				DVSAERAckReg_SB <= '0';
 
 				if DVSAERReq_SBI = '1' then
-					State_DN <= stIdle;
+					DVSAERAckReg_SB <= '1';
+					State_DN		<= stIdle;
 				end if;
 
 			when others => null;
@@ -177,6 +185,9 @@ begin
 
 			OutFifo_O.Write_S <= '0';
 			OutFifo_O.Data_D  <= (others => '0');
+
+			DVSAERAck_SBO	<= '1';
+			DVSAERReset_SBO <= '1';
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
 
@@ -184,6 +195,9 @@ begin
 			if OutFifoDataRegEnable_S = '1' then
 				OutFifo_O.Data_D <= OutFifoDataReg_D;
 			end if;
+
+			DVSAERAck_SBO	<= DVSAERAckReg_SB;
+			DVSAERReset_SBO <= DVSAERResetReg_SB;
 		end if;
 	end process p_memoryzing;
 end Behavioral;

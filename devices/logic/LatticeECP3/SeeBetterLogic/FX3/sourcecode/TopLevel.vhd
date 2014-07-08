@@ -360,7 +360,7 @@ begin
 			FULL_FLAG		  => USBLOGIC_FIFO_SIZE,
 			ALMOST_FULL_FLAG  => USBLOGIC_FIFO_SIZE - USBLOGIC_FIFO_ALMOST_FULL_SIZE)
 		port map (
-			Reset_RI   => USBReset_R,
+			Reset_RI   => LogicReset_R,
 			WrClock_CI => LogicClock_C,
 			RdClock_CI => USBClock_CI,
 			Fifo_I	   => LogicUSBFifo_I,

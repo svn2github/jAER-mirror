@@ -63,7 +63,7 @@ architecture Behavioral of SPIConfig is
 			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component ContinuousCounter;
 
-	type state is (stIdle, stInputModuleAddress, stInputParamAddress, stInputByte1, stInputByte2, stInputByte3, stInputByte4, stInputDelay, stOutputByte1, stOutputByte2, stOutputByte3, stOutputByte4);
+	type state is (stIdle, stInput, stOutput);
 
 	attribute syn_enum_encoding			 : string;
 	attribute syn_enum_encoding of state : type is "onehot";
@@ -71,11 +71,12 @@ architecture Behavioral of SPIConfig is
 	-- present and next state
 	signal State_DP, State_DN : state;
 
-	signal SPIClockRisingEdges_S, SPIClockFallingEdges_S						: std_logic;
-	signal SPIReadMOSI_S, SPIWriteMISO_S										: std_logic;
-	signal SPIInputSRegMode_S													: std_logic_vector(1 downto 0);
-	signal SPIInputSRegRead_D													: std_logic_vector(7 downto 0);
-	signal SPIInputCountClear_S, SPIInputCountEnable_S, SPIInputCountOverflow_S : std_logic;
+	signal SPIClockRisingEdges_S, SPIClockFallingEdges_S : std_logic;
+	signal SPIReadMOSI_S, SPIWriteMISO_S				 : std_logic;
+	signal SPIInputSRegMode_S							 : std_logic_vector(1 downto 0);
+	signal SPIInputSRegRead_D							 : std_logic_vector(7 downto 0);
+	signal SPIInputCountClear_S, SPIInputCountEnable_S	 : std_logic;
+	signal SPIInputCount_D								 : unsigned(5 downto 0);
 
 	signal ReadOperationReg_SP, ReadOperationReg_SN : std_logic;
 	signal ModuleAddressReg_DP, ModuleAddressReg_DN : std_logic_vector(6 downto 0);
@@ -114,19 +115,20 @@ begin  -- architecture Behavioral
 			ParallelWrite_DI => (others => '0'),
 			ParallelRead_DO	 => SPIInputSRegRead_D);
 
-	spiInputCounter : ContinuousCounter
+	spiInputBitCounter : ContinuousCounter
 		generic map (
-			COUNTER_WIDTH => 3)
+			COUNTER_WIDTH  => 6,
+			SHORT_OVERFLOW => true)
 		port map (
 			Clock_CI	 => Clock_CI,
 			Reset_RI	 => Reset_RI,
 			Clear_SI	 => SPIInputCountClear_S,
 			Enable_SI	 => SPIInputCountEnable_S,
 			DataLimit_DI => (others => '1'),
-			Overflow_SO	 => SPIInputCountOverflow_S,
-			Data_DO		 => open);
+			Overflow_SO	 => open,
+			Data_DO		 => SPIInputCount_D);
 
-	spiCommunication : process (State_DP, SPIInputSRegRead_D, SPIInputCountOverflow_S, SPISlaveSelect_SBI, SPIReadMOSI_S, ReadOperationReg_SP, ModuleAddressReg_DP, ParamAddressReg_DP, ParamContent_DP, TransferDoneReg_SP)
+	spiCommunication : process (State_DP, SPIInputSRegRead_D, SPIInputCount_D, SPISlaveSelect_SBI, SPIReadMOSI_S, ReadOperationReg_SP, ModuleAddressReg_DP, ParamAddressReg_DP, ParamContent_DP)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;
@@ -136,7 +138,7 @@ begin  -- architecture Behavioral
 		ModuleAddressReg_DN <= ModuleAddressReg_DP;
 		ParamAddressReg_DN	<= ParamAddressReg_DP;
 		ParamContent_DN		<= ParamContent_DP;
-		TransferDoneReg_SN	<= TransferDoneReg_SP;
+		TransferDoneReg_SN	<= '0';
 
 		-- SPI output is Hi-Z by default.
 		SPIMISO_ZO <= 'Z';
@@ -151,19 +153,18 @@ begin  -- architecture Behavioral
 				-- If this SPI slave gets selected, start observing the clock
 				-- and input lines.
 				if SPISlaveSelect_SBI = '0' then
-					State_DN <= stInputModuleAddress;
+					State_DN <= stInput;
 				end if;
 
 				-- Keep input elements clear while idling.
 				SPIInputSRegMode_S	 <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 				SPIInputCountClear_S <= '1';
 
-			when stInputModuleAddress =>
+			when stInput =>
 				-- Push a zero out on the SPI bus, when there is nothing
 				-- concrete to output. We're reading input right now.
 				SPIMISO_ZO <= '0';
 
-				-- Detect SPI slave selection failure.
 				if SPISlaveSelect_SBI = '1' then
 					State_DN <= stIdle;
 				end if;
@@ -173,14 +174,42 @@ begin  -- architecture Behavioral
 					SPIInputCountEnable_S <= '1';
 				end if;
 
-				if SPIInputCountOverflow_S = '1' then
-					-- Copy captured data to the right place.
-					ReadOperationReg_SN <= SPIInputSRegRead_D(7);
-					ModuleAddressReg_DN <= SPIInputSRegRead_D(6 downto 0);
+				case SPIInputCount_D is
+					when to_unsigned(8, 6) =>
+						ReadOperationReg_SN <= SPIInputSRegRead_D(7);
+						ModuleAddressReg_DN <= SPIInputSRegRead_D(6 downto 0);
 
-					-- Capture next byte.
-					State_DN <= stInputParamAddress;
-				end if;
+					when to_unsigned(16, 6) =>
+						ParamAddressReg_DN <= SPIInputSRegRead_D(7 downto 0);
+
+					when to_unsigned(24, 6) =>
+						if ReadOperationReg_SP = '1' then
+							-- If read operation, we're ready to output after
+							-- the delay period just passed.
+							State_DN <= stOutput;
+						else
+							-- Write operation, so this was the first byte.
+							ParamContent_DN(31 downto 24) <= SPIInputSRegRead_D(7 downto 0);
+						end if;
+
+					when to_unsigned(32, 6) =>
+						ParamContent_DN(23 downto 16) <= SPIInputSRegRead_D(7 downto 0);
+
+					when to_unsigned(40, 6) =>
+						ParamContent_DN(15 downto 8) <= SPIInputSRegRead_D(7 downto 0);
+
+					when to_unsigned(48, 6) =>
+						ParamContent_DN(7 downto 0) <= SPIInputSRegRead_D(7 downto 0);
+
+						-- And we're done.
+						TransferDoneReg_SN <= '1';
+
+						State_DN <= stIdle;
+
+					when others => null;
+				end case;
+
+			when stOutput => null;
 
 			when others => null;
 		end case;
