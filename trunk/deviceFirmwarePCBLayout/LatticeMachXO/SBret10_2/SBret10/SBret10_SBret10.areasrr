@@ -20,7 +20,7 @@ I/O cells:       92
                                 INV        7       100.0
                                  OB       42       100.0
                                 OBZ       15       100.0
-                           ORCALUT4      325       100.0
+                           ORCALUT4      327       100.0
                               PFUMX       11       100.0
                                 PUR        1       100.0
                                 VHI       14       100.0
@@ -41,7 +41,7 @@ SUB MODULES
           wordRegister_14_uADCRegister        1       100.0
           wordRegister_14_uMonitorTimestampRegister        1       100.0
                             
-                         TOTAL          1084           
+                         TOTAL          1086           
 ----------------------------------------------------------------------
 Report for cell ADCvalueReady.netlist
      Instance path:  ADCvalueReady_1
@@ -63,7 +63,7 @@ Report for cell ADCStateMachine.netlist
                             FD1S3BX        2        50.0
                             FD1S3DX       20         8.5
                                 INV        3        42.9
-                           ORCALUT4      111        34.2
+                           ORCALUT4      111        33.9
                                 VHI        1         7.1
                                 VLO        1         9.1
                             
@@ -76,11 +76,12 @@ Report for cell monitorStateMachine.netlist
                                CCU2       12         6.5
                             FD1S3BX        1        25.0
                             FD1S3DX       39        16.5
-                           ORCALUT4       67        20.6
+                           ORCALUT4       90        27.5
+                              PFUMX       10        90.9
                                 VHI        1         7.1
                                 VLO        1         9.1
                             
-                         TOTAL           121           
+                         TOTAL           154           
 ----------------------------------------------------------------------
 Report for cell fifoStatemachine.netlist
      Instance path:  fifoStatemachine_1
@@ -103,7 +104,7 @@ Report for cell synchronizerStateMachine.netlist
                             FD1S3AX        2        50.0
                             FD1S3BX        1        25.0
                             FD1S3DX       12         5.1
-                           ORCALUT4       73        22.5
+                           ORCALUT4       73        22.3
                                 VHI        1         7.1
                                 VLO        1         9.1
                             
@@ -140,11 +141,11 @@ Report for cell earlyPaketTimer.netlist
                                cell       count    Res Usage(%)
                                CCU2       11         6.0
                             FD1P3DX       21        12.0
-                           ORCALUT4       22         6.8
+                           ORCALUT4       23         7.0
                                 VHI        1         7.1
                                 VLO        1         9.1
                             
-                         TOTAL            56           
+                         TOTAL            57           
 ----------------------------------------------------------------------
 Report for cell wordRegister_14_uADCRegister.netlist
   Original Cell name wordRegister_14

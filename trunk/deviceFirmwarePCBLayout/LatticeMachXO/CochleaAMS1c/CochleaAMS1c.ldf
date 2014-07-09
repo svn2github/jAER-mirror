@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BaliProject version="3.0" title="CochleaAMS1c" device="LCMXO2280C-3FT256C" default_implementation="CochleaAMS1c">
+<BaliProject version="3.2" title="CochleaAMS1c" device="LCMXO2280C-3FT256C" default_implementation="CochleaAMS1c">
     <Options/>
     <Implementation title="CochleaAMS1c" dir="CochleaAMS1c" description="CochleaAMS1c" synthesis="synplify" default_strategy="Timing">
-        <Options def_top="AER2FIFO" top="USBAER_top_level"/>
+        <Options def_top="cDVSResetStateMachine" top="USBAER_top_level"/>
         <Source name="sourcecode/wordRegister.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>

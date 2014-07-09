@@ -6,7 +6,7 @@ Performance Grade:      3
 PACKAGE:          FTBGA256
 Package Status:                     Final          Version 1.26
 
-Tue May 27 12:35:56 2014
+Wed Jul 09 13:46:31 2014
 
 Pinout by Port Name:
 +-------------------------+----------+--------------+-------+-----------------------------------+
@@ -91,6 +91,7 @@ Pinout by Port Name:
 | LED2xSO                 | T11/4    | LVCMOS33_OUT | PB12B | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
 | LED3xSO                 | R13/4    | LVCMOS33_OUT | PB14C | DRIVE:4mA SLEW:FAST PULL:KEEPER   |
 | PA0xSIO                 | H2/6     | LVCMOS33_IN  | PL11A | SLEW:FAST PULL:UP                 |
+| PA1xSIO                 | H1/7     | LVCMOS33_IN  | PL10D | SLEW:FAST PULL:UP                 |
 | PA3xSIO                 | F2/7     | LVCMOS33_IN  | PL7A  | SLEW:FAST PULL:UP                 |
 | PA7xSIO                 | D2/7     | LVCMOS33_IN  | PL6C  | SLEW:FAST PULL:UP                 |
 | PC0xSIO                 | K2/6     | LVCMOS33_IN  | PL12C | SLEW:FAST PULL:UP                 |
@@ -226,7 +227,7 @@ Pinout by Pin Number:
 | G14/2    |     unused, PULL:UP     |            |              | PR10A |                |
 | G15/2    | ADCwordxDI[7]           | LOCATED    | LVCMOS33_IN  | PR10C |                |
 | G16/2    | ADCwordxDI[8]           | LOCATED    | LVCMOS33_IN  | PR7D  |                |
-| H1/7     |     unused, PULL:UP     |            |              | PL10D |                |
+| H1/7     | PA1xSIO                 | LOCATED    | LVCMOS33_IN  | PL10D |                |
 | H2/6     | PA0xSIO                 | LOCATED    | LVCMOS33_IN  | PL11A |                |
 | H3/7     |     unused, PULL:UP     |            |              | PL8D  |                |
 | H4/7     |     unused, PULL:UP     |            |              | PL9A  |                |
@@ -488,6 +489,7 @@ LOCATE  COMP  "LED1xSO"  SITE  "R8";
 LOCATE  COMP  "LED2xSO"  SITE  "T11";
 LOCATE  COMP  "LED3xSO"  SITE  "R13";
 LOCATE  COMP  "PA0xSIO"  SITE  "H2";
+LOCATE  COMP  "PA1xSIO"  SITE  "H1";
 LOCATE  COMP  "PA3xSIO"  SITE  "F2";
 LOCATE  COMP  "PA7xSIO"  SITE  "D2";
 LOCATE  COMP  "PC0xSIO"  SITE  "K2";
@@ -506,11 +508,11 @@ LOCATE  COMP  "uClockGen/PLLCInst_0"  SITE  "PLL3_R20C1" ;
 
 
 
-PAR: Place And Route Diamond (64-bit) 3.1.0.96.
+PAR: Place And Route Diamond (64-bit) 3.2.0.134.
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
 Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2014 Lattice Semiconductor Corporation,  All rights reserved.
-Tue May 27 12:35:56 2014
+Wed Jul 09 13:46:31 2014
 

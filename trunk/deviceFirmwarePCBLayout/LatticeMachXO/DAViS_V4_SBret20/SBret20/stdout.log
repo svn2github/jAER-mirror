@@ -1,10 +1,14 @@
+line 5789, col 42: Option set not found: vcs_ECP4_lib.
+line 5803, col 44: Option set not found: vcs_ECP45M_lib.
+
+
 Running in Lattice mode
 
 
-Starting:    C:\lscc\diamond\3.1_x64\synpbase\win64\mbin\synbatch.exe
-Install:     C:\lscc\diamond\3.1_x64\synpbase
-Date:        Tue May 27 12:35:40 2014
-Version:     I-2013.09L 
+Starting:    C:\lscc\diamond\3.2_x64\synpbase\win64\mbin\synbatch.exe
+Install:     C:\lscc\diamond\3.2_x64\synpbase
+Date:        Wed Jul 09 13:45:59 2014
+Version:     I-2013.09L-SP1-1 
 
 Arguments:   -product synplify_pro  -batch SBret20_SBret20_synplify.tcl
 ProductType: synplify_pro
@@ -14,11 +18,11 @@ ProductType: synplify_pro
 
 
 
-Warning: File already exists in project: "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\AERfifo.vhd"
+Warning: File already exists in project: "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\AERfifo.vhd"
 
-Warning: File already exists in project: "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\clockgen.vhd"
+Warning: File already exists in project: "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\clockgen.vhd"
 
-log file: "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srr"
+log file: "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\SBret20_SBret20.srr"
 
 
 
@@ -31,9 +35,9 @@ Return Code: 0
 Run Time:0h:00m:01s
 
 
-Copied C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srr to C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srf
+Copied E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\SBret20_SBret20.srr to E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\SBret20_SBret20.srf
 
-log file: "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srr"
+log file: "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\SBret20_SBret20.srr"
 
 
 
@@ -50,19 +54,19 @@ Running: Compile Process on proj_1|SBret20
 
 Running: Compile Input on proj_1|SBret20
 
-Copied C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synwork\SBret20_SBret20_comp.srs to C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srs
+Copied E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\synwork\SBret20_SBret20_comp.srs to E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\SBret20_SBret20.srs
 
 compiler Completed
 Return Code: 0
-Run Time:0h:00m:02s
+Run Time:0h:00m:03s
 
 
-Copied C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srr to C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srf
+Copied E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\SBret20_SBret20.srr to E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\SBret20_SBret20.srf
 
 Complete: Compile Process on proj_1|SBret20
 
 
-Running: Premap on proj_1|SBret20
+Running: Pre-mapping on proj_1|SBret20
 
 premap Completed with warnings
 Return Code: 1
@@ -79,12 +83,12 @@ Running: Map & Optimize on proj_1|SBret20
 
 fpga_mapper Completed with warnings
 Return Code: 1
-Run Time:0h:00m:03s
+Run Time:0h:00m:05s
 
 
 Complete: Map on proj_1|SBret20
 
-Copied C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srr to C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srf
+Copied E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\SBret20_SBret20.srr to E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\SBret20_SBret20.srf
 
 Complete: Logic Synthesis on proj_1|SBret20
 
@@ -97,7 +101,7 @@ exit status=0
 
 
 Save changes for project:
-C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\proj_1.prj
+E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\proj_1.prj
 
 batch mode default:no
 

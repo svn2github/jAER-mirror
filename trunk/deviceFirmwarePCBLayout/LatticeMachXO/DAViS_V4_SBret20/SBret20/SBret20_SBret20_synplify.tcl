@@ -43,31 +43,31 @@ set_option -resolve_multiple_driver 0
 
 
 #-- add_file options
-add_file -vhdl {C:/lscc/diamond/3.1_x64/cae_library/synthesis/vhdl/machxo.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/wordRegister.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/AERfifo.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/clockgen.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/earlyPaketTimer.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/EventBeforeOverflow.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/eventCounter.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/fifoStatemachine.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/monitorStateMachine.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/synchronizerStateMachine.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/timestampCounter.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/USBAER_top_level.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/AERfifo.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/clockgen.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/ADCvalueReady.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/cDVSResetStateMachine.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/shiftRegister.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/ADCStateMachine_tb.vhd}
-add_file -vhdl -lib "work" {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/ADCStateMachine.vhd}
+add_file -vhdl {C:/lscc/diamond/3.2_x64/cae_library/synthesis/vhdl/machxo.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/wordRegister.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/AERfifo.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/clockgen.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/earlyPaketTimer.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/EventBeforeOverflow.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/eventCounter.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/fifoStatemachine.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/monitorStateMachine.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/synchronizerStateMachine.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/timestampCounter.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/USBAER_top_level.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/AERfifo.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/clockgen.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/ADCvalueReady.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/cDVSResetStateMachine.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/shiftRegister.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/ADCStateMachine_tb.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/sourcecode/ADCStateMachine.vhd}
 
 #-- top module name
 set_option -top_module USBAER_top_level
 
 #-- set result format/file last
-project -result_file {C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20/SBret20_SBret20.edi}
+project -result_file {E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/SBret20/SBret20_SBret20.edi}
 
 #-- error message log file
 project -log_file {SBret20_SBret20.srf}

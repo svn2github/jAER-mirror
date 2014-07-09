@@ -1,10 +1,14 @@
+line 5789, col 42: Option set not found: vcs_ECP4_lib.
+line 5803, col 44: Option set not found: vcs_ECP45M_lib.
+
+
 Running in Lattice mode
 
 
-Starting:    C:\Program Files\Lattice\diamond\1.3\synpbase\win64\mbin\synbatch.exe
-Install:     C:\Program Files\Lattice\diamond\1.3\synpbase
-Date:        Thu Aug 29 14:23:08 2013
-Version:     E-2011.03L
+Starting:    C:\lscc\diamond\3.2_x64\synpbase\win64\mbin\synbatch.exe
+Install:     C:\lscc\diamond\3.2_x64\synpbase
+Date:        Tue Jul 08 11:24:11 2014
+Version:     I-2013.09L-SP1-1 
 
 Arguments:   -product synplify_pro  -batch SBret20_SBret20_synplify.tcl
 ProductType: synplify_pro
@@ -14,72 +18,88 @@ ProductType: synplify_pro
 
 
 
-Warning: File already exists in project: "C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\AERfifo.vhd"
+Warning: File already exists in project: "E:\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\AERfifo.vhd"
 
-Warning: File already exists in project: "C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\clockgen.vhd"
+Warning: File already exists in project: "E:\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\clockgen.vhd"
+
+log file: "E:\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srr"
+
+
+
+
 
 Generating HDL info...
 
-HDL info generator Completed
+hdl_info_gen Completed
 Return Code: 0
-
-Run Time:00:00:01
-
-Running hdl_info_gen on proj_1|SBret20
-
-Job flow hdl_info_gen completed on proj_1|SBret20
+Run Time:0h:00m:01s
 
 
-log file: "C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srf"
+log file: "E:\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srr"
+
+
+
 
 
 Running proj_1|SBret20
 
-Running Premap Flow on proj_1|SBret20
 
-Running Compile Flow on proj_1|SBret20
+Running: Compile on proj_1|SBret20
 
-Running HDL Compile on proj_1|SBret20
+
+Running: Compile Process on proj_1|SBret20
+
+
+Running: Compile Input on proj_1|SBret20
+
+Copied E:\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synwork\SBret20_SBret20_comp.srs to E:\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srs
 
 compiler Completed
 Return Code: 0
-
-Run Time:00:00:01
-
-Copied C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synwork\SBret20_SBret20_compiler.srs to C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srl
-
-Copied C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synwork\SBret20_SBret20_compiler.srs to C:\PROJ\jAER\trunk\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srs
-
-Job flow Compile Flow completed on proj_1|SBret20
+Run Time:0h:00m:03s
 
 
-Running Pre-mapping on proj_1|SBret20
+Copied E:\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srr to E:\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srf
 
-premapping Completed with warnings
+Complete: Compile Process on proj_1|SBret20
+
+
+Running: Pre-mapping on proj_1|SBret20
+
+premap Completed with warnings
 Return Code: 1
-
-Run Time:00:00:02
-
-Job flow Premap Flow completed on proj_1|SBret20
+Run Time:0h:00m:01s
 
 
-Running Mapping Flow on proj_1|SBret20
+Complete: Compile on proj_1|SBret20
 
-Running Mapping on proj_1|SBret20
 
-MACHXO Mapper Completed with warnings
+Running: Map on proj_1|SBret20
+
+
+Running: Map & Optimize on proj_1|SBret20
+
+fpga_mapper Completed with warnings
 Return Code: 1
-
-Run Time:00:00:05
-
-Job flow Mapping Flow completed on proj_1|SBret20
+Run Time:0h:00m:05s
 
 
-Job flow Synthesis completed on proj_1|SBret20
+Complete: Map on proj_1|SBret20
 
+Copied E:\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srr to E:\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\SBret20_SBret20.srf
+
+Complete: Logic Synthesis on proj_1|SBret20
 
 TCL script complete: "SBret20_SBret20_synplify.tcl"
 
 exit status=0
 
+
+exit status=0
+
+
+Save changes for project:
+E:\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\proj_1.prj
+
+batch mode default:no
 

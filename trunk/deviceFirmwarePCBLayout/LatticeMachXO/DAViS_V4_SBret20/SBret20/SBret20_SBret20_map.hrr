@@ -3,52 +3,52 @@ Report for cell USBAER_top_level
    Instance path: USBAER_top_level
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	     420.00        100.0
-                                  LUT4	     350.00        100.0
-                                 IOBUF	         90        100.0
-                                PFUREG	        416        100.0
+                                  SLIC	     441.00        100.0
+                                  LUT4	     388.00        100.0
+                                 IOBUF	         91        100.0
+                                PFUREG	        418        100.0
                                 RIPPLE	        141        100.0
                                    EBR	          2        100.0
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-                       wordRegister_10	          1         1.2
+                       wordRegister_10	          1         1.1
+wordRegister_14_uMonitorTimestampRegister	          1         1.6
           wordRegister_14_uADCRegister	          1         1.5
-wordRegister_14_uMonitorTimestampRegister	          1         1.8
-                      timestampCounter	          1         2.6
-              synchronizerStateMachine	          1         9.3
-                         shiftRegister	          1        19.0
-                   monitorStateMachine	          1        14.6
-                       earlyPaketTimer	          1         5.4
-                      fifoStatemachine	          1         0.8
-                          eventCounter	          1         2.9
+              synchronizerStateMachine	          1        14.3
+                      timestampCounter	          1         2.4
+                         shiftRegister	          1        18.1
+                       earlyPaketTimer	          1         5.3
+                   monitorStateMachine	          1        13.2
+                      fifoStatemachine	          1         0.6
+                          eventCounter	          1         2.6
                               clockgen	          1         0.0
                                AERfifo	          1         0.0
                          ADCvalueReady	          1         0.3
-                       ADCStateMachine	          1        39.3
+                       ADCStateMachine	          1        37.9
 ---------------------------------------------------
 Report for cell ADCvalueReady
    Instance path: USBAER_top_level/ADCvalueReady_1
                      Cell usage:
                                   cell	      count    Res Usage(%)
                                   SLIC	       1.33         0.3
-                                  LUT4	       2.00         0.6
+                                  LUT4	       2.00         0.5
                                 PFUREG	          2         0.5
 ---------------------------------------------------
 Report for cell ADCStateMachine
    Instance path: USBAER_top_level/ADCStateMachine_1
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	     165.17        39.3
-                                  LUT4	     140.00        40.0
-                                PFUREG	         98        23.6
+                                  SLIC	     167.17        37.9
+                                  LUT4	     140.00        36.1
+                                PFUREG	         98        23.4
                                 RIPPLE	         94        66.7
 ---------------------------------------------------
 Report for cell monitorStateMachine
    Instance path: USBAER_top_level/monitorStateMachine_1
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      61.33        14.6
-                                  LUT4	      96.00        27.4
+                                  SLIC	      58.00        13.2
+                                  LUT4	      90.00        23.2
                                 PFUREG	         40         9.6
                                 RIPPLE	         12         8.5
 ---------------------------------------------------
@@ -56,25 +56,25 @@ Report for cell fifoStatemachine
    Instance path: USBAER_top_level/fifoStatemachine_1
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       3.50         0.8
-                                  LUT4	       7.00         2.0
+                                  SLIC	       2.83         0.6
+                                  LUT4	       6.00         1.5
                                 PFUREG	          2         0.5
 ---------------------------------------------------
 Report for cell synchronizerStateMachine
    Instance path: USBAER_top_level/uSynchronizerStateMachine_1
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      39.00         9.3
-                                  LUT4	      53.00        15.1
-                                PFUREG	         27         6.5
+                                  SLIC	      63.00        14.3
+                                  LUT4	     101.00        26.0
+                                PFUREG	         29         6.9
                                 RIPPLE	         11         7.8
 ---------------------------------------------------
 Report for cell timestampCounter
    Instance path: USBAER_top_level/uTimestampCounter
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      11.00         2.6
-                                  LUT4	       2.00         0.6
+                                  SLIC	      10.50         2.4
+                                  LUT4	       1.00         0.3
                                 PFUREG	         17         4.1
                                 RIPPLE	          8         5.7
 ---------------------------------------------------
@@ -82,8 +82,8 @@ Report for cell eventCounter
    Instance path: USBAER_top_level/uEventCounter
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      12.00         2.9
-                                  LUT4	      13.00         3.7
+                                  SLIC	      11.50         2.6
+                                  LUT4	      13.00         3.4
                                 PFUREG	          9         2.2
                                 RIPPLE	          5         3.5
 ---------------------------------------------------
@@ -91,8 +91,8 @@ Report for cell earlyPaketTimer
    Instance path: USBAER_top_level/uEarlyPaketTimer
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      22.50         5.4
-                                  LUT4	      23.00         6.6
+                                  SLIC	      23.17         5.3
+                                  LUT4	      24.00         6.2
                                 PFUREG	         21         5.0
                                 RIPPLE	         11         7.8
 ---------------------------------------------------
@@ -102,21 +102,21 @@ Report for cell wordRegister_14_uADCRegister
                                   cell	      count    Res Usage(%)
                                   SLIC	       6.50         1.5
                                   LUT4	       1.00         0.3
-                                PFUREG	         14         3.4
+                                PFUREG	         14         3.3
 ---------------------------------------------------
 Report for cell wordRegister_14_uMonitorTimestampRegister
    Instance path: USBAER_top_level/uMonitorTimestampRegister
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       7.67         1.8
-                                  LUT4	       9.00         2.6
-                                PFUREG	         14         3.4
+                                  SLIC	       7.00         1.6
+                                  LUT4	       6.00         1.5
+                                PFUREG	         14         3.3
 ---------------------------------------------------
 Report for cell wordRegister_10
    Instance path: USBAER_top_level/uMonitorAddressRegister
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       5.00         1.2
+                                  SLIC	       5.00         1.1
                                 PFUREG	         10         2.4
 ---------------------------------------------------
 Report for cell AERfifo
@@ -129,8 +129,8 @@ Report for cell shiftRegister
    Instance path: USBAER_top_level/shiftRegister_1
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      80.00        19.0
-                                PFUREG	        160        38.5
+                                  SLIC	      80.00        18.1
+                                PFUREG	        160        38.3
 ---------------------------------------------------
 Report for cell clockgen
    Instance path: USBAER_top_level/uClockGen

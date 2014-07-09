@@ -1,21 +1,21 @@
-#Build: Synplify Pro I-2013.09L , Build 064R, Nov 15 2013
-#install: C:\lscc\diamond\3.1_x64\synpbase
+#Build: Synplify Pro I-2013.09L-SP1-1 , Build 098R, Apr 15 2014
+#install: C:\lscc\diamond\3.2_x64\synpbase
 #OS: Windows 7 6.1
-#Hostname: SENSORS-VICENTE
+#Hostname: LATTICEDVM
 
 $ Start of Compile
-#Tue May 27 12:35:40 2014
+#Wed Jul 09 13:45:59 2014
 
-Synopsys VHDL Compiler, version comp201309rc, Build 136R, built Nov 18 2013
+Synopsys VHDL Compiler, version comp201309rcp1, Build 147R, built Apr 16 2014
 @N|Running in 64-bit mode
 Copyright (C) 1994-2013 Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
 
-@N: CD720 :"C:\lscc\diamond\3.1_x64\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
-@N:"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@N: CD720 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
 
 At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 70MB peak: 71MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Tue May 27 12:35:41 2014
+# Wed Jul 09 13:45:59 2014
 
 ###########################################################]

@@ -1,11 +1,11 @@
 [ActiveSupport MAP]
 Device = LCMXO2280C;
 Package = FTBGA256;
-Speed = 3;
+Performance = 3;
 LUTS_avail = 2280;
-LUTS_used = 628;
+LUTS_used = 633;
 FF_avail = 2280;
-FF_used = 418;
+FF_used = 415;
 INPUT_LVCMOS33 = 36;
 OUTPUT_LVCMOS33 = 55;
 IO_avail = 211;

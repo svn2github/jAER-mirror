@@ -14,16 +14,16 @@
 @P:  USBAER_top_level|PC2xSIO - Estimated Period : NA
 @P:  USBAER_top_level|PC2xSIO - Requested Period : 1000.000
 @P:  USBAER_top_level|PC2xSIO - Slack : NA
-@P:  clockgen|CLKOP_inferred_clock - Estimated Frequency : 108.2 MHz
-@P:  clockgen|CLKOP_inferred_clock - Requested Frequency : 127.3 MHz
-@P:  clockgen|CLKOP_inferred_clock - Estimated Period : 9.239
-@P:  clockgen|CLKOP_inferred_clock - Requested Period : 7.854
-@P:  clockgen|CLKOP_inferred_clock - Slack : -1.386
+@P:  clockgen|CLKOP_inferred_clock - Estimated Frequency : 107.5 MHz
+@P:  clockgen|CLKOP_inferred_clock - Requested Frequency : 126.4 MHz
+@P:  clockgen|CLKOP_inferred_clock - Estimated Period : 9.306
+@P:  clockgen|CLKOP_inferred_clock - Requested Period : 7.910
+@P:  clockgen|CLKOP_inferred_clock - Slack : -1.396
 @P:  System - Estimated Frequency : 1.0 MHz
 @P:  System - Requested Frequency : 1.0 MHz
-@P:  System - Estimated Period : 996.800
+@P:  System - Estimated Period : 995.303
 @P:  System - Requested Period : 1000.000
-@P:  System - Slack : 3.200
+@P:  System - Slack : 4.697
 @P:  Worst Slack(min analysis) : -0.172
 @P:  USBAER_top_level|IfClockxCI - Estimated Frequency(min analysis) : 102.8 MHz
 @P:  USBAER_top_level|IfClockxCI - Requested Frequency(min analysis) : 121.0 MHz
@@ -40,17 +40,17 @@
 @P:  USBAER_top_level|PC2xSIO - Estimated Period(min analysis) : NA
 @P:  USBAER_top_level|PC2xSIO - Requested Period(min analysis) : 1000.000
 @P:  USBAER_top_level|PC2xSIO - Slack(min analysis) : NA
-@P:  clockgen|CLKOP_inferred_clock - Estimated Frequency(min analysis) : 108.2 MHz
-@P:  clockgen|CLKOP_inferred_clock - Requested Frequency(min analysis) : 127.3 MHz
-@P:  clockgen|CLKOP_inferred_clock - Estimated Period(min analysis) : 9.239
-@P:  clockgen|CLKOP_inferred_clock - Requested Period(min analysis) : 7.854
-@P:  clockgen|CLKOP_inferred_clock - Slack(min analysis) : -1.386
+@P:  clockgen|CLKOP_inferred_clock - Estimated Frequency(min analysis) : 107.5 MHz
+@P:  clockgen|CLKOP_inferred_clock - Requested Frequency(min analysis) : 126.4 MHz
+@P:  clockgen|CLKOP_inferred_clock - Estimated Period(min analysis) : 9.306
+@P:  clockgen|CLKOP_inferred_clock - Requested Period(min analysis) : 7.910
+@P:  clockgen|CLKOP_inferred_clock - Slack(min analysis) : -1.396
 @P:  System - Estimated Frequency(min analysis) : 1.0 MHz
 @P:  System - Requested Frequency(min analysis) : 1.0 MHz
 @P:  System - Estimated Period(min analysis) : 1000.172
 @P:  System - Requested Period(min analysis) : 1000.000
 @P:  System - Slack(min analysis) : -0.172
-@P:  Total Area : 350.0
+@P:  Total Area : 388.0
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
@@ -65,4 +65,4 @@
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
 @P:  Total Area : 0.0
-@P:  CPU Time : 0h:00m:02s
+@P:  CPU Time : 0h:00m:03s

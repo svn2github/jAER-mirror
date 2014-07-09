@@ -1,48 +1,48 @@
 #defaultlanguage:vhdl
-#OPTIONS:"|-top|USBAER_top_level|-prodtype|synplify_pro|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ui|-fid2|-ram|-sharing|on|-ll|2000|-autosm|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-fileorder|C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\SBret20\\syntmp\\hdlorder.tcl"
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\bin64\\c_vhdl.exe":1384766452
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\location.map":1384783350
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\std.vhd":1384766080
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1384766080
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\std1164.vhd":1384766080
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\numeric.vhd":1384766080
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\umr_capim.vhd":1384766328
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\arith.vhd":1384766080
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\synpbase\\lib\\vhd\\unsigned.vhd":1384766080
-#CUR:"C:\\lscc\\diamond\\3.1_x64\\cae_library\\synthesis\\vhdl\\machxo.vhd":1376996408
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\wordRegister.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\AERfifo.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\clockgen.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\earlyPaketTimer.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\EventBeforeOverflow.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\eventCounter.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\fifoStatemachine.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\monitorStateMachine.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\synchronizerStateMachine.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\timestampCounter.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\USBAER_top_level.vhd":1401186933
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\ADCvalueReady.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\cDVSResetStateMachine.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\shiftRegister.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\ADCStateMachine_tb.vhd":1399553750
-#CUR:"C:\\3jAER\\deviceFirmwarePCBLayout\\LatticeMachXO\\SBret20\\sourcecode\\ADCStateMachine.vhd":1399553750
-0 "C:\lscc\diamond\3.1_x64\cae_library\synthesis\vhdl\machxo.vhd" vhdl
-1 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\wordRegister.vhd" vhdl
-2 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\AERfifo.vhd" vhdl
-3 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\clockgen.vhd" vhdl
-4 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\earlyPaketTimer.vhd" vhdl
-5 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\EventBeforeOverflow.vhd" vhdl
-6 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\eventCounter.vhd" vhdl
-7 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\fifoStatemachine.vhd" vhdl
-8 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\monitorStateMachine.vhd" vhdl
-9 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\synchronizerStateMachine.vhd" vhdl
-10 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\timestampCounter.vhd" vhdl
-11 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\USBAER_top_level.vhd" vhdl
-12 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCvalueReady.vhd" vhdl
-13 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\cDVSResetStateMachine.vhd" vhdl
-14 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\shiftRegister.vhd" vhdl
-15 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\ADCStateMachine_tb.vhd" vhdl
-16 "C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd" vhdl
+#OPTIONS:"|-top|USBAER_top_level|-prodtype|synplify_pro|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ui|-fid2|-ram|-sharing|on|-ll|2000|-autosm|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-fileorder|E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\SBret20\\syntmp\\hdlorder.tcl"
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\bin64\\c_vhdl.exe":1397599346
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\location.map":1397728050
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\std.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\std1164.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\numeric.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\umr_capim.vhd":1397599228
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\arith.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\unsigned.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\cae_library\\synthesis\\vhdl\\machxo.vhd":1376992808
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\wordRegister.vhd":1404395790
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\AERfifo.vhd":1404395790
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\clockgen.vhd":1404395790
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\earlyPaketTimer.vhd":1404395790
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\EventBeforeOverflow.vhd":1404395790
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\eventCounter.vhd":1404395790
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\fifoStatemachine.vhd":1404395790
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\monitorStateMachine.vhd":1404395790
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\synchronizerStateMachine.vhd":1404827597
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\timestampCounter.vhd":1404395790
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\USBAER_top_level.vhd":1404906327
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\ADCvalueReady.vhd":1404395790
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\cDVSResetStateMachine.vhd":1404395790
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\shiftRegister.vhd":1404395790
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\ADCStateMachine_tb.vhd":1404395790
+#CUR:"E:\\deviceFirmwarePCBLayout\\LatticeMachXO\\DAViS_V4_SBret20\\sourcecode\\ADCStateMachine.vhd":1404395790
+0 "C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\machxo.vhd" vhdl
+1 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\wordRegister.vhd" vhdl
+2 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\AERfifo.vhd" vhdl
+3 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\clockgen.vhd" vhdl
+4 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\earlyPaketTimer.vhd" vhdl
+5 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\EventBeforeOverflow.vhd" vhdl
+6 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\eventCounter.vhd" vhdl
+7 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\fifoStatemachine.vhd" vhdl
+8 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\monitorStateMachine.vhd" vhdl
+9 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\synchronizerStateMachine.vhd" vhdl
+10 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\timestampCounter.vhd" vhdl
+11 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\USBAER_top_level.vhd" vhdl
+12 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\ADCvalueReady.vhd" vhdl
+13 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\cDVSResetStateMachine.vhd" vhdl
+14 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\shiftRegister.vhd" vhdl
+15 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\ADCStateMachine_tb.vhd" vhdl
+16 "E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\ADCStateMachine.vhd" vhdl
 
 # Dependency Lists (Uses list)
 0 -1

@@ -19,9 +19,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/3jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20/SBret20_SBret20.jed</File>
-			<FileTime>05/08/14 14:55:49</FileTime>
-			<JedecChecksum>0x575E</JedecChecksum>
+			<File>E:/deviceFirmwarePCBLayout/LatticeMachXO/DAViS_V4_SBret20/SBret20/SBret20_SBret20.jed</File>
+			<FileTime>07/08/14 15:13:53</FileTime>
+			<JedecChecksum>0x9FBC</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -47,7 +47,7 @@
 	<CableOptions>
 		<CableName>USB</CableName>
 		<PortAdd>EzUSB-0</PortAdd>
-		<USBID>\\?\usb#vid_1134&amp;amp;pid_8001#6&amp;amp;2fa2405a&amp;amp;0&amp;amp;2#</USBID>
+		<USBID>\\?\usb#vid_1134&amp;amp;pid_8001#5&amp;amp;c1e6cce&amp;amp;0&amp;amp;1#</USBID>
 		<JTAGPinSetting>
 			TMS	LOW;
 			TCK	LOW;

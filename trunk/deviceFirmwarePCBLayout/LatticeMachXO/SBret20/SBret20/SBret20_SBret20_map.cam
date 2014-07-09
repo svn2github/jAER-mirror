@@ -1,9 +1,23 @@
 [ START MERGED ]
-ADCStateMachine_1_StateColxDP_i_8 ADCStateMachine_1/StateColxDP_8
+ADCStateMachine_1.StateColxDP_i[8] ADCStateMachine_1/StateColxDP[8]
 shiftRegister_1/CN PC2xSIO_c
 [ END MERGED ]
 [ START CLIPPED ]
 GND
+uClockGen/GND
+uFifo/VCC
+uFifo/GND
+uEarlyPaketTimer/GND
+uEarlyPaketTimer/VCC
+uEventCounter/GND
+uEventCounter/VCC
+uTimestampCounter/GND
+uTimestampCounter/VCC
+uSynchronizerStateMachine_1/GND
+uSynchronizerStateMachine_1/VCC
+monitorStateMachine_1/GND
+monitorStateMachine_1/VCC
+ADCStateMachine_1/GND
 uClockGen/CLKINTFB
 uClockGen/LockxS
 uClockGen/CLKOK
@@ -41,8 +55,8 @@ uFifo/DO10
 uFifo/DO9
 uFifo/DO8
 uFifo/DO7
-uFifo/FifoAlmostFullxS
-uFifo/FifoAlmostEmptyxS
+uFifo/AlmostFull
+uFifo/AlmostEmpty
 uFifo/DO35_0
 uFifo/DO34_0
 uFifo/DO33_0
@@ -70,109 +84,109 @@ uFifo/DO12_0
 uFifo/DO11_0
 uFifo/DO10_0
 uFifo/DO9_0
-uEarlyPaketTimer/CountxDP_cry_2
-uEarlyPaketTimer/CountxDP_cry_4
-uEarlyPaketTimer/CountxDP_cry_6
-uEarlyPaketTimer/CountxDP_cry_8
-uEarlyPaketTimer/CountxDP_cry_10
-uEarlyPaketTimer/CountxDP_cry_12
-uEarlyPaketTimer/CountxDP_cry_14
-uEarlyPaketTimer/CountxDP_cry_16
-uEarlyPaketTimer/CountxDP_cry_18
-uEarlyPaketTimer/CountxDP_s_0_S1_20
-uEarlyPaketTimer/CountxDP_s_0_COUT1_20
-uEarlyPaketTimer/CountxDP_s_0_COUT0_20
-uEarlyPaketTimer/CountxDP_cry_0
-uEventCounter/CountxDP_cry_0
-uEventCounter/CountxDP_cry_2
-uEventCounter/CountxDP_cry_4
-uEventCounter/CountxDP_cry_6
-uEventCounter/CountxDP_s_0_S1_8
-uEventCounter/CountxDP_s_0_COUT1_8
-uEventCounter/CountxDP_s_0_COUT0_8
-uTimestampCounter/CountxDP_cry_0
-uTimestampCounter/CountxDP_cry_2
-uTimestampCounter/CountxDP_cry_4
-uTimestampCounter/CountxDP_cry_6
-uTimestampCounter/CountxDP_cry_8
-uTimestampCounter/CountxDP_cry_10
-uTimestampCounter/CountxDP_cry_12
-uTimestampCounter/CountxDP_s_0_S1_14
-uTimestampCounter/CountxDP_s_0_COUT1_14
-uTimestampCounter/CountxDP_s_0_COUT0_14
-uSynchronizerStateMachine_1/DividerxDP_cry_0
-uSynchronizerStateMachine_1/DividerxDP_cry_2
-uSynchronizerStateMachine_1/DividerxDP_cry_4
-uSynchronizerStateMachine_1/DividerxDP_s_0_S1_6
-uSynchronizerStateMachine_1/DividerxDP_s_0_COUT1_6
-uSynchronizerStateMachine_1/DividerxDP_s_0_COUT0_6
-uSynchronizerStateMachine_1/CounterxDP_cry_0
-uSynchronizerStateMachine_1/CounterxDP_cry_2
-uSynchronizerStateMachine_1/CounterxDP_cry_4
-uSynchronizerStateMachine_1/CounterxDP_cry_6
-uSynchronizerStateMachine_1/CounterxDP_cry_8
-uSynchronizerStateMachine_1/CounterxDP_cry_10
-uSynchronizerStateMachine_1/CounterxDP_cry_0_COUT1_12
-uSynchronizerStateMachine_1/CounterxDP_cry_12
-monitorStateMachine_1/CountxDP_cry_0
-monitorStateMachine_1/CountxDP_cry_2
-monitorStateMachine_1/CountxDP_cry_4
-monitorStateMachine_1/CountxDP_cry_0_COUT1_6
-monitorStateMachine_1/CountxDP_cry_6
-monitorStateMachine_1/TimestampOverflowxDP_cry_0
-monitorStateMachine_1/TimestampOverflowxDP_cry_2
-monitorStateMachine_1/TimestampOverflowxDP_cry_4
-monitorStateMachine_1/TimestampOverflowxDP_cry_6
-monitorStateMachine_1/TimestampOverflowxDP_cry_8
-monitorStateMachine_1/TimestampOverflowxDP_cry_10
-monitorStateMachine_1/TimestampOverflowxDP_cry_12
-monitorStateMachine_1/TimestampOverflowxDP_cry_0_COUT1_14
-monitorStateMachine_1/TimestampOverflowxDP_cry_14
-ADCStateMachine_1/CountRowxDP_cry_0
-ADCStateMachine_1/CountRowxDP_cry_2
-ADCStateMachine_1/CountRowxDP_cry_4
-ADCStateMachine_1/CountRowxDP_cry_0_COUT1_6
-ADCStateMachine_1/CountRowxDP_cry_6
-ADCStateMachine_1/CountColxDP_cry_0
-ADCStateMachine_1/CountColxDP_cry_2
-ADCStateMachine_1/CountColxDP_cry_4
-ADCStateMachine_1/CountColxDP_cry_6
-ADCStateMachine_1/CountColxDP_cry_8
-ADCStateMachine_1/CountColxDP_cry_10
-ADCStateMachine_1/CountColxDP_cry_12
-ADCStateMachine_1/CountColxDP_cry_14
-ADCStateMachine_1/CountColxDP_cry_0_COUT1_16
-ADCStateMachine_1/CountColxDP_cry_16
-ADCStateMachine_1/DividerRowxDP_cry_0
-ADCStateMachine_1/DividerRowxDP_cry_2
-ADCStateMachine_1/DividerRowxDP_cry_4
-ADCStateMachine_1/DividerRowxDP_cry_6
-ADCStateMachine_1/DividerRowxDP_cry_8
-ADCStateMachine_1/DividerRowxDP_cry_10
-ADCStateMachine_1/DividerRowxDP_cry_12
-ADCStateMachine_1/DividerRowxDP_cry_14
-ADCStateMachine_1/DividerRowxDP_s_0_S1_16
-ADCStateMachine_1/DividerRowxDP_s_0_COUT1_16
-ADCStateMachine_1/DividerRowxDP_s_0_COUT0_16
-ADCStateMachine_1/DividerColxDP_cry_0
-ADCStateMachine_1/DividerColxDP_cry_2
-ADCStateMachine_1/DividerColxDP_cry_4
-ADCStateMachine_1/DividerColxDP_cry_6
-ADCStateMachine_1/DividerColxDP_cry_8
-ADCStateMachine_1/DividerColxDP_cry_10
-ADCStateMachine_1/DividerColxDP_cry_12
-ADCStateMachine_1/DividerColxDP_cry_14
-ADCStateMachine_1/DividerColxDP_cry_16
-ADCStateMachine_1/DividerColxDP_cry_18
-ADCStateMachine_1/DividerColxDP_cry_20
-ADCStateMachine_1/DividerColxDP_cry_22
-ADCStateMachine_1/DividerColxDP_cry_24
-ADCStateMachine_1/DividerColxDP_cry_26
-ADCStateMachine_1/DividerColxDP_cry_28
-ADCStateMachine_1/DividerColxDP_cry_30
-ADCStateMachine_1/DividerColxDP_s_0_S1_32
-ADCStateMachine_1/DividerColxDP_s_0_COUT1_32
-ADCStateMachine_1/DividerColxDP_s_0_COUT0_32
+uEarlyPaketTimer/CountxDP_cry[2]
+uEarlyPaketTimer/CountxDP_cry[4]
+uEarlyPaketTimer/CountxDP_cry[6]
+uEarlyPaketTimer/CountxDP_cry[8]
+uEarlyPaketTimer/CountxDP_cry[10]
+uEarlyPaketTimer/CountxDP_cry[12]
+uEarlyPaketTimer/CountxDP_cry[14]
+uEarlyPaketTimer/CountxDP_cry[16]
+uEarlyPaketTimer/CountxDP_cry[18]
+uEarlyPaketTimer/CountxDP_s_0_S1[20]
+uEarlyPaketTimer/CountxDP_s_0_COUT1[20]
+uEarlyPaketTimer/CountxDP_s_0_COUT0[20]
+uEarlyPaketTimer/CountxDP_cry[0]
+uEventCounter/CountxDP_cry[0]
+uEventCounter/CountxDP_cry[2]
+uEventCounter/CountxDP_cry[4]
+uEventCounter/CountxDP_cry[6]
+uEventCounter/CountxDP_s_0_S1[8]
+uEventCounter/CountxDP_s_0_COUT1[8]
+uEventCounter/CountxDP_s_0_COUT0[8]
+uTimestampCounter/CountxDP_cry_s1[0]
+uTimestampCounter/CountxDP_cry_s1[2]
+uTimestampCounter/CountxDP_cry_s1[4]
+uTimestampCounter/CountxDP_cry_s1[6]
+uTimestampCounter/CountxDP_cry_s1[8]
+uTimestampCounter/CountxDP_cry_s1[10]
+uTimestampCounter/CountxDP_cry_s1[12]
+uTimestampCounter/CountxDP_s_s1_0_S1[14]
+uTimestampCounter/CountxDP_s_s1_0_COUT1[14]
+uTimestampCounter/CountxDP_s_s1_0_COUT0[14]
+uSynchronizerStateMachine_1/DividerxDP_cry[0]
+uSynchronizerStateMachine_1/DividerxDP_cry[2]
+uSynchronizerStateMachine_1/DividerxDP_cry[4]
+uSynchronizerStateMachine_1/DividerxDP_s_0_S1[6]
+uSynchronizerStateMachine_1/DividerxDP_s_0_COUT1[6]
+uSynchronizerStateMachine_1/DividerxDP_s_0_COUT0[6]
+uSynchronizerStateMachine_1/CounterxDP_cry[0]
+uSynchronizerStateMachine_1/CounterxDP_cry[2]
+uSynchronizerStateMachine_1/CounterxDP_cry[4]
+uSynchronizerStateMachine_1/CounterxDP_cry[6]
+uSynchronizerStateMachine_1/CounterxDP_cry[8]
+uSynchronizerStateMachine_1/CounterxDP_cry[10]
+uSynchronizerStateMachine_1/CounterxDP_cry_0_COUT1[12]
+uSynchronizerStateMachine_1/CounterxDP_cry[12]
+monitorStateMachine_1/CountxDP_cry[0]
+monitorStateMachine_1/CountxDP_cry[2]
+monitorStateMachine_1/CountxDP_cry[4]
+monitorStateMachine_1/CountxDP_cry_0_COUT1[6]
+monitorStateMachine_1/CountxDP_cry[6]
+monitorStateMachine_1/TimestampOverflowxDP_cry[0]
+monitorStateMachine_1/TimestampOverflowxDP_cry[2]
+monitorStateMachine_1/TimestampOverflowxDP_cry[4]
+monitorStateMachine_1/TimestampOverflowxDP_cry[6]
+monitorStateMachine_1/TimestampOverflowxDP_cry[8]
+monitorStateMachine_1/TimestampOverflowxDP_cry[10]
+monitorStateMachine_1/TimestampOverflowxDP_cry[12]
+monitorStateMachine_1/TimestampOverflowxDP_cry_0_COUT1[14]
+monitorStateMachine_1/TimestampOverflowxDP_cry[14]
+ADCStateMachine_1/CountRowxDP_cry[0]
+ADCStateMachine_1/CountRowxDP_cry[2]
+ADCStateMachine_1/CountRowxDP_cry[4]
+ADCStateMachine_1/CountRowxDP_cry_0_COUT1[6]
+ADCStateMachine_1/CountRowxDP_cry[6]
+ADCStateMachine_1/CountColxDP_cry[0]
+ADCStateMachine_1/CountColxDP_cry[2]
+ADCStateMachine_1/CountColxDP_cry[4]
+ADCStateMachine_1/CountColxDP_cry[6]
+ADCStateMachine_1/CountColxDP_cry[8]
+ADCStateMachine_1/CountColxDP_cry[10]
+ADCStateMachine_1/CountColxDP_cry[12]
+ADCStateMachine_1/CountColxDP_cry[14]
+ADCStateMachine_1/CountColxDP_cry_0_COUT1[16]
+ADCStateMachine_1/CountColxDP_cry[16]
+ADCStateMachine_1/DividerRowxDP_cry[0]
+ADCStateMachine_1/DividerRowxDP_cry[2]
+ADCStateMachine_1/DividerRowxDP_cry[4]
+ADCStateMachine_1/DividerRowxDP_cry[6]
+ADCStateMachine_1/DividerRowxDP_cry[8]
+ADCStateMachine_1/DividerRowxDP_cry[10]
+ADCStateMachine_1/DividerRowxDP_cry[12]
+ADCStateMachine_1/DividerRowxDP_cry[14]
+ADCStateMachine_1/DividerRowxDP_s_0_S1[16]
+ADCStateMachine_1/DividerRowxDP_s_0_COUT1[16]
+ADCStateMachine_1/DividerRowxDP_s_0_COUT0[16]
+ADCStateMachine_1/DividerColxDP_cry[0]
+ADCStateMachine_1/DividerColxDP_cry[2]
+ADCStateMachine_1/DividerColxDP_cry[4]
+ADCStateMachine_1/DividerColxDP_cry[6]
+ADCStateMachine_1/DividerColxDP_cry[8]
+ADCStateMachine_1/DividerColxDP_cry[10]
+ADCStateMachine_1/DividerColxDP_cry[12]
+ADCStateMachine_1/DividerColxDP_cry[14]
+ADCStateMachine_1/DividerColxDP_cry[16]
+ADCStateMachine_1/DividerColxDP_cry[18]
+ADCStateMachine_1/DividerColxDP_cry[20]
+ADCStateMachine_1/DividerColxDP_cry[22]
+ADCStateMachine_1/DividerColxDP_cry[24]
+ADCStateMachine_1/DividerColxDP_cry[26]
+ADCStateMachine_1/DividerColxDP_cry[28]
+ADCStateMachine_1/DividerColxDP_cry[30]
+ADCStateMachine_1/DividerColxDP_s_0_S1[32]
+ADCStateMachine_1/DividerColxDP_s_0_COUT1[32]
+ADCStateMachine_1/DividerColxDP_s_0_COUT0[32]
 ADCStateMachine_1/un1_DividerRowxDP_1_cry_0_0_S1
 ADCStateMachine_1/un1_DividerRowxDP_1_cry_0_0_S0
 ADCStateMachine_1/un1_DividerRowxDP_1_cry_0
@@ -227,153 +241,153 @@ ADCStateMachine_1/un1_DividerRowxDP_cry_14
 ADCStateMachine_1/un1_DividerRowxDP_cry_16_0_S1
 ADCStateMachine_1/un1_DividerRowxDP_cry_16_0_S0
 ADCStateMachine_1/un1_DividerRowxDP_cry_16_0_COUT1
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1_0
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0_0
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1_2
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0_2
-ADCStateMachine_1/un1_DividerColxDP_2_cry_2
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1_4
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0_4
-ADCStateMachine_1/un1_DividerColxDP_2_cry_4
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1_6
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0_6
-ADCStateMachine_1/un1_DividerColxDP_2_cry_6
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1_8
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0_8
-ADCStateMachine_1/un1_DividerColxDP_2_cry_8
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1_10
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0_10
-ADCStateMachine_1/un1_DividerColxDP_2_cry_10
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1_12
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0_12
-ADCStateMachine_1/un1_DividerColxDP_2_cry_12
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1_14
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0_14
-ADCStateMachine_1/un1_DividerColxDP_2_cry_14
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1_16
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0_16
-ADCStateMachine_1/un1_DividerColxDP_2_cry_16
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1_19
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0_19
-ADCStateMachine_1/un1_DividerColxDP_2_cry_19
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1_23
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0_23
-ADCStateMachine_1/un1_DividerColxDP_2_cry_23
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1_27
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0_27
-ADCStateMachine_1/un1_DividerColxDP_2_cry_27
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1_31
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0_31
-ADCStateMachine_1/un1_DividerColxDP_2_cry_0_COUT1_31
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1_3
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0_3
-ADCStateMachine_1/un1_DividerColxDP_1_cry_3
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1_5
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0_5
-ADCStateMachine_1/un1_DividerColxDP_1_cry_5
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1_7
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0_7
-ADCStateMachine_1/un1_DividerColxDP_1_cry_7
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1_9
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0_9
-ADCStateMachine_1/un1_DividerColxDP_1_cry_9
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1_11
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0_11
-ADCStateMachine_1/un1_DividerColxDP_1_cry_11
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1_13
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0_13
-ADCStateMachine_1/un1_DividerColxDP_1_cry_13
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1_15
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0_15
-ADCStateMachine_1/un1_DividerColxDP_1_cry_15
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1_17
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0_17
-ADCStateMachine_1/un1_DividerColxDP_1_cry_17
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1_21
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0_21
-ADCStateMachine_1/un1_DividerColxDP_1_cry_21
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1_25
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0_25
-ADCStateMachine_1/un1_DividerColxDP_1_cry_25
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1_29
-ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0_29
-ADCStateMachine_1/un1_DividerColxDP_1_cry_29
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S1_0
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S0_0
-ADCStateMachine_1/un1_DividerColxDP_cry_0
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S1_2
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S0_2
-ADCStateMachine_1/un1_DividerColxDP_cry_2
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S1_4
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S0_4
-ADCStateMachine_1/un1_DividerColxDP_cry_4
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S1_6
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S0_6
-ADCStateMachine_1/un1_DividerColxDP_cry_6
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S1_8
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S0_8
-ADCStateMachine_1/un1_DividerColxDP_cry_8
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S1_10
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S0_10
-ADCStateMachine_1/un1_DividerColxDP_cry_10
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S1_12
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S0_12
-ADCStateMachine_1/un1_DividerColxDP_cry_12
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S1_14
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S0_14
-ADCStateMachine_1/un1_DividerColxDP_cry_14
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S1_16
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S0_16
-ADCStateMachine_1/un1_DividerColxDP_cry_16
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S1_19
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S0_19
-ADCStateMachine_1/un1_DividerColxDP_cry_19
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S1_23
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S0_23
-ADCStateMachine_1/un1_DividerColxDP_cry_23
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S1_27
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S0_27
-ADCStateMachine_1/un1_DividerColxDP_cry_27
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S1_31
-ADCStateMachine_1/un1_DividerColxDP_cry_0_S0_31
-ADCStateMachine_1/un1_DividerColxDP_cry_0_COUT1_31
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[0]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[0]
+ADCStateMachine_1/un1_DividerColxDP_2_cry[0]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[2]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[2]
+ADCStateMachine_1/un1_DividerColxDP_2_cry[2]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[4]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[4]
+ADCStateMachine_1/un1_DividerColxDP_2_cry[4]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[6]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[6]
+ADCStateMachine_1/un1_DividerColxDP_2_cry[6]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[8]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[8]
+ADCStateMachine_1/un1_DividerColxDP_2_cry[8]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[10]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[10]
+ADCStateMachine_1/un1_DividerColxDP_2_cry[10]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[12]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[12]
+ADCStateMachine_1/un1_DividerColxDP_2_cry[12]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[14]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[14]
+ADCStateMachine_1/un1_DividerColxDP_2_cry[14]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[16]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[16]
+ADCStateMachine_1/un1_DividerColxDP_2_cry[16]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[19]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[19]
+ADCStateMachine_1/un1_DividerColxDP_2_cry[19]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[23]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[23]
+ADCStateMachine_1/un1_DividerColxDP_2_cry[23]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[27]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[27]
+ADCStateMachine_1/un1_DividerColxDP_2_cry[27]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S1[31]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_S0[31]
+ADCStateMachine_1/un1_DividerColxDP_2_cry_0_COUT1[31]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[3]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[3]
+ADCStateMachine_1/un1_DividerColxDP_1_cry[3]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[5]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[5]
+ADCStateMachine_1/un1_DividerColxDP_1_cry[5]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[7]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[7]
+ADCStateMachine_1/un1_DividerColxDP_1_cry[7]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[9]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[9]
+ADCStateMachine_1/un1_DividerColxDP_1_cry[9]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[11]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[11]
+ADCStateMachine_1/un1_DividerColxDP_1_cry[11]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[13]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[13]
+ADCStateMachine_1/un1_DividerColxDP_1_cry[13]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[15]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[15]
+ADCStateMachine_1/un1_DividerColxDP_1_cry[15]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[17]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[17]
+ADCStateMachine_1/un1_DividerColxDP_1_cry[17]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[21]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[21]
+ADCStateMachine_1/un1_DividerColxDP_1_cry[21]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[25]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[25]
+ADCStateMachine_1/un1_DividerColxDP_1_cry[25]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S1[29]
+ADCStateMachine_1/un1_DividerColxDP_1_cry_0_S0[29]
+ADCStateMachine_1/un1_DividerColxDP_1_cry[29]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[0]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[0]
+ADCStateMachine_1/un1_DividerColxDP_cry[0]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[2]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[2]
+ADCStateMachine_1/un1_DividerColxDP_cry[2]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[4]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[4]
+ADCStateMachine_1/un1_DividerColxDP_cry[4]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[6]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[6]
+ADCStateMachine_1/un1_DividerColxDP_cry[6]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[8]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[8]
+ADCStateMachine_1/un1_DividerColxDP_cry[8]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[10]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[10]
+ADCStateMachine_1/un1_DividerColxDP_cry[10]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[12]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[12]
+ADCStateMachine_1/un1_DividerColxDP_cry[12]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[14]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[14]
+ADCStateMachine_1/un1_DividerColxDP_cry[14]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[16]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[16]
+ADCStateMachine_1/un1_DividerColxDP_cry[16]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[19]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[19]
+ADCStateMachine_1/un1_DividerColxDP_cry[19]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[23]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[23]
+ADCStateMachine_1/un1_DividerColxDP_cry[23]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[27]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[27]
+ADCStateMachine_1/un1_DividerColxDP_cry[27]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S1[31]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_S0[31]
+ADCStateMachine_1/un1_DividerColxDP_cry_0_COUT1[31]
 [ END CLIPPED ]
 [ START DESIGN PREFS ]
 SCHEMATIC START ;
-# map:  version Diamond_1.3_Production (92) -- WARNING: Map write only section -- Thu Aug 29 14:23:24 2013
+# map:  version Diamond (64-bit) 3.2.0.134 -- WARNING: Map write only section -- Tue Jul 08 11:24:27 2014
 
 SYSCONFIG INBUF=ON CONFIG_SECURE=OFF ;
-LOCATE COMP "DebugxSIO_1" SITE "T12" ;
-LOCATE COMP "FX2FifoDataxDIO_0" SITE "R2" ;
+LOCATE COMP "DebugxSIO[1]" SITE "T12" ;
+LOCATE COMP "FX2FifoDataxDIO[0]" SITE "R2" ;
 LOCATE COMP "FX2FifoInFullxSBI" SITE "L1" ;
-LOCATE COMP "AERMonitorAddressxDI_9" SITE "R15" ;
-LOCATE COMP "AERMonitorAddressxDI_8" SITE "R14" ;
-LOCATE COMP "AERMonitorAddressxDI_7" SITE "T14" ;
-LOCATE COMP "AERMonitorAddressxDI_6" SITE "T15" ;
-LOCATE COMP "AERMonitorAddressxDI_5" SITE "R16" ;
-LOCATE COMP "AERMonitorAddressxDI_4" SITE "P15" ;
-LOCATE COMP "AERMonitorAddressxDI_3" SITE "P16" ;
-LOCATE COMP "AERMonitorAddressxDI_2" SITE "N15" ;
-LOCATE COMP "AERMonitorAddressxDI_1" SITE "N16" ;
-LOCATE COMP "AERMonitorAddressxDI_0" SITE "M15" ;
+LOCATE COMP "AERMonitorAddressxDI[9]" SITE "R15" ;
+LOCATE COMP "AERMonitorAddressxDI[8]" SITE "R14" ;
+LOCATE COMP "AERMonitorAddressxDI[7]" SITE "T14" ;
+LOCATE COMP "AERMonitorAddressxDI[6]" SITE "T15" ;
+LOCATE COMP "AERMonitorAddressxDI[5]" SITE "R16" ;
+LOCATE COMP "AERMonitorAddressxDI[4]" SITE "P15" ;
+LOCATE COMP "AERMonitorAddressxDI[3]" SITE "P16" ;
+LOCATE COMP "AERMonitorAddressxDI[2]" SITE "N15" ;
+LOCATE COMP "AERMonitorAddressxDI[1]" SITE "N16" ;
+LOCATE COMP "AERMonitorAddressxDI[0]" SITE "M15" ;
 LOCATE COMP "AERMonitorACKxSBO" SITE "L15" ;
 LOCATE COMP "AERMonitorREQxABI" SITE "M16" ;
-LOCATE COMP "DebugxSIO_15" SITE "T4" ;
-LOCATE COMP "DebugxSIO_14" SITE "R5" ;
-LOCATE COMP "DebugxSIO_13" SITE "T6" ;
-LOCATE COMP "DebugxSIO_12" SITE "R7" ;
-LOCATE COMP "DebugxSIO_11" SITE "R9" ;
-LOCATE COMP "DebugxSIO_10" SITE "R10" ;
-LOCATE COMP "DebugxSIO_9" SITE "R11" ;
-LOCATE COMP "DebugxSIO_8" SITE "R12" ;
-LOCATE COMP "DebugxSIO_7" SITE "R4" ;
-LOCATE COMP "DebugxSIO_6" SITE "T5" ;
-LOCATE COMP "DebugxSIO_5" SITE "R6" ;
-LOCATE COMP "DebugxSIO_4" SITE "T7" ;
-LOCATE COMP "DebugxSIO_3" SITE "T8" ;
-LOCATE COMP "DebugxSIO_2" SITE "T10" ;
-LOCATE COMP "DebugxSIO_0" SITE "T13" ;
+LOCATE COMP "DebugxSIO[15]" SITE "T4" ;
+LOCATE COMP "DebugxSIO[14]" SITE "R5" ;
+LOCATE COMP "DebugxSIO[13]" SITE "T6" ;
+LOCATE COMP "DebugxSIO[12]" SITE "R7" ;
+LOCATE COMP "DebugxSIO[11]" SITE "R9" ;
+LOCATE COMP "DebugxSIO[10]" SITE "R10" ;
+LOCATE COMP "DebugxSIO[9]" SITE "R11" ;
+LOCATE COMP "DebugxSIO[8]" SITE "R12" ;
+LOCATE COMP "DebugxSIO[7]" SITE "R4" ;
+LOCATE COMP "DebugxSIO[6]" SITE "T5" ;
+LOCATE COMP "DebugxSIO[5]" SITE "R6" ;
+LOCATE COMP "DebugxSIO[4]" SITE "T7" ;
+LOCATE COMP "DebugxSIO[3]" SITE "T8" ;
+LOCATE COMP "DebugxSIO[2]" SITE "T10" ;
+LOCATE COMP "DebugxSIO[0]" SITE "T13" ;
 LOCATE COMP "LED3xSO" SITE "R13" ;
 LOCATE COMP "LED2xSO" SITE "T11" ;
 LOCATE COMP "LED1xSO" SITE "R8" ;
@@ -390,16 +404,16 @@ LOCATE COMP "CDVSTestSRColClockxSO" SITE "A11" ;
 LOCATE COMP "CDVSTestSRRowClockxSO" SITE "B16" ;
 LOCATE COMP "ADCstbyxEO" SITE "D15" ;
 LOCATE COMP "ADCoexEBO" SITE "E16" ;
-LOCATE COMP "ADCwordxDI_9" SITE "F15" ;
-LOCATE COMP "ADCwordxDI_8" SITE "G16" ;
-LOCATE COMP "ADCwordxDI_7" SITE "G15" ;
-LOCATE COMP "ADCwordxDI_6" SITE "H16" ;
-LOCATE COMP "ADCwordxDI_5" SITE "H15" ;
-LOCATE COMP "ADCwordxDI_4" SITE "J16" ;
-LOCATE COMP "ADCwordxDI_3" SITE "J15" ;
-LOCATE COMP "ADCwordxDI_2" SITE "K16" ;
-LOCATE COMP "ADCwordxDI_1" SITE "K15" ;
-LOCATE COMP "ADCwordxDI_0" SITE "L16" ;
+LOCATE COMP "ADCwordxDI[9]" SITE "F15" ;
+LOCATE COMP "ADCwordxDI[8]" SITE "G16" ;
+LOCATE COMP "ADCwordxDI[7]" SITE "G15" ;
+LOCATE COMP "ADCwordxDI[6]" SITE "H16" ;
+LOCATE COMP "ADCwordxDI[5]" SITE "H15" ;
+LOCATE COMP "ADCwordxDI[4]" SITE "J16" ;
+LOCATE COMP "ADCwordxDI[3]" SITE "J15" ;
+LOCATE COMP "ADCwordxDI[2]" SITE "K16" ;
+LOCATE COMP "ADCwordxDI[1]" SITE "K15" ;
+LOCATE COMP "ADCwordxDI[0]" SITE "L16" ;
 LOCATE COMP "ADCclockxCO" SITE "E15" ;
 LOCATE COMP "PE3xSI" SITE "B2" ;
 LOCATE COMP "PE2xSI" SITE "B1" ;
@@ -415,28 +429,27 @@ LOCATE COMP "SynchOutxSBO" SITE "T2" ;
 LOCATE COMP "Sync1xABI" SITE "T3" ;
 LOCATE COMP "ResetxRBI" SITE "G2" ;
 LOCATE COMP "IfClockxCI" SITE "A9" ;
-LOCATE COMP "FX2FifoAddressxDO_1" SITE "E2" ;
-LOCATE COMP "FX2FifoAddressxDO_0" SITE "F1" ;
+LOCATE COMP "FX2FifoAddressxDO[1]" SITE "E2" ;
+LOCATE COMP "FX2FifoAddressxDO[0]" SITE "F1" ;
 LOCATE COMP "FX2FifoPktEndxSBO" SITE "E1" ;
 LOCATE COMP "FX2FifoReadxEBO" SITE "G1" ;
 LOCATE COMP "FX2FifoWritexEBO" SITE "A5" ;
-LOCATE COMP "FX2FifoDataxDIO_15" SITE "B5" ;
-LOCATE COMP "FX2FifoDataxDIO_14" SITE "A4" ;
-LOCATE COMP "FX2FifoDataxDIO_13" SITE "B4" ;
-LOCATE COMP "FX2FifoDataxDIO_12" SITE "A3" ;
-LOCATE COMP "FX2FifoDataxDIO_11" SITE "C2" ;
-LOCATE COMP "FX2FifoDataxDIO_10" SITE "C1" ;
-LOCATE COMP "FX2FifoDataxDIO_9" SITE "C3" ;
-LOCATE COMP "FX2FifoDataxDIO_8" SITE "D1" ;
-LOCATE COMP "FX2FifoDataxDIO_7" SITE "M1" ;
-LOCATE COMP "FX2FifoDataxDIO_6" SITE "M2" ;
-LOCATE COMP "FX2FifoDataxDIO_5" SITE "N1" ;
-LOCATE COMP "FX2FifoDataxDIO_4" SITE "N2" ;
-LOCATE COMP "FX2FifoDataxDIO_3" SITE "P1" ;
-LOCATE COMP "FX2FifoDataxDIO_2" SITE "P2" ;
-LOCATE COMP "FX2FifoDataxDIO_1" SITE "R1" ;
-FREQUENCY NET "ClockxC_c" 90.000000 MHz ;
-USE PRIMARY NET "ClockxC_c" ;
+LOCATE COMP "FX2FifoDataxDIO[15]" SITE "B5" ;
+LOCATE COMP "FX2FifoDataxDIO[14]" SITE "A4" ;
+LOCATE COMP "FX2FifoDataxDIO[13]" SITE "B4" ;
+LOCATE COMP "FX2FifoDataxDIO[12]" SITE "A3" ;
+LOCATE COMP "FX2FifoDataxDIO[11]" SITE "C2" ;
+LOCATE COMP "FX2FifoDataxDIO[10]" SITE "C1" ;
+LOCATE COMP "FX2FifoDataxDIO[9]" SITE "C3" ;
+LOCATE COMP "FX2FifoDataxDIO[8]" SITE "D1" ;
+LOCATE COMP "FX2FifoDataxDIO[7]" SITE "M1" ;
+LOCATE COMP "FX2FifoDataxDIO[6]" SITE "M2" ;
+LOCATE COMP "FX2FifoDataxDIO[5]" SITE "N1" ;
+LOCATE COMP "FX2FifoDataxDIO[4]" SITE "N2" ;
+LOCATE COMP "FX2FifoDataxDIO[3]" SITE "P1" ;
+LOCATE COMP "FX2FifoDataxDIO[2]" SITE "P2" ;
+LOCATE COMP "FX2FifoDataxDIO[1]" SITE "R1" ;
+FREQUENCY NET "ClockxC" 90.000000 MHz ;
 FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;
 USE PRIMARY NET "IfClockxCI_c" ;
 SCHEMATIC END ;

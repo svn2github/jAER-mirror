@@ -5,7 +5,7 @@ The file contains the job information from mapper to be displayed as part of the
 *******************************************************************************************-->
 <job_run_status name="Mapper">
 <report_link name="Detailed report">
-<data>C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synlog\SBret20_SBret20_fpga_mapper.srr</data>
+<data>E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\synlog\SBret20_SBret20_fpga_mapper.srr</data>
 <title>Synopsys Lattice Technology Mapper</title>
 </report_link>
 <job_status>
@@ -15,32 +15,32 @@ The file contains the job information from mapper to be displayed as part of the
 <info name="Notes">
 <data>14</data>
 <report_link name="more">
-<data>C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synlog\report\SBret20_SBret20_fpga_mapper_notes.txt</data>
+<data>E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\synlog\report\SBret20_SBret20_fpga_mapper_notes.txt</data>
 </report_link>
 </info>
 <info name="Warnings">
-<data>43</data>
+<data>41</data>
 <report_link name="more">
-<data>C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synlog\report\SBret20_SBret20_fpga_mapper_warnings.txt</data>
+<data>E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\synlog\report\SBret20_SBret20_fpga_mapper_warnings.txt</data>
 </report_link>
 </info>
 <info name="Errors">
 <data>0</data>
 <report_link name="more">
-<data>C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synlog\report\SBret20_SBret20_fpga_mapper_errors.txt</data>
+<data>E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\synlog\report\SBret20_SBret20_fpga_mapper_errors.txt</data>
 </report_link>
 </info>
 <info name="CPU Time">
-<data>0h:00m:02s</data>
+<data>0h:00m:03s</data>
 </info>
 <info name="Real Time">
-<data>0h:00m:02s</data>
+<data>0h:00m:04s</data>
 </info>
 <info name="Peak Memory">
-<data>155MB</data>
+<data>156MB</data>
 </info>
 <info name="Date &amp; Time">
-<data type="timestamp">1401186947</data>
+<data type="timestamp">1404906368</data>
 </info>
 </job_info>
 </job_run_status>

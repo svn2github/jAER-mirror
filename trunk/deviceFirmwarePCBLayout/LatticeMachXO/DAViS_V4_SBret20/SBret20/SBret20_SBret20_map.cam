@@ -104,16 +104,16 @@ uEventCounter/CountxDP_cry[6]
 uEventCounter/CountxDP_s_0_S1[8]
 uEventCounter/CountxDP_s_0_COUT1[8]
 uEventCounter/CountxDP_s_0_COUT0[8]
-uTimestampCounter/CountxDP_cry_s1[0]
-uTimestampCounter/CountxDP_cry_s1[2]
-uTimestampCounter/CountxDP_cry_s1[4]
-uTimestampCounter/CountxDP_cry_s1[6]
-uTimestampCounter/CountxDP_cry_s1[8]
-uTimestampCounter/CountxDP_cry_s1[10]
-uTimestampCounter/CountxDP_cry_s1[12]
-uTimestampCounter/CountxDP_s_s1_0_S1[14]
-uTimestampCounter/CountxDP_s_s1_0_COUT1[14]
-uTimestampCounter/CountxDP_s_s1_0_COUT0[14]
+uTimestampCounter/CountxDP_cry[0]
+uTimestampCounter/CountxDP_cry[2]
+uTimestampCounter/CountxDP_cry[4]
+uTimestampCounter/CountxDP_cry[6]
+uTimestampCounter/CountxDP_cry[8]
+uTimestampCounter/CountxDP_cry[10]
+uTimestampCounter/CountxDP_cry[12]
+uTimestampCounter/CountxDP_s_0_S1[14]
+uTimestampCounter/CountxDP_s_0_COUT1[14]
+uTimestampCounter/CountxDP_s_0_COUT0[14]
 uSynchronizerStateMachine_1/DividerxDP_cry[0]
 uSynchronizerStateMachine_1/DividerxDP_cry[2]
 uSynchronizerStateMachine_1/DividerxDP_cry[4]
@@ -355,7 +355,7 @@ ADCStateMachine_1/un1_DividerColxDP_cry_0_COUT1[31]
 [ END CLIPPED ]
 [ START DESIGN PREFS ]
 SCHEMATIC START ;
-# map:  version Diamond (64-bit) 3.1.0.96 -- WARNING: Map write only section -- Tue May 27 12:35:49 2014
+# map:  version Diamond (64-bit) 3.2.0.134 -- WARNING: Map write only section -- Wed Jul 09 13:46:15 2014
 
 SYSCONFIG INBUF=ON CONFIG_SECURE=OFF ;
 LOCATE COMP "DebugxSIO[1]" SITE "T12" ;
@@ -419,6 +419,7 @@ LOCATE COMP "PE3xSI" SITE "B2" ;
 LOCATE COMP "PE2xSI" SITE "B1" ;
 LOCATE COMP "PA7xSIO" SITE "D2" ;
 LOCATE COMP "PA3xSIO" SITE "F2" ;
+LOCATE COMP "PA1xSIO" SITE "H1" ;
 LOCATE COMP "PA0xSIO" SITE "H2" ;
 LOCATE COMP "PC3xSIO" SITE "J1" ;
 LOCATE COMP "PC2xSIO" SITE "J2" ;
@@ -448,9 +449,8 @@ LOCATE COMP "FX2FifoDataxDIO[4]" SITE "N2" ;
 LOCATE COMP "FX2FifoDataxDIO[3]" SITE "P1" ;
 LOCATE COMP "FX2FifoDataxDIO[2]" SITE "P2" ;
 LOCATE COMP "FX2FifoDataxDIO[1]" SITE "R1" ;
+FREQUENCY NET "ClockxC" 90.000000 MHz ;
 FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;
-USE PRIMARY NET "ClockxC_c" ;
-FREQUENCY NET "ClockxC_c" 90.000000 MHz ;
 USE PRIMARY NET "IfClockxCI_c" ;
 SCHEMATIC END ;
 [ END DESIGN PREFS ]

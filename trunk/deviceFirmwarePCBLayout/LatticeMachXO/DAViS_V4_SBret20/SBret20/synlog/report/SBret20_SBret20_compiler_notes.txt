@@ -1,37 +1,37 @@
 @N|Running in 64-bit mode
-@N: CD720 :"C:\lscc\diamond\3.1_x64\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
-@N:"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Synthesizing work.usbaer_top_level.structural 
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\cDVSResetStateMachine.vhd":25:7:25:27|Synthesizing work.cdvsresetstatemachine.behavioral 
-@N: CD233 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\cDVSResetStateMachine.vhd":38:13:38:14|Using sequential encoding for type state
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCvalueReady.vhd":25:7:25:19|Synthesizing work.adcvalueready.behavioral 
-@N: CD233 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCvalueReady.vhd":37:13:37:14|Using sequential encoding for type state
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":25:7:25:21|Synthesizing work.adcstatemachine.behavioral 
-@N: CD231 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":56:16:56:17|Using onehot encoding for type colstate (stidle="100000000000")
-@N: CD231 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":57:16:57:17|Using onehot encoding for type rowstate (stidle="10000000")
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\monitorStateMachine.vhd":25:7:25:25|Synthesizing work.monitorstatemachine.behavioral 
-@N: CD231 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\monitorStateMachine.vhd":69:13:69:14|Using onehot encoding for type state (stidle="100000000000")
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\fifoStatemachine.vhd":25:7:25:22|Synthesizing work.fifostatemachine.behavioral 
-@N: CD233 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\fifoStatemachine.vhd":54:13:54:14|Using sequential encoding for type state
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\synchronizerStateMachine.vhd":19:7:19:30|Synthesizing work.synchronizerstatemachine.behavioral 
-@N: CD231 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\synchronizerStateMachine.vhd":46:13:46:14|Using onehot encoding for type state (stidle="100000")
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\timestampCounter.vhd":25:7:25:22|Synthesizing work.timestampcounter.behavioral 
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\eventCounter.vhd":26:7:26:18|Synthesizing work.eventcounter.behavioral 
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\earlyPaketTimer.vhd":25:7:25:21|Synthesizing work.earlypakettimer.behavioral 
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\wordRegister.vhd":30:7:30:18|Synthesizing work.wordregister.behavioral 
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\wordRegister.vhd":30:7:30:18|Synthesizing work.wordregister.behavioral 
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\AERfifo.vhd":14:7:14:13|Synthesizing work.aerfifo.structure 
-@N: CD630 :"C:\lscc\diamond\3.1_x64\cae_library\synthesis\vhdl\machxo.vhd":1599:10:1599:16|Synthesizing work.fifo8ka.syn_black_box 
-@N: CD630 :"C:\lscc\diamond\3.1_x64\cae_library\synthesis\vhdl\machxo.vhd":1280:10:1280:12|Synthesizing work.vlo.syn_black_box 
-@N: CD630 :"C:\lscc\diamond\3.1_x64\cae_library\synthesis\vhdl\machxo.vhd":1272:10:1272:12|Synthesizing work.vhi.syn_black_box 
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\shiftRegister.vhd":30:7:30:19|Synthesizing work.shiftregister.behavioral 
-@N: CD630 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\clockgen.vhd":14:7:14:14|Synthesizing work.clockgen.structure 
-@N: CD630 :"C:\lscc\diamond\3.1_x64\cae_library\synthesis\vhdl\machxo.vhd":1632:10:1632:16|Synthesizing work.ehxpllc.syn_black_box 
-@N: CL201 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\synchronizerStateMachine.vhd":225:4:225:5|Trying to extract state machine for register StatexDP
-@N: CL201 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\fifoStatemachine.vhd":129:4:129:5|Trying to extract state machine for register StatexDP
-@N: CL201 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\monitorStateMachine.vhd":275:4:275:5|Trying to extract state machine for register StatexDP
-@N: CL201 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":358:4:358:5|Trying to extract state machine for register StateRowxDP
-@N: CL201 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCStateMachine.vhd":358:4:358:5|Trying to extract state machine for register StateColxDP
-@N: CL201 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\ADCvalueReady.vhd":80:4:80:5|Trying to extract state machine for register StatexDP
-@N: CL201 :"C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\sourcecode\cDVSResetStateMachine.vhd":107:4:107:5|Trying to extract state machine for register StatexDP
+@N: CD720 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Top entity is set to USBAER_top_level.
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\USBAER_top_level.vhd":26:7:26:22|Synthesizing work.usbaer_top_level.structural 
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\cDVSResetStateMachine.vhd":25:7:25:27|Synthesizing work.cdvsresetstatemachine.behavioral 
+@N: CD233 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\cDVSResetStateMachine.vhd":38:13:38:14|Using sequential encoding for type state
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\ADCvalueReady.vhd":25:7:25:19|Synthesizing work.adcvalueready.behavioral 
+@N: CD233 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\ADCvalueReady.vhd":37:13:37:14|Using sequential encoding for type state
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\ADCStateMachine.vhd":25:7:25:21|Synthesizing work.adcstatemachine.behavioral 
+@N: CD231 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\ADCStateMachine.vhd":56:16:56:17|Using onehot encoding for type colstate (stidle="100000000000")
+@N: CD231 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\ADCStateMachine.vhd":57:16:57:17|Using onehot encoding for type rowstate (stidle="10000000")
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\monitorStateMachine.vhd":25:7:25:25|Synthesizing work.monitorstatemachine.behavioral 
+@N: CD231 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\monitorStateMachine.vhd":69:13:69:14|Using onehot encoding for type state (stidle="100000000000")
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\fifoStatemachine.vhd":25:7:25:22|Synthesizing work.fifostatemachine.behavioral 
+@N: CD233 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\fifoStatemachine.vhd":54:13:54:14|Using sequential encoding for type state
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\synchronizerStateMachine.vhd":19:7:19:30|Synthesizing work.synchronizerstatemachine.behavioral 
+@N: CD231 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\synchronizerStateMachine.vhd":46:13:46:14|Using onehot encoding for type state (stidle="100000")
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\timestampCounter.vhd":25:7:25:22|Synthesizing work.timestampcounter.behavioral 
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\eventCounter.vhd":26:7:26:18|Synthesizing work.eventcounter.behavioral 
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\earlyPaketTimer.vhd":25:7:25:21|Synthesizing work.earlypakettimer.behavioral 
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\wordRegister.vhd":30:7:30:18|Synthesizing work.wordregister.behavioral 
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\wordRegister.vhd":30:7:30:18|Synthesizing work.wordregister.behavioral 
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\AERfifo.vhd":14:7:14:13|Synthesizing work.aerfifo.structure 
+@N: CD630 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\machxo.vhd":1599:10:1599:16|Synthesizing work.fifo8ka.syn_black_box 
+@N: CD630 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\machxo.vhd":1280:10:1280:12|Synthesizing work.vlo.syn_black_box 
+@N: CD630 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\machxo.vhd":1272:10:1272:12|Synthesizing work.vhi.syn_black_box 
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\shiftRegister.vhd":30:7:30:19|Synthesizing work.shiftregister.behavioral 
+@N: CD630 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\clockgen.vhd":14:7:14:14|Synthesizing work.clockgen.structure 
+@N: CD630 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\machxo.vhd":1632:10:1632:16|Synthesizing work.ehxpllc.syn_black_box 
+@N: CL201 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\synchronizerStateMachine.vhd":225:4:225:5|Trying to extract state machine for register StatexDP
+@N: CL201 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\fifoStatemachine.vhd":129:4:129:5|Trying to extract state machine for register StatexDP
+@N: CL201 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\monitorStateMachine.vhd":275:4:275:5|Trying to extract state machine for register StatexDP
+@N: CL201 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\ADCStateMachine.vhd":358:4:358:5|Trying to extract state machine for register StateRowxDP
+@N: CL201 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\ADCStateMachine.vhd":358:4:358:5|Trying to extract state machine for register StateColxDP
+@N: CL201 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\ADCvalueReady.vhd":80:4:80:5|Trying to extract state machine for register StatexDP
+@N: CL201 :"E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\sourcecode\cDVSResetStateMachine.vhd":107:4:107:5|Trying to extract state machine for register StatexDP
 

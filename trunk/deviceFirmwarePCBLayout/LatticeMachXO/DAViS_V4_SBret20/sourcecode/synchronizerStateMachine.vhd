@@ -64,7 +64,7 @@ begin  -- Behavioral
     constant squareWaveHighTime : integer := 50;
     constant squareWavePeriod : integer := 100;
     constant timeout : integer := 1000;
-    constant resetSlavesTime : integer := 6000;
+    constant resetSlavesTime : integer := 12000;
   
   begin  -- process p_memless
     -- default assignements
@@ -189,7 +189,7 @@ begin  -- Behavioral
           StatexDN <= stSlaveWaitEdge;
         end if;
         
-        if ConfigxSI='1'  then
+        if ConfigxSI='1' or CounterxDP > timeout then
           StatexDN   <= stIdle;
           CounterxDN <= (others => '0');
         end if;

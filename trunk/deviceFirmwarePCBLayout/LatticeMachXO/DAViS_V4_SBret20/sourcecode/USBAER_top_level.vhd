@@ -509,7 +509,8 @@ begin
       ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
       IncrementCounterxSO   => IncxS);
 
-   TimestampMasterxS <= '1'; --PA1xSIO; Timestampmaster is disabled solving timestamp gets stacked.
+   --H TimestampMasterxS <= '1'; --PA1xSIO; Timestampmaster is disabled solving timestamp gets stacked.
+   TimestampMasterxS <= PA1xSIO; --H
      
   fifoStatemachine_1: fifoStatemachine
     port map (

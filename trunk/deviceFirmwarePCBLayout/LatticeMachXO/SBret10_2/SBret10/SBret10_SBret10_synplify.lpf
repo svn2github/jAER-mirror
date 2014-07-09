@@ -1,14 +1,14 @@
 #
-# Logical Preferences generated for Lattice by Synplify maplat, Build 618R.
+# Logical Preferences generated for Lattice by Synplify maplat, Build 908R.
 #
 
 # Period Constraints 
-FREQUENCY PORT "PC1xSIO" 676.5 MHz;
-FREQUENCY NET "uClockGen/ClockxC_c" 126.4 MHz;
-FREQUENCY PORT "IfClockxCI" 1.2 MHz;
-FREQUENCY PORT "PC2xSIO" 1.0 MHz;
-FREQUENCY NET "ADCStateMachine_1/StateColxDP[11]" 0.1 MHz;
-FREQUENCY NET "ADCStateMachine_1/CDVSTestSRRowInxSO_c" 0.1 MHz;
+#FREQUENCY PORT "PC1xSIO" 676.5 MHz;
+#FREQUENCY NET "uClockGen/ClockxC" 127.2 MHz;
+#FREQUENCY PORT "IfClockxCI" 1.2 MHz;
+#FREQUENCY PORT "PC2xSIO" 1.0 MHz;
+#FREQUENCY NET "ADCStateMachine_1/StateColxDP[11]" 0.1 MHz;
+#FREQUENCY NET "ADCStateMachine_1/CDVSTestSRRowInxSO_c" 0.1 MHz;
 
 
 # Output Constraints 
@@ -20,12 +20,12 @@ FREQUENCY NET "ADCStateMachine_1/CDVSTestSRRowInxSO_c" 0.1 MHz;
 
 
 # Block Path Constraints 
-BLOCK PATH FROM PORT "USBAER_top_level|PC2xSIO" TO PORT "USBAER_top_level|PC1xSIO";
-BLOCK PATH FROM PORT "USBAER_top_level|PC2xSIO" TO PORT "USBAER_top_level|IfClockxCI";
-BLOCK PATH FROM PORT "USBAER_top_level|PC1xSIO" TO PORT "USBAER_top_level|PC2xSIO";
-BLOCK PATH FROM PORT "USBAER_top_level|PC1xSIO" TO PORT "USBAER_top_level|IfClockxCI";
-BLOCK PATH FROM PORT "USBAER_top_level|IfClockxCI" TO PORT "USBAER_top_level|PC2xSIO";
-BLOCK PATH FROM PORT "USBAER_top_level|IfClockxCI" TO PORT "USBAER_top_level|PC1xSIO";
+#BLOCK PATH FROM PORT "PC2xSIO" TO PORT "PC1xSIO";
+#BLOCK PATH FROM PORT "PC2xSIO" TO PORT "IfClockxCI";
+#BLOCK PATH FROM PORT "PC1xSIO" TO PORT "PC2xSIO";
+#BLOCK PATH FROM PORT "PC1xSIO" TO PORT "IfClockxCI";
+#BLOCK PATH FROM PORT "IfClockxCI" TO PORT "PC2xSIO";
+#BLOCK PATH FROM PORT "IfClockxCI" TO PORT "PC1xSIO";
 
 BLOCK ASYNCPATHS;
 

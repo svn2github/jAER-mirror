@@ -5,14 +5,14 @@ The file contains the area information from mapper to be displayed as part of th
 *******************************************************************************************-->
 <report_table display_priority="1" name="Area Summary">
 <report_link name="Detailed report">
-<data>C:\3jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\synlog\report\SBret20_SBret20_fpga_mapper_resourceusage.rpt</data>
+<data>E:\deviceFirmwarePCBLayout\LatticeMachXO\DAViS_V4_SBret20\SBret20\synlog\report\SBret20_SBret20_fpga_mapper_resourceusage.rpt</data>
 <title>Resource Usage</title>
 </report_link>
 <parameter tooltip="Total Register bits used" name="Register bits">
-<data>416</data>
+<data>418</data>
 </parameter>
 <parameter tooltip="Total I/O cells used" name="I/O cells">
-<data>90</data>
+<data>91</data>
 </parameter>
 <parameter tcl_name="v_ram" tooltip="Total Block RAMs used" name="Block RAMs">
 <data>0</data>
@@ -21,6 +21,6 @@ The file contains the area information from mapper to be displayed as part of th
 <data>0</data>
 </parameter>
 <parameter tcl_name="total_luts" tooltip="Total ORCA LUTs used" name="ORCA LUTs">
-<data>344</data>
+<data>382</data>
 </parameter>
 </report_table>

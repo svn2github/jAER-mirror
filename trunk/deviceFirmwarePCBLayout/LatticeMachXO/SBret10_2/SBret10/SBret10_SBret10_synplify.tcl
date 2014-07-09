@@ -43,31 +43,31 @@ set_option -resolve_multiple_driver 0
 
 
 #-- add_file options
-add_file -vhdl {C:/lscc/diamond/2.2_x64/cae_library/synthesis/vhdl/machxo.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/wordRegister.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/AERfifo.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/clockgen.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/earlyPaketTimer.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/EventBeforeOverflow.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/eventCounter.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/fifoStatemachine.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/monitorStateMachine.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/synchronizerStateMachine.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/timestampCounter.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/USBAER_top_level.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/AERfifo.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/clockgen.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/ADCvalueReady.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/cDVSResetStateMachine.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/shiftRegister.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/ADCStateMachine_tb.vhd}
-add_file -vhdl -lib "work" {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/ADCStateMachine.vhd}
+add_file -vhdl {C:/lscc/diamond/3.2_x64/cae_library/synthesis/vhdl/machxo.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/wordRegister.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/AERfifo.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/clockgen.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/earlyPaketTimer.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/EventBeforeOverflow.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/eventCounter.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/fifoStatemachine.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/monitorStateMachine.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/synchronizerStateMachine.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/timestampCounter.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/USBAER_top_level.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/AERfifo.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/clockgen.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/ADCvalueReady.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/cDVSResetStateMachine.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/shiftRegister.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/ADCStateMachine_tb.vhd}
+add_file -vhdl -lib "work" {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/sourcecode/ADCStateMachine.vhd}
 
 #-- top module name
 set_option -top_module USBAER_top_level
 
 #-- set result format/file last
-project -result_file {C:/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/SBret10/SBret10_SBret10.edi}
+project -result_file {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2/SBret10/SBret10_SBret10.edi}
 
 #-- error message log file
 project -log_file {SBret10_SBret10.srf}
@@ -77,4 +77,4 @@ project -log_file {SBret10_SBret10.srf}
 
 #-- run Synplify with 'arrange HDL file'
 project -run hdl_info_gen -fileorder
-project -run -clean
+project -run
