@@ -19,7 +19,7 @@ gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
 	//{ 35, 'O' }, /* GPIO 35 (Px0): FPGA_Run */
 	//{ 36, 'O' }, /* GPIO 36 (Px1): DVS_Run */
 	//{ 37, 'O' }, /* GPIO 37 (Px2): APS_Run */
-	//{ 38, 'O' }, /* GPIO 38 (Px3): IMU_Run */
+	{ 38, 'O' }, /* GPIO 38 (Px3): FPGA_SPI_ASSN */
 	{ 39, 'o' }, /* GPIO 39 (Px4): FPGA_SPI_SSN (active-low) */
 	{ 40, 'O' }, /* GPIO 40 (Px5): FPGA_SPI_Clock */
 	{ 41, 'O' }, /* GPIO 41 (Px6): FPGA_SPI_MOSI */
@@ -39,6 +39,7 @@ const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecif
 
 // Define GPIO to function mappings.
 #define FPGA_RESET 33
+#define FPGA_SPI_ASSN 38
 #define FPGA_SPI_SSN 39
 #define FPGA_SPI_CLOCK 40
 #define FPGA_SPI_MOSI 41
@@ -410,16 +411,26 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 				break;
 			}
 
-			// Write out all configuration bytes to the FPGA, using its SPI bus.
-			// Only writing is supported for now via bit-banging the SPI interface.
-			// Newer boards will migrate this to the embedded SPI controller for full-duplex.
-			CyFxGpioTurnOn(FPGA_SPI_SSN);
+			if (wValue == 1) {
+				for (size_t i = 0; i < wLength; i++) {
+					CyFxWriteByteToShiftReg(glEP0Buffer[i], FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				}
 
-			for (size_t i = 0; i < wLength; i++) {
-				CyFxWriteByteToShiftReg(glEP0Buffer[i], FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxGpioTurnOn(FPGA_SPI_ASSN);
+				CyFxGpioTurnOff(FPGA_SPI_ASSN);
 			}
+			else {
+				// Write out all configuration bytes to the FPGA, using its SPI bus.
+				// Only writing is supported for now via bit-banging the SPI interface.
+				// Newer boards will migrate this to the embedded SPI controller for full-duplex.
+				CyFxGpioTurnOn(FPGA_SPI_SSN);
 
-			CyFxGpioTurnOff(FPGA_SPI_SSN);
+				for (size_t i = 0; i < wLength; i++) {
+					CyFxWriteByteToShiftReg(glEP0Buffer[i], FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				}
+
+				CyFxGpioTurnOff(FPGA_SPI_SSN);
+			}
 
 			break;
 		}
