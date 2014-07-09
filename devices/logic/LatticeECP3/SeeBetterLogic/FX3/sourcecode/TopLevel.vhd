@@ -205,6 +205,14 @@ architecture Structural of TopLevel is
 			DVSAERConfig_DO		 : out	 tDVSAERConfig);
 	end component SPIConfig;
 
+	component DFFSynchronizer is
+		port (
+			SyncClock_CI	: in  std_logic;
+			Reset_RI		: in  std_logic;
+			SignalToSync_SI : in  std_logic;
+			SyncedSignal_SO : out std_logic);
+	end component DFFSynchronizer;
+
 	component FIFODualClock is
 		generic (
 			DATA_WIDTH		  : integer;
@@ -322,9 +330,24 @@ begin
 
 	-- Wire all LEDs.
 	LED1_SO <= '1';
-	LED2_SO <= LogicUSBFifo_O.ReadSide.Empty_S;
-	LED3_SO <= not SPISlaveSelectSync_SB;
-	LED4_SO <= LogicUSBFifo_O.WriteSide.Full_S;
+	led2buf : DFFSynchronizer
+		port map (
+			SyncClock_CI	=> USBClock_CI,
+			Reset_RI		=> USBReset_R,
+			SignalToSync_SI => LogicUSBFifo_O.ReadSide.Empty_S,
+			SyncedSignal_SO => LED2_SO);
+	led3buf : DFFSynchronizer
+		port map (
+			SyncClock_CI	=> LogicClock_C,
+			Reset_RI		=> LogicReset_R,
+			SignalToSync_SI => not SPISlaveSelectSync_SB,
+			SyncedSignal_SO => LED3_SO);
+	led4buf : DFFSynchronizer
+		port map (
+			SyncClock_CI	=> LogicClock_C,
+			Reset_RI		=> LogicReset_R,
+			SignalToSync_SI => LogicUSBFifo_O.WriteSide.Full_S,
+			SyncedSignal_SO => LED4_SO);
 
 	-- Generate logic clock using a PLL.
 	logicClockPLL : PLL
