@@ -39,10 +39,8 @@ architecture Behavioral of SPIConfig is
 		port (
 			Clock_CI		 : in  std_logic;
 			Reset_RI		 : in  std_logic;
-			Mode_SI			 : in  std_logic_vector(1 downto 0);
+			Mode_SI			 : in  std_logic_vector(SHIFTREGISTER_MODE_SIZE-1 downto 0);
 			DataIn_DI		 : in  std_logic;
-			DataOutRight_DO	 : out std_logic;
-			DataOutLeft_DO	 : out std_logic;
 			ParallelWrite_DI : in  std_logic_vector(SIZE-1 downto 0);
 			ParallelRead_DO	 : out std_logic_vector(SIZE-1 downto 0));
 	end component ShiftRegister;
@@ -71,18 +69,22 @@ architecture Behavioral of SPIConfig is
 	-- present and next state
 	signal State_DP, State_DN : state;
 
-	signal SPIClockRisingEdges_S, SPIClockFallingEdges_S : std_logic;
-	signal SPIReadMOSI_S, SPIWriteMISO_S				 : std_logic;
-	signal SPIInputSRegMode_S							 : std_logic_vector(1 downto 0);
-	signal SPIInputSRegRead_D							 : std_logic_vector(7 downto 0);
-	signal SPIInputCountClear_S, SPIInputCountEnable_S	 : std_logic;
-	signal SPIInputCount_D								 : unsigned(5 downto 0);
+	signal SPIClockRisingEdges_S, SPIClockFallingEdges_S   : std_logic;
+	signal SPIReadMOSI_S, SPIWriteMISO_S				   : std_logic;
+	signal SPIInputSRegMode_S							   : std_logic_vector(SHIFTREGISTER_MODE_SIZE-1 downto 0);
+	signal SPIInputContent_D							   : std_logic_vector(7 downto 0);
+	signal SPIInputCounterClear_S, SPIInputCounterEnable_S : std_logic;
+	signal SPIInputCount_D								   : unsigned(5 downto 0);
 
 	signal ReadOperationReg_SP, ReadOperationReg_SN : std_logic;
 	signal ModuleAddressReg_DP, ModuleAddressReg_DN : std_logic_vector(6 downto 0);
 	signal ParamAddressReg_DP, ParamAddressReg_DN	: std_logic_vector(7 downto 0);
-	signal ParamContent_DP, ParamContent_DN			: std_logic_vector(31 downto 0);
-	signal TransferDoneReg_SP, TransferDoneReg_SN	: std_logic;
+
+	signal LatchInputReg_SP, LatchInputReg_SN : std_logic;
+	signal ParamInput_DP, ParamInput_DN		  : std_logic_vector(31 downto 0);
+
+	signal LatchOutputReg_SP, LatchOutputReg_SN : std_logic;
+	signal ParamOutput_DP, ParamOutput_DN		: std_logic_vector(31 downto 0);
 
 	-- Configuration modules registers
 	signal MultiplexerConfigReg_DP, MultiplexerConfigReg_DN : tMultiplexerConfig;
@@ -110,10 +112,8 @@ begin  -- architecture Behavioral
 			Reset_RI		 => Reset_RI,
 			Mode_SI			 => SPIInputSRegMode_S,
 			DataIn_DI		 => SPIMOSI_DI,
-			DataOutRight_DO	 => open,
-			DataOutLeft_DO	 => open,
 			ParallelWrite_DI => (others => '0'),
-			ParallelRead_DO	 => SPIInputSRegRead_D);
+			ParallelRead_DO	 => SPIInputContent_D);
 
 	spiInputBitCounter : ContinuousCounter
 		generic map (
@@ -122,13 +122,13 @@ begin  -- architecture Behavioral
 		port map (
 			Clock_CI	 => Clock_CI,
 			Reset_RI	 => Reset_RI,
-			Clear_SI	 => SPIInputCountClear_S,
-			Enable_SI	 => SPIInputCountEnable_S,
+			Clear_SI	 => SPIInputCounterClear_S,
+			Enable_SI	 => SPIInputCounterEnable_S,
 			DataLimit_DI => (others => '1'),
 			Overflow_SO	 => open,
 			Data_DO		 => SPIInputCount_D);
 
-	spiCommunication : process (State_DP, SPIInputSRegRead_D, SPIInputCount_D, SPISlaveSelect_SBI, SPIReadMOSI_S, ReadOperationReg_SP, ModuleAddressReg_DP, ParamAddressReg_DP, ParamContent_DP)
+	spiCommunication : process (State_DP, SPIInputContent_D, SPIInputCount_D, SPISlaveSelect_SBI, SPIReadMOSI_S, ReadOperationReg_SP, ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;
@@ -137,16 +137,19 @@ begin  -- architecture Behavioral
 		ReadOperationReg_SN <= ReadOperationReg_SP;
 		ModuleAddressReg_DN <= ModuleAddressReg_DP;
 		ParamAddressReg_DN	<= ParamAddressReg_DP;
-		ParamContent_DN		<= ParamContent_DP;
-		TransferDoneReg_SN	<= '0';
+
+		LatchInputReg_SN <= '0';
+		ParamInput_DN	 <= ParamInput_DP;
+
+		LatchOutputReg_SN <= '0';
 
 		-- SPI output is Hi-Z by default.
 		SPIMISO_ZO <= 'Z';
 
 		-- Keep the input elements (shift register and counter) fixed.
-		SPIInputSRegMode_S	  <= SHIFTREGISTER_MODE_DO_NOTHING;
-		SPIInputCountClear_S  <= '0';
-		SPIInputCountEnable_S <= '0';
+		SPIInputSRegMode_S		<= SHIFTREGISTER_MODE_DO_NOTHING;
+		SPIInputCounterClear_S	<= '0';
+		SPIInputCounterEnable_S <= '0';
 
 		case State_DP is
 			when stIdle =>
@@ -157,52 +160,50 @@ begin  -- architecture Behavioral
 				end if;
 
 				-- Keep input elements clear while idling.
-				SPIInputSRegMode_S	 <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-				SPIInputCountClear_S <= '1';
+				SPIInputSRegMode_S	   <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+				SPIInputCounterClear_S <= '1';
 
 			when stInput =>
 				-- Push a zero out on the SPI bus, when there is nothing
 				-- concrete to output. We're reading input right now.
 				SPIMISO_ZO <= '0';
 
-				if SPISlaveSelect_SBI = '1' then
-					State_DN <= stIdle;
-				end if;
-
 				if SPIReadMOSI_S = '1' then
-					SPIInputSRegMode_S	  <= SHIFTREGISTER_MODE_SHIFT_LEFT;
-					SPIInputCountEnable_S <= '1';
+					SPIInputSRegMode_S		<= SHIFTREGISTER_MODE_SHIFT_LEFT;
+					SPIInputCounterEnable_S <= '1';
 				end if;
 
 				case SPIInputCount_D is
 					when to_unsigned(8, 6) =>
-						ReadOperationReg_SN <= SPIInputSRegRead_D(7);
-						ModuleAddressReg_DN <= SPIInputSRegRead_D(6 downto 0);
+						ReadOperationReg_SN <= SPIInputContent_D(7);
+						ModuleAddressReg_DN <= SPIInputContent_D(6 downto 0);
 
 					when to_unsigned(16, 6) =>
-						ParamAddressReg_DN <= SPIInputSRegRead_D(7 downto 0);
+						ParamAddressReg_DN <= SPIInputContent_D(7 downto 0);
 
-					when to_unsigned(24, 6) =>
 						if ReadOperationReg_SP = '1' then
-							-- If read operation, we're ready to output after
-							-- the delay period just passed.
+							-- If read operation, copy the current
+							-- configuration parameter content to a register so
+							-- we can output it later and switch to output state.
+							LatchOutputReg_SN <= '1';
+
 							State_DN <= stOutput;
-						else
-							-- Write operation, so this was the first byte.
-							ParamContent_DN(31 downto 24) <= SPIInputSRegRead_D(7 downto 0);
 						end if;
 
+					when to_unsigned(24, 6) =>
+						ParamInput_DN(31 downto 24) <= SPIInputContent_D(7 downto 0);
+
 					when to_unsigned(32, 6) =>
-						ParamContent_DN(23 downto 16) <= SPIInputSRegRead_D(7 downto 0);
+						ParamInput_DN(23 downto 16) <= SPIInputContent_D(7 downto 0);
 
 					when to_unsigned(40, 6) =>
-						ParamContent_DN(15 downto 8) <= SPIInputSRegRead_D(7 downto 0);
+						ParamInput_DN(15 downto 8) <= SPIInputContent_D(7 downto 0);
 
 					when to_unsigned(48, 6) =>
-						ParamContent_DN(7 downto 0) <= SPIInputSRegRead_D(7 downto 0);
+						ParamInput_DN(7 downto 0) <= SPIInputContent_D(7 downto 0);
 
-						-- And we're done.
-						TransferDoneReg_SN <= '1';
+						-- And we're done, so copy the input to the config register.
+						LatchInputReg_SN <= '1';
 
 						State_DN <= stIdle;
 
@@ -215,8 +216,9 @@ begin  -- architecture Behavioral
 		end case;
 	end process spiCommunication;
 
-	configUpdate : process (ModuleAddressReg_DP, ParamAddressReg_DP, ParamContent_DP, MultiplexerConfigReg_DP, DVSAERConfigReg_DP)
+	configReadWrite : process (ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP, MultiplexerConfigReg_DP, DVSAERConfigReg_DP)
 	begin
+		ParamOutput_DN			<= (others => '0');
 		MultiplexerConfigReg_DN <= MultiplexerConfigReg_DP;
 		DVSAERConfigReg_DN		<= DVSAERConfigReg_DP;
 
@@ -224,13 +226,16 @@ begin  -- architecture Behavioral
 			when MULTIPLEXERCONFIG_MODULE_ADDRESS =>
 				case ParamAddressReg_DP is
 					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.Run_S =>
-						MultiplexerConfigReg_DN.Run_S <= ParamContent_DP(0);
+						MultiplexerConfigReg_DN.Run_S <= ParamInput_DP(0);
+						ParamOutput_DN(0)			  <= MultiplexerConfigReg_DP.Run_S;
 
 					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.TimestampRun_S =>
-						MultiplexerConfigReg_DN.TimestampRun_S <= ParamContent_DP(0);
+						MultiplexerConfigReg_DN.TimestampRun_S <= ParamInput_DP(0);
+						ParamOutput_DN(0)					   <= MultiplexerConfigReg_DP.TimestampRun_S;
 
 					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.TimestampReset_S =>
-						MultiplexerConfigReg_DN.TimestampReset_S <= ParamContent_DP(0);
+						MultiplexerConfigReg_DN.TimestampReset_S <= ParamInput_DP(0);
+						ParamOutput_DN(0)						 <= MultiplexerConfigReg_DP.TimestampReset_S;
 
 					when others => null;
 				end case;
@@ -238,20 +243,23 @@ begin  -- architecture Behavioral
 			when DVSAERCONFIG_MODULE_ADDRESS =>
 				case ParamAddressReg_DP is
 					when DVSAERCONFIG_PARAM_ADDRESSES.Run_S =>
-						DVSAERConfigReg_DN.Run_S <= ParamContent_DP(0);
+						DVSAERConfigReg_DN.Run_S <= ParamInput_DP(0);
+						ParamOutput_DN(0)		 <= DVSAERConfigReg_DP.Run_S;
 
 					when DVSAERCONFIG_PARAM_ADDRESSES.AckDelay_D =>
-						DVSAERConfigReg_DN.AckDelay_D <= ParamContent_DP(tDVSAERConfig.AckDelay_D'length-1 downto 0);
+						DVSAERConfigReg_DN.AckDelay_D							   <= ParamInput_DP(tDVSAERConfig.AckDelay_D'length-1 downto 0);
+						ParamOutput_DN(tDVSAERConfig.AckDelay_D'length-1 downto 0) <= DVSAERConfigReg_DP.AckDelay_D;
 
 					when DVSAERCONFIG_PARAM_ADDRESSES.AckExtension_D =>
-						DVSAERConfigReg_DN.AckExtension_D <= ParamContent_DP(tDVSAERConfig.AckExtension_D'length-1 downto 0);
+						DVSAERConfigReg_DN.AckExtension_D							   <= ParamInput_DP(tDVSAERConfig.AckExtension_D'length-1 downto 0);
+						ParamOutput_DN(tDVSAERConfig.AckExtension_D'length-1 downto 0) <= DVSAERConfigReg_DP.AckExtension_D;
 
 					when others => null;
 				end case;
 
 			when others => null;
 		end case;
-	end process configUpdate;
+	end process configReadWrite;
 
 	regUpdate : process (Clock_CI, Reset_RI) is
 	begin
@@ -261,8 +269,12 @@ begin  -- architecture Behavioral
 			ReadOperationReg_SP <= '0';
 			ModuleAddressReg_DP <= (others => '0');
 			ParamAddressReg_DP	<= (others => '0');
-			ParamContent_DP		<= (others => '0');
-			TransferDoneReg_SP	<= '0';
+
+			LatchInputReg_SP <= '0';
+			ParamInput_DP	 <= (others => '0');
+
+			LatchOutputReg_SP <= '0';
+			ParamOutput_DP	  <= (others => '0');
 
 			MultiplexerConfigReg_DP <= tMultiplexerConfigDefault;
 			DVSAERConfigReg_DP		<= tDVSAERConfigDefault;
@@ -272,10 +284,16 @@ begin  -- architecture Behavioral
 			ReadOperationReg_SP <= ReadOperationReg_SN;
 			ModuleAddressReg_DP <= ModuleAddressReg_DN;
 			ParamAddressReg_DP	<= ParamAddressReg_DN;
-			ParamContent_DP		<= ParamContent_DN;
-			TransferDoneReg_SP	<= TransferDoneReg_SN;
 
-			if TransferDoneReg_SP = '1' then
+			LatchInputReg_SP <= LatchInputReg_SN;
+			ParamInput_DP	 <= ParamInput_DN;
+
+			LatchOutputReg_SP <= LatchOutputReg_SN;
+			if LatchOutputReg_SP = '1' then
+				ParamOutput_DP <= ParamOutput_DN;
+			end if;
+
+			if LatchInputReg_SP = '1' then
 				MultiplexerConfigReg_DP <= MultiplexerConfigReg_DN;
 				DVSAERConfigReg_DP		<= DVSAERConfigReg_DN;
 			end if;

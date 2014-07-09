@@ -6,11 +6,18 @@ use work.ShiftRegisterModes.all;
 -- directions, selected at run-time, with parallel load support, as well as
 -- parallel output of all register states.
 -- Parallel output is always enabled and reflects the currently stored bits.
+-- To get the usual output of left- or right-most bit, just slice the correct
+-- bit from the parallel output.
 -- Modes are:
--- 00 - do nothing
--- 01 - parallel load from ParallelWrite_DI (can be used as clear!)
--- 10 - shift right
--- 11 - shift left
+-- 000 - do nothing
+-- 001 - parallel load from ParallelWrite_DI
+-- 010 - clear all bits (set to zero)
+-- 011 - set all bits (set to one)
+-- 100 - shift right
+-- 101 - shift left
+-- 110 - shift right with zero (ignore input)
+-- 111 - shift left with zero (ignore input)
+-- See ShiftRegisterModes for constants.
 
 entity ShiftRegister is
 	generic (
@@ -21,9 +28,7 @@ entity ShiftRegister is
 
 		Mode_SI : in std_logic_vector(SHIFTREGISTER_MODE_SIZE-1 downto 0);
 
-		DataIn_DI		: in  std_logic;
-		DataOutRight_DO : out std_logic;
-		DataOutLeft_DO	: out std_logic;
+		DataIn_DI : in std_logic;
 
 		ParallelWrite_DI : in  std_logic_vector(SIZE-1 downto 0);
 		ParallelRead_DO	 : out std_logic_vector(SIZE-1 downto 0));
@@ -43,11 +48,23 @@ begin
 			when SHIFTREGISTER_MODE_PARALLEL_LOAD =>
 				ShiftReg_DN <= ParallelWrite_DI;
 
+			when SHIFTREGISTER_MODE_PARALLEL_CLEAR =>
+				ShiftReg_DN <= (others => '0');
+
+			when SHIFTREGISTER_MODE_PARALLEL_SET =>
+				ShiftReg_DN <= (others => '1');
+
 			when SHIFTREGISTER_MODE_SHIFT_RIGHT =>
 				ShiftReg_DN <= DataIn_DI & ShiftReg_DP(SIZE-1 downto 1);
 
 			when SHIFTREGISTER_MODE_SHIFT_LEFT =>
 				ShiftReg_DN <= ShiftReg_DP(SIZE-2 downto 0) & DataIn_DI;
+
+			when SHIFTREGISTER_MODE_SHIFT_RIGHT_ZERO =>
+				ShiftReg_DN <= '0' & ShiftReg_DP(SIZE-1 downto 1);
+
+			when SHIFTREGISTER_MODE_SHIFT_LEFT_ZERO =>
+				ShiftReg_DN <= ShiftReg_DP(SIZE-2 downto 0) & '0';
 
 			when others => null;
 		end case;
@@ -64,9 +81,4 @@ begin
 
 	-- Always output current state.
 	ParallelRead_DO <= ShiftReg_DP;
-
-	-- Output both the left and right-most bits, since, depending on the
-	-- direction you're currently shifting, which one you want to monitor changes.
-	DataOutRight_DO <= ShiftReg_DP(0);
-	DataOutLeft_DO	<= ShiftReg_DP(SIZE-1);
 end architecture Behavioral;
