@@ -13,7 +13,7 @@
       <ClockEdge>Positive</ClockEdge>
       <Endianness>LittleEndian</Endianness>
       <DataBusWidth>Bit16</DataBusWidth>
-      <AddressBuswidth>1</AddressBuswidth>
+      <AddressBuswidth>2</AddressBuswidth>
     </InterfaceSetting>
   </InterfaceDefination>
   <Signals>
@@ -39,7 +39,7 @@
     </Signal>
     <Signal ElementId="INPUT4" SignalType="Input" SpecialFunction="None">
       <DisplayName>PKEND</DisplayName>
-      <GPIOPinNumber>GPIO_28</GPIOPinNumber>
+      <GPIOPinNumber>GPIO_24</GPIOPinNumber>
       <Polarity>ActiveLow</Polarity>
     </Signal>
     <Signal ElementId="FLAG0" SignalType="Flags" SpecialFunction="None">
