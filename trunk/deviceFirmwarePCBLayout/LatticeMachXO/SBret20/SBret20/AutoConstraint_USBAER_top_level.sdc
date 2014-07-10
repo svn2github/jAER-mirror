@@ -1,10 +1,10 @@
 
 #Begin clock constraint
-define_clock -name {clockgen|CLKOP_inferred_clock} {n:clockgen|CLKOP_inferred_clock} -period 7.905 -clockgroup Autoconstr_clkgroup_0 -rise 0.000 -fall 3.952 -route 0.000 
+define_clock -name {clockgen|CLKOP_inferred_clock} {n:clockgen|CLKOP_inferred_clock} -period 7.777 -clockgroup Autoconstr_clkgroup_0 -rise 0.000 -fall 3.889 -route 0.000 
 #End clock constraint
 
 #Begin clock constraint
-define_clock -name {USBAER_top_level|IfClockxCI} {p:USBAER_top_level|IfClockxCI} -period 8.342 -clockgroup Autoconstr_clkgroup_1 -rise 0.000 -fall 4.171 -route 0.000 
+define_clock -name {USBAER_top_level|IfClockxCI} {p:USBAER_top_level|IfClockxCI} -period 8.265 -clockgroup Autoconstr_clkgroup_1 -rise 0.000 -fall 4.132 -route 0.000 
 #End clock constraint
 
 #Begin clock constraint

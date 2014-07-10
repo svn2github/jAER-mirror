@@ -1,28 +1,28 @@
 ----------------------------------------------------------------------
 Report for cell USBAER_top_level.structural
 
-Register bits: 415 of 2280 (18%)
+Register bits: 418 of 2280 (18%)
 PIC Latch:       0
 I/O cells:       91
                                           Cell usage:
                                cell       count    Res Usage(%)
                                CCU2      141       100.0
                             EHXPLLC        1       100.0
-                            FD1P3DX      173       100.0
+                            FD1P3DX      174       100.0
                             FD1S3AX        4       100.0
                             FD1S3BX        4       100.0
-                            FD1S3DX      234       100.0
+                            FD1S3DX      236       100.0
                             FIFO8KA        2       100.0
                                 GSR        1       100.0
                                  IB       36       100.0
                                 INV        6       100.0
                                  OB       40       100.0
                                 OBZ       15       100.0
-                           ORCALUT4      345       100.0
+                           ORCALUT4      372       100.0
                               PFUMX       10       100.0
                                 PUR        1       100.0
                                 VHI       14       100.0
-                                VLO       11       100.0
+                                VLO       12       100.0
 SUB MODULES 
                     ADCStateMachine        1       100.0
                       ADCvalueReady        1       100.0
@@ -39,14 +39,14 @@ SUB MODULES
           wordRegister_14_uADCRegister        1       100.0
           wordRegister_14_uMonitorTimestampRegister        1       100.0
                             
-                         TOTAL          1052           
+                         TOTAL          1083           
 ----------------------------------------------------------------------
 Report for cell ADCvalueReady.netlist
      Instance path:  ADCvalueReady_1
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        2         0.9
-                           ORCALUT4        2         0.6
+                            FD1S3DX        2         0.8
+                           ORCALUT4        2         0.5
                                 VHI        1         7.1
                             
                          TOTAL             5           
@@ -56,15 +56,15 @@ Report for cell ADCStateMachine.netlist
                                           Cell usage:
                                cell       count    Res Usage(%)
                                CCU2       94        66.7
-                            FD1P3DX       77        44.5
+                            FD1P3DX       77        44.3
                             FD1S3BX        2        50.0
                             FD1S3DX       19         8.1
                                 INV        2        33.3
-                           ORCALUT4      138        40.0
+                           ORCALUT4      141        37.9
                                 VHI        1         7.1
-                                VLO        1         9.1
+                                VLO        1         8.3
                             
-                         TOTAL           334           
+                         TOTAL           337           
 ----------------------------------------------------------------------
 Report for cell monitorStateMachine.netlist
      Instance path:  monitorStateMachine_1
@@ -72,50 +72,50 @@ Report for cell monitorStateMachine.netlist
                                cell       count    Res Usage(%)
                                CCU2       12         8.5
                             FD1S3BX        1        25.0
-                            FD1S3DX       39        16.7
-                           ORCALUT4      100        29.0
-                              PFUMX       10       100.0
+                            FD1S3DX       39        16.5
+                           ORCALUT4       67        18.0
                                 VHI        1         7.1
-                                VLO        1         9.1
+                                VLO        1         8.3
                             
-                         TOTAL           164           
+                         TOTAL           121           
 ----------------------------------------------------------------------
 Report for cell fifoStatemachine.netlist
      Instance path:  fifoStatemachine_1
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX        2         0.9
-                           ORCALUT4        7         2.0
+                            FD1S3DX        2         0.8
+                           ORCALUT4        6         1.6
                                 VHI        1         7.1
-                                VLO        1         9.1
+                                VLO        1         8.3
                             
-                         TOTAL            11           
+                         TOTAL            10           
 ----------------------------------------------------------------------
 Report for cell synchronizerStateMachine.netlist
      Instance path:  uSynchronizerStateMachine_1
                                           Cell usage:
                                cell       count    Res Usage(%)
                                CCU2       11         7.8
-                            FD1P3DX       14         8.1
+                            FD1P3DX       14         8.0
                             FD1S3AX        2        50.0
                             FD1S3BX        1        25.0
-                            FD1S3DX       10         4.3
-                           ORCALUT4       60        17.4
+                            FD1S3DX       12         5.1
+                           ORCALUT4      115        30.9
+                              PFUMX       10       100.0
                                 VHI        1         7.1
-                                VLO        1         9.1
+                                VLO        1         8.3
                             
-                         TOTAL           100           
+                         TOTAL           167           
 ----------------------------------------------------------------------
 Report for cell timestampCounter.netlist
      Instance path:  uTimestampCounter
                                           Cell usage:
                                cell       count    Res Usage(%)
                                CCU2        8         5.7
-                            FD1P3DX       15         8.7
+                            FD1P3DX       16         9.2
                             FD1S3DX        1         0.4
-                           ORCALUT4        2         0.6
+                           ORCALUT4        1         0.3
                                 VHI        1         7.1
-                                VLO        1         9.1
+                                VLO        1         8.3
                             
                          TOTAL            28           
 ----------------------------------------------------------------------
@@ -125,9 +125,9 @@ Report for cell eventCounter.netlist
                                cell       count    Res Usage(%)
                                CCU2        5         3.5
                             FD1P3DX        9         5.2
-                           ORCALUT4       13         3.8
+                           ORCALUT4       13         3.5
                                 VHI        1         7.1
-                                VLO        1         9.1
+                                VLO        1         8.3
                             
                          TOTAL            29           
 ----------------------------------------------------------------------
@@ -137,11 +137,11 @@ Report for cell earlyPaketTimer.netlist
                                cell       count    Res Usage(%)
                                CCU2       11         7.8
                             FD1P3DX       21        12.1
-                           ORCALUT4       22         6.4
+                           ORCALUT4       24         6.5
                                 VHI        1         7.1
-                                VLO        1         9.1
+                                VLO        1         8.3
                             
-                         TOTAL            56           
+                         TOTAL            58           
 ----------------------------------------------------------------------
 Report for cell wordRegister_14_uADCRegister.netlist
   Original Cell name wordRegister_14
@@ -152,7 +152,7 @@ Report for cell wordRegister_14_uADCRegister.netlist
                             FD1S3DX        1         0.4
                            ORCALUT4        1         0.3
                                 VHI        1         7.1
-                                VLO        1         9.1
+                                VLO        1         8.3
                             
                          TOTAL            17           
 ----------------------------------------------------------------------
@@ -161,16 +161,18 @@ Report for cell wordRegister_14_uMonitorTimestampRegister.netlist
      Instance path:  uMonitorTimestampRegister
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX       14         8.1
+                            FD1P3DX       14         8.0
+                           ORCALUT4        2         0.5
                                 VHI        1         7.1
+                                VLO        1         8.3
                             
-                         TOTAL            15           
+                         TOTAL            18           
 ----------------------------------------------------------------------
 Report for cell wordRegister_10.netlist
      Instance path:  uMonitorAddressRegister
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1P3DX       10         5.8
+                            FD1P3DX       10         5.7
                                 VHI        1         7.1
                             
                          TOTAL            11           
@@ -181,7 +183,7 @@ Report for cell AERfifo.netlist
                                cell       count    Res Usage(%)
                             FIFO8KA        2       100.0
                                 VHI        1         7.1
-                                VLO        1         9.1
+                                VLO        1         8.3
                             
                          TOTAL             4           
 ----------------------------------------------------------------------
@@ -189,7 +191,7 @@ Report for cell shiftRegister.netlist
      Instance path:  shiftRegister_1
                                           Cell usage:
                                cell       count    Res Usage(%)
-                            FD1S3DX      160        68.4
+                            FD1S3DX      160        67.8
                                 INV        1        16.7
                                 VHI        1         7.1
                             
@@ -200,6 +202,6 @@ Report for cell clockgen.netlist
                                           Cell usage:
                                cell       count    Res Usage(%)
                             EHXPLLC        1       100.0
-                                VLO        1         9.1
+                                VLO        1         8.3
                             
                          TOTAL             2           

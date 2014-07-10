@@ -13,27 +13,27 @@
 
 Command line:   map -a MachXO -p LCMXO2280C -t FTBGA256 -s 3 -oc Commercial
      SBret20_SBret20.ngd -o SBret20_SBret20_map.ncd -pr SBret20_SBret20.prf -mp
-     SBret20_SBret20.mrp -lpf E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/S
-     Bret20/SBret20_SBret20_synplify.lpf -lpf
-     E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.lpf -gui
+     SBret20_SBret20.mrp C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/La
+     tticeMachXO/SBret20/SBret20.lpf
 Target Vendor:  LATTICE
 Target Device:  LCMXO2280CFTBGA256
 Target Performance:   3
-Mapper:  mj5g00,  version:  Diamond (64-bit) 3.2.0.134
-Mapped on:  07/08/14  11:24:27
+Mapper:  mj5g00,  version:  Diamond (64-bit) 2.2.0.101
+Mapped on:  07/09/14  14:21:07
 
 
 <A name="mrp_ds"></A><B><U><big>Design Summary</big></U></B>
-   Number of PFU registers:   415 out of  2280 (18%)
-   Number of SLICEs:       425 out of  1140 (37%)
-      SLICEs as Logic/ROM:    425 out of  1140 (37%)
-      SLICEs as RAM:            0 out of   240 (0%)
-      SLICEs as Carry:        141 out of  1140 (12%)
-   Number of LUT4s:        633 out of  2280 (28%)
-      Number of logic LUTs:      351
-      Number of distributed RAM:   0 (0 LUT4s)
-      Number of ripple logic:    141 (282 LUT4s)
-      Number of shift registers:   0
+   Number of PFU registers:    418
+   Number of SLICEs:           437 out of  1140 (38%)
+      SLICEs(logic/ROM):       437 out of   900 (49%)
+      SLICEs(logic/ROM/RAM):     0 out of   240 (0%)
+          As RAM:            0
+          As Logic/ROM:      0
+   Number of logic LUT4s:     378
+   Number of distributed RAM:   0 (0 LUT4s)
+   Number of ripple logic:    141 (282 LUT4s)
+   Number of shift registers:   0
+   Total number of LUT4s:     660
    Number of external PIOs: 91 out of 211 (43%)
    Number of PLLs:  1 out of 2 (50%)
    Number of block RAMs:  2 out of 3 (67%)
@@ -49,48 +49,50 @@ Mapped on:  07/08/14  11:24:27
       2. Number of logic LUT4s does not include count of distributed RAM and
      ripple logic.
    Number of clocks:  4
-     Net ClockxC: 81 loads, 81 rising, 0 falling (Driver: uClockGen/PLLCInst_0 )
+     Net ClockxC_c: 82 loads, 82 rising, 0 falling (Driver: uClockGen/PLLCInst_0
+     )
      Net IfClockxCI_c: 66 loads, 64 rising, 2 falling (Driver: PIO IfClockxCI )
      Net PC1xSIO_c: 40 loads, 40 rising, 0 falling (Driver: PIO PC1xSIO )
      Net PC2xSIO_c: 40 loads, 0 rising, 40 falling (Driver: PIO PC2xSIO )
-   Number of Clock Enables:  14
-     Net ADCStateMachine_1/N_137_i: 9 loads, 9 LSLICEs
+   Number of Clock Enables:  15
      Net ADCStateMachine_1/un1_StateRowxDP_3_0_a2_0_a2: 1 loads, 1 LSLICEs
      Net ADCStateMachine_1/DividerRowxDPe: 9 loads, 9 LSLICEs
      Net ADCStateMachine_1/DividerColxDPe: 17 loads, 17 LSLICEs
      Net ADCStateMachine_1/CountRowxDPe: 4 loads, 4 LSLICEs
-     Net N_147_i: 7 loads, 7 LSLICEs
-     Net monitorStateMachine_1.N_288_i: 7 loads, 7 LSLICEs
-     Net monitorStateMachine_1.N_179_i: 5 loads, 5 LSLICEs
+     Net ADCStateMachine_1/N_137_i: 9 loads, 9 LSLICEs
+     Net N_144_i: 7 loads, 7 LSLICEs
      Net FifoWritexE: 2 loads, 0 LSLICEs
-     Net FifoReadxE: 2 loads, 0 LSLICEs
-     Net uEarlyPaketTimer.CountxDPe: 11 loads, 11 LSLICEs
+     Net monitorStateMachine_1.N_291_i: 6 loads, 6 LSLICEs
+     Net N_212_i: 1 loads, 1 LSLICEs
+     Net monitorStateMachine_1.N_182_i: 5 loads, 5 LSLICEs
 
-     Net uSynchronizerStateMachine_1/CounterxDPe: 8 loads, 8 LSLICEs
-     Net uTimestampCounter/CountxDPce[0]: 8 loads, 8 LSLICEs
-     Net uEventCounter/CountxDPe: 5 loads, 5 LSLICEs
-   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  297
+     Net FifoReadxE: 2 loads, 0 LSLICEs
+     Net uSynchronizerStateMachine_1/CounterxDPe: 7 loads, 7 LSLICEs
+     Net N_24_i: 9 loads, 9 LSLICEs
+     Net uEventCounter/N_302_i: 5 loads, 5 LSLICEs
+     Net uEarlyPaketTimer/CountxDPe: 11 loads, 11 LSLICEs
+   Number of local set/reset loads for net ResetxRBI_c merged into GSR:  299
    Number of LSRs:  3
-     Net ADCStateMachine_1/ResetxRB_i: 53 loads, 53 LSLICEs
+     Net N_444_i: 53 loads, 53 LSLICEs
+     Net ResetTimestampxSBO_i: 10 loads, 10 LSLICEs
      Net ResetxRBI_c: 4 loads, 0 LSLICEs
-     Net ResetTimestampxSBO_i_a3_0_1: 9 loads, 9 LSLICEs
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
-     Net ADCStateMachine_1/StateColxDP[5]: 60 loads
-     Net ADCStateMachine_1/ResetxRB_i: 53 loads
-     Net FifoReadxE: 37 loads
+     Net N_444_i: 53 loads
+     Net ADCStateMachine_1/StateColxDP[10]: 37 loads
      Net fifoStatemachine_1.StatexDP[0]: 37 loads
-     Net ADCStateMachine_1/statecolxdn29_li: 36 loads
-     Net ADCStateMachine_1/DividerColxDPlde_0_o2_0: 34 loads
-     Net ECResetEarlyPaketTimerxS: 32 loads
-     Net uSynchronizerStateMachine_1/N_154: 26 loads
-     Net monitorStateMachine_1/TimestampResetxDP: 23 loads
-     Net ReadADCvaluexE: 22 loads
+     Net ADCStateMachine_1/N_108_3: 36 loads
+     Net FifoReadxE: 36 loads
+     Net ECResetEarlyPaketTimerxS: 34 loads
+     Net ADCStateMachine_1/un1_StateColxDN_1_sqmuxa_0_o4_0_0: 33 loads
+     Net ADCStateMachine_1/StateColxDP[5]: 28 loads
+     Net ReadADCvaluexE: 25 loads
+     Net monitorStateMachine_1.TimestampResetxDP: 23 loads
 
 
 
 
-   Number of warnings:  8
+   Number of warnings:  7
    Number of errors:    0
 
 
@@ -98,24 +100,22 @@ Mapped on:  07/08/14  11:24:27
 
 <A name="mrp_dwe"></A><B><U><big>Design Errors/Warnings</big></U></B>
 
-WARNING - map: E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.lpf(3):
-     Semantic error in "FREQUENCY NET "ClockxC_c" 90.000000 MHz ;": ClockxC_c
-     matches no clock nets in the design.  Disable this preference.
-WARNING - map: E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.lpf(5):
-     Semantic error in "USE PRIMARY NET "ClockxC_c" ;": ClockxC_c matches no
-     nets in the design. Disable this preference.
-WARNING - map:
-     E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.lpf(146): Semantic
-     error in "OUTPUT PORT "SynchOutxSO" LOAD 1.000000 pF ;": SynchOutxSO
-     matches no ports in the design.  Disable this preference.
-WARNING - map: Preference parsing results:  3 semantic errors detected
+WARNING - map: Semantic Error: SynchOutxSO matches no ports in the design.
+     Occurred at line 146 in "OUTPUT PORT "SynchOutxSO" LOAD 1.000000 pF ;
+".
+     Disabled this preference.
+WARNING - map: Semantic Error: SynchOutxSO matches no ports in the design.
+     Occurred at line 180 in "OUTPUT PORT "SynchOutxSO" LOAD 1.000000 pF ;
+".
+     Disabled this preference.
+WARNING - map: Preference parsing results:  2 semantic errors detected
+WARNING - map: There are errors in the preference file, "C:/Users/Haza/Documents
+     /jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.lpf".
 WARNING - map: Using local reset signal 'ResetxRBI_c' to infer global GSR net.
 WARNING - map: IO buffer missing for top level port FXLEDxSI...logic will be
      discarded.
 WARNING - map: IO buffer missing for top level port ADCovrxSI...logic will be
      discarded.
-WARNING - map: There are semantic errors in the preference file
-     E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20.lpf.
 
 
 
@@ -125,9 +125,9 @@ WARNING - map: There are semantic errors in the preference file
 | IO Name             | Direction | Levelmode | IO         | FIXEDDELAY |
 |                     |           |  IO_TYPE  | Register   |            |
 +---------------------+-----------+-----------+------------+------------+
-
 | DebugxSIO[1]        | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
+
 | FX2FifoDataxDIO[0]  | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | FX2FifoInFullxSBI   | INPUT     | LVCMOS33  |            |            |
@@ -182,9 +182,9 @@ WARNING - map: There are semantic errors in the preference file
 +---------------------+-----------+-----------+------------+------------+
 | DebugxSIO[3]        | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
-
 | DebugxSIO[2]        | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
+
 | DebugxSIO[0]        | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | LED3xSO             | OUTPUT    | LVCMOS33  |            |            |
@@ -239,9 +239,9 @@ WARNING - map: There are semantic errors in the preference file
 +---------------------+-----------+-----------+------------+------------+
 | ADCwordxDI[0]       | INPUT     | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
-
 | ADCclockxCO         | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
+
 | PE3xSI              | INPUT     | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | PE2xSI              | INPUT     | LVCMOS33  |            |            |
@@ -296,9 +296,9 @@ WARNING - map: There are semantic errors in the preference file
 +---------------------+-----------+-----------+------------+------------+
 | FX2FifoDataxDIO[8]  | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
-
 | FX2FifoDataxDIO[7]  | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
+
 | FX2FifoDataxDIO[6]  | OUTPUT    | LVCMOS33  |            |            |
 +---------------------+-----------+-----------+------------+------------+
 | FX2FifoDataxDIO[5]  | OUTPUT    | LVCMOS33  |            |            |
@@ -318,6 +318,8 @@ WARNING - map: There are semantic errors in the preference file
 
 Block shiftRegister_1/VCC undriven or does not drive anything - clipped.
 Block uMonitorAddressRegister/VCC undriven or does not drive anything - clipped.
+Block uMonitorTimestampRegister/GND undriven or does not drive anything -
+     clipped.
 Block uMonitorTimestampRegister/VCC undriven or does not drive anything -
      clipped.
 Block uADCRegister/VCC undriven or does not drive anything - clipped.
@@ -342,8 +344,8 @@ Signal uSynchronizerStateMachine_1/GND undriven or does not drive anything -
      clipped.
 Signal uSynchronizerStateMachine_1/VCC undriven or does not drive anything -
      clipped.
-Signal monitorStateMachine_1/GND undriven or does not drive anything - clipped.
 Signal monitorStateMachine_1/VCC undriven or does not drive anything - clipped.
+Signal monitorStateMachine_1/GND undriven or does not drive anything - clipped.
 Signal ADCStateMachine_1/GND undriven or does not drive anything - clipped.
 Signal uClockGen/CLKINTFB undriven or does not drive anything - clipped.
 Signal uClockGen/LockxS undriven or does not drive anything - clipped.
@@ -383,8 +385,8 @@ Signal uFifo/DO10 undriven or does not drive anything - clipped.
 Signal uFifo/DO9 undriven or does not drive anything - clipped.
 Signal uFifo/DO8 undriven or does not drive anything - clipped.
 Signal uFifo/DO7 undriven or does not drive anything - clipped.
-Signal uFifo/AlmostFull undriven or does not drive anything - clipped.
-Signal uFifo/AlmostEmpty undriven or does not drive anything - clipped.
+Signal uFifo/FifoAlmostFullxS undriven or does not drive anything - clipped.
+Signal uFifo/FifoAlmostEmptyxS undriven or does not drive anything - clipped.
 Signal uFifo/DO35_0 undriven or does not drive anything - clipped.
 Signal uFifo/DO34_0 undriven or does not drive anything - clipped.
 Signal uFifo/DO33_0 undriven or does not drive anything - clipped.
@@ -453,26 +455,26 @@ Signal uEventCounter/CountxDP_s_0_COUT1[8] undriven or does not drive anything -
      clipped.
 Signal uEventCounter/CountxDP_s_0_COUT0[8] undriven or does not drive anything -
      clipped.
-Signal uTimestampCounter/CountxDP_cry_s1[0] undriven or does not drive anything
-     - clipped.
-Signal uTimestampCounter/CountxDP_cry_s1[2] undriven or does not drive anything
-     - clipped.
-Signal uTimestampCounter/CountxDP_cry_s1[4] undriven or does not drive anything
-     - clipped.
-Signal uTimestampCounter/CountxDP_cry_s1[6] undriven or does not drive anything
-     - clipped.
-Signal uTimestampCounter/CountxDP_cry_s1[8] undriven or does not drive anything
-     - clipped.
-Signal uTimestampCounter/CountxDP_cry_s1[10] undriven or does not drive anything
-     - clipped.
-Signal uTimestampCounter/CountxDP_cry_s1[12] undriven or does not drive anything
-     - clipped.
-Signal uTimestampCounter/CountxDP_s_s1_0_S1[14] undriven or does not drive
+Signal uTimestampCounter/CountxDP_cry[0] undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry[2] undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry[4] undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry[6] undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry[8] undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry[10] undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_cry[12] undriven or does not drive anything -
+     clipped.
+Signal uTimestampCounter/CountxDP_s_0_S1[14] undriven or does not drive anything
 
+     - clipped.
+Signal uTimestampCounter/CountxDP_s_0_COUT1[14] undriven or does not drive
      anything - clipped.
-Signal uTimestampCounter/CountxDP_s_s1_0_COUT1[14] undriven or does not drive
-     anything - clipped.
-Signal uTimestampCounter/CountxDP_s_s1_0_COUT0[14] undriven or does not drive
+Signal uTimestampCounter/CountxDP_s_0_COUT0[14] undriven or does not drive
      anything - clipped.
 Signal uSynchronizerStateMachine_1/DividerxDP_cry[0] undriven or does not drive
      anything - clipped.
@@ -972,8 +974,8 @@ Block uTimestampCounter/GND was optimized away.
 Block uTimestampCounter/VCC was optimized away.
 Block uSynchronizerStateMachine_1/GND was optimized away.
 Block uSynchronizerStateMachine_1/VCC was optimized away.
-Block monitorStateMachine_1/GND was optimized away.
 Block monitorStateMachine_1/VCC was optimized away.
+Block monitorStateMachine_1/GND was optimized away.
 Block ADCStateMachine_1/GND was optimized away.
 
 
@@ -1008,10 +1010,10 @@ PLL 1:                                     Pin/Node Value
   PLL Instance Name:                                uClockGen/PLLCInst_0
   PLL Type:                                         EHXPLLC
   Input Clock:                             PIN      IfClockxCI_c
-  Output Clock(P):                         NODE     ClockxC
+  Output Clock(P):                         NODE     ClockxC_c
   Output Clock(S):                                  NONE
   Output Clock(K):                                  NONE
-  PLL FeedbackSignal:                      NODE     ClockxC
+  PLL FeedbackSignal:                      NODE     ClockxC_c
   PLLResetSignal:                          NODE     ResetxRBI_c_i
   PLLLOCKSignal:                                    NONE
   DynamicDelayModeSignal:                           NONE
@@ -1083,7 +1085,7 @@ Type and instance name of component:
 
    Total CPU Time: 0 secs
    Total REAL Time: 0 secs
-   Peak Memory Usage: 39 MB
+   Peak Memory Usage: 41 MB
 
 
 
@@ -1118,7 +1120,7 @@ Copyright (c) 1995-2001 Lucent
      Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems
      All rights reserved.
-Copyright (c) 2002-2014 Lattice Semiconductor
+Copyright (c) 2002-2013 Lattice Semiconductor
      Corporation,  All rights reserved.
 
 

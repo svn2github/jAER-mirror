@@ -19,9 +19,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20/SBret20_SBret20.jed</File>
-			<FileTime>07/08/14 11:25:02</FileTime>
-			<JedecChecksum>0xA73D</JedecChecksum>
+			<File>C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20/SBret20_SBret20.jed</File>
+			<FileTime>07/09/14 14:21:29</FileTime>
+			<JedecChecksum>0x9EA8</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>

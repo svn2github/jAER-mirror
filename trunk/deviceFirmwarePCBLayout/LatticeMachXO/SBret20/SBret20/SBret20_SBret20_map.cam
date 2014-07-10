@@ -15,8 +15,8 @@ uTimestampCounter/GND
 uTimestampCounter/VCC
 uSynchronizerStateMachine_1/GND
 uSynchronizerStateMachine_1/VCC
-monitorStateMachine_1/GND
 monitorStateMachine_1/VCC
+monitorStateMachine_1/GND
 ADCStateMachine_1/GND
 uClockGen/CLKINTFB
 uClockGen/LockxS
@@ -55,8 +55,8 @@ uFifo/DO10
 uFifo/DO9
 uFifo/DO8
 uFifo/DO7
-uFifo/AlmostFull
-uFifo/AlmostEmpty
+uFifo/FifoAlmostFullxS
+uFifo/FifoAlmostEmptyxS
 uFifo/DO35_0
 uFifo/DO34_0
 uFifo/DO33_0
@@ -104,16 +104,16 @@ uEventCounter/CountxDP_cry[6]
 uEventCounter/CountxDP_s_0_S1[8]
 uEventCounter/CountxDP_s_0_COUT1[8]
 uEventCounter/CountxDP_s_0_COUT0[8]
-uTimestampCounter/CountxDP_cry_s1[0]
-uTimestampCounter/CountxDP_cry_s1[2]
-uTimestampCounter/CountxDP_cry_s1[4]
-uTimestampCounter/CountxDP_cry_s1[6]
-uTimestampCounter/CountxDP_cry_s1[8]
-uTimestampCounter/CountxDP_cry_s1[10]
-uTimestampCounter/CountxDP_cry_s1[12]
-uTimestampCounter/CountxDP_s_s1_0_S1[14]
-uTimestampCounter/CountxDP_s_s1_0_COUT1[14]
-uTimestampCounter/CountxDP_s_s1_0_COUT0[14]
+uTimestampCounter/CountxDP_cry[0]
+uTimestampCounter/CountxDP_cry[2]
+uTimestampCounter/CountxDP_cry[4]
+uTimestampCounter/CountxDP_cry[6]
+uTimestampCounter/CountxDP_cry[8]
+uTimestampCounter/CountxDP_cry[10]
+uTimestampCounter/CountxDP_cry[12]
+uTimestampCounter/CountxDP_s_0_S1[14]
+uTimestampCounter/CountxDP_s_0_COUT1[14]
+uTimestampCounter/CountxDP_s_0_COUT0[14]
 uSynchronizerStateMachine_1/DividerxDP_cry[0]
 uSynchronizerStateMachine_1/DividerxDP_cry[2]
 uSynchronizerStateMachine_1/DividerxDP_cry[4]
@@ -355,7 +355,7 @@ ADCStateMachine_1/un1_DividerColxDP_cry_0_COUT1[31]
 [ END CLIPPED ]
 [ START DESIGN PREFS ]
 SCHEMATIC START ;
-# map:  version Diamond (64-bit) 3.2.0.134 -- WARNING: Map write only section -- Tue Jul 08 11:24:27 2014
+# map:  version Diamond (64-bit) 2.2.0.101 -- WARNING: Map write only section -- Wed Jul 09 14:21:08 2014
 
 SYSCONFIG INBUF=ON CONFIG_SECURE=OFF ;
 LOCATE COMP "DebugxSIO[1]" SITE "T12" ;
@@ -449,8 +449,9 @@ LOCATE COMP "FX2FifoDataxDIO[4]" SITE "N2" ;
 LOCATE COMP "FX2FifoDataxDIO[3]" SITE "P1" ;
 LOCATE COMP "FX2FifoDataxDIO[2]" SITE "P2" ;
 LOCATE COMP "FX2FifoDataxDIO[1]" SITE "R1" ;
-FREQUENCY NET "ClockxC" 90.000000 MHz ;
 FREQUENCY NET "IfClockxCI_c" 30.000000 MHz ;
+USE PRIMARY NET "ClockxC_c" ;
+FREQUENCY NET "ClockxC_c" 90.000000 MHz ;
 USE PRIMARY NET "IfClockxCI_c" ;
 SCHEMATIC END ;
 [ END DESIGN PREFS ]

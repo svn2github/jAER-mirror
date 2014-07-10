@@ -1,37 +1,36 @@
 #--  Synopsys, Inc.
-#--  Version I-2013.09L-SP1-1 
-#--  Project file E:\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\scratchproject.prs
+#--  Version G-2012.09L-SP1 
+#--  Project file C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20\scratchproject.prs
 
 #project files
-add_file -vhdl -lib work "C:/lscc/diamond/3.2_x64/cae_library/synthesis/vhdl/machxo.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/wordRegister.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/earlyPaketTimer.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/EventBeforeOverflow.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/eventCounter.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/fifoStatemachine.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/monitorStateMachine.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/synchronizerStateMachine.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/timestampCounter.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/ADCvalueReady.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/cDVSResetStateMachine.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/shiftRegister.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/ADCStateMachine.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/AERfifo.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/clockgen.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/USBAER_top_level.vhd"
-add_file -vhdl -lib work "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/ADCStateMachine_tb.vhd"
-
+add_file -vhdl -lib work "D:/lscc/diamond/2.2_x64/cae_library/synthesis/vhdl/machxo.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/wordRegister.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/earlyPaketTimer.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/EventBeforeOverflow.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/eventCounter.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/fifoStatemachine.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/monitorStateMachine.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/synchronizerStateMachine.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/timestampCounter.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/ADCvalueReady.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/cDVSResetStateMachine.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/shiftRegister.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/ADCStateMachine.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/AERfifo.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/clockgen.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/sourcecode/USBAER_top_level.vhd"
+add_file -vhdl -lib work "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/ADCStateMachine_tb.vhd"
 
 
 #implementation: "SBret20"
-impl -add E:\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20 -type fpga
+impl -add C:\Users\Haza\Documents\jAER\deviceFirmwarePCBLayout\LatticeMachXO\SBret20\SBret20 -type fpga
 
 #
 #implementation attributes
 
 set_option -vlog_std v2001
 set_option -project_relative_includes 1
-set_option -include_path {E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20/}
+set_option -include_path {C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20/}
 
 #device options
 set_option -technology MACHXO
@@ -59,7 +58,6 @@ set_option -fix_gated_and_generated_clocks 1
 set_option -RWCheckOnRam 1
 set_option -update_models_cp 0
 set_option -syn_edif_array_rename 1
-set_option -Write_declared_clocks_only 1
 
 # sequential_optimization_options
 set_option -symbolic_fsm_compiler 1
@@ -69,15 +67,12 @@ set_option -compiler_compatible 0
 set_option -resource_sharing 1
 set_option -multi_file_compilation_unit 1
 
-# Compiler Options
-set_option -auto_infer_blackbox 0
-
 #automatic place and route (vendor) options
 set_option -write_apr_constraint 1
 
 #set result format/file last
-project -result_file "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20/SBret20_SBret20.edi"
+project -result_file "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20/SBret20_SBret20.edi"
 
 #set log file 
-set_option log_file "E:/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20/SBret20_SBret20.srf" 
+set_option log_file "C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret20/SBret20/SBret20_SBret20.srf" 
 impl -active "SBret20"
