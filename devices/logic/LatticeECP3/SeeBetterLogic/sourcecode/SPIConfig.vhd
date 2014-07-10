@@ -128,7 +128,7 @@ begin  -- architecture Behavioral
 			Overflow_SO	 => open,
 			Data_DO		 => SPIInputCount_D);
 
-	spiCommunication : process (State_DP, SPIInputContent_D, SPIInputCount_D, SPISlaveSelect_SBI, SPIReadMOSI_S, ReadOperationReg_SP, ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP)
+	spiCommunication : process (State_DP, SPIInputContent_D, SPIInputCount_D, SPISlaveSelect_SBI, SPIReadMOSI_S, ReadOperationReg_SP, ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP, ParamOutput_DP)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;
@@ -160,7 +160,7 @@ begin  -- architecture Behavioral
 				end if;
 
 				-- Keep input elements clear while idling.
-				SPIInputSRegMode_S	   <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+				SPIInputSRegMode_S	   <= SHIFTREGISTER_MODE_PARALLEL_CLEAR;
 				SPIInputCounterClear_S <= '1';
 
 			when stInput =>
@@ -210,7 +210,18 @@ begin  -- architecture Behavioral
 					when others => null;
 				end case;
 
-			when stOutput => null;
+			when stOutput =>
+				-- Push out MSB to MISO.
+				-- TODO: slide along the register.
+				SPIMISO_ZO <= ParamOutput_DP(0);
+
+				if SPIWriteMISO_S = '1' then
+					SPIInputCounterEnable_S <= '1';
+				end if;
+
+				if SPIInputCount_D = to_unsigned(48, 6) then
+					State_DN <= stIdle;
+				end if;
 
 			when others => null;
 		end case;
