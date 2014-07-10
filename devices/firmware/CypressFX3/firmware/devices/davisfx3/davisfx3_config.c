@@ -451,7 +451,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			CyFxGpioTurnOn(FPGA_SPI_SSN);
 
 			// Highest bit of first byte is one to indicate read operation.
-			CyFxWriteByteToShiftReg((uint8_t) (wValue | 0x10), FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+			CyFxWriteByteToShiftReg((uint8_t) (wValue | 0x80), FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
 			CyFxWriteByteToShiftReg((uint8_t) wIndex, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
 
 			for (size_t i = 0; i < wLength; i++) {
@@ -531,7 +531,9 @@ static inline uint8_t CyFxReadByteFromShiftReg(uint8_t clockID, uint8_t bitID) {
 		CyFxGpioTurnOff(clockID);
 
 		// Shift left by one, progressively moving the first set bit to be the MSB.
-		byte = (uint8_t) (byte << 1);
+		if (i != 7) {
+			byte = (uint8_t) (byte << 1);
+		}
 	}
 
 	return (byte);
