@@ -37,7 +37,7 @@ entity TopLevel is
 		ChipBiasDiagSelect_SO : out std_logic;
 		--ChipBiasBitOut_DI : in std_logic;
 
-		DVSAERData_DI	: in  std_logic_vector(AER_BUS_WIDTH-1 downto 0);
+		DVSAERData_AI	: in  std_logic_vector(AER_BUS_WIDTH-1 downto 0);
 		DVSAERReq_ABI	: in  std_logic;
 		DVSAERAck_SBO	: out std_logic;
 		DVSAERReset_SBO : out std_logic;
@@ -425,7 +425,7 @@ begin
 			Reset_RI		=> LogicReset_R,
 			OutFifo_I		=> DVSAERFifo_O.WriteSide,
 			OutFifo_O		=> DVSAERFifo_I.WriteSide,
-			DVSAERData_DI	=> DVSAERData_DI,
+			DVSAERData_DI	=> DVSAERData_AI,
 			DVSAERReq_SBI	=> DVSAERReqSync_SB,
 			DVSAERAck_SBO	=> DVSAERAck_SBO,
 			DVSAERReset_SBO => DVSAERReset_SBO,
