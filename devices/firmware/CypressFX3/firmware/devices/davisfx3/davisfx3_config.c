@@ -16,10 +16,10 @@ gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
 	// { 27, 'O' }, /* GPIO 27: Clock for Inertial Measurement Unit */
 	{ 33, 'O' }, /* GPIO 33: FPGA_Reset */
 	{ 34, 'O' }, /* GPIO 34: FX3_LED */
-	//{ 35, 'O' }, /* GPIO 35 (Px0): FPGA_Run */
-	//{ 36, 'O' }, /* GPIO 36 (Px1): DVS_Run */
-	//{ 37, 'O' }, /* GPIO 37 (Px2): APS_Run */
-	//{ 38, 'O' }, /* GPIO 38 (Px3): IMU_Run */
+	//{ 35, 'O' }, /* GPIO 35 (Px0): */
+	//{ 36, 'O' }, /* GPIO 36 (Px1): */
+	//{ 37, 'O' }, /* GPIO 37 (Px2): */
+	{ 38, 'O' }, /* GPIO 38 (Px3): FPGA_SPI_ALTSSN */
 	{ 39, 'o' }, /* GPIO 39 (Px4): FPGA_SPI_SSN (active-low) */
 	{ 40, 'O' }, /* GPIO 40 (Px5): FPGA_SPI_Clock */
 	{ 41, 'O' }, /* GPIO 41 (Px6): FPGA_SPI_MOSI */
@@ -39,6 +39,7 @@ const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecif
 
 // Define GPIO to function mappings.
 #define FPGA_RESET 33
+#define FPGA_SPI_ALTSSN 38
 #define FPGA_SPI_SSN 39
 #define FPGA_SPI_CLOCK 40
 #define FPGA_SPI_MOSI 41
@@ -61,6 +62,7 @@ void CyFxHandleCustomGPIO_DeviceSpecific(uint8_t gpioId) {
 
 extern uint8_t CyFxUSBSerialNumberDscr[];
 static inline void CyFxWriteByteToShiftReg(uint8_t byte, uint8_t clockID, uint8_t bitID);
+static inline uint8_t CyFxReadByteFromShiftReg(uint8_t clockID, uint8_t bitID);
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void);
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void);
 
@@ -396,33 +398,76 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 			break;
 
-		case FX3_REQ_DIR(VR_FPGA_CONFIG, FX3_USB_DIRECTION_IN): {
-			if (wLength == 0) {
+		case FX3_REQ_DIR(VR_FPGA_CONFIG, FX3_USB_DIRECTION_IN):
+			if (wLength != 4 && ((wValue & 0x0100) != 0 && wLength != 0)) {
 				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG: zero byte transfer invalid", status);
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG WRITE: only 4 byte writes are supported", status);
 				break;
 			}
 
 			// Get data from USB control endpoint.
 			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
 			if (status != CY_U3P_SUCCESS) {
-				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG: CyU3PUsbGetEP0Data failed", status);
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG WRITE: CyU3PUsbGetEP0Data failed", status);
 				break;
 			}
 
-			// Write out all configuration bytes to the FPGA, using its SPI bus.
-			// Only writing is supported for now via bit-banging the SPI interface.
+			if ((wValue & 0x0100) != 0) {
+				// Write out special configuration values using alternative SPI bus.
+				// NOTE: this is temporary to support specialized usage by ATC.
+				CyFxWriteByteToShiftReg((uint8_t) wValue, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxWriteByteToShiftReg((uint8_t) wIndex, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+
+				CyFxGpioTurnOn(FPGA_SPI_ALTSSN);
+				CyFxGpioTurnOff(FPGA_SPI_ALTSSN);
+			}
+			else {
+				// Write out all configuration bytes to the FPGA, using its SPI bus.
+				// Newer boards will migrate this to the embedded SPI controller for full-duplex.
+				CyFxGpioTurnOn(FPGA_SPI_SSN);
+
+				// Highest bit of first byte is zero to indicate write operation.
+				CyFxWriteByteToShiftReg((uint8_t) (wValue & 0x7F), FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				CyFxWriteByteToShiftReg((uint8_t) wIndex, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+
+				for (size_t i = 0; i < wLength; i++) {
+					CyFxWriteByteToShiftReg(glEP0Buffer[i], FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				}
+
+				CyFxGpioTurnOff(FPGA_SPI_SSN);
+			}
+
+			break;
+
+		case FX3_REQ_DIR(VR_FPGA_CONFIG, FX3_USB_DIRECTION_OUT):
+			if (wLength != 4) {
+				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG READ: only 4 byte reads are supported", status);
+				break;
+			}
+
+			// Read configuration bits from the FPGA, using its SPI bus.
 			// Newer boards will migrate this to the embedded SPI controller for full-duplex.
 			CyFxGpioTurnOn(FPGA_SPI_SSN);
 
+			// Highest bit of first byte is one to indicate read operation.
+			CyFxWriteByteToShiftReg((uint8_t) (wValue | 0x10), FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+			CyFxWriteByteToShiftReg((uint8_t) wIndex, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+
 			for (size_t i = 0; i < wLength; i++) {
-				CyFxWriteByteToShiftReg(glEP0Buffer[i], FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+				glEP0Buffer[i] = CyFxReadByteFromShiftReg(FPGA_SPI_CLOCK, FPGA_SPI_MISO);
 			}
 
 			CyFxGpioTurnOff(FPGA_SPI_SSN);
 
+			// Send content back to host.
+			status = CyU3PUsbSendEP0Data(4, glEP0Buffer);
+			if (status != CY_U3P_SUCCESS) {
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG READ: CyU3PUsbSendEP0Data failed", status);
+				break;
+			}
+
 			break;
-		}
 
 		default:
 			// Not handled in this module
@@ -463,6 +508,33 @@ static inline void CyFxWriteByteToShiftReg(uint8_t byte, uint8_t clockID, uint8_
 		// Shift left by one, making the second highest bit the highest.
 		byte = (uint8_t) (byte << 1);
 	}
+}
+
+static inline uint8_t CyFxReadByteFromShiftReg(uint8_t clockID, uint8_t bitID) {
+	// Disable clock.
+	CyFxGpioTurnOff(clockID);
+
+	uint8_t byte = 0;
+
+	for (size_t i = 0; i < 8; i++) {
+		// Pulse clock to signal slave to output new value.
+		CyFxGpioTurnOn(clockID);
+
+		// Get the current bit value, based on the GPIO value.
+		if (CyFxGpioGet(bitID)) {
+			byte |= 1;
+		}
+		else {
+			byte |= 0;
+		}
+
+		CyFxGpioTurnOff(clockID);
+
+		// Shift left by one, progressively moving the first set bit to be the MSB.
+		byte = (uint8_t) (byte << 1);
+	}
+
+	return (byte);
 }
 
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void) {
