@@ -61,7 +61,7 @@ architecture Behavioral of SPIConfig is
 			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component ContinuousCounter;
 
-	type state is (stIdle, stInput, stOutputLoad, stOutput);
+	type state is (stIdle, stInput, stOutput);
 
 	attribute syn_enum_encoding			 : string;
 	attribute syn_enum_encoding of state : type is "onehot";
@@ -74,7 +74,7 @@ architecture Behavioral of SPIConfig is
 	signal SPIInputSRegMode_S							 : std_logic_vector(SHIFTREGISTER_MODE_SIZE-1 downto 0);
 	signal SPIInputContent_D							 : std_logic_vector(7 downto 0);
 	signal SPIOutputSRegMode_S							 : std_logic_vector(SHIFTREGISTER_MODE_SIZE-1 downto 0);
-	signal SPIOutputContent_D							 : std_logic_vector(32 downto 0);
+	signal SPIOutputContent_D							 : std_logic_vector(31 downto 0);
 	signal SPIOutputLoad_D								 : std_logic_vector(31 downto 0);
 	signal SPIBitCounterClear_S, SPIBitCounterEnable_S	 : std_logic;
 	signal SPIBitCount_D								 : unsigned(5 downto 0);
@@ -118,18 +118,15 @@ begin  -- architecture Behavioral
 			ParallelWrite_DI => (others => '0'),
 			ParallelRead_DO	 => SPIInputContent_D);
 
-	-- SIZE is 33 here for 32 bits, because at the start we have to keep
-	-- outputting zero to MISO for a few cycles, and then count up and shift
-	-- left. Widening this to add a bit in front is the easiest solution.
 	spiOutputShiftRegister : ShiftRegister
 		generic map (
-			SIZE => 33)
+			SIZE => 32)
 		port map (
 			Clock_CI		 => Clock_CI,
 			Reset_RI		 => Reset_RI,
 			Mode_SI			 => SPIOutputSRegMode_S,
 			DataIn_DI		 => '0',
-			ParallelWrite_DI => '0' & SPIOutputLoad_D,
+			ParallelWrite_DI => SPIOutputLoad_D,
 			ParallelRead_DO	 => SPIOutputContent_D);
 
 	spiBitCounter : ContinuousCounter
@@ -145,7 +142,7 @@ begin  -- architecture Behavioral
 			Overflow_SO	 => open,
 			Data_DO		 => SPIBitCount_D);
 
-	spiCommunication : process (State_DP, SPIInputContent_D, SPIOutputContent_D, SPIBitCount_D, SPISlaveSelect_SBI, SPIReadMOSI_S, ReadOperationReg_SP, ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP)
+	spiCommunication : process (State_DP, SPIInputContent_D, SPIOutputContent_D, SPIBitCount_D, SPISlaveSelect_SBI, SPIReadMOSI_S, SPIWriteMISO_S, ReadOperationReg_SP, ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;
@@ -199,9 +196,7 @@ begin  -- architecture Behavioral
 						ParamAddressReg_DN <= SPIInputContent_D(7 downto 0);
 
 						if ReadOperationReg_SP = '1' then
-							-- Load output on next cycle, to allow
-							-- ParamAddressReg to actually be updated first.
-							State_DN <= stOutputLoad;
+							State_DN <= stOutput;
 						end if;
 
 					when to_unsigned(24, 6) =>
@@ -224,22 +219,17 @@ begin  -- architecture Behavioral
 					when others => null;
 				end case;
 
-			when stOutputLoad =>
-				-- Push out zero to MISO.
-				SPIMISOReg_Z <= '0';
-
-				-- If read operation, copy the current
-				-- configuration parameter content to a register so
-				-- we can output it later and switch to output state.
-				SPIOutputSRegMode_S <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-				State_DN			<= stOutput;
-
 			when stOutput =>
 				-- Push out MSB to MISO.
-				SPIMISOReg_Z <= SPIOutputContent_D(32);
+				SPIMISOReg_Z <= SPIOutputContent_D(31);
 
 				if SPIWriteMISO_S = '1' then
-					SPIOutputSRegMode_S	  <= SHIFTREGISTER_MODE_SHIFT_LEFT;
+					if SPIBitCount_D = to_unsigned(16, 6) then
+						SPIOutputSRegMode_S <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+					else
+						SPIOutputSRegMode_S <= SHIFTREGISTER_MODE_SHIFT_LEFT;
+					end if;
+
 					SPIBitCounterEnable_S <= '1';
 				end if;
 
