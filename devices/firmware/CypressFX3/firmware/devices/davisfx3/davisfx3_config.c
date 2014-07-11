@@ -406,10 +406,15 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			}
 
 			// Get data from USB control endpoint.
-			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
-			if (status != CY_U3P_SUCCESS) {
-				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG WRITE: CyU3PUsbGetEP0Data failed", status);
-				break;
+			if (wLength != 0) {
+				status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
+				if (status != CY_U3P_SUCCESS) {
+					CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG WRITE: CyU3PUsbGetEP0Data failed", status);
+					break;
+				}
+			}
+			else {
+				CyU3PUsbAckSetup();
 			}
 
 			if ((wValue & 0x0100) != 0) {
