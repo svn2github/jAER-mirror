@@ -94,9 +94,10 @@ architecture Behavioral of MultiplexerStateMachine is
 	signal TimestampOverflow_S : std_logic;
 	signal Timestamp_D		   : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
 
-	signal TimestampResetBufferClear_S : std_logic;
-	signal TimestampResetBufferInput_S : std_logic;
-	signal TimestampResetBuffer_S	   : std_logic;
+	signal TimestampResetExternalDetected_S : std_logic;
+	signal TimestampResetBufferClear_S		: std_logic;
+	signal TimestampResetBufferInput_S		: std_logic;
+	signal TimestampResetBuffer_S			: std_logic;
 
 	signal TimestampOverflowBufferClear_S	 : std_logic;
 	signal TimestampOverflowBufferOverflow_S : std_logic;
@@ -115,9 +116,16 @@ begin
 			TimestampOverflow_SO => TimestampOverflow_S,
 			Timestamp_DO		 => Timestamp_D);
 
-	TimestampResetBufferInput_S <= MultiplexerConfig_DI.TimestampReset_S or TimestampOverflowBufferOverflow_S;
+	tsResetExternalDetector : PulseDetector
+		port map (
+			Clock_CI		 => Clock_CI,
+			Reset_RI		 => Reset_RI,
+			InputSignal_SI	 => MultiplexerConfig_DI.TimestampReset_S,
+			PulseDetected_SO => TimestampResetExternalDetected_S);
 
-	resetBuffer : BufferClear
+	TimestampResetBufferInput_S <= TimestampResetExternalDetected_S or TimestampOverflowBufferOverflow_S;
+
+	tsResetBuffer : BufferClear
 		port map (
 			Clock_CI		=> Clock_CI,
 			Reset_RI		=> Reset_RI,
@@ -140,7 +148,7 @@ begin
 	-- between the device and host time. The only correct solution at this
 	-- point is to force a timestamp reset event to be sent, so that both
 	-- device and host re-synchronize on zero.
-	overflowBuffer : ContinuousCounter
+	tsOverflowBuffer : ContinuousCounter
 		generic map (
 			COUNTER_WIDTH	 => OVERFLOW_WIDTH,
 			SHORT_OVERFLOW	 => true,
