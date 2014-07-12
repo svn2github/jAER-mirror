@@ -205,13 +205,16 @@ architecture Structural of TopLevel is
 			DVSAERConfig_DO		 : out	 tDVSAERConfig);
 	end component SPIConfig;
 
-	component DFFSynchronizer is
+	component SimpleRegister is
+		generic (
+			RESET_VALUE : std_logic := '0');
 		port (
-			SyncClock_CI	: in  std_logic;
-			Reset_RI		: in  std_logic;
-			SignalToSync_SI : in  std_logic;
-			SyncedSignal_SO : out std_logic);
-	end component DFFSynchronizer;
+			Clock_CI  : in	std_logic;
+			Reset_RI  : in	std_logic;
+			Enable_SI : in	std_logic;
+			Input_SI  : in	std_logic;
+			Output_SO : out std_logic);
+	end component SimpleRegister;
 
 	component FIFODualClock is
 		generic (
@@ -329,25 +332,37 @@ begin
 	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI;	 -- Direct bypass.
 
 	-- Wire all LEDs.
-	LED1_SO <= '1';
-	led2buf : DFFSynchronizer
+	led1Buffer : SimpleRegister
 		port map (
-			SyncClock_CI	=> USBClock_CI,
-			Reset_RI		=> USBReset_R,
-			SignalToSync_SI => LogicUSBFifo_O.ReadSide.Empty_S,
-			SyncedSignal_SO => LED2_SO);
-	led3buf : DFFSynchronizer
+			Clock_CI  => LogicClock_C,
+			Reset_RI  => LogicReset_R,
+			Enable_SI => '1',
+			Input_SI  => MultiplexerConfig_D.Run_S,
+			Output_SO => LED1_SO);
+
+	led2Buffer : SimpleRegister
 		port map (
-			SyncClock_CI	=> LogicClock_C,
-			Reset_RI		=> LogicReset_R,
-			SignalToSync_SI => not SPISlaveSelectSync_SB,
-			SyncedSignal_SO => LED3_SO);
-	led4buf : DFFSynchronizer
+			Clock_CI  => USBClock_CI,
+			Reset_RI  => USBReset_R,
+			Enable_SI => '1',
+			Input_SI  => LogicUSBFifo_O.ReadSide.Empty_S,
+			Output_SO => LED2_SO);
+
+	led3Buffer : SimpleRegister
 		port map (
-			SyncClock_CI	=> LogicClock_C,
-			Reset_RI		=> LogicReset_R,
-			SignalToSync_SI => LogicUSBFifo_O.WriteSide.Full_S,
-			SyncedSignal_SO => LED4_SO);
+			Clock_CI  => LogicClock_C,
+			Reset_RI  => LogicReset_R,
+			Enable_SI => '1',
+			Input_SI  => not SPISlaveSelectSync_SB,
+			Output_SO => LED3_SO);
+
+	led4Buffer : SimpleRegister
+		port map (
+			Clock_CI  => LogicClock_C,
+			Reset_RI  => LogicReset_R,
+			Enable_SI => '1',
+			Input_SI  => LogicUSBFifo_O.WriteSide.Full_S,
+			Output_SO => LED4_SO);
 
 	-- Generate logic clock using a PLL.
 	logicClockPLL : PLL

@@ -61,6 +61,8 @@ architecture Behavioral of SPIConfig is
 			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component ContinuousCounter;
 
+	constant RESET_ADDRESS : std_logic_vector(7 downto 0) := "11111111";
+
 	type state is (stIdle, stInput, stOutput);
 
 	attribute syn_enum_encoding			 : string;
@@ -269,6 +271,9 @@ begin  -- architecture Behavioral
 						MultiplexerConfigReg_DN.TimestampReset_S <= ParamInput_DP(0);
 						SPIOutputLoad_D(0)						 <= MultiplexerConfigReg_DP.TimestampReset_S;
 
+					when RESET_ADDRESS =>
+						MultiplexerConfigReg_DN <= tMultiplexerConfigDefault;
+
 					when others => null;
 				end case;
 
@@ -285,6 +290,9 @@ begin  -- architecture Behavioral
 					when DVSAERCONFIG_PARAM_ADDRESSES.AckExtension_D =>
 						DVSAERConfigReg_DN.AckExtension_D								<= ParamInput_DP(tDVSAERConfig.AckExtension_D'length-1 downto 0);
 						SPIOutputLoad_D(tDVSAERConfig.AckExtension_D'length-1 downto 0) <= DVSAERConfigReg_DP.AckExtension_D;
+
+					when RESET_ADDRESS =>
+						DVSAERConfigReg_DN <= tDVSAERConfigDefault;
 
 					when others => null;
 				end case;
