@@ -22,7 +22,6 @@ LOCATE COMP "SPISlaveSelect_ABI" SITE "P14" ;// Px4 FPGA SPI SlaveSelect (active
 LOCATE COMP "SPIClock_AI" SITE "P16" ;// Px5 FPGA SPI Clock
 LOCATE COMP "SPIMOSI_AI" SITE "P15" ;// Px6 FPGA SPI MOSI
 LOCATE COMP "SPIMISO_ZO" SITE "R16" ;// Px7 FPGA SPI MISO
-LOCATE COMP "BiasEnable_SI" SITE "N14" ;// Spare3 BiasEnable
 LOCATE COMP "BiasDiagSelect_SI" SITE "M14" ;// Spare4 BiasDiagSelect
 
 // FX3 USB FIFO (data transmission)
@@ -197,7 +196,7 @@ CLOCK_TO_OUT PORT "DVSAERReset_SBO" OUTPUT_DELAY 1.0 ns MIN 1.0 ns CLKNET "Logic
 INPUT_SETUP GROUP "DVSAERData_AI" INPUT_DELAY 1.0 ns HOLD 1.0 ns CLKNET "LogicClock_C" ;
 INPUT_SETUP PORT "DVSAERReq_ABI" INPUT_DELAY 1.0 ns HOLD 1.0 ns CLKNET "LogicClock_C" ;
 
-MAXDELAY FROM PORT "BiasEnable_SI" TO PORT "ChipBiasEnable_SO" 10 ns;
+CLOCK_TO_OUT PORT "ChipBiasEnable_SO" OUTPUT_DELAY 1.0 ns MIN 1.0 ns CLKNET "LogicClock_C" ;
 MAXDELAY FROM PORT "BiasDiagSelect_SI" TO PORT "ChipBiasDiagSelect_SO" 10 ns;
 
 // Port configuration specifications

@@ -11,10 +11,10 @@ entity SPIConfig is
 		Reset_RI : in std_logic;
 
 		-- SPI ports
-		SPISlaveSelect_SBI : in	   std_logic;
-		SPIClock_CI		   : in	   std_logic;
-		SPIMOSI_DI		   : in	   std_logic;
-		SPIMISO_ZO		   : inout std_logic;
+		SPISlaveSelect_SBI : in	 std_logic;
+		SPIClock_CI		   : in	 std_logic;
+		SPIMOSI_DI		   : in	 std_logic;
+		SPIMISO_ZO		   : out std_logic;
 
 		-- Configuration modules outputs
 		MultiplexerConfig_DO : out tMultiplexerConfig;

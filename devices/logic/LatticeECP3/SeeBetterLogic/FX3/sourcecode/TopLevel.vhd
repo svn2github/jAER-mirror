@@ -10,12 +10,11 @@ entity TopLevel is
 		USBClock_CI : in std_logic;
 		Reset_RI	: in std_logic;
 
-		SPISlaveSelect_ABI : in	   std_logic;
-		SPIClock_AI		   : in	   std_logic;
-		SPIMOSI_AI		   : in	   std_logic;
-		SPIMISO_ZO		   : inout std_logic;  -- this is inout because it must be tristateable
-		BiasEnable_SI	   : in	   std_logic;
-		BiasDiagSelect_SI  : in	   std_logic;
+		SPISlaveSelect_ABI : in	 std_logic;
+		SPIClock_AI		   : in	 std_logic;
+		SPIMOSI_AI		   : in	 std_logic;
+		SPIMISO_ZO		   : out std_logic;
+		BiasDiagSelect_SI  : in	 std_logic;
 
 		USBFifoData_DO			: out std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
 		USBFifoChipSelect_SBO	: out std_logic;
@@ -195,14 +194,14 @@ architecture Structural of TopLevel is
 
 	component SPIConfig is
 		port (
-			Clock_CI			 : in	 std_logic;
-			Reset_RI			 : in	 std_logic;
-			SPISlaveSelect_SBI	 : in	 std_logic;
-			SPIClock_CI			 : in	 std_logic;
-			SPIMOSI_DI			 : in	 std_logic;
-			SPIMISO_ZO			 : inout std_logic;
-			MultiplexerConfig_DO : out	 tMultiplexerConfig;
-			DVSAERConfig_DO		 : out	 tDVSAERConfig);
+			Clock_CI			 : in  std_logic;
+			Reset_RI			 : in  std_logic;
+			SPISlaveSelect_SBI	 : in  std_logic;
+			SPIClock_CI			 : in  std_logic;
+			SPIMOSI_DI			 : in  std_logic;
+			SPIMISO_ZO			 : out std_logic;
+			MultiplexerConfig_DO : out tMultiplexerConfig;
+			DVSAERConfig_DO		 : out tDVSAERConfig);
 	end component SPIConfig;
 
 	component SimpleRegister is
@@ -328,8 +327,9 @@ begin
 	USBFifoChipSelect_SBO <= '0';  -- Always keep USB chip selected (active-low).
 	USBFifoRead_SBO		  <= '1';  -- We never read from the USB data path (active-low).
 	USBFifoData_DO		  <= LogicUSBFifo_O.ReadSide.Data_D;
-	ChipBiasEnable_SO	  <= BiasEnable_SI;		 -- Direct bypass.
-	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI;	 -- Direct bypass.
+	ChipBiasEnable_SO	  <= DVSAERConfig_D.Run_S;	-- Always enable if chip is
+													-- needed (DVS or APS).
+	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI;		-- Direct bypass.
 
 	-- Wire all LEDs.
 	led1Buffer : SimpleRegister
