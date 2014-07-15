@@ -33,6 +33,8 @@ import javax.media.opengl.*;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.*;
 import net.sf.jaer.Description;
+import net.sf.jaer.hardwareinterface.ServoInterface;
+
 
 /**
  * Controls a servo motor that swings an arm in the way of a ball rolling towards a goal box.
@@ -52,7 +54,13 @@ public class Goalie extends EventFilter2D implements FrameAnnotater, Observer{
     {setPropertyTooltip(ballCat,"minPathPointsToUseVelocity","only after path has this many points is velocity used to predict path");}
     private int maxYToUseVelocity=getPrefs().getInt("Goalie.maxYToUseVelocity",90);
     {setPropertyTooltip(ballCat,"maxYToUseVelocity","don't use ball velocity unless ball.location.y is less than this (prevents spastic movements in response to hands)");}
-
+    
+    //for ball shooter
+    private int durationOfBallShooting=getPrefs().getInt("Goalie.durationOfBallShooting",5);
+    {setPropertyTooltip(ballCat,"durationOfBallShooting","sets the time for which the Ball Shooter will shoot balls at the goalie");}
+    private int ballShootingSpeed=getPrefs().getInt("Goalie.ballShootingSpeed",20);
+    {setPropertyTooltip(ballCat,"ballShootingSpeed","sets the speed of the Ball Shooter, which shoots balls at the goalie");}
+    
     private int relaxationDelayMs=getPrefs().getInt("Goalie.relaxationDelayMs",500);
     {setPropertyTooltip(stateCat,"relaxationDelayMs","time [ms] before goalie first relaxes to middle after a movement. Goalie sleeps sleepDelaySec after this.\n");}
     private int sleepDelaySec=getPrefs().getInt("Goalie.sleepDelaySec",20);
@@ -83,6 +91,11 @@ public class Goalie extends EventFilter2D implements FrameAnnotater, Observer{
     {setPropertyTooltip(geomCat,"parallaxFactor","correct for goalie hand parallax (top of hand which is tracked for learning is closer than bottom which blocks ball)");}
 
     
+
+    
+
+    
+    
     /** possible states,
      <ol>
      <li> ACTIVE meaning blocking ball we can see,
@@ -106,6 +119,7 @@ public class Goalie extends EventFilter2D implements FrameAnnotater, Observer{
     protected ServoArm servoArm;
     private XYTypeFilter xYFilter;
 
+   
     //FilterChain for GUI
     FilterChain trackingFilterChain;
 
@@ -120,9 +134,13 @@ public class Goalie extends EventFilter2D implements FrameAnnotater, Observer{
     private int checkToRelax_state = 0;     // this is substate during relaxation to middle to goal
     
     /**
-     * Creates a Goaliestance of Goalie
+     * Creates an instance of Goalie
+     * @param chip the AEChip for which we make the Goalie
      */
+    
+  
     public Goalie(AEChip chip) {
+        
         super(chip);
         chip.addObserver(this);
 
@@ -149,11 +167,10 @@ public class Goalie extends EventFilter2D implements FrameAnnotater, Observer{
         xYFilter.setYEnabled(true);
         xYFilter.setTypeEnabled(false);
         xYFilter.setStartY(armRows);
-
-
+        
         servoArm.initFilter();
         servoArm.setCaptureRange(0,0, 128, armRows);
-
+       
         initFilter();
     }
 
@@ -161,7 +178,7 @@ public class Goalie extends EventFilter2D implements FrameAnnotater, Observer{
     @Override
     synchronized public EventPacket<?> filterPacket(EventPacket<?> in) {
         if(!isFilterEnabled()) return in;
-        getEnclosedFilterChain().filterPacket(in);
+        getEnclosedFilterChain().filterPacket(in); 
         servoArm.filterPacket(in);
 
         synchronized (ballLock) {
@@ -538,6 +555,20 @@ public class Goalie extends EventFilter2D implements FrameAnnotater, Observer{
         servoArm.startLearning();
     }
 
+   //        Creates a thread in the BallShooting.java class 
+  //         which acesses and sets/clears the ports on port 2
+    
+   // shoots ball when GUI 'shoot ball' is pressed by user - communicates with the 'Ball Shooting' class
+    public void doShootBall() { 
+     
+     if(servoArm!=null){
+         ServoInterface s =servoArm.getServoInterface();
+         if(s==null){return;}
+         BallShooting t = new BallShooting();
+         t.theStartingPoint(durationOfBallShooting,ballShootingSpeed, s);
+     }    
+    }
+ 
     public void doRelax() { // automatically built into GUI for Goalie
         servoArm.relax();
     }
@@ -669,6 +700,24 @@ public class Goalie extends EventFilter2D implements FrameAnnotater, Observer{
         getPrefs().putInt("Goalie.maxYToUseVelocity",maxYToUseVelocity);
     }
 
+    public int getdurationOfBallShooting() {
+        return durationOfBallShooting;
+    }
+
+    public void setdurationOfBallShooting(int durationOfBallShooting) {
+        this.durationOfBallShooting = durationOfBallShooting;
+        getPrefs().putInt("Goalie.durationOfBallShooting",durationOfBallShooting);
+    }
+
+    public int getBallShootingSpeed() {
+        return ballShootingSpeed;
+    }
+
+    public void setBallShootingSpeed(int ballShootingSpeed) {
+        this.ballShootingSpeed = ballShootingSpeed;
+        getPrefs().putInt("Goalie.ballShootingSpeed",ballShootingSpeed);
+    }
+
     public Enum getState() {
         return state.get();
     }
@@ -728,5 +777,7 @@ public class Goalie extends EventFilter2D implements FrameAnnotater, Observer{
     public void setParallaxFactor(float parallaxFactor) {
         this.parallaxFactor = parallaxFactor;
     }
+
+ 
 
 }

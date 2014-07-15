@@ -33,6 +33,7 @@ import java.io.*;
 import java.util.*;
 import javax.media.opengl.*;
 import javax.media.opengl.GLAutoDrawable;
+import net.sf.jaer.eventprocessing.tracking.RectangularClusterTracker;
 import net.sf.jaer.stereopsis.StereoClusterTracker;
 import net.sf.jaer.util.PlayWavFile;
 /**
@@ -116,7 +117,7 @@ public class ServoArm extends EventFilter2D implements Observer,FrameAnnotater/*
     VisualFeedbackController visualFeedbackController=null;
     int lastTimestamp=0;
     
-    private StereoClusterTracker armTracker;
+    private RectangularClusterTracker armTracker;
     private XYTypeFilter xyfilter;
     public boolean isVisualFeedbackControlEnabled(){
         return visualFeedbackControlEnabled;
@@ -180,7 +181,7 @@ public class ServoArm extends EventFilter2D implements Observer,FrameAnnotater/*
         super(chip);
         chip.addObserver(this); // to getString chip sizes correct in initFilter
 
-        armTracker=new StereoClusterTracker(chip);
+        armTracker=new RectangularClusterTracker(chip);
         setEnclosedFilter(armTracker); // to avoid storing enabled prefs for this filter set it to be the enclosed filter before enabling
 
         // only bottom filter
@@ -404,8 +405,8 @@ public class ServoArm extends EventFilter2D implements Observer,FrameAnnotater/*
     /**
      * Applies the learned model to return the learned motor value from the desired pixel position of the arm.
      *
-     * @param position the diseired postion in pixels [0,chip.getSizeX()-1]
-     * @return the learned motor value to move to this postion in servo units [0,1]
+     * @param position the desired position in pixels [0,chip.getSizeX()-1]
+     * @return the learned motor value to move to this position in servo units [0,1]
      */
     public float getOutputFromPosition(int position){
         synchronized(learningLock){
@@ -460,7 +461,7 @@ public class ServoArm extends EventFilter2D implements Observer,FrameAnnotater/*
             return;
         }
         // set father goalie immediately to SLEEPING state to discourage noise from stopping learning
-        getGoalie().setState(StereoGoalie.State.SLEEPING);
+        getGoalie().setState(Goalie.State.SLEEPING);
         synchronized(learningLock){
             if(state==state.learning){
                 return;
@@ -535,7 +536,13 @@ public class ServoArm extends EventFilter2D implements Observer,FrameAnnotater/*
             servo=null;
         }
     }
+   
 
+    //public void SetPort2ValueSet(int i){
+        //ServoInterface p=(ServoInterface)servo;
+        //p.setPort2(i);
+    //}
+    
     /**
      * sets goalie arm.
      * @param f 1 for far right, 0 for far left as viewed from above, i.e. from retina.
@@ -591,7 +598,7 @@ public class ServoArm extends EventFilter2D implements Observer,FrameAnnotater/*
         xyt.setStartY(starty);
         xyt.setEndY(endy);
         // the goalie gets the rest of the scene for ball tracking
-        StereoGoalie g=getGoalie();
+        Goalie g=getGoalie();
         if(g!=null){
             XYTypeFilter f=g.getXYFilter();
             if(f!=null){
@@ -644,18 +651,18 @@ public class ServoArm extends EventFilter2D implements Observer,FrameAnnotater/*
         setServo(servoLimitLeft); // to check value
     }
     private void disableGoalieTrackerMomentarily(){
-        StereoGoalie g=getGoalie();
+        Goalie g=getGoalie();
         if(g!=null){
-            StereoClusterTracker f=g.getTracker();
+            RectangularClusterTracker f=g.getTracker();
             f.setFilterEnabled(false);
             f.resetFilter();
             Timer t=new Timer();
             t.schedule(new RenableFilterTask(f),2000);
         }
     }
-    private StereoGoalie getGoalie(){
-        if(getEnclosingFilter() instanceof StereoGoalie){
-            StereoGoalie g=(StereoGoalie)getEnclosingFilter();
+    private Goalie getGoalie(){
+        if(getEnclosingFilter() instanceof Goalie){
+            Goalie g=(Goalie)getEnclosingFilter();
             return g;
         }
         log.warning("enclosing filter is "+getEnclosedFilter()+" which is not instanceof StereoGoalie - returning null instance");
@@ -1099,7 +1106,7 @@ public class ServoArm extends EventFilter2D implements Observer,FrameAnnotater/*
     private void setLastServoSetting(float lastServoSetting){
         this.servoValue=lastServoSetting;
     }
-    public StereoClusterTracker getArmTracker(){
+    public RectangularClusterTracker getArmTracker(){
         return armTracker;
     }
     public boolean isLearningFailed(){
