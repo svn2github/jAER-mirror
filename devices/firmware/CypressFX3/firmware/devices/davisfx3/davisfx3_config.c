@@ -16,9 +16,9 @@ gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
 	// { 27, 'O' }, /* GPIO 27: Clock for Inertial Measurement Unit */
 	{ 33, 'O' }, /* GPIO 33: FPGA_Reset */
 	{ 34, 'O' }, /* GPIO 34: FX3_LED */
-	//{ 35, 'O' }, /* GPIO 35 (Px0): */
-	//{ 36, 'O' }, /* GPIO 36 (Px1): */
-	//{ 37, 'O' }, /* GPIO 37 (Px2): */
+	// { 35, 'O' }, /* GPIO 35 (Px0): */
+	// { 36, 'O' }, /* GPIO 36 (Px1): */
+	// { 37, 'O' }, /* GPIO 37 (Px2): */
 	{ 38, 'O' }, /* GPIO 38 (Px3): FPGA_SPI_ALTSSN */
 	{ 39, 'o' }, /* GPIO 39 (Px4): FPGA_SPI_SSN (active-low) */
 	{ 40, 'O' }, /* GPIO 40 (Px5): FPGA_SPI_Clock */
@@ -28,7 +28,7 @@ gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
 	// { 44, 'O' }, /* GPIO 44 (Px9): */
 	// { 45, 'O' }, /* GPIO 45 (Spare1): */
 	// { 46, 'O' }, /* GPIO 46 (Spare2): */
-	{ 47, 'O' }, /* GPIO 47 (Spare3): Bias_Enable */
+	// { 47, 'O' }, /* GPIO 47 (Spare3): */
 	{ 48, 'O' }, /* GPIO 48 (Spare4): Bias_Diag_Select */
 	{ 49, 'o' }, /* GPIO 49: Bias_Addr_Select (active-low) */
 	{ 50, 'o' }, /* GPIO 50: Bias_Clock (active-low) */
@@ -44,7 +44,6 @@ const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecif
 #define FPGA_SPI_CLOCK 40
 #define FPGA_SPI_MOSI 41
 #define FPGA_SPI_MISO 42
-#define BIAS_ENABLE 47
 #define BIAS_DIAG_SELECT 48
 #define BIAS_ADDR_SELECT 49
 #define BIAS_CLOCK 50
@@ -98,17 +97,16 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 #define FPGA_CMD_WRITE_DIS 0x4F
 
 // USB FPGA configuration phases
-#define FPGA_CONFIG_PHASE_INIT 0 /* Check FPGA model, do refresh, clear memory */
-#define FPGA_CONFIG_PHASE_DATA_FIRST 1 /* Enable configuration and send first chunk */
-#define FPGA_CONFIG_PHASE_DATA 2 /* Send extra chunks */
-#define FPGA_CONFIG_PHASE_DATA_LAST 3 /* Send last chunk and disable configuration */
+#define FPGA_UPLOAD_PHASE_INIT 0 /* Check FPGA model, do refresh, clear memory */
+#define FPGA_UPLOAD_PHASE_DATA_FIRST 1 /* Enable configuration and send first chunk */
+#define FPGA_UPLOAD_PHASE_DATA 2 /* Send extra chunks */
+#define FPGA_UPLOAD_PHASE_DATA_LAST 3 /* Send last chunk and disable configuration */
 
 // Device-specific vendor requests
 #define VR_FPGA_UPLOAD 0xBE
-#define VR_DATA_ENABLE 0xBF
+#define VR_FPGA_CONFIG 0xBF
 #define VR_CHIP_BIAS 0xC0
 #define VR_CHIP_DIAG 0xC1
-#define VR_FPGA_CONFIG 0xC2
 
 CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest, uint16_t wValue, uint16_t wIndex,
 	uint16_t wLength) {
@@ -121,7 +119,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			uint8_t cmd[4] = { 0 };
 
 			switch (wValue) {
-				case FPGA_CONFIG_PHASE_INIT:
+				case FPGA_UPLOAD_PHASE_INIT:
 					if (wLength != 0) {
 						status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
 						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD INIT: no payload allowed", status);
@@ -167,7 +165,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 					break;
 
-				case FPGA_CONFIG_PHASE_DATA_FIRST:
+				case FPGA_UPLOAD_PHASE_DATA_FIRST:
 					if (wLength == 0) {
 						status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
 						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD FIRST: zero byte transfer invalid", status);
@@ -204,7 +202,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 					break;
 
-				case FPGA_CONFIG_PHASE_DATA:
+				case FPGA_UPLOAD_PHASE_DATA:
 					if (wLength == 0) {
 						status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
 						CyFxErrorHandler(LOG_ERROR, "VR_FPGA_UPLOAD DATA: zero byte transfer invalid", status);
@@ -237,7 +235,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 					break;
 
-				case FPGA_CONFIG_PHASE_DATA_LAST:
+				case FPGA_UPLOAD_PHASE_DATA_LAST:
 					// Read last bitstream chunk from USB. Might be zero if exact multiple of 4KB.
 					if (wLength != 0) {
 						status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
@@ -302,26 +300,6 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 			break;
 		}
-
-		case FX3_REQ_DIR(VR_DATA_ENABLE, FX3_USB_DIRECTION_IN):
-			if (wLength != 0) {
-				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-				CyFxErrorHandler(LOG_ERROR, "VR_DATA_ENABLE: no payload allowed", status);
-				break;
-			}
-
-			if (wValue == 0) {
-				// Shut off bias generator, and thus the whole chip.
-				CyFxGpioTurnOff(BIAS_ENABLE);
-			}
-			else {
-				// Enable bias generator (power to chip).
-				CyFxGpioTurnOn(BIAS_ENABLE);
-			}
-
-			CyU3PUsbAckSetup();
-
-			break;
 
 		case FX3_REQ_DIR(VR_CHIP_BIAS, FX3_USB_DIRECTION_IN):
 			if (wLength == 0) {
