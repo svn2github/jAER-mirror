@@ -77,7 +77,6 @@ architecture Behavioral of SPIConfig is
 	signal SPIInputContent_D							 : std_logic_vector(7 downto 0);
 	signal SPIOutputSRegMode_S							 : std_logic_vector(SHIFTREGISTER_MODE_SIZE-1 downto 0);
 	signal SPIOutputContent_D							 : std_logic_vector(31 downto 0);
-	signal SPIOutputLoad_D								 : std_logic_vector(31 downto 0);
 	signal SPIBitCounterClear_S, SPIBitCounterEnable_S	 : std_logic;
 	signal SPIBitCount_D								 : unsigned(5 downto 0);
 
@@ -87,6 +86,8 @@ architecture Behavioral of SPIConfig is
 
 	signal LatchInputReg_SP, LatchInputReg_SN : std_logic;
 	signal ParamInput_DP, ParamInput_DN		  : std_logic_vector(31 downto 0);
+
+	signal ParamOutput_DP, ParamOutput_DN : std_logic_vector(31 downto 0);
 
 	-- Register outputs (MISO only here).
 	signal SPIMISOReg_Z : std_logic;
@@ -128,7 +129,7 @@ begin  -- architecture Behavioral
 			Reset_RI		 => Reset_RI,
 			Mode_SI			 => SPIOutputSRegMode_S,
 			DataIn_DI		 => '0',
-			ParallelWrite_DI => SPIOutputLoad_D,
+			ParallelWrite_DI => ParamOutput_DP,
 			ParallelRead_DO	 => SPIOutputContent_D);
 
 	spiBitCounter : ContinuousCounter
@@ -252,7 +253,7 @@ begin  -- architecture Behavioral
 
 	configReadWrite : process (ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP, MultiplexerConfigReg_DP, DVSAERConfigReg_DP)
 	begin
-		SPIOutputLoad_D			<= (others => '0');
+		ParamOutput_DN			<= (others => '0');
 		MultiplexerConfigReg_DN <= MultiplexerConfigReg_DP;
 		DVSAERConfigReg_DN		<= DVSAERConfigReg_DP;
 
@@ -261,15 +262,15 @@ begin  -- architecture Behavioral
 				case ParamAddressReg_DP is
 					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.Run_S =>
 						MultiplexerConfigReg_DN.Run_S <= ParamInput_DP(0);
-						SPIOutputLoad_D(0)			  <= MultiplexerConfigReg_DP.Run_S;
+						ParamOutput_DN(0)			  <= MultiplexerConfigReg_DP.Run_S;
 
 					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.TimestampRun_S =>
 						MultiplexerConfigReg_DN.TimestampRun_S <= ParamInput_DP(0);
-						SPIOutputLoad_D(0)					   <= MultiplexerConfigReg_DP.TimestampRun_S;
+						ParamOutput_DN(0)					   <= MultiplexerConfigReg_DP.TimestampRun_S;
 
 					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.TimestampReset_S =>
 						MultiplexerConfigReg_DN.TimestampReset_S <= ParamInput_DP(0);
-						SPIOutputLoad_D(0)						 <= MultiplexerConfigReg_DP.TimestampReset_S;
+						ParamOutput_DN(0)						 <= MultiplexerConfigReg_DP.TimestampReset_S;
 
 					when RESET_ADDRESS =>
 						MultiplexerConfigReg_DN <= tMultiplexerConfigDefault;
@@ -281,15 +282,15 @@ begin  -- architecture Behavioral
 				case ParamAddressReg_DP is
 					when DVSAERCONFIG_PARAM_ADDRESSES.Run_S =>
 						DVSAERConfigReg_DN.Run_S <= ParamInput_DP(0);
-						SPIOutputLoad_D(0)		 <= DVSAERConfigReg_DP.Run_S;
+						ParamOutput_DN(0)		 <= DVSAERConfigReg_DP.Run_S;
 
 					when DVSAERCONFIG_PARAM_ADDRESSES.AckDelay_D =>
-						DVSAERConfigReg_DN.AckDelay_D								<= ParamInput_DP(tDVSAERConfig.AckDelay_D'length-1 downto 0);
-						SPIOutputLoad_D(tDVSAERConfig.AckDelay_D'length-1 downto 0) <= DVSAERConfigReg_DP.AckDelay_D;
+						DVSAERConfigReg_DN.AckDelay_D							   <= ParamInput_DP(tDVSAERConfig.AckDelay_D'length-1 downto 0);
+						ParamOutput_DN(tDVSAERConfig.AckDelay_D'length-1 downto 0) <= DVSAERConfigReg_DP.AckDelay_D;
 
 					when DVSAERCONFIG_PARAM_ADDRESSES.AckExtension_D =>
-						DVSAERConfigReg_DN.AckExtension_D								<= ParamInput_DP(tDVSAERConfig.AckExtension_D'length-1 downto 0);
-						SPIOutputLoad_D(tDVSAERConfig.AckExtension_D'length-1 downto 0) <= DVSAERConfigReg_DP.AckExtension_D;
+						DVSAERConfigReg_DN.AckExtension_D							   <= ParamInput_DP(tDVSAERConfig.AckExtension_D'length-1 downto 0);
+						ParamOutput_DN(tDVSAERConfig.AckExtension_D'length-1 downto 0) <= DVSAERConfigReg_DP.AckExtension_D;
 
 					when RESET_ADDRESS =>
 						DVSAERConfigReg_DN <= tDVSAERConfigDefault;
@@ -313,7 +314,8 @@ begin  -- architecture Behavioral
 			LatchInputReg_SP <= '0';
 			ParamInput_DP	 <= (others => '0');
 
-			SPIMISO_ZO <= 'Z';
+			ParamOutput_DP <= (others => '0');
+			SPIMISO_ZO	   <= 'Z';
 
 			MultiplexerConfigReg_DP <= tMultiplexerConfigDefault;
 			DVSAERConfigReg_DP		<= tDVSAERConfigDefault;
@@ -327,7 +329,8 @@ begin  -- architecture Behavioral
 			LatchInputReg_SP <= LatchInputReg_SN;
 			ParamInput_DP	 <= ParamInput_DN;
 
-			SPIMISO_ZO <= SPIMISOReg_Z;
+			ParamOutput_DP <= ParamOutput_DN;
+			SPIMISO_ZO	   <= SPIMISOReg_Z;
 
 			if LatchInputReg_SP = '1' then
 				MultiplexerConfigReg_DP <= MultiplexerConfigReg_DN;
