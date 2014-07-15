@@ -61,7 +61,7 @@ architecture Behavioral of SPIConfig is
 			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
 	end component ContinuousCounter;
 
-	constant RESET_ADDRESS : std_logic_vector(7 downto 0) := "11111111";
+	constant RESET_ADDRESS : unsigned(7 downto 0) := (others => '1');
 
 	type state is (stIdle, stInput, stOutput);
 
@@ -81,8 +81,8 @@ architecture Behavioral of SPIConfig is
 	signal SPIBitCount_D								 : unsigned(5 downto 0);
 
 	signal ReadOperationReg_SP, ReadOperationReg_SN : std_logic;
-	signal ModuleAddressReg_DP, ModuleAddressReg_DN : std_logic_vector(6 downto 0);
-	signal ParamAddressReg_DP, ParamAddressReg_DN	: std_logic_vector(7 downto 0);
+	signal ModuleAddressReg_DP, ModuleAddressReg_DN : unsigned(6 downto 0);
+	signal ParamAddressReg_DP, ParamAddressReg_DN	: unsigned(7 downto 0);
 
 	signal LatchInputReg_SP, LatchInputReg_SN : std_logic;
 	signal ParamInput_DP, ParamInput_DN		  : std_logic_vector(31 downto 0);
@@ -193,10 +193,10 @@ begin  -- architecture Behavioral
 				case SPIBitCount_D is
 					when to_unsigned(8, 6) =>
 						ReadOperationReg_SN <= SPIInputContent_D(7);
-						ModuleAddressReg_DN <= SPIInputContent_D(6 downto 0);
+						ModuleAddressReg_DN <= unsigned(SPIInputContent_D(6 downto 0));
 
 					when to_unsigned(16, 6) =>
-						ParamAddressReg_DN <= SPIInputContent_D(7 downto 0);
+						ParamAddressReg_DN <= unsigned(SPIInputContent_D(7 downto 0));
 
 						if ReadOperationReg_SP = '1' then
 							State_DN <= stOutput;
@@ -285,12 +285,12 @@ begin  -- architecture Behavioral
 						ParamOutput_DN(0)		 <= DVSAERConfigReg_DP.Run_S;
 
 					when DVSAERCONFIG_PARAM_ADDRESSES.AckDelay_D =>
-						DVSAERConfigReg_DN.AckDelay_D							   <= ParamInput_DP(tDVSAERConfig.AckDelay_D'length-1 downto 0);
-						ParamOutput_DN(tDVSAERConfig.AckDelay_D'length-1 downto 0) <= DVSAERConfigReg_DP.AckDelay_D;
+						DVSAERConfigReg_DN.AckDelay_D							   <= unsigned(ParamInput_DP(tDVSAERConfig.AckDelay_D'length-1 downto 0));
+						ParamOutput_DN(tDVSAERConfig.AckDelay_D'length-1 downto 0) <= std_logic_vector(DVSAERConfigReg_DP.AckDelay_D);
 
 					when DVSAERCONFIG_PARAM_ADDRESSES.AckExtension_D =>
-						DVSAERConfigReg_DN.AckExtension_D							   <= ParamInput_DP(tDVSAERConfig.AckExtension_D'length-1 downto 0);
-						ParamOutput_DN(tDVSAERConfig.AckExtension_D'length-1 downto 0) <= DVSAERConfigReg_DP.AckExtension_D;
+						DVSAERConfigReg_DN.AckExtension_D							   <= unsigned(ParamInput_DP(tDVSAERConfig.AckExtension_D'length-1 downto 0));
+						ParamOutput_DN(tDVSAERConfig.AckExtension_D'length-1 downto 0) <= std_logic_vector(DVSAERConfigReg_DP.AckExtension_D);
 
 					when RESET_ADDRESS =>
 						DVSAERConfigReg_DN <= tDVSAERConfigDefault;
