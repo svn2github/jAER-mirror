@@ -10,8 +10,9 @@ entity APSADCStateMachine is
 		Reset_RI : in std_logic;
 
 		-- Fifo output (to Multiplexer)
-		OutFifo_I : in	tFromFifoWriteSide;
-		OutFifo_O : out tToFifoWriteSide;
+		OutFifoControl_SI : in	tFromFifoWriteSide;
+		OutFifoControl_SO : out tToFifoWriteSide;
+		OutFifoData_DO	  : out std_logic_vector(EVENT_WIDTH-1 downto 0);
 
 		APSChipRowSRClock_SO : out std_logic;
 		APSChipRowSRIn_SO	 : out std_logic;
@@ -36,12 +37,12 @@ architecture Behavioral of APSADCStateMachine is
 	-- present and next state
 	signal State_DP, State_DN : state;
 begin
-	p_memoryless : process (State_DP, OutFifo_I)
+	p_memoryless : process (State_DP, OutFifoControl_SI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
-		OutFifo_O.Write_S <= '0';
-		OutFifo_O.Data_D  <= (others => '0');
+		OutFifoControl_SO.Write_S <= '0';
+		OutFifoData_DO			  <= (others => '0');
 
 		case State_DP is
 			when stIdle =>
@@ -54,9 +55,9 @@ begin
 				--end if;
 
 			when stWriteEvent =>
-				OutFifo_O.Data_D  <= (others => '0');
-				OutFifo_O.Write_S <= '1';
-				State_DN		  <= stIdle;
+				OutFifoData_DO			  <= (others => '0');
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN				  <= stIdle;
 
 			when others => null;
 		end case;

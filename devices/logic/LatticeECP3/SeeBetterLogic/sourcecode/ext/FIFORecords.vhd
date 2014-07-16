@@ -8,7 +8,6 @@ package FIFORecords is
 	end record tToFifoReadSide;
 
 	type tToFifoWriteSide is record
-		Data_D	: std_logic_vector;
 		Write_S : std_logic;
 	end record tToFifoWriteSide;
 
@@ -19,7 +18,6 @@ package FIFORecords is
 
 	-- Outputs from the FIFO.
 	type tFromFifoReadSide is record
-		Data_D		  : std_logic_vector;
 		Empty_S		  : std_logic;
 		AlmostEmpty_S : std_logic;
 	end record tFromFifoReadSide;

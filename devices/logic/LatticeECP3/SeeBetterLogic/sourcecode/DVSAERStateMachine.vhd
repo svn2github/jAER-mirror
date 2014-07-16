@@ -11,8 +11,9 @@ entity DVSAERStateMachine is
 		Reset_RI : in std_logic;
 
 		-- Fifo output (to Multiplexer)
-		OutFifo_I : in	tFromFifoWriteSide;
-		OutFifo_O : out tToFifoWriteSide;
+		OutFifoControl_SI : in	tFromFifoWriteSide;
+		OutFifoControl_SO : out tToFifoWriteSide;
+		OutFifoData_DO	  : out std_logic_vector(EVENT_WIDTH-1 downto 0);
 
 		DVSAERData_DI	: in  std_logic_vector(AER_BUS_WIDTH-1 downto 0);
 		DVSAERReq_SBI	: in  std_logic;
@@ -87,7 +88,7 @@ begin
 			Overflow_SO	 => ackExtensionNotify_S,
 			Data_DO		 => open);
 
-	p_memoryless : process (State_DP, OutFifo_I, DVSAERReq_SBI, DVSAERData_DI, ackDelayNotify_S, ackExtensionNotify_S, DVSAERConfig_DI)
+	p_memoryless : process (State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, ackDelayNotify_S, ackExtensionNotify_S, DVSAERConfig_DI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 
@@ -105,7 +106,7 @@ begin
 			when stIdle =>
 				-- Only exit idle state if DVS data producer is active.
 				if DVSAERConfig_DI.Run_S = '1' then
-					if DVSAERReq_SBI = '0' and OutFifo_I.Full_S = '0' then
+					if DVSAERReq_SBI = '0' and OutFifoControl_SI.Full_S = '0' then
 						-- Got a request on the AER bus, let's get the data.
 						-- If output fifo full, just wait for it to be empty.
 						State_DN <= stDifferentiateYX;
@@ -183,17 +184,17 @@ begin
 		if Reset_RI = '1' then	-- asynchronous reset (active-high for FPGAs)
 			State_DP <= stIdle;
 
-			OutFifo_O.Write_S <= '0';
-			OutFifo_O.Data_D  <= (others => '0');
+			OutFifoControl_SO.Write_S <= '0';
+			OutFifoData_DO			  <= (others => '0');
 
 			DVSAERAck_SBO	<= '1';
 			DVSAERReset_SBO <= '1';
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
 
-			OutFifo_O.Write_S <= OutFifoWriteReg_S;
+			OutFifoControl_SO.Write_S <= OutFifoWriteReg_S;
 			if OutFifoDataRegEnable_S = '1' then
-				OutFifo_O.Data_D <= OutFifoDataReg_D;
+				OutFifoData_DO <= OutFifoDataReg_D;
 			end if;
 
 			DVSAERAck_SBO	<= DVSAERAckReg_SB;

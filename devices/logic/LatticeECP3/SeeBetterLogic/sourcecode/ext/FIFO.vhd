@@ -12,10 +12,12 @@ entity FIFO is
 		FULL_FLAG		  : integer := 64;
 		ALMOST_FULL_FLAG  : integer := 60);
 	port (
-		Clock_CI : in  std_logic;
-		Reset_RI : in  std_logic;
-		Fifo_I	 : in  tToFifo(WriteSide(Data_D(DATA_WIDTH-1 downto 0)));
-		Fifo_O	 : out tFromFifo(ReadSide(Data_D(DATA_WIDTH-1 downto 0))));
+		Clock_CI	   : in	 std_logic;
+		Reset_RI	   : in	 std_logic;
+		FifoControl_SI : in	 tToFifo;
+		FifoControl_SO : out tFromFifo;
+		FifoData_DI	   : in	 std_logic_vector(DATA_WIDTH-1 downto 0);
+		FifoData_DO	   : out std_logic_vector(DATA_WIDTH-1 downto 0));
 end entity FIFO;
 
 architecture Structural of FIFO is
@@ -72,18 +74,18 @@ begin  -- architecture Structural
 			pmi_family			  => DEVICE_FAMILY,
 			pmi_implementation	  => "LUT")
 		port map (
-			Data		=> Fifo_I.WriteSide.Data_D,
+			Data		=> FifoData_DI,
 			Clock		=> Clock_CI,
-			WrEn		=> Fifo_I.WriteSide.Write_S,
+			WrEn		=> FifoControl_SI.WriteSide.Write_S,
 			RdEn		=> FIFORead_S,
 			Reset		=> Reset_RI,
 			Q			=> DataInReg_D,
 			Empty		=> FIFOEmpty_S,
-			Full		=> Fifo_O.WriteSide.Full_S,
+			Full		=> FifoControl_SO.WriteSide.Full_S,
 			AlmostEmpty => FIFOAlmostEmpty_S,
-			AlmostFull	=> Fifo_O.WriteSide.AlmostFull_S);
+			AlmostFull	=> FifoControl_SO.WriteSide.AlmostFull_S);
 
-	p_comb : process (State_DP, FIFOEmpty_S, FIFOAlmostEmpty_S, Fifo_I)
+	p_comb : process (State_DP, FIFOEmpty_S, FIFOAlmostEmpty_S, FifoControl_SI)
 	begin
 		State_DN <= State_DP;
 
@@ -105,7 +107,7 @@ begin  -- architecture Structural
 			when stGetData =>
 				DataInRegEnable_S <= '1';
 
-				if Fifo_I.ReadSide.Read_S = '1' then
+				if FifoControl_SI.ReadSide.Read_S = '1' then
 					if FIFOEmpty_S = '0' then
 						FIFORead_S		 <= '1';
 						EmptyReg_S		 <= '0';
@@ -120,7 +122,7 @@ begin  -- architecture Structural
 				end if;
 
 			when stWaitRead =>
-				if Fifo_I.ReadSide.Read_S = '1' then
+				if FifoControl_SI.ReadSide.Read_S = '1' then
 					if FIFOEmpty_S = '0' then
 						FIFORead_S		 <= '1';
 						EmptyReg_S		 <= '0';
@@ -143,18 +145,18 @@ begin  -- architecture Structural
 		if Reset_RI = '1' then			-- asynchronous reset (active high)
 			State_DP <= stInit;
 
-			Fifo_O.ReadSide.Empty_S		  <= '1';
-			Fifo_O.ReadSide.AlmostEmpty_S <= '1';
+			FifoControl_SO.ReadSide.Empty_S		  <= '1';
+			FifoControl_SO.ReadSide.AlmostEmpty_S <= '1';
 
-			Fifo_O.ReadSide.Data_D <= (others => '0');
+			FifoData_DO <= (others => '0');
 		elsif rising_edge(Clock_CI) then  -- rising clock edge
 			State_DP <= State_DN;
 
-			Fifo_O.ReadSide.Empty_S		  <= EmptyReg_S;
-			Fifo_O.ReadSide.AlmostEmpty_S <= AlmostEmptyReg_S;
+			FifoControl_SO.ReadSide.Empty_S		  <= EmptyReg_S;
+			FifoControl_SO.ReadSide.AlmostEmpty_S <= AlmostEmptyReg_S;
 
 			if DataInRegEnable_S = '1' then
-				Fifo_O.ReadSide.Data_D <= DataInReg_D;
+				FifoData_DO <= DataInReg_D;
 			end if;
 		end if;
 	end process p_reg;
