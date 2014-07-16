@@ -14,7 +14,6 @@ entity TopLevel is
 		SPIClock_AI		   : in	 std_logic;
 		SPIMOSI_AI		   : in	 std_logic;
 		SPIMISO_ZO		   : out std_logic;
-		BiasDiagSelect_SI  : in	 std_logic;
 
 		USBFifoData_DO			: out std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
 		USBFifoChipSelect_SBO	: out std_logic;
@@ -34,6 +33,10 @@ entity TopLevel is
 
 		ChipBiasEnable_SO	  : out std_logic;
 		ChipBiasDiagSelect_SO : out std_logic;
+		ChipBiasAddrSelect_SO : out std_logic;
+		ChipBiasClock_CO	  : out std_logic;
+		ChipBiasBitIn_DO	  : out std_logic;
+		ChipBiasLatch_SO	  : out std_logic;
 		--ChipBiasBitOut_DI : in std_logic;
 
 		DVSAERData_AI	: in  std_logic_vector(AER_BUS_WIDTH-1 downto 0);
@@ -329,7 +332,6 @@ begin
 	USBFifoData_DO		  <= LogicUSBFifo_O.ReadSide.Data_D;
 	ChipBiasEnable_SO	  <= DVSAERConfig_D.Run_S;	-- Always enable if chip is
 													-- needed (DVS or APS).
-	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI;		-- Direct bypass.
 
 	-- Wire all LEDs.
 	led1Buffer : SimpleRegister
