@@ -2,65 +2,54 @@
 #include "features/gpio_support.h"
 #include "features/spi_support.h"
 
-#if DAVISFX3 == 1
+#if DAVISFX3R2 == 1
 
 spiConfig_DeviceSpecific_Type spiConfig_DeviceSpecific[] = {
-	{ 0, 3, 256, 1 * MEGABYTE, 50 * MEGAHERTZ, CyFalse }, /* Winbond W25Q80BW Flash Memory (1MB, 50Mhz, SS: default line, active-low) */
-	{ 57, 0, 0, 0, 33 * MEGAHERTZ, CyFalse }, /* Lattice ECP3-17 FPGA (no standard read/write support, 33Mhz, SS: GPIO 57, active-low) */
+	{ 0, 3, 256, 8 * MEGABYTE, 104 * MEGAHERTZ, CyFalse }, /* Macronix MX25U6435F Flash Memory (8MB, 104Mhz, SS: default line, active-low) */
+	{ 52, 0, 0, 0, 20 * MEGAHERTZ, CyFalse }, /* FPGA configuration (no standard read/write support, 20Mhz, SS: GPIO 52, active-low) */
+	{ 57, 0, 0, 0, 33 * MEGAHERTZ, CyFalse }, /* Lattice ECP3-70EA FPGA (no standard read/write support, 33Mhz, SS: GPIO 57, active-low) */
 };
 const uint8_t spiConfig_DeviceSpecific_Length = (sizeof(spiConfig_DeviceSpecific) / sizeof(spiConfig_DeviceSpecific[0]));
 
 gpioConfig_DeviceSpecific_Type gpioConfig_DeviceSpecific[] = {
-	// { 26, 'P' }, /* GPIO 26: Interrupt from Inertial Measurement Unit */
-	// { 27, 'O' }, /* GPIO 27: Clock for Inertial Measurement Unit */
-	{ 33, 'O' }, /* GPIO 33: FPGA_Reset */
-	{ 34, 'O' }, /* GPIO 34: FX3_LED */
-	// { 35, 'O' }, /* GPIO 35 (Px0): */
-	// { 36, 'O' }, /* GPIO 36 (Px1): */
-	// { 37, 'O' }, /* GPIO 37 (Px2): */
-	{ 38, 'O' }, /* GPIO 38 (Px3): FPGA_SPI_ALTSSN */
-	{ 39, 'o' }, /* GPIO 39 (Px4): FPGA_SPI_SSN (active-low) */
-	{ 40, 'O' }, /* GPIO 40 (Px5): FPGA_SPI_Clock */
-	{ 41, 'O' }, /* GPIO 41 (Px6): FPGA_SPI_MOSI */
-	{ 42, 'I' }, /* GPIO 42 (Px7): FPGA_SPI_MISO */
-	// { 43, 'O' }, /* GPIO 43 (Px8): */
-	// { 44, 'O' }, /* GPIO 44 (Px9): */
-	// { 45, 'O' }, /* GPIO 45 (Spare1): */
-	// { 46, 'O' }, /* GPIO 46 (Spare2): */
-	// { 47, 'O' }, /* GPIO 47 (Spare3): */
-	{ 48, 'O' }, /* GPIO 48 (Spare4): Bias_Diag_Select */
-	{ 49, 'o' }, /* GPIO 49: Bias_Addr_Select (active-low) */
-	{ 50, 'o' }, /* GPIO 50: Bias_Clock (active-low) */
-	{ 51, 'o' }, /* GPIO 51: Bias_Latch (active-low) */
-	{ 52, 'O' }, /* GPIO 52: Bias_Bit */
+	// { 26, 'O' }, /* GPIO 26 (Sig8): */
+	// { 27, 'O' }, /* GPIO 27 (Sig9): */
+	// { 33, 'O' }, /* GPIO 33 (Sig12): */
+	// { 34, 'O' }, /* GPIO 34 (Sig13): */
+	// { 35, 'O' }, /* GPIO 35 (Sig14): */
+	// { 36, 'O' }, /* GPIO 36 (Sig15): */
+	// { 37, 'O' }, /* GPIO 37 (Sig16): */
+	// { 38, 'O' }, /* GPIO 38 (Sig17): */
+	// { 39, 'O' }, /* GPIO 39 (Sig18): */
+	// { 40, 'O' }, /* GPIO 40 (Sig19): */
+	// { 41, 'O' }, /* GPIO 41 (Sig20): */
+	// { 42, 'O' }, /* GPIO 42 (Sig21): */
+	// { 43, 'O' }, /* GPIO 43 (Sig22): */
+	// { 44, 'O' }, /* GPIO 44 (Sig23): */
+	// { 45, 'O' }, /* GPIO 45 (Sig24): */
+	// { 46, 'O' }, /* GPIO 46 (Sig25): */
+	// { 47, 'O' }, /* GPIO 47 (Sig26): */
+	// { 48, 'O' }, /* GPIO 48 (Sig27): */
+	// { 49, 'O' }, /* GPIO 49 (Sig28): */
+	{ 50, 'O' }, /* GPIO 50 (Sig29): FPGA Reset */
+	{ 51, 'O' }, /* GPIO 51 (FXLED): FX3 LED */
 };
 const uint8_t gpioConfig_DeviceSpecific_Length = (sizeof(gpioConfig_DeviceSpecific) / sizeof(gpioConfig_DeviceSpecific[0]));
 
 // Define GPIO to function mappings.
-#define FPGA_RESET 33
-#define FPGA_SPI_ALTSSN 38
-#define FPGA_SPI_SSN 39
-#define FPGA_SPI_CLOCK 40
-#define FPGA_SPI_MOSI 41
-#define FPGA_SPI_MISO 42
-#define BIAS_DIAG_SELECT 48
-#define BIAS_ADDR_SELECT 49
-#define BIAS_CLOCK 50
-#define BIAS_LATCH 51
-#define BIAS_BIT 52
+#define FPGA_RESET 50
 
 // Memory and device addresses.
-#define SNUM_MEMORY_ADDRESS 0x0C0000
+#define SNUM_MEMORY_ADDRESS 0x330000
 #define FPGA_MEMORY_ADDRESS 0x030000
 #define FPGA_SPI_ADDRESS 57
+#define FCONFIG_SPI_ADDRESS 52
 
 void CyFxHandleCustomGPIO_DeviceSpecific(uint8_t gpioId) {
 	CyFxErrorHandler(LOG_DEBUG, "GPIO was toggled.", gpioId);
 }
 
 extern uint8_t CyFxUSBSerialNumberDscr[];
-static inline void CyFxWriteByteToShiftReg(uint8_t byte, uint8_t clockID, uint8_t bitID);
-static inline uint8_t CyFxReadByteFromShiftReg(uint8_t clockID, uint8_t bitID);
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void);
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void);
 
@@ -95,10 +84,10 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 #define FPGA_CMD_WRITE_EN 0x4A
 #define FPGA_CMD_WRITE_DIS 0x4F
 
-// The Lattice ECP3-17EA FPGA has a JTAG IDCODE of 0x01010043.
-// It is returned bit-inverted, so it becomes 0xC2008080 for comparison. Further
-// the FX3 is a little-endian system, so we have to reverse the bytes: 0x808000C2.
-#define FPGA_JTAG_ID 0x808000C2
+// The Lattice ECP3-70EA FPGA has a JTAG IDCODE of 0x01014043.
+// It is returned bit-inverted, so it becomes 0xC2028080 for comparison. Further
+// the FX3 is a little-endian system, so we have to reverse the bytes: 0x808002C2.
+#define FPGA_JTAG_ID 0x808002C2
 
 // USB FPGA configuration phases
 #define FPGA_UPLOAD_PHASE_INIT 0 /* Check FPGA model, do refresh, clear memory */
@@ -109,8 +98,6 @@ CyU3PReturnStatus_t CyFxHandleCustomINIT_DeviceSpecific(void) {
 // Device-specific vendor requests
 #define VR_FPGA_UPLOAD 0xBE
 #define VR_FPGA_CONFIG 0xBF
-#define VR_CHIP_BIAS 0xC0
-#define VR_CHIP_DIAG 0xC1
 
 CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest, uint16_t wValue, uint16_t wIndex,
 	uint16_t wLength) {
@@ -303,147 +290,55 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			break;
 		}
 
-		case FX3_REQ_DIR(VR_CHIP_BIAS, FX3_USB_DIRECTION_IN):
-			if (wLength == 0) {
-				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_BIAS: zero byte transfer invalid", status);
-				break;
-			}
-
-			// Get data from USB control endpoint.
-			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
-			if (status != CY_U3P_SUCCESS) {
-				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_BIAS: CyU3PUsbGetEP0Data failed", status);
-				break;
-			}
-
-			// Ensure we're not accessing the chip diagnostic shift register.
-			CyFxGpioTurnOff(BIAS_DIAG_SELECT);
-
-			// Select addressed bias mode.
-			CyFxGpioTurnOn(BIAS_ADDR_SELECT);
-
-			// Write a byte, containing the bias address (from wValue).
-			CyFxWriteByteToShiftReg((uint8_t) wValue, BIAS_CLOCK, BIAS_BIT);
-
-			// Latch bias.
-			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PBusyWait(10);
-			CyFxGpioTurnOff(BIAS_LATCH);
-
-			// Release address selection.
-			CyFxGpioTurnOff(BIAS_ADDR_SELECT);
-
-			// Write out all the data bytes for this bias.
-			for (size_t i = 0; i < wLength; i++) {
-				CyFxWriteByteToShiftReg(glEP0Buffer[i], BIAS_CLOCK, BIAS_BIT);
-			}
-
-			// Latch bias.
-			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PBusyWait(10);
-			CyFxGpioTurnOff(BIAS_LATCH);
-
-			break;
-
-		case FX3_REQ_DIR(VR_CHIP_DIAG, FX3_USB_DIRECTION_IN):
-			if (wLength == 0) {
-				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_DIAG: zero byte transfer invalid", status);
-				break;
-			}
-
-			// Get data from USB control endpoint.
-			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
-			if (status != CY_U3P_SUCCESS) {
-				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_DIAG: CyU3PUsbGetEP0Data failed", status);
-				break;
-			}
-
-			// Ensure we are accessing the chip diagnostic shift register.
-			CyFxGpioTurnOn(BIAS_DIAG_SELECT);
-
-			// Write out all configuration bytes to the shift register.
-			for (size_t i = 0; i < wLength; i++) {
-				CyFxWriteByteToShiftReg(glEP0Buffer[i], BIAS_CLOCK, BIAS_BIT);
-			}
-
-			// Latch configuration.
-			CyFxGpioTurnOn(BIAS_LATCH);
-			CyU3PBusyWait(10);
-			CyFxGpioTurnOff(BIAS_LATCH);
-
-			// We're done and can deselect the chip diagnostic SR.
-			CyFxGpioTurnOff(BIAS_DIAG_SELECT);
-
-			break;
-
-		case FX3_REQ_DIR(VR_FPGA_CONFIG, FX3_USB_DIRECTION_IN):
-			if (wLength != 4 && ((wValue & 0x0100) != 0 && wLength != 0)) {
+		case FX3_REQ_DIR(VR_FPGA_CONFIG, FX3_USB_DIRECTION_IN): {
+			if (wLength != 4) {
 				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
 				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG WRITE: only 4 byte writes are supported", status);
 				break;
 			}
 
 			// Get data from USB control endpoint.
-			if (wLength != 0) {
-				status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
-				if (status != CY_U3P_SUCCESS) {
-					CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG WRITE: CyU3PUsbGetEP0Data failed", status);
-					break;
-				}
-			}
-			else {
-				CyU3PUsbAckSetup();
+			status = CyU3PUsbGetEP0Data(wLength, glEP0Buffer, NULL);
+			if (status != CY_U3P_SUCCESS) {
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG WRITE: CyU3PUsbGetEP0Data failed", status);
+				break;
 			}
 
-			if ((wValue & 0x0100) != 0) {
-				// Write out special configuration values using alternative SPI bus.
-				// NOTE: this is temporary to support specialized usage by ATC.
-				CyFxWriteByteToShiftReg((uint8_t) wValue, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg((uint8_t) wIndex, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+			uint8_t cmd[2] = { 0 };
 
-				CyFxGpioTurnOn(FPGA_SPI_ALTSSN);
-				CyFxGpioTurnOff(FPGA_SPI_ALTSSN);
-			}
-			else {
-				// Write out all configuration bytes to the FPGA, using its SPI bus.
-				// Newer boards will migrate this to the embedded SPI controller for full-duplex.
-				CyFxGpioTurnOn(FPGA_SPI_SSN);
+			// Highest bit of first byte is zero to indicate write operation.
+			cmd[0] = (wValue & 0x7F);
+			cmd[1] = (uint8_t) wIndex;
 
-				// Highest bit of first byte is zero to indicate write operation.
-				CyFxWriteByteToShiftReg((uint8_t) (wValue & 0x7F), FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				CyFxWriteByteToShiftReg((uint8_t) wIndex, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-
-				for (size_t i = 0; i < wLength; i++) {
-					CyFxWriteByteToShiftReg(glEP0Buffer[i], FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-				}
-
-				CyFxGpioTurnOff(FPGA_SPI_SSN);
+			status = CyFxSpiCommand(FCONFIG_SPI_ADDRESS, cmd, 2, glEP0Buffer, 4, SPI_WRITE,
+				SPI_ASSERT | SPI_DEASSERT);
+			if (status != CY_U3P_SUCCESS) {
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG WRITE: failed SPI config write", status);
+				break;
 			}
 
 			break;
+		}
 
-		case FX3_REQ_DIR(VR_FPGA_CONFIG, FX3_USB_DIRECTION_OUT):
+		case FX3_REQ_DIR(VR_FPGA_CONFIG, FX3_USB_DIRECTION_OUT): {
 			if (wLength != 4) {
 				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
 				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG READ: only 4 byte reads are supported", status);
 				break;
 			}
 
-			// Read configuration bits from the FPGA, using its SPI bus.
-			// Newer boards will migrate this to the embedded SPI controller for full-duplex.
-			CyFxGpioTurnOn(FPGA_SPI_SSN);
+			uint8_t cmd[2] = { 0 };
 
 			// Highest bit of first byte is one to indicate read operation.
-			CyFxWriteByteToShiftReg((uint8_t) (wValue | 0x80), FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
-			CyFxWriteByteToShiftReg((uint8_t) wIndex, FPGA_SPI_CLOCK, FPGA_SPI_MOSI);
+			cmd[0] = (uint8_t) (wValue | 0x80);
+			cmd[1] = (uint8_t) wIndex;
 
-			for (size_t i = 0; i < wLength; i++) {
-				glEP0Buffer[i] = CyFxReadByteFromShiftReg(FPGA_SPI_CLOCK, FPGA_SPI_MISO);
+			status = CyFxSpiCommand(FCONFIG_SPI_ADDRESS, cmd, 2, glEP0Buffer, 4, SPI_READ,
+				SPI_ASSERT | SPI_DEASSERT);
+			if (status != CY_U3P_SUCCESS) {
+				CyFxErrorHandler(LOG_ERROR, "VR_FPGA_CONFIG READ: failed SPI config read", status);
+				break;
 			}
-
-			CyFxGpioTurnOff(FPGA_SPI_SSN);
 
 			// Send content back to host.
 			status = CyU3PUsbSendEP0Data(4, glEP0Buffer);
@@ -453,6 +348,7 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			}
 
 			break;
+		}
 
 		default:
 			// Not handled in this module
@@ -469,59 +365,6 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 
 	// In any case, we handled the request!
 	return (CyTrue);
-}
-
-static inline void CyFxWriteByteToShiftReg(uint8_t byte, uint8_t clockID, uint8_t bitID) {
-	// Disable clock.
-	CyFxGpioTurnOff(clockID);
-
-	// Step through the eight bits of the given byte, starting at the highest
-	// (MSB) and going down to the lowest (LSB).
-	for (size_t i = 0; i < 8; i++) {
-		// Set the current bit value, based on the highest bit.
-		if (byte & 0x80) {
-			CyFxGpioTurnOn(bitID);
-		}
-		else {
-			CyFxGpioTurnOff(bitID);
-		}
-
-		// Pulse clock to signal value is ready to be read.
-		CyFxGpioTurnOn(clockID);
-		CyFxGpioTurnOff(clockID);
-
-		// Shift left by one, making the second highest bit the highest.
-		byte = (uint8_t) (byte << 1);
-	}
-}
-
-static inline uint8_t CyFxReadByteFromShiftReg(uint8_t clockID, uint8_t bitID) {
-	// Disable clock.
-	CyFxGpioTurnOff(clockID);
-
-	uint8_t byte = 0;
-
-	for (size_t i = 0; i < 8; i++) {
-		// Pulse clock to signal slave to output new value.
-		CyFxGpioTurnOn(clockID);
-
-		// Get the current bit value, based on the GPIO value.
-		if (CyFxGpioGet(bitID)) {
-			byte |= 1;
-		}
-		else {
-			byte |= 0;
-		}
-
-		CyFxGpioTurnOff(clockID);
-
-		// Shift left by one, progressively moving the first set bit to be the MSB.
-		if (i != 7) {
-			byte = (uint8_t) (byte << 1);
-		}
-	}
-
-	return (byte);
 }
 
 static inline CyU3PReturnStatus_t CyFxCustomInit_LoadSerialNumber(void) {
@@ -707,4 +550,4 @@ static inline CyU3PReturnStatus_t CyFxCustomInit_LoadFPGABitstream(void) {
 	return (status);
 }
 
-#endif /* DAVISFX3 */
+#endif /* DAVISFX3R2 */
