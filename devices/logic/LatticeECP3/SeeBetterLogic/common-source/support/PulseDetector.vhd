@@ -1,8 +1,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.math_real."ceil";
-use ieee.math_real."log2";
+use ieee.math_real.ceil;
+use ieee.math_real.log2;
 
 entity PulseDetector is
 	generic (

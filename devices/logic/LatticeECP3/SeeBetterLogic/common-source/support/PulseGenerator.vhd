@@ -1,6 +1,6 @@
 library IEEE;
-use IEEE.MATH_REAL."ceil";
-use IEEE.MATH_REAL."log2";
+use IEEE.MATH_REAL.ceil;
+use IEEE.MATH_REAL.log2;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.NUMERIC_STD.all;
 
