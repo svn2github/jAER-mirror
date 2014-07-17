@@ -167,7 +167,7 @@ begin
 			Overflow_SO	 => TimestampOverflowBufferOverflow_S,
 			Data_DO		 => TimestampOverflowBuffer_D);
 
-	p_memoryless : process (State_DP, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoControl_SI, DVSAERFifoControl_SI, APSADCFifoControl_SI, IMUFifoControl_SI, ExtTriggerFifoControl_SI, MultiplexerConfig_DI)
+	p_memoryless : process (State_DP, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoControl_SI, DVSAERFifoControl_SI, DVSAERFifoData_DI, APSADCFifoControl_SI, APSADCFifoData_DI, IMUFifoControl_SI, IMUFifoData_DI, ExtTriggerFifoControl_SI, ExtTriggerFifoData_DI, MultiplexerConfig_DI)
 	begin
 		State_DN <= State_DP;			-- Keep current state by default.
 

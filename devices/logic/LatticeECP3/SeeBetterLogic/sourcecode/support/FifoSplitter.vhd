@@ -13,10 +13,12 @@ entity FifoSplitter is
 		FifoInControl_SO : out tToFifoReadSide;
 		FifoInData_DI	 : in  std_logic_vector(FIFO_WIDTH-1 downto 0);
 
+		FifoOut1Enable_SI  : in	 std_logic;
 		FifoOut1Control_SI : in	 tFromFifoWriteSide;
 		FifoOut1Control_SO : out tToFifoWriteSide;
 		FifoOut1Data_DO	   : out std_logic_vector(FIFO_WIDTH-1 downto 0);
 
+		FifoOut2Enable_SI  : in	 std_logic;
 		FifoOut2Control_SI : in	 tFromFifoWriteSide;
 		FifoOut2Control_SO : out tToFifoWriteSide;
 		FifoOut2Data_DO	   : out std_logic_vector(FIFO_WIDTH-1 downto 0));
@@ -40,8 +42,8 @@ begin
 			WriteDelayReg_S			   <= '0';
 			DataFifoOutReg_D		   <= (others => '0');
 		elsif rising_edge(Clock_CI) then  -- rising clock edge
-			FifoOut1Control_SO.Write_S <= WriteDelayReg_S and not FifoOut1Control_SI.Full_S;
-			FifoOut2Control_SO.Write_S <= WriteDelayReg_S and not FifoOut2Control_SI.Full_S;
+			FifoOut1Control_SO.Write_S <= WriteDelayReg_S and not FifoOut1Control_SI.Full_S and FifoOut1Enable_SI;
+			FifoOut2Control_SO.Write_S <= WriteDelayReg_S and not FifoOut2Control_SI.Full_S and FifoOut2Enable_SI;
 			WriteDelayReg_S			   <= FifoInNotEmpty_S;
 			DataFifoOutReg_D		   <= FifoInData_DI;
 		end if;
