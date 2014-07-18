@@ -21,6 +21,9 @@
         <Source name="../common-source/ext/i2c_master.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/support/FifoSplitter.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/support/DFFSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
@@ -30,25 +33,28 @@
         <Source name="../common-source/support/ResetSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/support/SimpleRegister.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/support/BufferClear.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/support/ContinuousCounter.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/support/ContinuousCounter_tb.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/support/ShiftRegister.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/ShiftRegisterModes.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/support/EdgeDetector.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/support/PulseGenerator.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/support/PulseGenerator_tb.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
         <Source name="../common-source/support/PulseDetector.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/support/PulseDetector_tb.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="private-source/TopLevel.vhd" type="VHDL" type_short="VHDL">
@@ -69,6 +75,9 @@
         <Source name="../common-source/MultiplexerStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/MultiplexerConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/TimestampGenerator.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
@@ -85,6 +94,9 @@
             <Options/>
         </Source>
         <Source name="../common-source/ExtTriggerStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/SPIConfig.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="SeeBetterLogic_FX2.lpf" type="Logic Preference" type_short="LPF">
