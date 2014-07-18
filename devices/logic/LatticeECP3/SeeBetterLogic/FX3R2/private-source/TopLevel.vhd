@@ -151,8 +151,7 @@ begin
 	USBFifoChipSelect_SBO <= '0';       -- Always keep USB chip selected (active-low).
 	USBFifoRead_SBO       <= '1';       -- We never read from the USB data path (active-low).
 	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
-	ChipBiasEnable_SO     <= DVSAERConfig_D.Run_S; -- Always enable if chip is
-	-- needed (DVS or APS).
+	ChipBiasEnable_SO     <= DVSAERConfig_D.Run_S; -- Always enable if chip is needed (DVS or APS).
 
 	-- Wire all LEDs.
 	led1Buffer : entity work.SimpleRegister
