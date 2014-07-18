@@ -6,86 +6,47 @@ use work.MultiplexerConfigRecords.all;
 use work.DVSAERConfigRecords.all;
 
 entity SPIConfig is
-	port (
-		Clock_CI : in std_logic;
-		Reset_RI : in std_logic;
+	port(
+		Clock_CI             : in  std_logic;
+		Reset_RI             : in  std_logic;
 
 		-- SPI ports
-		SPISlaveSelect_SBI : in	 std_logic;
-		SPIClock_CI		   : in	 std_logic;
-		SPIMOSI_DI		   : in	 std_logic;
-		SPIMISO_ZO		   : out std_logic;
+		SPISlaveSelect_SBI   : in  std_logic;
+		SPIClock_CI          : in  std_logic;
+		SPIMOSI_DI           : in  std_logic;
+		SPIMISO_ZO           : out std_logic;
 
 		-- Configuration modules outputs
 		MultiplexerConfig_DO : out tMultiplexerConfig;
-		DVSAERConfig_DO		 : out tDVSAERConfig);
+		DVSAERConfig_DO      : out tDVSAERConfig);
 end entity SPIConfig;
 
 architecture Behavioral of SPIConfig is
-	component EdgeDetector is
-		generic (
-			SIGNAL_START_POLARITY : std_logic := '0');
-		port (
-			Clock_CI			   : in	 std_logic;
-			Reset_RI			   : in	 std_logic;
-			InputSignal_SI		   : in	 std_logic;
-			RisingEdgeDetected_SO  : out std_logic;
-			FallingEdgeDetected_SO : out std_logic);
-	end component EdgeDetector;
-
-	component ShiftRegister is
-		generic (
-			SIZE : integer := 8);
-		port (
-			Clock_CI		 : in  std_logic;
-			Reset_RI		 : in  std_logic;
-			Mode_SI			 : in  std_logic_vector(SHIFTREGISTER_MODE_SIZE-1 downto 0);
-			DataIn_DI		 : in  std_logic;
-			ParallelWrite_DI : in  std_logic_vector(SIZE-1 downto 0);
-			ParallelRead_DO	 : out std_logic_vector(SIZE-1 downto 0));
-	end component ShiftRegister;
-
-	component ContinuousCounter is
-		generic (
-			COUNTER_WIDTH	  : integer := 16;
-			RESET_ON_OVERFLOW : boolean := true;
-			SHORT_OVERFLOW	  : boolean := false;
-			OVERFLOW_AT_ZERO  : boolean := false);
-		port (
-			Clock_CI	 : in  std_logic;
-			Reset_RI	 : in  std_logic;
-			Clear_SI	 : in  std_logic;
-			Enable_SI	 : in  std_logic;
-			DataLimit_DI : in  unsigned(COUNTER_WIDTH-1 downto 0);
-			Overflow_SO	 : out std_logic;
-			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
-	end component ContinuousCounter;
-
 	constant RESET_ADDRESS : unsigned(7 downto 0) := (others => '1');
 
 	type state is (stIdle, stInput, stOutput);
 
-	attribute syn_enum_encoding			 : string;
+	attribute syn_enum_encoding : string;
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
 	signal State_DP, State_DN : state;
 
 	signal SPIClockRisingEdges_S, SPIClockFallingEdges_S : std_logic;
-	signal SPIReadMOSI_S, SPIWriteMISO_S				 : std_logic;
-	signal SPIInputSRegMode_S							 : std_logic_vector(SHIFTREGISTER_MODE_SIZE-1 downto 0);
-	signal SPIInputContent_D							 : std_logic_vector(7 downto 0);
-	signal SPIOutputSRegMode_S							 : std_logic_vector(SHIFTREGISTER_MODE_SIZE-1 downto 0);
-	signal SPIOutputContent_D							 : std_logic_vector(31 downto 0);
-	signal SPIBitCounterClear_S, SPIBitCounterEnable_S	 : std_logic;
-	signal SPIBitCount_D								 : unsigned(5 downto 0);
+	signal SPIReadMOSI_S, SPIWriteMISO_S                 : std_logic;
+	signal SPIInputSRegMode_S                            : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
+	signal SPIInputContent_D                             : std_logic_vector(7 downto 0);
+	signal SPIOutputSRegMode_S                           : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
+	signal SPIOutputContent_D                            : std_logic_vector(31 downto 0);
+	signal SPIBitCounterClear_S, SPIBitCounterEnable_S   : std_logic;
+	signal SPIBitCount_D                                 : unsigned(5 downto 0);
 
 	signal ReadOperationReg_SP, ReadOperationReg_SN : std_logic;
 	signal ModuleAddressReg_DP, ModuleAddressReg_DN : unsigned(6 downto 0);
-	signal ParamAddressReg_DP, ParamAddressReg_DN	: unsigned(7 downto 0);
+	signal ParamAddressReg_DP, ParamAddressReg_DN   : unsigned(7 downto 0);
 
 	signal LatchInputReg_SP, LatchInputReg_SN : std_logic;
-	signal ParamInput_DP, ParamInput_DN		  : std_logic_vector(31 downto 0);
+	signal ParamInput_DP, ParamInput_DN       : std_logic_vector(31 downto 0);
 
 	signal ParamOutput_DP, ParamOutput_DN : std_logic_vector(31 downto 0);
 
@@ -94,15 +55,15 @@ architecture Behavioral of SPIConfig is
 
 	-- Configuration modules registers
 	signal MultiplexerConfigReg_DP, MultiplexerConfigReg_DN : tMultiplexerConfig;
-	signal DVSAERConfigReg_DP, DVSAERConfigReg_DN			: tDVSAERConfig;
-begin  -- architecture Behavioral
+	signal DVSAERConfigReg_DP, DVSAERConfigReg_DN           : tDVSAERConfig;
+begin                                   -- architecture Behavioral
 	-- The SPI input lines have already been synchronized to the logic clock at
 	-- this point, so we can use and sample them directly.
-	spiClockDetector : EdgeDetector
-		port map (
-			Clock_CI			   => Clock_CI,
-			Reset_RI			   => Reset_RI,
-			InputSignal_SI		   => SPIClock_CI,
+	spiClockDetector : entity work.EdgeDetector
+		port map(
+			Clock_CI               => Clock_CI,
+			Reset_RI               => Reset_RI,
+			InputSignal_SI         => SPIClock_CI,
 			RisingEdgeDetected_SO  => SPIClockRisingEdges_S,
 			FallingEdgeDetected_SO => SPIClockFallingEdges_S);
 
@@ -112,40 +73,40 @@ begin  -- architecture Behavioral
 	SPIReadMOSI_S  <= SPIClockRisingEdges_S and not SPISlaveSelect_SBI;
 	SPIWriteMISO_S <= SPIClockFallingEdges_S and not SPISlaveSelect_SBI;
 
-	spiInputShiftRegister : ShiftRegister
-		port map (
-			Clock_CI		 => Clock_CI,
-			Reset_RI		 => Reset_RI,
-			Mode_SI			 => SPIInputSRegMode_S,
-			DataIn_DI		 => SPIMOSI_DI,
+	spiInputShiftRegister : entity work.ShiftRegister
+		port map(
+			Clock_CI         => Clock_CI,
+			Reset_RI         => Reset_RI,
+			Mode_SI          => SPIInputSRegMode_S,
+			DataIn_DI        => SPIMOSI_DI,
 			ParallelWrite_DI => (others => '0'),
-			ParallelRead_DO	 => SPIInputContent_D);
+			ParallelRead_DO  => SPIInputContent_D);
 
-	spiOutputShiftRegister : ShiftRegister
-		generic map (
+	spiOutputShiftRegister : entity work.ShiftRegister
+		generic map(
 			SIZE => 32)
-		port map (
-			Clock_CI		 => Clock_CI,
-			Reset_RI		 => Reset_RI,
-			Mode_SI			 => SPIOutputSRegMode_S,
-			DataIn_DI		 => '0',
+		port map(
+			Clock_CI         => Clock_CI,
+			Reset_RI         => Reset_RI,
+			Mode_SI          => SPIOutputSRegMode_S,
+			DataIn_DI        => '0',
 			ParallelWrite_DI => ParamOutput_DP,
-			ParallelRead_DO	 => SPIOutputContent_D);
+			ParallelRead_DO  => SPIOutputContent_D);
 
-	spiBitCounter : ContinuousCounter
-		generic map (
+	spiBitCounter : entity work.ContinuousCounter
+		generic map(
 			COUNTER_WIDTH  => 6,
 			SHORT_OVERFLOW => true)
-		port map (
-			Clock_CI	 => Clock_CI,
-			Reset_RI	 => Reset_RI,
-			Clear_SI	 => SPIBitCounterClear_S,
-			Enable_SI	 => SPIBitCounterEnable_S,
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => SPIBitCounterClear_S,
+			Enable_SI    => SPIBitCounterEnable_S,
 			DataLimit_DI => (others => '1'),
-			Overflow_SO	 => open,
-			Data_DO		 => SPIBitCount_D);
+			Overflow_SO  => open,
+			Data_DO      => SPIBitCount_D);
 
-	spiCommunication : process (State_DP, SPIInputContent_D, SPIOutputContent_D, SPIBitCount_D, SPISlaveSelect_SBI, SPIReadMOSI_S, SPIWriteMISO_S, ReadOperationReg_SP, ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP)
+	spiCommunication : process(State_DP, SPIInputContent_D, SPIOutputContent_D, SPIBitCount_D, SPISlaveSelect_SBI, SPIReadMOSI_S, SPIWriteMISO_S, ReadOperationReg_SP, ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;
@@ -153,17 +114,17 @@ begin  -- architecture Behavioral
 		-- Keep all registers at current value by default.
 		ReadOperationReg_SN <= ReadOperationReg_SP;
 		ModuleAddressReg_DN <= ModuleAddressReg_DP;
-		ParamAddressReg_DN	<= ParamAddressReg_DP;
+		ParamAddressReg_DN  <= ParamAddressReg_DP;
 
 		LatchInputReg_SN <= '0';
-		ParamInput_DN	 <= ParamInput_DP;
+		ParamInput_DN    <= ParamInput_DP;
 
 		-- SPI output is Hi-Z by default.
 		SPIMISOReg_Z <= 'Z';
 
 		-- Keep the input elements (shift register and counter) fixed.
-		SPIInputSRegMode_S	  <= SHIFTREGISTER_MODE_DO_NOTHING;
-		SPIOutputSRegMode_S	  <= SHIFTREGISTER_MODE_DO_NOTHING;
+		SPIInputSRegMode_S    <= SHIFTREGISTER_MODE_DO_NOTHING;
+		SPIOutputSRegMode_S   <= SHIFTREGISTER_MODE_DO_NOTHING;
 		SPIBitCounterClear_S  <= '0';
 		SPIBitCounterEnable_S <= '0';
 
@@ -176,8 +137,8 @@ begin  -- architecture Behavioral
 				end if;
 
 				-- Keep input elements clear while idling.
-				SPIInputSRegMode_S	 <= SHIFTREGISTER_MODE_PARALLEL_CLEAR;
-				SPIOutputSRegMode_S	 <= SHIFTREGISTER_MODE_PARALLEL_CLEAR;
+				SPIInputSRegMode_S   <= SHIFTREGISTER_MODE_PARALLEL_CLEAR;
+				SPIOutputSRegMode_S  <= SHIFTREGISTER_MODE_PARALLEL_CLEAR;
 				SPIBitCounterClear_S <= '1';
 
 			when stInput =>
@@ -186,7 +147,7 @@ begin  -- architecture Behavioral
 				SPIMISOReg_Z <= '0';
 
 				if SPIReadMOSI_S = '1' then
-					SPIInputSRegMode_S	  <= SHIFTREGISTER_MODE_SHIFT_LEFT;
+					SPIInputSRegMode_S    <= SHIFTREGISTER_MODE_SHIFT_LEFT;
 					SPIBitCounterEnable_S <= '1';
 				end if;
 
@@ -251,26 +212,26 @@ begin  -- architecture Behavioral
 		end case;
 	end process spiCommunication;
 
-	configReadWrite : process (ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP, MultiplexerConfigReg_DP, DVSAERConfigReg_DP)
+	configReadWrite : process(ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP, MultiplexerConfigReg_DP, DVSAERConfigReg_DP)
 	begin
-		ParamOutput_DN			<= (others => '0');
+		ParamOutput_DN          <= (others => '0');
 		MultiplexerConfigReg_DN <= MultiplexerConfigReg_DP;
-		DVSAERConfigReg_DN		<= DVSAERConfigReg_DP;
+		DVSAERConfigReg_DN      <= DVSAERConfigReg_DP;
 
 		case ModuleAddressReg_DP is
 			when MULTIPLEXERCONFIG_MODULE_ADDRESS =>
 				case ParamAddressReg_DP is
 					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.Run_S =>
 						MultiplexerConfigReg_DN.Run_S <= ParamInput_DP(0);
-						ParamOutput_DN(0)			  <= MultiplexerConfigReg_DP.Run_S;
+						ParamOutput_DN(0)             <= MultiplexerConfigReg_DP.Run_S;
 
 					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.TimestampRun_S =>
 						MultiplexerConfigReg_DN.TimestampRun_S <= ParamInput_DP(0);
-						ParamOutput_DN(0)					   <= MultiplexerConfigReg_DP.TimestampRun_S;
+						ParamOutput_DN(0)                      <= MultiplexerConfigReg_DP.TimestampRun_S;
 
 					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.TimestampReset_S =>
 						MultiplexerConfigReg_DN.TimestampReset_S <= ParamInput_DP(0);
-						ParamOutput_DN(0)						 <= MultiplexerConfigReg_DP.TimestampReset_S;
+						ParamOutput_DN(0)                        <= MultiplexerConfigReg_DP.TimestampReset_S;
 
 					when RESET_ADDRESS =>
 						MultiplexerConfigReg_DN <= tMultiplexerConfigDefault;
@@ -282,15 +243,15 @@ begin  -- architecture Behavioral
 				case ParamAddressReg_DP is
 					when DVSAERCONFIG_PARAM_ADDRESSES.Run_S =>
 						DVSAERConfigReg_DN.Run_S <= ParamInput_DP(0);
-						ParamOutput_DN(0)		 <= DVSAERConfigReg_DP.Run_S;
+						ParamOutput_DN(0)        <= DVSAERConfigReg_DP.Run_S;
 
 					when DVSAERCONFIG_PARAM_ADDRESSES.AckDelay_D =>
-						DVSAERConfigReg_DN.AckDelay_D							   <= unsigned(ParamInput_DP(tDVSAERConfig.AckDelay_D'length-1 downto 0));
-						ParamOutput_DN(tDVSAERConfig.AckDelay_D'length-1 downto 0) <= std_logic_vector(DVSAERConfigReg_DP.AckDelay_D);
+						DVSAERConfigReg_DN.AckDelay_D                                <= unsigned(ParamInput_DP(tDVSAERConfig.AckDelay_D'length - 1 downto 0));
+						ParamOutput_DN(tDVSAERConfig.AckDelay_D'length - 1 downto 0) <= std_logic_vector(DVSAERConfigReg_DP.AckDelay_D);
 
 					when DVSAERCONFIG_PARAM_ADDRESSES.AckExtension_D =>
-						DVSAERConfigReg_DN.AckExtension_D							   <= unsigned(ParamInput_DP(tDVSAERConfig.AckExtension_D'length-1 downto 0));
-						ParamOutput_DN(tDVSAERConfig.AckExtension_D'length-1 downto 0) <= std_logic_vector(DVSAERConfigReg_DP.AckExtension_D);
+						DVSAERConfigReg_DN.AckExtension_D                                <= unsigned(ParamInput_DP(tDVSAERConfig.AckExtension_D'length - 1 downto 0));
+						ParamOutput_DN(tDVSAERConfig.AckExtension_D'length - 1 downto 0) <= std_logic_vector(DVSAERConfigReg_DP.AckExtension_D);
 
 					when RESET_ADDRESS =>
 						DVSAERConfigReg_DN <= tDVSAERConfigDefault;
@@ -302,44 +263,44 @@ begin  -- architecture Behavioral
 		end case;
 	end process configReadWrite;
 
-	regUpdate : process (Clock_CI, Reset_RI) is
+	regUpdate : process(Clock_CI, Reset_RI) is
 	begin
-		if Reset_RI = '1' then			-- asynchronous reset (active high)
+		if Reset_RI = '1' then          -- asynchronous reset (active high)
 			State_DP <= stIdle;
 
 			ReadOperationReg_SP <= '0';
 			ModuleAddressReg_DP <= (others => '0');
-			ParamAddressReg_DP	<= (others => '0');
+			ParamAddressReg_DP  <= (others => '0');
 
 			LatchInputReg_SP <= '0';
-			ParamInput_DP	 <= (others => '0');
+			ParamInput_DP    <= (others => '0');
 
 			ParamOutput_DP <= (others => '0');
-			SPIMISO_ZO	   <= 'Z';
+			SPIMISO_ZO     <= 'Z';
 
 			MultiplexerConfigReg_DP <= tMultiplexerConfigDefault;
-			DVSAERConfigReg_DP		<= tDVSAERConfigDefault;
-		elsif rising_edge(Clock_CI) then  -- rising clock edge
+			DVSAERConfigReg_DP      <= tDVSAERConfigDefault;
+		elsif rising_edge(Clock_CI) then -- rising clock edge
 			State_DP <= State_DN;
 
 			ReadOperationReg_SP <= ReadOperationReg_SN;
 			ModuleAddressReg_DP <= ModuleAddressReg_DN;
-			ParamAddressReg_DP	<= ParamAddressReg_DN;
+			ParamAddressReg_DP  <= ParamAddressReg_DN;
 
 			LatchInputReg_SP <= LatchInputReg_SN;
-			ParamInput_DP	 <= ParamInput_DN;
+			ParamInput_DP    <= ParamInput_DN;
 
 			ParamOutput_DP <= ParamOutput_DN;
-			SPIMISO_ZO	   <= SPIMISOReg_Z;
+			SPIMISO_ZO     <= SPIMISOReg_Z;
 
 			if LatchInputReg_SP = '1' then
 				MultiplexerConfigReg_DP <= MultiplexerConfigReg_DN;
-				DVSAERConfigReg_DP		<= DVSAERConfigReg_DN;
+				DVSAERConfigReg_DP      <= DVSAERConfigReg_DN;
 			end if;
 		end if;
 	end process regUpdate;
 
 	-- Connect configuration modules outputs
 	MultiplexerConfig_DO <= MultiplexerConfigReg_DP;
-	DVSAERConfig_DO		 <= DVSAERConfigReg_DP;
+	DVSAERConfig_DO      <= DVSAERConfigReg_DP;
 end architecture Behavioral;

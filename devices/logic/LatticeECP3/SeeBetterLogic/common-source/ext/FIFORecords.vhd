@@ -18,12 +18,12 @@ package FIFORecords is
 
 	-- Outputs from the FIFO.
 	type tFromFifoReadSide is record
-		Empty_S		  : std_logic;
+		Empty_S       : std_logic;
 		AlmostEmpty_S : std_logic;
 	end record tFromFifoReadSide;
 
 	type tFromFifoWriteSide is record
-		Full_S		 : std_logic;
+		Full_S       : std_logic;
 		AlmostFull_S : std_logic;
 	end record tFromFifoWriteSide;
 

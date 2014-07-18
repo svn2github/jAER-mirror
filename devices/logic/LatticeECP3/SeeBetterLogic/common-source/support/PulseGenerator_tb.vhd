@@ -4,39 +4,38 @@ use ieee.std_logic_1164.all;
 -------------------------------------------------------------------------------
 
 entity PulseGenerator_tb is
-
 end entity PulseGenerator_tb;
 
 -------------------------------------------------------------------------------
 
 architecture Testbench of PulseGenerator_tb is
 	-- component generics
-	constant PULSE_EVERY_CYCLES : integer	:= 20;
-	constant PULSE_POLARITY		: std_logic := '1';
+	constant PULSE_EVERY_CYCLES : integer   := 20;
+	constant PULSE_POLARITY     : std_logic := '1';
 
 	-- component ports
-	signal Clock_C	  : std_logic;
-	signal Reset_R	  : std_logic;
-	signal Clear_S	  : std_logic;
+	signal Clock_C    : std_logic;
+	signal Reset_R    : std_logic;
+	signal Clear_S    : std_logic;
 	signal PulseOut_S : std_logic;
 
 	-- clock
 	signal Clk : std_logic := '1';
-begin  -- architecture Test
+begin                                   -- architecture Test
 
 	-- component instantiation
 	DUT : entity work.PulseGenerator
-		generic map (
+		generic map(
 			PULSE_EVERY_CYCLES => PULSE_EVERY_CYCLES,
-			PULSE_POLARITY	   => PULSE_POLARITY)
-		port map (
-			Clock_CI	=> Clock_C,
-			Reset_RI	=> Reset_R,
-			Clear_SI	=> Clear_S,
+			PULSE_POLARITY     => PULSE_POLARITY)
+		port map(
+			Clock_CI    => Clock_C,
+			Reset_RI    => Reset_R,
+			Clear_SI    => Clear_S,
 			PulseOut_SO => PulseOut_S);
 
 	-- clock generation
-	Clk		<= not Clk after 0.5 ns;
+	Clk     <= not Clk after 0.5 ns;
 	Clock_C <= Clk;
 
 	-- waveform generation

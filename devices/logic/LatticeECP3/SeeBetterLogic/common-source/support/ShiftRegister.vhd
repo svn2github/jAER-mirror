@@ -20,24 +20,24 @@ use work.ShiftRegisterModes.all;
 -- See ShiftRegisterModes for constants.
 
 entity ShiftRegister is
-	generic (
+	generic(
 		SIZE : integer := 8);
-	port (
-		Clock_CI : in std_logic;
-		Reset_RI : in std_logic;
+	port(
+		Clock_CI         : in  std_logic;
+		Reset_RI         : in  std_logic;
 
-		Mode_SI : in std_logic_vector(SHIFTREGISTER_MODE_SIZE-1 downto 0);
+		Mode_SI          : in  std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
 
-		DataIn_DI : in std_logic;
+		DataIn_DI        : in  std_logic;
 
-		ParallelWrite_DI : in  std_logic_vector(SIZE-1 downto 0);
-		ParallelRead_DO	 : out std_logic_vector(SIZE-1 downto 0));
+		ParallelWrite_DI : in  std_logic_vector(SIZE - 1 downto 0);
+		ParallelRead_DO  : out std_logic_vector(SIZE - 1 downto 0));
 end entity ShiftRegister;
 
 architecture Behavioral of ShiftRegister is
-	signal ShiftReg_DP, ShiftReg_DN : std_logic_vector(SIZE-1 downto 0);
+	signal ShiftReg_DP, ShiftReg_DN : std_logic_vector(SIZE - 1 downto 0);
 begin
-	shiftRegState : process (ShiftReg_DP, Mode_SI, DataIn_DI, ParallelWrite_DI)
+	shiftRegState : process(ShiftReg_DP, Mode_SI, DataIn_DI, ParallelWrite_DI)
 	begin
 		-- Don't change the shift register by default.
 		ShiftReg_DN <= ShiftReg_DP;
@@ -55,26 +55,26 @@ begin
 				ShiftReg_DN <= (others => '1');
 
 			when SHIFTREGISTER_MODE_SHIFT_RIGHT =>
-				ShiftReg_DN <= DataIn_DI & ShiftReg_DP(SIZE-1 downto 1);
+				ShiftReg_DN <= DataIn_DI & ShiftReg_DP(SIZE - 1 downto 1);
 
 			when SHIFTREGISTER_MODE_SHIFT_LEFT =>
-				ShiftReg_DN <= ShiftReg_DP(SIZE-2 downto 0) & DataIn_DI;
+				ShiftReg_DN <= ShiftReg_DP(SIZE - 2 downto 0) & DataIn_DI;
 
 			when SHIFTREGISTER_MODE_SHIFT_RIGHT_ZERO =>
-				ShiftReg_DN <= '0' & ShiftReg_DP(SIZE-1 downto 1);
+				ShiftReg_DN <= '0' & ShiftReg_DP(SIZE - 1 downto 1);
 
 			when SHIFTREGISTER_MODE_SHIFT_LEFT_ZERO =>
-				ShiftReg_DN <= ShiftReg_DP(SIZE-2 downto 0) & '0';
+				ShiftReg_DN <= ShiftReg_DP(SIZE - 2 downto 0) & '0';
 
 			when others => null;
 		end case;
 	end process shiftRegState;
 
-	shiftRegUpdate : process (Clock_CI, Reset_RI) is
-	begin  -- process shiftRegUpdate
-		if Reset_RI = '1' then			  -- asynchronous reset (active high)
+	shiftRegUpdate : process(Clock_CI, Reset_RI) is
+	begin                               -- process shiftRegUpdate
+		if Reset_RI = '1' then          -- asynchronous reset (active high)
 			ShiftReg_DP <= (others => '0');
-		elsif rising_edge(Clock_CI) then  -- rising clock edge
+		elsif rising_edge(Clock_CI) then -- rising clock edge
 			ShiftReg_DP <= ShiftReg_DN;
 		end if;
 	end process shiftRegUpdate;

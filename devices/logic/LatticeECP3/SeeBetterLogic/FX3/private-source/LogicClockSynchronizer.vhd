@@ -1,121 +1,106 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.all;
+library ieee;
+use ieee.std_logic_1164.all;
 
 entity LogicClockSynchronizer is
-	port (
-		LogicClock_CI : in	std_logic;
-		Reset_RI	  : in	std_logic;
-		ResetSync_RO  : out std_logic;
+	port(
+		LogicClock_CI          : in  std_logic;
+		Reset_RI               : in  std_logic;
+		ResetSync_RO           : out std_logic;
 
 		-- Signals to synchronize and their synchronized counterparts.
-		SPISlaveSelect_SBI	   : in	 std_logic;
+		SPISlaveSelect_SBI     : in  std_logic;
 		SPISlaveSelectSync_SBO : out std_logic;
-		SPIClock_CI			   : in	 std_logic;
-		SPIClockSync_CO		   : out std_logic;
-		SPIMOSI_DI			   : in	 std_logic;
-		SPIMOSISync_DO		   : out std_logic;
-		DVSAERReq_SBI		   : in	 std_logic;
-		DVSAERReqSync_SBO	   : out std_logic;
-		IMUInterrupt_SI		   : in	 std_logic;
-		IMUInterruptSync_SO	   : out std_logic;
-		SyncOutSwitch_SI	   : in	 std_logic;
+		SPIClock_CI            : in  std_logic;
+		SPIClockSync_CO        : out std_logic;
+		SPIMOSI_DI             : in  std_logic;
+		SPIMOSISync_DO         : out std_logic;
+		DVSAERReq_SBI          : in  std_logic;
+		DVSAERReqSync_SBO      : out std_logic;
+		IMUInterrupt_SI        : in  std_logic;
+		IMUInterruptSync_SO    : out std_logic;
+		SyncOutSwitch_SI       : in  std_logic;
 		SyncOutSwitchSync_SO   : out std_logic;
-		SyncInClock_CI		   : in	 std_logic;
-		SyncInClockSync_CO	   : out std_logic;
-		SyncInSwitch_SI		   : in	 std_logic;
-		SyncInSwitchSync_SO	   : out std_logic;
-		SyncInSignal_SI		   : in	 std_logic;
-		SyncInSignalSync_SO	   : out std_logic);
+		SyncInClock_CI         : in  std_logic;
+		SyncInClockSync_CO     : out std_logic;
+		SyncInSwitch_SI        : in  std_logic;
+		SyncInSwitchSync_SO    : out std_logic;
+		SyncInSignal_SI        : in  std_logic;
+		SyncInSignalSync_SO    : out std_logic);
 end LogicClockSynchronizer;
 
 architecture Structural of LogicClockSynchronizer is
-	component ResetSynchronizer is
-		port (
-			ExtClock_CI	 : in  std_logic;
-			ExtReset_RI	 : in  std_logic;
-			SyncReset_RO : out std_logic);
-	end component ResetSynchronizer;
-
-	component DFFSynchronizer is
-		port (
-			SyncClock_CI	: in  std_logic;
-			Reset_RI		: in  std_logic;
-			SignalToSync_SI : in  std_logic;
-			SyncedSignal_SO : out std_logic);
-	end component DFFSynchronizer;
-
 	signal ResetSync_R : std_logic;
 begin
 	-- Synchronize the reset signal to the logic clock for that clock domain.
 	ResetSync_RO <= ResetSync_R;
 
-	syncReset : ResetSynchronizer
-		port map (
-			ExtClock_CI	 => LogicClock_CI,
-			ExtReset_RI	 => Reset_RI,
+	syncReset : entity work.ResetSynchronizer
+		port map(
+			ExtClock_CI  => LogicClock_CI,
+			ExtReset_RI  => Reset_RI,
 			SyncReset_RO => ResetSync_R);
 
 	-- Ensure synchronization of FX3 inputs related to logic control.
-	syncSPISlaveSelect : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
+	syncSPISlaveSelect : entity work.DFFSynchronizer
+		port map(
+			SyncClock_CI    => LogicClock_CI,
+			Reset_RI        => ResetSync_R,
 			SignalToSync_SI => SPISlaveSelect_SBI,
 			SyncedSignal_SO => SPISlaveSelectSync_SBO);
 
-	syncSPIClock : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
+	syncSPIClock : entity work.DFFSynchronizer
+		port map(
+			SyncClock_CI    => LogicClock_CI,
+			Reset_RI        => ResetSync_R,
 			SignalToSync_SI => SPIClock_CI,
 			SyncedSignal_SO => SPIClockSync_CO);
 
-	syncSPIMOSI : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
+	syncSPIMOSI : entity work.DFFSynchronizer
+		port map(
+			SyncClock_CI    => LogicClock_CI,
+			Reset_RI        => ResetSync_R,
 			SignalToSync_SI => SPIMOSI_DI,
 			SyncedSignal_SO => SPIMOSISync_DO);
 
-	syncDVSAERReq : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
+	syncDVSAERReq : entity work.DFFSynchronizer
+		port map(
+			SyncClock_CI    => LogicClock_CI,
+			Reset_RI        => ResetSync_R,
 			SignalToSync_SI => DVSAERReq_SBI,
 			SyncedSignal_SO => DVSAERReqSync_SBO);
 
-	syncIMUInterrupt : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
+	syncIMUInterrupt : entity work.DFFSynchronizer
+		port map(
+			SyncClock_CI    => LogicClock_CI,
+			Reset_RI        => ResetSync_R,
 			SignalToSync_SI => IMUInterrupt_SI,
 			SyncedSignal_SO => IMUInterruptSync_SO);
 
-	syncSyncOutSwitch : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
+	syncSyncOutSwitch : entity work.DFFSynchronizer
+		port map(
+			SyncClock_CI    => LogicClock_CI,
+			Reset_RI        => ResetSync_R,
 			SignalToSync_SI => SyncOutSwitch_SI,
 			SyncedSignal_SO => SyncOutSwitchSync_SO);
 
-	syncSyncInClock : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
+	syncSyncInClock : entity work.DFFSynchronizer
+		port map(
+			SyncClock_CI    => LogicClock_CI,
+			Reset_RI        => ResetSync_R,
 			SignalToSync_SI => SyncInClock_CI,
 			SyncedSignal_SO => SyncInClockSync_CO);
 
-	syncSyncInSwitch : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
+	syncSyncInSwitch : entity work.DFFSynchronizer
+		port map(
+			SyncClock_CI    => LogicClock_CI,
+			Reset_RI        => ResetSync_R,
 			SignalToSync_SI => SyncInSwitch_SI,
 			SyncedSignal_SO => SyncInSwitchSync_SO);
 
-	syncSyncInSignal : DFFSynchronizer
-		port map (
-			SyncClock_CI	=> LogicClock_CI,
-			Reset_RI		=> ResetSync_R,
+	syncSyncInSignal : entity work.DFFSynchronizer
+		port map(
+			SyncClock_CI    => LogicClock_CI,
+			Reset_RI        => ResetSync_R,
 			SignalToSync_SI => SyncInSignal_SI,
 			SyncedSignal_SO => SyncInSignalSync_SO);
 end Structural;

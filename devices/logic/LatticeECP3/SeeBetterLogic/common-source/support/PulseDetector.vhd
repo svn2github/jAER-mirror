@@ -5,13 +5,13 @@ use ieee.math_real.ceil;
 use ieee.math_real.log2;
 
 entity PulseDetector is
-	generic (
-		PULSE_MINIMAL_LENGTH_CYCLES : integer	:= 50;
-		PULSE_POLARITY				: std_logic := '1');
-	port (
-		Clock_CI		 : in  std_logic;
-		Reset_RI		 : in  std_logic;
-		InputSignal_SI	 : in  std_logic;
+	generic(
+		PULSE_MINIMAL_LENGTH_CYCLES : integer   := 50;
+		PULSE_POLARITY              : std_logic := '1');
+	port(
+		Clock_CI         : in  std_logic;
+		Reset_RI         : in  std_logic;
+		InputSignal_SI   : in  std_logic;
 		-- Pulse will follow one cycle after the minimal length has been reached.
 		PulseDetected_SO : out std_logic);
 end PulseDetector;
@@ -19,7 +19,7 @@ end PulseDetector;
 architecture Behavioral of PulseDetector is
 	type state is (stWaitForPulse, stPulseDetected, stPulseOverflow);
 
-	attribute syn_enum_encoding			 : string;
+	attribute syn_enum_encoding : string;
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
@@ -28,16 +28,16 @@ architecture Behavioral of PulseDetector is
 	constant COUNTER_WIDTH : integer := integer(ceil(log2(real(PULSE_MINIMAL_LENGTH_CYCLES))));
 
 	-- present and next state
-	signal Count_DP, Count_DN : unsigned(COUNTER_WIDTH-1 downto 0);
+	signal Count_DP, Count_DN : unsigned(COUNTER_WIDTH - 1 downto 0);
 
-	signal PulseDetected_S		 : std_logic;
+	signal PulseDetected_S       : std_logic;
 	signal PulseDetectedBuffer_S : std_logic;
 begin
 	-- Variable width counter, calculation of next state
-	p_memoryless : process (State_DP, Count_DP, InputSignal_SI)
-	begin  -- process p_memoryless
-		State_DN <= State_DP;			-- Keep current state by default.
-		Count_DN <= (others => '0');	-- Keep at zero by default.
+	p_memoryless : process(State_DP, Count_DP, InputSignal_SI)
+	begin                               -- process p_memoryless
+		State_DN <= State_DP;           -- Keep current state by default.
+		Count_DN <= (others => '0');    -- Keep at zero by default.
 
 		PulseDetected_S <= '0';
 
@@ -82,15 +82,15 @@ begin
 	end process p_memoryless;
 
 	-- Change state on clock edge (synchronous).
-	p_memoryzing : process (Clock_CI, Reset_RI)
-	begin  -- process p_memoryzing
-		if Reset_RI = '1' then	-- asynchronous reset (active-high for FPGAs)
-			State_DP			  <= stWaitForPulse;
-			Count_DP			  <= (others => '0');
+	p_memoryzing : process(Clock_CI, Reset_RI)
+	begin                               -- process p_memoryzing
+		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
+			State_DP              <= stWaitForPulse;
+			Count_DP              <= (others => '0');
 			PulseDetectedBuffer_S <= '0';
 		elsif rising_edge(Clock_CI) then
-			State_DP			  <= State_DN;
-			Count_DP			  <= Count_DN;
+			State_DP              <= State_DN;
+			Count_DP              <= Count_DN;
 			PulseDetectedBuffer_S <= PulseDetected_S;
 		end if;
 	end process p_memoryzing;

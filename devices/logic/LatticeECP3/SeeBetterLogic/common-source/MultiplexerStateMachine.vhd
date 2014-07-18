@@ -6,136 +6,88 @@ use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
 
 entity MultiplexerStateMachine is
-	port (
-		Clock_CI : in std_logic;
-		Reset_RI : in std_logic;
+	port(
+		Clock_CI                 : in  std_logic;
+		Reset_RI                 : in  std_logic;
 
 		-- Fifo output (to USB)
-		OutFifoControl_SI : in	tFromFifoWriteSide;
-		OutFifoControl_SO : out tToFifoWriteSide;
-		OutFifoData_DO	  : out std_logic_vector(USB_FIFO_WIDTH-1 downto 0);
+		OutFifoControl_SI        : in  tFromFifoWriteSide;
+		OutFifoControl_SO        : out tToFifoWriteSide;
+		OutFifoData_DO           : out std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
 
 		-- Fifo input (from DVS AER)
-		DVSAERFifoControl_SI : in  tFromFifoReadSide;
-		DVSAERFifoControl_SO : out tToFifoReadSide;
-		DVSAERFifoData_DI	 : in  std_logic_vector(EVENT_WIDTH-1 downto 0);
+		DVSAERFifoControl_SI     : in  tFromFifoReadSide;
+		DVSAERFifoControl_SO     : out tToFifoReadSide;
+		DVSAERFifoData_DI        : in  std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
 		-- Fifo input (from APS ADC)
-		APSADCFifoControl_SI : in  tFromFifoReadSide;
-		APSADCFifoControl_SO : out tToFifoReadSide;
-		APSADCFifoData_DI	 : in  std_logic_vector(EVENT_WIDTH-1 downto 0);
+		APSADCFifoControl_SI     : in  tFromFifoReadSide;
+		APSADCFifoControl_SO     : out tToFifoReadSide;
+		APSADCFifoData_DI        : in  std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
 		-- Fifo input (from IMU)
-		IMUFifoControl_SI : in	tFromFifoReadSide;
-		IMUFifoControl_SO : out tToFifoReadSide;
-		IMUFifoData_DI	  : in	std_logic_vector(EVENT_WIDTH-1 downto 0);
+		IMUFifoControl_SI        : in  tFromFifoReadSide;
+		IMUFifoControl_SO        : out tToFifoReadSide;
+		IMUFifoData_DI           : in  std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
 		-- Fifo input (from External Trigger)
 		ExtTriggerFifoControl_SI : in  tFromFifoReadSide;
 		ExtTriggerFifoControl_SO : out tToFifoReadSide;
-		ExtTriggerFifoData_DI	 : in  std_logic_vector(EVENT_WIDTH-1 downto 0);
+		ExtTriggerFifoData_DI    : in  std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
 		-- Configuration input
-		MultiplexerConfig_DI : in tMultiplexerConfig);
+		MultiplexerConfig_DI     : in  tMultiplexerConfig);
 end MultiplexerStateMachine;
 
 architecture Behavioral of MultiplexerStateMachine is
-	component TimestampGenerator is
-		port (
-			Clock_CI			 : in  std_logic;
-			Reset_RI			 : in  std_logic;
-			TimestampRun_SI		 : in  std_logic;
-			TimestampReset_SI	 : in  std_logic;
-			TimestampOverflow_SO : out std_logic;
-			Timestamp_DO		 : out std_logic_vector(TIMESTAMP_WIDTH-1 downto 0));
-	end component TimestampGenerator;
-
-	component BufferClear is
-		generic (
-			INPUT_SIGNAL_POLARITY : std_logic := '1');
-		port (
-			Clock_CI		: in  std_logic;
-			Reset_RI		: in  std_logic;
-			Clear_SI		: in  std_logic;
-			InputSignal_SI	: in  std_logic;
-			OutputSignal_SO : out std_logic);
-	end component BufferClear;
-
-	component ContinuousCounter is
-		generic (
-			COUNTER_WIDTH	  : integer := 16;
-			RESET_ON_OVERFLOW : boolean := true;
-			SHORT_OVERFLOW	  : boolean := false;
-			OVERFLOW_AT_ZERO  : boolean := false);
-		port (
-			Clock_CI	 : in  std_logic;
-			Reset_RI	 : in  std_logic;
-			Clear_SI	 : in  std_logic;
-			Enable_SI	 : in  std_logic;
-			DataLimit_DI : in  unsigned(COUNTER_WIDTH-1 downto 0);
-			Overflow_SO	 : out std_logic;
-			Data_DO		 : out unsigned(COUNTER_WIDTH-1 downto 0));
-	end component ContinuousCounter;
-
-	component PulseDetector is
-		generic (
-			PULSE_MINIMAL_LENGTH_CYCLES : integer	:= 50;
-			PULSE_POLARITY				: std_logic := '1');
-		port (
-			Clock_CI		 : in  std_logic;
-			Reset_RI		 : in  std_logic;
-			InputSignal_SI	 : in  std_logic;
-			PulseDetected_SO : out std_logic);
-	end component PulseDetector;
-
 	type state is (stIdle, stTimestampReset, stTimestampWrap, stTimestamp, stPrepareDVSAER, stDVSAER, stPrepareAPSADC, stAPSADC, stPrepareIMU, stIMU, stPrepareExtTrigger, stExtTrigger, stDropData);
 
-	attribute syn_enum_encoding			 : string;
+	attribute syn_enum_encoding : string;
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
 	signal State_DP, State_DN : state;
 
 	signal TimestampOverflow_S : std_logic;
-	signal Timestamp_D		   : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
+	signal Timestamp_D         : std_logic_vector(TIMESTAMP_WIDTH - 1 downto 0);
 
 	signal TimestampResetExternalDetected_S : std_logic;
-	signal TimestampResetBufferClear_S		: std_logic;
-	signal TimestampResetBufferInput_S		: std_logic;
-	signal TimestampResetBuffer_S			: std_logic;
+	signal TimestampResetBufferClear_S      : std_logic;
+	signal TimestampResetBufferInput_S      : std_logic;
+	signal TimestampResetBuffer_S           : std_logic;
 
-	signal TimestampOverflowBufferClear_S	 : std_logic;
+	signal TimestampOverflowBufferClear_S    : std_logic;
 	signal TimestampOverflowBufferOverflow_S : std_logic;
-	signal TimestampOverflowBuffer_D		 : unsigned(OVERFLOW_WIDTH-1 downto 0);
+	signal TimestampOverflowBuffer_D         : unsigned(OVERFLOW_WIDTH - 1 downto 0);
 
 	-- Buffer timestamp here so it's always in sync with the Overflow and Reset
 	-- buffers, meaning exactly one cycle behind.
-	signal TimestampBuffer_D : std_logic_vector(TIMESTAMP_WIDTH-1 downto 0);
+	signal TimestampBuffer_D : std_logic_vector(TIMESTAMP_WIDTH - 1 downto 0);
 begin
-	tsGenerator : TimestampGenerator
-		port map (
-			Clock_CI			 => Clock_CI,
-			Reset_RI			 => Reset_RI,
-			TimestampRun_SI		 => MultiplexerConfig_DI.TimestampRun_S,
-			TimestampReset_SI	 => TimestampResetBufferClear_S,
+	tsGenerator : entity work.TimestampGenerator
+		port map(
+			Clock_CI             => Clock_CI,
+			Reset_RI             => Reset_RI,
+			TimestampRun_SI      => MultiplexerConfig_DI.TimestampRun_S,
+			TimestampReset_SI    => TimestampResetBufferClear_S,
 			TimestampOverflow_SO => TimestampOverflow_S,
-			Timestamp_DO		 => Timestamp_D);
+			Timestamp_DO         => Timestamp_D);
 
-	tsResetExternalDetector : PulseDetector
-		port map (
-			Clock_CI		 => Clock_CI,
-			Reset_RI		 => Reset_RI,
-			InputSignal_SI	 => MultiplexerConfig_DI.TimestampReset_S,
+	tsResetExternalDetector : entity work.PulseDetector
+		port map(
+			Clock_CI         => Clock_CI,
+			Reset_RI         => Reset_RI,
+			InputSignal_SI   => MultiplexerConfig_DI.TimestampReset_S,
 			PulseDetected_SO => TimestampResetExternalDetected_S);
 
 	TimestampResetBufferInput_S <= TimestampResetExternalDetected_S or TimestampOverflowBufferOverflow_S;
 
-	tsResetBuffer : BufferClear
-		port map (
-			Clock_CI		=> Clock_CI,
-			Reset_RI		=> Reset_RI,
-			Clear_SI		=> TimestampResetBufferClear_S,
-			InputSignal_SI	=> TimestampResetBufferInput_S,
+	tsResetBuffer : entity work.BufferClear
+		port map(
+			Clock_CI        => Clock_CI,
+			Reset_RI        => Reset_RI,
+			Clear_SI        => TimestampResetBufferClear_S,
+			InputSignal_SI  => TimestampResetBufferInput_S,
 			OutputSignal_SO => TimestampResetBuffer_S);
 
 	-- The overflow counter keeps track of wrap events. While there usually
@@ -153,33 +105,33 @@ begin
 	-- between the device and host time. The only correct solution at this
 	-- point is to force a timestamp reset event to be sent, so that both
 	-- device and host re-synchronize on zero.
-	tsOverflowBuffer : ContinuousCounter
-		generic map (
-			COUNTER_WIDTH	 => OVERFLOW_WIDTH,
-			SHORT_OVERFLOW	 => true,
+	tsOverflowBuffer : entity work.ContinuousCounter
+		generic map(
+			COUNTER_WIDTH    => OVERFLOW_WIDTH,
+			SHORT_OVERFLOW   => true,
 			OVERFLOW_AT_ZERO => true)
-		port map (
-			Clock_CI	 => Clock_CI,
-			Reset_RI	 => Reset_RI,
-			Clear_SI	 => TimestampOverflowBufferClear_S,
-			Enable_SI	 => TimestampOverflow_S,
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => TimestampOverflowBufferClear_S,
+			Enable_SI    => TimestampOverflow_S,
 			DataLimit_DI => (others => '1'),
-			Overflow_SO	 => TimestampOverflowBufferOverflow_S,
-			Data_DO		 => TimestampOverflowBuffer_D);
+			Overflow_SO  => TimestampOverflowBufferOverflow_S,
+			Data_DO      => TimestampOverflowBuffer_D);
 
-	p_memoryless : process (State_DP, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoControl_SI, DVSAERFifoControl_SI, DVSAERFifoData_DI, APSADCFifoControl_SI, APSADCFifoData_DI, IMUFifoControl_SI, IMUFifoData_DI, ExtTriggerFifoControl_SI, ExtTriggerFifoData_DI, MultiplexerConfig_DI)
+	p_memoryless : process(State_DP, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoControl_SI, DVSAERFifoControl_SI, DVSAERFifoData_DI, APSADCFifoControl_SI, APSADCFifoData_DI, IMUFifoControl_SI, IMUFifoData_DI, ExtTriggerFifoControl_SI, ExtTriggerFifoData_DI, MultiplexerConfig_DI)
 	begin
-		State_DN <= State_DP;			-- Keep current state by default.
+		State_DN <= State_DP;           -- Keep current state by default.
 
-		TimestampResetBufferClear_S	   <= '0';
+		TimestampResetBufferClear_S    <= '0';
 		TimestampOverflowBufferClear_S <= '0';
 
 		OutFifoControl_SO.Write_S <= '0';
-		OutFifoData_DO			  <= (others => '0');
+		OutFifoData_DO            <= (others => '0');
 
-		DVSAERFifoControl_SO.Read_S		<= '0';
-		APSADCFifoControl_SO.Read_S		<= '0';
-		IMUFifoControl_SO.Read_S		<= '0';
+		DVSAERFifoControl_SO.Read_S     <= '0';
+		APSADCFifoControl_SO.Read_S     <= '0';
+		IMUFifoControl_SO.Read_S        <= '0';
 		ExtTriggerFifoControl_SO.Read_S <= '0';
 
 		case State_DP is
@@ -215,23 +167,23 @@ begin
 
 			when stTimestampReset =>
 				-- Send timestamp reset (back to zero) event to host.
-				OutFifoData_DO				   <= EVENT_CODE_EVENT & EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_TIMESTAMP_RESET;
-				TimestampResetBufferClear_S	   <= '1';
+				OutFifoData_DO                 <= EVENT_CODE_EVENT & EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_TIMESTAMP_RESET;
+				TimestampResetBufferClear_S    <= '1';
 				-- Also clean overflow counter, since a timestamp reset event
 				-- has higher priority and invalidates all previous time
 				-- information by restarting from zero at this point.
 				TimestampOverflowBufferClear_S <= '1';
 
 				OutFifoControl_SO.Write_S <= '1';
-				State_DN				  <= stIdle;
+				State_DN                  <= stIdle;
 
 			when stTimestampWrap =>
 				-- Send timestamp wrap (add 15 bits) event to host.
-				OutFifoData_DO				   <= EVENT_CODE_EVENT & EVENT_CODE_TIMESTAMP_WRAP & std_logic_vector(TimestampOverflowBuffer_D);
+				OutFifoData_DO                 <= EVENT_CODE_EVENT & EVENT_CODE_TIMESTAMP_WRAP & std_logic_vector(TimestampOverflowBuffer_D);
 				TimestampOverflowBufferClear_S <= '1';
 
 				OutFifoControl_SO.Write_S <= '1';
-				State_DN				  <= stIdle;
+				State_DN                  <= stIdle;
 
 			when stTimestamp =>
 				-- Write a timestamp AFTER the event it refers to.
@@ -257,22 +209,22 @@ begin
 				end if;
 
 				OutFifoControl_SO.Write_S <= '1';
-				State_DN				  <= stIdle;
+				State_DN                  <= stIdle;
 
 			when stPrepareDVSAER =>
 				DVSAERFifoControl_SO.Read_S <= '1';
-				State_DN					<= stDVSAER;
+				State_DN                    <= stDVSAER;
 
 			when stDVSAER =>
 				-- Write out current event.
-				OutFifoData_DO			  <= EVENT_CODE_EVENT & DVSAERFifoData_DI;
+				OutFifoData_DO            <= EVENT_CODE_EVENT & DVSAERFifoData_DI;
 				OutFifoControl_SO.Write_S <= '1';
 
 				-- The next event on the DVS AER fifo has just been read and
 				-- the data is available on the output bus. First, let's
 				-- examine it and see if we need to inject a timestamp,
 				-- if it's an Y (row) address.
-				if DVSAERFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-3) = EVENT_CODE_Y_ADDR then
+				if DVSAERFifoData_DI(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) = EVENT_CODE_Y_ADDR then
 					State_DN <= stTimestamp;
 				else
 					State_DN <= stIdle;
@@ -280,18 +232,18 @@ begin
 
 			when stPrepareAPSADC =>
 				APSADCFifoControl_SO.Read_S <= '1';
-				State_DN					<= stAPSADC;
+				State_DN                    <= stAPSADC;
 
 			when stAPSADC =>
 				-- Write out current event.
-				OutFifoData_DO			  <= EVENT_CODE_EVENT & APSADCFifoData_DI;
+				OutFifoData_DO            <= EVENT_CODE_EVENT & APSADCFifoData_DI;
 				OutFifoControl_SO.Write_S <= '1';
 
 				-- The next event on the APS ADC fifo has just been read and
 				-- the data is available on the output bus. First, let's
 				-- examine it and see if we need to inject a timestamp,
 				-- if it's one of the special events (SOE, EOE, SOSRR, ...).
-				if APSADCFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-3) = EVENT_CODE_SPECIAL then
+				if APSADCFifoData_DI(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) = EVENT_CODE_SPECIAL then
 					State_DN <= stTimestamp;
 				else
 					State_DN <= stIdle;
@@ -299,18 +251,18 @@ begin
 
 			when stPrepareIMU =>
 				IMUFifoControl_SO.Read_S <= '1';
-				State_DN				 <= stIMU;
+				State_DN                 <= stIMU;
 
 			when stIMU =>
 				-- Write out current event.
-				OutFifoData_DO			  <= EVENT_CODE_EVENT & IMUFifoData_DI;
+				OutFifoData_DO            <= EVENT_CODE_EVENT & IMUFifoData_DI;
 				OutFifoControl_SO.Write_S <= '1';
 
 				-- The next event on the IMU fifo has just been read and
 				-- the data is available on the output bus. First, let's
 				-- examine it and see if we need to inject a timestamp,
 				-- if it's one of the special events (Gyro axes, Accel axes, ...).
-				if IMUFifoData_DI(EVENT_WIDTH-1 downto EVENT_WIDTH-3) = EVENT_CODE_SPECIAL then
+				if IMUFifoData_DI(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) = EVENT_CODE_SPECIAL then
 					State_DN <= stTimestamp;
 				else
 					State_DN <= stIdle;
@@ -318,11 +270,11 @@ begin
 
 			when stPrepareExtTrigger =>
 				ExtTriggerFifoControl_SO.Read_S <= '1';
-				State_DN						<= stExtTrigger;
+				State_DN                        <= stExtTrigger;
 
 			when stExtTrigger =>
 				-- Write out current event.
-				OutFifoData_DO			  <= EVENT_CODE_EVENT & ExtTriggerFifoData_DI;
+				OutFifoData_DO            <= EVENT_CODE_EVENT & ExtTriggerFifoData_DI;
 				OutFifoControl_SO.Write_S <= '1';
 
 				-- The next event on the APS ADC fifo has just been read and
@@ -342,13 +294,13 @@ begin
 	end process p_memoryless;
 
 	-- Change state on clock edge (synchronous).
-	p_memoryzing : process (Clock_CI, Reset_RI)
+	p_memoryzing : process(Clock_CI, Reset_RI)
 	begin
-		if Reset_RI = '1' then	-- asynchronous reset (active-high for FPGAs)
-			State_DP		  <= stIdle;
+		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
+			State_DP          <= stIdle;
 			TimestampBuffer_D <= (others => '0');
 		elsif rising_edge(Clock_CI) then
-			State_DP		  <= State_DN;
+			State_DP          <= State_DN;
 			TimestampBuffer_D <= Timestamp_D;
 		end if;
 	end process p_memoryzing;
