@@ -63,13 +63,13 @@
         <Source name="private-source/Settings.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../FX3/private-source/USBClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
         <Source name="private-source/LogicClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../FX3/private-source/FX3StateMachine.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/fx3/FX3USBClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/fx3/FX3StateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/MultiplexerStateMachine.vhd" type="VHDL" type_short="VHDL">

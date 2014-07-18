@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 
-entity USBClockSynchronizer is
+entity FX2USBClockSynchronizer is
 	port (
 		USBClock_CI	 : in  std_logic;
 		Reset_RI	 : in  std_logic;
@@ -12,9 +12,9 @@ entity USBClockSynchronizer is
 		USBFifoFullFlagSync_SO		   : out std_logic;
 		USBFifoProgrammableFlag_SI	   : in	 std_logic;
 		USBFifoProgrammableFlagSync_SO : out std_logic);
-end USBClockSynchronizer;
+end FX2USBClockSynchronizer;
 
-architecture Structural of USBClockSynchronizer is
+architecture Structural of FX2USBClockSynchronizer is
 	component ResetSynchronizer is
 		port (
 			ExtClock_CI	 : in  std_logic;
