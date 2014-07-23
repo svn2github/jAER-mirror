@@ -81,7 +81,7 @@ begin
 		OutFifoDataReg_D       <= (others => '0');
 
 		DVSAERAckReg_SB   <= '1';       -- No AER ACK by default.
-		DVSAERResetReg_SB <= '1';       -- Keep DVS out of reset by default.
+		DVSAERResetReg_SB <= '1';       -- Keep DVS out of reset by default, so we don't have to repeat this in every state.
 
 		ackDelayCount_S     <= '0';
 		ackExtensionCount_S <= '0';
@@ -172,7 +172,7 @@ begin
 			OutFifoData_DO            <= (others => '0');
 
 			DVSAERAck_SBO   <= '1';
-			DVSAERReset_SBO <= '1';
+			DVSAERReset_SBO <= '0';
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
 
