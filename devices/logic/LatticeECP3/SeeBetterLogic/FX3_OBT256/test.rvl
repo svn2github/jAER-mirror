@@ -1,0 +1,33 @@
+<Project ModBy="Inserter" SigType="0" Name="E:/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OBT256/test.rvl" Date="2014-07-22">
+    <IP Version="1_5_062609"/>
+    <Design DesignEntry="Schematic/VHDL" Synthesis="synplify" DeviceFamily="LatticeECP3" DesignName="SeeBetterLogic_FX3"/>
+    <Core InsertDataset="0" Insert="1" Reveal_sig="2045582705" Name="TopLevel_LA0" ID="0">
+        <Setting>
+            <Clock SampleClk="usbclock_ci" SampleEnable="0" EnableClk="" EnableClk_Pri="0"/>
+            <TraceBuffer Implementation="0" BitTimeStamp="0" hasTimeStamp="0" IncTrigSig="0" BufferDepth="256"/>
+            <Capture Mode="0" MinSamplesPerTrig="8"/>
+            <Event CntEnable="0" MaxEventCnt="8"/>
+            <TrigOut Polarity="0" MinPulseWidth="0" TrigOutNetType="1" EnableTrigOut="0" TrigOutNet="reveal_debug_SeeBetterLogic_FX3_LA0_net"/>
+        </Setting>
+        <Dataset Name="Base">
+            <Trace>
+                <Sig Type="SIG" Name="bfilters/b_retinafilter/aer_out_ack_l"/>
+                <Sig Type="SIG" Name="bfilters/b_retinafilter/aer_out_req_l"/>
+                <Bus Name="bfilters/b_retinafilter/cs">
+                    <Sig Type="SIG" Name="bfilters/b_retinafilter/cs:0"/>
+                    <Sig Type="SIG" Name="bfilters/b_retinafilter/cs:1"/>
+                    <Sig Type="SIG" Name="bfilters/b_retinafilter/cs:2"/>
+                    <Sig Type="SIG" Name="bfilters/b_retinafilter/cs:3"/>
+                </Bus>
+                <Sig Type="SIG" Name="bfilters/alex:0"/>
+                <Sig Type="SIG" Name="bfilters/alex:1"/>
+                <Sig Type="SIG" Name="bfilters/alex:2"/>
+            </Trace>
+            <Trigger>
+                <TU Serialbits="0" Type="0" ID="1" Sig="bfilters/b_retinafilter/aer_out_req_l,"/>
+                <TU Serialbits="0" Type="0" ID="2" Sig="bfilters/alex:0,bfilters/alex:1,bfilters/alex:2,"/>
+                <TE MaxSequence="1" MaxEvnCnt="1" ID="1" Resource="1"/>
+            </Trigger>
+        </Dataset>
+    </Core>
+</Project>

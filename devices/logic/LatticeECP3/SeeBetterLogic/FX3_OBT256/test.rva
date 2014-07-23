@@ -1,0 +1,50 @@
+<!DOCTYPE ispTLA>
+<ispTLA>
+ <CreationDate>Di 22. Jul 09:46:02 2014</CreationDate>
+ <XCFFileName/>
+ <CableSetting>
+  <IsTRSTConnected val="false"/>
+  <TRSTSetting val="0"/>
+  <IsBSCANConnected val="false"/>
+  <BSCANSetting val="0"/>
+  <CableType val="USB"/>
+  <PortAddress val="0"/>
+  <PortSetting val="0"/>
+  <TCKDelay val="1"/>
+ </CableSetting>
+ <DeviceCount>1</DeviceCount>
+ <Device>
+  <DeviceIndex>0</DeviceIndex>
+  <DeviceName>LFE3-17EA</DeviceName>
+  <DeviceID>16842819</DeviceID>
+  <HasIspTRACY>true</HasIspTRACY>
+  <HasJTAG2WB>false</HasJTAG2WB>
+  <SERDES/>
+  <IRBypassLen>8</IRBypassLen>
+  <RVLFileName>test.rvl</RVLFileName>
+  <RVSFileName>test.rvs</RVSFileName>
+  <LACoreCount>1</LACoreCount>
+  <WinUI CoreIndex="0">
+   <TraceSigTreeData>
+    <TraceSignal IsHidden="false" Name="bfilters/b_retinafilter/aer_out_ack_l" NodeType="0" PortIndex="0"/>
+    <TraceSignal IsHidden="false" Name="bfilters/b_retinafilter/aer_out_req_l" NodeType="0" PortIndex="1"/>
+    <TraceSignal IsHidden="false" Name="bfilters/b_retinafilter/cs" NodeType="1" PortIndex="2">
+     <BusRadix Radix="RVL_ENUM_bfilters_b_retinafilter_cs"/>
+     <IsExpanded Expand="false"/>
+    </TraceSignal>
+    <TraceSignal IsHidden="false" Name="bfilters/b_retinafilter/cs:0" NodeType="2" PortIndex="2"/>
+    <TraceSignal IsHidden="false" Name="bfilters/b_retinafilter/cs:1" NodeType="2" PortIndex="3"/>
+    <TraceSignal IsHidden="false" Name="bfilters/b_retinafilter/cs:2" NodeType="2" PortIndex="4"/>
+    <TraceSignal IsHidden="false" Name="bfilters/b_retinafilter/cs:3" NodeType="2" PortIndex="5"/>
+    <TraceSignal IsHidden="false" Name="bfilters/alex:0" NodeType="0" PortIndex="6"/>
+    <TraceSignal IsHidden="false" Name="bfilters/alex:1" NodeType="0" PortIndex="7"/>
+    <TraceSignal IsHidden="false" Name="bfilters/alex:2" NodeType="0" PortIndex="8"/>
+   </TraceSigTreeData>
+   <TriggerUI UserSelect="0" PreSelectType="0" PreSelect="1" UserSelectPos="0"/>
+   <CoreRun Run="true"/>
+   <CoreWndUIData>
+    <ClockFrequency Unit="ns" Frequency="-1.0"/>
+   </CoreWndUIData>
+  </WinUI>
+ </Device>
+</ispTLA>

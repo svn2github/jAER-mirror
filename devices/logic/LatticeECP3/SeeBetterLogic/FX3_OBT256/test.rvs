@@ -1,0 +1,45 @@
+<Project ModBy="Inserter" Name="E:/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OBT256/test.rvl" Date="2014-07-22">
+    <Core Name="TopLevel_LA0">
+        <Setting>
+            <Capture SamplesPerTrig="256" NumTrigsCap="1"/>
+            <Event EventCnt="0" CntEnableRun="0"/>
+            <TrigSetting PreTrgSamples="" AND_ALL="0" PostTrgSamples="" TURadix="0"/>
+        </Setting>
+        <Dataset Name="Base">
+            <Trace>
+                <Sig Name="bfilters/b_retinafilter/aer_out_ack_l"/>
+                <Sig Name="bfilters/b_retinafilter/aer_out_req_l"/>
+                <Bus Name="bfilters/b_retinafilter/cs" Radix="RVL_ENUM_bfilters_b_retinafilter_cs">
+                    <Sig Name="bfilters/b_retinafilter/cs:0"/>
+                    <Sig Name="bfilters/b_retinafilter/cs:1"/>
+                    <Sig Name="bfilters/b_retinafilter/cs:2"/>
+                    <Sig Name="bfilters/b_retinafilter/cs:3"/>
+                </Bus>
+                <Sig Name="bfilters/alex:0"/>
+                <Sig Name="bfilters/alex:1"/>
+                <Sig Name="bfilters/alex:2"/>
+            </Trace>
+            <Trigger>
+                <TU Operator="0" Name="TU1" ID="1" Value="0" Radix="0"/>
+                <TU Operator="0" Name="TU2" ID="2" Value="000" Radix="0"/>
+                <TE Enable="1" Expression="TU1" Name="TE1" ID="1"/>
+            </Trigger>
+        </Dataset>
+    </Core>
+    <Token width="4" type="ENUM" name="RVL_ENUM_bfilters_b_retinafilter_cs">
+        <entry key="IDLE" value="0000"/>
+        <entry key="WAIT_COMMAND" value="0001"/>
+        <entry key="WAIT_NO_COMMAND" value="0010"/>
+        <entry key="WAIT_ACKH" value="0011"/>
+        <entry key="WAIT_VALID" value="0100"/>
+        <entry key="WAIT_NOVALID" value="0101"/>
+        <entry key="ERASE" value="0110"/>
+        <entry key="SEND_EVENT" value="0111"/>
+        <entry key="SUBE_ACK" value="1000"/>
+        <entry key="FILTER_st" value="1001"/>
+        <entry key="READ_t0" value="1010"/>
+        <entry key="READ_t0b" value="1011"/>
+        <entry key="WRITE" value="1100"/>
+        <entry key="WRITE_b" value="1101"/>
+    </Token>
+</Project>
