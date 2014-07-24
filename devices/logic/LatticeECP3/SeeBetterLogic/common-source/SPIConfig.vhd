@@ -24,7 +24,7 @@ end entity SPIConfig;
 architecture Behavioral of SPIConfig is
 	constant RESET_ADDRESS : unsigned(7 downto 0) := (others => '1');
 
-	type state is (stIdle, stInput, stOutput);
+	type state is (stIdle, stInput, stInputLatch, stOutput);
 
 	attribute syn_enum_encoding : string;
 	attribute syn_enum_encoding of state : type is "onehot";
@@ -54,8 +54,15 @@ architecture Behavioral of SPIConfig is
 	signal SPIMISOReg_Z : std_logic;
 
 	-- Configuration modules registers
+	signal LatchMultiplexerReg_SP, LatchMultiplexerReg_SN   : std_logic;
+	signal MultiplexerInput_DP, MultiplexerInput_DN         : std_logic_vector(31 downto 0);
+	signal MultiplexerOutput_DP, MultiplexerOutput_DN       : std_logic_vector(31 downto 0);
 	signal MultiplexerConfigReg_DP, MultiplexerConfigReg_DN : tMultiplexerConfig;
-	signal DVSAERConfigReg_DP, DVSAERConfigReg_DN           : tDVSAERConfig;
+
+	signal LatchDVSAERReg_SP, LatchDVSAERReg_SN   : std_logic;
+	signal DVSAERInput_DP, DVSAERInput_DN         : std_logic_vector(31 downto 0);
+	signal DVSAEROutput_DP, DVSAEROutput_DN       : std_logic_vector(31 downto 0);
+	signal DVSAERConfigReg_DP, DVSAERConfigReg_DN : tDVSAERConfig;
 begin                                   -- architecture Behavioral
 	-- The SPI input lines have already been synchronized to the logic clock at
 	-- this point, so we can use and sample them directly.
@@ -147,7 +154,8 @@ begin                                   -- architecture Behavioral
 				SPIMISOReg_Z <= '0';
 
 				if SPIReadMOSI_S = '1' then
-					SPIInputSRegMode_S    <= SHIFTREGISTER_MODE_SHIFT_LEFT;
+					SPIInputSRegMode_S <= SHIFTREGISTER_MODE_SHIFT_LEFT;
+
 					SPIBitCounterEnable_S <= '1';
 				end if;
 
@@ -176,12 +184,18 @@ begin                                   -- architecture Behavioral
 						ParamInput_DN(7 downto 0) <= SPIInputContent_D(7 downto 0);
 
 						-- And we're done, so copy the input to the config register.
-						LatchInputReg_SN <= '1';
-
-						State_DN <= stIdle;
+						State_DN <= stInputLatch;
 
 					when others => null;
 				end case;
+
+			when stInputLatch =>
+				-- This has its own state, because we want to delay it by one cycle,
+				-- to give time to the ParamInput to propagate down to the various'
+				-- modules input registers.
+				LatchInputReg_SN <= '1';
+
+				State_DN <= stIdle;
 
 			when stOutput =>
 				-- Push out MSB to MISO.
@@ -212,58 +226,7 @@ begin                                   -- architecture Behavioral
 		end case;
 	end process spiCommunication;
 
-	configReadWrite : process(ModuleAddressReg_DP, ParamAddressReg_DP, ParamInput_DP, MultiplexerConfigReg_DP, DVSAERConfigReg_DP)
-	begin
-		ParamOutput_DN          <= (others => '0');
-		MultiplexerConfigReg_DN <= MultiplexerConfigReg_DP;
-		DVSAERConfigReg_DN      <= DVSAERConfigReg_DP;
-
-		case ModuleAddressReg_DP is
-			when MULTIPLEXERCONFIG_MODULE_ADDRESS =>
-				case ParamAddressReg_DP is
-					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.Run_S =>
-						MultiplexerConfigReg_DN.Run_S <= ParamInput_DP(0);
-						ParamOutput_DN(0)             <= MultiplexerConfigReg_DP.Run_S;
-
-					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.TimestampRun_S =>
-						MultiplexerConfigReg_DN.TimestampRun_S <= ParamInput_DP(0);
-						ParamOutput_DN(0)                      <= MultiplexerConfigReg_DP.TimestampRun_S;
-
-					when MULTIPLEXERCONFIG_PARAM_ADDRESSES.TimestampReset_S =>
-						MultiplexerConfigReg_DN.TimestampReset_S <= ParamInput_DP(0);
-						ParamOutput_DN(0)                        <= MultiplexerConfigReg_DP.TimestampReset_S;
-
-					when RESET_ADDRESS =>
-						MultiplexerConfigReg_DN <= tMultiplexerConfigDefault;
-
-					when others => null;
-				end case;
-
-			when DVSAERCONFIG_MODULE_ADDRESS =>
-				case ParamAddressReg_DP is
-					when DVSAERCONFIG_PARAM_ADDRESSES.Run_S =>
-						DVSAERConfigReg_DN.Run_S <= ParamInput_DP(0);
-						ParamOutput_DN(0)        <= DVSAERConfigReg_DP.Run_S;
-
-					when DVSAERCONFIG_PARAM_ADDRESSES.AckDelay_D =>
-						DVSAERConfigReg_DN.AckDelay_D                                <= unsigned(ParamInput_DP(tDVSAERConfig.AckDelay_D'length - 1 downto 0));
-						ParamOutput_DN(tDVSAERConfig.AckDelay_D'length - 1 downto 0) <= std_logic_vector(DVSAERConfigReg_DP.AckDelay_D);
-
-					when DVSAERCONFIG_PARAM_ADDRESSES.AckExtension_D =>
-						DVSAERConfigReg_DN.AckExtension_D                                <= unsigned(ParamInput_DP(tDVSAERConfig.AckExtension_D'length - 1 downto 0));
-						ParamOutput_DN(tDVSAERConfig.AckExtension_D'length - 1 downto 0) <= std_logic_vector(DVSAERConfigReg_DP.AckExtension_D);
-
-					when RESET_ADDRESS =>
-						DVSAERConfigReg_DN <= tDVSAERConfigDefault;
-
-					when others => null;
-				end case;
-
-			when others => null;
-		end case;
-	end process configReadWrite;
-
-	regUpdate : process(Clock_CI, Reset_RI) is
+	spiUpdate : process(Clock_CI, Reset_RI) is
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active high)
 			State_DP <= stIdle;
@@ -277,9 +240,6 @@ begin                                   -- architecture Behavioral
 
 			ParamOutput_DP <= (others => '0');
 			SPIMISO_ZO     <= 'Z';
-
-			MultiplexerConfigReg_DP <= tMultiplexerConfigDefault;
-			DVSAERConfigReg_DP      <= tDVSAERConfigDefault;
 		elsif rising_edge(Clock_CI) then -- rising clock edge
 			State_DP <= State_DN;
 
@@ -292,13 +252,128 @@ begin                                   -- architecture Behavioral
 
 			ParamOutput_DP <= ParamOutput_DN;
 			SPIMISO_ZO     <= SPIMISOReg_Z;
+		end if;
+	end process spiUpdate;
 
-			if LatchInputReg_SP = '1' then
+	configReadWrite : process(ModuleAddressReg_DP, DVSAEROutput_DP, MultiplexerOutput_DP)
+	begin
+		-- Input side select.
+		LatchMultiplexerReg_SN <= '0';
+		LatchDVSAERReg_SN      <= '0';
+
+		case ModuleAddressReg_DP is
+			when MULTIPLEXERCONFIG_MODULE_ADDRESS =>
+				LatchMultiplexerReg_SN <= '1';
+
+			when DVSAERCONFIG_MODULE_ADDRESS =>
+				LatchDVSAERReg_SN <= '1';
+
+			when others => null;
+		end case;
+
+		-- Output side select.
+		ParamOutput_DN <= (others => '0');
+
+		case ModuleAddressReg_DP is
+			when MULTIPLEXERCONFIG_MODULE_ADDRESS =>
+				ParamOutput_DN <= MultiplexerOutput_DP;
+
+			when DVSAERCONFIG_MODULE_ADDRESS =>
+				ParamOutput_DN <= DVSAEROutput_DP;
+
+			when others => null;
+		end case;
+	end process configReadWrite;
+
+	multiplexerIO : process(ParamAddressReg_DP, ParamInput_DP, MultiplexerInput_DP, MultiplexerConfigReg_DP)
+	begin
+		MultiplexerConfigReg_DN <= MultiplexerConfigReg_DP;
+		MultiplexerInput_DN     <= ParamInput_DP;
+		MultiplexerOutput_DN    <= (others => '0');
+
+		case ParamAddressReg_DP is
+			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.Run_S =>
+				MultiplexerConfigReg_DN.Run_S <= MultiplexerInput_DP(0);
+				MultiplexerOutput_DN(0)       <= MultiplexerConfigReg_DP.Run_S;
+
+			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.TimestampRun_S =>
+				MultiplexerConfigReg_DN.TimestampRun_S <= MultiplexerInput_DP(0);
+				MultiplexerOutput_DN(0)                <= MultiplexerConfigReg_DP.TimestampRun_S;
+
+			when MULTIPLEXERCONFIG_PARAM_ADDRESSES.TimestampReset_S =>
+				MultiplexerConfigReg_DN.TimestampReset_S <= MultiplexerInput_DP(0);
+				MultiplexerOutput_DN(0)                  <= MultiplexerConfigReg_DP.TimestampReset_S;
+
+			when RESET_ADDRESS =>
+				MultiplexerConfigReg_DN <= tMultiplexerConfigDefault;
+
+			when others => null;
+		end case;
+	end process multiplexerIO;
+
+	multiplexerUpdate : process(Clock_CI, Reset_RI) is
+	begin
+		if Reset_RI = '1' then          -- asynchronous reset (active high)
+			LatchMultiplexerReg_SP <= '0';
+			MultiplexerInput_DP    <= (others => '0');
+			MultiplexerOutput_DP   <= (others => '0');
+
+			MultiplexerConfigReg_DP <= tMultiplexerConfigDefault;
+		elsif rising_edge(Clock_CI) then -- rising clock edge
+			LatchMultiplexerReg_SP <= LatchMultiplexerReg_SN;
+			MultiplexerInput_DP    <= MultiplexerInput_DN;
+			MultiplexerOutput_DP   <= MultiplexerOutput_DN;
+
+			if LatchMultiplexerReg_SP = '1' and LatchInputReg_SP = '1' then
 				MultiplexerConfigReg_DP <= MultiplexerConfigReg_DN;
-				DVSAERConfigReg_DP      <= DVSAERConfigReg_DN;
 			end if;
 		end if;
-	end process regUpdate;
+	end process multiplexerUpdate;
+
+	dvsaerIO : process(ParamAddressReg_DP, ParamInput_DP, DVSAERInput_DP, DVSAERConfigReg_DP)
+	begin
+		DVSAERConfigReg_DN <= DVSAERConfigReg_DP;
+		DVSAERInput_DN     <= ParamInput_DP;
+		DVSAEROutput_DN    <= (others => '0');
+
+		case ParamAddressReg_DP is
+			when DVSAERCONFIG_PARAM_ADDRESSES.Run_S =>
+				DVSAERConfigReg_DN.Run_S <= DVSAERInput_DP(0);
+				DVSAEROutput_DN(0)       <= DVSAERConfigReg_DP.Run_S;
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.AckDelay_D =>
+				DVSAERConfigReg_DN.AckDelay_D                                 <= unsigned(DVSAERInput_DP(tDVSAERConfig.AckDelay_D'length - 1 downto 0));
+				DVSAEROutput_DN(tDVSAERConfig.AckDelay_D'length - 1 downto 0) <= std_logic_vector(DVSAERConfigReg_DP.AckDelay_D);
+
+			when DVSAERCONFIG_PARAM_ADDRESSES.AckExtension_D =>
+				DVSAERConfigReg_DN.AckExtension_D                                 <= unsigned(DVSAERInput_DP(tDVSAERConfig.AckExtension_D'length - 1 downto 0));
+				DVSAEROutput_DN(tDVSAERConfig.AckExtension_D'length - 1 downto 0) <= std_logic_vector(DVSAERConfigReg_DP.AckExtension_D);
+
+			when RESET_ADDRESS =>
+				DVSAERConfigReg_DN <= tDVSAERConfigDefault;
+
+			when others => null;
+		end case;
+	end process dvsaerIO;
+
+	dvsaerUpdate : process(Clock_CI, Reset_RI) is
+	begin
+		if Reset_RI = '1' then          -- asynchronous reset (active high)
+			LatchDVSAERReg_SP <= '0';
+			DVSAERInput_DP    <= (others => '0');
+			DVSAEROutput_DP   <= (others => '0');
+
+			DVSAERConfigReg_DP <= tDVSAERConfigDefault;
+		elsif rising_edge(Clock_CI) then -- rising clock edge
+			LatchDVSAERReg_SP <= LatchDVSAERReg_SN;
+			DVSAERInput_DP    <= DVSAERInput_DN;
+			DVSAEROutput_DP   <= DVSAEROutput_DN;
+
+			if LatchDVSAERReg_SP = '1' and LatchInputReg_SP = '1' then
+				DVSAERConfigReg_DP <= DVSAERConfigReg_DN;
+			end if;
+		end if;
+	end process dvsaerUpdate;
 
 	-- Connect configuration modules outputs
 	MultiplexerConfig_DO <= MultiplexerConfigReg_DP;
