@@ -33,10 +33,10 @@ entity TopLevel is
 
 		ChipBiasEnable_SO       : out   std_logic;
 		ChipBiasDiagSelect_SO   : out   std_logic;
-		ChipBiasAddrSelect_SO   : out   std_logic;
-		ChipBiasClock_CO        : out   std_logic;
+		ChipBiasAddrSelect_SBO  : out   std_logic;
+		ChipBiasClock_CBO       : out   std_logic;
 		ChipBiasBitIn_DO        : out   std_logic;
-		ChipBiasLatch_SO        : out   std_logic;
+		ChipBiasLatch_SBO       : out   std_logic;
 		--ChipBiasBitOut_DI : in std_logic;
 
 		DVSAERData_AI           : in    std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
