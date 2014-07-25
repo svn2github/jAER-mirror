@@ -28,23 +28,6 @@ architecture Behavioral of IMUStateMachine is
 	-- present and next state
 	signal State_DP, State_DN : state;
 begin
-	i2cMasterForIMU : entity work.i2c_master
-		generic map(
-			input_clk => LOGIC_CLOCK_FREQ * 1_000_000,
-			bus_clk   => 400_000)
-		port map(
-			clk       => Clock_CI,
-			reset     => Reset_RI,
-			ena       => '0',
-			addr      => "0000000",
-			rw        => '0',
-			data_wr   => "00000000",
-			busy      => open,
-			data_rd   => open,
-			ack_error => open,
-			sda       => IMUData_ZIO,
-			scl       => IMUClock_ZO);
-
 	p_memoryless : process(State_DP, OutFifoControl_SI)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
