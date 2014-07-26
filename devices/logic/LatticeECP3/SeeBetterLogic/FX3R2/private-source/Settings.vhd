@@ -7,12 +7,12 @@ use ieee.math_real.log2;
 package Settings is
 	constant DEVICE_FAMILY : string := "ECP3";
 
-	constant USB_CLOCK_FREQ         : integer := 80; -- 80 or 100 are viable settings, depending on FX3 and routing.
+	constant USB_CLOCK_FREQ         : integer := 100; -- 80 or 100 are viable settings, depending on FX3 and routing.
 	constant USB_FIFO_WIDTH         : integer := 16;
 	constant USB_EARLY_PACKET_MS    : integer := 1; -- send a packet each X milliseconds
 	constant USB_BURST_WRITE_LENGTH : integer := 8;
 
-	constant LOGIC_CLOCK_FREQ : integer := 160; -- PLL can generate between 5 and 500 MHz here.
+	constant LOGIC_CLOCK_FREQ : integer := 200; -- PLL can generate between 5 and 500 MHz here.
 
 	constant AER_BUS_WIDTH : integer := 10;
 	constant ADC_BUS_WIDTH : integer := 10;

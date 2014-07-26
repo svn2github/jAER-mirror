@@ -47,6 +47,8 @@ architecture Behavioral of DVSAERStateMachine is
 	-- Register outputs to DVS.
 	signal DVSAERAckReg_SB   : std_logic;
 	signal DVSAERResetReg_SB : std_logic;
+
+	signal DVSAERConfigReg_D : tDVSAERConfig;
 begin
 	ackDelayCounter : entity work.ContinuousCounter
 		generic map(
@@ -56,7 +58,7 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => ackDelayCount_S,
-			DataLimit_DI => DVSAERConfig_DI.AckDelay_D,
+			DataLimit_DI => DVSAERConfigReg_D.AckDelay_D,
 			Overflow_SO  => ackDelayNotify_S,
 			Data_DO      => open);
 
@@ -68,11 +70,11 @@ begin
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
 			Enable_SI    => ackExtensionCount_S,
-			DataLimit_DI => DVSAERConfig_DI.AckExtension_D,
+			DataLimit_DI => DVSAERConfigReg_D.AckExtension_D,
 			Overflow_SO  => ackExtensionNotify_S,
 			Data_DO      => open);
 
-	p_memoryless : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, ackDelayNotify_S, ackExtensionNotify_S, DVSAERConfig_DI)
+	p_memoryless : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, ackDelayNotify_S, ackExtensionNotify_S, DVSAERConfigReg_D)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 
@@ -89,7 +91,7 @@ begin
 		case State_DP is
 			when stIdle =>
 				-- Only exit idle state if DVS data producer is active.
-				if DVSAERConfig_DI.Run_S = '1' then
+				if DVSAERConfigReg_D.Run_S = '1' then
 					if DVSAERReq_SBI = '0' and OutFifoControl_SI.Full_S = '0' then
 						-- Got a request on the AER bus, let's get the data.
 						-- If output fifo full, just wait for it to be empty.
@@ -173,6 +175,8 @@ begin
 
 			DVSAERAck_SBO   <= '1';
 			DVSAERReset_SBO <= '0';
+
+			DVSAERConfigReg_D <= tDVSAERConfigDefault;
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
 
@@ -183,6 +187,8 @@ begin
 
 			DVSAERAck_SBO   <= DVSAERAckReg_SB;
 			DVSAERReset_SBO <= DVSAERResetReg_SB;
+
+			DVSAERConfigReg_D <= DVSAERConfig_DI;
 		end if;
 	end process p_memoryzing;
 end Behavioral;

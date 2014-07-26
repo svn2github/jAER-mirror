@@ -22,8 +22,6 @@ entity SPIConfig is
 end entity SPIConfig;
 
 architecture Behavioral of SPIConfig is
-	constant RESET_ADDRESS : unsigned(7 downto 0) := (others => '1');
-
 	type state is (stIdle, stInput, stInputLatch, stOutput);
 
 	attribute syn_enum_encoding : string;
@@ -232,8 +230,8 @@ begin                                   -- architecture Behavioral
 			State_DP <= stIdle;
 
 			ReadOperationReg_SP <= '0';
-			ModuleAddressReg_DP <= (others => '0');
-			ParamAddressReg_DP  <= (others => '0');
+			ModuleAddressReg_DP <= (others => '1');
+			ParamAddressReg_DP  <= (others => '1');
 
 			LatchInputReg_SP <= '0';
 			ParamInput_DP    <= (others => '0');
@@ -304,9 +302,6 @@ begin                                   -- architecture Behavioral
 				MultiplexerConfigReg_DN.TimestampReset_S <= MultiplexerInput_DP(0);
 				MultiplexerOutput_DN(0)                  <= MultiplexerConfigReg_DP.TimestampReset_S;
 
-			when RESET_ADDRESS =>
-				MultiplexerConfigReg_DN <= tMultiplexerConfigDefault;
-
 			when others => null;
 		end case;
 	end process multiplexerIO;
@@ -348,9 +343,6 @@ begin                                   -- architecture Behavioral
 			when DVSAERCONFIG_PARAM_ADDRESSES.AckExtension_D =>
 				DVSAERConfigReg_DN.AckExtension_D                                 <= unsigned(DVSAERInput_DP(tDVSAERConfig.AckExtension_D'length - 1 downto 0));
 				DVSAEROutput_DN(tDVSAERConfig.AckExtension_D'length - 1 downto 0) <= std_logic_vector(DVSAERConfigReg_DP.AckExtension_D);
-
-			when RESET_ADDRESS =>
-				DVSAERConfigReg_DN <= tDVSAERConfigDefault;
 
 			when others => null;
 		end case;

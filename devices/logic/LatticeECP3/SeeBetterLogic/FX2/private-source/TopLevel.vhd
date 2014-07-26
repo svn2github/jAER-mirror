@@ -140,8 +140,15 @@ begin
 	USBFifoRead_SBO       <= '1';       -- We never read from the USB data path (active-low).
 	USBFifoAddress_DO     <= "10";      -- Always write to EP6.
 	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
-	ChipBiasEnable_SO     <= DVSAERConfig_D.Run_S; -- Always enable if chip is needed (DVS or APS).
 	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI; -- Direct bypass.
+	-- Always enable chip if it is needed (for DVS or APS).
+	chipBiasEnableBuffer : entity work.SimpleRegister
+		port map(
+			Clock_CI  => LogicClock_C,
+			Reset_RI  => LogicReset_R,
+			Enable_SI => '1',
+			Input_SI  => DVSAERConfig_D.Run_S,
+			Output_SO => ChipBiasEnable_SO);
 
 	-- Wire all LEDs.
 	led1Buffer : entity work.SimpleRegister

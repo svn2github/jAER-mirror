@@ -63,12 +63,14 @@ architecture Behavioral of MultiplexerStateMachine is
 	-- Buffer timestamp here so it's always in sync with the Overflow and Reset
 	-- buffers, meaning exactly one cycle behind.
 	signal TimestampBuffer_D : std_logic_vector(TIMESTAMP_WIDTH - 1 downto 0);
+
+	signal MultiplexerConfigReg_D : tMultiplexerConfig;
 begin
 	tsGenerator : entity work.TimestampGenerator
 		port map(
 			Clock_CI             => Clock_CI,
 			Reset_RI             => Reset_RI,
-			TimestampRun_SI      => MultiplexerConfig_DI.TimestampRun_S,
+			TimestampRun_SI      => MultiplexerConfigReg_D.TimestampRun_S,
 			TimestampReset_SI    => TimestampResetBufferClear_S,
 			TimestampOverflow_SO => TimestampOverflow_S,
 			Timestamp_DO         => Timestamp_D);
@@ -77,7 +79,7 @@ begin
 		port map(
 			Clock_CI         => Clock_CI,
 			Reset_RI         => Reset_RI,
-			InputSignal_SI   => MultiplexerConfig_DI.TimestampReset_S,
+			InputSignal_SI   => MultiplexerConfigReg_D.TimestampReset_S,
 			PulseDetected_SO => TimestampResetExternalDetected_S);
 
 	TimestampResetBufferInput_S <= TimestampResetExternalDetected_S or TimestampOverflowBufferOverflow_S;
@@ -119,7 +121,7 @@ begin
 			Overflow_SO  => TimestampOverflowBufferOverflow_S,
 			Data_DO      => TimestampOverflowBuffer_D);
 
-	p_memoryless : process(State_DP, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoControl_SI, DVSAERFifoControl_SI, DVSAERFifoData_DI, APSADCFifoControl_SI, APSADCFifoData_DI, IMUFifoControl_SI, IMUFifoData_DI, ExtTriggerFifoControl_SI, ExtTriggerFifoData_DI, MultiplexerConfig_DI)
+	p_memoryless : process(State_DP, TimestampResetBuffer_S, TimestampOverflowBuffer_D, TimestampBuffer_D, OutFifoControl_SI, DVSAERFifoControl_SI, DVSAERFifoData_DI, APSADCFifoControl_SI, APSADCFifoData_DI, IMUFifoControl_SI, IMUFifoData_DI, ExtTriggerFifoControl_SI, ExtTriggerFifoData_DI, MultiplexerConfigReg_D)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 
@@ -137,7 +139,7 @@ begin
 		case State_DP is
 			when stIdle =>
 				-- Only exit idle state if logic is running.
-				if MultiplexerConfig_DI.Run_S = '1' then
+				if MultiplexerConfigReg_D.Run_S = '1' then
 					-- Now check various flags and see what data to forward.
 					-- Timestamp-related flags have priority over data.
 					if OutFifoControl_SI.Full_S = '0' then
@@ -297,11 +299,17 @@ begin
 	p_memoryzing : process(Clock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
-			State_DP          <= stIdle;
+			State_DP <= stIdle;
+
 			TimestampBuffer_D <= (others => '0');
+
+			MultiplexerConfigReg_D <= tMultiplexerConfigDefault;
 		elsif rising_edge(Clock_CI) then
-			State_DP          <= State_DN;
+			State_DP <= State_DN;
+
 			TimestampBuffer_D <= Timestamp_D;
+
+			MultiplexerConfigReg_D <= MultiplexerConfig_DI;
 		end if;
 	end process p_memoryzing;
 end Behavioral;
