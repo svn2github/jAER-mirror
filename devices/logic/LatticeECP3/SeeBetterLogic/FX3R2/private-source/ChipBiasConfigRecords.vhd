@@ -28,8 +28,8 @@ package ChipBiasConfigRecords is
 		IFThrBn_D          : unsigned(7 downto 0);
 		IFRefrBn_D         : unsigned(7 downto 0);
 		PadFollBn_D        : unsigned(7 downto 0);
-		apsOverflowLevel_D : unsigned(7 downto 0);
-		biasBuffer_D       : unsigned(7 downto 0);
+		ApsOverflowLevel_D : unsigned(7 downto 0);
+		BiasBuffer_D       : unsigned(7 downto 0);
 		SSP_D              : unsigned(7 downto 0);
 		SSN_D              : unsigned(7 downto 0);
 	end record tBiasConfigParamAddresses;
@@ -53,8 +53,8 @@ package ChipBiasConfigRecords is
 		IFThrBn_D          => to_unsigned(15, 8),
 		IFRefrBn_D         => to_unsigned(16, 8),
 		PadFollBn_D        => to_unsigned(17, 8),
-		apsOverflowLevel_D => to_unsigned(18, 8),
-		biasBuffer_D       => to_unsigned(19, 8),
+		ApsOverflowLevel_D => to_unsigned(18, 8),
+		BiasBuffer_D       => to_unsigned(19, 8),
 		SSP_D              => to_unsigned(20, 8),
 		SSN_D              => to_unsigned(21, 8));
 
@@ -77,8 +77,8 @@ package ChipBiasConfigRecords is
 		IFThrBn_D          : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		IFRefrBn_D         : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		PadFollBn_D        : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
-		apsOverflowLevel_D : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
-		biasBuffer_D       : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
+		ApsOverflowLevel_D : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
+		BiasBuffer_D       : std_logic_vector(BIAS_CF_LENGTH - 1 downto 0);
 		SSP_D              : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
 		SSN_D              : std_logic_vector(BIAS_SS_LENGTH - 1 downto 0);
 	end record tBiasConfig;
@@ -102,8 +102,8 @@ package ChipBiasConfigRecords is
 		IFThrBn_D          => (others => '0'),
 		IFRefrBn_D         => (others => '0'),
 		PadFollBn_D        => (others => '0'),
-		apsOverflowLevel_D => (others => '0'),
-		biasBuffer_D       => (others => '0'),
+		ApsOverflowLevel_D => (others => '0'),
+		BiasBuffer_D       => (others => '0'),
 		SSP_D              => (others => '0'),
 		SSN_D              => (others => '0'));
 
