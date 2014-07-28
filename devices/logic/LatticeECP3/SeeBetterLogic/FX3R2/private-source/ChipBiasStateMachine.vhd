@@ -54,12 +54,12 @@ architecture Behavioral of ChipBiasStateMachine is
 	signal AnalogMux1Changed_S, AnalogMux1Sent_S                   : std_logic;
 	signal AnalogMux2Changed_S, AnalogMux2Sent_S                   : std_logic;
 	signal BiasOutMuxChanged_S, BiasOutMuxSent_S                   : std_logic;
-	signal UseAOutChanged_S, UseAOutSent_S                         : std_logic;
-	signal NArowChanged_S, NArowSent_S                             : std_logic;
+	signal ResetCalibNeuronChanged_S, ResetCalibNeuronSent_S       : std_logic;
+	signal TypeNCalibNeuronChanged_S, TypeNCalibNeuronSent_S       : std_logic;
 	signal ResetTestPixelChanged_S, ResetTestPixelSent_S           : std_logic;
-	signal TypeNCalibChanged_S, TypeNCalibSent_S                   : std_logic;
-	signal ResetCalibChanged_S, ResetCalibSent_S                   : std_logic;
 	signal HotPixelSuppressionChanged_S, HotPixelSuppressionSent_S : std_logic;
+	signal AERnArowChanged_S, AERnArowSent_S                       : std_logic;
+	signal UseAOutChanged_S, UseAOutSent_S                         : std_logic;
 	signal GlobalShutterChanged_S, GlobalShutterSent_S             : std_logic;
 begin
 	sendConfig : process is
@@ -320,4 +320,154 @@ begin
 			InputData_D           => BiasConfig_DI.SSN_D,
 			ChangeDetected_SO     => Bias21Changed_S,
 			ChangeAcknowledged_SI => Bias21Sent_S);
+
+	detectDigitalMux0Change : entity work.ChangeDetector
+		generic map(
+			SIZE => tChipConfig.DigitalMux0_D'length)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D           => std_logic_vector(ChipConfig_DI.DigitalMux0_D),
+			ChangeDetected_SO     => DigitalMux0Changed_S,
+			ChangeAcknowledged_SI => DigitalMux0Sent_S);
+
+	detectDigitalMux1Change : entity work.ChangeDetector
+		generic map(
+			SIZE => tChipConfig.DigitalMux1_D'length)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D           => std_logic_vector(ChipConfig_DI.DigitalMux1_D),
+			ChangeDetected_SO     => DigitalMux1Changed_S,
+			ChangeAcknowledged_SI => DigitalMux1Sent_S);
+
+	detectDigitalMux2Change : entity work.ChangeDetector
+		generic map(
+			SIZE => tChipConfig.DigitalMux2_D'length)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D           => std_logic_vector(ChipConfig_DI.DigitalMux2_D),
+			ChangeDetected_SO     => DigitalMux2Changed_S,
+			ChangeAcknowledged_SI => DigitalMux2Sent_S);
+
+	detectDigitalMux3Change : entity work.ChangeDetector
+		generic map(
+			SIZE => tChipConfig.DigitalMux3_D'length)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D           => std_logic_vector(ChipConfig_DI.DigitalMux3_D),
+			ChangeDetected_SO     => DigitalMux3Changed_S,
+			ChangeAcknowledged_SI => DigitalMux3Sent_S);
+
+	detectAnalogMux0Change : entity work.ChangeDetector
+		generic map(
+			SIZE => tChipConfig.AnalogMux0_D'length)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D           => std_logic_vector(ChipConfig_DI.AnalogMux0_D),
+			ChangeDetected_SO     => AnalogMux0Changed_S,
+			ChangeAcknowledged_SI => AnalogMux0Sent_S);
+
+	detectAnalogMux1Change : entity work.ChangeDetector
+		generic map(
+			SIZE => tChipConfig.AnalogMux1_D'length)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D           => std_logic_vector(ChipConfig_DI.AnalogMux1_D),
+			ChangeDetected_SO     => AnalogMux1Changed_S,
+			ChangeAcknowledged_SI => AnalogMux1Sent_S);
+
+	detectAnalogMux2Change : entity work.ChangeDetector
+		generic map(
+			SIZE => tChipConfig.AnalogMux2_D'length)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D           => std_logic_vector(ChipConfig_DI.AnalogMux2_D),
+			ChangeDetected_SO     => AnalogMux2Changed_S,
+			ChangeAcknowledged_SI => AnalogMux2Sent_S);
+
+	detectBiasOutMuxChange : entity work.ChangeDetector
+		generic map(
+			SIZE => tChipConfig.BiasOutMux_D'length)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D           => std_logic_vector(ChipConfig_DI.BiasOutMux_D),
+			ChangeDetected_SO     => BiasOutMuxChanged_S,
+			ChangeAcknowledged_SI => BiasOutMuxSent_S);
+
+	detectResetCalibNeuronChange : entity work.ChangeDetector
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D(0)        => ChipConfig_DI.ResetCalibNeuron_S,
+			ChangeDetected_SO     => ResetCalibNeuronChanged_S,
+			ChangeAcknowledged_SI => ResetCalibNeuronSent_S);
+
+	detectTypeNCalibNeuronChange : entity work.ChangeDetector
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D(0)        => ChipConfig_DI.TypeNCalibNeuron_S,
+			ChangeDetected_SO     => TypeNCalibNeuronChanged_S,
+			ChangeAcknowledged_SI => TypeNCalibNeuronSent_S);
+
+	detectResetTestPixelChange : entity work.ChangeDetector
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D(0)        => ChipConfig_DI.ResetTestPixel_S,
+			ChangeDetected_SO     => ResetTestPixelChanged_S,
+			ChangeAcknowledged_SI => ResetTestPixelSent_S);
+
+	detectHotPixelSuppressionChange : entity work.ChangeDetector
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D(0)        => ChipConfig_DI.HotPixelSuppression_S,
+			ChangeDetected_SO     => HotPixelSuppressionChanged_S,
+			ChangeAcknowledged_SI => HotPixelSuppressionSent_S);
+
+	detectAERnArowChange : entity work.ChangeDetector
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D(0)        => ChipConfig_DI.AERnArow_S,
+			ChangeDetected_SO     => AERnArowChanged_S,
+			ChangeAcknowledged_SI => AERnArowSent_S);
+
+	detectUseAOutChange : entity work.ChangeDetector
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D(0)        => ChipConfig_DI.UseAOut_S,
+			ChangeDetected_SO     => UseAOutChanged_S,
+			ChangeAcknowledged_SI => UseAOutSent_S);
+
+	detectGlobalShutterChange : entity work.ChangeDetector
+		generic map(
+			SIZE => 1)
+		port map(
+			Clock_CI              => Clock_CI,
+			Reset_RI              => Reset_RI,
+			InputData_D(0)        => ChipConfig_DI.GlobalShutter_S,
+			ChangeDetected_SO     => GlobalShutterChanged_S,
+			ChangeAcknowledged_SI => GlobalShutterSent_S);
 end architecture Behavioral;

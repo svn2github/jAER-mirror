@@ -118,12 +118,12 @@ package ChipBiasConfigRecords is
 		AnalogMux1_D          : unsigned(7 downto 0);
 		AnalogMux2_D          : unsigned(7 downto 0);
 		BiasOutMux_D          : unsigned(7 downto 0);
-		UseAOut_S             : unsigned(7 downto 0);
-		NArow_S               : unsigned(7 downto 0);
+		ResetCalibNeuron_S    : unsigned(7 downto 0);
+		TypeNCalibNeuron_S    : unsigned(7 downto 0);
 		ResetTestPixel_S      : unsigned(7 downto 0);
-		TypeNCalib_S          : unsigned(7 downto 0);
-		ResetCalib_S          : unsigned(7 downto 0);
 		HotPixelSuppression_S : unsigned(7 downto 0);
+		AERnArow_S            : unsigned(7 downto 0);
+		UseAOut_S             : unsigned(7 downto 0);
 		GlobalShutter_S       : unsigned(7 downto 0);
 	end record tChipConfigParamAddresses;
 
@@ -137,12 +137,12 @@ package ChipBiasConfigRecords is
 		AnalogMux1_D          => to_unsigned(55, 8),
 		AnalogMux2_D          => to_unsigned(56, 8),
 		BiasOutMux_D          => to_unsigned(57, 8),
-		UseAOut_S             => to_unsigned(58, 8),
-		NArow_S               => to_unsigned(59, 8),
+		ResetCalibNeuron_S    => to_unsigned(58, 8),
+		TypeNCalibNeuron_S    => to_unsigned(59, 8),
 		ResetTestPixel_S      => to_unsigned(60, 8),
-		TypeNCalib_S          => to_unsigned(61, 8),
-		ResetCalib_S          => to_unsigned(62, 8),
-		HotPixelSuppression_S => to_unsigned(63, 8),
+		HotPixelSuppression_S => to_unsigned(61, 8),
+		AERnArow_S            => to_unsigned(62, 8),
+		UseAOut_S             => to_unsigned(63, 8),
 		GlobalShutter_S       => to_unsigned(64, 8));
 
 	type tChipConfig is record
@@ -154,12 +154,12 @@ package ChipBiasConfigRecords is
 		AnalogMux1_D          : unsigned(3 downto 0);
 		AnalogMux2_D          : unsigned(3 downto 0);
 		BiasOutMux_D          : unsigned(3 downto 0);
-		UseAOut_S             : std_logic;
-		NArow_S               : std_logic;
+		ResetCalibNeuron_S    : std_logic;
+		TypeNCalibNeuron_S    : std_logic;
 		ResetTestPixel_S      : std_logic;
-		TypeNCalib_S          : std_logic;
-		ResetCalib_S          : std_logic;
 		HotPixelSuppression_S : std_logic;
+		AERnArow_S            : std_logic;
+		UseAOut_S             : std_logic;
 		GlobalShutter_S       : std_logic;
 	end record tChipConfig;
 
@@ -172,11 +172,11 @@ package ChipBiasConfigRecords is
 		AnalogMux1_D          => (others => '0'),
 		AnalogMux2_D          => (others => '0'),
 		BiasOutMux_D          => (others => '0'),
-		UseAOut_S             => '0',
-		NArow_S               => '0',
-		ResetTestPixel_S      => '0',
-		TypeNCalib_S          => '0',
-		ResetCalib_S          => '0',
+		ResetCalibNeuron_S    => '1',
+		TypeNCalibNeuron_S    => '0',
+		ResetTestPixel_S      => '1',
 		HotPixelSuppression_S => '0',
+		AERnArow_S            => '0',
+		UseAOut_S             => '1',
 		GlobalShutter_S       => '0');
 end package ChipBiasConfigRecords;
