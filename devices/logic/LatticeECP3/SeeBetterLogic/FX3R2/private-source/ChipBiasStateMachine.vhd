@@ -1,5 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use work.ShiftRegisterModes.all;
 use work.ChipBiasConfigRecords.all;
 
 entity ChipBiasStateMachine is
@@ -61,13 +63,35 @@ architecture Behavioral of ChipBiasStateMachine is
 	signal AERnArowChanged_S, AERnArowSent_S                       : std_logic;
 	signal UseAOutChanged_S, UseAOutSent_S                         : std_logic;
 	signal GlobalShutterChanged_S, GlobalShutterSent_S             : std_logic;
+
+	-- Data shift register for output.
+	signal BiasAddrSRMode_S                      : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
+	signal BiasAddrSRInput_D, BiasAddrSROutput_D : std_logic_vector(BIASADDR_REG_LENGTH - 1 downto 0);
+
+	signal BiasSRMode_S                  : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
+	signal BiasSRInput_D, BiasSROutput_D : std_logic_vector(BIAS_REG_LENGTH - 1 downto 0);
+
+	signal ChipSRMode_S                  : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
+	signal ChipSRInput_D, ChipSROutput_D : std_logic_vector(CHIP_REG_LENGTH - 1 downto 0);
 begin
 	sendConfig : process is
 	begin
 		State_DN <= State_DP;
 
 		case State_DP is
-			when stIdle           =>
+			when stIdle =>
+				if Bias0Changed_S = '1' then
+					BiasAddrSRInput_D <= std_logic_vector(to_unsigned(0, BIASADDR_REG_LENGTH));
+				end if;
+				
+				if Bias1Changed_S = '1' then
+					BiasAddrSRInput_D <= std_logic_vector(to_unsigned(1, BIASADDR_REG_LENGTH));
+				end if;
+				
+				if Bias2Changed_S = '1' then
+					BiasAddrSRInput_D <= std_logic_vector(to_unsigned(2, BIASADDR_REG_LENGTH));
+				end if;
+
 			when stLoadAndAckBias =>
 			-- Acknowledge this particular bias.
 
@@ -98,8 +122,49 @@ begin
 
 			when others => null;
 		end case;
-
 	end process sendConfig;
+
+	regUpdate : process(Clock_CI, Reset_RI) is
+	begin
+		if Reset_RI = '1' then
+			State_DP <= stIdle;
+		elsif rising_edge(Clock_CI) then
+			State_DP <= State_DN;
+		end if;
+	end process regUpdate;
+
+	biasAddrSR : entity work.ShiftRegister
+		generic map(
+			SIZE => BIASADDR_REG_LENGTH)
+		port map(
+			Clock_CI         => Clock_CI,
+			Reset_RI         => Reset_RI,
+			Mode_SI          => BiasAddrSRMode_S,
+			DataIn_DI        => '0',
+			ParallelWrite_DI => BiasAddrSRInput_D,
+			ParallelRead_DO  => BiasAddrSROutput_D);
+
+	biasSR : entity work.ShiftRegister
+		generic map(
+			SIZE => BIAS_REG_LENGTH)
+		port map(
+			Clock_CI         => Clock_CI,
+			Reset_RI         => Reset_RI,
+			Mode_SI          => BiasSRMode_S,
+			DataIn_DI        => '0',
+			ParallelWrite_DI => BiasSRInput_D,
+			ParallelRead_DO  => BiasSROutput_D);
+
+	chipSR : entity work.ShiftRegister
+		generic map(
+			SIZE => CHIP_REG_LENGTH)
+		port map(
+			Clock_CI         => Clock_CI,
+			Reset_RI         => Reset_RI,
+			Mode_SI          => ChipSRMode_S,
+			DataIn_DI        => '0',
+			ParallelWrite_DI => ChipSRInput_D,
+			ParallelRead_DO  => ChipSROutput_D);
 
 	detectBias0Change : entity work.ChangeDetector
 		generic map(
