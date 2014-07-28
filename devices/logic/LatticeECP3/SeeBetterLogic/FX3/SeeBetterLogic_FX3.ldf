@@ -54,6 +54,9 @@
         <Source name="../common-source/support/PulseDetector.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/support/ChangeDetector.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="private-source/TopLevel.vhd" type="VHDL" type_short="VHDL">
             <Options top_module="TopLevel"/>
         </Source>
@@ -94,6 +97,9 @@
             <Options/>
         </Source>
         <Source name="../common-source/SPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ChipBiasConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="SeeBetterLogic_FX3.lpf" type="Logic Preference" type_short="LPF">

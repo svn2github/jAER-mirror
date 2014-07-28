@@ -361,5 +361,7 @@ begin
 			SPIMOSI_DI           => SPIMOSISync_D,
 			SPIMISO_ZO           => SPIMISO_ZO,
 			MultiplexerConfig_DO => MultiplexerConfig_D,
-			DVSAERConfig_DO      => DVSAERConfig_D);
+			DVSAERConfig_DO      => DVSAERConfig_D,
+			BiasConfig_DO        => open,
+			ChipConfig_DO        => open);
 end Structural;

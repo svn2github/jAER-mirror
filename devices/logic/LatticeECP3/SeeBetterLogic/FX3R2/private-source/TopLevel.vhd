@@ -4,6 +4,7 @@ use work.Settings.all;
 use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
 use work.DVSAERConfigRecords.all;
+use work.ChipBiasConfigRecords.all;
 
 entity TopLevel is
 	port(
@@ -106,6 +107,8 @@ architecture Structural of TopLevel is
 
 	signal MultiplexerConfig_D : tMultiplexerConfig;
 	signal DVSAERConfig_D      : tDVSAERConfig;
+	signal BiasConfig_D        : tBiasConfig;
+	signal ChipConfig_D        : tChipConfig;
 begin
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : entity work.FX3USBClockSynchronizer
@@ -382,5 +385,19 @@ begin
 			SPIMOSI_DI           => SPIMOSISync_D,
 			SPIMISO_ZO           => SPIMISO_ZO,
 			MultiplexerConfig_DO => MultiplexerConfig_D,
-			DVSAERConfig_DO      => DVSAERConfig_D);
+			DVSAERConfig_DO      => DVSAERConfig_D,
+			BiasConfig_DO        => BiasConfig_D,
+			ChipConfig_DO        => ChipConfig_D);
+
+	chipBiasConfiguration : entity work.ChipBiasStateMachine
+		port map(
+			Clock_CI           => LogicClock_C,
+			Reset_RI           => LogicReset_R,
+			BiasDiagSelect_SO  => ChipBiasDiagSelect_SO,
+			BiasAddrSelect_SBO => ChipBiasAddrSelect_SBO,
+			BiasClock_CBO      => ChipBiasClock_CBO,
+			BiasBitIn_DO       => ChipBiasBitIn_DO,
+			BiasLatch_SBO      => ChipBiasLatch_SBO,
+			BiasConfig_DI      => BiasConfig_D,
+			ChipConfig_DI      => ChipConfig_D);
 end Structural;

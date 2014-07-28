@@ -6,12 +6,19 @@ use work.ChipBiasConfigRecords.all;
 
 entity ChipBiasStateMachine is
 	port(
-		Clock_CI      : in std_logic;
-		Reset_RI      : in std_logic;
+		Clock_CI           : in  std_logic;
+		Reset_RI           : in  std_logic;
+
+		-- Bias configuration outputs (to chip)
+		BiasDiagSelect_SO  : out std_logic;
+		BiasAddrSelect_SBO : out std_logic;
+		BiasClock_CBO      : out std_logic;
+		BiasBitIn_DO       : out std_logic;
+		BiasLatch_SBO      : out std_logic;
 
 		-- Configuration inputs
-		BiasConfig_DI : in tBiasConfig;
-		ChipConfig_DI : in tChipConfig
+		BiasConfig_DI      : in  tBiasConfig;
+		ChipConfig_DI      : in  tChipConfig
 	);
 end entity ChipBiasStateMachine;
 
@@ -73,8 +80,11 @@ architecture Behavioral of ChipBiasStateMachine is
 
 	signal ChipSRMode_S                  : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
 	signal ChipSRInput_D, ChipSROutput_D : std_logic_vector(CHIP_REG_LENGTH - 1 downto 0);
+
+	signal BiasConfigReg_D : tBiasConfig;
+	signal ChipConfigReg_D : tChipConfig;
 begin
-	sendConfig : process is
+	sendConfig : process(State_DP, Bias0Changed_S, Bias1Changed_S, Bias2Changed_S)
 	begin
 		State_DN <= State_DP;
 
@@ -83,11 +93,11 @@ begin
 				if Bias0Changed_S = '1' then
 					BiasAddrSRInput_D <= std_logic_vector(to_unsigned(0, BIASADDR_REG_LENGTH));
 				end if;
-				
+
 				if Bias1Changed_S = '1' then
 					BiasAddrSRInput_D <= std_logic_vector(to_unsigned(1, BIASADDR_REG_LENGTH));
 				end if;
-				
+
 				if Bias2Changed_S = '1' then
 					BiasAddrSRInput_D <= std_logic_vector(to_unsigned(2, BIASADDR_REG_LENGTH));
 				end if;
@@ -128,8 +138,14 @@ begin
 	begin
 		if Reset_RI = '1' then
 			State_DP <= stIdle;
+
+			BiasConfigReg_D <= tBiasConfigDefault;
+			ChipConfigReg_D <= tChipConfigDefault;
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
+
+			BiasConfigReg_D <= BiasConfig_DI;
+			ChipConfigReg_D <= ChipConfig_DI;
 		end if;
 	end process regUpdate;
 
@@ -172,7 +188,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.DiffBn_D,
+			InputData_D           => BiasConfigReg_D.DiffBn_D,
 			ChangeDetected_SO     => Bias0Changed_S,
 			ChangeAcknowledged_SI => Bias0Sent_S);
 
@@ -182,7 +198,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.OnBn_D,
+			InputData_D           => BiasConfigReg_D.OnBn_D,
 			ChangeDetected_SO     => Bias1Changed_S,
 			ChangeAcknowledged_SI => Bias1Sent_S);
 
@@ -192,7 +208,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.OffBn_D,
+			InputData_D           => BiasConfigReg_D.OffBn_D,
 			ChangeDetected_SO     => Bias2Changed_S,
 			ChangeAcknowledged_SI => Bias2Sent_S);
 
@@ -202,7 +218,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.ApsCasEpc_D,
+			InputData_D           => BiasConfigReg_D.ApsCasEpc_D,
 			ChangeDetected_SO     => Bias3Changed_S,
 			ChangeAcknowledged_SI => Bias3Sent_S);
 
@@ -212,7 +228,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.DiffCasBnc_D,
+			InputData_D           => BiasConfigReg_D.DiffCasBnc_D,
 			ChangeDetected_SO     => Bias4Changed_S,
 			ChangeAcknowledged_SI => Bias4Sent_S);
 
@@ -222,7 +238,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.ApsROSFBn_D,
+			InputData_D           => BiasConfigReg_D.ApsROSFBn_D,
 			ChangeDetected_SO     => Bias5Changed_S,
 			ChangeAcknowledged_SI => Bias5Sent_S);
 
@@ -232,7 +248,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.LocalBufBn_D,
+			InputData_D           => BiasConfigReg_D.LocalBufBn_D,
 			ChangeDetected_SO     => Bias6Changed_S,
 			ChangeAcknowledged_SI => Bias6Sent_S);
 
@@ -242,7 +258,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.PixInvBn_D,
+			InputData_D           => BiasConfigReg_D.PixInvBn_D,
 			ChangeDetected_SO     => Bias7Changed_S,
 			ChangeAcknowledged_SI => Bias7Sent_S);
 
@@ -252,7 +268,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.PrBp_D,
+			InputData_D           => BiasConfigReg_D.PrBp_D,
 			ChangeDetected_SO     => Bias8Changed_S,
 			ChangeAcknowledged_SI => Bias8Sent_S);
 
@@ -262,7 +278,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.PrSFBp_D,
+			InputData_D           => BiasConfigReg_D.PrSFBp_D,
 			ChangeDetected_SO     => Bias9Changed_S,
 			ChangeAcknowledged_SI => Bias9Sent_S);
 
@@ -272,7 +288,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.RefrBp_D,
+			InputData_D           => BiasConfigReg_D.RefrBp_D,
 			ChangeDetected_SO     => Bias10Changed_S,
 			ChangeAcknowledged_SI => Bias10Sent_S);
 
@@ -282,7 +298,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.AEPdBn_D,
+			InputData_D           => BiasConfigReg_D.AEPdBn_D,
 			ChangeDetected_SO     => Bias11Changed_S,
 			ChangeAcknowledged_SI => Bias11Sent_S);
 
@@ -292,7 +308,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.LcolTimeoutBn_D,
+			InputData_D           => BiasConfigReg_D.LcolTimeoutBn_D,
 			ChangeDetected_SO     => Bias12Changed_S,
 			ChangeAcknowledged_SI => Bias12Sent_S);
 
@@ -302,7 +318,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.AEPuXBp_D,
+			InputData_D           => BiasConfigReg_D.AEPuXBp_D,
 			ChangeDetected_SO     => Bias13Changed_S,
 			ChangeAcknowledged_SI => Bias13Sent_S);
 
@@ -312,7 +328,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.AEPuYBp_D,
+			InputData_D           => BiasConfigReg_D.AEPuYBp_D,
 			ChangeDetected_SO     => Bias14Changed_S,
 			ChangeAcknowledged_SI => Bias14Sent_S);
 
@@ -322,7 +338,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.IFThrBn_D,
+			InputData_D           => BiasConfigReg_D.IFThrBn_D,
 			ChangeDetected_SO     => Bias15Changed_S,
 			ChangeAcknowledged_SI => Bias15Sent_S);
 
@@ -332,7 +348,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.IFRefrBn_D,
+			InputData_D           => BiasConfigReg_D.IFRefrBn_D,
 			ChangeDetected_SO     => Bias16Changed_S,
 			ChangeAcknowledged_SI => Bias16Sent_S);
 
@@ -342,7 +358,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.PadFollBn_D,
+			InputData_D           => BiasConfigReg_D.PadFollBn_D,
 			ChangeDetected_SO     => Bias17Changed_S,
 			ChangeAcknowledged_SI => Bias17Sent_S);
 
@@ -352,7 +368,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.ApsOverflowLevel_D,
+			InputData_D           => BiasConfigReg_D.ApsOverflowLevel_D,
 			ChangeDetected_SO     => Bias18Changed_S,
 			ChangeAcknowledged_SI => Bias18Sent_S);
 
@@ -362,7 +378,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.BiasBuffer_D,
+			InputData_D           => BiasConfigReg_D.BiasBuffer_D,
 			ChangeDetected_SO     => Bias19Changed_S,
 			ChangeAcknowledged_SI => Bias19Sent_S);
 
@@ -372,7 +388,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.SSP_D,
+			InputData_D           => BiasConfigReg_D.SSP_D,
 			ChangeDetected_SO     => Bias20Changed_S,
 			ChangeAcknowledged_SI => Bias20Sent_S);
 
@@ -382,7 +398,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfig_DI.SSN_D,
+			InputData_D           => BiasConfigReg_D.SSN_D,
 			ChangeDetected_SO     => Bias21Changed_S,
 			ChangeAcknowledged_SI => Bias21Sent_S);
 
@@ -392,7 +408,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfig_DI.DigitalMux0_D),
+			InputData_D           => std_logic_vector(ChipConfigReg_D.DigitalMux0_D),
 			ChangeDetected_SO     => DigitalMux0Changed_S,
 			ChangeAcknowledged_SI => DigitalMux0Sent_S);
 
@@ -402,7 +418,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfig_DI.DigitalMux1_D),
+			InputData_D           => std_logic_vector(ChipConfigReg_D.DigitalMux1_D),
 			ChangeDetected_SO     => DigitalMux1Changed_S,
 			ChangeAcknowledged_SI => DigitalMux1Sent_S);
 
@@ -412,7 +428,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfig_DI.DigitalMux2_D),
+			InputData_D           => std_logic_vector(ChipConfigReg_D.DigitalMux2_D),
 			ChangeDetected_SO     => DigitalMux2Changed_S,
 			ChangeAcknowledged_SI => DigitalMux2Sent_S);
 
@@ -422,7 +438,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfig_DI.DigitalMux3_D),
+			InputData_D           => std_logic_vector(ChipConfigReg_D.DigitalMux3_D),
 			ChangeDetected_SO     => DigitalMux3Changed_S,
 			ChangeAcknowledged_SI => DigitalMux3Sent_S);
 
@@ -432,7 +448,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfig_DI.AnalogMux0_D),
+			InputData_D           => std_logic_vector(ChipConfigReg_D.AnalogMux0_D),
 			ChangeDetected_SO     => AnalogMux0Changed_S,
 			ChangeAcknowledged_SI => AnalogMux0Sent_S);
 
@@ -442,7 +458,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfig_DI.AnalogMux1_D),
+			InputData_D           => std_logic_vector(ChipConfigReg_D.AnalogMux1_D),
 			ChangeDetected_SO     => AnalogMux1Changed_S,
 			ChangeAcknowledged_SI => AnalogMux1Sent_S);
 
@@ -452,7 +468,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfig_DI.AnalogMux2_D),
+			InputData_D           => std_logic_vector(ChipConfigReg_D.AnalogMux2_D),
 			ChangeDetected_SO     => AnalogMux2Changed_S,
 			ChangeAcknowledged_SI => AnalogMux2Sent_S);
 
@@ -462,7 +478,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfig_DI.BiasOutMux_D),
+			InputData_D           => std_logic_vector(ChipConfigReg_D.BiasOutMux_D),
 			ChangeDetected_SO     => BiasOutMuxChanged_S,
 			ChangeAcknowledged_SI => BiasOutMuxSent_S);
 
@@ -472,7 +488,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfig_DI.ResetCalibNeuron_S,
+			InputData_D(0)        => ChipConfigReg_D.ResetCalibNeuron_S,
 			ChangeDetected_SO     => ResetCalibNeuronChanged_S,
 			ChangeAcknowledged_SI => ResetCalibNeuronSent_S);
 
@@ -482,7 +498,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfig_DI.TypeNCalibNeuron_S,
+			InputData_D(0)        => ChipConfigReg_D.TypeNCalibNeuron_S,
 			ChangeDetected_SO     => TypeNCalibNeuronChanged_S,
 			ChangeAcknowledged_SI => TypeNCalibNeuronSent_S);
 
@@ -492,7 +508,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfig_DI.ResetTestPixel_S,
+			InputData_D(0)        => ChipConfigReg_D.ResetTestPixel_S,
 			ChangeDetected_SO     => ResetTestPixelChanged_S,
 			ChangeAcknowledged_SI => ResetTestPixelSent_S);
 
@@ -502,7 +518,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfig_DI.HotPixelSuppression_S,
+			InputData_D(0)        => ChipConfigReg_D.HotPixelSuppression_S,
 			ChangeDetected_SO     => HotPixelSuppressionChanged_S,
 			ChangeAcknowledged_SI => HotPixelSuppressionSent_S);
 
@@ -512,7 +528,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfig_DI.AERnArow_S,
+			InputData_D(0)        => ChipConfigReg_D.AERnArow_S,
 			ChangeDetected_SO     => AERnArowChanged_S,
 			ChangeAcknowledged_SI => AERnArowSent_S);
 
@@ -522,7 +538,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfig_DI.UseAOut_S,
+			InputData_D(0)        => ChipConfigReg_D.UseAOut_S,
 			ChangeDetected_SO     => UseAOutChanged_S,
 			ChangeAcknowledged_SI => UseAOutSent_S);
 
@@ -532,7 +548,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfig_DI.GlobalShutter_S,
+			InputData_D(0)        => ChipConfigReg_D.GlobalShutter_S,
 			ChangeDetected_SO     => GlobalShutterChanged_S,
 			ChangeAcknowledged_SI => GlobalShutterSent_S);
 end architecture Behavioral;

@@ -128,23 +128,24 @@ package ChipBiasConfigRecords is
 		GlobalShutter_S       : unsigned(7 downto 0);
 	end record tChipConfigParamAddresses;
 
-	-- Start with addresses at 50 here, to accomodate up to 50 biases easily, as required by new biasgen.
+	-- Start with addresses 128 here, so that the MSB (bit 7) is always high. This heavily simplifies
+	-- the SPI configuration module, and clearly separates biases from chip diagnostic.
 	constant CHIPCONFIG_PARAM_ADDRESSES : tChipConfigParamAddresses := (
-		DigitalMux0_D         => to_unsigned(50, 8),
-		DigitalMux1_D         => to_unsigned(51, 8),
-		DigitalMux2_D         => to_unsigned(52, 8),
-		DigitalMux3_D         => to_unsigned(53, 8),
-		AnalogMux0_D          => to_unsigned(54, 8),
-		AnalogMux1_D          => to_unsigned(55, 8),
-		AnalogMux2_D          => to_unsigned(56, 8),
-		BiasOutMux_D          => to_unsigned(57, 8),
-		ResetCalibNeuron_S    => to_unsigned(58, 8),
-		TypeNCalibNeuron_S    => to_unsigned(59, 8),
-		ResetTestPixel_S      => to_unsigned(60, 8),
-		HotPixelSuppression_S => to_unsigned(61, 8),
-		AERnArow_S            => to_unsigned(62, 8),
-		UseAOut_S             => to_unsigned(63, 8),
-		GlobalShutter_S       => to_unsigned(64, 8));
+		DigitalMux0_D         => to_unsigned(128, 8),
+		DigitalMux1_D         => to_unsigned(129, 8),
+		DigitalMux2_D         => to_unsigned(130, 8),
+		DigitalMux3_D         => to_unsigned(131, 8),
+		AnalogMux0_D          => to_unsigned(132, 8),
+		AnalogMux1_D          => to_unsigned(133, 8),
+		AnalogMux2_D          => to_unsigned(134, 8),
+		BiasOutMux_D          => to_unsigned(135, 8),
+		ResetCalibNeuron_S    => to_unsigned(136, 8),
+		TypeNCalibNeuron_S    => to_unsigned(137, 8),
+		ResetTestPixel_S      => to_unsigned(138, 8),
+		HotPixelSuppression_S => to_unsigned(139, 8),
+		AERnArow_S            => to_unsigned(140, 8),
+		UseAOut_S             => to_unsigned(141, 8),
+		GlobalShutter_S       => to_unsigned(142, 8));
 
 	type tChipConfig is record
 		DigitalMux0_D         : unsigned(3 downto 0);
