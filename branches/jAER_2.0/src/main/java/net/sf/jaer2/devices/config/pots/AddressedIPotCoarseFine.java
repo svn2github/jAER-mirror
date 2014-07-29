@@ -166,11 +166,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	}
 
 	/**
-	 * Set the buffer bias bit value
-	 *
-	 * @param bufferBitValue
-	 *            the value which has maxBuffeBitValue as maximum and specifies
-	 *            fraction of master bias
+	 * Set the fine bias bit value.
 	 */
 	public void setFineBitValue(final int fine) {
 		fineBitValue.setValue((short) AddressedIPotCoarseFine.clipFine(fine));
@@ -202,14 +198,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	}
 
 	/**
-	 * Set the course bias bit value. Note that because of an initial design
-	 * error, the value of coarse current *decreases* as the bit value
-	 * increases.
-	 * The current is nominally the master current for a bit value of 2.
-	 *
-	 * @param bufferBitValue
-	 *            the value which has maxBuffeBitValue as maximum and specifies
-	 *            fraction of master bias
+	 * Set the coarse bias bit value.
 	 */
 	public void setCoarseBitValue(final int coarse) {
 		coarseBitValue.setValue((byte) AddressedIPotCoarseFine.clipCoarse(coarse));
@@ -219,7 +208,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 * returns clipped value of potential new value for buffer bit value,
 	 * constrained by limits of hardware.
 	 *
-	 * @param o
+	 * @param in
 	 *            candidate new value.
 	 * @return allowed value.
 	 */
@@ -281,7 +270,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	 * Sets the enum currentLevel according to the flag lowCurrentModeEnabled.
 	 *
 	 * @param lowCurrentModeEnabled
-	 *            true to set CurrentMode.LowCurrent
+	 *            true to set CurrentLevel.Low
 	 */
 	public void setLowCurrentModeEnabled(final boolean lowCurrentModeEnabled) {
 		setCurrentLevel(lowCurrentModeEnabled ? CurrentLevel.Low : CurrentLevel.Normal);
@@ -296,8 +285,7 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	public float getCoarseCurrent() {
 		// TODO: implement real MasterBias.
 		final double im = AddressedIPotCoarseFine.fixMasterBias;
-		final float i = (float) (im * Math.pow(AddressedIPotCoarseFine.RATIO_COARSE_CURRENT_STEP,
-			2 - getCoarseBitValue()));
+		final float i = (float) (im * Math.pow(AddressedIPotCoarseFine.RATIO_COARSE_CURRENT_STEP, getCoarseBitValue()));
 		return i;
 	}
 
@@ -313,38 +301,9 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 	public float setCoarseCurrent(final float current) {
 		// TODO: implement real MasterBias.
 		final double im = AddressedIPotCoarseFine.fixMasterBias;
-		setCoarseBitValue(7 - (int) Math.round((Math.log(current / im) / Math.log(8)) + 5));
+		setCoarseBitValue((int) Math.round(Math.log(current / im)
+			/ Math.log(AddressedIPotCoarseFine.RATIO_COARSE_CURRENT_STEP)));
 		return getCoarseCurrent();
-	}
-
-	/**
-	 * Increments coarse current
-	 *
-	 * @return true if change was possible, false if coarse current is already
-	 *         maximum value
-	 */
-	public boolean incrementCoarseCurrent() {
-		if (getCoarseBitValue() == AddressedIPotCoarseFine.getMaxCoarseBitValue()) {
-			return false;
-		}
-
-		setCoarseBitValue(getCoarseBitValue() - 1);
-		return true;
-	}
-
-	/**
-	 * Decrements coarse current
-	 *
-	 * @return true if change was possible, false if coarse current is already
-	 *         minimum value
-	 */
-	public boolean decrementCoarseCurrent() {
-		if (getCoarseBitValue() == AddressedIPotCoarseFine.getMinCoarseBitValue()) {
-			return false;
-		}
-
-		setCoarseBitValue(getCoarseBitValue() + 1);
-		return true;
 	}
 
 	public float getFineCurrent() {
@@ -383,27 +342,9 @@ public class AddressedIPotCoarseFine extends AddressedIPot {
 
 		ret |= getFineBitValue() << Integer.numberOfTrailingZeros(AddressedIPotCoarseFine.bitFineMask);
 
-		// The coarse bits are reversed (this was a mistake) so we need to
-		// mirror them here before we send them.
-		final int coarseBitValueReversed = AddressedIPotCoarseFine.computeBinaryInverse(getCoarseBitValue(),
-			AddressedIPotCoarseFine.numCoarseBits);
-		ret |= coarseBitValueReversed << Integer.numberOfTrailingZeros(AddressedIPotCoarseFine.bitCoarseMask);
+		ret |= getCoarseBitValue() << Integer.numberOfTrailingZeros(AddressedIPotCoarseFine.bitCoarseMask);
 
 		return ret;
-	}
-
-	/**
-	 * The coarse bits are reversed (this was a mistake) so we need to mirror
-	 * them here before we send them.
-	 *
-	 * @param value
-	 *            the bits in
-	 * @param lenth
-	 *            the number of bits
-	 * @return the bits mirrored
-	 */
-	private static int computeBinaryInverse(final int value, final int length) {
-		return Integer.reverse(value) >>> (Integer.SIZE - length);
 	}
 
 	@Override
