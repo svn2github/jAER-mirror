@@ -6,29 +6,39 @@ use work.ChipBiasConfigRecords.all;
 
 entity ChipBiasStateMachine is
 	port(
-		Clock_CI           : in  std_logic;
-		Reset_RI           : in  std_logic;
+		Clock_CI               : in  std_logic;
+		Reset_RI               : in  std_logic;
 
 		-- Bias configuration outputs (to chip)
-		BiasDiagSelect_SO  : out std_logic;
-		BiasAddrSelect_SBO : out std_logic;
-		BiasClock_CBO      : out std_logic;
-		BiasBitIn_DO       : out std_logic;
-		BiasLatch_SBO      : out std_logic;
+		ChipBiasDiagSelect_SO  : out std_logic;
+		ChipBiasAddrSelect_SBO : out std_logic;
+		ChipBiasClock_CBO      : out std_logic;
+		ChipBiasBitIn_DO       : out std_logic;
+		ChipBiasLatch_SBO      : out std_logic;
 
 		-- Configuration inputs
-		BiasConfig_DI      : in  tBiasConfig;
-		ChipConfig_DI      : in  tChipConfig
+		BiasConfig_DI          : in  tBiasConfig;
+		ChipConfig_DI          : in  tChipConfig
 	);
 end entity ChipBiasStateMachine;
 
 architecture Behavioral of ChipBiasStateMachine is
-	type state is (stIdle, stLoadAndAckBias, stSendBiasAddress, stSendBias, stLoadAndAckChip, stSendChip);
+	type state is (stIdle, stAckAndLoadBias0, stAckAndLoadBias1, stAckAndLoadBias2, stAckAndLoadBias3, stAckAndLoadBias4, stAckAndLoadBias5, stAckAndLoadBias6,
+		           stAckAndLoadBias7, stAckAndLoadBias8, stAckAndLoadBias9, stAckAndLoadBias10, stAckAndLoadBias11, stAckAndLoadBias12, stAckAndLoadBias13,
+		           stAckAndLoadBias14, stAckAndLoadBias15, stAckAndLoadBias16, stAckAndLoadBias17, stAckAndLoadBias18, stAckAndLoadBias19, stAckAndLoadBias20,
+		           stAckAndLoadBias21, stSendBiasAddress, stSendBias, stAckAndLoadChip, stSendChip, stLatch);
 
 	attribute syn_enum_encoding : string;
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	signal State_DP, State_DN : state;
+
+	constant LATCH_CYCLES : integer := 50;
+
+	constant SENT_BITS_COUNTER_SIZE : integer := 6;
+
+	-- Enable clock when shifiting out bits.
+	signal ClockEnable_S : std_logic;
 
 	-- Bias changes and acknowledges.
 	signal Bias0Changed_S, Bias0Sent_S   : std_logic;
@@ -71,7 +81,7 @@ architecture Behavioral of ChipBiasStateMachine is
 	signal UseAOutChanged_S, UseAOutSent_S                         : std_logic;
 	signal GlobalShutterChanged_S, GlobalShutterSent_S             : std_logic;
 
-	-- Data shift register for output.
+	-- Data shift registers for output.
 	signal BiasAddrSRMode_S                      : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
 	signal BiasAddrSRInput_D, BiasAddrSROutput_D : std_logic_vector(BIASADDR_REG_LENGTH - 1 downto 0);
 
@@ -81,54 +91,572 @@ architecture Behavioral of ChipBiasStateMachine is
 	signal ChipSRMode_S                  : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
 	signal ChipSRInput_D, ChipSROutput_D : std_logic_vector(CHIP_REG_LENGTH - 1 downto 0);
 
+	-- Counter for keeping track of output.
+	signal SentBitsCounterClear_S, SentBitsCounterEnable_S : std_logic;
+	signal SentBitsCounterData_D                           : unsigned(SENT_BITS_COUNTER_SIZE - 1 downto 0);
+
+	-- Register configuration inputs.
 	signal BiasConfigReg_D : tBiasConfig;
 	signal ChipConfigReg_D : tChipConfig;
-begin
-	sendConfig : process(State_DP, Bias0Changed_S, Bias1Changed_S, Bias2Changed_S)
+
+	-- Register all outputs.
+	signal ChipBiasDiagSelectReg_S  : std_logic;
+	signal ChipBiasAddrSelectReg_SB : std_logic;
+	signal ChipBiasClockReg_CB      : std_logic;
+	signal ChipBiasBitInReg_D       : std_logic;
+	signal ChipBiasLatchReg_SB      : std_logic;
+
+	function CoarseBiasFixBits(CFBIAS : in std_logic_vector(BIAS_CF_LENGTH - 1 downto 0)) return std_logic_vector is
 	begin
+		return not CFBIAS(12) & not CFBIAS(13) & not CFBIAS(14) & CFBIAS(11 downto 0);
+	end function CoarseBiasFixBits;
+begin
+	-- Forward clock (active-low clock).
+	ChipBiasClockReg_CB <= Clock_CI nand ClockEnable_S;
+
+	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, Bias0Changed_S, Bias10Changed_S, Bias11Changed_S, Bias12Changed_S, Bias13Changed_S, Bias14Changed_S, Bias15Changed_S, Bias16Changed_S, Bias17Changed_S, Bias18Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias21Changed_S, Bias2Changed_S, Bias3Changed_S, Bias4Changed_S, Bias5Changed_S, Bias6Changed_S, Bias7Changed_S, Bias8Changed_S, Bias9Changed_S, ChipConfigReg_D, ChipSROutput_D, AERnArowChanged_S, AnalogMux0Changed_S, AnalogMux1Changed_S, AnalogMux2Changed_S, BiasOutMuxChanged_S, DigitalMux0Changed_S, DigitalMux1Changed_S, DigitalMux2Changed_S, DigitalMux3Changed_S, GlobalShutterChanged_S, HotPixelSuppressionChanged_S, ResetCalibNeuronChanged_S, ResetTestPixelChanged_S, TypeNCalibNeuronChanged_S, UseAOutChanged_S, SentBitsCounterData_D)
+	begin
+		-- Keep state by default.
 		State_DN <= State_DP;
+
+		-- Clock.
+		ClockEnable_S <= '0';
+
+		-- Default state for bias config outputs.
+		ChipBiasDiagSelectReg_S  <= '0';
+		ChipBiasAddrSelectReg_SB <= '1';
+		ChipBiasBitInReg_D       <= '0';
+		ChipBiasLatchReg_SB      <= '1';
+
+		Bias0Sent_S  <= '0';
+		Bias1Sent_S  <= '0';
+		Bias2Sent_S  <= '0';
+		Bias3Sent_S  <= '0';
+		Bias4Sent_S  <= '0';
+		Bias5Sent_S  <= '0';
+		Bias6Sent_S  <= '0';
+		Bias7Sent_S  <= '0';
+		Bias8Sent_S  <= '0';
+		Bias9Sent_S  <= '0';
+		Bias10Sent_S <= '0';
+		Bias11Sent_S <= '0';
+		Bias12Sent_S <= '0';
+		Bias13Sent_S <= '0';
+		Bias14Sent_S <= '0';
+		Bias15Sent_S <= '0';
+		Bias16Sent_S <= '0';
+		Bias17Sent_S <= '0';
+		Bias18Sent_S <= '0';
+		Bias19Sent_S <= '0';
+		Bias20Sent_S <= '0';
+		Bias21Sent_S <= '0';
+
+		DigitalMux0Sent_S         <= '0';
+		DigitalMux1Sent_S         <= '0';
+		DigitalMux2Sent_S         <= '0';
+		DigitalMux3Sent_S         <= '0';
+		AnalogMux0Sent_S          <= '0';
+		AnalogMux1Sent_S          <= '0';
+		AnalogMux2Sent_S          <= '0';
+		BiasOutMuxSent_S          <= '0';
+		ResetCalibNeuronSent_S    <= '0';
+		TypeNCalibNeuronSent_S    <= '0';
+		ResetTestPixelSent_S      <= '0';
+		HotPixelSuppressionSent_S <= '0';
+		AERnArowSent_S            <= '0';
+		UseAOutSent_S             <= '0';
+		GlobalShutterSent_S       <= '0';
+
+		BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_DO_NOTHING;
+		BiasAddrSRInput_D <= (others => '0');
+
+		BiasSRMode_S  <= SHIFTREGISTER_MODE_DO_NOTHING;
+		BiasSRInput_D <= (others => '0');
+
+		ChipSRMode_S  <= SHIFTREGISTER_MODE_DO_NOTHING;
+		ChipSRInput_D <= (others => '0');
+
+		SentBitsCounterClear_S  <= '0';
+		SentBitsCounterEnable_S <= '0';
 
 		case State_DP is
 			when stIdle =>
+				-- Clear counter while idle, so it's at zero for the next states.
+				SentBitsCounterClear_S <= '1';
+
 				if Bias0Changed_S = '1' then
-					BiasAddrSRInput_D <= std_logic_vector(to_unsigned(0, BIASADDR_REG_LENGTH));
+					State_DN <= stAckAndLoadBias0;
+				elsif Bias1Changed_S = '1' then
+					State_DN <= stAckAndLoadBias1;
+				elsif Bias2Changed_S = '1' then
+					State_DN <= stAckAndLoadBias2;
+				elsif Bias3Changed_S = '1' then
+					State_DN <= stAckAndLoadBias3;
+				elsif Bias4Changed_S = '1' then
+					State_DN <= stAckAndLoadBias4;
+				elsif Bias5Changed_S = '1' then
+					State_DN <= stAckAndLoadBias5;
+				elsif Bias6Changed_S = '1' then
+					State_DN <= stAckAndLoadBias6;
+				elsif Bias7Changed_S = '1' then
+					State_DN <= stAckAndLoadBias7;
+				elsif Bias8Changed_S = '1' then
+					State_DN <= stAckAndLoadBias8;
+				elsif Bias9Changed_S = '1' then
+					State_DN <= stAckAndLoadBias9;
+				elsif Bias10Changed_S = '1' then
+					State_DN <= stAckAndLoadBias10;
+				elsif Bias11Changed_S = '1' then
+					State_DN <= stAckAndLoadBias11;
+				elsif Bias12Changed_S = '1' then
+					State_DN <= stAckAndLoadBias12;
+				elsif Bias13Changed_S = '1' then
+					State_DN <= stAckAndLoadBias13;
+				elsif Bias14Changed_S = '1' then
+					State_DN <= stAckAndLoadBias14;
+				elsif Bias15Changed_S = '1' then
+					State_DN <= stAckAndLoadBias15;
+				elsif Bias16Changed_S = '1' then
+					State_DN <= stAckAndLoadBias16;
+				elsif Bias17Changed_S = '1' then
+					State_DN <= stAckAndLoadBias17;
+				elsif Bias18Changed_S = '1' then
+					State_DN <= stAckAndLoadBias18;
+				elsif Bias19Changed_S = '1' then
+					State_DN <= stAckAndLoadBias19;
+				elsif Bias20Changed_S = '1' then
+					State_DN <= stAckAndLoadBias20;
+				elsif Bias21Changed_S = '1' then
+					State_DN <= stAckAndLoadBias21;
 				end if;
 
-				if Bias1Changed_S = '1' then
-					BiasAddrSRInput_D <= std_logic_vector(to_unsigned(1, BIASADDR_REG_LENGTH));
+				if DigitalMux0Changed_S = '1' or DigitalMux1Changed_S = '1' or DigitalMux2Changed_S = '1' or DigitalMux3Changed_S = '1' or AnalogMux0Changed_S = '1' or AnalogMux1Changed_S = '1' or AnalogMux2Changed_S = '1' or BiasOutMuxChanged_S = '1' or ResetCalibNeuronChanged_S = '1' or
+				TypeNCalibNeuronChanged_S = '1' or ResetTestPixelChanged_S = '1' or HotPixelSuppressionChanged_S = '1' or AERnArowChanged_S = '1' or UseAOutChanged_S = '1' or GlobalShutterChanged_S = '1' then
+					State_DN <= stAckAndLoadChip;
 				end if;
 
-				if Bias2Changed_S = '1' then
-					BiasAddrSRInput_D <= std_logic_vector(to_unsigned(2, BIASADDR_REG_LENGTH));
-				end if;
+			when stAckAndLoadBias0 =>
+				-- Acknowledge this particular bias.
+				Bias0Sent_S <= '1';
 
-			when stLoadAndAckBias =>
-			-- Acknowledge this particular bias.
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(0, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
-			-- Load shiftreg with current bias address.
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.DiffBn_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
-			-- Load shiftreg with current bias config content.
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias1 =>
+				-- Acknowledge this particular bias.
+				Bias1Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(1, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.OnBn_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias2 =>
+				-- Acknowledge this particular bias.
+				Bias2Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(2, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.OffBn_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias3 =>
+				-- Acknowledge this particular bias.
+				Bias3Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(3, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.ApsCasEpc_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias4 =>
+				-- Acknowledge this particular bias.
+				Bias4Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(4, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.DiffCasBnc_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias5 =>
+				-- Acknowledge this particular bias.
+				Bias5Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(5, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.ApsROSFBn_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias6 =>
+				-- Acknowledge this particular bias.
+				Bias6Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(6, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.LocalBufBn_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias7 =>
+				-- Acknowledge this particular bias.
+				Bias7Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(7, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.PixInvBn_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias8 =>
+				-- Acknowledge this particular bias.
+				Bias8Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(8, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.PrBp_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias9 =>
+				-- Acknowledge this particular bias.
+				Bias9Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(9, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.PrSFBp_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias10 =>
+				-- Acknowledge this particular bias.
+				Bias10Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(10, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.RefrBp_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias11 =>
+				-- Acknowledge this particular bias.
+				Bias11Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(11, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.AEPdBn_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias12 =>
+				-- Acknowledge this particular bias.
+				Bias12Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(12, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.LcolTimeoutBn_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias13 =>
+				-- Acknowledge this particular bias.
+				Bias13Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(13, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.AEPuXBp_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias14 =>
+				-- Acknowledge this particular bias.
+				Bias14Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(14, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.AEPuYBp_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias15 =>
+				-- Acknowledge this particular bias.
+				Bias15Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(15, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.IFThrBn_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias16 =>
+				-- Acknowledge this particular bias.
+				Bias16Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(16, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.IFRefrBn_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias17 =>
+				-- Acknowledge this particular bias.
+				Bias17Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(17, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.PadFollBn_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias18 =>
+				-- Acknowledge this particular bias.
+				Bias18Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(18, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.ApsOverflowLevel_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias19 =>
+				-- Acknowledge this particular bias.
+				Bias19Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(19, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= '0' & CoarseBiasFixBits(BiasConfigReg_D.BiasBuffer_D);
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias20 =>
+				-- Acknowledge this particular bias.
+				Bias20Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(20, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= BiasConfigReg_D.SSP_D;
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
+
+			when stAckAndLoadBias21 =>
+				-- Acknowledge this particular bias.
+				Bias21Sent_S <= '1';
+
+				-- Load shiftreg with current bias address.
+				BiasAddrSRInput_D <= std_logic_vector(to_unsigned(21, BIASADDR_REG_LENGTH));
+				BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				-- Load shiftreg with current bias config content.
+				BiasSRInput_D <= BiasConfigReg_D.SSN_D;
+				BiasSRMode_S  <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendBiasAddress;
 
 			when stSendBiasAddress =>
-			-- Set flags as needed for chip address SR.
+				-- Set flags as needed for chip address SR.
+				ChipBiasAddrSelectReg_SB <= '0';
 
-			-- Shift it out, slowly, over the bias ports.
+				-- Clock data.
+				ClockEnable_S <= '1';
+
+				-- Shift it out, slowly, over the bias ports.
+				ChipBiasBitInReg_D <= BiasAddrSROutput_D(BIASADDR_REG_LENGTH - 1);
+				BiasAddrSRMode_S   <= SHIFTREGISTER_MODE_SHIFT_LEFT;
+
+				-- Go through all the bits in sequence.
+				SentBitsCounterEnable_S <= '1';
+
+				if SentBitsCounterData_D = to_unsigned(BIASADDR_REG_LENGTH - 1, SENT_BITS_COUNTER_SIZE) then
+					SentBitsCounterEnable_S <= '0';
+					SentBitsCounterClear_S  <= '1';
+
+					State_DN <= stSendBias;
+				end if;
 
 			when stSendBias =>
-			-- Set flags as needed for chip bias SR.
+				-- Default flags are fine here.
 
-			-- Shift it out, slowly, over the bias ports.
+				-- Clock data.
+				ClockEnable_S <= '1';
 
-			when stLoadAndAckChip =>
-			-- Acknowledge all chip config changes, since we're getting the up-to-date
-			-- content of all of them anyway, so we can just ACk them all indiscrminately.
+				-- Shift it out, slowly, over the bias ports.
+				ChipBiasBitInReg_D <= BiasSROutput_D(BIAS_REG_LENGTH - 1);
+				BiasSRMode_S       <= SHIFTREGISTER_MODE_SHIFT_LEFT;
 
-			-- Load shiftreg with current chip config content.
+				-- Go through all the bits in sequence.
+				SentBitsCounterEnable_S <= '1';
+
+				if SentBitsCounterData_D = to_unsigned(BIAS_REG_LENGTH - 1, SENT_BITS_COUNTER_SIZE) then
+					SentBitsCounterEnable_S <= '0';
+					SentBitsCounterClear_S  <= '1';
+
+					State_DN <= stLatch;
+				end if;
+
+			when stAckAndLoadChip =>
+				-- Acknowledge all chip config changes, since we're getting the up-to-date
+				-- content of all of them anyway, so we can just ACk them all indiscrminately.
+				DigitalMux0Sent_S         <= '1';
+				DigitalMux1Sent_S         <= '1';
+				DigitalMux2Sent_S         <= '1';
+				DigitalMux3Sent_S         <= '1';
+				AnalogMux0Sent_S          <= '1';
+				AnalogMux1Sent_S          <= '1';
+				AnalogMux2Sent_S          <= '1';
+				BiasOutMuxSent_S          <= '1';
+				ResetCalibNeuronSent_S    <= '1';
+				TypeNCalibNeuronSent_S    <= '1';
+				ResetTestPixelSent_S      <= '1';
+				HotPixelSuppressionSent_S <= '1';
+				AERnArowSent_S            <= '1';
+				UseAOutSent_S             <= '1';
+				GlobalShutterSent_S       <= '1';
+
+				-- Load shiftreg with current chip config content.
+				ChipSRInput_D(55 downto 52) <= std_logic_vector(ChipConfigReg_D.DigitalMux3_D);
+				ChipSRInput_D(51 downto 48) <= std_logic_vector(ChipConfigReg_D.DigitalMux2_D);
+				ChipSRInput_D(47 downto 44) <= std_logic_vector(ChipConfigReg_D.DigitalMux1_D);
+				ChipSRInput_D(43 downto 40) <= std_logic_vector(ChipConfigReg_D.DigitalMux0_D);
+				ChipSRInput_D(22)           <= ChipConfigReg_D.GlobalShutter_S;
+				ChipSRInput_D(21)           <= ChipConfigReg_D.UseAOut_S;
+				ChipSRInput_D(20)           <= ChipConfigReg_D.AERnArow_S;
+				ChipSRInput_D(19)           <= ChipConfigReg_D.HotPixelSuppression_S;
+				ChipSRInput_D(18)           <= ChipConfigReg_D.ResetTestPixel_S;
+				ChipSRInput_D(17)           <= ChipConfigReg_D.TypeNCalibNeuron_S;
+				ChipSRInput_D(16)           <= ChipConfigReg_D.ResetCalibNeuron_S;
+				ChipSRInput_D(15 downto 12) <= std_logic_vector(ChipConfigReg_D.AnalogMux2_D);
+				ChipSRInput_D(11 downto 8)  <= std_logic_vector(ChipConfigReg_D.AnalogMux1_D);
+				ChipSRInput_D(7 downto 4)   <= std_logic_vector(ChipConfigReg_D.AnalogMux0_D);
+				ChipSRInput_D(3 downto 0)   <= std_logic_vector(ChipConfigReg_D.BiasOutMux_D);
+				ChipSRMode_S                <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stSendChip;
 
 			when stSendChip =>
-			-- Set flags as needed for chip diag SR.
+				-- Set flags as needed for chip diag SR.
+				ChipBiasDiagSelectReg_S <= '1';
 
-			-- Shift it out, slowly, over the bias ports.
+				-- Clock data.
+				ClockEnable_S <= '1';
+
+				-- Shift it out, slowly, over the bias ports.
+				ChipBiasBitInReg_D <= ChipSROutput_D(CHIP_REG_LENGTH - 1);
+				ChipSRMode_S       <= SHIFTREGISTER_MODE_SHIFT_LEFT;
+
+				-- Go through all the bits in sequence.
+				SentBitsCounterEnable_S <= '1';
+
+				if SentBitsCounterData_D = to_unsigned(CHIP_REG_LENGTH - 1, SENT_BITS_COUNTER_SIZE) then
+					SentBitsCounterEnable_S <= '0';
+					SentBitsCounterClear_S  <= '1';
+
+					State_DN <= stLatch;
+				end if;
+
+			when stLatch =>
+				-- Latch new config.
+				ChipBiasLatchReg_SB <= '0';
+
+				-- Keep latch active for a few cycles.
+				SentBitsCounterEnable_S <= '1';
+
+				if SentBitsCounterData_D = to_unsigned(LATCH_CYCLES - 1, SENT_BITS_COUNTER_SIZE) then
+					SentBitsCounterEnable_S <= '0';
+					SentBitsCounterClear_S  <= '1';
+
+					State_DN <= stIdle;
+				end if;
 
 			when others => null;
 		end case;
@@ -141,13 +669,37 @@ begin
 
 			BiasConfigReg_D <= tBiasConfigDefault;
 			ChipConfigReg_D <= tChipConfigDefault;
+
+			ChipBiasDiagSelect_SO  <= '0';
+			ChipBiasAddrSelect_SBO <= '1';
+			ChipBiasClock_CBO      <= '1';
+			ChipBiasBitIn_DO       <= '0';
+			ChipBiasLatch_SBO      <= '1';
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
 
 			BiasConfigReg_D <= BiasConfig_DI;
 			ChipConfigReg_D <= ChipConfig_DI;
+
+			ChipBiasDiagSelect_SO  <= ChipBiasDiagSelectReg_S;
+			ChipBiasAddrSelect_SBO <= ChipBiasAddrSelectReg_SB;
+			ChipBiasClock_CBO      <= ChipBiasClockReg_CB;
+			ChipBiasBitIn_DO       <= ChipBiasBitInReg_D;
+			ChipBiasLatch_SBO      <= ChipBiasLatchReg_SB;
 		end if;
 	end process regUpdate;
+
+	sentBitsCounter : entity work.ContinuousCounter
+		generic map(
+			COUNTER_WIDTH => SENT_BITS_COUNTER_SIZE)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => SentBitsCounterClear_S,
+			Enable_SI    => SentBitsCounterEnable_S,
+			DataLimit_DI => (others => '1'),
+			Overflow_SO  => open,
+			Data_DO      => SentBitsCounterData_D);
 
 	biasAddrSR : entity work.ShiftRegister
 		generic map(

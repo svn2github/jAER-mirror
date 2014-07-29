@@ -391,13 +391,13 @@ begin
 
 	chipBiasConfiguration : entity work.ChipBiasStateMachine
 		port map(
-			Clock_CI           => LogicClock_C,
-			Reset_RI           => LogicReset_R,
-			BiasDiagSelect_SO  => ChipBiasDiagSelect_SO,
-			BiasAddrSelect_SBO => ChipBiasAddrSelect_SBO,
-			BiasClock_CBO      => ChipBiasClock_CBO,
-			BiasBitIn_DO       => ChipBiasBitIn_DO,
-			BiasLatch_SBO      => ChipBiasLatch_SBO,
-			BiasConfig_DI      => BiasConfig_D,
-			ChipConfig_DI      => ChipConfig_D);
+			Clock_CI               => LogicClock_C,
+			Reset_RI               => LogicReset_R,
+			ChipBiasDiagSelect_SO  => ChipBiasDiagSelect_SO,
+			ChipBiasAddrSelect_SBO => ChipBiasAddrSelect_SBO,
+			ChipBiasClock_CBO      => ChipBiasClock_CBO,
+			ChipBiasBitIn_DO       => ChipBiasBitIn_DO,
+			ChipBiasLatch_SBO      => ChipBiasLatch_SBO,
+			BiasConfig_DI          => BiasConfig_D,
+			ChipConfig_DI          => ChipConfig_D);
 end Structural;
