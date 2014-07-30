@@ -289,6 +289,19 @@ begin
 				-- a continuous flow of events from the data producers and
 				-- disallows a backlog of old events to remain around, which
 				-- would be timestamped incorrectly after long delays.
+				if DVSAERFifoControl_SI.Empty_S = '0' then
+					DVSAERFifoControl_SO.Read_S <= '1';
+				end if;
+				if APSADCFifoControl_SI.Empty_S = '0' then
+					APSADCFifoControl_SO.Read_S <= '1';
+				end if;
+				if IMUFifoControl_SI.Empty_S = '0' then
+					IMUFifoControl_SO.Read_S <= '1';
+				end if;
+				if ExtTriggerFifoControl_SI.Empty_S = '0' then
+					ExtTriggerFifoControl_SO.Read_S <= '1';
+				end if;
+				
 				State_DN <= stIdle;
 
 			when others => null;
