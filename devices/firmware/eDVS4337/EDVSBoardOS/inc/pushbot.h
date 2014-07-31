@@ -5,8 +5,8 @@
  *      Author: ruka
  */
 
-#ifndef MINIROB_H_
-#define MINIROB_H_
+#ifndef PUSHBOT_H_
+#define PUSHBOT_H_
 
 #include <stdint.h>
 

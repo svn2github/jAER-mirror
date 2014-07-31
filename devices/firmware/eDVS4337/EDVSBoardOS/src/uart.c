@@ -1,5 +1,6 @@
 #include <string.h>
 #include <cr_section_macros.h>
+#include <ctype.h>
 #include "chip.h"
 
 #include "config.h"
@@ -27,7 +28,7 @@ __NOINIT(RAM5) volatile struct uart_hal uart;
 
 unsigned char commandLine[UART_COMMAND_LINE_MAX_LENGTH];
 uint32_t commandLinePointer;
-uint32_t enableUARTecho;	 // 0-no cmd echo, 1-only cmd reply, 2-all visible
+uint32_t enableUARTecho;	 // 0-no cmd echo, 1-cmd reply, 2-all visible
 
 // *****************************************************************************
 #define UARTReturn()	   xputc('\n')
@@ -47,7 +48,7 @@ uint32_t enableUARTecho;	 // 0-no cmd echo, 1-only cmd reply, 2-all visible
 
 void UARTWriteChar(char pcBuffer) {
 	while (freeSpaceForTranmission(&uart) == 0) {
-		; //Wait for the M0 core to move some char out
+		__NOP(); //Wait for the M0 core to move some char out
 	}
 	pushByteToTransmission(&uart, pcBuffer);
 }
@@ -99,21 +100,25 @@ void UARTInit(LPC_USART_T* UARTx, uint32_t baudrate) {
 
 // *****************************************************************************
 void UARTShowVersion(void) {
-	xputs("\nEDVS-4337, V" SOFTWARE_VERSION);
+	xputs("\nEDVS-4337,");
+
+#ifdef DEBUG
+	xputs(" DEBUG");
+#else
+	xputs(" RELEASE");
+#endif
+	xputs(" V"SOFTWARE_VERSION);
 #if USE_IMU_DATA
 	xputs(" IMU");
 #endif
-#if USE_MINIROB
-	xputs(" MROB");
+#if USE_PUSHBOT
+	xputs(" PBOT");
 #endif
 #if USE_SDCARD
 	xputs(" SD");
 #endif
 #if LOW_POWER_MODE
 	xputs(" LP");
-#endif
-#if EXTENDED_TIMESTAMP
-	xputs(" ET");
 #endif
 	xputs(" " __DATE__ ", " __TIME__ "\n");
 
@@ -157,7 +162,8 @@ static void UARTShowUsage(void) {
 	xputs(" !U[0,1,2]             - UART echo mode (none, cmd-reply, all)\n");
 	UARTReturn();
 
-	xputs(" !S[+/-],b,p           - enable/disable sensors streaming, ??S to show options\n");
+	xputs(" !S+b,p                - enable sensors streaming, ??S to show options\n");
+	xputs(" !S-[b]                - disable sensors streaming, ??S to show options\n");
 	xputs(" ?Sb                   - get sensor readouts according to bitmap b\n");
 	xputs(" ??S                   - bitmap b options\n");
 	UARTReturn();
@@ -169,13 +175,17 @@ static void UARTShowUsage(void) {
 	UARTReturn();
 
 	xputs(" !M+/-                 - enable/disable motor driver\n");
+#if USE_PUSHBOT
+	xputs(" ?MC[0,1]              - get motor PID controller gains\n");
+	xputs(" !MC[0,1]=p,i,d        - set motor PID controller gains\n");
+#endif
 	xputs(" !MP[0,1]=x            - set motor PWM period in microseconds\n");
 	xputs(" !M[0,1]=[%]x          - set motor duty width in microseconds [% 0..100]\n");
-#if USE_MINIROB
+#if USE_PUSHBOT
 	xputs(" !MV[0,1]=[0-100]      - set motor velocity (internal P-controller for PushBot)\n");
 #endif
 	xputs(" !MD[0,1]=[%]          - set motor duty width, slow decay [% 0..100]\n");
-#if USE_MINIROB
+#if USE_PUSHBOT
 	xputs(" !MVD[0,1]=x           - set motor duty velocity, slow decay\n");
 #endif
 	UARTReturn();
@@ -189,14 +199,14 @@ static void UARTShowUsage(void) {
 	xputs(" ?T                    - get RTC time\n");
 	UARTReturn();
 
-	xputs(" ??                    - display (this) help\n");
+	xputs(" ??                    - display (this) help menu\n");
 	UARTReturn();
 }
 
 static inline void UARTShowEventDataOptions(void) {
 	xputs("List of available event data formats:\n");
 	xputs(" !E0   - 2 bytes per event, binary: 1yyyyyyy.pxxxxxxx (default)\n");
-	xputs(" !E1   - 3..5 bytes per event, 1..3 bytes delta-timestamp (7bits each)\n");
+	xputs(" !E1   - 3..6 bytes per event, 1..4 bytes delta-timestamp (7bits each)\n");
 	xputs(" !E2   - 4 bytes per event (as !E0 followed by 16bit timestamp)\n");
 	xputs(" !E3   - 5 bytes per event (as !E0 followed by 24bit timestamp)\n");
 	xputs(" !E4   - 6 bytes per event (as !E0 followed by 32bit timestamp)\n");
@@ -207,29 +217,37 @@ static inline void UARTShowEventDataOptions(void) {
 
 static inline void UARTShowSensorOptions(void) {
 	xputs("Bitlist for available sensors:\n");
-	xputs(" Bit Name     # Values  Description\n");
-	xputs(" 0   BATTERY         1  raw battery voltage level\n");
-	xputs(" 1   ADC_CHANNEL0    1  raw ADC reading from pin 2\n");
-	xputs(" 2   ADC_CHANNEL1    1  raw ADC reading from pin 3\n");
-	xputs(" 3   ADC_CHANNEL2    1  raw ADC reading from pin 4\n");
-	xputs(" 4   ADC_CHANNEL3    1  raw ADC reading from pin 5\n");
-	xputs(" 5   ADC_CHANNEL4    1  raw ADC reading from pin 6\n");
-	xputs(" 6   ADC_CHANNEL5    1  raw ADC reading from pin 7\n");
+	xputs(" Bit Dec-Value Name     # Values  Description\n");
+	xputs(" 0   1         BATTERY         1  raw battery voltage level (0..9999)\n");
+	xputs(" 1   2         ADC CHANNEL0    1  raw ADC reading from pin 2 (0..1023)\n");
+	xputs(" 2   4         ADC CHANNEL1    1  raw ADC reading from pin 3 (0..1023)\n");
+	xputs(" 3   8         ADC CHANNEL2    1  raw ADC reading from pin 4 (0..1023)\n");
+	xputs(" 4   16        ADC CHANNEL3    1  raw ADC reading from pin 5 (0..1023)\n");
+	xputs(" 5   32        ADC CHANNEL4    1  raw ADC reading from pin 6 (0..1023)\n");
+	xputs(" 6   64        ADC CHANNEL5    1  raw ADC reading from pin 7 (0..1023)\n");
 #if USE_IMU_DATA
-	xputs(" 7   GYROMETER       3  raw gyroscope data for 3 axis\n");
-	xputs(" 8   ACCELEROMETER   3  raw accelerometer data for 3 axis\n");
-	xputs(" 9   COMPASS         3  raw magnetic values for 3 axis\n");
-	xputs(" 10  TEMPERATURE     1  computed values from the temperature sensor\n");
-	xputs(" 11  QUARTERNION     4  raw values from the IMU DMP\n");
+	xputs(" 7   128       RAW GYRO        3  raw gyroscope data for 3 axis (+/-32768)\n");
+	xputs(" 8   256       RAW ACCEL       3  raw accelerometer data for 3 axis (+/-32768)\n");
+	xputs(" 9   512       RAW COMPASS     3  raw magnetic values for 3 axis (+/-4096)\n");
+	xputs(" 10  1024      CAL GYRO        3  gyroscope data in dps Q16 in HEX\n");
+	xputs(" 11  2048      CAL ACCEL       3  accelerometer data in g's Q16 in HEX\n");
+	xputs(" 12  4096      CAL COMPASS     3  magnetic values in microteslas Q16 in HEX\n");
+	xputs(" 13  8192      QUARTERNION     4  9 axis quarternion Q30 in HEX\n");
+	xputs(" 14  16384     EULER ANGLES    4  euler angles in degrees Q30 in HEX\n");
+	xputs(" 15  32768     ROTATION MATRIX 9  rotation matrix Q30 in HEX\n");
+	xputs(" 16  65536     HEADING         1  heading in degrees Q16 in HEX\n");
+	xputs(" 17  131072    LINEAR ACCEL    3  linear accel in m/s^2 Float in HEX\n");
+	xputs(" 18  262144    IMU STATUS      2  IMU status (temperature and timestamp)\n");
 #endif
-	xputs(" 12  PWM_SIG         2  currently set PWM duty cycle for all 2 motors\n");
-	xputs(" 13  MOTOR_CURRENTS  2  motor currents from the motor driver\n");
-	xputs(" 14  EVENTS_RATE     1  Event rate per second\n");
+	xputs(" 19  524288    PWM SIGNALS     4  currently set PWM duty cycle for all 2 motors\n");
+	xputs(" 20  1048576   MOTOR CURRENTS  2  motor currents from the motor driver\n");
 #if USE_SDCARD
-	xputs(" 15  SDCARD_RATE     1  Bytes written per second\n");
+	xputs(" 21  2097152   EVENTS RATE     3  Event rate per second (0..1000000)\n");
+	#else
+	xputs(" 21  2097152   EVENTS RATE     1  Event rate per second (0..1000000)\n");
 #endif
-#if USE_MINIROB
-	xputs(" 24  MOTOR_SENSORS   2  wheel tick counter\n");
+#if USE_PUSHBOT
+	xputs(" 28  268435456 MOTOR SENSORS   2  wheel tick counter\n");
 #endif
 	UARTReturn();
 }
@@ -284,6 +302,25 @@ static void UARTParseGetCommand(void) {
 	case 'e':
 		xprintf("-E%d\n", eDVSDataFormat);
 		break;
+
+#if USE_PUSHBOT
+		case 'M':
+		case 'm': {
+			unsigned char *c = commandLine + 2;
+			if (*c == 'C' || *c == 'c') {
+				c++;
+				uint32_t motorId = parseUInt32(&c);
+				if (motorId == MOTOR0) {
+					xprintf("-MC0 %d,%d,%d\n", motor0.proportionalGain, motor0.integralGain, motor0.derivativeGain);
+				} else if (motorId == MOTOR1) {
+					xprintf("-MC1 %d,%d,%d\n", motor1.proportionalGain, motor1.integralGain, motor1.derivativeGain);
+				}
+			} else {
+				xputs("Get: parsing error\n");
+			}
+			break;
+		}
+#endif
 	case 'S':
 	case 's': {
 		unsigned char *c = commandLine + 2;
@@ -329,10 +366,10 @@ static void UARTParseSetCommand(void) {
 		uint32_t newDacValue = parseUInt32(&c);
 		if (newDacValue > 0x3FF) {
 			xputs("Analog output should be between [0-1023]\n");
-			break;
+			return;
 		}
 		Chip_DAC_UpdateValue(LPC_DAC, newDacValue);
-		break;
+		return;
 	}
 
 	case 'B':
@@ -341,16 +378,16 @@ static void UARTParseSetCommand(void) {
 		long biasID, biasValue;
 
 		if ((commandLine[2] == 'F') || (commandLine[2] == 'f')) {				// flush bias values to DVS chip
-			if ((enableEventSending == 0) && (enableUARTecho > 1)) {
+			if ((eDVSProcessingMode == 0) && (enableUARTecho > 1)) {
 				xputs("-BF\n");
 			}
 			DVS128BiasFlush(1);
-			break;
+			return;
 		}
 
 		if ((commandLine[2] == 'D') || (commandLine[2] == 'd')) {				// load and flush default bias set
 			if ((commandLine[3] >= '0') && (commandLine[3] <= '5')) {
-				if ((enableEventSending == 0) && (enableUARTecho > 1)) {
+				if ((eDVSProcessingMode == 0) && (enableUARTecho > 1)) {
 					xprintf("-BD%c\n", commandLine[3]);
 				}
 				DVS128BiasLoadDefaultSet(commandLine[3] - '0');
@@ -358,7 +395,7 @@ static void UARTParseSetCommand(void) {
 			} else {
 				xputs("Select default bias set: parsing error\n");
 			}
-			break;
+			return;
 		}
 
 		c = commandLine + 2;
@@ -366,10 +403,10 @@ static void UARTParseSetCommand(void) {
 		c++;
 		biasValue = parseUInt32(&c);
 		DVS128BiasSet(biasID, biasValue);
-		if ((enableEventSending == 0) && (enableUARTecho > 1)) {
+		if ((eDVSProcessingMode == 0) && (enableUARTecho > 1)) {
 			xprintf("-B%d=%d\n", biasID, DVS128BiasGet(biasID));
 		}
-		break;
+		return;
 	}
 
 	case 'E':
@@ -394,7 +431,7 @@ static void UARTParseSetCommand(void) {
 				Chip_TIMER_Reset(LPC_TIMER1);
 				Chip_TIMER_Enable(LPC_TIMER1);
 				xputs("-ETS\n");
-				break;
+				return;
 			} else if ((*c == 'm') || (*c == 'M')) { // enable PWM2 (P0.7) to serve as clock for others
 				c++;
 				if (*c == '0') {
@@ -423,7 +460,7 @@ static void UARTParseSetCommand(void) {
 					Chip_TIMER_Enable(LPC_TIMER1); // Restart capturing
 					xputs("-ETM+\n");
 				}
-				break;
+				return;
 			} else if ((*c == 'i') || (*c == 'I')) {
 				//Returning to retina mode.
 				switch (eDVSMode) {
@@ -436,17 +473,16 @@ static void UARTParseSetCommand(void) {
 				case EDVS_MODE_MASTER_RUNNING:
 					eDVSMode = EDVS_MODE_INTERNAL;
 					PWMSetPeriod(0, 0); //calling this function will reset Timer3 normal operation
-					break;
 				case EDVS_MODE_INTERNAL: //do nothing
 				default:
 					break;
 				}
 				xputs("-ETI\n");
-				break;
+				return;
 			} else {
 				c++;
 				LPC_TIMER1->TC = parseUInt32(&c);
-				break;
+				return;
 			}
 		}
 #if USE_SDCARD
@@ -454,23 +490,22 @@ static void UARTParseSetCommand(void) {
 			c++;
 			if (*c == '-') {
 				setSDCardRecord(DISABLE);
-				break;
+				return;
 			} else if (*c == '+') {
 				setSDCardRecord(ENABLE);
+				return;
+			} else {
 				break;
 			}
 		}
 #endif
 		if ((*c >= '0') && (*c <= '4')) {
 			eDVSDataFormat = ((*c) - '0');
-			if ((enableEventSending == 0) && (enableUARTecho > 1)) {
+			if ((eDVSProcessingMode == 0) && (enableUARTecho > 1)) {
 				xprintf("-E%d\n", eDVSDataFormat);
 			}
-			break;
+			return;
 		}
-
-		xputs("Set: parsing error\n");
-		break;
 	}
 
 	case 'L':
@@ -479,17 +514,17 @@ static void UARTParseSetCommand(void) {
 		if (*c == '0') {
 			LED0SetBlinking(DISABLE);
 			LED0SetOff();
-			break;
+			return;
 		} else if (*c == '1') {
 			LED0SetBlinking(DISABLE);
 			LED0SetOn();
-			break;
+			return;
 		} else if (*c == '2') {
 			LED0SetBlinking(ENABLE);
-			break;
+			return;
 		}
 		xputs("Set: parsing error\n");
-		break;
+		return;
 	}
 
 	case 'M':
@@ -498,78 +533,121 @@ static void UARTParseSetCommand(void) {
 		uint32_t motorId = 0;
 		if (*c == '+') {
 			enableMotorDriver(TRUE);
-			break;
+			return;
 		} else if (*c == '-') {
 			enableMotorDriver(FALSE);
-			break;
+			return;
 		}
 		if ((*c == 'D') || (*c == 'd')) {
 			c++;
+			if (!isdigit(*c)) {
+				break;
+			}
 			motorId = parseUInt32(&c);
 			c++;
 			if (*c == '%') {
 				c++;
 				if (updateMotorDutyCycleDecay(motorId, parseInt32(&c))) {
 					xputs("Error setting motor speed\n");
-					break;
+					return;
 				}
 			} else {
-				if (updateMotorWidthDecay(motorId, parseInt32(&c))) {
+				if (updateMotorWidthUsDecay(motorId, parseInt32(&c))) {
 					xputs("Error setting motor speed\n");
-					break;
+					return;
 				}
 
 			}
-			break;
+			return;
 		}
-#if USE_MINIROB
+#if USE_PUSHBOT
+		if ((*c == 'C') || (*c == 'c')) {
+			c++;
+			if (!isdigit(*c)) {
+				break;
+			}
+			motorId = parseUInt32(&c);
+			if (*c == '=') {
+				c++;
+			} else {
+				break;
+			}
+			int32_t pGain = parseInt32(&c);
+			if (*c == ',') {
+				c++;
+			} else {
+				break;
+			}
+			int32_t iGain = parseInt32(&c);
+			if (*c == ',') {
+				c++;
+			} else {
+				break;
+			}
+			int32_t dGain = parseInt32(&c);
+			if (updateMotorPID(motorId, pGain, iGain, dGain)) {
+				xputs("Error setting controller PID\n");
+			}
+			return;
+		}
 		if ((*c == 'V') || (*c == 'v')) {
 			c++;
 			if ((*c == 'D') || (*c == 'd')) {
 				c++;
+				if (!isdigit(*c)) {
+					break;
+				}
 				motorId = parseUInt32(&c);
 				c++;
 				if (updateMotorVelocityDecay(motorId, parseInt32(&c))) {
 					xputs("Error setting motor speed\n");
-					break;
 				}
+				return;
+			}
+			if (!isdigit(*c)) {
+				break;
 			}
 			motorId = parseUInt32(&c);
 			c++;
 			if (updateMotorVelocity(motorId, parseInt32(&c))) {
 				xputs("Error setting motor speed\n");
 			}
-			break;
+			return;
 		}
 #endif
 		if ((*c == 'P') || (*c == 'p')) {
 			c++;
+			if (!isdigit(*c)) {
+				break;
+			}
 			motorId = parseUInt32(&c);
 			c++;
 			if (updateMotorPWMPeriod(motorId, parseUInt32(&c))) {
 				xputs("Error setting motor PWM\n");
 			}
+			return;
+		}
+		if (!isdigit(*c)) {
 			break;
 		}
 		motorId = parseUInt32(&c);
 		c++;
 		if (updateMotorMode(motorId, DIRECT_MODE)) {
 			xputs("Error setting motor mode\n");
-			break;
+			return;
 		}
 		if (*c == '%') {
 			c++;
 			if (updateMotorDutyCycle(motorId, parseInt32(&c))) {
 				xputs("Error setting motor speed\n");
-				break;
 			}
 		} else {
-			if (updateMotorWidth(motorId, parseInt32(&c))) {
+			if (updateMotorWidthUs(motorId, parseInt32(&c))) {
 				xputs("Error setting motor width\n");
 			}
 		}
 
-		break;
+		return;
 	}
 
 	case 'P':
@@ -595,28 +673,45 @@ static void UARTParseSetCommand(void) {
 					xputs("Error setting PWM frequency\n");
 				}
 			}
-			break;
 		} else {
 			xputs("Channel not recognized\n");
 		}
-		break;
+		return;
 	}
 
 	case 'S':
 	case 's': {
 		unsigned char *c = commandLine + 2;
-		uint8_t flag = *c == '+' ? ENABLE : DISABLE;
-		c += 2;
-		uint32_t mask = parseUInt32(&c), period = 0;
-		if (mask == 0 && !flag && (commandLinePointer == 3)) {
-			mask = 0xFFFFFFFF;
+		uint8_t flag = 0;
+		if (*c == '+') {
+			flag = ENABLE;
+		} else if (*c == '-') {
+			flag = DISABLE;
+		} else {
+			break;
 		}
 		c++;
+		if (!isdigit(*c)) {
+			if (!flag && (commandLinePointer == 3)) {
+				enableSensors(0xFFFFFFFF, flag, 0);
+				return;
+			}
+			break;
+		}
+		uint32_t mask = parseUInt32(&c);
+		if (*c == ',') {
+			c++;
+		} else {
+			if (flag) {
+				break; //second argument only mandatory when enabling.
+			}
+		}
+		uint32_t period = 1;
 		if (flag) {
 			period = parseUInt32(&c);
 		}
 		enableSensors(mask, flag, period);
-		break;
+		return;
 	}
 	case 'T':
 	case 't': {
@@ -627,20 +722,20 @@ static void UARTParseSetCommand(void) {
 			Chip_RTC_Enable(LPC_RTC, ENABLE);
 			Chip_RTC_SetFullTime(LPC_RTC, &buildTime);
 			xputs("-T+\n");
-			break;
+			return;
 		} else if (*c == '-') {
 			Chip_RTC_Enable(LPC_RTC, DISABLE);
 			Chip_RTC_DeInit(LPC_RTC);
 			xputs("-T-\n");
-			break;
+			return;
 		}
 		if (commandLinePointer < TIME_DATE_COM_SIZE + 2) {
 			xputs("Wrong format\n");
-			break;
+			return;
 		}
 		if (!Chip_RTC_Clock_Running()) {
 			xputs("RTC not enabled\n");
-			break;
+			return;
 		}
 		RTC_TIME_T time;
 		time.time[RTC_TIMETYPE_DAYOFWEEK] = 0;
@@ -657,7 +752,7 @@ static void UARTParseSetCommand(void) {
 		c++;
 		time.time[RTC_TIMETYPE_SECOND] = parseUInt32(&c);
 		Chip_RTC_SetFullTime(LPC_RTC, &time);
-		break;
+		return;
 	}
 
 	case 'U':
@@ -667,27 +762,29 @@ static void UARTParseSetCommand(void) {
 		c = commandLine + 2;
 		if (((*c) >= '0') && ((*c) <= '2')) {
 			enableUARTecho = ((*c) - '0');
+			return;
+		}
+		if (*c == '=') {
+			c++;
+		} else {
 			break;
 		}
-		c++;
 		baudRate = parseUInt32(&c);
 		while ((LPC_UART->LSR & UART_LSR_TEMT) == 0) {
 		};		   // wait for UART to finish data transfer
-		if ((enableEventSending == 0) && (enableUARTecho > 1)) {
+		if ((eDVSProcessingMode == 0) && (enableUARTecho > 1)) {
 			xprintf("Switching Baud Rate to %d Baud!\n", baudRate);
+			timerDelayMs(100);
 		}
 		if (Chip_UART_SetBaudFDR(LPC_UART, baudRate) == 0) {
-			if ((enableEventSending == 0) && (enableUARTecho > 1)) {
+			if ((eDVSProcessingMode == 0) && (enableUARTecho > 1)) {
 				xprintf("Failed to switch Baud Rate to %d Baud!\n", baudRate);
 			}
 		}
-		break;
+		return;
 	}
-
-	default:
-		xputs("Set: parsing error\n");
 	}
-	return;
+	xputs("Set: parsing error\n");
 }
 
 // *****************************************************************************
@@ -750,7 +847,7 @@ void UART0ParseNewChar(unsigned char newChar) {
 	case 8:			// backspace
 		if (commandLinePointer > 0) {
 			commandLinePointer--;
-			if ((enableEventSending == 0) && (enableUARTecho)) {
+			if ((eDVSProcessingMode == 0) && (enableUARTecho)) {
 				xprintf("%c %c", 8, 8);
 			}
 		}
@@ -758,7 +855,7 @@ void UART0ParseNewChar(unsigned char newChar) {
 
 	case 10:
 	case 13:
-		if ((enableEventSending == 0) && (enableUARTecho)) {
+		if ((eDVSProcessingMode == 0) && (enableUARTecho)) {
 			UARTReturn();
 		}
 		if (commandLinePointer > 0) {
@@ -773,7 +870,7 @@ void UART0ParseNewChar(unsigned char newChar) {
 			return; //only accept ASCII
 		}
 		if (commandLinePointer < UART_COMMAND_LINE_MAX_LENGTH - 1) {
-			if ((enableEventSending == 0) && (enableUARTecho)) {
+			if ((eDVSProcessingMode == 0) && (enableUARTecho)) {
 				xputc(newChar);	  		   	// echo to indicate char arrived
 			}
 			commandLine[commandLinePointer++] = newChar;

@@ -1,6 +1,7 @@
 #ifndef _FIXEDPTC_H_
 #define _FIXEDPTC_H_
 #include <stdint.h>
+#include <stdbool.h>
 
 /*
  * fixedptc.h is a 32-bit or 64-bit fixed point numeric library.
@@ -152,7 +153,7 @@ fixedpt_div(fixedpt A, fixedpt B)
  * specified precisions.
  */
 static inline void
-fixedpt_str(fixedpt A, char *str, int max_dec)
+fixedpt_str(fixedpt A, char *str, int max_dec, bool decimal_point)
 {
 	int ndec = 0, slen = 0;
 	char tmp[12] = {0};
@@ -184,6 +185,7 @@ fixedpt_str(fixedpt A, char *str, int max_dec)
 
 	while (ndec > 0)
 		str[slen++] = tmp[--ndec];
+	if (decimal_point)
 	str[slen++] = '.';
 
 	fr = (fixedpt_fracpart(A) << FIXEDPT_WBITS) & mask;
@@ -203,11 +205,11 @@ fixedpt_str(fixedpt A, char *str, int max_dec)
 /* Converts the given fixedpt number into a string, using a static
  * (non-threadsafe) string buffer */
 static inline char*
-fixedpt_cstr(const fixedpt A, const int max_dec)
+fixedpt_cstr(const fixedpt A, const int max_dec,const bool decimal_point )
 {
 	static char str[25];
 
-	fixedpt_str(A, str, max_dec);
+	fixedpt_str(A, str, max_dec, decimal_point);
 	return (str);
 }
 

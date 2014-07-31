@@ -9,12 +9,6 @@
 #define MPU9105_H_
 #include <stdint.h>
 
-extern int32_t temperature; /* Temperature sensor output */
-extern int16_t gyrometer_data[3]; /* 3 axis gyrometer data from the IMU*/
-extern int16_t accelerometer_data[3];/* 3 axis accelerometer data from the IMU*/
-extern int16_t magnometer_data[3];/* 3 axis compass data from the IMU*/
-extern int32_t quaternion[4];/* 4d quaternion data from the IMU DMP*/
-
 /**
  * It initializes the MPU and the DMP inside of the IMU
  */

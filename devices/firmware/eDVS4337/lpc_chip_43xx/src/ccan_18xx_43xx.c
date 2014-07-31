@@ -293,6 +293,7 @@ void Chip_CCAN_AddReceiveID(LPC_CCAN_T *pCCAN, CCAN_MSG_IF_T IFSel, uint32_t id)
 		return;
 	}
 	temp.id = id;
+	temp.dlc = 0;
 	Chip_CCAN_SetMsgObject(pCCAN, IFSel, CCAN_RX_DIR, false, msgNum, &temp);
 }
 
@@ -301,6 +302,7 @@ void Chip_CCAN_DeleteReceiveID(LPC_CCAN_T *pCCAN, CCAN_MSG_IF_T IFSel, uint32_t 
 {
 	uint8_t i;
 	CCAN_MSG_OBJ_T temp;
+	temp.id = 0;
 	for (i = 1; i <= CCAN_MSG_MAX_NUM; i++) {
 		Chip_CCAN_GetMsgObject(pCCAN, IFSel, i, &temp);
 		if (temp.id == id) {

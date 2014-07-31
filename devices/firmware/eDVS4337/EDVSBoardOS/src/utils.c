@@ -72,9 +72,9 @@ void enterReprogrammingMode() {
 	//Stop the M0 core
 	haltSlave();
 
-	LPC_RGU->RESET_CTRL0 = 0x10DF1000;
+	LPC_RGU->RESET_CTRL0 = 0x10DF1200;
 	// GPIO_RST|AES_RST|ETHERNET_RST|SDIO_RST|DMA_RST|
-	// USB1_RST|USB0_RST|LCD_RST|M0_SUB_RST
+	// USB1_RST|USB0_RST|LCD_RST|M0_SUB_RST|SCU_RST
 
 	LPC_RGU->RESET_CTRL1 = 0x01DFF7FF;
 	// M0APP_RST|CAN0_RST|CAN1_RST|I2S_RST|SSP1_RST|SSP0_RST|
@@ -110,7 +110,6 @@ void disablePeripherals() {
 #if !USE_SDCARD
 	Chip_Clock_Disable(CLK_MX_SDIO);
 #endif
-	Chip_Clock_Disable(CLK_MX_SDIO);
 	Chip_Clock_Disable(CLK_MX_DMA);
 	Chip_Clock_Disable(CLK_MX_SCT);
 	Chip_Clock_Disable(CLK_MX_USB1);
@@ -121,7 +120,6 @@ void disablePeripherals() {
 	Chip_Clock_Disable(CLK_MX_WWDT);
 	Chip_Clock_Disable(CLK_MX_SSP0);
 	Chip_Clock_Disable(CLK_MX_TIMER0);
-	Chip_Clock_Disable(CLK_MX_TIMER1);
 	Chip_Clock_Disable(CLK_MX_UART2);
 	Chip_Clock_Disable(CLK_MX_UART3);
 	Chip_Clock_Disable(CLK_MX_TIMER2);

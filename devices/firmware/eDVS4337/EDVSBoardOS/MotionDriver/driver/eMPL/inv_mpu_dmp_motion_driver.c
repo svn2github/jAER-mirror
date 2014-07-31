@@ -14,6 +14,7 @@
  *      @details    All functions are preceded by the dmp_ prefix to
  *                  differentiate among MPL and general driver function calls.
  */
+#include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,14 +25,22 @@
 #include "dmpmap.h"
 
 /* The following functions must be defined for this platform:
- * i2c_write(uint8_t slave_addr, uint8_t reg_addr,
- *      uint8_t length, uint8_t const *data)
- * i2c_read(uint8_t slave_addr, uint8_t reg_addr,
- *      uint8_t length, uint8_t *data)
- * delay_ms(uint32_t num_ms)
- * get_ms(uint32_t *count)
+ * i2c_write(unsigned char slave_addr, unsigned char reg_addr,
+ *      unsigned char length, unsigned char const *data)
+ * i2c_read(unsigned char slave_addr, unsigned char reg_addr,
+ *      unsigned char length, unsigned char *data)
+ * delay_ms(unsigned long num_ms)
+ * get_ms(unsigned long *count)
  */
-#if defined MOTION_DRIVER_TARGET_MSP430
+#if defined EMPL_TARGET_STM32L
+#include "i2c.h"   
+#include "main.h"
+   
+#define i2c_write   Sensors_I2C_WriteRegister_swap
+#define i2c_read    Sensors_I2C_ReadRegister_swap  
+#define get_ms      stm32l_get_clock_ms
+
+#elif defined MOTION_DRIVER_TARGET_MSP430
 #include "msp430.h"
 #include "msp430_clock.h"
 #define delay_ms    msp430_delay_ms
@@ -61,16 +70,9 @@
 #define log_i       MPL_LOGI
 #define log_e       MPL_LOGE
 
-#elif defined LPC4337
-#include "utils.h"
-#include "chip.h"
-#include "xprintf.h"
-#define delay_ms    timerDelayMs
-#define get_ms      getTimerMs
-#define log_i     xprintf
-#define log_e     xprintf
 #else
-#error  Gyro driver is missing the system layer implementations.
+#include "invensense_config.h"
+//#error  Gyro driver is missing the system layer implementations.
 #endif
 
 /* These defines are copied from dmpDefaultMPU6050.c in the general MPL
@@ -251,7 +253,7 @@
 
 #define DMP_CODE_SIZE           (3062)
 
-static const uint8_t dmp_memory[DMP_CODE_SIZE] = {
+static const unsigned char dmp_memory[DMP_CODE_SIZE] = {
     /* bank # 0 */
     0x00, 0x00, 0x70, 0x00, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x02, 0x00, 0x03, 0x00, 0x00,
     0x00, 0x65, 0x00, 0x54, 0xff, 0xef, 0x00, 0x00, 0xfa, 0x80, 0x00, 0x0b, 0x12, 0x82, 0x00, 0x01,
@@ -459,7 +461,7 @@ static const uint8_t dmp_memory[DMP_CODE_SIZE] = {
     0xa6, 0xd9, 0x00, 0xd8, 0xf1, 0xff
 };
 
-static const uint16_t sStartAddress = 0x0400;
+static const unsigned short sStartAddress = 0x0400;
 
 /* END OF SECTION COPIED FROM dmpDefaultMPU6050.c */
 
@@ -483,12 +485,12 @@ static const uint16_t sStartAddress = 0x0400;
 #endif
 
 struct dmp_s {
-    void (*tap_cb)(uint8_t count, uint8_t direction);
-    void (*android_orient_cb)(uint8_t orientation);
-    uint16_t orient;
-    uint16_t feature_mask;
-    uint16_t fifo_rate;
-    uint8_t packet_length;
+    void (*tap_cb)(unsigned char count, unsigned char direction);
+    void (*android_orient_cb)(unsigned char orientation);
+    unsigned short orient;
+    unsigned short feature_mask;
+    unsigned short fifo_rate;
+    unsigned char packet_length;
 };
 
 static struct dmp_s dmp = {
@@ -517,13 +519,13 @@ int dmp_load_motion_driver_firmware(void)
  *  @param[in]  orient  Gyro and accel orientation in body frame.
  *  @return     0 if successful.
  */
-int dmp_set_orientation(uint16_t orient)
+int dmp_set_orientation(unsigned short orient)
 {
-    uint8_t gyro_regs[3], accel_regs[3];
-    const uint8_t gyro_axes[3] = {DINA4C, DINACD, DINA6C};
-    const uint8_t accel_axes[3] = {DINA0C, DINAC9, DINA2C};
-    const uint8_t gyro_sign[3] = {DINA36, DINA56, DINA76};
-    const uint8_t accel_sign[3] = {DINA26, DINA46, DINA66};
+    unsigned char gyro_regs[3], accel_regs[3];
+    const unsigned char gyro_axes[3] = {DINA4C, DINACD, DINA6C};
+    const unsigned char accel_axes[3] = {DINA0C, DINAC9, DINA2C};
+    const unsigned char gyro_sign[3] = {DINA36, DINA56, DINA76};
+    const unsigned char accel_sign[3] = {DINA26, DINA46, DINA66};
 
     gyro_regs[0] = gyro_axes[orient & 3];
     gyro_regs[1] = gyro_axes[(orient >> 3) & 3];
@@ -572,10 +574,10 @@ int dmp_set_orientation(uint16_t orient)
  *  @param[in]  bias    Gyro biases in q16.
  *  @return     0 if successful.
  */
-int dmp_set_gyro_bias(int32_t *bias)
+int dmp_set_gyro_bias(long *bias)
 {
-    int32_t gyro_bias_body[3];
-    uint8_t regs[4];
+    long gyro_bias_body[3];
+    unsigned char regs[4];
 
     gyro_bias_body[0] = bias[dmp.orient & 3];
     if (dmp.orient & 4)
@@ -588,33 +590,33 @@ int dmp_set_gyro_bias(int32_t *bias)
         gyro_bias_body[2] *= -1;
 
 #ifdef EMPL_NO_64BIT
-    gyro_bias_body[0] = (int32_t)(((float)gyro_bias_body[0] * GYRO_SF) / 1073741824.f);
-    gyro_bias_body[1] = (int32_t)(((float)gyro_bias_body[1] * GYRO_SF) / 1073741824.f);
-    gyro_bias_body[2] = (int32_t)(((float)gyro_bias_body[2] * GYRO_SF) / 1073741824.f);
+    gyro_bias_body[0] = (long)(((float)gyro_bias_body[0] * GYRO_SF) / 1073741824.f);
+    gyro_bias_body[1] = (long)(((float)gyro_bias_body[1] * GYRO_SF) / 1073741824.f);
+    gyro_bias_body[2] = (long)(((float)gyro_bias_body[2] * GYRO_SF) / 1073741824.f);
 #else
-    gyro_bias_body[0] = (int32_t)(((int64_t)gyro_bias_body[0] * GYRO_SF) >> 30);
-    gyro_bias_body[1] = (int32_t)(((int64_t)gyro_bias_body[1] * GYRO_SF) >> 30);
-    gyro_bias_body[2] = (int32_t)(((int64_t)gyro_bias_body[2] * GYRO_SF) >> 30);
+    gyro_bias_body[0] = (long)(((long long)gyro_bias_body[0] * GYRO_SF) >> 30);
+    gyro_bias_body[1] = (long)(((long long)gyro_bias_body[1] * GYRO_SF) >> 30);
+    gyro_bias_body[2] = (long)(((long long)gyro_bias_body[2] * GYRO_SF) >> 30);
 #endif
 
-    regs[0] = (uint8_t)((gyro_bias_body[0] >> 24) & 0xFF);
-    regs[1] = (uint8_t)((gyro_bias_body[0] >> 16) & 0xFF);
-    regs[2] = (uint8_t)((gyro_bias_body[0] >> 8) & 0xFF);
-    regs[3] = (uint8_t)(gyro_bias_body[0] & 0xFF);
+    regs[0] = (unsigned char)((gyro_bias_body[0] >> 24) & 0xFF);
+    regs[1] = (unsigned char)((gyro_bias_body[0] >> 16) & 0xFF);
+    regs[2] = (unsigned char)((gyro_bias_body[0] >> 8) & 0xFF);
+    regs[3] = (unsigned char)(gyro_bias_body[0] & 0xFF);
     if (mpu_write_mem(D_EXT_GYRO_BIAS_X, 4, regs))
         return -1;
 
-    regs[0] = (uint8_t)((gyro_bias_body[1] >> 24) & 0xFF);
-    regs[1] = (uint8_t)((gyro_bias_body[1] >> 16) & 0xFF);
-    regs[2] = (uint8_t)((gyro_bias_body[1] >> 8) & 0xFF);
-    regs[3] = (uint8_t)(gyro_bias_body[1] & 0xFF);
+    regs[0] = (unsigned char)((gyro_bias_body[1] >> 24) & 0xFF);
+    regs[1] = (unsigned char)((gyro_bias_body[1] >> 16) & 0xFF);
+    regs[2] = (unsigned char)((gyro_bias_body[1] >> 8) & 0xFF);
+    regs[3] = (unsigned char)(gyro_bias_body[1] & 0xFF);
     if (mpu_write_mem(D_EXT_GYRO_BIAS_Y, 4, regs))
         return -1;
 
-    regs[0] = (uint8_t)((gyro_bias_body[2] >> 24) & 0xFF);
-    regs[1] = (uint8_t)((gyro_bias_body[2] >> 16) & 0xFF);
-    regs[2] = (uint8_t)((gyro_bias_body[2] >> 8) & 0xFF);
-    regs[3] = (uint8_t)(gyro_bias_body[2] & 0xFF);
+    regs[0] = (unsigned char)((gyro_bias_body[2] >> 24) & 0xFF);
+    regs[1] = (unsigned char)((gyro_bias_body[2] >> 16) & 0xFF);
+    regs[2] = (unsigned char)((gyro_bias_body[2] >> 8) & 0xFF);
+    regs[3] = (unsigned char)(gyro_bias_body[2] & 0xFF);
     return mpu_write_mem(D_EXT_GYRO_BIAS_Z, 4, regs);
 }
 
@@ -624,16 +626,16 @@ int dmp_set_gyro_bias(int32_t *bias)
  *  @param[in]  bias    Accel biases in q16.
  *  @return     0 if successful.
  */
-int dmp_set_accel_bias(int32_t *bias)
+int dmp_set_accel_bias(long *bias)
 {
-    int32_t accel_bias_body[3];
-    uint8_t regs[12];
-    int64_t accel_sf;
-    uint16_t accel_sens;
+    long accel_bias_body[3];
+    unsigned char regs[12];
+    long long accel_sf;
+    unsigned short accel_sens;
 
     mpu_get_accel_sens(&accel_sens);
-    accel_sf = (int64_t)accel_sens << 15;
-    __NOP();
+    accel_sf = (long long)accel_sens << 15;
+    __no_operation();
 
     accel_bias_body[0] = bias[dmp.orient & 3];
     if (dmp.orient & 4)
@@ -646,27 +648,27 @@ int dmp_set_accel_bias(int32_t *bias)
         accel_bias_body[2] *= -1;
 
 #ifdef EMPL_NO_64BIT
-    accel_bias_body[0] = (int32_t)(((float)accel_bias_body[0] * accel_sf) / 1073741824.f);
-    accel_bias_body[1] = (int32_t)(((float)accel_bias_body[1] * accel_sf) / 1073741824.f);
-    accel_bias_body[2] = (int32_t)(((float)accel_bias_body[2] * accel_sf) / 1073741824.f);
+    accel_bias_body[0] = (long)(((float)accel_bias_body[0] * accel_sf) / 1073741824.f);
+    accel_bias_body[1] = (long)(((float)accel_bias_body[1] * accel_sf) / 1073741824.f);
+    accel_bias_body[2] = (long)(((float)accel_bias_body[2] * accel_sf) / 1073741824.f);
 #else
-    accel_bias_body[0] = (int32_t)(((int64_t)accel_bias_body[0] * accel_sf) >> 30);
-    accel_bias_body[1] = (int32_t)(((int64_t)accel_bias_body[1] * accel_sf) >> 30);
-    accel_bias_body[2] = (int32_t)(((int64_t)accel_bias_body[2] * accel_sf) >> 30);
+    accel_bias_body[0] = (long)(((long long)accel_bias_body[0] * accel_sf) >> 30);
+    accel_bias_body[1] = (long)(((long long)accel_bias_body[1] * accel_sf) >> 30);
+    accel_bias_body[2] = (long)(((long long)accel_bias_body[2] * accel_sf) >> 30);
 #endif
 
-    regs[0] = (uint8_t)((accel_bias_body[0] >> 24) & 0xFF);
-    regs[1] = (uint8_t)((accel_bias_body[0] >> 16) & 0xFF);
-    regs[2] = (uint8_t)((accel_bias_body[0] >> 8) & 0xFF);
-    regs[3] = (uint8_t)(accel_bias_body[0] & 0xFF);
-    regs[4] = (uint8_t)((accel_bias_body[1] >> 24) & 0xFF);
-    regs[5] = (uint8_t)((accel_bias_body[1] >> 16) & 0xFF);
-    regs[6] = (uint8_t)((accel_bias_body[1] >> 8) & 0xFF);
-    regs[7] = (uint8_t)(accel_bias_body[1] & 0xFF);
-    regs[8] = (uint8_t)((accel_bias_body[2] >> 24) & 0xFF);
-    regs[9] = (uint8_t)((accel_bias_body[2] >> 16) & 0xFF);
-    regs[10] = (uint8_t)((accel_bias_body[2] >> 8) & 0xFF);
-    regs[11] = (uint8_t)(accel_bias_body[2] & 0xFF);
+    regs[0] = (unsigned char)((accel_bias_body[0] >> 24) & 0xFF);
+    regs[1] = (unsigned char)((accel_bias_body[0] >> 16) & 0xFF);
+    regs[2] = (unsigned char)((accel_bias_body[0] >> 8) & 0xFF);
+    regs[3] = (unsigned char)(accel_bias_body[0] & 0xFF);
+    regs[4] = (unsigned char)((accel_bias_body[1] >> 24) & 0xFF);
+    regs[5] = (unsigned char)((accel_bias_body[1] >> 16) & 0xFF);
+    regs[6] = (unsigned char)((accel_bias_body[1] >> 8) & 0xFF);
+    regs[7] = (unsigned char)(accel_bias_body[1] & 0xFF);
+    regs[8] = (unsigned char)((accel_bias_body[2] >> 24) & 0xFF);
+    regs[9] = (unsigned char)((accel_bias_body[2] >> 16) & 0xFF);
+    regs[10] = (unsigned char)((accel_bias_body[2] >> 8) & 0xFF);
+    regs[11] = (unsigned char)(accel_bias_body[2] & 0xFF);
     return mpu_write_mem(D_ACCEL_BIAS, 12, regs);
 }
 
@@ -676,21 +678,21 @@ int dmp_set_accel_bias(int32_t *bias)
  *  @param[in]  rate    Desired fifo rate (Hz).
  *  @return     0 if successful.
  */
-int dmp_set_fifo_rate(uint16_t rate)
+int dmp_set_fifo_rate(unsigned short rate)
 {
-    const uint8_t regs_end[12] = {DINAFE, DINAF2, DINAAB,
+    const unsigned char regs_end[12] = {DINAFE, DINAF2, DINAAB,
         0xc4, DINAAA, DINAF1, DINADF, DINADF, 0xBB, 0xAF, DINADF, DINADF};
-    uint16_t div;
-    uint8_t tmp[8];
+    unsigned short div;
+    unsigned char tmp[8];
 
     if (rate > DMP_SAMPLE_RATE)
         return -1;
     div = DMP_SAMPLE_RATE / rate - 1;
-    tmp[0] = (uint8_t)((div >> 8) & 0xFF);
-    tmp[1] = (uint8_t)(div & 0xFF);
+    tmp[0] = (unsigned char)((div >> 8) & 0xFF);
+    tmp[1] = (unsigned char)(div & 0xFF);
     if (mpu_write_mem(D_0_22, 2, tmp))
         return -1;
-    if (mpu_write_mem(CFG_6, 12, (uint8_t*)regs_end))
+    if (mpu_write_mem(CFG_6, 12, (unsigned char*)regs_end))
         return -1;
 
     dmp.fifo_rate = rate;
@@ -702,7 +704,7 @@ int dmp_set_fifo_rate(uint16_t rate)
  *  @param[out] rate    Current fifo rate (Hz).
  *  @return     0 if successful.
  */
-int dmp_get_fifo_rate(uint16_t *rate)
+int dmp_get_fifo_rate(unsigned short *rate)
 {
     rate[0] = dmp.fifo_rate;
     return 0;
@@ -714,11 +716,11 @@ int dmp_get_fifo_rate(uint16_t *rate)
  *  @param[in]  thresh  Tap threshold, in mg/ms.
  *  @return     0 if successful.
  */
-int dmp_set_tap_thresh(uint8_t axis, uint16_t thresh)
+int dmp_set_tap_thresh(unsigned char axis, unsigned short thresh)
 {
-    uint8_t tmp[4], accel_fsr;
+    unsigned char tmp[4], accel_fsr;
     float scaled_thresh;
-    uint16_t dmp_thresh, dmp_thresh_2;
+    unsigned short dmp_thresh, dmp_thresh_2;
     if (!(axis & TAP_XYZ) || thresh > 1600)
         return -1;
 
@@ -727,32 +729,32 @@ int dmp_set_tap_thresh(uint8_t axis, uint16_t thresh)
     mpu_get_accel_fsr(&accel_fsr);
     switch (accel_fsr) {
     case 2:
-        dmp_thresh = (uint16_t)(scaled_thresh * 16384);
+        dmp_thresh = (unsigned short)(scaled_thresh * 16384);
         /* dmp_thresh * 0.75 */
-        dmp_thresh_2 = (uint16_t)(scaled_thresh * 12288);
+        dmp_thresh_2 = (unsigned short)(scaled_thresh * 12288);
         break;
     case 4:
-        dmp_thresh = (uint16_t)(scaled_thresh * 8192);
+        dmp_thresh = (unsigned short)(scaled_thresh * 8192);
         /* dmp_thresh * 0.75 */
-        dmp_thresh_2 = (uint16_t)(scaled_thresh * 6144);
+        dmp_thresh_2 = (unsigned short)(scaled_thresh * 6144);
         break;
     case 8:
-        dmp_thresh = (uint16_t)(scaled_thresh * 4096);
+        dmp_thresh = (unsigned short)(scaled_thresh * 4096);
         /* dmp_thresh * 0.75 */
-        dmp_thresh_2 = (uint16_t)(scaled_thresh * 3072);
+        dmp_thresh_2 = (unsigned short)(scaled_thresh * 3072);
         break;
     case 16:
-        dmp_thresh = (uint16_t)(scaled_thresh * 2048);
+        dmp_thresh = (unsigned short)(scaled_thresh * 2048);
         /* dmp_thresh * 0.75 */
-        dmp_thresh_2 = (uint16_t)(scaled_thresh * 1536);
+        dmp_thresh_2 = (unsigned short)(scaled_thresh * 1536);
         break;
     default:
         return -1;
     }
-    tmp[0] = (uint8_t)(dmp_thresh >> 8);
-    tmp[1] = (uint8_t)(dmp_thresh & 0xFF);
-    tmp[2] = (uint8_t)(dmp_thresh_2 >> 8);
-    tmp[3] = (uint8_t)(dmp_thresh_2 & 0xFF);
+    tmp[0] = (unsigned char)(dmp_thresh >> 8);
+    tmp[1] = (unsigned char)(dmp_thresh & 0xFF);
+    tmp[2] = (unsigned char)(dmp_thresh_2 >> 8);
+    tmp[3] = (unsigned char)(dmp_thresh_2 & 0xFF);
 
     if (axis & TAP_X) {
         if (mpu_write_mem(DMP_TAP_THX, 2, tmp))
@@ -780,9 +782,9 @@ int dmp_set_tap_thresh(uint8_t axis, uint16_t thresh)
  *  @param[in]  axis    1, 2, and 4 for XYZ, respectively.
  *  @return     0 if successful.
  */
-int dmp_set_tap_axes(uint8_t axis)
+int dmp_set_tap_axes(unsigned char axis)
 {
-    uint8_t tmp = 0;
+    unsigned char tmp = 0;
 
     if (axis & TAP_X)
         tmp |= 0x30;
@@ -798,9 +800,9 @@ int dmp_set_tap_axes(uint8_t axis)
  *  @param[in]  min_taps    Minimum consecutive taps (1-4).
  *  @return     0 if successful.
  */
-int dmp_set_tap_count(uint8_t min_taps)
+int dmp_set_tap_count(unsigned char min_taps)
 {
-    uint8_t tmp;
+    unsigned char tmp;
 
     if (min_taps < 1)
         min_taps = 1;
@@ -816,14 +818,14 @@ int dmp_set_tap_count(uint8_t min_taps)
  *  @param[in]  time    Milliseconds between taps.
  *  @return     0 if successful.
  */
-int dmp_set_tap_time(uint16_t time)
+int dmp_set_tap_time(unsigned short time)
 {
-    uint16_t dmp_time;
-    uint8_t tmp[2];
+    unsigned short dmp_time;
+    unsigned char tmp[2];
 
     dmp_time = time / (1000 / DMP_SAMPLE_RATE);
-    tmp[0] = (uint8_t)(dmp_time >> 8);
-    tmp[1] = (uint8_t)(dmp_time & 0xFF);
+    tmp[0] = (unsigned char)(dmp_time >> 8);
+    tmp[1] = (unsigned char)(dmp_time & 0xFF);
     return mpu_write_mem(DMP_TAPW_MIN, 2, tmp);
 }
 
@@ -832,14 +834,14 @@ int dmp_set_tap_time(uint16_t time)
  *  @param[in]  time    Max milliseconds between taps.
  *  @return     0 if successful.
  */
-int dmp_set_tap_time_multi(uint16_t time)
+int dmp_set_tap_time_multi(unsigned short time)
 {
-    uint16_t dmp_time;
-    uint8_t tmp[2];
+    unsigned short dmp_time;
+    unsigned char tmp[2];
 
     dmp_time = time / (1000 / DMP_SAMPLE_RATE);
-    tmp[0] = (uint8_t)(dmp_time >> 8);
-    tmp[1] = (uint8_t)(dmp_time & 0xFF);
+    tmp[0] = (unsigned char)(dmp_time >> 8);
+    tmp[1] = (unsigned char)(dmp_time & 0xFF);
     return mpu_write_mem(D_1_218, 2, tmp);
 }
 
@@ -850,14 +852,14 @@ int dmp_set_tap_time_multi(uint16_t time)
  *  @param[in]  thresh  Gyro threshold in dps.
  *  @return     0 if successful.
  */
-int dmp_set_shake_reject_thresh(int32_t sf, uint16_t thresh)
+int dmp_set_shake_reject_thresh(long sf, unsigned short thresh)
 {
-    uint8_t tmp[4];
-    int32_t thresh_scaled = sf / 1000 * thresh;
-    tmp[0] = (uint8_t)(((int32_t)thresh_scaled >> 24) & 0xFF);
-    tmp[1] = (uint8_t)(((int32_t)thresh_scaled >> 16) & 0xFF);
-    tmp[2] = (uint8_t)(((int32_t)thresh_scaled >> 8) & 0xFF);
-    tmp[3] = (uint8_t)((int32_t)thresh_scaled & 0xFF);
+    unsigned char tmp[4];
+    long thresh_scaled = sf / 1000 * thresh;
+    tmp[0] = (unsigned char)(((long)thresh_scaled >> 24) & 0xFF);
+    tmp[1] = (unsigned char)(((long)thresh_scaled >> 16) & 0xFF);
+    tmp[2] = (unsigned char)(((long)thresh_scaled >> 8) & 0xFF);
+    tmp[3] = (unsigned char)((long)thresh_scaled & 0xFF);
     return mpu_write_mem(D_1_92, 4, tmp);
 }
 
@@ -869,9 +871,9 @@ int dmp_set_shake_reject_thresh(int32_t sf, uint16_t thresh)
  *  @param[in]  time    Time in milliseconds.
  *  @return     0 if successful.
  */
-int dmp_set_shake_reject_time(uint16_t time)
+int dmp_set_shake_reject_time(unsigned short time)
 {
-    uint8_t tmp[2];
+    unsigned char tmp[2];
 
     time /= (1000 / DMP_SAMPLE_RATE);
     tmp[0] = time >> 8;
@@ -887,9 +889,9 @@ int dmp_set_shake_reject_time(uint16_t time)
  *  @param[in]  time    Time in milliseconds.
  *  @return     0 if successful.
  */
-int dmp_set_shake_reject_timeout(uint16_t time)
+int dmp_set_shake_reject_timeout(unsigned short time)
 {
-    uint8_t tmp[2];
+    unsigned char tmp[2];
 
     time /= (1000 / DMP_SAMPLE_RATE);
     tmp[0] = time >> 8;
@@ -902,17 +904,17 @@ int dmp_set_shake_reject_timeout(uint16_t time)
  *  @param[out] count   Number of steps detected.
  *  @return     0 if successful.
  */
-int dmp_get_pedometer_step_count(uint32_t *count)
+int dmp_get_pedometer_step_count(unsigned long *count)
 {
-    uint8_t tmp[4];
+    unsigned char tmp[4];
     if (!count)
         return -1;
 
     if (mpu_read_mem(D_PEDSTD_STEPCTR, 4, tmp))
         return -1;
 
-    count[0] = ((uint32_t)tmp[0] << 24) | ((uint32_t)tmp[1] << 16) |
-        ((uint32_t)tmp[2] << 8) | tmp[3];
+    count[0] = ((unsigned long)tmp[0] << 24) | ((unsigned long)tmp[1] << 16) |
+        ((unsigned long)tmp[2] << 8) | tmp[3];
     return 0;
 }
 
@@ -923,14 +925,14 @@ int dmp_get_pedometer_step_count(uint32_t *count)
  *  @param[in]  count   New step count.
  *  @return     0 if successful.
  */
-int dmp_set_pedometer_step_count(uint32_t count)
+int dmp_set_pedometer_step_count(unsigned long count)
 {
-    uint8_t tmp[4];
+    unsigned char tmp[4];
 
-    tmp[0] = (uint8_t)((count >> 24) & 0xFF);
-    tmp[1] = (uint8_t)((count >> 16) & 0xFF);
-    tmp[2] = (uint8_t)((count >> 8) & 0xFF);
-    tmp[3] = (uint8_t)(count & 0xFF);
+    tmp[0] = (unsigned char)((count >> 24) & 0xFF);
+    tmp[1] = (unsigned char)((count >> 16) & 0xFF);
+    tmp[2] = (unsigned char)((count >> 8) & 0xFF);
+    tmp[3] = (unsigned char)(count & 0xFF);
     return mpu_write_mem(D_PEDSTD_STEPCTR, 4, tmp);
 }
 
@@ -939,17 +941,17 @@ int dmp_set_pedometer_step_count(uint32_t count)
  *  @param[in]  time    Walk time in milliseconds.
  *  @return     0 if successful.
  */
-int dmp_get_pedometer_walk_time(uint32_t *time)
+int dmp_get_pedometer_walk_time(unsigned long *time)
 {
-    uint8_t tmp[4];
+    unsigned char tmp[4];
     if (!time)
         return -1;
 
     if (mpu_read_mem(D_PEDSTD_TIMECTR, 4, tmp))
         return -1;
 
-    time[0] = (((uint32_t)tmp[0] << 24) | ((uint32_t)tmp[1] << 16) |
-        ((uint32_t)tmp[2] << 8) | tmp[3]) * 20;
+    time[0] = (((unsigned long)tmp[0] << 24) | ((unsigned long)tmp[1] << 16) |
+        ((unsigned long)tmp[2] << 8) | tmp[3]) * 20;
     return 0;
 }
 
@@ -959,16 +961,16 @@ int dmp_get_pedometer_walk_time(uint32_t *time)
  *  a race condition if called while the pedometer is enabled.
  *  @param[in]  time    New walk time in milliseconds.
  */
-int dmp_set_pedometer_walk_time(uint32_t time)
+int dmp_set_pedometer_walk_time(unsigned long time)
 {
-    uint8_t tmp[4];
+    unsigned char tmp[4];
 
     time /= 20;
 
-    tmp[0] = (uint8_t)((time >> 24) & 0xFF);
-    tmp[1] = (uint8_t)((time >> 16) & 0xFF);
-    tmp[2] = (uint8_t)((time >> 8) & 0xFF);
-    tmp[3] = (uint8_t)(time & 0xFF);
+    tmp[0] = (unsigned char)((time >> 24) & 0xFF);
+    tmp[1] = (unsigned char)((time >> 16) & 0xFF);
+    tmp[2] = (unsigned char)((time >> 8) & 0xFF);
+    tmp[3] = (unsigned char)(time & 0xFF);
     return mpu_write_mem(D_PEDSTD_TIMECTR, 4, tmp);
 }
 
@@ -989,18 +991,18 @@ int dmp_set_pedometer_walk_time(uint32_t time)
  *  @param[in]  mask    Mask of features to enable.
  *  @return     0 if successful.
  */
-int dmp_enable_feature(uint16_t mask)
+int dmp_enable_feature(unsigned short mask)
 {
-    uint8_t tmp[10];
+    unsigned char tmp[10];
 
     /* TODO: All of these settings can probably be integrated into the default
      * DMP image.
      */
     /* Set integration scale factor. */
-    tmp[0] = (uint8_t)((GYRO_SF >> 24) & 0xFF);
-    tmp[1] = (uint8_t)((GYRO_SF >> 16) & 0xFF);
-    tmp[2] = (uint8_t)((GYRO_SF >> 8) & 0xFF);
-    tmp[3] = (uint8_t)(GYRO_SF & 0xFF);
+    tmp[0] = (unsigned char)((GYRO_SF >> 24) & 0xFF);
+    tmp[1] = (unsigned char)((GYRO_SF >> 16) & 0xFF);
+    tmp[2] = (unsigned char)((GYRO_SF >> 8) & 0xFF);
+    tmp[3] = (unsigned char)(GYRO_SF & 0xFF);
     mpu_write_mem(D_0_104, 4, tmp);
 
     /* Send sensor data to the FIFO. */
@@ -1111,7 +1113,7 @@ int dmp_enable_feature(uint16_t mask)
  *  @param[out] Mask of enabled features.
  *  @return     0 if successful.
  */
-int dmp_get_enabled_features(uint16_t *mask)
+int dmp_get_enabled_features(unsigned short *mask)
 {
     mask[0] = dmp.feature_mask;
     return 0;
@@ -1126,13 +1128,13 @@ int dmp_get_enabled_features(uint16_t *mask)
  *  @param[in]  enable  1 to enable gyro calibration.
  *  @return     0 if successful.
  */
-int dmp_enable_gyro_cal(uint8_t enable)
+int dmp_enable_gyro_cal(unsigned char enable)
 {
     if (enable) {
-        uint8_t regs[9] = {0xb8, 0xaa, 0xb3, 0x8d, 0xb4, 0x98, 0x0d, 0x35, 0x5d};
+        unsigned char regs[9] = {0xb8, 0xaa, 0xb3, 0x8d, 0xb4, 0x98, 0x0d, 0x35, 0x5d};
         return mpu_write_mem(CFG_MOTION_BIAS, 9, regs);
     } else {
-        uint8_t regs[9] = {0xb8, 0xaa, 0xaa, 0xaa, 0xb0, 0x88, 0xc3, 0xc5, 0xc7};
+        unsigned char regs[9] = {0xb8, 0xaa, 0xaa, 0xaa, 0xb0, 0x88, 0xc3, 0xc5, 0xc7};
         return mpu_write_mem(CFG_MOTION_BIAS, 9, regs);
     }
 }
@@ -1144,9 +1146,9 @@ int dmp_enable_gyro_cal(uint8_t enable)
  *  @param[in]  enable  1 to enable 3-axis quaternion.
  *  @return     0 if successful.
  */
-int dmp_enable_lp_quat(uint8_t enable)
+int dmp_enable_lp_quat(unsigned char enable)
 {
-    uint8_t regs[4];
+    unsigned char regs[4];
     if (enable) {
         regs[0] = DINBC0;
         regs[1] = DINBC2;
@@ -1168,9 +1170,9 @@ int dmp_enable_lp_quat(uint8_t enable)
  *  @param[in]   enable  1 to enable 6-axis quaternion.
  *  @return      0 if successful.
  */
-int dmp_enable_6x_lp_quat(uint8_t enable)
+int dmp_enable_6x_lp_quat(unsigned char enable)
 {
-    uint8_t regs[4];
+    unsigned char regs[4];
     if (enable) {
         regs[0] = DINA20;
         regs[1] = DINA28;
@@ -1189,15 +1191,15 @@ int dmp_enable_6x_lp_quat(uint8_t enable)
  *  @param[in]  gesture Gesture data from DMP packet.
  *  @return     0 if successful.
  */
-static int decode_gesture(uint8_t *gesture)
+static int decode_gesture(unsigned char *gesture)
 {
-    uint8_t tap, android_orient;
+    unsigned char tap, android_orient;
 
     android_orient = gesture[3] & 0xC0;
     tap = 0x3F & gesture[3];
 
     if (gesture[1] & INT_SRC_TAP) {
-        uint8_t direction, count;
+        unsigned char direction, count;
         direction = tap >> 3;
         count = (tap % 8) + 1;
         if (dmp.tap_cb)
@@ -1221,20 +1223,20 @@ static int decode_gesture(uint8_t *gesture)
  *  @param[in]  mode    DMP_INT_GESTURE or DMP_INT_CONTINUOUS.
  *  @return     0 if successful.
  */
-int dmp_set_interrupt_mode(uint8_t mode)
+int dmp_set_interrupt_mode(unsigned char mode)
 {
-    const uint8_t regs_continuous[11] =
+    const unsigned char regs_continuous[11] =
         {0xd8, 0xb1, 0xb9, 0xf3, 0x8b, 0xa3, 0x91, 0xb6, 0x09, 0xb4, 0xd9};
-    const uint8_t regs_gesture[11] =
+    const unsigned char regs_gesture[11] =
         {0xda, 0xb1, 0xb9, 0xf3, 0x8b, 0xa3, 0x91, 0xb6, 0xda, 0xb4, 0xda};
 
     switch (mode) {
     case DMP_INT_CONTINUOUS:
         return mpu_write_mem(CFG_FIFO_ON_EVENT, 11,
-            (uint8_t*)regs_continuous);
+            (unsigned char*)regs_continuous);
     case DMP_INT_GESTURE:
         return mpu_write_mem(CFG_FIFO_ON_EVENT, 11,
-            (uint8_t*)regs_gesture);
+            (unsigned char*)regs_gesture);
     default:
         return -1;
     }
@@ -1260,11 +1262,11 @@ int dmp_set_interrupt_mode(uint8_t mode)
  *  @param[out] more        Number of remaining packets.
  *  @return     0 if successful.
  */
-int dmp_read_fifo(int16_t *gyro, int16_t *accel, int32_t *quat,
-    uint32_t *timestamp, int16_t *sensors, uint8_t *more)
+int dmp_read_fifo(short *gyro, short *accel, long *quat,
+    unsigned long *timestamp, short *sensors, unsigned char *more)
 {
-    uint8_t fifo_data[MAX_PACKET_LENGTH];
-    uint8_t ii = 0;
+    unsigned char fifo_data[MAX_PACKET_LENGTH];
+    unsigned char ii = 0;
 
     /* TODO: sensors[0] only changes when dmp_enable_feature is called. We can
      * cache this value and save some cycles.
@@ -1278,16 +1280,16 @@ int dmp_read_fifo(int16_t *gyro, int16_t *accel, int32_t *quat,
     /* Parse DMP packet. */
     if (dmp.feature_mask & (DMP_FEATURE_LP_QUAT | DMP_FEATURE_6X_LP_QUAT)) {
 #ifdef FIFO_CORRUPTION_CHECK
-        int32_t quat_q14[4], quat_mag_sq;
+        long quat_q14[4], quat_mag_sq;
 #endif
-        quat[0] = ((int32_t)fifo_data[0] << 24) | ((int32_t)fifo_data[1] << 16) |
-            ((int32_t)fifo_data[2] << 8) | fifo_data[3];
-        quat[1] = ((int32_t)fifo_data[4] << 24) | ((int32_t)fifo_data[5] << 16) |
-            ((int32_t)fifo_data[6] << 8) | fifo_data[7];
-        quat[2] = ((int32_t)fifo_data[8] << 24) | ((int32_t)fifo_data[9] << 16) |
-            ((int32_t)fifo_data[10] << 8) | fifo_data[11];
-        quat[3] = ((int32_t)fifo_data[12] << 24) | ((int32_t)fifo_data[13] << 16) |
-            ((int32_t)fifo_data[14] << 8) | fifo_data[15];
+        quat[0] = ((long)fifo_data[0] << 24) | ((long)fifo_data[1] << 16) |
+            ((long)fifo_data[2] << 8) | fifo_data[3];
+        quat[1] = ((long)fifo_data[4] << 24) | ((long)fifo_data[5] << 16) |
+            ((long)fifo_data[6] << 8) | fifo_data[7];
+        quat[2] = ((long)fifo_data[8] << 24) | ((long)fifo_data[9] << 16) |
+            ((long)fifo_data[10] << 8) | fifo_data[11];
+        quat[3] = ((long)fifo_data[12] << 24) | ((long)fifo_data[13] << 16) |
+            ((long)fifo_data[14] << 8) | fifo_data[15];
         ii += 16;
 #ifdef FIFO_CORRUPTION_CHECK
         /* We can detect a corrupted FIFO by monitoring the quaternion data and
@@ -1295,7 +1297,7 @@ int dmp_read_fifo(int16_t *gyro, int16_t *accel, int32_t *quat,
          * shouldn't happen in normal operation, but if an I2C error occurs,
          * the FIFO reads might become misaligned.
          *
-         * Let's start by scaling down the quaternion data to avoid int64_t
+         * Let's start by scaling down the quaternion data to avoid long long
          * math.
          */
         quat_q14[0] = quat[0] >> 16;
@@ -1316,17 +1318,17 @@ int dmp_read_fifo(int16_t *gyro, int16_t *accel, int32_t *quat,
     }
 
     if (dmp.feature_mask & DMP_FEATURE_SEND_RAW_ACCEL) {
-        accel[0] = ((int16_t)fifo_data[ii+0] << 8) | fifo_data[ii+1];
-        accel[1] = ((int16_t)fifo_data[ii+2] << 8) | fifo_data[ii+3];
-        accel[2] = ((int16_t)fifo_data[ii+4] << 8) | fifo_data[ii+5];
+        accel[0] = ((short)fifo_data[ii+0] << 8) | fifo_data[ii+1];
+        accel[1] = ((short)fifo_data[ii+2] << 8) | fifo_data[ii+3];
+        accel[2] = ((short)fifo_data[ii+4] << 8) | fifo_data[ii+5];
         ii += 6;
         sensors[0] |= INV_XYZ_ACCEL;
     }
 
     if (dmp.feature_mask & DMP_FEATURE_SEND_ANY_GYRO) {
-        gyro[0] = ((int16_t)fifo_data[ii+0] << 8) | fifo_data[ii+1];
-        gyro[1] = ((int16_t)fifo_data[ii+2] << 8) | fifo_data[ii+3];
-        gyro[2] = ((int16_t)fifo_data[ii+4] << 8) | fifo_data[ii+5];
+        gyro[0] = ((short)fifo_data[ii+0] << 8) | fifo_data[ii+1];
+        gyro[1] = ((short)fifo_data[ii+2] << 8) | fifo_data[ii+3];
+        gyro[2] = ((short)fifo_data[ii+4] << 8) | fifo_data[ii+5];
         ii += 6;
         sensors[0] |= INV_XYZ_GYRO;
     }
@@ -1353,7 +1355,7 @@ int dmp_read_fifo(int16_t *gyro, int16_t *accel, int32_t *quat,
  *  @param[in]  func    Callback function.
  *  @return     0 if successful.
  */
-int dmp_register_tap_cb(void (*func)(uint8_t, uint8_t))
+int dmp_register_tap_cb(void (*func)(unsigned char, unsigned char))
 {
     dmp.tap_cb = func;
     return 0;
@@ -1364,7 +1366,7 @@ int dmp_register_tap_cb(void (*func)(uint8_t, uint8_t))
  *  @param[in]  func    Callback function.
  *  @return     0 if successful.
  */
-int dmp_register_android_orient_cb(void (*func)(uint8_t))
+int dmp_register_android_orient_cb(void (*func)(unsigned char))
 {
     dmp.android_orient_cb = func;
     return 0;

@@ -80,7 +80,7 @@ static uint32_t biasMatrix[12];
 // *****************************************************************************
 enum EDVS_MODE eDVSMode = EDVS_DATA_FORMAT_DEFAULT;
 uint32_t eDVSDataFormat = EDVS_DATA_FORMAT_DEFAULT;
-uint32_t enableEventSending;
+uint32_t eDVSProcessingMode;
 
 //Using the NOINIT macros allows the flashed image size to be greatly reduced.
 __NOINIT(RAM4) volatile struct eventRingBuffer events;
@@ -113,7 +113,7 @@ void DVS128ChipInit(void) {
 	memset((void*) &events, 0, sizeof(struct eventRingBuffer));
 	DVS128InitTimer();
 	// *****************************************************************************
-	enableEventSending = EDVS_DATA_FORMAT_BIN;
+	eDVSProcessingMode = 0;
 	eDVSDataFormat = EDVS_DATA_FORMAT_DEFAULT;
 
 	Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, GPIO_PORT_RX_DEFAULT_GND, GPIO_PIN_RX_DEFAULT_GND);	// set to ground

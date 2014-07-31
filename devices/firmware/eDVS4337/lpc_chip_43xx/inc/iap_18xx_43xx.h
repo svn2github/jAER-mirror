@@ -79,7 +79,7 @@ extern "C" {
 #define IAP_CRP_ENABLED             19	/*!< Code read protection enabled */
 
 /* IAP_ENTRY API function type */
-typedef void (*IAP_ENTRY_T)(unsigned int[5], unsigned int[4]);
+typedef void (*IAP_ENTRY_T)(uint32_t[5], uint32_t[4]);
 
 /**
  * @brief	Prepare sector for write operation
@@ -91,7 +91,8 @@ typedef void (*IAP_ENTRY_T)(unsigned int[5], unsigned int[4]);
  *			or "Erase Sector" command.
  *			The end sector must be greater than or equal to start sector number
  */
-uint8_t Chip_IAP_PreSectorForReadWrite(uint32_t strSector, uint32_t endSector, uint8_t bankNum);
+uint8_t Chip_IAP_PreSectorForReadWrite(uint32_t strSector, uint32_t endSector,
+		uint8_t bankNum);
 
 /**
  * @brief	Copy RAM to flash
@@ -102,7 +103,8 @@ uint8_t Chip_IAP_PreSectorForReadWrite(uint32_t strSector, uint32_t endSector, u
  * @note	The addresses should be a 256 byte boundary and the number of bytes
  *			should be 256 | 512 | 1024 | 4096
  */
-uint8_t Chip_IAP_CopyRamToFlash(uint32_t dstAdd, uint32_t *srcAdd, uint32_t byteswrt);
+uint8_t Chip_IAP_CopyRamToFlash(uint32_t dstAdd, uint32_t *srcAdd,
+		uint32_t byteswrt);
 
 /**
  * @brief	Erase sector
@@ -112,7 +114,8 @@ uint8_t Chip_IAP_CopyRamToFlash(uint32_t dstAdd, uint32_t *srcAdd, uint32_t byte
  * @return	Status code to indicate the command is executed successfully or not
  * @note	The end sector must be greater than or equal to start sector number
  */
-uint8_t Chip_IAP_EraseSector(uint32_t strSector, uint32_t endSector, uint8_t bankNum);
+uint8_t Chip_IAP_EraseSector(uint32_t strSector, uint32_t endSector,
+		uint8_t bankNum);
 
 /**
  * @brief Blank check a sector or multiples sector of on-chip flash memory
@@ -126,7 +129,8 @@ uint8_t Chip_IAP_EraseSector(uint32_t strSector, uint32_t endSector, uint8_t ban
 // Result0:Offset of the first non blank word location if the Status Code is
 // SECTOR_NOT_BLANK.
 // Result1:Contents of non blank word location.
-uint8_t Chip_IAP_BlankCheckSector(uint32_t strSector, uint32_t endSector, uint8_t bankNum);
+uint8_t Chip_IAP_BlankCheckSector(uint32_t strSector, uint32_t endSector,
+		uint8_t bankNum);
 
 /**
  * @brief	Read part identification number

@@ -48,7 +48,7 @@ extern "C" {
  * @brief LPC18XX_43XX OTP API structure
  */
 typedef struct {
-	uint32_t (*Init)(void);					/*!< Initializes OTP controller. */
+	uint32_t (*Init)(void); /*!< Initializes OTP controller. */
 	uint32_t (*ProgBootSrc)(CHIP_OTP_BOOT_SRC_T BootSrc);
 	uint32_t (*ProgJTAGDis)(void);
 	uint32_t (*ProgUSBID)(uint32_t ProductID, uint32_t VendorID);
@@ -85,13 +85,13 @@ typedef struct {
  * @brief LPC18XX High level ROM API structure
  */
 typedef struct {
-	void(*const iap_entry) (uint32_t *, uint32_t *);	/*!< IAP API entry function available on Flash parts only*/
+	void (* const iap_entry)(uint32_t *, uint32_t *); /*!< IAP API entry function available on Flash parts only*/
 	const OTP_API_T *pOtp;
 	const AES_API_T *pAes;
 	uint32_t reserved[3];
-	const uint32_t spifiApiBase;			/*!< SPIFI API function table base address*/
-	const uint32_t usbdApiBase;				/*!< USBD API function table base address*/
-	const uint32_t endMarker;				/*!< API table end marker = 0x87654321 */
+	const uint32_t spifiApiBase; /*!< SPIFI API function table base address*/
+	const uint32_t usbdApiBase; /*!< USBD API function table base address*/
+	const uint32_t endMarker; /*!< API table end marker = 0x87654321 */
 
 } LPC_ROM_API_T;
 
@@ -112,7 +112,7 @@ typedef struct {
  * @}
  */
 
-static INLINE void iap_entry(unsigned int cmd_param[], unsigned int status_result[])
+static INLINE void iap_entry(uint32_t cmd_param[5],uint32_t status_result[4])
 {
 	((IAP_ENTRY_T) IAP_ENTRY_LOCATION)(cmd_param, status_result);
 }

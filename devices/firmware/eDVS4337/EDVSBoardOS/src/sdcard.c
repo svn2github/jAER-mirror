@@ -5,6 +5,7 @@
 #include "utils.h"
 #include "diskio.h"
 #include "xprintf.h"
+#include "EDVS128_LPC43xx.h"
 #include <cr_section_macros.h>
 
 #if USE_SDCARD
@@ -34,18 +35,22 @@ static volatile DSTATUS Stat = STA_NOINIT;
 __NOINIT(RAM3) struct sdcard sdcard;
 static mci_card_struct sdcardinfo;
 
-
-
 void setSDCardRecord(uint32_t flag) {
 	sdcard.shouldRecord = flag ? 1 : 0;
 	if (sdcard.shouldRecord) {
+		if (sdcard.isRecording) {
+			//Already recording
+			xprintf("-ER+ %s\n", sdcard.filename);
+			return;
+		}
 		f_mount(&sdcard.fs, "", 0); //always ok, doesn't actually talks to card
 		if (f_opendir(&sdcard.dir, "/") == FR_OK) {
 			getFilename(sdcard.filename);
 			if (f_open(&sdcard.outputFile, sdcard.filename,
 			FA_WRITE | FA_CREATE_NEW | FA_OPEN_ALWAYS) == FR_OK) {
-				xputs("-ER+\n");
+				xprintf("-ER+ %s\n", sdcard.filename);
 				sdcard.isRecording = 1;
+				eDVSProcessingMode += EDVS_PROCESS_EVENTS;
 				sdcard.fileBufferIndex = 0;
 			} else {
 				xputs("-ER-\n");
@@ -58,21 +63,19 @@ void setSDCardRecord(uint32_t flag) {
 			Chip_SDIF_DeInit(LPC_SDMMC);
 		}
 	} else {
-		/* Reset */
-		Stat = STA_NOINIT;
 		if (sdcard.isRecording) {
 			xputs("-ER-\n");
 			sdcard.isRecording = 0;
+			eDVSProcessingMode -= EDVS_PROCESS_EVENTS;
 			if (sdcard.fileBufferIndex != 0) {
-				f_write(&sdcard.outputFile, sdcard.fileBuffer,
-						sdcard.fileBufferIndex, &sdcard.bytesWritten); //write data
+				f_write(&sdcard.outputFile, sdcard.fileBuffer, sdcard.fileBufferIndex, &sdcard.bytesWritten); //write data
 				sdcard.bytesWrittenPerSecond += sdcard.bytesWritten;
 				sdcard.fileBufferIndex = 0;
 			}
 			f_close(&sdcard.outputFile);
 		}
 		f_mount(NULL, "", 1); //unmounting the card
-		Chip_SDIF_DeInit(LPC_SDMMC);
+		SDCardInit();
 	}
 }
 
@@ -131,13 +134,13 @@ void SDIO_IRQHandler(void) {
 void SDCardInit(void) {
 	/* Reset */
 	Stat = STA_NOINIT;
+	Chip_SDIF_DeInit(LPC_SDMMC);
 	Chip_SCU_PinMuxSet(SD_CMD_PORT, SD_CMD_PIN, MD_PLN_FAST | FUNC7);
 	Chip_SCU_PinMuxSet(SD_DAT0_PORT, SD_DAT0_PIN, MD_PLN_FAST | FUNC7);
 	Chip_SCU_PinMuxSet(SD_DAT1_PORT, SD_DAT1_PIN, MD_PLN_FAST | FUNC7);
 	Chip_SCU_PinMuxSet(SD_DAT2_PORT, SD_DAT2_PIN, MD_PLN_FAST | FUNC7);
 	Chip_SCU_PinMuxSet(SD_DAT3_PORT, SD_DAT3_PIN, MD_PLN_FAST | FUNC7);
-	Chip_SCU_PinMuxSet(SD_CS_PORT, SD_CS_PIN,
-	SCU_MODE_REPEATER | MD_EZI | MD_ZI | FUNC7);
+	Chip_SCU_PinMuxSet(SD_CS_PORT, SD_CS_PIN, SCU_MODE_REPEATER | MD_EZI | MD_ZI | FUNC7);
 	Chip_SCU_ClockPinMuxSet(SD_CLK, MD_PLN_FAST | FUNC4);
 	memset(&sdcard, 0, sizeof(struct sdcard));
 	memset(&sdcardinfo, 0, sizeof(sdcardinfo));
@@ -245,8 +248,7 @@ UINT count) /* Sector count (1..128) */
 
 	if (count == 0)
 		return RES_PARERR;
-	bytes_transferred = Chip_SDMMC_WriteBlocks(LPC_SDMMC, (BYTE *) buf, sector,
-			count);
+	bytes_transferred = Chip_SDMMC_WriteBlocks(LPC_SDMMC, (BYTE *) buf, sector, count);
 	if (bytes_transferred != count * MMC_SECTOR_SIZE)
 		return RES_ERROR;
 	return RES_OK;

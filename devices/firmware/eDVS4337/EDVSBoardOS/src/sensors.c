@@ -15,6 +15,8 @@
 #include "extra_pins.h"
 #include "sdcard.h"
 #include "xprintf.h"
+#include "utils.h"
+#include <stdbool.h>
 
 #define ADC_ACCURACY						(10)
 #define ADC_FREQ							(50000)
@@ -29,7 +31,10 @@ struct sensorTimer sensorsTimers[MAX_SENSORS];
 volatile uint8_t sensorRefreshRequested;
 
 volatile uint32_t lastEventCount = 0;
+#if USE_SDCARD
 volatile uint32_t lastByteCount = 0;
+volatile uint32_t lastEventRecordedCount = 0;
+#endif
 
 static ADC_CLOCK_SETUP_T adcConfig;
 struct sensorTimer * enabledSensors[MAX_SENSORS];
@@ -48,8 +53,16 @@ void batteryInit() {
 	Chip_ADC_SetBurstCmd(LPC_ADC1, ENABLE);
 	Chip_ADC_EnableChannel(LPC_ADC1, 1, ENABLE);
 }
+
+#define VBAT_DIVISOR		(11)
 void batteryReport() {
-	printADCRead(0, 1);
+	uint16_t adcRead;
+	if (Chip_ADC_ReadValue(LPC_ADC1, 1, &adcRead) == SUCCESS) {
+		uint32_t data = (adcRead * 2800 * VBAT_DIVISOR) >> 10; //divide by 1024
+		xprintf("-S0 %u\n", data);
+	} else {
+		xputs("-S0 -1\n");
+	}
 }
 
 void ADC0Init() {
@@ -102,28 +115,10 @@ void ADC5Report() {
 	printADCRead(6, 7);
 }
 
-#if USE_IMU_DATA
-void GyroReport() {
-	xprintf("-S7 %d %d %d\n", gyrometer_data[0], gyrometer_data[1], gyrometer_data[2]);
+void MotorPWMReport() {
+	xprintf("-S%d %d %d %d %d\n", PWM_SIGNALS, getMotorWidth(MOTOR0), getMotorWidth(MOTOR1), getMotorDutycycle(MOTOR0),
+			getMotorDutycycle(MOTOR1));
 }
-void AccelerometerReport() {
-	xprintf("-S8 %d %d %d\n", accelerometer_data[0], accelerometer_data[1], accelerometer_data[2]);
-}
-void CompassReport() {
-	xprintf("-S9 %d %d %d\n", magnometer_data[0], magnometer_data[1], magnometer_data[2]);
-}
-
-void TemperatureReport() {
-	static char temperaturestr[25];
-	fixedpt_str(temperature, temperaturestr, 2);
-	xprintf("-S10 %s\n", temperaturestr);
-}
-
-void QuaternionReport() {
-	xprintf("-S11 %d %d %d %d\n", quaternion[0], quaternion[1], quaternion[2], quaternion[3]);
-}
-
-#endif
 
 void MotorCurrentsInit() {
 	Chip_SCU_PinMuxSet(MOTOR_DRIVER_CURRENT1_SENSOR_PORT, MOTOR_DRIVER_CURRENT1_SENSOR_PIN, SCU_MODE_INACT | FUNC7);
@@ -134,37 +129,29 @@ void MotorCurrentsInit() {
 	Chip_ADC_EnableChannel(LPC_ADC0, 0, ENABLE);
 	Chip_ADC_EnableChannel(LPC_ADC0, 1, ENABLE);
 }
-
-void MotorPWMReport() {
-	xprintf("-S12 %d %d\n", motor0.currentDutycycle, motor1.currentDutycycle);
-}
-
+#define AMPLIFIER_GAIN		(46454ULL) //(1+100k/2.2k)*10
+#define SENSE_RESISTOR		(10ULL)
 void MotorCurrentsReport() {
 	uint16_t motor0, motor1;
+	uint64_t motor0Current = -1;
+	uint64_t motor1Current = -1;
 	if (Chip_ADC_ReadValue(LPC_ADC0, 0, &motor0) == SUCCESS) {
-		if (Chip_ADC_ReadValue(LPC_ADC0, 1, &motor1) == SUCCESS) {
-			xprintf("-S13 %u %u\n", motor0, motor1);
-		} else {
-			xprintf("-S13 %u -1\n", motor0);
-		}
-	} else {
-		if (Chip_ADC_ReadValue(LPC_ADC0, 1, &motor1) == SUCCESS) {
-			xprintf("-S13 -1 %u\n", motor1);
-		} else {
-			xprintf("-S13 -1 -1\n");
-		}
+		motor0Current = ((motor0 * 2800ULL * AMPLIFIER_GAIN * SENSE_RESISTOR) >> 10) / 1000ULL;
 	}
+	if (Chip_ADC_ReadValue(LPC_ADC0, 1, &motor1) == SUCCESS) {
+		motor1Current = ((motor1 * 2800ULL * AMPLIFIER_GAIN * SENSE_RESISTOR) >> 10) / 1000ULL;
+	}
+	xprintf("-S%d %u %u\n", MOTOR_CURRENTS, motor0Current, motor1Current);
 }
 
 void EventCountReport() {
-	xprintf("-S14 %d\n", lastEventCount);
+#if USE_SDCARD
+	xprintf("-S%d %d %d %d\n", EVENT_RATE, lastEventCount, lastEventRecordedCount, lastByteCount);
+#else
+	xprintf("-S%d %d\n", EVENT_RATE, lastEventCount);
+#endif
 }
 
-#if USE_SDCARD
-void SDCardReport() {
-	xprintf("-S15 %d\n", lastByteCount);
-}
-#endif
 void sensorsInit(void) {
 	Chip_ADC_Init(LPC_ADC0, &adcConfig);
 	Chip_ADC_SetStartMode(LPC_ADC0, ADC_NO_START, ADC_TRIGGERMODE_RISING);
@@ -175,85 +162,33 @@ void sensorsInit(void) {
 	sensorsEnabledCounter = 0;
 	for (int i = 0; i < MAX_SENSORS; ++i) {
 		enabledSensors[i] = NULL;
-		sensorsTimers[i].triggered = 0;
+		sensorsTimers[i].initialized = false;
+		sensorsTimers[i].triggered = false;
 		sensorsTimers[i].reload = 0;
 		sensorsTimers[i].counter = 0;
 		sensorsTimers[i].position = -1;
-		switch (i) {
-		case 0:
-			sensorsTimers[i].init = batteryInit;
-			sensorsTimers[i].refresh = batteryReport;
-			break;
-		case 1:
-			sensorsTimers[i].init = ADC0Init;
-			sensorsTimers[i].refresh = ADC0Report;
-			break;
-		case 2:
-			sensorsTimers[i].init = ADC1Init;
-			sensorsTimers[i].refresh = ADC1Report;
-			break;
-		case 3:
-			sensorsTimers[i].init = ADC2Init;
-			sensorsTimers[i].refresh = ADC2Report;
-			break;
-		case 4:
-			sensorsTimers[i].init = ADC3Init;
-			sensorsTimers[i].refresh = ADC3Report;
-			break;
-		case 5:
-			sensorsTimers[i].init = ADC4Init;
-			sensorsTimers[i].refresh = ADC4Report;
-			break;
-		case 6:
-			sensorsTimers[i].init = ADC5Init;
-			sensorsTimers[i].refresh = ADC5Report;
-			break;
-#if USE_IMU_DATA
-			case 7:
-			sensorsTimers[i].init = NULL;
-			sensorsTimers[i].refresh = GyroReport;
-			break;
-			case 8:
-			sensorsTimers[i].init = NULL;
-			sensorsTimers[i].refresh = AccelerometerReport;
-			break;
-			case 9:
-			sensorsTimers[i].init = NULL;
-			sensorsTimers[i].refresh = CompassReport;
-			break;
-			case 10:
-			sensorsTimers[i].init = NULL;
-			sensorsTimers[i].refresh = TemperatureReport;
-			break;
-			case 11:
-			sensorsTimers[i].init = NULL;
-			sensorsTimers[i].refresh = QuaternionReport;
-			break;
-#endif
-		case 12:
-			sensorsTimers[i].init = NULL;
-			sensorsTimers[i].refresh = MotorPWMReport;
-			break;
-		case 13:
-			sensorsTimers[i].init = MotorCurrentsInit;
-			sensorsTimers[i].refresh = MotorCurrentsReport;
-			break;
-		case 14:
-			sensorsTimers[i].init = NULL;
-			sensorsTimers[i].refresh = EventCountReport;
-			break;
-#if USE_SDCARD
-		case 15:
-			sensorsTimers[i].init = NULL;
-			sensorsTimers[i].refresh = SDCardReport;
-			break;
-#endif
-		default:
-			sensorsTimers[i].init = NULL;
-			sensorsTimers[i].refresh = NULL;
-			break;
-		}
+		sensorsTimers[i].init = NULL;
+		sensorsTimers[i].refresh = NULL;
+
 	}
+	sensorsTimers[BATTERY].init = batteryInit;
+	sensorsTimers[BATTERY].refresh = batteryReport;
+	sensorsTimers[ADC0].init = ADC0Init;
+	sensorsTimers[ADC0].refresh = ADC0Report;
+	sensorsTimers[ADC1].init = ADC1Init;
+	sensorsTimers[ADC1].refresh = ADC1Report;
+	sensorsTimers[ADC2].init = ADC2Init;
+	sensorsTimers[ADC2].refresh = ADC2Report;
+	sensorsTimers[ADC3].init = ADC3Init;
+	sensorsTimers[ADC3].refresh = ADC3Report;
+	sensorsTimers[ADC4].init = ADC4Init;
+	sensorsTimers[ADC4].refresh = ADC4Report;
+	sensorsTimers[ADC5].init = ADC5Init;
+	sensorsTimers[ADC5].refresh = ADC5Report;
+	sensorsTimers[MOTOR_CURRENTS].init = MotorCurrentsInit;
+	sensorsTimers[MOTOR_CURRENTS].refresh = MotorCurrentsReport;
+	sensorsTimers[PWM_SIGNALS].refresh = MotorPWMReport;
+	sensorsTimers[EVENT_RATE].refresh = EventCountReport;
 	uint32_t load = Chip_Clock_GetRate(CLK_MX_MXCORE) / 1000 - 1;
 	if (load > 0xFFFFFF) {
 		load = 0xFFFFFF;
@@ -284,9 +219,14 @@ void enableSensor(uint8_t sensorId, uint8_t flag, uint32_t period) {
 			sensorsTimers[sensorId].reload = period;
 			enabledSensors[sensorsEnabledCounter++] = &sensorsTimers[sensorId];
 			sensorsTimers[sensorId].position = sensorsEnabledCounter - 1;
-			if (sensorsTimers[sensorId].init != NULL) {
-				sensorsTimers[sensorId].init();
+			if (!sensorsTimers[sensorId].initialized) {
+				sensorsTimers[sensorId].initialized = true;
+				if (sensorsTimers[sensorId].init != NULL) {
+					sensorsTimers[sensorId].init();
+				}
 			}
+		} else {
+			sensorsTimers[sensorId].reload = period;	//Update the period
 		}
 	} else {
 		if (sensorsTimers[sensorId].position != -1) {
@@ -307,6 +247,13 @@ void enableSensor(uint8_t sensorId, uint8_t flag, uint32_t period) {
 void getSensorsOutput(uint32_t mask) {
 	for (int i = 0; i < MAX_SENSORS; ++i) {
 		if (mask & (1 << i)) {
+			if (!sensorsTimers[i].initialized) {
+				sensorsTimers[i].initialized = true;
+				if (sensorsTimers[i].init != NULL) {
+					sensorsTimers[i].init();
+				}
+				timerDelayUs(100);	//Wait for a read on just initialized hardware ( only applicable to ADC)
+			}
 			if (sensorsTimers[i].refresh != NULL) {
 				sensorsTimers[i].refresh();
 			}
@@ -314,23 +261,17 @@ void getSensorsOutput(uint32_t mask) {
 	}
 }
 
-#if USE_SDCARD
-extern void disk_timerproc(void);
-#endif
-
 /**
  * The Systick handler is used for a lot more tasks than sensor timing.
  * It also provides a timer for decaying for the motor velocity, motor control
  * and second timer used for the LED blinking and Retina event rate.
  */
 void SysTick_Handler(void) {
-#if USE_MINIROB
-	//static uint16_t motor_velocity = 0;
-#endif
-	static uint16_t decay_motor_velocity = 0;
 	static uint16_t second_timer = 0;
-	if (++decay_motor_velocity >= 100) {
-		decay_motor_velocity = 0;
+#if USE_PUSHBOT
+	static uint16_t ten_hertz_timer = 0;
+	if (++ten_hertz_timer >= 100) {
+		ten_hertz_timer = 0;
 		if (motor0.controlMode & DECAY_MODE) {
 			if (motor0.decayCounter == 0) {
 				if (motor0.controlMode & DIRECT_MODE) {
@@ -339,8 +280,10 @@ void SysTick_Handler(void) {
 						updateMotorWidth(0, motor0.requestedWidth);
 					}
 				} else {
-					if (motor0.requestedVelocity != 0) {
+					if (motor0.requestedVelocity > 0) {
 						motor0.requestedVelocity--;
+					} else if (motor0.requestedVelocity < 0) {
+						motor0.requestedVelocity++;
 					}
 				}
 			} else {
@@ -355,44 +298,45 @@ void SysTick_Handler(void) {
 						updateMotorWidth(1, motor1.requestedWidth);
 					}
 				} else {
-					if (motor1.requestedVelocity != 0) {
+					if (motor1.requestedVelocity > 0) {
 						motor1.requestedVelocity--;
+					} else if (motor1.requestedVelocity < 0) {
+						motor1.requestedVelocity++;
 					}
 				}
-			}else{
+			} else {
 				motor1.decayCounter--;
 			}
 		}
 	}
-#if USE_MINIROB
-	//if (++motor_velocity >= 5) {
-	//motor_velocity = 0;
 	if (motor0.controlMode & VELOCITY_MODE) {
 		motor0.updateRequired = 1;
 	}
 	if (motor1.controlMode & VELOCITY_MODE) {
 		motor1.updateRequired = 1;
 	}
-	//}
 #endif
 	if (++second_timer >= 1000) {
-		second_timer = 0;
-		toggleLed0 = 1;
 		lastEventCount = events.currentEventRate;
 #if USE_SDCARD
 		lastByteCount = sdcard.bytesWrittenPerSecond;
+		lastEventRecordedCount = sdcard.eventsRecordedPerSecond;
 #endif
 		__DSB(); //Ensure it has been saved
 		events.currentEventRate = 0;
 #if USE_SDCARD
 		sdcard.bytesWrittenPerSecond = 0;
+		sdcard.eventsRecordedPerSecond = 0;
 #endif
+
+		second_timer = 0;
+		toggleLed0 = 1;
 	}
-	sensorRefreshRequested = 1;
 	for (int i = 0; i < sensorsEnabledCounter; ++i) {
 		if (--enabledSensors[i]->counter == 0) {
 			enabledSensors[i]->counter = enabledSensors[i]->reload;
 			enabledSensors[i]->triggered = 1;
+			sensorRefreshRequested = 1;
 		}
 	}
 }

@@ -14,18 +14,21 @@
  * which computes a quarternion based on just the  the gyroscope data or
  * on both the gyroscope and accelerometer data.
  */
-#define USE_IMU_DATA 					0
+#define USE_IMU_DATA 					1
 
 /**
  *	Enable/Disable the wheel sensors used in the Minirob.
  *	The motor velocity control is tied to these sensors.
  */
-#define USE_MINIROB						1
+#define USE_PUSHBOT						0
+#if !USE_IMU_DATA && USE_PUSHBOT
+#undef USE_IMU_DATA
+#define USE_IMU_DATA 					1
+#endif
 
 /**
  * Enable/Disable the SD card support.
  * SD card requires quite a bit of power (~9mA) so it is disable by default
- * TODO: port to the hardware interface.
  */
 #define USE_SDCARD						1
 
@@ -35,13 +38,6 @@
  * and the M0 will wake it up when more events can be sent.
  */
 #define LOW_POWER_MODE					0
-
-/**
- * Enable/Disable the extended timestamp
- * The default timestamp (4 bytes) will overflow every 70 minutes.
- * With the extended version (6 bytes) it will overflow every ~9 years.
- */
-#define EXTENDED_TIMESTAMP				1
 
 
 /**
@@ -59,6 +55,6 @@
 /**
  * Current Software versions
  */
-#define SOFTWARE_VERSION		"0.2"
+#define SOFTWARE_VERSION		"0.6.0"
 
 #endif /* CONFIG_H_ */

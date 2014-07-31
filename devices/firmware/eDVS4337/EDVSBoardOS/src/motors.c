@@ -1,9 +1,10 @@
 #include "motors.h"
 #include "chip.h"
 #include "extra_pins.h"
+#include <string.h>
 
-//192Mhz / 7680 = 25kHz
-#define BASE_PWM_DIVIDER				(7680)
+//192Mhz / 9600 = 20kHz
+#define BASE_PWM_DIVIDER				(9600)
 
 #define MOTOR_DRIVER_ENABLE_PORT 		(6)
 #define MOTOR_DRIVER_ENABLE_PIN			(6)
@@ -44,15 +45,6 @@
 #define MCPWM_CHANNEL_PASSIVE_LO		((uint32_t)(0))
 /** Polarity of the MCOA and MCOB pins: Passive state is HIGH, active state is LOW */
 #define MCPWM_CHANNEL_PASSIVE_HI		((uint32_t)(1))
-
-/* Output Patent in 3-phase DC mode, the internal MCOA0 signal is routed to any or all of
- * the six output pins under the control of the bits in this register */
-#define MCPWM_PATENT_A0		((uint32_t)(1<<0))	/**< MCOA0 tracks internal MCOA0 */
-#define MCPWM_PATENT_B0		((uint32_t)(1<<1))	/**< MCOB0 tracks internal MCOA0 */
-#define MCPWM_PATENT_A1		((uint32_t)(1<<2))	/**< MCOA1 tracks internal MCOA0 */
-#define MCPWM_PATENT_B1		((uint32_t)(1<<3))	/**< MCOB1 tracks internal MCOA0 */
-#define MCPWM_PATENT_A2		((uint32_t)(1<<4))	/**< MCOA2 tracks internal MCOA0 */
-#define MCPWM_PATENT_B2		((uint32_t)(1<<5))	/**< MCOB2 tracks internal MCOA0 */
 
 /*********************************************************************//**
  * Macro defines for MCPWM Interrupt register
@@ -132,8 +124,8 @@
 /**< 3-phase DC mode select */
 #define MCPWM_CON_DCMODE		(((uint32_t)1<<31))
 
-volatile struct motor_status motor0;
-volatile struct motor_status motor1;
+struct motor_status motor0;
+struct motor_status motor1;
 
 static uint32_t motorDriverEnabled;
 
@@ -141,14 +133,20 @@ uint32_t updateMotorPWMPeriod(uint32_t motor, uint32_t period) {
 	if (period == 0) {
 		return 1;
 	}
-	uint64_t calculatedLimit = (((uint64_t) period * (uint64_t) Chip_Clock_GetRate(CLK_APB1_MOTOCON)) / (1000000UL));
-	if (calculatedLimit & 0xFFFFFFFF) { //Check for overflow
+	uint64_t calculatedLimit = (((uint64_t) period * Chip_Clock_GetRate(CLK_APB1_MOTOCON)) / 1000000ULL);
+	if (calculatedLimit & 0xFFFFFFFF00000000ULL) { //Check for overflow
 		return 1;
 	}
 	if (motor == MOTOR0) {
 		LPC_MCPWM->LIM[MOTOR0_PWM_CHANNEL] = (uint32_t) calculatedLimit;
+#if USE_PUSHBOT
+		motor0.velocityWindUpGuard = calculatedLimit / motor0.proportionalGain;
+#endif
 	} else if (motor == MOTOR1) {
 		LPC_MCPWM->LIM[MOTOR1_PWM_CHANNEL] = (uint32_t) calculatedLimit;
+#if USE_PUSHBOT
+		motor1.velocityWindUpGuard = calculatedLimit / motor1.proportionalGain;
+#endif
 	} else {
 		return 1;
 	}
@@ -165,31 +163,67 @@ uint32_t updateMotorMode(uint32_t motor, uint32_t mode) {
 	return 0;
 }
 
-#if USE_MINIROB
-#include "minirob.h"
-
-#define CONTROL_LOOP_FREQ				(1000)
-#define MAX_SPEED						(92)
-
-uint32_t updateMotorVelocity(uint32_t motor, int32_t speed) {
+int32_t getMotorDutycycle(uint32_t motor) {
 	if (motor == MOTOR0) {
+		return (motor0.currentDutycycle * 100) / (int32_t) LPC_MCPWM->LIM[MOTOR0_PWM_CHANNEL];
+	} else if (motor == MOTOR1) {
+		return (motor1.currentDutycycle * 100) / (int32_t) LPC_MCPWM->LIM[MOTOR1_PWM_CHANNEL];
+	}
+	return 0;
+}
+
+int32_t getMotorWidth(uint32_t motor) {
+	if (motor == MOTOR0) {
+		int64_t period = ((int64_t) motor0.currentDutycycle * 1000000LL)
+				/ (int64_t) Chip_Clock_GetRate(CLK_APB1_MOTOCON);
+		return (int32_t) period;
+	} else if (motor == MOTOR1) {
+		int64_t period = ((int64_t) motor1.currentDutycycle * 1000000LL)
+				/ (int64_t) Chip_Clock_GetRate(CLK_APB1_MOTOCON);
+		return (int32_t) period;
+	}
+	return -1;
+}
+
+#if USE_PUSHBOT
+#include "pushbot.h"
+
+uint32_t updateMotorPID(uint32_t motor, int32_t pGain, int32_t iGain, int32_t dGain) {
+	if (motor == MOTOR0) {
+		motor0.proportionalGain = pGain;
+		motor0.integralGain = iGain;
+		motor0.derivativeGain = dGain;
+	} else if (motor == MOTOR1) {
+		motor1.proportionalGain = pGain;
+		motor1.integralGain = iGain;
+		motor1.derivativeGain = dGain;
+	} else {
+		return 1;
+	}
+	return 0;
+}
+#define MAX_SPEED	100
+uint32_t updateMotorVelocity(uint32_t motor, int32_t speed) {
+	if (speed > MAX_SPEED) {
+		speed = MAX_SPEED;
+	} else if (speed < -MAX_SPEED) {
+		speed = -MAX_SPEED;
+	}
+
+	if (motor == MOTOR0) {
+		motor0.controllerWindUpGuard = 0;
 		motor0.requestedVelocity = speed;
 		//leftWheel.wheelStatus = 0;
 		if (motor0.controlMode & DIRECT_MODE) {
-			motor0.requestedPosition = leftWheel.wheelStatus*20;
-		} else {
-			//Restrict the error for new reference points
-			//motor0.requestedPosition = speed*CONTROL_LOOP_FREQ>>2;
+			motor0.requestedPosition = leftWheel.wheelStatus;
 		}
 		motor0.controlMode = VELOCITY_MODE;
 	} else if (motor == MOTOR1) {
+		motor1.controllerWindUpGuard = 0;
 		motor1.requestedVelocity = speed;
 		//rightWheel.wheelStatus = 0;
 		if (motor1.controlMode & DIRECT_MODE) {
-			motor1.requestedPosition = rightWheel.wheelStatus*20;
-		} else {
-			//Restrict the error for new reference points
-			//motor1.requestedPosition = speed*CONTROL_LOOP_FREQ>>2;
+			motor1.requestedPosition = rightWheel.wheelStatus;
 		}
 		motor1.controlMode = VELOCITY_MODE;
 	} else {
@@ -198,15 +232,55 @@ uint32_t updateMotorVelocity(uint32_t motor, int32_t speed) {
 	return 0;
 }
 
-//TODO: This needs a bit more work to be a proper controller
 uint32_t updateMotorController(uint32_t motor) {
 	if (motor == MOTOR0) {
-		motor0.requestedPosition += motor0.requestedVelocity;
-		//TODO: scaling down vabs
-		updateMotorWidth(MOTOR0, Kp * ((motor0.requestedPosition / 20) - leftWheel.wheelStatus));
+		if (motor0.velocityPrescalerCounter == 0) {
+			motor0.velocityPrescalerCounter = motor0.velocityPrescaler;
+			motor0.requestedPosition += motor0.requestedVelocity;
+		} else {
+			motor0.velocityPrescalerCounter--;
+		}
+		int32_t error = motor0.requestedPosition - leftWheel.wheelStatus;
+		//Check for a windup error
+		if (error > motor0.velocityWindUpGuard) {
+			motor0.requestedPosition = leftWheel.wheelStatus + motor0.velocityWindUpGuard;
+		} else if (error < -motor0.velocityWindUpGuard) {
+			motor0.requestedPosition = leftWheel.wheelStatus - motor0.velocityWindUpGuard;
+		}
+		motor0.errorIntegral += error;
+		if (motor0.errorIntegral > motor0.controllerWindUpGuard) {
+			motor0.errorIntegral = motor0.controllerWindUpGuard;
+		} else if (error < -motor0.velocityWindUpGuard) {
+			motor0.errorIntegral = -motor0.controllerWindUpGuard;
+		}
+		motor0.lastError = error;
+		int32_t control = motor0.proportionalGain * error + motor0.derivativeGain * (error - motor0.lastError)
+				+ motor0.integralGain * motor0.errorIntegral;
+		updateMotorWidth(MOTOR0, control);
 	} else if (motor == MOTOR1) {
-		motor1.requestedPosition += motor1.requestedVelocity;
-		updateMotorWidth(MOTOR1, Kp * ((motor1.requestedPosition / 20) - rightWheel.wheelStatus));
+		if (motor1.velocityPrescalerCounter == 0) {
+			motor1.velocityPrescalerCounter = motor1.velocityPrescaler;
+			motor1.requestedPosition += motor1.requestedVelocity;
+		} else {
+			motor1.velocityPrescalerCounter--;
+		}
+		int32_t error = motor1.requestedPosition - rightWheel.wheelStatus;
+		//Check for a windup error
+		if (error > motor1.velocityWindUpGuard) {
+			motor1.requestedPosition = rightWheel.wheelStatus + motor1.velocityWindUpGuard;
+		} else if (error < -motor1.velocityWindUpGuard) {
+			motor1.requestedPosition = rightWheel.wheelStatus - motor1.velocityWindUpGuard;
+		}
+		motor1.errorIntegral += error;
+		if (motor1.errorIntegral > motor1.controllerWindUpGuard) {
+			motor1.errorIntegral = motor1.controllerWindUpGuard;
+		} else if (error < -motor1.velocityWindUpGuard) {
+			motor1.errorIntegral = -motor1.controllerWindUpGuard;
+		}
+		motor1.lastError = error;
+		int32_t control = motor1.proportionalGain * error + motor1.derivativeGain * (error - motor1.lastError)
+				+ motor1.integralGain * motor1.errorIntegral;
+		updateMotorWidth(MOTOR1, control);
 	} else {
 		return 1;
 	}
@@ -219,8 +293,10 @@ uint32_t updateMotorVelocityDecay(uint32_t motor, int32_t speed) {
 	}
 	if (motor == MOTOR0) {
 		motor0.decayCounter = 10;
-	} else {
+	} else if (motor == MOTOR1) {
 		motor1.decayCounter = 10;
+	} else {
+		return 1;
 	}
 	return updateMotorMode(motor, DECAY_MODE | VELOCITY_MODE);
 }
@@ -242,6 +318,14 @@ uint32_t updateMotorDutyCycleDecay(uint32_t motor, int32_t duty_cycle) {
 		return updateMotorWidthDecay(MOTOR1, ((duty_cycle * lim) / 100));
 	}
 	return 1;
+}
+
+uint32_t updateMotorWidthUsDecay(uint32_t motor, int32_t widthUs) {
+	uint64_t calculatedWidth = (((uint64_t) widthUs * Chip_Clock_GetRate(CLK_APB1_MOTOCON)) / 1000000ULL);
+	if (calculatedWidth & 0xFFFFFFFF00000000ULL) { //Check for overflow
+		return 1;
+	}
+	return updateMotorWidthDecay(motor, calculatedWidth);
 }
 
 uint32_t updateMotorWidthDecay(uint32_t motor, int32_t width) {
@@ -281,12 +365,19 @@ uint32_t updateMotorDutyCycle(uint32_t motor, int32_t duty_cycle) {
 //This cast from uint32_t to int32_t is safe
 	if (motor == MOTOR0) {
 		int32_t lim = (int32_t) LPC_MCPWM->LIM[MOTOR0_PWM_CHANNEL];
-		return updateMotorWidth(MOTOR0, ((duty_cycle * lim) / 100));
+		return updateMotorWidth(motor, ((duty_cycle * lim) / 100));
 	} else if (motor == MOTOR1) {
 		int32_t lim = (int32_t) LPC_MCPWM->LIM[MOTOR1_PWM_CHANNEL];
-		return updateMotorWidth(MOTOR1, ((duty_cycle * lim) / 100));
+		return updateMotorWidth(motor, ((duty_cycle * lim) / 100));
 	}
 	return 1;
+}
+uint32_t updateMotorWidthUs(uint32_t motor, int32_t widthUs) {
+	uint64_t calculatedWidth = (((uint64_t) widthUs * Chip_Clock_GetRate(CLK_APB1_MOTOCON)) / 1000000ULL);
+	if (calculatedWidth & 0xFFFFFFFF00000000ULL) { //Check for overflow
+		return 1;
+	}
+	return updateMotorWidth(motor, calculatedWidth);
 }
 
 uint32_t updateMotorWidth(uint32_t motor, int32_t width) {
@@ -366,8 +457,6 @@ void enableMotorDriver(uint8_t enable) {
 	} else {
 		motorDriverEnabled = 0;
 		Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, MOTOR_DRIVER_ENABLE_PORT_GPIO, MOTOR_DRIVER_ENABLE_PIN_GPIO);
-		motor0.controlMode = DIRECT_MODE;
-		motor1.controlMode = DIRECT_MODE;
 	}
 }
 
@@ -378,13 +467,11 @@ void initMotors(void) {
 
 	LPC_MCPWM->INTF_CLR =
 			MCPWM_INT_ILIM(
-					0) | MCPWM_INT_ILIM(1) | MCPWM_INT_ILIM(2) | MCPWM_INT_IMAT(0) | MCPWM_INT_IMAT(1) | MCPWM_INT_IMAT(2) | MCPWM_INT_ICAP(0) | MCPWM_INT_ICAP(1)
-					| MCPWM_INT_ICAP(2);
+					0) | MCPWM_INT_ILIM(1) | MCPWM_INT_ILIM(2) | MCPWM_INT_IMAT(0) | MCPWM_INT_IMAT(1) | MCPWM_INT_IMAT(2) | MCPWM_INT_ICAP(0) | MCPWM_INT_ICAP(1) | MCPWM_INT_ICAP(2);
 
 	LPC_MCPWM->INTEN_CLR =
 			MCPWM_INT_ILIM(
-					0) | MCPWM_INT_ILIM(1) | MCPWM_INT_ILIM(2) | MCPWM_INT_IMAT(0) | MCPWM_INT_IMAT(1) | MCPWM_INT_IMAT(2) | MCPWM_INT_ICAP(0) | MCPWM_INT_ICAP(1)
-					| MCPWM_INT_ICAP(2);
+					0) | MCPWM_INT_ILIM(1) | MCPWM_INT_ILIM(2) | MCPWM_INT_IMAT(0) | MCPWM_INT_IMAT(1) | MCPWM_INT_IMAT(2) | MCPWM_INT_ICAP(0) | MCPWM_INT_ICAP(1) | MCPWM_INT_ICAP(2);
 	LPC_MCPWM->CON_CLR = MCPWM_CON_CENTER(MOTOR0_PWM_CHANNEL) | MCPWM_CON_CENTER(MOTOR1_PWM_CHANNEL);
 	LPC_MCPWM->CON_CLR = MCPWM_CON_POLAR(MOTOR0_PWM_CHANNEL) | MCPWM_CON_POLAR(MOTOR1_PWM_CHANNEL);
 	LPC_MCPWM->CON_CLR = MCPWM_CON_DTE(MOTOR0_PWM_CHANNEL) | MCPWM_CON_DTE(MOTOR1_PWM_CHANNEL);
@@ -397,10 +484,6 @@ void initMotors(void) {
 	LPC_MCPWM->MAT[MOTOR0_PWM_CHANNEL] = BASE_PWM_DIVIDER;
 	LPC_MCPWM->MAT[MOTOR1_PWM_CHANNEL] = BASE_PWM_DIVIDER;
 
-	Chip_SCU_PinMuxSet(MOTOR0_PWM_1_PORT, MOTOR0_PWM_1_PIN, MD_PLN_FAST | FUNC0);
-	Chip_SCU_PinMuxSet(MOTOR1_PWM_1_PORT, MOTOR1_PWM_1_PIN, MD_PLN_FAST | FUNC0);
-	Chip_SCU_PinMuxSet(MOTOR0_PWM_2_PORT, MOTOR0_PWM_2_PIN, MD_PLN_FAST | FUNC0);
-	Chip_SCU_PinMuxSet(MOTOR1_PWM_2_PORT, MOTOR1_PWM_2_PIN, MD_PLN_FAST | FUNC0);
 	Chip_GPIO_SetPinOutHigh(LPC_GPIO_PORT, MOTOR0_PWM_1_PORT_GPIO, MOTOR0_PWM_1_PIN_GPIO);
 	Chip_GPIO_SetPinOutHigh(LPC_GPIO_PORT, MOTOR1_PWM_1_PORT_GPIO, MOTOR1_PWM_1_PIN_GPIO);
 	Chip_GPIO_SetPinOutHigh(LPC_GPIO_PORT, MOTOR0_PWM_2_PORT_GPIO, MOTOR0_PWM_2_PIN_GPIO);
@@ -409,31 +492,36 @@ void initMotors(void) {
 	Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, MOTOR1_PWM_1_PORT_GPIO, MOTOR1_PWM_1_PIN_GPIO);
 	Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, MOTOR0_PWM_2_PORT_GPIO, MOTOR0_PWM_2_PIN_GPIO);
 	Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, MOTOR1_PWM_2_PORT_GPIO, MOTOR1_PWM_2_PIN_GPIO);
+	Chip_SCU_PinMuxSet(MOTOR0_PWM_1_PORT, MOTOR0_PWM_1_PIN, MD_PLN_FAST | FUNC0);
+	Chip_SCU_PinMuxSet(MOTOR1_PWM_1_PORT, MOTOR1_PWM_1_PIN, MD_PLN_FAST | FUNC0);
+	Chip_SCU_PinMuxSet(MOTOR0_PWM_2_PORT, MOTOR0_PWM_2_PIN, MD_PLN_FAST | FUNC0);
+	Chip_SCU_PinMuxSet(MOTOR1_PWM_2_PORT, MOTOR1_PWM_2_PIN, MD_PLN_FAST | FUNC0);
 
 	motorDriverEnabled = 0;
-	Chip_SCU_PinMuxSet(MOTOR_DRIVER_ENABLE_PORT, MOTOR_DRIVER_ENABLE_PIN, MD_PLN_FAST | FUNC0);
 	Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, MOTOR_DRIVER_ENABLE_PORT_GPIO, MOTOR_DRIVER_ENABLE_PIN_GPIO);
 	Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, MOTOR_DRIVER_ENABLE_PORT_GPIO, MOTOR_DRIVER_ENABLE_PIN_GPIO);
+	Chip_SCU_PinMuxSet(MOTOR_DRIVER_ENABLE_PORT, MOTOR_DRIVER_ENABLE_PIN, MD_PLN_FAST | FUNC0);
 
-	Chip_SCU_PinMuxSet(MOTOR_DRIVER_FAULT_PORT, MOTOR_DRIVER_FAULT_PIN, MD_BUK | MD_EZI | FUNC0);
 	Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, MOTOR_DRIVER_FAULT_PORT_GPIO, MOTOR_DRIVER_FAULT_PIN_GPIO);
+	Chip_SCU_PinMuxSet(MOTOR_DRIVER_FAULT_PORT, MOTOR_DRIVER_FAULT_PIN, MD_BUK | MD_EZI | FUNC0);
 
 	LPC_MCPWM->CON_SET = MCPWM_CON_RUN(MOTOR1_PWM_CHANNEL) | MCPWM_CON_RUN(MOTOR0_PWM_CHANNEL);
 //Initialize the control structure
-	motor0.currentDutycycle = 0;
+	memset(&motor0, 0, sizeof(struct motor_status));
+	memset(&motor1, 0, sizeof(struct motor_status));
+
 	motor0.controlMode = DIRECT_MODE;
-	motor0.requestedWidth = 0;
-
-	motor1.currentDutycycle = 0;
 	motor1.controlMode = DIRECT_MODE;
-	motor1.requestedWidth = 0;
-#if USE_MINIROB
-	motor0.requestedVelocity = 0;
-	motor0.requestedPosition = 0;
-	motor0.updateRequired = 0;
-
-	motor1.requestedVelocity = 0;
-	motor1.requestedPosition = 0;
-	motor1.updateRequired = 0;
+#if USE_PUSHBOT
+	motor0.velocityPrescaler = 20;
+	motor1.velocityPrescaler = 20;
+	motor0.proportionalGain = 80;
+	motor1.proportionalGain = 80;
+	motor0.derivativeGain = 0;
+	motor1.derivativeGain = 0;
+	motor0.velocityWindUpGuard = ( LPC_MCPWM->LIM[MOTOR0_PWM_CHANNEL] / motor0.proportionalGain) * 20;
+	motor1.velocityWindUpGuard = ( LPC_MCPWM->LIM[MOTOR1_PWM_CHANNEL] / motor1.proportionalGain) * 20;
+	motor0.controllerWindUpGuard = LPC_MCPWM->LIM[MOTOR0_PWM_CHANNEL] / 10;
+	motor1.controllerWindUpGuard = LPC_MCPWM->LIM[MOTOR1_PWM_CHANNEL] / 10;
 #endif
 }

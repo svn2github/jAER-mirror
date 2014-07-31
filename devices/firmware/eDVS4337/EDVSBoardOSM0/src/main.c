@@ -21,23 +21,15 @@ __NOINIT(RAM5) volatile struct uart_hal uart;
 __NOINIT(RAM6) volatile uint32_t __core_m0_has_started__;
 
 #define TIMER_EXT_MATCH_2_SET		(1<<2)
-static volatile uint32_t byteToSend = 0;
 __RAMFUNC(RAM) int main(void) {
 	//The M4 core is in a tight loop waiting for the variable to be set to 1.
-	uart.rxBufferReadPointer = 0;
-	uart.txBufferReadPointer = 0;
-	uart.rxBufferWritePointer = 0;
-	uart.txBufferWritePointer = 0;
 	__core_m0_has_started__ = 1;
 	uint32_t DVSEventPointer;
 	uint32_t DVSEventTime, DVSEventTimeOld;
 	uint16_t DVSEvent;
-#if EXTENDED_TIMESTAMP
-	uint16_t DVSEventTimeHigh = 0;
-#endif
 	DVSEventTime = DVSEventTimeOld = Chip_TIMER_ReadCapture(LPC_TIMER1, TIMER_CAPTURE_CHANNEL);
 	while (1) {
-		//Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, 0, 1);
+		//Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, 0, 1); //Only for checking quickly this loops speed
 		/**
 		 * An event is fetched by comparing the captured timestamp from the timer
 		 * If there is a new timestamp, the event buffer write pointer is incremented
@@ -48,7 +40,8 @@ __RAMFUNC(RAM) int main(void) {
 			DVSEvent = Chip_GPIO_GetPortValue(LPC_GPIO_PORT, EVENT_PORT) & PIN_ALL_ADDR;
 			events.currentEventRate++;
 			DVSEventPointer = ((events.eventBufferWritePointer + 1) & DVS_EVENTBUFFER_MASK);
-			if (DVSEventPointer == events.eventBufferReadPointer) {
+			int32_t freeSpace = (events.eventBufferReadPointer - DVSEventPointer) & DVS_EVENTBUFFER_MASK;
+			if (freeSpace < 4) {
 				while (events.ringBufferLock) {
 					__NOP(); //Wait for the M4 to finish with the queue
 				}
@@ -56,17 +49,6 @@ __RAMFUNC(RAM) int main(void) {
 			}
 			events.eventBufferA[DVSEventPointer] = DVSEvent; // store event
 			events.eventBufferTimeLow[DVSEventPointer] = DVSEventTime; // store event time
-			//With the extended timestamp the timestamp overflows every 70 minutes.
-#if EXTENDED_TIMESTAMP
-			/**
-			 * This simple check allows us to extend the timestamp to 48 bits which with a 1Mhz timer counter
-			 * it can count up to almost 9 years.
-			 */
-			if (DVSEventTime < DVSEventTimeOld) {
-				DVSEventTimeHigh++;
-			}
-			events.eventBufferTimeHigh[DVSEventPointer] = DVSEventTimeHigh; // store event time
-#endif
 			events.eventBufferWritePointer = DVSEventPointer; // Only update the write pointer after being finished with the write operation
 			DVSEventTimeOld = DVSEventTime;
 		}
@@ -78,7 +60,7 @@ __RAMFUNC(RAM) int main(void) {
 		if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, CTS0_GPIO_PORT, CTS0_GPIO_PIN) == 0) { // no rts stop signal
 #endif
 			while (bytesToSend(&uart) && (LPC_UART->LSR & UART_LSR_THRE)) {
-				popByteFromTransmissionBuffer(&uart);
+				LPC_UART->THR = popByteFromTransmissionBuffer(&uart);
 			}
 #if LOW_POWER_MODE
 			if (!byteToSend(&uart) && M4Sleeping(&uart)) { // signal M4 TX is done
@@ -100,7 +82,7 @@ __RAMFUNC(RAM) int main(void) {
 		if ( LPC_UART->LSR & UART_LSR_RDR) {
 			uint32_t freeSpace = freeSpaceForReception(&uart);
 			//We leave the character in the UART buffer
-			if (freeSpace > 1) {
+			if (freeSpace > 0) {
 				pushByteToReception(&uart, LPC_UART->RBR);
 				if (freeSpace <= RX_WARNING) {
 					//If we get to here the M4 is taking too much time to parse the input
@@ -135,5 +117,6 @@ __RAMFUNC(RAM) int main(void) {
 					| (((uint32_t) TIMER_EXTMATCH_CLEAR) << 6) | (((uint32_t) TIMER_EXTMATCH_SET) << 8);
 		}
 	}
+
 	return 0;
 }

@@ -7,12 +7,11 @@
 
 #include "chip.h"
 #include "sensors.h"
-#include "minirob.h"
+#include "pushbot.h"
 #include "config.h"
 #include "xprintf.h"
 
-#if USE_MINIROB
-#define SENSOR_ID	24
+#if USE_PUSHBOT
 
 #define RIGHT_SENSOR_A_POSITION		(1)
 #define RIGHT_SENSOR_A_PORT			(4)
@@ -76,13 +75,12 @@ void refreshMiniRobSensors() {
 }
 
 void reportValues() {
-	xprintf("-S%d %d %d\n", SENSOR_ID, leftWheel.wheelStatus, rightWheel.wheelStatus);
+	xprintf("-S%d %d %d\n", MOTOR_SENSORS, leftWheel.wheelStatus, rightWheel.wheelStatus);
 }
 
 void MiniRobInit() {
 //Register init function
-	sensorsTimers[SENSOR_ID].init = NULL;
-	sensorsTimers[SENSOR_ID].refresh = reportValues;
+	sensorsTimers[MOTOR_SENSORS].refresh = reportValues;
 
 	leftWheel.wheelStatus = 0;
 	leftWheel.errorCount = 0;

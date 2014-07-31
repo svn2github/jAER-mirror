@@ -39,7 +39,7 @@
 #define I2C_CON_FLAGS (I2C_CON_AA | I2C_CON_SI | I2C_CON_STO | I2C_CON_STA)
 #define LPC_I2Cx(id)      ((i2c[id].ip))
 #define SLAVE_ACTIVE(iic) (((iic)->flags & 0xFF00) != 0)
-
+#define TIMEOUT		60000
 /* I2C common interface structure */
 struct i2c_interface {
 	LPC_I2C_T *ip;		/* IP base address of the I2C device */
@@ -447,7 +447,12 @@ int Chip_I2C_MasterSend(I2C_ID_T id, uint8_t slaveAddr, const uint8_t *buff, uin
 	xfer.slaveAddr = slaveAddr;
 	xfer.txBuff = buff;
 	xfer.txSz = len;
-	while (Chip_I2C_MasterTransfer(id, &xfer) == I2C_STATUS_ARBLOST) {}
+	uint32_t timeout = TIMEOUT * len;
+	while (Chip_I2C_MasterTransfer(id, &xfer) == I2C_STATUS_ARBLOST) {
+		if (timeout-- == 0) {
+			break;
+		}
+	}
 	return len - xfer.txSz;
 }
 
@@ -462,7 +467,12 @@ int Chip_I2C_MasterCmdRead(I2C_ID_T id, uint8_t slaveAddr, uint8_t cmd, uint8_t 
 	xfer.txSz = 1;
 	xfer.rxBuff = buff;
 	xfer.rxSz = len;
-	while (Chip_I2C_MasterTransfer(id, &xfer) == I2C_STATUS_ARBLOST) {}
+	uint32_t timeout = TIMEOUT * len;
+	while (Chip_I2C_MasterTransfer(id, &xfer) == I2C_STATUS_ARBLOST) {
+		if (timeout-- == 0) {
+			break;
+		}
+	}
 	return len - xfer.rxSz;
 }
 
@@ -473,7 +483,12 @@ int Chip_I2C_MasterRead(I2C_ID_T id, uint8_t slaveAddr, uint8_t *buff, int len)
 	xfer.slaveAddr = slaveAddr;
 	xfer.rxBuff = buff;
 	xfer.rxSz = len;
-	while (Chip_I2C_MasterTransfer(id, &xfer) == I2C_STATUS_ARBLOST) {}
+	uint32_t timeout = TIMEOUT * len;
+	while (Chip_I2C_MasterTransfer(id, &xfer) == I2C_STATUS_ARBLOST) {
+		if (timeout-- == 0) {
+			break;
+		}
+	}
 	return len - xfer.rxSz;
 }
 

@@ -8,11 +8,39 @@
 #ifndef SENSORS_H_
 #define SENSORS_H_
 #include <stdint.h>
+#include "config.h"
 
 #define MAX_SENSORS							(32)
 
+enum SensorIDs {
+	BATTERY = 0,
+	ADC0,
+	ADC1,
+	ADC2,
+	ADC3,
+	ADC4,
+	ADC5,
+	RAW_GYRO,
+	RAW_ACCEL,
+	RAW_COMPASS,
+	CAL_GYRO,
+	CAL_ACCEL,
+	CAL_COMPASS,
+	QUARTERNION,
+	EULER_ANGLES,
+	ROTATION_MATRIX,
+	HEADING,
+	LINEAR_ACCEL,
+	STATUS,
+	PWM_SIGNALS,
+	MOTOR_CURRENTS,
+	EVENT_RATE,
+	MOTOR_SENSORS = 28
+};
+
 struct sensorTimer {
-	volatile uint16_t triggered; /* Flag which is set to 1 when counter reaches zero. Must be cleared manually.*/
+	uint8_t initialized;
+	volatile uint8_t triggered; /* Flag which is set to 1 when counter reaches zero. Must be cleared manually.*/
 	int16_t position; /* Position in the enabled sensors queue */
 	volatile uint32_t reload; /* Reload value for the counter */
 	volatile uint32_t counter; /* Counter which is decremented every ms*/
@@ -23,7 +51,7 @@ struct sensorTimer {
 extern volatile uint8_t sensorRefreshRequested; //Flag set to one when a possible refresh of the sensors is required
 extern struct sensorTimer sensorsTimers[MAX_SENSORS]; //Sensor array
 extern struct sensorTimer * enabledSensors[MAX_SENSORS]; //Enabled sensor queue
-extern uint32_t sensorsEnabledCounter;//Counter of the enabled sensors
+extern uint32_t sensorsEnabledCounter; //Counter of the enabled sensors
 
 /**
  * Initializes the sensor array with pointers for their functions

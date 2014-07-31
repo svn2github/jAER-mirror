@@ -60,7 +60,7 @@ void SystemInit(void) {
 
 	*pSCB_VTOR = (unsigned int) &__vector_table;
 #elif defined(__CODE_RED)
-	extern void *g_pfnVectors;
+	extern void (* const g_pfnVectors[])(void);
 
 	*pSCB_VTOR = (unsigned int) &g_pfnVectors;
 #elif defined(__ARMCC_VERSION)

@@ -14,15 +14,14 @@
 
 #define SD_ERROR 		1
 
-#if EXTENDED_TIMESTAMP
-#define FILE_BUFFER_SIZE		_MAX_SS *32
-#else
-#define FILE_BUFFER_SIZE		_MAX_SS *24 //0.75 of the extended size
-#endif
+#define FILE_BUFFER_SIZE		(_MAX_SS * 32)
 
 struct sdcard {
+	uint32_t timeStampMemory;
+	uint32_t timeStampDelta;
 	uint32_t fileBufferIndex;
 	uint32_t bytesWrittenPerSecond;
+	uint32_t eventsRecordedPerSecond;
 	uint8_t shouldRecord; //flag to start recording events in the SD card
 	uint8_t isRecording;
 	FATFS fs;
