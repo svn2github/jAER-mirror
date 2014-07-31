@@ -58,7 +58,7 @@ entity TopLevel is
 		APSADCOutputEnable_SBO  : out   std_logic;
 		APSADCStandby_SO        : out   std_logic;
 
-		IMUClock_ZO             : inout std_logic; -- this is inout because it must be tristateable
+		IMUClock_ZO             : out std_logic;
 		IMUData_ZIO             : inout std_logic;
 		IMUInterrupt_AI         : in    std_logic;
 

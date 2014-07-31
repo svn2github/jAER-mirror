@@ -14,7 +14,7 @@ entity IMUStateMachine is
 		OutFifoControl_SO : out   tToFifoWriteSide;
 		OutFifoData_DO    : out   std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
-		IMUClock_ZO       : inout std_logic; -- this is inout because it must be tristateable
+		IMUClock_ZO       : out   std_logic;
 		IMUData_ZIO       : inout std_logic;
 		IMUInterrupt_SI   : in    std_logic);
 end entity IMUStateMachine;

@@ -6,9 +6,9 @@ package ChipBiasConfigRecords is
 	constant CHIPBIASCONFIG_MODULE_ADDRESS : unsigned(6 downto 0) := to_unsigned(5, 7);
 
 	constant BIASADDR_REG_LENGTH : integer := 8;
-	constant BIAS_REG_LENGTH : integer := 16;
-	constant BIAS_CF_LENGTH  : integer := 15;
-	constant BIAS_SS_LENGTH  : integer := 16;
+	constant BIAS_REG_LENGTH     : integer := 16;
+	constant BIAS_CF_LENGTH      : integer := 15;
+	constant BIAS_SS_LENGTH      : integer := 16;
 
 	type tBiasConfigParamAddresses is record
 		DiffBn_D           : unsigned(7 downto 0);
@@ -109,6 +109,7 @@ package ChipBiasConfigRecords is
 		SSN_D              => (others => '0'));
 
 	constant CHIP_REG_LENGTH : integer := 56;
+	constant CHIP_MUX_LENGTH : integer := 4;
 
 	type tChipConfigParamAddresses is record
 		DigitalMux0_D         : unsigned(7 downto 0);
@@ -148,14 +149,14 @@ package ChipBiasConfigRecords is
 		GlobalShutter_S       => to_unsigned(142, 8));
 
 	type tChipConfig is record
-		DigitalMux0_D         : unsigned(3 downto 0);
-		DigitalMux1_D         : unsigned(3 downto 0);
-		DigitalMux2_D         : unsigned(3 downto 0);
-		DigitalMux3_D         : unsigned(3 downto 0);
-		AnalogMux0_D          : unsigned(3 downto 0);
-		AnalogMux1_D          : unsigned(3 downto 0);
-		AnalogMux2_D          : unsigned(3 downto 0);
-		BiasOutMux_D          : unsigned(3 downto 0);
+		DigitalMux0_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
+		DigitalMux1_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
+		DigitalMux2_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
+		DigitalMux3_D         : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
+		AnalogMux0_D          : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
+		AnalogMux1_D          : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
+		AnalogMux2_D          : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
+		BiasOutMux_D          : unsigned(CHIP_MUX_LENGTH - 1 downto 0);
 		ResetCalibNeuron_S    : std_logic;
 		TypeNCalibNeuron_S    : std_logic;
 		ResetTestPixel_S      : std_logic;
