@@ -17,7 +17,7 @@ entity MultiplexerSPIConfig is
 		MultiplexerConfigParamOutput_DO : out std_logic_vector(31 downto 0));
 end entity MultiplexerSPIConfig;
 
-architecture RTL of MultiplexerSPIConfig is
+architecture Behavioral of MultiplexerSPIConfig is
 	signal LatchMultiplexerReg_SP, LatchMultiplexerReg_SN   : std_logic;
 	signal MultiplexerInput_DP, MultiplexerInput_DN         : std_logic_vector(31 downto 0);
 	signal MultiplexerOutput_DP, MultiplexerOutput_DN       : std_logic_vector(31 downto 0);
@@ -77,4 +77,4 @@ begin
 			end if;
 		end if;
 	end process multiplexerUpdate;
-end architecture RTL;
+end architecture Behavioral;

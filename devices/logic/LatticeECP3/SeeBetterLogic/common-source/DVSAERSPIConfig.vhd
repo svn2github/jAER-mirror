@@ -17,7 +17,7 @@ entity DVSAERSPIConfig is
 		DVSAERConfigParamOutput_DO : out std_logic_vector(31 downto 0));
 end entity DVSAERSPIConfig;
 
-architecture RTL of DVSAERSPIConfig is
+architecture Behavioral of DVSAERSPIConfig is
 	signal LatchDVSAERReg_SP, LatchDVSAERReg_SN   : std_logic;
 	signal DVSAERInput_DP, DVSAERInput_DN         : std_logic_vector(31 downto 0);
 	signal DVSAEROutput_DP, DVSAEROutput_DN       : std_logic_vector(31 downto 0);
@@ -77,4 +77,4 @@ begin
 			end if;
 		end if;
 	end process dvsaerUpdate;
-end architecture RTL;
+end architecture Behavioral;

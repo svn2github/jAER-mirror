@@ -19,7 +19,7 @@ entity ChipBiasSPIConfig is
 		ChipConfigParamOutput_DO : out std_logic_vector(31 downto 0));
 end entity ChipBiasSPIConfig;
 
-architecture RTL of ChipBiasSPIConfig is
+architecture Behavioral of ChipBiasSPIConfig is
 	signal LatchBiasReg_SP, LatchBiasReg_SN   : std_logic;
 	signal BiasInput_DP, BiasInput_DN         : std_logic_vector(31 downto 0);
 	signal BiasOutput_DP, BiasOutput_DN       : std_logic_vector(31 downto 0);
@@ -261,4 +261,4 @@ begin
 			end if;
 		end if;
 	end process chipUpdate;
-end architecture RTL;
+end architecture Behavioral;
