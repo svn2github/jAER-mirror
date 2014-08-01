@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 use work.Settings.all;
 use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
@@ -58,7 +59,7 @@ entity TopLevel is
 		APSADCOutputEnable_SBO  : out   std_logic;
 		APSADCStandby_SO        : out   std_logic;
 
-		IMUClock_ZO             : out std_logic;
+		IMUClock_ZO             : out   std_logic;
 		IMUData_ZIO             : inout std_logic;
 		IMUInterrupt_AI         : in    std_logic;
 
@@ -104,6 +105,17 @@ architecture Structural of TopLevel is
 	signal ExtTriggerFifoControlOut_S : tFromFifo;
 	signal ExtTriggerFifoDataIn_D     : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 	signal ExtTriggerFifoDataOut_D    : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+
+	signal ConfigModuleAddress_D : unsigned(6 downto 0);
+	signal ConfigParamAddress_D  : unsigned(7 downto 0);
+	signal ConfigParamInput_D    : std_logic_vector(31 downto 0);
+	signal ConfigLatchInput_S    : std_logic;
+	signal ConfigParamOutput_D   : std_logic_vector(31 downto 0);
+
+	signal MultiplexerConfigParamOutput_D : std_logic_vector(31 downto 0);
+	signal DVSAERConfigParamOutput_D      : std_logic_vector(31 downto 0);
+	signal BiasConfigParamOutput_D        : std_logic_vector(31 downto 0);
+	signal ChipConfigParamOutput_D        : std_logic_vector(31 downto 0);
 
 	signal MultiplexerConfig_D : tMultiplexerConfig;
 	signal DVSAERConfig_D      : tDVSAERConfig;
@@ -259,6 +271,17 @@ begin
 			ExtTriggerFifoData_DI    => ExtTriggerFifoDataOut_D,
 			MultiplexerConfig_DI     => MultiplexerConfig_D);
 
+	multiplexerSPIConfig : entity work.MultiplexerSPIConfig
+		port map(
+			Clock_CI                        => LogicClock_C,
+			Reset_RI                        => LogicReset_R,
+			MultiplexerConfig_DO            => MultiplexerConfig_D,
+			ConfigModuleAddress_DI          => ConfigModuleAddress_D,
+			ConfigParamAddress_DI           => ConfigParamAddress_D,
+			ConfigParamInput_DI             => ConfigParamInput_D,
+			ConfigLatchInput_SI             => ConfigLatchInput_S,
+			MultiplexerConfigParamOutput_DO => MultiplexerConfigParamOutput_D);
+
 	dvsAerFifo : entity work.FIFO
 		generic map(
 			DATA_WIDTH        => EVENT_WIDTH,
@@ -287,6 +310,17 @@ begin
 			DVSAERAck_SBO     => DVSAERAck_SBO,
 			DVSAERReset_SBO   => DVSAERReset_SBO,
 			DVSAERConfig_DI   => DVSAERConfig_D);
+
+	dvsaerSPIConfig : entity work.DVSAERSPIConfig
+		port map(
+			Clock_CI                   => LogicClock_C,
+			Reset_RI                   => LogicReset_R,
+			DVSAERConfig_DO            => DVSAERConfig_D,
+			ConfigModuleAddress_DI     => ConfigModuleAddress_D,
+			ConfigParamAddress_DI      => ConfigParamAddress_D,
+			ConfigParamInput_DI        => ConfigParamInput_D,
+			ConfigLatchInput_SI        => ConfigLatchInput_S,
+			DVSAERConfigParamOutput_DO => DVSAERConfigParamOutput_D);
 
 	apsAdcFifo : entity work.FIFO
 		generic map(
@@ -378,18 +412,42 @@ begin
 
 	spiConfiguration : entity work.SPIConfig
 		port map(
-			Clock_CI             => LogicClock_C,
-			Reset_RI             => LogicReset_R,
-			SPISlaveSelect_SBI   => SPISlaveSelectSync_SB,
-			SPIClock_CI          => SPIClockSync_C,
-			SPIMOSI_DI           => SPIMOSISync_D,
-			SPIMISO_ZO           => SPIMISO_ZO,
-			MultiplexerConfig_DO => MultiplexerConfig_D,
-			DVSAERConfig_DO      => DVSAERConfig_D,
-			BiasConfig_DO        => BiasConfig_D,
-			ChipConfig_DO        => ChipConfig_D);
+			Clock_CI               => LogicClock_C,
+			Reset_RI               => LogicReset_R,
+			SPISlaveSelect_SBI     => SPISlaveSelectSync_SB,
+			SPIClock_CI            => SPIClockSync_C,
+			SPIMOSI_DI             => SPIMOSISync_D,
+			SPIMISO_ZO             => SPIMISO_ZO,
+			ConfigModuleAddress_DO => ConfigModuleAddress_D,
+			ConfigParamAddress_DO  => ConfigParamAddress_D,
+			ConfigParamInput_DO    => ConfigParamInput_D,
+			ConfigLatchInput_SO    => ConfigLatchInput_S,
+			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	chipBiasConfiguration : entity work.ChipBiasStateMachine
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D)
+	begin
+		-- Output side select.
+		ConfigParamOutput_D <= (others => '0');
+
+		case ConfigModuleAddress_D is
+			when MULTIPLEXERCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= MultiplexerConfigParamOutput_D;
+
+			when DVSAERCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= DVSAERConfigParamOutput_D;
+
+			when CHIPBIASCONFIG_MODULE_ADDRESS =>
+				if ConfigParamAddress_D(7) = '0' then
+					ConfigParamOutput_D <= BiasConfigParamOutput_D;
+				else
+					ConfigParamOutput_D <= ChipConfigParamOutput_D;
+				end if;
+
+			when others => null;
+		end case;
+	end process spiConfigurationOutputSelect;
+
+	chipBiasSM : entity work.ChipBiasStateMachine
 		port map(
 			Clock_CI               => LogicClock_C,
 			Reset_RI               => LogicReset_R,
@@ -400,4 +458,17 @@ begin
 			ChipBiasLatch_SBO      => ChipBiasLatch_SBO,
 			BiasConfig_DI          => BiasConfig_D,
 			ChipConfig_DI          => ChipConfig_D);
+
+	chipBiasSPIConfig : entity work.ChipBiasSPIConfig
+		port map(
+			Clock_CI                 => LogicClock_C,
+			Reset_RI                 => LogicReset_R,
+			BiasConfig_DO            => BiasConfig_D,
+			ChipConfig_DO            => ChipConfig_D,
+			ConfigModuleAddress_DI   => ConfigModuleAddress_D,
+			ConfigParamAddress_DI    => ConfigParamAddress_D,
+			ConfigParamInput_DI      => ConfigParamInput_D,
+			ConfigLatchInput_SI      => ConfigLatchInput_S,
+			BiasConfigParamOutput_DO => BiasConfigParamOutput_D,
+			ChipConfigParamOutput_DO => ChipConfigParamOutput_D);
 end Structural;

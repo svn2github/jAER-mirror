@@ -75,6 +75,9 @@
         <Source name="../common-source/MultiplexerStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/MultiplexerSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/MultiplexerConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
@@ -84,25 +87,40 @@
         <Source name="../common-source/DVSAERStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/DVSAERSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/DVSAERConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/APSADCStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/APSADCConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/IMUStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/IMUConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/ExtTriggerStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/ExtTriggerConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/SPIConfig.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/ChipBiasConfigRecords.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/ChipBiasStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/ChipBiasStateMachine.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/ChipBiasSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ChipBiasConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="SeeBetterLogic_FX3R2.lpf" type="Logic Preference" type_short="LPF">
