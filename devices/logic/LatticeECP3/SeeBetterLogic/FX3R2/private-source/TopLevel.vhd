@@ -5,6 +5,7 @@ use work.Settings.all;
 use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
 use work.DVSAERConfigRecords.all;
+use work.IMUConfigRecords.all;
 use work.ChipBiasConfigRecords.all;
 
 entity TopLevel is
@@ -114,11 +115,13 @@ architecture Structural of TopLevel is
 
 	signal MultiplexerConfigParamOutput_D : std_logic_vector(31 downto 0);
 	signal DVSAERConfigParamOutput_D      : std_logic_vector(31 downto 0);
+	signal IMUConfigParamOutput_D         : std_logic_vector(31 downto 0);
 	signal BiasConfigParamOutput_D        : std_logic_vector(31 downto 0);
 	signal ChipConfigParamOutput_D        : std_logic_vector(31 downto 0);
 
 	signal MultiplexerConfig_D : tMultiplexerConfig;
 	signal DVSAERConfig_D      : tDVSAERConfig;
+	signal IMUConfig_D         : tIMUConfig;
 	signal BiasConfig_D        : tBiasConfig;
 	signal ChipConfig_D        : tChipConfig;
 begin
@@ -382,7 +385,19 @@ begin
 			OutFifoData_DO    => IMUFifoDataIn_D,
 			IMUClock_ZO       => IMUClock_ZO,
 			IMUData_ZIO       => IMUData_ZIO,
-			IMUInterrupt_SI   => IMUInterruptSync_S);
+			IMUInterrupt_SI   => IMUInterruptSync_S,
+			IMUConfig_DI      => IMUConfig_D);
+
+	imuSPIConfig : entity work.IMUSPIConfig
+		port map(
+			Clock_CI                => LogicClock_C,
+			Reset_RI                => LogicReset_R,
+			IMUConfig_DO            => IMUConfig_D,
+			ConfigModuleAddress_DI  => ConfigModuleAddress_D,
+			ConfigParamAddress_DI   => ConfigParamAddress_D,
+			ConfigParamInput_DI     => ConfigParamInput_D,
+			ConfigLatchInput_SI     => ConfigLatchInput_S,
+			IMUConfigParamOutput_DO => IMUConfigParamOutput_D);
 
 	extTriggerFifo : entity work.FIFO
 		generic map(
@@ -424,7 +439,7 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, IMUConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
@@ -435,6 +450,9 @@ begin
 
 			when DVSAERCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= DVSAERConfigParamOutput_D;
+
+			when IMUCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= IMUConfigParamOutput_D;
 
 			when CHIPBIASCONFIG_MODULE_ADDRESS =>
 				if ConfigParamAddress_D(7) = '0' then

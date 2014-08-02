@@ -3,6 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Settings.all;
 use work.FIFORecords.all;
+use work.IMUConfigRecords.all;
 
 entity IMUStateMachine is
 	port(
@@ -16,7 +17,10 @@ entity IMUStateMachine is
 
 		IMUClock_ZO       : out   std_logic;
 		IMUData_ZIO       : inout std_logic;
-		IMUInterrupt_SI   : in    std_logic);
+		IMUInterrupt_SI   : in    std_logic;
+
+		-- Configuration input
+		IMUConfig_DI      : in    tIMUConfig);
 end entity IMUStateMachine;
 
 architecture Behavioral of IMUStateMachine is
