@@ -11,7 +11,7 @@ entity TopLevel is
 		USBClock_CI             : in    std_logic;
 		Reset_RI                : in    std_logic;
 
-		SPIAlternativeSelect_SI : in	std_logic;
+		SPIAlternativeSelect_SI : in    std_logic;
 		SPISlaveSelect_ABI      : in    std_logic;
 		SPIClock_AI             : in    std_logic;
 		SPIMOSI_AI              : in    std_logic;
@@ -33,8 +33,8 @@ entity TopLevel is
 		LED2_SO                 : out   std_logic;
 		LED3_SO                 : out   std_logic;
 		LED4_SO                 : out   std_logic;
-		
-		DebugxSIO : out std_logic_vector (8 downto 0);
+
+		DebugxSIO               : out   std_logic_vector(8 downto 0);
 
 		ChipBiasEnable_SO       : out   std_logic;
 		ChipBiasDiagSelect_SO   : out   std_logic;
@@ -58,7 +58,7 @@ entity TopLevel is
 		APSADCOutputEnable_SBO  : out   std_logic;
 		APSADCStandby_SO        : out   std_logic;
 
-		IMUClock_ZO             : inout std_logic; -- this is inout because it must be tristateable
+		IMUClock_ZO             : out   std_logic;
 		IMUData_ZIO             : inout std_logic;
 		IMUInterrupt_AI         : in    std_logic;
 
@@ -105,95 +105,103 @@ architecture Structural of TopLevel is
 	signal ExtTriggerFifoDataIn_D     : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 	signal ExtTriggerFifoDataOut_D    : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
+	signal ConfigModuleAddress_D : unsigned(6 downto 0);
+	signal ConfigParamAddress_D  : unsigned(7 downto 0);
+	signal ConfigParamInput_D    : std_logic_vector(31 downto 0);
+	signal ConfigLatchInput_S    : std_logic;
+	signal ConfigParamOutput_D   : std_logic_vector(31 downto 0);
+
+	signal MultiplexerConfigParamOutput_D : std_logic_vector(31 downto 0);
+	signal DVSAERConfigParamOutput_D      : std_logic_vector(31 downto 0);
+
 	signal MultiplexerConfig_D : tMultiplexerConfig;
 	signal DVSAERConfig_D      : tDVSAERConfig;
-	
+
 	-- Alejandro testing WSAER2CAVIAR and CAVIAR2WSAER
-	signal CAVIAR_data, CAVIARo_data, tCAVIARo_data																		  : std_logic_vector (16 downto 0);
+	signal CAVIAR_data, CAVIARo_data, tCAVIARo_data                                                                                                       : std_logic_vector(16 downto 0);
 	-- signal CAVIARto_data : std_logic_vector (15 downto 0);
 	signal CAVIAR_req, CAVIAR_ack, CAVIAR_ack_aux, CAVIARo_req, CAVIARo_ack, tCAVIARo_req, tCAVIARo_ack, WSAER_req, WSAER_ack, tWSAER_req, tWSAER_ack, kk : std_logic;
-	signal WSAER_data, tWSAER_data																			  : std_logic_vector (9 downto 0);
-	signal timertest																						  : std_logic_vector (15 downto 0);
-	signal alex																								  : std_logic_vector (1 downto 0);
-	signal spi_wr																							  : std_logic;	--nss, sclk, mosi, miso,
-	signal spi_data																							  : std_logic_vector (7 downto 0);
-	signal spi_address																						  : std_logic_vector (7 downto 0);
-	signal led																								  : std_logic_vector (2 downto 0);
-	signal ot_active																						  : std_logic_vector (3 downto 0);
-	signal WS2CAVIAR_en, BGAFen, AERMonitorACKxSB_kk														  : std_logic;
-	signal testcnt : unsigned (7 downto 0);
+	signal WSAER_data, tWSAER_data                                                                                                                        : std_logic_vector(9 downto 0);
+	signal timertest                                                                                                                                      : std_logic_vector(15 downto 0);
+	signal alex                                                                                                                                           : std_logic_vector(1 downto 0);
+	signal spi_wr                                                                                                                                         : std_logic; --nss, sclk, mosi, miso,
+	signal spi_data                                                                                                                                       : std_logic_vector(7 downto 0);
+	signal spi_address                                                                                                                                    : std_logic_vector(7 downto 0);
+	signal led                                                                                                                                            : std_logic_vector(2 downto 0);
+	signal ot_active                                                                                                                                      : std_logic_vector(3 downto 0);
+	signal WS2CAVIAR_en, BGAFen, AERMonitorACKxSB_kk                                                                                                      : std_logic;
+	signal testcnt                                                                                                                                        : unsigned(7 downto 0);
 begin
 	-- Alejandro.
-    kk1: process(LogicClock_C, LogicReset_R)
+	kk1 : process(LogicClock_C, LogicReset_R)
 	begin
-	  if (LogicReset_R = '1') then
-	     testcnt <= (others => '0');
-	  elsif (LogicClock_C'event and LogicClock_C='1') then
-	     testcnt <= testcnt + 1;
-	  end if;
+		if (LogicReset_R = '1') then
+			testcnt <= (others => '0');
+		elsif rising_edge(LogicClock_C) then
+			testcnt <= testcnt + 1;
+		end if;
 	end process;
-	
+
 	DebugxSIO <= DVSAERReqSync_SB & CAVIAR_req & CAVIARo_req & tWSAER_req & WS2CAVIAR_en & led & '0';
 	--DebugxSIO <= DVSAERReqSync_SB & CAVIAR_req & CAVIARo_req & tWSAER_req & WS2CAVIAR_en & led & '0';
 	BWSAER2CAVIAR : entity work.WSAER2CAVIAR
-		port map (
-			WSAER_data => DVSAERData_AI,
-			WSAER_req  => DVSAERReqSync_SB,
-			WSAER_ack  => AERMonitorACKxSB_kk,
+		port map(
+			WSAER_data  => DVSAERData_AI,
+			WSAER_req   => DVSAERReqSync_SB,
+			WSAER_ack   => AERMonitorACKxSB_kk,
 			-- clock and reset inputs
-			CLK		   => LogicClock_C,
-			RST		   => LogicReset_R,
-			
-			row_delay  => DVSAERConfig_D.AckDelay_D,
+			CLK         => LogicClock_C,
+			RST         => LogicReset_R,
+			row_delay   => DVSAERConfig_D.AckDelay_D,
 			-- AER monitor interface
-			CAVIAR_ack	=> CAVIAR_ack,
-			CAVIAR_req	=> CAVIAR_req,
+			CAVIAR_ack  => CAVIAR_ack,
+			CAVIAR_req  => CAVIAR_req,
 			CAVIAR_data => CAVIAR_data);
 
 	BFilters : entity work.BGF_OBT_top
-		port map (
-			aer_in_data	  => CAVIAR_data,
+		port map(
+			aer_in_data   => CAVIAR_data,
 			aer_in_req_l  => CAVIAR_req,
 			aer_in_ack_l  => CAVIAR_ack_aux,
 			aer_out_data  => tCAVIARo_data,
 			aer_out_req_l => tCAVIARo_req,
 			aer_out_ack_l => tCAVIARo_ack,
-			rst_l		  => LogicReset_R,
-			clk50		  => LogicClock_C,
-			CLK			  => SPIClockSync_C,
-			DATA		  => SPIMOSISync_D,
-			LATCH		  => SPIAlternativeSelect_SI,
-			spi_data	  => spi_data,
-			spi_address	  => spi_address,
-			
-			spi_wr		  => spi_wr,
-			BGAF_en 	  => BGAFen,
+			rst_l         => LogicReset_R,
+			clk50         => LogicClock_C,
+			CLK           => SPIClockSync_C,
+			DATA          => SPIMOSISync_D,
+			LATCH         => SPIAlternativeSelect_SI,
+			spi_data      => spi_data,
+			spi_address   => spi_address,
+			spi_wr        => spi_wr,
+			BGAF_en       => BGAFen,
 			WS2CAVIAR_en  => WS2CAVIAR_en,
-			OT_ACTIVE	  => ot_active,
-			LED			  => led);
-	CAVIARo_data <= tCAVIARo_data  when (BGAFen='1') else CAVIAR_data;
-	CAVIARo_req  <= tCAVIARo_req   when (BGAFen='1') else CAVIAR_req;
-	tCAVIARo_ack <= CAVIARo_ack    when (BGAFen='1') else '1';
-	CAVIAR_ack   <= CAVIAR_ack_aux when (BGAFen='1') else CAVIARo_ack;
+			OT_ACTIVE     => ot_active,
+			LED           => led);
+
+	CAVIARo_data <= tCAVIARo_data when (BGAFen = '1') else CAVIAR_data;
+	CAVIARo_req  <= tCAVIARo_req when (BGAFen = '1') else CAVIAR_req;
+	tCAVIARo_ack <= CAVIARo_ack when (BGAFen = '1') else '1';
+	CAVIAR_ack   <= CAVIAR_ack_aux when (BGAFen = '1') else CAVIARo_ack;
 
 	BCAVIAR2WSAER : entity work.CAVIAR2WSAER
 		port map(
-			CAVIAR_ack	=> CAVIARo_ack,
-			CAVIAR_req	=> CAVIARo_req,
+			CAVIAR_ack  => CAVIARo_ack,
+			CAVIAR_req  => CAVIARo_req,
 			CAVIAR_data => CAVIARo_data,
 			-- clock and reset inputs
-			CLK			=> LogicClock_C,
-			RST			=> LogicReset_R,
-			alex		=> alex,
-			WSAER_data	=> tWSAER_data,
-			WSAER_req	=> tWSAER_req,
-			WSAER_ack	=> tWSAER_ack);
+			CLK         => LogicClock_C,
+			RST         => LogicReset_R,
+			alex        => alex,
+			WSAER_data  => tWSAER_data,
+			WSAER_req   => tWSAER_req,
+			WSAER_ack   => tWSAER_ack);
 
-	WSAER_data	  <= tWSAER_data		 when (WS2CAVIAR_en = '1') else DVSAERData_AI;
-	WSAER_req	  <= tWSAER_req			 when (WS2CAVIAR_en = '1') else DVSAERReqSync_SB;
+	WSAER_data    <= tWSAER_data when (WS2CAVIAR_en = '1') else DVSAERData_AI;
+	WSAER_req     <= tWSAER_req when (WS2CAVIAR_en = '1') else DVSAERReqSync_SB;
 	DVSAERAck_SBO <= AERMonitorACKxSB_kk when (WS2CAVIAR_en = '1') else WSAER_ack;
-	tWSAER_ack	  <= WSAER_ack			 when (WS2CAVIAR_en = '1') else '1';
-	
+	tWSAER_ack    <= WSAER_ack when (WS2CAVIAR_en = '1') else '1';
+
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : entity work.FX3USBClockSynchronizer
 		port map(
@@ -238,8 +246,15 @@ begin
 	USBFifoChipSelect_SBO <= '0';       -- Always keep USB chip selected (active-low).
 	USBFifoRead_SBO       <= '1';       -- We never read from the USB data path (active-low).
 	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
-	ChipBiasEnable_SO     <= DVSAERConfig_D.Run_S; -- Always enable if chip is needed (DVS or APS).
 	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI; -- Direct bypass.
+	-- Always enable chip if it is needed (for DVS or APS).
+	chipBiasEnableBuffer : entity work.SimpleRegister
+		port map(
+			Clock_CI  => LogicClock_C,
+			Reset_RI  => LogicReset_R,
+			Enable_SI => '1',
+			Input_SI  => DVSAERConfig_D.Run_S,
+			Output_SO => ChipBiasEnable_SO);
 
 	-- Wire all LEDs.
 	LED1_SO <= ot_active(0);
@@ -247,36 +262,36 @@ begin
 	LED3_SO <= ot_active(2);
 	LED4_SO <= ot_active(3);
 	--led1Buffer : entity work.SimpleRegister
-		--port map(
-			--Clock_CI  => LogicClock_C,
-			--Reset_RI  => LogicReset_R,
-			--Enable_SI => '1',
-			--Input_SI  => MultiplexerConfig_D.Run_S,
-			--Output_SO => LED1_SO);
+	--port map(
+	--Clock_CI  => LogicClock_C,
+	--Reset_RI  => LogicReset_R,
+	--Enable_SI => '1',
+	--Input_SI  => MultiplexerConfig_D.Run_S,
+	--Output_SO => LED1_SO);
 
 	--led2Buffer : entity work.SimpleRegister
-		--port map(
-			--Clock_CI  => USBClock_CI,
-			--Reset_RI  => USBReset_R,
-			--Enable_SI => '1',
-			--Input_SI  => LogicUSBFifoControlOut_S.ReadSide.Empty_S,
-			--Output_SO => LED2_SO);
+	--port map(
+	--Clock_CI  => USBClock_CI,
+	--Reset_RI  => USBReset_R,
+	--Enable_SI => '1',
+	--Input_SI  => LogicUSBFifoControlOut_S.ReadSide.Empty_S,
+	--Output_SO => LED2_SO);
 
 	--led3Buffer : entity work.SimpleRegister
-		--port map(
-			--Clock_CI  => LogicClock_C,
-			--Reset_RI  => LogicReset_R,
-			--Enable_SI => '1',
-			--Input_SI  => not SPISlaveSelectSync_SB,
-			--Output_SO => LED3_SO);
+	--port map(
+	--Clock_CI  => LogicClock_C,
+	--Reset_RI  => LogicReset_R,
+	--Enable_SI => '1',
+	--Input_SI  => not SPISlaveSelectSync_SB,
+	--Output_SO => LED3_SO);
 
 	--led4Buffer : entity work.SimpleRegister
-		--port map(
-			--Clock_CI  => LogicClock_C,
-			--Reset_RI  => LogicReset_R,
-			--Enable_SI => '1',
-			--Input_SI  => LogicUSBFifoControlOut_S.WriteSide.Full_S,
-			--Output_SO => LED4_SO);
+	--port map(
+	--Clock_CI  => LogicClock_C,
+	--Reset_RI  => LogicReset_R,
+	--Enable_SI => '1',
+	--Input_SI  => LogicUSBFifoControlOut_S.WriteSide.Full_S,
+	--Output_SO => LED4_SO);
 
 	-- Generate logic clock using a PLL.
 	logicClockPLL : entity work.PLL
@@ -341,6 +356,17 @@ begin
 			ExtTriggerFifoData_DI    => ExtTriggerFifoDataOut_D,
 			MultiplexerConfig_DI     => MultiplexerConfig_D);
 
+	multiplexerSPIConfig : entity work.MultiplexerSPIConfig
+		port map(
+			Clock_CI                        => LogicClock_C,
+			Reset_RI                        => LogicReset_R,
+			MultiplexerConfig_DO            => MultiplexerConfig_D,
+			ConfigModuleAddress_DI          => ConfigModuleAddress_D,
+			ConfigParamAddress_DI           => ConfigParamAddress_D,
+			ConfigParamInput_DI             => ConfigParamInput_D,
+			ConfigLatchInput_SI             => ConfigLatchInput_S,
+			MultiplexerConfigParamOutput_DO => MultiplexerConfigParamOutput_D);
+
 	dvsAerFifo : entity work.FIFO
 		generic map(
 			DATA_WIDTH        => EVENT_WIDTH,
@@ -364,11 +390,22 @@ begin
 			OutFifoControl_SI => DVSAERFifoControlOut_S.WriteSide,
 			OutFifoControl_SO => DVSAERFifoControlIn_S.WriteSide,
 			OutFifoData_DO    => DVSAERFifoDataIn_D,
-			DVSAERData_DI	  => WSAER_data, --DVSAERData_AI, --
-			DVSAERReq_SBI	  => WSAER_req,  --DVSAERReqSync_SB, --
-			DVSAERAck_SBO	  => WSAER_ack,  --DVSAERAck_SBO, --
+			DVSAERData_DI     => WSAER_data, --DVSAERData_AI, --
+			DVSAERReq_SBI     => WSAER_req, --DVSAERReqSync_SB, --
+			DVSAERAck_SBO     => WSAER_ack, --DVSAERAck_SBO, --
 			DVSAERReset_SBO   => DVSAERReset_SBO,
 			DVSAERConfig_DI   => DVSAERConfig_D);
+
+	dvsaerSPIConfig : entity work.DVSAERSPIConfig
+		port map(
+			Clock_CI                   => LogicClock_C,
+			Reset_RI                   => LogicReset_R,
+			DVSAERConfig_DO            => DVSAERConfig_D,
+			ConfigModuleAddress_DI     => ConfigModuleAddress_D,
+			ConfigParamAddress_DI      => ConfigParamAddress_D,
+			ConfigParamInput_DI        => ConfigParamInput_D,
+			ConfigLatchInput_SI        => ConfigLatchInput_S,
+			DVSAERConfigParamOutput_DO => DVSAERConfigParamOutput_D);
 
 	apsAdcFifo : entity work.FIFO
 		generic map(
@@ -460,12 +497,31 @@ begin
 
 	spiConfiguration : entity work.SPIConfig
 		port map(
-			Clock_CI             => LogicClock_C,
-			Reset_RI             => LogicReset_R,
-			SPISlaveSelect_SBI   => SPISlaveSelectSync_SB,
-			SPIClock_CI          => SPIClockSync_C,
-			SPIMOSI_DI           => SPIMOSISync_D,
-			SPIMISO_ZO           => SPIMISO_ZO,
-			MultiplexerConfig_DO => MultiplexerConfig_D,
-			DVSAERConfig_DO      => DVSAERConfig_D);
+			Clock_CI               => LogicClock_C,
+			Reset_RI               => LogicReset_R,
+			SPISlaveSelect_SBI     => SPISlaveSelectSync_SB,
+			SPIClock_CI            => SPIClockSync_C,
+			SPIMOSI_DI             => SPIMOSISync_D,
+			SPIMISO_ZO             => SPIMISO_ZO,
+			ConfigModuleAddress_DO => ConfigModuleAddress_D,
+			ConfigParamAddress_DO  => ConfigParamAddress_D,
+			ConfigParamInput_DO    => ConfigParamInput_D,
+			ConfigLatchInput_SO    => ConfigLatchInput_S,
+			ConfigParamOutput_DI   => ConfigParamOutput_D);
+
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D)
+	begin
+		-- Output side select.
+		ConfigParamOutput_D <= (others => '0');
+
+		case ConfigModuleAddress_D is
+			when MULTIPLEXERCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= MultiplexerConfigParamOutput_D;
+
+			when DVSAERCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= DVSAERConfigParamOutput_D;
+
+			when others => null;
+		end case;
+	end process spiConfigurationOutputSelect;
 end Structural;
