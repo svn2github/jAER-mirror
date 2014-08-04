@@ -21,9 +21,9 @@ entity FIFO is
 end entity FIFO;
 
 architecture Structural of FIFO is
-	type state is (stInit, stGetData, stWaitRead);
-
 	attribute syn_enum_encoding : string;
+	
+	type state is (stInit, stGetData, stWaitRead);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state

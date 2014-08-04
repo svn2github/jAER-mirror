@@ -22,9 +22,9 @@ entity FIFODualClock is
 end entity FIFODualClock;
 
 architecture Structural of FIFODualClock is
-	type state is (stInit, stGetData, stWaitRead);
-
 	attribute syn_enum_encoding : string;
+	
+	type state is (stInit, stGetData, stWaitRead);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state

@@ -17,9 +17,9 @@ entity PulseDetector is
 end PulseDetector;
 
 architecture Behavioral of PulseDetector is
-	type state is (stWaitForPulse, stPulseDetected, stPulseOverflow);
-
 	attribute syn_enum_encoding : string;
+
+	type state is (stWaitForPulse, stPulseDetected, stPulseOverflow);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
