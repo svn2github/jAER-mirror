@@ -29,8 +29,9 @@ end entity IMUStateMachine;
 architecture Behavioral of IMUStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type state is (stIdle, stAckAndLoadTempStandby, stAckAndLoadAccelStandby, stAckAndLoadGyroStandby, stAckAndLoadLPCycle, stAckAndLoadLPWakeup, stAckAndLoadSampleRateDivider, stAckAndLoadDigitalLowPassFilter, stAckAndLoadAccelFullScale, stAckAndLoadGyroFullScale,
-		           stWriteConfigRegister, stPrepareReadDataRegister, stReadDataRegister, stWriteEventStart, stWriteEvent0, stWriteEvent1, stWriteEvent2, stWriteEvent3, stWriteEvent4, stWriteEvent5, stWriteEvent6, stWriteEvent7, stWriteEvent8, stWriteEvent9, stWriteEventEnd, stStartup, stFullConfig0, stFullConfig1, stFullConfig2, stFullConfig3, stFullConfig4, stFullConfig5, stFullConfig6, stShutdown);
+	type state is (stIdle, stAckAndLoadSampleRateDivider, stAckAndLoadDigitalLowPassFilter, stAckAndLoadAccelFullScale, stAckAndLoadGyroFullScale,
+		           stWriteConfigRegister, stPrepareReadDataRegister, stReadDataRegister, stWriteEventStart, stWriteEvent0, stWriteEvent1, stWriteEvent2, stWriteEvent3, stWriteEvent4, stWriteEvent5, stWriteEvent6, stWriteEvent7, stWriteEvent8, stWriteEvent9, stWriteEventEnd,
+		           stAckAndLoadLPCycleTempStandby, stAckAndLoadLPWakeupAccelStandbyGyroStandby, stAckAndLoadInterruptConfig, stAckAndLoadInterruptEnable);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
@@ -110,16 +111,16 @@ architecture Behavioral of IMUStateMachine is
 	-- Register configuration inputs.
 	signal IMUConfigReg_D : tIMUConfig;
 
-	signal RunChanged_S, RunSent_S                                   : std_logic;
-	signal TempStandbyChanged_S, TempStandbySent_S                   : std_logic;
-	signal AccelStandbyChanged_S, AccelStandbySent_S                 : std_logic;
-	signal GyroStandbyChanged_S, GyroStandbySent_S                   : std_logic;
-	signal LPCycleChanged_S, LPCycleSent_S                           : std_logic;
-	signal LPWakeupChanged_S, LPWakeupSent_S                         : std_logic;
-	signal SampleRateDividerChanged_S, SampleRateDividerSent_S       : std_logic;
-	signal DigitalLowPassFilterChanged_S, DigitalLowPassFilterSent_S : std_logic;
-	signal AccelFullScaleChanged_S, AccelFullScaleSent_S             : std_logic;
-	signal GyroFullScaleChanged_S, GyroFullScaleSent_S               : std_logic;
+	signal RunDelayed_S                                                      : std_logic;
+	signal RunChanged_S, RunSent_S                                           : std_logic;
+	signal InterruptConfigChanged_S, InterruptConfigSent_S                   : std_logic;
+	signal InterruptEnableChanged_S, InterruptEnableSent_S                   : std_logic;
+	signal LPCycleTempStandbyChanged_S, LPCycleTempStandbySent_S             : std_logic;
+	signal LPWakeupAccelGyroStandbyChanged_S, LPWakeupAccelGyroStandbySent_S : std_logic;
+	signal SampleRateDividerChanged_S, SampleRateDividerSent_S               : std_logic;
+	signal DigitalLowPassFilterChanged_S, DigitalLowPassFilterSent_S         : std_logic;
+	signal AccelFullScaleChanged_S, AccelFullScaleSent_S                     : std_logic;
+	signal GyroFullScaleChanged_S, GyroFullScaleSent_S                       : std_logic;
 begin
 	IMUClockReg_Z <= '0' when IMUClockInt_SP = '0' else 'Z';
 	IMUDataReg_Z  <= '0' when IMUDataInt_SP = '0' else 'Z';
@@ -445,7 +446,7 @@ begin
 		end case;
 	end process i2cData;
 
-	p_memoryless : process(State_DP, OutFifoControl_SI, IMUConfigReg_D, IMUInterrupt_SI, I2CDone_SP, I2CError_SP, I2CReadSROutput_D)
+	p_memoryless : process(State_DP, OutFifoControl_SI, IMUConfigReg_D, IMUInterrupt_SI, I2CDone_SP, I2CError_SP, I2CReadSROutput_D, AccelFullScaleChanged_S, DigitalLowPassFilterChanged_S, GyroFullScaleChanged_S, InterruptConfigChanged_S, InterruptEnableChanged_S, LPCycleTempStandbyChanged_S, LPWakeupAccelGyroStandbyChanged_S, RunChanged_S, RunDelayed_S, SampleRateDividerChanged_S)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 
@@ -458,16 +459,15 @@ begin
 		I2CWriteSRInput_D   <= (others => '0');
 		I2CWriteSRModeExt_S <= SHIFTREGISTER_MODE_DO_NOTHING;
 
-		RunSent_S                  <= '0';
-		TempStandbySent_S          <= '0';
-		AccelStandbySent_S         <= '0';
-		GyroStandbySent_S          <= '0';
-		LPCycleSent_S              <= '0';
-		LPWakeupSent_S             <= '0';
-		SampleRateDividerSent_S    <= '0';
-		DigitalLowPassFilterSent_S <= '0';
-		AccelFullScaleSent_S       <= '0';
-		GyroFullScaleSent_S        <= '0';
+		RunSent_S                      <= '0';
+		LPCycleTempStandbySent_S       <= '0';
+		LPWakeupAccelGyroStandbySent_S <= '0';
+		SampleRateDividerSent_S        <= '0';
+		DigitalLowPassFilterSent_S     <= '0';
+		AccelFullScaleSent_S           <= '0';
+		GyroFullScaleSent_S            <= '0';
+		InterruptConfigSent_S          <= '0';
+		InterruptEnableSent_S          <= '0';
 
 		case State_DP is
 			when stIdle =>
@@ -478,91 +478,81 @@ begin
 				if RunChanged_S = '1' then
 					RunSent_S <= '1';
 
+					-- The LPCycleTempStandby state also takes the device out of sleep, and as such is
+					-- the first configuration we have to send at startup.
+					State_DN <= stAckAndLoadLPCycleTempStandby;
 				else
-					if IMUConfigReg_D.Run_S = '1' then
-						if TempStandbyChanged_S = '1' then
-							State_DN <= stAckAndLoadTempStandby;
+					if RunDelayed_S = '1' then
+						if IMUInterrupt_SI = '1' then
+							State_DN <= stPrepareReadDataRegister;
 						end if;
 
-						if IMUInterrupt_SI = '1' then
+						if InterruptConfigChanged_S = '1' then
+							State_DN <= stAckAndLoadInterruptConfig;
+						end if;
+						if InterruptEnableChanged_S = '1' then
+							State_DN <= stAckAndLoadInterruptEnable;
+						end if;
+						if LPCycleTempStandbyChanged_S = '1' then
+							State_DN <= stAckAndLoadLPCycleTempStandby;
+						end if;
+						if LPWakeupAccelGyroStandbyChanged_S = '1' then
+							State_DN <= stAckAndLoadLPWakeupAccelStandbyGyroStandby;
+						end if;
+						if SampleRateDividerChanged_S = '1' then
+							State_DN <= stAckAndLoadSampleRateDivider;
+						end if;
+						if DigitalLowPassFilterChanged_S = '1' then
+							State_DN <= stAckAndLoadDigitalLowPassFilter;
+						end if;
+						if AccelFullScaleChanged_S = '1' then
+							State_DN <= stAckAndLoadAccelFullScale;
+						end if;
+						if GyroFullScaleChanged_S = '1' then
+							State_DN <= stAckAndLoadGyroFullScale;
 						end if;
 					end if;
 				end if;
-				
-			when stStartup =>
-				
-			when stFullConfig0 =>
-				
-			when stFullConfig1 =>
-				
-			when stFullConfig2 =>
-				
-			when stFullConfig3 =>
-				
-			when stFullConfig4 =>
-				
-			when stFullConfig5 =>
-				
-			when stFullConfig6 =>
-				
-			when stShutdown =>
 
-			when stAckAndLoadTempStandby =>
-				TempStandbySent_S <= '1';
+			when stAckAndLoadInterruptConfig =>
+				InterruptConfigSent_S <= '1';
+
+				I2CWriteSRInput_D(23 downto 16) <= I2C_ADDRESS & '0';
+				I2CWriteSRInput_D(15 downto 8)  <= std_logic_vector(I2C_REGISTER_ADDRESSES.IntConfig);
+				I2CWriteSRInput_D(5)            <= '1';
+				I2CWriteSRInput_D(4)            <= '1';
+
+				I2CWriteSRModeExt_S <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stWriteConfigRegister;
+
+			when stAckAndLoadInterruptEnable =>
+				InterruptEnableSent_S <= '1';
+
+				I2CWriteSRInput_D(23 downto 16) <= I2C_ADDRESS & '0';
+				I2CWriteSRInput_D(15 downto 8)  <= std_logic_vector(I2C_REGISTER_ADDRESSES.IntEnable);
+				I2CWriteSRInput_D(0)            <= '1';
+
+				I2CWriteSRModeExt_S <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
+
+				State_DN <= stWriteConfigRegister;
+
+			when stAckAndLoadLPCycleTempStandby =>
+				LPCycleTempStandbySent_S <= '1';
 
 				I2CWriteSRInput_D(23 downto 16) <= I2C_ADDRESS & '0';
 				I2CWriteSRInput_D(15 downto 8)  <= std_logic_vector(I2C_REGISTER_ADDRESSES.PowerManagement1);
 				I2CWriteSRInput_D(6)            <= not IMUConfigReg_D.Run_S;
 				I2CWriteSRInput_D(5)            <= IMUConfigReg_D.LPCycle_S;
 				I2CWriteSRInput_D(3)            <= IMUConfigReg_D.TempStandby_S;
-				I2CWriteSRInput_D(2 downto 0)   <= "001";
+				I2CWriteSRInput_D(2 downto 0)   <= "001"; -- Enable clock (PLL with X axis gyro reference).
 
 				I2CWriteSRModeExt_S <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
 
 				State_DN <= stWriteConfigRegister;
 
-			when stAckAndLoadAccelStandby =>
-				AccelStandbySent_S <= '1';
-
-				I2CWriteSRInput_D(23 downto 16) <= I2C_ADDRESS & '0';
-				I2CWriteSRInput_D(15 downto 8)  <= std_logic_vector(I2C_REGISTER_ADDRESSES.PowerManagement2);
-				I2CWriteSRInput_D(7 downto 6)   <= std_logic_vector(IMUConfigReg_D.LPWakeup_D);
-				I2CWriteSRInput_D(5 downto 3)   <= std_logic_vector(IMUConfigReg_D.AccelStandby_S);
-				I2CWriteSRInput_D(2 downto 0)   <= std_logic_vector(IMUConfigReg_D.GyroStandby_S);
-
-				I2CWriteSRModeExt_S <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-
-				State_DN <= stWriteConfigRegister;
-
-			when stAckAndLoadGyroStandby =>
-				GyroStandbySent_S <= '1';
-
-				I2CWriteSRInput_D(23 downto 16) <= I2C_ADDRESS & '0';
-				I2CWriteSRInput_D(15 downto 8)  <= std_logic_vector(I2C_REGISTER_ADDRESSES.PowerManagement2);
-				I2CWriteSRInput_D(7 downto 6)   <= std_logic_vector(IMUConfigReg_D.LPWakeup_D);
-				I2CWriteSRInput_D(5 downto 3)   <= std_logic_vector(IMUConfigReg_D.AccelStandby_S);
-				I2CWriteSRInput_D(2 downto 0)   <= std_logic_vector(IMUConfigReg_D.GyroStandby_S);
-
-				I2CWriteSRModeExt_S <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-
-				State_DN <= stWriteConfigRegister;
-
-			when stAckAndLoadLPCycle =>
-				LPCycleSent_S <= '1';
-
-				I2CWriteSRInput_D(23 downto 16) <= I2C_ADDRESS & '0';
-				I2CWriteSRInput_D(15 downto 8)  <= std_logic_vector(I2C_REGISTER_ADDRESSES.PowerManagement1);
-				I2CWriteSRInput_D(6)            <= not IMUConfigReg_D.Run_S;
-				I2CWriteSRInput_D(5)            <= IMUConfigReg_D.LPCycle_S;
-				I2CWriteSRInput_D(3)            <= IMUConfigReg_D.TempStandby_S;
-				I2CWriteSRInput_D(2 downto 0)   <= "001";
-
-				I2CWriteSRModeExt_S <= SHIFTREGISTER_MODE_PARALLEL_LOAD;
-
-				State_DN <= stWriteConfigRegister;
-
-			when stAckAndLoadLPWakeup =>
-				LPWakeupSent_S <= '1';
+			when stAckAndLoadLPWakeupAccelStandbyGyroStandby =>
+				LPWakeupAccelGyroStandbySent_S <= '1';
 
 				I2CWriteSRInput_D(23 downto 16) <= I2C_ADDRESS & '0';
 				I2CWriteSRInput_D(15 downto 8)  <= std_logic_vector(I2C_REGISTER_ADDRESSES.PowerManagement2);
@@ -776,65 +766,60 @@ begin
 		end if;
 	end process p_memoryzing;
 
+	-- Delay the Run_S signal by one clock cycle to be in sync with the RunChanged_S signal.
+	-- This avoids taking the wrong branch too early in stIdle.
+	delayRun : entity work.SimpleRegister
+		port map(Clock_CI  => Clock_CI,
+			     Reset_RI  => Reset_RI,
+			     Enable_SI => '1',
+			     Input_SI  => IMUConfigReg_D.Run_S,
+			     Output_SO => RunDelayed_S);
+
+	-- Use BufferClears to be able to check and send the Interrupt Config and Enable registers
+	-- exactly the same as the other ones, and tie them to run changing.
+	fakeInterruptConfigChange : entity work.BufferClear
+		port map(Clock_CI        => Clock_CI,
+			     Reset_RI        => Reset_RI,
+			     Clear_SI        => InterruptConfigSent_S,
+			     InputSignal_SI  => RunChanged_S,
+			     OutputSignal_SO => InterruptConfigChanged_S);
+
+	fakeInterruptEnableChange : entity work.BufferClear
+		port map(Clock_CI        => Clock_CI,
+			     Reset_RI        => Reset_RI,
+			     Clear_SI        => InterruptEnableSent_S,
+			     InputSignal_SI  => RunChanged_S,
+			     OutputSignal_SO => InterruptEnableChanged_S);
+
 	detectRunChange : entity work.ChangeDetector
 		generic map(
 			SIZE => 1)
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D(0)        => IMUConfigReg_D.Run_S,
+			InputData_DI(0)       => IMUConfigReg_D.Run_S,
 			ChangeDetected_SO     => RunChanged_S,
 			ChangeAcknowledged_SI => RunSent_S);
 
-	detectTempStandbyChange : entity work.ChangeDetector
+	detectLPCycleTempStandbyChange : entity work.ChangeDetector
 		generic map(
-			SIZE => 1)
+			SIZE => 2)
 		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D(0)        => IMUConfigReg_D.TempStandby_S,
-			ChangeDetected_SO     => TempStandbyChanged_S,
-			ChangeAcknowledged_SI => TempStandbySent_S);
+			Clock_CI                 => Clock_CI,
+			Reset_RI                 => Reset_RI,
+			InputData_DI(1 downto 0) => IMUConfigReg_D.LPCycle_S & IMUConfigReg_D.TempStandby_S,
+			ChangeDetected_SO        => LPCycleTempStandbyChanged_S,
+			ChangeAcknowledged_SI    => LPCycleTempStandbySent_S);
 
-	detectAccelStandbyChange : entity work.ChangeDetector
+	detectLPWakeupAccelGyroStandbyChange : entity work.ChangeDetector
 		generic map(
-			SIZE => tIMUConfig.AccelStandby_S'length)
+			SIZE => tIMUConfig.LPWakeup_D'length + tIMUConfig.AccelStandby_S'length + tIMUConfig.GyroStandby_S'length)
 		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D           => IMUConfigReg_D.AccelStandby_S,
-			ChangeDetected_SO     => AccelStandbyChanged_S,
-			ChangeAcknowledged_SI => AccelStandbySent_S);
-
-	detectGyroStandbyChange : entity work.ChangeDetector
-		generic map(
-			SIZE => tIMUConfig.GyroStandby_S'length)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D           => IMUConfigReg_D.GyroStandby_S,
-			ChangeDetected_SO     => GyroStandbyChanged_S,
-			ChangeAcknowledged_SI => GyroStandbySent_S);
-
-	detectLPCycleChange : entity work.ChangeDetector
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D(0)        => IMUConfigReg_D.LPCycle_S,
-			ChangeDetected_SO     => LPCycleChanged_S,
-			ChangeAcknowledged_SI => LPCycleSent_S);
-
-	detectLPWakeupChange : entity work.ChangeDetector
-		generic map(
-			SIZE => tIMUConfig.LPWakeup_D'length)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(IMUConfigReg_D.LPWakeup_D),
-			ChangeDetected_SO     => LPWakeupChanged_S,
-			ChangeAcknowledged_SI => LPWakeupSent_S);
+			Clock_CI                 => Clock_CI,
+			Reset_RI                 => Reset_RI,
+			InputData_DI(7 downto 0) => std_logic_vector(IMUConfigReg_D.LPWakeup_D) & IMUConfigReg_D.AccelStandby_S & IMUConfigReg_D.GyroStandby_S,
+			ChangeDetected_SO        => LPWakeupAccelGyroStandbyChanged_S,
+			ChangeAcknowledged_SI    => LPWakeupAccelGyroStandbySent_S);
 
 	detectSampleRateDividerChange : entity work.ChangeDetector
 		generic map(
@@ -842,7 +827,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(IMUConfigReg_D.SampleRateDivider_D),
+			InputData_DI          => std_logic_vector(IMUConfigReg_D.SampleRateDivider_D),
 			ChangeDetected_SO     => SampleRateDividerChanged_S,
 			ChangeAcknowledged_SI => SampleRateDividerSent_S);
 
@@ -852,7 +837,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(IMUConfigReg_D.DigitalLowPassFilter_D),
+			InputData_DI          => std_logic_vector(IMUConfigReg_D.DigitalLowPassFilter_D),
 			ChangeDetected_SO     => DigitalLowPassFilterChanged_S,
 			ChangeAcknowledged_SI => DigitalLowPassFilterSent_S);
 
@@ -862,7 +847,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(IMUConfigReg_D.AccelFullScale_D),
+			InputData_DI          => std_logic_vector(IMUConfigReg_D.AccelFullScale_D),
 			ChangeDetected_SO     => AccelFullScaleChanged_S,
 			ChangeAcknowledged_SI => AccelFullScaleSent_S);
 
@@ -872,7 +857,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(IMUConfigReg_D.GyroFullScale_D),
+			InputData_DI          => std_logic_vector(IMUConfigReg_D.GyroFullScale_D),
 			ChangeDetected_SO     => GyroFullScaleChanged_S,
 			ChangeAcknowledged_SI => GyroFullScaleSent_S);
 end architecture Behavioral;
