@@ -19,6 +19,7 @@ entity RetinaFilter is
         clk50 : in std_logic;
 		BGAF_en: out std_logic;
 		WS2CAVIAR_en: out std_logic;
+		DAVIS_en: out std_logic;
 		alex: out std_logic_vector (13 downto 0);
 		spiWR: in STD_LOGIC;
 		spiADDRESS: in STD_LOGIC_VECTOR(7 downto 0);
@@ -79,6 +80,7 @@ if(RST_L = '0') then
 	icount_timer <= x"00001388";
 	BGAFen <= '0';
 	WS2CAVIAR_en <= '0';
+	DAVIS_en <= '1';
 elsif(CLK'event and CLK ='1') then
 	CS <= NS;
 	if (CS = IDLE and saer_in_req_l = '0') then -- and aer_in_data(8)='0') then -- cuando recibo un evento req=0
@@ -142,6 +144,7 @@ if (cs=idle and saer_in_req_l = '0' ) then
 				when x"83" => icount_timer(31 downto 24) <= unsigned(spiDATA); 
 				when x"84" => if (spiDATA=x"00") then BGAFen<='0'; elsif (spiDATA=x"FF") then BGAFen<='1'; end if;
 				when x"85" => if (spiDATA=x"00") then WS2CAVIAR_en<='0'; elsif (spiDATA=x"FF") then WS2CAVIAR_en<='1'; end if;
+				when x"86" => if (spiDATA=x"00") then DAVIS_en<='0'; elsif (spiDATA=x"FF") then DAVIS_en<='1'; end if;
 				when others => null;
 			end case;
 	end if;
@@ -184,7 +187,7 @@ case CS is
 			NS <=WRITE_b;
 			ack <= '0';
 	when WRITE_b =>
-			if nwrites <= 8 then
+			if nwrites <= 0 then --8
 				NS <=WRITE;
 			else
 				NS <= FILTER_st;

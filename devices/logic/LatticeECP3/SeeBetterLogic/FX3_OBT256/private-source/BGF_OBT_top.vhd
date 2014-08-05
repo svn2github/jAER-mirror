@@ -51,6 +51,7 @@ entity BGF_OBT_top is
 		   OT_active: out std_logic_vector (3 downto 0);
 		   BGAF_en: out std_logic;
 		   WS2CAVIAR_en: out std_logic;
+		   DAVIS_en: out std_logic;
 			  LED: out std_logic_vector (2 downto 0)
 			  );
 end BGF_OBT_top;
@@ -84,6 +85,7 @@ component RetinaFilter
            clk50 : in std_logic;
 		   BGAF_en: out std_logic;
 		   WS2CAVIAR_en: out std_logic;
+		   DAVIS_en: out std_logic;
 		alex: out std_logic_vector (13 downto 0);
 		   spiWR: in STD_LOGIC;
 		   spiADDRESS: in STD_LOGIC_VECTOR(7 downto 0);
@@ -207,6 +209,7 @@ port map (
            clk50 => clk50,
 		   BGAF_en => BGAFen,
 		   WS2CAVIAR_en => WS2CAVIAR_en,
+		   DAVIS_en => DAVIS_en,
 		   alex => alex,
 		   spiWR => spiWR,
 		   spiADDRESS => spiADDRESS,
