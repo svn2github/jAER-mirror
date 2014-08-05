@@ -58,6 +58,9 @@ package Settings is
 	constant EVENT_CODE_SPECIAL_IMU_GYRO        : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(14, EVENT_DATA_WIDTH_MAX));
 	constant EVENT_CODE_SPECIAL_IMU_COMPASS     : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(15, EVENT_DATA_WIDTH_MAX));
 	constant EVENT_CODE_SPECIAL_IMU_TEMP        : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(16, EVENT_DATA_WIDTH_MAX));
+	constant EVENT_CODE_SPECIAL_IMU_START6      : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(17, EVENT_DATA_WIDTH_MAX)); -- missing. Added by Alex temporally
+	constant EVENT_CODE_SPECIAL_IMU_END         : std_logic_vector(EVENT_DATA_WIDTH_MAX - 1 downto 0) := std_logic_vector(to_unsigned(18, EVENT_DATA_WIDTH_MAX)); -- missing. Added by Alex temporally
+
 	constant EVENT_CODE_Y_ADDR                  : std_logic_vector(2 downto 0)                        := "001";
 	-- The fourth bit of an X address is the polarity. It usually gets encoded directly from the AER bus input.
 	constant EVENT_CODE_X_ADDR                  : std_logic_vector(1 downto 0)                        := "01";
@@ -65,7 +68,7 @@ package Settings is
 	constant EVENT_CODE_X_ADDR_POL_ON           : std_logic_vector(2 downto 0)                        := "011";
 	constant EVENT_CODE_ADC_SAMPLE              : std_logic_vector(2 downto 0)                        := "100";
 	constant EVENT_CODE_PREFIX_DATA             : std_logic_vector(2 downto 0)                        := "101";
-	--constant EVENT_CODE_UNUSED		   : std_logic_vector(2 downto 0) := "110";
+	constant EVENT_CODE_MISC_DATA		        : std_logic_vector(2 downto 0) 						  := "110";  -- missing. Added by Alex temporally
 	constant EVENT_CODE_TIMESTAMP_WRAP          : std_logic_vector(2 downto 0)                        := "111";
 
 	-- calculated constants

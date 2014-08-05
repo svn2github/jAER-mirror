@@ -5,6 +5,7 @@ use work.Settings.all;
 use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
 use work.DVSAERConfigRecords.all;
+use work.IMUConfigRecords.all; -- Added by Alex temporally.
 
 entity TopLevel is
 	port(
@@ -129,8 +130,9 @@ architecture Structural of TopLevel is
 	signal spi_address                                                                                                                                    : std_logic_vector(7 downto 0);
 	signal led                                                                                                                                            : std_logic_vector(2 downto 0);
 	signal ot_active                                                                                                                                      : std_logic_vector(3 downto 0);
-	signal WS2CAVIAR_en, BGAFen, AERMonitorACKxSB_kk                                                                                                      : std_logic;
+	signal WS2CAVIAR_en, BGAFen, AERMonitorACKxSB_kk, DAVIS_en                                                                                            : std_logic;
 	signal testcnt                                                                                                                                        : unsigned(7 downto 0);
+	signal IMUConfig_alex: tIMUConfig; -- Added by Alex temporally.
 begin
 	-- Alejandro.
 	kk1 : process(LogicClock_C, LogicReset_R)
@@ -467,6 +469,7 @@ begin
 			OutFifoData_DO    => IMUFifoDataIn_D,
 			IMUClock_ZO       => IMUClock_ZO,
 			IMUData_ZIO       => IMUData_ZIO,
+			IMUConfig_DI	  => IMUConfig_alex,  -- Added by Alex temporally.
 			IMUInterrupt_SI   => IMUInterruptSync_S);
 
 	extTriggerFifo : entity work.FIFO
