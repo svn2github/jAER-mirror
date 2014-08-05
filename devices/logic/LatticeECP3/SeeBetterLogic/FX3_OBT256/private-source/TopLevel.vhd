@@ -5,7 +5,7 @@ use work.Settings.all;
 use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
 use work.DVSAERConfigRecords.all;
-use work.IMUConfigRecords.all; -- Added by Alex temporally.
+use work.IMUConfigRecords.all;
 
 entity TopLevel is
 	port(
@@ -114,9 +114,11 @@ architecture Structural of TopLevel is
 
 	signal MultiplexerConfigParamOutput_D : std_logic_vector(31 downto 0);
 	signal DVSAERConfigParamOutput_D      : std_logic_vector(31 downto 0);
+	signal IMUConfigParamOutput_D         : std_logic_vector(31 downto 0);
 
 	signal MultiplexerConfig_D : tMultiplexerConfig;
 	signal DVSAERConfig_D      : tDVSAERConfig;
+	signal IMUConfig_D         : tIMUConfig;
 
 	-- Alejandro testing WSAER2CAVIAR and CAVIAR2WSAER
 	signal CAVIAR_data, CAVIARo_data, tCAVIARo_data                                                                                                       : std_logic_vector(16 downto 0);
@@ -132,7 +134,6 @@ architecture Structural of TopLevel is
 	signal ot_active                                                                                                                                      : std_logic_vector(3 downto 0);
 	signal WS2CAVIAR_en, BGAFen, AERMonitorACKxSB_kk, DAVIS_en                                                                                            : std_logic;
 	signal testcnt                                                                                                                                        : unsigned(7 downto 0);
-	signal IMUConfig_alex: tIMUConfig; -- Added by Alex temporally.
 begin
 	-- Alejandro.
 	kk1 : process(LogicClock_C, LogicReset_R)
@@ -178,14 +179,14 @@ begin
 			spi_wr        => spi_wr,
 			BGAF_en       => BGAFen,
 			WS2CAVIAR_en  => WS2CAVIAR_en,
-			DAVIS_en  	  => DAVIS_en,
-			OT_ACTIVE	  => ot_active,
-			LED			  => led);
-	CAVIARo_data <= tCAVIARo_data  when (BGAFen='1') else CAVIAR_data;
-	CAVIARo_req  <= tCAVIARo_req   when (BGAFen='1') else CAVIAR_req;
-	tCAVIARo_ack <= CAVIARo_ack    when (BGAFen='1') else '1';
-	CAVIAR_ack   <= CAVIAR_ack_aux when (BGAFen='1') else CAVIARo_ack;
-	
+			DAVIS_en      => DAVIS_en,
+			OT_ACTIVE     => ot_active,
+			LED           => led);
+	CAVIARo_data <= tCAVIARo_data	when (BGAFen = '1') else CAVIAR_data;
+	CAVIARo_req  <= tCAVIARo_req	when (BGAFen = '1') else CAVIAR_req;
+	tCAVIARo_ack <= CAVIARo_ack		when (BGAFen = '1') else '1';
+	CAVIAR_ack   <= CAVIAR_ack_aux	when (BGAFen = '1') else CAVIARo_ack;
+
 	BCAVIAR2WSAER : entity work.CAVIAR2WSAER
 		port map(
 			CAVIAR_ack  => CAVIARo_ack,
@@ -201,7 +202,7 @@ begin
 
 	WSAER_data    <= tWSAER_data when (WS2CAVIAR_en = '1') else DVSAERData_AI;
 	WSAER_req     <= tWSAER_req when (WS2CAVIAR_en = '1') else DVSAERReqSync_SB;
-	DVSAERAck_SBO <= AERMonitorACKxSB_kk when (WS2CAVIAR_en = '1' and DAVIS_en='1') else WSAER_ack when (DAVIS_en='1') else 'Z';
+	DVSAERAck_SBO <= AERMonitorACKxSB_kk when (WS2CAVIAR_en = '1' and DAVIS_en = '1') else WSAER_ack when (DAVIS_en = '1') else 'Z';
 	tWSAER_ack    <= WSAER_ack when (WS2CAVIAR_en = '1') else '1';
 
 	-- First: synchronize all USB-related inputs to the USB clock.
@@ -469,8 +470,19 @@ begin
 			OutFifoData_DO    => IMUFifoDataIn_D,
 			IMUClock_ZO       => IMUClock_ZO,
 			IMUData_ZIO       => IMUData_ZIO,
-			IMUConfig_DI	  => IMUConfig_alex,  -- Added by Alex temporally.
-			IMUInterrupt_SI   => IMUInterruptSync_S);
+			IMUInterrupt_SI   => IMUInterruptSync_S,
+			IMUConfig_DI      => IMUConfig_D);
+
+	imuSPIConfig : entity work.IMUSPIConfig
+		port map(
+			Clock_CI                => LogicClock_C,
+			Reset_RI                => LogicReset_R,
+			IMUConfig_DO            => IMUConfig_D,
+			ConfigModuleAddress_DI  => ConfigModuleAddress_D,
+			ConfigParamAddress_DI   => ConfigParamAddress_D,
+			ConfigParamInput_DI     => ConfigParamInput_D,
+			ConfigLatchInput_SI     => ConfigLatchInput_S,
+			IMUConfigParamOutput_DO => IMUConfigParamOutput_D);
 
 	extTriggerFifo : entity work.FIFO
 		generic map(
@@ -512,7 +524,7 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, IMUConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
@@ -523,6 +535,9 @@ begin
 
 			when DVSAERCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= DVSAERConfigParamOutput_D;
+
+			when IMUCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= IMUConfigParamOutput_D;
 
 			when others => null;
 		end case;
