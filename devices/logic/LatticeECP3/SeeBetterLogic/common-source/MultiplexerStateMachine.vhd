@@ -264,7 +264,7 @@ begin
 				-- the data is available on the output bus. First, let's
 				-- examine it and see if we need to inject a timestamp,
 				-- if it's one of the special events (Gyro axes, Accel axes, ...).
-				if IMUFifoData_DI(EVENT_WIDTH - 1 downto EVENT_WIDTH - 3) = EVENT_CODE_SPECIAL then
+				if IMUFifoData_DI(EVENT_DATA_WIDTH_MAX - 1 downto 0) = EVENT_CODE_SPECIAL_IMU_START6 then
 					State_DN <= stTimestamp;
 				else
 					State_DN <= stIdle;
@@ -301,7 +301,7 @@ begin
 				if ExtTriggerFifoControl_SI.Empty_S = '0' then
 					ExtTriggerFifoControl_SO.Read_S <= '1';
 				end if;
-				
+
 				State_DN <= stIdle;
 
 			when others => null;
