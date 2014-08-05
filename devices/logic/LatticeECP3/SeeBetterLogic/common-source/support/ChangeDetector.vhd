@@ -9,7 +9,7 @@ entity ChangeDetector is
 		Reset_RI              : in  std_logic;
 
 		-- Input on which to detect changes.
-		InputData_D           : in  std_logic_vector(SIZE - 1 downto 0);
+		InputData_DI          : in  std_logic_vector(SIZE - 1 downto 0);
 
 		-- Detection and its ACK.
 		ChangeDetected_SO     : out std_logic;
@@ -28,11 +28,11 @@ begin
 			InputSignal_SI  => ChangeDetected_S,
 			OutputSignal_SO => ChangeDetected_SO);
 
-	detectChange : process(PreviousData_DP, InputData_D)
+	detectChange : process(PreviousData_DP, InputData_DI)
 	begin
-		PreviousData_DN <= InputData_D;
+		PreviousData_DN <= InputData_DI;
 
-		if InputData_D = PreviousData_DP then
+		if InputData_DI = PreviousData_DP then
 			ChangeDetected_S <= '0';
 		else
 			ChangeDetected_S <= '1';

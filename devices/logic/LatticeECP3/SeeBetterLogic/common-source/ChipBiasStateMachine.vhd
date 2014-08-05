@@ -52,6 +52,13 @@ architecture Behavioral of ChipBiasStateMachine is
 	-- Counts number of sent bits. Biggest value is 56 bits of chip SR, so 6 bits are enough.
 	constant SENT_BITS_COUNTER_SIZE : integer := 6;
 
+	-- Effectively used bits in chip register.
+	constant CHIP_REG_USED_SIZE : integer := (8 * CHIP_MUX_LENGTH) + 7;
+
+	-- Chip changes and acknowledges.
+	signal ChipChangedInput_D        : std_logic_vector(CHIP_REG_USED_SIZE - 1 downto 0);
+	signal ChipChanged_S, ChipSent_S : std_logic;
+
 	-- Bias changes and acknowledges.
 	signal Bias0Changed_S, Bias0Sent_S   : std_logic;
 	signal Bias1Changed_S, Bias1Sent_S   : std_logic;
@@ -75,23 +82,6 @@ architecture Behavioral of ChipBiasStateMachine is
 	signal Bias19Changed_S, Bias19Sent_S : std_logic;
 	signal Bias20Changed_S, Bias20Sent_S : std_logic;
 	signal Bias21Changed_S, Bias21Sent_S : std_logic;
-
-	-- Chip changes and acknowledges.
-	signal DigitalMux0Changed_S, DigitalMux0Sent_S                 : std_logic;
-	signal DigitalMux1Changed_S, DigitalMux1Sent_S                 : std_logic;
-	signal DigitalMux2Changed_S, DigitalMux2Sent_S                 : std_logic;
-	signal DigitalMux3Changed_S, DigitalMux3Sent_S                 : std_logic;
-	signal AnalogMux0Changed_S, AnalogMux0Sent_S                   : std_logic;
-	signal AnalogMux1Changed_S, AnalogMux1Sent_S                   : std_logic;
-	signal AnalogMux2Changed_S, AnalogMux2Sent_S                   : std_logic;
-	signal BiasOutMuxChanged_S, BiasOutMuxSent_S                   : std_logic;
-	signal ResetCalibNeuronChanged_S, ResetCalibNeuronSent_S       : std_logic;
-	signal TypeNCalibNeuronChanged_S, TypeNCalibNeuronSent_S       : std_logic;
-	signal ResetTestPixelChanged_S, ResetTestPixelSent_S           : std_logic;
-	signal HotPixelSuppressionChanged_S, HotPixelSuppressionSent_S : std_logic;
-	signal AERnArowChanged_S, AERnArowSent_S                       : std_logic;
-	signal UseAOutChanged_S, UseAOutSent_S                         : std_logic;
-	signal GlobalShutterChanged_S, GlobalShutterSent_S             : std_logic;
 
 	-- Data shift registers for output.
 	signal BiasAddrSRMode_S                      : std_logic_vector(SHIFTREGISTER_MODE_SIZE - 1 downto 0);
@@ -127,7 +117,7 @@ architecture Behavioral of ChipBiasStateMachine is
 		return not CFBIAS(12) & not CFBIAS(13) & not CFBIAS(14) & CFBIAS(11 downto 0);
 	end function CoarseBiasFixBits;
 begin
-	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, Bias0Changed_S, Bias10Changed_S, Bias11Changed_S, Bias12Changed_S, Bias13Changed_S, Bias14Changed_S, Bias15Changed_S, Bias16Changed_S, Bias17Changed_S, Bias18Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias21Changed_S, Bias2Changed_S, Bias3Changed_S, Bias4Changed_S, Bias5Changed_S, Bias6Changed_S, Bias7Changed_S, Bias8Changed_S, Bias9Changed_S, ChipConfigReg_D, ChipSROutput_D, AERnArowChanged_S, AnalogMux0Changed_S, AnalogMux1Changed_S, AnalogMux2Changed_S, BiasOutMuxChanged_S, DigitalMux0Changed_S, DigitalMux1Changed_S, DigitalMux2Changed_S, DigitalMux3Changed_S, GlobalShutterChanged_S, HotPixelSuppressionChanged_S, ResetCalibNeuronChanged_S, ResetTestPixelChanged_S, TypeNCalibNeuronChanged_S, UseAOutChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D)
+	sendConfig : process(State_DP, BiasConfigReg_D, BiasAddrSROutput_D, BiasSROutput_D, Bias0Changed_S, Bias10Changed_S, Bias11Changed_S, Bias12Changed_S, Bias13Changed_S, Bias14Changed_S, Bias15Changed_S, Bias16Changed_S, Bias17Changed_S, Bias18Changed_S, Bias19Changed_S, Bias1Changed_S, Bias20Changed_S, Bias21Changed_S, Bias2Changed_S, Bias3Changed_S, Bias4Changed_S, Bias5Changed_S, Bias6Changed_S, Bias7Changed_S, Bias8Changed_S, Bias9Changed_S, ChipConfigReg_D, ChipSROutput_D, ChipChanged_S, SentBitsCounterData_D, WaitCyclesCounterData_D)
 	begin
 		-- Keep state by default.
 		State_DN <= State_DP;
@@ -162,21 +152,7 @@ begin
 		Bias20Sent_S <= '0';
 		Bias21Sent_S <= '0';
 
-		DigitalMux0Sent_S         <= '0';
-		DigitalMux1Sent_S         <= '0';
-		DigitalMux2Sent_S         <= '0';
-		DigitalMux3Sent_S         <= '0';
-		AnalogMux0Sent_S          <= '0';
-		AnalogMux1Sent_S          <= '0';
-		AnalogMux2Sent_S          <= '0';
-		BiasOutMuxSent_S          <= '0';
-		ResetCalibNeuronSent_S    <= '0';
-		TypeNCalibNeuronSent_S    <= '0';
-		ResetTestPixelSent_S      <= '0';
-		HotPixelSuppressionSent_S <= '0';
-		AERnArowSent_S            <= '0';
-		UseAOutSent_S             <= '0';
-		GlobalShutterSent_S       <= '0';
+		ChipSent_S <= '0';
 
 		BiasAddrSRMode_S  <= SHIFTREGISTER_MODE_DO_NOTHING;
 		BiasAddrSRInput_D <= (others => '0');
@@ -262,8 +238,7 @@ begin
 					State_DN <= stAckAndLoadBias21;
 				end if;
 
-				if DigitalMux0Changed_S = '1' or DigitalMux1Changed_S = '1' or DigitalMux2Changed_S = '1' or DigitalMux3Changed_S = '1' or AnalogMux0Changed_S = '1' or AnalogMux1Changed_S = '1' or AnalogMux2Changed_S = '1' or BiasOutMuxChanged_S = '1' or ResetCalibNeuronChanged_S = '1' or
-				TypeNCalibNeuronChanged_S = '1' or ResetTestPixelChanged_S = '1' or HotPixelSuppressionChanged_S = '1' or AERnArowChanged_S = '1' or UseAOutChanged_S = '1' or GlobalShutterChanged_S = '1' then
+				if ChipChanged_S = '1' then
 					State_DN <= stAckAndLoadChip;
 				end if;
 
@@ -671,22 +646,8 @@ begin
 
 			when stAckAndLoadChip =>
 				-- Acknowledge all chip config changes, since we're getting the up-to-date
-				-- content of all of them anyway, so we can just ACk them all indiscrminately.
-				DigitalMux0Sent_S         <= '1';
-				DigitalMux1Sent_S         <= '1';
-				DigitalMux2Sent_S         <= '1';
-				DigitalMux3Sent_S         <= '1';
-				AnalogMux0Sent_S          <= '1';
-				AnalogMux1Sent_S          <= '1';
-				AnalogMux2Sent_S          <= '1';
-				BiasOutMuxSent_S          <= '1';
-				ResetCalibNeuronSent_S    <= '1';
-				TypeNCalibNeuronSent_S    <= '1';
-				ResetTestPixelSent_S      <= '1';
-				HotPixelSuppressionSent_S <= '1';
-				AERnArowSent_S            <= '1';
-				UseAOutSent_S             <= '1';
-				GlobalShutterSent_S       <= '1';
+				-- content of all of them anyway, so we can just ACk them all.
+				ChipSent_S <= '1';
 
 				-- Load shiftreg with current chip config content.
 				ChipSRInput_D(55 downto 52) <= std_logic_vector(ChipConfigReg_D.DigitalMux3_D);
@@ -864,7 +825,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.DiffBn_D,
+			InputData_DI          => BiasConfigReg_D.DiffBn_D,
 			ChangeDetected_SO     => Bias0Changed_S,
 			ChangeAcknowledged_SI => Bias0Sent_S);
 
@@ -874,7 +835,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.OnBn_D,
+			InputData_DI          => BiasConfigReg_D.OnBn_D,
 			ChangeDetected_SO     => Bias1Changed_S,
 			ChangeAcknowledged_SI => Bias1Sent_S);
 
@@ -884,7 +845,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.OffBn_D,
+			InputData_DI          => BiasConfigReg_D.OffBn_D,
 			ChangeDetected_SO     => Bias2Changed_S,
 			ChangeAcknowledged_SI => Bias2Sent_S);
 
@@ -894,7 +855,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.ApsCasEpc_D,
+			InputData_DI          => BiasConfigReg_D.ApsCasEpc_D,
 			ChangeDetected_SO     => Bias3Changed_S,
 			ChangeAcknowledged_SI => Bias3Sent_S);
 
@@ -904,7 +865,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.DiffCasBnc_D,
+			InputData_DI          => BiasConfigReg_D.DiffCasBnc_D,
 			ChangeDetected_SO     => Bias4Changed_S,
 			ChangeAcknowledged_SI => Bias4Sent_S);
 
@@ -914,7 +875,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.ApsROSFBn_D,
+			InputData_DI          => BiasConfigReg_D.ApsROSFBn_D,
 			ChangeDetected_SO     => Bias5Changed_S,
 			ChangeAcknowledged_SI => Bias5Sent_S);
 
@@ -924,7 +885,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.LocalBufBn_D,
+			InputData_DI          => BiasConfigReg_D.LocalBufBn_D,
 			ChangeDetected_SO     => Bias6Changed_S,
 			ChangeAcknowledged_SI => Bias6Sent_S);
 
@@ -934,7 +895,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.PixInvBn_D,
+			InputData_DI          => BiasConfigReg_D.PixInvBn_D,
 			ChangeDetected_SO     => Bias7Changed_S,
 			ChangeAcknowledged_SI => Bias7Sent_S);
 
@@ -944,7 +905,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.PrBp_D,
+			InputData_DI          => BiasConfigReg_D.PrBp_D,
 			ChangeDetected_SO     => Bias8Changed_S,
 			ChangeAcknowledged_SI => Bias8Sent_S);
 
@@ -954,7 +915,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.PrSFBp_D,
+			InputData_DI          => BiasConfigReg_D.PrSFBp_D,
 			ChangeDetected_SO     => Bias9Changed_S,
 			ChangeAcknowledged_SI => Bias9Sent_S);
 
@@ -964,7 +925,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.RefrBp_D,
+			InputData_DI          => BiasConfigReg_D.RefrBp_D,
 			ChangeDetected_SO     => Bias10Changed_S,
 			ChangeAcknowledged_SI => Bias10Sent_S);
 
@@ -974,7 +935,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.AEPdBn_D,
+			InputData_DI          => BiasConfigReg_D.AEPdBn_D,
 			ChangeDetected_SO     => Bias11Changed_S,
 			ChangeAcknowledged_SI => Bias11Sent_S);
 
@@ -984,7 +945,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.LcolTimeoutBn_D,
+			InputData_DI          => BiasConfigReg_D.LcolTimeoutBn_D,
 			ChangeDetected_SO     => Bias12Changed_S,
 			ChangeAcknowledged_SI => Bias12Sent_S);
 
@@ -994,7 +955,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.AEPuXBp_D,
+			InputData_DI          => BiasConfigReg_D.AEPuXBp_D,
 			ChangeDetected_SO     => Bias13Changed_S,
 			ChangeAcknowledged_SI => Bias13Sent_S);
 
@@ -1004,7 +965,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.AEPuYBp_D,
+			InputData_DI          => BiasConfigReg_D.AEPuYBp_D,
 			ChangeDetected_SO     => Bias14Changed_S,
 			ChangeAcknowledged_SI => Bias14Sent_S);
 
@@ -1014,7 +975,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.IFThrBn_D,
+			InputData_DI          => BiasConfigReg_D.IFThrBn_D,
 			ChangeDetected_SO     => Bias15Changed_S,
 			ChangeAcknowledged_SI => Bias15Sent_S);
 
@@ -1024,7 +985,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.IFRefrBn_D,
+			InputData_DI          => BiasConfigReg_D.IFRefrBn_D,
 			ChangeDetected_SO     => Bias16Changed_S,
 			ChangeAcknowledged_SI => Bias16Sent_S);
 
@@ -1034,7 +995,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.PadFollBn_D,
+			InputData_DI          => BiasConfigReg_D.PadFollBn_D,
 			ChangeDetected_SO     => Bias17Changed_S,
 			ChangeAcknowledged_SI => Bias17Sent_S);
 
@@ -1044,7 +1005,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.ApsOverflowLevel_D,
+			InputData_DI          => BiasConfigReg_D.ApsOverflowLevel_D,
 			ChangeDetected_SO     => Bias18Changed_S,
 			ChangeAcknowledged_SI => Bias18Sent_S);
 
@@ -1054,7 +1015,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.BiasBuffer_D,
+			InputData_DI          => BiasConfigReg_D.BiasBuffer_D,
 			ChangeDetected_SO     => Bias19Changed_S,
 			ChangeAcknowledged_SI => Bias19Sent_S);
 
@@ -1064,7 +1025,7 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.SSP_D,
+			InputData_DI          => BiasConfigReg_D.SSP_D,
 			ChangeDetected_SO     => Bias20Changed_S,
 			ChangeAcknowledged_SI => Bias20Sent_S);
 
@@ -1074,157 +1035,23 @@ begin
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => BiasConfigReg_D.SSN_D,
+			InputData_DI          => BiasConfigReg_D.SSN_D,
 			ChangeDetected_SO     => Bias21Changed_S,
 			ChangeAcknowledged_SI => Bias21Sent_S);
 
-	detectDigitalMux0Change : entity work.ChangeDetector
-		generic map(
-			SIZE => tChipConfig.DigitalMux0_D'length)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfigReg_D.DigitalMux0_D),
-			ChangeDetected_SO     => DigitalMux0Changed_S,
-			ChangeAcknowledged_SI => DigitalMux0Sent_S);
+	-- Put all chip register configuration parameters together, and then detect changes
+	-- on the whole lot of them. This is easier to handle and slightly more efficient.
+	ChipChangedInput_D <= std_logic_vector(ChipConfigReg_D.DigitalMux0_D) & std_logic_vector(ChipConfigReg_D.DigitalMux1_D) & std_logic_vector(ChipConfigReg_D.DigitalMux2_D) & std_logic_vector(ChipConfigReg_D.DigitalMux3_D) & std_logic_vector(ChipConfigReg_D.AnalogMux0_D) & std_logic_vector(
+			ChipConfigReg_D.AnalogMux1_D) & std_logic_vector(ChipConfigReg_D.AnalogMux2_D) & std_logic_vector(ChipConfigReg_D.BiasOutMux_D) & ChipConfigReg_D.ResetCalibNeuron_S & ChipConfigReg_D.TypeNCalibNeuron_S & ChipConfigReg_D.ResetTestPixel_S & ChipConfigReg_D.HotPixelSuppression_S &
+		ChipConfigReg_D.AERnArow_S & ChipConfigReg_D.UseAOut_S & ChipConfigReg_D.GlobalShutter_S;
 
-	detectDigitalMux1Change : entity work.ChangeDetector
+	detectChipChange : entity work.ChangeDetector
 		generic map(
-			SIZE => tChipConfig.DigitalMux1_D'length)
+			SIZE => CHIP_REG_USED_SIZE)
 		port map(
 			Clock_CI              => Clock_CI,
 			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfigReg_D.DigitalMux1_D),
-			ChangeDetected_SO     => DigitalMux1Changed_S,
-			ChangeAcknowledged_SI => DigitalMux1Sent_S);
-
-	detectDigitalMux2Change : entity work.ChangeDetector
-		generic map(
-			SIZE => tChipConfig.DigitalMux2_D'length)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfigReg_D.DigitalMux2_D),
-			ChangeDetected_SO     => DigitalMux2Changed_S,
-			ChangeAcknowledged_SI => DigitalMux2Sent_S);
-
-	detectDigitalMux3Change : entity work.ChangeDetector
-		generic map(
-			SIZE => tChipConfig.DigitalMux3_D'length)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfigReg_D.DigitalMux3_D),
-			ChangeDetected_SO     => DigitalMux3Changed_S,
-			ChangeAcknowledged_SI => DigitalMux3Sent_S);
-
-	detectAnalogMux0Change : entity work.ChangeDetector
-		generic map(
-			SIZE => tChipConfig.AnalogMux0_D'length)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfigReg_D.AnalogMux0_D),
-			ChangeDetected_SO     => AnalogMux0Changed_S,
-			ChangeAcknowledged_SI => AnalogMux0Sent_S);
-
-	detectAnalogMux1Change : entity work.ChangeDetector
-		generic map(
-			SIZE => tChipConfig.AnalogMux1_D'length)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfigReg_D.AnalogMux1_D),
-			ChangeDetected_SO     => AnalogMux1Changed_S,
-			ChangeAcknowledged_SI => AnalogMux1Sent_S);
-
-	detectAnalogMux2Change : entity work.ChangeDetector
-		generic map(
-			SIZE => tChipConfig.AnalogMux2_D'length)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfigReg_D.AnalogMux2_D),
-			ChangeDetected_SO     => AnalogMux2Changed_S,
-			ChangeAcknowledged_SI => AnalogMux2Sent_S);
-
-	detectBiasOutMuxChange : entity work.ChangeDetector
-		generic map(
-			SIZE => tChipConfig.BiasOutMux_D'length)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D           => std_logic_vector(ChipConfigReg_D.BiasOutMux_D),
-			ChangeDetected_SO     => BiasOutMuxChanged_S,
-			ChangeAcknowledged_SI => BiasOutMuxSent_S);
-
-	detectResetCalibNeuronChange : entity work.ChangeDetector
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfigReg_D.ResetCalibNeuron_S,
-			ChangeDetected_SO     => ResetCalibNeuronChanged_S,
-			ChangeAcknowledged_SI => ResetCalibNeuronSent_S);
-
-	detectTypeNCalibNeuronChange : entity work.ChangeDetector
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfigReg_D.TypeNCalibNeuron_S,
-			ChangeDetected_SO     => TypeNCalibNeuronChanged_S,
-			ChangeAcknowledged_SI => TypeNCalibNeuronSent_S);
-
-	detectResetTestPixelChange : entity work.ChangeDetector
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfigReg_D.ResetTestPixel_S,
-			ChangeDetected_SO     => ResetTestPixelChanged_S,
-			ChangeAcknowledged_SI => ResetTestPixelSent_S);
-
-	detectHotPixelSuppressionChange : entity work.ChangeDetector
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfigReg_D.HotPixelSuppression_S,
-			ChangeDetected_SO     => HotPixelSuppressionChanged_S,
-			ChangeAcknowledged_SI => HotPixelSuppressionSent_S);
-
-	detectAERnArowChange : entity work.ChangeDetector
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfigReg_D.AERnArow_S,
-			ChangeDetected_SO     => AERnArowChanged_S,
-			ChangeAcknowledged_SI => AERnArowSent_S);
-
-	detectUseAOutChange : entity work.ChangeDetector
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfigReg_D.UseAOut_S,
-			ChangeDetected_SO     => UseAOutChanged_S,
-			ChangeAcknowledged_SI => UseAOutSent_S);
-
-	detectGlobalShutterChange : entity work.ChangeDetector
-		generic map(
-			SIZE => 1)
-		port map(
-			Clock_CI              => Clock_CI,
-			Reset_RI              => Reset_RI,
-			InputData_D(0)        => ChipConfigReg_D.GlobalShutter_S,
-			ChangeDetected_SO     => GlobalShutterChanged_S,
-			ChangeAcknowledged_SI => GlobalShutterSent_S);
+			InputData_DI          => ChipChangedInput_D,
+			ChangeDetected_SO     => ChipChanged_S,
+			ChangeAcknowledged_SI => ChipSent_S);
 end architecture Behavioral;
