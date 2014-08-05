@@ -121,6 +121,19 @@ architecture Structural of TopLevel is
 	signal CAVIAR_data, CAVIARo_data, tCAVIARo_data                                                                                                       : std_logic_vector(16 downto 0);
 	-- signal CAVIARto_data : std_logic_vector (15 downto 0);
 	signal CAVIAR_req, CAVIAR_ack, CAVIAR_ack_aux, CAVIARo_req, CAVIARo_ack, tCAVIARo_req, tCAVIARo_ack, WSAER_req, WSAER_ack, tWSAER_req, tWSAER_ack, kk : std_logic;
+<<<<<<< .mine
+	signal WSAER_data, tWSAER_data																			  : std_logic_vector (9 downto 0);
+	signal timertest																						  : std_logic_vector (15 downto 0);
+	signal alex																								  : std_logic_vector (1 downto 0);
+	signal spi_wr																							  : std_logic;	--nss, sclk, mosi, miso,
+	signal spi_data																							  : std_logic_vector (7 downto 0);
+	signal spi_address																						  : std_logic_vector (7 downto 0);
+	signal led																								  : std_logic_vector (2 downto 0);
+	signal ot_active																						  : std_logic_vector (3 downto 0);
+	signal WS2CAVIAR_en, BGAFen, AERMonitorACKxSB_kk, DAVIS_en												  : std_logic;
+	signal testcnt : unsigned (7 downto 0);
+begin
+=======
 	signal WSAER_data, tWSAER_data                                                                                                                        : std_logic_vector(9 downto 0);
 	signal timertest                                                                                                                                      : std_logic_vector(15 downto 0);
 	signal alex                                                                                                                                           : std_logic_vector(1 downto 0);
@@ -132,6 +145,7 @@ architecture Structural of TopLevel is
 	signal WS2CAVIAR_en, BGAFen, AERMonitorACKxSB_kk                                                                                                      : std_logic;
 	signal testcnt                                                                                                                                        : unsigned(7 downto 0);
 begin
+>>>>>>> .r5051
 	-- Alejandro.
 	kk1 : process(LogicClock_C, LogicReset_R)
 	begin
@@ -142,7 +156,7 @@ begin
 		end if;
 	end process;
 
-	DebugxSIO <= DVSAERReqSync_SB & CAVIAR_req & CAVIARo_req & tWSAER_req & WS2CAVIAR_en & led & '0';
+	DebugxSIO <= DVSAERReqSync_SB & CAVIAR_req & CAVIARo_req & tWSAER_req & WS2CAVIAR_en & led(1 downto 0) & DAVIS_en & '0';
 	--DebugxSIO <= DVSAERReqSync_SB & CAVIAR_req & CAVIARo_req & tWSAER_req & WS2CAVIAR_en & led & '0';
 	BWSAER2CAVIAR : entity work.WSAER2CAVIAR
 		port map(
@@ -176,8 +190,18 @@ begin
 			spi_wr        => spi_wr,
 			BGAF_en       => BGAFen,
 			WS2CAVIAR_en  => WS2CAVIAR_en,
+<<<<<<< .mine
+			DAVIS_en  	  => DAVIS_en,
+			OT_ACTIVE	  => ot_active,
+			LED			  => led);
+	CAVIARo_data <= tCAVIARo_data  when (BGAFen='1') else CAVIAR_data;
+	CAVIARo_req  <= tCAVIARo_req   when (BGAFen='1') else CAVIAR_req;
+	tCAVIARo_ack <= CAVIARo_ack    when (BGAFen='1') else '1';
+	CAVIAR_ack   <= CAVIAR_ack_aux when (BGAFen='1') else CAVIARo_ack;
+=======
 			OT_ACTIVE     => ot_active,
 			LED           => led);
+>>>>>>> .r5051
 
 	CAVIARo_data <= tCAVIARo_data when (BGAFen = '1') else CAVIAR_data;
 	CAVIARo_req  <= tCAVIARo_req when (BGAFen = '1') else CAVIAR_req;
@@ -199,7 +223,7 @@ begin
 
 	WSAER_data    <= tWSAER_data when (WS2CAVIAR_en = '1') else DVSAERData_AI;
 	WSAER_req     <= tWSAER_req when (WS2CAVIAR_en = '1') else DVSAERReqSync_SB;
-	DVSAERAck_SBO <= AERMonitorACKxSB_kk when (WS2CAVIAR_en = '1') else WSAER_ack;
+	DVSAERAck_SBO <= AERMonitorACKxSB_kk when (WS2CAVIAR_en = '1' and DAVIS_en='1') else WSAER_ack when (DAVIS_en='1') else 'Z';
 	tWSAER_ack    <= WSAER_ack when (WS2CAVIAR_en = '1') else '1';
 
 	-- First: synchronize all USB-related inputs to the USB clock.
