@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.Settings.all;
+use work.EventCodes.all;
 use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
 
@@ -13,7 +13,7 @@ entity MultiplexerStateMachine is
 		-- Fifo output (to USB)
 		OutFifoControl_SI        : in  tFromFifoWriteSide;
 		OutFifoControl_SO        : out tToFifoWriteSide;
-		OutFifoData_DO           : out std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
+		OutFifoData_DO           : out std_logic_vector(FULL_EVENT_WIDTH - 1 downto 0);
 
 		-- Fifo input (from DVS AER)
 		DVSAERFifoControl_SI     : in  tFromFifoReadSide;

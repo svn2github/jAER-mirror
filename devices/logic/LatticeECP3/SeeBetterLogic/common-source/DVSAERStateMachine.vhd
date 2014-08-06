@@ -1,11 +1,13 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.Settings.all;
+use work.EventCodes.all;
 use work.FIFORecords.all;
 use work.DVSAERConfigRecords.all;
 
 entity DVSAERStateMachine is
+	generic(
+		AER_BUS_WIDTH : integer);
 	port(
 		Clock_CI          : in  std_logic;
 		Reset_RI          : in  std_logic;

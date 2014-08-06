@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use work.EventCodes.all;
 use work.Settings.all;
 use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
@@ -295,6 +296,8 @@ begin
 			FifoData_DO    => DVSAERFifoDataOut_D);
 
 	dvsAerSM : entity work.DVSAERStateMachine
+		generic map(
+			AER_BUS_WIDTH => AER_BUS_WIDTH)
 		port map(
 			Clock_CI          => LogicClock_C,
 			Reset_RI          => LogicReset_R,
@@ -335,6 +338,8 @@ begin
 			FifoData_DO    => APSADCFifoDataOut_D);
 
 	apsAdcSM : entity work.APSADCStateMachine
+		generic map(
+			ADC_BUS_WIDTH => ADC_BUS_WIDTH)
 		port map(
 			Clock_CI               => LogicClock_C,
 			Reset_RI               => LogicReset_R,

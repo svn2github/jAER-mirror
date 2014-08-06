@@ -3,6 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.ceil;
 use ieee.math_real.log2;
+use work.EventCodes.all;
 use work.Settings.all;
 use work.FIFORecords.all;
 use work.ShiftRegisterModes.all;

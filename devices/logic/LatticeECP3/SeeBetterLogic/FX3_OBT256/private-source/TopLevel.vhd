@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use work.EventCodes.all;
 use work.Settings.all;
 use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
@@ -182,10 +183,10 @@ begin
 			DAVIS_en      => DAVIS_en,
 			OT_ACTIVE     => ot_active,
 			LED           => led);
-	CAVIARo_data <= tCAVIARo_data	when (BGAFen = '1') else CAVIAR_data;
-	CAVIARo_req  <= tCAVIARo_req	when (BGAFen = '1') else CAVIAR_req;
-	tCAVIARo_ack <= CAVIARo_ack		when (BGAFen = '1') else '1';
-	CAVIAR_ack   <= CAVIAR_ack_aux	when (BGAFen = '1') else CAVIARo_ack;
+	CAVIARo_data <= tCAVIARo_data when (BGAFen = '1') else CAVIAR_data;
+	CAVIARo_req  <= tCAVIARo_req when (BGAFen = '1') else CAVIAR_req;
+	tCAVIARo_ack <= CAVIARo_ack when (BGAFen = '1') else '1';
+	CAVIAR_ack   <= CAVIAR_ack_aux when (BGAFen = '1') else CAVIARo_ack;
 
 	BCAVIAR2WSAER : entity work.CAVIAR2WSAER
 		port map(
@@ -387,6 +388,8 @@ begin
 			FifoData_DO    => DVSAERFifoDataOut_D);
 
 	dvsAerSM : entity work.DVSAERStateMachine
+		generic map(
+			AER_BUS_WIDTH => AER_BUS_WIDTH)
 		port map(
 			Clock_CI          => LogicClock_C,
 			Reset_RI          => LogicReset_R,
@@ -427,6 +430,8 @@ begin
 			FifoData_DO    => APSADCFifoDataOut_D);
 
 	apsAdcSM : entity work.APSADCStateMachine
+		generic map(
+			ADC_BUS_WIDTH => ADC_BUS_WIDTH)
 		port map(
 			Clock_CI               => LogicClock_C,
 			Reset_RI               => LogicReset_R,

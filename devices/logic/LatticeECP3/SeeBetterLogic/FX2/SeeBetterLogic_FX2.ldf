@@ -66,6 +66,9 @@
         <Source name="private-source/LogicClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/EventCodes.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/fx2/FX2USBClockSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
@@ -96,6 +99,12 @@
         <Source name="../common-source/APSADCStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/APSADCSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/APSADCConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/IMUStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
@@ -106,6 +115,12 @@
             <Options/>
         </Source>
         <Source name="../common-source/ExtTriggerStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ExtTriggerSPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/ExtTriggerConfigRecords.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/SPIConfig.vhd" type="VHDL" type_short="VHDL">
