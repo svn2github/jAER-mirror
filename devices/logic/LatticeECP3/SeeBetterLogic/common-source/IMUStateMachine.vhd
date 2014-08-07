@@ -194,7 +194,7 @@ begin
 
 	i2cPulseCounter : entity work.ContinuousCounter
 		generic map(
-			COUNTER_WIDTH => 2)
+			SIZE => 2)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
@@ -206,7 +206,7 @@ begin
 
 	i2cBitCounter : entity work.ContinuousCounter
 		generic map(
-			COUNTER_WIDTH => 3)
+			SIZE => 3)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
@@ -218,7 +218,7 @@ begin
 
 	i2cByteCounter : entity work.ContinuousCounter
 		generic map(
-			COUNTER_WIDTH => I2C_BYTE_COUNTER_SIZE)
+			SIZE => I2C_BYTE_COUNTER_SIZE)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
@@ -770,11 +770,11 @@ begin
 	-- Delay the Run_S signal by one clock cycle to be in sync with the RunChanged_S signal.
 	-- This avoids taking the wrong branch too early in stIdle.
 	delayRun : entity work.SimpleRegister
-		port map(Clock_CI  => Clock_CI,
-			     Reset_RI  => Reset_RI,
-			     Enable_SI => '1',
-			     Input_SI  => IMUConfigReg_D.Run_S,
-			     Output_SO => RunDelayed_S);
+		port map(Clock_CI     => Clock_CI,
+			     Reset_RI     => Reset_RI,
+			     Enable_SI    => '1',
+			     Input_SI(0)  => IMUConfigReg_D.Run_S,
+			     Output_SO(0) => RunDelayed_S);
 
 	-- Use BufferClears to be able to check and send the Interrupt Config and Enable registers
 	-- exactly the same as the other ones, and tie them to run changing.

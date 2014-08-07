@@ -21,7 +21,7 @@ use work.ShiftRegisterModes.all;
 
 entity ShiftRegister is
 	generic(
-		SIZE : integer := 8);
+		SIZE : integer);
 	port(
 		Clock_CI         : in  std_logic;
 		Reset_RI         : in  std_logic;
@@ -37,7 +37,7 @@ end entity ShiftRegister;
 architecture Behavioral of ShiftRegister is
 	signal ShiftReg_DP, ShiftReg_DN : std_logic_vector(SIZE - 1 downto 0);
 begin
-	shiftRegState : process(ShiftReg_DP, Mode_SI, DataIn_DI, ParallelWrite_DI)
+	shiftRegisterLogic : process(ShiftReg_DP, Mode_SI, DataIn_DI, ParallelWrite_DI)
 	begin
 		-- Don't change the shift register by default.
 		ShiftReg_DN <= ShiftReg_DP;
@@ -68,16 +68,16 @@ begin
 
 			when others => null;
 		end case;
-	end process shiftRegState;
+	end process shiftRegisterLogic;
 
-	shiftRegUpdate : process(Clock_CI, Reset_RI) is
-	begin                               -- process shiftRegUpdate
+	shiftRegisterUpdate : process(Clock_CI, Reset_RI) is
+	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active high)
 			ShiftReg_DP <= (others => '0');
 		elsif rising_edge(Clock_CI) then -- rising clock edge
 			ShiftReg_DP <= ShiftReg_DN;
 		end if;
-	end process shiftRegUpdate;
+	end process shiftRegisterUpdate;
 
 	-- Always output current state.
 	ParallelRead_DO <= ShiftReg_DP;

@@ -52,7 +52,7 @@ architecture Behavioral of FX2Statemachine is
 begin
 	writeCyclesCounter : entity work.ContinuousCounter
 		generic map(
-			COUNTER_WIDTH => USB_BURST_WRITE_WIDTH)
+			SIZE => USB_BURST_WRITE_WIDTH)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
@@ -64,7 +64,7 @@ begin
 
 	earlyPacketCounter : entity work.ContinuousCounter
 		generic map(
-			COUNTER_WIDTH     => USB_EARLY_PACKET_WIDTH,
+			SIZE     => USB_EARLY_PACKET_WIDTH,
 			RESET_ON_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,

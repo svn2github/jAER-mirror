@@ -158,36 +158,36 @@ begin
 	-- Always enable chip if it is needed (for DVS or APS).
 	chipBiasEnableBuffer : entity work.SimpleRegister
 		port map(
-			Clock_CI  => LogicClock_C,
-			Reset_RI  => LogicReset_R,
-			Enable_SI => '1',
-			Input_SI  => DVSAERConfig_D.Run_S,
-			Output_SO => ChipBiasEnable_SO);
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => DVSAERConfig_D.Run_S,
+			Output_SO(0) => ChipBiasEnable_SO);
 
 	-- Wire all LEDs.
 	led1Buffer : entity work.SimpleRegister
 		port map(
-			Clock_CI  => LogicClock_C,
-			Reset_RI  => LogicReset_R,
-			Enable_SI => '1',
-			Input_SI  => MultiplexerConfig_D.Run_S,
-			Output_SO => LED1_SO);
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => MultiplexerConfig_D.Run_S,
+			Output_SO(0) => LED1_SO);
 
 	led2Buffer : entity work.SimpleRegister
 		port map(
-			Clock_CI  => USBClock_CI,
-			Reset_RI  => USBReset_R,
-			Enable_SI => '1',
-			Input_SI  => LogicUSBFifoControlOut_S.ReadSide.Empty_S,
-			Output_SO => LED2_SO);
+			Clock_CI     => USBClock_CI,
+			Reset_RI     => USBReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => LogicUSBFifoControlOut_S.ReadSide.Empty_S,
+			Output_SO(0) => LED2_SO);
 
 	led3Buffer : entity work.SimpleRegister
 		port map(
-			Clock_CI  => LogicClock_C,
-			Reset_RI  => LogicReset_R,
-			Enable_SI => '1',
-			Input_SI  => LogicUSBFifoControlOut_S.WriteSide.Full_S,
-			Output_SO => LED3_SO);
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => LogicUSBFifoControlOut_S.WriteSide.Full_S,
+			Output_SO(0) => LED3_SO);
 
 	-- Generate logic clock using a PLL.
 	logicClockPLL : entity work.PLL

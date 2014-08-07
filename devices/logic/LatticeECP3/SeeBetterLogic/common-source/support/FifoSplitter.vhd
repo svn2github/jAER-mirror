@@ -2,9 +2,13 @@ library ieee;
 use ieee.std_logic_1164.all;
 use work.FIFORecords.all;
 
+-- Split a FIFO into two FIFOs. This is accomplished by taking data,
+-- when available, from the input FIFO, and forwarding it directly to
+-- the output FIFOs, which may accept the data if they do have available
+-- space. If not, the data is not copied to that particular output FIFO.
 entity FifoSplitter is
 	generic(
-		FIFO_WIDTH : integer := 16);
+		FIFO_WIDTH : integer);
 	port(
 		Clock_CI           : in  std_logic;
 		Reset_RI           : in  std_logic;
@@ -34,8 +38,8 @@ begin
 	FifoInNotEmpty_S        <= not FifoInControl_SI.Empty_S;
 	FifoInControl_SO.Read_S <= FifoInNotEmpty_S;
 
-	regUpdate : process(Clock_CI, Reset_RI) is
-	begin                               -- process regUpdate
+	registerUpdate : process(Clock_CI, Reset_RI) is
+	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active high)
 			FifoOut1Control_SO.Write_S <= '0';
 			FifoOut2Control_SO.Write_S <= '0';
@@ -47,7 +51,7 @@ begin
 			WriteDelayReg_S            <= FifoInNotEmpty_S;
 			DataFifoOutReg_D           <= FifoInData_DI;
 		end if;
-	end process regUpdate;
+	end process registerUpdate;
 
 	FifoOut1Data_DO <= DataFifoOutReg_D;
 	FifoOut2Data_DO <= DataFifoOutReg_D;

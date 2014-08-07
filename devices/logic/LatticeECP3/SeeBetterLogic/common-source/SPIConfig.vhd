@@ -75,6 +75,8 @@ begin
 	SPIWriteMISO_S <= SPIClockFallingEdges_S and not SPISlaveSelect_SBI;
 
 	spiInputShiftRegister : entity work.ShiftRegister
+		generic map(
+			SIZE => 8)
 		port map(
 			Clock_CI         => Clock_CI,
 			Reset_RI         => Reset_RI,
@@ -96,7 +98,7 @@ begin
 
 	spiBitCounter : entity work.ContinuousCounter
 		generic map(
-			COUNTER_WIDTH  => 6,
+			SIZE  => 6,
 			SHORT_OVERFLOW => true)
 		port map(
 			Clock_CI     => Clock_CI,

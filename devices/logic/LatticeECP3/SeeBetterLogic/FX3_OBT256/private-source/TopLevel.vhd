@@ -254,11 +254,11 @@ begin
 	-- Always enable chip if it is needed (for DVS or APS).
 	chipBiasEnableBuffer : entity work.SimpleRegister
 		port map(
-			Clock_CI  => LogicClock_C,
-			Reset_RI  => LogicReset_R,
-			Enable_SI => '1',
-			Input_SI  => DVSAERConfig_D.Run_S,
-			Output_SO => ChipBiasEnable_SO);
+			Clock_CI     => LogicClock_C,
+			Reset_RI     => LogicReset_R,
+			Enable_SI    => '1',
+			Input_SI(0)  => DVSAERConfig_D.Run_S,
+			Output_SO(0) => ChipBiasEnable_SO);
 
 	-- Wire all LEDs.
 	LED1_SO <= ot_active(0);

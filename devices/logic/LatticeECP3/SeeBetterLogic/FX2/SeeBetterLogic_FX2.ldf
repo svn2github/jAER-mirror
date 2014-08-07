@@ -18,13 +18,10 @@
         <Source name="../common-source/ext/PLL.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/support/FifoSplitter.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../common-source/support/FifoSplitter.vhd" type="VHDL" type_short="VHDL" excluded="TRUE">
             <Options/>
         </Source>
         <Source name="../common-source/support/DFFSynchronizer.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
-        <Source name="../common-source/support/DFFBusSynchronizer.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="../common-source/support/ResetSynchronizer.vhd" type="VHDL" type_short="VHDL">

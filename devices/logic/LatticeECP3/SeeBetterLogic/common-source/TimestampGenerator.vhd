@@ -38,7 +38,7 @@ begin
 
 	timestampGenerator : entity work.ContinuousCounter
 		generic map(
-			COUNTER_WIDTH    => TIMESTAMP_WIDTH,
+			SIZE    => TIMESTAMP_WIDTH,
 			SHORT_OVERFLOW   => true,
 			OVERFLOW_AT_ZERO => true)
 		port map(

@@ -42,65 +42,69 @@ begin
 
 	-- Ensure synchronization of FX2 inputs related to logic control.
 	syncSPISlaveSelect : entity work.DFFSynchronizer
+		generic map(
+			RESET_VALUE => true)        -- active-low signal
 		port map(
-			SyncClock_CI    => LogicClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => SPISlaveSelect_SBI,
-			SyncedSignal_SO => SPISlaveSelectSync_SBO);
+			SyncClock_CI       => LogicClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => SPISlaveSelect_SBI,
+			SyncedSignal_SO(0) => SPISlaveSelectSync_SBO);
 
 	syncSPIClock : entity work.DFFSynchronizer
 		port map(
-			SyncClock_CI    => LogicClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => SPIClock_CI,
-			SyncedSignal_SO => SPIClockSync_CO);
+			SyncClock_CI       => LogicClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => SPIClock_CI,
+			SyncedSignal_SO(0) => SPIClockSync_CO);
 
 	syncSPIMOSI : entity work.DFFSynchronizer
 		port map(
-			SyncClock_CI    => LogicClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => SPIMOSI_DI,
-			SyncedSignal_SO => SPIMOSISync_DO);
+			SyncClock_CI       => LogicClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => SPIMOSI_DI,
+			SyncedSignal_SO(0) => SPIMOSISync_DO);
 
 	syncDVSAERReq : entity work.DFFSynchronizer
+		generic map(
+			RESET_VALUE => true)        -- active-low signal
 		port map(
-			SyncClock_CI    => LogicClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => DVSAERReq_SBI,
-			SyncedSignal_SO => DVSAERReqSync_SBO);
+			SyncClock_CI       => LogicClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => DVSAERReq_SBI,
+			SyncedSignal_SO(0) => DVSAERReqSync_SBO);
 
 	syncIMUInterrupt : entity work.DFFSynchronizer
 		port map(
-			SyncClock_CI    => LogicClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => IMUInterrupt_SI,
-			SyncedSignal_SO => IMUInterruptSync_SO);
+			SyncClock_CI       => LogicClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => IMUInterrupt_SI,
+			SyncedSignal_SO(0) => IMUInterruptSync_SO);
 
 	syncSyncOutSwitch : entity work.DFFSynchronizer
 		port map(
-			SyncClock_CI    => LogicClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => SyncOutSwitch_SI,
-			SyncedSignal_SO => SyncOutSwitchSync_SO);
+			SyncClock_CI       => LogicClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => SyncOutSwitch_SI,
+			SyncedSignal_SO(0) => SyncOutSwitchSync_SO);
 
 	syncSyncInClock : entity work.DFFSynchronizer
 		port map(
-			SyncClock_CI    => LogicClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => SyncInClock_CI,
-			SyncedSignal_SO => SyncInClockSync_CO);
+			SyncClock_CI       => LogicClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => SyncInClock_CI,
+			SyncedSignal_SO(0) => SyncInClockSync_CO);
 
 	syncSyncInSwitch : entity work.DFFSynchronizer
 		port map(
-			SyncClock_CI    => LogicClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => SyncInSwitch_SI,
-			SyncedSignal_SO => SyncInSwitchSync_SO);
+			SyncClock_CI       => LogicClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => SyncInSwitch_SI,
+			SyncedSignal_SO(0) => SyncInSwitchSync_SO);
 
 	syncSyncInSignal : entity work.DFFSynchronizer
 		port map(
-			SyncClock_CI    => LogicClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => SyncInSignal_SI,
-			SyncedSignal_SO => SyncInSignalSync_SO);
+			SyncClock_CI       => LogicClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => SyncInSignal_SI,
+			SyncedSignal_SO(0) => SyncInSignalSync_SO);
 end Structural;

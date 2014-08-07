@@ -1,9 +1,14 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
+-- Watch one or more signals for any change on them between consecutive
+-- clock cycles. If a change is detected, a signal is emitted on the
+-- next clock cycle and kept acthive-high, until it is acknowledged by
+-- the listener by pusling ChangeAcknowledged_SI. This works the same as
+-- a BufferClear, please see its documentation for additional details.
 entity ChangeDetector is
 	generic(
-		SIZE : integer := 16);
+		SIZE : integer);
 	port(
 		Clock_CI              : in  std_logic;
 		Reset_RI              : in  std_logic;
@@ -39,12 +44,12 @@ begin
 		end if;
 	end process detectChange;
 
-	regUpdate : process(Clock_CI, Reset_RI) is
+	registerUpdate : process(Clock_CI, Reset_RI) is
 	begin
 		if Reset_RI = '1' then
 			PreviousData_DP <= (others => '0');
 		elsif rising_edge(Clock_CI) then
 			PreviousData_DP <= PreviousData_DN;
 		end if;
-	end process regUpdate;
+	end process registerUpdate;
 end architecture Behavioral;

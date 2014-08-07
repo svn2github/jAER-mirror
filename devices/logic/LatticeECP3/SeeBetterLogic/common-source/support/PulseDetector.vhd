@@ -4,9 +4,14 @@ use ieee.numeric_std.all;
 use ieee.math_real.ceil;
 use ieee.math_real.log2;
 
+-- Detect a pulse on a signal of a certain minimal length.
+-- If one is found, emit an active-high detection signal for
+-- one clock cycle, and then wait for the current pulse to
+-- finish, and a new one with the wanted length to arrive,
+-- and the above repeats.
 entity PulseDetector is
 	generic(
-		PULSE_MINIMAL_LENGTH_CYCLES : integer   := 50;
+		PULSE_MINIMAL_LENGTH_CYCLES : integer;
 		PULSE_POLARITY              : std_logic := '1');
 	port(
 		Clock_CI         : in  std_logic;
@@ -19,7 +24,7 @@ end PulseDetector;
 architecture Behavioral of PulseDetector is
 	attribute syn_enum_encoding : string;
 
-	type state is (stWaitForPulse, stPulseDetected, stPulseOverflow);
+	type state is (stWaitForPulse, stPulseDetected, stPulseOverflowWait);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
@@ -33,9 +38,9 @@ architecture Behavioral of PulseDetector is
 	signal PulseDetected_S       : std_logic;
 	signal PulseDetectedBuffer_S : std_logic;
 begin
-	-- Variable width counter, calculation of next state
-	p_memoryless : process(State_DP, Count_DP, InputSignal_SI)
-	begin                               -- process p_memoryless
+	-- Next counter value, calculation of next state.
+	detectPulseLogic : process(State_DP, Count_DP, InputSignal_SI)
+	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 		Count_DN <= (others => '0');    -- Keep at zero by default.
 
@@ -56,7 +61,7 @@ begin
 
 					if InputSignal_SI = PULSE_POLARITY then
 						-- Pulse continues existing, go to wait it out.
-						State_DN <= stPulseOverflow;
+						State_DN <= stPulseOverflowWait;
 					else
 						-- Pulse disappeared right after reaching goal.
 						State_DN <= stWaitForPulse;
@@ -71,7 +76,7 @@ begin
 					end if;
 				end if;
 
-			when stPulseOverflow =>
+			when stPulseOverflowWait =>
 				-- Keep this state until the pulse changes.
 				if InputSignal_SI = not PULSE_POLARITY then
 					State_DN <= stWaitForPulse;
@@ -79,11 +84,11 @@ begin
 
 			when others => null;
 		end case;
-	end process p_memoryless;
+	end process detectPulseLogic;
 
 	-- Change state on clock edge (synchronous).
-	p_memoryzing : process(Clock_CI, Reset_RI)
-	begin                               -- process p_memoryzing
+	registerUpdate : process(Clock_CI, Reset_RI)
+	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
 			State_DP              <= stWaitForPulse;
 			Count_DP              <= (others => '0');
@@ -93,7 +98,7 @@ begin
 			Count_DP              <= Count_DN;
 			PulseDetectedBuffer_S <= PulseDetected_S;
 		end if;
-	end process p_memoryzing;
+	end process registerUpdate;
 
 	PulseDetected_SO <= PulseDetectedBuffer_S;
 end Behavioral;

@@ -764,7 +764,7 @@ begin
 
 	waitCyclesCounter : entity work.ContinuousCounter
 		generic map(
-			COUNTER_WIDTH => WAIT_CYCLES_COUNTER_SIZE)
+			SIZE => WAIT_CYCLES_COUNTER_SIZE)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
@@ -776,7 +776,7 @@ begin
 
 	sentBitsCounter : entity work.ContinuousCounter
 		generic map(
-			COUNTER_WIDTH => SENT_BITS_COUNTER_SIZE)
+			SIZE => SENT_BITS_COUNTER_SIZE)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,

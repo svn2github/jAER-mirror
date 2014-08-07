@@ -29,15 +29,15 @@ begin
 	-- Ensure synchronization of FX2 inputs related to GPIF FIFO.
 	syncUSBFifoFullFlag : entity work.DFFSynchronizer
 		port map(
-			SyncClock_CI    => USBClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => USBFifoFullFlag_SI,
-			SyncedSignal_SO => USBFifoFullFlagSync_SO);
+			SyncClock_CI       => USBClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => USBFifoFullFlag_SI,
+			SyncedSignal_SO(0) => USBFifoFullFlagSync_SO);
 
 	syncUSBFifoProgrammableFlag : entity work.DFFSynchronizer
 		port map(
-			SyncClock_CI    => USBClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => USBFifoProgrammableFlag_SI,
-			SyncedSignal_SO => USBFifoProgrammableFlagSync_SO);
+			SyncClock_CI       => USBClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => USBFifoProgrammableFlag_SI,
+			SyncedSignal_SO(0) => USBFifoProgrammableFlagSync_SO);
 end Structural;

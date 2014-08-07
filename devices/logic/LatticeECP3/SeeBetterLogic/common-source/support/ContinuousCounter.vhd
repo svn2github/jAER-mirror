@@ -3,11 +3,25 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 -- Variable width counter that just cycles thorugh all binary values,
+-- incrementing by one each time its enable signal is assered,
 -- until it hits a configurable limit. This limit is provided by the
--- DataLimit_DI input, if not needed, just keep it at all ones.
+-- DataLimit_DI input, if not needed, just keep it at all ones. The
+-- limit can change during operation. When it is hit, the counter
+-- emits a one-cycle pulse that signifies overflow on its Overflow_SO
+-- signal, and then goes either back to zero or remains at its current
+-- value until manually cleared (RESET_ON_OVERFLOW flag). While its
+-- value is equal to the limit, it will continue to assert the overflow
+-- flag. It is possible to force it to assert the flag for only one
+-- cycle, by using the SHORT_OVERFLOW flag. Please note that this is
+-- not supported in combination with the OVERFLOW_AT_ZERO flag.
+-- It is further possible to specify that the overflow flag should not be
+-- asserted when the limit value is reached, but instead when the counter
+-- goes back to zero, thanks to the OVERFLOW_AT_ZERO flag.
+-- Changing the limit value to be equal or smaller than the current counter
+-- value is not supported and will lead to undefined behavior.
 entity ContinuousCounter is
 	generic(
-		COUNTER_WIDTH     : integer := 16;
+		SIZE              : integer;
 		RESET_ON_OVERFLOW : boolean := true;
 		SHORT_OVERFLOW    : boolean := false;
 		OVERFLOW_AT_ZERO  : boolean := false);
@@ -16,21 +30,21 @@ entity ContinuousCounter is
 		Reset_RI     : in  std_logic;
 		Clear_SI     : in  std_logic;
 		Enable_SI    : in  std_logic;
-		DataLimit_DI : in  unsigned(COUNTER_WIDTH - 1 downto 0);
+		DataLimit_DI : in  unsigned(SIZE - 1 downto 0);
 		Overflow_SO  : out std_logic;
-		Data_DO      : out unsigned(COUNTER_WIDTH - 1 downto 0));
+		Data_DO      : out unsigned(SIZE - 1 downto 0));
 end ContinuousCounter;
 
 architecture Behavioral of ContinuousCounter is
 	-- present and next state
-	signal Count_DP, Count_DN : unsigned(COUNTER_WIDTH - 1 downto 0);
+	signal Count_DP, Count_DN : unsigned(SIZE - 1 downto 0);
 
 	signal Overflow_S       : std_logic;
 	signal OverflowBuffer_S : std_logic;
 begin
-	-- Variable width counter, calculation of next state
-	p_memoryless : process(Count_DP, Clear_SI, Enable_SI, DataLimit_DI)
-	begin                               -- process p_memoryless
+	-- Variable width counter, calculation of next value.
+	counterLogic : process(Count_DP, Clear_SI, Enable_SI, DataLimit_DI)
+	begin
 		Count_DN <= Count_DP;           -- Keep value by default.
 
 		if Clear_SI = '1' and Enable_SI = '0' then
@@ -48,12 +62,16 @@ begin
 		elsif Clear_SI = '1' and Enable_SI = '1' then
 			-- Forget your count and reset to zero, as well as increment your
 			-- count by one: end result is next count of one.
-			Count_DN <= to_unsigned(1, COUNTER_WIDTH);
+			Count_DN <= to_unsigned(1, SIZE);
 		end if;
+	end process counterLogic;
 
+	overflowLogic : process(Count_DP, Clear_SI, Enable_SI, DataLimit_DI)
+	begin
 		-- Determine overflow flag one cycle in advance, so that registering it
 		-- at the output doesn't add more latency, since we want it to be
-		-- asserted the cycle _before_ the buffer switches back to zero.
+		-- asserted together with the limit value, on the cycle _before_ the
+		-- buffer switches back to zero.
 		Overflow_S <= '0';
 
 		if not OVERFLOW_AT_ZERO then
@@ -81,11 +99,11 @@ begin
 		-- consumption to keep and check additional state, and no user of this
 		-- module needs this functionality currently.
 		end if;
-	end process p_memoryless;
+	end process overflowLogic;
 
 	-- Change state on clock edge (synchronous).
-	p_memoryzing : process(Clock_CI, Reset_RI)
-	begin                               -- process p_memoryzing
+	registerUpdate : process(Clock_CI, Reset_RI)
+	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
 			Count_DP         <= (others => '0');
 			OverflowBuffer_S <= '0';
@@ -93,7 +111,7 @@ begin
 			Count_DP         <= Count_DN;
 			OverflowBuffer_S <= Overflow_S;
 		end if;
-	end process p_memoryzing;
+	end process registerUpdate;
 
 	-- Output present count (from register).
 	Data_DO <= Count_DP;

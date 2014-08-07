@@ -76,6 +76,8 @@ begin
 			Timestamp_DO         => Timestamp_D);
 
 	tsResetExternalDetector : entity work.PulseDetector
+		generic map(
+			PULSE_MINIMAL_LENGTH_CYCLES => 50)
 		port map(
 			Clock_CI         => Clock_CI,
 			Reset_RI         => Reset_RI,
@@ -109,7 +111,7 @@ begin
 	-- device and host re-synchronize on zero.
 	tsOverflowBuffer : entity work.ContinuousCounter
 		generic map(
-			COUNTER_WIDTH    => OVERFLOW_WIDTH,
+			SIZE    => OVERFLOW_WIDTH,
 			SHORT_OVERFLOW   => true,
 			OVERFLOW_AT_ZERO => true)
 		port map(

@@ -1,9 +1,10 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
+-- Detect rising and falling edges on a signal.
 entity EdgeDetector is
 	generic(
-		SIGNAL_START_POLARITY : std_logic := '0');
+		SIGNAL_INITIAL_POLARITY : std_logic := '0');
 	port(
 		Clock_CI               : in  std_logic;
 		Reset_RI               : in  std_logic;
@@ -24,11 +25,11 @@ begin
 	FallingEdgeDetectedReg_S <= '1' when (InputSignalReg1_S = '0' and InputSignalReg2_S = '1') else '0';
 
 	-- Change state on clock edge (synchronous).
-	p_memoryzing : process(Clock_CI, Reset_RI)
-	begin                               -- process p_memoryzing
+	registerUpdate : process(Clock_CI, Reset_RI)
+	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
-			InputSignalReg2_S <= SIGNAL_START_POLARITY;
-			InputSignalReg1_S <= SIGNAL_START_POLARITY;
+			InputSignalReg2_S <= SIGNAL_INITIAL_POLARITY;
+			InputSignalReg1_S <= SIGNAL_INITIAL_POLARITY;
 
 			RisingEdgeDetected_SO  <= '0';
 			FallingEdgeDetected_SO <= '0';
@@ -39,5 +40,5 @@ begin
 			RisingEdgeDetected_SO  <= RisingEdgeDetectedReg_S;
 			FallingEdgeDetected_SO <= FallingEdgeDetectedReg_S;
 		end if;
-	end process p_memoryzing;
+	end process registerUpdate;
 end Behavioral;

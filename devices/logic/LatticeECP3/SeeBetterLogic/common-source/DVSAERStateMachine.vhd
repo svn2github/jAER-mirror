@@ -54,7 +54,7 @@ architecture Behavioral of DVSAERStateMachine is
 begin
 	ackDelayCounter : entity work.ContinuousCounter
 		generic map(
-			COUNTER_WIDTH => 5)
+			SIZE => 5)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
@@ -66,7 +66,7 @@ begin
 
 	ackExtensionCounter : entity work.ContinuousCounter
 		generic map(
-			COUNTER_WIDTH => 5)
+			SIZE => 5)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,

@@ -25,7 +25,7 @@ begin                                   -- architecture Testbench
 	-- component instantiation
 	DUT : entity work.EdgeDetector
 		generic map(
-			SIGNAL_START_POLARITY => SIGNAL_START_POLARITY)
+			SIGNAL_INITIAL_POLARITY => SIGNAL_START_POLARITY)
 		port map(
 			Clock_CI               => Clock_C,
 			Reset_RI               => Reset_R,

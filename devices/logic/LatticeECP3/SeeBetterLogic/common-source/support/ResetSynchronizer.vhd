@@ -6,6 +6,7 @@ use ieee.std_logic_1164.all;
 -- reset deassertion. See the "Asynchronous & Synchronous Reset" paper by C. Cummings,
 -- D. Mills and S. Golson (2003), as well as the following article on active-high resets
 -- and synchronization: http://www.eetimes.com/document.asp?doc_id=1278998
+-- This is intended for active-high resets.
 entity ResetSynchronizer is
 	port(
 		ExtClock_CI  : in  std_logic;
@@ -20,7 +21,7 @@ begin
 	SyncReset_RO <= SyncSignalSyncFF_S;
 
 	-- Change state on clock edge (synchronous).
-	p_synchronizing : process(ExtClock_CI, ExtReset_RI)
+	registerUpdate : process(ExtClock_CI, ExtReset_RI)
 	begin
 		if ExtReset_RI = '1' then       -- asynchronous set (active-high for FPGAs)
 			SyncSignalSyncFF_S  <= '1';
@@ -29,5 +30,5 @@ begin
 			SyncSignalSyncFF_S  <= SyncSignalDemetFF_S;
 			SyncSignalDemetFF_S <= '0';
 		end if;
-	end process p_synchronizing;
+	end process registerUpdate;
 end Behavioral;

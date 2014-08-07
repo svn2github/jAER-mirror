@@ -33,29 +33,29 @@ begin
 	-- Ensure synchronization of FX3 inputs related to GPIF FIFO.
 	syncUSBFifoThr0Ready : entity work.DFFSynchronizer
 		port map(
-			SyncClock_CI    => USBClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => USBFifoThr0Ready_SI,
-			SyncedSignal_SO => USBFifoThr0ReadySync_SO);
+			SyncClock_CI       => USBClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => USBFifoThr0Ready_SI,
+			SyncedSignal_SO(0) => USBFifoThr0ReadySync_SO);
 
 	syncUSBFifoThr0Watermark : entity work.DFFSynchronizer
 		port map(
-			SyncClock_CI    => USBClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => USBFifoThr0Watermark_SI,
-			SyncedSignal_SO => USBFifoThr0WatermarkSync_SO);
+			SyncClock_CI       => USBClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => USBFifoThr0Watermark_SI,
+			SyncedSignal_SO(0) => USBFifoThr0WatermarkSync_SO);
 
 	syncUSBFifoThr1Ready : entity work.DFFSynchronizer
 		port map(
-			SyncClock_CI    => USBClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => USBFifoThr1Ready_SI,
-			SyncedSignal_SO => USBFifoThr1ReadySync_SO);
+			SyncClock_CI       => USBClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => USBFifoThr1Ready_SI,
+			SyncedSignal_SO(0) => USBFifoThr1ReadySync_SO);
 
 	syncUSBFifoThr1Watermark : entity work.DFFSynchronizer
 		port map(
-			SyncClock_CI    => USBClock_CI,
-			Reset_RI        => ResetSync_R,
-			SignalToSync_SI => USBFifoThr1Watermark_SI,
-			SyncedSignal_SO => USBFifoThr1WatermarkSync_SO);
+			SyncClock_CI       => USBClock_CI,
+			Reset_RI           => ResetSync_R,
+			SignalToSync_SI(0) => USBFifoThr1Watermark_SI,
+			SyncedSignal_SO(0) => USBFifoThr1WatermarkSync_SO);
 end Structural;

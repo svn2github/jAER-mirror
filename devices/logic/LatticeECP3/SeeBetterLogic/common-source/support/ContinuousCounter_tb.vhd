@@ -31,7 +31,7 @@ begin                                   -- architecture Testbench
 	-- component instantiation
 	DUT : entity work.ContinuousCounter
 		generic map(
-			COUNTER_WIDTH     => COUNTER_WIDTH,
+			SIZE     => COUNTER_WIDTH,
 			RESET_ON_OVERFLOW => RESET_ON_OVERFLOW,
 			SHORT_OVERFLOW    => SHORT_OVERFLOW,
 			OVERFLOW_AT_ZERO  => OVERFLOW_AT_ZERO)
