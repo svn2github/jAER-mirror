@@ -388,8 +388,8 @@ begin
 				-- Keep SDA high (Hi-Z) during ACK, so slave can pull low.
 				IMUDataInt_SN <= '1';
 
-				-- Detect if slave pulled low on phase 1->2 transition.
-				if I2CPulseGenOutput_S = '1' and I2CPulseCounterData_D = to_unsigned(1, 2) then
+				-- Detect if slave pulled low on phase 0->1 transition.
+				if I2CPulseGenOutput_S = '1' and I2CPulseCounterData_D = to_unsigned(0, 2) then
 					if IMUData_ZIO = '1' then
 						-- Failed to ACK, return error and go back to idle.
 						I2CState_DN <= stI2CDone;
@@ -409,10 +409,14 @@ begin
 				-- Keep SDA high (Hi-Z) to allow slave to pull it.
 				IMUDataInt_SN <= '1';
 
-				if I2CPulseGenOutput_S = '1' and I2CPulseCounterData_D = to_unsigned(2, 2) then
-					-- On changing from phase 2->3, read the slave bit and count it.
+				if I2CPulseGenOutput_S = '1' and I2CPulseCounterData_D = to_unsigned(0, 2) then
+					-- On changing from phase 0->1, read the slave bit .
 					-- IMUData_ZIO is permanently connected as read shift register input.
-					I2CReadSRMode_S       <= SHIFTREGISTER_MODE_SHIFT_LEFT;
+					I2CReadSRMode_S <= SHIFTREGISTER_MODE_SHIFT_LEFT;
+				end if;
+
+				-- Count bits to note when the byte is done and acknowledge it appropriately.
+				if I2CPulseGenOutput_S = '1' and I2CPulseCounterData_D = to_unsigned(2, 2) then
 					I2CBitCounterEnable_S <= '1';
 
 					if I2CBitCounterData_D = to_unsigned(7, 3) then

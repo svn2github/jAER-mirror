@@ -23,10 +23,10 @@ package Settings is
 	constant APSADC_FIFO_SIZE                   : integer := 64;
 	constant APSADC_FIFO_ALMOST_EMPTY_SIZE      : integer := 8;
 	constant APSADC_FIFO_ALMOST_FULL_SIZE       : integer := 8;
-	constant IMU_FIFO_SIZE                      : integer := 14; -- two samples (2x7)
-	constant IMU_FIFO_ALMOST_EMPTY_SIZE         : integer := 7; -- one sample (1x7)
-	constant IMU_FIFO_ALMOST_FULL_SIZE          : integer := 7; -- one sample (1x7)
-	constant EXT_TRIGGER_FIFO_SIZE              : integer := 4;
-	constant EXT_TRIGGER_FIFO_ALMOST_EMPTY_SIZE : integer := 1;
-	constant EXT_TRIGGER_FIFO_ALMOST_FULL_SIZE  : integer := 1;
+	constant IMU_FIFO_SIZE                      : integer := 32; -- two samples (2x16)
+	constant IMU_FIFO_ALMOST_EMPTY_SIZE         : integer := 16; -- one sample (1x16)
+	constant IMU_FIFO_ALMOST_FULL_SIZE          : integer := 2;
+	constant EXT_TRIGGER_FIFO_SIZE              : integer := 16;
+	constant EXT_TRIGGER_FIFO_ALMOST_EMPTY_SIZE : integer := 2;
+	constant EXT_TRIGGER_FIFO_ALMOST_FULL_SIZE  : integer := 2;
 end Settings;
