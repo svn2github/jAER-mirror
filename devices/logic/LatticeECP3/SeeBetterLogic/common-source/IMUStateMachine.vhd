@@ -32,7 +32,7 @@ architecture Behavioral of IMUStateMachine is
 
 	type state is (stIdle, stAckAndLoadSampleRateDivider, stAckAndLoadDigitalLowPassFilter, stAckAndLoadAccelFullScale, stAckAndLoadGyroFullScale,
 		           stWriteConfigRegister, stPrepareReadDataRegister, stReadDataRegister, stWriteEventStart, stWriteEvent0, stWriteEvent1, stWriteEvent2, stWriteEvent3, stWriteEvent4, stWriteEvent5, stWriteEvent6, stWriteEvent7, stWriteEvent8, stWriteEvent9, stWriteEventEnd,
-		           stAckAndLoadLPCycleTempStandby, stAckAndLoadLPWakeupAccelStandbyGyroStandby, stAckAndLoadInterruptConfig, stAckAndLoadInterruptEnable);
+		           stAckAndLoadLPCycleTempStandby, stAckAndLoadLPWakeupAccelStandbyGyroStandby, stAckAndLoadInterruptConfig, stAckAndLoadInterruptEnable, stDoneAcknowledge);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
@@ -616,7 +616,7 @@ begin
 				-- Wait until I2C signals done.
 				-- Ignore I2C errors, there's nothing we can do here.
 				if I2CDone_SP = '1' then
-					State_DN <= stIdle;
+					State_DN <= stDoneAcknowledge;
 				end if;
 
 			when stPrepareReadDataRegister =>
@@ -637,7 +637,7 @@ begin
 				if I2CDone_SP = '1' then
 					-- If there was an error, we discard the data and go back to idle.
 					if I2CError_SP = '1' then
-						State_DN <= stIdle;
+						State_DN <= stDoneAcknowledge;
 					else
 						State_DN <= stWriteEventStart;
 					end if;
@@ -746,7 +746,14 @@ begin
 
 				if OutFifoControl_SI.Full_S = '0' then
 					OutFifoControl_SO.Write_S <= '1';
-					State_DN                  <= stIdle;
+					State_DN                  <= stDoneAcknowledge;
+				end if;
+
+			when stDoneAcknowledge =>
+				-- Deassert transaction, and wait for I2C Done to also go back low, which
+				-- means I2C is ready for the next transaction to happen.
+				if I2CDone_SP = '0' then
+					State_DN <= stIdle;
 				end if;
 
 			when others => null;
