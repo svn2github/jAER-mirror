@@ -36,7 +36,8 @@ package EventCodes is
 	constant EVENT_CODE_X_ADDR_POL_OFF              : std_logic_vector(2 downto 0)                        := "010";
 	constant EVENT_CODE_X_ADDR_POL_ON               : std_logic_vector(2 downto 0)                        := "011";
 	constant EVENT_CODE_ADC_SAMPLE                  : std_logic_vector(2 downto 0)                        := "100";
-	constant EVENT_CODE_MISC_DATA                   : std_logic_vector(2 downto 0)                        := "101";
-	--constant EVENT_CODE_UNUSED		   : std_logic_vector(2 downto 0) := "110";
+	constant EVENT_CODE_MISC_DATA8                  : std_logic_vector(2 downto 0)                        := "101";
+	constant EVENT_CODE_MISC_DATA8_IMU              : std_logic_vector(3 downto 0)                        := "0000";
+	constant EVENT_CODE_MISC_DATA10                 : std_logic_vector(2 downto 0)                        := "110";
 	constant EVENT_CODE_TIMESTAMP_WRAP              : std_logic_vector(2 downto 0)                        := "111";
 end package EventCodes;

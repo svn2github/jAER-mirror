@@ -30,9 +30,9 @@ end entity IMUStateMachine;
 architecture Behavioral of IMUStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type state is (stIdle, stAckAndLoadSampleRateDivider, stAckAndLoadDigitalLowPassFilter, stAckAndLoadAccelFullScale, stAckAndLoadGyroFullScale,
-		           stWriteConfigRegister, stPrepareReadDataRegister, stReadDataRegister, stWriteEventStart, stWriteEvent0, stWriteEvent1, stWriteEvent2, stWriteEvent3, stWriteEvent4, stWriteEvent5, stWriteEvent6, stWriteEvent7, stWriteEvent8, stWriteEvent9, stWriteEventEnd,
-		           stAckAndLoadLPCycleTempStandby, stAckAndLoadLPWakeupAccelStandbyGyroStandby, stAckAndLoadInterruptConfig, stAckAndLoadInterruptEnable, stDoneAcknowledge);
+	type state is (stIdle, stAckAndLoadSampleRateDivider, stAckAndLoadDigitalLowPassFilter, stAckAndLoadAccelFullScale, stAckAndLoadGyroFullScale, stWriteConfigRegister, stPrepareReadDataRegister, stReadDataRegister, stWriteEventStart, stWriteEvent0, stWriteEvent1, stWriteEvent2, stWriteEvent3,
+		           stWriteEvent4, stWriteEvent5, stWriteEvent6, stWriteEvent7, stWriteEvent8, stWriteEvent9, stWriteEvent10, stWriteEvent11, stWriteEvent12, stWriteEvent13, stWriteEventEnd, stAckAndLoadLPCycleTempStandby, stAckAndLoadLPWakeupAccelStandbyGyroStandby, stAckAndLoadInterruptConfig,
+		           stAckAndLoadInterruptEnable, stDoneAcknowledge);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
@@ -652,8 +652,8 @@ begin
 				end if;
 
 			when stWriteEvent0 =>
-				-- Upper 12 bits of Accel X.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA & I2CReadSROutput_D(111 downto 100);
+				-- Upper 8 bits of Accel X.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(111 downto 104);
 
 				if OutFifoControl_SI.Full_S = '0' then
 					OutFifoControl_SO.Write_S <= '1';
@@ -661,8 +661,8 @@ begin
 				end if;
 
 			when stWriteEvent1 =>
-				-- Lower 4 bits of Accel X, upper 8 bits of Accel Y.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA & I2CReadSROutput_D(99 downto 88);
+				-- Lower 8 bits of Accel X.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(103 downto 96);
 
 				if OutFifoControl_SI.Full_S = '0' then
 					OutFifoControl_SO.Write_S <= '1';
@@ -670,8 +670,8 @@ begin
 				end if;
 
 			when stWriteEvent2 =>
-				-- Lower 8 bits of Accel Y, upper 4 bits of Accel Z.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA & I2CReadSROutput_D(87 downto 76);
+				-- Upper 8 bits of Accel Y.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(95 downto 88);
 
 				if OutFifoControl_SI.Full_S = '0' then
 					OutFifoControl_SO.Write_S <= '1';
@@ -679,8 +679,8 @@ begin
 				end if;
 
 			when stWriteEvent3 =>
-				-- Lower 12 bits of Accel Z.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA & I2CReadSROutput_D(75 downto 64);
+				-- Lower 8 bits of Accel Y.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(87 downto 80);
 
 				if OutFifoControl_SI.Full_S = '0' then
 					OutFifoControl_SO.Write_S <= '1';
@@ -688,8 +688,8 @@ begin
 				end if;
 
 			when stWriteEvent4 =>
-				-- Upper 12 bits of Gyro X.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA & I2CReadSROutput_D(47 downto 36);
+				--- Upper 8 bits of Accel Z.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(79 downto 72);
 
 				if OutFifoControl_SI.Full_S = '0' then
 					OutFifoControl_SO.Write_S <= '1';
@@ -697,8 +697,8 @@ begin
 				end if;
 
 			when stWriteEvent5 =>
-				-- Lower 4 bits of Gyro X, upper 8 bits of Gyro Y.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA & I2CReadSROutput_D(35 downto 24);
+				-- Lower 8 bits of Accel Z.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(71 downto 64);
 
 				if OutFifoControl_SI.Full_S = '0' then
 					OutFifoControl_SO.Write_S <= '1';
@@ -706,8 +706,8 @@ begin
 				end if;
 
 			when stWriteEvent6 =>
-				-- Lower 8 bits of Gyro Y, upper 4 bits of Gyro Z.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA & I2CReadSROutput_D(23 downto 12);
+				-- Upper 8 bits of Temperature.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(63 downto 56);
 
 				if OutFifoControl_SI.Full_S = '0' then
 					OutFifoControl_SO.Write_S <= '1';
@@ -715,8 +715,8 @@ begin
 				end if;
 
 			when stWriteEvent7 =>
-				-- Lower 12 bits of Gyro Z.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA & I2CReadSROutput_D(11 downto 0);
+				-- Lower 8 bits of Temperature.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(55 downto 48);
 
 				if OutFifoControl_SI.Full_S = '0' then
 					OutFifoControl_SO.Write_S <= '1';
@@ -724,8 +724,8 @@ begin
 				end if;
 
 			when stWriteEvent8 =>
-				-- Upper 8 bits of Temperature.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA & "0000" & I2CReadSROutput_D(63 downto 56);
+				--- Upper 8 bits of Gyro X.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(47 downto 40);
 
 				if OutFifoControl_SI.Full_S = '0' then
 					OutFifoControl_SO.Write_S <= '1';
@@ -733,8 +733,44 @@ begin
 				end if;
 
 			when stWriteEvent9 =>
-				-- Lower 8 bits of Temperature.
-				OutFifoData_DO <= EVENT_CODE_MISC_DATA & "0000" & I2CReadSROutput_D(55 downto 48);
+				-- Lower 8 bits of Gyro X.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(39 downto 32);
+
+				if OutFifoControl_SI.Full_S = '0' then
+					OutFifoControl_SO.Write_S <= '1';
+					State_DN                  <= stWriteEvent10;
+				end if;
+
+			when stWriteEvent10 =>
+				--- Upper 8 bits of Gyro Y.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(31 downto 24);
+
+				if OutFifoControl_SI.Full_S = '0' then
+					OutFifoControl_SO.Write_S <= '1';
+					State_DN                  <= stWriteEvent11;
+				end if;
+
+			when stWriteEvent11 =>
+				-- Lower 8 bits of Gyro Y.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(23 downto 16);
+
+				if OutFifoControl_SI.Full_S = '0' then
+					OutFifoControl_SO.Write_S <= '1';
+					State_DN                  <= stWriteEvent12;
+				end if;
+
+			when stWriteEvent12 =>
+				-- Upper 8 bits of Gyro Y.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(15 downto 8);
+
+				if OutFifoControl_SI.Full_S = '0' then
+					OutFifoControl_SO.Write_S <= '1';
+					State_DN                  <= stWriteEvent13;
+				end if;
+
+			when stWriteEvent13 =>
+				-- Lower 8 bits of Gyro Y.
+				OutFifoData_DO <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_IMU & I2CReadSROutput_D(7 downto 0);
 
 				if OutFifoControl_SI.Full_S = '0' then
 					OutFifoControl_SO.Write_S <= '1';
