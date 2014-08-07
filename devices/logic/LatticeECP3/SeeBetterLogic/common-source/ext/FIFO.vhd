@@ -1,16 +1,16 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use work.Settings.all;
+use work.Settings.DEVICE_FAMILY;
 use work.FIFORecords.all;
 
 entity FIFO is
 	generic(
-		DATA_WIDTH        : integer := 16;
-		DATA_DEPTH        : integer := 64;
-		EMPTY_FLAG        : integer := 0;
-		ALMOST_EMPTY_FLAG : integer := 4;
-		FULL_FLAG         : integer := 64;
-		ALMOST_FULL_FLAG  : integer := 60);
+		DATA_WIDTH        : integer;
+		DATA_DEPTH        : integer;
+		EMPTY_FLAG        : integer;
+		ALMOST_EMPTY_FLAG : integer;
+		FULL_FLAG         : integer;
+		ALMOST_FULL_FLAG  : integer);
 	port(
 		Clock_CI       : in  std_logic;
 		Reset_RI       : in  std_logic;
@@ -22,7 +22,7 @@ end entity FIFO;
 
 architecture Structural of FIFO is
 	attribute syn_enum_encoding : string;
-	
+
 	type state is (stInit, stGetData, stWaitRead);
 	attribute syn_enum_encoding of state : type is "onehot";
 
@@ -36,7 +36,7 @@ architecture Structural of FIFO is
 	signal AlmostEmptyReg_S : std_logic;
 
 	signal FIFOEmpty_S, FIFOAlmostEmpty_S, FIFORead_S : std_logic;
-begin                                   -- architecture Structural
+begin
 	fifo : component work.pmi_components.pmi_fifo
 		generic map(
 			pmi_data_width        => DATA_WIDTH,
@@ -60,7 +60,7 @@ begin                                   -- architecture Structural
 			AlmostEmpty => FIFOAlmostEmpty_S,
 			AlmostFull  => FifoControl_SO.WriteSide.AlmostFull_S);
 
-	p_comb : process(State_DP, FIFOEmpty_S, FIFOAlmostEmpty_S, FifoControl_SI)
+	readSideOutputsRegisteringLogic : process(State_DP, FIFOEmpty_S, FIFOAlmostEmpty_S, FifoControl_SI)
 	begin
 		State_DN <= State_DP;
 
@@ -113,9 +113,9 @@ begin                                   -- architecture Structural
 
 			when others => null;
 		end case;
-	end process p_comb;
+	end process readSideOutputsRegisteringLogic;
 
-	p_reg : process(Clock_CI, Reset_RI) is
+	registerUpdate : process(Clock_CI, Reset_RI) is
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active high)
 			State_DP <= stInit;
@@ -134,5 +134,5 @@ begin                                   -- architecture Structural
 				FifoData_DO <= DataInReg_D;
 			end if;
 		end if;
-	end process p_reg;
+	end process registerUpdate;
 end architecture Structural;

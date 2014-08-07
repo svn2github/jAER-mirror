@@ -3,7 +3,9 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.ceil;
 use ieee.math_real.log2;
-use work.Settings.all;
+use work.Settings.USB_CLOCK_FREQ;
+use work.Settings.USB_EARLY_PACKET_MS;
+use work.Settings.USB_BURST_WRITE_LENGTH;
 use work.FIFORecords.all;
 
 entity FX2Statemachine is
@@ -25,9 +27,9 @@ entity FX2Statemachine is
 end FX2Statemachine;
 
 architecture Behavioral of FX2Statemachine is
-	type state is (stFullFlagWait1, stFullFlagWait2, stIdle, stPrepareEarlyPacket, stEarlyPacket, stPrepareWrite, stWriteFirst, stWriteMiddle, stWriteLast, stPrepareSwitch, stSwitch);
-
 	attribute syn_enum_encoding : string;
+
+	type state is (stFullFlagWait1, stFullFlagWait2, stIdle, stPrepareEarlyPacket, stEarlyPacket, stPrepareWrite, stWriteFirst, stWriteMiddle, stWriteLast, stPrepareSwitch, stSwitch);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
@@ -41,7 +43,7 @@ architecture Behavioral of FX2Statemachine is
 
 	-- register outputs for better behavior
 	signal USBFifoWriteReg_SB, USBFifoPktEndReg_SB : std_logic;
-	
+
 	-- calculated constants
 	constant USB_EARLY_PACKET_CYCLES : integer := USB_CLOCK_FREQ * 1_000 * USB_EARLY_PACKET_MS;
 	constant USB_EARLY_PACKET_WIDTH  : integer := integer(ceil(log2(real(USB_EARLY_PACKET_CYCLES + 1))));
@@ -64,7 +66,7 @@ begin
 
 	earlyPacketCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE     => USB_EARLY_PACKET_WIDTH,
+			SIZE              => USB_EARLY_PACKET_WIDTH,
 			RESET_ON_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,

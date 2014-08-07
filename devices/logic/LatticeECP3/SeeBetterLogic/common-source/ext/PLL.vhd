@@ -1,11 +1,11 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use work.Settings.all;
+use work.Settings.DEVICE_FAMILY;
 
 entity PLL is
 	generic(
-		CLOCK_FREQ     : integer := 50;
-		OUT_CLOCK_FREQ : integer := 100);
+		CLOCK_FREQ     : integer;
+		OUT_CLOCK_FREQ : integer);
 	port(
 		Clock_CI    : in  std_logic;
 		Reset_RI    : in  std_logic;
@@ -14,7 +14,7 @@ end entity PLL;
 
 architecture Structural of PLL is
 	signal OutClock_C : std_logic;
-begin                                   -- architecture Structural
+begin
 	pll : component work.pmi_components.pmi_pll
 		generic map(
 			pmi_freq_clki    => CLOCK_FREQ,

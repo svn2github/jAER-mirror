@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.ShiftRegisterModes.all;
 use work.ChipBiasConfigRecords.all;
-use work.Settings.all;
+use work.Settings.LOGIC_CLOCK_FREQ;
 use ieee.math_real.ceil;
 use ieee.math_real.log2;
 

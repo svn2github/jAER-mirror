@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.EventCodes.all;
-use work.Settings.all;
+use work.Settings.LOGIC_CLOCK_FREQ;
 
 entity TimestampGenerator is
 	port(
@@ -38,7 +38,7 @@ begin
 
 	timestampGenerator : entity work.ContinuousCounter
 		generic map(
-			SIZE    => TIMESTAMP_WIDTH,
+			SIZE             => TIMESTAMP_WIDTH,
 			SHORT_OVERFLOW   => true,
 			OVERFLOW_AT_ZERO => true)
 		port map(
