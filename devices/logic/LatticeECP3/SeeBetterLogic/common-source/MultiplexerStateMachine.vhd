@@ -41,7 +41,7 @@ end MultiplexerStateMachine;
 
 architecture Behavioral of MultiplexerStateMachine is
 	attribute syn_enum_encoding : string;
-	
+
 	type state is (stIdle, stTimestampReset, stTimestampWrap, stTimestamp, stPrepareDVSAER, stDVSAER, stPrepareAPSADC, stAPSADC, stPrepareIMU, stIMU, stPrepareExtTrigger, stExtTrigger, stDropData);
 	attribute syn_enum_encoding of state : type is "onehot";
 
@@ -61,7 +61,7 @@ architecture Behavioral of MultiplexerStateMachine is
 	signal TimestampOverflowBuffer_D         : unsigned(OVERFLOW_WIDTH - 1 downto 0);
 
 	-- Buffer timestamp here so it's always in sync with the Overflow and Reset
-	-- buffers, meaning exactly one cycle behind.
+	-- buffers, meaning delayed by one cycle.
 	signal TimestampBuffer_D : std_logic_vector(TIMESTAMP_WIDTH - 1 downto 0);
 
 	signal MultiplexerConfigReg_D : tMultiplexerConfig;
@@ -111,7 +111,7 @@ begin
 	-- device and host re-synchronize on zero.
 	tsOverflowBuffer : entity work.ContinuousCounter
 		generic map(
-			SIZE    => OVERFLOW_WIDTH,
+			SIZE             => OVERFLOW_WIDTH,
 			SHORT_OVERFLOW   => true,
 			OVERFLOW_AT_ZERO => true)
 		port map(
@@ -152,11 +152,25 @@ begin
 						elsif OutFifoControl_SI.AlmostFull_S = '0' then
 							-- Use the AlmostEmpty flags as markers to see if
 							-- there is lots of data in the FIFOs and
-							-- prioritize those over the others.
+							-- prioritize emptying these over others.
+							-- First check the AlmostEmpty flags, which are set
+							-- to indicate a higher fullness level.
 							if DVSAERFifoControl_SI.AlmostEmpty_S = '0' then
 								State_DN <= stPrepareDVSAER;
+							elsif APSADCFifoControl_SI.AlmostEmpty_S = '0' then
+								State_DN <= stPrepareAPSADC;
+							elsif IMUFifoControl_SI.AlmostEmpty_S = '0' then
+								State_DN <= stPrepareIMU;
+							elsif ExtTriggerFifoControl_SI.AlmostEmpty_S = '0' then
+								State_DN <= stPrepareExtTrigger;
 							elsif DVSAERFifoControl_SI.Empty_S = '0' then
 								State_DN <= stPrepareDVSAER;
+							elsif APSADCFifoControl_SI.Empty_S = '0' then
+								State_DN <= stPrepareAPSADC;
+							elsif IMUFifoControl_SI.Empty_S = '0' then
+								State_DN <= stPrepareIMU;
+							elsif ExtTriggerFifoControl_SI.Empty_S = '0' then
+								State_DN <= stPrepareExtTrigger;
 							end if;
 						else
 							-- No space for an event and its timestamp, drop it.
