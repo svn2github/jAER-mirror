@@ -295,31 +295,33 @@ begin
 				end if;
 
 				-- Then it depends on the transaction type.
-				if I2CReadTransaction_SP = '0' then
-					-- Write transaction: just write one more byte, then STOP.
-					if I2CByteCounterData_D = to_unsigned(3, I2C_BYTE_COUNTER_SIZE) then
-						I2CState_DN <= stI2CWriteByte;
-					end if;
+				if I2CByteCounterData_D >= to_unsigned(3, I2C_BYTE_COUNTER_SIZE) then
+					if I2CReadTransaction_SP = '0' then
+						-- Write transaction: just write one more byte, then STOP.
+						if I2CByteCounterData_D = to_unsigned(3, I2C_BYTE_COUNTER_SIZE) then
+							I2CState_DN <= stI2CWriteByte;
+						end if;
 
-					if I2CByteCounterData_D = to_unsigned(4, I2C_BYTE_COUNTER_SIZE) then
-						I2CState_DN <= stI2CStop;
-					end if;
-				else
-					-- Read transaction: repeat the START condition, write the address again,
-					-- and then read the needed bytes. To simplify, we keep the state that
-					-- reads the bytes as default, since that happens most of the time.
-					I2CState_DN <= stI2CReadByte;
+						if I2CByteCounterData_D = to_unsigned(4, I2C_BYTE_COUNTER_SIZE) then
+							I2CState_DN <= stI2CStop;
+						end if;
+					else
+						-- Read transaction: repeat the START condition, write the address again,
+						-- and then read the needed bytes. To simplify, we keep the state that
+						-- reads the bytes as default, since that happens most of the time.
+						I2CState_DN <= stI2CReadByte;
 
-					if I2CByteCounterData_D = to_unsigned(3, I2C_BYTE_COUNTER_SIZE) then
-						I2CState_DN <= stI2CStart;
-					end if;
+						if I2CByteCounterData_D = to_unsigned(3, I2C_BYTE_COUNTER_SIZE) then
+							I2CState_DN <= stI2CStart;
+						end if;
 
-					if I2CByteCounterData_D = to_unsigned(4, I2C_BYTE_COUNTER_SIZE) then
-						I2CState_DN <= stI2CWriteByte;
-					end if;
+						if I2CByteCounterData_D = to_unsigned(4, I2C_BYTE_COUNTER_SIZE) then
+							I2CState_DN <= stI2CWriteByte;
+						end if;
 
-					if I2CByteCounterData_D = to_unsigned(I2C_READ_SIZE + 4 + 1, I2C_BYTE_COUNTER_SIZE) then
-						I2CState_DN <= stI2CStop;
+						if I2CByteCounterData_D = to_unsigned(I2C_READ_SIZE + 4 + 1, I2C_BYTE_COUNTER_SIZE) then
+							I2CState_DN <= stI2CStop;
+						end if;
 					end if;
 				end if;
 
