@@ -19,9 +19,9 @@ entity ExtTriggerStateMachine is
 end entity ExtTriggerStateMachine;
 
 architecture Behavioral of ExtTriggerStateMachine is
-	type state is (stIdle, stWriteEvent);
-
 	attribute syn_enum_encoding : string;
+	
+	type state is (stIdle, stWriteEvent);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state

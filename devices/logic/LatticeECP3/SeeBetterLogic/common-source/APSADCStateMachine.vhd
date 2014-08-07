@@ -31,9 +31,9 @@ entity APSADCStateMachine is
 end entity APSADCStateMachine;
 
 architecture Behavioral of APSADCStateMachine is
-	type state is (stIdle, stWriteEvent);
-
 	attribute syn_enum_encoding : string;
+	
+	type state is (stIdle, stWriteEvent);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state

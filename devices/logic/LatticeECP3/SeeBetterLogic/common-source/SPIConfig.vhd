@@ -23,9 +23,9 @@ entity SPIConfig is
 end entity SPIConfig;
 
 architecture Behavioral of SPIConfig is
-	type state is (stIdle, stInput, stInputLatch, stOutput);
-
 	attribute syn_enum_encoding : string;
+	
+	type state is (stIdle, stInput, stInputLatch, stOutput);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state

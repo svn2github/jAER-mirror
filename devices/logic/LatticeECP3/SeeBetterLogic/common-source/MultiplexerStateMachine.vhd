@@ -40,9 +40,9 @@ entity MultiplexerStateMachine is
 end MultiplexerStateMachine;
 
 architecture Behavioral of MultiplexerStateMachine is
-	type state is (stIdle, stTimestampReset, stTimestampWrap, stTimestamp, stPrepareDVSAER, stDVSAER, stPrepareAPSADC, stAPSADC, stPrepareIMU, stIMU, stPrepareExtTrigger, stExtTrigger, stDropData);
-
 	attribute syn_enum_encoding : string;
+	
+	type state is (stIdle, stTimestampReset, stTimestampWrap, stTimestamp, stPrepareDVSAER, stDVSAER, stPrepareAPSADC, stAPSADC, stPrepareIMU, stIMU, stPrepareExtTrigger, stExtTrigger, stDropData);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state

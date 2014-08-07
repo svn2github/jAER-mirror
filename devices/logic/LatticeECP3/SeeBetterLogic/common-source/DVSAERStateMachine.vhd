@@ -27,9 +27,9 @@ entity DVSAERStateMachine is
 end DVSAERStateMachine;
 
 architecture Behavioral of DVSAERStateMachine is
-	type state is (stIdle, stDifferentiateYX, stHandleY, stAckY, stHandleX, stAckX);
-
 	attribute syn_enum_encoding : string;
+	
+	type state is (stIdle, stDifferentiateYX, stHandleY, stAckY, stHandleX, stAckX);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
