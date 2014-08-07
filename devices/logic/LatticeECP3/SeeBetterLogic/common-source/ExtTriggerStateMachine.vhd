@@ -3,6 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.EventCodes.all;
 use work.FIFORecords.all;
+use work.ExtTriggerConfigRecords.all;
 
 entity ExtTriggerStateMachine is
 	port(
@@ -15,12 +16,15 @@ entity ExtTriggerStateMachine is
 		OutFifoData_DO      : out std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
 		ExtTriggerSwitch_SI : in  std_logic;
-		ExtTriggerSignal_SI : in  std_logic);
+		ExtTriggerSignal_SI : in  std_logic;
+
+		-- Configuration input
+		ExtTriggerConfig_DI : in  tExtTriggerConfig);
 end entity ExtTriggerStateMachine;
 
 architecture Behavioral of ExtTriggerStateMachine is
 	attribute syn_enum_encoding : string;
-	
+
 	type state is (stIdle, stWriteEvent);
 	attribute syn_enum_encoding of state : type is "onehot";
 

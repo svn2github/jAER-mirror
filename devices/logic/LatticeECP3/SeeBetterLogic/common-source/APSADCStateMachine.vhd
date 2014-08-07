@@ -3,6 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.EventCodes.all;
 use work.FIFORecords.all;
+use work.APSADCConfigRecords.all;
 
 entity APSADCStateMachine is
 	generic(
@@ -27,12 +28,15 @@ entity APSADCStateMachine is
 		APSADCOverflow_SI      : in  std_logic;
 		APSADCClock_CO         : out std_logic;
 		APSADCOutputEnable_SBO : out std_logic;
-		APSADCStandby_SO       : out std_logic);
+		APSADCStandby_SO       : out std_logic;
+
+		-- Configuration input
+		APSADCConfig_DI        : in  tAPSADCConfig);
 end entity APSADCStateMachine;
 
 architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
-	
+
 	type state is (stIdle, stWriteEvent);
 	attribute syn_enum_encoding of state : type is "onehot";
 

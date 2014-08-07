@@ -6,7 +6,9 @@ use work.Settings.all;
 use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
 use work.DVSAERConfigRecords.all;
+use work.APSADCConfigRecords.all;
 use work.IMUConfigRecords.all;
+use work.ExtTriggerConfigRecords.all;
 
 entity TopLevel is
 	port(
@@ -115,11 +117,15 @@ architecture Structural of TopLevel is
 
 	signal MultiplexerConfigParamOutput_D : std_logic_vector(31 downto 0);
 	signal DVSAERConfigParamOutput_D      : std_logic_vector(31 downto 0);
+	signal APSADCConfigParamOutput_D      : std_logic_vector(31 downto 0);
 	signal IMUConfigParamOutput_D         : std_logic_vector(31 downto 0);
+	signal ExtTriggerConfigParamOutput_D  : std_logic_vector(31 downto 0);
 
 	signal MultiplexerConfig_D : tMultiplexerConfig;
 	signal DVSAERConfig_D      : tDVSAERConfig;
+	signal APSADCConfig_D      : tAPSADCConfig;
 	signal IMUConfig_D         : tIMUConfig;
+	signal ExtTriggerConfig_D  : tExtTriggerConfig;
 
 	-- Alejandro testing WSAER2CAVIAR and CAVIAR2WSAER
 	signal CAVIAR_data, CAVIARo_data, tCAVIARo_data                                                                                                       : std_logic_vector(16 downto 0);
@@ -257,7 +263,7 @@ begin
 			Clock_CI     => LogicClock_C,
 			Reset_RI     => LogicReset_R,
 			Enable_SI    => '1',
-			Input_SI(0)  => DVSAERConfig_D.Run_S,
+			Input_SI(0)  => DVSAERConfig_D.Run_S or APSADCConfig_D.Run_S,
 			Output_SO(0) => ChipBiasEnable_SO);
 
 	-- Wire all LEDs.
@@ -448,7 +454,19 @@ begin
 			APSADCOverflow_SI      => APSADCOverflow_SI,
 			APSADCClock_CO         => APSADCClock_CO,
 			APSADCOutputEnable_SBO => APSADCOutputEnable_SBO,
-			APSADCStandby_SO       => APSADCStandby_SO);
+			APSADCStandby_SO       => APSADCStandby_SO,
+			APSADCConfig_DI        => APSADCConfig_D);
+
+	apsadcSPIConfig : entity work.APSADCSPIConfig
+		port map(
+			Clock_CI                   => LogicClock_C,
+			Reset_RI                   => LogicReset_R,
+			APSADCConfig_DO            => APSADCConfig_D,
+			ConfigModuleAddress_DI     => ConfigModuleAddress_D,
+			ConfigParamAddress_DI      => ConfigParamAddress_D,
+			ConfigParamInput_DI        => ConfigParamInput_D,
+			ConfigLatchInput_SI        => ConfigLatchInput_S,
+			APSADCConfigParamOutput_DO => APSADCConfigParamOutput_D);
 
 	imuFifo : entity work.FIFO
 		generic map(
@@ -513,7 +531,19 @@ begin
 			OutFifoControl_SO   => ExtTriggerFifoControlIn_S.WriteSide,
 			OutFifoData_DO      => ExtTriggerFifoDataIn_D,
 			ExtTriggerSwitch_SI => SyncInSwitchSync_S,
-			ExtTriggerSignal_SI => SyncInSignalSync_S);
+			ExtTriggerSignal_SI => SyncInSignalSync_S,
+			ExtTriggerConfig_DI => ExtTriggerConfig_D);
+
+	extTriggerSPIConfig : entity work.ExtTriggerSPIConfig
+		port map(
+			Clock_CI                       => LogicClock_C,
+			Reset_RI                       => LogicReset_R,
+			ExtTriggerConfig_DO            => ExtTriggerConfig_D,
+			ConfigModuleAddress_DI         => ConfigModuleAddress_D,
+			ConfigParamAddress_DI          => ConfigParamAddress_D,
+			ConfigParamInput_DI            => ConfigParamInput_D,
+			ConfigLatchInput_SI            => ConfigLatchInput_S,
+			ExtTriggerConfigParamOutput_DO => ExtTriggerConfigParamOutput_D);
 
 	spiConfiguration : entity work.SPIConfig
 		port map(
@@ -529,7 +559,7 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, IMUConfigParamOutput_D)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtTriggerConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
@@ -541,8 +571,14 @@ begin
 			when DVSAERCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= DVSAERConfigParamOutput_D;
 
+			when APSADCCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= APSADCConfigParamOutput_D;
+
 			when IMUCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= IMUConfigParamOutput_D;
+
+			when EXTTRIGGERCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= ExtTriggerConfigParamOutput_D;
 
 			when others => null;
 		end case;
