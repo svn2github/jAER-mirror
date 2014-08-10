@@ -47,7 +47,7 @@ begin
 			pmi_almost_empty_flag => ALMOST_EMPTY_FLAG,
 			pmi_regmode           => "noreg",
 			pmi_family            => DEVICE_FAMILY,
-			pmi_implementation    => "LUT")
+			pmi_implementation    => "EBR")
 		port map(
 			Data        => FifoData_DI,
 			Clock       => Clock_CI,

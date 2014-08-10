@@ -55,7 +55,7 @@ begin
 			pmi_regmode           => "noreg",
 			pmi_resetmode         => "async",
 			pmi_family            => DEVICE_FAMILY,
-			pmi_implementation    => "LUT")
+			pmi_implementation    => "EBR")
 		port map(
 			Data        => FifoData_DI,
 			WrClock     => WrClock_CI,
