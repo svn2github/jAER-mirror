@@ -10,7 +10,8 @@ entity FIFODualClock is
 		EMPTY_FLAG        : integer;
 		ALMOST_EMPTY_FLAG : integer;
 		FULL_FLAG         : integer;
-		ALMOST_FULL_FLAG  : integer);
+		ALMOST_FULL_FLAG  : integer;
+		MEMORY            : string := "EBR");
 	port(
 		Reset_RI       : in  std_logic;
 		WrClock_CI     : in  std_logic;
@@ -55,7 +56,7 @@ begin
 			pmi_regmode           => "noreg",
 			pmi_resetmode         => "async",
 			pmi_family            => DEVICE_FAMILY,
-			pmi_implementation    => "EBR")
+			pmi_implementation    => MEMORY)
 		port map(
 			Data        => FifoData_DI,
 			WrClock     => WrClock_CI,

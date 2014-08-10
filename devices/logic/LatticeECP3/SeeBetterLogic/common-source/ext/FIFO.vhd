@@ -10,7 +10,8 @@ entity FIFO is
 		EMPTY_FLAG        : integer;
 		ALMOST_EMPTY_FLAG : integer;
 		FULL_FLAG         : integer;
-		ALMOST_FULL_FLAG  : integer);
+		ALMOST_FULL_FLAG  : integer;
+		MEMORY            : string := "EBR");
 	port(
 		Clock_CI       : in  std_logic;
 		Reset_RI       : in  std_logic;
@@ -47,7 +48,7 @@ begin
 			pmi_almost_empty_flag => ALMOST_EMPTY_FLAG,
 			pmi_regmode           => "noreg",
 			pmi_family            => DEVICE_FAMILY,
-			pmi_implementation    => "EBR")
+			pmi_implementation    => MEMORY)
 		port map(
 			Data        => FifoData_DI,
 			Clock       => Clock_CI,
