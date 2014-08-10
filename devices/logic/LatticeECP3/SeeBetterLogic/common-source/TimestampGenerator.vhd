@@ -11,7 +11,7 @@ entity TimestampGenerator is
 		TimestampRun_SI      : in  std_logic;
 		TimestampReset_SI    : in  std_logic;
 		TimestampOverflow_SO : out std_logic;
-		Timestamp_DO         : out std_logic_vector(TIMESTAMP_WIDTH - 1 downto 0));
+		Timestamp_DO         : out unsigned(TIMESTAMP_WIDTH - 1 downto 0));
 end TimestampGenerator;
 
 architecture Structural of TimestampGenerator is
@@ -42,11 +42,11 @@ begin
 			SHORT_OVERFLOW   => true,
 			OVERFLOW_AT_ZERO => true)
 		port map(
-			Clock_CI                  => Clock_CI,
-			Reset_RI                  => Reset_RI,
-			Clear_SI                  => TimestampReset_SI,
-			Enable_SI                 => TimestampEnable_S,
-			DataLimit_DI              => (others => '1'),
-			Overflow_SO               => TimestampOverflow_SO,
-			std_logic_vector(Data_DO) => Timestamp_DO);
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => TimestampReset_SI,
+			Enable_SI    => TimestampEnable_S,
+			DataLimit_DI => (others => '1'),
+			Overflow_SO  => TimestampOverflow_SO,
+			Data_DO      => Timestamp_DO);
 end Structural;
