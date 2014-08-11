@@ -31,7 +31,7 @@ begin
 		port map(
 			Clock_CI    => Clock_CI,
 			Reset_RI    => Reset_RI,
-			Clear_SI    => TimestampReset_SI,
+			Zero_SI    => TimestampReset_SI,
 			PulseOut_SO => TimestampEnable1MHz_S);
 
 	TimestampEnable_S <= TimestampEnable1MHz_S and TimestampRun_SI;

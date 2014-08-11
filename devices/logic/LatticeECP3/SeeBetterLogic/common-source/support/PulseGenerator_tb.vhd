@@ -31,7 +31,7 @@ begin                                   -- architecture Test
 		port map(
 			Clock_CI    => Clock_C,
 			Reset_RI    => Reset_R,
-			Clear_SI    => Clear_S,
+			Zero_SI    => Clear_S,
 			PulseOut_SO => PulseOut_S);
 
 	-- clock generation

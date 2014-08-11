@@ -210,7 +210,7 @@ begin
 				-- has higher priority and invalidates all previous time
 				-- information by restarting from zero at this point.
 				TimestampOverflowBufferClear_S <= '1';
-				HighestTimestampSent_SN <= '0';
+				HighestTimestampSent_SN        <= '0';
 
 				OutFifoControl_SO.Write_S <= '1';
 				State_DN                  <= stIdle;
@@ -219,7 +219,7 @@ begin
 				-- Send timestamp wrap (add 15 bits) event to host.
 				OutFifoData_DO                 <= EVENT_CODE_EVENT & EVENT_CODE_TIMESTAMP_WRAP & std_logic_vector(TimestampOverflowBuffer_D);
 				TimestampOverflowBufferClear_S <= '1';
-				HighestTimestampSent_SN <= '0';
+				HighestTimestampSent_SN        <= '0';
 
 				OutFifoControl_SO.Write_S <= '1';
 				State_DN                  <= stIdle;

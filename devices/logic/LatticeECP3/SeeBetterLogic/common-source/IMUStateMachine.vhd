@@ -189,7 +189,7 @@ begin
 		port map(
 			Clock_CI    => Clock_CI,
 			Reset_RI    => Reset_RI,
-			Clear_SI    => I2CPulseGenReset_S,
+			Zero_SI     => I2CPulseGenReset_S,
 			PulseOut_SO => I2CPulseGenOutput_S);
 
 	i2cPulseCounter : entity work.ContinuousCounter
