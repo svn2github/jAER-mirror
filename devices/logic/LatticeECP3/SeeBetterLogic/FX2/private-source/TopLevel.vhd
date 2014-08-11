@@ -418,14 +418,15 @@ begin
 
 	extTriggerSM : entity work.ExtTriggerStateMachine
 		port map(
-			Clock_CI            => LogicClock_C,
-			Reset_RI            => LogicReset_R,
-			OutFifoControl_SI   => ExtTriggerFifoControlOut_S.WriteSide,
-			OutFifoControl_SO   => ExtTriggerFifoControlIn_S.WriteSide,
-			OutFifoData_DO      => ExtTriggerFifoDataIn_D,
-			ExtTriggerSwitch_SI => SyncInSwitchSync_S,
-			ExtTriggerSignal_SI => SyncInSignalSync_S,
-			ExtTriggerConfig_DI => ExtTriggerConfig_D);
+			Clock_CI               => LogicClock_C,
+			Reset_RI               => LogicReset_R,
+			OutFifoControl_SI      => ExtTriggerFifoControlOut_S.WriteSide,
+			OutFifoControl_SO      => ExtTriggerFifoControlIn_S.WriteSide,
+			OutFifoData_DO         => ExtTriggerFifoDataIn_D,
+			ExtTriggerSignal_SI    => SyncInSignalSync_S,
+			CustomTriggerSignal_SI => '1',
+			ExtTriggerSignal_SO    => SyncOutSignal_SO,
+			ExtTriggerConfig_DI    => ExtTriggerConfig_D);
 
 	extTriggerSPIConfig : entity work.ExtTriggerSPIConfig
 		port map(

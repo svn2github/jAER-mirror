@@ -43,9 +43,49 @@ begin
 		ExtTriggerOutput_DN    <= (others => '0');
 
 		case ConfigParamAddress_DI is
-			when ExtTriggerCONFIG_PARAM_ADDRESSES.Run_S =>
-				ExtTriggerConfigReg_DN.Run_S <= ExtTriggerInput_DP(0);
-				ExtTriggerOutput_DN(0)       <= ExtTriggerConfigReg_DP.Run_S;
+			when ExtTriggerCONFIG_PARAM_ADDRESSES.RunDetector_S =>
+				ExtTriggerConfigReg_DN.RunDetector_S <= ExtTriggerInput_DP(0);
+				ExtTriggerOutput_DN(0)               <= ExtTriggerConfigReg_DP.RunDetector_S;
+
+			when ExtTriggerCONFIG_PARAM_ADDRESSES.DetectRisingEdges_S =>
+				ExtTriggerConfigReg_DN.DetectRisingEdges_S <= ExtTriggerInput_DP(0);
+				ExtTriggerOutput_DN(0)                     <= ExtTriggerConfigReg_DP.DetectRisingEdges_S;
+
+			when ExtTriggerCONFIG_PARAM_ADDRESSES.DetectFallingEdges_S =>
+				ExtTriggerConfigReg_DN.DetectFallingEdges_S <= ExtTriggerInput_DP(0);
+				ExtTriggerOutput_DN(0)                      <= ExtTriggerConfigReg_DP.DetectFallingEdges_S;
+
+			when ExtTriggerCONFIG_PARAM_ADDRESSES.DetectPulses_S =>
+				ExtTriggerConfigReg_DN.DetectPulses_S <= ExtTriggerInput_DP(0);
+				ExtTriggerOutput_DN(0)                <= ExtTriggerConfigReg_DP.DetectPulses_S;
+
+			when ExtTriggerCONFIG_PARAM_ADDRESSES.DetectPulsePolarity_S =>
+				ExtTriggerConfigReg_DN.DetectPulsePolarity_S <= ExtTriggerInput_DP(0);
+				ExtTriggerOutput_DN(0)                       <= ExtTriggerConfigReg_DP.DetectPulsePolarity_S;
+
+			when ExtTriggerCONFIG_PARAM_ADDRESSES.DetectPulseLength_D =>
+				ExtTriggerConfigReg_DN.DetectPulseLength_D                       <= unsigned(ExtTriggerInput_DP(tExtTriggerConfig.DetectPulseLength_D'range));
+				ExtTriggerOutput_DN(tExtTriggerConfig.DetectPulseLength_D'range) <= std_logic_vector(ExtTriggerConfigReg_DP.DetectPulseLength_D);
+
+			when ExtTriggerCONFIG_PARAM_ADDRESSES.RunGenerator_S =>
+				ExtTriggerConfigReg_DN.RunGenerator_S <= ExtTriggerInput_DP(0);
+				ExtTriggerOutput_DN(0)                <= ExtTriggerConfigReg_DP.RunGenerator_S;
+
+			when ExtTriggerCONFIG_PARAM_ADDRESSES.GenerateUseCustomSignal_S =>
+				ExtTriggerConfigReg_DN.GenerateUseCustomSignal_S <= ExtTriggerInput_DP(0);
+				ExtTriggerOutput_DN(0)                           <= ExtTriggerConfigReg_DP.GenerateUseCustomSignal_S;
+
+			when ExtTriggerCONFIG_PARAM_ADDRESSES.GeneratePulsePolarity_S =>
+				ExtTriggerConfigReg_DN.GeneratePulsePolarity_S <= ExtTriggerInput_DP(0);
+				ExtTriggerOutput_DN(0)                         <= ExtTriggerConfigReg_DP.GeneratePulsePolarity_S;
+
+			when ExtTriggerCONFIG_PARAM_ADDRESSES.GeneratePulseInterval_D =>
+				ExtTriggerConfigReg_DN.GeneratePulseInterval_D                       <= unsigned(ExtTriggerInput_DP(tExtTriggerConfig.GeneratePulseInterval_D'range));
+				ExtTriggerOutput_DN(tExtTriggerConfig.GeneratePulseInterval_D'range) <= std_logic_vector(ExtTriggerConfigReg_DP.GeneratePulseInterval_D);
+
+			when ExtTriggerCONFIG_PARAM_ADDRESSES.GeneratePulseLength_D =>
+				ExtTriggerConfigReg_DN.GeneratePulseLength_D                       <= unsigned(ExtTriggerInput_DP(tExtTriggerConfig.GeneratePulseLength_D'range));
+				ExtTriggerOutput_DN(tExtTriggerConfig.GeneratePulseLength_D'range) <= std_logic_vector(ExtTriggerConfigReg_DP.GeneratePulseLength_D);
 
 			when others => null;
 		end case;

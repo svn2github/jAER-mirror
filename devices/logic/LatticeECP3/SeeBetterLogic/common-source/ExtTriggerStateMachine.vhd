@@ -1,25 +1,32 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.math_real.ceil;
+use ieee.math_real.log2;
 use work.EventCodes.all;
 use work.FIFORecords.all;
 use work.ExtTriggerConfigRecords.all;
+use work.Settings.LOGIC_CLOCK_FREQ;
 
 entity ExtTriggerStateMachine is
 	port(
-		Clock_CI            : in  std_logic;
-		Reset_RI            : in  std_logic;
+		Clock_CI               : in  std_logic;
+		Reset_RI               : in  std_logic;
 
 		-- Fifo output (to Multiplexer)
-		OutFifoControl_SI   : in  tFromFifoWriteSide;
-		OutFifoControl_SO   : out tToFifoWriteSide;
-		OutFifoData_DO      : out std_logic_vector(EVENT_WIDTH - 1 downto 0);
+		OutFifoControl_SI      : in  tFromFifoWriteSide;
+		OutFifoControl_SO      : out tToFifoWriteSide;
+		OutFifoData_DO         : out std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
-		ExtTriggerSwitch_SI : in  std_logic;
-		ExtTriggerSignal_SI : in  std_logic;
+		-- Input from jack
+		ExtTriggerSignal_SI    : in  std_logic;
+
+		-- Output to jack
+		CustomTriggerSignal_SI : in  std_logic;
+		ExtTriggerSignal_SO    : out std_logic;
 
 		-- Configuration input
-		ExtTriggerConfig_DI : in  tExtTriggerConfig);
+		ExtTriggerConfig_DI    : in  tExtTriggerConfig);
 end entity ExtTriggerStateMachine;
 
 architecture Behavioral of ExtTriggerStateMachine is
@@ -30,6 +37,10 @@ architecture Behavioral of ExtTriggerStateMachine is
 
 	-- present and next state
 	signal State_DP, State_DN : state;
+
+	-- Number of cycles to get a 100 ns time slice at current logic frequency.
+	constant TRIGGER_TIME_CYCLES      : integer := LOGIC_CLOCK_FREQ / 10;
+	constant TRIGGER_TIME_CYCLES_SIZE : integer := integer(ceil(log2(real(TRIGGER_TIME_CYCLES + 1))));
 begin
 	p_memoryless : process(State_DP, OutFifoControl_SI)
 	begin
