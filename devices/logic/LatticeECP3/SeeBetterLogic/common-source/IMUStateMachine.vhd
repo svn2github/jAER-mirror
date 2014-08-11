@@ -70,7 +70,7 @@ architecture Behavioral of IMUStateMachine is
 		AccelConfig       => to_unsigned(28, 8));
 
 	constant I2C_CYCLES            : integer := (LOGIC_CLOCK_FREQ * 1_000_000) / 400_000 / 4;
-	constant I2C_CYCLES_SIZE       : integer := integer(ceil(log2(real(I2C_CYCLES))));
+	constant I2C_CYCLES_SIZE       : integer := integer(ceil(log2(real(I2C_CYCLES + 1))));
 	constant I2C_WRITE_SIZE        : integer := 3;
 	constant I2C_READ_SIZE         : integer := 14;
 	constant I2C_BYTE_COUNTER_SIZE : integer := integer(ceil(log2(real(I2C_READ_SIZE + 4 + 2))));

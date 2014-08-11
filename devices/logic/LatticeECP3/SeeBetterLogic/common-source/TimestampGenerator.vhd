@@ -27,7 +27,7 @@ architecture Structural of TimestampGenerator is
 	-- the timestamp counter will not increase anymore.
 	signal TimestampEnable_S : std_logic;
 
-	constant LOGIC_CLOCK_FREQ_SIZE : integer := integer(ceil(log2(real(LOGIC_CLOCK_FREQ))));
+	constant LOGIC_CLOCK_FREQ_SIZE : integer := integer(ceil(log2(real(LOGIC_CLOCK_FREQ + 1))));
 begin
 	timestampEnableGenerate : entity work.PulseGenerator
 		generic map(
