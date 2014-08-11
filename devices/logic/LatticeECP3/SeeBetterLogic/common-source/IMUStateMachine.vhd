@@ -192,6 +192,7 @@ begin
 			Reset_RI         => Reset_RI,
 			PulsePolarity_SI => '1',
 			PulseInterval_DI => to_unsigned(I2C_CYCLES, I2C_CYCLES_SIZE),
+			PulseLength_DI   => to_unsigned(1, I2C_CYCLES_SIZE),
 			Zero_SI          => I2CPulseGenReset_S,
 			PulseOut_SO      => I2CPulseGenOutput_S);
 

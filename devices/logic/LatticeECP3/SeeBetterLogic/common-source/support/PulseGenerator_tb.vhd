@@ -12,6 +12,7 @@ end entity PulseGenerator_tb;
 architecture Testbench of PulseGenerator_tb is
 	-- component generics
 	constant PULSE_EVERY_CYCLES : integer   := 20;
+	constant PULSE_FOR_CYCLES   : integer   := 1;
 	constant PULSE_POLARITY     : std_logic := '1';
 
 	-- component ports
@@ -33,6 +34,7 @@ begin                                   -- architecture Test
 			Reset_RI         => Reset_R,
 			PulsePolarity_SI => PULSE_POLARITY,
 			PulseInterval_DI => to_unsigned(PULSE_EVERY_CYCLES, 5),
+			PulseLength_DI   => to_unsigned(PULSE_FOR_CYCLES, 5),
 			Zero_SI          => Clear_S,
 			PulseOut_SO      => PulseOut_S);
 

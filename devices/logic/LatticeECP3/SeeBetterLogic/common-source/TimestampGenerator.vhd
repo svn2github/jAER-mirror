@@ -37,6 +37,7 @@ begin
 			Reset_RI         => Reset_RI,
 			PulsePolarity_SI => '1',
 			PulseInterval_DI => to_unsigned(LOGIC_CLOCK_FREQ, LOGIC_CLOCK_FREQ_SIZE),
+			PulseLength_DI   => to_unsigned(1, LOGIC_CLOCK_FREQ_SIZE),
 			Zero_SI          => TimestampReset_SI,
 			PulseOut_SO      => TimestampEnable1MHz_S);
 
