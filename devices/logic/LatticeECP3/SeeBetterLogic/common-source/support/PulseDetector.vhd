@@ -52,7 +52,7 @@ begin
 
 			when stPulseDetected =>
 				-- Verify length of detected pulse.
-				if Count_DP = PulseLength_DI then
+				if Count_DP >= PulseLength_DI then
 					-- Pulse hit expected length, send signal.
 					PulseDetected_S <= '1';
 

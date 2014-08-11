@@ -39,7 +39,7 @@ begin
 			-- buffering, there is a one cycle delay, so we need to start with
 			-- one increment already done to get the same behavior.
 			Count_DN <= to_unsigned(1, Count_DN'length);
-		elsif Count_DP = (PulseInterval_DI - 1) then
+		elsif Count_DP >= (PulseInterval_DI - 1) then
 			Count_DN   <= (others => '0');
 			PulseOut_S <= PulsePolarity_SI;
 		else
