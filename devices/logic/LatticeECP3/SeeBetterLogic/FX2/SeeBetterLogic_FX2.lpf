@@ -11,12 +11,12 @@ LOCATE COMP "USBClock_CI" SITE "A9" ;// IFClock (from FX2)
 IOBUF PORT "USBClock_CI" PULLMODE=DOWN ;
 
 // Clock settings
-FREQUENCY PORT "USBClock_CI" 48.0 MHz ;
+FREQUENCY PORT "USBClock_CI" 30.0 MHz ;
 
-FREQUENCY NET "USBClock_CI_c" 48.0 MHz ;
+FREQUENCY NET "USBClock_CI_c" 30.0 MHz ;
 USE PRIMARY NET "USBClock_CI_c" ;
 
-FREQUENCY NET "LogicClock_C" 96.0 MHz ;
+FREQUENCY NET "LogicClock_C" 90.0 MHz ;
 USE PRIMARY NET "LogicClock_C" ;
 
 // FX2 controls
