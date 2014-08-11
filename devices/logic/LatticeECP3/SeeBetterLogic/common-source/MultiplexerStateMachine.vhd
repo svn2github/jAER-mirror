@@ -82,10 +82,12 @@ begin
 
 	tsResetExternalDetector : entity work.PulseDetector
 		generic map(
-			PULSE_MINIMAL_LENGTH_CYCLES => 50)
+			SIZE => 6)
 		port map(
 			Clock_CI         => Clock_CI,
 			Reset_RI         => Reset_RI,
+			PulsePolarity_SI => '1',
+			PulseLength_DI   => to_unsigned(50, 6),
 			InputSignal_SI   => MultiplexerConfigReg_D.TimestampReset_S,
 			PulseDetected_SO => TimestampResetExternalDetected_S);
 

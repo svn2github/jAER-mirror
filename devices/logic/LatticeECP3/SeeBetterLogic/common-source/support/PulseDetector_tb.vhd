@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 -------------------------------------------------------------------------------
 
@@ -25,11 +26,12 @@ begin                                   -- architecture Testbench
 	-- component instantiation
 	DUT : entity work.PulseDetector
 		generic map(
-			PULSE_MINIMAL_LENGTH_CYCLES => PULSE_MINIMAL_LENGTH_CYCLES,
-			PULSE_POLARITY              => PULSE_POLARITY)
+			SIZE => 5)
 		port map(
 			Clock_CI         => Clock_C,
 			Reset_RI         => Reset_R,
+			PulsePolarity_SI => PULSE_POLARITY,
+			PulseLength_DI   => to_unsigned(PULSE_MINIMAL_LENGTH_CYCLES, 5),
 			InputSignal_SI   => InputSignal_S,
 			PulseDetected_SO => PulseDetected_S);
 

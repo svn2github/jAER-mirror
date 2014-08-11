@@ -1,8 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.math_real.ceil;
-use ieee.math_real.log2;
 
 -- Detect a pulse on a signal of a certain minimal length.
 -- If one is found, emit an active-high detection signal for
@@ -11,11 +9,12 @@ use ieee.math_real.log2;
 -- and the above repeats.
 entity PulseDetector is
 	generic(
-		PULSE_MINIMAL_LENGTH_CYCLES : integer;
-		PULSE_POLARITY              : std_logic := '1');
+		SIZE : integer);
 	port(
 		Clock_CI         : in  std_logic;
 		Reset_RI         : in  std_logic;
+		PulsePolarity_SI : in  std_logic;
+		PulseLength_DI   : in  unsigned(SIZE - 1 downto 0);
 		InputSignal_SI   : in  std_logic;
 		-- Pulse will follow one cycle after the minimal length has been reached.
 		PulseDetected_SO : out std_logic);
@@ -30,16 +29,14 @@ architecture Behavioral of PulseDetector is
 	-- present and next state
 	signal State_DP, State_DN : state;
 
-	constant COUNTER_WIDTH : integer := integer(ceil(log2(real(PULSE_MINIMAL_LENGTH_CYCLES))));
-
 	-- present and next state
-	signal Count_DP, Count_DN : unsigned(COUNTER_WIDTH - 1 downto 0);
+	signal Count_DP, Count_DN : unsigned(SIZE - 1 downto 0);
 
 	signal PulseDetected_S       : std_logic;
 	signal PulseDetectedBuffer_S : std_logic;
 begin
 	-- Next counter value, calculation of next state.
-	detectPulseLogic : process(State_DP, Count_DP, InputSignal_SI)
+	detectPulseLogic : process(State_DP, Count_DP, InputSignal_SI, PulseLength_DI, PulsePolarity_SI)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 		Count_DN <= (others => '0');    -- Keep at zero by default.
@@ -48,18 +45,18 @@ begin
 
 		case State_DP is
 			when stWaitForPulse =>
-				if InputSignal_SI = PULSE_POLARITY then
+				if InputSignal_SI = PulsePolarity_SI then
 					-- Pulse detected!
 					State_DN <= stPulseDetected;
 				end if;
 
 			when stPulseDetected =>
 				-- Verify length of detected pulse.
-				if Count_DP = (PULSE_MINIMAL_LENGTH_CYCLES - 1) then
+				if Count_DP = PulseLength_DI then
 					-- Pulse hit expected length, send signal.
 					PulseDetected_S <= '1';
 
-					if InputSignal_SI = PULSE_POLARITY then
+					if InputSignal_SI = PulsePolarity_SI then
 						-- Pulse continues existing, go to wait it out.
 						State_DN <= stPulseOverflowWait;
 					else
@@ -67,7 +64,7 @@ begin
 						State_DN <= stWaitForPulse;
 					end if;
 				else
-					if InputSignal_SI = PULSE_POLARITY then
+					if InputSignal_SI = PulsePolarity_SI then
 						-- Pulse continues, keep increasing count.
 						Count_DN <= Count_DP + 1;
 					else
@@ -78,7 +75,7 @@ begin
 
 			when stPulseOverflowWait =>
 				-- Keep this state until the pulse changes.
-				if InputSignal_SI = not PULSE_POLARITY then
+				if InputSignal_SI = not PulsePolarity_SI then
 					State_DN <= stWaitForPulse;
 				end if;
 
