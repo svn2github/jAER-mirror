@@ -130,8 +130,8 @@ void TD_Init(void) // Called once at startup
 {
 	// set the CPU clock to 48MHz. CLKOUT is normal polarity, disabled.
 	CPUCS = 0x10; // 0001_0000;
-	// set the slave FIFO interface to 48MHz, slave fifo mode
-	IFCONFIG = 0xE3; // 1110_0011
+	// set the slave FIFO interface to 30MHz, slave fifo mode.
+	IFCONFIG = 0xA3; // 1010_0011
 
 	SYNCDELAY;
 	REVCTL = 0x03; // As recommended by Cypress.
