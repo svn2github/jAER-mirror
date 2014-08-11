@@ -75,7 +75,7 @@ begin
 
 			when stPulseOverflowWait =>
 				-- Keep this state until the pulse changes.
-				if InputSignal_SI = not PulsePolarity_SI then
+				if InputSignal_SI = (not PulsePolarity_SI) then
 					State_DN <= stWaitForPulse;
 				end if;
 

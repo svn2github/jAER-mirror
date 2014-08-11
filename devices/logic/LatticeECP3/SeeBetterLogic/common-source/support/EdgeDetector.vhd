@@ -2,6 +2,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 -- Detect rising and falling edges on a signal.
+-- Please note that if SIGNAL_INITIAL_POLARITY and the actual
+-- InputSignal_SI are different at reset, there will be a
+-- one cycle glitch (false edge detection).
 entity EdgeDetector is
 	generic(
 		SIGNAL_INITIAL_POLARITY : std_logic := '0');
