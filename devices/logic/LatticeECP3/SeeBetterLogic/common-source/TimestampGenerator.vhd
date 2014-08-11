@@ -1,6 +1,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.math_real.ceil;
+use ieee.math_real.log2;
 use work.EventCodes.all;
 use work.Settings.LOGIC_CLOCK_FREQ;
 
@@ -24,15 +26,19 @@ architecture Structural of TimestampGenerator is
 	-- Wire the enable signal together with the TimestampRun signal, so that when we stop the logic,
 	-- the timestamp counter will not increase anymore.
 	signal TimestampEnable_S : std_logic;
+
+	constant LOGIC_CLOCK_FREQ_SIZE : integer := integer(ceil(log2(real(LOGIC_CLOCK_FREQ))));
 begin
 	timestampEnableGenerate : entity work.PulseGenerator
 		generic map(
-			PULSE_EVERY_CYCLES => LOGIC_CLOCK_FREQ)
+			SIZE => LOGIC_CLOCK_FREQ_SIZE)
 		port map(
-			Clock_CI    => Clock_CI,
-			Reset_RI    => Reset_RI,
-			Zero_SI    => TimestampReset_SI,
-			PulseOut_SO => TimestampEnable1MHz_S);
+			Clock_CI         => Clock_CI,
+			Reset_RI         => Reset_RI,
+			PulsePolarity_SI => '1',
+			PulseInterval_DI => to_unsigned(LOGIC_CLOCK_FREQ, LOGIC_CLOCK_FREQ_SIZE),
+			Zero_SI          => TimestampReset_SI,
+			PulseOut_SO      => TimestampEnable1MHz_S);
 
 	TimestampEnable_S <= TimestampEnable1MHz_S and TimestampRun_SI;
 

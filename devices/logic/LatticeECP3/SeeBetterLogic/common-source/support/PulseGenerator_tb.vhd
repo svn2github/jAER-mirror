@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 -------------------------------------------------------------------------------
 
@@ -26,13 +27,14 @@ begin                                   -- architecture Test
 	-- component instantiation
 	DUT : entity work.PulseGenerator
 		generic map(
-			PULSE_EVERY_CYCLES => PULSE_EVERY_CYCLES,
-			PULSE_POLARITY     => PULSE_POLARITY)
+			SIZE => 5)
 		port map(
-			Clock_CI    => Clock_C,
-			Reset_RI    => Reset_R,
-			Zero_SI    => Clear_S,
-			PulseOut_SO => PulseOut_S);
+			Clock_CI         => Clock_C,
+			Reset_RI         => Reset_R,
+			PulsePolarity_SI => PULSE_POLARITY,
+			PulseInterval_DI => to_unsigned(PULSE_EVERY_CYCLES, 5),
+			Zero_SI          => Clear_S,
+			PulseOut_SO      => PulseOut_S);
 
 	-- clock generation
 	Clk     <= not Clk after 0.5 ns;

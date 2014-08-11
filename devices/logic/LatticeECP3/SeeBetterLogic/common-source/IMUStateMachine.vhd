@@ -70,6 +70,7 @@ architecture Behavioral of IMUStateMachine is
 		AccelConfig       => to_unsigned(28, 8));
 
 	constant I2C_CYCLES            : integer := (LOGIC_CLOCK_FREQ * 1_000_000) / 400_000 / 4;
+	constant I2C_CYCLES_SIZE       : integer := integer(ceil(log2(real(I2C_CYCLES))));
 	constant I2C_WRITE_SIZE        : integer := 3;
 	constant I2C_READ_SIZE         : integer := 14;
 	constant I2C_BYTE_COUNTER_SIZE : integer := integer(ceil(log2(real(I2C_READ_SIZE + 4 + 2))));
@@ -185,12 +186,14 @@ begin
 
 	i2cPulseGenerator : entity work.PulseGenerator
 		generic map(
-			PULSE_EVERY_CYCLES => I2C_CYCLES)
+			SIZE => I2C_CYCLES_SIZE)
 		port map(
-			Clock_CI    => Clock_CI,
-			Reset_RI    => Reset_RI,
-			Zero_SI     => I2CPulseGenReset_S,
-			PulseOut_SO => I2CPulseGenOutput_S);
+			Clock_CI         => Clock_CI,
+			Reset_RI         => Reset_RI,
+			PulsePolarity_SI => '1',
+			PulseInterval_DI => to_unsigned(I2C_CYCLES, I2C_CYCLES_SIZE),
+			Zero_SI          => I2CPulseGenReset_S,
+			PulseOut_SO      => I2CPulseGenOutput_S);
 
 	i2cPulseCounter : entity work.ContinuousCounter
 		generic map(
