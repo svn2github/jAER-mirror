@@ -7,7 +7,7 @@ package ExtTriggerConfigRecords is
 
 	-- Pulse lengths are in 100 ns time-slices. Since we want to support up to 1Hz signals,
 	-- we need this value to go up to 10 million => 24 bits are needed (16 million).
-	constant MAX_TRIGGER_CYCLES_SIZE : integer := 24;
+	constant MAX_TRIGGER_TIME_SIZE : integer := 24;
 
 	type tExtTriggerConfigParamAddresses is record
 		RunDetector_S             : unsigned(7 downto 0);
@@ -42,12 +42,12 @@ package ExtTriggerConfigRecords is
 		DetectFallingEdges_S      : std_logic;
 		DetectPulses_S            : std_logic;
 		DetectPulsePolarity_S     : std_logic;
-		DetectPulseLength_D       : unsigned(MAX_TRIGGER_CYCLES_SIZE - 1 downto 0);
+		DetectPulseLength_D       : unsigned(MAX_TRIGGER_TIME_SIZE - 1 downto 0);
 		RunGenerator_S            : std_logic;
 		GenerateUseCustomSignal_S : std_logic;
 		GeneratePulsePolarity_S   : std_logic;
-		GeneratePulseInterval_D   : unsigned(MAX_TRIGGER_CYCLES_SIZE - 1 downto 0);
-		GeneratePulseLength_D     : unsigned(MAX_TRIGGER_CYCLES_SIZE - 1 downto 0);
+		GeneratePulseInterval_D   : unsigned(MAX_TRIGGER_TIME_SIZE - 1 downto 0);
+		GeneratePulseLength_D     : unsigned(MAX_TRIGGER_TIME_SIZE - 1 downto 0);
 	end record tExtTriggerConfig;
 
 	constant tExtTriggerConfigDefault : tExtTriggerConfig := (

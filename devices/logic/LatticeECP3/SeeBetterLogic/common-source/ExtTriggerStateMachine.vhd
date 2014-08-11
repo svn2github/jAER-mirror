@@ -32,7 +32,7 @@ end entity ExtTriggerStateMachine;
 architecture Behavioral of ExtTriggerStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type state is (stIdle, stWriteEvent);
+	type state is (stIdle, stWriteRisingEdgeEvent, stWriteFallingEdgeEvent, stWritePulseEvent);
 	attribute syn_enum_encoding of state : type is "onehot";
 
 	-- present and next state
@@ -41,40 +41,118 @@ architecture Behavioral of ExtTriggerStateMachine is
 	-- Number of cycles to get a 100 ns time slice at current logic frequency.
 	constant TRIGGER_TIME_CYCLES      : integer := LOGIC_CLOCK_FREQ / 10;
 	constant TRIGGER_TIME_CYCLES_SIZE : integer := integer(ceil(log2(real(TRIGGER_TIME_CYCLES + 1))));
+
+	-- Multiply configuration input with number of cycles needed to attain right timing.
+	constant TRIGGER_CYCLES_SIZE   : integer := MAX_TRIGGER_TIME_SIZE + TRIGGER_TIME_CYCLES_SIZE;
+	signal DetectPulseLength_D     : unsigned(TRIGGER_CYCLES_SIZE - 1 downto 0);
+	signal GeneratePulseInterval_D : unsigned(TRIGGER_CYCLES_SIZE - 1 downto 0);
+	signal GeneratePulseLength_D   : unsigned(TRIGGER_CYCLES_SIZE - 1 downto 0);
+
+	-- Detector signals.
+	signal RisingEdgeDetected_S  : std_logic;
+	signal FallingEdgeDetected_S : std_logic;
+	signal PulseDetected_S       : std_logic;
+
+	-- Generator signal.
+	signal GeneratedPulse_S : std_logic;
+
+	-- Register configuration inputs.
+	signal ExtTriggerConfig_D : tExtTriggerConfig;
 begin
-	p_memoryless : process(State_DP, OutFifoControl_SI)
+	extTriggerDetectorLogic : process(State_DP, OutFifoControl_SI, ExtTriggerConfig_D, FallingEdgeDetected_S, PulseDetected_S, RisingEdgeDetected_S)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 
-		OutFifoControl_SO.Write_S <= '0';
 		OutFifoData_DO            <= (others => '0');
+		OutFifoControl_SO.Write_S <= '0';
 
 		case State_DP is
 			when stIdle =>
-			-- Only exit idle state if External Trigger data producer is active.
-			--if ExtTriggerRun_SI = '1' then
-			--if OutFifo_I.Full_S = '0' then
-			-- If output fifo full, just wait for it to be empty.
-			--State_DN <= stWriteEvent;
-			--end if;
-			--end if;
+				-- Only exit idle state if External Trigger data producer is active and FIFO has space.
+				if ExtTriggerConfig_D.RunDetector_S = '1' and OutFifoControl_SI.Full_S = '0' then
+					-- TODO: verify what happens if/when multiple fire together.
+					if ExtTriggerConfig_D.DetectRisingEdges_S = '1' and RisingEdgeDetected_S = '1' then
+						State_DN <= stWriteRisingEdgeEvent;
+					end if;
+					if ExtTriggerConfig_D.DetectFallingEdges_S = '1' and FallingEdgeDetected_S = '1' then
+						State_DN <= stWriteFallingEdgeEvent;
+					end if;
+					if ExtTriggerConfig_D.DetectPulses_S = '1' and PulseDetected_S = '1' then
+						State_DN <= stWritePulseEvent;
+					end if;
+				end if;
 
-			when stWriteEvent =>
-				OutFifoData_DO            <= (others => '0');
+			when stWriteRisingEdgeEvent =>
+				OutFifoData_DO            <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_EXT_TRIGGER_RISING;
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stIdle;
+
+			when stWriteFallingEdgeEvent =>
+				OutFifoData_DO            <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_EXT_TRIGGER_FALLING;
+				OutFifoControl_SO.Write_S <= '1';
+				State_DN                  <= stIdle;
+
+			when stWritePulseEvent =>
+				OutFifoData_DO            <= EVENT_CODE_SPECIAL & EVENT_CODE_SPECIAL_EXT_TRIGGER_PULSE;
 				OutFifoControl_SO.Write_S <= '1';
 				State_DN                  <= stIdle;
 
 			when others => null;
 		end case;
-	end process p_memoryless;
+	end process extTriggerDetectorLogic;
 
 	-- Change state on clock edge (synchronous).
-	p_memoryzing : process(Clock_CI, Reset_RI)
+	registerUpdate : process(Clock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
 			State_DP <= stIdle;
+
+			ExtTriggerConfig_D <= tExtTriggerConfigDefault;
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
+
+			ExtTriggerConfig_D <= ExtTriggerConfig_DI;
 		end if;
-	end process p_memoryzing;
+	end process registerUpdate;
+
+	-- Calculate values in cycles for pulse detector and generator, by multiplying time-slice number by cycles in that time-slice.
+	DetectPulseLength_D     <= ExtTriggerConfig_D.DetectPulseLength_D * to_unsigned(TRIGGER_TIME_CYCLES, TRIGGER_TIME_CYCLES_SIZE);
+	GeneratePulseInterval_D <= ExtTriggerConfig_D.GeneratePulseInterval_D * to_unsigned(TRIGGER_TIME_CYCLES, TRIGGER_TIME_CYCLES_SIZE);
+	GeneratePulseLength_D   <= ExtTriggerConfig_D.GeneratePulseLength_D * to_unsigned(TRIGGER_TIME_CYCLES, TRIGGER_TIME_CYCLES_SIZE);
+
+	extTriggerEdgeDetector : entity work.EdgeDetector
+		generic map(
+			SIGNAL_INITIAL_POLARITY => '0')
+		port map(
+			Clock_CI               => Clock_CI,
+			Reset_RI               => Reset_RI,
+			InputSignal_SI         => ExtTriggerSignal_SI,
+			RisingEdgeDetected_SO  => RisingEdgeDetected_S,
+			FallingEdgeDetected_SO => FallingEdgeDetected_S);
+
+	extTriggerPulseDetector : entity work.PulseDetector
+		generic map(
+			SIZE => TRIGGER_CYCLES_SIZE)
+		port map(
+			Clock_CI         => Clock_CI,
+			Reset_RI         => Reset_RI,
+			PulsePolarity_SI => ExtTriggerConfig_D.DetectPulsePolarity_S,
+			PulseLength_DI   => DetectPulseLength_D,
+			InputSignal_SI   => ExtTriggerSignal_SI,
+			PulseDetected_SO => PulseDetected_S);
+
+	extTriggerPulseGenerator : entity work.PulseGenerator
+		generic map(
+			SIZE                    => TRIGGER_CYCLES_SIZE,
+			SIGNAL_INITIAL_POLARITY => '0')
+		port map(
+			Clock_CI         => Clock_CI,
+			Reset_RI         => Reset_RI,
+			PulsePolarity_SI => ExtTriggerConfig_D.GeneratePulsePolarity_S,
+			PulseInterval_DI => GeneratePulseInterval_D,
+			PulseLength_DI   => GeneratePulseLength_D,
+			Zero_SI          => not ExtTriggerConfig_D.RunGenerator_S,
+			PulseOut_SO      => GeneratedPulse_S);
+
+	ExtTriggerSignal_SO <= CustomTriggerSignal_SI when (ExtTriggerConfig_D.RunGenerator_S = '1' and ExtTriggerConfig_D.GenerateUseCustomSignal_S = '1') else GeneratedPulse_S;
 end architecture Behavioral;
