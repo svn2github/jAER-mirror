@@ -9,7 +9,7 @@ package Settings is
 	constant USB_EARLY_PACKET_MS    : integer := 1; -- send a packet each X milliseconds
 	constant USB_BURST_WRITE_LENGTH : integer := 8;
 
-	constant LOGIC_CLOCK_FREQ : integer := 160; -- PLL can generate between 5 and 500 MHz here.
+	constant LOGIC_CLOCK_FREQ : integer := 60; -- PLL can generate between 5 and 500 MHz here.
 
 	constant AER_BUS_WIDTH : integer := 10;
 	constant ADC_BUS_WIDTH : integer := 10;

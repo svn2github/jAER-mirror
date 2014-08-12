@@ -84,7 +84,7 @@ BCOM: process (cs, CAVIAR_data, CAVIAR_req, WSAER_ack, old_row, no_row)begin
 		if (CAVIAR_req='0' and (CAVIAR_data(16 downto 9) /= old_row or no_row = '1')) then
 		   ns <= waitACK_row;
 	    elsif (CAVIAR_req='0' and CAVIAR_data(16 downto 9) = old_row) then
-		   ns <= waitACK_row;
+		   ns <= waitACK_col;
 		else ns <= idle;
 		end if;
 	when waitACK_col =>
