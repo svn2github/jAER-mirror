@@ -18,7 +18,7 @@ entity MultiplexerSPIConfig is
 end entity MultiplexerSPIConfig;
 
 architecture Behavioral of MultiplexerSPIConfig is
-	signal LatchMultiplexerReg_SP, LatchMultiplexerReg_SN   : std_logic;
+	signal LatchMultiplexerReg_S                            : std_logic;
 	signal MultiplexerInput_DP, MultiplexerInput_DN         : std_logic_vector(31 downto 0);
 	signal MultiplexerOutput_DP, MultiplexerOutput_DN       : std_logic_vector(31 downto 0);
 	signal MultiplexerConfigReg_DP, MultiplexerConfigReg_DN : tMultiplexerConfig;
@@ -26,15 +26,7 @@ begin
 	MultiplexerConfig_DO            <= MultiplexerConfigReg_DP;
 	MultiplexerConfigParamOutput_DO <= MultiplexerOutput_DP;
 
-	multiplexerISelect : process(ConfigModuleAddress_DI)
-	begin
-		-- Input side select.
-		LatchMultiplexerReg_SN <= '0';
-
-		if ConfigModuleAddress_DI = MULTIPLEXERCONFIG_MODULE_ADDRESS then
-			LatchMultiplexerReg_SN <= '1';
-		end if;
-	end process multiplexerISelect;
+	LatchMultiplexerReg_S <= '1' when ConfigModuleAddress_DI = MULTIPLEXERCONFIG_MODULE_ADDRESS else '0';
 
 	multiplexerIO : process(ConfigParamAddress_DI, ConfigParamInput_DI, MultiplexerInput_DP, MultiplexerConfigReg_DP)
 	begin
@@ -62,17 +54,15 @@ begin
 	multiplexerUpdate : process(Clock_CI, Reset_RI) is
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active high)
-			LatchMultiplexerReg_SP <= '0';
-			MultiplexerInput_DP    <= (others => '0');
-			MultiplexerOutput_DP   <= (others => '0');
+			MultiplexerInput_DP  <= (others => '0');
+			MultiplexerOutput_DP <= (others => '0');
 
 			MultiplexerConfigReg_DP <= tMultiplexerConfigDefault;
 		elsif rising_edge(Clock_CI) then -- rising clock edge
-			LatchMultiplexerReg_SP <= LatchMultiplexerReg_SN;
-			MultiplexerInput_DP    <= MultiplexerInput_DN;
-			MultiplexerOutput_DP   <= MultiplexerOutput_DN;
+			MultiplexerInput_DP  <= MultiplexerInput_DN;
+			MultiplexerOutput_DP <= MultiplexerOutput_DN;
 
-			if LatchMultiplexerReg_SP = '1' and ConfigLatchInput_SI = '1' then
+			if LatchMultiplexerReg_S = '1' and ConfigLatchInput_SI = '1' then
 				MultiplexerConfigReg_DP <= MultiplexerConfigReg_DN;
 			end if;
 		end if;

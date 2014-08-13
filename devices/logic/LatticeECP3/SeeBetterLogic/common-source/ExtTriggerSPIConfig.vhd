@@ -18,7 +18,7 @@ entity ExtTriggerSPIConfig is
 end entity ExtTriggerSPIConfig;
 
 architecture Behavioral of ExtTriggerSPIConfig is
-	signal LatchExtTriggerReg_SP, LatchExtTriggerReg_SN   : std_logic;
+	signal LatchExtTriggerReg_S                           : std_logic;
 	signal ExtTriggerInput_DP, ExtTriggerInput_DN         : std_logic_vector(31 downto 0);
 	signal ExtTriggerOutput_DP, ExtTriggerOutput_DN       : std_logic_vector(31 downto 0);
 	signal ExtTriggerConfigReg_DP, ExtTriggerConfigReg_DN : tExtTriggerConfig;
@@ -26,15 +26,7 @@ begin
 	ExtTriggerConfig_DO            <= ExtTriggerConfigReg_DP;
 	ExtTriggerConfigParamOutput_DO <= ExtTriggerOutput_DP;
 
-	extTriggerISelect : process(ConfigModuleAddress_DI)
-	begin
-		-- Input side select.
-		LatchExtTriggerReg_SN <= '0';
-
-		if ConfigModuleAddress_DI = ExtTriggerCONFIG_MODULE_ADDRESS then
-			LatchExtTriggerReg_SN <= '1';
-		end if;
-	end process extTriggerISelect;
+	LatchExtTriggerReg_S <= '1' when ConfigModuleAddress_DI = ExtTriggerCONFIG_MODULE_ADDRESS else '0';
 
 	extTriggerIO : process(ConfigParamAddress_DI, ConfigParamInput_DI, ExtTriggerInput_DP, ExtTriggerConfigReg_DP)
 	begin
@@ -94,17 +86,15 @@ begin
 	extTriggerUpdate : process(Clock_CI, Reset_RI) is
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active high)
-			LatchExtTriggerReg_SP <= '0';
-			ExtTriggerInput_DP    <= (others => '0');
-			ExtTriggerOutput_DP   <= (others => '0');
+			ExtTriggerInput_DP  <= (others => '0');
+			ExtTriggerOutput_DP <= (others => '0');
 
 			ExtTriggerConfigReg_DP <= tExtTriggerConfigDefault;
 		elsif rising_edge(Clock_CI) then -- rising clock edge
-			LatchExtTriggerReg_SP <= LatchExtTriggerReg_SN;
-			ExtTriggerInput_DP    <= ExtTriggerInput_DN;
-			ExtTriggerOutput_DP   <= ExtTriggerOutput_DN;
+			ExtTriggerInput_DP  <= ExtTriggerInput_DN;
+			ExtTriggerOutput_DP <= ExtTriggerOutput_DN;
 
-			if LatchExtTriggerReg_SP = '1' and ConfigLatchInput_SI = '1' then
+			if LatchExtTriggerReg_S = '1' and ConfigLatchInput_SI = '1' then
 				ExtTriggerConfigReg_DP <= ExtTriggerConfigReg_DN;
 			end if;
 		end if;

@@ -162,38 +162,12 @@ begin
 	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
 	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI; -- Direct bypass.
 	-- Always enable chip if it is needed (for DVS or APS).
-	chipBiasEnableBuffer : entity work.SimpleRegister
-		port map(
-			Clock_CI     => LogicClock_C,
-			Reset_RI     => LogicReset_R,
-			Enable_SI    => '1',
-			Input_SI(0)  => DVSAERConfig_D.Run_S or APSADCConfig_D.Run_S,
-			Output_SO(0) => ChipBiasEnable_SO);
+	ChipBiasEnable_SO     <= DVSAERConfig_D.Run_S or APSADCConfig_D.Run_S;
 
 	-- Wire all LEDs.
-	led1Buffer : entity work.SimpleRegister
-		port map(
-			Clock_CI     => LogicClock_C,
-			Reset_RI     => LogicReset_R,
-			Enable_SI    => '1',
-			Input_SI(0)  => MultiplexerConfig_D.Run_S,
-			Output_SO(0) => LED1_SO);
-
-	led2Buffer : entity work.SimpleRegister
-		port map(
-			Clock_CI     => USBClock_CI,
-			Reset_RI     => USBReset_R,
-			Enable_SI    => '1',
-			Input_SI(0)  => LogicUSBFifoControlOut_S.ReadSide.Empty_S,
-			Output_SO(0) => LED2_SO);
-
-	led3Buffer : entity work.SimpleRegister
-		port map(
-			Clock_CI     => LogicClock_C,
-			Reset_RI     => LogicReset_R,
-			Enable_SI    => '1',
-			Input_SI(0)  => LogicUSBFifoControlOut_S.WriteSide.Full_S,
-			Output_SO(0) => LED3_SO);
+	LED1_SO <= MultiplexerConfig_D.Run_S;
+	LED2_SO <= LogicUSBFifoControlOut_S.ReadSide.Empty_S;
+	LED3_SO <= LogicUSBFifoControlOut_S.WriteSide.Full_S;
 
 	-- Generate logic clock using a PLL.
 	logicClockPLL : entity work.PLL
@@ -273,8 +247,7 @@ begin
 			EMPTY_FLAG        => 0,
 			ALMOST_EMPTY_FLAG => DVSAER_FIFO_ALMOST_EMPTY_SIZE,
 			FULL_FLAG         => DVSAER_FIFO_SIZE,
-			ALMOST_FULL_FLAG  => DVSAER_FIFO_SIZE - DVSAER_FIFO_ALMOST_FULL_SIZE,
-			MEMORY            => "LUT")
+			ALMOST_FULL_FLAG  => DVSAER_FIFO_SIZE - DVSAER_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Clock_CI       => LogicClock_C,
 			Reset_RI       => LogicReset_R,
@@ -316,8 +289,7 @@ begin
 			EMPTY_FLAG        => 0,
 			ALMOST_EMPTY_FLAG => APSADC_FIFO_ALMOST_EMPTY_SIZE,
 			FULL_FLAG         => APSADC_FIFO_SIZE,
-			ALMOST_FULL_FLAG  => APSADC_FIFO_SIZE - APSADC_FIFO_ALMOST_FULL_SIZE,
-			MEMORY            => "LUT")
+			ALMOST_FULL_FLAG  => APSADC_FIFO_SIZE - APSADC_FIFO_ALMOST_FULL_SIZE)
 		port map(
 			Clock_CI       => LogicClock_C,
 			Reset_RI       => LogicReset_R,

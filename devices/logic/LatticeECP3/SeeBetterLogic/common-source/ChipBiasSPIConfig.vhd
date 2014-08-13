@@ -20,12 +20,12 @@ entity ChipBiasSPIConfig is
 end entity ChipBiasSPIConfig;
 
 architecture Behavioral of ChipBiasSPIConfig is
-	signal LatchBiasReg_SP, LatchBiasReg_SN   : std_logic;
+	signal LatchBiasReg_S                     : std_logic;
 	signal BiasInput_DP, BiasInput_DN         : std_logic_vector(31 downto 0);
 	signal BiasOutput_DP, BiasOutput_DN       : std_logic_vector(31 downto 0);
 	signal BiasConfigReg_DP, BiasConfigReg_DN : tBiasConfig;
 
-	signal LatchChipReg_SP, LatchChipReg_SN   : std_logic;
+	signal LatchChipReg_S                     : std_logic;
 	signal ChipInput_DP, ChipInput_DN         : std_logic_vector(31 downto 0);
 	signal ChipOutput_DP, ChipOutput_DN       : std_logic_vector(31 downto 0);
 	signal ChipConfigReg_DP, ChipConfigReg_DN : tChipConfig;
@@ -36,23 +36,8 @@ begin
 	ChipConfig_DO            <= ChipConfigReg_DP;
 	ChipConfigParamOutput_DO <= ChipOutput_DP;
 
-	biasISelect : process(ConfigModuleAddress_DI, ConfigParamAddress_DI)
-	begin
-		-- Input side select.
-		LatchBiasReg_SN <= '0';
-		LatchChipReg_SN <= '0';
-
-		case ConfigModuleAddress_DI is
-			when CHIPBIASCONFIG_MODULE_ADDRESS =>
-				if ConfigParamAddress_DI(7) = '0' then
-					LatchBiasReg_SN <= '1';
-				else
-					LatchChipReg_SN <= '1';
-				end if;
-
-			when others => null;
-		end case;
-	end process biasISelect;
+	LatchBiasReg_S <= '1' when (ConfigModuleAddress_DI = CHIPBIASCONFIG_MODULE_ADDRESS and ConfigParamAddress_DI(7) = '0') else '0';
+	LatchChipReg_S <= '1' when (ConfigModuleAddress_DI = CHIPBIASCONFIG_MODULE_ADDRESS and ConfigParamAddress_DI(7) = '1') else '0';
 
 	biasIO : process(ConfigParamAddress_DI, ConfigParamInput_DI, BiasInput_DP, BiasConfigReg_DP)
 	begin
@@ -156,17 +141,15 @@ begin
 	biasUpdate : process(Clock_CI, Reset_RI) is
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active high)
-			LatchBiasReg_SP <= '0';
-			BiasInput_DP    <= (others => '0');
-			BiasOutput_DP   <= (others => '0');
+			BiasInput_DP  <= (others => '0');
+			BiasOutput_DP <= (others => '0');
 
 			BiasConfigReg_DP <= tBiasConfigDefault;
 		elsif rising_edge(Clock_CI) then -- rising clock edge
-			LatchBiasReg_SP <= LatchBiasReg_SN;
-			BiasInput_DP    <= BiasInput_DN;
-			BiasOutput_DP   <= BiasOutput_DN;
+			BiasInput_DP  <= BiasInput_DN;
+			BiasOutput_DP <= BiasOutput_DN;
 
-			if LatchBiasReg_SP = '1' and ConfigLatchInput_SI = '1' then
+			if LatchBiasReg_S = '1' and ConfigLatchInput_SI = '1' then
 				BiasConfigReg_DP <= BiasConfigReg_DN;
 			end if;
 		end if;
@@ -246,17 +229,15 @@ begin
 	chipUpdate : process(Clock_CI, Reset_RI) is
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active high)
-			LatchChipReg_SP <= '0';
-			ChipInput_DP    <= (others => '0');
-			ChipOutput_DP   <= (others => '0');
+			ChipInput_DP  <= (others => '0');
+			ChipOutput_DP <= (others => '0');
 
 			ChipConfigReg_DP <= tChipConfigDefault;
 		elsif rising_edge(Clock_CI) then -- rising clock edge
-			LatchChipReg_SP <= LatchChipReg_SN;
-			ChipInput_DP    <= ChipInput_DN;
-			ChipOutput_DP   <= ChipOutput_DN;
+			ChipInput_DP  <= ChipInput_DN;
+			ChipOutput_DP <= ChipOutput_DN;
 
-			if LatchChipReg_SP = '1' and ConfigLatchInput_SI = '1' then
+			if LatchChipReg_S = '1' and ConfigLatchInput_SI = '1' then
 				ChipConfigReg_DP <= ChipConfigReg_DN;
 			end if;
 		end if;

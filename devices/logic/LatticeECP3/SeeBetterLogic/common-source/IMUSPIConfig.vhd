@@ -18,7 +18,7 @@ entity IMUSPIConfig is
 end entity IMUSPIConfig;
 
 architecture Behavioral of IMUSPIConfig is
-	signal LatchIMUReg_SP, LatchIMUReg_SN   : std_logic;
+	signal LatchIMUReg_S                    : std_logic;
 	signal IMUInput_DP, IMUInput_DN         : std_logic_vector(31 downto 0);
 	signal IMUOutput_DP, IMUOutput_DN       : std_logic_vector(31 downto 0);
 	signal IMUConfigReg_DP, IMUConfigReg_DN : tIMUConfig;
@@ -26,15 +26,7 @@ begin
 	IMUConfig_DO            <= IMUConfigReg_DP;
 	IMUConfigParamOutput_DO <= IMUOutput_DP;
 
-	imuISelect : process(ConfigModuleAddress_DI)
-	begin
-		-- Input side select.
-		LatchIMUReg_SN <= '0';
-
-		if ConfigModuleAddress_DI = IMUCONFIG_MODULE_ADDRESS then
-			LatchIMUReg_SN <= '1';
-		end if;
-	end process imuISelect;
+	LatchIMUReg_S <= '1' when ConfigModuleAddress_DI = IMUCONFIG_MODULE_ADDRESS else '0';
 
 	imuIO : process(ConfigParamAddress_DI, ConfigParamInput_DI, IMUInput_DP, IMUConfigReg_DP)
 	begin
@@ -90,17 +82,15 @@ begin
 	imuUpdate : process(Clock_CI, Reset_RI) is
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active high)
-			LatchIMUReg_SP <= '0';
-			IMUInput_DP    <= (others => '0');
-			IMUOutput_DP   <= (others => '0');
+			IMUInput_DP  <= (others => '0');
+			IMUOutput_DP <= (others => '0');
 
 			IMUConfigReg_DP <= tIMUConfigDefault;
 		elsif rising_edge(Clock_CI) then -- rising clock edge
-			LatchIMUReg_SP <= LatchIMUReg_SN;
-			IMUInput_DP    <= IMUInput_DN;
-			IMUOutput_DP   <= IMUOutput_DN;
+			IMUInput_DP  <= IMUInput_DN;
+			IMUOutput_DP <= IMUOutput_DN;
 
-			if LatchIMUReg_SP = '1' and ConfigLatchInput_SI = '1' then
+			if LatchIMUReg_S = '1' and ConfigLatchInput_SI = '1' then
 				IMUConfigReg_DP <= IMUConfigReg_DN;
 			end if;
 		end if;

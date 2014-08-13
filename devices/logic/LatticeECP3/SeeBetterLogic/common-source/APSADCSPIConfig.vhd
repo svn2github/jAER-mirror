@@ -18,7 +18,7 @@ entity APSADCSPIConfig is
 end entity APSADCSPIConfig;
 
 architecture Behavioral of APSADCSPIConfig is
-	signal LatchAPSADCReg_SP, LatchAPSADCReg_SN   : std_logic;
+	signal LatchAPSADCReg_S                       : std_logic;
 	signal APSADCInput_DP, APSADCInput_DN         : std_logic_vector(31 downto 0);
 	signal APSADCOutput_DP, APSADCOutput_DN       : std_logic_vector(31 downto 0);
 	signal APSADCConfigReg_DP, APSADCConfigReg_DN : tAPSADCConfig;
@@ -26,15 +26,7 @@ begin
 	APSADCConfig_DO            <= APSADCConfigReg_DP;
 	APSADCConfigParamOutput_DO <= APSADCOutput_DP;
 
-	apsadcISelect : process(ConfigModuleAddress_DI)
-	begin
-		-- Input side select.
-		LatchAPSADCReg_SN <= '0';
-
-		if ConfigModuleAddress_DI = APSADCCONFIG_MODULE_ADDRESS then
-			LatchAPSADCReg_SN <= '1';
-		end if;
-	end process apsadcISelect;
+	LatchAPSADCReg_S <= '1' when ConfigModuleAddress_DI = APSADCCONFIG_MODULE_ADDRESS else '0';
 
 	apsadcIO : process(ConfigParamAddress_DI, ConfigParamInput_DI, APSADCInput_DP, APSADCConfigReg_DP)
 	begin
@@ -54,17 +46,15 @@ begin
 	apsadcUpdate : process(Clock_CI, Reset_RI) is
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active high)
-			LatchAPSADCReg_SP <= '0';
-			APSADCInput_DP    <= (others => '0');
-			APSADCOutput_DP   <= (others => '0');
+			APSADCInput_DP  <= (others => '0');
+			APSADCOutput_DP <= (others => '0');
 
 			APSADCConfigReg_DP <= tAPSADCConfigDefault;
 		elsif rising_edge(Clock_CI) then -- rising clock edge
-			LatchAPSADCReg_SP <= LatchAPSADCReg_SN;
-			APSADCInput_DP    <= APSADCInput_DN;
-			APSADCOutput_DP   <= APSADCOutput_DN;
+			APSADCInput_DP  <= APSADCInput_DN;
+			APSADCOutput_DP <= APSADCOutput_DN;
 
-			if LatchAPSADCReg_SP = '1' and ConfigLatchInput_SI = '1' then
+			if LatchAPSADCReg_S = '1' and ConfigLatchInput_SI = '1' then
 				APSADCConfigReg_DP <= APSADCConfigReg_DN;
 			end if;
 		end if;

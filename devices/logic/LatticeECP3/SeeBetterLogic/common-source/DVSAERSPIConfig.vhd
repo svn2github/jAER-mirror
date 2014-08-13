@@ -18,7 +18,7 @@ entity DVSAERSPIConfig is
 end entity DVSAERSPIConfig;
 
 architecture Behavioral of DVSAERSPIConfig is
-	signal LatchDVSAERReg_SP, LatchDVSAERReg_SN   : std_logic;
+	signal LatchDVSAERReg_S                       : std_logic;
 	signal DVSAERInput_DP, DVSAERInput_DN         : std_logic_vector(31 downto 0);
 	signal DVSAEROutput_DP, DVSAEROutput_DN       : std_logic_vector(31 downto 0);
 	signal DVSAERConfigReg_DP, DVSAERConfigReg_DN : tDVSAERConfig;
@@ -26,15 +26,7 @@ begin
 	DVSAERConfig_DO            <= DVSAERConfigReg_DP;
 	DVSAERConfigParamOutput_DO <= DVSAEROutput_DP;
 
-	dvsaerISelect : process(ConfigModuleAddress_DI)
-	begin
-		-- Input side select.
-		LatchDVSAERReg_SN <= '0';
-
-		if ConfigModuleAddress_DI = DVSAERCONFIG_MODULE_ADDRESS then
-			LatchDVSAERReg_SN <= '1';
-		end if;
-	end process dvsaerISelect;
+	LatchDVSAERReg_S <= '1' when ConfigModuleAddress_DI = DVSAERCONFIG_MODULE_ADDRESS else '0';
 
 	dvsaerIO : process(ConfigParamAddress_DI, ConfigParamInput_DI, DVSAERInput_DP, DVSAERConfigReg_DP)
 	begin
@@ -62,17 +54,15 @@ begin
 	dvsaerUpdate : process(Clock_CI, Reset_RI) is
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active high)
-			LatchDVSAERReg_SP <= '0';
-			DVSAERInput_DP    <= (others => '0');
-			DVSAEROutput_DP   <= (others => '0');
+			DVSAERInput_DP  <= (others => '0');
+			DVSAEROutput_DP <= (others => '0');
 
 			DVSAERConfigReg_DP <= tDVSAERConfigDefault;
 		elsif rising_edge(Clock_CI) then -- rising clock edge
-			LatchDVSAERReg_SP <= LatchDVSAERReg_SN;
-			DVSAERInput_DP    <= DVSAERInput_DN;
-			DVSAEROutput_DP   <= DVSAEROutput_DN;
+			DVSAERInput_DP  <= DVSAERInput_DN;
+			DVSAEROutput_DP <= DVSAEROutput_DN;
 
-			if LatchDVSAERReg_SP = '1' and ConfigLatchInput_SI = '1' then
+			if LatchDVSAERReg_S = '1' and ConfigLatchInput_SI = '1' then
 				DVSAERConfigReg_DP <= DVSAERConfigReg_DN;
 			end if;
 		end if;
