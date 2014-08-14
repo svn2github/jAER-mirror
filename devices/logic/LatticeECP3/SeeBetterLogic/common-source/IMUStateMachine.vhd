@@ -46,7 +46,7 @@ architecture Behavioral of IMUStateMachine is
 
 	constant I2C_ADDRESS : std_logic_vector(6 downto 0) := "1101000";
 
-	type tI2CRegisterddresses is record
+	type tI2CRegisterAddresses is record
 		Data              : unsigned(7 downto 0);
 		PowerManagement1  : unsigned(7 downto 0);
 		PowerManagement2  : unsigned(7 downto 0);
@@ -56,9 +56,9 @@ architecture Behavioral of IMUStateMachine is
 		DLFPConfig        : unsigned(7 downto 0);
 		GyroConfig        : unsigned(7 downto 0);
 		AccelConfig       : unsigned(7 downto 0);
-	end record tI2CRegisterddresses;
+	end record tI2CRegisterAddresses;
 
-	constant I2C_REGISTER_ADDRESSES : tI2CRegisterddresses := (
+	constant I2C_REGISTER_ADDRESSES : tI2CRegisterAddresses := (
 		Data              => to_unsigned(59, 8),
 		PowerManagement1  => to_unsigned(107, 8),
 		PowerManagement2  => to_unsigned(108, 8),
@@ -69,11 +69,11 @@ architecture Behavioral of IMUStateMachine is
 		GyroConfig        => to_unsigned(27, 8),
 		AccelConfig       => to_unsigned(28, 8));
 
-	constant I2C_CYCLES            : integer := (LOGIC_CLOCK_FREQ * 1_000_000) / 400_000 / 4;
+	constant I2C_CYCLES            : integer := (LOGIC_CLOCK_FREQ * 10) / 16;
 	constant I2C_CYCLES_SIZE       : integer := integer(ceil(log2(real(I2C_CYCLES + 1))));
 	constant I2C_WRITE_SIZE        : integer := 3;
 	constant I2C_READ_SIZE         : integer := 14;
-	constant I2C_BYTE_COUNTER_SIZE : integer := integer(ceil(log2(real(I2C_READ_SIZE + 4 + 2))));
+	constant I2C_BYTE_COUNTER_SIZE : integer := integer(ceil(log2(real(I2C_WRITE_SIZE + I2C_READ_SIZE + 3))));
 
 	signal I2CStartTransaction_SP, I2CStartTransaction_SN : std_logic;
 	signal I2CReadTransaction_SP, I2CReadTransaction_SN   : std_logic;
@@ -106,10 +106,6 @@ architecture Behavioral of IMUStateMachine is
 	signal IMUClockInt_SP, IMUClockInt_SN : std_logic;
 	signal IMUDataInt_SP, IMUDataInt_SN   : std_logic;
 
-	-- Register output to IMU. Default is Hi-Z.
-	signal IMUClockReg_Z : std_logic;
-	signal IMUDataReg_Z  : std_logic;
-
 	-- Register configuration inputs.
 	signal IMUConfigReg_D : tIMUConfig;
 
@@ -124,14 +120,14 @@ architecture Behavioral of IMUStateMachine is
 	signal AccelFullScaleChanged_S, AccelFullScaleSent_S                     : std_logic;
 	signal GyroFullScaleChanged_S, GyroFullScaleSent_S                       : std_logic;
 begin
-	IMUClockReg_Z <= '0' when IMUClockInt_SP = '0' else 'Z';
-	IMUDataReg_Z  <= '0' when IMUDataInt_SP = '0' else 'Z';
+	IMUClock_ZO <= '0' when IMUClockInt_SP = '0' else 'Z';
+	IMUData_ZIO <= '0' when IMUDataInt_SP = '0' else 'Z';
 
 	-- Input to the I2C shift registers comes always from outside.
-	-- The read SR from the I2C bus directly, the write SR from the IMU SM.
+	-- The read SR from the I2C bus directly, the write SR from the IMU StateMachine.
 	I2CReadSRInput_D <= IMUData_ZIO;
 
-	i2cRegUpdate : process(Clock_CI, Reset_RI) is
+	i2cRegisterUpdate : process(Clock_CI, Reset_RI) is
 	begin
 		if Reset_RI = '1' then
 			I2CState_DP <= stI2CIdle;
@@ -140,9 +136,6 @@ begin
 			I2CReadTransaction_SP  <= '0';
 			I2CDone_SP             <= '0';
 			I2CError_SP            <= '0';
-
-			IMUClock_ZO <= 'Z';
-			IMUData_ZIO <= 'Z';
 
 			IMUClockInt_SP <= '1';
 			IMUDataInt_SP  <= '1';
@@ -154,13 +147,10 @@ begin
 			I2CDone_SP             <= I2CDone_SN;
 			I2CError_SP            <= I2CError_SN;
 
-			IMUClock_ZO <= IMUClockReg_Z;
-			IMUData_ZIO <= IMUDataReg_Z;
-
 			IMUClockInt_SP <= IMUClockInt_SN;
 			IMUDataInt_SP  <= IMUDataInt_SN;
 		end if;
-	end process i2cRegUpdate;
+	end process i2cRegisterUpdate;
 
 	i2cWriteShiftRegister : entity work.ShiftRegister
 		generic map(
@@ -460,7 +450,7 @@ begin
 		end case;
 	end process i2cData;
 
-	p_memoryless : process(State_DP, OutFifoControl_SI, IMUConfigReg_D, IMUInterrupt_SI, I2CDone_SP, I2CError_SP, I2CReadSROutput_D, AccelFullScaleChanged_S, DigitalLowPassFilterChanged_S, GyroFullScaleChanged_S, InterruptConfigChanged_S, InterruptEnableChanged_S, LPCycleTempStandbyChanged_S, LPWakeupAccelGyroStandbyChanged_S, RunChanged_S, RunDelayed_S, SampleRateDividerChanged_S)
+	imuLogic : process(State_DP, OutFifoControl_SI, IMUConfigReg_D, IMUInterrupt_SI, I2CDone_SP, I2CError_SP, I2CReadSROutput_D, AccelFullScaleChanged_S, DigitalLowPassFilterChanged_S, GyroFullScaleChanged_S, InterruptConfigChanged_S, InterruptEnableChanged_S, LPCycleTempStandbyChanged_S, LPWakeupAccelGyroStandbyChanged_S, RunChanged_S, RunDelayed_S, SampleRateDividerChanged_S)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 
@@ -807,10 +797,10 @@ begin
 
 			when others => null;
 		end case;
-	end process p_memoryless;
+	end process imuLogic;
 
 	-- Change state on clock edge (synchronous).
-	p_memoryzing : process(Clock_CI, Reset_RI)
+	imuRegisterUpdate : process(Clock_CI, Reset_RI)
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
 			State_DP <= stIdle;
@@ -821,7 +811,7 @@ begin
 
 			IMUConfigReg_D <= IMUConfig_DI;
 		end if;
-	end process p_memoryzing;
+	end process imuRegisterUpdate;
 
 	-- Delay the Run_S signal by one clock cycle to be in sync with the RunChanged_S signal.
 	-- This avoids taking the wrong branch too early in stIdle.

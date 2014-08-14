@@ -389,6 +389,8 @@ begin
 			FifoData_DO    => ExtTriggerFifoDataOut_D);
 
 	extTriggerSM : entity work.ExtTriggerStateMachine
+		generic map(
+			ENABLE_GENERATOR => false)
 		port map(
 			Clock_CI               => LogicClock_C,
 			Reset_RI               => LogicReset_R,
