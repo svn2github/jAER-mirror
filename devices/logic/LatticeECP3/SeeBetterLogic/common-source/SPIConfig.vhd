@@ -24,7 +24,7 @@ end entity SPIConfig;
 
 architecture Behavioral of SPIConfig is
 	attribute syn_enum_encoding : string;
-	
+
 	type state is (stIdle, stInput, stInputLatch, stOutput);
 	attribute syn_enum_encoding of state : type is "onehot";
 
@@ -98,8 +98,8 @@ begin
 
 	spiBitCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE  => 6,
-			SHORT_OVERFLOW => true)
+			SIZE              => 6,
+			GENERATE_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,

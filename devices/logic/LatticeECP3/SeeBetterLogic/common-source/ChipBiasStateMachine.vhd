@@ -26,7 +26,7 @@ end entity ChipBiasStateMachine;
 
 architecture Behavioral of ChipBiasStateMachine is
 	attribute syn_enum_encoding : string;
-	
+
 	type state is (stIdle, stAckAndLoadBias0, stAckAndLoadBias1, stAckAndLoadBias2, stAckAndLoadBias3, stAckAndLoadBias4, stAckAndLoadBias5, stAckAndLoadBias6,
 		           stAckAndLoadBias7, stAckAndLoadBias8, stAckAndLoadBias9, stAckAndLoadBias10, stAckAndLoadBias11, stAckAndLoadBias12, stAckAndLoadBias13,
 		           stAckAndLoadBias14, stAckAndLoadBias15, stAckAndLoadBias16, stAckAndLoadBias17, stAckAndLoadBias18, stAckAndLoadBias19, stAckAndLoadBias20,
@@ -764,7 +764,8 @@ begin
 
 	waitCyclesCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => WAIT_CYCLES_COUNTER_SIZE)
+			SIZE              => WAIT_CYCLES_COUNTER_SIZE,
+			GENERATE_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
@@ -776,7 +777,8 @@ begin
 
 	sentBitsCounter : entity work.ContinuousCounter
 		generic map(
-			SIZE => SENT_BITS_COUNTER_SIZE)
+			SIZE              => SENT_BITS_COUNTER_SIZE,
+			GENERATE_OVERFLOW => false)
 		port map(
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
