@@ -4,6 +4,8 @@ use ieee.numeric_std.all;
 use work.ExtTriggerConfigRecords.all;
 
 entity ExtTriggerSPIConfig is
+	generic(
+		ENABLE_GENERATOR_CONFIG : boolean := true);
 	port(
 		Clock_CI                       : in  std_logic;
 		Reset_RI                       : in  std_logic;
@@ -60,24 +62,34 @@ begin
 				ExtTriggerOutput_DN(tExtTriggerConfig.DetectPulseLength_D'range) <= std_logic_vector(ExtTriggerConfigReg_DP.DetectPulseLength_D);
 
 			when ExtTriggerCONFIG_PARAM_ADDRESSES.RunGenerator_S =>
-				ExtTriggerConfigReg_DN.RunGenerator_S <= ExtTriggerInput_DP(0);
-				ExtTriggerOutput_DN(0)                <= ExtTriggerConfigReg_DP.RunGenerator_S;
+				if ENABLE_GENERATOR_CONFIG = true then
+					ExtTriggerConfigReg_DN.RunGenerator_S <= ExtTriggerInput_DP(0);
+					ExtTriggerOutput_DN(0)                <= ExtTriggerConfigReg_DP.RunGenerator_S;
+				end if;
 
 			when ExtTriggerCONFIG_PARAM_ADDRESSES.GenerateUseCustomSignal_S =>
-				ExtTriggerConfigReg_DN.GenerateUseCustomSignal_S <= ExtTriggerInput_DP(0);
-				ExtTriggerOutput_DN(0)                           <= ExtTriggerConfigReg_DP.GenerateUseCustomSignal_S;
+				if ENABLE_GENERATOR_CONFIG = true then
+					ExtTriggerConfigReg_DN.GenerateUseCustomSignal_S <= ExtTriggerInput_DP(0);
+					ExtTriggerOutput_DN(0)                           <= ExtTriggerConfigReg_DP.GenerateUseCustomSignal_S;
+				end if;
 
 			when ExtTriggerCONFIG_PARAM_ADDRESSES.GeneratePulsePolarity_S =>
-				ExtTriggerConfigReg_DN.GeneratePulsePolarity_S <= ExtTriggerInput_DP(0);
-				ExtTriggerOutput_DN(0)                         <= ExtTriggerConfigReg_DP.GeneratePulsePolarity_S;
+				if ENABLE_GENERATOR_CONFIG = true then
+					ExtTriggerConfigReg_DN.GeneratePulsePolarity_S <= ExtTriggerInput_DP(0);
+					ExtTriggerOutput_DN(0)                         <= ExtTriggerConfigReg_DP.GeneratePulsePolarity_S;
+				end if;
 
 			when ExtTriggerCONFIG_PARAM_ADDRESSES.GeneratePulseInterval_D =>
-				ExtTriggerConfigReg_DN.GeneratePulseInterval_D                       <= unsigned(ExtTriggerInput_DP(tExtTriggerConfig.GeneratePulseInterval_D'range));
-				ExtTriggerOutput_DN(tExtTriggerConfig.GeneratePulseInterval_D'range) <= std_logic_vector(ExtTriggerConfigReg_DP.GeneratePulseInterval_D);
+				if ENABLE_GENERATOR_CONFIG = true then
+					ExtTriggerConfigReg_DN.GeneratePulseInterval_D                       <= unsigned(ExtTriggerInput_DP(tExtTriggerConfig.GeneratePulseInterval_D'range));
+					ExtTriggerOutput_DN(tExtTriggerConfig.GeneratePulseInterval_D'range) <= std_logic_vector(ExtTriggerConfigReg_DP.GeneratePulseInterval_D);
+				end if;
 
 			when ExtTriggerCONFIG_PARAM_ADDRESSES.GeneratePulseLength_D =>
-				ExtTriggerConfigReg_DN.GeneratePulseLength_D                       <= unsigned(ExtTriggerInput_DP(tExtTriggerConfig.GeneratePulseLength_D'range));
-				ExtTriggerOutput_DN(tExtTriggerConfig.GeneratePulseLength_D'range) <= std_logic_vector(ExtTriggerConfigReg_DP.GeneratePulseLength_D);
+				if ENABLE_GENERATOR_CONFIG = true then
+					ExtTriggerConfigReg_DN.GeneratePulseLength_D                       <= unsigned(ExtTriggerInput_DP(tExtTriggerConfig.GeneratePulseLength_D'range));
+					ExtTriggerOutput_DN(tExtTriggerConfig.GeneratePulseLength_D'range) <= std_logic_vector(ExtTriggerConfigReg_DP.GeneratePulseLength_D);
+				end if;
 
 			when others => null;
 		end case;

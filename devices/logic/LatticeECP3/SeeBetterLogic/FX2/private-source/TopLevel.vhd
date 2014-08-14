@@ -403,6 +403,8 @@ begin
 			ExtTriggerConfig_DI    => ExtTriggerConfig_D);
 
 	extTriggerSPIConfig : entity work.ExtTriggerSPIConfig
+		generic map(
+			ENABLE_GENERATOR_CONFIG => false)
 		port map(
 			Clock_CI                       => LogicClock_C,
 			Reset_RI                       => LogicReset_R,
