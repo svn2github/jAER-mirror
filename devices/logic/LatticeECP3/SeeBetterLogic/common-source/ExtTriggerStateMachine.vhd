@@ -138,7 +138,8 @@ begin
 
 	generator : if ENABLE_GENERATOR = true generate
 		-- Generator signal.
-		signal GeneratedPulse_S : std_logic;
+		signal GeneratedPulse_S      : std_logic;
+		signal ExtTriggerSignalOut_S : std_logic;
 
 		-- Generator configuration signals.
 		signal GeneratePulseInterval_D : unsigned(TRIGGER_CYCLES_SIZE - 1 downto 0);
@@ -161,7 +162,19 @@ begin
 				Zero_SI          => not ExtTriggerConfig_D.RunGenerator_S,
 				PulseOut_SO      => GeneratedPulse_S);
 
-		ExtTriggerSignal_SO <= CustomTriggerSignal_SI when (ExtTriggerConfig_D.RunGenerator_S = '1' and ExtTriggerConfig_D.GenerateUseCustomSignal_S = '1') else GeneratedPulse_S;
+		ExtTriggerSignalOut_S <= CustomTriggerSignal_SI when (ExtTriggerConfig_D.RunGenerator_S = '1' and ExtTriggerConfig_D.GenerateUseCustomSignal_S = '1') else GeneratedPulse_S;
+
+		-- Register output to meet timing specifications.
+		extTriggerSignalOutBuffer : entity work.SimpleRegister
+			generic map(
+				SIZE        => 1,
+				RESET_VALUE => false)
+			port map(
+				Clock_CI     => Clock_CI,
+				Reset_RI     => Reset_RI,
+				Enable_SI    => '1',
+				Input_SI(0)  => ExtTriggerSignalOut_S,
+				Output_SO(0) => ExtTriggerSignal_SO);
 	end generate generator;
 
 	generatorDisabled : if ENABLE_GENERATOR = false generate
