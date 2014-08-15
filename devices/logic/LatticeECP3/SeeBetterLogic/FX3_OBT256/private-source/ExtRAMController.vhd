@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: University of Seville & INI
+-- Engineer: Alejandro Linares & Paco Gomez
 -- 
 -- Create Date:    11:31:39 03/10/2010 
 -- Design Name: 

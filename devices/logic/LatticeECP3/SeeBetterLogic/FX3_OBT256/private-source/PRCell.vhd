@@ -1,11 +1,11 @@
 
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: University of Seville & INI
+-- Engineer: Alejandro Linares & Paco Gomez
 -- 
 -- Create Date:    17:35:06 05/27/2009 
 -- Design Name: 
--- Module Name:    CenterofMassCell - Behavioral 
+-- Module Name:    PatternRecognitionCell - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 

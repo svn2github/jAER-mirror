@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: University of Seville. RTC lab. http://www.atc.us.es
+-- Engineer: Paco Gomez
 -- 
 -- Create Date:    09:35:24 06/25/2009 
 -- Design Name: 

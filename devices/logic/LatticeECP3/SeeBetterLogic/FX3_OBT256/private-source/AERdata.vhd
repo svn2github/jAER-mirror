@@ -1,3 +1,22 @@
+----------------------------------------------------------------------------------
+-- Company: University of Seville. RTC lab. http://www.atc.us.es
+-- Engineer: Paco Gomez
+-- 
+-- Create Date:    09:35:24 06/25/2009 
+-- Design Name: 
+-- Module Name:    AERData - Package 
+-- Project Name: 
+-- Target Devices: 
+-- Tool versions: 
+-- Description: 
+--
+-- Dependencies: 
+--
+-- Revision: 
+-- Revision 0.01 - File Created
+-- Additional Comments: 
+--
+----------------------------------------------------------------------------------
 --	Package File Template
 --
 --	Purpose: This package defines supplemental types, subtypes, 

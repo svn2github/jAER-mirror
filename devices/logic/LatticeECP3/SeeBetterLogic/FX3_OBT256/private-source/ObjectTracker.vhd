@@ -1,10 +1,10 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: University of Seville & INI
+-- Engineer: Alejandro Linares & Paco Gomez
 -- 
 -- Create Date:    09:55:15 05/31/2009 
 -- Design Name: 
--- Module Name:    VelocityDetector - Behavioral 
+-- Module Name:    Object Tracker top module - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 

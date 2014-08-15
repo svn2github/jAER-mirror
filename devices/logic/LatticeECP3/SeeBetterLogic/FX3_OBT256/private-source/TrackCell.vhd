@@ -1,8 +1,8 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: University of Seville
+-- Engineer: Alejandro Linares & Paco Gomez
 -- 
--- Create Date:    18:56:31 04/18/2010 
+-- Create Date:    18:56:31 01/05/2014 
 -- Design Name: 
 -- Module Name:    TrackCell - Behavioral 
 -- Project Name: 

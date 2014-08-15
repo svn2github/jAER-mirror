@@ -1,11 +1,11 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: INI
+-- Engineer: Alejandro Linares
 -- 
--- Create Date:    13:29:55 02/26/2014 
+-- Create Date:    18:56:31 01/05/2014 
 -- Design Name: 
--- Module Name:    BGF_OBT_top - Behavioral 
--- Project Name: 
+-- Module Name:    Background Activity Filter and  Object Trackers top module - Behavioral 
+-- Project Name:   VISUALIZE
 -- Target Devices: 
 -- Tool versions: 
 -- Description: 
