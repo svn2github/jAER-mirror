@@ -19,6 +19,12 @@ If you are already using Xilinx tools you may already have set LM_LICENSE_SERVER
 	2100@license.ini.uzh.ch;C:\lscc\diamond\2.2_x64\license\license.dat
 Note the semicolon separates the two places licenses are looked for.
 
+For standalone programming, you can install the Diamond Programmer utility 3.2.0.134_Programmer_x64.exe which is avaialable from 
+http://www.latticesemi.com/Products/DesignSoftwareAndIP/ProgrammingAndConfigurationSw/Programmer.aspx.
+To use the Diamond Programmer utilty, plug in the programmer and plug programmer into CPLD to be programmed, and then program will find the programmer.
+
+
+
 
 
 
