@@ -255,13 +255,21 @@ INPUT_SETUP PORT "IMUInterrupt_AI" INPUT_DELAY 1.0 ns HOLD 0.5 ns CLKNET "LogicC
 
 // Multi-camera time synchronization
 LOCATE COMP "SyncOutClock_CO" SITE "A13" ;
+IOBUF PORT "SyncOutClock_CO" PULLMODE=NONE ;// JACK pulls high on its own.
+CLOCK_TO_OUT PORT "SyncOutClock_CO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
 LOCATE COMP "SyncOutSwitch_AI" SITE "A14" ;
 
 LOCATE COMP "SyncOutSignal_SO" SITE "A15" ;
+IOBUF PORT "SyncOutSignal_SO" PULLMODE=NONE ;// JACK pulls high on its own.
+CLOCK_TO_OUT PORT "SyncOutSignal_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
 LOCATE COMP "SyncInClock_AI" SITE "A2" ;
+IOBUF PORT "SyncInClock_AI" PULLMODE=NONE ;// JACK pulls high on its own.
+INPUT_SETUP PORT "SyncInClock_AI" INPUT_DELAY 1.0 ns HOLD 0.5 ns CLKNET "LogicClock_C" ;
 
 LOCATE COMP "SyncInSwitch_AI" SITE "A3" ;
 
 LOCATE COMP "SyncInSignal_AI" SITE "A4" ;
+IOBUF PORT "SyncInSignal_AI" PULLMODE=NONE ;// JACK pulls high on its own.
+INPUT_SETUP PORT "SyncInSignal_AI" INPUT_DELAY 1.0 ns HOLD 0.5 ns CLKNET "LogicClock_C" ;
