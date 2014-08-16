@@ -1,18 +1,18 @@
 /**************************************************************
 *
 * Lattice Semiconductor Corp. Copyright 2008
-* 
+*
 *
 ***************************************************************/
 
 
 /**************************************************************
-* 
+*
 * Revision History of slim_pro.c
-* 
-* 
+*
+*
 * 09/11/07 NN Updated to support version 1.3
-* This version supported new POLING STATUS LOOP opcodes (LOOP and ENDLOOP) 
+* This version supported new POLING STATUS LOOP opcodes (LOOP and ENDLOOP)
 * for Flash programming of the Lattice FPGA devices
 * 09/11/07 NN type cast all the mismatch variables
 ***************************************************************/
@@ -74,7 +74,7 @@ unsigned char g_ucCompressCounter = 0; /*** used to indicate how many times 0xFF
 short int g_siIspPins = 0x00;   /*** holds the current byte to be sent to the hardware ***/
 char g_cCurrentJTAGState = 0;	/*** holds the current state of JTAG state machine ***/
 
-int  g_iLoopIndex = 0;			
+int  g_iLoopIndex = 0;
 int  g_iLoopMovingIndex = 0;	/*** Used to point to the location of LOOP data ***/
 int  g_iLoopDataMovingIndex = 0;
 
@@ -104,14 +104,14 @@ xdata const unsigned char g_pucDataArray[]= {0};
 xdata const int g_iAlgoSize = 0;
 xdata const int g_iDataSize = 0;
 
-xdata const struct iState 
-{               
+xdata const struct iState
+{
 	/*** JTAG state machine transistion table ***/
 	unsigned char  CurState;		/*** From this state ***/
 	unsigned char  NextState;		/*** Step to this state ***/
 	unsigned char  Pattern;			/*** The pattern of TMS ***/
 	unsigned char  Pulses;			/*** The number of steps ***/
-} iStates[25] = 
+} iStates[25] =
 {
 	{ DRPAUSE,	SHIFTDR,	0x80, 2 },
 	{ IRPAUSE,	SHIFTIR,	0x80, 2 },
@@ -169,14 +169,14 @@ short int ispProcessVME() reentrant
 	unsigned int uiDataSize       = 0;
 	int iLoopCount                = 0;
 	unsigned int iMovingAlgoIndex = 0;
-	
+
 	/*************************************************************
 	*                                                            *
 	* Begin processing the vme algorithm and data files.         *
 	*                                                            *
 	*************************************************************/
-	
-	while ((ucOpcode = GetByte(g_iMovingAlgoIndex++, 1)) != 0xFF) 
+
+	while ((ucOpcode = GetByte(g_iMovingAlgoIndex++, 1)) != 0xFF)
 	{
 		/*************************************************************
 		*                                                            *
@@ -184,7 +184,7 @@ short int ispProcessVME() reentrant
 		* the core of the embedded processor.                        *
 		*                                                            *
 		*************************************************************/
-		
+
 		switch (ucOpcode)
 		{
 		case STATE:
@@ -192,7 +192,7 @@ short int ispProcessVME() reentrant
 			*                                                            *
 			* Move the state.                                            *
 			*                                                            *
-			*************************************************************/	
+			*************************************************************/
 			ispVMStateMachine(GetByte(g_iMovingAlgoIndex++, 1));
 			break;
 		case SIR:
@@ -226,7 +226,7 @@ short int ispProcessVME() reentrant
 			* Get the ENDDR state and store in global variable.          *
 			*                                                            *
 			*************************************************************/
-			g_cEndDR = GetByte(g_iMovingAlgoIndex++, 1);	
+			g_cEndDR = GetByte(g_iMovingAlgoIndex++, 1);
 			break;
 		case ENDIR:
 			/*************************************************************
@@ -240,15 +240,15 @@ short int ispProcessVME() reentrant
 			g_siHeadIR = (short int) ispVMDataSize();
 			break;
 		case TIR:
-			g_siTailIR = (short int) ispVMDataSize();		
+			g_siTailIR = (short int) ispVMDataSize();
 			break;
 		case HDR:
 			g_siHeadDR = (short int) ispVMDataSize();
-							
+
 			break;
 		case TDR:
 			g_siTailDR = (short int) ispVMDataSize();
-			
+
 			break;
 		case BEGIN_REPEAT:
 			/*************************************************************
@@ -256,9 +256,9 @@ short int ispProcessVME() reentrant
 			* Execute repeat loop.                                       *
 			*                                                            *
 			*************************************************************/
-			
+
 			uiDataSize = ispVMDataSize();
-			
+
 			switch (GetByte(g_iMovingAlgoIndex++, 1))
 			{
 			case PROGRAM:
@@ -292,15 +292,15 @@ short int ispProcessVME() reentrant
 				}
 				break;
 			}
-			
+
 			/*************************************************************
 			*                                                            *
 			* Set the repeat index to the first byte in the repeat loop. *
 			*                                                            *
 			*************************************************************/
-			
+
 			g_iRepeatIndex = g_iMovingAlgoIndex;
-			
+
 			for (; uiDataSize > 0; uiDataSize--)
 			{
 				/*************************************************************
@@ -309,15 +309,15 @@ short int ispProcessVME() reentrant
 				* the repeat index before each repeat loop.                  *
 				*                                                            *
 				*************************************************************/
-				
+
 				g_iMovingAlgoIndex = g_iRepeatIndex;
-				
+
 				/*************************************************************
 				*                                                            *
 				* Make recursive call.                                       *
 				*                                                            *
 				*************************************************************/
-				
+
 				siRetCode = ispProcessVME();
 				if (siRetCode < 0)
 				{
@@ -463,7 +463,7 @@ short int ispProcessVME() reentrant
 					ispVMStateMachine(g_ucLDELAYState);
 					m_loopState = 0;
 					ispVMClocks(g_ucLDELAYTCK);
-					ispVMDelay(g_ucLDELAYDelay);	
+					ispVMDelay(g_ucLDELAYDelay);
 				}
 				if (siRetCode != 0)
 				{
@@ -481,7 +481,7 @@ short int ispProcessVME() reentrant
 				else
 					writePort(pinENABLE, 0x00);
 				ispVMDelay(1);
-				break;	
+				break;
 			case signalTRST:
 				/******************************************************************
 				* Toggle TRST signal                                              *
@@ -502,13 +502,13 @@ short int ispProcessVME() reentrant
 				*************************************************************/
 				return ERR_ALGO_FILE_ERROR;
 		}
-		
+
 		if (siRetCode < 0)
 		{
 			return siRetCode;
 		}
 	}
-	
+
 	return ERR_ALGO_FILE_ERROR;
 }
 
@@ -537,8 +537,8 @@ unsigned int ispVMDataSize()
 	unsigned int uiSize = 0;
 	unsigned char ucCurrentByte = 0;
 	unsigned char ucIndex = 0;
-	
-	while ((ucCurrentByte = GetByte(g_iMovingAlgoIndex++, 1)) & 0x80) 
+
+	while ((ucCurrentByte = GetByte(g_iMovingAlgoIndex++, 1)) & 0x80)
 	{
 		uiSize |=((unsigned int)(ucCurrentByte & 0x7F)) << ucIndex;
 		ucIndex += 7;
@@ -569,38 +569,38 @@ unsigned int ispVMDataSize()
 short int ispVMShiftExec(unsigned int a_uiDataSize)
 {
 	unsigned char ucDataByte = 0;
-	
+
 	/*************************************************************
 	*                                                            *
 	* Reset the data type register.                              *
 	*                                                            *
 	*************************************************************/
-	
+
 	g_usDataType &= ~(TDI_DATA + TDO_DATA + MASK_DATA + DTDI_DATA + DTDO_DATA + COMPRESS_FRAME);
-	
+
 	/*************************************************************
 	*                                                            *
 	* Convert the size from bits to byte.                        *
 	*                                                            *
 	*************************************************************/
-	
+
 	if (a_uiDataSize % 8)
 	{
 		a_uiDataSize = a_uiDataSize / 8 + 1;
 	}
-	else 
+	else
 	{
 		a_uiDataSize = a_uiDataSize / 8;
 	}
-	
+
 	/*************************************************************
 	*                                                            *
 	* Begin extracting the command.                              *
 	*                                                            *
 	*************************************************************/
-	
-	while ((ucDataByte = GetByte(g_iMovingAlgoIndex++, 1)) != CONTINUE) 
-	{ 
+
+	while ((ucDataByte = GetByte(g_iMovingAlgoIndex++, 1)) != CONTINUE)
+	{
 		switch (ucDataByte)
 		{
 		case TDI:
@@ -628,7 +628,7 @@ short int ispVMShiftExec(unsigned int a_uiDataSize)
 			{
 				return ERR_ALGO_FILE_ERROR;
 			}
-			
+
 			/*************************************************************
 			*                                                            *
 			* If the COMPRESS flag is set, read the next byte from the   *
@@ -671,7 +671,7 @@ short int ispVMShiftExec(unsigned int a_uiDataSize)
 			{
 				return ERR_ALGO_FILE_ERROR;
 			}
-			
+
 			/*************************************************************
 			*                                                            *
 			* If the COMPRESS flag is set, read the next byte from the   *
@@ -708,14 +708,14 @@ short int ispVMShiftExec(unsigned int a_uiDataSize)
 		*************************************************************/
 			return ERR_ALGO_FILE_ERROR;
 		}
-	}  
-	
+	}
+
 	/*************************************************************
 	*                                                            *
 	* Reached the end of the instruction.  Return passing.       *
 	*                                                            *
 	*************************************************************/
-	
+
 	return 0;
 }
 
@@ -743,23 +743,23 @@ short int ispVMShift(char a_cCommand)
 {
 	short int siRetCode = 0;
 	unsigned int uiDataSize = ispVMDataSize();
-	
+
 	/*************************************************************
 	*                                                            *
 	* Clear any existing SIR/SDR instructions from the data type *
 	* register.                                                  *
 	*                                                            *
 	*************************************************************/
-	
+
 	g_usDataType &= ~(SIR_DATA + SDR_DATA);
-	
+
 	/*************************************************************
 	*                                                            *
 	* Move state machine to appropriate state depending on the   *
 	* command.  Issue bypass if needed.                          *
 	*                                                            *
 	*************************************************************/
-	
+
 	switch (a_cCommand)
 	{
 	case SIR:
@@ -775,7 +775,7 @@ short int ispVMShift(char a_cCommand)
 		ispVMStateMachine(IRPAUSE);
 		ispVMStateMachine(SHIFTIR);
 		if (g_siHeadIR > 0)
-		{ 
+		{
 			ispVMBypass(g_siHeadIR);
 			sclock();
 		}
@@ -799,21 +799,21 @@ short int ispVMShift(char a_cCommand)
 		}
 		break;
 	}
-	
+
 	/*************************************************************
 	*                                                            *
 	* Set the appropriate index locations.  If error then return *
 	* error code immediately.                                    *
 	*                                                            *
 	*************************************************************/
-	
+
 	siRetCode = ispVMShiftExec(uiDataSize);
-	
+
 	if (siRetCode < 0)
 	{
 		return siRetCode;
 	}
-	
+
 	/*************************************************************
 	*                                                            *
 	* Execute the command to the device.  If TDO exists, then    *
@@ -821,7 +821,7 @@ short int ispVMShift(char a_cCommand)
 	* which must send data to the device only.                   *
 	*                                                            *
 	*************************************************************/
-	
+
 	if ((g_usDataType & TDO_DATA) ||(g_usDataType & DTDO_DATA))
 	{
 		siRetCode = ispVMRead(uiDataSize);
@@ -841,7 +841,7 @@ short int ispVMShift(char a_cCommand)
 			}
 		}
 	}
-	else 
+	else
 	{
 		ispVMSend(uiDataSize);
 		/*************************************************************
@@ -860,14 +860,14 @@ short int ispVMShift(char a_cCommand)
 			}
 		}
 	}
-	
+
 	/*************************************************************
 	*                                                            *
 	* Bypass trailer if it exists.  Move state machine to        *
 	* ENDIR/ENDDR state.                                         *
 	*                                                            *
 	*************************************************************/
-	
+
 	switch (a_cCommand)
 	{
 	case SIR:
@@ -878,7 +878,7 @@ short int ispVMShift(char a_cCommand)
 		}
 		ispVMStateMachine(g_cEndIR);
 		break;
-    case SDR:  
+    case SDR:
 		if (g_siTailDR > 0)
 		{
 			sclock();
@@ -887,7 +887,7 @@ short int ispVMShift(char a_cCommand)
 		ispVMStateMachine(g_cEndDR);
 		break;
 	}
-	
+
 	return siRetCode;
 }
 
@@ -912,9 +912,9 @@ short int ispVMShift(char a_cCommand)
 unsigned char GetByte(int a_iCurrentIndex, char a_cAlgo)
 {
 	unsigned char ucData = 0;
-	
+
 	if (a_cAlgo)
-	{ 
+	{
 	/*************************************************************
 	*                                                            *
 	* If the current index is still within range, then return    *
@@ -927,7 +927,7 @@ unsigned char GetByte(int a_iCurrentIndex, char a_cAlgo)
 		}
 		ucData = (unsigned char) g_pucAlgoArray[a_iCurrentIndex];
 	}
-	else 
+	else
 	{
 	/*************************************************************
 	*                                                            *
@@ -941,7 +941,7 @@ unsigned char GetByte(int a_iCurrentIndex, char a_cAlgo)
 		}
 		ucData = (unsigned char) g_pucDataArray[a_iCurrentIndex];
 	}
-	
+
 	return ucData;
 }
 
@@ -967,7 +967,7 @@ void sclock()
 * Set TCK to HIGH, LOW, LOW.                                 *
 *                                                            *
 *************************************************************/
-	
+
 	writePort(pinTCK, 0x01);
 	writePort(pinTCK, 0x00);
 	writePort(pinTCK, 0x00);
@@ -998,9 +998,9 @@ short int ispVMRead(unsigned int a_uiDataSize)
 	unsigned char ucTDOByte = 0;
 	unsigned char ucMaskByte = 0;
 	unsigned char ucCurBit = 0;
-	
+
 	for (uiIndex = 0;uiIndex < a_uiDataSize; uiIndex++)
-	{ 
+	{
 		if (uiIndex % 8 == 0)
 		{
 			if ( g_usDataType & TDI_DATA ) {
@@ -1026,7 +1026,7 @@ short int ispVMRead(unsigned int a_uiDataSize)
 			*************************************************************/
 				ucTDOByte = GetByte(g_iTDOIndex++, 1);
 			}
-			else 
+			else
 			{
 			/*************************************************************
 			*                                                            *
@@ -1041,10 +1041,10 @@ short int ispVMRead(unsigned int a_uiDataSize)
 					g_ucCompressCounter--;
 					ucTDOByte =(unsigned char) 0xFF;
 				}
-				else 
+				else
 				{
 					ucTDOByte = GetByte(g_iMovingDataIndex++, 0);
-					
+
 					/*************************************************************
 					*                                                            *
 					* If the frame is compressed and the byte is 0xFF, then the  *
@@ -1060,46 +1060,46 @@ short int ispVMRead(unsigned int a_uiDataSize)
 					}
 				}
 			}
-			
+
 			if (g_usDataType & MASK_DATA)
 			{
 				ucMaskByte = GetByte(g_iMASKIndex++, 1);
 			}
-			else 
-			{ 
+			else
+			{
 				ucMaskByte =(unsigned char) 0xFF;
 			}
 		}
-		
+
 		ucCurBit = readPort();
-		
+
 		if ((((ucMaskByte << uiIndex % 8) & 0x80) ? 0x01 : 0x00))
-		{	
+		{
 			if (ucCurBit !=(unsigned char)(((ucTDOByte << uiIndex % 8) & 0x80) ? 0x01 : 0x00))
 			{
-				usErrorCount++;  
+				usErrorCount++;
 			}
 		}
-		
+
 		/*************************************************************
 		*                                                            *
 		* Always shift 0x01 into TDI pin when reading.               *
 		*                                                            *
 		*************************************************************/
-		
+
 		writePort(pinTDI, (unsigned char) (((ucTDIByte << uiIndex % 8) & 0x80) ? 0x01 : 0x00));
-		
+
 		if (uiIndex < a_uiDataSize - 1)
 		{
 			sclock();
 		}
 	}
-	
+
 	if (usErrorCount > 0)
 	{
 		return -1;
 	}
-	
+
 	return 0;
 }
 
@@ -1124,17 +1124,17 @@ void ispVMSend(unsigned int a_uiDataSize)
 	unsigned int iIndex;
 	unsigned char ucCurByte = 0;
 	unsigned char ucBitState = 0;
-	
+
 	/*************************************************************
 	*                                                            *
 	* Begin processing the data to the device.                   *
 	*                                                            *
 	*************************************************************/
-	
+
 	for (iIndex = 0;iIndex < a_uiDataSize; iIndex++)
-	{ 
+	{
 		if (iIndex % 8 == 0)
-		{ 
+		{
 			if (g_usDataType & TDI_DATA)
 			{
 			/*************************************************************
@@ -1145,7 +1145,7 @@ void ispVMSend(unsigned int a_uiDataSize)
 			*************************************************************/
 				ucCurByte = GetByte(g_iTDIIndex++, 1);
 			}
-			else 
+			else
 			{
 			/*************************************************************
 			*                                                            *
@@ -1160,10 +1160,10 @@ void ispVMSend(unsigned int a_uiDataSize)
 					g_ucCompressCounter--;
 					ucCurByte =(unsigned char) 0xFF;
 				}
-				else 
+				else
 				{
 					ucCurByte = GetByte(g_iMovingDataIndex++, 0);
-					
+
 					/*************************************************************
 					*                                                            *
 					* If the frame is compressed and the byte is 0xFF, then the  *
@@ -1172,7 +1172,7 @@ void ispVMSend(unsigned int a_uiDataSize)
 					* in the variable g_ucCompressCounter.                       *
 					*                                                            *
 					*************************************************************/
-					
+
 					if ((g_usDataType & COMPRESS_FRAME) &&(ucCurByte ==(unsigned char) 0xFF))
 					{
 						g_ucCompressCounter = GetByte(g_iMovingDataIndex++, 0);
@@ -1181,10 +1181,10 @@ void ispVMSend(unsigned int a_uiDataSize)
 				}
 			}
 		}
-		
+
 		ucBitState =(unsigned char)(((ucCurByte << iIndex % 8) & 0x80) ? 0x01 : 0x00);
 		writePort(pinTDI, ucBitState);
-		
+
 		if (iIndex < a_uiDataSize - 1)
 		{
 			sclock();
@@ -1215,19 +1215,19 @@ void ispVMStateMachine(char a_cNextState)
 	char cPathIndex, cStateIndex;
 	if ((g_cCurrentJTAGState == DRPAUSE) &&(a_cNextState== DRPAUSE) && m_loopState)
 	{
-	} 
+	}
 	else if ((g_cCurrentJTAGState == a_cNextState) &&(g_cCurrentJTAGState != RESET))
 	{
 		return;
 	}
-	
+
 	for (cStateIndex = 0;cStateIndex < 25; cStateIndex++)
 	{
 		if ((g_cCurrentJTAGState == iStates[cStateIndex].CurState) &&(a_cNextState == iStates[cStateIndex].NextState))
 		{
 			break;
 		}
-	}	
+	}
 	g_cCurrentJTAGState = a_cNextState;
 	for (cPathIndex = 0;cPathIndex < iStates[cStateIndex].Pulses; cPathIndex++)
 	{
@@ -1235,13 +1235,13 @@ void ispVMStateMachine(char a_cNextState)
 		{
 			writePort(pinTMS, (unsigned char) 0x01);
 		}
-		else 
+		else
 		{
 			writePort(pinTMS, (unsigned char) 0x00);
 		}
 		sclock();
 	}
-	
+
 	writePort(pinTDI, 0x00);
 	writePort(pinTMS, 0x00);
 }
@@ -1263,7 +1263,7 @@ void ispVMStateMachine(char a_cNextState)
 *************************************************************/
 
 void ispVMClocks(unsigned int a_uiClocks)
-{	
+{
 	for (; a_uiClocks > 0; a_uiClocks--)
 	{
 		sclock();
@@ -1295,13 +1295,13 @@ void ispVMBypass(unsigned int a_uiLength)
 * Issue a_siLength number of 0x01 to the TDI pin to bypass.  *
 *                                                            *
 *************************************************************/
-	
+
 	for (; a_uiLength > 1; a_uiLength--)
 	{
 		writePort(pinTDI, (char) 0x01);
 		sclock();
 	}
-	
+
 	writePort(pinTDI, (char) 0x01);
 }
 /*************************************************************
@@ -1328,7 +1328,7 @@ void ispVMLCOUNT(unsigned short a_usCountSize)
 *                                                            *
 *                                                            *
 * DESCRIPTION:                                               *
-*     This function is set the delay state, number of TCK and* 
+*     This function is set the delay state, number of TCK and*
 *  the delay time for poling the status                      *
 *                                                            *
 *************************************************************/
@@ -1345,7 +1345,7 @@ void ispVMLDELAY()
 		case STATE: /*step BSCAN state machine to specified state*/
 			g_ucLDELAYState = GetByte(g_iMovingAlgoIndex++, 1);
 			break;
-		case WAIT:  /*opcode to wait for specified time in us or ms*/ 
+		case WAIT:  /*opcode to wait for specified time in us or ms*/
 			g_ucLDELAYDelay = (short int) ispVMDataSize();
 			break;
 		case TCK:   /*pulse TCK signal the specified time*/

@@ -1,16 +1,16 @@
 /**************************************************************
 *
 * Lattice Semiconductor Corp. Copyright 2008
-* 
+*
 *
 ***************************************************************/
 
 
 /**************************************************************
-* 
+*
 * Revision History of hardware.c
-* 
-* 
+*
+*
 * 09/11/07 NN type cast all the mismatch variables
 ***************************************************************/
 
@@ -64,7 +64,7 @@ unsigned char readPort()
     }
 	*/
 	return ( ucRet );
-} 
+}
 
 /*************************************************************
 *                                                            *
@@ -156,12 +156,12 @@ void writePort( unsigned char a_ucPins, unsigned char a_ucValue )
 *          Lets assume the CPU clock is set to 48MHZ. The C  *
 *          code then is:                                     *
 *                                                            *
-*          unsigned int F = 48;   //MHZ.                     * 
-*          unsigned int L = F/8;  //microseconds.            *          
+*          unsigned int F = 48;   //MHZ.                     *
+*          unsigned int L = F/8;  //microseconds.            *
 *          unsigned int index, m;                            *
 *                                                            *
 *                                                            *
-*          if (L < 1) L = 1;   //minimum is i microsecond.   *              
+*          if (L < 1) L = 1;   //minimum is i microsecond.   *
 *          for (index=0; index < a_uiDelay * L; index++)     *
 *              {                                             *
 *   //loop 1K times to produce milliseconds delay            *
@@ -174,7 +174,7 @@ void writePort( unsigned char a_ucPins, unsigned char a_ucValue )
 
 /* the unit of a_uiDelay is milliseconds */
 void ispVMDelay( unsigned int a_uiDelay )
-{	
+{
 }
 
 /*************************************************************

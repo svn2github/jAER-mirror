@@ -1,18 +1,18 @@
 /**************************************************************
 *
 * Lattice Semiconductor Corp. Copyright 2008
-* 
+*
 *
 ***************************************************************/
 
 
 /**************************************************************
-* 
+*
 * Revision History of slim_vme.c
-* 
-* 
+*
+*
 * 09/11/07 NN Updated to support version 1.3
-* This version supported new POLING STATUS LOOP opcodes (LOOP and ENDLOOP) 
+* This version supported new POLING STATUS LOOP opcodes (LOOP and ENDLOOP)
 * for Flash programming of the Lattice FPGA devices
 * 09/11/07 NN Added Global variables initialization
 * 09/11/07 NN type cast all mismatch variables
@@ -55,8 +55,8 @@ char *g_szSupportedVersions[] = { "_SVME1.1", "_SVME1.2", "_SVME1.3", 0 };
 *                                                            *
 *************************************************************/
 
-extern int g_iMovingAlgoIndex;	    
-extern int g_iMovingDataIndex;		
+extern int g_iMovingAlgoIndex;
+extern int g_iMovingDataIndex;
 extern unsigned short g_usDataType;
 extern xdata const int g_iDataSize;
 
@@ -126,7 +126,7 @@ short int ispEntryPoint()
 			if ( szFileVersion[ iIndex ] != g_szSupportedVersions[ cVersionIndex ][ iIndex ] ) {
 				siRetCode = ERR_WRONG_VERSION;
 				break;
-			}	
+			}
 			siRetCode = 0;
 		}
 
@@ -161,7 +161,7 @@ short int ispEntryPoint()
 	*************************************************************/
 
     EnableHardware();
-                         
+
 	/*************************************************************
 	*                                                            *
 	* Begin processing algorithm and data file.                  *
@@ -201,13 +201,13 @@ short int main()
 	*                                                            *
 	*************************************************************/
 
-	short int siRetCode = 0; 
+	short int siRetCode = 0;
 	/*************************************************************
 	*                                                            *
 	* Pass in the command line arguments to the entry point.     *
 	*                                                            *
 	*************************************************************/
 
-	siRetCode = ispEntryPoint();	
+	siRetCode = ispEntryPoint();
 	return( siRetCode );
-} 
+}

@@ -1,11 +1,11 @@
 
 /**************************************************************
-* 
+*
 * Revision History of opcode.h
-* 
-* 
+*
+*
 * 09/11/07 NN Updated to support version 1.3
-* This version supported new POLING STATUS LOOP opcodes  
+* This version supported new POLING STATUS LOOP opcodes
 * for Flash programming of the Lattice FPGA devices
 * #define LOOP    = 0x58
 * #define ENDLOOP = 0x59
@@ -99,9 +99,9 @@
 #define MASK			0x15
 #define LOOP			0x58
 #define ENDLOOP			0x59
-#define LCOUNT			0x66    
-#define LDELAY			0x67		
-#define LSDR			0x68		
+#define LCOUNT			0x66
+#define LDELAY			0x67
+#define LSDR			0x68
 #define ENDSTATE		0x69
 #define ENDVME			0x7F
 
@@ -130,6 +130,6 @@
 #define signalTMS     0x1D    /*assert the MODE or TMS pin*/
 #define signalTCK     0x1E    /*assert the SCLK or TCK pin*/
 #define signalTDI     0x1F    /*assert the SDI or TDI pin*/
-#define signalTRST    0x20    /*assert the RESET or TRST pin*/   
-#define signalTDO     0x21    /*assert the RESET or TDO pin*/   
-#define signalCableEN    0x22    /*assert the RESET or CableEN pin*/  
+#define signalTRST    0x20    /*assert the RESET or TRST pin*/
+#define signalTDO     0x21    /*assert the RESET or TDO pin*/
+#define signalCableEN    0x22    /*assert the RESET or CableEN pin*/
