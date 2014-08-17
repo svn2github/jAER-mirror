@@ -310,8 +310,8 @@ BOOL DR_GetInterface(void) // Called when a Get Interface command is received
 }
 
 BOOL DR_VendorCmnd(void) {
-	WORD wValue, wIndex, wLength, currByteCount;
-	WORD i, spi;
+	WORD wValue, wIndex, wLength, wRequest;
+	WORD i, currByteCount;
 
 	// the value bytes are the specific config command
 	// the index bytes are the arguments
@@ -326,7 +326,10 @@ BOOL DR_VendorCmnd(void) {
 	wLength = SETUPDAT[6]; // Length for data phase
 	wLength |= SETUPDAT[7] << 8;
 
-	switch (USB_REQ_DIR(SETUPDAT[1], (SETUPDAT[0] & USB_DIRECTION_MASK))) {
+	// Ensure request is 16bit.
+	wRequest = USB_REQ_DIR(SETUPDAT[1], (SETUPDAT[0] & USB_DIRECTION_MASK));
+
+	switch (wRequest) {
 		case USB_REQ_DIR(VR_CHIP_BIAS, USB_DIRECTION_IN):
 			// Ensure we're not accessing the chip diagnostic shift register.
 			setPE(BIAS_DIAG_SELECT, 0);
