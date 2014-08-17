@@ -1,0 +1,9 @@
+"fw.obj",
+"dscr.obj",
+"C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Lib\LP\EZUSB.LIB",
+"C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Lib\LP\USBJmpTb.OBJ",
+"main.obj" 
+TO "SeeBetterFX2" 
+RAMSIZE(256) 
+CODE( 0X0200-0X21FF )
+XDATA( 0X2200-0X38FF )
