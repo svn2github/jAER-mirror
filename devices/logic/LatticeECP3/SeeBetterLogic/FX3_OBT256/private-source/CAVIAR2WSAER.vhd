@@ -23,7 +23,7 @@ use IEEE.STD_LOGIC_ARITH.all;
 
 entity CAVIAR2WSAER is
   port (
-    CAVIAR_ack    : out  std_logic;  -- needs synchronization
+    CAVIAR_ack    : out  std_logic;  -- be aware with synchronization
     CAVIAR_req    : in std_logic;
     CAVIAR_data   : in  std_logic_vector(16 downto 0);
 
@@ -32,8 +32,8 @@ entity CAVIAR2WSAER is
     RST : in std_logic;
 	alex: out std_logic_vector (1 downto 0);
     WSAER_data : out std_logic_vector(9 downto 0); --bit 0 is polarity and bit 9 row / column.
-	WSAER_req : out std_logic; --Supossed to be active low
-	WSAER_ack : in std_logic);--Supossed to be active low
+	WSAER_req : out std_logic; --active low
+	WSAER_ack : in std_logic);--active low
 
 end CAVIAR2WSAER;
 

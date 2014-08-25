@@ -129,7 +129,6 @@ architecture Structural of TopLevel is
 
 	-- Alejandro testing WSAER2CAVIAR and CAVIAR2WSAER
 	signal CAVIAR_data, CAVIARo_data, tCAVIARo_data                                                                                                       : std_logic_vector(16 downto 0);
-	-- signal CAVIARto_data : std_logic_vector (15 downto 0);
 	signal CAVIAR_req, CAVIAR_ack, CAVIAR_ack_aux, CAVIARo_req, CAVIARo_ack, tCAVIARo_req, tCAVIARo_ack, WSAER_req, WSAER_ack, tWSAER_req, tWSAER_ack, kk : std_logic;
 	signal WSAER_data, tWSAER_data                                                                                                                        : std_logic_vector(9 downto 0);
 	signal timertest                                                                                                                                      : std_logic_vector(15 downto 0);
@@ -153,7 +152,8 @@ begin
 	end process;
 
 	DebugxSIO <= DVSAERReqSync_SB & CAVIAR_req & CAVIARo_req & tWSAER_req & WS2CAVIAR_en & led(1 downto 0) & DAVIS_en & '0';
-	--DebugxSIO <= DVSAERReqSync_SB & CAVIAR_req & CAVIARo_req & tWSAER_req & WS2CAVIAR_en & led & '0';
+	
+	-- WordSerial to PAER CAVIAR format converter. It joins properly x and y AE into only one event. Row only events are filtered.
 	BWSAER2CAVIAR : entity work.WSAER2CAVIAR
 		port map(
 			WSAER_data  => DVSAERData_AI,
@@ -168,6 +168,8 @@ begin
 			CAVIAR_req  => CAVIAR_req,
 			CAVIAR_data => CAVIAR_data);
 
+	-- Top entity that gather a Background Activity Filter and x4 object Trackers. The output can be enabled or passthrogh for any component. 
+	-- It is not possible to join together both DVS traffic and this filters traffic.
 	BFilters : entity work.BGF_OBT_top
 		port map(
 			aer_in_data   => CAVIAR_data,
@@ -194,6 +196,7 @@ begin
 	tCAVIARo_ack <= CAVIARo_ack when (BGAFen = '1') else '1';
 	CAVIAR_ack   <= CAVIAR_ack_aux when (BGAFen = '1') else CAVIARo_ack;
 
+	-- PAER CAVIAR to WordSerial converter. If two consecutive PAER arrives with the same x address, only a y event is sent.
 	BCAVIAR2WSAER : entity work.CAVIAR2WSAER
 		port map(
 			CAVIAR_ack  => CAVIARo_ack,

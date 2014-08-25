@@ -57,6 +57,7 @@ entity BGF_OBT_top is
 end BGF_OBT_top;
 
 architecture Behavioral of BGF_OBT_top is
+--This component is used in AERnode board, not in DevBoard
 --component SPI_SLAVE
     --Port ( CLK : in  STD_LOGIC;
            --RST : in  STD_LOGIC;
@@ -86,16 +87,15 @@ component RetinaFilter
 		   BGAF_en: out std_logic;
 		   WS2CAVIAR_en: out std_logic;
 		   DAVIS_en: out std_logic;
-		alex: out std_logic_vector (13 downto 0);
+		   alex: out std_logic_vector (13 downto 0); -- for debugging purpose
 		   spiWR: in STD_LOGIC;
 		   spiADDRESS: in STD_LOGIC_VECTOR(7 downto 0);
 		   spiDATA: in STD_LOGIC_VECTOR(7 downto 0));
 end component;
 component ObjectTracker
 
-	Generic ( BASEADDRESS : std_logic_vector (7 downto 0) := (others => '0')
+Generic ( BASEADDRESS : std_logic_vector (7 downto 0) := (others => '0')
 			  );
-
 Port (
 	 	   aer_in_data : in std_logic_vector(16 downto 0);
            aer_in_req_l : in std_logic;
@@ -141,17 +141,18 @@ signal alex: std_logic_vector (13 downto 0);
 begin
 
 rst <= not rst_l;
+--Used in AERnode board
 --B_SPI: SPI_SLAVE
 --port map (
-			  --CLK => clk50,
+		   --CLK => clk50,
            --RST => rst_l,
            --NSS => NSS,
            --SCLK => SCLK,
            --MOSI => MOSI,
            --MISO => MISO,
-			  --WR => spiWR,
-			  --ADDRESS => spiADDRESS,
-			  --DATA_OUT => spiDATA);
+		   --WR => spiWR,
+		   --ADDRESS => spiADDRESS,
+		   --DATA_OUT => spiDATA);
 			  
 BSPInew: process (clk50, rst_l)
 begin
@@ -167,8 +168,6 @@ begin
 	 d1data <= '0';
 	 spiWR <= '0';
 	 dclk_pulse <= '0';
---	 spiADDRESS <= (others => '0');
---	 spiDATA <= (others =>'0');
   elsif (clk50'event and clk50='1') then
      d2clk <= CLK;
 	 d2latch <= LATCH;
@@ -186,16 +185,14 @@ begin
 	 end if;
 	 if (d1LATCH = '1' and dlatch='0') then
 	    spiWR <= '1';
---		spiADDRESS <= fx3_data (15 downto 8);
---		spiDATA <= fx3_data (7 downto 0);
 	 end if;
   end if;
 end process;
-		spiADDRESS <= fx3_data (15 downto 8);
-		spiDATA <= fx3_data (7 downto 0);-- & dDATA & dclk_pulse;
+spiADDRESS <= fx3_data (15 downto 8);
+spiDATA <= fx3_data (7 downto 0);
 
 
-aer_in_datat <= aer_in_data; -- (16 downto 9) & aer_in_data(7 downto 0) when (aer_in_data(8)='0') else (others=>'0');
+aer_in_datat <= aer_in_data; 
 B_RetinaFilter: RetinaFilter 
 generic map (BASEADDRESS => x"80")
 port map (
@@ -214,10 +211,8 @@ port map (
 		   spiWR => spiWR,
 		   spiADDRESS => spiADDRESS,
 		   spiDATA => spiDATA);
-aer_bf2ot_i <= aer_bf2ot; --(16 downto 9) & aer_bf2ot(7 downto 0) when (aer_bf2ot(8)='1') else (others=>'0'); -- and aer_bf2ot(16)='0')
-aer_out_datat <= aer_bf2ot_i when (tOT_active="0000") else taer_out_datat;  --
-																			--it was ot_i
-aer_out_req_l <= req_bf2ot when (tOT_active="0000") else taer_out_req_l;
+aer_bf2ot_i <= aer_bf2ot; 
+aer_out_datat <= aer_bf2ot_i when (tOT_active="0000") else taer_out_datat;aer_out_req_l <= req_bf2ot when (tOT_active="0000") else taer_out_req_l;
 ack_bf2ot <= aer_out_ack_l when (tOT_active="0000") else tack_bf2ot;
 
 B_ObjectTracker: ObjectTracker
@@ -237,7 +232,7 @@ port map (
 		   spiDATA => spiDATA,
 		   LED => LED);
 			  
-aer_out_data <= aer_out_datat; -- when (BGAFen='1') else aer_in_data;  --(15 downto 8) & "1" & aer_out_datat(7 downto 0) 
+aer_out_data <= aer_out_datat; 
 BGAF_en <= BGAFen;
 OT_active <= tOT_active;
 
@@ -246,4 +241,3 @@ spi_address <= spiADDRESS;
 spi_data <= spiDATA (7 downto 2) & dDATA & dclk_pulse;
 
 end Behavioral;
-

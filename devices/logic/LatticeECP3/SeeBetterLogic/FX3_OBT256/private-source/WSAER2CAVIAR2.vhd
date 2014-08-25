@@ -62,10 +62,7 @@ begin
 				CAVIAR_data (16 downto 9) <= WSAER_data(7 downto 0);
 			end if;
 		 when col => 
- 			--cnt <= cnt +1;
-			--if (cnt = row_delay) then
-				CAVIAR_data (8 downto 0) <= WSAER_data(8 downto 0);
-			--end if;
+			CAVIAR_data (8 downto 0) <= WSAER_data(8 downto 0);
 		 when others => null;
 	  end case;
    end if;
@@ -84,9 +81,8 @@ begin
 	  when req =>
 	    if WSAER_data(9) = '0' then
 		   ns <= row;
-		else -- WSAER_req = '0' and WSAER_data(9) = '1' then
+		else 
 		   ns <= col;
-		--else ns <= idle;
 		end if;
 	  when row => WSAER_ack <= '1';
 		if (cnt = row_delay) then
@@ -100,11 +96,7 @@ begin
 		else ns <= idle;
 		end if;
 	  when col => WSAER_ack <= '1';
-  		--if (cnt = row_delay) then
 		   ns <= col_ack; 
-		--else 
-		--   ns <= col;
-		--end if;
 	  when col_ack => WSAER_ack <= '0';
 	    if WSAER_req = '0' then
 		   ns <= col_ack;

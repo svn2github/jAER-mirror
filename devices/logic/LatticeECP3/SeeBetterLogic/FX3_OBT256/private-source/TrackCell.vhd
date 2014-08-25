@@ -34,88 +34,77 @@ entity TrackCell is
  Generic (
 	          BASEADDRESS : std_logic_vector (7 downto 0) := (others => '0')
 		  );
---    Generic (--PRCell
---	          Mask : std_logic_vector (63 downto 0) := (others => '0');
---				 FiringThreshold : AERFiring (63 downto 0) := (others => x"04");
---				 MaxTime :  integer := 1500000;
---		       --VCell
---				 ITindex : std_logic_vector (3 downto 0):= "0011";--STD_LOGIC_VECTOR (31 downto 0) := x"000F4240";--x"ffffffff");--x"000186A0");--x"00F42400");--
---				 VCellID:std_logic_vector(7 downto 0):=x"FF";
---				 -- CMCell
---	 			 InitCenterMass : std_logic_vector (15 downto 0) := x"1808";
---				 RadixThreshold :  STD_LOGIC_VECTOR (2 downto 0):= "111"; -- for increase the cluster area
---				 InitRadix :  STD_LOGIC_VECTOR (7 downto 0):= x"30");
     Port ( CLK : in STD_LOGIC;
-			  RST : in STD_LOGIC;
- 			  TRACKCELLID : in std_logic_vector (7 downto 0);
+ 		   RST : in STD_LOGIC;
+ 		   TRACKCELLID : in std_logic_vector (7 downto 0);
 
-			  -- AER IN
-			  Addi : in  STD_LOGIC_VECTOR (15 downto 0);
+		   -- AER IN
+		   Addi : in  STD_LOGIC_VECTOR (15 downto 0);
            REQi : in  STD_LOGIC;
            ACKi : out  STD_LOGIC;
-			  -- AER Rejected Events
-			  Addo : out  STD_LOGIC_VECTOR (15 downto 0);
+		   -- AER Rejected Events
+		   Addo : out  STD_LOGIC_VECTOR (15 downto 0);
            REQo : out  STD_LOGIC;
            ACKo : in  STD_LOGIC;
-			  -- AER Processed Events
-			  Addpo : out  STD_LOGIC_VECTOR (15 downto 0);
+		   -- AER Processed Events
+		   Addpo : out  STD_LOGIC_VECTOR (15 downto 0);
            REQpo : out  STD_LOGIC;
            ACKpo : in  STD_LOGIC;
-			  -- Tacking information
-			  Velocity : out  STD_LOGIC_VECTOR (31 downto 0);
+		   -- Tacking information
+		   Velocity : out  STD_LOGIC_VECTOR (31 downto 0);
            ReqVel : out  STD_LOGIC;
-			  AckVel : in STD_LOGIC;
-           CMVel : out  STD_LOGIC_VECTOR (15 downto 0); -- Object Center of mass periodic
-           CenterMasspt : out  STD_LOGIC_VECTOR (15 downto 0); -- Object Center of mass instantaneous
+		   AckVel : in STD_LOGIC;
+           CMVel : out  STD_LOGIC_VECTOR (15 downto 0);        -- Periodic Object Center of mass
+           CenterMasspt : out  STD_LOGIC_VECTOR (15 downto 0); -- Instantaneous Object Center of mass
            REQNDpt : out  STD_LOGIC;
-			  ACKNDpt : in STD_LOGIC;			  
+		   ACKNDpt : in STD_LOGIC;			  
 			  
-			  Active: out std_logic;
+		   Active: out std_logic;
 
-			  --
-			  spiWR: in STD_LOGIC;
-			  spiADDRESS: in STD_LOGIC_VECTOR(7 downto 0);		  
-			  spiDATA: in STD_LOGIC_VECTOR(7 downto 0)
-			 );
+		   -- Configuration parameters bus.
+		   spiWR: in STD_LOGIC;
+		   spiADDRESS: in STD_LOGIC_VECTOR(7 downto 0);		  
+		   spiDATA: in STD_LOGIC_VECTOR(7 downto 0)
+		 );
 end TrackCell;
 
 architecture Behavioral of TrackCell is
 
 COMPONENT CMCell is
     Port ( CLK : STD_LOGIC;
-			  RST : STD_LOGIC;
+		   RST : STD_LOGIC;
 			  
-			  Addi : in  STD_LOGIC_VECTOR (15 downto 0);
+		   Addi : in  STD_LOGIC_VECTOR (15 downto 0);
            REQi : in  STD_LOGIC;
            ACKi : out  STD_LOGIC;
            
-			  Addo : out  STD_LOGIC_VECTOR (15 downto 0);
+		   Addo : out  STD_LOGIC_VECTOR (15 downto 0);
            REQo : out  STD_LOGIC;
            ACKo : in  STD_LOGIC;
 			  
-			  Addp : out  STD_LOGIC_VECTOR (15 downto 0);
+		   Addp : out  STD_LOGIC_VECTOR (15 downto 0);
            REQp : out  STD_LOGIC;
            ACKp : in  STD_LOGIC;
 			  
-			  CenterMass : out  STD_LOGIC_VECTOR (15 downto 0); -- Object Center of mass
+		   CenterMass : out  STD_LOGIC_VECTOR (15 downto 0); -- Object Center of mass
            REQND : out  STD_LOGIC;
-			  ACKND : in STD_LOGIC;
+		   ACKND : in STD_LOGIC;
 
 			  -- AER CM passthrough
            CenterMasspt : out  STD_LOGIC_VECTOR (15 downto 0); -- Object Center of mass
            REQNDpt : out  STD_LOGIC;
-			  ACKNDpt : in STD_LOGIC;			  
+		   ACKNDpt : in STD_LOGIC;			  
 			  
-			  -- config
-			  InitCenterMass : in std_logic_vector (15 downto 0) ;
-			  RadixThreshold : in STD_LOGIC_VECTOR (2 downto 0); -- for moving the cluster area
-			  RadixStep : in STD_LOGIC_VECTOR (2 downto 0); -- for increase/decrease the cluster area
-			  RadixMax : in STD_LOGIC_VECTOR (2 downto 0); -- Max size of cluster area radius
-			  RadixMin : in STD_LOGIC_VECTOR (2 downto 0); -- Min size of cluster area radius
-			  InitRadix :  in STD_LOGIC_VECTOR (7 downto 0);
-			  MaxTime: in std_logic_vector (31 downto 0);
-			  NevTh : in integer range 0 to 255;
-  			  CMcellAVG: in integer range 1 to 8
+		   -- config
+		   InitCenterMass : in std_logic_vector (15 downto 0) ;
+		   RadixThreshold : in STD_LOGIC_VECTOR (2 downto 0); -- for moving the cluster area
+		   RadixStep : in STD_LOGIC_VECTOR (2 downto 0); -- for increase/decrease the cluster area
+		   RadixMax : in STD_LOGIC_VECTOR (7 downto 0); -- Max size of cluster area radius
+		   RadixMin : in STD_LOGIC_VECTOR (7 downto 0); -- Min size of cluster area radius
+		   InitRadix :  in STD_LOGIC_VECTOR (7 downto 0);
+		   MaxTime: in std_logic_vector (31 downto 0);
+		   NevTh : in integer range 0 to 255;
+  		   CMcellAVG: in integer range 1 to 8
 	 );
            
 end COMPONENT;
@@ -139,23 +128,23 @@ end COMPONENT;
 	
 	COMPONENT PRCell is
     Port ( CLK : STD_LOGIC;
-			  RST : STD_LOGIC;
-			  Addi : in  STD_LOGIC_VECTOR (15 downto 0);
+		   RST : STD_LOGIC;
+		   Addi : in  STD_LOGIC_VECTOR (15 downto 0);
            REQi : in  STD_LOGIC;
            ACKi : out  STD_LOGIC;
-			  CM: in std_logic_vector (15 downto 0);
+		   CM: in std_logic_vector (15 downto 0);
            Addo : out  STD_LOGIC_VECTOR (15 downto 0);
            REQo : out  STD_LOGIC;
            ACKo : in  STD_LOGIC;
            RError : out  STD_LOGIC_VECTOR (15 downto 0); -- Object Center of mass
            REQND : out  STD_LOGIC;
-			  ACKND : in STD_LOGIC;
-			  --config
-			  Mask : in std_logic_vector (63 downto 0);-- := (others => '0');
-			  FiringThreshold : in AERFiring (63 downto 0);-- := (others => x"00");
-			  InitCenterMass : in std_logic_vector (15 downto 0);-- := x"1808";
-			  MaxTime :  in integer-- := 50000
-			  );
+		   ACKND : in STD_LOGIC;
+		   --config
+		   Mask : in std_logic_vector (63 downto 0);-- := (others => '0');
+		   FiringThreshold : in AERFiring (63 downto 0);-- := (others => x"00");
+		   InitCenterMass : in std_logic_vector (15 downto 0);-- := x"1808";
+		   MaxTime :  in integer-- := 50000
+		  );
            
 end COMPONENT;
 	
@@ -181,27 +170,26 @@ end COMPONENT;
 	signal ACKparb : std_logic;
 	
 	-- SPI CFG interface signals
-	   signal       add: std_logic_vector (7 downto 0);
-					 --PRCell
-	   signal       Mask : std_logic_vector (63 downto 0);-- := (others => '0');
-		signal		 FiringThreshold : AERFiring (63 downto 0) ;--:= (others => x"01");
-		signal		 MaxTime :  integer;-- := 500000;
-		signal       maxtimev: std_logic_vector (31 downto 0);
-		       --VCell
-		signal		 ITindex : std_logic_vector (3 downto 0);--:= "0011";--STD_LOGIC_VECTOR (31 downto 0) := x"000F4240";--x"ffffffff");--x"000186A0");--x"00F42400");--
-		signal		 VCellID:std_logic_vector(7 downto 0);--:=x"FF";
-				 -- CMCell
-	 	signal		 InitCenterMass : std_logic_vector (15 downto 0) ;-- := x"1808";
-		signal		 RadixThreshold, RadixStep, RadixMin, RadixMax :  STD_LOGIC_VECTOR (2 downto 0);--:= "111"; -- for increase the cluster area
-		signal		 InitRadix :  STD_LOGIC_VECTOR (7 downto 0);--:= x"08";
-		signal CMCellMaxTime : STD_LOGIC_VECTOR (31 downto 0); -- time limit without new events
-		signal CMCellNevTh: integer range 0 to 255;
-		signal CMCellAVG: integer range 1 to 8;
-
-		signal ConfigEnabled : std_logic;
-		signal irst : std_logic;
-		signal ENTRACKER, ACKit, REQit: std_logic;
-	 	signal Addit: std_logic_vector (15 downto 0) ;
+    signal       add: std_logic_vector (7 downto 0);
+ 				 --PRCell
+    signal       Mask : std_logic_vector (63 downto 0);-- := (others => '0');
+ 	signal		 FiringThreshold : AERFiring (63 downto 0) ;--:= (others => x"01");
+	signal		 MaxTime :  integer;-- := 500000;
+	signal       maxtimev: std_logic_vector (31 downto 0);
+	       --VCell
+	signal		 ITindex : std_logic_vector (3 downto 0);--:= "0011";--STD_LOGIC_VECTOR (31 downto 0) := x"000F4240";--x"ffffffff");--x"000186A0");--x"00F42400");--
+	signal		 VCellID:std_logic_vector(7 downto 0);--:=x"FF";
+			 -- CMCell
+ 	signal		 InitCenterMass : std_logic_vector (15 downto 0) ;-- := x"1808";
+	signal		 RadixThreshold, RadixStep :  STD_LOGIC_VECTOR (2 downto 0);--:= "111"; -- for increase the cluster area
+	signal		 InitRadix , RadixMin, RadixMax:  STD_LOGIC_VECTOR (7 downto 0);--:= x"08";
+	signal CMCellMaxTime : STD_LOGIC_VECTOR (31 downto 0); -- time limit without new events
+	signal CMCellNevTh: integer range 0 to 255;
+	signal CMCellAVG: integer range 1 to 8;
+	signal ConfigEnabled : std_logic;
+	signal irst : std_logic;
+	signal ENTRACKER, ACKit, REQit: std_logic;
+ 	signal Addit: std_logic_vector (15 downto 0) ;
 begin
 add <= spiaddress - BASEADDRESS;
 Active <= ENTRACKER;
@@ -240,8 +228,8 @@ begin
 		--InitCenterMass <= x"1808";
 		RadixThreshold <= "011";
 		RadixStep <= "011";
-		RadixMin <= "001";
-		RadixMax <= "111";
+		RadixMin <= x"01";
+		RadixMax <= x"11";
 		--InitRadix <= x"08";
 		ConfigEnabled <= '0';
 		ENTRACKER <= '0';
@@ -341,10 +329,10 @@ begin
 		   RadixStep <= spidata (2 downto 0);
 		end if;
 		if (add=90) then
-		   RadixMax <= spidata (2 downto 0);
+		   RadixMax <= spidata;-- (2 downto 0);
 		end if;
 		if (add=91) then
-		   RadixMin <= spidata (2 downto 0);
+		   RadixMin <= spidata;-- (2 downto 0);
 		end if;
 	  end if;
 	end if;
@@ -396,7 +384,7 @@ Inst_CMCell: CMCell
 		REQNDpt => REQNDpt,
 		ACKNDpt => ACKNDpt,
 		InitCenterMass => InitCenterMass,
-		RadixThreshold => RadixThreshold, -- for increase the cluster area
+		RadixThreshold => RadixThreshold, -- for increasing the cluster area
 		RadixStep => RadixStep,
 		RadixMin => RadixMin,
 		RadixMax => RadixMax,
