@@ -3,11 +3,11 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 package EventCodes is
-	constant FULL_EVENT_WIDTH     : integer := 16;
-	constant TIMESTAMP_WIDTH      : integer := 15;
-	constant EVENT_WIDTH          : integer := 15;
-	constant EVENT_DATA_WIDTH_MAX : integer := 12;
-	constant OVERFLOW_WIDTH       : integer := EVENT_DATA_WIDTH_MAX;
+	constant FULL_EVENT_WIDTH       : integer := 16;
+	constant TIMESTAMP_WIDTH        : integer := 15;
+	constant EVENT_WIDTH            : integer := 15;
+	constant EVENT_DATA_WIDTH_MAX   : integer := 12;
+	constant OVERFLOW_WIDTH         : integer := EVENT_DATA_WIDTH_MAX;
 
 	-- event codes
 	constant EVENT_CODE_TIMESTAMP                   : std_logic                                           := '1';
@@ -38,6 +38,9 @@ package EventCodes is
 	constant EVENT_CODE_ADC_SAMPLE                  : std_logic_vector(2 downto 0)                        := "100";
 	constant EVENT_CODE_MISC_DATA8                  : std_logic_vector(2 downto 0)                        := "101";
 	constant EVENT_CODE_MISC_DATA8_IMU              : std_logic_vector(3 downto 0)                        := "0000";
+	constant EVENT_CODE_MISC_DATA8_BGAF             : std_logic_vector(3 downto 0)                        := "0101";
+	constant EVENT_CODE_MISC_DATA8_CM               : std_logic_vector(3 downto 0)                        := "0110";
+	constant EVENT_CODE_MISC_DATA8_TRACKER          : std_logic_vector(3 downto 0)                        := "0111";
 	constant EVENT_CODE_MISC_DATA10                 : std_logic_vector(2 downto 0)                        := "110";
 	constant EVENT_CODE_TIMESTAMP_WRAP              : std_logic_vector(2 downto 0)                        := "111";
 end package EventCodes;
