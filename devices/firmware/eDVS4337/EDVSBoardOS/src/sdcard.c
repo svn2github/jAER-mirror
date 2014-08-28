@@ -315,9 +315,12 @@ void *buff) /* Buffer to send/receive control data */
 
 void getFilename(char filename[19]) {
 	uint32_t random = Chip_RIT_GetCounter(LPC_RITIMER);
-	uint16_t tmp;
+
+	uint16_t tmp = 0;
 	filename[0] = '/';
-	tmp = Chip_RTC_GetTime(LPC_RTC, RTC_TIMETYPE_YEAR) & RTC_YEAR_MASK;
+	if (Chip_RTC_Clock_Running()) {
+		tmp = Chip_RTC_GetTime(LPC_RTC, RTC_TIMETYPE_YEAR) & RTC_YEAR_MASK;
+	}
 	filename[1] = '0' + tmp / 1000;
 	tmp %= 1000;
 	filename[2] = '0' + tmp / 100;
@@ -325,23 +328,33 @@ void getFilename(char filename[19]) {
 	filename[3] = '0' + tmp / 10;
 	tmp %= 10;
 	filename[4] = '0' + tmp;
-	tmp = Chip_RTC_GetTime(LPC_RTC, RTC_TIMETYPE_MONTH) & RTC_MONTH_MASK;
+	if (Chip_RTC_Clock_Running()) {
+		tmp = Chip_RTC_GetTime(LPC_RTC, RTC_TIMETYPE_MONTH) & RTC_MONTH_MASK;
+	}
 	filename[5] = '0' + tmp / 10;
 	tmp %= 10;
 	filename[6] = '0' + tmp;
-	tmp = Chip_RTC_GetTime(LPC_RTC, RTC_TIMETYPE_DAYOFMONTH) & RTC_DOM_MASK;
+	if (Chip_RTC_Clock_Running()) {
+		tmp = Chip_RTC_GetTime(LPC_RTC, RTC_TIMETYPE_DAYOFMONTH) & RTC_DOM_MASK;
+	}
 	filename[7] = '0' + tmp / 10;
 	tmp %= 10;
 	filename[8] = '0' + tmp;
-	tmp = Chip_RTC_GetTime(LPC_RTC, RTC_TIMETYPE_HOUR) & RTC_HOUR_MASK;
+	if (Chip_RTC_Clock_Running()) {
+		tmp = Chip_RTC_GetTime(LPC_RTC, RTC_TIMETYPE_HOUR) & RTC_HOUR_MASK;
+	}
 	filename[9] = '0' + tmp / 10;
 	tmp %= 10;
 	filename[10] = '0' + tmp;
-	tmp = Chip_RTC_GetTime(LPC_RTC, RTC_TIMETYPE_MINUTE) & RTC_MIN_MASK;
+	if (Chip_RTC_Clock_Running()) {
+		tmp = Chip_RTC_GetTime(LPC_RTC, RTC_TIMETYPE_MINUTE) & RTC_MIN_MASK;
+	}
 	filename[11] = '0' + tmp / 10;
 	tmp %= 10;
 	filename[12] = '0' + tmp;
-	tmp = Chip_RTC_GetTime(LPC_RTC, RTC_TIMETYPE_SECOND) & RTC_SEC_MASK;
+	if (Chip_RTC_Clock_Running()) {
+		tmp = Chip_RTC_GetTime(LPC_RTC, RTC_TIMETYPE_SECOND) & RTC_SEC_MASK;
+	}
 	filename[13] = '0' + tmp / 10;
 	tmp %= 10;
 	filename[14] = '0' + tmp;

@@ -504,6 +504,9 @@ int32_t Chip_SDMMC_ReadBlocks(LPC_SDMMC_T *pSDMMC, void *buffer, int32_t start_b
 		return 0;
 	}
 
+	/*Wait for card program to finish*/
+	while (Chip_SDMMC_GetState(pSDMMC) != SDMMC_TRAN_ST) {}
+
 	/* put card in trans state */
 	if (prv_set_trans_state(pSDMMC) != 0) {
 		return 0;
@@ -534,7 +537,7 @@ int32_t Chip_SDMMC_ReadBlocks(LPC_SDMMC_T *pSDMMC, void *buffer, int32_t start_b
 		cbRead = 0;
 	}
 	/*Wait for card program to finish*/
-	while (Chip_SDMMC_GetState(pSDMMC) != SDMMC_TRAN_ST) {}
+	//We wait at the beginning: while (Chip_SDMMC_GetState(pSDMMC) != SDMMC_TRAN_ST) {}
 
 	return cbRead;
 }
@@ -582,7 +585,7 @@ int32_t Chip_SDMMC_WriteBlocks(LPC_SDMMC_T *pSDMMC, void *buffer, int32_t start_
 	}
 
 	/*Wait for card program to finish*/
-	while (Chip_SDMMC_GetState(pSDMMC) != SDMMC_TRAN_ST) {}
+	//We wait at the beginning: while (Chip_SDMMC_GetState(pSDMMC) != SDMMC_TRAN_ST) {}
 
 	if (status != 0) {
 		cbWrote = 0;

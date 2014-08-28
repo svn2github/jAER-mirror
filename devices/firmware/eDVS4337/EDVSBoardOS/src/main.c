@@ -46,7 +46,7 @@ int main(void) {
 	initMotors();
 	PWMInit();
 #if USE_IMU_DATA
-	timerDelayMs(10);
+	timerDelayMs(100);
 	MPU9105Init();
 #endif
 #if USE_SDCARD
@@ -200,10 +200,12 @@ int main(void) {
 				sdcard.fileBuffer[sdcard.fileBufferIndex++] = (sdcard.timeStampDelta & 0x7F) | 0x80;//lower 7bit Delta TS, MSBit set to 1
 			}
 			if ((FILE_BUFFER_SIZE - sdcard.fileBufferIndex) < 6) {
-				//write data
+				//write data	.
+				LED1SetOn();
 				if (f_write(&sdcard.outputFile, sdcard.fileBuffer, sdcard.fileBufferIndex, &sdcard.bytesWritten)) {
 					setSDCardRecord(DISABLE); //There was an error. No need to record anymore.
 				}
+				LED1SetOff();
 				sdcard.bytesWrittenPerSecond += sdcard.bytesWritten;
 				sdcard.fileBufferIndex = 0;
 			}

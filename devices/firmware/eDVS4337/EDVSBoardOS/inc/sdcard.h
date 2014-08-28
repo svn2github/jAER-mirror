@@ -14,7 +14,7 @@
 
 #define SD_ERROR 		1
 
-#define FILE_BUFFER_SIZE		(_MAX_SS * 32)
+#define FILE_BUFFER_SIZE		(_MAX_SS * 8)
 
 struct sdcard {
 	uint32_t timeStampMemory;

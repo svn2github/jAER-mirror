@@ -20,7 +20,7 @@
  *	Enable/Disable the wheel sensors used in the Minirob.
  *	The motor velocity control is tied to these sensors.
  */
-#define USE_PUSHBOT						0
+#define USE_PUSHBOT						1
 #if !USE_IMU_DATA && USE_PUSHBOT
 #undef USE_IMU_DATA
 #define USE_IMU_DATA 					1
@@ -55,6 +55,6 @@
 /**
  * Current Software versions
  */
-#define SOFTWARE_VERSION		"0.6.0"
+#define SOFTWARE_VERSION		"0.6.1"
 
 #endif /* CONFIG_H_ */
