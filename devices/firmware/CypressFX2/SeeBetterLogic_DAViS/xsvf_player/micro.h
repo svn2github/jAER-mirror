@@ -29,14 +29,7 @@
 /* Insert new errors here */
 #define XSVF_ERROR_LAST         7
 
-/*****************************************************************************
-* Function:     xsvfExecute
-* Description:  Process, interpret, and apply the XSVF commands.
-*               See port.c:readByte for source of XSVF data.
-* Parameters:   none.
-* Returns:      int - For error codes see above.
-*****************************************************************************/
-extern int xsvfExecute();
+int xsvfInitializeSTM();
+int xsvfRunSTM();
 
 #endif  /* XSVF_MICRO_H */
-

@@ -5,6 +5,9 @@
 #include "syncdly.h" // SYNCDELAY macro
 #include "portsFX2.h"
 
+#include "xsvf_player/ports.h"
+#include "xsvf_player/micro.h"
+
 extern BOOL GotSUD;
 
 #define CPLD_TDI PC7
@@ -22,6 +25,7 @@ extern BOOL GotSUD;
 
 #define BIAS_CLOCK PE5 // is active-low
 #define BIAS_BIT PE4
+// PE3 not used currently (CPLD internal)
 #define BIAS_DIAG_SELECT PE2
 #define BIAS_LATCH PE1 // is active-low
 #define BIAS_ADDR_SELECT PE0 // is active-low
@@ -43,6 +47,13 @@ extern BOOL GotSUD;
 
 #define EP0BUFF_SIZE 64 // Endpoint 0 (Control) buffer size
 #define	I2C_EEPROM_ADDRESS 0x51 // 0101_0001 is the address of the external serial EEPROM that holds FX2 program and static data
+
+// XSVF support.
+#define XSVF_DATA_SIZE 400
+
+BOOL doJTAGInit = TRUE;
+BYTE xsvfReturn = 0;
+unsigned char xdata xsvfDataArray[XSVF_DATA_SIZE];
 
 // Support arbitrary waits.
 BYTE waitCounter = 0;
@@ -125,13 +136,13 @@ void TD_Init(void) // Called once at startup
 	SYNCDELAY;
 	PORTECFG = 0x00;
 
-	OEA = 0x00; // 0000_0000, none are used
-	OEC = 0xFF; // 1111_1111, JTAG and SPI
-	OEE = 0xFF; // 1111_1111, Reset, FXLED and BIAS
-
 	IOA = 0x00; // Keep all off
 	IOC = 0x08; // SPI SSN is active-low
-	IOE = 0x23; // Bias Clock, Latch and Addr_Sel are active-low
+	IOE = 0x23; // Bias Clock, Latch and Address_Select are active-low
+
+	OEA = 0x00; // 0000_0000, none are used
+	OEC = 0x0E; // 0000_1110, JTAG (left floating) and SPI (but not SPI MISO)
+	OEE = 0xF7; // 1111_0111, Reset, FXLED and BIAS (but not PE3)
 
 	// disable interrupts by the input pins and by timers and serial ports
 	IE = 0x00; // 0000_0000
@@ -311,7 +322,7 @@ BOOL DR_GetInterface(void) // Called when a Get Interface command is received
 
 BOOL DR_VendorCmnd(void) {
 	WORD wValue, wIndex, wLength, wRequest;
-	WORD i, currByteCount;
+	BYTE i, currByteCount;
 
 	// the value bytes are the specific config command
 	// the index bytes are the arguments
@@ -570,6 +581,77 @@ BOOL DR_VendorCmnd(void) {
 
 				wLength -= currByteCount; // Decrement total byte count
 			}
+
+			break;
+
+		case USB_REQ_DIR(VR_CPLD_UPLOAD, USB_DIRECTION_IN):
+			if (doJTAGInit) {
+				IOC &= ~0xF0;
+				OEC = 0xBE; // 1011_1110, JTAG (but not TDO) and SPI (but not SPI MISO)
+
+				xsvfInitializeSTM();
+				doJTAGInit = FALSE;
+			}
+
+			if (wLength > XSVF_DATA_SIZE) {
+				OEC = 0x0E; // 0000_1110, JTAG (left floating) and SPI (but not SPI MISO)
+
+				xsvfReturn = 10;
+				doJTAGInit = TRUE;
+
+				break;
+			}
+
+			resetDataArray(xsvfDataArray);
+
+			while (wLength) {
+				// Get data from USB control endpoint.
+				// Move new data through EP0OUT, one packet at a time,
+				// eventually will get length down to zero by, for
+				// example, currByteCount = 64, 64, 15
+				// Clear bytecount to allow new data in, also stops NAKing
+				EP0BCH = 0;
+				EP0BCL = 0;
+				SYNCDELAY;
+
+				while (EP0CS & bmEPBUSY) {
+					;
+				} // Spin here until data arrives
+
+				currByteCount = EP0BCL; // Get the new byte count
+
+				for (i = 0; i < currByteCount; i++) {
+					xsvfDataArray[wValue + i] = EP0BUF[i];
+				}
+
+				wValue += currByteCount;
+
+				wLength -= currByteCount; // Decrement total byte count
+			}
+
+			if (wValue == 0x00) {
+				OEC = 0x0E; // 0000_1110, JTAG (left floating) and SPI (but not SPI MISO)
+				doJTAGInit = TRUE;
+			}
+			else {
+				xsvfReturn = xsvfRunSTM();
+
+				if (xsvfReturn > 0) {
+					OEC = 0x0E; // 0000_1110, JTAG (left floating) and SPI (but not SPI MISO)
+					doJTAGInit = TRUE;
+				}
+			}
+			
+			EP0BCH = 0;
+			EP0BCL = 0; // Re-arm end-point for OUT transfers.
+
+			break;
+
+		case USB_REQ_DIR(VR_CPLD_UPLOAD, USB_DIRECTION_OUT):
+			EP0BUF[0] = VR_CPLD_UPLOAD;
+			EP0BUF[1]= xsvfReturn;
+			EP0BCH = 0;
+			EP0BCL = 2;
 
 			break;
 

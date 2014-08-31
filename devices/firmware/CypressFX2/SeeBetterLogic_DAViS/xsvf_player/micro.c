@@ -49,37 +49,16 @@
 /*============================================================================
 * #include files
 ============================================================================*/
-#define DEBUG_MODE
-#ifdef  DEBUG_MODE
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <string.h>
-    #include <time.h>
-#endif  /* DEBUG_MODE */
 
 #include "micro.h"
 #include "lenval.h"
 #include "ports.h"
-
 
 /*============================================================================
 * XSVF #define
 ============================================================================*/
 
 #define XSVF_VERSION    "5.01"
-
-/*****************************************************************************
-* Define:       XSVF_SUPPORT_COMPRESSION
-* Description:  Define this to support the XC9500/XL XSVF data compression
-*               scheme.
-*               Code size can be reduced by NOT supporting this feature.
-*               However, you must use the -nc (no compress) option when
-*               translating SVF to XSVF using the SVF2XSVF translator.
-*               Corresponding, uncompressed XSVF may be larger.
-*****************************************************************************/
-#ifndef XSVF_SUPPORT_COMPRESSION
-    #define XSVF_SUPPORT_COMPRESSION    1
-#endif
 
 /*****************************************************************************
 * Define:       XSVF_SUPPORT_ERRORCODES
@@ -96,48 +75,6 @@
 #else   /* Use legacy error code */
     #define XSVF_ERRORCODE(errorCode)   ((errorCode==XSVF_ERROR_NONE)?1:0)
 #endif  /* XSVF_SUPPORT_ERRORCODES */
-
-
-/*****************************************************************************
-* Define:       XSVF_MAIN
-* Description:  Define this to compile with a main function for standalone
-*               debugging.
-*****************************************************************************/
-#ifndef XSVF_MAIN
-    #ifdef DEBUG_MODE
-        #define XSVF_MAIN   1
-    #endif  /* DEBUG_MODE */
-#endif  /* XSVF_MAIN */
-
-
-/*============================================================================
-* DEBUG_MODE #define
-============================================================================*/
-
-#ifdef  DEBUG_MODE
-    #define XSVFDBG_PRINTF(iDebugLevel,pzFormat) \
-                { if ( xsvf_iDebugLevel >= iDebugLevel ) \
-                    printf( pzFormat ); }
-    #define XSVFDBG_PRINTF1(iDebugLevel,pzFormat,arg1) \
-                { if ( xsvf_iDebugLevel >= iDebugLevel ) \
-                    printf( pzFormat, arg1 ); }
-    #define XSVFDBG_PRINTF2(iDebugLevel,pzFormat,arg1,arg2) \
-                { if ( xsvf_iDebugLevel >= iDebugLevel ) \
-                    printf( pzFormat, arg1, arg2 ); }
-    #define XSVFDBG_PRINTF3(iDebugLevel,pzFormat,arg1,arg2,arg3) \
-                { if ( xsvf_iDebugLevel >= iDebugLevel ) \
-                    printf( pzFormat, arg1, arg2, arg3 ); }
-    #define XSVFDBG_PRINTLENVAL(iDebugLevel,plenVal) \
-                { if ( xsvf_iDebugLevel >= iDebugLevel ) \
-                    xsvfPrintLenVal(plenVal); }
-#else   /* !DEBUG_MODE */
-    #define XSVFDBG_PRINTF(iDebugLevel,pzFormat)
-    #define XSVFDBG_PRINTF1(iDebugLevel,pzFormat,arg1)
-    #define XSVFDBG_PRINTF2(iDebugLevel,pzFormat,arg1,arg2)
-    #define XSVFDBG_PRINTF3(iDebugLevel,pzFormat,arg1,arg2,arg3)
-    #define XSVFDBG_PRINTLENVAL(iDebugLevel,plenVal)
-#endif  /* DEBUG_MODE */
-
 
 /*============================================================================
 * XSVF Type Declarations
@@ -187,13 +124,6 @@ typedef struct tagSXsvfInfo
     lenVal          lvTdoExpected;      /* Expected TDO shift data */
     lenVal          lvTdoCaptured;      /* Captured TDO shift data */
     lenVal          lvTdoMask;          /* TDO mask: 0=dontcare; 1=compare */
-
-#ifdef  XSVF_SUPPORT_COMPRESSION
-    /* XSDRINC Data Buffers */
-    lenVal          lvAddressMask;      /* Address mask for XSDRINC */
-    lenVal          lvDataMask;         /* Data mask for XSDRINC */
-    lenVal          lvNextData;         /* Next data for XSDRINC */
-#endif  /* XSVF_SUPPORT_COMPRESSION */
 } SXsvfInfo;
 
 /* Declare pointer to functions that perform XSVF commands */
@@ -293,7 +223,7 @@ int xsvfDoXWAIT( SXsvfInfo* pXsvfInfo );
 
 /* Array of XSVF command functions.  Must follow command byte value order! */
 /* If your compiler cannot take this form, then convert to a switch statement*/
-TXsvfDoCmdFuncPtr   xsvf_pfDoCmd[]  =
+TXsvfDoCmdFuncPtr xdata xsvf_pfDoCmd[]  =
 {
     xsvfDoXCOMPLETE,        /*  0 */
     xsvfDoXTDOMASK,         /*  1 */
@@ -305,13 +235,8 @@ TXsvfDoCmdFuncPtr   xsvf_pfDoCmd[]  =
     xsvfDoXREPEAT,          /*  7 */
     xsvfDoXSDRSIZE,         /*  8 */
     xsvfDoXSDRTDO,          /*  9 */
-#ifdef  XSVF_SUPPORT_COMPRESSION
-    xsvfDoXSETSDRMASKS,     /* 10 */
-    xsvfDoXSDRINC,          /* 11 */
-#else
     xsvfDoIllegalCmd,       /* 10 */
     xsvfDoIllegalCmd,       /* 11 */
-#endif  /* XSVF_SUPPORT_COMPRESSION */
     xsvfDoXSDRBCE,          /* 12 */
     xsvfDoXSDRBCE,          /* 13 */
     xsvfDoXSDRBCE,          /* 14 */
@@ -327,98 +252,9 @@ TXsvfDoCmdFuncPtr   xsvf_pfDoCmd[]  =
 /* Insert new command functions here */
 };
 
-#ifdef  DEBUG_MODE
-    char* xsvf_pzCommandName[]  =
-    {
-        "XCOMPLETE",
-        "XTDOMASK",
-        "XSIR",
-        "XSDR",
-        "XRUNTEST",
-        "Reserved5",
-        "Reserved6",
-        "XREPEAT",
-        "XSDRSIZE",
-        "XSDRTDO",
-        "XSETSDRMASKS",
-        "XSDRINC",
-        "XSDRB",
-        "XSDRC",
-        "XSDRE",
-        "XSDRTDOB",
-        "XSDRTDOC",
-        "XSDRTDOE",
-        "XSTATE",
-        "XENDIR",
-        "XENDDR",
-        "XSIR2",
-        "XCOMMENT",
-        "XWAIT"
-    };
-
-    char*   xsvf_pzErrorName[]  =
-    {
-        "No error",
-        "ERROR:  Unknown",
-        "ERROR:  TDO mismatch",
-        "ERROR:  TDO mismatch and exceeded max retries",
-        "ERROR:  Unsupported XSVF command",
-        "ERROR:  Illegal state specification",
-        "ERROR:  Data overflows allocated MAX_LEN buffer size"
-    };
-
-    char*   xsvf_pzTapState[] =
-    {
-        "RESET",        /* 0x00 */
-        "RUNTEST/IDLE", /* 0x01 */
-        "DRSELECT",     /* 0x02 */
-        "DRCAPTURE",    /* 0x03 */
-        "DRSHIFT",      /* 0x04 */
-        "DREXIT1",      /* 0x05 */
-        "DRPAUSE",      /* 0x06 */
-        "DREXIT2",      /* 0x07 */
-        "DRUPDATE",     /* 0x08 */
-        "IRSELECT",     /* 0x09 */
-        "IRCAPTURE",    /* 0x0A */
-        "IRSHIFT",      /* 0x0B */
-        "IREXIT1",      /* 0x0C */
-        "IRPAUSE",      /* 0x0D */
-        "IREXIT2",      /* 0x0E */
-        "IRUPDATE"      /* 0x0F */
-    };
-#endif  /* DEBUG_MODE */
-
-#ifdef DEBUG_MODE
-    FILE* in;   /* Legacy DEBUG_MODE file pointer */
-    int xsvf_iDebugLevel;
-#endif /* DEBUG_MODE */
-
 /*============================================================================
 * Utility Functions
 ============================================================================*/
-
-/*****************************************************************************
-* Function:     xsvfPrintLenVal
-* Description:  Print the lenval value in hex.
-* Parameters:   plv     - ptr to lenval.
-* Returns:      void.
-*****************************************************************************/
-#ifdef  DEBUG_MODE
-void xsvfPrintLenVal( lenVal *plv )
-{
-    int i;
-
-    if ( plv )
-    {
-        printf( "0x" );
-        for ( i = 0; i < plv->len; ++i )
-        {
-            printf( "%02x", ((unsigned int)(plv->val[ i ])) );
-        }
-    }
-}
-#endif  /* DEBUG_MODE */
-
 
 /*****************************************************************************
 * Function:     xsvfInfoInit
@@ -428,9 +264,6 @@ void xsvfPrintLenVal( lenVal *plv )
 *****************************************************************************/
 int xsvfInfoInit( SXsvfInfo* pXsvfInfo )
 {
-    XSVFDBG_PRINTF1( 4, "    sizeof( SXsvfInfo ) = %d bytes\n",
-                     sizeof( SXsvfInfo ) );
-
     pXsvfInfo->ucComplete       = 0;
     pXsvfInfo->ucCommand        = XCOMPLETE;
     pXsvfInfo->lCommandCount    = 0;
@@ -444,16 +277,6 @@ int xsvfInfoInit( SXsvfInfo* pXsvfInfo )
     pXsvfInfo->lRunTestTime     = 0L;
 
     return( 0 );
-}
-
-/*****************************************************************************
-* Function:     xsvfInfoCleanup
-* Description:  Cleanup the xsvfInfo data.
-* Parameters:   pXsvfInfo   - ptr to the XSVF info structure.
-* Returns:      void.
-*****************************************************************************/
-void xsvfInfoCleanup( SXsvfInfo* pXsvfInfo )
-{
 }
 
 /*****************************************************************************
@@ -498,8 +321,8 @@ void xsvfTmsTransition( short sTms )
 int xsvfGotoTapState( unsigned char*   pucTapState,
                       unsigned char    ucTargetState )
 {
-    int i;
-    int iErrorCode;
+    int xdata i;
+    int xdata iErrorCode;
 
     iErrorCode  = XSVF_ERROR_NONE;
     if ( ucTargetState == XTAPSTATE_RESET )
@@ -512,9 +335,6 @@ int xsvfGotoTapState( unsigned char*   pucTapState,
             setPort( TCK, 1 );
         }
         *pucTapState    = XTAPSTATE_RESET;
-        XSVFDBG_PRINTF( 3, "   TMS Reset Sequence -> Test-Logic-Reset\n" );
-        XSVFDBG_PRINTF1( 3, "   TAP State = %s\n",
-                         xsvf_pzTapState[ *pucTapState ] );
     }
     else if ( ( ucTargetState != *pucTapState ) &&
               ( ( ( ucTargetState == XTAPSTATE_EXIT2DR ) && ( *pucTapState != XTAPSTATE_PAUSEDR ) ) ||
@@ -533,15 +353,11 @@ int xsvfGotoTapState( unsigned char*   pucTapState,
             {
                 xsvfTmsTransition( 1 );
                 *pucTapState    = XTAPSTATE_EXIT2DR;
-                XSVFDBG_PRINTF1( 3, "   TAP State = %s\n",
-                                 xsvf_pzTapState[ *pucTapState ] );
             }
             else if ( ucTargetState == XTAPSTATE_PAUSEIR )
             {
                 xsvfTmsTransition( 1 );
                 *pucTapState    = XTAPSTATE_EXIT2IR;
-                XSVFDBG_PRINTF1( 3, "   TAP State = %s\n",
-                                 xsvf_pzTapState[ *pucTapState ] );
             }
         }
 
@@ -691,8 +507,6 @@ int xsvfGotoTapState( unsigned char*   pucTapState,
                 *pucTapState    = ucTargetState;    /* Exit while loop */
                 break;
             }
-            XSVFDBG_PRINTF1( 3, "   TAP State = %s\n",
-                             xsvf_pzTapState[ *pucTapState ] );
         }
     }
 
@@ -720,10 +534,10 @@ void xsvfShiftOnly( long    lNumBits,
 {
     unsigned char*  pucTdi;
     unsigned char*  pucTdo;
-    unsigned char   ucTdiByte;
-    unsigned char   ucTdoByte;
-    unsigned char   ucTdoBit;
-    int             i;
+    unsigned char xdata ucTdiByte;
+    unsigned char xdata ucTdoByte;
+    unsigned char xdata ucTdoBit;
+    int           xdata i;
 
     /* assert( ( ( lNumBits + 7 ) / 8 ) == plvTdi->len ); */
 
@@ -812,23 +626,15 @@ int xsvfShift( unsigned char*   pucTapState,
                long             lRunTestTime,
                unsigned char    ucMaxRepeat )
 {
-    int             iErrorCode;
-    int             iMismatch;
-    unsigned char   ucRepeat;
-    int             iExitShift;
+    int            xdata iErrorCode;
+    int            xdata iMismatch;
+    unsigned char  xdata ucRepeat;
+    int            xdata iExitShift;
 
     iErrorCode  = XSVF_ERROR_NONE;
     iMismatch   = 0;
     ucRepeat    = 0;
     iExitShift  = ( ucStartState != ucEndState );
-
-    XSVFDBG_PRINTF1( 3, "   Shift Length = %ld\n", lNumBits );
-    XSVFDBG_PRINTF( 4, "    TDI          = ");
-    XSVFDBG_PRINTLENVAL( 4, plvTdi );
-    XSVFDBG_PRINTF( 4, "\n");
-    XSVFDBG_PRINTF( 4, "    TDO Expected = ");
-    XSVFDBG_PRINTLENVAL( 4, plvTdoExpected );
-    XSVFDBG_PRINTF( 4, "\n");
 
     if ( !lNumBits )
     {
@@ -837,7 +643,6 @@ int xsvfShift( unsigned char*   pucTapState,
         {
             /* Wait for prespecified XRUNTEST time */
             xsvfGotoTapState( pucTapState, XTAPSTATE_RUNTEST );
-            XSVFDBG_PRINTF1( 3, "   Wait = %ld usec\n", lRunTestTime );
             waitTime( lRunTestTime );
         }
     }
@@ -863,21 +668,9 @@ int xsvfShift( unsigned char*   pucTapState,
             {
                 /* Update TAP state:  Shift->Exit */
                 ++(*pucTapState);
-                XSVFDBG_PRINTF1( 3, "   TAP State = %s\n",
-                                 xsvf_pzTapState[ *pucTapState ] );
 
                 if ( iMismatch && lRunTestTime && ( ucRepeat < ucMaxRepeat ) )
                 {
-                    XSVFDBG_PRINTF( 4, "    TDO Expected = ");
-                    XSVFDBG_PRINTLENVAL( 4, plvTdoExpected );
-                    XSVFDBG_PRINTF( 4, "\n");
-                    XSVFDBG_PRINTF( 4, "    TDO Captured = ");
-                    XSVFDBG_PRINTLENVAL( 4, plvTdoCaptured );
-                    XSVFDBG_PRINTF( 4, "\n");
-                    XSVFDBG_PRINTF( 4, "    TDO Mask     = ");
-                    XSVFDBG_PRINTLENVAL( 4, plvTdoMask );
-                    XSVFDBG_PRINTF( 4, "\n");
-                    XSVFDBG_PRINTF1( 3, "   Retry #%d\n", ( ucRepeat + 1 ) );
                     /* Do exception handling retry - ShiftDR only */
                     xsvfGotoTapState( pucTapState, XTAPSTATE_PAUSEDR );
                     /* Shift 1 extra bit */
@@ -895,7 +688,6 @@ int xsvfShift( unsigned char*   pucTapState,
                 {
                     /* Wait for prespecified XRUNTEST time */
                     xsvfGotoTapState( pucTapState, XTAPSTATE_RUNTEST );
-                    XSVFDBG_PRINTF1( 3, "   Wait = %ld usec\n", lRunTestTime );
                     waitTime( lRunTestTime );
                 }
             }
@@ -904,15 +696,6 @@ int xsvfShift( unsigned char*   pucTapState,
 
     if ( iMismatch )
     {
-        XSVFDBG_PRINTF( 1, " TDO Expected = ");
-        XSVFDBG_PRINTLENVAL( 1, plvTdoExpected );
-        XSVFDBG_PRINTF( 1, "\n");
-        XSVFDBG_PRINTF( 1, " TDO Captured = ");
-        XSVFDBG_PRINTLENVAL( 1, plvTdoCaptured );
-        XSVFDBG_PRINTF( 1, "\n");
-        XSVFDBG_PRINTF( 1, " TDO Mask     = ");
-        XSVFDBG_PRINTLENVAL( 1, plvTdoMask );
-        XSVFDBG_PRINTF( 1, "\n");
         if ( ucMaxRepeat && ( ucRepeat > ucMaxRepeat ) )
         {
             iErrorCode  = XSVF_ERROR_MAXRETRIES;
@@ -961,83 +744,6 @@ int xsvfBasicXSDRTDO( unsigned char*    pucTapState,
                        ucEndState, lRunTestTime, ucMaxRepeat ) );
 }
 
-/*****************************************************************************
-* Function:     xsvfDoSDRMasking
-* Description:  Update the data value with the next XSDRINC data and address.
-* Example:      dataVal=0x01ff, nextData=0xab, addressMask=0x0100,
-*               dataMask=0x00ff, should set dataVal to 0x02ab
-* Parameters:   plvTdi          - The current TDI value.
-*               plvNextData     - the next data value.
-*               plvAddressMask  - the address mask.
-*               plvDataMask     - the data mask.
-* Returns:      void.
-*****************************************************************************/
-#ifdef  XSVF_SUPPORT_COMPRESSION
-void xsvfDoSDRMasking( lenVal*  plvTdi,
-                       lenVal*  plvNextData,
-                       lenVal*  plvAddressMask,
-                       lenVal*  plvDataMask )
-{
-    int             i;
-    unsigned char   ucTdi;
-    unsigned char   ucTdiMask;
-    unsigned char   ucDataMask;
-    unsigned char   ucNextData;
-    unsigned char   ucNextMask;
-    short           sNextData;
-
-    /* add the address Mask to dataVal and return as a new dataVal */
-    addVal( plvTdi, plvTdi, plvAddressMask );
-
-    ucNextData  = 0;
-    ucNextMask  = 0;
-    sNextData   = plvNextData->len;
-    for ( i = plvDataMask->len - 1; i >= 0; --i )
-    {
-        /* Go through data mask in reverse order looking for mask (1) bits */
-        ucDataMask  = plvDataMask->val[ i ];
-        if ( ucDataMask )
-        {
-            /* Retrieve the corresponding TDI byte value */
-            ucTdi       = plvTdi->val[ i ];
-
-            /* For each bit in the data mask byte, look for 1's */
-            ucTdiMask   = 1;
-            while ( ucDataMask )
-            {
-                if ( ucDataMask & 1 )
-                {
-                    if ( !ucNextMask )
-                    {
-                        /* Get the next data byte */
-                        ucNextData  = plvNextData->val[ --sNextData ];
-                        ucNextMask  = 1;
-                    }
-
-                    /* Set or clear the data bit according to the next data */
-                    if ( ucNextData & ucNextMask )
-                    {
-                        ucTdi   |= ucTdiMask;       /* Set bit */
-                    }
-                    else
-                    {
-                        ucTdi   &= ( ~ucTdiMask );  /* Clear bit */
-                    }
-
-                    /* Update the next data */
-                    ucNextMask  <<= 1;
-                }
-                ucTdiMask   <<= 1;
-                ucDataMask  >>= 1;
-            }
-
-            /* Update the TDI value */
-            plvTdi->val[ i ]    = ucTdi;
-        }
-    }
-}
-#endif  /* XSVF_SUPPORT_COMPRESSION */
-
 /*============================================================================
 * XSVF Command Functions (type = TXsvfDoCmdFuncPtr)
 * These functions update pXsvfInfo->iErrorCode only on an error.
@@ -1053,11 +759,6 @@ void xsvfDoSDRMasking( lenVal*  plvTdi,
 *****************************************************************************/
 int xsvfDoIllegalCmd( SXsvfInfo* pXsvfInfo )
 {
-    XSVFDBG_PRINTF2( 0, "ERROR:  Encountered unsupported command #%d (%s)\n",
-                     ((unsigned int)(pXsvfInfo->ucCommand)),
-                     ((pXsvfInfo->ucCommand < XLASTCMD)
-                      ? (xsvf_pzCommandName[pXsvfInfo->ucCommand])
-                      : "Unknown") );
     pXsvfInfo->iErrorCode   = XSVF_ERROR_ILLEGALCMD;
     return( pXsvfInfo->iErrorCode );
 }
@@ -1085,9 +786,6 @@ int xsvfDoXCOMPLETE( SXsvfInfo* pXsvfInfo )
 int xsvfDoXTDOMASK( SXsvfInfo* pXsvfInfo )
 {
     readVal( &(pXsvfInfo->lvTdoMask), pXsvfInfo->sShiftLengthBytes );
-    XSVFDBG_PRINTF( 4, "    TDO Mask     = ");
-    XSVFDBG_PRINTLENVAL( 4, &(pXsvfInfo->lvTdoMask) );
-    XSVFDBG_PRINTF( 4, "\n");
     return( XSVF_ERROR_NONE );
 }
 
@@ -1103,14 +801,12 @@ int xsvfDoXTDOMASK( SXsvfInfo* pXsvfInfo )
 int xsvfDoXSIR( SXsvfInfo* pXsvfInfo )
 {
     unsigned char   ucShiftIrBits;
-    short           sShiftIrBytes;
-    int             iErrorCode;
+    short           xdata sShiftIrBytes;
+    int             xdata iErrorCode;
 
     /* Get the shift length and store */
     readByte( &ucShiftIrBits );
     sShiftIrBytes   = xsvfGetAsNumBytes( ucShiftIrBits );
-    XSVFDBG_PRINTF1( 3, "   XSIR length = %d\n",
-                     ((unsigned int)ucShiftIrBits) );
 
     if ( sShiftIrBytes > MAX_LEN )
     {
@@ -1147,15 +843,14 @@ int xsvfDoXSIR( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 int xsvfDoXSIR2( SXsvfInfo* pXsvfInfo )
 {
-    long            lShiftIrBits;
-    short           sShiftIrBytes;
-    int             iErrorCode;
+    long            xdata lShiftIrBits;
+    short           xdata sShiftIrBytes;
+    int             xdata iErrorCode;
 
     /* Get the shift length and store */
     readVal( &(pXsvfInfo->lvTdi), 2 );
     lShiftIrBits    = value( &(pXsvfInfo->lvTdi) );
     sShiftIrBytes   = xsvfGetAsNumBytes( lShiftIrBits );
-    XSVFDBG_PRINTF1( 3, "   XSIR2 length = %d\n", lShiftIrBits);
 
     if ( sShiftIrBytes > MAX_LEN )
     {
@@ -1193,7 +888,7 @@ int xsvfDoXSIR2( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 int xsvfDoXSDR( SXsvfInfo* pXsvfInfo )
 {
-    int iErrorCode;
+    int xdata iErrorCode;
     readVal( &(pXsvfInfo->lvTdi), pXsvfInfo->sShiftLengthBytes );
     /* use TDOExpected from last XSDRTDO instruction */
     iErrorCode  = xsvfShift( &(pXsvfInfo->ucTapState), XTAPSTATE_SHIFTDR,
@@ -1220,7 +915,6 @@ int xsvfDoXRUNTEST( SXsvfInfo* pXsvfInfo )
 {
     readVal( &(pXsvfInfo->lvTdi), 4 );
     pXsvfInfo->lRunTestTime = value( &(pXsvfInfo->lvTdi) );
-    XSVFDBG_PRINTF1( 3, "   XRUNTEST = %ld\n", pXsvfInfo->lRunTestTime );
     return( XSVF_ERROR_NONE );
 }
 
@@ -1234,8 +928,6 @@ int xsvfDoXRUNTEST( SXsvfInfo* pXsvfInfo )
 int xsvfDoXREPEAT( SXsvfInfo* pXsvfInfo )
 {
     readByte( &(pXsvfInfo->ucMaxRepeat) );
-    XSVFDBG_PRINTF1( 3, "   XREPEAT = %d\n",
-                     ((unsigned int)(pXsvfInfo->ucMaxRepeat)) );
     return( XSVF_ERROR_NONE );
 }
 
@@ -1248,12 +940,11 @@ int xsvfDoXREPEAT( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 int xsvfDoXSDRSIZE( SXsvfInfo* pXsvfInfo )
 {
-    int iErrorCode;
+    int xdata iErrorCode;
     iErrorCode  = XSVF_ERROR_NONE;
     readVal( &(pXsvfInfo->lvTdi), 4 );
     pXsvfInfo->lShiftLengthBits = value( &(pXsvfInfo->lvTdi) );
     pXsvfInfo->sShiftLengthBytes= xsvfGetAsNumBytes( pXsvfInfo->lShiftLengthBits );
-    XSVFDBG_PRINTF1( 3, "   XSDRSIZE = %ld\n", pXsvfInfo->lShiftLengthBits );
     if ( pXsvfInfo->sShiftLengthBytes > MAX_LEN )
     {
         iErrorCode  = XSVF_ERROR_DATAOVERFLOW;
@@ -1273,7 +964,7 @@ int xsvfDoXSDRSIZE( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 int xsvfDoXSDRTDO( SXsvfInfo* pXsvfInfo )
 {
-    int iErrorCode;
+    int xdata iErrorCode;
     iErrorCode  = xsvfBasicXSDRTDO( &(pXsvfInfo->ucTapState),
                                     pXsvfInfo->lShiftLengthBits,
                                     pXsvfInfo->sShiftLengthBytes,
@@ -1292,113 +983,6 @@ int xsvfDoXSDRTDO( SXsvfInfo* pXsvfInfo )
 }
 
 /*****************************************************************************
-* Function:     xsvfDoXSETSDRMASKS
-* Description:  XSETSDRMASKS <lenVal.AddressMask[XSDRSIZE]>
-*                            <lenVal.DataMask[XSDRSIZE]>
-*               Get the prespecified address and data mask for the XSDRINC
-*               command.
-*               Used for xc9500/xl compressed XSVF data.
-* Parameters:   pXsvfInfo   - XSVF information pointer.
-* Returns:      int         - 0 = success;  non-zero = error.
-*****************************************************************************/
-#ifdef  XSVF_SUPPORT_COMPRESSION
-int xsvfDoXSETSDRMASKS( SXsvfInfo* pXsvfInfo )
-{
-    /* read the addressMask */
-    readVal( &(pXsvfInfo->lvAddressMask), pXsvfInfo->sShiftLengthBytes );
-    /* read the dataMask    */
-    readVal( &(pXsvfInfo->lvDataMask), pXsvfInfo->sShiftLengthBytes );
-
-    XSVFDBG_PRINTF( 4, "    Address Mask = " );
-    XSVFDBG_PRINTLENVAL( 4, &(pXsvfInfo->lvAddressMask) );
-    XSVFDBG_PRINTF( 4, "\n" );
-    XSVFDBG_PRINTF( 4, "    Data Mask    = " );
-    XSVFDBG_PRINTLENVAL( 4, &(pXsvfInfo->lvDataMask) );
-    XSVFDBG_PRINTF( 4, "\n" );
-
-    return( XSVF_ERROR_NONE );
-}
-#endif  /* XSVF_SUPPORT_COMPRESSION */
-
-/*****************************************************************************
-* Function:     xsvfDoXSDRINC
-* Description:  XSDRINC <lenVal.firstTDI[XSDRSIZE]> <byte(numTimes)>
-*                       <lenVal.data[XSETSDRMASKS.dataMask.len]> ...
-*               Get the XSDRINC parameters and execute the XSDRINC command.
-*               XSDRINC starts by loading the first TDI shift value.
-*               Then, for numTimes, XSDRINC gets the next piece of data,
-*               replaces the bits from the starting TDI as defined by the
-*               XSETSDRMASKS.dataMask, adds the address mask from
-*               XSETSDRMASKS.addressMask, shifts the new TDI value,
-*               and compares the TDO to the expected TDO from the previous
-*               XSDRTDO command using the XTDOMASK.
-*               Used for xc9500/xl compressed XSVF data.
-* Parameters:   pXsvfInfo   - XSVF information pointer.
-* Returns:      int         - 0 = success;  non-zero = error.
-*****************************************************************************/
-#ifdef  XSVF_SUPPORT_COMPRESSION
-int xsvfDoXSDRINC( SXsvfInfo* pXsvfInfo )
-{
-    int             iErrorCode;
-    int             iDataMaskLen;
-    unsigned char   ucDataMask;
-    unsigned char   ucNumTimes;
-    unsigned char   i;
-
-    readVal( &(pXsvfInfo->lvTdi), pXsvfInfo->sShiftLengthBytes );
-    iErrorCode  = xsvfShift( &(pXsvfInfo->ucTapState), XTAPSTATE_SHIFTDR,
-                             pXsvfInfo->lShiftLengthBits,
-                             &(pXsvfInfo->lvTdi), &(pXsvfInfo->lvTdoCaptured),
-                             &(pXsvfInfo->lvTdoExpected),
-                             &(pXsvfInfo->lvTdoMask), pXsvfInfo->ucEndDR,
-                             pXsvfInfo->lRunTestTime, pXsvfInfo->ucMaxRepeat );
-    if ( !iErrorCode )
-    {
-        /* Calculate number of data mask bits */
-        iDataMaskLen    = 0;
-        for ( i = 0; i < pXsvfInfo->lvDataMask.len; ++i )
-        {
-            ucDataMask  = pXsvfInfo->lvDataMask.val[ i ];
-            while ( ucDataMask )
-            {
-                iDataMaskLen    += ( ucDataMask & 1 );
-                ucDataMask      >>= 1;
-            }
-        }
-
-        /* Get the number of data pieces, i.e. number of times to shift */
-        readByte( &ucNumTimes );
-
-        /* For numTimes, get data, fix TDI, and shift */
-        for ( i = 0; !iErrorCode && ( i < ucNumTimes ); ++i )
-        {
-            readVal( &(pXsvfInfo->lvNextData),
-                     xsvfGetAsNumBytes( iDataMaskLen ) );
-            xsvfDoSDRMasking( &(pXsvfInfo->lvTdi),
-                              &(pXsvfInfo->lvNextData),
-                              &(pXsvfInfo->lvAddressMask),
-                              &(pXsvfInfo->lvDataMask) );
-            iErrorCode  = xsvfShift( &(pXsvfInfo->ucTapState),
-                                     XTAPSTATE_SHIFTDR,
-                                     pXsvfInfo->lShiftLengthBits,
-                                     &(pXsvfInfo->lvTdi),
-                                     &(pXsvfInfo->lvTdoCaptured),
-                                     &(pXsvfInfo->lvTdoExpected),
-                                     &(pXsvfInfo->lvTdoMask),
-                                     pXsvfInfo->ucEndDR,
-                                     pXsvfInfo->lRunTestTime,
-                                     pXsvfInfo->ucMaxRepeat );
-        }
-    }
-    if ( iErrorCode != XSVF_ERROR_NONE )
-    {
-        pXsvfInfo->iErrorCode   = iErrorCode;
-    }
-    return( iErrorCode );
-}
-#endif  /* XSVF_SUPPORT_COMPRESSION */
-
-/*****************************************************************************
 * Function:     xsvfDoXSDRBCE
 * Description:  XSDRB/XSDRC/XSDRE <lenVal.TDI[XSDRSIZE]>
 *               If not already in SHIFTDR, goto SHIFTDR.
@@ -1412,7 +996,7 @@ int xsvfDoXSDRINC( SXsvfInfo* pXsvfInfo )
 int xsvfDoXSDRBCE( SXsvfInfo* pXsvfInfo )
 {
     unsigned char   ucEndDR;
-    int             iErrorCode;
+    int             xdata iErrorCode;
     ucEndDR = (unsigned char)(( pXsvfInfo->ucCommand == XSDRE ) ?
                                 pXsvfInfo->ucEndDR : XTAPSTATE_SHIFTDR);
     iErrorCode  = xsvfBasicXSDRTDO( &(pXsvfInfo->ucTapState),
@@ -1443,7 +1027,7 @@ int xsvfDoXSDRBCE( SXsvfInfo* pXsvfInfo )
 int xsvfDoXSDRTDOBCE( SXsvfInfo* pXsvfInfo )
 {
     unsigned char   ucEndDR;
-    int             iErrorCode;
+    int             xdata iErrorCode;
     ucEndDR = (unsigned char)(( pXsvfInfo->ucCommand == XSDRTDOE ) ?
                                 pXsvfInfo->ucEndDR : XTAPSTATE_SHIFTDR);
     iErrorCode  = xsvfBasicXSDRTDO( &(pXsvfInfo->ucTapState),
@@ -1472,7 +1056,7 @@ int xsvfDoXSDRTDOBCE( SXsvfInfo* pXsvfInfo )
 int xsvfDoXSTATE( SXsvfInfo* pXsvfInfo )
 {
     unsigned char   ucNextState;
-    int             iErrorCode;
+    int             xdata iErrorCode;
     readByte( &ucNextState );
     iErrorCode  = xsvfGotoTapState( &(pXsvfInfo->ucTapState), ucNextState );
     if ( iErrorCode != XSVF_ERROR_NONE )
@@ -1493,7 +1077,7 @@ int xsvfDoXSTATE( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 int xsvfDoXENDXR( SXsvfInfo* pXsvfInfo )
 {
-    int             iErrorCode;
+    int             xdata iErrorCode;
     unsigned char   ucEndState;
 
     iErrorCode  = XSVF_ERROR_NONE;
@@ -1515,8 +1099,6 @@ int xsvfDoXENDXR( SXsvfInfo* pXsvfInfo )
             {
                 pXsvfInfo->ucEndIR  = XTAPSTATE_PAUSEIR;
             }
-            XSVFDBG_PRINTF1( 3, "   ENDIR State = %s\n",
-                             xsvf_pzTapState[ pXsvfInfo->ucEndIR ] );
         }
     else    /* XENDDR */
     {
@@ -1528,8 +1110,6 @@ int xsvfDoXENDXR( SXsvfInfo* pXsvfInfo )
     {
                 pXsvfInfo->ucEndDR  = XTAPSTATE_PAUSEDR;
             }
-            XSVFDBG_PRINTF1( 3, "   ENDDR State = %s\n",
-                             xsvf_pzTapState[ pXsvfInfo->ucEndDR ] );
         }
     }
 
@@ -1538,39 +1118,6 @@ int xsvfDoXENDXR( SXsvfInfo* pXsvfInfo )
         pXsvfInfo->iErrorCode   = iErrorCode;
     }
     return( iErrorCode );
-}
-
-/*****************************************************************************
-* Function:     xsvfDoXCOMMENT
-* Description:  XCOMMENT <text string ending in \0>
-*               <text string ending in \0> == text comment;
-*               Arbitrary comment embedded in the XSVF.
-* Parameters:   pXsvfInfo   - XSVF information pointer.
-* Returns:      int         - 0 = success;  non-zero = error.
-*****************************************************************************/
-int xsvfDoXCOMMENT( SXsvfInfo* pXsvfInfo )
-{
-    /* Use the comment for debugging */
-    /* Otherwise, read through the comment to the end '\0' and ignore */
-    unsigned char   ucText;
-
-    if ( xsvf_iDebugLevel > 0 )
-    {
-        putchar( ' ' );
-    }
-
-    do
-    {
-        readByte( &ucText );
-        if ( xsvf_iDebugLevel > 0 )
-        {
-            putchar( ucText ? ucText : '\n' );
-        }
-    } while ( ucText );
-
-    pXsvfInfo->iErrorCode   = XSVF_ERROR_NONE;
-
-    return( pXsvfInfo->iErrorCode );
 }
 
 /*****************************************************************************
@@ -1586,7 +1133,7 @@ int xsvfDoXWAIT( SXsvfInfo* pXsvfInfo )
 {
     unsigned char   ucWaitState;
     unsigned char   ucEndState;
-    long            lWaitTime;
+    long            xdata lWaitTime;
 
     /* Get Parameters */
     /* <wait_state> */
@@ -1600,8 +1147,6 @@ int xsvfDoXWAIT( SXsvfInfo* pXsvfInfo )
     /* <wait_time> */
     readVal( &(pXsvfInfo->lvTdi), 4 );
     lWaitTime = value( &(pXsvfInfo->lvTdi) );
-    XSVFDBG_PRINTF2( 3, "   XWAIT:  state = %s; time = %ld\n",
-                     xsvf_pzTapState[ ucWaitState ], lWaitTime );
 
     /* If not already in <wait_state>, go to <wait_state> */
     if ( pXsvfInfo->ucTapState != ucWaitState )
@@ -1672,9 +1217,6 @@ int xsvfRun( SXsvfInfo* pXsvfInfo )
 
         if ( pXsvfInfo->ucCommand < XLASTCMD )
         {
-            /* Execute the command.  Func sets error code. */
-            XSVFDBG_PRINTF1( 2, "  %s\n",
-                             xsvf_pzCommandName[pXsvfInfo->ucCommand] );
             /* If your compiler cannot take this form,
                then convert to a switch statement */
             xsvf_pfDoCmd[ pXsvfInfo->ucCommand ]( pXsvfInfo );
@@ -1689,139 +1231,14 @@ int xsvfRun( SXsvfInfo* pXsvfInfo )
     return( pXsvfInfo->iErrorCode );
 }
 
-/*****************************************************************************
-* Function:     xsvfCleanup
-* Description:  cleanup remnants of the xsvf player.
-* Parameters:   pXsvfInfo   - ptr to the XSVF information.
-* Returns:      void.
-*****************************************************************************/
-void xsvfCleanup( SXsvfInfo* pXsvfInfo )
+SXsvfInfo xdata xsvfInfo;
+
+int xsvfInitializeSTM()
 {
-    xsvfInfoCleanup( pXsvfInfo );
+	xsvfInitialize(&xsvfInfo);
 }
 
-
-/*============================================================================
-* xsvfExecute() - The primary entry point to the XSVF player
-============================================================================*/
-
-/*****************************************************************************
-* Function:     xsvfExecute
-* Description:  Process, interpret, and apply the XSVF commands.
-*               See port.c:readByte for source of XSVF data.
-* Parameters:   none.
-* Returns:      int - Legacy result values:  1 == success;  0 == failed.
-*****************************************************************************/
-int xsvfExecute()
+int xsvfRunSTM()
 {
-    SXsvfInfo   xsvfInfo;
-
-    xsvfInitialize( &xsvfInfo );
-
-    while ( !xsvfInfo.iErrorCode && (!xsvfInfo.ucComplete) )
-    {
-        xsvfRun( &xsvfInfo );
-    }
-
-    if ( xsvfInfo.iErrorCode )
-    {
-        XSVFDBG_PRINTF1( 0, "%s\n", xsvf_pzErrorName[
-                         ( xsvfInfo.iErrorCode < XSVF_ERROR_LAST )
-                         ? xsvfInfo.iErrorCode : XSVF_ERROR_UNKNOWN ] );
-        XSVFDBG_PRINTF2( 0, "ERROR at or near XSVF command #%ld.  See line #%ld in the XSVF ASCII file.\n",
-                         xsvfInfo.lCommandCount, xsvfInfo.lCommandCount );
-    }
-    else
-    {
-        XSVFDBG_PRINTF( 0, "SUCCESS - Completed XSVF execution.\n" );
-    }
-
-    xsvfCleanup( &xsvfInfo );
-
-    return( XSVF_ERRORCODE(xsvfInfo.iErrorCode) );
+	xsvfRun(&xsvfInfo);
 }
-
-
-/*============================================================================
-* main
-============================================================================*/
-
-/*****************************************************************************
-* Function:     main
-* Description:  main function.
-*               Specified here for creating stand-alone debug executable.
-*               Embedded users should call xsvfExecute() directly.
-* Parameters:   iArgc    - number of command-line arguments.
-*               ppzArgv  - array of ptrs to strings (command-line arguments).
-* Returns:      int      - Legacy return value:  1 = success; 0 = error.
-*****************************************************************************/
-#ifdef XSVF_MAIN
-int main( int iArgc, char** ppzArgv )
-{
-    int     iErrorCode;
-    char*   pzXsvfFileName;
-    int     i;
-    clock_t startClock;
-    clock_t endClock;
-
-    iErrorCode          = XSVF_ERRORCODE( XSVF_ERROR_NONE );
-    pzXsvfFileName      = 0;
-
-    printf( "XSVF Player v%s, Xilinx, Inc.\n", XSVF_VERSION );
-
-    for ( i = 1; i < iArgc ; ++i )
-    {
-        if ( !_stricmp( ppzArgv[ i ], "-v" ) )
-        {
-            ++i;
-            if ( i >= iArgc )
-            {
-                printf( "ERROR:  missing <level> parameter for -v option.\n" );
-            }
-            else
-            {
-                xsvf_iDebugLevel    = atoi( ppzArgv[ i ] );
-                printf( "Verbose level = %d\n", xsvf_iDebugLevel );
-            }
-        }
-        else
-        {
-            pzXsvfFileName  = ppzArgv[ i ];
-            printf( "XSVF file = %s\n", pzXsvfFileName );
-        }
-    }
-
-    if ( !pzXsvfFileName )
-    {
-        printf( "USAGE:  playxsvf [-v level] filename.xsvf\n" );
-        printf( "where:  -v level      = verbose, level = 0-4 (default=0)\n" );
-        printf( "        filename.xsvf = the XSVF file to execute.\n" );
-    }
-    else
-    {
-        /* read from the XSVF file instead of a real prom */
-        in = fopen( pzXsvfFileName, "rb" );
-        if ( !in )
-        {
-            printf( "ERROR:  Cannot open file %s\n", pzXsvfFileName );
-            iErrorCode  = XSVF_ERRORCODE( XSVF_ERROR_UNKNOWN );
-        }
-        else
-        {
-            /* Initialize the I/O.  SetPort initializes I/O on first call */
-            setPort( TMS, 1 );
-
-            /* Execute the XSVF in the file */
-            startClock  = clock();
-            iErrorCode  = xsvfExecute();
-            endClock    = clock();
-            fclose( in );
-            printf( "Execution Time = %.3f seconds\n",
-                    (((double)(endClock - startClock))/CLOCKS_PER_SEC) );
-        }
-    }
-
-    return( iErrorCode );
-}
-#endif  /* XSVF_MAIN */
-
