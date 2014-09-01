@@ -73,9 +73,9 @@ begin
 			
 			
 	Generate_ApproachCells :
-		for k in 0 to 2 
-			for m in 0 to 2 Generate
-				AC: AC port map 
+		for k in 0 to 2 generate
+			for m in 0 to 2 generate
+				AC: entity work.AC port map 
 				( 
 					Clock_CI     => Clock_CI,
 					Reset_RI     => Reset_RI,

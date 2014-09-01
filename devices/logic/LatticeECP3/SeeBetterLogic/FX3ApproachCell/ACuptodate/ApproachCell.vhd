@@ -40,12 +40,13 @@ architecture Behavioral of ApproachCellStateMachine is
 	attribute syn_enum_encoding of state : type is "onehot";
 	
 	--type Subunit is array (2 downto 0 , 2 downto 0) of tSubunitParameter;
+	type tVmem is array (integer range, integer range) of signed(31 downto 0) ;
 	
+	signal VmemOn, VmemOff, InputtoACOn, InputtoACOff :  tVmem(2 downto 0 ,2 downto 0); 
 	
-	type VmemOn is array (2 downto 0 ,2 downto 0) of signed( 31 downto 0) ;
-	type VmemOff is array (2 downto 0 , 2 downto 0) of signed( 31 downto 0) ;
-	type InputtoACOn is array (2 downto 0 , 2 downto 0) of signed( 31 downto 0) ;
-	type InputtoACOff is array (2 downto 0 , 2 downto 0) of signed( 31 downto 0) ;
+	--type  is array (2 downto 0 , 2 downto 0) of signed( 31 downto 0) ;
+	--type  is array (2 downto 0 , 2 downto 0) of signed( 31 downto 0) ;
+	--type  is array (2 downto 0 , 2 downto 0) of signed( 31 downto 0) ;
 	
 	
 
@@ -78,19 +79,19 @@ begin
 			
 			
 	p_memoryless : process(State_DP, CounterOut, DVSEvent_I, EventXAddr_I, EventYAddr_I, Decay_Enable, EventPolarity_I, VmemOn, VmemOff)---should they be here?
-		
-		begin
-			
-			State_DN <= State_DP;           
-			Vmem <= (others => '0');   ----for array, use for loop to initiate?
-			result <= (others => '0');
-			CounterValue <= (others => '0');  ---what should I put here?  those who are saved in reg e.g. SubunitVmem, SubunitSum not?
-			AC_Fire <= '0';
-
 			variable sum, V: sum, V is array (2 downto 0 , 2 downto 0) of signed( 31 downto 0) 
 			variable i, j : integer range 0 to 7
 			 ----- is this neccessary?
 			variable n:     integer range 0 to 4
+		
+		begin
+			
+			State_DN <= State_DP;           
+			VmemOn <= (others => '0');   ----for array, use for loop to initiate?
+			result <= (others => '0');
+			CounterValue <= (others => '0');  ---what should I put here?  those who are saved in reg e.g. SubunitVmem, SubunitSum not?
+			AC_Fire <= '0';
+
 			
 		
 			case State_DP is
@@ -112,7 +113,7 @@ begin
 				when stDecay => 
 					 VOn(i,j) :=  '0' && VmemOn(i,j)(30 downto 0);
 					 VmemOn(i,j) <= VOn(i,j);
-					 VOff(i,j) :=  '0' && VmemOff(i,j)(30 downto 0);
+					 VOff(i,j) :=  '0' & VmemOff(i,j)(30 downto 0);
 					 VmemOff(i,j) <= VOff(i,j);
 					 State_DN <= stIdle;
 
@@ -127,7 +128,7 @@ begin
 			     when stOffEvent =>
 					 State_DN <= stComputeInputtoAC;
 					 
-							if i= unsigned (EventXAddr_I (4 downto 2)) & j = unsigned (EventXAddr_I (4 downto 2)) then 
+							if i= unsigned (EventXAddr_I (4 downto 2)) and j = unsigned (EventXAddr_I (4 downto 2)) then 
 								VOff(i,j) :=  VmemOff(i,j) + UpdateUnit; 
 								VmemOff(i,j)  <= VOff(i,j);	 
 								--or can I use Subunit(i,j).VmemOn + = UpdateUnit;
@@ -140,12 +141,14 @@ begin
 								n :=0  ---????
 								--i := tSubunit.Xaddr; 
 								--j := tSubunit.Yaddr;
-							    	for i in 0 to 7 , for j in 0 to 7 ----??right?
+							    	for i in 0 to 7 loop
+   									   for j in 0 to 7 loop----??right?
 								
 										if i < 7 then
 											
 											sumOff(i,j) := sumOff(i,j) + Subunit(i+1,j).VmemOff;
 											n : = n + 1 ;
+										end if;
 										if i > 0 then 
 											sumOff(i,j) := sumOff(i,j) + Subunit(i-1,j).VmemOff;
 											n : = n + 1 ;
@@ -233,9 +236,15 @@ begin
 	begin
 		if Reset_RI = '1' then          -- asynchronous reset (active-high for FPGAs)
 			State_DP <= stIdle;
-			
+			iREQ_decay <= '0';
 		elsif rising_edge(Clock_CI) then
 			State_DP <= State_DN;
+			if OVF='1' then 
+			   iREQ_decay <='1';
+			elsif State_DP = stDecay then
+			   iREQ_decay <= '0';
+			end if;
+			
 		end if;
 	end process p_memoryzing;
 end Behavioral;
