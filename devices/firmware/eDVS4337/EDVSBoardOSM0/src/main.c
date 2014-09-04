@@ -57,10 +57,13 @@ __RAMFUNC(RAM) int main(void) {
 		 * TODO: this is an open issue
 		 */
 #if UART_PORT_DEFAULT == 0
-		if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, CTS0_GPIO_PORT, CTS0_GPIO_PIN) == 0) { // no rts stop signal
+		if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, CTS0_GPIO_PORT, CTS0_GPIO_PIN) == 0
+				&& (LPC_UART->LSR & UART_LSR_THRE)) { // no rts stop signal
 #endif
-			while (bytesToSend(&uart) && (LPC_UART->LSR & UART_LSR_THRE)) {
+			int i = 15; //Use the TX FIFO
+			while (bytesToSend(&uart) && i) {
 				LPC_UART->THR = popByteFromTransmissionBuffer(&uart);
+				--i;
 			}
 #if LOW_POWER_MODE
 			if (!byteToSend(&uart) && M4Sleeping(&uart)) { // signal M4 TX is done

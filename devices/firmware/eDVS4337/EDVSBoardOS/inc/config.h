@@ -55,6 +55,6 @@
 /**
  * Current Software versions
  */
-#define SOFTWARE_VERSION		"0.6.1"
+#define SOFTWARE_VERSION		"0.7.0"
 
 #endif /* CONFIG_H_ */

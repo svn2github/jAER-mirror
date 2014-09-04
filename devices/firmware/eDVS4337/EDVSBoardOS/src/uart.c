@@ -243,7 +243,7 @@ static inline void UARTShowSensorOptions(void) {
 	xputs(" 20  1048576   MOTOR CURRENTS  2  motor currents from the motor driver\n");
 #if USE_SDCARD
 	xputs(" 21  2097152   EVENTS RATE     3  Event rate per second (0..1000000)\n");
-	#else
+#else
 	xputs(" 21  2097152   EVENTS RATE     1  Event rate per second (0..1000000)\n");
 #endif
 #if USE_PUSHBOT
@@ -304,22 +304,22 @@ static void UARTParseGetCommand(void) {
 		break;
 
 #if USE_PUSHBOT
-		case 'M':
-		case 'm': {
-			unsigned char *c = commandLine + 2;
-			if (*c == 'C' || *c == 'c') {
-				c++;
-				uint32_t motorId = parseUInt32(&c);
-				if (motorId == MOTOR0) {
-					xprintf("-MC0 %d,%d,%d\n", motor0.proportionalGain, motor0.integralGain, motor0.derivativeGain);
-				} else if (motorId == MOTOR1) {
-					xprintf("-MC1 %d,%d,%d\n", motor1.proportionalGain, motor1.integralGain, motor1.derivativeGain);
-				}
-			} else {
-				xputs("Get: parsing error\n");
+	case 'M':
+	case 'm': {
+		unsigned char *c = commandLine + 2;
+		if (*c == 'C' || *c == 'c') {
+			c++;
+			uint32_t motorId = parseUInt32(&c);
+			if (motorId == MOTOR0) {
+				xprintf("-MC0 %d,%d,%d\n", motor0.proportionalGain, motor0.integralGain, motor0.derivativeGain);
+			} else if (motorId == MOTOR1) {
+				xprintf("-MC1 %d,%d,%d\n", motor1.proportionalGain, motor1.integralGain, motor1.derivativeGain);
 			}
-			break;
+		} else {
+			xputs("Get: parsing error\n");
 		}
+		break;
+	}
 #endif
 	case 'S':
 	case 's': {
@@ -823,6 +823,21 @@ static void parseRS232CommandLine(void) {
 		//
 		break;
 	}
+	case 'W':
+	case 'w':
+		for (int i = 0; i < 20000000; ++i) {
+			while (freeSpaceForTranmission(&uart) < 6) {	// wait for TX to finish sending!
+				__NOP();
+			}
+			pushByteToTransmission(&uart, (i >> 8) | 0x80);      // 1st byte to send (Y-address)
+			pushByteToTransmission(&uart, i & 0xFF);                  // 2nd byte to send (X-address)
+			pushByteToTransmission(&uart, (i >> 8) & 0xFF); // 3rd byte to send (time stamp high byte)
+			pushByteToTransmission(&uart, i & 0xFF);	// 4th byte to send (time stamp low byte)
+			pushByteToTransmission(&uart, (i >> 24) & 0xFF);	// 3rd byte to send (time stamp high byte)
+			pushByteToTransmission(&uart, (i >> 16) & 0xFF);	// 4th byte to send (time stamp high byte)
+
+		}
+		break;
 
 	default:
 		xputs("?\n");
