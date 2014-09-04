@@ -7,7 +7,7 @@ use work.ApproachSensitivityConfigRecords.all;
 
 
 entity ApproachCellStateMachine is
-
+ 
 	generic (Counter_Size : Integer;
 			 UpdateUnit:  Integer);
 	
@@ -21,7 +21,7 @@ entity ApproachCellStateMachine is
 		
 		DVSEventInthisAC				 : out  array (2 downto 0 , 2 downto 0) of std_logic;
 		
-		EventXAddrInthisAC, EventYAddrInthisAC	 : out  array (2 downto 0 , 2 downto 0) of std_logic_vector( 4 downto 0); 
+		EventXAddr, EventYAddr			 : out  array (2 downto 0 , 2 downto 0) of std_logic_vector( 4 downto 0); 
 		
 		EventPolarity					 : out array (2 downto 0 , 2 downto 0) of std_logic;
 		
@@ -63,7 +63,20 @@ architecture Behavioral of ApproachCellStateMachine is
 			
 begin
 
-
+	EventTimestampCounter : entity work.ContinuousCounter
+	
+		generic map(
+			SIZE => Counter_Size)
+		port map(
+			Clock_CI     => Clock_CI,
+			Reset_RI     => Reset_RI,
+			Clear_SI     => '0',
+			Enable_SI    => '1',
+			DataLimit_DI => unsigned (Counter_Size - 1 downto 0),
+			Overflow_SO  => OverflowAlert,  --- what to do with the Overflow Alert? 
+			Data_DO      => CounterOut);
+			
+			
     DecayCounter : entity work.ContinuousCounter
 	
 		generic map(
@@ -82,23 +95,13 @@ begin
 		begin
 			
 			State_DN <= State_DP;           
-			Vmem <= (others => '0');   ----for array, use for loop to initiate?
-			result <= (others => '0');
-			CounterValue <= (others => '0');  ---what should I put here?  those who are saved in reg e.g. SubunitVmem, SubunitSum not?
-			AC_Fire <= '0';
-
-			variable sum, V: sum, V is array (5 downto 0 , 5 downto 0) of signed( 31 downto 0) 
-			variable i, j : integer range 0 to 63
-			variable k, m : integer range 0 to 7  ----- is this neccessary?
-			variable n:     integer range 0 to 4
-			
-		
+	
 			case State_DP is
 			
 				when stIdle =>
 					 if DVSEvent_I = '1' then 
 						State_DN <= stDifferentiateXY;
-				        EnableCounter <= '1';     -----EnableCounter keep 1 afterwards? Do I need to use reg?
+				        EnableCounter <= '1';     -----put into memoryzing
 					 elsif Decay_Enable = '1' then 
 							State_DN <= stDecay;
 					 else State_DN <= stIdle;
@@ -110,12 +113,12 @@ begin
 				when stDifferentiateXY =>		
 					 if DVSAEREvent_Code[14 downto 12] = '001' then 
 						State_DN <= stWaitforXaddress; 
-						EventYAddress <= DVSAEREvent_Code[7 downto 0];   ---Do I need to say save this? 
+						EventYAddress <= DVSAEREvent_Code[7 downto 0];   ---put into memoryzing? 
 					 else State_DN <= stIdle;
 					 
 				when stWaitforXaddress =>
 					  if DVSAEREvent_Code[14 downto 12] = '010' then 
-						 State_DN <= stOffEvent; 
+						 State_DN <= stIdle; 
 						 
 					  elsif DVSAEREvent_Code[14 downto 12] = '011' then 
 						 
