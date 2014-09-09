@@ -1,0 +1,65 @@
+line 5789, col 42: Option set not found: vcs_ECP4_lib.
+line 5803, col 44: Option set not found: vcs_ECP45M_lib.
+
+
+Running in Lattice mode
+
+
+Starting:    C:\lscc\diamond\3.2_x64\synpbase\win64\mbin\synbatch.exe
+Install:     C:\lscc\diamond\3.2_x64\synpbase
+Date:        Fri Sep 05 16:39:24 2014
+Version:     I-2013.09L-SP1-1 
+
+Arguments:   -product synplify_pro  -batch ApproachSensitivity_ApproachSensitivity_synplify.tcl
+ProductType: synplify_pro
+
+
+
+
+
+
+log file: "E:\FX3\ApproachSensitivity\ApproachSensitivity_ApproachSensitivitylog file: "E:\FX3\ApproachSensitivity\ApproachSensitivity.srr"
+
+
+
+Running ApproachSensitivity_syn|ApproachSensitivity
+
+Running: Compile on ApproachSensitivity_syn|ApproachSensitivity
+
+Running: Compile Process on ApproachSensitivity_syn|ApproachSensitivity
+
+Running: Compile Input on ApproachSensitivity_syn|ApproachSensitivity
+compiler exited with errors
+Job: "compiler" terminated with error status: 2.
+See log file: "E:\FX3\ApproachSensitivity\ApproachSensitivity.srr"
+Return Code: 2
+Run Time:0h:00m:00s
+
+Complete: Compile Process on ApproachSensitivity_syn|ApproachSensitivity
+exit status=2
+
+roachSensitivity_syn|ApproachSensitivity
+
+Running: Compile Input on ApproachSensitivity_syn|ApproachSensitivity
+compiler exited with errors
+Job: "compiler" terminated with error status: 2.
+See log file: "E:\FX3\ApproachSensitivity\ApproachSensitivity.srr"
+Return Code: 2
+Run Time:0h:00m:00s
+
+Complete: Compile Process on ApproachSensitivity_syn|ApproachSensitivity
+exit status=2
+
+e: "ApproachSensitivity_ApproachSensitivity_synplify.tcl"
+
+exit status=2
+
+
+exit status=2
+
+
+Save changes for project:
+E:\FX3\ApproachSensitivity\proj_1.prj
+
+batch mode default:no
+

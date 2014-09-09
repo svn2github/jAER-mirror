@@ -1,0 +1,9 @@
+C:\lscc\diamond\3.2_x64\synpbase\bin64\c_vhdl.exe  -osyn  E:\FX3\ApproachSensitivity\synwork\ApproachSensitivity_ApproachSensitivity_hdl_.srs  -top  ApproachCell_tb  -prodtype  synplify_pro  -dspmac -fixsmult -infer_seqShift -nram -divnmod -encrypt  -pro  -dmgen  E:\FX3\ApproachSensitivity\dm  -lite   -ui -fid2 -ram -sharing on  -ll 2000 -autosm -ignore_undefined_lib  -lib work C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\ecp3.vhd -lib work E:\FX3\ApproachSensitivity\source\ApproachCell_tb.vhd -lib work E:\FX3\ApproachSensitivity\source\ApproachCell.vhd -loga  E:\FX3\ApproachSensitivity\syntax.log  -fileorder  E:\FX3\ApproachSensitivity\syntmp\hdlorder.tcl 
+rc:0 success:1
+E:\FX3\ApproachSensitivity\synwork\ApproachSensitivity_ApproachSensitivity_hdl_.srs|o|0|0
+C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\ecp3.vhd|i|1376992926|196741
+E:\FX3\ApproachSensitivity\source\ApproachCell_tb.vhd|i|1409861596|3455
+E:\FX3\ApproachSensitivity\source\ApproachCell.vhd|i|1409927779|8385
+E:\FX3\ApproachSensitivity\syntax.log|o|1409927964|1027
+C:\lscc\diamond\3.2_x64\synpbase\bin64\c_vhdl.exe|i|1397599346|5463552
+C:\lscc\diamond\3.2_x64\synpbase\bin\c_vhdl.exe|i|1397599144|1982464

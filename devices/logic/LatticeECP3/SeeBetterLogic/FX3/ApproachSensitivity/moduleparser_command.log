@@ -1,0 +1,1 @@
+C:/lscc/diamond/3.2_x64/bin/nt64/moduleparser.exe -PROJ ApproachSensitivity -pf C:/lscc/diamond/3.2_x64/cae_library/synthesis/vhdl/ecp3.vhd -lib ecp3 -pkg C:/lscc/diamond/3.2_x64/cae_library/vhdl_packages/vdbs -lst E:/FX3/ApproachSensitivity/source_files.lst

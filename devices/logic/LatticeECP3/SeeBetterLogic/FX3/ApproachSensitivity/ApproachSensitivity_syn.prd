@@ -1,0 +1,11 @@
+#--  Synopsys, Inc.
+#--  Version I-2013.09L-SP1-1 
+#--  Project file E:\FX3\ApproachSensitivity\ApproachSensitivity_syn.prd
+#
+### Watch Implementation type ###
+#
+watch_impl -all
+#
+### Watch Implementation properties ###
+#
+watch_prop -clear
