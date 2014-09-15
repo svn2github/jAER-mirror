@@ -12,7 +12,7 @@ entity SPIConfig is
 		SPISlaveSelect_SBI     : in  std_logic;
 		SPIClock_CI            : in  std_logic;
 		SPIMOSI_DI             : in  std_logic;
-		SPIMISO_ZO             : out std_logic;
+		SPIMISO_DZO            : out std_logic;
 
 		-- Configuration inputs and outputs
 		ConfigModuleAddress_DO : out unsigned(6 downto 0);
@@ -25,11 +25,11 @@ end entity SPIConfig;
 architecture Behavioral of SPIConfig is
 	attribute syn_enum_encoding : string;
 
-	type state is (stIdle, stInput, stInputLatch, stOutput);
-	attribute syn_enum_encoding of state : type is "onehot";
+	type tState is (stIdle, stInput, stInputLatch, stOutput);
+	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
-	signal State_DP, State_DN : state;
+	signal State_DP, State_DN : tState;
 
 	signal SPIClockRisingEdges_S, SPIClockFallingEdges_S : std_logic;
 	signal SPIReadMOSI_S, SPIWriteMISO_S                 : std_logic;
@@ -50,7 +50,7 @@ architecture Behavioral of SPIConfig is
 	signal ParamOutput_DP, ParamOutput_DN : std_logic_vector(31 downto 0);
 
 	-- Register outputs (MISO only here).
-	signal SPIMISOReg_Z : std_logic;
+	signal SPIMISOReg_DZ : std_logic;
 begin
 	ConfigModuleAddress_DO <= ModuleAddressReg_DP;
 	ConfigParamAddress_DO  <= ParamAddressReg_DP;
@@ -123,7 +123,7 @@ begin
 		ParamInput_DN    <= ParamInput_DP;
 
 		-- SPI output is Hi-Z by default.
-		SPIMISOReg_Z <= 'Z';
+		SPIMISOReg_DZ <= 'Z';
 
 		-- Keep the input elements (shift register and counter) fixed.
 		SPIInputSRegMode_S    <= SHIFTREGISTER_MODE_DO_NOTHING;
@@ -147,7 +147,7 @@ begin
 			when stInput =>
 				-- Push a zero out on the SPI bus, when there is nothing
 				-- concrete to output. We're reading input right now.
-				SPIMISOReg_Z <= '0';
+				SPIMISOReg_DZ <= '0';
 
 				if SPIReadMOSI_S = '1' then
 					SPIInputSRegMode_S <= SHIFTREGISTER_MODE_SHIFT_LEFT;
@@ -195,7 +195,7 @@ begin
 
 			when stOutput =>
 				-- Push out MSB to MISO.
-				SPIMISOReg_Z <= SPIOutputContent_D(31);
+				SPIMISOReg_DZ <= SPIOutputContent_D(31);
 
 				if SPIWriteMISO_S = '1' then
 					if SPIBitCount_D = to_unsigned(16, 6) then
@@ -235,7 +235,7 @@ begin
 			ParamInput_DP    <= (others => '0');
 
 			ParamOutput_DP <= (others => '0');
-			SPIMISO_ZO     <= 'Z';
+			SPIMISO_DZO    <= 'Z';
 		elsif rising_edge(Clock_CI) then -- rising clock edge
 			State_DP <= State_DN;
 
@@ -247,7 +247,7 @@ begin
 			ParamInput_DP    <= ParamInput_DN;
 
 			ParamOutput_DP <= ParamOutput_DN;
-			SPIMISO_ZO     <= SPIMISOReg_Z;
+			SPIMISO_DZO    <= SPIMISOReg_DZ;
 		end if;
 	end process spiUpdate;
 end architecture Behavioral;

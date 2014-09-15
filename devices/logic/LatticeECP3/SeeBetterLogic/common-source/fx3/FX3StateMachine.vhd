@@ -32,12 +32,12 @@ end FX3Statemachine;
 architecture Behavioral of FX3Statemachine is
 	attribute syn_enum_encoding : string;
 
-	type state is (stIdle0, stPrepareEarlyPacket0, stEarlyPacket0, stPrepareWrite0, stWriteFirst0, stWriteMiddle0, stWriteLast0, stPrepareSwitch0, stSwitch0,
-		           stIdle1, stPrepareEarlyPacket1, stEarlyPacket1, stPrepareWrite1, stWriteFirst1, stWriteMiddle1, stWriteLast1, stPrepareSwitch1, stSwitch1);
-	attribute syn_enum_encoding of state : type is "onehot";
+	type tState is (stIdle0, stPrepareEarlyPacket0, stEarlyPacket0, stPrepareWrite0, stWriteFirst0, stWriteMiddle0, stWriteLast0, stPrepareSwitch0, stSwitch0,
+		            stIdle1, stPrepareEarlyPacket1, stEarlyPacket1, stPrepareWrite1, stWriteFirst1, stWriteMiddle1, stWriteLast1, stPrepareSwitch1, stSwitch1);
+	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
-	signal State_DP, State_DN : state;
+	signal State_DP, State_DN : tState;
 
 	-- write burst counter
 	signal CyclesCount_S, CyclesNotify_S : std_logic;

@@ -37,11 +37,11 @@ end entity APSADCStateMachine;
 architecture Behavioral of APSADCStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type state is (stIdle, stWriteEvent);
-	attribute syn_enum_encoding of state : type is "onehot";
+	type tState is (stIdle, stWriteEvent);
+	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
-	signal State_DP, State_DN : state;
+	signal State_DP, State_DN : tState;
 begin
 	p_memoryless : process(State_DP, OutFifoControl_SI)
 	begin

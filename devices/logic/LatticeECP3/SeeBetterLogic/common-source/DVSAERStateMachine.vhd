@@ -29,17 +29,17 @@ end DVSAERStateMachine;
 architecture Behavioral of DVSAERStateMachine is
 	attribute syn_enum_encoding : string;
 	
-	type state is (stIdle, stDifferentiateYX, stHandleY, stAckY, stHandleX, stAckX);
-	attribute syn_enum_encoding of state : type is "onehot";
+	type tState is (stIdle, stDifferentiateYX, stHandleY, stAckY, stHandleX, stAckX);
+	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
-	signal State_DP, State_DN : state;
+	signal State_DP, State_DN : tState;
 
 	-- ACK delay counter (prolongs dAckUP)
-	signal ackDelayCount_S, ackDelayNotify_S : std_logic;
+	signal AckDelayCount_S, AckDelayNotify_S : std_logic;
 
 	-- ACK extension counter (prolongs dAckDOWN)
-	signal ackExtensionCount_S, ackExtensionNotify_S : std_logic;
+	signal AckExtensionCount_S, AckExtensionNotify_S : std_logic;
 
 	-- Register outputs to FIFO.
 	signal OutFifoWriteReg_S      : std_logic;
@@ -59,9 +59,9 @@ begin
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
-			Enable_SI    => ackDelayCount_S,
+			Enable_SI    => AckDelayCount_S,
 			DataLimit_DI => DVSAERConfigReg_D.AckDelay_D,
-			Overflow_SO  => ackDelayNotify_S,
+			Overflow_SO  => AckDelayNotify_S,
 			Data_DO      => open);
 
 	ackExtensionCounter : entity work.ContinuousCounter
@@ -71,12 +71,12 @@ begin
 			Clock_CI     => Clock_CI,
 			Reset_RI     => Reset_RI,
 			Clear_SI     => '0',
-			Enable_SI    => ackExtensionCount_S,
+			Enable_SI    => AckExtensionCount_S,
 			DataLimit_DI => DVSAERConfigReg_D.AckExtension_D,
-			Overflow_SO  => ackExtensionNotify_S,
+			Overflow_SO  => AckExtensionNotify_S,
 			Data_DO      => open);
 
-	p_memoryless : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, ackDelayNotify_S, ackExtensionNotify_S, DVSAERConfigReg_D)
+	p_memoryless : process(State_DP, OutFifoControl_SI, DVSAERReq_SBI, DVSAERData_DI, AckDelayNotify_S, AckExtensionNotify_S, DVSAERConfigReg_D)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 
@@ -87,8 +87,8 @@ begin
 		DVSAERAckReg_SB   <= '1';       -- No AER ACK by default.
 		DVSAERResetReg_SB <= '1';       -- Keep DVS out of reset by default, so we don't have to repeat this in every state.
 
-		ackDelayCount_S     <= '0';
-		ackExtensionCount_S <= '0';
+		AckDelayCount_S     <= '0';
+		AckExtensionCount_S <= '0';
 
 		case State_DP is
 			when stIdle =>
@@ -111,7 +111,7 @@ begin
 					-- They are differentiated here because Y addresses have
 					-- all kinds of special timing requirements.
 					State_DN        <= stHandleY;
-					ackDelayCount_S <= '1';
+					AckDelayCount_S <= '1';
 				else
 					-- This is an X address.
 					State_DN <= stHandleX;
@@ -119,29 +119,29 @@ begin
 
 			when stHandleY =>
 				-- We might need to delay the ACK.
-				if ackDelayNotify_S = '1' then
+				if AckDelayNotify_S = '1' then
 					OutFifoDataReg_D       <= EVENT_CODE_Y_ADDR & "0000" & DVSAERData_DI(7 downto 0);
 					OutFifoDataRegEnable_S <= '1';
 					OutFifoWriteReg_S      <= '1';
 
 					DVSAERAckReg_SB     <= '0';
 					State_DN            <= stAckY;
-					ackExtensionCount_S <= '1';
+					AckExtensionCount_S <= '1';
 				end if;
 
-				ackDelayCount_S <= '1';
+				AckDelayCount_S <= '1';
 
 			when stAckY =>
 				DVSAERAckReg_SB <= '0';
 
 				if DVSAERReq_SBI = '1' then
 					-- We might need to extend the ACK period.
-					if ackExtensionNotify_S = '1' then
+					if AckExtensionNotify_S = '1' then
 						DVSAERAckReg_SB <= '1';
 						State_DN        <= stIdle;
 					end if;
 
-					ackExtensionCount_S <= '1';
+					AckExtensionCount_S <= '1';
 				end if;
 
 			when stHandleX =>

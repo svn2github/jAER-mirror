@@ -29,11 +29,11 @@ end FX2Statemachine;
 architecture Behavioral of FX2Statemachine is
 	attribute syn_enum_encoding : string;
 
-	type state is (stFullFlagWait1, stFullFlagWait2, stIdle, stPrepareEarlyPacket, stEarlyPacket, stPrepareWrite, stWriteFirst, stWriteMiddle, stWriteLast, stPrepareSwitch, stSwitch);
-	attribute syn_enum_encoding of state : type is "onehot";
+	type tState is (stFullFlagWait1, stFullFlagWait2, stIdle, stPrepareEarlyPacket, stEarlyPacket, stPrepareWrite, stWriteFirst, stWriteMiddle, stWriteLast, stPrepareSwitch, stSwitch);
+	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
-	signal State_DP, State_DN : state;
+	signal State_DP, State_DN : tState;
 
 	-- write burst counter
 	signal CyclesCount_S, CyclesNotify_S : std_logic;

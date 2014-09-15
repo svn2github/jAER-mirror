@@ -21,7 +21,7 @@ architecture Testbench of PulseDetector_tb is
 	signal PulseDetected_S : std_logic;
 
 	-- clock
-	signal Clk : std_logic := '1';
+	signal Clk_C : std_logic := '1';
 begin                                   -- architecture Testbench
 	-- component instantiation
 	DUT : entity work.PulseDetector
@@ -36,8 +36,8 @@ begin                                   -- architecture Testbench
 			PulseDetected_SO => PulseDetected_S);
 
 	-- clock generation
-	Clk     <= not Clk after 0.5 ns;
-	Clock_C <= Clk;
+	Clk_C   <= not Clk_C after 0.5 ns;
+	Clock_C <= Clk_C;
 
 	-- waveform generation
 	WaveGen_Proc : process

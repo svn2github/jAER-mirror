@@ -23,11 +23,11 @@ end PulseDetector;
 architecture Behavioral of PulseDetector is
 	attribute syn_enum_encoding : string;
 
-	type state is (stWaitForPulse, stPulseDetected, stPulseOverflowWait);
-	attribute syn_enum_encoding of state : type is "onehot";
+	type tState is (stWaitForPulse, stPulseDetected, stPulseOverflowWait);
+	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
-	signal State_DP, State_DN : state;
+	signal State_DP, State_DN : tState;
 
 	-- present and next state
 	signal Count_DP, Count_DN : unsigned(SIZE - 1 downto 0);

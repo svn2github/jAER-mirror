@@ -18,7 +18,7 @@ entity TopLevel is
 		SPISlaveSelect_ABI      : in    std_logic;
 		SPIClock_AI             : in    std_logic;
 		SPIMOSI_AI              : in    std_logic;
-		SPIMISO_ZO              : out   std_logic;
+		SPIMISO_DZO             : out   std_logic;
 		BiasDiagSelect_SI       : in    std_logic;
 
 		USBFifoData_DO          : out   std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
@@ -59,8 +59,8 @@ entity TopLevel is
 		APSADCOutputEnable_SBO  : out   std_logic;
 		APSADCStandby_SO        : out   std_logic;
 
-		IMUClock_ZO             : out   std_logic;
-		IMUData_ZIO             : inout std_logic;
+		IMUClock_CZO            : out   std_logic;
+		IMUData_DZIO            : inout std_logic;
 		IMUInterrupt_AI         : in    std_logic;
 
 		SyncOutClock_CO         : out   std_logic;
@@ -399,8 +399,8 @@ begin
 			OutFifoControl_SI => IMUFifoControlOut_S.WriteSide,
 			OutFifoControl_SO => IMUFifoControlIn_S.WriteSide,
 			OutFifoData_DO    => IMUFifoDataIn_D,
-			IMUClock_ZO       => IMUClock_ZO,
-			IMUData_ZIO       => IMUData_ZIO,
+			IMUClock_CZO      => IMUClock_CZO,
+			IMUData_DZIO      => IMUData_DZIO,
 			IMUInterrupt_SI   => IMUInterruptSync_S,
 			IMUConfig_DI      => IMUConfig_D);
 
@@ -461,7 +461,7 @@ begin
 			SPISlaveSelect_SBI     => SPISlaveSelectSync_SB,
 			SPIClock_CI            => SPIClockSync_C,
 			SPIMOSI_DI             => SPIMOSISync_D,
-			SPIMISO_ZO             => SPIMISO_ZO,
+			SPIMISO_DZO            => SPIMISO_DZO,
 			ConfigModuleAddress_DO => ConfigModuleAddress_D,
 			ConfigParamAddress_DO  => ConfigParamAddress_D,
 			ConfigParamInput_DO    => ConfigParamInput_D,

@@ -42,12 +42,12 @@ end MultiplexerStateMachine;
 architecture Behavioral of MultiplexerStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type state is (stIdle, stTimestampReset, stTimestampWrap, stTimestamp, stPrepareDVSAER, stDVSAER, stPrepareAPSADC, stAPSADC, stPrepareIMU, stIMU, stPrepareExtTrigger, stExtTrigger, stDropData);
-	attribute syn_enum_encoding of state : type is "onehot";
+	type tState is (stIdle, stTimestampReset, stTimestampWrap, stTimestamp, stPrepareDVSAER, stDVSAER, stPrepareAPSADC, stAPSADC, stPrepareIMU, stIMU, stPrepareExtTrigger, stExtTrigger, stDropData);
+	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
-	signal State_DP, State_DN                           : state;
-	signal StateTimestampNext_DP, StateTimestampNext_DN : state;
+	signal State_DP, State_DN                           : tState;
+	signal StateTimestampNext_DP, StateTimestampNext_DN : tState;
 
 	signal TimestampOverflow_S : std_logic;
 	signal Timestamp_D         : unsigned(TIMESTAMP_WIDTH - 1 downto 0);

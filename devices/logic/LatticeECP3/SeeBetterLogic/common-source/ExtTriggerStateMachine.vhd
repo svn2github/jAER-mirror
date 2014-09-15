@@ -34,11 +34,11 @@ end entity ExtTriggerStateMachine;
 architecture Behavioral of ExtTriggerStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type state is (stIdle, stWriteRisingEdgeEvent, stWriteFallingEdgeEvent, stWritePulseEvent);
-	attribute syn_enum_encoding of state : type is "onehot";
+	type tState is (stIdle, stWriteRisingEdgeEvent, stWriteFallingEdgeEvent, stWritePulseEvent);
+	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
-	signal State_DP, State_DN : state;
+	signal State_DP, State_DN : tState;
 
 	-- Number of cycles to get a 100 ns time slice at current logic frequency.
 	constant TRIGGER_TIME_CYCLES      : integer := LOGIC_CLOCK_FREQ / 10;

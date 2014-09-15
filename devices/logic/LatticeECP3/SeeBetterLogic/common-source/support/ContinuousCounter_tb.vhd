@@ -26,12 +26,12 @@ architecture Testbench of ContinuousCounter_tb is
 	signal Data_D      : unsigned(COUNTER_WIDTH - 1 downto 0);
 
 	-- clock
-	signal Clk : std_logic := '1';
+	signal Clk_C : std_logic := '1';
 begin                                   -- architecture Testbench
 	-- component instantiation
 	DUT : entity work.ContinuousCounter
 		generic map(
-			SIZE     => COUNTER_WIDTH,
+			SIZE              => COUNTER_WIDTH,
 			RESET_ON_OVERFLOW => RESET_ON_OVERFLOW,
 			SHORT_OVERFLOW    => SHORT_OVERFLOW,
 			OVERFLOW_AT_ZERO  => OVERFLOW_AT_ZERO)
@@ -45,8 +45,8 @@ begin                                   -- architecture Testbench
 			Data_DO      => Data_D);
 
 	-- clock generation
-	Clk     <= not Clk after 0.5 ns;
-	Clock_C <= Clk;
+	Clk_C   <= not Clk_C after 0.5 ns;
+	Clock_C <= Clk_C;
 
 	-- waveform generation
 	WaveGen_Proc : process

@@ -19,8 +19,8 @@ entity IMUStateMachine is
 		OutFifoControl_SO : out   tToFifoWriteSide;
 		OutFifoData_DO    : out   std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
-		IMUClock_ZO       : out   std_logic;
-		IMUData_ZIO       : inout std_logic;
+		IMUClock_CZO      : out   std_logic;
+		IMUData_DZIO      : inout std_logic;
 		IMUInterrupt_SI   : in    std_logic;
 
 		-- Configuration input
@@ -30,19 +30,19 @@ end entity IMUStateMachine;
 architecture Behavioral of IMUStateMachine is
 	attribute syn_enum_encoding : string;
 
-	type state is (stIdle, stAckAndLoadSampleRateDivider, stAckAndLoadDigitalLowPassFilter, stAckAndLoadAccelFullScale, stAckAndLoadGyroFullScale, stWriteConfigRegister, stPrepareReadDataRegister, stReadDataRegister, stWriteEventStart, stWriteEvent0, stWriteEvent1, stWriteEvent2, stWriteEvent3,
-		           stWriteEvent4, stWriteEvent5, stWriteEvent6, stWriteEvent7, stWriteEvent8, stWriteEvent9, stWriteEvent10, stWriteEvent11, stWriteEvent12, stWriteEvent13, stWriteEventEnd, stAckAndLoadLPCycleTempStandby, stAckAndLoadLPWakeupAccelStandbyGyroStandby, stAckAndLoadInterruptConfig,
-		           stAckAndLoadInterruptEnable, stDoneAcknowledge);
-	attribute syn_enum_encoding of state : type is "onehot";
+	type tState is (stIdle, stAckAndLoadSampleRateDivider, stAckAndLoadDigitalLowPassFilter, stAckAndLoadAccelFullScale, stAckAndLoadGyroFullScale, stWriteConfigRegister, stPrepareReadDataRegister, stReadDataRegister, stWriteEventStart, stWriteEvent0, stWriteEvent1, stWriteEvent2, stWriteEvent3,
+		            stWriteEvent4, stWriteEvent5, stWriteEvent6, stWriteEvent7, stWriteEvent8, stWriteEvent9, stWriteEvent10, stWriteEvent11, stWriteEvent12, stWriteEvent13, stWriteEventEnd, stAckAndLoadLPCycleTempStandby, stAckAndLoadLPWakeupAccelStandbyGyroStandby, stAckAndLoadInterruptConfig,
+		            stAckAndLoadInterruptEnable, stDoneAcknowledge);
+	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
-	signal State_DP, State_DN : state;
+	signal State_DP, State_DN : tState;
 
-	type i2cState is (stI2CIdle, stI2CHandleTransaction, stI2CDone, stI2CStart, stI2CStop, stI2CWriteByte, stI2CWriteAck, stI2CReadByte, stI2CReadAck, stI2CReadNotAck);
-	attribute syn_enum_encoding of i2cState : type is "onehot";
+	type tI2CState is (stI2CIdle, stI2CHandleTransaction, stI2CDone, stI2CStart, stI2CStop, stI2CWriteByte, stI2CWriteAck, stI2CReadByte, stI2CReadAck, stI2CReadNotAck);
+	attribute syn_enum_encoding of tI2CState : type is "onehot";
 
 	-- present and next state
-	signal I2CState_DP, I2CState_DN : i2cState;
+	signal I2CState_DP, I2CState_DN : tI2CState;
 
 	constant I2C_ADDRESS : std_logic_vector(6 downto 0) := "1101000";
 
@@ -120,12 +120,12 @@ architecture Behavioral of IMUStateMachine is
 	signal AccelFullScaleChanged_S, AccelFullScaleSent_S                     : std_logic;
 	signal GyroFullScaleChanged_S, GyroFullScaleSent_S                       : std_logic;
 begin
-	IMUClock_ZO <= '0' when IMUClockInt_SP = '0' else 'Z';
-	IMUData_ZIO <= '0' when IMUDataInt_SP = '0' else 'Z';
+	IMUClock_CZO <= '0' when IMUClockInt_SP = '0' else 'Z';
+	IMUData_DZIO <= '0' when IMUDataInt_SP = '0' else 'Z';
 
 	-- Input to the I2C shift registers comes always from outside.
 	-- The read SR from the I2C bus directly, the write SR from the IMU StateMachine.
-	I2CReadSRInput_D <= IMUData_ZIO;
+	I2CReadSRInput_D <= IMUData_DZIO;
 
 	i2cRegisterUpdate : process(Clock_CI, Reset_RI) is
 	begin
@@ -234,7 +234,7 @@ begin
 		end if;
 	end process i2cClock;
 
-	i2cData : process(I2CState_DP, I2CStartTransaction_SP, I2CReadTransaction_SP, I2CError_SP, I2CBitCounterData_D, I2CByteCounterData_D, I2CPulseCounterData_D, I2CPulseGenOutput_S, I2CWriteSROutput_D, IMUDataInt_SP, IMUData_ZIO)
+	i2cData : process(I2CState_DP, I2CStartTransaction_SP, I2CReadTransaction_SP, I2CError_SP, I2CBitCounterData_D, I2CByteCounterData_D, I2CPulseCounterData_D, I2CPulseGenOutput_S, I2CWriteSROutput_D, IMUDataInt_SP, IMUData_DZIO)
 	begin
 		I2CState_DN <= I2CState_DP;
 
@@ -389,7 +389,7 @@ begin
 
 				-- Detect if slave pulled low on phase 0->1 transition.
 				if I2CPulseGenOutput_S = '1' and I2CPulseCounterData_D = to_unsigned(0, 2) then
-					if IMUData_ZIO = '1' then
+					if IMUData_DZIO = '1' then
 						-- Failed to ACK, return error and go back to idle.
 						I2CState_DN <= stI2CDone;
 						I2CError_SN <= '1';

@@ -30,22 +30,22 @@ end entity FifoMerger;
 architecture Behavioral of FifoMerger is
 	attribute syn_enum_encoding : string;
 
-	type state is (stIdle, stFifo1, stFifo2);
-	attribute syn_enum_encoding of state : type is "onehot";
+	type tState is (stIdle, stFifo1, stFifo2);
+	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
-	signal State_DP, State_DN : state;
+	signal State_DP, State_DN : tState;
 
-	signal ArbiterPriority : integer range 1 to 2;
+	signal ArbiterPriority_S : integer range 1 to 2;
 
 	signal DataFifoOutReg_D : std_logic_vector(FIFO_WIDTH - 1 downto 0);
 begin
-	SM_comb : process(State_DP, FifoIn1Control_SI, FifoIn2Control_SI, FifoOutControl_SI, ArbiterPriority)
+	SM_comb : process(State_DP, FifoIn1Control_SI, FifoIn2Control_SI, FifoOutControl_SI, ArbiterPriority_S)
 	begin
 		State_DN <= State_DP;
 
-		DataFifoOutReg_D <= (others => '0');
-		ArbiterPriority  <= 1;
+		DataFifoOutReg_D  <= (others => '0');
+		ArbiterPriority_S <= 1;
 
 		FifoOutControl_SO.Write_S <= '0';
 		FifoIn1Control_SO.Read_S  <= '0';
@@ -58,7 +58,7 @@ begin
 				elsif (FifoIn1Control_SI.Empty_S = '1' and FifoIn2Control_SI.Empty_S = '0' and FifoOutControl_SI.Full_S = '0') then
 					State_DN <= stFifo2;
 				elsif (FifoIn1Control_SI.Empty_S = '0' and FifoIn2Control_SI.Empty_S = '0' and FifoOutControl_SI.Full_S = '0') then
-					if (ArbiterPriority = 1) then
+					if (ArbiterPriority_S = 1) then
 						State_DN <= stFifo1;
 					else
 						State_DN <= stFifo2;
@@ -66,13 +66,13 @@ begin
 				end if;
 
 			when stFifo1 =>
-				ArbiterPriority           <= 2;
+				ArbiterPriority_S         <= 2;
 				FifoOutcontrol_SO.Write_S <= '1';
 				FifoIn1Control_SO.Read_S  <= '1';
 				DataFifoOutReg_D          <= FifoIn1Data_DI;
 
 			when stFifo2 =>
-				ArbiterPriority           <= 1;
+				ArbiterPriority_S         <= 1;
 				FifoOutcontrol_SO.Write_S <= '1';
 				FifoIn2Control_SO.Read_S  <= '1';
 				DataFifoOutReg_D          <= FifoIn2Data_DI;

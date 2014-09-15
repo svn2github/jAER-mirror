@@ -20,7 +20,7 @@ architecture Testbench of EdgeDetector_tb is
 	signal FallingEdgeDetected_S : std_logic;
 
 	-- clock
-	signal Clk : std_logic := '1';
+	signal Clk_C : std_logic := '1';
 begin                                   -- architecture Testbench
 	-- component instantiation
 	DUT : entity work.EdgeDetector
@@ -34,8 +34,8 @@ begin                                   -- architecture Testbench
 			FallingEdgeDetected_SO => FallingEdgeDetected_S);
 
 	-- clock generation
-	Clk     <= not Clk after 0.5 ns;
-	Clock_C <= Clk;
+	Clk_C   <= not Clk_C after 0.5 ns;
+	Clock_C <= Clk_C;
 
 	-- waveform generation
 	WaveGen_Proc : process
