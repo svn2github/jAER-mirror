@@ -1121,6 +1121,21 @@ int xsvfDoXENDXR( SXsvfInfo* pXsvfInfo )
 }
 
 /*****************************************************************************
+* Function:     xsvfDoXCOMMENT
+* Description:  XCOMMENT <text string ending in \0>
+*               <text string ending in \0> == text comment;
+*               Arbitrary comment embedded in the XSVF.
+* Parameters:   pXsvfInfo   - XSVF information pointer.
+* Returns:      int         - 0 = success;  non-zero = error.
+*****************************************************************************/
+int xsvfDoXCOMMENT( SXsvfInfo* pXsvfInfo )
+{
+    pXsvfInfo->iErrorCode   = XSVF_ERROR_NONE;
+
+    return( pXsvfInfo->iErrorCode );
+}
+
+/*****************************************************************************
 * Function:     xsvfDoXWAIT
 * Description:  XWAIT <wait_state> <end_state> <wait_time>
 *               If not already in <wait_state>, then go to <wait_state>.
