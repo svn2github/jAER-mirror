@@ -2,17 +2,20 @@
 <BaliProject version="3.2" title="ApproachSensitivity" device="LFE3-17EA-6FTN256C" default_implementation="ApproachSensitivity">
     <Options/>
     <Implementation title="ApproachSensitivity" dir="ApproachSensitivity" description="ApproachSensitivity" synthesis="synplify" default_strategy="Strategy1">
-        <Options def_top="ApproachCell_tb" top="ApproachCell_tb"/>
-        <Source name="ApproachSensitivity/source/ApproachCell_tb.vhd" type="VHDL" type_short="VHDL">
-            <Options top_module="ApproachCell_tb"/>
-        </Source>
+        <Options def_top="ApproachCell"/>
         <Source name="ApproachSensitivity/source/ApproachCell.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="ApproachCell"/>
+        </Source>
+        <Source name="ApproachSensitivity/source/ApproachCell_tb.vhd" type="VHDL" type_short="VHDL" excluded="TRUE">
+            <Options/>
+        </Source>
+        <Source name="ApproachSensitivity/source/ApproachCellMain.vhd" type="VHDL" type_short="VHDL" excluded="TRUE">
+            <Options/>
+        </Source>
+        <Source name="ApproachSensitivity/source/ApproachSensitivityDecayCounterStateMachine.vhd" type="VHDL" type_short="VHDL" excluded="TRUE">
             <Options/>
         </Source>
         <Source name="ApproachSensitivity.lpf" type="Logic Preference" type_short="LPF">
-            <Options/>
-        </Source>
-        <Source name="ApproachSensitivity/ApproachSensitivity.spf" type="Simulation Project File" type_short="SPF">
             <Options/>
         </Source>
     </Implementation>
