@@ -48,7 +48,7 @@ extern BOOL GotSUD;
 #define	I2C_EEPROM_ADDRESS 0x51 // 0101_0001 is the address of the external serial EEPROM that holds FX2 program and static data
 
 // XSVF support.
-#define XSVF_DATA_SIZE 512
+#define XSVF_DATA_SIZE 1024
 
 BOOL doJTAGInit = TRUE;
 BYTE xsvfReturn = 0;
