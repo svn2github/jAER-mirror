@@ -286,70 +286,43 @@ public class DAViS_FX2 extends Controller {
 	}
 
 	private static final int MAX_TRANSFER_SIZE = 4096;
+
 	private static final int FIRMWARE_START_ADDRESS = 0x000000;
-	private static final int FIRMWARE_MAX_SIZE = 0x030000;
-	private static final int LOGIC_START_ADDRESS = 0x030000;
-	private static final int LOGIC_MAX_SIZE = 0x090000;
+	private static final int FIRMWARE_MAX_SIZE = (32 * 1024) - 8;
 
-	// private static final int DATA_START_ADDRESS = 0x0C0000;
-	// private static final int DATA_MAX_SIZE = 0x040000;
+	private static final int SNUM_START_ADDRESS = FIRMWARE_MAX_SIZE;
+	private static final int SNUM_MAX_SIZE = 8;
 
-	private void firmwareToROM(final ByteBuffer fw) throws Exception {
+	// BIX files go to RAM via special Cypress vendor request.
+
+	// IIC files go directly to EEPROM.
+	private void firmwareToEEPROM(final ByteBuffer fw) throws Exception {
 		// Check signature.
-		if ((fw.get(0) != 'C') || (fw.get(1) != 'Y')) {
+		if ((fw.get(0) != 0xC2)) {
 			throw new Exception("Illegal signature for firmware file.");
 		}
 
-		// Make a copy so we can manipulate it.
-		final ByteBuffer data = BufferUtils.allocateByteBuffer(fw.limit());
-		data.order(ByteOrder.LITTLE_ENDIAN);
-
-		data.put(fw);
-		data.position(0); // Reset position to initial value.
-
-		// Set third byte to 0x20, to enable 30 MHz SPI boot transfer rate.
-		data.put(2, (byte) 0x20);
-
 		// Write FX2 firmware.
-		byteBufferToROM(data, DAViS_FX2.FIRMWARE_START_ADDRESS, DAViS_FX2.FIRMWARE_MAX_SIZE);
+		byteBufferToEEPROM(fw, DAViS_FX2.FIRMWARE_START_ADDRESS, DAViS_FX2.FIRMWARE_MAX_SIZE);
 	}
 
-	private void logicToROM(final ByteBuffer logic) throws Exception {
-		// Generate preamble and concatenate the bitstream after it.
-		final ByteBuffer data = BufferUtils.allocateByteBuffer(logic.limit() + 8);
-		data.order(ByteOrder.LITTLE_ENDIAN);
+	private void serialNumberToEEPROM(final byte[] sNumArray) throws Exception {
+		ByteBuffer sNum = BufferUtils.allocateByteBuffer(8);
 
-		data.put(0, (byte) 'F');
-		data.put(1, (byte) 'P');
-		data.put(2, (byte) 'G');
-		data.put(3, (byte) 'A');
+		sNum.put(sNumArray, 8 - sNumArray.length, sNumArray.length);
 
-		data.putInt(4, logic.limit());
-
-		data.position(8); // Set position to after preamble.
-		data.put(logic); // Copy bitstream.
-		data.position(0); // Reset position to initial value.
-
-		// Write preamble and FPGA logic bitstream together.
-		byteBufferToROM(data, DAViS_FX2.LOGIC_START_ADDRESS, DAViS_FX2.LOGIC_MAX_SIZE);
+		// Write FX2 serial number.
+		byteBufferToEEPROM(sNum, DAViS_FX2.SNUM_START_ADDRESS, DAViS_FX2.SNUM_MAX_SIZE);
 	}
 
-	private void byteBufferToROM(final ByteBuffer data, final int startAddress, final int maxSize) throws Exception {
+	private void byteBufferToEEPROM(final ByteBuffer data, final int startAddress, final int maxSize) throws Exception {
 		// Check data size.
 		int dataLength = data.limit();
 		if (dataLength > maxSize) {
 			throw new Exception("Size of data to write exceeds limits!");
 		}
 
-		// A Flash chip on SPI address 0 is our destination.
-		usbDevice.sendVendorRequest((byte) 0xB9, (short) 0, (short) 0, null);
-
-		// First erase the required blocks on the Flash memory.
-		for (int i = startAddress; i < (startAddress + dataLength); i += 65536) {
-			usbDevice.sendVendorRequest((byte) 0xBC, (short) ((i >>> 16) & 0xFFFF), (short) (i & 0xFFFF), null);
-		}
-
-		// And then we send out the actual data, in 4 KB chunks.
+		// Send out the actual data to the EEPROM, in 4 KB chunks.
 		int dataOffset = 0;
 
 		while (dataLength > 0) {
@@ -360,15 +333,16 @@ public class DAViS_FX2 extends Controller {
 
 			final ByteBuffer dataChunk = BufferUtils.slice(data, dataOffset, localDataLength);
 
-			usbDevice.sendVendorRequest((byte) 0xBB, (short) (((startAddress + dataOffset) >>> 16) & 0xFFFF),
-				(short) ((startAddress + dataOffset) & 0xFFFF), dataChunk);
+			// Just wValue is enough for the address (16 bit), since the EEPROM
+			// is just 32KB at the most.
+			usbDevice
+				.sendVendorRequest(VR_EEPROM, (short) ((startAddress + dataOffset) & 0xFFFF), (short) 0, dataChunk);
 
 			dataLength -= localDataLength;
 			dataOffset += localDataLength;
 		}
 	}
 
-	private static final byte VR_RAM = (byte) 0xBC;
 	private static final byte VR_EEPROM = (byte) 0xBD;
 	private static final byte VR_CPLD_UPLOAD = (byte) 0xBE;
 
