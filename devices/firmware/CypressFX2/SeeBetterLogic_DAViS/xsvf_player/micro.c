@@ -321,8 +321,8 @@ void xsvfTmsTransition( short sTms )
 int xsvfGotoTapState( unsigned char*   pucTapState,
                       unsigned char    ucTargetState )
 {
-    int xdata i;
-    int xdata iErrorCode;
+    int i;
+    int iErrorCode;
 
     iErrorCode  = XSVF_ERROR_NONE;
     if ( ucTargetState == XTAPSTATE_RESET )
@@ -532,12 +532,12 @@ void xsvfShiftOnly( long    lNumBits,
                     lenVal* plvTdoCaptured,
                     int     iExitShift )
 {
-    unsigned char*  pucTdi;
-    unsigned char*  pucTdo;
-    unsigned char xdata ucTdiByte;
-    unsigned char xdata ucTdoByte;
-    unsigned char xdata ucTdoBit;
-    int           xdata i;
+    unsigned char* pucTdi;
+    unsigned char* pucTdo;
+    unsigned char ucTdiByte;
+    unsigned char ucTdoByte;
+    unsigned char ucTdoBit;
+    int           i;
 
     /* assert( ( ( lNumBits + 7 ) / 8 ) == plvTdi->len ); */
 
@@ -626,10 +626,10 @@ int xsvfShift( unsigned char*   pucTapState,
                long             lRunTestTime,
                unsigned char    ucMaxRepeat )
 {
-    int            xdata iErrorCode;
-    int            xdata iMismatch;
-    unsigned char  xdata ucRepeat;
-    int            xdata iExitShift;
+    int            iErrorCode;
+    int            iMismatch;
+    unsigned char  ucRepeat;
+    int            iExitShift;
 
     iErrorCode  = XSVF_ERROR_NONE;
     iMismatch   = 0;
@@ -801,8 +801,8 @@ int xsvfDoXTDOMASK( SXsvfInfo* pXsvfInfo )
 int xsvfDoXSIR( SXsvfInfo* pXsvfInfo )
 {
     unsigned char   ucShiftIrBits;
-    short           xdata sShiftIrBytes;
-    int             xdata iErrorCode;
+    short           sShiftIrBytes;
+    int             iErrorCode;
 
     /* Get the shift length and store */
     readByte( &ucShiftIrBits );
@@ -843,9 +843,9 @@ int xsvfDoXSIR( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 int xsvfDoXSIR2( SXsvfInfo* pXsvfInfo )
 {
-    long            xdata lShiftIrBits;
-    short           xdata sShiftIrBytes;
-    int             xdata iErrorCode;
+    long            lShiftIrBits;
+    short           sShiftIrBytes;
+    int             iErrorCode;
 
     /* Get the shift length and store */
     readVal( &(pXsvfInfo->lvTdi), 2 );
@@ -888,7 +888,7 @@ int xsvfDoXSIR2( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 int xsvfDoXSDR( SXsvfInfo* pXsvfInfo )
 {
-    int xdata iErrorCode;
+    int iErrorCode;
     readVal( &(pXsvfInfo->lvTdi), pXsvfInfo->sShiftLengthBytes );
     /* use TDOExpected from last XSDRTDO instruction */
     iErrorCode  = xsvfShift( &(pXsvfInfo->ucTapState), XTAPSTATE_SHIFTDR,
@@ -940,7 +940,7 @@ int xsvfDoXREPEAT( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 int xsvfDoXSDRSIZE( SXsvfInfo* pXsvfInfo )
 {
-    int xdata iErrorCode;
+    int iErrorCode;
     iErrorCode  = XSVF_ERROR_NONE;
     readVal( &(pXsvfInfo->lvTdi), 4 );
     pXsvfInfo->lShiftLengthBits = value( &(pXsvfInfo->lvTdi) );
@@ -964,7 +964,7 @@ int xsvfDoXSDRSIZE( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 int xsvfDoXSDRTDO( SXsvfInfo* pXsvfInfo )
 {
-    int xdata iErrorCode;
+    int iErrorCode;
     iErrorCode  = xsvfBasicXSDRTDO( &(pXsvfInfo->ucTapState),
                                     pXsvfInfo->lShiftLengthBits,
                                     pXsvfInfo->sShiftLengthBytes,
@@ -996,7 +996,7 @@ int xsvfDoXSDRTDO( SXsvfInfo* pXsvfInfo )
 int xsvfDoXSDRBCE( SXsvfInfo* pXsvfInfo )
 {
     unsigned char   ucEndDR;
-    int             xdata iErrorCode;
+    int             iErrorCode;
     ucEndDR = (unsigned char)(( pXsvfInfo->ucCommand == XSDRE ) ?
                                 pXsvfInfo->ucEndDR : XTAPSTATE_SHIFTDR);
     iErrorCode  = xsvfBasicXSDRTDO( &(pXsvfInfo->ucTapState),
@@ -1027,7 +1027,7 @@ int xsvfDoXSDRBCE( SXsvfInfo* pXsvfInfo )
 int xsvfDoXSDRTDOBCE( SXsvfInfo* pXsvfInfo )
 {
     unsigned char   ucEndDR;
-    int             xdata iErrorCode;
+    int             iErrorCode;
     ucEndDR = (unsigned char)(( pXsvfInfo->ucCommand == XSDRTDOE ) ?
                                 pXsvfInfo->ucEndDR : XTAPSTATE_SHIFTDR);
     iErrorCode  = xsvfBasicXSDRTDO( &(pXsvfInfo->ucTapState),
@@ -1056,7 +1056,7 @@ int xsvfDoXSDRTDOBCE( SXsvfInfo* pXsvfInfo )
 int xsvfDoXSTATE( SXsvfInfo* pXsvfInfo )
 {
     unsigned char   ucNextState;
-    int             xdata iErrorCode;
+    int             iErrorCode;
     readByte( &ucNextState );
     iErrorCode  = xsvfGotoTapState( &(pXsvfInfo->ucTapState), ucNextState );
     if ( iErrorCode != XSVF_ERROR_NONE )
@@ -1077,7 +1077,7 @@ int xsvfDoXSTATE( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 int xsvfDoXENDXR( SXsvfInfo* pXsvfInfo )
 {
-    int             xdata iErrorCode;
+    int             iErrorCode;
     unsigned char   ucEndState;
 
     iErrorCode  = XSVF_ERROR_NONE;
@@ -1148,7 +1148,7 @@ int xsvfDoXWAIT( SXsvfInfo* pXsvfInfo )
 {
     unsigned char   ucWaitState;
     unsigned char   ucEndState;
-    long            xdata lWaitTime;
+    long            lWaitTime;
 
     /* Get Parameters */
     /* <wait_state> */

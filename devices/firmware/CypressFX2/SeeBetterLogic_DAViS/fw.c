@@ -52,7 +52,7 @@ void TD_Poll(void);
 BOOL TD_Suspend(void);
 BOOL TD_Resume(void);
 
-//void downloadSerialNumberFromEEPROM();
+void downloadSerialNumberFromEEPROM(void);
 
 BOOL DR_GetDescriptor(void);
 BOOL DR_SetConfiguration(void);
@@ -90,14 +90,14 @@ const char code  EPCS_Offset_Lookup_Table[] =
 void main(void)
 {
    // Initialize Global States
-//   Sleep = FALSE;               // Disable sleep mode
+   // Sleep = FALSE;            // Disable sleep mode
    Rwuen = FALSE;               // Disable remote wakeup
-   Selfpwr = FALSE;            // Disable self powered
-   GotSUD = FALSE;               // Clear "Got setup data" flag
+   Selfpwr = FALSE;             // Disable self powered
+   GotSUD = FALSE;              // Clear "Got setup data" flag
 
    // Initialize user device
    TD_Init();
-	EA=0;
+   EA = 0;
 
    pDeviceDscr = (WORD)&DeviceDscr;
    pDeviceQualDscr = (WORD)&DeviceQualDscr;
@@ -105,15 +105,12 @@ void main(void)
    pFullSpeedConfigDscr = (WORD)&FullSpeedConfigDscr;
    pStringDscr = (WORD)&StringDscr;
 
-   EZUSB_IRQ_ENABLE();            // Enable USB interrupt (INT2)
-  // EZUSB_ENABLE_RSMIRQ();            // Wake-up interrupt
+   EZUSB_IRQ_ENABLE(); // Enable USB interrupt (INT2)
 
-   INTSETUP |= (bmAV2EN | bmAV4EN);     // Enable INT 2 & 4 autovectoring
+   INTSETUP |= (bmAV2EN | bmAV4EN); // Enable INT 2 & 4 autovectoring
 
-   //USBIE |= bmSUDAV | bmSUTOK | bmSUSP | bmURES | bmHSGRANT;   // Enable selected interrupts
-	USBIE |= bmSUDAV | bmSUTOK | bmURES | bmHSGRANT;   // Enable selected interrupts
-   EA = 1;                  // Enable 8051 interrupts
-
+   USBIE |= bmSUDAV | bmSUTOK | bmURES | bmHSGRANT; // Enable selected interrupts
+   EA = 1; // Enable 8051 interrupts
 
 #ifndef NO_RENUM
    // Renumerate if necessary.  Do this by checking the renum bit.  If it
@@ -121,22 +118,22 @@ void main(void)
    // already be set if this firmware was loaded from an eeprom.
    if(!(USBCS & bmRENUM))
    {
-       EZUSB_Discon(TRUE);   // renumerate
+       EZUSB_Discon(TRUE); // Renumerate
    }
 #endif
 
    // unconditionally re-connect.  If we loaded from eeprom we are
    // disconnected and need to connect.  If we just renumerated this
    // is not necessary but doesn't hurt anything
-   USBCS &=~bmDISCON;
+   USBCS &= ~bmDISCON;
 
-   CKCON = (CKCON&(~bmSTRETCH)) | FW_STRETCH_VALUE; // Set stretch
+   CKCON = (CKCON & (~bmSTRETCH)) | FW_STRETCH_VALUE; // Set stretch
 
-   // clear the Sleep flag.
+   // Clear the Sleep flag.
    Sleep = FALSE;
 
-	//download the serial number from the EEPROM
-	//downloadSerialNumberFromEEPROM();
+   // Download the serial number from the EEPROM
+   downloadSerialNumberFromEEPROM();
 
    // Task Dispatcher
    while(TRUE)               // Main Loop
@@ -179,14 +176,7 @@ void main(void)
 
 BOOL HighSpeedCapable()
 {
-   // this function determines if the chip is high-speed capable.
-   // FX2 and FX2LP are high-speed capable. FX1 is not - it does
-   // not have a high-speed transceiver.
-
-  // if (GPCR2 & bmFULLSPEEDONLY)
-    //  return FALSE;
-   //else
-      return TRUE;
+   return TRUE;
 }   
 
 // Device request parser
@@ -335,5 +325,3 @@ void resume_isr(void) interrupt WKUP_VECT
 {
    EZUSB_CLEAR_RSMIRQ();
 }
-
-

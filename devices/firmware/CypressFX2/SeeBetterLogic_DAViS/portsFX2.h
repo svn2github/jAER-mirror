@@ -3,7 +3,7 @@ Depends on fx2regs.h
 */
 
 #ifndef portsfx2_dot_h
-#define portsfx2_dot_h 1
+#define portsfx2_dot_h
 
 // Defines all other ports.
 #include <fx2.h>

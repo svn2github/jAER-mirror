@@ -49,7 +49,7 @@ extern BOOL GotSUD;
 #define	I2C_EEPROM_ADDRESS 0x51 // 0101_0001 is the address of the external serial EEPROM that holds FX2 program and static data
 
 // XSVF support.
-#define XSVF_DATA_SIZE 400
+#define XSVF_DATA_SIZE 512
 
 BOOL doJTAGInit = TRUE;
 BYTE xsvfReturn = 0;
@@ -65,6 +65,8 @@ static void SPIWrite(BYTE byte);
 static BYTE SPIRead(void);
 static void EEPROMWrite(WORD address, BYTE length, BYTE xdata *buf);
 static void EEPROMRead(WORD address, BYTE length, BYTE xdata *buf);
+
+void downloadSerialNumberFromEEPROM(void);
 
 void TD_Init(void) // Called once at startup
 {
@@ -100,7 +102,7 @@ void TD_Init(void) // Called once at startup
 	SYNCDELAY;
 	EP1OUTCFG = 0x00; // EP1OUT disabled
 	SYNCDELAY;
-	EP1INCFG = 0xB0; // EP1IN enabled, interrupt -> 1011_0000
+	EP1INCFG = 0x00; // EP1IN disabled
 
 	SYNCDELAY;
 	EP2CFG = 0x00; // EP2 disabled
@@ -155,7 +157,7 @@ void TD_Init(void) // Called once at startup
 
 	// Reset CPLD by pulsing reset line
 	setPE(CPLD_RESET, 1);
-	WAIT_FOR(10);
+	WAIT_FOR(20);
 	setPE(CPLD_RESET, 0);
 }
 
@@ -277,6 +279,29 @@ static void EEPROMRead(WORD address, BYTE length, BYTE xdata *buf)
 	EZUSB_ReadI2C(I2C_EEPROM_ADDRESS, length, buf);
 }
 
+// Get serial number from EEPROM.
+#define EEPROM_SIZE 0x8000
+#define SERIAL_NUMBER_LENGTH 8
+
+void downloadSerialNumberFromEEPROM(void)
+{
+	char *sNumDscrPtr;
+	BYTE xdata sNum[SERIAL_NUMBER_LENGTH];
+	BYTE i;
+
+	// Get pointer to string descriptor 3, jump first two bytes (size + type)
+	sNumDscrPtr = ((char *)EZUSB_GetStringDscr(3)) + 2;
+
+	// Read string description from EEPROM
+	EEPROMRead(EEPROM_SIZE - SERIAL_NUMBER_LENGTH, SERIAL_NUMBER_LENGTH, sNum);
+
+	// Write serial number string descriptor to RAM
+	for (i = 0; i < SERIAL_NUMBER_LENGTH; i++)
+	{
+		sNumDscrPtr[i * 2] = sNum[i];
+	}
+}
+
 void TD_Poll(void) // Called repeatedly while the device is idle
 {
 }
@@ -322,7 +347,7 @@ BOOL DR_GetInterface(void) // Called when a Get Interface command is received
 
 BOOL DR_VendorCmnd(void) {
 	WORD wValue, wIndex, wLength, wRequest;
-	BYTE i, currByteCount;
+	WORD i, currByteCount, address;
 
 	// the value bytes are the specific config command
 	// the index bytes are the arguments
@@ -590,6 +615,7 @@ BOOL DR_VendorCmnd(void) {
 				OEC = 0xBE; // 1011_1110, JTAG (but not TDO) and SPI (but not SPI MISO)
 
 				xsvfInitializeSTM();
+
 				doJTAGInit = FALSE;
 			}
 
@@ -601,6 +627,8 @@ BOOL DR_VendorCmnd(void) {
 
 				break;
 			}
+
+			address = 0;
 
 			resetDataArray(xsvfDataArray);
 
@@ -621,10 +649,10 @@ BOOL DR_VendorCmnd(void) {
 				currByteCount = EP0BCL; // Get the new byte count
 
 				for (i = 0; i < currByteCount; i++) {
-					xsvfDataArray[wValue + i] = EP0BUF[i];
+					xsvfDataArray[address + i] = EP0BUF[i];
 				}
 
-				wValue += currByteCount;
+				address += currByteCount;
 
 				wLength -= currByteCount; // Decrement total byte count
 			}
