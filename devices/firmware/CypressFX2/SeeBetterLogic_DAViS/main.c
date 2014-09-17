@@ -31,7 +31,6 @@ extern BOOL GotSUD;
 #define BIAS_ADDR_SELECT PE0 // is active-low
 
 // Device-specific vendor requests
-#define VR_RAM 0xBC
 #define VR_EEPROM 0xBD
 #define VR_CPLD_UPLOAD 0xBE
 #define VR_CPLD_CONFIG 0xBF
@@ -534,7 +533,6 @@ BOOL DR_VendorCmnd(void) {
 
 			break;
 
-		case USB_REQ_DIR(VR_RAM, USB_DIRECTION_IN):
 		case USB_REQ_DIR(VR_EEPROM, USB_DIRECTION_IN):
 			while (wLength) {
 				// Get data from USB control endpoint.
@@ -552,15 +550,7 @@ BOOL DR_VendorCmnd(void) {
 
 				currByteCount = EP0BCL; // Get the new byte count
 
-				// Is this a RAM download ?
-				if (SETUPDAT[1] == VR_RAM) {
-					for (i = 0; i < currByteCount; i++) {
-						((BYTE xdata *) wValue)[i] = EP0BUF[i];
-					}
-				}
-				else {
-					EEPROMWrite(wValue, currByteCount, EP0BUF);
-				}
+				EEPROMWrite(wValue, currByteCount, EP0BUF);
 
 				wValue += currByteCount;
 
@@ -572,7 +562,6 @@ BOOL DR_VendorCmnd(void) {
 
 			break;
 
-		case USB_REQ_DIR(VR_RAM, USB_DIRECTION_OUT):
 		case USB_REQ_DIR(VR_EEPROM, USB_DIRECTION_OUT):
 			while (wLength) {
 				// Send data to USB control endpoint.
@@ -588,15 +577,7 @@ BOOL DR_VendorCmnd(void) {
 					currByteCount = EP0BUFF_SIZE;
 				}
 
-				// Is this a RAM upload ?
-				if (SETUPDAT[1] == VR_RAM) {
-					for (i = 0; i < currByteCount; i++) {
-						EP0BUF[i] = ((BYTE xdata *) wValue)[i];
-					}
-				}
-				else {
-					EEPROMRead(wValue, currByteCount, EP0BUF);
-				}
+				EEPROMRead(wValue, currByteCount, EP0BUF);
 
 				wValue += currByteCount;
 
