@@ -1,8 +1,8 @@
 #pragma NOIV // Do not generate interrupt vectors
 
-#include "lp.h"
-#include "lpregs.h"
-#include "syncdly.h" // SYNCDELAY macro
+#include <fx2.h>
+#include <fx2regs.h>
+#include <syncdly.h> // SYNCDELAY macro
 #include "portsFX2.h"
 
 #include "xsvf_player/ports.h"

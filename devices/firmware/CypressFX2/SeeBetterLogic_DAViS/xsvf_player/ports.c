@@ -10,9 +10,7 @@
 /*              Add print in setPort for xapp058_example.exe.*/
 /*******************************************************/
 #include "ports.h"
-/*#include "prgispx.h"*/
-
-sfr IOC = 0xA0;
+#include "portsFX2.h"
 
 /* setPort:  Implement to set the named JTAG signal (p) to the new value (v).*/
 /* if in debugging mode, then just set the variables */
