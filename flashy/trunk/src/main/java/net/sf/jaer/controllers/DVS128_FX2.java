@@ -41,7 +41,7 @@ public class DVS128_FX2 extends Controller {
 
 	private static final byte VR_EEPROM = (byte) 0xA2;
 	private static final int MAX_TRANSFER_SIZE = 4096;
-	private static final int MAX_EEPROM_SIZE = 32 * 1024;
+	private static final int MAX_EEPROM_SIZE = 16 * 1024;
 
 	private void eraseEEPROM() throws Exception {
 		// Generate empty ByteBuffer (all zeros) to send to EEPROM.
