@@ -33,7 +33,7 @@ public class FX2 extends Controller {
 		super(device);
 	}
 
-	private File firmwareFile;
+	private File firmwareRAMFile;
 
 	@Override
 	public VBox generateGUI() {
@@ -46,6 +46,15 @@ public class FX2 extends Controller {
 			"Select a FX2 firmware file to upload to the device's RAM.", null, null);
 
 		final Preferences defaultFolderNode = Preferences.userRoot().node("/defaultFolders");
+
+		// Load default path, if exists.
+		String savedPath = defaultFolderNode.get("fx2RAMFirmware", "");
+		if (!savedPath.isEmpty()) {
+			final File savedFile = new File(savedPath);
+			if (savedFile.exists() && Files.checkReadPermissions(savedFile)) {
+				firmwareRAMFile = savedFile;
+			}
+		}
 
 		final TextField firmwareField = GUISupport.addTextField(firmwareToFlashBox,
 			defaultFolderNode.get("fx2RAMFirmware", ""), null);
@@ -69,7 +78,7 @@ public class FX2 extends Controller {
 				}
 
 				firmwareField.setStyle("");
-				firmwareFile = loadFirmware;
+				firmwareRAMFile = loadFirmware;
 				defaultFolderNode.put("fx2RAMFirmware", loadFirmware.getAbsolutePath());
 			}
 		});
@@ -86,7 +95,7 @@ public class FX2 extends Controller {
 					}
 
 					firmwareField.setText(loadFirmware.getAbsolutePath());
-					firmwareFile = loadFirmware;
+					firmwareRAMFile = loadFirmware;
 					defaultFolderNode.put("fx2RAMFirmware", loadFirmware.getAbsolutePath());
 				}
 			});
@@ -95,12 +104,12 @@ public class FX2 extends Controller {
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent arg0) {
-					if (firmwareFile == null) {
+					if (firmwareRAMFile == null) {
 						GUISupport.showDialogError("No FX2 RAM firmware file selected!");
 						return;
 					}
 
-					try (final RandomAccessFile fwFile = new RandomAccessFile(firmwareFile, "r");
+					try (final RandomAccessFile fwFile = new RandomAccessFile(firmwareRAMFile, "r");
 						final FileChannel fwInChannel = fwFile.getChannel()) {
 						final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
 						buf.load();

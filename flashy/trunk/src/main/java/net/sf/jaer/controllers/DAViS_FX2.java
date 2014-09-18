@@ -32,9 +32,14 @@ import org.usb4java.BufferUtils;
 import org.usb4java.LibUsb;
 
 public class DAViS_FX2 extends Controller {
-	private static final List<String> firmwareValidExtensions = new ArrayList<>();
+	private static final List<String> firmwareRAMValidExtensions = new ArrayList<>();
 	static {
-		DAViS_FX2.firmwareValidExtensions.add("*.iic");
+		DAViS_FX2.firmwareRAMValidExtensions.add("*.bix");
+	}
+
+	private static final List<String> firmwareROMValidExtensions = new ArrayList<>();
+	static {
+		DAViS_FX2.firmwareROMValidExtensions.add("*.iic");
 	}
 
 	private static final List<String> logicValidExtensions = new ArrayList<>();
@@ -46,7 +51,8 @@ public class DAViS_FX2 extends Controller {
 		super(device);
 	}
 
-	private File firmwareFile;
+	private File firmwareRAMFile;
+	private File firmwareROMFile;
 	private File logicFile;
 
 	@Override

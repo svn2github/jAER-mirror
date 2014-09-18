@@ -48,6 +48,15 @@ public class FX3 extends Controller {
 
 		final Preferences defaultFolderNode = Preferences.userRoot().node("/defaultFolders");
 
+		// Load default path, if exists.
+		String savedPath = defaultFolderNode.get("fx3Firmware", "");
+		if (!savedPath.isEmpty()) {
+			final File savedFile = new File(savedPath);
+			if (savedFile.exists() && Files.checkReadPermissions(savedFile)) {
+				firmwareFile = savedFile;
+			}
+		}
+
 		final TextField firmwareField = GUISupport.addTextField(firmwareToFlashBox,
 			defaultFolderNode.get("fx3Firmware", ""), null);
 

@@ -286,7 +286,7 @@ public final class GUISupport {
 		final Collection<Runnable> tasksUIRefresh) {
 		GUISupport.runTasksCollection(tasksDialogRefresh);
 
-		final Dialog dialog = new Dialog(null, title, true, false);
+		final Dialog dialog = new Dialog(null, title, true, null);
 
 		dialog.setContent(content);
 

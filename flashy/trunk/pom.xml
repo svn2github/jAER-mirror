@@ -4,7 +4,7 @@
 
 	<groupId>net.sf.jaer</groupId>
 	<artifactId>Flashy</artifactId>
-	<version>0.3-SNAPSHOT</version>
+	<version>0.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Flashy</name>
@@ -49,23 +49,23 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.6</version>
+			<version>1.7.7</version>
 		</dependency>
 		<dependency>
 			<!-- Specifies the logging back-end (java.util.logging). -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-jdk14</artifactId>
-			<version>1.7.6</version>
+			<version>1.7.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.3.1</version>
+			<version>3.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.controlsfx</groupId>
 			<artifactId>controlsfx</artifactId>
-			<version>8.0.5</version>
+			<version>8.0.6_20</version>
 		</dependency>
 		<dependency>
 			<groupId>org.usb4java</groupId>
