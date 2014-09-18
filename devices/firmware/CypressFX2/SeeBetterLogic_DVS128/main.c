@@ -20,22 +20,22 @@ extern BOOL GotSUD;
 #define CPLD_SPI_MOSI PC1
 #define CPLD_SPI_MISO PC0
 
-#define CPLD_RESET PE7
-#define FXLED PE6
+#define CPLD_RESET PA3
+#define FXLED PA7
 
-#define BIAS_CLOCK PE5 // is active-low
-#define BIAS_BIT PE4
-// PE3 not used currently (CPLD internal)
-#define BIAS_DIAG_SELECT PE2
+#define DVS_ARRAY_RESET PE5 // is active-low
+#define BIAS_CLOCK PE4
+#define BIAS_BIT PE3
+#define BIAS_ENABLE PE2 // is active-low
 #define BIAS_LATCH PE1 // is active-low
-#define BIAS_ADDR_SELECT PE0 // is active-low
 
 // Device-specific vendor requests
 #define VR_EEPROM 0xBD
 #define VR_CPLD_UPLOAD 0xBE
 #define VR_CPLD_CONFIG 0xBF
 #define VR_CHIP_BIAS 0xC0
-#define VR_CHIP_DIAG 0xC1
+#define VR_BIAS_ENABLE 0xC1
+#define VR_DVS_ARRAY_RESET 0xC2
 
 // Request direction
 #define USB_DIRECTION_MASK (0x80)
@@ -46,6 +46,8 @@ extern BOOL GotSUD;
 
 #define EP0BUFF_SIZE 64 // Endpoint 0 (Control) buffer size
 #define	I2C_EEPROM_ADDRESS 0x51 // 0101_0001 is the address of the external serial EEPROM that holds FX2 program and static data
+#define EEPROM_SIZE (16 * 1024)
+#define SERIAL_NUMBER_LENGTH 8
 
 // XSVF support.
 #define XSVF_DATA_SIZE 1024
@@ -139,11 +141,11 @@ void TD_Init(void) // Called once at startup
 
 	IOA = 0x00; // Keep all off
 	IOC = 0x08; // SPI SSN is active-low
-	IOE = 0x23; // Bias Clock, Latch and Address_Select are active-low
+	IOE = 0x23; // DVS Array Reset, Bias Enable and Latch are active-low
 
-	OEA = 0x00; // 0000_0000, none are used
+	OEA = 0x88; // 1000_1000, CPLD_RESET and FXLED
 	OEC = 0x0E; // 0000_1110, JTAG (left floating) and SPI (but not SPI MISO)
-	OEE = 0xF7; // 1111_0111, Reset, FXLED and BIAS (but not PE3)
+	OEE = 0x3E; // 0011_1110, DVS Array Reset and BIAS
 
 	// disable interrupts by the input pins and by timers and serial ports
 	IE = 0x00; // 0000_0000
@@ -155,16 +157,16 @@ void TD_Init(void) // Called once at startup
 	I2CTL = 0x01;  // set I2C to 400kHz to speed up data transfers
 
 	// Reset CPLD by pulsing reset line
-	setPE(CPLD_RESET, 1);
+	CPLD_RESET = 1;
 	WAIT_FOR(20);
-	setPE(CPLD_RESET, 0);
+	CPLD_RESET = 0;
 }
 
 static void BiasWrite(BYTE byte) {
 	BYTE i;
 
-	// Disable clock. Bias clock is active-low!
-	setPE(BIAS_CLOCK, 1);
+	// Disable clock.
+	setPE(BIAS_CLOCK, 0);
 
 	// Step through the eight bits of the given byte, starting at the highest
 	// (MSB) and going down to the lowest (LSB).
@@ -178,8 +180,8 @@ static void BiasWrite(BYTE byte) {
 		}
 
 		// Pulse clock to signal value is ready to be read.
-		setPE(BIAS_CLOCK, 0);
 		setPE(BIAS_CLOCK, 1);
+		setPE(BIAS_CLOCK, 0);
 
 		// Shift left by one, making the second highest bit the highest.
 		byte = (byte << 1);
@@ -247,21 +249,21 @@ static void EEPROMWrite(WORD address, BYTE length, BYTE xdata *buf)
 	BYTE i;
 	BYTE xdata ee_str[3];
 
-	setPE(FXLED, 0);
+	FXLED = 0;
 
 	for (i = 0; i < length; i++) {
 		ee_str[0] = MSB(address);
 		ee_str[1] = LSB(address);
 		ee_str[2] = buf[i];
 
-		setPE(FXLED, 1);
+		FXLED = 1;
 
 		EZUSB_WriteI2C(I2C_EEPROM_ADDRESS, 3, ee_str);
 		EZUSB_WaitForEEPROMWrite(I2C_EEPROM_ADDRESS);
 
 		address++;
 
-		setPE(FXLED, 0);
+		FXLED = 0;
 	}
 }
 
@@ -270,34 +272,31 @@ static void EEPROMRead(WORD address, BYTE length, BYTE xdata *buf)
 	BYTE i;
 	BYTE xdata ee_str[2];
 
-	setPE(FXLED, 0);
+	FXLED = 0;
 
 	ee_str[0] = MSB(address);
 	ee_str[1] = LSB(address);
 
-	setPE(FXLED, 1);
+	FXLED = 1;
 
 	EZUSB_WriteI2C(I2C_EEPROM_ADDRESS, 2, ee_str);
 	EZUSB_WaitForEEPROMWrite(I2C_EEPROM_ADDRESS);
 
-	setPE(FXLED, 0);
+	FXLED = 0;
 
 	// Set read buffer to known value.
 	for (i = 0; i < length; i++) {
 		buf[i] = 0xCD;
 	}
 
-	setPE(FXLED, 1);
+	FXLED = 1;
 
 	EZUSB_ReadI2C(I2C_EEPROM_ADDRESS, length, buf);
 
-	setPE(FXLED, 0);
+	FXLED = 0;
 }
 
 // Get serial number from EEPROM.
-#define EEPROM_SIZE 0x8000
-#define SERIAL_NUMBER_LENGTH 8
-
 void downloadSerialNumberFromEEPROM(void)
 {
 	char *sNumDscrPtr;
@@ -324,7 +323,7 @@ void TD_Poll(void) // Called repeatedly while the device is idle
 BOOL TD_Suspend(void) // Called before the device goes into suspend mode
 {
 	// Put CPLD in reset, which disables everything.
-	setPE(CPLD_RESET, 1);
+	CPLD_RESET = 1;
 
 	return (TRUE);
 }
@@ -332,7 +331,7 @@ BOOL TD_Suspend(void) // Called before the device goes into suspend mode
 BOOL TD_Resume(void) // Called after the device resumes
 {
 	// Take CPLD out of reset, which permits usage again.
-	setPE(CPLD_RESET, 0);
+	CPLD_RESET = 0;
 
 	return (TRUE);
 }
@@ -382,23 +381,6 @@ BOOL DR_VendorCmnd(void) {
 
 	switch (wRequest) {
 		case USB_REQ_DIR(VR_CHIP_BIAS, USB_DIRECTION_IN):
-			// Ensure we're not accessing the chip diagnostic shift register.
-			setPE(BIAS_DIAG_SELECT, 0);
-
-			// Select addressed bias mode (active-low).
-			setPE(BIAS_ADDR_SELECT, 0);
-
-			// Write a byte, containing the bias address (from wValue).
-			BiasWrite(wValue);
-
-			// Latch bias.
-			setPE(BIAS_LATCH, 0);
-			WAIT_FOR(50);
-			setPE(BIAS_LATCH, 1);
-
-			// Release address selection (active-low).
-			setPE(BIAS_ADDR_SELECT, 1);
-
 			// Write out all the data bytes for this bias.
 			while (wLength) {
 				// Get data from USB control endpoint.
@@ -433,41 +415,28 @@ BOOL DR_VendorCmnd(void) {
 
 			break;
 
-		case USB_REQ_DIR(VR_CHIP_DIAG, USB_DIRECTION_IN):
-			// Ensure we are accessing the chip diagnostic shift register.
-			setPE(BIAS_DIAG_SELECT, 1);
-
-			// Write out all configuration bytes to the shift register.
-			while (wLength) {
-				// Get data from USB control endpoint.
-				// Move new data through EP0OUT, one packet at a time,
-				// eventually will get length down to zero by, for
-				// example, currByteCount = 64, 64, 15
-				// Clear bytecount to allow new data in, also stops NAKing
-				EP0BCH = 0;
-				EP0BCL = 0;
-				SYNCDELAY;
-
-				while (EP0CS & bmEPBUSY) {
-					;
-				} // Spin here until data arrives
-
-				currByteCount = EP0BCL; // Get the new byte count
-
-				for (i = 0; i < currByteCount; i++) {
-					BiasWrite(EP0BUF[i]);
-				}
-
-				wLength -= currByteCount; // Decrement total byte count
+		case USB_REQ_DIR(VR_BIAS_ENABLE, USB_DIRECTION_IN):
+			// Active-low signal!
+			if (wValue == 1) {
+				setPE(BIAS_ENABLE, 0);
+			}
+			else {
+				setPE(BIAS_ENABLE, 1);
 			}
 
-			// Latch configuration.
-			setPE(BIAS_LATCH, 0);
-			WAIT_FOR(50);
-			setPE(BIAS_LATCH, 1);
+			EP0BCH = 0;
+			EP0BCL = 0; // Re-arm end-point for OUT transfers.
 
-			// We're done and can deselect the chip diagnostic SR.
-			setPE(BIAS_DIAG_SELECT, 0);
+			break;
+
+		case USB_REQ_DIR(VR_DVS_ARRAY_RESET, USB_DIRECTION_IN):
+			// Active-low signal!
+			if (wValue == 1) {
+				setPE(DVS_ARRAY_RESET, 0);
+			}
+			else {
+				setPE(DVS_ARRAY_RESET, 1);
+			}
 
 			EP0BCH = 0;
 			EP0BCL = 0; // Re-arm end-point for OUT transfers.

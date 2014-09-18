@@ -46,6 +46,8 @@ extern BOOL GotSUD;
 
 #define EP0BUFF_SIZE 64 // Endpoint 0 (Control) buffer size
 #define	I2C_EEPROM_ADDRESS 0x51 // 0101_0001 is the address of the external serial EEPROM that holds FX2 program and static data
+#define EEPROM_SIZE (32 * 1024)
+#define SERIAL_NUMBER_LENGTH 8
 
 // XSVF support.
 #define XSVF_DATA_SIZE 1024
@@ -295,9 +297,6 @@ static void EEPROMRead(WORD address, BYTE length, BYTE xdata *buf)
 }
 
 // Get serial number from EEPROM.
-#define EEPROM_SIZE 0x8000
-#define SERIAL_NUMBER_LENGTH 8
-
 void downloadSerialNumberFromEEPROM(void)
 {
 	char *sNumDscrPtr;
