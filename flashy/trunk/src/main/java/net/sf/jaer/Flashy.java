@@ -33,7 +33,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 import net.sf.jaer.controllers.Controller;
+import net.sf.jaer.controllers.DAViS_FX2;
 import net.sf.jaer.controllers.DAViS_FX3;
+import net.sf.jaer.controllers.DVS128;
 import net.sf.jaer.controllers.FX2;
 import net.sf.jaer.controllers.FX3;
 
@@ -48,17 +50,21 @@ public final class Flashy extends Application {
 	static {
 		// Add our own VID/PID combination (jAER Project/INI).
 		final Map<Short, Class<? extends Controller>> iniPids = new HashMap<>();
-		for (int pid = 0x8400; pid <= 0x841F; pid++) {
-			iniPids.put((short) pid, DAViS_FX3.class);
-		}
+
+		iniPids.put((short) 0x841A, DAViS_FX3.class);
+		iniPids.put((short) 0x841B, DAViS_FX2.class);
+
+		// Support erasing of old DVS128s.
+		iniPids.put((short) 0x8400, DVS128.class);
 
 		Flashy.supportedVidPids.put((short) 0x152A, iniPids);
 
 		// Add the Cypress blank VID/PID combinations.
 		final Map<Short, Class<? extends Controller>> cypressPids = new HashMap<>();
-		cypressPids.put((short) 0x8613, FX2.class);
+
 		cypressPids.put((short) 0x0053, FX3.class);
 		cypressPids.put((short) 0x00F3, FX3.class);
+		cypressPids.put((short) 0x8613, FX2.class);
 
 		Flashy.supportedVidPids.put((short) 0x04B4, cypressPids);
 	}

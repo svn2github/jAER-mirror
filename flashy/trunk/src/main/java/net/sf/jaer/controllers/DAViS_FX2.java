@@ -34,12 +34,12 @@ import org.usb4java.LibUsb;
 public class DAViS_FX2 extends Controller {
 	private static final List<String> firmwareValidExtensions = new ArrayList<>();
 	static {
-		DAViS_FX2.firmwareValidExtensions.add("*.img");
+		DAViS_FX2.firmwareValidExtensions.add("*.iic");
 	}
 
 	private static final List<String> logicValidExtensions = new ArrayList<>();
 	static {
-		DAViS_FX2.logicValidExtensions.add("*.bit");
+		DAViS_FX2.logicValidExtensions.add("*.xsvf");
 	}
 
 	public DAViS_FX2(final UsbDevice device) {
