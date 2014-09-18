@@ -30,18 +30,18 @@ import net.sf.jaer.UsbDevice;
 import org.usb4java.BufferUtils;
 import org.usb4java.LibUsb;
 
-public class DAViS_FX2 extends Controller {
+public class DVS128_FX2_SBL extends Controller {
 	private static final List<String> firmwareValidExtensions = new ArrayList<>();
 	static {
-		DAViS_FX2.firmwareValidExtensions.add("*.iic");
+		DVS128_FX2_SBL.firmwareValidExtensions.add("*.iic");
 	}
 
 	private static final List<String> logicValidExtensions = new ArrayList<>();
 	static {
-		DAViS_FX2.logicValidExtensions.add("*.xsvf");
+		DVS128_FX2_SBL.logicValidExtensions.add("*.xsvf");
 	}
 
-	public DAViS_FX2(final UsbDevice device) {
+	public DVS128_FX2_SBL(final UsbDevice device) {
 		super(device);
 	}
 
@@ -86,7 +86,7 @@ public class DAViS_FX2 extends Controller {
 				final File loadFirmware = new File(newVal);
 
 				if (!Files.checkReadPermissions(loadFirmware)
-					|| !Files.checkExtensions(loadFirmware, DAViS_FX2.firmwareValidExtensions)) {
+					|| !Files.checkExtensions(loadFirmware, DVS128_FX2_SBL.firmwareValidExtensions)) {
 					firmwareField.setStyle("-fx-background-color: #FF5757");
 					return;
 				}
@@ -102,7 +102,7 @@ public class DAViS_FX2 extends Controller {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
 					final File loadFirmware = GUISupport.showDialogLoadFile("FX2 Image",
-						DAViS_FX2.firmwareValidExtensions, defaultFolderNode.get("fx2Firmware", ""));
+						DVS128_FX2_SBL.firmwareValidExtensions, defaultFolderNode.get("fx2Firmware", ""));
 
 					if (loadFirmware == null) {
 						return;
@@ -185,7 +185,7 @@ public class DAViS_FX2 extends Controller {
 				final File loadLogic = new File(newVal);
 
 				if (!Files.checkReadPermissions(loadLogic)
-					|| !Files.checkExtensions(loadLogic, DAViS_FX2.logicValidExtensions)) {
+					|| !Files.checkExtensions(loadLogic, DVS128_FX2_SBL.logicValidExtensions)) {
 					logicField.setStyle("-fx-background-color: #FF5757");
 					return;
 				}
@@ -200,8 +200,8 @@ public class DAViS_FX2 extends Controller {
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
-					final File loadLogic = GUISupport.showDialogLoadFile("Bitstream", DAViS_FX2.logicValidExtensions,
-						defaultFolderNode.get("fx2Logic", ""));
+					final File loadLogic = GUISupport.showDialogLoadFile("Bitstream",
+						DVS128_FX2_SBL.logicValidExtensions, defaultFolderNode.get("fx2Logic", ""));
 
 					if (loadLogic == null) {
 						return;
@@ -279,7 +279,7 @@ public class DAViS_FX2 extends Controller {
 
 				// Check that the typed in file is valid, if not, color the
 				// field background red.
-				if (newVal.length() > DAViS_FX2.SNUM_MAX_SIZE) {
+				if (newVal.length() > DVS128_FX2_SBL.SNUM_MAX_SIZE) {
 					logicField.setStyle("-fx-background-color: #FF5757");
 					return;
 				}
@@ -299,7 +299,7 @@ public class DAViS_FX2 extends Controller {
 						return;
 					}
 
-					if (serialNumber.length() > DAViS_FX2.SNUM_MAX_SIZE) {
+					if (serialNumber.length() > DVS128_FX2_SBL.SNUM_MAX_SIZE) {
 						GUISupport.showDialogError("Serial number too long!");
 						return;
 					}
@@ -324,12 +324,12 @@ public class DAViS_FX2 extends Controller {
 
 	private static final int MAX_TRANSFER_SIZE = 4096;
 
-	private static final int EEPROM_MAX_SIZE = 32 * 1024;
+	private static final int EEPROM_MAX_SIZE = 16 * 1024;
 
 	private static final int FIRMWARE_START_ADDRESS = 0;
-	private static final int FIRMWARE_MAX_SIZE = DAViS_FX2.EEPROM_MAX_SIZE - 8;
+	private static final int FIRMWARE_MAX_SIZE = DVS128_FX2_SBL.EEPROM_MAX_SIZE - 8;
 
-	private static final int SNUM_START_ADDRESS = DAViS_FX2.FIRMWARE_MAX_SIZE;
+	private static final int SNUM_START_ADDRESS = DVS128_FX2_SBL.FIRMWARE_MAX_SIZE;
 	private static final int SNUM_MAX_SIZE = 8;
 
 	// IIC files go directly to EEPROM.
@@ -340,31 +340,31 @@ public class DAViS_FX2 extends Controller {
 		}
 
 		// Write FX2 firmware.
-		byteBufferToROM(fw, DAViS_FX2.FIRMWARE_START_ADDRESS, DAViS_FX2.FIRMWARE_MAX_SIZE);
+		byteBufferToROM(fw, DVS128_FX2_SBL.FIRMWARE_START_ADDRESS, DVS128_FX2_SBL.FIRMWARE_MAX_SIZE);
 	}
 
 	private void serialNumberToROM(final byte[] sNumArray) throws Exception {
 		// Check size of input array.
-		if (sNumArray.length > DAViS_FX2.SNUM_MAX_SIZE) {
+		if (sNumArray.length > DVS128_FX2_SBL.SNUM_MAX_SIZE) {
 			throw new Exception("Size of serial number character array exceeds maximum!");
 		}
 
-		final ByteBuffer sNum = BufferUtils.allocateByteBuffer(DAViS_FX2.SNUM_MAX_SIZE);
+		final ByteBuffer sNum = BufferUtils.allocateByteBuffer(DVS128_FX2_SBL.SNUM_MAX_SIZE);
 		sNum.order(ByteOrder.LITTLE_ENDIAN);
 
 		// Get the bytes from the input array.
-		sNum.position(DAViS_FX2.SNUM_MAX_SIZE - sNumArray.length);
+		sNum.position(DVS128_FX2_SBL.SNUM_MAX_SIZE - sNumArray.length);
 		sNum.put(sNumArray, 0, sNumArray.length);
 
 		// Pad with zeros at the front, if shorter.
-		for (int i = 0; i < (DAViS_FX2.SNUM_MAX_SIZE - sNumArray.length); i++) {
+		for (int i = 0; i < (DVS128_FX2_SBL.SNUM_MAX_SIZE - sNumArray.length); i++) {
 			sNum.put(i, (byte) '0');
 		}
 
 		sNum.position(0); // Reset position to initial value.
 
 		// Write FX2 serial number.
-		byteBufferToROM(sNum, DAViS_FX2.SNUM_START_ADDRESS, DAViS_FX2.SNUM_MAX_SIZE);
+		byteBufferToROM(sNum, DVS128_FX2_SBL.SNUM_START_ADDRESS, DVS128_FX2_SBL.SNUM_MAX_SIZE);
 	}
 
 	private void byteBufferToROM(final ByteBuffer data, final int startAddress, final int maxSize) throws Exception {
@@ -378,7 +378,7 @@ public class DAViS_FX2 extends Controller {
 		int dataOffset = 0;
 
 		while (dataLength > 0) {
-			int localDataLength = DAViS_FX2.MAX_TRANSFER_SIZE;
+			int localDataLength = DVS128_FX2_SBL.MAX_TRANSFER_SIZE;
 			if (localDataLength > dataLength) {
 				localDataLength = dataLength;
 			}
@@ -387,8 +387,8 @@ public class DAViS_FX2 extends Controller {
 
 			// Just wValue is enough for the address (16 bit), since the EEPROM
 			// is just 32KB at the most.
-			usbDevice.sendVendorRequest(DAViS_FX2.VR_EEPROM, (short) ((startAddress + dataOffset) & 0xFFFF), (short) 0,
-				dataChunk);
+			usbDevice.sendVendorRequest(DVS128_FX2_SBL.VR_EEPROM, (short) ((startAddress + dataOffset) & 0xFFFF),
+				(short) 0, dataChunk);
 
 			dataLength -= localDataLength;
 			dataOffset += localDataLength;
@@ -397,19 +397,19 @@ public class DAViS_FX2 extends Controller {
 
 	private void eraseROM() throws Exception {
 		// Generate empty ByteBuffer (all zeros) to send to EEPROM.
-		final ByteBuffer eraser = BufferUtils.allocateByteBuffer(DAViS_FX2.MAX_TRANSFER_SIZE);
-		eraser.put(new byte[DAViS_FX2.MAX_TRANSFER_SIZE]);
+		final ByteBuffer eraser = BufferUtils.allocateByteBuffer(DVS128_FX2_SBL.MAX_TRANSFER_SIZE);
+		eraser.put(new byte[DVS128_FX2_SBL.MAX_TRANSFER_SIZE]);
 		eraser.position(0); // Reset position to initial value.
 
 		// Send out the actual data to the FX2 EEPROM, in 4 KB chunks.
-		int fwLength = DAViS_FX2.EEPROM_MAX_SIZE;
+		int fwLength = DVS128_FX2_SBL.EEPROM_MAX_SIZE;
 		int fwOffset = 0;
 
 		while (fwLength > 0) {
-			usbDevice.sendVendorRequest(DAViS_FX2.VR_EEPROM, (short) (fwOffset & 0xFFFF), (short) 0, eraser);
+			usbDevice.sendVendorRequest(DVS128_FX2_SBL.VR_EEPROM, (short) (fwOffset & 0xFFFF), (short) 0, eraser);
 
-			fwLength -= DAViS_FX2.MAX_TRANSFER_SIZE;
-			fwOffset += DAViS_FX2.MAX_TRANSFER_SIZE;
+			fwLength -= DVS128_FX2_SBL.MAX_TRANSFER_SIZE;
+			fwOffset += DVS128_FX2_SBL.MAX_TRANSFER_SIZE;
 		}
 	}
 
@@ -443,7 +443,7 @@ public class DAViS_FX2 extends Controller {
 		// Configure CPLD directly (0xBE vendor request).
 		// Check data size.
 		final int logicLength = logic.limit();
-		if (logicLength < DAViS_FX2.MAX_TRANSFER_SIZE) {
+		if (logicLength < DVS128_FX2_SBL.MAX_TRANSFER_SIZE) {
 			throw new Exception("Size of data to send too small!");
 		}
 
@@ -453,7 +453,7 @@ public class DAViS_FX2 extends Controller {
 		byte command = logic.get(index);
 
 		// Wait until XCOMPLETE.
-		while (command != DAViS_FX2.XCOMPLETE) {
+		while (command != DVS128_FX2_SBL.XCOMPLETE) {
 			switch (command) {
 				case XTDOMASK:
 					commandLength = length + 1;
@@ -541,31 +541,32 @@ public class DAViS_FX2 extends Controller {
 
 				default:
 					// Unknown XSVF command, stop programming.
-					usbDevice.sendVendorRequest(DAViS_FX2.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
+					usbDevice.sendVendorRequest(DVS128_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
 					throw new Exception("Unknown XSVF command.");
 			}
 
 			final ByteBuffer logicChunk = BufferUtils.slice(logic, index, commandLength);
 
-			usbDevice.sendVendorRequest(DAViS_FX2.VR_CPLD_UPLOAD, command, (short) 0, logicChunk);
+			usbDevice.sendVendorRequest(DVS128_FX2_SBL.VR_CPLD_UPLOAD, command, (short) 0, logicChunk);
 
 			// Get result.
-			final ByteBuffer result = usbDevice.sendVendorRequestIN(DAViS_FX2.VR_CPLD_UPLOAD, (short) 0, (short) 0, 2);
+			final ByteBuffer result = usbDevice.sendVendorRequestIN(DVS128_FX2_SBL.VR_CPLD_UPLOAD, (short) 0,
+				(short) 0, 2);
 
-			if ((result.limit() == 0) || (result.get(0) != DAViS_FX2.VR_CPLD_UPLOAD)) {
+			if ((result.limit() == 0) || (result.get(0) != DVS128_FX2_SBL.VR_CPLD_UPLOAD)) {
 				// Invalid response from device, stop programming.
-				usbDevice.sendVendorRequest(DAViS_FX2.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
+				usbDevice.sendVendorRequest(DVS128_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
 				throw new Exception("Invalid response from device.");
 			}
 
 			if (result.get(1) == 10) {
 				// Overlong command (error code 10), stop programming.
-				usbDevice.sendVendorRequest(DAViS_FX2.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
+				usbDevice.sendVendorRequest(DVS128_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
 				throw new Exception("Overlong command.");
 			}
 			else if (result.get(1) > 0) {
 				// XSVF error encountered, stop programming.
-				usbDevice.sendVendorRequest(DAViS_FX2.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
+				usbDevice.sendVendorRequest(DVS128_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
 				throw new Exception("XSVF error encountered.");
 			}
 
@@ -576,7 +577,7 @@ public class DAViS_FX2 extends Controller {
 		}
 
 		// Done, send XCOMPLETE.
-		usbDevice.sendVendorRequest(DAViS_FX2.VR_CPLD_UPLOAD, DAViS_FX2.XCOMPLETE, (short) 0, null);
+		usbDevice.sendVendorRequest(DVS128_FX2_SBL.VR_CPLD_UPLOAD, DVS128_FX2_SBL.XCOMPLETE, (short) 0, null);
 	}
 
 	private int expData = 0;

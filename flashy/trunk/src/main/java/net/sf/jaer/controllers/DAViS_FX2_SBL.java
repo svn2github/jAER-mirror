@@ -8,7 +8,6 @@ import java.nio.MappedByteBuffer;
 import java.nio.ShortBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
@@ -31,18 +30,18 @@ import net.sf.jaer.UsbDevice;
 import org.usb4java.BufferUtils;
 import org.usb4java.LibUsb;
 
-public class DAViS_FX3 extends Controller {
+public class DAViS_FX2_SBL extends Controller {
 	private static final List<String> firmwareValidExtensions = new ArrayList<>();
 	static {
-		DAViS_FX3.firmwareValidExtensions.add("*.img");
+		DAViS_FX2_SBL.firmwareValidExtensions.add("*.iic");
 	}
 
 	private static final List<String> logicValidExtensions = new ArrayList<>();
 	static {
-		DAViS_FX3.logicValidExtensions.add("*.bit");
+		DAViS_FX2_SBL.logicValidExtensions.add("*.xsvf");
 	}
 
-	public DAViS_FX3(final UsbDevice device) {
+	public DAViS_FX2_SBL(final UsbDevice device) {
 		super(device);
 	}
 
@@ -52,18 +51,18 @@ public class DAViS_FX3 extends Controller {
 
 	@Override
 	public VBox generateGUI() {
-		final VBox fx3GUI = new VBox(10);
+		final VBox fx2GUI = new VBox(10);
 
 		final HBox firmwareToFlashBox = new HBox(10);
-		fx3GUI.getChildren().add(firmwareToFlashBox);
+		fx2GUI.getChildren().add(firmwareToFlashBox);
 
-		GUISupport.addLabel(firmwareToFlashBox, "Select FX3 firmware file",
-			"Select a FX3 firmware file to upload to the device's Flash memory.", null, null);
+		GUISupport.addLabel(firmwareToFlashBox, "Select FX2 firmware file",
+			"Select a FX2 firmware file to upload to the device's EEPROM memory.", null, null);
 
 		final Preferences defaultFolderNode = Preferences.userRoot().node("/defaultFolders");
 
 		// Load default path, if exists.
-		String savedPath = defaultFolderNode.get("fx3Firmware", "");
+		String savedPath = defaultFolderNode.get("fx2Firmware", "");
 		if (!savedPath.isEmpty()) {
 			final File savedFile = new File(savedPath);
 			if (savedFile.exists() && Files.checkReadPermissions(savedFile)) {
@@ -72,7 +71,7 @@ public class DAViS_FX3 extends Controller {
 		}
 
 		final TextField firmwareField = GUISupport.addTextField(firmwareToFlashBox,
-			defaultFolderNode.get("fx3Firmware", ""), null);
+			defaultFolderNode.get("fx2Firmware", ""), null);
 
 		firmwareField.textProperty().addListener(new ChangeListener<String>() {
 			@SuppressWarnings("unused")
@@ -87,14 +86,14 @@ public class DAViS_FX3 extends Controller {
 				final File loadFirmware = new File(newVal);
 
 				if (!Files.checkReadPermissions(loadFirmware)
-					|| !Files.checkExtensions(loadFirmware, DAViS_FX3.firmwareValidExtensions)) {
+					|| !Files.checkExtensions(loadFirmware, DAViS_FX2_SBL.firmwareValidExtensions)) {
 					firmwareField.setStyle("-fx-background-color: #FF5757");
 					return;
 				}
 
 				firmwareField.setStyle("");
 				firmwareFile = loadFirmware;
-				defaultFolderNode.put("fx3Firmware", loadFirmware.getAbsolutePath());
+				defaultFolderNode.put("fx2Firmware", loadFirmware.getAbsolutePath());
 			}
 		});
 
@@ -102,8 +101,8 @@ public class DAViS_FX3 extends Controller {
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
-					final File loadFirmware = GUISupport.showDialogLoadFile("FX3 Image",
-						DAViS_FX3.firmwareValidExtensions, defaultFolderNode.get("fx3Firmware", ""));
+					final File loadFirmware = GUISupport.showDialogLoadFile("FX2 Image",
+						DAViS_FX2_SBL.firmwareValidExtensions, defaultFolderNode.get("fx2Firmware", ""));
 
 					if (loadFirmware == null) {
 						return;
@@ -111,16 +110,16 @@ public class DAViS_FX3 extends Controller {
 
 					firmwareField.setText(loadFirmware.getAbsolutePath());
 					firmwareFile = loadFirmware;
-					defaultFolderNode.put("fx3Firmware", loadFirmware.getAbsolutePath());
+					defaultFolderNode.put("fx2Firmware", loadFirmware.getAbsolutePath());
 				}
 			});
 
-		GUISupport.addButtonWithMouseClickedHandler(firmwareToFlashBox, "Flash FX3 firmware", true, null,
+		GUISupport.addButtonWithMouseClickedHandler(firmwareToFlashBox, "Flash FX2 firmware", true, null,
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent arg0) {
 					if (firmwareFile == null) {
-						GUISupport.showDialogError("No FX3 firmware file selected!");
+						GUISupport.showDialogError("No FX2 firmware file selected!");
 						return;
 					}
 
@@ -156,13 +155,13 @@ public class DAViS_FX3 extends Controller {
 			});
 
 		final HBox logicToFlashBox = new HBox(10);
-		fx3GUI.getChildren().add(logicToFlashBox);
+		fx2GUI.getChildren().add(logicToFlashBox);
 
-		GUISupport.addLabel(logicToFlashBox, "Select FPGA logic file",
-			"Select a FPGA logic file to upload to the device.", null, null);
+		GUISupport.addLabel(logicToFlashBox, "Select CPLD logic file",
+			"Select a CPLD logic file to upload to the device.", null, null);
 
 		// Load default path, if exists.
-		savedPath = defaultFolderNode.get("fx3Logic", "");
+		savedPath = defaultFolderNode.get("fx2Logic", "");
 		if (!savedPath.isEmpty()) {
 			final File savedFile = new File(savedPath);
 			if (savedFile.exists() && Files.checkReadPermissions(savedFile)) {
@@ -170,7 +169,7 @@ public class DAViS_FX3 extends Controller {
 			}
 		}
 
-		final TextField logicField = GUISupport.addTextField(logicToFlashBox, defaultFolderNode.get("fx3Logic", ""),
+		final TextField logicField = GUISupport.addTextField(logicToFlashBox, defaultFolderNode.get("fx2Logic", ""),
 			null);
 
 		logicField.textProperty().addListener(new ChangeListener<String>() {
@@ -186,14 +185,14 @@ public class DAViS_FX3 extends Controller {
 				final File loadLogic = new File(newVal);
 
 				if (!Files.checkReadPermissions(loadLogic)
-					|| !Files.checkExtensions(loadLogic, DAViS_FX3.logicValidExtensions)) {
+					|| !Files.checkExtensions(loadLogic, DAViS_FX2_SBL.logicValidExtensions)) {
 					logicField.setStyle("-fx-background-color: #FF5757");
 					return;
 				}
 
 				logicField.setStyle("");
 				logicFile = loadLogic;
-				defaultFolderNode.put("fx3Logic", loadLogic.getAbsolutePath());
+				defaultFolderNode.put("fx2Logic", loadLogic.getAbsolutePath());
 			}
 		});
 
@@ -201,8 +200,8 @@ public class DAViS_FX3 extends Controller {
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
-					final File loadLogic = GUISupport.showDialogLoadFile("Bitstream", DAViS_FX3.logicValidExtensions,
-						defaultFolderNode.get("fx3Logic", ""));
+					final File loadLogic = GUISupport.showDialogLoadFile("Bitstream", DAViS_FX2_SBL.logicValidExtensions,
+						defaultFolderNode.get("fx2Logic", ""));
 
 					if (loadLogic == null) {
 						return;
@@ -210,42 +209,16 @@ public class DAViS_FX3 extends Controller {
 
 					logicField.setText(loadLogic.getAbsolutePath());
 					logicFile = loadLogic;
-					defaultFolderNode.put("fx3Logic", loadLogic.getAbsolutePath());
+					defaultFolderNode.put("fx2Logic", loadLogic.getAbsolutePath());
 				}
 			});
 
-		GUISupport.addButtonWithMouseClickedHandler(logicToFlashBox, "Flash FPGA bitstream", true, null,
+		GUISupport.addButtonWithMouseClickedHandler(logicToFlashBox, "Upload CPLD bitstream", true, null,
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent arg0) {
 					if (logicFile == null) {
-						GUISupport.showDialogError("No FPGA bitstream file selected!");
-						return;
-					}
-
-					try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
-						final FileChannel fwInChannel = fwFile.getChannel()) {
-						final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
-						buf.load();
-
-						logicToROM(buf);
-
-						// Cleanup ByteBuffer.
-						buf.clear();
-					}
-					catch (final Exception e) {
-						GUISupport.showDialogException(e);
-						return;
-					}
-				}
-			});
-
-		GUISupport.addButtonWithMouseClickedHandler(logicToFlashBox, "Upload FPGA bitstream", true, null,
-			new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(@SuppressWarnings("unused") final MouseEvent arg0) {
-					if (logicFile == null) {
-						GUISupport.showDialogError("No FPGA bitstream file selected!");
+						GUISupport.showDialogError("No CPLD bitstream file selected!");
 						return;
 					}
 
@@ -259,8 +232,8 @@ public class DAViS_FX3 extends Controller {
 
 								updateProgress(10, 100);
 
-								// Load file to FPGA.
-								logicToFPGA(buf);
+								// Load file to CPLD.
+								logicToCPLD(buf);
 
 								updateProgress(95, 100);
 
@@ -282,7 +255,7 @@ public class DAViS_FX3 extends Controller {
 			});
 
 		final HBox serialNumberBox = new HBox(10);
-		fx3GUI.getChildren().add(serialNumberBox);
+		fx2GUI.getChildren().add(serialNumberBox);
 
 		GUISupport.addLabel(serialNumberBox, "Serial Number", "Input a serial number to be written to the device.",
 			null, null);
@@ -306,7 +279,7 @@ public class DAViS_FX3 extends Controller {
 
 				// Check that the typed in file is valid, if not, color the
 				// field background red.
-				if (newVal.length() > DAViS_FX3.SNUM_MAX_SIZE) {
+				if (newVal.length() > DAViS_FX2_SBL.SNUM_MAX_SIZE) {
 					logicField.setStyle("-fx-background-color: #FF5757");
 					return;
 				}
@@ -326,7 +299,7 @@ public class DAViS_FX3 extends Controller {
 						return;
 					}
 
-					if (serialNumber.length() > DAViS_FX3.SNUM_MAX_SIZE) {
+					if (serialNumber.length() > DAViS_FX2_SBL.SNUM_MAX_SIZE) {
 						GUISupport.showDialogError("Serial number too long!");
 						return;
 					}
@@ -341,103 +314,57 @@ public class DAViS_FX3 extends Controller {
 				}
 			});
 
-		fx3GUI.getChildren().add(usbEPListenGUI());
+		fx2GUI.getChildren().add(usbEPListenGUI());
 
-		return (fx3GUI);
+		return (fx2GUI);
 	}
 
-	private static final byte VR_SPI_CONFIG = (byte) 0xB9;
-	private static final byte VR_SPI_TRANSFER = (byte) 0xBB;
-	private static final byte VR_SPI_ERASE = (byte) 0xBC;
-	private static final byte VR_FPGA_UPLOAD = (byte) 0xBE;
+	private static final byte VR_EEPROM = (byte) 0xBD;
+	private static final byte VR_CPLD_UPLOAD = (byte) 0xBE;
 
 	private static final int MAX_TRANSFER_SIZE = 4096;
 
-	private static final int FLASH_MAX_SIZE = 1024 * 1024;
+	private static final int EEPROM_MAX_SIZE = 32 * 1024;
 
 	private static final int FIRMWARE_START_ADDRESS = 0;
-	private static final int FIRMWARE_MAX_SIZE = 192 * 1024;
+	private static final int FIRMWARE_MAX_SIZE = DAViS_FX2_SBL.EEPROM_MAX_SIZE - 8;
 
-	private static final int LOGIC_START_ADDRESS = DAViS_FX3.FIRMWARE_MAX_SIZE;
-	private static final int LOGIC_MAX_SIZE = 576 * 1024;
-
-	private static final int DATA_START_ADDRESS = DAViS_FX3.FIRMWARE_MAX_SIZE + DAViS_FX3.LOGIC_MAX_SIZE;
-	// private static final int DATA_MAX_SIZE = 256 * 1024;
-	private static final int DATA_HEADER_SIZE = 8;
-
-	private static final int SNUM_START_ADDRESS = DAViS_FX3.DATA_START_ADDRESS;
+	private static final int SNUM_START_ADDRESS = DAViS_FX2_SBL.FIRMWARE_MAX_SIZE;
 	private static final int SNUM_MAX_SIZE = 8;
 
+	// IIC files go directly to EEPROM.
 	private void firmwareToROM(final ByteBuffer fw) throws Exception {
 		// Check signature.
-		if ((fw.get(0) != 'C') || (fw.get(1) != 'Y')) {
+		if ((fw.get(0) != (byte) 0xC2)) {
 			throw new Exception("Illegal signature for firmware file.");
 		}
 
-		// Make a copy so we can manipulate it.
-		final ByteBuffer data = BufferUtils.allocateByteBuffer(fw.limit());
-		data.order(ByteOrder.LITTLE_ENDIAN);
-
-		data.put(fw);
-		data.position(0); // Reset position to initial value.
-
-		// Set third byte to 0x20, to enable 30 MHz SPI boot transfer rate.
-		data.put(2, (byte) 0x20);
-
-		// Write FX3 firmware.
-		byteBufferToROM(data, DAViS_FX3.FIRMWARE_START_ADDRESS, DAViS_FX3.FIRMWARE_MAX_SIZE);
+		// Write FX2 firmware.
+		byteBufferToROM(fw, DAViS_FX2_SBL.FIRMWARE_START_ADDRESS, DAViS_FX2_SBL.FIRMWARE_MAX_SIZE);
 	}
 
 	private void serialNumberToROM(final byte[] sNumArray) throws Exception {
 		// Check size of input array.
-		if (sNumArray.length > DAViS_FX3.SNUM_MAX_SIZE) {
+		if (sNumArray.length > DAViS_FX2_SBL.SNUM_MAX_SIZE) {
 			throw new Exception("Size of serial number character array exceeds maximum!");
 		}
 
-		final ByteBuffer sNum = BufferUtils.allocateByteBuffer(DAViS_FX3.DATA_HEADER_SIZE + DAViS_FX3.SNUM_MAX_SIZE);
+		final ByteBuffer sNum = BufferUtils.allocateByteBuffer(DAViS_FX2_SBL.SNUM_MAX_SIZE);
 		sNum.order(ByteOrder.LITTLE_ENDIAN);
 
 		// Get the bytes from the input array.
-		sNum.position((DAViS_FX3.DATA_HEADER_SIZE + DAViS_FX3.SNUM_MAX_SIZE) - sNumArray.length);
+		sNum.position(DAViS_FX2_SBL.SNUM_MAX_SIZE - sNumArray.length);
 		sNum.put(sNumArray, 0, sNumArray.length);
 
 		// Pad with zeros at the front, if shorter.
-		for (int i = 0; i < (DAViS_FX3.SNUM_MAX_SIZE - sNumArray.length); i++) {
-			sNum.put(DAViS_FX3.DATA_HEADER_SIZE + i, (byte) '0');
+		for (int i = 0; i < (DAViS_FX2_SBL.SNUM_MAX_SIZE - sNumArray.length); i++) {
+			sNum.put(i, (byte) '0');
 		}
-
-		// Write correct header.
-		sNum.put(0, (byte) 'S');
-		sNum.put(1, (byte) 'N');
-		sNum.put(2, (byte) 'U');
-		sNum.put(3, (byte) 'M');
-
-		sNum.putInt(4, 8);
 
 		sNum.position(0); // Reset position to initial value.
 
-		// Write FX3 serial number.
-		byteBufferToROM(sNum, DAViS_FX3.SNUM_START_ADDRESS, DAViS_FX3.DATA_HEADER_SIZE + DAViS_FX3.SNUM_MAX_SIZE);
-	}
-
-	private void logicToROM(final ByteBuffer logic) throws Exception {
-		// Generate preamble and concatenate the bitstream after it.
-		final ByteBuffer data = BufferUtils.allocateByteBuffer(logic.limit() + 8);
-		data.order(ByteOrder.LITTLE_ENDIAN);
-
-		data.put(0, (byte) 'F');
-		data.put(1, (byte) 'P');
-		data.put(2, (byte) 'G');
-		data.put(3, (byte) 'A');
-
-		data.putInt(4, logic.limit());
-
-		data.position(8); // Set position to after preamble.
-		data.put(logic); // Copy bitstream.
-		data.position(0); // Reset position to initial value.
-
-		// Write preamble and FPGA logic bitstream together.
-		byteBufferToROM(data, DAViS_FX3.LOGIC_START_ADDRESS, DAViS_FX3.LOGIC_MAX_SIZE);
+		// Write FX2 serial number.
+		byteBufferToROM(sNum, DAViS_FX2_SBL.SNUM_START_ADDRESS, DAViS_FX2_SBL.SNUM_MAX_SIZE);
 	}
 
 	private void byteBufferToROM(final ByteBuffer data, final int startAddress, final int maxSize) throws Exception {
@@ -447,29 +374,21 @@ public class DAViS_FX3 extends Controller {
 			throw new Exception("Size of data to write exceeds limits!");
 		}
 
-		// A Flash chip on SPI address 0 is our destination.
-		usbDevice.sendVendorRequest(DAViS_FX3.VR_SPI_CONFIG, (short) 0, (short) 0, null);
-
-		// First erase the required blocks on the Flash memory, 64KB at a time.
-		for (int i = startAddress; i < (startAddress + dataLength); i += (64 * 1024)) {
-			usbDevice.sendVendorRequest(DAViS_FX3.VR_SPI_ERASE, (short) ((i >>> 16) & 0xFFFF), (short) (i & 0xFFFF),
-				null);
-		}
-
-		// And then we send out the actual data, in 4 KB chunks.
+		// Send out the actual data to the EEPROM, in 4 KB chunks.
 		int dataOffset = 0;
 
 		while (dataLength > 0) {
-			int localDataLength = DAViS_FX3.MAX_TRANSFER_SIZE;
+			int localDataLength = DAViS_FX2_SBL.MAX_TRANSFER_SIZE;
 			if (localDataLength > dataLength) {
 				localDataLength = dataLength;
 			}
 
 			final ByteBuffer dataChunk = BufferUtils.slice(data, dataOffset, localDataLength);
 
-			usbDevice.sendVendorRequest(DAViS_FX3.VR_SPI_TRANSFER,
-				(short) (((startAddress + dataOffset) >>> 16) & 0xFFFF),
-				(short) ((startAddress + dataOffset) & 0xFFFF), dataChunk);
+			// Just wValue is enough for the address (16 bit), since the EEPROM
+			// is just 32KB at the most.
+			usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_EEPROM, (short) ((startAddress + dataOffset) & 0xFFFF), (short) 0,
+				dataChunk);
 
 			dataLength -= localDataLength;
 			dataOffset += localDataLength;
@@ -477,54 +396,187 @@ public class DAViS_FX3 extends Controller {
 	}
 
 	private void eraseROM() throws Exception {
-		// A Flash chip on SPI address 0 is our destination.
-		usbDevice.sendVendorRequest(DAViS_FX3.VR_SPI_CONFIG, (short) 0, (short) 0, null);
+		// Generate empty ByteBuffer (all zeros) to send to EEPROM.
+		final ByteBuffer eraser = BufferUtils.allocateByteBuffer(DAViS_FX2_SBL.MAX_TRANSFER_SIZE);
+		eraser.put(new byte[DAViS_FX2_SBL.MAX_TRANSFER_SIZE]);
+		eraser.position(0); // Reset position to initial value.
 
-		// First erase the required blocks on the Flash memory, 64KB at a time.
-		for (int i = 0; i < DAViS_FX3.FLASH_MAX_SIZE; i += (64 * 1024)) {
-			usbDevice.sendVendorRequest(DAViS_FX3.VR_SPI_ERASE, (short) ((i >>> 16) & 0xFFFF), (short) (i & 0xFFFF),
-				null);
+		// Send out the actual data to the FX2 EEPROM, in 4 KB chunks.
+		int fwLength = DAViS_FX2_SBL.EEPROM_MAX_SIZE;
+		int fwOffset = 0;
+
+		while (fwLength > 0) {
+			usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_EEPROM, (short) (fwOffset & 0xFFFF), (short) 0, eraser);
+
+			fwLength -= DAViS_FX2_SBL.MAX_TRANSFER_SIZE;
+			fwOffset += DAViS_FX2_SBL.MAX_TRANSFER_SIZE;
 		}
 	}
 
-	private void logicToFPGA(final ByteBuffer logic) throws Exception {
-		// Configure FPGA directly (0xBE vendor request).
+	/* XSVF instruction encoding, from Xilinx */
+	private static final byte XCOMPLETE = (byte) 0;
+	private static final byte XTDOMASK = (byte) 1;
+	private static final byte XSIR = (byte) 2;
+	private static final byte XSDR = (byte) 3;
+	private static final byte XRUNTEST = (byte) 4;
+	/* Reserved 5 - Illegal Command */
+	/* Reserved 6 - Illegal Command */
+	private static final byte XREPEAT = (byte) 7;
+	private static final byte XSDRSIZE = (byte) 8;
+	private static final byte XSDRTDO = (byte) 9;
+	/* Reserved 10 - Illegal Command */
+	/* Reserved 11 - Illegal Command */
+	private static final byte XSDRB = (byte) 12;
+	private static final byte XSDRC = (byte) 13;
+	private static final byte XSDRE = (byte) 14;
+	private static final byte XSDRTDOB = (byte) 15;
+	private static final byte XSDRTDOC = (byte) 16;
+	private static final byte XSDRTDOE = (byte) 17;
+	private static final byte XSTATE = (byte) 18; /* 4.00 */
+	private static final byte XENDIR = (byte) 19; /* 4.04 */
+	private static final byte XENDDR = (byte) 20; /* 4.04 */
+	private static final byte XSIR2 = (byte) 21; /* 4.10 */
+	private static final byte XCOMMENT = (byte) 22; /* 4.14 */
+	private static final byte XWAIT = (byte) 23; /* 5.00 */
+
+	private void logicToCPLD(final ByteBuffer logic) throws Exception {
+		// Configure CPLD directly (0xBE vendor request).
 		// Check data size.
-		int logicLength = logic.limit();
-		if (logicLength > DAViS_FX3.LOGIC_MAX_SIZE) {
-			throw new Exception("Size of data to send exceeds limits!");
-		}
-		if (logicLength < DAViS_FX3.MAX_TRANSFER_SIZE) {
+		final int logicLength = logic.limit();
+		if (logicLength < DAViS_FX2_SBL.MAX_TRANSFER_SIZE) {
 			throw new Exception("Size of data to send too small!");
 		}
 
-		// Initialize FPGA configuration.
-		usbDevice.sendVendorRequest(DAViS_FX3.VR_FPGA_UPLOAD, (short) 0, (short) 0, null);
+		int commandLength = 1, index = 0, length = 0;
 
-		// Then send the first chunk, which also enables writing.
-		int logicOffset = 0;
+		// Get first command.
+		byte command = logic.get(index);
 
-		ByteBuffer logicChunk = BufferUtils.slice(logic, logicOffset, DAViS_FX3.MAX_TRANSFER_SIZE);
+		// Wait until XCOMPLETE.
+		while (command != DAViS_FX2_SBL.XCOMPLETE) {
+			switch (command) {
+				case XTDOMASK:
+					commandLength = length + 1;
+					break;
 
-		usbDevice.sendVendorRequest(DAViS_FX3.VR_FPGA_UPLOAD, (short) 1, (short) 0, logicChunk);
+				case XREPEAT:
+					commandLength = 2;
+					break;
 
-		logicLength -= DAViS_FX3.MAX_TRANSFER_SIZE;
-		logicOffset += DAViS_FX3.MAX_TRANSFER_SIZE;
+				case XRUNTEST:
+					commandLength = 5;
+					break;
 
-		// And then we send out the actual data, in 4 KB chunks.
-		while (logicLength > DAViS_FX3.MAX_TRANSFER_SIZE) {
-			logicChunk = BufferUtils.slice(logic, logicOffset, DAViS_FX3.MAX_TRANSFER_SIZE);
+				case XSIR:
+					commandLength = ((logic.get(index + 1) + 7) / 8) + 2;
+					break;
 
-			usbDevice.sendVendorRequest(DAViS_FX3.VR_FPGA_UPLOAD, (short) 2, (short) 0, logicChunk);
+				case XSIR2:
+					commandLength = ((((logic.get(index + 1) << 8) | logic.get(index + 2)) + 7) / 8) + 3;
+					break;
 
-			logicLength -= DAViS_FX3.MAX_TRANSFER_SIZE;
-			logicOffset += DAViS_FX3.MAX_TRANSFER_SIZE;
+				case XSDR:
+					commandLength = length + 1;
+					break;
+
+				case XSDRSIZE:
+					commandLength = 5;
+
+					length = ((logic.get(index + 1) << 24) | (logic.get(index + 2) << 16) | (logic.get(index + 3) << 8) | ((logic
+						.get(index + 4)) + 7)) / 8;
+					break;
+
+				case XSDRTDO:
+					commandLength = (2 * length) + 1;
+					break;
+
+				case XSDRB:
+					commandLength = length + 1;
+					break;
+
+				case XSDRC:
+					commandLength = length + 1;
+					break;
+
+				case XSDRE:
+					commandLength = length + 1;
+					break;
+
+				case XSDRTDOB:
+					commandLength = (2 * length) + 1;
+					break;
+
+				case XSDRTDOC:
+					commandLength = (2 * length) + 1;
+					break;
+
+				case XSDRTDOE:
+					commandLength = (2 * length) + 1;
+					break;
+
+				case XSTATE:
+					commandLength = 2;
+					break;
+
+				case XENDIR:
+					commandLength = 2;
+					break;
+
+				case XENDDR:
+					commandLength = 2;
+					break;
+
+				case XCOMMENT:
+					commandLength = 2;
+
+					// Found comment, skipping.
+					while (logic.get((index + commandLength) - 1) != 0x00) {
+						commandLength += 1;
+					}
+					break;
+
+				case XWAIT:
+					commandLength = 7;
+					break;
+
+				default:
+					// Unknown XSVF command, stop programming.
+					usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
+					throw new Exception("Unknown XSVF command.");
+			}
+
+			final ByteBuffer logicChunk = BufferUtils.slice(logic, index, commandLength);
+
+			usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, command, (short) 0, logicChunk);
+
+			// Get result.
+			final ByteBuffer result = usbDevice.sendVendorRequestIN(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, 2);
+
+			if ((result.limit() == 0) || (result.get(0) != DAViS_FX2_SBL.VR_CPLD_UPLOAD)) {
+				// Invalid response from device, stop programming.
+				usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
+				throw new Exception("Invalid response from device.");
+			}
+
+			if (result.get(1) == 10) {
+				// Overlong command (error code 10), stop programming.
+				usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
+				throw new Exception("Overlong command.");
+			}
+			else if (result.get(1) > 0) {
+				// XSVF error encountered, stop programming.
+				usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
+				throw new Exception("XSVF error encountered.");
+			}
+
+			index += commandLength;
+
+			// Get next command to execute.
+			command = logic.get(index);
 		}
 
-		// Finally, we send out the last chunk of data and disable writing.
-		logicChunk = BufferUtils.slice(logic, logicOffset, logicLength);
-
-		usbDevice.sendVendorRequest(DAViS_FX3.VR_FPGA_UPLOAD, (short) 3, (short) 0, logicChunk);
+		// Done, send XCOMPLETE.
+		usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, DAViS_FX2_SBL.XCOMPLETE, (short) 0, null);
 	}
 
 	private int expData = 0;
@@ -535,52 +587,12 @@ public class DAViS_FX3 extends Controller {
 	private VBox usbEPListenGUI() {
 		final VBox usbEPListenGUI = new VBox(10);
 
-		GUISupport.addLabel(usbEPListenGUI, "USB endpoint 1 stream", "USB endpoint 1 data.", null, null);
+		GUISupport.addLabel(usbEPListenGUI, "USB endpoint 6 stream", "USB endpoint 6 data.", null, null);
 
-		final TextArea usbEP1OutputArea = new TextArea();
-		usbEPListenGUI.getChildren().add(usbEP1OutputArea);
+		final TextArea usbEP6OutputArea = new TextArea();
+		usbEPListenGUI.getChildren().add(usbEP6OutputArea);
 
-		usbDevice.listenToEP((byte) 0x81, LibUsb.TRANSFER_TYPE_INTERRUPT, 4, 64, new RestrictedTransferCallback() {
-			@Override
-			public void processTransfer(final RestrictedTransfer t) {
-				if (t.status() == LibUsb.TRANSFER_COMPLETED) {
-					// Print error messages.
-					if ((t.buffer().get(0) == 0x00) && (t.buffer().limit() <= 64)) {
-						final int errorCode = t.buffer().get(1) & 0xFF;
-
-						final int timeStamp = t.buffer().getInt(2);
-
-						final byte[] errorMsgBytes = new byte[t.buffer().limit() - 6];
-						t.buffer().position(6);
-						t.buffer().get(errorMsgBytes, 0, errorMsgBytes.length);
-						t.buffer().position(0);
-						final String errorMsg = new String(errorMsgBytes, StandardCharsets.UTF_8);
-
-						final String output = String.format("%s - Error: 0x%02X, Time: %d\n", errorMsg, errorCode,
-							timeStamp);
-
-						if (printOutput) {
-							System.out.println(output);
-						}
-						else {
-							GUISupport.runOnJavaFXThread(() -> usbEP1OutputArea.appendText(output));
-						}
-					}
-				}
-			}
-
-			@Override
-			public void prepareTransfer(@SuppressWarnings("unused") final RestrictedTransfer t) {
-				// Nothing to do here.
-			}
-		});
-
-		GUISupport.addLabel(usbEPListenGUI, "USB endpoint 2 stream", "USB endpoint 2 data.", null, null);
-
-		final TextArea usbEP2OutputArea = new TextArea();
-		usbEPListenGUI.getChildren().add(usbEP2OutputArea);
-
-		usbDevice.listenToEP((byte) 0x82, LibUsb.TRANSFER_TYPE_BULK, 8, 8192, new RestrictedTransferCallback() {
+		usbDevice.listenToEP((byte) 0x86, LibUsb.TRANSFER_TYPE_BULK, 8, 4096, new RestrictedTransferCallback() {
 			@Override
 			public void processTransfer(final RestrictedTransfer t) {
 				if (t.buffer().limit() == 0) {
@@ -595,7 +607,7 @@ public class DAViS_FX3 extends Controller {
 					dataCount++;
 
 					if ((dataCount & 0x0FFF) == 0) {
-						GUISupport.runOnJavaFXThread(() -> usbEP2OutputArea.appendText(String.format(
+						GUISupport.runOnJavaFXThread(() -> usbEP6OutputArea.appendText(String.format(
 							"%d: Got 4096 data buffers.\n", dataCount >>> 12)));
 					}
 
@@ -633,7 +645,7 @@ public class DAViS_FX3 extends Controller {
 								System.out.println(output);
 							}
 							else {
-								GUISupport.runOnJavaFXThread(() -> usbEP2OutputArea.appendText(output));
+								GUISupport.runOnJavaFXThread(() -> usbEP6OutputArea.appendText(output));
 							}
 
 							expData = usbData;
