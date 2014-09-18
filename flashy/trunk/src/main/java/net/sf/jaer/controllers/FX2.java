@@ -42,13 +42,13 @@ public class FX2 extends Controller {
 		final HBox firmwareToFlashBox = new HBox(10);
 		firmwareFlashGUI.getChildren().add(firmwareToFlashBox);
 
-		GUISupport.addLabel(firmwareToFlashBox, "Select FX2 RAM firmware file",
+		GUISupport.addLabel(firmwareToFlashBox, "Select FX2 firmware file",
 			"Select a FX2 firmware file to upload to the device's RAM.", null, null);
 
 		final Preferences defaultFolderNode = Preferences.userRoot().node("/defaultFolders");
 
 		// Load default path, if exists.
-		String savedPath = defaultFolderNode.get("fx2RAMFirmware", "");
+		final String savedPath = defaultFolderNode.get("fx2RAMFirmware", "");
 		if (!savedPath.isEmpty()) {
 			final File savedFile = new File(savedPath);
 			if (savedFile.exists() && Files.checkReadPermissions(savedFile)) {
@@ -132,12 +132,12 @@ public class FX2 extends Controller {
 	private static final byte VR_FIRMWARE = (byte) 0xA0;
 	private static final short CPUCS_ADDR = (short) 0xE600;
 	private static final int MAX_TRANSFER_SIZE = 4096;
-	private static final int MAX_FIRMWARE_SIZE = 16 * 1024;
+	private static final int IMAGE_MAX_SIZE = 16 * 1024;
 
 	private void firmwareToRAM(final ByteBuffer fw) throws Exception {
 		// Check data size.
 		int fwLength = fw.limit();
-		if (fwLength > FX2.MAX_FIRMWARE_SIZE) {
+		if (fwLength > FX2.IMAGE_MAX_SIZE) {
 			throw new Exception("Size of firmware to write to RAM exceeds limits!");
 		}
 

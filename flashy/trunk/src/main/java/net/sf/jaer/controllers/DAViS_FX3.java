@@ -48,6 +48,7 @@ public class DAViS_FX3 extends Controller {
 
 	private File firmwareFile;
 	private File logicFile;
+	private String serialNumber;
 
 	@Override
 	public VBox generateGUI() {
@@ -57,7 +58,7 @@ public class DAViS_FX3 extends Controller {
 		fx3GUI.getChildren().add(firmwareToFlashBox);
 
 		GUISupport.addLabel(firmwareToFlashBox, "Select FX3 firmware file",
-			"Select a FX3 firmware file to upload to the device.", null, null);
+			"Select a FX3 firmware file to upload to the device's Flash memory.", null, null);
 
 		final Preferences defaultFolderNode = Preferences.userRoot().node("/defaultFolders");
 
@@ -258,8 +259,8 @@ public class DAViS_FX3 extends Controller {
 
 								updateProgress(10, 100);
 
-								// Load file to RAM.
-								logicToRAM(buf);
+								// Load file to FPGA.
+								logicToFPGA(buf);
 
 								updateProgress(95, 100);
 
@@ -280,19 +281,92 @@ public class DAViS_FX3 extends Controller {
 				}
 			});
 
+		final HBox serialNumberBox = new HBox(10);
+		fx3GUI.getChildren().add(serialNumberBox);
+
+		GUISupport.addLabel(serialNumberBox, "Serial Number", "Input a serial number to be written to the device.",
+			null, null);
+
+		// Load default serial number, if exists.
+		final String savedSerialNumber = defaultFolderNode.get("fx3SNum", "");
+		if (!savedSerialNumber.isEmpty()) {
+			serialNumber = savedSerialNumber;
+		}
+
+		final TextField serialNumberField = GUISupport.addTextField(serialNumberBox,
+			defaultFolderNode.get("fx3SNum", ""), null);
+
+		serialNumberField.textProperty().addListener(new ChangeListener<String>() {
+			@SuppressWarnings("unused")
+			@Override
+			public void changed(final ObservableValue<? extends String> val, final String oldVal, final String newVal) {
+				if (newVal == null) {
+					return;
+				}
+
+				// Check that the typed in file is valid, if not, color the
+				// field background red.
+				if (newVal.length() > DAViS_FX3.SNUM_MAX_SIZE) {
+					logicField.setStyle("-fx-background-color: #FF5757");
+					return;
+				}
+
+				logicField.setStyle("");
+				serialNumber = newVal;
+				defaultFolderNode.put("fx3SNum", newVal);
+			}
+		});
+
+		GUISupport.addButtonWithMouseClickedHandler(serialNumberBox, "Write Serial Number", true, null,
+			new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
+					if ((serialNumber == null) || serialNumber.isEmpty()) {
+						GUISupport.showDialogError("No serial number entered!");
+						return;
+					}
+
+					if (serialNumber.length() > DAViS_FX3.SNUM_MAX_SIZE) {
+						GUISupport.showDialogError("Serial number too long!");
+						return;
+					}
+
+					try {
+						serialNumberToROM(serialNumber.getBytes());
+					}
+					catch (final Exception e) {
+						GUISupport.showDialogException(e);
+						return;
+					}
+				}
+			});
+
 		fx3GUI.getChildren().add(usbEPListenGUI());
 
 		return (fx3GUI);
 	}
 
-	private static final int MAX_TRANSFER_SIZE = 4096;
-	private static final int FIRMWARE_START_ADDRESS = 0x000000;
-	private static final int FIRMWARE_MAX_SIZE = 0x030000;
-	private static final int LOGIC_START_ADDRESS = 0x030000;
-	private static final int LOGIC_MAX_SIZE = 0x090000;
+	private static final byte VR_SPI_CONFIG = (byte) 0xB9;
+	private static final byte VR_SPI_TRANSFER = (byte) 0xBB;
+	private static final byte VR_SPI_ERASE = (byte) 0xBC;
+	private static final byte VR_FPGA_UPLOAD = (byte) 0xBE;
 
-	// private static final int DATA_START_ADDRESS = 0x0C0000;
-	// private static final int DATA_MAX_SIZE = 0x040000;
+	private static final int MAX_TRANSFER_SIZE = 4096;
+
+	private static final int FLASH_MAX_SIZE = 1024 * 1024;
+
+	private static final int FIRMWARE_START_ADDRESS = 0;
+	private static final int FIRMWARE_MAX_SIZE = 192 * 1024;
+
+	private static final int LOGIC_START_ADDRESS = DAViS_FX3.FIRMWARE_MAX_SIZE;
+	private static final int LOGIC_MAX_SIZE = 576 * 1024;
+
+	private static final int DATA_START_ADDRESS = DAViS_FX3.FIRMWARE_MAX_SIZE + DAViS_FX3.LOGIC_MAX_SIZE;
+	// private static final int DATA_MAX_SIZE = 256 * 1024;
+	private static final int DATA_HEADER_SIZE = 8;
+
+	private static final int SNUM_START_ADDRESS = DAViS_FX3.DATA_START_ADDRESS;
+	private static final int SNUM_MAX_SIZE = 8;
 
 	private void firmwareToROM(final ByteBuffer fw) throws Exception {
 		// Check signature.
@@ -312,6 +386,38 @@ public class DAViS_FX3 extends Controller {
 
 		// Write FX3 firmware.
 		byteBufferToROM(data, DAViS_FX3.FIRMWARE_START_ADDRESS, DAViS_FX3.FIRMWARE_MAX_SIZE);
+	}
+
+	private void serialNumberToROM(final byte[] sNumArray) throws Exception {
+		// Check size of input array.
+		if (sNumArray.length > DAViS_FX3.SNUM_MAX_SIZE) {
+			throw new Exception("Size of serial number character array exceeds maximum!");
+		}
+
+		final ByteBuffer sNum = BufferUtils.allocateByteBuffer(DAViS_FX3.DATA_HEADER_SIZE + DAViS_FX3.SNUM_MAX_SIZE);
+		sNum.order(ByteOrder.LITTLE_ENDIAN);
+
+		// Get the bytes from the input array.
+		sNum.position((DAViS_FX3.DATA_HEADER_SIZE + DAViS_FX3.SNUM_MAX_SIZE) - sNumArray.length);
+		sNum.put(sNumArray, 0, sNumArray.length);
+
+		// Pad with zeros at the front, if shorter.
+		for (int i = 0; i < (DAViS_FX3.SNUM_MAX_SIZE - sNumArray.length); i++) {
+			sNum.put(DAViS_FX3.DATA_HEADER_SIZE + i, (byte) '0');
+		}
+
+		// Write correct header.
+		sNum.put(0, (byte) 'S');
+		sNum.put(1, (byte) 'N');
+		sNum.put(2, (byte) 'U');
+		sNum.put(3, (byte) 'M');
+
+		sNum.putInt(4, 8);
+
+		sNum.position(0); // Reset position to initial value.
+
+		// Write FX3 serial number.
+		byteBufferToROM(sNum, DAViS_FX3.SNUM_START_ADDRESS, DAViS_FX3.DATA_HEADER_SIZE + DAViS_FX3.SNUM_MAX_SIZE);
 	}
 
 	private void logicToROM(final ByteBuffer logic) throws Exception {
@@ -342,11 +448,12 @@ public class DAViS_FX3 extends Controller {
 		}
 
 		// A Flash chip on SPI address 0 is our destination.
-		usbDevice.sendVendorRequest((byte) 0xB9, (short) 0, (short) 0, null);
+		usbDevice.sendVendorRequest(DAViS_FX3.VR_SPI_CONFIG, (short) 0, (short) 0, null);
 
-		// First erase the required blocks on the Flash memory.
-		for (int i = startAddress; i < (startAddress + dataLength); i += 65536) {
-			usbDevice.sendVendorRequest((byte) 0xBC, (short) ((i >>> 16) & 0xFFFF), (short) (i & 0xFFFF), null);
+		// First erase the required blocks on the Flash memory, 64KB at a time.
+		for (int i = startAddress; i < (startAddress + dataLength); i += (64 * 1024)) {
+			usbDevice.sendVendorRequest(DAViS_FX3.VR_SPI_ERASE, (short) ((i >>> 16) & 0xFFFF), (short) (i & 0xFFFF),
+				null);
 		}
 
 		// And then we send out the actual data, in 4 KB chunks.
@@ -360,7 +467,8 @@ public class DAViS_FX3 extends Controller {
 
 			final ByteBuffer dataChunk = BufferUtils.slice(data, dataOffset, localDataLength);
 
-			usbDevice.sendVendorRequest((byte) 0xBB, (short) (((startAddress + dataOffset) >>> 16) & 0xFFFF),
+			usbDevice.sendVendorRequest(DAViS_FX3.VR_SPI_TRANSFER,
+				(short) (((startAddress + dataOffset) >>> 16) & 0xFFFF),
 				(short) ((startAddress + dataOffset) & 0xFFFF), dataChunk);
 
 			dataLength -= localDataLength;
@@ -368,7 +476,18 @@ public class DAViS_FX3 extends Controller {
 		}
 	}
 
-	private void logicToRAM(final ByteBuffer logic) throws Exception {
+	private void eraseROM() throws Exception {
+		// A Flash chip on SPI address 0 is our destination.
+		usbDevice.sendVendorRequest(DAViS_FX3.VR_SPI_CONFIG, (short) 0, (short) 0, null);
+
+		// First erase the required blocks on the Flash memory, 64KB at a time.
+		for (int i = 0; i < DAViS_FX3.FLASH_MAX_SIZE; i += (64 * 1024)) {
+			usbDevice.sendVendorRequest(DAViS_FX3.VR_SPI_ERASE, (short) ((i >>> 16) & 0xFFFF), (short) (i & 0xFFFF),
+				null);
+		}
+	}
+
+	private void logicToFPGA(final ByteBuffer logic) throws Exception {
 		// Configure FPGA directly (0xBE vendor request).
 		// Check data size.
 		int logicLength = logic.limit();
@@ -380,14 +499,14 @@ public class DAViS_FX3 extends Controller {
 		}
 
 		// Initialize FPGA configuration.
-		usbDevice.sendVendorRequest((byte) 0xBE, (short) 0, (short) 0, null);
+		usbDevice.sendVendorRequest(DAViS_FX3.VR_FPGA_UPLOAD, (short) 0, (short) 0, null);
 
 		// Then send the first chunk, which also enables writing.
 		int logicOffset = 0;
 
 		ByteBuffer logicChunk = BufferUtils.slice(logic, logicOffset, DAViS_FX3.MAX_TRANSFER_SIZE);
 
-		usbDevice.sendVendorRequest((byte) 0xBE, (short) 1, (short) 0, logicChunk);
+		usbDevice.sendVendorRequest(DAViS_FX3.VR_FPGA_UPLOAD, (short) 1, (short) 0, logicChunk);
 
 		logicLength -= DAViS_FX3.MAX_TRANSFER_SIZE;
 		logicOffset += DAViS_FX3.MAX_TRANSFER_SIZE;
@@ -396,7 +515,7 @@ public class DAViS_FX3 extends Controller {
 		while (logicLength > DAViS_FX3.MAX_TRANSFER_SIZE) {
 			logicChunk = BufferUtils.slice(logic, logicOffset, DAViS_FX3.MAX_TRANSFER_SIZE);
 
-			usbDevice.sendVendorRequest((byte) 0xBE, (short) 2, (short) 0, logicChunk);
+			usbDevice.sendVendorRequest(DAViS_FX3.VR_FPGA_UPLOAD, (short) 2, (short) 0, logicChunk);
 
 			logicLength -= DAViS_FX3.MAX_TRANSFER_SIZE;
 			logicOffset += DAViS_FX3.MAX_TRANSFER_SIZE;
@@ -405,23 +524,12 @@ public class DAViS_FX3 extends Controller {
 		// Finally, we send out the last chunk of data and disable writing.
 		logicChunk = BufferUtils.slice(logic, logicOffset, logicLength);
 
-		usbDevice.sendVendorRequest((byte) 0xBE, (short) 3, (short) 0, logicChunk);
-	}
-
-	private void eraseROM() throws Exception {
-		// A Flash chip on SPI address 0 is our destination.
-		usbDevice.sendVendorRequest((byte) 0xB9, (short) 0, (short) 0, null);
-
-		// First erase the required blocks on the Flash memory.
-		for (int i = 0; i < 0x100000; i += 65536) {
-			usbDevice.sendVendorRequest((byte) 0xBC, (short) ((i >>> 16) & 0xFFFF), (short) (i & 0xFFFF), null);
-		}
+		usbDevice.sendVendorRequest(DAViS_FX3.VR_FPGA_UPLOAD, (short) 3, (short) 0, logicChunk);
 	}
 
 	private int expData = 0;
 	private final boolean fullDebug = false;
 	private final boolean printOutput = true;
-	private long imuCount = 0;
 	private long dataCount = 0;
 
 	private VBox usbEPListenGUI() {
@@ -456,15 +564,6 @@ public class DAViS_FX3 extends Controller {
 						}
 						else {
 							GUISupport.runOnJavaFXThread(() -> usbEP1OutputArea.appendText(output));
-						}
-					}
-					else if ((t.buffer().get(0) == 0x01) && (t.buffer().limit() == 15)) {
-						// This is an IMU sample. Just count it.
-						imuCount++;
-
-						if ((imuCount & 0x03FF) == 0) {
-							GUISupport.runOnJavaFXThread(() -> usbEP1OutputArea.appendText(String.format(
-								"%d: Got 1024 IMU events.\n", imuCount >>> 10)));
 						}
 					}
 				}

@@ -47,6 +47,7 @@ public class DVS128 extends Controller {
 		// Generate empty ByteBuffer (all zeros) to send to EEPROM.
 		final ByteBuffer eraser = BufferUtils.allocateByteBuffer(DVS128.MAX_TRANSFER_SIZE);
 		eraser.put(new byte[DVS128.MAX_TRANSFER_SIZE]);
+		eraser.position(0); // Reset position to initial value.
 
 		// Send out the actual data to the FX2 EEPROM, in 4 KB chunks.
 		int fwLength = DVS128.MAX_EEPROM_SIZE;
