@@ -42,7 +42,7 @@ Options 1,0,0  // Target 'Target 1'
  OrgReg (ÿCypress\)
  TgStat=0
  OutDir (.\)
- OutName (SeeBetterFX2)
+ OutName (SeeBetterLogic_DVS128)
  GenApp=1
  GenLib=0
  GenHex=1

@@ -47,7 +47,7 @@ DeviceDscr:
       db   00H        ;; Device sub-sub-class
       db   64         ;; Maximum packet size
       dw   2a15H      ;; 0x152a VID from Thesycon
-      dw   1b84H      ;; 0x841b PID from Thesycon jAER range
+      dw   1c84H      ;; 0x841c PID from Thesycon jAER range
       dw   0000H      ;; Product version ID, FW ver 0, Device type 0
       db   1          ;; Manufacturer string index
       db   2          ;; Product string index

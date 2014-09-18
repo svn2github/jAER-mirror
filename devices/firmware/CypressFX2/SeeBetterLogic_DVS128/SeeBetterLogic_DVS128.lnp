@@ -6,7 +6,7 @@
 "ports.obj",
 "micro.obj",
 "lenval.obj" 
-TO "SeeBetterFX2" 
+TO "SeeBetterLogic_DVS128" 
 RAMSIZE(256) 
 CODE( 0X0200-0X31FF )
 XDATA( 0X3200-0X49FF )
