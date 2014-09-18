@@ -149,10 +149,11 @@ StringDscr2:
       db   StringDscr2End-StringDscr2 ;; String descriptor length
       db   DSCR_STRING
       db   'D',00
-      db   'A',00
       db   'V',00
-      db   'i',00
       db   'S',00
+      db   '1',00
+      db   '2',00
+      db   '8',00
       db   ' ',00
       db   'F',00
       db   'X',00

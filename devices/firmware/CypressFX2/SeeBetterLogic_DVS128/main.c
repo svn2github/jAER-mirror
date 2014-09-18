@@ -52,12 +52,12 @@ extern BOOL GotSUD;
 // XSVF support.
 #define XSVF_DATA_SIZE 1024
 
-BOOL doJTAGInit = TRUE;
-BYTE xsvfReturn = 0;
-unsigned char xdata xsvfDataArray[XSVF_DATA_SIZE];
+static BOOL doJTAGInit = TRUE;
+static BYTE xsvfReturn = 0;
+static unsigned char xdata xsvfDataArray[XSVF_DATA_SIZE];
 
 // Support arbitrary waits.
-BYTE waitCounter = 0;
+static BYTE waitCounter = 0;
 #define WAIT_FOR(CYCLES) for (waitCounter = 0; waitCounter < CYCLES; waitCounter++) { _nop_(); }
 
 // Private functions.
@@ -154,7 +154,7 @@ void TD_Init(void) // Called once at startup
 	EIE = 0xE3; // 1110_0011
 
 	EZUSB_InitI2C(); // initialize I2C to enable EEPROM read and write
-	I2CTL = 0x01;  // set I2C to 400kHz to speed up data transfers
+	//I2CTL = 0x01;  // set I2C to 400kHz to speed up data transfers
 
 	// Reset CPLD by pulsing reset line
 	CPLD_RESET = 1;
