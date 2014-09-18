@@ -247,15 +247,21 @@ static void EEPROMWrite(WORD address, BYTE length, BYTE xdata *buf)
 	BYTE i;
 	BYTE xdata ee_str[3];
 
+	setPE(FXLED, 0);
+
 	for (i = 0; i < length; i++) {
 		ee_str[0] = MSB(address);
 		ee_str[1] = LSB(address);
 		ee_str[2] = buf[i];
 
+		setPE(FXLED, 1);
+
 		EZUSB_WriteI2C(I2C_EEPROM_ADDRESS, 3, ee_str);
 		EZUSB_WaitForEEPROMWrite(I2C_EEPROM_ADDRESS);
 
 		address++;
+
+		setPE(FXLED, 0);
 	}
 }
 
@@ -264,18 +270,28 @@ static void EEPROMRead(WORD address, BYTE length, BYTE xdata *buf)
 	BYTE i;
 	BYTE xdata ee_str[2];
 
+	setPE(FXLED, 0);
+
 	ee_str[0] = MSB(address);
 	ee_str[1] = LSB(address);
 
+	setPE(FXLED, 1);
+
 	EZUSB_WriteI2C(I2C_EEPROM_ADDRESS, 2, ee_str);
 	EZUSB_WaitForEEPROMWrite(I2C_EEPROM_ADDRESS);
+
+	setPE(FXLED, 0);
 
 	// Set read buffer to known value.
 	for (i = 0; i < length; i++) {
 		buf[i] = 0xCD;
 	}
 
+	setPE(FXLED, 1);
+
 	EZUSB_ReadI2C(I2C_EEPROM_ADDRESS, length, buf);
+
+	setPE(FXLED, 0);
 }
 
 // Get serial number from EEPROM.
