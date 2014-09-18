@@ -51,10 +51,10 @@ public class DAViS_FX2 extends Controller {
 
 	@Override
 	public VBox generateGUI() {
-		final VBox fx3GUI = new VBox(10);
+		final VBox fx2GUI = new VBox(10);
 
 		final HBox firmwareToFlashBox = new HBox(10);
-		fx3GUI.getChildren().add(firmwareToFlashBox);
+		fx2GUI.getChildren().add(firmwareToFlashBox);
 
 		GUISupport.addLabel(firmwareToFlashBox, "Select FX2 firmware file",
 			"Select a FX2 firmware file to upload to the device.", null, null);
@@ -62,7 +62,7 @@ public class DAViS_FX2 extends Controller {
 		final Preferences defaultFolderNode = Preferences.userRoot().node("/defaultFolders");
 
 		// Load default path, if exists.
-		String savedPath = defaultFolderNode.get("fx3Firmware", "");
+		String savedPath = defaultFolderNode.get("fx2Firmware", "");
 		if (!savedPath.isEmpty()) {
 			final File savedFile = new File(savedPath);
 			if (savedFile.exists() && Files.checkReadPermissions(savedFile)) {
@@ -71,7 +71,7 @@ public class DAViS_FX2 extends Controller {
 		}
 
 		final TextField firmwareField = GUISupport.addTextField(firmwareToFlashBox,
-			defaultFolderNode.get("fx3Firmware", ""), null);
+			defaultFolderNode.get("fx2Firmware", ""), null);
 
 		firmwareField.textProperty().addListener(new ChangeListener<String>() {
 			@SuppressWarnings("unused")
@@ -93,7 +93,7 @@ public class DAViS_FX2 extends Controller {
 
 				firmwareField.setStyle("");
 				firmwareFile = loadFirmware;
-				defaultFolderNode.put("fx3Firmware", loadFirmware.getAbsolutePath());
+				defaultFolderNode.put("fx2Firmware", loadFirmware.getAbsolutePath());
 			}
 		});
 
@@ -102,7 +102,7 @@ public class DAViS_FX2 extends Controller {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
 					final File loadFirmware = GUISupport.showDialogLoadFile("FX2 Image",
-						DAViS_FX2.firmwareValidExtensions, defaultFolderNode.get("fx3Firmware", ""));
+						DAViS_FX2.firmwareValidExtensions, defaultFolderNode.get("fx2Firmware", ""));
 
 					if (loadFirmware == null) {
 						return;
@@ -110,7 +110,7 @@ public class DAViS_FX2 extends Controller {
 
 					firmwareField.setText(loadFirmware.getAbsolutePath());
 					firmwareFile = loadFirmware;
-					defaultFolderNode.put("fx3Firmware", loadFirmware.getAbsolutePath());
+					defaultFolderNode.put("fx2Firmware", loadFirmware.getAbsolutePath());
 				}
 			});
 
@@ -155,13 +155,13 @@ public class DAViS_FX2 extends Controller {
 			});
 
 		final HBox logicToFlashBox = new HBox(10);
-		fx3GUI.getChildren().add(logicToFlashBox);
+		fx2GUI.getChildren().add(logicToFlashBox);
 
 		GUISupport.addLabel(logicToFlashBox, "Select FPGA logic file",
 			"Select a FPGA logic file to upload to the device.", null, null);
 
 		// Load default path, if exists.
-		savedPath = defaultFolderNode.get("fx3Logic", "");
+		savedPath = defaultFolderNode.get("fx2Logic", "");
 		if (!savedPath.isEmpty()) {
 			final File savedFile = new File(savedPath);
 			if (savedFile.exists() && Files.checkReadPermissions(savedFile)) {
@@ -169,7 +169,7 @@ public class DAViS_FX2 extends Controller {
 			}
 		}
 
-		final TextField logicField = GUISupport.addTextField(logicToFlashBox, defaultFolderNode.get("fx3Logic", ""),
+		final TextField logicField = GUISupport.addTextField(logicToFlashBox, defaultFolderNode.get("fx2Logic", ""),
 			null);
 
 		logicField.textProperty().addListener(new ChangeListener<String>() {
@@ -192,7 +192,7 @@ public class DAViS_FX2 extends Controller {
 
 				logicField.setStyle("");
 				logicFile = loadLogic;
-				defaultFolderNode.put("fx3Logic", loadLogic.getAbsolutePath());
+				defaultFolderNode.put("fx2Logic", loadLogic.getAbsolutePath());
 			}
 		});
 
@@ -201,7 +201,7 @@ public class DAViS_FX2 extends Controller {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
 					final File loadLogic = GUISupport.showDialogLoadFile("Bitstream", DAViS_FX2.logicValidExtensions,
-						defaultFolderNode.get("fx3Logic", ""));
+						defaultFolderNode.get("fx2Logic", ""));
 
 					if (loadLogic == null) {
 						return;
@@ -209,7 +209,7 @@ public class DAViS_FX2 extends Controller {
 
 					logicField.setText(loadLogic.getAbsolutePath());
 					logicFile = loadLogic;
-					defaultFolderNode.put("fx3Logic", loadLogic.getAbsolutePath());
+					defaultFolderNode.put("fx2Logic", loadLogic.getAbsolutePath());
 				}
 			});
 
@@ -280,9 +280,9 @@ public class DAViS_FX2 extends Controller {
 				}
 			});
 
-		fx3GUI.getChildren().add(usbEPListenGUI());
+		fx2GUI.getChildren().add(usbEPListenGUI());
 
-		return (fx3GUI);
+		return (fx2GUI);
 	}
 
 	private static final int MAX_TRANSFER_SIZE = 4096;
