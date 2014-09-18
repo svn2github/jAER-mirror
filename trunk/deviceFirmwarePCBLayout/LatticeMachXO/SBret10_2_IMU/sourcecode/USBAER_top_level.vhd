@@ -175,6 +175,7 @@ architecture Structural of USBAER_top_level is
 			TriggerxSO            	: out std_logic;
 			HostResetTimestampxSI 	: in  std_logic;
 			ResetTimestampxSBO    	: out std_logic;
+			Alex: out std_logic_vector (2 downto 0);
 			IncrementCounterxSO   	: out std_logic);
 	end component;                                                     
 
@@ -206,6 +207,7 @@ architecture Structural of USBAER_top_level is
 			TriggerxSI : in std_logic;
 			AddressMSBxDO : out std_logic_vector(1 downto 0);
 			ResetTimestampxSBI : in std_logic;
+		Alex : out std_logic_vector (2 downto 0);
 			DebugLEDxEO	: out std_logic); --H
 	end component;
 
@@ -481,6 +483,7 @@ architecture Structural of USBAER_top_level is
 
 	--H 
 	signal DebugLEDxE : std_logic;
+	signal	Alex, Alex2 : std_logic_vector (2 downto 0); --Alex: for debuggin states machines.
 	--H
 begin
 	IfClockxC <= IfClockxCI;
@@ -627,6 +630,7 @@ begin
 			TriggerxSO            => TriggerxS,
 			HostResetTimestampxSI => HostResetTimestampxS,
 			ResetTimestampxSBO    => SynchronizerResetTimestampxSB,
+			Alex => Alex2,
 			IncrementCounterxSO   => IncxS);
 
 	TimestampMasterxS <= PA1xSIO;
@@ -678,6 +682,7 @@ begin
 			TriggerxSI 			 	  => TriggerxS,
 			AddressMSBxDO             => AddressMSBxD,
 			ResetTimestampxSBI        => SynchronizerResetTimestampxSB,
+			Alex => Alex,
 			DebugLEDxEO				  => open); --H
   
 	ADCStateMachine_1: ADCStateMachine
@@ -799,10 +804,10 @@ begin
 			IMURegOutxD 						when selectIMU, --H Writes IMU measurements
 			(others => '0') 					when others; --H
 	
-	--LED1xSO <= IMUDataReadyReqxE; --H 
-	LED1xSO <= IMUDataDropxE; --H 
-	LED2xSO <= IMUSCLxCIO; --H
-	LED3xSO <= IMUSDAxSIO; --H
+	LED1xSO <= Alex2(0); --H 
+	--LED1xSO <= IMUDataDropxE; --H 
+	LED2xSO <= Alex2(1); --'1' when (DatatypeSelectxS = selecttimestamp) else '0';--IMUSCLxCIO; --H
+	LED3xSO <= Alex2(2); --'1' when (DatatypeSelectxS = selecttrigger) else '0';--IMUSDAxSIO; --H
 	--LED3xSO <= ExtTriggerxE;
 
 

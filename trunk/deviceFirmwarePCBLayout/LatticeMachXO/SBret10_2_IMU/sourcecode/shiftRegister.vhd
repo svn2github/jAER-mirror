@@ -43,18 +43,20 @@ architecture Behavioral of shiftRegister is
 
   -- present and next state
   signal StatexD : std_logic_vector((width-1) downto 0);
+  -- Alex: LatchxEI should not be used as a clock signal.
+  signal dLatchxEI: std_logic;
 
 
 begin
 
-  p_latch: process (LatchxEI, ResetxRBI)
-  begin  -- process p_latch\
-    if ResetxRBI = '0' then
-      DataOutxDO <= (others => '0');
-    elsif LatchxEI'event and LatchxEI='0' then
-      DataOutxDO <= StatexD;
-    end if;
-  end process p_latch;
+  --p_latch: process (LatchxEI, ResetxRBI)
+  --begin  -- process p_latch\
+    --if ResetxRBI = '0' then
+      --DataOutxDO <= (others => '0');
+    --elsif LatchxEI'event and LatchxEI='0' then
+      --DataOutxDO <= StatexD;
+    --end if;
+  --end process p_latch;
   
  
   QxDO <= StatexD(width -1);
@@ -64,7 +66,15 @@ begin
   begin  -- process p_memorizing
     if ResetxRBI = '0' then
       StatexD <= (others => '0');
+	  dLatchxEI <= '1';
+	  DataOutxDO <= (others => '0'); -- Added by Alex.
     elsif ClockxCI'event and ClockxCI = '1' then
+	  -- Added by Alex
+	  dLatchxEI <= LatchxEI;
+	  if (LatchxEI='0' and dLatchxEI='1') then
+	     DataOutxDO <= StatexD;
+	  end if;
+	  -- End Alex addition.
       StatexD((width-1) downto 1) <= StatexD((width-2) downto 0);
       StatexD(0) <= DxDI;
     end if;

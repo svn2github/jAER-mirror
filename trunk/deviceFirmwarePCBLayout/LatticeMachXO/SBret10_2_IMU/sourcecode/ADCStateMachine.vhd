@@ -84,7 +84,7 @@ architecture Behavioral of ADCStateMachine is
 
   signal   CountRowxDN, CountRowxDP           : std_logic_vector(7 downto 0);
   signal   CountColxDN, CountColxDP           : std_logic_vector(17 downto 0);
-  signal   NoBxS, DoReadxS, ReadDonexS 		  : std_logic;
+  signal   NoBxS, DoReadxS, ReadDonexS 		  : std_logic;  --Alex: NoBxS has a warning in synthesis due to not initial value. Also this signal is writen and read in the same combinational process. This must be fixed although seems not to bother for the moment.
   signal   ReadCyclexS						  : std_logic_vector(1 downto 0); -- "00" A, "01" B, "10" C
   signal   ColModexD                          : std_logic_vector(1 downto 0);  -- "00" Null, "01" Sel A, "10" Sel B, "11" Res A             
 
@@ -255,6 +255,7 @@ begin
     -- default assignements: stay in present state
 
     StateRowxDN          <= StateRowxDP;
+	StartRowxSN			 <= StartRowxSP; -- Added by Alex. Initial value is needed to avoid latches for combinational loops generation during synthesis.
     DividerRowxDN        <= DividerRowxDP;
     CDVSTestSRRowClockxS <= '0';
     CDVSTestSRRowInxS    <= '0';

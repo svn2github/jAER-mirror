@@ -59,6 +59,7 @@ entity synchronizerStateMachine is
 
     -- reset timestamp counter
     ResetTimestampxSBO : out std_logic;
+	Alex : out std_logic_vector (2 downto 0);
 
     -- increment timestamp counter
     IncrementCounterxSO : out std_logic);
@@ -99,12 +100,13 @@ begin  -- Behavioral
 
     TriggerxSO <= '0';
  
-
+	Alex <= "111";
     SyncOutCLKxCBO <= '1';
       
     case StatexDP is
       when stIdle               =>  -- waiting for either sync in to go
                                           -- high or run to go high
+		Alex <= "000";
         ResetTimestampxSBO <= '1';
         DividerxDN         <= (others => '0');
         CounterxDN <= (others => '0');
@@ -120,6 +122,7 @@ begin  -- Behavioral
           ResetTimestampxSBO <= '0';
         end if;
      when stResetSlaves              =>  -- reset  slaves by generating 200us clock on output, which slaves should detect
+		Alex <= "001";
         DividerxDN         <= (others => '0');
 
         if CounterxDP > resetSlavesTime then         -- stay 18000 (200us) cycles in this state
@@ -132,6 +135,7 @@ begin  -- Behavioral
         SyncOutCLKxCBO   <= '1';
         
       when stTriggerInHigh      =>      
+		Alex <= "100";
         DividerxDN   <= DividerxDP +1;
     
         if DividerxDP > counterInc -1 then     -- increment local timestamp
@@ -144,10 +148,10 @@ begin  -- Behavioral
           end if;
         end if;
 
-        if SyncInCLKxCB = '0' then
-            StatexDN <= stTriggerInLow;
-            TriggerxSO <= '1';
-        end if;
+        --if SyncInCLKxCB = '0' then
+            --StatexDN <= stTriggerInLow;
+            --TriggerxSO <= '1';
+        --end if;
 
         if CounterxDP < squareWaveHighTime then
           SyncOutCLKxCBO <= '0';
@@ -161,10 +165,14 @@ begin  -- Behavioral
           StatexDN   <= stResetSlaves;
           DividerxDN <= (others => '0');
           CounterxDN <= (others => '0');
+		elsif SyncInCLKxCB = '0' then  -- Alex. I have moved this code from above to here. Only one if sentence must take care of next state for each case-when 
+            StatexDN <= stTriggerInLow;
+            TriggerxSO <= '1';
         end if;
 
         
       when stTriggerInLow   =>      
+		Alex <= "101";
         DividerxDN   <= DividerxDP +1;
     
         if DividerxDP > counterInc -1 then     -- increment local timestamp
@@ -176,9 +184,9 @@ begin  -- Behavioral
           end if;
         end if;
 
-        if SyncInCLKxCB = '1' then
-            StatexDN <= stTriggerInHigh;
-        end if;
+        --if SyncInCLKxCB = '1' then
+            --StatexDN <= stTriggerInHigh;
+        --end if;
         
         if CounterxDP < squareWaveHighTime then
           SyncOutCLKxCBO <= '0';
@@ -192,9 +200,12 @@ begin  -- Behavioral
           StatexDN   <= stResetSlaves;
           DividerxDN <= (others => '0');
           CounterxDN <= (others => '0');
-        end if;
+        elsif SyncInCLKxCB = '1' then -- Alex. I have moved this code from above to here. Only one if sentence must take care of next state for each case-when 
+            StatexDN <= stTriggerInHigh;
+       end if;
         
       when stRunSlave =>
+		Alex <= "001";
 
         --SyncOutCLKxCBO <= '0';
         SyncOutCLKxCBO <= SyncInCLKxCB;
@@ -208,32 +219,37 @@ begin  -- Behavioral
         end if;
 
         
-        if CounterxDP > squareWavePeriod - 2 then
-          StatexDN <= stSlaveWaitEdge;
-        end if;
+        --if CounterxDP > squareWavePeriod - 2 then
+          --StatexDN <= stSlaveWaitEdge;
+        --end if;
         
         if ConfigxSI='1'  then
           StatexDN   <= stIdle;
           CounterxDN <= (others => '0');
+		elsif CounterxDP > squareWavePeriod - 2 then -- Alex. I have moved this code from above to here. Only one if sentence must take care of next state for each case-when 
+          StatexDN <= stSlaveWaitEdge;
         end if;
 
       when stSlaveWaitEdge =>
+		Alex <= "010";
 
         --SyncOutCLKxCBO <= '1';
         SyncOutCLKxCBO <= SyncInCLKxCB;
         
         DividerxDN          <= (others => '0');
         CounterxDN <= CounterxDP + 1;
-        if SyncInCLKxCB = '0' then
+        if ConfigxSI='1' or CounterxDP > timeout then -- Alex. I have moved this code from below to here. Only one if sentence must take care of next state for each case-when 
+          StatexDN   <= stIdle;
+        elsif SyncInCLKxCB = '0' then
           IncrementCounterxSO <= '1';
           StatexDN <= stRunSlave;
           CounterxDN <= (others => '0');
           --TriggerxSO <= '1'; --------------------------- debug
         end if;
 
-        if ConfigxSI='1' or CounterxDP > timeout then
-          StatexDN   <= stIdle;
-        end if;
+        --if ConfigxSI='1' or CounterxDP > timeout then
+          --StatexDN   <= stIdle;
+        --end if;
         
     end case;
 

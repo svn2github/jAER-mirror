@@ -369,7 +369,7 @@ begin
 	p_imu : process (StateIMUxDP, IMUInitByteCountxDP, IMUMeasByteCountxDP, I2CWaitCountxDP, 
 			IMUAccelXMSBxDP, IMUAccelXLSBxDP, IMUAccelYMSBxDP, IMUAccelYLSBxDP, IMUAccelZMSBxDP, IMUAccelZLSBxDP,
 			IMUTempMSBxDP, IMUTempLSBxDP, IMUGyroXMSBxDP, IMUGyroXLSBxDP, IMUGyroYMSBxDP, IMUGyroYLSBxDP, IMUGyroZMSBxDP, IMUGyroZLSBxDP,   
-			IMURunxEI, WriteAckxE, ReadAckxE, I2CDataReadxD) 
+			IMURunxEI, WriteAckxE, ReadAckxE, I2CDataReadxD, IMUInitData0, IMUInitData1, IMUInitData2, IMUInitData3, IMUInitData4) 
 	begin 
   
 		-- Test Signal
@@ -452,7 +452,7 @@ begin
 					when "0100" => I2CDataWritexD <= IMUInitAddr2; 
 					when "0110" => I2CDataWritexD <= IMUInitAddr3; 
 					when "1000" => I2CDataWritexD <= IMUInitAddr4;
-					--when others => I2CDataWritexD <= (others => '0');
+					when others => I2CDataWritexD <= (others => '1');
 				end case;
 				
 				WriteReqxE <= '1';
@@ -513,7 +513,7 @@ begin
 					when "0101" => I2CDataWritexD <= IMUInitData2; 
 					when "0111" => I2CDataWritexD <= IMUInitData3; 
 					when "1001" => I2CDataWritexD <= IMUInitData4;
-					--when others => I2CDataWritexD <= (others => '0');
+					when others => I2CDataWritexD <= (others => '0');
 				end case;
 				
 				WriteReqxE <= '1';
@@ -1025,9 +1025,9 @@ begin
 					
 					-- If we don't drop the data, then get ready to write
 					-- VERIFY THIS!
-					if IMUDataDropxEI = '0' then
+					--if IMUDataDropxEI = '0' then --Alex removed this unused condition.
 						StateIMUWritexDN <= stDataWriteReq;
-					end if;
+					--end if;
 					-- WHAT SHOULD WE DO IF WE DO DROP DATA
 					-- IF WE DROP DATA WE SHOULD JUST GO BACK TO IDLE STATE AND WAIT FOR NEW DATA
 				end if;
@@ -1079,7 +1079,7 @@ begin
 
 
 	-- Change states and increase counters on rising clock edge
-	p_memorizing : process (ClockxCI, ResetxRBI)
+	p_memorizing : process (ClockxCI, ResetxRBI, IMURunxEI)
 	begin  
 		if ResetxRBI = '0' or IMURunxEI = '0' then -- Asynchronous reset
 			StateRWxDP <= stIdle;

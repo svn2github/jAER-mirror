@@ -57,7 +57,7 @@ entity fifoStatemachine is
 end fifoStatemachine;
 
 architecture Behavioral of fifoStatemachine is
-	type state is (stIdle, stEarlyPaket1, stSetupWrite1, stWrite);
+	type state is (stIdle, stEarlyPaket1, stEarlyPaket2, stSetupWrite1, stWrite);
 
 	-- present and next state
 	signal StatexDP, StatexDN : state;
@@ -114,6 +114,11 @@ begin
 		
 			when stEarlyPaket1 => -- ordering the FX2 to send a paket even if it's not full, need two
                                   -- states to ensure setup time of fifoaddress 
+				StatexDN                  <= stEarlyPaket2;
+				ResetEarlyPaketTimerxSO   <= '1';
+				ResetEventCounterxSO      <= '1';
+				FX2FifoPktEndxSBO         <= '0';
+			when stEarlyPaket2 => -- added by Alejandro. Not 100% sure if needed.
 				StatexDN                  <= stIdle;
 				ResetEarlyPaketTimerxSO   <= '1';
 				ResetEventCounterxSO      <= '1';

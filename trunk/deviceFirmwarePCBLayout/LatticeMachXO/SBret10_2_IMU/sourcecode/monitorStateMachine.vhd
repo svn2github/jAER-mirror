@@ -75,6 +75,8 @@ entity monitorStateMachine is
 		-- reset timestamp
 		ResetTimestampxSBI : in std_logic;
 		
+		Alex : out std_logic_vector (2 downto 0);
+		
 		DebugLEDxEO : out std_logic
 		
 	);
@@ -141,7 +143,7 @@ begin
 		
 		AddressMSBxDO 			<= address;
 		AddressRegWritexEO 		<= '1';
-		AERACKxSBO 				<= '1';
+		--Alex. AERACKxSBO 				<= '1';
 
 		DebugLEDxEO <= '0'; --H
 
@@ -153,9 +155,9 @@ begin
 		  TimestampOverflowxDN <= TimestampOverflowxDP;
 		end if;
 
-		TimestampResetxDN <= (TimestampResetxDP or not ResetTimestampxSBI);
+		TimestampResetxDN <= (not ResetTimestampxSBI); --TimestampResetxDP or --Alex
 
-		TriggerxDN <= (TriggerxSI or TriggerxDP);
+		TriggerxDN <= (TriggerxSI); -- or TriggerxDP); --Alex has modified this. This or will block the monitor sm into trigger states!!
 
 		ReadADCvaluexEO <= '0';
 
@@ -165,10 +167,11 @@ begin
 		IMUEventxEO <= '0';
 		IMUDataDropxEO <= '0';
 		--H 
-	
+		Alex <= "000";
 		case StatexDP is
 
 			when stIdle =>
+				Alex <= "000";
 
 				if FifoFullxSI = '1' then
 					StatexDN <= stFifoFull;
@@ -216,10 +219,12 @@ begin
 
 				AddressMSBxDO <= address;
 
-				AERACKxSBO <= '1';
+				--Alex. AERACKxSBO <= '1';
 				IMUDataReadyAckxEO <= '0';
 			
 			when stOverflow => -- send overflow event
+				Alex <= "001";
+
 				StatexDN <= stIdle;                
 			
 				if TimestampOverflowxSI = '1' then
@@ -233,6 +238,8 @@ begin
 				FifoWritexEO <= '1';
 
 			when stResetTimestamp => -- send timestamp reset event
+				Alex <= "010";
+
 				StatexDN <= stIdle;       
 				
 				TimestampResetxDN <= '0';
@@ -242,6 +249,8 @@ begin
 				FifoWritexEO <= '1';
 
 			when stADCTime => -- write the timestamp to the fifo
+				Alex <= "011";
+
 				StatexDN <= stADC;
 
 				FifoWritexEO <= '1';
@@ -250,6 +259,8 @@ begin
 				AddressMSBxDO <= timestamp;
 
 			when stWrTrigger => -- write the address to the fifo
+				Alex <= "100";
+
 				StatexDN <= stIdle;
 
 				TriggerxDN <= '0';
@@ -259,6 +270,7 @@ begin
 				AddressMSBxDO <= address;
 
 			when stWrTriggerTime => -- write the timestamp to the fifo
+				Alex <= "100";
 				StatexDN <= stWrTrigger;
 
 				FifoWritexEO <= '1';
@@ -267,6 +279,8 @@ begin
 				AddressMSBxDO <= timestamp;
 			
 			when stADC => -- write the address to the fifo
+				Alex <= "011";
+
 				StatexDN <= stIdle;
 
 				FifoWritexEO <= '1';
@@ -276,6 +290,7 @@ begin
 
 			--H Write AER Timestamp corresponding to IMU event
 			when stIMUTime =>             
+				Alex <= "101";
 				-- Update Next State
 				StatexDN <= stIMUEvent;
 
@@ -295,6 +310,7 @@ begin
 		  
 		  --H Send External Event Signal to FIFO indicating that next data word is an IMU event
 			when stIMUEvent =>             
+				Alex <= "101";
 				-- Update Next State
 				StatexDN <= stIMUData;
 				
@@ -314,6 +330,7 @@ begin
 
 			--H Write IMU Measurement Data to FIFO
 			when stIMUData => 
+				Alex <= "101";
 				
 				-- STUCK HERE!!! NOT ANYMORE! ADDED READYACK IN PREVIOUS STATE.. WHY THOUGH?!
 				DebugLEDxEO <= '1'; --H
@@ -336,6 +353,7 @@ begin
 			--H 
 
 			when stWraddress => -- write the address to the fifo
+				Alex <= "110";
 				StatexDN <= stReqRelease;	
 
 				AddressRegWritexEO <= '0';
@@ -346,6 +364,7 @@ begin
 				AddressMSBxDO <= address;
 				
 			when stWrTime => -- write the timestamp to the fifo
+				Alex <= "110";
 				StatexDN <= stWait;			
 				AddressRegWritexEO <= '0';
 				-- AERACKxSBO <= '0'; -- don't do that here, sender might take address away already
@@ -356,6 +375,7 @@ begin
 				CountxDN <= (others => '0');
 			
 			when stWait =>
+				Alex <= "110";
 				CountxDN <= CountxDP +1;
 				if CountxDP > ackExtension then
 					StatexDN <= stWraddress;
@@ -365,12 +385,13 @@ begin
 				TimestampRegWritexEO <= '0';
 
 			when stReqRelease =>
-				AERACKxSBO <= '0';
+				Alex <= "110";
+				--Alex. AERACKxSBO <= '0';
 				CountxDN <= CountxDP +1;
 				if AERREQxSB = '1' then
 					if UseLongAckxSI = '0' then
 						StatexDN <= stIdle;
-						AERACKxSBO <= '1'; -- safe to do here because of syncronization
+						--Alex. AERACKxSBO <= '1'; -- safe to do here because of syncronization
 					elsif CountxDP > ackExtension then
 						StatexDN <= stIdle;
 					end if;
@@ -378,11 +399,12 @@ begin
 
 			when stFifoFull =>  -- acknowledge (and trow away) events as long as fifo is full, only go
 								-- back to idle state when sender is not requesting
-				AERACKxSBO <= AERREQxSB;
+				Alex <= "111";
+				--Alex. AERACKxSBO <= AERREQxSB;
 				if FifoFullxSI = '0' and AERREQxSB = '1' then
 					StatexDN <= stIdle;
 				end if;
-			when others => null;
+			when others => StatexDN <= stIdle;
 		end case;
 
 	end process p_memless;
@@ -396,12 +418,20 @@ begin
 	        TimestampOverflowxDP <= (others => '0');
 			TimestampResetxDP <= '0';
 			TriggerxDP <= '0';
+			AERACKxSBO <= '1';
 		elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
 			StatexDP <= StatexDN;
 			TimestampOverflowxDP <= TimestampOverflowxDN;
 			TimestampResetxDP <= TimestampResetxDN;
 			CountxDP <= CountxDN;
 			TriggerxDP <= TriggerxDN;
+			if (StatexDP = stReqRelease) then 
+				AERACKxSBO <= '0';
+			elsif (StatexDP = stFifoFull) then 
+				AERACKxSBO <= AERREQxSB;
+			else 
+				AERACKxSBO <= '1';
+			end if;
 		end if;
 	end process p_memoryzing;
   
