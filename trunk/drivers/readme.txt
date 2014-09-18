@@ -48,9 +48,9 @@ The current assignements are as follows for the Thesycon PIDs
 0x8417 
 0x8418 
 0x8419 Retina Teresa (provisorial)
-0x841A FX3 based boards, new logic
-0x841B FX2 based boards, new logic
-0x841C 
+0x841A DAViS FX3 boards, SeeBetterLogic
+0x841B DAViS FX2 boards, SeeBetterLogic
+0x841C DVS128 FX2 boards, SeeBetterLogic
 0x841D 
 0x841E 
 0x841F 
