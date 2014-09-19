@@ -223,7 +223,7 @@
               <Ocm1>
                 <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
+                <Size>0x2400</Size>
               </Ocm1>
               <Ocm2>
                 <Type>0</Type>
@@ -237,13 +237,13 @@
               </Ocm3>
               <Ocr1>
                 <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
+                <StartAddress>0x2400</StartAddress>
+                <Size>0x1c00</Size>
               </Ocr1>
               <Ocr2>
                 <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
+                <StartAddress>0xe000</StartAddress>
+                <Size>0x200</Size>
               </Ocr2>
               <Ocr3>
                 <Type>0</Type>
@@ -326,8 +326,8 @@
             <UserClasses></UserClasses>
             <CSection></CSection>
             <UserSection></UserSection>
-            <CodeBaseAddress></CodeBaseAddress>
-            <XDataBaseAddress></XDataBaseAddress>
+            <CodeBaseAddress>0X0000-0X23FF</CodeBaseAddress>
+            <XDataBaseAddress>0X2400-0X3FFF,0XE000-0XE1FF</XDataBaseAddress>
             <PDataBaseAddress></PDataBaseAddress>
             <BitBaseAddress></BitBaseAddress>
             <DataBaseAddress></DataBaseAddress>
