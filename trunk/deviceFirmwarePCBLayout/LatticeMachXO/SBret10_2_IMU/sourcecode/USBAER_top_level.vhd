@@ -136,6 +136,7 @@ architecture Structural of USBAER_top_level is
 		port (
 			ClockxCI   : in  std_logic;
 			ResetxRBI  : in  std_logic;
+			SRClockxCI : in  std_logic;
 			LatchxEI   : in  std_logic;
 			DxDI       : in  std_logic;
 			QxDO       : out std_logic;
@@ -516,8 +517,9 @@ begin
 		generic map (
 			width => 128) --H
 		port map (
-			ClockxCI   => SRClockxC,
+			ClockxCI   => ClockxC,
 			ResetxRBI  => ResetxRB,
+			SRClockxCI => SRClockxC,
 			LatchxEI   => SRLatchxE,
 			DxDI       => SRinxD,
 			QxDO       => SRoutxD,
@@ -804,10 +806,10 @@ begin
 			IMURegOutxD 						when selectIMU, --H Writes IMU measurements
 			(others => '0') 					when others; --H
 	
-	LED1xSO <= Alex2(0); --H 
+	LED1xSO <= Alex(0); --H 
 	--LED1xSO <= IMUDataDropxE; --H 
-	LED2xSO <= Alex2(1); --'1' when (DatatypeSelectxS = selecttimestamp) else '0';--IMUSCLxCIO; --H
-	LED3xSO <= Alex2(2); --'1' when (DatatypeSelectxS = selecttrigger) else '0';--IMUSDAxSIO; --H
+	LED2xSO <= Alex(1); --'1' when (DatatypeSelectxS = selecttimestamp) else '0';--IMUSCLxCIO; --H
+	LED3xSO <= Alex(2); --'1' when (DatatypeSelectxS = selecttrigger) else '0';--IMUSDAxSIO; --H
 	--LED3xSO <= ExtTriggerxE;
 
 
@@ -824,8 +826,8 @@ begin
 	ExtTriggerxE <= '0';
 
 	RunADCxS <= PC0xSIO;
-	SRClockxC <= PC1xSIO;
-	SRLatchxE <= PC2xSIO;
+	SRClockxC <= PC1xSIO; --synchronized in the shift-register
+	SRLatchxE <= PC2xSIO; --synchronized in the shift-register
 	SRinxD <= PC3xSIO;
 
 	CDVSTestSRColClockxSO <= CDVSTestSRColClockxS;
