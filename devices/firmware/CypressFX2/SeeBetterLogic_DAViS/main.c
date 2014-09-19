@@ -311,7 +311,9 @@ void downloadSerialNumberFromEEPROM(void)
 	// Write serial number string descriptor to RAM
 	for (i = 0; i < SERIAL_NUMBER_LENGTH; i++)
 	{
-		sNumDscrPtr[i * 2] = sNum[i];
+		if (sNum[i] >= 32 && sNum[i] <= 126) {
+			sNumDscrPtr[i * 2] = sNum[i];
+		}
 	}
 }
 
