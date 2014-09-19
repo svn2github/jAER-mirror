@@ -1250,10 +1250,10 @@ SXsvfInfo xdata xsvfInfo;
 
 int xsvfInitializeSTM()
 {
-	xsvfInitialize(&xsvfInfo);
+	return xsvfInitialize(&xsvfInfo);
 }
 
 int xsvfRunSTM()
 {
-	xsvfRun(&xsvfInfo);
+	return xsvfRun(&xsvfInfo);
 }
