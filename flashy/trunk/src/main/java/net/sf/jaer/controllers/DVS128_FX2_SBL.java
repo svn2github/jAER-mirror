@@ -324,7 +324,7 @@ public class DVS128_FX2_SBL extends Controller {
 
 	private static final int MAX_TRANSFER_SIZE = 4096;
 
-	private static final int EEPROM_MAX_SIZE = 16 * 1024;
+	private static final int EEPROM_MAX_SIZE = 32 * 1024;
 
 	private static final int FIRMWARE_START_ADDRESS = 0;
 	private static final int FIRMWARE_MAX_SIZE = DVS128_FX2_SBL.EEPROM_MAX_SIZE - 8;
