@@ -46,7 +46,7 @@ extern BOOL GotSUD;
 
 #define EP0BUFF_SIZE 64 // Endpoint 0 (Control) buffer size
 #define	I2C_EEPROM_ADDRESS 0x51 // 0101_0001 is the address of the external serial EEPROM that holds FX2 program and static data
-#define EEPROM_SIZE (16 * 1024)
+#define EEPROM_SIZE (32 * 1024)
 #define SERIAL_NUMBER_LENGTH 8
 
 // XSVF support.
@@ -154,7 +154,7 @@ void TD_Init(void) // Called once at startup
 	EIE = 0xE3; // 1110_0011
 
 	EZUSB_InitI2C(); // initialize I2C to enable EEPROM read and write
-	//I2CTL = 0x01;  // set I2C to 400kHz to speed up data transfers
+	I2CTL |= 0x01;  // set I2C to 400kHz to speed up data transfers
 
 	// Reset CPLD by pulsing reset line
 	CPLD_RESET = 1;
@@ -280,7 +280,6 @@ static void EEPROMRead(WORD address, BYTE length, BYTE xdata *buf)
 	FXLED = 1;
 
 	EZUSB_WriteI2C(I2C_EEPROM_ADDRESS, 2, ee_str);
-	EZUSB_WaitForEEPROMWrite(I2C_EEPROM_ADDRESS);
 
 	FXLED = 0;
 

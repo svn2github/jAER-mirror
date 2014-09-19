@@ -154,7 +154,7 @@ void TD_Init(void) // Called once at startup
 	EIE = 0xE3; // 1110_0011
 
 	EZUSB_InitI2C(); // initialize I2C to enable EEPROM read and write
-	I2CTL = 0x01;  // set I2C to 400kHz to speed up data transfers
+	I2CTL |= 0x01;  // set I2C to 400kHz to speed up data transfers
 
 	// Reset CPLD by pulsing reset line
 	setPE(CPLD_RESET, 1);
@@ -280,7 +280,6 @@ static void EEPROMRead(WORD address, BYTE length, BYTE xdata *buf)
 	setPE(FXLED, 1);
 
 	EZUSB_WriteI2C(I2C_EEPROM_ADDRESS, 2, ee_str);
-	EZUSB_WaitForEEPROMWrite(I2C_EEPROM_ADDRESS);
 
 	setPE(FXLED, 0);
 
