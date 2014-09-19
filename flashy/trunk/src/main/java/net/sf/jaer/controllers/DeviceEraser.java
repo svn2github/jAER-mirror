@@ -10,8 +10,8 @@ import net.sf.jaer.UsbDevice;
 
 import org.usb4java.BufferUtils;
 
-public class DVS128_FX2 extends Controller {
-	public DVS128_FX2(final UsbDevice device) {
+public class DeviceEraser extends Controller {
+	public DeviceEraser(final UsbDevice device) {
 		super(device);
 	}
 
@@ -19,8 +19,8 @@ public class DVS128_FX2 extends Controller {
 	public VBox generateGUI() {
 		final VBox firmwareFlashGUI = new VBox(10);
 
-		GUISupport.addLabel(firmwareFlashGUI, "On DVS 128, we only support erasing the EEPROM.",
-			"Erase DVS128 EEPROM, so that it is again an FX2 blank device after re-plugging.", null, null);
+		GUISupport.addLabel(firmwareFlashGUI, "For older devices, we only support erasing the EEPROM.",
+			"Erase device EEPROM, so that it is again an FX2 blank device after re-plugging.", null, null);
 
 		GUISupport.addButtonWithMouseClickedHandler(firmwareFlashGUI, "Erase EEPROM", true, null,
 			new EventHandler<MouseEvent>() {
@@ -45,19 +45,19 @@ public class DVS128_FX2 extends Controller {
 
 	private void eraseEEPROM() throws Exception {
 		// Generate empty ByteBuffer (all zeros) to send to EEPROM.
-		final ByteBuffer eraser = BufferUtils.allocateByteBuffer(DVS128_FX2.MAX_TRANSFER_SIZE);
-		eraser.put(new byte[DVS128_FX2.MAX_TRANSFER_SIZE]);
+		final ByteBuffer eraser = BufferUtils.allocateByteBuffer(DeviceEraser.MAX_TRANSFER_SIZE);
+		eraser.put(new byte[DeviceEraser.MAX_TRANSFER_SIZE]);
 		eraser.position(0); // Reset position to initial value.
 
 		// Send out the actual data to the FX2 EEPROM, in 4 KB chunks.
-		int fwLength = DVS128_FX2.MAX_EEPROM_SIZE;
+		int fwLength = DeviceEraser.MAX_EEPROM_SIZE;
 		int fwOffset = 0;
 
 		while (fwLength > 0) {
-			usbDevice.sendVendorRequest(DVS128_FX2.VR_EEPROM, (short) (fwOffset & 0xFFFF), (short) 0, eraser);
+			usbDevice.sendVendorRequest(DeviceEraser.VR_EEPROM, (short) (fwOffset & 0xFFFF), (short) 0, eraser);
 
-			fwLength -= DVS128_FX2.MAX_TRANSFER_SIZE;
-			fwOffset += DVS128_FX2.MAX_TRANSFER_SIZE;
+			fwLength -= DeviceEraser.MAX_TRANSFER_SIZE;
+			fwOffset += DeviceEraser.MAX_TRANSFER_SIZE;
 		}
 	}
 }
