@@ -1,12 +1,10 @@
-"fw.obj",
 "dscr.obj",
 "C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Lib\LP\EZUSB.LIB",
 "C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Lib\LP\USBJmpTb.OBJ",
+"fw.obj",
 "main.obj",
 "ports.obj",
 "micro.obj",
 "lenval.obj" 
 TO "SeeBetterLogic_DAViS" 
 RAMSIZE(256) 
-CODE( 0X0200-0X31FF )
-XDATA( 0X3200-0X49FF )
