@@ -4,7 +4,7 @@
   <Mappings Location="Common Libraries/IEEE Synopsys" Library="ieee"/>
   <Mappings Location="Common Libraries" Library="not mapped"/>
   <Mappings Location="StreamTester_FX3" Library="not mapped"/>
-  <Mappings Location="StreamTester_FX3_FX3_tcr.dir" Library="not mapped"/>
+  <Mappings Location="StreamTester_FX3_tcr.dir" Library="not mapped"/>
   <Mappings Location="Common Libraries/STD" Library="std"/>
   <Mappings Location="" Library="work"/>
 </com.sigasi.hdt.shared.librarymapping.model:LibraryMappings>
