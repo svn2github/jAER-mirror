@@ -14,7 +14,6 @@ import java.util.prefs.Preferences;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -200,8 +199,8 @@ public class DAViS_FX2_SBL extends Controller {
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
-					final File loadLogic = GUISupport.showDialogLoadFile("Bitstream", DAViS_FX2_SBL.logicValidExtensions,
-						defaultFolderNode.get("fx2Logic", ""));
+					final File loadLogic = GUISupport.showDialogLoadFile("Bitstream",
+						DAViS_FX2_SBL.logicValidExtensions, defaultFolderNode.get("fx2Logic", ""));
 
 					if (loadLogic == null) {
 						return;
@@ -222,35 +221,21 @@ public class DAViS_FX2_SBL extends Controller {
 						return;
 					}
 
-					final Task<Integer> worker = new Task<Integer>() {
-						@Override
-						protected Integer call() throws Exception {
-							try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
-								final FileChannel fwInChannel = fwFile.getChannel()) {
-								final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
-								buf.load();
+					try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
+						final FileChannel fwInChannel = fwFile.getChannel()) {
+						final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
+						buf.load();
 
-								updateProgress(10, 100);
+						// Load file to CPLD.
+						logicToCPLD(buf);
 
-								// Load file to CPLD.
-								logicToCPLD(buf);
-
-								updateProgress(95, 100);
-
-								// Cleanup ByteBuffer.
-								buf.clear();
-
-								updateProgress(100, 100);
-							}
-
-							return 0;
-						}
-					};
-
-					GUISupport.showDialogProgress(worker);
-
-					final Thread t = new Thread(worker);
-					t.start();
+						// Cleanup ByteBuffer.
+						buf.clear();
+					}
+					catch (final Exception e) {
+						GUISupport.showDialogException(e);
+						return;
+					}
 				}
 			});
 
@@ -387,8 +372,8 @@ public class DAViS_FX2_SBL extends Controller {
 
 			// Just wValue is enough for the address (16 bit), since the EEPROM
 			// is just 32KB at the most.
-			usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_EEPROM, (short) ((startAddress + dataOffset) & 0xFFFF), (short) 0,
-				dataChunk);
+			usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_EEPROM, (short) ((startAddress + dataOffset) & 0xFFFF),
+				(short) 0, dataChunk);
 
 			dataLength -= localDataLength;
 			dataOffset += localDataLength;
@@ -550,7 +535,8 @@ public class DAViS_FX2_SBL extends Controller {
 			usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, command, (short) 0, logicChunk);
 
 			// Get result.
-			final ByteBuffer result = usbDevice.sendVendorRequestIN(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, 2);
+			final ByteBuffer result = usbDevice.sendVendorRequestIN(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0,
+				2);
 
 			if ((result.limit() == 0) || (result.get(0) != DAViS_FX2_SBL.VR_CPLD_UPLOAD)) {
 				// Invalid response from device, stop programming.
@@ -566,7 +552,7 @@ public class DAViS_FX2_SBL extends Controller {
 			else if (result.get(1) > 0) {
 				// XSVF error encountered, stop programming.
 				usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
-				throw new Exception("XSVF error encountered.");
+				throw new Exception(String.format("XSVF error encountered (error %d).", result.get(1) & 0xFF));
 			}
 
 			index += commandLength;
