@@ -453,11 +453,11 @@ public class DAViS_FX2_SBL extends Controller {
 					break;
 
 				case XSIR:
-					commandLength = ((logic.get(index + 1) + 7) / 8) + 2;
+					commandLength = (((logic.get(index + 1) & 0xFF) + 7) / 8) + 2;
 					break;
 
 				case XSIR2:
-					commandLength = ((((logic.get(index + 1) << 8) | logic.get(index + 2)) + 7) / 8) + 3;
+					commandLength = (((((logic.get(index + 1) & 0xFF) << 8) | (logic.get(index + 2) & 0xFF)) + 7) / 8) + 3;
 					break;
 
 				case XSDR:
@@ -467,8 +467,8 @@ public class DAViS_FX2_SBL extends Controller {
 				case XSDRSIZE:
 					commandLength = 5;
 
-					length = ((logic.get(index + 1) << 24) | (logic.get(index + 2) << 16) | (logic.get(index + 3) << 8) | ((logic
-						.get(index + 4)) + 7)) / 8;
+					length = ((((logic.get(index + 1) & 0xFF) << 24) | ((logic.get(index + 2) & 0xFF) << 16)
+						| ((logic.get(index + 3) & 0xFF) << 8) | (logic.get(index + 4) & 0xFF)) + 7) / 8;
 					break;
 
 				case XSDRTDO:
@@ -533,6 +533,8 @@ public class DAViS_FX2_SBL extends Controller {
 			final ByteBuffer logicChunk = BufferUtils.slice(logic, index, commandLength);
 
 			usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, command, (short) 0, logicChunk);
+
+			// System.out.println(String.format("Sent VR_CPLD_UPLOAD, with command %d at index %d, length %d", command, index, commandLength));
 
 			// Get result.
 			final ByteBuffer result = usbDevice.sendVendorRequestIN(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0,
