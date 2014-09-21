@@ -223,7 +223,7 @@
               <Ocm1>
                 <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x2400</Size>
+                <Size>0x2800</Size>
               </Ocm1>
               <Ocm2>
                 <Type>0</Type>
@@ -237,13 +237,13 @@
               </Ocm3>
               <Ocr1>
                 <Type>0</Type>
-                <StartAddress>0x2400</StartAddress>
-                <Size>0x1c00</Size>
+                <StartAddress>0x2800</StartAddress>
+                <Size>0x1800</Size>
               </Ocr1>
               <Ocr2>
                 <Type>0</Type>
-                <StartAddress>0xe000</StartAddress>
-                <Size>0x200</Size>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
               </Ocr2>
               <Ocr3>
                 <Type>0</Type>
@@ -362,19 +362,9 @@
               <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Lib\LP\USBJmpTb.OBJ</FilePath>
             </File>
             <File>
-              <FileName>lp.h</FileName>
+              <FileName>syncdly.h</FileName>
               <FileType>5</FileType>
-              <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\lp.h</FilePath>
-            </File>
-            <File>
-              <FileName>lpregs.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\lpregs.h</FilePath>
-            </File>
-            <File>
-              <FileName>lpregs.inc</FileName>
-              <FileType>5</FileType>
-              <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\lpregs.inc</FilePath>
+              <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\syncdly.h</FilePath>
             </File>
             <File>
               <FileName>Fx2.h</FileName>
@@ -385,16 +375,6 @@
               <FileName>fx2regs.h</FileName>
               <FileType>5</FileType>
               <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\fx2regs.h</FilePath>
-            </File>
-            <File>
-              <FileName>fx2regs.inc</FileName>
-              <FileType>5</FileType>
-              <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\fx2regs.inc</FilePath>
-            </File>
-            <File>
-              <FileName>syncdly.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\syncdly.h</FilePath>
             </File>
             <File>
               <FileName>fw.c</FileName>

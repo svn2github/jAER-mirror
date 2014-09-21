@@ -50,7 +50,7 @@ extern BOOL GotSUD;
 #define SERIAL_NUMBER_LENGTH 8
 
 // XSVF support.
-#define XSVF_DATA_SIZE 512
+#define XSVF_DATA_SIZE 256
 
 static BOOL doJTAGInit = TRUE;
 static BYTE xsvfReturn = 0;
