@@ -216,7 +216,7 @@ int xsvfDoXWAIT( SXsvfInfo* pXsvfInfo );
 
 /* Array of XSVF command functions.  Must follow command byte value order! */
 /* If your compiler cannot take this form, then convert to a switch statement*/
-TXsvfDoCmdFuncPtr xdata xsvf_pfDoCmd[]  =
+TXsvfDoCmdFuncPtr code xsvf_pfDoCmd[]  =
 {
     xsvfDoXCOMPLETE,        /*  0 */
     xsvfDoXTDOMASK,         /*  1 */
@@ -315,7 +315,7 @@ int xsvfGotoTapState( unsigned char*   pucTapState,
                       unsigned char    ucTargetState )
 {
     int i;
-    int iErrorCode;
+    int xdata iErrorCode;
 
     iErrorCode  = XSVF_ERROR_NONE;
     if ( ucTargetState == XTAPSTATE_RESET )
@@ -527,9 +527,9 @@ void xsvfShiftOnly( long    lNumBits,
 {
     unsigned char* pucTdi;
     unsigned char* pucTdo;
-    unsigned char ucTdiByte;
-    unsigned char ucTdoByte;
-    unsigned char ucTdoBit;
+    unsigned char xdata ucTdiByte;
+    unsigned char xdata ucTdoByte;
+    unsigned char xdata ucTdoBit;
     int           i;
 
     /* assert( ( ( lNumBits + 7 ) / 8 ) == plvTdi->len ); */
@@ -619,10 +619,10 @@ int xsvfShift( unsigned char*   pucTapState,
                long             lRunTestTime,
                unsigned char    ucMaxRepeat )
 {
-    int            iErrorCode;
-    int            iMismatch;
-    unsigned char  ucRepeat;
-    int            iExitShift;
+    int            xdata iErrorCode;
+    int            xdata iMismatch;
+    unsigned char  xdata ucRepeat;
+    int            xdata iExitShift;
 
     iErrorCode  = XSVF_ERROR_NONE;
     iMismatch   = 0;
@@ -793,8 +793,8 @@ int xsvfDoXTDOMASK( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 int xsvfDoXSIR( SXsvfInfo* pXsvfInfo )
 {
-    unsigned char   ucShiftIrBits;
-    short           sShiftIrBytes;
+    unsigned char   xdata ucShiftIrBits;
+    short           xdata sShiftIrBytes;
 
     /* Get the shift length and store */
     readByte( &ucShiftIrBits );
@@ -831,8 +831,8 @@ int xsvfDoXSIR( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 int xsvfDoXSIR2( SXsvfInfo* pXsvfInfo )
 {
-    long            lShiftIrBits;
-    short           sShiftIrBytes;
+    long            xdata lShiftIrBits;
+    short           xdata sShiftIrBytes;
 
     /* Get the shift length and store */
     readVal( &(pXsvfInfo->lvTdi), 2 );
@@ -1105,9 +1105,9 @@ int xsvfDoXCOMMENT( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 int xsvfDoXWAIT( SXsvfInfo* pXsvfInfo )
 {
-    unsigned char   ucWaitState;
-    unsigned char   ucEndState;
-    long            lWaitTime;
+    unsigned char   xdata ucWaitState;
+    unsigned char   xdata ucEndState;
+    long            xdata lWaitTime;
 
     /* Get Parameters */
     /* <wait_state> */

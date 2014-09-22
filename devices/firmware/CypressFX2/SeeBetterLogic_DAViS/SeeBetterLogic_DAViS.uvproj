@@ -223,7 +223,7 @@
               <Ocm1>
                 <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x2800</Size>
+                <Size>0x2400</Size>
               </Ocm1>
               <Ocm2>
                 <Type>0</Type>
@@ -237,13 +237,13 @@
               </Ocm3>
               <Ocr1>
                 <Type>0</Type>
-                <StartAddress>0x2800</StartAddress>
-                <Size>0x1800</Size>
+                <StartAddress>0x2400</StartAddress>
+                <Size>0x1c00</Size>
               </Ocr1>
               <Ocr2>
                 <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
+                <StartAddress>0xe000</StartAddress>
+                <Size>0x200</Size>
               </Ocr2>
               <Ocr3>
                 <Type>0</Type>
