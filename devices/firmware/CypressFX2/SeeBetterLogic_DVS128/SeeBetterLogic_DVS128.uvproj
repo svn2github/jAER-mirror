@@ -362,19 +362,9 @@
               <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Lib\LP\USBJmpTb.OBJ</FilePath>
             </File>
             <File>
-              <FileName>lp.h</FileName>
+              <FileName>syncdly.h</FileName>
               <FileType>5</FileType>
-              <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\lp.h</FilePath>
-            </File>
-            <File>
-              <FileName>lpregs.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\lpregs.h</FilePath>
-            </File>
-            <File>
-              <FileName>lpregs.inc</FileName>
-              <FileType>5</FileType>
-              <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\lpregs.inc</FilePath>
+              <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\syncdly.h</FilePath>
             </File>
             <File>
               <FileName>Fx2.h</FileName>
@@ -385,16 +375,6 @@
               <FileName>fx2regs.h</FileName>
               <FileType>5</FileType>
               <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\fx2regs.h</FilePath>
-            </File>
-            <File>
-              <FileName>fx2regs.inc</FileName>
-              <FileType>5</FileType>
-              <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\fx2regs.inc</FilePath>
-            </File>
-            <File>
-              <FileName>syncdly.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Inc\syncdly.h</FilePath>
             </File>
             <File>
               <FileName>fw.c</FileName>

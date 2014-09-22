@@ -52,8 +52,8 @@ extern BOOL GotSUD;
 // XSVF support.
 #define XSVF_DATA_SIZE 512
 
-static BOOL doJTAGInit = TRUE;
-static BYTE xsvfReturn = 0;
+static BYTE xdata doJTAGInit = TRUE;
+static BYTE xdata xsvfReturn = 0;
 static unsigned char xdata xsvfDataArray[XSVF_DATA_SIZE];
 
 // Support arbitrary waits.
