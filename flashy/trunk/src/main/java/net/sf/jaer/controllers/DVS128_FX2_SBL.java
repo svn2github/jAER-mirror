@@ -14,7 +14,6 @@ import java.util.prefs.Preferences;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -222,35 +221,21 @@ public class DVS128_FX2_SBL extends Controller {
 						return;
 					}
 
-					final Task<Integer> worker = new Task<Integer>() {
-						@Override
-						protected Integer call() throws Exception {
-							try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
-								final FileChannel fwInChannel = fwFile.getChannel()) {
-								final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
-								buf.load();
+					try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
+						final FileChannel fwInChannel = fwFile.getChannel()) {
+						final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
+						buf.load();
 
-								updateProgress(10, 100);
+						// Load file to CPLD.
+						logicToCPLD(buf);
 
-								// Load file to CPLD.
-								logicToCPLD(buf);
-
-								updateProgress(95, 100);
-
-								// Cleanup ByteBuffer.
-								buf.clear();
-
-								updateProgress(100, 100);
-							}
-
-							return 0;
-						}
-					};
-
-					GUISupport.showDialogProgress(worker);
-
-					final Thread t = new Thread(worker);
-					t.start();
+						// Cleanup ByteBuffer.
+						buf.clear();
+					}
+					catch (final Exception e) {
+						GUISupport.showDialogException(e);
+						return;
+					}
 				}
 			});
 
@@ -468,11 +453,11 @@ public class DVS128_FX2_SBL extends Controller {
 					break;
 
 				case XSIR:
-					commandLength = ((logic.get(index + 1) + 7) / 8) + 2;
+					commandLength = (((logic.get(index + 1) & 0xFF) + 7) / 8) + 2;
 					break;
 
 				case XSIR2:
-					commandLength = ((((logic.get(index + 1) << 8) | logic.get(index + 2)) + 7) / 8) + 3;
+					commandLength = (((((logic.get(index + 1) & 0xFF) << 8) | (logic.get(index + 2) & 0xFF)) + 7) / 8) + 3;
 					break;
 
 				case XSDR:
@@ -482,8 +467,8 @@ public class DVS128_FX2_SBL extends Controller {
 				case XSDRSIZE:
 					commandLength = 5;
 
-					length = ((logic.get(index + 1) << 24) | (logic.get(index + 2) << 16) | (logic.get(index + 3) << 8) | ((logic
-						.get(index + 4)) + 7)) / 8;
+					length = ((((logic.get(index + 1) & 0xFF) << 24) | ((logic.get(index + 2) & 0xFF) << 16)
+						| ((logic.get(index + 3) & 0xFF) << 8) | (logic.get(index + 4) & 0xFF)) + 7) / 8;
 					break;
 
 				case XSDRTDO:
@@ -567,7 +552,7 @@ public class DVS128_FX2_SBL extends Controller {
 			else if (result.get(1) > 0) {
 				// XSVF error encountered, stop programming.
 				usbDevice.sendVendorRequest(DVS128_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
-				throw new Exception("XSVF error encountered.");
+				throw new Exception(String.format("XSVF error encountered (error %d).", result.get(1) & 0xFF));
 			}
 
 			index += commandLength;
