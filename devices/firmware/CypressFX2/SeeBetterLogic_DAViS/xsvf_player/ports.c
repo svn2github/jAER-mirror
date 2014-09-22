@@ -28,8 +28,8 @@ void setPort(unsigned char p, short val)
 /* toggle tck LH.  No need to modify this code.  It is output via setPort. */
 void pulseClock()
 {
-    setPort(TCK,0);  /* set the TCK port to low  */
-    setPort(TCK,1);  /* set the TCK port to high */
+    setPort(TCK, 0);  /* set the TCK port to low  */
+    setPort(TCK, 1);  /* set the TCK port to high */
 }
 
 static int dataReadIndex;
@@ -64,16 +64,17 @@ unsigned char readTDOBit()
 /* RECOMMENDED IMPLEMENTATION:  Pulse TCK at least microsec times AND        */
 /*                              continue pulsing TCK until the microsec wait */
 /*                              requirement is also satisfied.               */
-void waitTime(int microsec)
+void waitTime(long microsec)
 {
-    int tckCycles = microsec * 48;
-    int i;
+	long cyclesToDO = microsec / 10;
+	long i;
 
-    /* This implementation is highly recommended!!! */
-    /* This implementation requires you to tune the tckCyclesPerMicrosec
-       variable (above) to match the performance of your embedded system
-       in order to satisfy the microsec wait time requirement. */
-    for ( i = 0; i < tckCycles; ++i )
+    /* This implementation follows the Xilinx guidelines above and implements
+	   the REQUIRED portion. It does not toggle TCK microsec times though, since
+	   that would slow down things too much, given that on the FX2, measured with
+	   a scope, the number of cycles has to be about a tenth of the input microsec
+	   value for it to correspond in time. */
+    for (i = 0; i < cyclesToDO; ++i)
     {
         pulseClock();
     }

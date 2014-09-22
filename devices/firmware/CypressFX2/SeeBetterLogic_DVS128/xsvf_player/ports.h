@@ -32,7 +32,7 @@ extern void pulseClock();
 /* read the next byte of data from the xsvf file */
 extern void readByte(unsigned char *ucdata);
 
-extern void waitTime(int microsec);
+extern void waitTime(long microsec);
 
 extern void resetDataArray(unsigned char *newDataArray);
 
