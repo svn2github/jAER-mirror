@@ -71,6 +71,7 @@ entity monitorStateMachine is
 		
 		-- valid event or wrap event
 		AddressMSBxDO : out std_logic_vector(1 downto 0);
+		WrapCounterxDO : out std_logic_vector(7 downto 0);
 
 		-- reset timestamp
 		ResetTimestampxSBI : in std_logic;
@@ -106,6 +107,7 @@ architecture Behavioral of monitorStateMachine is
 
 	-- timestamp reset register
 	signal TimestampResetxDP, TimestampResetxDN : std_logic;
+	signal WrapCounterxDP, WrapCounterxDN : std_logic_vector(7 downto 0);
 
 
 	-- constants for mux
@@ -115,6 +117,7 @@ architecture Behavioral of monitorStateMachine is
 	constant selecttimestamp : std_logic_vector(2 downto 0) := "000";
 	constant selecttrigger : std_logic_vector(2 downto 0) := "010"; -- Signals external / special input events, including IMU events
 	constant selectIMU : std_logic_vector(2 downto 0) := "100"; -- Signals IMU events
+	constant selectwrap	: std_logic_vector(2 downto 0) := "101"; --Alex New constant indicating wrap event + counter wrap
 	--H
 
 	constant address : std_logic_vector(1 downto 0) := "00"; 
@@ -126,7 +129,7 @@ architecture Behavioral of monitorStateMachine is
 
 begin
 	AERREQxSB <= AERREQxSBI;
-
+	WrapCounterxDO <= WrapCounterxDP;
 	-- calculate next state and outputs
 	--H Added Sensititivy to IMU Hand shaking signals
 	p_memless : process (StatexDP, FifoFullxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, AERREQxSB, XxDI, ADCvalueReadyxSI,CountxDP,UseLongAckxSI,TriggerxSI,TriggerxDP, IMUDataReadyReqxEI, IMUDataWriteAckxEI, FifoCountxDI) -- Added FifoCountxDI
@@ -140,7 +143,7 @@ begin
 		TimestampRegWritexEO    <= '1';
 		
 		DatatypeSelectxSO 		<= selectaddress; --H AddressTimestampSelectxSO <= selectaddress;
-		
+		WrapCounterxDN			<= WrapCounterxDP;
 		AddressMSBxDO 			<= address;
 		AddressRegWritexEO 		<= '1';
 		--Alex. AERACKxSBO 				<= '1';
@@ -151,6 +154,7 @@ begin
 		  TimestampOverflowxDN <= (others => '0');
 		elsif TimestampOverflowxSI = '1' then
 		  TimestampOverflowxDN <= TimestampOverflowxDP +1;
+		  WrapCounterxDN <= WrapCounterxDP +1;
 		else
 		  TimestampOverflowxDN <= TimestampOverflowxDP;
 		end if;
@@ -234,7 +238,7 @@ begin
 				end if;
 			
 				AddressMSBxDO <= wrap;
-				DatatypeSelectxSO <= selectaddress; --H AddressTimestampSelectxSO <= selectaddress;
+				DatatypeSelectxSO <= selectwrap; --selectaddress; --H AddressTimestampSelectxSO <= selectaddress;
 				FifoWritexEO <= '1';
 
 			when stResetTimestamp => -- send timestamp reset event
@@ -419,12 +423,14 @@ begin
 			TimestampResetxDP <= '0';
 			TriggerxDP <= '0';
 			AERACKxSBO <= '1';
+			WrapCounterxDP <= (others => '0');
 		elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
 			StatexDP <= StatexDN;
 			TimestampOverflowxDP <= TimestampOverflowxDN;
 			TimestampResetxDP <= TimestampResetxDN;
 			CountxDP <= CountxDN;
 			TriggerxDP <= TriggerxDN;
+			WrapCounterxDP <= WrapCounterxDN;
 			if (StatexDP = stReqRelease) then 
 				AERACKxSBO <= '0';
 			elsif (StatexDP = stFifoFull) then 

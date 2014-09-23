@@ -207,6 +207,7 @@ architecture Structural of USBAER_top_level is
 			TimestampOverflowxSI : in std_logic;
 			TriggerxSI : in std_logic;
 			AddressMSBxDO : out std_logic_vector(1 downto 0);
+			WrapCounterxDO : out std_logic_vector(7 downto 0);
 			ResetTimestampxSBI : in std_logic;
 		Alex : out std_logic_vector (2 downto 0);
 			DebugLEDxEO	: out std_logic); --H
@@ -473,6 +474,7 @@ architecture Structural of USBAER_top_level is
 	constant selecttimestamp 	: std_logic_vector(2 downto 0) := "000"; --H Added 1 bit to vector
 	constant selecttrigger 		: std_logic_vector(2 downto 0) := "010"; --H Added 1 bit to vector
 	constant selectIMU 			: std_logic_vector(2 downto 0) := "100"; --H New constant indicating to write out an IMU Event
+	constant selectwrap			: std_logic_vector(2 downto 0) := "101"; --Alex New constant indicating wrap event + counter wrap
 
 	--H 
 	-- External event indicator is the 12th bit if 13th bit is 0
@@ -485,6 +487,7 @@ architecture Structural of USBAER_top_level is
 	--H 
 	signal DebugLEDxE : std_logic;
 	signal	Alex, Alex2 : std_logic_vector (2 downto 0); --Alex: for debuggin states machines.
+	signal WrapCounterxD: std_logic_vector (7 downto 0);
 	--H
 begin
 	IfClockxC <= IfClockxCI;
@@ -683,6 +686,7 @@ begin
 			TimestampOverflowxSI      => TimestampOverflowxS,
 			TriggerxSI 			 	  => TriggerxS,
 			AddressMSBxDO             => AddressMSBxD,
+			WrapCounterxDO			  => WrapCounterxD,
 			ResetTimestampxSBI        => SynchronizerResetTimestampxSB,
 			Alex => Alex,
 			DebugLEDxEO				  => open); --H
@@ -800,6 +804,7 @@ begin
 	with DatatypeSelectxS select --H with AddressTimestampSelectxS select
 		FifoDataInxD <=
 			AddressMSBxD & "00" & AddressRegOutxD(9) & "00" & AddressRegOut8xD & AddressRegOutxD(7 downto 0) when selectaddress, -- hack to put the xbit at bit position 11 (which allows addresses up to 10 bits)
+			AddressMSBxD & "000000" & WrapCounterxD when selectwrap, 
 			AddressMSBxD & MonitorTimestampxD	when selecttimestamp,
 			AddressMSBxD & externaleventtype 	when selecttrigger, --H Writes special event as indicated by externaleventtype                                     
 			AddressMSBxD & ADCregOutxD 			when selectADC,
