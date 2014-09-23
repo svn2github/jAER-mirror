@@ -66,15 +66,19 @@ unsigned char readTDOBit()
 /*                              requirement is also satisfied.               */
 void waitTime(long microsec)
 {
-	long cyclesToDO = microsec / 10;
 	long i;
 
     /* This implementation follows the Xilinx guidelines above and implements
-	   the REQUIRED portion. It does not toggle TCK microsec times though, since
-	   that would slow down things too much, given that on the FX2, measured with
-	   a scope, the number of cycles has to be about a tenth of the input microsec
-	   value for it to correspond in time. */
-    for (i = 0; i < cyclesToDO; ++i)
+	   the REQUIRED and the RECOMMENDED portion, at least for values below
+	   1 million (1 second). Above that, we only respect the REQUIRED portion,
+	   because the slow-down would be unacceptable. FX2 takes about 10 actual
+	   microsecodns to execute the pulseClock() function! */
+
+	if (microsec > 1000000) {
+		microsec /= 10;
+	}
+
+    for (i = 0; i < microsec; ++i)
     {
         pulseClock();
     }
