@@ -140,7 +140,7 @@ void TD_Init(void) // Called once at startup
 	PORTECFG = 0x00;
 
 	IOA = 0x00; // Keep all off
-	IOC = 0x08; // SPI SSN is active-low
+	IOC = 0xB8; // JTAG disabled (TMS, TCK, TDI high), SPI SSN is active-low
 	IOE = 0x23; // Bias Clock, Latch and Address_Select are active-low
 
 	OEA = 0x00; // 0000_0000, none are used
@@ -608,7 +608,7 @@ BOOL DR_VendorCmnd(void) {
 
 		case USB_REQ_DIR(VR_CPLD_UPLOAD, USB_DIRECTION_IN):
 			if (doJTAGInit) {
-				IOC &= ~0xF0;
+				IOC |= 0xB0; // JTAG disabled (TMS, TCK, TDI high)
 				OEC = 0xBE; // 1011_1110, JTAG (but not TDO) and SPI (but not SPI MISO)
 
 				xsvfInitializeSTM();
@@ -617,9 +617,10 @@ BOOL DR_VendorCmnd(void) {
 			}
 
 			if (wLength > XSVF_DATA_SIZE) {
-				OEC = 0x0E; // 0000_1110, JTAG (left floating) and SPI (but not SPI MISO)
-
+				// Return different error code for overlong command.
 				xsvfReturn = 10;
+
+				OEC = 0x0E; // 0000_1110, JTAG (left floating) and SPI (but not SPI MISO)
 				doJTAGInit = TRUE;
 
 				break;
