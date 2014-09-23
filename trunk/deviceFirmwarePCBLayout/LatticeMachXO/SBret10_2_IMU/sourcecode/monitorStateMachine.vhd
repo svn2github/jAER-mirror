@@ -108,7 +108,7 @@ architecture Behavioral of monitorStateMachine is
 	-- timestamp reset register
 	signal TimestampResetxDP, TimestampResetxDN : std_logic;
 	signal WrapCounterxDP, WrapCounterxDN : std_logic_vector(7 downto 0);
-
+	signal lastWrapCounterxD : std_logic_vector(7 downto 0);
 
 	-- constants for mux
 	--H Increased vector length and added another signal (selectIMU)
@@ -129,7 +129,6 @@ architecture Behavioral of monitorStateMachine is
 
 begin
 	AERREQxSB <= AERREQxSBI;
-	WrapCounterxDO <= WrapCounterxDP;
 	-- calculate next state and outputs
 	--H Added Sensititivy to IMU Hand shaking signals
 	p_memless : process (StatexDP, FifoFullxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, AERREQxSB, XxDI, ADCvalueReadyxSI,CountxDP,UseLongAckxSI,TriggerxSI,TriggerxDP, IMUDataReadyReqxEI, IMUDataWriteAckxEI, FifoCountxDI) -- Added FifoCountxDI
@@ -146,6 +145,7 @@ begin
 		WrapCounterxDN			<= WrapCounterxDP;
 		AddressMSBxDO 			<= address;
 		AddressRegWritexEO 		<= '1';
+    	WrapCounterxDO <= WrapCounterxDP;
 		--Alex. AERACKxSBO 				<= '1';
 
 		DebugLEDxEO <= '0'; --H
@@ -407,7 +407,11 @@ begin
 				--Alex. AERACKxSBO <= AERREQxSB;
 				if FifoFullxSI = '0' and AERREQxSB = '1' then
 					StatexDN <= stIdle;
+					AddressMSBxDO <= wrap;
+					DatatypeSelectxSO <= selectwrap; 
+					FifoWritexEO <= '1';
 				end if;
+				WrapCounterxDO <= lastWrapCounterxD;
 			when others => StatexDN <= stIdle;
 		end case;
 
@@ -424,6 +428,7 @@ begin
 			TriggerxDP <= '0';
 			AERACKxSBO <= '1';
 			WrapCounterxDP <= (others => '0');
+			lastWrapCounterxD <= (others => '0');
 		elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
 			StatexDP <= StatexDN;
 			TimestampOverflowxDP <= TimestampOverflowxDN;
@@ -437,6 +442,9 @@ begin
 				AERACKxSBO <= AERREQxSB;
 			else 
 				AERACKxSBO <= '1';
+			end if;
+			if (TimestampOverflowxSI='1') then --(StatexDP=stOverflow) then
+			    lastWrapCounterxD <= WrapCounterxDP;
 			end if;
 		end if;
 	end process p_memoryzing;

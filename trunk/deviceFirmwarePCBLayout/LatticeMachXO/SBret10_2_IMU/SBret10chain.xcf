@@ -19,18 +19,17 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/Haza/Documents/jAER/deviceFirmwarePCBLayout/LatticeMachXO/SBret10_2_IMU/SBret10/SBret10_SBret10.jed</File>
-			<FileTime>05/30/14 12:47:38</FileTime>
-			<JedecChecksum>0xC217</JedecChecksum>
+			<File>E:/LatticeMachXO/SBret10_2_IMU/SBret10/SBret10_SBret10.jed</File>
+			<FileTime>09/23/14 15:38:21</FileTime>
+			<JedecChecksum>0x1438</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
 				<PreloadLength>544</PreloadLength>
 				<IOVectorData>0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</IOVectorData>
-				<OverideUES value="TRUE"/>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
-				<SVFProcessor>ispVM</SVFProcessor>
+				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0x00000000</Usercode>
 				<AccessMode>FLASH</AccessMode>
 			</Option>
@@ -47,6 +46,7 @@
 	<CableOptions>
 		<CableName>USB</CableName>
 		<PortAdd>EzUSB-0</PortAdd>
+		<USBID>\\?\usb#vid_1134&amp;amp;pid_8001#5&amp;amp;c1e6cce&amp;amp;0&amp;amp;1#</USBID>
 		<JTAGPinSetting>
 			TMS	LOW;
 			TCK	LOW;
