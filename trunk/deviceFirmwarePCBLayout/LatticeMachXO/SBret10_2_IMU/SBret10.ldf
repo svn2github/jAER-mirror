@@ -54,9 +54,6 @@
         <Source name="ADCStateMachine_tb.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="sourcecode/ADCStateMachine.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
         <Source name="sourcecode/I2C_Arb_Blk.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
@@ -88,6 +85,15 @@
             <Options/>
         </Source>
         <Source name="sourcecode/IMUStateMachine.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/ADCStateMachineRS.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="sourcecode/ADCStateMachineGS.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="asdf.rvl" type="Reveal" type_short="Reveal" excluded="TRUE">
             <Options/>
         </Source>
         <Source name="SBret10.lpf" type="Logic Preference" type_short="LPF">
