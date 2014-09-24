@@ -6,15 +6,6 @@
         <Source name="ApproachSensitivity/source/ApproachCell.vhd" type="VHDL" type_short="VHDL">
             <Options top_module="ApproachCell"/>
         </Source>
-        <Source name="ApproachSensitivity/source/ApproachCell_tb.vhd" type="VHDL" type_short="VHDL" excluded="TRUE">
-            <Options/>
-        </Source>
-        <Source name="ApproachSensitivity/source/ApproachCellMain.vhd" type="VHDL" type_short="VHDL" excluded="TRUE">
-            <Options/>
-        </Source>
-        <Source name="ApproachSensitivity/source/ApproachSensitivityDecayCounterStateMachine.vhd" type="VHDL" type_short="VHDL" excluded="TRUE">
-            <Options/>
-        </Source>
         <Source name="ApproachSensitivity.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
