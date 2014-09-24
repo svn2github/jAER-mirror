@@ -213,7 +213,35 @@ architecture Structural of USBAER_top_level is
 			DebugLEDxEO	: out std_logic); --H
 	end component;
 
-	component ADCStateMachine
+	component ADCStateMachineGS
+		port (
+			ClockxCI              : in    std_logic;
+			ADCclockxCO           : out   std_logic;
+			ResetxRBI             : in    std_logic;
+			ADCwordxDI            : in    std_logic_vector(9 downto 0);
+			ADCoutxDO             : out   std_logic_vector(13 downto 0);
+			ADCoexEBO	          : out   std_logic;
+			ADCstbyxEO            : out   std_logic;
+			ADCovrxSI			  : in	  std_logic;
+			RegisterWritexEO      : out   std_logic;
+			SRLatchxEI            : in    std_logic;
+			RunADCxSI             : in    std_logic;
+			ExposurexDI           : in    std_logic_vector(15 downto 0);
+			ColSettlexDI          : in    std_logic_vector(15 downto 0);
+			RowSettlexDI          : in    std_logic_vector(15 downto 0);
+			ResSettlexDI          : in    std_logic_vector(15 downto 0);
+			FramePeriodxDI		  : in    std_logic_vector(15 downto 0);
+			ExtTriggerxEI		  : in    std_logic;
+			CDVSTestSRRowInxSO    : out   std_logic;
+			CDVSTestSRRowClockxSO : out   std_logic;
+			CDVSTestSRColInxSO    : out   std_logic;
+			CDVSTestSRColClockxSO : out   std_logic;
+			CDVSTestColMode0xSO   : out   std_logic;
+			CDVSTestColMode1xSO   : out   std_logic;
+			CDVSTestApsTxGatexSO  : out   std_logic;
+			ADCStateOutputLEDxSO  : out	  std_logic);
+	end component;
+	component ADCStateMachineRS
 		port (
 			ClockxCI              : in    std_logic;
 			ADCclockxCO           : out   std_logic;
@@ -431,22 +459,23 @@ architecture Structural of USBAER_top_level is
 	signal I2CDataxD : std_logic_vector(7 downto 0);
 	--H
 
+
 	-- ADC related signals
 	signal ReadADCvaluexE, ADCvalueReadyxS : std_logic;
 	signal ADCregInxD 		: std_logic_vector(13 downto 0);
 	signal ADCregOutxD 		: std_logic_vector(13 downto 0);
-	signal ADCregWritexE 	: std_logic;
-	signal ADCdataxD 		: std_logic_vector(13 downto 0);
+	signal ADCregWritexE, ADCregWriteGSxE, ADCregWriteRSxE 	: std_logic;
+	signal ADCdataxD, ADCdataGSxD, ADCdataRSxD 		: std_logic_vector(13 downto 0);
 
-	signal ADCsmRstxE		: std_logic;
-	signal ADCclockxC   	: std_logic;
-	signal ADCoexEB	    	: std_logic;
-	signal ADCstbyxE        : std_logic;
+	signal ADCsmRstxE, ADCsmRstGSxE, ADCsmRstRSxE		: std_logic;
+	signal ADCclockxC, ADCclockGSxC, ADCclockRSxC   	: std_logic;
+	signal ADCoexEB, ADCoexGSEB, ADCoexRSEB	    	: std_logic;
+	signal ADCstbyxE, ADCstbGSyxE, ADCstbRSyxE       : std_logic;
 	signal ADCovrxS			: std_logic;
-	signal CDVSTestSRRowClockxS, CDVSTestSRRowInxS : std_logic;
-	signal CDVSTestSRColClockxS, CDVSTestSRColInxS : std_logic;
-	signal CDVSTestColMode0xS, CDVSTestColMode1xS : std_logic;
-	signal CDVSTestApsTxGatexS : std_logic;
+	signal CDVSTestSRRowClockxS, CDVSTestSRRowClockGSxS, CDVSTestSRRowClockRSxS, CDVSTestSRRowInxS, CDVSTestSRRowInGSxS, CDVSTestSRRowInRSxS : std_logic;
+	signal CDVSTestSRColClockxS, CDVSTestSRColClockGSxS, CDVSTestSRColClockRSxS, CDVSTestSRColInxS, CDVSTestSRColInGSxS, CDVSTestSRColInRSxS : std_logic;
+	signal CDVSTestColMode0xS, CDVSTestColMode0GSxS, CDVSTestColMode0RSxS, CDVSTestColMode1xS, CDVSTestColMode1GSxS, CDVSTestColMode1RSxS : std_logic;
+	signal CDVSTestApsTxGatexS, CDVSTestApsTxGateGSxS, CDVSTestApsTxGateRSxS : std_logic;
 	signal ExtTriggerxE		: std_logic;
 
 	signal SRDataOutxD : std_logic_vector(127 downto 0);
@@ -457,7 +486,9 @@ architecture Structural of USBAER_top_level is
 	signal SRoutxD, SRinxD, SRLatchxE, SRClockxC : std_logic;
 	signal RunADCxS : std_logic;
 
-	signal ADCStateOutputLEDxS : std_logic;
+	signal ADCStateOutputLEDxS, ADCStateOutputLEDGSxS, ADCStateOutputLEDRSxS : std_logic;
+	
+	signal ADCselRSnGSxD: std_logic;
 
 	-- lock signal from PLL, unused so far
 	signal LockxS : std_logic;
@@ -691,17 +722,17 @@ begin
 			Alex => Alex,
 			DebugLEDxEO				  => open); --H
   
-	ADCStateMachine_1: ADCStateMachine
+	ADCStateMachine_1: ADCStateMachineRS
 		port map (
 		  ClockxCI              => IfClockxC,
-		  ADCclockxCO           => ADCclockxC,
-		  ResetxRBI             => ADCsmRstxE,
+		  ADCclockxCO           => ADCclockRSxC,
+		  ResetxRBI             => ADCsmRstRSxE,
 		  ADCwordxDI           	=> ADCwordxDI,
-		  ADCoutxDO             => ADCdataxD,
-		  ADCoexEBO          	=> ADCoexEB,
-		  ADCstbyxEO           	=> ADCstbyxE,
+		  ADCoutxDO             => ADCdataRSxD,
+		  ADCoexEBO          	=> ADCoexRSEB,
+		  ADCstbyxEO           	=> ADCstbRSyxE,
 		  ADCovrxSI				=> ADCovrxS,
-		  RegisterWritexEO      => ADCregWritexE,
+		  RegisterWritexEO      => ADCregWriteRSxE,
 		  SRLatchxEI            => SRLatchxE,
 		  RunADCxSI             => RunADCxS,
 		  ExposurexDI           => ExposurexD,
@@ -710,16 +741,61 @@ begin
 		  ResSettlexDI          => ResSettlexD,
 		  FramePeriodxDI		=> FramePeriodxD,
 		  ExtTriggerxEI			=> ExtTriggerxE,
-		  CDVSTestSRRowInxSO    => CDVSTestSRRowInxS,
-		  CDVSTestSRRowClockxSO => CDVSTestSRRowClockxS,
-		  CDVSTestSRColInxSO    => CDVSTestSRColInxS,
-		  CDVSTestSRColClockxSO => CDVSTestSRColClockxS,
-		  CDVSTestColMode0xSO   => CDVSTestColMode0xS,
-		  CDVSTestColMode1xSO   => CDVSTestColMode1xS,
-		  CDVSTestApsTxGatexSO  => CDVSTestApsTxGatexS,
-		  ADCStateOutputLEDxSO  => ADCStateOutputLEDxS);
+		  CDVSTestSRRowInxSO    => CDVSTestSRRowInRSxS,
+		  CDVSTestSRRowClockxSO => CDVSTestSRRowClockRSxS,
+		  CDVSTestSRColInxSO    => CDVSTestSRColInRSxS,
+		  CDVSTestSRColClockxSO => CDVSTestSRColClockRSxS,
+		  CDVSTestColMode0xSO   => CDVSTestColMode0RSxS,
+		  CDVSTestColMode1xSO   => CDVSTestColMode1RSxS,
+		  CDVSTestApsTxGatexSO  => CDVSTestApsTxGateRSxS,
+		  ADCStateOutputLEDxSO  => ADCStateOutputLEDRSxS);
   
-	ADCovrxS <= ADCovrxSI;
+	ADCStateMachine_2: ADCStateMachineGS
+		port map (
+		  ClockxCI              => IfClockxC,
+		  ADCclockxCO           => ADCclockGSxC,
+		  ResetxRBI             => ADCsmRstGSxE,
+		  ADCwordxDI           	=> ADCwordxDI,
+		  ADCoutxDO             => ADCdataGSxD,
+		  ADCoexEBO          	=> ADCoexGSEB,
+		  ADCstbyxEO           	=> ADCstbGSyxE,
+		  ADCovrxSI				=> ADCovrxS,
+		  RegisterWritexEO      => ADCregWriteGSxE,
+		  SRLatchxEI            => SRLatchxE,
+		  RunADCxSI             => RunADCxS,
+		  ExposurexDI           => ExposurexD,
+		  ColSettlexDI          => ColSettlexD,
+		  RowSettlexDI          => RowSettlexD,
+		  ResSettlexDI          => ResSettlexD,
+		  FramePeriodxDI		=> FramePeriodxD,
+		  ExtTriggerxEI			=> ExtTriggerxE,
+		  CDVSTestSRRowInxSO    => CDVSTestSRRowInGSxS,
+		  CDVSTestSRRowClockxSO => CDVSTestSRRowClockGSxS,
+		  CDVSTestSRColInxSO    => CDVSTestSRColInGSxS,
+		  CDVSTestSRColClockxSO => CDVSTestSRColClockGSxS,
+		  CDVSTestColMode0xSO   => CDVSTestColMode0GSxS,
+		  CDVSTestColMode1xSO   => CDVSTestColMode1GSxS,
+		  CDVSTestApsTxGatexSO  => CDVSTestApsTxGateGSxS,
+		  ADCStateOutputLEDxSO  => ADCStateOutputLEDGSxS);
+
+ADCselRSnGSxD <= IMUConfigxD(1);
+ADCsmRstGSxE <= '1' when ADCselRSnGSxD = '1' else ADCsmRstxE;
+ADCsmRstRSxE <= '1' when ADCselRSnGSxD = '0' else ADCsmRstxE;
+ADCclockxC <= ADCclockGSxC when ADCselRSnGSxD = '0' else ADCclockRSxC;
+ADCdataxD <= ADCdataGSxD when ADCselRSnGSxD = '0' else ADCdataRSxD;
+ADCoexEB <= ADCoexGSEB when ADCselRSnGSxD = '0' else ADCoexRSEB;
+ADCstbyxE <= ADCstbGSyxE when ADCselRSnGSxD = '0' else ADCstbRSyxE;
+ADCregWritexE <= ADCregWriteGSxE when ADCselRSnGSxD = '0' else ADCregWriteRSxE;
+CDVSTestSRRowInxS <= CDVSTestSRRowInGSxS when ADCselRSnGSxD = '0' else CDVSTestSRRowInRSxS;
+CDVSTestSRRowClockxS <= CDVSTestSRRowClockGSxS when ADCselRSnGSxD = '0' else CDVSTestSRRowClockRSxS;
+CDVSTestSRColInxS <= CDVSTestSRColInGSxS when ADCselRSnGSxD = '0' else CDVSTestSRColInRSxS;
+CDVSTestSRColClockxS <= CDVSTestSRColClockGSxS when ADCselRSnGSxD = '0' else CDVSTestSRColClockRSxS;
+CDVSTestColMode0xS <= CDVSTestColMode0GSxS when ADCselRSnGSxD = '0' else CDVSTestColMode0RSxS;
+CDVSTestColMode1xS <= CDVSTestColMode1GSxS when ADCselRSnGSxD = '0' else CDVSTestColMode1RSxS;
+CDVSTestApsTxGatexS <= CDVSTestApsTxGateGSxS when ADCselRSnGSxD = '0' else CDVSTestApsTxGateRSxS;
+ADCStateOutputLEDxS <= ADCStateOutputLEDGSxS when ADCselRSnGSxD = '0' else ADCStateOutputLEDRSxS;
+
+ADCovrxS <= ADCovrxSI;
 	ADCsmRstxE <= ResetxRB and RunxS; 
 
 	ADCvalueReady_1: ADCvalueReady
