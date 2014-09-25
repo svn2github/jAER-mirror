@@ -6,7 +6,7 @@ typeIdx=4
 isRequiredXCFFile=0
 xcfFileName=
 optionList=Operation;Write Header and Comments;Rev D Standard SVF;RUNTEST from Rev C;For Erase, Program, and Verify Operations, Skip Verify;Include RESET at the End of the SVF File;Set Maximum Data Size per Row;Maximum Data Size per Row (Kbits)
-valueList=FLASH Erase,Program,Verify;On;Off;On;Off;On;On;8
+valueList=FLASH Erase,Program,Verify;Off;Off;On;Off;On;On;8
 
 [Input File Info]
 inputFileList=E:/JAER_SVN/devices/logic/LatticeECP3/StreamTester/FX2/StreamTester_FX2/StreamTester_FX2_StreamTester_FX2.jed
@@ -15,4 +15,4 @@ deviceList=LCMXO2280C
 outputFileList=E:/JAER_SVN/devices/logic/LatticeECP3/StreamTester/FX2/StreamTester_FX2/StreamTester_FX2.svf
 
 [Command Line]
-Command="C:/lscc/diamond/3.2_x64/bin/nt64/ddtcmd" -oft -svfsingle -if "E:/JAER_SVN/devices/logic/LatticeECP3/StreamTester/FX2/StreamTester_FX2/StreamTester_FX2_StreamTester_FX2.jed" -dev LCMXO2280C -op "FLASH Erase,Program,Verify" -runtest -reset -maxdata 8 -of "E:/JAER_SVN/devices/logic/LatticeECP3/StreamTester/FX2/StreamTester_FX2/StreamTester_FX2.svf"
+Command="C:/lscc/diamond/3.2_x64/bin/nt64/ddtcmd" -oft -svfsingle -if "E:/JAER_SVN/devices/logic/LatticeECP3/StreamTester/FX2/StreamTester_FX2/StreamTester_FX2_StreamTester_FX2.jed" -dev LCMXO2280C -op "FLASH Erase,Program,Verify" -nocomments -runtest -reset -maxdata 8 -of "E:/JAER_SVN/devices/logic/LatticeECP3/StreamTester/FX2/StreamTester_FX2/StreamTester_FX2.svf"
