@@ -1,1 +1,0 @@
-This is the CPLD logic design that integrates I2C interface from IMU to CPLD
