@@ -9,7 +9,7 @@ entity FIFODualClock is
 		DATA_DEPTH        : integer;
 		EMPTY_FLAG        : integer;
 		ALMOST_EMPTY_FLAG : integer;
-		FULL_FLAG         : integer; 
+		FULL_FLAG         : integer;
 		ALMOST_FULL_FLAG  : integer;
 		MEMORY            : string := "EBR");
 	port(
@@ -26,7 +26,7 @@ architecture Structural of FIFODualClock is
 	attribute syn_enum_encoding : string;
 
 	type tState is (stInit, stGetData, stWaitRead);
-	attribute syn_enum_encoding of tState : type is "onehot"; 
+	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
 	signal State_DP, State_DN : tState;
