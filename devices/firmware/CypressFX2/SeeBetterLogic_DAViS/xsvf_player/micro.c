@@ -291,7 +291,7 @@ short xsvfGetAsNumBytes( long lNumBits )
 * Parameters:   sTms    - new TMS value.
 * Returns:      void.
 *****************************************************************************/
-void xsvfTmsTransition( short sTms )
+void xsvfTmsTransition( unsigned char sTms )
 {
     setPort( TMS, sTms );
     setPort( TCK, 0 );
@@ -559,7 +559,7 @@ void xsvfShiftOnly( long    lNumBits,
             }
 
             /* Set the new TDI value */
-            setPort( TDI, (short)(ucTdiByte & 1) );
+            setPort( TDI, (unsigned char)(ucTdiByte & 0x01) );
             ucTdiByte   >>= 1;
 
             /* Set TCK low */

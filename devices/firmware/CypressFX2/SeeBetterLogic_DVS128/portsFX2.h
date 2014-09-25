@@ -8,6 +8,7 @@ Depends on fx2regs.h
 // Defines all other ports.
 #include <fx2.h>
 #include <fx2regs.h>
+#include <syncdly.h> // SYNCDELAY macro
 
 // Port E is not bit addressable, so we provide macros for it.
 #define PE0 0x01
@@ -22,5 +23,25 @@ Depends on fx2regs.h
 #define setPE(BIT_MASK, VALUE) (VALUE == 0) ? (IOE &= ~BIT_MASK) : (IOE |= BIT_MASK)
 
 #define getPE(BIT_MASK) ((IOE & BIT_MASK) != 0)
+
+// These are the definitions that map functionality to a port.
+#define CPLD_TDI PC7
+#define CPLD_TDO PC6
+#define CPLD_TCK PC5
+#define CPLD_TMS PC4
+
+#define CPLD_SPI_SSN PC3 // is active-low
+#define CPLD_SPI_CLOCK PC2
+#define CPLD_SPI_MOSI PC1
+#define CPLD_SPI_MISO PC0
+
+#define CPLD_RESET PA3
+#define FXLED PA7
+
+#define DVS_ARRAY_RESET PE5 // is active-low
+#define BIAS_CLOCK PE4
+#define BIAS_BIT PE3
+#define BIAS_ENABLE PE2 // is active-low
+#define BIAS_LATCH PE1 // is active-low
 
 #endif

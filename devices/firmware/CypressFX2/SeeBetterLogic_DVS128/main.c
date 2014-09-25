@@ -1,33 +1,11 @@
 #pragma NOIV // Do not generate interrupt vectors
 
-#include <fx2.h>
-#include <fx2regs.h>
-#include <syncdly.h> // SYNCDELAY macro
 #include "portsFX2.h"
 
 #include "xsvf_player/ports.h"
 #include "xsvf_player/micro.h"
 
 extern BOOL GotSUD;
-
-#define CPLD_TDI PC7
-#define CPLD_TDO PC6
-#define CPLD_TCK PC5
-#define CPLD_TMS PC4
-
-#define CPLD_SPI_SSN PC3 // is active-low
-#define CPLD_SPI_CLOCK PC2
-#define CPLD_SPI_MOSI PC1
-#define CPLD_SPI_MISO PC0
-
-#define CPLD_RESET PA3
-#define FXLED PA7
-
-#define DVS_ARRAY_RESET PE5 // is active-low
-#define BIAS_CLOCK PE4
-#define BIAS_BIT PE3
-#define BIAS_ENABLE PE2 // is active-low
-#define BIAS_LATCH PE1 // is active-low
 
 // Device-specific vendor requests
 #define VR_EEPROM 0xBD

@@ -14,22 +14,17 @@
 
 /* setPort:  Implement to set the named JTAG signal (p) to the new value (v).*/
 /* if in debugging mode, then just set the variables */
-void setPort(unsigned char p, short val)
+void setPort(unsigned char p, unsigned char val)
 {
-	if (val == 0) {
-		IOC &= ~p;
+	if (p == TMS) {
+		CPLD_TMS = val;
+	}
+	else if (p == TDI) {
+		CPLD_TDI = val;
 	}
 	else {
-		IOC |= p;
+		CPLD_TCK = val;
 	}
-}
-
-
-/* toggle tck LH.  No need to modify this code.  It is output via setPort. */
-void pulseClock()
-{
-    setPort(TCK, 0);  /* set the TCK port to low  */
-    setPort(TCK, 1);  /* set the TCK port to high */
 }
 
 static int dataReadIndex;
@@ -52,7 +47,7 @@ void resetDataArray(unsigned char *newDataArray)
 /* read the TDO bit from port */
 unsigned char readTDOBit()
 {
-	return ((IOC & TDO) >> TDOshift);
+	return (CPLD_TDO);
 }
 
 /* waitTime:  Implement as follows: */
@@ -73,13 +68,13 @@ void waitTime(long microsec)
 	   1 million (1 second). Above that, we only respect the REQUIRED portion,
 	   because the slow-down would be unacceptable. FX2 takes about 10 actual
 	   microsecodns to execute the pulseClock() function! */
-
 	if (microsec > 1000000) {
 		microsec /= 10;
 	}
 
     for (i = 0; i < microsec; ++i)
     {
-        pulseClock();
+        setPort( TCK, 0 );
+		setPort( TCK, 1 );
     }
 }
