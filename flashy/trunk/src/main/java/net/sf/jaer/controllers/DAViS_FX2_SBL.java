@@ -534,8 +534,6 @@ public class DAViS_FX2_SBL extends Controller {
 
 			usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, command, (short) 0, logicChunk);
 
-			// System.out.println(String.format("Sent VR_CPLD_UPLOAD, with command %d at index %d, length %d", command, index, commandLength));
-
 			// Get result.
 			final ByteBuffer result = usbDevice.sendVendorRequestIN(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0,
 				2);

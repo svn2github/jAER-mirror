@@ -35,7 +35,6 @@ import javafx.util.StringConverter;
 import net.sf.jaer.controllers.Controller;
 import net.sf.jaer.controllers.DAViS_FX2_SBL;
 import net.sf.jaer.controllers.DAViS_FX3_SBL;
-import net.sf.jaer.controllers.DVS128_FX2_SBL;
 import net.sf.jaer.controllers.DeviceEraser;
 import net.sf.jaer.controllers.FX2;
 import net.sf.jaer.controllers.FX3;
@@ -54,7 +53,9 @@ public final class Flashy extends Application {
 
 		iniPids.put((short) 0x841A, DAViS_FX3_SBL.class);
 		iniPids.put((short) 0x841B, DAViS_FX2_SBL.class);
-		iniPids.put((short) 0x841C, DVS128_FX2_SBL.class);
+		// Currently, the DVS128 supports the same capabilities regarding CPLD
+		// and firmware control than the DAViS, so we use the same code.
+		iniPids.put((short) 0x841C, DAViS_FX2_SBL.class);
 
 		// Support erasing of old devices.
 		iniPids.put((short) 0x8400, DeviceEraser.class);
