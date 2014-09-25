@@ -93,10 +93,10 @@ architecture Structural of TopLevel is
 	signal DVSAERFifoControlOut_S : tFromFifo;
 	signal DVSAERFifoDataIn_D     : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 	signal DVSAERFifoDataOut_D    : std_logic_vector(EVENT_WIDTH - 1 downto 0);
-
+ 
 	signal DVSAERFifoSControlIn_S  : tToFifo;
 	signal DVSAERFifoSControlOut_S : tFromFifo;
-	signal DVSAERFifoSDataIn_D     : std_logic_vector(EVENT_WIDTH - 1 downto 0);
+	signal DVSAERFifoSDataIn_D     : std_logic_vector(EVENT_WIDTH - 1 downto 0); 
 	signal DVSAERFifoSDataOut_D    : std_logic_vector(EVENT_WIDTH - 1 downto 0);
 
 	signal MISCAERFifoControlIn_S  : tToFifo;
@@ -581,8 +581,8 @@ begin
 			OutFifoControl_SI => IMUFifoControlOut_S.WriteSide,
 			OutFifoControl_SO => IMUFifoControlIn_S.WriteSide,
 			OutFifoData_DO    => IMUFifoDataIn_D,
-			IMUClock_ZO       => IMUClock_ZO,
-			IMUData_ZIO       => IMUData_ZIO,
+			IMUClock_CZO      => IMUClock_ZO,
+			IMUData_DZIO       => IMUData_ZIO,
 			IMUInterrupt_SI   => IMUInterruptSync_S,
 			IMUConfig_DI      => IMUConfig_D);
 
@@ -643,7 +643,7 @@ begin
 			SPISlaveSelect_SBI     => SPISlaveSelectSync_SB,
 			SPIClock_CI            => SPIClockSync_C,
 			SPIMOSI_DI             => SPIMOSISync_D,
-			SPIMISO_ZO             => SPIMISO_ZO,
+			SPIMISO_DZO             => SPIMISO_ZO,
 			ConfigModuleAddress_DO => ConfigModuleAddress_D,
 			ConfigParamAddress_DO  => ConfigParamAddress_D,
 			ConfigParamInput_DO    => ConfigParamInput_D,
