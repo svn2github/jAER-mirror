@@ -7,18 +7,10 @@
 #ifndef ports_dot_h
 #define ports_dot_h
 
-/* these constants are used to send the appropriate ports to setPort */
-/* they should be enumerated types, but some of the microcontroller  */
-/* compilers don't like enumerated types */
-#define TCK 0x20
-#define TMS 0x10
-#define TDI 0x80
-#define TDO 0x40
-
-#define TCKshift 5
-#define TMSshift 4
-#define TDIshift 7
-#define TDOshift 6
+#define TCK 0x01
+#define TMS 0x02
+#define TDI 0x04
+#define TDO 0x08
 
 /* set the port "p" (TCK, TMS, or TDI) to val (0 or 1) */
 extern void setPort(unsigned char p, unsigned char val);
