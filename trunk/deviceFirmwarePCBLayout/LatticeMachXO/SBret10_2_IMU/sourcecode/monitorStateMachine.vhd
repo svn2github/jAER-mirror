@@ -109,7 +109,8 @@ architecture Behavioral of monitorStateMachine is
 	signal TimestampResetxDP, TimestampResetxDN : std_logic;
 	signal WrapCounterxDP, WrapCounterxDN : std_logic_vector(7 downto 0);
 	signal lastWrapCounterxD : std_logic_vector(7 downto 0);
-
+	signal NeedWrapEventxDP, NeedWrapEventxDN: std_logic;
+	
 	-- constants for mux
 	--H Increased vector length and added another signal (selectIMU)
 	constant selectADC : std_logic_vector(2 downto 0) := "011";
@@ -129,6 +130,8 @@ architecture Behavioral of monitorStateMachine is
 
 begin
 	AERREQxSB <= AERREQxSBI;
+	WrapCounterxDO <= WrapCounterxDP;
+
 	-- calculate next state and outputs
 	--H Added Sensititivy to IMU Hand shaking signals
 	p_memless : process (StatexDP, FifoFullxSI, TimestampOverflowxDP,TimestampOverflowxSI,TimestampResetxDP,ResetTimestampxSBI, AERREQxSB, XxDI, ADCvalueReadyxSI,CountxDP,UseLongAckxSI,TriggerxSI,TriggerxDP, IMUDataReadyReqxEI, IMUDataWriteAckxEI, FifoCountxDI) -- Added FifoCountxDI
@@ -143,20 +146,22 @@ begin
 		
 		DatatypeSelectxSO 		<= selectaddress; --H AddressTimestampSelectxSO <= selectaddress;
 		WrapCounterxDN			<= WrapCounterxDP;
+		NeedWrapEventxDN	    <= NeedWrapEventxDP;
 		AddressMSBxDO 			<= address;
 		AddressRegWritexEO 		<= '1';
-    	WrapCounterxDO <= WrapCounterxDP;
-		--Alex. AERACKxSBO 				<= '1';
+    	--Alex. AERACKxSBO 				<= '1';
 
 		DebugLEDxEO <= '0'; --H
 
 		if TimestampResetxDP = '1' then -- as long as there is a timestamp reset pending, do not send wrap events
-		  TimestampOverflowxDN <= (others => '0');
+		  --TimestampOverflowxDN <= (others => '0');
+		  NeedWrapEventxDN <= '0';
 		elsif TimestampOverflowxSI = '1' then
-		  TimestampOverflowxDN <= TimestampOverflowxDP +1;
+		  --TimestampOverflowxDN <= TimestampOverflowxDP +1;
 		  WrapCounterxDN <= WrapCounterxDP +1;
-		else
-		  TimestampOverflowxDN <= TimestampOverflowxDP;
+		  NeedWrapEventxDN <= '1';
+		--else
+		  --TimestampOverflowxDN <= TimestampOverflowxDP;
 		end if;
 
 		TimestampResetxDN <= (not ResetTimestampxSBI); --TimestampResetxDP or --Alex
@@ -183,7 +188,7 @@ begin
 				elsif TimestampResetxDP = '1'  then
 					StatexDN <= stResetTimestamp;
 				
-				elsif TimestampOverflowxDP > 0 then
+				elsif NeedWrapEventxDP = '1' then --TimestampOverflowxDP > 0 then
 					StatexDN <= stOverflow;
 
 				-- if inFifo is not full and there is a monitor event, start a
@@ -232,9 +237,11 @@ begin
 				StatexDN <= stIdle;                
 			
 				if TimestampOverflowxSI = '1' then
-					TimestampOverflowxDN <= TimestampOverflowxDP;
+					--TimestampOverflowxDN <= TimestampOverflowxDP;
+					NeedWrapEventxDN <= '1';
 				else
-					TimestampOverflowxDN <= TimestampOverflowxDP - 1;
+					--TimestampOverflowxDN <= TimestampOverflowxDP - 1;
+					NeedWrapEventxDN <= '0';
 				end if;
 			
 				AddressMSBxDO <= wrap;
@@ -247,7 +254,8 @@ begin
 				StatexDN <= stIdle;       
 				
 				TimestampResetxDN <= '0';
-				TimestampOverflowxDN <= (others => '0');
+				--TimestampOverflowxDN <= (others => '0');
+				NeedWrapEventxDN <= '0';
 				AddressMSBxDO <= timereset;
 				DatatypeSelectxSO <= selectaddress; --H AddressTimestampSelectxSO <= selectaddress;
 				FifoWritexEO <= '1';
@@ -411,7 +419,6 @@ begin
 					DatatypeSelectxSO <= selectwrap; 
 					FifoWritexEO <= '1';
 				end if;
-				WrapCounterxDO <= lastWrapCounterxD;
 			when others => StatexDN <= stIdle;
 		end case;
 
@@ -423,15 +430,17 @@ begin
 		if ResetxRBI = '0' then             -- asynchronous reset (active low)
 			StatexDP <= stIdle;
 			CountxDP <= (others => '0');
-	        TimestampOverflowxDP <= (others => '0');
+	        --TimestampOverflowxDP <= (others => '0');
 			TimestampResetxDP <= '0';
 			TriggerxDP <= '0';
 			AERACKxSBO <= '1';
 			WrapCounterxDP <= (others => '0');
 			lastWrapCounterxD <= (others => '0');
+			NeedWrapEventxDP <= '0';
 		elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
 			StatexDP <= StatexDN;
-			TimestampOverflowxDP <= TimestampOverflowxDN;
+			--TimestampOverflowxDP <= TimestampOverflowxDN;
+			NeedWrapEventxDP <= NeedWrapEventxDN;
 			TimestampResetxDP <= TimestampResetxDN;
 			CountxDP <= CountxDN;
 			TriggerxDP <= TriggerxDN;
@@ -443,9 +452,9 @@ begin
 			else 
 				AERACKxSBO <= '1';
 			end if;
-			if (TimestampOverflowxSI='1') then --(StatexDP=stOverflow) then
-			    lastWrapCounterxD <= WrapCounterxDP;
-			end if;
+			--if (TimestampOverflowxSI='1') then --(StatexDP=stOverflow) then
+			--    lastWrapCounterxD <= WrapCounterxDN+1;
+			--end if;
 		end if;
 	end process p_memoryzing;
   
