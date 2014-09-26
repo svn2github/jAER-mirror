@@ -6,25 +6,25 @@ use work.FIFORecords.all;
 
 entity TopLevel is
 	port(
-		USBClock_CI                 : in  std_logic;
-		Reset_RI                    : in  std_logic;
+		USBClock_CI                : in  std_logic;
+		Reset_RI                   : in  std_logic;
 
-		SPISlaveSelect_ABI          : in  std_logic;
-		SPIClock_AI                 : in  std_logic;
-		SPIMOSI_AI                  : in  std_logic;
-		SPIMISO_DZO                 : out std_logic;
+		SPISlaveSelect_ABI         : in  std_logic;
+		SPIClock_AI                : in  std_logic;
+		SPIMOSI_AI                 : in  std_logic;
+		SPIMISO_DZO                : out std_logic;
 
-		USBFifoData_DO              : out std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
-		USBFifoWrite_SBO            : out std_logic;
-		USBFifoRead_SBO             : out std_logic;
-		USBFifoPktEnd_SBO           : out std_logic;
-		USBFifoAddress_DO           : out std_logic_vector(1 downto 0);
-		USBFifoFullFlag_SI          : in  std_logic;
-		USBFifoProgrammableFlag_SBI : in  std_logic;
+		USBFifoData_DO             : out std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
+		USBFifoWrite_SBO           : out std_logic;
+		USBFifoRead_SBO            : out std_logic;
+		USBFifoPktEnd_SBO          : out std_logic;
+		USBFifoAddress_DO          : out std_logic_vector(1 downto 0);
+		USBFifoFullFlag_SI         : in  std_logic;
+		USBFifoProgrammableFlag_SI : in  std_logic;
 
-		LED1_SO                     : out std_logic;
-		LED2_SO                     : out std_logic;
-		LED3_SO                     : out std_logic);
+		LED1_SO                    : out std_logic;
+		LED2_SO                    : out std_logic;
+		LED3_SO                    : out std_logic);
 end TopLevel;
 
 architecture Structural of TopLevel is
@@ -57,7 +57,7 @@ begin
 			ResetSync_RO                   => USBReset_R,
 			USBFifoFullFlag_SI             => USBFifoFullFlag_SI,
 			USBFifoFullFlagSync_SO         => USBFifoFullFlagSync_S,
-			USBFifoProgrammableFlag_SI     => not USBFifoProgrammableFlag_SBI,
+			USBFifoProgrammableFlag_SI     => USBFifoProgrammableFlag_SI,
 			USBFifoProgrammableFlagSync_SO => USBFifoProgrammableFlagSync_S);
 
 	-- Second: synchronize all logic-related inputs to the logic clock.
