@@ -1,0 +1,10 @@
+"fw.obj",
+"dscr.obj",
+"C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Lib\LP\EZUSB.LIB",
+"C:\Cypress\USB\CY3684_EZ-USB_FX2LP_DVK\1.0\Target\Lib\LP\USBJmpTb.OBJ",
+"spiwritebyte.obj",
+"main.obj" 
+TO "SBret10" 
+RAMSIZE(256) 
+CODE( 0X0000-0X1FFF )
+XDATA( 0X2000-0X3FFF )
