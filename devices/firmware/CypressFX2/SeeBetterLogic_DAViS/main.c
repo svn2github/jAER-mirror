@@ -50,11 +50,15 @@ void TD_Init(void) // Called once at startup
 {
 	// set the CPU clock to 48MHz. CLKOUT is normal polarity, disabled.
 	CPUCS = 0x10; // 0001_0000
+
 	// set the slave FIFO interface to 30MHz, slave fifo mode.
 	IFCONFIG = 0xA3; // 1010_0011
 
-	SYNCDELAY;
-	REVCTL = 0x03; // As recommended by Cypress.
+	// disable interrupts by the input pins and by timers and serial ports
+	IE = 0x00; // 0000_0000
+
+	// disable interrupt pins 4, 5 and 6, keep I2C/USB enabled
+	EIE = 0xE3; // 1110_0011
 
 	// Registers which require a synchronization delay, see section 15.14
 	// FIFORESET        FIFOPINPOLAR
@@ -71,11 +75,7 @@ void TD_Init(void) // Called once at startup
 	// GPIFTRIG
 
 	SYNCDELAY;
-	FIFOPINPOLAR = 0x03; // 0000_0011, keep full/empty flags active-high! Programmable is active-low still.
-
-	// FIFO flag configuration: FlagA: EP6 programmable, FlagB: EP6 full, FlagC and FlagD unused.
-	SYNCDELAY;
-	PINFLAGSAB = 0xE6; // 1110_01100
+	REVCTL = 0x03; // As recommended by Cypress.
 
 	SYNCDELAY;
 	EP1OUTCFG = 0x00; // EP1OUT disabled
@@ -94,8 +94,27 @@ void TD_Init(void) // Called once at startup
 	SYNCDELAY;
 	EP8CFG = 0x00; // EP8 disabled
 
+	// Ensure FIFO is reset.
+	SYNCDELAY;
+	FIFORESET = 0x80;
+
+	SYNCDELAY;
+	FIFORESET = 0x86;
+
+	SYNCDELAY;
+	FIFORESET = 0x00;
+
 	SYNCDELAY;
 	EP6FIFOCFG = 0x09; // 0000_1001
+
+	// FIFO flag configuration: FlagA: EP6 programmable, FlagB: EP6 full, FlagC and FlagD unused.
+	SYNCDELAY;
+	PINFLAGSAB = 0xE6; // 1110_01100
+	SYNCDELAY;
+	PINFLAGSCD = 0x00;
+
+	SYNCDELAY;
+	FIFOPINPOLAR = 0x03; // 0000_0011, keep full/empty flags active-high!
 
 	// FIFO commits automatically after 512 bytes.
 	SYNCDELAY;
@@ -128,24 +147,8 @@ void TD_Init(void) // Called once at startup
 	OEC = 0x0E; // 0000_1110, JTAG (left floating) and SPI (but not SPI MISO)
 	OEE = 0xF7; // 1111_0111, Reset, FXLED and BIAS (but not PE3)
 
-	// disable interrupts by the input pins and by timers and serial ports
-	IE = 0x00; // 0000_0000
-
-	// disable interrupt pins 4, 5 and 6, keep I2C/USB enabled
-	EIE = 0xE3; // 1110_0011
-
 	EZUSB_InitI2C(); // initialize I2C to enable EEPROM read and write
 	I2CTL |= 0x01;  // set I2C to 400kHz to speed up data transfers
-
-	// Ensure FIFO is reset.
-	SYNCDELAY;
-	FIFORESET = 0x80;
-
-	SYNCDELAY;
-	FIFORESET = 0x84;
-
-	SYNCDELAY;
-	FIFORESET = 0x00;
 
 	// Reset CPLD by pulsing reset line.
 	setPE(CPLD_RESET, 1);
@@ -240,22 +243,20 @@ static void EEPROMWrite(WORD address, BYTE length, BYTE xdata *buf)
 	BYTE i;
 	BYTE xdata ee_str[3];
 
-	setPE(FXLED, 0);
+	setPE(FXLED, 1);
 
 	for (i = 0; i < length; i++) {
 		ee_str[0] = MSB(address);
 		ee_str[1] = LSB(address);
 		ee_str[2] = buf[i];
 
-		setPE(FXLED, 1);
-
 		EZUSB_WriteI2C(I2C_EEPROM_ADDRESS, 3, ee_str);
 		EZUSB_WaitForEEPROMWrite(I2C_EEPROM_ADDRESS);
 
 		address++;
-
-		setPE(FXLED, 0);
 	}
+
+	setPE(FXLED, 0);
 }
 
 static void EEPROMRead(WORD address, BYTE length, BYTE xdata *buf)
@@ -263,23 +264,17 @@ static void EEPROMRead(WORD address, BYTE length, BYTE xdata *buf)
 	BYTE i;
 	BYTE xdata ee_str[2];
 
-	setPE(FXLED, 0);
+	setPE(FXLED, 1);
 
 	ee_str[0] = MSB(address);
 	ee_str[1] = LSB(address);
 
-	setPE(FXLED, 1);
-
 	EZUSB_WriteI2C(I2C_EEPROM_ADDRESS, 2, ee_str);
-
-	setPE(FXLED, 0);
 
 	// Set read buffer to known value.
 	for (i = 0; i < length; i++) {
 		buf[i] = 0xCD;
 	}
-
-	setPE(FXLED, 1);
 
 	EZUSB_ReadI2C(I2C_EEPROM_ADDRESS, length, buf);
 
@@ -658,7 +653,7 @@ BOOL DR_VendorCmnd(void) {
 					doJTAGInit = TRUE;
 				}
 			}
-			
+
 			EP0BCH = 0;
 			EP0BCL = 0; // Re-arm end-point for OUT transfers.
 

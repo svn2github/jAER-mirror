@@ -78,7 +78,7 @@ void readVal( lenVal*   plv,
               short     sNumBytes )
 {
     unsigned char*  pucVal;
-	
+
     plv->len    = sNumBytes;        /* set the length of the lenVal        */
     for ( pucVal = plv->val; sNumBytes; --sNumBytes, ++pucVal )
     {
