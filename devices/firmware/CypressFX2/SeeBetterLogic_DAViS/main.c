@@ -98,12 +98,16 @@ void TD_Init(void) // Called once at startup
 	EP6FIFOCFG = 0x09; // 0000_1001
 
 	// FIFO commits automatically after 512 bytes.
+	SYNCDELAY;
 	EP6AUTOINLENH = 0x02;
+	SYNCDELAY;
 	EP6AUTOINLENL = 0x00;
 
 	// FlagA triggers when the content of the current, not yet committed packet
 	// is at or greater than 498 bytes (of 512 per packet).
+	SYNCDELAY;
 	EP6FIFOPFH = 0xC1; // 1100_0001
+	SYNCDELAY;
 	EP6FIFOPFL = 0xF2; // 1111_0010
 
 	// Enable Ports A, C and E
@@ -133,7 +137,17 @@ void TD_Init(void) // Called once at startup
 	EZUSB_InitI2C(); // initialize I2C to enable EEPROM read and write
 	I2CTL |= 0x01;  // set I2C to 400kHz to speed up data transfers
 
-	// Reset CPLD by pulsing reset line
+	// Ensure FIFO is reset.
+	SYNCDELAY;
+	FIFORESET = 0x80;
+
+	SYNCDELAY;
+	FIFORESET = 0x84;
+
+	SYNCDELAY;
+	FIFORESET = 0x00;
+
+	// Reset CPLD by pulsing reset line.
 	setPE(CPLD_RESET, 1);
 	WAIT_FOR(20);
 	setPE(CPLD_RESET, 0);
