@@ -252,23 +252,25 @@ public class DAViS_FX3_SBL extends Controller {
 					final Task<Integer> worker = new Task<Integer>() {
 						@Override
 						protected Integer call() throws Exception {
+							updateProgress(0, 100);
+
 							try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
 								final FileChannel fwInChannel = fwFile.getChannel()) {
 								final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
 								buf.load();
 
-								updateProgress(10, 100);
+								updateProgress(2, 100);
 
 								// Load file to FPGA.
 								logicToFPGA(buf);
 
-								updateProgress(95, 100);
+								updateProgress(98, 100);
 
 								// Cleanup ByteBuffer.
 								buf.clear();
-
-								updateProgress(100, 100);
 							}
+
+							updateProgress(100, 100);
 
 							return 0;
 						}
@@ -277,6 +279,7 @@ public class DAViS_FX3_SBL extends Controller {
 					GUISupport.showDialogProgress(worker);
 
 					final Thread t = new Thread(worker);
+					t.setDaemon(true);
 					t.start();
 				}
 			});
@@ -307,11 +310,11 @@ public class DAViS_FX3_SBL extends Controller {
 				// Check that the typed in file is valid, if not, color the
 				// field background red.
 				if (newVal.length() > DAViS_FX3_SBL.SNUM_MAX_SIZE) {
-					logicField.setStyle("-fx-background-color: #FF5757");
+					serialNumberField.setStyle("-fx-background-color: #FF5757");
 					return;
 				}
 
-				logicField.setStyle("");
+				serialNumberField.setStyle("");
 				serialNumber = newVal;
 				defaultFolderNode.put("fx3SNum", newVal);
 			}

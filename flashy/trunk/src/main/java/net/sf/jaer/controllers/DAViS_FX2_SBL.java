@@ -14,6 +14,7 @@ import java.util.prefs.Preferences;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -221,21 +222,11 @@ public class DAViS_FX2_SBL extends Controller {
 						return;
 					}
 
-					try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
-						final FileChannel fwInChannel = fwFile.getChannel()) {
-						final MappedByteBuffer buf = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
-						buf.load();
+					GUISupport.showDialogProgress(logicToROMTask);
 
-						// Load file to CPLD.
-						logicToCPLD(buf);
-
-						// Cleanup ByteBuffer.
-						buf.clear();
-					}
-					catch (final Exception e) {
-						GUISupport.showDialogException(e);
-						return;
-					}
+					final Thread t = new Thread(logicToROMTask);
+					t.setDaemon(true);
+					t.start();
 				}
 			});
 
@@ -265,11 +256,11 @@ public class DAViS_FX2_SBL extends Controller {
 				// Check that the typed in file is valid, if not, color the
 				// field background red.
 				if (newVal.length() > DAViS_FX2_SBL.SNUM_MAX_SIZE) {
-					logicField.setStyle("-fx-background-color: #FF5757");
+					serialNumberField.setStyle("-fx-background-color: #FF5757");
 					return;
 				}
 
-				logicField.setStyle("");
+				serialNumberField.setStyle("");
 				serialNumber = newVal;
 				defaultFolderNode.put("fx3SNum", newVal);
 			}
@@ -424,149 +415,177 @@ public class DAViS_FX2_SBL extends Controller {
 	private static final byte XCOMMENT = (byte) 22; /* 4.14 */
 	private static final byte XWAIT = (byte) 23; /* 5.00 */
 
-	private void logicToCPLD(final ByteBuffer logic) throws Exception {
-		// Configure CPLD directly (0xBE vendor request).
-		// Check data size.
-		final int logicLength = logic.limit();
-		if (logicLength < DAViS_FX2_SBL.MAX_TRANSFER_SIZE) {
-			throw new Exception("Size of data to send too small!");
-		}
+	private final Task<Integer> logicToROMTask = new Task<Integer>() {
+		@Override
+		protected Integer call() throws Exception {
+			updateProgress(0, 100);
 
-		int commandLength = 1, index = 0, length = 0;
+			try (final RandomAccessFile fwFile = new RandomAccessFile(logicFile, "r");
+				final FileChannel fwInChannel = fwFile.getChannel()) {
+				final MappedByteBuffer logic = fwInChannel.map(MapMode.READ_ONLY, 0, fwInChannel.size());
+				logic.load();
 
-		// Get first command.
-		byte command = logic.get(index);
+				updateProgress(2, 100);
 
-		// Wait until XCOMPLETE.
-		while (command != DAViS_FX2_SBL.XCOMPLETE) {
-			switch (command) {
-				case XTDOMASK:
-					commandLength = length + 1;
-					break;
+				// Configure CPLD directly (0xBE vendor request).
+				// Check data size.
+				final int logicLength = logic.limit();
+				if (logicLength < DAViS_FX2_SBL.MAX_TRANSFER_SIZE) {
+					throw new Exception("Size of data to send too small!");
+				}
 
-				case XREPEAT:
-					commandLength = 2;
-					break;
+				// Support progress counter (96% allocated to app).
+				final double progressPerKB = 96.0 / (logicLength / 1024.0);
 
-				case XRUNTEST:
-					commandLength = 5;
-					break;
+				int commandLength = 1, index = 0, length = 0;
 
-				case XSIR:
-					commandLength = (((logic.get(index + 1) & 0xFF) + 7) / 8) + 2;
-					break;
+				// Get first command.
+				byte command = logic.get(index);
 
-				case XSIR2:
-					commandLength = (((((logic.get(index + 1) & 0xFF) << 8) | (logic.get(index + 2) & 0xFF)) + 7) / 8) + 3;
-					break;
+				// Wait until XCOMPLETE.
+				while (command != DAViS_FX2_SBL.XCOMPLETE) {
+					switch (command) {
+						case XTDOMASK:
+							commandLength = length + 1;
+							break;
 
-				case XSDR:
-					commandLength = length + 1;
-					break;
+						case XREPEAT:
+							commandLength = 2;
+							break;
 
-				case XSDRSIZE:
-					commandLength = 5;
+						case XRUNTEST:
+							commandLength = 5;
+							break;
 
-					length = ((((logic.get(index + 1) & 0xFF) << 24) | ((logic.get(index + 2) & 0xFF) << 16)
-						| ((logic.get(index + 3) & 0xFF) << 8) | (logic.get(index + 4) & 0xFF)) + 7) / 8;
-					break;
+						case XSIR:
+							commandLength = (((logic.get(index + 1) & 0xFF) + 7) / 8) + 2;
+							break;
 
-				case XSDRTDO:
-					commandLength = (2 * length) + 1;
-					break;
+						case XSIR2:
+							commandLength = (((((logic.get(index + 1) & 0xFF) << 8) | (logic.get(index + 2) & 0xFF)) + 7) / 8) + 3;
+							break;
 
-				case XSDRB:
-					commandLength = length + 1;
-					break;
+						case XSDR:
+							commandLength = length + 1;
+							break;
 
-				case XSDRC:
-					commandLength = length + 1;
-					break;
+						case XSDRSIZE:
+							commandLength = 5;
 
-				case XSDRE:
-					commandLength = length + 1;
-					break;
+							length = ((((logic.get(index + 1) & 0xFF) << 24) | ((logic.get(index + 2) & 0xFF) << 16)
+								| ((logic.get(index + 3) & 0xFF) << 8) | (logic.get(index + 4) & 0xFF)) + 7) / 8;
+							break;
 
-				case XSDRTDOB:
-					commandLength = (2 * length) + 1;
-					break;
+						case XSDRTDO:
+							commandLength = (2 * length) + 1;
+							break;
 
-				case XSDRTDOC:
-					commandLength = (2 * length) + 1;
-					break;
+						case XSDRB:
+							commandLength = length + 1;
+							break;
 
-				case XSDRTDOE:
-					commandLength = (2 * length) + 1;
-					break;
+						case XSDRC:
+							commandLength = length + 1;
+							break;
 
-				case XSTATE:
-					commandLength = 2;
-					break;
+						case XSDRE:
+							commandLength = length + 1;
+							break;
 
-				case XENDIR:
-					commandLength = 2;
-					break;
+						case XSDRTDOB:
+							commandLength = (2 * length) + 1;
+							break;
 
-				case XENDDR:
-					commandLength = 2;
-					break;
+						case XSDRTDOC:
+							commandLength = (2 * length) + 1;
+							break;
 
-				case XCOMMENT:
-					commandLength = 2;
+						case XSDRTDOE:
+							commandLength = (2 * length) + 1;
+							break;
 
-					// Found comment, skipping.
-					while (logic.get((index + commandLength) - 1) != 0x00) {
-						commandLength += 1;
+						case XSTATE:
+							commandLength = 2;
+							break;
+
+						case XENDIR:
+							commandLength = 2;
+							break;
+
+						case XENDDR:
+							commandLength = 2;
+							break;
+
+						case XCOMMENT:
+							commandLength = 2;
+
+							// Found comment, skipping.
+							while (logic.get((index + commandLength) - 1) != 0x00) {
+								commandLength += 1;
+							}
+							break;
+
+						case XWAIT:
+							commandLength = 7;
+							break;
+
+						default:
+							// Unknown XSVF command, stop programming.
+							usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
+							throw new Exception("Unknown XSVF command.");
 					}
-					break;
 
-				case XWAIT:
-					commandLength = 7;
-					break;
+					final ByteBuffer logicChunk = BufferUtils.slice(logic, index, commandLength);
 
-				default:
-					// Unknown XSVF command, stop programming.
-					usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
-					throw new Exception("Unknown XSVF command.");
+					usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, command, (short) 0, logicChunk);
+
+					// Get result.
+					final ByteBuffer result = usbDevice.sendVendorRequestIN(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0,
+						(short) 0, 2);
+
+					if ((result.limit() == 0) || (result.get(0) != DAViS_FX2_SBL.VR_CPLD_UPLOAD)) {
+						// Invalid response from device, stop programming.
+						usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
+						throw new Exception("Invalid response from device.");
+					}
+
+					if (result.get(1) == 10) {
+						// Overlong command (error code 10), stop programming.
+						usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
+						throw new Exception("Overlong command.");
+					}
+					else if (result.get(1) > 0) {
+						// XSVF error encountered, stop programming.
+						usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
+						throw new Exception(String.format("XSVF error encountered (error %d).", result.get(1) & 0xFF));
+					}
+
+					index += commandLength;
+
+					// Get next command to execute.
+					command = logic.get(index);
+
+					// Update progress based on index (reached length).
+					updateProgress((long) (((index / 1024.0) * progressPerKB) + 2.0), 100);
+				}
+
+				// Done, send XCOMPLETE.
+				usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, DAViS_FX2_SBL.XCOMPLETE, (short) 0, null);
+
+				updateProgress(98, 100);
+
+				// Cleanup ByteBuffer.
+				logic.clear();
 			}
 
-			final ByteBuffer logicChunk = BufferUtils.slice(logic, index, commandLength);
+			updateProgress(100, 100);
 
-			usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, command, (short) 0, logicChunk);
-
-			// Get result.
-			final ByteBuffer result = usbDevice.sendVendorRequestIN(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0,
-				2);
-
-			if ((result.limit() == 0) || (result.get(0) != DAViS_FX2_SBL.VR_CPLD_UPLOAD)) {
-				// Invalid response from device, stop programming.
-				usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
-				throw new Exception("Invalid response from device.");
-			}
-
-			if (result.get(1) == 10) {
-				// Overlong command (error code 10), stop programming.
-				usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
-				throw new Exception("Overlong command.");
-			}
-			else if (result.get(1) > 0) {
-				// XSVF error encountered, stop programming.
-				usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, (short) 0, (short) 0, null);
-				throw new Exception(String.format("XSVF error encountered (error %d).", result.get(1) & 0xFF));
-			}
-
-			index += commandLength;
-
-			// Get next command to execute.
-			command = logic.get(index);
+			return 0;
 		}
-
-		// Done, send XCOMPLETE.
-		usbDevice.sendVendorRequest(DAViS_FX2_SBL.VR_CPLD_UPLOAD, DAViS_FX2_SBL.XCOMPLETE, (short) 0, null);
-	}
+	};
 
 	private int expData = 0;
-	private final boolean fullDebug = false;
+	private final boolean fullDebug = true;
 	private final boolean printOutput = true;
 	private long dataCount = 0;
 
@@ -578,7 +597,7 @@ public class DAViS_FX2_SBL extends Controller {
 		final TextArea usbEP6OutputArea = new TextArea();
 		usbEPListenGUI.getChildren().add(usbEP6OutputArea);
 
-		usbDevice.listenToEP((byte) 0x86, LibUsb.TRANSFER_TYPE_BULK, 8, 4096, new RestrictedTransferCallback() {
+		usbDevice.listenToEP((byte) 0x86, LibUsb.TRANSFER_TYPE_BULK, 4, 512, new RestrictedTransferCallback() {
 			@Override
 			public void processTransfer(final RestrictedTransfer t) {
 				if (t.buffer().limit() == 0) {
@@ -603,8 +622,10 @@ public class DAViS_FX2_SBL extends Controller {
 						if (sBuf.limit() >= 8) {
 							System.out.println(String
 								.format(
-									"Length: %d\nFirst: %d, first+1: %d\nLast-7: %d, last-6: %d, last-5: %d, last-4: %d, last-3: %d, last-2: %d, last-1: %d, last: %d\n",
+									"Length: %d\nFirst: %d, first+1: %d, first+2: %d, first+3: %d, first+4: %d, first+5: %d, first+6: %d, first+7: %d\nLast-7: %d, last-6: %d, last-5: %d, last-4: %d, last-3: %d, last-2: %d, last-1: %d, last: %d\n",
 									(sBuf.limit()), (sBuf.get(0) & 0xFFFF), (sBuf.get(1) & 0xFFFF),
+									(sBuf.get(2) & 0xFFFF), (sBuf.get(3) & 0xFFFF), (sBuf.get(4) & 0xFFFF),
+									(sBuf.get(5) & 0xFFFF), (sBuf.get(6) & 0xFFFF), (sBuf.get(7) & 0xFFFF),
 									(sBuf.get(sBuf.limit() - 8) & 0xFFFF), (sBuf.get(sBuf.limit() - 7) & 0xFFFF),
 									(sBuf.get(sBuf.limit() - 6) & 0xFFFF), (sBuf.get(sBuf.limit() - 5) & 0xFFFF),
 									(sBuf.get(sBuf.limit() - 4) & 0xFFFF), (sBuf.get(sBuf.limit() - 3) & 0xFFFF),
