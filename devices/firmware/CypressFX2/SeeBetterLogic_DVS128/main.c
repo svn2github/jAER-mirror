@@ -78,6 +78,26 @@ void TD_Init(void) // Called once at startup
 	SYNCDELAY;
 	REVCTL = 0x03; // As recommended by Cypress.
 
+	// Enable Ports A, C and E
+	SYNCDELAY;
+	PORTACFG = 0x00; // do not use INT 0 and 1, disable SLCS (use PA7 normally)
+
+	SYNCDELAY;
+	PORTCCFG = 0x00;
+
+	SYNCDELAY;
+	PORTECFG = 0x00;
+
+	SYNCDELAY;
+	IOA = 0x00; // Keep all off
+	IOC = 0xB8; // JTAG disabled (TMS, TCK, TDI high), SPI SSN is active-low
+	IOE = 0x23; // DVS Array Reset, Bias Enable and Latch are active-low
+
+	SYNCDELAY;
+	OEA = 0x88; // 1000_1000, CPLD_RESET and FXLED
+	OEC = 0x0E; // 0000_1110, JTAG (left floating) and SPI (but not SPI MISO)
+	OEE = 0x3E; // 0011_1110, DVS Array Reset and BIAS
+
 	SYNCDELAY;
 	EP6CFG = 0xE0; // EP6 enabled, IN, bulk, quad-buffered -> 1110_0000
 
@@ -129,24 +149,6 @@ void TD_Init(void) // Called once at startup
 	EP6FIFOPFH = 0xC1; // 1100_0001
 	SYNCDELAY;
 	EP6FIFOPFL = 0xF2; // 1111_0010
-
-	// Enable Ports A, C and E
-	SYNCDELAY;
-	PORTACFG = 0x00; // do not use INT 0 and 1, disable SLCS (use PA7 normally)
-
-	SYNCDELAY;
-	PORTCCFG = 0x00;
-
-	SYNCDELAY;
-	PORTECFG = 0x00;
-
-	IOA = 0x00; // Keep all off
-	IOC = 0xB8; // JTAG disabled (TMS, TCK, TDI high), SPI SSN is active-low
-	IOE = 0x23; // DVS Array Reset, Bias Enable and Latch are active-low
-
-	OEA = 0x88; // 1000_1000, CPLD_RESET and FXLED
-	OEC = 0x0E; // 0000_1110, JTAG (left floating) and SPI (but not SPI MISO)
-	OEE = 0x3E; // 0011_1110, DVS Array Reset and BIAS
 
 	EZUSB_InitI2C(); // initialize I2C to enable EEPROM read and write
 	I2CTL |= 0x01;  // set I2C to 400kHz to speed up data transfers
