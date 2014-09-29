@@ -887,13 +887,8 @@ ADCovrxS <= ADCovrxSI;
 			IMURegOutxD 						when selectIMU, --H Writes IMU measurements
 			(others => '0') 					when others; --H
 	
-	LED1xSO <= Alex(0); --H 
-	--LED1xSO <= IMUDataDropxE; --H 
-	LED2xSO <= Alex(1); --'1' when (DatatypeSelectxS = selecttimestamp) else '0';--IMUSCLxCIO; --H
-	LED3xSO <= Alex(2); --'1' when (DatatypeSelectxS = selecttrigger) else '0';--IMUSDAxSIO; --H
-	--LED3xSO <= ExtTriggerxE;
-
-
+	
+	
 	CDVSTestChipResetxRBO <= CDVSTestChipResetxRB;
 	CDVSTestChipResetxRB <= PE3xSI;
   
@@ -944,6 +939,18 @@ ADCovrxS <= ADCovrxSI;
 			AERReqSyncxSBN <= AERMonitorREQxABI;
 			end if;
 	end process synchronizer;
+	
+	-- debug
+	--LED1xSO <= Alex(0); --H 
+	--LED1xSO <= IMUDataDropxE; --H 
+	--LED2xSO <= Alex(1); --'1' when (DatatypeSelectxS = selecttimestamp) else '0';--IMUSCLxCIO; --H
+	--LED3xSO <= Alex(2); --'1' when (DatatypeSelectxS = selecttrigger) else '0';--IMUSDAxSIO; --H
+	--LED3xSO <= ExtTriggerxE;
+
+	LED1xSO <= EarlyPaketTimerOverflowxS; 
+	LED2xSO <= IncEventCounterxS; 
+	LED3xSO <= FX2FifoPktEndxSB; 
+		
 	
 end Structural;
 
