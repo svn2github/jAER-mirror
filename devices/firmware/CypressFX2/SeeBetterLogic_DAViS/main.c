@@ -129,7 +129,7 @@ void TD_Init(void) // Called once at startup
 
 	// FIFO flag configuration: FlagA: EP6 programmable, FlagB: EP6 full, FlagC and FlagD unused.
 	SYNCDELAY;
-	PINFLAGSAB = 0xE6; // 1110_01100
+	PINFLAGSAB = 0xE6; // 1110_0110
 	SYNCDELAY;
 	PINFLAGSCD = 0x00;
 

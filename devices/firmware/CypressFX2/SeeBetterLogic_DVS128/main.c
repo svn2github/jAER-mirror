@@ -51,7 +51,7 @@ void TD_Init(void) // Called once at startup
 {
 	// set the CPU clock to 48MHz. CLKOUT is normal polarity, disabled.
 	CPUCS = 0x10; // 0001_0000
-	
+
 	// set the slave FIFO interface to 30MHz, slave fifo mode.
 	IFCONFIG = 0xA3; // 1010_0011
 
@@ -130,7 +130,7 @@ void TD_Init(void) // Called once at startup
 
 	// FIFO flag configuration: FlagA: EP6 programmable, FlagB: EP6 full, FlagC and FlagD unused.
 	SYNCDELAY;
-	PINFLAGSAB = 0xE6; // 1110_01100
+	PINFLAGSAB = 0xE6; // 1110_0110
 	SYNCDELAY;
 	PINFLAGSCD = 0x00;
 
