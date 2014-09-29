@@ -10,22 +10,8 @@
 //-----------------------------------------------------------------------------
 // Copyright 2003, Cypress Semiconductor Corporation
 //-----------------------------------------------------------------------------
-#include <fx2.h>
-#include <fx2regs.h>
-#include <syncdly.h>            // SYNCDELAY macro
 
-//-----------------------------------------------------------------------------
-// Constants
-//-----------------------------------------------------------------------------
-#define DELAY_COUNT   0x9248*8L  // Delay for 8 sec at 24Mhz, 4 sec at 48
-#define _IFREQ  48000            // IFCLK constant for Synchronization Delay
-#define _CFREQ  48000            // CLKOUT constant for Synchronization Delay
-
-//-----------------------------------------------------------------------------
-// Random Macros
-//-----------------------------------------------------------------------------
-#define   min(a,b) (((a)<(b))?(a):(b))
-#define   max(a,b) (((a)>(b))?(a):(b))
+#include "portsFX2.h"
 
 //-----------------------------------------------------------------------------
 // Global Variables

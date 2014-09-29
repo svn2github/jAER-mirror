@@ -5,6 +5,9 @@ Depends on fx2regs.h
 #ifndef portsfx2_dot_h
 #define portsfx2_dot_h
 
+#define _IFREQ  30000            // IFCLK constant for Synchronization Delay
+#define _CFREQ  48000            // CLKOUT constant for Synchronization Delay
+
 // Defines all other ports.
 #include <fx2.h>
 #include <fx2regs.h>
