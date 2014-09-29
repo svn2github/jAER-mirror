@@ -23,7 +23,7 @@
                 <entry key="apsIntensityOffset" value="0"/>
                 <entry key="invertADCvalues" value="false"/>
                 <entry key="displayLogIntensityChangeEvents" value="true"/>
-                <entry key="SBret10.bgTabbedPaneSelectedIndex" value="3"/>
+                <entry key="SBret10.bgTabbedPaneSelectedIndex" value="4"/>
                 <entry key="displayIntensity" value="true"/>
                 <entry key="CypressFX2Blank.defaultFirmwareBixFileForBlankDevice" value="..\..\trunk\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SBret10_Gyro_2\SBret10.bix"/>
                 <entry key="SBret10.AddressedIPotCF.DiffBn.BitValueCoarse" value="3"/>
@@ -151,7 +151,7 @@
                 <entry key="Masterbias.internalResistorUsed" value="false"/>
                 <entry key="SBret10.nChipReset" value="true"/>
                 <entry key="SBret10.powerDown" value="false"/>
-                <entry key="SBret10.runAdc" value="true"/>
+                <entry key="SBret10.runAdc" value="false"/>
                 <entry key="SBret10.runCpld" value="true"/>
                 <entry key="SBret10.resetTestpixel" value="true"/>
                 <entry key="CPLDInt.exposureB" value="39"/>
@@ -595,6 +595,9 @@
                 <entry key="XYTypeFilter.startType" value="1"/>
                 <entry key="XYTypeFilter.multiSelectionEnabled" value="false"/>
                 <entry key="CellStatsProber.isiHistEnabled" value="false"/>
+                <entry key="aeReaderFifoSize" value="32384"/>
+                <entry key="aeReaderNumBuffers" value="4"/>
+                <entry key="translateRowOnlyEvents" value="true"/>
               </map>
             </node>
           </node>
