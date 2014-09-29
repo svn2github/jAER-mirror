@@ -597,7 +597,7 @@ public class DAViS_FX2_SBL extends Controller {
 		final TextArea usbEP6OutputArea = new TextArea();
 		usbEPListenGUI.getChildren().add(usbEP6OutputArea);
 
-		usbDevice.listenToEP((byte) 0x86, LibUsb.TRANSFER_TYPE_BULK, 4, 512, new RestrictedTransferCallback() {
+		usbDevice.listenToEP((byte) 0x86, LibUsb.TRANSFER_TYPE_BULK, 4, 4096, new RestrictedTransferCallback() {
 			@Override
 			public void processTransfer(final RestrictedTransfer t) {
 				if (t.buffer().limit() == 0) {
