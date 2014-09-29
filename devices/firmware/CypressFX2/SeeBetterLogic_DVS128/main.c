@@ -79,21 +79,21 @@ void TD_Init(void) // Called once at startup
 	REVCTL = 0x03; // As recommended by Cypress.
 
 	SYNCDELAY;
-	EP1OUTCFG = 0x00; // EP1OUT disabled
-	SYNCDELAY;
-	EP1INCFG = 0x00; // EP1IN disabled
-
-	SYNCDELAY;
-	EP2CFG = 0x00; // EP2 disabled
-
-	SYNCDELAY;
-	EP4CFG = 0x00; // EP4 disabled
-
-	SYNCDELAY;
 	EP6CFG = 0xE0; // EP6 enabled, IN, bulk, quad-buffered -> 1110_0000
 
 	SYNCDELAY;
-	EP8CFG = 0x00; // EP8 disabled
+	EP1OUTCFG &= 0x7F; // EP1OUT disabled
+	SYNCDELAY;
+	EP1INCFG &= 0x7F; // EP1IN disabled
+
+	SYNCDELAY;
+	EP2CFG &= 0x7F; // EP2 disabled
+
+	SYNCDELAY;
+	EP4CFG &= 0x7F; // EP4 disabled
+
+	SYNCDELAY;
+	EP8CFG &= 0x7F; // EP8 disabled
 
 	// Ensure FIFO is reset.
 	SYNCDELAY;
