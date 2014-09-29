@@ -12,59 +12,59 @@ use work.ExtTriggerConfigRecords.all;
 
 entity TopLevel is
 	port(
-		USBClock_CI                 : in    std_logic;
-		Reset_RI                    : in    std_logic;
+		USBClock_CI                : in    std_logic;
+		Reset_RI                   : in    std_logic;
 
-		SPISlaveSelect_ABI          : in    std_logic;
-		SPIClock_AI                 : in    std_logic;
-		SPIMOSI_AI                  : in    std_logic;
-		SPIMISO_DZO                 : out   std_logic;
-		BiasDiagSelect_SI           : in    std_logic;
+		SPISlaveSelect_ABI         : in    std_logic;
+		SPIClock_AI                : in    std_logic;
+		SPIMOSI_AI                 : in    std_logic;
+		SPIMISO_DZO                : out   std_logic;
+		BiasDiagSelect_SI          : in    std_logic;
 
-		USBFifoData_DO              : out   std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
-		USBFifoWrite_SBO            : out   std_logic;
-		USBFifoRead_SBO             : out   std_logic;
-		USBFifoPktEnd_SBO           : out   std_logic;
-		USBFifoAddress_DO           : out   std_logic_vector(1 downto 0);
-		USBFifoFullFlag_SI          : in    std_logic;
-		USBFifoProgrammableFlag_SBI : in    std_logic;
+		USBFifoData_DO             : out   std_logic_vector(USB_FIFO_WIDTH - 1 downto 0);
+		USBFifoWrite_SBO           : out   std_logic;
+		USBFifoRead_SBO            : out   std_logic;
+		USBFifoPktEnd_SBO          : out   std_logic;
+		USBFifoAddress_DO          : out   std_logic_vector(1 downto 0);
+		USBFifoFullFlag_SI         : in    std_logic;
+		USBFifoProgrammableFlag_SI : in    std_logic;
 
-		LED1_SO                     : out   std_logic;
-		LED2_SO                     : out   std_logic;
-		LED3_SO                     : out   std_logic;
+		LED1_SO                    : out   std_logic;
+		LED2_SO                    : out   std_logic;
+		LED3_SO                    : out   std_logic;
 
-		ChipBiasEnable_SO           : out   std_logic;
-		ChipBiasDiagSelect_SO       : out   std_logic;
+		ChipBiasEnable_SO          : out   std_logic;
+		ChipBiasDiagSelect_SO      : out   std_logic;
 		--ChipBiasBitOut_DI : in std_logic;
 
-		DVSAERData_AI               : in    std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
-		DVSAERReq_ABI               : in    std_logic;
-		DVSAERAck_SBO               : out   std_logic;
-		DVSAERReset_SBO             : out   std_logic;
+		DVSAERData_AI              : in    std_logic_vector(AER_BUS_WIDTH - 1 downto 0);
+		DVSAERReq_ABI              : in    std_logic;
+		DVSAERAck_SBO              : out   std_logic;
+		DVSAERReset_SBO            : out   std_logic;
 
-		APSChipRowSRClock_SO        : out   std_logic;
-		APSChipRowSRIn_SO           : out   std_logic;
-		APSChipColSRClock_SO        : out   std_logic;
-		APSChipColSRIn_SO           : out   std_logic;
-		APSChipColMode_DO           : out   std_logic_vector(1 downto 0);
-		APSChipTXGate_SO            : out   std_logic;
+		APSChipRowSRClock_SO       : out   std_logic;
+		APSChipRowSRIn_SO          : out   std_logic;
+		APSChipColSRClock_SO       : out   std_logic;
+		APSChipColSRIn_SO          : out   std_logic;
+		APSChipColMode_DO          : out   std_logic_vector(1 downto 0);
+		APSChipTXGate_SO           : out   std_logic;
 
-		APSADCData_DI               : in    std_logic_vector(ADC_BUS_WIDTH - 1 downto 0);
-		APSADCOverflow_SI           : in    std_logic;
-		APSADCClock_CO              : out   std_logic;
-		APSADCOutputEnable_SBO      : out   std_logic;
-		APSADCStandby_SO            : out   std_logic;
+		APSADCData_DI              : in    std_logic_vector(ADC_BUS_WIDTH - 1 downto 0);
+		APSADCOverflow_SI          : in    std_logic;
+		APSADCClock_CO             : out   std_logic;
+		APSADCOutputEnable_SBO     : out   std_logic;
+		APSADCStandby_SO           : out   std_logic;
 
-		IMUClock_CZO                : out   std_logic;
-		IMUData_DZIO                : inout std_logic;
-		IMUInterrupt_AI             : in    std_logic;
+		IMUClock_CZO               : out   std_logic;
+		IMUData_DZIO               : inout std_logic;
+		IMUInterrupt_AI            : in    std_logic;
 
-		SyncOutClock_CO             : out   std_logic;
-		SyncOutSwitch_AI            : in    std_logic;
-		SyncOutSignal_SO            : out   std_logic;
-		SyncInClock_AI              : in    std_logic;
-		SyncInSwitch_AI             : in    std_logic;
-		SyncInSignal_AI             : in    std_logic);
+		SyncOutClock_CO            : out   std_logic;
+		SyncOutSwitch_AI           : in    std_logic;
+		SyncOutSignal_SO           : out   std_logic;
+		SyncInClock_AI             : in    std_logic;
+		SyncInSwitch_AI            : in    std_logic;
+		SyncInSignal_AI            : in    std_logic);
 end TopLevel;
 
 architecture Structural of TopLevel is
@@ -128,7 +128,7 @@ begin
 			ResetSync_RO                   => USBReset_R,
 			USBFifoFullFlag_SI             => USBFifoFullFlag_SI,
 			USBFifoFullFlagSync_SO         => USBFifoFullFlagSync_S,
-			USBFifoProgrammableFlag_SI     => not USBFifoProgrammableFlag_SBI,
+			USBFifoProgrammableFlag_SI     => USBFifoProgrammableFlag_SI,
 			USBFifoProgrammableFlagSync_SO => USBFifoProgrammableFlagSync_S);
 
 	-- Second: synchronize all logic-related inputs to the logic clock.
