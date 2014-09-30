@@ -98,7 +98,7 @@ architecture Behavioral of monitorStateMachine is
   
 	--H
 	-- Counter for keeping track number of data words (16 bits) in FIFO 
-	constant fifo_depth : std_logic_vector(9 downto 0) := "1111111111"; -- FIFO has depth of 1024 words
+	constant fifo_depth : std_logic_vector(10 downto 0) := "01000000000"; -- FIFO has depth of 1024 words
 	constant imu_fifo_write_space : std_logic_vector(9 downto 0) := "0000001010"; -- Number of free space (in words) in FIFO before IMU data can be written: 10
 	--H 
 
@@ -204,7 +204,7 @@ begin
 				elsif IMUDataReadyReqxEI = '1' then
 					
 					-- If there is enough space to write 9 data words (1 Timestamp word, 1 IMU Event word, 7 IMU Measurement Words)
-					if (fifo_depth - FifoCountxDI <= imu_fifo_write_space) then 
+					if (fifo_depth - ('0' & FifoCountxDI) >= imu_fifo_write_space) then 
 						-- First record AER timestamp at which IMU event is collected
 						StatexDN <= stIMUTime;
 					
