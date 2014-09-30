@@ -200,11 +200,19 @@ int main(void) {
 				sdcard.fileBuffer[sdcard.fileBufferIndex++] = (sdcard.timeStampDelta & 0x7F) | 0x80;//lower 7bit Delta TS, MSBit set to 1
 			}
 			if ((FILE_BUFFER_SIZE - sdcard.fileBufferIndex) < 6) {
-				//write data	.
+				// write data.
 				LED1SetOn();
 				if (f_write(&sdcard.outputFile, sdcard.fileBuffer, sdcard.fileBufferIndex, &sdcard.bytesWritten)) {
 					setSDCardRecord(DISABLE); //There was an error. No need to record anymore.
 				}
+
+				static unsigned int flushCounter = 0;
+				if (flushCounter++ >= 1024) {
+					// Ensure data is flushed to SDcard every 1024 events.
+					flushCounter = 0;
+					f_sync(&sdcard.outputFile);
+				}
+
 				LED1SetOff();
 				sdcard.bytesWrittenPerSecond += sdcard.bytesWritten;
 				sdcard.fileBufferIndex = 0;
