@@ -201,8 +201,8 @@ public class DAViS_FX3_SBL extends Controller {
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(@SuppressWarnings("unused") final MouseEvent mouse) {
-					final File loadLogic = GUISupport.showDialogLoadFile("Bitstream", DAViS_FX3_SBL.logicValidExtensions,
-						defaultFolderNode.get("fx3Logic", ""));
+					final File loadLogic = GUISupport.showDialogLoadFile("Bitstream",
+						DAViS_FX3_SBL.logicValidExtensions, defaultFolderNode.get("fx3Logic", ""));
 
 					if (loadLogic == null) {
 						return;
@@ -397,7 +397,8 @@ public class DAViS_FX3_SBL extends Controller {
 			throw new Exception("Size of serial number character array exceeds maximum!");
 		}
 
-		final ByteBuffer sNum = BufferUtils.allocateByteBuffer(DAViS_FX3_SBL.DATA_HEADER_SIZE + DAViS_FX3_SBL.SNUM_MAX_SIZE);
+		final ByteBuffer sNum = BufferUtils.allocateByteBuffer(DAViS_FX3_SBL.DATA_HEADER_SIZE
+			+ DAViS_FX3_SBL.SNUM_MAX_SIZE);
 		sNum.order(ByteOrder.LITTLE_ENDIAN);
 
 		// Get the bytes from the input array.
@@ -420,7 +421,8 @@ public class DAViS_FX3_SBL extends Controller {
 		sNum.position(0); // Reset position to initial value.
 
 		// Write FX3 serial number.
-		byteBufferToROM(sNum, DAViS_FX3_SBL.SNUM_START_ADDRESS, DAViS_FX3_SBL.DATA_HEADER_SIZE + DAViS_FX3_SBL.SNUM_MAX_SIZE);
+		byteBufferToROM(sNum, DAViS_FX3_SBL.SNUM_START_ADDRESS, DAViS_FX3_SBL.DATA_HEADER_SIZE
+			+ DAViS_FX3_SBL.SNUM_MAX_SIZE);
 	}
 
 	private void logicToROM(final ByteBuffer logic) throws Exception {
@@ -455,8 +457,8 @@ public class DAViS_FX3_SBL extends Controller {
 
 		// First erase the required blocks on the Flash memory, 64KB at a time.
 		for (int i = startAddress; i < (startAddress + dataLength); i += (64 * 1024)) {
-			usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_ERASE, (short) ((i >>> 16) & 0xFFFF), (short) (i & 0xFFFF),
-				null);
+			usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_ERASE, (short) ((i >>> 16) & 0xFFFF),
+				(short) (i & 0xFFFF), null);
 		}
 
 		// And then we send out the actual data, in 4 KB chunks.
@@ -485,8 +487,8 @@ public class DAViS_FX3_SBL extends Controller {
 
 		// First erase the required blocks on the Flash memory, 64KB at a time.
 		for (int i = 0; i < DAViS_FX3_SBL.FLASH_MAX_SIZE; i += (64 * 1024)) {
-			usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_ERASE, (short) ((i >>> 16) & 0xFFFF), (short) (i & 0xFFFF),
-				null);
+			usbDevice.sendVendorRequest(DAViS_FX3_SBL.VR_SPI_ERASE, (short) ((i >>> 16) & 0xFFFF),
+				(short) (i & 0xFFFF), null);
 		}
 	}
 
@@ -608,8 +610,10 @@ public class DAViS_FX3_SBL extends Controller {
 						if (sBuf.limit() >= 8) {
 							System.out.println(String
 								.format(
-									"Length: %d\nFirst: %d, first+1: %d\nLast-7: %d, last-6: %d, last-5: %d, last-4: %d, last-3: %d, last-2: %d, last-1: %d, last: %d\n",
+									"Length: %d\nFirst: %d, first+1: %d, first+2: %d, first+3: %d, first+4: %d, first+5: %d, first+6: %d, first+7: %d\nLast-7: %d, last-6: %d, last-5: %d, last-4: %d, last-3: %d, last-2: %d, last-1: %d, last: %d\n",
 									(sBuf.limit()), (sBuf.get(0) & 0xFFFF), (sBuf.get(1) & 0xFFFF),
+									(sBuf.get(2) & 0xFFFF), (sBuf.get(3) & 0xFFFF), (sBuf.get(4) & 0xFFFF),
+									(sBuf.get(5) & 0xFFFF), (sBuf.get(6) & 0xFFFF), (sBuf.get(7) & 0xFFFF),
 									(sBuf.get(sBuf.limit() - 8) & 0xFFFF), (sBuf.get(sBuf.limit() - 7) & 0xFFFF),
 									(sBuf.get(sBuf.limit() - 6) & 0xFFFF), (sBuf.get(sBuf.limit() - 5) & 0xFFFF),
 									(sBuf.get(sBuf.limit() - 4) & 0xFFFF), (sBuf.get(sBuf.limit() - 3) & 0xFFFF),

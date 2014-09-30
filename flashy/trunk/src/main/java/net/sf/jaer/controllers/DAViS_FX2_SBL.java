@@ -585,7 +585,7 @@ public class DAViS_FX2_SBL extends Controller {
 	};
 
 	private int expData = 0;
-	private final boolean fullDebug = true;
+	private final boolean fullDebug = false;
 	private final boolean printOutput = true;
 	private long dataCount = 0;
 
