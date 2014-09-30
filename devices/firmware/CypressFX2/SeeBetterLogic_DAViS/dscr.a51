@@ -87,10 +87,10 @@ HighSpeedConfigDscr:
       db   00H             ;; Interface sub sub class
       db   00H             ;; Interface descriptor string index
 
-;; Endpoint Descriptor EP6 IN - data from device to host
+;; Endpoint Descriptor EP2 IN - data from device to host
       db   DSCR_ENDPNT_LEN ;; Descriptor length
       db   DSCR_ENDPNT     ;; Descriptor type
-      db   86H             ;; Endpoint number, and direction 
+      db   82H             ;; Endpoint number, and direction 
       db   ET_BULK         ;; Endpoint type
       db   00H             ;; Maximum packet size (LSB)
       db   02H             ;; Maximum packet size (MSB), 512 bytes total
@@ -119,10 +119,10 @@ FullSpeedConfigDscr:
       db   00H             ;; Interface sub sub class
       db   00H             ;; Interface descriptor string index
 
-;; Endpoint Descriptor EP6 IN - data from device to host
+;; Endpoint Descriptor EP2 IN - data from device to host
       db   DSCR_ENDPNT_LEN ;; Descriptor length
       db   DSCR_ENDPNT     ;; Descriptor type
-      db   86H             ;; Endpoint number, and direction
+      db   82H             ;; Endpoint number, and direction
       db   ET_BULK         ;; Endpoint type
       db   40H             ;; Maximum packet size (LSB)
       db   00H             ;; Maximum packet size (MSB), 64 bytes total
