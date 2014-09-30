@@ -273,9 +273,12 @@ begin  -- Behavioral
   -- type   : sequential
   -- inputs : ClockxCI
   -- outputs: 
-  synchronizer : process (ClockxCI)
+  synchronizer : process (ClockxCI,ResetxRBI)
   begin
-    if ClockxCI'event  and ClockxCI = '1' then   
+    if ResetxRBI = '0' then
+	  SyncInCLKxCB <= '1';
+	  SyncInCLKxCBN <= '1';
+	elsif ClockxCI'event  and ClockxCI = '1' then   
       SyncInCLKxCB  <= SyncInCLKxCBN;
       SyncInCLKxCBN <= SyncInCLKxABI;
     end if;

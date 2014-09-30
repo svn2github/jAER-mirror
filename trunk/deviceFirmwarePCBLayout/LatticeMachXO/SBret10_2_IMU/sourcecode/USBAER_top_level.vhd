@@ -406,7 +406,7 @@ architecture Structural of USBAER_top_level is
 	-- clock, reset
 	signal ClockxC, IfClockxC             	: std_logic;
 	signal ResetxRB, ResetxR              	: std_logic;
-	signal RunxS 							: std_logic;
+	signal RunxS, d1RunxS					: std_logic;
 	signal CounterResetxRB               	: std_logic;
 	signal SynchronizerResetTimestampxSB 	: std_logic;
 	signal CDVSTestChipResetxRB 			: std_logic; 
@@ -423,7 +423,7 @@ architecture Structural of USBAER_top_level is
 	signal FX2FifoWritexEB 		: std_logic;
 	signal FX2FifoPktEndxSB     : std_logic;
 	signal SyncOut1xSB        	: std_logic;
-	signal HostResetTimestampxS : std_logic;
+	signal HostResetTimestampxS, d1HostResetTimestampxS : std_logic;
 
 	signal TriggerxS : std_logic;
 
@@ -484,7 +484,7 @@ architecture Structural of USBAER_top_level is
 	signal FramePeriodxD : std_logic_vector(15 downto 0);
 
 	signal SRoutxD, SRinxD, SRLatchxE, SRClockxC : std_logic;
-	signal RunADCxS : std_logic;
+	signal RunADCxS, d1RunADCxS : std_logic;
 
 	signal ADCStateOutputLEDxS, ADCStateOutputLEDGSxS, ADCStateOutputLEDRSxS : std_logic;
 	
@@ -897,11 +897,11 @@ ADCovrxS <= ADCovrxSI;
 
 	CDVSTestBiasEnablexEO <= not PE2xSI;
 
-	HostResetTimestampxS <= PA7xSIO;
-	RunxS <= PA3xSIO;
+	--HostResetTimestampxS <= PA7xSIO; --synchronize this
+	--RunxS <= PA3xSIO;  --synchronize this
 	ExtTriggerxE <= '0';
 
-	RunADCxS <= PC0xSIO;
+	--RunADCxS <= PC0xSIO; -- synchronize this
 	SRClockxC <= PC1xSIO; --synchronized in the shift-register
 	SRLatchxE <= PC2xSIO; --synchronized in the shift-register
 	SRinxD <= PC3xSIO;
@@ -932,12 +932,27 @@ ADCovrxS <= ADCovrxSI;
 	-- type   : sequential
 	-- inputs : ClockxCI
 	-- outputs: 
-	synchronizer : process (ClockxC)
+	synchronizer : process (ClockxC, ResetxRBI)
 	begin
-		if ClockxC'event and ClockxC = '1' then 
-			AERREQxSB         <= AERReqSyncxSBN;
-			AERReqSyncxSBN <= AERMonitorREQxABI;
-			end if;
+	    if ResetxRBI='0' then
+		    AERREQxSB 				<= '1';
+			AERReqSyncxSBN 			<= '1';
+			RunxS 					<= '0';
+			d1RunxS 				<= '0';
+			RunADCxS 				<= '0';
+			d1RunADCxS				<= '0';
+			HostResetTimestampxS 	<= '0';
+			d1HostResetTimestampxS	<= '0';
+		elsif ClockxC'event and ClockxC = '1' then 
+			AERREQxSB       		<= AERReqSyncxSBN;
+			AERReqSyncxSBN			<= AERMonitorREQxABI;
+			RunxS 					<= d1RunxS;
+			d1RunxS 				<= PA3xSIO;
+			RunADCxS 				<= d1RunADCxS;
+			d1RunADCxS 				<= PC0xSIO;
+			HostResetTimestampxS 	<= d1HostResetTimestampxS;
+			d1HostResetTimestampxS 	<= PA7xSIO;
+		end if;
 	end process synchronizer;
 	
 	-- debug
