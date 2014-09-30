@@ -158,7 +158,7 @@ begin
 
 	-- Third: set all constant outputs.
 	USBFifoRead_SBO       <= '1';       -- We never read from the USB data path (active-low).
-	USBFifoAddress_DO     <= "10";      -- Always write to EP6.
+	USBFifoAddress_DO     <= "00";      -- Always write to EP2.
 	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
 	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI; -- Direct bypass.
 	-- Always enable chip if it is needed (for DVS or APS).
@@ -183,8 +183,8 @@ begin
 		port map(
 			Clock_CI                => USBClock_CI,
 			Reset_RI                => USBReset_R,
-			USBFifoEP6Full_SI       => USBFifoFullFlagSync_S,
-			USBFifoEP6AlmostFull_SI => USBFifoProgrammableFlagSync_S,
+			USBFifoEP2Full_SI       => USBFifoFullFlagSync_S,
+			USBFifoEP2AlmostFull_SI => USBFifoProgrammableFlagSync_S,
 			USBFifoWrite_SBO        => USBFifoWrite_SBO,
 			USBFifoPktEnd_SBO       => USBFifoPktEnd_SBO,
 			InFifoControl_SI        => LogicUSBFifoControlOut_S.ReadSide,

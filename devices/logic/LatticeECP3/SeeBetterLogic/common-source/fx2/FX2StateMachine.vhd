@@ -14,8 +14,8 @@ entity FX2Statemachine is
 		Reset_RI                : in  std_logic;
 
 		-- USB FIFO flags
-		USBFifoEP6Full_SI       : in  std_logic;
-		USBFifoEP6AlmostFull_SI : in  std_logic;
+		USBFifoEP2Full_SI       : in  std_logic;
+		USBFifoEP2AlmostFull_SI : in  std_logic;
 
 		-- USB FIFO control lines
 		USBFifoWrite_SBO        : out std_logic;
@@ -77,7 +77,7 @@ begin
 			Overflow_SO  => EarlyPacketNotify_S,
 			Data_DO      => open);
 
-	p_memoryless : process(State_DP, CyclesNotify_S, EarlyPacketNotify_S, USBFifoEP6Full_SI, USBFifoEP6AlmostFull_SI, InFifoControl_SI)
+	p_memoryless : process(State_DP, CyclesNotify_S, EarlyPacketNotify_S, USBFifoEP2Full_SI, USBFifoEP2AlmostFull_SI, InFifoControl_SI)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
 
@@ -91,7 +91,7 @@ begin
 		InFifoControl_SO.Read_S <= '0'; -- Don't read from input FIFO until we know we can write.
 
 		case State_DP is
-			-- We wait for two clock cycles here, to leave time for the EP6Full
+			-- We wait for two clock cycles here, to leave time for the EP2Full
 			-- Flag to clear the USB Synchronizer (which adds a two-cycle delay).
 			-- The Synchronizer is needed for safety and to meet the extremely
 			-- short timing constraints of the flags. The FX3 doesn't need
@@ -106,7 +106,7 @@ begin
 				State_DN <= stIdle;
 
 			when stIdle =>
-				if USBFifoEP6Full_SI = '0' then
+				if USBFifoEP2Full_SI = '0' then
 					if EarlyPacketNotify_S = '1' then
 						State_DN <= stPrepareEarlyPacket;
 					elsif InFifoControl_SI.AlmostEmpty_S = '0' then
@@ -128,7 +128,7 @@ begin
 				USBFifoWriteReg_SB      <= '0';
 
 			when stWriteFirst =>
-				if USBFifoEP6AlmostFull_SI = '1' then
+				if USBFifoEP2AlmostFull_SI = '1' then
 					State_DN <= stPrepareSwitch;
 				else
 					State_DN <= stWriteMiddle;
