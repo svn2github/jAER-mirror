@@ -128,7 +128,7 @@ LOCATE COMP "ChipBiasEnable_SO" SITE "B7" ;
 IOBUF PORT "ChipBiasEnable_SO" PULLMODE=DOWN ;
 CLOCK_TO_OUT PORT "ChipBiasEnable_SO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "LogicClock_C" ;
 
-LOCATE COMP "ChipBiasDiagSelect_SO" SITE "A7" ;
+LOCATE COMP "ChipBiasDiagSelect_SO" SITE "A6" ;
 IOBUF PORT "ChipBiasDiagSelect_SO" PULLMODE=DOWN ;
 MAXDELAY FROM PORT "BiasDiagSelect_SI" TO PORT "ChipBiasDiagSelect_SO" 10 ns;
 
@@ -151,8 +151,8 @@ CLOCK_TO_OUT PORT "DVSAERReset_SBO" OUTPUT_DELAY 1.0 ns MIN 0.5 ns CLKNET "Logic
 
 LOCATE COMP "DVSAERData_AI[9]" SITE "R15" ;
 LOCATE COMP "DVSAERData_AI[8]" SITE "R14" ;
-LOCATE COMP "DVSAERData_AI[7]" SITE "T14" ;
-LOCATE COMP "DVSAERData_AI[6]" SITE "T15" ;
+LOCATE COMP "DVSAERData_AI[7]" SITE "T15" ;// AER pins 6 and 7 are inverted compared to the schematic. This is to fix a mismatch
+LOCATE COMP "DVSAERData_AI[6]" SITE "T14" ;// between the top and bottom board, the two pins are wrongly inverted in the connector.
 LOCATE COMP "DVSAERData_AI[5]" SITE "R16" ;
 LOCATE COMP "DVSAERData_AI[4]" SITE "P15" ;
 LOCATE COMP "DVSAERData_AI[3]" SITE "P16" ;
