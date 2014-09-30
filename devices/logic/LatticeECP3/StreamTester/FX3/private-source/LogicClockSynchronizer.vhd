@@ -13,19 +13,7 @@ entity LogicClockSynchronizer is
 		SPIClock_CI            : in  std_logic;
 		SPIClockSync_CO        : out std_logic;
 		SPIMOSI_DI             : in  std_logic;
-		SPIMOSISync_DO         : out std_logic;
-		DVSAERReq_SBI          : in  std_logic;
-		DVSAERReqSync_SBO      : out std_logic;
-		IMUInterrupt_SI        : in  std_logic;
-		IMUInterruptSync_SO    : out std_logic;
-		SyncOutSwitch_SI       : in  std_logic;
-		SyncOutSwitchSync_SO   : out std_logic;
-		SyncInClock_CI         : in  std_logic;
-		SyncInClockSync_CO     : out std_logic;
-		SyncInSwitch_SI        : in  std_logic;
-		SyncInSwitchSync_SO    : out std_logic;
-		SyncInSignal_SI        : in  std_logic;
-		SyncInSignalSync_SO    : out std_logic);
+		SPIMOSISync_DO         : out std_logic);
 end LogicClockSynchronizer;
 
 architecture Structural of LogicClockSynchronizer is
@@ -63,48 +51,4 @@ begin
 			Reset_RI           => ResetSync_R,
 			SignalToSync_SI(0) => SPIMOSI_DI,
 			SyncedSignal_SO(0) => SPIMOSISync_DO);
-
-	syncDVSAERReq : entity work.DFFSynchronizer
-		generic map(
-			RESET_VALUE => true)        -- active-low signal
-		port map(
-			SyncClock_CI       => LogicClock_CI,
-			Reset_RI           => ResetSync_R,
-			SignalToSync_SI(0) => DVSAERReq_SBI,
-			SyncedSignal_SO(0) => DVSAERReqSync_SBO);
-
-	syncIMUInterrupt : entity work.DFFSynchronizer
-		port map(
-			SyncClock_CI       => LogicClock_CI,
-			Reset_RI           => ResetSync_R,
-			SignalToSync_SI(0) => IMUInterrupt_SI,
-			SyncedSignal_SO(0) => IMUInterruptSync_SO);
-
-	syncSyncOutSwitch : entity work.DFFSynchronizer
-		port map(
-			SyncClock_CI       => LogicClock_CI,
-			Reset_RI           => ResetSync_R,
-			SignalToSync_SI(0) => SyncOutSwitch_SI,
-			SyncedSignal_SO(0) => SyncOutSwitchSync_SO);
-
-	syncSyncInClock : entity work.DFFSynchronizer
-		port map(
-			SyncClock_CI       => LogicClock_CI,
-			Reset_RI           => ResetSync_R,
-			SignalToSync_SI(0) => SyncInClock_CI,
-			SyncedSignal_SO(0) => SyncInClockSync_CO);
-
-	syncSyncInSwitch : entity work.DFFSynchronizer
-		port map(
-			SyncClock_CI       => LogicClock_CI,
-			Reset_RI           => ResetSync_R,
-			SignalToSync_SI(0) => SyncInSwitch_SI,
-			SyncedSignal_SO(0) => SyncInSwitchSync_SO);
-
-	syncSyncInSignal : entity work.DFFSynchronizer
-		port map(
-			SyncClock_CI       => LogicClock_CI,
-			Reset_RI           => ResetSync_R,
-			SignalToSync_SI(0) => SyncInSignal_SI,
-			SyncedSignal_SO(0) => SyncInSignalSync_SO);
 end Structural;
