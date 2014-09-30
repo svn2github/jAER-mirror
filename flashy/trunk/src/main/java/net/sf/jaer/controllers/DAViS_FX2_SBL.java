@@ -592,12 +592,12 @@ public class DAViS_FX2_SBL extends Controller {
 	private VBox usbEPListenGUI() {
 		final VBox usbEPListenGUI = new VBox(10);
 
-		GUISupport.addLabel(usbEPListenGUI, "USB endpoint 6 stream", "USB endpoint 6 data.", null, null);
+		GUISupport.addLabel(usbEPListenGUI, "USB endpoint 2 stream", "USB endpoint 2 data.", null, null);
 
-		final TextArea usbEP6OutputArea = new TextArea();
-		usbEPListenGUI.getChildren().add(usbEP6OutputArea);
+		final TextArea usbEP2OutputArea = new TextArea();
+		usbEPListenGUI.getChildren().add(usbEP2OutputArea);
 
-		usbDevice.listenToEP((byte) 0x86, LibUsb.TRANSFER_TYPE_BULK, 4, 4096, new RestrictedTransferCallback() {
+		usbDevice.listenToEP((byte) 0x82, LibUsb.TRANSFER_TYPE_BULK, 4, 4096, new RestrictedTransferCallback() {
 			@Override
 			public void processTransfer(final RestrictedTransfer t) {
 				if (t.buffer().limit() == 0) {
@@ -612,7 +612,7 @@ public class DAViS_FX2_SBL extends Controller {
 					dataCount++;
 
 					if ((dataCount & 0x0FFF) == 0) {
-						GUISupport.runOnJavaFXThread(() -> usbEP6OutputArea.appendText(String.format(
+						GUISupport.runOnJavaFXThread(() -> usbEP2OutputArea.appendText(String.format(
 							"%d: Got 4096 data buffers.\n", dataCount >>> 12)));
 					}
 
@@ -652,7 +652,7 @@ public class DAViS_FX2_SBL extends Controller {
 								System.out.println(output);
 							}
 							else {
-								GUISupport.runOnJavaFXThread(() -> usbEP6OutputArea.appendText(output));
+								GUISupport.runOnJavaFXThread(() -> usbEP2OutputArea.appendText(output));
 							}
 
 							expData = usbData;
