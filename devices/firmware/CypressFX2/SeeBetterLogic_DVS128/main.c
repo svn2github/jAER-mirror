@@ -99,7 +99,7 @@ void TD_Init(void) // Called once at startup
 	OEE = 0x3E; // 0011_1110, DVS Array Reset and BIAS
 
 	SYNCDELAY;
-	EP6CFG = 0xE0; // EP6 enabled, IN, bulk, quad-buffered -> 1110_0000
+	EP2CFG = 0xE0; // EP2 enabled, IN, bulk, quad-buffered -> 1110_0000
 
 	SYNCDELAY;
 	EP1OUTCFG &= 0x7F; // EP1OUT disabled
@@ -107,10 +107,10 @@ void TD_Init(void) // Called once at startup
 	EP1INCFG &= 0x7F; // EP1IN disabled
 
 	SYNCDELAY;
-	EP2CFG &= 0x7F; // EP2 disabled
+	EP4CFG &= 0x7F; // EP4 disabled
 
 	SYNCDELAY;
-	EP4CFG &= 0x7F; // EP4 disabled
+	EP6CFG &= 0x7F; // EP6 disabled
 
 	SYNCDELAY;
 	EP8CFG &= 0x7F; // EP8 disabled
@@ -120,17 +120,17 @@ void TD_Init(void) // Called once at startup
 	FIFORESET = 0x80;
 
 	SYNCDELAY;
-	FIFORESET = 0x86;
+	FIFORESET = 0x82;
 
 	SYNCDELAY;
 	FIFORESET = 0x00;
 
 	SYNCDELAY;
-	EP6FIFOCFG = 0x09; // 0000_1001
+	EP2FIFOCFG = 0x09; // 0000_1001
 
-	// FIFO flag configuration: FlagA: EP6 programmable, FlagB: EP6 full, FlagC and FlagD unused.
+	// FIFO flag configuration: FlagA: EP2 programmable, FlagB: EP2 full, FlagC and FlagD unused.
 	SYNCDELAY;
-	PINFLAGSAB = 0xE6; // 1110_0110
+	PINFLAGSAB = 0xC4; // 1100_0100
 	SYNCDELAY;
 	PINFLAGSCD = 0x00;
 
@@ -139,16 +139,16 @@ void TD_Init(void) // Called once at startup
 
 	// FIFO commits automatically after 512 bytes.
 	SYNCDELAY;
-	EP6AUTOINLENH = 0x02;
+	EP2AUTOINLENH = 0x02;
 	SYNCDELAY;
-	EP6AUTOINLENL = 0x00;
+	EP2AUTOINLENL = 0x00;
 
 	// FlagA triggers when the content of the current, not yet committed packet
 	// is at or greater than 498 bytes (of 512 per packet).
 	SYNCDELAY;
-	EP6FIFOPFH = 0xC1; // 1100_0001
+	EP2FIFOPFH = 0xC1; // 1100_0001
 	SYNCDELAY;
-	EP6FIFOPFL = 0xF2; // 1111_0010
+	EP2FIFOPFL = 0xF2; // 1111_0010
 
 	EZUSB_InitI2C(); // initialize I2C to enable EEPROM read and write
 	I2CTL |= 0x01;  // set I2C to 400kHz to speed up data transfers
