@@ -419,7 +419,8 @@ begin
 					DatatypeSelectxSO <= selectwrap; 
 					FifoWritexEO <= '1';
 				end if;
-			when others => StatexDN <= stIdle;
+				
+			when others => null;
 		end case;
 
 	end process p_memless;
