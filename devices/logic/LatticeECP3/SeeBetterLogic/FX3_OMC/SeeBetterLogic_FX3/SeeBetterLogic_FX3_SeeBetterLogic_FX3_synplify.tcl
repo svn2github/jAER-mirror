@@ -40,7 +40,7 @@ set_option -write_apr_constraint 1
 set_option -fix_gated_and_generated_clocks 1
 set_option -update_models_cp 0
 set_option -resolve_multiple_driver 0
-
+set_option -vhdl2008 1
 
 #-- add_file options
 add_file -vhdl {C:/lscc/diamond/3.2_x64/cae_library/synthesis/vhdl/ecp3.vhd}

@@ -104,7 +104,9 @@ begin
 	report  "Case 1: Request received, check if in Acknowledge state";
 
 	-- Case 2: acknowledge received to go back to Idle state (event 1)
-	wait until PSMreq_AB = '0'; 
+	if (PSMreq_AB = '1') then
+		wait until PSMreq_AB = '0';
+	end if;
 	PSMack_AB 		<=	'0'; -- Acknowledge from next block received
 	wait until PDVSack_AB = '0';							   
 	wait for 2 ns;
@@ -125,7 +127,9 @@ begin
 		report  "Case 4: Request received, check if in Acknowledge state";
 
 		-- Case 5: acknowledge received to go back to Idle state (event 2 = same)
-		wait until PSMreq_AB = '0';
+		if (PSMreq_AB = '1') then
+			wait until PSMreq_AB = '0';
+		end if;
 		PSMack_AB 		<=	'0'; -- Acknowledge from next block received	  
 		wait for 2 ns;
 		if (PDVSack_AB = '1') then
@@ -148,7 +152,9 @@ begin
 		report  "Case 6: Request received, check if in Acknowledge state";
 
 		-- Case 7: acknowledge received to go back to Idle state (event 3)
-		wait until PSMreq_AB = '0';
+		if (PSMreq_AB = '1') then
+			wait until PSMreq_AB = '0';
+		end if;
 		PSMack_AB 		<=	'0'; -- Acknowledge from next block received
 		if (PDVSack_AB = '1') then
 			wait until PDVSack_AB = '0';

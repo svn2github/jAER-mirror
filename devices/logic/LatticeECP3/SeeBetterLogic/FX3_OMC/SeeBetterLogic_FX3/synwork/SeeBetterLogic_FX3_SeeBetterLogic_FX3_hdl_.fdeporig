@@ -1,14 +1,15 @@
 #defaultlanguage:vhdl
-#OPTIONS:"|-top|TopLevel|-prodtype|synplify_pro|-dspmac|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ui|-fid2|-ram|-sharing|on|-ll|2000|-autosm|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-fileorder|E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\SeeBetterLogic_FX3\\syntmp\\hdlorder.tcl"
+#OPTIONS:"|-top|TopLevel|-prodtype|synplify_pro|-dspmac|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ui|-fid2|-ram|-sharing|on|-ll|2000|-autosm|-vhdl2008|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-fileorder|E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\SeeBetterLogic_FX3\\syntmp\\hdlorder.tcl"
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\bin64\\c_vhdl.exe":1397599346
-#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\location.map":1397728050
-#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\std.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\location.map":1397728050
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\std.vhd":1397598978
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1397598978
-#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\std1164.vhd":1397598978
-#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\numeric.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\std1164.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\std_textio.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\numeric.vhd":1397599230
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\umr_capim.vhd":1397599228
-#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\arith.vhd":1397598978
-#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\unsigned.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\arith.vhd":1397598978
+#CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\unsigned.vhd":1397598978
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\cae_library\\synthesis\\vhdl\\ecp3.vhd":1376992926
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\cae_library\\synthesis\\vhdl\\pmi_def.vhd":1400335816
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\ext\\FIFORecords.vhd":1406109071
@@ -70,7 +71,7 @@
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\MISCAERStateMachine.vhd":1411652953
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\FifoMerger.vhd":1411652953
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\MullerCelement.vhd":1410953598
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\ObjectMotionCell.vhd":1412169757
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\ObjectMotionCell.vhd":1412171772
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\ObjectMotionCell_tb.vhd":1412169902
 0 "C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\ecp3.vhd" vhdl
 1 "C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd" vhdl

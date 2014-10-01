@@ -131,7 +131,7 @@ variable TemporalVariable3 : unsigned(63 downto 0);
 begin
 	-- External reset	
 	if (Reset_RI = '1') then
-		OMCfire_DO <= '0'; -- Stop firing
+		--OMCfire_DO <= '0'; -- Stop firing
 		POMCack_S <= '0'; -- Acknowledge the DVS state machine
 		OVFack_SO <= '1'; -- Give counter acknowledge
 		State_DP <= Idle;
