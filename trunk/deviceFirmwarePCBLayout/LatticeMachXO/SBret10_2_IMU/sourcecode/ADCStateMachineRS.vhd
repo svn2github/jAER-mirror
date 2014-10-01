@@ -79,12 +79,12 @@ architecture Behavioral of ADCStateMachineRS is
   -- timestamp reset register
   signal DividerColxDP, DividerColxDN : std_logic_vector(32 downto 0);
   signal DividerRowxDP, DividerRowxDN : std_logic_vector(16 downto 0);
-  signal ExposureTxD : std_logic_vector(25 downto 0);
+  signal ExposureTxD : std_logic_vector(16 downto 0);
   signal FramePeriodxD : std_logic_vector(25 downto 0);
 
   signal   CountRowxDN, CountRowxDP           : std_logic_vector(7 downto 0);
   signal   CountColxDN, CountColxDP           : std_logic_vector(17 downto 0);
-  signal   NoBxS, DoReadxS, ReadDonexS 		  : std_logic;  --Alex: NoBxS has a warning in synthesis due to not initial value. Also this signal is writen and read in the same combinational process. This must be fixed although seems not to bother for the moment.
+  signal   NoBxSN, NoBxSP, DoReadxS, ReadDonexS 		  : std_logic;  --Alex: NoBxS has a warning in synthesis due to not initial value. Also this signal is writen and read in the same combinational process. This must be fixed although seems not to bother for the moment.
   signal   ReadCyclexS						  : std_logic_vector(1 downto 0); -- "00" A, "01" B, "10" C
   signal   ColModexD                          : std_logic_vector(1 downto 0);  -- "00" Null, "01" Sel A, "10" Sel B, "11" Res A             
 
@@ -99,7 +99,7 @@ begin
   
   ClockxC <= ClockxCI;  
   StateClockxC <= ClockxC;
-  ADCclockxCO  <= not ClockxC;
+  ADCclockxCO  <= ClockxC; --not
   
   CDVSTestSRRowInxSO <= CDVSTestSRRowInxS;
   CDVSTestSRColInxSO <= CDVSTestSRColInxS;
@@ -112,16 +112,16 @@ begin
   ADCoexEBO		<= '0';
 
   CDVSTestColMode0xSO <= ColModexD(0);
-  CDVSTestColMode1xSO <= ColModexD(1) or ExtTriggerxEI;
+  CDVSTestColMode1xSO <= ColModexD(1); -- or ExtTriggerxEI;
 
   ADCStateOutputLEDxSO <= StartPixelxS;
   --ADCStateOutputLEDxSO <= '1' when StateColxDP = stIdle and StateRowxDP = stIdle else '0';
   
   FramePeriodxD <= FramePeriodxDI & "0000000001";
-  ExposureTxD <= ExposurexDI & "0000000001";
+  ExposureTxD <= "0" & ExposurexDI + SizeX;
 
 -- calculate col next state and outputs
-  p_col : process (StateColxDP, DividerColxDP, ExposurexDI, RunADCxSI, CountColxDP, StartColxSP, ReadDonexS, FramePeriodxD, ResSettlexDI)
+  p_col : process (StateColxDP, DividerColxDP, ExposureTxD, RunADCxSI, CountColxDP, StartColxSP, ReadDonexS, FramePeriodxD, ResSettlexDI, NoBxSP)
   begin  -- process p_memless
     -- default assignements: stay in present state
 
@@ -131,6 +131,7 @@ begin
     CDVSTestSRColInxS    <= '0';
     ColModexD            <= "00";
 	ReadCyclexS			 <= "11";
+    NoBxSN                <= NoBxSP;
 
     DoReadxS <= '0';
     StartColxSN <= StartColxSP;
@@ -149,7 +150,7 @@ begin
         CDVSTestSRColClockxS <= '0';
         DoReadxS             <= '0';
         ColModexD            <= "00";
-        NoBxS                <= '1';
+        NoBxSN                <= '1';
       when stFeedReset1 =>
         CDVSTestSRColClockxS <= '1';
         CDVSTestSRColInxS    <= '1';
@@ -204,7 +205,7 @@ begin
         ColModexD   <= "00";
       when stReadB =>
         DoReadxS <= '1';
-		if NoBxS = '0' and CountColxDP > ExposurexDI + 1 and CountColxDP < ExposurexDI + SizeX+2 then
+		if NoBxSP = '0' and CountColxDP > ExposureTxD + 1 and CountColxDP < ExposureTxD + SizeX+2 then
           ColModexD <= "10";
 		  ReadCyclexS <= "01";
         else
@@ -221,11 +222,11 @@ begin
         CountColxDN   <= CountColxDP + 1;
         StartColxSN   <= '0';
         DoReadxS      <= '0';
-        if CountColxDP > (SizeX + ExposurexDI) then
+        if CountColxDP > (SizeX + ExposureTxD) then -- +2??
           StateColxDN <= stWaitFrame;
-        elsif (CountColxDP = ExposurexDI) then
+        elsif (CountColxDP = ExposureTxD) then
           StateColxDN <= stFeedRead;
-          NoBxS       <= '0';
+          NoBxSN       <= '0';
         else
           StateColxDN <= stFeedNull;
         end if;
@@ -250,7 +251,7 @@ begin
   end process p_col;
 
 -- calculate next Row state and outputs
-  p_row : process (DividerRowxDP, CountRowxDP, RowSettlexDI, StateRowxDP, DoReadxS, StateColxDP, ExposurexDI, CountColxDP, ReadCyclexS, NoBxS, ColSettlexDI)
+  p_row : process (DividerRowxDP, CountRowxDP, RowSettlexDI, StateRowxDP, DoReadxS, StateColxDP, ExposureTxD, CountColxDP, ReadCyclexS, NoBxSP, ColSettlexDI)
   begin  -- process p_row
     -- default assignements: stay in present state
 
@@ -305,7 +306,7 @@ begin
             RegisterWritexEO <= '0';
           end if;
         else
-		  if NoBxS = '0' and CountColxDP > ExposurexDI + 1 and CountColxDP < ExposurexDI + SizeX+2 then
+		  if NoBxSP = '0' and CountColxDP > ExposureTxD + 1 and CountColxDP < ExposureTxD + SizeX+2 then
           	RegisterWritexEO <= '1';
           else
             RegisterWritexEO <= '0';
@@ -347,6 +348,7 @@ begin
       StartRowxSP   <= '0';
       CountColxDP   <= (others => '0');
       CountRowxDP   <= (others => '0');
+      NoBxSP        <= '1';
     elsif StateClockxC'event and StateClockxC = '1' then  -- rising clock edge   
       StateColxDP   <= StateColxDN;
       StateRowxDP   <= StateRowxDN;
@@ -356,6 +358,7 @@ begin
       StartRowxSP   <= StartRowxSN;
       CountRowxDP   <= CountRowxDN;
       CountColxDP   <= CountColxDN;
+      NoBxSP        <= NoBxSN;
     end if;
   end process p_memoryzing;
 

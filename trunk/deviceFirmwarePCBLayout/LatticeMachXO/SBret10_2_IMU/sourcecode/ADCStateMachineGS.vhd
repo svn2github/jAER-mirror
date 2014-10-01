@@ -101,7 +101,16 @@ begin
   
   ClockxC <= ClockxCI;  
   StateClockxC <= ClockxC;
-  ADCclockxCO  <= not ClockxC;
+  
+  --process (ClockxC, ResetxRB)
+  --begin
+      --if (ResetxRB='0') then
+	     --ADCclockxCO <= '0';
+	  --elsif (ClockxC'event and ClockxC='1') then
+	     --ADCclockxCO <= not ADCclockxCO;
+	  --end if;
+  --end process;
+  ADCclockxCO  <= ClockxC; -- not
   
   CDVSTestSRRowInxSO <= CDVSTestSRRowInxS;
   CDVSTestSRColInxSO <= CDVSTestSRColInxS;
