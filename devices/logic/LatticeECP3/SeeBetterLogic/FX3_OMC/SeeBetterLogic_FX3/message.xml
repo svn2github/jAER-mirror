@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliMessageLog>
+    <Task name="Synplify_Synthesis">
+        <Message>
+            <ID>2019990</ID>
+            <Severity>Error</Severity>
+            <Dynamic>CD622 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd&quot;:161:23:161:61|Actual expression must be static</Dynamic>
+            <Navigation>CD622</Navigation>
+            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd</Navigation>
+            <Navigation>161</Navigation>
+            <Navigation>23</Navigation>
+            <Navigation>161</Navigation>
+            <Navigation>61</Navigation>
+            <Navigation>Actual expression must be static</Navigation>
+        </Message>
+        <Message>
+            <ID>2019990</ID>
+            <Severity>Error</Severity>
+            <Dynamic>CD415 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd&quot;:166:35:166:35|Expecting keyword is</Dynamic>
+            <Navigation>CD415</Navigation>
+            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd</Navigation>
+            <Navigation>166</Navigation>
+            <Navigation>35</Navigation>
+            <Navigation>166</Navigation>
+            <Navigation>35</Navigation>
+            <Navigation>Expecting keyword is</Navigation>
+        </Message>
+        <Message>
+            <ID>2019990</ID>
+            <Severity>Error</Severity>
+            <Dynamic>CD632 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd&quot;:177:32:177:32|duplicate entity name work</Dynamic>
+            <Navigation>CD632</Navigation>
+            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd</Navigation>
+            <Navigation>177</Navigation>
+            <Navigation>32</Navigation>
+            <Navigation>177</Navigation>
+            <Navigation>32</Navigation>
+            <Navigation>duplicate entity name work</Navigation>
+        </Message>
+        <Message>
+            <ID>2019990</ID>
+            <Severity>Error</Severity>
+            <Dynamic>CD632 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd&quot;:189:30:189:30|duplicate entity name work</Dynamic>
+            <Navigation>CD632</Navigation>
+            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd</Navigation>
+            <Navigation>189</Navigation>
+            <Navigation>30</Navigation>
+            <Navigation>189</Navigation>
+            <Navigation>30</Navigation>
+            <Navigation>duplicate entity name work</Navigation>
+        </Message>
+        <Message>
+            <ID>2019990</ID>
+            <Severity>Error</Severity>
+            <Dynamic>CD632 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd&quot;:202:28:202:28|duplicate entity name work</Dynamic>
+            <Navigation>CD632</Navigation>
+            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd</Navigation>
+            <Navigation>202</Navigation>
+            <Navigation>28</Navigation>
+            <Navigation>202</Navigation>
+            <Navigation>28</Navigation>
+            <Navigation>duplicate entity name work</Navigation>
+        </Message>
+        <Message>
+            <ID>2019990</ID>
+            <Severity>Error</Severity>
+            <Dynamic>CD632 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd&quot;:215:29:215:29|duplicate entity name work</Dynamic>
+            <Navigation>CD632</Navigation>
+            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd</Navigation>
+            <Navigation>215</Navigation>
+            <Navigation>29</Navigation>
+            <Navigation>215</Navigation>
+            <Navigation>29</Navigation>
+            <Navigation>duplicate entity name work</Navigation>
+        </Message>
+        <Message>
+            <ID>2019990</ID>
+            <Severity>Error</Severity>
+            <Dynamic>CD632 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd&quot;:818:23:818:23|duplicate entity name work</Dynamic>
+            <Navigation>CD632</Navigation>
+            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd</Navigation>
+            <Navigation>818</Navigation>
+            <Navigation>23</Navigation>
+            <Navigation>818</Navigation>
+            <Navigation>23</Navigation>
+            <Navigation>duplicate entity name work</Navigation>
+        </Message>
+        <Message>
+            <ID>2019990</ID>
+            <Severity>Error</Severity>
+            <Dynamic>CD632 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd&quot;:827:40:827:40|duplicate entity name work</Dynamic>
+            <Navigation>CD632</Navigation>
+            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd</Navigation>
+            <Navigation>827</Navigation>
+            <Navigation>40</Navigation>
+            <Navigation>827</Navigation>
+            <Navigation>40</Navigation>
+            <Navigation>duplicate entity name work</Navigation>
+        </Message>
+        <Message>
+            <ID>2019990</ID>
+            <Severity>Error</Severity>
+            <Dynamic>CD632 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd&quot;:834:40:834:40|duplicate entity name work</Dynamic>
+            <Navigation>CD632</Navigation>
+            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd</Navigation>
+            <Navigation>834</Navigation>
+            <Navigation>40</Navigation>
+            <Navigation>834</Navigation>
+            <Navigation>40</Navigation>
+            <Navigation>duplicate entity name work</Navigation>
+        </Message>
+        <Message>
+            <ID>2019990</ID>
+            <Severity>Error</Severity>
+            <Dynamic>CD632 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd&quot;:841:30:841:30|duplicate entity name work</Dynamic>
+            <Navigation>CD632</Navigation>
+            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd</Navigation>
+            <Navigation>841</Navigation>
+            <Navigation>30</Navigation>
+            <Navigation>841</Navigation>
+            <Navigation>30</Navigation>
+            <Navigation>duplicate entity name work</Navigation>
+        </Message>
+        <Message>
+            <ID>2019990</ID>
+            <Severity>Error</Severity>
+            <Dynamic>CD632 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd&quot;:851:45:851:45|duplicate entity name work</Dynamic>
+            <Navigation>CD632</Navigation>
+            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd</Navigation>
+            <Navigation>851</Navigation>
+            <Navigation>45</Navigation>
+            <Navigation>851</Navigation>
+            <Navigation>45</Navigation>
+            <Navigation>duplicate entity name work</Navigation>
+        </Message>
+        <Message>
+            <ID>2019990</ID>
+            <Severity>Error</Severity>
+            <Dynamic>CD632 :&quot;E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd&quot;:851:45:851:45|Too many errors - aborting.</Dynamic>
+            <Navigation>CD632</Navigation>
+            <Navigation>E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd</Navigation>
+            <Navigation>851</Navigation>
+            <Navigation>45</Navigation>
+            <Navigation>851</Navigation>
+            <Navigation>45</Navigation>
+            <Navigation>Too many errors - aborting.</Navigation>
+        </Message>
+    </Task>
+</BaliMessageLog>
