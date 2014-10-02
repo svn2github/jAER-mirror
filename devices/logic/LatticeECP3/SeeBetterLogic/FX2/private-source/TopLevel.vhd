@@ -58,6 +58,7 @@ entity TopLevel is
 		IMUClock_CZO               : out   std_logic;
 		IMUData_DZIO               : inout std_logic;
 		IMUInterrupt_AI            : in    std_logic;
+		IMUFSync_SO                : out   std_logic;
 
 		SyncOutClock_CO            : out   std_logic;
 		SyncOutSwitch_AI           : in    std_logic;
@@ -160,6 +161,7 @@ begin
 	USBFifoRead_SBO       <= '1';       -- We never read from the USB data path (active-low).
 	USBFifoAddress_DO     <= "00";      -- Always write to EP2.
 	USBFifoData_DO        <= LogicUSBFifoDataOut_D;
+	IMUFSync_SO           <= '0';       -- Not used, tie to ground according to docs.
 	ChipBiasDiagSelect_SO <= BiasDiagSelect_SI; -- Direct bypass.
 	-- Always enable chip if it is needed (for DVS or APS).
 	ChipBiasEnable_SO     <= DVSAERConfig_D.Run_S or APSADCConfig_D.Run_S;
