@@ -29,7 +29,7 @@ end FX2Statemachine;
 architecture Behavioral of FX2Statemachine is
 	attribute syn_enum_encoding : string;
 
-	type tState is (stFullFlagWait1, stFullFlagWait2, stIdle, stPrepareEarlyPacket, stEarlyPacket, stPrepareWrite, stWriteFirst, stWriteMiddle, stWriteLast, stPrepareSwitch, stSwitch);
+	type tState is (stFullFlagWait1, stFullFlagWait2, stIdle, stPrepareEarlyPacket, stEarlyPacket, stSwitchEarlyPacket, stPrepareWrite, stWriteFirst, stWriteMiddle, stWriteLast, stPrepareSwitch, stSwitch);
 	attribute syn_enum_encoding of tState : type is "onehot";
 
 	-- present and next state
@@ -115,10 +115,20 @@ begin
 				end if;
 
 			when stPrepareEarlyPacket =>
-				State_DN            <= stEarlyPacket;
-				USBFifoPktEndReg_SB <= '0';
+				State_DN <= stEarlyPacket;
+
+				-- If available, read one element more and then send off the short packet.
+				-- This also ensures the FIFO is drained over time at system shutdown.
+				if InFifoControl_SI.Empty_S = '0' then
+					InFifoControl_SO.Read_S <= '1';
+					USBFifoWriteReg_SB      <= '0';
+				end if;
 
 			when stEarlyPacket =>
+				State_DN            <= stSwitchEarlyPacket;
+				USBFifoPktEndReg_SB <= '0';
+
+			when stSwitchEarlyPacket =>
 				State_DN           <= stFullFlagWait1;
 				EarlyPacketClear_S <= '1';
 

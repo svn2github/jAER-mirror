@@ -43,6 +43,17 @@ architecture Behavioral of APSADCStateMachine is
 	-- present and next state
 	signal State_DP, State_DN : tState;
 begin
+	APSChipRowSRClock_SO <= '0';
+	APSChipRowSRIn_SO    <= '0';
+	APSChipColSRClock_SO <= '0';
+	APSChipColSRIn_SO    <= '0';
+	APSChipColMode_DO    <= "00";
+	APSChipTXGate_SO     <= '0';
+
+	APSADCClock_CO         <= '0';
+	APSADCOutputEnable_SBO <= '1';
+	APSADCStandby_SO       <= '1';
+
 	p_memoryless : process(State_DP, OutFifoControl_SI)
 	begin
 		State_DN <= State_DP;           -- Keep current state by default.
