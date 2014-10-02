@@ -595,7 +595,7 @@
                 <entry key="XYTypeFilter.startType" value="1"/>
                 <entry key="XYTypeFilter.multiSelectionEnabled" value="false"/>
                 <entry key="CellStatsProber.isiHistEnabled" value="false"/>
-                <entry key="aeReaderFifoSize" value="32384"/>
+                <entry key="aeReaderFifoSize" value="32768"/>
                 <entry key="aeReaderNumBuffers" value="4"/>
                 <entry key="translateRowOnlyEvents" value="true"/>
               </map>
