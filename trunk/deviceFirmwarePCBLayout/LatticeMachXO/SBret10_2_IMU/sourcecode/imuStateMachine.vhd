@@ -745,7 +745,7 @@ begin
 					end if;
 					
 				end if;
-			-- END Read Interrupt to check when new data is available (stRdIntX)			
+			-- END Read Interrupt to check when new data is available (stRdIntX)
 
 			-- START Read Data Registers from IMU (stRdX)
 			-- Write IMU Device Address
