@@ -23,7 +23,7 @@
                 <entry key="apsIntensityOffset" value="0"/>
                 <entry key="invertADCvalues" value="false"/>
                 <entry key="displayLogIntensityChangeEvents" value="true"/>
-                <entry key="DAViS240.bgTabbedPaneSelectedIndex" value="4"/>
+                <entry key="DAViS240.bgTabbedPaneSelectedIndex" value="6"/>
                 <entry key="displayIntensity" value="true"/>
                 <entry key="CypressFX2Blank.defaultFirmwareBixFileForBlankDevice" value="..\..\trunk\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_SBret10_Gyro_2\SBret10.bix"/>
                 <entry key="DAViS240.AddressedIPotCF.DiffBn.BitValueCoarse" value="3"/>
@@ -151,7 +151,7 @@
                 <entry key="Masterbias.internalResistorUsed" value="false"/>
                 <entry key="DAViS240.nChipReset" value="true"/>
                 <entry key="DAViS240.powerDown" value="false"/>
-                <entry key="DAViS240.runAdc" value="false"/>
+                <entry key="DAViS240.runAdc" value="true"/>
                 <entry key="DAViS240.runCpld" value="true"/>
                 <entry key="DAViS240.resetTestpixel" value="true"/>
                 <entry key="CPLDInt.exposureB" value="39"/>
@@ -224,7 +224,7 @@
                 <entry key="VideoControl.useAutoContrast" value="false"/>
                 <entry key="ApproachCell.filterEnabled" value="false"/>
                 <entry key="VideoControl.brightness" value="0.0"/>
-                <entry key="VideoControl.contrast" value="1.0"/>
+                <entry key="VideoControl.contrast" value="1.75"/>
                 <entry key="VideoControl.displayEvents" value="true"/>
                 <entry key="VideoControl.displayFrames" value="true"/>
                 <entry key="BackgroundActivityFilter.dt" value="10762"/>
@@ -312,7 +312,7 @@
                 <entry key="EventRateEstimator.maxRate" value="1.0E7"/>
                 <entry key="Info.eventRate" value="true"/>
                 <entry key="Info.showRateTrace" value="false"/>
-                <entry key="debugControls" value="true"/>
+                <entry key="debugControls" value="false"/>
                 <entry key="PairedEventLinearEdgeClusterTracker.filterEnabled" value="false"/>
                 <entry key="MultiLineClusterTracker.clusterLifetimeIncreasesWithAge" value="true"/>
                 <entry key="MultiLineClusterTracker.clusterLifetimeWithoutSupport" value="24069"/>
@@ -334,8 +334,8 @@
                 <entry key="MultiLineClusterTracker.mixingFactorTheta" value="0.13938662"/>
                 <entry key="MultiLineClusterTracker.mixingFactorRho" value="0.0110249985"/>
                 <entry key="MultiLineClusterTracker.minDistanceNormalized" value="0.01812906"/>
-                <entry key="DAViS240.showImageHistogram" value="false"/>
-                <entry key="CPLDInt.exposure" value="34448"/>
+                <entry key="DAViS240.showImageHistogram" value="true"/>
+                <entry key="CPLDInt.exposure" value="17"/>
                 <entry key="ApsFrameExtractor.logCompress" value="false"/>
                 <entry key="ApsFrameExtractor.deltaBufferSize" value="1000.0"/>
                 <entry key="ApsFrameExtractor.displayBrightness" value="0.0"/>
@@ -510,10 +510,10 @@
                 <entry key="TrackdefineFilter.minDistance" value="2.2035983"/>
                 <entry key="TrackdefineFilter.scalePointsCurvature" value="true"/>
                 <entry key="TrackdefineFilter.lastFile" value="C:\Users\tobi\Documents\jAER_1.5\computer large track 1.track"/>
-                <entry key="AutoExposureController.lowBoundary" value="0.2653295"/>
-                <entry key="AutoExposureController.highBoundary" value="0.7051737"/>
+                <entry key="AutoExposureController.lowBoundary" value="0.13400951"/>
+                <entry key="AutoExposureController.highBoundary" value="0.4329157"/>
                 <entry key="expDelta" value="0.094282396"/>
-                <entry key="underOverFractionThreshold" value="0.55719197"/>
+                <entry key="underOverFractionThreshold" value="0.29549104"/>
                 <entry key="SimpleSpeedController.filterEnabled" value="true"/>
                 <entry key="HumanVsComputerThrottleController.filterEnabled" value="true"/>
                 <entry key="TrackHistogramFilter.erosionSize" value="0"/>
@@ -589,13 +589,13 @@
                 <entry key="CPLDByte.imu4_ACCEL_CONFIG" value="16"/>
                 <entry key="ImuGyroScale" value="GyroFullScaleDegPerSec1000"/>
                 <entry key="ImuAccelScale" value="ImuAccelScaleG8"/>
-                <entry key="CPLDByte.miscControlBits" value="1"/>
+                <entry key="CPLDByte.miscControlBits" value="3"/>
                 <entry key="XYTypeFilter.typeEnabled" value="true"/>
                 <entry key="XYTypeFilter.endType" value="1"/>
                 <entry key="XYTypeFilter.startType" value="1"/>
                 <entry key="XYTypeFilter.multiSelectionEnabled" value="false"/>
                 <entry key="CellStatsProber.isiHistEnabled" value="false"/>
-                <entry key="aeReaderFifoSize" value="32768"/>
+                <entry key="aeReaderFifoSize" value="16384"/>
                 <entry key="aeReaderNumBuffers" value="4"/>
                 <entry key="translateRowOnlyEvents" value="true"/>
               </map>
