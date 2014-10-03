@@ -5,6 +5,7 @@ use work.EventCodes.all;
 use work.Settings.all;
 use work.FIFORecords.all;
 use work.MultiplexerConfigRecords.all;
+use work.ObjectMotionCellConfigRecords.all;
 use work.DVSAERConfigRecords.all;
 use work.APSADCConfigRecords.all;
 use work.IMUConfigRecords.all;
@@ -124,7 +125,8 @@ architecture Structural of TopLevel is
 	signal ConfigParamInput_D    : std_logic_vector(31 downto 0);
 	signal ConfigLatchInput_S    : std_logic;
 	signal ConfigParamOutput_D   : std_logic_vector(31 downto 0);
-
+	
+	signal ObjectMotionCellConfigParamOutput_D : std_logic_vector(31 downto 0); -- Added for OMC
 	signal MultiplexerConfigParamOutput_D : std_logic_vector(31 downto 0);
 	signal DVSAERConfigParamOutput_D      : std_logic_vector(31 downto 0);
 	signal APSADCConfigParamOutput_D      : std_logic_vector(31 downto 0);
@@ -132,6 +134,7 @@ architecture Structural of TopLevel is
 	signal ExtTriggerConfigParamOutput_D  : std_logic_vector(31 downto 0);
 
 	signal MultiplexerConfig_D : tMultiplexerConfig;
+	signal ObjectMotionCellConfig_D : tObjectMotionCellConfig; -- Added for OMC
 	signal DVSAERConfig_D      : tDVSAERConfig;
 	signal APSADCConfig_D      : tAPSADCConfig;
 	signal IMUConfig_D         : tIMUConfig;
@@ -154,11 +157,6 @@ architecture Structural of TopLevel is
 --------------------------------------------------------------------------------
 -- Object Motion Cell signals and constants ------------------------------------
 --------------------------------------------------------------------------------
-	-- Constants
-	constant Threshold_K     : std_logic_vector (31 downto 0) := (5 => '1', others => '0');
-	constant DecayTime_K     : std_logic_vector (31 downto 0) := (10 => '1', others => '0');
-	constant TimerLimit_K    : std_logic_vector (31 downto 0) := (31 => '1', others => '0');
-
 	-- Signals
 	signal OMCmisc_S	: std_logic;
 --------------------------------------------------------------------------------
@@ -196,7 +194,7 @@ begin
 -- Object Motion Cell instantiation --------------------------------------------
 --------------------------------------------------------------------------------
 	-- Instantiate component ObjectMotionCell
-	OMCell : entity work.ObjectMotionCell
+	OMCellSM : entity work.ObjectMotionCell
 	port map(
 		-- Clock and reset
 		Clock_CI		=>	LogicClock_C,
@@ -213,12 +211,33 @@ begin
 		OMCfire_DO	 	=>	OMCmisc_S,
 		
 		-- Constants for the moment
-		Threshold_SI	=>	unsigned(Threshold_K),
-		DecayTime_SI	=> 	unsigned(DecayTime_K),
-		TimerLimit_SI	=>	unsigned(TimerLimit_K));
+		Threshold_SI	=>	unsigned(ObjectMotionCellConfig_D.Threshold_S),                                                -- Check!!
+		DecayTime_SI	=> 	unsigned(ObjectMotionCellConfig_D.DecayTime_S),                                                -- Check!!
+		TimerLimit_SI	=>	unsigned(ObjectMotionCellConfig_D.TimerLimit_S));                                              -- Check!!
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
+--------------------------------------------------------------------------------
+-- Object Motion Cell SPIConfig instantiation ----------------------------------
+--------------------------------------------------------------------------------
+	-- Instantiate component ObjectMotionCell
+	OMCellSPIConfig : entity work.ObjectMotionCellSPIConfig
+	port map(
+		-- Clock and reset
+		Clock_CI		=>	LogicClock_C,
+		Reset_RI		=>  LogicReset_R,
+
+		-- Parameters
+		ObjectMotionCellConfig_DO       => ObjectMotionCellConfig_D, 
+		
+		-- SPI connection
+		ConfigModuleAddress_DI          => ConfigModuleAddress_D,
+		ConfigParamAddress_DI           => ConfigParamAddress_D,
+		ConfigParamInput_DI             => ConfigParamInput_D,
+		ConfigLatchInput_SI             => ConfigLatchInput_S,
+		ObjectMotionCellConfigParamOutput_DO => ObjectMotionCellConfigParamOutput_D);
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 --	-- Top entity that gather a Background Activity Filter and x4 object Trackers. The output can be enabled or passthrogh for any component. 
 --	-- It is not possible to join together both DVS traffic and this filters traffic.
@@ -691,12 +710,18 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtTriggerConfigParamOutput_D)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ObjectMotionCellConfigParamOutput_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtTriggerConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
 
 		case ConfigModuleAddress_D is
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+			when OBJECTMOTIONCELLCONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= ObjectMotionCellConfigParamOutput_D;
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 			when MULTIPLEXERCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= MultiplexerConfigParamOutput_D;
 
@@ -713,6 +738,7 @@ begin
 				ConfigParamOutput_D <= ExtTriggerConfigParamOutput_D;
 
 			when others => null;
+			
 		end case;
 	end process spiConfigurationOutputSelect;
 end Structural;
