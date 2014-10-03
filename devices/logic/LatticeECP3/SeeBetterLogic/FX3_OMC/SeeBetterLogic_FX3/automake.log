@@ -12,74 +12,34 @@ Lattice Diamond Version 3.2.0.134
 #Implementation: SeeBetterLogic_FX3
 
 $ Start of Compile
-#Wed Oct 01 15:56:59 2014
+#Fri Oct 03 15:36:08 2014
 
 Synopsys VHDL Compiler, version comp201309rcp1, Build 147R, built Apr 16 2014
 @N|Running in 64-bit mode
 Copyright (C) 1994-2013 Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
 
 @N: CD720 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std.vhd":146:18:146:21|Setting time resolution to ns
-@N:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":13:7:13:14|Top entity is set to TopLevel.
-File C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\misc.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CAVIAR2WSAER.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CMCell.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\ExtRAMController.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\latch3.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\OBTConfigRecords.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\RetinaFilter.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\MullerCelement.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFODualClock.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\PLL.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ChangeDetector.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ShiftRegister.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\LogicClockSynchronizer.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3USBClockSynchronizer.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd changed - recompiling
-File C:\lscc\diamond\3.2_x64\synpbase\lib\vhd\math_real.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\TimestampGenerator.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerSPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERSPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCSPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUSPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerSPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\SPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MISCAERStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\FifoMerger.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ChipBiasStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ChipBiasSPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\PRCell.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TrackCell.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\AERArbriter.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\ObjectTracker.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\BGF_OBT_top.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell_tb.vhd changed - recompiling
+@N:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":14:7:14:14|Top entity is set to TopLevel.
+Options changed - recompiling
 VHDL syntax check successful!
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd changed - recompiling
+Options changed - recompiling
 @N: CD231 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std1164.vhd":913:16:913:17|Using onehot encoding for type mvl9plus ('U'="1000000000")
-@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":13:7:13:14|Synthesizing work.toplevel.structural 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":142:8:142:19|Signal caviaro_data is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":142:22:142:34|Signal tcaviaro_data is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":143:32:143:45|Signal caviar_ack_aux is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":143:74:143:85|Signal tcaviaro_req is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":143:88:143:99|Signal tcaviaro_ack is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":143:148:143:149|Signal kk is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":145:8:145:16|Signal timertest is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":147:8:147:13|Signal spi_wr is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":148:8:148:15|Signal spi_data is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":149:8:149:18|Signal spi_address is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":150:8:150:10|Signal led is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":151:8:151:16|Signal ot_active is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":152:8:152:19|Signal ws2caviar_en is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":152:22:152:27|Signal bgafen is undriven 
-@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":152:67:152:74|Signal davis_en is undriven 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":14:7:14:14|Synthesizing work.toplevel.structural 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":145:8:145:19|Signal caviaro_data is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":145:22:145:34|Signal tcaviaro_data is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":146:32:146:45|Signal caviar_ack_aux is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":146:74:146:85|Signal tcaviaro_req is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":146:88:146:99|Signal tcaviaro_ack is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":146:148:146:149|Signal kk is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":148:8:148:16|Signal timertest is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":150:8:150:13|Signal spi_wr is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":151:8:151:15|Signal spi_data is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":152:8:152:18|Signal spi_address is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":153:8:153:10|Signal led is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":154:8:154:16|Signal ot_active is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":155:8:155:19|Signal ws2caviar_en is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":155:22:155:27|Signal bgafen is undriven 
+@W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":155:67:155:74|Signal davis_en is undriven 
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\SPIConfig.vhd":6:7:6:15|Synthesizing work.spiconfig.behavioral 
 @N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\SPIConfig.vhd":28:13:28:14|Using onehot encoding for type tstate (stidle="1000")
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":22:7:22:23|Synthesizing work.continuouscounter.behavioral 
@@ -377,11 +337,13 @@ Post processing for work.fx3usbclocksynchronizer.structural
 @N: CD233 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CAVIAR2WSAER.vhd":41:12:41:13|Using sequential encoding for type tsm
 @W: CD604 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CAVIAR2WSAER.vhd":103:1:103:14|OTHERS clause is not synthesized 
 Post processing for work.caviar2wsaer.structural
-@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":26:7:26:22|Synthesizing work.objectmotioncell.behavioural 
-@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":55:13:55:14|Using onehot encoding for type tst (idle="100000000000")
-@W: CG296 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":127:13:127:19|Incomplete sensitivity list - assuming completeness
-@W: CG290 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":138:25:138:35|Referenced variable timestamp_s is not in sensitivity list
-@W: CD434 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":237:62:237:71|Signal psmack_abi in the sensitivity list is not used in the process
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCellSPIConfig.vhd":27:7:27:31|Synthesizing work.objectmotioncellspiconfig.behavioural 
+Post processing for work.objectmotioncellspiconfig.behavioural
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":27:7:27:22|Synthesizing work.objectmotioncell.behavioural 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":56:13:56:14|Using onehot encoding for type tst (idle="100000000000")
+@W: CG296 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":128:13:128:19|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":139:25:139:35|Referenced variable timestamp_s is not in sensitivity list
+@W: CD434 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":238:62:238:71|Signal psmack_abi in the sensitivity list is not used in the process
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\MullerCelement.vhd":26:7:26:20|Synthesizing work.mullercelement.behavioural 
 @N: CD364 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\MullerCelement.vhd":46:16:46:20|Removed redundant assignment
 @N: CD364 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\MullerCelement.vhd":47:16:47:20|Removed redundant assignment
@@ -392,12 +354,12 @@ Post processing for work.continuouscounter.behavioral
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":22:7:22:23|Synthesizing work.continuouscounter.behavioral 
 Post processing for work.continuouscounter.behavioral
 Post processing for work.objectmotioncell.behavioural
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":133:1:133:2|Pruning register CurrentTimeStamp_S_2(31 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":133:1:133:2|Pruning register SubtractionTimesDT_S_3(31 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":133:1:133:2|Pruning register MembranePotential_S_3(31 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":133:1:133:2|Pruning register TimeBetween2Events_S_3(31 downto 0)  
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":133:1:133:2|Pruning register PreviousTimeStamp_S_4(31 downto 0)  
-@W: CL168 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":104:24:104:45|Pruning instance TimeStampTimer -- not in use ... 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":134:1:134:2|Pruning register CurrentTimeStamp_S_2(31 downto 0)  
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":134:1:134:2|Pruning register SubtractionTimesDT_S_3(31 downto 0)  
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":134:1:134:2|Pruning register MembranePotential_S_3(31 downto 0)  
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":134:1:134:2|Pruning register TimeBetween2Events_S_3(31 downto 0)  
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":134:1:134:2|Pruning register PreviousTimeStamp_S_4(31 downto 0)  
+@W: CL168 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":105:24:105:45|Pruning instance TimeStampTimer -- not in use ... 
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd":24:7:24:18|Synthesizing work.wsaer2caviar.structural 
 @N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd":45:12:45:13|Using onehot encoding for type tst (idle="10000000")
 @W: CD604 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd":115:3:115:16|OTHERS clause is not synthesized 
@@ -411,17 +373,17 @@ Post processing for work.objectmotioncell.behavioural
 @W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd":44:10:44:19|Signal latched_ev is undriven 
 Post processing for work.wsaer2caviar.structural
 Post processing for work.toplevel.structural
-@W: CL240 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":152:67:152:74|DAVIS_en is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL240 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":152:8:152:19|WS2CAVIAR_en is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":151:8:151:16|Bit 0 of signal ot_active is floating -- simulation mismatch possible.
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":151:8:151:16|Bit 1 of signal ot_active is floating -- simulation mismatch possible.
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":151:8:151:16|Bit 2 of signal ot_active is floating -- simulation mismatch possible.
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":151:8:151:16|Bit 3 of signal ot_active is floating -- simulation mismatch possible.
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":150:8:150:10|Bit 0 of signal led is floating -- simulation mismatch possible.
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":150:8:150:10|Bit 1 of signal led is floating -- simulation mismatch possible.
-@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":150:8:150:10|Bit 2 of signal led is floating -- simulation mismatch possible.
-@W: CL240 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":69:2:69:16|SyncOutClock_CO is not assigned a value (floating) -- simulation mismatch possible. 
-@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":172:2:172:3|Pruning register testcnt_3(7 downto 0)  
+@W: CL240 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":155:67:155:74|DAVIS_en is not assigned a value (floating) -- simulation mismatch possible. 
+@W: CL240 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":155:8:155:19|WS2CAVIAR_en is not assigned a value (floating) -- simulation mismatch possible. 
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":154:8:154:16|Bit 0 of signal ot_active is floating -- simulation mismatch possible.
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":154:8:154:16|Bit 1 of signal ot_active is floating -- simulation mismatch possible.
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":154:8:154:16|Bit 2 of signal ot_active is floating -- simulation mismatch possible.
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":154:8:154:16|Bit 3 of signal ot_active is floating -- simulation mismatch possible.
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":153:8:153:10|Bit 0 of signal led is floating -- simulation mismatch possible.
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":153:8:153:10|Bit 1 of signal led is floating -- simulation mismatch possible.
+@W: CL252 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":153:8:153:10|Bit 2 of signal led is floating -- simulation mismatch possible.
+@W: CL240 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":70:2:70:16|SyncOutClock_CO is not assigned a value (floating) -- simulation mismatch possible. 
+@W: CL169 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":170:2:170:3|Pruning register testcnt_3(7 downto 0)  
 @N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd":51:3:51:4|Trying to extract state machine for register cs
 Extracted state machine for register cs
 State machine has 8 reachable states with original encodings of:
@@ -433,7 +395,7 @@ State machine has 8 reachable states with original encodings of:
    00100000
    01000000
    10000000
-@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":133:1:133:2|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":134:1:134:2|Trying to extract state machine for register State_DP
 Extracted state machine for register State_DP
 State machine has 12 reachable states with original encodings of:
    000000000001
@@ -448,9 +410,9 @@ State machine has 12 reachable states with original encodings of:
    001000000000
    010000000000
    100000000000
-@W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":35:2:35:13|Input port bits 12 to 9 of pdvsdata_adi(16 downto 0) are unused 
-@W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":35:2:35:13|Input port bits 4 to 0 of pdvsdata_adi(16 downto 0) are unused 
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":45:2:45:14|Input TimerLimit_SI is unused
+@W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":36:2:36:13|Input port bits 12 to 9 of pdvsdata_adi(16 downto 0) are unused 
+@W: CL246 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":36:2:36:13|Input port bits 4 to 0 of pdvsdata_adi(16 downto 0) are unused 
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":46:2:46:14|Input TimerLimit_SI is unused
 @N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CAVIAR2WSAER.vhd":48:3:48:4|Trying to extract state machine for register cs
 Extracted state machine for register cs
 State machine has 4 reachable states with original encodings of:
@@ -651,13 +613,13 @@ State machine has 4 reachable states with original encodings of:
    0010
    0100
    1000
-@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":18:2:18:24|Input SPIAlternativeSelect_SI is unused
+@W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":19:2:19:24|Input SPIAlternativeSelect_SI is unused
 @END
 
 At c_vhdl Exit (Real Time elapsed 0h:00m:05s; CPU Time elapsed 0h:00m:04s; Memory used current: 122MB peak: 137MB)
 
 Process took 0h:00m:05s realtime, 0h:00m:04s cputime
-# Wed Oct 01 15:57:04 2014
+# Fri Oct 03 15:36:13 2014
 
 ###########################################################]
 Pre-mapping Report
@@ -699,7 +661,7 @@ Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h
 @N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalDemetFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncOutSwitch(behavioral) because there are no references to its outputs 
 @N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalDemetFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInClock(behavioral) because there are no references to its outputs 
 @N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalDemetFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInSwitch(behavioral) because there are no references to its outputs 
-@W: MT462 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\mullercelement.vhd":44:1:44:4|Net OMCell.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\mullercelement.vhd":44:1:44:4|Net OMCellSM.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. 
 syn_allowed_resources : blockrams=38  set on top level netlist TopLevel
 
 
@@ -714,8 +676,8 @@ System                             1251.7 MHz     0.799         system       sys
 TopLevel|USBClock_CI               349.7 MHz      2.860         inferred     Autoconstr_clkgroup_1
 ==================================================================================================
 
-@W: MT531 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\mullercelement.vhd":44:1:44:4|Found signal identified as System clock which controls 1 sequential elements including OMCell.AcknowledgeCElement.Cout.  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance. 
-@W: MT529 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Found inferred clock PLL|OutClock_CO_inferred_clock which controls 5383 sequential elements including BWSAER2CAVIAR.CAVIAR_data[16:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
+@W: MT531 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\mullercelement.vhd":44:1:44:4|Found signal identified as System clock which controls 1 sequential elements including OMCellSM.AcknowledgeCElement.Cout.  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance. 
+@W: MT529 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Found inferred clock PLL|OutClock_CO_inferred_clock which controls 5543 sequential elements including BWSAER2CAVIAR.CAVIAR_data[16:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
 @W: MT529 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\resetsynchronizer.vhd":26:2:26:3|Found inferred clock TopLevel|USBClock_CI which controls 75 sequential elements including syncInputsToUSBClock.syncReset.SyncSignalDemetFF_S. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
 
 Pre-mapping successful!
@@ -723,7 +685,7 @@ Pre-mapping successful!
 At Mapper Exit (Real Time elapsed 0h:00m:03s; CPU Time elapsed 0h:00m:03s; Memory used current: 111MB peak: 179MB)
 
 Process took 0h:00m:03s realtime, 0h:00m:03s cputime
-# Wed Oct 01 15:57:09 2014
+# Fri Oct 03 15:36:19 2014
 
 ###########################################################]
 Map & Optimize Report
@@ -750,20 +712,20 @@ Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h
 
 
 
-Starting Optimization and Mapping (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 156MB peak: 159MB)
+Starting Optimization and Mapping (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 157MB peak: 159MB)
 
-@W: MO111 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\toplevel.vhd":268:126:268:128|Tristate driver DVSAERAck_SBO_1 on net DVSAERAck_SBO_1 has its enable tied to GND (module TopLevel) 
+@W: MO111 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\toplevel.vhd":287:126:287:128|Tristate driver DVSAERAck_SBO_1 on net DVSAERAck_SBO_1 has its enable tied to GND (module TopLevel) 
 @W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Removing sequential instance multiplexerSPIConfig.MultiplexerInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]
 
 Available hyper_sources - for debug and ip models
 	None Found
 
-@W: MT462 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\mullercelement.vhd":44:1:44:4|Net OMCell.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. 
+@W: MT462 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\mullercelement.vhd":44:1:44:4|Net OMCellSM.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. 
 @N: MT206 |Auto Constrain mode is enabled
 @N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\pulsegenerator.vhd":66:2:66:3|Removing sequential instance LengthCount_DP[5:0] of view:PrimLib.dffr(prim) in hierarchy view:work.PulseGeneratorZ0_timestampEnableGenerate(behavioral) because there are no references to its outputs 
 @N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\pulsegenerator.vhd":66:2:66:3|Removing sequential instance LengthCount_DP[5:0] of view:PrimLib.dffr(prim) in hierarchy view:work.PulseGeneratorZ0(behavioral) because there are no references to its outputs 
 
-Finished RTL optimizations (Real Time elapsed 0h:00m:37s; CPU Time elapsed 0h:00m:37s; Memory used current: 231MB peak: 444MB)
+Finished RTL optimizations (Real Time elapsed 0h:00m:42s; CPU Time elapsed 0h:00m:41s; Memory used current: 231MB peak: 444MB)
 
 @W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Removing instance dvsaerSPIConfig.DVSAERInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]
 Encoding state machine cs[0:7] (view:work.WSAER2CAVIAR(structural))
@@ -811,6 +773,8 @@ original code -> new code
    010000000000 -> 010000000000
    100000000000 -> 100000000000
 @N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\continuouscounter.vhd":70:2:70:3|Found counter in view:work.ContinuousCounter_32_false_true_false_false(behavioral) inst Count_DP[31:0]
+@N: MF179 :|Found 32 bit by 32 bit '==' comparator, 'overflowLogicProcesses\.overflowLogic\.un131_overflow_at_zero'
+@N: MF179 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\continuouscounter.vhd":53:6:53:28|Found 32 bit by 32 bit '==' comparator, 'counterLogic\.un221_clear_si'
 Encoding state machine cs[0:3] (view:work.CAVIAR2WSAER(structural))
 original code -> new code
    00 -> 00
@@ -945,22 +909,6 @@ original code -> new code
    0010 -> 01
    0100 -> 10
    1000 -> 11
-@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[24] reduced to a combinational gate by constant propagation
-@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[25] reduced to a combinational gate by constant propagation
-@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[26] reduced to a combinational gate by constant propagation
-@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[27] reduced to a combinational gate by constant propagation
-@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[28] reduced to a combinational gate by constant propagation
-@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[29] reduced to a combinational gate by constant propagation
-@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[30] reduced to a combinational gate by constant propagation
-@W: MO129 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Sequential instance spiConfiguration.ParamOutput_DP[31] reduced to a combinational gate by constant propagation
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[31] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[30] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[29] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[28] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[27] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[26] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[25] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Removing sequential instance ParamInput_DP[24] in hierarchy view:work.SPIConfig(behavioral) because there are no references to its outputs 
 @N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\continuouscounter.vhd":70:2:70:3|Found counter in view:work.ContinuousCounter_6_true_false_false_false(behavioral) inst Count_DP[5:0]
 Encoding state machine State_DP[0:28] (view:work.IMUStateMachine(behavioral))
 original code -> new code
@@ -1010,6 +958,43 @@ original code -> new code
 @N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\pulsegenerator.vhd":66:2:66:3|Found counter in view:work.PulseGeneratorZ0(behavioral) inst IntervalCount_DP[5:0]
 @N:"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\continuouscounter.vhd":70:2:70:3|Found counter in view:work.ContinuousCounter_5_true_false_false_false(behavioral) inst Count_DP[4:0]
 @N: MF179 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\changedetector.vhd":40:5:40:34|Found 8 bit by 8 bit '==' comparator, 'detectChange\.un2_inputdata_di'
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[5],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[5]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[5],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[5]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[6],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[6]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[6],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[6]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[7],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[7]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[7],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[7]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[8],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[8]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[9],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[9]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[10],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[10]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[11],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[11]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[12],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[12]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[13],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[13]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[14],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[14]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[15],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[15]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[16],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[16]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[17],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[17]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[18],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[18]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[19],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[19]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[20],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[20]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[21],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[21]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[22],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[22]
+@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Removing instance OMCellSPIConfig.ObjectMotionCellInput_DP[23],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[23]
 @W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[0],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[0]
 @W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[1],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[1]
 @W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[2],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[2]
@@ -1025,27 +1010,14 @@ original code -> new code
 @W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[12],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[12]
 @W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[13],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[13]
 @W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\changedetector.vhd":49:2:49:3|Removing instance multiplexerSM.timestampChangeDetector.PreviousData_DP[14],  because it is equivalent to instance multiplexerSM.TimestampBuffer_D[14]
-@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]
-@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[0],  because it is equivalent to instance apsadcSPIConfig.APSADCInput_DP[0]
-@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]
-@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[1],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[1]
-@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]
-@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[2],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[2]
-@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]
-@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[3],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[3]
-@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Removing instance extTriggerSPIConfig.ExtTriggerInput_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]
-@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[4],  because it is equivalent to instance dvsaerSPIConfig.DVSAERInput_DP[4]
-@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[5],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[5]
-@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[6],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[6]
-@W: BN132 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Removing instance imuSPIConfig.IMUInput_DP[7],  because it is equivalent to instance extTriggerSPIConfig.ExtTriggerInput_DP[7]
 
-Finished factoring (Real Time elapsed 0h:00m:53s; CPU Time elapsed 0h:00m:52s; Memory used current: 319MB peak: 444MB)
+Finished factoring (Real Time elapsed 0h:01m:00s; CPU Time elapsed 0h:00m:59s; Memory used current: 321MB peak: 444MB)
 
 
-Finished gated-clock and generated-clock conversion (Real Time elapsed 0h:00m:55s; CPU Time elapsed 0h:00m:54s; Memory used current: 297MB peak: 444MB)
+Finished gated-clock and generated-clock conversion (Real Time elapsed 0h:01m:02s; CPU Time elapsed 0h:01m:01s; Memory used current: 300MB peak: 444MB)
 
 
-Finished generic timing optimizations - Pass 1 (Real Time elapsed 0h:01m:01s; CPU Time elapsed 0h:01m:00s; Memory used current: 300MB peak: 444MB)
+Finished generic timing optimizations - Pass 1 (Real Time elapsed 0h:01m:10s; CPU Time elapsed 0h:01m:09s; Memory used current: 305MB peak: 444MB)
 
 @N: FA113 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":150:29:150:83|Pipelining module GeneratePulseLength_D[26:1]
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[GeneratePulseLength_D\] pushed in.
@@ -1053,6 +1025,9 @@ Finished generic timing optimizations - Pass 1 (Real Time elapsed 0h:01m:01s; CP
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\apsadcspiconfig.vhd":48:2:48:3|Register APSADCInput_DP[0] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAERInput_DP[4:0] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerInput_DP[23:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellConfigReg_DP\[TimerLimit_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellConfigReg_DP\[DecayTime_S\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellConfigReg_DP\[Threshold_S\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[SampleRateDivider_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[GyroStandby_S\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[AccelStandby_S\] pushed in.
@@ -1072,11 +1047,11 @@ Finished generic timing optimizations - Pass 1 (Real Time elapsed 0h:01m:01s; CP
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Register MultiplexerConfigReg_DP\[TimestampRun_S\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Register MultiplexerConfigReg_DP\[TimestampReset_S\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Register MultiplexerConfigReg_DP\[Run_S\] pushed in.
-@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[DigitalLowPassFilter_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAERConfigReg_DP\[AckExtension_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAERConfigReg_DP\[AckDelay_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[GeneratePulseInterval_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerspiconfig.vhd":100:2:100:3|Register ExtTriggerConfigReg_DP\[DetectPulseLength_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[DigitalLowPassFilter_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[LPWakeup_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[GyroFullScale_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUConfigReg_DP\[AccelFullScale_D\] pushed in.
@@ -1099,11 +1074,11 @@ Finished generic timing optimizations - Pass 1 (Real Time elapsed 0h:01m:01s; CP
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerstatemachine.vhd":369:2:369:3|Register MultiplexerConfigReg_D\[TimestampRun_S\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerstatemachine.vhd":369:2:369:3|Register MultiplexerConfigReg_D\[TimestampReset_S\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerstatemachine.vhd":369:2:369:3|Register MultiplexerConfigReg_D\[Run_S\] pushed in.
-@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[DigitalLowPassFilter_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Register DVSAERConfigReg_D\[AckExtension_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Register DVSAERConfigReg_D\[AckDelay_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[GeneratePulseInterval_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\exttriggerstatemachine.vhd":104:2:104:3|Register ExtTriggerConfig_D\[DetectPulseLength_D\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[DigitalLowPassFilter_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[LPWakeup_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[GyroFullScale_D\] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imustatemachine.vhd":805:2:805:3|Register IMUConfigReg_D\[AccelFullScale_D\] pushed in.
@@ -1115,121 +1090,125 @@ Finished generic timing optimizations - Pass 1 (Real Time elapsed 0h:01m:01s; CP
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\changedetector.vhd":49:2:49:3|Register PreviousData_DP[2:0] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Register ModuleAddressReg_DP[6:0] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\spiconfig.vhd":227:2:227:3|Register ReadOperationReg_SP pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellOutput_DP[31:0] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\multiplexerspiconfig.vhd":56:2:56:3|Register MultiplexerOutput_DP[0] pushed in.
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerspiconfig.vhd":56:2:56:3|Register DVSAEROutput_DP[4:0] pushed in.
-@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\imuspiconfig.vhd":84:2:84:3|Register IMUOutput_DP[7:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncellspiconfig.vhd":88:2:88:3|Register ObjectMotionCellInput_DP[31:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\apsadcspiconfig.vhd":48:2:48:3|Register APSADCOutput_DP[0] pushed in.
 @N: FA113 :|Pipelining module NoName
-@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":133:1:133:2|Register Inhibition_S[31:0] pushed in.
-@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":133:1:133:2|Register State_DP[0:11] pushed in.
-@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":133:1:133:2|Register arrayOfSubunits\[0\]\[0\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":134:1:134:2|Register Inhibition_S[31:0] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":134:1:134:2|Register State_DP[0:11] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":134:1:134:2|Register arrayOfSubunits\[0\]\[0\] pushed in.
 @N: FA113 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\continuouscounter.vhd":92:7:92:34|Pipelining module overflowLogicProcesses\.overflowLogic\.un5_overflow_at_zero
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Register DVSAERConfigReg_D\[AckExtension_D\] pushed in.
 @N: FA113 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\continuouscounter.vhd":92:7:92:34|Pipelining module overflowLogicProcesses\.overflowLogic\.un5_overflow_at_zero
 @N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Register DVSAERConfigReg_D\[AckDelay_D\] pushed in.
 @N: FA113 :|Pipelining module NoName
 @N: MF169 :|Register NoName pushed in.
-@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":133:1:133:2|Register arrayOfSubunits\[0\]\[0\] pushed in.
-@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":133:1:133:2|Register State_DP[0:11] pushed in.
-@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":133:1:133:2|Register arrayOfSubunits\[0\]\[8\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":134:1:134:2|Register arrayOfSubunits\[0\]\[0\] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":134:1:134:2|Register State_DP[0:11] pushed in.
+@N: MF169 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":134:1:134:2|Register arrayOfSubunits\[0\]\[8\] pushed in.
 
-Starting Early Timing Optimization (Real Time elapsed 0h:05m:54s; CPU Time elapsed 0h:05m:52s; Memory used current: 1590MB peak: 1591MB)
-
-
-Finished Early Timing Optimization (Real Time elapsed 0h:06m:05s; CPU Time elapsed 0h:06m:04s; Memory used current: 607MB peak: 1595MB)
+Starting Early Timing Optimization (Real Time elapsed 0h:06m:15s; CPU Time elapsed 0h:06m:14s; Memory used current: 1518MB peak: 1519MB)
 
 
-Finished generic timing optimizations - Pass 2 (Real Time elapsed 0h:06m:07s; CPU Time elapsed 0h:06m:05s; Memory used current: 601MB peak: 1595MB)
+Finished Early Timing Optimization (Real Time elapsed 0h:06m:34s; CPU Time elapsed 0h:06m:33s; Memory used current: 611MB peak: 1522MB)
 
 
-Finished preparing to map (Real Time elapsed 0h:06m:15s; CPU Time elapsed 0h:06m:14s; Memory used current: 594MB peak: 1595MB)
+Finished generic timing optimizations - Pass 2 (Real Time elapsed 0h:06m:36s; CPU Time elapsed 0h:06m:34s; Memory used current: 604MB peak: 1522MB)
 
 
-Finished technology mapping (Real Time elapsed 0h:06m:23s; CPU Time elapsed 0h:06m:22s; Memory used current: 630MB peak: 1595MB)
+Finished preparing to map (Real Time elapsed 0h:06m:46s; CPU Time elapsed 0h:06m:44s; Memory used current: 600MB peak: 1522MB)
+
+
+Finished technology mapping (Real Time elapsed 0h:06m:55s; CPU Time elapsed 0h:06m:53s; Memory used current: 617MB peak: 1522MB)
 
 Pass		 CPU time		Worst Slack		Luts / Registers
 ------------------------------------------------------------
 Pass		 CPU time		Worst Slack		Luts / Registers
 ------------------------------------------------------------
-   1		0h:06m:45s		   -16.23ns		20557 /      9424
+   1		0h:07m:23s		   -16.25ns		20724 /      9574
 ------------------------------------------------------------
 
 @N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\fx3\fx3statemachine.vhd":283:2:283:3|Instance "usbFX3SM.State_DP[9]" with 6 loads replicated 1 times to improve timing 
 @N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\fx3\fx3statemachine.vhd":283:2:283:3|Instance "usbFX3SM.State_DP[0]" with 6 loads replicated 1 times to improve timing 
 @N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\fx3\fx3statemachine.vhd":283:2:283:3|Instance "usbFX3SM.State_DP[15]" with 4 loads replicated 1 times to improve timing 
-@N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\fx3\fx3statemachine.vhd":283:2:283:3|Instance "usbFX3SM.State_DP[2]" with 4 loads replicated 1 times to improve timing 
-@N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":133:1:133:2|Instance "OMCell.State_DP[5]" with 50 loads replicated 3 times to improve timing 
-@N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\ext\fifodualclock.vhd":131:2:131:3|Instance "logicUSBFifo.State_DP_ns_0_a2[0]" with 2 loads replicated 1 times to improve timing 
+@N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\ext\fifodualclock.vhd":131:2:131:3|Instance "logicUSBFifo.EmptyReg_S_i_a3_1" with 2 loads replicated 1 times to improve timing 
 Timing driven replication report
-Added 7 Registers via timing driven replication
-Added 5 LUTs via timing driven replication
+Added 3 Registers via timing driven replication
+Added 4 LUTs via timing driven replication
 
+@N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Instance "syncInputsToUSBClock.syncUSBFifoThr1Ready.SyncSignalSyncFF_S[0]" with 5 loads replicated 1 times to improve timing 
+@N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\fx3\fx3statemachine.vhd":283:2:283:3|Instance "usbFX3SM.State_DP[2]" with 4 loads replicated 1 times to improve timing 
+@N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Instance "syncInputsToUSBClock.syncUSBFifoThr0Ready.SyncSignalSyncFF_S[0]" with 5 loads replicated 1 times to improve timing 
+Added 3 Registers via timing driven replication
+Added 1 LUTs via timing driven replication
 
-@N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":133:1:133:2|Instance "OMCell.State_DP[10]" with 3949 loads replicated 3 times to improve timing 
-@N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":133:1:133:2|Instance "OMCell.State_DP[7]" with 4036 loads replicated 3 times to improve timing 
+@N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":134:1:134:2|Instance "OMCellSM.State_DP[10]" with 3957 loads replicated 3 times to improve timing 
+@N: FX271 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":134:1:134:2|Instance "OMCellSM.State_DP[7]" with 4036 loads replicated 3 times to improve timing 
 Added 6 Registers via timing driven replication
 Added 3 LUTs via timing driven replication
 
 Pass		 CPU time		Worst Slack		Luts / Registers
 ------------------------------------------------------------
-   1		0h:06m:57s		    -0.93ns		20589 /      9437
+   1		0h:07m:41s		    -0.59ns		20741 /      9586
 ------------------------------------------------------------
 
 
 
 Pass		 CPU time		Worst Slack		Luts / Registers
 ------------------------------------------------------------
-   1		0h:06m:59s		    -0.93ns		20588 /      9437
-   2		0h:06m:59s		    -0.93ns		20589 /      9437
+   1		0h:07m:43s		    -0.59ns		20741 /      9586
 ------------------------------------------------------------
 
-@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Instance "BWSAER2CAVIAR.CAVIAR_data[7]" with "1565" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
-@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Instance "BWSAER2CAVIAR.CAVIAR_data[8]" with "1563" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
-@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":133:1:133:2|Instance "OMCell.State_DP_7_rep1" with "1015" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
-@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":133:1:133:2|Instance "OMCell.State_DP[7]" with "1014" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
-@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":133:1:133:2|Instance "OMCell.State_DP_7_rep2" with "1014" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
+@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Instance "BWSAER2CAVIAR.CAVIAR_data[7]" with "1542" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
+@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Instance "BWSAER2CAVIAR.CAVIAR_data[8]" with "1540" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
+@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":134:1:134:2|Instance "OMCellSM.State_DP_7_rep1" with "1015" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
+@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":134:1:134:2|Instance "OMCellSM.State_DP[7]" with "1014" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
+@N: FX103 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\objectmotioncell.vhd":134:1:134:2|Instance "OMCellSM.State_DP_7_rep2" with "1014" loads has been replicated "1" time(s) due to a soft fanout limit of "1000" 
 Net buffering Report for view:work.TopLevel(structural):
 Added 0 Buffers
 Added 5 Registers via replication
 Added 0 LUTs via replication
 
 
-Finished technology timing optimizations and critical path resynthesis (Real Time elapsed 0h:07m:02s; CPU Time elapsed 0h:07m:00s; Memory used current: 601MB peak: 1595MB)
+Finished technology timing optimizations and critical path resynthesis (Real Time elapsed 0h:07m:46s; CPU Time elapsed 0h:07m:45s; Memory used current: 618MB peak: 1522MB)
 
 @N: FX164 |The option to pack flops in the IOB has not been specified 
-@W: MO111 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\toplevel.vhd":49:2:49:14|Tristate driver DVSAERAck_SBO_obuft.un1[0] on net DVSAERAck_SBO has its enable tied to GND (module TopLevel) 
+@W: MO111 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\toplevel.vhd":50:2:50:14|Tristate driver DVSAERAck_SBO_obuft.un1[0] on net DVSAERAck_SBO has its enable tied to GND (module TopLevel) 
 Warning: Found 1 combinational loops!
 @W: BN137 :|Found combinational loop during mapping at net CAVIAR_ack
-1) instance I_5417.lat_r (view:work.TopLevel(structural)), output net "CAVIAR_ack" in work.TopLevel(structural)
+1) instance I_5138.lat_r (view:work.TopLevel(structural)), output net "CAVIAR_ack" in work.TopLevel(structural)
     net        CAVIAR_ack
-    input  pin I_5417.lat/I[0]
-    instance   I_5417.lat (cell or)
-    output pin I_5417.lat/OUT
-    net        I_5417.t1
-    input  pin I_5417.lat_r/I[1]
-    instance   I_5417.lat_r (cell and)
-    output pin I_5417.lat_r/OUT
+    input  pin I_5138.lat/I[0]
+    instance   I_5138.lat (cell or)
+    output pin I_5138.lat/OUT
+    net        I_5138.t1
+    input  pin I_5138.lat_r/I[1]
+    instance   I_5138.lat_r (cell and)
+    output pin I_5138.lat_r/OUT
     net        CAVIAR_ack
 End of loops
 
-Finished restoring hierarchy (Real Time elapsed 0h:07m:27s; CPU Time elapsed 0h:07m:26s; Memory used current: 607MB peak: 1595MB)
+Finished restoring hierarchy (Real Time elapsed 0h:08m:16s; CPU Time elapsed 0h:08m:14s; Memory used current: 623MB peak: 1522MB)
 
 
 
 #### START OF CLOCK OPTIMIZATION REPORT #####[
 
-1 non-gated/non-generated clock tree(s) driving 77 clock pin(s) of sequential element(s)
-1 gated/generated clock tree(s) driving 9365 clock pin(s) of sequential element(s)
-0 instances converted, 9365 sequential instances remain driven by gated/generated clocks
+1 non-gated/non-generated clock tree(s) driving 79 clock pin(s) of sequential element(s)
+1 gated/generated clock tree(s) driving 9512 clock pin(s) of sequential element(s)
+0 instances converted, 9512 sequential instances remain driven by gated/generated clocks
 
 ================================== Non-Gated/Non-Generated Clocks ===================================
 Clock Tree ID     Driving Element     Drive Element Type     Fanout     Sample Instance              
 -----------------------------------------------------------------------------------------------------
-@K:CKID0002       USBClock_CI         port                   77         logicUSBFifo_FifoData_DOio[0]
+@K:CKID0002       USBClock_CI         port                   79         logicUSBFifo_FifoData_DOio[0]
 =====================================================================================================
 ======================================================================================================= Gated/Generated Clocks =======================================================================================================
 Clock Tree ID     Driving Element       Drive Element Type     Fanout     Sample Instance               Explanation                                                                                                                   
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-@K:CKID0001       logicClockPLL.pll     pmi_pll                9365       BCAVIAR2WSAER_WSAER_reqio     Gating structure creates improper gating logic. See the Gated Clocks description in the user guide for conversion requirements
+@K:CKID0001       logicClockPLL.pll     pmi_pll                9512       BCAVIAR2WSAER_WSAER_reqio     Gating structure creates improper gating logic. See the Gated Clocks description in the user guide for conversion requirements
 ======================================================================================================================================================================================================================================
 
 
@@ -1237,7 +1216,7 @@ Clock Tree ID     Driving Element       Drive Element Type     Fanout     Sample
 
 Writing Analyst data base E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\SeeBetterLogic_FX3\SeeBetterLogic_FX3_SeeBetterLogic_FX3.srm
 
-Finished Writing Netlist Databases (Real Time elapsed 0h:07m:33s; CPU Time elapsed 0h:07m:31s; Memory used current: 567MB peak: 1595MB)
+Finished Writing Netlist Databases (Real Time elapsed 0h:08m:23s; CPU Time elapsed 0h:08m:21s; Memory used current: 582MB peak: 1522MB)
 
 Writing EDIF Netlist and constraint files
 I-2013.09L-SP1-1 
@@ -1245,16 +1224,16 @@ I-2013.09L-SP1-1
 @W: BW261 |Block-path constraint from CLKNET "PLL|OutClock_CO_inferred_clock" to PORT "TopLevel|USBClock_CI" not forward annotated in -lpf file. 
 @W: BW261 |Block-path constraint from PORT "TopLevel|USBClock_CI" to CLKNET "PLL|OutClock_CO_inferred_clock" not forward annotated in -lpf file. 
 
-Finished Writing EDIF Netlist and constraint files (Real Time elapsed 0h:07m:37s; CPU Time elapsed 0h:07m:34s; Memory used current: 579MB peak: 1595MB)
+Finished Writing EDIF Netlist and constraint files (Real Time elapsed 0h:08m:28s; CPU Time elapsed 0h:08m:24s; Memory used current: 594MB peak: 1522MB)
 
 Warning: Found 1 combinational loops!
-@W: BN137 :|Found combinational loop during mapping at net G_5429
-1) instance I_5417.lat_r (view:work.TopLevel(structural)), output net "G_5429" in work.TopLevel(structural)
-    net        G_5429
-    input  pin I_5417.lat_r/C0
-    instance   I_5417.lat_r (cell PFUMX)
-    output pin I_5417.lat_r/Z
-    net        BWSAER2CAVIAR.G_5429
+@W: BN137 :|Found combinational loop during mapping at net G_5150
+1) instance I_5138.lat_r (view:work.TopLevel(structural)), output net "G_5150" in work.TopLevel(structural)
+    net        G_5150
+    input  pin I_5138.lat_r/C0
+    instance   I_5138.lat_r (cell PFUMX)
+    output pin I_5138.lat_r/Z
+    net        BWSAER2CAVIAR.G_5150
 End of loops
 @W: MT246 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\ext\fifo.vhd":41:22:41:45|Blackbox pmi_fifo_work_toplevel_structural_0 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
 @W: MT246 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\ext\fifo.vhd":41:22:41:45|Blackbox pmi_fifo_work_toplevel_structural_1 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
@@ -1262,19 +1241,19 @@ End of loops
 @W: MT246 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\ext\fifo.vhd":41:22:41:45|Blackbox pmi_fifo_work_toplevel_structural_3 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
 @W: MT246 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\ext\fifodualclock.vhd":46:31:46:57|Blackbox pmi_fifo_dc_work_toplevel_structural_0 is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
 @W: MT246 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\ext\pll.vhd":18:21:18:43|Blackbox pmi_pll is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
-@W: MT420 |Found inferred clock TopLevel|USBClock_CI with period 2.94ns. Please declare a user-defined clock on object "p:USBClock_CI"
+@W: MT420 |Found inferred clock TopLevel|USBClock_CI with period 2.92ns. Please declare a user-defined clock on object "p:USBClock_CI"
 
-@W: MT420 |Found inferred clock PLL|OutClock_CO_inferred_clock with period 86.93ns. Please declare a user-defined clock on object "n:logicClockPLL.OutClock_CO"
+@W: MT420 |Found inferred clock PLL|OutClock_CO_inferred_clock with period 88.28ns. Please declare a user-defined clock on object "n:logicClockPLL.OutClock_CO"
 
 
 
 ##### START OF TIMING REPORT #####[
-# Timing Report written on Wed Oct 01 16:04:49 2014
+# Timing Report written on Fri Oct 03 15:44:50 2014
 #
 
 
 Top view:               TopLevel
-Requested Frequency:    11.5 MHz
+Requested Frequency:    11.3 MHz
 Wire load mode:         top
 Paths requested:        5
 Constraint File(s):    
@@ -1288,15 +1267,15 @@ Performance Summary
 *******************
 
 
-Worst slack in design: -15.341
+Worst slack in design: -15.579
 
-                                   Requested      Estimated      Requested     Estimated                 Clock        Clock                
-Starting Clock                     Frequency      Frequency      Period        Period        Slack       Type         Group                
--------------------------------------------------------------------------------------------------------------------------------------------
-PLL|OutClock_CO_inferred_clock     11.5 MHz       9.8 MHz        86.933        102.274       -15.341     inferred     Autoconstr_clkgroup_0
-TopLevel|USBClock_CI               340.7 MHz      289.6 MHz      2.935         3.453         -0.518      inferred     Autoconstr_clkgroup_1
-System                             1670.6 MHz     1420.1 MHz     0.599         0.704         -0.106      system       system_clkgroup      
-===========================================================================================================================================
+                                   Requested     Estimated     Requested     Estimated                 Clock        Clock                
+Starting Clock                     Frequency     Frequency     Period        Period        Slack       Type         Group                
+-----------------------------------------------------------------------------------------------------------------------------------------
+PLL|OutClock_CO_inferred_clock     11.3 MHz      9.6 MHz       88.283        103.862       -15.579     inferred     Autoconstr_clkgroup_0
+TopLevel|USBClock_CI               342.9 MHz     291.4 MHz     2.917         3.431         -0.515      inferred     Autoconstr_clkgroup_1
+System                             897.3 MHz     762.7 MHz     1.115         1.311         -0.197      system       system_clkgroup      
+=========================================================================================================================================
 
 
 
@@ -1309,13 +1288,13 @@ Clocks                                                          |    rise  to  r
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 Starting                        Ending                          |  constraint  slack    |  constraint  slack  |  constraint  slack  |  constraint  slack
 --------------------------------------------------------------------------------------------------------------------------------------------------------
-System                          System                          |  0.599       -0.106   |  No paths    -      |  No paths    -      |  No paths    -    
-System                          PLL|OutClock_CO_inferred_clock  |  86.933      84.540   |  No paths    -      |  No paths    -      |  No paths    -    
-System                          TopLevel|USBClock_CI            |  2.935       2.509    |  No paths    -      |  No paths    -      |  No paths    -    
-PLL|OutClock_CO_inferred_clock  System                          |  86.933      -14.917  |  No paths    -      |  No paths    -      |  No paths    -    
-PLL|OutClock_CO_inferred_clock  PLL|OutClock_CO_inferred_clock  |  86.933      -15.341  |  No paths    -      |  No paths    -      |  No paths    -    
-TopLevel|USBClock_CI            System                          |  2.935       -0.690   |  No paths    -      |  No paths    -      |  No paths    -    
-TopLevel|USBClock_CI            TopLevel|USBClock_CI            |  2.935       -0.518   |  No paths    -      |  No paths    -      |  No paths    -    
+System                          System                          |  1.115       -0.197   |  No paths    -      |  No paths    -      |  No paths    -    
+System                          PLL|OutClock_CO_inferred_clock  |  88.283      85.234   |  No paths    -      |  No paths    -      |  No paths    -    
+System                          TopLevel|USBClock_CI            |  2.917       1.835    |  No paths    -      |  No paths    -      |  No paths    -    
+PLL|OutClock_CO_inferred_clock  System                          |  88.283      -15.155  |  No paths    -      |  No paths    -      |  No paths    -    
+PLL|OutClock_CO_inferred_clock  PLL|OutClock_CO_inferred_clock  |  88.283      -15.579  |  No paths    -      |  No paths    -      |  No paths    -    
+TopLevel|USBClock_CI            System                          |  2.917       -0.063   |  No paths    -      |  No paths    -      |  No paths    -    
+TopLevel|USBClock_CI            TopLevel|USBClock_CI            |  2.917       -0.515   |  No paths    -      |  No paths    -      |  No paths    -    
 ========================================================================================================================================================
  Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
        'Diff grp' indicates that paths exist but the starting clock and ending clock are in different clock groups.
@@ -1342,16 +1321,16 @@ Starting Points with Worst Slack
 Instance                                                Reference                          Type        Pin     Net                                  Time        Slack  
                                                         Clock                                                                                                          
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S     PLL|OutClock_CO_inferred_clock     FD1S3BX     Q       LogicReset_R                         101.850     -15.341
-OMCell.Inhibition_S_pipe_115                            PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       Inhibition_S_pipe_115                0.813       56.951 
-OMCell.Inhibition_S_pipe_1447                           PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       Inhibition_S_pipe_1447               0.813       56.951 
-OMCell.Inhibition_S_pipe_1448                           PLL|OutClock_CO_inferred_clock     FD1S3BX     Q       Inhibition_S_pipe_1448               0.813       56.951 
-OMCell.Inhibition_S_pipe_2178                           PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_15_14_1f[15]     0.721       56.951 
-OMCell.Inhibition_S_pipe_2180                           PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_Inhibition_S_1_0_0_0_47          0.721       56.951 
-OMCell.Inhibition_S_pipe_2181                           PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       Inhibition_S_pipe_2181               0.813       56.951 
-OMCell.Inhibition_S_pipe_2183                           PLL|OutClock_CO_inferred_clock     FD1S3BX     Q       un1_arrayOfSubunits_15_15_1f[15]     0.721       56.951 
-OMCell.Inhibition_S_pipe_2177                           PLL|OutClock_CO_inferred_clock     FD1S3BX     Q       Inhibition_S_pipe_2177               0.770       56.994 
-OMCell.Inhibition_S_pipe_2179                           PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       Inhibition_S_pipe_2179               0.770       56.994 
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S     PLL|OutClock_CO_inferred_clock     FD1S3BX     Q       LogicReset_R                         103.438     -15.579
+OMCellSM.Inhibition_S_pipe_727                          PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_14_14_1f[15]     0.721       58.293 
+OMCellSM.Inhibition_S_pipe_741                          PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_Inhibition_S_1_0_0_0_49          0.721       58.293 
+OMCellSM.Inhibition_S_pipe_742                          PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_7_5_1f[14]       0.813       58.293 
+OMCellSM.Inhibition_S_pipe_743                          PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_7_5_1f[13]       0.813       58.293 
+OMCellSM.Inhibition_S_pipe_756                          PLL|OutClock_CO_inferred_clock     FD1S3BX     Q       un1_arrayOfSubunits_15_0_1f[15]      0.721       58.293 
+OMCellSM.Inhibition_S_pipe_757                          PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_15_0_1f[14]      0.813       58.293 
+OMCellSM.Inhibition_S_pipe_728                          PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_14_14_1f[14]     0.770       58.337 
+OMCellSM.Inhibition_S_pipe_729                          PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_14_14_1f[13]     0.770       58.337 
+OMCellSM.Inhibition_S_pipe_2644                         PLL|OutClock_CO_inferred_clock     FD1S3DX     Q       un1_arrayOfSubunits_15_0_1f[13]      0.813       58.949 
 =======================================================================================================================================================================
 
 
@@ -1362,16 +1341,16 @@ Ending Points with Worst Slack
 Instance                       Reference                          Type                                       Pin         Net                Time         Slack  
                                Clock                                                                                                                            
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-MergerFifos.State_DP[0]        PLL|OutClock_CO_inferred_clock     FD1P3AX                                    SP          LogicReset_R_i     86.509       -15.341
-MergerFifos.State_DP[1]        PLL|OutClock_CO_inferred_clock     FD1P3AX                                    SP          LogicReset_R_i     86.509       -15.341
-MergerFifos.State_DP[2]        PLL|OutClock_CO_inferred_clock     FD1P3AX                                    SP          LogicReset_R_i     86.509       -15.341
-extTriggerFifo.fifo            PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_0        Reset       LogicReset_R       86.933       -14.917
-apsAdcFifo.fifo                PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_2        Reset       LogicReset_R       86.933       -14.917
-MergerAerFifo.fifo             PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_3        Reset       LogicReset_R       86.933       -14.917
-dvsAerFifo.fifo                PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_3        Reset       LogicReset_R       86.933       -14.917
-miscAerFifo.fifo               PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_3        Reset       LogicReset_R       86.933       -14.917
-imuFifo.fifo                   PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_1        Reset       LogicReset_R       86.933       -14.917
-logicUSBFifo.fifoDualClock     PLL|OutClock_CO_inferred_clock     pmi_fifo_dc_work_toplevel_structural_0     RPReset     LogicReset_R       86.933       -14.917
+MergerFifos.State_DP[0]        PLL|OutClock_CO_inferred_clock     FD1P3AX                                    SP          LogicReset_R_i     87.858       -15.579
+MergerFifos.State_DP[1]        PLL|OutClock_CO_inferred_clock     FD1P3AX                                    SP          LogicReset_R_i     87.858       -15.579
+MergerFifos.State_DP[2]        PLL|OutClock_CO_inferred_clock     FD1P3AX                                    SP          LogicReset_R_i     87.858       -15.579
+extTriggerFifo.fifo            PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_0        Reset       LogicReset_R       88.283       -15.155
+apsAdcFifo.fifo                PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_2        Reset       LogicReset_R       88.283       -15.155
+MergerAerFifo.fifo             PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_3        Reset       LogicReset_R       88.283       -15.155
+miscAerFifo.fifo               PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_3        Reset       LogicReset_R       88.283       -15.155
+dvsAerFifo.fifo                PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_3        Reset       LogicReset_R       88.283       -15.155
+imuFifo.fifo                   PLL|OutClock_CO_inferred_clock     pmi_fifo_work_toplevel_structural_1        Reset       LogicReset_R       88.283       -15.155
+logicUSBFifo.fifoDualClock     PLL|OutClock_CO_inferred_clock     pmi_fifo_dc_work_toplevel_structural_0     RPReset     LogicReset_R       88.283       -15.155
 ================================================================================================================================================================
 
 
@@ -1381,14 +1360,14 @@ Worst Path Information
 
 
 Path information for path number 1: 
-      Requested Period:                      86.933
-    - Setup time:                            0.424
+      Requested Period:                      88.283
+    - Setup time:                            0.425
     + Clock delay at ending point:           0.000 (ideal)
-    = Required time:                         86.509
+    = Required time:                         87.858
 
-    - Propagation time:                      101.850
+    - Propagation time:                      103.438
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (critical) :                     -15.341
+    = Slack (critical) :                     -15.579
 
     Number of logic level(s):                1
     Starting point:                          syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S / Q
@@ -1399,24 +1378,24 @@ Path information for path number 1:
 Instance / Net                                                              Pin      Pin                 Arrival     No. of    
 Name                                                            Type        Name     Dir     Delay       Time        Fan Out(s)
 -------------------------------------------------------------------------------------------------------------------------------
-syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S             FD1S3BX     Q        Out     101.850     101.850     -         
-LogicReset_R                                                    Net         -        -       -           -           9389      
-syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         A        In      0.000       101.850     -         
-syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         Z        Out     0.000       101.850     -         
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S             FD1S3BX     Q        Out     103.438     103.438     -         
+LogicReset_R                                                    Net         -        -       -           -           9536      
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         A        In      0.000       103.438     -         
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         Z        Out     0.000       103.438     -         
 LogicReset_R_i                                                  Net         -        -       -           -           3         
-MergerFifos.State_DP[0]                                         FD1P3AX     SP       In      0.000       101.850     -         
+MergerFifos.State_DP[0]                                         FD1P3AX     SP       In      0.000       103.438     -         
 ===============================================================================================================================
 
 
 Path information for path number 2: 
-      Requested Period:                      86.933
-    - Setup time:                            0.424
+      Requested Period:                      88.283
+    - Setup time:                            0.425
     + Clock delay at ending point:           0.000 (ideal)
-    = Required time:                         86.509
+    = Required time:                         87.858
 
-    - Propagation time:                      101.850
+    - Propagation time:                      103.438
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (critical) :                     -15.341
+    = Slack (critical) :                     -15.579
 
     Number of logic level(s):                1
     Starting point:                          syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S / Q
@@ -1427,24 +1406,24 @@ Path information for path number 2:
 Instance / Net                                                              Pin      Pin                 Arrival     No. of    
 Name                                                            Type        Name     Dir     Delay       Time        Fan Out(s)
 -------------------------------------------------------------------------------------------------------------------------------
-syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S             FD1S3BX     Q        Out     101.850     101.850     -         
-LogicReset_R                                                    Net         -        -       -           -           9389      
-syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         A        In      0.000       101.850     -         
-syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         Z        Out     0.000       101.850     -         
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S             FD1S3BX     Q        Out     103.438     103.438     -         
+LogicReset_R                                                    Net         -        -       -           -           9536      
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         A        In      0.000       103.438     -         
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         Z        Out     0.000       103.438     -         
 LogicReset_R_i                                                  Net         -        -       -           -           3         
-MergerFifos.State_DP[2]                                         FD1P3AX     SP       In      0.000       101.850     -         
+MergerFifos.State_DP[2]                                         FD1P3AX     SP       In      0.000       103.438     -         
 ===============================================================================================================================
 
 
 Path information for path number 3: 
-      Requested Period:                      86.933
-    - Setup time:                            0.424
+      Requested Period:                      88.283
+    - Setup time:                            0.425
     + Clock delay at ending point:           0.000 (ideal)
-    = Required time:                         86.509
+    = Required time:                         87.858
 
-    - Propagation time:                      101.850
+    - Propagation time:                      103.438
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (critical) :                     -15.341
+    = Slack (critical) :                     -15.579
 
     Number of logic level(s):                1
     Starting point:                          syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S / Q
@@ -1455,25 +1434,25 @@ Path information for path number 3:
 Instance / Net                                                              Pin      Pin                 Arrival     No. of    
 Name                                                            Type        Name     Dir     Delay       Time        Fan Out(s)
 -------------------------------------------------------------------------------------------------------------------------------
-syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S             FD1S3BX     Q        Out     101.850     101.850     -         
-LogicReset_R                                                    Net         -        -       -           -           9389      
-syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         A        In      0.000       101.850     -         
-syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         Z        Out     0.000       101.850     -         
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S             FD1S3BX     Q        Out     103.438     103.438     -         
+LogicReset_R                                                    Net         -        -       -           -           9536      
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         A        In      0.000       103.438     -         
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S_RNIFC84     INV         Z        Out     0.000       103.438     -         
 LogicReset_R_i                                                  Net         -        -       -           -           3         
-MergerFifos.State_DP[1]                                         FD1P3AX     SP       In      0.000       101.850     -         
+MergerFifos.State_DP[1]                                         FD1P3AX     SP       In      0.000       103.438     -         
 ===============================================================================================================================
 
 
 Path information for path number 4: 
-      Requested Period:                      86.933
+      Requested Period:                      88.283
     - Setup time:                            0.000
     + Clock delay at ending point:           0.000 (ideal)
     + Estimated clock delay at ending point: 0.000
-    = Required time:                         86.933
+    = Required time:                         88.283
 
-    - Propagation time:                      101.850
+    - Propagation time:                      103.438
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (non-critical) :                 -14.917
+    = Slack (non-critical) :                 -15.155
 
     Number of logic level(s):                0
     Starting point:                          syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S / Q
@@ -1484,22 +1463,22 @@ Path information for path number 4:
 Instance / Net                                                                                  Pin       Pin                 Arrival     No. of    
 Name                                                    Type                                    Name      Dir     Delay       Time        Fan Out(s)
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S     FD1S3BX                                 Q         Out     101.850     101.850     -         
-LogicReset_R                                            Net                                     -         -       -           -           9389      
-extTriggerFifo.fifo                                     pmi_fifo_work_toplevel_structural_0     Reset     In      0.000       101.850     -         
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S     FD1S3BX                                 Q         Out     103.438     103.438     -         
+LogicReset_R                                            Net                                     -         -       -           -           9536      
+extTriggerFifo.fifo                                     pmi_fifo_work_toplevel_structural_0     Reset     In      0.000       103.438     -         
 ====================================================================================================================================================
 
 
 Path information for path number 5: 
-      Requested Period:                      86.933
+      Requested Period:                      88.283
     - Setup time:                            0.000
     + Clock delay at ending point:           0.000 (ideal)
     + Estimated clock delay at ending point: 0.000
-    = Required time:                         86.933
+    = Required time:                         88.283
 
-    - Propagation time:                      101.850
+    - Propagation time:                      103.438
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (non-critical) :                 -14.917
+    = Slack (non-critical) :                 -15.155
 
     Number of logic level(s):                0
     Starting point:                          syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S / Q
@@ -1510,9 +1489,9 @@ Path information for path number 5:
 Instance / Net                                                                                  Pin       Pin                 Arrival     No. of    
 Name                                                    Type                                    Name      Dir     Delay       Time        Fan Out(s)
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S     FD1S3BX                                 Q         Out     101.850     101.850     -         
-LogicReset_R                                            Net                                     -         -       -           -           9389      
-imuFifo.fifo                                            pmi_fifo_work_toplevel_structural_1     Reset     In      0.000       101.850     -         
+syncInputsToLogicClock.syncReset.SyncSignalSyncFF_S     FD1S3BX                                 Q         Out     103.438     103.438     -         
+LogicReset_R                                            Net                                     -         -       -           -           9536      
+imuFifo.fifo                                            pmi_fifo_work_toplevel_structural_1     Reset     In      0.000       103.438     -         
 ====================================================================================================================================================
 
 
@@ -1527,41 +1506,41 @@ Detailed Report for Clock: TopLevel|USBClock_CI
 Starting Points with Worst Slack
 ********************************
 
-                                            Starting                                                          Arrival           
-Instance                                    Reference                Type        Pin     Net                  Time        Slack 
-                                            Clock                                                                               
---------------------------------------------------------------------------------------------------------------------------------
-usbFX3SM.State_DP[11]                       TopLevel|USBClock_CI     FD1S3DX     Q       State_DP[11]         0.813       -0.690
-usbFX3SM.State_DP_fast[0]                   TopLevel|USBClock_CI     FD1S3DX     Q       State_DP_fast[0]     0.813       -0.690
-usbFX3SM.State_DP_fast[9]                   TopLevel|USBClock_CI     FD1S3DX     Q       State_DP_fast[9]     0.813       -0.690
-usbFX3SM.State_DP_fast[2]                   TopLevel|USBClock_CI     FD1S3DX     Q       State_DP_fast[2]     0.721       -0.598
-usbFX3SM.earlyPacketCounter.Count_DP[5]     TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[5]          0.813       -0.518
-usbFX3SM.earlyPacketCounter.Count_DP[6]     TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[6]          0.813       -0.518
-usbFX3SM.earlyPacketCounter.Count_DP[7]     TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[7]          0.813       -0.518
-usbFX3SM.earlyPacketCounter.Count_DP[8]     TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[8]          0.813       -0.518
-usbFX3SM.earlyPacketCounter.Count_DP[0]     TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[0]          0.840       -0.481
-usbFX3SM.earlyPacketCounter.Count_DP[9]     TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[9]          0.770       -0.475
-================================================================================================================================
+                                             Starting                                                      Arrival           
+Instance                                     Reference                Type        Pin     Net              Time        Slack 
+                                             Clock                                                                           
+-----------------------------------------------------------------------------------------------------------------------------
+usbFX3SM.earlyPacketCounter.Count_DP[4]      TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[4]      0.840       -0.515
+usbFX3SM.earlyPacketCounter.Count_DP[5]      TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[5]      0.840       -0.515
+usbFX3SM.earlyPacketCounter.Count_DP[6]      TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[6]      0.840       -0.515
+usbFX3SM.earlyPacketCounter.Count_DP[7]      TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[7]      0.840       -0.515
+usbFX3SM.earlyPacketCounter.Count_DP[11]     TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[11]     0.813       -0.488
+usbFX3SM.earlyPacketCounter.Count_DP[12]     TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[12]     0.813       -0.488
+usbFX3SM.earlyPacketCounter.Count_DP[14]     TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[14]     0.813       -0.488
+usbFX3SM.earlyPacketCounter.Count_DP[0]      TopLevel|USBClock_CI     FD1P3DX     Q       Count_DP[0]      0.813       -0.473
+usbFX3SM.State_DP[0]                         TopLevel|USBClock_CI     FD1S3DX     Q       State_DP[0]      0.862       -0.457
+usbFX3SM.State_DP[9]                         TopLevel|USBClock_CI     FD1S3DX     Q       State_DP[9]      0.862       -0.457
+=============================================================================================================================
 
 
 Ending Points with Worst Slack
 ******************************
 
-                                            Starting                                                                                        Required           
-Instance                                    Reference                Type                                       Pin      Net                Time         Slack 
-                                            Clock                                                                                                              
----------------------------------------------------------------------------------------------------------------------------------------------------------------
-logicUSBFifo.fifoDualClock                  TopLevel|USBClock_CI     pmi_fifo_dc_work_toplevel_structural_0     RdEn     State_DP_ns[0]     2.935        -0.690
-usbFX3SM.earlyPacketCounter.Count_DP[0]     TopLevel|USBClock_CI     FD1P3DX                                    SP       N_592_i            2.511        -0.518
-usbFX3SM.earlyPacketCounter.Count_DP[1]     TopLevel|USBClock_CI     FD1P3DX                                    SP       N_592_i            2.511        -0.518
-usbFX3SM.earlyPacketCounter.Count_DP[2]     TopLevel|USBClock_CI     FD1P3DX                                    SP       N_592_i            2.511        -0.518
-usbFX3SM.earlyPacketCounter.Count_DP[3]     TopLevel|USBClock_CI     FD1P3DX                                    SP       N_592_i            2.511        -0.518
-usbFX3SM.earlyPacketCounter.Count_DP[4]     TopLevel|USBClock_CI     FD1P3DX                                    SP       N_592_i            2.511        -0.518
-usbFX3SM.earlyPacketCounter.Count_DP[5]     TopLevel|USBClock_CI     FD1P3DX                                    SP       N_592_i            2.511        -0.518
-usbFX3SM.earlyPacketCounter.Count_DP[6]     TopLevel|USBClock_CI     FD1P3DX                                    SP       N_592_i            2.511        -0.518
-usbFX3SM.earlyPacketCounter.Count_DP[7]     TopLevel|USBClock_CI     FD1P3DX                                    SP       N_592_i            2.511        -0.518
-usbFX3SM.earlyPacketCounter.Count_DP[8]     TopLevel|USBClock_CI     FD1P3DX                                    SP       N_592_i            2.511        -0.518
-===============================================================================================================================================================
+                                            Starting                                                 Required           
+Instance                                    Reference                Type        Pin     Net         Time         Slack 
+                                            Clock                                                                       
+------------------------------------------------------------------------------------------------------------------------
+usbFX3SM.earlyPacketCounter.Count_DP[0]     TopLevel|USBClock_CI     FD1P3DX     SP      N_664_i     2.492        -0.515
+usbFX3SM.earlyPacketCounter.Count_DP[1]     TopLevel|USBClock_CI     FD1P3DX     SP      N_664_i     2.492        -0.515
+usbFX3SM.earlyPacketCounter.Count_DP[2]     TopLevel|USBClock_CI     FD1P3DX     SP      N_664_i     2.492        -0.515
+usbFX3SM.earlyPacketCounter.Count_DP[3]     TopLevel|USBClock_CI     FD1P3DX     SP      N_664_i     2.492        -0.515
+usbFX3SM.earlyPacketCounter.Count_DP[4]     TopLevel|USBClock_CI     FD1P3DX     SP      N_664_i     2.492        -0.515
+usbFX3SM.earlyPacketCounter.Count_DP[5]     TopLevel|USBClock_CI     FD1P3DX     SP      N_664_i     2.492        -0.515
+usbFX3SM.earlyPacketCounter.Count_DP[6]     TopLevel|USBClock_CI     FD1P3DX     SP      N_664_i     2.492        -0.515
+usbFX3SM.earlyPacketCounter.Count_DP[7]     TopLevel|USBClock_CI     FD1P3DX     SP      N_664_i     2.492        -0.515
+usbFX3SM.earlyPacketCounter.Count_DP[8]     TopLevel|USBClock_CI     FD1P3DX     SP      N_664_i     2.492        -0.515
+usbFX3SM.earlyPacketCounter.Count_DP[9]     TopLevel|USBClock_CI     FD1P3DX     SP      N_664_i     2.492        -0.515
+========================================================================================================================
 
 
 
@@ -1570,166 +1549,48 @@ Worst Path Information
 
 
 Path information for path number 1: 
-      Requested Period:                      2.935
-    - Setup time:                            0.000
+      Requested Period:                      2.917
+    - Setup time:                            0.424
     + Clock delay at ending point:           0.000 (ideal)
-    + Estimated clock delay at ending point: 0.000
-    = Required time:                         2.935
+    = Required time:                         2.492
 
-    - Propagation time:                      3.625
+    - Propagation time:                      3.007
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (non-critical) :                 -0.690
+    = Slack (non-critical) :                 -0.515
 
-    Number of logic level(s):                4
-    Starting point:                          usbFX3SM.State_DP[11] / Q
-    Ending point:                            logicUSBFifo.fifoDualClock / RdEn
+    Number of logic level(s):                3
+    Starting point:                          usbFX3SM.earlyPacketCounter.Count_DP[4] / Q
+    Ending point:                            usbFX3SM.earlyPacketCounter.Count_DP[0] / SP
     The start point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
-    The end   point is clocked by            System [rising]
+    The end   point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
 
-Instance / Net                                                                      Pin      Pin               Arrival     No. of    
-Name                                     Type                                       Name     Dir     Delay     Time        Fan Out(s)
--------------------------------------------------------------------------------------------------------------------------------------
-usbFX3SM.State_DP[11]                    FD1S3DX                                    Q        Out     0.813     0.813       -         
-State_DP[11]                             Net                                        -        -       -         -           3         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0_1     ORCALUT4                                   A        In      0.000     0.813       -         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0_1     ORCALUT4                                   Z        Out     0.656     1.469       -         
-USBFifoWriteReg_SB_i_a2_0_1              Net                                        -        -       -         -           1         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0       ORCALUT4                                   D        In      0.000     1.469       -         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0       ORCALUT4                                   Z        Out     0.704     2.173       -         
-N_179                                    Net                                        -        -       -         -           2         
-logicUSBFifo.State_DP_RNIOGOC1[1]        ORCALUT4                                   C        In      0.000     2.173       -         
-logicUSBFifo.State_DP_RNIOGOC1[1]        ORCALUT4                                   Z        Out     0.796     2.969       -         
-EmptyReg_S_i_a3                          Net                                        -        -       -         -           5         
-logicUSBFifo.State_DP_ns_0_a2[0]         ORCALUT4                                   A        In      0.000     2.969       -         
-logicUSBFifo.State_DP_ns_0_a2[0]         ORCALUT4                                   Z        Out     0.656     3.625       -         
-State_DP_ns[0]                           Net                                        -        -       -         -           1         
-logicUSBFifo.fifoDualClock               pmi_fifo_dc_work_toplevel_structural_0     RdEn     In      0.000     3.625       -         
-=====================================================================================================================================
+Instance / Net                                                    Pin      Pin               Arrival     No. of    
+Name                                                 Type         Name     Dir     Delay     Time        Fan Out(s)
+-------------------------------------------------------------------------------------------------------------------
+usbFX3SM.earlyPacketCounter.Count_DP[4]              FD1P3DX      Q        Out     0.840     0.840       -         
+Count_DP[4]                                          Net          -        -       -         -           4         
+usbFX3SM.earlyPacketCounter.Count_DP_RNIMSD4[4]      ORCALUT4     A        In      0.000     0.840       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNIMSD4[4]      ORCALUT4     Z        Out     0.656     1.496       -         
+Count_DP_RNIMSD4[4]                                  Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI3DL21[8]     ORCALUT4     A        In      0.000     1.496       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI3DL21[8]     ORCALUT4     Z        Out     0.656     2.151       -         
+N_664_i_1                                            Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI9NPV1[8]     ORCALUT4     D        In      0.000     2.151       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI9NPV1[8]     ORCALUT4     Z        Out     0.855     3.007       -         
+N_664_i                                              Net          -        -       -         -           17        
+usbFX3SM.earlyPacketCounter.Count_DP[0]              FD1P3DX      SP       In      0.000     3.007       -         
+===================================================================================================================
 
 
 Path information for path number 2: 
-      Requested Period:                      2.935
-    - Setup time:                            0.000
+      Requested Period:                      2.917
+    - Setup time:                            0.424
     + Clock delay at ending point:           0.000 (ideal)
-    + Estimated clock delay at ending point: 0.000
-    = Required time:                         2.935
+    = Required time:                         2.492
 
-    - Propagation time:                      3.625
+    - Propagation time:                      3.007
     - Clock delay at starting point:         0.000 (ideal)
-    = Slack (non-critical) :                 -0.690
-
-    Number of logic level(s):                4
-    Starting point:                          usbFX3SM.State_DP_fast[0] / Q
-    Ending point:                            logicUSBFifo.fifoDualClock / RdEn
-    The start point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
-    The end   point is clocked by            System [rising]
-
-Instance / Net                                                                      Pin      Pin               Arrival     No. of    
-Name                                     Type                                       Name     Dir     Delay     Time        Fan Out(s)
--------------------------------------------------------------------------------------------------------------------------------------
-usbFX3SM.State_DP_fast[0]                FD1S3DX                                    Q        Out     0.813     0.813       -         
-State_DP_fast[0]                         Net                                        -        -       -         -           3         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0_1     ORCALUT4                                   B        In      0.000     0.813       -         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0_1     ORCALUT4                                   Z        Out     0.656     1.469       -         
-USBFifoWriteReg_SB_i_a2_0_1              Net                                        -        -       -         -           1         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0       ORCALUT4                                   D        In      0.000     1.469       -         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0       ORCALUT4                                   Z        Out     0.704     2.173       -         
-N_179                                    Net                                        -        -       -         -           2         
-logicUSBFifo.State_DP_RNIOGOC1[1]        ORCALUT4                                   C        In      0.000     2.173       -         
-logicUSBFifo.State_DP_RNIOGOC1[1]        ORCALUT4                                   Z        Out     0.796     2.969       -         
-EmptyReg_S_i_a3                          Net                                        -        -       -         -           5         
-logicUSBFifo.State_DP_ns_0_a2[0]         ORCALUT4                                   A        In      0.000     2.969       -         
-logicUSBFifo.State_DP_ns_0_a2[0]         ORCALUT4                                   Z        Out     0.656     3.625       -         
-State_DP_ns[0]                           Net                                        -        -       -         -           1         
-logicUSBFifo.fifoDualClock               pmi_fifo_dc_work_toplevel_structural_0     RdEn     In      0.000     3.625       -         
-=====================================================================================================================================
-
-
-Path information for path number 3: 
-      Requested Period:                      2.935
-    - Setup time:                            0.000
-    + Clock delay at ending point:           0.000 (ideal)
-    + Estimated clock delay at ending point: 0.000
-    = Required time:                         2.935
-
-    - Propagation time:                      3.625
-    - Clock delay at starting point:         0.000 (ideal)
-    = Slack (non-critical) :                 -0.690
-
-    Number of logic level(s):                4
-    Starting point:                          usbFX3SM.State_DP_fast[9] / Q
-    Ending point:                            logicUSBFifo.fifoDualClock / RdEn
-    The start point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
-    The end   point is clocked by            System [rising]
-
-Instance / Net                                                                      Pin      Pin               Arrival     No. of    
-Name                                     Type                                       Name     Dir     Delay     Time        Fan Out(s)
--------------------------------------------------------------------------------------------------------------------------------------
-usbFX3SM.State_DP_fast[9]                FD1S3DX                                    Q        Out     0.813     0.813       -         
-State_DP_fast[9]                         Net                                        -        -       -         -           3         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0_1     ORCALUT4                                   D        In      0.000     0.813       -         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0_1     ORCALUT4                                   Z        Out     0.656     1.469       -         
-USBFifoWriteReg_SB_i_a2_0_1              Net                                        -        -       -         -           1         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0       ORCALUT4                                   D        In      0.000     1.469       -         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0       ORCALUT4                                   Z        Out     0.704     2.173       -         
-N_179                                    Net                                        -        -       -         -           2         
-logicUSBFifo.State_DP_RNIOGOC1[1]        ORCALUT4                                   C        In      0.000     2.173       -         
-logicUSBFifo.State_DP_RNIOGOC1[1]        ORCALUT4                                   Z        Out     0.796     2.969       -         
-EmptyReg_S_i_a3                          Net                                        -        -       -         -           5         
-logicUSBFifo.State_DP_ns_0_a2[0]         ORCALUT4                                   A        In      0.000     2.969       -         
-logicUSBFifo.State_DP_ns_0_a2[0]         ORCALUT4                                   Z        Out     0.656     3.625       -         
-State_DP_ns[0]                           Net                                        -        -       -         -           1         
-logicUSBFifo.fifoDualClock               pmi_fifo_dc_work_toplevel_structural_0     RdEn     In      0.000     3.625       -         
-=====================================================================================================================================
-
-
-Path information for path number 4: 
-      Requested Period:                      2.935
-    - Setup time:                            0.000
-    + Clock delay at ending point:           0.000 (ideal)
-    + Estimated clock delay at ending point: 0.000
-    = Required time:                         2.935
-
-    - Propagation time:                      3.533
-    - Clock delay at starting point:         0.000 (ideal)
-    = Slack (non-critical) :                 -0.598
-
-    Number of logic level(s):                4
-    Starting point:                          usbFX3SM.State_DP_fast[2] / Q
-    Ending point:                            logicUSBFifo.fifoDualClock / RdEn
-    The start point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
-    The end   point is clocked by            System [rising]
-
-Instance / Net                                                                      Pin      Pin               Arrival     No. of    
-Name                                     Type                                       Name     Dir     Delay     Time        Fan Out(s)
--------------------------------------------------------------------------------------------------------------------------------------
-usbFX3SM.State_DP_fast[2]                FD1S3DX                                    Q        Out     0.721     0.721       -         
-State_DP_fast[2]                         Net                                        -        -       -         -           1         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0_1     ORCALUT4                                   C        In      0.000     0.721       -         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0_1     ORCALUT4                                   Z        Out     0.656     1.377       -         
-USBFifoWriteReg_SB_i_a2_0_1              Net                                        -        -       -         -           1         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0       ORCALUT4                                   D        In      0.000     1.377       -         
-usbFX3SM.USBFifoWriteReg_SB_i_a2_0       ORCALUT4                                   Z        Out     0.704     2.081       -         
-N_179                                    Net                                        -        -       -         -           2         
-logicUSBFifo.State_DP_RNIOGOC1[1]        ORCALUT4                                   C        In      0.000     2.081       -         
-logicUSBFifo.State_DP_RNIOGOC1[1]        ORCALUT4                                   Z        Out     0.796     2.877       -         
-EmptyReg_S_i_a3                          Net                                        -        -       -         -           5         
-logicUSBFifo.State_DP_ns_0_a2[0]         ORCALUT4                                   A        In      0.000     2.877       -         
-logicUSBFifo.State_DP_ns_0_a2[0]         ORCALUT4                                   Z        Out     0.656     3.533       -         
-State_DP_ns[0]                           Net                                        -        -       -         -           1         
-logicUSBFifo.fifoDualClock               pmi_fifo_dc_work_toplevel_structural_0     RdEn     In      0.000     3.533       -         
-=====================================================================================================================================
-
-
-Path information for path number 5: 
-      Requested Period:                      2.935
-    - Setup time:                            0.425
-    + Clock delay at ending point:           0.000 (ideal)
-    = Required time:                         2.511
-
-    - Propagation time:                      3.028
-    - Clock delay at starting point:         0.000 (ideal)
-    = Slack (non-critical) :                 -0.518
+    = Slack (non-critical) :                 -0.515
 
     Number of logic level(s):                3
     Starting point:                          usbFX3SM.earlyPacketCounter.Count_DP[5] / Q
@@ -1740,18 +1601,120 @@ Path information for path number 5:
 Instance / Net                                                    Pin      Pin               Arrival     No. of    
 Name                                                 Type         Name     Dir     Delay     Time        Fan Out(s)
 -------------------------------------------------------------------------------------------------------------------
-usbFX3SM.earlyPacketCounter.Count_DP[5]              FD1P3DX      Q        Out     0.813     0.813       -         
-Count_DP[5]                                          Net          -        -       -         -           3         
-usbFX3SM.earlyPacketCounter.Count_DP_RNIQ0E4[5]      ORCALUT4     A        In      0.000     0.813       -         
-usbFX3SM.earlyPacketCounter.Count_DP_RNIQ0E4[5]      ORCALUT4     Z        Out     0.656     1.469       -         
-Count_DPlde_i_a2_5                                   Net          -        -       -         -           1         
-usbFX3SM.earlyPacketCounter.Count_DP_RNII5O7[1]      ORCALUT4     D        In      0.000     1.469       -         
-usbFX3SM.earlyPacketCounter.Count_DP_RNII5O7[1]      ORCALUT4     Z        Out     0.704     2.173       -         
-Count_DPlde_i_a2_7                                   Net          -        -       -         -           2         
-usbFX3SM.earlyPacketCounter.Count_DP_RNI9NPV1[2]     ORCALUT4     B        In      0.000     2.173       -         
-usbFX3SM.earlyPacketCounter.Count_DP_RNI9NPV1[2]     ORCALUT4     Z        Out     0.855     3.028       -         
-N_592_i                                              Net          -        -       -         -           17        
-usbFX3SM.earlyPacketCounter.Count_DP[0]              FD1P3DX      SP       In      0.000     3.028       -         
+usbFX3SM.earlyPacketCounter.Count_DP[5]              FD1P3DX      Q        Out     0.840     0.840       -         
+Count_DP[5]                                          Net          -        -       -         -           4         
+usbFX3SM.earlyPacketCounter.Count_DP_RNIMSD4[4]      ORCALUT4     B        In      0.000     0.840       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNIMSD4[4]      ORCALUT4     Z        Out     0.656     1.496       -         
+Count_DP_RNIMSD4[4]                                  Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI3DL21[8]     ORCALUT4     A        In      0.000     1.496       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI3DL21[8]     ORCALUT4     Z        Out     0.656     2.151       -         
+N_664_i_1                                            Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI9NPV1[8]     ORCALUT4     D        In      0.000     2.151       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI9NPV1[8]     ORCALUT4     Z        Out     0.855     3.007       -         
+N_664_i                                              Net          -        -       -         -           17        
+usbFX3SM.earlyPacketCounter.Count_DP[0]              FD1P3DX      SP       In      0.000     3.007       -         
+===================================================================================================================
+
+
+Path information for path number 3: 
+      Requested Period:                      2.917
+    - Setup time:                            0.424
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         2.492
+
+    - Propagation time:                      3.007
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (non-critical) :                 -0.515
+
+    Number of logic level(s):                3
+    Starting point:                          usbFX3SM.earlyPacketCounter.Count_DP[6] / Q
+    Ending point:                            usbFX3SM.earlyPacketCounter.Count_DP[0] / SP
+    The start point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+    The end   point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+
+Instance / Net                                                    Pin      Pin               Arrival     No. of    
+Name                                                 Type         Name     Dir     Delay     Time        Fan Out(s)
+-------------------------------------------------------------------------------------------------------------------
+usbFX3SM.earlyPacketCounter.Count_DP[6]              FD1P3DX      Q        Out     0.840     0.840       -         
+Count_DP[6]                                          Net          -        -       -         -           4         
+usbFX3SM.earlyPacketCounter.Count_DP_RNIMSD4[4]      ORCALUT4     C        In      0.000     0.840       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNIMSD4[4]      ORCALUT4     Z        Out     0.656     1.496       -         
+Count_DP_RNIMSD4[4]                                  Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI3DL21[8]     ORCALUT4     A        In      0.000     1.496       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI3DL21[8]     ORCALUT4     Z        Out     0.656     2.151       -         
+N_664_i_1                                            Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI9NPV1[8]     ORCALUT4     D        In      0.000     2.151       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI9NPV1[8]     ORCALUT4     Z        Out     0.855     3.007       -         
+N_664_i                                              Net          -        -       -         -           17        
+usbFX3SM.earlyPacketCounter.Count_DP[0]              FD1P3DX      SP       In      0.000     3.007       -         
+===================================================================================================================
+
+
+Path information for path number 4: 
+      Requested Period:                      2.917
+    - Setup time:                            0.424
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         2.492
+
+    - Propagation time:                      3.007
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (non-critical) :                 -0.515
+
+    Number of logic level(s):                3
+    Starting point:                          usbFX3SM.earlyPacketCounter.Count_DP[7] / Q
+    Ending point:                            usbFX3SM.earlyPacketCounter.Count_DP[0] / SP
+    The start point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+    The end   point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+
+Instance / Net                                                    Pin      Pin               Arrival     No. of    
+Name                                                 Type         Name     Dir     Delay     Time        Fan Out(s)
+-------------------------------------------------------------------------------------------------------------------
+usbFX3SM.earlyPacketCounter.Count_DP[7]              FD1P3DX      Q        Out     0.840     0.840       -         
+Count_DP[7]                                          Net          -        -       -         -           4         
+usbFX3SM.earlyPacketCounter.Count_DP_RNIMSD4[4]      ORCALUT4     D        In      0.000     0.840       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNIMSD4[4]      ORCALUT4     Z        Out     0.656     1.496       -         
+Count_DP_RNIMSD4[4]                                  Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI3DL21[8]     ORCALUT4     A        In      0.000     1.496       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI3DL21[8]     ORCALUT4     Z        Out     0.656     2.151       -         
+N_664_i_1                                            Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI9NPV1[8]     ORCALUT4     D        In      0.000     2.151       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI9NPV1[8]     ORCALUT4     Z        Out     0.855     3.007       -         
+N_664_i                                              Net          -        -       -         -           17        
+usbFX3SM.earlyPacketCounter.Count_DP[0]              FD1P3DX      SP       In      0.000     3.007       -         
+===================================================================================================================
+
+
+Path information for path number 5: 
+      Requested Period:                      2.917
+    - Setup time:                            0.424
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         2.492
+
+    - Propagation time:                      3.007
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (non-critical) :                 -0.515
+
+    Number of logic level(s):                3
+    Starting point:                          usbFX3SM.earlyPacketCounter.Count_DP[4] / Q
+    Ending point:                            usbFX3SM.earlyPacketCounter.Count_DP[16] / SP
+    The start point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+    The end   point is clocked by            TopLevel|USBClock_CI [rising] on pin CK
+
+Instance / Net                                                    Pin      Pin               Arrival     No. of    
+Name                                                 Type         Name     Dir     Delay     Time        Fan Out(s)
+-------------------------------------------------------------------------------------------------------------------
+usbFX3SM.earlyPacketCounter.Count_DP[4]              FD1P3DX      Q        Out     0.840     0.840       -         
+Count_DP[4]                                          Net          -        -       -         -           4         
+usbFX3SM.earlyPacketCounter.Count_DP_RNIMSD4[4]      ORCALUT4     A        In      0.000     0.840       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNIMSD4[4]      ORCALUT4     Z        Out     0.656     1.496       -         
+Count_DP_RNIMSD4[4]                                  Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI3DL21[8]     ORCALUT4     A        In      0.000     1.496       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI3DL21[8]     ORCALUT4     Z        Out     0.656     2.151       -         
+N_664_i_1                                            Net          -        -       -         -           1         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI9NPV1[8]     ORCALUT4     D        In      0.000     2.151       -         
+usbFX3SM.earlyPacketCounter.Count_DP_RNI9NPV1[8]     ORCALUT4     Z        Out     0.855     3.007       -         
+N_664_i                                              Net          -        -       -         -           17        
+usbFX3SM.earlyPacketCounter.Count_DP[16]             FD1P3DX      SP       In      0.000     3.007       -         
 ===================================================================================================================
 
 
@@ -1770,16 +1733,16 @@ Starting Points with Worst Slack
 Instance                       Reference     Type                                       Pin             Net                   Time        Slack 
                                Clock                                                                                                            
 ------------------------------------------------------------------------------------------------------------------------------------------------
-dvsAerFifo.fifo                System        pmi_fifo_work_toplevel_structural_3        Empty           FIFOEmpty_S           0.000       -0.106
-extTriggerFifo.fifo            System        pmi_fifo_work_toplevel_structural_0        Empty           FIFOEmpty_S           0.000       -0.106
-imuFifo.fifo                   System        pmi_fifo_work_toplevel_structural_1        Empty           FIFOEmpty_S           0.000       -0.106
-MergerAerFifo.fifo             System        pmi_fifo_work_toplevel_structural_3        Empty           FIFOEmpty_S           0.000       -0.106
-apsAdcFifo.fifo                System        pmi_fifo_work_toplevel_structural_2        Empty           FIFOEmpty_S           0.000       -0.106
-miscAerFifo.fifo               System        pmi_fifo_work_toplevel_structural_3        Empty           FIFOEmpty_S           0.000       -0.106
-logicUSBFifo.fifoDualClock     System        pmi_fifo_dc_work_toplevel_structural_0     Empty           FIFOEmpty_S           0.000       -0.057
-imuFifo.fifo                   System        pmi_fifo_work_toplevel_structural_1        Full            Full_0                0.000       0.326 
-logicUSBFifo.fifoDualClock     System        pmi_fifo_dc_work_toplevel_structural_0     AlmostEmpty     FIFOAlmostEmpty_S     0.000       2.509 
-logicUSBFifo.fifoDualClock     System        pmi_fifo_dc_work_toplevel_structural_0     Q[0]            DataInReg_D[0]        0.000       2.840 
+logicUSBFifo.fifoDualClock     System        pmi_fifo_dc_work_toplevel_structural_0     Empty           FIFOEmpty_S           0.000       -0.197
+extTriggerFifo.fifo            System        pmi_fifo_work_toplevel_structural_0        Empty           FIFOEmpty_S           0.000       0.410 
+imuFifo.fifo                   System        pmi_fifo_work_toplevel_structural_1        Empty           FIFOEmpty_S           0.000       0.410 
+dvsAerFifo.fifo                System        pmi_fifo_work_toplevel_structural_3        Empty           FIFOEmpty_S           0.000       0.410 
+apsAdcFifo.fifo                System        pmi_fifo_work_toplevel_structural_2        Empty           FIFOEmpty_S           0.000       0.410 
+MergerAerFifo.fifo             System        pmi_fifo_work_toplevel_structural_3        Empty           FIFOEmpty_S           0.000       0.410 
+miscAerFifo.fifo               System        pmi_fifo_work_toplevel_structural_3        Empty           FIFOEmpty_S           0.000       0.410 
+imuFifo.fifo                   System        pmi_fifo_work_toplevel_structural_1        Full            Full_0                0.000       0.842 
+logicUSBFifo.fifoDualClock     System        pmi_fifo_dc_work_toplevel_structural_0     AlmostEmpty     FIFOAlmostEmpty_S     0.000       2.490 
+logicUSBFifo.fifoDualClock     System        pmi_fifo_dc_work_toplevel_structural_0     Q[0]            DataInReg_D[0]        0.000       2.822 
 ================================================================================================================================================
 
 
@@ -1790,16 +1753,16 @@ Ending Points with Worst Slack
 Instance                                                 Reference     Type                                       Pin      Net                  Time         Slack 
                                                          Clock                                                                                                     
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-extTriggerFifo.fifo                                      System        pmi_fifo_work_toplevel_structural_0        RdEn     State_DP_ns[0]       0.599        -0.106
-dvsAerFifo.fifo                                          System        pmi_fifo_work_toplevel_structural_3        RdEn     State_DN[1]          0.599        -0.106
-imuFifo.fifo                                             System        pmi_fifo_work_toplevel_structural_1        RdEn     State_DN[1]          0.599        -0.106
-apsAdcFifo.fifo                                          System        pmi_fifo_work_toplevel_structural_2        RdEn     N_315_i              0.599        -0.106
-miscAerFifo.fifo                                         System        pmi_fifo_work_toplevel_structural_3        RdEn     State_DN[1]          0.599        -0.106
-MergerAerFifo.fifo                                       System        pmi_fifo_work_toplevel_structural_3        RdEn     State_DN[1]          0.599        -0.106
-logicUSBFifo.fifoDualClock                               System        pmi_fifo_dc_work_toplevel_structural_0     RdEn     State_DP_ns[0]       0.599        -0.057
-imuFifo.fifo                                             System        pmi_fifo_work_toplevel_structural_1        WrEn     Write_S              0.599        0.326 
-logicUSBFifo.FifoControl_SO\.ReadSide\.AlmostEmpty_S     System        FD1S3BX                                    D        AlmostEmptyReg_S     2.883        2.509 
-logicUSBFifo.FifoControl_SO\.ReadSide\.Empty_S           System        FD1S3BX                                    D        N_27_i               2.883        2.509 
+logicUSBFifo.fifoDualClock                               System        pmi_fifo_dc_work_toplevel_structural_0     RdEn     State_DP_ns[0]       1.115        -0.197
+extTriggerFifo.fifo                                      System        pmi_fifo_work_toplevel_structural_0        RdEn     N_53_i               1.115        0.410 
+dvsAerFifo.fifo                                          System        pmi_fifo_work_toplevel_structural_3        RdEn     State_DN[1]          1.115        0.410 
+imuFifo.fifo                                             System        pmi_fifo_work_toplevel_structural_1        RdEn     State_DN[1]          1.115        0.410 
+miscAerFifo.fifo                                         System        pmi_fifo_work_toplevel_structural_3        RdEn     State_DN[1]          1.115        0.410 
+MergerAerFifo.fifo                                       System        pmi_fifo_work_toplevel_structural_3        RdEn     N_472_i              1.115        0.410 
+apsAdcFifo.fifo                                          System        pmi_fifo_work_toplevel_structural_2        RdEn     N_594_i              1.115        0.410 
+imuFifo.fifo                                             System        pmi_fifo_work_toplevel_structural_1        WrEn     Write_S              1.115        0.842 
+logicUSBFifo.FifoControl_SO\.ReadSide\.AlmostEmpty_S     System        FD1S3BX                                    D        AlmostEmptyReg_S     2.865        1.835 
+logicUSBFifo.FifoControl_SO\.ReadSide\.Empty_S           System        FD1S3BX                                    D        N_27_i               2.865        2.490 
 ===================================================================================================================================================================
 
 
@@ -1809,16 +1772,109 @@ Worst Path Information
 
 
 Path information for path number 1: 
-      Requested Period:                      0.599
+      Requested Period:                      1.115
     - Setup time:                            0.000
     + Clock delay at ending point:           0.000 (ideal)
     + Estimated clock delay at ending point: 0.000
-    = Required time:                         0.599
+    = Required time:                         1.115
+
+    - Propagation time:                      1.311
+    - Clock delay at starting point:         0.000 (ideal)
+    - Estimated clock delay at start point:  -0.000
+    = Slack (non-critical) :                 -0.197
+
+    Number of logic level(s):                2
+    Starting point:                          logicUSBFifo.fifoDualClock / Empty
+    Ending point:                            logicUSBFifo.fifoDualClock / RdEn
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            System [rising]
+
+Instance / Net                                                                  Pin       Pin               Arrival     No. of    
+Name                                 Type                                       Name      Dir     Delay     Time        Fan Out(s)
+----------------------------------------------------------------------------------------------------------------------------------
+logicUSBFifo.fifoDualClock           pmi_fifo_dc_work_toplevel_structural_0     Empty     Out     0.000     0.000       -         
+FIFOEmpty_S                          Net                                        -         -       -         -           4         
+logicUSBFifo.fifoDualClock_RNO_0     ORCALUT4                                   B         In      0.000     0.000       -         
+logicUSBFifo.fifoDualClock_RNO_0     ORCALUT4                                   Z         Out     0.656     0.656       -         
+EmptyReg_S_i_a3_1_1                  Net                                        -         -       -         -           1         
+logicUSBFifo.fifoDualClock_RNO       ORCALUT4                                   A         In      0.000     0.656       -         
+logicUSBFifo.fifoDualClock_RNO       ORCALUT4                                   Z         Out     0.656     1.311       -         
+State_DP_ns[0]                       Net                                        -         -       -         -           1         
+logicUSBFifo.fifoDualClock           pmi_fifo_dc_work_toplevel_structural_0     RdEn      In      0.000     1.311       -         
+==================================================================================================================================
+
+
+Path information for path number 2: 
+      Requested Period:                      1.115
+    - Setup time:                            0.000
+    + Clock delay at ending point:           0.000 (ideal)
+    + Estimated clock delay at ending point: 0.000
+    = Required time:                         1.115
 
     - Propagation time:                      0.704
     - Clock delay at starting point:         0.000 (ideal)
     - Estimated clock delay at start point:  -0.000
-    = Slack (non-critical) :                 -0.106
+    = Slack (non-critical) :                 0.410
+
+    Number of logic level(s):                1
+    Starting point:                          extTriggerFifo.fifo / Empty
+    Ending point:                            extTriggerFifo.fifo / RdEn
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            System [rising]
+
+Instance / Net                                                          Pin       Pin               Arrival     No. of    
+Name                            Type                                    Name      Dir     Delay     Time        Fan Out(s)
+--------------------------------------------------------------------------------------------------------------------------
+extTriggerFifo.fifo             pmi_fifo_work_toplevel_structural_0     Empty     Out     0.000     0.000       -         
+FIFOEmpty_S                     Net                                     -         -       -         -           3         
+extTriggerFifo.fifo_RNITFED     ORCALUT4                                B         In      0.000     0.000       -         
+extTriggerFifo.fifo_RNITFED     ORCALUT4                                Z         Out     0.704     0.704       -         
+N_53_i                          Net                                     -         -       -         -           2         
+extTriggerFifo.fifo             pmi_fifo_work_toplevel_structural_0     RdEn      In      0.000     0.704       -         
+==========================================================================================================================
+
+
+Path information for path number 3: 
+      Requested Period:                      1.115
+    - Setup time:                            0.000
+    + Clock delay at ending point:           0.000 (ideal)
+    + Estimated clock delay at ending point: 0.000
+    = Required time:                         1.115
+
+    - Propagation time:                      0.704
+    - Clock delay at starting point:         0.000 (ideal)
+    - Estimated clock delay at start point:  -0.000
+    = Slack (non-critical) :                 0.410
+
+    Number of logic level(s):                1
+    Starting point:                          imuFifo.fifo / Empty
+    Ending point:                            imuFifo.fifo / RdEn
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            System [rising]
+
+Instance / Net                                                               Pin       Pin               Arrival     No. of    
+Name                                 Type                                    Name      Dir     Delay     Time        Fan Out(s)
+-------------------------------------------------------------------------------------------------------------------------------
+imuFifo.fifo                         pmi_fifo_work_toplevel_structural_1     Empty     Out     0.000     0.000       -         
+FIFOEmpty_S                          Net                                     -         -       -         -           2         
+imuFifo.State_DP_ns_0_a2_0_a2[0]     ORCALUT4                                A         In      0.000     0.000       -         
+imuFifo.State_DP_ns_0_a2_0_a2[0]     ORCALUT4                                Z         Out     0.704     0.704       -         
+State_DN[1]                          Net                                     -         -       -         -           2         
+imuFifo.fifo                         pmi_fifo_work_toplevel_structural_1     RdEn      In      0.000     0.704       -         
+===============================================================================================================================
+
+
+Path information for path number 4: 
+      Requested Period:                      1.115
+    - Setup time:                            0.000
+    + Clock delay at ending point:           0.000 (ideal)
+    + Estimated clock delay at ending point: 0.000
+    = Required time:                         1.115
+
+    - Propagation time:                      0.704
+    - Clock delay at starting point:         0.000 (ideal)
+    - Estimated clock delay at start point:  -0.000
+    = Slack (non-critical) :                 0.410
 
     Number of logic level(s):                1
     Starting point:                          dvsAerFifo.fifo / Empty
@@ -1838,107 +1894,17 @@ dvsAerFifo.fifo                    pmi_fifo_work_toplevel_structural_3     RdEn 
 =============================================================================================================================
 
 
-Path information for path number 2: 
-      Requested Period:                      0.599
-    - Setup time:                            0.000
-    + Clock delay at ending point:           0.000 (ideal)
-    + Estimated clock delay at ending point: 0.000
-    = Required time:                         0.599
-
-    - Propagation time:                      0.704
-    - Clock delay at starting point:         0.000 (ideal)
-    - Estimated clock delay at start point:  -0.000
-    = Slack (non-critical) :                 -0.106
-
-    Number of logic level(s):                1
-    Starting point:                          extTriggerFifo.fifo / Empty
-    Ending point:                            extTriggerFifo.fifo / RdEn
-    The start point is clocked by            System [rising]
-    The end   point is clocked by            System [rising]
-
-Instance / Net                                                                 Pin       Pin               Arrival     No. of    
-Name                                   Type                                    Name      Dir     Delay     Time        Fan Out(s)
----------------------------------------------------------------------------------------------------------------------------------
-extTriggerFifo.fifo                    pmi_fifo_work_toplevel_structural_0     Empty     Out     0.000     0.000       -         
-FIFOEmpty_S                            Net                                     -         -       -         -           3         
-extTriggerFifo.State_DP_ns_0_a2[0]     ORCALUT4                                A         In      0.000     0.000       -         
-extTriggerFifo.State_DP_ns_0_a2[0]     ORCALUT4                                Z         Out     0.704     0.704       -         
-State_DP_ns[0]                         Net                                     -         -       -         -           2         
-extTriggerFifo.fifo                    pmi_fifo_work_toplevel_structural_0     RdEn      In      0.000     0.704       -         
-=================================================================================================================================
-
-
-Path information for path number 3: 
-      Requested Period:                      0.599
-    - Setup time:                            0.000
-    + Clock delay at ending point:           0.000 (ideal)
-    + Estimated clock delay at ending point: 0.000
-    = Required time:                         0.599
-
-    - Propagation time:                      0.704
-    - Clock delay at starting point:         0.000 (ideal)
-    - Estimated clock delay at start point:  -0.000
-    = Slack (non-critical) :                 -0.106
-
-    Number of logic level(s):                1
-    Starting point:                          imuFifo.fifo / Empty
-    Ending point:                            imuFifo.fifo / RdEn
-    The start point is clocked by            System [rising]
-    The end   point is clocked by            System [rising]
-
-Instance / Net                                                          Pin       Pin               Arrival     No. of    
-Name                            Type                                    Name      Dir     Delay     Time        Fan Out(s)
---------------------------------------------------------------------------------------------------------------------------
-imuFifo.fifo                    pmi_fifo_work_toplevel_structural_1     Empty     Out     0.000     0.000       -         
-FIFOEmpty_S                     Net                                     -         -       -         -           3         
-imuFifo.State_DP_ns_0_a2[0]     ORCALUT4                                A         In      0.000     0.000       -         
-imuFifo.State_DP_ns_0_a2[0]     ORCALUT4                                Z         Out     0.704     0.704       -         
-State_DN[1]                     Net                                     -         -       -         -           2         
-imuFifo.fifo                    pmi_fifo_work_toplevel_structural_1     RdEn      In      0.000     0.704       -         
-==========================================================================================================================
-
-
-Path information for path number 4: 
-      Requested Period:                      0.599
-    - Setup time:                            0.000
-    + Clock delay at ending point:           0.000 (ideal)
-    + Estimated clock delay at ending point: 0.000
-    = Required time:                         0.599
-
-    - Propagation time:                      0.704
-    - Clock delay at starting point:         0.000 (ideal)
-    - Estimated clock delay at start point:  -0.000
-    = Slack (non-critical) :                 -0.106
-
-    Number of logic level(s):                1
-    Starting point:                          MergerAerFifo.fifo / Empty
-    Ending point:                            MergerAerFifo.fifo / RdEn
-    The start point is clocked by            System [rising]
-    The end   point is clocked by            System [rising]
-
-Instance / Net                                                                     Pin       Pin               Arrival     No. of    
-Name                                       Type                                    Name      Dir     Delay     Time        Fan Out(s)
--------------------------------------------------------------------------------------------------------------------------------------
-MergerAerFifo.fifo                         pmi_fifo_work_toplevel_structural_3     Empty     Out     0.000     0.000       -         
-FIFOEmpty_S                                Net                                     -         -       -         -           2         
-MergerAerFifo.State_DP_ns_0_a2_0_a2[0]     ORCALUT4                                A         In      0.000     0.000       -         
-MergerAerFifo.State_DP_ns_0_a2_0_a2[0]     ORCALUT4                                Z         Out     0.704     0.704       -         
-State_DN[1]                                Net                                     -         -       -         -           2         
-MergerAerFifo.fifo                         pmi_fifo_work_toplevel_structural_3     RdEn      In      0.000     0.704       -         
-=====================================================================================================================================
-
-
 Path information for path number 5: 
-      Requested Period:                      0.599
+      Requested Period:                      1.115
     - Setup time:                            0.000
     + Clock delay at ending point:           0.000 (ideal)
     + Estimated clock delay at ending point: 0.000
-    = Required time:                         0.599
+    = Required time:                         1.115
 
     - Propagation time:                      0.704
     - Clock delay at starting point:         0.000 (ideal)
     - Estimated clock delay at start point:  -0.000
-    = Slack (non-critical) :                 -0.106
+    = Slack (non-critical) :                 0.410
 
     Number of logic level(s):                1
     Starting point:                          apsAdcFifo.fifo / Empty
@@ -1951,9 +1917,9 @@ Name                        Type                                    Name      Di
 ----------------------------------------------------------------------------------------------------------------------
 apsAdcFifo.fifo             pmi_fifo_work_toplevel_structural_2     Empty     Out     0.000     0.000       -         
 FIFOEmpty_S                 Net                                     -         -       -         -           3         
-apsAdcFifo.fifo_RNI83FP     ORCALUT4                                B         In      0.000     0.000       -         
-apsAdcFifo.fifo_RNI83FP     ORCALUT4                                Z         Out     0.704     0.704       -         
-N_315_i                     Net                                     -         -       -         -           2         
+apsAdcFifo.fifo_RNI5K9E     ORCALUT4                                B         In      0.000     0.000       -         
+apsAdcFifo.fifo_RNI5K9E     ORCALUT4                                Z         Out     0.704     0.704       -         
+N_594_i                     Net                                     -         -       -         -           2         
 apsAdcFifo.fifo             pmi_fifo_work_toplevel_structural_2     RdEn      In      0.000     0.704       -         
 ======================================================================================================================
 
@@ -1965,40 +1931,40 @@ apsAdcFifo.fifo             pmi_fifo_work_toplevel_structural_2     RdEn      In
 Resource Usage Report
 Part: lfe3_17ea-7
 
-Register bits: 9442 of 17280 (55%)
+Register bits: 9591 of 17280 (56%)
 PIC Latch:       0
 I/O cells:       77
 
 
 Details:
 BB:             1
-CCU2C:          1748
+CCU2C:          1850
 FD1P3AX:        3
-FD1P3BX:        128
-FD1P3DX:        2515
-FD1S3BX:        1828
-FD1S3DX:        4926
+FD1P3BX:        173
+FD1P3DX:        2358
+FD1S3BX:        1887
+FD1S3DX:        5128
 GSR:            1
 IB:             23
 IFS1P3BX:       2
 IFS1P3DX:       13
 INV:            14
-L6MUX21:        432
+L6MUX21:        409
 OB:             50
 OBZ:            3
 OFS1P3BX:       6
 OFS1P3DX:       21
-ORCALUT4:       20571
-PFUMX:          886
+ORCALUT4:       20727
+PFUMX:          868
 PUR:            1
-VHI:            77
-VLO:            61
+VHI:            78
+VLO:            62
 Mapper successful!
 
-At Mapper Exit (Real Time elapsed 0h:07m:41s; CPU Time elapsed 0h:07m:37s; Memory used current: 116MB peak: 1595MB)
+At Mapper Exit (Real Time elapsed 0h:08m:31s; CPU Time elapsed 0h:08m:28s; Memory used current: 120MB peak: 1522MB)
 
-Process took 0h:07m:41s realtime, 0h:07m:37s cputime
-# Wed Oct 01 16:04:51 2014
+Process took 0h:08m:31s realtime, 0h:08m:28s cputime
+# Fri Oct 03 15:44:52 2014
 
 ###########################################################]
 

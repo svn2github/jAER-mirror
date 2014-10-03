@@ -60,22 +60,22 @@ begin
 	-- Combinational process
 	ObjectMotionCellIO : process(ConfigParamAddress_DI, ConfigParamInput_DI, ObjectMotionCellInput_DP, ObjectMotionCellConfigReg_DP)
 	begin
-		ObjectMotionCellConfigReg_DN <= ObjectMotionCellConfigReg_DP;
+		ObjectMotionCellConfigReg_DN <= ObjectMotionCellConfigReg_DP; 
 		ObjectMotionCellInput_DN     <= ConfigParamInput_DI;
 		ObjectMotionCellOutput_DN    <= (others => '0');
 
 		case ConfigParamAddress_DI is
 			when ObjectMotionCellCONFIG_PARAM_ADDRESSES.Threshold_S =>
-				ObjectMotionCellConfigReg_DN.Threshold_S <= ObjectMotionCellInput_DP(0);
-				ObjectMotionCellOutput_DN(0)       <= ObjectMotionCellConfigReg_DP.Threshold_S;
+				ObjectMotionCellConfigReg_DN.Threshold_S <= unsigned(ObjectMotionCellInput_DP);
+				ObjectMotionCellOutput_DN       <= std_logic_vector(ObjectMotionCellConfigReg_DP.Threshold_S);
 
 			when ObjectMotionCellCONFIG_PARAM_ADDRESSES.DecayTime_S =>
-				ObjectMotionCellConfigReg_DN.DecayTime_S <= ObjectMotionCellInput_DP(0);
-				ObjectMotionCellOutput_DN(0)                <= ObjectMotionCellConfigReg_DP.DecayTime_S;
+				ObjectMotionCellConfigReg_DN.DecayTime_S <= unsigned(ObjectMotionCellInput_DP);
+				ObjectMotionCellOutput_DN                <= std_logic_vector(ObjectMotionCellConfigReg_DP.DecayTime_S);
 
 			when ObjectMotionCellCONFIG_PARAM_ADDRESSES.TimerLimit_S =>
-				ObjectMotionCellConfigReg_DN.TimerLimit_S <= ObjectMotionCellInput_DP(0);
-				ObjectMotionCellOutput_DN(0)                  <= ObjectMotionCellConfigReg_DP.TimerLimit_S;
+				ObjectMotionCellConfigReg_DN.TimerLimit_S <= unsigned(ObjectMotionCellInput_DP);
+				ObjectMotionCellOutput_DN                  <= std_logic_vector(ObjectMotionCellConfigReg_DP.TimerLimit_S);
 
 			when others => null;
 			

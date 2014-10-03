@@ -4,18 +4,18 @@
 #Hostname: LATTICEDVM
 
 $ Start of Compile
-#Wed Oct 01 15:56:57 2014
+#Fri Oct 03 15:36:05 2014
 
 Synopsys VHDL Compiler, version comp201309rcp1, Build 147R, built Apr 16 2014
 @N|Running in 64-bit mode
 Copyright (C) 1994-2013 Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
 
 @N: CD720 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std.vhd":146:18:146:21|Setting time resolution to ns
-@N:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":13:7:13:14|Top entity is set to TopLevel.
+@N:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":14:7:14:14|Top entity is set to TopLevel.
 
-At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 80MB peak: 81MB)
+At c_vhdl Exit (Real Time elapsed 0h:00m:01s; CPU Time elapsed 0h:00m:00s; Memory used current: 80MB peak: 81MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Wed Oct 01 15:56:58 2014
+# Fri Oct 03 15:36:06 2014
 
 ###########################################################]

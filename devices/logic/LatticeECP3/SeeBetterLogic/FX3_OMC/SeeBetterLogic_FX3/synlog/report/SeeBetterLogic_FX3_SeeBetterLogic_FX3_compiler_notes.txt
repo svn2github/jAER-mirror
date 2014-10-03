@@ -1,8 +1,8 @@
 @N|Running in 64-bit mode
 @N: CD720 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std.vhd":146:18:146:21|Setting time resolution to ns
-@N:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":13:7:13:14|Top entity is set to TopLevel.
+@N:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":14:7:14:14|Top entity is set to TopLevel.
 @N: CD231 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std1164.vhd":913:16:913:17|Using onehot encoding for type mvl9plus ('U'="1000000000")
-@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":13:7:13:14|Synthesizing work.toplevel.structural 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":14:7:14:14|Synthesizing work.toplevel.structural 
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\SPIConfig.vhd":6:7:6:15|Synthesizing work.spiconfig.behavioral 
 @N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\SPIConfig.vhd":28:13:28:14|Using onehot encoding for type tstate (stidle="1000")
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":22:7:22:23|Synthesizing work.continuouscounter.behavioral 
@@ -79,8 +79,9 @@
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3USBClockSynchronizer.vhd":4:7:4:29|Synthesizing work.fx3usbclocksynchronizer.structural 
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CAVIAR2WSAER.vhd":24:7:24:18|Synthesizing work.caviar2wsaer.structural 
 @N: CD233 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CAVIAR2WSAER.vhd":41:12:41:13|Using sequential encoding for type tsm
-@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":26:7:26:22|Synthesizing work.objectmotioncell.behavioural 
-@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":55:13:55:14|Using onehot encoding for type tst (idle="100000000000")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCellSPIConfig.vhd":27:7:27:31|Synthesizing work.objectmotioncellspiconfig.behavioural 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":27:7:27:22|Synthesizing work.objectmotioncell.behavioural 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":56:13:56:14|Using onehot encoding for type tst (idle="100000000000")
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\MullerCelement.vhd":26:7:26:20|Synthesizing work.mullercelement.behavioural 
 @N: CD364 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\MullerCelement.vhd":46:16:46:20|Removed redundant assignment
 @N: CD364 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\MullerCelement.vhd":47:16:47:20|Removed redundant assignment
@@ -89,7 +90,7 @@
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd":24:7:24:18|Synthesizing work.wsaer2caviar.structural 
 @N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd":45:12:45:13|Using onehot encoding for type tst (idle="10000000")
 @N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd":51:3:51:4|Trying to extract state machine for register cs
-@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":133:1:133:2|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":134:1:134:2|Trying to extract state machine for register State_DP
 @N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CAVIAR2WSAER.vhd":48:3:48:4|Trying to extract state machine for register cs
 @N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd":283:2:283:3|Trying to extract state machine for register State_DP
 @N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFODualClock.vhd":131:2:131:3|Trying to extract state machine for register State_DP

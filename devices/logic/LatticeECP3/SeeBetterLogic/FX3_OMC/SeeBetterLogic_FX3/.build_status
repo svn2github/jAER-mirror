@@ -19,15 +19,19 @@
             <Task name="PARTrace" build_result="0" update_result="3" update_time="0"/>
             <Task name="IOTiming" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="Synthesis" build_result="1" build_time="1412170281">
-            <Task name="Synplify_Synthesis" build_result="1" update_result="2" update_time="1412170281"/>
+        <Milestone name="Synthesis" build_result="2" build_time="1412343898">
+            <Task name="Synplify_Synthesis" build_result="2" update_result="0" update_time="1412343898"/>
         </Milestone>
         <Milestone name="TOOL_Report" build_result="0" build_time="0">
-            <Task name="HDLE" build_result="2" update_result="0" update_time="1412170106"/>
+            <Task name="HDLE" build_result="2" update_result="0" update_time="1412343026"/>
+            <Task name="BKM" build_result="0" update_result="2" update_time="0"/>
+            <Task name="SSO" build_result="0" update_result="2" update_time="0"/>
+            <Task name="PIODRC" build_result="0" update_result="2" update_time="0"/>
+            <Task name="DEC" build_result="0" update_result="2" update_time="0"/>
         </Milestone>
         <Milestone name="Translate" build_result="0" build_time="0">
             <Task name="Translate" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.edi" last_build_time="0" last_build_size="0"/>
+        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.edi" last_build_time="1412343888" last_build_size="21128377"/>
     </Strategy>
 </BuildStatus>

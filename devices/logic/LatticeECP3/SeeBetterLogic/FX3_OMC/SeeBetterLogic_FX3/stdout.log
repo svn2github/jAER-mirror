@@ -7,7 +7,7 @@ Running in Lattice mode
 
 Starting:    C:\lscc\diamond\3.2_x64\synpbase\win64\mbin\synbatch.exe
 Install:     C:\lscc\diamond\3.2_x64\synpbase
-Date:        Wed Oct 01 15:56:57 2014
+Date:        Fri Oct 03 15:36:05 2014
 Version:     I-2013.09L-SP1-1 
 
 Arguments:   -product synplify_pro  -batch SeeBetterLogic_FX3_SeeBetterLogic_FX3_synplify.tcl
@@ -28,7 +28,7 @@ Generating HDL info...
 
 hdl_info_gen Completed
 Return Code: 0
-Run Time:0h:00m:01s
+Run Time:0h:00m:02s
 
 
 Copied E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\SeeBetterLogic_FX3\SeeBetterLogic_FX3_SeeBetterLogic_FX3.srr to E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\SeeBetterLogic_FX3\SeeBetterLogic_FX3_SeeBetterLogic_FX3.srf
@@ -54,7 +54,7 @@ Copied E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\SeeBetterLog
 
 compiler Completed
 Return Code: 0
-Run Time:0h:00m:06s
+Run Time:0h:00m:07s
 
 
 Copied E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\SeeBetterLogic_FX3\SeeBetterLogic_FX3_SeeBetterLogic_FX3.srr to E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\SeeBetterLogic_FX3\SeeBetterLogic_FX3_SeeBetterLogic_FX3.srf
@@ -66,7 +66,7 @@ Running: Pre-mapping on proj_1|SeeBetterLogic_FX3
 
 premap Completed with warnings
 Return Code: 1
-Run Time:0h:00m:05s
+Run Time:0h:00m:04s
 
 
 Complete: Compile on proj_1|SeeBetterLogic_FX3
@@ -79,7 +79,7 @@ Running: Map & Optimize on proj_1|SeeBetterLogic_FX3
 
 fpga_mapper Completed with warnings
 Return Code: 1
-Run Time:0h:07m:42s
+Run Time:0h:08m:34s
 
 
 Complete: Map on proj_1|SeeBetterLogic_FX3
