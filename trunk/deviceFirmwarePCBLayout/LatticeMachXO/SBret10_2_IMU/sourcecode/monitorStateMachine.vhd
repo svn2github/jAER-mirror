@@ -188,7 +188,7 @@ begin
 				elsif TimestampResetxDP = '1'  then
 					StatexDN <= stResetTimestamp;
 				
-				elsif NeedWrapEventxDP = '1' then --TimestampOverflowxDP > 0 then
+				elsif NeedWrapEventxDP = '1' or NeedWrapEventxDN = '1' then --TimestampOverflowxDP > 0 then
 					StatexDN <= stOverflow;
 
 				-- if inFifo is not full and there is a monitor event, start a
@@ -420,7 +420,7 @@ begin
 					FifoWritexEO <= '1';
 				end if;
 				
-			when others => null;
+			when others => StatexDN <= stIdle;
 		end case;
 
 	end process p_memless;

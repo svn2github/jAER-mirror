@@ -79,7 +79,7 @@ architecture Behavioral of synchronizerStateMachine is
   -- for a certain amount of time
   signal DividerxDN, DividerxDP : std_logic_vector(6 downto 0);
   signal CounterxDN, CounterxDP : std_logic_vector(13 downto 0);
-
+  signal ResetTimestampxSBN, ResetTimestampxSBP : std_logic;
 begin  -- Behavioral
 
   -- calculate next state
@@ -95,7 +95,7 @@ begin  -- Behavioral
     StatexDN             <= StatexDP;
     DividerxDN           <= DividerxDP;
     CounterxDN <= CounterxDP;
-    ResetTimestampxSBO   <= '1';        -- active low!!
+    ResetTimestampxSBN   <= '1';        -- active low!!
     IncrementCounterxSO  <= '0';
 
     TriggerxSO <= '0';
@@ -107,7 +107,7 @@ begin  -- Behavioral
       when stIdle               =>  -- waiting for either sync in to go
                                           -- high or run to go high
 		Alex <= "000";
-        ResetTimestampxSBO <= '1';
+        --ResetTimestampxSBN <= '1';
         DividerxDN         <= (others => '0');
         CounterxDN <= (others => '0');
  
@@ -115,11 +115,11 @@ begin  -- Behavioral
         
         if ConfigxSI = '0' and SyncInCLKxCB ='0' then
           StatexDN         <= stRunSlave;
-          ResetTimestampxSBO <= '0';
+          ResetTimestampxSBN <= '0';
       
         elsif ConfigxSI='1' then -- and RunxSI='1' then
           StatexDN <= stTriggerInHigh;
-          ResetTimestampxSBO <= '0';
+         -- ResetTimestampxSBO <= '0'; --Alex: I have removed this timestamp reset condition
         end if;
      when stResetSlaves              =>  -- reset  slaves by generating 200us clock on output, which slaves should detect
 		Alex <= "001";
@@ -127,7 +127,7 @@ begin  -- Behavioral
 
         if CounterxDP > resetSlavesTime then         -- stay 18000 (200us) cycles in this state
           CounterxDN <= (others => '0');
-          ResetTimestampxSBO <= '0';
+          ResetTimestampxSBN <= '0';
           StatexDN <= stTriggerInHigh;
         end if;
     
@@ -262,13 +262,16 @@ begin  -- Behavioral
       StatexDP <= stIdle;
       DividerxDP <= (others => '0');
       CounterxDP <= (others => '0');
+	  ResetTimestampxSBP <= '0';   -- Alex: I have moved the ResetTimestamp signal to be sequential to avoid possible glitches. Also under reset or cpld disabled, timestamp will be reset.
     elsif ClockxCI'event and ClockxCI = '1' then  -- rising clock edge
       StatexDP   <= StatexDN;
       DividerxDP <= DividerxDN;
       CounterxDP <= CounterxDN;
+	  ResetTimestampxSBP <= ResetTimestampxSBN;
     end if;
   end process p_mem;
-
+  ResetTimestampxSBO <= ResetTimestampxSBN;
+  
   -- purpose: synchronize asynchronous inputs
   -- type   : sequential
   -- inputs : ClockxCI
