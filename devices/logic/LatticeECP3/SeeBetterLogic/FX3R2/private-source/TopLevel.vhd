@@ -10,6 +10,7 @@ use work.APSADCConfigRecords.all;
 use work.IMUConfigRecords.all;
 use work.ExtTriggerConfigRecords.all;
 use work.ChipBiasConfigRecords.all;
+use work.FX3ConfigRecords.all;
 
 entity TopLevel is
 	port(
@@ -123,6 +124,7 @@ architecture Structural of TopLevel is
 	signal ExtTriggerConfigParamOutput_D  : std_logic_vector(31 downto 0);
 	signal BiasConfigParamOutput_D        : std_logic_vector(31 downto 0);
 	signal ChipConfigParamOutput_D        : std_logic_vector(31 downto 0);
+	signal FX3ConfigParamOutput_D         : std_logic_vector(31 downto 0);
 
 	signal MultiplexerConfig_D : tMultiplexerConfig;
 	signal DVSAERConfig_D      : tDVSAERConfig;
@@ -131,6 +133,7 @@ architecture Structural of TopLevel is
 	signal ExtTriggerConfig_D  : tExtTriggerConfig;
 	signal BiasConfig_D        : tBiasConfig;
 	signal ChipConfig_D        : tChipConfig;
+	signal FX3Config_D         : tFX3Config;
 begin
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : entity work.FX3USBClockSynchronizer
@@ -240,7 +243,19 @@ begin
 			USBFifoPktEnd_SBO           => USBFifoPktEnd_SBO,
 			USBFifoAddress_DO           => USBFifoAddress_DO,
 			InFifoControl_SI            => LogicUSBFifoControlOut_S.ReadSide,
-			InFifoControl_SO            => LogicUSBFifoControlIn_S.ReadSide);
+			InFifoControl_SO            => LogicUSBFifoControlIn_S.ReadSide,
+			FX3Config_DI                => FX3Config_D);
+
+	fx3SPIConfig : entity work.FX3SPIConfig
+		port map(
+			Clock_CI                => LogicClock_C,
+			Reset_RI                => LogicReset_R,
+			FX3Config_DO            => FX3Config_D,
+			ConfigModuleAddress_DI  => ConfigModuleAddress_D,
+			ConfigParamAddress_DI   => ConfigParamAddress_D,
+			ConfigParamInput_DI     => ConfigParamInput_D,
+			ConfigLatchInput_SI     => ConfigLatchInput_S,
+			FX3ConfigParamOutput_DO => FX3ConfigParamOutput_D);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
 	logicUSBFifo : entity work.FIFODualClock
@@ -475,7 +490,7 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtTriggerConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, ConfigParamAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtTriggerConfigParamOutput_D, BiasConfigParamOutput_D, ChipConfigParamOutput_D, FX3ConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
@@ -502,6 +517,9 @@ begin
 				else
 					ConfigParamOutput_D <= ChipConfigParamOutput_D;
 				end if;
+
+			when FX3CONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= FX3ConfigParamOutput_D;
 
 			when others => null;
 		end case;

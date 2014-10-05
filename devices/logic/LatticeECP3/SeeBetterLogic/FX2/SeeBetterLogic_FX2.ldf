@@ -72,6 +72,12 @@
         <Source name="../common-source/fx2/FX2StateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
+        <Source name="../common-source/fx2/FX2SPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="../common-source/fx2/FX2ConfigRecords.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
         <Source name="../common-source/MultiplexerStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>

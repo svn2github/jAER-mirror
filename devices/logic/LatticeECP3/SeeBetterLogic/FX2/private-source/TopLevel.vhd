@@ -9,6 +9,7 @@ use work.DVSAERConfigRecords.all;
 use work.APSADCConfigRecords.all;
 use work.IMUConfigRecords.all;
 use work.ExtTriggerConfigRecords.all;
+use work.FX2ConfigRecords.all;
 
 entity TopLevel is
 	port(
@@ -114,12 +115,14 @@ architecture Structural of TopLevel is
 	signal APSADCConfigParamOutput_D      : std_logic_vector(31 downto 0);
 	signal IMUConfigParamOutput_D         : std_logic_vector(31 downto 0);
 	signal ExtTriggerConfigParamOutput_D  : std_logic_vector(31 downto 0);
+	signal FX2ConfigParamOutput_D         : std_logic_vector(31 downto 0);
 
 	signal MultiplexerConfig_D : tMultiplexerConfig;
 	signal DVSAERConfig_D      : tDVSAERConfig;
 	signal APSADCConfig_D      : tAPSADCConfig;
 	signal IMUConfig_D         : tIMUConfig;
 	signal ExtTriggerConfig_D  : tExtTriggerConfig;
+	signal FX2Config_D         : tFX2Config;
 begin
 	-- First: synchronize all USB-related inputs to the USB clock.
 	syncInputsToUSBClock : entity work.FX2USBClockSynchronizer
@@ -190,7 +193,19 @@ begin
 			USBFifoWrite_SBO        => USBFifoWrite_SBO,
 			USBFifoPktEnd_SBO       => USBFifoPktEnd_SBO,
 			InFifoControl_SI        => LogicUSBFifoControlOut_S.ReadSide,
-			InFifoControl_SO        => LogicUSBFifoControlIn_S.ReadSide);
+			InFifoControl_SO        => LogicUSBFifoControlIn_S.ReadSide,
+			FX2Config_DI            => FX2Config_D);
+
+	fx2SPIConfig : entity work.FX2SPIConfig
+		port map(
+			Clock_CI                => LogicClock_C,
+			Reset_RI                => LogicReset_R,
+			FX2Config_DO            => FX2Config_D,
+			ConfigModuleAddress_DI  => ConfigModuleAddress_D,
+			ConfigParamAddress_DI   => ConfigParamAddress_D,
+			ConfigParamInput_DI     => ConfigParamInput_D,
+			ConfigLatchInput_SI     => ConfigLatchInput_S,
+			FX2ConfigParamOutput_DO => FX2ConfigParamOutput_D);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
 	logicUSBFifo : entity work.FIFODualClock
@@ -431,7 +446,7 @@ begin
 			ConfigLatchInput_SO    => ConfigLatchInput_S,
 			ConfigParamOutput_DI   => ConfigParamOutput_D);
 
-	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtTriggerConfigParamOutput_D)
+	spiConfigurationOutputSelect : process(ConfigModuleAddress_D, MultiplexerConfigParamOutput_D, DVSAERConfigParamOutput_D, APSADCConfigParamOutput_D, IMUConfigParamOutput_D, ExtTriggerConfigParamOutput_D, FX2ConfigParamOutput_D)
 	begin
 		-- Output side select.
 		ConfigParamOutput_D <= (others => '0');
@@ -451,6 +466,9 @@ begin
 
 			when EXTTRIGGERCONFIG_MODULE_ADDRESS =>
 				ConfigParamOutput_D <= ExtTriggerConfigParamOutput_D;
+
+			when FX2CONFIG_MODULE_ADDRESS =>
+				ConfigParamOutput_D <= FX2ConfigParamOutput_D;
 
 			when others => null;
 		end case;
