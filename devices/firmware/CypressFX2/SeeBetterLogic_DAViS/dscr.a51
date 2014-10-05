@@ -29,7 +29,7 @@ ET_ISO       equ   1   ;; Endpoint type: Isochronous
 ET_BULK      equ   2   ;; Endpoint type: Bulk
 ET_INT       equ   3   ;; Endpoint type: Interrupt
 
-public      DeviceDscr, DeviceQualDscr, HighSpeedConfigDscr, FullSpeedConfigDscr, StringDscr, UserDscr
+public      DeviceDscr, DeviceQualDscr, HighSpeedConfigDscr, FullSpeedConfigDscr, StringDscr, UserDscr, MSOSStringDscr
 
 DSCR   SEGMENT   CODE PAGE
 
@@ -172,18 +172,18 @@ StringDscr3:
       db   '0',00
 StringDscr3End:
 
-MSOSDscr:   
-      db   MSOSDscrEnd-MSOSDscr ;; MS OS descriptor length
+MSOSStringDscr:   
+      db   0x12 ;; MS OS String descriptor length
       db   DSCR_STRING
-      db   0x4D,00
-      db   0x53,00
-      db   0x46,00
-      db   0x54,00
-      db   0x31,00
-      db   0x30,00
-      db   0x30,00
+      db   'M',00
+      db   'S',00
+      db   'F',00
+      db   'T',00
+      db   '1',00
+      db   '0',00
+      db   '0',00
       db   0xAF,00
-MSOSDscrEnd:
+MSOSStringDscrEnd:
 
 UserDscr:      
       dw   0000H

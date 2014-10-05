@@ -27,7 +27,10 @@ WORD   pHighSpeedConfigDscr;
 WORD   pFullSpeedConfigDscr;   
 WORD   pConfigDscr;
 WORD   pOtherConfigDscr;   
-WORD   pStringDscr;   
+WORD   pStringDscr;
+WORD   pMSOSStringDscr;
+
+extern code STRINGDSCR MSOSStringDscr;
 
 //-----------------------------------------------------------------------------
 // Prototypes
@@ -90,6 +93,7 @@ void main(void)
    pHighSpeedConfigDscr = (WORD)&HighSpeedConfigDscr;
    pFullSpeedConfigDscr = (WORD)&FullSpeedConfigDscr;
    pStringDscr = (WORD)&StringDscr;
+   pMSOSStringDscr = (WORD)&MSOSStringDscr;
 
    EZUSB_IRQ_ENABLE(); // Enable USB interrupt (INT2)
 
@@ -202,18 +206,21 @@ void SetupCommand(void)
                   SUDPTRL = LSB(pOtherConfigDscr);
                   break;
                case GD_STRING:            // String
-                  if(dscr_ptr = (void *)EZUSB_GetStringDscr(SETUPDAT[2]))
+                  if(SETUPDAT[2] == 0xEE)
                   {
-                     SUDPTRH = MSB(dscr_ptr);
-                     SUDPTRL = LSB(dscr_ptr);
+                     SUDPTRH = MSB(pMSOSStringDscr);
+                     SUDPTRL = LSB(pMSOSStringDscr);
                   }
-				  else if((SETUPDAT[2] == 0xEE) && (dscr_ptr = (void *)EZUSB_GetStringDscr(4)))
-                  {
-                     SUDPTRH = MSB(dscr_ptr);
-                     SUDPTRL = LSB(dscr_ptr);
-                  }
-                  else 
-                     EZUSB_STALL_EP0();   // Stall End Point 0
+				  else
+				  {
+				      if(dscr_ptr = (void *)EZUSB_GetStringDscr(SETUPDAT[2]))
+                      {
+                          SUDPTRH = MSB(dscr_ptr);
+                          SUDPTRL = LSB(dscr_ptr);
+                      }
+                      else 
+                          EZUSB_STALL_EP0();   // Stall End Point 0
+				  }	
                   break;
                default:            // Invalid request
                   EZUSB_STALL_EP0();      // Stall End Point 0
