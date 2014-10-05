@@ -17,8 +17,6 @@ use ieee.numeric_std.all;
 -- It is further possible to specify that the overflow flag should not be
 -- asserted when the limit value is reached, but instead when the counter
 -- goes back to zero, thanks to the OVERFLOW_AT_ZERO flag.
--- Changing the limit value to be equal or smaller than the current counter
--- value is not supported and will lead to undefined behavior.
 entity ContinuousCounter is
 	generic(
 		SIZE              : integer;
@@ -50,11 +48,11 @@ begin
 		elsif Clear_SI = '0' and Enable_SI = '1' then
 			Count_DN <= Count_DP + 1;
 
-			if Count_DP = DataLimit_DI then
+			if Count_DP >= DataLimit_DI then
 				if RESET_ON_OVERFLOW then
 					Count_DN <= (others => '0');
 				else
-					Count_DN <= Count_DP;
+					Count_DN <= DataLimit_DI;
 				end if;
 			end if;
 		elsif Clear_SI = '1' and Enable_SI = '1' then
@@ -91,7 +89,7 @@ begin
 			if not OVERFLOW_AT_ZERO then
 				if Count_DP = (DataLimit_DI - 1) and Clear_SI = '0' and Enable_SI = '1' then
 					Overflow_S <= '1';
-				elsif not SHORT_OVERFLOW and Count_DP = DataLimit_DI then
+				elsif not SHORT_OVERFLOW and Count_DP >= DataLimit_DI then
 					if Clear_SI = '0' and Enable_SI = '0' then
 						Overflow_S <= '1';
 					elsif Clear_SI = '0' and Enable_SI = '1' and not RESET_ON_OVERFLOW then
@@ -105,13 +103,20 @@ begin
 					end if;
 				end if;
 			else
-				if Count_DP = DataLimit_DI and Clear_SI = '0' and Enable_SI = '1' then
+				-- This only ever makes sense if we also reset on overflow, since that's
+				-- the only case where we overflow into zero automatically (with Enable_SI).
+				assert (RESET_ON_OVERFLOW) report "OVERFLOW_AT_ZERO requires RESET_ON_OVERFLOW enabled." severity FAILURE;
+
+				-- Disabling SHORT_OVERFLOW is not supported in OVERFLOW_AT_ZERO mode.
+				-- It will always generate a short overflow signal.
+				-- Doing so reliably would increase complexity and resource
+				-- consumption to keep and check additional state, and no user of this
+				-- module needs this functionality currently.
+				assert (SHORT_OVERFLOW) report "OVERFLOW_AT_ZERO requires SHORT_OVERFLOW enabled." severity FAILURE;
+
+				if Count_DP >= DataLimit_DI and Clear_SI = '0' and Enable_SI = '1' then
 					Overflow_S <= '1';
 				end if;
-			-- Disabling SHORT_OVERFLOW is not supported in OVERFLOW_AT_ZERO mode.
-			-- Doing so reliably would increase complexity and resource
-			-- consumption to keep and check additional state, and no user of this
-			-- module needs this functionality currently.
 			end if;
 		end process overflowLogic;
 
