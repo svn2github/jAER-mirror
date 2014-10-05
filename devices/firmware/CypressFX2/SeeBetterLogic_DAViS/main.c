@@ -418,6 +418,10 @@ BOOL DR_VendorCmnd(void) {
 				EP0BCH = 0;
 				EP0BCL = 40;
 			}
+			else {
+				// Stall on invalid MS feature descriptor request.
+				return (TRUE);
+			}
 
 			break;
 
