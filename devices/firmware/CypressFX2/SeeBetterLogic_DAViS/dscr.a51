@@ -172,6 +172,19 @@ StringDscr3:
       db   '0',00
 StringDscr3End:
 
+MSOSDscr:   
+      db   MSOSDscrEnd-MSOSDscr ;; MS OS descriptor length
+      db   DSCR_STRING
+      db   0x4D,00
+      db   0x53,00
+      db   0x46,00
+      db   0x54,00
+      db   0x31,00
+      db   0x30,00
+      db   0x30,00
+      db   0xAF,00
+MSOSDscrEnd:
+
 UserDscr:      
       dw   0000H
       end

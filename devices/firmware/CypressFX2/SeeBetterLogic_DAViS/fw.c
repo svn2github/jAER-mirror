@@ -207,6 +207,11 @@ void SetupCommand(void)
                      SUDPTRH = MSB(dscr_ptr);
                      SUDPTRL = LSB(dscr_ptr);
                   }
+				  else if((SETUPDAT[2] == 0xEE) && (dscr_ptr = (void *)EZUSB_GetStringDscr(4)))
+                  {
+                     SUDPTRH = MSB(dscr_ptr);
+                     SUDPTRL = LSB(dscr_ptr);
+                  }
                   else 
                      EZUSB_STALL_EP0();   // Stall End Point 0
                   break;

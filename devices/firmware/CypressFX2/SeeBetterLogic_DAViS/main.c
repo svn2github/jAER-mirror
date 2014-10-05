@@ -8,6 +8,7 @@
 extern BOOL GotSUD;
 
 // Device-specific vendor requests
+#define VR_MS_FEATURE_DSCR 0xAF
 #define VR_EEPROM 0xBD
 #define VR_CPLD_UPLOAD 0xBE
 #define VR_CPLD_CONFIG 0xBF
@@ -369,6 +370,57 @@ BOOL DR_VendorCmnd(void) {
 	wRequest = USB_REQ_DIR(SETUPDAT[1], (SETUPDAT[0] & USB_DIRECTION_MASK));
 
 	switch (wRequest) {
+		case USB_REQ_DIR(VR_MS_FEATURE_DSCR, USB_DIRECTION_OUT):
+			if (wIndex == 0x0004) {
+				// Microsoft Compatible ID Feature Descriptor
+				// Request the WinUSB driver for our device, see https://github.com/pbatard/libwdi/wiki/WCID-Devices
+				EP0BUF[0] = 0x28; // Descriptor length, 4 bytes LE = 40 bytes
+				EP0BUF[1] = 0x00;
+				EP0BUF[2] = 0x00;
+				EP0BUF[3] = 0x00;
+				EP0BUF[4] = 0x00; // Version, 2 bytes LE = 1.0
+				EP0BUF[5] = 0x01;
+				EP0BUF[6] = 0x04; // Compatibility ID descriptor index, 2 bytes LE = 0x0004
+				EP0BUF[7] = 0x00;
+				EP0BUF[8] = 0x01; // Number of sections, 1 byte = 1 section
+				EP0BUF[9] = 0x00; // RESERVED, 7 bytes
+				EP0BUF[10] = 0x00;
+				EP0BUF[11] = 0x00;
+				EP0BUF[12] = 0x00;
+				EP0BUF[13] = 0x00;
+				EP0BUF[14] = 0x00;
+				EP0BUF[15] = 0x00;
+				EP0BUF[16] = 0x00; // Interface Number, 1 byte = Interface #0
+				EP0BUF[17] = 0x01; // RESERVED, 1 byte
+				EP0BUF[18] = 0x57; // Compatible ID, 8 bytes ASCII string = WINUSB\0\0
+				EP0BUF[19] = 0x49;
+				EP0BUF[20] = 0x4E;
+				EP0BUF[21] = 0x55;
+				EP0BUF[22] = 0x53;
+				EP0BUF[23] = 0x42;
+				EP0BUF[24] = 0x00;
+				EP0BUF[25] = 0x00;
+				EP0BUF[26] = 0x00; // Sub-compatible ID, 8 bytes ASCII string (unused)
+				EP0BUF[27] = 0x00;
+				EP0BUF[28] = 0x00;
+				EP0BUF[29] = 0x00;
+				EP0BUF[30] = 0x00;
+				EP0BUF[31] = 0x00;
+				EP0BUF[32] = 0x00;
+				EP0BUF[33] = 0x00;
+				EP0BUF[34] = 0x00; // RESERVED, 6 bytes
+				EP0BUF[35] = 0x00;
+				EP0BUF[36] = 0x00;
+				EP0BUF[37] = 0x00;
+				EP0BUF[38] = 0x00;
+				EP0BUF[39] = 0x00;
+
+				EP0BCH = 0;
+				EP0BCL = 40;
+			}
+
+			break;
+
 		case USB_REQ_DIR(VR_CHIP_BIAS, USB_DIRECTION_IN):
 			// Ensure we're not accessing the chip diagnostic shift register.
 			setPE(BIAS_DIAG_SELECT, 0);
@@ -663,7 +715,8 @@ BOOL DR_VendorCmnd(void) {
 
 		case USB_REQ_DIR(VR_CPLD_UPLOAD, USB_DIRECTION_OUT):
 			EP0BUF[0] = VR_CPLD_UPLOAD;
-			EP0BUF[1]= xsvfReturn;
+			EP0BUF[1] = xsvfReturn;
+			
 			EP0BCH = 0;
 			EP0BCL = 2;
 
