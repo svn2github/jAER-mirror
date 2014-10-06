@@ -415,8 +415,13 @@ BOOL DR_VendorCmnd(void) {
 				EP0BUF[38] = 0x00;
 				EP0BUF[39] = 0x00;
 
+				// Ensure correct length is sent back.
+				if (wLength > 40) {
+					wLength = 40;
+				}
+
 				EP0BCH = 0;
-				EP0BCL = 40;
+				EP0BCL = wLength;
 			}
 			else {
 				// Stall on invalid MS feature descriptor request.
@@ -426,6 +431,11 @@ BOOL DR_VendorCmnd(void) {
 			break;
 
 		case USB_REQ_DIR(VR_CHIP_BIAS, USB_DIRECTION_IN):
+			// Verify length of data.
+			if (wLength != 2) {
+				return (TRUE);	
+			}
+
 			// Ensure we're not accessing the chip diagnostic shift register.
 			setPE(BIAS_DIAG_SELECT, 0);
 
@@ -478,6 +488,11 @@ BOOL DR_VendorCmnd(void) {
 			break;
 
 		case USB_REQ_DIR(VR_CHIP_DIAG, USB_DIRECTION_IN):
+			// Verify length of data.
+			if (wLength != 7) {
+				return (TRUE);	
+			}
+
 			// Ensure we are accessing the chip diagnostic shift register.
 			setPE(BIAS_DIAG_SELECT, 1);
 
@@ -519,6 +534,11 @@ BOOL DR_VendorCmnd(void) {
 			break;
 
 		case USB_REQ_DIR(VR_CPLD_CONFIG, USB_DIRECTION_IN):
+			// Verify length of data.
+			if (wLength != 4) {
+				return (TRUE);	
+			}
+
 			// Write out all configuration bytes to the FPGA, using its SPI bus.
 			CPLD_SPI_SSN = 0; // SSN is active-low.
 
@@ -557,6 +577,11 @@ BOOL DR_VendorCmnd(void) {
 			break;
 
 		case USB_REQ_DIR(VR_CPLD_CONFIG, USB_DIRECTION_OUT):
+			// Verify length of data.
+			if (wLength != 4) {
+				return (TRUE);	
+			}
+
 			// Read configuration bits from the FPGA, using its SPI bus.
 			CPLD_SPI_SSN = 0; // SSN is active-low.
 
@@ -718,6 +743,11 @@ BOOL DR_VendorCmnd(void) {
 			break;
 
 		case USB_REQ_DIR(VR_CPLD_UPLOAD, USB_DIRECTION_OUT):
+			// Verify length of data.
+			if (wLength != 2) {
+				return (TRUE);	
+			}
+
 			EP0BUF[0] = VR_CPLD_UPLOAD;
 			EP0BUF[1] = xsvfReturn;
 			
