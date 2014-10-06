@@ -304,9 +304,9 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 		}
 
 		case FX3_REQ_DIR(VR_CHIP_BIAS, FX3_USB_DIRECTION_IN):
-			if (wLength == 0) {
+			if (wLength != 2) {
 				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_BIAS: zero byte transfer invalid", status);
+				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_BIAS: invalid transfer length", status);
 				break;
 			}
 
@@ -347,9 +347,9 @@ CyBool_t CyFxHandleCustomVR_DeviceSpecific(uint8_t bDirection, uint8_t bRequest,
 			break;
 
 		case FX3_REQ_DIR(VR_CHIP_DIAG, FX3_USB_DIRECTION_IN):
-			if (wLength == 0) {
+			if (wLength != 7) {
 				status = CY_U3P_ERROR_BAD_ARGUMENT; // Set to something known!
-				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_DIAG: zero byte transfer invalid", status);
+				CyFxErrorHandler(LOG_ERROR, "VR_CHIP_DIAG: invalid transfer length", status);
 				break;
 			}
 

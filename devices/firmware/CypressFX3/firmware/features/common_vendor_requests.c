@@ -52,7 +52,12 @@ CyBool_t CyFxHandleCustomVR_Common(uint8_t bDirection, uint8_t bRequest, uint16_
 				glEP0Buffer[38] = 0x00;
 				glEP0Buffer[39] = 0x00;
 
-				status = CyU3PUsbSendEP0Data(40, glEP0Buffer);
+				// Ensure maximum length is respected.
+				if (wLength > 40) {
+					wLength = 40;
+				}
+
+				status = CyU3PUsbSendEP0Data(wLength, glEP0Buffer);
 				if (status != CY_U3P_SUCCESS) {
 					CyFxErrorHandler(LOG_ERROR, "VR_MS_FEATURE_DSCR: CyU3PUsbSendEP0Data failed", status);
 					break;
