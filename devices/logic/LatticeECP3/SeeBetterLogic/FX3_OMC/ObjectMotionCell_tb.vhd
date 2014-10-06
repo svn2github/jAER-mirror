@@ -33,9 +33,9 @@ end ObjectMotionCell_tb;
 --------------------------------------------------------------------------------
 architecture TestBench of ObjectMotionCell_tb is
 	-- Component generics
-	constant Threshold_K     : unsigned (31 downto 0) := (5 => '1', others => '0');
-	constant DecayTime_K     : unsigned (31 downto 0) := (10 => '1', others => '0');
-	constant TimerLimit_K    : unsigned (31 downto 0) := (31 => '1', others => '0');
+	constant Threshold_K     : unsigned (24 downto 0) := (5 => '1', others => '0');
+	constant DecayTime_K     : unsigned (24 downto 0) := (10 => '1', others => '0');
+	constant TimerLimit_K    : unsigned (24 downto 0) := (24 => '1', others => '0');
 	
 	-- Component ports
 	-- Clock and reset inputs
@@ -50,9 +50,9 @@ architecture TestBench of ObjectMotionCell_tb is
 	signal  PSMreq_AB   :	std_logic; -- Active low
 	signal	OMCfire_D	: 	std_logic;
 	-- Receive Parameters
-	signal	Threshold_S	:	unsigned (31 downto 0); -- Threshold Parameter
-	signal	DecayTime_S	: 	unsigned (31 downto 0); -- Decay time constant
-	signal	TimerLimit_S	:	unsigned (31 downto 0); -- Set timer limit
+	signal	Threshold_S	:	unsigned (24 downto 0); -- Threshold Parameter
+	signal	DecayTime_S	: 	unsigned (24 downto 0); -- Decay time constant
+	signal	TimerLimit_S	:	unsigned (24 downto 0); -- Set timer limit
 
 	-- Clock
 	signal Clk	:	std_logic := '1'; -- Set clock

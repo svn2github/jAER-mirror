@@ -1,3 +1,2 @@
-@E: CL219 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":40:2:40:11|Multiple non-tristate drivers for net OMCfire_DO in ObjectMotionCell
-@E: CL229 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":40:2:40:11|Unresolved tristate drivers for net OMCfire_DO in ObjectMotionCell
+@E: CD297 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":193:6:193:22|Width mismatch, location has width 25, value 26
 

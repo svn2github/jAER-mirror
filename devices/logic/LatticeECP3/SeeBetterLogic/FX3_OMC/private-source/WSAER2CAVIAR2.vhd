@@ -68,7 +68,7 @@ begin
    end if;
 end process;
 
-process (cs, WSAER_req, CAVIAR_ack, cnt, row_delay)
+process (cs, WSAER_req, CAVIAR_ack, cnt, row_delay, WSAER_data)
 begin
   CAVIAR_req <= '1';
   WSAER_ack <= '1';

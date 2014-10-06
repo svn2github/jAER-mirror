@@ -211,9 +211,9 @@ begin
 		OMCfire_DO	 	=>	OMCmisc_S,
 		
 		-- Constants for the moment
-		Threshold_SI	=>	unsigned(ObjectMotionCellConfig_D.Threshold_S),                                                -- Check!!
-		DecayTime_SI	=> 	unsigned(ObjectMotionCellConfig_D.DecayTime_S),                                                -- Check!!
-		TimerLimit_SI	=>	unsigned(ObjectMotionCellConfig_D.TimerLimit_S));                                              -- Check!!
+		Threshold_SI	=>	unsigned(ObjectMotionCellConfig_D.Threshold_S),
+		DecayTime_SI	=> 	unsigned(ObjectMotionCellConfig_D.DecayTime_S),
+		TimerLimit_SI	=>	unsigned(ObjectMotionCellConfig_D.TimerLimit_S));
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 

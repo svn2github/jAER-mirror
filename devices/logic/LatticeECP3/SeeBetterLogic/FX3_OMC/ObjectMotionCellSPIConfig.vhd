@@ -66,16 +66,16 @@ begin
 
 		case ConfigParamAddress_DI is
 			when ObjectMotionCellCONFIG_PARAM_ADDRESSES.Threshold_S =>
-				ObjectMotionCellConfigReg_DN.Threshold_S <= unsigned(ObjectMotionCellInput_DP);
-				ObjectMotionCellOutput_DN       <= std_logic_vector(ObjectMotionCellConfigReg_DP.Threshold_S);
+				ObjectMotionCellConfigReg_DN.Threshold_S <= unsigned(ObjectMotionCellInput_DP(24 downto 0));
+				ObjectMotionCellOutput_DN(24 downto 0)       <= std_logic_vector(ObjectMotionCellConfigReg_DP.Threshold_S);
 
 			when ObjectMotionCellCONFIG_PARAM_ADDRESSES.DecayTime_S =>
-				ObjectMotionCellConfigReg_DN.DecayTime_S <= unsigned(ObjectMotionCellInput_DP);
-				ObjectMotionCellOutput_DN                <= std_logic_vector(ObjectMotionCellConfigReg_DP.DecayTime_S);
+				ObjectMotionCellConfigReg_DN.DecayTime_S <= unsigned(ObjectMotionCellInput_DP(24 downto 0));
+				ObjectMotionCellOutput_DN(24 downto 0)                <= std_logic_vector(ObjectMotionCellConfigReg_DP.DecayTime_S);
 
 			when ObjectMotionCellCONFIG_PARAM_ADDRESSES.TimerLimit_S =>
-				ObjectMotionCellConfigReg_DN.TimerLimit_S <= unsigned(ObjectMotionCellInput_DP);
-				ObjectMotionCellOutput_DN                  <= std_logic_vector(ObjectMotionCellConfigReg_DP.TimerLimit_S);
+				ObjectMotionCellConfigReg_DN.TimerLimit_S <= unsigned(ObjectMotionCellInput_DP(24 downto 0));
+				ObjectMotionCellOutput_DN(24 downto 0)                  <= std_logic_vector(ObjectMotionCellConfigReg_DP.TimerLimit_S);
 
 			when others => null;
 			

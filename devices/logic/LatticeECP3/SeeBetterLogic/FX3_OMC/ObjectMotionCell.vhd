@@ -41,9 +41,9 @@ entity ObjectMotionCell is
 		OMCfire_DO	: 	out	std_logic;
 
 		-- Receive Parameters
-		Threshold_SI	:	in unsigned(31 downto 0); -- Threshold Parameter
-		DecayTime_SI	: 	in unsigned(31 downto 0); -- Decay time constant
-		TimerLimit_SI	:	in unsigned(31 downto 0)); -- Set timer limit
+		Threshold_SI	:	in unsigned(24 downto 0); -- Threshold Parameter
+		DecayTime_SI	: 	in unsigned(24 downto 0); -- Decay time constant
+		TimerLimit_SI	:	in unsigned(24 downto 0)); -- Set timer limit
 end ObjectMotionCell;
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------  
@@ -53,26 +53,34 @@ end ObjectMotionCell;
 --------------------------------------------------------------------------------
 architecture Behavioural of ObjectMotionCell is
 	-- States
-    type tst is (Idle, ReadAndUpdate, ExcitationCalculate, ExcitationNormalise, InhibitionCalculate, InhibitionNormalise, SubtractionCalculate, MultiplyDT, VmembraneCalculate, Fire, Acknowledge, Decay);
+    type tst is (Idle, ReadAndUpdate, ExcitationCalculate, ExcitationNormalise, InhibitionCalculate1, InhibitionCalculate2, InhibitionSum, InhibitionNormalise, SubtractionCalculate, MultiplyDT, VmembraneCalculate, Fire, Acknowledge, Decay);
 	signal State_DP, State_DN: tst; -- Current state and Next state
 
 	-- Signals
-	signal	Excitation_S	: unsigned (31 downto 0); -- Excitation of center
-	signal	Inhibition_S	: unsigned (31 downto 0); -- Inhibition	of periphery
-	signal	Subtraction_S	: unsigned (31 downto 0); -- Subtraction of inhibition from excitation
-	signal	SubtractionTimesDT_S : unsigned (31 downto 0); -- Multiply the DT times the previous subtraction
-	signal	MembranePotential_S  : unsigned (31 downto 0); -- Membrane potential 
+	signal	Excitation_S	: unsigned (24 downto 0); -- Excitation of center
+	signal	Inhibition_S	: unsigned (24 downto 0); -- Inhibition	of periphery
+	signal	Inhibition1_S	: unsigned (24 downto 0); -- Inhibition	of periphery
+	signal	Inhibition2_S	: unsigned (24 downto 0); -- Inhibition	of periphery
+	signal	Subtraction_S	: unsigned (24 downto 0); -- Subtraction of inhibition from excitation
+	signal	SubtractionTimesDT_S : unsigned (24 downto 0); -- Multiply the DT times the previous subtraction
+	signal	MembranePotential_S  : unsigned (24 downto 0); -- Membrane potential 
 	
-	signal	TimeStamp_S		: unsigned (31 downto 0); -- Timer's output used to get timestamp
-	signal	CurrentTimeStamp_S		: unsigned (31 downto 0); -- Current event's timestamp
-	signal	PreviousTimeStamp_S		: unsigned (31 downto 0); -- Previous event's timestamp
-	signal	TimeBetween2Events_S	: unsigned (31 downto 0); -- Delta T
+	signal	TimeStamp_S		: unsigned (24 downto 0); -- Timer's output used to get timestamp
+	signal	CurrentTimeStamp_S		: unsigned (24 downto 0); -- Current event's timestamp
+	signal	PreviousTimeStamp_S		: unsigned (24 downto 0); -- Previous event's timestamp
+	signal	TimeBetween2Events_S	: unsigned (24 downto 0); -- Delta T
 	
 	signal 	OVFack_SO		: std_logic; -- Acknowledge of overflow
 	signal	CounterOVF_S	: std_logic; -- Counter overflow for decay
 	signal	POMCack_S		: std_logic; -- Acknowledge of the OMC
 
-	signal	Unconnected1_S	: unsigned (31 downto 0); -- Unused
+	-- Parameters
+	signal 	Threshold_S		:	unsigned(24 downto 0); -- Threshold Parameter
+	signal 	DecayTime_S		: 	unsigned(24 downto 0); -- Decay time constant
+	signal 	TimerLimit_S	:	unsigned(24 downto 0); -- Set timer limit
+	
+	-- Unconnected
+	signal	Unconnected1_S	: unsigned (24 downto 0); -- Unused
 	signal	Unconnected2_S	: std_logic; -- Unused
 
 	-- Create array of registers
@@ -86,7 +94,7 @@ begin
 	vcc1 <= '1';
 	DecayCounter: entity work.ContinuousCounter
 	generic map(
-		SIZE              => 32, -- Maximum possible size
+		SIZE              => 25, -- Maximum possible size
 		RESET_ON_OVERFLOW => false, -- Reset only when OVFack_SO is '1' 
 		GENERATE_OVERFLOW => true, -- Generate overflow
 		SHORT_OVERFLOW    => false, -- Keep the overflow
@@ -96,7 +104,7 @@ begin
 		Reset_RI     => Reset_RI, -- Share the same asynchronous reset
 		Clear_SI     => OVFack_SO, -- Clear with acknowledge of overflow
 		Enable_SI    => vcc1, -- Always enable
-		DataLimit_DI => DecayTime_SI, -- Set the counter's limit (set the decay time)
+		DataLimit_DI => DecayTime_S, -- Set the counter's limit (set the decay time)
 		Overflow_SO  => CounterOVF_S, -- Get the counter's overflow
 		Data_DO      => Unconnected1_S); -- Leave unconnected			
 --------------------------------------------------------------------------------
@@ -104,7 +112,7 @@ begin
 	vcc2 <= '1';
 	TimeStampTimer: entity work.ContinuousCounter
 	generic map(
-		SIZE              => 32, -- Maximum possible size
+		SIZE              => 25, -- Maximum possible size
 		RESET_ON_OVERFLOW => true, -- Reset when full (independent) 
 		GENERATE_OVERFLOW => false, -- Don't generate overflow
 		SHORT_OVERFLOW    => false, -- Keep the overflow
@@ -114,7 +122,7 @@ begin
 		Reset_RI     => Reset_RI, -- Share the same asynchronous reset
 		Clear_SI     => Reset_RI, -- Clear with reset as well
 		Enable_SI    => vcc2, -- Always enable
-		DataLimit_DI => TimerLimit_SI, -- Set the counter's limit (set the maximum counting time)
+		DataLimit_DI => TimerLimit_S, -- Set the counter's limit (set the maximum counting time)
 		Overflow_SO  => Unconnected2_S, -- Get the counter's overflow
 		Data_DO      => TimeStamp_S); -- Leave unconnected
 --------------------------------------------------------------------------------
@@ -126,17 +134,17 @@ begin
 		Cout    => PDVSack_ABO); --Output of C-Element (final acknowledge)
 --------------------------------------------------------------------------------
 Sequential : process (Clock_CI, Reset_RI) -- Sequential Process
-variable TemporalVariable1 : unsigned(31 downto 0);
-variable TemporalVariable2 : unsigned(31 downto 0);
-variable TemporalVariable3 : unsigned(63 downto 0);
+variable TemporalVariable1 : unsigned(24 downto 0);
+variable TemporalVariable2 : unsigned(24 downto 0);
+variable TemporalVariable3 : unsigned(24 downto 0);
+variable TemporalVariable4 : unsigned(49 downto 0);
 begin
 	-- External reset	
 	if (Reset_RI = '1') then
-		--OMCfire_DO <= '0'; -- Stop firing
 		POMCack_S <= '0'; -- Acknowledge the DVS state machine
 		OVFack_SO <= '1'; -- Give counter acknowledge
 		State_DP <= Idle;
-		PreviousTimeStamp_S <= TimeStamp_S; -- Assign first timestamp
+		PreviousTimeStamp_S <= (others => '0'); -- Assign first timestamp
 		Excitation_S <= (others => '0');
 		Inhibition_S <= (others => '0');
 		TimeBetween2Events_S <= (others => '0');
@@ -144,6 +152,11 @@ begin
 		Subtraction_S <= (others => '0');
 		SubtractionTimesDT_S <= (others => '0');
 		CurrentTimeStamp_S <= (others => '0');
+		
+		-- Reset values before SPIConfig assignment
+		Threshold_S <= (others => '0'); 
+		DecayTime_S <= (others => '1');
+	 	TimerLimit_S <= (others => '1');
 	
 		-- Reset all subunits to 1 (1 is always needed, so that it can be shifted)
 		for i in 0 to 15 loop
@@ -155,6 +168,12 @@ begin
 	-- At every clock cycle
 	elsif (Rising_edge(Clock_CI)) then
 		State_DP <= State_DN;  -- Assign next state to current state
+		
+		-- Store SPIConfig
+		Threshold_S <= Threshold_SI; 
+		DecayTime_S <= DecayTime_SI;
+	 	TimerLimit_S <= TimerLimit_SI;
+		
 		case State_DP is
 
 			when Idle =>
@@ -173,29 +192,45 @@ begin
 				TemporalVariable1 := (others => '0');
 				for i in 8 to 9 loop
 					for j in 8 to 9 loop
-						TemporalVariable1 := TemporalVariable1 + ("0000000000000000" & arrayOfSubunits(i,j)); -- Find the total Excitation
+						TemporalVariable1 := TemporalVariable1 + ("000000000" & arrayOfSubunits(i,j)); -- Find the total Excitation
 					end loop; -- j
 				end loop; -- i
 				Excitation_S <= TemporalVariable1;
 
 			when ExcitationNormalise =>
-				Excitation_S <=  ("00" & Excitation_S(31 downto 2)) - 1; -- Divide by 4 to normalise (shift by 2 bits)
+				Excitation_S <=  ("00" & Excitation_S(24 downto 2)) - 1; -- Divide by 4 to normalise (shift by 2 bits)
 
-			when InhibitionCalculate =>
+			when InhibitionCalculate1 =>
 				TemporalVariable2 := (others => '0');
-				for i in 0 to 15 loop
-					for j in 0 to 15 loop
+				for i in 0 to 7 loop
+					for j in 0 to 7 loop
 						if ((i >= 8) and (i <= 9) and (j >= 8) and (j <= 9)) then
 							null;
 						else
-							TemporalVariable2 := TemporalVariable2 + ("0000000000000000" & arrayOfSubunits(i,j)); -- Find the total Inhibition
+							TemporalVariable2 := TemporalVariable2 + ("000000000" & arrayOfSubunits(i,j)); -- Find the left half of Inhibition
 						end if;
 					end loop; -- j
 				end loop; -- i
-				Inhibition_S <= (TemporalVariable2 + 4);
+				Inhibition1_S <= (TemporalVariable2 + 4);
+				
+			when InhibitionCalculate2 =>
+				TemporalVariable3 := (others => '0');
+				for i in 8 to 15 loop
+					for j in 8 to 15 loop
+						if ((i >= 8) and (i <= 9) and (j >= 8) and (j <= 9)) then
+							null;
+						else
+							TemporalVariable3 := TemporalVariable3 + ("000000000" & arrayOfSubunits(i,j)); -- Find the right half of Inhibition
+						end if;
+					end loop; -- j
+				end loop; -- i
+				Inhibition2_S <= TemporalVariable3;
+				
+			when InhibitionSum =>
+				Inhibition_S <= Inhibition1_S + Inhibition2_S; -- Find the total Inhibition
 
 			when InhibitionNormalise =>
-				Inhibition_S <= ("00000000" & Inhibition_S(31 downto 8)) - 1; -- Divide by 256 to normalise approximately (shift by 6 bits)
+				Inhibition_S <= ("00000000" & Inhibition_S(24 downto 8)) - 1; -- Divide by 256 to normalise approximately (shift by 6 bits)
 
 			when SubtractionCalculate =>
 				if (Excitation_S >= Inhibition_S) then
@@ -205,10 +240,9 @@ begin
 				end if;
 				TimeBetween2Events_S <= CurrentTimeStamp_S - PreviousTimeStamp_S; -- Delta T (time passed between 2 events)
 
-				
 			when MultiplyDT => 
-				TemporalVariable3 := Subtraction_S * TimeBetween2Events_S;
-				SubtractionTimesDT_S <= TemporalVariable3(31 downto 0); -- Integration
+				TemporalVariable4 := Subtraction_S * TimeBetween2Events_S;
+				SubtractionTimesDT_S <= TemporalVariable4(24 downto 0); -- Integration
 				PreviousTimeStamp_S <= CurrentTimeStamp_S; -- Reset previous timestamp to current timestamp 
 				
 			when VmembraneCalculate =>
@@ -235,7 +269,7 @@ begin
 	end if;
 end process Sequential;
 --------------------------------------------------------------------------------
-Combinational : process (State_DP, PDVSreq_ABI, CounterOVF_S, PSMack_ABI, arrayOfSubunits, PDVSdata_ADI, Subtraction_S, Threshold_SI) -- Combinational Process
+Combinational : process (State_DP, PDVSreq_ABI, CounterOVF_S, arrayOfSubunits, PDVSdata_ADI, Subtraction_S, Threshold_S) -- Combinational Process
 begin
 	-- Default
 	OMCFire_DO <= '0';
@@ -263,11 +297,17 @@ begin
 			State_DN <= ExcitationNormalise;
 
 		when ExcitationNormalise =>
-			State_DN <= InhibitionCalculate;
+			State_DN <= InhibitionCalculate1;
 
-		when InhibitionCalculate =>
+		when InhibitionCalculate1 =>
+			State_DN <= InhibitionCalculate2;
+			
+		when InhibitionCalculate2 =>
+			State_DN <= InhibitionSum;
+			
+		when InhibitionSum =>
 			State_DN <= InhibitionNormalise;
-
+			
 		when InhibitionNormalise =>
 			State_DN <= SubtractionCalculate;
 
@@ -278,7 +318,7 @@ begin
 			State_DN <= VmembraneCalculate;
 				
 		when VmembraneCalculate =>
-			if (Subtraction_S > Threshold_SI) then
+			if (Subtraction_S > Threshold_S) then
 				State_DN <= Fire;
 			else 
 				State_DN <= Acknowledge;

@@ -38,9 +38,9 @@ package ObjectMotionCellConfigRecords is
 		TimerLimit_S	 => to_unsigned(2, 8));
 
 	type tObjectMotionCellConfig is record -- Define type of variable
-		Threshold_S     : unsigned (31 downto 0);
-		DecayTime_S     : unsigned (31 downto 0);
-		TimerLimit_S    : unsigned (31 downto 0);
+		Threshold_S     : unsigned (24 downto 0);
+		DecayTime_S     : unsigned (24 downto 0);
+		TimerLimit_S    : unsigned (24 downto 0);
 	end record tObjectMotionCellConfig;
 
 	constant tObjectMotionCellConfigDefault : tObjectMotionCellConfig := ( -- Define default values
