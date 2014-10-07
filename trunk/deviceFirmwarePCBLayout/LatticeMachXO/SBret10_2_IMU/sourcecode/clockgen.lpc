@@ -12,12 +12,12 @@ VendorName=Lattice Semiconductor Corporation
 CoreType=LPM
 CoreStatus=Demo
 CoreName=PLL
-CoreRevision=5.2
+CoreRevision=5.6
 ModuleName=clockgen
 SourceFormat=VHDL
 ParameterFileVersion=1.0
-Date=08/26/2010
-Time=09:53:22
+Date=10/06/2014
+Time=19:04:15
 
 [Parameters]
 Verilog=0
@@ -30,20 +30,23 @@ IO=0
 Type=ehxpllb
 mode=normal
 IFrq=30
-U_OFrq=90
+U_OFrq=60
 U_KFrq=50
 OP_Tol=0.0
 OK_Tol=0.0
 Div=1
-Mult=3
-Post=8
+Mult=2
+Post=14
 SecD=2
 Phase=0
 Duty=4
 DelayControl=Static
 PllDly=0
 fb_mode=CLOCKTREE
-OFrq=90.000000
+OFrq=60.000000
 KFrq=
 EnCLKOS=0
 EnCLKOK=0
+
+[Command]
+cmd_line= -w -n clockgen -lang vhdl -synth synplify -arch mj5g00 -type pll -fin 30 -fclkop 60 -fclkop_tol 0.0 -delay_cntl STATIC -fdel 0 -fb_mode CLOCKTREE -noclkos
