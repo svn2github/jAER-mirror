@@ -113,11 +113,11 @@ architecture Behavioral of IMUStateMachine is
 	
 	-- I2C signals
 	signal I2CCountxDN, I2CCountxDP : std_logic_vector(2 downto 0); -- Counter for data to be latched into I2C Controller Register
-	constant i2c_ack_length : std_logic_vector(2 downto 0) := "111"; -- Maximum valid value for I2C Acknowledge: 7 (8 clock cycles)
-	constant i2c_kill_time : std_logic_vector(2 downto 0) := "100"; -- Maximum valid value for I2C Kill Time: 4 (5 clock cycles)
+	constant i2c_ack_length : std_logic_vector(2 downto 0) := "100"; -- Maximum valid value for I2C Acknowledge: 4 (5 clock cycles)
+	constant i2c_kill_time : std_logic_vector(2 downto 0) := "010"; -- Maximum valid value for I2C Kill Time: 2 (3 clock cycles)
 	signal I2CWaitCountxDN, I2CWaitCountxDP : std_logic_vector(14 downto 0); -- Counter for data to be latched from I2C Controller to IMU Register
-    constant i2c_wait_time_short : std_logic_vector(14 downto 0) := "010001100101000"; -- Clock cycles to wait: 3000 clock cycles at 90 MHz: 100000ns   010001100101000
-    constant i2c_wait_time_long	 : std_logic_vector(14 downto 0) := "100011001010000"; -- Clock cycles to wait: 6000 clock cycles at 90 MHz: 200000ns   100011001010000
+    constant i2c_wait_time_short : std_logic_vector(14 downto 0) := "001011101110000"; -- Clock cycles to wait: 6000 clock cycles at 60 MHz: 100000ns    001011101110000
+    constant i2c_wait_time_long	 : std_logic_vector(14 downto 0) := "010111011100000"; -- Clock cycles to wait: 12000 clock cycles at 60 MHz: 200000ns   010111011100000
 	constant i2c_wait_time_very_short : std_logic_vector(14 downto 0) := "000000000000010"; -- Clock cycles to wait: 2 - 000000000000010
 	-- I2C mux outputs
 	signal I2CAddrxD : std_logic_vector(2 downto 0); -- I2C Controller Address register

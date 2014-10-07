@@ -33,10 +33,10 @@ end earlyPaketTimer;
 architecture Behavioral of earlyPaketTimer is
 
   -- present and next state
-  signal CountxDN, CountxDP : std_logic_vector(17 downto 0); -- 18 bit counter that counts at 90MHz, so it times out after 
+  signal CountxDN, CountxDP : std_logic_vector(16 downto 0); -- 17 bit counter that counts at 60MHz, so it times out after 
 
-  -- clock freq is 90MHz, so to get 1ms early packet timer, we need to count to 1e-3*90e6=90e3=9e4.  We settle for 2^17=131k which give us early packet timer
-  -- with timeout of 131k/90e6=1.456e-3s=1.456ms. Therefore we use 18 bit timer and look for overflow on bit 17.
+  -- clock freq is 60MHz, so to get 1ms early packet timer, we need to count to 1e-3*60e6=60e3=6e4.  We settle for 2^16=65k which give us early packet timer
+  -- with timeout of 65k/60e6=1.0833e-3s=1.0833ms. Therefore we use 17 bit timer and look for overflow on bit 16 (highest bit).
   
 begin
 
@@ -47,7 +47,7 @@ begin
 
     if (ClearxSI = '1') then      -- a paket has been sent, so clear counter
       CountxDN        <= (others => '0');
-    elsif (CountxDP(17) = '0') then
+    elsif (CountxDP(16) = '0') then
       CountxDN        <= CountxDP + 1;
     else                                -- stay in this state until cleared
       CountxDN        <= CountxDP;

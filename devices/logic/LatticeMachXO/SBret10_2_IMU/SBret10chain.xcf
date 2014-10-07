@@ -19,9 +19,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>E:/LatticeMachXO/SBret10_2_IMU/SBret10/SBret10_SBret10.jed</File>
-			<FileTime>10/03/14 09:07:57</FileTime>
-			<JedecChecksum>0x8F40</JedecChecksum>
+			<File>E:/JAER_SVN/devices/logic/LatticeMachXO/SBret10_2_IMU/SBret10/SBret10_SBret10.jed</File>
+			<FileTime>10/07/14 16:51:40</FileTime>
+			<JedecChecksum>0x1190</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
