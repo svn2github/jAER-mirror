@@ -48,7 +48,7 @@ entity TopLevel is
 		APSChipColSRClock_SO       : out   std_logic;
 		APSChipColSRIn_SO          : out   std_logic;
 		APSChipColMode_DO          : out   std_logic_vector(1 downto 0);
-		APSChipTXGate_SO           : out   std_logic;
+		APSChipTXGate_SBO          : out   std_logic;
 
 		APSADCData_DI              : in    std_logic_vector(ADC_BUS_WIDTH - 1 downto 0);
 		APSADCOverflow_SI          : in    std_logic;
@@ -329,7 +329,7 @@ begin
 			APSChipColSRClock_SO   => APSChipColSRClock_SO,
 			APSChipColSRIn_SO      => APSChipColSRIn_SO,
 			APSChipColMode_DO      => APSChipColMode_DO,
-			APSChipTXGate_SO       => APSChipTXGate_SO,
+			APSChipTXGate_SBO      => APSChipTXGate_SBO,
 			APSADCData_DI          => APSADCData_DI,
 			APSADCOverflow_SI      => APSADCOverflow_SI,
 			APSADCClock_CO         => APSADCClock_CO,

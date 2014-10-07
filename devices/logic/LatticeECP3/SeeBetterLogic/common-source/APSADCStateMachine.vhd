@@ -22,7 +22,7 @@ entity APSADCStateMachine is
 		APSChipColSRClock_SO   : out std_logic;
 		APSChipColSRIn_SO      : out std_logic;
 		APSChipColMode_DO      : out std_logic_vector(1 downto 0);
-		APSChipTXGate_SO       : out std_logic;
+		APSChipTXGate_SBO      : out std_logic;
 
 		APSADCData_DI          : in  std_logic_vector(ADC_BUS_WIDTH - 1 downto 0);
 		APSADCOverflow_SI      : in  std_logic;
@@ -48,7 +48,7 @@ begin
 	APSChipColSRClock_SO <= '0';
 	APSChipColSRIn_SO    <= '0';
 	APSChipColMode_DO    <= "00";
-	APSChipTXGate_SO     <= '0';
+	APSChipTXGate_SBO    <= '1';
 
 	APSADCClock_CO         <= '0';
 	APSADCOutputEnable_SBO <= '1';
