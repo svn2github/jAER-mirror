@@ -66,6 +66,7 @@ begin
 		PDVSreq_ABI 	=>	PDVSreq_AB,
 		PDVSack_ABO 	=>	PDVSack_AB,
 		PDVSdata_ADI	=>	PDVSdata_AD,
+		PSMreq_ABO		=>  PSMreq_AB,
 		PSMack_ABI 		=>	PSMack_AB,
 		OMCfire_DO	 	=>	OMCfire_D,
 		Threshold_SI	=>	Threshold_S,

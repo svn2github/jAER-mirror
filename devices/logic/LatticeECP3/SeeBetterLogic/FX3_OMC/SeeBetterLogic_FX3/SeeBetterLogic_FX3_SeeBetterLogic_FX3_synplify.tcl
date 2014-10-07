@@ -96,6 +96,8 @@ add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic
 add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCell_tb.vhd}
 add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCellConfigRecords.vhd}
 add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCellSPIConfig.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3ConfigRecords.vhd}
+add_file -vhdl -lib "work" {E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3SPIConfig.vhd}
 
 #-- top module name
 set_option -top_module TopLevel

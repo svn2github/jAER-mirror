@@ -147,6 +147,8 @@ begin
 		PreviousTimeStamp_S <= (others => '0'); -- Assign first timestamp
 		Excitation_S <= (others => '0');
 		Inhibition_S <= (others => '0');
+		Inhibition1_S <= (others => '0');
+		Inhibition2_S <= (others => '0');
 		TimeBetween2Events_S <= (others => '0');
 		MembranePotential_S <= (others => '0');
 		Subtraction_S <= (others => '0');
@@ -203,34 +205,36 @@ begin
 			when InhibitionCalculate1 =>
 				TemporalVariable2 := (others => '0');
 				for i in 0 to 7 loop
-					for j in 0 to 7 loop
-						if ((i >= 8) and (i <= 9) and (j >= 8) and (j <= 9)) then
+					for j in 0 to 15 loop
+						if ((i >= 7) and (i <= 8) and (j >= 7) and (j <= 8)) then
 							null;
 						else
 							TemporalVariable2 := TemporalVariable2 + ("000000000" & arrayOfSubunits(i,j)); -- Find the left half of Inhibition
 						end if;
 					end loop; -- j
 				end loop; -- i
-				Inhibition1_S <= (TemporalVariable2 + 4);
+				Inhibition1_S <= (TemporalVariable2 + 2);
 				
 			when InhibitionCalculate2 =>
 				TemporalVariable3 := (others => '0');
 				for i in 8 to 15 loop
-					for j in 8 to 15 loop
-						if ((i >= 8) and (i <= 9) and (j >= 8) and (j <= 9)) then
+					for j in 0 to 15 loop
+						if ((i >= 7) and (i <= 8) and (j >= 7) and (j <= 8)) then
 							null;
 						else
 							TemporalVariable3 := TemporalVariable3 + ("000000000" & arrayOfSubunits(i,j)); -- Find the right half of Inhibition
 						end if;
 					end loop; -- j
 				end loop; -- i
-				Inhibition2_S <= TemporalVariable3;
+				Inhibition2_S <= (TemporalVariable3 + 2);
 				
 			when InhibitionSum =>
 				Inhibition_S <= Inhibition1_S + Inhibition2_S; -- Find the total Inhibition
 
 			when InhibitionNormalise =>
 				Inhibition_S <= ("00000000" & Inhibition_S(24 downto 8)) - 1; -- Divide by 256 to normalise approximately (shift by 6 bits)
+				Inhibition1_S <= (others => '0');
+				Inhibition2_S <= (others => '0');
 
 			when SubtractionCalculate =>
 				if (Excitation_S >= Inhibition_S) then

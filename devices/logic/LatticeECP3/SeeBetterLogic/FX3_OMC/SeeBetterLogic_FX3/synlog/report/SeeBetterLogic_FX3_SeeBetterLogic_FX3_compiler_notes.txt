@@ -1,4 +1,111 @@
 @N|Running in 64-bit mode
 @N: CD720 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std.vhd":146:18:146:21|Setting time resolution to ns
-@N:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":14:7:14:14|Top entity is set to TopLevel.
+@N:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":15:7:15:14|Top entity is set to TopLevel.
+@N: CD231 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std1164.vhd":913:16:913:17|Using onehot encoding for type mvl9plus ('U'="1000000000")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":15:7:15:14|Synthesizing work.toplevel.structural 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\SPIConfig.vhd":6:7:6:15|Synthesizing work.spiconfig.behavioral 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\SPIConfig.vhd":28:13:28:14|Using onehot encoding for type tstate (stidle="1000")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":20:7:20:23|Synthesizing work.continuouscounter.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ShiftRegister.vhd":22:7:22:19|Synthesizing work.shiftregister.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ShiftRegister.vhd":22:7:22:19|Synthesizing work.shiftregister.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\EdgeDetector.vhd":8:7:8:18|Synthesizing work.edgedetector.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerSPIConfig.vhd":6:7:6:25|Synthesizing work.exttriggerspiconfig.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerStateMachine.vhd":11:7:11:28|Synthesizing work.exttriggerstatemachine.behavioral 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerStateMachine.vhd":37:13:37:14|Using onehot encoding for type tstate (stidle="1000")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\SimpleRegister.vhd":4:7:4:20|Synthesizing work.simpleregister.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseGenerator.vhd":10:7:10:20|Synthesizing work.pulsegenerator.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseDetector.vhd":10:7:10:19|Synthesizing work.pulsedetector.behavioral 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseDetector.vhd":26:13:26:14|Using onehot encoding for type tstate (stwaitforpulse="100")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd":6:7:6:10|Synthesizing work.fifo.structural 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd":27:13:27:14|Using onehot encoding for type tstate (stinit="100")
+@N: CD630 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd":584:12:584:19|Synthesizing work.pmi_fifo_work_toplevel_structural_0.syn_black_box 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUSPIConfig.vhd":6:7:6:18|Synthesizing work.imuspiconfig.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd":12:7:12:21|Synthesizing work.imustatemachine.behavioral 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd":33:13:33:14|Using onehot encoding for type tstate (stidle="10000000000000000000000000000")
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd":41:16:41:17|Using onehot encoding for type ti2cstate (sti2cidle="1000000000")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ChangeDetector.vhd":9:7:9:20|Synthesizing work.changedetector.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\BufferClear.vhd":13:7:13:17|Synthesizing work.bufferclear.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ChangeDetector.vhd":9:7:9:20|Synthesizing work.changedetector.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ChangeDetector.vhd":9:7:9:20|Synthesizing work.changedetector.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ChangeDetector.vhd":9:7:9:20|Synthesizing work.changedetector.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":20:7:20:23|Synthesizing work.continuouscounter.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":20:7:20:23|Synthesizing work.continuouscounter.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":20:7:20:23|Synthesizing work.continuouscounter.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseGenerator.vhd":10:7:10:20|Synthesizing work.pulsegenerator.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ShiftRegister.vhd":22:7:22:19|Synthesizing work.shiftregister.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ShiftRegister.vhd":22:7:22:19|Synthesizing work.shiftregister.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd":6:7:6:10|Synthesizing work.fifo.structural 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd":27:13:27:14|Using onehot encoding for type tstate (stinit="100")
+@N: CD630 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd":584:12:584:19|Synthesizing work.pmi_fifo_work_toplevel_structural_1.syn_black_box 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCSPIConfig.vhd":6:7:6:21|Synthesizing work.apsadcspiconfig.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCStateMachine.vhd":8:7:8:24|Synthesizing work.apsadcstatemachine.behavioral 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCStateMachine.vhd":40:13:40:14|Using onehot encoding for type tstate (stidle="10")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd":6:7:6:10|Synthesizing work.fifo.structural 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd":27:13:27:14|Using onehot encoding for type tstate (stinit="100")
+@N: CD630 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd":584:12:584:19|Synthesizing work.pmi_fifo_work_toplevel_structural_2.syn_black_box 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MISCAERStateMachine.vhd":8:7:8:25|Synthesizing work.miscaerstatemachine.behavioral 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MISCAERStateMachine.vhd":33:12:33:13|Using onehot encoding for type state (stidle="10000000")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd":6:7:6:10|Synthesizing work.fifo.structural 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd":27:13:27:14|Using onehot encoding for type tstate (stinit="100")
+@N: CD630 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd":584:12:584:19|Synthesizing work.pmi_fifo_work_toplevel_structural_3.syn_black_box 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERSPIConfig.vhd":6:7:6:21|Synthesizing work.dvsaerspiconfig.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERStateMachine.vhd":8:7:8:24|Synthesizing work.dvsaerstatemachine.behavioral 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERStateMachine.vhd":32:13:32:14|Using onehot encoding for type tstate (stidle="100000")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":20:7:20:23|Synthesizing work.continuouscounter.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\FifoMerger.vhd":9:7:9:16|Synthesizing work.fifomerger.behavioral 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\FifoMerger.vhd":32:13:32:14|Using onehot encoding for type tstate (idle="100")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerSPIConfig.vhd":6:7:6:26|Synthesizing work.multiplexerspiconfig.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerStateMachine.vhd":8:7:8:29|Synthesizing work.multiplexerstatemachine.behavioral 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerStateMachine.vhd":45:13:45:14|Using onehot encoding for type tstate (stidle="1000000000000")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ChangeDetector.vhd":9:7:9:20|Synthesizing work.changedetector.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":20:7:20:23|Synthesizing work.continuouscounter.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseDetector.vhd":10:7:10:19|Synthesizing work.pulsedetector.behavioral 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseDetector.vhd":26:13:26:14|Using onehot encoding for type tstate (stwaitforpulse="100")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\TimestampGenerator.vhd":9:7:9:24|Synthesizing work.timestampgenerator.structural 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":20:7:20:23|Synthesizing work.continuouscounter.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFODualClock.vhd":6:7:6:19|Synthesizing work.fifodualclock.structural 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFODualClock.vhd":28:13:28:14|Using onehot encoding for type tstate (stinit="100")
+@N: CD630 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd":551:12:551:22|Synthesizing work.pmi_fifo_dc_work_toplevel_structural_0.syn_black_box 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3SPIConfig.vhd":6:7:6:18|Synthesizing work.fx3spiconfig.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd":11:7:11:21|Synthesizing work.fx3statemachine.behavioral 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd":38:13:38:14|Using onehot encoding for type tstate (stidle0="100000000000000000")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":20:7:20:23|Synthesizing work.continuouscounter.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":20:7:20:23|Synthesizing work.continuouscounter.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\PLL.vhd":5:7:5:9|Synthesizing work.pll.structural 
+@N: CD630 :"C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd":1143:12:1143:18|Synthesizing work.pmi_pll.syn_black_box 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\LogicClockSynchronizer.vhd":4:7:4:28|Synthesizing work.logicclocksynchronizer.structural 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\DFFSynchronizer.vhd":6:7:6:21|Synthesizing work.dffsynchronizer.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\DFFSynchronizer.vhd":6:7:6:21|Synthesizing work.dffsynchronizer.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ResetSynchronizer.vhd":10:7:10:23|Synthesizing work.resetsynchronizer.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3USBClockSynchronizer.vhd":4:7:4:29|Synthesizing work.fx3usbclocksynchronizer.structural 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CAVIAR2WSAER.vhd":24:7:24:18|Synthesizing work.caviar2wsaer.structural 
+@N: CD233 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CAVIAR2WSAER.vhd":41:12:41:13|Using sequential encoding for type tsm
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCellSPIConfig.vhd":27:7:27:31|Synthesizing work.objectmotioncellspiconfig.behavioural 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":27:7:27:22|Synthesizing work.objectmotioncell.behavioural 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":56:13:56:14|Using onehot encoding for type tst (idle="10000000000000")
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\MullerCelement.vhd":26:7:26:20|Synthesizing work.mullercelement.behavioural 
+@N: CD364 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\MullerCelement.vhd":46:16:46:20|Removed redundant assignment
+@N: CD364 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\MullerCelement.vhd":47:16:47:20|Removed redundant assignment
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":20:7:20:23|Synthesizing work.continuouscounter.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd":20:7:20:23|Synthesizing work.continuouscounter.behavioral 
+@N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd":24:7:24:18|Synthesizing work.wsaer2caviar.structural 
+@N: CD231 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd":45:12:45:13|Using onehot encoding for type tst (idle="10000000")
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd":51:3:51:4|Trying to extract state machine for register cs
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":143:1:143:2|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CAVIAR2WSAER.vhd":48:3:48:4|Trying to extract state machine for register cs
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd":294:2:294:3|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFODualClock.vhd":131:2:131:3|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseDetector.vhd":89:2:89:3|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerStateMachine.vhd":369:2:369:3|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERStateMachine.vhd":172:2:172:3|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd":121:2:121:3|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MISCAERStateMachine.vhd":201:2:201:3|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd":121:2:121:3|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd":121:2:121:3|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd":805:2:805:3|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd":132:2:132:3|Trying to extract state machine for register I2CState_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd":121:2:121:3|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseDetector.vhd":89:2:89:3|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerStateMachine.vhd":104:2:104:3|Trying to extract state machine for register State_DP
+@N: CL201 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\SPIConfig.vhd":227:2:227:3|Trying to extract state machine for register State_DP
 

@@ -79,6 +79,18 @@ prj_project close
 
 
 
+<A name="pn141007100926"></A><B><U><big>pn141007100926</big></U></B>
+#Start recording tcl command: 10/7/2014 09:41:40
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/RetinaFilter.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/PRCell.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/OBTConfigRecords.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/ObjectTracker.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/ExtRAMController.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/CMCell.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/BGF_OBT_top.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/AERdata.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/AERArbriter.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/VelocityCell.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/TrackCell.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/single_ram.vhd"
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/FifoSplitter.vhd"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_src add "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/common-source/fx3/FX3ConfigRecords.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/common-source/fx3/FX3SPIConfig.vhd"
+#Stop recording: 10/7/2014 10:09:26
+
+
+
 <BR>
 <BR>
 <BR>

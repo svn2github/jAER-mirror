@@ -19,8 +19,8 @@
             <Task name="PARTrace" build_result="0" update_result="2" update_time="1412602516"/>
             <Task name="IOTiming" build_result="0" update_result="2" update_time="1412602545"/>
         </Milestone>
-        <Milestone name="Synthesis" build_result="0" build_time="1412667944">
-            <Task name="Synplify_Synthesis" build_result="0" update_result="2" update_time="1412667944"/>
+        <Milestone name="Synthesis" build_result="0" build_time="1412669947">
+            <Task name="Synplify_Synthesis" build_result="0" update_result="2" update_time="1412669947"/>
         </Milestone>
         <Milestone name="TOOL_Report" build_result="0" build_time="0">
             <Task name="HDLE" build_result="2" update_result="0" update_time="1412669066"/>
