@@ -19,11 +19,11 @@
             <Task name="PARTrace" build_result="0" update_result="2" update_time="1412602516"/>
             <Task name="IOTiming" build_result="0" update_result="2" update_time="1412602545"/>
         </Milestone>
-        <Milestone name="Synthesis" build_result="0" build_time="1412669947">
-            <Task name="Synplify_Synthesis" build_result="0" update_result="2" update_time="1412669947"/>
+        <Milestone name="Synthesis" build_result="0" build_time="1412676576">
+            <Task name="Synplify_Synthesis" build_result="0" update_result="2" update_time="1412676576"/>
         </Milestone>
         <Milestone name="TOOL_Report" build_result="0" build_time="0">
-            <Task name="HDLE" build_result="2" update_result="0" update_time="1412669066"/>
+            <Task name="HDLE" build_result="2" update_result="0" update_time="1412672653"/>
             <Task name="BKM" build_result="0" update_result="2" update_time="0"/>
             <Task name="SSO" build_result="0" update_result="2" update_time="0"/>
             <Task name="PIODRC" build_result="0" update_result="2" update_time="0"/>

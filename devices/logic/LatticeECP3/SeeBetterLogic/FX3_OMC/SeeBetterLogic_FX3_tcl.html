@@ -91,6 +91,18 @@ prj_src add "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/common-source/
 
 
 
+<A name="pn141007113406"></A><B><U><big>pn141007113406</big></U></B>
+#Start recording tcl command: 10/7/2014 10:11:46
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+prj_src add "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/OMC/OMC.spf"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+#Stop recording: 10/7/2014 11:34:06
+
+
+
 <BR>
 <BR>
 <BR>

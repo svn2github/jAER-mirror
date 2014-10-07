@@ -6,7 +6,7 @@
 #Implementation: SeeBetterLogic_FX3
 
 $ Start of Compile
-#Tue Oct 07 11:09:37 2014
+#Tue Oct 07 13:14:48 2014
 
 Synopsys VHDL Compiler, version comp201309rcp1, Build 147R, built Apr 16 2014
 @N|Running in 64-bit mode
@@ -37,8 +37,9 @@ File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-sour
 File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ChipBiasSPIConfig.vhd changed - recompiling
 File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell_tb.vhd changed - recompiling
 VHDL syntax check successful!
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell_tb.vhd changed - recompiling
+
+Compiler output is up to date.  No re-compile necessary
+
 @N: CD231 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std1164.vhd":913:16:913:17|Using onehot encoding for type mvl9plus ('U'="1000000000")
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":15:7:15:14|Synthesizing work.toplevel.structural 
 @W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":148:8:148:19|Signal caviaro_data is undriven 
@@ -658,77 +659,17 @@ State machine has 4 reachable states with original encodings of:
 @W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":20:2:20:24|Input SPIAlternativeSelect_SI is unused
 @END
 
-At c_vhdl Exit (Real Time elapsed 0h:00m:05s; CPU Time elapsed 0h:00m:04s; Memory used current: 114MB peak: 136MB)
+At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 78MB peak: 79MB)
 
-Process took 0h:00m:05s realtime, 0h:00m:04s cputime
-# Tue Oct 07 11:09:42 2014
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Oct 07 13:14:49 2014
 
 ###########################################################]
+
+@A: premap output is up to date. No run necessary.
+To force a re-synthesis, select [Resynthesize All] in menu [Run].
+Click link to view previous log file.
 Pre-mapping Report
-
-Synopsys Lattice Technology Pre-mapping, Version maplat, Build 908R, Built Apr 16 2014 10:10:17
-Copyright (C) 1994-2013, Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
-Product Version I-2013.09L-SP1-1 
-
-Mapper Startup Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 100MB)
-
-@L: E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\SeeBetterLogic_FX3\SeeBetterLogic_FX3_SeeBetterLogic_FX3_scck.rpt 
-Printing clock  summary report in "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\SeeBetterLogic_FX3\SeeBetterLogic_FX3_SeeBetterLogic_FX3_scck.rpt" file 
-@N: MF248 |Running in 64-bit mode.
-@N: MF666 |Clock conversion enabled 
-
-Design Input Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 113MB peak: 116MB)
-
-
-Mapper Initialization Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 113MB peak: 116MB)
-
-
-Start loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 124MB peak: 125MB)
-
-
-Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 124MB peak: 127MB)
-
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\caviar2wsaer.vhd":48:3:48:4|Removing sequential instance alex[1:0] of view:PrimLib.dffr(prim) in hierarchy view:work.CAVIAR2WSAER(structural) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\caviar2wsaer.vhd":48:3:48:4|Removing sequential instance WSAER_data[17:0] of view:PrimLib.dffre(prim) in hierarchy view:work.CAVIAR2WSAER(structural) because there are no references to its outputs 
-@N: BN115 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\logicclocksynchronizer.vhd":83:28:83:47|Removing instance syncSyncOutSwitch of view:work.DFFSynchronizerZ0_syncSyncOutSwitch(behavioral) because there are no references to its outputs 
-@N: BN115 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\logicclocksynchronizer.vhd":90:26:90:45|Removing instance syncSyncInClock of view:work.DFFSynchronizerZ0_syncSyncInClock(behavioral) because there are no references to its outputs 
-@N: BN115 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\logicclocksynchronizer.vhd":97:27:97:46|Removing instance syncSyncInSwitch of view:work.DFFSynchronizerZ0_syncSyncInSwitch(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\dvsaerstatemachine.vhd":172:2:172:3|Removing sequential instance DVSAERAck_SBO of view:PrimLib.dffs(prim) in hierarchy view:work.DVSAERStateMachine(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\miscaerstatemachine.vhd":201:2:201:3|Removing sequential instance MISCAERAck_SBO of view:PrimLib.dffs(prim) in hierarchy view:work.MISCAERStateMachine(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\ext\fifo.vhd":121:2:121:3|Removing sequential instance FifoControl_SO\.ReadSide\.AlmostEmpty_S of view:PrimLib.dffs(prim) in hierarchy view:work.FIFO_15_16_0_4_16_14_EBR_dvsAerFifo(structural) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\ext\fifo.vhd":121:2:121:3|Removing sequential instance FifoControl_SO\.ReadSide\.AlmostEmpty_S of view:PrimLib.dffs(prim) in hierarchy view:work.FIFO_15_16_0_4_16_14_EBR_miscAerFifo(structural) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalSyncFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncOutSwitch(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalSyncFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInClock(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalSyncFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInSwitch(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalDemetFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncOutSwitch(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalDemetFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInClock(behavioral) because there are no references to its outputs 
-@N: BN362 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\dffsynchronizer.vhd":28:2:28:3|Removing sequential instance SyncSignalDemetFF_S[0] of view:PrimLib.dffr(prim) in hierarchy view:work.DFFSynchronizerZ0_syncSyncInSwitch(behavioral) because there are no references to its outputs 
-@W: MT462 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\mullercelement.vhd":44:1:44:4|Net OMCellSM.AcknowledgeCElement.un1_ain appears to be an unidentified clock source. Assuming default frequency. 
-syn_allowed_resources : blockrams=38  set on top level netlist TopLevel
-
-
-Clock Summary
-**************
-
-Start                              Requested      Requested     Clock        Clock                
-Clock                              Frequency      Period        Type         Group                
---------------------------------------------------------------------------------------------------
-PLL|OutClock_CO_inferred_clock     59.2 MHz       16.893        inferred     Autoconstr_clkgroup_0
-System                             1251.7 MHz     0.799         system       system_clkgroup      
-TopLevel|USBClock_CI               243.6 MHz      4.104         inferred     Autoconstr_clkgroup_1
-==================================================================================================
-
-@W: MT531 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\mullercelement.vhd":44:1:44:4|Found signal identified as System clock which controls 1 sequential elements including OMCellSM.AcknowledgeCElement.Cout.  Using this clock, which has no specified timing constraint, can prevent conversion of gated or generated clocks and can adversely impact design performance. 
-@W: MT529 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\private-source\wsaer2caviar2.vhd":51:3:51:4|Found inferred clock PLL|OutClock_CO_inferred_clock which controls 5611 sequential elements including BWSAER2CAVIAR.CAVIAR_data[16:0]. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
-@W: MT529 :"e:\jaer_svn\devices\logic\latticeecp3\seebetterlogic\fx3_omc\..\common-source\support\resetsynchronizer.vhd":26:2:26:3|Found inferred clock TopLevel|USBClock_CI which controls 107 sequential elements including syncInputsToUSBClock.syncReset.SyncSignalDemetFF_S. This clock has no specified timing constraint which may prevent conversion of gated or generated clocks and may adversely impact design performance. 
-
-Pre-mapping successful!
-
-At Mapper Exit (Real Time elapsed 0h:00m:03s; CPU Time elapsed 0h:00m:03s; Memory used current: 99MB peak: 167MB)
-
-Process took 0h:00m:03s realtime, 0h:00m:03s cputime
-# Tue Oct 07 11:09:47 2014
-
-###########################################################]
+@R:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\SeeBetterLogic_FX3\synlog\SeeBetterLogic_FX3_SeeBetterLogic_FX3_premap.srr"
 Map & Optimize Report
 
