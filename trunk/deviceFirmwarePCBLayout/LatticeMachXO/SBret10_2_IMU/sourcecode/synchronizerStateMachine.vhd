@@ -270,7 +270,7 @@ begin  -- Behavioral
 	  ResetTimestampxSBP <= ResetTimestampxSBN;
     end if;
   end process p_mem;
-  ResetTimestampxSBO <= ResetTimestampxSBN;
+  ResetTimestampxSBO <= ResetTimestampxSBP;
   
   -- purpose: synchronize asynchronous inputs
   -- type   : sequential
