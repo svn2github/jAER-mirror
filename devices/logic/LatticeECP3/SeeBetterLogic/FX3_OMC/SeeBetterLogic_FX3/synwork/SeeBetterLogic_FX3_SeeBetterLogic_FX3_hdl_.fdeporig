@@ -21,7 +21,7 @@
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\ResetSynchronizer.vhd":1408697496
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\SimpleRegister.vhd":1408697496
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\BufferClear.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\ContinuousCounter.vhd":1408697496
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\ContinuousCounter.vhd":1412604352
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\ShiftRegister.vhd":1408697496
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\ShiftRegisterModes.vhd":1406109072
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\EdgeDetector.vhd":1408697496
@@ -31,7 +31,7 @@
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\private-source\\Settings.vhd":1411651134
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\private-source\\LogicClockSynchronizer.vhd":1411651134
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\fx3\\FX3USBClockSynchronizer.vhd":1408697495
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\fx3\\FX3StateMachine.vhd":1411651135
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\fx3\\FX3StateMachine.vhd":1412604351
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\MultiplexerStateMachine.vhd":1411651135
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\MultiplexerConfigRecords.vhd":1408697496
 #CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\MultiplexerSPIConfig.vhd":1408697495

@@ -1,2 +1,6 @@
-@E: CD297 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd":193:6:193:22|Width mismatch, location has width 25, value 26
+@E: CD255 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd":32:46:32:46|No identifier "tfx3config" in scope
+@E: CD255 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd":54:95:54:95|No identifier "tfx3config" in scope
+@E: CD415 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd":75:33:75:33|Expecting keyword is
+@E: CD632 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd":89:33:89:33|duplicate entity name work
+@E|Parse errors encountered - exiting
 

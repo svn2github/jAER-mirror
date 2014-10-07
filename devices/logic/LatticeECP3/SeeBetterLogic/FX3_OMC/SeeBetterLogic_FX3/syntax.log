@@ -4,7 +4,7 @@
 #Hostname: LATTICEDVM
 
 $ Start of Compile
-#Mon Oct 06 15:27:42 2014
+#Tue Oct 07 09:45:40 2014
 
 Synopsys VHDL Compiler, version comp201309rcp1, Build 147R, built Apr 16 2014
 @N|Running in 64-bit mode
@@ -12,10 +12,55 @@ Copyright (C) 1994-2013 Synopsys, Inc. This software and the associated document
 
 @N: CD720 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std.vhd":146:18:146:21|Setting time resolution to ns
 @N:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd":14:7:14:14|Top entity is set to TopLevel.
-
-At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 78MB peak: 79MB)
-
+@W: CD643 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3StateMachine.vhd":9:29:9:29|Ignoring use clause - fx3configrecords not found ...
+@E: CD255 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3StateMachine.vhd":32:46:32:46|No identifier "tfx3config" in scope
+@E: CD255 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3StateMachine.vhd":54:95:54:95|No identifier "tfx3config" in scope
+@E: CD415 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3StateMachine.vhd":75:33:75:33|Expecting keyword is
+@E: CD632 :"E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3StateMachine.vhd":89:33:89:33|duplicate entity name work
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/fx3/FX3StateMachine.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/TimestampGenerator.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/MultiplexerStateMachine.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/MultiplexerSPIConfig.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/DVSAERStateMachine.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/DVSAERSPIConfig.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/APSADCStateMachine.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/APSADCSPIConfig.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/IMUStateMachine.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/IMUSPIConfig.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ExtTriggerSPIConfig.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ExtTriggerStateMachine.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/SPIConfig.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/MISCAERStateMachine.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/support/FifoMerger.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCell.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCellSPIConfig.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/TopLevel.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ChipBiasStateMachine.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/../common-source/ChipBiasSPIConfig.vhd
+@END
+4 errors parsing file E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/ObjectMotionCell_tb.vhd
+@END
+@E|Parse errors encountered - exiting
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Mon Oct 06 15:27:43 2014
+# Tue Oct 07 09:45:41 2014
 
 ###########################################################]

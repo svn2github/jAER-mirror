@@ -14,6 +14,71 @@ prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/S
 
 
 
+<A name="pn141006163122"></A><B><U><big>pn141006163122</big></U></B>
+#Start recording tcl command: 10/6/2014 10:17:03
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+prj_run PAR -impl SeeBetterLogic_FX3 -task IOTiming
+prj_dev set -part LFE3-17EA-7LFTN256I
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_src exclude "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/BGF_OBT_top.vhd"
+prj_src exclude "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/CMCell.vhd"
+prj_src exclude "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/ObjectTracker.vhd"
+prj_src exclude "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/ExtRAMController.vhd"
+prj_src exclude "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/PRCell.vhd"
+prj_src exclude "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/RetinaFilter.vhd"
+prj_src exclude "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/OBTConfigRecords.vhd"
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_src exclude "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/TrackCell.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/VelocityCell.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/AERArbriter.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/AERdata.vhd"
+prj_src exclude "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/single_ram.vhd"
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_run Map -impl SeeBetterLogic_FX3
+prj_dev set -part LFE3-17EA-7FTN256I
+prj_run Map -impl SeeBetterLogic_FX3 -task MapTrace
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+#Stop recording: 10/6/2014 16:31:22
+
+
+
+<A name="pn141007092937"></A><B><U><big>pn141007092937</big></U></B>
+#Start recording tcl command: 10/7/2014 09:28:05
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/ObjectTracker.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/OBTConfigRecords.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/PRCell.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/RetinaFilter.vhd"
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/CMCell.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/ExtRAMController.vhd"
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/AERArbriter.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/AERdata.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/BGF_OBT_top.vhd"
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/single_ram.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/TrackCell.vhd" "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/private-source/VelocityCell.vhd"
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+#Stop recording: 10/7/2014 09:29:37
+
+
+
+<A name="pn141007094100"></A><B><U><big>pn141007094100</big></U></B>
+#Start recording tcl command: 10/7/2014 09:29:48
+#Project Location: E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC; Project name: SeeBetterLogic_FX3
+prj_project open "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/FX3_OMC/SeeBetterLogic_FX3.ldf"
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_run Export -impl SeeBetterLogic_FX3 -task Bitgen
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_src add "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/common-source/fx3/FX3ConfigRecords.vhd"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_src exclude "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/common-source/fx3/FX3ConfigRecords.vhd"
+prj_src remove "E:/JAER_SVN/devices/logic/LatticeECP3/SeeBetterLogic/common-source/fx3/FX3ConfigRecords.vhd"
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_run Synthesis -impl SeeBetterLogic_FX3 -task Synplify_Synthesis
+prj_project close
+#Stop recording: 10/7/2014 09:41:00
+
+
+
 <BR>
 <BR>
 <BR>
