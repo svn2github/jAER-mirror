@@ -1,6 +1,0 @@
-CKID0001:@|S:uClockGen.PLLCInst_0@|E:AERREQxSB@|F:@syn_sample_clock_path==CKID0001@|M:ClockId0001
-CKID0002:@|S:ADCStateMachine_1.StateRowxDP[5]@|E:ADCStateMachine_1.StartRowxSN@|F:@syn_sample_clock_path==CKID0002@|M:ClockId0002
-CKID0003:@|S:ADCStateMachine_1.StateColxDP[11]@|E:ADCStateMachine_1.NoBxS@|F:@syn_sample_clock_path1==CKID0003@|M:ClockId0003
-CKID0004:@|S:IfClockxCI@|E:ADCStateMachine_1.StateRowxDP[6]@|F:@syn_sample_clock_path2==CKID0004@|M:ClockId0004
-CKID0005:@|S:PC1xSIO@|E:shiftRegister_1.StatexD[127]@|F:@syn_sample_clock_path==CKID0005@|M:ClockId0005
-CKID0006:@|S:PC2xSIO@|E:shiftRegister_1.DataOutxDO[0]@|F:@syn_sample_clock_path==CKID0006@|M:ClockId0006
