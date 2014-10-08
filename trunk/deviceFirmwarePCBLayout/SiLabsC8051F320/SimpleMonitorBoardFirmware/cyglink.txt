@@ -1,2 +1,0 @@
-C:\USBAER\SimpleMonitorUSBXPress\Device\USB_API.LIB,
-C:\USBAER\SimpleMonitorUSBXPress\Device\USB_Polling_Main.obj  TO C:\USBAER\SimpleMonitorUSBXPress\Device\USBAEMon RS(256) PL(68) PW(78) 
