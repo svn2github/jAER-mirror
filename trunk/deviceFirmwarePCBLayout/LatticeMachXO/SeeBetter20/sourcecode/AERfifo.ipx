@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<DiamondModule name="AERfifo" module="FIFO_DC" VendorName="Lattice Semiconductor Corporation" generator="IPexpress" date="2010 11 16 17:05:25.875" version="" type="Module" source_format="VHDL">
-  <Package>
-		<File name="AERfifo.lpc" type="lpc" modified="2010 11 16 17:05:21.468"/>
-		<File name="AERfifo.vhd" type="top_level_vhdl" modified="2010 11 16 17:05:21.687"/>
-		<File name="AERfifo_tmpl.vhd" type="template_vhdl" modified="2010 11 16 17:05:21.687"/>
-		<File name="tb_AERfifo_tmpl.vhd" type="testbench_vhdl" modified="2010 11 16 17:05:21.781"/>
-  </Package>
-</DiamondModule>
