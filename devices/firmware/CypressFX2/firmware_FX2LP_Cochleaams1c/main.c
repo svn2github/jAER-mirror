@@ -88,7 +88,7 @@ extern BOOL Selfpwr;
 ports a,b,c,d are bit addressable, e is byte addressable
 
 we have available and wired to CPLD the following ports as defined in the port assigment list for the lattice CPLD in 
-C:\Users\tobi\Documents\~jAER-sourceForge\trunk\deviceFirmwarePCBLayout\LatticeMachXO\CochleaAMS1c\cochleaCPLD_FX2-portAssignement.txt
+/devices/logic/LatticeMachXO/CochleaAMS1c/cochleaCPLD_FX2-portAssignement.txt
 
 PC3-0
 FD15-8 which is the same as PD7-0 if the FIFO are configured as byte-wide (WORDWIDE in all EPxFIFOCFG registers)

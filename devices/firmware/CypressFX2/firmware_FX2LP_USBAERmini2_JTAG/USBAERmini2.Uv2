@@ -53,7 +53,7 @@ Options 1,0,0  // Target 'Target 1'
  HexSel=0
  MG32K=0
  TGMORE=0
- RunUsr 0 1 <E:\jAER\deviceFirmwarePCBLayout\CypressFX2\firmware_FX2LP_USBAERmini2_JTAG\makeHexBixCopyToJava.bat>
+ RunUsr 0 1 <"makeHexBixCopyToJava.bat">
  RunUsr 1 0 <>
  BrunUsr 0 0 <>
  BrunUsr 1 0 <>
