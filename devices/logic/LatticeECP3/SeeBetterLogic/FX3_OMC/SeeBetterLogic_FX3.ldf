@@ -138,9 +138,6 @@
         <Source name="private-source/latch3.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="../common-source/MISCAERStateMachine.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
-        </Source>
         <Source name="../common-source/support/FifoMerger.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
@@ -163,6 +160,9 @@
             <Options/>
         </Source>
         <Source name="../common-source/fx3/FX3SPIConfig.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="private-source/MISCAERStateMachine.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="OMC/OMC.spf" type="Simulation Project File" type_short="SPF">

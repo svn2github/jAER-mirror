@@ -554,7 +554,7 @@ begin
 			APSChipColSRClock_SO   => APSChipColSRClock_SO,
 			APSChipColSRIn_SO      => APSChipColSRIn_SO,
 			APSChipColMode_DO      => APSChipColMode_DO,
-			APSChipTXGate_SO       => APSChipTXGate_SO,
+			APSChipTXGate_SBO      => APSChipTXGate_SO,
 			APSADCData_DI          => APSADCData_DI,
 			APSADCOverflow_SI      => APSADCOverflow_SI,
 			APSADCClock_CO         => APSADCClock_CO,
