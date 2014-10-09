@@ -275,7 +275,7 @@ begin
 		port map(
 			CAVIAR_ack  => CAVIARo_ack,		-- Give acknowledge to OMC
 			CAVIAR_req  => CAVIAR_req,		-- Sniff request
-			CAVIAR_data => (20 => OMCmisc_S, others => '0'),	-- MISC event, all zeros and the signal a the 20th bit (number 8 after all zeros address and polarity)
+			CAVIAR_data => (17 => OMCmisc_S, others => '0'),	-- MISC event, all zeros and the signal a the 20th bit (number 8 after all zeros address and polarity)
 			-- clock and reset inputs
 			CLK         => LogicClock_C,
 			RST         => LogicReset_R,

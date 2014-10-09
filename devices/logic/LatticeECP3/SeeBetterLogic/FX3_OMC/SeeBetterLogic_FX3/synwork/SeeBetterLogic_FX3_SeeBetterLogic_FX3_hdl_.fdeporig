@@ -1,5 +1,5 @@
 #defaultlanguage:vhdl
-#OPTIONS:"|-top|TopLevel|-prodtype|synplify_pro|-dspmac|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ui|-fid2|-ram|-sharing|on|-ll|2000|-autosm|-vhdl2008|-ignore_undefined_lib|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-lib|work|-fileorder|E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\SeeBetterLogic_FX3\\syntmp\\hdlorder.tcl"
+#OPTIONS:"|-top|TopLevel|-prodtype|synplify_pro|-dspmac|-fixsmult|-infer_seqShift|-nram|-divnmod|-encrypt|-pro|-lite|-ui|-fid2|-ram|-sharing|on|-ll|2000|-autosm|-vhdl2008|-ignore_undefined_lib|-lib|work|-fileorder|E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\SeeBetterLogic_FX3\\syntmp\\hdlorder.tcl"
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\bin64\\c_vhdl.exe":1397599346
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\location.map":1397728050
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\std.vhd":1397598978
@@ -10,310 +10,278 @@
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd\\umr_capim.vhd":1397599228
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\arith.vhd":1397598978
 #CUR:"C:\\lscc\\diamond\\3.2_x64\\synpbase\\lib\\vhd2008\\unsigned.vhd":1397598978
-#CUR:"C:\\lscc\\diamond\\3.2_x64\\cae_library\\synthesis\\vhdl\\ecp3.vhd":1376992926
-#CUR:"C:\\lscc\\diamond\\3.2_x64\\cae_library\\synthesis\\vhdl\\pmi_def.vhd":1400335816
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\ext\\FIFORecords.vhd":1406109071
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\ext\\FIFODualClock.vhd":1411651135
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\ext\\FIFO.vhd":1411651135
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\ext\\PLL.vhd":1408697495
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\ChangeDetector.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\DFFSynchronizer.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\ResetSynchronizer.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\SimpleRegister.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\BufferClear.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\ContinuousCounter.vhd":1412604352
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\ShiftRegister.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\ShiftRegisterModes.vhd":1406109072
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\EdgeDetector.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\PulseGenerator.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\PulseDetector.vhd":1411651135
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\private-source\\TopLevel.vhd":1412669065
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\private-source\\Settings.vhd":1411651134
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\private-source\\LogicClockSynchronizer.vhd":1411651134
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\fx3\\FX3USBClockSynchronizer.vhd":1408697495
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\fx3\\FX3StateMachine.vhd":1412604351
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\MultiplexerStateMachine.vhd":1411651135
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\MultiplexerConfigRecords.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\MultiplexerSPIConfig.vhd":1408697495
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\TimestampGenerator.vhd":1408697495
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\DVSAERStateMachine.vhd":1411651135
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\DVSAERConfigRecords.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\DVSAERSPIConfig.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\APSADCStateMachine.vhd":1412344426
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\APSADCConfigRecords.vhd":1408697495
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\APSADCSPIConfig.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\IMUStateMachine.vhd":1411651135
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\IMUConfigRecords.vhd":1408697495
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\IMUSPIConfig.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\EventCodes.vhd":1411651135
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\ExtTriggerSPIConfig.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\ExtTriggerConfigRecords.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\ExtTriggerStateMachine.vhd":1411651135
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\SPIConfig.vhd":1411651135
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\ChipBiasConfigRecords.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\ChipBiasStateMachine.vhd":1411651135
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\ChipBiasSPIConfig.vhd":1408697496
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\private-source\\WSAER2CAVIAR2.vhd":1412595509
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\private-source\\CAVIAR2WSAER.vhd":1411651134
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\private-source\\latch3.vhd":1411651134
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\MISCAERStateMachine.vhd":1411652953
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\support\\FifoMerger.vhd":1411652953
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\MullerCelement.vhd":1410953598
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\ObjectMotionCell.vhd":1412672247
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\ObjectMotionCell_tb.vhd":1412672652
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\ObjectMotionCellConfigRecords.vhd":1412598089
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\ObjectMotionCellSPIConfig.vhd":1412598734
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\fx3\\FX3ConfigRecords.vhd":1412604351
-#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\..\\common-source\\fx3\\FX3SPIConfig.vhd":1412604351
-0 "C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\ecp3.vhd" vhdl
-1 "C:\lscc\diamond\3.2_x64\cae_library\synthesis\vhdl\pmi_def.vhd" vhdl
-2 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFORecords.vhd" vhdl
-3 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFODualClock.vhd" vhdl
-4 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd" vhdl
-5 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\PLL.vhd" vhdl
-6 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ChangeDetector.vhd" vhdl
-7 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\DFFSynchronizer.vhd" vhdl
-8 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ResetSynchronizer.vhd" vhdl
-9 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\SimpleRegister.vhd" vhdl
-10 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\BufferClear.vhd" vhdl
-11 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd" vhdl
-12 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ShiftRegister.vhd" vhdl
-13 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ShiftRegisterModes.vhd" vhdl
-14 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\EdgeDetector.vhd" vhdl
-15 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseGenerator.vhd" vhdl
-16 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseDetector.vhd" vhdl
-17 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd" vhdl
-18 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\Settings.vhd" vhdl
-19 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\LogicClockSynchronizer.vhd" vhdl
-20 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3USBClockSynchronizer.vhd" vhdl
-21 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd" vhdl
-22 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerStateMachine.vhd" vhdl
-23 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerConfigRecords.vhd" vhdl
-24 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerSPIConfig.vhd" vhdl
-25 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\TimestampGenerator.vhd" vhdl
-26 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERStateMachine.vhd" vhdl
-27 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERConfigRecords.vhd" vhdl
-28 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERSPIConfig.vhd" vhdl
-29 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCStateMachine.vhd" vhdl
-30 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCConfigRecords.vhd" vhdl
-31 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCSPIConfig.vhd" vhdl
-32 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd" vhdl
-33 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUConfigRecords.vhd" vhdl
-34 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUSPIConfig.vhd" vhdl
-35 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\EventCodes.vhd" vhdl
-36 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerSPIConfig.vhd" vhdl
-37 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerConfigRecords.vhd" vhdl
-38 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerStateMachine.vhd" vhdl
-39 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\SPIConfig.vhd" vhdl
-40 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ChipBiasConfigRecords.vhd" vhdl
-41 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ChipBiasStateMachine.vhd" vhdl
-42 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ChipBiasSPIConfig.vhd" vhdl
-43 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd" vhdl
-44 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CAVIAR2WSAER.vhd" vhdl
-45 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\latch3.vhd" vhdl
-46 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MISCAERStateMachine.vhd" vhdl
-47 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\FifoMerger.vhd" vhdl
-48 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\MullerCelement.vhd" vhdl
-49 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd" vhdl
-50 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell_tb.vhd" vhdl
-51 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCellConfigRecords.vhd" vhdl
-52 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCellSPIConfig.vhd" vhdl
-53 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3ConfigRecords.vhd" vhdl
-54 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3SPIConfig.vhd" vhdl
+#CUR:"E:\\JAER_SVN\\devices\\logic\\LatticeECP3\\SeeBetterLogic\\FX3_OMC\\SeeBetterLogic_FX3\\reveal_workspace\\tmpreveal\\TopLevel_rvl_top.vhd":1412771964
+0 "E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\SeeBetterLogic_FX3\reveal_workspace\tmpreveal\TopLevel_rvl_top.vhd" vhdl
 
 # Dependency Lists (Uses list)
 0 -1
-1 -1
-2 -1
-3 18 2 1 
-4 18 2 1 
-5 18 1 
-6 10 
-7 -1
-8 -1
-9 -1
-10 -1
-11 -1
-12 13 
-13 -1
-14 -1
-15 -1
-16 -1
-17 43 49 52 44 20 19 9 5 21 54 3 22 24 47 26 28 46 29 31 32 34 4 38 36 39 35 18 2 23 51 27 30 33 37 53 
-18 -1
-19 8 7 
-20 8 7 
-21 11 18 2 53 
-22 25 16 10 11 6 35 2 23 
-23 -1
-24 23 
-25 15 11 35 18 
-26 11 35 2 27 
-27 -1
-28 27 
-29 35 2 30 
-30 -1
-31 30 
-32 12 15 11 9 10 6 35 18 2 13 33 
-33 -1
-34 33 
-35 -1
-36 37 
-37 -1
-38 14 16 15 9 35 2 37 18 
-39 14 12 11 13 
-40 -1
-41 11 12 6 13 40 18 
-42 40 
-43 -1
-44 -1
-45 -1
-46 35 2 
-47 2 
-48 -1
-49 11 48 51 
-50 49 
-51 -1
-52 51 
-53 -1
-54 53 
 
 # Dependency Lists (Users Of)
 0 -1
-1 5 4 3 
-2 47 46 38 32 29 26 22 21 17 4 3 
-3 17 
-4 17 
-5 17 
-6 41 32 22 
-7 20 19 
-8 20 19 
-9 38 32 17 
-10 32 22 6 
-11 49 41 39 32 26 25 22 21 
-12 41 39 32 
-13 41 39 32 12 
-14 39 38 
-15 38 32 25 
-16 38 22 
-17 -1
-18 41 38 32 25 21 17 5 4 3 
-19 17 
-20 17 
-21 17 
-22 17 
-23 24 22 17 
-24 17 
-25 22 
-26 17 
-27 28 26 17 
-28 17 
-29 17 
-30 31 29 17 
-31 17 
-32 17 
-33 34 32 17 
-34 17 
-35 46 38 32 29 26 25 22 17 
-36 17 
-37 38 36 17 
-38 17 
-39 17 
-40 42 41 
-41 -1
-42 -1
-43 17 
-44 17 
-45 -1
-46 17 
-47 17 
-48 49 
-49 50 17 
-50 -1
-51 52 49 17 
-52 17 
-53 54 21 17 
-54 17 
 
 # Design Unit to File Association
-arch work fifodualclock structural 3
-module work fifodualclock 3
-arch work fifo structural 4
-module work fifo 4
-arch work pll structural 5
-module work pll 5
-arch work changedetector behavioral 6
-module work changedetector 6
-arch work dffsynchronizer behavioral 7
-module work dffsynchronizer 7
-arch work resetsynchronizer behavioral 8
-module work resetsynchronizer 8
-arch work simpleregister behavioral 9
-module work simpleregister 9
-arch work bufferclear behavioral 10
-module work bufferclear 10
-arch work continuouscounter behavioral 11
-module work continuouscounter 11
-arch work shiftregister behavioral 12
-module work shiftregister 12
-arch work edgedetector behavioral 14
-module work edgedetector 14
-arch work pulsegenerator behavioral 15
-module work pulsegenerator 15
-arch work pulsedetector behavioral 16
-module work pulsedetector 16
-arch work toplevel structural 17
-module work toplevel 17
-arch work logicclocksynchronizer structural 19
-module work logicclocksynchronizer 19
-arch work fx3usbclocksynchronizer structural 20
-module work fx3usbclocksynchronizer 20
-arch work fx3statemachine behavioral 21
-module work fx3statemachine 21
-arch work multiplexerstatemachine behavioral 22
-module work multiplexerstatemachine 22
-arch work multiplexerspiconfig behavioral 24
-module work multiplexerspiconfig 24
-arch work timestampgenerator structural 25
-module work timestampgenerator 25
-arch work dvsaerstatemachine behavioral 26
-module work dvsaerstatemachine 26
-arch work dvsaerspiconfig behavioral 28
-module work dvsaerspiconfig 28
-arch work apsadcstatemachine behavioral 29
-module work apsadcstatemachine 29
-arch work apsadcspiconfig behavioral 31
-module work apsadcspiconfig 31
-arch work imustatemachine behavioral 32
-module work imustatemachine 32
-arch work imuspiconfig behavioral 34
-module work imuspiconfig 34
-arch work exttriggerspiconfig behavioral 36
-module work exttriggerspiconfig 36
-arch work exttriggerstatemachine behavioral 38
-module work exttriggerstatemachine 38
-arch work spiconfig behavioral 39
-module work spiconfig 39
-arch work chipbiasstatemachine behavioral 41
-module work chipbiasstatemachine 41
-arch work chipbiasspiconfig behavioral 42
-module work chipbiasspiconfig 42
-arch work wsaer2caviar structural 43
-module work wsaer2caviar 43
-arch work caviar2wsaer structural 44
-module work caviar2wsaer 44
-arch work latch3 behavioral 45
-module work latch3 45
-arch work miscaerstatemachine behavioral 46
-module work miscaerstatemachine 46
-arch work fifomerger behavioral 47
-module work fifomerger 47
-arch work mullercelement behavioural 48
-module work mullercelement 48
-arch work objectmotioncell behavioural 49
-module work objectmotioncell 49
-arch work objectmotioncell_tb testbench 50
-arch work objectmotioncellspiconfig behavioural 52
-module work objectmotioncellspiconfig 52
-arch work fx3spiconfig behavioral 54
-module work fx3spiconfig 54
+arch work continuouscounter_uniq_11 behavioral 0
+arch work shiftregister_uniq_3 behavioral 0
+arch work shiftregister_uniq_2 behavioral 0
+arch work edgedetector_uniq_1 behavioral 0
+arch work spiconfig_uniq_0 behavioral 0
+module work continuouscounter_uniq_11 0
+module work shiftregister_uniq_3 0
+module work shiftregister_uniq_2 0
+module work edgedetector_uniq_1 0
+arch work exttriggerspiconfig_uniq_0 behavioral 0
+arch work simpleregister_uniq_2 behavioral 0
+arch work pulsegenerator_uniq_2 behavioral 0
+arch work pulsedetector_uniq_1 behavioral 0
+arch work edgedetector_uniq_0 behavioral 0
+arch work exttriggerstatemachine_uniq_0 behavioral 0
+module work simpleregister_uniq_2 0
+module work pulsegenerator_uniq_2 0
+module work pulsedetector_uniq_1 0
+module work edgedetector_uniq_0 0
+arch work fifo_uniq_5 structural 0
+arch work imuspiconfig_uniq_0 behavioral 0
+arch work bufferclear_uniq_10 behavioral 0
+arch work changedetector_uniq_7 behavioral 0
+module work bufferclear_uniq_10 0
+arch work bufferclear_uniq_9 behavioral 0
+arch work changedetector_uniq_6 behavioral 0
+module work bufferclear_uniq_9 0
+arch work bufferclear_uniq_8 behavioral 0
+arch work changedetector_uniq_5 behavioral 0
+module work bufferclear_uniq_8 0
+arch work bufferclear_uniq_7 behavioral 0
+arch work changedetector_uniq_4 behavioral 0
+module work bufferclear_uniq_7 0
+arch work bufferclear_uniq_6 behavioral 0
+arch work changedetector_uniq_3 behavioral 0
+module work bufferclear_uniq_6 0
+arch work bufferclear_uniq_5 behavioral 0
+arch work changedetector_uniq_2 behavioral 0
+module work bufferclear_uniq_5 0
+arch work bufferclear_uniq_4 behavioral 0
+arch work changedetector_uniq_1 behavioral 0
+module work bufferclear_uniq_4 0
+arch work bufferclear_uniq_3 behavioral 0
+arch work bufferclear_uniq_2 behavioral 0
+arch work simpleregister_uniq_1 behavioral 0
+arch work continuouscounter_uniq_10 behavioral 0
+arch work continuouscounter_uniq_9 behavioral 0
+arch work continuouscounter_uniq_8 behavioral 0
+arch work pulsegenerator_uniq_1 behavioral 0
+arch work shiftregister_uniq_1 behavioral 0
+arch work shiftregister_uniq_0 behavioral 0
+arch work imustatemachine_uniq_0 behavioral 0
+module work changedetector_uniq_7 0
+module work changedetector_uniq_6 0
+module work changedetector_uniq_5 0
+module work changedetector_uniq_4 0
+module work changedetector_uniq_3 0
+module work changedetector_uniq_2 0
+module work changedetector_uniq_1 0
+module work bufferclear_uniq_3 0
+module work bufferclear_uniq_2 0
+module work simpleregister_uniq_1 0
+module work continuouscounter_uniq_10 0
+module work continuouscounter_uniq_9 0
+module work continuouscounter_uniq_8 0
+module work pulsegenerator_uniq_1 0
+module work shiftregister_uniq_1 0
+module work shiftregister_uniq_0 0
+arch work fifo_uniq_4 structural 0
+arch work apsadcspiconfig_uniq_0 behavioral 0
+arch work apsadcstatemachine_uniq_0 behavioral 0
+arch work fifo_uniq_3 structural 0
+arch work miscaerstatemachine_uniq_0 behavioral 0
+arch work fifo_uniq_2 structural 0
+arch work dvsaerspiconfig_uniq_0 behavioral 0
+arch work continuouscounter_uniq_7 behavioral 0
+arch work continuouscounter_uniq_6 behavioral 0
+arch work dvsaerstatemachine_uniq_0 behavioral 0
+module work continuouscounter_uniq_7 0
+module work continuouscounter_uniq_6 0
+arch work fifo_uniq_1 structural 0
+arch work fifomerger_uniq_0 behavioral 0
+arch work fifo_uniq_0 structural 0
+arch work multiplexerspiconfig_uniq_0 behavioral 0
+arch work bufferclear_uniq_1 behavioral 0
+arch work changedetector_uniq_0 behavioral 0
+module work bufferclear_uniq_1 0
+arch work continuouscounter_uniq_5 behavioral 0
+arch work bufferclear_uniq_0 behavioral 0
+arch work pulsedetector_uniq_0 behavioral 0
+arch work continuouscounter_uniq_4 behavioral 0
+arch work pulsegenerator_uniq_0 behavioral 0
+arch work timestampgenerator_uniq_0 structural 0
+module work continuouscounter_uniq_4 0
+module work pulsegenerator_uniq_0 0
+arch work multiplexerstatemachine_uniq_0 behavioral 0
+module work changedetector_uniq_0 0
+module work continuouscounter_uniq_5 0
+module work bufferclear_uniq_0 0
+module work pulsedetector_uniq_0 0
+module work timestampgenerator_uniq_0 0
+arch work fifodualclock_uniq_0 structural 0
+arch work fx3spiconfig_uniq_0 behavioral 0
+arch work continuouscounter_uniq_3 behavioral 0
+arch work continuouscounter_uniq_2 behavioral 0
+arch work fx3statemachine_uniq_0 behavioral 0
+module work continuouscounter_uniq_3 0
+module work continuouscounter_uniq_2 0
+arch work pll_uniq_0 structural 0
+arch work simpleregister_uniq_0 behavioral 0
+arch work dffsynchronizer_uniq_12 behavioral 0
+arch work dffsynchronizer_uniq_11 behavioral 0
+arch work dffsynchronizer_uniq_10 behavioral 0
+arch work dffsynchronizer_uniq_9 behavioral 0
+arch work dffsynchronizer_uniq_8 behavioral 0
+arch work dffsynchronizer_uniq_7 behavioral 0
+arch work dffsynchronizer_uniq_6 behavioral 0
+arch work dffsynchronizer_uniq_5 behavioral 0
+arch work dffsynchronizer_uniq_4 behavioral 0
+arch work resetsynchronizer_uniq_1 behavioral 0
+arch work logicclocksynchronizer_uniq_0 structural 0
+module work dffsynchronizer_uniq_12 0
+module work dffsynchronizer_uniq_11 0
+module work dffsynchronizer_uniq_10 0
+module work dffsynchronizer_uniq_9 0
+module work dffsynchronizer_uniq_8 0
+module work dffsynchronizer_uniq_7 0
+module work dffsynchronizer_uniq_6 0
+module work dffsynchronizer_uniq_5 0
+module work dffsynchronizer_uniq_4 0
+module work resetsynchronizer_uniq_1 0
+arch work dffsynchronizer_uniq_3 behavioral 0
+arch work dffsynchronizer_uniq_2 behavioral 0
+arch work dffsynchronizer_uniq_1 behavioral 0
+arch work dffsynchronizer_uniq_0 behavioral 0
+arch work resetsynchronizer_uniq_0 behavioral 0
+arch work fx3usbclocksynchronizer_uniq_0 structural 0
+module work dffsynchronizer_uniq_3 0
+module work dffsynchronizer_uniq_2 0
+module work dffsynchronizer_uniq_1 0
+module work dffsynchronizer_uniq_0 0
+module work resetsynchronizer_uniq_0 0
+arch work caviar2wsaer_uniq_0 structural 0
+arch work objectmotioncellspiconfig_uniq_0 behavioural 0
+arch work mullercelement_uniq_0 behavioural 0
+arch work continuouscounter_uniq_1 behavioral 0
+arch work continuouscounter_uniq_0 behavioral 0
+arch work objectmotioncell_uniq_0 behavioural 0
+module work mullercelement_uniq_0 0
+module work continuouscounter_uniq_1 0
+module work continuouscounter_uniq_0 0
+arch work wsaer2caviar_uniq_0 structural 0
+arch work objectmotioncell_tb testbench 0
+arch work latch3 behavioral 0
+module work latch3 0
+arch work chipbiasspiconfig behavioral 0
+module work chipbiasspiconfig 0
+arch work chipbiasstatemachine behavioral 0
+module work chipbiasstatemachine 0
+arch work toplevel structural 0
+module work spiconfig_uniq_0 0
+module work exttriggerspiconfig_uniq_0 0
+module work exttriggerstatemachine_uniq_0 0
+module work fifo_uniq_5 0
+module work imuspiconfig_uniq_0 0
+module work imustatemachine_uniq_0 0
+module work fifo_uniq_4 0
+module work apsadcspiconfig_uniq_0 0
+module work apsadcstatemachine_uniq_0 0
+module work fifo_uniq_3 0
+module work miscaerstatemachine_uniq_0 0
+module work fifo_uniq_2 0
+module work dvsaerspiconfig_uniq_0 0
+module work dvsaerstatemachine_uniq_0 0
+module work fifo_uniq_1 0
+module work fifomerger_uniq_0 0
+module work fifo_uniq_0 0
+module work multiplexerspiconfig_uniq_0 0
+module work multiplexerstatemachine_uniq_0 0
+module work fifodualclock_uniq_0 0
+module work fx3spiconfig_uniq_0 0
+module work fx3statemachine_uniq_0 0
+module work pll_uniq_0 0
+module work simpleregister_uniq_0 0
+module work logicclocksynchronizer_uniq_0 0
+module work fx3usbclocksynchronizer_uniq_0 0
+module work caviar2wsaer_uniq_0 0
+module work objectmotioncellspiconfig_uniq_0 0
+module work objectmotioncell_uniq_0 0
+module work wsaer2caviar_uniq_0 0
+module work toplevel 0
+arch work spiconfig behavioral 0
+module work spiconfig 0
+arch work exttriggerspiconfig behavioral 0
+module work exttriggerspiconfig 0
+arch work exttriggerstatemachine behavioral 0
+module work exttriggerstatemachine 0
+arch work imuspiconfig behavioral 0
+module work imuspiconfig 0
+arch work imustatemachine behavioral 0
+module work imustatemachine 0
+arch work apsadcspiconfig behavioral 0
+module work apsadcspiconfig 0
+arch work apsadcstatemachine behavioral 0
+module work apsadcstatemachine 0
+arch work miscaerstatemachine behavioral 0
+module work miscaerstatemachine 0
+arch work dvsaerspiconfig behavioral 0
+module work dvsaerspiconfig 0
+arch work dvsaerstatemachine behavioral 0
+module work dvsaerstatemachine 0
+arch work fifomerger behavioral 0
+module work fifomerger 0
+arch work multiplexerspiconfig behavioral 0
+module work multiplexerspiconfig 0
+arch work multiplexerstatemachine behavioral 0
+module work multiplexerstatemachine 0
+arch work timestampgenerator structural 0
+module work timestampgenerator 0
+arch work fx3spiconfig behavioral 0
+module work fx3spiconfig 0
+arch work fx3statemachine behavioral 0
+module work fx3statemachine 0
+arch work logicclocksynchronizer structural 0
+module work logicclocksynchronizer 0
+arch work fx3usbclocksynchronizer structural 0
+module work fx3usbclocksynchronizer 0
+arch work caviar2wsaer structural 0
+module work caviar2wsaer 0
+arch work objectmotioncellspiconfig behavioural 0
+module work objectmotioncellspiconfig 0
+arch work objectmotioncell behavioural 0
+module work objectmotioncell 0
+arch work mullercelement behavioural 0
+module work mullercelement 0
+arch work wsaer2caviar structural 0
+module work wsaer2caviar 0
+arch work pulsedetector behavioral 0
+module work pulsedetector 0
+arch work pulsegenerator behavioral 0
+module work pulsegenerator 0
+arch work edgedetector behavioral 0
+module work edgedetector 0
+arch work shiftregister behavioral 0
+module work shiftregister 0
+arch work continuouscounter behavioral 0
+module work continuouscounter 0
+arch work simpleregister behavioral 0
+module work simpleregister 0
+arch work resetsynchronizer behavioral 0
+module work resetsynchronizer 0
+arch work dffsynchronizer behavioral 0
+module work dffsynchronizer 0
+arch work changedetector behavioral 0
+module work changedetector 0
+arch work bufferclear behavioral 0
+module work bufferclear 0
+arch work pll structural 0
+module work pll 0
+arch work fifo structural 0
+module work fifo 0
+arch work fifodualclock structural 0
+module work fifodualclock 0
+arch work reveal_coretop one 0
+module work reveal_coretop 0

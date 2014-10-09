@@ -148,8 +148,7 @@ begin
 			when stHandleMISC =>
 				-- We might need to delay the ACK.
 				--if ackDelayNotify_S = '1' then
-					OutFifoDataReg_D       <= EVENT_CODE_MISC_DATA8 & "011" & MISCAERData_DI(0) & MISCAERData_DI(17 downto 10);
-					-- This MISC event can be either code 6 or code 7. Code 6 is for center of Mass and 7 is for cluster events of object Tracker.
+					OutFifoDataReg_D       <= EVENT_CODE_MISC_DATA8 & EVENT_CODE_MISC_DATA8_OMC & MISCAERData_DI(17 downto 10);
 					OutFifoDataRegEnable_S <= '1';
 					OutFifoWriteReg_S      <= '1';
 

@@ -38,6 +38,7 @@ package EventCodes is
 	constant EVENT_CODE_ADC_SAMPLE                  : std_logic_vector(2 downto 0)                        := "100";
 	constant EVENT_CODE_MISC_DATA8                  : std_logic_vector(2 downto 0)                        := "101";
 	constant EVENT_CODE_MISC_DATA8_IMU              : std_logic_vector(3 downto 0)                        := "0000";
+	constant EVENT_CODE_MISC_DATA8_OMC              : std_logic_vector(3 downto 0)                        := "1000"; -- OMC event 8
 	constant EVENT_CODE_MISC_DATA8_BGAF             : std_logic_vector(3 downto 0)                        := "0101";
 	constant EVENT_CODE_MISC_DATA8_CM               : std_logic_vector(3 downto 0)                        := "0110";
 	constant EVENT_CODE_MISC_DATA8_TRACKER          : std_logic_vector(3 downto 0)                        := "0111";
