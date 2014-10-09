@@ -354,10 +354,16 @@ void Chip_I2C_EventHandlerPolling(I2C_ID_T id, I2C_EVENT_T event)
 	}
 
 	stat = &iic->mXfer->status;
+	uint32_t timeout = TIMEOUT * iic->mXfer->txSz;
 	/* Call the state change handler till xfer is done */
 	while (*stat == I2C_STATUS_BUSY) {
 		if (Chip_I2C_IsStateChanged(id)) {
 			Chip_I2C_MasterStateHandler(id);
+			timeout = TIMEOUT * iic->mXfer->txSz;
+		} else {
+			if (timeout-- == 0) {
+				break;
+			}
 		}
 	}
 }
@@ -427,9 +433,13 @@ int Chip_I2C_MasterTransfer(I2C_ID_T id, I2C_XFER_T *xfer)
 	}
 	iic->mEvent(id, I2C_EVENT_WAIT);
 	iic->mXfer = 0;
-
+	uint32_t timeout = TIMEOUT * xfer->txSz;
 	/* Wait for stop condition to appear on bus */
-	while (!isI2CBusFree(iic->ip)) {}
+	while (!isI2CBusFree(iic->ip)) {
+		if (timeout-- == 0) {
+			return I2C_STATUS_BUSERR;
+		}
+	}
 
 	/* Start slave if one is active */
 	if (SLAVE_ACTIVE(iic)) {

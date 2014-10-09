@@ -15,6 +15,7 @@
 #include "utils.h"
 #include "cr_start_m0.h"
 #include "build_defs.h"
+#include "xprintf.h"
 //Uncomment the line below to activate test mode.
 //#include "test.h"
 
@@ -45,9 +46,24 @@ int main(void) {
 	UARTInit(LPC_UART, BAUD_RATE_DEFAULT); /* baud rate setting */
 	initMotors();
 	PWMInit();
+
+	LED1SetOn();
+	// Start M0APP slave processor
+	cr_start_m0(&__core_m0app_START__);
+	LED1SetOff();
+
+	LED0SetOn();
+	LED0SetBlinking(ENABLE);
+	UARTShowVersion();
+
 #if USE_IMU_DATA
 	timerDelayMs(100);
-	MPU9105Init();
+	int32_t initReturn = MPU9105Init();
+	if ( initReturn == MPU_ERROR ){
+		xputs("Error initializing the IMU!\nNo motion data\n");
+	} else if (initReturn == MPL_ERROR){
+		xputs("Error initializing the MPL!\nNo calibrated or fused data\n");
+	}
 #endif
 #if USE_SDCARD
 	SDCardInit();
@@ -61,14 +77,6 @@ int main(void) {
 	//This will not return
 #endif
 
-	LED1SetOn();
-	// Start M0APP slave processor
-	cr_start_m0(&__core_m0app_START__);
-	LED1SetOff();
-
-	LED0SetOn();
-	LED0SetBlinking(ENABLE);
-	UARTShowVersion();
 	for (;;) {
 		if (ledBlinking && toggleLed0) {
 			LED0Toggle();
@@ -200,19 +208,11 @@ int main(void) {
 				sdcard.fileBuffer[sdcard.fileBufferIndex++] = (sdcard.timeStampDelta & 0x7F) | 0x80;//lower 7bit Delta TS, MSBit set to 1
 			}
 			if ((FILE_BUFFER_SIZE - sdcard.fileBufferIndex) < 6) {
-				// write data.
+				//write data	.
 				LED1SetOn();
 				if (f_write(&sdcard.outputFile, sdcard.fileBuffer, sdcard.fileBufferIndex, &sdcard.bytesWritten)) {
 					setSDCardRecord(DISABLE); //There was an error. No need to record anymore.
 				}
-
-				static unsigned int flushCounter = 0;
-				if (flushCounter++ >= 1024) {
-					// Ensure data is flushed to SDcard every 1024 events.
-					flushCounter = 0;
-					f_sync(&sdcard.outputFile);
-				}
-
 				LED1SetOff();
 				sdcard.bytesWrittenPerSecond += sdcard.bytesWritten;
 				sdcard.fileBufferIndex = 0;

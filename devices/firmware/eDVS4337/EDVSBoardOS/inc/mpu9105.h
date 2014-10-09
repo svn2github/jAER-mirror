@@ -8,11 +8,14 @@
 #ifndef MPU9105_H_
 #define MPU9105_H_
 #include <stdint.h>
+#define MPU_ERROR		-1
+#define SUCCESS			0
+#define MPL_ERROR		1
 
 /**
  * It initializes the MPU and the DMP inside of the IMU
  */
-extern void MPU9105Init(void);
+extern int32_t MPU9105Init(void);
 /**
  * Checks for the interrupt pin of the IMU and if set
  * it update all sensor data

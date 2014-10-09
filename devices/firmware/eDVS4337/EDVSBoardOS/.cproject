@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+<?fileVersion 4.0.0?>
+
+<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="com.crt.advproject.config.exe.debug.973716211">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.crt.advproject.config.exe.debug.973716211" moduleId="org.eclipse.cdt.core.settings" name="Debug">
@@ -275,13 +277,13 @@
 &lt;memoryInstance derived_from="Flash" edited="true" id="MFlashA512_256" location="0x1a040000" size="0x40000"/&gt;
 &lt;memoryInstance derived_from="Flash" edited="true" id="MFlashB512" location="0x1b000000" size="0x80000"/&gt;
 &lt;memoryInstance derived_from="RAM" edited="true" id="RamLoc40" location="0x10086014" size="0x3fec"/&gt;
-&lt;memoryInstance derived_from="RAM" edited="true" id="M0CodeRam" location="0x20008000" size="0x400"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="M0CodeRam" location="0x20008000" size="0x200"/&gt;
 &lt;memoryInstance derived_from="RAM" edited="true" id="RamLoc32" location="0x10002014" size="0x5fec"/&gt;
 &lt;memoryInstance derived_from="RAM" edited="true" id="EventsBuffer32" location="0x10080000" size="0x6010"/&gt;
 &lt;memoryInstance derived_from="RAM" edited="true" id="UartBuffer" location="0x10000000" size="0x2014"/&gt;
 &lt;memoryInstance derived_from="RAM" edited="true" id="M0Start" location="0x10086010" size="0x4"/&gt;
 &lt;memoryInstance derived_from="RAM" edited="true" id="RamAHB32" location="0x20000000" size="0x8000"/&gt;
-&lt;memoryInstance derived_from="RAM" edited="true" id="RamAHB16" location="0x20008400" size="0x3c00"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="RamAHB16" location="0x20008200" size="0x3e00"/&gt;
 &lt;memoryInstance derived_from="RAM" edited="true" id="RamAHB_ETB16" location="0x2000c000" size="0x4000"/&gt;
 &lt;prog_flash blocksz="0x2000" location="0x1a000000" maxprgbuff="0x400" progwithcode="TRUE" size="0x10000"/&gt;
 &lt;prog_flash blocksz="0x10000" location="0x1a010000" maxprgbuff="0x400" progwithcode="TRUE" size="0x70000"/&gt;

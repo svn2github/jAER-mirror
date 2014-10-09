@@ -232,7 +232,7 @@ void updateIMUData() {
 	}
 }
 
-void MPU9105Init() {
+int32_t MPU9105Init() {
 	Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, MPU_INT_GND_PORT_GPIO, MPU_INT_GND_PIN_GPIO);
 	Chip_SCU_PinMuxSet(MPU_INT_GND_PORT, MPU_INT_GND_PIN,
 	SCU_MODE_INBUFF_EN | SCU_MODE_FUNC4 | SCU_MODE_PULLDOWN);
@@ -248,44 +248,45 @@ void MPU9105Init() {
 	 */
 	if (mpu_init(NULL)) {
 		Chip_I2C_DeInit(I2C0);
-		return;
+		return MPU_ERROR;
 	}
+	bool mplInitialized = false;
+	if (inv_init_mpl() == INV_SUCCESS) {
+		mplInitialized = true;
 
-	if (inv_init_mpl()) {
-		//TODO: handle this failure
+		/* Compute 6-axis and 9-axis quaternions. */
+		inv_enable_quaternion();
+		inv_enable_9x_sensor_fusion();
+		inv_9x_fusion_use_timestamps(1);
+
+		/* Update gyro biases when not in motion.
+		 */
+		inv_enable_fast_nomot();
+
+		/* Update gyro biases when temperature changes. */
+		inv_enable_gyro_tc();
+
+		/* This algorithm updates the accel biases when in motion. A more accurate
+		 * bias measurement can be made when running the self-test but this algorithm
+		 * can be enabled if the self-test can't be executed in your application.
+		 */
+		inv_enable_in_use_auto_calibration();
+		/* Compass calibration algorithms. */
+		inv_enable_vector_compass_cal();
+		inv_enable_magnetic_disturbance();
+
+		/* If you need to estimate your heading before the compass is calibrated,
+		 * enable this algorithm. It becomes useless after a good figure-eight is
+		 * detected, so we'll just leave it out to save memory.
+		 *
+		 */
+		inv_enable_heading_from_gyro();
+
+		/* Allows use of the MPL APIs in read_from_mpl. */
+		inv_enable_eMPL_outputs();
+
+		inv_start_mpl();
 	}
-	/* Compute 6-axis and 9-axis quaternions. */
-	inv_enable_quaternion();
-	inv_enable_9x_sensor_fusion();
-	inv_9x_fusion_use_timestamps(1);
-
-	/* Update gyro biases when not in motion.
-	 */
-	inv_enable_fast_nomot();
-
-	/* Update gyro biases when temperature changes. */
-	inv_enable_gyro_tc();
-
-	/* This algorithm updates the accel biases when in motion. A more accurate
-	 * bias measurement can be made when running the self-test but this algorithm
-	 * can be enabled if the self-test can't be executed in your application.
-	 */
-	inv_enable_in_use_auto_calibration();
-	/* Compass calibration algorithms. */
-	inv_enable_vector_compass_cal();
-	inv_enable_magnetic_disturbance();
-
-	/* If you need to estimate your heading before the compass is calibrated,
-	 * enable this algorithm. It becomes useless after a good figure-eight is
-	 * detected, so we'll just leave it out to save memory.
-	 *
-	 */
-	inv_enable_heading_from_gyro();
-
-	/* Allows use of the MPL APIs in read_from_mpl. */
-	inv_enable_eMPL_outputs();
-
-	inv_start_mpl();
 
 	/* Get/set hardware configuration. Start gyro. */
 	/* Wake up all sensors. */
@@ -306,26 +307,28 @@ void MPU9105Init() {
 	mpu_get_gyro_fsr(&gyro_fsr);
 	mpu_get_accel_fsr(&accel_fsr);
 	mpu_get_compass_fsr(&compass_fsr);
+	if (mplInitialized) {
+		/* Sync driver configuration with MPL. */
+		/* Sample rate expected in microseconds. */
+		inv_set_gyro_sample_rate(1000000L / gyro_rate);
+		inv_set_accel_sample_rate(1000000L / gyro_rate);
 
-	/* Sync driver configuration with MPL. */
-	/* Sample rate expected in microseconds. */
-	inv_set_gyro_sample_rate(1000000L / gyro_rate);
-	inv_set_accel_sample_rate(1000000L / gyro_rate);
+		/* The compass rate is independent of the gyro and accel rates. As long as
+		 * inv_set_compass_sample_rate is called with the correct value, the 9-axis
+		 * fusion algorithm's compass correction gain will work properly.
+		 */
+		inv_set_compass_sample_rate(1000000L / gyro_rate);
 
-	/* The compass rate is independent of the gyro and accel rates. As long as
-	 * inv_set_compass_sample_rate is called with the correct value, the 9-axis
-	 * fusion algorithm's compass correction gain will work properly.
-	 */
-	inv_set_compass_sample_rate(1000000L / gyro_rate);
-
-	/* Set chip-to-body orientation matrix.
-	 * Set hardware units to dps/g's/degrees scaling factor.
-	 */
-	inv_set_gyro_orientation_and_scale(inv_orientation_matrix_to_scalar(gyro_pdata.orientation), (long) gyro_fsr << 15);
-	inv_set_accel_orientation_and_scale(inv_orientation_matrix_to_scalar(gyro_pdata.orientation),
-			(long) accel_fsr << 15);
-	inv_set_compass_orientation_and_scale(inv_orientation_matrix_to_scalar(compass_pdata.orientation),
-			(long) compass_fsr << 15);
+		/* Set chip-to-body orientation matrix.
+		 * Set hardware units to dps/g's/degrees scaling factor.
+		 */
+		inv_set_gyro_orientation_and_scale(inv_orientation_matrix_to_scalar(gyro_pdata.orientation),
+				(long) gyro_fsr << 15);
+		inv_set_accel_orientation_and_scale(inv_orientation_matrix_to_scalar(gyro_pdata.orientation),
+				(long) accel_fsr << 15);
+		inv_set_compass_orientation_and_scale(inv_orientation_matrix_to_scalar(compass_pdata.orientation),
+				(long) compass_fsr << 15);
+	}
 	mpu_set_int_level(0);
 	mpu_set_int_latched(ENABLE);
 
@@ -357,6 +360,10 @@ void MPU9105Init() {
 	sensorsTimers[RAW_ACCEL].refresh = RawAccelerometerReport;
 	sensorsTimers[RAW_GYRO].refresh = RawGyroReport;
 	sensorsTimers[RAW_COMPASS].refresh = RawCompassReport;
+	if (!mplInitialized) {
+		return MPL_ERROR;
+	}
+	//Otherwise register the calculated sensors
 	sensorsTimers[CAL_ACCEL].refresh = CalAccelerometerReport;
 	sensorsTimers[CAL_GYRO].refresh = CalGyroReport;
 	sensorsTimers[CAL_COMPASS].refresh = CalCompassReport;
@@ -365,6 +372,7 @@ void MPU9105Init() {
 	sensorsTimers[ROTATION_MATRIX].refresh = RotationMatrixReport;
 	sensorsTimers[HEADING].refresh = HeadingReport;
 	sensorsTimers[LINEAR_ACCEL].refresh = LinearAccelReport;
+	return SUCCESS;
 }
 
 void disableIMU(void) {
