@@ -1,15 +1,9 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.EventCodes.all;
 use work.Settings.all;
 use work.FIFORecords.all;
-use work.MultiplexerConfigRecords.all;
-use work.DVSAERConfigRecords.all;
-use work.APSADCConfigRecords.all;
-use work.IMUConfigRecords.all;
-use work.ExtTriggerConfigRecords.all;
-use work.ChipBiasConfigRecords.all;
+use work.FX3ConfigRecords.all;
 
 entity TopLevel is
 	port(
@@ -148,7 +142,8 @@ begin
 			USBFifoPktEnd_SBO           => USBFifoPktEnd_SBO,
 			USBFifoAddress_DO           => USBFifoAddress_DO,
 			InFifoControl_SI            => LogicUSBFifoControlOut_S.ReadSide,
-			InFifoControl_SO            => LogicUSBFifoControlIn_S.ReadSide);
+			InFifoControl_SO            => LogicUSBFifoControlIn_S.ReadSide,
+			FX3Config_DI                => tFX3ConfigDefault);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
 	logicUSBFifo : entity work.FIFODualClock

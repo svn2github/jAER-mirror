@@ -3,6 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Settings.all;
 use work.FIFORecords.all;
+use work.FX2ConfigRecords.all;
 
 entity TopLevel is
 	port(
@@ -102,7 +103,8 @@ begin
 			USBFifoWrite_SBO        => USBFifoWrite_SBO,
 			USBFifoPktEnd_SBO       => USBFifoPktEnd_SBO,
 			InFifoControl_SI        => LogicUSBFifoControlOut_S.ReadSide,
-			InFifoControl_SO        => LogicUSBFifoControlIn_S.ReadSide);
+			InFifoControl_SO        => LogicUSBFifoControlIn_S.ReadSide,
+			FX2Config_DI            => tFX2ConfigDefault);
 
 	-- Instantiate one FIFO to hold all the events coming out of the mixer-producer state machine.
 	logicUSBFifo : entity work.FIFODualClock
