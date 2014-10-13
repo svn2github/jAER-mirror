@@ -4,7 +4,7 @@
 #Hostname: LATTICEDVM
 
 $ Start of Compile
-#Mon Oct 13 15:07:58 2014
+#Mon Oct 13 16:14:34 2014
 
 Synopsys VHDL Compiler, version comp201309rcp1, Build 147R, built Apr 16 2014
 @N|Running in 64-bit mode
@@ -16,6 +16,6 @@ Copyright (C) 1994-2013 Synopsys, Inc. This software and the associated document
 At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 78MB peak: 79MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Mon Oct 13 15:07:59 2014
+# Mon Oct 13 16:14:35 2014
 
 ###########################################################]

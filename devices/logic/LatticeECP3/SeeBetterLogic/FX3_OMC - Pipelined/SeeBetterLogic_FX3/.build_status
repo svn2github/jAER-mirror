@@ -8,35 +8,35 @@
             <Task name="Bitgen" build_result="0" update_result="3" update_time="0"/>
             <Task name="Promgen" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="Map" build_result="0" build_time="0">
-            <Task name="Map" build_result="0" update_result="3" update_time="0"/>
-            <Task name="MapTrace" build_result="0" update_result="3" update_time="0"/>
+        <Milestone name="Map" build_result="2" build_time="1413207206">
+            <Task name="Map" build_result="2" update_result="0" update_time="1413207206"/>
+            <Task name="MapTrace" build_result="2" update_result="0" update_time="1413207217"/>
             <Task name="MapVerilogSimFile" build_result="0" update_result="3" update_time="0"/>
             <Task name="MapVHDLSimFile" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="PAR" build_result="0" build_time="0">
-            <Task name="PAR" build_result="0" update_result="3" update_time="0"/>
+        <Milestone name="PAR" build_result="1" build_time="1413207378">
+            <Task name="PAR" build_result="1" update_result="2" update_time="1413207378"/>
             <Task name="PARTrace" build_result="0" update_result="3" update_time="0"/>
             <Task name="IOTiming" build_result="0" update_result="3" update_time="0"/>
         </Milestone>
-        <Milestone name="Synthesis" build_result="0" build_time="1413205239">
-            <Task name="Synplify_Synthesis" build_result="0" update_result="2" update_time="1413205239"/>
+        <Milestone name="Synthesis" build_result="2" build_time="1413207170">
+            <Task name="Synplify_Synthesis" build_result="2" update_result="0" update_time="1413207170"/>
         </Milestone>
         <Milestone name="TOOL_Report" build_result="0" build_time="0">
             <Task name="HDLE" build_result="2" update_result="0" update_time="1413205004"/>
         </Milestone>
-        <Milestone name="Translate" build_result="0" build_time="0">
-            <Task name="Translate" build_result="0" update_result="3" update_time="0"/>
+        <Milestone name="Translate" build_result="2" build_time="1413207186">
+            <Task name="Translate" build_result="2" update_result="0" update_time="1413207186"/>
         </Milestone>
         <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.bgn" last_build_time="1412681313" last_build_size="4070"/>
         <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.bit" last_build_time="1412681313" last_build_size="510416"/>
-        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.edi" last_build_time="0" last_build_size="0"/>
+        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.edi" last_build_time="1413206729" last_build_size="19941509"/>
         <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.ior" last_build_time="1412681293" last_build_size="9574"/>
-        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.ncd" last_build_time="1412681253" last_build_size="13541486"/>
-        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.ngd" last_build_time="1412955490" last_build_size="15362081"/>
-        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.tw1" last_build_time="1412766693" last_build_size="117564"/>
+        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.ncd" last_build_time="0" last_build_size="0"/>
+        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.ngd" last_build_time="1413207186" last_build_size="18014193"/>
+        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.tw1" last_build_time="1413207217" last_build_size="132252"/>
         <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3.twr" last_build_time="1412681263" last_build_size="283407"/>
-        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3_map.ncd" last_build_time="0" last_build_size="0"/>
+        <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3_map.ncd" last_build_time="1413207206" last_build_size="12040019"/>
         <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3_mapvho.sdf" last_build_time="1412766714" last_build_size="12085203"/>
         <Report name="SeeBetterLogic_FX3_SeeBetterLogic_FX3_mapvho.vho" last_build_time="1412766712" last_build_size="10038811"/>
     </Strategy>

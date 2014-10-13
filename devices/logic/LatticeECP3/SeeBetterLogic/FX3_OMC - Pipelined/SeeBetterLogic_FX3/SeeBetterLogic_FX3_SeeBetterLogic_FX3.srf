@@ -6,7 +6,7 @@
 #Implementation: SeeBetterLogic_FX3
 
 $ Start of Compile
-#Mon Oct 13 14:56:57 2014
+#Mon Oct 13 15:32:44 2014
 
 Synopsys VHDL Compiler, version comp201309rcp1, Build 147R, built Apr 16 2014
 @N|Running in 64-bit mode
@@ -14,61 +14,32 @@ Copyright (C) 1994-2013 Synopsys, Inc. This software and the associated document
 
 @N: CD720 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std.vhd":146:18:146:21|Setting time resolution to ns
 @N:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd":15:7:15:14|Top entity is set to TopLevel.
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFORecords.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\DFFSynchronizer.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ResetSynchronizer.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\SimpleRegister.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\BufferClear.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ContinuousCounter.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ShiftRegisterModes.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\EdgeDetector.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseGenerator.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\PulseDetector.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\Settings.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerConfigRecords.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERConfigRecords.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCConfigRecords.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUConfigRecords.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\EventCodes.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerConfigRecords.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ChipBiasConfigRecords.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\WSAER2CAVIAR2.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\CAVIAR2WSAER.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\latch3.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\MullerCelement.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCellConfigRecords.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3ConfigRecords.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFODualClock.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\FIFO.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ext\PLL.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ChangeDetector.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\ShiftRegister.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\LogicClockSynchronizer.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3USBClockSynchronizer.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3StateMachine.vhd changed - recompiling
 File C:\lscc\diamond\3.2_x64\synpbase\lib\vhd\math_real.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\TimestampGenerator.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\MultiplexerSPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\DVSAERSPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\APSADCSPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\IMUSPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerSPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ExtTriggerStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\SPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\support\FifoMerger.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCellSPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\fx3\FX3SPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\MISCAERStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\private-source\TopLevel.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ChipBiasStateMachine.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\..\common-source\ChipBiasSPIConfig.vhd changed - recompiling
-File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC\ObjectMotionCell_tb.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\TimestampGenerator.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\MultiplexerSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\DVSAERSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\APSADCSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\IMUSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ExtTriggerStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\SPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\support\FifoMerger.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCellSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\fx3\FX3SPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\MISCAERStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ChipBiasStateMachine.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\..\common-source\ChipBiasSPIConfig.vhd changed - recompiling
+File E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\ObjectMotionCell_tb.vhd changed - recompiling
 VHDL syntax check successful!
+
+Compiler output is up to date.  No re-compile necessary
+
 @N: CD231 :"C:\lscc\diamond\3.2_x64\synpbase\lib\vhd2008\std1164.vhd":913:16:913:17|Using onehot encoding for type mvl9plus ('U'="1000000000")
 @N: CD630 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd":15:7:15:14|Synthesizing work.toplevel.structural 
 @W: CD638 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd":148:8:148:19|Signal caviaro_data is undriven 
@@ -686,9 +657,21 @@ State machine has 4 reachable states with original encodings of:
 @W: CL159 :"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\private-source\TopLevel.vhd":20:2:20:24|Input SPIAlternativeSelect_SI is unused
 @END
 
-At c_vhdl Exit (Real Time elapsed 0h:00m:05s; CPU Time elapsed 0h:00m:04s; Memory used current: 114MB peak: 136MB)
+At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 78MB peak: 79MB)
 
-Process took 0h:00m:05s realtime, 0h:00m:04s cputime
-# Mon Oct 13 14:57:03 2014
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Oct 13 15:32:45 2014
 
 ###########################################################]
+
+@A: premap output is up to date. No run necessary.
+To force a re-synthesis, select [Resynthesize All] in menu [Run].
+Click link to view previous log file.
+Pre-mapping Report
+@R:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\synlog\SeeBetterLogic_FX3_SeeBetterLogic_FX3_premap.srr"
+
+@A: fpga_mapper output is up to date. No run necessary.
+To force a re-synthesis, select [Resynthesize All] in menu [Run].
+Click link to view previous log file.
+Map & Optimize Report
+@R:"E:\JAER_SVN\devices\logic\LatticeECP3\SeeBetterLogic\FX3_OMC - Pipelined\SeeBetterLogic_FX3\synlog\SeeBetterLogic_FX3_SeeBetterLogic_FX3_fpga_mapper.srr"

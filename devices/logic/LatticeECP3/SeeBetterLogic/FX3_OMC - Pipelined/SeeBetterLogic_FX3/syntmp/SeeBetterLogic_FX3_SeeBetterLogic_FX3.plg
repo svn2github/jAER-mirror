@@ -1,0 +1,117 @@
+@P:  Worst Slack : -15.719
+@P:  PLL|OutClock_CO_inferred_clock - Estimated Frequency : 9.5 MHz
+@P:  PLL|OutClock_CO_inferred_clock - Requested Frequency : 11.2 MHz
+@P:  PLL|OutClock_CO_inferred_clock - Estimated Period : 104.791
+@P:  PLL|OutClock_CO_inferred_clock - Requested Period : 89.072
+@P:  PLL|OutClock_CO_inferred_clock - Slack : -15.719
+@P:  TopLevel|USBClock_CI - Estimated Frequency : 184.3 MHz
+@P:  TopLevel|USBClock_CI - Requested Frequency : 216.8 MHz
+@P:  TopLevel|USBClock_CI - Estimated Period : 5.427
+@P:  TopLevel|USBClock_CI - Requested Period : 4.613
+@P:  TopLevel|USBClock_CI - Slack : -0.814
+@P:  System - Estimated Frequency : 1420.1 MHz
+@P:  System - Requested Frequency : 1670.6 MHz
+@P:  System - Estimated Period : 0.704
+@P:  System - Requested Period : 0.599
+@P:  System - Slack : -0.106
+@P:  Worst Slack(min analysis) : -0.297
+@P:  PLL|OutClock_CO_inferred_clock - Estimated Frequency(min analysis) : 9.5 MHz
+@P:  PLL|OutClock_CO_inferred_clock - Requested Frequency(min analysis) : 11.2 MHz
+@P:  PLL|OutClock_CO_inferred_clock - Estimated Period(min analysis) : 104.791
+@P:  PLL|OutClock_CO_inferred_clock - Requested Period(min analysis) : 89.072
+@P:  PLL|OutClock_CO_inferred_clock - Slack(min analysis) : -15.719
+@P:  TopLevel|USBClock_CI - Estimated Frequency(min analysis) : 184.3 MHz
+@P:  TopLevel|USBClock_CI - Requested Frequency(min analysis) : 216.8 MHz
+@P:  TopLevel|USBClock_CI - Estimated Period(min analysis) : 5.427
+@P:  TopLevel|USBClock_CI - Requested Period(min analysis) : 4.613
+@P:  TopLevel|USBClock_CI - Slack(min analysis) : -0.814
+@P:  System - Estimated Frequency(min analysis) : 1420.1 MHz
+@P:  System - Requested Frequency(min analysis) : 1670.6 MHz
+@P:  System - Estimated Period(min analysis) : 0.704
+@P:  System - Requested Period(min analysis) : 0.599
+@P:  System - Slack(min analysis) : -0.106
+@P:  Total Area : 18459.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  Total Area : 0.0
+@P:  CPU Time : 0h:08m:18s

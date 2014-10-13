@@ -210,8 +210,8 @@ begin
 
 			when InhibitionCalculate1 =>
 				TemporalVariable2 := (others => '0');
-				for i in 4 to 7 loop
-					for j in 0 to 15 loop
+				for i in 0 to 7 loop
+					for j in 0 to 7 loop
 						if ((i >= 7) and (i <= 8) and (j >= 7) and (j <= 8)) then
 							null;
 						else
@@ -219,12 +219,12 @@ begin
 						end if;
 					end loop; -- j
 				end loop; -- i
-				Inhibition1_S <= (TemporalVariable2 + 2);
+				Inhibition1_S <= (TemporalVariable2 + 1);
 				
 			when InhibitionCalculate2 =>
 				TemporalVariable3 := (others => '0');
-				for i in 8 to 11 loop
-					for j in 0 to 15 loop
+				for i in 8 to 15 loop
+					for j in 0 to 7 loop
 						if ((i >= 7) and (i <= 8) and (j >= 7) and (j <= 8)) then
 							null;
 						else
@@ -232,12 +232,12 @@ begin
 						end if;
 					end loop; -- j
 				end loop; -- i
-				Inhibition2_S <= (TemporalVariable3 + 2);
+				Inhibition2_S <= (TemporalVariable3 + 1);
 				
 			when InhibitionCalculate3 =>
 				TemporalVariable5 := (others => '0');
-				for i in 12 to 15 loop
-					for j in 0 to 15 loop
+				for i in 0 to 7 loop
+					for j in 8 to 15 loop
 						if ((i >= 7) and (i <= 8) and (j >= 7) and (j <= 8)) then
 							null;
 						else
@@ -245,12 +245,12 @@ begin
 						end if;
 					end loop; -- j
 				end loop; -- i
-				Inhibition3_S <= (TemporalVariable5);
+				Inhibition3_S <= (TemporalVariable5 + 1);
 				
 			when InhibitionCalculate4 =>
 				TemporalVariable6 := (others => '0');
-				for i in 0 to 3 loop
-					for j in 0 to 15 loop
+				for i in 8 to 15 loop
+					for j in 8 to 15 loop
 						if ((i >= 7) and (i <= 8) and (j >= 7) and (j <= 8)) then
 							null;
 						else
@@ -258,7 +258,7 @@ begin
 						end if;
 					end loop; -- j
 				end loop; -- i
-				Inhibition4_S <= (TemporalVariable6);
+				Inhibition4_S <= (TemporalVariable6 + 1);
 				
 			when InhibitionSum =>
 				Inhibition_S <= Inhibition1_S + Inhibition2_S + Inhibition3_S + Inhibition4_S; -- Find the total Inhibition

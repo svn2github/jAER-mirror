@@ -273,4 +273,94 @@ fsm_state_encoding {54227222718} stidle {00}
 
 fsm_state_encoding {54227222718} stinput {01}
 
-fsm_state_encoding {54227222718} stinputlatch {10
+fsm_state_encoding {54227222718} stinputlatch {10}
+
+fsm_state_encoding {54227222718} stoutput {11}
+
+fsm_registers {54227222718} {State_DP[1]}  {State_DP[0]} 
+
+fsm_encoding {50805280513} onehot
+
+fsm_state_encoding {50805280513} stidle {00000000000000000000000000001}
+
+fsm_state_encoding {50805280513} stackandloadsampleratedivider {00000000000000000000000000010}
+
+fsm_state_encoding {50805280513} stackandloaddigitallowpassfilter {00000000000000000000000000100}
+
+fsm_state_encoding {50805280513} stackandloadaccelfullscale {00000000000000000000000001000}
+
+fsm_state_encoding {50805280513} stackandloadgyrofullscale {00000000000000000000000010000}
+
+fsm_state_encoding {50805280513} stwriteconfigregister {00000000000000000000000100000}
+
+fsm_state_encoding {50805280513} stpreparereaddataregister {00000000000000000000001000000}
+
+fsm_state_encoding {50805280513} streaddataregister {00000000000000000000010000000}
+
+fsm_state_encoding {50805280513} stwriteeventstart {00000000000000000000100000000}
+
+fsm_state_encoding {50805280513} stwriteevent0 {00000000000000000001000000000}
+
+fsm_state_encoding {50805280513} stwriteevent1 {00000000000000000010000000000}
+
+fsm_state_encoding {50805280513} stwriteevent2 {00000000000000000100000000000}
+
+fsm_state_encoding {50805280513} stwriteevent3 {00000000000000001000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent4 {00000000000000010000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent5 {00000000000000100000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent6 {00000000000001000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent7 {00000000000010000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent8 {00000000000100000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent9 {00000000001000000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent10 {00000000010000000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent11 {00000000100000000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent12 {00000001000000000000000000000}
+
+fsm_state_encoding {50805280513} stwriteevent13 {00000010000000000000000000000}
+
+fsm_state_encoding {50805280513} stwriteeventend {00000100000000000000000000000}
+
+fsm_state_encoding {50805280513} stackandloadlpcycletempstandby {00001000000000000000000000000}
+
+fsm_state_encoding {50805280513} stackandloadlpwakeupaccelstandbygyrostandby {00010000000000000000000000000}
+
+fsm_state_encoding {50805280513} stackandloadinterruptconfig {00100000000000000000000000000}
+
+fsm_state_encoding {50805280513} stackandloadinterruptenable {01000000000000000000000000000}
+
+fsm_state_encoding {50805280513} stdoneacknowledge {10000000000000000000000000000}
+
+fsm_registers {50805280513} {State_DP[0]}  {State_DP[1]}  {State_DP[2]}  {State_DP[3]}  {State_DP[4]}  {State_DP[5]}  {State_DP[6]}  {State_DP[7]}  {State_DP[8]}  {State_DP[9]}  {State_DP[10]}  {State_DP[11]}  {State_DP[12]}  {State_DP[13]}  {State_DP[14]}  {State_DP[15]}  {State_DP[16]}  {State_DP[17]}  {State_DP[18]}  {State_DP[19]}  {State_DP[20]}  {State_DP[21]}  {State_DP[22]}  {State_DP[23]}  {State_DP[24]}  {State_DP[25]}  {State_DP[26]}  {State_DP[27]}  {State_DP[28]} 
+
+fsm_encoding {50132213214} onehot
+
+fsm_state_encoding {50132213214} sti2cidle {0000000001}
+
+fsm_state_encoding {50132213214} sti2chandletransaction {0000000010}
+
+fsm_state_encoding {50132213214} sti2cdone {0000000100}
+
+fsm_state_encoding {50132213214} sti2cstart {0000001000}
+
+fsm_state_encoding {50132213214} sti2cstop {0000010000}
+
+fsm_state_encoding {50132213214} sti2cwritebyte {0000100000}
+
+fsm_state_encoding {50132213214} sti2cwriteack {0001000000}
+
+fsm_state_encoding {50132213214} sti2creadbyte {0010000000}
+
+fsm_state_encoding {50132213214} sti2creadack {0100000000}
+
+fsm_state_encoding {50132213214} sti2creadnotack {1000000000}
+
+fsm_registers {50132213214} {I2CState_DP[0]}  {I2CState_DP[1]}  {I2CState_DP[2]}  {I2CState_DP[3]}  {I2CState_DP[4]}  {I2CState_DP[5]}  {I2CState_DP[6]}  {I2CState_DP[7]}  {I2CState_DP[8]}  {I2CState_DP[9]} 
